@@ -1,0 +1,149 @@
+# The codebook's metadata of table carb_auction_allowance_prices (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: carb_auction_allowance_prices
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P3M
+source:
+- name: carb:auction-results-summary California Air Resources Board, Summary of Joint Auction Settlement Prices and Results
+    (PDF, Last updated August 2026; linked from
+  url: https://ww2.arb.ca.gov/sites/default/files/2020-08/results_summary.pdf
+cite: California Air Resources Board (CARB). Summary of California and Joint Auction Settlement Prices and Results. Via the
+  Energy Research Warehouse (ERW), table `carb_auction_allowance_prices`.
+method: docs/methods/carb_auction_allowance_prices.md
+header_title: California cap-and-trade (CARB, joint with Quebec) auction results
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P3M: ts_utc is the first of the auction month (the summary gives
+  no day). node names the auction as CARB numbers it.'
+read:
+  date: '2026-11-20'
+  rows: 336
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      carb:advance_auction: 168
+      carb:current_auction: 168
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 56
+    earliest: '2012-11-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 189
+    lowest: 10.0
+    highest: 98215920.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/tCO2: 112
+      count: 224
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P3M: 336
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 336
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 336
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 56
+    examples:
+    - 'Auction #1'
+    - 'Auction #2'
+    - 'Auction #3'
+    - 'Auction #4'
+    - 'Auction #5'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      carb:auction-results-summary: 336
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://ww2.arb.ca.gov/sites/default/files/2020-08/results_summary.pdf: 336
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-19T17:37:37Z': 336
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 336
+variables:
+- name: allowances_offered
+  label: null
+  unit: count
+  rows: 112
+  first: '2012-11-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: allowances_sold
+  label: null
+  unit: count
+  rows: 112
+  first: '2012-11-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: settlement_price
+  label: null
+  unit: USD/tCO2
+  rows: 112
+  first: '2012-11-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,195 @@
+# The codebook's metadata of table interconnection_agreements_by_grid (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: interconnection_agreements_by_grid
+family: interconnection
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1Y
+source:
+- name: lbnl:queued_up Lawrence Berkeley National Laboratory and GridTracker, Queued Up data file
+  url: https://eta-publications.lbl.gov/publications/queued-2026-edition-characteristics
+cite: Energy Research Warehouse (ERW), derived. Generation with a signed interconnection agreement, from Berkeley Lab's Queued
+  Up file (docs/methods/interconnection_agreements.md). Via the Energy Research Warehouse (ERW), table `interconnection_agreements_by_grid`.
+method: docs/methods/interconnection_agreements.md
+header_title: generation with a signed interconnection agreement by grid, fuel and year of agreement, 2026 edition (through
+  2025) (session 854)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity interconnection_agreements:<grid> (the seven ISOs, west, southeast,
+  us) or :<grid>:<fuel>; at ts_utc 2025-01-01 (the queue at the end of 2025) projects_signed, mw_signed, active_projects,
+  active_mw, signed_share_pct; at each year of agreement projects_signed_in_year and mw_signed_in_year (requests that give
+  an agreement date); freq P1Y.'
+read:
+  date: '2026-11-20'
+  rows: 438
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 118
+    examples:
+    - interconnection_agreements:caiso
+    - interconnection_agreements:caiso:battery
+    - interconnection_agreements:caiso:gas_battery
+    - interconnection_agreements:caiso:hydro
+    - interconnection_agreements:caiso:offshore_wind
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2002-01-01T00:00:00Z': 4
+      '2004-01-01T00:00:00Z': 4
+      '2011-01-01T00:00:00Z': 6
+      '2012-01-01T00:00:00Z': 6
+      '2013-01-01T00:00:00Z': 6
+      '2014-01-01T00:00:00Z': 6
+      '2015-01-01T00:00:00Z': 6
+      '2016-01-01T00:00:00Z': 8
+      '2017-01-01T00:00:00Z': 12
+      '2018-01-01T00:00:00Z': 14
+      '2019-01-01T00:00:00Z': 14
+      '2020-01-01T00:00:00Z': 16
+      '2021-01-01T00:00:00Z': 16
+      '2022-01-01T00:00:00Z': 16
+      '2023-01-01T00:00:00Z': 14
+      '2024-01-01T00:00:00Z': 12
+      '2025-01-01T00:00:00Z': 278
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 283
+    lowest: 1.0
+    highest: 2001973.87
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 214
+      count: 214
+      pct: 10
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 438
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 438
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 438
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 118
+    examples:
+    - CAISO
+    - CAISO, Battery
+    - CAISO, Gas+Battery
+    - CAISO, Hydro
+    - CAISO, Offshore Wind
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:interconnection_agreements: 438
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://eta-publications.lbl.gov/sites/default/files/2026-05/lbnl_ix_queue_data_file_thru2025.xlsx: 438
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-02T09:16:25Z': 438
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 438
+variables:
+- name: active_mw
+  label: null
+  unit: MW
+  rows: 10
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: active_projects
+  label: null
+  unit: count
+  rows: 10
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: mw_signed
+  label: null
+  unit: MW
+  rows: 118
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: mw_signed_in_year
+  label: null
+  unit: MW
+  rows: 86
+  first: '2002-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: projects_signed
+  label: null
+  unit: count
+  rows: 118
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: projects_signed_in_year
+  label: null
+  unit: count
+  rows: 86
+  first: '2002-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: signed_share_pct
+  label: null
+  unit: pct
+  rows: 10
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

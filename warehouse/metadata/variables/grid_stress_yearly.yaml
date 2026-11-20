@@ -1,0 +1,439 @@
+# The codebook's metadata of table grid_stress_yearly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: grid_stress_yearly
+family: grid
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1Y
+source:
+- name: erw:grid_stress EIA Form EIA-930 hourly demand and net generation by energy source, the per-BA workbooks ( read by
+    this run from warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021550.248664Z_00002_CISO.xlsx; warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021615.318504Z_00004_ERCO.xlsx;
+    warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021636.602873Z_00006_ISNE.xlsx; warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021704.171793Z_00008_MISO.xlsx;
+    warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021728.227265Z_00010_NYIS.xlsx; warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021753.302176Z_00012_PJM.xlsx;
+    warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021821.443138Z_00014_SWPP.xlsx; EIA-860M for installed capacity
+  url: https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx
+cite: 'Energy Research Warehouse (ERW), derived. How hard each grid works by year: evening ramp, lowest net load, fuels in
+  the tightest hours, dark and calm stretches (docs/methods/grid_stress.md). Via the Energy Research Warehouse (ERW), table
+  `grid_stress_yearly`.'
+method: docs/methods/grid_stress.md
+header_title: 'how hard each grid works, by year: the evening ramp of net load, the lowest net load, what each fuel gives
+  in the 100 tightest hours as a share of its installed capacity, and the longest dark, calm stretch (derived, session 123)'
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P1Y; ts_utc the local year''s first day; entity iso:<grid>; x_at
+  the hour (UTC, its start) a record or a stretch begins at. Variables and definitions: the header of warehouse/derived/mix_stress.py
+  and docs/methods/grid_stress.md. Net load is demand less wind less solar. The evening is the local hours starting 14:00
+  to 22:00. The tightest hours are the 100 of the year with the highest net load. Dark and calm: wind and solar together under
+  10% of their installed capacity of that month.'
+read:
+  date: '2026-11-20'
+  rows: 2394
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      iso:caiso: 364
+      iso:ercot: 363
+      iso:isone: 363
+      iso:miso: 362
+      iso:nyiso: 312
+      iso:pjm: 360
+      iso:spp: 270
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2019-01-01T00:00:00Z': 265
+      '2020-01-01T00:00:00Z': 310
+      '2021-01-01T00:00:00Z': 309
+      '2022-01-01T00:00:00Z': 309
+      '2023-01-01T00:00:00Z': 309
+      '2024-01-01T00:00:00Z': 311
+      '2025-01-01T00:00:00Z': 313
+      '2026-01-01T00:00:00Z': 268
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1962
+    lowest: -1341.5
+    highest: 856240.952
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 1222
+      MWh: 108
+      count: 378
+      hour: 108
+      pct: 524
+      ratio: 54
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 2394
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 1355
+      US-CA: 364
+      US-NY: 312
+      US-TX: 363
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2394
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2394
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:grid_stress: 2394
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_stress.md: 2394
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-06T09:50:58Z': 2394
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2394
+- name: x_at
+  label: null
+  unit: null
+  type: utc time
+  values:
+    distinct: 288
+    earliest: '2019-01-01T19:00:00Z'
+    latest: '2026-09-10T02:00:00Z'
+  missing_cells: 2070
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: calm_hours
+  label: null
+  unit: count
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: calm_longest_fleet_energy_multiples
+  label: null
+  unit: ratio
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: calm_longest_fleet_full_power_hours
+  label: null
+  unit: hour
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: calm_longest_fleet_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: calm_longest_fleet_mwh
+  label: null
+  unit: MWh
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: calm_longest_hours
+  label: null
+  unit: hour
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: calm_longest_missing_mwh
+  label: null
+  unit: MWh
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: calm_stretches_ge24h
+  label: null
+  unit: count
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: capacity_coal_mw
+  label: null
+  unit: MW
+  rows: 46
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: capacity_hydro_storage_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: capacity_natural_gas_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: capacity_nuclear_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: capacity_solar_mw
+  label: null
+  unit: MW
+  rows: 46
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: capacity_wind_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: evening_ramp_3h_max_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: evening_ramp_3h_max_share_of_peak_pct
+  label: null
+  unit: pct
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: evening_ramp_max_mw_per_h
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: evening_ramp_max_share_of_peak_pct
+  label: null
+  unit: pct
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: evening_ramp_median_mw_per_h
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: hours_held
+  label: null
+  unit: count
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: hours_in_year
+  label: null
+  unit: count
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: months_held
+  label: null
+  unit: count
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: net_load_min_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: net_load_min_share_of_peak_pct
+  label: null
+  unit: pct
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: net_load_min_wind_solar_share_pct
+  label: null
+  unit: pct
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: net_load_peak_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: peak_demand_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: solar_reported
+  label: null
+  unit: count
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_coal_mw
+  label: null
+  unit: MW
+  rows: 46
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_coal_share_of_capacity_pct
+  label: null
+  unit: pct
+  rows: 46
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_hydro_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_hydro_storage_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_hydro_storage_share_of_capacity_pct
+  label: null
+  unit: pct
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_natural_gas_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_natural_gas_share_of_capacity_pct
+  label: null
+  unit: pct
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_net_load_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_nuclear_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_nuclear_share_of_capacity_pct
+  label: null
+  unit: pct
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_solar_mw
+  label: null
+  unit: MW
+  rows: 46
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_solar_share_of_capacity_pct
+  label: null
+  unit: pct
+  rows: 46
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_storage_mw
+  label: null
+  unit: MW
+  rows: 12
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_wind_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: tight_wind_share_of_capacity_pct
+  label: null
+  unit: pct
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: wind_reported
+  label: null
+  unit: count
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: wind_solar_capacity_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: wind_solar_mean_mw
+  label: null
+  unit: MW
+  rows: 54
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+second_look: null

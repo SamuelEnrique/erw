@@ -1,0 +1,215 @@
+# The codebook's metadata of table ercot_rtm_price_adders (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_rtm_price_adders
+family: ercot
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: ercot:NP6-792-ER ERCOT, Historical Real-Time ORDC and Reliability Deployment Price Adders and Reserves
+  url: https://www.ercot.com/mp/data-products/data-product-details?id=NP6-792-ER
+cite: Electric Reliability Council of Texas (ERCOT). Historical Real-Time ORDC and Reliability Deployment Price Adders and
+  Reserves. Via the Energy Research Warehouse (ERW), table `ercot_rtm_price_adders`.
+method: docs/methods/ercot_rtm_price_adders.md
+header_title: 'ERCOT''s real-time reserve price adders, hourly: the operating reserve demand curve''s adders and the reliability
+  deployment price adder'
+header_shape: 'Shape: series (docs/datastandard.md v0). Unit USD/MWh. ts_utc is the start of the hour, UTC (ERCOT publishes
+  a row per SCED interval, stamped in Central time).'
+read:
+  date: '2026-11-20'
+  rows: 603156
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:system: 603156
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2014-06-01T06:00:00Z'
+    latest: '2026-11-15T04:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 8993.6045
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 603156
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 603156
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 603156
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      ercot_rtm: 603156
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      RTOFFPA: 201756
+      RTORDPA: 183094
+      RTORPA: 201756
+      RTRDPA: 16550
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:NP6-792-ER: 603156
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1065495488: 52686
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1169113636: 48648
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1180319793: 1294
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1298996044: 15256
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=468554538: 20536
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=505964801: 44148
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=643552126: 52530
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=644817014: 52668
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=644817015: 52548
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=694452063: 52530
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=751366904: 52698
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=814938847: 52512
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=899479048: 52548
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=969827183: 52554
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-13T06:34:15Z': 20536
+      '2026-10-13T06:34:23Z': 44148
+      '2026-10-13T06:34:28Z': 52530
+      '2026-10-13T06:34:32Z': 52548
+      '2026-10-13T06:34:36Z': 52668
+      '2026-10-13T06:34:41Z': 52530
+      '2026-10-13T06:34:45Z': 52698
+      '2026-10-13T06:34:49Z': 52512
+      '2026-10-13T06:34:54Z': 52548
+      '2026-10-13T06:34:57Z': 52554
+      '2026-10-13T06:35:03Z': 52686
+      '2026-10-13T06:35:07Z': 48648
+      '2026-10-13T06:35:10Z': 1294
+      '2026-11-15T17:50:32Z': 15256
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2015-01-02T16:00:28Z': 20536
+      '2016-01-07T21:44:38Z': 44148
+      '2019-01-08T15:53:35Z': 52530
+      '2019-01-17T20:19:27Z': 105216
+      '2020-01-02T18:30:02Z': 52530
+      '2021-01-01T15:26:33Z': 52698
+      '2022-01-01T15:26:31Z': 52512
+      '2023-03-02T20:04:14Z': 52548
+      '2024-01-01T15:09:09Z': 52554
+      '2025-01-01T15:09:34Z': 52686
+      '2025-12-08T17:21:55Z': 48648
+      '2026-01-08T23:58:14Z': 1294
+      '2026-11-15T16:12:49Z': 15256
+  missing_cells: 0
+variables:
+- name: rtoffpa_max
+  label: null
+  unit: USD/MWh
+  rows: 100878
+  first: '2014-06-01T06:00:00Z'
+  last: '2025-12-05T05:00:00Z'
+- name: rtoffpa_mean
+  label: null
+  unit: USD/MWh
+  rows: 100878
+  first: '2014-06-01T06:00:00Z'
+  last: '2025-12-05T05:00:00Z'
+- name: rtordpa_max
+  label: null
+  unit: USD/MWh
+  rows: 91547
+  first: '2015-06-25T06:00:00Z'
+  last: '2025-12-05T05:00:00Z'
+- name: rtordpa_mean
+  label: null
+  unit: USD/MWh
+  rows: 91547
+  first: '2015-06-25T06:00:00Z'
+  last: '2025-12-05T05:00:00Z'
+- name: rtorpa_max
+  label: null
+  unit: USD/MWh
+  rows: 100878
+  first: '2014-06-01T06:00:00Z'
+  last: '2025-12-05T05:00:00Z'
+- name: rtorpa_mean
+  label: null
+  unit: USD/MWh
+  rows: 100878
+  first: '2014-06-01T06:00:00Z'
+  last: '2025-12-05T05:00:00Z'
+- name: rtrdpa_max
+  label: null
+  unit: USD/MWh
+  rows: 8275
+  first: '2025-12-05T07:00:00Z'
+  last: '2026-11-15T04:00:00Z'
+- name: rtrdpa_mean
+  label: null
+  unit: USD/MWh
+  rows: 8275
+  first: '2025-12-05T07:00:00Z'
+  last: '2026-11-15T04:00:00Z'
+second_look: null

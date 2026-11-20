@@ -1,0 +1,180 @@
+# The codebook's metadata of table eia_steo_forecasts (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_steo_forecasts
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+- vintage
+license: public
+tier: source
+interval: P1M;P1Y
+source:
+- name: eia:steo U.S. Energy Information Administration, Short-Term Energy Outlook (API v2, route steo)
+  url: https://www.eia.gov/outlooks/steo/
+cite: U.S. Energy Information Administration (EIA). Short-Term Energy Outlook (API v2). Via the Energy Research Warehouse
+  (ERW), table `eia_steo_forecasts`.
+method: docs/methods/eia_steo_forecasts.md
+header_title: EIA Short-Term Energy Outlook of 2026-11-10, retail electricity prices, Henry Hub and the generation mix, monthly
+  (session 491)
+header_shape: 'Shape: series (docs/datastandard.md v0), each release kept: the key is (entity, variable, ts_utc, vintage),
+  vintage the release''s date (docs/datastandard.md rule 5). entity eia_steo:<seriesId>; variable value; ts_utc the month''s
+  first day; freq P1M; x_kind forecast or history.'
+read:
+  date: '2026-11-20'
+  rows: 10195
+  key_duplicates: 5088
+  key_duplicates_with_vintage: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 54
+    examples:
+    - eia_steo:CLEPSHR_US
+    - eia_steo:ESCMU_ENC
+    - eia_steo:ESCMU_ESC
+    - eia_steo:ESCMU_HAK
+    - eia_steo:ESCMU_MAC
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 107
+    earliest: '2009-01-01T00:00:00Z'
+    latest: '2027-12-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.007665807
+    highest: 136.08435833
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MMBtu: 192
+      USD/kWh: 8448
+      index: 19
+      ratio: 1536
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 10176
+      P1Y: 19
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 10195
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 10195
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 54
+    examples:
+    - Coal share of U.S. electricity generation
+    - Conventional hydropower share of U.S. electricity generation
+    - GDP Implicit Price Deflator
+    - Natural Gas Henry Hub Spot Price ($/mmBtu)
+    - Natural gas share of U.S. electricity generation
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:steo: 10195
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/steo/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BseriesId%5D%5B%5D=GDPDIUS&start=2009&length=5000
+      : 19
+      ? https://api.eia.gov/v2/steo/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5BseriesId%5D%5B%5D=CLEPSHR_US&facets%5BseriesId%5D%5B%5D=ESCMU_ENC&facets%5BseriesId%5D%5B%5D=ESCMU_ESC&facets%5BseriesId%5D%5B%5D=ESCMU_HAK&facets%5BseriesId%5D%5B%5D=ESCMU_MAC&facets%5BseriesId%5D%5B%5D=ESCMU_MTN&facets%5BseriesId%5D%5B%5D=ESCMU_NEC&facets%5BseriesId%5D%5B%5D=ESCMU_PAC&facets%5BseriesId%5D%5B%5D=ESCMU_SAC&facets%5BseriesId%5D%5B%5D=ESCMU_US&facets%5BseriesId%5D%5B%5D=ESCMU_WNC&facets%5BseriesId%5D%5B%5D=ESCMU_WSC&facets%5BseriesId%5D%5B%5D=ESICU_ENC&facets%5BseriesId%5D%5B%5D=ESICU_ESC&facets%5BseriesId%5D%5B%5D=ESICU_HAK&facets%5BseriesId%5D%5B%5D=ESICU_MAC&facets%5BseriesId%5D%5B%5D=ESICU_MTN&facets%5BseriesId%5D%5B%5D=ESICU_NEC&facets%5BseriesId%5D%5B%5D=ESICU_PAC&facets%5BseriesId%5D%5B%5D=ESICU_SAC&facets%5BseriesId%5D%5B%5D=ESICU_US&facets%5BseriesId%5D%5B%5D=ESICU_WNC&facets%5BseriesId%5D%5B%5D=ESICU_WSC&facets%5BseriesId%5D%5B%5D=ESRCU_ENC&facets%5BseriesId%5D%5B%5D=ESRCU_ESC&facets%5BseriesId%5D%5B%5D=ESRCU_HAK&facets%5BseriesId%5D%5B%5D=ESRCU_MAC&facets%5BseriesId%5D%5B%5D=ESRCU_MTN&facets%5BseriesId%5D%5B%5D=ESRCU_NEC&facets%5BseriesId%5D%5B%5D=ESRCU_PAC&facets%5BseriesId%5D%5B%5D=ESRCU_SAC&facets%5BseriesId%5D%5B%5D=ESRCU_US&facets%5BseriesId%5D%5B%5D=ESRCU_WNC&facets%5BseriesId%5D%5B%5D=ESRCU_WSC&facets%5BseriesId%5D%5B%5D=ESTCU_ENC&facets%5BseriesId%5D%5B%5D=ESTCU_ESC&facets%5BseriesId%5D%5B%5D=ESTCU_HAK&facets%5BseriesId%5D%5B%5D=ESTCU_MAC&facets%5BseriesId%5D%5B%5D=ESTCU_MTN&facets%5BseriesId%5D%5B%5D=ESTCU_NEC&facets%5BseriesId%5D%5B%5D=ESTCU_PAC&facets%5BseriesId%5D%5B%5D=ESTCU_SAC&facets%5BseriesId%5D%5B%5D=ESTCU_US&facets%5BseriesId%5D%5B%5D=ESTCU_WNC&facets%5BseriesId%5D%5B%5D=ESTCU_WSC&facets%5BseriesId%5D%5B%5D=HVEPSHR_US&facets%5BseriesId%5D%5B%5D=NGEPSHR_US&facets%5BseriesId%5D%5B%5D=NGHHUUS&facets%5BseriesId%5D%5B%5D=NUEPSHR_US&facets%5BseriesId%5D%5B%5D=RTEPSHR_US&facets%5BseriesId%5D%5B%5D=SOEPSHR_US&facets%5BseriesId%5D%5B%5D=WNEPSHR_US&facets%5BseriesId%5D%5B%5D=XXEPSHR_US&start=2020-01&length=5000
+      : 10176
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T18:32:44Z': 5088
+      '2026-11-14T10:59:29Z': 5107
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-06T00:00:00Z': 5088
+      '2026-11-10T00:00:00Z': 5107
+  missing_cells: 0
+- name: x_kind
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      forecast: 1539
+      history: 8656
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_units_published
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Index, 2017 = 100: 19
+      cents per kilowatt hour: 8064
+      cents per kilowatthour: 384
+      dollars per million Btu: 192
+      percentage: 1536
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: value
+  label: null
+  unit: USD/MMBtu; USD/kWh; index; ratio
+  rows: 10195
+  first: '2009-01-01T00:00:00Z'
+  last: '2027-12-01T00:00:00Z'
+second_look: null

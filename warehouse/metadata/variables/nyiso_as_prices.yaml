@@ -1,0 +1,164 @@
+# The codebook's metadata of table nyiso_as_prices (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nyiso_as_prices
+family: nyiso
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: nyiso:damasp NYISO, Day-Ahead Market Ancillary Services Prices (P-5)
+  url: http://mis.nyiso.com/public/P-5list.htm
+cite: New York Independent System Operator (NYISO). Day-Ahead Market Ancillary Services Prices (P-5). Via the Energy Research
+  Warehouse (ERW), table `nyiso_as_prices`.
+method: docs/methods/nyiso_as_prices.md
+header_title: NYISO day-ahead ancillary service prices, hourly, by reserve region
+header_shape: 'Shape: series (docs/datastandard.md v0). Unit USD/MW-hour: US dollars per MW of capacity held for one hour.
+  ts_utc is the start of the hour, UTC.'
+read:
+  date: '2026-11-20'
+  rows: 293376
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      nyiso:CAPITL: 55008
+      nyiso:HUD VL: 55008
+      nyiso:LONGIL: 55008
+      nyiso:N.Y.C.: 55008
+      nyiso:NYCA: 18336
+      nyiso:WEST: 55008
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2024-09-01T04:00:00Z'
+    latest: '2026-10-05T03:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 1.35
+    highest: 757.66
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MW-hour: 293376
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 293376
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-NY: 293376
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      nyiso_dam: 293376
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      CAPITL: 55008
+      HUD VL: 55008
+      LONGIL: 55008
+      N.Y.C.: 55008
+      NYCA: 18336
+      WEST: 55008
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nyiso:damasp: 293376
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 26
+    examples:
+    - http://mis.nyiso.com/public/csv/damasp/20240901damasp_csv.zip
+    - http://mis.nyiso.com/public/csv/damasp/20241001damasp_csv.zip
+    - http://mis.nyiso.com/public/csv/damasp/20241101damasp_csv.zip
+    - http://mis.nyiso.com/public/csv/damasp/20241201damasp_csv.zip
+    - http://mis.nyiso.com/public/csv/damasp/20250101damasp_csv.zip
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 26
+    earliest: '2026-10-04T03:33:06Z'
+    latest: '2026-10-04T04:09:33Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 293376
+variables:
+- name: as_price_dam_nsync10
+  label: null
+  unit: USD/MW-hour
+  rows: 91680
+  first: '2024-09-01T04:00:00Z'
+  last: '2026-10-05T03:00:00Z'
+- name: as_price_dam_op30
+  label: null
+  unit: USD/MW-hour
+  rows: 91680
+  first: '2024-09-01T04:00:00Z'
+  last: '2026-10-05T03:00:00Z'
+- name: as_price_dam_reg
+  label: null
+  unit: USD/MW-hour
+  rows: 18336
+  first: '2024-09-01T04:00:00Z'
+  last: '2026-10-05T03:00:00Z'
+- name: as_price_dam_spin10
+  label: null
+  unit: USD/MW-hour
+  rows: 91680
+  first: '2024-09-01T04:00:00Z'
+  last: '2026-10-05T03:00:00Z'
+second_look: null

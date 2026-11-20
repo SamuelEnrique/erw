@@ -1,0 +1,433 @@
+# The codebook's metadata of table nlr_jedi_multipliers (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nlr_jedi_multipliers
+family: erw_derived
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1Y
+source:
+- name: nlr:jedi National Laboratory of the Rockies (NLR, formerly NREL), Jobs and Economic Development Impact (JEDI) models
+  url: https://www.nlr.gov/analysis/jedi/models
+cite: 'National Laboratory of the Rockies (NLR, formerly NREL). Jobs and Economic Development Impact (JEDI) models: land-based
+  wind W9.14.18, photovoltaics PV05.20.21, natural gas NG4.17.17, geothermal GT12.23.16. Via the Energy Research Warehouse
+  (ERW), table `nlr_jedi_multipliers`.'
+method: docs/methods/economic_impact.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261020T084621Z-local
+  (2026-10-20T08:46:21Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0). entity nlr_jedi:<technology>:<state or us>:<phase>:<effect>; variable
+  jobs, earnings or output; ts_utc 1 January of the model''s dollar year. Construction jobs are job-years (1 FTE = 2,080 hours)
+  over the build per MW; operations figures are each year''s. Per MW of JEDI''s default project (x_project_mw), at JEDI''s
+  default costs and local shares. Two more rows a location: <...>:all:project, variable project_mw (the default project''s
+  MW), and <...>:<phase>:spending, variable local_share (JEDI''s local spending over the phase''s cost).'
+read:
+  date: '2026-11-20'
+  rows: 5562
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 2266
+    examples:
+    - nlr_jedi:geothermal:ak:all:project
+    - nlr_jedi:geothermal:ak:construction:induced
+    - nlr_jedi:geothermal:ak:construction:onsite
+    - nlr_jedi:geothermal:ak:construction:spending
+    - nlr_jedi:geothermal:ak:construction:supply_chain
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2010-01-01T00:00:00Z': 4158
+      '2017-01-01T00:00:00Z': 1404
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 4347
+    lowest: 0.008795
+    highest: 10251979.272115
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      FTE-year/MW: 824
+      FTE/MW: 824
+      MW: 206
+      USD/MW: 1648
+      USD/MW-year: 1648
+      ratio: 412
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 5562
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5562
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5562
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nlr:jedi: 5562
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.nlr.gov/docs/libraries/analysis/01d-jedi-geothermal-model-rel-gt12-23-16.xlsm: 1404
+      https://www.nlr.gov/docs/libraries/analysis/01d-jedi-land-based-wind-model-rel-w6-28-19.xlsm?sfvrsn=e1d95728_2: 1404
+      https://www.nlr.gov/docs/libraries/analysis/01d-jedi-ngas-model_rel-ng4-17-17.xlsm?sfvrsn=d9ff898_2: 1350
+      https://www.nlr.gov/docs/libraries/analysis/jedi-pv-model.xlsm?sfvrsn=837efebd_2: 1404
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-20T07:53:08Z': 1404
+      '2026-10-20T07:53:10Z': 1404
+      '2026-10-20T07:53:12Z': 1350
+      '2026-10-20T07:53:15Z': 1404
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5562
+- name: x_technology
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      geothermal: 1404
+      land_based_wind: 1404
+      natural_gas: 1350
+      utility_pv: 1404
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 108
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_location
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 54
+    examples:
+    - ALABAMA
+    - ALASKA
+    - ARIZONA
+    - ARKANSAS
+    - CALIFORNIA
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_phase
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      all: 206
+      construction: 2678
+      operations: 2678
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_effect
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      induced: 1236
+      onsite: 1236
+      project: 206
+      spending: 412
+      supply_chain: 1236
+      total: 1236
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_model
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      JEDI Geothermal Model: 1404
+      JEDI Land-based Wind Model: 1404
+      JEDI Natural Gas Model: 1350
+      JEDI Photovoltaics Model: 1404
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_version
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      GT12.23.16: 1404
+      NG4.17.17: 1350
+      PV05.20.21: 1404
+      W9.14.18: 1404
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_file
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      01d-jedi-geothermal-model-rel-gt12-23-16.xlsm: 1404
+      01d-jedi-land-based-wind-model-rel-w6-28-19.xlsm: 1404
+      01d-jedi-ngas-model_rel-ng4-17-17.xlsm: 1350
+      jedi-pv-model.xlsm: 1404
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sheet
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Summary Results: 1404
+      SummaryResults: 4158
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_cells
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 91
+    examples:
+    - Summary Results!B23 / Summary Results!B7
+    - Summary Results!B26 / Summary Results!B7
+    - Summary Results!B27 / Summary Results!B7
+    - Summary Results!B28 / Summary Results!B7
+    - Summary Results!B31 / Summary Results!B7
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_project_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '100.0': 1404
+      '12.226196': 1404
+      '300.0': 1404
+      '500.0': 1350
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_mw_basis
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      DC nameplate MW: 1404
+      nameplate MW: 2754
+      nameplate MW (the model's 10 MW net output): 1404
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_dollar_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '2010': 4158
+      '2017': 1404
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_multiplier_data
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      'Multipliers!D2 (Year of Data) 2014; the sheet''s note: Source: IMPLAN™, using 2012 state data.': 1404
+      'Multipliers!D2 (Year of Data) 2014; the sheet''s note: Source: IMPLAN™, using 2014 state data.': 1350
+      'Multipliers!D2 (Year of Data) 2016; the sheet''s note: Source: IMPLAN™, using 2016 state data.': 1404
+      'Multipliers!D2 (Year of Data) 2019; the sheet''s note: Source: IMPLAN™, using 2019 state data.': 1404
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_local_share
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 195
+    lowest: 0.027304
+    highest: 1.037868
+  missing_cells: 206
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_local_share_cells
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Summary Results!D11 / Summary Results!D10: 676
+      Summary Results!D8 / Summary Results!D7: 676
+      SummaryResults!C12 / SummaryResults!C11: 676
+      SummaryResults!C14 / SummaryResults!C13: 676
+      SummaryResults!C15 / SummaryResults!C14: 1326
+      SummaryResults!C17 / SummaryResults!C16: 676
+      SummaryResults!C18 / SummaryResults!C17: 650
+  missing_cells: 206
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_settings
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ProjectData!B15 = Utility: 1404
+  missing_cells: 4158
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_method
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ? JEDI's formulas computed from the workbook's constants with Project Location set to this location and ProjectData!B15
+        = Utility; nothing else changed (warehouse/connectors/jedi_recalc.py)
+      : 1404
+      ? JEDI's formulas computed from the workbook's constants with Project Location set to this location; nothing else changed
+        (warehouse/connectors/jedi_recalc.py)
+      : 4077
+      the workbook's saved project, computed from its constants (every saved figure reproduced): 81
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: earnings
+  label: null
+  unit: USD/MW; USD/MW-year
+  rows: 1648
+  first: '2010-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: jobs
+  label: null
+  unit: FTE-year/MW; FTE/MW
+  rows: 1648
+  first: '2010-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: local_share
+  label: null
+  unit: ratio
+  rows: 412
+  first: '2010-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: output
+  label: null
+  unit: USD/MW; USD/MW-year
+  rows: 1648
+  first: '2010-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: project_mw
+  label: null
+  unit: MW
+  rows: 206
+  first: '2010-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+second_look: null

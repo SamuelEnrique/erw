@@ -1,0 +1,154 @@
+# The codebook's metadata of table eia930_all_storage (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia930_all_storage
+family: eia930
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: 'eia:electricity/rto/fuel-type-data Form EIA-930, Hourly Electric Grid Monitor: hourly net generation by energy source'
+  url: https://www.eia.gov/electricity/gridmonitor/
+cite: 'U.S. Energy Information Administration (EIA). Form EIA-930, Hourly Electric Grid Monitor: hourly net generation by
+  energy source. Via the Energy Research Warehouse (ERW), table `eia930_all_storage`.'
+method: docs/methods/eia930_all_storage.md
+header_title: EIA-930 hourly battery storage net generation (fuel type BAT) by balancing authority
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba. net_generation_battery_mw, MW, as EIA publishes
+  it: positive while discharging, negative while charging where the BA reports charging (ISNE and SWPP never do; ERCO from
+  2025-12-15). ts_utc is the hour''s start (EIA''s period, the hour''s end, minus one hour).'
+read:
+  date: '2026-11-20'
+  rows: 76104
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia930:ERCO: 17688
+      eia930:ISNE: 17712
+      eia930:MISO: 16032
+      eia930:SWPP: 6792
+      eia930:US48: 17880
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2024-11-01T00:00:00Z'
+    latest: '2026-11-15T23:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: -12500
+    highest: 16063
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 76104
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 76104
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 17880
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 6792
+      US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI: 16032
+      US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 17712
+      US-TX: 17688
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 76104
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 76104
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:electricity/rto/fuel-type-data: 76104
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 229
+    examples:
+    - https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2024-11-01T01&end=2024-12-01T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Bfueltype%5D%5B%5D=BAT
+    - https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2024-11-01T01&end=2024-12-01T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Bfueltype%5D%5B%5D=BAT
+    - https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2024-11-01T01&end=2024-12-01T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000&facets%5Brespondent%5D%5B%5D=US48&facets%5Bfueltype%5D%5B%5D=BAT
+    - https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2024-12-01T01&end=2025-01-01T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Bfueltype%5D%5B%5D=BAT
+    - https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2024-12-01T01&end=2025-01-01T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Bfueltype%5D%5B%5D=BAT
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 223
+    earliest: '2026-09-29T12:35:27Z'
+    latest: '2026-11-16T23:43:34Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 76104
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      erco: 17688
+      isne: 17712
+      miso: 16032
+      swpp: 6792
+      us48: 17880
+  missing_cells: 0
+variables:
+- name: net_generation_battery_mw
+  label: null
+  unit: MW
+  rows: 76104
+  first: '2024-11-01T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+second_look: null

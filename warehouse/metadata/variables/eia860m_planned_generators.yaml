@@ -1,0 +1,502 @@
+# The codebook's metadata of table eia860m_planned_generators (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia860m_planned_generators
+family: eia860m
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:860m EIA-860M Monthly Update to the Annual Electric Generator Report, sheets Planned, Planned_PR (Inventory of
+    Planned Generators as of September 2026; Inventory of Planned Generators as of September 2026 - Puerto Rico)
+  url: https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx
+cite: U.S. Energy Information Administration (EIA). Form EIA-860M, Monthly Update to the Annual Electric Generator Report.
+  Via the Energy Research Warehouse (ERW), table `eia860m_planned_generators`.
+method: docs/methods/eia860m_planned_generators.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261024T153933Z-github
+  (2026-10-24T15:39:33Z); that run's own header of the table follows
+header_shape: 'Shape: entities (docs/datastandard.md v0). One row per generator; entity_id eia860:<plant id>:<generator id>;
+  capacity_mw is EIA nameplate capacity (MW).'
+read:
+  date: '2026-11-20'
+  rows: 2361
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 2361
+    examples:
+    - eia860:1024:8
+    - eia860:10328:GEN11
+    - eia860:10748:FUTR1
+    - eia860:10748:FUTR2
+    - eia860:10748:FUTR3
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      generator: 2361
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 1610
+    examples:
+    - 100a Swiss Dale Farm
+    - 20525 Nordhoff PV (North)
+    - 4786A George Washington, LLC
+    - 4786B George Washington, LLC
+    - 50 Meister Ave
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: number
+  values:
+    distinct: 1544
+    lowest: 18.134597
+    highest: 57.9449
+  missing_cells: 0
+- name: lon
+  shared: true
+  type: number
+  values:
+    distinct: 1542
+    lowest: -159.45
+    highest: -65.82234
+  missing_cells: 0
+- name: capacity_mw
+  shared: true
+  type: number
+  values:
+    distinct: 518
+    lowest: 0.1
+    highest: 2640.0
+  missing_cells: 0
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      planned: 1329
+      under_construction: 1032
+  missing_cells: 0
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2361
+- name: operator
+  shared: true
+  type: text
+  values:
+    distinct: 1000
+    examples:
+    - 174 Power Global Corp.
+    - 201LC 8me LLC
+    - 229HD 8me, LLC
+    - 22SV 8ME LLC
+    - 26SB 8me LLC
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:860m: 2361
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx: 2361
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T14:49:59Z': 2361
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: text
+  values:
+    list:
+      2026-09: 2361
+  missing_cells: 0
+- name: plant_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 1610
+    lowest: 56
+    highest: 70587
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: generator_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 2007
+    examples:
+    - 02B
+    - 03A
+    - 03B
+    - '06'
+    - '1'
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: utility_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 1000
+    lowest: 189
+    highest: 68108
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 643
+    examples:
+    - Acadia
+    - Ada
+    - Adams
+    - Addison
+    - Alamance
+  missing_cells: 3
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: balancing_authority
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 46
+    examples:
+    - AECI
+    - AVA
+    - AVRN
+    - AZPS
+    - BANC
+  missing_cells: 10
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: sector
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Commercial CHP: 18
+      Commercial Non-CHP: 11
+      Electric Utility: 398
+      IPP CHP: 3
+      IPP Non-CHP: 1912
+      Industrial CHP: 4
+      Industrial Non-CHP: 15
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: technology
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      All Other: 5
+      Batteries: 484
+      Conventional Hydroelectric: 117
+      Geothermal: 8
+      Hydroelectric Pumped Storage: 11
+      Landfill Gas: 11
+      Municipal Solid Waste: 1
+      Natural Gas Fired Combined Cycle: 236
+      Natural Gas Fired Combustion Turbine: 192
+      Natural Gas Internal Combustion Engine: 66
+      Natural Gas Steam Turbine: 1
+      Nuclear: 5
+      Offshore Wind Turbine: 4
+      Onshore Wind Turbine: 73
+      Other Waste Biomass: 17
+      Petroleum Liquids: 23
+      Solar Photovoltaic: 1102
+      Solar Thermal without Energy Storage: 1
+  missing_cells: 4
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: technology_group
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      biomass: 29
+      geothermal: 8
+      hydro: 117
+      natural_gas: 495
+      nuclear: 5
+      other: 5
+      petroleum: 23
+      solar: 1103
+      storage: 495
+      wind: 77
+  missing_cells: 4
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: prime_mover
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      BA: 484
+      BT: 3
+      CA: 76
+      CC: 4
+      CE: 4
+      CS: 14
+      CT: 145
+      GT: 194
+      HY: 117
+      IC: 112
+      OT: 4
+      PS: 11
+      PV: 1102
+      ST: 14
+      WS: 4
+      WT: 73
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: prime_mover_label
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Combined cycle combustion turbine part: 145
+      Combined cycle single shaft: 14
+      Combined cycle steam part: 76
+      Combined cycle total unit: 4
+      Combustion (gas) turbine: 194
+      Energy storage, battery: 484
+      Energy storage, compressed air: 4
+      Energy storage, reversible hydraulic turbine (pumped storage): 11
+      Hydraulic turbine (conventional hydro): 117
+      Internal combustion engine: 112
+      Other: 4
+      Photovoltaic: 1102
+      Steam turbine: 14
+      Turbines used in a binary cycle (geothermal): 3
+      Wind turbine, offshore: 4
+      Wind turbine, onshore: 73
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: energy_source
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      AB: 1
+      DFO: 23
+      GEO: 8
+      H2: 1
+      LFG: 11
+      MSW: 1
+      MWH: 488
+      NG: 495
+      NUC: 5
+      OBG: 4
+      OBL: 11
+      OBS: 1
+      OTH: 2
+      SUN: 1103
+      WAT: 128
+      WH: 2
+      WND: 77
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: energy_source_label
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Agricultural by-products: 1
+      Distillate fuel oil: 23
+      Electricity used for energy storage: 488
+      Geothermal: 8
+      Hydrogen: 1
+      Landfill gas: 11
+      Municipal solid waste: 1
+      Natural gas: 495
+      Nuclear: 5
+      Other: 2
+      Other biomass gas: 4
+      Other biomass liquids: 11
+      Other biomass solids: 1
+      Solar: 1103
+      Waste heat: 2
+      Water: 128
+      Wind: 77
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: nameplate_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 518
+    lowest: 0.1
+    highest: 2640.0
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: net_summer_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 518
+    lowest: 0.1
+    highest: 2640.0
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: net_winter_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 519
+    lowest: 0.1
+    highest: 2640.0
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: eia_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      L: 406
+      P: 695
+      T: 228
+      TS: 158
+      U: 465
+      V: 409
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: eia_status_label
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Construction complete, but not yet in commercial operation: 158
+      Planned for installation, but regulatory approvals not initiated: 695
+      Regulatory approvals pending. Not under construction: 406
+      Regulatory approvals received. Not under construction: 228
+      Under construction, less than or equal to 50 percent complete: 465
+      Under construction, more than 50 percent complete: 409
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: planned_operation_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 62
+    earliest: '2026-09-01'
+    latest: '2039-12-01'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: energy_capacity_mwh
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2361
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

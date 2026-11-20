@@ -1,0 +1,326 @@
+# The codebook's metadata of table isone_interconnection_queue (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: isone_interconnection_queue
+family: isone
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: isone:interconnection_queue ISO-NE Interconnection Request Tracking Tool (IRTT) queue
+  url: https://irtt.iso-ne.com/reports/external?AspxAutoDetectCookieSupport=1
+cite: ISO New England (ISO-NE). Interconnection Request Tracking Tool (IRTT) queue. Via the Energy Research Warehouse (ERW),
+  table `isone_interconnection_queue`.
+method: docs/methods/isone_interconnection_queue.md
+header_title: Rebuilt from the ERW archive by warehouse/archive/restore.py, as of run 20261106T003628Z-github (2026-11-06T00:36:28Z);
+  that run's own header of the table follows
+header_shape: 'Shape: entities (docs/datastandard.md v0). One row per queue position; entity_type project; status harmonized
+  (active, withdrawn, completed, suspended), iso_status the ISO''s own.'
+read:
+  date: '2026-11-20'
+  rows: 1751
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 1751
+    examples:
+    - isone_queue:1
+    - isone_queue:10
+    - isone_queue:100
+    - isone_queue:1000
+    - isone_queue:1001
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      project: 1751
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 987
+    examples:
+    - (Offshore wind Increase (Q700 +Q1154)
+    - 1000 MW HVDC
+    - 1000 MW HVDC (import only)
+    - 1000 MW HVDC - bidirectional
+    - 1000 MW HVDC Line
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CT: 323
+      US-MA: 605
+      US-ME: 408
+      US-NH: 138
+      US-NY: 13
+      US-RI: 123
+      US-VT: 109
+  missing_cells: 32
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1751
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1751
+- name: capacity_mw
+  shared: true
+  type: number
+  values:
+    distinct: 722
+    lowest: -21.2
+    highest: 2400.0
+  missing_cells: 278
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      active: 50
+      completed: 364
+      withdrawn: 1337
+  missing_cells: 0
+- name: status_date
+  shared: true
+  type: date
+  values:
+    distinct: 606
+    earliest: '2006-04-13'
+    latest: '2026-10-29'
+  missing_cells: 556
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1751
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      isone:interconnection_queue: 1751
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://irtt.iso-ne.com/reports/external?AspxAutoDetectCookieSupport=1: 1751
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-05T23:22:50Z': 1751
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: date
+  values:
+    list:
+      '2026-11-05': 1751
+  missing_cells: 0
+- name: queue_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 1601
+    lowest: 1
+    highest: 1601
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 112
+    examples:
+    - Addison
+    - Albany
+    - Albany/Dutchess
+    - Androscoggin
+    - Androscoggin/Franklin
+  missing_cells: 116
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: state
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CT: 323
+      MA: 605
+      ME: 408
+      NB: 1
+      NH: 138
+      NY: 13
+      RI: 123
+      VT: 109
+  missing_cells: 31
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: poi
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1442
+    examples:
+    - '(Same as Existing POI Vernon Substation No.13 69 KV Bus) Street Address: 152 Governor Hunt Road'
+    - 1. Singer 345kV Substation existing available circuit breaker position and new circuit breaker position. 2. Offshore
+      platform at the MA/RI BOEM Wind Energy Areas
+    - 101105 Augusta East w New Breaker
+    - 11.5kV bus at Brookfield owned existing Rumford Falls Substation which is connected to the CMP 115kV 218 Line.
+    - 115 kV B128 line; 18.88 miles from Barre B128 and 5.3 miles from French King
+  missing_cells: 27
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: zone
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      BHE: 126
+      BOST: 96
+      CMA: 55
+      CT: 197
+      ME: 275
+      NH: 133
+      NOR: 22
+      RI: 155
+      SEMA: 218
+      SME: 9
+      SWCT: 96
+      VT: 113
+      WMA: 213
+  missing_cells: 43
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: transmission_owner
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      BHE: 6
+      CMP: 60
+      ISO-NE: 379
+      MPS: 4
+      NGRID: 122
+      NSTAR: 20
+      NU: 45
+      TEUS: 1
+      UI: 9
+  missing_cells: 1105
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: fuel_technology
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 36
+    examples:
+    - BAT
+    - BIT
+    - BIT RFO
+    - BLQ DFO KER WDS
+    - BLQ WDS
+  missing_cells: 265
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: iso_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Active: 50
+      Completed: 364
+      Withdrawn: 1337
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: queue_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 982
+    earliest: '1996-06-07'
+    latest: '2025-01-14'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: proposed_in_service_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 748
+    earliest: '2007-05-31'
+    latest: '2033-03-27'
+  missing_cells: 225
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: actual_in_service_date
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1751
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: withdrawn_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 606
+    earliest: '2006-04-13'
+    latest: '2026-10-29'
+  missing_cells: 556
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

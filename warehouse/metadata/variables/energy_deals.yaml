@@ -1,0 +1,771 @@
+# The codebook's metadata of table energy_deals (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: energy_deals
+family: energy
+shape: events
+row: null
+time: null
+vintage_rule: null
+keys:
+- event_id
+license: public
+tier: model_extracted
+interval: event
+source: []
+cite: ANS Nuclear Newswire; Bloomberg; Bloomberg.com; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier;
+  Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT Homepage; LNG Prime; Latitude Media; Natural
+  Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; hartenergy.com;
+  jpt.spe.org; pv magazine USA. news stories; news stories via feed 'Bloomberg energy (via Google News)'; news stories via
+  feed 'Canary Media'; news stories via feed 'DOE newsroom'; news stories via feed 'Data Center Frontier'; news stories via
+  feed 'Electrek'; news stories via feed 'Energy-Storage.news'; news stories via feed 'FT energy (via Google News)'; news
+  stories via feed 'Hart Energy'; news stories via feed 'JPT (SPE)'; news stories via feed 'LNG Prime'; news stories via feed
+  'Latitude Media'; news stories via feed 'Natural Gas Intelligence'; news stories via feed 'POWER Magazine'; news stories
+  via feed 'Reuters energy (via Google News)'; news stories via feed 'Rigzone'; news stories via feed 'Utility Dive'; news
+  stories via feed 'WSJ energy (via Google News)'; news stories via feed 'World Nuclear News'. Via the Energy Research Warehouse
+  (ERW), table `energy_deals`.
+method: docs/methods/energy_deals.md
+header_title: Energy deals extracted from scored news stories (platform tool 6)
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type deal. event_date is the announced date when the story states
+  it (date_basis stated), else the first story''s publish time (first_story_published).'
+read:
+  date: '2026-11-20'
+  rows: 583
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 583
+    examples:
+    - deal:0046c6c22995488c
+    - deal:006dc20ac6ffe6f3
+    - deal:01b0163eef7a0337
+    - deal:01e74e3e9441d3a6
+    - deal:0213fdd16caee260
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: text
+  values:
+    distinct: 408
+    examples:
+    - '2025-01-05T08:00:00Z'
+    - '2025-01-09T08:00:00Z'
+    - '2025-01-10T08:00:00Z'
+    - '2025-01-14T08:00:00Z'
+    - '2025-01-15T08:00:00Z'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      deal: 583
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: text
+  values:
+    distinct: 538
+    examples:
+    - 1Komma5Grad
+    - AD Ports;Nimex
+    - ADNOC's XRG;Eni
+    - ADQ;ECP
+    - AEP
+  missing_cells: 2
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 583
+- name: mw
+  shared: true
+  type: number
+  values:
+    distinct: 34
+    lowest: 20.0
+    highest: 6000.0
+  missing_cells: 547
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 583
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 583
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      announced: 140
+      cancelled: 10
+      closed: 85
+      rumored: 60
+      signed: 190
+  missing_cells: 98
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ANS Nuclear Newswire: 4
+      Bloomberg: 40
+      Bloomberg.com: 79
+      DOE newsroom: 2
+      Data Center Dynamics: 24
+      Data Center Frontier: 3
+      Electrek: 1
+      Energy-Storage.news: 7
+      Financial Times: 41
+      Hart Energy: 66
+      Heatmap News: 1
+      JPT Homepage: 4
+      LNG Prime: 30
+      Latitude Media: 2
+      Natural Gas Intelligence: 3
+      OilPrice.com: 6
+      POWER Magazine: 4
+      Reuters: 184
+      Rigzone: 15
+      Utility Dive: 3
+      WSJ: 38
+      World Nuclear News: 16
+      hartenergy.com: 1
+      jpt.spe.org: 5
+      pv magazine USA: 4
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 576
+    examples:
+    - https://electrek.co/2026/09/27/nio-power-geely-30-stake-battery-swap-rmb16-billion/
+    - https://heatmap.news/climate-tech/coreshell-series-b
+    - https://lngprime.com/americas/argent-lng-awards-feed-contract/197559/
+    - https://lngprime.com/americas/baker-hughes-in-venezuela-move/197943/
+    - https://lngprime.com/americas/cheniere-petrobras-seal-long-term-lng-spa/197674/
+  missing_cells: 0
+- name: deal_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      behind_the_meter: 4
+      debt: 56
+      equity_raise: 85
+      fuel_supply: 59
+      joint_venture: 31
+      lease: 12
+      m_and_a: 151
+      nuclear_restart: 1
+      offtake: 27
+      other: 91
+      ppa: 38
+      project_finance: 25
+      smr: 3
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: buyer
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 273
+    examples:
+    - AD Ports
+    - ADNOC's XRG
+    - AEP
+    - Adani
+    - Adnoc Logistics
+  missing_cells: 168
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: seller
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 341
+    examples:
+    - 1Komma5Grad
+    - 247 Solar
+    - ACME Solar
+    - AEP
+    - AES
+  missing_cells: 109
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: other_parties
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 86
+    examples:
+    - ADQ;ECP
+    - AMD
+    - Advent;ADIA
+    - Amazon
+    - Amni;TotalEnergies
+  missing_cells: 490
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: asset
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 518
+    examples:
+    - 1 gigawatt AI data centre
+    - 100-Acre AI Data Center
+    - 1Komma5Grad
+    - 25 mtpa LNG export terminal at Port Fourchon
+    - 25 percent stake in 26 leases in the Gulf of America
+  missing_cells: 25
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: technology
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 45
+    examples:
+    - AI
+    - AI chips
+    - AI cloud
+    - FSRU
+    - LNG
+  missing_cells: 270
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: state
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      AK: 2
+      AL: 1
+      AZ: 1
+      CA: 1
+      IA: 1
+      IL: 1
+      IN: 5
+      KY: 1
+      LA: 6
+      MD: 2
+      MI: 1
+      MN: 1
+      NC: 1
+      NV: 1
+      OH: 2
+      OK: 2
+      PA: 2
+      TN: 1
+      TX: 11
+      UT: 3
+      VA: 3
+      VT: 1
+      WV: 2
+      WY: 1
+  missing_cells: 530
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: country
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - Angola
+    - Argentina
+    - Australia
+    - Azerbaijan
+    - Bahamas
+  missing_cells: 473
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: mwh
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1200': 1
+      '3300000': 1
+      '462': 1
+  missing_cells: 580
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: dollars
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 154
+    lowest: 30000000
+    highest: 1250000000000
+  missing_cells: 285
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: price_value
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '12': 1
+      '80': 1
+  missing_cells: 581
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: price_unit
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      '%': 1
+      CAD/share: 1
+  missing_cells: 581
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: term_years
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '10': 2
+      '11': 1
+      '20': 16
+      '27': 1
+      '5': 1
+  missing_cells: 562
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: announced_date
+  label: null
+  unit: null
+  type: date
+  values:
+    list:
+      '2026-01-05': 1
+      '2026-10-27': 2
+      '2026-11-12': 1
+  missing_cells: 579
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: date_basis
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      first_story_published: 579
+      stated: 4
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: ai_power
+  label: null
+  unit: null
+  type: boolean
+  values:
+    list:
+      'False': 5
+      'false': 365
+      'true': 213
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: confidence
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '0.3': 3
+      '0.35': 5
+      '0.4': 44
+      '0.45': 1
+      '0.5': 72
+      '0.55': 20
+      '0.6': 148
+      '0.65': 7
+      '0.7': 85
+      '0.75': 28
+      '0.8': 62
+      '0.85': 71
+      '0.88': 3
+      '0.9': 27
+      '0.92': 2
+      '0.93': 3
+      '0.95': 2
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: n_stories
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 417
+      '10': 1
+      '11': 1
+      '12': 2
+      '2': 98
+      '3': 28
+      '4': 18
+      '5': 9
+      '6': 6
+      '7': 1
+      '8': 2
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: story_ids
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 576
+    examples:
+    - news:002c70a07e0f31cf;news:c541ea6f5afafd84;news:a59324e18ffefd35;news:83da2e1baec42285
+    - news:008d77926c1be7ac
+    - news:013b0a168e7a0f3a
+    - news:016b4448b2cc023d
+    - news:01c33293894e159b
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: story_urls
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 576
+    examples:
+    - https://electrek.co/2026/09/27/nio-power-geely-30-stake-battery-swap-rmb16-billion/
+    - https://heatmap.news/climate-tech/coreshell-series-b
+    - https://lngprime.com/americas/argent-lng-awards-feed-contract/197559/
+    - https://lngprime.com/americas/baker-hughes-in-venezuela-move/197943/;https://news.google.com/rss/articles/CBMiuAFBVV95cUxNODZwRnlLSm5GQ3dRbmFhUVozQUJvbWxRek5Xc2R1WlVyWmp2ZGZlNVpxeGRvZUNoVFRmeWlESnFUWlB3N2dfQ01wdFJyb1pFNGRveHJmZm9UWDYxUFBpOFdzV3oxMXRqdmZTOFl0Y3NPVGV6ZFBxd0tRLWFqNGZyYk5aU0FfeXdQa2FRTjRkVHgwUzk2VjFmRE1Ob0FhMlFkdFFERXBLRDFQX05tTnV3UXUxVXVlS1da?oc=5;https://naturalgasintel.com/news/baker-hughes-signs-deals-to-boost-venezuelas-natural-gas-lng-sector/
+    - https://lngprime.com/americas/cheniere-petrobras-seal-long-term-lng-spa/197674/;https://www.rigzone.com/news/cheniere_notches_22year_lng_contract_to_supply_petrobras-30-sep-2026-184741-article/?rss=true
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: model_id
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      claude-sonnet-5: 191
+      claude-sonnet-5-5: 392
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: extracted_at
+  label: null
+  unit: null
+  type: utc time
+  values:
+    distinct: 28
+    earliest: '2026-09-27T01:52:23Z'
+    latest: '2026-11-12T22:08:35Z'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: kind
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      behind_the_meter: 5
+      capital: 158
+      compute_capacity: 31
+      fuel_supply: 58
+      gas_buildout: 12
+      m_and_a: 154
+      nuclear_restart_uprate: 4
+      offtake: 16
+      other: 76
+      ppa: 32
+      project_finance: 20
+      smr: 7
+      storage: 10
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: kind_basis
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 31
+    examples:
+    - a data center between two named parties as the deal's asset
+    - a lease of a data center
+    - 'a nuclear deal whose stories say: uprates'
+    - deal_type behind_the_meter
+    - deal_type debt
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: stage
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      announced: 8
+      cancelled: 1
+      closed: 4
+      financed: 4
+      rumored: 6
+      signed: 25
+  missing_cells: 535
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: grid
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PJM: 1
+  missing_cells: 582
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: usd
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 154
+    lowest: 30000000
+    highest: 1250000000000
+  missing_cells: 285
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: usd_per_mwh
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 583
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: ai_power_basis
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      'datacenter load: data center': 2
+      'datacenter load: data centers': 1
+      'datacenter load: hyperscale': 1
+      'datacenter load: hyperscaler': 1
+      party AWS: 1
+      party AirTrunk: 1
+      party Brookfield, Nvidia: 1
+      party CoreWeave: 1
+      party Google: 1
+      party Microsoft: 1
+      party NTT DATA: 1
+      party NVIDIA: 1
+      party Nvidia: 1
+      party OpenAI: 1
+      party Oracle: 1
+  missing_cells: 567
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: flags
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      'headline: 1000 MW; record: none': 2
+      'headline: 1100 MW, 3700 MW; record: none': 1
+      'headline: 1200 MW; record: none': 1
+      'headline: 20000 MW; record: none': 1
+      'headline: 700 MW; record: 2100 MW': 1
+      'headline: 890 MW, 3600 MW; record: none': 1
+      'headline: USD 1 billion; record: none': 1
+      'headline: USD 1.07 billion; record: none': 1
+      'headline: USD 10 billion; record: USD 2.4 billion': 1
+      'headline: USD 100 billion; record: none': 1
+      'headline: USD 103 billion; record: none': 1
+      'headline: USD 2 billion; record: USD 2.4 billion': 1
+      usd 1250000000000 above the bound 500000000000: 1
+  missing_cells: 569
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: fields_version
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      '2232': 54
+      upgraded: 529
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: status_history
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 50
+    examples:
+    - 2026-10-01 announced (first record); 2026-10-27 signed (news:83da2e1baec42285)
+    - 2026-10-22 signed (first record)
+    - 2026-10-23 announced (first record); 2026-10-27 signed (news:8069d44f6e606faf)
+    - 2026-10-23 rumored (first record); 2026-10-29 signed (news:b0ea9aee747df24b)
+    - 2026-10-26 announced (news:ac8169a366307d22)
+  missing_cells: 533
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: buyer_name
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 259
+    examples:
+    - AD Ports
+    - ADNOC's XRG
+    - Adani
+    - Adnoc Logistics
+    - AirTrunk
+  missing_cells: 168
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: seller_name
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 331
+    examples:
+    - 1Komma5Grad
+    - 247 Solar
+    - ACME Solar
+    - AES Corp
+    - AMD
+  missing_cells: 109
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: buyer_parent
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Adnoc: 1
+      Amazon: 1
+      BlackRock: 1
+      EIG: 1
+      Geely Holding: 1
+      General Motors: 1
+  missing_cells: 577
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: seller_parent
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Aditya Birla: 1
+      Amazon: 1
+      Blackstone: 1
+      Chevron: 1
+      Constellation Energy: 1
+      ExxonMobil: 1
+      Leviathan: 1
+      MAIRE: 1
+      OGE Energy: 1
+      Vivek Ramaswamy: 1
+  missing_cells: 573
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: buyer_eia861
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 583
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: seller_eia861
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 583
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

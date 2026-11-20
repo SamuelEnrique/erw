@@ -1,0 +1,317 @@
+# The codebook's metadata of table price_board_latest (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: price_board_latest
+family: price
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1D;PT15M;PT1H
+source:
+- name: erw:price_board ERW derived price board metrics (docs/methods/price_board.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/price_board.md
+cite: Energy Research Warehouse (ERW), derived. Price board v2 metrics (docs/methods/price_board.md). Via the Energy Research
+  Warehouse (ERW), table `price_board_latest`.
+method: docs/methods/price_board.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261106T003628Z-github
+  (2026-11-06T00:36:28Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0). Derived by the ERW from the tables named below; method docs/methods/price_board.md.'
+read:
+  date: '2026-11-20'
+  rows: 3250
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - caiso:TH_NP15_GEN-APND
+    - caiso:TH_SP15_GEN-APND
+    - caiso:TH_ZP26_GEN-APND
+    - ercot:HB_BUSAVG
+    - ercot:HB_HOUSTON
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 75
+    earliest: '2026-09-03T00:00:00Z'
+    latest: '2026-11-07T07:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2679
+    lowest: -65.3902
+    highest: 2784.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 2938
+      count: 234
+      pct: 78
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 3094
+      PT15M: 44
+      PT1H: 112
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 152
+      US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI: 680
+      US-CA: 252
+      US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 738
+      US-NY: 924
+      US-TX: 504
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      caiso_dam: 129
+      caiso_rtm: 123
+      ercot_dam: 258
+      ercot_rtm: 246
+      isone_dam: 387
+      isone_rtm: 351
+      miso_dam: 344
+      miso_rtm: 336
+      nyiso_dam: 473
+      nyiso_rtm: 451
+      spp_dam: 84
+      spp_rtm: 68
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - .H.INTERNAL_HUB
+    - .Z.CONNECTICUT
+    - .Z.MAINE
+    - .Z.NEMASSBOST
+    - .Z.NEWHAMPSHIRE
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:price_board: 3250
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/price_board.md: 3250
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 30
+    earliest: '2026-09-29T10:35:16Z'
+    latest: '2026-11-05T23:44:58Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3250
+variables:
+- name: da_avg_30d
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-03T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: da_avg_7d
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-03T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: da_daily_mean
+  label: null
+  unit: USD/MWh
+  rows: 1168
+  first: '2026-09-04T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: da_day_change
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-03T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: da_day_change_pct
+  label: null
+  unit: pct
+  rows: 39
+  first: '2026-10-03T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: da_days_30d
+  label: null
+  unit: count
+  rows: 39
+  first: '2026-10-03T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: da_days_7d
+  label: null
+  unit: count
+  rows: 39
+  first: '2026-10-03T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: da_intervals_30d
+  label: null
+  unit: count
+  rows: 39
+  first: '2026-10-04T04:00:00Z'
+  last: '2026-11-07T07:00:00Z'
+- name: da_latest_day_mean
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-03T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: da_latest_interval
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-04T04:00:00Z'
+  last: '2026-11-07T07:00:00Z'
+- name: da_max_30d
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-03T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: da_min_30d
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-03T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: da_minus_rt
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-02T00:00:00Z'
+  last: '2026-11-04T00:00:00Z'
+- name: da_previous_day_mean
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-02T00:00:00Z'
+  last: '2026-11-05T00:00:00Z'
+- name: rt_avg_30d
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-02T00:00:00Z'
+  last: '2026-11-04T00:00:00Z'
+- name: rt_avg_7d
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-02T00:00:00Z'
+  last: '2026-11-04T00:00:00Z'
+- name: rt_daily_mean
+  label: null
+  unit: USD/MWh
+  rows: 1107
+  first: '2026-09-03T00:00:00Z'
+  last: '2026-11-04T00:00:00Z'
+- name: rt_day_change
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-02T00:00:00Z'
+  last: '2026-11-04T00:00:00Z'
+- name: rt_day_change_pct
+  label: null
+  unit: pct
+  rows: 39
+  first: '2026-10-02T00:00:00Z'
+  last: '2026-11-04T00:00:00Z'
+- name: rt_days_30d
+  label: null
+  unit: count
+  rows: 39
+  first: '2026-10-02T00:00:00Z'
+  last: '2026-11-04T00:00:00Z'
+- name: rt_days_7d
+  label: null
+  unit: count
+  rows: 39
+  first: '2026-10-02T00:00:00Z'
+  last: '2026-11-04T00:00:00Z'
+- name: rt_intervals_30d
+  label: null
+  unit: count
+  rows: 39
+  first: '2026-10-03T04:00:00Z'
+  last: '2026-11-05T07:45:00Z'
+- name: rt_latest_day_mean
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-02T00:00:00Z'
+  last: '2026-11-04T00:00:00Z'
+- name: rt_latest_interval
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-03T04:00:00Z'
+  last: '2026-11-05T07:45:00Z'
+- name: rt_max_30d
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-02T00:00:00Z'
+  last: '2026-11-04T00:00:00Z'
+- name: rt_min_30d
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-02T00:00:00Z'
+  last: '2026-11-04T00:00:00Z'
+- name: rt_previous_day_mean
+  label: null
+  unit: USD/MWh
+  rows: 39
+  first: '2026-10-01T00:00:00Z'
+  last: '2026-11-03T00:00:00Z'
+second_look: null

@@ -1,0 +1,282 @@
+# The codebook's metadata of table forecast_tool_parameters (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: forecast_tool_parameters
+family: erw_derived
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: ''
+source:
+- name: 'eia:capital_cost_aeo2025 U.S. Energy Information Administration (EIA), Capital Cost and Performance Characteristic
+    Estimates for Utility Scale Electric Power Generating Technologies (AEO2025), Appendix A,  nlr:jedi_models National Laboratory
+    of the Rockies (NLR, formerly NREL), JEDI models (Jobs and Economic Development Impact),  erw:forecast_gas: the study''s
+    heat rate, JEDI''s default capacity factor, eia_steo_forecasts'' NGHHUUS and EIA''s heat content'
+  url: https://www.nlr.gov/analysis/jedi/models
+cite: Energy Research Warehouse (ERW); National Laboratory of the Rockies (NLR, formerly NREL); U.S. Energy Information Administration
+  (EIA). Capital Cost and Performance Characteristic Estimates for Utility Scale Electric Power Generating Technologies (AEO2025),
+  Appendix A; JEDI models (Jobs and Economic Development Impact); The forecast tool's gas fuel defaults (site/data/forecast/gas.json).
+  Via the Energy Research Warehouse (ERW), table `forecast_tool_parameters`.
+method: docs/methods/forecast.md
+header_title: the forecast tool's parameters (EIA's capital cost by technology, state and city; JEDI's taxable share; the
+  gas plant's fuel defaults) (session 3938)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity forecast:<file>:<technology>:<place> (place us, a state code,
+  or <state>_<city>); variables overnight_cost (USD/kW, x_dollar_year), construction_cost (USD/MW, JEDI''s default project,
+  its model''s dollar year), construction_months, case_mw, operating_life (year), heat_rate (MMBtu/MWh), location_variation
+  and taxable_share and capacity_factor (ratio), fuel_price (USD/MMBtu, the 2025 mean), heat_content (Btu/ft3); ts_utc the
+  dollar year''s first day where the value has one, else 2026-01-01; no freq (a parameter, not a time series).'
+read:
+  date: '2026-11-20'
+  rows: 768
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 559
+    examples:
+    - forecast:eia_capex:geothermal:ca
+    - forecast:eia_capex:geothermal:ca_bakersfield
+    - forecast:eia_capex:geothermal:ca_los_angeles
+    - forecast:eia_capex:geothermal:ca_modesto
+    - forecast:eia_capex:geothermal:ca_sacramento
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2010-01-01T00:00:00Z': 154
+      '2017-01-01T00:00:00Z': 52
+      '2023-01-01T00:00:00Z': 349
+      '2025-01-01T00:00:00Z': 1
+      '2026-01-01T00:00:00Z': 212
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 311
+    lowest: 0.605882
+    highest: 3756566.12
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      Btu/ft3: 1
+      MMBtu/MWh: 2
+      MW: 4
+      USD/MMBtu: 1
+      USD/MW: 206
+      USD/kW: 349
+      month: 4
+      ratio: 197
+      year: 4
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 768
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 768
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 768
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 768
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:capital_cost_aeo2025: 555
+      erw:forecast_gas: 4
+      nlr:jedi_models: 209
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/forecast.md: 4
+      https://www.eia.gov/analysis/studies/powerplants/capitalcost/pdf/capital_cost_AEO2025.pdf: 555
+      https://www.nlr.gov/analysis/jedi/models: 209
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-13T10:23:29Z': 206
+      '2026-11-13T10:45:00Z': 562
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 768
+- name: x_technology
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      geothermal: 81
+      land_based_wind: 228
+      natural_gas: 231
+      utility_pv: 228
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_place
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 113
+    examples:
+    - ak
+    - al
+    - al_huntsville
+    - ar
+    - ar_little_rock
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_dollar_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '2010': 154
+      '2017': 52
+      '2023': 349
+      '2025': 1
+  missing_cells: 212
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_detail
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 328
+    examples:
+    - '01d-jedi-geothermal-model-rel-gt12-23-16.xlsm (nameplate MW (the model''s 10 MW net output)), ALABAMA: Summary Results!D7
+      45,928,513.17 USD over 12.2262 MW'
+    - '01d-jedi-geothermal-model-rel-gt12-23-16.xlsm (nameplate MW (the model''s 10 MW net output)), ALASKA: Summary Results!D7
+      45,928,513.17 USD over 12.2262 MW'
+    - '01d-jedi-geothermal-model-rel-gt12-23-16.xlsm (nameplate MW (the model''s 10 MW net output)), ARIZONA: Summary Results!D7
+      45,928,513.17 USD over 12.2262 MW'
+    - '01d-jedi-geothermal-model-rel-gt12-23-16.xlsm (nameplate MW (the model''s 10 MW net output)), ARKANSAS: Summary Results!D7
+      45,928,513.17 USD over 12.2262 MW'
+    - '01d-jedi-geothermal-model-rel-gt12-23-16.xlsm (nameplate MW (the model''s 10 MW net output)), CALIFORNIA: Summary Results!D7
+      45,928,513.17 USD over 12.2262 MW'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: capacity_factor
+  label: null
+  unit: ratio
+  rows: 1
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: case_mw
+  label: null
+  unit: MW
+  rows: 4
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: construction_cost
+  label: null
+  unit: USD/MW
+  rows: 206
+  first: '2010-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: construction_months
+  label: null
+  unit: month
+  rows: 4
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: fuel_price
+  label: null
+  unit: USD/MMBtu
+  rows: 1
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: heat_content
+  label: null
+  unit: Btu/ft3
+  rows: 1
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: heat_rate
+  label: null
+  unit: MMBtu/MWh
+  rows: 2
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: location_variation
+  label: null
+  unit: ratio
+  rows: 193
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: operating_life
+  label: null
+  unit: year
+  rows: 4
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: overnight_cost
+  label: null
+  unit: USD/kW
+  rows: 349
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: taxable_share
+  label: null
+  unit: ratio
+  rows: 3
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+second_look: null

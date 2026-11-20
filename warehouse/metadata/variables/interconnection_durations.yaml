@@ -1,0 +1,354 @@
+# The codebook's metadata of table interconnection_durations (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: interconnection_durations
+family: interconnection
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: derived
+interval: snapshot
+source:
+- name: lbnl:queued_up Lawrence Berkeley National Laboratory and GridTracker, Queued Up data file
+  url: https://eta-publications.lbl.gov/publications/queued-2026-edition-characteristics
+cite: Energy Research Warehouse (ERW), derived. Interconnection request to operation, completed projects, from Berkeley Lab's
+  Queued Up file (docs/methods/interconnection_durations.md). Via the Energy Research Warehouse (ERW), table `interconnection_durations`.
+method: docs/methods/interconnection_durations.md
+header_title: interconnection request to operation, every completed project with both dates, 2026 edition (through 2025) (session
+  671)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id the queue table''s own; entity_type project; status operating;
+  status_date the operation date; months_to_operation = days from request_date to operation_date / 30.4375, one decimal; grid
+  Berkeley Lab''s region; utility as the file names it.'
+read:
+  date: '2026-11-20'
+  rows: 3098
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 3098
+    examples:
+    - lbnl:Avista:17
+    - lbnl:Avista:45
+    - lbnl:CAISO:1003A
+    - lbnl:CAISO:1005
+    - lbnl:CAISO:1010
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      project: 3098
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 2839
+    examples:
+    - '1'
+    - '10230'
+    - '105'
+    - '108'
+    - '11'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 43
+    examples:
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+    - US-CO
+  missing_cells: 177
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3098
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3098
+- name: capacity_mw
+  shared: true
+  type: number
+  values:
+    distinct: 925
+    lowest: -15.0
+    highest: 3576.0
+  missing_cells: 0
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      operating: 3098
+  missing_cells: 0
+- name: status_date
+  shared: true
+  type: date
+  values:
+    distinct: 1734
+    earliest: '1999-06-30'
+    latest: '2025-12-31'
+  missing_cells: 0
+- name: operator
+  shared: true
+  type: text
+  values:
+    distinct: 95
+    examples:
+    - AEC
+    - AEP
+    - AMEREN ILLINOIS
+    - AMEREN TRANSMISSION COMPANY OF ILLINOIS
+    - APS
+  missing_cells: 888
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:interconnection_durations: 3098
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://eta-publications.lbl.gov/sites/default/files/2026-05/lbnl_ix_queue_data_file_thru2025.xlsx: 3098
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-02T09:16:25Z': 3098
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: text
+  values:
+    list:
+      2026 edition (through 2025): 3098
+  missing_cells: 0
+- name: queue_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 2964
+    examples:
+    - 0160A
+    - 0201A
+    - 0201B
+    - 0209A
+    - 0224A
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: grid
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CAISO: 225
+      ERCOT: 470
+      MISO: 476
+      NYISO: 83
+      PJM: 1181
+      SPP: 272
+      Southeast: 215
+      West: 176
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 43
+    examples:
+    - AL
+    - AR
+    - AZ
+    - CA
+    - CO
+  missing_cells: 177
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 714
+    examples:
+    - Accomack
+    - Ada
+    - Adair
+    - Adams
+    - Alachua
+  missing_cells: 197
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: utility
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 95
+    examples:
+    - AEC
+    - AEP
+    - AMEREN ILLINOIS
+    - AMEREN TRANSMISSION COMPANY OF ILLINOIS
+    - APS
+  missing_cells: 888
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: transmission_provider
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Avista: 2
+      CAISO: 225
+      CSU: 2
+      Duke: 74
+      ERCOT: 470
+      FPL: 119
+      IP: 60
+      LADWP: 9
+      LGE-KU: 1
+      MISO: 469
+      MPC: 7
+      NWMT: 64
+      NYISO: 83
+      OUC: 3
+      PJM: 1181
+      PSE: 8
+      SOCO: 15
+      SPP: 272
+      SRP: 8
+      SRP_ANPP: 6
+      SRP_PV-PC: 4
+      TEC: 3
+      TSGT: 13
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: fuel
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Battery: 123
+      Coal: 119
+      Diesel: 28
+      Gas: 671
+      Gas+Battery: 1
+      Gas+Oil: 4
+      Geothermal: 2
+      Geothermal+Other: 1
+      Hydro: 78
+      Nuclear: 72
+      Offshore Wind: 1
+      Oil: 28
+      Other: 259
+      Other Storage: 8
+      Solar: 846
+      Solar+Battery: 66
+      Solar+Gas: 1
+      Wind: 783
+      Wind+Battery: 7
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: request_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 1771
+    earliest: '1997-04-01'
+    latest: '2025-06-06'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: operation_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 1734
+    earliest: '1999-06-30'
+    latest: '2025-12-31'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: months_to_operation
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 1009
+    lowest: 0.0
+    highest: 217.8
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: request_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 29
+    lowest: 1997
+    highest: 2025
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: operation_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 27
+    lowest: 1999
+    highest: 2025
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

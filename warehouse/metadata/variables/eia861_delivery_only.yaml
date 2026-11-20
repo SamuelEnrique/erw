@@ -1,0 +1,329 @@
+# The codebook's metadata of table eia861_delivery_only (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia861_delivery_only
+family: eia861
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:eia861:delivery_companies U.S. Energy Information Administration, Form EIA-861 Annual Electric Power Industry
+    Report (Delivery_Companies_<year>.xlsx)
+  url: https://www.eia.gov/electricity/data/eia861/
+cite: U.S. Energy Information Administration (EIA). Form EIA-861 Annual Electric Power Industry Report, delivery companies.
+  Via the Energy Research Warehouse (ERW), table `eia861_delivery_only`.
+method: docs/methods/eia861_delivery_only.md
+header_title: 'EIA-861 delivery-only companies (Texas''s transmission and distribution utilities): delivery revenue, energy
+  delivered and customers by sector, a year (session 853)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia861:<utility>:<state>:C:<balancing authority>, as eia861_utility_sales;
+  variables <sector>_revenue (USD, EIA''s thousand dollars times 1,000: delivery revenue), <sector>_sales (MWh: energy delivered),
+  <sector>_customers (count); ts_utc the data year''s 1 January; freq P1Y; node the company''s name.'
+read:
+  date: '2026-11-20'
+  rows: 546
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia861:11292:TX:C:ERCO: 27
+      eia861:13830:TX:C:ERCO: 90
+      eia861:20404:TX:C:ERCO: 90
+      eia861:3278:TX:C:ERCO: 87
+      eia861:40051:TX:C:ERCO: 72
+      eia861:44372:TX:C:ERCO: 90
+      eia861:8901:TX:C:ERCO: 90
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2020-01-01T00:00:00Z': 87
+      '2021-01-01T00:00:00Z': 87
+      '2022-01-01T00:00:00Z': 87
+      '2023-01-01T00:00:00Z': 87
+      '2024-01-01T00:00:00Z': 96
+      '2025-01-01T00:00:00Z': 102
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 469
+    lowest: 0.0
+    highest: 5319153000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 182
+      USD: 182
+      count: 182
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 546
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 546
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 546
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      AEP Texas Central Company: 87
+      AEP Texas North Company: 90
+      CenterPoint Energy: 90
+      City of Lubbock - (TX): 27
+      Nueces Electric Cooperative: 90
+      Oncor Electric Delivery Company LLC: 90
+      Texas-New Mexico Power Co: 72
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia861:delivery_companies: 546
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612020.zip: 87
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612021.zip: 87
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612022.zip: 87
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612023.zip: 87
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612024.zip: 96
+      https://www.eia.gov/electricity/data/eia861/zip/f8612025.zip: 102
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T16:56:34Z': 102
+      '2026-10-21T17:48:28Z': 96
+      '2026-10-21T17:48:31Z': 87
+      '2026-10-21T17:48:34Z': 87
+      '2026-10-21T17:48:37Z': 87
+      '2026-10-21T17:48:40Z': 87
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 546
+- name: x_utility_number
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '11292': 27
+      '13830': 90
+      '20404': 90
+      '3278': 87
+      '40051': 72
+      '44372': 90
+      '8901': 90
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      TX: 546
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_part
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      C: 546
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_service_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Delivery: 546
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ownership
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Cooperative: 90
+      Investor Owned: 429
+      Municipal: 27
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ba_code
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ERCO: 546
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_data_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      O: 546
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: commercial_customers
+  label: null
+  unit: count
+  rows: 38
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: commercial_revenue
+  label: null
+  unit: USD
+  rows: 38
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: commercial_sales
+  label: null
+  unit: MWh
+  rows: 38
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: industrial_customers
+  label: null
+  unit: count
+  rows: 38
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: industrial_revenue
+  label: null
+  unit: USD
+  rows: 38
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: industrial_sales
+  label: null
+  unit: MWh
+  rows: 38
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: residential_customers
+  label: null
+  unit: count
+  rows: 38
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: residential_revenue
+  label: null
+  unit: USD
+  rows: 38
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: residential_sales
+  label: null
+  unit: MWh
+  rows: 38
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_customers
+  label: null
+  unit: count
+  rows: 38
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_revenue
+  label: null
+  unit: USD
+  rows: 38
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_sales
+  label: null
+  unit: MWh
+  rows: 38
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: transportation_customers
+  label: null
+  unit: count
+  rows: 30
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: transportation_revenue
+  label: null
+  unit: USD
+  rows: 30
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: transportation_sales
+  label: null
+  unit: MWh
+  rows: 30
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

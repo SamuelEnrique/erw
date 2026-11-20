@@ -1,0 +1,210 @@
+# The codebook's metadata of table eia930_all_emissions (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia930_all_emissions
+family: eia930
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: 'eia:gridmonitor/knownissues/xls Form EIA-930, Hourly Electric Grid Monitor: per-balancing-authority workbooks, sheet
+    Published Hourly Data (estimated CO2 emissions)'
+  url: https://www.eia.gov/electricity/gridmonitor/about
+cite: 'U.S. Energy Information Administration (EIA). Form EIA-930, Hourly Electric Grid Monitor: per-balancing-authority workbooks,
+  sheet Published Hourly Data (estimated CO2 emissions). Via the Energy Research Warehouse (ERW), table `eia930_all_emissions`.'
+method: docs/methods/eia930_all_emissions.md
+header_title: EIA-930 hourly CO2 emissions estimates, the seven ISO balancing authorities and the Lower 48
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba. tCO2 = metric tons of CO2, as EIA states them.
+  co2_emissions_generated: EIA''s CO2 Emissions Generated (all sources in the BA); co2_emissions_consumed: EIA''s CO2 Emissions
+  Consumed (generated plus imported minus exported); since session 34 co2_emissions_coal, _natural_gas, _oil, _other (EIA''s
+  CO2 Emissions: COL, NG, OIL, Other) and co2_emissions_imported, _exported (EIA''s CO2 Emissions Imported, Exported). ts_utc
+  is the hour''s start (EIA''s UTC time, the hour''s end, minus one hour).'
+read:
+  date: '2026-11-20'
+  rows: 4381704
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia930:CISO: 566208
+      eia930:ERCO: 510048
+      eia930:ISNE: 568632
+      eia930:MISO: 508704
+      eia930:NYIS: 583296
+      eia930:PJM: 564624
+      eia930:SWPP: 493440
+      eia930:US48: 586752
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2018-07-02T00:00:00Z'
+    latest: '2026-11-12T23:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -1506.3933603410046
+    highest: 3207014.0222850177
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      tCO2: 4381704
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 4381704
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 586752
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 493440
+      US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI: 508704
+      US-CA: 566208
+      US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 568632
+      US-DE,US-DC,US-IL,US-IN,US-KY,US-MD,US-MI,US-NJ,US-NC,US-OH,US-PA,US-TN,US-VA,US-WV: 564624
+      US-NY: 583296
+      US-TX: 510048
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4381704
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4381704
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:gridmonitor/knownissues/xls: 4381704
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/gridmonitor/knownissues/xls/CISO.xlsx: 566208
+      https://www.eia.gov/electricity/gridmonitor/knownissues/xls/ERCO.xlsx: 510048
+      https://www.eia.gov/electricity/gridmonitor/knownissues/xls/ISNE.xlsx: 568632
+      https://www.eia.gov/electricity/gridmonitor/knownissues/xls/MISO.xlsx: 508704
+      https://www.eia.gov/electricity/gridmonitor/knownissues/xls/NYIS.xlsx: 583296
+      https://www.eia.gov/electricity/gridmonitor/knownissues/xls/PJM.xlsx: 564624
+      https://www.eia.gov/electricity/gridmonitor/knownissues/xls/Region_US48.xlsx: 586752
+      https://www.eia.gov/electricity/gridmonitor/knownissues/xls/SWPP.xlsx: 493440
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 48
+    earliest: '2026-09-29T18:13:28Z'
+    latest: '2026-11-16T18:00:08Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4381704
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      ciso: 566208
+      erco: 510048
+      isne: 568632
+      miso: 508704
+      nyis: 583296
+      pjm: 564624
+      swpp: 493440
+      us48: 586752
+  missing_cells: 0
+variables:
+- name: co2_emissions_coal
+  label: null
+  unit: tCO2
+  rows: 552768
+  first: '2018-07-02T00:00:00Z'
+  last: '2026-11-12T23:00:00Z'
+- name: co2_emissions_consumed
+  label: null
+  unit: tCO2
+  rows: 569664
+  first: '2018-07-02T00:00:00Z'
+  last: '2026-11-12T23:00:00Z'
+- name: co2_emissions_exported
+  label: null
+  unit: tCO2
+  rows: 569664
+  first: '2018-07-02T00:00:00Z'
+  last: '2026-11-12T23:00:00Z'
+- name: co2_emissions_generated
+  label: null
+  unit: tCO2
+  rows: 569664
+  first: '2018-07-02T00:00:00Z'
+  last: '2026-11-12T23:00:00Z'
+- name: co2_emissions_imported
+  label: null
+  unit: tCO2
+  rows: 569664
+  first: '2018-07-02T00:00:00Z'
+  last: '2026-11-12T23:00:00Z'
+- name: co2_emissions_natural_gas
+  label: null
+  unit: tCO2
+  rows: 569400
+  first: '2018-07-02T00:00:00Z'
+  last: '2026-11-12T23:00:00Z'
+- name: co2_emissions_oil
+  label: null
+  unit: tCO2
+  rows: 411216
+  first: '2018-07-02T00:00:00Z'
+  last: '2026-11-12T23:00:00Z'
+- name: co2_emissions_other
+  label: null
+  unit: tCO2
+  rows: 569664
+  first: '2018-07-02T00:00:00Z'
+  last: '2026-11-12T23:00:00Z'
+second_look: null

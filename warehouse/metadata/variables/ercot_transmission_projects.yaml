@@ -1,0 +1,460 @@
+# The codebook's metadata of table ercot_transmission_projects (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_transmission_projects
+family: ercot
+shape: events
+row: null
+time: null
+vintage_rule: null
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: ercot:tpit Electric Reliability Council of Texas (ERCOT), Transmission Project and Information Tracking
+  url: https://www.ercot.com/gridinfo/planning
+cite: Electric Reliability Council of Texas (ERCOT). Transmission Project and Information Tracking (TPIT). Via the Energy
+  Research Warehouse (ERW), table `ercot_transmission_projects`.
+method: docs/methods/ercot_transmission_projects.md
+header_title: 'ERCOT, Transmission Project and Information Tracking (TPIT): every transmission project the owners report,
+  future, planned, completed and cancelled (session 852)'
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id ercot_tpit:<project>:<phase>; event_date the actual in-service
+  date, else the projected one (x_date_kind; ERCOT''s 9999-01-01 is no date); event_type transmission_project; parties the
+  transmission owner; status the sheet (future, planned, completed, cancelled); x_* ERCOT''s fields.'
+read:
+  date: '2026-11-20'
+  rows: 2203
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 2203
+    examples:
+    - ercot_tpit:07TPIT0069:10446
+    - ercot_tpit:100018:100019
+    - ercot_tpit:100020:100021
+    - ercot_tpit:100025:100026
+    - ercot_tpit:100030:100031
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 511
+    earliest: '2023-05-25'
+    latest: '2033-12-15'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      transmission_project: 2203
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: text
+  values:
+    distinct: 55
+    examples:
+    - AEN
+    - AEP
+    - AEP TCC
+    - AEP TCC/AEP TCC/SLU
+    - AEP TCC/AEP TNC
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2203
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2203
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2203
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2203
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      cancelled: 99
+      completed: 319
+      future: 1508
+      planned: 277
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:tpit: 2203
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.ercot.com/files/docs/2022/03/02/ERCOT-October-TPIT-No-Cost-100126.xlsx: 2203
+  missing_cells: 0
+- name: x_project_number
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 2203
+    examples:
+    - 07TPIT0069
+    - '100018'
+    - '100020'
+    - '100025'
+    - '100030'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_phase
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 2203
+    lowest: 8143
+    highest: 116033
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_title
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1803
+    examples:
+    - 138kV Flewellen to Fort Bend Ckt 09G-60E Upgrades
+    - 138kV transmission upgrade to serve Kirkland large load.
+    - 16th Street auto transformer replacement/addition.
+    - '23RPG028: STEC Rio Medina Project: New 138kV Legend Falls Substation'
+    - '23RPG028: STEC Rio Medina Project: New transmission line between Tally and Ranchtown'
+  missing_cells: 41
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_description
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1794
+    examples:
+    - (5705) FOWLERTON to (5723) LOS ANGELES 138 kV Ckt 1 Rebuild [245 MVA Minimum] or double circuit existing
+    - (5727) PAWNEE SWITCHING STATION to (5902) SAN MIGUEL GEN 138 kV Ckt 1 Rebuild [276 MVA Minimum]
+    - (In terms of completed Waterfowl substation) Loop new CEHE 138kV substation Odin (ODI) into Ckt.36 to create new Ckt.36
+      COPPER to Odin to Booster tap to Jones Creek.
+    - -(CPS South San Antonio Reliability Project 1 & 2) - Install 162 MVAr of reactive support at the Edward POI - Add a
+      second 138kV ckt from Pearson to Edward to Castroville with 474 MVA rating - Install 19./2 MVAR of reactive power compensation
+      at Natalia sub 69kV
+    - -Add a new 345kV path from Howard to Edward - Tap the line from Kendall to Cagnon at 5 miles from Cagnon to add the
+      new CPS substation - Add a new 345kV path from New CPS station to Edward - Add 2 138/345kv autos at Edward with 675
+      MVA rating - Install 134 MVAR reaction power compensation at Lytle 4A - Upgrade the 138kV line from Bandera to Harmwolf
+      to 371 MVA - Upgrade the 345kV Cachena to ELmcreek line to 1250 MVA - Upgrade the 345kV line from Howard to Spruce to
+      1563 MVA - Upgrade the 345kV line from Howard to Av Rosenburg to 1453 MVA - Upgrade the 138kV line from Lytle to Lytle4A
+      to 354 MVA - Upgrade Hill Country 345/138 autos 3, 4 to 740 MVA
+  missing_cells: 345
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_comment
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 83
+    examples:
+    - '1/10/2023: Added information to clarify circuit rating.'
+    - '1/10/2023: Added information to clarify timing for final circuit rating upgrade.'
+    - '1/10/2023: Changes to description based on final design.'
+    - AEP is looking at another location to serve the load.
+    - Add New Load and Sub
+  missing_cells: 1821
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_from
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1275
+    examples:
+    - '0'
+    - '199'
+    - '240'
+    - '250'
+    - '32852'
+  missing_cells: 255
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_to
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1086
+    examples:
+    - '-'
+    - '0'
+    - '170722'
+    - '171073'
+    - '171082'
+  missing_cells: 797
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ercot_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Conceptual: 333
+      In-Service: 212
+      Planned: 1556
+      Under Construction: 71
+  missing_cells: 31
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_owner
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 55
+    examples:
+    - AEN
+    - AEP
+    - AEP TCC
+    - AEP TCC/AEP TCC/SLU
+    - AEP TCC/AEP TNC
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_projected_in_service
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 448
+    earliest: '2022-11-30'
+    latest: '2033-12-15'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_actual_in_service
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 175
+    earliest: '2023-05-25'
+    latest: '9999-01-01'
+  missing_cells: 1852
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_kv
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '115': 1
+      '138': 1311
+      '345': 651
+      '69': 195
+      '765': 44
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_new_circuit_miles
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 183
+    lowest: 0.0
+    highest: 257.45
+  missing_cells: 6
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_upgraded_circuit_miles
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 436
+    lowest: 0.0
+    highest: 292.8
+  missing_cells: 10
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_autotransformer_mva
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 35
+    lowest: -536
+    highest: 8316
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_reactive_mvar
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 90
+    examples:
+    - -100,0
+    - -1200,0
+    - -140,0
+    - '-175350'
+    - -225,0
+  missing_cells: 2005
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_county_start
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 185
+    examples:
+    - Anderson
+    - Andrews
+    - Angelina
+    - Archer
+    - Atascosa
+  missing_cells: 193
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_county_end
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 175
+    examples:
+    - Anderson
+    - Andrews
+    - Angelina
+    - Archer
+    - Atascosa
+  missing_cells: 769
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_tier
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Tier 1: 360
+      Tier 2: 97
+      Tier 3: 274
+      Tier 4: 1472
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_rpg_number
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 166
+    examples:
+    - 18RPG012
+    - 19RPG013
+    - 19RPG018
+    - 19RPG019
+    - 19RPG021
+  missing_cells: 1663
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_rtp_number
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 65
+    examples:
+    - 2013-R102
+    - 2013-R104
+    - 2013-R25
+    - 2013-R50
+    - 2013-R90
+  missing_cells: 2086
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_date_kind
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      actual: 334
+      projected: 1869
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sheet
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Cancelled: 99
+      Completed: 319
+      Future: 1508
+      Planned: 277
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

@@ -1,0 +1,219 @@
+# The codebook's metadata of table ba_trade_partners (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ba_trade_partners
+family: ba
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1Y
+source:
+- name: erw:interchange_pairs ERW derived table
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/interchange_pairs.md
+cite: 'Energy Research Warehouse (ERW), derived. Who trades with whom: interchange by pair of balancing authorities and of
+  regions, partners, events (docs/methods/interchange_pairs.md). Via the Energy Research Warehouse (ERW), table `ba_trade_partners`.'
+method: docs/methods/interchange_pairs.md
+header_title: each balancing authority's trading partners by year, ranked by gross and by net exchange, and its share of demand
+  met by net imports (session 8002, chain 501)
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P1Y, ts_utc the first day of the Eastern year. Partner rows:
+  entity eia930:<BA>-<partner> from the authority''s side (x_ba, x_partner). exchange_gross_mwh: the sum of the absolute hourly
+  flows with x_partner by the authority''s own report; net_import_mwh: the same flows signed, positive when it received power;
+  x_rank_gross and x_rank_net rank its partners within the year (net by size, whichever direction); x_hours the hours it reported.
+  net_import_share_of_demand_pct: its total interchange with the sign turned, summed over the hours it holds both that and
+  its demand, over its demand in the same hours, percent (below zero: a net exporter); entity eia930:<BA>. Method: docs/methods/interchange_pairs.md.'
+read:
+  date: '2026-11-20'
+  rows: 5987
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 406
+    examples:
+    - eia930:AEC
+    - eia930:AEC-MISO
+    - eia930:AEC-SOCO
+    - eia930:AECI
+    - eia930:AECI-MISO
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2018-01-01T00:00:00Z': 676
+      '2019-01-01T00:00:00Z': 671
+      '2020-01-01T00:00:00Z': 685
+      '2021-01-01T00:00:00Z': 664
+      '2022-01-01T00:00:00Z': 655
+      '2023-01-01T00:00:00Z': 647
+      '2024-01-01T00:00:00Z': 643
+      '2025-01-01T00:00:00Z': 659
+      '2026-01-01T00:00:00Z': 687
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -427197192.0
+    highest: 445474028.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 5500
+      pct: 487
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 5987
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:interchange_pairs: 5987
+  missing_cells: 0
+- name: x_ba
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 70
+    examples:
+    - AEC
+    - AECI
+    - AVA
+    - AVRN
+    - AZPS
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_partner
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 78
+    examples:
+    - AEC
+    - AECI
+    - AESO
+    - AVA
+    - AVRN
+  missing_cells: 487
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_rank_gross
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 1142
+      '10': 80
+      '11': 46
+      '12': 20
+      '13': 18
+      '14': 18
+      '15': 18
+      '16': 18
+      '17': 18
+      '18': 18
+      '2': 1038
+      '3': 838
+      '4': 660
+      '5': 496
+      '6': 398
+      '7': 316
+      '8': 206
+      '9': 152
+  missing_cells: 487
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_rank_net
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 1142
+      '10': 80
+      '11': 46
+      '12': 20
+      '13': 18
+      '14': 18
+      '15': 18
+      '16': 18
+      '17': 18
+      '18': 18
+      '2': 1038
+      '3': 838
+      '4': 660
+      '5': 496
+      '6': 398
+      '7': 316
+      '8': 206
+      '9': 152
+  missing_cells: 487
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_hours
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 231
+    lowest: 24
+    highest: 8784
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: exchange_gross_mwh
+  label: null
+  unit: MWh
+  rows: 2750
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: net_import_mwh
+  label: null
+  unit: MWh
+  rows: 2750
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: net_import_share_of_demand_pct
+  label: null
+  unit: pct
+  rows: 487
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+second_look: null

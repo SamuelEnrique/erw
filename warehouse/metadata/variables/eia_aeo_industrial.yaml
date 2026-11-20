@@ -1,0 +1,295 @@
+# The codebook's metadata of table eia_aeo_industrial (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_aeo_industrial
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:aeo_industrial U.S. Energy Information Administration, Annual Energy Outlook 2026 (API v2, route aeo/2026)
+  url: https://www.eia.gov/outlooks/aeo/
+cite: 'U.S. Energy Information Administration (EIA). Annual Energy Outlook (API v2): the industrial sub-sector tables, energy
+  use by fuel. Via the Energy Research Warehouse (ERW), table `eia_aeo_industrial`.'
+method: docs/methods/industry_page.md
+header_title: EIA Annual Energy Outlook 2026, energy use by industry (the industrial sub-sector Tables 24 to 34), every case
+  (session 8003, chain 501)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_aeo_2026:<seriesId>.<h>:<case> (h: six hex digits of the
+  sha1 of the series'' name, since EIA gives one seriesId to two series); variable consumption; TBtu (EIA''s trillion Btu);
+  node the series'' name; ts_utc the year''s 1 January; freq P1Y. x_series_id (EIA''s), x_table_id (the API''s), x_table (the
+  AEO''s number), x_industry, x_scenario, x_scenario_name, x_history (EIA''s flag: HISTORY or PROJECTION).'
+read:
+  date: '2026-11-20'
+  rows: 75504
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 2904
+    examples:
+    - eia_aeo_2026:cnsm_NA_idal_aap_dfo_NA_NA_trlbtu.a0df3d:altelec
+    - eia_aeo_2026:cnsm_NA_idal_aap_dfo_NA_NA_trlbtu.a0df3d:alttrnp
+    - eia_aeo_2026:cnsm_NA_idal_aap_dfo_NA_NA_trlbtu.a0df3d:cb2026
+    - eia_aeo_2026:cnsm_NA_idal_aap_dfo_NA_NA_trlbtu.a0df3d:electrnp
+    - eia_aeo_2026:cnsm_NA_idal_aap_dfo_NA_NA_trlbtu.a0df3d:highZTC
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 26
+    earliest: '2025-01-01T00:00:00Z'
+    latest: '2050-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -35.413647
+    highest: 12210.396484
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      TBtu: 75504
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 75504
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 75504
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 75504
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 264
+    examples:
+    - 'Aluminum Industry : Energy Use : Distillate Fuel Oil'
+    - 'Aluminum Industry : Energy Use : Natural Gas'
+    - 'Aluminum Industry : Energy Use : Other Petroleum'
+    - 'Aluminum Industry : Energy Use : Petroleum Coke'
+    - 'Aluminum Industry : Energy Use : Petroleum Subtotal'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:aeo_industrial: 75504
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=139&sort%5B0%5D%5Bcolumn%5D=seriesId&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=scenario&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=period&sort%5B2%5D%5Bdirection%5D=asc&length=5000
+      : 14300
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=140&sort%5B0%5D%5Bcolumn%5D=seriesId&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=scenario&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=period&sort%5B2%5D%5Bdirection%5D=asc&length=5000
+      : 18018
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=35&sort%5B0%5D%5Bcolumn%5D=seriesId&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=scenario&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=period&sort%5B2%5D%5Bdirection%5D=asc&length=5000
+      : 8008
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=36&sort%5B0%5D%5Bcolumn%5D=seriesId&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=scenario&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=period&sort%5B2%5D%5Bdirection%5D=asc&length=5000
+      : 2860
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=37&sort%5B0%5D%5Bcolumn%5D=seriesId&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=scenario&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=period&sort%5B2%5D%5Bdirection%5D=asc&length=5000
+      : 3146
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=38&sort%5B0%5D%5Bcolumn%5D=seriesId&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=scenario&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=period&sort%5B2%5D%5Bdirection%5D=asc&length=5000
+      : 6864
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=39&sort%5B0%5D%5Bcolumn%5D=seriesId&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=scenario&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=period&sort%5B2%5D%5Bdirection%5D=asc&length=5000
+      : 2288
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=40&sort%5B0%5D%5Bcolumn%5D=seriesId&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=scenario&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=period&sort%5B2%5D%5Bdirection%5D=asc&length=5000
+      : 3718
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=41&sort%5B0%5D%5Bcolumn%5D=seriesId&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=scenario&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=period&sort%5B2%5D%5Bdirection%5D=asc&length=5000
+      : 4004
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=42&sort%5B0%5D%5Bcolumn%5D=seriesId&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=scenario&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=period&sort%5B2%5D%5Bdirection%5D=asc&length=5000
+      : 3146
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=43&sort%5B0%5D%5Bcolumn%5D=seriesId&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=scenario&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=period&sort%5B2%5D%5Bdirection%5D=asc&length=5000
+      : 9152
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-19T11:48:15Z': 75504
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 75504
+- name: x_series_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 259
+    examples:
+    - cnsm_NA_idal_aap_dfo_NA_NA_trlbtu
+    - cnsm_NA_idal_aap_ng_NA_NA_trlbtu
+    - cnsm_NA_idal_aap_onp_NA_NA_trlbtu
+    - cnsm_NA_idal_aap_pck_NA_NA_trlbtu
+    - cnsm_NA_idal_aap_pet_NA_NA_trlbtu
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_table_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '139': 14300
+      '140': 18018
+      '35': 8008
+      '36': 2860
+      '37': 3146
+      '38': 6864
+      '39': 2288
+      '40': 3718
+      '41': 4004
+      '42': 3146
+      '43': 9152
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_table
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '24': 8008
+      '25': 2860
+      '26': 3146
+      '27': 6864
+      '28': 2288
+      '29': 3718
+      '30': 4004
+      '31': 3146
+      '32': 14300
+      '33': 18018
+      '34': 9152
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_industry
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      aluminum: 3146
+      bulk_chemicals: 6864
+      cement_and_lime: 3718
+      food: 2860
+      glass: 2288
+      iron_and_steel: 4004
+      metal_based_durables: 14300
+      nonmanufacturing: 9152
+      other_manufacturing: 18018
+      paper: 3146
+      refining: 8008
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_scenario
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      altelec: 6864
+      alttrnp: 6864
+      cb2026: 6864
+      electrnp: 6864
+      highZTC: 6864
+      higheldmd: 6864
+      highogs: 6864
+      hm2026: 6864
+      lm2026: 6864
+      lowZTC: 6864
+      lowogs: 6864
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_scenario_name
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Alternative Electricity: 6864
+      Alternative Electricity and Transportation: 6864
+      Alternative Transportation: 6864
+      Counterfactual Baseline case: 6864
+      High Economic Growth: 6864
+      High Electricity Demand: 6864
+      High Oil and Gas Supply: 6864
+      High Zero-Carbon Technology Cost: 6864
+      Low Economic Growth: 6864
+      Low Oil and Gas Supply: 6864
+      Low Zero-Carbon Technology Cost: 6864
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_history
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PROJECTION: 75504
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: consumption
+  label: null
+  unit: TBtu
+  rows: 75504
+  first: '2025-01-01T00:00:00Z'
+  last: '2050-01-01T00:00:00Z'
+second_look: null

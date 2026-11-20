@@ -1,0 +1,175 @@
+# The codebook's metadata of table eia_gas_trade_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_gas_trade_monthly
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:natural-gas/move/poe2:supply EIA, U.S. Natural Gas Exports and Re-Exports by Point of Exit
+  url: https://www.eia.gov/dnav/ng/ng_move_poe2_a_EPG0_ENP_Mmcf_m.htm
+- name: eia:natural-gas/move/poe1:supply EIA, U.S. Natural Gas Imports by Point of Entry
+  url: https://www.eia.gov/dnav/ng/ng_move_poe1_a_EPG0_IRP_Mmcf_m.htm
+cite: U.S. Energy Information Administration (EIA). U.S. Natural Gas Exports and Re-Exports by Point of Exit; U.S. Natural
+  Gas Imports by Point of Entry. Via the Energy Research Warehouse (ERW), table `eia_gas_trade_monthly`.
+method: docs/methods/eia_gas_trade_monthly.md
+header_title: 'EIA monthly natural gas trade: pipeline flows with Mexico and Canada, LNG exports in all and by terminal, LNG
+  imports, from 2015 (session 134)'
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P1M; ts_utc is EIA''s date at 00:00:00Z (a weekly value''s is
+  the date the report week ends, a monthly value''s the first day of the month). node is EIA''s name of the series. Variables:
+  export_volume, import_volume. Units per row.'
+read:
+  date: '2026-11-20'
+  rows: 1999
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 36
+    examples:
+    - eia:N9102CN2
+    - eia:N9102MX2
+    - eia:N9103US2
+    - eia:N9132CN2
+    - eia:N9132MX2
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 140
+    earliest: '2015-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1485
+    lowest: 0.0
+    highest: 573089.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MMcf: 1999
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 1999
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 1999
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1999
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 36
+    examples:
+    - Altamira, Tamaulipas Liquefied Natural Gas Exports to All Countries
+    - Calais, ME Liquefied Natural Gas Exports
+    - Calexico, CA Liquefied Natural Gas Exports to All Countries
+    - Cameron (Calcasieu Pass), LA Liquefied Natural Gas Exports to All Countries
+    - Cameron, LA Liquefied Natural Gas Exports
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:natural-gas/move/poe1:supply: 420
+      eia:natural-gas/move/poe2:supply: 1579
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/natural-gas/move/poe1/data/?frequency=monthly&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=N9102CN2&facets%5Bseries%5D%5B%5D=N9102MX2&facets%5Bseries%5D%5B%5D=N9103US2&start=2015-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000
+      : 420
+      ? https://api.eia.gov/v2/natural-gas/move/poe2/data/?frequency=monthly&data%5B0%5D=value&start=2015-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000
+      : 259
+      ? https://api.eia.gov/v2/natural-gas/move/poe2/data/?frequency=monthly&data%5B0%5D=value&start=2015-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=10000&length=5000
+      : 228
+      ? https://api.eia.gov/v2/natural-gas/move/poe2/data/?frequency=monthly&data%5B0%5D=value&start=2015-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=15000&length=5000
+      : 227
+      ? https://api.eia.gov/v2/natural-gas/move/poe2/data/?frequency=monthly&data%5B0%5D=value&start=2015-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=20000&length=5000
+      : 206
+      ? https://api.eia.gov/v2/natural-gas/move/poe2/data/?frequency=monthly&data%5B0%5D=value&start=2015-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=25000&length=5000
+      : 196
+      ? https://api.eia.gov/v2/natural-gas/move/poe2/data/?frequency=monthly&data%5B0%5D=value&start=2015-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=30000&length=5000
+      : 187
+      ? https://api.eia.gov/v2/natural-gas/move/poe2/data/?frequency=monthly&data%5B0%5D=value&start=2015-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=35000&length=5000
+      : 64
+      ? https://api.eia.gov/v2/natural-gas/move/poe2/data/?frequency=monthly&data%5B0%5D=value&start=2015-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=5000&length=5000
+      : 212
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T11:47:50Z': 259
+      '2026-11-16T11:47:51Z': 212
+      '2026-11-16T11:47:52Z': 228
+      '2026-11-16T11:47:53Z': 227
+      '2026-11-16T11:47:55Z': 206
+      '2026-11-16T11:47:56Z': 196
+      '2026-11-16T11:47:57Z': 187
+      '2026-11-16T11:47:58Z': 64
+      '2026-11-16T11:47:59Z': 420
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1999
+variables:
+- name: export_volume
+  label: null
+  unit: MMcf
+  rows: 1579
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: import_volume
+  label: null
+  unit: MMcf
+  rows: 420
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

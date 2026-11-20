@@ -1,0 +1,497 @@
+# The codebook's metadata of table event_study_estimates (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: event_study_estimates
+family: erw_derived
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1D;PT1H
+source:
+- name: erw:event_study ERW derived table, event study method (docs/methods/event_study.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/event_study.md
+cite: Energy Research Warehouse (ERW), derived. Event study estimates (warehouse/derived/event_study.py). Via the Energy Research
+  Warehouse (ERW), table `event_study_estimates`.
+method: docs/methods/event_study.md
+header_title: event studies, the estimated effect of each event on each grid's daily demand served and ERCOT's daily hub price
+  (derived, research, session 47)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition columns ba and event. value is the estimate; x_std_error,
+  x_ci_low, x_ci_high (95 percent, estimate +/- 1.96 standard errors), x_n (days or hours in the regression), x_spec, x_term.
+  <outcome>_effect_day at the event day; <outcome>_effect_pooled and <outcome>_counterfactual_mean at the window''s first
+  day; demand_mw_effect_hHH, the hour-of-day profile.'
+read:
+  date: '2026-11-20'
+  rows: 3040
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia930:CISO: 293
+      eia930:ERCO: 491
+      eia930:ISNE: 350
+      eia930:MISO: 350
+      eia930:NYIS: 351
+      eia930:PJM: 349
+      eia930:SWPP: 315
+      eia930:US48: 118
+      ercot:HB_HUBAVG: 371
+      isone:.H.INTERNAL_HUB: 13
+      miso:INDIANA.HUB: 13
+      nyiso:N.Y.C.: 13
+      spp:SPPNORTH_HUB: 13
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 217
+    earliest: '2020-03-01T00:00:00Z'
+    latest: '2026-02-02T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3040
+    lowest: -1238136.923077
+    highest: 10002125.478261
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 648
+      MWh: 1969
+      USD/MWh: 423
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 2392
+      PT1H: 648
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 118
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 328
+      US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI: 363
+      US-CA: 293
+      US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 363
+      US-DE,US-DC,US-IL,US-IN,US-KY,US-MD,US-MI,US-NJ,US-NC,US-OH,US-PA,US-TN,US-VA,US-WV: 349
+      US-NY: 364
+      US-TX: 862
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3040
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3040
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:event_study: 3040
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/event_study.md: 3040
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-19T09:46:06Z': 3040
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3040
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      ciso: 293
+      erco: 862
+      isne: 363
+      miso: 363
+      nyis: 364
+      pjm: 349
+      swpp: 328
+      us48: 118
+  missing_cells: 0
+- name: event
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      caiso_heat_2020: 57
+      caiso_heat_2022: 49
+      cold_2025: 235
+      cold_2026: 293
+      covid_2020: 1626
+      east_heat_2025: 143
+      elliott_2022: 333
+      ercot_heat_2023: 198
+      uri_2021: 106
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_std_error
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 1966
+    lowest: 1.558606
+    highest: 941905.482593
+  missing_cells: 65
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ci_low
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 2975
+    lowest: -2582448.607907
+    highest: 616062.554395
+  missing_cells: 65
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ci_high
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 2975
+    lowest: -468714.428903
+    highest: 4071124.723204
+  missing_cells: 65
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_n
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '123': 198
+      '182': 1
+      '184': 117
+      '21': 13
+      '22': 39
+      '26': 35
+      '27': 108
+      '275': 563
+      '276': 945
+      '30': 284
+      '32': 88
+      '33': 486
+      '42': 57
+      '54': 106
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_spec
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      dow_trend_v1: 39
+      dow_year_mean_v1: 2006
+      dow_year_temp_v1: 995
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_term
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 431
+    examples:
+    - event day 2020-03-01
+    - event day 2020-03-01, controlling for temperature
+    - event day 2020-03-02
+    - event day 2020-03-02, controlling for temperature
+    - event day 2020-03-03
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: demand_mw_effect_h00
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h01
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h02
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h03
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h04
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h05
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h06
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h07
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h08
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h09
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h10
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h11
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h12
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h13
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h14
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h15
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h16
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h17
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h18
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h19
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h20
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h21
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h22
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mw_effect_h23
+  label: null
+  unit: MW
+  rows: 27
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mwh_counterfactual_mean
+  label: null
+  unit: MWh
+  rows: 34
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mwh_counterfactual_mean_temp
+  label: null
+  unit: MWh
+  rows: 17
+  first: '2020-03-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: demand_mwh_effect_day
+  label: null
+  unit: MWh
+  rows: 1043
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-02-02T00:00:00Z'
+- name: demand_mwh_effect_day_temp
+  label: null
+  unit: MWh
+  rows: 791
+  first: '2020-03-01T00:00:00Z'
+  last: '2023-09-10T00:00:00Z'
+- name: demand_mwh_effect_pooled
+  label: null
+  unit: MWh
+  rows: 34
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: demand_mwh_effect_pooled_temp
+  label: null
+  unit: MWh
+  rows: 17
+  first: '2020-03-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: demand_mwh_effect_pooled_trend
+  label: null
+  unit: MWh
+  rows: 33
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: rt_mean_counterfactual_mean
+  label: null
+  unit: USD/MWh
+  rows: 10
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: rt_mean_counterfactual_mean_temp
+  label: null
+  unit: USD/MWh
+  rows: 4
+  first: '2020-03-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: rt_mean_effect_day
+  label: null
+  unit: USD/MWh
+  rows: 227
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-02-02T00:00:00Z'
+- name: rt_mean_effect_day_temp
+  label: null
+  unit: USD/MWh
+  rows: 162
+  first: '2020-03-01T00:00:00Z'
+  last: '2023-09-10T00:00:00Z'
+- name: rt_mean_effect_pooled
+  label: null
+  unit: USD/MWh
+  rows: 10
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+- name: rt_mean_effect_pooled_temp
+  label: null
+  unit: USD/MWh
+  rows: 4
+  first: '2020-03-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: rt_mean_effect_pooled_trend
+  label: null
+  unit: USD/MWh
+  rows: 6
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-01-23T00:00:00Z'
+second_look: null

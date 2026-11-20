@@ -1,0 +1,432 @@
+# The codebook's metadata of table flex_alert_effects (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: flex_alert_effects
+family: erw_derived
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1D;P1Y;PT1H
+source:
+- name: erw:flex_alert_scorecard ERW derived table, Flex Alert scorecard method (docs/methods/flex_alert_scorecard.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/flex_alert_scorecard.md
+cite: Energy Research Warehouse (ERW), derived. Flex Alert scorecard (warehouse/derived/flex_alert_scorecard.py). Via the
+  Energy Research Warehouse (ERW), table `flex_alert_effects`.
+method: docs/methods/flex_alert_scorecard.md
+header_title: the Flex Alert scorecard, per alert day, CAISO (derived, session 60)
+header_shape: 'Shape: series (docs/datastandard.md v0). P1D rows (ts_utc the Pacific day at 00:00:00Z): alert_hours (count),
+  alert_first_hour and alert_last_hour (local, the window''s end), hours_assumed (1 where no notice gave hours: 16:00 to 21:00,
+  else 0), basis_flex_alert (1 where the hours are the Flex Alert''s, else 0; unit count), actual_mwh and predicted_mwh over
+  the alert hours, reduction_mwh and reduction_mw (predicted less actual; positive is demand below the model) with _lo and
+  _hi (90 percent interval), reduction_pct (of predicted), temp_max_f (population-weighted), train_days_as_hot (training days
+  whose highest weighted temperature was at least the day''s: the model''s support), price_usd_mwh (mean day-ahead hub price
+  over the alert hours), value_usd (reduction times price, summed) with _lo and _hi. PT1H rows (ts_utc the hour''s start,
+  local 12:00 to 23:00): actual_mw, predicted_mw, predicted_mw_lo and _hi, alert_hour. P1Y rows (ts_utc the year''s 1 January):
+  year_<measure>.'
+read:
+  date: '2026-11-20'
+  rows: 3429
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia930:CISO: 3429
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 479
+    earliest: '2018-01-01T00:00:00Z'
+    latest: '2024-07-25T06:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2755
+    lowest: -5804512.4267
+    highest: 380303.2757
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 2415
+      MWh: 211
+      USD: 18
+      USD/MWh: 4
+      count: 622
+      degF: 38
+      hour: 76
+      pct: 45
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 1080
+      P1Y: 69
+      PT1H: 2280
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 3429
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3429
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3429
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:flex_alert_scorecard: 3429
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/flex_alert_scorecard.md: 3429
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-17T07:24:23Z': 3429
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3429
+variables:
+- name: actual_mw
+  label: null
+  unit: MW
+  rows: 456
+  first: '2018-07-24T19:00:00Z'
+  last: '2024-07-25T06:00:00Z'
+- name: actual_mwh
+  label: null
+  unit: MWh
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: alert_first_hour
+  label: null
+  unit: hour
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: alert_hour
+  label: null
+  unit: count
+  rows: 456
+  first: '2018-07-24T19:00:00Z'
+  last: '2024-07-25T06:00:00Z'
+- name: alert_hours
+  label: null
+  unit: count
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: alert_last_hour
+  label: null
+  unit: hour
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: basis_flex_alert
+  label: null
+  unit: count
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: hours_assumed
+  label: null
+  unit: count
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: predicted_mw
+  label: null
+  unit: MW
+  rows: 456
+  first: '2018-07-24T19:00:00Z'
+  last: '2024-07-25T06:00:00Z'
+- name: predicted_mw_hi
+  label: null
+  unit: MW
+  rows: 456
+  first: '2018-07-24T19:00:00Z'
+  last: '2024-07-25T06:00:00Z'
+- name: predicted_mw_lo
+  label: null
+  unit: MW
+  rows: 456
+  first: '2018-07-24T19:00:00Z'
+  last: '2024-07-25T06:00:00Z'
+- name: predicted_mwh
+  label: null
+  unit: MWh
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: price_usd_mwh
+  label: null
+  unit: USD/MWh
+  rows: 4
+  first: '2023-07-20T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: reduction_mw
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: reduction_mw_hi
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: reduction_mw_lo
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: reduction_mwh
+  label: null
+  unit: MWh
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: reduction_mwh_hi
+  label: null
+  unit: MWh
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: reduction_mwh_lo
+  label: null
+  unit: MWh
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: reduction_pct
+  label: null
+  unit: pct
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: temp_max_f
+  label: null
+  unit: degF
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: train_days_as_hot
+  label: null
+  unit: count
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: value_usd
+  label: null
+  unit: USD
+  rows: 4
+  first: '2023-07-20T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: value_usd_hi
+  label: null
+  unit: USD
+  rows: 4
+  first: '2023-07-20T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: value_usd_lo
+  label: null
+  unit: USD
+  rows: 4
+  first: '2023-07-20T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: variant_base_cdh_dew_reduction_mw
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: variant_base_cdh_dew_reduction_mw_hi
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: variant_base_cdh_dew_reduction_mw_lo
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: variant_base_prev24sq_reduction_mw
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: variant_base_prev24sq_reduction_mw_hi
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: variant_base_prev24sq_reduction_mw_lo
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: variant_base_reduction_mw
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: variant_base_reduction_mw_hi
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: variant_base_reduction_mw_lo
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: variant_minimal_reduction_mw
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: variant_minimal_reduction_mw_hi
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: variant_minimal_reduction_mw_lo
+  label: null
+  unit: MW
+  rows: 38
+  first: '2018-07-24T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: year_days
+  label: null
+  unit: count
+  rows: 7
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: year_hours
+  label: null
+  unit: count
+  rows: 7
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: year_reduction_mw
+  label: null
+  unit: MW
+  rows: 7
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: year_reduction_mw_hi
+  label: null
+  unit: MW
+  rows: 7
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: year_reduction_mw_lo
+  label: null
+  unit: MW
+  rows: 7
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: year_reduction_mwh
+  label: null
+  unit: MWh
+  rows: 7
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: year_reduction_mwh_hi
+  label: null
+  unit: MWh
+  rows: 7
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: year_reduction_mwh_lo
+  label: null
+  unit: MWh
+  rows: 7
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: year_reduction_pct
+  label: null
+  unit: pct
+  rows: 7
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: year_value_usd
+  label: null
+  unit: USD
+  rows: 2
+  first: '2023-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: year_value_usd_hi
+  label: null
+  unit: USD
+  rows: 2
+  first: '2023-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: year_value_usd_lo
+  label: null
+  unit: USD
+  rows: 2
+  first: '2023-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

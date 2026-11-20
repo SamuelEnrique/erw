@@ -1,0 +1,265 @@
+# The codebook's metadata of table eia930_all_generation (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia930_all_generation
+family: eia930
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: 'eia:electricity/rto/fuel-type-data Form EIA-930, Hourly Electric Grid Monitor: hourly net generation by energy source'
+  url: https://www.eia.gov/electricity/gridmonitor/
+- name: 'eia:electricity/rto/region-data Form EIA-930, Hourly Electric Grid Monitor: hourly demand, day-ahead demand forecast,
+    net generation and interchange by balancing authority'
+  url: https://www.eia.gov/electricity/gridmonitor/
+cite: 'U.S. Energy Information Administration (EIA). Form EIA-930, Hourly Electric Grid Monitor: hourly demand, day-ahead
+  demand forecast, net generation and interchange by balancing authority; Form EIA-930, Hourly Electric Grid Monitor: hourly
+  net generation by energy source. Via the Energy Research Warehouse (ERW), table `eia930_all_generation`.'
+method: docs/methods/eia930_all_generation.md
+header_title: Rebuilt from the ERW archive by warehouse/archive/restore.py through the session 29 map (warehouse/metadata/table_migrations.csv),
+  as of run 20261116T155131Z-github (2026-11-16T15:51:31Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0), a consolidated table (session 29): the 8 tables it replaced are its
+  rows, told apart by the partition column ba (docs/migrations/2026-09-29-consolidation.md; the map is warehouse/metadata/table_migrations.csv).
+  ts_utc is interval start, UTC.'
+read:
+  date: '2026-11-20'
+  rows: 163032
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia930:CISO: 19680
+      eia930:ERCO: 17712
+      eia930:ISNE: 20352
+      eia930:MISO: 17712
+      eia930:NYIS: 17712
+      eia930:PJM: 17496
+      eia930:SWPP: 19680
+      eia930:US48: 32688
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 1968
+    earliest: '2026-08-26T00:00:00Z'
+    latest: '2026-11-15T23:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: -12500
+    highest: 719996
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 163032
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 163032
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 32688
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 19680
+      US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI: 17712
+      US-CA: 19680
+      US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 20352
+      US-DE,US-DC,US-IL,US-IN,US-KY,US-MD,US-MI,US-NJ,US-NC,US-OH,US-PA,US-TN,US-VA,US-WV: 17496
+      US-NY: 17712
+      US-TX: 17712
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 163032
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 163032
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:electricity/rto/fuel-type-data: 147312
+      eia:electricity/rto/region-data: 15720
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 93
+    examples:
+    - https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+    - https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=5000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+    - https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-27T01&end=2026-09-26T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=NYIS
+    - https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-30T01&end=2026-10-19T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+    - https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-30T01&end=2026-10-19T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=10000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 82
+    earliest: '2026-09-25T20:48:37Z'
+    latest: '2026-11-16T14:34:05Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 163032
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      ciso: 19680
+      erco: 17712
+      isne: 20352
+      miso: 17712
+      nyis: 17712
+      pjm: 17496
+      swpp: 19680
+      us48: 32688
+  missing_cells: 0
+variables:
+- name: net_generation_battery_mw
+  label: null
+  unit: MW
+  rows: 9840
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_coal_mw
+  label: null
+  unit: MW
+  rows: 13752
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_geothermal_mw
+  label: null
+  unit: MW
+  rows: 3936
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_hydro_mw
+  label: null
+  unit: MW
+  rows: 15720
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_mw
+  label: null
+  unit: MW
+  rows: 15720
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_natural_gas_mw
+  label: null
+  unit: MW
+  rows: 15720
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_nuclear_mw
+  label: null
+  unit: MW
+  rows: 15720
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_oil_mw
+  label: null
+  unit: MW
+  rows: 10488
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_other_mw
+  label: null
+  unit: MW
+  rows: 15720
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_other_storage_mw
+  label: null
+  unit: MW
+  rows: 1968
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_pumped_storage_mw
+  label: null
+  unit: MW
+  rows: 3936
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_solar_mw
+  label: null
+  unit: MW
+  rows: 15720
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_solar_with_battery_mw
+  label: null
+  unit: MW
+  rows: 3936
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_unknown_mw
+  label: null
+  unit: MW
+  rows: 1968
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_unknown_storage_mw
+  label: null
+  unit: MW
+  rows: 1200
+  first: '2026-09-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_wind_mw
+  label: null
+  unit: MW
+  rows: 15720
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+- name: net_generation_wind_with_battery_mw
+  label: null
+  unit: MW
+  rows: 1968
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T23:00:00Z'
+second_look: null

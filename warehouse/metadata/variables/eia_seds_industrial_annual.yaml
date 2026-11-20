@@ -1,0 +1,229 @@
+# The codebook's metadata of table eia_seds_industrial_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_seds_industrial_annual
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:seds_industrial U.S. Energy Information Administration, State Energy Data System (API v2, route seds)
+  url: https://www.eia.gov/state/seds/
+cite: 'U.S. Energy Information Administration (EIA). State Energy Data System (API v2): the industrial sector''s consumption,
+  expenditures and price by source and state. Via the Energy Research Warehouse (ERW), table `eia_seds_industrial_annual`.'
+method: docs/methods/industry_page.md
+header_title: 'EIA State Energy Data System, the industrial sector: its energy consumption by source, its expenditures and
+  average price, by state, a year (session 8003, chain 501)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_seds_ind:<seriesId>:<state>; variable consumption (TBtu),
+  expenditures (USD) or price (USD/MMBtu); ts_utc the year''s 1 January; freq P1Y; geo US-<state> or US; node the series''
+  name; x_series; x_source. Series: TEICB, TNICB, CLICB, PAICB, HLICB, DFICB, RFICB, PCICB, REICB, WWICB, LOICB, TEICV, CLICV,
+  PAICV, NGICV, ESICV, TEICD. Billion Btu as TBtu, million dollars as USD.'
+read:
+  date: '2026-11-20'
+  rows: 30940
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 884
+    examples:
+    - eia_seds_ind:CLICB:AK
+    - eia_seds_ind:CLICB:AL
+    - eia_seds_ind:CLICB:AR
+    - eia_seds_ind:CLICB:AZ
+    - eia_seds_ind:CLICB:CA
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 35
+    earliest: '1990-01-01T00:00:00Z'
+    latest: '2024-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 285478100000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      TBtu: 20020
+      USD: 9100
+      USD/MMBtu: 1820
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 30940
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 30940
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      All petroleum products consumed by the industrial sector: 1820
+      All petroleum products total expenditures in the industrial sector: 1820
+      Coal consumed by the industrial sector: 1820
+      Coal expenditures in the industrial sector: 1820
+      Distillate fuel oil consumed by the industrial sector: 1820
+      Electricity expenditures in the industrial sector: 1820
+      End-use energy consumption in the industrial sector: 1820
+      Hydrocarbon gas liquids consumed by the industrial sector: 1820
+      Natural gas expenditures in the industrial sector (including supplemental gaseous fuels): 1820
+      Petroleum coke consumed in the industrial sector: 1820
+      Renewable energy sources consumed by the industrial sector: 1820
+      Residual fuel oil consumed by the industrial sector: 1820
+      The industrial sector's share of electrical system energy losses: 1820
+      Total energy average price in the industrial sector: 1820
+      Total energy consumption in the industrial sector: 1820
+      Total energy expenditures in the industrial sector: 1820
+      Wood and waste consumed in the industrial sector: 1820
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:seds_industrial: 30940
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/seds/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BseriesId%5D%5B%5D=TEICB&facets%5BseriesId%5D%5B%5D=TNICB&facets%5BseriesId%5D%5B%5D=CLICB&facets%5BseriesId%5D%5B%5D=PAICB&facets%5BseriesId%5D%5B%5D=HLICB&facets%5BseriesId%5D%5B%5D=DFICB&facets%5BseriesId%5D%5B%5D=RFICB&facets%5BseriesId%5D%5B%5D=PCICB&facets%5BseriesId%5D%5B%5D=REICB&facets%5BseriesId%5D%5B%5D=WWICB&facets%5BseriesId%5D%5B%5D=LOICB&facets%5BseriesId%5D%5B%5D=TEICV&facets%5BseriesId%5D%5B%5D=CLICV&facets%5BseriesId%5D%5B%5D=PAICV&facets%5BseriesId%5D%5B%5D=NGICV&facets%5BseriesId%5D%5B%5D=ESICV&facets%5BseriesId%5D%5B%5D=TEICD&start=1990&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=seriesId&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=stateId&sort%5B2%5D%5Bdirection%5D=asc&length=5000
+      : 30940
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-19T11:34:39Z': 5000
+      '2026-11-19T11:34:43Z': 5000
+      '2026-11-19T11:34:47Z': 5000
+      '2026-11-19T11:34:52Z': 5000
+      '2026-11-19T11:34:56Z': 5000
+      '2026-11-19T11:35:01Z': 5000
+      '2026-11-19T11:35:05Z': 940
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 30940
+- name: x_series
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CLICB: 1820
+      CLICV: 1820
+      DFICB: 1820
+      ESICV: 1820
+      HLICB: 1820
+      LOICB: 1820
+      NGICV: 1820
+      PAICB: 1820
+      PAICV: 1820
+      PCICB: 1820
+      REICB: 1820
+      RFICB: 1820
+      TEICB: 1820
+      TEICD: 1820
+      TEICV: 1820
+      TNICB: 1820
+      WWICB: 1820
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_source
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      coal: 3640
+      distillate_fuel_oil: 1820
+      electrical_system_losses: 1820
+      electricity: 1820
+      end_use_total: 1820
+      hgl: 1820
+      natural_gas: 1820
+      petroleum: 3640
+      petroleum_coke: 1820
+      renewables: 1820
+      residual_fuel_oil: 1820
+      total: 5460
+      wood_and_waste: 1820
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: consumption
+  label: null
+  unit: TBtu
+  rows: 20020
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: expenditures
+  label: null
+  unit: USD
+  rows: 9100
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: price
+  label: null
+  unit: USD/MMBtu
+  rows: 1820
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

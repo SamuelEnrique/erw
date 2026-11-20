@@ -1,0 +1,178 @@
+# The codebook's metadata of table scarcity_hours_by_grid (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: scarcity_hours_by_grid
+family: erw_derived
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: PT1H
+source:
+- name: erw:scarcity_hours_by_grid ERW derived table, the scarcity signal rule (docs/methods/scarcity_hours_by_grid.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/scarcity_hours_by_grid.md
+cite: Energy Research Warehouse (ERW), derived. Each grid's own scarcity signal beside the USD 1,000 price count (warehouse/derived/scarcity_hours_by_grid.py).
+  Via the Energy Research Warehouse (ERW), table `scarcity_hours_by_grid`.
+method: docs/methods/scarcity_hours_by_grid.md
+header_title: each grid's own scarcity signal beside the USD 1,000 price count, hour by hour (derived, session 254)
+header_shape: 'Shape: series (docs/datastandard.md v0); freq PT1H, ts_utc the hour''s start. entity iso:<grid>. rt_intervals_ge_1000:
+  the hour''s 15-minute real-time intervals at or above USD 1,000 per MWh (x_detail held=<intervals held>); rt_hour_ge_1000:
+  1 when the mean of the hour''s held intervals is at or above it; da_hour_ge_1000: the same for the day-ahead hour; own_signal:
+  1 in force, 0 not, only for hours the signal is held (ERCOT: RTORPA''s hourly mean above zero, x_detail the mean; CAISO:
+  an EEA or an alert in force in any part of the hour, x_detail every notice in force as type@region).'
+read:
+  date: '2026-11-20'
+  rows: 201873
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      iso:caiso: 104608
+      iso:ercot: 97265
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2023-11-01T06:00:00Z'
+    latest: '2026-11-01T07:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    list:
+      '0': 201064
+      '1': 793
+      '2': 9
+      '3': 4
+      '4': 3
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 201873
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 201873
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 104608
+      US-TX: 97265
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      caiso_dam: 26304
+      caiso_rtm: 52560
+      ercot_dam: 26304
+      ercot_rtm: 52608
+  missing_cells: 44097
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      HB_HUBAVG: 78912
+      TH_SP15_GEN-APND: 78864
+  missing_cells: 44097
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:scarcity_hours_by_grid: 201873
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/scarcity_hours_by_grid.md: 201873
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-13T18:42:41Z': 175166
+      '2026-11-03T17:34:00Z': 26413
+      '2026-11-16T20:24:10Z': 294
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 201873
+- name: x_detail
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 351
+    examples:
+    - eea_watch@CAISO Grid
+    - held=4
+    - rmo@CAISO Grid
+    - rmo@CAISO Grid;transmission_emergency@Northern CA
+    - rmo@CAISO Grid;transmission_emergency@Southern CA Region
+  missing_cells: 130312
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: da_hour_ge_1000
+  label: null
+  unit: count
+  rows: 52608
+  first: '2023-11-01T06:00:00Z'
+  last: '2026-11-01T07:00:00Z'
+- name: own_signal
+  label: null
+  unit: count
+  rows: 44097
+  first: '2023-11-01T06:00:00Z'
+  last: '2026-10-08T23:00:00Z'
+- name: rt_hour_ge_1000
+  label: null
+  unit: count
+  rows: 52584
+  first: '2023-11-01T06:00:00Z'
+  last: '2026-11-01T07:00:00Z'
+- name: rt_intervals_ge_1000
+  label: null
+  unit: count
+  rows: 52584
+  first: '2023-11-01T06:00:00Z'
+  last: '2026-11-01T07:00:00Z'
+second_look: null

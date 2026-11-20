@@ -1,0 +1,426 @@
+# The codebook's metadata of table ercot_storage_rt_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_storage_rt_monthly
+family: ercot
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1M
+source:
+- name: erw:ercot_storage_realtime ERW derived table (docs/methods/ercot_storage_realtime.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_storage_realtime.md
+cite: Energy Research Warehouse (ERW), derived. ERCOT storage in real time beside its day-ahead awards, by month, and the
+  storage nodes' prices against the hub (docs/methods/ercot_storage_realtime.md). Via the Energy Research Warehouse (ERW),
+  table `ercot_storage_rt_monthly`.
+method: docs/methods/ercot_storage_realtime.md
+header_title: what ERCOT's storage resources did in real time, beside what they were awarded day-ahead, by month (derived,
+  session 120)
+header_shape: 'Shape: series (docs/datastandard.md v0), entity ercot:esr_fleet, freq P1M, ts_utc the first day of the local
+  (Central) month at 00:00:00Z. Over the operating days both disclosures hold. Variables: days_held, days_in_month, resources,
+  resource_hours (and those in one file only); mw (each resource''s highest day-ahead HSL of the month, added up); rt_discharge_mwh,
+  rt_charge_mwh, rt_net_mwh (Telemetered Net Output integrated); da_sold_mwh, da_bought_mwh, da_net_mwh; rt_deviation_mwh;
+  as_rt_<service>_mwh, as_da_<service>_mwh, as_imbalance_<service>_mwh (regup, regdn, rrs, ecrs, nspin: a MW for an hour);
+  revenue_da_energy_usd, revenue_da_ancillary_usd, revenue_da_usd (the day-ahead awards at their own prices); revenue_rt_output_hub_usd,
+  revenue_da_position_hub_usd, revenue_rt_deviation_hub_usd, revenue_market_hub_usd; each revenue also _per_mw; intervals,
+  intervals_priced; da_node_minus_hub_sold, da_node_minus_hub_bought (USD/MWh).'
+read:
+  date: '2026-11-20'
+  rows: 1620
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:esr_class_2_to_4h: 329
+      ercot:esr_class_4h_and_over: 318
+      ercot:esr_class_not_seen_rt: 315
+      ercot:esr_class_under_2h: 329
+      ercot:esr_fleet: 329
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-02-01T00:00:00Z': 231
+      '2026-03-01T00:00:00Z': 231
+      '2026-04-01T00:00:00Z': 231
+      '2026-05-01T00:00:00Z': 232
+      '2026-06-01T00:00:00Z': 231
+      '2026-07-01T00:00:00Z': 231
+      '2026-08-01T00:00:00Z': 233
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1040
+    lowest: -283942.331
+    highest: 42395561.48
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 35
+      MWh: 770
+      USD: 245
+      USD/MW: 245
+      USD/MWh: 45
+      count: 280
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 1620
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 1620
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1620
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1620
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:ercot_storage_realtime: 1620
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_storage_realtime.md: 1620
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T19:55:40Z': 1620
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1620
+variables:
+- name: as_da_ecrs_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: as_da_nspin_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: as_da_regdn_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: as_da_regup_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: as_da_rrs_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: as_imbalance_ecrs_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: as_imbalance_nspin_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: as_imbalance_regdn_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: as_imbalance_regup_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: as_imbalance_rrs_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: as_rt_ecrs_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: as_rt_nspin_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: as_rt_regdn_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: as_rt_regup_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: as_rt_rrs_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: da_bought_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: da_net_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: da_node_minus_hub_bought
+  label: null
+  unit: USD/MWh
+  rows: 22
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: da_node_minus_hub_sold
+  label: null
+  unit: USD/MWh
+  rows: 23
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: da_sold_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: days_held
+  label: null
+  unit: count
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: days_in_month
+  label: null
+  unit: count
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: intervals
+  label: null
+  unit: count
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: intervals_priced
+  label: null
+  unit: count
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: mw
+  label: null
+  unit: MW
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: resource_hours
+  label: null
+  unit: count
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: resource_hours_day_ahead_only
+  label: null
+  unit: count
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: resource_hours_real_time_only
+  label: null
+  unit: count
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: resources
+  label: null
+  unit: count
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: revenue_da_ancillary_usd
+  label: null
+  unit: USD
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: revenue_da_ancillary_usd_per_mw
+  label: null
+  unit: USD/MW
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: revenue_da_energy_usd
+  label: null
+  unit: USD
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: revenue_da_energy_usd_per_mw
+  label: null
+  unit: USD/MW
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: revenue_da_position_hub_usd
+  label: null
+  unit: USD
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: revenue_da_position_hub_usd_per_mw
+  label: null
+  unit: USD/MW
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: revenue_da_usd
+  label: null
+  unit: USD
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: revenue_da_usd_per_mw
+  label: null
+  unit: USD/MW
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: revenue_market_hub_usd
+  label: null
+  unit: USD
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: revenue_market_hub_usd_per_mw
+  label: null
+  unit: USD/MW
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: revenue_rt_deviation_hub_usd
+  label: null
+  unit: USD
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: revenue_rt_deviation_hub_usd_per_mw
+  label: null
+  unit: USD/MW
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: revenue_rt_output_hub_usd
+  label: null
+  unit: USD
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: revenue_rt_output_hub_usd_per_mw
+  label: null
+  unit: USD/MW
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: rt_charge_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: rt_deviation_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: rt_discharge_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: rt_net_mwh
+  label: null
+  unit: MWh
+  rows: 35
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

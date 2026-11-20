@@ -1,0 +1,237 @@
+# The column names many ERW tables share, defined once (chain 630, session 9200).
+#
+# Every table's file in this folder (warehouse/metadata/variables/<table>.yaml) names such a column with
+# "shared: true" and says only what is particular to that table. A name is defined here once and nowhere else; the
+# test of the codebook fails on a second definition. Each definition is the data standard's own rule
+# (docs/datastandard.md, ERW Data Standard v0, shown on the site at /data/standard), in plainer words for a reader
+# outside energy. Nothing here is guessed: a name the standard does not define is not here.
+documented_by: docs/datastandard.md
+columns:
+  # the series shape: one row per observation of one variable, for one entity, at one time
+  entity:
+    label: The thing observed (a price node, a balancing authority, a plant, a country, a station)
+    type: text
+    unit: none
+    shapes: [series]
+    rule: Written namespace:native_id, where the namespace is the publisher part of the table name and native_id is the publisher's own identifier, unchanged (ercot:HB_NORTH). Stable across tables, so tables can be joined on it.
+    missing: Never empty; the standard requires it.
+  variable:
+    label: What was measured (a price, a load, a count), in snake_case
+    type: text
+    unit: none
+    shapes: [series]
+    rule: Each table's file lists the values its variable column takes, with the unit of each.
+    missing: Never empty; the standard requires it.
+  ts_utc:
+    label: The time of the observation, in UTC
+    type: utc time
+    unit: none
+    shapes: [series]
+    rule: ISO 8601 in UTC with a trailing Z (2026-09-01T05:00:00Z). For an interval it marks the start of the interval. For a daily or longer frequency it is the date at 00:00:00Z and names the date the publisher reports (a trading date, a month, a year), not an instant.
+    missing: Never empty; the standard requires it.
+  value:
+    label: The number observed, in the row's unit
+    type: number
+    unit: the row's unit column
+    shapes: [series]
+    rule: Never empty. A missing observation is an omitted row, not a row with an empty value. Nothing is interpolated, imputed or filled; a derived value is its own variable.
+    missing: Never empty; a missing observation has no row.
+  unit:
+    label: The unit of the row's value
+    type: text
+    unit: none
+    shapes: [series]
+    rule: A word of the closed vocabulary of the data standard (MW, MWh, USD/MWh, pct, count and the others it lists), enforced by the validator.
+    missing: Never empty in a series table; the validator requires it.
+  freq:
+    label: How long the interval of the row is
+    type: text
+    unit: none
+    shapes: [series]
+    rule: An ISO 8601 duration (PT5M five minutes, PT15M, PT1H an hour, P1D a day, P1M a month, P3M a quarter, P1Y a year).
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  geo:
+    label: Where the thing is, as an ISO 3166-2 code (US-TX)
+    type: text
+    unit: none
+    shapes: [series, entities]
+    rule: The smallest region that contains the entity. Where no single code applies, a comma-separated list with no spaces (US-CT,US-MA,US-ME). Checked by the validator.
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  market:
+    label: The market the value belongs to, lowercase (ercot_dam, ercot_rtm)
+    type: text
+    unit: none
+    shapes: [series]
+    rule: The market or program within the publisher, as the table's file says.
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  node:
+    label: The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH)
+    type: text
+    unit: none
+    shapes: [series]
+    rule: The publisher's own name for the price location, unchanged.
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  source:
+    label: The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD)
+    type: text
+    unit: none
+    shapes: [series, entities, events]
+    rule: Names the report the row was read from. For a table the ERW computes, erw:<builder>.
+    missing: Never empty; the validator requires it.
+  source_url:
+    label: The address of the exact document the row was read from
+    type: text
+    unit: none
+    shapes: [series, entities, events]
+    rule: The document's own address, or the report page where the document has no stable address.
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  retrieved_at:
+    label: When the ERW fetched the document, in UTC
+    type: utc time
+    unit: none
+    shapes: [series, entities]
+    rule: ISO 8601 in UTC with a trailing Z.
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  vintage:
+    label: When the publisher published the document the value came from, in UTC
+    type: utc time
+    unit: none
+    shapes: [series, entities]
+    rule: Distinguishes revisions of the same observation. Where a table keeps more than one revision on purpose, vintage is part of its key.
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  # partition columns: tables that differ only by a value are one table, with the value in a column
+  ba:
+    label: The balancing authority (the grid operator of an area) in EIA's code, lowercase (ciso, erco, us48)
+    type: text
+    unit: none
+    shapes: [series]
+    rule: The EIA-930 balancing authority code, lowercase, as the table name used to carry it before tables were joined (session 29).
+    missing: Never empty in a table partitioned by it.
+  year:
+    label: The operating year a history table was published by
+    type: text
+    unit: none
+    shapes: [series]
+    rule: The publisher's year (for ERCOT, the year in Central time). Not derivable from ts_utc, whose first hours of 1 January UTC belong to the year before.
+    missing: Never empty in a table partitioned by it.
+  # the entities shape: one row per physical or corporate thing
+  entity_id:
+    label: The identifier of the thing, as namespace:native_id
+    type: text
+    unit: none
+    shapes: [entities]
+    rule: The same rule as the series entity. Unique within the table.
+    missing: Never empty; the standard requires it.
+  entity_type:
+    label: What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists)
+    type: text
+    unit: none
+    shapes: [entities]
+    rule: A word of the standard's list of entity types.
+    missing: Never empty; the standard requires it.
+  name:
+    label: The thing's name, as the publisher writes it
+    type: text
+    unit: none
+    shapes: [entities]
+    rule: Unchanged from the publisher.
+    missing: Never empty; the standard requires it.
+  lat:
+    label: Latitude, in decimal degrees (WGS84)
+    type: number
+    unit: degree
+    shapes: [entities]
+    rule: WGS84 decimal degrees, north positive.
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  lon:
+    label: Longitude, in decimal degrees (WGS84)
+    type: number
+    unit: degree
+    shapes: [entities]
+    rule: WGS84 decimal degrees, east positive (so the United States is negative).
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  capacity_mw:
+    label: Nameplate capacity, in megawatts, as the publisher states it
+    type: number
+    unit: MW
+    shapes: [entities]
+    rule: The rating the publisher states; each table's file says which rating where its source says.
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  status:
+    label: The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended)
+    type: text
+    unit: none
+    shapes: [entities, events]
+    rule: In an entities table, one of the eight words of Decision 20; the publisher's own status is kept in a column of its own. In an events table, the state of the deal or filing (announced, signed, approved, terminated and so on).
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  status_date:
+    label: The date the status took effect, or was reported where the effective date is unknown
+    type: date
+    unit: none
+    shapes: [entities]
+    rule: YYYY-MM-DD. Each table's file says which of the two dates it is, where its source says.
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  operator:
+    label: The operator or owner, as the publisher writes it
+    type: text
+    unit: none
+    shapes: [entities]
+    rule: The publisher's name, or an entity_id where the operator is itself in an entities table.
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  # the events shape: one row per deal, filing or announcement
+  event_id:
+    label: The identifier of the event, as namespace:native_id or a stable hash the connector documents
+    type: text
+    unit: none
+    shapes: [events]
+    rule: The publisher's id (a docket number) where it has one; otherwise a stable hash documented by the connector. Unique within the table.
+    missing: Never empty; the standard requires it.
+  event_date:
+    label: The date the event happened or was announced (each table's file says which)
+    type: date or utc time
+    unit: none
+    shapes: [events]
+    rule: YYYY-MM-DD, or YYYY-MM-DDTHH:MM:SSZ where the time matters (a story's publication time).
+    missing: Never empty; the standard requires it.
+  event_type:
+    label: What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others)
+    type: text
+    unit: none
+    shapes: [events]
+    rule: A short snake_case word; each table's file lists the values it takes.
+    missing: Never empty; the standard requires it.
+  parties:
+    label: The parties to the event, as the publisher names them, separated by semicolons
+    type: text
+    unit: none
+    shapes: [events]
+    rule: Names unchanged, joined by ";".
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  entity_ids:
+    label: The entity_id values of the things involved, separated by semicolons
+    type: text
+    unit: none
+    shapes: [events]
+    rule: Values of an entities table's entity_id, joined by ";".
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  mw:
+    label: The capacity involved, in megawatts
+    type: number
+    unit: MW
+    shapes: [events]
+    rule: As the publisher states it.
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  price:
+    label: The price, in the row's currency per MWh unless the table's file says otherwise
+    type: number
+    unit: the row's currency per MWh, unless the table's file says otherwise
+    shapes: [events]
+    rule: As the publisher states it.
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.
+  currency:
+    label: The currency of the price, as an ISO 4217 code (USD)
+    type: text
+    unit: none
+    shapes: [events]
+    rule: ISO 4217.
+    missing: An empty cell means not given (the standard uses empty cells, never a code such as -999); the table's file says what that means there.

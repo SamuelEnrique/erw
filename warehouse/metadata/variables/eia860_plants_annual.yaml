@@ -1,0 +1,682 @@
+# The codebook's metadata of table eia860_plants_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia860_plants_annual
+family: eia860
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:eia860:plant U.S. Energy Information Administration, Form EIA-860 Annual Electric Generator Report, plant file
+  url: https://www.eia.gov/electricity/data/eia860/
+cite: U.S. Energy Information Administration (EIA). Form EIA-860 Annual Electric Generator Report, plant file. Via the Energy
+  Research Warehouse (ERW), table `eia860_plants_annual`.
+method: docs/methods/eia860_plants_annual.md
+header_title: 'EIA-860, the power plants of 2025: place, operator, balancing authority, NERC region, grid voltage and the
+  transmission or distribution system owner (session 873)'
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id eia860_plant:<plant code>; entity_type plant; name the
+  plant''s name; geo US-<state>; lat, lon as EIA gives them; operator the utility''s name; status_date the data year''s 1
+  January; vintage the data year; x_* every other column of EIA''s sheet, its heading as a name.'
+read:
+  date: '2026-11-20'
+  rows: 17349
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - eia860_plant:1
+    - eia860_plant:10
+    - eia860_plant:100
+    - eia860_plant:10003
+    - eia860_plant:10004
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      plant: 17349
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - (3K) 59 Hetcheltown Rd
+    - 0 Hammond St CSG
+    - 0 Middle
+    - 1 Commercial
+    - 10 Briggs Solar NG, LLC (East)
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 18.9742
+    highest: 71.292
+  missing_cells: 28
+- name: lon
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -171.712439
+    highest: -67.4012
+  missing_cells: 28
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 17349
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 17349
+- name: status_date
+  shared: true
+  type: date
+  values:
+    list:
+      '2025-01-01': 17349
+  missing_cells: 0
+- name: operator
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 1000 Mile Solar, LLC
+    - 1001 Ebenezer Church Solar, LLC
+    - 1008 Matthews Solar, LLC
+    - 1009 Yadkin Solar, LLC
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia860:plant: 17349
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia860/xls/eia8602025.zip: 17349
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T03:33:49Z': 17349
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: integer
+  values:
+    list:
+      '2025': 17349
+  missing_cells: 0
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_utility_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 7
+    highest: 68045
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_street_address
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '#1 800 State Rt 13'
+    - '#1 Chessen Lane'
+    - '#1 Dixie Valley Rd'
+    - '#1 Forest Hwy.'
+    - '#1 Industrial Hwy.'
+  missing_cells: 120
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_city
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - Abbott
+    - Abbottstown
+    - Abercrombie
+    - Aberdeen
+    - Abernathy
+  missing_cells: 35
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_zip
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 0
+    highest: 99929
+  missing_cells: 18
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1542
+    examples:
+    - Abbeville
+    - Acadia
+    - Accomack
+    - Ada
+    - Adair
+  missing_cells: 23
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nerc_region
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      MRO: 2421
+      NPCC: 2941
+      REC: 1
+      RFC: 2610
+      SERC: 3466
+      TRE: 1427
+      WECC: 4230
+  missing_cells: 253
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_balancing_authority_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 67
+    examples:
+    - AECI
+    - AVA
+    - AVRN
+    - AZPS
+    - BANC
+  missing_cells: 289
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_balancing_authority_name
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 69
+    examples:
+    - Alcoa Power Generating, Inc. - Yadkin Division
+    - Arizona Public Service Company
+    - Arlington Valley, LLC - AVBA
+    - Associated Electric Cooperative, Inc.
+    - Avangrid Renewables LLC
+  missing_cells: 268
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_name_of_water_source
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1553
+    examples:
+    - Advanced Wastewater
+    - Agua Fria River
+    - Air Cooled Condensor
+    - Air Liquide Large Industries
+    - Alabama River
+  missing_cells: 13018
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_primary_purpose_naics_code
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 84
+    lowest: 22
+    highest: 562213
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_regulatory_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      NR: 13134
+      RE: 4215
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sector
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 4187
+      '2': 11552
+      '3': 185
+      '4': 515
+      '5': 221
+      '6': 248
+      '7': 441
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sector_name
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Commercial CHP: 221
+      Commercial Non-CHP: 515
+      Electric Utility: 4187
+      IPP CHP: 185
+      IPP Non-CHP: 11552
+      Industrial CHP: 441
+      Industrial Non-CHP: 248
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ferc_cogeneration_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 16903
+      Y: 446
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ferc_cogeneration_docket_number
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 440
+    examples:
+    - 00-32-000
+    - 00-64-000
+    - 00-79-000
+    - 01-080-000
+    - 01-112-000
+  missing_cells: 16903
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ferc_small_power_producer_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 12093
+      Y: 5256
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ferc_small_power_producer_docket_number
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '#12-470'
+    - '#F770091'
+    - '-7502'
+    - 00-054-000
+    - 00-1-000
+  missing_cells: 12093
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ferc_exempt_wholesale_generator_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 15670
+      Y: 1679
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ferc_exempt_wholesale_generator_docket_number
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1346
+    examples:
+    - '"pending"'
+    - '#F770091'
+    - '''pending'''
+    - 00-002-000
+    - 00-100-00
+  missing_cells: 15670
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ash_impoundment
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 10115
+      Y: 305
+  missing_cells: 6929
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ash_impoundment_lined
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 186
+      X: 8401
+      Y: 119
+  missing_cells: 8643
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ash_impoundment_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      OA: 1
+      OP: 210
+      OS: 93
+      SB: 1
+  missing_cells: 17044
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_transmission_or_distribution_system_owner
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1192
+    examples:
+    - 3000 Energy Corp
+    - 4 Rivers Electric Cooperative, Inc.
+    - 4-County Electric Power Assn
+    - A & N Electric Coop
+    - AEP Ohio Transmission Company, Inc.
+  missing_cells: 111
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_transmission_or_distribution_system_owner_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 1102
+    lowest: 34
+    highest: 67840
+  missing_cells: 121
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_transmission_or_distribution_system_owner_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 888
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_grid_voltage_kv
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 356
+    lowest: 0.0
+    highest: 765.0
+  missing_cells: 141
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_grid_voltage_2_kv
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 79
+    lowest: 0.28
+    highest: 765.0
+  missing_cells: 16824
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_grid_voltage_3_kv
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 38
+    lowest: 0.48
+    highest: 500.0
+  missing_cells: 17248
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_energy_storage
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 15572
+      Y: 1583
+  missing_cells: 194
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_natural_gas_ldc_name
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 182
+    examples:
+    - 5P GAS PIPELINE CO
+    - ALBANY MUN GAS SYS
+    - ALBANY WTR GAS LT COMM
+    - ALPINE NATURAL GAS INC
+    - AMEREN ILLINOIS
+  missing_cells: 15802
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_natural_gas_pipeline_name_1
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 146
+    examples:
+    - ACADIAN GAS P L SYS
+    - ALABAMA GAS CORP
+    - ALASKA PIPELINE COMPANY
+    - ALGONQUIN GAS TRANSMISSION COMPANY
+    - AMEREN ILLINOIS
+  missing_cells: 15903
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_natural_gas_pipeline_name_2
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 71
+    examples:
+    - ACADIAN GAS P L SYS
+    - ALGONQUIN GAS TRANSMISSION COMPANY
+    - ALLIANCE PIPELINE LP
+    - ANR PIPELINE COMPANY
+    - BOARDWALK FIELD SERVICES LLC
+  missing_cells: 17118
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_natural_gas_pipeline_name_3
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 29
+    examples:
+    - ALLIANCE PIPELINE LP
+    - ANR PIPELINE COMPANY
+    - BOARDWALK FIELD SERVICES LLC
+    - BRIDGELINE HOLDINGS LP
+    - CENTERPOINT ENERGY INTRASTATE P LLC
+  missing_cells: 17291
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_pipeline_notes
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 223
+    examples:
+    - '- For plants that receive natural gas only'
+    - 16a. None. We only use natural gas for startup.
+    - 16a. XCEL ENERGY (is LDC) 16b. Public Service Company of Colorado (pipeline owner.)
+    - 16a.NA- It did not let me leave the field blanc.
+    - '16a: CE Gas and DCP Midstream Gas 16b: CE Gas and DCP Midstream Gas'
+  missing_cells: 17097
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_natural_gas_storage
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 5899
+      X: 2989
+      Y: 28
+  missing_cells: 8433
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_liquefied_natural_gas_storage
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 1778
+      X: 5965
+      Y: 13
+  missing_cells: 9593
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

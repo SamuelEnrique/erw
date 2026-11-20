@@ -1,0 +1,148 @@
+# The codebook's metadata of table eia930_forecast_error_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia930_forecast_error_hourly
+family: eia930
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: PT1H
+source:
+- name: erw:forecast_error ERW derived table
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/forecast_error.md
+cite: Energy Research Warehouse (ERW), derived. The day-ahead demand forecast beside the demand that came, every balancing
+  authority and region (docs/methods/forecast_error.md). Via the Energy Research Warehouse (ERW), table `eia930_forecast_error_hourly`.
+method: docs/methods/forecast_error.md
+header_title: each balancing authority's and region's day-ahead demand forecast beside the demand that came, by hour, July
+  2018 on (session 8012, chain 505)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia930:<code>, variable demand_forecast_miss_mw (value: forecast
+  less demand, MW; above zero the forecast was high), x_forecast_mw, x_demand_mw, x_level (ba or region), x_screened (1: the
+  forecast is above three times the demand or below a third of it, taken as a filing error and counted in no figure). The
+  forecast is the authority''s own day-ahead demand forecast for the hour as filed on Form EIA-930 (EIA''s six-month BALANCE
+  files, column "Demand Forecast (MW)"); the demand is the warehouse''s eia930_ba_demand_hourly for the same hour. Only hours
+  with both above zero. A region''s forecast and demand are sums over its demand-filing authorities, held for an hour only
+  when each needed authority holds both. Method: docs/methods/forecast_error.md.'
+read:
+  date: '2026-11-20'
+  rows: 4797750
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 71
+    examples:
+    - eia930:AEC
+    - eia930:AECI
+    - eia930:AVA
+    - eia930:AZPS
+    - eia930:BANC
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2018-07-01T04:00:00Z'
+    latest: '2026-11-19T07:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: -146742
+    highest: 464397
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 4797750
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 4797750
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:forecast_error: 4797750
+  missing_cells: 0
+- name: x_level
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ba: 3886153
+      region: 911597
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_forecast_mw
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 1
+    highest: 486241
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_demand_mw
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 1
+    highest: 224345
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_screened
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '0': 4779200
+      '1': 18550
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: demand_forecast_miss_mw
+  label: null
+  unit: MW
+  rows: 4797750
+  first: '2018-07-01T04:00:00Z'
+  last: '2026-11-19T07:00:00Z'
+second_look: null

@@ -1,0 +1,173 @@
+# The codebook's metadata of table cftc_cot_positions (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: cftc_cot_positions
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1W
+source:
+- name: cftc:disaggregated_cot_futures Commodity Futures Trading Commission, Commitments of Traders, Disaggregated report,
+    futures only
+  url: https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm
+cite: Commodity Futures Trading Commission (CFTC). Commitments of Traders, Disaggregated report, futures only. Via the Energy
+  Research Warehouse (ERW), table `cftc_cot_positions`.
+method: docs/methods/cftc_cot_positions.md
+header_title: CFTC Commitments of Traders, managed money positions in WTI, Brent Last Day, Henry Hub and RBOB futures (NYMEX),
+  weekly from 2015 (session 134)
+header_shape: 'Shape: series (docs/datastandard.md v0). managed_money_long, managed_money_short and open_interest are the
+  CFTC''s figures, contracts, futures only (Disaggregated report); managed_money_net is long less short, computed here. freq
+  P1W; ts_utc is the report''s as-of date (a Tuesday, or the Monday the CFTC gives in a holiday week) at 00:00:00Z; the CFTC
+  publishes it on the Friday after. node is the CFTC''s market name.'
+read:
+  date: '2026-11-20'
+  rows: 9888
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      cftc:023651: 2472
+      cftc:067651: 2472
+      cftc:06765T: 2472
+      cftc:111659: 2472
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 618
+    earliest: '2015-01-06T00:00:00Z'
+    latest: '2026-11-03T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -331548.0
+    highest: 2706454.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 9888
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1W: 9888
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 9888
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      nymex: 9888
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      BRENT CRUDE OIL LAST DAY - NEW YORK MERCANTILE EXCHANGE: 1480
+      BRENT LAST DAY - NEW YORK MERCANTILE EXCHANGE: 992
+      CRUDE OIL, LIGHT SWEET - NEW YORK MERCANTILE EXCHANGE: 1480
+      GASOLINE BLENDSTOCK (RBOB)  - NEW YORK MERCANTILE EXCHANGE: 1388
+      GASOLINE BLENDSTOCK (RBOB) - NEW YORK MERCANTILE EXCHANGE: 92
+      GASOLINE RBOB - NEW YORK MERCANTILE EXCHANGE: 992
+      NAT GAS NYME - NEW YORK MERCANTILE EXCHANGE: 992
+      NATURAL GAS - NEW YORK MERCANTILE EXCHANGE: 1480
+      WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE: 992
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      cftc:disaggregated_cot_futures: 9888
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://publicreporting.cftc.gov/resource/72hh-3qpy.json?cftc_contract_market_code=023651&%24where=report_date_as_yyyy_mm_dd+%3E%3D+%272015-01-01T00%3A00%3A00%27&%24order=report_date_as_yyyy_mm_dd+ASC&%24limit=5000
+      : 2472
+      ? https://publicreporting.cftc.gov/resource/72hh-3qpy.json?cftc_contract_market_code=067651&%24where=report_date_as_yyyy_mm_dd+%3E%3D+%272015-01-01T00%3A00%3A00%27&%24order=report_date_as_yyyy_mm_dd+ASC&%24limit=5000
+      : 2472
+      ? https://publicreporting.cftc.gov/resource/72hh-3qpy.json?cftc_contract_market_code=06765T&%24where=report_date_as_yyyy_mm_dd+%3E%3D+%272015-01-01T00%3A00%3A00%27&%24order=report_date_as_yyyy_mm_dd+ASC&%24limit=5000
+      : 2472
+      ? https://publicreporting.cftc.gov/resource/72hh-3qpy.json?cftc_contract_market_code=111659&%24where=report_date_as_yyyy_mm_dd+%3E%3D+%272015-01-01T00%3A00%3A00%27&%24order=report_date_as_yyyy_mm_dd+ASC&%24limit=5000
+      : 2472
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T11:48:10Z': 2472
+      '2026-11-16T11:48:20Z': 2472
+      '2026-11-16T11:48:25Z': 2472
+      '2026-11-16T11:48:30Z': 2472
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 9888
+variables:
+- name: managed_money_long
+  label: null
+  unit: count
+  rows: 2472
+  first: '2015-01-06T00:00:00Z'
+  last: '2026-11-03T00:00:00Z'
+- name: managed_money_net
+  label: null
+  unit: count
+  rows: 2472
+  first: '2015-01-06T00:00:00Z'
+  last: '2026-11-03T00:00:00Z'
+- name: managed_money_short
+  label: null
+  unit: count
+  rows: 2472
+  first: '2015-01-06T00:00:00Z'
+  last: '2026-11-03T00:00:00Z'
+- name: open_interest
+  label: null
+  unit: count
+  rows: 2472
+  first: '2015-01-06T00:00:00Z'
+  last: '2026-11-03T00:00:00Z'
+second_look: null

@@ -1,0 +1,425 @@
+# The codebook's metadata of table ercot_cdr_reserve_margins (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_cdr_reserve_margins
+family: ercot
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P3M
+source:
+- name: ercot:cdr Electric Reliability Council of Texas (ERCOT), Capacity, Demand and Reserves Report
+  url: https://www.ercot.com/gridinfo/resource
+cite: Electric Reliability Council of Texas (ERCOT). Capacity, Demand and Reserves Report. Via the Energy Research Warehouse
+  (ERW), table `ercot_cdr_reserve_margins`.
+method: docs/methods/ercot_cdr_reserve_margins.md
+header_title: 'ERCOT, Capacity, Demand and Reserves report (CDR): load forecast, capacity counted and planning reserve margin
+  by season (session 851)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ercot_cdr:<season>:<peak_load | peak_net_load>; variable a
+  row of the report''s Seasonal Summary (MW; reserve_margin in pct); ts_utc the season''s first day; freq P3M; geo US-TX;
+  market ercot; node ERCOT''s season and hour; vintage the report''s posting date; x_hour the hour ending ERCOT names; x_report
+  the file.'
+read:
+  date: '2026-11-20'
+  rows: 1600
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      ercot_cdr:fall:peak_load: 200
+      ercot_cdr:fall:peak_net_load: 200
+      ercot_cdr:spring:peak_load: 200
+      ercot_cdr:spring:peak_net_load: 200
+      ercot_cdr:summer:peak_load: 200
+      ercot_cdr:summer:peak_net_load: 200
+      ercot_cdr:winter:peak_load: 200
+      ercot_cdr:winter:peak_net_load: 200
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-03-01T00:00:00Z': 80
+      '2026-06-01T00:00:00Z': 80
+      '2026-09-01T00:00:00Z': 80
+      '2026-12-01T00:00:00Z': 80
+      '2027-03-01T00:00:00Z': 80
+      '2027-06-01T00:00:00Z': 80
+      '2027-09-01T00:00:00Z': 80
+      '2027-12-01T00:00:00Z': 80
+      '2028-03-01T00:00:00Z': 80
+      '2028-06-01T00:00:00Z': 80
+      '2028-09-01T00:00:00Z': 80
+      '2028-12-01T00:00:00Z': 80
+      '2029-03-01T00:00:00Z': 80
+      '2029-06-01T00:00:00Z': 80
+      '2029-09-01T00:00:00Z': 80
+      '2029-12-01T00:00:00Z': 80
+      '2030-03-01T00:00:00Z': 80
+      '2030-06-01T00:00:00Z': 80
+      '2030-09-01T00:00:00Z': 80
+      '2030-12-01T00:00:00Z': 80
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 608
+    lowest: -3693.245562235888
+    highest: 141703.70549374598
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 1560
+      pct: 40
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P3M: 1600
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 1600
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      ercot: 1600
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 40
+    examples:
+    - Fall 2026, peak load hour 17
+    - Fall 2026, peak net load hour 20
+    - Fall 2027, peak load hour 17
+    - Fall 2027, peak net load hour 20
+    - Fall 2028, peak load hour 17
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:cdr: 1600
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.ercot.com/files/docs/2025/12/19/CapacityDemandandReservesReport_December2025.xlsx: 1600
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T01:40:30Z': 1600
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2025-12-19T00:00:00Z': 1600
+  missing_cells: 0
+- name: x_hour
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '17': 600
+      '19': 200
+      '20': 200
+      '21': 400
+      '8': 200
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_report
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CapacityDemandandReservesReport_December2025.xlsx: 1600
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: dc_ties
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: energy_efficiency_savings
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: firm_peak_load
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: less_controllable_load
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: less_emergency_response_service
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: less_load_resources_ecrs
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: less_load_resources_nonspin
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: less_load_resources_rrs
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: less_rooftop_pv
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: less_tdsp_load_management
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: less_voltage_reduction
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_coastal_wind
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_far_west_solar
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_hydro
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_less_switchable_unavailable
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_mothballed
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_other_solar
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_other_wind
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_panhandle_wind
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_pending_retirement
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_private_use_networks
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_rmr
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_storage
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_switchable
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_thermal
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_total
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: operational_west_solar
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: planned_coastal_wind
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: planned_far_west_solar
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: planned_other_solar
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: planned_other_wind
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: planned_panhandle_wind
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: planned_storage
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: planned_thermal
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: planned_total
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: planned_unconfirmed_retirements
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: planned_west_solar
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: reserve_margin
+  label: null
+  unit: pct
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: total_capacity
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+- name: total_seasonal_load
+  label: null
+  unit: MW
+  rows: 40
+  first: '2026-03-01T00:00:00Z'
+  last: '2030-12-01T00:00:00Z'
+second_look: null

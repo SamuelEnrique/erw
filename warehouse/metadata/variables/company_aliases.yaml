@@ -1,0 +1,311 @@
+# The codebook's metadata of table company_aliases (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: company_aliases
+family: company
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: model_extracted
+interval: snapshot
+source:
+- name: erw:companies, the ERW's resolution of the names in its own tables (each input's source in its own header).
+  url: ''
+cite: 'Energy Research Warehouse (ERW), derived. The company database: every company named in the warehouse''s tables, its
+  names and its rows (docs/methods/companies.md). Via the Energy Research Warehouse (ERW), table `company_aliases`.'
+method: docs/methods/companies.md
+header_title: every name a company of the company database goes by, by input table and role (session 3302)
+header_shape: 'Shape: entities (docs/datastandard.md v0), entity_type company_alias. One row a (company, name as written,
+  table, role); first_row the first input row with it; n_rows the rows; match_rule and confidence as in company_links; license
+  the input''s.'
+read:
+  date: '2026-11-20'
+  rows: 25986
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - company_alias:00013c92f190323f
+    - company_alias:0001738c5449f18d
+    - company_alias:0001e4cfb496c249
+    - company_alias:0002b3a05b8cdcb1
+    - company_alias:0004d5952693ec45
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      company_alias: 25986
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 1000 Mile Solar, LLC
+    - 1001 Ebenezer Church Solar, LLC
+    - 1008 Matthews Solar, LLC
+    - 1009 Yadkin Solar, LLC
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25986
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25986
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25986
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25986
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25986
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25986
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25986
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:companies: 25986
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/companies.md: 25986
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T09:04:07Z': 25986
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: integer
+  values:
+    list:
+      '20261116': 25986
+  missing_cells: 0
+- name: company_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - company:174-power-global-properties
+    - company:180-wind
+    - company:1komma5grad
+    - company:1st-rochdale-cooperative-group
+    - company:212-solar-development
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: company_name
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 1000 Mile Solar, LLC
+    - 1001 Ebenezer Church Solar, LLC
+    - 1008 Matthews Solar, LLC
+    - 1009 Yadkin Solar, LLC
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: alias
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 1000 Mile Solar, LLC
+    - 1001 Ebenezer Church Solar, LLC
+    - 1008 Matthews Solar, LLC
+    - 1009 Yadkin Solar, LLC
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: normalized
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0ham wham8 solar
+    - 1000 mile solar
+    - 1001 ebenezer church solar
+    - 1008 matthews solar
+    - 1009 yadkin solar
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: input_table
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      datacenter_facilities: 154
+      datacenter_projects: 149
+      eia860_generator_owners: 2047
+      eia860_plants_annual: 6945
+      eia860m_operating_generators: 6060
+      eia860m_planned_generators: 1000
+      eia861_utility_data: 3766
+      energy_deals: 656
+      ercot_interconnection_queue: 1318
+      nrc_power_reactors: 62
+      nyiso_interconnection_queue: 850
+      policy_actions: 70
+      utility_service_territories: 2909
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: role
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      agency: 70
+      buyer: 242
+      developer: 140
+      interconnection_customer: 2168
+      licensee: 31
+      operator: 14162
+      owner: 2047
+      parent: 21
+      party: 103
+      seller: 311
+      service_territory: 2909
+      utility: 3782
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: first_row
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - cpuc:6e3bde75ae48
+    - datacenter:0403e02384dfcae9
+    - datacenter:04a5a4836e54f365
+    - datacenter:05e72e9231b9523b
+    - datacenter:079c16b85e73e417
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: n_rows
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 141
+    lowest: 1
+    highest: 1115
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: match_rule
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      anchored_name: 374
+      company_word: 17
+      eia_id: 22727
+      name: 2834
+      reviewed_alias: 34
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: confidence
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '0.7': 17
+      '0.85': 2834
+      '0.9': 374
+      '0.95': 34
+      '1.0': 22727
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: license
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      internal: 1879
+      public: 24107
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

@@ -1,0 +1,162 @@
+# The codebook's metadata of table weather_obs_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: weather_obs_hourly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: nws:observations National Weather Service API
+  url: https://api.weather.gov/stations/<station>/observations
+cite: National Weather Service (NWS, NOAA). Station observations (api.weather.gov). Via the Energy Research Warehouse (ERW),
+  table `weather_obs_hourly`.
+method: docs/methods/weather_obs_hourly.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261116T155131Z-github
+  (2026-11-16T15:51:31Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0). freq PT1H: ts_utc is the UTC hour start; the value is the mean of
+  the station''s observations in the hour (every non-null value the NWS API returns, its qualityControl flag not read; an
+  hour with none is absent).'
+read:
+  date: '2026-11-20'
+  rows: 18587
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      nws:KBOS: 2641
+      nws:KDFW: 2656
+      nws:KIND: 2664
+      nws:KLAX: 2659
+      nws:KLGA: 2653
+      nws:KOKC: 2655
+      nws:KPHL: 2659
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 1338
+    earliest: '2026-09-21T09:00:00Z'
+    latest: '2026-11-16T13:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 859
+    lowest: 0.0
+    highest: 100.4
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      degF: 9322
+      mph: 9265
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 18587
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 2659
+      US-IN: 2664
+      US-MA: 2641
+      US-NY: 2653
+      US-OK: 2655
+      US-PA: 2659
+      US-TX: 2656
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 18587
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      CAISO: 2659
+      ERCOT: 2656
+      ISO-NE: 2641
+      MISO: 2664
+      NYISO: 2653
+      PJM: 2659
+      SPP: 2655
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nws:observations: 18587
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 465
+    examples:
+    - https://api.weather.gov/stations/KBOS/observations?cursor=eyJzIjoiMjAyNi0wOS0yM1QwODo1NTowMCswMDowMCJ9
+    - https://api.weather.gov/stations/KBOS/observations?cursor=eyJzIjoiMjAyNi0wOS0yMVQxNjoxNTowMCswMDowMCJ9
+    - https://api.weather.gov/stations/KBOS/observations?cursor=eyJzIjoiMjAyNi0wOS0yMlQwNzozMDowMCswMDowMCJ9
+    - https://api.weather.gov/stations/KBOS/observations?cursor=eyJzIjoiMjAyNi0wOS0yN1QwMDoyMDowMCswMDowMCJ9
+    - https://api.weather.gov/stations/KBOS/observations?cursor=eyJzIjoiMjAyNi0wOS0yN1QyMDo1MDowMCswMDowMCJ9
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 362
+    earliest: '2026-09-28T10:03:28Z'
+    latest: '2026-11-16T14:38:13Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 18587
+variables:
+- name: temperature_f
+  label: null
+  unit: degF
+  rows: 9322
+  first: '2026-09-21T09:00:00Z'
+  last: '2026-11-16T13:00:00Z'
+- name: wind_speed_mph
+  label: null
+  unit: mph
+  rows: 9265
+  first: '2026-09-21T09:00:00Z'
+  last: '2026-11-16T13:00:00Z'
+second_look: null

@@ -1,0 +1,254 @@
+# The codebook's metadata of table eia930_region_pair_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia930_region_pair_hourly
+family: eia930
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: PT1H
+source:
+- name: erw:eia930_ba_interchange_hourly the ERW's eia930_ba_interchange_hourly, summed by region pair
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/eia930_region_hourly.md
+cite: Energy Research Warehouse (from U.S. Energy Information Administration data). EIA-930 interchange summed by region pair.
+  Via the Energy Research Warehouse (ERW), table `eia930_region_pair_hourly`.
+method: docs/methods/eia930_region_hourly.md
+header_title: EIA-930 hourly interchange between each pair of EIA's regions of the lower 48, each region's report summed from
+  its balancing authorities' reports, July 2018 to the newest hour (session 7801)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia930:<first region>-<second region> (first before second
+  by EIA''s code), variable interchange_mw, MW sent from the first region to the second. x_first_report: the sum of every
+  report a BA of the first region filed about a BA of the second; x_second_report: the same for the second region, its sign
+  turned; each written only when every tie that appears in the hour has that side''s value. x_gap: first less second. value:
+  the first side where held, else the second (x_basis). Derived from eia930_ba_interchange_hourly; method docs/methods/eia930_region_hourly.md.'
+read:
+  date: '2026-11-20'
+  rows: 1821286
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia930:CAL-MEX: 72622
+      eia930:CAL-NW: 73447
+      eia930:CAL-SW: 73269
+      eia930:CAN-CENT: 64817
+      eia930:CAN-MIDW: 73432
+      eia930:CAN-NE: 73489
+      eia930:CAN-NW: 73392
+      eia930:CAN-NY: 73465
+      eia930:CAR-MIDA: 73393
+      eia930:CAR-SE: 73393
+      eia930:CAR-TEN: 73490
+      eia930:CENT-MIDW: 73383
+      eia930:CENT-NW: 71735
+      eia930:CENT-SW: 73466
+      eia930:CENT-TEX: 73441
+      eia930:FLA-SE: 73465
+      eia930:MEX-TEX: 73381
+      eia930:MIDA-MIDW: 73489
+      eia930:MIDA-NY: 73465
+      eia930:MIDA-TEN: 73490
+      eia930:MIDW-SE: 73489
+      eia930:MIDW-TEN: 73477
+      eia930:NE-NY: 73489
+      eia930:NW-SW: 69818
+      eia930:SE-TEN: 73489
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2018-07-01T04:00:00Z'
+    latest: '2026-11-18T07:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: -5378863
+    highest: 57499
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 1821286
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 1821286
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:eia930_ba_interchange_hourly: 1821286
+  missing_cells: 0
+- name: x_first
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CAL: 219338
+      CAN: 358595
+      CAR: 220276
+      CENT: 292025
+      FLA: 73465
+      MEX: 73381
+      MIDA: 220444
+      MIDW: 146966
+      NE: 73489
+      NW: 69818
+      SE: 73489
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_second
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CENT: 64817
+      MEX: 72622
+      MIDA: 73393
+      MIDW: 220304
+      NE: 73489
+      NW: 218574
+      NY: 220419
+      SE: 220347
+      SW: 216553
+      TEN: 293946
+      TEX: 146822
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_basis
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      first: 1318450
+      second: 502836
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_first_report
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: -5378863
+    highest: 33212
+  missing_cells: 502836
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_second_report
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: -32500
+    highest: 57499
+  missing_cells: 84000
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_gap
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: -5380057
+    highest: 34160
+  missing_cells: 586836
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ties
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 623894
+      '10': 697
+      '12': 2
+      '2': 542372
+      '3': 277131
+      '4': 75220
+      '6': 86138
+      '7': 164739
+      '8': 25248
+      '9': 25845
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_file
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      2018_Jul_Dec: 105590
+      2019_Jan_Jun: 107604
+      2019_Jul_Dec: 109074
+      2020_Jan_Jun: 107930
+      2020_Jul_Dec: 109029
+      2021_Jan_Jun: 108310
+      2021_Jul_Dec: 110187
+      2022_Jan_Jun: 108234
+      2022_Jul_Dec: 110400
+      2023_Jan_Jun: 108574
+      2023_Jul_Dec: 110274
+      2024_Jan_Jun: 108885
+      2024_Jul_Dec: 110253
+      2025_Jan_Jun: 108502
+      2025_Jul_Dec: 109371
+      2026_Jan_Jun: 104537
+      2026_Jul_Dec: 84532
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: interchange_mw
+  label: null
+  unit: MW
+  rows: 1821286
+  first: '2018-07-01T04:00:00Z'
+  last: '2026-11-18T07:00:00Z'
+second_look: null

@@ -1,0 +1,564 @@
+# The codebook's metadata of table large_load_rules (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: large_load_rules
+family: large
+shape: events
+row: null
+time: null
+vintage_rule: null
+keys:
+- event_id
+license: public
+tier: model_extracted
+interval: event
+source:
+- name: 'erw:large_load_rules: each row''s source_url is the regulator''s own document (source names the regulator''s dockets);
+    docket_url is the docket''s own page where one answers a plain request. Method: docs/methods/datacenter_cost.md.'
+  url: ''
+cite: 'Arizona Corporation Commission; California Public Utilities Commission; Energy Research Warehouse (ERW), collected
+  from the public dockets of FERC and ten state utility commissions by an AI research agent, each sentence proved by code;
+  Illinois Commerce Commission; Oregon Public Utility Commission; Pennsylvania Public Utility Commission. Dockets of the Arizona
+  Corporation Commission: proceedings and orders on large loads, read on 8 October 2026 from the eDocket record and the commission''s
+  own news releases (its decisions are scans) (session 154; docs/methods/datacenter_cost.md); Dockets of the California Public
+  Utilities Commission: proceedings and orders on large loads, read on 8 October 2026 from the proceeding pages and the documents
+  (session 154; docs/methods/datacenter_cost.md); Dockets of the Illinois Commerce Commission: proceedings and orders on large
+  loads, read on 8 October 2026 from the commission''s open meeting minutes and agendas and its list of suspended cases (a
+  docket''s own page answers with a robot check) (session 154; docs/methods/datacenter_cost.md); Dockets of the Oregon Public
+  Utility Commission: proceedings and orders on large loads, read on 8 October 2026 from the eDockets docket summaries and
+  the orders (session 154; docs/methods/datacenter_cost.md); Dockets of the Pennsylvania Public Utility Commission: proceedings
+  and orders on large loads, read on 8 October 2026 from the docket pages and their documents (session 154; docs/methods/datacenter_cost.md);
+  Proceedings and orders on large loads, 8 October 2026 (docs/accelerator/rules_in_motion.md): the regulators whose terms
+  allow their text to be shown: Arizona Corporation Commission; California Public Utilities Commission; Illinois Commerce
+  Commission; Oregon Public Utility Commission; Pennsylvania Public Utility Commission. Via the Energy Research Warehouse
+  (ERW), table `large_load_rules`.'
+method: docs/methods/datacenter_cost.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261029T152820Z-github
+  (2026-10-29T15:28:20Z); that run's own header of the table follows
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type regulatory_proceeding (the docket itself: its opening order,
+  notice or petition is the document) or regulatory_order (an order, rule or decision in it). event_date is the date on the
+  document. status is the status class; status_as_worded is the regulator''s own wording where its page or the document states
+  one, else empty.'
+read:
+  date: '2026-11-20'
+  rows: 44
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 44
+    examples:
+    - azcc:E-00000A-25-0069:proceeding:17d0cca75a
+    - azcc:E-01345A-25-0105:proceeding:30b7e6d4af
+    - azcc:E-01773A-26-0123:order:cd2921dec2
+    - azcc:E-01933A-25-0187:order:4758eae80e
+    - azcc:E-01933A-25-0187:proceeding:79b6442ecf
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 35
+    earliest: '2024-01-25'
+    latest: '2026-10-28'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      regulatory_order: 29
+      regulatory_proceeding: 15
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: text
+  values:
+    list:
+      Arizona Corporation Commission: 5
+      California Public Utilities Commission: 13
+      Illinois Commerce Commission: 9
+      Oregon Public Utility Commission: 7
+      Pennsylvania Public Utility Commission: 10
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 44
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 44
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 44
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 44
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      decided: 23
+      not stated: 4
+      open: 17
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      azcc:dockets: 5
+      cpuc:dockets: 13
+      ilcc:dockets: 9
+      orpuc:dockets: 7
+      papuc:dockets: 10
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 42
+    examples:
+    - https://apps.cpuc.ca.gov/apex/f?p=401:56::::RP,57,RIR:P5_PROCEEDING_SELECT:A2411007
+    - https://apps.cpuc.ca.gov/apex/f?p=401:56::::RP,57,RIR:P5_PROCEEDING_SELECT:R2401018
+    - https://apps.puc.state.or.us/edockets/DocketNoLayout.asp?DocketID=24470
+    - https://apps.puc.state.or.us/orders/2025ords/25-091.pdf
+    - https://apps.puc.state.or.us/orders/2025ords/25-516.pdf
+  missing_cells: 0
+- name: regulator
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Arizona Corporation Commission: 5
+      California Public Utilities Commission: 13
+      Illinois Commerce Commission: 9
+      Oregon Public Utility Commission: 7
+      Pennsylvania Public Utility Commission: 10
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: jurisdiction
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      state: 44
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: state
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      AZ: 5
+      CA: 13
+      IL: 9
+      OR: 7
+      PA: 10
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: grids
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CAISO: 1
+      PJM: 5
+  missing_cells: 38
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: docket_number
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      25-0677: 1
+      25-0677/25-0679 (Consol.): 2
+      25-0679: 1
+      25-0680: 2
+      26-0364: 2
+      26-0625: 1
+      A.24-11-007: 4
+      E-00000A-25-0069: 1
+      E-01345A-25-0105: 1
+      E-01773A-26-0123: 1
+      E-01933A-25-0187: 2
+      L-2025-3059032: 2
+      M-2025-3054271: 5
+      M-2026-3065062: 2
+      R-2025-3057164: 1
+      R.24-01-018: 4
+      R.26-04-009: 1
+      Resolution E-5420 (PG&E Advice Letter 7569-E): 1
+      Resolution E-5433 (PG&E Advice Letter 7667-E): 1
+      Resolution E-5439 (PG&E Advice Letter 7635-E): 1
+      Resolution E-5455 (PG&E Advice Letter 7785-E): 1
+      UE 430: 1
+      UE 463: 2
+      UM 2377: 4
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: proceeding_title
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      'Ameren Illinois Company d/b/a Ameren Illinois: revisions to terms and conditions for large electric customers': 1
+      ? Application of Pacific Gas and Electric Company (U39E) for Approval of Electric Rule No. 30 for Transmission-Level
+        Retail Electric Service
+      : 4
+      Arizona Public Service Company general rate application: 1
+      'Commonwealth Edison Company: changes to new service requests for large demand project applicants or customers': 1
+      'Commonwealth Edison Company: discretionary prioritization for economic development projects': 2
+      'Commonwealth Edison Company: revisions to Rider Distributed System Extensions (deposits for large load customers)': 1
+      'Commonwealth Edison Company: tariffs for large demand project applicants or customers and Rider DE': 2
+      ? 'Illinois Commerce Commission on its own motion v. Commonwealth Edison Company: investigation of possible ratepayer
+        protections and cost recovery mechanisms for servicing large demand project applicants or customers'
+      : 2
+      ? In the Matter of the Commission's Inquiry and Review of the Existing Rate Classifications and other Potential Issues
+        relating to Data Centers
+      : 1
+      ? In the matter of the application of Tucson Electric Power Company for approval of a special agreement for electric
+        service with Humphrey's Peak Power, LLC
+      : 2
+      Interconnection and Tariffs for Large Load Customers: 5
+      ? Investigation into Marginal Cost Study Treatment of Costs for Large Customers and Further Modifications to Portland
+        General Electric Company's Rule C and Rule I
+      : 4
+      Order Instituting Rulemaking on California Advanced Electric Rate Design: 1
+      Order Instituting Rulemaking to Establish Energization Timelines: 4
+      Pa. PUC et al. v. PPL Electric Utilities Corporation (base rate case): 1
+      PacifiCorp, dba Pacific Power, Advice No. 25-015, Schedule 401-Service to New Large Energy Use Facilities: 2
+      Portland General Electric Company, Investigation into New Load Connection Costs: 1
+      Revisions to Interconnection Rules: 2
+      Technical Conference on Large Computational Load Cost Allocation: 2
+  missing_cells: 5
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: row_kind
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      order: 29
+      proceeding: 15
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: topic
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      interconnection reform: 4
+      large-load interconnection: 8
+      large-load interconnection;interconnection reform: 1
+      large-load interconnection;large-load tariff: 1
+      large-load interconnection;transmission cost allocation: 4
+      large-load tariff: 9
+      large-load tariff;large-load interconnection: 9
+      large-load tariff;transmission cost allocation: 6
+      transmission cost allocation: 2
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: document_title
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 44
+    examples:
+    - ACC Addresses Data Center Development; Ensure Customers are Financially Protected (news release)
+    - ACC Approves Measure to Ensure Electric Cooperative Customers Don't Pay for Large-Load Growth (news release)
+    - ACC Approves TEP Energy Supply Agreement, Ensures Customer Protections from Costs Related to Data Center Project (news
+      release on Decision No. 81587)
+    - Administrative Law Judge's Ruling Seeking Comments on Proceeding Status
+    - Deadline Extension, as recorded in the August 19, 2026 - Regular Open Meeting Minutes (item E-12)
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: status_as_worded
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 26
+    examples:
+    - ACCEPTED
+    - ACTIVE
+    - APPLICATIONS FOR RECONSIDERATION AND REHEARING AND MOTIONS FOR CLARIFICATION GRANTED IN PART AND DENIED IN PART
+    - Active
+    - Compliance Due
+  missing_cells: 9
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: status_class
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      decided: 23
+      not stated: 4
+      open: 17
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: docket_url
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      https://apps.cpuc.ca.gov/apex/f?p=401:56::::RP,57,RIR:P5_PROCEEDING_SELECT:A2411007: 4
+      https://apps.cpuc.ca.gov/apex/f?p=401:56::::RP,57,RIR:P5_PROCEEDING_SELECT:R2401018: 4
+      https://apps.cpuc.ca.gov/apex/f?p=401:56::::RP,57,RIR:P5_PROCEEDING_SELECT:R2604009: 1
+      https://apps.puc.state.or.us/edockets/DocketNoLayout.asp?DocketID=24470: 4
+      https://apps.puc.state.or.us/edockets/DocketNoLayout.asp?DocketID=24856: 2
+      https://edocket.azcc.gov/search/docket-search/item-detail/29509: 1
+      https://edocket.azcc.gov/search/docket-search/item-detail/29640: 2
+      https://www.puc.pa.gov/docket/L-2025-3059032: 2
+      https://www.puc.pa.gov/docket/M-2025-3054271: 5
+      https://www.puc.pa.gov/docket/M-2026-3065062: 2
+      https://www.puc.pa.gov/docket/R-2025-3057164: 1
+  missing_cells: 16
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: page
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 14
+      '10': 2
+      '11': 1
+      '117': 1
+      '12': 1
+      '15': 1
+      '2': 2
+      '3': 5
+      '5': 1
+      '7': 1
+      '9': 1
+      '98': 1
+  missing_cells: 13
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: sentence
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 44
+    examples:
+    - Accordingly, we deny the applications for reconsideration and rehearing of our decision to establish an interconnection
+      queue.
+    - Advice No. 25-015 filed by PacifiCorp, dba Pacific Power, is suspended for a period of time of up to ten months from
+      January 1, 2026, the effective date of the tariff sheets.
+    - Application of Pacific Gas and Electric Company (U39E) for Approval of Electric Rule No. 30 for Transmission-Level Retail
+      Electric Service.
+    - Approves with modification two agreements to facilitate the energization of a new 90 megawatt data center for customer
+      STACK Infrastructure.
+    - Approves, with modification, an agreement to facilitate the energization of a new 49 megawatt (MW) data center and computing
+      lab for customer Menlo Equities.
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: sentence_from
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      commissioner's motion: 1
+      docket page: 4
+      docket page's document list: 1
+      draft resolution: 4
+      judge's ruling: 1
+      list of suspended cases: 1
+      meeting agenda: 3
+      meeting minutes: 5
+      news release: 4
+      notice or letter: 3
+      order text: 17
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: sentence_kind
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      docket list: 1
+      document: 26
+      record: 17
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: row_flag
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      'cut from the docket list: the list''s own title line, not the document''s text': 1
+      'docket number not in the row''s own document (tied by another document of the commission: see notes)': 4
+      single-customer contract or agreement, not a rule for others: 2
+      'single-customer contract or agreement, not a rule for others; draft as posted for the agenda: no adopted text was read': 4
+  missing_cells: 33
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: text_file
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 42
+    examples:
+    - warehouse/raw/large_load_rules/B/text/il__suspension.html.txt
+    - warehouse/raw/large_load_rules/B/text/il_agendas__agenda_2025-10-29.bin.txt
+    - warehouse/raw/large_load_rules/B/text/il_minutes__m03.pdf.clean.txt
+    - warehouse/raw/large_load_rules/B/text/il_minutes__m12.pdf.clean.txt
+    - warehouse/raw/large_load_rules/B/text/il_minutes__m13.pdf.clean.txt
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: text_sha256
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 42
+    examples:
+    - 04e1cccbb0f6c287fabbfd7be14a18ded434dcb2180e8d68217520c3998dab96
+    - 05a12b0d710b26d92518f80a39081e48e9191cd6e538f5b900c6b7fe5fa033fa
+    - 06f49d978d56bdedb4b4e648669bccd854c1ffbf9303da34c1e4349cc8a8956e
+    - 0aa7afc918d700843d14348035ee74a6270ee4d18550e41fae87fbc4c3c71f47
+    - 0f7ca28f83e01465f49aeac329622e7dbd360923076279df64645f022ad5d61d
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: proved_how
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      the saved list's text holds the line: 1
+      the saved text holds the sentence: 12
+      the saved text holds the sentence; page found here: 14
+      the saved text holds the sentence; the text has no page breaks, so the pass's page is kept: 17
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: collected_in
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      daily refresh (policy_monitor_refresh.py): 1
+      pass B: 18
+      pass C: 25
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: notes
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 43
+    examples:
+    - 'A Secretarial Letter, not an order: recorded as the commission''s act in the docket. Comments within twenty (20) calendar
+      days from the date of publication in the Pennsylvania Bulletin, as written; the docket page lists comments made public
+      through 8/12/2026. No proposed rule yet. [date proved in the document; docket number in the document]'
+    - A rate case, recorded for its large load part only (the settlement's paragraphs 91 to 97, 'Large Load Interconnections').
+      The sentence is the order's footnote 25; the order's conclusion adopts the joint petition and approves the settlement
+      as modified. Two later orders on a petition for reconsideration (7/8/2026, 8/27/2026) were not opened. [date proved
+      in the document; status wording proved in this document; docket number in the document]
+    - 'A ruling of the Administrative Law Judge, not a Commission decision. As written: Opening comments shall be due by August
+      25, 2026; reply comments shall be due September 4, 2026; following submittal of reply comments, the record will be submitted.'
+    - Class is open because the order suspends the tariff for investigation. The order also denies interim rate schedules
+      and a motion to dismiss.
+    - 'Comments: within 30 days of the date of publication in the Pennsylvania Bulletin, as written. [date proved in the document;
+      status wording proved in this document; docket number in the document]'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: terms_url
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      https://icc.illinois.gov/privacy.htm: 9
+      https://www.azcc.gov/privacy-policy: 5
+      https://www.cpuc.ca.gov/about-cpuc/conditions-of-use: 13
+      https://www.oregon.gov/pages/terms-and-conditions.aspx: 7
+      https://www.puc.pa.gov/filing-resources/issues-laws-regulations/right-to-know-policies-and-procedures/: 10
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 41
+    earliest: '2026-10-08T00:28:52Z'
+    latest: '2026-10-29T15:22:35Z'
+  missing_cells: 0
+second_look: null

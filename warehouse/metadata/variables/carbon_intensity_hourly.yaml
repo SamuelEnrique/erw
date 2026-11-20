@@ -1,0 +1,168 @@
+# The codebook's metadata of table carbon_intensity_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: carbon_intensity_hourly
+family: carbon
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: PT1H
+source:
+- name: erw:carbon_intensity ERW derived table, emissions method (docs/methods/emissions.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/emissions.md
+cite: Energy Research Warehouse (ERW), derived. California's carbon intensity of generation from the join of 16 December 2025
+  (docs/methods/eia930_caiso_break.md); Carbon intensity per balancing authority (docs/methods/emissions.md). Via the Energy
+  Research Warehouse (ERW), table `carbon_intensity_hourly`.
+method: docs/methods/emissions.md
+header_title: carbon intensity per balancing authority, hourly (derived, sessions 32 and 34)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba, kgCO2/MWh. intensity_generation = EIA''s CO2
+  emissions generated / EIA''s net generation; intensity_demand = EIA''s CO2 emissions consumed (generated plus imported minus
+  exported) / EIA''s demand. Daily values: the day''s CO2 over the day''s MWh, complete UTC days only; monthly values the
+  same over UTC months whose every day is complete.'
+read:
+  date: '2026-11-20'
+  rows: 1136248
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia930:CISO: 144349
+      eia930:ERCO: 145728
+      eia930:ISNE: 146677
+      eia930:MISO: 145344
+      eia930:NYIS: 145824
+      eia930:PJM: 141168
+      eia930:SWPP: 120470
+      eia930:US48: 146688
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2018-07-02T00:00:00Z'
+    latest: '2026-11-12T23:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -22.096
+    highest: 137776.3078
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      kgCO2/MWh: 1136248
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 1136248
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 146688
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 120470
+      US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI: 145344
+      US-CA: 144349
+      US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 146677
+      US-DE,US-DC,US-IL,US-IN,US-KY,US-MD,US-MI,US-NJ,US-NC,US-OH,US-PA,US-TN,US-VA,US-WV: 141168
+      US-NY: 145824
+      US-TX: 145728
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1136248
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1136248
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:carbon_intensity: 1128776
+      erw:carbon_intensity_caiso: 7472
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/eia930_caiso_break.md: 7472
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/emissions.md: 1128776
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-17T04:13:59Z': 1128776
+      '2026-11-17T04:43:53Z': 7472
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1136248
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      ciso: 144349
+      erco: 145728
+      isne: 146677
+      miso: 145344
+      nyis: 145824
+      pjm: 141168
+      swpp: 120470
+      us48: 146688
+  missing_cells: 0
+variables:
+- name: intensity_demand
+  label: null
+  unit: kgCO2/MWh
+  rows: 568211
+  first: '2018-07-02T00:00:00Z'
+  last: '2026-11-12T23:00:00Z'
+- name: intensity_generation
+  label: null
+  unit: kgCO2/MWh
+  rows: 568037
+  first: '2018-07-02T00:00:00Z'
+  last: '2026-11-12T23:00:00Z'
+second_look: null

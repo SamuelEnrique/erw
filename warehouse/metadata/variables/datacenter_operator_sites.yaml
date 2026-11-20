@@ -1,0 +1,369 @@
+# The codebook's metadata of table datacenter_operator_sites (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: datacenter_operator_sites
+family: datacenter
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source: []
+cite: Amazon Web Services; Digital Realty; Equinix; Google; Meta; Microsoft; Oracle; Switch; Vantage Data Centers. Amazon
+  Web Services public list of data center sites and regions; Digital Realty public list of data center sites and regions;
+  Equinix public list of data center sites and regions; Google public list of data center sites and regions; Meta public list
+  of data center sites and regions; Microsoft public list of data center sites and regions; Oracle public list of data center
+  sites and regions; Switch public list of data center sites and regions; Vantage Data Centers public list of data center
+  sites and regions. Via the Energy Research Warehouse (ERW), table `datacenter_operator_sites`.
+method: docs/methods/datacenter_operator_sites.md
+header_title: Datacenter sites from the operators' own public lists (session 22)
+header_shape: 'Shape: entities (docs/datastandard.md), entity_type datacenter, kind operator; one snapshot per run. capacity_mw
+  = mw, only where the page states it, with the exact span in mw_span.'
+read:
+  date: '2026-11-20'
+  rows: 264
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 264
+    examples:
+    - dcsite:00143eafee858942
+    - dcsite:0083759d2bd5cba7
+    - dcsite:0099eabf0dc05dc8
+    - dcsite:009a6a437e28b929
+    - dcsite:0147a4365a30ca75
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      datacenter: 264
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 264
+    examples:
+    - AWS GovCloud (US)
+    - AWS GovCloud (US-East)
+    - Azure Georgia (announced)
+    - Central US
+    - Digital Realty ACC4
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - US
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: number
+  values:
+    distinct: 160
+    lowest: 25.775163
+    highest: 47.619335
+  missing_cells: 67
+- name: lon
+  shared: true
+  type: number
+  values:
+    distinct: 158
+    lowest: -122.91838
+    highest: -71.219029
+  missing_cells: 67
+- name: capacity_mw
+  shared: true
+  type: integer
+  values:
+    list:
+      '150': 1
+      '237': 1
+      '495': 1
+  missing_cells: 261
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      operating: 27
+      planned: 21
+  missing_cells: 216
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 264
+- name: operator
+  shared: true
+  type: text
+  values:
+    list:
+      Amazon Web Services: 7
+      Digital Realty: 74
+      Equinix: 74
+      Google: 53
+      Meta: 28
+      Microsoft: 19
+      Oracle: 4
+      Switch: 5
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      aws:locations: 7
+      digitalrealty:data-centers: 74
+      equinix:us-data-centers: 74
+      google:datacenter-locations: 53
+      meta:datacenter-locations: 28
+      microsoft:azure-geographies: 19
+      oracle:public-cloud-regions: 4
+      switch:locations: 5
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 159
+    examples:
+    - https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/
+    - https://b0.p.awsstatic.com/locations/1.0/aws/current/locations.json
+    - https://cloud.google.com/compute/docs/regions-zones
+    - https://datacenters.atmeta.com/all-locations/
+    - https://datacenters.google/locations/
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-05T23:26:29Z': 264
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: integer
+  values:
+    list:
+      '20261105': 264
+  missing_cells: 0
+- name: kind
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      operator: 264
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: site_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      announced_site: 1
+      campus: 77
+      facility: 148
+      region: 38
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: operator_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 165
+    examples:
+    - ACC4
+    - ACC5
+    - ACC6
+    - ACC7
+    - AT1
+  missing_cells: 96
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: place_text
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 250
+    examples:
+    - ACC4 44480 Hastings Drive Ashburn, VA 20147
+    - ACC5 44521 Hastings Drive, Ashburn, VA 20147
+    - ACC6 44461 Chilum Place Ashburn, VA 20147
+    - ACC7 21625 Gresham Drive Ashburn, VA 20147
+    - ALABAMA Montgomery
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 33
+    examples:
+    - AL
+    - AR
+    - AZ
+    - CA
+    - FL
+  missing_cells: 54
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: county
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Armstrong County: 1
+      Berkeley County: 1
+      Chesterfield County: 1
+      Columbia County: 1
+      Dorchester County: 1
+      Douglas County: 1
+      Jackson County: 1
+      Loudoun County: 1
+      Mayes County: 1
+      Montgomery County: 1
+      Morgan County: 1
+      Muskogee County: 1
+      Prince William County: 1
+      Richland Parish: 1
+      Storey County: 1
+      Wilbarger County: 1
+  missing_cells: 248
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: city
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 101
+    examples:
+    - (Bldg D) Ashburn
+    - (Bldg M) Ashburn
+    - Aiken
+    - Altoona
+    - Ashburn
+  missing_cells: 89
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: mw
+  shared: true
+  type: integer
+  values:
+    list:
+      '150': 1
+      '237': 1
+      '495': 1
+  missing_cells: 261
+- name: mw_span
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      up to 150 MW of power: 1
+      up to 237 MW of power: 1
+      up to 495 MW of power: 1
+  missing_cells: 261
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: status_text
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      '"inDevelopment": false': 23
+      '"inDevelopment": true': 21
+      Live: 4
+  missing_cells: 216
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: detail
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 54
+    examples:
+    - $1 billion+ investment; 2017 break ground; 1,500 skilled trade workers on site at peak construction; 200+ operational
+      jobs supported once completed
+    - $1 billion+ investment; 2020 break ground; 1,200 skilled trade workers on site at peak construction; 200+ operational
+      jobs supported once completed
+    - $1 billion+ investment; 2021 break ground; 2,000 skilled trade workers on site at peak construction; 200+ operational
+      jobs supported once completed
+    - $1 billion+ investment; 2025 break ground; 1,000+ skilled trade workers on site at peak construction; 100+ operational
+      jobs supported once completed
+    - $1 billion+ investment; 2026 break ground; 1,000 skilled trade workers on site at peak construction; ~100 operational
+      jobs supported once completed
+  missing_cells: 81
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: geo_precision
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      county: 13
+      none: 67
+      operator: 83
+      place: 101
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: geo_note
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 87
+    examples:
+    - city 'Henrico' not a unique place in the gazetteer for VA
+    - city 'North Bergen' not a unique place in the gazetteer for NJ
+    - city 'Sarpy' not a unique place in the gazetteer for NE
+    - city 'Stanton Springs' not a unique place in the gazetteer for GA
+    - city 'Tahoe Reno' not a unique place in the gazetteer for NV
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

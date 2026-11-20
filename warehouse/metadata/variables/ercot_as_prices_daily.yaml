@@ -1,0 +1,184 @@
+# The codebook's metadata of table ercot_as_prices_daily (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_as_prices_daily
+family: ercot
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1D
+source:
+- name: erw:ercot_as_prices_rollup ERW derived daily and monthly summary of ERCOT reserve prices (docs/methods/ercot_as_prices_rollup.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_as_prices_rollup.md
+cite: Energy Research Warehouse (ERW), derived. ERCOT reserve prices by day and by month (docs/methods/ercot_as_prices_rollup.md).
+  Via the Energy Research Warehouse (ERW), table `ercot_as_prices_daily`.
+method: docs/methods/ercot_as_prices_rollup.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261030T153444Z-github
+  (2026-10-30T15:34:44Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0). Derived by the ERW from the table named below; method docs/methods/ercot_as_prices_rollup.md.
+  Units: USD/MW-hour (US dollars per MW of capacity held for one hour); the counts of hours are unit count.'
+read:
+  date: '2026-11-20'
+  rows: 70695
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:ECRS: 6195
+      ercot:NSPIN: 16125
+      ercot:REGDN: 16125
+      ercot:REGUP: 16125
+      ercot:RRS: 16125
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 3225
+    earliest: '2018-01-01T00:00:00Z'
+    latest: '2026-10-30T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 25674.3
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MW-hour: 42417
+      count: 28278
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 70695
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 70695
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      ercot_dam: 70695
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      ECRS: 6195
+      NSPIN: 16125
+      REGDN: 16125
+      REGUP: 16125
+      RRS: 16125
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:ercot_as_prices_rollup: 70695
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_as_prices_rollup.md: 70695
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-07T22:00:13Z': 70032
+      '2026-10-08T15:09:03Z': 113
+      '2026-10-09T15:01:20Z': 25
+      '2026-10-10T15:08:34Z': 25
+      '2026-10-11T15:33:44Z': 25
+      '2026-10-12T15:02:16Z': 25
+      '2026-10-13T15:02:46Z': 25
+      '2026-10-14T15:37:34Z': 25
+      '2026-10-15T15:45:50Z': 25
+      '2026-10-19T16:25:27Z': 100
+      '2026-10-19T20:48:32Z': 25
+      '2026-10-21T15:10:55Z': 25
+      '2026-10-22T15:04:35Z': 25
+      '2026-10-23T15:03:51Z': 25
+      '2026-10-24T15:11:29Z': 25
+      '2026-10-25T14:54:52Z': 25
+      '2026-10-26T15:05:51Z': 25
+      '2026-10-27T14:57:42Z': 25
+      '2026-10-28T15:06:06Z': 25
+      '2026-10-29T14:53:43Z': 25
+      '2026-10-30T15:04:50Z': 25
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 70695
+variables:
+- name: mcpc_dam_hours
+  label: null
+  unit: count
+  rows: 14139
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-10-30T00:00:00Z'
+- name: mcpc_dam_hours_in_day
+  label: null
+  unit: count
+  rows: 14139
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-10-30T00:00:00Z'
+- name: mcpc_dam_max
+  label: null
+  unit: USD/MW-hour
+  rows: 14139
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-10-30T00:00:00Z'
+- name: mcpc_dam_mean
+  label: null
+  unit: USD/MW-hour
+  rows: 14139
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-10-30T00:00:00Z'
+- name: mcpc_dam_min
+  label: null
+  unit: USD/MW-hour
+  rows: 14139
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-10-30T00:00:00Z'
+second_look: null

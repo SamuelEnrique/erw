@@ -1,0 +1,197 @@
+# The codebook's metadata of table iso_trader_daily (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: iso_trader_daily
+family: iso
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1D
+source:
+- name: erw:trader_view ERW derived table, trader view method (docs/methods/trader_view.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/trader_view.md
+cite: Energy Research Warehouse (ERW), derived. Trader view (docs/methods/trader_view.md). Via the Energy Research Warehouse
+  (ERW), table `iso_trader_daily`.
+method: docs/methods/iso_trader_daily.md
+header_title: Rebuilt from the ERW archive by warehouse/archive/restore.py through the session 29 map (warehouse/metadata/table_migrations.csv),
+  as of run 20261116T155131Z-github (2026-11-16T15:51:31Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0), a consolidated table (session 29): the 6 tables it replaced are its
+  rows, told apart by the partition column market (docs/migrations/2026-09-29-consolidation.md; the map is warehouse/metadata/table_migrations.csv).
+  ts_utc is interval start, UTC.'
+read:
+  date: '2026-11-20'
+  rows: 21879
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - caiso:TH_NP15_GEN-APND
+    - caiso:TH_SP15_GEN-APND
+    - caiso:TH_ZP26_GEN-APND
+    - ercot:HB_BUSAVG
+    - ercot:HB_HOUSTON
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 83
+    earliest: '2026-08-26T00:00:00Z'
+    latest: '2026-11-16T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -78.1525
+    highest: 7209.33
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MMBtu/MWh: 2800
+      USD/MWh: 16576
+      count: 2503
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 21879
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 21879
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      caiso: 2049
+      ercot: 3906
+      isone: 5751
+      miso: 2408
+      nyiso: 7117
+      spp: 648
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - .H.INTERNAL_HUB
+    - .Z.CONNECTICUT
+    - .Z.MAINE
+    - .Z.NEMASSBOST
+    - .Z.NEWHAMPSHIRE
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:trader_view: 21879
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/trader_view.md: 21879
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 37
+    earliest: '2026-09-27T10:18:41Z'
+    latest: '2026-11-16T14:38:24Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 21879
+variables:
+- name: da_mean_usd
+  label: null
+  unit: USD/MWh
+  rows: 2831
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-16T00:00:00Z'
+- name: da_offpeak_mean_usd
+  label: null
+  unit: USD/MWh
+  rows: 2831
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-16T00:00:00Z'
+- name: da_onpeak_mean_usd
+  label: null
+  unit: USD/MWh
+  rows: 2012
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-16T00:00:00Z'
+- name: da_rt_spread_max_usd
+  label: null
+  unit: USD/MWh
+  rows: 2503
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T00:00:00Z'
+- name: da_rt_spread_mean_usd
+  label: null
+  unit: USD/MWh
+  rows: 2503
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T00:00:00Z'
+- name: da_volatility_30d_usd
+  label: null
+  unit: USD/MWh
+  rows: 1393
+  first: '2026-09-25T00:00:00Z'
+  last: '2026-11-16T00:00:00Z'
+- name: hours_rt_over_da_50
+  label: null
+  unit: count
+  rows: 2503
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T00:00:00Z'
+- name: implied_heat_rate
+  label: null
+  unit: MMBtu/MWh
+  rows: 2800
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T00:00:00Z'
+- name: rt_mean_usd
+  label: null
+  unit: USD/MWh
+  rows: 2503
+  first: '2026-08-26T00:00:00Z'
+  last: '2026-11-15T00:00:00Z'
+second_look: null

@@ -1,0 +1,139 @@
+# The codebook's metadata of table eia_crude_first_purchase_prices (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_crude_first_purchase_prices
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:petroleum/pri/dfp2 Domestic Crude Oil First Purchase Prices (by stream; by area)
+  url: https://www.eia.gov/dnav/pet/pet_pri_dfp2_k_m.htm
+- name: eia:petroleum/pri/dfp1 Domestic Crude Oil First Purchase Prices (by stream; by area)
+  url: https://www.eia.gov/dnav/pet/pet_pri_dfp2_k_m.htm
+cite: U.S. Energy Information Administration (EIA). Domestic Crude Oil First Purchase Prices (by stream; by area). Via the
+  Energy Research Warehouse (ERW), table `eia_crude_first_purchase_prices`.
+method: docs/methods/eia_crude_first_purchase_prices.md
+header_title: 'EIA crude oil first purchase prices: Mars blend; North Dakota (a Bakken proxy), Texas, Louisiana, New Mexico,
+  monthly'
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P1M: ts_utc is the date EIA reports at 00:00:00Z (weekly: week-ending
+  date; monthly: first of the month).'
+read:
+  date: '2026-11-20'
+  rows: 2632
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia:F002038__3: 590
+      eia:F003022__3: 590
+      eia:F003035__3: 590
+      eia:F003048__3: 590
+      eia:F003075793: 272
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 590
+    earliest: '1977-07-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2188
+    lowest: 7.95
+    highest: 133.74
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/bbl: 2632
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 2632
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 2632
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2632
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2632
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:petroleum/pri/dfp1: 2360
+      eia:petroleum/pri/dfp2: 272
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/petroleum/pri/dfp1/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=value&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000&facets%5Bseries%5D%5B%5D=F002038__3&facets%5Bseries%5D%5B%5D=F003048__3&facets%5Bseries%5D%5B%5D=F003022__3&facets%5Bseries%5D%5B%5D=F003035__3
+      : 2360
+      ? https://api.eia.gov/v2/petroleum/pri/dfp2/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=value&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000&facets%5Bseries%5D%5B%5D=F003075793
+      : 272
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T14:04:29Z': 2632
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2632
+variables:
+- name: first_purchase_price
+  label: null
+  unit: USD/bbl
+  rows: 2632
+  first: '1977-07-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

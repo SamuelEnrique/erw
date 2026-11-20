@@ -1,0 +1,263 @@
+# The codebook's metadata of table iso_queue_snapshot_summary (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: iso_queue_snapshot_summary
+family: iso
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: ;P1Y
+source:
+- name: the ISOs' interconnection queues as gridstatus reads them (CAISO, ERCOT, SPP)
+  url: ''
+cite: Energy Research Warehouse (ERW), derived. The ISO interconnection queues summarized from their own snapshots (docs/methods/iso_queue_snapshot_summary.md).
+  Via the Energy Research Warehouse (ERW), table `iso_queue_snapshot_summary`.
+method: docs/methods/iso_queue_snapshot_summary.md
+header_title: 'the ISO interconnection queues summarized from their own snapshots: MW and requests by grid, status and fuel
+  group; entered, completed and withdrawn by year; months from request to in-service (derived, session 2953)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity iso_queue:<grid>:<fuel group> (the snapshot, ts_utc its day)
+  or iso_queue:<grid> (by year, freq P1Y); variables <status>_mw and _count; entered_, completed_, withdrawn_ (mw and count);
+  in_service_dated; median_months_to_in_service (at 5 or more dated requests).'
+read:
+  date: '2026-11-20'
+  rows: 570
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 29
+    examples:
+    - iso_queue:caiso
+    - iso_queue:caiso:gas
+    - iso_queue:caiso:hydro
+    - iso_queue:caiso:other
+    - iso_queue:caiso:solar
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 30
+    earliest: '1999-01-01T00:00:00Z'
+    latest: '2026-10-26T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 383
+    lowest: 0.0
+    highest: 184564.43
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 235
+      count: 293
+      month: 42
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 430
+  missing_cells: 140
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 570
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 570
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 570
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:iso_queue_snapshot_summary: 570
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/iso_queue_snapshot_summary.md: 570
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-06T08:35:33Z': 570
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: date
+  values:
+    list:
+      '2026-10-19': 310
+      '2026-10-26': 260
+  missing_cells: 0
+- name: x_grid
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      caiso: 220
+      ercot: 90
+      spp: 260
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_fuel_group
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      gas: 18
+      hybrid: 2
+      hydro: 12
+      nuclear: 4
+      other: 16
+      solar: 20
+      solar_storage: 14
+      storage: 20
+      unknown: 6
+      wind: 20
+      wind_storage: 8
+  missing_cells: 430
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_snapshot
+  label: null
+  unit: null
+  type: date
+  values:
+    list:
+      '2026-10-19': 310
+      '2026-10-26': 260
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: active_count
+  label: null
+  unit: count
+  rows: 22
+  first: '2026-10-19T00:00:00Z'
+  last: '2026-10-26T00:00:00Z'
+- name: active_mw
+  label: null
+  unit: MW
+  rows: 22
+  first: '2026-10-19T00:00:00Z'
+  last: '2026-10-26T00:00:00Z'
+- name: completed_count
+  label: null
+  unit: count
+  rows: 73
+  first: '2002-01-01T00:00:00Z'
+  last: '2026-10-26T00:00:00Z'
+- name: completed_mw
+  label: null
+  unit: MW
+  rows: 73
+  first: '2002-01-01T00:00:00Z'
+  last: '2026-10-26T00:00:00Z'
+- name: entered_count
+  label: null
+  unit: count
+  rows: 67
+  first: '1999-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: entered_mw
+  label: null
+  unit: MW
+  rows: 67
+  first: '1999-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: in_service_dated
+  label: null
+  unit: count
+  rows: 58
+  first: '1999-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: median_months_to_in_service
+  label: null
+  unit: month
+  rows: 42
+  first: '2001-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: suspended_count
+  label: null
+  unit: count
+  rows: 4
+  first: '2026-10-26T00:00:00Z'
+  last: '2026-10-26T00:00:00Z'
+- name: suspended_mw
+  label: null
+  unit: MW
+  rows: 4
+  first: '2026-10-26T00:00:00Z'
+  last: '2026-10-26T00:00:00Z'
+- name: unknown_count
+  label: null
+  unit: count
+  rows: 7
+  first: '2026-10-26T00:00:00Z'
+  last: '2026-10-26T00:00:00Z'
+- name: unknown_mw
+  label: null
+  unit: MW
+  rows: 7
+  first: '2026-10-26T00:00:00Z'
+  last: '2026-10-26T00:00:00Z'
+- name: withdrawn_count
+  label: null
+  unit: count
+  rows: 62
+  first: '2002-01-01T00:00:00Z'
+  last: '2026-10-26T00:00:00Z'
+- name: withdrawn_mw
+  label: null
+  unit: MW
+  rows: 62
+  first: '2002-01-01T00:00:00Z'
+  last: '2026-10-26T00:00:00Z'
+second_look: null

@@ -1,0 +1,295 @@
+# The codebook's metadata of table caiso_grid_emergencies (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: caiso_grid_emergencies
+family: caiso
+shape: events
+row: null
+time: null
+vintage_rule: null
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: caiso:grid_emergencies_history California ISO, Grid Emergencies History Report (1998 to present)
+  url: https://www.caiso.com/documents/grid-emergencies-history-report-1998-to-present.pdf
+cite: California Independent System Operator (CAISO). Grid Emergencies History Report (1998 to present). Via the Energy Research
+  Warehouse (ERW), table `caiso_grid_emergencies`.
+method: docs/methods/caiso_grid_emergencies.md
+header_title: CAISO grid emergencies, every Flex Alert, Restricted Maintenance Operations notice, Energy Emergency Alert,
+  stage emergency and transmission emergency in CAISO's Grid Emergencies History Report (session 58)
+header_shape: 'Shape: events (docs/datastandard.md v0, decision 35). One row per notice type, region, time frame and local
+  (Pacific) day covered; event_type is CAISO''s notice type (flex_alert, rmo, transmission_emergency, eea_watch, eea1 to eea3,
+  alert, warning, stage1 to stage3, vlrp, load_interruption; Power Watch filed under flex_alert). x_label: the notice''s name
+  as printed; x_layout: the reader the row came from (records, stages, day_lists or matrix); x_page: its page.'
+read:
+  date: '2026-11-20'
+  rows: 1906
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 1906
+    examples:
+    - caiso_awe:1998-05-30:alert:c7046d023c
+    - caiso_awe:1998-07-26:alert:efb4878194
+    - caiso_awe:1998-07-27:alert:4c4cdaae48
+    - caiso_awe:1998-07-27:rmo:ec6686dcce
+    - caiso_awe:1998-07-27:stage1:a0672fa625
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 814
+    earliest: '1998-05-30'
+    latest: '2026-10-08'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      alert: 245
+      eea1: 7
+      eea2: 4
+      eea3: 1
+      eea_watch: 12
+      flex_alert: 155
+      load_interruption: 1
+      rmo: 766
+      stage1: 146
+      stage2: 118
+      stage3: 41
+      transmission_emergency: 82
+      vlrp: 8
+      warning: 320
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: text
+  values:
+    list:
+      California ISO: 1906
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1906
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1906
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1906
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1906
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      declared: 1906
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:grid_emergencies_history: 1906
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.caiso.com/documents/grid-emergencies-history-report-1998-to-present.pdf: 1906
+  missing_cells: 0
+- name: x_label
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      1-hour Notification: 1
+      Alert: 245
+      EEA Watch: 12
+      EEA1: 7
+      EEA2: 4
+      EEA3: 1
+      Flex Alert: 76
+      Generation RMO: 5
+      No Touch: 265
+      Power Watch: 79
+      RMO: 416
+      RMO*: 41
+      Restricted Maintenance Operations: 39
+      Stage 1: 146
+      Stage 2: 118
+      Stage 3: 41
+      Transmission Emergency: 82
+      VLRP: 8
+      Warning: 320
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_region
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CAISO Grid: 26
+      ISO: 1616
+      Northern CA: 42
+      Northern CA Region: 4
+      Southern: 1
+      Southern CA: 214
+      Southern CA Region: 3
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_time_frame
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 515
+    examples:
+    - 0000-0956
+    - 0000-0957
+    - 0000-1220
+    - 0000-2359
+    - 0001-0900
+  missing_cells: 878
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_start
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 307
+    examples:
+    - 2011-02-03 1201
+    - 2011-02-04 1201
+    - 2011-07-06 0800
+    - 2011-09-07 0904
+    - 2011-09-07 1147
+  missing_cells: 1347
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_end
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 281
+    examples:
+    - 2011-02-03 1200
+    - 2011-02-04 1200
+    - 2011-07-06 2000
+    - 2011-09-07 2200
+    - 2011-09-08 2359
+  missing_cells: 1347
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_notice
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 82
+    examples:
+    - '201802374'
+    - '202002406'
+    - '202002423'
+    - '202002424'
+    - '202002433'
+  missing_cells: 1755
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_issued_at
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 73
+    examples:
+    - 01/17/2020 06:06
+    - 02/04/2024 17:21:47
+    - 02/12/2021 14:14
+    - 02/14/2021 14:44
+    - 02/18/2021 14:59
+  missing_cells: 1768
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_reason
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 261
+    examples:
+    - (http://wwwcaisocom/Documents/SystemAlertsWarningsandEmergenciesFactSheetpdf) The California ISO has issued a Flex Alert
+      for the CAISO Grid effective Friday, June 18, 2021. Californians are urged to conserve electricity from June 18 at 6:00
+      PM to June 18 at 9:00 PM to avoid power disruptions. A news
+    - '-'
+    - A shortage of natural gas triggered by extreme cold weather in much of the United States and Canada is impacting fuel
+      supplies to Southern CA power plants and reducing electricity generation.
+    - Anticipation of high loads and high temperatures across the CAISO Grid.
+    - Anticipation of high loads and temperatures across CAISO Grid.
+  missing_cells: 1330
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_layout
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      day_lists: 878
+      records: 576
+      stages: 452
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_page
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 189
+    lowest: 6
+    highest: 196
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

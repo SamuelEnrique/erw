@@ -1,0 +1,304 @@
+# The codebook's metadata of table ercot_interconnection_queue (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_interconnection_queue
+family: ercot
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: ercot:interconnection_queue ERCOT Generation Interconnection Status (GIS) report
+  url: https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1293955078
+cite: Electric Reliability Council of Texas (ERCOT). Generation Interconnection Status (GIS) report. Via the Energy Research
+  Warehouse (ERW), table `ercot_interconnection_queue`.
+method: docs/methods/ercot_interconnection_queue.md
+header_title: Rebuilt from the ERW archive by warehouse/archive/restore.py, as of run 20261106T003628Z-github (2026-11-06T00:36:28Z);
+  that run's own header of the table follows
+header_shape: 'Shape: entities (docs/datastandard.md v0). One row per queue position; entity_type project; status harmonized
+  (active, withdrawn, completed, suspended), iso_status the ISO''s own.'
+read:
+  date: '2026-11-20'
+  rows: 1736
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 1736
+    examples:
+    - ercot_queue:15INR0064b
+    - ercot_queue:16INR0049
+    - ercot_queue:16INR0081
+    - ercot_queue:16INR0085
+    - ercot_queue:16INR0104
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      project: 1736
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 1736
+    examples:
+    - 18-ALPHA BESS
+    - 18-BRAVO BESS
+    - 2 Cedar Wind
+    - 7L Solar SLF
+    - 7L Storage SLF
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 1736
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1736
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1736
+- name: capacity_mw
+  shared: true
+  type: number
+  values:
+    distinct: 1206
+    lowest: -53.3
+    highest: 2992.0
+  missing_cells: 0
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      active: 1159
+      completed: 577
+  missing_cells: 0
+- name: status_date
+  shared: true
+  type: date
+  values:
+    distinct: 96
+    earliest: '2017-12-20'
+    latest: '2026-10-23'
+  missing_cells: 1633
+- name: operator
+  shared: true
+  type: text
+  values:
+    distinct: 1295
+    examples:
+    - 174 Power Global Properties
+    - 174 Power Global Properties, LLC
+    - 180 Wind LLC
+    - 7100 Tin Top LLC
+    - 7L Solar, LLC
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:interconnection_queue: 1736
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1293955078: 1736
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-05T23:21:53Z': 1736
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: date
+  values:
+    list:
+      '2026-11-05': 1736
+  missing_cells: 0
+- name: queue_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1736
+    examples:
+    - 15INR0064b
+    - 16INR0049
+    - 16INR0081
+    - 16INR0085
+    - 16INR0104
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 193
+    examples:
+    - Anderson
+    - Andrews
+    - Angelina
+    - Archer
+    - Armstrong
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: state
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      TX: 1736
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: poi
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1386
+    examples:
+    - '# 38900 Hidden Lakes - # 42015 PHR 138 KV'
+    - '# 7044 Marion 345kV'
+    - '# 79601 Stillman Substation 138 kV'
+    - '#10012 METEOR 5 Substation 345kV'
+    - '#1058 Longshore Switch - #18548 Prairieland Switch 345kV Ckt 1'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: zone
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1736
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: transmission_owner
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1736
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: fuel_technology
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Fuel Oil - Other: 1
+      Gas - Combined-Cycle: 54
+      Gas - Combustion (gas) Turbine, but not part of a Combined-Cycle: 54
+      Gas - Internal Combustion Engine, eg. Reciprocating: 33
+      Gas - Steam Turbine other than Combined-Cycle: 4
+      Hydrogen - Other: 1
+      Nuclear - Steam Turbine other than Combined-Cycle: 2
+      Other - Battery Energy Storage: 828
+      Other - Other: 4
+      Solar - Photovoltaic Solar: 596
+      Water - Other: 1
+      Wind - Wind Turbine: 157
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: iso_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Active: 1159
+      Completed: 577
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: queue_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 411
+    earliest: '2013-11-27'
+    latest: '2026-10-22'
+  missing_cells: 12
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: proposed_in_service_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 526
+    earliest: '2025-03-27'
+    latest: '2033-06-15'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: actual_in_service_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 100
+    earliest: '2017-12-20'
+    latest: '2026-10-23'
+  missing_cells: 1627
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: withdrawn_date
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1736
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

@@ -1,0 +1,231 @@
+# The codebook's metadata of table iso_reserve_margin_reports (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: iso_reserve_margin_reports
+family: iso
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: ''
+source:
+- name: the registry warehouse/sources/reserve_margins/ (one file a document, each figure with its page and words), filled
+    by reading each grid operator's own assessment. No request is made by this connector.
+  url: ''
+cite: CAISO. CAISO, 2026 Summer Loads and Resources Assessment, May 2026. Via the Energy Research Warehouse (ERW), table `iso_reserve_margin_reports`.
+method: docs/methods/reserve_margin_reports.md
+header_title: grid operators' reserve margins as their own assessments print them, one row a figure (session 3798, chain 215)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity reserve_report:<grid>:<document>; ts_utc the period''s first
+  day at 00:00:00Z; variables prm_achieved_pct (pct), prm_required_pct (pct), capacity_surplus_mw (MW), peak_forecast_mw (MW),
+  ra_prm_load_weighted_pct (pct). value is the printed figure (x_printed); nothing is derived. source_url is the document,
+  x_page its page.'
+read:
+  date: '2026-11-20'
+  rows: 5
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      reserve_report:caiso:caiso_2026_summer_loads_and_resources_assessment_may_2026: 5
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-06-01T00:00:00Z': 5
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    list:
+      '17.5': 1
+      '25.0': 1
+      '2547.0': 1
+      '30.8': 1
+      '46844.0': 1
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 2
+      pct: 3
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 5
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      CAISO, 2026 Summer Loads and Resources Assessment, May 2026: 5
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:summer_loads_and_resources_assessment: 5
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.caiso.com/documents/2026-summer-loads-and-resources-assessment.pdf: 5
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-12T16:51:54Z': 5
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5
+- name: x_grid
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CAISO: 5
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_body
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      California Independent System Operator (CAISO): 5
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_document
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CAISO, 2026 Summer Loads and Resources Assessment, May 2026: 5
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_period
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      summer 2026: 5
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_page
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '15': 3
+      '3': 2
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_printed
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      The 17.5 percent is the load-weighted average PRM across all LSE's.: 1
+      ? The CAISO's probabilistic assessment of "All Resource Adequacy (RA) eligible" resources shows a surplus of 2,547 MW
+        for meeting a generally accepted "one day every 10 years loss-of-load expectation" ("1-in-10 or 0.1 LOLE") planning
+        target.
+      : 1
+      The California Energy Commission's 1-in-2 forecasted peak load for 2026 is 46,844 MW in September, hour ending 18.: 1
+      The model subsequently recalculates the PRM, resulting in a requirement of 25 percent to meet the reliability target.: 1
+      This results in an "achieved PRM" of 30.8 percent in the tightest hour based on the current portfolio.: 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: capacity_surplus_mw
+  label: null
+  unit: MW
+  rows: 1
+  first: '2026-06-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: peak_forecast_mw
+  label: null
+  unit: MW
+  rows: 1
+  first: '2026-06-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: prm_achieved_pct
+  label: null
+  unit: pct
+  rows: 1
+  first: '2026-06-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: prm_required_pct
+  label: null
+  unit: pct
+  rows: 1
+  first: '2026-06-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: ra_prm_load_weighted_pct
+  label: null
+  unit: pct
+  rows: 1
+  first: '2026-06-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+second_look: null

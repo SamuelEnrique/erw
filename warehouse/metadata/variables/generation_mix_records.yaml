@@ -1,0 +1,234 @@
+# The codebook's metadata of table generation_mix_records (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: generation_mix_records
+family: erw_derived
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: PT1H
+source:
+- name: erw:generation_mix_hourly EIA Form EIA-930 hourly net generation by energy source, the per-BA workbooks ( California
+    from 2025-12-16T08:00:00Z is CAISO's own supply by fuel (caiso_fuel_supply; source erw:generation_mix_hourly_caiso), the
+    warehouse's one join (docs/methods/eia930_caiso_break.md); read by this run from warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175834.883363Z_00002_CISO.xlsx;
+    warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175850.712544Z_00004_ERCO.xlsx; warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175904.395449Z_00006_ISNE.xlsx;
+    warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175918.956497Z_00008_MISO.xlsx; warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175934.677962Z_00010_NYIS.xlsx;
+    warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175949.986042Z_00012_PJM.xlsx; warehouse/raw/eia930_emissions/20261116T175833Z/20261116T180008.741327Z_00014_SWPP.xlsx
+  url: https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx
+cite: 'Energy Research Warehouse (ERW), derived. The energy mix by hour: the average day of each month and the records, from
+  EIA-930 (docs/methods/generation_mix_hourly.md); The same for California from 2025-12-16, from CAISO''s own supply by fuel
+  (docs/methods/eia930_caiso_break.md). Via the Energy Research Warehouse (ERW), table `generation_mix_records`.'
+method: docs/methods/generation_mix_hourly.md
+header_title: 'the energy mix''s records by grid: the highest solar and wind shares of an hour, the cleanest and the dirtiest
+  hour (session 94)'
+header_shape: 'Shape: series (docs/datastandard.md v0). freq PT1H; ts_utc is the hour of the record (its start, UTC). Variables
+  for the whole history, and with the prefix year_ for each local year (x_period: all, or the year). x_side: eia930 or caiso,
+  the source of that hour. A share is of the hour''s generation (the sum of what its sources put out; a source below zero
+  adds nothing); the intensity is carbon_intensity_hourly''s intensity_generation. Only held hours, and not an hour whose
+  sources or whose CO2 do not describe it (docs/methods/generation_mix_hourly.md).'
+read:
+  date: '2026-11-20'
+  rows: 306
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      iso:caiso: 45
+      iso:ercot: 45
+      iso:isone: 45
+      iso:miso: 45
+      iso:nyiso: 36
+      iso:pjm: 45
+      iso:spp: 45
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 233
+    earliest: '2019-01-14T05:00:00Z'
+    latest: '2026-10-31T06:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 249
+    lowest: 0.59
+    highest: 766.49
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      kgCO2/MWh: 126
+      pct: 180
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 306
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 180
+      US-CA: 45
+      US-NY: 36
+      US-TX: 45
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 306
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 306
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:generation_mix_hourly: 294
+      erw:generation_mix_hourly_caiso: 12
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/generation_mix_hourly.md: 306
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T18:22:33Z': 306
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 306
+- name: x_period
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      '2019': 34
+      '2020': 34
+      '2021': 34
+      '2022': 34
+      '2023': 34
+      '2024': 34
+      '2025': 34
+      '2026': 34
+      all: 34
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_side
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      caiso: 12
+      eia930: 294
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: cleanest_hour_kgco2_per_mwh
+  label: null
+  unit: kgCO2/MWh
+  rows: 7
+  first: '2019-05-07T05:00:00Z'
+  last: '2026-10-18T16:00:00Z'
+- name: dirtiest_hour_kgco2_per_mwh
+  label: null
+  unit: kgCO2/MWh
+  rows: 7
+  first: '2019-01-17T04:00:00Z'
+  last: '2026-01-26T02:00:00Z'
+- name: solar_share_max_pct
+  label: null
+  unit: pct
+  rows: 6
+  first: '2026-04-26T18:00:00Z'
+  last: '2026-10-17T20:00:00Z'
+- name: wind_share_max_pct
+  label: null
+  unit: pct
+  rows: 7
+  first: '2021-05-08T09:00:00Z'
+  last: '2026-10-31T06:00:00Z'
+- name: wind_solar_share_max_pct
+  label: null
+  unit: pct
+  rows: 7
+  first: '2021-05-08T09:00:00Z'
+  last: '2026-10-18T15:00:00Z'
+- name: year_cleanest_hour_kgco2_per_mwh
+  label: null
+  unit: kgCO2/MWh
+  rows: 56
+  first: '2019-05-07T05:00:00Z'
+  last: '2026-10-18T18:00:00Z'
+- name: year_dirtiest_hour_kgco2_per_mwh
+  label: null
+  unit: kgCO2/MWh
+  rows: 56
+  first: '2019-01-14T05:00:00Z'
+  last: '2026-10-04T07:00:00Z'
+- name: year_solar_share_max_pct
+  label: null
+  unit: pct
+  rows: 48
+  first: '2019-04-14T21:00:00Z'
+  last: '2026-10-17T20:00:00Z'
+- name: year_wind_share_max_pct
+  label: null
+  unit: pct
+  rows: 56
+  first: '2019-03-15T06:00:00Z'
+  last: '2026-10-31T06:00:00Z'
+- name: year_wind_solar_share_max_pct
+  label: null
+  unit: pct
+  rows: 56
+  first: '2019-03-15T06:00:00Z'
+  last: '2026-10-18T15:00:00Z'
+second_look: null

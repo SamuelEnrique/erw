@@ -1,0 +1,233 @@
+# The codebook's metadata of table ercot_large_load_status (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_large_load_status
+family: ercot
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: ercot:large_load_status_update ERCOT, Large Load Interconnection Status Update (the Large Load Integration team's
+    monthly report to TAC and the LLWG); found on the meeting pages of  and
+  url: https://www.ercot.com/committees/tac
+cite: Electric Reliability Council of Texas (ERCOT). Large Load Interconnection Status Update (the Large Load Integration
+  team's monthly report to TAC and the LLWG). Via the Energy Research Warehouse (ERW), table `ercot_large_load_status`.
+method: docs/methods/ercot_large_load_status.md
+header_title: ERCOT's Large Load Interconnection Status Update, the figures each report states in words (session 106)
+header_shape: 'Shape: series (docs/datastandard.md v0). One row per figure and report; ts_utc is the day on the report''s
+  first page. Variables: approved_to_energize_mw (MW that have received ERCOT''s Approval to Energize), observed_nonsimultaneous_peak_mw
+  (the sum of each approved load''s own highest hour in the month: what ERCOT believes is operational), observed_simultaneous_peak_mw
+  (the highest hour of the loads together), new_submissions_count and new_submissions_mw (where a report gives them). x_month_as_written:
+  the month the sentence names, as ERCOT wrote it. x_document: the file.'
+read:
+  date: '2026-11-20'
+  rows: 38
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:large_load: 38
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2025-05-28T00:00:00Z': 3
+      '2025-07-30T00:00:00Z': 3
+      '2025-08-27T00:00:00Z': 3
+      '2025-10-17T00:00:00Z': 3
+      '2025-11-19T00:00:00Z': 3
+      '2026-01-21T00:00:00Z': 3
+      '2026-02-25T00:00:00Z': 3
+      '2026-03-13T00:00:00Z': 5
+      '2026-03-26T00:00:00Z': 3
+      '2026-04-24T00:00:00Z': 3
+      '2026-05-21T00:00:00Z': 3
+      '2026-06-19T00:00:00Z': 3
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 32
+    lowest: 137.0
+    highest: 140000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 37
+      count: 1
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 38
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 38
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 38
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 38
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:large_load_status_update: 38
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.ercot.com/files/docs/2025/05/27/11.-LLWG-Report.zip#LLI Queue Status Update - 2025-5.pdf: 3
+      https://www.ercot.com/files/docs/2025/07/29/12.-LLWG-Report.zip#LLI Queue Status Update - 2025-07-21.pdf: 3
+      https://www.ercot.com/files/docs/2025/08/26/13.-LLWG-Report.zip#LLI Queue Status Update - 2025-08-27.pdf: 3
+      https://www.ercot.com/files/docs/2025/10/21/11.-LLWG-Report.zip#October TAC Report.pptx: 3
+      https://www.ercot.com/files/docs/2025/11/18/11-LLWG-Report.zip#November TAC Report.pdf: 3
+      https://www.ercot.com/files/docs/2026/01/20/16.-Large-Load-Issues.zip#January TAC Report.pdf: 3
+      https://www.ercot.com/files/docs/2026/03/05/February-TAC-Report.pdf: 3
+      https://www.ercot.com/files/docs/2026/03/12/March-TAC-Report.pdf: 5
+      https://www.ercot.com/files/docs/2026/03/27/March-TAC-Report-Updated_03262026.pptx: 3
+      https://www.ercot.com/files/docs/2026/04/24/April-24-LLWG-Report_042426.pptx: 3
+      https://www.ercot.com/files/docs/2026/05/21/May-21-LLWG-Report.pptx: 3
+      https://www.ercot.com/files/docs/2026/06/18/June-19-LLWG-Report.pptx: 3
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-19T17:45:38Z': 38
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2025-05-28T00:00:00Z': 3
+      '2025-07-30T00:00:00Z': 3
+      '2025-08-27T00:00:00Z': 3
+      '2025-10-17T00:00:00Z': 3
+      '2025-11-19T00:00:00Z': 3
+      '2026-01-21T00:00:00Z': 3
+      '2026-02-25T00:00:00Z': 3
+      '2026-03-13T00:00:00Z': 5
+      '2026-03-26T00:00:00Z': 3
+      '2026-04-24T00:00:00Z': 3
+      '2026-05-21T00:00:00Z': 3
+      '2026-06-19T00:00:00Z': 3
+  missing_cells: 0
+- name: x_month_as_written
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      August 2025: 2
+      February 2025: 2
+      January 2025: 2
+      July 2025: 2
+      June 2026: 2
+      March 2025: 2
+      March 2026: 4
+      May 2025: 2
+      May 2026: 2
+      November 2025: 2
+      October 2025: 2
+  missing_cells: 14
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_document
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      April-24-LLWG-Report_042426.pptx: 3
+      February-TAC-Report.pdf: 3
+      January TAC Report.pdf: 3
+      June-19-LLWG-Report.pptx: 3
+      LLI Queue Status Update - 2025-07-21.pdf: 3
+      LLI Queue Status Update - 2025-08-27.pdf: 3
+      LLI Queue Status Update - 2025-5.pdf: 3
+      March-TAC-Report-Updated_03262026.pptx: 3
+      March-TAC-Report.pdf: 5
+      May-21-LLWG-Report.pptx: 3
+      November TAC Report.pdf: 3
+      October TAC Report.pptx: 3
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: approved_to_energize_mw
+  label: null
+  unit: MW
+  rows: 12
+  first: '2025-05-28T00:00:00Z'
+  last: '2026-06-19T00:00:00Z'
+- name: new_submissions_count
+  label: null
+  unit: count
+  rows: 1
+  first: '2026-03-13T00:00:00Z'
+  last: '2026-03-13T00:00:00Z'
+- name: new_submissions_mw
+  label: null
+  unit: MW
+  rows: 1
+  first: '2026-03-13T00:00:00Z'
+  last: '2026-03-13T00:00:00Z'
+- name: observed_nonsimultaneous_peak_mw
+  label: null
+  unit: MW
+  rows: 12
+  first: '2025-05-28T00:00:00Z'
+  last: '2026-06-19T00:00:00Z'
+- name: observed_simultaneous_peak_mw
+  label: null
+  unit: MW
+  rows: 12
+  first: '2025-05-28T00:00:00Z'
+  last: '2026-06-19T00:00:00Z'
+second_look: null

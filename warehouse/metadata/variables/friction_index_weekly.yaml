@@ -1,0 +1,178 @@
+# The codebook's metadata of table friction_index_weekly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: friction_index_weekly
+family: erw_derived
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: model_extracted
+interval: P1W
+source: []
+cite: 'Energy Research Warehouse (ERW). The Attention and Friction indices: coverage and opposition by week, sector and place,
+  from the classified news stories (the ERW''s own derivation). Via the Energy Research Warehouse (ERW), table `friction_index_weekly`.'
+method: docs/methods/attention.md
+header_title: the Friction Index by week, sector and place (session 3402)
+header_shape: 'Shape: series (docs/datastandard.md v0), freq P1W, ts_utc the Monday 00:00Z of the week; the entities of attention_index_weekly.
+  opposition_stories: the cell''s stories that report opposition (a moratorium or ban, a lawsuit, a protest, a permit denied,
+  a rate-case fight, political opposition, other); friction_index: those as a percent of the cell''s stories; kind_<kind>:
+  the count of each kind.'
+read:
+  date: '2026-11-20'
+  rows: 4610
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 184
+    examples:
+    - attention:datacenters:US
+    - attention:datacenters:US-AL
+    - attention:datacenters:US-AR
+    - attention:datacenters:US-CA
+    - attention:datacenters:US-DC
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-05T00:00:00Z': 1030
+      '2026-10-12T00:00:00Z': 930
+      '2026-10-19T00:00:00Z': 1020
+      '2026-10-26T00:00:00Z': 1030
+      '2026-11-02T00:00:00Z': 600
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 108
+    lowest: 0.0
+    highest: 100.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 4149
+      pct: 461
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1W: 4610
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 47
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 400
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:attention: 4610
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/attention.md: 4610
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T09:24:19Z': 4610
+  missing_cells: 0
+variables:
+- name: friction_index
+  label: null
+  unit: pct
+  rows: 461
+  first: '2026-10-05T00:00:00Z'
+  last: '2026-11-02T00:00:00Z'
+- name: kind_lawsuit
+  label: null
+  unit: count
+  rows: 461
+  first: '2026-10-05T00:00:00Z'
+  last: '2026-11-02T00:00:00Z'
+- name: kind_moratorium
+  label: null
+  unit: count
+  rows: 461
+  first: '2026-10-05T00:00:00Z'
+  last: '2026-11-02T00:00:00Z'
+- name: kind_other_opposition
+  label: null
+  unit: count
+  rows: 461
+  first: '2026-10-05T00:00:00Z'
+  last: '2026-11-02T00:00:00Z'
+- name: kind_permit_denied
+  label: null
+  unit: count
+  rows: 461
+  first: '2026-10-05T00:00:00Z'
+  last: '2026-11-02T00:00:00Z'
+- name: kind_political_opposition
+  label: null
+  unit: count
+  rows: 461
+  first: '2026-10-05T00:00:00Z'
+  last: '2026-11-02T00:00:00Z'
+- name: kind_protest
+  label: null
+  unit: count
+  rows: 461
+  first: '2026-10-05T00:00:00Z'
+  last: '2026-11-02T00:00:00Z'
+- name: kind_rate_case
+  label: null
+  unit: count
+  rows: 461
+  first: '2026-10-05T00:00:00Z'
+  last: '2026-11-02T00:00:00Z'
+- name: opposition_events
+  label: null
+  unit: count
+  rows: 461
+  first: '2026-10-05T00:00:00Z'
+  last: '2026-11-02T00:00:00Z'
+- name: opposition_stories
+  label: null
+  unit: count
+  rows: 461
+  first: '2026-10-05T00:00:00Z'
+  last: '2026-11-02T00:00:00Z'
+second_look: null
