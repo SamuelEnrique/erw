@@ -1,0 +1,22 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate quakes_m3, region eq_texas (Texas)
+# Computed 2026-11-19T13:04:13Z by warehouse/analysis/findings/deep/other_us.py (quakes_m3); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's earthquakes of magnitude 3.0 and above in the state (earthquakes), the observations it rests on, and whether the year is full
+# Tables: usgs_comcat_earthquakes_south_central
+region,year,value,n_observations,full_year
+eq_texas,2010,9.0,1.0,1
+eq_texas,2011,20.0,1.0,1
+eq_texas,2012,11.0,1.0,1
+eq_texas,2013,17.0,1.0,1
+eq_texas,2014,10.0,1.0,1
+eq_texas,2015,22.0,1.0,1
+eq_texas,2016,9.0,1.0,1
+eq_texas,2017,17.0,1.0,1
+eq_texas,2018,29.0,1.0,1
+eq_texas,2019,22.0,1.0,1
+eq_texas,2020,55.0,1.0,1
+eq_texas,2021,98.0,1.0,1
+eq_texas,2022,116.0,1.0,1
+eq_texas,2023,123.0,1.0,1
+eq_texas,2024,126.0,1.0,1
+eq_texas,2025,67.0,1.0,1
+eq_texas,2026,53.0,1.0,0

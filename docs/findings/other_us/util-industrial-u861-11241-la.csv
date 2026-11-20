@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate util_industrial, region u861_11241_la (Entergy Louisiana LLC in LA)
+# Computed 2026-11-19T12:15:32Z by warehouse/analysis/findings/deep/other_us.py (util_industrial); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's retail sales to industrial customers (TWh), the observations it rests on, and whether the year is full
+# Tables: eia861m_utility_sales_monthly
+region,year,value,n_observations,full_year
+u861_11241_la,2017,29.754179951,12.0,1
+u861_11241_la,2018,29.25498521,12.0,1
+u861_11241_la,2019,29.801169761999997,12.0,1
+u861_11241_la,2020,28.880742044999998,12.0,1
+u861_11241_la,2021,29.869185741,12.0,1
+u861_11241_la,2022,31.736414214,12.0,1
+u861_11241_la,2023,31.514095243,12.0,1
+u861_11241_la,2024,34.520048497000005,12.0,1
+u861_11241_la,2025,35.982481408,12.0,1
+u861_11241_la,2026,21.630637629000002,7.0,0

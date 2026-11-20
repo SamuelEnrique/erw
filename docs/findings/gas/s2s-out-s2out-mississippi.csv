@@ -1,0 +1,38 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate s2s_out, region s2out_mississippi (Mississippi)
+# Computed 2026-11-19T12:48:34Z by warehouse/analysis/findings/deep/gas.py (s2s_out); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the summed capacity of the pipeline crossings out of the state (bcf a day), the observations it rests on, and whether the year is full
+# Tables: eia_state_to_state_capacity
+region,year,value,n_observations,full_year
+s2out_mississippi,1990,20.71,1.0,1
+s2out_mississippi,1994,21.563,1.0,1
+s2out_mississippi,1995,22.042,1.0,1
+s2out_mississippi,1996,22.097,1.0,1
+s2out_mississippi,1997,22.242,1.0,1
+s2out_mississippi,1998,22.242,1.0,1
+s2out_mississippi,1999,22.549,1.0,1
+s2out_mississippi,2000,22.784,1.0,1
+s2out_mississippi,2001,22.608,1.0,1
+s2out_mississippi,2002,23.276,1.0,1
+s2out_mississippi,2003,24.154,1.0,1
+s2out_mississippi,2004,24.320999999999998,1.0,1
+s2out_mississippi,2005,24.320999999999998,1.0,1
+s2out_mississippi,2006,24.320999999999998,1.0,1
+s2out_mississippi,2007,24.320999999999998,1.0,1
+s2out_mississippi,2008,27.868,1.0,1
+s2out_mississippi,2009,29.401,1.0,1
+s2out_mississippi,2010,29.401,1.0,1
+s2out_mississippi,2011,29.526,1.0,1
+s2out_mississippi,2012,29.651,1.0,1
+s2out_mississippi,2013,30.191,1.0,1
+s2out_mississippi,2014,31.252,1.0,1
+s2out_mississippi,2015,32.856,1.0,1
+s2out_mississippi,2016,34.173,1.0,1
+s2out_mississippi,2017,38.741,1.0,1
+s2out_mississippi,2018,38.81,1.0,1
+s2out_mississippi,2019,39.566,1.0,1
+s2out_mississippi,2020,39.641,1.0,1
+s2out_mississippi,2021,40.233,1.0,1
+s2out_mississippi,2022,41.001,1.0,1
+s2out_mississippi,2023,41.166,1.0,1
+s2out_mississippi,2024,41.166,1.0,1
+s2out_mississippi,2025,42.266,1.0,1

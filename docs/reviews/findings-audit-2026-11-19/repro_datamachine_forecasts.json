@@ -1,0 +1,422 @@
+[
+ {
+  "draft": "forecasts/energy-growth-pa-119.reproduce.py",
+  "ok": true,
+  "printed_first": 1.543435,
+  "printed_last": 5.539545,
+  "expected": {
+   "first_year": 2006,
+   "first": 1.543435,
+   "last_year": 2025,
+   "last": 5.539545,
+   "change": 3.996109
+  },
+  "tolerance": 0.019980545000000002
+ },
+ {
+  "draft": "forecasts/energy-growth-pa-16.reproduce.py",
+  "ok": true,
+  "printed_first": 2.897089,
+  "printed_last": 7.335731,
+  "expected": {
+   "first_year": 2006,
+   "first": 2.897089,
+   "last_year": 2025,
+   "last": 7.335731,
+   "change": 4.438642
+  },
+  "tolerance": 0.022193209999999998
+ },
+ {
+  "draft": "forecasts/energy-growth-pa-183.reproduce.py",
+  "ok": true,
+  "printed_first": 1.90081,
+  "printed_last": 7.078979,
+  "expected": {
+   "first_year": 2007,
+   "first": 1.90081,
+   "last_year": 2025,
+   "last": 7.078979,
+   "change": 5.178169
+  },
+  "tolerance": 0.025890845
+ },
+ {
+  "draft": "forecasts/energy-growth-pa-203.reproduce.py",
+  "ok": true,
+  "printed_first": -1.403549,
+  "printed_last": 2.696003,
+  "expected": {
+   "first_year": 2009,
+   "first": -1.403549,
+   "last_year": 2025,
+   "last": 2.696003,
+   "change": 4.099552
+  },
+  "tolerance": 0.02049776
+ },
+ {
+  "draft": "forecasts/energy-growth-pa-58.reproduce.py",
+  "ok": true,
+  "printed_first": 2.097557,
+  "printed_last": 8.227011,
+  "expected": {
+   "first_year": 2006,
+   "first": 2.097557,
+   "last_year": 2025,
+   "last": 8.227011,
+   "change": 6.129454
+  },
+  "tolerance": 0.03064727
+ },
+ {
+  "draft": "forecasts/energy-growth-pa-72.reproduce.py",
+  "ok": true,
+  "printed_first": 1.800151,
+  "printed_last": 6.173763,
+  "expected": {
+   "first_year": 2006,
+   "first": 1.800151,
+   "last_year": 2025,
+   "last": 6.173763,
+   "change": 4.373613
+  },
+  "tolerance": 0.021868065
+ },
+ {
+  "draft": "forecasts/energy-revision-pa-137.reproduce.py",
+  "ok": true,
+  "printed_first": -5.20076,
+  "printed_last": 2.925662,
+  "expected": {
+   "first_year": 2007,
+   "first": -5.20076,
+   "last_year": 2025,
+   "last": 2.925662,
+   "change": 8.126421
+  },
+  "tolerance": 0.040632105
+ },
+ {
+  "draft": "forecasts/energy-revision-pa-138.reproduce.py",
+  "ok": true,
+  "printed_first": 5.693843,
+  "printed_last": 66.784261,
+  "expected": {
+   "first_year": 2007,
+   "first": 5.693843,
+   "last_year": 2025,
+   "last": 66.784261,
+   "change": 61.090418
+  },
+  "tolerance": 0.30545209
+ },
+ {
+  "draft": "forecasts/energy-revision-pa-16.reproduce.py",
+  "ok": true,
+  "printed_first": -4.104753,
+  "printed_last": 13.487851,
+  "expected": {
+   "first_year": 2007,
+   "first": -4.104753,
+   "last_year": 2025,
+   "last": 13.487851,
+   "change": 17.592605
+  },
+  "tolerance": 0.087963025
+ },
+ {
+  "draft": "forecasts/energy-revision-pa-51.reproduce.py",
+  "ok": true,
+  "printed_first": -2.319901,
+  "printed_last": 9.836367,
+  "expected": {
+   "first_year": 2007,
+   "first": -2.319901,
+   "last_year": 2025,
+   "last": 9.836367,
+   "change": 12.156268
+  },
+  "tolerance": 0.06078134
+ },
+ {
+  "draft": "forecasts/energy-revision-pa-90.reproduce.py",
+  "ok": true,
+  "printed_first": -0.113984,
+  "printed_last": 11.114302,
+  "expected": {
+   "first_year": 2007,
+   "first": -0.113984,
+   "last_year": 2025,
+   "last": 11.114302,
+   "change": 11.228286
+  },
+  "tolerance": 0.056141430000000006
+ },
+ {
+  "draft": "forecasts/energy-revision-pa-99.reproduce.py",
+  "ok": true,
+  "printed_first": -5.505917,
+  "printed_last": 31.620697,
+  "expected": {
+   "first_year": 2007,
+   "first": -5.505917,
+   "last_year": 2025,
+   "last": 31.620697,
+   "change": 37.126615
+  },
+  "tolerance": 0.185633075
+ },
+ {
+  "draft": "forecasts/summer-growth-pa-107.reproduce.py",
+  "ok": true,
+  "printed_first": 4.645822,
+  "printed_last": 1.689828,
+  "expected": {
+   "first_year": 2006,
+   "first": 4.645822,
+   "last_year": 2025,
+   "last": 1.689828,
+   "change": -2.955994
+  },
+  "tolerance": 0.01477997
+ },
+ {
+  "draft": "forecasts/summer-growth-pa-119.reproduce.py",
+  "ok": true,
+  "printed_first": 1.561079,
+  "printed_last": 3.700873,
+  "expected": {
+   "first_year": 2006,
+   "first": 1.561079,
+   "last_year": 2025,
+   "last": 3.700873,
+   "change": 2.139794
+  },
+  "tolerance": 0.01069897
+ },
+ {
+  "draft": "forecasts/summer-growth-pa-138.reproduce.py",
+  "ok": true,
+  "printed_first": 0.979182,
+  "printed_last": 4.936214,
+  "expected": {
+   "first_year": 2006,
+   "first": 0.979182,
+   "last_year": 2024,
+   "last": 4.936214,
+   "change": 3.957032
+  },
+  "tolerance": 0.01978516
+ },
+ {
+  "draft": "forecasts/summer-growth-pa-183.reproduce.py",
+  "ok": true,
+  "printed_first": 2.070947,
+  "printed_last": 5.140171,
+  "expected": {
+   "first_year": 2007,
+   "first": 2.070947,
+   "last_year": 2025,
+   "last": 5.140171,
+   "change": 3.069224
+  },
+  "tolerance": 0.015346120000000001
+ },
+ {
+  "draft": "forecasts/summer-growth-pa-216.reproduce.py",
+  "ok": true,
+  "printed_first": 0.856145,
+  "printed_last": 2.935903,
+  "expected": {
+   "first_year": 2021,
+   "first": 0.856145,
+   "last_year": 2025,
+   "last": 2.935903,
+   "change": 2.079758
+  },
+  "tolerance": 0.01039879
+ },
+ {
+  "draft": "forecasts/summer-growth-pa-58.reproduce.py",
+  "ok": true,
+  "printed_first": 2.116054,
+  "printed_last": 5.563292,
+  "expected": {
+   "first_year": 2006,
+   "first": 2.116054,
+   "last_year": 2025,
+   "last": 5.563292,
+   "change": 3.447238
+  },
+  "tolerance": 0.017236190000000002
+ },
+ {
+  "draft": "forecasts/summer-revision-pa-138.reproduce.py",
+  "ok": true,
+  "printed_first": 11.888112,
+  "printed_last": 73.292258,
+  "expected": {
+   "first_year": 2007,
+   "first": 11.888112,
+   "last_year": 2025,
+   "last": 73.292258,
+   "change": 61.404146
+  },
+  "tolerance": 0.30702073
+ },
+ {
+  "draft": "forecasts/summer-revision-pa-146.reproduce.py",
+  "ok": true,
+  "printed_first": -0.514242,
+  "printed_last": 10.914824,
+  "expected": {
+   "first_year": 2007,
+   "first": -0.514242,
+   "last_year": 2025,
+   "last": 10.914824,
+   "change": 11.429066
+  },
+  "tolerance": 0.05714533
+ },
+ {
+  "draft": "forecasts/summer-revision-pa-2.reproduce.py",
+  "ok": true,
+  "printed_first": -4.523573,
+  "printed_last": 4.587852,
+  "expected": {
+   "first_year": 2008,
+   "first": -4.523573,
+   "last_year": 2025,
+   "last": 4.587852,
+   "change": 9.111425
+  },
+  "tolerance": 0.045557125000000004
+ },
+ {
+  "draft": "forecasts/summer-revision-pa-51.reproduce.py",
+  "ok": true,
+  "printed_first": -1.744985,
+  "printed_last": 7.903854,
+  "expected": {
+   "first_year": 2007,
+   "first": -1.744985,
+   "last_year": 2025,
+   "last": 7.903854,
+   "change": 9.648838
+  },
+  "tolerance": 0.04824419
+ },
+ {
+  "draft": "forecasts/summer-revision-pa-90.reproduce.py",
+  "ok": true,
+  "printed_first": -1.265823,
+  "printed_last": 11.114302,
+  "expected": {
+   "first_year": 2007,
+   "first": -1.265823,
+   "last_year": 2025,
+   "last": 11.114302,
+   "change": 12.380125
+  },
+  "tolerance": 0.061900625
+ },
+ {
+  "draft": "forecasts/summer-revision-pa-99.reproduce.py",
+  "ok": true,
+  "printed_first": -0.478024,
+  "printed_last": 14.373875,
+  "expected": {
+   "first_year": 2007,
+   "first": -0.478024,
+   "last_year": 2025,
+   "last": 14.373875,
+   "change": 14.851899
+  },
+  "tolerance": 0.074259495
+ },
+ {
+  "draft": "forecasts/winter-growth-pa-119.reproduce.py",
+  "ok": true,
+  "printed_first": 1.101647,
+  "printed_last": 4.21492,
+  "expected": {
+   "first_year": 2006,
+   "first": 1.101647,
+   "last_year": 2025,
+   "last": 4.21492,
+   "change": 3.113273
+  },
+  "tolerance": 0.015566365
+ },
+ {
+  "draft": "forecasts/winter-growth-pa-138.reproduce.py",
+  "ok": true,
+  "printed_first": 0.535498,
+  "printed_last": 5.883722,
+  "expected": {
+   "first_year": 2006,
+   "first": 0.535498,
+   "last_year": 2024,
+   "last": 5.883722,
+   "change": 5.348225
+  },
+  "tolerance": 0.026741125
+ },
+ {
+  "draft": "forecasts/winter-growth-pa-16.reproduce.py",
+  "ok": true,
+  "printed_first": 3.264963,
+  "printed_last": 7.464785,
+  "expected": {
+   "first_year": 2006,
+   "first": 3.264963,
+   "last_year": 2025,
+   "last": 7.464785,
+   "change": 4.199822
+  },
+  "tolerance": 0.02099911
+ },
+ {
+  "draft": "forecasts/winter-growth-pa-183.reproduce.py",
+  "ok": true,
+  "printed_first": 2.017613,
+  "printed_last": 5.443447,
+  "expected": {
+   "first_year": 2007,
+   "first": 2.017613,
+   "last_year": 2025,
+   "last": 5.443447,
+   "change": 3.425833
+  },
+  "tolerance": 0.017129165
+ },
+ {
+  "draft": "forecasts/winter-growth-pa-58.reproduce.py",
+  "ok": true,
+  "printed_first": 2.201985,
+  "printed_last": 6.626003,
+  "expected": {
+   "first_year": 2006,
+   "first": 2.201985,
+   "last_year": 2025,
+   "last": 6.626003,
+   "change": 4.424018
+  },
+  "tolerance": 0.022120090000000002
+ },
+ {
+  "draft": "forecasts/winter-growth-pa-72.reproduce.py",
+  "ok": true,
+  "printed_first": 1.261005,
+  "printed_last": 4.877126,
+  "expected": {
+   "first_year": 2006,
+   "first": 1.261005,
+   "last_year": 2025,
+   "last": 4.877126,
+   "change": 3.616121
+  },
+  "tolerance": 0.018080605
+ }
+]
