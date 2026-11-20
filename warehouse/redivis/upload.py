@@ -184,8 +184,21 @@ def licenses():
     return dict(zip(cov["table"], cov["license"]))
 
 
+def _codebook():
+    """Chain 630: warehouse/redivis/codebook.py, the codebook's descriptions and labels (docs/redivis/codebook/)."""
+    try:
+        sys.path.insert(0, HERE)
+        import codebook
+        return codebook
+    except Exception:  # noqa: BLE001 - the codebook is an addition: without it the header is the description
+        return None
+
+
 def description(name, header, license_):
-    lines = [f"ERW table {name}. License: {license_} (warehouse/metadata/coverage.csv; "
+    cb = _codebook()
+    book = cb.description_for(name) if cb else None
+    lines = ([book, ""] if book else []) + [
+             f"ERW table {name}. License: {license_} (warehouse/metadata/coverage.csv; "
              "internal means licensed for internal use only, never for the public site).",
              "Provenance header of the ERW file (docs/datastandard.md):"] + header
     text = "\n".join(lines)
@@ -400,6 +413,12 @@ def push(ds, name, header, data_text, license_, events=False, dataset=PUBLIC, da
         os.remove(tmp)
     if not wait:
         return expected, None
+    cb = _codebook()
+    if cb and dataset == PUBLIC:
+        try:  # chain 630: the variables' labels, set again after each upload (the table was recreated)
+            cb.set_labels(table, name)
+        except Exception as exc:  # noqa: BLE001 - a label never fails an upload; codebook.py apply sets it later
+            log(f"{name}: codebook labels not set ({type(exc).__name__}: {str(exc)[:120]})")
     return expected, count_rows(table)
 
 

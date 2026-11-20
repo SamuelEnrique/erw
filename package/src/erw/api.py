@@ -370,6 +370,23 @@ def standard(name: str, backend: Optional[str] = None) -> Dict:
             "key": key}
 
 
+def describe(name: str) -> Dict:
+    """Chain 630 (erw/codebook.py): the table's codebook entry, read from warehouse/metadata/variables/<table>.yaml in
+    a clone or from the copy the package ships: what a row is, its keys, time and revision rule, license, tier,
+    source, citation and method note, and each column with its label, unit, type, values and missing meaning (a
+    shared column's definition filled in from _shared.yaml), and a series table's variables with their units."""
+    from . import codebook
+    return codebook.describe(_current(name))
+
+
+def variables(name: str) -> pd.DataFrame:
+    """Chain 630 (erw/codebook.py): one row a column of the table, in its own order: name, label, unit, type,
+    values (the list where short, else the lowest and highest held), missing_meaning, missing_cells, source_name,
+    shared. The same metadata as describe()."""
+    from . import codebook
+    return codebook.variables(_current(name))
+
+
 def _keeps_revisions(name: str) -> bool:
     """A series table whose key includes vintage: the data standard says so where a table keeps more than one revision;
     the package cannot tell without the rows, so it says so only for the tables whose header says it."""

@@ -1,0 +1,214 @@
+# The codebook's metadata of table generation_outages_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: generation_outages_hourly
+family: ''
+shape: series
+row: Megawatts of generation out of service in one hour, for one SPP area by fuel or for CAISO by planned and forced, as each
+  operator publishes it.
+time: ts_utc is the hour's start in UTC.
+vintage_rule: Merged by (entity, variable, ts_utc). SPP's hour is from the newest file of its operating day (or the day before
+  for hours 0 to 2, Central); CAISO's from the prior trade date report. A day read again replaces the one held. vintage is
+  not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: spp:CAP-GEN-OUTAGE Southwest Power Pool (SPP), Capacity of Generation on Outage, https://portal.spp.org/pages/capacity-of-generation-on-outage;
+    caiso:CURTAILED-NONOP-GEN California Independent System Operator (CAISO), Curtailed and Non-Operational Generator Prior
+    Trade Date Report
+  url: https://www.caiso.com/documents/curtailed-non-operational-generator-prior-trade-date-report-20261118.xlsx
+cite: CAISO; SPP. Via the Energy Research Warehouse (ERW), table `generation_outages_hourly`.
+method: docs/methods/grid_outages.md
+header_title: generation out of service, hourly, as SPP and CAISO publish it
+header_shape: 'Shape: series (docs/datastandard.md v0). MW. ts_utc is the start of the hour, UTC.'
+read:
+  date: '2026-11-20'
+  rows: 1173900
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:ISO: 142635
+      spp:SPP: 906899
+      spp:SWPW: 61259
+      spp:Total: 63107
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2016-10-07T05:00:00Z'
+    latest: '2026-11-21T05:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 47612.26
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 1173900
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 1173900
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 1031265
+      US-CA,US-NV: 142635
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1173900
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1173900
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:CURTAILED-NONOP-GEN: 142635
+      spp:CAP-GEN-OUTAGE: 1031265
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 2678
+    examples:
+    - https://portal.spp.org/file-browser-api/download/capacity-of-generation-on-outage?path=/2016/2016.zip
+    - https://portal.spp.org/file-browser-api/download/capacity-of-generation-on-outage?path=/2017/2017.zip
+    - https://portal.spp.org/file-browser-api/download/capacity-of-generation-on-outage?path=/2018/2018.zip
+    - https://portal.spp.org/file-browser-api/download/capacity-of-generation-on-outage?path=/2019/2019.zip
+    - https://portal.spp.org/file-browser-api/download/capacity-of-generation-on-outage?path=/2020/2020.zip
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 2678
+    earliest: '2026-11-20T10:55:02Z'
+    latest: '2026-11-20T13:04:16Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1173900
+variables:
+- name: outage_mw_coal
+  label: SPP, coal megawatts out of service, MW
+  unit: MW
+  rows: 93123
+  first: '2017-07-22T05:00:00Z'
+  last: '2026-11-21T05:00:00Z'
+- name: outage_mw_forced
+  label: CAISO, megawatts curtailed by forced outages, weighted by the part of the hour each covers, MW
+  unit: MW
+  rows: 47545
+  first: '2021-06-17T07:00:00Z'
+  last: '2026-11-19T07:00:00Z'
+- name: outage_mw_gas
+  label: SPP, natural gas megawatts out of service, MW
+  unit: MW
+  rows: 93123
+  first: '2017-07-22T05:00:00Z'
+  last: '2026-11-21T05:00:00Z'
+- name: outage_mw_hydro
+  label: SPP, hydro megawatts out of service, MW
+  unit: MW
+  rows: 93123
+  first: '2017-07-22T05:00:00Z'
+  last: '2026-11-21T05:00:00Z'
+- name: outage_mw_nuclear
+  label: SPP, nuclear megawatts out of service, MW
+  unit: MW
+  rows: 93123
+  first: '2017-07-22T05:00:00Z'
+  last: '2026-11-21T05:00:00Z'
+- name: outage_mw_oil
+  label: SPP, diesel fuel oil megawatts out of service, MW
+  unit: MW
+  rows: 93123
+  first: '2017-07-22T05:00:00Z'
+  last: '2026-11-21T05:00:00Z'
+- name: outage_mw_other
+  label: SPP, other fuels' megawatts out of service, MW
+  unit: MW
+  rows: 93123
+  first: '2017-07-22T05:00:00Z'
+  last: '2026-11-21T05:00:00Z'
+- name: outage_mw_planned
+  label: CAISO, megawatts curtailed by planned outages, weighted by the part of the hour each covers, MW
+  unit: MW
+  rows: 47545
+  first: '2021-06-17T07:00:00Z'
+  last: '2026-11-19T07:00:00Z'
+- name: outage_mw_solar
+  label: SPP, solar megawatts out of service, MW
+  unit: MW
+  rows: 93123
+  first: '2017-07-22T05:00:00Z'
+  last: '2026-11-21T05:00:00Z'
+- name: outage_mw_total
+  label: Megawatts out of service, all fuels (SPP Outaged MW; CAISO planned plus forced), MW
+  unit: MW
+  rows: 147580
+  first: '2016-10-07T05:00:00Z'
+  last: '2026-11-21T05:00:00Z'
+- name: outage_mw_waste_disposal
+  label: SPP, waste disposal megawatts out of service, MW
+  unit: MW
+  rows: 93123
+  first: '2017-07-22T05:00:00Z'
+  last: '2026-11-21T05:00:00Z'
+- name: outage_mw_waste_heat
+  label: SPP, waste heat megawatts out of service, MW
+  unit: MW
+  rows: 93123
+  first: '2017-07-22T05:00:00Z'
+  last: '2026-11-21T05:00:00Z'
+- name: outage_mw_wind
+  label: SPP, wind megawatts out of service, MW
+  unit: MW
+  rows: 93123
+  first: '2017-07-22T05:00:00Z'
+  last: '2026-11-21T05:00:00Z'
+second_look: null

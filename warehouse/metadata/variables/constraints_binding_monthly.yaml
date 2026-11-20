@@ -1,0 +1,188 @@
+# The codebook's metadata of table constraints_binding_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: constraints_binding_monthly
+family: ''
+shape: series
+row: One constraint (with its contingency) in one month, from constraints_binding_hourly; derived.
+time: ts_utc is the month's first day at 00:00 UTC.
+vintage_rule: Rebuilt from constraints_binding_hourly at each run and merged by (entity, variable, ts_utc), so a month recomputed
+  replaces the one held. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1M
+source:
+- name: erw:constraints_binding_monthly ERW derived table
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_congestion.md
+cite: CAISO; SPP. Via the Energy Research Warehouse (ERW), table `constraints_binding_monthly`.
+method: docs/methods/grid_congestion.md
+header_title: 'binding constraints by month: hours bound and shadow prices (SPP and CAISO, day-ahead) (derived, chain 601
+  session 9000)'
+header_shape: 'Shape: series (docs/datastandard.md v0); freq P1M, ts_utc the first day of the operator''s local month at 00:00:00Z
+  (SPP Central, CAISO Pacific).'
+read:
+  date: '2026-11-20'
+  rows: 223556
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - caiso:18023_PAHRUMP _230_18904_BOB SS  _230_BR_1 _1|Base Case
+    - caiso:18023_PAHRUMP _230_18910_INOVATIN_230_BR_1 _1|Base Case
+    - caiso:18076_LTHRPWLS_138_18999_VEAJAF  _138_BR_1 _1|Base Case
+    - caiso:18083_NNSS_SW _138_18105_NNSS_VA _138_BR_1 _1|VE1 JACKAS-MERCRY 138
+    - caiso:18083_NNSS_SW _138_18105_NNSS_VA _138_BR_1 _1|VE1 VEAVST-PAHRUM 138
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 143
+    earliest: '2015-01-01T00:00:00Z'
+    latest: '2026-11-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -2507.47256
+    highest: 9446.50604
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 167667
+      count: 55889
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 223556
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 159948
+      US-CA,US-NV: 63608
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      caiso_dam: 63608
+      spp_dam: 159948
+  missing_cells: 0
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 223556
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:constraints_binding_monthly: 223556
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_congestion.md: 223556
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-20T12:13:22Z': 223556
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 223556
+- name: x_constraint
+  label: The constraint's name alone, as the operator prints it
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 021BA_LN@TULSA_NO<CON1097>
+    - 1001_LN@COULTER<28374>
+    - 10028A_LN@NESCTY<11922>
+    - 10028A_LN@NESCTY<16617>
+    - 10028A_LN@NESCTY<20496>
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: docs/methods/grid_congestion.md
+- name: x_contingency
+  label: The contingency under which it bound, as the operator prints it; empty where the operator printed none
+  unit: none
+  type: text
+  values:
+    distinct: 2316
+    examples:
+    - '100'
+    - '1003'
+    - '10042'
+    - '10105'
+    - '10107'
+  missing_cells: 68928
+  missing_meaning: the operator's file prints no contingency
+  source_name: null
+  documented_by: docs/methods/grid_congestion.md
+variables:
+- name: hours_bound
+  label: Hours the constraint bound in the month's day-ahead market, count
+  unit: count
+  rows: 55889
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-11-01T00:00:00Z'
+- name: shadow_price_abs_max
+  label: Highest size (absolute value) of the shadow price in the month, USD/MWh
+  unit: USD/MWh
+  rows: 55889
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-11-01T00:00:00Z'
+- name: shadow_price_abs_mean
+  label: Mean size (absolute value) of the shadow price over the hours it bound, USD/MWh
+  unit: USD/MWh
+  rows: 55889
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-11-01T00:00:00Z'
+- name: shadow_price_mean
+  label: Mean shadow price over the hours it bound, sign as printed, USD/MWh
+  unit: USD/MWh
+  rows: 55889
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-11-01T00:00:00Z'
+second_look: null

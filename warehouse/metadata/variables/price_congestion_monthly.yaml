@@ -1,0 +1,187 @@
+# The codebook's metadata of table price_congestion_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: price_congestion_monthly
+family: ''
+shape: series
+row: One hub or load zone in one month, the means of its day-ahead price parts; derived from price_congestion_hourly.
+time: ts_utc is the month's first day at 00:00 UTC.
+vintage_rule: Rebuilt from price_congestion_hourly at each run and merged by (entity, variable, ts_utc), so a month recomputed
+  replaces the one held. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1M
+source:
+- name: erw:price_congestion_monthly ERW derived table
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_congestion.md
+cite: CAISO; SPP. Via the Energy Research Warehouse (ERW), table `price_congestion_monthly`.
+method: docs/methods/grid_congestion.md
+header_title: the parts of the day-ahead price at hubs and zones by month, and the share of the price that was congestion
+  (SPP and CAISO) (derived, chain 601 session 9000)
+header_shape: 'Shape: series (docs/datastandard.md v0); freq P1M, ts_utc the first day of the operator''s local month at 00:00:00Z
+  (SPP Central, CAISO Pacific).'
+read:
+  date: '2026-11-20'
+  rows: 2236
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:DLAP_PGAE-APND: 280
+      caiso:DLAP_SCE-APND: 280
+      caiso:DLAP_SDGE-APND: 280
+      caiso:DLAP_VEA-APND: 280
+      caiso:TH_NP15_GEN-APND: 280
+      caiso:TH_SP15_GEN-APND: 280
+      caiso:TH_ZP26_GEN-APND: 280
+      spp:SPPNORTH_HUB: 138
+      spp:SPPSOUTH_HUB: 138
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 40
+    earliest: '2023-08-01T00:00:00Z'
+    latest: '2026-11-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1389
+    lowest: -177.8992
+    highest: 744.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 1584
+      count: 326
+      pct: 326
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 2236
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 276
+      US-CA,US-NV: 1960
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      caiso_dam: 1960
+      spp_dam: 276
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      DLAP_PGAE-APND: 280
+      DLAP_SCE-APND: 280
+      DLAP_SDGE-APND: 280
+      DLAP_VEA-APND: 280
+      SPPNORTH_HUB: 138
+      SPPSOUTH_HUB: 138
+      TH_NP15_GEN-APND: 280
+      TH_SP15_GEN-APND: 280
+      TH_ZP26_GEN-APND: 280
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:price_congestion_monthly: 2236
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_congestion.md: 2236
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-20T12:13:22Z': 2236
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2236
+variables:
+- name: congestion_mean
+  label: Mean congestion part, USD/MWh
+  unit: USD/MWh
+  rows: 326
+  first: '2023-08-01T00:00:00Z'
+  last: '2026-11-01T00:00:00Z'
+- name: congestion_share_pct
+  label: The mean congestion part as a share of the mean LMP, pct
+  unit: pct
+  rows: 326
+  first: '2023-08-01T00:00:00Z'
+  last: '2026-11-01T00:00:00Z'
+- name: energy_mean
+  label: Mean energy part, USD/MWh
+  unit: USD/MWh
+  rows: 326
+  first: '2023-08-01T00:00:00Z'
+  last: '2026-11-01T00:00:00Z'
+- name: ghg_mean
+  label: Mean greenhouse gas part (CAISO), USD/MWh
+  unit: USD/MWh
+  rows: 280
+  first: '2023-08-01T00:00:00Z'
+  last: '2026-11-01T00:00:00Z'
+- name: hours_held
+  label: Hours of the month held, count
+  unit: count
+  rows: 326
+  first: '2023-08-01T00:00:00Z'
+  last: '2026-11-01T00:00:00Z'
+- name: lmp_mean
+  label: Mean day-ahead LMP over the hours held, USD/MWh
+  unit: USD/MWh
+  rows: 326
+  first: '2023-08-01T00:00:00Z'
+  last: '2026-11-01T00:00:00Z'
+- name: loss_mean
+  label: Mean loss part, USD/MWh
+  unit: USD/MWh
+  rows: 326
+  first: '2023-08-01T00:00:00Z'
+  last: '2026-11-01T00:00:00Z'
+second_look: null

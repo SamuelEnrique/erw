@@ -1,0 +1,145 @@
+# The codebook's metadata of table caiso_tie_flows_5min (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: caiso_tie_flows_5min
+family: ''
+shape: series
+row: The net Western Energy Imbalance Market transfer between one pair of balancing areas in one five-minute interval of CAISO's
+  real-time dispatch.
+time: ts_utc is the five minutes' start in UTC.
+vintage_rule: A rolling 35 days; days already held are not asked again, and days older than the window are dropped at each
+  run. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+keys_note: A pair has rows on a day only if it had a transfer that was not zero that day.
+license: public
+tier: source
+interval: PT5M
+source:
+- name: caiso:ENE_EIM_TRANSFER_TIE California Independent System Operator (CAISO), OASIS EIM Transfer by Tie, real-time dispatch
+    (RTD), five minutes
+  url: https://oasis.caiso.com/mrioasis/logon.do
+cite: CAISO. Via the Energy Research Warehouse (ERW), table `caiso_tie_flows_5min`.
+method: docs/methods/caiso_tie_flows.md
+header_title: the Western Energy Imbalance Market's transfers between balancing areas, five minutes, the last 35 days (CAISO
+  OASIS)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity caiso:<A>-<B>, the codes in alphabetical order; value the pair''s
+  tie transfers from A to B less those from B to A, MW, real-time dispatch; ts_utc the interval''s start.'
+read:
+  date: '2026-11-20'
+  rows: 569820
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 68
+    examples:
+    - caiso:AVA-AVRN
+    - caiso:AVA-BPAT
+    - caiso:AVA-IPCO
+    - caiso:AVA-NWMT
+    - caiso:AVA-PACW
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2026-10-16T07:00:00Z'
+    latest: '2026-11-19T07:55:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -2001.95
+    highest: 1795.51
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 569820
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT5M: 569820
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA,US-NV,US-AZ,US-OR,US-WA,US-ID,US-UT,US-WY,US-MT,US-NM: 569820
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      caiso_rtd: 569820
+  missing_cells: 0
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569820
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:ENE_EIM_TRANSFER_TIE: 569820
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=ENE_EIM_TRANSFER_TIE&version=4&baa_grp_id=ALL&market_run_id=RTD&startdatetime=20261016T07:00-0000&enddatetime=20261017T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=ENE_EIM_TRANSFER_TIE&version=4&baa_grp_id=ALL&market_run_id=RTD&startdatetime=20261017T07:00-0000&enddatetime=20261018T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=ENE_EIM_TRANSFER_TIE&version=4&baa_grp_id=ALL&market_run_id=RTD&startdatetime=20261019T07:00-0000&enddatetime=20261020T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=ENE_EIM_TRANSFER_TIE&version=4&baa_grp_id=ALL&market_run_id=RTD&startdatetime=20261020T07:00-0000&enddatetime=20261021T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=ENE_EIM_TRANSFER_TIE&version=4&baa_grp_id=ALL&market_run_id=RTD&startdatetime=20261021T07:00-0000&enddatetime=20261022T07:00-0000
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 32
+    earliest: '2026-11-20T11:15:10Z'
+    latest: '2026-11-20T11:22:41Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569820
+variables:
+- name: transfer_mw_net
+  label: The pair's tie transfers from the first area to the second less those back, MW (positive, the first sends to the
+    second); scheduled transfers, not metered flows
+  unit: MW
+  rows: 569820
+  first: '2026-10-16T07:00:00Z'
+  last: '2026-11-19T07:55:00Z'
+second_look: null

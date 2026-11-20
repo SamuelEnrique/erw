@@ -2,7 +2,7 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 94 public tables (9 entities, 6 events, 79 series; tiers: 94 source); 94 documented in full.
+**What the family holds.** 101 public tables (9 entities, 7 events, 85 series; tiers: 2 derived, 99 source); 101 documented in full.
 
 - [`abs_suriname_electricity_annual`](#abs_suriname_electricity_annual): One year's value of one Suriname electricity measure (EBS's demand by category, net generation, net consumption or capacity, or a Staatsolie plant's generation), from the statistics office's Environment Statistics Publication.
 - [`aedg_alaska_generation_monthly`](#aedg_alaska_generation_monthly): One Alaska service area's electricity generation from one fuel in one month, from the Alaska Energy Data Gateway.
@@ -20,6 +20,7 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`blm_oil_gas_statistics_annual`](#blm_oil_gas_statistics_annual): One state's value of one federal onshore oil and gas measure (leases, acreage, drilling permits, wells) for one federal fiscal year, from BLM's Oil and Gas Statistics.
 - [`bpa_ba_hourly`](#bpa_ba_hourly): One hour's value of the BPA balancing authority's load, generation by type or net interchange, the hour's mean of BPA's five-minute values.
 - [`bsee_offshore_incidents`](#bsee_offshore_incidents): One incident on the US outer continental shelf reported to the Bureau of Safety and Environmental Enforcement, from its calendar-year workbooks.
+- [`caiso_tie_flows_5min`](#caiso_tie_flows_5min): The net Western Energy Imbalance Market transfer between one pair of balancing areas in one five-minute interval of CAISO's real-time dispatch.
 - [`carb_auction_allowance_prices`](#carb_auction_allowance_prices): One cap-and-trade auction's (California, joint with Quebec) value of one result for its current-vintage or advance-vintage allowances.
 - [`carb_lcfs_credit_prices`](#carb_lcfs_credit_prices): One week's value of one Low Carbon Fuel Standard credit measure, as the California Air Resources Board publishes it.
 - [`cbs_curacao_electricity_annual`](#cbs_curacao_electricity_annual): Curacao's electricity production by Aqualectra in one year, from the Central Bureau of Statistics Curacao.
@@ -27,6 +28,8 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`cec_total_system_generation_annual`](#cec_total_system_generation_annual): One year's California in-state generation, or imports from the Northwest or Southwest, from one fuel, or the total system power by fuel, from the California Energy Commission.
 - [`censtatd_hk_electricity`](#censtatd_hk_electricity): One month's value of Hong Kong's electricity consumption by type of user (or exports to the Mainland), or one quarter's value of its generation, imports, exports, own use and losses, from the Census and Statistics Department.
 - [`cftc_cot_positions`](#cftc_cot_positions): One NYMEX futures contract's value of one Commitments of Traders measure for one report week.
+- [`constraints_binding_hourly`](#constraints_binding_hourly): One transmission constraint that bound in one hour of an operator's day-ahead market (SPP or CAISO), with the shadow price the operator published.
+- [`constraints_binding_monthly`](#constraints_binding_monthly): One constraint (with its contingency) in one month, from constraints_binding_hourly; derived.
 - [`cso_ireland_electricity_monthly`](#cso_ireland_electricity_monthly): Ireland's gross or net electricity output in one month, from the Central Statistics Office's table MSM01.
 - [`czso_cz_regional_electricity_annual`](#czso_cz_regional_electricity_annual): One Czech region's (or Czechia's) installed capacity or gross production by type of plant, or net consumption by activity, in 2024, from the Czech Statistical Office's Comparison of Regions.
 - [`destatis_de_electricity_monthly`](#destatis_de_electricity_monthly): One month's electricity or heat generation of Germany's general supply plants from one energy source (or in total), from Destatis' monthly report.
@@ -48,7 +51,9 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`fhwa_motor_fuel_monthly`](#fhwa_motor_fuel_monthly): The gallons of gasoline or of special fuels one state reports taxed in one month, from FHWA's Monthly Motor Fuel source data.
 - [`frb_treasury_yields`](#frb_treasury_yields): One US Treasury maturity's market yield at constant maturity for one business day.
 - [`frb_utility_output_monthly`](#frb_utility_output_monthly): One month's seasonally adjusted industrial production index or capacity utilization of one G.17 series (electric and gas utilities and their parts, with total industry and energy for comparison), from the Federal Reserve's G.17 release.
+- [`generation_outages_hourly`](#generation_outages_hourly): Megawatts of generation out of service in one hour, for one SPP area by fuel or for CAISO by planned and forced, as each operator publishes it.
 - [`gfz_kp_index_3h`](#gfz_kp_index_3h): The planetary geomagnetic index Kp for one three-hour interval, from GFZ's file since 1932.
+- [`grid_all_alerts`](#grid_all_alerts): One grid alert, watch, emergency or disturbance report, from CAISO's emergencies, ERCOT's notices or DOE's OE-417 reports; derived.
 - [`hagstofa_iceland_power_annual`](#hagstofa_iceland_power_annual): Iceland's installed capacity or generation in public power plants in one year, from Statistics Iceland's table IDN02101.
 - [`hagstova_faroe_electricity_annual`](#hagstova_faroe_electricity_annual): SEV's electricity production from one source, or its sales to one consumer group, in one year, from Statistics Faroe Islands tables UO03020 and UO03030.
 - [`hifld_transmission_lines`](#hifld_transmission_lines): One electric transmission line of 230 kV and above in HIFLD's Electric Power Transmission Lines layer.
@@ -69,6 +74,8 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`nve_norway_reservoirs_weekly`](#nve_norway_reservoirs_weekly): One Norwegian area's (the country, a price area or a water region) hydropower reservoir filling, stored energy or capacity in one week, from NVE's reservoir statistics.
 - [`ons_brazil_balance_hourly`](#ons_brazil_balance_hourly): One Brazilian subsystem's (or the national interconnected system's) generation by source, load or net interchange in one hour, from ONS's energy balance.
 - [`owid_ember_electricity_annual`](#owid_ember_electricity_annual): One country's or region's electricity demand or power sector greenhouse gas emissions in one year, the Ember columns of Our World in Data's energy dataset.
+- [`price_congestion_hourly`](#price_congestion_hourly): One part of the day-ahead price at one hub or load zone for one hour, as SPP or CAISO splits it.
+- [`price_congestion_monthly`](#price_congestion_monthly): One hub or load zone in one month, the means of its day-ahead price parts; derived from price_congestion_hourly.
 - [`ree_spain_balance_monthly`](#ree_spain_balance_monthly): One month's value of one series of Spain's electrical energy balance (generation by technology, storage, exchanges, demand at busbars), from Red Electrica's REData.
 - [`rrc_lease_production_monthly`](#rrc_lease_production_monthly): One Texas Railroad Commission lease's reported production of oil, casinghead gas, gas or condensate in Martin County in one month.
 - [`rte_eco2mix_france_halfhourly`](#rte_eco2mix_france_halfhourly): France's consumption, production from one source or net physical exchanges in one half hour, from RTE's eco2mix national files.
@@ -754,6 +761,40 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 | `x_gas_release` | Y when the incident involved a reportable H2S release or a shut-down gas release, else N | none | text | N, Y | 0 |
 | `x_summary` | BSEE's summary of the incident in its own words, spaces run together (the source's name: Incident Summary) | none | text | for example "06.27.2024: [REDACTED_NAME], As per 30 CFR 250.190, Talos Third Coast LLC respectfully submits the final investigation report as a follow up to the initial submittal of a crane / material handling incident at the MP-138G (G16500) facility on 06.14.2024 at 12:45 hours. After reviewing the report and corrective actions, if further clarification is necessary, Talos Operations and HSE can schedule a call into the New Orleans District office at the district's convenience. Total Cost: $200.00 USD, repair light fixture wiring and replace safety cage. 06.14.2024 As required by 30 CFR 250.188(a)(8), Talos Third Coast LLC submits the initial notification of a crane / material handling incident that occurred on MP-138G (G16500) at 12:45hours on 06/14/2024. Incident Description: While operating the crane on a blind lift from boat to production deck, crane operator bumped light fixture with tool box load breaking the coupling and casing light to fall. No personnel were injured in the incident. Talos Third Coast LLC. will provide a written follow up report upon completion of the incident investigation as required by 30 CFR 250.190. ", "This is initial and final report." Event During backloading operations, the handrail of a gangway contacted a suspended 550-gallon tote tank of engine oil. Event Description - Sequence / Timeline On February 8, 2023, backloading operations were underway utilizing Drill side crane of the EI 314 A Facility. . At approximately 08:00HRS; the marine vessel (M/V) Wildcat transitioned from EI 314 A Production side, under crane, to the Drill side crane. . During the transition the rigger attached the hook of the Drill side crane to a full 550-gallon tote tank of engine oil. . The crane operator then hoisted the tote tank and positioned it over the water awaiting the M/V to move into position to receive it. . While the load was held in position the M/V began to reverse toward the platform and under the load. . Once in position to receive the load the M/V was exposed to side sea conditions which swayed the vessel up during side-to-side (transverse axis) movements. . At that time, the bottom of the tote tank encountered one of the handrails of a gangway. . As the boat leveled to its original elevation, the crane operator lifted the load slightly then swung the tote tank to the left, away from the gangway and then lowered the tote tank to the deck of the M/V. . Once backloading operations were complete the crane operator reported the event to the Person-in-Charge (PIC) on the platform and then the Field Foreman and AOL's incident reporting requirements were initiated which included reporting the incident to the Field Foreman, Production Forman, and HSE Coordinator for investigation. Event Consequences 1. Gangway handrail was bent downward, and a weld was broken on the base of a socket which connects the handrail to the walking plank. There were no environmental impacts, or injuries to personnel because of this event. Reference Final Report Attachment., "This is initial and final report."_x000D_ _x000D_ Event: _x000D_ A production operator noticed a cotton cloth/rag smoldering inside of a wheelbarrow that included filtration media material and used paint that was curing for non-hazardous disposal._x000D_ _x000D_ Event Description - Sequence / Timeline:_x000D_ 15:25HRS 05/14/2022 EI 314 C a facility stop-work was initiated when a production operator identified a smoldering cotton cloth/rag inside of a wheelbarrow designated as a collection pan for paint operations waste. The operator immediately reacted with water to saturate the rag and other items from any further stage of reaction._x000D_ _x000D_ 15:30HRS A safety stand-down meeting was conducted, and production and paint operations personnel were in attendance to review the finding and establish a plan forward._x000D_ _x000D_ 17:00HRS Ultimate-work-authority (UWA) approved resumption of painting operations._x000D_ _x000D_ 08:00HRS 05/15/2022 A Microsoft Teams meeting was organized by Facilities Maintenance Management and representatives of current AOL painting operations in various contractor roles were in attendance. During the meeting the event was reviewed, and discussions of prevention were communicated to all affected and unaffected painting crews so that everyone was aware of the expectation for reviewing and referencing safety data sheets, various risk affiliated with chemicals that contain reactive properties, and onsite management planning and control._x000D_ _x000D_ Event Consequences:_x000D_ All facility operations were halted for investigation and a safety stand-down meeting was conducted to review the smoldering cloth/rag finding and identify a safe path forward._x000D_ _x000D_ Emergency muster actions did not occur and there was no injury, property damage or environmental impact because of this event._x000D_; 4788 distinct | 11: BSEE leaves the cell blank (11 rows of 2021) |
 
+### `caiso_tie_flows_5min`
+
+The net Western Energy Imbalance Market transfer between one pair of balancing areas in one five-minute interval of CAISO's real-time dispatch.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. A pair has rows on a day only if it had a transfer that was not zero that day.. License: public; tier: source. Rows read on 2026-11-20: 569820.
+
+- **Time:** ts_utc is the five minutes' start in UTC.
+- **Revisions:** A rolling 35 days; days already held are not asked again, and days older than the window are dropped at each run. vintage is not filled.
+- **Source:** caiso:ENE_EIM_TRANSFER_TIE California Independent System Operator (CAISO), OASIS EIM Transfer by Tie, real-time dispatch (RTD), five minutes (https://oasis.caiso.com/mrioasis/logon.do)
+- **Method note:** [`docs/methods/caiso_tie_flows.md`](../methods/caiso_tie_flows.md)
+- **Cite as:** CAISO. Via the Energy Research Warehouse (ERW), table `caiso_tie_flows_5min`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example caiso:AVA-AVRN, caiso:AVA-BPAT, caiso:AVA-IPCO; 68 distinct | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-10-16T07:00:00Z to 2026-11-19T07:55:00Z; more than 5000 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | -2001.95 to 1795.51; more than 5000 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | MW | 0 |
+| `freq` | How long the interval of the row is | none | text | PT5M | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-CA,US-NV,US-AZ,US-OR,US-WA,US-ID,US-UT,US-WY,US-MT,US-NM | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | caiso_rtd | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 569820 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | caiso:ENE_EIM_TRANSFER_TIE | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | for example https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=ENE_EIM_TRANSFER_TIE&version=4&baa_grp_id=ALL&market_run_id=RTD&startdatetime=20261016T07:00-0000&enddatetime=20261017T07:00-0000, https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=ENE_EIM_TRANSFER_TIE&version=4&baa_grp_id=ALL&market_run_id=RTD&startdatetime=20261017T07:00-0000&enddatetime=20261018T07:00-0000, https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=ENE_EIM_TRANSFER_TIE&version=4&baa_grp_id=ALL&market_run_id=RTD&startdatetime=20261019T07:00-0000&enddatetime=20261020T07:00-0000; 32 distinct | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-20T11:15:10Z to 2026-11-20T11:22:41Z; 32 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 569820 |
+
+Variables (1):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `transfer_mw_net` | The pair's tie transfers from the first area to the second less those back, MW (positive, the first sends to the second); scheduled transfers, not metered flows | MW | 569820 | 2026-10-16T07:00:00Z | 2026-11-19T07:55:00Z |
+
 ### `carb_auction_allowance_prices`
 
 One cap-and-trade auction's (California, joint with Quebec) value of one result for its current-vintage or advance-vintage allowances.
@@ -1042,6 +1083,86 @@ Variables (4):
 | `managed_money_net` | Managed money long less short, computed by the ERW, contracts | count | 2472 | 2015-01-06T00:00:00Z | 2026-11-03T00:00:00Z |
 | `managed_money_short` | Managed money short positions, futures only (the CFTC's m_money_positions_short_all), contracts | count | 2472 | 2015-01-06T00:00:00Z | 2026-11-03T00:00:00Z |
 | `open_interest` | Open interest, futures only (the CFTC's open_interest_all), contracts | count | 2472 | 2015-01-06T00:00:00Z | 2026-11-03T00:00:00Z |
+
+### `constraints_binding_hourly`
+
+One transmission constraint that bound in one hour of an operator's day-ahead market (SPP or CAISO), with the shadow price the operator published.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. A constraint has a row only in an hour it bound; an absent hour is an hour it did not bind (or a missing file, named in the header).. License: public; tier: source. Rows read on 2026-11-20: 1808231.
+
+- **Time:** ts_utc is the hour's start in UTC.
+- **Revisions:** Merged by (entity, variable, ts_utc); a day read again from the operator replaces the rows held for it, and rows not read again are kept. vintage is not filled.
+- **Source:** spp:DA-BC Day-Ahead Binding Constraints (https://portal.spp.org/pages/da-binding-constraints)
+- **Method note:** [`docs/methods/grid_congestion.md`](../methods/grid_congestion.md)
+- **Cite as:** CAISO; SPP. Via the Energy Research Warehouse (ERW), table `constraints_binding_hourly`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example caiso:18023_PAHRUMP _230_18904_BOB SS  _230_BR_1 _1\|Base Case, caiso:18023_PAHRUMP _230_18910_INOVATIN_230_BR_1 _1\|Base Case, caiso:18076_LTHRPWLS_138_18999_VEAJAF  _138_BR_1 _1\|Base Case; more than 5000 distinct | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2014-03-01T06:00:00Z to 2026-11-21T07:00:00Z; more than 5000 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | -9446.50604 to 8529.24217; more than 5000 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | USD/MWh | 0 |
+| `freq` | How long the interval of the row is | none | text | PT1H | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY, US-CA,US-NV | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | caiso_dam, spp_dam | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 1808231 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | caiso:PRC_NOMOGRAM, spp:DA-BC | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | for example https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_NOMOGRAM&version=1&market_run_id=DAM&startdatetime=20150101T08:00-0000&enddatetime=20150201T08:00-0000, https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_NOMOGRAM&version=1&market_run_id=DAM&startdatetime=20150201T08:00-0000&enddatetime=20150301T08:00-0000, https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_NOMOGRAM&version=1&market_run_id=DAM&startdatetime=20150301T08:00-0000&enddatetime=20150401T07:00-0000; 843 distinct | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-20T10:41:34Z to 2026-11-20T12:07:29Z; 843 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 1808231 |
+| `x_constraint` | The constraint's name alone, as the operator prints it (SPP Constraint Name, CAISO NOMOGRAM_ID_XML) | none | text | for example 021BA_LN@TULSA_NO<CON1097>, 1001_LN@COULTER<28374>, 10028A_LN@NESCTY<11922>; more than 5000 distinct | 0 |
+| `x_contingency` | The contingency under which the constraint bound, as the operator prints it (SPP Contingency Name, CAISO CONSTRAINT_CAUSE); empty in SPP's files before 2022, which print none | none | text | for example 100, 1003, 10042; 2316 distinct | 622588: the operator's file prints no contingency for the row |
+| `x_monitored` | The monitored facility, as SPP prints it (Monitored Facility) | none | text | for example LN  - BEVRC7, LN  - TEXAS_CO, LN 103_ROKE - MOORE; 2746 distinct | 490111: CAISO prints no such column |
+| `x_contingent_facility` | The contingent facility, as SPP prints it (Contingent Facility) | none | text | for example ADD NEW EAST, AECI : 5HOLMAN MARSHFLD : 161 69 :, AECI : BLACKBRY JASPER7 : 345 : 1; 4639 distinct | 490111: CAISO prints no such column |
+| `x_constraint_type` | SPP's constraint type code as printed (FG flowgate, MA, MCE, RTCA, WRC) | none | text | FG, MA, MCE, RTCA, WRC | 490111: CAISO prints no such column |
+| `x_nerc_id` | The NERC flowgate identifier SPP prints (NERCID) | none | integer | 1015 to 99995; 3287 distinct | 1072052: CAISO prints no such column, or SPP printed none for the row |
+| `x_state` | SPP's state of the constraint in the hour (BINDING, BREACHED, MONITORED), not a US state | none | text | BINDING, BREACHED, MONITORED | 490111: CAISO prints no such column |
+
+Variables (1):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `shadow_price_dam` | The constraint's shadow price in the day-ahead market, USD/MWh, sign as printed (SPP negative, CAISO positive) | USD/MWh | 1808231 | 2014-03-01T06:00:00Z | 2026-11-21T07:00:00Z |
+
+### `constraints_binding_monthly`
+
+One constraint (with its contingency) in one month, from constraints_binding_hourly; derived.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: derived. Rows read on 2026-11-20: 223556.
+
+- **Time:** ts_utc is the month's first day at 00:00 UTC.
+- **Revisions:** Rebuilt from constraints_binding_hourly at each run and merged by (entity, variable, ts_utc), so a month recomputed replaces the one held. vintage is not filled.
+- **Source:** erw:constraints_binding_monthly ERW derived table (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_congestion.md)
+- **Method note:** [`docs/methods/grid_congestion.md`](../methods/grid_congestion.md)
+- **Cite as:** CAISO; SPP. Via the Energy Research Warehouse (ERW), table `constraints_binding_monthly`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example caiso:18023_PAHRUMP _230_18904_BOB SS  _230_BR_1 _1\|Base Case, caiso:18023_PAHRUMP _230_18910_INOVATIN_230_BR_1 _1\|Base Case, caiso:18076_LTHRPWLS_138_18999_VEAJAF  _138_BR_1 _1\|Base Case; more than 5000 distinct | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2015-01-01T00:00:00Z to 2026-11-01T00:00:00Z; 143 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | -2507.47256 to 9446.50604; more than 5000 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | USD/MWh, count | 0 |
+| `freq` | How long the interval of the row is | none | text | P1M | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY, US-CA,US-NV | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | caiso_dam, spp_dam | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 223556 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:constraints_binding_monthly | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_congestion.md | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-20T12:13:22Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 223556 |
+| `x_constraint` | The constraint's name alone, as the operator prints it | none | text | for example 021BA_LN@TULSA_NO<CON1097>, 1001_LN@COULTER<28374>, 10028A_LN@NESCTY<11922>; more than 5000 distinct | 0 |
+| `x_contingency` | The contingency under which it bound, as the operator prints it; empty where the operator printed none | none | text | for example 100, 1003, 10042; 2316 distinct | 68928: the operator's file prints no contingency |
+
+Variables (4):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `hours_bound` | Hours the constraint bound in the month's day-ahead market, count | count | 55889 | 2015-01-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `shadow_price_abs_max` | Highest size (absolute value) of the shadow price in the month, USD/MWh | USD/MWh | 55889 | 2015-01-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `shadow_price_abs_mean` | Mean size (absolute value) of the shadow price over the hours it bound, USD/MWh | USD/MWh | 55889 | 2015-01-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `shadow_price_mean` | Mean shadow price over the hours it bound, sign as printed, USD/MWh | USD/MWh | 55889 | 2015-01-01T00:00:00Z | 2026-11-01T00:00:00Z |
 
 ### `cso_ireland_electricity_monthly`
 
@@ -1961,6 +2082,52 @@ Variables (2):
 | `production` | Industrial production index, seasonally adjusted, 2017 = 100 (never summed) | index | 12497 | 1919-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
 | `utilization` | Capacity utilization, seasonally adjusted, percent of capacity | pct | 2868 | 1967-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
 
+### `generation_outages_hourly`
+
+Megawatts of generation out of service in one hour, for one SPP area by fuel or for CAISO by planned and forced, as each operator publishes it.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1173900.
+
+- **Time:** ts_utc is the hour's start in UTC.
+- **Revisions:** Merged by (entity, variable, ts_utc). SPP's hour is from the newest file of its operating day (or the day before for hours 0 to 2, Central); CAISO's from the prior trade date report. A day read again replaces the one held. vintage is not filled.
+- **Source:** spp:CAP-GEN-OUTAGE Southwest Power Pool (SPP), Capacity of Generation on Outage, https://portal.spp.org/pages/capacity-of-generation-on-outage; caiso:CURTAILED-NONOP-GEN California Independent System Operator (CAISO), Curtailed and Non-Operational Generator Prior Trade Date Report (https://www.caiso.com/documents/curtailed-non-operational-generator-prior-trade-date-report-20261118.xlsx)
+- **Method note:** [`docs/methods/grid_outages.md`](../methods/grid_outages.md)
+- **Cite as:** CAISO; SPP. Via the Energy Research Warehouse (ERW), table `generation_outages_hourly`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | caiso:ISO, spp:SPP, spp:SWPW, spp:Total | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2016-10-07T05:00:00Z to 2026-11-21T05:00:00Z; more than 5000 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 47612.26; more than 5000 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | MW | 0 |
+| `freq` | How long the interval of the row is | none | text | PT1H | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY, US-CA,US-NV | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1173900 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 1173900 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | caiso:CURTAILED-NONOP-GEN, spp:CAP-GEN-OUTAGE | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | for example https://portal.spp.org/file-browser-api/download/capacity-of-generation-on-outage?path=/2016/2016.zip, https://portal.spp.org/file-browser-api/download/capacity-of-generation-on-outage?path=/2017/2017.zip, https://portal.spp.org/file-browser-api/download/capacity-of-generation-on-outage?path=/2018/2018.zip; 2678 distinct | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-20T10:55:02Z to 2026-11-20T13:04:16Z; 2678 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 1173900 |
+
+Variables (13):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `outage_mw_coal` | SPP, coal megawatts out of service, MW | MW | 93123 | 2017-07-22T05:00:00Z | 2026-11-21T05:00:00Z |
+| `outage_mw_forced` | CAISO, megawatts curtailed by forced outages, weighted by the part of the hour each covers, MW | MW | 47545 | 2021-06-17T07:00:00Z | 2026-11-19T07:00:00Z |
+| `outage_mw_gas` | SPP, natural gas megawatts out of service, MW | MW | 93123 | 2017-07-22T05:00:00Z | 2026-11-21T05:00:00Z |
+| `outage_mw_hydro` | SPP, hydro megawatts out of service, MW | MW | 93123 | 2017-07-22T05:00:00Z | 2026-11-21T05:00:00Z |
+| `outage_mw_nuclear` | SPP, nuclear megawatts out of service, MW | MW | 93123 | 2017-07-22T05:00:00Z | 2026-11-21T05:00:00Z |
+| `outage_mw_oil` | SPP, diesel fuel oil megawatts out of service, MW | MW | 93123 | 2017-07-22T05:00:00Z | 2026-11-21T05:00:00Z |
+| `outage_mw_other` | SPP, other fuels' megawatts out of service, MW | MW | 93123 | 2017-07-22T05:00:00Z | 2026-11-21T05:00:00Z |
+| `outage_mw_planned` | CAISO, megawatts curtailed by planned outages, weighted by the part of the hour each covers, MW | MW | 47545 | 2021-06-17T07:00:00Z | 2026-11-19T07:00:00Z |
+| `outage_mw_solar` | SPP, solar megawatts out of service, MW | MW | 93123 | 2017-07-22T05:00:00Z | 2026-11-21T05:00:00Z |
+| `outage_mw_total` | Megawatts out of service, all fuels (SPP Outaged MW; CAISO planned plus forced), MW | MW | 147580 | 2016-10-07T05:00:00Z | 2026-11-21T05:00:00Z |
+| `outage_mw_waste_disposal` | SPP, waste disposal megawatts out of service, MW | MW | 93123 | 2017-07-22T05:00:00Z | 2026-11-21T05:00:00Z |
+| `outage_mw_waste_heat` | SPP, waste heat megawatts out of service, MW | MW | 93123 | 2017-07-22T05:00:00Z | 2026-11-21T05:00:00Z |
+| `outage_mw_wind` | SPP, wind megawatts out of service, MW | MW | 93123 | 2017-07-22T05:00:00Z | 2026-11-21T05:00:00Z |
+
 ### `gfz_kp_index_3h`
 
 The planetary geomagnetic index Kp for one three-hour interval, from GFZ's file since 1932.
@@ -1996,6 +2163,38 @@ Variables (1):
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
 | `kp` | The planetary geomagnetic index Kp in thirds (5- is 4.667, 5o 5.000, 5+ 5.333) | index | 277032 | 1932-01-01T00:00:00Z | 2026-10-22T21:00:00Z |
+
+### `grid_all_alerts`
+
+One grid alert, watch, emergency or disturbance report, from CAISO's emergencies, ERCOT's notices or DOE's OE-417 reports; derived.
+
+Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 2026-11-20: 5397.
+
+- **Time:** event_date is the date the source gives the event; x_start and x_end are the source's own start and end where printed.
+- **Revisions:** Rebuilt whole from its three input tables at each run; an event's row follows its input table's row.
+- **Source:** erw:grid_all_alerts ERW derived table (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_alerts.md)
+- **Method note:** [`docs/methods/grid_alerts.md`](../methods/grid_alerts.md)
+- **Cite as:** CAISO; ERCOT; U.S. Department of Energy (DOE). Via the Energy Research Warehouse (ERW), table `grid_all_alerts`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents | none | text | for example caiso_awe:1998-05-30:alert:c7046d023c, caiso_awe:1998-07-26:alert:efb4878194, caiso_awe:1998-07-27:alert:4c4cdaae48; more than 5000 distinct | 0 |
+| `event_date` | The date the event happened or was announced (each table's file says which) | none | date | 1998-05-30 to 2026-10-15; 2541 distinct | 0 |
+| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others) | none | text | for example actual_physical_attack, actual_physical_attack_vandalism, actual_physical_event; 88 distinct | 0 |
+| `parties` | The parties to the event, as the publisher names them, separated by semicolons | none | text | California ISO, ERCOT | 3313 |
+| `entity_ids` | The entity_id values of the things involved, separated by semicolons | none | empty | no cell holds a value | 5397 |
+| `mw` | The capacity involved, in megawatts | MW | number | 0.0 to 160000.0; 357 distinct | 3525 |
+| `price` | The price, in the row's currency per MWh unless the table's file says otherwise | the row's currency per MWh, unless the table's file says otherwise | empty | no cell holds a value | 5397 |
+| `currency` | The currency of the price, as an ISO 4217 code (USD) | none | empty | no cell holds a value | 5397 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | text | active, cancelled, declared, ended, issued, restored | 694 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | caiso:grid_emergencies_history, doe:oe417, ercot:news_releases, ercot:operations_messages | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | for example https://doe417.pnnl.gov/summaries/2016_Annual_Summary.xls, https://doe417.pnnl.gov/summaries/2017_Annual_Summary.xls, https://doe417.pnnl.gov/summaries/2018_Annual_Summary.xls; 116 distinct | 0 |
+| `x_input_table` | The ERW table the row comes from (caiso_grid_emergencies, ercot_grid_notices, doe_oe417_events) | none | text | caiso_grid_emergencies, doe_oe417_events, ercot_grid_notices | 0 |
+| `x_grid` | The grid (caiso, ercot) or, for an OE-417 report, the NERC region as the report prints it | none | text | for example FRCC, MPCC, MRO; 34 distinct | 1058 |
+| `x_kind` | The kind of alert in the source's own words (CAISO's label, ERCOT's headline label, OE-417's event type as published) | none | text | for example - Cyber event (information technology), - Failure at high voltage substation or switchyard, - Failure at high voltage substation or switchyard - Other; 313 distinct | 0 |
+| `x_start` | The event's start as the source prints it | none | text | for example 2011-02-02, 2011-02-03, 2011-02-03 1201; 3532 distinct | 1347: the source prints no start |
+| `x_end` | The event's end as the source prints it | none | text | for example - Unknown - Unknown, 2011-02-03 1200, 2011-02-04 1200; 2777 distinct | 1888: the source prints no end (ERCOT's notices print none) |
+| `x_area` | The area the source names (CAISO's and ERCOT's region, OE-417's area affected) | none | text | for example Ada County, Idaho, AitkinCounty, Minnesota, Alabama; 1375 distinct | 0 |
 
 ### `hagstofa_iceland_power_annual`
 
@@ -2832,6 +3031,84 @@ Variables (2):
 |---|---|---|---|---|---|
 | `electricity_demand` | Electricity demand in the year (Ember via Our World in Data; TWh times 1,000,000) | MWh | 6378 | 1990-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `electricity_emissions` | The power sector's greenhouse gas emissions in the year, CO2 equivalent (million tonnes times 1,000,000) | tCO2e | 6028 | 2000-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+
+### `price_congestion_hourly`
+
+One part of the day-ahead price at one hub or load zone for one hour, as SPP or CAISO splits it.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1279835.
+
+- **Time:** ts_utc is the hour's start in UTC.
+- **Revisions:** Merged by (entity, variable, ts_utc); a day is written only when every hour of the operating day is there once, and a day read again replaces the one held. vintage is not filled.
+- **Source:** spp:DA-LMP-SL Day-Ahead LMP by Settlement Location (https://portal.spp.org/pages/da-lmp-by-location)
+- **Method note:** [`docs/methods/grid_congestion.md`](../methods/grid_congestion.md)
+- **Cite as:** CAISO; SPP. Via the Energy Research Warehouse (ERW), table `price_congestion_hourly`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | caiso:DLAP_PGAE-APND, caiso:DLAP_SCE-APND, caiso:DLAP_SDGE-APND, caiso:DLAP_VEA-APND, caiso:TH_NP15_GEN-APND, caiso:TH_SP15_GEN-APND, caiso:TH_ZP26_GEN-APND, spp:SPPNORTH_HUB, spp:SPPSOUTH_HUB | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2023-01-01T06:00:00Z to 2026-11-21T07:00:00Z; more than 5000 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | -201.8997 to 1288.8055; more than 5000 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | USD/MWh | 0 |
+| `freq` | How long the interval of the row is | none | text | PT1H | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY, US-CA,US-NV | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | caiso_dam, spp_dam | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | DLAP_PGAE-APND, DLAP_SCE-APND, DLAP_SDGE-APND, DLAP_VEA-APND, SPPNORTH_HUB, SPPSOUTH_HUB, TH_NP15_GEN-APND, TH_SP15_GEN-APND, TH_ZP26_GEN-APND | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | caiso:PRC_LMP, spp:DA-LMP-SL | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | for example https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND,DLAP_PGAE-APND,DLAP_SCE-APND,DLAP_SDGE-APND,DLAP_VEA-APND&startdatetime=20230801T07:00-0000&enddatetime=20230901T07:00-0000, https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND,DLAP_PGAE-APND,DLAP_SCE-APND,DLAP_SDGE-APND,DLAP_VEA-APND&startdatetime=20230901T07:00-0000&enddatetime=20231001T07:00-0000, https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND,DLAP_PGAE-APND,DLAP_SCE-APND,DLAP_SDGE-APND,DLAP_VEA-APND&startdatetime=20231001T07:00-0000&enddatetime=20231101T07:00-0000; 731 distinct | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-20T10:42:12Z to 2026-11-20T12:47:00Z; 731 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 1279835 |
+
+Variables (5):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `congestion_dam` | The congestion part of the day-ahead price (SPP MCC, CAISO MCC), USD/MWh | USD/MWh | 269599 | 2023-01-01T06:00:00Z | 2026-11-21T07:00:00Z |
+| `energy_dam` | The energy part of the day-ahead price (SPP MEC, CAISO MCE), USD/MWh | USD/MWh | 269599 | 2023-01-01T06:00:00Z | 2026-11-21T07:00:00Z |
+| `ghg_dam` | The greenhouse gas part of CAISO's day-ahead price (MGHG), USD/MWh | USD/MWh | 201439 | 2023-08-10T07:00:00Z | 2026-11-21T07:00:00Z |
+| `lmp_dam` | The day-ahead locational marginal price (SPP LMP, CAISO LMP), USD/MWh | USD/MWh | 269599 | 2023-01-01T06:00:00Z | 2026-11-21T07:00:00Z |
+| `loss_dam` | The loss part of the day-ahead price (SPP MLC, CAISO MCL), USD/MWh | USD/MWh | 269599 | 2023-01-01T06:00:00Z | 2026-11-21T07:00:00Z |
+
+### `price_congestion_monthly`
+
+One hub or load zone in one month, the means of its day-ahead price parts; derived from price_congestion_hourly.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: derived. Rows read on 2026-11-20: 2236.
+
+- **Time:** ts_utc is the month's first day at 00:00 UTC.
+- **Revisions:** Rebuilt from price_congestion_hourly at each run and merged by (entity, variable, ts_utc), so a month recomputed replaces the one held. vintage is not filled.
+- **Source:** erw:price_congestion_monthly ERW derived table (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_congestion.md)
+- **Method note:** [`docs/methods/grid_congestion.md`](../methods/grid_congestion.md)
+- **Cite as:** CAISO; SPP. Via the Energy Research Warehouse (ERW), table `price_congestion_monthly`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | caiso:DLAP_PGAE-APND, caiso:DLAP_SCE-APND, caiso:DLAP_SDGE-APND, caiso:DLAP_VEA-APND, caiso:TH_NP15_GEN-APND, caiso:TH_SP15_GEN-APND, caiso:TH_ZP26_GEN-APND, spp:SPPNORTH_HUB, spp:SPPSOUTH_HUB | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2023-08-01T00:00:00Z to 2026-11-01T00:00:00Z; 40 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | -177.8992 to 744.0; 1389 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | USD/MWh, count, pct | 0 |
+| `freq` | How long the interval of the row is | none | text | P1M | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY, US-CA,US-NV | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | caiso_dam, spp_dam | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | DLAP_PGAE-APND, DLAP_SCE-APND, DLAP_SDGE-APND, DLAP_VEA-APND, SPPNORTH_HUB, SPPSOUTH_HUB, TH_NP15_GEN-APND, TH_SP15_GEN-APND, TH_ZP26_GEN-APND | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:price_congestion_monthly | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_congestion.md | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-20T12:13:22Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 2236 |
+
+Variables (7):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `congestion_mean` | Mean congestion part, USD/MWh | USD/MWh | 326 | 2023-08-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `congestion_share_pct` | The mean congestion part as a share of the mean LMP, pct | pct | 326 | 2023-08-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `energy_mean` | Mean energy part, USD/MWh | USD/MWh | 326 | 2023-08-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `ghg_mean` | Mean greenhouse gas part (CAISO), USD/MWh | USD/MWh | 280 | 2023-08-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `hours_held` | Hours of the month held, count | count | 326 | 2023-08-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `lmp_mean` | Mean day-ahead LMP over the hours held, USD/MWh | USD/MWh | 326 | 2023-08-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `loss_mean` | Mean loss part, USD/MWh | USD/MWh | 326 | 2023-08-01T00:00:00Z | 2026-11-01T00:00:00Z |
 
 ### `ree_spain_balance_monthly`
 
