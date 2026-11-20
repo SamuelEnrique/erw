@@ -5,9 +5,12 @@
 table: bfe_ch_electricity_wednesdays
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One Wednesday's value of one Swiss electricity balance item (generation by type, storage pumps, imports, exports, national
+  consumption), from the Swiss Federal Office of Energy's weekly balance.
+time: ts_utc is the Wednesday's date at 00:00:00Z, a Swiss local day as the file gives it; freq P1D; the energy of that one
+  day.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s days replace the same days and older ones are kept; vintage
+  is the file''s Last-Modified.'
 keys:
 - entity
 - variable
@@ -41,6 +44,7 @@ columns:
     list:
       bfe_weekly:ch: 11154
   missing_cells: 0
+  particular: bfe_weekly:ch on every row
 - name: variable
   shared: true
   type: text
@@ -84,12 +88,14 @@ columns:
     list:
       CH: 11154
   missing_cells: 0
+  particular: CH on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 11154
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -108,6 +114,7 @@ columns:
       SFOE weekly balance (Wednesdays), Landesverbrauch_GWh: 1222
       SFOE weekly balance (Wednesdays), Verbrauch_speicherpumpen_GWh: 1222
   missing_cells: 0
+  particular: SFOE weekly balance (Wednesdays) and the file's column, not a pricing node
 - name: source
   shared: true
   type: text
@@ -136,9 +143,10 @@ columns:
     list:
       '2026-09-18T09:25:46Z': 11154
   missing_cells: 0
+  particular: The file's Last-Modified (UTC)
 - name: x_column
-  label: null
-  unit: null
+  label: The file's column the value is read from (German, in GWh)
+  unit: none
   type: text
   values:
     list:
@@ -155,96 +163,97 @@ columns:
       Landesverbrauch_GWh: 1222
       Verbrauch_speicherpumpen_GWh: 1222
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method bfe_ch_electricity_wednesdays.md
 - name: x_definition
-  label: null
-  unit: null
+  label: 'For the file''s Erzeugung_netto only: less_pumps (generation less the storage pumps, through 2024) or before_pumps
+    (generation before them, from 2025)'
+  unit: none
   type: text
   values:
     list:
       before_pumps: 78
       less_pumps: 1144
   missing_cells: 9932
-  missing_meaning: null
+  missing_meaning: Empty on every column but Erzeugung_netto
   source_name: null
-  documented_by: null
+  documented_by: header; method bfe_ch_electricity_wednesdays.md
 variables:
 - name: exports
-  label: null
+  label: Exports on the day
   unit: MWh
   rows: 1222
   first: '2003-01-01T00:00:00Z'
   last: '2026-06-24T00:00:00Z'
 - name: generation_less_storage_pumps
-  label: null
+  label: Generation less the storage pumps on the day (the file's Erzeugung_netto through 2024)
   unit: MWh
   rows: 1144
   first: '2003-01-01T00:00:00Z'
   last: '2024-12-25T00:00:00Z'
 - name: imports
-  label: null
+  label: Imports on the day
   unit: MWh
   rows: 1222
   first: '2003-01-01T00:00:00Z'
   last: '2026-06-24T00:00:00Z'
 - name: national_consumption
-  label: null
+  label: National consumption on the day
   unit: MWh
   rows: 1222
   first: '2003-01-01T00:00:00Z'
   last: '2026-06-24T00:00:00Z'
 - name: net_generation
-  label: null
+  label: Generation before the storage pumps on the day (the file's Erzeugung_netto from 2025)
   unit: MWh
   rows: 78
   first: '2025-01-01T00:00:00Z'
   last: '2026-06-24T00:00:00Z'
 - name: nuclear
-  label: null
+  label: Nuclear generation on the day
   unit: MWh
   rows: 1222
   first: '2003-01-01T00:00:00Z'
   last: '2026-06-24T00:00:00Z'
 - name: other
-  label: null
+  label: Other generation on the day (before 2025 it includes thermal, wind and solar)
   unit: MWh
   rows: 1144
   first: '2003-01-01T00:00:00Z'
   last: '2024-12-25T00:00:00Z'
 - name: run_of_river
-  label: null
+  label: Run-of-river hydro generation on the day
   unit: MWh
   rows: 1222
   first: '2003-01-01T00:00:00Z'
   last: '2026-06-24T00:00:00Z'
 - name: solar
-  label: null
+  label: Photovoltaic generation on the day (a column of its own from 2025)
   unit: MWh
   rows: 78
   first: '2025-01-01T00:00:00Z'
   last: '2026-06-24T00:00:00Z'
 - name: storage_hydro
-  label: null
+  label: Storage hydro generation on the day
   unit: MWh
   rows: 1222
   first: '2003-01-01T00:00:00Z'
   last: '2026-06-24T00:00:00Z'
 - name: storage_pumps
-  label: null
+  label: Electricity used by the storage pumps on the day
   unit: MWh
   rows: 1222
   first: '2003-01-01T00:00:00Z'
   last: '2026-06-24T00:00:00Z'
 - name: thermal
-  label: null
+  label: Thermal generation on the day (a column of its own from 2025)
   unit: MWh
   rows: 78
   first: '2025-01-01T00:00:00Z'
   last: '2026-06-24T00:00:00Z'
 - name: wind
-  label: null
+  label: Wind generation on the day (a column of its own from 2025)
   unit: MWh
   rows: 78
   first: '2025-01-01T00:00:00Z'

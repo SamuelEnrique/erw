@@ -5,9 +5,11 @@
 table: ercot_dam_cleared_energy
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The energy bought in ERCOT's day-ahead market in one delivery hour, summed over every settlement point.
+time: ts_utc is the start of the hour in UTC (ERCOT gives the hour ending in Central time; RepeatedHourFlag Y marks the repeated
+  autumn hour).
+vintage_rule: Merged by (entity, variable, ts_utc); an hour read again replaces the one held, and the table grows past the
+  31 days ERCOT lists. vintage is not filled.
 keys:
 - entity
 - variable
@@ -38,6 +40,7 @@ columns:
     list:
       ercot:system: 816
   missing_cells: 0
+  particular: 'ercot:system in every row: ERCOT''s whole system'
 - name: variable
   shared: true
   type: text
@@ -88,6 +91,7 @@ columns:
     list:
       ercot_dam: 816
   missing_cells: 0
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
 - name: node
   shared: true
   type: text
@@ -95,6 +99,8 @@ columns:
     list:
       Total_DAM_Energy_Bought, summed over settlement points: 816
   missing_cells: 0
+  particular: 'The text ''Total_DAM_Energy_Bought, summed over settlement points'' in every row: the figure summed, not a
+    place'
 - name: source
   shared: true
   type: text
@@ -128,9 +134,11 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 816
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: dam_cleared_energy
-  label: null
+  label: The sum of ERCOT's Total_DAM_Energy_Bought over every settlement point for the hour (NP4-192-CD); ERCOT names no
+    unit, read as MWh
   unit: MWh
   rows: 816
   first: '2026-09-23T05:00:00Z'

@@ -5,9 +5,12 @@
 table: desnz_gb_regional_gas_consumption_annual
 family: desnz
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One Great Britain country's or region's weather-corrected gas consumption or number of consuming meters, for one kind
+  of customer, in one gas year, 2005 to 2024.
+time: ts_utc is the first day of the calendar year DESNZ labels the gas year with, at 00:00:00Z; the gas year itself runs
+  October to September to 2015, then mid-year to mid-year (mid-May to mid-May from 2018), as DESNZ's cover sheet states.
+vintage_rule: Rewritten whole by each run (a snapshot of DESNZ's latest workbook; DESNZ revises the years from 2015 each year);
+  vintage is the workbook's last-modified time.
 keys:
 - entity
 - variable
@@ -44,6 +47,8 @@ columns:
     - desnz_subgas:east_midlands:meters_domestic
     - desnz_subgas:east_midlands:meters_non_consuming
   missing_cells: 0
+  particular: desnz_subgas:<area>:<item>; from 2015 Great Britain, England and Wales and Scotland include the unallocated
+    consumption
 - name: variable
   shared: true
   type: text
@@ -110,12 +115,14 @@ columns:
       GB-SCT: 130
       GB-WLS: 130
   missing_cells: 0
+  particular: GB, GB-ENG (England and its regions), GB-WLS, GB-SCT, or GB-ENG,GB-WLS for England and Wales
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1966
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -128,6 +135,7 @@ columns:
     - 'East Midlands: Number of non-consuming meters (thousands)'
     - 'East Midlands: Total consumption (GWh): All meters'
   missing_cells: 0
+  particular: The area and the workbook's column heading, not a pricing node
 - name: source
   shared: true
   type: text
@@ -157,15 +165,16 @@ columns:
     list:
       '2026-05-05T09:57:52Z': 1966
   missing_cells: 0
+  particular: The workbook's last-modified time
 variables:
 - name: consumption
-  label: null
+  label: Gas consumption in the gas year, weather corrected, MWh (the workbook's GWh times 1,000)
   unit: MWh
   rows: 903
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: meters
-  label: null
+  label: Number of consuming gas meters, count (the workbook's thousands times 1,000)
   unit: count
   rows: 1063
   first: '2005-01-01T00:00:00Z'

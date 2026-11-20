@@ -5,9 +5,9 @@
 table: eurostat_gas_imports_monthly
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One European country's (or EU aggregate's) imports of natural gas or of LNG from one partner in one month.
+time: ts_utc is the month's first day at 00:00:00Z (freq P1M).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -43,6 +43,7 @@ columns:
     - eurostat_gas_imports:AT:G3000:CH
     - eurostat_gas_imports:AT:G3000:CZ
   missing_cells: 0
+  particular: eurostat_gas_imports:<geo>:<SIEC>:<partner>
 - name: variable
   shared: true
   type: text
@@ -91,6 +92,7 @@ columns:
     - BG
     - CZ
   missing_cells: 7531
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and EA21
 - name: market
   shared: true
   type: empty
@@ -109,6 +111,7 @@ columns:
     - AT G3000 from CH
     - AT G3000 from CZ
   missing_cells: 0
+  particular: <geo> <SIEC> from <partner>, not a pricing node
 - name: source
   shared: true
   type: text
@@ -137,8 +140,8 @@ columns:
     note: no cell holds a value
   missing_cells: 34905
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the importing country or aggregate
+  unit: none
   type: text
   values:
     distinct: 36
@@ -149,24 +152,24 @@ columns:
     - BG
     - CZ
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_gas_imports.py
 - name: x_siec
-  label: null
-  unit: null
+  label: 'Eurostat''s SIEC code: G3000 natural gas, G3200 liquefied natural gas (a part of G3000)'
+  unit: none
   type: text
   values:
     list:
       G3000: 25625
       G3200: 9280
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eurostat_gas_imports_monthly.md
 - name: x_partner
-  label: null
-  unit: null
+  label: Eurostat's partner code (a country or an aggregate such as TOTAL, NSP not specified, _OTH groups)
+  unit: none
   type: text
   values:
     distinct: 78
@@ -177,34 +180,34 @@ columns:
     - AO
     - AR
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_gas_imports.py; data
 - name: x_flag
-  label: null
-  unit: null
+  label: 'Eurostat''s flag of the observation: e estimated, p provisional'
+  unit: none
   type: text
   values:
     list:
       e: 6
       p: 148
   missing_cells: 34751
-  missing_meaning: null
+  missing_meaning: No flag on the observation
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_gas_imports.py; method eurostat_electricity_monthly.md
 - name: x_conf_status
-  label: null
-  unit: null
+  label: Eurostat's confidentiality status of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 34905
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_gas_imports.py
 variables:
 - name: imports
-  label: null
+  label: Gas imported from the partner, MWh of gross calorific value (Eurostat's TJ times 277.7778)
   unit: MWh
   rows: 34905
   first: '2015-01-01T00:00:00Z'

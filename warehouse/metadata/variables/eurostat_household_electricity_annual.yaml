@@ -5,9 +5,9 @@
 table: eurostat_household_electricity_annual
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One European country's (or the EU's) household electricity consumption, in total or for one end use, in one year.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -44,6 +44,7 @@ columns:
     - eurostat_household_electricity:BE
     - eurostat_household_electricity:BG
   missing_cells: 0
+  particular: eurostat_household_electricity:<geo>
 - name: variable
   shared: true
   type: text
@@ -105,6 +106,7 @@ columns:
     - BE
     - BG
   missing_cells: 105
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
 - name: market
   shared: true
   type: empty
@@ -123,6 +125,7 @@ columns:
     - AL households' electricity, Final consumption - other sectors - households - energy use - other end use
     - AL households' electricity, Final consumption - other sectors - households - energy use - space cooling
   missing_cells: 0
+  particular: <geo> households' electricity, <the NRG_BAL name>, not a pricing node
 - name: source
   shared: true
   type: text
@@ -152,8 +155,8 @@ columns:
     note: no cell holds a value
   missing_cells: 3150
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the country or aggregate
+  unit: none
   type: text
   values:
     distinct: 38
@@ -164,12 +167,12 @@ columns:
     - BE
     - BG
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_household_electricity.py
 - name: x_nrg_bal
-  label: null
-  unit: null
+  label: Eurostat's NRG_BAL code of the end use
+  unit: none
   type: text
   values:
     list:
@@ -181,70 +184,70 @@ columns:
       FC_OTH_HH_E_SH: 451
       FC_OTH_HH_E_WH: 451
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_flag
-  label: null
-  unit: null
+  label: 'Eurostat''s flag of the observation: e estimated, b break in series'
+  unit: none
   type: text
   values:
     list:
       b: 1
       e: 82
   missing_cells: 3067
-  missing_meaning: null
+  missing_meaning: No flag on the observation
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_household_electricity.py; method eurostat_electricity_monthly.md
 - name: x_conf_status
-  label: null
-  unit: null
+  label: Eurostat's confidentiality status of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3150
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_household_electricity.py
 variables:
 - name: cooking
-  label: null
+  label: Households' electricity for cooking (FC_OTH_HH_E_CK)
   unit: MWh
   rows: 451
   first: '2010-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: lighting_appliances
-  label: null
+  label: Households' electricity for lighting and appliances (FC_OTH_HH_E_LE)
   unit: MWh
   rows: 451
   first: '2010-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: other_end_use
-  label: null
+  label: Households' electricity for other end uses (FC_OTH_HH_E_OE)
   unit: MWh
   rows: 444
   first: '2010-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: space_cooling
-  label: null
+  label: Households' electricity for space cooling (FC_OTH_HH_E_SC)
   unit: MWh
   rows: 451
   first: '2010-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: space_heating
-  label: null
+  label: Households' electricity for space heating (FC_OTH_HH_E_SH)
   unit: MWh
   rows: 451
   first: '2010-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: total
-  label: null
+  label: Households' final consumption of electricity, all end uses (FC_OTH_HH_E)
   unit: MWh
   rows: 451
   first: '2010-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: water_heating
-  label: null
+  label: Households' electricity for water heating (FC_OTH_HH_E_WH)
   unit: MWh
   rows: 451
   first: '2010-01-01T00:00:00Z'

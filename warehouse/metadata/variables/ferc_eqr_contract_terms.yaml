@@ -5,9 +5,10 @@
 table: ferc_eqr_contract_terms
 family: ferc
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One contract row of the newest quarter of FERC's Electric Quarterly Reports (same event_id as ferc_eqr_contracts), with
+  the buyer under one name, megawatts and price where stated, tags, and the quarters the contract is held in.
+time: event_date is the contract's execution date, as in ferc_eqr_contracts.
+vintage_rule: Rebuilt whole from its inputs by each run of the builder (the old file is removed first); no vintage column.
 keys:
 - event_id
 license: internal
@@ -58,6 +59,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: Seller;buyer, the buyer under the name the rules count it as (certain merges applied, doubtful pairs not)
 - name: entity_ids
   shared: true
   type: empty
@@ -70,12 +72,14 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 175294
+  particular: The quantity when filed in MW, or in kW divided by 1,000 (x_mw_source); a quantity of zero is left empty
 - name: price
   shared: true
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 149127
+  particular: USD per MWh, from a rate filed as a number in $/MWH or $/KWH, or read from the words in those units (x_price_source)
 - name: currency
   shared: true
   type: text
@@ -101,175 +105,178 @@ columns:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
 - name: x_buyer_as_filed
-  label: null
-  unit: null
+  label: The buyer's name as filed
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_terms.py
 - name: x_buyer_counted_as
-  label: null
-  unit: null
+  label: The name the buyer is counted under after the naming rules of ferc_eqr_buyer_names
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_terms.py; method eqr_terms.md
 - name: x_buyer_merged
-  label: null
-  unit: null
+  label: yes when a naming rule changed the buyer's name, else no
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_terms.py
 - name: x_product
-  label: null
-  unit: null
+  label: 'The builder''s product word: energy, capacity or tolling (from FERC''s ENERGY, CAPACITY, TOLLING ENERGY)'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 120217
-  missing_meaning: null
+  missing_meaning: The product is none of the three
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_terms.py; connector eqr_buyers.py
 - name: x_tag
-  label: null
-  unit: null
+  label: tolling or storage, read from FERC's product fields only
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 186491
-  missing_meaning: null
+  missing_meaning: No tag (no product field names tolling energy, storage or a battery)
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py; method eqr_terms.md
 - name: x_mw_source
-  label: null
-  unit: null
+  label: 'The units the megawatts were read from: MW or KW'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 175294
-  missing_meaning: null
+  missing_meaning: No megawatts stated (other units, no units, or a zero quantity)
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py
 - name: x_mw_ranked
-  label: null
-  unit: null
+  label: yes, or no when the megawatts stated exceed the largest power station operating in the United States (such a row
+    is left out of the ranking)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 175294
-  missing_meaning: null
+  missing_meaning: No megawatts stated
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py; method eqr_terms.md
 - name: x_price_source
-  label: null
-  unit: null
+  label: 'Where the price came from: filed (a number in $/MWH or $/KWH) or words (read from the rate description)'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 149127
-  missing_meaning: null
+  missing_meaning: No price in USD per MWh was found
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py
 - name: x_price_words
-  label: null
-  unit: null
+  label: The number read from the rate description, in the unit of x_price_words_unit
+  unit: x_price_words_unit
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 186850
-  missing_meaning: null
+  missing_meaning: Nothing was read from the words
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py; method eqr_terms.md
 - name: x_price_words_unit
-  label: null
-  unit: null
+  label: The unit read with that number, in FERC's spelling ($/MWH, $/KW-MO and others)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 186850
-  missing_meaning: null
+  missing_meaning: Nothing was read from the words
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_terms.py; method eqr_terms.md
 - name: x_price_unread
-  label: null
-  unit: null
+  label: For a row whose rate is words and no number, why no price was read (no_dollar_amount, several_amounts, no_unit, conditional,
+    other_numbers, units_disagree)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 81944
-  missing_meaning: null
+  missing_meaning: The rate is a number, or none is filed, or a price was read
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py; method eqr_terms.md
 - name: x_rate_kind
-  label: null
-  unit: null
+  label: 'How the rate is filed: number (in any unit), words (words and no number) or none'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_terms.py
 - name: x_storage_words_in
-  label: null
-  unit: null
+  label: The other fields of the row in which storage, battery or BESS stand (rate description, agreement identifier, tariff
+    reference, seller name), joined by semicolons; not a tag
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 185778
-  missing_meaning: null
+  missing_meaning: The words stand in none of those fields
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_terms.py; method eqr_terms.md
 - name: x_contract
-  label: null
-  unit: null
+  label: 'The contract: the filer''s company identifier and its contract identifier, joined by a bar'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_terms.py; method contracts.md
 - name: x_first_quarter
-  label: null
-  unit: null
+  label: The earliest quarter held in which the contract is filed, written YYYY_Qn
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_terms.py; method eqr_terms.md
 - name: x_quarters_held
-  label: null
-  unit: null
+  label: How many of the quarters held file the contract
+  unit: count
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_terms.py; method eqr_terms.md
 - name: x_quarter
-  label: null
-  unit: null
+  label: The quarter the row was filed for, written YYYY_Qn
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_terms.py
 - name: retrieved_at
   shared: true
   type: utc time

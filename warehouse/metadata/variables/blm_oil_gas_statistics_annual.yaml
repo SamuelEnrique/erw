@@ -5,9 +5,10 @@
 table: blm_oil_gas_statistics_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's value of one federal onshore oil and gas measure (leases, acreage, drilling permits, wells) for one federal
+  fiscal year, from BLM's Oil and Gas Statistics.
+time: ts_utc is 1 October before the fiscal year at 00:00:00Z (FY 2025 begins 1 October 2024); freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run from BLM's workbook; vintage is the workbook's Last-Modified.
 keys:
 - entity
 - variable
@@ -45,6 +46,7 @@ columns:
     - blm_oil_gas:az
     - blm_oil_gas:ca
   missing_cells: 0
+  particular: blm_oil_gas:<state postal code, lower case>
 - name: variable
   shared: true
   type: text
@@ -117,12 +119,14 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
+  particular: US-<state>
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 12500
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -135,6 +139,7 @@ columns:
     - Arkansas
     - California
   missing_cells: 0
+  particular: The state as BLM names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -164,9 +169,10 @@ columns:
     list:
       '2026-04-08T14:16:52Z': 12500
   missing_cells: 0
+  particular: The workbook's Last-Modified (UTC)
 - name: x_fiscal_year
-  label: null
-  unit: null
+  label: The federal fiscal year (October to September)
+  unit: none
   type: integer
   values:
     list:
@@ -196,12 +202,12 @@ columns:
       '2024': 500
       '2025': 500
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method blm_oil_gas_statistics_annual.md
 - name: x_table
-  label: null
-  unit: null
+  label: BLM's table the value is read from (Table 1 to Table 10)
+  unit: none
   type: text
   values:
     list:
@@ -216,77 +222,77 @@ columns:
       Table 8: 1250
       Table 9: 1250
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector blm_oil_gas_stats.py
 - name: x_as_of
-  label: null
-  unit: null
+  label: The date the workbook says its figures stand at
+  unit: none
   type: date
   values:
     list:
       '2025-10-01': 12500
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector blm_oil_gas_stats.py
 variables:
 - name: acres_newly_leased
-  label: null
+  label: Acres newly leased during the fiscal year
   unit: acre
   rows: 1250
   first: '2000-10-01T00:00:00Z'
   last: '2024-10-01T00:00:00Z'
 - name: acres_under_lease
-  label: null
+  label: Acres under federal lease on the fiscal year's last day
   unit: acre
   rows: 1250
   first: '2000-10-01T00:00:00Z'
   last: '2024-10-01T00:00:00Z'
 - name: apds_approved
-  label: null
+  label: Applications for permit to drill approved during the fiscal year
   unit: count
   rows: 1250
   first: '2000-10-01T00:00:00Z'
   last: '2024-10-01T00:00:00Z'
 - name: leases_in_effect
-  label: null
+  label: Federal oil and gas leases in effect on the fiscal year's last day
   unit: count
   rows: 1250
   first: '2000-10-01T00:00:00Z'
   last: '2024-10-01T00:00:00Z'
 - name: new_leases_issued
-  label: null
+  label: New leases issued during the fiscal year
   unit: count
   rows: 1250
   first: '2000-10-01T00:00:00Z'
   last: '2024-10-01T00:00:00Z'
 - name: producible_service_completions
-  label: null
+  label: Producible and service well completions on the fiscal year's last day
   unit: count
   rows: 1250
   first: '2000-10-01T00:00:00Z'
   last: '2024-10-01T00:00:00Z'
 - name: producible_service_well_bores
-  label: null
+  label: Producible and service well bores on the fiscal year's last day
   unit: count
   rows: 1250
   first: '2000-10-01T00:00:00Z'
   last: '2024-10-01T00:00:00Z'
 - name: producing_acres
-  label: null
+  label: Producing acres on the fiscal year's last day
   unit: acre
   rows: 1250
   first: '2000-10-01T00:00:00Z'
   last: '2024-10-01T00:00:00Z'
 - name: producing_leases
-  label: null
+  label: Producing leases on the fiscal year's last day
   unit: count
   rows: 1250
   first: '2000-10-01T00:00:00Z'
   last: '2024-10-01T00:00:00Z'
 - name: wells_spud
-  label: null
+  label: Wells spud (drilling started) during the fiscal year
   unit: count
   rows: 1250
   first: '2000-10-01T00:00:00Z'

@@ -2,221 +2,231 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 8 public tables (2 entities, 1 events, 5 series; tiers: 1 derived, 2 model_extracted, 5 source); 3 documented in full.
+**What the family holds.** 8 public tables (2 entities, 1 events, 5 series; tiers: 1 derived, 2 model_extracted, 5 source); 8 documented in full.
 
-- [`energy_charts_belgium_hourly`](#energy_charts_belgium_hourly): Energy-Charts (Fraunhofer ISE), Belgium's public net electricity production by type, load, residual load and cross-border trading, an hour, 2019-12-31T23:00:00Z to 2026-10-23T21:00:00Z (session 2253)
-- [`energy_charts_central_europe`](#energy_charts_central_europe): Energy-Charts (Fraunhofer ISE), Austria's, Switzerland's and Czechia's public net electricity production by type, load, residual load and cross-border trading, 2022-12-31T23:00:00Z to 2026-10-23T21:00:00Z (session 2272)
-- [`energy_charts_italy_power`](#energy_charts_italy_power): Energy-Charts (Fraunhofer ISE), Italy's public net electricity production by type, load and cross-border trading, 2019-12-31 to 2026-10-22 (session 2281)
-- [`energy_charts_portugal_power`](#energy_charts_portugal_power): Energy-Charts (Fraunhofer ISE), Portugal's public net electricity production by type, load and cross-border trading, 2020-01-01 to 2026-10-22 (session 2282)
-- [`energy_charts_southeast_europe_daily`](#energy_charts_southeast_europe_daily): Energy-Charts (Fraunhofer ISE), public net electricity production by type, load, residual load and cross-border trading for Hungary, Romania, Greece and Bulgaria, a UTC day, 2020-01-01 to 2026-10-22 (session 2259)
+- [`energy_charts_belgium_hourly`](#energy_charts_belgium_hourly): One hour's mean power of one of Belgium's public net production types, its load, residual load or cross-border trading, as Energy-Charts (Fraunhofer ISE) gives it.
+- [`energy_charts_central_europe`](#energy_charts_central_europe): One hour's mean power of one of Austria's, Switzerland's or Czechia's public net production types, its load, residual load or cross-border trading, as Energy-Charts (Fraunhofer ISE) gives it.
+- [`energy_charts_italy_power`](#energy_charts_italy_power): One interval's mean power of one of Italy's public net production types, its load or its cross-border trading, as Energy-Charts' API gives it.
+- [`energy_charts_portugal_power`](#energy_charts_portugal_power): One hour's mean power of one of Portugal's public net production types, its load or its cross-border trading, as Energy-Charts' API gives it.
+- [`energy_charts_southeast_europe_daily`](#energy_charts_southeast_europe_daily): One UTC day's energy of one of Hungary's, Romania's, Greece's or Bulgaria's public net production types, its load, residual load or cross-border trading, summed from Energy-Charts' (Fraunhofer ISE) mean power.
 - [`energy_companies`](#energy_companies): One energy company of the Thesis Builder (tool 27, researched by a model from public web sources it cites) or a party of the deal tracker's deals (energy_deals), merged on normalized name plus website domain.
 - [`energy_deals`](#energy_deals): One energy deal (a power purchase agreement, acquisition, financing, fuel supply and the others) extracted by a model from scored news stories and checked against the stories' words (platform tool 6).
 - [`energy_projects`](#energy_projects): One energy project for the project map (platform tool 3), one row per input row, either an EIA-860M generator (operating or planned) or an ISO interconnection queue position.
 
 ### `energy_charts_belgium_hourly`
 
-What a row is: not yet written.
+One hour's mean power of one of Belgium's public net production types, its load, residual load or cross-border trading, as Energy-Charts (Fraunhofer ISE) gives it.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 908600.
 
+- **Time:** ts_utc is the start of the hour, UTC; freq PT1H. The first hour is 23:00 UTC on 31 December 2019 (Belgian 1 January 2020).
+- **Revisions:** Rewritten whole by each run, every year asked again; vintage is empty (the API sends no Last-Modified).
 - **Source:** energy_charts:public_power_be Energy-Charts.info (Fraunhofer Institute for Solar Energy Systems ISE), public net electricity production, Belgium (https://energy-charts.info/charts/power/chart.htm?l=en&c=BE)
 - **Method note:** [`docs/methods/energy_charts_belgium_hourly.md`](../methods/energy_charts_belgium_hourly.md)
 - **Cite as:** Energy-Charts.info (Fraunhofer ISE). Public net electricity production, Belgium (API public_power). Via the Energy Research Warehouse (ERW), table `energy_charts_belgium_hourly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | energy_charts:be:battery, energy_charts:be:biomass, energy_charts:be:cross_border_electricity_trading, energy_charts:be:fossil_gas, energy_charts:be:fossil_oil, energy_charts:be:hydro_pumped_storage, energy_charts:be:hydro_pumped_storage_consumption, energy_charts:be:hydro_run_of_river, energy_charts:be:load, energy_charts:be:nuclear, energy_charts:be:others, energy_charts:be:residual_load, energy_charts:be:solar, energy_charts:be:waste, energy_charts:be:wind_offshore, energy_charts:be:wind_onshore | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: energy_charts:be:<type>, Energy-Charts' name as a slug | none | text | energy_charts:be:battery, energy_charts:be:biomass, energy_charts:be:cross_border_electricity_trading, energy_charts:be:fossil_gas, energy_charts:be:fossil_oil, energy_charts:be:hydro_pumped_storage, energy_charts:be:hydro_pumped_storage_consumption, energy_charts:be:hydro_run_of_river, energy_charts:be:load, energy_charts:be:nuclear, energy_charts:be:others, energy_charts:be:residual_load, energy_charts:be:solar, energy_charts:be:waste, energy_charts:be:wind_offshore, energy_charts:be:wind_onshore | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2019-12-31T23:00:00Z to 2026-10-23T21:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -5343.2 to 13515.7; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | BE | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 908600 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Belgium: Battery, Belgium: Biomass, Belgium: Cross border electricity trading, Belgium: Fossil gas, Belgium: Fossil oil, Belgium: Hydro Run-of-River, Belgium: Hydro pumped storage, Belgium: Hydro pumped storage consumption, Belgium: Load, Belgium: Nuclear, Belgium: Others, Belgium: Residual load, Belgium: Solar, Belgium: Waste, Belgium: Wind offshore, Belgium: Wind onshore | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: Always BE (an ISO 3166-1 country code) | none | text | BE | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 908600 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: 'Belgium: <Energy-Charts' name>', not a pricing node | none | text | Belgium: Battery, Belgium: Biomass, Belgium: Cross border electricity trading, Belgium: Fossil gas, Belgium: Fossil oil, Belgium: Hydro Run-of-River, Belgium: Hydro pumped storage, Belgium: Hydro pumped storage consumption, Belgium: Load, Belgium: Nuclear, Belgium: Others, Belgium: Residual load, Belgium: Solar, Belgium: Waste, Belgium: Wind offshore, Belgium: Wind onshore | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | energy_charts:public_power_be | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.energy-charts.info/public_power?country=be&start=2020-01-01&end=2020-12-31, https://api.energy-charts.info/public_power?country=be&start=2021-01-01&end=2021-12-31, https://api.energy-charts.info/public_power?country=be&start=2022-01-01&end=2022-12-31, https://api.energy-charts.info/public_power?country=be&start=2023-01-01&end=2023-12-31, https://api.energy-charts.info/public_power?country=be&start=2024-01-01&end=2024-12-31, https://api.energy-charts.info/public_power?country=be&start=2025-01-01&end=2025-12-31, https://api.energy-charts.info/public_power?country=be&start=2026-01-01&end=2026-10-23 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T03:46:02Z, 2026-10-24T03:46:18Z, 2026-10-24T03:46:55Z, 2026-10-24T03:47:33Z, 2026-10-24T03:48:10Z, 2026-10-24T03:48:47Z, 2026-10-24T03:49:24Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 908600 |
-| `x_type` | not yet written |  | text | Battery, Biomass, Cross border electricity trading, Fossil gas, Fossil oil, Hydro Run-of-River, Hydro pumped storage, Hydro pumped storage consumption, Load, Nuclear, Others, Residual load, Solar, Waste, Wind offshore, Wind onshore | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: the API sends no Last-Modified | none | empty | no cell holds a value | 908600 |
+| `x_type` | Energy-Charts' name of the production type or measure (Biomass, Fossil gas, Nuclear, Load, Residual load, Cross border electricity trading and the others) | none | text | Battery, Biomass, Cross border electricity trading, Fossil gas, Fossil oil, Hydro Run-of-River, Hydro pumped storage, Hydro pumped storage consumption, Load, Nuclear, Others, Residual load, Solar, Waste, Wind offshore, Wind onshore | 0 |
 
 Variables (4):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `cross_border_trading` |  | MW | 59711 | 2019-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
-| `load` |  | MW | 59711 | 2019-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
-| `public_net_power` |  | MW | 729467 | 2019-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
-| `residual_load` |  | MW | 59711 | 2019-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
+| `cross_border_trading` | The hour's mean net cross-border trading, MW; positive is a net import | MW | 59711 | 2019-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
+| `load` | The hour's mean load (electricity demand), MW | MW | 59711 | 2019-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
+| `public_net_power` | The hour's mean public net production of the entity's production type, MW (pumped storage consumption negative, as given) | MW | 729467 | 2019-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
+| `residual_load` | The hour's mean residual load: load less solar, offshore and onshore wind, MW | MW | 59711 | 2019-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
 
 ### `energy_charts_central_europe`
 
-What a row is: not yet written.
+One hour's mean power of one of Austria's, Switzerland's or Czechia's public net production types, its load, residual load or cross-border trading, as Energy-Charts (Fraunhofer ISE) gives it.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1419805.
 
+- **Time:** ts_utc is the start of the hour, UTC; freq PT1H. A quarter-hour answer's four values are averaged, the hour kept only when all four are given. From 23:00 UTC on 31 December 2022.
+- **Revisions:** Rewritten whole by each run from the yearly answers; vintage is blank (the answers carry no date of their own).
 - **Source:** energy_charts:public_power_at_ch_cz Energy-Charts.info (Fraunhofer Institute for Solar Energy Systems ISE), public net electricity production (https://energy-charts.info/charts/power/chart.htm?l=en)
 - **Method note:** [`docs/methods/energy_charts_central_europe.md`](../methods/energy_charts_central_europe.md)
 - **Cite as:** Energy-Charts.info (Fraunhofer ISE). Public net electricity production, Austria, Switzerland and Czechia (API public_power). Via the Energy Research Warehouse (ERW), table `energy_charts_central_europe`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example energy_charts:at:biomass, energy_charts:at:cross_border_electricity_trading, energy_charts:at:fossil_gas; 43 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: energy_charts:<at\|ch\|cz>:<type>, Energy-Charts' name as a slug | none | text | for example energy_charts:at:biomass, energy_charts:at:cross_border_electricity_trading, energy_charts:at:fossil_gas; 43 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2022-12-31T23:00:00Z to 2026-10-23T21:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -8812.9 to 12234.1; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | AT, CH, CZ | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1419805 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Austria: Biomass, Austria: Cross border electricity trading, Austria: Fossil gas; 43 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: AT, CH or CZ (ISO 3166-1 country codes) | none | text | AT, CH, CZ | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1419805 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: '<Country>: <Energy-Charts' name>', not a pricing node | none | text | for example Austria: Biomass, Austria: Cross border electricity trading, Austria: Fossil gas; 43 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | energy_charts:public_power_at_ch_cz | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.energy-charts.info/public_power?country=at&start=2023-01-01&end=2023-12-31, https://api.energy-charts.info/public_power?country=at&start=2024-01-01&end=2024-12-31, https://api.energy-charts.info/public_power?country=at&start=2025-01-01&end=2025-12-31, https://api.energy-charts.info/public_power?country=at&start=2026-01-01&end=2026-10-23, https://api.energy-charts.info/public_power?country=ch&start=2023-01-01&end=2023-12-31, https://api.energy-charts.info/public_power?country=ch&start=2024-01-01&end=2024-12-31, https://api.energy-charts.info/public_power?country=ch&start=2025-01-01&end=2025-12-31, https://api.energy-charts.info/public_power?country=ch&start=2026-01-01&end=2026-10-23, https://api.energy-charts.info/public_power?country=cz&start=2023-01-01&end=2023-12-31, https://api.energy-charts.info/public_power?country=cz&start=2024-01-01&end=2024-12-31, https://api.energy-charts.info/public_power?country=cz&start=2025-01-01&end=2025-12-31, https://api.energy-charts.info/public_power?country=cz&start=2026-01-01&end=2026-10-23 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T04:07:03Z, 2026-10-24T04:07:43Z, 2026-10-24T04:08:23Z, 2026-10-24T04:09:04Z, 2026-10-24T04:09:42Z, 2026-10-24T04:10:20Z, 2026-10-24T04:10:57Z, 2026-10-24T04:11:34Z, 2026-10-24T04:12:12Z, 2026-10-24T04:12:50Z, 2026-10-24T04:13:30Z, 2026-10-24T04:14:11Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 1419805 |
-| `x_type` | not yet written |  | text | Biomass, Cross border electricity trading, Fossil brown coal / lignite, Fossil coal-derived gas, Fossil gas, Fossil hard coal, Fossil oil, Geothermal, Hydro Run-of-River, Hydro pumped storage, Hydro pumped storage consumption, Hydro water reservoir, Load, Nuclear, Other renewables, Others, Residual load, Solar, Waste, Wind onshore | 0 |
-| `x_resolution` | not yet written |  | text | PT15M, PT1H | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: the answers carry no date of their own | none | empty | no cell holds a value | 1419805 |
+| `x_type` | Energy-Charts' name of the production type or measure (Biomass, Fossil gas, Nuclear, Load, Residual load, Cross border electricity trading and the others) | none | text | Biomass, Cross border electricity trading, Fossil brown coal / lignite, Fossil coal-derived gas, Fossil gas, Fossil hard coal, Fossil oil, Geothermal, Hydro Run-of-River, Hydro pumped storage, Hydro pumped storage consumption, Hydro water reservoir, Load, Nuclear, Other renewables, Others, Residual load, Solar, Waste, Wind onshore | 0 |
+| `x_resolution` | The spacing of the API answer the hour came from: PT15M (a quarter hour, averaged to the hour) or PT1H | none | text | PT15M, PT1H | 0 |
 
 Variables (4):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `cross_border_trading` |  | MW | 100221 | 2022-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
-| `load` |  | MW | 100220 | 2022-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
-| `public_net_power` |  | MW | 1119144 | 2022-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
-| `residual_load` |  | MW | 100220 | 2022-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
+| `cross_border_trading` | The hour's mean net cross-border trading, MW; negative in hours of net export | MW | 100221 | 2022-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
+| `load` | The hour's mean load (electricity demand) as Energy-Charts gives it, MW | MW | 100220 | 2022-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
+| `public_net_power` | The hour's mean public net production of the entity's production type, MW (pumped storage consumption negative: the power the pumps draw) | MW | 1119144 | 2022-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
+| `residual_load` | The hour's mean residual load as Energy-Charts gives it, MW | MW | 100220 | 2022-12-31T23:00:00Z | 2026-10-23T21:00:00Z |
 
 ### `energy_charts_italy_power`
 
-What a row is: not yet written.
+One interval's mean power of one of Italy's public net production types, its load or its cross-border trading, as Energy-Charts' API gives it.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1329375.
 
+- **Time:** ts_utc is the start of the interval, UTC; freq PT1H to the end of 2025, PT15M from 2025-12-31T23:00:00Z.
+- **Revisions:** Merged by (entity, variable, ts_utc), a changed value replacing the old; an interval later given as null writes no row, so the earlier value stays. vintage is blank.
 - **Source:** energy_charts:public_power_it Energy-Charts.info (Fraunhofer ISE), API, public_power, country it (https://api.energy-charts.info/)
 - **Method note:** [`docs/methods/energy_charts_italy_power.md`](../methods/energy_charts_italy_power.md)
 - **Cite as:** Energy-Charts.info (Fraunhofer ISE). Energy-Charts API, public_power, Italy. Via the Energy Research Warehouse (ERW), table `energy_charts_italy_power`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | energy_charts:IT | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: Always energy_charts:IT | none | text | energy_charts:IT | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2019-12-31T23:00:00Z to 2026-10-22T21:45:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -4779.0 to 52503.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT15M, PT1H | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | IT | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1329375 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Italy | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: Always IT (an ISO 3166-1 country code) | none | text | IT | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1329375 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Always Italy, not a pricing node | none | text | Italy | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | energy_charts:public_power_it | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.energy-charts.info/public_power?country=it&start=2020-01-01&end=2020-12-31, https://api.energy-charts.info/public_power?country=it&start=2021-01-01&end=2021-12-31, https://api.energy-charts.info/public_power?country=it&start=2022-01-01&end=2022-12-31, https://api.energy-charts.info/public_power?country=it&start=2023-01-01&end=2023-12-31, https://api.energy-charts.info/public_power?country=it&start=2024-01-01&end=2024-12-31, https://api.energy-charts.info/public_power?country=it&start=2025-01-01&end=2025-12-31, https://api.energy-charts.info/public_power?country=it&start=2026-01-01&end=2026-10-22 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T04:58:12Z, 2026-10-24T04:58:47Z, 2026-10-24T04:59:21Z, 2026-10-24T04:59:55Z, 2026-10-24T05:00:30Z, 2026-10-24T05:01:04Z, 2026-10-24T05:01:39Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 1329375 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: the answers carry no Last-Modified | none | empty | no cell holds a value | 1329375 |
 
 Variables (20):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `battery` |  | MW | 20354 | 2024-12-31T23:00:00Z | 2026-10-22T21:15:00Z |
-| `battery_consumption` |  | MW | 20353 | 2024-12-31T23:00:00Z | 2026-10-22T21:15:00Z |
-| `biomass` |  | MW | 80924 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
-| `cross_border_electricity_trading` |  | MW | 80924 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
-| `fossil_coal_derived_gas` |  | MW | 78182 | 2019-12-31T23:00:00Z | 2026-09-25T07:30:00Z |
-| `fossil_gas` |  | MW | 80924 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
-| `fossil_hard_coal` |  | MW | 78575 | 2019-12-31T23:00:00Z | 2026-10-20T12:00:00Z |
-| `fossil_oil` |  | MW | 79691 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
-| `geothermal` |  | MW | 70185 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
-| `hydro_pumped_storage` |  | MW | 62671 | 2019-12-31T23:00:00Z | 2026-10-22T19:00:00Z |
-| `hydro_pumped_storage_consumption` |  | MW | 62671 | 2019-12-31T23:00:00Z | 2026-10-22T19:00:00Z |
-| `hydro_run_of_river` |  | MW | 80924 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
-| `hydro_water_reservoir` |  | MW | 80900 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
-| `load` |  | MW | 80924 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
-| `other_renewables` |  | MW | 4060 | 2024-12-31T23:00:00Z | 2025-07-08T23:00:00Z |
-| `others` |  | MW | 80924 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
-| `solar` |  | MW | 80922 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
-| `waste` |  | MW | 64597 | 2019-12-31T23:00:00Z | 2026-05-06T14:00:00Z |
-| `wind_offshore` |  | MW | 59757 | 2022-05-31T22:00:00Z | 2026-10-22T21:45:00Z |
-| `wind_onshore` |  | MW | 80913 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
+| `battery` | Public net production from batteries (discharge), MW | MW | 20354 | 2024-12-31T23:00:00Z | 2026-10-22T21:15:00Z |
+| `battery_consumption` | Power drawn by batteries to charge, MW, 0 or negative | MW | 20353 | 2024-12-31T23:00:00Z | 2026-10-22T21:15:00Z |
+| `biomass` | Public net production from biomass, MW | MW | 80924 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
+| `cross_border_electricity_trading` | Net cross-border trading, MW; positive is a net import | MW | 80924 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
+| `fossil_coal_derived_gas` | Public net production from coal-derived gas, MW | MW | 78182 | 2019-12-31T23:00:00Z | 2026-09-25T07:30:00Z |
+| `fossil_gas` | Public net production from natural gas, MW | MW | 80924 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
+| `fossil_hard_coal` | Public net production from hard coal, MW | MW | 78575 | 2019-12-31T23:00:00Z | 2026-10-20T12:00:00Z |
+| `fossil_oil` | Public net production from oil, MW | MW | 79691 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
+| `geothermal` | Public net production from geothermal plants, MW | MW | 70185 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
+| `hydro_pumped_storage` | Public net production from pumped storage hydro plants, MW | MW | 62671 | 2019-12-31T23:00:00Z | 2026-10-22T19:00:00Z |
+| `hydro_pumped_storage_consumption` | Power drawn by pumped storage plants' pumps, MW, 0 or negative | MW | 62671 | 2019-12-31T23:00:00Z | 2026-10-22T19:00:00Z |
+| `hydro_run_of_river` | Public net production from run-of-river hydro, MW | MW | 80924 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
+| `hydro_water_reservoir` | Public net production from reservoir hydro, MW | MW | 80900 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
+| `load` | Load (electricity demand), MW | MW | 80924 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
+| `other_renewables` | Public net production from other renewables, MW | MW | 4060 | 2024-12-31T23:00:00Z | 2025-07-08T23:00:00Z |
+| `others` | Public net production from other sources (Energy-Charts' Others), MW | MW | 80924 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
+| `solar` | Public net production from solar, MW | MW | 80922 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
+| `waste` | Public net production from waste, MW | MW | 64597 | 2019-12-31T23:00:00Z | 2026-05-06T14:00:00Z |
+| `wind_offshore` | Public net production from offshore wind, MW | MW | 59757 | 2022-05-31T22:00:00Z | 2026-10-22T21:45:00Z |
+| `wind_onshore` | Public net production from onshore wind, MW | MW | 80913 | 2019-12-31T23:00:00Z | 2026-10-22T21:45:00Z |
 
 ### `energy_charts_portugal_power`
 
-What a row is: not yet written.
+One hour's mean power of one of Portugal's public net production types, its load or its cross-border trading, as Energy-Charts' API gives it.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 725799.
 
+- **Time:** ts_utc is the start of the hour, UTC; freq PT1H (every answer is hourly).
+- **Revisions:** Merged by (entity, variable, ts_utc), a changed value replacing the old; an interval later given as null writes no row, so the earlier value stays. vintage is blank.
 - **Source:** energy_charts:public_power_pt Energy-Charts.info (Fraunhofer ISE), API, public_power, country pt (https://api.energy-charts.info/)
 - **Method note:** [`docs/methods/energy_charts_portugal_power.md`](../methods/energy_charts_portugal_power.md)
 - **Cite as:** Energy-Charts.info (Fraunhofer ISE). Energy-Charts API, public_power, Portugal. Via the Energy Research Warehouse (ERW), table `energy_charts_portugal_power`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | energy_charts:PT | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: Always energy_charts:PT | none | text | energy_charts:PT | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2020-01-01T00:00:00Z to 2026-10-22T22:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -4410.0 to 10176.6; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | PT | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 725799 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Portugal | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: Always PT (an ISO 3166-1 country code) | none | text | PT | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 725799 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Always Portugal, not a pricing node | none | text | Portugal | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | energy_charts:public_power_pt | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.energy-charts.info/public_power?country=pt&start=2020-01-01&end=2020-12-31, https://api.energy-charts.info/public_power?country=pt&start=2021-01-01&end=2021-12-31, https://api.energy-charts.info/public_power?country=pt&start=2022-01-01&end=2022-12-31, https://api.energy-charts.info/public_power?country=pt&start=2023-01-01&end=2023-12-31, https://api.energy-charts.info/public_power?country=pt&start=2024-01-01&end=2024-12-31, https://api.energy-charts.info/public_power?country=pt&start=2025-01-01&end=2025-12-31, https://api.energy-charts.info/public_power?country=pt&start=2026-01-01&end=2026-10-22 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T05:08:12Z, 2026-10-24T05:08:46Z, 2026-10-24T05:09:20Z, 2026-10-24T05:09:55Z, 2026-10-24T05:10:29Z, 2026-10-24T05:11:03Z, 2026-10-24T05:11:38Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 725799 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: the answers carry no Last-Modified | none | empty | no cell holds a value | 725799 |
 
 Variables (13):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `biomass` |  | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
-| `cross_border_electricity_trading` |  | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
-| `fossil_gas` |  | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
-| `fossil_hard_coal` |  | MW | 16080 | 2020-01-01T00:00:00Z | 2021-11-30T23:00:00Z |
-| `hydro_pumped_storage` |  | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
-| `hydro_pumped_storage_consumption` |  | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
-| `hydro_run_of_river` |  | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
-| `hydro_water_reservoir` |  | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
-| `load` |  | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
-| `others` |  | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
-| `solar` |  | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
-| `wind_offshore` |  | MW | 53162 | 2020-05-31T22:00:00Z | 2026-10-22T22:00:00Z |
-| `wind_onshore` |  | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
+| `biomass` | Public net production from biomass, MW | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
+| `cross_border_electricity_trading` | Net cross-border trading, MW; positive is a net import | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
+| `fossil_gas` | Public net production from natural gas, MW | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
+| `fossil_hard_coal` | Public net production from hard coal, MW (to November 2021) | MW | 16080 | 2020-01-01T00:00:00Z | 2021-11-30T23:00:00Z |
+| `hydro_pumped_storage` | Public net production from pumped storage hydro plants, MW (not REN's pumped-storage production) | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
+| `hydro_pumped_storage_consumption` | Power drawn by pumped storage plants' pumps, MW, 0 or negative | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
+| `hydro_run_of_river` | Public net production from run-of-river hydro, MW | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
+| `hydro_water_reservoir` | Public net production from reservoir hydro, MW | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
+| `load` | Load (electricity demand), MW | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
+| `others` | Public net production from other sources (Energy-Charts' Others), MW | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
+| `solar` | Public net production from solar, MW | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
+| `wind_offshore` | Public net production from offshore wind, MW | MW | 53162 | 2020-05-31T22:00:00Z | 2026-10-22T22:00:00Z |
+| `wind_onshore` | Public net production from onshore wind, MW | MW | 59687 | 2020-01-01T00:00:00Z | 2026-10-22T22:00:00Z |
 
 ### `energy_charts_southeast_europe_daily`
 
-What a row is: not yet written.
+One UTC day's energy of one of Hungary's, Romania's, Greece's or Bulgaria's public net production types, its load, residual load or cross-border trading, summed from Energy-Charts' (Fraunhofer ISE) mean power.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 128530.
 
+- **Time:** ts_utc is the UTC day at 00:00:00Z; freq P1D. A day is summed only when its periods cover the whole day with none blank.
+- **Revisions:** Rewritten whole by each run, every country asked again; vintage is empty (the API sends no Last-Modified).
 - **Source:** energy_charts:public_power_southeast Energy-Charts.info (Fraunhofer Institute for Solar Energy Systems ISE), public net electricity production (https://energy-charts.info/charts/power/chart.htm?l=en)
 - **Method note:** [`docs/methods/energy_charts_southeast_europe_daily.md`](../methods/energy_charts_southeast_europe_daily.md)
 - **Cite as:** Energy-Charts.info (Fraunhofer ISE). Public net electricity production, Hungary, Romania, Greece and Bulgaria (API public_power). Via the Energy Research Warehouse (ERW), table `energy_charts_southeast_europe_daily`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example energy_charts:bg:battery, energy_charts:bg:battery_consumption, energy_charts:bg:biomass; 58 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: energy_charts:<country>:<type>, Energy-Charts' name as a slug | none | text | for example energy_charts:bg:battery, energy_charts:bg:battery_consumption, energy_charts:bg:biomass; 58 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2020-01-01T00:00:00Z to 2026-10-22T00:00:00Z; 2487 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -68958.6 to 215445.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh | 0 |
 | `freq` | How long the interval of the row is | none | text | P1D | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | BG, GR, HU, RO | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 128530 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example BG: Battery, BG: Battery Consumption, BG: Biomass; 58 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: HU, RO, GR or BG (ISO 3166-1 country codes) | none | text | BG, GR, HU, RO | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 128530 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: '<geo>: <Energy-Charts' name>', not a pricing node | none | text | for example BG: Battery, BG: Battery Consumption, BG: Biomass; 58 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | energy_charts:public_power_southeast | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.energy-charts.info/public_power?country=bg&start=2020-01-01&end=2026-10-23, https://api.energy-charts.info/public_power?country=gr&start=2020-01-01&end=2026-10-23, https://api.energy-charts.info/public_power?country=hu&start=2020-01-01&end=2026-10-23, https://api.energy-charts.info/public_power?country=ro&start=2020-01-01&end=2026-10-23 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T04:22:15Z, 2026-10-24T04:25:34Z, 2026-10-24T04:26:16Z, 2026-10-24T04:26:54Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 128530 |
-| `x_type` | not yet written |  | text | Battery, Battery Consumption, Biomass, Cross border electricity trading, Fossil brown coal / lignite, Fossil gas, Fossil hard coal, Fossil oil, Geothermal, Hydro Run-of-River, Hydro pumped storage, Hydro pumped storage consumption, Hydro water reservoir, Load, Nuclear, Other renewables, Others, Residual load, Solar, Waste, Wind onshore | 0 |
-| `x_periods` | not yet written |  | integer | 24, 30, 96 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: the API sends no Last-Modified | none | empty | no cell holds a value | 128530 |
+| `x_type` | Energy-Charts' name of the production type or measure (Nuclear, Fossil gas, Solar, Load, Residual load, Cross border electricity trading and the others) | none | text | Battery, Battery Consumption, Biomass, Cross border electricity trading, Fossil brown coal / lignite, Fossil gas, Fossil hard coal, Fossil oil, Geothermal, Hydro Run-of-River, Hydro pumped storage, Hydro pumped storage consumption, Hydro water reservoir, Load, Nuclear, Other renewables, Others, Residual load, Solar, Waste, Wind onshore | 0 |
+| `x_periods` | The number of periods summed into the day: 96 quarter hours, 24 hours, or 30 (Romania's 31 December 2021, 22 hours and 8 quarter hours) | count | integer | 24, 30, 96 | 0 |
 
 Variables (4):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `cross_border_trading` |  | MWh | 9948 | 2020-01-01T00:00:00Z | 2026-10-22T00:00:00Z |
-| `load` |  | MWh | 9897 | 2020-01-01T00:00:00Z | 2026-10-22T00:00:00Z |
-| `public_net_energy` |  | MWh | 98788 | 2020-01-01T00:00:00Z | 2026-10-22T00:00:00Z |
-| `residual_load` |  | MWh | 9897 | 2020-01-01T00:00:00Z | 2026-10-22T00:00:00Z |
+| `cross_border_trading` | The day's net cross-border trading, MWh; positive is a net import | MWh | 9948 | 2020-01-01T00:00:00Z | 2026-10-22T00:00:00Z |
+| `load` | The day's load (electricity demand), MWh | MWh | 9897 | 2020-01-01T00:00:00Z | 2026-10-22T00:00:00Z |
+| `public_net_energy` | The day's public net production of the entity's production type, MWh (consumption series negative, as given) | MWh | 98788 | 2020-01-01T00:00:00Z | 2026-10-22T00:00:00Z |
+| `residual_load` | The day's residual load: load less solar and onshore wind, MWh | MWh | 9897 | 2020-01-01T00:00:00Z | 2026-10-22T00:00:00Z |
 
 ### `energy_companies`
 

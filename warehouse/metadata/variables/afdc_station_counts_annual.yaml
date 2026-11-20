@@ -5,9 +5,10 @@
 table: afdc_station_counts_annual
 family: afdc
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the United States') count of alternative fueling stations of one fuel, or of EV charging locations or
+  ports, near the end of December of one year, 2007 to 2025, from AFDC's historical station counts.
+time: ts_utc is 1 January of the year at 00:00:00Z; the count is as of late December of that year; freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot); vintage is the workbook's Last-Modified time.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
     - afdc_st:AZ
     - afdc_st:CA
   missing_cells: 0
+  particular: afdc_st:<state code>, or afdc_st:US for each sheet's own Total row
 - name: variable
   shared: true
   type: text
@@ -109,12 +111,14 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
+  particular: US-<state>, or US on the Total row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 13520
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -142,6 +146,7 @@ columns:
       Total: 364
       Totald: 624
   missing_cells: 0
+  particular: 'The sheet''s column as printed (Electric: Level 2), not a pricing node'
 - name: source
   shared: true
   type: text
@@ -170,119 +175,123 @@ columns:
     list:
       '2026-06-23T22:12:10Z': 13520
   missing_cells: 0
+  particular: The workbook's Last-Modified time
 - name: x_layout
-  label: null
-  unit: null
+  label: 'The form of the year''s sheet: 2007_2013 (one number a fuel) or 2014_on (levels and designations under Electric,
+    Hydrogen and Propane)'
+  unit: none
   type: text
   values:
     list:
       '2007_2013': 2912
       2014_on: 10608
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method afdc_station_counts_annual.md; connector afdc_stations.py
 variables:
 - name: ev_locations
-  label: null
+  label: EV charging locations (unique physical places), count (2007 to 2010, and from 2014)
   unit: count
   rows: 832
   first: '2007-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ev_ports
-  label: null
+  label: EV charging ports (outlets), count (2011 to 2013, and from 2014)
   unit: count
   rows: 780
   first: '2011-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ev_ports_dc_fast
-  label: null
+  label: DC fast EV charging ports, count (from 2014)
   unit: count
   rows: 624
   first: '2014-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ev_ports_level1
-  label: null
+  label: Level 1 EV charging ports, count (from 2014)
   unit: count
   rows: 624
   first: '2014-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ev_ports_level2
-  label: null
+  label: Level 2 EV charging ports, count (from 2014)
   unit: count
   rows: 624
   first: '2014-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_biodiesel
-  label: null
+  label: Biodiesel stations, count
   unit: count
   rows: 988
   first: '2007-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_cng
-  label: null
+  label: Compressed natural gas (CNG) stations, count
   unit: count
   rows: 988
   first: '2007-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_e85
-  label: null
+  label: E85 (ethanol blend) stations, count
   unit: count
   rows: 988
   first: '2007-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_hydrogen
-  label: null
+  label: Hydrogen stations, total, count
   unit: count
   rows: 988
   first: '2007-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_hydrogen_non_retail
-  label: null
+  label: Hydrogen stations under AFDC's non-retail designation, count (from 2014)
   unit: count
   rows: 624
   first: '2014-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_hydrogen_retail
-  label: null
+  label: Hydrogen stations under AFDC's retail designation, count (from 2014)
   unit: count
   rows: 624
   first: '2014-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_lng
-  label: null
+  label: Liquefied natural gas (LNG) stations, count
   unit: count
   rows: 988
   first: '2007-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_propane
-  label: null
+  label: Propane stations, total, count
   unit: count
   rows: 988
   first: '2007-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_propane_primary
-  label: null
+  label: Propane stations under AFDC's primary designation, count (from 2014)
   unit: count
   rows: 624
   first: '2014-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_propane_secondary
-  label: null
+  label: Propane stations under AFDC's secondary designation, count (from 2014)
   unit: count
   rows: 624
   first: '2014-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_renewable_diesel
-  label: null
+  label: Renewable diesel stations, count (from 2014)
   unit: count
   rows: 624
   first: '2014-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_total
-  label: null
+  label: 'All stations as AFDC totals them: a station counted once a fuel, electric by ports, count'
   unit: count
   rows: 988
   first: '2007-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
-second_look: null
+second_look:
+- 'stations_propane_primary, stations_propane_secondary, stations_hydrogen_retail, stations_hydrogen_non_retail: AFDC''s designations
+  are named but not defined in the header, method note or connector.'

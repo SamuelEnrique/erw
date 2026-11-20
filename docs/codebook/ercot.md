@@ -2,44 +2,44 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 38 public tables (6 entities, 2 events, 30 series; tiers: 12 derived, 26 source); 22 documented in full.
+**What the family holds.** 38 public tables (6 entities, 2 events, 30 series; tiers: 12 derived, 26 source); 38 documented in full.
 
 - [`ercot_4cp_intervals`](#ercot_4cp_intervals): One of ERCOT's four coincident peaks of a year (the 15-minute interval of the system's highest load in each summer month, June to September) with ERCOT's load in it.
 - [`ercot_all_hub_prices_history`](#ercot_all_hub_prices_history): ERCOT's settlement point price at one of its six trading hubs for one interval of one operating year from 2015, day-ahead (hourly) or real-time (15-minute).
 - [`ercot_as_prices`](#ercot_as_prices): ERCOT's day-ahead market clearing price for capacity (MCPC) of one ancillary service for one delivery hour.
 - [`ercot_as_prices_daily`](#ercot_as_prices_daily): One daily summary of ERCOT's hourly day-ahead clearing prices for capacity of one ancillary service, for one local day.
 - [`ercot_as_prices_monthly`](#ercot_as_prices_monthly): One monthly summary of ERCOT's hourly day-ahead clearing prices for capacity of one ancillary service, for one local month.
-- [`ercot_as_quantities`](#ercot_as_quantities): ERCOT DAM Ancillary Service Plan, MW by product and hour (NP4-33-CD)
+- [`ercot_as_quantities`](#ercot_as_quantities): The MW of one ancillary service ERCOT planned to procure in its day-ahead market for one delivery hour, from the plan published the day before delivery.
 - [`ercot_cdr_reserve_margins`](#ercot_cdr_reserve_margins): One line of the Seasonal Summary of ERCOT's Capacity, Demand and Reserves report (CDR) for one season at its peak load hour or its peak net load hour.
-- [`ercot_cdr_units`](#ercot_cdr_units): ERCOT, the units of the Capacity, Demand and Reserves report: each resource's code, county, zone, fuel, status, in-service date and capacity (session 872)
-- [`ercot_dam_cleared_energy`](#ercot_dam_cleared_energy): ERCOT, energy bought in the day-ahead market by hour, system-wide (NP4-192-CD, DAM Total Energy Purchased) (session 136)
-- [`ercot_dam_esr_awards`](#ercot_dam_esr_awards): Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261115T160738Z-github (2026-11-15T16:07:38Z); that run's own header of the table follows
-- [`ercot_grid_notices`](#ercot_grid_notices): ERCOT's grid notices, Energy Emergency Alerts, rotating outages, conservation appeals, watches and the control room's operating notices (session 322)
+- [`ercot_cdr_units`](#ercot_cdr_units): One generating or storage unit (or one planned group of small generators) listed on the Unit Details sheet of ERCOT's Capacity, Demand and Reserves report (CDR).
+- [`ercot_dam_cleared_energy`](#ercot_dam_cleared_energy): The energy bought in ERCOT's day-ahead market in one delivery hour, summed over every settlement point.
+- [`ercot_dam_esr_awards`](#ercot_dam_esr_awards): One ERCOT Energy Storage Resource (a battery) in one hour of the day-ahead market, its High Sustained Limit with its awards and limits as ERCOT's 60-day disclosure prints them.
+- [`ercot_grid_notices`](#ercot_grid_notices): One ERCOT notice (an Energy Emergency Alert, rotating outages, a conservation appeal, a watch, a control-room message and others) for one Central day it covers.
 - [`ercot_hub_prices_daily`](#ercot_hub_prices_daily): One daily statistic of ERCOT's day-ahead or real-time price at one of its six trading hubs, for one complete local operating day from 2015.
 - [`ercot_interconnection_queue`](#ercot_interconnection_queue): One position in ERCOT's Generation Interconnection Status (GIS) report, a project asking to connect generation or storage to ERCOT's grid.
 - [`ercot_large_load_status`](#ercot_large_load_status): One figure stated in words in one of ERCOT's monthly Large Load Interconnection Status Update reports.
 - [`ercot_node_places`](#ercot_node_places): One ERCOT resource node (a settlement point where a generating or storage resource is settled) placed in a county and load zone by the CDR units at its station.
-- [`ercot_node_planned_generation`](#ercot_node_planned_generation): the planned generation in each placed ERCOT resource node's county: ERCOT's active queue projects and EIA-860M's planned generators (session 931)
-- [`ercot_node_transmission`](#ercot_node_transmission): ERCOT's transmission projects (TPIT) by the county of each placed resource node (session 917)
-- [`ercot_node_wires_utilities`](#ercot_node_wires_utilities): the wires utilities in each placed ERCOT resource node's county, from EIA-861's service territories, with Texas's delivery-only companies named apart (session 945)
+- [`ercot_node_planned_generation`](#ercot_node_planned_generation): One placed ERCOT resource node with the planned generation in its county, from ERCOT's active interconnection queue and EIA-860M's planned generators.
+- [`ercot_node_transmission`](#ercot_node_transmission): One placed ERCOT resource node with the transmission project phases of ERCOT's TPIT workbook (Transmission Project and Information Tracking) that start or end in its county.
+- [`ercot_node_wires_utilities`](#ercot_node_wires_utilities): One placed ERCOT resource node with the wires utilities EIA-861 lists as serving its county, Texas's delivery-only companies named apart.
 - [`ercot_peak_premium_annual`](#ercot_peak_premium_annual): One price statistic of ERCOT's 15-minute real-time prices at one trading hub over one ERCOT operating year, for all intervals or one block of the day, or the same over the year to date.
 - [`ercot_peak_premium_monthly`](#ercot_peak_premium_monthly): One price statistic of ERCOT's 15-minute real-time prices at one trading hub over one local calendar month, for all intervals or one block of the day.
-- [`ercot_peak_premium_node_monthly`](#ercot_peak_premium_node_monthly): ERCOT peak premium metrics per settlement point and calendar month (derived)
-- [`ercot_rtm_node_prices`](#ercot_rtm_node_prices): ERCOT real-time Settlement Point Prices at the storage resources' settlement points, the hubs and the Load Zones, by 15-minute interval (session 120)
+- [`ercot_peak_premium_node_monthly`](#ercot_peak_premium_node_monthly): One price statistic of ERCOT's 15-minute real-time prices at one settlement point over one local calendar month, for all intervals or one block of the day.
+- [`ercot_rtm_node_prices`](#ercot_rtm_node_prices): ERCOT's real-time settlement point price at one settlement point (a storage resource's node, a hub, a load zone or a DC tie) for one 15-minute interval.
 - [`ercot_rtm_price_adders`](#ercot_rtm_price_adders): One of ERCOT's real-time reserve price adders (added to the real-time energy price) over one hour, its time-weighted mean or its highest interval value.
-- [`ercot_sced_esr_hourly`](#ercot_sced_esr_hourly): ERCOT Energy Storage Resources in real time, by resource and hour, from ERCOT's 60-Day SCED Disclosure Reports, the file 60d_ESR_Data_in_SCED, each day reduced to resource-hour totals as it was read (session 120)
+- [`ercot_sced_esr_hourly`](#ercot_sced_esr_hourly): One ERCOT Energy Storage Resource (a battery) in one hour of real-time dispatch (SCED), its telemetered net output and limits, state of charge and real-time ancillary service awards, from ERCOT's 60-day SCED disclosure.
 - [`ercot_storage_dam_awards_monthly`](#ercot_storage_dam_awards_monthly): What ERCOT's Energy Storage Resources (batteries) were awarded in the day-ahead market in one local month, for the whole fleet or one duration class.
-- [`ercot_storage_dam_offers_daily`](#ercot_storage_dam_offers_daily): Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261115T160738Z-github (2026-11-15T16:07:38Z); that run's own header of the table follows
+- [`ercot_storage_dam_offers_daily`](#ercot_storage_dam_offers_daily): What ERCOT's Energy Storage Resources offered in the day-ahead market, and how much of it was awarded, summed over one operating day for the whole fleet.
 - [`ercot_storage_dam_offers_monthly`](#ercot_storage_dam_offers_monthly): What ERCOT's Energy Storage Resources offered in the day-ahead market, and how much of it was awarded, summed over one local month for the whole fleet.
 - [`ercot_storage_node_basis`](#ercot_storage_node_basis): For one storage resource's settlement point (or all of them summed up), its real-time price against the hub average HB_HUBAVG over the days of node prices held.
 - [`ercot_storage_rt_monthly`](#ercot_storage_rt_monthly): What ERCOT's storage resources did in real time beside what they were awarded day-ahead, over the operating days both disclosures hold in one local month, for the fleet or one duration class.
-- [`ercot_storage_rt_offers_monthly`](#ercot_storage_rt_offers_monthly): what ERCOT's storage fleet offered to sell in real time, by price, by local month (derived, session 7019)
+- [`ercot_storage_rt_offers_monthly`](#ercot_storage_rt_offers_monthly): What ERCOT's storage fleet offered to sell in real-time dispatch (SCED), by price limit, summed over one local month.
 - [`ercot_transmission_projects`](#ercot_transmission_projects): One phase of a transmission project the transmission owners report to ERCOT's Transmission Project and Information Tracking (TPIT) workbook, future, planned, completed or cancelled.
-- [`ercot_wind_solar_forecast`](#ercot_wind_solar_forecast): ERCOT wind and solar, the forecast a day ahead and the actual output, hourly, system-wide (session 133)
+- [`ercot_wind_solar_forecast`](#ercot_wind_solar_forecast): ERCOT's system-wide wind or solar output for one hour, actual or as forecast a day ahead.
 - [`ercot_wind_solar_hsl_daily`](#ercot_wind_solar_hsl_daily): ERCOT's system-wide wind or solar output, High Sustained Limit (HSL), or output below the HSL, summed over one operating day.
 - [`ercot_wind_solar_hsl_hourly`](#ercot_wind_solar_hsl_hourly): ERCOT's wind or solar output or High Sustained Limit for one hour, system-wide or in one of ERCOT's wind or solar regions.
-- [`ercot_wind_solar_hsl_monthly`](#ercot_wind_solar_hsl_monthly): Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261106T003628Z-github (2026-11-06T00:36:28Z); that run's own header of the table follows
-- [`ercot_wind_solar_output_hourly`](#ercot_wind_solar_output_hourly): Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261020T063359Z-github (2026-10-20T06:33:59Z); that run's own header of the table follows
+- [`ercot_wind_solar_hsl_monthly`](#ercot_wind_solar_hsl_monthly): ERCOT's wind or solar output, High Sustained Limit (HSL), or output below the HSL, summed over one Central month, system-wide or in one of ERCOT's wind or solar regions.
+- [`ercot_wind_solar_output_hourly`](#ercot_wind_solar_output_hourly): ERCOT's system-wide wind or solar output for one hour, from ERCOT's yearly Hourly Aggregated Wind and Solar Output workbooks (2023 to 2025).
 - [`ercot_zone_load_hourly`](#ercot_zone_load_hourly): ERCOT's native load in one weather zone, or ERCOT's total, for one hour, from its Hourly Load Data Archives.
 - [`ercot_zone_prices_history`](#ercot_zone_prices_history): ERCOT's settlement point price at one load zone for one interval of one operating year from 2015, day-ahead (hourly, eight load zones) or real-time (15-minute, the four competitive load zones).
 
@@ -232,35 +232,37 @@ Variables (5):
 
 ### `ercot_as_quantities`
 
-What a row is: not yet written.
+The MW of one ancillary service ERCOT planned to procure in its day-ahead market for one delivery hour, from the plan published the day before delivery.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 4800.
 
+- **Time:** ts_utc is the start of the delivery hour in UTC (ERCOT gives the hour ending in Central time; DSTFlag Y marks the repeated autumn hour).
+- **Revisions:** Merged by (entity, variable, ts_utc); a run keeps of each daily file only the delivery day after its publish day, a day read again replaces the one held, and days ERCOT's list has dropped are kept. vintage is the file's PublishDate.
 - **Source:** ercot:np4-33-cd ERCOT, DAM Ancillary Service Plan, NP4-33-CD ( (https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=12316)
 - **Method note:** [`docs/methods/ercot_as_quantities.md`](../methods/ercot_as_quantities.md)
 - **Cite as:** Electric Reliability Council of Texas (ERCOT). DAM Ancillary Service Plan (NP4-33-CD). Via the Energy Research Warehouse (ERW), table `ercot_as_quantities`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | ercot:ECRS, ercot:NSPIN, ercot:REGDN, ercot:REGUP, ercot:RRS | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ercot:<service>, the ancillary service | none | text | ercot:ECRS, ercot:NSPIN, ercot:REGDN, ercot:REGUP, ercot:RRS | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-09-03T05:00:00Z to 2026-10-13T04:00:00Z; 960 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | integer | 246 to 3936; 189 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | ercot_dam | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | ECRS, NSPIN, REGDN, REGUP, RRS | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: ercot_dam in every row: ERCOT's day-ahead market | none | text | ercot_dam | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The ancillary service, not a place: REGUP Regulation Up, REGDN Regulation Down, RRS Responsive Reserve, NSPIN Non-Spin, ECRS ERCOT Contingency Reserve Service | none | text | ECRS, NSPIN, REGDN, REGUP, RRS | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ercot:np4-33-cd | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1269584411, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1269981073, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1270379366; 40 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-03T10:23:53Z to 2026-10-11T20:04:22Z; 34 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-09-02T10:00:00Z to 2026-10-11T10:00:00Z; 40 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The PublishDate of ERCOT's daily file (10:00 UTC the day before delivery) | none | utc time | 2026-09-02T10:00:00Z to 2026-10-11T10:00:00Z; 40 distinct | 0 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `quantity_mw_plan` |  | MW | 4800 | 2026-09-03T05:00:00Z | 2026-10-13T04:00:00Z |
+| `quantity_mw_plan` | The MW of the service ERCOT plans to procure in the day-ahead market for the hour (DAM Ancillary Service Plan, NP4-33-CD) | MW | 4800 | 2026-09-03T05:00:00Z | 2026-10-13T04:00:00Z |
 
 ### `ercot_cdr_reserve_margins`
 
@@ -339,170 +341,182 @@ Variables (40):
 
 ### `ercot_cdr_units`
 
-What a row is: not yet written.
+One generating or storage unit (or one planned group of small generators) listed on the Unit Details sheet of ERCOT's Capacity, Demand and Reserves report (CDR).
 
 Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 2026-11-20: 1772.
 
+- **Time:** No time column. vintage is the report's posting date; the table is a snapshot of the newest report as read on its retrieved_at.
+- **Revisions:** A snapshot replaced whole by each run with the newest CDR workbook ERCOT's resource adequacy page links; earlier editions are not kept.
 - **Source:** ercot:cdr:unit_details Electric Reliability Council of Texas (ERCOT), Capacity, Demand and Reserves Report, Unit Details (https://www.ercot.com/gridinfo/resource)
 - **Method note:** [`docs/methods/ercot_cdr_units.md`](../methods/ercot_cdr_units.md)
 - **Cite as:** Electric Reliability Council of Texas (ERCOT). Capacity, Demand and Reserves Report, Unit Details. Via the Energy Research Warehouse (ERW), table `ercot_cdr_units`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example ercot_cdr_unit:16INR0049:SOLAR_W, ercot_cdr_unit:19599_1_GOLD_SPIKE:SOLAR_O, ercot_cdr_unit:19599_2_GOLD_SPIKE:SOLAR_O; 1772 distinct | 0 |
-| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | generator | 0 |
-| `name` | The thing's name, as the publisher writes it | none | text | for example 7V SOLAR U1, 7V SOLAR U2, 7V SOLAR U3; 1755 distinct | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
-| `lat` | Latitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 1772 |
-| `lon` | Longitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 1772 |
-| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | number | -400.0 to 1390.0; 989 distinct | 0 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | text | operating, planned, suspended | 0 |
-| `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | date | 1928-01-01 to 2029-07-01; 873 distinct | 5 |
-| `operator` | The operator or owner, as the publisher writes it | none | empty | no cell holds a value | 1772 |
+| `entity_id` | The identifier of the thing, as namespace:native_id. Here: ercot_cdr_unit:<unit code, else INR, else the unit's name>:<fuel> | none | text | for example ercot_cdr_unit:16INR0049:SOLAR_W, ercot_cdr_unit:19599_1_GOLD_SPIKE:SOLAR_O, ercot_cdr_unit:19599_2_GOLD_SPIKE:SOLAR_O; 1772 distinct | 0 |
+| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists). Here: generator in every row | none | text | generator | 0 |
+| `name` | The thing's name, as the publisher writes it. Here: ERCOT's unit name | none | text | for example 7V SOLAR U1, 7V SOLAR U2, 7V SOLAR U3; 1755 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-TX in every row | none | text | US-TX | 0 |
+| `lat` | Latitude, in decimal degrees (WGS84). Here: Empty in every row: the sheet gives no coordinates | degree | empty | no cell holds a value | 1772 |
+| `lon` | Longitude, in decimal degrees (WGS84). Here: Empty in every row: the sheet gives no coordinates | degree | empty | no cell holds a value | 1772 |
+| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it. Here: ERCOT's installed capacity of the unit | MW | number | -400.0 to 1390.0; 989 distinct | 0 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: Mapped from the first part of ERCOT's CDR status (x_cdr_status): OPER and RMR to operating, PLAN to planned, MOTH and EXT to suspended | none | text | operating, planned, suspended | 0 |
+| `status_date` | The date the status took effect, or was reported where the effective date is unknown. Here: The in-service date as ERCOT gives it; empty for the four DC ties and the planned group row | none | date | 1928-01-01 to 2029-07-01; 873 distinct | 5 |
+| `operator` | The operator or owner, as the publisher writes it. Here: Empty in every row: the sheet names no operator | none | empty | no cell holds a value | 1772 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ercot:cdr:unit_details | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.ercot.com/files/docs/2025/12/19/CapacityDemandandReservesReport_December2025.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T01:40:30Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2025-12-19T00:00:00Z | 0 |
-| `x_unit_code` | not yet written |  | text | for example 19599_1_GOLD_SPIKE, 19599_2_GOLD_SPIKE, 19599_GOLD_SPIKE; 1458 distinct | 312 |
-| `x_inr` | not yet written |  | text | for example 12INR0059b, 15INR0064b, 16INR0049; 431 distinct | 1269 |
-| `x_technology` | not yet written |  | text | BA, CC, GT, HY, IC, MWH, PV, ST, WT | 0 |
-| `x_fuel` | not yet written |  | text | BIOMASS, COAL, DIESEL, GAS, HYDRO, MWH, NUCLEAR, SOLAR-FW, SOLAR-O, SOLAR-W, STORAGE, WIND-C, WIND-O, WIND-P | 0 |
-| `x_cdr_status` | not yet written |  | text | EXT-OUT, MOTH-IND, MOTH-SEA, OPER, OPER-SLF, OPER-SYN, OPER-SYN-SLF, OPER-UNFC, OPER-UNR, PLAN, PLAN-RPR, PLAN-SLF, RMR | 0 |
-| `x_attribute` | not yet written |  | text | CONV, CONV-DGR, CONV-SLF, CONV-SODG, CONV-TGR, DC-TIE, SWGR-AVA, SWGR-UNA | 0 |
-| `x_county` | not yet written |  | text | for example ANDERSON, ANDREWS, ANGELINA; 184 distinct | 1 |
-| `x_zone` | not yet written |  | text | COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST | 1 |
-| `x_summer_2026` | not yet written |  | number | -400.0 to 1293.2; 679 distinct | 0 |
-| `x_summer_2027` | not yet written |  | number | -400.0 to 1293.2; 747 distinct | 0 |
-| `x_summer_2028` | not yet written |  | number | -400.0 to 1293.2; 803 distinct | 0 |
-| `x_summer_2029` | not yet written |  | number | -400.0 to 1300.0; 818 distinct | 0 |
-| `x_summer_2030` | not yet written |  | number | -400.0 to 1300.0; 817 distinct | 0 |
-| `x_winter_2026_2027` | not yet written |  | number | -389.0 to 1353.2; 700 distinct | 0 |
-| `x_winter_2027_2028` | not yet written |  | number | -389.0 to 1353.2; 772 distinct | 0 |
-| `x_winter_2028_2029` | not yet written |  | number | -389.0 to 1353.2; 806 distinct | 0 |
-| `x_winter_2029_2030` | not yet written |  | number | -389.0 to 1353.2; 812 distinct | 0 |
-| `x_winter_2030_2031` | not yet written |  | number | -389.0 to 1353.2; 810 distinct | 0 |
-| `x_spring_2026` | not yet written |  | number | -179.0 to 1323.2; 653 distinct | 0 |
-| `x_spring_2027` | not yet written |  | number | -389.0 to 1323.2; 722 distinct | 0 |
-| `x_spring_2028` | not yet written |  | number | -389.0 to 1323.2; 793 distinct | 0 |
-| `x_spring_2029` | not yet written |  | number | -389.0 to 1350.0; 815 distinct | 0 |
-| `x_spring_2030` | not yet written |  | number | -389.0 to 1350.0; 818 distinct | 0 |
-| `x_fall_2026` | not yet written |  | number | -195.0 to 1323.2; 696 distinct | 0 |
-| `x_fall_2027` | not yet written |  | number | -195.0 to 1323.2; 769 distinct | 0 |
-| `x_fall_2028` | not yet written |  | number | -195.0 to 1323.2; 808 distinct | 0 |
-| `x_fall_2029` | not yet written |  | number | -195.0 to 1350.0; 815 distinct | 0 |
-| `x_fall_2030` | not yet written |  | number | -195.0 to 1350.0; 815 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The report's posting date (from the workbook's address) | none | utc time | 2025-12-19T00:00:00Z | 0 |
+| `x_unit_code` | ERCOT's unit code (the source's name: Unit Code) | none | text | for example 19599_1_GOLD_SPIKE, 19599_2_GOLD_SPIKE, 19599_GOLD_SPIKE; 1458 distinct | 312: ERCOT gives no unit code (312 planned units, keyed by their INR) |
+| `x_inr` | The interconnection request number (INR) of the unit (the source's name: Interconnection Request Number (INR)) | none | text | for example 12INR0059b, 15INR0064b, 16INR0049; 431 distinct | 1269: ERCOT gives no INR |
+| `x_technology` | ERCOT's technology code of the unit, as printed (PV, BA, WT, CC, GT, ST, IC, HY, MWH) (the source's name: Technology) | none | text | BA, CC, GT, HY, IC, MWH, PV, ST, WT | 0 |
+| `x_fuel` | ERCOT's fuel code of the unit, as printed (GAS, STORAGE, SOLAR-O, WIND-O, COAL, NUCLEAR and others) (the source's name: Fuel) | none | text | BIOMASS, COAL, DIESEL, GAS, HYDRO, MWH, NUCLEAR, SOLAR-FW, SOLAR-O, SOLAR-W, STORAGE, WIND-C, WIND-O, WIND-P | 0 |
+| `x_cdr_status` | ERCOT's own CDR status code (OPER, PLAN, OPER-SYN, MOTH-IND, EXT-OUT and others), from which status is mapped (the source's name: CDR Status) | none | text | EXT-OUT, MOTH-IND, MOTH-SEA, OPER, OPER-SLF, OPER-SYN, OPER-SYN-SLF, OPER-UNFC, OPER-UNR, PLAN, PLAN-RPR, PLAN-SLF, RMR | 0 |
+| `x_attribute` | ERCOT's CDR resource attribute code, as printed (CONV, CONV-DGR, DC-TIE, SWGR-AVA and others) (the source's name: CDR Resource Attribute) | none | text | CONV, CONV-DGR, CONV-SLF, CONV-SODG, CONV-TGR, DC-TIE, SWGR-AVA, SWGR-UNA | 0 |
+| `x_county` | The county of the unit, as ERCOT prints it (the source's name: County) | none | text | for example ANDERSON, ANDREWS, ANGELINA; 184 distinct | 1: The planned group row of small generators, which has no county |
+| `x_zone` | ERCOT's zone of the unit (COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST) (the source's name: Zone) | none | text | COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST | 1: The planned group row of small generators, which has no zone |
+| `x_summer_2026` | The capability ERCOT lists for the unit at the start of summer 2026 | MW | number | -400.0 to 1293.2; 679 distinct | 0 |
+| `x_summer_2027` | The capability ERCOT lists for the unit at the start of summer 2027 | MW | number | -400.0 to 1293.2; 747 distinct | 0 |
+| `x_summer_2028` | The capability ERCOT lists for the unit at the start of summer 2028 | MW | number | -400.0 to 1293.2; 803 distinct | 0 |
+| `x_summer_2029` | The capability ERCOT lists for the unit at the start of summer 2029 | MW | number | -400.0 to 1300.0; 818 distinct | 0 |
+| `x_summer_2030` | The capability ERCOT lists for the unit at the start of summer 2030 | MW | number | -400.0 to 1300.0; 817 distinct | 0 |
+| `x_winter_2026_2027` | The capability ERCOT lists for the unit at the start of winter 2026-2027 | MW | number | -389.0 to 1353.2; 700 distinct | 0 |
+| `x_winter_2027_2028` | The capability ERCOT lists for the unit at the start of winter 2027-2028 | MW | number | -389.0 to 1353.2; 772 distinct | 0 |
+| `x_winter_2028_2029` | The capability ERCOT lists for the unit at the start of winter 2028-2029 | MW | number | -389.0 to 1353.2; 806 distinct | 0 |
+| `x_winter_2029_2030` | The capability ERCOT lists for the unit at the start of winter 2029-2030 | MW | number | -389.0 to 1353.2; 812 distinct | 0 |
+| `x_winter_2030_2031` | The capability ERCOT lists for the unit at the start of winter 2030-2031 | MW | number | -389.0 to 1353.2; 810 distinct | 0 |
+| `x_spring_2026` | The capability ERCOT lists for the unit at the start of spring 2026 | MW | number | -179.0 to 1323.2; 653 distinct | 0 |
+| `x_spring_2027` | The capability ERCOT lists for the unit at the start of spring 2027 | MW | number | -389.0 to 1323.2; 722 distinct | 0 |
+| `x_spring_2028` | The capability ERCOT lists for the unit at the start of spring 2028 | MW | number | -389.0 to 1323.2; 793 distinct | 0 |
+| `x_spring_2029` | The capability ERCOT lists for the unit at the start of spring 2029 | MW | number | -389.0 to 1350.0; 815 distinct | 0 |
+| `x_spring_2030` | The capability ERCOT lists for the unit at the start of spring 2030 | MW | number | -389.0 to 1350.0; 818 distinct | 0 |
+| `x_fall_2026` | The capability ERCOT lists for the unit at the start of fall 2026 | MW | number | -195.0 to 1323.2; 696 distinct | 0 |
+| `x_fall_2027` | The capability ERCOT lists for the unit at the start of fall 2027 | MW | number | -195.0 to 1323.2; 769 distinct | 0 |
+| `x_fall_2028` | The capability ERCOT lists for the unit at the start of fall 2028 | MW | number | -195.0 to 1323.2; 808 distinct | 0 |
+| `x_fall_2029` | The capability ERCOT lists for the unit at the start of fall 2029 | MW | number | -195.0 to 1350.0; 815 distinct | 0 |
+| `x_fall_2030` | The capability ERCOT lists for the unit at the start of fall 2030 | MW | number | -195.0 to 1350.0; 815 distinct | 0 |
+
+Waiting for a second look: x_technology: ERCOT's codes (PV, BA, WT, CC, GT, ST, IC, HY, MWH) are kept as printed; their meanings are not spelled out in the method note or the connector.; x_attribute: ERCOT's CDR resource attribute codes (CONV, CONV-DGR, CONV-SLF, CONV-SODG, CONV-TGR, DC-TIE, SWGR-AVA, SWGR-UNA) are not spelled out in the repository's documents.; x_fuel: the suffixes of ERCOT's fuel codes (SOLAR-FW, SOLAR-W, SOLAR-O, WIND-C, WIND-P, WIND-O) are not spelled out in the method note or the connector..
 
 ### `ercot_dam_cleared_energy`
 
-What a row is: not yet written.
+The energy bought in ERCOT's day-ahead market in one delivery hour, summed over every settlement point.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 816.
 
+- **Time:** ts_utc is the start of the hour in UTC (ERCOT gives the hour ending in Central time; RepeatedHourFlag Y marks the repeated autumn hour).
+- **Revisions:** Merged by (entity, variable, ts_utc); an hour read again replaces the one held, and the table grows past the 31 days ERCOT lists. vintage is not filled.
 - **Source:** ercot:NP4-192-CD Electric Reliability Council of Texas (ERCOT), NP4-192-CD, DAM Total Energy Purchased (https://www.ercot.com/mp/data-products/data-product-details?id=NP4-192-CD)
 - **Method note:** [`docs/methods/ercot_dam_cleared_energy.md`](../methods/ercot_dam_cleared_energy.md)
 - **Cite as:** Electric Reliability Council of Texas (ERCOT). NP4-192-CD, DAM Total Energy Purchased. Via the Energy Research Warehouse (ERW), table `ercot_dam_cleared_energy`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | ercot:system | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ercot:system in every row: ERCOT's whole system | none | text | ercot:system | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-09-23T05:00:00Z to 2026-11-17T05:00:00Z; 816 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 27811.1 to 52634.7; 812 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | ercot_dam | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Total_DAM_Energy_Bought, summed over settlement points | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: ercot_dam in every row: ERCOT's day-ahead market | none | text | ercot_dam | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The text 'Total_DAM_Energy_Bought, summed over settlement points' in every row: the figure summed, not a place | none | text | Total_DAM_Energy_Bought, summed over settlement points | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ercot:NP4-192-CD | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1277674205, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1278079535, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1278479657; 34 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-06T20:27:09Z to 2026-11-16T11:49:05Z; 34 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 816 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 816 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `dam_cleared_energy` |  | MWh | 816 | 2026-09-23T05:00:00Z | 2026-11-17T05:00:00Z |
+| `dam_cleared_energy` | The sum of ERCOT's Total_DAM_Energy_Bought over every settlement point for the hour (NP4-192-CD); ERCOT names no unit, read as MWh | MWh | 816 | 2026-09-23T05:00:00Z | 2026-11-17T05:00:00Z |
 
 ### `ercot_dam_esr_awards`
 
-What a row is: not yet written.
+One ERCOT Energy Storage Resource (a battery) in one hour of the day-ahead market, its High Sustained Limit with its awards and limits as ERCOT's 60-day disclosure prints them.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 2042277.
 
+- **Time:** ts_utc is the start of the hour in UTC (ERCOT gives the Delivery Date and the Hour Ending in Central prevailing time).
+- **Revisions:** One operating day appended at a time after the last held; a day is never rewritten once held. vintage is ERCOT's publication time of the day's zip (the operating day plus 60 days).
 - **Source:** ercot:NP3-966-ER ERCOT, 60-Day DAM Disclosure Reports,  document list (https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13051)
 - **Method note:** [`docs/methods/ercot_dam_esr_awards.md`](../methods/ercot_dam_esr_awards.md)
 - **Cite as:** Electric Reliability Council of Texas (ERCOT). 60-Day DAM Disclosure Reports (the file 60d_DAM_ESR_Data: Energy Storage Resources). Via the Energy Research Warehouse (ERW), table `ercot_dam_esr_awards`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example ercot:ABINDUST_ESR1, ercot:ADL_ESR1, ercot:AE_ESR1; 339 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ercot:<Resource Name>, the storage resource | none | text | for example ercot:ABINDUST_ESR1, ercot:ADL_ESR1, ercot:AE_ESR1; 339 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2025-12-06T06:00:00Z to 2026-09-01T04:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -9.9 to 240.0; 1141 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | ercot_dam | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example ABINDUST_RN, ADL_RN, AE_RN; 295 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: ercot_dam in every row: ERCOT's day-ahead market | none | text | ercot_dam | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The resource's settlement point | none | text | for example ABINDUST_RN, ADL_RN, AE_RN; 295 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ercot:NP3-966-ER | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1190045004, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1190315373, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1190560109; 269 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-04T21:33:39Z to 2026-11-15T15:54:05Z; 269 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-02-04T22:53:33Z to 2026-10-30T12:41:46Z; 269 distinct | 0 |
-| `x_qse` | not yet written |  | text | for example QAETE1, QAETEL, QAMA1; 120 distinct | 0 |
-| `x_dme` | not yet written |  | text | for example Y2WPER, YAETEL, YAGPC2; 185 distinct | 1895 |
-| `x_resource_status` | not yet written |  | text | ON, ONOS, ONTEST, OUT | 0 |
-| `x_lsl_mw` | not yet written |  | number | -240.0 to 156.0; 376 distinct | 0 |
-| `x_energy_award_mw` | not yet written |  | number | -240.0 to 216.0; 2982 distinct | 1046971 |
-| `x_energy_price_usd_per_mwh` | not yet written |  | number | -205.72 to 22618.19; more than 5000 distinct | 0 |
-| `x_regup_award_mw` | not yet written |  | number | 0.0 to 350.0; 1708 distinct | 848995 |
-| `x_regup_mcpc` | not yet written |  | number | 0.0 to 896.96; 776 distinct | 848995 |
-| `x_regdn_award_mw` | not yet written |  | number | 0.0 to 308.9; 1633 distinct | 848995 |
-| `x_regdn_mcpc` | not yet written |  | number | 0.0 to 26.71; 560 distinct | 848995 |
-| `x_rrspfr_award_mw` | not yet written |  | number | 0.0 to 157.0; 1560 distinct | 848995 |
-| `x_rrsffr_award_mw` | not yet written |  | number | 0.0 to 62.5; 340 distinct | 848995 |
-| `x_rrsufr_award_mw` | not yet written |  | integer | 0 | 848995 |
-| `x_rrs_mcpc` | not yet written |  | number | 0.05 to 999.02; 602 distinct | 848995 |
-| `x_ecrs_award_mw` | not yet written |  | number | 0.0 to 240.0; 1747 distinct | 848995 |
-| `x_ecrs_mcpc` | not yet written |  | number | 0.01 to 1000.65; 669 distinct | 848995 |
-| `x_nonspin_award_mw` | not yet written |  | number | 0.0 to 302.0; 1369 distinct | 848995 |
-| `x_nonspin_mcpc` | not yet written |  | number | 0.25 to 432.13; 975 distinct | 848995 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: ERCOT's publication time of the day's zip; its Central date is the operating day plus 60 days | none | utc time | 2026-02-04T22:53:33Z to 2026-10-30T12:41:46Z; 269 distinct | 0 |
+| `x_qse` | The scheduling entity (QSE) of the resource, ERCOT's code (the source's name: QSE) | none | text | for example QAETE1, QAETEL, QAMA1; 120 distinct | 0 |
+| `x_dme` | not documented by the source (the source's name: DME) | none | text | for example Y2WPER, YAETEL, YAGPC2; 185 distinct | 1895: ERCOT's cell is blank |
+| `x_resource_status` | ERCOT's status of the resource for the hour, as printed (ON, OUT, ONTEST, ONOS) (the source's name: Resource Status) | none | text | ON, ONOS, ONTEST, OUT | 0 |
+| `x_lsl_mw` | The resource's Low Sustained Limit for the hour (negative: charging) (the source's name: LSL) | MW | number | -240.0 to 156.0; 376 distinct | 0 |
+| `x_energy_award_mw` | The day-ahead energy award (negative is a purchase, charging) (the source's name: Awarded Quantity) | MW | number | -240.0 to 216.0; 2982 distinct | 1046971: No award (a blank award stays blank, not zero) |
+| `x_energy_price_usd_per_mwh` | The day-ahead energy price at the resource's own settlement point (the source's name: Energy Settlement Point Price) | USD/MWh | number | -205.72 to 22618.19; more than 5000 distinct | 0 |
+| `x_regup_award_mw` | The day-ahead award of Regulation Up (the source's name: RegUp Awarded) | MW | number | 0.0 to 350.0; 1708 distinct | 848995: No award |
+| `x_regup_mcpc` | The day-ahead market clearing price for capacity (MCPC) of Regulation Up (the source's name: RegUp MCPC) | USD per MW per hour | number | 0.0 to 896.96; 776 distinct | 848995: Blank on the same rows as the award columns (no ancillary service award printed) |
+| `x_regdn_award_mw` | The day-ahead award of Regulation Down (the source's name: RegDown Awarded) | MW | number | 0.0 to 308.9; 1633 distinct | 848995: No award |
+| `x_regdn_mcpc` | The day-ahead market clearing price for capacity (MCPC) of Regulation Down (the source's name: RegDown MCPC) | USD per MW per hour | number | 0.0 to 26.71; 560 distinct | 848995: Blank on the same rows as the award columns (no ancillary service award printed) |
+| `x_rrspfr_award_mw` | The day-ahead award of Responsive Reserve, its PFR kind (the source's name: RRSPFR Awarded) | MW | number | 0.0 to 157.0; 1560 distinct | 848995: No award |
+| `x_rrsffr_award_mw` | The day-ahead award of Responsive Reserve, its FFR kind (the source's name: RRSFFR Awarded) | MW | number | 0.0 to 62.5; 340 distinct | 848995: No award |
+| `x_rrsufr_award_mw` | The day-ahead award of Responsive Reserve, its UFR kind (the source's name: RRSUFR Awarded) | MW | integer | 0 | 848995: No award |
+| `x_rrs_mcpc` | The day-ahead market clearing price for capacity (MCPC) of Responsive Reserve, one price for its three kinds (the source's name: RRS MCPC) | USD per MW per hour | number | 0.05 to 999.02; 602 distinct | 848995: Blank on the same rows as the award columns (no ancillary service award printed) |
+| `x_ecrs_award_mw` | The day-ahead award of ERCOT Contingency Reserve Service (ECRS) (the source's name: ECRSSD Awarded) | MW | number | 0.0 to 240.0; 1747 distinct | 848995: No award |
+| `x_ecrs_mcpc` | The day-ahead market clearing price for capacity (MCPC) of ECRS (the source's name: ECRS MCPC) | USD per MW per hour | number | 0.01 to 1000.65; 669 distinct | 848995: Blank on the same rows as the award columns (no ancillary service award printed) |
+| `x_nonspin_award_mw` | The day-ahead award of Non-Spinning Reserve (Non-Spin) (the source's name: NonSpin Awarded) | MW | number | 0.0 to 302.0; 1369 distinct | 848995: No award |
+| `x_nonspin_mcpc` | The day-ahead market clearing price for capacity (MCPC) of Non-Spin (the source's name: NonSpin MCPC) | USD per MW per hour | number | 0.25 to 432.13; 975 distinct | 848995: Blank on the same rows as the award columns (no ancillary service award printed) |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `hsl_mw` |  | MW | 2042277 | 2025-12-06T06:00:00Z | 2026-09-01T04:00:00Z |
+| `hsl_mw` | The resource's High Sustained Limit (HSL) for the hour, the most it can sustain, MW, as ERCOT prints it | MW | 2042277 | 2025-12-06T06:00:00Z | 2026-09-01T04:00:00Z |
+
+Waiting for a second look: x_dme: the meaning of ERCOT's DME column is not written in the header, the connector or the method note.; x_resource_status: ERCOT's codes ON, OUT, ONTEST and ONOS are kept as printed and not spelled out in the repository's documents..
 
 ### `ercot_grid_notices`
 
-What a row is: not yet written.
+One ERCOT notice (an Energy Emergency Alert, rotating outages, a conservation appeal, a watch, a control-room message and others) for one Central day it covers.
 
 Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 2026-11-20: 178.
 
+- **Time:** event_date is the Central day the notice covers (the days it names, else the day it was issued); x_issued_at is when it was issued.
+- **Revisions:** Merged by event_id; each run keeps the rows it read before, so the table only grows. No vintage column.
 - **Source:** ercot:news_releases ERCOT, News Releases,  ercot:operations_messages ERCOT, Operations Messages (https://www.ercot.com/services/comm/mkt_notices/opsmessages)
 - **Method note:** [`docs/methods/ercot_grid_notices.md`](../methods/ercot_grid_notices.md)
 - **Cite as:** Electric Reliability Council of Texas (ERCOT). News Releases (grid conditions: EEAs, conservation appeals, watches); Operations Messages (the control room's notices). Via the Energy Research Warehouse (ERW), table `ercot_grid_notices`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents | none | text | for example ercot_notice:2011-02-02:rotating_outages:940f126d07, ercot_notice:2011-02-03:update:0ab5ac164a, ercot_notice:2011-02-08:power_watch:129e58267d; 178 distinct | 0 |
-| `event_date` | The date the event happened or was announced (each table's file says which) | none | date | 2011-02-02 to 2026-10-15; 142 distinct | 0 |
-| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others) | none | text | advisory, conservation_appeal, eea1, eea2, emergency_test, ocn_weather, power_watch, rotating_outages, statement, update, voluntary_conservation, watch, weather_watch | 0 |
-| `parties` | The parties to the event, as the publisher names them, separated by semicolons | none | text | ERCOT | 0 |
-| `entity_ids` | The entity_id values of the things involved, separated by semicolons | none | empty | no cell holds a value | 178 |
-| `mw` | The capacity involved, in megawatts | MW | empty | no cell holds a value | 178 |
-| `price` | The price, in the row's currency per MWh unless the table's file says otherwise | the row's currency per MWh, unless the table's file says otherwise | empty | no cell holds a value | 178 |
-| `currency` | The currency of the price, as an ISO 4217 code (USD) | none | empty | no cell holds a value | 178 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | text | active, cancelled, ended, issued | 0 |
+| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents. Here: ercot_notice:<day>:<event_type>:<a 10-character hash of the source, address, issue time and text> | none | text | for example ercot_notice:2011-02-02:rotating_outages:940f126d07, ercot_notice:2011-02-03:update:0ab5ac164a, ercot_notice:2011-02-08:power_watch:129e58267d; 178 distinct | 0 |
+| `event_date` | The date the event happened or was announced (each table's file says which). Here: The Central day the notice covers, YYYY-MM-DD | none | date | 2011-02-02 to 2026-10-15; 142 distinct | 0 |
+| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others). Here: Read from the notice's words: eea1 to eea3, rotating_outages, conservation_appeal, voluntary_conservation, weather_watch, power_watch, ocn_weather, ocn, advisory, watch, emergency_notice, emergency_test, update, statement | none | text | advisory, conservation_appeal, eea1, eea2, emergency_test, ocn_weather, power_watch, rotating_outages, statement, update, voluntary_conservation, watch, weather_watch | 0 |
+| `parties` | The parties to the event, as the publisher names them, separated by semicolons. Here: ERCOT in every row | none | text | ERCOT | 0 |
+| `entity_ids` | The entity_id values of the things involved, separated by semicolons. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 178 |
+| `mw` | The capacity involved, in megawatts. Here: Not filled: no cell holds a value | MW | empty | no cell holds a value | 178 |
+| `price` | The price, in the row's currency per MWh unless the table's file says otherwise. Here: Not filled: no cell holds a value | the row's currency per MWh, unless the table's file says otherwise | empty | no cell holds a value | 178 |
+| `currency` | The currency of the price, as an ISO 4217 code (USD). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 178 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: ended for a news release that ends or cancels a notice, issued for other releases; for a control-room message the status ERCOT's page prints (active, cancelled), else issued | none | text | active, cancelled, ended, issued | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ercot:news_releases, ercot:operations_messages | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://www.ercot.com/news/release/01052025-ercot-issues-weather, https://www.ercot.com/news/release/01172025-ercot-issues-weather, https://www.ercot.com/news/release/01212026-ercot-issues-weather; 105 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-19T21:02:01Z | 0 |
-| `x_label` | not yet written |  | text | for example Advisory, Cold weather, risk of rotating outages return to the Valley tonight, Conservation Alert extended through Tuesday morning; 83 distinct | 0 |
-| `x_region` | not yet written |  | text | ERCOT, Rio Grande Valley | 0 |
-| `x_issued_at` | not yet written |  | text | for example 2011-02-02, 2011-02-03, 2011-02-08; 108 distinct | 0 |
-| `x_counts` | not yet written |  | text | no, yes | 0 |
-| `x_text` | not yet written |  | text | for example Advisory issued for a geomagnetic disturbance of K-7 until October 10, 2026 1900., Advisory issued for a geomagnetic disturbance of K7 until 0100 on 07/05/26., At 10:22 ERCOT has issued an Advisory due to TSAT not solving in the last 30 minutes.; 125 distinct | 0 |
+| `x_label` | The news release's title, or the control-room message's notice type as ERCOT's page gives it (Advisory, Watch, OCN and others) | none | text | for example Advisory, Cold weather, risk of rotating outages return to the Valley tonight, Conservation Alert extended through Tuesday morning; 83 distinct | 0 |
+| `x_region` | The area the notice is for: ERCOT (system-wide) or Rio Grande Valley, read from the release's words | none | text | ERCOT, Rio Grande Valley | 0 |
+| `x_issued_at` | When the notice was issued: the day of a news release (YYYY-MM-DD), the UTC time of a control-room message | none | text | for example 2011-02-02, 2011-02-03, 2011-02-08; 108 distinct | 0 |
+| `x_counts` | yes when the notice is a system-wide call on supply or demand, the kinds grid_stress_days counts; no otherwise | none | text | no, yes | 0 |
+| `x_text` | The notice's own words: the release's title and first two paragraphs, or the message, as ERCOT wrote them | none | text | for example Advisory issued for a geomagnetic disturbance of K-7 until October 10, 2026 1900., Advisory issued for a geomagnetic disturbance of K7 until 0100 on 07/05/26., At 10:22 ERCOT has issued an Advisory due to TSAT not solving in the last 30 minutes.; 125 distinct | 0 |
 
 ### `ercot_hub_prices_daily`
 
@@ -670,127 +684,133 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 
 ### `ercot_node_planned_generation`
 
-What a row is: not yet written.
+One placed ERCOT resource node with the planned generation in its county, from ERCOT's active interconnection queue and EIA-860M's planned generators.
 
 Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 2026-11-20: 569.
 
+- **Time:** No time column; a snapshot computed from the tables held when the builder ran.
+- **Revisions:** Rewritten whole by each run of the builder from ercot_node_places, ercot_interconnection_queue and eia860m_planned_generators; no request is made. vintage is not filled.
 - **Source:** ercot:interconnection_queue Electric Reliability Council of Texas (ERCOT), GIS report; eia:eia860m U.S. Energy Information Administration, Form EIA-860M; ercot:cdr ERCOT, Capacity, Demand and Reserves Report (the nodes' counties, through ercot_node_places)
 - **Method note:** [`docs/methods/ercot_node_planned_generation.md`](../methods/ercot_node_planned_generation.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. The planned generation in a placed ERCOT node's county (docs/methods/ercot_node_planned_generation.md). Via the Energy Research Warehouse (ERW), table `ercot_node_planned_generation`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example ercot_node:7RNCHSLR_ALL, ercot_node:A4_DGR1_RN, ercot_node:A4_DGR2_RN; 569 distinct | 0 |
-| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | generator | 0 |
-| `name` | The thing's name, as the publisher writes it | none | text | for example 7RNCHSLR_ALL, A4_DGR1_RN, A4_DGR2_RN; 569 distinct | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
+| `entity_id` | The identifier of the thing, as namespace:native_id. Here: ercot_node:<settlement point>, the same ids as ercot_node_places | none | text | for example ercot_node:7RNCHSLR_ALL, ercot_node:A4_DGR1_RN, ercot_node:A4_DGR2_RN; 569 distinct | 0 |
+| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists). Here: generator in every row | none | text | generator | 0 |
+| `name` | The thing's name, as the publisher writes it. Here: The settlement point | none | text | for example 7RNCHSLR_ALL, A4_DGR1_RN, A4_DGR2_RN; 569 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-TX in every row | none | text | US-TX | 0 |
 | `lat` | Latitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 569 |
 | `lon` | Longitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 569 |
 | `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | empty | no cell holds a value | 569 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | empty | no cell holds a value | 569 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 569 |
 | `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | empty | no cell holds a value | 569 |
 | `operator` | The operator or owner, as the publisher writes it | none | empty | no cell holds a value | 569 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:ercot_node_planned_generation | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_node_planned_generation.md | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T10:20:32Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 569 |
-| `x_county` | not yet written |  | text | for example ANDREWS, ANGELINA, ARCHER; 148 distinct | 0 |
-| `x_zone` | not yet written |  | text | COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST | 0 |
-| `x_queue_projects` | not yet written |  | integer | 0, 1, 10, 11, 12, 13, 14, 15, 17, 19, 2, 20, 21, 22, 23, 25, 3, 36, 4, 5, 6, 7, 8, 9 | 0 |
-| `x_queue_mw` | not yet written |  | number | 0.0 to 16312.91; 139 distinct | 0 |
-| `x_queue_solar_mw` | not yet written |  | number | -53.3 to 6534.3; 103 distinct | 0 |
-| `x_queue_wind_mw` | not yet written |  | number | 0.0 to 2287.88; 41 distinct | 0 |
-| `x_queue_storage_mw` | not yet written |  | number | 0.0 to 5280.63; 126 distinct | 0 |
-| `x_queue_gas_mw` | not yet written |  | number | 0.0 to 5886.29; 44 distinct | 0 |
-| `x_queue_other_mw` | not yet written |  | number | 0.0, 1232.0, 132.0, 1320.0, 1336.52, 50.0, 79.63 | 0 |
-| `x_queue_next_in_service` | not yet written |  | date | 2025-08-26 to 2030-03-01; 100 distinct | 18 |
-| `x_eia_planned_generators` | not yet written |  | integer | 0, 1, 10, 11, 12, 13, 161, 2, 3, 4, 5, 6, 7, 8, 9 | 0 |
-| `x_eia_planned_mw` | not yet written |  | number | 0.0 to 16147.3; 95 distinct | 0 |
-| `x_eia_solar_mw` | not yet written |  | number | 0.0 to 1609.6; 66 distinct | 0 |
-| `x_eia_wind_mw` | not yet written |  | number | 0.0, 110.4, 162.1, 200.0, 225.6, 265.0, 265.5, 276.0, 316.2, 355.5, 440.0, 500.0, 670.5 | 0 |
-| `x_eia_storage_mw` | not yet written |  | number | 0.0 to 1385.9; 55 distinct | 0 |
-| `x_eia_natural_gas_mw` | not yet written |  | number | 0.0, 10.0, 11679.3, 121.8, 199.8, 2334.9, 43.4, 447.0, 5.0, 721.0 | 0 |
-| `x_eia_nuclear_mw` | not yet written |  | number | 0.0, 4468.0 | 0 |
-| `x_eia_petroleum_mw` | not yet written |  | number | 0.0, 9.9 | 0 |
-| `x_eia_hydro_mw` | not yet written |  | number | 0.0 | 0 |
-| `x_eia_biomass_mw` | not yet written |  | number | 0.0 | 0 |
-| `x_eia_geothermal_mw` | not yet written |  | number | 0.0 | 0 |
-| `x_eia_other_mw` | not yet written |  | number | 0.0, 28.6, 9.9 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 569 |
+| `x_county` | The node's county, as ercot_node_places gives it | none | text | for example ANDREWS, ANGELINA, ARCHER; 148 distinct | 0 |
+| `x_zone` | The node's load zone, as ercot_node_places gives it (COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST) | none | text | COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST | 0 |
+| `x_queue_projects` | The number of ERCOT's active interconnection queue projects in the node's county (not at the node) | count | integer | 0, 1, 10, 11, 12, 13, 14, 15, 17, 19, 2, 20, 21, 22, 23, 25, 3, 36, 4, 5, 6, 7, 8, 9 | 0 |
+| `x_queue_mw` | The capacity of those active queue projects, summed | MW | number | 0.0 to 16312.91; 139 distinct | 0 |
+| `x_queue_solar_mw` | Of that capacity, the solar projects' (the queue's fuel and technology beginning Solar), as the queue gives it | MW | number | -53.3 to 6534.3; 103 distinct | 0 |
+| `x_queue_wind_mw` | Of that capacity, the wind projects' (fuel and technology beginning Wind) | MW | number | 0.0 to 2287.88; 41 distinct | 0 |
+| `x_queue_storage_mw` | Of that capacity, the storage projects' (Other - Battery Energy Storage) | MW | number | 0.0 to 5280.63; 126 distinct | 0 |
+| `x_queue_gas_mw` | Of that capacity, the gas projects' (fuel and technology beginning Gas) | MW | number | 0.0 to 5886.29; 44 distinct | 0 |
+| `x_queue_other_mw` | Of that capacity, every other kind's | MW | number | 0.0, 1232.0, 132.0, 1320.0, 1336.52, 50.0, 79.63 | 0 |
+| `x_queue_next_in_service` | The earliest proposed in-service date among those projects (the developers' dates; some fall before the table's day) | none | date | 2025-08-26 to 2030-03-01; 100 distinct | 18: No active queue project in the county |
+| `x_eia_planned_generators` | The number of EIA-860M's planned generators in the node's county (state TX) | count | integer | 0, 1, 10, 11, 12, 13, 161, 2, 3, 4, 5, 6, 7, 8, 9 | 0 |
+| `x_eia_planned_mw` | The nameplate capacity of those planned generators, summed | MW | number | 0.0 to 16147.3; 95 distinct | 0 |
+| `x_eia_solar_mw` | Of that capacity, EIA-860M's technology group solar | MW | number | 0.0 to 1609.6; 66 distinct | 0 |
+| `x_eia_wind_mw` | Of that capacity, EIA-860M's technology group wind | MW | number | 0.0, 110.4, 162.1, 200.0, 225.6, 265.0, 265.5, 276.0, 316.2, 355.5, 440.0, 500.0, 670.5 | 0 |
+| `x_eia_storage_mw` | Of that capacity, EIA-860M's technology group storage | MW | number | 0.0 to 1385.9; 55 distinct | 0 |
+| `x_eia_natural_gas_mw` | Of that capacity, EIA-860M's technology group natural gas | MW | number | 0.0, 10.0, 11679.3, 121.8, 199.8, 2334.9, 43.4, 447.0, 5.0, 721.0 | 0 |
+| `x_eia_nuclear_mw` | Of that capacity, EIA-860M's technology group nuclear | MW | number | 0.0, 4468.0 | 0 |
+| `x_eia_petroleum_mw` | Of that capacity, EIA-860M's technology group petroleum | MW | number | 0.0, 9.9 | 0 |
+| `x_eia_hydro_mw` | Of that capacity, EIA-860M's technology group hydro | MW | number | 0.0 | 0 |
+| `x_eia_biomass_mw` | Of that capacity, EIA-860M's technology group biomass | MW | number | 0.0 | 0 |
+| `x_eia_geothermal_mw` | Of that capacity, EIA-860M's technology group geothermal | MW | number | 0.0 | 0 |
+| `x_eia_other_mw` | Of that capacity, EIA-860M's technology group other | MW | number | 0.0, 28.6, 9.9 | 0 |
 
 ### `ercot_node_transmission`
 
-What a row is: not yet written.
+One placed ERCOT resource node with the transmission project phases of ERCOT's TPIT workbook (Transmission Project and Information Tracking) that start or end in its county.
 
 Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 2026-11-20: 569.
 
+- **Time:** No time column; a snapshot computed from the tables held when the builder ran. x_tpit_edition names the TPIT edition read.
+- **Revisions:** Rewritten whole by each run of the builder from ercot_node_places and ercot_transmission_projects; no request is made. vintage is not filled.
 - **Source:** ercot:tpit Electric Reliability Council of Texas (ERCOT), Transmission Project and Information Tracking; ercot:cdr ERCOT, Capacity, Demand and Reserves Report (the nodes' counties, through ercot_node_places)
 - **Method note:** [`docs/methods/ercot_node_transmission.md`](../methods/ercot_node_transmission.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. ERCOT's TPIT projects by a resource node's county (docs/methods/ercot_node_transmission.md). Via the Energy Research Warehouse (ERW), table `ercot_node_transmission`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example ercot_node:7RNCHSLR_ALL, ercot_node:A4_DGR1_RN, ercot_node:A4_DGR2_RN; 569 distinct | 0 |
-| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | generator | 0 |
-| `name` | The thing's name, as the publisher writes it | none | text | for example 7RNCHSLR_ALL, A4_DGR1_RN, A4_DGR2_RN; 569 distinct | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
+| `entity_id` | The identifier of the thing, as namespace:native_id. Here: ercot_node:<settlement point>, the same ids as ercot_node_places | none | text | for example ercot_node:7RNCHSLR_ALL, ercot_node:A4_DGR1_RN, ercot_node:A4_DGR2_RN; 569 distinct | 0 |
+| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists). Here: generator in every row | none | text | generator | 0 |
+| `name` | The thing's name, as the publisher writes it. Here: The settlement point | none | text | for example 7RNCHSLR_ALL, A4_DGR1_RN, A4_DGR2_RN; 569 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-TX in every row | none | text | US-TX | 0 |
 | `lat` | Latitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 569 |
 | `lon` | Longitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 569 |
 | `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | empty | no cell holds a value | 569 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | empty | no cell holds a value | 569 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 569 |
 | `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | empty | no cell holds a value | 569 |
 | `operator` | The operator or owner, as the publisher writes it | none | empty | no cell holds a value | 569 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:ercot_node_transmission | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_node_transmission.md | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-06T05:23:43Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 569 |
-| `x_county` | not yet written |  | text | for example ANDREWS, ANGELINA, ARCHER; 148 distinct | 0 |
-| `x_zone` | not yet written |  | text | COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST | 0 |
-| `x_phases_future` | not yet written |  | integer | 0 to 109; 33 distinct | 0 |
-| `x_phases_planned` | not yet written |  | integer | 0, 1, 12, 2, 3, 4, 44, 5, 6, 7 | 0 |
-| `x_phases_completed` | not yet written |  | integer | 0, 1, 12, 13, 2, 3, 39, 4, 5, 6, 7 | 0 |
-| `x_phases_cancelled` | not yet written |  | integer | 0, 1, 2, 3, 4, 5, 6, 7, 8 | 0 |
-| `x_open_projects` | not yet written |  | integer | 0 to 153; 38 distinct | 0 |
-| `x_open_new_circuit_miles` | not yet written |  | number | 0.0 to 685.67; 82 distinct | 0 |
-| `x_open_upgraded_circuit_miles` | not yet written |  | number | 0.0 to 424.18; 115 distinct | 0 |
-| `x_open_max_kv` | not yet written |  | integer | 138, 345, 69, 765 | 24 |
-| `x_open_next_in_service` | not yet written |  | date | 2025-05-01 to 2031-06-01; 78 distinct | 24 |
-| `x_tpit_edition` | not yet written |  | text | OCTOBER BASE FOR TRANSMISSION OWNER SUBMISSION FILE - TRANSMISSION PROJECT INFORMATION TRACKING (TPIT) FUTURE PROJECTS AS OF 10/1/2026 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 569 |
+| `x_county` | The node's county, as ercot_node_places gives it | none | text | for example ANDREWS, ANGELINA, ARCHER; 148 distinct | 0 |
+| `x_zone` | The node's load zone, as ercot_node_places gives it (COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST) | none | text | COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST | 0 |
+| `x_phases_future` | TPIT project phases on the Future sheet whose start or end county is the node's county | count | integer | 0 to 109; 33 distinct | 0 |
+| `x_phases_planned` | TPIT project phases on the Planned sheet whose start or end county is the node's county | count | integer | 0, 1, 12, 2, 3, 4, 44, 5, 6, 7 | 0 |
+| `x_phases_completed` | TPIT project phases on the Completed sheet whose start or end county is the node's county | count | integer | 0, 1, 12, 13, 2, 3, 39, 4, 5, 6, 7 | 0 |
+| `x_phases_cancelled` | TPIT project phases on the Cancelled sheet whose start or end county is the node's county | count | integer | 0, 1, 2, 3, 4, 5, 6, 7, 8 | 0 |
+| `x_open_projects` | Distinct TPIT project numbers among the future and planned phases touching the county | count | integer | 0 to 153; 38 distinct | 0 |
+| `x_open_new_circuit_miles` | New circuit miles of those future and planned phases, summed | miles | number | 0.0 to 685.67; 82 distinct | 0 |
+| `x_open_upgraded_circuit_miles` | Upgraded circuit miles of those future and planned phases, summed | miles | number | 0.0 to 424.18; 115 distinct | 0 |
+| `x_open_max_kv` | The highest voltage among those future and planned phases | kV | integer | 138, 345, 69, 765 | 24: No future or planned phase touches the county |
+| `x_open_next_in_service` | The earliest projected in-service date among those future and planned phases (the owners' dates; some fall before the table's day) | none | date | 2025-05-01 to 2031-06-01; 78 distinct | 24: No future or planned phase touches the county |
+| `x_tpit_edition` | The TPIT workbook's title line, naming the edition read | none | text | OCTOBER BASE FOR TRANSMISSION OWNER SUBMISSION FILE - TRANSMISSION PROJECT INFORMATION TRACKING (TPIT) FUTURE PROJECTS AS OF 10/1/2026 | 0 |
 
 ### `ercot_node_wires_utilities`
 
-What a row is: not yet written.
+One placed ERCOT resource node with the wires utilities EIA-861 lists as serving its county, Texas's delivery-only companies named apart.
 
 Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 2026-11-20: 569.
 
+- **Time:** No time column; a snapshot computed from the tables held when the builder ran. vintage names the EIA-861 year.
+- **Revisions:** Rewritten whole by each run of the builder from ercot_node_places, utility_service_territories, eia861_delivery_only and eia861_utility_data; no request is made.
 - **Source:** eia:eia861_territory and eia:eia861 U.S. Energy Information Administration, Form EIA-861 (service territories, delivery companies, utility data); ercot:cdr ERCOT, Capacity, Demand and Reserves Report (the nodes' counties, through ercot_node_places)
 - **Method note:** [`docs/methods/ercot_node_wires_utilities.md`](../methods/ercot_node_wires_utilities.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. The wires utilities in a placed ERCOT node's county (docs/methods/ercot_node_wires_utilities.md). Via the Energy Research Warehouse (ERW), table `ercot_node_wires_utilities`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example ercot_node:7RNCHSLR_ALL, ercot_node:A4_DGR1_RN, ercot_node:A4_DGR2_RN; 569 distinct | 0 |
-| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | generator | 0 |
-| `name` | The thing's name, as the publisher writes it | none | text | for example 7RNCHSLR_ALL, A4_DGR1_RN, A4_DGR2_RN; 569 distinct | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
+| `entity_id` | The identifier of the thing, as namespace:native_id. Here: ercot_node:<settlement point>, the same ids as ercot_node_places | none | text | for example ercot_node:7RNCHSLR_ALL, ercot_node:A4_DGR1_RN, ercot_node:A4_DGR2_RN; 569 distinct | 0 |
+| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists). Here: generator in every row | none | text | generator | 0 |
+| `name` | The thing's name, as the publisher writes it. Here: The settlement point | none | text | for example 7RNCHSLR_ALL, A4_DGR1_RN, A4_DGR2_RN; 569 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-TX in every row | none | text | US-TX | 0 |
 | `lat` | Latitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 569 |
 | `lon` | Longitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 569 |
 | `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | empty | no cell holds a value | 569 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | empty | no cell holds a value | 569 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 569 |
 | `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | empty | no cell holds a value | 569 |
 | `operator` | The operator or owner, as the publisher writes it | none | empty | no cell holds a value | 569 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:ercot_node_wires_utilities | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_node_wires_utilities.md | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T11:28:45Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | text | EIA-861 2025 | 0 |
-| `x_county` | not yet written |  | text | for example ANDREWS, ANGELINA, ARCHER; 148 distinct | 0 |
-| `x_zone` | not yet written |  | text | COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST | 0 |
-| `x_utilities_n` | not yet written |  | integer | 1, 2, 3, 4, 5, 6, 7, 8 | 0 |
-| `x_utilities` | not yet written |  | text | for example AEP Texas Central Company (3278); Bandera Electric Coop, Inc (1175); Medina Electric Coop, Inc (12268); Rio Grande Electric Coop, Inc (16057), AEP Texas Central Company (3278); Bluebonnet Electric Coop, Inc (1892); CenterPoint Energy (8901); City of Weimar - (TX) (20331); Fayette Electric Coop, Inc (6183); San Bernard Electric Coop, Inc (16638); Wharton County Elec Coop, Inc (20472), AEP Texas Central Company (3278); Bluebonnet Electric Coop, Inc (1892); City of Lockhart - (TX) (11119); City of Luling - (TX) (11316); Guadalupe Valley Elec Coop Inc (7752); Pedernales Electric Coop, Inc (14626); 139 distinct | 0 |
-| `x_delivery_only_n` | not yet written |  | integer | 0, 1, 2, 3 | 0 |
-| `x_delivery_only` | not yet written |  | text | AEP Texas Central Company (3278), AEP Texas Central Company (3278); CenterPoint Energy (8901), AEP Texas Central Company (3278); CenterPoint Energy (8901); Texas-New Mexico Power Co (40051), AEP Texas Central Company (3278); Nueces Electric Cooperative (13830), AEP Texas Central Company (3278); Oncor Electric Delivery Company LLC (44372), AEP Texas North Company (20404), AEP Texas North Company (20404); Oncor Electric Delivery Company LLC (44372), AEP Texas North Company (20404); Oncor Electric Delivery Company LLC (44372); Texas-New Mexico Power Co (40051), AEP Texas North Company (20404); Texas-New Mexico Power Co (40051), CenterPoint Energy (8901), CenterPoint Energy (8901); Texas-New Mexico Power Co (40051), Oncor Electric Delivery Company LLC (44372), Oncor Electric Delivery Company LLC (44372); Texas-New Mexico Power Co (40051), Texas-New Mexico Power Co (40051) | 52 |
-| `x_outside_tre_n` | not yet written |  | integer | 0, 1, 2, 3, 4 | 0 |
-| `x_outside_tre` | not yet written |  | text | Bailey County Elec Coop Assn (1169); Deaf Smith Electric Coop, Inc (4939); Lamb County Electric Coop, Inc (10625); Southwestern Public Service Co (17718), Bailey County Elec Coop Assn (1169); Deaf Smith Electric Coop, Inc (4939); Southwestern Public Service Co (17718), Deaf Smith Electric Coop, Inc (4939); Rita Blanca Electric Coop, Inc (16063); Southwestern Public Service Co (17718), Deaf Smith Electric Coop, Inc (4939); Southwestern Public Service Co (17718), El Paso Electric Co (5701), Entergy Texas Inc. (55937), Greenbelt Electric Coop, Inc (7561), Greenbelt Electric Coop, Inc (7561); North Plains Electric Coop Inc (13757); Southwestern Public Service Co (17718), Greenbelt Electric Coop, Inc (7561); Southwestern Public Service Co (17718), Jasper-Newton Elec Coop, Inc (9668); Sam Houston Electric Coop Inc (16613), Lamb County Electric Coop, Inc (10625); Southwestern Public Service Co (17718), Rusk County Electric Coop, Inc (16461), Rusk County Electric Coop, Inc (16461); Upshur Rural Elec Coop Corp (19579), Southwestern Public Service Co (17718), Wood County Electric Coop, Inc (20927) | 441 |
-| `x_short_form_n` | not yet written |  | integer | 0, 1, 2, 3 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The text 'EIA-861 <year>' (EIA-861 2025 in every row), the data year read, not a publication time | none | text | EIA-861 2025 | 0 |
+| `x_county` | The node's county, as ercot_node_places gives it | none | text | for example ANDREWS, ANGELINA, ARCHER; 148 distinct | 0 |
+| `x_zone` | The node's load zone, as ercot_node_places gives it (COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST) | none | text | COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST | 0 |
+| `x_utilities_n` | The number of utilities EIA-861 lists as serving the node's county (state TX) | count | integer | 1, 2, 3, 4, 5, 6, 7, 8 | 0 |
+| `x_utilities` | Those utilities, each '<name> (<EIA utility number>)', sorted, joined by '; ' | none | text | for example AEP Texas Central Company (3278); Bandera Electric Coop, Inc (1175); Medina Electric Coop, Inc (12268); Rio Grande Electric Coop, Inc (16057), AEP Texas Central Company (3278); Bluebonnet Electric Coop, Inc (1892); CenterPoint Energy (8901); City of Weimar - (TX) (20331); Fayette Electric Coop, Inc (6183); San Bernard Electric Coop, Inc (16638); Wharton County Elec Coop, Inc (20472), AEP Texas Central Company (3278); Bluebonnet Electric Coop, Inc (1892); City of Lockhart - (TX) (11119); City of Luling - (TX) (11316); Guadalupe Valley Elec Coop Inc (7752); Pedernales Electric Coop, Inc (14626); 139 distinct | 0 |
+| `x_delivery_only_n` | The number of delivery-only companies (wires companies that sell no power, as eia861_delivery_only holds them for Texas) among those utilities | count | integer | 0, 1, 2, 3 | 0 |
+| `x_delivery_only` | Those delivery-only companies, each '<name> (<EIA utility number>)', joined by '; ' | none | text | AEP Texas Central Company (3278), AEP Texas Central Company (3278); CenterPoint Energy (8901), AEP Texas Central Company (3278); CenterPoint Energy (8901); Texas-New Mexico Power Co (40051), AEP Texas Central Company (3278); Nueces Electric Cooperative (13830), AEP Texas Central Company (3278); Oncor Electric Delivery Company LLC (44372), AEP Texas North Company (20404), AEP Texas North Company (20404); Oncor Electric Delivery Company LLC (44372), AEP Texas North Company (20404); Oncor Electric Delivery Company LLC (44372); Texas-New Mexico Power Co (40051), AEP Texas North Company (20404); Texas-New Mexico Power Co (40051), CenterPoint Energy (8901), CenterPoint Energy (8901); Texas-New Mexico Power Co (40051), Oncor Electric Delivery Company LLC (44372), Oncor Electric Delivery Company LLC (44372); Texas-New Mexico Power Co (40051), Texas-New Mexico Power Co (40051) | 52: No delivery-only company serves the county |
+| `x_outside_tre_n` | The number of those utilities whose EIA-861 utility data names a NERC region but not Texas RE (so part of the county is outside ERCOT's reliability region) | count | integer | 0, 1, 2, 3, 4 | 0 |
+| `x_outside_tre` | Those utilities outside Texas RE, each '<name> (<EIA utility number>)', joined by '; ' | none | text | Bailey County Elec Coop Assn (1169); Deaf Smith Electric Coop, Inc (4939); Lamb County Electric Coop, Inc (10625); Southwestern Public Service Co (17718), Bailey County Elec Coop Assn (1169); Deaf Smith Electric Coop, Inc (4939); Southwestern Public Service Co (17718), Deaf Smith Electric Coop, Inc (4939); Rita Blanca Electric Coop, Inc (16063); Southwestern Public Service Co (17718), Deaf Smith Electric Coop, Inc (4939); Southwestern Public Service Co (17718), El Paso Electric Co (5701), Entergy Texas Inc. (55937), Greenbelt Electric Coop, Inc (7561), Greenbelt Electric Coop, Inc (7561); North Plains Electric Coop Inc (13757); Southwestern Public Service Co (17718), Greenbelt Electric Coop, Inc (7561); Southwestern Public Service Co (17718), Jasper-Newton Elec Coop, Inc (9668); Sam Houston Electric Coop Inc (16613), Lamb County Electric Coop, Inc (10625); Southwestern Public Service Co (17718), Rusk County Electric Coop, Inc (16461), Rusk County Electric Coop, Inc (16461); Upshur Rural Elec Coop Corp (19579), Southwestern Public Service Co (17718), Wood County Electric Coop, Inc (20927) | 441: No utility of the county is outside Texas RE |
+| `x_short_form_n` | The number of those utilities filing EIA's short form, whose utility data gives no region | count | integer | 0, 1, 2, 3 | 0 |
 
 ### `ercot_peak_premium_annual`
 
@@ -944,95 +964,99 @@ Variables (28):
 
 ### `ercot_peak_premium_node_monthly`
 
-What a row is: not yet written.
+One price statistic of ERCOT's 15-minute real-time prices at one settlement point over one local calendar month, for all intervals or one block of the day.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: derived. Rows read on 2026-11-20: 17472.
 
+- **Time:** ts_utc is the first day of the local (America/Chicago) month at 00:00:00Z. The month in progress is partial (n_intervals says how many intervals it holds).
+- **Revisions:** Merged by (entity, variable, ts_utc) through the merge writer; an ended month is written for a point only with every interval of it, the month in progress as far as it is held. vintage is not filled.
 - **Source:** erw:ercot_node_peak_premium ERW derived metrics, ERCOT peak premium method (docs/methods/ercot_peak_premium.md) (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_peak_premium.md)
 - **Method note:** [`docs/methods/ercot_peak_premium.md`](../methods/ercot_peak_premium.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. ERCOT peak premium metrics per settlement point (docs/methods/ercot_peak_premium.md). Via the Energy Research Warehouse (ERW), table `ercot_peak_premium_node_monthly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example ercot:ABINDUST_RN, ercot:ADL_RN, ercot:AE_RN; 312 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ercot:<settlement point>, every point of ercot_rtm_node_prices (resource nodes, hubs and load zones) | none | text | for example ercot:ABINDUST_RN, ercot:ADL_RN, ercot:AE_RN; 312 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-10-01T00:00:00Z, 2026-11-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -251.0 to 3522.5; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/MWh, count, ratio | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | ercot_rtm | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example ABINDUST_RN, ADL_RN, AE_RN; 312 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: ercot_rtm in every row: ERCOT's real-time market | none | text | ercot_rtm | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The settlement point's name | none | text | for example ABINDUST_RN, ADL_RN, AE_RN; 312 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:ercot_node_peak_premium | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_peak_premium.md | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-16T19:57:05Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 17472 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 17472 |
 
 Variables (28):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `all_iqr` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `all_max` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `all_median` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `all_min` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `all_p999` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `all_q1` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `all_q3` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `midday_max` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `midday_median` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `midday_min` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `midday_q1` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `midday_q3` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `n_intervals` |  | count | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `n_negative` |  | count | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `n_scarcity` |  | count | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `overnight_max` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `overnight_median` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `overnight_min` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `overnight_q1` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `overnight_q3` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `peak_iqr` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `peak_max` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `peak_median` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `peak_min` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `peak_minus_midday_median` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `peak_q1` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `peak_q3` |  | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
-| `worst_interval_multiple` |  | ratio | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `all_iqr` | 75th less 25th percentile of all intervals' prices, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `all_max` | Highest price of all intervals, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `all_median` | Median of all intervals' prices, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `all_min` | Lowest price of all the month's intervals, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `all_p999` | 99.9th percentile of all intervals' prices, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `all_q1` | 25th percentile of all intervals' prices, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `all_q3` | 75th percentile of all intervals' prices, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `midday_max` | Highest price of the midday block, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `midday_median` | Median of the midday block, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `midday_min` | Lowest price of the midday block (intervals starting 12:00 to 16:00 local), USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `midday_q1` | 25th percentile of the midday block, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `midday_q3` | 75th percentile of the midday block, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `n_intervals` | The 15-minute intervals the month holds | count | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `n_negative` | Intervals priced at or below 0 USD/MWh | count | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `n_scarcity` | Intervals priced at or above 1,000 USD/MWh | count | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `overnight_max` | Highest price of the overnight block, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `overnight_median` | Median of the overnight block, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `overnight_min` | Lowest price of the overnight block (intervals starting 21:00 to 12:00 local), USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `overnight_q1` | 25th percentile of the overnight block, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `overnight_q3` | 75th percentile of the overnight block, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `peak_iqr` | 75th less 25th percentile of the peak block, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `peak_max` | Highest price of the peak block, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `peak_median` | Median of the peak block, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `peak_min` | Lowest price of the peak block (intervals starting 16:00 to 21:00 local), USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `peak_minus_midday_median` | Peak block median less midday block median, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `peak_q1` | 25th percentile of the peak block, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `peak_q3` | 75th percentile of the peak block, USD/MWh | USD/MWh | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
+| `worst_interval_multiple` | 99.9th percentile over median of all intervals (ratio) | ratio | 624 | 2026-10-01T00:00:00Z | 2026-11-01T00:00:00Z |
 
 ### `ercot_rtm_node_prices`
 
-What a row is: not yet written.
+ERCOT's real-time settlement point price at one settlement point (a storage resource's node, a hub, a load zone or a DC tie) for one 15-minute interval.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1570608.
 
+- **Time:** ts_utc is the interval's start in UTC, read from the file's DeliveryDate, DeliveryHour and DeliveryInterval in Central time.
+- **Revisions:** Merged by (entity, variable, ts_utc); each run with a new file reads every saved zip again, and the table keeps intervals ERCOT's seven-day list has dropped. An interval posted twice with different prices is left out. vintage is not filled.
 - **Source:** ercot:NP6-905-CD ERCOT, Settlement Point Prices at Resource Nodes, Hubs and Load Zones (report type 12301) (https://www.ercot.com/mp/data-products/data-product-details?id=NP6-905-CD)
 - **Method note:** [`docs/methods/ercot_rtm_node_prices.md`](../methods/ercot_rtm_node_prices.md)
 - **Cite as:** Electric Reliability Council of Texas (ERCOT). Settlement Point Prices at Resource Nodes, Hubs and Load Zones. Via the Energy Research Warehouse (ERW), table `ercot_rtm_node_prices`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example ercot:ABINDUST_RN, ercot:ADL_RN, ercot:AE_RN; 312 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ercot:<settlement point> | none | text | for example ercot:ABINDUST_RN, ercot:ADL_RN, ercot:AE_RN; 312 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-09-28T04:45:00Z to 2026-11-19T17:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -251.0 to 3522.5; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/MWh | 0 |
 | `freq` | How long the interval of the row is | none | text | PT15M | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | ercot_rtm | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example ABINDUST_RN, ADL_RN, AE_RN; 312 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: ercot_rtm in every row: ERCOT's real-time market | none | text | ercot_rtm | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The settlement point's name | none | text | for example ABINDUST_RN, ADL_RN, AE_RN; 312 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ercot:NP6-905-CD | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1279835460, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1279839306, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1279843107; more than 5000 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-05T09:23:38Z to 2026-11-19T17:28:49Z; more than 5000 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 1570608 |
-| `x_point_type` | not yet written |  | text | AH, HU, LZ, LZ_DC, RN, SH | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1570608 |
+| `x_point_type` | ERCOT's type of the settlement point: RN resource node, LZ load zone, HU hub, LZ_DC DC tie, SH HB_BUSAVG, AH HB_HUBAVG (the source's name: SettlementPointType) | none | text | AH, HU, LZ, LZ_DC, RN, SH | 0 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `spp_rtm` |  | USD/MWh | 1570608 | 2026-09-28T04:45:00Z | 2026-11-19T17:00:00Z |
+| `spp_rtm` | ERCOT's real-time settlement point price at the point, 15-minute, as ERCOT prints it (spp here is ERCOT's 'settlement point price', not the grid SPP) | USD/MWh | 1570608 | 2026-09-28T04:45:00Z | 2026-11-19T17:00:00Z |
 
 ### `ercot_rtm_price_adders`
 
@@ -1077,56 +1101,58 @@ Variables (8):
 
 ### `ercot_sced_esr_hourly`
 
-What a row is: not yet written.
+One ERCOT Energy Storage Resource (a battery) in one hour of real-time dispatch (SCED), its telemetered net output and limits, state of charge and real-time ancillary service awards, from ERCOT's 60-day SCED disclosure.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1637727.
 
+- **Time:** ts_utc is the start of the hour in UTC; operating days are Central (America/Chicago) days.
+- **Revisions:** Each operating day is reduced to resource-hours once and added; a day already reduced is not read again unless asked. vintage is the operating day plus 60 days at 00:00:00Z.
 - **Source:** ercot:NP3-965-ER ERCOT, 60-Day SCED Disclosure Reports (report type 13052),  document list (https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13052)
 - **Method note:** [`docs/methods/ercot_sced_esr_hourly.md`](../methods/ercot_sced_esr_hourly.md)
 - **Cite as:** Electric Reliability Council of Texas (ERCOT). 60-Day SCED Disclosure Reports (the file 60d_ESR_Data_in_SCED: Energy Storage Resources in real time). Via the Energy Research Warehouse (ERW), table `ercot_sced_esr_hourly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example ercot:ABINDUST_ESR1, ercot:ADL_ESR1, ercot:AE_ESR1; 342 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ercot:<Resource Name>, the storage resource | none | text | for example ercot:ABINDUST_ESR1, ercot:ADL_ESR1, ercot:AE_ESR1; 342 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-02-01T06:00:00Z to 2026-08-28T04:00:00Z; 4991 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -240.00002 to 240.00002; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | ercot_rtm | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example ABINDUST_RN, ADL_RN, AE_RN; 293 distinct | 6935 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: ercot_rtm in every row: ERCOT's real-time market | none | text | ercot_rtm | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The resource's settlement point as ercot_dam_esr_awards names it; empty for the three resources that file never names | none | text | for example ABINDUST_RN, ADL_RN, AE_RN; 293 distinct | 6935 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ercot:NP3-965-ER | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1210699966, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1211087392, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1211618930; 208 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-05T09:15:29Z to 2026-10-26T17:49:02Z; 208 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-04-02T00:00:00Z to 2026-10-26T00:00:00Z; 208 distinct | 0 |
-| `x_qse` | not yet written |  | text | for example QAETE1, QAETEL, QAMA1; 120 distinct | 0 |
-| `x_sced_runs` | not yet written |  | integer | 11, 12, 13, 14, 15, 16, 17, 18, 19, 7 | 0 |
-| `x_net_q1_mwh` | not yet written |  | number | -60.000005 to 60.000005; more than 5000 distinct | 0 |
-| `x_net_q2_mwh` | not yet written |  | number | -60.000005 to 60.000005; more than 5000 distinct | 0 |
-| `x_net_q3_mwh` | not yet written |  | number | -60.000005 to 60.000005; more than 5000 distinct | 0 |
-| `x_net_q4_mwh` | not yet written |  | number | -60.000005 to 60.000005; more than 5000 distinct | 0 |
-| `x_discharge_mwh` | not yet written |  | number | 0.0 to 240.00002; more than 5000 distinct | 0 |
-| `x_charge_mwh` | not yet written |  | number | 0.0 to 240.00002; more than 5000 distinct | 0 |
-| `x_base_point_mwh` | not yet written |  | number | -240.000015 to 240.000015; more than 5000 distinct | 0 |
-| `x_hsl_mw` | not yet written |  | number | -8.8 to 240.0; 2335 distinct | 0 |
-| `x_lsl_mw` | not yet written |  | number | -240.0 to 195.0; 2248 distinct | 0 |
-| `x_soc_start_mwh` | not yet written |  | number | -703.6 to 974.9; more than 5000 distinct | 0 |
-| `x_soc_min_mwh` | not yet written |  | number | -703.6 to 974.9; more than 5000 distinct | 0 |
-| `x_soc_max_mwh` | not yet written |  | number | -0.3718 to 974.9; more than 5000 distinct | 0 |
-| `x_as_regup_mwh` | not yet written |  | number | 0.0 to 269.745653; more than 5000 distinct | 0 |
-| `x_as_regdn_mwh` | not yet written |  | number | 0.0 to 200.0; more than 5000 distinct | 0 |
-| `x_as_rrspfr_mwh` | not yet written |  | number | 0.0 to 157.0; more than 5000 distinct | 0 |
-| `x_as_rrsffr_mwh` | not yet written |  | number | 0.0 to 175.672674; more than 5000 distinct | 0 |
-| `x_as_rrsufr_mwh` | not yet written |  | integer | 0 | 0 |
-| `x_as_ecrs_mwh` | not yet written |  | number | 0.0 to 237.127168; more than 5000 distinct | 0 |
-| `x_as_nspin_mwh` | not yet written |  | number | 0.0 to 118.98; more than 5000 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The operating day plus 60 days at 00:00:00Z (when ERCOT publishes the disclosure) | none | utc time | 2026-04-02T00:00:00Z to 2026-10-26T00:00:00Z; 208 distinct | 0 |
+| `x_qse` | The scheduling entity (QSE) of the resource, ERCOT's code (the source's name: QSE) | none | text | for example QAETE1, QAETEL, QAMA1; 120 distinct | 0 |
+| `x_sced_runs` | The SCED dispatch runs in the hour that hold the resource | count | integer | 11, 12, 13, 14, 15, 16, 17, 18, 19, 7 | 0 |
+| `x_net_q1_mwh` | Telemetered net output integrated over the hour's first 15-minute settlement interval (positive is discharge) | MWh | number | -60.000005 to 60.000005; more than 5000 distinct | 0 |
+| `x_net_q2_mwh` | Telemetered net output integrated over the hour's second 15-minute settlement interval (positive is discharge) | MWh | number | -60.000005 to 60.000005; more than 5000 distinct | 0 |
+| `x_net_q3_mwh` | Telemetered net output integrated over the hour's third 15-minute settlement interval (positive is discharge) | MWh | number | -60.000005 to 60.000005; more than 5000 distinct | 0 |
+| `x_net_q4_mwh` | Telemetered net output integrated over the hour's fourth 15-minute settlement interval (positive is discharge); the four add up to the value | MWh | number | -60.000005 to 60.000005; more than 5000 distinct | 0 |
+| `x_discharge_mwh` | The positive part of the integrated net output: energy discharged in the hour | MWh | number | 0.0 to 240.00002; more than 5000 distinct | 0 |
+| `x_charge_mwh` | The negative part of the integrated net output, as a positive number: energy charged in the hour | MWh | number | 0.0 to 240.00002; more than 5000 distinct | 0 |
+| `x_base_point_mwh` | The Base Point (what SCED instructed) integrated over the hour the same way (the source's name: Base Point) | MWh | number | -240.000015 to 240.000015; more than 5000 distinct | 0 |
+| `x_hsl_mw` | The hour's highest High Sustained Limit (the source's name: HSL) | MW | number | -8.8 to 240.0; 2335 distinct | 0 |
+| `x_lsl_mw` | The hour's lowest Low Sustained Limit (negative: charging) (the source's name: LSL) | MW | number | -240.0 to 195.0; 2248 distinct | 0 |
+| `x_soc_start_mwh` | The State of Charge (energy stored) at the hour's first SCED run (the source's name: State of Charge) | MWh | number | -703.6 to 974.9; more than 5000 distinct | 0 |
+| `x_soc_min_mwh` | The lowest State of Charge in the hour (the source's name: State of Charge) | MWh | number | -703.6 to 974.9; more than 5000 distinct | 0 |
+| `x_soc_max_mwh` | The highest State of Charge in the hour (the source's name: State of Charge) | MWh | number | -0.3718 to 974.9; more than 5000 distinct | 0 |
+| `x_as_regup_mwh` | The real-time award of Regulation Up integrated over the hour (a MW for an hour) (the source's name: AS Awards REGUP) | MWh | number | 0.0 to 269.745653; more than 5000 distinct | 0 |
+| `x_as_regdn_mwh` | The real-time award of Regulation Down integrated over the hour (a MW for an hour) (the source's name: AS Awards REGDN) | MWh | number | 0.0 to 200.0; more than 5000 distinct | 0 |
+| `x_as_rrspfr_mwh` | The real-time award of Responsive Reserve, PFR kind, integrated over the hour (a MW for an hour) (the source's name: AS Awards RRSPFR) | MWh | number | 0.0 to 157.0; more than 5000 distinct | 0 |
+| `x_as_rrsffr_mwh` | The real-time award of Responsive Reserve, FFR kind, integrated over the hour (a MW for an hour) (the source's name: AS Awards RRSFFR) | MWh | number | 0.0 to 175.672674; more than 5000 distinct | 0 |
+| `x_as_rrsufr_mwh` | The real-time award of Responsive Reserve, UFR kind, integrated over the hour (a MW for an hour) (the source's name: AS Awards RRSUFR) | MWh | integer | 0 | 0 |
+| `x_as_ecrs_mwh` | The real-time award of ERCOT Contingency Reserve Service integrated over the hour (a MW for an hour) (the source's name: AS Awards ECRS) | MWh | number | 0.0 to 237.127168; more than 5000 distinct | 0 |
+| `x_as_nspin_mwh` | The real-time award of Non-Spin integrated over the hour (a MW for an hour) (the source's name: AS Awards NSPIN) | MWh | number | 0.0 to 118.98; more than 5000 distinct | 0 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `net_output_mwh` |  | MWh | 1637727 | 2026-02-01T06:00:00Z | 2026-08-28T04:00:00Z |
+| `net_output_mwh` | The resource's Telemetered Net Output integrated over the hour, MWh (positive is discharge; each SCED run's MW held until the next run of the day, never across a run the resource is not in); telemetry, not the settlement meter | MWh | 1637727 | 2026-02-01T06:00:00Z | 2026-08-28T04:00:00Z |
 
 ### `ercot_storage_dam_awards_monthly`
 
@@ -1191,112 +1217,114 @@ Variables (28):
 
 ### `ercot_storage_dam_offers_daily`
 
-What a row is: not yet written.
+What ERCOT's Energy Storage Resources offered in the day-ahead market, and how much of it was awarded, summed over one operating day for the whole fleet.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: derived. Rows read on 2026-11-20: 20982.
 
+- **Time:** ts_utc is the operating day (local, Central) at 00:00:00Z. A MWh here is a MW for an hour, of limit, offered or awarded capacity, or energy.
+- **Revisions:** A day added is appended, and a day already held is replaced whole by its new rows; a rebuild from the zips rewrites the table. vintage is ERCOT's publication of the day's disclosure (the operating day plus 60 days).
 - **Source:** erw:ercot_storage_dam_offers ERW derived table, ERCOT storage resources' day-ahead offers (docs/methods/ercot_storage_dam_offers.md),  computed from ERCOT's 60-Day DAM Disclosure Reports (NP3-966-ER), the files 60d_DAM_ESR_Data and 60d_DAM_ESR_ASOffers (https://www.ercot.com/mp/data-products/data-product-details?id=NP3-966-ER)
 - **Method note:** [`docs/methods/ercot_storage_dam_offers.md`](../methods/ercot_storage_dam_offers.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. ERCOT storage resources' day-ahead offers by day and by month (docs/methods/ercot_storage_dam_offers.md). Via the Energy Research Warehouse (ERW), table `ercot_storage_dam_offers_daily`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | ercot:esr_fleet | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ercot:esr_fleet in every row: every storage resource | none | text | ercot:esr_fleet | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2025-12-06T00:00:00Z to 2026-08-31T00:00:00Z; 269 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 14698250.15; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh, USD, count | 0 |
 | `freq` | How long the interval of the row is | none | text | P1D | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | ercot_dam | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 20982 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: ercot_dam in every row: ERCOT's day-ahead market | none | text | ercot_dam | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 20982 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:ercot_storage_dam_offers | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1190045004, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1190315373, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1190560109; 269 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-04T21:33:39Z to 2026-11-15T15:54:05Z; 269 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-02-04T22:53:33Z to 2026-10-30T12:41:46Z; 269 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: ERCOT's publication time of the day's 60-day disclosure zip | none | utc time | 2026-02-04T22:53:33Z to 2026-10-30T12:41:46Z; 269 distinct | 0 |
 
 Variables (78):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `as_award_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `as_offer_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `as_offer_mwh_unlisted` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `ecrs_award_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `ecrs_award_usd` |  | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `ecrs_offer_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `ecrs_offer_mwh_le_1` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `ecrs_offer_mwh_le_100` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `ecrs_offer_mwh_le_1000` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `ecrs_offer_mwh_le_20` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `ecrs_offer_mwh_le_5` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `ecrs_offer_mwh_le_mcpc` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `ecrs_unawarded_usd` |  | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `energy_bid_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `energy_bid_mwh_at_clearing` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `energy_bought_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `energy_offer_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `energy_offer_mwh_at_clearing` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `energy_offer_mwh_le_0` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `energy_offer_mwh_le_100` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `energy_offer_mwh_le_1000` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `energy_offer_mwh_le_25` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `energy_offer_mwh_le_250` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `energy_offer_mwh_le_50` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `energy_sold_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `limit_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `limit_mwh_as_offer` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `limit_mwh_award` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `limit_mwh_energy_offer` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `limit_mwh_no_offer` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `limit_mwh_no_offer_out` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `limit_mwh_out` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `nspin_award_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `nspin_award_usd` |  | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `nspin_offer_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `nspin_offer_mwh_le_1` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `nspin_offer_mwh_le_100` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `nspin_offer_mwh_le_1000` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `nspin_offer_mwh_le_20` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `nspin_offer_mwh_le_5` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `nspin_offer_mwh_le_mcpc` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `nspin_unawarded_usd` |  | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regdn_award_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regdn_award_usd` |  | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regdn_offer_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regdn_offer_mwh_le_1` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regdn_offer_mwh_le_100` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regdn_offer_mwh_le_1000` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regdn_offer_mwh_le_20` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regdn_offer_mwh_le_5` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regdn_offer_mwh_le_mcpc` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regdn_unawarded_usd` |  | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regup_award_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regup_award_usd` |  | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regup_offer_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regup_offer_mwh_le_1` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regup_offer_mwh_le_100` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regup_offer_mwh_le_1000` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regup_offer_mwh_le_20` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regup_offer_mwh_le_5` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regup_offer_mwh_le_mcpc` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `regup_unawarded_usd` |  | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `resource_hours` |  | count | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `resource_hours_as_offer` |  | count | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `resource_hours_energy_offer` |  | count | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `resource_hours_no_offer` |  | count | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `resource_hours_out` |  | count | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `resources` |  | count | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `rrs_award_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `rrs_award_usd` |  | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `rrs_offer_mwh` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `rrs_offer_mwh_le_1` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `rrs_offer_mwh_le_100` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `rrs_offer_mwh_le_1000` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `rrs_offer_mwh_le_20` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `rrs_offer_mwh_le_5` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `rrs_offer_mwh_le_mcpc` |  | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
-| `rrs_unawarded_usd` |  | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `as_award_mwh` | The five ancillary services' awards together, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `as_offer_mwh` | Every ancillary service offer block counted once, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `as_offer_mwh_unlisted` | Ancillary service offer blocks of resources with no row in the ESR data file that hour, in no other sum, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `ecrs_award_mwh` | ECRS: the awards, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `ecrs_award_usd` | ECRS: the awards at the clearing price, USD | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `ecrs_offer_mwh` | ERCOT Contingency Reserve Service (online and offline together): the offer blocks priced for the service, added up, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `ecrs_offer_mwh_le_1` | ECRS: blocks priced at 1 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `ecrs_offer_mwh_le_100` | ECRS: blocks priced at 100 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `ecrs_offer_mwh_le_1000` | ECRS: blocks priced at 1,000 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `ecrs_offer_mwh_le_20` | ECRS: blocks priced at 20 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `ecrs_offer_mwh_le_5` | ECRS: blocks priced at 5 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `ecrs_offer_mwh_le_mcpc` | ECRS: of those, blocks priced at or below the hour's clearing price, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `ecrs_unawarded_usd` | ECRS: offered less awarded, each resource and hour, at the hour's clearing price, USD | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `energy_bid_mwh` | The most energy the curves bid to buy (charging), MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `energy_bid_mwh_at_clearing` | Energy bid to buy at the hour's own day-ahead price, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `energy_bought_mwh` | Energy awarded to buy (charging), MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `energy_offer_mwh` | Energy the curves offer to sell at any price (each curve's highest MW when above zero), MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `energy_offer_mwh_at_clearing` | Energy offered to sell at the hour's own day-ahead price at the resource's settlement point, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `energy_offer_mwh_le_0` | Energy offered to sell at a price of 0 USD/MWh or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `energy_offer_mwh_le_100` | Energy offered to sell at 100 USD/MWh or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `energy_offer_mwh_le_1000` | Energy offered to sell at 1,000 USD/MWh or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `energy_offer_mwh_le_25` | Energy offered to sell at 25 USD/MWh or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `energy_offer_mwh_le_250` | Energy offered to sell at 250 USD/MWh or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `energy_offer_mwh_le_50` | Energy offered to sell at 50 USD/MWh or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `energy_sold_mwh` | Energy awarded to sell, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `limit_mwh` | The sum of the High Sustained Limit (HSL), hour by hour (a negative HSL counts as zero), MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `limit_mwh_as_offer` | Of limit_mwh, the rows with an ancillary service offer, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `limit_mwh_award` | Of limit_mwh, the rows with any day-ahead award, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `limit_mwh_energy_offer` | Of limit_mwh, the rows whose curve offers to sell, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `limit_mwh_no_offer` | Of limit_mwh, the rows with no energy curve and no ancillary service offer, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `limit_mwh_no_offer_out` | Of those, the rows with status OUT, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `limit_mwh_out` | Of limit_mwh, the rows with status OUT, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `nspin_award_mwh` | Non-Spin: the awards, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `nspin_award_usd` | Non-Spin: the awards at the clearing price, USD | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `nspin_offer_mwh` | Non-Spin (online and offline together): the offer blocks priced for the service, added up, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `nspin_offer_mwh_le_1` | Non-Spin: blocks priced at 1 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `nspin_offer_mwh_le_100` | Non-Spin: blocks priced at 100 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `nspin_offer_mwh_le_1000` | Non-Spin: blocks priced at 1,000 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `nspin_offer_mwh_le_20` | Non-Spin: blocks priced at 20 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `nspin_offer_mwh_le_5` | Non-Spin: blocks priced at 5 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `nspin_offer_mwh_le_mcpc` | Non-Spin: of those, blocks priced at or below the hour's clearing price, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `nspin_unawarded_usd` | Non-Spin: offered less awarded, each resource and hour, at the hour's clearing price, USD | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regdn_award_mwh` | Regulation Down: the awards, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regdn_award_usd` | Regulation Down: the awards at the clearing price, USD | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regdn_offer_mwh` | Regulation Down: the offer blocks priced for the service, added up, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regdn_offer_mwh_le_1` | Regulation Down: blocks priced at 1 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regdn_offer_mwh_le_100` | Regulation Down: blocks priced at 100 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regdn_offer_mwh_le_1000` | Regulation Down: blocks priced at 1,000 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regdn_offer_mwh_le_20` | Regulation Down: blocks priced at 20 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regdn_offer_mwh_le_5` | Regulation Down: blocks priced at 5 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regdn_offer_mwh_le_mcpc` | Regulation Down: of those, blocks priced at or below the hour's clearing price, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regdn_unawarded_usd` | Regulation Down: offered less awarded, each resource and hour, at the hour's clearing price, USD | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regup_award_mwh` | Regulation Up: the awards, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regup_award_usd` | Regulation Up: the awards at the clearing price, USD | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regup_offer_mwh` | Regulation Up: the offer blocks priced for the service, added up, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regup_offer_mwh_le_1` | Regulation Up: blocks priced at 1 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regup_offer_mwh_le_100` | Regulation Up: blocks priced at 100 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regup_offer_mwh_le_1000` | Regulation Up: blocks priced at 1,000 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regup_offer_mwh_le_20` | Regulation Up: blocks priced at 20 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regup_offer_mwh_le_5` | Regulation Up: blocks priced at 5 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regup_offer_mwh_le_mcpc` | Regulation Up: of those, blocks priced at or below the hour's clearing price, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `regup_unawarded_usd` | Regulation Up: offered less awarded, each resource and hour, at the hour's clearing price, USD | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `resource_hours` | Resource-hours (rows) of the day | count | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `resource_hours_as_offer` | Resource-hours with an ancillary service offer | count | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `resource_hours_energy_offer` | Resource-hours with an energy offer curve | count | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `resource_hours_no_offer` | Resource-hours with neither an energy curve nor an ancillary service offer | count | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `resource_hours_out` | Resource-hours with status OUT | count | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `resources` | Storage resources with a row that day | count | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `rrs_award_mwh` | Responsive Reserve: the awards, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `rrs_award_usd` | Responsive Reserve: the awards at the clearing price, USD | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `rrs_offer_mwh` | Responsive Reserve (any of its three kinds): the offer blocks priced for the service, added up, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `rrs_offer_mwh_le_1` | Responsive Reserve: blocks priced at 1 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `rrs_offer_mwh_le_100` | Responsive Reserve: blocks priced at 100 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `rrs_offer_mwh_le_1000` | Responsive Reserve: blocks priced at 1,000 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `rrs_offer_mwh_le_20` | Responsive Reserve: blocks priced at 20 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `rrs_offer_mwh_le_5` | Responsive Reserve: blocks priced at 5 USD per MW or less, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `rrs_offer_mwh_le_mcpc` | Responsive Reserve: of those, blocks priced at or below the hour's clearing price, MWh | MWh | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
+| `rrs_unawarded_usd` | Responsive Reserve: offered less awarded, each resource and hour, at the hour's clearing price, USD | USD | 269 | 2025-12-06T00:00:00Z | 2026-08-31T00:00:00Z |
 
 ### `ercot_storage_dam_offers_monthly`
 
@@ -1554,59 +1582,61 @@ Variables (47):
 
 ### `ercot_storage_rt_offers_monthly`
 
-What a row is: not yet written.
+What ERCOT's storage fleet offered to sell in real-time dispatch (SCED), by price limit, summed over one local month.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 175.
 
+- **Time:** ts_utc is the first day of the local (Central) month at 00:00:00Z; months from February 2026.
+- **Revisions:** Merged by (entity, variable, ts_utc); each run recomputes every month from the 60-day SCED zips held on the data machine. vintage is not filled.
 - **Source:** ercot:NP3-965-ER ERCOT, 60-Day SCED Disclosure Reports (60d_ESR_Data_in_SCED) (https://www.ercot.com/mp/data-products/data-product-details?id=NP3-965-ER)
 - **Method note:** [`docs/methods/ercot_storage_realtime.md`](../methods/ercot_storage_realtime.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. ERCOT storage fleet's real-time energy offers to sell by price band, by month, from ERCOT's 60-Day SCED Disclosure Reports (60d_ESR_Data_in_SCED, NP3-965-ER). Via the Energy Research Warehouse (ERW), table `ercot_storage_rt_offers_monthly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | ercot:esr_fleet | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ercot:esr_fleet in every row: every storage resource | none | text | ercot:esr_fleet | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-02-01T00:00:00Z, 2026-03-01T00:00:00Z, 2026-04-01T00:00:00Z, 2026-05-01T00:00:00Z, 2026-06-01T00:00:00Z, 2026-07-01T00:00:00Z, 2026-08-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0249 to 14114469.608; 164 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW, MWh, MWh/MW-day, count, pct | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | ercot_rtm | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 175 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: ercot_rtm in every row: ERCOT's real-time market | none | text | ercot_rtm | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 175 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:ercot_storage_rt_offers | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_storage_realtime.md | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-16T21:12:53Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 175 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 175 |
 
 Variables (25):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `days_held` |  | count | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `days_in_month` |  | count | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `mw` |  | MW | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_any_mwh` |  | MWh | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_any_mwh_per_mw_day` |  | MWh/MW-day | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_0_mwh` |  | MWh | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_0_mwh_per_mw_day` |  | MWh/MW-day | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_0_share_pct` |  | pct | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_1000_mwh` |  | MWh | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_1000_mwh_per_mw_day` |  | MWh/MW-day | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_1000_share_pct` |  | pct | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_100_mwh` |  | MWh | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_100_mwh_per_mw_day` |  | MWh/MW-day | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_100_share_pct` |  | pct | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_250_mwh` |  | MWh | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_250_mwh_per_mw_day` |  | MWh/MW-day | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_250_share_pct` |  | pct | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_25_mwh` |  | MWh | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_25_mwh_per_mw_day` |  | MWh/MW-day | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_25_share_pct` |  | pct | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_50_mwh` |  | MWh | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_50_mwh_per_mw_day` |  | MWh/MW-day | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `offered_sell_le_50_share_pct` |  | pct | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `resources` |  | count | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `runs` |  | count | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `days_held` | Operating days of the month held | count | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `days_in_month` | The days of the month | count | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `mw` | The fleet's MW: each resource's highest High Sustained Limit (HSL) of the month, added up | MW | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_any_mwh` | Energy offered to sell at any price (each curve's highest MW), summed over the month, MWh | MWh | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_any_mwh_per_mw_day` | offered_sell_any_mwh over the fleet's mw and the days held, MWh per MW per day | MWh/MW-day | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_0_mwh` | Energy offered to sell at a price of 0 USD/MWh or less: each SCED run's curve MW at that price (clipped at zero) held until the next run, summed over the month, MWh | MWh | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_0_mwh_per_mw_day` | offered_sell_le_0_mwh over the fleet's mw and the days held, MWh per MW per day | MWh/MW-day | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_0_share_pct` | offered_sell_le_0_mwh as a percent of offered_sell_any_mwh | pct | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_1000_mwh` | Energy offered to sell at 1,000 USD/MWh or less, summed over the month, MWh | MWh | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_1000_mwh_per_mw_day` | offered_sell_le_1000_mwh over the fleet's mw and the days held, MWh per MW per day | MWh/MW-day | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_1000_share_pct` | offered_sell_le_1000_mwh as a percent of offered_sell_any_mwh | pct | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_100_mwh` | Energy offered to sell at 100 USD/MWh or less, summed over the month, MWh | MWh | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_100_mwh_per_mw_day` | offered_sell_le_100_mwh over the fleet's mw and the days held, MWh per MW per day | MWh/MW-day | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_100_share_pct` | offered_sell_le_100_mwh as a percent of offered_sell_any_mwh | pct | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_250_mwh` | Energy offered to sell at 250 USD/MWh or less, summed over the month, MWh | MWh | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_250_mwh_per_mw_day` | offered_sell_le_250_mwh over the fleet's mw and the days held, MWh per MW per day | MWh/MW-day | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_250_share_pct` | offered_sell_le_250_mwh as a percent of offered_sell_any_mwh | pct | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_25_mwh` | Energy offered to sell at 25 USD/MWh or less, summed over the month, MWh | MWh | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_25_mwh_per_mw_day` | offered_sell_le_25_mwh over the fleet's mw and the days held, MWh per MW per day | MWh/MW-day | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_25_share_pct` | offered_sell_le_25_mwh as a percent of offered_sell_any_mwh | pct | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_50_mwh` | Energy offered to sell at 50 USD/MWh or less, summed over the month, MWh | MWh | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_50_mwh_per_mw_day` | offered_sell_le_50_mwh over the fleet's mw and the days held, MWh per MW per day | MWh/MW-day | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `offered_sell_le_50_share_pct` | offered_sell_le_50_mwh as a percent of offered_sell_any_mwh | pct | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `resources` | Storage resources in the month | count | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `runs` | Resource-runs of the month: each SCED run counted once for each resource it holds | count | 7 | 2026-02-01T00:00:00Z | 2026-08-01T00:00:00Z |
 
 ### `ercot_transmission_projects`
 
@@ -1659,10 +1689,12 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 
 ### `ercot_wind_solar_forecast`
 
-What a row is: not yet written.
+ERCOT's system-wide wind or solar output for one hour, actual or as forecast a day ahead.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 5322.
 
+- **Time:** ts_utc is the hour's start in UTC.
+- **Revisions:** Merged by (entity, variable, ts_utc); a run replaces an hour's actual with a newer posting's and its forecast with one from a newer posting still at least 24 hours ahead, and the table keeps hours ERCOT's list has dropped. vintage is not filled.
 - **Source:** ercot:NP4-732-CD ERCOT, NP4-732-CD (https://www.ercot.com/mp/data-products/data-product-details?id=NP4-732-CD)
 - **Source:** ercot:NP4-745-CD ERCOT, NP4-745-CD (https://www.ercot.com/mp/data-products/data-product-details?id=NP4-745-CD)
 - **Method note:** [`docs/methods/ercot_wind_solar_forecast.md`](../methods/ercot_wind_solar_forecast.md)
@@ -1670,28 +1702,28 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | ercot:SYSTEM | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ercot:SYSTEM in every row: ERCOT's whole system | none | text | ercot:SYSTEM | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-09-27T05:00:00Z to 2026-11-26T15:00:00Z; 1451 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 47852.8; 4175 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 5322 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | SYSTEM | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 5322 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: SYSTEM in every row, not a price node | none | text | SYSTEM | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ercot:NP4-732-CD, ercot:NP4-745-CD | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13028, https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13483 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-06T09:30:26Z to 2026-11-19T17:41:55Z; 76 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 5322 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 5322 |
 
 Variables (4):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `solar_actual_mw` |  | MW | 1283 | 2026-09-27T05:00:00Z | 2026-11-19T15:00:00Z |
-| `solar_forecast_24h_mw` |  | MW | 1378 | 2026-09-30T06:00:00Z | 2026-11-26T15:00:00Z |
-| `wind_actual_mw` |  | MW | 1283 | 2026-09-27T05:00:00Z | 2026-11-19T15:00:00Z |
-| `wind_forecast_24h_mw` |  | MW | 1378 | 2026-09-30T06:00:00Z | 2026-11-26T15:00:00Z |
+| `solar_actual_mw` | Actual solar output, ERCOT's SYSTEM_WIDE_GEN from the newest posting that holds the hour (NP4-745-CD), MW | MW | 1283 | 2026-09-27T05:00:00Z | 2026-11-19T15:00:00Z |
+| `solar_forecast_24h_mw` | ERCOT's short-term solar power forecast (STPPF) for the hour, from the newest posting published at least 24 hours before the hour began, MW | MW | 1378 | 2026-09-30T06:00:00Z | 2026-11-26T15:00:00Z |
+| `wind_actual_mw` | Actual wind output, ERCOT's SYSTEM_WIDE_GEN from the newest posting that holds the hour (NP4-732-CD), MW | MW | 1283 | 2026-09-27T05:00:00Z | 2026-11-19T15:00:00Z |
+| `wind_forecast_24h_mw` | ERCOT's short-term wind power forecast (STWPF) for the hour, from the newest posting published at least 24 hours before the hour began, MW | MW | 1378 | 2026-09-30T06:00:00Z | 2026-11-26T15:00:00Z |
 
 ### `ercot_wind_solar_hsl_daily`
 
@@ -1772,79 +1804,83 @@ Variables (4):
 
 ### `ercot_wind_solar_hsl_monthly`
 
-What a row is: not yet written.
+ERCOT's wind or solar output, High Sustained Limit (HSL), or output below the HSL, summed over one Central month, system-wide or in one of ERCOT's wind or solar regions.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: derived. Rows read on 2026-11-20: 45.
 
+- **Time:** ts_utc is the first day of the Central (America/Chicago) month at 00:00:00Z.
+- **Revisions:** Merged by (entity, variable, ts_utc), built from ercot_wind_solar_hsl_hourly and nothing else; a month is written only with at least 95 percent of its hours held. vintage is not filled.
 - **Source:** erw:ercot_wind_solar_hsl_monthly ERW derived table (warehouse/connectors/ercot_wind_solar_history.py) (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/curtailment.md)
 - **Method note:** [`docs/methods/curtailment.md`](../methods/curtailment.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. ERW derived table: ERCOT output below HSL by month, the ERW's estimate (docs/methods/curtailment.md). Via the Energy Research Warehouse (ERW), table `ercot_wind_solar_hsl_monthly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | ercot:solar:CenterEast, ercot:solar:CenterWest, ercot:solar:FarEast, ercot:solar:FarWest, ercot:solar:NorthWest, ercot:solar:SouthEast, ercot:system, ercot:wind:COASTAL, ercot:wind:NORTH, ercot:wind:PANHANDLE, ercot:wind:SOUTH, ercot:wind:WEST | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ercot:system, ercot:wind:<REGION> (COASTAL, NORTH, PANHANDLE, SOUTH, WEST) or ercot:solar:<Region> (CenterEast, CenterWest, FarEast, FarWest, NorthWest, SouthEast): ERCOT's wind and solar regions, not its weather zones | none | text | ercot:solar:CenterEast, ercot:solar:CenterWest, ercot:solar:FarEast, ercot:solar:FarWest, ercot:solar:NorthWest, ercot:solar:SouthEast, ercot:system, ercot:wind:COASTAL, ercot:wind:NORTH, ercot:wind:PANHANDLE, ercot:wind:SOUTH, ercot:wind:WEST | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-10-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 1113619.43, 2607227.26, 365821.2, 420812.25, 5.5953, 5061592.3, 590543.8, 6.3796, 613736.39, 6274391.08, 6537999.76, 695505.64, 744.0, 844441.06, 8668423.42, 874816.54, 877076.59, 911097.53, 922889.51, 9256808.64 | 0 |
 | `unit` | The unit of the row's value | none | text | MWh, count, pct | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 45 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | COASTAL, CenterEast, CenterWest, FarEast, FarWest, NORTH, NorthWest, PANHANDLE, SOUTH, SouthEast, WEST | 12 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 45 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The region as ERCOT prints it; empty on the system-wide rows | none | text | COASTAL, CenterEast, CenterWest, FarEast, FarWest, NORTH, NorthWest, PANHANDLE, SOUTH, SouthEast, WEST | 12 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:ercot_wind_solar_hsl_monthly | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://github.com/SamuelEnrique/erw/blob/main/warehouse/connectors/ercot_wind_solar_history.py | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-05T23:20:19Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 45 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 45 |
 
 Variables (12):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `solar_below_hsl_mwh` |  | MWh | 1 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
-| `solar_below_hsl_share_pct` |  | pct | 1 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
-| `solar_generation_mwh` |  | MWh | 7 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
-| `solar_hours_held` |  | count | 7 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
-| `solar_hours_in_month` |  | count | 7 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
-| `solar_hsl_mwh` |  | MWh | 1 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
-| `wind_below_hsl_mwh` |  | MWh | 1 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
-| `wind_below_hsl_share_pct` |  | pct | 1 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
-| `wind_generation_mwh` |  | MWh | 6 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
-| `wind_hours_held` |  | count | 6 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
-| `wind_hours_in_month` |  | count | 6 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
-| `wind_hsl_mwh` |  | MWh | 1 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
+| `solar_below_hsl_mwh` | Solar output below the HSL: the sum over hours of HSL less GEN where positive, MWh; the ERW's estimate of curtailment, not ERCOT's figure | MWh | 1 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
+| `solar_below_hsl_share_pct` | solar_below_hsl_mwh over solar_hsl_mwh, times 100 | pct | 1 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
+| `solar_generation_mwh` | Solar output in the month: the sum of hourly GEN, MWh | MWh | 7 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
+| `solar_hours_held` | Hours of the month held for solar (with both GEN and HSL where the area has an HSL, with GEN for a region) | count | 7 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
+| `solar_hours_in_month` | The hours the Central month has | count | 7 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
+| `solar_hsl_mwh` | The sum of the hourly High Sustained Limit of solar, MWh (system-wide only) | MWh | 1 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
+| `wind_below_hsl_mwh` | Wind output below the HSL: the sum over hours of HSL less GEN where positive, MWh; the ERW's estimate of curtailment, not ERCOT's figure | MWh | 1 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
+| `wind_below_hsl_share_pct` | wind_below_hsl_mwh over wind_hsl_mwh, times 100 | pct | 1 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
+| `wind_generation_mwh` | Wind output in the month: the sum of hourly GEN, MWh | MWh | 6 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
+| `wind_hours_held` | Hours of the month held for wind (with both GEN and HSL where the area has an HSL, with GEN for a region) | count | 6 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
+| `wind_hours_in_month` | The hours the Central month has | count | 6 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
+| `wind_hsl_mwh` | The sum of the hourly High Sustained Limit of wind (the output the resources report they could sustain), MWh (system-wide only) | MWh | 1 | 2026-10-01T00:00:00Z | 2026-10-01T00:00:00Z |
 
 ### `ercot_wind_solar_output_hourly`
 
-What a row is: not yet written.
+ERCOT's system-wide wind or solar output for one hour, from ERCOT's yearly Hourly Aggregated Wind and Solar Output workbooks (2023 to 2025).
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 52608.
 
+- **Time:** ts_utc is the hour's start in UTC (the workbook's Time (Hour-Ending) is Central clock time).
+- **Revisions:** Merged by (entity, variable, ts_utc); where two saved workbooks hold the same hour the later published is kept, and a new year's workbook is added when ERCOT posts it. vintage is not filled.
 - **Source:** ercot:PG7-126-M ERCOT PG7-126-M, Hourly Aggregated Wind and Solar Output (https://www.ercot.com/mp/data-products/data-product-details?id=PG7-126-M)
 - **Method note:** [`docs/methods/ercot_wind_solar_output_hourly.md`](../methods/ercot_wind_solar_output_hourly.md)
 - **Cite as:** Electric Reliability Council of Texas (ERCOT). Hourly Aggregated Wind and Solar Output (yearly workbook: system-wide hourly wind and solar output) [terms: "raw data provided in public portions of this website may be used, reproduced, and redistributed in compilations, charts, and analyses without maintaining such notices." (https://www.ercot.com/help/terms, read 6 October 2026)]. Via the Energy Research Warehouse (ERW), table `ercot_wind_solar_output_hourly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | ercot:system | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ercot:system in every row: ERCOT's whole system | none | text | ercot:system | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2023-01-01T06:00:00Z to 2026-01-01T05:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 1.0000046131608542e-05 to 29503.08663357205; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 52608 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 52608 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 52608 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 52608 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ercot:PG7-126-M | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1068801799, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1182433954, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=971575038 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-07T09:22:54Z, 2026-10-07T09:32:46Z, 2026-10-07T09:32:54Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 52608 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 52608 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `solar_generation_mw` |  | MW | 26304 | 2023-01-01T06:00:00Z | 2026-01-01T05:00:00Z |
-| `wind_generation_mw` |  | MW | 26304 | 2023-01-01T06:00:00Z | 2026-01-01T05:00:00Z |
+| `solar_generation_mw` | Hourly aggregated solar output, the workbook's ERCOT.PVGR.GEN (sheet Solar Data), MW | MW | 26304 | 2023-01-01T06:00:00Z | 2026-01-01T05:00:00Z |
+| `wind_generation_mw` | Hourly aggregated wind output, the workbook's ERCOT.WIND.GEN (sheet Wind Data), MW | MW | 26304 | 2023-01-01T06:00:00Z | 2026-01-01T05:00:00Z |
 
 ### `ercot_zone_load_hourly`
 

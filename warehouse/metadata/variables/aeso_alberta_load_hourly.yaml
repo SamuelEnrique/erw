@@ -5,9 +5,10 @@
 table: aeso_alberta_load_hourly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Alberta's internal load in one hour, from the Alberta Electric System Operator's Historical Pool Price report.
+time: ts_utc is the hour's start in UTC (AESO's hour ending in Alberta local time, read through America/Edmonton); freq PT1H.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s hours replace the same hours and older ones are kept; vintage
+  is not filled (the report states no publication time).'
 keys:
 - entity
 - variable
@@ -38,6 +39,7 @@ columns:
     list:
       aeso:alberta: 15853
   missing_cells: 0
+  particular: aeso:alberta on every row
 - name: variable
   shared: true
   type: text
@@ -81,12 +83,14 @@ columns:
     list:
       CA-AB: 15853
   missing_cells: 0
+  particular: CA-AB on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15853
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -94,6 +98,7 @@ columns:
     list:
       Alberta: 15853
   missing_cells: 0
+  particular: Alberta on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -125,9 +130,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 15853
+  particular: 'Not filled: the report states no publication time'
 variables:
 - name: ail_demand
-  label: null
+  label: Alberta internal load (AIL), the hour's demand
   unit: MW
   rows: 15853
   first: '2025-01-01T07:00:00Z'

@@ -5,9 +5,10 @@
 table: ferc_eqr_quarter_changes
 family: ferc
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One quarter's count of contracts (or rows) in force for one product group, or of contracts new, gone and kept against
+  the quarter before, from FERC's Electric Quarterly Reports.
+time: ts_utc is the quarter's first day at 00:00:00Z; freq P3M.
+vintage_rule: Rebuilt whole from its inputs by each run of the builder (the old file is removed first); vintage is not filled.
 keys:
 - entity
 - variable
@@ -39,6 +40,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: ferc_eqr:<product>, the product group (energy, capacity, tolling, or all products)
 - name: variable
   shared: true
   type: text
@@ -81,12 +83,14 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 68
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 68
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -111,33 +115,34 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 68
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: contracts_gone
-  label: null
+  label: Contracts in force in the quarter before and not in this one (a renumbered contract counts as one gone and one new)
   unit: count
   rows: 12
   first: '2025-10-01T00:00:00Z'
   last: '2026-04-01T00:00:00Z'
 - name: contracts_in_force
-  label: null
+  label: Contracts in force in the quarter's file (a contract is the filer's company identifier with its own contract identifier)
   unit: count
   rows: 16
   first: '2025-07-01T00:00:00Z'
   last: '2026-04-01T00:00:00Z'
 - name: contracts_kept
-  label: null
+  label: Contracts in force in both this quarter and the one before
   unit: count
   rows: 12
   first: '2025-10-01T00:00:00Z'
   last: '2026-04-01T00:00:00Z'
 - name: contracts_new
-  label: null
+  label: Contracts in force in this quarter and not in the quarter before (written only when that quarter is held)
   unit: count
   rows: 12
   first: '2025-10-01T00:00:00Z'
   last: '2026-04-01T00:00:00Z'
 - name: rows_in_force
-  label: null
+  label: Contract rows in force in the quarter's file
   unit: count
   rows: 16
   first: '2025-07-01T00:00:00Z'

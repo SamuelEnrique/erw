@@ -5,9 +5,11 @@
 table: nrc_new_reactor_applications
 family: nrc
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One advanced reactor application under the NRC's review, with its applicant, kind, place, design, power and milestones.
+time: event_date is the application's submittal date (the 'When:' line's first date, a month's first day where it gives only
+  a month).
+vintage_rule: A snapshot, written whole by each run from the list and each project's page; vintage is the project page's last-modified
+  time.
 keys:
 - event_id
 license: public
@@ -44,6 +46,7 @@ columns:
       nrc_app:tva-clinch-river-cpa: 1
       nrc_app:university-of-illinois-urbana-champaign-kronos-micro-modular-reactor-kronos-mmr: 1
   missing_cells: 0
+  particular: nrc_app:<the page's name>
 - name: event_date
   shared: true
   type: date
@@ -65,6 +68,7 @@ columns:
       early_site_permit_application: 1
       limited_work_authorization_application: 1
   missing_cells: 0
+  particular: construction_permit_application, early_site_permit_application or limited_work_authorization_application
 - name: parties
   shared: true
   type: text
@@ -77,6 +81,7 @@ columns:
       Tennessee Valley Authority (TVA): 1
       University of Illinois Urbana-Champaign: 1
   missing_cells: 0
+  particular: The applicant
 - name: entity_ids
   shared: true
   type: empty
@@ -90,6 +95,7 @@ columns:
     list:
       '320': 1
   missing_cells: 5
+  particular: The electric power the page states (MWe), else empty
 - name: price
   shared: true
   type: empty
@@ -112,6 +118,7 @@ columns:
       Issue Environmental Assessment and Finding of No Significant Impact: 1
       Review Schedule Established/Schedule Letter Issued to Applicant: 2
   missing_cells: 1
+  particular: The latest milestone the page marks done (A), in the NRC's words; empty where none is done
 - name: source
   shared: true
   type: text
@@ -161,9 +168,10 @@ columns:
       '2026-10-23T13:31:04Z': 1
       '2026-10-23T13:45:04Z': 1
   missing_cells: 0
+  particular: The project page's last-modified time, UTC
 - name: x_project
-  label: null
-  unit: null
+  label: The project page's title
+  unit: none
   type: text
   values:
     list:
@@ -174,12 +182,12 @@ columns:
       Pioneer Units 1 and 2 Limited Work Authorization Application: 1
       University of Illinois Urbana-Champaign – KRONOS Micro Modular Reactor (KRONOS MMR™): 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method nrc_new_reactors.md
 - name: x_when
-  label: null
-  unit: null
+  label: The page's 'When:' line as written
+  unit: none
   type: text
   values:
     list:
@@ -192,12 +200,12 @@ columns:
       March 31, 2026 (date of application submittal): 1
       May 5, 2026 (date of application submittal): 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method nrc_new_reactors.md
 - name: x_place
-  label: null
-  unit: null
+  label: The page's 'Where:' line (county and state) as written
+  unit: none
   type: text
   values:
     list:
@@ -205,12 +213,12 @@ columns:
       Champaign County, Illinois: 1
       Lea County, New Mexico: 1
   missing_cells: 3
-  missing_meaning: null
+  missing_meaning: The page gives no 'Where:'
   source_name: null
-  documented_by: null
+  documented_by: method nrc_new_reactors.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state of the 'Where:' line, two-letter postal code
+  unit: none
   type: text
   values:
     list:
@@ -218,12 +226,12 @@ columns:
       NM: 1
       TX: 1
   missing_cells: 3
-  missing_meaning: null
+  missing_meaning: The page gives no 'Where:'
   source_name: null
-  documented_by: null
+  documented_by: method nrc_new_reactors.md
 - name: x_what
-  label: null
-  unit: null
+  label: 'The page''s ''What:'' line: the kind of application as written'
+  unit: none
   type: text
   values:
     list:
@@ -234,12 +242,12 @@ columns:
       Application for an Early Site Permit: 1
       Pioneer Units 1 and 2 Phased Construction Permit Application - Limited Work Authorization: 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method nrc_new_reactors.md; connector nrc_new_reactors.py
 - name: x_reactor_type
-  label: null
-  unit: null
+  label: The reactor type from the page's Plant Characteristics table, as written
+  unit: none
   type: text
   values:
     list:
@@ -247,12 +255,12 @@ columns:
       High-temperature gas-cooled reactor (HTGR): 1
       Pool-Type Reactor: 1
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The page's table gives none
+  source_name: Reactor Type
+  documented_by: header; connector nrc_new_reactors.py
 - name: x_power_level
-  label: null
-  unit: null
+  label: The power level from the page's Plant Characteristics table, as written (MWth thermal, MWe electric)
+  unit: none
   type: text
   values:
     list:
@@ -260,24 +268,24 @@ columns:
       4-Module plant with 800 MWth/320 MWe: 1
       45 MWth: 1
   missing_cells: 3
-  missing_meaning: null
+  missing_meaning: The page's table gives none
   source_name: null
-  documented_by: null
+  documented_by: header; connector nrc_new_reactors.py
 - name: x_fuel
-  label: null
-  unit: null
+  label: The fuel from the page's Plant Characteristics table, as written
+  unit: none
   type: text
   values:
     list:
       Annular cylindrical fuel pellets consisting of TRISO fuel particles embedded in ceramic matrix: 1
       Graphite Pebbles with TRISO Particle fuel: 1
   missing_cells: 4
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The page's table gives none
+  source_name: Fuel
+  documented_by: header; connector nrc_new_reactors.py
 - name: x_status_date
-  label: null
-  unit: null
+  label: The date of the latest milestone the page marks done (status)
+  unit: none
   type: date
   values:
     list:
@@ -287,12 +295,12 @@ columns:
       '2026-06-16': 1
       '2026-08-31': 1
   missing_cells: 1
-  missing_meaning: null
+  missing_meaning: No milestone marked done
   source_name: null
-  documented_by: null
+  documented_by: header; method nrc_new_reactors.md
 - name: x_next_milestone
-  label: null
-  unit: null
+  label: The first milestone the page marks a target (T) or TBD
+  unit: none
   type: text
   values:
     list:
@@ -300,12 +308,12 @@ columns:
       Draft Safety Evaluation: 2
       Final Safety Evaluation: 1
   missing_cells: 2
-  missing_meaning: null
+  missing_meaning: No milestone marked a target
   source_name: null
-  documented_by: null
+  documented_by: header; method nrc_new_reactors.md
 - name: x_next_target
-  label: null
-  unit: null
+  label: That milestone's target date as written
+  unit: none
   type: text
   values:
     list:
@@ -314,36 +322,36 @@ columns:
       November 2026 – T: 1
       October 31, 2026 – T: 1
   missing_cells: 2
-  missing_meaning: null
+  missing_meaning: No milestone marked a target
   source_name: null
-  documented_by: null
+  documented_by: header; method nrc_new_reactors.md
 - name: x_decision
-  label: null
-  unit: null
+  label: The permit or license decision's milestone row as written
+  unit: none
   type: text
   values:
     list:
       Construction Permit Decision: 1
       Construction Permit Decision ( ML26244A257 ): 1
   missing_cells: 4
-  missing_meaning: null
+  missing_meaning: The page's milestones hold no decision row
   source_name: null
-  documented_by: null
+  documented_by: header; method nrc_new_reactors.md
 - name: x_decision_target
-  label: null
-  unit: null
+  label: The decision row's date as written (or TBD)
+  unit: none
   type: text
   values:
     list:
       September 28, 2026: 1
       TBD: 1
   missing_cells: 4
-  missing_meaning: null
+  missing_meaning: The page's milestones hold no decision row
   source_name: null
-  documented_by: null
+  documented_by: header; method nrc_new_reactors.md
 - name: x_page
-  label: null
-  unit: null
+  label: The address of the project's NRC page
+  unit: none
   type: text
   values:
     list:
@@ -360,7 +368,7 @@ columns:
       ? https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/advanced-reactor-application-projects/university-of-illinois-urbana-champaign-kronos-micro-modular-reactor-kronos-mmr
       : 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector nrc_new_reactors.py
 second_look: null

@@ -5,9 +5,12 @@
 table: ferc714_area_demand_2019
 family: ferc714
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One planning area's demand over one hour of the table's year, as its utility filed it on FERC Form 714 Part III Schedule
+  2a, read through PUDL's core table.
+time: ts_utc is the hour's start in UTC (PUDL's datetime_utc marks the hour's end, so the connector takes one hour off); freq
+  PT1H.
+vintage_rule: 'A snapshot: each run replaces the whole table for its year, so a later PUDL release replaces what was held.
+  vintage is the PUDL file''s Last-Modified time.'
 keys:
 - entity
 - variable
@@ -37,6 +40,8 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: ferc714:<PUDL's respondent id>, the planning area's filer; the id links FERC's CSV ids (to 2020) and XBRL ids
+    (from 2021)
 - name: variable
   shared: true
   type: text
@@ -79,12 +84,14 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 832185
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The respondent's name from PUDL's respondent table, not a pricing node
 - name: source
   shared: true
   type: text
@@ -109,9 +116,11 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The Last-Modified time of PUDL's parquet file
 variables:
 - name: demand
-  label: null
+  label: 'The planning area''s demand over the hour, as filed (PUDL''s demand_mwh: an hour''s MWh is its mean MW); negatives
+    kept as filed, missing hours absent, nothing imputed'
   unit: MW
   rows: 832185
   first: '2019-01-01T00:00:00Z'

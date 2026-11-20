@@ -5,9 +5,11 @@
 table: ferc_eqr_buyer_doubtful
 family: ferc
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One pair of buyer groups in FERC's Electric Quarterly Reports that look like one buyer and were not merged, with the
+  reason for the doubt; a person decides each.
+time: event_date is the last day of the quarter filed for.
+vintage_rule: Rebuilt whole from ferc_eqr_contracts by each run of the builder (the old file is removed first); no vintage
+  column.
 keys:
 - event_id
 license: internal
@@ -35,6 +37,8 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: ferc_eqr_doubtful:<quarter>:<five-digit number>, pairs ordered by the rows the two groups are filed on, most
+    first
 - name: event_date
   shared: true
   type: date
@@ -47,12 +51,14 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: doubtful_name_pair on every row
 - name: parties
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The two groups' shown names, joined by a semicolon
 - name: entity_ids
   shared: true
   type: empty
@@ -83,6 +89,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: not_merged on every row
 - name: source
   shared: true
   type: text
@@ -96,75 +103,76 @@ columns:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
 - name: x_reason
-  label: null
-  unit: null
+  label: 'Why the pair is doubtful: different_legal_form (same name, two legal forms), extra_clause (one is the other plus
+    a d/b/a or similar clause) or near_spelling (two long names nearly alike)'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eqr_buyers.md
 - name: x_similarity
-  label: null
-  unit: null
+  label: For near_spelling, the share of letters alike between the two keys; 1.0 for the other two reasons
+  unit: fraction
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_buyers.py
 - name: x_rows_a
-  label: null
-  unit: null
+  label: The contract rows filed under the first group's names
+  unit: count
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_buyers.py
 - name: x_rows_b
-  label: null
-  unit: null
+  label: The contract rows filed under the second group's names
+  unit: count
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_buyers.py
 - name: x_key_a
-  label: null
-  unit: null
+  label: The first group's key after the naming rules (as in ferc_eqr_buyer_names' x_key)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_buyers.py
 - name: x_key_b
-  label: null
-  unit: null
+  label: The second group's key after the naming rules (as in ferc_eqr_buyer_names' x_key)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_buyers.py
 - name: x_quarter
-  label: null
-  unit: null
+  label: The quarter of ferc_eqr_contracts read, written YYYY_Qn
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_buyers.py
 - name: retrieved_at
   shared: true
   type: utc time

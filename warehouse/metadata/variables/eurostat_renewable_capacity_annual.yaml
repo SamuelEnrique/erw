@@ -5,9 +5,9 @@
 table: eurostat_renewable_capacity_annual
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One European country's (or EU aggregate's) net electricity capacity of one renewable (or waste) fuel in one year.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -44,6 +44,7 @@ columns:
     - eurostat_epcrw:AL:R5290
     - eurostat_epcrw:AL:R5300
   missing_cells: 0
+  particular: eurostat_epcrw:<Eurostat geo code>:<SIEC code>
 - name: variable
   shared: true
   type: text
@@ -92,6 +93,7 @@ columns:
     - BE
     - BG
   missing_cells: 3024
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and EA21
 - name: market
   shared: true
   type: empty
@@ -110,6 +112,7 @@ columns:
     - Industrial waste (non-renewable)
     - Mixed hydro power
   missing_cells: 0
+  particular: The SIEC code's English name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -138,8 +141,8 @@ columns:
     note: no cell holds a value
   missing_cells: 49313
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the country or aggregate
+  unit: none
   type: text
   values:
     distinct: 41
@@ -150,12 +153,12 @@ columns:
     - BE
     - BG
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_res_capacity.py
 - name: x_siec
-  label: null
-  unit: null
+  label: Eurostat's SIEC code of the fuel
+  unit: none
   type: text
   values:
     distinct: 34
@@ -166,12 +169,13 @@ columns:
     - R5290
     - R5300
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_plant_tec
-  label: null
-  unit: null
+  label: 'Eurostat''s capacity code: CAP_NET_ELC net capacity; CAP_NET_ELC_AC and CAP_NET_ELC_DC solar photovoltaic''s two
+    ratings'
+  unit: none
   type: text
   values:
     list:
@@ -179,44 +183,44 @@ columns:
       CAP_NET_ELC_AC: 6457
       CAP_NET_ELC_DC: 6456
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_flag
-  label: null
-  unit: null
+  label: Eurostat's flag of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 49313
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_res_capacity.py
 - name: x_conf_status
-  label: null
-  unit: null
+  label: Eurostat's confidentiality status of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 49313
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_res_capacity.py
 variables:
 - name: net_capacity
-  label: null
+  label: Net maximum electrical capacity
   unit: MW
   rows: 36400
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: net_capacity_ac
-  label: null
+  label: Solar photovoltaic net capacity, AC rating
   unit: MW
   rows: 6457
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: net_capacity_dc
-  label: null
+  label: Solar photovoltaic net capacity, DC rating
   unit: MW
   rows: 6456
   first: '1990-01-01T00:00:00Z'

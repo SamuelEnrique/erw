@@ -5,9 +5,11 @@
 table: ferc_eqr_party_totals
 family: ferc
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One buyer (by its merged name) or seller (by FERC's company identifier) of one product (energy, capacity or tolling)
+  in the contracts in force of the newest quarter.
+time: No time column; retrieved_at is the run's time. x_quarter names the quarter read.
+vintage_rule: Rebuilt whole from ferc_eqr_contracts by each run of the builder (the old file is removed first); vintage is
+  not filled.
 keys:
 - entity_id
 license: internal
@@ -36,24 +38,28 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: ferc_eqr_party:<role>:<product>:<rank>
 - name: entity_type
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: company on every row
 - name: name
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: A buyer's shown name after the rules; a seller's name filed most often under its company identifier
 - name: geo
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: US on every row (set by the builder)
 - name: lat
   shared: true
   type: empty
@@ -78,6 +84,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: active on every row (set by the builder)
 - name: status_date
   shared: true
   type: empty
@@ -114,104 +121,105 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 12290
+  particular: 'Not filled: no cell holds a value'
 - name: x_role
-  label: null
-  unit: null
+  label: buyer or seller
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eqr_buyers.md
 - name: x_product
-  label: null
-  unit: null
+  label: 'The product: energy, capacity or tolling (FERC''s ENERGY, CAPACITY, TOLLING ENERGY)'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eqr_buyers.md
 - name: x_rank
-  label: null
-  unit: null
+  label: The party's rank within its role and product, by contracts, then rows, then name (1 the most)
+  unit: rank
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eqr_buyers.md
 - name: x_contracts
-  label: null
-  unit: null
+  label: Distinct contracts in force (a filer's company identifier with its contract identifier)
+  unit: count
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eqr_buyers.md
 - name: x_rows
-  label: null
-  unit: null
+  label: Product rows in force (one agreement files a row per product)
+  unit: count
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eqr_buyers.md
 - name: x_counterparties
-  label: null
-  unit: null
+  label: For a buyer, the sellers it buys from; for a seller, the buyers after the rules
+  unit: count
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eqr_buyers.md
 - name: x_mw_filed
-  label: null
-  unit: null
+  label: The sum of the quantities filed in MW over the rows that file one; most rows file none, so not a total
+  unit: MW
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eqr_buyers.md
 - name: x_rows_with_mw
-  label: null
-  unit: null
+  label: The rows that file a quantity in MW
+  unit: count
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eqr_buyers.md
 - name: x_company_id
-  label: null
-  unit: null
+  label: FERC's company identifier of a seller
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 7833
-  missing_meaning: null
+  missing_meaning: Empty on a buyer's rows
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_buyers.py
 - name: x_quarter
-  label: null
-  unit: null
+  label: The quarter of ferc_eqr_contracts read, written YYYY_Qn
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_buyers.py
 second_look: null

@@ -5,9 +5,12 @@
 table: ercot_node_transmission
 family: ercot
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One placed ERCOT resource node with the transmission project phases of ERCOT's TPIT workbook (Transmission Project and
+  Information Tracking) that start or end in its county.
+time: No time column; a snapshot computed from the tables held when the builder ran. x_tpit_edition names the TPIT edition
+  read.
+vintage_rule: Rewritten whole by each run of the builder from ercot_node_places and ercot_transmission_projects; no request
+  is made. vintage is not filled.
 keys:
 - entity_id
 license: public
@@ -42,6 +45,7 @@ columns:
     - ercot_node:ADL_RN
     - ercot_node:AEEC
   missing_cells: 0
+  particular: ercot_node:<settlement point>, the same ids as ercot_node_places
 - name: entity_type
   shared: true
   type: text
@@ -49,6 +53,7 @@ columns:
     list:
       generator: 569
   missing_cells: 0
+  particular: generator in every row
 - name: name
   shared: true
   type: text
@@ -61,6 +66,7 @@ columns:
     - ADL_RN
     - AEEC
   missing_cells: 0
+  particular: The settlement point
 - name: geo
   shared: true
   type: text
@@ -68,6 +74,7 @@ columns:
     list:
       US-TX: 569
   missing_cells: 0
+  particular: US-TX in every row
 - name: lat
   shared: true
   type: empty
@@ -92,6 +99,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 569
+  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -131,9 +139,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 569
+  particular: 'Not filled: no cell holds a value'
 - name: x_county
-  label: null
-  unit: null
+  label: The node's county, as ercot_node_places gives it
+  unit: none
   type: text
   values:
     distinct: 148
@@ -144,12 +153,12 @@ columns:
     - ARMSTRONG
     - ATASCOSA
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_transmission.md
 - name: x_zone
-  label: null
-  unit: null
+  label: The node's load zone, as ercot_node_places gives it (COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST)
+  unit: none
   type: text
   values:
     list:
@@ -160,24 +169,24 @@ columns:
       SOUTH: 138
       WEST: 155
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_transmission.md
 - name: x_phases_future
-  label: null
-  unit: null
+  label: TPIT project phases on the Future sheet whose start or end county is the node's county
+  unit: count
   type: integer
   values:
     distinct: 33
     lowest: 0
     highest: 109
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_transmission.md
 - name: x_phases_planned
-  label: null
-  unit: null
+  label: TPIT project phases on the Planned sheet whose start or end county is the node's county
+  unit: count
   type: integer
   values:
     list:
@@ -192,12 +201,12 @@ columns:
       '6': 55
       '7': 9
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_transmission.md
 - name: x_phases_completed
-  label: null
-  unit: null
+  label: TPIT project phases on the Completed sheet whose start or end county is the node's county
+  unit: count
   type: integer
   values:
     list:
@@ -213,12 +222,12 @@ columns:
       '6': 11
       '7': 12
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_transmission.md
 - name: x_phases_cancelled
-  label: null
-  unit: null
+  label: TPIT project phases on the Cancelled sheet whose start or end county is the node's county
+  unit: count
   type: integer
   values:
     list:
@@ -232,48 +241,48 @@ columns:
       '7': 27
       '8': 5
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_transmission.md
 - name: x_open_projects
-  label: null
-  unit: null
+  label: Distinct TPIT project numbers among the future and planned phases touching the county
+  unit: count
   type: integer
   values:
     distinct: 38
     lowest: 0
     highest: 153
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_transmission.md
 - name: x_open_new_circuit_miles
-  label: null
-  unit: null
+  label: New circuit miles of those future and planned phases, summed
+  unit: miles
   type: number
   values:
     distinct: 82
     lowest: 0.0
     highest: 685.67
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_transmission.md
 - name: x_open_upgraded_circuit_miles
-  label: null
-  unit: null
+  label: Upgraded circuit miles of those future and planned phases, summed
+  unit: miles
   type: number
   values:
     distinct: 115
     lowest: 0.0
     highest: 424.18
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_transmission.md
 - name: x_open_max_kv
-  label: null
-  unit: null
+  label: The highest voltage among those future and planned phases
+  unit: kV
   type: integer
   values:
     list:
@@ -282,24 +291,25 @@ columns:
       '69': 15
       '765': 131
   missing_cells: 24
-  missing_meaning: null
+  missing_meaning: No future or planned phase touches the county
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_transmission.md; data
 - name: x_open_next_in_service
-  label: null
-  unit: null
+  label: The earliest projected in-service date among those future and planned phases (the owners' dates; some fall before
+    the table's day)
+  unit: none
   type: date
   values:
     distinct: 78
     earliest: '2025-05-01'
     latest: '2031-06-01'
   missing_cells: 24
-  missing_meaning: null
+  missing_meaning: No future or planned phase touches the county
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_transmission.md; data
 - name: x_tpit_edition
-  label: null
-  unit: null
+  label: The TPIT workbook's title line, naming the edition read
+  unit: none
   type: text
   values:
     list:
@@ -307,7 +317,7 @@ columns:
         AS OF 10/1/2026
       : 569
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector ercot_node_transmission.py; method ercot_node_transmission.md
 second_look: null

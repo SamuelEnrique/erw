@@ -5,9 +5,11 @@
 table: statcan_energy_balance_annual
 family: statcan
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One area's value of one supply or demand line for one fuel in one year, from Statistics Canada's energy balance, table
+  25-10-0029-01, converted from terajoules to MWh.
+time: ts_utc is the year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: A snapshot; each run writes the whole table again; vintage is the zip's Last-Modified time (the release the
+  figures come from).
 keys:
 - entity
 - variable
@@ -49,6 +51,8 @@ columns:
     - statcan_eb:ab:coke_oven_gas
     - statcan_eb:ab:crude_oil
   missing_cells: 0
+  particular: statcan_eb:<area>:<fuel>, the area ca, a province's or territory's postal code, atl (the Atlantic provinces)
+    or ter (the three territories together)
 - name: variable
   shared: true
   type: text
@@ -105,12 +109,15 @@ columns:
       CA-SK: 7916
       CA-YT: 3993
   missing_cells: 15966
+  particular: CA or CA-<province>; empty for the Atlantic provinces (atl) and the three territories together (ter), which
+    no single code names
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 128420
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -123,6 +130,7 @@ columns:
     - 'Alberta: Aviation gasoline: Commercial and other institutional'
     - 'Alberta: Aviation gasoline: Energy use, final demand'
   missing_cells: 0
+  particular: '<area>: <fuel>: <line> as StatCan names them, not a pricing node'
 - name: source
   shared: true
   type: text
@@ -151,9 +159,10 @@ columns:
     list:
       '2025-11-13T13:30:17Z': 128420
   missing_cells: 0
+  particular: The Last-Modified time of StatCan's zip
 - name: x_fuel
-  label: null
-  unit: null
+  label: The fuel, StatCan's name (28 fuels, totals among them)
+  unit: none
   type: text
   values:
     distinct: 28
@@ -164,12 +173,12 @@ columns:
     - Coke
     - Coke oven gas
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Fuel type
+  documented_by: header; connector statcan_energy_balance.py; method statcan_energy_balance_annual.md
 - name: x_line
-  label: null
-  unit: null
+  label: The supply and demand line, StatCan's name (the variable is its slug)
+  unit: none
   type: text
   values:
     distinct: 46
@@ -180,12 +189,12 @@ columns:
     - Availability
     - Canadian airlines
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Supply and demand characteristics
+  documented_by: header; connector statcan_energy_balance.py
 - name: x_vector
-  label: null
-  unit: null
+  label: StatCan's vector identifier of the series
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -196,293 +205,293 @@ columns:
     - v1038098895
     - v1038098896
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: VECTOR
+  documented_by: header; connector statcan_energy_balance.py
 - name: x_terminated
-  label: null
-  unit: null
+  label: t where StatCan has ended the series
+  unit: none
   type: text
   values:
     list:
       t: 191
   missing_cells: 128229
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The series is not ended
+  source_name: TERMINATED
+  documented_by: header; connector statcan_energy_balance.py
 variables:
 - name: agriculture_fishing_hunting_and_trapping
-  label: null
+  label: Agriculture, fishing, hunting and trapping use, MWh
   unit: MWh
   rows: 3947
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: all_other_manufacturing
-  label: null
+  label: All other manufacturing use, MWh
   unit: MWh
   rows: 2759
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: aluminum_and_non_ferrous_metal_manufacturing
-  label: null
+  label: Aluminum and non-ferrous metal manufacturing use, MWh
   unit: MWh
   rows: 697
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: availability
-  label: null
+  label: Availability, MWh (StatCan's line)
   unit: MWh
   rows: 7398
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: canadian_airlines
-  label: null
+  label: Canadian airlines use, MWh
   unit: MWh
   rows: 1475
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: canadian_marine
-  label: null
+  label: Canadian marine use, MWh
   unit: MWh
   rows: 1670
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: cement_manufacturing
-  label: null
+  label: Cement manufacturing use, MWh
   unit: MWh
   rows: 777
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: chemicals_manufacturing
-  label: null
+  label: Chemicals manufacturing use, MWh
   unit: MWh
   rows: 1620
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: commercial_and_other_institutional
-  label: null
+  label: Commercial and other institutional use, MWh
   unit: MWh
   rows: 5340
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: construction
-  label: null
+  label: Construction use, MWh
   unit: MWh
   rows: 3199
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: energy_use_final_demand
-  label: null
+  label: Energy use, final demand, MWh
   unit: MWh
   rows: 6556
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Exports, MWh (subtracted in the balance)
   unit: MWh
   rows: 3509
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: foreign_airlines
-  label: null
+  label: Foreign airlines use, MWh
   unit: MWh
   rows: 794
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: foreign_marine
-  label: null
+  label: Foreign marine use, MWh
   unit: MWh
   rows: 997
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: forestry_logging_and_support_activities
-  label: null
+  label: Forestry, logging and support activities use, MWh
   unit: MWh
   rows: 2132
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Imports, MWh
   unit: MWh
   rows: 3888
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: inter_product_transfers
-  label: null
+  label: Inter-product transfers, MWh (signed and added)
   unit: MWh
   rows: 2904
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: inter_regional_transfers
-  label: null
+  label: Inter-regional transfers, MWh (signed and added)
   unit: MWh
   rows: 4289
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: iron_and_steel_manufacturing
-  label: null
+  label: Iron and steel manufacturing use, MWh
   unit: MWh
   rows: 936
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: net_supply
-  label: null
+  label: Net supply, MWh (StatCan's line)
   unit: MWh
   rows: 8313
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: non_energy_use
-  label: null
+  label: Non-energy use, MWh
   unit: MWh
   rows: 1817
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: other_adjustments
-  label: null
+  label: Other adjustments, MWh (signed and added)
   unit: MWh
   rows: 3331
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: pipelines
-  label: null
+  label: Pipelines use, MWh
   unit: MWh
   rows: 1631
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: producer_consumption
-  label: null
+  label: Producer consumption, MWh
   unit: MWh
   rows: 3077
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: production
-  label: null
+  label: Production of the fuel in the year, MWh
   unit: MWh
   rows: 4178
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: public_administration
-  label: null
+  label: Public administration use, MWh
   unit: MWh
   rows: 4795
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: pulp_and_paper_manufacturing
-  label: null
+  label: Pulp and paper manufacturing use, MWh
   unit: MWh
   rows: 1661
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: railways
-  label: null
+  label: Railways use, MWh
   unit: MWh
   rows: 1417
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: refined_petroleum_products_manufacturing
-  label: null
+  label: Refined petroleum products manufacturing use, MWh
   unit: MWh
   rows: 447
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: residential
-  label: null
+  label: Residential use, MWh
   unit: MWh
   rows: 3356
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: retail_pump_sales
-  label: null
+  label: Retail pump sales, MWh
   unit: MWh
   rows: 2126
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: road_transport_and_urban_transit
-  label: null
+  label: Road transport and urban transit use, MWh
   unit: MWh
   rows: 2946
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: statistical_difference
-  label: null
+  label: Statistical difference, MWh (not part of final demand)
   unit: MWh
   rows: 4680
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: stock_change_utilities_and_industry
-  label: null
+  label: Stock change, utilities and industry, MWh
   unit: MWh
   rows: 32
   first: '2005-01-01T00:00:00Z'
   last: '2009-01-01T00:00:00Z'
 - name: stock_variation
-  label: null
+  label: Stock variation, MWh (positive for a build; subtracted in the balance)
   unit: MWh
   rows: 3580
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: total_airlines
-  label: null
+  label: Total airlines use, MWh
   unit: MWh
   rows: 1755
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: total_industrial
-  label: null
+  label: Total industrial use, MWh
   unit: MWh
   rows: 5528
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: total_manufacturing
-  label: null
+  label: Total manufacturing use, MWh
   unit: MWh
   rows: 3372
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: total_marine
-  label: null
+  label: Total marine use, MWh
   unit: MWh
   rows: 1887
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: total_mining_and_oil_and_gas_extraction
-  label: null
+  label: Total mining and oil and gas extraction use, MWh
   unit: MWh
   rows: 4113
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: total_transportation
-  label: null
+  label: Total transportation use, MWh
   unit: MWh
   rows: 4194
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: transformed_to_coke_and_manufactured_gases
-  label: null
+  label: Transformed to coke and manufactured gases, MWh (subtracted)
   unit: MWh
   rows: 178
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: transformed_to_electricity_by_industry
-  label: null
+  label: Transformed to electricity by industry, MWh (subtracted)
   unit: MWh
   rows: 1001
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: transformed_to_electricity_by_utilities
-  label: null
+  label: Transformed to electricity by utilities, MWh (subtracted)
   unit: MWh
   rows: 1306
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: transformed_to_refined_petroleum_products
-  label: null
+  label: Transformed to refined petroleum products, MWh (subtracted)
   unit: MWh
   rows: 987
   first: '1995-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: transformed_to_steam_generation
-  label: null
+  label: Transformed to steam generation, MWh (subtracted)
   unit: MWh
   rows: 1825
   first: '1995-01-01T00:00:00Z'

@@ -5,9 +5,10 @@
 table: asub_aland_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's electricity supply to Aland from one origin (imports from Sweden or Finland; oil, wind, bioenergy or solar
+  production), or the total, from ASUB's table MI009.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 1994 to 2025.
+vintage_rule: Rewritten whole as one snapshot by each run from one JSON-stat query; vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
       asub:ax:total: 32
       asub:ax:wind: 32
   missing_cells: 0
+  particular: asub:ax:<origin>
 - name: variable
   shared: true
   type: text
@@ -87,12 +89,14 @@ columns:
     list:
       AX: 190
   missing_cells: 0
+  particular: AX on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 190
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -106,6 +110,7 @@ columns:
       Totalt: 32
       Vindkraft: 32
   missing_cells: 0
+  particular: The origin as ASUB names it in Swedish, not a pricing node
 - name: source
   shared: true
   type: text
@@ -133,21 +138,22 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 190
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: generation
-  label: null
+  label: Electricity produced on Aland from the origin in the year (physical production)
   unit: MWh
   rows: 94
   first: '1994-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Electricity imported from Sweden or Finland in the year
   unit: MWh
   rows: 64
   first: '1994-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: supply
-  label: null
+  label: Aland's total electricity supply in the year
   unit: MWh
   rows: 32
   first: '1994-01-01T00:00:00Z'

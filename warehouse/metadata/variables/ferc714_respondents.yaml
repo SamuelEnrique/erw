@@ -5,9 +5,10 @@
 table: ferc714_respondents
 family: ferc714
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One FERC Form 714 respondent (the utility that files for a planning area), with its FERC and EIA identifiers, from PUDL's
+  respondent table.
+time: No time column. vintage is the Last-Modified time of PUDL's parquet file; the table is a snapshot as read on its retrieved_at.
+vintage_rule: One row a respondent, rewritten whole by each run; the connector stops when an id is missing or given twice.
 keys:
 - entity_id
 license: internal
@@ -34,6 +35,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: ferc714:<PUDL's respondent id>, the entity of the ferc714_area_demand tables
 - name: entity_type
   shared: true
   type: text
@@ -46,6 +48,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The respondent's name as filed (PUDL's respondent_name_ferc714)
 - name: geo
   shared: true
   type: text
@@ -76,6 +79,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 219
+  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -112,44 +116,45 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The Last-Modified time of PUDL's parquet file
 - name: respondent_id_ferc714
-  label: null
-  unit: null
+  label: PUDL's respondent id, which links FERC's CSV-year and XBRL-year ids for the same filer
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: respondent_id_ferc714
+  documented_by: header; method ferc714_area_demand.md; connector ferc714_respondents.py
 - name: respondent_id_ferc714_csv
-  label: null
-  unit: null
+  label: FERC's id of the respondent in the years FERC published Form 714 as CSV files (to 2020)
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 6
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: PUDL gives no CSV-year id (blank kept blank)
+  source_name: respondent_id_ferc714_csv
+  documented_by: header; method ferc714_area_demand.md; connector ferc714_respondents.py
 - name: respondent_id_ferc714_xbrl
-  label: null
-  unit: null
+  label: FERC's id of the respondent in the years FERC published Form 714 as XBRL filings (2021 on)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 100
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: PUDL gives no XBRL-year id (blank kept blank)
+  source_name: respondent_id_ferc714_xbrl
+  documented_by: header; method ferc714_area_demand.md; connector ferc714_respondents.py
 - name: eia_code
-  label: null
-  unit: null
+  label: The respondent's EIA utility code
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty (the connector leaves it blank where PUDL has none)
+  source_name: eia_code
+  documented_by: header; method ferc714_area_demand.md; connector ferc714_respondents.py
 second_look: null

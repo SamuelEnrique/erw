@@ -5,9 +5,9 @@
 table: eurostat_electricity_monthly
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One European country's (or the EU's) net electricity production from one fuel, or one electricity flow, in one month.
+time: ts_utc is the month's first day at 00:00:00Z (freq P1M).
+vintage_rule: A snapshot, the whole table replaced by each run; vintage is not filled.
 keys:
 - entity
 - variable
@@ -46,6 +46,7 @@ columns:
     - eurostat_elec:BE
     - eurostat_elec:BG
   missing_cells: 0
+  particular: eurostat_elec:<Eurostat geo code>
 - name: variable
   shared: true
   type: text
@@ -94,6 +95,7 @@ columns:
     - BE
     - BG
   missing_cells: 3406
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
 - name: market
   shared: true
   type: empty
@@ -112,6 +114,7 @@ columns:
     - Combustible fuels - non-renewable - other
     - Combustible fuels - renewable
   missing_cells: 0
+  particular: The SIEC or NRG_BAL code's English name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -144,8 +147,8 @@ columns:
     note: no cell holds a value
   missing_cells: 130025
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the country or aggregate
+  unit: none
   type: text
   values:
     distinct: 40
@@ -156,24 +159,25 @@ columns:
     - BE
     - BG
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_electricity_monthly.py
 - name: x_dataset
-  label: null
-  unit: null
+  label: 'The Eurostat dataset the row came from: nrg_cb_pem (net production by fuel) or nrg_cb_em (the flows)'
+  unit: none
   type: text
   values:
     list:
       nrg_cb_em: 31789
       nrg_cb_pem: 98236
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eurostat_electricity_monthly.py
 - name: x_flag
-  label: null
-  unit: null
+  label: 'Eurostat''s flag of the observation: e estimated, p provisional, n not significant, u low reliability, d definition
+    differs, b break in series'
+  unit: none
   type: text
   values:
     list:
@@ -184,196 +188,196 @@ columns:
       p: 354
       u: 41
   missing_cells: 124558
-  missing_meaning: null
+  missing_meaning: No flag on the observation
   source_name: null
-  documented_by: null
+  documented_by: method eurostat_electricity_monthly.md
 - name: x_conf_status
-  label: null
-  unit: null
+  label: Eurostat's confidentiality status of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 130025
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_electricity_monthly.py
 variables:
 - name: flow:AIM
-  label: null
+  label: Electricity available to the internal market (NRG_BAL AIM)
   unit: MWh
   rows: 4746
   first: '2016-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: flow:DL
-  label: null
+  label: Distribution losses (NRG_BAL DL)
   unit: MWh
   rows: 4145
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: flow:EXP
-  label: null
+  label: Exports of electricity (NRG_BAL EXP)
   unit: MWh
   rows: 4745
   first: '2016-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: flow:EXP_TO_EU
-  label: null
+  label: Exports of electricity to the EU (NRG_BAL EXP_TO_EU)
   unit: MWh
   rows: 4337
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: flow:IMP
-  label: null
+  label: Imports of electricity (NRG_BAL IMP)
   unit: MWh
   rows: 4745
   first: '2016-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: flow:IMP_FROM_EU
-  label: null
+  label: Imports of electricity from the EU (NRG_BAL IMP_FROM_EU)
   unit: MWh
   rows: 4337
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: flow:TI_EHG_EPS
-  label: null
+  label: Transformation input, electricity for pumped storage (NRG_BAL TI_EHG_EPS)
   unit: MWh
   rows: 4734
   first: '2016-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:C0000
-  label: null
+  label: Net electricity production from coal and manufactured gases (SIEC C0000)
   unit: MWh
   rows: 4259
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:CF
-  label: null
+  label: Net electricity production from combustible fuels (SIEC CF)
   unit: MWh
   rows: 4746
   first: '2016-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:CF_NR_OTH
-  label: null
+  label: Net electricity production from other non-renewable combustible fuels (SIEC CF_NR_OTH)
   unit: MWh
   rows: 4270
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:CF_R
-  label: null
+  label: Net electricity production from renewable combustible fuels (SIEC CF_R)
   unit: MWh
   rows: 4294
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:FE
-  label: null
+  label: Net electricity production from fossil energy (SIEC FE)
   unit: MWh
   rows: 1212
   first: '2023-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:G3000
-  label: null
+  label: Net electricity production from natural gas (SIEC G3000)
   unit: MWh
   rows: 4201
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:N9000
-  label: null
+  label: Net electricity production from nuclear fuels and other fuels n.e.c. (SIEC N9000)
   unit: MWh
   rows: 4746
   first: '2016-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:O4000XBIO
-  label: null
+  label: Net electricity production from oil and petroleum products, excluding biofuel portion (SIEC O4000XBIO)
   unit: MWh
   rows: 4120
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:RA000
-  label: null
+  label: Net electricity production from renewables and biofuels (SIEC RA000)
   unit: MWh
   rows: 4350
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:RA100
-  label: null
+  label: Net electricity production from hydro (SIEC RA100)
   unit: MWh
   rows: 4746
   first: '2016-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:RA110
-  label: null
+  label: Net electricity production from pure hydro power (SIEC RA110)
   unit: MWh
   rows: 4350
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:RA120
-  label: null
+  label: Net electricity production from mixed hydro power (SIEC RA120)
   unit: MWh
   rows: 4230
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:RA130
-  label: null
+  label: Net electricity production from pumped hydro power (SIEC RA130)
   unit: MWh
   rows: 4350
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:RA200
-  label: null
+  label: Net electricity production from geothermal (SIEC RA200)
   unit: MWh
   rows: 4746
   first: '2016-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:RA300
-  label: null
+  label: Net electricity production from wind (SIEC RA300)
   unit: MWh
   rows: 4746
   first: '2016-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:RA310
-  label: null
+  label: Net electricity production from wind on shore (SIEC RA310)
   unit: MWh
   rows: 4311
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:RA320
-  label: null
+  label: Net electricity production from wind off shore (SIEC RA320)
   unit: MWh
   rows: 4311
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:RA400
-  label: null
+  label: Net electricity production from solar (SIEC RA400)
   unit: MWh
   rows: 4281
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:RA410
-  label: null
+  label: Net electricity production from solar thermal (SIEC RA410)
   unit: MWh
   rows: 4261
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:RA420
-  label: null
+  label: Net electricity production from solar photovoltaic (SIEC RA420)
   unit: MWh
   rows: 4317
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:RA500_5160
-  label: null
+  label: Net electricity production from other renewable energies (SIEC RA500_5160)
   unit: MWh
   rows: 4293
   first: '2017-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:TOTAL
-  label: null
+  label: Net electricity production, all fuels (SIEC TOTAL)
   unit: MWh
   rows: 4746
   first: '2016-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production:X9900
-  label: null
+  label: Net electricity production from other fuels n.e.c. (SIEC X9900)
   unit: MWh
   rows: 4350
   first: '2017-01-01T00:00:00Z'

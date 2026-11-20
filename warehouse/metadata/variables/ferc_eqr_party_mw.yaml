@@ -5,9 +5,10 @@
 table: ferc_eqr_party_mw
 family: ferc
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One buyer (by its counted-as name) or seller (by FERC's company identifier) of energy, capacity or tolling whose contracts
+  in force in the newest quarter state megawatts, ranked by megawatts.
+time: No time column; retrieved_at is the run's time. x_quarter names the newest quarter.
+vintage_rule: Rebuilt whole from its inputs by each run of the builder (the old file is removed first); vintage is not filled.
 keys:
 - entity_id
 license: internal
@@ -39,12 +40,14 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: ferc_eqr_party_mw:<role>:<product>:<rank by megawatts>
 - name: entity_type
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: company on every row
 - name: name
   shared: true
   type: text
@@ -57,6 +60,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: US on every row (set by the builder)
 - name: lat
   shared: true
   type: empty
@@ -81,6 +85,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: active on every row (set by the builder)
 - name: status_date
   shared: true
   type: empty
@@ -117,114 +122,117 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 812
+  particular: 'Not filled: no cell holds a value'
 - name: x_role
-  label: null
-  unit: null
+  label: buyer or seller
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py
 - name: x_product
-  label: null
-  unit: null
+  label: 'The product: energy, capacity or tolling'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py
 - name: x_rank_mw
-  label: null
-  unit: null
+  label: The party's rank within its role and product by megawatts stated (1 the most)
+  unit: rank
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py
 - name: x_mw_stated
-  label: null
-  unit: null
+  label: The sum, over the party's contracts that state one, of the largest MW any row of the contract states (rows over the
+    ceiling left out)
+  unit: MW
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py
 - name: x_contracts_with_mw
-  label: null
-  unit: null
+  label: The party's contracts in force that state megawatts
+  unit: count
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py
 - name: x_contracts
-  label: null
-  unit: null
+  label: The party's contracts in force
+  unit: count
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py
 - name: x_rank_contracts
-  label: null
-  unit: null
+  label: The party's place by contracts among all parties of that role and product (not the rank of ferc_eqr_party_totals)
+  unit: rank
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty (left blank only when ferc_eqr_party_totals is not on the machine)
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py; method eqr_terms.md
 - name: x_contracts_over
-  label: null
-  unit: null
+  label: The party's contracts left out for stating more megawatts than x_mw_ceiling
+  unit: count
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py
 - name: x_mw_ceiling
-  label: null
-  unit: null
+  label: 'The ceiling: the largest power station operating in the United States in eia860m_operating_generators, summed by
+    plant'
+  unit: MW
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eqr_terms.py; method eqr_terms.md
 - name: x_company_id
-  label: null
-  unit: null
+  label: FERC's company identifier of a seller
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 383
-  missing_meaning: null
+  missing_meaning: Empty on a buyer's rows
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_terms.py
 - name: x_quarter
-  label: null
-  unit: null
+  label: The newest quarter held, written YYYY_Qn
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eqr_terms.py
 second_look: null
