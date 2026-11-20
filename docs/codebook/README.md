@@ -4,11 +4,11 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 
 ## The counts
 
-- Public tables with a metadata file: 582; documented in full (what a row is, and every column's label and unit): 309.
-- Columns: 10453; documented: 8835 (a shared column is documented once, below).
-- Variables of the series tables (values of `variable`): 6924; labelled: 4959.
+- Public tables with a metadata file: 582; documented in full (what a row is, and every column's label and unit): 313.
+- Columns: 10453; documented: 8850 (a shared column is documented once, below).
+- Variables of the series tables (values of `variable`): 6924; labelled: 4974.
 - Entries that read "not documented by the source": 5.
-- Column names that two or more tables label differently (names that may mean two things): 169.
+- Column names that two or more tables label differently (names that may mean two things): 171.
 
 ## The families
 
@@ -16,7 +16,7 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 |---|---|---|
 | [afdc](afdc.md) | 3 | 0 |
 | [ba](ba.md) | 3 | 3 |
-| [battery](battery.md) | 4 | 3 |
+| [battery](battery.md) | 4 | 4 |
 | [boem](boem.md) | 3 | 0 |
 | [caiso](caiso.md) | 15 | 9 |
 | [carbon](carbon.md) | 3 | 3 |
@@ -38,8 +38,8 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 | [ercot](ercot.md) | 38 | 22 |
 | [erw_derived](erw_derived.md) | 30 | 24 |
 | [eurostat](eurostat.md) | 27 | 0 |
-| [ferc714](ferc714.md) | 2 | 1 |
-| [grid](grid.md) | 5 | 4 |
+| [ferc714](ferc714.md) | 2 | 2 |
+| [grid](grid.md) | 5 | 5 |
 | [interchange](interchange.md) | 3 | 3 |
 | [interconnection](interconnection.md) | 5 | 3 |
 | [iso](iso.md) | 11 | 10 |
@@ -62,7 +62,7 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 | [usbr](usbr.md) | 3 | 0 |
 | [usgs](usgs.md) | 3 | 0 |
 | [utility](utility.md) | 5 | 4 |
-| [wb](wb.md) | 2 | 1 |
+| [wb](wb.md) | 2 | 2 |
 
 ## The shared column names
 
