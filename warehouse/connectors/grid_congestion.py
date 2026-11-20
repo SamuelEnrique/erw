@@ -6,7 +6,7 @@ Energy Research Warehouse (ERW) connector, chain 601 session 9000 (docs/methods/
 series tables:
 
 constraints_binding_hourly: one row a constraint that bound, an hour, a market
-    entity    spp:<Constraint Name>                          the operator's own name, unchanged
+    entity    spp:<Constraint Name>|<Contingency Name>       the operator's own names, unchanged
               caiso:<NOMOGRAM_ID_XML>|<CONSTRAINT_CAUSE>      CAISO publishes one branch under more than one
                                                              contingency in the same hour, so the contingency is
                                                              part of the key, after a "|"
@@ -208,8 +208,22 @@ def spp_constraints(day, text, rec):
     if set(x["ts"]) - hours:
         raise RuntimeError(f"SPP DA-BC {day.date()}: hours outside the operating day")
     x = x[x["Shadow Price"] != ""]
+    # session 9000: SPP's 2023 file prints one element twice, its two ends in each order (TMP831_29014 on 2023-11-08:
+    # "LN VINETAP3 - NHAYS" and "LN NHAYS - VINETAP3"), same contingency, same shadow price. Such rows are one row,
+    # naming both spellings; a repeat with a different shadow price fails the file.
+    key = ["ts", "Constraint Name", "Contingency Name"]
+    if x.duplicated(key).any():
+        rep = x[x.duplicated(key, keep=False)]
+        if (rep.groupby(key)["Shadow Price"].nunique() > 1).any():
+            raise RuntimeError(f"SPP DA-BC {day.date()}: one constraint, contingency and hour with two shadow prices")
+        mon = x.groupby(key)["Monitored Facility"].agg(lambda s: " / ".join(sorted(set(s))))
+        x = x.drop_duplicates(key).set_index(key)
+        x["Monitored Facility"] = mon
+        x = x.reset_index()
     return pd.DataFrame({
-        "entity": "spp:" + x["Constraint Name"], "variable": "shadow_price_dam", "ts_utc": x["ts"].map(utc_text),
+        # session 9000: SPP's 2023 files list one constraint under two contingencies in an hour (TMP831_29014 on
+        # 2023-11-08), so the contingency is part of the key for SPP as for CAISO
+        "entity": "spp:" + x["Constraint Name"] + "|" + x["Contingency Name"], "variable": "shadow_price_dam", "ts_utc": x["ts"].map(utc_text),
         "value": pd.to_numeric(x["Shadow Price"], errors="raise"), "unit": "USD/MWh", "freq": "PT1H",
         "geo": SPP_GEO, "market": "spp_dam", "node": "", "source": SPP_BC["source"], "source_url": rec["url"],
         "retrieved_at": rec["retrieved_at"], "vintage": "",
@@ -373,7 +387,7 @@ def header_cons(run_id, gaps, sources):
         "Shape: series (docs/datastandard.md v0). One row a constraint that bound in an hour: an hour it did not bind "
         "has no row. value is the shadow price in USD/MWh as the operator prints it (SPP's are negative, CAISO's "
         "positive; no sign is changed). ts_utc is the start of the hour, UTC.",
-        "entity: spp:<Constraint Name>; caiso:<NOMOGRAM_ID_XML>|<CONSTRAINT_CAUSE> (CAISO lists one branch under more "
+        "entity: spp:<Constraint Name>|<Contingency Name>; caiso:<NOMOGRAM_ID_XML>|<CONSTRAINT_CAUSE> (each operator lists one constraint under more "
         "than one contingency in an hour). The x_ columns repeat the operator's own columns; no constraint is placed "
         "on a map.",
         NOT_ASKED,

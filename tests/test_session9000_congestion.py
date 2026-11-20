@@ -22,7 +22,7 @@ class TheConnector(unittest.TestCase):
                 "Contingent Facility,Contingency Name\n"
                 "11/18/2026 01:00:00,11/18/2026 07:00:00,TP1338_33520,FG,33520,BINDING,-172.1,LN STILW1 - SPVALLY2,X,33380\n")
         rows = gc.spp_constraints(pd.Timestamp("2026-11-18"), text, {"url": "u", "retrieved_at": "t"})
-        self.assertEqual(rows["entity"].tolist(), ["spp:TP1338_33520"])
+        self.assertEqual(rows["entity"].tolist(), ["spp:TP1338_33520|33380"])
         self.assertEqual(rows["ts_utc"].tolist(), ["2026-11-18T06:00:00Z"])
         self.assertEqual(rows["value"].tolist(), [-172.1])
         self.assertEqual(rows["x_monitored"].tolist(), ["LN STILW1 - SPVALLY2"])
