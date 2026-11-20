@@ -104,6 +104,7 @@ PAGE_PATHS+=(site/data/storage_owners.json   # session 7050: the owners tab's co
 PAGE_PATHS+=(site/data/regions site/data/industry.json)   # session 8008 (chain 501 step B8): the whole country's page files and industry.json
 PAGE_PATHS+=(site/data/states)   # session 8014 (chain 581, part B): every state on one page (docs/state/page_files_states.md)
 PAGE_PATHS+=(site/data/curtailment/where_when.json)   # session 8014 (chain 581, part C): where and when power is spare
+PAGE_PATHS+=(site/data/conditions)   # session 9000 (chain 601, parts C and G): congestion and grid conditions (docs/state/page_files_conditions.md)
 PAGE_PATHS+=(site/data/storage/places.json)   # session 8014 (chain 581, part F1): batteries by authority and state
 PAGE_PATHS+=(site/data/queue_places.json)   # session 8014 (chain 581, part F2): the queues outside the seven grids
 PAGE_PATHS+=(replication/datacenter/page_figures.json replication/datacenter/page_figures.csv   # session 3779: dm_datacenter_figures
@@ -322,6 +323,17 @@ soft_step dm_states_page "$PYTHON" warehouse/derived/states_page.py
 # Session 8014 (chain 581, part C): where and when power is spare (site/data/curtailment/where_when.json), from the
 # curtailment profile, SPP's daily curtailment and the public price tables free_energy.py reads; no table of its own
 soft_step dm_where_when "$PYTHON" warehouse/derived/where_when.py
+# Session 9000 (chain 601, parts C to G): grid conditions. SPP's and CAISO's binding constraints and price parts, their
+# outages and CAISO's WEIM tie transfers, the last ten days asked again (a day already saved is read from the raw files);
+# the alerts folded from the three held tables; then the roll-ups and the page files of /congestion and /conditions
+since10=$(date -u -d "10 days ago" +%F)
+soft_step dm_grid_congestion "$PYTHON" warehouse/connectors/grid_congestion.py --start "$since10"
+soft_step dm_grid_outages "$PYTHON" warehouse/connectors/grid_outages.py --start "$since10"
+soft_step dm_caiso_tie_flows "$PYTHON" warehouse/connectors/caiso_tie_flows.py
+soft_step dm_grid_alerts "$PYTHON" warehouse/derived/grid_alerts.py
+soft_step dm_congestion_page "$PYTHON" warehouse/derived/congestion_page.py
+soft_step dm_conditions_page "$PYTHON" warehouse/derived/conditions_page.py
+for t in constraints_binding_hourly price_congestion_hourly constraints_binding_monthly price_congestion_monthly generation_outages_hourly grid_all_alerts caiso_tie_flows_5min; do soft_step "dm_stores_$t" "$PYTHON" warehouse/table_stores.py "$t" --no-redivis; done
 # Session 8014 (chain 581, part F1): batteries by balancing authority and by state (site/data/storage/places.json), from EIA-860M
 soft_step dm_storage_places "$PYTHON" warehouse/derived/storage_places.py
 # Session 8014 (chain 581, part F2): the queues outside the seven grids by owner and state (site/data/queue_places.json), after the states' files
@@ -554,7 +566,9 @@ group dm_test_regions "dm_region_files dm_interchange_pairs dm_industry_page dm_
 
 # Session 8014 (chain 581, part B): the states' page files, with the test that holds them to their contract; a refused
 # build is put back whole.
-group dm_test_states "dm_states_page" "tests.test_session8014_states" -- site/data/states
+group dm_test_states "dm_states_page" "tests.test_session8014_states tests.test_session9000_states_laws" -- site/data/states
+# Session 9000 (chain 601): the congestion and conditions files, held to their contract (docs/state/page_files_conditions.md)
+group dm_test_conditions "dm_congestion_page dm_conditions_page" "tests.test_session9000_congestion tests.test_session9000_conditions" -- site/data/conditions
 group dm_test_where_when "dm_where_when" "tests.test_session8014_where_when" -- site/data/curtailment/where_when.json
 group dm_test_storage_places "dm_storage_places dm_queue_places" "tests.test_session8014_storage_places" -- site/data/storage/places.json site/data/queue_places.json
 

@@ -482,6 +482,13 @@ for _t in ("hifld_transmission_lines", "eia_hgl_pipelines"):
                         "not on Redivis: in v1 when the owner adds it to the package's list")
 
 
+# Session 9000 (chain 601, parts C to F): grid conditions, seven tables, public: held the same way
+for _t in ("constraints_binding_hourly", "price_congestion_hourly", "constraints_binding_monthly", "price_congestion_monthly",
+           "generation_outages_hourly", "grid_all_alerts", "caiso_tie_flows_5min"):
+    STORAGE_HELD[_t] = ("held: first written on 20 November 2026 (chain 601, session 9000), after the v1 package was prepared; "
+                        "not on Redivis: in v1 when the owner adds it to the package's list")
+
+
 UNSETTLED_WHY = "its ERW verdict is unsettled (docs/licenses.md: a publisher's terms not read or not settled); out of v1 until it is settled (chain 229, session 4109)"
 
 
