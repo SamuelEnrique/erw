@@ -177,3 +177,5 @@ Every page is in review, so a visitor sees the in-review page at all 25 addresse
 - Push 3 (finding 5), merge `0b89df07`; success about 21:19:26 UTC. `s9840-f5-before` against `s9840-f5-after`: 0 differences. Expected.
 - Push 4 (findings 6 and 7), merge `63b4d0ec`; success about 21:24:48 UTC. `s9840-f6f7-before` against `s9840-f6f7-after`: 0 differences. Expected.
 - Push 5 (findings 8 to 10), merge `7cf20b93`; success about 21:30:48 UTC. `s9840-f8to10-before` against `s9840-f8to10-after`: 0 differences. Expected.
+- Push 6 (what was checked, not covered, the ranked table, the summary, finding 5 corrected), merge `ecb3bd89`; success about 21:35:51 UTC. `s9840-checked-before` against `s9840-checked-after`: 0 differences. Expected.
+- Later pushes of this file ride with the generator audit's (session 9841); their snapshots are recorded in `docs/reviews/generator-model-audit-2026-11-20.md`.
