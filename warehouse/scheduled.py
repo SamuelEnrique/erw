@@ -90,7 +90,8 @@ JOBS = {
         cadence="monthly", page="/prices/compare",
         # every price table the comparison reads: without one of them it would write fewer hubs than it holds
         tables=["iso_hub_prices_history", "ercot_all_hub_prices_history", "iso_dam_hub_prices", "iso_rtm_hub_prices", "isone_dam_zone_prices",
-                "isone_rtm_zone_prices", "isone_rtm_zone_prices_hourly", "nyiso_dam_zone_prices", "nyiso_rtm_zone_prices", "carbon_intensity_daily"],
+                "isone_rtm_zone_prices", "isone_rtm_zone_prices_hourly", "nyiso_dam_zone_prices", "nyiso_rtm_zone_prices", "carbon_intensity_daily",
+                "ercot_zone_prices_history"],  # session 7052: ERCOT's load zones
         cmd=["warehouse/derived/price_compare.py", "--snapshot"]),
     "demand_growth": dict(
         cadence="monthly", page="/demand", workbooks=ISO_BAS + ["US48"],

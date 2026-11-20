@@ -1,0 +1,32 @@
+# Session 8007 (chain 501 part E): read whole by this session from Avista's own tariff book as the company posts it
+# (wa_025.pdf, two pages: Schedule 25 on Twentieth Revision Sheet 25 and Schedule 25A on Sixteenth Revision Sheet 25A),
+# read as the PDF's own text (saved under runs/c501/ai/raw/, sha256 b99feb90975b8bc08daf22459692c68e68e5ec3d3e9eaf2fbbbca5756779ff1c,
+# not in git). Avista has paused large data center applications that need new transmission or generation and serves
+# such loads by special contracts (chain 401's read); Schedule 25 is its largest standing schedule, so it is the
+# schedule a large load would take without a special contract. myavista.com's robots file disallows only a few account
+# paths (read 19 November 2026) and its policies page sets no limit on reuse (chain 401); public as PG&E's and PPL's
+# books are (session 2921's question). The demand charge is printed per kVa, not per kW, so it is not written as a
+# USD/kW-month figure (the words are in the notes); the threshold of 3,000 kVa likewise is not written as megawatts.
+utility: Avista Corporation (Avista Utilities)
+eia_id: 20169
+state: WA
+grid: AVA
+sector: extra large general service, a demand of not less than 3,000 kVa
+status: adopted
+schedule: Schedule 25, Extra Large General Service - Washington
+tariff_sheet: WN U-28 Twentieth Revision Sheet 25 (canceling Substitute Nineteenth Revision Sheet 25) and Sixteenth Revision Sheet 25A
+effective: 2026-01-01
+voltage: {text: "Three phase, available voltage", page: 1}
+commission: Washington Utilities and Transportation Commission
+document: Avista Utilities, Washington electric tariff WN U-28, Schedule 25 and 25A, issued January 18, 2024, effective January 1, 2026, as posted on myavista.com
+document_url: https://www.myavista.com/-/media/myavista/content-documents/our-rates-and-tariffs/wa/wa_025.pdf
+retrieved_at: 2026-11-19T12:48:47Z
+license: public
+notes: "Energy is charged in three blocks: First 500,000 kWh 5.745 cents per kWh, Next 5,500,000 kWh 5.160 cents per kWh, All Over 6,000,000 kWh 4.211 cents per kWh (page 1); energy_charge is the last block, the one a load of more than 6,000,000 kWh a month pays at the margin. Demand: $47,891.00 for the first 3,000 kVa of demand or less, and $12.98 per kVa for each additional kVa of demand (page 1). Primary voltage discounts of $0.20, $1.52 and $4.39 per kVa of demand per month at 11 kV, 60 kV and 115 kV or higher (page 1). Annual minimum $1,177,388 (Schedule 25A, page 2). The monthly rate is subject to Schedules 58, 61, 63, 66, 88, 91, 92, 93, 98 and 99 (page 2)."
+terms:
+  min_bill: {text: "The demand charge unless a higher minimum is required under contract to cover special conditions", page: 1}
+  term: {text: "enter into a written contract for five (5) years or longer. The written contract will specify a limit on both firm energy and demand", page: 1}
+figures:
+  - {variable: energy_charge, value: 42.11, printed: "All Over 6,000,000 kWh 4.211¢ per kWh", page: 1}
+  - {variable: fixed_charge, value: 47891.00, printed: "$47,891.00 for the first 3,000 kVa of demand or less.", page: 1}
+  - {variable: min_contract_years, value: 5, printed: "enter into a written contract for five (5) years or longer", page: 1}
