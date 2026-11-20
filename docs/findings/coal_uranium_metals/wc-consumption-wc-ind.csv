@@ -1,0 +1,50 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate wc_consumption, region wc_ind (India)
+# Computed 2026-11-19T12:37:10Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (wc_consumption); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the country's coal consumption (million short tons), the observations it rests on, and whether the year is full
+# Tables: eia_world_coal_annual
+region,year,value,n_observations,full_year
+wc_ind,1980,107.796,1.0,1
+wc_ind,1981,121.425,1.0,1
+wc_ind,1982,129.397,1.0,1
+wc_ind,1983,137.434,1.0,1
+wc_ind,1984,148.805,1.0,1
+wc_ind,1985,156.229,1.0,1
+wc_ind,1986,168.327,1.0,1
+wc_ind,1987,182.025,1.0,1
+wc_ind,1988,194.387,1.0,1
+wc_ind,1989,206.443,1.0,1
+wc_ind,1990,220.707,1.0,1
+wc_ind,1991,237.506,1.0,1
+wc_ind,1992,251.049,1.0,1
+wc_ind,1993,263.411,1.0,1
+wc_ind,1994,277.845,1.0,1
+wc_ind,1995,294.875,1.0,1
+wc_ind,1996,309.882,1.0,1
+wc_ind,1997,321.405,1.0,1
+wc_ind,1998,324.602,1.0,1
+wc_ind,1999,344.107,1.0,1
+wc_ind,2000,357.009,1.0,1
+wc_ind,2001,368.385,1.0,1
+wc_ind,2002,383.43,1.0,1
+wc_ind,2003,395.174,1.0,1
+wc_ind,2004,439.141,1.0,1
+wc_ind,2005,463.51,1.0,1
+wc_ind,2006,493.1530000000005,1.0,1
+wc_ind,2007,537.4719999999995,1.0,1
+wc_ind,2008,587.611000000002,1.0,1
+wc_ind,2009,642.655000000004,1.0,1
+wc_ind,2010,683.568999999998,1.0,1
+wc_ind,2011,714.704999999996,1.0,1
+wc_ind,2012,776.356999999998,1.0,1
+wc_ind,2013,807.223000000003,1.0,1
+wc_ind,2014,895.227000000004,1.0,1
+wc_ind,2015,938.6013534921944,1.0,1
+wc_ind,2016,936.1073967039823,1.0,1
+wc_ind,2017,957.9495747094868,1.0,1
+wc_ind,2018,1034.5864236235027,1.0,1
+wc_ind,2019,1070.5214837455349,1.0,1
+wc_ind,2020,1031.109378976894,1.0,1
+wc_ind,2021,1053.474141824743,1.0,1
+wc_ind,2022,1181.7226634848712,1.0,1
+wc_ind,2023,1330.6966255982984,1.0,1
+wc_ind,2024,1371.1211342523607,1.0,1
