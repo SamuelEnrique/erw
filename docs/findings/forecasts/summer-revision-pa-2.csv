@@ -1,0 +1,23 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate summer_revision, region pa_2 (Alabama Power Company (FERC 714 planning area 2))
+# Computed 2026-11-19T12:53:47Z by warehouse/analysis/findings/deep/forecasts.py (summer_revision); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: how much a filing changed its forecast of the year 5 ahead against the filing a year before (percent), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_2,2008,-4.52357301138534,1.0,1
+pa_2,2009,-3.630623520126286,1.0,1
+pa_2,2010,2.0050125313283207,1.0,1
+pa_2,2011,-4.31304893350063,1.0,1
+pa_2,2012,-2.429511660030881,1.0,1
+pa_2,2013,-0.8535675810060539,1.0,1
+pa_2,2014,-3.254192262991862,1.0,1
+pa_2,2015,1.165880840120015,1.0,1
+pa_2,2016,-3.5213646343523086,1.0,1
+pa_2,2017,-0.06995452955579351,1.0,1
+pa_2,2018,0.6822953114065777,1.0,1
+pa_2,2019,-1.8215094997385384,1.0,1
+pa_2,2020,-0.7939339875111528,1.0,1
+pa_2,2021,0.8152440821137308,1.0,1
+pa_2,2022,1.2523056013979295,1.0,1
+pa_2,2023,1.8576763692071951,1.0,1
+pa_2,2024,0.46780696654711296,1.0,1
+pa_2,2025,4.587851985908142,1.0,1

@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate tie_side_gap, region bg_bpat_scl (the Bonneville Power Administration (BPAT) and Seattle City Light (SCL))
+# Computed 2026-11-19T11:05:25Z by warehouse/analysis/findings/deep/trade.py (tie_side_gap); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean absolute difference between the two balancing authorities' reports on their tie (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_interchange_hourly_2018, eia930_ba_interchange_hourly_2019, eia930_ba_interchange_hourly_2020, eia930_ba_interchange_hourly_2021, eia930_ba_interchange_hourly_2022, eia930_ba_interchange_hourly_2023, eia930_ba_interchange_hourly_2024, eia930_ba_interchange_hourly_2025, eia930_ba_interchange_hourly_2026
+region,year,value,n_observations,full_year
+bg_bpat_scl,2018,325.2801724137931,4408.0,0
+bg_bpat_scl,2019,379.0565540927304,8735.0,1
+bg_bpat_scl,2020,407.98047722342733,8759.0,1
+bg_bpat_scl,2021,367.74026715378466,8759.0,1
+bg_bpat_scl,2022,424.5720319634703,8760.0,1
+bg_bpat_scl,2023,325.4769406392694,8760.0,1
+bg_bpat_scl,2024,344.13195946715246,8783.0,1
+bg_bpat_scl,2025,143.7662100456621,8760.0,1
+bg_bpat_scl,2026,0.028575156576200418,7664.0,0

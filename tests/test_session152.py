@@ -80,7 +80,8 @@ class OnePageOneAddress(unittest.TestCase):
                  "console.log(JSON.stringify({ views: p.VIEWS.map((v) => v[0]), none: p.viewOf({}), odd: p.viewOf({ view: 'mars' }), weather: p.viewOf({ view: 'weather' }),"
                  " hrefs: [p.viewHref('metered'), p.viewHref('weather')], fig: w.href('night', 2026), area: g.href('caiso', 'peak'),"
                  " methods: [p.METHODS.metered.href, p.METHODS.weather.href] }));")
-        self.assertEqual(d["views"], ["metered", "weather", "consumption"])   # session 239: consumption (what /consumption showed) is the third view
+        # session 239: consumption (what /consumption showed) is the third view; session 8420: the whole country is the fourth
+        self.assertEqual(d["views"], ["metered", "weather", "consumption", "country"])
         self.assertEqual([d["none"], d["odd"], d["weather"]], ["metered", "metered", "weather"])     # what it does not understand is the page as metered
         self.assertEqual(d["hrefs"], ["/demand", "/demand?view=weather"])
         self.assertEqual(d["fig"], "/demand?view=weather&figure=night&year=2026")                    # the whole state is in the address
@@ -102,7 +103,13 @@ class TheFace(unittest.TestCase):
         self.assertEqual(len(re.findall(r"<(YearsChart|Heat|ChangeBars) ", page)), 4)                # none drawn outside one
         self.assertEqual(view.count("<Hover><Explained "), 1)
         self.assertEqual(view.count("<Explained "), 1)
-        for text in (page, view):
+        # session 8420: the page's three charts stand in components/demand/Growth.tsx, unchanged (the view of the whole
+        # country draws them too); the page still draws each of them once inside a hover frame, as the two lines above hold
+        charts = src("site", "components", "demand", "Growth.tsx")
+        for name in ("YearsChart", "Heat", "ChangeBars"):
+            self.assertIn(f"export function {name}(", charts)
+            self.assertNotIn(f"function {name}(", page)
+        for text in (page + charts, view):
             self.assertNotIn("<title>", text)                                                        # the mark's words are data-tip, shown at once
             self.assertIn("data-tip=", text)
         hover = src("site", "components", "demand", "Hover.tsx")
