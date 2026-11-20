@@ -35,7 +35,7 @@ class TheFivePages(unittest.TestCase):
         last = [line for line in r.stdout.splitlines() if line.endswith("passed")][-1]
         got, of = last.split(" passed")[0].split(" of ")
         self.assertEqual(got, of)
-        self.assertGreaterEqual(int(of), 29)
+        self.assertGreaterEqual(int(of), 49)
 
 
 if __name__ == "__main__":

@@ -11,11 +11,12 @@ import { createElement as h } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
 // <Brand> loads its fonts through next/font/google, which exists only inside a build: stand-ins with no file behind them,
-// as scripts/contracts-figures.mjs does
+// as scripts/contracts-figures.mjs does; next/navigation's notFound and redirect throw, as they do inside Next
 register(`data:text/javascript,${encodeURIComponent(`
 const SRC = "const f = (o) => ({ variable: o?.variable ?? '', className: '', style: { fontFamily: 'stand-in' } }); export const Inter = f, IBM_Plex_Mono = f, IBM_Plex_Sans = f, Source_Serif_4 = f;";
-export async function resolve(s, c, next) { return s === "next/font/google" ? { url: "erw-font-stub:google", shortCircuit: true } : next(s, c); }
-export async function load(u, c, next) { return u === "erw-font-stub:google" ? { format: "module", source: SRC, shortCircuit: true } : next(u, c); }
+const NAV = "export function notFound() { throw new Error('notFound'); } export function redirect(u) { throw new Error('redirect ' + u); } export const usePathname = () => '/'; export const useRouter = () => ({ push() {}, replace() {}, refresh() {} }); export const useSearchParams = () => new URLSearchParams();";
+export async function resolve(s, c, next) { return s === "next/font/google" ? { url: "erw-font-stub:google", shortCircuit: true } : s === "next/navigation" ? { url: "erw-nav-stub:navigation", shortCircuit: true } : next(s, c); }
+export async function load(u, c, next) { return u === "erw-font-stub:google" ? { format: "module", source: SRC, shortCircuit: true } : u === "erw-nav-stub:navigation" ? { format: "module", source: NAV, shortCircuit: true } : next(u, c); }
 `)}`);
 
 let n = 0, failed = 0;
@@ -60,6 +61,31 @@ for (const [page, file] of PAGES) {
   ok(tables === 0 || captions >= tables, `${page}: every table has a caption (${tables} tables)`);
   const imgs = [...html.matchAll(/<img\b[^>]*>/g)].filter((m) => !/\balt="/.test(m[0]));
   ok(!imgs.length, `${page}: every image has its words`);
+}
+
+// The next tier (one or two test files each): /data/standard, every stop of the tour, and the three largest company
+// pages of the directory, each drawn with its own address's parts, the same reads
+const { STOPS } = await import("../lib/tour.ts");
+const companies = JSON.parse(fs.readFileSync(new URL("../data/companies/index.json", import.meta.url), "utf-8")).rows.slice(0, 3).map((r) => r[0]);
+const MORE = [
+  ["/data/standard", "../app/data/standard/page.tsx", {}],
+  ...STOPS.map((_, i) => [`/tour/${i + 1}`, "../app/tour/[stop]/page.tsx", { params: Promise.resolve({ stop: String(i + 1) }) }]),
+  ...companies.map((id) => [`/companies/${id}`, "../app/companies/[id]/page.tsx", { params: Promise.resolve({ id }) }]),
+];
+for (const [page, file, props] of MORE) {
+  let html = "";
+  try {
+    const mod = await import(file);
+    html = renderToStaticMarkup(await resolveAsync(await mod.default({ searchParams: Promise.resolve({}), ...props })));
+  } catch (e) { ok(false, `${page}: draws (${e?.message ?? e})`); continue; }
+  const levels = [...html.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
+  const skips = levels.filter((l, i) => i > 0 && l > levels[i - 1] + 1);
+  const ids = [...html.matchAll(/ id="([^"]+)"/g)].map((m) => m[1]);
+  const lost = [...html.matchAll(/aria-describedby="([^"]+)"/g)].map((m) => m[1]).filter((id) => !ids.includes(id));
+  const nameless = [...html.matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/g)].filter((b) => !/aria-label="[^"]+"/.test(b[1]) && !text(b[2]).trim());
+  const tables = (html.match(/<table\b/g) ?? []).length, captions = (html.match(/<caption\b/g) ?? []).length;
+  ok(html.length > 1000 && levels.filter((l) => l === 1).length === 1 && !skips.length && !lost.length && !nameless.length && (tables === 0 || captions >= tables || page === "/data/standard"),
+    `${page}: draws, one h1, no level skipped (${levels.join(" ")}), tips and buttons named, ${tables} tables${page === "/data/standard" ? " (a document's own, not captioned)" : " captioned"}`);
 }
 
 // /ai-energy's headline: the file's own counts (data/ai_energy.json), as the page says them
