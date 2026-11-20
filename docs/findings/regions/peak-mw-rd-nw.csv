@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate peak_mw, region rd_nw (the Northwest (EIA's region))
+# Computed 2026-11-19T11:17:49Z by warehouse/analysis/findings/deep/regions.py (peak_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's highest hour of demand (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+rd_nw,2018,54178.0,3520.0,0
+rd_nw,2019,58211.0,8303.0,1
+rd_nw,2020,55612.0,5989.0,0
+rd_nw,2021,59395.0,8752.0,1
+rd_nw,2022,61549.0,8760.0,1
+rd_nw,2023,62326.0,8760.0,1
+rd_nw,2024,64852.0,8784.0,1
+rd_nw,2025,64107.0,8743.0,1
+rd_nw,2026,66146.0,6663.0,0

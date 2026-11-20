@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ghg_onshore_basin, region ghgon_345 (onshore oil and gas production in the Arkoma Basin)
+# Computed 2026-11-19T12:11:36Z by warehouse/analysis/findings/deep/emissions_climate.py (ghg_onshore_basin); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the emissions reported for onshore oil and gas production in the basin (million t CO2e), the observations it rests on, and whether the year is full
+# Tables: epa_ghgrp_facility_emissions
+region,year,value,n_observations,full_year
+ghgon_345,2015,3.20193664,1.0,1
+ghgon_345,2016,2.63677581,1.0,1
+ghgon_345,2017,2.6624768079999996,1.0,1
+ghgon_345,2018,2.9190482219,1.0,1
+ghgon_345,2019,2.5928129239000004,1.0,1
+ghgon_345,2020,1.6507441154,1.0,1
+ghgon_345,2021,0.91806597,1.0,1
+ghgon_345,2022,0.8303163619999999,1.0,1
+ghgon_345,2023,0.50767473,1.0,1
