@@ -1,0 +1,151 @@
+# The codebook's metadata of table cso_ireland_electricity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: cso_ireland_electricity_monthly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: cso:MSM01 Central Statistics Office, Ireland, PxStat, table MSM01
+  url: https://data.cso.ie/table/MSM01
+cite: 'Central Statistics Office, Ireland (CSO). PxStat table MSM01: Electricity Output (monthly). Via the Energy Research
+  Warehouse (ERW), table `cso_ireland_electricity_monthly`.'
+method: docs/methods/cso_ireland_electricity_monthly.md
+header_title: Central Statistics Office, Ireland, PxStat table MSM01, Electricity Output, a month, 1975-01 to 2026-08 (session
+  2320)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity cso:ie; variable gross_electricity_output (to 2008-12, discontinued
+  by CSO) or net_electricity_output; unit MWh (the table''s GWh times 1,000); ts_utc the month''s first day; freq P1M; geo
+  IE; node the statistic as CSO names it; x_code its code.'
+read:
+  date: '2026-11-20'
+  rows: 644
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      cso:ie: 644
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 620
+    earliest: '1975-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 543
+    lowest: 503000.0
+    highest: 3004000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 644
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 644
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      IE: 644
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 644
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Gross Electricity Output: 408
+      Net Electricity Output: 236
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      cso:MSM01: 644
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MSM01/JSON-stat/2.0/en: 644
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T06:48:25Z': 644
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-09T11:00:00Z': 644
+  missing_cells: 0
+- name: x_code
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      MSM01C1: 408
+      MSM01C2: 236
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: gross_electricity_output
+  label: null
+  unit: MWh
+  rows: 408
+  first: '1975-01-01T00:00:00Z'
+  last: '2008-12-01T00:00:00Z'
+- name: net_electricity_output
+  label: null
+  unit: MWh
+  rows: 236
+  first: '2007-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

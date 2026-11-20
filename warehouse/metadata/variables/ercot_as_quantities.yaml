@@ -1,0 +1,147 @@
+# The codebook's metadata of table ercot_as_quantities (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_as_quantities
+family: ercot
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: ercot:np4-33-cd ERCOT, DAM Ancillary Service Plan, NP4-33-CD (
+  url: https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=12316
+cite: Electric Reliability Council of Texas (ERCOT). DAM Ancillary Service Plan (NP4-33-CD). Via the Energy Research Warehouse
+  (ERW), table `ercot_as_quantities`.
+method: docs/methods/ercot_as_quantities.md
+header_title: ERCOT DAM Ancillary Service Plan, MW by product and hour (NP4-33-CD)
+header_shape: 'Shape: series (docs/datastandard.md v0). freq PT1H; ts_utc is the start of the delivery hour. quantity_mw_plan:
+  the MW ERCOT plans to procure in the day-ahead market for the hour, from the plan published the day before delivery (the
+  one that day''s DAM used).'
+read:
+  date: '2026-11-20'
+  rows: 4800
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:ECRS: 960
+      ercot:NSPIN: 960
+      ercot:REGDN: 960
+      ercot:REGUP: 960
+      ercot:RRS: 960
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 960
+    earliest: '2026-09-03T05:00:00Z'
+    latest: '2026-10-13T04:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: 189
+    lowest: 246
+    highest: 3936
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 4800
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 4800
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 4800
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      ercot_dam: 4800
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      ECRS: 960
+      NSPIN: 960
+      REGDN: 960
+      REGUP: 960
+      RRS: 960
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:np4-33-cd: 4800
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 40
+    examples:
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1269584411
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1269981073
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1270379366
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1270778475
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1271167593
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 34
+    earliest: '2026-10-03T10:23:53Z'
+    latest: '2026-10-11T20:04:22Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    distinct: 40
+    earliest: '2026-09-02T10:00:00Z'
+    latest: '2026-10-11T10:00:00Z'
+  missing_cells: 0
+variables:
+- name: quantity_mw_plan
+  label: null
+  unit: MW
+  rows: 4800
+  first: '2026-09-03T05:00:00Z'
+  last: '2026-10-13T04:00:00Z'
+second_look: null

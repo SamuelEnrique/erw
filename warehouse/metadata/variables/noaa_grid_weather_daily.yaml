@@ -1,0 +1,219 @@
+# The codebook's metadata of table noaa_grid_weather_daily (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: noaa_grid_weather_daily
+family: noaa
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1D
+source:
+- name: noaa:isd_lite NOAA National Centers for Environmental Information, Integrated Surface Database, ISD-Lite
+  url: https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database
+- name: noaa:lcd_v2 NOAA National Centers for Environmental Information, Local Climatological Data version 2
+  url: https://www.ncei.noaa.gov/products/land-based-station/local-climatological-data
+cite: NOAA National Centers for Environmental Information. ISD-Lite (Integrated Surface Database, hourly); Local Climatological
+  Data v2. Via the Energy Research Warehouse (ERW), table `noaa_grid_weather_daily`.
+method: docs/methods/noaa_grid_weather_daily.md
+header_title: each grid's weighted daily temperature, dew point, heating and cooling degree days, from five NOAA airport stations
+  a grid, 2019 to now (session 126)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba. entity iso:<grid>; freq P1D, ts_utc the grid''s
+  local day (ERCOT America/Chicago; CAISO America/Los_Angeles; NYISO America/New_York; ISO-NE America/New_York; PJM America/New_York;
+  MISO America/Chicago; SPP America/Chicago). temperature_f the mean of the day''s hours, temperature_max_f and temperature_min_f
+  its highest and lowest hour, dew_point_f the mean (degF); heating_degree_days and cooling_degree_days the sum of the hours''
+  heating and cooling degrees over 24 (degF-day, base 65 F). A day is written only when every one of its x_hours hours is
+  held.'
+read:
+  date: '2026-11-20'
+  rows: 119494
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      iso:caiso: 17075
+      iso:ercot: 17067
+      iso:isone: 16820
+      iso:miso: 17124
+      iso:nyiso: 17142
+      iso:pjm: 17142
+      iso:spp: 17124
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 2858
+    earliest: '2019-01-01T00:00:00Z'
+    latest: '2026-11-06T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -20.996
+    highest: 106.348
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      degF: 79658
+      degF-day: 39836
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 119494
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 17124
+      US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI: 17124
+      US-CA: 17075
+      US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 16820
+      US-DE,US-DC,US-IL,US-IN,US-KY,US-MD,US-MI,US-NJ,US-NC,US-OH,US-PA,US-TN,US-VA,US-WV: 17142
+      US-NY: 17142
+      US-TX: 17067
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 119494
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      CAISO: 17075
+      ERCOT: 17067
+      ISO-NE: 16820
+      MISO: 17124
+      NYISO: 17142
+      PJM: 17142
+      SPP: 17124
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      noaa:isd_lite: 100456
+      noaa:lcd_v2: 19038
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2019/: 15299
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2020/: 15315
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2021/: 15288
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2022/: 15292
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2023/: 15280
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2024/: 15210
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2025/: 8772
+      https://www.ncei.noaa.gov/access/services/data/v1?dataset=local-climatological-data-v2: 19038
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T18:05:35Z': 119494
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 119494
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      ciso: 17075
+      erco: 17067
+      isne: 16820
+      miso: 17124
+      nyis: 17142
+      pjm: 17142
+      swpp: 17124
+  missing_cells: 0
+- name: x_hours
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '23': 336
+      '24': 118822
+      '25': 336
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: cooling_degree_days
+  label: null
+  unit: degF-day
+  rows: 19918
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: dew_point_f
+  label: null
+  unit: degF
+  rows: 19904
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: heating_degree_days
+  label: null
+  unit: degF-day
+  rows: 19918
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: temperature_f
+  label: null
+  unit: degF
+  rows: 19918
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: temperature_max_f
+  label: null
+  unit: degF
+  rows: 19918
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: temperature_min_f
+  label: null
+  unit: degF
+  rows: 19918
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+second_look: null

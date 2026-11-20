@@ -1,0 +1,475 @@
+# The codebook's metadata of table known_data_faults (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: known_data_faults
+family: erw_derived
+shape: events
+row: One known fault in a source's data, as the ERW's register of faults records it.
+time: event_date is the fault's first day where a day is recorded, else the day the register recorded it (x_first is then
+  empty).
+vintage_rule: 'Rewritten whole from the register (warehouse/faults/faults.yaml) by each run: an entry taken out of the register
+  leaves the table.'
+keys:
+- event_id
+license: public
+tier: derived
+interval: event
+source:
+- name: erw:known_data_faults the ERW's register of faults found in its sources' data (warehouse/faults/faults.yaml), each
+    entry naming where it is recorded
+  url: ''
+cite: 'Energy Research Warehouse (ERW), derived. Known faults in source data: the register of what each publisher''s data
+  holds that is wrong, missing, shifted or impossible (docs/methods/known_data_faults.md). Via the Energy Research Warehouse
+  (ERW), table `known_data_faults`.'
+method: docs/methods/known_data_faults.md
+header_title: known faults in source data, one row per fault (session 103)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_date: the first day of the fault where a day is recorded; where
+  none is, the day the register recorded it (x_first is then empty and x_dates_note says what is known). parties: the publisher.
+  entity_ids: the ERW tables it touches. status: screened (left out by a stated rule), corrected (read as it should have been),
+  worked_around (another source is read for the period) or held_as_published. x_evidence: what was measured, in the words
+  of the session that measured it. x_erw_does, x_open, x_recorded_in. x_resolution (session 118): fixed, held_for_approval
+  (the fix is built and waits for a person because it moves a number on a live page) or open, with x_resolution_reason.'
+read:
+  date: '2026-11-20'
+  rows: 30
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - data_fault:caiso_curtailment_reason_blank
+    - data_fault:caiso_curtailment_workbooks_overlap
+    - data_fault:caiso_oasis_autumn_clock_day
+    - data_fault:caiso_renewable_report_clock_change
+    - data_fault:caiso_supply_short_days
+  missing_cells: 0
+  particular: data_fault:<the register's id of the fault>
+- name: event_date
+  shared: true
+  type: date
+  values:
+    list:
+      '2018-07-20': 1
+      '2019-01-01': 1
+      '2019-02-13': 1
+      '2019-02-26': 1
+      '2019-04-18': 1
+      '2019-10-01': 1
+      '2019-12-11': 1
+      '2019-12-12': 1
+      '2020-01-01': 1
+      '2020-04-10': 1
+      '2021-02-01': 1
+      '2022-01-01': 1
+      '2023-08-10': 1
+      '2023-11-01': 1
+      '2024-07-19': 1
+      '2024-10-23': 1
+      '2024-11-03': 1
+      '2025-01-01': 1
+      '2025-08-27': 1
+      '2025-11-02': 1
+      '2025-12-06': 1
+      '2025-12-16': 1
+      '2026-01-21': 1
+      '2026-03-08': 1
+      '2026-11-16': 6
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      data_fault: 30
+  missing_cells: 0
+  particular: data_fault on every row
+- name: parties
+  shared: true
+  type: text
+  values:
+    list:
+      California ISO (CAISO): 5
+      Electric Reliability Council of Texas (ERCOT), Large Load Interconnection Status Update: 2
+      Federal Energy Regulatory Commission (FERC), Electric Quarterly Reports: 1
+      ISO New England; New York ISO: 1
+      Lawrence Berkeley National Laboratory and GridTracker, Queued Up 2026 Edition: 1
+      U.S. Energy Information Administration (EIA), Form EIA-930: 19
+      U.S. Energy Information Administration (EIA), Forms EIA-930 and EIA-860M: 1
+  missing_cells: 0
+  particular: The publisher whose data holds the fault
+- name: entity_ids
+  shared: true
+  type: text
+  values:
+    distinct: 26
+    examples:
+    - ba_supply_monthly
+    - caiso_curtailment_intervals
+    - caiso_curtailment_intervals;caiso_curtailment_daily
+    - caiso_curtailment_intervals;caiso_curtailment_profile
+    - caiso_fuel_supply;carbon_intensity_monthly
+  missing_cells: 1
+  particular: The ERW tables the fault touches, joined by ';' (table names, not entity_id values)
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 30
+  particular: 'Not filled: no cell holds a value'
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 30
+  particular: 'Not filled: no cell holds a value'
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 30
+  particular: 'Not filled: no cell holds a value'
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      corrected: 3
+      held_as_published: 16
+      screened: 10
+      worked_around: 1
+  missing_cells: 0
+  particular: 'What the ERW does with the fault: screened (left out by a stated rule), corrected (read as it should have been),
+    worked_around (another source read for the period) or held_as_published'
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:known_data_faults: 30
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/known_data_faults.md: 30
+  missing_cells: 0
+- name: x_title
+  label: The fault in one sentence, the register's title
+  unit: none
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - 24 hours of demand in the Winter Storm Uri window have no number at the source
+    - A contract rate in FERC's quarterly reports that cannot be a monthly price
+    - 'Berkeley Lab''s queue file: missing years, statuses and operation dates'
+    - CAISO's Daily Renewable Report has 24 hours on the day the clocks went forward
+    - CAISO's OASIS leaves out the last hour of the autumn clock-change day
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: title
+  documented_by: header; connector data_faults.py
+- name: x_first
+  label: The fault's first day, where recorded
+  unit: none
+  type: date
+  values:
+    list:
+      '2018-07-20': 1
+      '2019-01-01': 1
+      '2019-02-13': 1
+      '2019-02-26': 1
+      '2019-04-18': 1
+      '2019-10-01': 1
+      '2019-12-11': 1
+      '2019-12-12': 1
+      '2020-01-01': 1
+      '2020-04-10': 1
+      '2021-02-01': 1
+      '2022-01-01': 1
+      '2023-08-10': 1
+      '2023-11-01': 1
+      '2024-07-19': 1
+      '2024-10-23': 1
+      '2024-11-03': 1
+      '2025-01-01': 1
+      '2025-08-27': 1
+      '2025-11-02': 1
+      '2025-12-06': 1
+      '2025-12-16': 1
+      '2026-01-21': 1
+      '2026-03-08': 1
+  missing_cells: 6
+  missing_meaning: No first day is recorded; x_dates_note says what is known
+  source_name: first
+  documented_by: header; method known_data_faults.md
+- name: x_last
+  label: The fault's last day, where recorded
+  unit: none
+  type: date
+  values:
+    list:
+      '2019-03-31': 1
+      '2020-07-13': 1
+      '2020-08-24': 1
+      '2021-02-28': 1
+      '2022-12-31': 1
+      '2023-06-13': 1
+      '2024-11-21': 1
+      '2024-12-31': 1
+      '2025-05-31': 1
+      '2025-06-21': 1
+      '2025-08-27': 1
+      '2025-11-02': 1
+      '2025-12-02': 1
+      '2025-12-14': 1
+      '2025-12-31': 1
+      '2026-01-25': 1
+      '2026-02-10': 1
+      '2026-03-08': 1
+      '2026-03-26': 1
+      '2026-08-20': 1
+      '2026-08-29': 1
+      '2026-09-22': 1
+      '2026-09-30': 1
+  missing_cells: 7
+  missing_meaning: No last day is recorded
+  source_name: null
+  documented_by: method known_data_faults.md; connector data_faults.py
+- name: x_dates_note
+  label: What the register knows of the fault's dates, in words
+  unit: none
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - 38 hours not used; most from 13 February to 10 May 2019, then 19 to 22 December 2019, 8 October 2020, 31 July 2025 and
+      25 January 2026
+    - '63 held hours by the rule: California 41, New York 13, PJM 6, New England 2, SPP 1 (measured in session 118 on the
+      workbooks retrieved 2026-10-04)'
+    - 7,869 hours in a row, from the hour starting 2019-10-01T21:00Z to the hour starting 2020-08-24T17:00Z, both included
+      (measured in session 118 on the workbook retrieved 2026-10-04)
+    - January to May 2025
+    - across the history held; the one day named in the reports is 2026-07-21
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: dates_note
+  documented_by: header; connector data_faults.py
+- name: x_publisher_source
+  label: The publisher's report or product that holds the fault, as organization:report_id
+  unit: none
+  type: text
+  values:
+    list:
+      caiso:PRC_LMP: 1
+      caiso:daily_renewable_report: 1
+      caiso:production_curtailments: 2
+      caiso:todays_outlook_fuelsource: 1
+      eia930:daily_interchange: 3
+      eia:860m: 1
+      eia:electricity/rto/region-data: 1
+      eia:gridmonitor/knownissues/xls: 15
+      ercot:large_load_status_update: 2
+      ferc:eqr: 1
+      isone:rt_lmp_hourly_final: 1
+      lbnl:queued_up: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: source
+  documented_by: connector data_faults.py; data
+- name: x_evidence
+  label: What was measured, in the words of the session that measured it
+  unit: none
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - 1,505 MW at 2025-06-21T09:00Z (04:00 Central), the hours around it 34,479; and 24,991 MW at 2024-07-19T04:00Z, the hours
+      around it 35,083. 48 more hours are blank.
+    - 24 hours of demand in the Uri window had no number at the source and were not written (session 68).
+    - '525,129 MW at 2020-04-10T03:00Z, the hours around it 380,115: the rule leaves that hour out. PJM''s 224,345 MW of 2020-07-13T22:00Z
+      is inside the Lower 48''s 776,575 MW of the same hour, which stands only 12 percent above the hours around it and passes
+      the rule.'
+    - 'California: 29 hours stand more than a quarter from the four hours around them (629 MW at 2018-07-20T18:00Z between
+      hours near 25,740; 1,932 MW at 2019-08-25T20:00Z; three hours near 1,500 MW from 2019-12-19T23:00Z), and twelve more
+      hours on 2023-11-10 slide to 727 MW, each close to the hour before it, which only the grid''s own range catches (one
+      third to three times its median hour of 18,232 MW). New York: zero in the same twelve hours as its demand, and 20,562
+      MW at 2025-01-15T20:00Z. New England: minus 41 MW at 2021-03-01T04:00Z and 2,776 MW at 2021-03-02T04:00Z, between hours
+      near 10,000. PJM and SPP: the hours of the fault eia930_unadjusted_values_in_the_billions.'
+    - 'EIA''s CISO workbook of 16 November 2026 (Adjusted demand, screened as the table screens it) against CAISO''s Historical
+      EMS Hourly Load for 2019 (CAISO Total; https://www.caiso.com/documents/historicalemshourlyload-2019.xlsx, read 16 November
+      2026, sha256 6b212a8d9763f5a0...): over the 34 days from 26 February to 31 March EIA''s mean is 19,547.7 MW and CAISO''s
+      22,438.6; over the year''s other 331 days EIA is 0.9865 of CAISO. By month EIA over CAISO is 0.9722 in January, 0.9348
+      in February, 0.8746 in March, 0.9655 in April, 0.9833 in May and 0.9928 to 1.0003 from June to December. March 2019''s
+      mean is 19,536.4 MW in the table; at CAISO''s own times 0.9865 it would be 22,036.7, and 2019''s mean 24,717.6 in place
+      of 24,475.8.'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: evidence
+  documented_by: header
+- name: x_erw_does
+  label: What the ERW does about the fault
+  unit: none
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - A blank reason is kept blank ("local or system" is not guessed). The reason reaches back to 2022 in the interval table.
+    - A day that is not whole is not written; March, August and September 2026 then have no monthly figure for California.
+      Nothing is filled.
+    - A day with a missing interval is not written. A twelve-month figure is written only when 95 percent of its hours are
+      held, so ISO-NE's real-time figure in hub_price_comparison is not written.
+    - A month's figures rest on the days held and say how many (days_held, days_left_out, thin_month). A figure that needs
+      most of a year is not written under its share (SPP's carbon intensity in hub_price_comparison).
+    - A pair-day is left out when it is further than 10 median absolute deviations, and at least 500 MWh, from the pair's
+      own median over its history (warehouse/derived/ba_supply.py, MADS and FLOOR; the same rule in ai_power_regions.py and
+      network_daily.py). The count left out is in each replay file and printed on the page.
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: erw_does
+  documented_by: header; connector data_faults.py
+- name: x_open
+  label: What remains open or unknown about the fault
+  unit: none
+  type: text
+  values:
+    list:
+      A faulty hour inside the sum cannot be screened from the sum.: 1
+      A rule to fill a single missing interval was recommended in session 65 and not applied.: 1
+      ? EIA does not say why its California demand of early 2019 is low; CAISO's own load is the comparison, not a correction
+        applied.
+      : 1
+      EIA does not say why the column changed, nor whether the earlier rows will be published again as net output.: 1
+      ? Not applied in cost_of_power_monthly, which weighs SPP's price of June 2025 by that hour's 1,505 MW, nor in the other
+        tables a live page reads.
+      : 1
+      ? Not applied in the tables a live page reads (ba_supply_monthly, the cost of power tables, ai_power_regions) nor in
+        the source table eia930_all_emissions, which holds EIA's hours as published. The Lower 48's demand is EIA's sum, with
+        PJM's faulty hours inside it.
+      : 1
+      Not applied in the tables a live page reads, nor in the source table, as for PJM.: 2
+      Not explained.: 1
+      The cause is not recorded.: 1
+      ? 'The energy mix tables test an hour another way (its sources must add up to its total), and are not put to this rule
+        for generation: whether they should be is a ruling to make.'
+      : 1
+      ? 'The held carbon build is not yet the table: carbon_intensity_hourly, _daily and _monthly still carry those hours
+        as EIA published them, so California''s intensity there is computed without hydro until a person approves the build.
+        eia930_all_generation is the source table and keeps them.'
+      : 1
+      ? 'The live /network page''s hourly links are not screened: rule C is a rule for days. Settled in session 118: the supply
+        table''s count (2,732) and the replay''s (1,072) count different things. The first is every report of every pair,
+        both sides; 1,259 of them are between authorities the network draws, on 1,252 pair-days; the replay uses one report
+        a pair and day and counts a day only when the report it used is left out.'
+      : 1
+      ? The looser test is a session's choice, not yet ruled on. PJM's residual since May 2025 is flagged as unexplained (session
+        73).
+      : 1
+      The two clock-change days are a limit of the ERW's conversion, not of CAISO's file.: 1
+      ? What the generation EIA stopped counting is, is not settled by these data. EIA's known-issues page refused a plain
+        request (HTTP 403), so EIA's own account of the change was not read.
+      : 1
+      Whether the 13 March figures were for part of the month is not said in either report.: 1
+      ? 'Whether the ERW''s extract should read EIA''s Adjusted columns in place of the unadjusted ones is a ruling to make:
+        EIA has already replaced these values there, with its own imputation, which is a fill the ERW would then inherit.'
+      : 1
+      Which of the two forms is off (output or the inventory's MW) is not known.: 1
+      Which of the two is misstated is not known.: 1
+      ? 'Why is not known. Not corrected: eia930_all_emissions, the carbon intensity tables, ba_supply_monthly, ai_power_regions
+        and event_window_daily hold the hours as EIA stamped them. From July 2018 to mid June 2022 the same measure sits about
+        half an hour early; that is seen and not corrected.'
+      : 1
+      caiso_curtailment_daily uses the reason only from 2024.: 1
+      eia930_all_generation holds those hours as published.: 1
+  missing_cells: 7
+  missing_meaning: The register records nothing open
+  source_name: open
+  documented_by: header; connector data_faults.py
+- name: x_recorded_in
+  label: 'Where the fault is recorded: the session and the method note or file'
+  unit: none
+  type: text
+  values:
+    list:
+      session 106; docs/methods/ercot_large_load_status.md: 2
+      session 118; docs/methods/impossible_hours.md: 2
+      session 68: 2
+      session 7019 (chain 301); docs/methods/shoulder_hours.md; docs/state/data_requests_done_line.md, row 6: 1
+      session 7022 (chain 301); docs/methods/demand_growth.md; docs/state/data_requests_done_line.md, row 38: 1
+      session 72: 1
+      session 73: 1
+      session 73; docs/methods/eia930_caiso_break.md: 1
+      session 81: 1
+      session 94: 1
+      session 94; docs/methods/generation_mix_hourly.md: 1
+      session 95; docs/methods/interconnection_queue_summary.md: 1
+      session 97; docs/methods/demand_growth.md: 1
+      session 97; docs/methods/demand_growth.md; measured again by the rule on 2026-10-04: 3
+      session 97; docs/methods/demand_growth.md; the dates measured by the rule on 2026-10-04: 1
+      session 98: 2
+      session 98; docs/methods/caiso_curtailment_intervals.md: 1
+      sessions 49 and 64: 1
+      sessions 49, 64, 65 and 96: 1
+      sessions 62, 68 and 93; docs/methods/grid_network.md: 1
+      sessions 62, 68 and 96: 1
+      sessions 73 and 82; docs/methods/eia930_caiso_break.md: 1
+      sessions 73 and 94: 1
+      sessions 80 and 82; docs/methods/eia930_caiso_break.md: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: recorded_in
+  documented_by: header; connector data_faults.py
+- name: x_resolution
+  label: 'Where the fault stands: fixed, held_for_approval (the fix is built and waits for a person because it moves a number
+    on a live page) or open'
+  unit: none
+  type: text
+  values:
+    list:
+      fixed: 11
+      held_for_approval: 8
+      open: 11
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: resolution
+  documented_by: header
+- name: x_resolution_reason
+  label: Why the fault stands as x_resolution says, in words
+  unit: none
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - 'A day with a missing interval is not written. Session 65 recommended filling a single missing interval; the ERW''s
+      rule is to fill nothing, so it was not applied. Open for a ruling: the cost is ISO-NE''s real-time twelve-month figure,
+      which is not written.'
+    - A faulty hour of one balancing authority cannot be taken out of EIA's sum. The rule leaves out the one hour of the sum
+      that fails it (2020-04-10T03:00Z), and the Lower 48 is given no peak. The Lower 48's consumed intensity of April 2020
+      goes with the held carbon build. It stays open until EIA republishes the hours or the ERW builds its own sum from the
+      screened authorities, which no session has been asked to do.
+    - 'A gap at the source: there is nothing for the ERW to fix, and nothing is filled. Each figure says how many days it
+      rests on. Open because EIA has not been asked why SPP''s days are missing, and a figure for SPP that rests on 200 of
+      365 days is a weak one however plainly it says so.'
+    - Both figures are shown as the report states them, with the note. Which is misstated only ERCOT can say; it has not been
+      asked.
+    - Both sides' reports are in the table side by side and the headline says which it uses. The disagreement is the publishers'.
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: resolution_reason
+  documented_by: header; connector data_faults.py
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T20:49:30Z': 30
+  missing_cells: 0
+second_look: null

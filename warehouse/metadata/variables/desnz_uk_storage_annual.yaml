@@ -1,0 +1,152 @@
+# The codebook's metadata of table desnz_uk_storage_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: desnz_uk_storage_annual
+family: desnz
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: desnz:dukes_5_16_energy_storage Department for Energy Security and Net Zero, Digest of UK Energy Statistics (DUKES)
+    2026, table 5.16, Energy storage input electricity, output electricity, and capacity overview
+  url: ''
+cite: UK Department for Energy Security and Net Zero (DESNZ). Digest of UK Energy Statistics (DUKES) 2026, table 5.16, Energy
+  storage overview. Via the Energy Research Warehouse (ERW), table `desnz_uk_storage_annual`.
+method: docs/methods/desnz_uk_storage_annual.md
+header_title: 'DESNZ, Digest of UK Energy Statistics (DUKES) 2026, table 5.16: the UK''s electricity out of and into storage
+  and its power capacity, by type, 1996 to 2025 (session 2720)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity desnz_st:<type> (pumped_storage, battery_grid_scale, other_storage,
+  total); variable output and input (MWh, the sheet''s GWh times 1,000) or power_capacity (MW); ts_utc the year''s first day;
+  freq P1Y; geo GB; node the table and the type.'
+read:
+  date: '2026-11-20'
+  rows: 360
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      desnz_st:battery_grid_scale: 90
+      desnz_st:other_storage: 90
+      desnz_st:pumped_storage: 90
+      desnz_st:total: 90
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 30
+    earliest: '1996-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 118
+    lowest: 0.0
+    highest: 5371305.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 120
+      MWh: 240
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 360
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      GB: 360
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 360
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      'Table 5.16.: Battery storage - grid scale': 90
+      'Table 5.16.: Other energy storage': 90
+      'Table 5.16.: Pumped storage': 90
+      'Table 5.16.: Total': 90
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      desnz:dukes_5_16_energy_storage: 360
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://assets.publishing.service.gov.uk/media/6a6a36a0bf4a7aca8f8976c6/DUKES_5.16.xlsx: 360
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T17:17:29Z': 360
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-07-29T17:21:36Z': 360
+  missing_cells: 0
+variables:
+- name: input
+  label: null
+  unit: MWh
+  rows: 120
+  first: '1996-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: output
+  label: null
+  unit: MWh
+  rows: 120
+  first: '1996-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: power_capacity
+  label: null
+  unit: MW
+  rows: 120
+  first: '1996-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

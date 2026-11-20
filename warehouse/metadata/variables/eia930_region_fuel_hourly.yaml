@@ -1,0 +1,223 @@
+# The codebook's metadata of table eia930_region_fuel_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia930_region_fuel_hourly
+family: eia930
+shape: series
+row: One of EIA's regions of the lower 48 and one hour, its net generation from one energy source, summed over the region's
+  balancing authorities, July 2018 on.
+time: ts_utc is the hour's start (the file's UTC Time at End of Hour minus one hour).
+vintage_rule: Rebuilt whole by a full run from the saved six-month files; a run with --files merges that file's rows into
+  the table and keeps the rest. No vintage column.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: PT1H
+source:
+- name: eia:gridmonitor/sixMonthFiles EIA-930 six-month files (Hourly Electric Grid Monitor)
+  url: https://www.eia.gov/electricity/gridmonitor/about
+cite: U.S. Energy Information Administration (EIA). EIA-930 six-month files (Hourly Electric Grid Monitor). Via the Energy
+  Research Warehouse (ERW), table `eia930_region_fuel_hourly`.
+method: docs/methods/eia930_region_fuel_hourly.md
+header_title: EIA-930 hourly net generation by energy source, EIA's thirteen regions of the lower 48 (sums of their balancing
+  authorities), July 2018 to the newest hour, from EIA's six-month files (session 8001, chain 501)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba (the region, lowercase). Variables: net_generation_<source>_mw
+  for natural_gas, coal, nuclear, wind, solar, hydro, storage (from July 2024 only) and other; MW. ts_utc is the hour''s start.
+  A region-hour is written when every balancing authority listed in the region that hour is held: its sources add up to its
+  net generation within 5 percent (or 1 MW). x_bas: how many were summed. Method: docs/methods/eia930_region_fuel_hourly.md.'
+read:
+  date: '2026-11-20'
+  rows: 7511587
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia930:CAL: 592844
+      eia930:CAR: 590952
+      eia930:CENT: 583785
+      eia930:FLA: 564026
+      eia930:MIDA: 578966
+      eia930:MIDW: 593304
+      eia930:NE: 596508
+      eia930:NW: 477682
+      eia930:NY: 596319
+      eia930:SE: 585157
+      eia930:SW: 562348
+      eia930:TEN: 593892
+      eia930:TEX: 595804
+  missing_cells: 0
+  particular: eia930:<region> (CAL, CAR, CENT, FLA, MIDA, MIDW, NE, NW, NY, SE, SW, TEN)
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '2018-07-11 07:00:00+00:00'
+    - '2018-07-11 08:00:00+00:00'
+    - '2018-07-11 09:00:00+00:00'
+    - '2018-07-11 10:00:00+00:00'
+    - '2018-07-11 11:00:00+00:00'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: -11553
+    highest: 75926
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 7511587
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 7511587
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:gridmonitor/sixMonthFiles: 7511587
+  missing_cells: 0
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      cal: 592844
+      car: 590952
+      cent: 583785
+      fla: 564026
+      mida: 578966
+      midw: 593304
+      ne: 596508
+      nw: 477682
+      ny: 596319
+      se: 585157
+      sw: 562348
+      ten: 593892
+      tex: 595804
+  missing_cells: 0
+  particular: The region's code, lowercase
+- name: x_bas
+  label: How many balancing authorities were summed for the region-hour
+  unit: count
+  type: integer
+  values:
+    list:
+      '1': 2947538
+      '10': 76251
+      '2': 997099
+      '20': 113576
+      '21': 364099
+      '3': 362534
+      '4': 416564
+      '5': 592844
+      '6': 590959
+      '7': 163256
+      '8': 102439
+      '9': 784428
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method eia930_region_fuel_hourly.md
+- name: x_file
+  label: The six-month BALANCE file the row was read from (<year>_<Jan_Jun or Jul_Dec>)
+  unit: none
+  type: text
+  values:
+    list:
+      2018_Jul_Dec: 302645
+      2019_Jan_Jun: 386057
+      2019_Jul_Dec: 397047
+      2020_Jan_Jun: 361081
+      2020_Jul_Dec: 365022
+      2021_Jan_Jun: 388073
+      2021_Jul_Dec: 401674
+      2022_Jan_Jun: 390110
+      2022_Jul_Dec: 401688
+      2023_Jan_Jun: 394961
+      2023_Jul_Dec: 399518
+      2024_Jan_Jun: 395367
+      2024_Jul_Dec: 456488
+      2025_Jan_Jun: 450448
+      2025_Jul_Dec: 458000
+      2026_Jan_Jun: 863528
+      2026_Jul_Dec: 699880
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector eia930_region_fuel_hourly.py
+variables:
+- name: net_generation_coal_mw
+  label: Net generation from coal
+  unit: MW
+  rows: 1020792
+  first: '2018-07-01 04:00:00+00:00'
+  last: '2026-11-19T07:00:00Z'
+- name: net_generation_hydro_mw
+  label: Net generation from hydropower and pumped storage
+  unit: MW
+  rows: 1020792
+  first: '2018-07-01 04:00:00+00:00'
+  last: '2026-11-19T07:00:00Z'
+- name: net_generation_natural_gas_mw
+  label: Net generation from natural gas (EIA's Natural Gas columns)
+  unit: MW
+  rows: 1020792
+  first: '2018-07-01 04:00:00+00:00'
+  last: '2026-11-19T07:00:00Z'
+- name: net_generation_nuclear_mw
+  label: Net generation from nuclear
+  unit: MW
+  rows: 1020792
+  first: '2018-07-01 04:00:00+00:00'
+  last: '2026-11-19T07:00:00Z'
+- name: net_generation_other_mw
+  label: Net generation from petroleum, other and unknown fuel sources (from July 2024 geothermal too; before then batteries
+    too)
+  unit: MW
+  rows: 1020792
+  first: '2018-07-01 04:00:00+00:00'
+  last: '2026-11-19T07:00:00Z'
+- name: net_generation_solar_mw
+  label: Net generation from solar (from July 2024, solar without and with integrated battery storage)
+  unit: MW
+  rows: 1020792
+  first: '2018-07-01 04:00:00+00:00'
+  last: '2026-11-19T07:00:00Z'
+- name: net_generation_storage_mw
+  label: Net generation from battery, other and unknown energy storage, negative while charging (from July 2024 only)
+  unit: MW
+  rows: 366043
+  first: '2024-06-30 01:00:00+00:00'
+  last: '2026-11-19T07:00:00Z'
+- name: net_generation_wind_mw
+  label: Net generation from wind (from July 2024, wind without and with integrated battery storage)
+  unit: MW
+  rows: 1020792
+  first: '2018-07-01 04:00:00+00:00'
+  last: '2026-11-19T07:00:00Z'
+second_look: null

@@ -1,0 +1,236 @@
+# The codebook's metadata of table ercot_4cp_intervals (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_4cp_intervals
+family: ercot
+shape: series
+row: One of ERCOT's four coincident peaks of a year (the 15-minute interval of the system's highest load in each summer month,
+  June to September) with ERCOT's load in it.
+time: ts_utc is the interval's start in UTC, 15 minutes before the time ERCOT prints, read as the interval's end in Central
+  prevailing time.
+vintage_rule: Each write deletes the file and builds the table again from every saved workbook. vintage is the list's posting
+  date at 00:00:00Z; empty for the years of the 1996-2020 zip.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT15M
+source:
+- name: 'ercot:NP9-83-M ERCOT, Four Coincident Peak Calculations (report type 13037; prior years: the page''s Key Documents)'
+  url: https://www.ercot.com/mktinfo/data_agg/4cp
+cite: Electric Reliability Council of Texas (ERCOT). Four Coincident Peak Calculations (NP9-83-M; the years before 2021 from
+  the page's 1996-2020 zip). Via the Energy Research Warehouse (ERW), table `ercot_4cp_intervals`.
+method: docs/methods/ercot_4cp_intervals.md
+header_title: ERCOT's four coincident peaks, the summer months' peak intervals and ERCOT's load in them, by year (session
+  359)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ercot:system; variable cp4_load_mw, MW: the Total row of ERCOT''s
+  Four Coincident Peak Load Calculation (the sum of the load entities'' load in the month''s coincident-peak interval; DC
+  tie exports, block load transfer exports and wholesale storage load excluded, as ERCOT''s note says); ts_utc the interval''s
+  start, freq PT15M; x_interval_local the time ERCOT prints, read as the interval''s end in Central prevailing time; x_month
+  the month; x_published ERCOT''s posting date of the workbook (empty for the years of the 1996-2020 zip, which states none);
+  x_document the workbook.'
+read:
+  date: '2026-11-20'
+  rows: 28
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:system: 28
+  missing_cells: 0
+  particular: 'ercot:system in every row: ERCOT''s whole system'
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 28
+    earliest: '2018-06-27T21:45:00Z'
+    latest: '2025-09-04T22:15:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 28
+    lowest: 64692.523772
+    highest: 85636.884588
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 28
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT15M: 28
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 28
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      ercot_4cp: 28
+  missing_cells: 0
+  particular: 'ercot_4cp in every row: the four coincident peak calculation'
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      ERCOT: 28
+  missing_cells: 0
+  particular: ERCOT in every row, not a price node
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:NP9-83-M: 28
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.ercot.com/files/docs/2022/01/13/1996-2020_FourCoincidentPeakCalculations.zip: 12
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1055377059: 4
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1164129560: 4
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=879528147: 4
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=961277079: 4
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-20T10:12:39Z': 4
+      '2026-10-20T10:12:41Z': 4
+      '2026-10-20T10:12:43Z': 4
+      '2026-10-20T10:12:45Z': 4
+      '2026-10-20T10:12:47Z': 12
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2022-11-28T00:00:00Z': 4
+      '2023-11-27T00:00:00Z': 4
+      '2024-11-25T00:00:00Z': 4
+      '2025-11-24T00:00:00Z': 4
+  missing_cells: 12
+  particular: ERCOT's posting date of the workbook at 00:00:00Z; empty for the years of the 1996-2020 zip, which states none
+- name: x_year
+  label: The year of the summer whose peaks the row is one of
+  unit: none
+  type: integer
+  values:
+    list:
+      '2018': 4
+      '2019': 4
+      '2020': 4
+      '2022': 4
+      '2023': 4
+      '2024': 4
+      '2025': 4
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; data
+- name: x_month
+  label: The month of the peak, YYYY-MM
+  unit: none
+  type: text
+  values:
+    distinct: 28
+    examples:
+    - 2018-06
+    - 2018-07
+    - 2018-08
+    - 2018-09
+    - 2019-06
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method ercot_4cp_intervals.md
+- name: x_interval_local
+  label: The time ERCOT prints for the interval, read as the interval's end in Central prevailing time
+  unit: none
+  type: text
+  values:
+    distinct: 28
+    examples:
+    - 2018-06-27 17:00
+    - 2018-07-19 17:00
+    - 2018-08-23 16:45
+    - 2018-09-19 16:30
+    - 2019-06-19 17:00
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector ercot_4cp.py
+- name: x_published
+  label: ERCOT's posting date of the workbook (the date part of the list's PublishDate)
+  unit: none
+  type: date
+  values:
+    list:
+      '2022-11-28': 4
+      '2023-11-27': 4
+      '2024-11-25': 4
+      '2025-11-24': 4
+  missing_cells: 12
+  missing_meaning: The years of the 1996-2020 zip, which states no posting date
+  source_name: null
+  documented_by: header; method ercot_4cp_intervals.md
+- name: x_document
+  label: The file name of the workbook the row is read from
+  unit: none
+  type: text
+  values:
+    list:
+      ERCOTFourCoincidentPeakLoadCalculation2018.xlsx: 4
+      ERCOTFourCoincidentPeakLoadCalculation2019.xlsx: 4
+      ERCOTFourCoincidentPeakLoadCalculation2020.xlsx: 4
+      rpt.00013037.0000000000000000.20221128.090923347.4CP20221128.xlsx: 4
+      rpt.00013037.0000000000000000.20231127.102940992.4CP20231127.xlsx: 4
+      rpt.00013037.0000000000000000.20241125.121105134.4CP20241125.xlsx: 4
+      rpt.00013037.0000000000000000.20251124.083820245.4CP20251124.xlsx: 4
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+variables:
+- name: cp4_load_mw
+  label: 'ERCOT''s coincident peak load of the month: the Total row of its Four Coincident Peak Load Calculation, the sum
+    of the load entities'' load in the interval (DC tie exports, block load transfer exports and wholesale storage load excluded),
+    MW'
+  unit: MW
+  rows: 28
+  first: '2018-06-27T21:45:00Z'
+  last: '2025-09-04T22:15:00Z'
+second_look: null

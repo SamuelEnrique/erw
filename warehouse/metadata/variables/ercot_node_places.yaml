@@ -1,0 +1,258 @@
+# The codebook's metadata of table ercot_node_places (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_node_places
+family: ercot
+shape: entities
+row: One ERCOT resource node (a settlement point where a generating or storage resource is settled) placed in a county and
+  load zone by the CDR units at its station.
+time: No time column; a snapshot computed from the tables held when the builder ran.
+vintage_rule: Rebuilt whole from node_basis_daily and ercot_cdr_units by each run of the builder; no request is made.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: ercot:cdr Electric Reliability Council of Texas (ERCOT), Capacity, Demand and Reserves Report (the units' county and
+    zone), and ERCOT's settlement points as node_basis_daily holds them
+  url: ''
+cite: Energy Research Warehouse (ERW), derived. ERCOT's resource nodes with the county and zone of their CDR units (docs/methods/ercot_node_places.md).
+  Via the Energy Research Warehouse (ERW), table `ercot_node_places`.
+method: docs/methods/ercot_node_places.md
+header_title: ERCOT's resource nodes with the county and load zone of the CDR units at their station (session 901)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id ercot_node:<settlement point>; entity_type generator;
+  x_county and x_zone ERCOT''s CDR; x_station the code before the first ''_''; x_cdr_units the units matched; x_class and
+  x_resource_type node_basis_daily''s.'
+read:
+  date: '2026-11-20'
+  rows: 569
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 569
+    examples:
+    - ercot_node:7RNCHSLR_ALL
+    - ercot_node:A4_DGR1_RN
+    - ercot_node:A4_DGR2_RN
+    - ercot_node:ADL_RN
+    - ercot_node:AEEC
+  missing_cells: 0
+  particular: ercot_node:<settlement point>
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      generator: 569
+  missing_cells: 0
+  particular: 'generator: the resource ERCOT settles at the node'
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 569
+    examples:
+    - 7RNCHSLR_ALL
+    - A4_DGR1_RN
+    - A4_DGR2_RN
+    - ADL_RN
+    - AEEC
+  missing_cells: 0
+  particular: The settlement point's name
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 569
+  missing_cells: 0
+  particular: US-TX in every row
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569
+  particular: 'Not filled: no cell holds a value'
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:ercot_node_places: 569
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_node_places.md: 569
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T06:46:36Z': 569
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569
+  particular: 'Not filled: no cell holds a value'
+- name: x_station
+  label: The settlement point's name up to the first underscore, the station code (7RNCHSLR_ALL gives 7RNCHSLR)
+  unit: none
+  type: text
+  values:
+    distinct: 496
+    examples:
+    - 7RNCHSLR
+    - A4
+    - ADL
+    - AE
+    - AEEC
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method ercot_node_places.md
+- name: x_county
+  label: The county ERCOT's CDR gives every unit at that station
+  unit: none
+  type: text
+  values:
+    distinct: 148
+    examples:
+    - ANDREWS
+    - ANGELINA
+    - ARCHER
+    - ARMSTRONG
+    - ATASCOSA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method ercot_node_places.md
+- name: x_zone
+  label: The load zone ERCOT's CDR gives every unit at that station (COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST)
+  unit: none
+  type: text
+  values:
+    list:
+      COASTAL: 58
+      HOUSTON: 53
+      NORTH: 138
+      PANHANDLE: 27
+      SOUTH: 138
+      WEST: 155
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method ercot_node_places.md
+- name: x_class
+  label: The node's class in node_basis_daily (gas, wind, solar, storage, mixed, other)
+  unit: none
+  type: text
+  values:
+    list:
+      gas: 134
+      mixed: 47
+      other: 33
+      solar: 98
+      storage: 128
+      wind: 129
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method ercot_node_places.md
+- name: x_resource_type
+  label: ERCOT's resource type of the node as node_basis_daily holds it (CCGT90, CLLIG, DSL and others)
+  unit: none
+  type: text
+  values:
+    distinct: 26
+    examples:
+    - CCGT90
+    - CCLE90
+    - CLLIG
+    - DSL
+    - DSL+RENEW
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method ercot_node_places.md
+- name: x_cdr_units
+  label: The CDR units matched to the station, joined with ;
+  unit: none
+  type: text
+  values:
+    distinct: 496
+    examples:
+    - 7RNCHSLR_UNIT1;7RNCHSLR_UNIT2;7RNCHSLR_UNIT3
+    - A4_DGR1;A4_DGR2
+    - ADL_SOLAR1
+    - AEEC_ANTLP_1;AEEC_ANTLP_1_UNAVAIL;AEEC_ANTLP_2;AEEC_ANTLP_2_UNAVAIL;AEEC_ANTLP_3;AEEC_ANTLP_3_UNAVAIL;AEEC_ELK_1;AEEC_ELK_1_UNAVAIL;AEEC_ELK_2;AEEC_ELK_2_UNAVAIL;AEEC_ELK_3;AEEC_ELK_3_UNAVAIL
+    - AE_BESS
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method ercot_node_places.md
+- name: x_cdr_units_n
+  label: The number of CDR units matched
+  unit: count
+  type: integer
+  values:
+    list:
+      '1': 220
+      '10': 7
+      '12': 1
+      '17': 4
+      '2': 167
+      '3': 59
+      '4': 47
+      '5': 18
+      '6': 21
+      '7': 1
+      '8': 14
+      '9': 10
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method ercot_node_places.md
+second_look: null

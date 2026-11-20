@@ -1,0 +1,607 @@
+# The codebook's metadata of table eia861_utility_data (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia861_utility_data
+family: eia861
+shape: entities
+row: One utility in one year under one state, as one row of EIA's Utility Data sheet (Form EIA-861) gives it, with its NERC
+  region, the RTOs it operates in and its activities.
+time: No time column; status_date is the data year's 1 January.
+vintage_rule: A run reads the years given with --years and writes the table whole; vintage is not filled.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:eia861:utility_data U.S. Energy Information Administration, Form EIA-861 Annual Electric Power Industry Report
+    (Utility_Data_<year>.xlsx)
+  url: https://www.eia.gov/electricity/data/eia861/
+cite: U.S. Energy Information Administration (EIA). Form EIA-861 Annual Electric Power Industry Report, utility data. Via
+  the Energy Research Warehouse (ERW), table `eia861_utility_data`.
+method: docs/methods/eia861_utility_data.md
+header_title: 'EIA-861 utility data: each utility''s NERC region, the RTOs it operates in and its activities, by state and
+  year (session 867)'
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id eia861_utility:<utility>:<state>:<year>; entity_type utility;
+  name the utility''s name; geo US-<state>; status_date the data year''s 1 January; x_* EIA''s fields: each flag as EIA gives
+  it (Y, N or empty): x_nerc_<region> (other NERC regions), x_rto_<rto>, the activities; x_rtos the RTOs marked Y.'
+read:
+  date: '2026-11-20'
+  rows: 22716
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - eia861_utility:10000:MO:2015
+    - eia861_utility:10000:MO:2016
+    - eia861_utility:10000:MO:2017
+    - eia861_utility:10000:MO:2018
+    - eia861_utility:10000:MO:2019
+  missing_cells: 0
+  particular: eia861_utility:<utility number>:<state>:<year>
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      utility: 22716
+  missing_cells: 0
+  particular: Always utility
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 3754
+    examples:
+    - 3 Phases Renewables
+    - 3 Phases Renewables Inc
+    - 3000 Energy Corp
+    - 4-County Electric Power Assn
+    - 4Change Energy Company
+  missing_cells: 0
+  particular: The utility's name as EIA writes it
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 58
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AS
+  missing_cells: 0
+  particular: US-<state>, or US for the 10 rows EIA gives with no state
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 22716
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 22716
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 22716
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 22716
+  particular: 'Not filled: no cell holds a value'
+- name: status_date
+  shared: true
+  type: date
+  values:
+    list:
+      '2015-01-01': 2273
+      '2016-01-01': 2280
+      '2017-01-01': 2290
+      '2018-01-01': 2296
+      '2019-01-01': 3339
+      '2020-01-01': 1696
+      '2021-01-01': 1698
+      '2022-01-01': 1704
+      '2023-01-01': 1717
+      '2024-01-01': 1703
+      '2025-01-01': 1720
+  missing_cells: 0
+  particular: The data year's 1 January
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 22716
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia861:utility_data: 22716
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612015.zip: 2273
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612016.zip: 2280
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612017.zip: 2290
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612018.zip: 2296
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612019.zip: 3339
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612020.zip: 1696
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612021.zip: 1698
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612022.zip: 1704
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612023.zip: 1717
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612024.zip: 1703
+      https://www.eia.gov/electricity/data/eia861/zip/f8612025.zip: 1720
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T16:56:34Z': 1720
+      '2026-10-21T17:48:28Z': 1703
+      '2026-10-21T17:48:31Z': 1717
+      '2026-10-21T17:48:34Z': 1704
+      '2026-10-21T17:48:37Z': 1698
+      '2026-10-21T17:48:40Z': 1696
+      '2026-10-21T17:48:44Z': 3339
+      '2026-10-21T17:48:48Z': 2296
+      '2026-10-21T17:48:52Z': 2290
+      '2026-10-21T17:48:57Z': 2280
+      '2026-10-21T17:49:02Z': 2273
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 22716
+  particular: 'Not filled: no cell holds a value'
+- name: x_utility_number
+  label: EIA's utility identifier
+  unit: none
+  type: integer
+  values:
+    distinct: 3542
+    lowest: 34
+    highest: 67932
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_state
+  label: The state EIA lists the utility under that year (one state a year, though it may sell in several)
+  unit: none
+  type: text
+  values:
+    distinct: 57
+    examples:
+    - AK
+    - AL
+    - AR
+    - AS
+    - AZ
+  missing_cells: 10
+  missing_meaning: EIA gives no state (10 rows)
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_year
+  label: The data year
+  unit: none
+  type: integer
+  values:
+    list:
+      '2015': 2273
+      '2016': 2280
+      '2017': 2290
+      '2018': 2296
+      '2019': 3339
+      '2020': 1696
+      '2021': 1698
+      '2022': 1704
+      '2023': 1717
+      '2024': 1703
+      '2025': 1720
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_ownership
+  label: EIA's ownership class in its words (Municipal, Cooperative, Retail Power Marketer, Investor Owned and others)
+  unit: none
+  type: text
+  values:
+    list:
+      Behind the Meter: 134
+      Community Choice Aggregator: 199
+      Cooperative: 7707
+      Federal: 90
+      Investor Owned: 1858
+      Municipal: 7849
+      Municipal Mktg Authority: 167
+      Political Subdivision: 1055
+      Retail Power Marketer: 2780
+      State: 247
+      Transmission: 239
+      Unknown: 5
+      Wholesale Power Marketer: 386
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Ownership Type
+  documented_by: method eia861_utility_data.md
+- name: x_nerc_region
+  label: The NERC reliability region as EIA writes it, not cleaned (it holds variants such as MISO, ERCOT and lower-case serc)
+  unit: none
+  type: text
+  values:
+    distinct: 36
+    examples:
+    - 5-MISE
+    - AK
+    - AS
+    - ASCC
+    - ECAR
+  missing_cells: 3365
+  missing_meaning: EIA gives none
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_short_form
+  label: Y when the utility filed EIA's short form; only in 2019's files
+  unit: none
+  type: text
+  values:
+    list:
+      Y: 1038
+  missing_cells: 21678
+  missing_meaning: Not a short-form filer, or a year other than 2019
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_nerc_tre
+  label: 'Whether the utility also operates in this other NERC region (TRE), as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 656
+      Y: 1580
+  missing_cells: 20480
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_nerc_frcc
+  label: 'Whether the utility also operates in the NERC region FRCC, as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 118
+      Y: 423
+  missing_cells: 22175
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_nerc_mro
+  label: 'Whether the utility also operates in the NERC region MRO, as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 431
+      Y: 3277
+  missing_cells: 19008
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_nerc_npcc
+  label: 'Whether the utility also operates in the NERC region NPCC, as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 207
+      Y: 1290
+  missing_cells: 21219
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_nerc_rfc
+  label: 'Whether the utility also operates in the NERC region RFC, as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 1256
+      Y: 3338
+  missing_cells: 18122
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_nerc_serc
+  label: 'Whether the utility also operates in the NERC region SERC, as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 293
+      Y: 5506
+  missing_cells: 16917
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_nerc_spp
+  label: 'Whether the utility also operates in the NERC region SPP (the region, not the RTO), as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 562
+      Y: 2099
+  missing_cells: 20055
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_nerc_wecc
+  label: 'Whether the utility also operates in the NERC region WECC, as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 220
+      Y: 3251
+  missing_cells: 19245
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_rto_caiso
+  label: 'Whether the utility operates in the RTO (regional grid operator) CAISO, as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 242
+      Y: 1001
+  missing_cells: 21473
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_rto_ercot
+  label: 'Whether the utility operates in the RTO ERCOT, as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 177
+      Y: 1716
+  missing_cells: 20823
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_rto_pjm
+  label: 'Whether the utility operates in the RTO PJM, as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 250
+      Y: 3331
+  missing_cells: 19135
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_rto_nyiso
+  label: 'Whether the utility operates in the RTO NYISO, as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 136
+      Y: 1223
+  missing_cells: 21357
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_rto_spp
+  label: 'Whether the utility operates in the RTO SPP (the RTO, not the NERC region), as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 385
+      Y: 2540
+  missing_cells: 19791
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_rto_miso
+  label: 'Whether the utility operates in the RTO MISO, as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 493
+      Y: 4189
+  missing_cells: 18034
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_rto_isone
+  label: 'Whether the utility operates in the RTO ISO-NE, as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 159
+      Y: 1595
+  missing_cells: 20962
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_rto_other
+  label: 'Whether the utility operates in another RTO, as EIA gives it: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 702
+      Y: 3885
+  missing_cells: 18129
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+- name: x_generation
+  label: 'EIA''s activity flag Generation: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 923
+      Y: 5691
+  missing_cells: 16102
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_transmission
+  label: 'EIA''s activity flag Transmission: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 2010
+      Y: 4284
+  missing_cells: 16422
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_buying_transmission
+  label: 'EIA''s activity flag Buying Transmission: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 556
+      Y: 5293
+  missing_cells: 16867
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_distribution
+  label: 'EIA''s activity flag Distribution: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 193
+      Y: 17113
+  missing_cells: 5410
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_buying_distribution
+  label: 'EIA''s activity flag Buying Distribution: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 457
+      Y: 771
+  missing_cells: 21488
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_wholesale_marketing
+  label: 'EIA''s activity flag Wholesale Marketing: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 349
+      Y: 3649
+  missing_cells: 18718
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_retail_marketing
+  label: 'EIA''s activity flag Retail Marketing: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 608
+      Y: 4058
+  missing_cells: 18050
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_bundled
+  label: 'EIA''s activity flag Bundled: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 700
+      Y: 2832
+  missing_cells: 19184
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_alt_fuel_vehicle
+  label: 'EIA''s first activity flag on alternative-fuel vehicles: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 5181
+      Y: 4869
+  missing_cells: 12666
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_alt_fuel_vehicle_2
+  label: 'EIA''s second activity flag on alternative-fuel vehicles: Y, N or empty'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 813
+      Y: 4988
+  missing_cells: 16915
+  missing_meaning: EIA's cell is empty (kept apart from N)
+  source_name: null
+  documented_by: method eia861_utility_data.md
+- name: x_rtos
+  label: The RTOs marked Y, joined by ';' (an ERW field for reading)
+  unit: none
+  type: text
+  values:
+    distinct: 58
+    examples:
+    - CAISO
+    - CAISO;ERCOT
+    - CAISO;ERCOT;ISONE
+    - CAISO;ERCOT;PJM
+    - CAISO;ERCOT;PJM;MISO
+  missing_cells: 6358
+  missing_meaning: No RTO is marked Y
+  source_name: null
+  documented_by: header; method eia861_utility_data.md
+second_look:
+- 'x_alt_fuel_vehicle and x_alt_fuel_vehicle_2: the method note names the two flags but not what EIA''s two headings ask,
+  so they are labelled only as EIA''s first and second alternative-fuel vehicle flags.'

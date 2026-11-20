@@ -1,0 +1,337 @@
+# The codebook's metadata of table hifld_transmission_lines (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: hifld_transmission_lines
+family: other_sources
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: 'hifld:transmission_lines Homeland Infrastructure Foundation-Level Data (HIFLD), Electric Power Transmission Lines
+    (ORNL, NGA HSIP), as served by Penn State''s PASDA:  where VOLTAGE>=230, in batches (sha256 ba039a3a2b7259dc6b474d2ffcf408f3bd3f628dfd7cab5ef5e7cf513094de10,
+    saved at warehouse/raw/hifld_lines/20261120T024611Z/transmission.geojson)'
+  url: https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/178/query
+cite: Homeland Infrastructure Foundation-Level Data (HIFLD), served by Penn State PASDA. Electric Power Transmission Lines,
+  HIFLD open data layer, PASDA map service HIFLD_FEMA layer 178. Via the Energy Research Warehouse (ERW), table `hifld_transmission_lines`.
+method: docs/methods/map_layers.md
+header_title: electric transmission lines of 230 kV and above, HIFLD's Electric Power Transmission Lines layer (session 8014,
+  chain 581 part D)
+header_shape: 'Shape: entities (docs/datastandard.md v0), entity_type transmission_line (Decision 82). entity_id hifld:transmission_line:<HIFLD
+  ID>; lat and lon: the line''s midpoint; operator: HIFLD''s OWNER as printed; x_voltage_kv: HIFLD''s VOLTAGE (a code below
+  zero left blank); x_length_km on a sphere. The lines themselves are in the saved raw file and, simplified, in site/data/map_layers/transmission_230kv.json.
+  Method: docs/methods/map_layers.md.'
+read:
+  date: '2026-11-20'
+  rows: 10692
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - hifld:transmission_line:100019
+    - hifld:transmission_line:100024
+    - hifld:transmission_line:100029
+    - hifld:transmission_line:100039
+    - hifld:transmission_line:100042
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      transmission_line: 10692
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 11TH AVENUE to STADIUM
+    - 137TH AVENUE to NEWTON
+    - 137TH AVENUE to UNKNOWN177419
+    - 230-KV WEST to GREENVILLE
+    - 230-KV WEST to UNKNOWN111468
+  missing_cells: 2355
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 10692
+- name: lat
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 17.94672
+    highest: 61.43109
+  missing_cells: 0
+- name: lon
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -150.54138
+    highest: -65.85667
+  missing_cells: 0
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 10692
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      operating: 8308
+      under_construction: 2
+  missing_cells: 2382
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 10692
+- name: operator
+  shared: true
+  type: text
+  values:
+    distinct: 294
+    examples:
+    - AEP
+    - AEP TEXAS CENTRAL
+    - AEP TEXAS CENTRAL CO.
+    - AEP TEXAS CENTRAL COMPANY
+    - AEP TEXAS NORTH CO.
+  missing_cells: 1846
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      hifld:transmission_lines: 10692
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/178: 10692
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-20T02:48:53Z': 10692
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: date
+  values:
+    distinct: 752
+    earliest: '1996-01-01'
+    latest: '2024-09-26'
+  missing_cells: 0
+- name: x_hifld_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 100019
+    highest: 400541
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_voltage_kv
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1000': 1
+      '230': 7205
+      '232': 2
+      '236': 2
+      '238': 2
+      '240': 4
+      '245': 1
+      '250': 1
+      '273': 2
+      '275': 3
+      '287': 3
+      '345': 2600
+      '348': 4
+      '400': 1
+      '450': 2
+      '500': 813
+      '765': 46
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_volt_class
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      220-287: 7221
+      '345': 2600
+      '500': 813
+      735 AND ABOVE: 46
+      DC: 12
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      AC; OVERHEAD: 10155
+      AC; UNDERGROUND: 69
+      DC; OVERHEAD: 10
+      OVERHEAD: 456
+  missing_cells: 2
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_inferred
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 5202
+      Y: 5490
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      IN SERVICE: 8308
+      INACTIVE: 15
+      UNDER CONSTRUCTION: 2
+  missing_cells: 2367
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sub_1
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 4622
+    examples:
+    - 11TH AVENUE
+    - 137TH AVENUE
+    - 230-KV WEST
+    - 3 MILE KNOLL
+    - 40TH STREET
+  missing_cells: 415
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sub_2
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 3955
+    examples:
+    - 11TH AVENUE
+    - 3 MILE KNOLL
+    - 40TH STREET
+    - 51ST STREET
+    - 90TH SOUTH
+  missing_cells: 2355
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_length_km
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.01
+    highest: 1359.74
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_source
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 358
+    examples:
+    - Arizona Corporation Commission http://preview.tinyurl.com/nkregtd
+    - California Energy Commission
+    - California Energy Commission http://www.energy.ca.gov/maps/
+    - California Environmental Protection Agency http://www.swrcb.ca.gov/water_issues/programs/ocean/cwa316/docs/energy_comp/10yta_2012_5.pdf
+    - California Independent System Operator
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_source_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 752
+    earliest: '1996-01-01'
+    latest: '2024-09-26'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_val_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 635
+    earliest: '2014-06-06'
+    latest: '2024-08-02'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_raw_sha256
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ba039a3a2b7259dc6b474d2ffcf408f3bd3f628dfd7cab5ef5e7cf513094de10: 10692
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

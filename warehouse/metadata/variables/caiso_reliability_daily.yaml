@@ -1,0 +1,269 @@
+# The codebook's metadata of table caiso_reliability_daily (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: caiso_reliability_daily
+family: caiso
+shape: series
+row: One measure of how tight CAISO's grid was on one Pacific day (demand peak and evening ramp, battery output at the evening
+  peak, notices issued).
+time: ts_utc is the local (Pacific) day at 00:00:00Z; a day is written only when every hour of it is held.
+vintage_rule: Rebuilt whole from caiso_battery_storage, caiso_grid_emergencies and eia930_all_demand by each run of the builder;
+  vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1D
+source:
+- name: erw:caiso_reliability ERW derived table, California reliability method (docs/methods/california_reliability.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/california_reliability.md
+cite: Energy Research Warehouse (ERW), derived. California reliability, how tight was it (warehouse/derived/caiso_reliability.py).
+  Via the Energy Research Warehouse (ERW), table `caiso_reliability_daily`.
+method: docs/methods/california_reliability.md
+header_title: how tight was it, CAISO's evenings day by day (derived, session 58, California reliability v1)
+header_shape: 'Shape: series (docs/datastandard.md v0); freq P1D, ts_utc the local (Pacific) day at 00:00:00Z (decision 11).
+  eia930:CISO: peak_demand_mw, peak_hour, afternoon_mean_mw (hours starting 12 to 14), evening_peak_mw and evening_peak_hour
+  (hours starting 17 to 20), evening_ramp_mw (the evening peak less the afternoon mean); caiso:ISO: battery_mw_evening_peak
+  (the batteries'' mean over the evening peak hour, 2025-08-24 on) and battery_share_pct (over the evening peak), notices_<type>
+  (the day''s CAISO notices).'
+read:
+  date: '2026-11-20'
+  rows: 20832
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:ISO: 2682
+      eia930:CISO: 18150
+  missing_cells: 0
+  particular: eia930:CISO for the demand measures (EIA-930 demand of CAISO's balancing authority), caiso:ISO for the battery
+    and notice measures
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 3704
+    earliest: '1998-05-30T00:00:00Z'
+    latest: '2026-11-13T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -3416.0
+    highest: 51104.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 12538
+      count: 1806
+      hour: 6050
+      pct: 438
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 20832
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 20832
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 20832
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 20832
+  particular: 'Not filled: no cell holds a value'
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:caiso_reliability: 20832
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/california_reliability.md: 20832
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-19T17:44:49Z': 20832
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 20832
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: afternoon_mean_mw
+  label: The mean demand of the hours starting 12:00, 13:00 and 14:00, MW
+  unit: MW
+  rows: 3025
+  first: '2018-07-01T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: battery_mw_evening_peak
+  label: The batteries' mean output over the evening peak hour (its twelve 5-minute intervals), MW, positive discharge; from
+    2025-08-24
+  unit: MW
+  rows: 438
+  first: '2025-08-24T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: battery_share_pct
+  label: The batteries' output at the evening peak as a percent of the evening peak's demand
+  unit: pct
+  rows: 438
+  first: '2025-08-24T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: evening_peak_hour
+  label: The local start of the evening peak hour, the earliest on a tie
+  unit: hour
+  rows: 3025
+  first: '2018-07-01T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: evening_peak_mw
+  label: The highest demand of the hours starting 17:00 to 20:00, MW
+  unit: MW
+  rows: 3025
+  first: '2018-07-01T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: evening_ramp_mw
+  label: 'The evening peak less the afternoon mean: the rise into the evening, MW'
+  unit: MW
+  rows: 3025
+  first: '2018-07-01T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: notices_alert
+  label: The day's CAISO notices of type alert
+  unit: count
+  rows: 245
+  first: '1998-05-30T00:00:00Z'
+  last: '2020-10-15T00:00:00Z'
+- name: notices_eea1
+  label: The day's Energy Emergency Alert 1 notices
+  unit: count
+  rows: 7
+  first: '2022-08-31T00:00:00Z'
+  last: '2023-07-20T00:00:00Z'
+- name: notices_eea2
+  label: The day's Energy Emergency Alert 2 notices
+  unit: count
+  rows: 4
+  first: '2022-09-05T00:00:00Z'
+  last: '2022-09-08T00:00:00Z'
+- name: notices_eea3
+  label: The day's Energy Emergency Alert 3 notices
+  unit: count
+  rows: 1
+  first: '2022-09-06T00:00:00Z'
+  last: '2022-09-06T00:00:00Z'
+- name: notices_eea_watch
+  label: The day's Energy Emergency Alert watch notices
+  unit: count
+  rows: 12
+  first: '2022-08-31T00:00:00Z'
+  last: '2024-07-24T00:00:00Z'
+- name: notices_flex_alert
+  label: The day's Flex Alert notices (Power Watch included)
+  unit: count
+  rows: 137
+  first: '2000-05-22T00:00:00Z'
+  last: '2022-09-09T00:00:00Z'
+- name: notices_load_interruption
+  label: The day's 1-Hour Probable Load Interruption notices
+  unit: count
+  rows: 1
+  first: '2020-08-18T00:00:00Z'
+  last: '2020-08-18T00:00:00Z'
+- name: notices_rmo
+  label: The day's Restricted Maintenance Operations notices (No Touch included)
+  unit: count
+  rows: 689
+  first: '1998-07-27T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: notices_stage1
+  label: The day's stage 1 emergency notices
+  unit: count
+  rows: 146
+  first: '1998-07-27T00:00:00Z'
+  last: '2017-05-03T00:00:00Z'
+- name: notices_stage2
+  label: The day's stage 2 emergency notices
+  unit: count
+  rows: 118
+  first: '1998-07-27T00:00:00Z'
+  last: '2021-07-09T00:00:00Z'
+- name: notices_stage3
+  label: The day's stage 3 emergency notices
+  unit: count
+  rows: 41
+  first: '2000-12-07T00:00:00Z'
+  last: '2020-08-15T00:00:00Z'
+- name: notices_transmission_emergency
+  label: The day's transmission emergency notices
+  unit: count
+  rows: 77
+  first: '2004-01-12T00:00:00Z'
+  last: '2025-04-30T00:00:00Z'
+- name: notices_vlrp
+  label: The day's Voluntary Load Reduction Program notices
+  unit: count
+  rows: 8
+  first: '2004-02-03T00:00:00Z'
+  last: '2006-07-25T00:00:00Z'
+- name: notices_warning
+  label: The day's CAISO notices of type warning
+  unit: count
+  rows: 320
+  first: '1998-07-27T00:00:00Z'
+  last: '2021-07-29T00:00:00Z'
+- name: peak_demand_mw
+  label: The day's highest hour of demand, MW (each hour's mean)
+  unit: MW
+  rows: 3025
+  first: '2018-07-01T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: peak_hour
+  label: The local start (0 to 23) of the day's highest hour of demand, the earliest on a tie
+  unit: hour
+  rows: 3025
+  first: '2018-07-01T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+second_look: null

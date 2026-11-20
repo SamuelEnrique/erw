@@ -1,0 +1,326 @@
+# The codebook's metadata of table wfigs_wildfires (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: wfigs_wildfires
+family: other_sources
+shape: events
+row: null
+time: null
+vintage_rule: null
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: nifc:wfigs_incident_locations NIFC, WFIGS Incident Locations
+  url: https://data-nifc.opendata.arcgis.com/
+cite: 'National Interagency Fire Center (NIFC). Wildland Fire Interagency Geospatial Services (WFIGS): Incident Locations.
+  Via the Energy Research Warehouse (ERW), table `wfigs_wildfires`.'
+method: docs/methods/wfigs_wildfires.md
+header_title: 'National Interagency Fire Center (NIFC), Wildland Fire Interagency Geospatial Services (WFIGS), Incident Locations:
+  every wildfire of 1,000 acres or more discovered from 2015 (session 2134)'
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id wfigs:<IRWIN id>; event_date the discovery''s UTC day; event_type
+  wildfire; status out or contained where those times are given; x_ the name, state and county of origin, the point of origin,
+  the final acres and incident size as published (acres), the cause, the discovery, containment and fire-out times (UTC),
+  and the unique fire identifier.'
+read:
+  date: '2026-11-20'
+  rows: 6222
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - wfigs:000df40c-307f-4973-9171-bb269168b9f3
+    - wfigs:0022a54b-5d87-4818-9bd2-78848568d249
+    - wfigs:00295066-e99f-4f61-8fdc-dc06a97f7b52
+    - wfigs:0033fe45-c7c5-43fc-97fb-6e678ce9bda8
+    - wfigs:0034f9b4-3b53-4eb7-9f3f-fdec1c52bbfa
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 2135
+    earliest: '2015-01-18'
+    latest: '2026-10-21'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      wildfire: 6222
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6222
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6222
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6222
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6222
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6222
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      contained: 470
+      out: 4513
+  missing_cells: 1239
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nifc:wfigs_incident_locations: 6222
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/WFIGS_Incident_Locations/FeatureServer/0: 6222
+  missing_cells: 0
+- name: x_name
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - ' Black Mountain'
+    - ' Bridger Foothills'
+    - ' CASTLE'
+    - ' CONSTELLATION'
+    - ' Diamond Watch'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 42
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 730
+    examples:
+    - Ada
+    - Adair
+    - Adams
+    - Aitkin
+    - Alameda
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_latitude
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 4996
+    lowest: 0.0
+    highest: 81.2877
+  missing_cells: 1136
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_longitude
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 4739
+    lowest: -231.667
+    highest: 102.53
+  missing_cells: 1136
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_final_acres
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 446
+    lowest: 1000.0
+    highest: 318156.0
+  missing_cells: 5729
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_incident_size_acres
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 4492
+    lowest: 918.0
+    highest: 1054150.0
+  missing_cells: 24
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_cause_general
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Arson: 7
+      Camping: 14
+      Cause and Origin Not Identified: 79
+      Coal Seam: 11
+      Debris and open burning: 16
+      Debris/Open Burning: 35
+      Equipment: 82
+      Equipment and vehicle use: 39
+      Firearms/Weapons: 14
+      Incendiary: 17
+      Investigated but Undetermined: 29
+      Lightning: 422
+      Misc/Other: 2
+      Natural: 102
+      Other Human Cause: 112
+      Other Natural Cause: 13
+      Other causes: 1
+      Power generation/transmission/distribution: 22
+      Railroad: 2
+      Railroad operations and maintenance: 1
+      Recreation and ceremony: 1
+      Smoking: 1
+      Undetermined: 46
+      Undetermined (remarks required): 45
+      Utilities: 38
+  missing_cells: 5071
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_cause
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Human: 1840
+      Natural: 2864
+      Undetermined: 1079
+      Unknown: 292
+  missing_cells: 147
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_discovered_utc
+  label: null
+  unit: null
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2015-01-18T19:03:00Z'
+    latest: '2026-10-21T19:40:00Z'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_contained_utc
+  label: null
+  unit: null
+  type: utc time
+  values:
+    distinct: 4133
+    earliest: '2015-01-19T18:00:00Z'
+    latest: '2026-10-22T19:58:00Z'
+  missing_cells: 1640
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_out_utc
+  label: null
+  unit: null
+  type: utc time
+  values:
+    distinct: 3808
+    earliest: '2015-01-23T02:00:00Z'
+    latest: '2026-10-23T22:17:00Z'
+  missing_cells: 1709
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_unique_fire_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 2015-AKDAS-512313
+    - 2015-AKDAS-512321
+    - 2015-AKDAS-512396
+    - 2015-AKFAS-511408
+    - 2015-AKFAS-511414
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T23:10:00Z': 2000
+      '2026-10-23T23:10:03Z': 2000
+      '2026-10-23T23:10:05Z': 2000
+      '2026-10-23T23:10:08Z': 222
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T23:06:52Z': 6222
+  missing_cells: 0
+second_look: null

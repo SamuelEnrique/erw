@@ -1,0 +1,417 @@
+# The codebook's metadata of table attention_story_links (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: attention_story_links
+family: erw_derived
+shape: events
+row: 'One classified news story behind the Attention and Friction indices: its week, sector, place, opposition, kind, tone
+  and link.'
+time: event_date is the story's publish time, UTC; week is the Monday 00:00Z of its week.
+vintage_rule: Merged by event_id on each run, the newest classification of a story kept (by classified_at); rows of earlier
+  runs not rewritten are kept.
+keys:
+- event_id
+license: public
+tier: model_extracted
+interval: event
+source: []
+cite: 'Energy Research Warehouse (ERW). The Attention and Friction indices: coverage and opposition by week, sector and place,
+  from the classified news stories (the ERW''s own derivation). Via the Energy Research Warehouse (ERW), table `attention_story_links`.'
+method: docs/methods/attention.md
+header_title: the stories behind the Attention and Friction indices, one row a classified story (session 3402)
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type attention_link; event_date is the story''s publish time,
+  UTC; week is the Monday 00:00Z of its week; geo is US-<state> where the story names one state, US where it is about the
+  United States, else empty; opposition, kind and tone are the model''s reading of the title and summary; fixed names any
+  value the code emptied.'
+read:
+  date: '2026-11-20'
+  rows: 8120
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - attn:0007c90d93793ce0
+    - attn:0010e7ad3689a2d6
+    - attn:00111d8c171a3b8b
+    - attn:002113443048f072
+    - attn:002bc7ebc5774cab
+  missing_cells: 0
+  particular: attn:<the story's news id>
+- name: event_date
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2026-10-05T17:03:00Z'
+    latest: '2026-11-17T12:00:00Z'
+  missing_cells: 0
+  particular: The story's publish time, UTC (YYYY-MM-DDTHH:MM:SSZ)
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      attention_link: 8120
+  missing_cells: 0
+  particular: attention_link on every row
+- name: parties
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8120
+  particular: 'Not filled: no cell holds a value'
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8120
+  particular: 'Not filled: no cell holds a value'
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8120
+  particular: 'Not filled: no cell holds a value'
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8120
+  particular: 'Not filled: no cell holds a value'
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8120
+  particular: 'Not filled: no cell holds a value'
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8120
+  particular: 'Not filled: no cell holds a value'
+- name: source
+  shared: true
+  type: text
+  values:
+    distinct: 48
+    examples:
+    - ANS Nuclear Newswire
+    - Bloomberg
+    - Bloomberg.com
+    - CTVC
+    - California ISO
+  missing_cells: 0
+  particular: The story's outlet, as the news corpus holds it
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - https://electrek.co/2026/10/05/byds-flagship-suv-topped-10000-sales-3-months-straight/
+    - https://electrek.co/2026/10/05/department-of-war-drafts-ev-battery-factory-into-military-drone-duty-with-75m-grant/
+    - https://electrek.co/2026/10/05/hyundai-testing-smaller-ev-could-be-ioniq-4-video/
+    - https://electrek.co/2026/10/05/kia-pv5-ridiculously-cool-dump-truck/
+    - https://electrek.co/2026/10/05/lucid-lcid-q3-2026-deliveries-production/
+  missing_cells: 0
+- name: story_event_id
+  label: The story's event_id in news_stories (news:<id>)
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - news:0007c90d93793ce0
+    - news:0010e7ad3689a2d6
+    - news:00111d8c171a3b8b
+    - news:002113443048f072
+    - news:002bc7ebc5774cab
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector attention_index.py
+- name: week
+  label: The Monday 00:00Z (UTC) of the week the story was published in
+  unit: none
+  type: utc time
+  values:
+    list:
+      '2026-10-05T00:00:00Z': 1944
+      '2026-10-12T00:00:00Z': 1438
+      '2026-10-19T00:00:00Z': 1920
+      '2026-10-26T00:00:00Z': 2299
+      '2026-11-02T00:00:00Z': 518
+      '2026-11-16T00:00:00Z': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector attention_index.py
+- name: sector
+  label: 'What the story is mainly about, as the model classified it: one of the seven index sectors (datacenters, transmission,
+    gas, nuclear, solar_wind, storage, oil_lng), other_energy, or not_energy'
+  unit: none
+  type: text
+  values:
+    list:
+      datacenters: 799
+      gas: 393
+      not_energy: 3095
+      nuclear: 264
+      oil_lng: 1708
+      other_energy: 1130
+      solar_wind: 203
+      storage: 258
+      transmission: 270
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method attention.md; connector attention_classify.py
+- name: us
+  label: true when the story is about the United States (a US place, a US company's US project, a federal or state action),
+    else false
+  unit: none
+  type: boolean
+  values:
+    list:
+      'false': 4472
+      'true': 3648
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method attention.md; connector attention_classify.py
+- name: state
+  label: The one US state the story is mainly about, postal code
+  unit: none
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 7364
+  missing_meaning: No state, several states, or a story not about the US
+  source_name: null
+  documented_by: method attention.md
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 50
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 4472
+  particular: US-<state> where the story names one state, US where it is about the United States, else empty
+- name: place
+  label: The county, city or metro the text names as the project's or dispute's place, as written
+  unit: none
+  type: text
+  values:
+    distinct: 185
+    examples:
+    - Adelaide
+    - Aiken
+    - Albuquerque
+    - Alibaug
+    - Amarillo
+  missing_cells: 7869
+  missing_meaning: The text names no such place
+  source_name: null
+  documented_by: method attention.md
+- name: place_kind
+  label: 'The kind of the named place: county, city or metro'
+  unit: none
+  type: text
+  values:
+    list:
+      city: 178
+      county: 35
+      metro: 18
+  missing_cells: 7889
+  missing_meaning: No place named
+  source_name: null
+  documented_by: method attention.md; connector attention_classify.py
+- name: opposition
+  label: true when the story reports opposition to an energy or data center project, plant, line, pipeline, policy, permit,
+    lease or rate, else false
+  unit: none
+  type: boolean
+  values:
+    list:
+      'false': 7866
+      'true': 254
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method attention.md
+- name: kind
+  label: 'The main kind of opposition reported: moratorium, lawsuit, protest, permit_denied, rate_case, political_opposition,
+    other_opposition, or none'
+  unit: none
+  type: text
+  values:
+    list:
+      lawsuit: 33
+      moratorium: 13
+      none: 7866
+      other_opposition: 31
+      permit_denied: 3
+      political_opposition: 114
+      protest: 42
+      rate_case: 18
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method attention.md
+- name: tone
+  label: 'The story''s tone toward what it covers: -1 negative, 0 neutral or mixed, 1 positive'
+  unit: none
+  type: integer
+  values:
+    list:
+      '-1': 2064
+      '0': 3709
+      '1': 2347
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method attention.md; connector attention_classify.py
+- name: headline
+  label: 'The story''s headline in the ERW''s own words: the news scorer''s where it read the story, else the classifier model''s
+    neutral headline of at most fourteen words'
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - $67.8 billion in Asian LNG-to-power projects scrapped or stalled since 2021
+    - 120K customers without power in Southeastern US after Hurricane Isaias
+    - 121 Gulf platforms evacuated as Isaias strengthens
+    - 1GW data center with 5GWh battery storage submitted to Australia's EPBC Act
+    - 1Komma5Grad raises funding at $1.35 billion valuation
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector attention_classify.py; connector attention_index.py
+- name: scorer_sector
+  label: The sector the news scorer gave the story, in the scorer's own vocabulary (capital, company, datacenter_power, deal,
+    gas and others)
+  unit: none
+  type: text
+  values:
+    list:
+      capital: 199
+      company: 214
+      datacenter_power: 376
+      deal: 134
+      gas: 143
+      generation: 100
+      geopolitics: 347
+      grid_conditions: 92
+      hydrogen: 53
+      interconnection: 14
+      lng: 169
+      nuclear: 168
+      oil: 527
+      other: 953
+      policy: 477
+      power_prices: 131
+      ppa: 12
+      renewables: 93
+      storage: 165
+      transmission: 70
+      transport: 135
+  missing_cells: 3548
+  missing_meaning: The news scorer holds no score for the story
+  source_name: null
+  documented_by: connector attention_classify.py; data
+- name: significance
+  label: The news scorer's significance score of the story (stories it scored 0 are not sent to the classifier)
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 1137
+      '2': 760
+      '3': 691
+      '4': 664
+      '5': 641
+      '6': 425
+      '7': 196
+      '8': 50
+      '9': 8
+  missing_cells: 3548
+  missing_meaning: The news scorer holds no score for the story
+  source_name: null
+  documented_by: connector attention_classify.py; method attention.md
+- name: model_id
+  label: The model that classified the story
+  unit: none
+  type: text
+  values:
+    list:
+      claude-sonnet-5-5: 8120
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector attention_classify.py; method attention.md
+- name: prompt_version
+  label: The version of the classifier's prompt the story was classified with
+  unit: none
+  type: integer
+  values:
+    list:
+      '2': 8120
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector attention_classify.py
+- name: classified_at
+  label: When the story was classified, UTC
+  unit: none
+  type: utc time
+  values:
+    list:
+      '2026-11-06T19:58:37Z': 3800
+      '2026-11-06T20:16:40Z': 4320
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector attention_classify.py
+- name: fixed
+  label: Names any value of the model's answer that the code emptied or set to the neutral value when normalising it
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8120
+  missing_meaning: Nothing was changed (no cell holds a value)
+  source_name: null
+  documented_by: header; method attention.md
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T09:23:15Z': 1
+      '2026-11-16T09:24:19Z': 8119
+  missing_cells: 0
+second_look: null

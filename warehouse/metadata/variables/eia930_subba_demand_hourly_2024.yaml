@@ -1,0 +1,164 @@
+# The codebook's metadata of table eia930_subba_demand_hourly_2024 (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia930_subba_demand_hourly_2024
+family: eia930
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: eia:electricity/rto/region-sub-ba-data U.S. Energy Information Administration, Hourly Electric Grid Monitor, demand
+    by subregion (API v2, route electricity/rto/region-sub-ba-data)
+  url: https://www.eia.gov/electricity/gridmonitor/
+cite: U.S. Energy Information Administration (EIA). Form EIA-930, demand by subregion (API v2, hourly). Via the Energy Research
+  Warehouse (ERW), table `eia930_subba_demand_hourly_2024`.
+method: docs/methods/eia930_subba_demand.md
+header_title: EIA-930, demand by sub-region (sub-balancing-authority), hourly, 2024 (session 612)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia930_subba:<parent>:<subba>; variable demand_mw (MW, the
+  hour''s mean); ts_utc the hour''s start (EIA''s hour-ending period less one hour); freq PT1H; node the sub-region''s and
+  parent''s names.'
+read:
+  date: '2026-11-20'
+  rows: 726716
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 83
+    examples:
+    - eia930_subba:CISO:PGAE
+    - eia930_subba:CISO:SCE
+    - eia930_subba:CISO:SDGE
+    - eia930_subba:CISO:VEA
+    - eia930_subba:ERCO:COAS
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2024-01-01T00:00:00Z'
+    latest: '2024-12-31T23:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -4.0
+    highest: 32368.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 726716
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 726716
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 726716
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 726716
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 83
+    examples:
+    - AEPW American Electric Power West (Southwest Power Pool)
+    - Allegheny Power zone (PJM Interconnection, LLC)
+    - American Electric Power zone (PJM Interconnection, LLC)
+    - American Transmission Systems, Inc. zone (PJM Interconnection, LLC)
+    - Atlantic Electric zone (PJM Interconnection, LLC)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:electricity/rto/region-sub-ba-data: 726716
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/electricity/rto/region-sub-ba-data/data/?api_key=REDACTED&frequency=hourly&data%5B%5D=value&start=2024-01-01T01&end=2024-02-01T00
+      : 61734
+      ? https://api.eia.gov/v2/electricity/rto/region-sub-ba-data/data/?api_key=REDACTED&frequency=hourly&data%5B%5D=value&start=2024-02-01T01&end=2024-03-01T00
+      : 57360
+      ? https://api.eia.gov/v2/electricity/rto/region-sub-ba-data/data/?api_key=REDACTED&frequency=hourly&data%5B%5D=value&start=2024-03-01T01&end=2024-04-01T00
+      : 61292
+      ? https://api.eia.gov/v2/electricity/rto/region-sub-ba-data/data/?api_key=REDACTED&frequency=hourly&data%5B%5D=value&start=2024-04-01T01&end=2024-05-01T00
+      : 59758
+      ? https://api.eia.gov/v2/electricity/rto/region-sub-ba-data/data/?api_key=REDACTED&frequency=hourly&data%5B%5D=value&start=2024-05-01T01&end=2024-06-01T00
+      : 61748
+      ? https://api.eia.gov/v2/electricity/rto/region-sub-ba-data/data/?api_key=REDACTED&frequency=hourly&data%5B%5D=value&start=2024-06-01T01&end=2024-07-01T00
+      : 59759
+      ? https://api.eia.gov/v2/electricity/rto/region-sub-ba-data/data/?api_key=REDACTED&frequency=hourly&data%5B%5D=value&start=2024-07-01T01&end=2024-08-01T00
+      : 61247
+      ? https://api.eia.gov/v2/electricity/rto/region-sub-ba-data/data/?api_key=REDACTED&frequency=hourly&data%5B%5D=value&start=2024-08-01T01&end=2024-09-01T00
+      : 61547
+      ? https://api.eia.gov/v2/electricity/rto/region-sub-ba-data/data/?api_key=REDACTED&frequency=hourly&data%5B%5D=value&start=2024-09-01T01&end=2024-10-01T00
+      : 59746
+      ? https://api.eia.gov/v2/electricity/rto/region-sub-ba-data/data/?api_key=REDACTED&frequency=hourly&data%5B%5D=value&start=2024-10-01T01&end=2024-11-01T00
+      : 61727
+      ? https://api.eia.gov/v2/electricity/rto/region-sub-ba-data/data/?api_key=REDACTED&frequency=hourly&data%5B%5D=value&start=2024-11-01T01&end=2024-12-01T00
+      : 59046
+      ? https://api.eia.gov/v2/electricity/rto/region-sub-ba-data/data/?api_key=REDACTED&frequency=hourly&data%5B%5D=value&start=2024-12-01T01&end=2025-01-01T00
+      : 61752
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-22T03:15:28Z': 726716
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 726716
+variables:
+- name: demand_mw
+  label: null
+  unit: MW
+  rows: 726716
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-12-31T23:00:00Z'
+second_look: null

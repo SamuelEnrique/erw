@@ -1,0 +1,185 @@
+# The codebook's metadata of table eia_energy_efficiency_state_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_energy_efficiency_state_annual
+family: eia
+shape: series
+row: One state's (or the nation's) yearly savings or costs of utilities' energy efficiency programs in one sector, for one
+  of EIA's time periods (reporting year or expected life cycle).
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:electricity/state-electricity-profiles/energy-efficiency U.S. Energy Information Administration, State Electricity
+    Profiles, energy efficiency (API v2, route electricity/state-electricity-profiles/energy-efficiency)
+  url: https://www.eia.gov/electricity/state/
+cite: U.S. Energy Information Administration (EIA). State Electricity Profiles, energy efficiency (API v2). Via the Energy
+  Research Warehouse (ERW), table `eia_energy_efficiency_state_annual`.
+method: docs/methods/eia_energy_efficiency_state_annual.md
+header_title: EIA, state electricity profiles, the savings and costs of utilities' energy efficiency programs by state and
+  sector, a year (session 560)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_efficiency:<state>:<time period slug>:<sector>; variable
+  energy_savings (MWh), potential_peak_savings (MW), customer_incentive or all_other_costs (USD, EIA''s thousand dollars times
+  1,000); ts_utc the year''s 1 January; freq P1Y. Sectors RES, COM, IND, TRN and TOT (all): a sum leaves TOT out.'
+read:
+  date: '2026-11-20'
+  rows: 19740
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 520
+    examples:
+    - eia_efficiency:AK:expected_life_cycle_of_programs:COM
+    - eia_efficiency:AK:expected_life_cycle_of_programs:IND
+    - eia_efficiency:AK:expected_life_cycle_of_programs:RES
+    - eia_efficiency:AK:expected_life_cycle_of_programs:TOT
+    - eia_efficiency:AK:expected_life_cycle_of_programs:TRN
+  missing_cells: 0
+  particular: eia_efficiency:<state>:<time period slug>:<sector>; time period reporting_year or expected_life_cycle_of_programs;
+    sectors RES, COM, IND, TRN, TOT
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2013-01-01T00:00:00Z': 2080
+      '2014-01-01T00:00:00Z': 2080
+      '2015-01-01T00:00:00Z': 2080
+      '2016-01-01T00:00:00Z': 2080
+      '2017-01-01T00:00:00Z': 2080
+      '2018-01-01T00:00:00Z': 2080
+      '2019-01-01T00:00:00Z': 2080
+      '2020-01-01T00:00:00Z': 1040
+      '2021-01-01T00:00:00Z': 1040
+      '2022-01-01T00:00:00Z': 1040
+      '2023-01-01T00:00:00Z': 1040
+      '2024-01-01T00:00:00Z': 1020
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 17254851000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 4935
+      MWh: 4935
+      USD: 9870
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 19740
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+  particular: US-<state>, or US for the nation
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 19740
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 520
+    examples:
+    - Alabama, Expected Life Cycle of Programs, all sectors
+    - Alabama, Expected Life Cycle of Programs, commercial
+    - Alabama, Expected Life Cycle of Programs, industrial
+    - Alabama, Expected Life Cycle of Programs, residential
+    - Alabama, Expected Life Cycle of Programs, transportation
+  missing_cells: 0
+  particular: EIA's names of state, time period and sector
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:electricity/state-electricity-profiles/energy-efficiency: 19740
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/electricity/state-electricity-profiles/energy-efficiency/data/?api_key=REDACTED&frequency=annual&data%5B%5D=energy-savings&data%5B%5D=potential-peak-savings&data%5B%5D=customer-incentive&data%5B%5D=all-other-costs&start=2013
+      : 19740
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T23:25:25Z': 19740
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 19740
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: all_other_costs
+  label: All other costs of the programs, USD (EIA's thousand dollars times 1,000)
+  unit: USD
+  rows: 4935
+  first: '2013-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: customer_incentive
+  label: Cost of the incentives paid to customers, USD (EIA's thousand dollars times 1,000)
+  unit: USD
+  rows: 4935
+  first: '2013-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: energy_savings
+  label: Energy saved by the programs, MWh
+  unit: MWh
+  rows: 4935
+  first: '2013-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: potential_peak_savings
+  label: Potential reduction of peak demand by the programs, MW
+  unit: MW
+  rows: 4935
+  first: '2013-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,252 @@
+# The codebook's metadata of table eurostat_renewable_shares_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_renewable_shares_annual
+family: eurostat
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eurostat:nrg_ind_ren Eurostat, Share of energy from renewable sources (nrg_ind_ren)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_ind_ren/default/table
+cite: Eurostat (Statistical Office of the European Union). Share of energy from renewable sources (nrg_ind_ren). Via the Energy
+  Research Warehouse (ERW), table `eurostat_renewable_shares_annual`.
+method: docs/methods/eurostat_renewable_shares_annual.md
+header_title: Eurostat, shares of energy from renewable sources (nrg_ind_ren, SHARES), overall and in electricity, heating
+  and cooling and transport, 2004 to 2025 (session 2762)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_renewable_shares:<geo>; variable renewable_share_overall
+  REN, renewable_share_electricity REN_ELC, renewable_share_heating_cooling REN_HEAT_CL, renewable_share_transport REN_TRA,
+  renewable_waste_heat_share_district_heating_cooling REN_WHC_DHEAT_DCL, waste_heat_share_heating_cooling REN_HEAT_CL_WHC;
+  unit pct (of the sector''s gross final consumption, Eurostat''s directive method: hydro and wind normalised, transport multipliers);
+  ts_utc the year''s 1 January; freq P1Y; geo ISO alpha-2 (EL is GR), blank for EU27_2020; x_nrg_bal Eurostat''s code; x_flag
+  p is provisional.'
+read:
+  date: '2026-11-20'
+  rows: 3095
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 37
+    examples:
+    - eurostat_renewable_shares:AL
+    - eurostat_renewable_shares:AT
+    - eurostat_renewable_shares:BA
+    - eurostat_renewable_shares:BE
+    - eurostat_renewable_shares:BG
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2004-01-01T00:00:00Z': 132
+      '2005-01-01T00:00:00Z': 136
+      '2006-01-01T00:00:00Z': 136
+      '2007-01-01T00:00:00Z': 136
+      '2008-01-01T00:00:00Z': 136
+      '2009-01-01T00:00:00Z': 136
+      '2010-01-01T00:00:00Z': 140
+      '2011-01-01T00:00:00Z': 140
+      '2012-01-01T00:00:00Z': 140
+      '2013-01-01T00:00:00Z': 140
+      '2014-01-01T00:00:00Z': 144
+      '2015-01-01T00:00:00Z': 144
+      '2016-01-01T00:00:00Z': 144
+      '2017-01-01T00:00:00Z': 144
+      '2018-01-01T00:00:00Z': 144
+      '2019-01-01T00:00:00Z': 144
+      '2020-01-01T00:00:00Z': 144
+      '2021-01-01T00:00:00Z': 163
+      '2022-01-01T00:00:00Z': 163
+      '2023-01-01T00:00:00Z': 163
+      '2024-01-01T00:00:00Z': 163
+      '2025-01-01T00:00:00Z': 63
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2950
+    lowest: 0.0
+    highest: 122.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      pct: 3095
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 3095
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 36
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 95
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3095
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 163
+    examples:
+    - AL share, Renewable energy - electricity
+    - AL share, Renewable energy - heating and cooling
+    - AL share, Renewable energy - overall
+    - AL share, Renewable energy - transport
+    - AT share, Renewable energy - electricity
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_ind_ren: 3095
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_ind_ren/A...?format=SDMX-CSV&compressed=false: 3095
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T22:32:49Z': 3095
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3095
+- name: x_geo_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 37
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nrg_bal
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      REN: 774
+      REN_ELC: 774
+      REN_HEAT_CL: 744
+      REN_HEAT_CL_WHC: 28
+      REN_TRA: 743
+      REN_WHC_DHEAT_DCL: 32
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_flag
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      p: 63
+  missing_cells: 3032
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_conf_status
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3095
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: renewable_share_electricity
+  label: null
+  unit: pct
+  rows: 774
+  first: '2004-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: renewable_share_heating_cooling
+  label: null
+  unit: pct
+  rows: 744
+  first: '2004-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: renewable_share_overall
+  label: null
+  unit: pct
+  rows: 774
+  first: '2004-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: renewable_share_transport
+  label: null
+  unit: pct
+  rows: 743
+  first: '2004-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: renewable_waste_heat_share_district_heating_cooling
+  label: null
+  unit: pct
+  rows: 32
+  first: '2021-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: waste_heat_share_heating_cooling
+  label: null
+  unit: pct
+  rows: 28
+  first: '2021-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

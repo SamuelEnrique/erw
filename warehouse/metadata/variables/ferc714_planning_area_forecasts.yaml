@@ -1,0 +1,200 @@
+# The codebook's metadata of table ferc714_planning_area_forecasts (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ferc714_planning_area_forecasts
+family: ferc714
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+- vintage
+license: public
+tier: source
+interval: P1Y
+source:
+- name: pudl:core_ferc714__yearly_planning_area_demand_forecast Catalyst Cooperative (PUDL), from FERC Form 714, Part 3, Schedule
+    2 (stable release)
+  url: https://s3.us-west-2.amazonaws.com/pudl.catalyst.coop/stable/core_ferc714__yearly_planning_area_demand_forecast.parquet
+cite: 'Catalyst Cooperative (PUDL), from FERC Form 714. FERC Form 714, Part 3, Schedule 2: planning area demand forecasts
+  (PUDL core table, stable release). Via the Energy Research Warehouse (ERW), table `ferc714_planning_area_forecasts`.'
+method: docs/methods/ferc714_forecast_growth.md
+header_title: FERC Form 714, Part 3, Schedule 2, each planning area's ten-year forecast of summer peak, winter peak and net
+  energy, every filing kept (session 3758)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ferc714:<PUDL''s respondent id>; ts_utc the forecast year''s
+  first instant (freq P1Y); units MW (peaks) and MWh (net energy).'
+read:
+  date: '2026-11-20'
+  rows: 67215
+  key_duplicates: 55281
+  key_duplicates_with_vintage: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 190
+    examples:
+    - ferc714:1
+    - ferc714:10
+    - ferc714:100
+    - ferc714:101
+    - ferc714:102
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 44
+    earliest: '2007-01-01T00:00:00Z'
+    latest: '2050-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 5945307065.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 44810
+      MWh: 22405
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 67215
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 67215
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 67215
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 67215
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      pudl:core_ferc714__yearly_planning_area_demand_forecast: 67215
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://s3.us-west-2.amazonaws.com/pudl.catalyst.coop/stable/core_ferc714__yearly_planning_area_demand_forecast.parquet: 67215
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-12T11:26:38Z': 67215
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2007-06-01T00:00:00Z': 5457
+      '2008-06-01T00:00:00Z': 4710
+      '2009-06-01T00:00:00Z': 4620
+      '2010-06-01T00:00:00Z': 3807
+      '2011-06-01T00:00:00Z': 3777
+      '2012-06-01T00:00:00Z': 3630
+      '2013-06-01T00:00:00Z': 3630
+      '2014-06-01T00:00:00Z': 3576
+      '2015-06-01T00:00:00Z': 3000
+      '2016-06-01T00:00:00Z': 2970
+      '2017-06-01T00:00:00Z': 2970
+      '2018-06-01T00:00:00Z': 2940
+      '2019-06-01T00:00:00Z': 2883
+      '2020-06-01T00:00:00Z': 2850
+      '2021-06-01T00:00:00Z': 2850
+      '2022-06-01T00:00:00Z': 2715
+      '2023-06-01T00:00:00Z': 2712
+      '2024-06-01T00:00:00Z': 2712
+      '2025-06-01T00:00:00Z': 2712
+      '2026-06-01T00:00:00Z': 2694
+  missing_cells: 0
+- name: x_report_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '2006': 5457
+      '2007': 4710
+      '2008': 4620
+      '2009': 3807
+      '2010': 3777
+      '2011': 3630
+      '2012': 3630
+      '2013': 3576
+      '2014': 3000
+      '2015': 2970
+      '2016': 2970
+      '2017': 2940
+      '2018': 2883
+      '2019': 2850
+      '2020': 2850
+      '2021': 2715
+      '2022': 2712
+      '2023': 2712
+      '2024': 2712
+      '2025': 2694
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: net_energy_forecast_mwh
+  label: null
+  unit: MWh
+  rows: 22405
+  first: '2007-01-01T00:00:00Z'
+  last: '2050-01-01T00:00:00Z'
+- name: summer_peak_forecast_mw
+  label: null
+  unit: MW
+  rows: 22405
+  first: '2007-01-01T00:00:00Z'
+  last: '2050-01-01T00:00:00Z'
+- name: winter_peak_forecast_mw
+  label: null
+  unit: MW
+  rows: 22405
+  first: '2007-01-01T00:00:00Z'
+  last: '2050-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,138 @@
+# The codebook's metadata of table caiso_dam_cleared_energy (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: caiso_dam_cleared_energy
+family: caiso
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: caiso:ENE_SLRS California ISO (CAISO), OASIS ENE_SLRS, Market Schedules, day-ahead market, ISO totals
+  url: https://oasis.caiso.com/mrioasis/logon.do
+cite: California ISO (CAISO). OASIS ENE_SLRS, Market Schedules, day-ahead market, ISO totals. Via the Energy Research Warehouse
+  (ERW), table `caiso_dam_cleared_energy`.
+method: docs/methods/caiso_dam_cleared_energy.md
+header_title: CAISO, demand cleared in the day-ahead market by hour, the ISO's total (OASIS ENE_SLRS, Market Schedules, data
+  item ISO_TOT_LOAD_MW) (session 136)
+header_shape: 'Shape: series (docs/datastandard.md v0). variable dam_cleared_energy: the operator''s own figure for the hour,
+  in the unit it gives; freq PT1H, ts_utc the hour''s start. An hour the operator does not give is not written; nothing is
+  filled or estimated. The table is merged into the one held, so it grows past the window the operator keeps.'
+read:
+  date: '2026-11-20'
+  rows: 10640
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:system: 10640
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2025-09-01T00:00:00Z'
+    latest: '2026-11-18T07:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 13048.03
+    highest: 44253.94
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 10640
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 10640
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 10640
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      caiso_dam: 10640
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      ISO_TOT_LOAD_MW: 10640
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:ENE_SLRS: 10640
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - https://oasis.caiso.com/oasisapi/SingleZip?queryname=ENE_SLRS&market_run_id=DAM&tac_zone_name=Caiso_Totals&schedule=ALL&startdatetime=20250901T00:00-0000&enddatetime=20250916T00:00-0000&version=1&resultformat=6
+    - https://oasis.caiso.com/oasisapi/SingleZip?queryname=ENE_SLRS&market_run_id=DAM&tac_zone_name=Caiso_Totals&schedule=ALL&startdatetime=20250916T00:00-0000&enddatetime=20251001T00:00-0000&version=1&resultformat=6
+    - https://oasis.caiso.com/oasisapi/SingleZip?queryname=ENE_SLRS&market_run_id=DAM&tac_zone_name=Caiso_Totals&schedule=ALL&startdatetime=20251001T00:00-0000&enddatetime=20251016T00:00-0000&version=1&resultformat=6
+    - https://oasis.caiso.com/oasisapi/SingleZip?queryname=ENE_SLRS&market_run_id=DAM&tac_zone_name=Caiso_Totals&schedule=ALL&startdatetime=20251016T00:00-0000&enddatetime=20251101T00:00-0000&version=1&resultformat=6
+    - https://oasis.caiso.com/oasisapi/SingleZip?queryname=ENE_SLRS&market_run_id=DAM&tac_zone_name=Caiso_Totals&schedule=ALL&startdatetime=20251101T00:00-0000&enddatetime=20251116T00:00-0000&version=1&resultformat=6
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 30
+    earliest: '2026-10-06T20:24:14Z'
+    latest: '2026-11-17T08:39:40Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 10640
+variables:
+- name: dam_cleared_energy
+  label: null
+  unit: MW
+  rows: 10640
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-11-18T07:00:00Z'
+second_look: null

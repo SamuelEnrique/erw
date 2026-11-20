@@ -1,0 +1,637 @@
+# The codebook's metadata of table epa_needs_units (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: epa_needs_units
+family: epa
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: epa:needs_2025_reference_case U.S. Environmental Protection Agency, National Electric Energy Data System (NEEDS) for
+    the 2025 Reference Case
+  url: https://www.epa.gov/power-sector-modeling/national-electric-energy-data-system-needs
+cite: U.S. Environmental Protection Agency (EPA). National Electric Energy Data System (NEEDS) for the 2025 Reference Case.
+  Via the Energy Research Warehouse (ERW), table `epa_needs_units`.
+method: docs/methods/epa_needs_units.md
+header_title: EPA, National Electric Energy Data System (NEEDS) for the 2025 reference case, 38,030 units (active 22,688,
+  retired_by_2028 1,094, hardwired_capacity 2,755, dropped_capacity 11,493; MW active 1,155,380, dropped_capacity 582,669,
+  hardwired_capacity 117,400, retired_by_2028 65,351) (session 2183)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id epa_needs:<UniqueID_Final>; entity_type generator or equipment
+  (a boiler); geo US-<state>; capacity_mw EPA''s; status active for the NEEDS_Active sheet, else blank; x_needs_sheet EPA''s
+  sheet (active, retired_by_2028, hardwired_capacity, dropped_capacity); x_ columns EPA''s ORIS code, unit, plant type, IPM
+  region, county, heat rate (Btu/kWh), on-line and retirement year (9999 written blank), fuels, controls, emission rates (lb/MMBtu),
+  owners, regulatory status and a dropped unit''s reason.'
+read:
+  date: '2026-11-20'
+  rows: 38030
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - epa_needs:0_I_1
+    - epa_needs:10002_G_GEN1
+    - epa_needs:10003_B_BLR1
+    - epa_needs:10003_B_BLR2
+    - epa_needs:10003_B_BLR4
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      equipment: 1111
+      generator: 36919
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - (3K) 59 Hetcheltown Rd P3101
+    - 0 Hammond St CSG 0HAMP
+    - 0 Hammond St CSG OHAMB
+    - 1 Commercial CM1BS
+    - 1 Commercial CM1PV
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 38030
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 38030
+- name: capacity_mw
+  shared: true
+  type: number
+  values:
+    distinct: 2293
+    lowest: 0.0
+    highest: 2561.2
+  missing_cells: 7
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      active: 22688
+  missing_cells: 15342
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 38030
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 38030
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      epa:needs_2025_reference_case: 38030
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.epa.gov/system/files/documents/2025-12/needs-for-2025-reference-case.xlsx: 38030
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T01:59:08Z': 38030
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2025-12-15T18:55:14Z': 38030
+  missing_cells: 0
+- name: x_needs_sheet
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      active: 22688
+      dropped_capacity: 11493
+      hardwired_capacity: 2755
+      retired_by_2028: 1094
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_unique_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0_I_1
+    - 10002_G_GEN1
+    - 10003_B_BLR1
+    - 10003_B_BLR2
+    - 10003_B_BLR4
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_oris
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 0
+    highest: 68893
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_unit_kind
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      B: 1111
+      G: 36918
+      I: 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_unit_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '00001'
+    - '00003'
+    - 0000A
+    - 0000B
+    - 0000D
+  missing_cells: 3
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_camd_unit_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 3476
+    lowest: 1
+    highest: 91323
+  missing_cells: 33977
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_plant_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Biomass: 380
+      Coal Steam: 1446
+      Combined Cycle: 2528
+      Combustion Turbine: 11451
+      Energy Storage: 1465
+      Fossil Waste: 162
+      Fuel Cell: 255
+      Geothermal: 341
+      Hydro: 4455
+      IGCC: 11
+      IMPORT: 1
+      Landfill Gas: 2048
+      Municipal Solid Waste: 185
+      Non-Fossil Waste: 566
+      Nuclear: 124
+      O/G Steam: 1444
+      Offshore Wind: 17
+      Onshore Wind: 1942
+      Pumped Storage: 163
+      Solar PV: 9006
+      Solar Thermal: 34
+      Tires: 6
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ct_ic
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      IC Engine: 4315
+  missing_cells: 33715
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ipm_region
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 67
+    examples:
+    - ERC_FRNT
+    - ERC_GWAY
+    - ERC_PHDL
+    - ERC_REST
+    - ERC_WEST
+  missing_cells: 10581
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1617
+    examples:
+    - ANOKA
+    - Abbeville
+    - Acadia
+    - Accomack
+    - Ada
+  missing_cells: 114
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_fips5
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 2253
+    lowest: 1001
+    highest: 56041
+  missing_cells: 10581
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_heat_rate_btu_kwh
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 2440
+    lowest: 0
+    highest: 40000
+  missing_cells: 11300
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_online_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 137
+    lowest: 1891
+    highest: 2031
+  missing_cells: 1407
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_retirement_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 67
+    lowest: 0
+    highest: 2103
+  missing_cells: 30767
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_firing
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Cell: 2
+      FBC: 70
+      cell: 19
+      cyclone: 26
+      other: 60
+      stoker/SPR: 19
+      tangential: 222
+      vertical: 3
+      wall: 359
+  missing_cells: 37250
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_bottom
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      dry: 591
+      wet: 56
+  missing_cells: 37383
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_cogen
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 26272
+      Y: 1259
+  missing_cells: 10499
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_fuels
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - Biomass
+    - Bituminous
+    - Bituminous, Natural Gas
+    - Bituminous, Petroleum Coke
+    - Bituminous, Subbituminous
+  missing_cells: 11300
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_scrubber
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Dry Scrubber: 226
+      Reagent Injection: 40
+      Wet Scrubber: 208
+  missing_cells: 37556
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nox_comb_control
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 105
+    examples:
+    - AA
+    - AA + FR
+    - AA + LNB
+    - AA + LNB + LNBO
+    - AA + LNB + OFA
+  missing_cells: 34426
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nox_post_comb_control
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ReACT: 1
+      SCR: 2081
+      SNCR: 278
+  missing_cells: 35670
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_pm_control
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      B: 285
+      B + C: 22
+      B + WS: 4
+      C: 11
+      ESPC: 208
+      ESPC + B: 27
+      ESPC + B + WS: 3
+      ESPC + C: 24
+      ESPC + WESP: 3
+      ESPC + WS: 27
+      ESPH: 53
+      ESPH + B: 12
+      ESPH + B + C: 4
+      ESPH + B + WS: 3
+      ESPH + C: 14
+      ESPH + WESP: 1
+      WESP + B: 2
+      WS: 4
+  missing_cells: 37323
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_mercury_controls
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ACI: 350
+  missing_cells: 37680
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_so2_permit_rate
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 265
+    lowest: 0.00064
+    highest: 10.0
+  missing_cells: 33595
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nox_rate_mode1
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 3530
+    lowest: 0.0
+    highest: 4.79601
+  missing_cells: 11300
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ccs
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Y: 2
+  missing_cells: 38028
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_c2g
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      C2G: 21
+      C2G (RFO): 3
+      C2G/Retire: 5
+  missing_cells: 38001
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_bart
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      'Yes': 80
+  missing_cells: 37950
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_owner
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 1000 Mile Solar, LLC
+    - 126 Grove Solar LLC
+    - 127 CVF, LLC
+    - 13 Mile Solar, LLC
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_owner_percent
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 152
+    lowest: 20.0
+    highest: 100.0
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_holding_company
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 1000 Mile Solar, LLC
+    - 126 Grove Solar LLC
+    - 127 CVF, LLC
+    - 13 Mile Solar, LLC
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_holding_company_percent
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 152
+    lowest: 20.0
+    highest: 100.0
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_regulatory_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Non-regulated: 23971
+      Regulated: 13831
+  missing_cells: 228
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_drop_reason
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Dropped - Lack of model plants: 118
+      Dropped - Planned unit whose status does not meet NEEDS criteria: 784
+      Dropped - Plant is identified as onsite because it is a net buyer of electricity in 2021: 1878
+      Dropped - Project has been canceled or postponed: 1417
+      Dropped - Retired/Planned Retirement by 06/2028: 5783
+      Dropped - Units whose status are "OS" or "RE" for the past 3 consecutive years: 174
+      Dropped - in Alaska or in Hawaii or Puerto Rico: 1339
+  missing_cells: 26537
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

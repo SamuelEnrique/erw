@@ -1,0 +1,164 @@
+# The codebook's metadata of table caiso_as_prices (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: caiso_as_prices
+family: caiso
+shape: series
+row: CAISO's day-ahead clearing price of one ancillary service (regulation or a reserve) in one of its two system regions
+  for one trading hour.
+time: ts_utc is the start of the trading hour in UTC; operating days are Pacific days.
+vintage_rule: Merged by (entity, variable, ts_utc); a day already saved in the raw files is never asked again, so a later
+  revision by CAISO of a saved day is not taken. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: caiso:PRC_AS CAISO, OASIS AS Clearing Prices (PRC_AS), day-ahead market (DAM)
+  url: https://oasis.caiso.com/mrioasis/logon.do
+cite: California Independent System Operator (CAISO). OASIS AS Clearing Prices (PRC_AS), day-ahead market (DAM). Via the Energy
+  Research Warehouse (ERW), table `caiso_as_prices`.
+method: docs/methods/caiso_as_prices.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261116T155131Z-github
+  (2026-11-16T15:51:31Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0). Unit USD/MW-hour: US dollars per MW of capacity held for one hour.
+  ts_utc is the start of the trading hour, UTC.'
+read:
+  date: '2026-11-20'
+  rows: 234056
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:AS_CAISO: 117028
+      caiso:AS_CAISO_EXP: 117028
+  missing_cells: 0
+  particular: caiso:AS_CAISO or caiso:AS_CAISO_EXP, the ancillary service region
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2023-07-14T07:00:00Z'
+    latest: '2026-11-17T07:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 1011.71778
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MW-hour: 234056
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 234056
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 234056
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      caiso_dam: 234056
+  missing_cells: 0
+  particular: 'caiso_dam in every row: CAISO''s day-ahead market'
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      AS_CAISO: 117028
+      AS_CAISO_EXP: 117028
+  missing_cells: 0
+  particular: 'The ancillary service region: AS_CAISO the CAISO system, AS_CAISO_EXP the system with the interties; the sub-regions
+    are not pulled'
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:PRC_AS: 234056
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 1219
+    examples:
+    - https://oasis.caiso.com/oasisapi/GroupZip?groupid=DAM_PRC_AS_GRP&startdatetime=20230714T07:00-0000&resultformat=6&version=12
+    - https://oasis.caiso.com/oasisapi/GroupZip?groupid=DAM_PRC_AS_GRP&startdatetime=20230715T07:00-0000&resultformat=6&version=12
+    - https://oasis.caiso.com/oasisapi/GroupZip?groupid=DAM_PRC_AS_GRP&startdatetime=20230716T07:00-0000&resultformat=6&version=12
+    - https://oasis.caiso.com/oasisapi/GroupZip?groupid=DAM_PRC_AS_GRP&startdatetime=20230717T07:00-0000&resultformat=6&version=12
+    - https://oasis.caiso.com/oasisapi/GroupZip?groupid=DAM_PRC_AS_GRP&startdatetime=20230718T07:00-0000&resultformat=6&version=12
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 1219
+    earliest: '2026-10-02T15:22:15Z'
+    latest: '2026-11-16T15:04:43Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 234056
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: as_price_dam_nr
+  label: Day-ahead clearing price of non-spinning reserve (CAISO's Non-Spinning Reserve), USD per MW held for one hour
+  unit: USD/MW-hour
+  rows: 58514
+  first: '2023-07-14T07:00:00Z'
+  last: '2026-11-17T07:00:00Z'
+- name: as_price_dam_rd
+  label: Day-ahead clearing price of regulation down (CAISO's Regulation Down), USD per MW held for one hour
+  unit: USD/MW-hour
+  rows: 58514
+  first: '2023-07-14T07:00:00Z'
+  last: '2026-11-17T07:00:00Z'
+- name: as_price_dam_ru
+  label: Day-ahead clearing price of regulation up (CAISO's Regulation Up), USD per MW held for one hour
+  unit: USD/MW-hour
+  rows: 58514
+  first: '2023-07-14T07:00:00Z'
+  last: '2026-11-17T07:00:00Z'
+- name: as_price_dam_sr
+  label: Day-ahead clearing price of spinning reserve (CAISO's Spinning Reserve), USD per MW held for one hour
+  unit: USD/MW-hour
+  rows: 58514
+  first: '2023-07-14T07:00:00Z'
+  last: '2026-11-17T07:00:00Z'
+second_look: null

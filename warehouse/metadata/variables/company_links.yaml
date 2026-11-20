@@ -1,0 +1,397 @@
+# The codebook's metadata of table company_links (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: company_links
+family: company
+shape: entities
+row: One company named in one row of an input table, with the role it has there, the name as written, the matching rule and
+  confidence, the row's license, and the row's MW, dollars, date, fuel, state and grid.
+time: No time column; the table is a snapshot of the ERW's tables as built (vintage reads 20261116 on every row). date and
+  status_date are the input row's own date.
+vintage_rule: Rewritten whole by each run of the builder (warehouse/derived/companies.py) from the tables held.
+keys:
+- entity_id
+license: public
+tier: model_extracted
+interval: snapshot
+source:
+- name: erw:companies, the ERW's resolution of the names in its own tables (each input's source in its own header).
+  url: ''
+cite: 'Energy Research Warehouse (ERW), derived. The company database: every company named in the warehouse''s tables, its
+  names and its rows (docs/methods/companies.md). Via the Energy Research Warehouse (ERW), table `company_links`.'
+method: docs/methods/companies.md
+header_title: the company database's links, one row a company named in a row of an input table (session 3302)
+header_shape: 'Shape: entities (docs/datastandard.md v0), entity_type company_link. company_id the company; input_table and
+  input_row the row (its entity_id or event_id); role what the company is in it; name_as_written the row''s own words; match_rule
+  eia_id (1.0), reviewed_alias (0.95), anchored_name (0.9), name (0.85), company_word (0.7), the confidence; license the input''s
+  (internal where its publisher asks for permission); mw, usd, date, fuel, state and grid as the row states them (owner rows:
+  nameplate times percent owned; detail the deal type, status, sector, ownership or county).'
+read:
+  date: '2026-11-20'
+  rows: 97198
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - company_link:00003dca81695cc1
+    - company_link:0000bdfd790667f8
+    - company_link:0001643203a7304a
+    - company_link:0002414a68087ee8
+    - company_link:0003593db517ae66
+  missing_cells: 0
+  particular: company_link:<16 hex characters of a SHA-1 of table, row, role and name>
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      company_link: 97198
+  missing_cells: 0
+  particular: Always company_link
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 1000 Mile Solar, LLC
+    - 1001 Ebenezer Church Solar, LLC
+    - 1008 Matthews Solar, LLC
+    - 1009 Yadkin Solar, LLC
+  missing_cells: 0
+  particular: The company's name in company_directory
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 97198
+  particular: 'Not filled: no cell holds a value'
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 97198
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 97198
+- name: capacity_mw
+  shared: true
+  type: number
+  values:
+    distinct: 4263
+    lowest: -53.3
+    highest: 10400.0
+  missing_cells: 57335
+  particular: The input row's MW (the same as mw)
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 97198
+  particular: 'Not filled: no cell holds a value'
+- name: status_date
+  shared: true
+  type: date
+  values:
+    distinct: 3010
+    earliest: '1891-01-01'
+    latest: '2039-12-01'
+  missing_cells: 23300
+  particular: The input row's date (the same as date)
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 97198
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:companies: 97198
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/companies.md: 97198
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T09:04:07Z': 97198
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: integer
+  values:
+    list:
+      '20261116': 97198
+  missing_cells: 0
+- name: company_id
+  label: 'The company: the entity_id of company_directory'
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - company:174-power-global-properties
+    - company:180-wind
+    - company:1komma5grad
+    - company:1st-rochdale-cooperative-group
+    - company:212-solar-development
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+- name: input_table
+  label: The ERW table the row is in
+  unit: none
+  type: text
+  values:
+    list:
+      datacenter_facilities: 486
+      datacenter_projects: 220
+      eia860_generator_owners: 5680
+      eia860_plants_annual: 17349
+      eia860m_operating_generators: 28712
+      eia860m_planned_generators: 2361
+      eia861_utility_data: 22716
+      energy_deals: 958
+      ercot_interconnection_queue: 1758
+      nrc_power_reactors: 212
+      nyiso_interconnection_queue: 1604
+      policy_actions: 3249
+      utility_service_territories: 11893
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+- name: input_row
+  label: 'The row of the input table: its entity_id or event_id'
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - cpuc:09a9d3b07400
+    - cpuc:0e961c301c0e
+    - cpuc:1409cba401bd
+    - cpuc:1d14a83bb859
+    - cpuc:1e20a865d59a
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+- name: role
+  label: What the company is in the row (operator, owner, buyer, seller, utility, service_territory, interconnection_customer,
+    agency, licensee and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      agency: 3249
+      buyer: 386
+      developer: 164
+      interconnection_customer: 3362
+      licensee: 99
+      operator: 48968
+      owner: 5680
+      parent: 93
+      party: 129
+      seller: 443
+      service_territory: 11893
+      utility: 22732
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method companies.md; data
+- name: name_as_written
+  label: The row's own words for the company
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 1000 Mile Solar, LLC
+    - 1001 Ebenezer Church Solar, LLC
+    - 1008 Matthews Solar, LLC
+    - 1009 Yadkin Solar, LLC
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+- name: match_rule
+  label: 'The rule that matched the name to the company: eia_id, reviewed_alias, anchored_name, name or company_word'
+  unit: none
+  type: text
+  values:
+    list:
+      anchored_name: 746
+      company_word: 47
+      eia_id: 88711
+      name: 7384
+      reviewed_alias: 310
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method companies.md
+- name: confidence
+  label: 'The confidence of the match, set by its rule: eia_id 1.0, reviewed_alias 0.95, anchored_name 0.9, name 0.85, company_word
+    0.7'
+  unit: none
+  type: number
+  values:
+    list:
+      '0.7': 47
+      '0.85': 7384
+      '0.9': 746
+      '0.95': 310
+      '1.0': 88711
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method companies.md
+- name: license
+  label: 'The input table''s license: internal where its publisher asks for written permission, else public'
+  unit: none
+  type: text
+  values:
+    list:
+      internal: 6517
+      public: 90681
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method companies.md
+- name: mw
+  shared: true
+  type: number
+  values:
+    distinct: 4263
+    lowest: -53.3
+    highest: 10400.0
+  missing_cells: 57335
+  particular: The input row's MW as it states it; on owner rows nameplate times the percent owned
+- name: usd
+  label: The deal's dollars as the energy_deals row states them
+  unit: USD
+  type: integer
+  values:
+    distinct: 151
+    lowest: 30000000
+    highest: 1250000000000
+  missing_cells: 96724
+  missing_meaning: Not a deal row, or the deal states no dollars
+  source_name: dollars
+  documented_by: header; connector companies.py
+- name: date
+  label: 'The row''s date: a deal''s or policy action''s date, a generator''s operating or planned month, a queue date, a
+    facility''s first story, an EIA-861 year, a reactor''s commercial operation'
+  unit: none
+  type: date
+  values:
+    distinct: 3010
+    earliest: '1891-01-01'
+    latest: '2039-12-01'
+  missing_cells: 23300
+  missing_meaning: The input row states no date of these
+  source_name: null
+  documented_by: header; method companies.md; connector companies.py
+- name: fuel
+  label: The row's fuel or line (solar, gas, storage, datacenters, nuclear and the others), from EIA's energy source code
+    or the row's technology words
+  unit: none
+  type: text
+  values:
+    list:
+      coal: 448
+      datacenters: 761
+      fusion: 5
+      gas: 7898
+      geothermal: 177
+      hydro: 4300
+      nuclear: 406
+      oil: 4018
+      other: 1961
+      solar: 10454
+      storage: 2956
+      transmission: 194
+      wind: 2092
+  missing_cells: 61528
+  missing_meaning: The input row states no fuel or technology (utilities, territories, policy rows)
+  source_name: null
+  documented_by: header; connector companies.py
+- name: state
+  label: The row's state or states, two-letter codes joined by ';'
+  unit: none
+  type: text
+  values:
+    distinct: 115
+    examples:
+    - AK
+    - AL
+    - AL;FL;MS
+    - AL;GA;MS
+    - AL;GA;NC;SC;VA
+  missing_cells: 2376
+  missing_meaning: The input row states no state
+  source_name: null
+  documented_by: header; connector companies.py
+- name: grid
+  label: The grid or grids (ERCOT, CAISO, PJM, MISO, NYISO, ISO-NE, SPP) the row names, joined by ';'
+  unit: none
+  type: text
+  values:
+    list:
+      CAISO: 5807
+      ERCOT: 7156
+      ERCOT;MISO: 77
+      ERCOT;SPP: 68
+      ERCOT;SPP;MISO: 63
+      ISO-NE: 4858
+      MISO: 11782
+      NYISO: 5615
+      PJM: 9152
+      PJM;MISO: 92
+      SPP: 4768
+      SPP;MISO: 146
+  missing_cells: 47614
+  missing_meaning: The row names none of the seven grids
+  source_name: null
+  documented_by: header; method companies.md
+- name: detail
+  label: 'One more field of the row: the deal type, a status, the EIA sector, the EIA-861 ownership, the owner''s state, the
+    county, the plant, or the policy action type, by input'
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - AB
+    - AK
+    - AL
+    - AR
+    - AZ
+  missing_cells: 739
+  missing_meaning: The input row's field is empty
+  source_name: null
+  documented_by: header; connector companies.py
+second_look: null

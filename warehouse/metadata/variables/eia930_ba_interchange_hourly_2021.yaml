@@ -1,0 +1,186 @@
+# The codebook's metadata of table eia930_ba_interchange_hourly_2021 (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia930_ba_interchange_hourly_2021
+family: eia930
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: eia:gridmonitor/sixMonthFiles EIA-930 six-month files (Hourly Electric Grid Monitor)
+  url: https://www.eia.gov/electricity/gridmonitor/about
+cite: U.S. Energy Information Administration (EIA). EIA-930 six-month files (Hourly Electric Grid Monitor). Via the Energy
+  Research Warehouse (ERW), table `eia930_ba_interchange_hourly_2021`.
+method: docs/methods/eia930_region_hourly.md
+header_title: EIA-930 hourly interchange between each pair of directly connected balancing authorities, each side's report
+  its own row, July 2018 to the newest hour, from EIA's six-month files (session 7801)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba (the reporting balancing authority, lowercase).
+  entity eia930:<reporting BA>-<neighbour>, variable interchange_mw, MW as the reporting BA filed it (positive: it sends power
+  to the neighbour). The neighbour''s report is its own row; nothing is netted, averaged or made to agree. ts_utc is the hour''s
+  start. x_file names the six-month file each row was read from. Method: docs/methods/eia930_region_hourly.md.'
+read:
+  date: '2026-11-20'
+  rows: 2649346
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 305
+    examples:
+    - eia930:AEC-MISO
+    - eia930:AEC-SOCO
+    - eia930:AECI-MISO
+    - eia930:AECI-SPA
+    - eia930:AECI-SWPP
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2021-01-01T00:00:00Z'
+    latest: '2021-12-31T23:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: -60356
+    highest: 65517
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 2649346
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 2649346
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:gridmonitor/sixMonthFiles: 2649346
+  missing_cells: 0
+- name: ba
+  shared: true
+  type: text
+  values:
+    distinct: 64
+    examples:
+    - aec
+    - aeci
+    - ava
+    - avrn
+    - azps
+  missing_cells: 0
+- name: x_diba
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 72
+    examples:
+    - AEC
+    - AECI
+    - AESO
+    - AVA
+    - AVRN
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_region
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CAL: 218323
+      CAR: 253714
+      CENT: 108890
+      FLA: 305645
+      MIDA: 58577
+      MIDW: 180534
+      NE: 26280
+      NW: 875679
+      NY: 35040
+      SE: 131391
+      SW: 376437
+      TEN: 61320
+      TEX: 17516
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_diba_region
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CAL: 209722
+      CAN: 78294
+      CAR: 252891
+      CENT: 104553
+      FLA: 305694
+      MEX: 17518
+      MIDA: 61238
+      MIDW: 161400
+      NE: 8760
+      NW: 856426
+      NY: 17063
+      SE: 131227
+      SW: 375518
+      TEN: 60781
+      TEX: 8261
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_file
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      2020_Jul_Dec: 1941
+      2021_Jan_Jun: 1317846
+      2021_Jul_Dec: 1329559
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: interchange_mw
+  label: null
+  unit: MW
+  rows: 2649346
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-12-31T23:00:00Z'
+second_look: null

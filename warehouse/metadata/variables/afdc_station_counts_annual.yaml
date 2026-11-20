@@ -1,0 +1,288 @@
+# The codebook's metadata of table afdc_station_counts_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: afdc_station_counts_annual
+family: afdc
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: doe:afdc_station_counts DOE, Alternative Fuels Data Center, Historical Station Counts,  (linked from
+  url: https://afdc.energy.gov/stations/states
+cite: 'U.S. Department of Energy (DOE). Alternative Fuels Data Center: Historical Alternative Fueling Station Counts. Via
+  the Energy Research Warehouse (ERW), table `afdc_station_counts_annual`.'
+method: docs/methods/afdc_station_counts_annual.md
+header_title: U.S. Department of Energy, Alternative Fuels Data Center, historical alternative fueling station counts by state
+  and fuel type, near the end of each December, 2007 to 2025 (session 2141)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity afdc_st:<state> or afdc_st:US (the sheet''s Total row); variable
+  stations_<fuel>, ev_locations, ev_ports and, from 2014, ev_ports_level1, _level2, _dc_fast and the hydrogen and propane
+  designations; unit count; ts_utc the year''s first day (the count is as of late December); freq P1Y; node the column as
+  printed; x_layout the sheet''s form.'
+read:
+  date: '2026-11-20'
+  rows: 13520
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - afdc_st:AK
+    - afdc_st:AL
+    - afdc_st:AR
+    - afdc_st:AZ
+    - afdc_st:CA
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2007-01-01T00:00:00Z': 416
+      '2008-01-01T00:00:00Z': 416
+      '2009-01-01T00:00:00Z': 416
+      '2010-01-01T00:00:00Z': 416
+      '2011-01-01T00:00:00Z': 416
+      '2012-01-01T00:00:00Z': 416
+      '2013-01-01T00:00:00Z': 416
+      '2014-01-01T00:00:00Z': 884
+      '2015-01-01T00:00:00Z': 884
+      '2016-01-01T00:00:00Z': 884
+      '2017-01-01T00:00:00Z': 884
+      '2018-01-01T00:00:00Z': 884
+      '2019-01-01T00:00:00Z': 884
+      '2020-01-01T00:00:00Z': 884
+      '2021-01-01T00:00:00Z': 884
+      '2022-01-01T00:00:00Z': 884
+      '2023-01-01T00:00:00Z': 884
+      '2024-01-01T00:00:00Z': 884
+      '2025-01-01T00:00:00Z': 884
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: 1845
+    lowest: 0
+    highest: 284265
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 13520
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 13520
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 13520
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Biodiesel: 988
+      CNG: 988
+      E85: 988
+      Electric: 364
+      'Electric: DC Fast': 624
+      'Electric: Level 1': 624
+      'Electric: Level 2': 624
+      'Electric: charging outlets': 624
+      'Electric: stations': 624
+      Hydrogen: 364
+      'Hydrogen: non-retail': 624
+      'Hydrogen: retail': 624
+      'Hydrogen: total': 624
+      LNG: 988
+      Propane: 364
+      'Propane: primary': 624
+      'Propane: secondary': 624
+      'Propane: total': 624
+      Renewable Diesel: 624
+      Total: 364
+      Totald: 624
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      doe:afdc_station_counts: 13520
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://afdc.energy.gov/files/docs/historical-station-counts.xlsx: 13520
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T00:06:25Z': 13520
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-06-23T22:12:10Z': 13520
+  missing_cells: 0
+- name: x_layout
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      '2007_2013': 2912
+      2014_on: 10608
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: ev_locations
+  label: null
+  unit: count
+  rows: 832
+  first: '2007-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ev_ports
+  label: null
+  unit: count
+  rows: 780
+  first: '2011-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ev_ports_dc_fast
+  label: null
+  unit: count
+  rows: 624
+  first: '2014-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ev_ports_level1
+  label: null
+  unit: count
+  rows: 624
+  first: '2014-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ev_ports_level2
+  label: null
+  unit: count
+  rows: 624
+  first: '2014-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: stations_biodiesel
+  label: null
+  unit: count
+  rows: 988
+  first: '2007-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: stations_cng
+  label: null
+  unit: count
+  rows: 988
+  first: '2007-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: stations_e85
+  label: null
+  unit: count
+  rows: 988
+  first: '2007-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: stations_hydrogen
+  label: null
+  unit: count
+  rows: 988
+  first: '2007-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: stations_hydrogen_non_retail
+  label: null
+  unit: count
+  rows: 624
+  first: '2014-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: stations_hydrogen_retail
+  label: null
+  unit: count
+  rows: 624
+  first: '2014-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: stations_lng
+  label: null
+  unit: count
+  rows: 988
+  first: '2007-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: stations_propane
+  label: null
+  unit: count
+  rows: 988
+  first: '2007-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: stations_propane_primary
+  label: null
+  unit: count
+  rows: 624
+  first: '2014-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: stations_propane_secondary
+  label: null
+  unit: count
+  rows: 624
+  first: '2014-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: stations_renewable_diesel
+  label: null
+  unit: count
+  rows: 624
+  first: '2014-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: stations_total
+  label: null
+  unit: count
+  rows: 988
+  first: '2007-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

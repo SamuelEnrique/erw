@@ -1,0 +1,665 @@
+# The codebook's metadata of table statcan_oil_gas_supply_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: statcan_oil_gas_supply_monthly
+family: statcan
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: statcan:25-10-0063-01 Statistics Canada, Table 25-10-0063-01, Supply and disposition of crude oil and equivalent
+  url: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2510006301
+- name: statcan:25-10-0086-01 Statistics Canada, Table 25-10-0086-01, Natural gas supply and disposition, monthly
+  url: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2510008601
+cite: Statistics Canada. Table 25-10-0063-01, Supply and disposition of crude oil and equivalent; Table 25-10-0086-01, Natural
+  gas supply and disposition, monthly. Via the Energy Research Warehouse (ERW), table `statcan_oil_gas_supply_monthly`.
+method: docs/methods/statcan_oil_gas_supply_monthly.md
+header_title: Statistics Canada, tables 25-10-0063-01 (supply and disposition of crude oil and equivalent, 2016-01 to 2026-07)
+  and 25-10-0086-01 (natural gas supply and disposition, 2016-01 to 2026-08), monthly, by province (session 2179)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statcan_oil:<area> or statcan_gas:<area>; variable the item''s
+  slug; unit m3 (gas given in thousand m3, written times 1,000) or count (customers); freq P1M; ts_utc the month''s first
+  day; geo CA or CA-<province>; node the area and item as StatCan names them; x_product; x_item; x_parent the item it is part
+  of (never summed with it); x_area_total yes for Canada and the Atlantic provinces (both geo CA: filter on the entity, not
+  geo); x_table; x_vector; x_revised r where revised.'
+read:
+  date: '2026-11-20'
+  rows: 56007
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      statcan_gas:ab: 3710
+      statcan_gas:bc: 3598
+      statcan_gas:ca: 3598
+      statcan_gas:mb: 2304
+      statcan_gas:nb: 2944
+      statcan_gas:ns: 2432
+      statcan_gas:nt: 1408
+      statcan_gas:on: 3584
+      statcan_gas:qc: 3076
+      statcan_gas:sk: 3712
+      statcan_gas:yt: 108
+      statcan_oil:ab: 4293
+      statcan_oil:atl: 1313
+      statcan_oil:bc: 2371
+      statcan_oil:ca: 4318
+      statcan_oil:mb: 1698
+      statcan_oil:nb: 273
+      statcan_oil:nl: 2325
+      statcan_oil:ns: 1035
+      statcan_oil:nt: 1153
+      statcan_oil:on: 2084
+      statcan_oil:qc: 1645
+      statcan_oil:sk: 3025
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 128
+    earliest: '2016-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -5245211000.0
+    highest: 31025428500.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 7168
+      m3: 48839
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 56007
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      CA: 9229
+      CA-AB: 8003
+      CA-BC: 5969
+      CA-MB: 4002
+      CA-NB: 3217
+      CA-NL: 2325
+      CA-NS: 3467
+      CA-NT: 2561
+      CA-ON: 5668
+      CA-QC: 4721
+      CA-SK: 6737
+      CA-YT: 108
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 56007
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 383
+    examples:
+    - 'Alberta: Closing  inventory, storage'
+    - 'Alberta: Closing inventory'
+    - 'Alberta: Commercial consumption'
+    - 'Alberta: Condensate'
+    - 'Alberta: Crude bitumen sent for further processing'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      statcan:25-10-0063-01: 25533
+      statcan:25-10-0086-01: 30474
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www150.statcan.gc.ca/n1/tbl/csv/25100063-eng.zip: 25533
+      https://www150.statcan.gc.ca/n1/tbl/csv/25100086-eng.zip: 30474
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T01:35:55Z': 25533
+      '2026-10-24T01:37:35Z': 30474
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-09-29T12:30:43Z': 25533
+      '2026-10-23T12:30:28Z': 30474
+  missing_cells: 0
+- name: x_product
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      crude_oil: 25533
+      natural_gas: 30474
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_item
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 56
+    examples:
+    - Closing  inventory, storage
+    - Closing inventory
+    - Commercial consumption
+    - Condensate
+    - Crude bitumen sent for further processing
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_parent
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      closing_inventory: 2821
+      crude_oil_production: 1383
+      equivalent_products_production: 762
+      export_to_the_united_states: 1482
+      exports: 1802
+      imports: 1459
+      industrial_consumption: 4096
+      input_to_canadian_refineries: 2523
+      net_field_production_of_crude_oil: 1764
+      net_inventory_changes: 2182
+      non_upgraded_production_of_crude_bitumen: 762
+      opening_inventory: 2821
+      total_deliveries_to_consumers: 7680
+      total_exports: 1052
+      total_imports: 1153
+  missing_cells: 22265
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_area_total
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      'yes': 9229
+  missing_cells: 46778
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_table
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      25-10-0063-01: 25533
+      25-10-0086-01: 30474
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_vector
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 463
+    examples:
+    - v1000143842
+    - v1038108347
+    - v1038108349
+    - v1062709032
+    - v1062709038
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_revised
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 56007
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: closing_inventory
+  label: null
+  unit: m3
+  rows: 1091
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: closing_inventory_fields_and_plants
+  label: null
+  unit: m3
+  rows: 1107
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: closing_inventory_refineries
+  label: null
+  unit: m3
+  rows: 746
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: closing_inventory_storage
+  label: null
+  unit: m3
+  rows: 768
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: closing_inventory_transporters
+  label: null
+  unit: m3
+  rows: 968
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: commercial_consumption
+  label: null
+  unit: m3
+  rows: 1280
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: commercial_consumption_customers
+  label: null
+  unit: count
+  rows: 1280
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: condensate
+  label: null
+  unit: m3
+  rows: 381
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: crude_bitumen_sent_for_further_processing
+  label: null
+  unit: m3
+  rows: 254
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: crude_bitumen_used_as_an_input_in_refineries
+  label: null
+  unit: m3
+  rows: 504
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: crude_oil_production
+  label: null
+  unit: m3
+  rows: 1129
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: deliveries_to_natural_gas_processing_plants
+  label: null
+  unit: m3
+  rows: 512
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: deliveries_to_other_provinces
+  label: null
+  unit: m3
+  rows: 1024
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: equivalent_products_production
+  label: null
+  unit: m3
+  rows: 508
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: export_to_other_countries
+  label: null
+  unit: m3
+  rows: 858
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: export_to_the_united_states
+  label: null
+  unit: m3
+  rows: 944
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: export_to_the_united_states_by_other_modes_of_transport
+  label: null
+  unit: m3
+  rows: 895
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: export_to_the_united_states_by_pipelines
+  label: null
+  unit: m3
+  rows: 587
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: exports
+  label: null
+  unit: m3
+  rows: 944
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: exports_to_other_countries
+  label: null
+  unit: m3
+  rows: 28
+  first: '2025-07-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: exports_to_the_united_states
+  label: null
+  unit: m3
+  rows: 1024
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: gross_withdrawals
+  label: null
+  unit: m3
+  rows: 1024
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: heavy_crude_oil
+  label: null
+  unit: m3
+  rows: 381
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: heavy_crude_oil_used_as_an_input_in_refineries
+  label: null
+  unit: m3
+  rows: 703
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: imports
+  label: null
+  unit: m3
+  rows: 1060
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: imports_from_other_countries
+  label: null
+  unit: m3
+  rows: 256
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: imports_from_the_united_states
+  label: null
+  unit: m3
+  rows: 897
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: imports_of_crude_oil_and_equivalent_products_by_other
+  label: null
+  unit: m3
+  rows: 429
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: imports_of_crude_oil_and_equivalent_products_by_refineries
+  label: null
+  unit: m3
+  rows: 1030
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: in_situ_crude_bitumen_production
+  label: null
+  unit: m3
+  rows: 254
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: industrial_consumption
+  label: null
+  unit: m3
+  rows: 1280
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: industrial_consumption_customers
+  label: null
+  unit: count
+  rows: 1280
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: industrial_deliveries_from_distribution_pipelines
+  label: null
+  unit: m3
+  rows: 1152
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: industrial_deliveries_from_distribution_pipelines_customers
+  label: null
+  unit: count
+  rows: 1152
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: industrial_deliveries_from_transmission_pipelines
+  label: null
+  unit: m3
+  rows: 896
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: industrial_deliveries_from_transmission_pipelines_customers
+  label: null
+  unit: count
+  rows: 896
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: injections_to_storage
+  label: null
+  unit: m3
+  rows: 768
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: input_to_canadian_refineries
+  label: null
+  unit: m3
+  rows: 730
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: inventory_change_storage
+  label: null
+  unit: m3
+  rows: 768
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: light_and_medium_crude_oil
+  label: null
+  unit: m3
+  rows: 1129
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: light_and_medium_crude_oil_used_as_an_input_in_refineries
+  label: null
+  unit: m3
+  rows: 714
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: marketable_production
+  label: null
+  unit: m3
+  rows: 1260
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: metering_differences_line_losses_and_adjustments
+  label: null
+  unit: m3
+  rows: 1280
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: mined_crude_bitumen_production
+  label: null
+  unit: m3
+  rows: 254
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_field_production_of_crude_oil
+  label: null
+  unit: m3
+  rows: 1129
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_inventory_changes
+  label: null
+  unit: m3
+  rows: 1401
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: non_upgraded_production_of_crude_bitumen
+  label: null
+  unit: m3
+  rows: 254
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: opening_inventory
+  label: null
+  unit: m3
+  rows: 1091
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: opening_inventory_fields_and_plants
+  label: null
+  unit: m3
+  rows: 1107
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: opening_inventory_refineries
+  label: null
+  unit: m3
+  rows: 746
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: opening_inventory_storage
+  label: null
+  unit: m3
+  rows: 768
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: opening_inventory_transporters
+  label: null
+  unit: m3
+  rows: 968
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: pentanes_plus
+  label: null
+  unit: m3
+  rows: 381
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: pipeline_fuel
+  label: null
+  unit: m3
+  rows: 1280
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: receipts_from_other_provinces
+  label: null
+  unit: m3
+  rows: 1024
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: residential_consumption
+  label: null
+  unit: m3
+  rows: 1280
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: residential_consumption_customers
+  label: null
+  unit: count
+  rows: 1280
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: storage_adjustments
+  label: null
+  unit: m3
+  rows: 768
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: synthetic_crude_oil_production
+  label: null
+  unit: m3
+  rows: 254
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: synthetic_crude_oil_used_as_an_input_in_refineries
+  label: null
+  unit: m3
+  rows: 602
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: total_deliveries_to_consumers
+  label: null
+  unit: m3
+  rows: 1280
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: total_deliveries_to_consumers_customers
+  label: null
+  unit: count
+  rows: 1280
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: total_exports
+  label: null
+  unit: m3
+  rows: 1024
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: total_imports
+  label: null
+  unit: m3
+  rows: 897
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: withdrawals_from_storage
+  label: null
+  unit: m3
+  rows: 768
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

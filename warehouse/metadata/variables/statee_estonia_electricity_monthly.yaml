@@ -1,0 +1,183 @@
+# The codebook's metadata of table statee_estonia_electricity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: statee_estonia_electricity_monthly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: statee:KE21 Statistics Estonia, table KE21
+  url: https://andmed.stat.ee/en/stat/majandus__energeetika__energia-tarbimine-ja-tootmine__luhiajastatistika/KE21
+cite: 'Statistics Estonia. Table KE21: Electricity production, imports, exports and sale (monthly). Via the Energy Research
+  Warehouse (ERW), table `statee_estonia_electricity_monthly`.'
+method: docs/methods/statee_estonia_electricity_monthly.md
+header_title: Statistics Estonia, table KE21, Electricity production, imports, exports and sale, a month, 2005-01 to 2026-08
+  (session 2278)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statee:ee; variable the indicator in snake case, its unit dropped
+  (total_electricity_production, electricity_production_from_hydro_energy, _wind_energy, _solar_energy, imports_of_electricity,
+  exports_of_electricity); unit MWh (the table''s GWh times 1,000); ts_utc the month''s first day; freq P1M; geo EE; node
+  the indicator as Statistics Estonia writes it; x_code its code.'
+read:
+  date: '2026-11-20'
+  rows: 1344
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      statee:ee: 1344
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 260
+    earliest: '2005-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 818
+    lowest: 200.0
+    highest: 1375000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 1344
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 1344
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      EE: 1344
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1344
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Electricity production from hydro energy, GWh: 260
+      Electricity production from solar energy, GWh: 44
+      Electricity production from wind energy, GWh: 260
+      Exports of electricity, GWh: 260
+      Imports of electricity, GWh: 260
+      Total electricity production, GWh: 260
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      statee:KE21: 1344
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://andmed.stat.ee/api/v1/en/stat/majandus/energeetika/energia-tarbimine-ja-tootmine/luhiajastatistika/KE21.PX: 1344
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T05:03:06Z': 1344
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1344
+- name: x_code
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      EXPORTS: 260
+      IMPORTS: 260
+      PROD_E: 260
+      PROD_E_HYDR: 260
+      PROD_E_SOLAR: 44
+      PROD_E_WIND: 260
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: electricity_production_from_hydro_energy
+  label: null
+  unit: MWh
+  rows: 260
+  first: '2005-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: electricity_production_from_solar_energy
+  label: null
+  unit: MWh
+  rows: 44
+  first: '2023-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: electricity_production_from_wind_energy
+  label: null
+  unit: MWh
+  rows: 260
+  first: '2005-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: exports_of_electricity
+  label: null
+  unit: MWh
+  rows: 260
+  first: '2005-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: imports_of_electricity
+  label: null
+  unit: MWh
+  rows: 260
+  first: '2005-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: total_electricity_production
+  label: null
+  unit: MWh
+  rows: 260
+  first: '2005-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

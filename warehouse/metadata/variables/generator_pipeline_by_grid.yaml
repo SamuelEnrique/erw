@@ -1,0 +1,321 @@
+# The codebook's metadata of table generator_pipeline_by_grid (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: generator_pipeline_by_grid
+family: erw_derived
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1M
+source:
+- name: eia:860m U.S. Energy Information Administration, EIA-860M Monthly Update to the Annual Electric Generator Report
+  url: ''
+cite: Energy Research Warehouse (ERW), derived. EIA-860M's generator pipeline by grid and its monthly moves (docs/methods/generator_pipeline_by_grid.md).
+  Via the Energy Research Warehouse (ERW), table `generator_pipeline_by_grid`.
+method: docs/methods/generator_pipeline_by_grid.md
+header_title: EIA-860M's planned generators by balancing authority, state, fuel, status and planned year, each snapshot month,
+  and the moves between two months (derived, session 2951)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia860m_pipeline:<BA>:<state>:<energy source>:<status>:<year>
+  (a cell) or eia860m_pipeline:<BA> and :US (the moves); ts_utc the snapshot month; variables planned_mw, planned_count, datacenter_mw
+  for a cell; entered_, online_, left_, status_moved_, slipped_ (mw and count) for the moves.'
+read:
+  date: '2026-11-20'
+  rows: 5147
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 924
+    examples:
+    - eia860m_pipeline:AECI:MO:NG:U:2027
+    - eia860m_pipeline:AECI:MO:WND:P:2029
+    - eia860m_pipeline:AECI:OK:NG:V:2027
+    - eia860m_pipeline:AVA:WA:WND:P:2029
+    - eia860m_pipeline:AVRN:OR:MWH:U:2028
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-08-01T00:00:00Z': 2493
+      '2026-09-01T00:00:00Z': 2654
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 598
+    lowest: 0.0
+    highest: 8832.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 3409
+      count: 1738
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 5147
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 53
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5147
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5147
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:generator_pipeline_by_grid: 5147
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia860m/: 5147
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-06T08:20:13Z': 5147
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: text
+  values:
+    list:
+      2026-08: 2493
+      2026-09: 2654
+  missing_cells: 0
+- name: x_ba
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 50
+    examples:
+    - AECI
+    - AVA
+    - AVRN
+    - AZPS
+    - BANC
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 134
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_energy_source
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      AB: 6
+      DFO: 72
+      GEO: 27
+      H2: 6
+      LFG: 30
+      MSW: 6
+      MWH: 1263
+      NG: 585
+      NUC: 18
+      OBG: 12
+      OBL: 6
+      OBS: 6
+      OTH: 12
+      SUN: 2457
+      WAT: 153
+      WH: 6
+      WND: 348
+  missing_cells: 134
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      L: 1035
+      P: 1173
+      T: 666
+      TS: 315
+      U: 1047
+      V: 777
+  missing_cells: 134
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_planned_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '2026': 1074
+      '2027': 1932
+      '2028': 1038
+      '2029': 594
+      '2030': 243
+      '2031': 90
+      '2032': 12
+      '2033': 6
+      '2034': 18
+      '2039': 6
+  missing_cells: 134
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_from_vintage
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      2026-08: 134
+  missing_cells: 5013
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: datacenter_mw
+  label: null
+  unit: MW
+  rows: 1671
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: entered_count
+  label: null
+  unit: count
+  rows: 14
+  first: '2026-09-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: entered_mw
+  label: null
+  unit: MW
+  rows: 14
+  first: '2026-09-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: left_count
+  label: null
+  unit: count
+  rows: 5
+  first: '2026-09-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: left_mw
+  label: null
+  unit: MW
+  rows: 5
+  first: '2026-09-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: online_count
+  label: null
+  unit: count
+  rows: 18
+  first: '2026-09-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: online_mw
+  label: null
+  unit: MW
+  rows: 18
+  first: '2026-09-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: planned_count
+  label: null
+  unit: count
+  rows: 1671
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: planned_mw
+  label: null
+  unit: MW
+  rows: 1671
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: slipped_count
+  label: null
+  unit: count
+  rows: 12
+  first: '2026-09-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: slipped_mw
+  label: null
+  unit: MW
+  rows: 12
+  first: '2026-09-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: status_moved_count
+  label: null
+  unit: count
+  rows: 18
+  first: '2026-09-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: status_moved_mw
+  label: null
+  unit: MW
+  rows: 18
+  first: '2026-09-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+second_look: null

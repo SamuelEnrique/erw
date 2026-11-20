@@ -1,0 +1,508 @@
+# The codebook's metadata of table policy_reads (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: policy_reads
+family: policy
+shape: events
+row: null
+time: null
+vintage_rule: null
+keys:
+- event_id
+license: public
+tier: model_extracted
+interval: event
+source:
+- name: erw:policy_reads, from policy_actions (the Federal Register and agency news releases).
+  url: ''
+cite: Energy Research Warehouse (ERW). Impact reads of policy actions (warehouse/policy/reads.py). Via the Energy Research
+  Warehouse (ERW), table `policy_reads`.
+method: docs/methods/policy_monitor.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261112T224800Z-github
+  (2026-11-12T22:48:00Z); that run's own header of the table follows
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type policy_read; one row per action read. The model''s fields
+  as kept by warehouse/policy/reads.py: a field is blank when its spans were not found word for word in the action''s own
+  text or a number in it was not in its spans (fields_dropped says why).'
+read:
+  date: '2026-11-20'
+  rows: 412
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 412
+    examples:
+    - policyread:cpuc:56297e626e3e
+    - policyread:cpuc:6e3bde75ae48
+    - policyread:doe:0bc976d9b4ef
+    - policyread:doe:168509c4dc69
+    - policyread:doe:24e5dd11b236
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: text
+  values:
+    distinct: 211
+    examples:
+    - '2025-10-01'
+    - '2025-10-02'
+    - '2025-10-14T00:00:00Z'
+    - '2025-10-22'
+    - '2025-10-23'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      policy_read: 412
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: text
+  values:
+    list:
+      CPUC: 2
+      DOE: 24
+      Energy Department: 26
+      Energy Department;Bonneville Power Administration: 1
+      Energy Department;Federal Energy Regulatory Commission: 162
+      Environmental Protection Agency: 20
+      Interior Department;Army Department;Environmental Protection Agency;Agriculture Department;Commerce Department: 1
+      Interior Department;Fish and Wildlife Service: 1
+      Interior Department;Geological Survey: 1
+      Interior Department;Land Management Bureau: 17
+      Interior Department;Natural Resources Revenue Office: 1
+      Interior Department;Ocean Energy Management Bureau: 13
+      Interior Department;Office of the Secretary: 1
+      Interior Department;Safety and Environmental Enforcement Bureau;Ocean Energy Management Bureau: 1
+      Interior Department;Surface Mining Reclamation and Enforcement Office: 1
+      NRC: 31
+      Nuclear Regulatory Commission: 97
+      Office of the Texas Governor;PUCT: 1
+      PUCT: 10
+      Treasury Department;Internal Revenue Service: 1
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 412
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 412
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 412
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 412
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 412
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:policy_reads: 412
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 412
+    examples:
+    - https://ftp.puc.texas.gov/public/puct-info/agency/resources/pubs/news/2026/PUCT-Announces-Blueprint-Guidelines-for-Utility-Wildfire-Mitigation-Plans.pdf
+    - https://ftp.puc.texas.gov/public/puct-info/agency/resources/pubs/news/2026/PUCT-Approves-New-ERCOT-Process-to-Manage-Electricity-Requests-from-Data-Centers-Large-Power-Users.pdf
+    - https://gov.texas.gov/news/post/governor-abbott-announces-113-million-in-grants-for-electric-reliability-in-the-panhandle-and-south-plains
+    - https://gov.texas.gov/news/post/governor-abbott-announces-200-million-grant-for-electric-reliability-in-southeast-texas
+    - https://gov.texas.gov/news/post/governor-abbott-announces-texas-energy-fund-loan-for-452-mw-west-texas-natural-gas-power-plant
+  missing_cells: 0
+- name: action_event_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 412
+    examples:
+    - cpuc:56297e626e3e
+    - cpuc:6e3bde75ae48
+    - doe:0bc976d9b4ef
+    - doe:168509c4dc69
+    - doe:24e5dd11b236
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: agency
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      BLM: 17
+      CPUC: 2
+      DOE: 51
+      EPA: 21
+      FERC: 162
+      IRS: 1
+      Interior: 19
+      NRC: 128
+      PUCT: 11
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: action_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      notice: 294
+      press_release: 68
+      proposed_rule: 26
+      rule: 24
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: title
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 392
+    examples:
+    - ANR Pipeline Company; Notice of Scoping Period Requesting Comments on Environmental Issues for the Planned Northwoods
+      Project, and Notice of Public Scoping Sessions
+    - AP1000 Design Certification Renewal
+    - 'Additional Reconsideration Standards of Performance for New, Reconstructed, and Modified Sources and Emissions Guidelines
+      for Existing Sources: Oil and Natural Gas Sector Climate Review'
+    - Alaska Outer Continental Shelf, Cook Inlet Planning Area, Oil and Gas Lease Sale 258
+    - Algonquin Gas Transmission, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Planned
+      Algonquin Reliable Affordable Resilient Enhancement Project, and Notice of Public Scoping Sessions
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: significance
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '5': 196
+      '6': 145
+      '7': 52
+      '8': 14
+      '9': 5
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: what_changes
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 400
+    examples:
+    - BLM Alaska is asking for nominations and comments on all available unleased tracts for the 2026 Coastal Plain oil and
+      gas lease sale. It is a standard step before the first lease sale directed by the One Big Beautiful Bill Act.
+    - BLM and OSMRE released an Environmental Assessment for Ramaco's proposed federal coal lease-by-application and will
+      hold a public hearing on fair market value and maximum economic recovery. The lease would let Ramaco expand two underground
+      mines into federal coal in Mingo and Wyoming Counties, West Virginia.
+    - BLM and the Southern Ute Indian Tribe will prepare a Programmatic EIS on exploration and development of the Mancos Shale
+      Formation and other oil and gas resources on existing leases in a planning area of about 108,000 acres. No site-specific
+      approvals are part of this action.
+    - BLM announces that the Secretary of the Interior has adopted alternative E as the operative decision for the National
+      Petroleum Reserve-Alaska Integrated Activity Plan. It follows a congressional disapproval of the 2022 plan's record
+      of decision.
+    - BLM fully rescinds the 2024 Conservation and Landscape Health Rule. This removes restoration and mitigation leasing,
+      returns Areas of Critical Environmental Concern rules to the framework in place since 1983, and rescinds the Land Health
+      Standards provisions.
+  missing_cells: 12
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: affected_sectors
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 67
+    examples:
+    - coal;gas;emissions;power;oil
+    - coal;leasing
+    - coal;leasing;minerals
+    - coal;oil;emissions
+    - coal;power
+  missing_cells: 16
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: affected_isos
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CAISO: 3
+      ERCOT: 23
+      ISO-NE: 1
+      MISO: 2
+      NYISO: 2
+      PJM: 15
+      PJM;MISO: 1
+      SPP: 5
+  missing_cells: 360
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: affected_states
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 73
+    examples:
+    - AK
+    - AL
+    - AL;FL;MS
+    - AR
+    - AR;TX
+  missing_cells: 115
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: direction_supply
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      none: 13
+      unclear: 263
+      up: 55
+  missing_cells: 81
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: direction_demand
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      none: 80
+      unclear: 250
+      up: 1
+  missing_cells: 81
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: direction_prices
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      down: 8
+      none: 1
+      unclear: 320
+      up: 2
+  missing_cells: 81
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: direction_buildout
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      none: 25
+      unclear: 222
+      up: 84
+  missing_cells: 81
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: timeline
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 406
+    examples:
+    - A prehearing conference is set for 2026-10-05, petitions to intervene are due 2026-10-06, and participant comments must
+      be received by 2026-10-19. The final Record of Decision is scheduled for 2026-12-18.
+    - Announced 2026-09-21. DOE and applicants will now negotiate before funding is issued, and DOE may cancel negotiations
+      and rescind a selection for any reason. Project data will be public through the Geothermal Data Repository.
+    - As of 2026-09-02 the compliance date is stayed until 2027-03-01, after an earlier stay to 2026-09-01. DOE says its review
+      of the final rule is still ongoing.
+    - BLM Alaska must receive nominations and comments on or before November 21, 2025. The lease sale itself is upcoming,
+      with no date given.
+    - Bids are due by 11:00 A.M. Central Time on Tuesday, October 6, 2026. Deliveries under awarded exchanges are scheduled
+      for November and December 2026.
+  missing_cells: 6
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: plain_read
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 403
+    examples:
+    - A Cheniere company has asked DOE for a 25-year permit to export LNG to countries without a free trade agreement with
+      the US, from a planned expansion of its Corpus Christi terminal in Texas. DOE is taking public comment until June 15,
+      2026 and has not decided.
+    - A Louisiana LNG terminal has asked DOE for permission to export more natural gas to countries without a free trade agreement
+      with the United States. The company says this needs no new construction, and DOE will take public comment until 2026-05-26.
+    - A company called ST LNG has asked DOE for permission to export liquefied natural gas from a proposed offshore terminal
+      near Matagorda, Texas, to countries without a free trade agreement with the United States. DOE is taking comments and
+      protests until 2026-02-23 and has not made a decision.
+    - A company has applied to the NRC for a license to build and run a uranium enrichment plant in Kentucky using laser technology.
+      The NRC is reviewing it, will hold a required public hearing after its reviews, and is also letting interested people
+      ask for a contested hearing.
+    - A company has applied to the NRC for permission to build four reactors in Idaho that would make isotopes, not electricity.
+      The NRC is still checking whether to accept the application, and no public participation steps have been set yet.
+  missing_cells: 9
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: fields_kept
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      direction;plain_read;timeline;what_changes: 3
+      direction;plain_read;timeline;what_changes;who_affected: 307
+      direction;plain_read;timeline;who_affected: 10
+      direction;plain_read;what_changes;who_affected: 5
+      direction;timeline;what_changes;who_affected: 6
+      plain_read;timeline;what_changes;who_affected: 75
+      plain_read;timeline;who_affected: 2
+      plain_read;what_changes;who_affected: 1
+      timeline;what_changes;who_affected: 3
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: fields_dropped
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 178
+    examples:
+    - direction (no span)
+    - 'direction (no span) | plain_read (span not in the source: [''DOE is initiating an information and data gathering effort
+      t''])'
+    - 'direction (no span) | plain_read (span not in the source: [''EPA is finalizing the repeal of specific amendments''])'
+    - 'direction (no span) | plain_read: numbers in the text, outside its quotations: [''100'']'
+    - 'direction (no span) | plain_read: numbers in the text, outside its quotations: [''16'']'
+  missing_cells: 145
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: news_story_urls
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ? https://news.google.com/rss/articles/CBMingFBVV95cUxQa1FVbGlFZlZiMFdnY3BOeDRPekJtbk5fNXh3aVFpVlVHVjA0NEtqVWJEa2FvMHJXWnlCVjJxTi1Yb1Y2NGdRSjNoSTRDX2lhZXdBa2hxY3RLeXpybzl4Yy1hZEtYdXN2WjZvVFlKRUVuYTdmRmIxM19aTHdNUTZESVVyM3FIeXVrU2ZBb0RCTzVEaWk2cmtuSzBzbEFjdw?oc=5
+      : 1
+      ? https://news.google.com/rss/articles/CBMitgFBVV95cUxOZ1dXcFMxMXA4RHJHUjE5RjNQSFh6bGk1cUtCRHNNR3plbEtoNEx3cVM0Vmk2ekNHaHNFLTIzZ0VxdFNPRndHa2N4VXlnNFlFTEJyMjJZa1Q1bVN1SHJHcUxtU2lUd2RxNDhDc2tiMjh2bVhMaWRHVmxlSWtJX1BmNFhYb2ZuQ1I0UUU5TGRONWdqN3EzUktOTVpvaWdLdlZ6MjlHTVZrRmoybGJ0TDY0aUJEbnBUQQ?oc=5
+      : 1
+      ? https://news.google.com/rss/articles/CBMiugFBVV95cUxPNzAxdV9NNnRUdlpIY1dEYzRBNWVJNEhSd00xMmlrOEFwNGJRYnFpZjBFWmlyMWtseVdqRjZ4bURJaGowRWtKV0FOTlRXbDM0Q0h5NTBjSExCVjlEZFVlMkVfMjI3bUhwb1pvcnN2M2tjUnltUTl5cU5MVElpcVZKT3VlUmJpZE9reXlzYlJRXzFxMXU5Wi1Uc3FXMG1ZTzdfSktENXFiZTlReDgyZGVIR1VFWGRkZnd3MUE?oc=5
+      : 1
+      https://www.energy.gov/articles/energy-department-advances-constitution-pipeline-project-42-million-defense-production-act: 1
+      https://www.energy.gov/articles/energy-department-announces-42-billion-investment-boost-nuclear-power-and-help-lower: 1
+      https://www.energy.gov/articles/energy-department-announces-alaska-railbelt-transmission-project-receive-defense: 1
+      https://www.energy.gov/articles/energy-department-announces-over-125-million-63-projects-across-16-states-lower-energy: 1
+      https://www.energy.gov/articles/energy-department-announces-speed-power-investments-across-26-states-lower-electricity: 1
+      https://www.energy.gov/articles/energy-department-authorizes-strategic-petroleum-reserve-exchange-address-supply: 1
+      https://www.energy.gov/articles/energy-department-authorizes-strategic-petroleum-reserve-exchange-support-fuel-supply: 1
+      https://www.energy.gov/articles/energy-department-backs-major-grid-expansion-across-eight-states-strengthen-reliability: 1
+      https://www.energy.gov/articles/energy-department-supports-fercs-call-pjm-protect-ratepayers-and-build-more-reliable-power: 1
+      https://www.energy.gov/articles/energy-department-use-defense-production-act-funding-restart-american-refinery-and-expand: 1
+      https://www.energy.gov/articles/energy-secretary-secures-mid-atlantic-grid-ahead-anticipated-stressed-system-conditions: 1
+      https://www.energy.gov/articles/trump-administration-mitigates-blackout-risks-keeping-colorado-coal-plant-online: 1
+      https://www.energy.gov/articles/united-states-energy-department-continues-execution-strategic-reserve-release-commitments: 1
+  missing_cells: 396
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: model_id
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      claude-sonnet-5: 8
+      claude-sonnet-5-5: 404
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: read_at
+  label: null
+  unit: null
+  type: utc time
+  values:
+    distinct: 263
+    earliest: '2026-09-28T10:17:29Z'
+    latest: '2026-11-12T22:08:32Z'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: recheck
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      not rechecked: 8
+      read with the corrected reader: 173
+      rechecked: 226
+  missing_cells: 5
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: rechecked_at
+  label: null
+  unit: null
+  type: utc time
+  values:
+    distinct: 182
+    earliest: '2026-10-08T09:03:53Z'
+    latest: '2026-10-08T09:40:14Z'
+  missing_cells: 186
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

@@ -1,0 +1,165 @@
+# The codebook's metadata of table wb_commodity_prices_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: wb_commodity_prices_monthly
+family: wb
+shape: series
+row: One World Bank Pink Sheet commodity's average price in one month, nominal US dollars.
+time: ts_utc is the month's first day at 00:00:00Z (freq P1M).
+vintage_rule: A snapshot, replaced whole by each run; vintage is the workbook's Last-Modified time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: worldbank:pink_sheet World Bank, World Bank Commodity Price Data (The Pink Sheet)
+  url: https://www.worldbank.org/en/research/commodity-markets
+cite: World Bank. World Bank Commodity Price Data (The Pink Sheet). Via the Energy Research Warehouse (ERW), table `wb_commodity_prices_monthly`.
+method: docs/methods/wb_commodity_prices_monthly.md
+header_title: the World Bank's commodity prices (the Pink Sheet), energy and base metals, a month, nominal U.S. dollars (session
+  926)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity wb_pink:<series name as a slug>; variable price; unit USD/bbl
+  (crude oil), USD/t (coal and the metals, the sheet''s $/mt) or USD/MMBtu (natural gas and LNG); ts_utc the month''s first
+  day; freq P1M; geo empty (world markets); node the series'' name.'
+read:
+  date: '2026-11-20'
+  rows: 11139
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      wb_pink:aluminum: 801
+      wb_pink:coal_australian: 681
+      wb_pink:coal_south_african: 513
+      wb_pink:copper: 801
+      wb_pink:crude_oil_average: 801
+      wb_pink:crude_oil_brent: 801
+      wb_pink:crude_oil_dubai: 801
+      wb_pink:crude_oil_wti: 537
+      wb_pink:lead: 801
+      wb_pink:liquefied_natural_gas_japan: 597
+      wb_pink:natural_gas_europe: 801
+      wb_pink:natural_gas_us: 801
+      wb_pink:nickel: 801
+      wb_pink:tin: 801
+      wb_pink:zinc: 801
+  missing_cells: 0
+  particular: wb_pink:<series name as a slug>
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 801
+    earliest: '1960-01-01T00:00:00Z'
+    latest: '2026-09-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.14
+    highest: 55385.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MMBtu: 2199
+      USD/bbl: 2940
+      USD/t: 6000
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 11139
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 11139
+  particular: 'Empty on every row: world markets'
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 11139
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Aluminum: 801
+      Coal, Australian: 681
+      Coal, South African: 513
+      Copper: 801
+      Crude oil, Brent: 801
+      Crude oil, Dubai: 801
+      Crude oil, WTI: 537
+      Crude oil, average: 801
+      Lead: 801
+      Liquefied natural gas, Japan: 597
+      Natural gas, Europe: 801
+      Natural gas, US: 801
+      Nickel: 801
+      Tin: 801
+      Zinc: 801
+  missing_cells: 0
+  particular: The series' name as the workbook writes it, not a pricing node
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      worldbank:pink_sheet: 11139
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx: 11139
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T09:58:30Z': 11139
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-02T18:57:55Z': 11139
+  missing_cells: 0
+  particular: The workbook's Last-Modified time as the server sent it
+variables:
+- name: price
+  label: 'The commodity''s monthly price, nominal US dollars: USD/bbl for crude oil, USD/t for coal and the metals, USD/MMBtu
+    for natural gas and LNG'
+  unit: USD/MMBtu; USD/bbl; USD/t
+  rows: 11139
+  first: '1960-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+second_look: null

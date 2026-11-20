@@ -1,0 +1,479 @@
+# The codebook's metadata of table large_load_connection_rules (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: large_load_connection_rules
+family: large
+shape: events
+row: One step that a grid operator's, regulator's or utility's document states for connecting a large load (who acts, what
+  the step is, and any time or size the step prints).
+time: event_date is a date (no time zone), the date the step prints, else the document's own date (x_date_kind says which).
+vintage_rule: Rewritten whole from the registry (warehouse/sources/large_load_connection_rules/, one file a document) by each
+  run; a held document's steps leave it.
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: the registry warehouse/sources/large_load_connection_rules/ (one file a document, each step with its section and words),
+    filled by reading each document. No request is made by this connector.
+  url: ''
+cite: grid operators' guides and utilities' filed rules, read into the ERW's registry. Large loads' connection rules (warehouse/sources/large_load_connection_rules).
+  Via the Energy Research Warehouse (ERW), table `large_load_connection_rules`.
+method: docs/methods/large_load_connection_rules.md
+header_title: large loads' connection rules, one row a step a document states (session 2924, chain 153)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id rule:<document>:<section>; event_date the date the step prints,
+  else the document''s own (x_date_kind); event_type connection_rule; parties who acts; mw a load size the step prints; x_duration
+  and x_duration_unit the number and unit the step prints (business days, calendar days, days, months, years), blank where
+  it states none; x_printed its words, x_section and x_page where.'
+read:
+  date: '2026-11-20'
+  rows: 85
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 85
+    examples:
+    - rule:caiso_large_load_enhancements_board_decision:memorandum_of_22_october_2026_discussion_and_analysis_the_co
+    - rule:caiso_large_load_enhancements_board_decision:memorandum_of_22_october_2026_discussion_and_analysis_the_de
+    - rule:caiso_large_load_enhancements_board_decision:motion
+    - rule:caiso_large_load_enhancements_draft_final_proposal:2_initiative_timeline_and_next_steps
+    - rule:caiso_large_load_enhancements_draft_final_proposal:a_1_definition_of_large_load_proposal
+  missing_cells: 0
+  particular: rule:<document>:<section>
+- name: event_date
+  shared: true
+  type: date
+  values:
+    list:
+      '2025-05-07': 8
+      '2025-10-31': 5
+      '2026-01-14': 13
+      '2026-01-16': 7
+      '2026-04-01': 2
+      '2026-05-12': 8
+      '2026-07-09': 3
+      '2026-07-10': 1
+      '2026-07-11': 19
+      '2026-07-24': 1
+      '2026-08-11': 2
+      '2026-09-24': 3
+      '2026-09-30': 5
+      '2026-10-09': 1
+      '2026-10-12': 1
+      '2026-10-28': 5
+      '2027-04-09': 1
+  missing_cells: 0
+  particular: The date the step prints, else the document's own date (x_date_kind)
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      connection_rule: 85
+  missing_cells: 0
+  particular: Always connection_rule
+- name: parties
+  shared: true
+  type: text
+  values:
+    list:
+      CAISO: 8
+      DSP or TSP: 3
+      EDC or LSE: 1
+      ERCOT: 8
+      FERC: 1
+      HILLGA Customer: 2
+      HILLGA Customer, transmission owner and SPP: 1
+      ILLE: 5
+      PJM: 4
+      PJM and TOs: 2
+      PTOs: 2
+      Public Service Commission of Utah: 3
+      SPP: 7
+      TSP: 9
+      Transmission Customer: 3
+      either party: 2
+      electric distribution company: 3
+      generation developer: 4
+      large load customer: 6
+      large load customer and TSP: 1
+      large load or generation developer: 2
+      large-scale generation provider: 2
+      qualified electric utility: 4
+      utility or generation provider: 2
+  missing_cells: 0
+  particular: Who acts in the step
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 85
+- name: mw
+  shared: true
+  type: integer
+  values:
+    list:
+      '10': 1
+      '100': 2
+      '250': 1
+      '50': 7
+      '75': 1
+  missing_cells: 73
+  particular: A load size the step prints
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 85
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 85
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      stated: 85
+  missing_cells: 0
+  particular: Always stated
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      filed:large_load_connection_rules: 85
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://le.utah.gov/~2025/bills/sbillenr/SB0132.pdf: 8
+      https://pscdocs.utah.gov/Rules/25R31801/34253425R31801nopr10-31-2025.pdf: 5
+      ? https://spp.org/documents/75725/20260114_order%20-%20revisions%20to%20add%20the%20high%20impact%20large%20load%20processes%20and%20generation%20assessment_er26-247-000.pdf
+      : 13
+      https://stakeholdercenter.caiso.com/InitiativeDocuments/Draft-Final-Proposal-Large-Load-Enhancements-Sep-24-26.pdf: 4
+      https://stakeholdercenter.caiso.com/InitiativeDocuments/Large-loads-Straw-Proposal-Aug-11-2026.pdf: 3
+      https://www.caiso.com/documents/decision-on-large-load-enhancements-motion-oct-28-2026.pdf: 3
+      https://www.ercot.com/files/docs/2011/04/28/09-071126.docx: 22
+      https://www.ercot.com/files/docs/2026/04/01/ERCOT_LargeLoad_Update_April2026_B-C_-Hearing.pdf: 2
+      https://www.ercot.com/files/docs/2026/07/23/PUCT-Project-58000-pfp_adopted-9-July-2026.pdf: 3
+      ? https://www.pjm.com/-/media/DotCom/about-pjm/who-we-are/public-disclosures/2026/20260116-pjm-board-letter-re-results-of-the-cifp-process-large-load-additions.pdf
+      : 7
+      ? https://www.pjm.com/-/media/DotCom/committees-groups/workshops/cllsco/2026/20260930/20260930-item-02---show-cause-for-large-loads-approach---presentation.pdf
+      : 5
+      https://www.pjm.com/pjmfiles/directory/etariff/FercOrders/9207/20261009-er26-3515-000.pdf: 2
+      https://www.puc.pa.gov/pcdocs/1929842.pdf: 8
+  missing_cells: 0
+- name: x_body
+  label: 'Who states the rule: the grid operator, regulator or legislature, as the registry names it'
+  unit: none
+  type: text
+  values:
+    list:
+      California Independent System Operator (CAISO): 10
+      Electric Reliability Council of Texas (ERCOT): 24
+      Federal Energy Regulatory Commission (FERC), on PJM Interconnection, L.L.C.: 2
+      PJM Interconnection, L.L.C. (Board of Managers): 7
+      PJM Interconnection, L.L.C. (staff proposal to the CLLSCO workshop): 5
+      Pennsylvania Public Utility Commission (Final Order adopting the Large Load Customer Model Tariff): 8
+      Public Service Commission of Utah (Utah Admin. Code R746-318, under S.B. 132 of 2025): 5
+      Public Utility Commission of Texas (PUCT): 3
+      Southwest Power Pool (SPP), as the Federal Energy Regulatory Commission's order states its Tariff: 13
+      Utah Legislature (Utah Code Title 54 Chapter 26, S.B. 132 of 2025): 8
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: body
+  documented_by: connector large_load_connection_rules.py; source warehouse/sources/large_load_connection_rules/README.md
+- name: x_grid
+  label: The grid the rule applies in (ERCOT, PJM, CAISO, SPP, PACE)
+  unit: none
+  type: text
+  values:
+    list:
+      CAISO: 10
+      ERCOT: 27
+      PACE: 13
+      PJM: 22
+      SPP: 13
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: grid
+  documented_by: source warehouse/sources/large_load_connection_rules/README.md; data
+- name: x_utility
+  label: The utility, where the rule is a utility's
+  unit: none
+  type: text
+  values:
+    list:
+      PacifiCorp (Rocky Mountain Power): 13
+  missing_cells: 72
+  missing_meaning: Not a utility's rule (a grid operator's or regulator's)
+  source_name: utility
+  documented_by: source warehouse/sources/large_load_connection_rules/README.md
+- name: x_eia_id
+  label: The utility's EIA utility id, where the rule is a utility's
+  unit: none
+  type: integer
+  values:
+    list:
+      '14354': 13
+  missing_cells: 72
+  missing_meaning: Not a utility's rule
+  source_name: eia_id
+  documented_by: source warehouse/sources/large_load_connection_rules/README.md
+- name: x_state
+  label: The state, two-letter postal code
+  unit: none
+  type: text
+  values:
+    list:
+      AR: 13
+      CA: 10
+      PA: 22
+      TX: 27
+      UT: 13
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: state
+  documented_by: source warehouse/sources/large_load_connection_rules/README.md
+- name: x_document
+  label: The document the step is read in, by name and status
+  unit: none
+  type: text
+  values:
+    list:
+      ? CAISO Board of Governors, Decision on Large Load Enhancements, motion of 28 October 2026 approving Management's memorandum
+        of 22 October 2026 (decided by the Board; FERC Docket EL26-71, the filing not read)
+      : 3
+      CAISO, Large Load Enhancements, Draft Final Proposal, 24 September 2026 (a proposal; FERC Docket EL26-71): 4
+      CAISO, Large Loads Considerations, Straw Proposal, 11 August 2026 (a proposal; FERC Docket EL26-71): 3
+      ERCOT Planning Guide, Section 9, Large Load Interconnection or Modification: 22
+      ERCOT, Large Load Update, Board of Directors hearing, 1 April 2026 (the batch study framework): 2
+      ? FERC, Order Accepting Tariff Revisions in Part and Rejecting Tariff Revisions in Part, PJM Interconnection, L.L.C.,
+        Docket No. ER26-3515-000, 197 FERC 61,019 (issued 9 October 2026)
+      : 2
+      ? FERC, Order Accepting Tariff Revisions, Subject to Condition, Southwest Power Pool, Inc., Docket No. ER26-247-000,
+        194 FERC 61,031 (issued 14 January 2026)
+      : 13
+      ? PJM Board letter, Results of the Critical Issue Fast Path process on Large Load Additions, with Appendix C (Expedited
+        Interconnection Track)
+      : 7
+      ? PJM, Show Cause for Large Loads Approach, CLLSCO workshop presentation, 30 September 2026 (a proposal; FERC Docket
+        EL26-67)
+      : 5
+      ? PUCT Project No. 58000, Proposal for Publication of amendments to 16 TAC 25.192 and 25.193 and new 25.252 (Large Load
+        Customer Tariffs), for the 9 July 2026 open meeting (a proposal)
+      : 3
+      ? Pennsylvania Public Utility Commission, Final Order, Interconnection and Tariffs for Large Load Customers, Docket
+        M-2025-3054271 (adopted 30 April 2026, entered 12 May 2026), Appendix, Model Tariff for Customers at or over 50 MW
+        Individually or 100 MW in the Aggregate
+      : 8
+      ? Public Service Commission of Utah, R746-318 Large Scale Electric Requirements, Notice of Substantive Change of 31
+        October 2025, Docket 25-R318-01 (effective 1 January 2026)
+      : 5
+      Utah S.B. 132, Electric Utility Amendments, 2025 General Session, enrolled copy (Utah Code 54-26-101 to 54-26-901): 8
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: document
+  documented_by: source warehouse/sources/large_load_connection_rules/README.md
+- name: x_document_date
+  label: The document's own date
+  unit: none
+  type: date
+  values:
+    list:
+      '2025-05-07': 8
+      '2025-10-31': 5
+      '2026-01-14': 13
+      '2026-01-16': 7
+      '2026-04-01': 2
+      '2026-05-12': 8
+      '2026-07-09': 3
+      '2026-07-11': 22
+      '2026-08-11': 3
+      '2026-09-24': 4
+      '2026-09-30': 5
+      '2026-10-09': 2
+      '2026-10-28': 3
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: document_date
+  documented_by: source warehouse/sources/large_load_connection_rules/README.md
+- name: x_section
+  label: The section of the document the step is printed in
+  unit: none
+  type: text
+  values:
+    distinct: 85
+    examples:
+    - 2. Initiative Timeline and Next Steps
+    - 54-26-101(12)
+    - 54-26-202(1)(b)
+    - 54-26-202(1)(c)
+    - 54-26-202(2)
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: section
+  documented_by: header; method large_load_connection_rules.md
+- name: x_page
+  label: The PDF's page the step is printed on
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 2
+      '10': 2
+      '11': 2
+      '12': 5
+      '122': 1
+      '123': 3
+      '126': 1
+      '127': 3
+      '13': 2
+      '14': 8
+      '16': 1
+      '2': 2
+      '25': 1
+      '28': 1
+      '29': 1
+      '3': 3
+      '35': 1
+      '36': 1
+      '40': 1
+      '5': 6
+      '6': 1
+      '7': 6
+      '70': 1
+      '8': 3
+      '9': 5
+  missing_cells: 22
+  missing_meaning: The document has no pages (a web page or a Word file)
+  source_name: page
+  documented_by: header; method large_load_connection_rules.md
+- name: x_step
+  label: What the step is, in short words
+  unit: none
+  type: text
+  values:
+    distinct: 85
+    examples:
+    - EIT generation must be large
+    - ERCOT completes the refinement study and gives the Batch Zero transmission plan to the RPG
+    - ERCOT gives the Batch Zero Interconnection Study report
+    - FERC accepts PJM's definition of Large Load and its Large Load Registry, effective 12 October 2026; PJM files its compliance
+      within 30 days
+    - PJM takes at most ten EIT applications a year
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: step
+  documented_by: method large_load_connection_rules.md
+- name: x_duration
+  label: The number of the step's time limit as the document prints it (never summed, business days never converted)
+  unit: x_duration_unit
+  type: number
+  values:
+    list:
+      '10': 12
+      '12': 1
+      '14': 1
+      '15': 5
+      '150': 1
+      '180': 1
+      '2': 2
+      '20': 2
+      '3': 3
+      '30': 3
+      '365': 1
+      '4': 2
+      '45': 1
+      '48': 1
+      '5': 2
+      '6': 3
+      '6.75': 1
+      '60': 4
+      '7': 1
+      '90': 7
+  missing_cells: 31
+  missing_meaning: The step states no duration
+  source_name: duration
+  documented_by: header; method large_load_connection_rules.md
+- name: x_duration_unit
+  label: 'The unit of x_duration as printed: business days, calendar days, days, months or years'
+  unit: none
+  type: text
+  values:
+    list:
+      business days: 20
+      calendar days: 7
+      days: 13
+      months: 9
+      years: 5
+  missing_cells: 31
+  missing_meaning: The step states no duration
+  source_name: unit
+  documented_by: header; method large_load_connection_rules.md
+- name: x_date_kind
+  label: 'What event_date is: ''stated date'' (a date the step prints) or ''document date'''
+  unit: none
+  type: text
+  values:
+    list:
+      document date: 78
+      stated date: 7
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector large_load_connection_rules.py
+- name: x_printed
+  label: The words the step is printed in
+  unit: none
+  type: text
+  values:
+    distinct: 85
+    examples:
+    - '"Large-scale service request" means a request submitted to a qualified electric utility for: (a) new electric service
+      that is expected to reach a cumulative demand of 100 megawatts or greater within five years of the requested initial
+      start date'
+    - 12 months (52 weeks)
+    - A Customer may designate a Load Ramp Period, which should be at or between three (3) years and five (5) years.
+    - A Large Load Customer's Initial Contract Term should be made for a period of not less than five (5) years.
+    - A modification of any existing Load Facility that increases the aggregate peak Demand of the Facility by 75 MW or more
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: printed
+  documented_by: header; method large_load_connection_rules.md
+- name: x_retrieved_at
+  label: When the document was read, UTC
+  unit: none
+  type: utc time
+  values:
+    list:
+      '2026-10-08T00:30:01Z': 13
+      '2026-11-06T04:18:20Z': 22
+      '2026-11-12T11:14:14Z': 3
+      '2026-11-12T11:21:29Z': 7
+      '2026-11-12T11:21:31Z': 5
+      '2026-11-12T11:21:35Z': 3
+      '2026-11-12T11:21:36Z': 2
+      '2026-11-12T13:27:59Z': 8
+      '2026-11-13T00:00:00Z': 2
+      '2026-11-13T08:05:17Z': 8
+      '2026-11-13T10:29:27Z': 5
+      '2026-11-13T10:36:06Z': 4
+      '2026-11-14T09:04:27Z': 3
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: retrieved_at
+  documented_by: connector large_load_connection_rules.py
+second_look: null

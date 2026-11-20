@@ -1,0 +1,232 @@
+# The codebook's metadata of table eia_gas_reserves_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_gas_reserves_annual
+family: eia
+shape: series
+row: One state's, area's or the nation's dry natural gas proved reserves at a year's end, or one of the changes that take
+  one year's reserves to the next.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y); reserves are as of the year's end.
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:natural-gas/enr/dry U.S. Energy Information Administration, U.S. Crude Oil and Natural Gas Proved Reserves (API
+    v2, route natural-gas/enr/dry)
+  url: https://www.eia.gov/naturalgas/crudeoilreserves/
+cite: U.S. Energy Information Administration (EIA). U.S. Crude Oil and Natural Gas Proved Reserves, dry natural gas (API v2).
+  Via the Energy Research Warehouse (ERW), table `eia_gas_reserves_annual`.
+method: docs/methods/eia_gas_reserves_annual.md
+header_title: EIA, dry natural gas proved reserves and their changes by state and area, a year (session 552)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_gas_reserves:<process>:<area>; variable proved_reserves
+  or a change (adjustments, revisions, sales, acquisitions, extensions and discoveries, production); unit bcf; ts_utc the
+  year''s 1 January (reserves at the year''s end); freq P1Y; node EIA''s series name. Parts of states and the Lower 48 repeat
+  states and the U.S.: a sum takes one level.'
+read:
+  date: '2026-11-20'
+  rows: 19232
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 561
+    examples:
+    - eia_gas_reserves:R11:NUS
+    - eia_gas_reserves:R11:R1901F
+    - eia_gas_reserves:R11:R44F
+    - eia_gas_reserves:R11:R48
+    - eia_gas_reserves:R11:R5F
+  missing_cells: 0
+  particular: eia_gas_reserves:<process>:<area>; parts of states and the Lower 48 repeat states and the U.S.
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 45
+    earliest: '1977-01-01T00:00:00Z'
+    latest: '2021-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 4519
+    lowest: -10055.0
+    highest: 589236.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      bcf: 19232
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 19232
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 10520
+      US-AK: 392
+      US-AL: 328
+      US-AR: 392
+      US-CA: 352
+      US-CO: 392
+      US-FL: 352
+      US-KS: 392
+      US-KY: 392
+      US-LA: 328
+      US-MI: 392
+      US-MS: 392
+      US-MT: 392
+      US-ND: 392
+      US-NM: 392
+      US-NY: 392
+      US-OH: 392
+      US-OK: 392
+      US-PA: 392
+      US-TX: 336
+      US-UT: 392
+      US-VA: 352
+      US-WV: 392
+      US-WY: 392
+  missing_cells: 0
+  particular: US-<state> for a state, US otherwise
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 19232
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 561
+    examples:
+    - Alabama Dry Natural Gas Expected Future Production (Billion Cubic Feet)
+    - Alabama Dry Natural Gas New Reservoir Discoveries in Old Fields (Billion Cubic Feet)
+    - Alabama Dry Natural Gas Reserves Acquisitions (Billion Cubic Feet)
+    - Alabama Dry Natural Gas Reserves Adjustments (Billion Cubic Feet)
+    - Alabama Dry Natural Gas Reserves Divestitures (Billion Cubic Feet)
+  missing_cells: 0
+  particular: EIA's series name (for R11 EIA writes Expected Future Production)
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:natural-gas/enr/dry: 19232
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/natural-gas/enr/dry/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=R11&facets%5Bprocess%5D%5B%5D=R12&facets%5Bprocess%5D%5B%5D=R13&facets%5Bprocess%5D%5B%5D=R14&facets%5Bprocess%5D%5B%5D=R15&facets%5Bprocess%5D%5B%5D=R16&facets%5Bprocess%5D%5B%5D=R17&facets%5Bprocess%5D%5B%5D=R17A&facets%5Bprocess%5D%5B%5D=R18&facets%5Bprocess%5D%5B%5D=R19&facets%5Bprocess%5D%5B%5D=R20&start=1977
+      : 19232
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T22:16:59Z': 19232
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 19232
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: acquisitions
+  label: Proved reserves acquired (R16), billion cubic feet
+  unit: bcf
+  rows: 1117
+  first: '2000-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: adjustments
+  label: Adjustments to proved reserves (R12), billion cubic feet
+  unit: bcf
+  rows: 2200
+  first: '1977-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: extensions
+  label: Extensions of proved reserves (R17, 1977 to 2015), billion cubic feet
+  unit: bcf
+  rows: 1899
+  first: '1977-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: extensions_and_discoveries
+  label: Extensions and discoveries of proved reserves (R17A, 2016 to 2021), billion cubic feet
+  unit: bcf
+  rows: 301
+  first: '2016-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: new_field_discoveries
+  label: New field discoveries (R18, 1977 to 2015), billion cubic feet
+  unit: bcf
+  rows: 1899
+  first: '1977-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: new_reservoir_discoveries
+  label: New reservoir discoveries in old fields (R19, 1977 to 2015), billion cubic feet
+  unit: bcf
+  rows: 1899
+  first: '1977-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: production
+  label: Estimated production from reserves in the year (R20), billion cubic feet
+  unit: bcf
+  rows: 2200
+  first: '1977-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: proved_reserves
+  label: Dry natural gas proved reserves at the year's end (R11), billion cubic feet
+  unit: bcf
+  rows: 2200
+  first: '1977-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: revision_decreases
+  label: Revision decreases of proved reserves (R14), billion cubic feet
+  unit: bcf
+  rows: 2200
+  first: '1977-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: revision_increases
+  label: Revision increases of proved reserves (R13), billion cubic feet
+  unit: bcf
+  rows: 2200
+  first: '1977-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: sales
+  label: Proved reserves sold (R15), billion cubic feet
+  unit: bcf
+  rows: 1117
+  first: '2000-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,844 @@
+# The codebook's metadata of table storage_owners_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: storage_owners_monthly
+family: storage
+shape: series
+row: One company's (EIA-860M Entity) or one grid's value of one measure of the battery fleet in one grid, at one EIA-860M
+  inventory month.
+time: ts_utc is the inventory month's first day at 00:00:00Z (freq P1M).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): each inventory month''s rows are kept beside the earlier months''.
+  vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1M
+source:
+- name: erw:storage_owners ERW derived table, storage owners method (docs/methods/storage_owners.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/storage_owners.md
+cite: Energy Research Warehouse (ERW), derived. Battery storage by reporting company and grid (docs/methods/storage_owners.md).
+  Via the Energy Research Warehouse (ERW), table `storage_owners_monthly`.
+method: docs/methods/storage_owners.md
+header_title: 'Who owns the batteries: operating and planned battery storage by reporting company and grid; EIA-860M inventory
+  of 2026-09 (derived, session 87)'
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P1M: ts_utc is the inventory month. entity eia860:utility:<EIA
+  Entity ID> for a company (its name as EIA writes it in x_owner), and iso:<caiso|ercot|isone|miso|nyiso|pjm|spp>, us:outside_isos,
+  us:total for a grid. Variables <grid>_<metric>, also in x_grid and x_metric; grid is one of caiso, ercot, isone, miso, nyiso,
+  pjm, spp, outside_isos, us (every unit).'
+read:
+  date: '2026-11-20'
+  rows: 19180
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 967
+    examples:
+    - eia860:utility:10000
+    - eia860:utility:10071
+    - eia860:utility:1015
+    - eia860:utility:10171
+    - eia860:utility:10433
+  missing_cells: 0
+  particular: eia860:utility:<EIA Entity ID> for a company; iso:<grid>, us:outside_isos or us:total for a grid's own totals
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-08-01T00:00:00Z': 9540
+      '2026-09-01T00:00:00Z': 9640
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1619
+    lowest: 0.0
+    highest: 154272.4
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 4103
+      MWh: 2735
+      MWh/MW: 2733
+      count: 6856
+      pct: 2753
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 19180
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 19180
+  missing_cells: 0
+  particular: US on every row
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 19180
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 19180
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:storage_owners: 19180
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/storage_owners.md: 19180
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-04T04:46:37Z': 9540
+      '2026-11-03T17:31:50Z': 9640
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 19180
+- name: x_grid
+  label: 'The grid of the measure: caiso, ercot, isone, miso, nyiso, pjm, spp, outside_isos or us (every unit)'
+  unit: none
+  type: text
+  values:
+    list:
+      caiso: 2433
+      ercot: 2352
+      isone: 1288
+      miso: 380
+      nyiso: 450
+      outside_isos: 2254
+      pjm: 534
+      spp: 244
+      us: 9245
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector storage_owners.py
+- name: x_metric
+  label: The measure, the part of the variable after <grid>_
+  unit: none
+  type: text
+  values:
+    list:
+      operating_hours: 2733
+      operating_mw: 2735
+      operating_mwh: 2735
+      operating_rank: 2717
+      operating_share_pct: 2717
+      operating_units: 2735
+      owners_operating: 18
+      owners_planned: 18
+      planned_mw: 1368
+      planned_units: 1368
+      top10_share_pct: 18
+      top5_share_pct: 18
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector storage_owners.py
+- name: x_owner
+  label: The company's name as EIA-860M writes its Entity Name
+  unit: none
+  type: text
+  values:
+    distinct: 960
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 147 Williamsville Solar 1, LLC
+    - 160TIH WHAM8 Solar, LLC
+    - 174 Power Global Corp.
+    - 196TRE WHAM8 Solar, LLC
+  missing_cells: 180
+  missing_meaning: Empty on a grid's own rows (not a company)
+  source_name: Entity Name
+  documented_by: header; connector storage_owners.py; method storage_owners.md
+variables:
+- name: caiso_operating_hours
+  label: 'CAISO: operating MWh over the MW of the same units (average duration)'
+  unit: MWh/MW
+  rows: 356
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: caiso_operating_mw
+  label: 'CAISO: operating battery capacity, nameplate MW (a company: its own; a grid row: the grid total)'
+  unit: MW
+  rows: 357
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: caiso_operating_mwh
+  label: 'CAISO: operating battery energy capacity, of the units that report it'
+  unit: MWh
+  rows: 357
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: caiso_operating_rank
+  label: 'CAISO: the company''s position by operating MW in the grid (1 the largest)'
+  unit: count
+  rows: 355
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: caiso_operating_share_pct
+  label: 'CAISO: the company''s share of the grid''s operating MW, percent'
+  unit: pct
+  rows: 355
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: caiso_operating_units
+  label: 'CAISO: operating battery units'
+  unit: count
+  rows: 357
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: caiso_owners_operating
+  label: 'CAISO: companies with operating battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: caiso_owners_planned
+  label: 'CAISO: companies with planned battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: caiso_planned_mw
+  label: 'CAISO: planned battery capacity, nameplate MW'
+  unit: MW
+  rows: 144
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: caiso_planned_units
+  label: 'CAISO: planned battery units'
+  unit: count
+  rows: 144
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: caiso_top10_share_pct
+  label: 'CAISO: share of the grid''s operating MW held by its 10 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: caiso_top5_share_pct
+  label: 'CAISO: share of the grid''s operating MW held by its 5 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: ercot_operating_hours
+  label: 'ERCOT: operating MWh over the MW of the same units (average duration)'
+  unit: MWh/MW
+  rows: 324
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: ercot_operating_mw
+  label: 'ERCOT: operating battery capacity, nameplate MW (a company: its own; a grid row: the grid total)'
+  unit: MW
+  rows: 324
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: ercot_operating_mwh
+  label: 'ERCOT: operating battery energy capacity, of the units that report it'
+  unit: MWh
+  rows: 324
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: ercot_operating_rank
+  label: 'ERCOT: the company''s position by operating MW in the grid (1 the largest)'
+  unit: count
+  rows: 322
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: ercot_operating_share_pct
+  label: 'ERCOT: the company''s share of the grid''s operating MW, percent'
+  unit: pct
+  rows: 322
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: ercot_operating_units
+  label: 'ERCOT: operating battery units'
+  unit: count
+  rows: 324
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: ercot_owners_operating
+  label: 'ERCOT: companies with operating battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: ercot_owners_planned
+  label: 'ERCOT: companies with planned battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: ercot_planned_mw
+  label: 'ERCOT: planned battery capacity, nameplate MW'
+  unit: MW
+  rows: 202
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: ercot_planned_units
+  label: 'ERCOT: planned battery units'
+  unit: count
+  rows: 202
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: ercot_top10_share_pct
+  label: 'ERCOT: share of the grid''s operating MW held by its 10 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: ercot_top5_share_pct
+  label: 'ERCOT: share of the grid''s operating MW held by its 5 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: isone_operating_hours
+  label: 'ISO-NE: operating MWh over the MW of the same units (average duration)'
+  unit: MWh/MW
+  rows: 200
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: isone_operating_mw
+  label: 'ISO-NE: operating battery capacity, nameplate MW (a company: its own; a grid row: the grid total)'
+  unit: MW
+  rows: 200
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: isone_operating_mwh
+  label: 'ISO-NE: operating battery energy capacity, of the units that report it'
+  unit: MWh
+  rows: 200
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: isone_operating_rank
+  label: 'ISO-NE: the company''s position by operating MW in the grid (1 the largest)'
+  unit: count
+  rows: 198
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: isone_operating_share_pct
+  label: 'ISO-NE: the company''s share of the grid''s operating MW, percent'
+  unit: pct
+  rows: 198
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: isone_operating_units
+  label: 'ISO-NE: operating battery units'
+  unit: count
+  rows: 200
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: isone_owners_operating
+  label: 'ISO-NE: companies with operating battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: isone_owners_planned
+  label: 'ISO-NE: companies with planned battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: isone_planned_mw
+  label: 'ISO-NE: planned battery capacity, nameplate MW'
+  unit: MW
+  rows: 42
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: isone_planned_units
+  label: 'ISO-NE: planned battery units'
+  unit: count
+  rows: 42
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: isone_top10_share_pct
+  label: 'ISO-NE: share of the grid''s operating MW held by its 10 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: isone_top5_share_pct
+  label: 'ISO-NE: share of the grid''s operating MW held by its 5 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: miso_operating_hours
+  label: 'MISO: operating MWh over the MW of the same units (average duration)'
+  unit: MWh/MW
+  rows: 50
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: miso_operating_mw
+  label: 'MISO: operating battery capacity, nameplate MW (a company: its own; a grid row: the grid total)'
+  unit: MW
+  rows: 50
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: miso_operating_mwh
+  label: 'MISO: operating battery energy capacity, of the units that report it'
+  unit: MWh
+  rows: 50
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: miso_operating_rank
+  label: 'MISO: the company''s position by operating MW in the grid (1 the largest)'
+  unit: count
+  rows: 48
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: miso_operating_share_pct
+  label: 'MISO: the company''s share of the grid''s operating MW, percent'
+  unit: pct
+  rows: 48
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: miso_operating_units
+  label: 'MISO: operating battery units'
+  unit: count
+  rows: 50
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: miso_owners_operating
+  label: 'MISO: companies with operating battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: miso_owners_planned
+  label: 'MISO: companies with planned battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: miso_planned_mw
+  label: 'MISO: planned battery capacity, nameplate MW'
+  unit: MW
+  rows: 38
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: miso_planned_units
+  label: 'MISO: planned battery units'
+  unit: count
+  rows: 38
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: miso_top10_share_pct
+  label: 'MISO: share of the grid''s operating MW held by its 10 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: miso_top5_share_pct
+  label: 'MISO: share of the grid''s operating MW held by its 5 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: nyiso_operating_hours
+  label: 'NYISO: operating MWh over the MW of the same units (average duration)'
+  unit: MWh/MW
+  rows: 68
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: nyiso_operating_mw
+  label: 'NYISO: operating battery capacity, nameplate MW (a company: its own; a grid row: the grid total)'
+  unit: MW
+  rows: 68
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: nyiso_operating_mwh
+  label: 'NYISO: operating battery energy capacity, of the units that report it'
+  unit: MWh
+  rows: 68
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: nyiso_operating_rank
+  label: 'NYISO: the company''s position by operating MW in the grid (1 the largest)'
+  unit: count
+  rows: 66
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: nyiso_operating_share_pct
+  label: 'NYISO: the company''s share of the grid''s operating MW, percent'
+  unit: pct
+  rows: 66
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: nyiso_operating_units
+  label: 'NYISO: operating battery units'
+  unit: count
+  rows: 68
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: nyiso_owners_operating
+  label: 'NYISO: companies with operating battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: nyiso_owners_planned
+  label: 'NYISO: companies with planned battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: nyiso_planned_mw
+  label: 'NYISO: planned battery capacity, nameplate MW'
+  unit: MW
+  rows: 19
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: nyiso_planned_units
+  label: 'NYISO: planned battery units'
+  unit: count
+  rows: 19
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: nyiso_top10_share_pct
+  label: 'NYISO: share of the grid''s operating MW held by its 10 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: nyiso_top5_share_pct
+  label: 'NYISO: share of the grid''s operating MW held by its 5 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: outside_isos_operating_hours
+  label: 'outside the seven ISOs: operating MWh over the MW of the same units (average duration)'
+  unit: MWh/MW
+  rows: 311
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: outside_isos_operating_mw
+  label: 'outside the seven ISOs: operating battery capacity, nameplate MW (a company: its own; a grid row: the grid total)'
+  unit: MW
+  rows: 311
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: outside_isos_operating_mwh
+  label: 'outside the seven ISOs: operating battery energy capacity, of the units that report it'
+  unit: MWh
+  rows: 311
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: outside_isos_operating_rank
+  label: 'outside the seven ISOs: the company''s position by operating MW in the grid (1 the largest)'
+  unit: count
+  rows: 309
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: outside_isos_operating_share_pct
+  label: 'outside the seven ISOs: the company''s share of the grid''s operating MW, percent'
+  unit: pct
+  rows: 309
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: outside_isos_operating_units
+  label: 'outside the seven ISOs: operating battery units'
+  unit: count
+  rows: 311
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: outside_isos_owners_operating
+  label: 'outside the seven ISOs: companies with operating battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: outside_isos_owners_planned
+  label: 'outside the seven ISOs: companies with planned battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: outside_isos_planned_mw
+  label: 'outside the seven ISOs: planned battery capacity, nameplate MW'
+  unit: MW
+  rows: 192
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: outside_isos_planned_units
+  label: 'outside the seven ISOs: planned battery units'
+  unit: count
+  rows: 192
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: outside_isos_top10_share_pct
+  label: 'outside the seven ISOs: share of the grid''s operating MW held by its 10 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: outside_isos_top5_share_pct
+  label: 'outside the seven ISOs: share of the grid''s operating MW held by its 5 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: pjm_operating_hours
+  label: 'PJM: operating MWh over the MW of the same units (average duration)'
+  unit: MWh/MW
+  rows: 74
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: pjm_operating_mw
+  label: 'PJM: operating battery capacity, nameplate MW (a company: its own; a grid row: the grid total)'
+  unit: MW
+  rows: 74
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: pjm_operating_mwh
+  label: 'PJM: operating battery energy capacity, of the units that report it'
+  unit: MWh
+  rows: 74
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: pjm_operating_rank
+  label: 'PJM: the company''s position by operating MW in the grid (1 the largest)'
+  unit: count
+  rows: 72
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: pjm_operating_share_pct
+  label: 'PJM: the company''s share of the grid''s operating MW, percent'
+  unit: pct
+  rows: 72
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: pjm_operating_units
+  label: 'PJM: operating battery units'
+  unit: count
+  rows: 74
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: pjm_owners_operating
+  label: 'PJM: companies with operating battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: pjm_owners_planned
+  label: 'PJM: companies with planned battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: pjm_planned_mw
+  label: 'PJM: planned battery capacity, nameplate MW'
+  unit: MW
+  rows: 43
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: pjm_planned_units
+  label: 'PJM: planned battery units'
+  unit: count
+  rows: 43
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: pjm_top10_share_pct
+  label: 'PJM: share of the grid''s operating MW held by its 10 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: pjm_top5_share_pct
+  label: 'PJM: share of the grid''s operating MW held by its 5 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: spp_operating_hours
+  label: 'SPP: operating MWh over the MW of the same units (average duration)'
+  unit: MWh/MW
+  rows: 30
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: spp_operating_mw
+  label: 'SPP: operating battery capacity, nameplate MW (a company: its own; a grid row: the grid total)'
+  unit: MW
+  rows: 30
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: spp_operating_mwh
+  label: 'SPP: operating battery energy capacity, of the units that report it'
+  unit: MWh
+  rows: 30
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: spp_operating_rank
+  label: 'SPP: the company''s position by operating MW in the grid (1 the largest)'
+  unit: count
+  rows: 28
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: spp_operating_share_pct
+  label: 'SPP: the company''s share of the grid''s operating MW, percent'
+  unit: pct
+  rows: 28
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: spp_operating_units
+  label: 'SPP: operating battery units'
+  unit: count
+  rows: 30
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: spp_owners_operating
+  label: 'SPP: companies with operating battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: spp_owners_planned
+  label: 'SPP: companies with planned battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: spp_planned_mw
+  label: 'SPP: planned battery capacity, nameplate MW'
+  unit: MW
+  rows: 30
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: spp_planned_units
+  label: 'SPP: planned battery units'
+  unit: count
+  rows: 30
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: spp_top10_share_pct
+  label: 'SPP: share of the grid''s operating MW held by its 10 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: spp_top5_share_pct
+  label: 'SPP: share of the grid''s operating MW held by its 5 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: us_operating_hours
+  label: 'the whole US: operating MWh over the MW of the same units (average duration)'
+  unit: MWh/MW
+  rows: 1320
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: us_operating_mw
+  label: 'the whole US: operating battery capacity, nameplate MW (a company: its own; a grid row: the grid total)'
+  unit: MW
+  rows: 1321
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: us_operating_mwh
+  label: 'the whole US: operating battery energy capacity, of the units that report it'
+  unit: MWh
+  rows: 1321
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: us_operating_rank
+  label: 'the whole US: the company''s position by operating MW in the grid (1 the largest)'
+  unit: count
+  rows: 1319
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: us_operating_share_pct
+  label: 'the whole US: the company''s share of the grid''s operating MW, percent'
+  unit: pct
+  rows: 1319
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: us_operating_units
+  label: 'the whole US: operating battery units'
+  unit: count
+  rows: 1321
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: us_owners_operating
+  label: 'the whole US: companies with operating battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: us_owners_planned
+  label: 'the whole US: companies with planned battery units (grid row)'
+  unit: count
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: us_planned_mw
+  label: 'the whole US: planned battery capacity, nameplate MW'
+  unit: MW
+  rows: 658
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: us_planned_units
+  label: 'the whole US: planned battery units'
+  unit: count
+  rows: 658
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: us_top10_share_pct
+  label: 'the whole US: share of the grid''s operating MW held by its 10 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: us_top5_share_pct
+  label: 'the whole US: share of the grid''s operating MW held by its 5 largest companies, percent (grid row)'
+  unit: pct
+  rows: 2
+  first: '2026-08-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,707 @@
+# The codebook's metadata of table epa_ghg_inventory_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: epa_ghg_inventory_annual
+family: epa
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: 'epa:ghg_inventory_1990_2022 EPA, Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2022'
+  url: https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2022
+cite: 'U.S. Environmental Protection Agency (EPA). Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2022. Via the
+  Energy Research Warehouse (ERW), table `epa_ghg_inventory_annual`.'
+method: docs/methods/epa_ghg_inventory_annual.md
+header_title: 'EPA, Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2022 (April 2024), Chapter 2 Tables 2-10, 2-11
+  and 2-12: emissions by economic sector and source, the electric power industry''s by gas and fuel, each sector''s by gas
+  with electricity distributed (session 2136)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity epa_ghgi:<sector> or epa_ghgi:us; variable direct:<line> (Table
+  2-10), power:<gas>[:<line>] (Table 2-11), distributed:<basis>[:<gas>] (Table 2-12); unit tCO2e (the Inventory''s MMT CO2
+  Eq. times 1,000,000, weighted by the Inventory''s own global warming potentials, which its tables do not name); ts_utc 1
+  January of the year; freq P1Y; geo US; x_table, x_sector, x_group, x_line as published.'
+read:
+  date: '2026-11-20'
+  rows: 5016
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      epa_ghgi:agriculture: 693
+      epa_ghgi:commercial: 627
+      epa_ghgi:electric_power_industry: 825
+      epa_ghgi:industry: 1617
+      epa_ghgi:residential: 495
+      epa_ghgi:transportation: 528
+      epa_ghgi:u_s_territories: 132
+      epa_ghgi:us: 99
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 33
+    earliest: '1990-01-01T00:00:00Z'
+    latest: '2022-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: 1855
+    lowest: -1011200000
+    highest: 7529900000
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      tCO2e: 5016
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 5016
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 5016
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5016
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5016
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      epa:ghg_inventory_1990_2022: 5016
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.epa.gov/system/files/other-files/2024-04/trends-in-greenhouse-gas-emissions-and-removals.zip: 5016
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T23:21:15Z': 5016
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2024-08-26T14:52:48Z': 5016
+  missing_cells: 0
+- name: x_table
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      2-10: 2607
+      2-11: 627
+      2-12: 1782
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sector
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Agriculture: 693
+      Commercial: 627
+      Electric Power Industry: 825
+      Industry: 1617
+      Residential: 495
+      Transportation: 528
+      U.S. Territories: 132
+  missing_cells: 99
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_group
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CF4: 66
+      CH4: 99
+      CO2: 264
+      Direct Emissions: 792
+      Electricity-Related: 825
+      N2O: 99
+      SF6: 66
+  missing_cells: 2805
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_line
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 75
+    examples:
+    - Abandoned Oil and Gas Wells
+    - Abandoned Underground Coal Mines
+    - Adipic Acid Production
+    - Agriculture
+    - Aluminum Production
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: direct:abandoned_oil_and_gas_wells
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:abandoned_underground_coal_mines
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:adipic_acid_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:aluminum_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:ammonia_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:anaerobic_digestion_at_biogas_facilities
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:caprolactam_glyoxal_and_glyoxylic_acid_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:carbide_production_and_consumption
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:carbon_dioxide_consumption
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:cement_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:co2_from_fossil_fuel_combustion
+  label: null
+  unit: tCO2e
+  rows: 231
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:coal_mining
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:composting
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:electrical_equipment
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:electronics_industry
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:enteric_fermentation
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:ferroalloy_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:field_burning_of_agricultural_residues
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:fluorochemical_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:glass_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:incineration_of_waste
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:iron_and_steel_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:landfills_industrial
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:landfills_municipal
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:lead_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:lime_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:liming
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:magnesium_production_and_processing
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:manure_management
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:mobile_combustion
+  label: null
+  unit: tCO2e
+  rows: 99
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:n2o_from_agricultural_soil_management
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:n2o_from_product_uses
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:natural_gas_systems
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:nitric_acid_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:non_energy_use_of_fuels
+  label: null
+  unit: tCO2e
+  rows: 99
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:other_process_uses_of_carbonates
+  label: null
+  unit: tCO2e
+  rows: 66
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:petrochemical_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:petroleum_systems
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:phosphoric_acid_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:rice_cultivation
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:sf6_and_pfcs_from_other_product_use
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:soda_ash_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:stationary_combustion
+  label: null
+  unit: tCO2e
+  rows: 198
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:substitution_of_ozone_depleting_substances
+  label: null
+  unit: tCO2e
+  rows: 132
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:titanium_dioxide_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:total
+  label: null
+  unit: tCO2e
+  rows: 231
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:urea_consumption_for_non_agricultural_purposes
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:urea_fertilization
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:wastewater_treatment
+  label: null
+  unit: tCO2e
+  rows: 66
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: direct:zinc_production
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: distributed:direct
+  label: null
+  unit: tCO2e
+  rows: 165
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: distributed:direct:ch4
+  label: null
+  unit: tCO2e
+  rows: 165
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: distributed:direct:co2
+  label: null
+  unit: tCO2e
+  rows: 165
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: distributed:direct:hfcs
+  label: null
+  unit: tCO2e
+  rows: 66
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: distributed:direct:hfcs_pfcs_sf6_and_nf3
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: distributed:direct:n2o
+  label: null
+  unit: tCO2e
+  rows: 165
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: distributed:direct:sf6
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: distributed:electricity_related
+  label: null
+  unit: tCO2e
+  rows: 165
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: distributed:electricity_related:ch4
+  label: null
+  unit: tCO2e
+  rows: 165
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: distributed:electricity_related:co2
+  label: null
+  unit: tCO2e
+  rows: 165
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: distributed:electricity_related:n2o
+  label: null
+  unit: tCO2e
+  rows: 165
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: distributed:electricity_related:sf6
+  label: null
+  unit: tCO2e
+  rows: 165
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: distributed:total
+  label: null
+  unit: tCO2e
+  rows: 165
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: lulucf_sector_net_total
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: net_emissions_sources_and_sinks
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:cf4
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:cf4:electrical_equipment
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:ch4
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:ch4:incineration_of_waste
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:ch4:stationary_sourcesa
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:co2
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:co2:coal
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:co2:fossil_fuel_combustion
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:co2:geothermal
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:co2:incineration_of_waste
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:co2:natural_gas
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:co2:other_process_uses_of_carbonates
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:co2:petroleum
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:n2o
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:n2o:incineration_of_waste
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:n2o:stationary_sourcesa
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:sf6
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:sf6:electrical_equipment
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: power:total
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: total_gross_emissions_sources
+  label: null
+  unit: tCO2e
+  rows: 33
+  first: '1990-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,172 @@
+# The codebook's metadata of table eia_regional_retail_fuel_prices (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_regional_retail_fuel_prices
+family: eia
+shape: series
+row: One week's retail price of regular gasoline or No. 2 diesel in one region, state or city, from EIA's Gasoline and Diesel
+  Fuel Update.
+time: ts_utc is EIA's survey Monday at 00:00:00Z (freq P1W).
+vintage_rule: Rewritten whole by each run (the file is deleted and the history from 2019 written again), so EIA's revisions
+  are taken; the copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1W
+source:
+- name: eia:petroleum/pri/gnd:regional EIA, Gasoline and Diesel Fuel Update (weekly retail prices)
+  url: https://www.eia.gov/petroleum/gasdiesel/
+cite: U.S. Energy Information Administration (EIA). Gasoline and Diesel Fuel Update (weekly retail prices). Via the Energy
+  Research Warehouse (ERW), table `eia_regional_retail_fuel_prices`.
+method: docs/methods/eia_regional_retail_fuel_prices.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261113T155514Z-github
+  (2026-11-13T15:55:14Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P1W; ts_utc is EIA''s date at 00:00:00Z (a weekly value''s is
+  EIA''s survey Monday, a monthly value''s the first day of the month). node is EIA''s area or stream name. Variables: retail_price.
+  Units per row.'
+read:
+  date: '2026-11-20'
+  rows: 16399
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 40
+    examples:
+    - eia:EMD_EPD2D_PTE_NUS_DPG
+    - eia:EMD_EPD2D_PTE_R10_DPG
+    - eia:EMD_EPD2D_PTE_R1X_DPG
+    - eia:EMD_EPD2D_PTE_R1Y_DPG
+    - eia:EMD_EPD2D_PTE_R1Z_DPG
+  missing_cells: 0
+  particular: eia:<EIA series id>
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 410
+    earliest: '2019-01-07T00:00:00Z'
+    latest: '2026-11-09T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3995
+    lowest: 1.397
+    highest: 8.246
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/gal: 16399
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1W: 16399
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 820
+      US-CA: 820
+      US-CO: 410
+      US-FL: 410
+      US-MA: 410
+      US-MN: 410
+      US-NY: 410
+      US-OH: 410
+      US-TX: 410
+      US-WA: 410
+  missing_cells: 11479
+  particular: US for the nation, US-<state> for a state; empty for a PADD, a sub-PADD, PADD 5 except California, and a city
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 16399
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 29
+    examples:
+    - BOSTON
+    - CALIFORNIA
+    - CHICAGO
+    - CLEVELAND
+    - COLORADO
+  missing_cells: 0
+  particular: EIA's area name (region, state or city)
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:petroleum/pri/gnd:regional: 16399
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/petroleum/pri/gnd/data/?frequency=weekly&data%5B0%5D=value&facets%5Bproduct%5D%5B%5D=EPMR&facets%5Bproduct%5D%5B%5D=EPD2D&start=2019-01-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/petroleum/pri/gnd/data/?frequency=weekly&data%5B0%5D=value&facets%5Bproduct%5D%5B%5D=EPMR&facets%5Bproduct%5D%5B%5D=EPD2D&start=2019-01-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=10000&length=5000
+      : 4999
+      ? https://api.eia.gov/v2/petroleum/pri/gnd/data/?frequency=weekly&data%5B0%5D=value&facets%5Bproduct%5D%5B%5D=EPMR&facets%5Bproduct%5D%5B%5D=EPD2D&start=2019-01-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=15000&length=5000
+      : 1400
+      ? https://api.eia.gov/v2/petroleum/pri/gnd/data/?frequency=weekly&data%5B0%5D=value&facets%5Bproduct%5D%5B%5D=EPMR&facets%5Bproduct%5D%5B%5D=EPD2D&start=2019-01-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=5000&length=5000
+      : 5000
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-06T08:18:26Z': 5000
+      '2026-10-06T08:18:27Z': 5000
+      '2026-10-06T08:18:28Z': 6159
+      '2026-10-07T14:44:53Z': 40
+      '2026-10-14T15:39:21Z': 40
+      '2026-10-22T15:06:39Z': 40
+      '2026-10-27T14:59:29Z': 40
+      '2026-11-05T23:50:12Z': 40
+      '2026-11-12T22:15:15Z': 40
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 16399
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: retail_price
+  label: Weekly retail price of regular gasoline or No. 2 diesel in the area, USD a gallon
+  unit: USD/gal
+  rows: 16399
+  first: '2019-01-07T00:00:00Z'
+  last: '2026-11-09T00:00:00Z'
+second_look: null

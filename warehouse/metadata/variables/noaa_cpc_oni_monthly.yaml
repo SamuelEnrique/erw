@@ -1,0 +1,159 @@
+# The codebook's metadata of table noaa_cpc_oni_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: noaa_cpc_oni_monthly
+family: noaa
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: noaa:cpc_oni NOAA Climate Prediction Center, Cold and Warm Episodes by Season (ONI)
+  url: https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/ensostuff/ONI_v5.php
+cite: 'NOAA National Weather Service, Climate Prediction Center. Oceanic Nino Index (ONI): Cold and Warm Episodes by Season.
+  Via the Energy Research Warehouse (ERW), table `noaa_cpc_oni_monthly`.'
+method: docs/methods/noaa_cpc_oni_monthly.md
+header_title: 'NOAA National Weather Service, Climate Prediction Center, Oceanic Nino Index (ONI): the three-month running
+  mean of the Nino 3.4 sea surface temperature and its anomaly, a month from 1950 (session 2092)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity cpc:oni_nino34; variables oni_anomaly (CPC''s ANOM, the index)
+  and nino34_sst (TOTAL); unit degC (Decision 62); ts_utc the first day of the three-month season''s middle month (CPC''s
+  YR is that month''s year); freq P1M; x_season CPC''s three letters.'
+read:
+  date: '2026-11-20'
+  rows: 1840
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      cpc:oni_nino34: 1840
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 920
+    earliest: '1950-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 647
+    lowest: -2.04
+    highest: 29.15
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      degC: 1840
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 1840
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1840
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1840
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Nino 3.4: 1840
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      noaa:cpc_oni: 1840
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt: 1840
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T21:29:32Z': 1840
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-03T18:32:01Z': 1840
+  missing_cells: 0
+- name: x_season
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      AMJ: 154
+      ASO: 152
+      DJF: 154
+      FMA: 154
+      JAS: 154
+      JFM: 154
+      JJA: 154
+      MAM: 154
+      MJJ: 154
+      NDJ: 152
+      OND: 152
+      SON: 152
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: nino34_sst
+  label: null
+  unit: degC
+  rows: 920
+  first: '1950-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: oni_anomaly
+  label: null
+  unit: degC
+  rows: 920
+  first: '1950-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

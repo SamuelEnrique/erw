@@ -1,0 +1,398 @@
+# The codebook's metadata of table eia861_utility_reliability (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia861_utility_reliability
+family: eia861
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:eia861:reliability U.S. Energy Information Administration, Form EIA-861 Annual Electric Power Industry Report
+    (Reliability_<year>.xlsx)
+  url: https://www.eia.gov/electricity/data/eia861/
+cite: U.S. Energy Information Administration (EIA). Form EIA-861 Annual Electric Power Industry Report, reliability. Via the
+  Energy Research Warehouse (ERW), table `eia861_utility_reliability`.
+method: docs/methods/eia861_utility_reliability.md
+header_title: 'EIA-861 distribution reliability, each utility by state, a year: SAIDI, SAIFI and CAIDI under the IEEE standard
+  and the utility''s other standard (session 695)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia861_reliability:<utility>:<state>; variable <standard>_<index>_<events>
+  (standard ieee or other; index saidi minute/customer, saifi interruption/customer, caidi minute/interruption; events with_med,
+  without_med, minus_los) or <standard>_customers (count); ts_utc the data year''s 1 January; freq P1Y; node the utility''s
+  name; x_* EIA''s own fields.'
+read:
+  date: '2026-11-20'
+  rows: 90705
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 1288
+    examples:
+    - eia861_reliability:10000:KS
+    - eia861_reliability:10000:MO
+    - eia861_reliability:10005:KS
+    - eia861_reliability:10009:TX
+    - eia861_reliability:10019:KS
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2015-01-01T00:00:00Z': 7738
+      '2016-01-01T00:00:00Z': 8116
+      '2017-01-01T00:00:00Z': 8415
+      '2018-01-01T00:00:00Z': 8757
+      '2019-01-01T00:00:00Z': 9218
+      '2020-01-01T00:00:00Z': 7723
+      '2021-01-01T00:00:00Z': 7939
+      '2022-01-01T00:00:00Z': 8056
+      '2023-01-01T00:00:00Z': 8131
+      '2024-01-01T00:00:00Z': 8270
+      '2025-01-01T00:00:00Z': 8342
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 6071776.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 11258
+      interruption/customer: 25852
+      minute/customer: 27920
+      minute/interruption: 25675
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 90705
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 55
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AS
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 90705
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 1316
+    examples:
+    - 4-County Electric Power Assn
+    - A & N Electric Coop
+    - AEP Texas Central Company
+    - AEP Texas North Company
+    - AES Indiana
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia861:reliability: 90705
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612015.zip: 7738
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612016.zip: 8116
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612017.zip: 8415
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612018.zip: 8757
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612019.zip: 9218
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612020.zip: 7723
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612021.zip: 7939
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612022.zip: 8056
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612023.zip: 8131
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612024.zip: 8270
+      https://www.eia.gov/electricity/data/eia861/zip/f8612025.zip: 8342
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T16:56:34Z': 8342
+      '2026-10-21T17:48:28Z': 8270
+      '2026-10-21T17:48:31Z': 8131
+      '2026-10-21T17:48:34Z': 8056
+      '2026-10-21T17:48:37Z': 7939
+      '2026-10-21T17:48:40Z': 7723
+      '2026-10-21T17:48:44Z': 9218
+      '2026-10-21T17:48:48Z': 8757
+      '2026-10-21T17:48:52Z': 8415
+      '2026-10-21T17:48:57Z': 8116
+      '2026-10-21T17:49:02Z': 7738
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 90705
+- name: x_utility_number
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 1215
+    lowest: 84
+    highest: 66101
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 55
+    examples:
+    - AK
+    - AL
+    - AR
+    - AS
+    - AZ
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ownership
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Cooperative: 44750
+      Federal: 3
+      Investor Owned: 17407
+      Municipal: 24527
+      Political Subdivision: 3175
+      Retail Power Marketer: 18
+      State: 825
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ieee_auto_recorded
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 21268
+      Y: 50570
+      y: 27
+  missing_cells: 18840
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ieee_highest_voltage_kv
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 67
+    lowest: 0.0
+    highest: 138.0
+  missing_cells: 19746
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_other_auto_recorded
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 10158
+      Y: 8218
+      y: 7
+  missing_cells: 72322
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_other_highest_voltage_kv
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 51
+    lowest: 0.1
+    highest: 69.0
+  missing_cells: 72552
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_other_inactive_included
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 16215
+      Y: 2179
+      y: 4
+  missing_cells: 72307
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_other_momentary
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      '5': 6
+      F: 8321
+      L: 7974
+      O: 2233
+  missing_cells: 72171
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: ieee_caidi_minus_los
+  label: null
+  unit: minute/interruption
+  rows: 6187
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ieee_caidi_with_med
+  label: null
+  unit: minute/interruption
+  rows: 7517
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ieee_caidi_without_med
+  label: null
+  unit: minute/interruption
+  rows: 7131
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ieee_customers
+  label: null
+  unit: count
+  rows: 8062
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ieee_saidi_minus_los
+  label: null
+  unit: minute/customer
+  rows: 6703
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ieee_saidi_with_med
+  label: null
+  unit: minute/customer
+  rows: 7997
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ieee_saidi_without_med
+  label: null
+  unit: minute/customer
+  rows: 7659
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ieee_saifi_minus_los
+  label: null
+  unit: interruption/customer
+  rows: 6257
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ieee_saifi_with_med
+  label: null
+  unit: interruption/customer
+  rows: 7522
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ieee_saifi_without_med
+  label: null
+  unit: interruption/customer
+  rows: 7153
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_caidi_with_med
+  label: null
+  unit: minute/interruption
+  rows: 2760
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_caidi_without_med
+  label: null
+  unit: minute/interruption
+  rows: 2080
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_customers
+  label: null
+  unit: count
+  rows: 3196
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_saidi_with_med
+  label: null
+  unit: minute/customer
+  rows: 3119
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_saidi_without_med
+  label: null
+  unit: minute/customer
+  rows: 2442
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_saifi_with_med
+  label: null
+  unit: interruption/customer
+  rows: 2795
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_saifi_without_med
+  label: null
+  unit: interruption/customer
+  rows: 2125
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

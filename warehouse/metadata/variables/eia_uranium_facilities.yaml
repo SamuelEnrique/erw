@@ -1,0 +1,343 @@
+# The codebook's metadata of table eia_uranium_facilities (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_uranium_facilities
+family: eia
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: 'eia:uranium_production_quarterly U.S. Energy Information Administration, Domestic Uranium Production Report (Quarterly),
+    Forms EIA-851Q and EIA-851A,  (Release Date: August 2026)'
+  url: https://www.eia.gov/uranium/production/quarterly/
+cite: U.S. Energy Information Administration (EIA). Domestic Uranium Production Report (Quarterly). Via the Energy Research
+  Warehouse (ERW), table `eia_uranium_facilities`.
+method: docs/methods/eia_uranium_production.md
+header_title: 'EIA, Domestic Uranium Production Report: U.S. uranium mills and heap leach facilities (Table 3) and in-situ
+  recovery plants (Table 4), owner, place, capacity and operating status (session 958)'
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id eia_uranium_facility:<name>; entity_type plant; geo US-<state>;
+  capacity_mw empty; status empty (EIA''s operating status of each period in x_status_*, as EIA writes it); operator the owner;
+  x_kind mill or isr; x_capacity and x_capacity_unit as EIA gives them.'
+read:
+  date: '2026-11-20'
+  rows: 24
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    list:
+      eia_uranium_facility:alta_mesa_project: 1
+      eia_uranium_facility:burke_hollow: 1
+      eia_uranium_facility:crow_butte_operation: 1
+      eia_uranium_facility:dewey_burdock_project: 1
+      eia_uranium_facility:goliad_isr_uranium_project: 1
+      eia_uranium_facility:hobson_isr_plant: 1
+      eia_uranium_facility:jab_and_antelope: 1
+      eia_uranium_facility:kingsville_dome_project: 1
+      eia_uranium_facility:la_palangana: 1
+      eia_uranium_facility:lost_creek_project: 1
+      eia_uranium_facility:moore_ranch: 1
+      eia_uranium_facility:nichols_ranch_isr_project: 1
+      eia_uranium_facility:pathfinder_shirley_basin: 1
+      eia_uranium_facility:reno_creek: 1
+      eia_uranium_facility:rosita_project: 1
+      eia_uranium_facility:ross_cpp: 1
+      eia_uranium_facility:sheep_mountain: 1
+      eia_uranium_facility:shootaring_canyon_uranium_mill: 1
+      eia_uranium_facility:smith_ranch_highland_operation: 1
+      eia_uranium_facility:sweetwater_uranium_inc: 1
+      eia_uranium_facility:sweetwater_uranium_inc_isr: 1
+      eia_uranium_facility:vasquez_project: 1
+      eia_uranium_facility:white_mesa_mill: 1
+      eia_uranium_facility:willow_creek_project_ludeman_christensen_ranch_and_irigaray: 1
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      plant: 24
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    list:
+      Alta Mesa Project: 1
+      Burke Hollow: 1
+      Crow Butte Operation: 1
+      Dewey Burdock Project: 1
+      Goliad Isr Uranium Project: 1
+      Hobson Isr Plant: 1
+      Jab And Antelope: 1
+      Kingsville Dome Project: 1
+      La Palangana: 1
+      Lost Creek Project: 1
+      Moore Ranch: 1
+      Nichols Ranch Isr Project: 1
+      Pathfinder Shirley Basin: 1
+      Reno Creek: 1
+      Rosita Project: 1
+      Ross Cpp: 1
+      Sheep Mountain: 1
+      Shootaring Canyon Uranium Mill: 1
+      Smith Ranch-Highland Operation: 1
+      Sweetwater Uranium Inc.: 1
+      Sweetwater Uranium Inc. Isr: 1
+      Vasquez Project: 1
+      White Mesa Mill: 1
+      Willow Creek Project (Ludeman, Christensen Ranch And Irigaray): 1
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-NE: 1
+      US-SD: 1
+      US-TX: 8
+      US-UT: 2
+      US-WY: 12
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 24
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 24
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 24
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 24
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 24
+- name: operator
+  shared: true
+  type: text
+  values:
+    list:
+      Anfield Energy Inc.: 1
+      Cameco: 1
+      Encore Alta Mesa, Llc: 1
+      Encore Energy Corporation: 4
+      Energy Fuels Resources (Usa) Inc.: 2
+      Lost Creek Isr Llc: 1
+      Pathfinder Mines Company: 1
+      Power Resources, Inc. Dba Cameco Resources: 1
+      Strata Energy, Inc.: 1
+      Uranerz Energy Corporation Db For Energy Fuels: 1
+      Uranium Energy Corp.: 1
+      Uranium Energy Corporation: 9
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:uranium_production_quarterly: 24
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/uranium/production/quarterly/xls/qupd_tbl3.xlsx: 4
+      https://www.eia.gov/uranium/production/quarterly/xls/qupd_tbl4.xlsx: 20
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T12:52:16Z': 24
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-08-19T13:52:39Z': 4
+      '2026-08-19T13:54:03Z': 20
+  missing_cells: 0
+- name: x_kind
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      isr: 20
+      mill: 4
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_location
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Bee, Texas: 1
+      Brooks, Texas: 1
+      Campbell and Johnson, Wyoming: 1
+      Campbell, Wyoming: 2
+      Carbon, Wyoming: 1
+      Converse, Wyoming: 1
+      Crook, Wyoming: 1
+      Dawes, Nebraska: 1
+      Duval, Texas: 3
+      Fall River and Custer, South Dakota: 1
+      Fremont, Wyoming: 1
+      Garfield, Utah: 1
+      Goliad, Texas: 1
+      Johnson and Campbell, Wyoming: 1
+      Karnes, Texas: 1
+      Kleberg, Texas: 1
+      San Juan, Utah: 1
+      Sweetwater, Wyoming: 4
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_capacity
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '0': 3
+      '1000000': 5
+      '1300000': 1
+      '1400000': 1
+      '1500000': 1
+      '2000': 1
+      '2000000': 3
+      '3000': 1
+      '3000000': 2
+      '4000000': 1
+      '4100000': 1
+      '5500000': 1
+      '725': 1
+      '750': 1
+      '800000': 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_capacity_unit
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      pounds U3O8 per year: 20
+      short tons of ore per day: 4
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_status_2025
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      developing: 2
+      operating: 6
+      partially permitted and licensed: 2
+      permitted and licensed: 3
+      reclamation: 2
+      restoration: 1
+      standby: 7
+      undeveloped: 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_status_first_quarter_2026
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      developing: 2
+      inactive: 1
+      operating: 6
+      partially permitted and licensed: 1
+      permitted and licensed: 3
+      reclamation: 2
+      restoration: 1
+      standby: 6
+      under construction: 1
+      undeveloped: 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_status_second_quarter_2026
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      developing: 1
+      inactive: 1
+      operating: 8
+      partially permitted and licensed: 2
+      permitted and licensed: 3
+      reclamation: 2
+      restoration: 1
+      standby: 5
+      undeveloped: 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_status_third_quarter_2026
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 24
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_status_fourth_quarter_2026
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 24
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

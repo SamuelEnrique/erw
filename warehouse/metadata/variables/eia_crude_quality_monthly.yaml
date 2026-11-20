@@ -1,0 +1,160 @@
+# The codebook's metadata of table eia_crude_quality_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_crude_quality_monthly
+family: eia
+shape: series
+row: One month's average API gravity or sulfur content of the crude oil run at refineries in the U.S., one PADD or one refining
+  district.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:petroleum/pnp/crq U.S. Energy Information Administration, Petroleum Supply Monthly, crude oil input qualities
+    (API v2, route petroleum/pnp/crq)
+  url: https://api.eia.gov/v2/petroleum/pnp/crq/
+cite: U.S. Energy Information Administration (EIA). Petroleum Supply Monthly, crude oil input qualities (API v2). Via the
+  Energy Research Warehouse (ERW), table `eia_crude_quality_monthly`.
+method: docs/methods/eia_crude_quality_monthly.md
+header_title: EIA, crude oil input qualities at refineries (average API gravity and sulfur content), the U.S., the PADDs and
+  the refining districts, a month (session 2244)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_crude_quality:<series>; variable api_gravity (degAPI, degrees
+  API) or sulfur_content (pct, percent by weight); ts_utc the month''s first day; freq P1M; node EIA''s series description
+  (the area). Weighted averages: an area''s figure is not the sum of its parts.'
+read:
+  date: '2026-11-20'
+  rows: 15968
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - eia_crude_quality:MCRAP2A2
+    - eia_crude_quality:MCRAP2B2
+    - eia_crude_quality:MCRAP2C2
+    - eia_crude_quality:MCRAP3A2
+    - eia_crude_quality:MCRAP3B2
+  missing_cells: 0
+  particular: eia_crude_quality:<EIA series id>
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 499
+    earliest: '1985-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1714
+    lowest: 0.1
+    highest: 42.44
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      degAPI: 7984
+      pct: 7984
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 15968
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 15968
+  missing_cells: 0
+  particular: US on every row
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 15968
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - Appalachian No. 1 Refinery District API Gravity (Weighted Average) of Crude Oil Input to Refineries (Degrees)
+    - Appalachian No. 1 Refinery District Sulfur Content (Weighted Average) of Crude Oil Input to Refineries (Percent)
+    - East Coast (PADD 1) API Gravity (Weighted Average) of Crude Oil Input to Refineries (Degrees)
+    - East Coast (PADD 1) Sulfur Content (Weighted Average) of Crude Oil Input to Refineries (Percent)
+    - East Coast Refinery District API Gravity (Weighted Average) of Crude Oil Input to Refineries (Degrees)
+  missing_cells: 0
+  particular: EIA's series description (the area)
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:petroleum/pnp/crq: 15968
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/petroleum/pnp/crq/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=YCG&facets%5Bprocess%5D%5B%5D=YCS&start=1985-01
+      : 15968
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T03:39:07Z': 5000
+      '2026-10-24T03:39:11Z': 5000
+      '2026-10-24T03:39:15Z': 5000
+      '2026-10-24T03:39:18Z': 968
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 15968
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: api_gravity
+  label: Weighted average API gravity of crude input (a measure of how light the crude is, higher is lighter), degrees API;
+    not additive across areas
+  unit: degAPI
+  rows: 7984
+  first: '1985-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: sulfur_content
+  label: Weighted average sulfur content of crude input, percent by weight; not additive across areas
+  unit: pct
+  rows: 7984
+  first: '1985-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

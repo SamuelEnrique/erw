@@ -1,0 +1,154 @@
+# The codebook's metadata of table caiso_outlook_demand (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: caiso_outlook_demand
+family: caiso
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT5M
+source:
+- name: caiso:todays_outlook_demand California ISO, Today's Outlook, demand history files (
+  url: https://www.caiso.com/outlook/history/YYYYMMDD/demand.csv
+cite: 'California ISO (CAISO). Today''s Outlook: demand trend (demand.csv history). Via the Energy Research Warehouse (ERW),
+  table `caiso_outlook_demand`.'
+method: docs/methods/caiso_outlook_demand.md
+header_title: CAISO demand, 5-minute, on the days asked (Today's Outlook)
+header_shape: 'Shape: series (docs/datastandard.md v0). freq PT5M; ts_utc is the interval start. demand_mw is CAISO''s Current
+  demand, demand_forecast_day_ahead_mw and demand_forecast_hour_ahead_mw its two forecasts (MW); demand_response_marked is
+  1 in an interval CAISO''s Demand response column marks (count; no row where it is blank).'
+read:
+  date: '2026-11-20'
+  rows: 33927
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:ISO: 33927
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2018-07-24T07:00:00Z'
+    latest: '2024-07-25T06:55:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 1.0
+    highest: 51929.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 33696
+      count: 231
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT5M: 33927
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 33927
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 33927
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 33927
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:todays_outlook_demand: 33927
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - https://www.caiso.com/outlook/history/20180724/demand.csv
+    - https://www.caiso.com/outlook/history/20180725/demand.csv
+    - https://www.caiso.com/outlook/history/20190611/demand.csv
+    - https://www.caiso.com/outlook/history/20190728/demand.csv
+    - https://www.caiso.com/outlook/history/20200814/demand.csv
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 39
+    earliest: '2026-11-17T09:23:17Z'
+    latest: '2026-11-17T09:24:39Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 33927
+variables:
+- name: demand_forecast_day_ahead_mw
+  label: null
+  unit: MW
+  rows: 11232
+  first: '2018-07-24T07:00:00Z'
+  last: '2024-07-25T06:55:00Z'
+- name: demand_forecast_hour_ahead_mw
+  label: null
+  unit: MW
+  rows: 11232
+  first: '2018-07-24T07:00:00Z'
+  last: '2024-07-25T06:55:00Z'
+- name: demand_mw
+  label: null
+  unit: MW
+  rows: 11232
+  first: '2018-07-24T07:00:00Z'
+  last: '2024-07-25T06:55:00Z'
+- name: demand_response_marked
+  label: null
+  unit: count
+  rows: 231
+  first: '2022-09-01T02:25:00Z'
+  last: '2023-07-21T03:25:00Z'
+second_look: null

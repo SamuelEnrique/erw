@@ -1,0 +1,716 @@
+# The codebook's metadata of table impact_tax_rules (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: impact_tax_rules
+family: other_sources
+shape: events
+row: null
+time: null
+vintage_rule: null
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source: []
+cite: 'Energy Research Warehouse (ERW); Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation
+  and Revenue Department; Texas Comptroller of Public Accounts; US state legislatures and tax agencies, as the forecast tool''s
+  property rules cite them. Crude Oil Production Tax; La. R.S. 47:633, Severance tax; rates; administration; Natural Gas Production
+  Tax; New Mexico Oil and Gas Production tax rates for 04/01/2026 through 08/31/2026 by county and appropriate suffix (spreadsheet,
+  revised); Oil & Gas Production Taxes; Revenue Information Bulletin No. 26-013 (June 2, 2026): Natural Gas Severance Tax
+  Rate Effective July 1, 2026, through June 30, 2027; Revenue Information Bulletin No. 26-014 (August 3, 2026): Prices Applicable
+  to Oil and Gas for Horizontal Wells, July 1, 2026 to June 30, 2027; Tax Credit for Qualifying Low-Producing Gas Wells; Tax
+  Credit for Qualifying Low-Producing Oil Leases; The ERW''s record that it holds no property-tax rule (session 346); The
+  forecast tool''s property tax rules (site/data/forecast/property_rules.json). Via the Energy Research Warehouse (ERW), table
+  `impact_tax_rules`.'
+method: docs/methods/impact_tax_rules.md
+header_title: the tax rules of the economic impact tool, one row per rule, each with its citation (session 346)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id erw_tax:<state>:<rule>; event_date the effective date the
+  citation gives, else the day the rule was read or checked (x_date_kind); status held, or no_rule_held where the ERW holds
+  no statute'
+read:
+  date: '2026-11-20'
+  rows: 130
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 130
+    examples:
+    - erw_tax:ak:ak_note
+    - erw_tax:al:al_note
+    - erw_tax:ar:ar_note
+    - erw_tax:az:az_renewable_valuation
+    - erw_tax:ca:ca_prop13
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    list:
+      '1951-09-01': 1
+      '1953-08-27': 1
+      '1969-10-01': 1
+      '2026-09-30': 39
+      '2026-10-20': 7
+      '2026-11-13': 80
+      '2026-11-14': 1
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      property_tax_rule: 88
+      severance_fee: 2
+      severance_option: 24
+      severance_tax: 16
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: text
+  values:
+    distinct: 55
+    examples:
+    - Alabama
+    - Alaska
+    - Arizona
+    - Arkansas
+    - California
+  missing_cells: 7
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 130
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 130
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 130
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 130
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      held: 123
+      no_rule_held: 7
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:impact_tax_rules: 7
+      forecast:property_rules: 81
+      la_ldr:la_rib_26_013: 3
+      la_ldr:la_rib_26_014: 2
+      la_legislature:la_rs_47_633: 14
+      nm_trd:nm_trd_rates_2026: 6
+      nm_trd:nm_trd_taxes: 2
+      tx_cpa:tx_cpa_gas: 8
+      tx_cpa:tx_cpa_lp_gas: 1
+      tx_cpa:tx_cpa_lp_oil: 1
+      tx_cpa:tx_cpa_oil: 5
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 72
+    examples:
+    - https://apps.legislature.ky.gov/LAW/STATUTES/statute.aspx?id=53523
+    - https://comptroller.texas.gov/taxes/crude-oil/
+    - https://comptroller.texas.gov/taxes/crude-oil/low-producing-leases.php
+    - https://comptroller.texas.gov/taxes/natural-gas/
+    - https://comptroller.texas.gov/taxes/natural-gas/low-producing-wells.php
+  missing_cells: 0
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_tax
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      property: 88
+      severance: 42
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_product
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      condensate: 3
+      gas: 19
+      generating_project: 7
+      geothermal: 1
+      land_based_wind: 14
+      land_based_wind;natural_gas: 1
+      land_based_wind;natural_gas;geothermal: 2
+      land_based_wind;utility_pv: 2
+      land_based_wind;utility_pv;geothermal: 2
+      land_based_wind;utility_pv;natural_gas;geothermal: 24
+      natural_gas: 2
+      natural_gas;geothermal: 6
+      oil: 20
+      utility_pv: 13
+      utility_pv;geothermal: 1
+      utility_pv;land_based_wind: 3
+      utility_pv;land_based_wind;geothermal: 4
+      utility_pv;natural_gas;geothermal: 6
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_rule
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 130
+    examples:
+    - ak_note
+    - al_note
+    - ar_note
+    - az_renewable_valuation
+    - ca_prop13
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_rule_name
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 105
+    examples:
+    - Alabama Department of Revenue, Property Tax Assessment
+    - Alaska Legislative Research Services, Report 21.028, Local Government in Alaska (11 December 2020)
+    - Arizona Revised Statutes 42-14155, Valuation of renewable energy and storage equipment; definitions
+    - 'Arkansas: no official source read (code published through LexisNexis; Department of Finance manuals unreadable)'
+    - California State Board of Equalization, Annual Report 2024-25 (Publication 306)
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_kind
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      base: 14
+      capacity: 11
+      capacity_option: 2
+      credit_tier: 2
+      exempt_pct: 6
+      exempt_years: 1
+      fee: 2
+      hcg_ratio: 1
+      no_rule_held: 7
+      note: 24
+      own_exempt: 8
+      per_unit: 4
+      production: 11
+      rate: 10
+      rate_param: 1
+      valuation: 24
+      variant: 2
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_basis
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      net acquisition cost: 1
+      pct_value: 15
+      per_unit: 1
+  missing_cells: 113
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_rate
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      '0': 5
+      '0.0019': 1
+      '0.0024': 1
+      '0.013': 1
+      '0.01565': 1
+      '0.018925': 1
+      '0.023': 2
+      '0.03': 1
+      '0.03125': 2
+      '0.0315': 1
+      '0.0375': 2
+      '0.03785': 1
+      '0.04': 1
+      '0.046': 2
+      '0.0625': 1
+      '0.065': 1
+      '0.075': 1
+      '0.125': 2
+      '0.1514': 1
+      district: 2
+      variant: 1
+  missing_cells: 99
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_per_unit
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '0.000667': 1
+      '0.00625': 1
+  missing_cells: 128
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_unit
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Mcf: 2
+      bbl: 1
+  missing_cells: 127
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_effective_text
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      '1951-09-01': 1
+      '1953-08-27': 1
+      '1969-10-01': 1
+      2025-07-01 for the 6.5 percent rate (wells completed on or after that date): 1
+      2025-09-01 to 2026-08-31 (TRD table): 3
+      2026-04-01 to 2026-08-31 (TRD table): 5
+      2026-07-01 to 2027-06-30: 1
+      report periods September 2015 and later: 1
+  missing_cells: 116
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_date_kind
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      the day the ERW recorded that it holds no rule (2026-10-20): 7
+      the day the rule was read (2026-09-30): 2
+      the day the rule was read (2026-09-30); the citation's own words are in x_effective_text: 37
+      the day the statute or agency page was read: 81
+      the effective date the citation gives: 3
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_who
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ? A gas well whose production for the prior three months averages no more than 90 Mcf per day (flared gas excluded);
+        Form AP-217. Casinghead gas and condensate are not eligible
+      : 1
+      A horizontally drilled well or horizontal recompletion producing on or after July 1, 2015: 2
+      A well designated a gas well, incapable of producing an average of 250,000 cubic feet per day during the entire month: 1
+      A well designated an orphan well for longer than 60 months, certified: 1
+      A well designated an orphan well for longer than 60 months, certified by the Department of Conservation and Energy: 1
+      A well drilled to a true vertical depth of more than 15,000 feet, production commencing after July 31, 1994: 2
+      ? A well inactive for two years or more, or with 30 days or less of production in the past two years, certified by the
+        Department of Conservation and Energy (applications July 1, 2018 to June 30, 2028), producing from the same interval
+      : 1
+      ? An EOR project whose carbon dioxide is captured from an anthropogenic source in Texas, would otherwise be released,
+        is measurable at capture, and is sequestered in Texas
+      : 1
+      ? An oil lease whose production over a 90-day period averages less than 15 barrels per well per day, or less than 5
+        percent recoverable oil per barrel of produced water; Form AP-216
+      : 1
+      An oil well certified as incapable of more than 10 barrels per producing day for the entire month: 1
+      ? An oil well certified by the Department of Revenue as incapable of more than 25 barrels per producing day for the
+        entire month, producing at least 50 percent salt water per day; every well on a multiple-well lease must be certified
+      : 1
+      'As for oil: inactive two years or more, certified, same interval': 1
+      ? Gas condensate from a well drilled to a true vertical depth of more than 15,000 feet, production commencing after
+        July 31, 1994
+      : 1
+      ? Gas from a gas well certified by the Railroad Commission; the rate depends on how the well's drilling and completion
+        costs compare with the median cost of high-cost gas wells of the previous state fiscal year
+      : 1
+      Gas from a qualifying well consumed within 1,000 feet of the well that would otherwise have been lawfully vented or flared: 1
+      Gas from a restimulation well certified by the Railroad Commission: 1
+      Gas from a well certified as a two-year inactive well: 1
+      ? Gas from a well designated an oil well with wellhead (or casinghead) pressure of 50 psig or less for the entire month;
+        gas lift wells are presumed to qualify
+      : 1
+      Gas from an oil well, lawfully vented or flared, certified by the Railroad Commission: 1
+      Oil from a well certified by the Railroad Commission as a two-year inactive well: 1
+      Oil from an enhanced recovery project certified by the Texas Railroad Commission; a valid project number must be reported: 1
+      ? Oil from an orphan well under R.S. 30:88.2(A) enhanced under a Department of Conservation and Energy permit (re-entry,
+        workover, plugback), certified
+      : 1
+  missing_cells: 106
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_what
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 99
+    examples:
+    - 0.0 percent of market value
+    - 1.3 cents per Mcf
+    - 1.565 percent of value (3.125 percent if production commences on or after October 1, 2028)
+    - 100 percent exempt for July 1, 2026 to June 30, 2027 (the tiers run from 100 percent at $4.50/MMBtu or less to none
+      above $7)
+    - '12.5 percent of the gas rate: 1.8925 cents per Mcf for July 1, 2026 to June 30, 2027'
+  missing_cells: 25
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_how_long
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ? 10 years beginning the first day of the month after the Railroad Commission certifies a positive production response
+        (or, for an expansion, incremental production)
+      : 1
+      24 months from commercial production or until payout of the well cost, whichever comes first: 1
+      24 months from commercial production or until payout, whichever comes first: 2
+      ? 24 months or until payout for wells completed before July 1, 2025; 18 months or until payout for wells completed on
+        or after July 1, 2025
+      : 1
+      24 months or until payout of the well cost, whichever comes first: 1
+      As certified; the operator keeps the first three months' amount: 1
+      Each month the pressure test is met: 1
+      Each month the test is met: 1
+      Each report month, while the lease qualifies and by the certified price: 1
+      Each report month, while the well qualifies and by the certified price: 1
+      Five years: 2
+      Ten years: 4
+      ? The first 120 consecutive calendar months from first production, or until the cumulative reduction equals 50 percent
+        of the drilling and completion costs, whichever occurs first (wells spudded or completed after August 31, 1996)
+      : 1
+      ? Until the 30th anniversary of the date the Comptroller first approves the application; the reduction is prorated to
+        the anthropogenic share of the carbon dioxide used
+      : 1
+      ? Until the earlier of the last day of the 36th consecutive month after the well first produces following the restimulation
+        treatment, or the date the exempted taxes (chapters 201 and 202) reach the lesser of the restimulation costs or $750,000
+      : 1
+      Until the well averages more than 10 barrels per day for an entire calendar month: 1
+      While certified (by the 25th day of the second month after production): 1
+  missing_cells: 108
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_quote
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 91
+    examples:
+    - (1) for a large scale wind energy conversion system, .12 cents per kilowatt-hour of electricity produced by the system;
+      (2) for a medium scale wind energy conversion system, .036 cents per kilowatt-hour of electricity produced by the system;
+      and (3) for a small scale wind energy conversion system of two megawatts or less, but greater than .25 megawatts capacity,
+      .012 cents per kilowatt-hour of electricity produced by the system.
+    - (1)(a) The owner of a renewable energy generation facility annually shall pay a nameplate capacity tax equal to the
+      total nameplate capacity of the commissioned renewable energy generation facility multiplied by a tax rate of three
+      thousand five hundred eighteen dollars per megawatt.
+    - '(2) Except as provided in subsections (3), (4), and (5), the amount of the solar energy facilities tax, in each year
+      after the facility is placed in service, is equal to $7,000.00 per megawatt of nameplate capacity, alternating current
+      as reported on the annual form prescribed under section 8(1). (3) The amount of the specific tax as prescribed in subsection
+      (2) must be reduced to $2,000.00 per megawatt of nameplate capacity, alternating current [...], for a qualified facility
+      located on 1 or more of the following: (a) Property owned by this state [...] (b) Property located in an opportunity
+      zone [...] (c) Property that was used or is currently used for commercial or industrial purposes and that is a facility,
+      historic resource, functionally obsolete, or blighted [...] (d) Improved real property used for another purpose if the
+      qualified facility is attached to the improvement.'
+    - '(a) Except as provided in subsection (b) of this section, personal property is exempt from property tax if the property
+      is machinery or equipment used to generate: (1) electricity or steam for sale; [...] (b) Subject to § 7-514 of this
+      title, and except as provided in subsection (c) of this section, personal property that is machinery or equipment described
+      in subsection (a) of this section is subject to county or municipal corporation property tax on: (1) 75% of its value
+      for the taxable year beginning July 1, 2000; and (2) 50% of its value for the taxable year beginning July 1, 2001 and
+      each subsequent taxable year.'
+    - (a) For a solar energy generating system with a capacity exceeding one megawatt alternating current, the tax is $1.20
+      per megawatt-hour. (b) A solar energy generating system with a capacity of one megawatt alternating current or less
+      is exempt from the tax imposed under this section.
+  missing_cells: 31
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_quote2
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 31
+    examples:
+    - '"Nameplate capacity," the number of kilowatts a renewable facility can produce, as assigned to the power units in the
+      renewable facility by the manufacturer and determined by the secretary; [...] "Wind farm," all real or personal property
+      used or constructed for the purpose of producing electricity for commercial purposes utilizing the wind as an energy
+      source and with a nameplate capacity of at least five thousand kilowatts.'
+    - '"large scale wind energy conversion system" means a wind energy conversion system of more than 12 megawatts, as measured
+      by the nameplate capacity of the system'
+    - '(a) Electrical Equipment 11% Includes the manufacture of electric household appliances, electronic equipment, batteries,
+      ignition systems, and machinery used in the generation and utilization of electrical energy. [PT-300:] Schedule E: Leased
+      Utility Real or personal property used by Water, Heat, Light, Solar, Power, Telephone, Cable Television, and Sewer Companies.
+      [...] The SCDOR applies depreciation for all taxable properties in accordance with SC Code Section 12-37-930.'
+    - (i) The sound, intrinsic and immediate value of wind source property should not initially exceed one-third (1/3) of
+      total installed costs; (ii) [...] solar source property [...] twelve and one-half percent (12.5%) [...] (iii) [...]
+      other 'green' source property should not initially exceed its appropriate capacity factor as determined by the state
+      board of equalization
+    - 08-27-1953 to date 4.6% of value
+  missing_cells: 96
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_code_section
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 75
+    examples:
+    - Alabama Department of Revenue, Property Tax Assessment
+    - Alaska Legislative Research Services, Report 21.028, Local Government in Alaska (11 December 2020)
+    - Arizona Revised Statutes 42-14155, Valuation of renewable energy and storage equipment; definitions
+    - 'Arkansas: no official source read (code published through LexisNexis; Department of Finance manuals unreadable)'
+    - California State Board of Equalization, Annual Report 2024-25 (Publication 306)
+  missing_cells: 36
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_code_quote
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ? (f) "Qualified solar energy facility" or "qualified facility" means a facility, whether owned or leased, that when
+        constructed and placed in service is located in a solar energy district and that uses or will use solar energy as
+        the sole source for the generation of at least 2 megawatts of nameplate capacity, alternating current [...]
+      : 1
+      ? Each month, the comptroller shall certify the average taxable price of gas, adjusted to 2005 dollars, during the previous
+        three months
+      : 1
+      ? Each month, the comptroller shall certify the average taxable price of oil, adjusted to 2005 dollars, during the previous
+        three months
+      : 1
+      ? 'Enclosed is a copy of the 2026 Trend and Percent Good Tables for Tax Year 2027, along with a detailed list of North
+        American Industry Classification System (NAICS) codes. [...] 2211 Electric Power Generation, Transmission and Distribution
+        46 9 [...] PERCENT GOOD TABLE [...] pp09 [...] 30 YEARS: 2026 98.00, 2025 97.00, 2024 95.00 [...] 1995 20.00, 1994
+        20.00'
+      : 1
+      ? F. Solar Energy Device 10-Year Age/Life Original Cost x Index Factor x %GD Schedule [...] Solar/Ind 10YR [...] 2025
+        92, 2024 84, 2023 76, 2022 67, 2021 58, 2020 49, 2019 39, 2018 30, 2017 24, 2016 21, 2015 20
+      : 1
+      ? Gas produced from a qualifying well that is consumed within 1,000 feet of the qualifying well and would otherwise
+        have been lawfully vented or flared is not subject to the tax imposed by this chapter.
+      : 1
+      ? Hydrocarbons produced from a well qualify for a five-year severance tax exemption if the commission designates the
+        well as a two-year inactive well.
+      : 2
+      ? 'TABLE 4: MACHINERY AND EQUIPMENT PERCENT GOOD FACTORS. Individual Properties - Average Service Life - 5.5% Rate of
+        Return [...] 17: 96 91 87 82 77 72 68 63 58 53 48 43 38 34 30 26 23 19 16 14 12 10 9 7 5 3 1 [...] No minimum percent
+        good factor is intended in this table.'
+      : 1
+      ? The amount of tax reduction shall be computed by subtracting from the tax rate imposed by Section 201.052 the product
+        of that tax rate times the ratio of drilling and completion costs incurred for the well to twice the median drilling
+        and completion costs for high-cost wells spudded or completed during the previous state fiscal year, except that the
+        effective rate of tax may not be reduced below zero.
+      : 1
+      ? 'The tax imposed by this chapter does not apply to gas: (1) injected into the earth in this state, unless sold for
+        that purpose; (2) produced from oil wells with oil and lawfully vented or flared'
+      : 1
+      ? The tax imposed by this chapter is at the rate of 4.6 percent of the market value of oil produced in this state or
+        4.6 cents for each barrel of 42 standard gallons of oil produced in this state, whichever rate results in the greater
+        amount of tax.
+      : 1
+      ? The tax imposed by this chapter is at the rate of 7.5 percent of the market value of gas produced and saved in this
+        state by the producer.
+      : 1
+      The tax imposed by this section is at the same rate as the rate of the tax imposed on oil by Section 202.052 of this code.: 1
+      ? the recovered oil tax rate applies to oil on which a tax is imposed by this chapter for the 10 years beginning the
+        first day of the month following the date the commission certifies that, in the case of an enhanced recovery project
+        including a co-production project, a positive production response has occurred
+      : 1
+      ? until the 30th anniversary of the date that the comptroller first approves an application for a tax rate reduction
+        under this section, the producer of oil recovered through an enhanced oil recovery project that qualifies under Section
+        202.054 for the recovered oil tax rate provided by Section 202.052 (b) is entitled to an additional 50 percent reduction
+        in that tax rate
+      : 1
+      ? 'until the earlier of: (1) the last day of the 36th consecutive month following the month in which the well first
+        produces hydrocarbons after a restimulation treatment is completed; or (2) the date on which the cumulative amount
+        of taxes exempted under Chapter 201 and this chapter and any credit under Subsection (l) equals the lesser of: (A)
+        the restimulation costs described by Subsection (j); or (B) $750,000.'
+      : 1
+  missing_cells: 113
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_code_url
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      https://boe.ca.gov/proptaxes/pdf/lta17020.pdf https://boe.ca.gov/meetings/pdf/2025/ah58126.pdf: 1
+      ? https://comptroller.texas.gov/taxes/property-tax/docs/96-1569.pdf https://hcad.org/assets/uploads/pdf/resources/2026/2026-PP-Calc-Guide.pdf
+      : 1
+      https://dam.assets.ohio.gov/image/upload/v1739290822/tax.ohio.gov/forms/public_utility_property/2025/pupp-instructions.pdf: 1
+      https://docs.legis.wisconsin.gov/document/statutes/70.112: 1
+      https://dor.georgia.gov/document/document/lgsd-2024-001-amended-and-adopted-regulationspdf/download: 1
+      https://dor.wa.gov/sites/default/files/2025-12/2026ValuationGuidelines.docx: 2
+      https://legislature.mi.gov/Laws/MCL?objectName=mcl-211-1157 https://legislature.mi.gov/Laws/MCL?objectName=mcl-211-1152: 1
+      https://revenue.ky.gov/Forms/61A200(P)(1-25).pdf: 1
+      ? https://revenuefiles.mt.gov/property/personal-property/2026-Personal-Property-Depreciation-Schedules-and-Trend-Tables-v2.pdf
+      : 2
+      https://sdlegislature.gov/api/Statutes/10-35-16.html: 1
+      https://statutes.capitol.texas.gov/Docs/TX/htm/TX.201.htm: 6
+      https://statutes.capitol.texas.gov/Docs/TX/htm/TX.202.htm: 7
+      ? https://tax.wv.gov/Documents/LegislativeRules/LegislativeRule.Title-110.Series-1M.pdf https://cabellassessor.com/Forms/TrendandPercentGoodTablesforTaxYear2027.pdf
+      : 1
+      https://www.flsenate.gov/Laws/Statutes/2025/193.624: 1
+      https://www.scstatehouse.gov/code/t12c037: 1
+      https://www.tax.newmexico.gov/businesses/wp-content/uploads/sites/4/2021/02/210-240-Electric.pdf: 3
+      https://www.tn.gov/content/dam/tn/attorneygeneral/documents/ops/2013/op13-028.pdf: 1
+  missing_cells: 98
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_detail
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 71
+    examples:
+    - '{"abates": "tax", "exempt_share": 0.55, "min_mw": 10, "requires": "option", "years": 20}'
+    - '{"above_mw": 5, "below_mw": 150, "exempt_steps": [{"share": 0.8, "until": 5}, {"share": 0.7, "until": 10}, {"share":
+      0.6}]}'
+    - '{"adds_to_property": true, "exempt_years": 3, "usd_per_mwh": 1.0}'
+    - '{"adds_to_property": true, "min_mw": 0.05, "usd_per_mw_year": 4000}'
+    - '{"adds_to_property": true, "min_mw": 1, "usd_per_mwh": 3.0}'
+  missing_cells: 43
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_applies_to
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      every technology of the economic impact tool: 7
+      geothermal: 1
+      land_based_wind: 14
+      land_based_wind;natural_gas: 1
+      land_based_wind;natural_gas;geothermal: 2
+      land_based_wind;utility_pv: 2
+      land_based_wind;utility_pv;geothermal: 2
+      land_based_wind;utility_pv;natural_gas;geothermal: 24
+      natural_gas: 2
+      natural_gas;geothermal: 6
+      oil and gas production; none of the economic impact tool's technologies produces oil or gas: 42
+      utility_pv: 13
+      utility_pv;geothermal: 1
+      utility_pv;land_based_wind: 3
+      utility_pv;land_based_wind;geothermal: 4
+      utility_pv;natural_gas;geothermal: 6
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_note
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 55
+    examples:
+    - As site/data/forecast/property_rules.json holds it (version 2026-11-13); read 2026-11-13
+    - 'As site/data/forecast/property_rules.json holds it (version 2026-11-13); read 2026-11-13, request 102; not modeled
+      by the forecast: Payments by the state from its public utility account to the plant''s municipality and county, USD
+      2,000 per MW shared (two thirds to a city or village and one third to its county, or one third to a town and two thirds
+      to its county) plus USD 1,500 per MW to each: USD 5,000 per MW in all, in place of the property tax the plant does not
+      pay. Not modeled: the caps on the shared part at USD 300 a resident of the municipality and USD 100 a resident of the
+      county (79.04(6)(d)); the extra USD 900 per MW each for a plant on the site of an existing plant or a brownfield (7)(a);
+      whether a given owner is taxed under s. 76.28 (79.04(6)(a)''s list of owners). A gas plant receives the shared USD 2,000
+      per MW and, as a baseload plant of 50 MW or more, USD 600 each (7)(b); "baseload" is not read, so no gas rule is held.'
+    - 'As site/data/forecast/property_rules.json holds it (version 2026-11-13); read 2026-11-13, request 105; not modeled
+      by the forecast: The abatement needs the Director''s approval (jobs on the construction, a capital investment of USD
+      3 or 10 million, wages of 110 and 175 percent of the state''s average, NRS 701A.365) and the county may deny it within
+      30 days: off by default. No rate is in the statute: the abatement acts on the reader''s own rate. The 20 fiscal years
+      run from the approval, taken as the first construction year. The partial abatement of local sales and use taxes above
+      0.6 percent for 3 years (701A.370(1)(b)) is not modeled. Eligibility needs a generating capacity of at least 10 MW (701A.360,
+      read by the re-check of session 4291): held as the rule''s minimum size.'
+    - 'As site/data/forecast/property_rules.json holds it (version 2026-11-13); read 2026-11-13, request 110; not modeled
+      by the forecast: No rate is in the section: the county''s or municipality''s rate is the reader''s own, applied to 50
+      percent of the capital cost as it falls. The section reaches machinery and equipment (personal property), not land or
+      buildings, which the tool does not separate. Section 7-514, to which subsection (b) is subject, is not read. The exemption
+      of small community solar systems (subsection (c), 5 MW AC or less with conditions) is not modeled.'
+    - As site/data/forecast/property_rules.json holds it (version 2026-11-13); read 2026-11-13, request 112
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

@@ -1,0 +1,217 @@
+# The codebook's metadata of table eia_seds_residential_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_seds_residential_annual
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:seds_residential U.S. Energy Information Administration, State Energy Data System (API v2, route seds)
+  url: https://www.eia.gov/state/seds/
+cite: 'U.S. Energy Information Administration (EIA). State Energy Data System (API v2): the residential sector''s expenditures,
+  consumption and price, and population. Via the Energy Research Warehouse (ERW), table `eia_seds_residential_annual`.'
+method: docs/methods/eia_seds_residential_annual.md
+header_title: 'EIA State Energy Data System, the residential sector: households'' energy expenditures by source, their consumption
+  and average price, and each state''s population, a year (session 2108)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_seds_res:<seriesId>:<state>; variable expenditures (USD),
+  consumption (TBtu), price (USD/MMBtu) or population (count); ts_utc the year''s 1 January; freq P1Y; geo US-<state> or US;
+  node the series'' name; x_series; x_source. Series: TERCV, ESRCV, NGRCV, PARCV, DFRCV, HLRCV, KSRCV, WDRCV, TERCB, TERCD,
+  TPOPP. Million dollars as USD, billion Btu as TBtu, thousands as a count.'
+read:
+  date: '2026-11-20'
+  rows: 20020
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 572
+    examples:
+    - eia_seds_res:DFRCV:AK
+    - eia_seds_res:DFRCV:AL
+    - eia_seds_res:DFRCV:AR
+    - eia_seds_res:DFRCV:AZ
+    - eia_seds_res:DFRCV:CA
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 35
+    earliest: '1990-01-01T00:00:00Z'
+    latest: '2024-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 333267900000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      TBtu: 1820
+      USD: 14560
+      USD/MMBtu: 1820
+      count: 1820
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 20020
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 20020
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      All petroleum products total expenditures in the residential sector: 1820
+      Distillate fuel oil expenditures in the residential sector: 1820
+      Electricity expenditures in the residential sector: 1820
+      Hydrocarbon gas liquids expenditures in the residential sector: 1820
+      Kerosene expenditures in the residential sector: 1820
+      Natural gas expenditures in the residential sector (including supplemental gaseous fuels): 1820
+      Resident population including Armed Forces: 1820
+      Total energy average price in the residential sector: 1820
+      Total energy consumption in the residential sector: 1820
+      Total energy expenditures in the residential sector: 1820
+      Wood expenditures in the residential sector: 1820
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:seds_residential: 20020
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/seds/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BseriesId%5D%5B%5D=TERCV&facets%5BseriesId%5D%5B%5D=ESRCV&facets%5BseriesId%5D%5B%5D=NGRCV&facets%5BseriesId%5D%5B%5D=PARCV&facets%5BseriesId%5D%5B%5D=DFRCV&facets%5BseriesId%5D%5B%5D=HLRCV&facets%5BseriesId%5D%5B%5D=KSRCV&facets%5BseriesId%5D%5B%5D=WDRCV&facets%5BseriesId%5D%5B%5D=TERCB&facets%5BseriesId%5D%5B%5D=TERCD&facets%5BseriesId%5D%5B%5D=TPOPP&start=1990&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=seriesId&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=stateId&sort%5B2%5D%5Bdirection%5D=asc&length=5000
+      : 20020
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T21:38:44Z': 5000
+      '2026-10-23T21:38:48Z': 5000
+      '2026-10-23T21:38:53Z': 5000
+      '2026-10-23T21:38:57Z': 5000
+      '2026-10-23T21:39:01Z': 20
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 20020
+- name: x_series
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      DFRCV: 1820
+      ESRCV: 1820
+      HLRCV: 1820
+      KSRCV: 1820
+      NGRCV: 1820
+      PARCV: 1820
+      TERCB: 1820
+      TERCD: 1820
+      TERCV: 1820
+      TPOPP: 1820
+      WDRCV: 1820
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_source
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      distillate_fuel_oil: 1820
+      electricity: 1820
+      hgl: 1820
+      kerosene: 1820
+      natural_gas: 1820
+      petroleum: 1820
+      total: 5460
+      wood: 1820
+  missing_cells: 1820
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: consumption
+  label: null
+  unit: TBtu
+  rows: 1820
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: expenditures
+  label: null
+  unit: USD
+  rows: 14560
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: population
+  label: null
+  unit: count
+  rows: 1820
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: price
+  label: null
+  unit: USD/MMBtu
+  rows: 1820
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

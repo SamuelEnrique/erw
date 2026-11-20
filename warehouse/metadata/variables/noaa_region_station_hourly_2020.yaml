@@ -1,0 +1,97 @@
+# The codebook's metadata of table noaa_region_station_hourly_2020 (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: noaa_region_station_hourly_2020
+family: noaa
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: noaa:isd_lite ISD-Lite (Integrated Surface Database, hourly)
+  url: https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database
+- name: noaa:lcd_v2 Local Climatological Data v2 (NCEI Access Data Service)
+  url: https://www.ncei.noaa.gov/products/land-based-station/local-climatological-data
+cite: NOAA National Centers for Environmental Information. ISD-Lite (Integrated Surface Database, hourly). Via the Energy
+  Research Warehouse (ERW), table `noaa_region_station_hourly_2020`.
+method: docs/methods/region_weather.md
+header_title: hourly temperature at the stations of EIA's regions, the hours of 2020 (UTC) (session 7803)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity noaa:<USAF-WBAN>, temperature_f; ISD-Lite before 2025-08-01,
+  Local Climatological Data v2 from it on ISD-Lite''s hour rule (source); runs of at most three missing hours interpolated.
+  One table a UTC year. Method: docs/methods/region_weather.md.'
+read:
+  date: '2026-11-20'
+  rows: 1893320
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 216
+    examples:
+    - noaa:720306-53879
+    - noaa:720307-63804
+    - noaa:720308-04992
+    - noaa:720598-00191
+    - noaa:720612-00203
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2020-01-01T00:00:00Z'
+    latest: '2020-12-31T23:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1213
+    lowest: -13.0
+    highest: 116.96
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      degF: 1893320
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 1893320
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      noaa:isd_lite: 1893320
+  missing_cells: 0
+variables:
+- name: temperature_f
+  label: null
+  unit: degF
+  rows: 1893320
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-12-31T23:00:00Z'
+second_look: null

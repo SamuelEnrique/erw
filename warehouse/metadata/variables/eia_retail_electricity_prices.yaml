@@ -1,0 +1,191 @@
+# The codebook's metadata of table eia_retail_electricity_prices (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_retail_electricity_prices
+family: eia
+shape: series
+row: One state's (or census division's, or the nation's) monthly average retail price of electricity in one sector.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Each run asks for the full history and merges it on (entity, variable, ts_utc), keeping EIA's newest value;
+  a row EIA stops giving is kept. The copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: 'eia:electricity/retail-sales Electric Power Monthly: average retail price of electricity (retail-sales)'
+  url: https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_6_a
+cite: 'U.S. Energy Information Administration (EIA). Electric Power Monthly: retail sales of electricity and number of customers
+  by state and sector (Form EIA-861M). Via the Energy Research Warehouse (ERW), table `eia_retail_electricity_prices`.'
+method: docs/methods/eia_retail_electricity_prices.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261023T152740Z-github
+  (2026-10-23T15:27:40Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P1M: ts_utc is the date EIA reports at 00:00:00Z (weekly: week-ending
+  date; monthly: first of the month).'
+read:
+  date: '2026-11-20'
+  rows: 114574
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 372
+    examples:
+    - eia:retail_price:AK:ALL
+    - eia:retail_price:AK:COM
+    - eia:retail_price:AK:IND
+    - eia:retail_price:AK:OTH
+    - eia:retail_price:AK:RES
+  missing_cells: 0
+  particular: eia:retail_price:<stateid>:<sectorid>
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 308
+    earliest: '2001-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3211
+    lowest: 0.0
+    highest: 1166.7
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 114574
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 114574
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 18480
+  particular: US-<state>, or US for the nation; empty for an EIA census division
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 114574
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 114574
+  particular: 'Not filled: EIA''s names (state, sector) are in the header''s Series line'
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:electricity/retail-sales: 114574
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=0&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=10000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=100000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=105000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=110000&length=5000
+      : 4576
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=15000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=20000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=25000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=30000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=35000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=40000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=45000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=5000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=50000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=55000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=60000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=65000&length=5000
+      : 4998
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=70000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=75000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=80000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=85000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=90000&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=price&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=stateid&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=sectorid&sort%5B2%5D%5Bdirection%5D=asc&offset=95000&length=5000
+      : 5000
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 26
+    earliest: '2026-09-29T01:01:16Z'
+    latest: '2026-10-23T14:40:15Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 114574
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: retail_price
+  label: Average retail price of electricity in the sector, USD per MWh (EIA's cents per kWh times 10)
+  unit: USD/MWh
+  rows: 114574
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

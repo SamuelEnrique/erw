@@ -1,0 +1,189 @@
+# The codebook's metadata of table noaa_isd_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: noaa_isd_hourly
+family: noaa
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: ''
+source:
+- name: noaa:isd_global_hourly NOAA NCEI Integrated Surface Database (global-hourly)
+  url: https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database
+cite: NOAA National Centers for Environmental Information (NCEI). Integrated Surface Database (global-hourly). Via the Energy
+  Research Warehouse (ERW), table `noaa_isd_hourly`.
+method: docs/methods/noaa_isd_hourly.md
+header_title: hourly station temperature and dew point, NOAA NCEI Integrated Surface Database, for the event windows of event_window_daily
+  and their baseline days (session 49)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba (the grid the station stands for). temperature_f
+  and dew_point_f, degrees Fahrenheit (ISD''s tenths of a degree Celsius times 9/5 plus 32, to 2 decimals), at each observation''s
+  time (UTC); node is ISD''s report type (FM-15 the routine hourly METAR; where two reports share an instant, FM-15 is kept).
+  Irregular observation times: freq left blank.'
+read:
+  date: '2026-11-20'
+  rows: 412435
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      noaa:BOS: 23013
+      noaa:DFW: 35711
+      noaa:FAT: 81672
+      noaa:IAH: 5831
+      noaa:JFK: 22361
+      noaa:LAX: 94447
+      noaa:MSP: 21814
+      noaa:OKC: 23427
+      noaa:ORD: 2380
+      noaa:PHL: 22313
+      noaa:SAC: 79466
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2018-03-04T05:51:00Z'
+    latest: '2025-08-27T06:53:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 201
+    lowest: -20.02
+    highest: 114.08
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      degF: 412435
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 412435
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 412435
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 412435
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      FM-12: 54851
+      FM-15: 314132
+      FM-16: 43270
+      SY-MT: 182
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      noaa:isd_global_hourly: 412435
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 78
+    examples:
+    - https://www.ncei.noaa.gov/access/services/data/v1?dataset=global-hourly&stations=72243012960&startDate=2019-02-07T06%3A00%3A00&endDate=2019-02-25T05%3A59%3A59&dataTypes=TMP%2CDEW&format=csv&includeStationName=true
+    - https://www.ncei.noaa.gov/access/services/data/v1?dataset=global-hourly&stations=72243012960&startDate=2020-02-07T06%3A00%3A00&endDate=2020-02-25T05%3A59%3A59&dataTypes=TMP%2CDEW&format=csv&includeStationName=true
+    - https://www.ncei.noaa.gov/access/services/data/v1?dataset=global-hourly&stations=72243012960&startDate=2020-12-21T06%3A00%3A00&endDate=2021-01-01T05%3A59%3A59&dataTypes=TMP%2CDEW&format=csv&includeStationName=true
+    - https://www.ncei.noaa.gov/access/services/data/v1?dataset=global-hourly&stations=72243012960&startDate=2021-02-07T06%3A00%3A00&endDate=2021-02-25T05%3A59%3A59&dataTypes=TMP%2CDEW&format=csv&includeStationName=true
+    - https://www.ncei.noaa.gov/access/services/data/v1?dataset=global-hourly&stations=72243012960&startDate=2021-12-20T06%3A00%3A00&endDate=2021-12-31T05%3A59%3A59&dataTypes=TMP%2CDEW&format=csv&includeStationName=true
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-01T03:55:28Z': 166585
+      '2026-10-02T04:48:18Z': 245850
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 412435
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      ciso: 255585
+      erco: 41542
+      isne: 23013
+      miso: 21814
+      nyis: 22361
+      pjm: 24693
+      swpp: 23427
+  missing_cells: 0
+- name: x_station_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '72243012960': 5831
+      '72259003927': 35711
+      '72295023174': 94447
+      '72353013967': 23427
+      '72389093193': 81672
+      '72408013739': 22313
+      '72483023232': 79466
+      '72509014739': 23013
+      '72530094846': 2380
+      '72658014922': 21814
+      '74486094789': 22361
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: dew_point_f
+  label: null
+  unit: degF
+  rows: 206155
+  first: '2018-03-04T05:51:00Z'
+  last: '2025-08-27T06:53:00Z'
+- name: temperature_f
+  label: null
+  unit: degF
+  rows: 206280
+  first: '2018-03-04T05:51:00Z'
+  last: '2025-08-27T06:53:00Z'
+second_look: null

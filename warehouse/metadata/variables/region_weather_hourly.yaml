@@ -1,0 +1,121 @@
+# The codebook's metadata of table region_weather_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: region_weather_hourly
+family: erw_derived
+shape: series
+row: One EIA region's population-weighted mean temperature in one hour, written only for an hour every one of its stations
+  holds.
+time: ts_utc is the hour's start, UTC; freq PT1H.
+vintage_rule: Rewritten whole as one snapshot by each run of the connector.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: PT1H
+source:
+- name: erw:region_weather_hourly the ERW's weighted means of noaa_region_station_hourly_<year>
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/region_weather.md
+cite: Energy Research Warehouse. Region temperature, population weighted. Via the Energy Research Warehouse (ERW), table `region_weather_hourly`.
+method: docs/methods/region_weather.md
+header_title: each EIA region's temperature by hour, its stations weighted by county population (session 7803)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia930:<region>, temperature_f, the weighted mean of the region''s
+  stations (noaa_region_stations), written only for an hour every station holds (x_stations). Method: docs/methods/region_weather.md.'
+read:
+  date: '2026-11-20'
+  rows: 879553
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia930:CAL: 71200
+      eia930:CAR: 58448
+      eia930:CENT: 68219
+      eia930:FLA: 66096
+      eia930:MIDA: 68764
+      eia930:MIDW: 66545
+      eia930:NE: 68742
+      eia930:NW: 68015
+      eia930:NY: 70534
+      eia930:SE: 67079
+      eia930:SW: 72804
+      eia930:TEN: 68582
+      eia930:TEX: 64525
+  missing_cells: 0
+  particular: eia930:<region>, EIA-930's region code
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2018-07-01T00:00:00Z'
+    latest: '2026-11-07T14:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -10.44
+    highest: 114.22
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      degF: 879553
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 879553
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:region_weather_hourly: 879553
+  missing_cells: 0
+- name: x_stations
+  label: The region's stations whose temperatures the hour's weighted mean is over
+  unit: count
+  type: integer
+  values:
+    list:
+      '12': 70534
+      '14': 139782
+      '16': 134838
+      '17': 67079
+      '19': 66545
+      '20': 68764
+      '21': 200759
+      '22': 58448
+      '5': 72804
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method region_weather.md
+variables:
+- name: temperature_f
+  label: The weighted mean of the region's stations' temperatures, stations weighted by county population
+  unit: degF
+  rows: 879553
+  first: '2018-07-01T00:00:00Z'
+  last: '2026-11-07T14:00:00Z'
+second_look: null

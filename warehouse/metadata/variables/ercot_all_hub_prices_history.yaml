@@ -1,0 +1,192 @@
+# The codebook's metadata of table ercot_all_hub_prices_history (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_all_hub_prices_history
+family: ercot
+shape: series
+row: ERCOT's settlement point price at one of its six trading hubs for one interval of one operating year from 2015, day-ahead
+  (hourly) or real-time (15-minute).
+time: ts_utc is the start of the interval in UTC; the year is ERCOT's operating year in Central time (America/Chicago).
+vintage_rule: Merged by (entity, variable, ts_utc) into each year's member and consolidated by market and year; a year is
+  written from ERCOT's yearly archive, the current year extended from the live window, and a workbook read later replaces
+  the appended rows. vintage is ERCOT's document publish time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT15M;PT1H
+source:
+- name: ERCOT NP4-180-ER Historical DAM Load Zone and Hub Prices
+  url: https://www.ercot.com/mp/data-products/data-product-details?id=NP4-180-ER
+- name: ERCOT NP6-785-ER Historical RTM Load Zone and Hub Prices
+  url: https://www.ercot.com/mp/data-products/data-product-details?id=NP6-785-ER
+cite: Electric Reliability Council of Texas (ERCOT). Historical DAM Load Zone and Hub Prices; Historical RTM Load Zone and
+  Hub Prices. Via the Energy Research Warehouse (ERW), table `ercot_all_hub_prices_history`.
+method: docs/methods/automated_analysis_findings.md
+header_title: ERCOT trading hub prices, day-ahead and real-time, one row per interval of each operating year from 2015 (the
+  yearly history)
+header_shape: 'Shape: series (docs/datastandard.md v0), a consolidated table (session 29): the 24 tables it replaced are its
+  rows, told apart by the partition columns market, year (docs/migrations/2026-09-29-consolidation.md; the map is warehouse/metadata/table_migrations.csv).
+  ts_utc is interval start, UTC.'
+read:
+  date: '2026-11-20'
+  rows: 3124224
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:HB_BUSAVG: 520704
+      ercot:HB_HOUSTON: 520704
+      ercot:HB_HUBAVG: 520704
+      ercot:HB_NORTH: 520704
+      ercot:HB_SOUTH: 520704
+      ercot:HB_WEST: 520704
+  missing_cells: 0
+  particular: ercot:<hub>
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2015-01-01T06:00:00Z'
+    latest: '2026-11-19T05:45:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -251.0
+    highest: 9315.45
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 3124224
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT15M: 2499840
+      PT1H: 624384
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 3124224
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      ercot_dam: 624384
+      ercot_rtm: 2499840
+  missing_cells: 0
+  particular: ercot_dam (day-ahead, hourly) or ercot_rtm (real-time, 15-minute)
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      HB_BUSAVG: 520704
+      HB_HOUSTON: 520704
+      HB_HUBAVG: 520704
+      HB_NORTH: 520704
+      HB_SOUTH: 520704
+      HB_WEST: 520704
+  missing_cells: 0
+  particular: 'ERCOT''s trading hub: HB_HOUSTON, HB_NORTH, HB_SOUTH, HB_WEST (the four regional hubs), HB_HUBAVG (ERCOT''s
+    average of the four) and HB_BUSAVG (ERCOT''s average over the hubs'' buses)'
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:NP4-180-ER: 612714
+      ercot:NP4-190-CD: 11670
+      ercot:NP6-785-ER: 2473320
+      ercot:NP6-905-CD: 26520
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 4531
+    examples:
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1065468714
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1065471230
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1177667469
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1177737535
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1266561949
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 2184
+    earliest: '2026-09-26T00:09:58Z'
+    latest: '2026-11-19T17:27:27Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    distinct: 3763
+    earliest: '2016-01-01T14:03:08Z'
+    latest: '2026-11-16T06:02:02Z'
+  missing_cells: 4608
+  particular: ERCOT's document publish time; empty on a few rows
+- name: year
+  shared: true
+  type: integer
+  values:
+    list:
+      '2015': 262800
+      '2016': 263520
+      '2017': 262800
+      '2018': 262800
+      '2019': 262800
+      '2020': 263520
+      '2021': 262800
+      '2022': 262800
+      '2023': 262800
+      '2024': 263520
+      '2025': 262800
+      '2026': 231264
+  missing_cells: 0
+  particular: ERCOT's operating year in Central time, the member the row came from
+variables:
+- name: spp_dam
+  label: ERCOT's day-ahead settlement point price at the hub, hourly (spp here is ERCOT's 'settlement point price', not the
+    grid SPP)
+  unit: USD/MWh
+  rows: 624384
+  first: '2015-01-01T06:00:00Z'
+  last: '2026-11-17T05:00:00Z'
+- name: spp_rtm
+  label: ERCOT's real-time settlement point price at the hub, 15-minute (spp here is ERCOT's 'settlement point price', not
+    the grid SPP)
+  unit: USD/MWh
+  rows: 2499840
+  first: '2015-01-01T06:00:00Z'
+  last: '2026-11-19T05:45:00Z'
+second_look: null

@@ -1,0 +1,199 @@
+# The codebook's metadata of table eia_petroleum_supply_weekly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_petroleum_supply_weekly
+family: eia
+shape: series
+row: One week's value of one U.S. petroleum supply series (a stock, crude production, refinery utilization, crude input or
+  a trade flow), from EIA's Weekly Petroleum Status Report.
+time: ts_utc is the Friday the report week ends, at 00:00:00Z (freq P1W).
+vintage_rule: Rewritten whole by each run (the file is deleted and the history from 2010 written again), so EIA's revisions
+  are taken and a week EIA stops giving leaves. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1W
+source:
+- name: 'eia:petroleum/stoc/wstk:supply EIA, Weekly Petroleum Status Report: stocks'
+  url: https://www.eia.gov/petroleum/supply/weekly/
+- name: 'eia:petroleum/sum/sndw EIA, Weekly Petroleum Status Report: supply and disposition'
+  url: https://www.eia.gov/petroleum/supply/weekly/
+- name: 'eia:petroleum/move/wkly:supply EIA, Weekly Petroleum Status Report: imports and exports'
+  url: https://www.eia.gov/petroleum/supply/weekly/
+cite: 'U.S. Energy Information Administration (EIA). Weekly Petroleum Status Report: imports and exports; Weekly Petroleum
+  Status Report: stocks; Weekly Petroleum Status Report: supply and disposition. Via the Energy Research Warehouse (ERW),
+  table `eia_petroleum_supply_weekly`.'
+method: docs/methods/eia_petroleum_supply_weekly.md
+header_title: EIA weekly petroleum stocks, crude production, refinery utilization and inputs, and trade, from 2010 (Weekly
+  Petroleum Status Report) (session 134)
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P1W; ts_utc is EIA''s date at 00:00:00Z (a weekly value''s is
+  the date the report week ends, a monthly value''s the first day of the month). node is EIA''s name of the series. Variables:
+  crude_input, flow, production, stocks, utilization. Units per row.'
+read:
+  date: '2026-11-20'
+  rows: 26268
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - eia:WCESTUS1
+    - eia:WCREXUS2
+    - eia:WCRFPUS2
+    - eia:WCRIMUS2
+    - eia:WCRNTUS2
+  missing_cells: 0
+  particular: eia:<EIA series id>
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 880
+    earliest: '2010-01-01T00:00:00Z'
+    latest: '2026-11-06T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -7471.0
+    highest: 726617.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      kbbl: 4400
+      kbbl/d: 16698
+      pct: 5170
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1W: 26268
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 26268
+  missing_cells: 0
+  particular: US on every row, the PADD series included
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 26268
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - Alaska Field Production of Crude Oil
+    - Cushing, OK Ending Stocks excluding SPR of Crude Oil
+    - East Coast (PADD 1) Percent Utilization of Refinery Operable Capacity
+    - East Coast (PADD 1) Refiner Net Input of Crude Oil
+    - Gulf Coast (PADD 3) Percent Utilization of Refinery Operable Capacity
+  missing_cells: 0
+  particular: EIA's description of the series with its unit removed
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:petroleum/move/wkly:supply: 8778
+      eia:petroleum/stoc/wstk:supply: 4400
+      eia:petroleum/sum/sndw: 13090
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/petroleum/move/wkly/data/?frequency=weekly&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=WCRIMUS2&facets%5Bseries%5D%5B%5D=WCREXUS2&facets%5Bseries%5D%5B%5D=WCRNTUS2&facets%5Bseries%5D%5B%5D=WRPIMUS2&facets%5Bseries%5D%5B%5D=WRPEXUS2&facets%5Bseries%5D%5B%5D=WRPNTUS2&facets%5Bseries%5D%5B%5D=WTTNTUS2&facets%5Bseries%5D%5B%5D=WDIIMUS2&facets%5Bseries%5D%5B%5D=WDIEXUS2&facets%5Bseries%5D%5B%5D=W_EPM0F_IM0_NUS-Z00_MBBLD&start=2010-01-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/petroleum/move/wkly/data/?frequency=weekly&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=WCRIMUS2&facets%5Bseries%5D%5B%5D=WCREXUS2&facets%5Bseries%5D%5B%5D=WCRNTUS2&facets%5Bseries%5D%5B%5D=WRPIMUS2&facets%5Bseries%5D%5B%5D=WRPEXUS2&facets%5Bseries%5D%5B%5D=WRPNTUS2&facets%5Bseries%5D%5B%5D=WTTNTUS2&facets%5Bseries%5D%5B%5D=WDIIMUS2&facets%5Bseries%5D%5B%5D=WDIEXUS2&facets%5Bseries%5D%5B%5D=W_EPM0F_IM0_NUS-Z00_MBBLD&start=2010-01-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=5000&length=5000
+      : 3778
+      ? https://api.eia.gov/v2/petroleum/stoc/wstk/data/?frequency=weekly&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=WCESTUS1&facets%5Bseries%5D%5B%5D=W_EPC0_SAX_YCUOK_MBBL&facets%5Bseries%5D%5B%5D=WCSSTUS1&facets%5Bseries%5D%5B%5D=WGTSTUS1&facets%5Bseries%5D%5B%5D=WDISTUS1&start=2010-01-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000
+      : 4400
+      ? https://api.eia.gov/v2/petroleum/sum/sndw/data/?frequency=weekly&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=WCRFPUS2&facets%5Bseries%5D%5B%5D=W_EPC0_FPF_R48_MBBLD&facets%5Bseries%5D%5B%5D=W_EPC0_FPF_SAK_MBBLD&facets%5Bseries%5D%5B%5D=WPULEUS3&facets%5Bseries%5D%5B%5D=W_NA_YUP_R10_PER&facets%5Bseries%5D%5B%5D=W_NA_YUP_R20_PER&facets%5Bseries%5D%5B%5D=W_NA_YUP_R30_PER&facets%5Bseries%5D%5B%5D=W_NA_YUP_R40_PER&facets%5Bseries%5D%5B%5D=W_NA_YUP_R50_PER&facets%5Bseries%5D%5B%5D=WCRRIUS2&facets%5Bseries%5D%5B%5D=WCRRIP12&facets%5Bseries%5D%5B%5D=WCRRIP22&facets%5Bseries%5D%5B%5D=WCRRIP32&facets%5Bseries%5D%5B%5D=WCRRIP42&facets%5Bseries%5D%5B%5D=WCRRIP52&start=2010-01-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/petroleum/sum/sndw/data/?frequency=weekly&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=WCRFPUS2&facets%5Bseries%5D%5B%5D=W_EPC0_FPF_R48_MBBLD&facets%5Bseries%5D%5B%5D=W_EPC0_FPF_SAK_MBBLD&facets%5Bseries%5D%5B%5D=WPULEUS3&facets%5Bseries%5D%5B%5D=W_NA_YUP_R10_PER&facets%5Bseries%5D%5B%5D=W_NA_YUP_R20_PER&facets%5Bseries%5D%5B%5D=W_NA_YUP_R30_PER&facets%5Bseries%5D%5B%5D=W_NA_YUP_R40_PER&facets%5Bseries%5D%5B%5D=W_NA_YUP_R50_PER&facets%5Bseries%5D%5B%5D=WCRRIUS2&facets%5Bseries%5D%5B%5D=WCRRIP12&facets%5Bseries%5D%5B%5D=WCRRIP22&facets%5Bseries%5D%5B%5D=WCRRIP32&facets%5Bseries%5D%5B%5D=WCRRIP42&facets%5Bseries%5D%5B%5D=WCRRIP52&start=2010-01-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=10000&length=5000
+      : 3090
+      ? https://api.eia.gov/v2/petroleum/sum/sndw/data/?frequency=weekly&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=WCRFPUS2&facets%5Bseries%5D%5B%5D=W_EPC0_FPF_R48_MBBLD&facets%5Bseries%5D%5B%5D=W_EPC0_FPF_SAK_MBBLD&facets%5Bseries%5D%5B%5D=WPULEUS3&facets%5Bseries%5D%5B%5D=W_NA_YUP_R10_PER&facets%5Bseries%5D%5B%5D=W_NA_YUP_R20_PER&facets%5Bseries%5D%5B%5D=W_NA_YUP_R30_PER&facets%5Bseries%5D%5B%5D=W_NA_YUP_R40_PER&facets%5Bseries%5D%5B%5D=W_NA_YUP_R50_PER&facets%5Bseries%5D%5B%5D=WCRRIUS2&facets%5Bseries%5D%5B%5D=WCRRIP12&facets%5Bseries%5D%5B%5D=WCRRIP22&facets%5Bseries%5D%5B%5D=WCRRIP32&facets%5Bseries%5D%5B%5D=WCRRIP42&facets%5Bseries%5D%5B%5D=WCRRIP52&start=2010-01-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=5000&length=5000
+      : 5000
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T11:47:37Z': 4400
+      '2026-11-16T11:47:39Z': 5000
+      '2026-11-16T11:47:40Z': 5000
+      '2026-11-16T11:47:42Z': 3090
+      '2026-11-16T11:47:43Z': 5000
+      '2026-11-16T11:47:46Z': 3778
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 26268
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: crude_input
+  label: Refiner net input of crude oil (U.S. or a PADD), thousand barrels a day
+  unit: kbbl/d
+  rows: 5280
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: flow
+  label: Imports, exports or net imports of crude, petroleum products or distillate, thousand barrels a day (negative net
+    imports are net exports)
+  unit: kbbl/d
+  rows: 8778
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: production
+  label: Field production of crude oil (U.S., Lower 48 or Alaska), thousand barrels a day
+  unit: kbbl/d
+  rows: 2640
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: stocks
+  label: Ending stocks of crude (excluding or in the Strategic Petroleum Reserve, or at Cushing), total gasoline or distillate
+    fuel oil, thousand barrels
+  unit: kbbl
+  rows: 4400
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+- name: utilization
+  label: Percent utilization of refinery operable capacity (U.S. or a PADD)
+  unit: pct
+  rows: 5170
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+second_look: null

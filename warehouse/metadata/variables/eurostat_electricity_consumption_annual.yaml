@@ -1,0 +1,277 @@
+# The codebook's metadata of table eurostat_electricity_consumption_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_electricity_consumption_annual
+family: eurostat
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eurostat:nrg_cb_e Eurostat, Supply, transformation and consumption of electricity (nrg_cb_e)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_cb_e/default/table
+cite: Eurostat (Statistical Office of the European Union). Supply, transformation and consumption of electricity (nrg_cb_e).
+  Via the Energy Research Warehouse (ERW), table `eurostat_electricity_consumption_annual`.
+method: docs/methods/eurostat_electricity_consumption_annual.md
+header_title: 'Eurostat, supply, transformation and consumption of electricity, annual (nrg_cb_e, E7000): available for final
+  consumption, final consumption by sector, the energy sector''s use, losses and statistical differences, 1990 to 2025 (session
+  2757)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_electricity_consumption:<geo>; variable the balance
+  item (available_for_final_consumption AFC, final_consumption FC, energy_sector_use NRG_E, losses LOSS, statistical_differences
+  STATDIFF; the sectors'' energy use industry, transport, commercial_public_services, households, agriculture_forestry, fishing,
+  other_not_specified); unit MWh (Eurostat''s GWh times 1,000); ts_utc the year''s 1 January; freq P1Y; geo ISO alpha-2 (EL
+  is GR), blank for EU27_2020; x_nrg_bal Eurostat''s code. In this dataset FC includes the energy sector''s own use: FC =
+  NRG_E + the seven sectors.'
+read:
+  date: '2026-11-20'
+  rows: 15667
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 40
+    examples:
+    - eurostat_electricity_consumption:AL
+    - eurostat_electricity_consumption:AT
+    - eurostat_electricity_consumption:BA
+    - eurostat_electricity_consumption:BE
+    - eurostat_electricity_consumption:BG
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 36
+    earliest: '1990-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -5082476.0
+    highest: 2622873825.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 15667
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 15667
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 426
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 15667
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 479
+    examples:
+    - AL electricity, Available for final consumption
+    - AL electricity, Energy sector - energy use
+    - AL electricity, Final consumption
+    - AL electricity, Final consumption - industry sector - energy use
+    - AL electricity, Final consumption - other sectors - agriculture and forestry - energy use
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_cb_e: 15667
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_cb_e/A..E7000.GWH.?format=SDMX-CSV&compressed=false&startPeriod=1990
+      : 15667
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T22:25:36Z': 15667
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 15667
+- name: x_geo_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 40
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nrg_bal
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      AFC: 1328
+      FC: 1326
+      FC_IND_E: 1326
+      FC_OTH_AF_E: 1290
+      FC_OTH_CP_E: 1290
+      FC_OTH_FISH_E: 1290
+      FC_OTH_HH_E: 1290
+      FC_OTH_NSP_E: 1289
+      FC_TRA_E: 1326
+      LOSS: 1259
+      NRG_E: 1326
+      STATDIFF: 1327
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_flag
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      e: 11
+      p: 208
+  missing_cells: 15448
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_conf_status
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 15667
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: agriculture_forestry
+  label: null
+  unit: MWh
+  rows: 1290
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: available_for_final_consumption
+  label: null
+  unit: MWh
+  rows: 1328
+  first: '1990-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: commercial_public_services
+  label: null
+  unit: MWh
+  rows: 1290
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: energy_sector_use
+  label: null
+  unit: MWh
+  rows: 1326
+  first: '1990-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: final_consumption
+  label: null
+  unit: MWh
+  rows: 1326
+  first: '1990-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: fishing
+  label: null
+  unit: MWh
+  rows: 1290
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: households
+  label: null
+  unit: MWh
+  rows: 1290
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: industry
+  label: null
+  unit: MWh
+  rows: 1326
+  first: '1990-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: losses
+  label: null
+  unit: MWh
+  rows: 1259
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: other_not_specified
+  label: null
+  unit: MWh
+  rows: 1289
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: statistical_differences
+  label: null
+  unit: MWh
+  rows: 1327
+  first: '1990-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: transport
+  label: null
+  unit: MWh
+  rows: 1326
+  first: '1990-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

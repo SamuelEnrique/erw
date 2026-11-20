@@ -1,0 +1,235 @@
+# The codebook's metadata of table sne_panama_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: sne_panama_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: sne:estadisticas_electricidad Secretaria Nacional de Energia, Panama, Generacion Historica Electrica (Serie 1970-2021),
+    sheets C-GE-8 GenBruXTCen&PSis,80-21 and C-GE-14 ProdNet,DemMax,FactCar, listed at
+  url: https://www.energia.gob.pa/datos-y-estadisticas/
+cite: Secretaria Nacional de Energia, Panama. Generacion Historica Electrica (Serie 1970-2021), cuadros GE-8 (gross generation
+  by plant type), GE-10 (monthly gross generation) and GE-14 (net production, maximum demand, load factor). Via the Energy
+  Research Warehouse (ERW), table `sne_panama_electricity_annual`.
+method: docs/methods/sne_panama.md
+header_title: Secretaria Nacional de Energia, Panama, gross generation by plant type, net production, maximum demand and load
+  factor, 1970 to 2021 (session 2407)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity sne:PA; ts_utc the year''s 1 January; freq P1Y; geo PA. From
+  Cuadro GE-8 (1980 to 2021): generation_gross_total, generation_gross_interconnected (the national interconnected system),
+  generation_gross_canal_authority (the Panama Canal Authority''s plants), and by type generation_gross_hydro, _steam_bunker,
+  _internal_combustion (bunker or diesel), _gas_turbine_light_diesel, _gas_turbine_marine_diesel, _light_diesel_other (the
+  sheet''s "Sub-Total (Diesel Liviano)"), _wind, _solar, _natural_gas, _biogas, _isolated_systems (MWh, the sheet''s GWh times
+  1,000). From Cuadro GE-14 (1970 to 2021): net_production (MWh), peak_demand (MW, the maximum demand), load_factor (pct).'
+read:
+  date: '2026-11-20'
+  rows: 569
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      sne:PA: 569
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 52
+    earliest: '1970-01-01T00:00:00Z'
+    latest: '2021-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 549
+    lowest: 0.0
+    highest: 13886520.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 49
+      MWh: 471
+      pct: 49
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 569
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      PA: 569
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Panama: 569
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      sne:estadisticas_electricidad: 569
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      http://www.energia.gob.pa/wp-content/uploads/2024/04/2-CEE-1970-2021-GE-Generaci%C3%B3n-El%C3%A9ctrica.xls: 569
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T10:11:29Z': 569
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2024-04-01T15:57:18Z': 569
+  missing_cells: 0
+variables:
+- name: generation_gross_biogas
+  label: null
+  unit: MWh
+  rows: 6
+  first: '2016-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generation_gross_canal_authority
+  label: null
+  unit: MWh
+  rows: 22
+  first: '2000-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generation_gross_gas_turbine_light_diesel
+  label: null
+  unit: MWh
+  rows: 42
+  first: '1980-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generation_gross_gas_turbine_marine_diesel
+  label: null
+  unit: MWh
+  rows: 34
+  first: '1988-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generation_gross_hydro
+  label: null
+  unit: MWh
+  rows: 42
+  first: '1980-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generation_gross_interconnected
+  label: null
+  unit: MWh
+  rows: 42
+  first: '1980-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generation_gross_internal_combustion
+  label: null
+  unit: MWh
+  rows: 42
+  first: '1980-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generation_gross_isolated_systems
+  label: null
+  unit: MWh
+  rows: 42
+  first: '1980-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generation_gross_light_diesel_other
+  label: null
+  unit: MWh
+  rows: 42
+  first: '1980-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generation_gross_natural_gas
+  label: null
+  unit: MWh
+  rows: 4
+  first: '2018-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generation_gross_solar
+  label: null
+  unit: MWh
+  rows: 8
+  first: '2014-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generation_gross_steam_bunker
+  label: null
+  unit: MWh
+  rows: 42
+  first: '1980-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generation_gross_total
+  label: null
+  unit: MWh
+  rows: 42
+  first: '1980-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generation_gross_wind
+  label: null
+  unit: MWh
+  rows: 9
+  first: '2013-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: load_factor
+  label: null
+  unit: pct
+  rows: 49
+  first: '1973-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: net_production
+  label: null
+  unit: MWh
+  rows: 52
+  first: '1970-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: peak_demand
+  label: null
+  unit: MW
+  rows: 49
+  first: '1973-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+second_look: null

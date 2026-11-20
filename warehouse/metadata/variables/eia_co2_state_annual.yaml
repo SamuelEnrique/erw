@@ -1,0 +1,153 @@
+# The codebook's metadata of table eia_co2_state_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_co2_state_annual
+family: eia
+shape: series
+row: One state's (or the nation's) energy-related carbon dioxide emissions of one sector and one fuel for one year.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:co2-emissions/co2-emissions-aggregates U.S. Energy Information Administration, State Energy-Related Carbon Dioxide
+    Emissions (API v2, route co2-emissions/co2-emissions-aggregates)
+  url: https://www.eia.gov/environment/emissions/state/
+cite: U.S. Energy Information Administration (EIA). State Energy-Related Carbon Dioxide Emissions (API v2). Via the Energy
+  Research Warehouse (ERW), table `eia_co2_state_annual`.
+method: docs/methods/eia_co2_state_annual.md
+header_title: EIA, energy-related CO2 emissions by state, sector and fuel, a year (session 530)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_co2:<state>:<sectorId>:<fuelId>; variable co2 (tCO2, EIA''s
+  million metric tons times 1,000,000); ts_utc the year''s 1 January; freq P1Y. Sectors CC, EC, IC, RC, TC and TT (all); fuels
+  CO, NG, PE and TO (all): a sum takes one level and leaves TT and TO out.'
+read:
+  date: '2026-11-20'
+  rows: 66144
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 1248
+    examples:
+    - eia_co2:AK:CC:CO
+    - eia_co2:AK:CC:NG
+    - eia_co2:AK:CC:PE
+    - eia_co2:AK:CC:TO
+    - eia_co2:AK:EC:CO
+  missing_cells: 0
+  particular: eia_co2:<state>:<sectorId>:<fuelId>; sectors CC, EC, IC, RC, TC and TT (all); fuels CO, NG, PE and TO (all)
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 53
+    earliest: '1970-01-01T00:00:00Z'
+    latest: '2022-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 5990393938.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      tCO2: 66144
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 66144
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+  particular: US-<state>, or US for the nation
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 66144
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 1248
+    examples:
+    - Alabama, Commercial carbon dioxide emissions, All Fuels
+    - Alabama, Commercial carbon dioxide emissions, Coal
+    - Alabama, Commercial carbon dioxide emissions, Natural Gas
+    - Alabama, Commercial carbon dioxide emissions, Petroleum
+    - Alabama, Electric Power carbon dioxide emissions, All Fuels
+  missing_cells: 0
+  particular: EIA's names (state, sector, fuel)
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:co2-emissions/co2-emissions-aggregates: 66144
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/co2-emissions/co2-emissions-aggregates/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&start=1970
+      : 66144
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T21:47:54Z': 66144
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 66144
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: co2
+  label: Energy-related carbon dioxide emissions of the sector and fuel, tonnes of CO2 (EIA's million metric tons times 1,000,000);
+    a sum takes one level and leaves TT and TO out
+  unit: tCO2
+  rows: 66144
+  first: '1970-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+second_look: null

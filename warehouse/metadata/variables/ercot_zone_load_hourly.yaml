@@ -1,0 +1,195 @@
+# The codebook's metadata of table ercot_zone_load_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_zone_load_hourly
+family: ercot
+shape: series
+row: ERCOT's native load in one weather zone, or ERCOT's total, for one hour, from its Hourly Load Data Archives.
+time: ts_utc is the hour's start in UTC (ERCOT gives the hour's end, Central; the repeated autumn hour is in the file twice,
+  the second marked DST).
+vintage_rule: Merged by (entity, variable, ts_utc) into the table held; ERCOT extends the current year's file month by month.
+  vintage is the yearly file's publish time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: ercot:load_hist Electric Reliability Council of Texas (ERCOT), Hourly Load Data Archives, native load by weather zone
+  url: https://www.ercot.com/gridinfo/load/load_hist
+cite: 'Electric Reliability Council of Texas (ERCOT). Hourly Load Data Archives, native load by weather zone [terms: "raw
+  data provided in public portions of this website may be used, reproduced, and redistributed in compilations, charts, and
+  analyses without maintaining such notices." (https://www.ercot.com/help/terms, read 6 October 2026)]. Via the Energy Research
+  Warehouse (ERW), table `ercot_zone_load_hourly`.'
+method: docs/methods/ercot_zone_load_hourly.md
+header_title: ERCOT, hourly native load by weather zone and ERCOT's total (Hourly Load Data Archives) (session 138)
+header_shape: 'Shape: series (docs/datastandard.md v0). variable load: the operator''s own figure for the zone (or area) and
+  hour, MW over the hour; freq PT1H, ts_utc the hour''s start in UTC. An hour the operator does not give is not written; nothing
+  is filled, summed across zones or estimated. The table is merged into the one held.'
+read:
+  date: '2026-11-20'
+  rows: 933534
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:COAST: 103726
+      ercot:EAST: 103726
+      ercot:FWEST: 103726
+      ercot:NCENT: 103726
+      ercot:NORTH: 103726
+      ercot:SCENT: 103726
+      ercot:SOUTH: 103726
+      ercot:WEST: 103726
+      ercot:system: 103726
+  missing_cells: 0
+  particular: ercot:<weather zone> (COAST, EAST, FWEST, NCENT, NORTH, SCENT, SOUTH, WEST) or ercot:system (ERCOT's own total
+    column, never a sum made here); weather zones are not load zones
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2015-01-01T06:00:00Z'
+    latest: '2026-11-01T04:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 488.272293
+    highest: 91133.727696
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 933534
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 933534
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 933534
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      ercot_load: 933534
+  missing_cells: 0
+  particular: ercot_load in every row
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      COAST: 103726
+      EAST: 103726
+      ERCOT: 103726
+      FAR_WEST: 17543
+      FWEST: 86183
+      NCENT: 86183
+      NORTH: 103726
+      NORTH_C: 17543
+      SCENT: 86183
+      SOUTH: 86183
+      SOUTHERN: 17543
+      SOUTH_C: 17543
+      WEST: 103726
+  missing_cells: 0
+  particular: The zone's column name in ERCOT's file; older files' FAR_WEST, NORTH_C, SOUTHERN and SOUTH_C are FWEST, NCENT,
+    SOUTH and SCENT; ERCOT for the total
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:load_hist: 933534
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.ercot.com/files/docs/2016/01/07/native_load_2015.xls: 78840
+      https://www.ercot.com/files/docs/2017/01/10/native_Load_2016.zip: 79047
+      https://www.ercot.com/files/docs/2018/01/09/native_load_2017.zip: 78840
+      https://www.ercot.com/files/docs/2019/01/07/native_load_2018.zip: 78840
+      https://www.ercot.com/files/docs/2020/01/09/Native_Load_2019.zip: 78840
+      https://www.ercot.com/files/docs/2021/01/12/Native_Load_2020.zip: 79056
+      https://www.ercot.com/files/docs/2021/11/12/Native_Load_2021.zip: 78840
+      https://www.ercot.com/files/docs/2022/02/08/Native_Load_2022.zip: 78840
+      https://www.ercot.com/files/docs/2023/02/09/Native_Load_2023.zip: 78840
+      https://www.ercot.com/files/docs/2024/02/06/Native_Load_2024.zip: 79056
+      https://www.ercot.com/files/docs/2025/02/11/Native_Load_2025.zip: 78840
+      https://www.ercot.com/files/docs/2026/02/10/Native_Load_2026.zip: 65655
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-07T01:43:07Z': 78840
+      '2026-10-07T01:43:12Z': 79056
+      '2026-10-07T01:43:18Z': 78840
+      '2026-10-07T01:43:23Z': 78840
+      '2026-10-07T01:43:28Z': 78840
+      '2026-10-07T01:43:33Z': 79056
+      '2026-10-07T01:43:38Z': 78840
+      '2026-10-07T01:43:43Z': 78840
+      '2026-10-07T01:43:49Z': 78840
+      '2026-10-07T01:43:54Z': 79047
+      '2026-10-07T01:43:59Z': 78840
+      '2026-11-16T11:50:31Z': 65655
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2021-11-13T17:29:09Z': 79056
+      '2021-11-13T17:30:35Z': 78840
+      '2021-11-13T17:31:05Z': 79047
+      '2021-11-13T17:31:54Z': 78840
+      '2021-11-13T17:32:35Z': 78840
+      '2021-11-13T17:34:44Z': 78840
+      '2022-01-07T22:39:00Z': 78840
+      '2023-01-31T16:39:00Z': 78840
+      '2024-01-08T19:15:00Z': 78840
+      '2025-01-10T16:32:00Z': 79056
+      '2026-02-04T22:35:00Z': 78840
+      '2026-11-06T19:50:00Z': 65655
+  missing_cells: 0
+  particular: The publish time of ERCOT's yearly file
+variables:
+- name: load
+  label: ERCOT's native load for the weather zone (or the system) and hour, MW over the hour
+  unit: MW
+  rows: 933534
+  first: '2015-01-01T06:00:00Z'
+  last: '2026-11-01T04:00:00Z'
+second_look: null

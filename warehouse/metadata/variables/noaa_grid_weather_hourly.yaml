@@ -1,0 +1,208 @@
+# The codebook's metadata of table noaa_grid_weather_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: noaa_grid_weather_hourly
+family: noaa
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: noaa:isd_lite NOAA National Centers for Environmental Information, Integrated Surface Database, ISD-Lite
+  url: https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database
+- name: noaa:lcd_v2 NOAA National Centers for Environmental Information, Local Climatological Data version 2
+  url: https://www.ncei.noaa.gov/products/land-based-station/local-climatological-data
+cite: NOAA National Centers for Environmental Information. ISD-Lite (Integrated Surface Database, hourly); Local Climatological
+  Data v2. Via the Energy Research Warehouse (ERW), table `noaa_grid_weather_hourly`.
+method: docs/methods/noaa_grid_weather_hourly.md
+header_title: each grid's weighted hourly temperature, dew point, heating and cooling degrees, from five NOAA airport stations
+  a grid, 2019 to now (session 126)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba (the grid''s EIA-930 code, to join eia930 tables).
+  entity iso:<grid>; freq PT1H, ts_utc the hour (the reading taken in the ten minutes up to it). temperature_f and dew_point_f:
+  the weighted mean of the stations'' readings, degrees F (NOAA''s tenths of a degree C times 9/5 plus 32). heating_degrees_f:
+  the weighted mean of max(65 - T, 0) over the stations; cooling_degrees_f: of max(T - 65, 0). x_interpolated: how many of
+  the five stations'' temperatures in the hour are interpolated.'
+read:
+  date: '2026-11-20'
+  rows: 1921373
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      iso:caiso: 274492
+      iso:ercot: 274497
+      iso:isone: 273436
+      iso:miso: 274724
+      iso:nyiso: 274788
+      iso:pjm: 274780
+      iso:spp: 274656
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2019-01-01T00:00:00Z'
+    latest: '2026-11-07T14:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -29.38
+    highest: 106.35
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      degF: 1921373
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 1921373
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 274656
+      US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI: 274724
+      US-CA: 274492
+      US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 273436
+      US-DE,US-DC,US-IL,US-IN,US-KY,US-MD,US-MI,US-NJ,US-NC,US-OH,US-PA,US-TN,US-VA,US-WV: 274780
+      US-NY: 274788
+      US-TX: 274497
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1921373
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      CAISO: 274492
+      ERCOT: 274497
+      ISO-NE: 273436
+      MISO: 274724
+      NYISO: 274788
+      PJM: 274780
+      SPP: 274656
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      noaa:isd_lite: 1613317
+      noaa:lcd_v2: 308056
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2019/: 245136
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2020/: 245595
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2021/: 245131
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2022/: 245136
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2023/: 245095
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2024/: 245144
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2025/: 142080
+      https://www.ncei.noaa.gov/access/services/data/v1?dataset=local-climatological-data-v2: 308056
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T18:05:35Z': 1921373
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1921373
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      ciso: 274492
+      erco: 274497
+      isne: 273436
+      miso: 274724
+      nyis: 274788
+      pjm: 274780
+      swpp: 274656
+  missing_cells: 0
+- name: x_interpolated
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '0': 1884009
+      '1': 23788
+      '2': 12300
+      '3': 160
+      '4': 224
+      '5': 892
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: cooling_degrees_f
+  label: null
+  unit: degF
+  rows: 480361
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-07T14:00:00Z'
+- name: dew_point_f
+  label: null
+  unit: degF
+  rows: 480290
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-07T14:00:00Z'
+- name: heating_degrees_f
+  label: null
+  unit: degF
+  rows: 480361
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-07T14:00:00Z'
+- name: temperature_f
+  label: null
+  unit: degF
+  rows: 480361
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-07T14:00:00Z'
+second_look: null

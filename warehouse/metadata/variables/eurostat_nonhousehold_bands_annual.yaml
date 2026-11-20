@@ -1,0 +1,208 @@
+# The codebook's metadata of table eurostat_nonhousehold_bands_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_nonhousehold_bands_annual
+family: eurostat
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eurostat:nrg_pc_205_v Eurostat, Non-household consumption volumes of electricity by consumption bands (nrg_pc_205_v)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_pc_205_v/default/table
+cite: Eurostat (Statistical Office of the European Union). Non-household consumption volumes of electricity by consumption
+  bands (nrg_pc_205_v). Via the Energy Research Warehouse (ERW), table `eurostat_nonhousehold_bands_annual`.
+method: docs/methods/eurostat_nonhousehold_bands_annual.md
+header_title: 'Eurostat, non-household consumption volumes of electricity by consumption bands, annual (nrg_pc_205_v): each
+  band''s share of non-household consumption, 2017 to 2025 (session 2820)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_nonhh_bands:<geo>:<band> (MWH_LT20 band IA under 20
+  MWh a year, MWH20-499 IB, MWH500-1999 IC, MWH2000-19999 ID, MWH20000-69999 IE, MWH70000-149999 IF, MWH_GE150000 IG 150,000
+  MWh and over); variable consumption_share; unit pct; ts_utc the year''s 1 January; freq P1Y; geo ISO alpha-2 (EL is GR),
+  blank for EU27_2020 and EA; x_nrg_cons Eurostat''s code.'
+read:
+  date: '2026-11-20'
+  rows: 2013
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 253
+    examples:
+    - eurostat_nonhh_bands:AL:MWH20-499
+    - eurostat_nonhh_bands:AL:MWH2000-19999
+    - eurostat_nonhh_bands:AL:MWH20000-69999
+    - eurostat_nonhh_bands:AL:MWH500-1999
+    - eurostat_nonhh_bands:AL:MWH70000-149999
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2017-01-01T00:00:00Z': 170
+      '2018-01-01T00:00:00Z': 210
+      '2019-01-01T00:00:00Z': 225
+      '2020-01-01T00:00:00Z': 228
+      '2021-01-01T00:00:00Z': 230
+      '2022-01-01T00:00:00Z': 236
+      '2023-01-01T00:00:00Z': 233
+      '2024-01-01T00:00:00Z': 238
+      '2025-01-01T00:00:00Z': 243
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1658
+    lowest: 0.0
+    highest: 84.1
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      pct: 2013
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 2013
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 37
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2013
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 253
+    examples:
+    - AL non-household electricity, band IA, less than 20 MWh a year
+    - AL non-household electricity, band IB, 20 to 499 MWh
+    - AL non-household electricity, band IC, 500 to 1,999 MWh
+    - AL non-household electricity, band ID, 2,000 to 19,999 MWh
+    - AL non-household electricity, band IE, 20,000 to 69,999 MWh
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_pc_205_v: 2013
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_pc_205_v?format=SDMX-CSV&compressed=false: 2013
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-26T06:30:20Z': 2013
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2013
+- name: x_geo_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 37
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nrg_cons
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      MWH20-499: 311
+      MWH2000-19999: 311
+      MWH20000-69999: 302
+      MWH500-1999: 311
+      MWH70000-149999: 251
+      MWH_GE150000: 218
+      MWH_LT20: 309
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_flag
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      e: 82
+  missing_cells: 1931
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_conf_status
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2013
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: consumption_share
+  label: null
+  unit: pct
+  rows: 2013
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

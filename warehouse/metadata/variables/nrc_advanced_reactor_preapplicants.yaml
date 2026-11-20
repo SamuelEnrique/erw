@@ -1,0 +1,189 @@
+# The codebook's metadata of table nrc_advanced_reactor_preapplicants (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nrc_advanced_reactor_preapplicants
+family: nrc
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: 'nrc:new_reactors U.S. Nuclear Regulatory Commission, Advanced Reactors: Who We''re Working With'
+  url: https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with
+cite: 'U.S. Nuclear Regulatory Commission (NRC). Advanced Reactors: application projects and pre-application activities. Via
+  the Energy Research Warehouse (ERW), table `nrc_advanced_reactor_preapplicants`.'
+method: docs/methods/nrc_new_reactors.md
+header_title: U.S. Nuclear Regulatory Commission, the applicants, vendors and research or test reactors in pre-application
+  engagement for advanced reactors, by technology (session 2001)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id nrc_preapp:<the page''s name>; entity_type company; name
+  as the NRC''s table writes it; x_technology the table''s column; x_microreactor yes where the table marks a microreactor
+  design (*); x_active no for the ''Inactive Projects'' the page names after the table. A link''s text is kept as written
+  (the NRC''s ''Advance Energy Bridge (AEB)'' links to its Nuclear Vault System page).'
+read:
+  date: '2026-11-20'
+  rows: 43
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 43
+    examples:
+    - nrc_preapp:aalo-atomics-idaho-nuclear-project
+    - nrc_preapp:abilene-christian-university
+    - nrc_preapp:advanced-float-co-ltd
+    - nrc_preapp:antares-nuclear-inc
+    - nrc_preapp:apco-joshua-falls
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      company: 43
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 43
+    examples:
+    - ARC Clean Technology
+    - Aalo Atomics
+    - Abilene Christian University
+    - Advance Energy Bridge (AEB)
+    - Advanced Float
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 43
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 43
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 43
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 43
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 43
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 43
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 43
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nrc:new_reactors: 43
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/pre-application-activities: 43
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T15:09:52Z': 43
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T13:32:13Z': 43
+  missing_cells: 0
+- name: x_technology
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      High Temperature Gas Reactors: 12
+      Light Water Reactors: 10
+      Liquid Metal Cooled Reactors: 6
+      Molten Salt Reactors / Molten Chloride Fast Reactors: 5
+      Other Designs/ Not Specified: 9
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_microreactor
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      'no': 32
+      'yes': 11
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_active
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      'no': 2
+      'yes': 41
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_page
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 43
+    examples:
+    - https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/pre-application-activities/aalo-atomics-idaho-nuclear-project
+    - https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/pre-application-activities/abilene-christian-university
+    - https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/pre-application-activities/advanced-float-co-ltd
+    - https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/pre-application-activities/antares-nuclear-inc
+    - https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/pre-application-activities/apco-joshua-falls
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

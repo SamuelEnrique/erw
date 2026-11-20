@@ -1,0 +1,182 @@
+# The codebook's metadata of table eia_petroleum_exports_by_destination (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_petroleum_exports_by_destination
+family: eia
+shape: series
+row: One month's U.S. exports of crude oil or one petroleum product to one destination country, in the month or per day.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:petroleum/move/expc U.S. Energy Information Administration, Petroleum Supply Monthly, exports by destination (API
+    v2, route petroleum/move/expc)
+  url: https://www.eia.gov/dnav/pet/pet_move_expc_a_EP00_EEX_mbblpd_m.htm
+cite: U.S. Energy Information Administration (EIA). Petroleum Supply Monthly, exports by destination (API v2). Via the Energy
+  Research Warehouse (ERW), table `eia_petroleum_exports_by_destination`.
+method: docs/methods/eia_petroleum_exports_by_destination.md
+header_title: EIA, U.S. exports of crude oil and of petroleum products by country of destination, a month (session 860)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_petroleum_exports:<EIA destination code>:<product: EPC0
+  crude oil, EPP0 total petroleum products, EPD0 distillate fuel oil, EPM0F finished motor gasoline, EPJK kerosene-type jet
+  fuel, EPLLPA propane, EPPR residual fuel oil, EPLLEA ethane, EPPC petroleum coke>; variables exports (kbbl) and exports_per_day
+  (kbbl/d); the products are part of EPP0''s total, a sum leaves EPP0 out; ts_utc the month''s first day; freq P1M; geo US
+  (the exporter); node the destination and product as EIA names them.'
+read:
+  date: '2026-11-20'
+  rows: 112478
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 1145
+    examples:
+    - eia_petroleum_exports:NUS-NAA:EPC0
+    - eia_petroleum_exports:NUS-NAA:EPD0
+    - eia_petroleum_exports:NUS-NAA:EPJK
+    - eia_petroleum_exports:NUS-NAA:EPLLEA
+    - eia_petroleum_exports:NUS-NAA:EPLLPA
+  missing_cells: 0
+  particular: eia_petroleum_exports:<EIA destination code>:<product>; products are part of EPP0's total, so a sum leaves EPP0
+    out
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 139
+    earliest: '2015-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 243478.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      kbbl: 56239
+      kbbl/d: 56239
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 112478
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 112478
+  missing_cells: 0
+  particular: US on every row (the exporter)
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 112478
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 1098
+    examples:
+    - ABW, Crude Oil
+    - ABW, Distillate Fuel Oil
+    - ABW, Ethane
+    - ABW, Finished Motor Gasoline
+    - ABW, Kerosene-Type Jet Fuel
+  missing_cells: 0
+  particular: The destination and product as EIA names them
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:petroleum/move/expc: 112478
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/petroleum/move/expc/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&start=2015-01&facets%5Bproduct%5D%5B%5D=EPC0&facets%5Bproduct%5D%5B%5D=EPP0
+      : 45058
+      ? https://api.eia.gov/v2/petroleum/move/expc/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&start=2015-01&facets%5Bproduct%5D%5B%5D=EPD0&facets%5Bproduct%5D%5B%5D=EPM0F&facets%5Bproduct%5D%5B%5D=EPJK&facets%5Bproduct%5D%5B%5D=EPLLPA&facets%5Bproduct%5D%5B%5D=EPPR&facets%5Bproduct%5D%5B%5D=EPLLEA&facets%5Bproduct%5D%5B%5D=EPPC
+      : 67420
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T02:15:57Z': 5000
+      '2026-10-23T02:16:02Z': 5000
+      '2026-10-23T02:16:06Z': 5000
+      '2026-10-23T02:16:11Z': 5000
+      '2026-10-23T02:16:16Z': 5000
+      '2026-10-23T02:16:20Z': 5000
+      '2026-10-23T02:16:25Z': 5000
+      '2026-10-23T02:16:30Z': 5000
+      '2026-10-23T02:16:34Z': 5000
+      '2026-10-23T02:16:39Z': 58
+      '2026-10-23T04:41:53Z': 5000
+      '2026-10-23T04:41:58Z': 5000
+      '2026-10-23T04:42:03Z': 5000
+      '2026-10-23T04:42:08Z': 5000
+      '2026-10-23T04:42:13Z': 5000
+      '2026-10-23T04:42:17Z': 5000
+      '2026-10-23T04:42:22Z': 5000
+      '2026-10-23T04:42:27Z': 5000
+      '2026-10-23T04:42:32Z': 5000
+      '2026-10-23T04:42:37Z': 5000
+      '2026-10-23T04:42:41Z': 5000
+      '2026-10-23T04:42:46Z': 5000
+      '2026-10-23T04:42:51Z': 5000
+      '2026-10-23T04:42:56Z': 2420
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 112478
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: exports
+  label: Exports of the product to the destination in the month, thousand barrels
+  unit: kbbl
+  rows: 56239
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: exports_per_day
+  label: Exports of the product to the destination, thousand barrels a day
+  unit: kbbl/d
+  rows: 56239
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

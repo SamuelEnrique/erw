@@ -1,0 +1,516 @@
+# The codebook's metadata of table eia860m_planned_generators (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia860m_planned_generators
+family: eia860m
+shape: entities
+row: One planned generator (planned or under construction) in EIA's monthly inventory, Form EIA-860M, for one vintage month,
+  the 50 states, DC and Puerto Rico.
+time: No time column; vintage is EIA's month (YYYY-MM). status_date is empty (no operating month yet); planned_operation_date
+  is the first day of EIA's planned month.
+vintage_rule: A snapshot of one vintage; a new vintage replaces its rows. Earlier vintages are in the raw files and the archive.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:860m EIA-860M Monthly Update to the Annual Electric Generator Report, sheets Planned, Planned_PR (Inventory of
+    Planned Generators as of September 2026; Inventory of Planned Generators as of September 2026 - Puerto Rico)
+  url: https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx
+cite: U.S. Energy Information Administration (EIA). Form EIA-860M, Monthly Update to the Annual Electric Generator Report.
+  Via the Energy Research Warehouse (ERW), table `eia860m_planned_generators`.
+method: docs/methods/eia860m_planned_generators.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261024T153933Z-github
+  (2026-10-24T15:39:33Z); that run's own header of the table follows
+header_shape: 'Shape: entities (docs/datastandard.md v0). One row per generator; entity_id eia860:<plant id>:<generator id>;
+  capacity_mw is EIA nameplate capacity (MW).'
+read:
+  date: '2026-11-20'
+  rows: 2361
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 2361
+    examples:
+    - eia860:1024:8
+    - eia860:10328:GEN11
+    - eia860:10748:FUTR1
+    - eia860:10748:FUTR2
+    - eia860:10748:FUTR3
+  missing_cells: 0
+  particular: eia860:<plant id>:<generator id>
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      generator: 2361
+  missing_cells: 0
+  particular: Always generator
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 1610
+    examples:
+    - 100a Swiss Dale Farm
+    - 20525 Nordhoff PV (North)
+    - 4786A George Washington, LLC
+    - 4786B George Washington, LLC
+    - 50 Meister Ave
+  missing_cells: 0
+  particular: EIA's plant name
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+  particular: US-<plant state>
+- name: lat
+  shared: true
+  type: number
+  values:
+    distinct: 1544
+    lowest: 18.134597
+    highest: 57.9449
+  missing_cells: 0
+- name: lon
+  shared: true
+  type: number
+  values:
+    distinct: 1542
+    lowest: -159.45
+    highest: -65.82234
+  missing_cells: 0
+- name: capacity_mw
+  shared: true
+  type: number
+  values:
+    distinct: 518
+    lowest: 0.1
+    highest: 2640.0
+  missing_cells: 0
+  particular: EIA's nameplate capacity, the same as nameplate_mw
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      planned: 1329
+      under_construction: 1032
+  missing_cells: 0
+  particular: planned or under_construction, mapped from EIA's code in eia_status
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2361
+  particular: 'Not filled: a planned generator has no operating month yet'
+- name: operator
+  shared: true
+  type: text
+  values:
+    distinct: 1000
+    examples:
+    - 174 Power Global Corp.
+    - 201LC 8me LLC
+    - 229HD 8me, LLC
+    - 22SV 8ME LLC
+    - 26SB 8me LLC
+  missing_cells: 0
+  particular: EIA's Entity Name, the utility that will operate the generator
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:860m: 2361
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx: 2361
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T14:49:59Z': 2361
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: text
+  values:
+    list:
+      2026-09: 2361
+  missing_cells: 0
+  particular: EIA's inventory month, YYYY-MM
+- name: plant_id
+  label: EIA's plant identifier
+  unit: none
+  type: integer
+  values:
+    distinct: 1610
+    lowest: 56
+    highest: 70587
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Plant ID
+  documented_by: method eia860m_operating_generators.md; connector eia860.py
+- name: generator_id
+  label: EIA's generator identifier within the plant
+  unit: none
+  type: text
+  values:
+    distinct: 2007
+    examples:
+    - 02B
+    - 03A
+    - 03B
+    - '06'
+    - '1'
+  missing_cells: 1
+  missing_meaning: EIA gives no generator id (1 row)
+  source_name: Generator ID
+  documented_by: method eia860m_operating_generators.md; connector eia860.py
+- name: utility_id
+  label: EIA's identifier of the operating utility (its Entity ID)
+  unit: none
+  type: integer
+  values:
+    distinct: 1000
+    lowest: 189
+    highest: 68108
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Entity ID
+  documented_by: connector eia860.py
+- name: state
+  label: The plant's state, two-letter postal code
+  unit: none
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Plant State
+  documented_by: connector eia860.py
+- name: county
+  label: The plant's county, as EIA names it
+  unit: none
+  type: text
+  values:
+    distinct: 643
+    examples:
+    - Acadia
+    - Ada
+    - Adams
+    - Addison
+    - Alamance
+  missing_cells: 3
+  missing_meaning: EIA gives no county
+  source_name: County
+  documented_by: method eia860m_planned_generators.md; connector eia860.py
+- name: balancing_authority
+  label: The balancing authority (the grid operator of the area) the plant is in, EIA's code
+  unit: none
+  type: text
+  values:
+    distinct: 46
+    examples:
+    - AECI
+    - AVA
+    - AVRN
+    - AZPS
+    - BANC
+  missing_cells: 10
+  missing_meaning: EIA gives none, or writes NA
+  source_name: Balancing Authority Code
+  documented_by: connector eia860.py
+- name: sector
+  label: 'EIA''s sector of the plant: Electric Utility, IPP (independent power producer), Commercial or Industrial, each CHP
+    (combined heat and power) or Non-CHP'
+  unit: none
+  type: text
+  values:
+    list:
+      Commercial CHP: 18
+      Commercial Non-CHP: 11
+      Electric Utility: 398
+      IPP CHP: 3
+      IPP Non-CHP: 1912
+      Industrial CHP: 4
+      Industrial Non-CHP: 15
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Sector
+  documented_by: connector eia860.py; data
+- name: technology
+  label: EIA's technology text for the generator
+  unit: none
+  type: text
+  values:
+    list:
+      All Other: 5
+      Batteries: 484
+      Conventional Hydroelectric: 117
+      Geothermal: 8
+      Hydroelectric Pumped Storage: 11
+      Landfill Gas: 11
+      Municipal Solid Waste: 1
+      Natural Gas Fired Combined Cycle: 236
+      Natural Gas Fired Combustion Turbine: 192
+      Natural Gas Internal Combustion Engine: 66
+      Natural Gas Steam Turbine: 1
+      Nuclear: 5
+      Offshore Wind Turbine: 4
+      Onshore Wind Turbine: 73
+      Other Waste Biomass: 17
+      Petroleum Liquids: 23
+      Solar Photovoltaic: 1102
+      Solar Thermal without Energy Storage: 1
+  missing_cells: 4
+  missing_meaning: EIA gives no technology
+  source_name: Technology
+  documented_by: connector eia860.py
+- name: technology_group
+  label: An ERW grouping of EIA's technology text for maps and filters (solar, wind, natural_gas, storage and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      biomass: 29
+      geothermal: 8
+      hydro: 117
+      natural_gas: 495
+      nuclear: 5
+      other: 5
+      petroleum: 23
+      solar: 1103
+      storage: 495
+      wind: 77
+  missing_cells: 4
+  missing_meaning: EIA gives no technology
+  source_name: null
+  documented_by: header; connector eia860.py
+- name: prime_mover
+  label: 'EIA''s prime mover code: the kind of engine or turbine (GT gas turbine, PV photovoltaic, BA battery and the others)'
+  unit: none
+  type: text
+  values:
+    list:
+      BA: 484
+      BT: 3
+      CA: 76
+      CC: 4
+      CE: 4
+      CS: 14
+      CT: 145
+      GT: 194
+      HY: 117
+      IC: 112
+      OT: 4
+      PS: 11
+      PV: 1102
+      ST: 14
+      WS: 4
+      WT: 73
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Prime Mover Code
+  documented_by: connector eia860.py
+- name: prime_mover_label
+  label: The prime mover code's meaning, from the EIA-860 instructions
+  unit: none
+  type: text
+  values:
+    list:
+      Combined cycle combustion turbine part: 145
+      Combined cycle single shaft: 14
+      Combined cycle steam part: 76
+      Combined cycle total unit: 4
+      Combustion (gas) turbine: 194
+      Energy storage, battery: 484
+      Energy storage, compressed air: 4
+      Energy storage, reversible hydraulic turbine (pumped storage): 11
+      Hydraulic turbine (conventional hydro): 117
+      Internal combustion engine: 112
+      Other: 4
+      Photovoltaic: 1102
+      Steam turbine: 14
+      Turbines used in a binary cycle (geothermal): 3
+      Wind turbine, offshore: 4
+      Wind turbine, onshore: 73
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+- name: energy_source
+  label: 'EIA''s energy source code: the generator''s main fuel or energy (NG natural gas, SUN solar, MWH electricity stored
+    and the others)'
+  unit: none
+  type: text
+  values:
+    list:
+      AB: 1
+      DFO: 23
+      GEO: 8
+      H2: 1
+      LFG: 11
+      MSW: 1
+      MWH: 488
+      NG: 495
+      NUC: 5
+      OBG: 4
+      OBL: 11
+      OBS: 1
+      OTH: 2
+      SUN: 1103
+      WAT: 128
+      WH: 2
+      WND: 77
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Energy Source Code
+  documented_by: connector eia860.py
+- name: energy_source_label
+  label: The energy source code's meaning, from the EIA-860 instructions
+  unit: none
+  type: text
+  values:
+    list:
+      Agricultural by-products: 1
+      Distillate fuel oil: 23
+      Electricity used for energy storage: 488
+      Geothermal: 8
+      Hydrogen: 1
+      Landfill gas: 11
+      Municipal solid waste: 1
+      Natural gas: 495
+      Nuclear: 5
+      Other: 2
+      Other biomass gas: 4
+      Other biomass liquids: 11
+      Other biomass solids: 1
+      Solar: 1103
+      Waste heat: 2
+      Water: 128
+      Wind: 77
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+- name: nameplate_mw
+  label: 'EIA''s nameplate capacity: the generator''s rated output'
+  unit: MW
+  type: number
+  values:
+    distinct: 518
+    lowest: 0.1
+    highest: 2640.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Nameplate Capacity (MW)
+  documented_by: connector eia860.py; method eia860m_operating_generators.md
+- name: net_summer_mw
+  label: 'EIA''s net summer capacity: the output the generator will deliver in summer, net of its own use'
+  unit: MW
+  type: number
+  values:
+    distinct: 518
+    lowest: 0.1
+    highest: 2640.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Net Summer Capacity (MW)
+  documented_by: connector eia860.py
+- name: net_winter_mw
+  label: 'EIA''s net winter capacity: the output the generator will deliver in winter, net of its own use'
+  unit: MW
+  type: number
+  values:
+    distinct: 519
+    lowest: 0.1
+    highest: 2640.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Net Winter Capacity (MW)
+  documented_by: connector eia860.py
+- name: eia_status
+  label: 'EIA''s status code of a planned generator: P planned, L regulatory approvals pending, T approvals received, U and
+    V under construction (up to or over half done), TS construction complete, not yet operating'
+  unit: none
+  type: text
+  values:
+    list:
+      L: 406
+      P: 695
+      T: 228
+      TS: 158
+      U: 465
+      V: 409
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: connector eia860.py; data
+- name: eia_status_label
+  label: The status code's words as EIA prints them
+  unit: none
+  type: text
+  values:
+    list:
+      Construction complete, but not yet in commercial operation: 158
+      Planned for installation, but regulatory approvals not initiated: 695
+      Regulatory approvals pending. Not under construction: 406
+      Regulatory approvals received. Not under construction: 228
+      Under construction, less than or equal to 50 percent complete: 465
+      Under construction, more than 50 percent complete: 409
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: connector eia860.py; data
+- name: planned_operation_date
+  label: The first day of the month EIA reports the generator is planned to begin operation
+  unit: none
+  type: date
+  values:
+    distinct: 62
+    earliest: '2026-09-01'
+    latest: '2039-12-01'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Planned Operation Year and Month
+  documented_by: connector eia860.py; method eia860m_planned_generators.md
+- name: energy_capacity_mwh
+  label: 'EIA''s nameplate energy capacity of a storage unit: EIA''s Planned sheet carries no such column'
+  unit: MWh
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2361
+  missing_meaning: 'Always empty: EIA''s Planned sheet has no such column'
+  source_name: null
+  documented_by: header
+second_look: null

@@ -1,0 +1,215 @@
+# The codebook's metadata of table bcrp_peru_electricity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: bcrp_peru_electricity_monthly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: 'bcrp_pe:bcrpdata_produccion_electricidad_departamento Banco Central de Reserva del Peru (BCRP), BCRPData, monthly
+    series: Produccion de electricidad por departamento (RD13043DM to RD13067DM), source: Ministerio de Energia y Minas (MINEM)'
+  url: ''
+cite: 'Banco Central de Reserva del Peru (BCRP). BCRPData monthly series: Produccion de electricidad por departamento (RD13043DM
+  to RD13067DM; source MINEM). Via the Energy Research Warehouse (ERW), table `bcrp_peru_electricity_monthly`.'
+method: docs/methods/bcrp_peru_electricity_monthly.md
+header_title: 'Banco Central de Reserva del Peru (BCRP), BCRPData, Produccion de electricidad por departamento: Peru''s electricity
+  production a month by department, from MINEM (session 2566)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity bcrp_pe:<department> or bcrp_pe:total; variable production;
+  unit MWh (BCRP''s GWh times 1,000); ts_utc the month''s first day; freq P1M; geo PE; node BCRP''s name; x_series_code BCRP''s
+  code.'
+read:
+  date: '2026-11-20'
+  rows: 6450
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      bcrp_pe:amazonas: 258
+      bcrp_pe:ancash: 258
+      bcrp_pe:apurimac: 258
+      bcrp_pe:arequipa: 258
+      bcrp_pe:ayacucho: 258
+      bcrp_pe:cajamarca: 258
+      bcrp_pe:cusco: 258
+      bcrp_pe:huancavelica: 258
+      bcrp_pe:huanuco: 258
+      bcrp_pe:ica: 258
+      bcrp_pe:junin: 258
+      bcrp_pe:la_libertad: 258
+      bcrp_pe:lambayeque: 258
+      bcrp_pe:lima: 258
+      bcrp_pe:loreto: 258
+      bcrp_pe:madre_de_dios: 258
+      bcrp_pe:moquegua: 258
+      bcrp_pe:pasco: 258
+      bcrp_pe:piura: 258
+      bcrp_pe:puno: 258
+      bcrp_pe:san_martin: 258
+      bcrp_pe:tacna: 258
+      bcrp_pe:total: 258
+      bcrp_pe:tumbes: 258
+      bcrp_pe:ucayali: 258
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 258
+    earliest: '2005-01-01T00:00:00Z'
+    latest: '2026-06-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 89.79
+    highest: 5789604.968
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 6450
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 6450
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      PE: 6450
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6450
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Amazonas: 258
+      Ancash: 258
+      Apurímac: 258
+      Arequipa: 258
+      Ayacucho: 258
+      Cajamarca: 258
+      Cusco: 258
+      Huancavelica: 258
+      Huánuco: 258
+      Ica: 258
+      Junín: 258
+      La Libertad: 258
+      Lambayeque: 258
+      Lima: 258
+      Loreto: 258
+      Madre de Dios: 258
+      Moquegua: 258
+      Pasco: 258
+      Piura: 258
+      Puno: 258
+      San Martín: 258
+      Tacna: 258
+      Total: 258
+      Tumbes: 258
+      Ucayali: 258
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      bcrp_pe:bcrpdata_produccion_electricidad_departamento: 6450
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/produccion-de-electricidad-por-departamento: 6450
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T00:53:45Z': 6450
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6450
+- name: x_series_code
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      RD13043DM: 258
+      RD13044DM: 258
+      RD13045DM: 258
+      RD13046DM: 258
+      RD13047DM: 258
+      RD13048DM: 258
+      RD13049DM: 258
+      RD13050DM: 258
+      RD13051DM: 258
+      RD13052DM: 258
+      RD13053DM: 258
+      RD13054DM: 258
+      RD13055DM: 258
+      RD13056DM: 258
+      RD13057DM: 258
+      RD13058DM: 258
+      RD13059DM: 258
+      RD13060DM: 258
+      RD13061DM: 258
+      RD13062DM: 258
+      RD13063DM: 258
+      RD13064DM: 258
+      RD13065DM: 258
+      RD13066DM: 258
+      RD13067DM: 258
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: production
+  label: null
+  unit: MWh
+  rows: 6450
+  first: '2005-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,132 @@
+# The codebook's metadata of table sne_panama_generation_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: sne_panama_generation_monthly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: sne:estadisticas_electricidad Secretaria Nacional de Energia, Panama, Generacion Historica Electrica (Serie 1970-2021),
+    sheet C-GE-10 GenBruTotMen,80-21, listed at
+  url: https://www.energia.gob.pa/datos-y-estadisticas/
+cite: Secretaria Nacional de Energia, Panama. Generacion Historica Electrica (Serie 1970-2021), cuadros GE-8 (gross generation
+  by plant type), GE-10 (monthly gross generation) and GE-14 (net production, maximum demand, load factor). Via the Energy
+  Research Warehouse (ERW), table `sne_panama_generation_monthly`.
+method: docs/methods/sne_panama.md
+header_title: Secretaria Nacional de Energia, Panama, total gross generation a month, 1980-01 to 2021-12 (session 2407)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity sne:PA; variable generation_gross_total (MWh, the sheet''s
+  GWh times 1,000); ts_utc the month''s first day; freq P1M; geo PA. From Cuadro GE-10.'
+read:
+  date: '2026-11-20'
+  rows: 504
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      sne:PA: 504
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 504
+    earliest: '1980-01-01T00:00:00Z'
+    latest: '2021-12-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 486
+    lowest: 135300.0
+    highest: 1280676.718807
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 504
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 504
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      PA: 504
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 504
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Panama: 504
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      sne:estadisticas_electricidad: 504
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      http://www.energia.gob.pa/wp-content/uploads/2024/04/2-CEE-1970-2021-GE-Generaci%C3%B3n-El%C3%A9ctrica.xls: 504
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T10:11:29Z': 504
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2024-04-01T15:57:18Z': 504
+  missing_cells: 0
+variables:
+- name: generation_gross_total
+  label: null
+  unit: MWh
+  rows: 504
+  first: '1980-01-01T00:00:00Z'
+  last: '2021-12-01T00:00:00Z'
+second_look: null

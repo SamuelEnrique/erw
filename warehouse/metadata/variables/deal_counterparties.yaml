@@ -1,0 +1,354 @@
+# The codebook's metadata of table deal_counterparties (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: deal_counterparties
+family: erw_derived
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: model_extracted
+interval: snapshot
+source: []
+cite: Energy Research Warehouse (ERW). Deal tracker counterparties (energy_deals, warehouse/deals/extract.py). Via the Energy
+  Research Warehouse (ERW), table `deal_counterparties`.
+method: docs/methods/deal_counterparties.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261113T155514Z-github
+  (2026-11-13T15:55:14Z); that run's own header of the table follows
+header_shape: 'Shape: entities (docs/datastandard.md), entity_type company; derived from energy_deals by warehouse/deals/counterparties.py
+  (session 2234); the folded duplicates of warehouse/deals/duplicates.csv counted once.'
+read:
+  date: '2026-11-20'
+  rows: 532
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 532
+    examples:
+    - counterparty:1komma5grad
+    - counterparty:247_solar
+    - counterparty:a_leading_frontier_ai_lab
+    - counterparty:acme_solar
+    - counterparty:ad_ports
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      company: 532
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 532
+    examples:
+    - 1Komma5Grad
+    - 247 Solar
+    - ACME Solar
+    - AD Ports
+    - ADNOC's XRG
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 532
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 532
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 532
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 532
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 532
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 532
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 532
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:energy_deals: 532
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 383
+    examples:
+    - https://electrek.co/2026/09/27/nio-power-geely-30-stake-battery-swap-rmb16-billion/
+    - https://heatmap.news/climate-tech/coreshell-series-b
+    - https://lngprime.com/americas/argent-lng-awards-feed-contract/197559/
+    - https://lngprime.com/americas/cheniere-petrobras-seal-long-term-lng-spa/197674/
+    - https://lngprime.com/americas/eneva-in-brazilian-lng-to-power-move/199564/
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-13T15:10:45Z': 532
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: text
+  values:
+    list:
+      20261113T151045Z: 532
+  missing_cells: 0
+- name: kind
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ai_buyer: 41
+      company: 470
+      government: 21
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: parent
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Aditya Birla: 1
+      Adnoc: 1
+      Amazon: 2
+      BlackRock: 1
+      Blackstone: 1
+      Chevron: 1
+      Constellation Energy: 1
+      EIG: 1
+      ExxonMobil: 1
+      Geely Holding: 1
+      General Motors: 1
+      MAIRE: 1
+      OGE Energy: 1
+  missing_cells: 518
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: eia861_utility_number
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 532
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: spellings
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 532
+    examples:
+    - 1Komma5Grad
+    - 247 Solar
+    - ACME Solar
+    - AD Ports
+    - ADNOC's XRG
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: deals
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 413
+      '10': 1
+      '11': 1
+      '12': 2
+      '14': 5
+      '18': 1
+      '2': 60
+      '22': 1
+      '3': 22
+      '4': 11
+      '5': 1
+      '6': 7
+      '7': 5
+      '8': 1
+      '9': 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: as_buyer
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '0': 270
+      '1': 212
+      '12': 1
+      '13': 1
+      '14': 1
+      '15': 1
+      '18': 1
+      '2': 25
+      '3': 10
+      '4': 2
+      '5': 2
+      '6': 4
+      '8': 1
+      '9': 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: as_seller
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '0': 206
+      '1': 250
+      '2': 42
+      '3': 15
+      '4': 8
+      '5': 6
+      '6': 3
+      '7': 1
+      '8': 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: mw_stated
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 31
+    lowest: 20.0
+    highest: 5400.0
+  missing_cells: 478
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: deals_with_mw
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '0': 478
+      '1': 48
+      '2': 4
+      '3': 1
+      '4': 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: ai_power_deals
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '0': 365
+      '1': 121
+      '12': 3
+      '13': 2
+      '18': 1
+      '2': 26
+      '3': 3
+      '4': 6
+      '5': 2
+      '6': 1
+      '7': 1
+      '9': 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: first_deal
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 164
+    earliest: '2025-01-05'
+    latest: '2026-11-13'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: last_deal
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 145
+    earliest: '2025-01-05'
+    latest: '2026-11-13'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: event_ids
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 438
+    examples:
+    - deal:0046c6c22995488c
+    - deal:0046c6c22995488c;deal:665d71e3ff9f1de4;deal:7e901b6ad732c6ca;deal:d64297631c27daa2
+    - deal:006dc20ac6ffe6f3
+    - deal:01b0163eef7a0337
+    - deal:01b0163eef7a0337;deal:3e77f0878dee58f3;deal:6daa5127a8a81cab
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

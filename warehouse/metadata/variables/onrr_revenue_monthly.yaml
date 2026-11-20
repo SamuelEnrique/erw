@@ -1,0 +1,295 @@
+# The codebook's metadata of table onrr_revenue_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: onrr_revenue_monthly
+family: onrr
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: onrr:revenue_data U.S. Department of the Interior, Office of Natural Resources Revenue, Natural Resources Revenue
+    Data, downloads
+  url: https://revenuedata.doi.gov/downloads/
+cite: U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR). Natural Resources Revenue Data (production
+  and revenue downloads). Via the Energy Research Warehouse (ERW), table `onrr_revenue_monthly`.
+method: docs/methods/onrr.md
+header_title: Office of Natural Resources Revenue (ONRR), the revenue ONRR collects (royalties, rents, bonuses and the rest)
+  by county, revenue type, lease type and commodity, a month (session 951)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity onrr_revenue:<class>:<category>:<county FIPS code, offshore
+  region or none>:<revenue type>:<lease type>:<commodity>:<product>; variable revenue; unit USD; freq P1M; geo US-<state>
+  or empty; a negative value (ONRR''s adjustment) kept; x_* ONRR''s own fields.'
+read:
+  date: '2026-11-20'
+  rows: 413554
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - onrr_revenue:federal:not_tied_to_a_lease:none:bonus:none:not_tied_to_a_commodity:none
+    - onrr_revenue:federal:not_tied_to_a_lease:none:civil_penalties:none:not_tied_to_a_commodity:none
+    - onrr_revenue:federal:not_tied_to_a_lease:none:other_revenues:none:not_tied_to_a_commodity:none
+    - onrr_revenue:federal:not_tied_to_a_lease:none:rents:none:not_tied_to_a_commodity:none
+    - onrr_revenue:federal:offshore:alaska:bonus:oil_gas:oil_gas_pre_production:none
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 284
+    earliest: '2003-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -507476156.7
+    highest: 4370000000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD: 413554
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 413554
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 40
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 20303
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 413554
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 'Abbeville, South Carolina: Other revenues, Hardrock'
+    - 'Abbeville, South Carolina: Rents, Hardrock'
+    - 'Abbeville, South Carolina: Royalties, Gold, Gold Ore'
+    - 'Abbeville, South Carolina: Royalties, Gold, Gold Placer'
+    - 'Adams, Colorado: Bonus, Oil & gas (pre-production)'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      onrr:revenue_data: 413554
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://revenuedata.onrr.gov/downloads/monthly_revenue.csv: 413554
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T12:11:31Z': 413554
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T17:11:24Z': 413554
+  missing_cells: 0
+- name: x_land_class
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Federal: 404239
+      Native American: 9315
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_land_category
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Not Tied to a Lease: 550
+      Offshore: 10426
+      Onshore: 402578
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 40
+    examples:
+    - Alabama
+    - Alaska
+    - Arizona
+    - Arkansas
+    - California
+  missing_cells: 20303
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 602
+    examples:
+    - Abbeville
+    - Adams
+    - Alamosa
+    - Albany
+    - Alcona
+  missing_cells: 20303
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_fips
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 745
+    lowest: 1003
+    highest: 56045
+  missing_cells: 20303
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_offshore_region
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Alaska: 570
+      Atlantic: 191
+      Gulf of America: 7054
+      Pacific: 2416
+  missing_cells: 403323
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_revenue_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Bonus: 6690
+      Civil penalties: 275
+      Inspection fees: 195
+      Other revenues: 70666
+      Rents: 50998
+      Royalties: 284730
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_lease_type
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - Asphalt
+    - Chat
+    - Cinders
+    - Clay
+    - Coal
+  missing_cells: 753
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_commodity
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 43
+    examples:
+    - Asbestos
+    - Asphalt
+    - Carbon dioxide
+    - Chat
+    - Cinders
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_product
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 116
+    examples:
+    - Anhydrous Sodium Sulfate
+    - Asbestos
+    - Asphaltic Crude
+    - Black Wax Crude
+    - Borax-Anhydrous
+  missing_cells: 122243
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: revenue
+  label: null
+  unit: USD
+  rows: 413554
+  first: '2003-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

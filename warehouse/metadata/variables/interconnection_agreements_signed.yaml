@@ -1,0 +1,350 @@
+# The codebook's metadata of table interconnection_agreements_signed (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: interconnection_agreements_signed
+family: interconnection
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: derived
+interval: snapshot
+source:
+- name: lbnl:queued_up Lawrence Berkeley National Laboratory and GridTracker, Queued Up data file
+  url: https://eta-publications.lbl.gov/publications/queued-2026-edition-characteristics
+cite: Energy Research Warehouse (ERW), derived. Generation with a signed interconnection agreement, from Berkeley Lab's Queued
+  Up file (docs/methods/interconnection_agreements.md). Via the Energy Research Warehouse (ERW), table `interconnection_agreements_signed`.
+method: docs/methods/interconnection_agreements.md
+header_title: interconnection requests with a signed agreement, not yet operating, 2026 edition (through 2025) (session 854)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id the queue table''s own; entity_type project; status Berkeley
+  Lab''s (active or suspended); status_date the agreement date where given; signed_by phase (study phase IA Executed), date
+  (an agreement date) or both; grid Berkeley Lab''s region.'
+read:
+  date: '2026-11-20'
+  rows: 2522
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 2522
+    examples:
+    - lbnl:AEC:GI-101
+    - lbnl:AEC:GI-102
+    - lbnl:AEC:GI-103
+    - lbnl:AEC:GI-104
+    - lbnl:AEC:GI-116
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      project: 2522
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 2428
+    examples:
+    - '1'
+    - '1008'
+    - '11'
+    - '112'
+    - '1186'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+    - US-CO
+  missing_cells: 5
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2522
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2522
+- name: capacity_mw
+  shared: true
+  type: number
+  values:
+    distinct: 1008
+    lowest: -27.0
+    highest: 4357.4
+  missing_cells: 0
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      active: 2348
+      suspended: 174
+  missing_cells: 0
+- name: status_date
+  shared: true
+  type: date
+  values:
+    distinct: 785
+    earliest: '2002-06-10'
+    latest: '2025-12-31'
+  missing_cells: 1146
+- name: operator
+  shared: true
+  type: text
+  values:
+    distinct: 133
+    examples:
+    - AEC
+    - AEP
+    - AMEREN ILLINOIS
+    - AMEREN MISSOURI
+    - AMEREN TRANSMISSION COMPANY OF ILLINOIS
+  missing_cells: 680
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:interconnection_agreements: 2522
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://eta-publications.lbl.gov/sites/default/files/2026-05/lbnl_ix_queue_data_file_thru2025.xlsx: 2522
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-02T09:16:25Z': 2522
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: text
+  values:
+    list:
+      2026 edition (through 2025): 2522
+  missing_cells: 0
+- name: queue_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 2499
+    examples:
+    - '1'
+    - '1002'
+    - '1003'
+    - '1008'
+    - '1021'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: grid
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CAISO: 218
+      ERCOT: 623
+      ISO-NE: 45
+      MISO: 364
+      NYISO: 59
+      PJM: 451
+      SPP: 183
+      Southeast: 192
+      West: 387
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - AL
+    - AR
+    - AZ
+    - CA
+    - CO
+  missing_cells: 5
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 758
+    examples:
+    - Acadia Parish
+    - Accomack
+    - Ada
+    - Adair
+    - Adams
+  missing_cells: 13
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: utility
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 133
+    examples:
+    - AEC
+    - AEP
+    - AMEREN ILLINOIS
+    - AMEREN MISSOURI
+    - AMEREN TRANSMISSION COMPANY OF ILLINOIS
+  missing_cells: 680
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: transmission_provider
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 37
+    examples:
+    - AEC
+    - APS
+    - Avista
+    - BHP
+    - BPA
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: fuel
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Battery: 488
+      Coal: 9
+      Diesel: 3
+      Gas: 140
+      Gas+Battery: 2
+      Gas+Diesel: 1
+      Gas+Oil: 4
+      Geothermal: 17
+      Hydro: 21
+      Hydro+Battery: 1
+      Nuclear: 5
+      Offshore Wind: 13
+      Oil: 4
+      Other: 10
+      Other Storage: 6
+      Other+Battery: 2
+      Solar: 1041
+      Solar+Battery: 465
+      Solar+Gas+Battery: 2
+      Solar+Geothermal: 1
+      Solar+Other: 2
+      Solar+Wind+Battery: 9
+      Wind: 265
+      Wind+Battery: 11
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: ia_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 785
+    earliest: '2002-06-10'
+    latest: '2025-12-31'
+  missing_cells: 1146
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: ia_phase
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Cluster Study: 5
+      Construction: 92
+      Facility Study: 73
+      IA Executed: 2192
+      IA Pending: 102
+      In Progress (unknown study): 10
+      Suspended: 18
+      System Impact Study: 19
+  missing_cells: 11
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: request_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 1003
+    earliest: '2001-02-06'
+    latest: '2025-11-05'
+  missing_cells: 33
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: proposed_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 836
+    earliest: '1990-12-03'
+    latest: '2036-12-31'
+  missing_cells: 24
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: signed_by
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      date: 330
+      phase: 1146
+      phase+date: 1046
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

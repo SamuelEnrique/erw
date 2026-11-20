@@ -1,0 +1,388 @@
+# The codebook's metadata of table utility_large_load_rule_changes (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: utility_large_load_rule_changes
+family: utility
+shape: events
+row: One filing, order, effective date, amendment, suspension, hearing or other change to a US utility's large-load rule,
+  15 August to 13 November 2026, as the ERW's research pass read it in the document.
+time: event_date is a date (no time zone) that the document prints; where the document prints a month only (7 rows) it is
+  the day the document was read (x_date_kind says which).
+vintage_rule: Rewritten whole from the committed research file (changes_2026-11-13.csv) by each run of the connector; no vintage
+  column. Rows whose only source asks written permission are held and named in the header, not written.
+keys:
+- event_id
+license: public
+tier: model_extracted
+interval: event
+source:
+- name: research:large_load_2026-11-13, docs/research/large_load/changes_2026-11-13.csv (window P4 of the portable laptop,
+    sessions 5300 to 5304; method  each row's source_url is the document it was read in. No request is made by this connector.
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md
+cite: US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and
+  the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rule_changes`.
+method: docs/methods/large_load_research.md
+header_title: changes to US utilities' large-load rules, 15 August to 13 November 2026, one row a filing, order or event (session
+  3937, chain 267)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id llchange:<change_id>; event_date the date the document prints,
+  else (a month only, x_date) the day read (x_date_kind); event_type large_load_rule_change; status the kind of change (filed,
+  order issued, approved, in effect, amended, suspended, hearing set, other); x_affects the rule''s row_id, a registry file
+  of the ERW, or ''new''; x_cite the page and words. mw empty: the files print sizes as phrases (x_threshold_mw).'
+read:
+  date: '2026-11-20'
+  rows: 94
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 94
+    examples:
+    - llchange:east_changes-01
+    - llchange:east_changes-02
+    - llchange:east_changes-03
+    - llchange:east_changes-04
+    - llchange:east_changes-05
+  missing_cells: 0
+  particular: llchange:<change_id>
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 45
+    earliest: '2026-08-18'
+    latest: '2026-11-13'
+  missing_cells: 0
+  particular: The change's date where the document prints a day, else the day the document was read (x_date_kind)
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      large_load_rule_change: 94
+  missing_cells: 0
+  particular: Always large_load_rule_change
+- name: parties
+  shared: true
+  type: text
+  values:
+    distinct: 53
+    examples:
+    - Alabama Power Company
+    - All Pennsylvania electric distribution companies (PECO, PPL, Duquesne Light, FirstEnergy Pennsylvania, UGI, Citizens',
+      Wellsboro, Pike County)
+    - Ameren Illinois Company d/b/a Ameren Illinois
+    - Arizona Public Service Company
+    - Baltimore Gas and Electric Company; Potomac Electric Power Company; Delmarva Power & Light Company (Maryland); and Maryland's
+      other electric companies
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 94
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 94
+  particular: 'Not filled: the files print sizes as phrases'
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 94
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 94
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      amended: 4
+      approved: 10
+      filed: 19
+      hearing set: 11
+      in effect: 6
+      order issued: 11
+      other: 26
+      suspended: 7
+  missing_cells: 0
+  particular: 'The kind of change: filed, order issued, approved, in effect, amended, suspended, hearing set or other'
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      research:large_load_2026-11-13: 94
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 80
+    examples:
+    - https://apiproxy.utc.wa.gov/cases/GetDocument?docID=155&year=2026&docketNumber=260162
+    - https://apps.apsc.arkansas.gov/pdf/25/25-055-P_103_1.pdf
+    - https://apps.apsc.arkansas.gov/pdf/25/25-055-P_94_1.pdf
+    - https://apps.puc.state.or.us/edockets/docket.asp?DocketID=24470
+    - https://apps.puc.state.or.us/orders/2026ords/26-309.pdf
+  missing_cells: 0
+  particular: The document the change was read in
+- name: x_change_id
+  label: The research file's identifier of the change (<group>-<number>)
+  unit: none
+  type: text
+  values:
+    distinct: 94
+    examples:
+    - east_changes-01
+    - east_changes-02
+    - east_changes-03
+    - east_changes-04
+    - east_changes-05
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: change_id
+  documented_by: header; connector large_load_research.py
+- name: x_group
+  label: The research pass's group of utilities or documents the change was read under (east_changes, operators_federal and
+    the others)
+  unit: none
+  type: text
+  values:
+    list:
+      east_changes: 17
+      midwest_changes: 14
+      operators_federal: 15
+      south_changes: 29
+      west_changes: 19
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: group
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
+- name: x_utility
+  label: The utility (or grid operator or commission) whose rule changed, as the document names it
+  unit: none
+  type: text
+  values:
+    distinct: 53
+    examples:
+    - Alabama Power Company
+    - All Pennsylvania electric distribution companies (PECO, PPL, Duquesne Light, FirstEnergy Pennsylvania, UGI, Citizens',
+      Wellsboro, Pike County)
+    - Ameren Illinois Company d/b/a Ameren Illinois
+    - Arizona Public Service Company
+    - Baltimore Gas and Electric Company; Potomac Electric Power Company; Delmarva Power & Light Company (Maryland); and Maryland's
+      other electric companies
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: utility
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
+- name: x_state
+  label: The state of the utility, two-letter postal code
+  unit: none
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - AL
+    - AR
+    - AZ
+    - CA
+    - CO
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: state
+  documented_by: connector large_load_research.py; data
+- name: x_rule_name
+  label: The rule the change concerns, as the research file or the ERW's registry names it
+  unit: none
+  type: text
+  values:
+    distinct: 74
+    examples:
+    - 16 TAC 25.194, Large Load Interconnection Standards (PUCT Project No. 58481)
+    - Alabama PSC generic proceeding on contracts between Alabama Power and large load data center customers (Docket 33709)
+    - Ameren Illinois revisions to terms and conditions for large electric customers, ICC Docket 26-0625
+    - CAISO, Large Load Enhancements (response to FERC's Order to Show Cause, EL26-71)
+    - COMAR 20.96.01, Large Load Study and Tariff Requirements (Maryland PSC rulemaking RM 93), under Public Utilities Article
+      4-212
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: rule_name
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
+- name: x_date
+  label: The change's date as the document prints it, YYYY-MM-DD, or YYYY-MM where it prints a month only
+  unit: none
+  type: text
+  values:
+    distinct: 47
+    examples:
+    - '2026-08-18'
+    - '2026-08-19'
+    - '2026-08-20'
+    - '2026-08-21'
+    - '2026-08-24'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: date
+  documented_by: connector large_load_research.py; method large_load_research.md
+- name: x_date_kind
+  label: Whether event_date is the date the document states ('stated date') or the day the document was read ('date read')
+  unit: none
+  type: text
+  values:
+    list:
+      date read: 7
+      stated date: 87
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_research.py; method large_load_research.md
+- name: x_affects
+  label: 'What the change alters: a rule''s row_id in utility_large_load_rules, a registry file of the ERW (large_load_tariffs/
+    or large_load_connection_rules/), or ''new'''
+  unit: none
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - aep-04
+    - aep-08
+    - ameren_evergy_spp-08
+    - ameren_evergy_spp-09
+    - ameren_evergy_spp-10
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: affects
+  documented_by: header; source docs/research/large_load/README.md
+- name: x_docket
+  label: The docket or case number as printed, or 'not published'
+  unit: none
+  type: text
+  values:
+    distinct: 61
+    examples:
+    - 20260146-EI
+    - 20260148-EI
+    - 20260149-EI
+    - 25-055-P
+    - 25-R318-01 and 24-035-43
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: docket
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
+- name: x_what
+  label: One plain sentence of what changed, in the document's own terms
+  unit: none
+  type: text
+  values:
+    distinct: 93
+    examples:
+    - 16 TAC 25.194 took effect on 8 October 2026 (already the row's status; listed here because it falls in the window).
+    - A market participant (Global Capacity Alliance) filed NPRR1348, which would let a QSE raise the telemetered Low Power
+      Consumption limit of a Provisional Controllable Load Resource (the flexible-load path of the large load process) to
+      match a paired resource; it is pending, not approved.
+    - A non-contested settlement on OG&E's application for a special contract with Google (long-term commitments, minimum
+      billing demand and energy charges, funding of upfront costs) was reached on 9 September 2026 among OG&E, the Oklahoma
+      Attorney General, the Public Utility Division and Google, and the ALJ recommended approval; no Commission order is reported.
+    - APS signed its first Direct Pricing Contract with a large energy user, TSMC Arizona, ramping to about 1.88 GW for an
+      initial term of 25 years with upfront credit-support payments and collateral from 1 January 2027, to be submitted to
+      the ACC in 2026 (a contract, so the earlier choice of no row may stand).
+    - AWEC petitioned the Oregon Court of Appeals for judicial review of Orders No. 26-309, 26-154 and 26-239.
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: what
+  documented_by: source docs/research/large_load/README.md
+- name: x_cite
+  label: The page or section of the document and the words that state the change and its date
+  unit: none
+  type: text
+  values:
+    distinct: 93
+    examples:
+    - 'Actions, 9/10/2026: "Alliance of Western Energy Consumers Petition for Judicial Review of Administrative Orders, Order
+      No. 26-309, dated August 31, 2026 which denied rehearing and/or reconsideration of Order No. 26-154 dated May 7, 2026,
+      and Order No. 26-239 dated July 10, 2026 in the Court of Appeals."'
+    - 'Actions, 9/15/2026: "PGE''s Advice No. 26-39, UM 2377 Compliance Filing to Reconsideration Order No. 26-309." | docket
+      header: "Advice No: 26-39 ... Effective: 10/1/2026 ... Status: ACCEPTED" | Actions, 9/30/2026: "Action: ACCEPTED UTILITY
+      FILING Description Letter sent."'
+    - 'Data Center Contracts and Strategy, Microsoft Contract: "In October 2026, NIPSCO entered into an agreement with Microsoft,
+      which will be submitted to the IURC for approval, under which NIPSCO will provide capacity and electricity services
+      to Microsoft’s data center facility to be located in NIPSCO’s service territory pursuant to a capacity commitment beginning
+      in 2028 and increases to 788 MW commencing in 2031" | Data Center Contracts and Strategy, Microsoft Contract: "The initial
+      term of the Microsoft Contract ends 20 years after the initial energization of Microsoft’s data center." | Data Center
+      Contracts and Strategy, Microsoft Contract: "In addition, NIPSCO will enter into a PPA with GenCo in connection with
+      the Microsoft Contract, which will be submitted to the IURC for approval."'
+    - 'Energy Supply Agreement: "In February 2026, the Arizona Attorney General and the City of Tucson filed legal challenges,
+      now pending in the Superior Court of Maricopa County, contesting the ACC''s approval of the ESA." | Energy Supply Agreement:
+      "In September 2026, oral arguments were held, and on October 1, 2026, the Superior Court denied the motions to dismiss
+      and ordered further briefing on the merits of the case."'
+    - 'Google Data Center Agreements: "In September 2026, the Company entered into long-term agreements with Google and other
+      third-party partners to serve a planned data center project to be constructed in Cheyenne, Wyoming. The negotiated agreements
+      include a LPCS agreement and a generation facilities agreement, both of which extend through December 2048." | Google
+      Data Center Agreements: "In addition, we expect to manage the output of approximately 2.1 GW of third-party contracted
+      resources through a privately managed microgrid under the Company''s LPCS tariff."'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: cites
+  documented_by: header; source docs/research/large_load/README.md
+- name: x_source_title
+  label: The document's own title
+  unit: none
+  type: text
+  values:
+    distinct: 84
+    examples:
+    - Alabama Public Service Commission, Minutes of the Commission Meeting held Tuesday, October 6, 2026
+    - Alliant Energy Corporation, Interstate Power and Light Company and Wisconsin Power and Light Company Form 10-Q for the
+      quarter ended September 30, 2026
+    - Application of Southwestern Public Service Company for Approval of Large Load Customer Tariff Provisions (PUCT Docket
+      No. 60332, Item 2)
+    - Application, Request for Variance, and Request for Expedited Treatment, File No. ET-2026-0184 (Missouri PSC EFIS)
+    - Arkansas PSC Docket 25-055-P, Order No. 13 (Doc. 103)
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: source_title
+  documented_by: source docs/research/large_load/README.md
+- name: x_date_read
+  label: The day the document was read by the research pass
+  unit: none
+  type: date
+  values:
+    list:
+      '2026-11-13': 94
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: date_read
+  documented_by: header; connector large_load_research.py
+- name: x_license_basis
+  label: 'Why the row may be public: the copy it was read from (a commission''s copy, a filed tariff, an SEC filing and so
+    on)'
+  unit: none
+  type: text
+  values:
+    distinct: 63
+    examples:
+    - ERCOT's own copy under www.ercot.com/files (robots allow; ERCOT's terms allow reuse in compilations and analyses); the
+      November letter is the PUCT's copy
+    - ERCOT's own page (robots allow; ERCOT's terms allow reuse)
+    - Evergy's Form 10-Q on SEC EDGAR; the KCC's docket system (kcc-connect.kcc.ks.gov) gave a bot check in the first pass
+      and the KCC's 2026 news release list carries no release on the plan
+    - Grant PUD's own post (a public utility district)
+    - Grant PUD's own posted policy (a public utility district), as the dataset row
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: license_basis
+  documented_by: connector large_load_research.py; method large_load_research.md
+second_look: null

@@ -1,0 +1,499 @@
+# The codebook's metadata of table eia861_energy_efficiency (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia861_energy_efficiency
+family: eia861
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:eia861:energy_efficiency U.S. Energy Information Administration, Form EIA-861 Annual Electric Power Industry Report
+    (Energy_Efficiency_<year>.xlsx)
+  url: https://www.eia.gov/electricity/data/eia861/
+cite: U.S. Energy Information Administration (EIA). Form EIA-861 Annual Electric Power Industry Report, energy efficiency.
+  Via the Energy Research Warehouse (ERW), table `eia861_energy_efficiency`.
+method: docs/methods/eia861_efficiency.md
+header_title: EIA-861 energy efficiency programs, each utility by state and sector, a year (session 881)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia861_ee:<utility>:<state>:<balancing authority>; variable
+  <measure>_<sector>: annual_ (the reporting year''s incremental savings or costs) or life_ (the same programs over their
+  life) energy_savings (MWh), peak_savings (MW), customer_incentives or other_costs (USD, EIA''s thousand dollars times 1,000),
+  and weighted_average_life (year, no total); sectors residential, commercial, industrial, transportation, total (a sum leaves
+  total out); ts_utc the data year''s 1 January; freq P1Y; node the utility''s name; x_* EIA''s fields.'
+read:
+  date: '2026-11-20'
+  rows: 187850
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 794
+    examples:
+    - eia861_ee:10000:KS:SWPP
+    - eia861_ee:10000:MO:SWPP
+    - eia861_ee:10005:KS:SWPP
+    - eia861_ee:1002:IA:MISO
+    - eia861_ee:10040:MN:MISO
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2015-01-01T00:00:00Z': 17621
+      '2016-01-01T00:00:00Z': 17858
+      '2017-01-01T00:00:00Z': 18282
+      '2018-01-01T00:00:00Z': 18731
+      '2019-01-01T00:00:00Z': 30536
+      '2020-01-01T00:00:00Z': 14240
+      '2021-01-01T00:00:00Z': 14099
+      '2022-01-01T00:00:00Z': 13741
+      '2023-01-01T00:00:00Z': 13984
+      '2024-01-01T00:00:00Z': 14279
+      '2025-01-01T00:00:00Z': 14479
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 13059429670.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 41920
+      MWh: 44538
+      USD: 85185
+      year: 16207
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 187850
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 187850
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 801
+    examples:
+    - AEP Texas Central Company
+    - AEP Texas North Company
+    - AES Indiana
+    - ALLETE, Inc.
+    - Adrian Public Utilities Comm
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia861:energy_efficiency: 187850
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612015.zip: 17621
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612016.zip: 17858
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612017.zip: 18282
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612018.zip: 18731
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612019.zip: 30536
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612020.zip: 14240
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612021.zip: 14099
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612022.zip: 13741
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612023.zip: 13984
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612024.zip: 14279
+      https://www.eia.gov/electricity/data/eia861/zip/f8612025.zip: 14479
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T16:56:34Z': 14479
+      '2026-10-21T17:48:28Z': 14279
+      '2026-10-21T17:48:31Z': 13984
+      '2026-10-21T17:48:34Z': 13741
+      '2026-10-21T17:48:37Z': 14099
+      '2026-10-21T17:48:40Z': 14240
+      '2026-10-21T17:48:44Z': 30536
+      '2026-10-21T17:48:48Z': 18731
+      '2026-10-21T17:48:52Z': 18282
+      '2026-10-21T17:48:57Z': 17858
+      '2026-10-21T17:49:02Z': 17621
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 187850
+- name: x_utility_number
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 734
+    lowest: 122
+    highest: 66867
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ba_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - AEC
+    - AECI
+    - AVA
+    - AZPS
+    - BANC
+  missing_cells: 1580
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_website
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 683
+    examples:
+    - (BPA) https://customerportal.bpa.gov/spring/pages/dashboard.aspx Clearesult (PECI) https://na33.salesforce.com/home/home.jsp
+    - '**FOOTNOTE** The one-time incentive payments are made at the time of installation. No additional payments are made
+      by East River Electric Power Coop., Inc. during the life cycle of the equipment.'
+    - '0'
+    - 2020 Annual report will be submitted on 6/4. Link not available at this time.
+    - '22.47'
+  missing_cells: 140514
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: annual_customer_incentives_commercial
+  label: null
+  unit: USD
+  rows: 5011
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_customer_incentives_industrial
+  label: null
+  unit: USD
+  rows: 3481
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_customer_incentives_residential
+  label: null
+  unit: USD
+  rows: 5605
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_customer_incentives_total
+  label: null
+  unit: USD
+  rows: 5707
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_customer_incentives_transportation
+  label: null
+  unit: USD
+  rows: 2230
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_energy_savings_commercial
+  label: null
+  unit: MWh
+  rows: 5078
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_energy_savings_industrial
+  label: null
+  unit: MWh
+  rows: 3526
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_energy_savings_residential
+  label: null
+  unit: MWh
+  rows: 5659
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_energy_savings_total
+  label: null
+  unit: MWh
+  rows: 5761
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_energy_savings_transportation
+  label: null
+  unit: MWh
+  rows: 2271
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_other_costs_commercial
+  label: null
+  unit: USD
+  rows: 4659
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_other_costs_industrial
+  label: null
+  unit: USD
+  rows: 3311
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_other_costs_residential
+  label: null
+  unit: USD
+  rows: 5165
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_other_costs_total
+  label: null
+  unit: USD
+  rows: 5250
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_other_costs_transportation
+  label: null
+  unit: USD
+  rows: 2197
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_peak_savings_commercial
+  label: null
+  unit: MW
+  rows: 4767
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_peak_savings_industrial
+  label: null
+  unit: MW
+  rows: 3367
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_peak_savings_residential
+  label: null
+  unit: MW
+  rows: 5249
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_peak_savings_total
+  label: null
+  unit: MW
+  rows: 5376
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: annual_peak_savings_transportation
+  label: null
+  unit: MW
+  rows: 2223
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_customer_incentives_commercial
+  label: null
+  unit: USD
+  rows: 5002
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_customer_incentives_industrial
+  label: null
+  unit: USD
+  rows: 3474
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_customer_incentives_residential
+  label: null
+  unit: USD
+  rows: 5597
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_customer_incentives_total
+  label: null
+  unit: USD
+  rows: 5697
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_customer_incentives_transportation
+  label: null
+  unit: USD
+  rows: 2225
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_energy_savings_commercial
+  label: null
+  unit: MWh
+  rows: 5066
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_energy_savings_industrial
+  label: null
+  unit: MWh
+  rows: 3510
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_energy_savings_residential
+  label: null
+  unit: MWh
+  rows: 5657
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_energy_savings_total
+  label: null
+  unit: MWh
+  rows: 5759
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_energy_savings_transportation
+  label: null
+  unit: MWh
+  rows: 2251
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_other_costs_commercial
+  label: null
+  unit: USD
+  rows: 4658
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_other_costs_industrial
+  label: null
+  unit: USD
+  rows: 3310
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_other_costs_residential
+  label: null
+  unit: USD
+  rows: 5165
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_other_costs_total
+  label: null
+  unit: USD
+  rows: 5245
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_other_costs_transportation
+  label: null
+  unit: USD
+  rows: 2196
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_peak_savings_commercial
+  label: null
+  unit: MW
+  rows: 4755
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_peak_savings_industrial
+  label: null
+  unit: MW
+  rows: 3356
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_peak_savings_residential
+  label: null
+  unit: MW
+  rows: 5247
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_peak_savings_total
+  label: null
+  unit: MW
+  rows: 5377
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: life_peak_savings_transportation
+  label: null
+  unit: MW
+  rows: 2203
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: weighted_average_life_commercial
+  label: null
+  unit: year
+  rows: 5014
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: weighted_average_life_industrial
+  label: null
+  unit: year
+  rows: 3418
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: weighted_average_life_residential
+  label: null
+  unit: year
+  rows: 5637
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: weighted_average_life_transportation
+  label: null
+  unit: year
+  rows: 2138
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,362 @@
+# The codebook's metadata of table statcan_power_disposition_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: statcan_power_disposition_annual
+family: statcan
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: statcan:25-10-0021-01 Statistics Canada, Table 25-10-0021-01, Electric power, electric utilities and industry, annual
+    supply and disposition
+  url: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2510002101
+cite: Statistics Canada. Table 25-10-0021-01, Electric power, electric utilities and industry, annual supply and disposition.
+  Via the Energy Research Warehouse (ERW), table `statcan_power_disposition_annual`.
+method: docs/methods/statcan_power_disposition_annual.md
+header_title: Statistics Canada, table 25-10-0021-01, Electric power, electric utilities and industry, annual supply and disposition,
+  by province, 2005 to 2025 (session 2441)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statcan_pd:<area>; variable the component as a slug; unit MWh;
+  ts_utc the year''s 1 January; freq P1Y; geo CA or CA-<province>; x_component StatCan''s name; x_vector; x_revised r where
+  StatCan marks a revision. The totals hold their parts: a sum takes one level. Only the estimate Electricity quantity; Electricity
+  value (Canadian dollars) is not taken.'
+read:
+  date: '2026-11-20'
+  rows: 3909
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      statcan_pd:ab: 325
+      statcan_pd:bc: 338
+      statcan_pd:ca: 275
+      statcan_pd:mb: 331
+      statcan_pd:nb: 322
+      statcan_pd:nl: 274
+      statcan_pd:ns: 313
+      statcan_pd:nt: 194
+      statcan_pd:nu: 147
+      statcan_pd:on: 333
+      statcan_pd:pe: 250
+      statcan_pd:qc: 327
+      statcan_pd:sk: 312
+      statcan_pd:yt: 168
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2005-01-01T00:00:00Z': 225
+      '2006-01-01T00:00:00Z': 225
+      '2007-01-01T00:00:00Z': 225
+      '2008-01-01T00:00:00Z': 215
+      '2009-01-01T00:00:00Z': 210
+      '2010-01-01T00:00:00Z': 212
+      '2011-01-01T00:00:00Z': 212
+      '2012-01-01T00:00:00Z': 213
+      '2013-01-01T00:00:00Z': 208
+      '2014-01-01T00:00:00Z': 161
+      '2015-01-01T00:00:00Z': 163
+      '2016-01-01T00:00:00Z': 164
+      '2017-01-01T00:00:00Z': 164
+      '2018-01-01T00:00:00Z': 164
+      '2019-01-01T00:00:00Z': 164
+      '2020-01-01T00:00:00Z': 164
+      '2021-01-01T00:00:00Z': 164
+      '2022-01-01T00:00:00Z': 164
+      '2023-01-01T00:00:00Z': 164
+      '2024-01-01T00:00:00Z': 164
+      '2025-01-01T00:00:00Z': 164
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3528
+    lowest: -8356860.0
+    highest: 649482181.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 3909
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 3909
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      CA: 275
+      CA-AB: 325
+      CA-BC: 338
+      CA-MB: 331
+      CA-NB: 322
+      CA-NL: 274
+      CA-NS: 313
+      CA-NT: 194
+      CA-NU: 147
+      CA-ON: 333
+      CA-PE: 250
+      CA-QC: 327
+      CA-SK: 312
+      CA-YT: 168
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3909
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 229
+    examples:
+    - 'Alberta: Agriculture sales of electricity'
+    - 'Alberta: Electricity used by producers'
+    - 'Alberta: Exports of electricity to the United States, firm'
+    - 'Alberta: Exports of electricity to the United States, secondary'
+    - 'Alberta: Imports of electricity from the United States, purchased'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      statcan:25-10-0021-01: 3909
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www150.statcan.gc.ca/n1/tbl/csv/25100021-eng.zip: 3909
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T11:45:47Z': 3909
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-16T12:30:33Z': 3909
+  missing_cells: 0
+- name: x_component
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Agriculture sales of electricity: 231
+      Electricity used by producers: 294
+      Exports of electricity to the United States, exchanged: 24
+      Exports of electricity to the United States, firm: 70
+      Exports of electricity to the United States, secondary: 78
+      Imports of electricity from the United States, exchanged: 22
+      Imports of electricity from the United States, purchased: 81
+      Interprovincial deliveries of electricity, firm: 90
+      Interprovincial deliveries of electricity, secondary: 48
+      Interprovincial receipts of electricity, purchased: 93
+      Mining and manufacturing sales of electricity: 270
+      Other industries sales of electricity: 294
+      Residential sales of electricity: 294
+      Total electricity available for use within specific geographic border: 294
+      Total exports of electricity to the United States: 199
+      Total generation of electricity: 294
+      Total imports of electricity from the United States: 199
+      Total interprovincial deliveries of electricity: 221
+      Total interprovincial receipts of electricity: 225
+      Total sales of electricity to ultimate customers: 294
+      Unallocated electricity: 294
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_vector
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 229
+    examples:
+    - v1014073248
+    - v1014074049
+    - v1079014831
+    - v52300614
+    - v52300615
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_revised
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      r: 85
+  missing_cells: 3824
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: agriculture_sales_of_electricity
+  label: null
+  unit: MWh
+  rows: 231
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: electricity_used_by_producers
+  label: null
+  unit: MWh
+  rows: 294
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: exports_of_electricity_to_the_united_states_exchanged
+  label: null
+  unit: MWh
+  rows: 24
+  first: '2005-01-01T00:00:00Z'
+  last: '2013-01-01T00:00:00Z'
+- name: exports_of_electricity_to_the_united_states_firm
+  label: null
+  unit: MWh
+  rows: 70
+  first: '2005-01-01T00:00:00Z'
+  last: '2013-01-01T00:00:00Z'
+- name: exports_of_electricity_to_the_united_states_secondary
+  label: null
+  unit: MWh
+  rows: 78
+  first: '2005-01-01T00:00:00Z'
+  last: '2013-01-01T00:00:00Z'
+- name: imports_of_electricity_from_the_united_states_exchanged
+  label: null
+  unit: MWh
+  rows: 22
+  first: '2005-01-01T00:00:00Z'
+  last: '2012-01-01T00:00:00Z'
+- name: imports_of_electricity_from_the_united_states_purchased
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2005-01-01T00:00:00Z'
+  last: '2013-01-01T00:00:00Z'
+- name: interprovincial_deliveries_of_electricity_firm
+  label: null
+  unit: MWh
+  rows: 90
+  first: '2005-01-01T00:00:00Z'
+  last: '2013-01-01T00:00:00Z'
+- name: interprovincial_deliveries_of_electricity_secondary
+  label: null
+  unit: MWh
+  rows: 48
+  first: '2005-01-01T00:00:00Z'
+  last: '2013-01-01T00:00:00Z'
+- name: interprovincial_receipts_of_electricity_purchased
+  label: null
+  unit: MWh
+  rows: 93
+  first: '2005-01-01T00:00:00Z'
+  last: '2013-01-01T00:00:00Z'
+- name: mining_and_manufacturing_sales_of_electricity
+  label: null
+  unit: MWh
+  rows: 270
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_industries_sales_of_electricity
+  label: null
+  unit: MWh
+  rows: 294
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: residential_sales_of_electricity
+  label: null
+  unit: MWh
+  rows: 294
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_electricity_available_for_use_within_specific_geographic_border
+  label: null
+  unit: MWh
+  rows: 294
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_exports_of_electricity_to_the_united_states
+  label: null
+  unit: MWh
+  rows: 199
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_generation_of_electricity
+  label: null
+  unit: MWh
+  rows: 294
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_imports_of_electricity_from_the_united_states
+  label: null
+  unit: MWh
+  rows: 199
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_interprovincial_deliveries_of_electricity
+  label: null
+  unit: MWh
+  rows: 221
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_interprovincial_receipts_of_electricity
+  label: null
+  unit: MWh
+  rows: 225
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_sales_of_electricity_to_ultimate_customers
+  label: null
+  unit: MWh
+  rows: 294
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: unallocated_electricity
+  label: null
+  unit: MWh
+  rows: 294
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

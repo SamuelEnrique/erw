@@ -1,0 +1,306 @@
+# The codebook's metadata of table epa_ghgrp_facility_emissions (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: epa_ghgrp_facility_emissions
+family: epa
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: epa:ghgrp_facilities U.S. Environmental Protection Agency, Greenhouse Gas Reporting Program, data summary spreadsheets,
+    ghgp_data_by_year_2023.xlsx
+  url: https://www.epa.gov/ghgreporting/data-sets
+cite: U.S. Environmental Protection Agency (EPA). Greenhouse Gas Reporting Program, data summary spreadsheets (ghgp_data_by_year_2023.xlsx).
+  Via the Energy Research Warehouse (ERW), table `epa_ghgrp_facility_emissions`.
+method: docs/methods/epa_ghgrp_facility_emissions.md
+header_title: 'U.S. EPA, Greenhouse Gas Reporting Program, data summary 2023: every reporting facility''s total reported emissions
+  by year, 2015 to 2023, in the six emitting segments of the summary (session 2072)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ghgrp:<facility id>, or ghgrp:<facility id>:<state> for transmission
+  pipelines and local distribution companies (a row a state where the emissions occur); variable emissions_<segment> (direct,
+  onshore_production, gathering_boosting, transmission_pipelines, ldc, sf6_equipment); unit tCO2e (metric tons of CO2 equivalent,
+  AR4 global warming potentials, Decision 61); ts_utc the year''s 1 January; freq P1Y.'
+read:
+  date: '2026-11-20'
+  rows: 70338
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - ghgrp:1000001
+    - ghgrp:1000002
+    - ghgrp:1000003
+    - ghgrp:1000004
+    - ghgrp:1000005
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2015-01-01T00:00:00Z': 8062
+      '2016-01-01T00:00:00Z': 7787
+      '2017-01-01T00:00:00Z': 7719
+      '2018-01-01T00:00:00Z': 7844
+      '2019-01-01T00:00:00Z': 7856
+      '2020-01-01T00:00:00Z': 7838
+      '2021-01-01T00:00:00Z': 7810
+      '2022-01-01T00:00:00Z': 7744
+      '2023-01-01T00:00:00Z': 7678
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -1196.25
+    highest: 21775439.586
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      tCO2e: 70338
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 70338
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 54
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 70338
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - (430) Civitas Resources - Permian Basin
+    - (540) Civitas Resources - Denver Basin
+    - (540) Civitas Resources - GB - Denver Basin
+    - 121 REGIONAL DISPOSAL FACILITY
+    - 15-18565/15-18662
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      epa:ghgrp_facilities: 70338
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.epa.gov/system/files/other-files/2024-10/2023_data_summary_spreadsheets.zip: 70338
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T17:42:37Z': 70338
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2024-10-15T14:42:16Z': 70338
+  missing_cells: 0
+- name: x_segment
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Direct Point Emitters: 59533
+      Gathering & Boosting: 2786
+      LDC - Direct Emissions: 1499
+      Onshore Oil & Gas Prod.: 4429
+      SF6 from Elec. Equip.: 806
+      Transmission Pipelines: 1285
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_frs_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 110000307864
+    highest: 110071704324
+  missing_cells: 6526
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_naics
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 279
+    lowest: 111419
+    highest: 928110
+  missing_cells: 18
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_subparts
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 165
+    examples:
+    - AA,C
+    - AA,C,II
+    - AA,C,II,TT
+    - AA,C,PP
+    - AA,C,PP,TT
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sectors
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 71
+    examples:
+    - Chemicals
+    - Chemicals,Coal-based Liquid Fuel Supply,Suppliers of CO2
+    - Chemicals,Industrial Gas Suppliers
+    - Chemicals,Industrial Gas Suppliers,Minerals
+    - Chemicals,Industrial Gas Suppliers,Waste
+  missing_cells: 10805
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_basin
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 44
+    examples:
+    - 140 - Florida Platform
+    - 160 - Appalachian Basin
+    - 160A - Appalachian Basin (Eastern Overthrust Area)
+    - 200 - Black Warrior Basin
+    - 210 - Mid-Gulf Coast Basin
+  missing_cells: 63123
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 2106
+    examples:
+    - ACADIA
+    - ACADIA PARISH
+    - ACCOMACK COUNTY
+    - ADA COUNTY
+    - ADAMS
+  missing_cells: 6800
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_emission_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - AL
+    - AR
+    - AZ
+    - CA
+    - CO
+  missing_cells: 67555
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: emissions_direct
+  label: null
+  unit: tCO2e
+  rows: 59533
+  first: '2015-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: emissions_gathering_boosting
+  label: null
+  unit: tCO2e
+  rows: 2786
+  first: '2016-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: emissions_ldc
+  label: null
+  unit: tCO2e
+  rows: 1499
+  first: '2015-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: emissions_onshore_production
+  label: null
+  unit: tCO2e
+  rows: 4429
+  first: '2015-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: emissions_sf6_equipment
+  label: null
+  unit: tCO2e
+  rows: 806
+  first: '2015-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: emissions_transmission_pipelines
+  label: null
+  unit: tCO2e
+  rows: 1285
+  first: '2016-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+second_look: null

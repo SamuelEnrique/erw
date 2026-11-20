@@ -1,0 +1,174 @@
+# The codebook's metadata of table eia_coal_prices_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_coal_prices_annual
+family: eia
+shape: series
+row: One producing state's, region's or the nation's yearly average sales price of coal in one market type, from EIA's Annual
+  Coal Report.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:coal/market-sales-price U.S. Energy Information Administration, Annual Coal Report, average sales price (API v2,
+    route coal/market-sales-price)
+  url: https://www.eia.gov/coal/annual/
+cite: U.S. Energy Information Administration (EIA). Annual Coal Report, average sales price (API v2). Via the Energy Research
+  Warehouse (ERW), table `eia_coal_prices_annual`.
+method: docs/methods/eia_coal_prices.md
+header_title: EIA, the average sales price of coal by producing state or region and market type, a year (session 519)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_coal_price:<stateRegionId>:<marketTypeId>; variable price
+  (USD/short_ton); ts_utc the year''s 1 January; freq P1Y; geo US-<state> for a state, US for a region or the U.S.; node EIA''s
+  area and market names.'
+read:
+  date: '2026-11-20'
+  rows: 2781
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 145
+    examples:
+    - eia_coal_price:AK:TOT
+    - eia_coal_price:AL:OM
+    - eia_coal_price:AL:TOT
+    - eia_coal_price:APC:CAP
+    - eia_coal_price:APC:OM
+  missing_cells: 0
+  particular: eia_coal_price:<stateRegionId>:<marketTypeId>
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2001-01-01T00:00:00Z': 115
+      '2002-01-01T00:00:00Z': 111
+      '2003-01-01T00:00:00Z': 114
+      '2004-01-01T00:00:00Z': 115
+      '2005-01-01T00:00:00Z': 116
+      '2006-01-01T00:00:00Z': 121
+      '2007-01-01T00:00:00Z': 111
+      '2008-01-01T00:00:00Z': 116
+      '2009-01-01T00:00:00Z': 113
+      '2010-01-01T00:00:00Z': 112
+      '2011-01-01T00:00:00Z': 112
+      '2012-01-01T00:00:00Z': 128
+      '2013-01-01T00:00:00Z': 120
+      '2014-01-01T00:00:00Z': 123
+      '2015-01-01T00:00:00Z': 122
+      '2016-01-01T00:00:00Z': 117
+      '2017-01-01T00:00:00Z': 119
+      '2018-01-01T00:00:00Z': 119
+      '2019-01-01T00:00:00Z': 114
+      '2020-01-01T00:00:00Z': 117
+      '2021-01-01T00:00:00Z': 111
+      '2022-01-01T00:00:00Z': 113
+      '2023-01-01T00:00:00Z': 112
+      '2024-01-01T00:00:00Z': 110
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2134
+    lowest: 5.62
+    highest: 333.58
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/short_ton: 2781
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 2781
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 26
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+  particular: US-<state> for a state; US for a region or the U.S.
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2781
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 145
+    examples:
+    - Alabama Open Market
+    - Alabama Total
+    - Alaska Total
+    - Appalachia Central Captive
+    - Appalachia Central Open Market
+  missing_cells: 0
+  particular: EIA's area and market names
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:coal/market-sales-price: 2781
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://api.eia.gov/v2/coal/market-sales-price/data/?api_key=REDACTED&frequency=annual&data%5B%5D=price&start=2001: 2781
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T20:21:08Z': 2781
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2781
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: price
+  label: Average sales price of the coal, USD per short ton
+  unit: USD/short_ton
+  rows: 2781
+  first: '2001-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

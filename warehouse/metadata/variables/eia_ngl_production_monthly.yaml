@@ -1,0 +1,158 @@
+# The codebook's metadata of table eia_ngl_production_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_ngl_production_monthly
+family: eia
+shape: series
+row: One month's natural gas plant field production of one natural gas liquid in the U.S., a PADD or a refining district,
+  in the month or per day.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:petroleum/pnp/gp U.S. Energy Information Administration, Petroleum Supply Monthly, natural gas plant field production
+    (API v2, route petroleum/pnp/gp)
+  url: https://www.eia.gov/dnav/pet/pet_pnp_gp_dc_nus_mbbl_m.htm
+cite: U.S. Energy Information Administration (EIA). Petroleum Supply Monthly, natural gas plant field production (API v2).
+  Via the Energy Research Warehouse (ERW), table `eia_ngl_production_monthly`.
+method: docs/methods/eia_ngl_production_monthly.md
+header_title: EIA, natural gas plant field production of natural gas liquids by product, the U.S., the PADDs and the refining
+  districts, a month (session 629)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_ngl_production:<series>; variable field_production (kbbl)
+  or field_production_per_day (kbbl/d); ts_utc the month''s first day; freq P1M; node EIA''s series name (the product and
+  area). The PADDs are parts of the U.S. and the districts parts of their PADDs: a sum takes one level.'
+read:
+  date: '2026-11-20'
+  rows: 110896
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 284
+    examples:
+    - eia_ngl_production:MLPFP2A1
+    - eia_ngl_production:MLPFP2A2
+    - eia_ngl_production:MLPFP2B1
+    - eia_ngl_production:MLPFP2B2
+    - eia_ngl_production:MLPFP2C1
+  missing_cells: 0
+  particular: eia_ngl_production:<EIA series id>
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 643
+    earliest: '1973-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -3528.0
+    highest: 247591.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      kbbl: 55400
+      kbbl/d: 55496
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 110896
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 110896
+  missing_cells: 0
+  particular: US on every row, the PADDs and districts included
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 110896
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 283
+    examples:
+    - East Coast (PADD 1) Field Production  of Condensate and Scrubber Oil  (Thousand Barrels per Day)
+    - East Coast (PADD 1) Field Production  of Condensate and Scrubber Oil  (Thousand Barrels)
+    - East Coast (PADD 1) Field Production of Ethane (Thousand Barrels per Day)
+    - East Coast (PADD 1) Field Production of Ethane (Thousand Barrels)
+    - East Coast (PADD 1) Field Production of Isobutane (Thousand Barrels per Day)
+  missing_cells: 0
+  particular: EIA's series name (the product and area)
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:petroleum/pnp/gp: 110896
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/petroleum/pnp/gp/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=FPF&start=1973-01&end=2014-12
+      : 78940
+      ? https://api.eia.gov/v2/petroleum/pnp/gp/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=FPF&start=2015-01
+      : 31956
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-22T06:55:02Z': 110896
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 110896
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: field_production
+  label: Natural gas plant field production of the liquid in the month, thousand barrels
+  unit: kbbl
+  rows: 55400
+  first: '1981-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: field_production_per_day
+  label: Natural gas plant field production of the liquid, thousand barrels a day
+  unit: kbbl/d
+  rows: 55496
+  first: '1973-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

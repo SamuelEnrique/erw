@@ -1,0 +1,184 @@
+# The codebook's metadata of table eia930_daily_interchange (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia930_daily_interchange
+family: eia930
+shape: series
+row: One directed pair's interchange over one Eastern day as the reporting balancing authority filed it, every pair EIA-930
+  reports, from 2019.
+time: ts_utc is the day at 00:00:00Z, a label for EIA's Eastern day (x_timezone), not a UTC day.
+vintage_rule: 'Merged by key (entity, variable, ts_utc): each run asks again for the last days and replaces them, earlier
+  rows are kept. vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1D
+source:
+- name: eia930:daily_interchange U.S. Energy Information Administration, Form EIA-930, daily interchange (API route electricity/rto/daily-interchange-data)
+  url: https://www.eia.gov/electricity/gridmonitor/
+cite: U.S. Energy Information Administration. Form EIA-930, daily interchange (electricity/rto/daily-interchange-data). Via
+  the Energy Research Warehouse (ERW), table `eia930_daily_interchange`.
+method: docs/methods/eia930_daily_interchange.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261116T155131Z-github
+  (2026-11-16T15:51:31Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba (the reporting BA, EIA''s fromba); entity eia930:<FROM>-<TO>;
+  interchange_mwh, MWh over the day, positive when the reporting BA exports to the neighbour (x_to_ba); ts_utc the day at
+  00:00:00Z (Decision 11); EIA''s Eastern day for every pair (x_timezone). Nothing filled: a pair-day EIA does not report
+  is absent.'
+read:
+  date: '2026-11-20'
+  rows: 958798
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 390
+    examples:
+    - eia930:AEC-MISO
+    - eia930:AEC-SOCO
+    - eia930:AECI-MISO
+    - eia930:AECI-SIKE
+    - eia930:AECI-SPA
+  missing_cells: 0
+  particular: eia930:<FROM>-<TO>, FROM the reporting balancing authority
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 2823
+    earliest: '2019-01-01T00:00:00Z'
+    latest: '2026-11-14T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -10746671.0
+    highest: 429515551.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 958798
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 958798
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 958798
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 958798
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 958798
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia930:daily_interchange: 958798
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 286
+    examples:
+    - https://api.eia.gov/v2/electricity/rto/daily-interchange-data/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Btimezone%5D%5B%5D=Eastern&start=2019-01-01&end=2019-01-31&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=fromba&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=toba&sort%5B2%5D%5Bdirection%5D=asc&offset=0&length=5000
+    - https://api.eia.gov/v2/electricity/rto/daily-interchange-data/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Btimezone%5D%5B%5D=Eastern&start=2019-01-01&end=2019-01-31&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=fromba&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=toba&sort%5B2%5D%5Bdirection%5D=asc&offset=10000&length=5000
+    - https://api.eia.gov/v2/electricity/rto/daily-interchange-data/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Btimezone%5D%5B%5D=Eastern&start=2019-01-01&end=2019-01-31&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=fromba&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=toba&sort%5B2%5D%5Bdirection%5D=asc&offset=5000&length=5000
+    - https://api.eia.gov/v2/electricity/rto/daily-interchange-data/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Btimezone%5D%5B%5D=Eastern&start=2019-02-01&end=2019-02-28&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=fromba&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=toba&sort%5B2%5D%5Bdirection%5D=asc&offset=0&length=5000
+    - https://api.eia.gov/v2/electricity/rto/daily-interchange-data/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Btimezone%5D%5B%5D=Eastern&start=2019-02-01&end=2019-02-28&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=fromba&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=toba&sort%5B2%5D%5Bdirection%5D=asc&offset=5000&length=5000
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 263
+    earliest: '2026-10-02T09:21:31Z'
+    latest: '2026-11-16T15:18:26Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 958798
+- name: ba
+  shared: true
+  type: text
+  values:
+    distinct: 83
+    examples:
+    - aec
+    - aeci
+    - ava
+    - avrn
+    - azps
+  missing_cells: 0
+  particular: The reporting balancing authority (EIA's fromba), lowercase
+- name: x_to_ba
+  label: The neighbour (EIA's toba), EIA-930 code in lowercase
+  unit: none
+  type: text
+  values:
+    distinct: 93
+    examples:
+    - aec
+    - aeci
+    - aeso
+    - ava
+    - avrn
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: toba
+  documented_by: header; method eia930_daily_interchange.md
+- name: x_timezone
+  label: 'The time zone of EIA''s day: Eastern in every row'
+  unit: none
+  type: text
+  values:
+    list:
+      Eastern: 958798
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method eia930_daily_interchange.md
+variables:
+- name: interchange_mwh
+  label: Interchange over the day, positive when the reporting authority exports to the neighbour
+  unit: MWh
+  rows: 958798
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-14T00:00:00Z'
+second_look: null

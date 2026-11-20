@@ -1,0 +1,223 @@
+# The codebook's metadata of table eia_annual_crosscheck_ba (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_annual_crosscheck_ba
+family: eia
+shape: series
+row: One balancing authority's (or the Lower 48's) year of EIA-930's hourly net generation summed, set against EIA-923's annual
+  figure, with the gap and the hours counted.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y); EIA-930's hours are summed by their UTC start.
+vintage_rule: Rewritten whole by each run of the builder (the file is deleted, then written); vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1Y
+source:
+- name: erw:eia_annual_crosscheck_ba ERW cross-check of EIA's hourly and annual generation by balancing authority
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/eia_annual_crosscheck.md
+cite: Energy Research Warehouse (ERW), derived. Cross-check of EIA-930's hourly sums against EIA-923's annual net generation
+  by balancing authority (session 323). Via the Energy Research Warehouse (ERW), table `eia_annual_crosscheck_ba`.
+method: docs/methods/eia_annual_crosscheck.md
+header_title: EIA-930's hourly net generation summed by year against EIA's annual figure (Form EIA-923, summed by balancing
+  authority), session 323
+header_shape: 'Shape: series (docs/datastandard.md v0), P1Y; entity eia930:<BA>; variables eia930_net_generation_mwh, eia923_net_generation_mwh
+  (storage included), gap_mwh (EIA-930 less EIA-923), gap_pct (of EIA-923), eia930_hours, expected_hours; x_reason the likely
+  reason by rule (docs/methods/eia_annual_crosscheck.md). US48: EIA-923''s sum over every Lower 48 code'
+read:
+  date: '2026-11-20'
+  rows: 144
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia930:CISO: 18
+      eia930:ERCO: 18
+      eia930:ISNE: 18
+      eia930:MISO: 18
+      eia930:NYIS: 18
+      eia930:PJM: 18
+      eia930:SWPP: 18
+      eia930:US48: 18
+  missing_cells: 0
+  particular: eia930:<BA>, eia930:US48 for the Lower 48
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2023-01-01T00:00:00Z': 48
+      '2024-01-01T00:00:00Z': 48
+      '2025-01-01T00:00:00Z': 48
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 104
+    lowest: -214127374.999
+    highest: 4494650070.999
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 72
+      count: 48
+      pct: 24
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 144
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 144
+  missing_cells: 0
+  particular: US on every row
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 144
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 144
+  particular: 'Not filled: no cell holds a value'
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:eia_annual_crosscheck_ba: 144
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/eia_annual_crosscheck.md: 144
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-19T23:00:42Z': 144
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 144
+  particular: 'Not filled: no cell holds a value'
+- name: x_reason
+  label: The likely reason for the gap, by the ERW's rule (within 2 percent, missing hours, or the likely cause by the gap's
+    sign); hypotheses, not EIA's statements
+  unit: none
+  type: text
+  values:
+    list:
+      ? 'likely: EIA-930 higher because the BA meters generation from plants EIA-923 codes to another balancing authority
+        (dynamic schedules, pseudo-ties), or EIA-930''s own reporting'
+      : 12
+      ? 'likely: EIA-930 higher because the BA meters generation from plants EIA-923 codes to another balancing authority
+        (dynamic schedules, pseudo-ties), or EIA-930''s own reporting (EIA-930 also lacks 1 of the year''s 8784 hours)'
+      : 6
+      ? 'likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant''s own
+        net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into
+        a neighbour'
+      : 66
+      ? 'likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant''s own
+        net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into
+        a neighbour (EIA-930 also lacks 2 of the year''s 8760 hours)'
+      : 12
+      ? 'likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant''s own
+        net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into
+        a neighbour (EIA-930 also lacks 23 of the year''s 8760 hours)'
+      : 6
+      ? 'likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant''s own
+        net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into
+        a neighbour (EIA-930 also lacks 24 of the year''s 8784 hours)'
+      : 6
+      ? 'likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant''s own
+        net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into
+        a neighbour (EIA-930 also lacks 48 of the year''s 8760 hours)'
+      : 12
+      ? 'likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant''s own
+        net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into
+        a neighbour (EIA-930 also lacks 48 of the year''s 8784 hours)'
+      : 6
+      ? 'within 2 percent: the two counts agree to the size of what each leaves out (EIA-930 also lacks 25 of the year''s
+        8760 hours)'
+      : 12
+      ? 'within 2 percent: the two counts agree to the size of what each leaves out (EIA-930 also lacks 47 of the year''s
+        8784 hours)'
+      : 6
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector eia_annual_crosscheck.py; method eia_annual_crosscheck.md
+variables:
+- name: eia923_net_generation_mwh
+  label: EIA-923's annual net generation of the plants coded to the authority, storage included, MWh
+  unit: MWh
+  rows: 24
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: eia930_hours
+  label: The hours EIA-930 reported in the year
+  unit: count
+  rows: 24
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: eia930_net_generation_mwh
+  label: The year's sum of EIA-930's hourly net generation for the authority, MWh
+  unit: MWh
+  rows: 24
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: expected_hours
+  label: The hours in the year
+  unit: count
+  rows: 24
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: gap_mwh
+  label: EIA-930's sum less EIA-923's, MWh
+  unit: MWh
+  rows: 24
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: gap_pct
+  label: The gap as a percent of EIA-923's figure
+  unit: pct
+  rows: 24
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

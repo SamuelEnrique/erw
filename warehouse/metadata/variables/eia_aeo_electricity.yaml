@@ -1,0 +1,280 @@
+# The codebook's metadata of table eia_aeo_electricity (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_aeo_electricity
+family: eia
+shape: series
+row: One series of EIA's Annual Energy Outlook 2026 electricity Tables 8 and 9 (capacity, generation or a price), in one case
+  (scenario), for one projected year.
+time: ts_utc is 1 January of the projected year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot); the release is in the entity id, vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:aeo U.S. Energy Information Administration, Annual Energy Outlook 2026 (API v2, route aeo/2026)
+  url: https://www.eia.gov/outlooks/aeo/
+cite: U.S. Energy Information Administration (EIA). Annual Energy Outlook (API v2, Tables 8 and 9). Via the Energy Research
+  Warehouse (ERW), table `eia_aeo_electricity`.
+method: docs/methods/eia_aeo_electricity.md
+header_title: EIA Annual Energy Outlook 2026, electricity Tables 8 and 9, every case (session 490)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_aeo_2026:<seriesId>:<case>; variable value; node the series''
+  name; ts_utc the year''s 1 January; freq P1Y. GW given as MW, billion kWh as MWh, cents/kWh as USD/kWh (x_dollar_year the
+  AEO''s real dollars or nominal).'
+read:
+  date: '2026-11-20'
+  rows: 34034
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 1309
+    examples:
+    - eia_aeo_2026:cap_NA_elep_NA_cuc_NA_usa_gw:altelec
+    - eia_aeo_2026:cap_NA_elep_NA_cuc_NA_usa_gw:alttrnp
+    - eia_aeo_2026:cap_NA_elep_NA_cuc_NA_usa_gw:cb2026
+    - eia_aeo_2026:cap_NA_elep_NA_cuc_NA_usa_gw:electrnp
+    - eia_aeo_2026:cap_NA_elep_NA_cuc_NA_usa_gw:highZTC
+  missing_cells: 0
+  particular: eia_aeo_2026:<seriesId>:<case>
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 26
+    earliest: '2025-01-01T00:00:00Z'
+    latest: '2050-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -43447357.0
+    highest: 6775515137.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 17160
+      MWh: 12298
+      USD/kWh: 4576
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 34034
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 34034
+  missing_cells: 0
+  particular: US on every row
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 34034
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 111
+    examples:
+    - 'Electricity : Direct Use'
+    - 'Electricity : Electric Power Sector : Combined Heat and Power : Coal'
+    - 'Electricity : Electric Power Sector : Combined Heat and Power : Natural Gas'
+    - 'Electricity : Electric Power Sector : Combined Heat and Power : Other'
+    - 'Electricity : Electric Power Sector : Combined Heat and Power : Petroleum'
+  missing_cells: 0
+  particular: EIA's name of the series
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:aeo: 34034
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=altelec&length=5000
+      : 1534
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=alttrnp&length=5000
+      : 1534
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=cb2026&length=5000
+      : 1534
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=electrnp&length=5000
+      : 1534
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=highZTC&length=5000
+      : 1534
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=higheldmd&length=5000
+      : 1534
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=highogs&length=5000
+      : 1534
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=hm2026&length=5000
+      : 1534
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=lm2026&length=5000
+      : 1534
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=lowZTC&length=5000
+      : 1534
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=lowogs&length=5000
+      : 1534
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=altelec&length=5000
+      : 1560
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=alttrnp&length=5000
+      : 1560
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=cb2026&length=5000
+      : 1560
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=electrnp&length=5000
+      : 1560
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=highZTC&length=5000
+      : 1560
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=higheldmd&length=5000
+      : 1560
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=highogs&length=5000
+      : 1560
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=hm2026&length=5000
+      : 1560
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=lm2026&length=5000
+      : 1560
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=lowZTC&length=5000
+      : 1560
+      ? https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=lowogs&length=5000
+      : 1560
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T18:31:12Z': 34034
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 34034
+  particular: 'Not filled: the release is in the entity id'
+- name: x_table
+  label: The AEO table the series is read from (8 or 9)
+  unit: none
+  type: integer
+  values:
+    list:
+      '8': 16874
+      '9': 17160
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: tableId
+  documented_by: connector eia_aeo.py; method eia_aeo_electricity.md
+- name: x_scenario
+  label: EIA's code of the AEO case (scenario) the projection belongs to
+  unit: none
+  type: text
+  values:
+    list:
+      altelec: 3094
+      alttrnp: 3094
+      cb2026: 3094
+      electrnp: 3094
+      highZTC: 3094
+      higheldmd: 3094
+      highogs: 3094
+      hm2026: 3094
+      lm2026: 3094
+      lowZTC: 3094
+      lowogs: 3094
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: scenario
+  documented_by: connector eia_aeo.py; method eia_aeo_electricity.md
+- name: x_scenario_name
+  label: EIA's name of the case
+  unit: none
+  type: text
+  values:
+    list:
+      Alternative Electricity: 3094
+      Alternative Electricity and Transportation: 3094
+      Alternative Transportation: 3094
+      Counterfactual Baseline case: 3094
+      High Economic Growth: 3094
+      High Electricity Demand: 3094
+      High Oil and Gas Supply: 3094
+      High Zero-Carbon Technology Cost: 3094
+      Low Economic Growth: 3094
+      Low Oil and Gas Supply: 3094
+      Low Zero-Carbon Technology Cost: 3094
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: scenarioDescription
+  documented_by: connector eia_aeo.py; method eia_aeo_electricity.md
+- name: x_history
+  label: EIA's flag saying whether the year is history or projection (every row here is PROJECTION)
+  unit: none
+  type: text
+  values:
+    list:
+      PROJECTION: 34034
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: history
+  documented_by: connector eia_aeo.py; method eia_aeo_electricity.md
+- name: x_region
+  label: EIA's region identifier of the series (0-0, the United States, on every row)
+  unit: none
+  type: text
+  values:
+    list:
+      0-0: 34034
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: regionId
+  documented_by: connector eia_aeo.py; method eia_aeo_electricity.md
+- name: x_dollar_year
+  label: 'The dollars a price is in: 2025 for the AEO''s real 2025 dollars, or nominal'
+  unit: none
+  type: text
+  values:
+    list:
+      '2025': 2288
+      nominal: 2288
+  missing_cells: 29458
+  missing_meaning: Not a price (a capacity or a generation row)
+  source_name: null
+  documented_by: connector eia_aeo.py; method eia_aeo_electricity.md
+variables:
+- name: value
+  label: 'The AEO series the entity names: capacity in MW (EIA''s GW times 1,000), generation in MWh (EIA''s billion kWh)
+    or a price in USD per kWh (cents times 0.01); the unit column says which'
+  unit: MW; MWh; USD/kWh
+  rows: 34034
+  first: '2025-01-01T00:00:00Z'
+  last: '2050-01-01T00:00:00Z'
+second_look: null

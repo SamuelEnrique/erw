@@ -1,0 +1,160 @@
+# The codebook's metadata of table eia_crude_production_state_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_crude_production_state_monthly
+family: eia
+shape: series
+row: One month's crude oil field production of one state, region or federal offshore area, in the month or per day.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:petroleum/crd/crpdn U.S. Energy Information Administration, Petroleum Supply Monthly, crude oil field production
+    (API v2, route petroleum/crd/crpdn)
+  url: https://www.eia.gov/petroleum/supply/monthly/
+cite: U.S. Energy Information Administration (EIA). Petroleum Supply Monthly, crude oil field production (API v2). Via the
+  Energy Research Warehouse (ERW), table `eia_crude_production_state_monthly`.
+method: docs/methods/eia_crude_production_state_monthly.md
+header_title: EIA, crude oil field production by state, region and federal offshore area, a month (session 527)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_crude_production:<area>:<series stem> (Alaska''s North
+  Slope, MANFPAK, is within Alaska); variable field_production (kbbl in the month) or field_production_per_day (kbbl/d); ts_utc
+  the month''s first day; freq P1M; node EIA''s series name. Regions (R10 to R50) are sums of states and offshore areas: a
+  sum takes one level.'
+read:
+  date: '2026-11-20'
+  rows: 25644
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 43
+    examples:
+    - eia_crude_production:NUS:MCRFPUS
+    - eia_crude_production:R10:MCRFPP1
+    - eia_crude_production:R20:MCRFPP2
+    - eia_crude_production:R30:MCRFPP3
+    - eia_crude_production:R3FM:MCRFP3FM
+  missing_cells: 0
+  particular: eia_crude_production:<area>:<series stem>; regions R10 to R50 are sums of states and offshore areas
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 307
+    earliest: '2001-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 433840.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      kbbl: 12822
+      kbbl/d: 12822
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 25644
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 33
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+  particular: US-<state> for a state; US for the U.S., the regions and the offshore areas
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25644
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 84
+    examples:
+    - Alabama Field Production of Crude Oil (Thousand Barrels per Day)
+    - Alabama Field Production of Crude Oil (Thousand Barrels)
+    - Alaska Field Production of Crude Oil (Thousand Barrels per Day)
+    - Alaska Field Production of Crude Oil (Thousand Barrels)
+    - Alaska North Slope Crude Oil Production (Thousand Barrels per Day)
+  missing_cells: 0
+  particular: EIA's series name
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:petroleum/crd/crpdn: 25644
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/petroleum/crd/crpdn/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=FPF&start=2001-01
+      : 25644
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T21:14:11Z': 25644
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25644
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: field_production
+  label: Crude oil field production in the month, thousand barrels
+  unit: kbbl
+  rows: 12822
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: field_production_per_day
+  label: Crude oil field production, thousand barrels a day
+  unit: kbbl/d
+  rows: 12822
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

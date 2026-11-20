@@ -1,0 +1,185 @@
+# The codebook's metadata of table desnz_uk_plant_loads_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: desnz_uk_plant_loads_annual
+family: desnz
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: desnz:dukes_5_10_plant_loads Department for Energy Security and Net Zero, Digest of UK Energy Statistics (DUKES) 2026,
+    table 5.10, Plant loads, demand and efficiency of major power producers
+  url: ''
+cite: UK Department for Energy Security and Net Zero (DESNZ). Digest of UK Energy Statistics (DUKES) 2026, table 5.10, Plant
+  loads, demand and efficiency. Via the Energy Research Warehouse (ERW), table `desnz_uk_plant_loads_annual`.
+method: docs/methods/desnz_uk_plant_loads_annual.md
+header_title: 'DESNZ, Digest of UK Energy Statistics (DUKES) 2026, table 5.10: the UK''s maximum load, plant load factors
+  and thermal efficiency for the major power producers, 1996 to 2025 (session 2728)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity desnz_pl:<area or plant type>; variable max_load (MW), max_demand_share_of_capacity,
+  load_factor, system_load_factor or thermal_efficiency (pct); ts_utc the first day of DESNZ''s year (the maximum load''s
+  year runs to March of the next, note 3); freq P1Y; geo GB, GB-SCT or GB-NIR; node the sheet''s row.'
+read:
+  date: '2026-11-20'
+  rows: 425
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      desnz_pl:all_plant: 30
+      desnz_pl:ccgt: 60
+      desnz_pl:coal: 59
+      desnz_pl:conventional_thermal: 30
+      desnz_pl:england_wales: 6
+      desnz_pl:great_britain: 27
+      desnz_pl:northern_ireland: 27
+      desnz_pl:nuclear: 60
+      desnz_pl:pumped_storage: 30
+      desnz_pl:scotland: 6
+      desnz_pl:uk: 90
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 30
+    earliest: '1996-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 403
+    lowest: 0.0
+    highest: 61717.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 96
+      pct: 329
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 425
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      GB: 392
+      GB-NIR: 27
+      GB-SCT: 6
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 425
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      '5.10.B: All plant': 30
+      '5.10.B: Combined cycle gas turbine stations': 30
+      '5.10.B: Conventional thermal and other stations': 30
+      '5.10.B: Nuclear stations': 30
+      '5.10.B: Pumped storage hydro': 30
+      '5.10.B: System load factor': 30
+      '5.10.B: of which coal-fired stations': 29
+      '5.10.C: Coal fired stations': 30
+      '5.10.C: Combined cycle gas turbine stations': 30
+      '5.10.C: Nuclear stations': 30
+      Maximum demand as a percentage of major power producers' capacity UK: 30
+      Simultaneous maximum load met, MW England and Wales: 6
+      Simultaneous maximum load met, MW Great Britain: 27
+      Simultaneous maximum load met, MW Northern Ireland: 27
+      Simultaneous maximum load met, MW Scotland: 6
+      Simultaneous maximum load met, MW Total: 30
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      desnz:dukes_5_10_plant_loads: 425
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://assets.publishing.service.gov.uk/media/6a6a364b0ddb7e4831c629f2/DUKES_5.10.xlsx: 425
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T19:27:58Z': 425
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-07-29T17:20:11Z': 425
+  missing_cells: 0
+variables:
+- name: load_factor
+  label: null
+  unit: pct
+  rows: 179
+  first: '1996-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: max_demand_share_of_capacity
+  label: null
+  unit: pct
+  rows: 30
+  first: '1996-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: max_load
+  label: null
+  unit: MW
+  rows: 96
+  first: '1996-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: system_load_factor
+  label: null
+  unit: pct
+  rows: 30
+  first: '1996-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: thermal_efficiency
+  label: null
+  unit: pct
+  rows: 90
+  first: '1996-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

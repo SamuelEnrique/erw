@@ -1,0 +1,176 @@
+# The codebook's metadata of table eia_gas_consumption_state_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_gas_consumption_state_monthly
+family: eia
+shape: series
+row: One state's (or the nation's) monthly natural gas consumption by one sector, or in total, from EIA's Natural Gas Monthly.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:natural-gas/cons/sum U.S. Energy Information Administration, Natural Gas Monthly, consumption by state (API v2,
+    route natural-gas/cons/sum)
+  url: https://www.eia.gov/naturalgas/monthly/
+cite: U.S. Energy Information Administration (EIA). Natural Gas Monthly, consumption by state (API v2). Via the Energy Research
+  Warehouse (ERW), table `eia_gas_consumption_state_monthly`.
+method: docs/methods/eia_gas_consumption_state_monthly.md
+header_title: EIA, natural gas consumption by state (residential, commercial, industrial, electric power, total), a month
+  (session 518)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_gas_consumption:<process>:<area>; variable consumption_residential,
+  consumption_commercial, consumption_industrial, consumption_electric_power or consumption_total (which holds the others
+  and more: leave it out of a sum); unit MMcf; ts_utc the month''s first day; freq P1M; node EIA''s series name.'
+read:
+  date: '2026-11-20'
+  rows: 63420
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 208
+    examples:
+    - eia_gas_consumption:VC0:NUS
+    - eia_gas_consumption:VCS:NUS
+    - eia_gas_consumption:VCS:SAK
+    - eia_gas_consumption:VCS:SAL
+    - eia_gas_consumption:VCS:SAR
+  missing_cells: 0
+  particular: eia_gas_consumption:<process>:<area>
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 307
+    earliest: '2001-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 3921586.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MMcf: 63420
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 63420
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 63420
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 208
+    examples:
+    - Alabama Natural Gas Deliveries to Electric Power Consumers (MMcf)
+    - Alabama Natural Gas Industrial Consumption (MMcf)
+    - Alabama Natural Gas Residential Consumption (MMcf)
+    - Alaska Natural Gas Deliveries to Electric Power Consumers (MMcf)
+    - Alaska Natural Gas Industrial Consumption (MMcf)
+  missing_cells: 0
+  particular: EIA's series name
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:natural-gas/cons/sum: 63420
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/natural-gas/cons/sum/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=VRS&facets%5Bprocess%5D%5B%5D=VCS&facets%5Bprocess%5D%5B%5D=VIN&facets%5Bprocess%5D%5B%5D=VEU&facets%5Bprocess%5D%5B%5D=VC0&start=2001-01
+      : 63420
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T20:22:19Z': 63420
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 63420
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: consumption_commercial
+  label: Natural gas delivered to commercial consumers (VCS), million cubic feet
+  unit: MMcf
+  rows: 15943
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: consumption_electric_power
+  label: Natural gas delivered to electric power consumers (VEU), million cubic feet
+  unit: MMcf
+  rows: 15395
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: consumption_industrial
+  label: Natural gas delivered to industrial consumers (VIN), million cubic feet
+  unit: MMcf
+  rows: 15827
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: consumption_residential
+  label: Natural gas delivered to residential consumers (VRS), million cubic feet
+  unit: MMcf
+  rows: 15948
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: consumption_total
+  label: Total natural gas consumption (VC0), million cubic feet; holds the others and more, so leave it out of a sum
+  unit: MMcf
+  rows: 307
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

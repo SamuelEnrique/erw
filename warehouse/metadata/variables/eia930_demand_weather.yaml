@@ -1,0 +1,449 @@
+# The codebook's metadata of table eia930_demand_weather (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia930_demand_weather
+family: eia930
+shape: series
+row: One ISO balancing authority's value of one figure of demand growth with the weather taken out, for one local year.
+time: ts_utc is the first day of the local year at 00:00:00Z (freq P1Y); x_at is a peak hour's start, UTC.
+vintage_rule: Rebuilt whole by each run of the builder, so a figure a later run no longer holds leaves the table; vintage
+  is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1Y
+source:
+- name: erw:demand_weather ERW derived table, demand growth with the weather taken out (docs/methods/demand_weather.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/demand_weather.md
+cite: Energy Research Warehouse (ERW), derived. ERW derived table, demand growth with the weather taken out (docs/methods/demand_weather.md).
+  Via the Energy Research Warehouse (ERW), table `eia930_demand_weather`.
+method: docs/methods/demand_weather.md
+header_title: demand growth with the weather taken out, the seven ISO balancing authorities, by year (session 126)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba; freq P1Y, ts_utc the first day of the local year.
+  For each of energy (the mean of the year''s hours), summer_peak (the highest hour of June to September), winter_peak (the
+  highest hour of December of the year before to February) and overnight_min (the mean over the year''s days of the lowest
+  hour from midnight to 6 am, local): <figure>_mw metered, <figure>_expected_mw the fit''s (the customers of 2019 to 2021
+  in that year''s weather), <figure>_base_mw the mean of 2019 to 2021, <figure>_growth_pct, <figure>_weather_pct (the growth
+  the weather explains), <figure>_unexplained_pct (growth minus weather; x_finding yes when it is larger than its uncertainty,
+  beyond when the peak''s hour was hotter or colder than any hour the fit was made on) and <figure>_uncertainty_pct (the largest
+  miss of the years left out of the fit in turn; for a peak, never under the fit''s error on one hour left out). <figure>_holdout_unexplained_pct
+  on a row of 2019 to 2021: that year left out of the fit. fit_* on the row of 2019: the fit''s hours and its mean absolute
+  percent error.'
+read:
+  date: '2026-11-20'
+  rows: 1057
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia930:CISO: 155
+      eia930:ERCO: 155
+      eia930:ISNE: 127
+      eia930:MISO: 155
+      eia930:NYIS: 155
+      eia930:PJM: 155
+      eia930:SWPP: 155
+  missing_cells: 0
+  particular: eia930:<BA>, the seven ISO balancing authorities
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2019-01-01T00:00:00Z': 49
+      '2020-01-01T00:00:00Z': 28
+      '2021-01-01T00:00:00Z': 28
+      '2022-01-01T00:00:00Z': 196
+      '2023-01-01T00:00:00Z': 196
+      '2024-01-01T00:00:00Z': 196
+      '2025-01-01T00:00:00Z': 182
+      '2026-01-01T00:00:00Z': 182
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 849
+    lowest: -37.843
+    highest: 166462.8
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 408
+      count: 7
+      pct: 642
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 1057
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 592
+      US-CA: 155
+      US-NY: 155
+      US-TX: 155
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1057
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1057
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:demand_weather: 1057
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/demand_weather.md: 1057
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-17T04:00:33Z': 1057
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1057
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      ciso: 155
+      erco: 155
+      isne: 127
+      miso: 155
+      nyis: 155
+      pjm: 155
+      swpp: 155
+  missing_cells: 0
+- name: x_finding
+  label: yes when the unexplained growth is larger than its uncertainty (and a peak's hour lay within the weather the fit
+    saw), no when not, beyond when the peak's hour was hotter or colder than any hour the fit was made on
+  unit: none
+  type: text
+  values:
+    list:
+      beyond: 14
+      'no': 60
+      'yes': 62
+  missing_cells: 921
+  missing_meaning: Empty on every row but <figure>_unexplained_pct
+  source_name: null
+  documented_by: header; connector demand_weather.py; method demand_weather.md
+- name: x_window
+  label: 'The window the figure is over: the year, the season (a peak), 1 January to MM-DD (the newest year), or left out
+    of the fit (a holdout row)'
+  unit: none
+  type: text
+  values:
+    list:
+      1 January to 11-06: 91
+      left out of the fit: 77
+      the season: 476
+      the year: 385
+  missing_cells: 28
+  missing_meaning: Empty on the fit_ rows
+  source_name: null
+  documented_by: connector demand_weather.py
+- name: x_at
+  label: The peak hour's start, UTC
+  unit: none
+  type: utc time
+  values:
+    distinct: 59
+    earliest: '2021-12-15T02:00:00Z'
+    latest: '2026-09-10T00:00:00Z'
+  missing_cells: 581
+  missing_meaning: Not a peak figure, or a holdout or fit row
+  source_name: null
+  documented_by: connector demand_weather.py
+- name: x_used
+  label: The hours used for the figure (days for the overnight minimum)
+  unit: count
+  type: integer
+  values:
+    distinct: 67
+    lowest: 305
+    highest: 8760
+  missing_cells: 105
+  missing_meaning: Empty on the holdout and fit rows
+  source_name: null
+  documented_by: connector demand_weather.py
+variables:
+- name: energy_base_mw
+  label: 'Energy (the mean of the year''s hours): the mean of 2019 to 2021'
+  unit: MW
+  rows: 35
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: energy_expected_mw
+  label: 'Energy (the mean of the year''s hours): the fit''s expectation: the customers of 2019 to 2021 in that year''s weather'
+  unit: MW
+  rows: 35
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: energy_growth_pct
+  label: 'Energy (the mean of the year''s hours): growth on the 2019 to 2021 base, percent'
+  unit: pct
+  rows: 35
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: energy_holdout_unexplained_pct
+  label: 'Energy (the mean of the year''s hours): on a row of 2019 to 2021, the unexplained growth of that year when it is
+    left out of the fit, percent'
+  unit: pct
+  rows: 21
+  first: '2019-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: energy_mw
+  label: 'Energy (the mean of the year''s hours): metered, MW'
+  unit: MW
+  rows: 35
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: energy_uncertainty_pct
+  label: 'Energy (the mean of the year''s hours): uncertainty: the largest miss of the years left out of the fit in turn (for
+    a peak, never under the fit''s error on one hour left out)'
+  unit: pct
+  rows: 35
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: energy_unexplained_pct
+  label: 'Energy (the mean of the year''s hours): growth less the part the weather explains, percent (x_finding says whether
+    it is a finding)'
+  unit: pct
+  rows: 35
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: energy_weather_pct
+  label: 'Energy (the mean of the year''s hours): the growth the weather explains, percent'
+  unit: pct
+  rows: 35
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: fit_hours
+  label: The hours the fit (2019 to 2021) was made on (on the 2019 row)
+  unit: count
+  rows: 7
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: fit_in_sample_error_pct
+  label: The fit's mean absolute percent error on the hours it was made on
+  unit: pct
+  rows: 7
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: fit_left_out_daily_error_pct
+  label: The fit's mean absolute percent error on the daily means of the hours left out
+  unit: pct
+  rows: 7
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: fit_left_out_error_pct
+  label: The fit's mean absolute percent error on an hour of a year left out
+  unit: pct
+  rows: 7
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: overnight_min_base_mw
+  label: 'Overnight minimum (the mean over the year''s days of the lowest hour from midnight to 6 am, local): the mean of
+    2019 to 2021'
+  unit: MW
+  rows: 33
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: overnight_min_expected_mw
+  label: 'Overnight minimum (the mean over the year''s days of the lowest hour from midnight to 6 am, local): the fit''s expectation:
+    the customers of 2019 to 2021 in that year''s weather'
+  unit: MW
+  rows: 33
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: overnight_min_growth_pct
+  label: 'Overnight minimum (the mean over the year''s days of the lowest hour from midnight to 6 am, local): growth on the
+    2019 to 2021 base, percent'
+  unit: pct
+  rows: 33
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: overnight_min_holdout_unexplained_pct
+  label: 'Overnight minimum (the mean over the year''s days of the lowest hour from midnight to 6 am, local): on a row of
+    2019 to 2021, the unexplained growth of that year when it is left out of the fit, percent'
+  unit: pct
+  rows: 21
+  first: '2019-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: overnight_min_mw
+  label: 'Overnight minimum (the mean over the year''s days of the lowest hour from midnight to 6 am, local): metered, MW'
+  unit: MW
+  rows: 33
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: overnight_min_uncertainty_pct
+  label: 'Overnight minimum (the mean over the year''s days of the lowest hour from midnight to 6 am, local): uncertainty:
+    the largest miss of the years left out of the fit in turn (for a peak, never under the fit''s error on one hour left out)'
+  unit: pct
+  rows: 33
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: overnight_min_unexplained_pct
+  label: 'Overnight minimum (the mean over the year''s days of the lowest hour from midnight to 6 am, local): growth less
+    the part the weather explains, percent (x_finding says whether it is a finding)'
+  unit: pct
+  rows: 33
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: overnight_min_weather_pct
+  label: 'Overnight minimum (the mean over the year''s days of the lowest hour from midnight to 6 am, local): the growth the
+    weather explains, percent'
+  unit: pct
+  rows: 33
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: summer_peak_base_mw
+  label: 'Summer peak (the highest hour of June to September): the mean of 2019 to 2021'
+  unit: MW
+  rows: 34
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: summer_peak_expected_mw
+  label: 'Summer peak (the highest hour of June to September): the fit''s expectation: the customers of 2019 to 2021 in that
+    year''s weather'
+  unit: MW
+  rows: 34
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: summer_peak_growth_pct
+  label: 'Summer peak (the highest hour of June to September): growth on the 2019 to 2021 base, percent'
+  unit: pct
+  rows: 34
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: summer_peak_holdout_unexplained_pct
+  label: 'Summer peak (the highest hour of June to September): on a row of 2019 to 2021, the unexplained growth of that year
+    when it is left out of the fit, percent'
+  unit: pct
+  rows: 21
+  first: '2019-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: summer_peak_mw
+  label: 'Summer peak (the highest hour of June to September): metered, MW'
+  unit: MW
+  rows: 34
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: summer_peak_uncertainty_pct
+  label: 'Summer peak (the highest hour of June to September): uncertainty: the largest miss of the years left out of the
+    fit in turn (for a peak, never under the fit''s error on one hour left out)'
+  unit: pct
+  rows: 34
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: summer_peak_unexplained_pct
+  label: 'Summer peak (the highest hour of June to September): growth less the part the weather explains, percent (x_finding
+    says whether it is a finding)'
+  unit: pct
+  rows: 34
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: summer_peak_weather_pct
+  label: 'Summer peak (the highest hour of June to September): the growth the weather explains, percent'
+  unit: pct
+  rows: 34
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: winter_peak_base_mw
+  label: 'Winter peak (the highest hour of December of the year before to February): the mean of 2019 to 2021'
+  unit: MW
+  rows: 34
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: winter_peak_expected_mw
+  label: 'Winter peak (the highest hour of December of the year before to February): the fit''s expectation: the customers
+    of 2019 to 2021 in that year''s weather'
+  unit: MW
+  rows: 34
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: winter_peak_growth_pct
+  label: 'Winter peak (the highest hour of December of the year before to February): growth on the 2019 to 2021 base, percent'
+  unit: pct
+  rows: 34
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: winter_peak_holdout_unexplained_pct
+  label: 'Winter peak (the highest hour of December of the year before to February): on a row of 2019 to 2021, the unexplained
+    growth of that year when it is left out of the fit, percent'
+  unit: pct
+  rows: 14
+  first: '2020-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: winter_peak_mw
+  label: 'Winter peak (the highest hour of December of the year before to February): metered, MW'
+  unit: MW
+  rows: 34
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: winter_peak_uncertainty_pct
+  label: 'Winter peak (the highest hour of December of the year before to February): uncertainty: the largest miss of the
+    years left out of the fit in turn (for a peak, never under the fit''s error on one hour left out)'
+  unit: pct
+  rows: 34
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: winter_peak_unexplained_pct
+  label: 'Winter peak (the highest hour of December of the year before to February): growth less the part the weather explains,
+    percent (x_finding says whether it is a finding)'
+  unit: pct
+  rows: 34
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: winter_peak_weather_pct
+  label: 'Winter peak (the highest hour of December of the year before to February): the growth the weather explains, percent'
+  unit: pct
+  rows: 34
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+second_look: null

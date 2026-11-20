@@ -1,0 +1,299 @@
+# The codebook's metadata of table statcan_electricity_trade_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: statcan_electricity_trade_monthly
+family: statcan
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: statcan:25-10-0016-01 Statistics Canada, Table 25-10-0016-01, Electric power generation, monthly receipts, deliveries
+    and availability
+  url: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2510001601
+cite: Statistics Canada. Table 25-10-0016-01, Electric power generation, monthly receipts, deliveries and availability. Via
+  the Energy Research Warehouse (ERW), table `statcan_electricity_trade_monthly`.
+method: docs/methods/statcan_electricity_trade_monthly.md
+header_title: Statistics Canada, table 25-10-0016-01, electric power generation, monthly receipts, deliveries and availability
+  by province, the trade with the United States and between provinces among them, 2008-01 to 2026-07 (session 2328)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statcan_trade:<area>; variable the component (generation, receipts_*,
+  deliveries_*, available_for_use; MWh); freq P1M; ts_utc the month''s first day; geo CA or CA-<province>; node the area and
+  component as StatCan names them; x_total yes for StatCan''s totals (never summed with their parts); x_vector; x_revised
+  r where revised.'
+read:
+  date: '2026-11-20'
+  rows: 25215
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      statcan_trade:ab: 2284
+      statcan_trade:bc: 2407
+      statcan_trade:ca: 1890
+      statcan_trade:mb: 2453
+      statcan_trade:nb: 2422
+      statcan_trade:nl: 1862
+      statcan_trade:ns: 2013
+      statcan_trade:nt: 446
+      statcan_trade:nu: 446
+      statcan_trade:on: 2381
+      statcan_trade:pe: 1404
+      statcan_trade:qc: 2474
+      statcan_trade:sk: 2287
+      statcan_trade:yt: 446
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 223
+    earliest: '2008-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -11739.0
+    highest: 66771096.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 25215
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 25215
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      CA: 1890
+      CA-AB: 2284
+      CA-BC: 2407
+      CA-MB: 2453
+      CA-NB: 2422
+      CA-NL: 1862
+      CA-NS: 2013
+      CA-NT: 446
+      CA-NU: 446
+      CA-ON: 2381
+      CA-PE: 1404
+      CA-QC: 2474
+      CA-SK: 2287
+      CA-YT: 446
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25215
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 170
+    examples:
+    - 'Alberta: Deliveries to other provinces'
+    - 'Alberta: Deliveries to the United States'
+    - 'Alberta: Firm deliveries to other provinces'
+    - 'Alberta: Firm deliveries to the United States'
+    - 'Alberta: Non-firm deliveries to other provinces'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      statcan:25-10-0016-01: 25215
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www150.statcan.gc.ca/n1/tbl/csv/25100016-eng.zip: 25215
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T07:22:19Z': 25215
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-08T12:30:35Z': 25215
+  missing_cells: 0
+- name: x_total
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      'yes': 13217
+  missing_cells: 11998
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_vector
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 170
+    examples:
+    - v1059484942
+    - v1061444191
+    - v44158996
+    - v44158997
+    - v44158998
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_revised
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      r: 254
+  missing_cells: 24961
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: available_for_use
+  label: null
+  unit: MWh
+  rows: 3122
+  first: '2008-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: deliveries_firm_other_provinces
+  label: null
+  unit: MWh
+  rows: 641
+  first: '2008-01-01T00:00:00Z'
+  last: '2015-12-01T00:00:00Z'
+- name: deliveries_firm_total
+  label: null
+  unit: MWh
+  rows: 936
+  first: '2008-01-01T00:00:00Z'
+  last: '2015-12-01T00:00:00Z'
+- name: deliveries_firm_us
+  label: null
+  unit: MWh
+  rows: 728
+  first: '2008-01-01T00:00:00Z'
+  last: '2015-12-01T00:00:00Z'
+- name: deliveries_non_firm_other_provinces
+  label: null
+  unit: MWh
+  rows: 690
+  first: '2008-01-01T00:00:00Z'
+  last: '2015-12-01T00:00:00Z'
+- name: deliveries_non_firm_total
+  label: null
+  unit: MWh
+  rows: 875
+  first: '2008-01-01T00:00:00Z'
+  last: '2015-12-01T00:00:00Z'
+- name: deliveries_non_firm_us
+  label: null
+  unit: MWh
+  rows: 786
+  first: '2008-01-01T00:00:00Z'
+  last: '2015-12-01T00:00:00Z'
+- name: deliveries_other_provinces
+  label: null
+  unit: MWh
+  rows: 2159
+  first: '2008-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: deliveries_other_total
+  label: null
+  unit: MWh
+  rows: 319
+  first: '2008-01-01T00:00:00Z'
+  last: '2013-12-01T00:00:00Z'
+- name: deliveries_other_us
+  label: null
+  unit: MWh
+  rows: 319
+  first: '2008-01-01T00:00:00Z'
+  last: '2013-12-01T00:00:00Z'
+- name: deliveries_total
+  label: null
+  unit: MWh
+  rows: 2390
+  first: '2008-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: deliveries_us
+  label: null
+  unit: MWh
+  rows: 2077
+  first: '2008-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: generation
+  label: null
+  unit: MWh
+  rows: 3122
+  first: '2008-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: receipts_other_provinces
+  label: null
+  unit: MWh
+  rows: 2225
+  first: '2008-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: receipts_total
+  label: null
+  unit: MWh
+  rows: 2453
+  first: '2008-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: receipts_us_other
+  label: null
+  unit: MWh
+  rows: 283
+  first: '2008-01-01T00:00:00Z'
+  last: '2011-12-01T00:00:00Z'
+- name: receipts_us_purchased
+  label: null
+  unit: MWh
+  rows: 2090
+  first: '2008-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

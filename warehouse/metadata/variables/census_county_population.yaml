@@ -1,0 +1,204 @@
+# The codebook's metadata of table census_county_population (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: census_county_population
+family: census
+shape: series
+row: One county's population, the 2020 census count or the Census Bureau's estimate of 1 July of one year.
+time: ts_utc is 2020-04-01 for population_census_2020 (freq empty) and 1 July of each year, 2018 to 2025, for population_estimate
+  (freq P1Y), at 00:00:00Z.
+vintage_rule: Merged by key (entity, variable, ts_utc), a run's rows replacing earlier rows with the same key; vintage is
+  not filled, and x_product names the Bureau's product.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: ;P1Y
+source:
+- name: census:popest/intercensal_county_2010_2020 2010-2020 Intercensal County Population Estimates (by age group and sex)
+  url: https://www.census.gov/data/datasets/time-series/demo/popest/intercensal-2010-2020-counties.html
+- name: census:popest/co-est2025-alldata County Population Totals, Vintage 2025 (co-est2025-alldata.csv)
+  url: https://www.census.gov/data/datasets/time-series/demo/popest/2020s-counties-total.html
+cite: U.S. Census Bureau. 2010-2020 Intercensal County Population Estimates (by age group and sex); County Population Totals,
+  Vintage 2025. Via the Energy Research Warehouse (ERW), table `census_county_population`.
+method: docs/methods/county_population_and_regions.md
+header_title: county population, the 2020 census count and the Census Bureau's estimates of 1 July 2018 to 2025 (session 7802)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity census:county:<five-digit FIPS>; population_census_2020 (1
+  April 2020, the 2020 Modified Age and Race Census file as the intercensal files print it) and population_estimate (1 July
+  of each year), unit count. 2018 and 2019 from the 2010-2020 intercensal estimates, 2020 to 2025 from vintage 2025 (x_product);
+  not spliced. Connecticut''s planning regions (vintage 2025) and former counties (intercensal) each under their own code.
+  Method: docs/methods/county_population_and_regions.md.'
+read:
+  date: '2026-11-20'
+  rows: 28293
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 3152
+    examples:
+    - census:county:01001
+    - census:county:01003
+    - census:county:01005
+    - census:county:01007
+    - census:county:01009
+  missing_cells: 0
+  particular: census:county:<five-digit state and county FIPS>; Connecticut's planning regions and former counties each under
+    their own code
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2018-07-01T00:00:00Z': 3143
+      '2019-07-01T00:00:00Z': 3143
+      '2020-04-01T00:00:00Z': 3143
+      '2020-07-01T00:00:00Z': 3144
+      '2021-07-01T00:00:00Z': 3144
+      '2022-07-01T00:00:00Z': 3144
+      '2023-07-01T00:00:00Z': 3144
+      '2024-07-01T00:00:00Z': 3144
+      '2025-07-01T00:00:00Z': 3144
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 46
+    highest: 10098683
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 28293
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 25150
+  missing_cells: 3143
+  particular: Empty on the population_census_2020 rows (a single count, not an interval)
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 28293
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 1887
+    examples:
+    - Abbeville County
+    - Acadia Parish
+    - Accomack County
+    - Ada County
+    - Adair County
+  missing_cells: 0
+  particular: The Bureau's county name (CTYNAME), not a pricing node
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      census:popest/co-est2025-alldata: 18864
+      census:popest/intercensal_county_2010_2020: 9429
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/intercensal/county/asrh/cc-est2020int-agesex-01.csv
+    - https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/intercensal/county/asrh/cc-est2020int-agesex-02.csv
+    - https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/intercensal/county/asrh/cc-est2020int-agesex-04.csv
+    - https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/intercensal/county/asrh/cc-est2020int-agesex-05.csv
+    - https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/intercensal/county/asrh/cc-est2020int-agesex-06.csv
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-18T01:26:49Z': 28293
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 28293
+- name: x_state
+  label: The state's name as the Bureau writes it
+  unit: none
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - Alabama
+    - Alaska
+    - Arizona
+    - Arkansas
+    - California
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: STNAME
+  documented_by: connector census_county_population.py
+- name: x_product
+  label: 'The Bureau''s file the row came from: intercensal 2010-2020 (2018, 2019 and the 2020 count) or vintage 2025 (2020
+    to 2025)'
+  unit: none
+  type: text
+  values:
+    list:
+      intercensal 2010-2020: 9429
+      vintage 2025: 18864
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector census_county_population.py; method county_population_and_regions.md
+variables:
+- name: population_census_2020
+  label: The county's 2020 census count of 1 April 2020 (the Modified Age and Race Census file as the intercensal files print
+    it)
+  unit: count
+  rows: 3143
+  first: '2020-04-01T00:00:00Z'
+  last: '2020-04-01T00:00:00Z'
+- name: population_estimate
+  label: The Census Bureau's estimate of the county's population on 1 July of the year
+  unit: count
+  rows: 25150
+  first: '2018-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,291 @@
+# The codebook's metadata of table iso_queue_statistics (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: iso_queue_statistics
+family: iso
+shape: series
+row: One statistic of one ISO's interconnection queue for the positions that entered it in one year, all positions or one
+  technology group.
+time: ts_utc is the first day of the entry year (the year of the ISO's queue date) at 00:00:00Z.
+vintage_rule: Rebuilt whole from the six ISO queue tables by each run of the builder; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1Y
+source:
+- name: erw:iso_queue_statistics ERW derived table
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/energy_projects.md
+cite: Energy Research Warehouse (ERW), derived. Interconnection queue statistics by ISO and entry year (derived, session 348).
+  Via the Energy Research Warehouse (ERW), table `iso_queue_statistics`.
+method: docs/methods/energy_projects.md
+header_title: interconnection queue statistics by ISO and entry year (derived, session 348)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity <iso>:queue_<entry year>; variables positions_ and mw_ entered,
+  withdrawn, operating, waiting and status_not_stated; withdrawal_rate; wait_positions, wait_years_median, wait_years_mean.
+  Since session 7022 the same by technology group, entity <iso>:tech_<group>:queue_<entry year>, group storage, solar, solar_storage,
+  wind, gas, other or not_stated (the queue gives no technology), from the queue''s fuel_technology; a group with no position
+  in a year has no row'
+read:
+  date: '2026-11-20'
+  rows: 8990
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 741
+    examples:
+    - caiso:queue_1999
+    - caiso:queue_2000
+    - caiso:queue_2001
+    - caiso:queue_2002
+    - caiso:queue_2003
+  missing_cells: 0
+  particular: <iso>:queue_<entry year> for all positions, <iso>:tech_<group>:queue_<entry year> for a technology group (storage,
+    solar, solar_storage, wind, gas, other, not_stated)
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 32
+    earliest: '1989-01-01T00:00:00Z'
+    latest: '2026-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2438
+    lowest: 0.0
+    highest: 175694.26
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 3584
+      count: 4147
+      ratio: 677
+      year: 582
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 8990
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8990
+  particular: 'Not filled: no cell holds a value'
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      caiso_queue: 1778
+      ercot_queue: 648
+      isone_queue: 1725
+      miso_queue: 803
+      nyiso_queue: 2056
+      spp_queue: 1980
+  missing_cells: 0
+  particular: '<iso>_queue: the queue of the ISO the row summarizes'
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8990
+  particular: 'Not filled: no cell holds a value'
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:iso_queue_statistics: 8990
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/energy_projects.md: 8990
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-09-26T00:06:45Z': 2859
+      '2026-11-16T14:52:19Z': 6131
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8990
+  particular: 'Not filled: no cell holds a value'
+- name: x_iso
+  label: The ISO whose queue the row summarizes (CAISO, ERCOT, ISO-NE, MISO, NYISO, SPP)
+  unit: none
+  type: text
+  values:
+    list:
+      CAISO: 1778
+      ERCOT: 648
+      ISO-NE: 1725
+      MISO: 803
+      NYISO: 2056
+      SPP: 1980
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector queue_statistics.py
+- name: x_entry_year
+  label: The year the positions entered the queue (the year of the queue date)
+  unit: none
+  type: integer
+  values:
+    distinct: 32
+    lowest: 1989
+    highest: 2026
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector queue_statistics.py; method energy_projects.md
+- name: x_rule
+  label: In words, how the ISO's status words were read for this variable, and the technology group rule where the row is
+    a group's
+  unit: none
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - SPP's Commercial Operation Date, which may be the date requested rather than achieved
+    - SPP's Commercial Operation Date, which may be the date requested rather than achieved; technology group gas (the queue's
+      fuel_technology read by warehouse/derived/queue_statistics.py technology_group)
+    - SPP's Commercial Operation Date, which may be the date requested rather than achieved; technology group not_stated (the
+      queue's fuel_technology read by warehouse/derived/queue_statistics.py technology_group)
+    - SPP's Commercial Operation Date, which may be the date requested rather than achieved; technology group other (the queue's
+      fuel_technology read by warehouse/derived/queue_statistics.py technology_group)
+    - SPP's Commercial Operation Date, which may be the date requested rather than achieved; technology group solar (the queue's
+      fuel_technology read by warehouse/derived/queue_statistics.py technology_group)
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector queue_statistics.py; method energy_projects.md
+- name: x_input_run
+  label: The header line naming the archive run the input queue table was rebuilt from
+  unit: none
+  type: text
+  values:
+    list:
+      Rebuilt from the ERW archive by warehouse/archive/restore.py, as of run 20261004T023527Z-local (2026-10-04T02:35:27Z): 2859
+      Rebuilt from the ERW archive by warehouse/archive/restore.py, as of run 20261116T155131Z-github (2026-11-16T15:51:31Z): 6131
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector queue_statistics.py
+variables:
+- name: mw_entered
+  label: MW the queue states for the positions entered, summed
+  unit: MW
+  rows: 719
+  first: '1989-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: mw_operating
+  label: MW of the positions that reached operation
+  unit: MW
+  rows: 721
+  first: '1989-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: mw_status_not_stated
+  label: MW of the positions with no status
+  unit: MW
+  rows: 741
+  first: '1989-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: mw_waiting
+  label: MW of the positions still waiting
+  unit: MW
+  rows: 741
+  first: '1989-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: mw_withdrawn
+  label: MW of the positions withdrawn
+  unit: MW
+  rows: 662
+  first: '1989-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: positions_entered
+  label: Positions that entered the queue in the year
+  unit: count
+  rows: 741
+  first: '1989-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: positions_operating
+  label: Of those, positions that reached operation (completed; for ERCOT a signed interconnection agreement)
+  unit: count
+  rows: 741
+  first: '1989-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: positions_status_not_stated
+  label: Of those, positions the ISO lists with no status
+  unit: count
+  rows: 741
+  first: '1989-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: positions_waiting
+  label: Of those, positions still waiting (active or suspended)
+  unit: count
+  rows: 741
+  first: '1989-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: positions_withdrawn
+  label: Of those, positions withdrawn (none held for ERCOT)
+  unit: count
+  rows: 677
+  first: '1989-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: wait_positions
+  label: Operating positions with a queue date and an in-service date on or after it
+  unit: count
+  rows: 506
+  first: '1989-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: wait_years_mean
+  label: Mean years from queue date to in-service date of those positions
+  unit: year
+  rows: 291
+  first: '1989-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: wait_years_median
+  label: Median years from queue date to in-service date (days over 365.25) of those positions
+  unit: year
+  rows: 291
+  first: '1989-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: withdrawal_rate
+  label: Withdrawn positions over positions entered, by count
+  unit: ratio
+  rows: 677
+  first: '1989-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+second_look: null

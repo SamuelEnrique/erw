@@ -1,0 +1,183 @@
+# The codebook's metadata of table asli_liechtenstein_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: asli_liechtenstein_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: 'asli_li:energie_2025_tabelle5 Amt fuer Statistik Liechtenstein, Energie 2025, Tabelle 5: Stromproduktion und -verbrauch
+    seit 1985 (CC BY 4.0)'
+  url: ''
+cite: 'Amt fuer Statistik Liechtenstein. Energie 2025, Tabelle 5: Stromproduktion und -verbrauch seit 1985. Via the Energy
+  Research Warehouse (ERW), table `asli_liechtenstein_electricity_annual`.'
+method: docs/methods/asli_liechtenstein_electricity_annual.md
+header_title: 'Amt fuer Statistik Liechtenstein, Energie 2025, Tabelle 5: Liechtenstein''s electricity production, imports,
+  exports and consumption a year since 1985 (session 2622)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity asli:li:<item> (production, imports, exports, consumption);
+  variable generation, imports, exports or consumption; unit MWh; ts_utc the year''s first day; freq P1Y; geo LI; node the
+  table''s column; x_pv_method old (to 2021) or new (from 2022); x_old_method_value 2022''s figure by the old method.'
+read:
+  date: '2026-11-20'
+  rows: 164
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      asli:li:consumption: 41
+      asli:li:exports: 41
+      asli:li:imports: 41
+      asli:li:production: 41
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 41
+    earliest: '1985-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 137
+    lowest: 0.0
+    highest: 417594.639
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 164
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 164
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      LI: 164
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 164
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Export: 41
+      Import: 41
+      Produktion im Inland: 41
+      Verbrauch im Inland: 41
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      asli_li:energie_2025_tabelle5: 164
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://www.statistikportal.li/statistikportal/publications/551-energie/2025/01/1/551.2025.01.1_02_energie-2025-tabellen.xlsx
+      : 164
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T06:49:03Z': 164
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 164
+- name: x_pv_method
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      new: 16
+      old: 148
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_old_method_value
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '0.0': 1
+      '100496.177': 1
+      '308825.0': 1
+      '409321.177': 1
+  missing_cells: 160
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: consumption
+  label: null
+  unit: MWh
+  rows: 41
+  first: '1985-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: exports
+  label: null
+  unit: MWh
+  rows: 41
+  first: '1985-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation
+  label: null
+  unit: MWh
+  rows: 41
+  first: '1985-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: imports
+  label: null
+  unit: MWh
+  rows: 41
+  first: '1985-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,398 @@
+# The codebook's metadata of table ornl_eha_hydropower_units (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ornl_eha_hydropower_units
+family: ornl
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: ornl:eha_unit M.M. Johnson, S.-C. Kao and R. Uria-Martinez, Existing Hydropower Assets (EHA) Unit Database, 2026,
+    HydroSource, Oak Ridge National Laboratory, Oak Ridge, Tennessee, DOI 10.21951/FY2026/3374522
+  url: https://hydrosource.ornl.gov/data/datasets/eha-unit-2026/
+cite: Oak Ridge National Laboratory (ORNL), HydroSource. Existing Hydropower Assets (EHA) Unit Database. Via the Energy Research
+  Warehouse (ERW), table `ornl_eha_hydropower_units`.
+method: docs/methods/ornl_hydropower.md
+header_title: 'Oak Ridge National Laboratory, Existing Hydropower Assets (EHA) Unit Database, 2026: every U.S. hydropower
+  and pumped storage unit (session 943)'
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id ornl_eha_unit:<EHA_PtGnID>; entity_type generator; name
+  ''<plant>, unit <EHA unit id>''; geo empty (the plant''s state is in ornl_eha_hydropower_plants, joined by eha_plant_id);
+  capacity_mw the unit''s; speed_rpm, head_ft, power_hp, min_load_mw as ORNL gives them; start_time as given (10M minutes,
+  2H hours).'
+read:
+  date: '2026-11-20'
+  rows: 5362
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - ornl_eha_unit:hc0001_p01_1
+    - ornl_eha_unit:hc0001_p01_2
+    - ornl_eha_unit:hc0002_p01_1
+    - ornl_eha_unit:hc0002_p01_2
+    - ornl_eha_unit:hc0003_p01_1
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      generator: 5362
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 29 Mile Creek Diversion, unit 1
+    - 45 Mile Hydroelectric Project, unit 1
+    - 45 Mile Hydroelectric Project, unit 2
+    - 45 Mile Hydroelectric Project, unit 3
+    - 92nd Avenue Pressure Relief Valve Facility Project, unit 1
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5362
+- name: lat
+  shared: true
+  type: number
+  values:
+    distinct: 2184
+    lowest: 18.017
+    highest: 61.6
+  missing_cells: 0
+- name: lon
+  shared: true
+  type: number
+  values:
+    distinct: 2193
+    lowest: -174.197
+    highest: -65.794
+  missing_cells: 0
+- name: capacity_mw
+  shared: true
+  type: number
+  values:
+    distinct: 680
+    lowest: 0.0
+    highest: 805.0
+  missing_cells: 0
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5362
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5362
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5362
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ornl:eha_unit: 5362
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://hydrosource.s3.us-east-2.amazonaws.com/files/data/datasets/eha-unit-2026/ORNL_EHAHydroUnit_PublicFY2026.xlsx: 5362
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T11:18:37Z': 5362
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-06-24T16:53:31Z': 5362
+  missing_cells: 0
+- name: eha_plant_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 2258
+    examples:
+    - hc0001_p01
+    - hc0002_p01
+    - hc0003_p01
+    - hc0004_p01
+    - hc0005_p01
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: plant_owner
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1049
+    examples:
+    - 2C Land & Cattle Company, LLC
+    - 5440 Hydro, Inc.
+    - 8 CHURCH LANE, LLC.
+    - A & D Hydro, Inc.
+    - A H Haley
+  missing_cells: 6
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: unit_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      HY: 5204
+      PS: 158
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: eia_plant_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 1622
+    lowest: 2
+    highest: 69673
+  missing_cells: 937
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: eia_generator_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 673
+    examples:
+    - '1'
+    - '10'
+    - 10A
+    - '11'
+    - '1100'
+  missing_cells: 951
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: eha_unit_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 74
+    examples:
+    - '1'
+    - '10'
+    - '11'
+    - '12'
+    - '13'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: ferc_plant_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1738
+    examples:
+    - 01 - 29 Mile Creek
+    - 01 - A J Allen
+    - 01 - A-Plant Powerhouse
+    - 01 - Abbeville
+    - 01 - Abbott's Mill
+  missing_cells: 1510
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: first_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 132
+    lowest: 1891
+    highest: 2025
+  missing_cells: 143
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: refurbished_year
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - '1950'
+    - '1956'
+    - '1971'
+    - '1972'
+    - '1974'
+  missing_cells: 16
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: turbine_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      10TR2: 1
+      5TR2: 1
+      Archimedes Screw: 2
+      Centrifugal: 1
+      Francis: 2347
+      Horizontal Impulse: 1
+      Horizontal Pump: 2
+      Kaplan: 1282
+      Pelton: 342
+      Pump: 168
+      Unknown: 1213
+      Vertical: 1
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: turbine_maker
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 165
+    examples:
+    - A & D
+    - ABNER DOBLE COMPANY ENGINEERS
+    - ALSTH
+    - AMERICAN HYDRO
+    - AMP Hydro
+  missing_cells: 1823
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: speed_rpm
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 50
+    lowest: 54.5
+    highest: 1730.0
+  missing_cells: 4903
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: head_ft
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 628
+    lowest: 1.08
+    highest: 2558.0
+  missing_cells: 1530
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: power_hp
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 1104
+    lowest: 0.24
+    highest: 960000.0
+  missing_cells: 1695
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: min_load_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 195
+    lowest: 0.0
+    highest: 320.0
+  missing_cells: 1241
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: start_time
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      '1': 2
+      10M: 2879
+      12H: 194
+      1H: 1037
+      OVER: 4
+  missing_cells: 1246
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: huc
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 1621
+    lowest: 10100040901.0
+    highest: 210100050202.0
+  missing_cells: 3
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: county_fips
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 639
+    lowest: 1001
+    highest: 56039
+  missing_cells: 369
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

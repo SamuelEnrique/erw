@@ -1,0 +1,214 @@
+# The codebook's metadata of table energy_charts_southeast_europe_daily (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: energy_charts_southeast_europe_daily
+family: energy
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1D
+source:
+- name: energy_charts:public_power_southeast Energy-Charts.info (Fraunhofer Institute for Solar Energy Systems ISE), public
+    net electricity production
+  url: https://energy-charts.info/charts/power/chart.htm?l=en
+cite: Energy-Charts.info (Fraunhofer ISE). Public net electricity production, Hungary, Romania, Greece and Bulgaria (API public_power).
+  Via the Energy Research Warehouse (ERW), table `energy_charts_southeast_europe_daily`.
+method: docs/methods/energy_charts_southeast_europe_daily.md
+header_title: Energy-Charts (Fraunhofer ISE), public net electricity production by type, load, residual load and cross-border
+  trading for Hungary, Romania, Greece and Bulgaria, a UTC day, 2020-01-01 to 2026-10-22 (session 2259)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity energy_charts:<country>:<type>; variable public_net_energy,
+  load, residual_load or cross_border_trading; unit MWh (the day''s sum of Energy-Charts'' mean power times each period''s
+  length, quarter hours or hours); freq P1D; ts_utc the UTC day; geo HU, RO, GR or BG; x_type Energy-Charts'' name; x_periods
+  the periods summed.'
+read:
+  date: '2026-11-20'
+  rows: 128530
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 58
+    examples:
+    - energy_charts:bg:battery
+    - energy_charts:bg:battery_consumption
+    - energy_charts:bg:biomass
+    - energy_charts:bg:cross_border_electricity_trading
+    - energy_charts:bg:fossil_brown_coal_lignite
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 2487
+    earliest: '2020-01-01T00:00:00Z'
+    latest: '2026-10-22T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -68958.6
+    highest: 215445.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 128530
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 128530
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      BG: 34473
+      GR: 22704
+      HU: 41511
+      RO: 29842
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 128530
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 58
+    examples:
+    - 'BG: Battery'
+    - 'BG: Battery Consumption'
+    - 'BG: Biomass'
+    - 'BG: Cross border electricity trading'
+    - 'BG: Fossil brown coal / lignite'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      energy_charts:public_power_southeast: 128530
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://api.energy-charts.info/public_power?country=bg&start=2020-01-01&end=2026-10-23: 34473
+      https://api.energy-charts.info/public_power?country=gr&start=2020-01-01&end=2026-10-23: 22704
+      https://api.energy-charts.info/public_power?country=hu&start=2020-01-01&end=2026-10-23: 41511
+      https://api.energy-charts.info/public_power?country=ro&start=2020-01-01&end=2026-10-23: 29842
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T04:22:15Z': 41511
+      '2026-10-24T04:25:34Z': 29842
+      '2026-10-24T04:26:16Z': 22704
+      '2026-10-24T04:26:54Z': 34473
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 128530
+- name: x_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Battery: 784
+      Battery Consumption: 171
+      Biomass: 7397
+      Cross border electricity trading: 9948
+      Fossil brown coal / lignite: 9872
+      Fossil gas: 9871
+      Fossil hard coal: 6934
+      Fossil oil: 2483
+      Geothermal: 2227
+      Hydro Run-of-River: 7396
+      Hydro pumped storage: 4575
+      Hydro pumped storage consumption: 138
+      Hydro water reservoir: 9867
+      Load: 9897
+      Nuclear: 7368
+      Other renewables: 2483
+      Others: 2483
+      Residual load: 9897
+      Solar: 9887
+      Waste: 4964
+      Wind onshore: 9888
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_periods
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '24': 65574
+      '30': 12
+      '96': 62944
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: cross_border_trading
+  label: null
+  unit: MWh
+  rows: 9948
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T00:00:00Z'
+- name: load
+  label: null
+  unit: MWh
+  rows: 9897
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T00:00:00Z'
+- name: public_net_energy
+  label: null
+  unit: MWh
+  rows: 98788
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T00:00:00Z'
+- name: residual_load
+  label: null
+  unit: MWh
+  rows: 9897
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T00:00:00Z'
+second_look: null

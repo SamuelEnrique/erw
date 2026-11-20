@@ -1,0 +1,197 @@
+# The codebook's metadata of table carbon_intensity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: carbon_intensity_monthly
+family: carbon
+shape: series
+row: One balancing authority's value of one carbon intensity measure over one UTC month.
+time: ts_utc is the first day of the UTC month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run of the builder; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1M
+source:
+- name: erw:carbon_intensity ERW derived table, emissions method (docs/methods/emissions.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/emissions.md
+cite: Energy Research Warehouse (ERW), derived. California's carbon intensity of generation from the join of 16 December 2025
+  (docs/methods/eia930_caiso_break.md); Carbon intensity per balancing authority (docs/methods/emissions.md). Via the Energy
+  Research Warehouse (ERW), table `carbon_intensity_monthly`.
+method: docs/methods/emissions.md
+header_title: carbon intensity per balancing authority, monthly (derived, sessions 32 and 34)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba, kgCO2/MWh. intensity_generation = EIA''s CO2
+  emissions generated / EIA''s net generation; intensity_demand = EIA''s CO2 emissions consumed (generated plus imported minus
+  exported) / EIA''s demand. Daily values: the day''s CO2 over the day''s MWh, complete UTC days only; monthly values the
+  same over UTC months whose every day is complete.'
+read:
+  date: '2026-11-20'
+  rows: 4380
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia930:CISO: 519
+      eia930:ERCO: 574
+      eia930:ISNE: 591
+      eia930:MISO: 560
+      eia930:NYIS: 578
+      eia930:PJM: 546
+      eia930:SWPP: 412
+      eia930:US48: 600
+  missing_cells: 0
+  particular: eia930:<BA>, the seven ISO balancing authorities and US48
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 101
+    earliest: '2018-07-01T00:00:00Z'
+    latest: '2026-11-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1530
+    lowest: 4.4718
+    highest: 744.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 1595
+      kgCO2/MWh: 2785
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 4380
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 600
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 412
+      US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI: 560
+      US-CA: 519
+      US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 591
+      US-DE,US-DC,US-IL,US-IN,US-KY,US-MD,US-MI,US-NJ,US-NC,US-OH,US-PA,US-TN,US-VA,US-WV: 546
+      US-NY: 578
+      US-TX: 574
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4380
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4380
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:carbon_intensity: 4377
+      erw:carbon_intensity_caiso: 3
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/eia930_caiso_break.md: 3
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/emissions.md: 4377
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-17T04:13:59Z': 4377
+      '2026-11-17T04:43:53Z': 3
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4380
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      ciso: 519
+      erco: 574
+      isne: 591
+      miso: 560
+      nyis: 578
+      pjm: 546
+      swpp: 412
+      us48: 600
+  missing_cells: 0
+variables:
+- name: intensity_demand
+  label: 'kg of CO2 per MWh of demand over a UTC month whose every day is complete: the month''s CO2 consumed over its demand'
+  unit: kgCO2/MWh
+  rows: 644
+  first: '2018-08-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: intensity_demand_hours_held
+  label: Hours of the month with intensity_demand written (of 24 times its days, UTC)
+  unit: count
+  rows: 803
+  first: '2018-07-01T00:00:00Z'
+  last: '2026-11-01T00:00:00Z'
+- name: intensity_demand_over_held_hours
+  label: The month's CO2 consumed over its demand in the hours held, written where at least 90 percent of the month's hours
+    are held
+  unit: kgCO2/MWh
+  rows: 755
+  first: '2018-07-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: intensity_generation
+  label: 'kg of CO2 per MWh generated over a UTC month whose every day is complete: the month''s CO2 generated over its net
+    generation'
+  unit: kgCO2/MWh
+  rows: 641
+  first: '2018-08-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: intensity_generation_hours_held
+  label: Hours of the month with intensity_generation written (of 24 times its days, UTC)
+  unit: count
+  rows: 792
+  first: '2018-07-01T00:00:00Z'
+  last: '2026-11-01T00:00:00Z'
+- name: intensity_generation_over_held_hours
+  label: The month's CO2 generated over its net generation in the hours held, written where at least 90 percent of the month's
+    hours are held
+  unit: kgCO2/MWh
+  rows: 745
+  first: '2018-07-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+second_look: null

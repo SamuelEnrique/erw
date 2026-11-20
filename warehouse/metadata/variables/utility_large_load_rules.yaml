@@ -1,0 +1,1043 @@
+# The codebook's metadata of table utility_large_load_rules (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: utility_large_load_rules
+family: utility
+shape: events
+row: One US utility's (or one state commission's) rule for connecting large loads, such as data centers, with its terms as
+  the documents print them, read by the ERW's research pass of 13 November 2026.
+time: event_date is a date (no time zone), the rule's status date as the documents print it, else the day the document was
+  read (x_date_kind says which).
+vintage_rule: Rewritten whole from the committed research file (utilities_2026-11-13.csv) by each run of the connector; no
+  vintage column. Rows whose only source asks written permission are held and named in the header, not written.
+keys:
+- event_id
+license: public
+tier: model_extracted
+interval: event
+source:
+- name: research:large_load_2026-11-13, docs/research/large_load/utilities_2026-11-13.csv (window P4 of the portable laptop,
+    sessions 5300 to 5304; method  each row's source_url is the document it was read in. No request is made by this connector.
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md
+cite: US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and
+  the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rules`.
+method: docs/methods/large_load_research.md
+header_title: US utilities' (and two state commissions') large-load connection rules, one row a rule (session 3937, chain
+  267)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id llrule:<row_id>; event_date the status date the documents
+  print, else the day read (x_date_kind); event_type large_load_rule; parties the utility or commission; status ordered, proposed,
+  approved, in effect, denied or withdrawn. Each x_<field> as printed with its x_<field>_cite (page or section and the words);
+  ''not published'': the documents read do not state it. mw empty: the files print sizes as phrases (x_threshold_mw).'
+read:
+  date: '2026-11-20'
+  rows: 100
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 100
+    examples:
+    - llrule:aep-02
+    - llrule:aep-06
+    - llrule:aep-07
+    - llrule:aep-08
+    - llrule:ameren_evergy_spp-01
+  missing_cells: 0
+  particular: llrule:<row_id>
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 56
+    earliest: '2010-01-01'
+    latest: '2026-11-13'
+  missing_cells: 0
+  particular: The rule's status date the documents print, else the day read (x_date_kind)
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      large_load_rule: 100
+  missing_cells: 0
+  particular: Always large_load_rule
+- name: parties
+  shared: true
+  type: text
+  values:
+    distinct: 80
+    examples:
+    - AEP Texas Inc.
+    - Alabama Power Company
+    - All Minnesota public utilities providing electric service (applies to Northern States Power Company, Minnesota)
+    - Ameren Illinois Company d/b/a Ameren Illinois
+    - Arizona Public Service Company
+  missing_cells: 0
+  particular: The utility or commission whose rule it is
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 100
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 100
+  particular: 'Not filled: the files print sizes as phrases (x_threshold_mw)'
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 100
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 100
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      approved: 21
+      denied: 1
+      in effect: 52
+      ordered: 1
+      proposed: 25
+  missing_cells: 0
+  particular: 'The rule''s state: ordered, proposed, approved, in effect, denied or withdrawn'
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      research:large_load_2026-11-13: 100
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 91
+    examples:
+    - https://apps.apsc.arkansas.gov/olsv2/viewdoc/tariffs.asp?document=1_elec_1.PDF
+    - https://apps.apsc.arkansas.gov/pdf/25/25-055-P_83_1.pdf
+    - https://apps.apsc.arkansas.gov/pdf/25/25-055-P_91_1.pdf
+    - https://apps.puc.state.or.us/orders/2026ords/26-154.pdf
+    - https://apps.puc.state.or.us/orders/2026ords/26-443.pdf
+  missing_cells: 0
+  particular: The document the rule was read in
+- name: x_row_id
+  label: The research file's identifier of the rule (<group>-<number>)
+  unit: none
+  type: text
+  values:
+    distinct: 100
+    examples:
+    - aep-02
+    - aep-06
+    - aep-07
+    - aep-08
+    - ameren_evergy_spp-01
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: row_id
+  documented_by: header; connector large_load_research.py
+- name: x_group
+  label: The research pass's group of utilities the rule was read under (aep, dominion, duke and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      aep: 4
+      ameren_evergy_spp: 11
+      coops_public_power: 4
+      coops_public_power_2: 6
+      dominion: 7
+      duke: 5
+      entergy: 7
+      great_lakes: 4
+      northeast: 9
+      northwest_mountain: 7
+      pjm_east: 3
+      remainder: 7
+      southern_florida: 4
+      southwest_california: 4
+      texas: 4
+      tva_southeast: 6
+      xcel_plains: 8
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: group
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
+- name: x_utility
+  label: The utility or commission whose rule it is, as the filing names it
+  unit: none
+  type: text
+  values:
+    distinct: 80
+    examples:
+    - AEP Texas Inc.
+    - Alabama Power Company
+    - All Minnesota public utilities providing electric service (applies to Northern States Power Company, Minnesota)
+    - Ameren Illinois Company d/b/a Ameren Illinois
+    - Arizona Public Service Company
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: utility
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
+- name: x_state
+  label: The state of the utility, two-letter postal code
+  unit: none
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - AL
+    - AR
+    - AZ
+    - CA
+    - CO
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: state
+  documented_by: connector large_load_research.py; data
+- name: x_iso_region
+  label: 'The grid operator (ISO) or balancing authority where the load would sit: the ERW''s own classification, not a cited
+    value'
+  unit: none
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - AZPS balancing authority (WECC, no RTO)
+    - Bonneville Power Administration balancing authority, WECC (outside an ISO)
+    - CAISO
+    - CPLE and CPLW (Duke Energy Progress balancing authorities), no RTO
+    - DUK (Duke Energy Carolinas balancing authority), no RTO
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: iso_region
+  documented_by: method large_load_research.md; source docs/research/large_load/README.md
+- name: x_rule_name
+  label: The rule's name as the documents print it (schedule, tariff sheet or code section)
+  unit: none
+  type: text
+  values:
+    distinct: 100
+    examples:
+    - '16 TAC §25.194, Large Load Interconnection Standards (PUCT Project No. 58481), adopted 18 September 2026, effective
+      8 October 2026: intermediate agreement, study fee, financial security, standard large load interconnection agreement
+      (SLLIA), CIAC, withdrawal, forfeiture and reallocation terms'
+    - Alabama PSC generic proceeding on contracts between Alabama Power and large load data center customers (Docket 33709)
+    - Ameren Illinois revisions to terms and conditions for large electric customers, ICC Docket 26-0625
+    - Ameren Missouri General Rules and Regulations III.P, Planning Required for Loads Greater than 25MW (Sheets 125 and 126),
+      with III.M (Sheet 122)
+    - Ameren Missouri Service Classification No. 11(M), Large Load Customer Service (LLCS), MO.P.S.C. Schedule No. 6, Sheets
+      61.4 to 61.19
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: rule_name
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
+- name: x_status_date
+  label: The date the documents state for the rule's status, as printed
+  unit: none
+  type: text
+  values:
+    distinct: 65
+    examples:
+    - '2010-01-01'
+    - '2022-11-04'
+    - '2023-04-01'
+    - '2023-07-01'
+    - 2024-09
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: status date
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
+- name: x_status_cite
+  label: The page or section and the words that state the rule's status and date
+  unit: none
+  type: text
+  values:
+    distinct: 99
+    examples:
+    - 'Business, Members: "In 2025, our member distribution cooperatives elected to utilize market-based rates for five customers."
+      | Business, Members: "Our member distribution cooperatives have generally elected to utilize market-based rates to charge
+      data centers for their power requirements." | Regulation, Rate Regulation: "FERC has granted us authority to charge
+      our member distribution cooperatives utilizing both a formula rate and market-based rates."'
+    - 'Docket 26-0625: "Filing proposing revisions to terms and conditions for large electric customers. (Tariffs filed July
+      10, 2026)." | Docket 26-0625: "Suspension Ends: December 6, 2026 Resuspension Ends: June 6, 2027"'
+    - 'Electric Service Agreements under review: "Status: Filed on March 26, 2026." | https://minnesotapower.blob.core.windows.net/content/Content/Documents/Company/PressReleases/2026/PressRelease11022026.pdf
+      (read 2026-11-13) p. 2: "The MPUC is still reviewing the company''s electric service agreement proposed for the new
+      data center."'
+    - 'Interconnection Guidelines: "If you are an individual, project developer, or company seeking electric service for a
+      new large load (25 megawatts (MW) or greater) located within the certified service territory of one of Sunflower''s
+      seven member utilities in central or western Kansas, we''re here to guide you through the program."'
+    - 'Large Load Power Service Customer Affordability Enhancement Plan: "In October 2026, Evergy Kansas Central and Evergy
+      Metro filed an application with the KCC requesting approval of a Customer Affordability Enhancement Plan" | Large Load
+      Power Service Customer Affordability Enhancement Plan: "Evergy Kansas Central and Evergy Metro requested expedited treatment
+      of the application and that the KCC issue an order in February 2027."'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: status cites
+  documented_by: header; source docs/research/large_load/README.md
+- name: x_date_kind
+  label: Whether event_date is the date the documents state ('stated date') or the day the document was read ('date read')
+  unit: none
+  type: text
+  values:
+    list:
+      date read: 27
+      stated date: 73
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_research.py; method large_load_research.md
+- name: x_docket
+  label: The docket or case number of the rule as printed, or 'not published'
+  unit: none
+  type: text
+  values:
+    distinct: 66
+    examples:
+    - 20250011-EI
+    - 20260146-EI
+    - 22-032-TF (sheets 69.2 to 69.6); 23-070-TF (sheet 69.1, 1st Revised)
+    - 25-055-P
+    - 25-0826
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: docket
+  documented_by: source docs/research/large_load/README.md
+- name: x_docket_cite
+  label: The page or section and the words that print the docket
+  unit: none
+  type: text
+  values:
+    distinct: 93
+    examples:
+    - 'DTE Electric emergency procedures item: "(Case No. U-22059)"'
+    - 'Docket 26-0625: "Complete docket number: P2026-0625"'
+    - 'Duke files data center tariff application: "Duke Energy Ohio has recently filed an application for approval of a new
+      service and tariffs for serving data center load in Case No. 26-0755-EL-ATA."'
+    - 'Electric Service Agreements under review: "Docket 26-159"'
+    - 'MD&A, regulatory matters: "2025 Comprehensive Base Rate Review (PUCT Docket No. 58306)" | MD&A, regulatory matters:
+      "The new base rates implementing the terms of the order took effect June 1, 2026." | https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF
+      (read 2026-11-13) p. 74, PUCT stamp on Sheet 2 (6.3.2): "Docket: 58306" | https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF
+      (read 2026-11-13) p. 74, PUCT stamp on Sheet 2 (6.3.2): "Approved on: APR 17 2026" | https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF
+      (read 2026-11-13) p. 1, filing receipt: "Filed Date - 2026-09-18 01:19:42 PM Control Number - 58481 Item Number - 218"'
+  missing_cells: 2
+  missing_meaning: Empty where the docket is 'not published' (2 rows)
+  source_name: docket cites
+  documented_by: header; data
+- name: x_threshold_mw
+  label: The size of load the rule applies to, as a phrase the documents print (for example 50 MW at a load factor of 85 percent
+    or higher), or 'not published'
+  unit: none
+  type: text
+  values:
+    distinct: 64
+    examples:
+    - 10 MVA or more of new or expanded data center capacity installed within any consecutive five-year period after 1 January
+      2027 (stated in MVA, not MW)
+    - 150 MW (new customers with contract demands of at least 150 MW, or existing customers adding 150 MW or more of incremental
+      load)
+    - '2 MW: "two megawatts or greater" (web page); "greater than 2 MW" (request form)'
+    - '20 MW: a facility primarily engaged in NAICS 518210 (data centers) that uses or is able to use 20 MW or more (Schedule
+      401 as filed: load registering 20,000 kW or greater, or Reserved Capacity of 20,000 kW or greater). Sites with common
+      ownership within 2,500 feet of each other or served by the same substation count as one, and commonly owned data centers
+      anywhere in the territory have their Contract Demand summed'
+    - 25 MW monthly maximum demand (the Commission's definition of a large load customer in Order No. 10829)
+  missing_cells: 10
+  missing_meaning: Empty where the value is held in the ERW's registry (x_held) or withheld for a license (x_withheld)
+  source_name: threshold_mw
+  documented_by: header; method large_load_research.md
+- name: x_threshold_mw_cite
+  label: The page or section and the words for x_threshold_mw
+  unit: none
+  type: text
+  values:
+    distinct: 92
+    examples:
+    - 'DTE Electric emergency procedures item: "customers that take service from the utility after Oct. 1, 2025, with at least
+      500 MWs of capacity or customers that take service under DTE Electric''s Large Load Provision of Rate Schedule No. D11"'
+    - 'Interconnection Guidelines: "a new large load (25 megawatts (MW) or greater)"'
+    - 'OCC Proceedings, Oklahoma Large Load Tariff: "this tariff would establish a framework to serve large load customers
+      (75 MWs or higher)"'
+    - 'article text: "the Consumer Directed Resource Policy, which applies to all loads greater than 50 megawatts."'
+    - 'https://ieefa.org/sites/default/files/2025-04/U-37425%20--%20Kunkel%20Direct%20Testimony%20%28as%20filed%29%20PUBLIC%20VERSION_0.pdf
+      (read 2026-11-13) p. 11: "that sets the terms by which the data center will receive service under ELL’s Large Load High
+      Load Factor Power Service (LLHLFPSL) rate schedule."'
+  missing_cells: 8
+  missing_meaning: Empty where the value is held or withheld, or 'not published'
+  source_name: null
+  documented_by: header; data
+- name: x_min_demand
+  label: The minimum demand or minimum bill the customer must pay for, as printed, or 'not published'
+  unit: none
+  type: text
+  values:
+    distinct: 48
+    examples:
+    - Billed Demand not less than 80 percent of the peak demand of the 12 months ending with the current month; minimum bill
+      and all monthly charges set in a BTU Supplemental Agreement; a customer without demand of 10 MW for 12 consecutive months
+      moves to General Service Transmission for at least 3 months
+    - Billing demand during the Billing Period not less than 90% of the Contract Capacity in Schedule 1; minimum billing energy
+      of Contract Capacity times 70% times billing hours
+    - Billing demand not less than 75% of contract demand for all demand charges in Schedule HLF, from when contract demand
+      is in effect; customers with ESAs executed on or after 1 June 2026 take service on HLF or a future large load rate schedule
+    - Capacity Reservation Charge of $3.68 per kW (as adopted by the order; the current Schedule 300 figure was not read)
+      on Excess Reserved Capacity, defined as 90 percent of Reserved Capacity less the maximum recorded and billed demand
+      in the most recent 12 months, beginning 12 months after Reserved Capacity commences; Excess Demand Charge at three times
+      the capacity reservation charge, no buffer, on demand above Reserved Capacity; both from 1 July 2025
+    - Distribution billing demand is the highest of the 30-minute maximum demand, 5,000 kW, or the contract minimum demand;
+      minimum monthly distribution charge the highest of the contract amount, 1,050 USD plus excess facilities charge, or
+      the billing demand charge plus excess facilities charge; the customer must contract for demand and load factor sufficient
+      to protect the cooperative's investment
+  missing_cells: 8
+  missing_meaning: Empty where the value is held in the ERW's registry (x_held) or withheld (x_withheld)
+  source_name: min_demand
+  documented_by: header; source docs/research/large_load/README.md
+- name: x_min_demand_cite
+  label: The page or section and the words for x_min_demand
+  unit: none
+  type: text
+  values:
+    distinct: 89
+    examples:
+    - 'MD&A, distribution base revenues, note (c): "the greater of actual monthly demand (kW) or 80% of peak monthly demand
+      during the prior eleven months" | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF (read 2026-11-13)
+      p. 55, §25.194(f)(2)(D): "acknowledgment and agreement that the large load customer will pay the large load minimum
+      billing demand described in §25.193 ofthis title for the setperiod oftime described in §25.193."'
+    - 'OCC Proceedings, Oklahoma Large Load Tariff: "include provisions such as long-term contract commitments, minimum billing
+      demand and energy charges, funding of upfront costs, a customer protection charge that addresses any potential adverse
+      rate impact to other customer classes, and a customer affordability charge that would be credited to residential customers
+      through a regulatory liability"'
+    - 'https://apps.puc.state.or.us/orders/2024ords/24-447.pdf (read 2026-11-13) p. 99: "we adopt a capacity reservation charge
+      of $3.68 per kW and a buffer of ten percent, as well as an excess demand charge of three times the capacity reservation
+      charge with no buffer" | https://edocs.puc.state.or.us/efdocs/UHR/ue433uhr335055026.pdf (read 2026-11-13) p. 2, Rule
+      13, I.G Excess Reserved Capacity: "Ninety percent of Reserved Capacity, less the maximum recorded and billed Consumer"
+      | https://edocs.puc.state.or.us/efdocs/UHR/ue433uhr335055026.pdf (read 2026-11-13) p. 2, Rule 13, I.G: "Excess Reserved
+      Capacity shall begin 12 months" | p. 75, Rule 13, I.F Excess Demand Charge: "Beginning July 1, 2025, Consumers requiring
+      50,000 kW or more whose maximum"'
+    - 'https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF (read 2026-11-13) p. 55, §25.194(f)(2)(D): "acknowledgment
+      and agreement that the large load customer will pay the large load minimum billing demand described in §25.193 ofthis
+      title for the setperiod oftime described in §25.193."'
+    - 'https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF (read 2026-11-13) p. 9, Proposed Order, Finding of
+      Fact 40: "the Billing Demand for each month shall be the greater of the Billing Demand as calculated in accordance with
+      the "Determination of Kilowatts ofBilling Demand" provision of the LLP rate schedule or 90% of the Contract Capacity
+      stated in Schedule 1." | https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF (read 2026-11-13) p. 9, Proposed
+      Order, Finding of Fact 41: "Contract Capacity stated in Schedule 1 times 70% times billing hours in the month."'
+  missing_cells: 7
+  missing_meaning: Empty where the value is held or withheld, or 'not published'
+  source_name: null
+  documented_by: header; data
+- name: x_contract_term
+  label: The contract length the rule requires, as printed, or 'not published'
+  unit: none
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - 10-year period from when service commences for the 85 percent payment guarantee and the security (or as otherwise determined
+      in the BPU's standards); no contract term otherwise printed
+    - 12 years plus an optional load ramp of up to five years (up to 17 years in all); then automatic five-year extensions
+    - 14 years, for customers taking initial service and signing an ESA on or after 1 January 2027, the term including any
+      load ramp period of up to four years; during the term contracted capacity may be reduced by up to 20 percent at no cost
+      and by a further 30 percent if another customer assumes it, each reduction on a separate 36-month notice
+    - 15 years from the later of the Service Commencement Date or 28 August 2027, extendable by mutual agreement for further
+      five-year terms subject to NDPSC approval; needs an NDPSC waiver of Rate 45's three-to-five-year term
+    - 15 years or more (minimum initial term of 15 years)
+  missing_cells: 4
+  missing_meaning: Empty where the value is held in the ERW's registry (x_held) or withheld (x_withheld)
+  source_name: contract_term
+  documented_by: header; source docs/research/large_load/README.md
+- name: x_contract_term_cite
+  label: The page or section and the words for x_contract_term
+  unit: none
+  type: text
+  values:
+    distinct: 89
+    examples:
+    - 'OCC Proceedings, Oklahoma Large Load Tariff: "include provisions such as long-term contract commitments"'
+    - 'https://floridapsc.com/library/filings/2025/03218-2025/03218-2025.pdf (read 2026-11-13) p. 6, Original Sheet No. 8.951,
+      Term of Service: "Minimum Term: Not less than 20 years from the In-Service Date, including the Load Ramp Period." |
+      https://floridapsc.com/library/filings/2025/03218-2025/03218-2025.pdf (read 2026-11-13) p. 6, Original Sheet No. 8.951,
+      Notice and Termination: "Customer must provide notice at least two years in advance of terminating service."'
+    - 'https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF (read 2026-11-13) p. 74, 6.3.2, Article III: "1.
+      This Agreement becomes effective on the date of execution by both parties" | https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF
+      (read 2026-11-13) p. 74, 6.3.2, Article III: "2. Customer may terminate this Agreement at any time prior to completion
+      of the Company Facilities by providing Company with seven (7) days advanced written notice." | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF
+      (read 2026-11-13) p. 55, §25.194(f)(2)(D): "acknowledgment and agreement that the large load customer will pay the large
+      load minimum billing demand described in §25.193 ofthis title for the setperiod oftime described in §25.193."'
+    - 'https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF (read 2026-11-13) p. 45, §25.194(f): "Not later than
+      60 days after ERCOT issues a study report that allocates transmission capacity, the large load customer must execute
+      and fund a SLLIA with the interconnecting DSP and, if different from the interconnecting DSP, the interconnecting TSP."
+      | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF (read 2026-11-13) p. 55, §25.194(f)(2)(D): "acknowledgment
+      and agreement that the large load customer will pay the large load minimum billing demand described in §25.193 ofthis
+      title for the setperiod oftime described in §25.193." | Large Load Interconnections in Texas: "The new rule requires
+      a large load customer to execute a standardized interconnection agreement once the allocation of capacity is determined
+      from the ERCOT batch study"'
+    - 'https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF (read 2026-11-13) p. 9, Proposed Order, Finding of
+      Fact 38: "The period beginning with the Beginning Date of Step 1 in Schedule 1 until the day prior to the Beginning
+      Date ofthe last populated Step in Schedule 1, not to exceed five years." | https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF
+      (read 2026-11-13) p. 9, Proposed Order, Finding of Fact 39: "The period from the day this Contract is executed until
+      eighteen years (18) from the inception of the Ramp Period." | p. 14, Attachment A, Sheet VI-10, Automatic Renewal: "this
+      contract shall renew annually for successive one-year tenns (each a"Renewal Tenn") until Company or Customer provide
+      the other party notice at least five years prior to the end of the Contract Term or Renewal Term, as applicable."'
+  missing_cells: 4
+  missing_meaning: Empty where the value is held or withheld, or 'not published'
+  source_name: null
+  documented_by: header; data
+- name: x_collateral
+  label: The security or collateral the customer must post, as printed, or 'not published'
+  unit: none
+  type: text
+  values:
+    distinct: 63
+    examples:
+    - 1.5 million USD per MW, reducible by up to 70 percent on the customer's established credit; third-party guarantees and
+      letters of credit allowed; a share released each year throughout the contract term (the Florida copy's text layer prints
+      the fraction as '1714th', an OCR rendering of the order's one-fourteenth); cash collateral accrues interest while held;
+      applies to customers taking initial service and signing an ESA on or after 1 January 2027
+    - '16 TAC §25.194: $50,000 per MW of requested peak demand at the intermediate agreement, then the greater of $50,000
+      per MW of contracted peak demand or the allocated system upgrade costs at the SLLIA, and direct interconnection costs
+      as cash CIAC (full terms in the statewide row); Oncor''s tariff form: Oncor may require a security payment in advance
+      of construction to cover the costs owed if the customer''s facilities do not reach the specified level of operation
+      by the specified date; Batch Zero: $50,000 per MW requested, cash deposits converted within a specified number of days
+      into letters of credit or approved affiliate guarantees; customers below Oncor''s credit quality thresholds post security
+      before construction'
+    - '16 TAC §25.194: $50,000 per MW of requested peak demand at the intermediate agreement; the greater of $50,000 per MW
+      of contracted peak demand or allocated system upgrade costs at the SLLIA; cash collateral held in a segregated interest-bearing
+      account; direct interconnection costs as cash CIAC; AEP Texas segregated about $1.2 billion of cash collateral in October
+      2026 and received about $2 billion of Batch Zero security in July 2026 as cash, corporate or parental guarantees and
+      letters of credit; the accepted forms besides cash collateral are a guaranty (guarantor rated at least BBB- or Baa3)
+      or a letter of credit from a major bank rated at least A- or A3'
+    - 24 times the customer's previous maximum monthly non-fuel bill based on the last Step in Schedule 1, provided within
+      a number of days left blank in the form; recomputed annually in the full operations period and updated if 10% greater
+    - 24 times the previous maximum monthly non-fuel bill (the maximum expected bill in the first contract year), recomputed
+      annually and updated if 10% greater
+  missing_cells: 3
+  missing_meaning: Empty where the value is held in the ERW's registry (x_held) or withheld (x_withheld)
+  source_name: collateral
+  documented_by: header; source docs/research/large_load/README.md
+- name: x_collateral_cite
+  label: The page or section and the words for x_collateral
+  unit: none
+  type: text
+  values:
+    distinct: 94
+    examples:
+    - 'article text: "we require them to actually pay for any obligations that we''ve undertaken on their behalf. We require
+      them to pay for that upfront." | article text: "These large loads are also invoiced every seven days on their energy
+      consumption as part of minimizing the risk, coupled with robust prepayments."'
+    - 'https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814} (read 2026-11-13)
+      p. 3, Risk Management: "Customers fund project-specific facility upgrades and provide financial security, such as letters
+      of credit, bonds, parent guarantees, or cash, before the utility commits significant resources or incurs construction
+      costs."'
+    - 'https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF (read 2026-11-13) p. 36, §25.194(d)(2)(B): "A large
+      load customer must post financial security with the interconnecting DSP or the interconnecting TSP in the amount of
+      $50,000 per MW of the requested peak demand for new interconnection requests or $50,000 per MW of the incremental increase
+      in the peak demand for expanded interconnection requests." | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF
+      (read 2026-11-13) p. 52, §25.194(f)(2)(B)(i): "A large load customer must post financial security with the interconnecting
+      DSP or the interconnecting TSP in an amount that is the greater of: (I) $50,000 per MW ofthe contracted peak demand;
+      or" | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF (read 2026-11-13) p. 37, §25.194(d)(2)(B)(ii):
+      "(I) cash collateral to be held in a segregated, cash account bearing interest at a rate equal to at least the rate
+      of the constant maturity one-month U.S. Treasury bill" | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF
+      (read 2026-11-13) p. 55, §25.194(f)(2)(C): "A large load customer must pay all direct interconnection costs through
+      CIAC, with no standard or other allowance offered to offset the customer''s CIAC payments. (i) CIAC must be paid in
+      the form of a direct cash payment." | Large Load Interconnections in Texas: "requires utilities to segregate cash collateral
+      posted as financial security. In October 2026, AEP Texas segregated approximately $1.2 billion of cash collateral pursuant
+      to the new rule." | Large Load Interconnections in Texas: "In July 2026, AEP Texas received approximately $2 billion
+      of financial security in the form of cash collateral, corporate or parental guarantees and letters of credit" | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF
+      (read 2026-11-13) p. 37, 16 TAC 25.194(d)(2)(B)(ii): "guaranty, only if the guarantor has a U.S. or international credit
+      rating of at least "BBB-" from Standard & Poor''s" | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF
+      (read 2026-11-13) p. 38, 16 TAC 25.194(d)(2)(B)(ii): "a letter of credit issued by a major U.S. commercial bank"'
+    - 'https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF (read 2026-11-13) p. 36, §25.194(d)(2)(B): "A large
+      load customer must post financial security with the interconnecting DSP or the interconnecting TSP in the amount of
+      $50,000 per MW of the requested peak demand for new interconnection requests or $50,000 per MW of the incremental increase
+      in the peak demand for expanded interconnection requests." | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF
+      (read 2026-11-13) p. 52, §25.194(f)(2)(B)(i): "A large load customer must post financial security with the interconnecting
+      DSP or the interconnecting TSP in an amount that is the greater of: (I) $50,000 per MW ofthe contracted peak demand;
+      or" | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF (read 2026-11-13) p. 55, §25.194(f)(2)(C): "A
+      large load customer must pay all direct interconnection costs through CIAC, with no standard or other allowance offered
+      to offset the customer''s CIAC payments. (i) CIAC must be paid in the form of a direct cash payment." | https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF
+      (read 2026-11-13) p. 74, 6.3.2, Article I, paragraph 2: "The Company may require a security payment in advance of constructing
+      facilities to cover such costs." | MD&A, customer deposits held as restricted cash: "ERCOT’s batch zero process required
+      many large load customers to post financial security of $50,000 per MW requested" | MD&A, customer deposits held as
+      restricted cash: "Our customer agreements relating to the batch zero process required that customer cash deposits be
+      converted within a specified number of days into letters of credit or approved affiliate guarantees." | Item 3, credit
+      risk: "we have historically required customers who do not meet certain credit quality thresholds to provide security
+      before we commence construction on certain customer-requested construction projects for grid interconnection or new/expanded
+      electricity delivery system facilities" | https://www.sec.gov/Archives/edgar/data/1193311/000119312526448721/d159004dex991.htm
+      (read 2026-11-13) Exhibit 99.1, Batch Zero: "Oncor holds approximately $2.0 billion of large load customer collateral
+      related to the Batch Zero projects"'
+    - 'https://services.austintexas.gov/edims/document.cfm?id=467065 (read 2026-11-13) p. 6: "Customer Pays 100% of Infrastructure
+      Costs" | p. 1: "requires the director of the Electric Utility to assess a deposit or impose a bond requirement for 50
+      percent of the cost of infrastructure improvements or additions for loads over four megawatts" | p. 1: "This repeal
+      does not impact the utility’s authority to assess a deposit or other security as necessary."'
+  missing_cells: 3
+  missing_meaning: Empty where the value is held or withheld, or 'not published'
+  source_name: null
+  documented_by: header; data
+- name: x_exit_fee
+  label: What the customer pays on leaving or terminating early, as printed, or 'not published'
+  unit: none
+  type: text
+  values:
+    distinct: 44
+    examples:
+    - $40 million termination payment if the customer terminates the ESA before electric service begins; termination fees
+      supported by financial assurance mechanisms
+    - '16 TAC §25.194: 20% of the security for allocated capacity kept on withdrawal before the SLLIA deadline, 20% of the
+      security for withdrawn contracted demand kept after a SLLIA, a customer that neither withdraws before the SLLIA deadline
+      nor executes a SLLIA forfeits the security posted under its intermediate agreement; CIAC not refundable (statewide row)'
+    - 36 months' advance notice to terminate early, and an exit fee of the Minimum Monthly Bill times the months remaining
+      in the term, or 12 months, whichever is greater; with less than 36 months' notice, the exit fee plus two times the Minimum
+      Monthly Bill times the months short of 36. Capacity may be reduced by the lower of 25 MW or 10 percent of contract capacity
+    - 'D14 as held (on termination the customer may be required to pay the costs the Company incurred to serve it); added
+      by the Staff and Company joint statement of 26 August 2026: the Company files a letter with the Commission within 15
+      days of receiving a termination notice, and will not seek to recover from Non-Large Load customers any Incremental Cost
+      Revenue Deficiency for the remaining term, that deficiency being reduced by the termination payments collected or owed'
+    - Early Termination Fee (amount not public); ELL files for approval of its use after receipt
+  missing_cells: 3
+  missing_meaning: Empty where the value is held in the ERW's registry (x_held) or withheld (x_withheld)
+  source_name: exit_fee
+  documented_by: header; source docs/research/large_load/README.md
+- name: x_exit_fee_cite
+  label: The page or section and the words for x_exit_fee
+  unit: none
+  type: text
+  values:
+    distinct: 92
+    examples:
+    - 'https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814} (read 2026-11-13)
+      p. 3, Risk Management: "In the event of project cancellation, costs already incurred are retained from deposits and
+      unspent funds are returned to the customer."'
+    - 'https://floridapsc.com/library/filings/2025/03218-2025/03218-2025.pdf (read 2026-11-13) p. 6, Original Sheet No. 8.951:
+      "provided, however, the Customer may be subject to charges for early termination as provided below." | https://www.floridapsc.com/pscfiles/library/filings/2025/14197-2025/14197-2025.pdf
+      (read 2026-11-13) p. 24: "the LLCS tariff requires exit fees for early termination that are equivalent to payment of
+      100% of the IGC for the remaining term of the LLCS Service Agreement."'
+    - 'https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF (read 2026-11-13) p. 74, 6.3.2, Article I, paragraph
+      3: "Customer shall pay to Company all of: (a) the costs that Company has incurred prior to the date of termination for
+      engineering, procuring equipment and materials, construction, and any other costs related to the Company Facilities;
+      (b) the costs that Company has committed to incur prior to the date of termination that it is unable to avoid using
+      commercially reasonable steps" | https://interchange.puc.texas.gov/Documents/58306_758_1654208.PDF (read 2026-11-13)
+      p. 74, 6.3.2, Article I, paragraph 2: "If the Customer Facilities have not achieved the level of operation specified
+      below by the date specified below, then Customer shall pay to Company those costs as described below to compensate Company
+      for costs it has incurred associated with the Company Facilities." | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF
+      (read 2026-11-13) p. 41, §25.194(d)(3)(C): "the interconnecting DSP or interconnecting TSP must subtract 20% of the
+      financial security associated with the transmission capacity allocated by ERCOT to a large load customer that is included
+      in an interconnection study, is allocated some portion of its requested peak demand, and withdraws its interconnection
+      request before the deadline to execute a SLLIA" | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF
+      (read 2026-11-13) p. 57, §25.194(f)(3)(B): "subtract 20% of the financial security associated with the contracted peak
+      demand that is withdrawn before the interconnecting DSP or the interconnecting TSP returns the remaining balance of
+      financial security posted by a large load customer."'
+    - 'https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF (read 2026-11-13) p. 41, §25.194(d)(3)(C): "the interconnecting
+      DSP or interconnecting TSP must subtract 20% of the financial security associated with the transmission capacity allocated
+      by ERCOT to a large load customer that is included in an interconnection study, is allocated some portion of its requested
+      peak demand, and withdraws its interconnection request before the deadline to execute a SLLIA" | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF
+      (read 2026-11-13) p. 57, §25.194(f)(3)(B): "subtract 20% of the financial security associated with the contracted peak
+      demand that is withdrawn before the interconnecting DSP or the interconnecting TSP returns the remaining balance of
+      financial security posted by a large load customer." | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF
+      (read 2026-11-13) p. 41-42, 16 TAC 25.194(d)(3)(E): "A large load customer that does not withdraw its interconnection
+      request before the deadline to execute a SLLIA and does not execute a SLLIA before the deadline ... is deemed to have
+      forfeited any financial security that the large load customer posted under an intermediate agreement" | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF
+      (read 2026-11-13) p. 55, 16 TAC 25.194(f)(2)(C)(v): "CIAC is not refundable."'
+    - 'https://www.tcectexas.com/sites/default/files/2026-04/large-load-electric-service-agreement-final-1.pdf (read 2026-11-13)
+      p. 4, 8. Stranded Costs: "Member shall be responsible for all costs associated with stranded transmission or distribution
+      investments, underutilized or abandoned facilities, reduction in load below planned levels, decommissioning or retirement
+      of facilities, and any remaining unrecovered costs associated with providing Service." | https://www.tcectexas.com/sites/default/files/2026-04/large-load-electric-service-agreement-final-1.pdf
+      (read 2026-11-13) p. 5, 10. Term and Termination: "Upon termination of Service, all outstanding amounts shall become
+      immediately due and payable."'
+  missing_cells: 3
+  missing_meaning: Empty where the value is held or withheld, or 'not published'
+  source_name: null
+  documented_by: header; data
+- name: x_study_timeline
+  label: The time and terms of the utility's study of the load request, as printed, or 'not published'
+  unit: none
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - $100,000 study fee due at execution of the intermediate agreement (ERCOT may add a flat fee); the TSP or DSP must contact
+      ERCOT to start the study within 60 days after the intermediate agreement is executed and funded, and tell the customer
+      within five working days; unused study fee returned within 60 days after the study ends
+    - '16 TAC §25.194: $100,000 study fee at the intermediate agreement; Oncor, as interconnecting TSP or DSP, must contact
+      ERCOT to start the study within 60 days after the intermediate agreement is executed and funded and tell the customer
+      within five working days; no Oncor-specific study duration in its tariff or SEC filings'
+    - '16 TAC §25.194: $100,000 study fee; the TSP or DSP contacts ERCOT within 60 days after the intermediate agreement is
+      executed and funded and tells the customer within five working days; AEP''s 10-Q reports ERCOT''s Batch Zero study paused
+      (notes)'
+    - Application with a non-refundable fee of 75,000 USD plus 1,000 USD per MW of final expected load over 15 MW, up to 250,000
+      USD (the applicant also bears Load Study costs above the fee); Load Study requested from PJM within a commercially reasonable
+      time, no fixed duration; EKPC aims (an objective, not an obligation) to develop a resource plan within 180 days of the
+      application; the customer signs the agreements within 60 days of receipt, and EKPC aims to file them with the PSC within
+      10 business days
+    - 'Commission review: the commission approves or denies a new large load service contract within 270 days of the utility''s
+      filing, which must include a no harm test; no engineering study clock'
+  missing_cells: 1
+  missing_meaning: Empty where the value is withheld for a license (x_withheld)
+  source_name: study_timeline
+  documented_by: header; source docs/research/large_load/README.md
+- name: x_study_timeline_cite
+  label: The page or section and the words for x_study_timeline
+  unit: none
+  type: text
+  values:
+    distinct: 95
+    examples:
+    - 'MD&A, Recent Developments: "In September 2026, Tri-State commenced its first review cycle for proposed high impact
+      load projects." | MD&A, Recent Developments: "Results of Tri-State’s evaluation processes, including screening for reliability,
+      affordability, responsibility and transmission planning impacts, are expected in the first half of 2027."'
+    - 'https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814} (read 2026-11-13)
+      p. 2, Study Methodology and Interconnection Process: "For NYISO-jurisdictional projects, the process typically involves
+      a System Impact Study taking approximately six to twelve months; a Facility Study taking approximately six to fifteen
+      months for lower-complexity projects" | https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814}
+      (read 2026-11-13) p. 2: "For projects within local TO jurisdiction, an initial high-level capacity study is completed
+      first, then a detailed load study, with the overall process generally taking one to six months."'
+    - 'https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF (read 2026-11-13) p. 35, §25.194(d)(2)(A): "(i) A
+      large load customer must pay a study fee of $100,000 to the interconnecting DSP or the interconnecting TSP for transmission
+      studies performed by the interconnecting DSP, the interconnecting TSP, and ERCOT, as applicable." | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF
+      (read 2026-11-13) p. 43, §25.194(e)(1): "Not later than 60 days after an intennediate agreement is executed and funded
+      under subsection (d) of this section, the interconnecting DSP or the interconnecting TSP must contact ERCOT to initiate
+      an interconnection study, as prescribed by ERCOT protocols." | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF
+      (read 2026-11-13) p. 44, §25.194(e)(2)(A): "The interconnecting DSP or the interconnecting TSP must notify the large
+      load customer not later than five working days after the interconnecting DSP or the interconnecting TSP contacts ERCOT
+      to initiate an interconnection study."'
+    - 'https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf (read 2026-11-13)
+      p. 17, Docket 33709, Decision and Review (amended): "if the Commission fails to vote within 90 days from the filing
+      of the Petition, then the Petition is deemed approved" | https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf
+      (read 2026-11-13) p. 17, Docket 33709: "Alabama Power should file the Petition and provide the Confidential Submission
+      at least 120 days before the date the contract would become void" | https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf
+      (read 2026-11-13) p. 17, Docket 33709 (amended): "The process would not call for a hearing or intervention." | https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf
+      (read 2026-11-13) p. 17, Docket 33709 (amended): "Alabama Power shall use its best efforts to respond within five business
+      days."'
+    - 'https://psc.ga.gov/site/downloads/annual_reports/2025_GAPSC_Annual_Report.pdf (read 2026-11-13) p. 18: "Georgia Power
+      also must provide the PSC all new contracts with data centers at least 30 days before execution."'
+  missing_cells: 1
+  missing_meaning: Empty where the value is withheld
+  source_name: null
+  documented_by: header; data
+- name: x_connection_timeline
+  label: The time to connect the load, as printed, or 'not published'
+  unit: none
+  type: text
+  values:
+    distinct: 28
+    examples:
+    - '16 TAC §25.194: SLLIA executed and funded within 60 days after ERCOT''s study report; capacity reported as non-utilized
+      if the energization schedule is missed by 24 months; Oncor''s tariff: extensions other than new residential service
+      to be completed within the time Oncor estimates, the estimate due within ten Business Days of a detailed request'
+    - '16 TAC §25.194: SLLIA within 60 days after ERCOT''s study report; capacity reported as non-utilized if the energization
+      schedule is missed by 24 months; AEP''s 10-Q: ERCOT will not authorize large loads to energize until its verification
+      is complete (notes)'
+    - Construction commitment 5 or more years before energization; electric service obligation (ESA executed, including tariff)
+      3 or more years before energization
+    - ESA for distribution service and delivery to have an initial effective date not later than 12 months before the date
+      of desired service, unless otherwise agreed
+    - Expected to begin taking service in December 2027, with maximum load by December 2028 (DTE Electric's expectation as
+      reported by the MPSC)
+  missing_cells: 1
+  missing_meaning: Empty where the value is withheld for a license (x_withheld)
+  source_name: connection_timeline
+  documented_by: header; source docs/research/large_load/README.md
+- name: x_connection_timeline_cite
+  label: The page or section and the words for x_connection_timeline
+  unit: none
+  type: text
+  values:
+    distinct: 94
+    examples:
+    - 'https://depsc.delaware.gov/2025/10/14/delaware-psc-opens-docket-for-large-load-tariff-pauses-interconnections/ (read
+      2026-11-13) p. 1, news release, 14 October 2025: "By an oral vote, the Commission granted the request to open a docket
+      to develop a large load tariff and to pause the interconnection of any new large load facilities in Delmarva Power &
+      Light ("Delmarva") territory until a large load tariff is established, both of which Delmarva also supported." | https://depsc.delaware.gov/2025/10/14/delaware-psc-opens-docket-for-large-load-tariff-pauses-interconnections/
+      (read 2026-11-13) p. 1, news release, 14 October 2025: "On September 3, 2025, the Delaware Division of the Public Advocate
+      ("DPA") and Staff for the Delaware Public Service Commission ("Staff") jointly presented a petition"'
+    - 'https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814} (read 2026-11-13)
+      p. 2: "The full interconnection pathway from initial engagement to energization can span approximately 42 to 80 months
+      depending on project complexity."'
+    - 'https://edocs.puc.state.or.us/efdocs/UAA/uaa340367027.pdf (read 2026-11-13) p. 14, Proposed Original Sheet No. 401-2,
+      Special Condition 3.f: "The Large Energy Use Facility Agreement shall specify the date or estimated date that the Company
+      will begin to provide service to the Customer." | p. 14, IV.N Interconnection of LEUFs: "LEUF customers will be interconnected
+      in the order in which they execute a LEUF Agreement, subject to agreed-upon construction timelines, and system constraints"'
+    - 'https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF (read 2026-11-13) p. 45, §25.194(f): "Not later than
+      60 days after ERCOT issues a study report that allocates transmission capacity, the large load customer must execute
+      and fund a SLLIA with the interconnecting DSP and, if different from the interconnecting DSP, the interconnecting TSP."
+      | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF (read 2026-11-13) p. 59, §25.194(g)(1): "Not later
+      than 30 days after a large load customer fails, by 24 months, to satisfy a milestone in its schedule for phased energization,
+      as described in the SLLIA at the time of execution, the interconnecting DSP or the interconnecting TSP must notify ERCOT
+      of the large load customer''s non-utilized capacity."'
+    - 'https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF (read 2026-11-13) p. 45, §25.194(f): "Not later than
+      60 days after ERCOT issues a study report that allocates transmission capacity, the large load customer must execute
+      and fund a SLLIA with the interconnecting DSP and, if different from the interconnecting DSP, the interconnecting TSP."
+      | https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF (read 2026-11-13) p. 59, §25.194(g)(1): "Not later
+      than 30 days after a large load customer fails, by 24 months, to satisfy a milestone in its schedule for phased energization,
+      as described in the SLLIA at the time of execution, the interconnecting DSP or the interconnecting TSP must notify ERCOT
+      of the large load customer''s non-utilized capacity." | https://www.oncor.com/content/dam/oncorwww/documents/about-us/regulatory/tariff-and-rate-schedules/Tariff%20for%20Retail%20Delivery%20Service.pdf.coredownload.pdf
+      (read 2026-11-13) p. 60, 5.7.3 Processing of Requests for Construction of Delivery System: "For all other extensions
+      requiring construction, requests should be completed within the time estimated by Company." | https://www.oncor.com/content/dam/oncorwww/documents/about-us/regulatory/tariff-and-rate-schedules/Tariff%20for%20Retail%20Delivery%20Service.pdf.coredownload.pdf
+      (read 2026-11-13) p. 60, 5.7.3: "within ten Business Days of Company’s receipt of a detailed request, Company shall
+      give the entity requesting Construction Service an estimated completion date and an estimated cost for all charges to
+      be assessed"'
+  missing_cells: 1
+  missing_meaning: Empty where the value is withheld
+  source_name: null
+  documented_by: header; data
+- name: x_queue_size
+  label: The utility's queue of large-load requests, as printed by the utility, its commission or its grid operator (a phrase),
+    'not published', or a pointer to the same utility's other row ('see row')
+  unit: none
+  type: text
+  values:
+    distinct: 54
+    examples:
+    - '2.4 GW of executed agreements (Oracle 1.4 GW, Google 1.0 GW) and a further pipeline of 5 to 6 GW: about 2 GW in advanced
+      discussions and 3 to 4 GW of other opportunities, as of DTE''s EEI Financial Conference deck, 8 to 10 November 2026'
+    - 2.8 GW of demand under electric service agreements Ameren Missouri executed with large load customers in 2026, expected
+      to begin materializing in the second half of 2027 and to reach full capacity in 2030 (Form 10-Q for the quarter ended
+      30 September 2026, filed 6 November 2026)
+    - '36 large (10 MW+) load projects: 12 NYISO-jurisdictional (2,460 MW) and 24 non-NYISO (560 MW); 10 cancelled, 2 in service,
+      the rest in study; as reported in Appendix F of the DPS report, which prints no as-of date'
+    - 4 projects over 10 MW since 2022, about 290 MW of requested peak load, none interconnected (inventory reported to the
+      DPS); as reported in Appendix A of the DPS report, which prints no as-of date
+    - 5 large load projects proposed to connect to the transmission system 2022 to present, about 236 MW of peak load (4 in
+      design pending the Interconnection Agreement, 1 cancelled); as reported in Appendix B of the DPS report, which prints
+      no as-of date
+  missing_cells: 1
+  missing_meaning: Empty where the value is withheld for a license (x_withheld)
+  source_name: queue_size
+  documented_by: header; source docs/research/large_load/README.md; data
+- name: x_queue_size_cite
+  label: The page or section and the words for x_queue_size
+  unit: none
+  type: text
+  values:
+    distinct: 70
+    examples:
+    - 'Large Load Interconnections in Texas: "AEP Texas has executed Letters of Agreement for approximately 49 gigawatts of
+      incremental load by 2031, including prospective load seeking consideration under ERCOT’s Batch Zero process." | Large
+      Load Interconnections in Texas: "for the 45 gigawatts of prospective load seeking consideration for participation in
+      the Batch Zero process through 2032"'
+    - 'MD&A, Recent Developments: "Tri-State has received and is reviewing applications for seven projects with approximately
+      five gigawatts of potential incremental load by 2034 under the high impact load cycle and associated BYOR projects under
+      the BYOR Program."'
+    - 'Risk Factors, substantially large loads: "Our members have received requests to commit to provide thousands of megawatts
+      of baseload energy to new large loads." | MD&A, Large Load Commercial Program: "NextEra Energy Resources submitted an
+      application under our Large Load Commercial Program in 2025."'
+    - 'https://council.seattle.gov/2026/06/09/city-council-passes-emergency-data-center-moratorium-and-policy-framework/ (read
+      2026-11-13) release text: "follow reports in April that four companies had approached Seattle City Light to build five
+      large-scale data centers. These proposed facilities would have a combined maximum demand of 369 megawatts"'
+    - 'https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814} (read 2026-11-13)
+      p. 1, Overview: "As of September 2026, there are nearly 14 gigawatts of large load requests in the New York Independent
+      System Operator''s (NYISO) interconnection queue, with over 8 gigawatts entering in 2025 alone."'
+  missing_cells: 29
+  missing_meaning: Empty where the value is 'not published', a 'see row' pointer, or withheld
+  source_name: null
+  documented_by: header; data
+- name: x_source_title
+  label: The document's own title
+  unit: none
+  type: text
+  values:
+    distinct: 98
+    examples:
+    - 2025 Stipulation and Settlement Agreement, Docket No. 20250011-EI, dated August 20, 2025 (Exhibit 99 to the Form 8-K
+      of NextEra Energy and Florida Power & Light Company)
+    - Algonquin Power & Utilities Corp. Management Discussion and Analysis for the third quarter of 2026, Exhibit 99.2 to
+      Form 6-K filed 6 November 2026 (SEC EDGAR)
+    - Alliant Energy Corporation, Interstate Power and Light Company and Wisconsin Power and Light Company combined Form 10-K
+      for 2025
+    - Alliant Energy Corporation, Interstate Power and Light Company and Wisconsin Power and Light Company combined Form 10-Q
+      for the quarter ended 30 September 2026, Rate Matters
+    - Ameren Missouri's compliance tariff sheets for Large Load Customer Service, issued 5 December 2025, effective 4 January
+      2026 (Missouri PSC EFIS document 859644), General Rules and Regulations Sheets 122, 125 and 126
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: source_title
+  documented_by: source docs/research/large_load/README.md
+- name: x_date_read
+  label: The day the document was read by the research pass
+  unit: none
+  type: date
+  values:
+    list:
+      '2026-11-13': 100
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: date_read
+  documented_by: connector large_load_research.py
+- name: x_quoted_clause
+  label: The page or section and the words that make the document a large-load rule
+  unit: none
+  type: text
+  values:
+    distinct: 100
+    examples:
+    - 'Business, Members (rates): "An exception in the formula rate allows our member distribution cooperatives to elect to
+      utilize market-based rates for new and expanding loads that meet certain criteria."'
+    - 'DTE Electric emergency procedures item: "The Commission approved changes to DTE Electric''s rate book so that customers
+      that take service from the utility after Oct. 1, 2025, with at least 500 MWs of capacity or customers that take service
+      under DTE Electric''s Large Load Provision of Rate Schedule No. D11 will now be subject to firm load shedding prior
+      to other customers, provided that it would prevent firm load shedding for other DTE Electric customers."'
+    - 'Docket 26-0625: "Filing proposing revisions to terms and conditions for large electric customers. (Tariffs filed July
+      10, 2026)."'
+    - 'Duke files data center tariff application: "Duke Energy Ohio has recently filed an application for approval of a new
+      service and tariffs for serving data center load in Case No. 26-0755-EL-ATA."'
+    - 'Electric Service Agreements under review: "An ESA between Minnesota Power and Harmony Group, LLC (a subsidiary of Alphabet/Google)
+      for a data center in Hermantown, Minnesota."'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: quoted_clause
+  documented_by: source docs/research/large_load/README.md
+- name: x_license_basis
+  label: 'Why the row may be public: the copy it was read from (a commission''s docket copy, an SEC filing and so on)'
+  unit: none
+  type: text
+  values:
+    distinct: 91
+    examples:
+    - AEP's Form 10-Q on SEC EDGAR.
+    - AEP's combined Form 10-Q on SEC EDGAR and the PUCT's adoption order in Project 58481 (AEP's own sites allow personal
+      use only and were not used for any value)
+    - Algonquin's filing on SEC EDGAR and the Missouri PSC's own page
+    - 'City of Austin public records (services.austintexas.gov: council backup, ordinance, Austin Energy presentation)'
+    - Evergy's Form 10-Q on SEC EDGAR
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: license_basis
+  documented_by: connector large_load_research.py; method large_load_research.md
+- name: x_withheld
+  label: The fields of this public row left empty because they rest only on a host whose terms ask written permission, joined
+    by ';'
+  unit: none
+  type: text
+  values:
+    list:
+      collateral;connection_timeline;study_timeline: 1
+      queue_size: 1
+  missing_cells: 98
+  missing_meaning: Empty where no field is withheld (98 of 100 rows)
+  source_name: internal_fields
+  documented_by: connector large_load_research.py; method large_load_research.md
+- name: x_held
+  label: 'The fields whose value the ERW''s own registry already holds, each with the registry file (field: registry/file),
+    joined by ''; '''
+  unit: none
+  type: text
+  values:
+    list:
+      'min_demand: large_load_tariffs/oncor_transmission_service.yaml': 1
+      ? 'threshold_mw: large_load_tariffs/alabama_act_2026_610_data_centers.yaml; min_demand: large_load_tariffs/alabama_act_2026_610_data_centers.yaml;
+        contract_term: large_load_tariffs/alabama_act_2026_610_data_centers.yaml; collateral: large_load_tariffs/alabama_act_2026_610_data_centers.yaml'
+      : 1
+      'threshold_mw: large_load_tariffs/ameren_missouri_llcs.yaml; min_demand: large_load_tariffs/ameren_missouri_llcs.yaml': 1
+      ? 'threshold_mw: large_load_tariffs/duke_energy_carolinas_large_load_tariff.yaml; min_demand: large_load_tariffs/duke_energy_carolinas_large_load_tariff.yaml'
+      : 1
+      'threshold_mw: large_load_tariffs/entergy_louisiana_llhlfps_l.yaml': 2
+      ? 'threshold_mw: large_load_tariffs/evergy_missouri_metro_llps.yaml; min_demand: large_load_tariffs/evergy_missouri_metro_llps.yaml;
+        contract_term: large_load_tariffs/evergy_missouri_metro_llps.yaml; exit_fee: large_load_tariffs/evergy_missouri_metro_llps.yaml'
+      : 1
+      ? 'threshold_mw: large_load_tariffs/evergy_missouri_west_llps.yaml; min_demand: large_load_tariffs/evergy_missouri_west_llps.yaml;
+        contract_term: large_load_tariffs/evergy_missouri_west_llps.yaml; exit_fee: large_load_tariffs/evergy_missouri_west_llps.yaml'
+      : 1
+      ? 'threshold_mw: large_load_tariffs/georgia_power_rules_100mw.yaml; min_demand: large_load_tariffs/georgia_power_rules_100mw.yaml;
+        collateral: large_load_tariffs/georgia_power_rules_100mw.yaml'
+      : 1
+      'threshold_mw: large_load_tariffs/nv_energy_llesa.yaml': 1
+      ? 'threshold_mw: large_load_tariffs/portland_general_electric_schedule_96.yaml; min_demand: large_load_tariffs/portland_general_electric_schedule_96.yaml;
+        contract_term: large_load_tariffs/portland_general_electric_schedule_96.yaml; exit_fee: large_load_tariffs/portland_general_electric_schedule_96.yaml'
+      : 1
+  missing_cells: 89
+  missing_meaning: Empty where no field is held in the registry
+  source_name: null
+  documented_by: connector large_load_research.py; method large_load_research.md
+- name: x_erw_overlap
+  label: 'How the row compares with the ERW''s registries: the file and the old value where they differ, or that the rule
+    is not held'
+  unit: none
+  type: text
+  values:
+    distinct: 40
+    examples:
+    - 'Not held. large_load_connection_rules/puct_project_58000_proposal.yaml is the separate tariff rulemaking (proposed
+      amendments to 25.192 and 25.193 and new 25.252: 20-year agreement, 240 payments); it is still pending (the latest filing
+      in Project 58000, item 70 of 1 October 2026, is comments on the minimum billing demand study), and §25.194 relies on
+      its §25.193 minimum billing demand. ercot_planning_guide_section_9.yaml and ercot_large_load_batch_update_april_2026.yaml
+      hold ERCOT''s own Batch Zero clocks and threshold; §25.194(h) sets the PUCT''s return and forfeiture terms for batch
+      zero load, which those files do not hold.'
+    - large_load_connection_rules/ercot_planning_guide_section_9.yaml and ercot_large_load_batch_update_april_2026.yaml hold
+      Batch Zero itself; large_load_connection_rules/puct_project_58000_proposal.yaml holds the separate, still pending Project
+      58000 proposal (25.192, 25.193, 25.252). 16 TAC §25.194 is the statewide row of this file.
+    - large_load_connection_rules/pacific_gas_and_electric_electric_rule_30.yaml holds the interim Rule 30 sheets (Advice
+      7772-E, document_date 2025-12-04) as four timed steps, read from pge.com; no held value differs. This row re-cites the
+      rule on D.25-07-039 and adds collateral and queue.
+    - 'large_load_tariffs/aep_ohio_schedule_dct.yaml (internal, the tariff sheets on aepohio.com): the order prints the same
+      25 MW threshold, 85 percent minimum, Load Ramp Period plus eight years, 50/65/80/90 percent ramp floors and 50 percent
+      collateral; this public commission-hosted copy can serve as the public source for them.'
+    - large_load_tariffs/alabama_act_2026_610_data_centers.yaml holds the Act's 150 MW threshold and the contract matters
+      (minimum term, upfront payments, security and collateral, minimum payment, no figures); this row is the PSC's procedure
+      under it, not held.
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: erw_overlap
+  documented_by: source docs/research/large_load/README.md; data
+- name: x_notes
+  label: 'The research pass''s notes on the row: leads, refusals, what waits'
+  unit: none
+  type: text
+  values:
+    distinct: 100
+    examples:
+    - 'A comment docket, not a rule: kept so that the South Carolina side''s status is on record; drop it if the dataset holds
+      rules only. Leads (news and party releases, not read as values): the docket follows commitments in Duke''s 2025 South
+      Carolina rate case settlements; S&P Global reports the SC PSC voted on 20 November 2025 to approve a separate large-load
+      stipulation between DEP and consumer and environmental groups (Docket 2025-154-E). No Duke South Carolina large-load
+      tariff filing was found. sierraclub.org (SSL error on robots) was not read.'
+    - 'A cryptocurrency mining schedule with mandatory interruptible service, not a data center schedule; kept as EAL''s only
+      high load density schedule. The sheets print the APSC approval stamp; their Effective field is blank, so the date given
+      is the approval stamp of sheets 69.2 to 69.6. Rates on sheet 69.2: Firm Contract Demand $16.96 per kW, Option A Nonfirm
+      $11.64, Option B Nonfirm $9.70 (p. 343).'
+    - 'A single-customer agreement under a general tariff in place since 2000 (per the release), kept as a row because the
+      PSCW''s order sets the terms for this data center and directed the stand-alone large load tariff (previous row). The
+      release also lists added reporting requirements, a contribution to the statewide energy efficiency and renewable program
+      and approved Renewable Energy Procurement Agreements. Alliant''s 10-Q says customers on approved ICRs are a separate
+      class in WPL''s next cost-of-service study. Status date as the reading group wrote it: ''2026-06 (final order; decided
+      at the PSCW open meeting of 7 May 2026)''.'
+    - 'A statewide rule, like the ERW''s registry''s Pennsylvania model: it binds each Maryland electric company''s own large
+      load tariff. Status: published as proposed on 26 June 2026 with comments to 27 July 2026; whether the PSC has since
+      adopted it was not verified (a later Maryland Register issue would show the final action). Each investor-owned company
+      had to file its own large load rate schedule by 1 September 2026: Chapter 353 (HB 1532, signed 12 May 2026), Public
+      Utilities 4-212(c)(1)(i), p.34 of the session law: ''On or before September 1, 2026, each investor-owned electric company
+      and each electric cooperative shall submit to the Commission for approval a specific rate schedule for large load customers''.
+      BGE''s, Pepco''s and Delmarva''s filings were not read: the PSC''s docket system (webpscxb.psc.state.md.us) bars Claude''s
+      agents in its robots file (refused). A lead: HB 1082 of 2026 would have moved that date to 1 January 2027 (its fiscal
+      note); Chapter 353 as enacted keeps 1 September 2026. Exelon''s Q3 2026 earnings slides (SEC EDGAR, exc-20261030ex992.htm,
+      p.1) give a combined MidAtlantic figure: ''MidAtlantic ~2 GW'' of high probability load and ''MidAtlantic ~9 GW'' within
+      cluster studies (MidAtlantic covers PECO, BGE, Pepco, Delmarva and Atlantic City Electric). Status updated by the 90-day
+      pass (east-02): was ''proposed'' (2026-06-26); The adopted COMAR 20.96.01 took effect on 28 September 2026, the effective
+      date printed in the notice of final action.'
+    - 'AEP Texas''s own tariff (aeptexas.com, Tariff for Electric Delivery Service effective 5 January 2026) answered HTTP
+      404 and was not read; no AEP Texas large-load schedule is named in the 10-Q (AEP''s pending Texas large-load tariff
+      is SWEPCo-Texas, outside ERCOT). The 10-Q: in August 2026 the Governor directed a verification of Batch Zero loads and
+      an audit of data center projects 25 MW and above; ERCOT ''has currently paused Batch Zero classification and study activity
+      and stated it will not authorize large loads to energize until verification is complete.'' Corrected by the independent
+      audit of session 5304 (A-21): exit_fee was ''16 TAC §25.194: 20% of the security for allocated capacity kept on withdrawal
+      before the SLLIA deadline, 20% of the security for withdrawn contracted demand kept after a SLLIA, security forfeited
+      without a SLLIA; CIAC not refundable (statewide row)''. Corrected by the independent audit of session 5304 (A-23): collateral
+      now names the guaranty and the letter of credit the rule accepts.'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: notes
+  documented_by: source docs/research/large_load/README.md
+second_look: null

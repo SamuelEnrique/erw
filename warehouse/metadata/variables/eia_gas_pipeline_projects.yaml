@@ -1,0 +1,546 @@
+# The codebook's metadata of table eia_gas_pipeline_projects (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_gas_pipeline_projects
+family: eia
+shape: events
+row: One natural gas pipeline project on EIA's tracker (current or historical sheet), as of the tracker of August 2026.
+time: event_date is EIA's completed date where it gives one, else 1 January of the year in service, else the date EIA last
+  updated the record (x_date_basis says which).
+vintage_rule: Rewritten whole by each run from the newest tracker; there is no vintage column. Ids EIA gives twice with two
+  rows are left out.
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: eia:naturalgas:pipeline_projects U.S. Energy Information Administration, natural gas pipeline projects
+  url: https://www.eia.gov/naturalgas/data.php
+cite: U.S. Energy Information Administration (EIA). Natural gas pipeline projects. Via the Energy Research Warehouse (ERW),
+  table `eia_gas_pipeline_projects`.
+method: docs/methods/eia_gas_pipeline_projects.md
+header_title: EIA, natural gas pipeline projects, current and historical, the tracker of Aug 2026 (session 899)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id eia_gas_pipeline:<project name slug>:<year in service>; event_date
+  the completed date where EIA gives one, else the year in service''s 1 January, else when EIA last updated it (x_date_basis);
+  event_type pipeline_project; parties the operator; status EIA''s in lower case; x_* EIA''s columns (cost in million USD
+  as EIA writes it, a range kept; capacity in MMcf/d; diameter in inches); x_sheet current or historical.'
+read:
+  date: '2026-11-20'
+  rows: 1334
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 1334
+    examples:
+    - eia_gas_pipeline:134th_street_lateral_project:2021
+    - eia_gas_pipeline:2010_system_enhancement_project:2010
+    - eia_gas_pipeline:2011_system_expansion:2012
+    - eia_gas_pipeline:2015_elko_area_expansion_project:2015
+    - eia_gas_pipeline:2018_paiute_expansion_project:2018
+  missing_cells: 0
+  particular: eia_gas_pipeline:<project name slug>:<year in service slug>
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 781
+    earliest: '1903-11-05'
+    latest: '2031-01-01'
+  missing_cells: 0
+  particular: Completed date, else the year in service's 1 January, else EIA's last update (x_date_basis)
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      pipeline_project: 1334
+  missing_cells: 0
+  particular: pipeline_project on every row
+- name: parties
+  shared: true
+  type: text
+  values:
+    distinct: 403
+    examples:
+    - 8 Star Alaska LLC
+    - ANR Pipeline
+    - ANR Pipeline Co. (TC Energy)
+    - ANR Pipeline Company (subsidiary of TC Energy)
+    - Adelphia
+  missing_cells: 0
+  particular: The pipeline operator
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1334
+  particular: Not filled
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1334
+  particular: Not filled
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1334
+  particular: Not filled
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1334
+  particular: Not filled
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      announced: 13
+      applied: 34
+      approved: 31
+      cancelled: 44
+      cancelled/on hold: 1
+      completed: 1140
+      construction: 32
+      denied: 3
+      on hold: 21
+      part completed: 3
+      pre-applied: 10
+      proposed: 2
+  missing_cells: 0
+  particular: EIA's status in lower case (completed, construction, approved, cancelled and the others)
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:naturalgas:pipeline_projects: 1334
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/naturalgas/pipelines/EIA-NaturalGasPipelineProjectsAug2026.xlsx: 1334
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T06:35:49Z': 1334
+  missing_cells: 0
+- name: x_project_name
+  label: The project's name as EIA writes it
+  unit: none
+  type: text
+  values:
+    distinct: 1325
+    examples:
+    - (SEML) Southeast Mainline System Reversal
+    - 134th Street Lateral Project
+    - 2010 System Enhancement Project
+    - 2011 system expansion
+    - 2015 Elko Area Expansion Project
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Project Name
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_project_type
+  label: The project type (Expansion, Lateral, New Pipeline, Reversal, Upgrade, Conversion, Abandonment)
+  unit: none
+  type: text
+  values:
+    list:
+      Abandonment: 2
+      Conversion: 14
+      Expansion: 756
+      Lateral: 263
+      New Pipeline: 232
+      Reversal: 42
+      Upgrade: 24
+  missing_cells: 1
+  missing_meaning: EIA gives no type
+  source_name: Project Type
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_completed_date
+  label: The date the project was completed, as EIA gives it
+  unit: none
+  type: date
+  values:
+    distinct: 734
+    earliest: '1903-11-05'
+    latest: '2026-05-26'
+  missing_cells: 207
+  missing_meaning: EIA gives no completed date
+  source_name: Completed Date
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_year_in_service
+  label: The year the project entered or is to enter service, as EIA writes it
+  unit: none
+  type: text
+  values:
+    distinct: 38
+    examples:
+    - '1996'
+    - '1997'
+    - '1998'
+    - '1999'
+    - '2000'
+  missing_cells: 29
+  missing_meaning: EIA gives no year in service
+  source_name: Year In Service Date
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_states
+  label: EIA's list of the states (and provinces) the project is in
+  unit: none
+  type: text
+  values:
+    distinct: 294
+    examples:
+    - AB,MT
+    - AK
+    - AL
+    - AL,FL
+    - AL,GA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: State(s)
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_beg_state
+  label: The state where the project begins
+  unit: none
+  type: text
+  values:
+    distinct: 58
+    examples:
+    - AB
+    - AK
+    - AL
+    - AR
+    - AZ
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Beg_State
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_end_state
+  label: The state where the project ends
+  unit: none
+  type: text
+  values:
+    distinct: 58
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - BC
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: End_State
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_regions
+  label: EIA's list of the regions the project is in
+  unit: none
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - Canada
+    - Canada, Midwest
+    - Canada, Mountain
+    - Canada, Mountain, Midwest
+    - Canada, Mountain, Pacific
+  missing_cells: 2
+  missing_meaning: EIA gives no region
+  source_name: Region(s)
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_beg_region
+  label: The region where the project begins
+  unit: none
+  type: text
+  values:
+    list:
+      Canada: 40
+      Gulf of America: 1
+      Gulf of Mexico: 17
+      Mexico: 2
+      Midwest: 169
+      Mountain: 216
+      Northeast: 351
+      Pacific: 49
+      South Central: 430
+      Southeast: 58
+  missing_cells: 1
+  missing_meaning: EIA gives no region
+  source_name: Beg_Region
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_end_region
+  label: The region where the project ends
+  unit: none
+  type: text
+  values:
+    list:
+      Canada: 16
+      Gulf of America: 1
+      Gulf of Mexico: 7
+      Mexico: 42
+      Midwest: 182
+      Mountain: 188
+      Northeast: 335
+      Pacific: 59
+      South Central: 407
+      Southeast: 95
+  missing_cells: 2
+  missing_meaning: EIA gives no region
+  source_name: End_Region
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_thru_region
+  label: The regions the project passes through
+  unit: none
+  type: text
+  values:
+    list:
+      Midwest: 10
+      Mountain: 13
+      Mountain, Pacific: 1
+      Northeast: 1
+      Pacific: 2
+      South Central: 6
+      Southeast: 7
+  missing_cells: 1294
+  missing_meaning: EIA names no region passed through
+  source_name: Thru_Region
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_cost_million_usd
+  label: The project's cost as EIA writes it, a range kept as a range
+  unit: million USD
+  type: text
+  values:
+    distinct: 693
+    examples:
+    - '0'
+    - '0.03'
+    - '0.05'
+    - '0.11'
+    - '0.12'
+  missing_cells: 215
+  missing_meaning: EIA gives no cost
+  source_name: Cost (millions)
+  documented_by: header; connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_miles
+  label: The project's length
+  unit: miles
+  type: text
+  values:
+    distinct: 496
+    examples:
+    - '-500'
+    - '-956.4'
+    - '0'
+    - '0.01'
+    - '0.0128788'
+  missing_cells: 315
+  missing_meaning: EIA gives no length
+  source_name: Miles
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_capacity_mmcfd
+  label: The capacity the project adds
+  unit: MMcf/d
+  type: text
+  values:
+    distinct: 480
+    examples:
+    - '-150'
+    - '-25'
+    - '-255'
+    - '-487'
+    - '0'
+  missing_cells: 62
+  missing_meaning: EIA gives no added capacity
+  source_name: Additional Capacity
+  documented_by: header; connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_diameter_inches
+  label: The pipeline's diameter (several where EIA lists several)
+  unit: inches
+  type: text
+  values:
+    distinct: 110
+    examples:
+    - '10'
+    - 10,12
+    - 10,16
+    - 10,16,24
+    - 10,20
+  missing_cells: 374
+  missing_meaning: EIA gives no diameter
+  source_name: Pipeline Diameter
+  documented_by: header; connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_pipeline_type
+  label: The pipeline type (Interstate, Intrastate, Foreign, Cross-border)
+  unit: none
+  type: text
+  values:
+    list:
+      Cross-border: 1
+      Foreign: 3
+      Interstate: 1055
+      Intrastate: 272
+  missing_cells: 3
+  missing_meaning: EIA gives no type
+  source_name: Pipeline Type
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_authority
+  label: The authority that regulates the project (FERC, a state commission and the others)
+  unit: none
+  type: text
+  values:
+    distinct: 26
+    examples:
+    - AK DNR
+    - AL PSC
+    - CPUC
+    - Coast Guard
+    - DOE/Presidential Permit
+  missing_cells: 49
+  missing_meaning: EIA names no authority
+  source_name: Authority
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_docket
+  label: The authority's docket number for the project
+  unit: none
+  type: text
+  values:
+    distinct: 953
+    examples:
+    - 6630-CG-138
+    - CP 24-1
+    - CP 26-18
+    - CP00-06
+    - CP00-06-014
+  missing_cells: 105
+  missing_meaning: EIA gives no docket
+  source_name: Docket
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_crosses_state_border
+  label: 'Yes or No: whether the project crosses a state border'
+  unit: none
+  type: text
+  values:
+    list:
+      'No': 321
+      'Yes': 229
+  missing_cells: 784
+  missing_meaning: EIA does not say
+  source_name: Crosses State Border
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_notes
+  label: EIA's notes on the project
+  unit: none
+  type: text
+  values:
+    distinct: 419
+    examples:
+    - 1.9 miles of 42-inch Chilton Loop in Coosa and Chilton Counties, AL plus new 11,110 HP Solar Taurus 70 compressor unit
+      and modifications at existing Compressor Station 105 in Coosa County. Adds 150,000 Dth/d of firm transport from existing
+      MS/AL supply points to the Gaston delivery meter station supporting Alabama Power's coal-to-gas conversion of Gaston
+      Unit 5. Commissioned 4/1/2025.
+    - 10.2-mile 36-inch Line 31 loop parallel to existing Lines 14/18 plus a 1.6-mile 16-inch Line 14-P Lateral to Entergy
+      Mississippi's planned Traceview Advanced Power Station, with a new Ridgeland Compressor Station (3 × 1,500 HP gas-driven
+      units) and meter/regulator station  -  all in Madison County, MS. Adds 125,000 Dth/d of firm capacity. Application filed
+      1/23/2026 (CP26-75); total cost $131M. Construction planned 8/2027; target in-service 9/2028.
+    - '11/27/2024: VG Plaquemines rec''d FERC approval to place PH 1 facilities in service. Deliver feedgas to Plaquemines
+      LNG via new interstate pipeline; interconnections with TGP (Southwest Lateral TGP) and TETCO.'
+    - 12-mile lateral expansion of Energy Transfer's Tiger Pipeline, with capacity of up to 1 Bcf/d, to supply Entergy Louisiana's
+      planned 2×750 MW Titanium Advanced Power Station in Richland Parish (serving Meta's hyperscale data center and the local
+      grid). Supported by a 20-year firm transportation agreement starting with 250,000 MMBtu/d in February 2028 through January
+      2048, with an option for Entergy to expand capacity.
+    - 12-mile, 20-inch lateral from Dearborn County, IN through Boone County, KY to Hamilton County, OH. Serves Vistra Corp's
+      Miami Fort coal-to-gas conversion (1,020-MW plant, June 2028 commercial operation). Vistra/Dynegy committed to full
+      265,000 Dth/d under 13-year contract. FERC authorization requested by March 19, 2027. Filed May 29, 2026.
+  missing_cells: 907
+  missing_meaning: EIA gives no note
+  source_name: Notes or Project Notes
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_demand_served
+  label: The demand the project serves, as EIA gives it (Electric, LDC, Data Center and the others)
+  unit: none
+  type: text
+  values:
+    distinct: 48
+    examples:
+    - Data Center
+    - Electric
+    - Electric, Industrial, LDC
+    - Electric, Industrial, LNG
+    - Electric/LNG
+  missing_cells: 1128
+  missing_meaning: EIA does not say
+  source_name: Demand Served
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_website
+  label: The website or document EIA cites for the project, as EIA gives it
+  unit: none
+  type: text
+  values:
+    distinct: 156
+    examples:
+    - 1Q 2025 Financial Results
+    - 4Q22 Financial Results PR
+    - Commencement of service announcement
+    - Commissioning release
+    - Company presentation,Q4 2025
+  missing_cells: 1067
+  missing_meaning: EIA cites none
+  source_name: Website
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_last_updated
+  label: When EIA last updated the record
+  unit: none
+  type: date
+  values:
+    distinct: 304
+    earliest: '2009-06-26'
+    latest: '2026-11-14'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Last Updated Date
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_sheet
+  label: 'The tracker''s sheet the project is on: current or historical'
+  unit: none
+  type: text
+  values:
+    list:
+      current: 137
+      historical: 1197
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+- name: x_date_basis
+  label: 'Which date event_date is: completed, year_in_service or last_updated'
+  unit: none
+  type: text
+  values:
+    list:
+      completed: 1127
+      last_updated: 68
+      year_in_service: 139
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
+second_look: null

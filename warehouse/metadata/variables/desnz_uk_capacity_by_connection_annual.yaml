@@ -1,0 +1,158 @@
+# The codebook's metadata of table desnz_uk_capacity_by_connection_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: desnz_uk_capacity_by_connection_annual
+family: desnz
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: desnz:dukes_5_12_capacity_by_connection Department for Energy Security and Net Zero, Digest of UK Energy Statistics
+    (DUKES) 2026, table 5.12, Plant installed capacity, by connection
+  url: ''
+cite: UK Department for Energy Security and Net Zero (DESNZ). Digest of UK Energy Statistics (DUKES) 2026, table 5.12, Plant
+  installed capacity, by connection. Via the Energy Research Warehouse (ERW), table `desnz_uk_capacity_by_connection_annual`.
+method: docs/methods/desnz_uk_capacity_by_connection_annual.md
+header_title: 'DESNZ, Digest of UK Energy Statistics (DUKES) 2026, table 5.12: the UK''s installed capacity at year end by
+  connection (transmission or distribution) and fuel, 2011 to 2025, for Great Britain, Northern Ireland and the UK (session
+  2742)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity desnz_conn:<gb|ni|uk>:<transmission|distribution|all>:<fuel>;
+  variable installed_capacity; unit MW (at 31 December; installed capacity, not de-rated); ts_utc the year''s first day; freq
+  P1Y; geo GB or GB-NIR; node the sheet''s labels.'
+read:
+  date: '2026-11-20'
+  rows: 1245
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 83
+    examples:
+    - desnz_conn:gb:distribution:bioenergy
+    - desnz_conn:gb:distribution:ccgt_gas
+    - desnz_conn:gb:distribution:coal
+    - desnz_conn:gb:distribution:hydro_natural_flow
+    - desnz_conn:gb:distribution:ocgt_and_conventional_thermal_gas
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2011-01-01T00:00:00Z': 83
+      '2012-01-01T00:00:00Z': 83
+      '2013-01-01T00:00:00Z': 83
+      '2014-01-01T00:00:00Z': 83
+      '2015-01-01T00:00:00Z': 83
+      '2016-01-01T00:00:00Z': 83
+      '2017-01-01T00:00:00Z': 83
+      '2018-01-01T00:00:00Z': 83
+      '2019-01-01T00:00:00Z': 83
+      '2020-01-01T00:00:00Z': 83
+      '2021-01-01T00:00:00Z': 83
+      '2022-01-01T00:00:00Z': 83
+      '2023-01-01T00:00:00Z': 83
+      '2024-01-01T00:00:00Z': 83
+      '2025-01-01T00:00:00Z': 83
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 653
+    lowest: 0.0
+    highest: 111103.434
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 1245
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 1245
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      GB: 1050
+      GB-NIR: 195
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1245
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 43
+    examples:
+    - 'All: Bioenergy'
+    - 'All: CCGT gas'
+    - 'All: Coal'
+    - 'All: Hydro (natural flow)'
+    - 'All: Nuclear - AGR'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      desnz:dukes_5_12_capacity_by_connection: 1245
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://assets.publishing.service.gov.uk/media/6a6a3668862aaf18d9c629ed/DUKES_5.12.xlsx: 1245
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T20:54:18Z': 1245
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-07-29T17:20:40Z': 1245
+  missing_cells: 0
+variables:
+- name: installed_capacity
+  label: null
+  unit: MW
+  rows: 1245
+  first: '2011-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,224 @@
+# The codebook's metadata of table utility_service_territories (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: utility_service_territories
+family: utility
+shape: entities
+row: One utility serving one county of one state or territory, as EIA's Form EIA-861 service territory sheet lists the pair
+  for 2025.
+time: No time column; vintage is 'EIA-861 2025', the data year. A snapshot as read on its retrieved_at.
+vintage_rule: One data year a run; a run replaces the table whole, so it holds one year.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:eia861_territory U.S. Energy Information Administration, Form EIA-861 Annual Electric Power Industry Report (Service_Territory_2025.xlsx)
+  url: https://www.eia.gov/electricity/data/eia861/
+cite: U.S. Energy Information Administration (EIA). Form EIA-861 Annual Electric Power Industry Report, service territories.
+  Via the Energy Research Warehouse (ERW), table `utility_service_territories`.
+method: docs/methods/utility_service_territories.md
+header_title: EIA-861 utility service territories, each utility's counties by state, 2025 (session 667)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id eia861:<utility number>:<state>:<county>; entity_type
+  utility; name the utility''s name; geo US-<state>; x_utility_number, x_state, x_county, x_short_form (Y: EIA''s short form),
+  x_data_year, x_sheet as EIA gives them.'
+read:
+  date: '2026-11-20'
+  rows: 11893
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - eia861:10000:KS:Anderson
+    - eia861:10000:KS:Bourbon
+    - eia861:10000:KS:Coffey
+    - eia861:10000:KS:Douglas
+    - eia861:10000:KS:Franklin
+  missing_cells: 0
+  particular: eia861:<utility number>:<state>:<county>
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      utility: 11893
+  missing_cells: 0
+  particular: Always utility
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 2909
+    examples:
+    - 4-County Electric Power Assn
+    - A & N Electric Coop
+    - AEP Texas Central Company
+    - AEP Texas North Company
+    - AES Indiana
+  missing_cells: 0
+  particular: The utility's name as EIA writes it
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 56
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AS
+    - US-AZ
+  missing_cells: 0
+  particular: US-<state> of the county
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 11893
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 11893
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 11893
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 11893
+  particular: 'Not filled: no cell holds a value'
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 11893
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 11893
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia861_territory: 11893
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia861/zip/f8612025.zip: 11893
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T16:56:34Z': 11893
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: text
+  values:
+    list:
+      EIA-861 2025: 11893
+  missing_cells: 0
+  particular: EIA-861 <data year>, not a time
+- name: x_utility_number
+  label: EIA's utility identifier, the key of eia861_utility_sales and of OpenEI's eiaid
+  unit: none
+  type: integer
+  values:
+    distinct: 2909
+    lowest: 34
+    highest: 66866
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Utility Number
+  documented_by: method utility_service_territories.md
+- name: x_state
+  label: The state or territory, two-letter postal code
+  unit: none
+  type: text
+  values:
+    distinct: 56
+    examples:
+    - AK
+    - AL
+    - AR
+    - AS
+    - AZ
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: State
+  documented_by: method utility_service_territories.md
+- name: x_county
+  label: EIA's county name (no FIPS code)
+  unit: none
+  type: text
+  values:
+    distinct: 1932
+    examples:
+    - Abbeville
+    - Acadia
+    - Accomack
+    - Ada
+    - Adair
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: County
+  documented_by: method utility_service_territories.md
+- name: x_short_form
+  label: Y when the utility filed EIA's short form
+  unit: none
+  type: text
+  values:
+    list:
+      Y: 2899
+  missing_cells: 8994
+  missing_meaning: The utility did not file the short form
+  source_name: Short Form
+  documented_by: header; method utility_service_territories.md
+- name: x_data_year
+  label: The data year of EIA's sheet
+  unit: none
+  type: integer
+  values:
+    list:
+      '2025': 11893
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Data Year
+  documented_by: method utility_service_territories.md
+- name: x_sheet
+  label: 'The sheet of EIA''s workbook the row is from: Counties_States, or Counties_Territories (Puerto Rico and the other
+    territories)'
+  unit: none
+  type: text
+  values:
+    list:
+      Counties_States: 11803
+      Counties_Territories: 90
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method utility_service_territories.md
+second_look: null

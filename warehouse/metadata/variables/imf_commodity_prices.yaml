@@ -1,0 +1,147 @@
+# The codebook's metadata of table imf_commodity_prices (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: imf_commodity_prices
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: imf:pcps International Monetary Fund, Primary Commodity Price System (PCPS), monthly prices
+  url: https://www.imf.org/en/Research/commodity-prices
+cite: International Monetary Fund (IMF). Primary Commodity Price System (PCPS), monthly prices. Via the Energy Research Warehouse
+  (ERW), table `imf_commodity_prices`.
+method: docs/methods/imf_commodity_prices.md
+header_title: 'IMF primary commodity prices, monthly averages from 2019: uranium, lithium, cobalt, nickel, copper (session
+  132)'
+header_shape: 'Shape: series (docs/datastandard.md v0). price: the IMF''s average price of the month, US dollars; ts_utc is
+  the first day of the month at 00:00:00Z; freq P1M. node is the commodity. Units per row (USD/t, uranium USD/lb), as the
+  IMF''s commodity tables state them.'
+read:
+  date: '2026-11-20'
+  rows: 752
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      imf:PCPS:PCOALAU: 94
+      imf:PCPS:PCOBA: 94
+      imf:PCPS:PCOPP: 94
+      imf:PCPS:PLITH: 94
+      imf:PCPS:PNGASEU: 94
+      imf:PCPS:PNGASJP: 94
+      imf:PCPS:PNICK: 94
+      imf:PCPS:PURAN: 94
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 94
+    earliest: '2019-01-01T00:00:00Z'
+    latest: '2026-10-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 752
+    lowest: 1.46261232
+    highest: 490008.1789809524
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MMBtu: 188
+      USD/lb: 94
+      USD/t: 470
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 752
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 752
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 752
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Coal, Australia: 94
+      Cobalt: 94
+      Copper: 94
+      LNG, Asia: 94
+      Lithium: 94
+      Natural gas, EU: 94
+      Nickel: 94
+      Uranium: 94
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      imf:pcps: 752
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.imf.org/external/sdmx/3.0/data/dataflow/IMF.RES/PCPS/+/G001.PURAN+PLITH+PCOBA+PNICK+PCOPP+PCOALAU+PNGASEU+PNGASJP.USD.M?c[TIME_PERIOD]=ge:2019-01
+      : 752
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-14T10:45:40Z': 752
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 752
+variables:
+- name: price
+  label: null
+  unit: USD/MMBtu; USD/lb; USD/t
+  rows: 752
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+second_look: null

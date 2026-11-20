@@ -1,0 +1,212 @@
+# The codebook's metadata of table eurostat_gas_imports_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_gas_imports_monthly
+family: eurostat
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eurostat:nrg_ti_gasm Eurostat, Imports of natural gas by partner country, monthly data (nrg_ti_gasm)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_ti_gasm/default/table
+cite: Eurostat (Statistical Office of the European Union). Imports of natural gas by partner country, monthly data (nrg_ti_gasm).
+  Via the Energy Research Warehouse (ERW), table `eurostat_gas_imports_monthly`.
+method: docs/methods/eurostat_gas_imports_monthly.md
+header_title: Eurostat, imports of natural gas and LNG by partner country, monthly (nrg_ti_gasm), 2015-01 to 2026-09 (session
+  2213)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_gas_imports:<geo>:<SIEC>:<partner> (G3000 natural
+  gas, G3200 LNG, a part of it); variable imports; unit MWh (Eurostat''s TJ of gross calorific value times 277.7778); ts_utc
+  the month''s first day; freq P1M; geo ISO alpha-2 (EL is GR), blank for EU27_2020 and EA21.'
+read:
+  date: '2026-11-20'
+  rows: 34905
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 865
+    examples:
+    - eurostat_gas_imports:AL:G3000:EL
+    - eurostat_gas_imports:AL:G3000:NSP
+    - eurostat_gas_imports:AL:G3000:TOTAL
+    - eurostat_gas_imports:AT:G3000:CH
+    - eurostat_gas_imports:AT:G3000:CZ
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 141
+    earliest: '2015-01-01T00:00:00Z'
+    latest: '2026-09-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.278
+    highest: 673357583.333
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 34905
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 34905
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - AL
+    - AT
+    - BE
+    - BG
+    - CZ
+  missing_cells: 7531
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 34905
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 865
+    examples:
+    - AL G3000 from EL
+    - AL G3000 from NSP
+    - AL G3000 from TOTAL
+    - AT G3000 from CH
+    - AT G3000 from CZ
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_ti_gasm: 34905
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://ec.europa.eu/eurostat/api/dissemination/1.0/async/data/7330e3ef-4d8a-41e6-af23-bdfd15c46fd7: 34905
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T01:40:51Z': 34905
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 34905
+- name: x_geo_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 36
+    examples:
+    - AL
+    - AT
+    - BE
+    - BG
+    - CZ
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_siec
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      G3000: 25625
+      G3200: 9280
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_partner
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 78
+    examples:
+    - AFR_OTH
+    - AL
+    - AME_OTH
+    - AO
+    - AR
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_flag
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      e: 6
+      p: 148
+  missing_cells: 34751
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_conf_status
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 34905
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: imports
+  label: null
+  unit: MWh
+  rows: 34905
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+second_look: null

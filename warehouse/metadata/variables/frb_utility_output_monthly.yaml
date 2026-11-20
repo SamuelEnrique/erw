@@ -1,0 +1,180 @@
+# The codebook's metadata of table frb_utility_output_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: frb_utility_output_monthly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: frb:g17 Board of Governors of the Federal Reserve System, G.17 Industrial Production and Capacity Utilization
+  url: https://www.federalreserve.gov/releases/g17/
+cite: Board of Governors of the Federal Reserve System. G.17 Industrial Production and Capacity Utilization. Via the Energy
+  Research Warehouse (ERW), table `frb_utility_output_monthly`.
+method: docs/methods/frb_utility_output_monthly.md
+header_title: the Federal Reserve's G.17, industrial production and capacity utilization of electric and gas utilities, a
+  month (session 889)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity frb_g17:<G.17 series code>; variable production (unit index,
+  the G.17 release''s base 2017 = 100; Decision 53) or utilization (pct of capacity); seasonally adjusted; ts_utc the month''s
+  first day; freq P1M; geo US; node the series'' title. Codes: G2211A2 electric and gas utilities; G2211 electric power; G22111
+  generation (N221112 fossil fuel, N221113 nuclear, G221111A4T8 hydroelectric, renewables and other, with N221111 hydroelectric
+  and N221114T8 renewables and other); G22112 transmission and distribution (N22112R residential, N22112C commercial and other,
+  N22112M industrial electricity sales); G2212 natural gas distribution (N2212R, N2212C, N2212M its residential, commercial
+  and other, and industrial sales; N2212T gas transmission); B50001 all industrial production and B50089 energy, total, for
+  comparison.'
+read:
+  date: '2026-11-20'
+  rows: 15365
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      frb_g17:B50001: 2010
+      frb_g17:B50089: 717
+      frb_g17:G2211: 1374
+      frb_g17:G22111: 657
+      frb_g17:G221111A4T8: 297
+      frb_g17:G22112: 657
+      frb_g17:G2211A2: 1770
+      frb_g17:G2212: 1374
+      frb_g17:N221111: 655
+      frb_g17:N221112: 307
+      frb_g17:N221113: 655
+      frb_g17:N221114T8: 307
+      frb_g17:N22112C: 655
+      frb_g17:N22112M: 655
+      frb_g17:N22112R: 655
+      frb_g17:N2212C: 655
+      frb_g17:N2212M: 655
+      frb_g17:N2212R: 655
+      frb_g17:N2212T: 655
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 1293
+    earliest: '1919-01-01T00:00:00Z'
+    latest: '2026-09-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 3.3284
+    highest: 271.2812
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      index: 12497
+      pct: 2868
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 15365
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 15365
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 15365
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Commercial and other electricity sales NAICS=22112pt.: 655
+      Commercial and other gas sales NAICS=2212pt.: 655
+      Electric and gas utilities NAICS=2211,2: 1770
+      Electric power generation NAICS=22111: 657
+      Electric power generation, transmission, and distribution NAICS=2211: 1374
+      Electric power transmission, control, and distribution NAICS=22112: 657
+      Energy, total: 717
+      Fossil Fuel electric power generation NAICS=221112: 307
+      Gas transmission NAICS=2212pt.: 655
+      Hydroelectric power generation NAICS=221111: 655
+      Hydroelectric, renewables, and other NAICS=221111,4-8: 297
+      Industrial electricity sales NAICS=22112pt.: 655
+      Industrial gas sales NAICS=2212pt.: 655
+      Natural gas distribution NAICS=2212: 1374
+      Nuclear electric power generation NAICS=221113: 655
+      Renewables and other electric power generation NAICS=221114-8: 307
+      Residential electricity sales NAICS=22112pt.: 655
+      Residential gas sales NAICS=2212pt.: 655
+      Total index: 2010
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      frb:g17: 15365
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.federalreserve.gov/releases/g17/ipdisk/ip_sa.txt: 12497
+      https://www.federalreserve.gov/releases/g17/ipdisk/utl_sa.txt: 2868
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T05:15:17Z': 15365
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 15365
+variables:
+- name: production
+  label: null
+  unit: index
+  rows: 12497
+  first: '1919-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: utilization
+  label: null
+  unit: pct
+  rows: 2868
+  first: '1967-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+second_look: null

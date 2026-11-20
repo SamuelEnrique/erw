@@ -1,0 +1,177 @@
+# The codebook's metadata of table eia_gas_storage_state_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_gas_storage_state_monthly
+family: eia
+shape: series
+row: One state's, region's or the nation's monthly natural gas in underground storage (a month-end stock) or injections and
+  withdrawals (a flow over the month).
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M); a stock is at the month's end, a flow over the month.
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:natural-gas/stor/sum U.S. Energy Information Administration, Natural Gas Monthly, underground storage by state
+    (API v2, route natural-gas/stor/sum)
+  url: https://www.eia.gov/naturalgas/monthly/
+cite: U.S. Energy Information Administration (EIA). Natural Gas Monthly, underground storage by state (API v2). Via the Energy
+  Research Warehouse (ERW), table `eia_gas_storage_state_monthly`.
+method: docs/methods/eia_gas_storage_state_monthly.md
+header_title: EIA, natural gas in underground storage by state (working gas, base gas, total, injections, withdrawals), a
+  month (session 525)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_gas_storage:<process>:<area>; variable working_gas, base_gas,
+  total_gas (working and base), injections or withdrawals; unit MMcf; ts_utc the month''s first day (a stock at the month''s
+  end, a flow over the month); freq P1M; node EIA''s series name.'
+read:
+  date: '2026-11-20'
+  rows: 55015
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 205
+    examples:
+    - eia_gas_storage:SAB:NUS
+    - eia_gas_storage:SAB:R48
+    - eia_gas_storage:SAB:R83
+    - eia_gas_storage:SAB:R84
+    - eia_gas_storage:SAB:R85
+  missing_cells: 0
+  particular: eia_gas_storage:<process>:<area>
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 307
+    earliest: '2001-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 8432410.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MMcf: 55015
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 55015
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-CA
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 55015
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 205
+    examples:
+    - AGA Eastern Consuming Region Natural  Gas Underground Storage Withdrawals (MMcf)
+    - AGA Eastern Consuming Region Natural Gas Injections into Underground Storage (MMcf)
+    - AGA Eastern Consuming Region Natural Gas Underground Storage Volume (MMcf)
+    - AGA Eastern Consuming Region Natural Gas in Underground Storage (Base Gas) (MMcf)
+    - AGA Eastern Consuming Region Natural Gas in Underground Storage (Working Gas) (MMcf)
+  missing_cells: 0
+  particular: EIA's series name
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:natural-gas/stor/sum: 55015
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/natural-gas/stor/sum/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=SAO&facets%5Bprocess%5D%5B%5D=SAB&facets%5Bprocess%5D%5B%5D=SAT&facets%5Bprocess%5D%5B%5D=SAI&facets%5Bprocess%5D%5B%5D=SAW&start=2001-01
+      : 55015
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T21:13:51Z': 55015
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 55015
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: base_gas
+  label: Base gas (gas left in place to keep pressure) at the month's end (SAB), million cubic feet
+  unit: MMcf
+  rows: 11186
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: injections
+  label: Gas injected into storage in the month (SAI), million cubic feet
+  unit: MMcf
+  rows: 10750
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: total_gas
+  label: Total gas in storage, working and base (SAT), million cubic feet
+  unit: MMcf
+  rows: 11186
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: withdrawals
+  label: Gas withdrawn from storage in the month (SAW), million cubic feet
+  unit: MMcf
+  rows: 10744
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: working_gas
+  label: Working gas in storage at the month's end (SAO), million cubic feet
+  unit: MMcf
+  rows: 11149
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

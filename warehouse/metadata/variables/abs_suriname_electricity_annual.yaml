@@ -1,0 +1,202 @@
+# The codebook's metadata of table abs_suriname_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: abs_suriname_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: 'abs_sr:milieustatistieken_2024_tables_7_1_7_4_7_8_7_9 Algemeen Bureau voor de Statistiek in Suriname (ABS), Milieustatistieken
+    Publicatie / Environment Statistics Publication, December 2024, tables 7.1, 7.4, 7.8 and 7.9 (sources: N.V. EnergieBedrijven
+    Suriname; Staatsolie)'
+  url: ''
+cite: Algemeen Bureau voor de Statistiek in Suriname (ABS). Milieustatistieken Publicatie / Environment Statistics Publication,
+  December 2024, tables 7.1, 7.4, 7.8 and 7.9. Via the Energy Research Warehouse (ERW), table `abs_suriname_electricity_annual`.
+method: docs/methods/abs_suriname_electricity_annual.md
+header_title: 'Algemeen Bureau voor de Statistiek (ABS), Suriname, Milieustatistieken / Environment Statistics Publication
+  (December 2024), tables 7.1, 7.4, 7.8 and 7.9: EBS''s demand, generation and capacity, Staatsolie''s generation (session
+  2563)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity abs_sr:ebs, abs_sr:ebs:<category> or abs_sr:staatsolie:<plant>;
+  variable demand, net_generation, net_consumption, generation, installed_capacity, available_capacity; unit MWh or MW; ts_utc
+  the year''s first day; freq P1Y; geo SR; node ABS''s label; x_table the table.'
+read:
+  date: '2026-11-20'
+  rows: 56
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      abs_sr:ebs: 16
+      abs_sr:ebs:commercial: 5
+      abs_sr:ebs:industrial: 5
+      abs_sr:ebs:other: 5
+      abs_sr:ebs:residential: 5
+      abs_sr:ebs:total: 5
+      abs_sr:staatsolie:afobaka_hydro: 5
+      abs_sr:staatsolie:saramacca_backup: 5
+      abs_sr:staatsolie:tout_lui_faut_thermal: 5
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2019-01-01T00:00:00Z': 12
+      '2020-01-01T00:00:00Z': 12
+      '2021-01-01T00:00:00Z': 12
+      '2022-01-01T00:00:00Z': 10
+      '2023-01-01T00:00:00Z': 10
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 53
+    lowest: 167.7
+    highest: 1470000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 6
+      MWh: 50
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 56
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      SR: 56
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 56
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Afobaka Hydro Operations for the purpose of EPAR (EBS): 5
+      Available Capacity: 3
+      Commercial: 5
+      Energy production (back-up production in Saramacca): 5
+      Industrial: 5
+      Installed Capacity: 3
+      Net Consumption: 5
+      Other: 5
+      Residential: 5
+      Total: 5
+      Total Electricity Net Generation: 5
+      Tout Lui Faut Thermal Power Plant for the purpose of EBS: 5
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      abs_sr:milieustatistieken_2024_tables_7_1_7_4_7_8_7_9: 56
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://statistics-suriname.org/wp-content/uploads/2024/12/Elfde-Milieustatistieken-pub-dec-2024.pdf: 56
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T00:27:21Z': 56
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2024-12-31T08:40:24Z': 56
+  missing_cells: 0
+- name: x_table
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '7.1': 6
+      '7.4': 25
+      '7.8': 10
+      '7.9': 15
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: available_capacity
+  label: null
+  unit: MW
+  rows: 3
+  first: '2019-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: demand
+  label: null
+  unit: MWh
+  rows: 25
+  first: '2019-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: generation
+  label: null
+  unit: MWh
+  rows: 15
+  first: '2019-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: installed_capacity
+  label: null
+  unit: MW
+  rows: 3
+  first: '2019-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: net_consumption
+  label: null
+  unit: MWh
+  rows: 5
+  first: '2019-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: net_generation
+  label: null
+  unit: MWh
+  rows: 5
+  first: '2019-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+second_look: null

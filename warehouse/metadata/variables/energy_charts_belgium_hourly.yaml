@@ -1,0 +1,218 @@
+# The codebook's metadata of table energy_charts_belgium_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: energy_charts_belgium_hourly
+family: energy
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: energy_charts:public_power_be Energy-Charts.info (Fraunhofer Institute for Solar Energy Systems ISE), public net electricity
+    production, Belgium
+  url: https://energy-charts.info/charts/power/chart.htm?l=en&c=BE
+cite: Energy-Charts.info (Fraunhofer ISE). Public net electricity production, Belgium (API public_power). Via the Energy Research
+  Warehouse (ERW), table `energy_charts_belgium_hourly`.
+method: docs/methods/energy_charts_belgium_hourly.md
+header_title: Energy-Charts (Fraunhofer ISE), Belgium's public net electricity production by type, load, residual load and
+  cross-border trading, an hour, 2019-12-31T23:00:00Z to 2026-10-23T21:00:00Z (session 2253)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity energy_charts:be:<type>; variable public_net_power, load, residual_load
+  or cross_border_trading; unit MW (the hour''s mean power, as Energy-Charts gives it); freq PT1H; ts_utc the hour''s start;
+  geo BE; x_type Energy-Charts'' name.'
+read:
+  date: '2026-11-20'
+  rows: 908600
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      energy_charts:be:battery: 15863
+      energy_charts:be:biomass: 59711
+      energy_charts:be:cross_border_electricity_trading: 59711
+      energy_charts:be:fossil_gas: 59711
+      energy_charts:be:fossil_oil: 59711
+      energy_charts:be:hydro_pumped_storage: 59711
+      energy_charts:be:hydro_pumped_storage_consumption: 59711
+      energy_charts:be:hydro_run_of_river: 59711
+      energy_charts:be:load: 59711
+      energy_charts:be:nuclear: 56783
+      energy_charts:be:others: 59711
+      energy_charts:be:residual_load: 59711
+      energy_charts:be:solar: 59711
+      energy_charts:be:waste: 59711
+      energy_charts:be:wind_offshore: 59711
+      energy_charts:be:wind_onshore: 59711
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2019-12-31T23:00:00Z'
+    latest: '2026-10-23T21:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -5343.2
+    highest: 13515.7
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 908600
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 908600
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      BE: 908600
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 908600
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      'Belgium: Battery': 15863
+      'Belgium: Biomass': 59711
+      'Belgium: Cross border electricity trading': 59711
+      'Belgium: Fossil gas': 59711
+      'Belgium: Fossil oil': 59711
+      'Belgium: Hydro Run-of-River': 59711
+      'Belgium: Hydro pumped storage': 59711
+      'Belgium: Hydro pumped storage consumption': 59711
+      'Belgium: Load': 59711
+      'Belgium: Nuclear': 56783
+      'Belgium: Others': 59711
+      'Belgium: Residual load': 59711
+      'Belgium: Solar': 59711
+      'Belgium: Waste': 59711
+      'Belgium: Wind offshore': 59711
+      'Belgium: Wind onshore': 59711
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      energy_charts:public_power_be: 908600
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://api.energy-charts.info/public_power?country=be&start=2020-01-01&end=2020-12-31: 131760
+      https://api.energy-charts.info/public_power?country=be&start=2021-01-01&end=2021-12-31: 131400
+      https://api.energy-charts.info/public_power?country=be&start=2022-01-01&end=2022-12-31: 131400
+      https://api.energy-charts.info/public_power?country=be&start=2023-01-01&end=2023-12-31: 131400
+      https://api.energy-charts.info/public_power?country=be&start=2024-01-01&end=2024-12-31: 131760
+      https://api.energy-charts.info/public_power?country=be&start=2025-01-01&end=2025-12-31: 140160
+      https://api.energy-charts.info/public_power?country=be&start=2026-01-01&end=2026-10-23: 110720
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T03:46:02Z': 140160
+      '2026-10-24T03:46:18Z': 131760
+      '2026-10-24T03:46:55Z': 131400
+      '2026-10-24T03:47:33Z': 131400
+      '2026-10-24T03:48:10Z': 131400
+      '2026-10-24T03:48:47Z': 131760
+      '2026-10-24T03:49:24Z': 110720
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 908600
+- name: x_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Battery: 15863
+      Biomass: 59711
+      Cross border electricity trading: 59711
+      Fossil gas: 59711
+      Fossil oil: 59711
+      Hydro Run-of-River: 59711
+      Hydro pumped storage: 59711
+      Hydro pumped storage consumption: 59711
+      Load: 59711
+      Nuclear: 56783
+      Others: 59711
+      Residual load: 59711
+      Solar: 59711
+      Waste: 59711
+      Wind offshore: 59711
+      Wind onshore: 59711
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: cross_border_trading
+  label: null
+  unit: MW
+  rows: 59711
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-23T21:00:00Z'
+- name: load
+  label: null
+  unit: MW
+  rows: 59711
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-23T21:00:00Z'
+- name: public_net_power
+  label: null
+  unit: MW
+  rows: 729467
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-23T21:00:00Z'
+- name: residual_load
+  label: null
+  unit: MW
+  rows: 59711
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-23T21:00:00Z'
+second_look: null

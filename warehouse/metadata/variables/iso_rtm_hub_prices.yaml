@@ -1,0 +1,224 @@
+# The codebook's metadata of table iso_rtm_hub_prices (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: iso_rtm_hub_prices
+family: iso
+shape: series
+row: The real-time price at one trading hub of CAISO, ERCOT, MISO or SPP for one interval (15 minutes, or an hour for MISO).
+time: ts_utc is the start of the interval in UTC; operating days are each grid's local days.
+vintage_rule: Merged by (entity, variable, ts_utc) into each grid's member and consolidated by market; a day read again replaces
+  its rows, every other row is kept. vintage is the publish time where the source gives one (ERCOT's document time, MISO's
+  file Last-Modified).
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT15M;PT1H
+source:
+- name: caiso:PRC_INTVL_LMP OASIS Interval Locational Marginal Prices, real-time dispatch (RTD, 5-minute)
+  url: https://oasis.caiso.com/mrioasis/logon.do
+- name: ERCOT NP6-785-ER Historical RTM Load Zone and Hub Prices
+  url: https://www.ercot.com/mp/data-products/data-product-details?id=NP6-785-ER
+- name: ERCOT NP6-905-CD Settlement Point Prices at Resource Nodes, Hubs and Load Zones
+  url: https://www.ercot.com/mp/data-products/data-product-details?id=NP6-905-CD
+- name: miso:rt_lmp_prelim Real-Time Preliminary Ex-Post LMP, hourly (daily csv)
+  url: https://www.misoenergy.org/markets-and-operations/real-time--market-data/market-reports/
+- name: spp:RTBM-LMP-SL RTBM LMP by Settlement Location, 5-minute
+  url: https://portal.spp.org/pages/rtbm-lmp-by-location
+cite: 'California Independent System Operator (CAISO); Electric Reliability Council of Texas (ERCOT); Midcontinent Independent
+  System Operator (MISO); Southwest Power Pool (SPP). Historical RTM Load Zone and Hub Prices; OASIS Interval Locational Marginal
+  Prices, real-time dispatch (RTD, 5-minute); RTBM LMP by Settlement Location, 5-minute; Real-Time Final Market LMP, hourly
+  (daily csv) [PAUSED 2026-10-04: MISO''s terms forbid automated access; pulls paused pending a review of MISO''s terms by
+  a person (docs/methods/miso_pause.md)]; Real-Time Preliminary Ex-Post LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO''s
+  terms forbid automated access; pulls paused pending a review of MISO''s terms by a person (docs/methods/miso_pause.md)];
+  Settlement Point Prices at Resource Nodes, Hubs and Load Zones. Via the Energy Research Warehouse (ERW), table `iso_rtm_hub_prices`.'
+method: docs/methods/automated_analysis_findings.md
+header_title: real-time hub prices, CAISO, ERCOT, MISO and SPP
+header_shape: 'Shape: series (docs/datastandard.md v0), a consolidated table (session 29): the 4 tables it replaced are its
+  rows, told apart by the partition column market (docs/migrations/2026-09-29-consolidation.md; the map is warehouse/metadata/table_migrations.csv).
+  ts_utc is interval start, UTC.'
+read:
+  date: '2026-11-20'
+  rows: 85004
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:TH_NP15_GEN-APND: 7780
+      caiso:TH_SP15_GEN-APND: 7780
+      caiso:TH_ZP26_GEN-APND: 7780
+      ercot:HB_BUSAVG: 7396
+      ercot:HB_HOUSTON: 7396
+      ercot:HB_HUBAVG: 7396
+      ercot:HB_NORTH: 7396
+      ercot:HB_SOUTH: 7396
+      ercot:HB_WEST: 7396
+      miso:ARKANSAS.HUB: 888
+      miso:ILLINOIS.HUB: 888
+      miso:INDIANA.HUB: 888
+      miso:LOUISIANA.HUB: 888
+      miso:MICHIGAN.HUB: 888
+      miso:MINN.HUB: 888
+      miso:MS.HUB: 888
+      miso:TEXAS.HUB: 888
+      spp:SPPNORTH_HUB: 5092
+      spp:SPPSOUTH_HUB: 5092
+  missing_cells: 0
+  particular: <iso>:<hub>, the operator's hub name
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2026-08-26T05:00:00Z'
+    latest: '2026-11-16T07:45:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -72.18
+    highest: 7627.01
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 85004
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT15M: 77900
+      PT1H: 7104
+  missing_cells: 0
+  particular: PT15M, or PT1H for MISO's hourly rows
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 10184
+      US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI: 7104
+      US-CA: 23340
+      US-TX: 44376
+  missing_cells: 0
+  particular: US-CA for CAISO, US-TX for ERCOT, a list of 15 states for MISO and of 14 for SPP
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      caiso_rtm: 23340
+      ercot_rtm: 44376
+      miso_rtm: 7104
+      spp_rtm: 10184
+  missing_cells: 0
+  particular: 'caiso_rtm, ercot_rtm, miso_rtm or spp_rtm: the real-time market of the grid the row belongs to'
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      ARKANSAS.HUB: 888
+      HB_BUSAVG: 7396
+      HB_HOUSTON: 7396
+      HB_HUBAVG: 7396
+      HB_NORTH: 7396
+      HB_SOUTH: 7396
+      HB_WEST: 7396
+      ILLINOIS.HUB: 888
+      INDIANA.HUB: 888
+      LOUISIANA.HUB: 888
+      MICHIGAN.HUB: 888
+      MINN.HUB: 888
+      MS.HUB: 888
+      SPPNORTH_HUB: 5092
+      SPPSOUTH_HUB: 5092
+      TEXAS.HUB: 888
+      TH_NP15_GEN-APND: 7780
+      TH_SP15_GEN-APND: 7780
+      TH_ZP26_GEN-APND: 7780
+  missing_cells: 0
+  particular: 'The operator''s trading hub: CAISO TH_NP15_GEN-APND, TH_SP15_GEN-APND, TH_ZP26_GEN-APND; ERCOT HB_HOUSTON,
+    HB_NORTH, HB_SOUTH, HB_WEST and the averages HB_BUSAVG and HB_HUBAVG; MISO''s eight hubs; SPP SPPNORTH_HUB and SPPSOUTH_HUB'
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:PRC_INTVL_LMP: 23340
+      ercot:NP6-785-ER: 25344
+      ercot:NP6-905-CD: 19032
+      miso:rt_lmp_final: 5376
+      miso:rt_lmp_prelim: 1728
+      spp:RTBM-LMP-SL: 10184
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 3320
+    examples:
+    - https://docs.misoenergy.org/marketreports/20260827_rt_lmp_final.csv
+    - https://docs.misoenergy.org/marketreports/20260828_rt_lmp_final.csv
+    - https://docs.misoenergy.org/marketreports/20260829_rt_lmp_final.csv
+    - https://docs.misoenergy.org/marketreports/20260830_rt_lmp_final.csv
+    - https://docs.misoenergy.org/marketreports/20260831_rt_lmp_final.csv
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 1267
+    earliest: '2026-09-25T07:15:41Z'
+    latest: '2026-11-17T09:08:08Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    distinct: 3210
+    earliest: '2026-09-01T11:19:43Z'
+    latest: '2026-11-16T06:02:02Z'
+  missing_cells: 33524
+  particular: ERCOT's document publish time or MISO's file Last-Modified; empty where the source gives no publish time (CAISO,
+    SPP)
+variables:
+- name: lmp_rtm
+  label: 'MISO: hourly real-time ex-post locational marginal price (preliminary report rows have source miso:rt_lmp_prelim)'
+  unit: USD/MWh
+  rows: 7104
+  first: '2026-08-27T05:00:00Z'
+  last: '2026-10-03T04:00:00Z'
+- name: lmp_rtm_15m_mean
+  label: 'CAISO and SPP: real-time locational marginal price, the arithmetic mean of exactly three 5-minute prices of the
+    quarter hour, rounded to 4 decimals'
+  unit: USD/MWh
+  rows: 33524
+  first: '2026-08-26T07:00:00Z'
+  last: '2026-11-16T07:45:00Z'
+- name: spp_rtm
+  label: ERCOT's real-time settlement point price at the hub, 15-minute (spp here is ERCOT's 'settlement point price', not
+    the grid SPP)
+  unit: USD/MWh
+  rows: 44376
+  first: '2026-08-26T05:00:00Z'
+  last: '2026-11-16T05:45:00Z'
+second_look: null

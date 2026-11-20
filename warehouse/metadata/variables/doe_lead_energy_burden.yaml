@@ -1,0 +1,503 @@
+# The codebook's metadata of table doe_lead_energy_burden (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: doe_lead_energy_burden
+family: doe
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: doe:lead_2022 DOE, LEAD Tool 2022 Update
+  url: https://data.openei.org/submissions/6219
+cite: U.S. Department of Energy (DOE). Low-Income Energy Affordability Data (LEAD Tool), 2022 Update. Via the Energy Research
+  Warehouse (ERW), table `doe_lead_energy_burden`.
+method: docs/methods/doe_lead_energy_burden.md
+header_title: 'U.S. Department of Energy, Low-Income Energy Affordability Data (LEAD Tool), 2022 update: households, their
+  average income and energy costs, and their energy burden, by county and state and by income as a share of area median income
+  (session 2140)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity doe_lead:<county FIPS> or doe_lead:<state>; variable <measure>:ami_<bracket>
+  (brackets 0_30, 30_60, 60_80, 80_100, 100_150, 150_up percent of area median income, and all); measures households (count,
+  LEAD''s UNITS), income_avg, electricity_cost_avg, gas_cost_avg, other_fuel_cost_avg, energy_cost_avg (USD a year), energy_burden
+  (pct). ts_utc 1 January of the year the file names; freq P1Y; x_level county or state; x_bracket as LEAD writes it; x_fips;
+  x_file the CSV read.'
+read:
+  date: '2026-11-20'
+  rows: 160419
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 3274
+    examples:
+    - doe_lead:10001
+    - doe_lead:10003
+    - doe_lead:10005
+    - doe_lead:1001
+    - doe_lead:1003
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2022-01-01T00:00:00Z': 160419
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 13749689.8385
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD: 114585
+      count: 22917
+      pct: 22917
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 160419
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 160419
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 2012
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - Abbeville County
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      doe:lead_2022: 160419
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - https://data.openei.org/files/6219/AK-2022-LEAD-data.zip
+    - https://data.openei.org/files/6219/AL-2022-LEAD-data.zip
+    - https://data.openei.org/files/6219/AR-2022-LEAD-data.zip
+    - https://data.openei.org/files/6219/AZ-2022-LEAD-data.zip
+    - https://data.openei.org/files/6219/CA-2022-LEAD-data.zip
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 52
+    earliest: '2026-10-23T23:59:10Z'
+    latest: '2026-10-24T00:10:31Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    distinct: 52
+    earliest: '2026-10-23T23:59:10Z'
+    latest: '2026-10-24T00:10:31Z'
+  missing_cells: 0
+- name: x_level
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      county: 157871
+      state: 2548
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_bracket
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      0-30%: 22911
+      100-150%: 22918
+      150%+: 22918
+      30-60%: 22918
+      60-80%: 22918
+      80-100%: 22918
+      all: 22918
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_fips
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 3274
+    lowest: 1
+    highest: 72153
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_file
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - AK AMI Counties 2022.csv
+    - AL AMI Counties 2022.csv
+    - AR AMI Counties 2022.csv
+    - AZ AMI Counties 2022.csv
+    - CA AMI Counties 2022.csv
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: electricity_cost_avg:ami_0_30
+  label: null
+  unit: USD
+  rows: 3273
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: electricity_cost_avg:ami_100_150
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: electricity_cost_avg:ami_150_up
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: electricity_cost_avg:ami_30_60
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: electricity_cost_avg:ami_60_80
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: electricity_cost_avg:ami_80_100
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: electricity_cost_avg:ami_all
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: energy_burden:ami_0_30
+  label: null
+  unit: pct
+  rows: 3273
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: energy_burden:ami_100_150
+  label: null
+  unit: pct
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: energy_burden:ami_150_up
+  label: null
+  unit: pct
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: energy_burden:ami_30_60
+  label: null
+  unit: pct
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: energy_burden:ami_60_80
+  label: null
+  unit: pct
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: energy_burden:ami_80_100
+  label: null
+  unit: pct
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: energy_burden:ami_all
+  label: null
+  unit: pct
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: energy_cost_avg:ami_0_30
+  label: null
+  unit: USD
+  rows: 3273
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: energy_cost_avg:ami_100_150
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: energy_cost_avg:ami_150_up
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: energy_cost_avg:ami_30_60
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: energy_cost_avg:ami_60_80
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: energy_cost_avg:ami_80_100
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: energy_cost_avg:ami_all
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: gas_cost_avg:ami_0_30
+  label: null
+  unit: USD
+  rows: 3273
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: gas_cost_avg:ami_100_150
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: gas_cost_avg:ami_150_up
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: gas_cost_avg:ami_30_60
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: gas_cost_avg:ami_60_80
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: gas_cost_avg:ami_80_100
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: gas_cost_avg:ami_all
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: households:ami_0_30
+  label: null
+  unit: count
+  rows: 3273
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: households:ami_100_150
+  label: null
+  unit: count
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: households:ami_150_up
+  label: null
+  unit: count
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: households:ami_30_60
+  label: null
+  unit: count
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: households:ami_60_80
+  label: null
+  unit: count
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: households:ami_80_100
+  label: null
+  unit: count
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: households:ami_all
+  label: null
+  unit: count
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: income_avg:ami_0_30
+  label: null
+  unit: USD
+  rows: 3273
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: income_avg:ami_100_150
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: income_avg:ami_150_up
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: income_avg:ami_30_60
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: income_avg:ami_60_80
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: income_avg:ami_80_100
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: income_avg:ami_all
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: other_fuel_cost_avg:ami_0_30
+  label: null
+  unit: USD
+  rows: 3273
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: other_fuel_cost_avg:ami_100_150
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: other_fuel_cost_avg:ami_150_up
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: other_fuel_cost_avg:ami_30_60
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: other_fuel_cost_avg:ami_60_80
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: other_fuel_cost_avg:ami_80_100
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: other_fuel_cost_avg:ami_all
+  label: null
+  unit: USD
+  rows: 3274
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+second_look: null

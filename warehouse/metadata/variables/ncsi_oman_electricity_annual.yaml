@@ -1,0 +1,208 @@
+# The codebook's metadata of table ncsi_oman_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ncsi_oman_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: 'ncsi:energy_statistics National Centre for Statistics and Information (NCSI), Sultanate of Oman, Energy Statistics
+    2026 (Fifth Edition, data 2025), tables 11 and 12 (source: Public Services Regulatory Authority)'
+  url: ''
+cite: National Centre for Statistics and Information, Oman (NCSI). Energy Statistics 2026 (Fifth Edition, data 2025), tables
+  11 and 12 (electricity). Via the Energy Research Warehouse (ERW), table `ncsi_oman_electricity_annual`.
+method: docs/methods/ncsi_oman_electricity_annual.md
+header_title: National Centre for Statistics and Information (NCSI), Oman, Energy Statistics 2026, tables 11 and 12, Oman's
+  electricity by governorate and by source, 2023 to 2025 (session 2504)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ncsi:om:<item> (a governorate, others, total; or a source:
+  diesel, gas, solar, wind, other, total); variable production, distribution (MWh, from GWh), connections (count, from thousands),
+  production_by_source (MWh, from TWh to one decimal); ts_utc the year''s 1 January; freq P1Y; geo OM; node NCSI''s row and
+  column; x_table the bulletin''s table.'
+read:
+  date: '2026-11-20'
+  rows: 126
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      ncsi:om:ad_dakhiliyah: 9
+      ncsi:om:al_batinah_north: 9
+      ncsi:om:al_batinah_south: 9
+      ncsi:om:al_buraimi: 6
+      ncsi:om:al_dhahirah: 9
+      ncsi:om:al_wusta: 9
+      ncsi:om:ash_sharqiyah_north: 9
+      ncsi:om:ash_sharqiyah_south: 9
+      ncsi:om:dhofar: 9
+      ncsi:om:diesel: 3
+      ncsi:om:gas: 3
+      ncsi:om:musandam: 9
+      ncsi:om:muscat: 9
+      ncsi:om:other: 3
+      ncsi:om:others: 3
+      ncsi:om:solar: 3
+      ncsi:om:total: 12
+      ncsi:om:wind: 3
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2023-01-01T00:00:00Z': 42
+      '2024-01-01T00:00:00Z': 42
+      '2025-01-01T00:00:00Z': 42
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 122
+    lowest: 0.0
+    highest: 50973500.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 90
+      count: 36
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 126
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      OM: 126
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 126
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 42
+    examples:
+    - Ad Dakhliyah, Connections (000)
+    - Ad Dakhliyah, Distribution (GWh)
+    - Ad Dakhliyah, Production (GWh)
+    - Al Batinah North, Connections (000)
+    - Al Batinah North, Distribution (GWh)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ncsi:energy_statistics: 126
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://api.ncsi.gov.om/uploads/pdfs/energy_statistics_bulletin_2026_1783504139.pdf: 126
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T17:36:17Z': 126
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-07-08T09:48:59Z': 126
+  missing_cells: 0
+- name: x_label
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 42
+    examples:
+    - Ad Dakhliyah, Connections (000)
+    - Ad Dakhliyah, Distribution (GWh)
+    - Ad Dakhliyah, Production (GWh)
+    - Al Batinah North, Connections (000)
+    - Al Batinah North, Distribution (GWh)
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_table
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '11': 108
+      '12': 18
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: connections
+  label: null
+  unit: count
+  rows: 36
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+  source_label: Ad Dakhliyah, Connections (000); Al Batinah North, Connections (000); Al Batinah South, Connections (000)
+- name: distribution
+  label: null
+  unit: MWh
+  rows: 36
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+  source_label: Ad Dakhliyah, Distribution (GWh); Al Batinah North, Distribution (GWh); Al Batinah South, Distribution (GWh)
+- name: production
+  label: null
+  unit: MWh
+  rows: 36
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+  source_label: Ad Dakhliyah, Production (GWh); Al Batinah North, Production (GWh); Al Batinah South, Production (GWh)
+- name: production_by_source
+  label: null
+  unit: MWh
+  rows: 18
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+  source_label: Diesel (TWh); Gas (TWh); Other (TWh)
+second_look: null
