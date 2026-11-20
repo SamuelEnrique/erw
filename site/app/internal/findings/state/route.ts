@@ -13,7 +13,8 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { limited, sameOrigin, typed } from "@/lib/guard";
 import { COOKIE } from "@/lib/release";
-import { ID, STATES, listDrafts, needsPublisher, setDraftState, type DraftState } from "@/lib/scanner";
+import { blockedReason } from "@/lib/findingaudit";
+import { ID, STATES, findDraft, needsPublisher, setDraftState, type DraftState } from "@/lib/scanner";
 import { rpc } from "@/lib/supabase";
 import { internalOk } from "@/lib/thesis/server";
 
@@ -49,12 +50,16 @@ export async function POST(req: NextRequest) {
     // session 316 (the Research pack's ruling 4b): a record of EIA's newest month is approved only with the publisher's
     // own figure beside ours (warehouse/analysis/findings/publisher_figure.py writes card.publisher on the data machine)
     if (state === "approved") {
-      const draft = (await listDrafts()).find((d) => d.id === id);
+      // chain 507: a draft the findings audit of 19 November 2026 did not reproduce, withdrew, or found on a table that
+      // is not public cannot be approved (data/findings_audit.json, lib/findingaudit.ts); the page says why beside it
+      const blocked = blockedReason(id);
+      if (blocked) return json({ ok: false, reason: `Cannot be approved: ${blocked}.` }, 409);
+      const draft = await findDraft(id);
       if (!draft) return json({ ok: false, reason: "no such draft" }, 404);
       if (needsPublisher(draft) && !draft.card.publisher) return json({ ok: false, reason: "a record of an EIA table is approved only with EIA's own figure beside ours; the data machine reads it (publisher_figure.py) and the figure appears here" }, 409);
     }
     if (state === "full_card_asked") {
-      const draft = (await listDrafts()).find((d) => d.id === id);
+      const draft = await findDraft(id);
       if (!draft) return json({ ok: false, reason: "no such draft" }, 404);
       const full = draft.card.scanner?.full_card;
       if (full && !draft.request_id) {

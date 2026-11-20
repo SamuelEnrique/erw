@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate winter_growth, region pa_72 (Idaho Power Company (FERC 714 planning area 72))
+# Computed 2026-11-19T12:04:19Z by warehouse/analysis/findings/deep/forecasts.py (winter_growth); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the yearly growth a filing forecasts for the area's winter peak, from its first forecast year to its tenth (percent a year), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_72,2006,1.2610054626248868,1.0,1
+pa_72,2007,0.5280810014972159,1.0,1
+pa_72,2008,1.2521375200566398,1.0,1
+pa_72,2009,0.2586943640523698,1.0,1
+pa_72,2010,1.0166500596219041,1.0,1
+pa_72,2011,0.9743960797020002,1.0,1
+pa_72,2012,0.9036671300369781,1.0,1
+pa_72,2013,1.0247724224188959,1.0,1
+pa_72,2014,0.9333519889426878,1.0,1
+pa_72,2015,1.159849270135349,1.0,1
+pa_72,2016,0.654006992783418,1.0,1
+pa_72,2017,1.271613156835616,1.0,1
+pa_72,2018,0.8973778823245571,1.0,1
+pa_72,2019,0.7666148623175051,1.0,1
+pa_72,2020,0.8604042005439183,1.0,1
+pa_72,2021,1.7392913629094897,1.0,1
+pa_72,2022,3.261268936022965,1.0,1
+pa_72,2023,3.414681015516674,1.0,1
+pa_72,2024,4.234863683957868,1.0,1
+pa_72,2025,4.877126377225882,1.0,1

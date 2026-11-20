@@ -2,7 +2,7 @@
 
 Draft `scan-deep-93e08e83729d` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The share of the MW leaving the queue in PJM that was withdrawn rather than brought online was 93.4 percent of MW leaving the queue in 2024, against 72.1 percent of MW leaving the queue in 2005, the first year this measure counts.
+**The finding.** The share of the MW leaving the queue in PJM that was withdrawn rather than brought online was 93.4 percent of MW leaving the queue in 2024, against 72.1 percent of MW leaving the queue in 2005, the first year of the window the hunt read; the table holds the measure from 2000.
 
 ![Withdrawn, not built, PJM](withdrawn-share-pjm-lbnl-wd.png)
 

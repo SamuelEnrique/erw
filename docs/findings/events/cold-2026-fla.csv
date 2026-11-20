@@ -1,0 +1,11 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), event cold_2026, region FLA (Florida (EIA's region))
+# Computed 2026-11-19T11:32:36Z by warehouse/analysis/findings/deep/events.py; plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the window's highest hour of demand (MW) from 01-23 to 02-02, the hours it rests on, and whether it is the event year
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,event_year
+FLA,2021,32499.0,264,0
+FLA,2022,42266.0,264,0
+FLA,2023,33720.0,264,0
+FLA,2024,43040.0,264,0
+FLA,2025,43974.0,264,0
+FLA,2026,52211.0,264,1
