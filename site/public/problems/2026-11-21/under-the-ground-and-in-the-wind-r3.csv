@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-11-21: "What is under the ground and in the wind", question 3 (r3): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-21T02:24:25Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: The layer "Wind capacity factor (supply curve sites)" (Mean capacity factor across 11.5km grid-cell (the source's capacity_factor_ac)) is a ratio. What are the mean and the highest values the list gives for it, and the highest is how many times the mean?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/resources/manifest.json,,pf|resources/manifest.json|layers/@id=wind_capacity_factor/stats/mean,,0.3115885580584312,ratio,,page file
+site/data/resources/manifest.json,,pf|resources/manifest.json|layers/@id=wind_capacity_factor/stats/max,,0.54448533,ratio,,page file

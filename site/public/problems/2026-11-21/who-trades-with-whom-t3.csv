@@ -1,0 +1,10 @@
+# ERW problem sets, the edition of 2026-11-21: "Who trades with whom: power between regions", question 6 (t3): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-21T02:24:25Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: In October 2026, what did Tennessee and the Mid-Atlantic each report for the flow between them? Subtract the Mid-Atlantic's report from Tennessee's, and compare the result with the gap the file gives. Why can the two differ?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/regions/trade/ten.json,,pf|regions/trade/ten.json|neighbors/MIDA/net_imports_mwh/99,,-899413,MWh,,page file
+site/data/regions/trade/ten.json,,pf|regions/trade/ten.json|neighbors/MIDA/their_report_mwh/99,,-675342,MWh,,page file
+site/data/regions/trade/ten.json,,pf|regions/trade/ten.json|neighbors/MIDA/gap_mwh/99,,-222699,MWh,,page file
+site/data/regions/trade/ten.json,,pf|regions/trade/ten.json|neighbors/MIDA/hours_own/99,,744,hours,,page file
+site/data/regions/trade/ten.json,,pf|regions/trade/ten.json|neighbors/MIDA/hours_their/99,,743,hours,,page file
+site/data/regions/trade/ten.json,,pf|regions/trade/ten.json|neighbors/MIDA/hours_both/99,,743,hours,,page file

@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-11-21: "Where energy goes: industry, by fuel and by state", question 7 (i5): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-21T02:24:25Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: Chemicals in 2022: how much electricity did its plants generate on site, what was its net demand for electricity, and what share of the net demand is the on-site generation?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/industry.json,,pf|industry.json|industries/industries/325/electricity_mwh/us/elec_onsite_generation,,60426000,MWh,,page file
+site/data/industry.json,,pf|industry.json|industries/industries/325/electricity_mwh/us/elec_net_demand,,210095000,MWh,,page file
