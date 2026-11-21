@@ -122,6 +122,23 @@ export async function limited(req: Request, bucket: string, limit: number, windo
   });
 }
 
+// Session 9812 (chain 610, part B): the doors that take the internal token from an address or a form never refuse a right
+// token (session 177: "the limit never keeps the owner out"), so their limits on wrong tries never slowed a guesser: each
+// try told right from wrong. Every try that brings a token is now counted, right or wrong, TOKEN_TRIES an hour from one
+// address, and past it the door answers as to a wrong token. The internal view's cookie is never counted: a reviewer who
+// has unlocked once is never met by this. Samuel's ruling: the number, or the old way back (docs/security.md, T1).
+export const TOKEN_TRIES = 30;
+/** Whether one more try of the internal token is allowed from this request's address; counts the try. */
+export async function tokenTriesLeft(req: Request): Promise<boolean> {
+  return (await limited(req, "token_tries", TOKEN_TRIES, 3600)).ok;
+}
+/** The same for a page, which is handed the request's headers, not the request. */
+export async function pageTokenTriesLeft(h: { get(name: string): string | null }): Promise<boolean> {
+  const kept: Record<string, string> = {};
+  for (const k of ["x-forwarded-for", "x-real-ip"]) { const v = h.get(k); if (v) kept[k] = v; }
+  return tokenTriesLeft(new Request("https://erw.invalid/", { headers: kept }));
+}
+
 /** The visitor of a usage count, as the server sends it to the database: HMAC-SHA256 of the address and the user agent
  * under the server's secret, 64 hexadecimal characters. The database hashes it again under a salt it draws at random
  * each day and deletes when the day is over (migration 028); neither the address nor the user agent leaves this server. */

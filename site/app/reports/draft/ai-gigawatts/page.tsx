@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { pageTokenTriesLeft } from "@/lib/guard";   // session 9812
 import { notFound } from "next/navigation";
 import { COOKIE } from "@/lib/release";
 import { internalOk } from "@/lib/thesis/server";
@@ -77,6 +78,8 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
   const token = typeof sp.token === "string" ? sp.token : "";
   const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
   // session 371 (docs/security.md, S2): the internal view's cookie opens it too, as the /internal pages, so no address needs the token
+  // session 9812 (lib/guard.ts, TOKEN_TRIES): a try with the token in the address is counted, right or wrong
+  if (token && !(await pageTokenTriesLeft(await headers()))) notFound();
   if (want.length < 24 || (token !== want && !(await internalOk((await cookies()).get(COOKIE)?.value)))) notFound();
 
   const all = await series(T, {});
