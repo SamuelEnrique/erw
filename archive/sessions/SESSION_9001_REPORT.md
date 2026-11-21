@@ -52,6 +52,7 @@ Chain: `queue/done/601-night-20-november-desktop-grid-conditions.md`. Progress: 
 - The data machine's refused page-file commit was carried onto main by this session, not left for tomorrow's run, because the stale report page it holds failed gate 7's check-values and would fail every gate.
 - Request 569's backfill ran here under the lock, not as a manual GitHub run: a manual run would email the digest to subscribers a second time and call the model.
 - Request 566's description and label fix is the codebook's own; the apply waits for it to land rather than running from a branch copy.
+- This session closed chain 601 as its last session once part H's three items were done and the desk was clear, rather than wait idle for the data machine's next daily run, which carries the deepened history into the page files by itself; the resume file removed and the queue step run.
 
 ## For Samuel's ruling (the default taken)
 
