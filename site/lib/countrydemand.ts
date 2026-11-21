@@ -15,7 +15,12 @@ export type IndexRegion = { code: string; name: string; tz?: string; bas?: strin
 export type IndexBa = {
   code: string; name: string; region?: string; tz?: string; grid?: string | null; region_grids?: string[]; generation_only?: boolean; active?: boolean;
   retired?: string | null; first_hour?: string; last_hour?: string; files?: string[];
+  /** Since the data machine's session 8004 (its request 324): EIA's "U.S. BA", and false for the authorities across
+   *  the border (Canada's, Mexico's) the index names so every code of the trade files has a name. */
+  us?: boolean; files_eia930?: boolean;
 };
+/** Session 8480 (the read on the real files, row 12): an authority across the border, which files no Form EIA-930. */
+export const acrossTheBorder = (x: IndexBa): boolean => x.files_eia930 === false;
 /** `site/data/regions/index.json` (the contract's section 2). */
 export type IndexFile = { built?: string; tables?: string[]; method?: string; license?: string; fixture?: string; regions: IndexRegion[]; bas: IndexBa[] };
 
@@ -98,6 +103,58 @@ export const periodOf = (g: Growth): Period => ({ base: g.base, last_year: g.las
 const num = (v: number | null | undefined): v is number => typeof v === "number" && Number.isFinite(v);
 /** The years the daily series holds a day of, in order. */
 export const dailyYears = (d: Daily | undefined): string[] => [...new Set((d?.days ?? []).map((x) => x.slice(0, 4)))].sort();
+// ---- session 8480 (the read on the real files; the builder's fault of data request row 328): a day's demand is the
+// whole day's only when the file holds every hour of that local day. The builder writes the first or the last day of a
+// record as a whole day on however many hours the record holds (on the files of 19 November 2026: LGEE's 1 July 2018 on
+// 23 of 24 hours, MISO's 16 November 2026 on 23 of 24), so the page counts the day's hours against the clock itself.
+const zoneFormat = new Map<string, Intl.DateTimeFormat | null>();
+function offsetMs(t: number, tz: string): number | null {
+  if (!zoneFormat.has(tz)) {
+    try { zoneFormat.set(tz, new Intl.DateTimeFormat("en-US", { timeZone: tz, hourCycle: "h23", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" })); }
+    catch { zoneFormat.set(tz, null); }
+  }
+  const f = zoneFormat.get(tz);
+  if (!f) return null;
+  const p = Object.fromEntries(f.formatToParts(new Date(t)).map((x) => [x.type, x.value]));
+  return Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour % 24, +p.minute, +p.second) - t;
+}
+function localMidnight(day: string, tz: string): number | null {
+  const u = Date.parse(`${day}T00:00:00Z`);
+  const o1 = offsetMs(u, tz);
+  if (o1 === null || !Number.isFinite(u)) return null;
+  const o2 = offsetMs(u - o1, tz);
+  return o2 === null ? null : u - o2;
+}
+const lengths = new Map<string, number | null>();
+/** How many hours a local day has in its zone: 24, or 23 and 25 when the clocks change. Null without a zone it reads. */
+export function dayHours(day: string, tz: string | undefined | null): number | null {
+  if (!tz || !/^\d{4}-\d{2}-\d{2}$/.test(day)) return null;
+  const key = `${tz}|${day}`;
+  if (!lengths.has(key)) {
+    const next = new Date(Date.parse(`${day}T00:00:00Z`) + 86400000).toISOString().slice(0, 10);
+    const a = localMidnight(day, tz), b = localMidnight(next, tz);
+    lengths.set(key, a === null || b === null ? null : Math.round((b - a) / 3600000));
+  }
+  return lengths.get(key) ?? null;
+}
+/** A day's demand where the file holds it as a whole day's: null where the file gives the day fewer (or more) hours
+ *  than the day has in the place's zone. Without a zone or without the day's hours, the file is taken as it stands. */
+export function wholeDayMwh(d: Daily, i: number, tz?: string | null): number | null {
+  const e = d.demand_mwh?.[i];
+  if (!num(e)) return null;
+  const h = d.hours?.[i], len = dayHours(d.days[i], tz);
+  return len !== null && num(h) && h !== len ? null : e;
+}
+
+/** Session 8480 (row 20): how many days of a year the file holds a whole day's demand on, of the days of that year it
+ *  holds. Null without a day of the year. */
+export function wholeDaysOfYear(d: Daily | undefined, year: string, tz?: string | null): { whole: number; days: number } | null {
+  if (!d?.days?.length) return null;
+  let whole = 0, days = 0;
+  d.days.forEach((x, i) => { if (x.startsWith(`${year}-`)) { days++; if (wholeDayMwh(d, i, tz) !== null) whole++; } });
+  return days ? { whole, days } : null;
+}
+
 /** The positions of the days drawn: every day, or the days of one year. */
 function drawn(d: Daily, days: string): number[] {
   const out: number[] = [];
@@ -110,14 +167,14 @@ export type DailySummary = {
 };
 /** The days drawn in a few figures: how many, how many hold a whole day's demand, the first and the last, the sum of the
  *  held days' demand, the day of most and of least demand among the held, and the highest hour. Null with no day. */
-export function dailySummary(d: Daily | undefined, days = "all"): DailySummary | null {
+export function dailySummary(d: Daily | undefined, days = "all", tz?: string | null): DailySummary | null {
   if (!d?.days?.length) return null;
   const at = drawn(d, days);
   if (!at.length) return null;
   let held = 0, mwh = 0, top = -1, low = -1, hour = -1;
   for (const i of at) {
-    const e = d.demand_mwh?.[i], p = d.peak_mw?.[i];
-    if (num(e)) {
+    const e = wholeDayMwh(d, i, tz), p = d.peak_mw?.[i];
+    if (e !== null) {
       held++; mwh += e;
       if (top < 0 || e > (d.demand_mwh![top] as number)) top = i;
       if (low < 0 || e < (d.demand_mwh![low] as number)) low = i;
@@ -135,22 +192,22 @@ export function dailySummary(d: Daily | undefined, days = "all"): DailySummary |
 export const dayMs = (day: string) => Date.parse(`${day}T00:00:00Z`);
 /** A chart's points from the daily series: the day's highest hour, or its average (the day's MWh over the hours used,
  *  only where the file holds both). A day the file does not hold is a break in the line, never a filled point. */
-export function dailyPoints(d: Daily | undefined, what: "peak" | "average", days = "all"): [number, number | null][] {
+export function dailyPoints(d: Daily | undefined, what: "peak" | "average", days = "all", tz?: string | null): [number, number | null][] {
   if (!d?.days?.length) return [];
   return drawn(d, days).map((i): [number, number | null] => {
     if (what === "peak") { const p = d.peak_mw?.[i]; return [dayMs(d.days[i]), num(p) ? p : null]; }
-    const e = d.demand_mwh?.[i], h = d.hours?.[i];
-    return [dayMs(d.days[i]), num(e) && num(h) && h > 0 ? e / h : null];
+    const e = wholeDayMwh(d, i, tz), h = d.hours?.[i];
+    return [dayMs(d.days[i]), e !== null && num(h) && h > 0 ? e / h : null];
   });
 }
-export type DayRow = { day: string; mwh: number | null; peak_mw: number | null; peak_at: string | null; hours: number | null };
+export type DayRow = { day: string; mwh: number | null; peak_mw: number | null; peak_at: string | null; hours: number | null; of: number | null };
 /** The newest `n` days of the series, newest first, as the file holds them. */
-export function newestDays(d: Daily | undefined, n: number): DayRow[] {
+export function newestDays(d: Daily | undefined, n: number, tz?: string | null): DayRow[] {
   if (!d?.days?.length) return [];
   const out: DayRow[] = [];
   for (let i = d.days.length - 1; i >= 0 && out.length < n; i--) {
-    const e = d.demand_mwh?.[i], p = d.peak_mw?.[i], h = d.hours?.[i];
-    out.push({ day: d.days[i], mwh: num(e) ? e : null, peak_mw: num(p) ? p : null, peak_at: d.peak_at?.[i] ?? null, hours: num(h) ? h : null });
+    const e = wholeDayMwh(d, i, tz), p = d.peak_mw?.[i], h = d.hours?.[i];
+    out.push({ day: d.days[i], mwh: e, peak_mw: num(p) ? p : null, peak_at: d.peak_at?.[i] ?? null, hours: num(h) ? h : null, of: dayHours(d.days[i], tz) });
   }
   return out;
 }

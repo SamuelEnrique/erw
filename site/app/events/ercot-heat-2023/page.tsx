@@ -70,7 +70,7 @@ export default function ErcotHeat2023({ searchParams }: PageProps = {}) {
     {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
     {/* session 8410 (chain 503): EIA's thirteen regions across the event, from the data machine's file (WholeCountry.tsx) */}
     <WholeCountrySection event="ercot_heat_2023" path="/events/ercot-heat-2023" first="TEX" searchParams={searchParams}
-      firstWhy="Texas is drawn first: the page above is about ERCOT, which is among Texas's balancing authorities." />
+      firstWhy="Texas is drawn first: the page above is about ERCOT, the one balancing authority of EIA's Texas region." />
     <EventDecisions event="ercot_heat_2023" />
     </div>
     </Brand>

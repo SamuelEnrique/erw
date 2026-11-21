@@ -214,6 +214,82 @@ const noBase = lone({ ...ten, growth: { ...ten.growth, base: undefined } }), fb 
 ok(!Object.keys(fb).some((k) => k.startsWith("cd|a|y|") || k.startsWith("cd|a|sum|") || k.startsWith("cd|a|cell|")) && fb["cd|a|day|top_mw"] === "12,660" && count(noBase, 'data-chart="years"') === 0 && !/NaN|undefined|Infinity/.test(wordsOf(noBase)),
   "a file whose growth names no base year: its years read not held, its days are still drawn");
 
+// ---- session 8480 (the read on the real files, row 12): an authority across the border files no Form EIA-930
+const abroad = { code: "HQT", name: "Hydro-Quebec TransEnergie", region: "CAN", tz: null, grid: null, region_grids: [], generation_only: false, active: true, retired: null, first_hour: null, last_hour: null, files: [], us: false, files_eia930: false };
+const withAbroad = { ...index, bas: [...index.bas, abroad] };
+const abHtml = renderToStaticMarkup(createElement(V.Country, { q: { a: "ba-hqt", b: "none" }, index: withAbroad, fileOf }));
+ok(C.acrossTheBorder(abroad) && !index.bas.some((x) => C.acrossTheBorder(x)) && abHtml.includes('data-cd-place="a" data-cd-code="ba-hqt" data-cd-state="no-demand"')
+  && ent(abHtml).includes("Hydro-Quebec TransEnergie (HQT) is a balancing authority across the border, in Canada. It files no Form EIA-930 with EIA") && !abHtml.includes("not built yet") && Object.keys(figs(abHtml)).length === 0,
+  "an authority across the border named in the address: no demand, with why (it files no Form EIA-930), never 'not built yet'");
+const abList = renderToStaticMarkup(createElement(V.Country, { q: {}, index: withAbroad, fileOf }));
+ok(!abList.includes('value="ba-hqt"') && !abList.includes('data-cd-ba="HQT"') && abList.includes(`The balancing authorities (${index.bas.length})`) && abList.replace(/ value="ba-hqt"/g, "") === abList,
+  "the authorities across the border are left out of the list of the form and the table of the lower 48, and the table's count is that of the lower 48");
+
+// ---- session 8480 (row 13): the hover of "Finding" where no year left out of the fit gives an uncertainty
+ok(V.noPmWhy("Tennessee", { uncertainty_pct: 2 }) === null && V.noPmWhy("Tennessee", { uncertainty_pct: null }).startsWith("Not called a finding: no year left out of the fit gives Tennessee an uncertainty")
+  && V.noPmWhy("Tennessee", { outside: true }).endsWith("The hour was also beyond the weather of the fit's years."), "the hover of Finding without an uncertainty says why the figure is not called a finding");
+const noPm = { ...ten, weather: { ...ten.weather, years: Object.fromEntries(Object.entries(ten.weather.years).map(([y, v]) => [y, Object.fromEntries(Object.entries(v).map(([k, g]) => [k, g ? { ...g, uncertainty_pct: null, finding: false } : g]))])) } };
+const noPmHtml = ent(renderToStaticMarkup(createElement(V.Country, { q: { a: "ten", b: "none" }, index, fileOf: () => noPm })));
+const pmHtml = ent(draw({ a: "ten", b: "none" }));
+ok(noPmHtml.includes('data-reading="no" title="Not called a finding: no year left out of the fit gives Tennessee an uncertainty') && !pmHtml.includes("Not called a finding"),
+  "a weather row with no uncertainty: its 'no' says why it is not a finding; rows with an uncertainty keep the weather view's own hover");
+
+// ---- session 8480 (data request row 328): a day's demand is a whole day's only on all the hours of the local day
+ok(C.dayHours("2025-07-01", "America/New_York") === 24 && C.dayHours("2025-03-09", "America/New_York") === 23 && C.dayHours("2025-11-02", "America/Chicago") === 25
+  && C.dayHours("2025-03-09", "America/Phoenix") === 24 && C.dayHours("2025-03-09", "Mars/Olympus") === null && C.dayHours("2025-03-09", undefined) === null,
+  "the hours of a local day: 24, 23 and 25 when the clocks change, none changed in Arizona, none without a zone");
+const lastI = ten.daily.days.length - 1, lastDay = ten.daily.days[lastI];
+const cut = { ...ten, daily: { ...ten.daily, hours: ten.daily.hours.map((h, i) => (i === lastI ? 23 : h)) } };
+const sumAll = C.dailySummary(ten.daily, "all", ten.tz), sumCut = C.dailySummary(cut.daily, "all", cut.tz);
+ok(ten.daily.hours[lastI] === 24 && typeof ten.daily.demand_mwh[lastI] === "number" && sumCut.held === sumAll.held - 1 && C.dailySummary(cut.daily, "all").held === sumAll.held
+  && C.newestDays(cut.daily, 1, cut.tz)[0].mwh === null && C.newestDays(cut.daily, 1, cut.tz)[0].of === 24 && C.dailyPoints(cut.daily, "average", "all", cut.tz).at(-1)[1] === null && C.dailyPoints(cut.daily, "peak", "all", cut.tz).at(-1)[1] === ten.daily.peak_mw[lastI],
+  "a day the file writes as whole on 23 of its 24 hours: not counted, not a point of the average line, its highest hour still drawn; without the zone the file stands");
+const cutHtml = ent(renderToStaticMarkup(createElement(V.Country, { q: { a: "ten", b: "none" }, index, fileOf: () => cut }))), fcut = figs(cutHtml);
+ok(!(`cd|a|new|${lastDay}|gwh` in fcut) && `cd|a|new|${lastDay}|mw` in fcut && cutHtml.includes(`Tennessee, ${lastDay}: 23 of the day's 24 hours are used, so no demand of the whole day is given. The file writes a demand for the day; the page does not count it as a whole day's`)
+  && fcut["cd|a|day|held"] === String(sumAll.held - 1), "the newest day on 23 hours reads not held, with the hours of the day and why; the count of days held leaves it out");
+
+// ---- session 8480 (the read on the real files, rows 15 to 20)
+// row 15: a blank weather figure says the share the builder asks, how much weather the table holds, and how many years are held
+const wn = V.weatherNoneWhy("Southeast", "the summer peak", "2025", 0, 5);
+ok(wn.startsWith("The file of Southeast holds no figure of the summer peak for 2025. It holds 0 of the 5 years of this figure.") && wn.includes("at least 95 percent of its hours")
+  && wn.includes("80 to 99 percent of each region's hours") && wn.includes("(docs/methods/regions_pages.md)") && !wn.includes("gives the share"), "row 15: a blank weather figure's hover gives the share, the table's coverage and the count held");
+const yrs = Object.keys(ten.weather.years), y0 = yrs[0];
+const holey = { ...ten, weather: { ...ten.weather, years: { ...ten.weather.years, [y0]: Object.fromEntries(Object.keys(ten.weather.years[y0]).map((m) => [m, null])) } } };
+const holeyHtml = ent(renderToStaticMarkup(createElement(V.Country, { q: { a: "ten", b: "none" }, index, fileOf: () => holey })));
+ok(holeyHtml.includes(`holds no figure of the year's energy for ${y0}. It holds ${yrs.filter((y) => ten.weather.years[y]?.energy).length - (ten.weather.years[y0]?.energy ? 1 : 0)} of the ${yrs.length} years of this figure.`) && !holeyHtml.includes("gives the share"),
+  "row 15: drawn, the blank year's cells carry the hover with the count of years held");
+// row 16: a region's hover names an authority of its sum that EIA gives as retired, with its date
+const se = draw({ a: "se", b: "none" });
+ok(ent(se).includes("Each authority is counted from its start to its retirement, and an hour needs every one active that hour (docs/methods/regions_pages.md): AEC is counted to 2021-09-01, when EIA gives it as retired.")
+  && !ent(draw({ a: "ten", b: "none" })).includes("counted from its start to its retirement"), "row 16: the Southeast's hover names AEC, retired 2021-09-01; Tennessee's, with none retired, says nothing of it");
+// row 17: the year so far is never named by the file's key in a hover
+for (const [label, html] of [["Tennessee and the Carolinas", draw()], ["the fixture's Gridforce", draw({ a: "ba-grid", b: "ten" })], ["the Southeast", se]]) {
+  ok(!/for ytd\b/.test(ent(html)), `row 17: no hover of ${label} says "for ytd"`);
+}
+const gridHtml = ent(draw({ a: "ba-grid", b: "ten" }));
+ok(/holds no such figure for \d{4}, January to [A-Z][a-z]+: a growth needs the same measure in 2019/.test(gridHtml), "row 17: the year so far of a place with no base year is named by its year and months");
+// row 18: the head of the newest days says EIA revises its hourly values
+ok(ent(draw()).includes("EIA's hourly values are revised after they are first filed, and the file holds them as they stood when it was built (docs/methods/eia930_all_demand.md)."), "row 18: the newest days say the values are revised");
+// row 19: an authority's weather hover names the region whose file holds the view
+ok(ent(draw({ a: "ba-tva", b: "none" })).includes("holds none. EIA places it in its region Tennessee, whose file holds the weather view: choose Tennessee as a place."), "row 19: TVA's weather hover sends the reader to Tennessee");
+// row 20: a region with no whole base year says the region's hour rule and its whole days of that year
+// the fixture's days begin in December 2024: three days of 2019 are put before them (one whole, one on 23 of 24 hours, one blank)
+const d0 = files.car.daily, early = ["2019-01-01", "2019-01-02", "2019-01-03"];
+const lateCar = { ...files.car, growth: { ...files.car.growth, years: Object.fromEntries(Object.entries(files.car.growth.years).filter(([y]) => y !== "2019")) },
+  daily: { days: [...early, ...d0.days], demand_mwh: [500000, 480000, null, ...d0.demand_mwh], peak_mw: [25000, 24000, null, ...d0.peak_mw], peak_at: [null, null, null, ...d0.peak_at], hours: [24, 23, 0, ...d0.hours] } };
+const lateHtml = ent(renderToStaticMarkup(createElement(V.Country, { q: { a: "car", b: "none" }, index, fileOf: () => lateCar })));
+const c19 = C.wholeDaysOfYear(lateCar.daily, "2019", lateCar.tz);
+ok(c19 && c19.days === 3 && c19.whole === 1 && C.wholeDaysOfYear(d0, "2019", files.car.tz) === null
+  && lateHtml.includes("an hour of a region is written only when every one of its balancing authorities active that hour holds it (docs/methods/regions_pages.md): in 2019 the file holds a whole day's demand on 1 of the 3 days it holds.")
+  && V.dayCount(files.car, "2019") === "" && !gridHtml.includes("an hour of a region is written only"),
+  "row 20: a region's 'no growth since' says its hour rule and its whole days of the base year; an authority's does not");
+
+// row 21 (the decisions, part E step 5): the two rules a reader could set another way say their default and whose rule it is
+const dec = ent(draw());
+ok(dec.includes("Default: an hour only when every authority active that hour holds it, the data machine's rule (docs/methods/regions_pages.md); nothing is filled.")
+  && dec.includes("Default: within 25 percent of the median of the two hours before and the two after, and from a third of to three times the place's median hour, the as-metered view's rule (session 97, docs/methods/demand_growth.md)."),
+  "row 21: the region's hour rule and the screen of hours say their default and whose rule it is");
+
 // ---- the reader: a fixture is never read from the site's own folder; the whole page
 ok(process.env.ERW_REGIONS_DIR === undefined, "ERW_REGIONS_DIR is not set as the test starts");
 const onSite = (rel) => fs.existsSync(here(`../data/regions/${rel}`));
@@ -266,6 +342,15 @@ if (onSite("index.json")) {
   if (read) {
     const page = await drawDemand({ view: "country" });
     ok(page.includes('data-view-body="country"') && !/NaN|undefined|Infinity/.test(wordsOf(page)) && !dash.some((c) => page.includes(c)), "the view draws on the real files with no NaN, no undefined and no dash");
+    const abroadReal = (real?.bas ?? []).filter((x) => C.acrossTheBorder(x));
+    ok(abroadReal.every((x) => !page.includes(`data-cd-ba="${x.code}"`) && !page.includes(`value="ba-${x.code.toLowerCase()}"`)) && page.includes(`The balancing authorities (${real.bas.length - abroadReal.length})`),
+      `the real index's ${abroadReal.length} authorities across the border are not in the form's list or the table of the lower 48 (session 8480, row 12)`);
+    const partial = [];
+    for (const p of [...real.regions.map((r) => reg(r.code)), ...real.bas.map((x) => ba(x.code))]) {
+      const f = C.demandPlaceFile(p);
+      f?.daily?.days?.forEach((d, i) => { if (typeof f.daily.demand_mwh?.[i] === "number" && C.wholeDayMwh(f.daily, i, f.tz) === null) partial.push(`${p.code} ${d} (${f.daily.hours[i]} of ${C.dayHours(d, f.tz)} hours)`); });
+    }
+    console.log(`note the real files: ${partial.length} days written as whole on fewer hours than the local day has (data request row 328), not counted by the page${partial.length ? `: ${partial.join("; ")}` : ""}`);
     const D = JSON.parse(fs.readFileSync(here("../data/demand_growth.json"), "utf-8"));
     for (const [code, grid] of Object.entries(ALIKE)) {
       const a = C.demandPlaceFile(reg(code))?.alike;

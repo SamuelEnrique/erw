@@ -88,7 +88,7 @@ export const PROBLEM_DECISIONS: ProblemDecision[] = [
     def: "The first such hour when two are equal; the baseline as the file names it (Elliott: the same weekday 364 and 728 days earlier; Uri: the same calendar days of 2019 and 2020).",
     source: "site/data/regions/events/elliott_2022.json and uri_2021.json (EIA, Form EIA-930); docs/methods/regions_pages.md.", session: "session 8901" },
   { key: "layer-by-id", sets: [R],
-    text: "A layer is found in the list of layers by its id, and its legend's range, its statistics and its totals are read as the list gives them; no value is read from the map's cells.",
+    text: "A layer is found in the list of layers by its id; its legend's range is the one the map draws, from the lowest low to the highest high over the layer's parts (the contiguous states, and Alaska and Hawaii where the list gives them); its statistics and its totals are read as the list gives them; no value is read from the map's cells.",
     def: "The list of layers site/data/resources/manifest.json; each layer's unit as its publisher states it.",
     source: "site/data/resources/manifest.json (warehouse/connectors/resource_layers.py); docs/methods/resources.md.", session: "session 8901" },
   { key: "industry-pick", sets: [W],

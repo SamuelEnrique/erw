@@ -21,6 +21,9 @@ export type TradeFile = FileHead & { code: string; name?: string; months: string
 export type PairRow = {
   a: string; b: string; year: number | string; a_report_mwh?: number | null; b_report_mwh?: number | null; mean_mwh?: number | null; gap_mwh?: number | null; direction?: string | null;
   hours_a?: number | null; hours_b?: number | null; hours_both?: number | null;
+  /** session 8490: the Eastern months of the year holding a report from either side, and the months of that year the
+   *  file holds (the contract's section 7 since session 8004, data request 325) */
+  months_held?: number | null; months_in_year?: number | null;
 };
 export type Partners = { by_gross?: string[]; by_net?: string[]; net_import_share_of_demand_pct?: number | null };
 /** `site/data/regions/trade_matrix.json` (the contract's section 7). */
@@ -131,6 +134,8 @@ export type PairView = {
   pct: number | null; large: boolean;
   /** the hours each side reported and the hours both did, where the file gives them */
   hoursFrom: number | null; hoursTo: number | null; hoursBoth: number | null;
+  /** the months of the year that hold a report from either side, and the year's months in the file, where it gives both */
+  monthsHeld: number | null; monthsInYear: number | null;
 };
 /** The pairs of one year, each turned to its own direction, in the contract's order of the first code and then the
  *  second (no pair is ranked against another). */
@@ -148,6 +153,7 @@ export function pairsOfYear(rows: PairRow[] | undefined, year: string, threshold
       fromReport: v(dir === "b_to_a" ? r.b_report_mwh : r.a_report_mwh), toReport: v(dir === "b_to_a" ? r.a_report_mwh : r.b_report_mwh),
       mean: v(r.mean_mwh), gap: num(r.gap_mwh) ? r.gap_mwh : null, pct, large: isLarge(pct, threshold),
       hoursFrom: h(dir === "b_to_a" ? r.hours_b : r.hours_a), hoursTo: h(dir === "b_to_a" ? r.hours_a : r.hours_b), hoursBoth: h(r.hours_both),
+      ...(num(r.months_held) && num(r.months_in_year) ? { monthsHeld: r.months_held, monthsInYear: r.months_in_year } : { monthsHeld: null, monthsInYear: null }),
     });
   }
   return out.sort((x, y) => place(x.a) - place(y.a) || x.a.localeCompare(y.a) || place(x.b) - place(y.b) || x.b.localeCompare(y.b));
@@ -164,6 +170,23 @@ export function partnersOfYear(file: MatrixFile | null, year: string): PartnerRo
 }
 
 export const SOURCE_KEYS: string[] = SOURCES.map((s) => s.key);
+/** Session 8490, on the real files: the months of a year, from the file's first month to its last (`first`, `upto`;
+ *  without them the first and last month it holds), that the mix file does not hold. The builder writes a month only
+ *  when 90 percent of its days are complete (docs/methods/regions_pages.md), and many months are not: Texas has no
+ *  December 2025, the Mid-Atlantic no month from September 2020 to February 2025. The table drew only the months held,
+ *  so a month left out was nowhere on the page. */
+export function mixGapMonths(file: MixFile, year: string): string[] {
+  const held = Object.keys(file.months ?? {}).sort();
+  const first = typeof file.first === "string" && /^\d{4}-\d\d$/.test(file.first) ? file.first : held[0];
+  const last = typeof file.upto === "string" && /^\d{4}-\d\d$/.test(file.upto) ? file.upto : held[held.length - 1];
+  if (!first || !last) return [];
+  const out: string[] = [];
+  for (let m = 1; m <= 12; m++) {
+    const k = `${year}-${String(m).padStart(2, "0")}`;
+    if (k >= first && k <= last && !held.includes(k)) out.push(k);
+  }
+  return out;
+}
 export type MixRow = { month: string; share: Record<string, number | null>; mwh: Record<string, number | null>; net: number | null; daysHeld: number | null; daysInMonth: number | null };
 /** The months of one year that a mix file holds, oldest first: each source's share of net generation as the file
  *  writes it, its energy, the month's net generation and its days. */
@@ -210,6 +233,6 @@ export function defaultYear(years: string[], built?: string): string | null {
 export const yearOf = (v: string | undefined, years: string[]) => (v && years.includes(v) ? v : null);
 
 /** A percent to one decimal, and a month in words ("Aug 2025"). */
-export const pct1 = (v: number) => v.toFixed(1);
+export const pct1 = (v: number) => { const s = v.toFixed(1); return s === "-0.0" ? "0.0" : s; };   // session 8490: no "-0.0" (Tennessee's wind in 2025, the Carolinas' storage)
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export const monthWords = (m: string) => `${MON[Number(m.slice(5, 7)) - 1] ?? m.slice(5, 7)} ${m.slice(0, 4)}`;

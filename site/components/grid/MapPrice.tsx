@@ -51,7 +51,11 @@ export function priceLine(m: PricesMap, id: string, k: PriceMeasure): string {
   if (b.state === "paused") return `Price: not shown (${b.grid}'s terms are under review)`;
   const v = priceValue(m, id, k);
   const why = (k.endsWith("30d") || k.endsWith("30d_pct") ? b.window_30d_why : k.endsWith("12m") || k.endsWith("12m_pct") ? b.window_12m_why : k === "day_on_peak" ? b.day_on_peak_why : null) as string | null | undefined;
-  return v === null ? `Price: not held (${why ?? "no figure for this measure"})` : `Price: ${fmt(v, k)} at ${b.hub?.split(":")[1] ?? "its main hub"}, day-ahead${k.startsWith("day") ? `, ${b.day}` : ""}`;
+  // Session 9601 (chain 620): a figure over thirty days or twelve months names its window, the days ending on the
+  // file's day (docs/methods/prices_map.md). Without it the map's "twelve months" (ERCOT 34.86, the 365 days to 16
+  // November 2026) read as a different figure from /prices/compare's (34.59, the twelve calendar months to October).
+  const span = k.startsWith("day") ? `, ${b.day}` : b.day ? `, the ${k.includes("30d") ? "30" : "365"} days to ${b.day}` : "";
+  return v === null ? `Price: not held (${why ?? "no figure for this measure"})` : `Price: ${fmt(v, k)} at ${b.hub?.split(":")[1] ?? "its main hub"}, day-ahead${span}`;
 }
 
 export function PriceControls({ on, setOn, measure, setMeasure, m }: { on: boolean; setOn: (v: boolean) => void; measure: PriceMeasure; setMeasure: (k: PriceMeasure) => void; m: PricesMap | null | "none" }) {

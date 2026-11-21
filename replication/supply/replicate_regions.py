@@ -195,6 +195,10 @@ def expected_matrix(file, years, figs, large, words):
                 figs[f"{key}|gap_pct"] = pct
                 if pct >= LARGE_PCT:
                     large.add(f"{key}|gap_pct")
+            # session 8490: the months the pair's year holds, of the year's months in the file, where it gives both
+            if num(r.get("months_held")) and num(r.get("months_in_year")):
+                figs[f"{key}|months"] = float(r["months_held"])
+                figs[f"{key}|months|of"] = float(r["months_in_year"])
             if d:
                 words[key] = {"sent": name(b if d == "b_to_a" else a), "received": name(a if d == "b_to_a" else b)}
             else:

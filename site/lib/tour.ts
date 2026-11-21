@@ -9,15 +9,21 @@
 // earns), a list of links with no way back.
 // Chain 507 (session 8902): `landed` is false for a stop whose page is not yet on main; such a stop is written here and
 // held back from the path until its page lands (the flag is turned by the session that lands it, with check-tour run).
-export type Stop = { href: string; title: string; seconds: number; line: string; look: string; headings: string[]; landed?: boolean };
+// Session 9601 (chain 620, the browser read of 20 November 2026): check-tour passed 89 of 96 on production. Three
+// stops quoted words that were no longer on their page: "Your battery" (the box is "Assumptions" since the owner's
+// ruling of 15 October, session 296); "Right now: demand" and "Who runs this grid" (on ERCOT's page; /grid opens on
+// the Lower 48 since session 299, so the stop written "ERCOT first" now opens ERCOT); "How the map is drawn" (a
+// heading inside the fold "Method note", closed until a reader opens it: `inFold` names the fold, and the stop's words
+// say to open it). A heading that carries its year ("Who trades with whom, 2025") is read without the year.
+export type Stop = { href: string; title: string; seconds: number; line: string; look: string; headings: string[]; landed?: boolean; inFold?: { fold: string; headings: string[] } };
 
 /** The seven stops of Samuel's ruling 11a (14 October 2026), in the ruled order. */
 export const RULED_STOPS: Stop[] = [
   {
     href: "/cost-of-power/battery", title: "What a battery earns", seconds: 45,
     line: "A grid battery of your size in ERCOT or CAISO: what it earned from selling power and from the grid's reserves, year by year, and whether that pays for building it.",
-    look: "Read \"What did it earn?\", then \"Is it worth building?\". Change the battery's hours under \"Your battery\" and watch both move.",
-    headings: ["Your battery", "What did it earn?", "Is it worth building?"],
+    look: "Read \"What did it earn?\", then \"Is it worth building?\". Change the battery's hours under \"Assumptions\" and watch both move.",
+    headings: ["Assumptions", "What did it earn?", "Is it worth building?"],
   },
   {
     href: "/cost-of-power/seller", title: "What a generator earns", seconds: 45,
@@ -32,7 +38,7 @@ export const RULED_STOPS: Stop[] = [
     headings: ["Your load", "What will it pay?", "How soon?"],
   },
   {
-    href: "/grid", title: "The grid", seconds: 40,
+    href: "/grid?grid=ercot", title: "The grid", seconds: 40,
     line: "One grid at a time, ERCOT first: what it is doing now, where its power comes from, who runs it and what it costs.",
     look: "Read \"The mix in that hour\" and \"Right now: demand\", then pick another grid at the top.",
     headings: ["The mix in that hour", "Right now: demand", "Who runs this grid"],
@@ -64,7 +70,9 @@ export const NEW_STOPS: Stop[] = [
   {
     href: "/grid", title: "Every region of the grid", seconds: 40, landed: true,
     line: "The Grid tool beyond the seven grids: the thirteen regions EIA reports, six of them new to the site, each with its mix, its trade and the balancing authorities inside it, and the map of every balancing authority under the network view.",
-    look: "Pick Tennessee, or any of the thirteen regions, in the region list at the top; open its network view for the map; then read \"Ask\" at the foot of the page.",
+    // session 9203 (chain 620, the desktop's second window): the Network tab opens on the 3D network (the standing
+    // ruling), and the map is one press further, on Map; "Ask" stands beside the tool on a wide screen, under it on a phone
+    look: "Pick Tennessee, or any of the thirteen regions, in the region list at the top; open its Network tab, then press Map for the map; then read \"Ask\", beside the tool on a wide screen and under it on a phone.",
     headings: ["Ask"],
   },
   {
@@ -90,8 +98,9 @@ export const NEW_STOPS: Stop[] = [
     // where none of this stop's words or headings are
     href: "/map?tab=resources", title: "What is under the ground and in the wind", seconds: 35, landed: true,
     line: "The resource map: where the coal, the gas, the sun and the wind are, each layer in its own unit, beside what is built or planned. A resource is not a power plant.",
-    look: "Read \"What is built or planned\", then \"How the map is drawn\".",
-    headings: ["Where the resources are", "What is built or planned", "How the map is drawn"],
+    look: "Read \"What is built or planned\", then open \"Method note\" under the map and read \"How the map is drawn\".",
+    headings: ["Where the resources are", "What is built or planned"],
+    inFold: { fold: "Method note", headings: ["How the map is drawn"] },
   },
   {
     href: "/industry", title: "Where energy goes", seconds: 35, landed: true,

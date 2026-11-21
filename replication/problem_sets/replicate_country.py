@@ -183,10 +183,22 @@ def ground(sh):
             node = node[p]
         return sh.read(S, q, name, F, f"layers/@id={i}/" + "/".join(path), node)
 
-    at("rx", "min", "solar_ghi", "legend", "min"); at("rx", "max", "solar_ghi", "legend", "max"); sh.calc(S, "rx", "ratio", "ratio", "max", "min")
-    at("r1", "legend_max", "wind_speed_100m", "legend", "max"); at("r1", "source_max", "wind_speed_100m", "source_stats", "max")
+    def legend_end(q, name, i, end):
+        """Session 9601 (chain 620): the map draws one legend over every part of a layer (the contiguous states, and
+        Alaska and Hawaii where the list gives them as other_extents), so the legend a student reads runs from the
+        lowest of the parts' lows to the highest of their highs. The end is read from the part that gives it."""
+        lay = layer(i)
+        best, path = lay["legend"][end], "legend/" + end
+        for x in lay.get("other_extents") or []:
+            v = (x.get("legend") or {}).get(end)
+            if isinstance(v, (int, float)) and (v < best if end == "min" else v > best):
+                best, path = v, f"other_extents/@extent={x['extent']}/legend/{end}"
+        return sh.read(S, q, name, F, f"layers/@id={i}/{path}", best)
+
+    legend_end("rx", "min", "solar_ghi", "min"); legend_end("rx", "max", "solar_ghi", "max"); sh.calc(S, "rx", "ratio", "ratio", "max", "min")
+    legend_end("r1", "legend_max", "wind_speed_100m", "max"); at("r1", "source_max", "wind_speed_100m", "source_stats", "max")
     sh.calc(S, "r1", "diff", "diff", "source_max", "legend_max")
-    at("r2", "ghi", "solar_ghi", "legend", "max"); at("r2", "dni", "solar_dni", "legend", "max"); sh.calc(S, "r2", "ratio", "ratio", "dni", "ghi")
+    legend_end("r2", "ghi", "solar_ghi", "max"); legend_end("r2", "dni", "solar_dni", "max"); sh.calc(S, "r2", "ratio", "ratio", "dni", "ghi")
     at("r3", "mean", "wind_capacity_factor", "stats", "mean"); at("r3", "max", "wind_capacity_factor", "stats", "max"); sh.calc(S, "r3", "ratio", "ratio", "max", "mean")
     at("r4", "n", "geothermal_hydrothermal_sites", "stats", "n"); at("r4", "total", "geothermal_hydrothermal_sites", "total_mwe_mean")
     at("r4", "max", "geothermal_hydrothermal_sites", "stats", "max"); sh.calc(S, "r4", "pct", "pct", "max", "total")

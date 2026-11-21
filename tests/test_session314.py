@@ -202,9 +202,15 @@ def aged_out(slug, tables, today=None):
     with open(os.path.join(ROOT, "warehouse", "supabase", "live_set.yaml"), encoding="utf-8") as f:
         recent = yaml.safe_load(f)["recent"]
     today = today or dt.datetime.now(dt.timezone.utc).date()
-    if (today - dt.date.fromisoformat(paused[slug])).days <= int(recent["days"]):
-        return set()
-    return {t for t in tables if any(re.match(p, t) for p in recent["tables"])}
+    age = (today - dt.date.fromisoformat(paused[slug])).days
+    # session 9001: a table the live set keeps under "select" with a window of its own (iso_trader_daily, 45 days) ages
+    # out the same way once the pause is older than that window (MISO's, on 19 November 2026)
+    with open(os.path.join(ROOT, "warehouse", "supabase", "live_set.yaml"), encoding="utf-8") as f:
+        select = yaml.safe_load(f).get("select") or {}
+    own = {t for t in tables if isinstance(select.get(t), dict) and select[t].get("days") and age > int(select[t]["days"])}
+    if age <= int(recent["days"]):
+        return own
+    return own | {t for t in tables if any(re.match(p, t) for p in recent["tables"])}
 
 
 class TheGridsTablesByRule(unittest.TestCase):

@@ -6,10 +6,12 @@
 // figures. The list names no source table of the warehouse: its layers are publishers' files, each with its own source
 // and terms in the list.
 import type { Question } from "@/lib/problems";
+import type { Segment } from "@/lib/pagefile";
 import { calc, fig, open, type Built, type Meta, type SetGuide } from "./common";
 
 const F = "resources/manifest.json";
-type Layer = { id: string; title: string; unit?: string; value_label?: string; publisher?: string; vintage?: string; source_resolution?: string };
+type Legend = { min: number; max: number };
+type Layer = { id: string; title: string; unit?: string; value_label?: string; publisher?: string; vintage?: string; source_resolution?: string; legend?: Legend; other_extents?: { extent: string; legend?: Legend }[] };
 type Manifest = { layers: Layer[] };
 
 export const META: Meta = {
@@ -35,24 +37,40 @@ export async function build(): Promise<Built> {
     if (!l) throw new Error(`no layer ${id} in site/data/resources/manifest.json`);
     return l;
   };
-  const at = (id: string, path: string[], u: string) => fig(F, ["layers", { id }, ...path], u);
+  const at = (id: string, path: Segment[], u: string) => fig(F, ["layers", { id }, ...path], u);
   const ghi = L("solar_ghi"), dni = L("solar_dni"), wind = L("wind_speed_100m"), cf = L("wind_capacity_factor"), geo = L("geothermal_hydrothermal_sites");
   const npd = L("hydropower_npd"), bio = L("biomass");
+  // Session 9601 (chain 620, the browser read of 20 November 2026): the legend a student reads on the map is one scale
+  // over every part of a layer (the contiguous states, and Alaska and Hawaii where the layer has them: legendOf in
+  // lib/resources.ts), so its ends are the lowest low and the highest high among the parts. The set read the contiguous
+  // states' range alone (2.81 to 6.50 for the sun) while the map's legend ran from 1.6 to 6.9. Each end is still one
+  // figure of the list, and its hover names the part it is read from.
+  const legendEnd = (id: string, end: "min" | "max", u: string) => {
+    const l = L(id);
+    let best: { v: number; path: Segment[]; where: string } = { v: l.legend?.[end] ?? NaN, path: ["legend", end], where: "the contiguous states" };
+    for (const x of l.other_extents ?? []) {
+      const v = x.legend?.[end];
+      if (typeof v === "number" && (!Number.isFinite(best.v) || (end === "min" ? v < best.v : v > best.v))) best = { v, path: ["other_extents", { extent: x.extent }, "legend", end], where: x.extent.split(",")[0] };
+    }
+    return { fig: at(id, best.path, u), where: best.where };
+  };
+  const parts = (id: string) => ["the contiguous states", ...(L(id).other_extents ?? []).map((x) => x.extent.split(",")[0])];
 
   // ---------------------------------------------------------------- worked example: the sun's range on the map
-  const gl = at("solar_ghi", ["legend", "min"], ghi.unit ?? ""), gh = at("solar_ghi", ["legend", "max"], ghi.unit ?? "");
+  const gLow = legendEnd("solar_ghi", "min", ghi.unit ?? ""), gHigh = legendEnd("solar_ghi", "max", ghi.unit ?? "");
+  const gl = gLow.fig, gh = gHigh.fig;
   const example: Question = {
     id: "rx", tables: [],
     q: `Switch on the layer "${ghi.title}" (${ghi.value_label}). What are the lowest and the highest values of its legend, and the highest is how many times the lowest?`,
     answer: ["Lowest ", gl, ", highest ", gh, ": the sunniest cell receives ", calc("ratio", gh, gl, "times"), " the energy per square metre of the least sunny."],
     line: [gh, " / ", gl, " = ", calc("ratio", gh, gl, "times")],
-    steps: [[`On the resources tab of /map, switch on ${ghi.title}; the legend runs from its lowest to its highest value, in ${ghi.unit}. Or site/data/resources/manifest.json, the layer with id solar_ghi, legend, min and max.`],
+    steps: [[`On the resources tab of /map, switch on ${ghi.title}; the legend runs from its lowest to its highest value, in ${ghi.unit}, over every part of the layer (${parts("solar_ghi").join("; ")}), and prints one decimal. In site/data/resources/manifest.json the layer with id solar_ghi holds a legend for the contiguous states and one for each of its other extents: the map's legend runs from the lowest of their lows (${gLow.where}) to the highest of their highs (${gHigh.where}).`],
       ["Lowest ", gl, ", highest ", gh, "."], ["Divide: ", gh, " / ", gl, " = ", calc("ratio", gh, gl, "times"), "."]],
     why: `A layer's unit says what is counted: here energy from the sun falling on a square metre in an average day, from ${ghi.publisher}, not the output of any panel.`,
   };
 
   // ---------------------------------------------------------------- r1: the wind, the map's cells against the source's
-  const wl = at("wind_speed_100m", ["legend", "max"], wind.unit ?? ""), ws = at("wind_speed_100m", ["source_stats", "max"], wind.unit ?? "");
+  const wl = legendEnd("wind_speed_100m", "max", wind.unit ?? "").fig, ws = at("wind_speed_100m", ["source_stats", "max"], wind.unit ?? "");
   const q1: Question = {
     id: "r1", tables: [],
     q: `The layer "${wind.title}": what is the highest value of its legend, what is the highest value in the source's own cells (the list's source_stats, max), and how far apart are they? Why is the map's lower?`,
@@ -65,13 +83,13 @@ export async function build(): Promise<Built> {
   };
 
   // ---------------------------------------------------------------- r2: two measures of the sun
-  const dh = at("solar_dni", ["legend", "max"], dni.unit ?? "");
+  const dHigh = legendEnd("solar_dni", "max", dni.unit ?? ""), dh = dHigh.fig;
   const q2: Question = {
     id: "r2", tables: [],
     q: `Two solar layers share a unit (${ghi.unit}): "${ghi.title}" and "${dni.title}". What is the highest value of each legend, and the second's is how many times the first's?`,
     answer: [`${ghi.title} `, gh, `; ${dni.title} `, dh, ": ", calc("ratio", dh, gh, "times"), "."],
     line: [dh, " / ", gh, " = ", calc("ratio", dh, gh, "times")],
-    steps: [["Switch on each layer in turn and read the legend's top, or the layers solar_ghi and solar_dni, legend, max: ", gh, " and ", dh, "."],
+    steps: [[`Switch on each layer in turn and read the legend's top; or, in the list, the highest of each layer's legends over its parts (${gHigh.where} for solar_ghi, ${dHigh.where} for solar_dni): `, gh, " and ", dh, "."],
       ["Divide: ", dh, " / ", gh, " = ", calc("ratio", dh, gh, "times"), "."]],
     why: "Global horizontal irradiance is the sunlight on a flat surface; direct normal irradiance is the beam on a surface turned to face the sun. In a clear desert the direct beam is the larger, which is why plants that track the sun or concentrate it are built there.",
   };

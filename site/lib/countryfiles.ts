@@ -141,6 +141,74 @@ export function summarize(file: EventRegionsFile): RegionSummary[] {
   });
 }
 
+/** Session 8470 (the real files): the regions whose generation by source rests on fewer hours than the window's (EIA's
+ *  files leave a region's fuel columns empty for some hours while its net generation is there: the Southwest over Winter
+ *  Storm Elliott, 114 of 267 hours), with the fewest hours any of its sources rests on and the hours of its net
+ *  generation. A region held aside (`skip`) is left out. Storage is counted apart (`storage` true for storage alone):
+ *  EIA's storage columns begin in July 2024, so a baseline reaching back before then holds a few hours of it or none
+ *  (every region over the 2025 heat: 6 hours or fewer), which says nothing of the other sources. */
+export function shortSources(rows: RegionSummary[], n: number, skip: string[] = [], storage = false): { code: string; name: string; hours: number; net: number | null }[] {
+  const out: { code: string; name: string; hours: number; net: number | null }[] = [];
+  for (const r of rows) {
+    if (skip.includes(r.code)) continue;
+    const hs = Object.entries(r.sources).filter(([k, x]) => !!x && (k === "storage") === storage).map(([, x]) => (x as Against).hours);
+    if (!hs.length) continue;
+    const least = Math.min(...hs);
+    if (least < n) out.push({ code: r.code, name: r.name, hours: least, net: r.generation ? r.generation.hours : null });
+  }
+  return out;
+}
+
+/** Session 8470 (case 3 of the reader's read, the real files): the hours of a region's source that the window holds and
+ *  the hours its baseline holds, counted apart. A cell drawn "not held" (no hour held by both) can then say which side
+ *  holds it: over Winter Storm Uri the window holds 435 hours of each of the Northwest's sources and its baseline
+ *  (February 2020 and 2019) none. */
+export function heldApart(file: EventRegionsFile, code: string, key: string): { event: number; base: number } {
+  const r = file.regions?.[code];
+  return { event: (r?.gen?.[key] ?? []).filter(num).length, base: (r?.baseline?.gen?.[key] ?? []).filter(num).length };
+}
+
+/** Session 8470: the regions none of whose sources (storage aside) has an hour held by both the window and the baseline
+ *  while one side holds some (the Northwest over Uri and over COVID-19, the Southwest over the August 2020 heat), with the
+ *  most hours any source holds in each. Their row reads "not held" from end to end beside a net generation, and
+ *  shortSources does not name them (it counts only the hours both hold). A region held aside (`skip`) is left out. */
+export function apartSources(file: EventRegionsFile, rows: RegionSummary[], skip: string[] = []): { code: string; name: string; event: number; base: number }[] {
+  const out: { code: string; name: string; event: number; base: number }[] = [];
+  const keys = SOURCES.map((s) => s.key).filter((k) => k !== "storage");
+  for (const r of rows) {
+    if (skip.includes(r.code) || !r.held || keys.some((k) => r.sources[k])) continue;
+    const h = keys.map((k) => heldApart(file, r.code, k));
+    const event = Math.max(...h.map((x) => x.event)), base = Math.max(...h.map((x) => x.base));
+    if (event || base) out.push({ code: r.code, name: r.name, event, base });
+  }
+  return out;
+}
+
+/** Session 8470 (the five cases on the real files): a region's pairs summed as its imports (a pair's flow runs from its
+ *  first code to its second, so it counts against the region when the region is first), set beside the region's own net
+ *  imports, over the hours where its net imports and every pair it is in are held. The two need not agree: each pair's
+ *  flow is one side's report (the first's where held, else the second's), while net imports are the region's own report
+ *  of its total interchange. Over Winter Storm Uri the Midwest's pairs sum to +9,619 MW against its net imports of
+ *  +5,427 MW. Null when the region is in no pair or no hour is held by all. */
+export function pairSum(file: EventRegionsFile, code: string): { hours: number; pairs_mw: number; imports_mw: number } | null {
+  const imp = file.regions?.[code]?.net_imports_mw;
+  const mine = Object.entries(file.pairs ?? {}).filter(([k]) => k.split("-").includes(code));
+  if (!imp || !mine.length) return null;
+  let hours = 0, a = 0, b = 0;
+  for (let i = 0; i < file.hours.n; i++) {
+    const x = imp[i];
+    if (!num(x)) continue;
+    let s = 0, all = true;
+    for (const [k, p] of mine) {
+      const v = p.flow_mw?.[i];
+      if (!num(v)) { all = false; break; }
+      s += k.split("-")[0] === code ? -v : v;
+    }
+    if (all) { hours++; a += x; b += s; }
+  }
+  return hours ? { hours, pairs_mw: b / hours, imports_mw: a / hours } : null;
+}
+
 /** The share of the baseline by which a region's demand over the window must differ from it to be counted as reached,
  *  in percent, either way. The session's own default (8410): no publisher's threshold stands behind it. */
 export const REACHED_PCT = 5;
@@ -153,8 +221,14 @@ export type PairSummary = {
   key: string; a: string; b: string; hours: number; mean_mw: number; mwh: number;
   /** who sent and who took over the window, by the sign of the window's sum; both null when the sum is zero */
   sent: string | null; took: string | null;
-  base: { hours: number; mean_mw: number; mwh: number; sent: string | null; took: string | null } | null;
+  /** session 8470: every held hour of the window is 0 MW (EIA's reports of the tie say 0, as the real files show for
+   *  Central and Southwest in February 2021 and January 2025) */
+  zero: boolean;
+  base: { hours: number; mean_mw: number; mwh: number; sent: string | null; took: string | null; zero: boolean } | null;
 };
+/** Neighbours outside the lower 48 that the files name in pairs (Canada, Mexico): they file no Form EIA-930, so a
+ *  pair's flow with them is the US region's own report (session 8470, found on the real files). */
+export const ABROAD = ["CAN", "MEX"];
 /** Each pair of regions of the file, largest energy over the window first: power from the first code to the second is
  *  positive in the file, so the sign of the window's sum says which sent and which took. The baseline beside it. */
 export function pairs(file: EventRegionsFile): PairSummary[] {
@@ -167,7 +241,7 @@ export function pairs(file: EventRegionsFile): PairSummary[] {
       const xs = (arr ?? []).filter(num);
       if (!xs.length) return null;
       const sum = xs.reduce((s, v) => s + v, 0);
-      return { hours: xs.length, mean_mw: sum / xs.length, mwh: sum * step, sent: sum > 0 ? a : sum < 0 ? b : null, took: sum > 0 ? b : sum < 0 ? a : null };
+      return { hours: xs.length, mean_mw: sum / xs.length, mwh: sum * step, sent: sum > 0 ? a : sum < 0 ? b : null, took: sum > 0 ? b : sum < 0 ? a : null, zero: xs.every((v) => v === 0) };
     };
     const ev = side(p.flow_mw);
     if (!ev) continue;
@@ -203,6 +277,50 @@ export function points(arr: Arr | undefined, hours: Hours, byDayOver = 21): { t:
   return [...days.entries()].sort((x, y) => x[0] - y[0]).map(([t, g]) => ({ t, v: g.s / g.n }));
 }
 export const drawnByDay = (hours: Hours, byDayOver = 21) => hours.n * (hours.step_hours || 1) > byDayOver * 24;
+/** Session 8470: the distance in seconds beyond which two points of a chart are not joined (LineChart's `gap`), so hours
+ *  the file does not hold are a break in the line, not a straight line across them (as /storage draws EIA's hours,
+ *  session 7542): one step of the file by hour, one day by day. */
+export const lineGap = (hours: Hours, byDayOver = 21) => (drawnByDay(hours, byDayOver) ? 86_400 : (hours.step_hours || 1) * 3_600);
+
+/** Session 8470: each region's time zone, from `index.json` (the contract's section 2), or an empty map while that file
+ *  is not on the site. */
+export function regionZones(): Record<string, string> {
+  const ix = readRegionFile<{ regions?: { code?: string; tz?: string }[] }>("index.json");
+  const out: Record<string, string> = {};
+  for (const r of ix?.regions ?? []) if (r?.code && r.tz) out[r.code] = r.tz;
+  return out;
+}
+/** "2022-12-23 19:00 CST": the file's UTC hour in a time zone (IANA name), or null when the zone cannot be read. */
+export function localHour(ts: string, tz: string): string | null {
+  try {
+    const parts = new Intl.DateTimeFormat("en-US", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZoneName: "short" }).formatToParts(new Date(ts));
+    const p = (t: string) => parts.find((x) => x.type === t)?.value ?? "";
+    return `${p("year")}-${p("month")}-${p("day")} ${p("hour")}:${p("minute")} ${p("timeZoneName")}`;
+  } catch {
+    return null;
+  }
+}
+
+/** EIA's six-month files carry storage columns from July 2024 (the contract's section 4): the first UTC hour a file can
+ *  hold storage. */
+export const STORAGE_FROM = "2024-07-01T00:00:00Z";
+/** Session 8470: the earliest hour the file's baseline reaches back to (its window's first hour less the largest
+ *  offset: days, or calendar years written as words), or null when the file names no offset. */
+export function baselineFirstHour(file: EventRegionsFile): string | null {
+  const { offsets } = baselineOf(file);
+  const t0 = Date.parse(file.hours.start);
+  let first: number | null = null;
+  for (const o of offsets) {
+    let t: number | null = null;
+    if (typeof o === "number") t = t0 - o * 86_400_000;
+    else {
+      const y = /^(\d+)\s+calendar year/.exec(o);
+      if (y) { const d = new Date(t0); d.setUTCFullYear(d.getUTCFullYear() - Number(y[1])); t = d.getTime(); }
+    }
+    if (t !== null && (first === null || t < first)) first = t;
+  }
+  return first === null ? null : new Date(first).toISOString().replace(".000Z", "Z");
+}
 
 /** Whole megawatts and megawatt-hours with thousands separators; gigawatt-hours with one decimal; a signed percent. */
 export const whole = (v: number) => Math.round(v).toLocaleString("en-US");

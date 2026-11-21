@@ -4,9 +4,9 @@ import { Hint } from "@/components/demand/Hint";
 import { LineChart, type Line } from "@/components/LineChart";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ToolTable } from "@/components/tool/ToolPage";
-import { GRID_NAME, NEW_REGIONS, REGION_CODES, REGION_GRIDS, REGION_NAME, SOURCES, gwh, regionOf, signedGwh, whole } from "@/lib/countryfiles";
+import { GRID_NAME, NEW_REGIONS, REGION_CODES, REGION_GRIDS, REGION_NAME, SOURCES, gwh as gwhOf, regionOf, whole } from "@/lib/countryfiles";
 import {
-  FIRST_MONTH, LARGE_GAP_PCT, READERS, defaultYear, inOrder, mixMonths, mixYear, monthCell, monthPoints, monthWords, monthsOfYear, neighboursOfYear, pairsOfYear,
+  FIRST_MONTH, LARGE_GAP_PCT, READERS, defaultYear, inOrder, mixGapMonths, mixMonths, mixYear, monthCell, monthPoints, monthWords, monthsOfYear, neighboursOfYear, pairsOfYear,
   partnersOfYear, pct1, placeName, sharePoints, totalOfYear, yearOf, yearsOf,
   type FileHead, type IndexFile, type MatrixFile, type MixFile, type PairView, type Readers, type TradeFile,
 } from "@/lib/countrytrade";
@@ -59,6 +59,30 @@ const NotBuilt = ({ file, what }: { file: string; what: string }) => (
 
 const GAP_RULE = `A gap of ${LARGE_GAP_PCT} percent or more of the mean size of the two reports is marked as large. Default: ${LARGE_GAP_PCT} percent, this page's own choice (session 8430); no publisher's threshold stands behind it.`;
 const SOURCE_WORDS = "Source: EIA Form EIA-930, interchange as each side filed it.";
+/** MWh as GWh to one decimal, and with its sign above zero. Session 8490, on the real files: a flow under 50 MWh read
+ *  "-0.0" or "+0.0" (Southwest and Central, December 2024); a figure that rounds to zero now reads "0.0". The shared
+ *  formatter of lib/countryfiles.ts is not changed, so no other page moves. */
+export const gwh = (mwh: number) => { const s = gwhOf(mwh); return s === "-0.0" ? "0.0" : s; };
+export const signedGwh = (mwh: number) => { const s = gwh(mwh); return s === "0.0" || mwh <= 0 ? s : `+${s}`; };
+/** Session 8490, on the real files: each side's report runs over its own hours and the gap over the hours both
+ *  reported, so two reports can stand far apart while the gap is small (the Northwest and California in 2024: 9,622.6
+ *  GWh over 8,784 hours, 7,817.0 over 8,000, a gap of 4.7). When the two sides' hours differ the percent's hover says
+ *  so; when they are the same, or either is not in the file, it says nothing more. */
+export const hoursApart = (one: string, hoursOne: number | null, two: string, hoursTwo: number | null) =>
+  hoursOne !== null && hoursTwo !== null && hoursOne !== hoursTwo
+    ? ` ${poss(one)} report runs over ${whole(hoursOne)} hours and ${poss(two)} over ${whole(hoursTwo)}: what ${hoursOne > hoursTwo ? one : two} reported in the hours ${hoursOne > hoursTwo ? two : one} did not is in its report and not in the gap, so the two reports can differ by more than the gap.`
+    : "";
+/** Session 8490, on the real files: the mean is the file's mean of the two reports over the hours both reported, so it
+ *  can stand outside the two reports beside it (53 of 160 pairs of regions; Tennessee and the Carolinas in 2025: 94.2
+ *  and 91.1, a mean of 91.0). Its cell had no hover. */
+export const meanWords = (p: PairView, one: string, two: string, year: string) =>
+  p.fromReport !== null && p.toReport !== null
+    ? `The mean of ${poss(one)} and ${poss(two)} reports of this flow in ${year}, taken over the hours both reported${p.hoursBoth !== null ? ` (${whole(p.hoursBoth)} hours)` : ""}, as the file gives it. Each report beside it runs over that side's own hours, so the mean need not lie between them. ${SOURCE_WORDS}`
+    : `Only ${p.fromReport !== null ? one : two} reported this flow in ${year}: the file gives that report as the mean. ${SOURCE_WORDS}`;
+/** Session 8490, on the real files: storage is blank in Form EIA-930 before 1 July 2024 (UTC), June 2024 as a local
+ *  month holds only its last hours, and every region held in 2024 reads exactly zero for months after (the Mid-Atlantic
+ *  in every month), which a reader took for a region with no batteries. */
+export const STORAGE_WORDS = "Form EIA-930 carries storage from 1 July 2024 (UTC): a month before reads not held yet, and June 2024, a local month, holds only its last hours. A region can read exactly zero for months after that: zero is what its balancing authorities filed, not a count of the batteries on its ground.";
 /** A name's possessive: "Tennessee's", "Texas's", and "Carolinas'" for the one name that is a plural. */
 const poss = (name: string) => (name === "Carolinas" ? "Carolinas'" : `${name}'s`);
 const months = (held: number, of: number) => `${held} of the ${of} month${of === 1 ? "" : "s"} of the year in the file`;
@@ -73,10 +97,10 @@ function regionWords(code: string): string {
 }
 
 /** The gap's percent, marked and said in words where it is large. */
-function GapPct({ k, pct, large, words }: { k: string; pct: number; large: boolean; words: string }) {
+function GapPct({ k, pct, large, words, after = "" }: { k: string; pct: number; large: boolean; words: string; after?: string }) {
   return large
-    ? <span className="cursor-help border-b border-dotted border-ink font-semibold" data-gap-large="1" title={`${words} That is large by this page's rule: ${LARGE_GAP_PCT} percent or more. Default: ${LARGE_GAP_PCT} percent, this page's own choice (session 8430); no publisher's threshold stands behind it. ${SOURCE_WORDS}`}><N k={k}>{pct1(pct)}</N></span>
-    : <span className="cursor-help" title={`${words} ${GAP_RULE} ${SOURCE_WORDS}`}><N k={k}>{pct1(pct)}</N></span>;
+    ? <span className="cursor-help border-b border-dotted border-ink font-semibold" data-gap-large="1" title={`${words} That is large by this page's rule: ${LARGE_GAP_PCT} percent or more. Default: ${LARGE_GAP_PCT} percent, this page's own choice (session 8430); no publisher's threshold stands behind it. ${SOURCE_WORDS}${after}`}><N k={k}>{pct1(pct)}</N></span>
+    : <span className="cursor-help" title={`${words} ${GAP_RULE} ${SOURCE_WORDS}${after}`}><N k={k}>{pct1(pct)}</N></span>;
 }
 
 const SERIES = ["series-1", "series-3", "series-5", "series-6", "series-8", "series-2", "series-4", "series-7"];
@@ -113,7 +137,7 @@ function Trade({ code, file, year, mark }: { code: string; file: TradeFile | nul
             `The file holds no report by ${n.name} of its flow with ${name} in ${year}.${abroadWhy(n.code)}`),
           cell(n.code, n.gap ? <span title={`${poss(name)} report less ${poss(n.name)}, over the hours both reported${n.hoursBoth ? ` (${whole(n.hoursBoth.mwh)} hours)` : ""}, summed over ${months(n.gap.held, n.gap.of)}. Each of the two columns before it runs over that side's own hours, so this is not always their difference.`}><N k={`trade|${code}|${year}|${n.code}|gap`}>{signedGwh(n.gap.mwh)}</N></span> : null,
             `The file holds no hour of ${year} that both ${name} and ${n.name} reported.${abroadWhy(n.code)}`),
-          cell(n.code, n.pct !== null ? <GapPct k={`trade|${code}|${year}|${n.code}|gap_pct`} pct={n.pct} large={n.large} words={facts} /> : null,
+          cell(n.code, n.pct !== null ? <GapPct k={`trade|${code}|${year}|${n.code}|gap_pct`} pct={n.pct} large={n.large} words={facts} after={hoursApart(name, n.hoursOwn?.mwh ?? null, n.name, n.hoursTheir?.mwh ?? null)} /> : null,
             `A percent needs both reports and their gap in the same months of ${year}, and two reports that are not both zero.${abroadWhy(n.code)}`),
           cell(n.code, n.own ? <span><N k={`trade|${code}|${year}|${n.code}|months`}>{String(n.own.held)}</N> of {n.own.of}</span> : null, `The file holds no month of ${year} for ${name} and ${n.name}.`),
         ],
@@ -186,7 +210,7 @@ function Trade({ code, file, year, mark }: { code: string; file: TradeFile | nul
 }
 
 /** The pairs of a year as table rows: which side sent and which received, each side's report, the mean and the gap. */
-function pairRows(pairs: PairView[], year: string, kind: "pair" | "bapair", nameOf: (c: string) => string, tip: (c: string) => string, heldOf: (c: string) => string | null, lit: string[], pick?: (c: string) => string | null, whyNone: (c: string) => string = () => "") {
+function pairRows(pairs: PairView[], year: string, kind: "pair" | "bapair", nameOf: (c: string) => string, tip: (c: string) => string, heldOf: (c: string) => string | null, lit: string[], pick?: (c: string) => string | null, whyNone: (c: string) => string = () => "", counted = false) {
   return pairs.map((p) => {
     const h = heldOf(p.a) ?? heldOf(p.b);
     const blank = (v: ReactNode | null, missing: string) => (h ? <Held why={h} /> : v ?? <NOT why={missing} />);
@@ -204,14 +228,17 @@ function pairRows(pairs: PairView[], year: string, kind: "pair" | "bapair", name
         p.to ? named(p.to) : p.mean === 0 ? "no net flow" : <NOT why={`The file gives no direction for ${nameOf(p.a)} and ${nameOf(p.b)} in ${year}: it holds no mean of the two reports.`} />,
         blank(p.fromReport !== null ? <span title={`${poss(nameOf(one))} report of the power it sent to ${nameOf(two)} over ${year}, as the file gives it.${hrs(p.hoursFrom)}${p.fromReport < 0 ? ` Below zero: ${other(one)}` : ""}`}><N k={`${kind}|${p.key}|${year}|from_report`}>{gwh(p.fromReport)}</N></span> : null, `The file holds no report by ${nameOf(one)} of this flow in ${year}.${whyNone(one)}`),
         blank(p.toReport !== null ? <span title={`${poss(nameOf(two))} report of the power ${nameOf(one)} sent to it over ${year}, as the file gives it.${hrs(p.hoursTo)}${p.toReport < 0 ? ` Below zero: ${other(two)}` : ""}`}><N k={`${kind}|${p.key}|${year}|to_report`}>{gwh(p.toReport)}</N></span> : null, `The file holds no report by ${nameOf(two)} of this flow in ${year}.${whyNone(two)}`),
-        blank(p.mean !== null ? <N k={`${kind}|${p.key}|${year}|mean`}>{gwh(p.mean)}</N> : null, `The file holds no mean of the two reports for this pair in ${year}.`),
+        blank(p.mean !== null ? <span title={meanWords(p, nameOf(one), nameOf(two), year)}><N k={`${kind}|${p.key}|${year}|mean`}>{gwh(p.mean)}</N></span> : null, `The file holds no mean of the two reports for this pair in ${year}.`),
         blank(p.gap !== null ? <span title={`${poss(nameOf(one))} report less ${poss(nameOf(two))}, over the hours both reported${p.hoursBoth !== null ? ` (${whole(p.hoursBoth)} hours)` : ""}, as the file gives it. Each of the two reports runs over that side's own hours, so this is not always their difference.`}><N k={`${kind}|${p.key}|${year}|gap`}>{signedGwh(p.gap)}</N></span> : null, `The file holds no gap for this pair in ${year}: one side's report is not held.`),
-        blank(p.pct !== null ? <GapPct k={`${kind}|${p.key}|${year}|gap_pct`} pct={p.pct} large={p.large} words={facts} /> : null, "A percent needs both reports and their gap, and two reports that are not both zero."),
+        blank(p.pct !== null ? <GapPct k={`${kind}|${p.key}|${year}|gap_pct`} pct={p.pct} large={p.large} words={facts} after={hoursApart(nameOf(one), p.hoursFrom, nameOf(two), p.hoursTo)} /> : null, "A percent needs both reports and their gap, and two reports that are not both zero."),
+        // session 8490: the months the pair's year holds (data request 325, in the contract since session 8004); the
+        // column stands when the file carries the counts, as every file the data machine builds since then does
+        ...(counted ? [blank(p.monthsHeld !== null ? <span><N k={`${kind}|${p.key}|${year}|months`}>{String(p.monthsHeld)}</N> of {p.monthsInYear}</span> : null, `The file gives no count of the months it holds for this pair in ${year}.`)] : []),
       ],
     };
   });
 }
-const pairHead = (who: string) => [
+const pairHead = (who: string, counted = false) => [
   <Head key="s" mark="sent" words="Sent" why={`Over the year the net flow between the two ${who} ran from this one to the other, by the file's own direction (the sign of the mean of the two reports).${who === "balancing authorities" ? " A balancing authority is the operator that keeps supply and demand in balance over its own area hour by hour (a utility, a federal power agency or a grid operator); each one of the lower 48 files Form EIA-930." : ""}`} />,
   <Head key="t" mark="received" words="Received" why="The one the net flow ran to over the year, by the same direction." />,
   <Head key="a" mark="from-report" words="Sender's report, GWh" why={`The flow over the year as the sending side filed it with EIA. A figure below zero says that side counted the year's net flow the other way. ${SOURCE_WORDS}`} />,
@@ -219,7 +246,10 @@ const pairHead = (who: string) => [
   <Head key="m" mark="mean" words="Mean, GWh" why="The file's own figure for the pair: the mean of the two reports over the hours both sides reported, and the one side's report for a month in which the other reported no hour. Its sign gives the direction." />,
   <Head key="g" mark="gap" words="Gap, GWh" why="The sender's report less the receiver's over the hours both reported, as the file gives it." />,
   <Head key="p" mark="gappct" words="Gap, percent" why={`The gap as a percent of the mean size of the two reports (the mean of their absolute values). ${GAP_RULE}`} />,
+  ...(counted ? [<Head key="mh" mark="pair-months" words="Months held" why="The months of the year that hold a report of this flow from either side, of the year's months in the file: six in 2018, whose months begin in July, and fewer in the year still running. A pair's year is the sum of EIA's Eastern months of that year, as in the net imports above. A month that is not held is left out of the sums, never filled." />] : []),
 ];
+/** Whether a matrix file carries the pairs' counts of months (the contract's section 7 since session 8004). */
+const hasMonthCounts = (file: MatrixFile) => [...(file.region_pairs ?? []), ...(file.ba_pairs ?? [])].some((r) => typeof r.months_held === "number");
 
 /** Who trades with whom in a year: the pairs of regions, the pairs of balancing authorities and each authority's partners. */
 function Matrix({ file, index, year, a, b, pick }: { file: MatrixFile | null; index: IndexFile | null; year: string; a: string; b: string | null; pick: (code: string) => string }) {
@@ -235,19 +265,20 @@ function Matrix({ file, index, year, a, b, pick }: { file: MatrixFile | null; in
   const baHeld = (c: string) => why ?? regionHeld(bas.get(c)?.region ?? c);
   const regionPairs = pairsOfYear(file.region_pairs, year), baPairs = pairsOfYear(file.ba_pairs, year), partners = partnersOfYear(file, year);
   const lit = [a, ...(b ? [b] : [])];
+  const counted = hasMonthCounts(file);
   const litBas = [...bas.values()].filter((x) => x.region && lit.includes(x.region)).map((x) => x.code);
   const list = (codes: string[] | null, ba: string, what: string) => (baHeld(ba) ? <Held why={baHeld(ba)!} /> : codes === null ? <NOT why={`The file holds no list of ${ba}'s partners by ${what} in ${year}.`} /> : codes.length ? <span title={codes.map((c) => bas.get(c)?.name ?? placeName(c)).join("; ")}>{codes.join(", ")}</span> : "none");
   return (
     <div data-wc-matrix={year}>
       {regionPairs.length ? (
         <ToolTable minWidth={860} caption={`Each pair of regions in ${year}: which sent and which received, each side's report, their mean and the gap`}
-          head={pairHead("regions")} rows={pairRows(regionPairs, year, "pair", placeName, regionWords, heldOf, lit, (c) => (regionOf(c) ? pick(c) : null), abroadWhy)} />
+          head={pairHead("regions", counted)} rows={pairRows(regionPairs, year, "pair", placeName, regionWords, heldOf, lit, (c) => (regionOf(c) ? pick(c) : null), abroadWhy, counted)} />
       ) : <p className="text-sm"><NOT why={`The file holds no pair of regions for ${year}.`} /></p>}
       <details className="mt-3 border-t border-rule pt-1" data-wc-fold="bapairs">
         <summary className="cursor-pointer text-sm font-semibold">Balancing authorities, pair by pair, {year}: <span data-cn={`bapairs|${year}|n`}>{String(baPairs.length)}</span> pairs</summary>
         {baPairs.length ? (
           <ToolTable minWidth={860} caption={`Each pair of balancing authorities in ${year}: which sent and which received, each side's report, their mean and the gap`}
-            head={pairHead("balancing authorities")} rows={pairRows(baPairs, year, "bapair", (c) => c, baTip, baHeld, litBas, undefined, baWhyNone)} />
+            head={pairHead("balancing authorities", counted)} rows={pairRows(baPairs, year, "bapair", (c) => c, baTip, baHeld, litBas, undefined, baWhyNone, counted)} />
         ) : <p className="text-sm"><NOT why={`The file holds no pair of balancing authorities for ${year}.`} /></p>}
       </details>
       <details className="mt-2 border-t border-rule pt-1" data-wc-fold="partners">
@@ -286,8 +317,21 @@ function Mix({ code, file, year, mark }: { code: string; file: MixFile | null; y
   const all = Object.keys(file.months ?? {}).sort();
   const lines: Line[] = why ? [] : SOURCES.map((s) => ({ label: s.label, color: s.color, points: sharePoints(file, s.key) })).filter((l) => l.points.length);
   const cell = (v: ReactNode | null, missing: string): ReactNode => (why ? <Held why={why} /> : v ?? <NOT why={missing} />);
+  // session 8490: a month of the file's span that it does not hold stands as a row of its own, not held yet, with why
+  const gaps = mixGapMonths(file, year);
+  const gapWhy = (m: string) => `The file holds no generation by source for ${name} in ${monthWords(m)}: the builder writes a month only when at least 90 percent of its days are complete, every local hour of the day held in Form EIA-930's generation by source (storage aside), and fewer of this month's days are. Nothing is filled. Source: docs/methods/regions_pages.md.`;
+  const gapRows = gaps.map((m) => ({
+    key: m,
+    cells: [
+      <span key="m" data-wc-month-gap={m}>{monthWords(m)}</span>,
+      ...SOURCES.map(() => cell(null, gapWhy(m))),
+      cell(null, gapWhy(m)),
+      cell(null, gapWhy(m)),
+    ],
+  }));
+  const yearTip = gaps.length ? `The year's shares and net generation run over the ${rows.length} month${rows.length === 1 ? "" : "s"} of ${year} the file holds; ${gaps.map(monthWords).join(", ")} ${gaps.length === 1 ? "is" : "are"} not held, and nothing is filled for ${gaps.length === 1 ? "it" : "them"}.` : undefined;
   const tableRows = [
-    ...rows.map((r) => ({
+    ...[...gapRows, ...rows.map((r) => ({
       key: r.month,
       cells: [
         <span key="m" data-wc-month={r.month}>{monthWords(r.month)}</span>,
@@ -299,11 +343,11 @@ function Mix({ code, file, year, mark }: { code: string; file: MixFile | null; y
         cell(r.net !== null ? <N k={`mix|${code}|${r.month}|net`}>{gwh(r.net)}</N> : null, `The file holds no net generation for ${name} in ${monthWords(r.month)}.`),
         cell(r.daysHeld !== null ? <span>{r.daysHeld}{r.daysInMonth !== null ? ` of ${r.daysInMonth}` : ""}</span> : null, "The file does not say how many days of the month it holds."),
       ],
-    })),
+    }))].sort((x, y) => (x.key < y.key ? -1 : x.key > y.key ? 1 : 0)),
     {
       key: "year", highlight: true,
       cells: [
-        <span key="y" data-wc-month={year}>{year}, {rows.length} month{rows.length === 1 ? "" : "s"}</span>,
+        <span key="y" data-wc-month={year} {...(yearTip ? { title: yearTip } : {})}>{year}, {rows.length} month{rows.length === 1 ? "" : "s"}</span>,
         ...SOURCES.map((s) => cell(yr.share[s.key] !== null ? <span title={`${s.label}'s energy over the ${yr.months[s.key]} month${yr.months[s.key] === 1 ? "" : "s"} of ${year} that hold it, as a percent of the net generation of those same months.`}><N k={`mix|${code}|${year}|${s.key}`}>{pct1(yr.share[s.key]!)}</N></span> : null,
           `The file holds no ${s.label.toLowerCase()} for ${name} in any month of ${year}.`)),
         cell(yr.net ? <N k={`mix|${code}|${year}|net`}>{gwh(yr.net.mwh)}</N> : null, `The file holds no net generation for ${name} in ${year}.`),
@@ -321,12 +365,12 @@ function Mix({ code, file, year, mark }: { code: string; file: MixFile | null; y
         <ToolTable minWidth={900} caption={`${name}: each source's share of net generation in each month of ${year}, percent`}
           head={[
             "Month",
-            ...SOURCES.map((s) => <Head key={s.key} mark={`mix-${s.key}`} words={s.label} why={`${s.label}: its share of the region's net generation in the month, as the file writes it. ${s.key === "storage" ? "Storage is below zero in a month it charged more than it discharged. " : ""}${s.key === "hydro" ? "Hydro includes pumped storage. " : ""}${s.key === "other" ? "Other is petroleum, geothermal, other and unknown sources. " : ""}Hover a figure for the energy. Source: EIA Form EIA-930, generation by energy source.`} />),
+            ...SOURCES.map((s) => <Head key={s.key} mark={`mix-${s.key}`} words={s.label} why={`${s.label}: its share of the region's net generation in the month, as the file writes it. ${s.key === "storage" ? `Storage is below zero in a month it charged more than it discharged. ${STORAGE_WORDS} ` : ""}${s.key === "hydro" ? "Hydro includes pumped storage. " : ""}${s.key === "other" ? "Other is petroleum, geothermal, other and unknown sources. " : ""}Hover a figure for the energy. Source: EIA Form EIA-930, generation by energy source.`} />),
             <Head key="net" mark="mix-net" words="Net generation, GWh" why={`The region's net generation in the month. A month is in the file when at least 90 percent of its days are complete. A month here is ${poss(name)} own local month${file.tz ? ` (time zone ${file.tz})` : ""}; the net imports above run by EIA's Eastern months.`} />,
             <Head key="d" mark="mix-days" words="Days held" why="The days of the month whose every hour the file holds, of the days in the month." />,
           ]}
           rows={tableRows} />
-      ) : <p className="text-sm"><NOT why={`The file holds no month of ${year} for ${name}${all.length ? `: its months run from ${monthWords(all[0])} to ${monthWords(all[all.length - 1])}` : ""}.`} /></p>}
+      ) : <p className="text-sm"><NOT why={`The file holds no month of ${year} for ${name}${all.length ? `: its months run from ${monthWords(all[0])} to ${monthWords(all[all.length - 1])}` : ""}.${gaps.length ? ` The builder writes a month only when at least 90 percent of its days are complete, every local hour of the day held in Form EIA-930's generation by source (storage aside), and no month of ${year} inside that span is. Nothing is filled. Source: docs/methods/regions_pages.md.` : ""}`} /></p>}
     </>,
   );
 }
