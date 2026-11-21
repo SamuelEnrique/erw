@@ -190,15 +190,15 @@ export function WeekView({ today, rows, bodies, topics, grids, dropped, droppedW
                             return (
                               <td key={t.key} className="p-0.5 text-center">
                                 {n > 0 ? (
-                                  <button type="button" aria-pressed={on} onClick={() => set(on ? { agency: "", topic: "" } : { agency: l.body.key, topic: t.key })} data-tip={cellTip(l, t, n, c.days)} data-week-cell={`${l.body.key}|${t.key}`} data-n={n}
+                                  <button type="button" aria-pressed={on} aria-label={cellTip(l, t, n, c.days)} onClick={() => set(on ? { agency: "", topic: "" } : { agency: l.body.key, topic: t.key })} data-tip={cellTip(l, t, n, c.days)} data-week-cell={`${l.body.key}|${t.key}`} data-n={n}
                                     className={`block w-full cursor-pointer py-1 font-mono text-ink ${on ? "outline outline-2 outline-ink" : "hover:outline hover:outline-1 hover:outline-ink"}`} style={{ background: tint(n) }}>{n}</button>
-                                ) : <span className="block py-1 font-mono text-muted opacity-40" data-tip={cellTip(l, t, 0, c.days)} data-week-cell={`${l.body.key}|${t.key}`} data-n="0">0</span>}
+                                ) : <span className="block py-1 font-mono text-muted" data-tip={cellTip(l, t, 0, c.days)} data-week-cell={`${l.body.key}|${t.key}`} data-n="0">0</span>}
                               </td>
                             );
                           })}
                           <td className="p-0.5 text-center"><span className="block py-1 font-mono text-muted" data-tip={`${l.body.label}: ${l.none} with none of the eight topics in the last ${c.days} days`} data-week-cell={`${l.body.key}|`} data-n={l.none}>{l.none}</span></td>
                           <td className="p-0.5 text-center">
-                            <button type="button" aria-pressed={c.agency === l.body.key && !c.topic} onClick={() => set({ agency: l.body.key, topic: "" })} data-tip={cellTip(l, null, l.total, c.days)} data-week-total={l.body.key} data-n={l.total}
+                            <button type="button" aria-pressed={c.agency === l.body.key && !c.topic} aria-label={cellTip(l, null, l.total, c.days)} onClick={() => set({ agency: l.body.key, topic: "" })} data-tip={cellTip(l, null, l.total, c.days)} data-week-total={l.body.key} data-n={l.total}
                               className="block w-full cursor-pointer py-1 font-mono font-semibold text-ink hover:outline hover:outline-1 hover:outline-ink">{l.total}</button>
                           </td>
                         </tr>
