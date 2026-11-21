@@ -1,5 +1,5 @@
 {
- "retrieved_at": "2026-11-16T11:56:29Z",
+ "retrieved_at": "2026-11-21T14:55:17Z",
  "timezone": "America/New_York",
  "reports": [
   {
@@ -167,9 +167,21 @@
      "day": "Wednesday",
      "time": "12:00",
      "holiday": "Thanksgiving Day"
+    },
+    {
+     "date": "2027-11-10",
+     "day": "Wednesday",
+     "time": "12:00",
+     "holiday": "Veterans Day"
+    },
+    {
+     "date": "2027-11-24",
+     "day": "Wednesday",
+     "time": "12:00",
+     "holiday": "Thanksgiving Day"
     }
    ],
-   "read": "the page's holiday table, 9 alternate dates"
+   "read": "the page's holiday table, 11 alternate dates"
   },
   {
    "id": "cot",
