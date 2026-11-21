@@ -64,7 +64,7 @@ class TheReader(unittest.TestCase):
         body = t[t.index("export async function restPaged"):t.index("async function restPages")]
         self.assertIn("licenseHold(query)", body)
         self.assertIn("throw new LicenseNeeded(tableOf(query))", body)
-        self.assertIn("licenseHeldRow(t, (r as { entity?: string }).entity", body)
+        self.assertIn("licenseHeldRow(t, heldRowId(r as Record<string, unknown>))", body)   # session 9811: the row's id, whatever its shape
         self.assertIn("if (licenseHold(query).throw) throw new LicenseNeeded(tableOf(query))", t)
 
     def test_required_does_not_fail_the_build_on_a_held_table(self):

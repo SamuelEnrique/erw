@@ -110,7 +110,7 @@ class TheRowLicense(unittest.TestCase):
         # session 215's pins hold
         self.assertIn("licenseHold(query)", body)
         self.assertIn("throw new LicenseNeeded(tableOf(query))", body)
-        self.assertIn("licenseHeldRow(t, (r as { entity?: string }).entity", body)
+        self.assertIn("licenseHeldRow(t, heldRowId(r as Record<string, unknown>))", body)   # session 9811: the row's id, whatever its shape
 
     def test_by_row_and_by_grid_are_never_both(self):
         t = src("site", "lib", "license.ts")
