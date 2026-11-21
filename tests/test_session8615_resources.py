@@ -64,7 +64,9 @@ class MarkupOnlyThroughTheRenderer(unittest.TestCase):
 
     def test_the_method_document_is_set_by_the_renderer_and_nothing_else(self):
         v = src("site", "app", "resources", "view.tsx")
-        self.assertIn('<article className="prose-erw" dangerouslySetInnerHTML={{ __html: render(doc, "docs/methods/resources.md") }} />', v)
+        # session 9001 (chain 601's desk): window 3's session 9818 renders the note's headings under the page's own
+        # (one h1 a page, no level skipped), so the call carries { under: true }
+        self.assertIn('<article className="prose-erw" dangerouslySetInnerHTML={{ __html: render(doc, "docs/methods/resources.md", { under: true }) }} />', v)
         self.assertEqual(re.findall(r"dangerouslySetInnerHTML=\{\{ __html: (\w+)", v), ["render"])
 
     def test_no_function_that_rewrites_markup_is_left_behind(self):

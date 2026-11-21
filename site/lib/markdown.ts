@@ -145,8 +145,10 @@ export function headingSlugs(): { next: (html: string) => string } {
   };
 }
 
-/** Render markdown that lives at `repoPath` (for example "docs/digest/2026-09-26.md"). */
-export function render(md: string, repoPath: string): string {
+/** Render markdown that lives at `repoPath` (for example "docs/digest/2026-09-26.md"). Session 9818 (chain 610, part D):
+ *  `under: true` for a document drawn inside a page that has its own title: every heading is set one level down (an
+ *  h1 becomes an h2, an h5 an h6), so the page keeps one h1 and no level is skipped. */
+export function render(md: string, repoPath: string, opts: { under?: boolean } = {}): string {
   const dir = path.posix.dirname(repoPath);
   const marked = new Marked({
     gfm: true,
@@ -198,7 +200,13 @@ export function render(md: string, repoPath: string): string {
     },
   });
   const slugs = headingSlugs();
-  return gateLinks(marked.parse(md, { async: false }) as string);
+  const html = gateLinks(marked.parse(md, { async: false }) as string);
+  return opts.under ? headingsUnder(html) : html;
+}
+
+/** Session 9818: every heading of rendered markup one level down, h6 kept as h6. */
+export function headingsUnder(html: string): string {
+  return html.replace(/<(\/?)h([1-6])(?=[\s>])/g, (_m, close: string, n: string) => `<${close}h${Math.min(6, Number(n) + 1)}`);
 }
 
 /** Session 67, the release gate (lib/release.ts): in rendered markdown a link to a page in review becomes greyed text

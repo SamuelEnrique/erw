@@ -91,7 +91,7 @@ export async function Reliability() {
                   <td className="py-0.5 pr-3 font-mono">{y}</td>
                   {COLS.map((c) => {
                     const n = byYear.get(y)?.get(c);
-                    return <td key={c} className="px-1 py-0.5 text-right tabular-nums">{n ? <Num check={`awe|days|${c}|${y}`} raw={n}>{count(n)}</Num> : <span className="text-rule">.</span>}</td>;
+                    return <td key={c} className="px-1 py-0.5 text-right tabular-nums">{n ? <Num check={`awe|days|${c}|${y}`} raw={n}>{count(n)}</Num> : <span className="text-muted"><span aria-hidden="true">.</span><span className="sr-only">none</span></span>}</td>;
                   })}
                 </tr>
               ))}

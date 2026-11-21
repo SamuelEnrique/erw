@@ -6,12 +6,15 @@ import zlib from "node:zlib";
 import { cookies } from "next/headers";
 import { FLAGS, internalOpen, outDir } from "@/lib/finder";
 import { COOKIE } from "@/lib/release";
+import { tokenTriesLeft } from "@/lib/guard";   // session 9812
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
   // session 371 (docs/security.md, S2): the internal view's cookie opens it too; ?token= as before
+  // session 9812 (lib/guard.ts, TOKEN_TRIES): a try with the token in the address is counted, right or wrong
+  if (new URL(req.url).searchParams.get("token") && !(await tokenTriesLeft(req))) return new Response("Not found", { status: 404 });
   if (!(await internalOpen(new URL(req.url).searchParams.get("token"), (await cookies()).get(COOKIE)?.value))) return new Response("Not found", { status: 404 });
   const f = `${outDir()}/${FLAGS}`;
   if (!fs.existsSync(f)) return new Response("The finder's flags are not on this server", { status: 404 });

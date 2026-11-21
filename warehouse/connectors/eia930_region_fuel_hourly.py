@@ -70,6 +70,19 @@ NG_REP, NG_ADJ = "Net Generation (MW)", "Net Generation (MW) (Adjusted)"
 TOL_SHARE = 0.05
 TOL_REGION = {"MIDA": 0.15}   # PJM's tolerance in mix_profile (LOOSE), for the region whose grid it is
 CARRY = pd.Timedelta(hours=30)
+def held_utc(old):
+    """Session 9001 (data request 570): the held rows' ts_utc in the standard form, YYYY-MM-DDTHH:MM:SSZ. A table brought
+    back from Redivis came with times written as pandas writes them (2018-07-11 07:00:00+00:00); the merge compares keys
+    as text, so every hour of the new files was kept twice and the validator blocked the table (7,511,587 times in the
+    other form and 1,552,608 repeated keys on 20 November 2026). A held time that is not a UTC time stops the run."""
+    bad = ~old["ts_utc"].str.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z")
+    if bad.any():
+        t = pd.to_datetime(old.loc[bad, "ts_utc"], utc=True, format="ISO8601")
+        old = old.copy()
+        old.loc[bad, "ts_utc"] = t.dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+    return old
+
+
 COLS = ["entity", "variable", "ts_utc", "value", "unit", "freq", "source", "ba", "x_bas", "x_file"]
 RAW_READ = ip.RAW_DIR
 
@@ -241,6 +254,7 @@ def main(argv=None):
             fh.readline()
         old = pd.read_csv(fh, dtype=str, keep_default_na=False, engine="pyarrow")
         fh.close()
+        old = held_utc(old)
         key = old["entity"] + "|" + old["variable"] + "|" + old["ts_utc"]
         new_key = set(out["entity"] + "|" + out["variable"] + "|" + out["ts_utc"])
         kept = old[~key.isin(new_key)]
