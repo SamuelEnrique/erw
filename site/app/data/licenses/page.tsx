@@ -135,7 +135,7 @@ export default function Licenses() {
 
       <Section title="The record" id="record">
         {DOCS.licenses ? (
-          <article className="prose-erw max-w-none overflow-x-auto" dangerouslySetInnerHTML={{ __html: render(DOCS.licenses, "docs/licenses.md") }} />
+          <article className="prose-erw max-w-none overflow-x-auto" dangerouslySetInnerHTML={{ __html: render(DOCS.licenses, "docs/licenses.md", { under: true }) }} />
         ) : (
           <p className="text-sm text-muted">The record is not in this build&apos;s content.</p>
         )}
