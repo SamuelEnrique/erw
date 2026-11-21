@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-11-21: "What is under the ground and in the wind", question 2 (r1): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-21T02:24:25Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: The layer "Wind speed at 100 m": what is the highest value of its legend, what is the highest value in the source's own cells (the list's source_stats, max), and how far apart are they? Why is the map's lower?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/resources/manifest.json,,pf|resources/manifest.json|layers/@id=wind_speed_100m/legend/max,,13.582,m/s,,page file
+site/data/resources/manifest.json,,pf|resources/manifest.json|layers/@id=wind_speed_100m/source_stats/max,,14.20068193950776,m/s,,page file

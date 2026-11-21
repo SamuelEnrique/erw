@@ -1,0 +1,7 @@
+# ERW problem sets, the edition of 2026-11-21: "What is under the ground and in the wind", question 5 (r4): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-21T02:24:25Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: The layer "Identified hydrothermal systems": how many sites does it hold, what is the sum of their estimated output (Mean Megawatts electric (MWe), the source's MWe_Mean), the largest site's, and what share of the sum is the largest?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/resources/manifest.json,,pf|resources/manifest.json|layers/@id=geothermal_hydrothermal_sites/stats/n,,253,sites,,page file
+site/data/resources/manifest.json,,pf|resources/manifest.json|layers/@id=geothermal_hydrothermal_sites/total_mwe_mean,,9060.8,MWe,,page file
+site/data/resources/manifest.json,,pf|resources/manifest.json|layers/@id=geothermal_hydrothermal_sites/stats/max,,2209.9,MWe,,page file

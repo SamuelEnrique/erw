@@ -1,0 +1,7 @@
+# ERW problem sets, the edition of 2026-11-21: "Who trades with whom: power between regions", question 2 (t6): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-21T02:24:25Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: California and Mexico in 2025: how much power did California report sending to Mexico, over how many hours, and for how many hours does the file hold a report from Mexico's side? What does that leave out?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/regions/trade_matrix.json,,pf|regions/trade_matrix.json|region_pairs/@a=CAL+b=MEX+year=2025/a_report_mwh,,971140,MWh,,page file
+site/data/regions/trade_matrix.json,,pf|regions/trade_matrix.json|region_pairs/@a=CAL+b=MEX+year=2025/hours_a,,8712,hours,,page file
+site/data/regions/trade_matrix.json,,pf|regions/trade_matrix.json|region_pairs/@a=CAL+b=MEX+year=2025/hours_b,,0,hours,,page file

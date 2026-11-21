@@ -1,0 +1,9 @@
+# ERW problem sets, the edition of 2026-11-21: "Your own balancing authority: what it owns, what is coming, how clean it is, whom it leans on", question 7 (b7): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-21T02:24:25Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: What was the Tennessee Valley Authority's highest demand and when, how much did its demand grow from 2019 to 2025, and ERCOT's growth was how many points more? How many public large-load rows are placed in each?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/regions/authority/tva.json,,pf|regions/authority/tva.json|size/peak_mw,,35086,MW,,page file
+site/data/regions/authority/tva.json,,pf|regions/authority/tva.json|size/growth_since_2019_pct,,7.15,%,,page file
+site/data/regions/authority/erco.json,,pf|regions/authority/erco.json|size/growth_since_2019_pct,,27.22,%,,page file
+site/data/regions/authority/tva.json,,pf|regions/authority/tva.json|large_loads/count,,0,rows,,page file
+site/data/regions/authority/erco.json,,pf|regions/authority/erco.json|large_loads/count,,67,rows,,page file

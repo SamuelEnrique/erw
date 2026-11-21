@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-11-21: "Where energy goes: industry, by fuel and by state", question 2 (i2): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-21T02:24:25Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: How much energy did the industrial sector consume in July 2026 and in July 2025, a year before, and the first is how many times the second?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/industry.json,,pf|industry.json|monthly/by_source/total/642,,2713.602,TBtu,,page file
+site/data/industry.json,,pf|industry.json|monthly/by_source/total/630,,2766.799,TBtu,,page file

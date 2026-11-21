@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-11-21: "Where energy goes: industry, by fuel and by state", question 4 (i6): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-21T02:24:25Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: Chemicals in 2022: how much fuel did its plants in the South census region consume, of how much in the United States, and what share is that?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/industry.json,,pf|industry.json|industries/industries/325/by_region/south/total,,2725,TBtu,,page file
+site/data/industry.json,,pf|industry.json|industries/industries/325/by_region/us/total,,3976,TBtu,,page file

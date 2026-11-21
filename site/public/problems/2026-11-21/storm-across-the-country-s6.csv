@@ -1,0 +1,8 @@
+# ERW problem sets, the edition of 2026-11-21: "A storm across the country: Elliott and Uri", question 6 (s6): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-21T02:24:25Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: Compare the two storms: at its highest hour, how much did Texas import in Uri, and Tennessee in Elliott? Tennessee's net imports were how many times Texas's?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/regions/events/uri_2021.json,,pf|regions/events/uri_2021.json|regions/TEX/net_imports_mw/188,,1194,MW,,page file
+site/data/regions/events/uri_2021.json,,pf|regions/events/uri_2021.json|regions/TEX/demand_mw/188,,69215,MW,,page file
+site/data/regions/events/elliott_2022.json,,pf|regions/events/elliott_2022.json|regions/TEN/net_imports_mw/116,,5807,MW,,page file
+site/data/regions/events/elliott_2022.json,,pf|regions/events/elliott_2022.json|regions/TEN/demand_mw/116,,33225,MW,,page file

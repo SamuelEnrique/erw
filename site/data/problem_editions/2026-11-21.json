@@ -1,0 +1,6058 @@
+{
+ "date": "2026-11-21",
+ "built_at": "2026-11-21T02:24:25Z",
+ "note": "Built by site/scripts/build-problem-edition.mjs with lib/problems.ts from the ERW live set; frozen: the live sets move as the tables update.",
+ "sets": [
+  {
+   "slug": "know-your-grid",
+   "title": "Know your grid: ERCOT and CAISO side by side",
+   "line": "Peak demand, generation mix, the battery cycle and carbon intensity, from the latest data.",
+   "teacher": "About 45 minutes. Prerequisites: MW against MWh, reading a daily and an hourly table. Students should open /grid/ercot, /grid/caiso, /mix, /storage and /emissions, and the tables linked under each question on /data.",
+   "pages": [
+    {
+     "href": "/grid?grid=ercot",
+     "label": "ERCOT"
+    },
+    {
+     "href": "/grid?grid=caiso",
+     "label": "CAISO"
+    },
+    {
+     "href": "/storage",
+     "label": "Storage"
+    },
+    {
+     "href": "/grid?view=clean",
+     "label": "Emissions"
+    }
+   ],
+   "questions": [
+    {
+     "id": "a4",
+     "tables": [
+      "carbon_intensity_daily"
+     ],
+     "q": "On the latest day both are held, what was the carbon intensity of generation in ERCOT and in CAISO, and how much higher was ERCOT's?",
+     "answer": [
+      "2026-11-14: ERCOT ",
+      {
+       "v": 280.9279,
+       "k": "series|carbon_intensity_daily|eia930:ERCO|intensity_generation|2026-11-14T00:00:00+00:00",
+       "u": "kg CO2/MWh"
+      },
+      ", CAISO ",
+      {
+       "v": 123.6049,
+       "k": "series|carbon_intensity_daily|eia930:CISO|intensity_generation|2026-11-14T00:00:00+00:00",
+       "u": "kg CO2/MWh"
+      },
+      "; ERCOT's is higher by ",
+      {
+       "v": 157.32300000000004,
+       "k": "calc|diff|series~carbon_intensity_daily~eia930:ERCO~intensity_generation~2026-11-14T00:00:00+00:00|series~carbon_intensity_daily~eia930:CISO~intensity_generation~2026-11-14T00:00:00+00:00",
+       "u": "kg CO2/MWh"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 280.9279,
+       "k": "series|carbon_intensity_daily|eia930:ERCO|intensity_generation|2026-11-14T00:00:00+00:00",
+       "u": "kg CO2/MWh"
+      },
+      " - ",
+      {
+       "v": 123.6049,
+       "k": "series|carbon_intensity_daily|eia930:CISO|intensity_generation|2026-11-14T00:00:00+00:00",
+       "u": "kg CO2/MWh"
+      },
+      " = ",
+      {
+       "v": 157.32300000000004,
+       "k": "calc|diff|series~carbon_intensity_daily~eia930:ERCO~intensity_generation~2026-11-14T00:00:00+00:00|series~carbon_intensity_daily~eia930:CISO~intensity_generation~2026-11-14T00:00:00+00:00",
+       "u": "kg CO2/MWh"
+      }
+     ],
+     "steps": [
+      [
+       "Read intensity_generation for each grid: the day's CO2 from generation over its net generation."
+      ],
+      [
+       "Subtract: ",
+       {
+        "v": 280.9279,
+        "k": "series|carbon_intensity_daily|eia930:ERCO|intensity_generation|2026-11-14T00:00:00+00:00",
+        "u": "kg CO2/MWh"
+       },
+       " - ",
+       {
+        "v": 123.6049,
+        "k": "series|carbon_intensity_daily|eia930:CISO|intensity_generation|2026-11-14T00:00:00+00:00",
+        "u": "kg CO2/MWh"
+       },
+       " = ",
+       {
+        "v": 157.32300000000004,
+        "k": "calc|diff|series~carbon_intensity_daily~eia930:ERCO~intensity_generation~2026-11-14T00:00:00+00:00|series~carbon_intensity_daily~eia930:CISO~intensity_generation~2026-11-14T00:00:00+00:00",
+        "u": "kg CO2/MWh"
+       },
+       "."
+      ]
+     ],
+     "why": "The same kilowatt-hour carries very different emissions depending on where and when it is made.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/know-your-grid-a4.csv"
+    },
+    {
+     "id": "a3",
+     "tables": [
+      "storage_daily_cycle"
+     ],
+     "q": "On the latest day both are held, how many MWh did batteries discharge in ERCOT and in CAISO? CAISO's discharge was how many times ERCOT's?",
+     "answer": [
+      "2026-11-14: ERCOT ",
+      {
+       "v": 3755,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "u": "MWh"
+      },
+      ", CAISO ",
+      {
+       "v": 43912.75,
+       "k": "series|storage_daily_cycle|caiso:ISO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "u": "MWh"
+      },
+      "; CAISO's was ",
+      {
+       "v": 11.694474034620505,
+       "k": "calc|ratio|series~storage_daily_cycle~caiso:ISO~mwh_discharged~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00",
+       "u": "times"
+      },
+      " ERCOT's."
+     ],
+     "line": [
+      {
+       "v": 43912.75,
+       "k": "series|storage_daily_cycle|caiso:ISO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "u": "MWh"
+      },
+      " / ",
+      {
+       "v": 3755,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "u": "MWh"
+      },
+      " = ",
+      {
+       "v": 11.694474034620505,
+       "k": "calc|ratio|series~storage_daily_cycle~caiso:ISO~mwh_discharged~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "Read mwh_discharged for 2026-11-14 (each grid's local day): ERCOT (eia930:ERCO, EIA-930) ",
+       {
+        "v": 3755,
+        "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+        "u": "MWh"
+       },
+       ", CAISO (caiso:ISO, CAISO's own data) ",
+       {
+        "v": 43912.75,
+        "k": "series|storage_daily_cycle|caiso:ISO|mwh_discharged|2026-11-14T00:00:00+00:00",
+        "u": "MWh"
+       },
+       "."
+      ],
+      [
+       "Divide: ",
+       {
+        "v": 43912.75,
+        "k": "series|storage_daily_cycle|caiso:ISO|mwh_discharged|2026-11-14T00:00:00+00:00",
+        "u": "MWh"
+       },
+       " / ",
+       {
+        "v": 3755,
+        "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+        "u": "MWh"
+       },
+       " = ",
+       {
+        "v": 11.694474034620505,
+        "k": "calc|ratio|series~storage_daily_cycle~caiso:ISO~mwh_discharged~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "Batteries move solar power from midday into the evening peak; how much they discharge shows how far that shift has gone.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/know-your-grid-a3.csv"
+    },
+    {
+     "id": "a1",
+     "tables": [
+      "eia930_all_demand"
+     ],
+     "day": {
+      "d": "2026-11-19",
+      "k": "fullday|know-your-grid|2026-11-19",
+      "note": "the newest UTC day both eia930_all_demand and eia930_all_generation hold in full (24 hours, both grids)"
+     },
+     "q": "On 2026-11-19 (UTC), the latest day both grids' demand and generation are held in full, what was the highest hour of demand in ERCOT and in CAISO? ERCOT's peak was how many times CAISO's?",
+     "answer": [
+      "2026-11-19: ERCOT ",
+      {
+       "v": 53325,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:ERCO",
+       "u": "MW"
+      },
+      ", CAISO ",
+      {
+       "v": 32785,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:CISO",
+       "u": "MW"
+      },
+      "; ERCOT's peak was ",
+      {
+       "v": 1.6265060240963856,
+       "k": "calc|ratio|series_max~eia930_all_demand~demand_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:ERCO|series_max~eia930_all_demand~demand_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:CISO",
+       "u": "times"
+      },
+      " CAISO's."
+     ],
+     "line": [
+      {
+       "v": 53325,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:ERCO",
+       "u": "MW"
+      },
+      " / ",
+      {
+       "v": 32785,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:CISO",
+       "u": "MW"
+      },
+      " = ",
+      {
+       "v": 1.6265060240963856,
+       "k": "calc|ratio|series_max~eia930_all_demand~demand_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:ERCO|series_max~eia930_all_demand~demand_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:CISO",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "Take the 24 hourly demand values of 2026-11-19 (UTC) for each grid (entity eia930:ERCO and eia930:CISO, variable demand_mw)."
+      ],
+      [
+       "The highest ERCOT hour is ",
+       {
+        "v": 53325,
+        "k": "series_max|eia930_all_demand|demand_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:ERCO",
+        "u": "MW"
+       },
+       "; the highest CAISO hour is ",
+       {
+        "v": 32785,
+        "k": "series_max|eia930_all_demand|demand_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:CISO",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "Divide: ",
+       {
+        "v": 53325,
+        "k": "series_max|eia930_all_demand|demand_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:ERCO",
+        "u": "MW"
+       },
+       " / ",
+       {
+        "v": 32785,
+        "k": "series_max|eia930_all_demand|demand_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:CISO",
+        "u": "MW"
+       },
+       " = ",
+       {
+        "v": 1.6265060240963856,
+        "k": "calc|ratio|series_max~eia930_all_demand~demand_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:ERCO|series_max~eia930_all_demand~demand_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:CISO",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "Peak demand, not average demand, sets how much generation and wire a grid has to build.",
+     "rows": 48,
+     "csv": "/problems/2026-11-21/know-your-grid-a1.csv"
+    },
+    {
+     "id": "a2",
+     "tables": [
+      "eia930_all_generation"
+     ],
+     "day": {
+      "d": "2026-11-19",
+      "k": "fullday|know-your-grid|2026-11-19",
+      "note": "the newest UTC day both eia930_all_demand and eia930_all_generation hold in full (24 hours, both grids)"
+     },
+     "q": "On the same day, 2026-11-19 (UTC), what share of each grid's net generation came from natural gas?",
+     "answer": [
+      "2026-11-19: ERCOT ",
+      {
+       "v": 45.20809104815394,
+       "k": "calc|pct|series_sum~eia930_all_generation~net_generation_natural_gas_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:ERCO|series_sum~eia930_all_generation~net_generation_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:ERCO",
+       "u": "%"
+      },
+      ", CAISO ",
+      {
+       "v": 48.51802673395931,
+       "k": "calc|pct|series_sum~eia930_all_generation~net_generation_natural_gas_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:CISO|series_sum~eia930_all_generation~net_generation_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:CISO",
+       "u": "%"
+      },
+      "."
+     ],
+     "line": [
+      "ERCOT ",
+      {
+       "v": 539946,
+       "k": "series_sum|eia930_all_generation|net_generation_natural_gas_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:ERCO",
+       "u": "MWh"
+      },
+      " / ",
+      {
+       "v": 1194357,
+       "k": "series_sum|eia930_all_generation|net_generation_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:ERCO",
+       "u": "MWh"
+      },
+      " x 100 = ",
+      {
+       "v": 45.20809104815394,
+       "k": "calc|pct|series_sum~eia930_all_generation~net_generation_natural_gas_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:ERCO|series_sum~eia930_all_generation~net_generation_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:ERCO",
+       "u": "%"
+      },
+      "; CAISO ",
+      {
+       "v": 234950,
+       "k": "series_sum|eia930_all_generation|net_generation_natural_gas_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:CISO",
+       "u": "MWh"
+      },
+      " / ",
+      {
+       "v": 484253,
+       "k": "series_sum|eia930_all_generation|net_generation_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:CISO",
+       "u": "MWh"
+      },
+      " x 100 = ",
+      {
+       "v": 48.51802673395931,
+       "k": "calc|pct|series_sum~eia930_all_generation~net_generation_natural_gas_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:CISO|series_sum~eia930_all_generation~net_generation_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:CISO",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "Add the 24 hourly values of net_generation_natural_gas_mw and of net_generation_mw for 2026-11-19 (UTC)."
+      ],
+      [
+       "ERCOT: ",
+       {
+        "v": 539946,
+        "k": "series_sum|eia930_all_generation|net_generation_natural_gas_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:ERCO",
+        "u": "MWh"
+       },
+       " from gas of ",
+       {
+        "v": 1194357,
+        "k": "series_sum|eia930_all_generation|net_generation_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:ERCO",
+        "u": "MWh"
+       },
+       " in all: ",
+       {
+        "v": 45.20809104815394,
+        "k": "calc|pct|series_sum~eia930_all_generation~net_generation_natural_gas_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:ERCO|series_sum~eia930_all_generation~net_generation_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:ERCO",
+        "u": "%"
+       },
+       "."
+      ],
+      [
+       "CAISO: ",
+       {
+        "v": 234950,
+        "k": "series_sum|eia930_all_generation|net_generation_natural_gas_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:CISO",
+        "u": "MWh"
+       },
+       " from gas of ",
+       {
+        "v": 484253,
+        "k": "series_sum|eia930_all_generation|net_generation_mw|2026-11-19T00:00:00Z|2026-11-20T00:00:00Z|eia930:CISO",
+        "u": "MWh"
+       },
+       " in all: ",
+       {
+        "v": 48.51802673395931,
+        "k": "calc|pct|series_sum~eia930_all_generation~net_generation_natural_gas_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:CISO|series_sum~eia930_all_generation~net_generation_mw~2026-11-19T00:00:00Z~2026-11-20T00:00:00Z~eia930:CISO",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "The fuel that runs most often sets both the price and the emissions of a grid's power.",
+     "rows": 96,
+     "csv": "/problems/2026-11-21/know-your-grid-a2.csv"
+    },
+    {
+     "id": "a5",
+     "tables": [
+      "storage_daily_cycle",
+      "eia930_all_demand"
+     ],
+     "q": "What share of ERCOT's demand on 2026-11-14 (Central time) did its batteries' discharge equal?",
+     "answer": [
+      {
+       "v": 0.32960454476828493,
+       "k": "calc|pct|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00|series_sum~eia930_all_demand~demand_mw~2026-11-14T06:00:00Z~2026-11-15T06:00:00Z~eia930:ERCO",
+       "u": "%"
+      },
+      " of the day's demand."
+     ],
+     "line": [
+      {
+       "v": 3755,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "u": "MWh"
+      },
+      " / ",
+      {
+       "v": 1139244,
+       "k": "series_sum|eia930_all_demand|demand_mw|2026-11-14T06:00:00Z|2026-11-15T06:00:00Z|eia930:ERCO",
+       "u": "MWh"
+      },
+      " x 100 = ",
+      {
+       "v": 0.32960454476828493,
+       "k": "calc|pct|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00|series_sum~eia930_all_demand~demand_mw~2026-11-14T06:00:00Z~2026-11-15T06:00:00Z~eia930:ERCO",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "ERCOT's batteries discharged ",
+       {
+        "v": 3755,
+        "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+        "u": "MWh"
+       },
+       " on that local day."
+      ],
+      [
+       "Add ERCOT's hourly demand_mw from 2026-11-14T06:00:00Z to 2026-11-15T06:00:00Z (the Central-time day in UTC): ",
+       {
+        "v": 1139244,
+        "k": "series_sum|eia930_all_demand|demand_mw|2026-11-14T06:00:00Z|2026-11-15T06:00:00Z|eia930:ERCO",
+        "u": "MWh"
+       },
+       "."
+      ],
+      [
+       "Divide: ",
+       {
+        "v": 3755,
+        "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+        "u": "MWh"
+       },
+       " / ",
+       {
+        "v": 1139244,
+        "k": "series_sum|eia930_all_demand|demand_mw|2026-11-14T06:00:00Z|2026-11-15T06:00:00Z|eia930:ERCO",
+        "u": "MWh"
+       },
+       " x 100 = ",
+       {
+        "v": 0.32960454476828493,
+        "k": "calc|pct|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00|series_sum~eia930_all_demand~demand_mw~2026-11-14T06:00:00Z~2026-11-15T06:00:00Z~eia930:ERCO",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "Battery output is growing fast, but it is still a small share of all the energy a grid uses.",
+     "rows": 25,
+     "csv": "/problems/2026-11-21/know-your-grid-a5.csv"
+    }
+   ]
+  },
+  {
+   "slug": "prices-and-your-bill",
+   "title": "Prices and your bill",
+   "line": "Load-weighted against simple prices, the shape premium, the wholesale share of two real bills, and the cheapest and dearest hour.",
+   "teacher": "About 40 minutes. Prerequisites: a weighted average, USD per MWh against cents per kWh (divide by 10). Students should open /cost-of-power, /learn/bill and the method page for the cost of power.",
+   "pages": [
+    {
+     "href": "/cost-of-power",
+     "label": "Cost of power"
+    },
+    {
+     "href": "/learn/bill",
+     "label": "What is on a bill"
+    },
+    {
+     "href": "/data/methods/cost_of_power",
+     "label": "Method"
+    }
+   ],
+   "questions": [
+    {
+     "id": "b1",
+     "tables": [
+      "cost_of_power_monthly"
+     ],
+     "q": "For ERCOT's hub average in its latest complete month, what were the load-weighted and the simple average real-time prices, and what is the shape premium?",
+     "answer": [
+      "2026-10: load-weighted ",
+      {
+       "v": 38.0691,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      ", simple ",
+      {
+       "v": 37.0204,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_simple_mean|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      ", shape premium ",
+      {
+       "v": 1.0486999999999966,
+       "k": "calc|diff|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_load_weighted~2026-10-01T00:00:00+00:00|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_simple_mean~2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 38.0691,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      " - ",
+      {
+       "v": 37.0204,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_simple_mean|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      " = ",
+      {
+       "v": 1.0486999999999966,
+       "k": "calc|diff|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_load_weighted~2026-10-01T00:00:00+00:00|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_simple_mean~2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      }
+     ],
+     "steps": [
+      [
+       "Load-weighted: each hour's price times ERCOT's demand that hour, over the month's demand: ",
+       {
+        "v": 38.0691,
+        "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       "."
+      ],
+      [
+       "Simple: the plain mean of the same hours: ",
+       {
+        "v": 37.0204,
+        "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_simple_mean|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       "."
+      ],
+      [
+       "Shape premium = load-weighted - simple = ",
+       {
+        "v": 1.0486999999999966,
+        "k": "calc|diff|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_load_weighted~2026-10-01T00:00:00+00:00|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_simple_mean~2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       "."
+      ]
+     ],
+     "why": "A grid's load uses power most when it is dear, so its average cost per MWh is above the simple average price.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/prices-and-your-bill-b1.csv"
+    },
+    {
+     "id": "b3",
+     "tables": [
+      "cost_of_power_monthly"
+     ],
+     "q": "On the default PG&E (California) bill of /learn/bill (600 kWh), how many dollars are wholesale energy, and what share of the bill is that?",
+     "answer": [
+      {
+       "v": 26.90814,
+       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
+       "u": "USD"
+      },
+      " of ",
+      {
+       "v": 229.6299,
+       "k": "bill|CA|total",
+       "u": "USD"
+      },
+      ": ",
+      {
+       "v": 11.718047170686397,
+       "k": "bill|CA|share|2026-09-01T00:00:00+00:00",
+       "u": "%"
+      },
+      "."
+     ],
+     "line": [
+      "600 kWh x ",
+      {
+       "v": 44.8469,
+       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_load_weighted|2026-09-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      " / 1,000 = ",
+      {
+       "v": 26.90814,
+       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
+       "u": "USD"
+      },
+      "; ",
+      {
+       "v": 26.90814,
+       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
+       "u": "USD"
+      },
+      " / ",
+      {
+       "v": 229.6299,
+       "k": "bill|CA|total",
+       "u": "USD"
+      },
+      " x 100 = ",
+      {
+       "v": 11.718047170686397,
+       "k": "bill|CA|share|2026-09-01T00:00:00+00:00",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "The bill: ",
+       {
+        "v": 229.6299,
+        "k": "bill|CA|total",
+        "u": "USD"
+       },
+       " (the tariff lines on /learn/bill)."
+      ],
+      [
+       "Wholesale: 600 kWh x ",
+       {
+        "v": 44.8469,
+        "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_load_weighted|2026-09-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       " / 1,000 (2026-09) = ",
+       {
+        "v": 26.90814,
+        "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
+        "u": "USD"
+       },
+       "."
+      ],
+      [
+       "Share: ",
+       {
+        "v": 26.90814,
+        "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
+        "u": "USD"
+       },
+       " / ",
+       {
+        "v": 229.6299,
+        "k": "bill|CA|total",
+        "u": "USD"
+       },
+       " x 100 = ",
+       {
+        "v": 11.718047170686397,
+        "k": "bill|CA|share|2026-09-01T00:00:00+00:00",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "Most of a home's bill pays for wires, programs and fixed charges, not the power itself; how much differs by state.",
+     "rows": 4,
+     "csv": "/problems/2026-11-21/prices-and-your-bill-b3.csv"
+    },
+    {
+     "id": "b4",
+     "tables": [
+      "cost_of_power_monthly"
+     ],
+     "q": "On the default Oncor (Texas) bill of /learn/bill (600 kWh), how many dollars are wholesale energy, and what share of the bill is that?",
+     "answer": [
+      {
+       "v": 22.841459999999998,
+       "k": "bill|TX|wholesale|2026-10-01T00:00:00+00:00",
+       "u": "USD"
+      },
+      " of ",
+      {
+       "v": 95.27319999999999,
+       "k": "bill|TX|total",
+       "u": "USD"
+      },
+      ": ",
+      {
+       "v": 23.974695927081278,
+       "k": "bill|TX|share|2026-10-01T00:00:00+00:00",
+       "u": "%"
+      },
+      "."
+     ],
+     "line": [
+      "600 kWh x ",
+      {
+       "v": 38.0691,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      " / 1,000 = ",
+      {
+       "v": 22.841459999999998,
+       "k": "bill|TX|wholesale|2026-10-01T00:00:00+00:00",
+       "u": "USD"
+      },
+      "; ",
+      {
+       "v": 22.841459999999998,
+       "k": "bill|TX|wholesale|2026-10-01T00:00:00+00:00",
+       "u": "USD"
+      },
+      " / ",
+      {
+       "v": 95.27319999999999,
+       "k": "bill|TX|total",
+       "u": "USD"
+      },
+      " x 100 = ",
+      {
+       "v": 23.974695927081278,
+       "k": "bill|TX|share|2026-10-01T00:00:00+00:00",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "The bill: ",
+       {
+        "v": 95.27319999999999,
+        "k": "bill|TX|total",
+        "u": "USD"
+       },
+       " (the tariff lines on /learn/bill)."
+      ],
+      [
+       "Wholesale: 600 kWh x ",
+       {
+        "v": 38.0691,
+        "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       " / 1,000 (2026-10) = ",
+       {
+        "v": 22.841459999999998,
+        "k": "bill|TX|wholesale|2026-10-01T00:00:00+00:00",
+        "u": "USD"
+       },
+       "."
+      ],
+      [
+       "Share: ",
+       {
+        "v": 22.841459999999998,
+        "k": "bill|TX|wholesale|2026-10-01T00:00:00+00:00",
+        "u": "USD"
+       },
+       " / ",
+       {
+        "v": 95.27319999999999,
+        "k": "bill|TX|total",
+        "u": "USD"
+       },
+       " x 100 = ",
+       {
+        "v": 23.974695927081278,
+        "k": "bill|TX|share|2026-10-01T00:00:00+00:00",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "Most of a home's bill pays for wires, programs and fixed charges, not the power itself; how much differs by state.",
+     "rows": 4,
+     "csv": "/problems/2026-11-21/prices-and-your-bill-b4.csv"
+    },
+    {
+     "id": "b5",
+     "tables": [
+      "cost_of_power_hourly_profile",
+      "cost_of_power_monthly"
+     ],
+     "q": "In the latest complete month of ERCOT's hour-of-day profile, which hour was cheapest and which dearest on average, and how far apart were they?",
+     "answer": [
+      "2026-10: cheapest 11:00, ",
+      {
+       "v": 21.588,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h11|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      "; dearest 19:00, ",
+      {
+       "v": 62.3983,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h19|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      "; spread ",
+      {
+       "v": 40.8103,
+       "k": "calc|diff|series~cost_of_power_hourly_profile~ercot:HB_HUBAVG~rt_mean_h19~2026-10-01T00:00:00+00:00|series~cost_of_power_hourly_profile~ercot:HB_HUBAVG~rt_mean_h11~2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 62.3983,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h19|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      " - ",
+      {
+       "v": 21.588,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h11|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      " = ",
+      {
+       "v": 40.8103,
+       "k": "calc|diff|series~cost_of_power_hourly_profile~ercot:HB_HUBAVG~rt_mean_h19~2026-10-01T00:00:00+00:00|series~cost_of_power_hourly_profile~ercot:HB_HUBAVG~rt_mean_h11~2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      }
+     ],
+     "steps": [
+      [
+       "The latest month every hour of which is held (cost_of_power_monthly: rt_hours equals hours_in_month): 2026-10. Read the 24 values rt_mean_h00 to rt_mean_h23 for that month (Central time)."
+      ],
+      [
+       "The lowest is ",
+       {
+        "v": 21.588,
+        "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h11|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       ", at 11:00; the highest ",
+       {
+        "v": 62.3983,
+        "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h19|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       ", at 19:00."
+      ],
+      [
+       "Spread = ",
+       {
+        "v": 62.3983,
+        "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h19|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       " - ",
+       {
+        "v": 21.588,
+        "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h11|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       " = ",
+       {
+        "v": 40.8103,
+        "k": "calc|diff|series~cost_of_power_hourly_profile~ercot:HB_HUBAVG~rt_mean_h19~2026-10-01T00:00:00+00:00|series~cost_of_power_hourly_profile~ercot:HB_HUBAVG~rt_mean_h11~2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       "."
+      ]
+     ],
+     "why": "The daily price swing is what a battery, or a flexible load, earns by moving use.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/prices-and-your-bill-b5.csv"
+    },
+    {
+     "id": "b2",
+     "tables": [
+      "cost_of_power_monthly"
+     ],
+     "q": "The table's public rows hold 6 hubs: CAISO NP15, CAISO SP15, ERCOT hub average, ercot:LZ_HOUSTON, ercot:LZ_NORTH, SPP North hub. In the latest month all 6 hold at least 95 percent of their hours, which had the largest shape premium, and which the smallest?",
+     "answer": [
+      "2026-10: largest SPP North hub, ",
+      {
+       "v": 2.3087,
+       "k": "series|cost_of_power_monthly|spp:SPPNORTH_HUB|rt_shape_premium|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      "; smallest CAISO NP15, ",
+      {
+       "v": -0.0956,
+       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_shape_premium|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      "."
+     ],
+     "line": [
+      "max over the 6 hubs = ",
+      {
+       "v": 2.3087,
+       "k": "series|cost_of_power_monthly|spp:SPPNORTH_HUB|rt_shape_premium|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      " (SPP North hub); min = ",
+      {
+       "v": -0.0956,
+       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_shape_premium|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      " (CAISO NP15)"
+     ],
+     "steps": [
+      [
+       "Find the latest month in which every hub's rt_hours is at least 95 percent of its hours_in_month: 2026-10. ",
+       "CAISO NP15 holds ",
+       {
+        "v": 720,
+        "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_hours|2026-10-01T00:00:00+00:00",
+        "u": ""
+       },
+       " of ",
+       {
+        "v": 744,
+        "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|hours_in_month|2026-10-01T00:00:00+00:00",
+        "u": "hours"
+       },
+       "; CAISO SP15 holds ",
+       {
+        "v": 720,
+        "k": "series|cost_of_power_monthly|caiso:TH_SP15_GEN-APND|rt_hours|2026-10-01T00:00:00+00:00",
+        "u": ""
+       },
+       " of ",
+       {
+        "v": 744,
+        "k": "series|cost_of_power_monthly|caiso:TH_SP15_GEN-APND|hours_in_month|2026-10-01T00:00:00+00:00",
+        "u": "hours"
+       },
+       "; the other 4 hold every hour."
+      ],
+      [
+       "Read rt_shape_premium of each hub for that month: ",
+       "CAISO NP15 ",
+       {
+        "v": -0.0956,
+        "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_shape_premium|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       "; CAISO SP15 ",
+       {
+        "v": 0.0935,
+        "k": "series|cost_of_power_monthly|caiso:TH_SP15_GEN-APND|rt_shape_premium|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       "; ERCOT hub average ",
+       {
+        "v": 1.0487,
+        "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_shape_premium|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       "; ercot:LZ_HOUSTON ",
+       {
+        "v": 1.6526,
+        "k": "series|cost_of_power_monthly|ercot:LZ_HOUSTON|rt_shape_premium|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       "; ercot:LZ_NORTH ",
+       {
+        "v": 1.1402,
+        "k": "series|cost_of_power_monthly|ercot:LZ_NORTH|rt_shape_premium|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       "; SPP North hub ",
+       {
+        "v": 2.3087,
+        "k": "series|cost_of_power_monthly|spp:SPPNORTH_HUB|rt_shape_premium|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       "."
+      ],
+      [
+       "Rank them."
+      ]
+     ],
+     "why": "Where the premium is large, shifting use out of peak hours saves the most.",
+     "rows": 10,
+     "csv": "/problems/2026-11-21/prices-and-your-bill-b2.csv"
+    }
+   ]
+  },
+  {
+   "slug": "when-the-grid-broke",
+   "title": "When the grid broke: four events",
+   "line": "Winter Storm Uri, CAISO's August 2020 heat, Winter Storm Elliott and ERCOT's 2023 heat, one question each and one comparing two.",
+   "teacher": "About 50 minutes. Prerequisites: percent change, a baseline (the same weekdays of earlier years). Students should open /events and the four event pages, and read each page's note on what contradicted the headline story.",
+   "pages": [
+    {
+     "href": "/events",
+     "label": "Events"
+    },
+    {
+     "href": "/events/uri-2021",
+     "label": "Uri"
+    },
+    {
+     "href": "/events/caiso-heat-2020",
+     "label": "CAISO 2020"
+    },
+    {
+     "href": "/events/elliott-2022",
+     "label": "Elliott"
+    },
+    {
+     "href": "/events/ercot-heat-2023",
+     "label": "ERCOT 2023"
+    }
+   ],
+   "questions": [
+    {
+     "id": "c3",
+     "tables": [
+      "event_window_daily"
+     ],
+     "q": "Winter Storm Elliott (December 2022): what was PJM's highest hour of demand served in the window, on which day, and how far above the same weekdays of 2021 and 2020 was that day's peak?",
+     "answer": [
+      "2022-12-23: ",
+      {
+       "v": 135328,
+       "k": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022",
+       "u": "MW"
+      },
+      ", ",
+      {
+       "v": 41.7611,
+       "k": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022",
+       "u": "%"
+      },
+      " above the baseline."
+     ],
+     "line": [
+      "max of demand_max_mw from 2022-12-19 = ",
+      {
+       "v": 135328,
+       "k": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022",
+       "u": "MW"
+      },
+      ", on 2022-12-23; that day's demand_max_pct_vs_baseline = ",
+      {
+       "v": 41.7611,
+       "k": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "Read demand_max_mw (event elliott_2022, eia930:PJM) from 2022-12-19 on and find the highest: ",
+       {
+        "v": 135328,
+        "k": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "Read demand_max_pct_vs_baseline for that day: ",
+       {
+        "v": 41.7611,
+        "k": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "Winter peaks can rival summer ones when a cold snap meets electric heating and failing plants.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/when-the-grid-broke-c3.csv"
+    },
+    {
+     "id": "c2",
+     "tables": [
+      "event_window_daily"
+     ],
+     "q": "CAISO, August 2020: on which day was the peak hour furthest above the same weekdays of earlier years, and by how many percentage points did it exceed 2020-08-14, the first day of rotating outages?",
+     "answer": [
+      "2020-08-18, ",
+      {
+       "v": 23.4955,
+       "k": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020",
+       "u": "%"
+      },
+      "; ",
+      {
+       "v": 12.7517,
+       "k": "calc|diff|series~event_window_daily~eia930:CISO~demand_max_pct_vs_baseline~2020-08-18T00:00:00+00:00~caiso_heat_2020|series~event_window_daily~eia930:CISO~demand_max_pct_vs_baseline~2020-08-14T00:00:00+00:00~caiso_heat_2020",
+       "u": "percentage points"
+      },
+      " above 2020-08-14 (",
+      {
+       "v": 10.7438,
+       "k": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-14T00:00:00+00:00|caiso_heat_2020",
+       "u": "%"
+      },
+      ")."
+     ],
+     "line": [
+      {
+       "v": 23.4955,
+       "k": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020",
+       "u": "%"
+      },
+      " - ",
+      {
+       "v": 10.7438,
+       "k": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-14T00:00:00+00:00|caiso_heat_2020",
+       "u": "%"
+      },
+      " = ",
+      {
+       "v": 12.7517,
+       "k": "calc|diff|series~event_window_daily~eia930:CISO~demand_max_pct_vs_baseline~2020-08-18T00:00:00+00:00~caiso_heat_2020|series~event_window_daily~eia930:CISO~demand_max_pct_vs_baseline~2020-08-14T00:00:00+00:00~caiso_heat_2020",
+       "u": "percentage points"
+      }
+     ],
+     "steps": [
+      [
+       "Read demand_max_pct_vs_baseline (event caiso_heat_2020) for each day and find the highest: ",
+       {
+        "v": 23.4955,
+        "k": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020",
+        "u": "%"
+       },
+       "."
+      ],
+      [
+       "2020-08-14: ",
+       {
+        "v": 10.7438,
+        "k": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-14T00:00:00+00:00|caiso_heat_2020",
+        "u": "%"
+       },
+       "."
+      ],
+      [
+       "Subtract: ",
+       {
+        "v": 12.7517,
+        "k": "calc|diff|series~event_window_daily~eia930:CISO~demand_max_pct_vs_baseline~2020-08-18T00:00:00+00:00~caiso_heat_2020|series~event_window_daily~eia930:CISO~demand_max_pct_vs_baseline~2020-08-14T00:00:00+00:00~caiso_heat_2020",
+        "u": "percentage points"
+       },
+       "."
+      ]
+     ],
+     "why": "The outages came before demand peaked: supply fell short, not demand alone.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/when-the-grid-broke-c2.csv"
+    },
+    {
+     "id": "c4",
+     "tables": [
+      "event_window_daily"
+     ],
+     "q": "ERCOT, summer 2023: on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day?",
+     "answer": [
+      "Highest price 2023-09-06, ",
+      {
+       "v": 5075.46,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2023-09-06T00:00:00+00:00|ercot_heat_2023",
+       "u": "USD/MWh"
+      },
+      "; highest demand 2023-08-10, ",
+      {
+       "v": 85432,
+       "k": "series|event_window_daily|eia930:ERCO|demand_max_mw|2023-08-10T00:00:00+00:00|ercot_heat_2023",
+       "u": "MW"
+      },
+      ": different days."
+     ],
+     "line": [
+      "max of rt_max = ",
+      {
+       "v": 5075.46,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2023-09-06T00:00:00+00:00|ercot_heat_2023",
+       "u": "USD/MWh"
+      },
+      " on 2023-09-06; max of demand_max_mw = ",
+      {
+       "v": 85432,
+       "k": "series|event_window_daily|eia930:ERCO|demand_max_mw|2023-08-10T00:00:00+00:00|ercot_heat_2023",
+       "u": "MW"
+      },
+      " on 2023-08-10"
+     ],
+     "steps": [
+      [
+       "Read rt_max (event ercot_heat_2023) and find the highest: ",
+       {
+        "v": 5075.46,
+        "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2023-09-06T00:00:00+00:00|ercot_heat_2023",
+        "u": "USD/MWh"
+       },
+       "."
+      ],
+      [
+       "Read demand_max_mw and find the highest: ",
+       {
+        "v": 85432,
+        "k": "series|event_window_daily|eia930:ERCO|demand_max_mw|2023-08-10T00:00:00+00:00|ercot_heat_2023",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "Compare the dates."
+      ]
+     ],
+     "why": "Prices spike when supply is short, which is not always when demand is highest: wind and the solar ramp at sunset matter too.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/when-the-grid-broke-c4.csv"
+    },
+    {
+     "id": "c1",
+     "tables": [
+      "event_window_daily"
+     ],
+     "q": "Winter Storm Uri (ERCOT, February 2021): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020?",
+     "answer": [
+      "2021-02-17: ",
+      {
+       "v": 9051.55,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00+00:00|uri_2021",
+       "u": "USD/MWh"
+      },
+      ", against ",
+      {
+       "v": 1691.63,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2020-02-10T00:00:00+00:00|uri_2021",
+       "u": "USD/MWh"
+      },
+      " (2020-02-10): ",
+      {
+       "v": 5.350785928364949,
+       "k": "calc|ratio|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2021-02-17T00:00:00+00:00~uri_2021|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2020-02-10T00:00:00+00:00~uri_2021",
+       "u": "times"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 9051.55,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00+00:00|uri_2021",
+       "u": "USD/MWh"
+      },
+      " / ",
+      {
+       "v": 1691.63,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2020-02-10T00:00:00+00:00|uri_2021",
+       "u": "USD/MWh"
+      },
+      " = ",
+      {
+       "v": 5.350785928364949,
+       "k": "calc|ratio|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2021-02-17T00:00:00+00:00~uri_2021|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2020-02-10T00:00:00+00:00~uri_2021",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "Read rt_max (event uri_2021, ercot:HB_HUBAVG) for every day; the highest in 2021 is ",
+       {
+        "v": 9051.55,
+        "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00+00:00|uri_2021",
+        "u": "USD/MWh"
+       },
+       "."
+      ],
+      [
+       "The highest on the 2019 and 2020 days is ",
+       {
+        "v": 1691.63,
+        "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2020-02-10T00:00:00+00:00|uri_2021",
+        "u": "USD/MWh"
+       },
+       "."
+      ],
+      [
+       "Divide: ",
+       {
+        "v": 5.350785928364949,
+        "k": "calc|ratio|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2021-02-17T00:00:00+00:00~uri_2021|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2020-02-10T00:00:00+00:00~uri_2021",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "Scarcity pricing lets the price rise to the cap when supply fails, which is the market's signal and the customer's risk.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/when-the-grid-broke-c1.csv"
+    },
+    {
+     "id": "c5",
+     "tables": [
+      "event_window_daily"
+     ],
+     "q": "Compare two ERCOT events: Winter Storm Uri's highest 15-minute real-time price was how many times the summer 2023 heat's?",
+     "answer": [
+      {
+       "v": 9051.55,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00+00:00|uri_2021",
+       "u": "USD/MWh"
+      },
+      " (Uri) / ",
+      {
+       "v": 5075.46,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2023-09-06T00:00:00+00:00|ercot_heat_2023",
+       "u": "USD/MWh"
+      },
+      " (2023) = ",
+      {
+       "v": 1.783395002620452,
+       "k": "calc|ratio|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2021-02-17T00:00:00+00:00~uri_2021|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2023-09-06T00:00:00+00:00~ercot_heat_2023",
+       "u": "times"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 9051.55,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00+00:00|uri_2021",
+       "u": "USD/MWh"
+      },
+      " / ",
+      {
+       "v": 5075.46,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2023-09-06T00:00:00+00:00|ercot_heat_2023",
+       "u": "USD/MWh"
+      },
+      " = ",
+      {
+       "v": 1.783395002620452,
+       "k": "calc|ratio|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2021-02-17T00:00:00+00:00~uri_2021|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2023-09-06T00:00:00+00:00~ercot_heat_2023",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "Uri's highest rt_max: ",
+       {
+        "v": 9051.55,
+        "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00+00:00|uri_2021",
+        "u": "USD/MWh"
+       },
+       "."
+      ],
+      [
+       "The 2023 heat's highest rt_max: ",
+       {
+        "v": 5075.46,
+        "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2023-09-06T00:00:00+00:00|ercot_heat_2023",
+        "u": "USD/MWh"
+       },
+       "."
+      ],
+      [
+       "Divide: ",
+       {
+        "v": 1.783395002620452,
+        "k": "calc|ratio|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2021-02-17T00:00:00+00:00~uri_2021|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2023-09-06T00:00:00+00:00~ercot_heat_2023",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "Both hit the price cap's neighborhood, but Uri held prices there for days and cut power to millions.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/when-the-grid-broke-c5.csv"
+    }
+   ]
+  },
+  {
+   "slug": "storage-and-taxes",
+   "title": "Storage and taxes",
+   "line": "How much energy ERCOT's batteries give back, when they charge and discharge, what one home battery cycle earns, and the oil and gas production taxes of three states.",
+   "teacher": "About 45 minutes. Prerequisites: MWh against kWh, a percent of value, a round trip efficiency. Students should open /storage, /play/battery, /cost-of-power and /severance, and read the cited rule behind each tax.",
+   "pages": [
+    {
+     "href": "/storage",
+     "label": "Storage"
+    },
+    {
+     "href": "/play/battery",
+     "label": "The battery game"
+    },
+    {
+     "href": "/cost-of-power",
+     "label": "Cost of power"
+    },
+    {
+     "href": "/severance",
+     "label": "Severance tax"
+    }
+   ],
+   "questions": [
+    {
+     "id": "d2",
+     "tables": [
+      "storage_daily_cycle"
+     ],
+     "q": "On 2026-11-14, at which hour (Central time) did ERCOT's batteries charge hardest, at which did they discharge hardest, and how many hours apart were they?",
+     "answer": [
+      "Charging peaked in hour ",
+      {
+       "v": 10,
+       "k": "series|storage_daily_cycle|eia930:ERCO|peak_charge_hour|2026-11-14T00:00:00+00:00",
+       "u": ""
+      },
+      ", discharging in hour ",
+      {
+       "v": 17,
+       "k": "series|storage_daily_cycle|eia930:ERCO|peak_discharge_hour|2026-11-14T00:00:00+00:00",
+       "u": ""
+      },
+      ": ",
+      {
+       "v": 7,
+       "k": "calc|diff|series~storage_daily_cycle~eia930:ERCO~peak_discharge_hour~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~peak_charge_hour~2026-11-14T00:00:00+00:00",
+       "u": "hours"
+      },
+      " apart."
+     ],
+     "line": [
+      {
+       "v": 17,
+       "k": "series|storage_daily_cycle|eia930:ERCO|peak_discharge_hour|2026-11-14T00:00:00+00:00",
+       "u": ""
+      },
+      " - ",
+      {
+       "v": 10,
+       "k": "series|storage_daily_cycle|eia930:ERCO|peak_charge_hour|2026-11-14T00:00:00+00:00",
+       "u": ""
+      },
+      " = ",
+      {
+       "v": 7,
+       "k": "calc|diff|series~storage_daily_cycle~eia930:ERCO~peak_discharge_hour~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~peak_charge_hour~2026-11-14T00:00:00+00:00",
+       "u": "hours"
+      }
+     ],
+     "steps": [
+      [
+       "Read peak_charge_hour and peak_discharge_hour for that day (the hour starting, 0 to 23, local time)."
+      ],
+      [
+       "Subtract: ",
+       {
+        "v": 17,
+        "k": "series|storage_daily_cycle|eia930:ERCO|peak_discharge_hour|2026-11-14T00:00:00+00:00",
+        "u": ""
+       },
+       " - ",
+       {
+        "v": 10,
+        "k": "series|storage_daily_cycle|eia930:ERCO|peak_charge_hour|2026-11-14T00:00:00+00:00",
+        "u": ""
+       },
+       " = ",
+       {
+        "v": 7,
+        "k": "calc|diff|series~storage_daily_cycle~eia930:ERCO~peak_discharge_hour~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~peak_charge_hour~2026-11-14T00:00:00+00:00",
+        "u": "hours"
+       },
+       "."
+      ]
+     ],
+     "why": "Batteries fill when solar floods the grid at midday and empty into the evening peak, when the sun has set and demand is still high.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/storage-and-taxes-d2.csv"
+    },
+    {
+     "id": "d1",
+     "tables": [
+      "storage_daily_cycle"
+     ],
+     "q": "Over the seven latest days held (2026-11-08 to 2026-11-14), how much energy did ERCOT's batteries discharge and charge, and what share of the energy in came back out? How does that compare with the game's battery?",
+     "answer": [
+      "Discharged ",
+      {
+       "v": 160489,
+       "k": "series_sum|storage_daily_cycle|mwh_discharged|2026-11-08T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+       "u": "MWh"
+      },
+      ", charged ",
+      {
+       "v": 229427,
+       "k": "series_sum|storage_daily_cycle|mwh_charged|2026-11-08T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+       "u": "MWh"
+      },
+      ": ",
+      {
+       "v": 69.95209805297546,
+       "k": "calc|pct|series_sum~storage_daily_cycle~mwh_discharged~2026-11-08T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO|series_sum~storage_daily_cycle~mwh_charged~2026-11-08T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO",
+       "u": "%"
+      },
+      " came back out, against ",
+      {
+       "v": 90,
+       "k": "battery|round_trip_pct",
+       "u": "%"
+      },
+      " assumed for the game's battery."
+     ],
+     "line": [
+      {
+       "v": 160489,
+       "k": "series_sum|storage_daily_cycle|mwh_discharged|2026-11-08T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+       "u": "MWh"
+      },
+      " / ",
+      {
+       "v": 229427,
+       "k": "series_sum|storage_daily_cycle|mwh_charged|2026-11-08T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+       "u": "MWh"
+      },
+      " x 100 = ",
+      {
+       "v": 69.95209805297546,
+       "k": "calc|pct|series_sum~storage_daily_cycle~mwh_discharged~2026-11-08T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO|series_sum~storage_daily_cycle~mwh_charged~2026-11-08T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "Add ERCOT's (eia930:ERCO) daily mwh_discharged and mwh_charged over 2026-11-08 to 2026-11-14 (local days)."
+      ],
+      [
+       "Energy out over energy in: ",
+       {
+        "v": 160489,
+        "k": "series_sum|storage_daily_cycle|mwh_discharged|2026-11-08T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+        "u": "MWh"
+       },
+       " / ",
+       {
+        "v": 229427,
+        "k": "series_sum|storage_daily_cycle|mwh_charged|2026-11-08T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+        "u": "MWh"
+       },
+       " x 100 = ",
+       {
+        "v": 69.95209805297546,
+        "k": "calc|pct|series_sum~storage_daily_cycle~mwh_discharged~2026-11-08T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO|series_sum~storage_daily_cycle~mwh_charged~2026-11-08T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO",
+        "u": "%"
+       },
+       "."
+      ],
+      [
+       "The game's battery is an assumption: ",
+       {
+        "v": 90,
+        "k": "battery|round_trip_pct",
+        "u": "%"
+       },
+       " round trip (lib/battery.ts)."
+      ]
+     ],
+     "why": "Every battery loses some energy in the round trip; a single day's ratio can even pass 100 percent when a charge and its discharge fall on different days, so a week is fairer.",
+     "rows": 15,
+     "csv": "/problems/2026-11-21/storage-and-taxes-d1.csv"
+    },
+    {
+     "id": "d4",
+     "tables": [
+      "eia_fuel_spot_prices"
+     ],
+     "q": "A well produces 1,000 barrels of oil in 2026-10, valued at that month's WTI Cushing mean. What state production tax does it owe in Texas, in Louisiana (a well completed before July 2025, no transport deducted) and in New Mexico (no royalty, trucking or district ad valorem)?",
+     "answer": [
+      "At ",
+      {
+       "v": 102.06636363636366,
+       "k": "spotmean|eia:wti_cushing|2026-10",
+       "u": "USD/bbl"
+      },
+      ": Texas ",
+      {
+       "v": 4695.052727272729,
+       "k": "sev|TX|oil|1000|2026-10|base",
+       "u": "USD"
+      },
+      ", Louisiana ",
+      {
+       "v": 12758.295454545458,
+       "k": "sev|LA|oil|1000|2026-10|base",
+       "u": "USD"
+      },
+      ", New Mexico ",
+      {
+       "v": 7287.538363636365,
+       "k": "sev|NM|oil|1000|2026-10|base",
+       "u": "USD"
+      },
+      "; Louisiana's is ",
+      {
+       "v": 2.717391304347826,
+       "k": "calc|ratio|sev~LA~oil~1000~2026-10~base|sev~TX~oil~1000~2026-10~base",
+       "u": "times"
+      },
+      " Texas's."
+     ],
+     "line": [
+      "1,000 bbl x ",
+      {
+       "v": 102.06636363636366,
+       "k": "spotmean|eia:wti_cushing|2026-10",
+       "u": "USD/bbl"
+      },
+      " x each state's rate: Texas ",
+      {
+       "v": 4695.052727272729,
+       "k": "sev|TX|oil|1000|2026-10|base",
+       "u": "USD"
+      },
+      ", Louisiana ",
+      {
+       "v": 12758.295454545458,
+       "k": "sev|LA|oil|1000|2026-10|base",
+       "u": "USD"
+      },
+      ", New Mexico ",
+      {
+       "v": 7287.538363636365,
+       "k": "sev|NM|oil|1000|2026-10|base",
+       "u": "USD"
+      },
+      "; ",
+      {
+       "v": 12758.295454545458,
+       "k": "sev|LA|oil|1000|2026-10|base",
+       "u": "USD"
+      },
+      " / ",
+      {
+       "v": 4695.052727272729,
+       "k": "sev|TX|oil|1000|2026-10|base",
+       "u": "USD"
+      },
+      " = ",
+      {
+       "v": 2.717391304347826,
+       "k": "calc|ratio|sev~LA~oil~1000~2026-10~base|sev~TX~oil~1000~2026-10~base",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "The mean of 2026-10's daily WTI Cushing spot prices: ",
+       {
+        "v": 102.06636363636366,
+        "k": "spotmean|eia:wti_cushing|2026-10",
+        "u": "USD/bbl"
+       },
+       "."
+      ],
+      [
+       "Texas: 4.6 percent of value, or 4.6 cents a barrel if more: ",
+       {
+        "v": 4695.052727272729,
+        "k": "sev|TX|oil|1000|2026-10|base",
+        "u": "USD"
+       },
+       "."
+      ],
+      [
+       "Louisiana: 12.5 percent of value: ",
+       {
+        "v": 12758.295454545458,
+        "k": "sev|LA|oil|1000|2026-10|base",
+        "u": "USD"
+       },
+       "."
+      ],
+      [
+       "New Mexico: severance 3.75, emergency school 3.15, conservation 0.24 percent of value, the rates the rules file states for 2026-04-01 to 2026-08-31 (TRD table) (the newest it holds; 2026-10 is later): ",
+       {
+        "v": 7287.538363636365,
+        "k": "sev|NM|oil|1000|2026-10|base",
+        "u": "USD"
+       },
+       "."
+      ],
+      [
+       "Louisiana over Texas: ",
+       {
+        "v": 2.717391304347826,
+        "k": "calc|ratio|sev~LA~oil~1000~2026-10~base|sev~TX~oil~1000~2026-10~base",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "The same barrel pays very different taxes across a state line. Each rate cites its statute or agency page on /severance.",
+     "rows": 25,
+     "csv": "/problems/2026-11-21/storage-and-taxes-d4.csv"
+    },
+    {
+     "id": "d3",
+     "tables": [
+      "cost_of_power_hourly_profile",
+      "cost_of_power_monthly"
+     ],
+     "q": "The home battery game's battery charges once from empty at ERCOT's cheapest average hour of 2026-10 (the latest complete month) and empties at its dearest. What does that one cycle earn, and what would the game's fictional fleet of homes earn?",
+     "answer": [
+      "One cycle earns ",
+      {
+       "v": 0.4919464124213452,
+       "k": "battery|cycle|cost_of_power_hourly_profile|ercot:HB_HUBAVG|2026-10-01T00:00:00+00:00|rt_mean_h11|rt_mean_h19",
+       "u": "USD"
+      },
+      "; the fleet ",
+      {
+       "v": 4919.464124213452,
+       "k": "battery|cycle_fleet|cost_of_power_hourly_profile|ercot:HB_HUBAVG|2026-10-01T00:00:00+00:00|rt_mean_h11|rt_mean_h19",
+       "u": "USD"
+      },
+      "."
+     ],
+     "line": [
+      "(",
+      {
+       "v": 12.807224523681937,
+       "k": "battery|delivered_kwh",
+       "u": "kWh"
+      },
+      " x ",
+      {
+       "v": 62.3983,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h19|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      " - ",
+      {
+       "v": 14.230249470757707,
+       "k": "battery|bought_kwh",
+       "u": "kWh"
+      },
+      " x ",
+      {
+       "v": 21.588,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h11|2026-10-01T00:00:00+00:00",
+       "u": "USD/MWh"
+      },
+      ") / 1,000 = ",
+      {
+       "v": 0.4919464124213452,
+       "k": "battery|cycle|cost_of_power_hourly_profile|ercot:HB_HUBAVG|2026-10-01T00:00:00+00:00|rt_mean_h11|rt_mean_h19",
+       "u": "USD"
+      },
+      "; times the fleet's homes = ",
+      {
+       "v": 4919.464124213452,
+       "k": "battery|cycle_fleet|cost_of_power_hourly_profile|ercot:HB_HUBAVG|2026-10-01T00:00:00+00:00|rt_mean_h11|rt_mean_h19",
+       "u": "USD"
+      }
+     ],
+     "steps": [
+      [
+       "The cheapest hour of the month's profile is 11:00, ",
+       {
+        "v": 21.588,
+        "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h11|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       "; the dearest 19:00, ",
+       {
+        "v": 62.3983,
+        "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h19|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       "."
+      ],
+      [
+       "To store 13.5 kWh at 90 percent round trip (the square root of 0.9 each way) it buys ",
+       {
+        "v": 14.230249470757707,
+        "k": "battery|bought_kwh",
+        "u": "kWh"
+       },
+       " and delivers ",
+       {
+        "v": 12.807224523681937,
+        "k": "battery|delivered_kwh",
+        "u": "kWh"
+       },
+       "."
+      ],
+      [
+       "Cash: (",
+       {
+        "v": 12.807224523681937,
+        "k": "battery|delivered_kwh",
+        "u": "kWh"
+       },
+       " x ",
+       {
+        "v": 62.3983,
+        "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h19|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       " - ",
+       {
+        "v": 14.230249470757707,
+        "k": "battery|bought_kwh",
+        "u": "kWh"
+       },
+       " x ",
+       {
+        "v": 21.588,
+        "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h11|2026-10-01T00:00:00+00:00",
+        "u": "USD/MWh"
+       },
+       ") / 1,000 = ",
+       {
+        "v": 0.4919464124213452,
+        "k": "battery|cycle|cost_of_power_hourly_profile|ercot:HB_HUBAVG|2026-10-01T00:00:00+00:00|rt_mean_h11|rt_mean_h19",
+        "u": "USD"
+       },
+       "."
+      ],
+      [
+       "Times the fleet's homes: ",
+       {
+        "v": 4919.464124213452,
+        "k": "battery|cycle_fleet|cost_of_power_hourly_profile|ercot:HB_HUBAVG|2026-10-01T00:00:00+00:00|rt_mean_h11|rt_mean_h19",
+        "u": "USD"
+       },
+       "."
+      ]
+     ],
+     "why": "The price spread between hours is a battery's whole business, and a home battery's share of it is small: what matters is scale.",
+     "rows": 4,
+     "csv": "/problems/2026-11-21/storage-and-taxes-d3.csv"
+    },
+    {
+     "id": "d5",
+     "tables": [
+      "eia_fuel_spot_prices"
+     ],
+     "q": "A Texas gas well produced 2,400 Mcf in 2026-08 (77.4 Mcf a day over its 31 days), valued at that month's Henry Hub mean. What is its tax, and what does it owe with the low-producing well credit?",
+     "answer": [
+      "Tax ",
+      {
+       "v": 501.34285714285704,
+       "k": "sev|TX|gas|2400|2026-08|base",
+       "u": "USD"
+      },
+      "; the Comptroller certified ",
+      {
+       "v": 1.36,
+       "k": "sevcert|tx_lp_gas|2026-08",
+       "u": "USD/Mcf (2005 dollars)"
+      },
+      " for the month, a ",
+      {
+       "v": 100,
+       "k": "sevcredit|tx_lp_gas|2026-08",
+       "u": "%"
+      },
+      " credit, so it owes ",
+      {
+       "v": 0,
+       "k": "sev|TX|gas|2400|2026-08|tx_lp_gas",
+       "u": "USD"
+      },
+      "."
+     ],
+     "line": [
+      "2,400 Mcf x ",
+      {
+       "v": 2.785238095238095,
+       "k": "spotmean|eia:henry_hub|2026-08",
+       "u": "USD/MMBtu"
+      },
+      " x Texas's gas rate = ",
+      {
+       "v": 501.34285714285704,
+       "k": "sev|TX|gas|2400|2026-08|base",
+       "u": "USD"
+      },
+      "; less the ",
+      {
+       "v": 100,
+       "k": "sevcredit|tx_lp_gas|2026-08",
+       "u": "%"
+      },
+      " credit = ",
+      {
+       "v": 0,
+       "k": "sev|TX|gas|2400|2026-08|tx_lp_gas",
+       "u": "USD"
+      }
+     ],
+     "steps": [
+      [
+       "The mean of 2026-08's daily Henry Hub spot prices, applied per Mcf: ",
+       {
+        "v": 2.785238095238095,
+        "k": "spotmean|eia:henry_hub|2026-08",
+        "u": "USD/MMBtu"
+       },
+       "."
+      ],
+      [
+       "7.5 percent of value: ",
+       {
+        "v": 501.34285714285704,
+        "k": "sev|TX|gas|2400|2026-08|base",
+        "u": "USD"
+       },
+       "."
+      ],
+      [
+       "The well averages 90 Mcf a day or less, so it may claim the credit, set by the Comptroller's certified price for the month in 2005 dollars: ",
+       {
+        "v": 1.36,
+        "k": "sevcert|tx_lp_gas|2026-08",
+        "u": "USD/Mcf (2005 dollars)"
+       },
+       ", which gives ",
+       {
+        "v": 100,
+        "k": "sevcredit|tx_lp_gas|2026-08",
+        "u": "%"
+       },
+       "."
+      ],
+      [
+       "With the credit: ",
+       {
+        "v": 0,
+        "k": "sev|TX|gas|2400|2026-08|tx_lp_gas",
+        "u": "USD"
+       },
+       "."
+      ]
+     ],
+     "why": "Low-producing wells get tax relief when prices are low, so they are not plugged for good; the test uses a certified price, not the well's own.",
+     "rows": 25,
+     "csv": "/problems/2026-11-21/storage-and-taxes-d5.csv"
+    }
+   ]
+  },
+  {
+   "slug": "networks-and-money",
+   "title": "Networks and money",
+   "line": "ERCOT's ties and the biggest exporter in the network's newest hour, a solar plant's capture rate, a battery's debt cover, and what a plant earned in Winter Storm Uri.",
+   "teacher": "About 45 minutes. Prerequisites: MW against MWh, a weighted price, a ratio. Students should open /network (pick ERCOT, slide to the last hour), /cost-of-power/seller (solar, then battery, at ERCOT) and the Uri event page. The network's hour moves as the hourly refresh runs; the money questions move when the seller's snapshot is rebuilt.",
+   "pages": [
+    {
+     "href": "/grid?view=network",
+     "label": "The network"
+    },
+    {
+     "href": "/cost-of-power/seller",
+     "label": "What a generator earns"
+    },
+    {
+     "href": "/events/uri-2021",
+     "label": "Uri"
+    }
+   ],
+   "questions": [
+    {
+     "id": "e3",
+     "tables": [
+      "merchant_revenue_monthly"
+     ],
+     "q": "A merchant solar plant at ERCOT's hub average (HB_HUBAVG) sells every MWh it makes at the real-time price. In 2026-09, the latest complete month held, what price did its output capture, and what is that as a share of the month's flat (time-average) price?",
+     "answer": [
+      "It captured ",
+      {
+       "v": 33.416187279987554,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|capture:2026-09",
+       "u": "USD/MWh"
+      },
+      " against a flat price of ",
+      {
+       "v": 38.3874,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|flat:2026-09",
+       "u": "USD/MWh"
+      },
+      ": a capture rate of ",
+      {
+       "v": 87.04988428491525,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|rate:2026-09",
+       "u": "%"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 33.416187279987554,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|capture:2026-09",
+       "u": "USD/MWh"
+      },
+      " / ",
+      {
+       "v": 38.3874,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|flat:2026-09",
+       "u": "USD/MWh"
+      },
+      " x 100 = ",
+      {
+       "v": 87.04988428491525,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|rate:2026-09",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "Capture price: the month's revenue from its sales over the MWh it made (the Texas solar fleet's hourly shape, per MW of nameplate): ",
+       {
+        "v": 33.416187279987554,
+        "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|capture:2026-09",
+        "u": "USD/MWh"
+       },
+       "."
+      ],
+      [
+       "Flat price: the mean of every hour's real-time price in the month: ",
+       {
+        "v": 38.3874,
+        "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|flat:2026-09",
+        "u": "USD/MWh"
+       },
+       "."
+      ],
+      [
+       "Capture rate: ",
+       {
+        "v": 33.416187279987554,
+        "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|capture:2026-09",
+        "u": "USD/MWh"
+       },
+       " / ",
+       {
+        "v": 38.3874,
+        "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|flat:2026-09",
+        "u": "USD/MWh"
+       },
+       " x 100 = ",
+       {
+        "v": 87.04988428491525,
+        "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|rate:2026-09",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "Solar makes its power when every other solar plant does, so midday prices sag and a solar MWh is worth less than the average MWh. The capture rate measures that discount.",
+     "rows": 3,
+     "csv": "/problems/2026-11-21/networks-and-money-e3.csv"
+    },
+    {
+     "id": "e1",
+     "tables": [
+      "eia930_all_interchange"
+     ],
+     "q": "In the newest hour of the network snapshot, 2026-11-19 04:00 UTC (Nov 18, 23:00 Eastern), with how many neighboring balancing authorities did ERCOT exchange power, and what was the largest flow?",
+     "answer": [
+      "ERCOT exchanged power with ",
+      {
+       "v": 2,
+       "k": "net|ties|ERCO|2026-11-19T04:00:00Z",
+       "u": "neighbors"
+      },
+      "; the largest flow, ",
+      {
+       "v": 219,
+       "k": "net|maxflow|ERCO|2026-11-19T04:00:00Z",
+       "u": "MW"
+      },
+      ", ",
+      "in from ",
+      "Southwest Power Pool",
+      "."
+     ],
+     "line": [
+      "count of ERCOT's ties with a flow = ",
+      {
+       "v": 2,
+       "k": "net|ties|ERCO|2026-11-19T04:00:00Z",
+       "u": "neighbors"
+      },
+      "; the largest flow in size = ",
+      {
+       "v": 219,
+       "k": "net|maxflow|ERCO|2026-11-19T04:00:00Z",
+       "u": "MW"
+      }
+     ],
+     "steps": [
+      [
+       "On /network, pick ERCOT and set the slider to the last hour; or read the snapshot's links that have ERCO at either end, in that hour."
+      ],
+      [
+       "Count the neighbors with a reported flow: ",
+       {
+        "v": 2,
+        "k": "net|ties|ERCO|2026-11-19T04:00:00Z",
+        "u": "neighbors"
+       },
+       ": ",
+       "Southwest Power Pool (SWPP), Centro Nacional de Control de Energia (CEN)",
+       "."
+      ],
+      [
+       "The largest in size, whichever way it runs: ",
+       {
+        "v": 219,
+        "k": "net|maxflow|ERCO|2026-11-19T04:00:00Z",
+        "u": "MW"
+       },
+       ", ",
+       "ERCOT importing",
+       ". EIA's sign: positive when the reporting balancing authority exports."
+      ]
+     ],
+     "why": "ERCOT is almost an island: its grid is an interconnection of its own, joined to its neighbors only through a few direct-current ties (each neighbor here may be several of them), so it cannot lean on them much in an emergency.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/networks-and-money-e1.csv"
+    },
+    {
+     "id": "e2",
+     "tables": [
+      "eia930_all_interchange"
+     ],
+     "q": "In the same hour, which balancing authority exported the most power, net, to its neighbors?",
+     "answer": [
+      "Salt River Project Agricultural Improvement and Power District (SRP), a net export of ",
+      {
+       "v": 3896,
+       "k": "net|topexport|2026-11-19T04:00:00Z",
+       "u": "MW"
+      },
+      "."
+     ],
+     "line": [
+      "the largest, over every balancing authority, of the sum of its tie flows = ",
+      {
+       "v": 3896,
+       "k": "net|topexport|2026-11-19T04:00:00Z",
+       "u": "MW"
+      },
+      " (SRP)"
+     ],
+     "steps": [
+      [
+       "For each balancing authority, add the flows on all its ties in that hour, exports positive and imports negative."
+      ],
+      [
+       "The largest sum: ",
+       "Salt River Project Agricultural Improvement and Power District (SRP), ",
+       {
+        "v": 3896,
+        "k": "net|topexport|2026-11-19T04:00:00Z",
+        "u": "MW"
+       },
+       "; the next, Bonneville Power Administration (BPAT), about 3,478 MW."
+      ],
+      [
+       "The sum covers the ties between balancing authorities in the snapshot; EIA's regions and its country totals are left out, since they repeat the same flows."
+      ]
+     ],
+     "why": "A net exporter has more generation than load in that hour, often cheap hydro, wind or solar, and its ties carry the surplus to where it is worth more.",
+     "rows": 1,
+     "csv": "/problems/2026-11-21/networks-and-money-e2.csv"
+    },
+    {
+     "id": "e4",
+     "tables": [
+      "merchant_revenue_monthly"
+     ],
+     "q": "A default merchant battery at ERCOT's hub average, 100 MW / 400 MWh, financed with 60 percent debt at 8 percent over its 20-year life at Lazard's midpoint cost, owes 6,783,357 USD of debt service a year. In how many of the months held, 2018-07 to 2026-09, could its cash flow at best cover that month's share?",
+     "answer": [
+      "At best, in ",
+      {
+       "v": 26,
+       "k": "calc|diff|mr~iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22~n|mr~iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22~under1"
+      },
+      " of ",
+      {
+       "v": 99,
+       "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|n",
+       "u": "months"
+      },
+      "; it fell short in ",
+      {
+       "v": 73,
+       "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|under1",
+       "u": "months"
+      },
+      " even with perfect foresight. A real battery, which cannot see the day's prices in advance, earns less and covers fewer."
+     ],
+     "line": [
+      {
+       "v": 99,
+       "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|n",
+       "u": "months"
+      },
+      " - ",
+      {
+       "v": 73,
+       "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|under1",
+       "u": "months"
+      },
+      " = ",
+      {
+       "v": 26,
+       "k": "calc|diff|mr~iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22~n|mr~iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22~under1"
+      }
+     ],
+     "steps": [
+      [
+       "Each month: the battery's arbitrage revenue (one cycle a day with perfect foresight, an upper bound) less fixed O&M, over one twelfth of the annual debt service: the debt service coverage ratio."
+      ],
+      [
+       "Months held: ",
+       {
+        "v": 99,
+        "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|n",
+        "u": "months"
+       },
+       "; months below 1.0x: ",
+       {
+        "v": 73,
+        "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|under1",
+        "u": "months"
+       },
+       "."
+      ],
+      [
+       "Months covered, at best: ",
+       {
+        "v": 99,
+        "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|n",
+        "u": "months"
+       },
+       " - ",
+       {
+        "v": 73,
+        "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|under1",
+        "u": "months"
+       },
+       " = ",
+       {
+        "v": 26,
+        "k": "calc|diff|mr~iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22~n|mr~iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22~under1"
+       },
+       "."
+      ],
+      [
+       "At best, because the revenue is an upper bound, as the seller's tab notes: the battery knows each day's prices in advance; a real one captures a fraction of this."
+      ]
+     ],
+     "why": "A lender looks at the bad months, not the average: a battery's revenue comes in bursts, a few price spikes a year, and the months between them must still pay the debt.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/networks-and-money-e4.csv"
+    },
+    {
+     "id": "e5",
+     "tables": [
+      "merchant_revenue_monthly",
+      "event_window_daily"
+     ],
+     "q": "During Winter Storm Uri, February 2021 (the 18 days from 2021-02-07 to 2021-02-24), what did the same 100 MW merchant solar plant at ERCOT's hub average earn, against as many normal days before the storm?",
+     "answer": [
+      "Over the storm's ",
+      {
+       "v": 18,
+       "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|days",
+       "u": "days"
+      },
+      " it earned ",
+      {
+       "v": 12382219.96,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|stress_total:uri_2021",
+       "u": "USD"
+      },
+      "; as many normal days earned ",
+      {
+       "v": 157661.22000000003,
+       "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_window",
+       "u": "USD"
+      },
+      ": ",
+      {
+       "v": 78.53687774330301,
+       "k": "calc|ratio|mr~iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5~stress_total:uri_2021|mrs~iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5~uri_2021~base_window",
+       "u": "times"
+      },
+      " as much."
+     ],
+     "line": [
+      {
+       "v": 12382219.96,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|stress_total:uri_2021",
+       "u": "USD"
+      },
+      " / (",
+      {
+       "v": 8758.956666666669,
+       "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_mean",
+       "u": "USD"
+      },
+      " x ",
+      {
+       "v": 18,
+       "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|days",
+       "u": "days"
+      },
+      ") = ",
+      {
+       "v": 78.53687774330301,
+       "k": "calc|ratio|mr~iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5~stress_total:uri_2021|mrs~iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5~uri_2021~base_window",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "Each day's revenue: the plant's hourly output (the fleet's shape that day) times the hour's real-time price, added up."
+      ],
+      [
+       "Add the ",
+       {
+        "v": 18,
+        "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|days",
+        "u": "days"
+       },
+       " of the event window: ",
+       {
+        "v": 12382219.96,
+        "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|stress_total:uri_2021",
+        "u": "USD"
+       },
+       "."
+      ],
+      [
+       "A normal day: the mean of the baseline days of the same event (the same dates of earlier years): ",
+       {
+        "v": 8758.956666666669,
+        "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_mean",
+        "u": "USD"
+       },
+       ". A normal week is seven of them, ",
+       {
+        "v": 61312.696666666685,
+        "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|stress_week:uri_2021",
+        "u": "USD"
+       },
+       "."
+      ],
+      [
+       "As many normal days as the storm lasted: ",
+       {
+        "v": 8758.956666666669,
+        "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_mean",
+        "u": "USD"
+       },
+       " x ",
+       {
+        "v": 18,
+        "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|days",
+        "u": "days"
+       },
+       " = ",
+       {
+        "v": 157661.22000000003,
+        "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_window",
+        "u": "USD"
+       },
+       "."
+      ],
+      [
+       "The ratio: ",
+       {
+        "v": 12382219.96,
+        "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|stress_total:uri_2021",
+        "u": "USD"
+       },
+       " / ",
+       {
+        "v": 157661.22000000003,
+        "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_window",
+        "u": "USD"
+       },
+       " = ",
+       {
+        "v": 78.53687774330301,
+        "k": "calc|ratio|mr~iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5~stress_total:uri_2021|mrs~iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5~uri_2021~base_window",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "Scarcity pays whoever can deliver in it. Uri's prices sat at the cap for days, so even a plant whose output fell with the snow and the short days could earn more in the storm than on as many normal days.",
+     "rows": 5,
+     "csv": "/problems/2026-11-21/networks-and-money-e5.csv"
+    }
+   ]
+  },
+  {
+   "slug": "who-trades-with-whom",
+   "title": "Who trades with whom: power between regions",
+   "line": "Tennessee's net imports from each neighbour in a month, two sides' reports of one flow and the gap between them, a pair of regions that disagreed about which way the power ran, and a border where only one side reports.",
+   "teacher": "About 45 minutes. Prerequisites: MWh, the sign of a flow (above zero an import), a ratio. Students should open /supply and its section The whole country (pick Tennessee), read the tables Net imports by month and by neighbour and Who trades with whom, and the method page of the regions. The page writes GWh: divide a file's MWh by 1,000.",
+   "pages": [
+    {
+     "href": "/supply#wc-trade",
+     "label": "The whole country on /supply"
+    },
+    {
+     "href": "/data/methods/regions_pages",
+     "label": "Method: the regions' files"
+    },
+    {
+     "href": "/data/methods/interchange_pairs",
+     "label": "Method: pairs of regions"
+    }
+   ],
+   "questions": [
+    {
+     "id": "t1",
+     "tables": [
+      "eia930_region_pair_hourly"
+     ],
+     "q": "In October 2026, what were Tennessee's net imports from all its neighbours together, by its own report, and from each of its 4 neighbours? From which did it import the most?",
+     "answer": [
+      "October 2026: in all ",
+      {
+       "v": 574900,
+       "k": "pf|regions/trade/ten.json|net_imports_mwh/99",
+       "u": "MWh"
+      },
+      ". ",
+      "Carolinas ",
+      {
+       "v": -94603,
+       "k": "pf|regions/trade/ten.json|neighbors/CAR/net_imports_mwh/99",
+       "u": "MWh"
+      },
+      "; Mid-Atlantic ",
+      {
+       "v": -899413,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDA/net_imports_mwh/99",
+       "u": "MWh"
+      },
+      "; Midwest ",
+      {
+       "v": 1650259,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDW/net_imports_mwh/99",
+       "u": "MWh"
+      },
+      "; Southeast ",
+      {
+       "v": -81343,
+       "k": "pf|regions/trade/ten.json|neighbors/SE/net_imports_mwh/99",
+       "u": "MWh"
+      },
+      ". The most from Midwest; to Carolinas, Mid-Atlantic, Southeast it sent power (below zero)."
+     ],
+     "line": [
+      "",
+      {
+       "v": -94603,
+       "k": "pf|regions/trade/ten.json|neighbors/CAR/net_imports_mwh/99",
+       "u": "MWh"
+      },
+      " + ",
+      {
+       "v": -899413,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDA/net_imports_mwh/99",
+       "u": "MWh"
+      },
+      " + ",
+      {
+       "v": 1650259,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDW/net_imports_mwh/99",
+       "u": "MWh"
+      },
+      " + ",
+      {
+       "v": -81343,
+       "k": "pf|regions/trade/ten.json|neighbors/SE/net_imports_mwh/99",
+       "u": "MWh"
+      },
+      " = ",
+      {
+       "v": 574900,
+       "k": "pf|regions/trade/ten.json|net_imports_mwh/99",
+       "u": "MWh"
+      }
+     ],
+     "steps": [
+      [
+       "Open the table Net imports by month and by neighbour for Tennessee, or site/data/regions/trade/ten.json at position 99 (2026-10)."
+      ],
+      [
+       "Each neighbour's net_imports_mwh, Tennessee's own report: ",
+       "Carolinas ",
+       {
+        "v": -94603,
+        "k": "pf|regions/trade/ten.json|neighbors/CAR/net_imports_mwh/99",
+        "u": "MWh"
+       },
+       "; Mid-Atlantic ",
+       {
+        "v": -899413,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDA/net_imports_mwh/99",
+        "u": "MWh"
+       },
+       "; Midwest ",
+       {
+        "v": 1650259,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDW/net_imports_mwh/99",
+        "u": "MWh"
+       },
+       "; Southeast ",
+       {
+        "v": -81343,
+        "k": "pf|regions/trade/ten.json|neighbors/SE/net_imports_mwh/99",
+        "u": "MWh"
+       },
+       "."
+      ],
+      [
+       "The file's own total, net_imports_mwh: ",
+       {
+        "v": 574900,
+        "k": "pf|regions/trade/ten.json|net_imports_mwh/99",
+        "u": "MWh"
+       },
+       ", the sum of the four."
+      ],
+      [
+       "Above zero Tennessee imported; below zero it sent power out. The largest import: ",
+       "Midwest",
+       ", ",
+       {
+        "v": 1650259,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDW/net_imports_mwh/99",
+        "u": "MWh"
+       },
+       "."
+      ]
+     ],
+     "why": "A region's net imports are the sum of flows that run both ways at once: it can take power from one neighbour while it sends power to another.",
+     "rows": 5,
+     "csv": "/problems/2026-11-21/who-trades-with-whom-t1.csv"
+    },
+    {
+     "id": "t6",
+     "tables": [
+      "interchange_pair_monthly"
+     ],
+     "q": "California and Mexico in 2025: how much power did California report sending to Mexico, over how many hours, and for how many hours does the file hold a report from Mexico's side? What does that leave out?",
+     "answer": [
+      "California reported ",
+      {
+       "v": 971140,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=CAL+b=MEX+year=2025/a_report_mwh",
+       "u": "MWh"
+      },
+      " over ",
+      {
+       "v": 8712,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=CAL+b=MEX+year=2025/hours_a",
+       "u": "hours"
+      },
+      "; Mexico's side: ",
+      {
+       "v": 0,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=CAL+b=MEX+year=2025/hours_b",
+       "u": "hours"
+      },
+      ". With one report there is no second figure to compare, so no gap can be formed."
+     ],
+     "line": [
+      "a_report_mwh = ",
+      {
+       "v": 971140,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=CAL+b=MEX+year=2025/a_report_mwh",
+       "u": "MWh"
+      },
+      "; hours_a = ",
+      {
+       "v": 8712,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=CAL+b=MEX+year=2025/hours_a",
+       "u": "hours"
+      },
+      "; hours_b = ",
+      {
+       "v": 0,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=CAL+b=MEX+year=2025/hours_b",
+       "u": "hours"
+      }
+     ],
+     "steps": [
+      [
+       "In region_pairs, the row with a CAL, b MEX, year 2025. Above zero: power from California to Mexico."
+      ],
+      [
+       "a_report_mwh, California's report: ",
+       {
+        "v": 971140,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=CAL+b=MEX+year=2025/a_report_mwh",
+        "u": "MWh"
+       },
+       ", over hours_a, ",
+       {
+        "v": 8712,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=CAL+b=MEX+year=2025/hours_a",
+        "u": "hours"
+       },
+       "."
+      ],
+      [
+       "hours_b: ",
+       {
+        "v": 0,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=CAL+b=MEX+year=2025/hours_b",
+        "u": "hours"
+       },
+       ". b_report_mwh and gap_mwh are empty: Mexico's operators file nothing with EIA's Form EIA-930."
+      ]
+     ],
+     "why": "Flows across the borders with Canada and Mexico are known from the United States side only, so they cannot be checked against a second report.",
+     "rows": 3,
+     "csv": "/problems/2026-11-21/who-trades-with-whom-t6.csv"
+    },
+    {
+     "id": "t2",
+     "tables": [
+      "eia930_region_pair_hourly"
+     ],
+     "q": "In October 2026, Tennessee's largest flow, in size, was with the Midwest. What did Tennessee report, what did the Midwest report for the same flow, and how many times the Midwest's report was Tennessee's?",
+     "answer": [
+      "Tennessee ",
+      {
+       "v": 1650259,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDW/net_imports_mwh/99",
+       "u": "MWh"
+      },
+      ", the Midwest ",
+      {
+       "v": 1583612,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDW/their_report_mwh/99",
+       "u": "MWh"
+      },
+      ": Tennessee's report is ",
+      {
+       "v": 1.042085435068691,
+       "k": "calc|ratio|pf~regions/trade/ten.json~neighbors/MIDW/net_imports_mwh/99|pf~regions/trade/ten.json~neighbors/MIDW/their_report_mwh/99",
+       "u": "times"
+      },
+      " the Midwest's; the file's gap is ",
+      {
+       "v": 66647,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDW/gap_mwh/99",
+       "u": "MWh"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 1650259,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDW/net_imports_mwh/99",
+       "u": "MWh"
+      },
+      " / ",
+      {
+       "v": 1583612,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDW/their_report_mwh/99",
+       "u": "MWh"
+      },
+      " = ",
+      {
+       "v": 1.042085435068691,
+       "k": "calc|ratio|pf~regions/trade/ten.json~neighbors/MIDW/net_imports_mwh/99|pf~regions/trade/ten.json~neighbors/MIDW/their_report_mwh/99",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "Under neighbors, MIDW: net_imports_mwh (Tennessee's report) ",
+       {
+        "v": 1650259,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDW/net_imports_mwh/99",
+        "u": "MWh"
+       },
+       "; their_report_mwh (the Midwest's, turned to Tennessee's side) ",
+       {
+        "v": 1583612,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDW/their_report_mwh/99",
+        "u": "MWh"
+       },
+       "."
+      ],
+      [
+       "Divide: ",
+       {
+        "v": 1650259,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDW/net_imports_mwh/99",
+        "u": "MWh"
+       },
+       " / ",
+       {
+        "v": 1583612,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDW/their_report_mwh/99",
+        "u": "MWh"
+       },
+       " = ",
+       {
+        "v": 1.042085435068691,
+        "k": "calc|ratio|pf~regions/trade/ten.json~neighbors/MIDW/net_imports_mwh/99|pf~regions/trade/ten.json~neighbors/MIDW/their_report_mwh/99",
+        "u": "times"
+       },
+       "."
+      ],
+      [
+       "The file's gap_mwh, Tennessee's report less the Midwest's over the hours both reported: ",
+       {
+        "v": 66647,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDW/gap_mwh/99",
+        "u": "MWh"
+       },
+       "."
+      ]
+     ],
+     "why": "The two sides measure the same wires at different meters and with different rules, so a flow has two figures; which one a number is should be said when it is quoted.",
+     "rows": 3,
+     "csv": "/problems/2026-11-21/who-trades-with-whom-t2.csv"
+    },
+    {
+     "id": "t7",
+     "tables": [
+      "eia930_region_pair_hourly"
+     ],
+     "q": "In July 2018, the ended month of the file in which Tennessee reported its flow with the Midwest for the smallest share of the hours, for how many hours did it report, of how many in the month, and what share is that?",
+     "answer": [
+      "July 2018: ",
+      {
+       "v": 407,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDW/hours_own/0",
+       "u": "hours"
+      },
+      " of ",
+      {
+       "v": 744,
+       "k": "pf|regions/trade/ten.json|hours_in_month/0",
+       "u": "hours"
+      },
+      ", or ",
+      {
+       "v": 54.704301075268816,
+       "k": "calc|pct|pf~regions/trade/ten.json~neighbors/MIDW/hours_own/0|pf~regions/trade/ten.json~hours_in_month/0",
+       "u": "%"
+      },
+      "; its net import from the Midwest that month, ",
+      {
+       "v": 410651,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDW/net_imports_mwh/0",
+       "u": "MWh"
+      },
+      ", sums only those hours."
+     ],
+     "line": [
+      {
+       "v": 407,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDW/hours_own/0",
+       "u": "hours"
+      },
+      " / ",
+      {
+       "v": 744,
+       "k": "pf|regions/trade/ten.json|hours_in_month/0",
+       "u": "hours"
+      },
+      " x 100 = ",
+      {
+       "v": 54.704301075268816,
+       "k": "calc|pct|pf~regions/trade/ten.json~neighbors/MIDW/hours_own/0|pf~regions/trade/ten.json~hours_in_month/0",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "In site/data/regions/trade/ten.json, position 0 (2018-07): neighbors, MIDW, hours_own, ",
+       {
+        "v": 407,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDW/hours_own/0",
+        "u": "hours"
+       },
+       "; hours_in_month, ",
+       {
+        "v": 744,
+        "k": "pf|regions/trade/ten.json|hours_in_month/0",
+        "u": "hours"
+       },
+       "."
+      ],
+      [
+       "Divide and multiply by 100: ",
+       {
+        "v": 407,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDW/hours_own/0",
+        "u": "hours"
+       },
+       " / ",
+       {
+        "v": 744,
+        "k": "pf|regions/trade/ten.json|hours_in_month/0",
+        "u": "hours"
+       },
+       " x 100 = ",
+       {
+        "v": 54.704301075268816,
+        "k": "calc|pct|pf~regions/trade/ten.json~neighbors/MIDW/hours_own/0|pf~regions/trade/ten.json~hours_in_month/0",
+        "u": "%"
+       },
+       "."
+      ],
+      [
+       "The month's net import, ",
+       {
+        "v": 410651,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDW/net_imports_mwh/0",
+        "u": "MWh"
+       },
+       ", is a sum over the hours reported: the missing hours are not filled."
+      ]
+     ],
+     "why": "A monthly total over part of the month is smaller than the true one; a figure should travel with the hours behind it.",
+     "rows": 3,
+     "csv": "/problems/2026-11-21/who-trades-with-whom-t7.csv"
+    },
+    {
+     "id": "t5",
+     "tables": [
+      "interchange_pair_monthly"
+     ],
+     "q": "Power from the Midwest to Tennessee: by Tennessee's own report, how many times its 2019 flow was its 2025 flow? And by the Midwest's report?",
+     "answer": [
+      "By Tennessee's report ",
+      {
+       "v": 1.6592215333958769,
+       "k": "calc|ratio|pf~regions/trade_matrix.json~region_pairs/@a=MIDW+b=TEN+year=2025/b_report_mwh|pf~regions/trade_matrix.json~region_pairs/@a=MIDW+b=TEN+year=2019/b_report_mwh",
+       "u": "times"
+      },
+      "; by the Midwest's ",
+      {
+       "v": 1.6672639903362019,
+       "k": "calc|ratio|pf~regions/trade_matrix.json~region_pairs/@a=MIDW+b=TEN+year=2025/a_report_mwh|pf~regions/trade_matrix.json~region_pairs/@a=MIDW+b=TEN+year=2019/a_report_mwh",
+       "u": "times"
+      },
+      ". The two sides' levels differ, but each says the flow grew by about the same factor."
+     ],
+     "line": [
+      {
+       "v": 16681508,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2025/b_report_mwh",
+       "u": "MWh"
+      },
+      " / ",
+      {
+       "v": 10053816,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2019/b_report_mwh",
+       "u": "MWh"
+      },
+      " = ",
+      {
+       "v": 1.6592215333958769,
+       "k": "calc|ratio|pf~regions/trade_matrix.json~region_pairs/@a=MIDW+b=TEN+year=2025/b_report_mwh|pf~regions/trade_matrix.json~region_pairs/@a=MIDW+b=TEN+year=2019/b_report_mwh",
+       "u": "times"
+      },
+      "; ",
+      {
+       "v": 15679234,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2025/a_report_mwh",
+       "u": "MWh"
+      },
+      " / ",
+      {
+       "v": 9404170,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2019/a_report_mwh",
+       "u": "MWh"
+      },
+      " = ",
+      {
+       "v": 1.6672639903362019,
+       "k": "calc|ratio|pf~regions/trade_matrix.json~region_pairs/@a=MIDW+b=TEN+year=2025/a_report_mwh|pf~regions/trade_matrix.json~region_pairs/@a=MIDW+b=TEN+year=2019/a_report_mwh",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "In region_pairs, the rows with a MIDW, b TEN, for 2019 and 2025, the first and the latest years both sides reported in all twelve months."
+      ],
+      [
+       "Tennessee's report (b_report_mwh): ",
+       {
+        "v": 10053816,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2019/b_report_mwh",
+        "u": "MWh"
+       },
+       " in 2019, ",
+       {
+        "v": 16681508,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2025/b_report_mwh",
+        "u": "MWh"
+       },
+       " in 2025; ",
+       {
+        "v": 16681508,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2025/b_report_mwh",
+        "u": "MWh"
+       },
+       " / ",
+       {
+        "v": 10053816,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2019/b_report_mwh",
+        "u": "MWh"
+       },
+       " = ",
+       {
+        "v": 1.6592215333958769,
+        "k": "calc|ratio|pf~regions/trade_matrix.json~region_pairs/@a=MIDW+b=TEN+year=2025/b_report_mwh|pf~regions/trade_matrix.json~region_pairs/@a=MIDW+b=TEN+year=2019/b_report_mwh",
+        "u": "times"
+       },
+       "."
+      ],
+      [
+       "The Midwest's report (a_report_mwh): ",
+       {
+        "v": 9404170,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2019/a_report_mwh",
+        "u": "MWh"
+       },
+       " in 2019, ",
+       {
+        "v": 15679234,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2025/a_report_mwh",
+        "u": "MWh"
+       },
+       " in 2025; ",
+       {
+        "v": 15679234,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2025/a_report_mwh",
+        "u": "MWh"
+       },
+       " / ",
+       {
+        "v": 9404170,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2019/a_report_mwh",
+        "u": "MWh"
+       },
+       " = ",
+       {
+        "v": 1.6672639903362019,
+        "k": "calc|ratio|pf~regions/trade_matrix.json~region_pairs/@a=MIDW+b=TEN+year=2025/a_report_mwh|pf~regions/trade_matrix.json~region_pairs/@a=MIDW+b=TEN+year=2019/a_report_mwh",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "Two reports that disagree on a level can still agree on a change; comparing a region's report with itself across years removes the difference between the two meters.",
+     "rows": 4,
+     "csv": "/problems/2026-11-21/who-trades-with-whom-t5.csv"
+    },
+    {
+     "id": "t3",
+     "tables": [
+      "eia930_region_pair_hourly"
+     ],
+     "q": "In October 2026, what did Tennessee and the Mid-Atlantic each report for the flow between them? Subtract the Mid-Atlantic's report from Tennessee's, and compare the result with the gap the file gives. Why can the two differ?",
+     "answer": [
+      "Tennessee ",
+      {
+       "v": -899413,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDA/net_imports_mwh/99",
+       "u": "MWh"
+      },
+      ", the Mid-Atlantic ",
+      {
+       "v": -675342,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDA/their_report_mwh/99",
+       "u": "MWh"
+      },
+      "; Tennessee's less the Mid-Atlantic's is ",
+      {
+       "v": -224071,
+       "k": "calc|diff|pf~regions/trade/ten.json~neighbors/MIDA/net_imports_mwh/99|pf~regions/trade/ten.json~neighbors/MIDA/their_report_mwh/99",
+       "u": "MWh"
+      },
+      ", the file's gap ",
+      {
+       "v": -222699,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDA/gap_mwh/99",
+       "u": "MWh"
+      },
+      ": not the same, because each report runs over its own side's hours and the gap over the hours both reported."
+     ],
+     "line": [
+      {
+       "v": -899413,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDA/net_imports_mwh/99",
+       "u": "MWh"
+      },
+      " - ",
+      {
+       "v": -675342,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDA/their_report_mwh/99",
+       "u": "MWh"
+      },
+      " = ",
+      {
+       "v": -224071,
+       "k": "calc|diff|pf~regions/trade/ten.json~neighbors/MIDA/net_imports_mwh/99|pf~regions/trade/ten.json~neighbors/MIDA/their_report_mwh/99",
+       "u": "MWh"
+      },
+      "; the file's gap_mwh = ",
+      {
+       "v": -222699,
+       "k": "pf|regions/trade/ten.json|neighbors/MIDA/gap_mwh/99",
+       "u": "MWh"
+      }
+     ],
+     "steps": [
+      [
+       "Under neighbors, MIDA: net_imports_mwh ",
+       {
+        "v": -899413,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDA/net_imports_mwh/99",
+        "u": "MWh"
+       },
+       " and their_report_mwh ",
+       {
+        "v": -675342,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDA/their_report_mwh/99",
+        "u": "MWh"
+       },
+       "."
+      ],
+      [
+       "Subtract: ",
+       {
+        "v": -899413,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDA/net_imports_mwh/99",
+        "u": "MWh"
+       },
+       " - ",
+       {
+        "v": -675342,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDA/their_report_mwh/99",
+        "u": "MWh"
+       },
+       " = ",
+       {
+        "v": -224071,
+        "k": "calc|diff|pf~regions/trade/ten.json~neighbors/MIDA/net_imports_mwh/99|pf~regions/trade/ten.json~neighbors/MIDA/their_report_mwh/99",
+        "u": "MWh"
+       },
+       "."
+      ],
+      [
+       "The file's gap_mwh: ",
+       {
+        "v": -222699,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDA/gap_mwh/99",
+        "u": "MWh"
+       },
+       ". Tennessee reported ",
+       {
+        "v": 744,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDA/hours_own/99",
+        "u": "hours"
+       },
+       ", the Mid-Atlantic ",
+       {
+        "v": 743,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDA/hours_their/99",
+        "u": "hours"
+       },
+       ", both ",
+       {
+        "v": 743,
+        "k": "pf|regions/trade/ten.json|neighbors/MIDA/hours_both/99",
+        "u": "hours"
+       },
+       ": the gap is taken over the hours both reported only."
+      ]
+     ],
+     "why": "A figure summed over different hours is not the same quantity: before two reports are subtracted, the hours behind each must match.",
+     "rows": 6,
+     "csv": "/problems/2026-11-21/who-trades-with-whom-t3.csv"
+    },
+    {
+     "id": "t4",
+     "tables": [
+      "interchange_pair_monthly"
+     ],
+     "q": "In the table Who trades with whom, find the Mid-Atlantic and Tennessee in 2019, the year their two reports differ most. Which way did each side say the power ran over the year, and how far apart are their reports?",
+     "answer": [
+      "The Mid-Atlantic reported ",
+      {
+       "v": 2437201,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDA+b=TEN+year=2019/a_report_mwh",
+       "u": "MWh"
+      },
+      " (it says the power ran from the Mid-Atlantic to Tennessee); Tennessee reported ",
+      {
+       "v": -6612970,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDA+b=TEN+year=2019/b_report_mwh",
+       "u": "MWh"
+      },
+      " (it says it ran from Tennessee to the Mid-Atlantic): the two sides disagree on the direction. Apart by ",
+      {
+       "v": 9050171,
+       "k": "calc|diff|pf~regions/trade_matrix.json~region_pairs/@a=MIDA+b=TEN+year=2019/a_report_mwh|pf~regions/trade_matrix.json~region_pairs/@a=MIDA+b=TEN+year=2019/b_report_mwh",
+       "u": "MWh"
+      },
+      "; the file's gap, over the hours both reported, is ",
+      {
+       "v": 9034597,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDA+b=TEN+year=2019/gap_mwh",
+       "u": "MWh"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 2437201,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDA+b=TEN+year=2019/a_report_mwh",
+       "u": "MWh"
+      },
+      " - ",
+      {
+       "v": -6612970,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDA+b=TEN+year=2019/b_report_mwh",
+       "u": "MWh"
+      },
+      " = ",
+      {
+       "v": 9050171,
+       "k": "calc|diff|pf~regions/trade_matrix.json~region_pairs/@a=MIDA+b=TEN+year=2019/a_report_mwh|pf~regions/trade_matrix.json~region_pairs/@a=MIDA+b=TEN+year=2019/b_report_mwh",
+       "u": "MWh"
+      },
+      "; the file's gap_mwh = ",
+      {
+       "v": 9034597,
+       "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDA+b=TEN+year=2019/gap_mwh",
+       "u": "MWh"
+      }
+     ],
+     "steps": [
+      [
+       "In site/data/regions/trade_matrix.json, region_pairs, the row with a MIDA, b TEN, year 2019. A report above zero is power from a (the Mid-Atlantic) to b (Tennessee)."
+      ],
+      [
+       "a_report_mwh, the Mid-Atlantic's: ",
+       {
+        "v": 2437201,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDA+b=TEN+year=2019/a_report_mwh",
+        "u": "MWh"
+       },
+       ". b_report_mwh, Tennessee's: ",
+       {
+        "v": -6612970,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDA+b=TEN+year=2019/b_report_mwh",
+        "u": "MWh"
+       },
+       "."
+      ],
+      [
+       "Subtract: ",
+       {
+        "v": 2437201,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDA+b=TEN+year=2019/a_report_mwh",
+        "u": "MWh"
+       },
+       " - ",
+       {
+        "v": -6612970,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDA+b=TEN+year=2019/b_report_mwh",
+        "u": "MWh"
+       },
+       " = ",
+       {
+        "v": 9050171,
+        "k": "calc|diff|pf~regions/trade_matrix.json~region_pairs/@a=MIDA+b=TEN+year=2019/a_report_mwh|pf~regions/trade_matrix.json~region_pairs/@a=MIDA+b=TEN+year=2019/b_report_mwh",
+        "u": "MWh"
+       },
+       "; the file's gap_mwh: ",
+       {
+        "v": 9034597,
+        "k": "pf|regions/trade_matrix.json|region_pairs/@a=MIDA+b=TEN+year=2019/gap_mwh",
+        "u": "MWh"
+       },
+       "."
+      ],
+      [
+       "The page turns each pair to the direction of the mean and marks a report below zero as counting the flow the other way."
+      ]
+     ],
+     "why": "When two operators disagree even on which way power ran, a number quoted for that flow says more about whose meter it came from than about the flow; the mean of the two hides the disagreement.",
+     "rows": 3,
+     "csv": "/problems/2026-11-21/who-trades-with-whom-t4.csv"
+    }
+   ]
+  },
+  {
+   "slug": "storm-across-the-country",
+   "title": "A storm across the country: Elliott and Uri",
+   "line": "Winter Storm Elliott in Tennessee and the Carolinas beside Winter Storm Uri in Texas: the highest hour of demand against the baseline, what ran in that hour, and the power that moved between regions.",
+   "teacher": "About 45 minutes. Prerequisites: MW, a baseline (the same days of earlier years), the sign of a flow. Students should open /events/elliott-2022 and /events/uri-2021 at The whole country, read the table Each region across the event, pick a region under A region hour by hour and read its charts at the hour a question names (UTC).",
+   "pages": [
+    {
+     "href": "/events/elliott-2022#whole-country",
+     "label": "Elliott: the whole country"
+    },
+    {
+     "href": "/events/uri-2021#whole-country",
+     "label": "Uri: the whole country"
+    },
+    {
+     "href": "/data/methods/regions_pages",
+     "label": "Method: the regions' files"
+    }
+   ],
+   "questions": [
+    {
+     "id": "s1",
+     "tables": [
+      "eia930_region_hourly"
+     ],
+     "q": "Winter Storm Elliott: what was Tennessee's highest hour of demand in the window, when was it, what was the baseline's demand in that hour, and how many times the baseline was it?",
+     "answer": [
+      "2022-12-24 01:00 UTC: ",
+      {
+       "v": 33225,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/demand_mw/116",
+       "u": "MW"
+      },
+      " against ",
+      {
+       "v": 19830,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/baseline/demand_mw/116",
+       "u": "MW"
+      },
+      ": ",
+      {
+       "v": 1.6754916792738275,
+       "k": "calc|ratio|pf~regions/events/elliott_2022.json~regions/TEN/demand_mw/116|pf~regions/events/elliott_2022.json~regions/TEN/baseline/demand_mw/116",
+       "u": "times"
+      },
+      " the baseline."
+     ],
+     "line": [
+      {
+       "v": 33225,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/demand_mw/116",
+       "u": "MW"
+      },
+      " / ",
+      {
+       "v": 19830,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/baseline/demand_mw/116",
+       "u": "MW"
+      },
+      " = ",
+      {
+       "v": 1.6754916792738275,
+       "k": "calc|ratio|pf~regions/events/elliott_2022.json~regions/TEN/demand_mw/116|pf~regions/events/elliott_2022.json~regions/TEN/baseline/demand_mw/116",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "The table Each region across the event, Tennessee: Highest hour ",
+       {
+        "v": 33225,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/demand_mw/116",
+        "u": "MW"
+       },
+       ", at 2022-12-24 01:00 UTC; Baseline that hour ",
+       {
+        "v": 19830,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/baseline/demand_mw/116",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "Or regions, TEN, demand_mw at position 116, and baseline, demand_mw at the same position."
+      ],
+      [
+       "Divide: ",
+       {
+        "v": 33225,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/demand_mw/116",
+        "u": "MW"
+       },
+       " / ",
+       {
+        "v": 19830,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/baseline/demand_mw/116",
+        "u": "MW"
+       },
+       " = ",
+       {
+        "v": 1.6754916792738275,
+        "k": "calc|ratio|pf~regions/events/elliott_2022.json~regions/TEN/demand_mw/116|pf~regions/events/elliott_2022.json~regions/TEN/baseline/demand_mw/116",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "A region whose homes heat with electricity sees its demand jump in a cold snap, and its highest hour is what its plants and wires must meet.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/storm-across-the-country-s1.csv"
+    },
+    {
+     "id": "s2",
+     "tables": [
+      "eia930_region_hourly"
+     ],
+     "q": "Winter Storm Uri (2021-02-07 to 2021-02-24): what was Texas's highest hour of demand in the window, when was it, and by how many MW did it exceed the baseline's demand in that hour?",
+     "answer": [
+      "2021-02-15 01:00 UTC: ",
+      {
+       "v": 69215,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/demand_mw/188",
+       "u": "MW"
+      },
+      " against ",
+      {
+       "v": 40461,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/baseline/demand_mw/188",
+       "u": "MW"
+      },
+      ": ",
+      {
+       "v": 28754,
+       "k": "calc|diff|pf~regions/events/uri_2021.json~regions/TEX/demand_mw/188|pf~regions/events/uri_2021.json~regions/TEX/baseline/demand_mw/188",
+       "u": "MW"
+      },
+      " above the baseline."
+     ],
+     "line": [
+      {
+       "v": 69215,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/demand_mw/188",
+       "u": "MW"
+      },
+      " - ",
+      {
+       "v": 40461,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/baseline/demand_mw/188",
+       "u": "MW"
+      },
+      " = ",
+      {
+       "v": 28754,
+       "k": "calc|diff|pf~regions/events/uri_2021.json~regions/TEX/demand_mw/188|pf~regions/events/uri_2021.json~regions/TEX/baseline/demand_mw/188",
+       "u": "MW"
+      }
+     ],
+     "steps": [
+      [
+       "On /events/uri-2021, The whole country, Texas: Highest hour ",
+       {
+        "v": 69215,
+        "k": "pf|regions/events/uri_2021.json|regions/TEX/demand_mw/188",
+        "u": "MW"
+       },
+       ", at 2021-02-15 01:00 UTC; Baseline that hour ",
+       {
+        "v": 40461,
+        "k": "pf|regions/events/uri_2021.json|regions/TEX/baseline/demand_mw/188",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "Or site/data/regions/events/uri_2021.json: regions, TEX, demand_mw at position 188; baseline, demand_mw at the same position. The baseline here is the same calendar days of 2019 and 2020."
+      ],
+      [
+       "Subtract: ",
+       {
+        "v": 69215,
+        "k": "pf|regions/events/uri_2021.json|regions/TEX/demand_mw/188",
+        "u": "MW"
+       },
+       " - ",
+       {
+        "v": 40461,
+        "k": "pf|regions/events/uri_2021.json|regions/TEX/baseline/demand_mw/188",
+        "u": "MW"
+       },
+       " = ",
+       {
+        "v": 28754,
+        "k": "calc|diff|pf~regions/events/uri_2021.json~regions/TEX/demand_mw/188|pf~regions/events/uri_2021.json~regions/TEX/baseline/demand_mw/188",
+        "u": "MW"
+       },
+       "."
+      ]
+     ],
+     "why": "The file's demand is the load the region's operators measured: in hours when customers' power was cut, they wanted more than the file shows, so the highest hour in the file can come before the worst of a storm.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/storm-across-the-country-s2.csv"
+    },
+    {
+     "id": "s3",
+     "tables": [
+      "eia930_region_fuel_hourly",
+      "eia930_region_hourly"
+     ],
+     "q": "In Tennessee's highest hour of Elliott (2022-12-24 01:00 UTC), how much did natural gas, coal, nuclear and hydro generate, what share of the region's net generation was natural gas, and how many times the baseline's natural gas in that hour was it?",
+     "answer": [
+      "Natural gas ",
+      {
+       "v": 10727,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/gen/natural_gas/116",
+       "u": "MW"
+      },
+      ", coal ",
+      {
+       "v": 2423,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/gen/coal/116",
+       "u": "MW"
+      },
+      ", nuclear ",
+      {
+       "v": 8593,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/gen/nuclear/116",
+       "u": "MW"
+      },
+      ", hydro ",
+      {
+       "v": 5497,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/gen/hydro/116",
+       "u": "MW"
+      },
+      "; natural gas was ",
+      {
+       "v": 39.232682320239924,
+       "k": "calc|pct|pf~regions/events/elliott_2022.json~regions/TEN/gen/natural_gas/116|pf~regions/events/elliott_2022.json~regions/TEN/net_generation_mw/116",
+       "u": "%"
+      },
+      " of net generation (",
+      {
+       "v": 27342,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/net_generation_mw/116",
+       "u": "MW"
+      },
+      ") and ",
+      {
+       "v": 2.003923033812815,
+       "k": "calc|ratio|pf~regions/events/elliott_2022.json~regions/TEN/gen/natural_gas/116|pf~regions/events/elliott_2022.json~regions/TEN/baseline/gen/natural_gas/116",
+       "u": "times"
+      },
+      " the baseline's ",
+      {
+       "v": 5353,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/baseline/gen/natural_gas/116",
+       "u": "MW"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 10727,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/gen/natural_gas/116",
+       "u": "MW"
+      },
+      " / ",
+      {
+       "v": 27342,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/net_generation_mw/116",
+       "u": "MW"
+      },
+      " x 100 = ",
+      {
+       "v": 39.232682320239924,
+       "k": "calc|pct|pf~regions/events/elliott_2022.json~regions/TEN/gen/natural_gas/116|pf~regions/events/elliott_2022.json~regions/TEN/net_generation_mw/116",
+       "u": "%"
+      },
+      "; ",
+      {
+       "v": 10727,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/gen/natural_gas/116",
+       "u": "MW"
+      },
+      " / ",
+      {
+       "v": 5353,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/baseline/gen/natural_gas/116",
+       "u": "MW"
+      },
+      " = ",
+      {
+       "v": 2.003923033812815,
+       "k": "calc|ratio|pf~regions/events/elliott_2022.json~regions/TEN/gen/natural_gas/116|pf~regions/events/elliott_2022.json~regions/TEN/baseline/gen/natural_gas/116",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "Pick Tennessee under A region hour by hour and read Generation by source at that hour; or regions, TEN, gen, each source at position ",
+       "116."
+      ],
+      [
+       "Natural gas ",
+       {
+        "v": 10727,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/gen/natural_gas/116",
+        "u": "MW"
+       },
+       ", coal ",
+       {
+        "v": 2423,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/gen/coal/116",
+        "u": "MW"
+       },
+       ", nuclear ",
+       {
+        "v": 8593,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/gen/nuclear/116",
+        "u": "MW"
+       },
+       ", hydro ",
+       {
+        "v": 5497,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/gen/hydro/116",
+        "u": "MW"
+       },
+       "; net_generation_mw ",
+       {
+        "v": 27342,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/net_generation_mw/116",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "Share: ",
+       {
+        "v": 10727,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/gen/natural_gas/116",
+        "u": "MW"
+       },
+       " / ",
+       {
+        "v": 27342,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/net_generation_mw/116",
+        "u": "MW"
+       },
+       " x 100 = ",
+       {
+        "v": 39.232682320239924,
+        "k": "calc|pct|pf~regions/events/elliott_2022.json~regions/TEN/gen/natural_gas/116|pf~regions/events/elliott_2022.json~regions/TEN/net_generation_mw/116",
+        "u": "%"
+       },
+       "."
+      ],
+      [
+       "The baseline's natural gas that hour: ",
+       {
+        "v": 5353,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/baseline/gen/natural_gas/116",
+        "u": "MW"
+       },
+       "; ",
+       {
+        "v": 10727,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/gen/natural_gas/116",
+        "u": "MW"
+       },
+       " / ",
+       {
+        "v": 5353,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/baseline/gen/natural_gas/116",
+        "u": "MW"
+       },
+       " = ",
+       {
+        "v": 2.003923033812815,
+        "k": "calc|ratio|pf~regions/events/elliott_2022.json~regions/TEN/gen/natural_gas/116|pf~regions/events/elliott_2022.json~regions/TEN/baseline/gen/natural_gas/116",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "Nuclear plants run near their full output in most hours, so the extra demand of a storm hour falls to the plants that can be turned up, such as gas, coal and hydro.",
+     "rows": 6,
+     "csv": "/problems/2026-11-21/storm-across-the-country-s3.csv"
+    },
+    {
+     "id": "s5",
+     "tables": [
+      "eia930_region_hourly",
+      "eia930_region_pair_hourly"
+     ],
+     "q": "In the same hour (2022-12-24 01:00 UTC), what were Tennessee's net imports, and its baseline's? How much flowed between Tennessee and each of its 4 neighbours, and which sent the most into Tennessee?",
+     "answer": [
+      "Net imports ",
+      {
+       "v": 5807,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/net_imports_mw/116",
+       "u": "MW"
+      },
+      " against ",
+      {
+       "v": 392,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/baseline/net_imports_mw/116",
+       "u": "MW"
+      },
+      " in the baseline. ",
+      "Carolinas to Tennessee ",
+      {
+       "v": 57,
+       "k": "pf|regions/events/elliott_2022.json|pairs/CAR-TEN/flow_mw/116",
+       "u": "MW"
+      },
+      "; Mid-Atlantic to Tennessee ",
+      {
+       "v": 2561,
+       "k": "pf|regions/events/elliott_2022.json|pairs/MIDA-TEN/flow_mw/116",
+       "u": "MW"
+      },
+      "; Midwest to Tennessee ",
+      {
+       "v": 4827,
+       "k": "pf|regions/events/elliott_2022.json|pairs/MIDW-TEN/flow_mw/116",
+       "u": "MW"
+      },
+      "; Southeast to Tennessee ",
+      {
+       "v": -52,
+       "k": "pf|regions/events/elliott_2022.json|pairs/SE-TEN/flow_mw/116",
+       "u": "MW"
+      },
+      ". The most from Midwest; below zero, Tennessee sent power to Southeast."
+     ],
+     "line": [
+      "the largest flow into Tennessee = ",
+      {
+       "v": 4827,
+       "k": "pf|regions/events/elliott_2022.json|pairs/MIDW-TEN/flow_mw/116",
+       "u": "MW"
+      },
+      " (Midwest); net imports ",
+      {
+       "v": 5807,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/net_imports_mw/116",
+       "u": "MW"
+      },
+      " against ",
+      {
+       "v": 392,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/baseline/net_imports_mw/116",
+       "u": "MW"
+      }
+     ],
+     "steps": [
+      [
+       "Tennessee's net_imports_mw at that hour (above zero it imports): ",
+       {
+        "v": 5807,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/net_imports_mw/116",
+        "u": "MW"
+       },
+       "; the baseline's: ",
+       {
+        "v": 392,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/baseline/net_imports_mw/116",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "Under pairs, each pair ending in TEN (power from the first region to Tennessee, above zero), flow_mw at position 116: ",
+       "CAR-TEN ",
+       {
+        "v": 57,
+        "k": "pf|regions/events/elliott_2022.json|pairs/CAR-TEN/flow_mw/116",
+        "u": "MW"
+       },
+       "; MIDA-TEN ",
+       {
+        "v": 2561,
+        "k": "pf|regions/events/elliott_2022.json|pairs/MIDA-TEN/flow_mw/116",
+        "u": "MW"
+       },
+       "; MIDW-TEN ",
+       {
+        "v": 4827,
+        "k": "pf|regions/events/elliott_2022.json|pairs/MIDW-TEN/flow_mw/116",
+        "u": "MW"
+       },
+       "; SE-TEN ",
+       {
+        "v": -52,
+        "k": "pf|regions/events/elliott_2022.json|pairs/SE-TEN/flow_mw/116",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "The table Power between regions, pair by pair gives the same pairs over the whole window, in the direction of the net flow."
+      ]
+     ],
+     "why": "In a storm a region leans on its neighbours: the flows show which of them had power to spare in that hour, and that it can send power out on one tie while it takes power in on another.",
+     "rows": 6,
+     "csv": "/problems/2026-11-21/storm-across-the-country-s5.csv"
+    },
+    {
+     "id": "s4",
+     "tables": [
+      "eia930_region_fuel_hourly"
+     ],
+     "q": "In Texas's highest hour of Uri (2021-02-15 01:00 UTC), how did wind and natural gas generation compare with the baseline's in that hour?",
+     "answer": [
+      "Wind ",
+      {
+       "v": 8087,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/gen/wind/188",
+       "u": "MW"
+      },
+      " against ",
+      {
+       "v": 10408,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/baseline/gen/wind/188",
+       "u": "MW"
+      },
+      ", a difference of ",
+      {
+       "v": -2321,
+       "k": "calc|diff|pf~regions/events/uri_2021.json~regions/TEX/gen/wind/188|pf~regions/events/uri_2021.json~regions/TEX/baseline/gen/wind/188",
+       "u": "MW"
+      },
+      "; natural gas ",
+      {
+       "v": 43798,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/gen/natural_gas/188",
+       "u": "MW"
+      },
+      " against ",
+      {
+       "v": 16616,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/baseline/gen/natural_gas/188",
+       "u": "MW"
+      },
+      ", ",
+      {
+       "v": 2.635893115069812,
+       "k": "calc|ratio|pf~regions/events/uri_2021.json~regions/TEX/gen/natural_gas/188|pf~regions/events/uri_2021.json~regions/TEX/baseline/gen/natural_gas/188",
+       "u": "times"
+      },
+      " the baseline."
+     ],
+     "line": [
+      {
+       "v": 8087,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/gen/wind/188",
+       "u": "MW"
+      },
+      " - ",
+      {
+       "v": 10408,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/baseline/gen/wind/188",
+       "u": "MW"
+      },
+      " = ",
+      {
+       "v": -2321,
+       "k": "calc|diff|pf~regions/events/uri_2021.json~regions/TEX/gen/wind/188|pf~regions/events/uri_2021.json~regions/TEX/baseline/gen/wind/188",
+       "u": "MW"
+      },
+      "; ",
+      {
+       "v": 43798,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/gen/natural_gas/188",
+       "u": "MW"
+      },
+      " / ",
+      {
+       "v": 16616,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/baseline/gen/natural_gas/188",
+       "u": "MW"
+      },
+      " = ",
+      {
+       "v": 2.635893115069812,
+       "k": "calc|ratio|pf~regions/events/uri_2021.json~regions/TEX/gen/natural_gas/188|pf~regions/events/uri_2021.json~regions/TEX/baseline/gen/natural_gas/188",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "Pick Texas under A region hour by hour on /events/uri-2021 and read Generation by source at 2021-02-15 01:00 UTC; or regions, TEX, gen and baseline, gen, at position 188."
+      ],
+      [
+       "Wind: ",
+       {
+        "v": 8087,
+        "k": "pf|regions/events/uri_2021.json|regions/TEX/gen/wind/188",
+        "u": "MW"
+       },
+       ", baseline ",
+       {
+        "v": 10408,
+        "k": "pf|regions/events/uri_2021.json|regions/TEX/baseline/gen/wind/188",
+        "u": "MW"
+       },
+       "; ",
+       {
+        "v": 8087,
+        "k": "pf|regions/events/uri_2021.json|regions/TEX/gen/wind/188",
+        "u": "MW"
+       },
+       " - ",
+       {
+        "v": 10408,
+        "k": "pf|regions/events/uri_2021.json|regions/TEX/baseline/gen/wind/188",
+        "u": "MW"
+       },
+       " = ",
+       {
+        "v": -2321,
+        "k": "calc|diff|pf~regions/events/uri_2021.json~regions/TEX/gen/wind/188|pf~regions/events/uri_2021.json~regions/TEX/baseline/gen/wind/188",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "Natural gas: ",
+       {
+        "v": 43798,
+        "k": "pf|regions/events/uri_2021.json|regions/TEX/gen/natural_gas/188",
+        "u": "MW"
+       },
+       ", baseline ",
+       {
+        "v": 16616,
+        "k": "pf|regions/events/uri_2021.json|regions/TEX/baseline/gen/natural_gas/188",
+        "u": "MW"
+       },
+       "; ",
+       {
+        "v": 43798,
+        "k": "pf|regions/events/uri_2021.json|regions/TEX/gen/natural_gas/188",
+        "u": "MW"
+       },
+       " / ",
+       {
+        "v": 16616,
+        "k": "pf|regions/events/uri_2021.json|regions/TEX/baseline/gen/natural_gas/188",
+        "u": "MW"
+       },
+       " = ",
+       {
+        "v": 2.635893115069812,
+        "k": "calc|ratio|pf~regions/events/uri_2021.json~regions/TEX/gen/natural_gas/188|pf~regions/events/uri_2021.json~regions/TEX/baseline/gen/natural_gas/188",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "One hour is not the storm: the same comparison at other hours of the window gives other answers, so the hour should be named whenever such a figure is quoted.",
+     "rows": 4,
+     "csv": "/problems/2026-11-21/storm-across-the-country-s4.csv"
+    },
+    {
+     "id": "s6",
+     "tables": [
+      "eia930_region_hourly"
+     ],
+     "q": "Compare the two storms: at its highest hour, how much did Texas import in Uri, and Tennessee in Elliott? Tennessee's net imports were how many times Texas's?",
+     "answer": [
+      "Texas ",
+      {
+       "v": 1194,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/net_imports_mw/188",
+       "u": "MW"
+      },
+      " at ",
+      {
+       "v": 69215,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/demand_mw/188",
+       "u": "MW"
+      },
+      " of demand; Tennessee ",
+      {
+       "v": 5807,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/net_imports_mw/116",
+       "u": "MW"
+      },
+      " at ",
+      {
+       "v": 33225,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/demand_mw/116",
+       "u": "MW"
+      },
+      ": Tennessee's net imports were ",
+      {
+       "v": 4.863484087102178,
+       "k": "calc|ratio|pf~regions/events/elliott_2022.json~regions/TEN/net_imports_mw/116|pf~regions/events/uri_2021.json~regions/TEX/net_imports_mw/188",
+       "u": "times"
+      },
+      " Texas's."
+     ],
+     "line": [
+      {
+       "v": 5807,
+       "k": "pf|regions/events/elliott_2022.json|regions/TEN/net_imports_mw/116",
+       "u": "MW"
+      },
+      " / ",
+      {
+       "v": 1194,
+       "k": "pf|regions/events/uri_2021.json|regions/TEX/net_imports_mw/188",
+       "u": "MW"
+      },
+      " = ",
+      {
+       "v": 4.863484087102178,
+       "k": "calc|ratio|pf~regions/events/elliott_2022.json~regions/TEN/net_imports_mw/116|pf~regions/events/uri_2021.json~regions/TEX/net_imports_mw/188",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "Texas, regions, TEX, net_imports_mw at position 188 of Uri's window: ",
+       {
+        "v": 1194,
+        "k": "pf|regions/events/uri_2021.json|regions/TEX/net_imports_mw/188",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "Tennessee, regions, TEN, net_imports_mw at position 116 of Elliott's window: ",
+       {
+        "v": 5807,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/net_imports_mw/116",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "Divide: ",
+       {
+        "v": 5807,
+        "k": "pf|regions/events/elliott_2022.json|regions/TEN/net_imports_mw/116",
+        "u": "MW"
+       },
+       " / ",
+       {
+        "v": 1194,
+        "k": "pf|regions/events/uri_2021.json|regions/TEX/net_imports_mw/188",
+        "u": "MW"
+       },
+       " = ",
+       {
+        "v": 4.863484087102178,
+        "k": "calc|ratio|pf~regions/events/elliott_2022.json~regions/TEN/net_imports_mw/116|pf~regions/events/uri_2021.json~regions/TEX/net_imports_mw/188",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "The Texas region of EIA-930 is ERCOT, a grid joined to its neighbours only through a few direct-current ties, so it can import little; Tennessee is part of the Eastern Interconnection, tied to four neighbouring regions.",
+     "rows": 4,
+     "csv": "/problems/2026-11-21/storm-across-the-country-s6.csv"
+    },
+    {
+     "id": "s7",
+     "tables": [
+      "eia930_region_pair_hourly"
+     ],
+     "q": "In Texas's highest hour of Uri (2021-02-15 01:00 UTC), how much power did the Central region report sending to Texas, how much did Texas report receiving, and how far apart are the two reports?",
+     "answer": [
+      "Central reported ",
+      {
+       "v": 820,
+       "k": "pf|regions/events/uri_2021.json|pairs/CENT-TEX/flow_mw_a/188",
+       "u": "MW"
+      },
+      ", Texas ",
+      {
+       "v": 812,
+       "k": "pf|regions/events/uri_2021.json|pairs/CENT-TEX/flow_mw_b/188",
+       "u": "MW"
+      },
+      ": apart by ",
+      {
+       "v": 8,
+       "k": "calc|diff|pf~regions/events/uri_2021.json~pairs/CENT-TEX/flow_mw_a/188|pf~regions/events/uri_2021.json~pairs/CENT-TEX/flow_mw_b/188",
+       "u": "MW"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 820,
+       "k": "pf|regions/events/uri_2021.json|pairs/CENT-TEX/flow_mw_a/188",
+       "u": "MW"
+      },
+      " - ",
+      {
+       "v": 812,
+       "k": "pf|regions/events/uri_2021.json|pairs/CENT-TEX/flow_mw_b/188",
+       "u": "MW"
+      },
+      " = ",
+      {
+       "v": 8,
+       "k": "calc|diff|pf~regions/events/uri_2021.json~pairs/CENT-TEX/flow_mw_a/188|pf~regions/events/uri_2021.json~pairs/CENT-TEX/flow_mw_b/188",
+       "u": "MW"
+      }
+     ],
+     "steps": [
+      [
+       "Under pairs, CENT-TEX (power from Central to Texas, above zero): flow_mw_a, Central's own report, and flow_mw_b, Texas's report turned to the same direction, at position 188."
+      ],
+      [
+       "Central ",
+       {
+        "v": 820,
+        "k": "pf|regions/events/uri_2021.json|pairs/CENT-TEX/flow_mw_a/188",
+        "u": "MW"
+       },
+       ", Texas ",
+       {
+        "v": 812,
+        "k": "pf|regions/events/uri_2021.json|pairs/CENT-TEX/flow_mw_b/188",
+        "u": "MW"
+       },
+       "; ",
+       {
+        "v": 820,
+        "k": "pf|regions/events/uri_2021.json|pairs/CENT-TEX/flow_mw_a/188",
+        "u": "MW"
+       },
+       " - ",
+       {
+        "v": 812,
+        "k": "pf|regions/events/uri_2021.json|pairs/CENT-TEX/flow_mw_b/188",
+        "u": "MW"
+       },
+       " = ",
+       {
+        "v": 8,
+        "k": "calc|diff|pf~regions/events/uri_2021.json~pairs/CENT-TEX/flow_mw_a/188|pf~regions/events/uri_2021.json~pairs/CENT-TEX/flow_mw_b/188",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "The page's flow_mw takes the first region's report where it is held, else the second's."
+      ]
+     ],
+     "why": "Even in a single hour two operators can report one flow differently; the file keeps both, and the page says which one it draws.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/storm-across-the-country-s7.csv"
+    }
+   ]
+  },
+  {
+   "slug": "under-the-ground-and-in-the-wind",
+   "title": "What is under the ground and in the wind",
+   "line": "The resource map's layers read in their own units: the wind and the sun, a modelled wind farm's capacity factor, geothermal sites, power that dams without turbines could make, and biomass counted in tonnes.",
+   "teacher": "About 40 minutes. Prerequisites: a unit and what it measures (m/s, kWh per square metre per day, MW, MWh, tonnes), a ratio, a share. Students should open the resources tab of /map, switch each layer on and read its legend, and open the Method note at the foot for each layer's unit, vintage and grain. Some figures (a layer's totals) are in the list of layers itself, site/data/resources/manifest.json.",
+   "pages": [
+    {
+     "href": "/map?tab=resources",
+     "label": "Where the resources are"
+    },
+    {
+     "href": "/data/methods/resources",
+     "label": "Method: the resource layers"
+    }
+   ],
+   "questions": [
+    {
+     "id": "r2",
+     "tables": [],
+     "q": "Two solar layers share a unit (kWh/m2/day): \"Global Horizontal Irradiance\" and \"Direct Normal Irradiance\". What is the highest value of each legend, and the second's is how many times the first's?",
+     "answer": [
+      "Global Horizontal Irradiance ",
+      {
+       "v": 6.912,
+       "k": "pf|resources/manifest.json|layers/@id=solar_ghi/other_extents/@extent=Hawaii/legend/max",
+       "u": "kWh/m2/day"
+      },
+      "; Direct Normal Irradiance ",
+      {
+       "v": 9,
+       "k": "pf|resources/manifest.json|layers/@id=solar_dni/legend/max",
+       "u": "kWh/m2/day"
+      },
+      ": ",
+      {
+       "v": 1.3020833333333333,
+       "k": "calc|ratio|pf~resources/manifest.json~layers/@id=solar_dni/legend/max|pf~resources/manifest.json~layers/@id=solar_ghi/other_extents/@extent=Hawaii/legend/max",
+       "u": "times"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 9,
+       "k": "pf|resources/manifest.json|layers/@id=solar_dni/legend/max",
+       "u": "kWh/m2/day"
+      },
+      " / ",
+      {
+       "v": 6.912,
+       "k": "pf|resources/manifest.json|layers/@id=solar_ghi/other_extents/@extent=Hawaii/legend/max",
+       "u": "kWh/m2/day"
+      },
+      " = ",
+      {
+       "v": 1.3020833333333333,
+       "k": "calc|ratio|pf~resources/manifest.json~layers/@id=solar_dni/legend/max|pf~resources/manifest.json~layers/@id=solar_ghi/other_extents/@extent=Hawaii/legend/max",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "Switch on each layer in turn and read the legend's top; or, in the list, the highest of each layer's legends over its parts (Hawaii for solar_ghi, the contiguous states for solar_dni): ",
+       {
+        "v": 6.912,
+        "k": "pf|resources/manifest.json|layers/@id=solar_ghi/other_extents/@extent=Hawaii/legend/max",
+        "u": "kWh/m2/day"
+       },
+       " and ",
+       {
+        "v": 9,
+        "k": "pf|resources/manifest.json|layers/@id=solar_dni/legend/max",
+        "u": "kWh/m2/day"
+       },
+       "."
+      ],
+      [
+       "Divide: ",
+       {
+        "v": 9,
+        "k": "pf|resources/manifest.json|layers/@id=solar_dni/legend/max",
+        "u": "kWh/m2/day"
+       },
+       " / ",
+       {
+        "v": 6.912,
+        "k": "pf|resources/manifest.json|layers/@id=solar_ghi/other_extents/@extent=Hawaii/legend/max",
+        "u": "kWh/m2/day"
+       },
+       " = ",
+       {
+        "v": 1.3020833333333333,
+        "k": "calc|ratio|pf~resources/manifest.json~layers/@id=solar_dni/legend/max|pf~resources/manifest.json~layers/@id=solar_ghi/other_extents/@extent=Hawaii/legend/max",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "Global horizontal irradiance is the sunlight on a flat surface; direct normal irradiance is the beam on a surface turned to face the sun. In a clear desert the direct beam is the larger, which is why plants that track the sun or concentrate it are built there.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/under-the-ground-and-in-the-wind-r2.csv"
+    },
+    {
+     "id": "r1",
+     "tables": [],
+     "q": "The layer \"Wind speed at 100 m\": what is the highest value of its legend, what is the highest value in the source's own cells (the list's source_stats, max), and how far apart are they? Why is the map's lower?",
+     "answer": [
+      "The legend's highest ",
+      {
+       "v": 13.582,
+       "k": "pf|resources/manifest.json|layers/@id=wind_speed_100m/legend/max",
+       "u": "m/s"
+      },
+      ", the source's highest ",
+      {
+       "v": 14.20068193950776,
+       "k": "pf|resources/manifest.json|layers/@id=wind_speed_100m/source_stats/max",
+       "u": "m/s"
+      },
+      ": the map's is lower by ",
+      {
+       "v": 0.6186819395077592,
+       "k": "calc|diff|pf~resources/manifest.json~layers/@id=wind_speed_100m/source_stats/max|pf~resources/manifest.json~layers/@id=wind_speed_100m/legend/max",
+       "u": "m/s"
+      },
+      ", because each map cell is the mean of the source's cells inside it."
+     ],
+     "line": [
+      {
+       "v": 14.20068193950776,
+       "k": "pf|resources/manifest.json|layers/@id=wind_speed_100m/source_stats/max",
+       "u": "m/s"
+      },
+      " - ",
+      {
+       "v": 13.582,
+       "k": "pf|resources/manifest.json|layers/@id=wind_speed_100m/legend/max",
+       "u": "m/s"
+      },
+      " = ",
+      {
+       "v": 0.6186819395077592,
+       "k": "calc|diff|pf~resources/manifest.json~layers/@id=wind_speed_100m/source_stats/max|pf~resources/manifest.json~layers/@id=wind_speed_100m/legend/max",
+       "u": "m/s"
+      }
+     ],
+     "steps": [
+      [
+       "Switch on Wind speed at 100 m and read the legend's top; or the layer wind_speed_100m, legend, max: ",
+       {
+        "v": 13.582,
+        "k": "pf|resources/manifest.json|layers/@id=wind_speed_100m/legend/max",
+        "u": "m/s"
+       },
+       "."
+      ],
+      [
+       "The source's own grain is 2 km (\"2km x 2km\"); the list's source_stats, max, is the highest of its cells: ",
+       {
+        "v": 14.20068193950776,
+        "k": "pf|resources/manifest.json|layers/@id=wind_speed_100m/source_stats/max",
+        "u": "m/s"
+       },
+       "."
+      ],
+      [
+       "Subtract: ",
+       {
+        "v": 14.20068193950776,
+        "k": "pf|resources/manifest.json|layers/@id=wind_speed_100m/source_stats/max",
+        "u": "m/s"
+       },
+       " - ",
+       {
+        "v": 13.582,
+        "k": "pf|resources/manifest.json|layers/@id=wind_speed_100m/legend/max",
+        "u": "m/s"
+       },
+       " = ",
+       {
+        "v": 0.6186819395077592,
+        "k": "calc|diff|pf~resources/manifest.json~layers/@id=wind_speed_100m/source_stats/max|pf~resources/manifest.json~layers/@id=wind_speed_100m/legend/max",
+        "u": "m/s"
+       },
+       ". The Method note says a coarser cell is the mean of the source's cells inside it, and a mean is never above the highest of what it averages."
+      ]
+     ],
+     "why": "A map has to average a fine source into larger cells, which lowers the peaks: the windiest spot is windier than any cell of the map shows.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/under-the-ground-and-in-the-wind-r1.csv"
+    },
+    {
+     "id": "r3",
+     "tables": [],
+     "q": "The layer \"Wind capacity factor (supply curve sites)\" (Mean capacity factor across 11.5km grid-cell (the source's capacity_factor_ac)) is a ratio. What are the mean and the highest values the list gives for it, and the highest is how many times the mean?",
+     "answer": [
+      "Mean ",
+      {
+       "v": 0.3115885580584312,
+       "k": "pf|resources/manifest.json|layers/@id=wind_capacity_factor/stats/mean",
+       "u": "ratio"
+      },
+      ", highest ",
+      {
+       "v": 0.54448533,
+       "k": "pf|resources/manifest.json|layers/@id=wind_capacity_factor/stats/max",
+       "u": "ratio"
+      },
+      ": the best place is ",
+      {
+       "v": 1.7474496926100038,
+       "k": "calc|ratio|pf~resources/manifest.json~layers/@id=wind_capacity_factor/stats/max|pf~resources/manifest.json~layers/@id=wind_capacity_factor/stats/mean",
+       "u": "times"
+      },
+      " the mean. ",
+      "Even there a wind farm makes less in a year than it would at full power every hour."
+     ],
+     "line": [
+      {
+       "v": 0.54448533,
+       "k": "pf|resources/manifest.json|layers/@id=wind_capacity_factor/stats/max",
+       "u": "ratio"
+      },
+      " / ",
+      {
+       "v": 0.3115885580584312,
+       "k": "pf|resources/manifest.json|layers/@id=wind_capacity_factor/stats/mean",
+       "u": "ratio"
+      },
+      " = ",
+      {
+       "v": 1.7474496926100038,
+       "k": "calc|ratio|pf~resources/manifest.json~layers/@id=wind_capacity_factor/stats/max|pf~resources/manifest.json~layers/@id=wind_capacity_factor/stats/mean",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "In site/data/resources/manifest.json, the layer wind_capacity_factor, stats: mean ",
+       {
+        "v": 0.3115885580584312,
+        "k": "pf|resources/manifest.json|layers/@id=wind_capacity_factor/stats/mean",
+        "u": "ratio"
+       },
+       ", max ",
+       {
+        "v": 0.54448533,
+        "k": "pf|resources/manifest.json|layers/@id=wind_capacity_factor/stats/max",
+        "u": "ratio"
+       },
+       ". The legend on the map runs to the same top."
+      ],
+      [
+       "A capacity factor is the energy a plant makes over the energy it would make at full power every hour: a ratio, so multiply by 100 for a percent."
+      ],
+      [
+       "Divide: ",
+       {
+        "v": 0.54448533,
+        "k": "pf|resources/manifest.json|layers/@id=wind_capacity_factor/stats/max",
+        "u": "ratio"
+       },
+       " / ",
+       {
+        "v": 0.3115885580584312,
+        "k": "pf|resources/manifest.json|layers/@id=wind_capacity_factor/stats/mean",
+        "u": "ratio"
+       },
+       " = ",
+       {
+        "v": 1.7474496926100038,
+        "k": "calc|ratio|pf~resources/manifest.json~layers/@id=wind_capacity_factor/stats/max|pf~resources/manifest.json~layers/@id=wind_capacity_factor/stats/mean",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "Nameplate megawatts are not energy: a wind farm's output follows the wind, so the energy it makes in a year is its capacity times the hours times its capacity factor.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/under-the-ground-and-in-the-wind-r3.csv"
+    },
+    {
+     "id": "r6",
+     "tables": [],
+     "q": "The layer \"Solid biomass resources by county\" is counted in dry metric tons/year. What is its national total, how much of it is crop residue (the part CropRes), and what share is that?",
+     "answer": [
+      "In all ",
+      {
+       "v": 315802780.059,
+       "k": "pf|resources/manifest.json|layers/@id=biomass/national_total",
+       "u": "dry metric tons/year"
+      },
+      "; crop residue ",
+      {
+       "v": 173997321.42436415,
+       "k": "pf|resources/manifest.json|layers/@id=biomass/parts/CropRes",
+       "u": "dry metric tons/year"
+      },
+      ", or ",
+      {
+       "v": 55.09683017732048,
+       "k": "calc|pct|pf~resources/manifest.json~layers/@id=biomass/parts/CropRes|pf~resources/manifest.json~layers/@id=biomass/national_total",
+       "u": "%"
+      },
+      ". A tonne is a mass, not energy: the map does not say how much power it would make."
+     ],
+     "line": [
+      {
+       "v": 173997321.42436415,
+       "k": "pf|resources/manifest.json|layers/@id=biomass/parts/CropRes",
+       "u": "dry metric tons/year"
+      },
+      " / ",
+      {
+       "v": 315802780.059,
+       "k": "pf|resources/manifest.json|layers/@id=biomass/national_total",
+       "u": "dry metric tons/year"
+      },
+      " x 100 = ",
+      {
+       "v": 55.09683017732048,
+       "k": "calc|pct|pf~resources/manifest.json~layers/@id=biomass/parts/CropRes|pf~resources/manifest.json~layers/@id=biomass/national_total",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "In site/data/resources/manifest.json, the layer biomass: national_total ",
+       {
+        "v": 315802780.059,
+        "k": "pf|resources/manifest.json|layers/@id=biomass/national_total",
+        "u": "dry metric tons/year"
+       },
+       "; parts, CropRes, ",
+       {
+        "v": 173997321.42436415,
+        "k": "pf|resources/manifest.json|layers/@id=biomass/parts/CropRes",
+        "u": "dry metric tons/year"
+       },
+       "."
+      ],
+      [
+       "Share: ",
+       {
+        "v": 173997321.42436415,
+        "k": "pf|resources/manifest.json|layers/@id=biomass/parts/CropRes",
+        "u": "dry metric tons/year"
+       },
+       " / ",
+       {
+        "v": 315802780.059,
+        "k": "pf|resources/manifest.json|layers/@id=biomass/national_total",
+        "u": "dry metric tons/year"
+       },
+       " x 100 = ",
+       {
+        "v": 55.09683017732048,
+        "k": "calc|pct|pf~resources/manifest.json~layers/@id=biomass/parts/CropRes|pf~resources/manifest.json~layers/@id=biomass/national_total",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "To turn tonnes into energy needs the heat in each kind of biomass and the efficiency of the plant that burns it, which the layer does not give; a figure in the wrong unit cannot be compared with a power plant.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/under-the-ground-and-in-the-wind-r6.csv"
+    },
+    {
+     "id": "r4",
+     "tables": [],
+     "q": "The layer \"Identified hydrothermal systems\": how many sites does it hold, what is the sum of their estimated output (Mean Megawatts electric (MWe), the source's MWe_Mean), the largest site's, and what share of the sum is the largest?",
+     "answer": [
+      {
+       "v": 253,
+       "k": "pf|resources/manifest.json|layers/@id=geothermal_hydrothermal_sites/stats/n",
+       "u": "sites"
+      },
+      ": in all ",
+      {
+       "v": 9060.8,
+       "k": "pf|resources/manifest.json|layers/@id=geothermal_hydrothermal_sites/total_mwe_mean",
+       "u": "MWe"
+      },
+      "; the largest ",
+      {
+       "v": 2209.9,
+       "k": "pf|resources/manifest.json|layers/@id=geothermal_hydrothermal_sites/stats/max",
+       "u": "MWe"
+      },
+      ", or ",
+      {
+       "v": 24.389678615574788,
+       "k": "calc|pct|pf~resources/manifest.json~layers/@id=geothermal_hydrothermal_sites/stats/max|pf~resources/manifest.json~layers/@id=geothermal_hydrothermal_sites/total_mwe_mean",
+       "u": "%"
+      },
+      " of the sum."
+     ],
+     "line": [
+      {
+       "v": 2209.9,
+       "k": "pf|resources/manifest.json|layers/@id=geothermal_hydrothermal_sites/stats/max",
+       "u": "MWe"
+      },
+      " / ",
+      {
+       "v": 9060.8,
+       "k": "pf|resources/manifest.json|layers/@id=geothermal_hydrothermal_sites/total_mwe_mean",
+       "u": "MWe"
+      },
+      " x 100 = ",
+      {
+       "v": 24.389678615574788,
+       "k": "calc|pct|pf~resources/manifest.json~layers/@id=geothermal_hydrothermal_sites/stats/max|pf~resources/manifest.json~layers/@id=geothermal_hydrothermal_sites/total_mwe_mean",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "In site/data/resources/manifest.json, the layer geothermal_hydrothermal_sites: stats, n, ",
+       {
+        "v": 253,
+        "k": "pf|resources/manifest.json|layers/@id=geothermal_hydrothermal_sites/stats/n",
+        "u": "sites"
+       },
+       "; total_mwe_mean, ",
+       {
+        "v": 9060.8,
+        "k": "pf|resources/manifest.json|layers/@id=geothermal_hydrothermal_sites/total_mwe_mean",
+        "u": "MWe"
+       },
+       "; stats, max, ",
+       {
+        "v": 2209.9,
+        "k": "pf|resources/manifest.json|layers/@id=geothermal_hydrothermal_sites/stats/max",
+        "u": "MWe"
+       },
+       "."
+      ],
+      [
+       "Share: ",
+       {
+        "v": 2209.9,
+        "k": "pf|resources/manifest.json|layers/@id=geothermal_hydrothermal_sites/stats/max",
+        "u": "MWe"
+       },
+       " / ",
+       {
+        "v": 9060.8,
+        "k": "pf|resources/manifest.json|layers/@id=geothermal_hydrothermal_sites/total_mwe_mean",
+        "u": "MWe"
+       },
+       " x 100 = ",
+       {
+        "v": 24.389678615574788,
+        "k": "calc|pct|pf~resources/manifest.json~layers/@id=geothermal_hydrothermal_sites/stats/max|pf~resources/manifest.json~layers/@id=geothermal_hydrothermal_sites/total_mwe_mean",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "MWe is megawatts of electricity a resource is estimated to support (U.S. Geological Survey (USGS)), not a plant that exists: a resource estimate says what could be built, and much of it may never be.",
+     "rows": 3,
+     "csv": "/problems/2026-11-21/under-the-ground-and-in-the-wind-r4.csv"
+    },
+    {
+     "id": "r5",
+     "tables": [],
+     "q": "The layer \"Hydropower potential at non-powered dams\" holds dams that make no power today. What capacity and what yearly energy does it estimate for them in all, and how many hours of full output a year is that energy?",
+     "answer": [
+      "Capacity ",
+      {
+       "v": 3939.268,
+       "k": "pf|resources/manifest.json|layers/@id=hydropower_npd/total_cap_mw",
+       "u": "MW"
+      },
+      ", energy ",
+      {
+       "v": 15244926.849,
+       "k": "pf|resources/manifest.json|layers/@id=hydropower_npd/total_gen_mwh_yr",
+       "u": "MWh a year"
+      },
+      ": ",
+      {
+       "v": 3869.989766880547,
+       "k": "calc|ratio|pf~resources/manifest.json~layers/@id=hydropower_npd/total_gen_mwh_yr|pf~resources/manifest.json~layers/@id=hydropower_npd/total_cap_mw",
+       "u": "hours"
+      },
+      " of full output a year."
+     ],
+     "line": [
+      {
+       "v": 15244926.849,
+       "k": "pf|resources/manifest.json|layers/@id=hydropower_npd/total_gen_mwh_yr",
+       "u": "MWh a year"
+      },
+      " / ",
+      {
+       "v": 3939.268,
+       "k": "pf|resources/manifest.json|layers/@id=hydropower_npd/total_cap_mw",
+       "u": "MW"
+      },
+      " = ",
+      {
+       "v": 3869.989766880547,
+       "k": "calc|ratio|pf~resources/manifest.json~layers/@id=hydropower_npd/total_gen_mwh_yr|pf~resources/manifest.json~layers/@id=hydropower_npd/total_cap_mw",
+       "u": "hours"
+      }
+     ],
+     "steps": [
+      [
+       "In site/data/resources/manifest.json, the layer hydropower_npd: total_cap_mw ",
+       {
+        "v": 3939.268,
+        "k": "pf|resources/manifest.json|layers/@id=hydropower_npd/total_cap_mw",
+        "u": "MW"
+       },
+       " and total_gen_mwh_yr ",
+       {
+        "v": 15244926.849,
+        "k": "pf|resources/manifest.json|layers/@id=hydropower_npd/total_gen_mwh_yr",
+        "u": "MWh a year"
+       },
+       "."
+      ],
+      [
+       "MWh divided by MW is hours: ",
+       {
+        "v": 15244926.849,
+        "k": "pf|resources/manifest.json|layers/@id=hydropower_npd/total_gen_mwh_yr",
+        "u": "MWh a year"
+       },
+       " / ",
+       {
+        "v": 3939.268,
+        "k": "pf|resources/manifest.json|layers/@id=hydropower_npd/total_cap_mw",
+        "u": "MW"
+       },
+       " = ",
+       {
+        "v": 3869.989766880547,
+        "k": "calc|ratio|pf~resources/manifest.json~layers/@id=hydropower_npd/total_gen_mwh_yr|pf~resources/manifest.json~layers/@id=hydropower_npd/total_cap_mw",
+        "u": "hours"
+       },
+       ", the hours the dams would need at full power to make a year's energy."
+      ]
+     ],
+     "why": "Hours of full output set against all the hours of a year are a capacity factor in another form: an estimate of energy, from a capacity that is not built.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/under-the-ground-and-in-the-wind-r5.csv"
+    }
+   ]
+  },
+  {
+   "slug": "where-energy-goes",
+   "title": "Where energy goes: industry, by fuel and by state",
+   "line": "The industrial sector's energy month by month and what electrical losses add, the manufacturing industries that use the most and on which fuels, a factory that makes its own power, and two states compared.",
+   "teacher": "About 45 minutes. Prerequisites: TBtu (a trillion British thermal units), a share, a ratio, the difference between a survey of factories and a count of a whole sector. Students read site/data/industry.json, the file the industry page draws, and the method note; every figure is EIA's as printed.",
+   "pages": [
+    {
+     "href": "/data/methods/industry_page",
+     "label": "Method: energy use by industry"
+    }
+   ],
+   "questions": [
+    {
+     "id": "i1",
+     "tables": [
+      "eia_sector_energy_consumption_monthly"
+     ],
+     "q": "In July 2026, the newest month of the file, how much energy did the industrial sector consume in all, how much was end use, and how far apart are they? Compare with the sector's share of electrical system losses.",
+     "answer": [
+      "July 2026: in all ",
+      {
+       "v": 2713.602,
+       "k": "pf|industry.json|monthly/by_source/total/642",
+       "u": "TBtu"
+      },
+      ", end use ",
+      {
+       "v": 2239.905,
+       "k": "pf|industry.json|monthly/by_source/end_use_total/642",
+       "u": "TBtu"
+      },
+      ": apart by ",
+      {
+       "v": 473.69699999999966,
+       "k": "calc|diff|pf~industry.json~monthly/by_source/total/642|pf~industry.json~monthly/by_source/end_use_total/642",
+       "u": "TBtu"
+      },
+      "; the losses the file gives are ",
+      {
+       "v": 473.696,
+       "k": "pf|industry.json|monthly/by_source/electrical_system_losses/642",
+       "u": "TBtu"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 2713.602,
+       "k": "pf|industry.json|monthly/by_source/total/642",
+       "u": "TBtu"
+      },
+      " - ",
+      {
+       "v": 2239.905,
+       "k": "pf|industry.json|monthly/by_source/end_use_total/642",
+       "u": "TBtu"
+      },
+      " = ",
+      {
+       "v": 473.69699999999966,
+       "k": "calc|diff|pf~industry.json~monthly/by_source/total/642|pf~industry.json~monthly/by_source/end_use_total/642",
+       "u": "TBtu"
+      },
+      "; electrical_system_losses = ",
+      {
+       "v": 473.696,
+       "k": "pf|industry.json|monthly/by_source/electrical_system_losses/642",
+       "u": "TBtu"
+      }
+     ],
+     "steps": [
+      [
+       "In site/data/industry.json: monthly, by_source, at position 642 of monthly, months (2026-07)."
+      ],
+      [
+       "total ",
+       {
+        "v": 2713.602,
+        "k": "pf|industry.json|monthly/by_source/total/642",
+        "u": "TBtu"
+       },
+       "; end_use_total ",
+       {
+        "v": 2239.905,
+        "k": "pf|industry.json|monthly/by_source/end_use_total/642",
+        "u": "TBtu"
+       },
+       "."
+      ],
+      [
+       "Subtract: ",
+       {
+        "v": 2713.602,
+        "k": "pf|industry.json|monthly/by_source/total/642",
+        "u": "TBtu"
+       },
+       " - ",
+       {
+        "v": 2239.905,
+        "k": "pf|industry.json|monthly/by_source/end_use_total/642",
+        "u": "TBtu"
+       },
+       " = ",
+       {
+        "v": 473.69699999999966,
+        "k": "calc|diff|pf~industry.json~monthly/by_source/total/642|pf~industry.json~monthly/by_source/end_use_total/642",
+        "u": "TBtu"
+       },
+       "; electrical_system_losses, ",
+       {
+        "v": 473.696,
+        "k": "pf|industry.json|monthly/by_source/electrical_system_losses/642",
+        "u": "TBtu"
+       },
+       ", is the industrial sector's share of electrical system energy losses."
+      ]
+     ],
+     "why": "Electricity loses energy on its way from the power plant: the sector's total counts its share of those losses, and its end use counts only what reached it.",
+     "rows": 3,
+     "csv": "/problems/2026-11-21/where-energy-goes-i1.csv"
+    },
+    {
+     "id": "i2",
+     "tables": [
+      "eia_sector_energy_consumption_monthly"
+     ],
+     "q": "How much energy did the industrial sector consume in July 2026 and in July 2025, a year before, and the first is how many times the second?",
+     "answer": [
+      "July 2026 ",
+      {
+       "v": 2713.602,
+       "k": "pf|industry.json|monthly/by_source/total/642",
+       "u": "TBtu"
+      },
+      ", July 2025 ",
+      {
+       "v": 2766.799,
+       "k": "pf|industry.json|monthly/by_source/total/630",
+       "u": "TBtu"
+      },
+      ": ",
+      {
+       "v": 0.9807730883233657,
+       "k": "calc|ratio|pf~industry.json~monthly/by_source/total/642|pf~industry.json~monthly/by_source/total/630",
+       "u": "times"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 2713.602,
+       "k": "pf|industry.json|monthly/by_source/total/642",
+       "u": "TBtu"
+      },
+      " / ",
+      {
+       "v": 2766.799,
+       "k": "pf|industry.json|monthly/by_source/total/630",
+       "u": "TBtu"
+      },
+      " = ",
+      {
+       "v": 0.9807730883233657,
+       "k": "calc|ratio|pf~industry.json~monthly/by_source/total/642|pf~industry.json~monthly/by_source/total/630",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "monthly, by_source, total at positions 642 (2026-07) and 630 (2025-07)."
+      ],
+      [
+       "Divide: ",
+       {
+        "v": 2713.602,
+        "k": "pf|industry.json|monthly/by_source/total/642",
+        "u": "TBtu"
+       },
+       " / ",
+       {
+        "v": 2766.799,
+        "k": "pf|industry.json|monthly/by_source/total/630",
+        "u": "TBtu"
+       },
+       " = ",
+       {
+        "v": 0.9807730883233657,
+        "k": "calc|ratio|pf~industry.json~monthly/by_source/total/642|pf~industry.json~monthly/by_source/total/630",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "A month is set against the same month of the year before, so the season is the same on both sides and only the year differs.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/where-energy-goes-i2.csv"
+    },
+    {
+     "id": "i3",
+     "tables": [
+      "eia_mecs_manufacturing"
+     ],
+     "q": "The industries ranked by fuel consumption in 2022: which two used the most, how much did each use, and the first's is how many times the second's?",
+     "answer": [
+      "Chemicals ",
+      {
+       "v": 3976,
+       "k": "pf|industry.json|industries/industries/325/by_region/us/total",
+       "u": "TBtu"
+      },
+      ", Petroleum and Coal Products ",
+      {
+       "v": 3543,
+       "k": "pf|industry.json|industries/industries/324/by_region/us/total",
+       "u": "TBtu"
+      },
+      ": ",
+      {
+       "v": 1.1222128139994354,
+       "k": "calc|ratio|pf~industry.json~industries/industries/325/by_region/us/total|pf~industry.json~industries/industries/324/by_region/us/total",
+       "u": "times"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 3976,
+       "k": "pf|industry.json|industries/industries/325/by_region/us/total",
+       "u": "TBtu"
+      },
+      " / ",
+      {
+       "v": 3543,
+       "k": "pf|industry.json|industries/industries/324/by_region/us/total",
+       "u": "TBtu"
+      },
+      " = ",
+      {
+       "v": 1.1222128139994354,
+       "k": "calc|ratio|pf~industry.json~industries/industries/325/by_region/us/total|pf~industry.json~industries/industries/324/by_region/us/total",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "industries, ranked_3_digit, lists the industries from the largest: 325 (Chemicals) and 324 (Petroleum and Coal Products) first."
+      ],
+      [
+       "Each one's by_region, us, total: ",
+       {
+        "v": 3976,
+        "k": "pf|industry.json|industries/industries/325/by_region/us/total",
+        "u": "TBtu"
+       },
+       " and ",
+       {
+        "v": 3543,
+        "k": "pf|industry.json|industries/industries/324/by_region/us/total",
+        "u": "TBtu"
+       },
+       "."
+      ],
+      [
+       "Divide: ",
+       {
+        "v": 3976,
+        "k": "pf|industry.json|industries/industries/325/by_region/us/total",
+        "u": "TBtu"
+       },
+       " / ",
+       {
+        "v": 3543,
+        "k": "pf|industry.json|industries/industries/324/by_region/us/total",
+        "u": "TBtu"
+       },
+       " = ",
+       {
+        "v": 1.1222128139994354,
+        "k": "calc|ratio|pf~industry.json~industries/industries/325/by_region/us/total|pf~industry.json~industries/industries/324/by_region/us/total",
+        "u": "times"
+       },
+       "."
+      ]
+     ],
+     "why": "A few industries that turn raw materials into chemicals, fuels, paper and metals use most of manufacturing's energy; most others use far less.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/where-energy-goes-i3.csv"
+    },
+    {
+     "id": "i6",
+     "tables": [
+      "eia_mecs_manufacturing"
+     ],
+     "q": "Chemicals in 2022: how much fuel did its plants in the South census region consume, of how much in the United States, and what share is that?",
+     "answer": [
+      "The South ",
+      {
+       "v": 2725,
+       "k": "pf|industry.json|industries/industries/325/by_region/south/total",
+       "u": "TBtu"
+      },
+      " of ",
+      {
+       "v": 3976,
+       "k": "pf|industry.json|industries/industries/325/by_region/us/total",
+       "u": "TBtu"
+      },
+      ", or ",
+      {
+       "v": 68.53621730382294,
+       "k": "calc|pct|pf~industry.json~industries/industries/325/by_region/south/total|pf~industry.json~industries/industries/325/by_region/us/total",
+       "u": "%"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 2725,
+       "k": "pf|industry.json|industries/industries/325/by_region/south/total",
+       "u": "TBtu"
+      },
+      " / ",
+      {
+       "v": 3976,
+       "k": "pf|industry.json|industries/industries/325/by_region/us/total",
+       "u": "TBtu"
+      },
+      " x 100 = ",
+      {
+       "v": 68.53621730382294,
+       "k": "calc|pct|pf~industry.json~industries/industries/325/by_region/south/total|pf~industry.json~industries/industries/325/by_region/us/total",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "industries, industries, 325, by_region: south, total, ",
+       {
+        "v": 2725,
+        "k": "pf|industry.json|industries/industries/325/by_region/south/total",
+        "u": "TBtu"
+       },
+       "; us, total, ",
+       {
+        "v": 3976,
+        "k": "pf|industry.json|industries/industries/325/by_region/us/total",
+        "u": "TBtu"
+       },
+       "."
+      ],
+      [
+       "Share: ",
+       {
+        "v": 2725,
+        "k": "pf|industry.json|industries/industries/325/by_region/south/total",
+        "u": "TBtu"
+       },
+       " / ",
+       {
+        "v": 3976,
+        "k": "pf|industry.json|industries/industries/325/by_region/us/total",
+        "u": "TBtu"
+       },
+       " x 100 = ",
+       {
+        "v": 68.53621730382294,
+        "k": "calc|pct|pf~industry.json~industries/industries/325/by_region/south/total|pf~industry.json~industries/industries/325/by_region/us/total",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "An industry settles where its raw materials, its fuel and its customers are, so one census region can hold most of an industry's energy use.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/where-energy-goes-i6.csv"
+    },
+    {
+     "id": "i4",
+     "tables": [
+      "eia_mecs_manufacturing"
+     ],
+     "q": "Petroleum and Coal Products in 2022: how much of its fuel does the survey count as \"other\", of how much in all, and what share is that?",
+     "answer": [
+      "Other ",
+      {
+       "v": 2123,
+       "k": "pf|industry.json|industries/industries/324/by_region/us/other",
+       "u": "TBtu"
+      },
+      " of ",
+      {
+       "v": 3543,
+       "k": "pf|industry.json|industries/industries/324/by_region/us/total",
+       "u": "TBtu"
+      },
+      ", or ",
+      {
+       "v": 59.920970928591586,
+       "k": "calc|pct|pf~industry.json~industries/industries/324/by_region/us/other|pf~industry.json~industries/industries/324/by_region/us/total",
+       "u": "%"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 2123,
+       "k": "pf|industry.json|industries/industries/324/by_region/us/other",
+       "u": "TBtu"
+      },
+      " / ",
+      {
+       "v": 3543,
+       "k": "pf|industry.json|industries/industries/324/by_region/us/total",
+       "u": "TBtu"
+      },
+      " x 100 = ",
+      {
+       "v": 59.920970928591586,
+       "k": "calc|pct|pf~industry.json~industries/industries/324/by_region/us/other|pf~industry.json~industries/industries/324/by_region/us/total",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "industries, industries, 324, by_region, us: other ",
+       {
+        "v": 2123,
+        "k": "pf|industry.json|industries/industries/324/by_region/us/other",
+        "u": "TBtu"
+       },
+       ", total ",
+       {
+        "v": 3543,
+        "k": "pf|industry.json|industries/industries/324/by_region/us/total",
+        "u": "TBtu"
+       },
+       "."
+      ],
+      [
+       "Share: ",
+       {
+        "v": 2123,
+        "k": "pf|industry.json|industries/industries/324/by_region/us/other",
+        "u": "TBtu"
+       },
+       " / ",
+       {
+        "v": 3543,
+        "k": "pf|industry.json|industries/industries/324/by_region/us/total",
+        "u": "TBtu"
+       },
+       " x 100 = ",
+       {
+        "v": 59.920970928591586,
+        "k": "calc|pct|pf~industry.json~industries/industries/324/by_region/us/other|pf~industry.json~industries/industries/324/by_region/us/total",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "The survey names a column for each common fuel; \"other\" holds what has no column of its own, which for a refinery includes fuels it makes from its own crude oil, so a large \"other\" is not an unknown.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/where-energy-goes-i4.csv"
+    },
+    {
+     "id": "i7",
+     "tables": [
+      "eia_seds_industrial_annual"
+     ],
+     "q": "In 2024, the newest year the file holds for both, how much energy did the industrial sector consume in Texas and in Louisiana, and Texas's is how many times Louisiana's?",
+     "answer": [
+      "2024: Texas ",
+      {
+       "v": 8113.456,
+       "k": "pf|industry.json|states_annual/states/TX/consumption_tbtu/total/34",
+       "u": "TBtu"
+      },
+      ", Louisiana ",
+      {
+       "v": 2997.206,
+       "k": "pf|industry.json|states_annual/states/LA/consumption_tbtu/total/34",
+       "u": "TBtu"
+      },
+      ": ",
+      {
+       "v": 2.7070064586818523,
+       "k": "calc|ratio|pf~industry.json~states_annual/states/TX/consumption_tbtu/total/34|pf~industry.json~states_annual/states/LA/consumption_tbtu/total/34",
+       "u": "times"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 8113.456,
+       "k": "pf|industry.json|states_annual/states/TX/consumption_tbtu/total/34",
+       "u": "TBtu"
+      },
+      " / ",
+      {
+       "v": 2997.206,
+       "k": "pf|industry.json|states_annual/states/LA/consumption_tbtu/total/34",
+       "u": "TBtu"
+      },
+      " = ",
+      {
+       "v": 2.7070064586818523,
+       "k": "calc|ratio|pf~industry.json~states_annual/states/TX/consumption_tbtu/total/34|pf~industry.json~states_annual/states/LA/consumption_tbtu/total/34",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "states_annual, states, TX and LA, consumption_tbtu, total, at position 34 of states_annual, years (2024)."
+      ],
+      [
+       "Texas ",
+       {
+        "v": 8113.456,
+        "k": "pf|industry.json|states_annual/states/TX/consumption_tbtu/total/34",
+        "u": "TBtu"
+       },
+       ", Louisiana ",
+       {
+        "v": 2997.206,
+        "k": "pf|industry.json|states_annual/states/LA/consumption_tbtu/total/34",
+        "u": "TBtu"
+       },
+       "."
+      ],
+      [
+       "Divide: ",
+       {
+        "v": 8113.456,
+        "k": "pf|industry.json|states_annual/states/TX/consumption_tbtu/total/34",
+        "u": "TBtu"
+       },
+       " / ",
+       {
+        "v": 2997.206,
+        "k": "pf|industry.json|states_annual/states/LA/consumption_tbtu/total/34",
+        "u": "TBtu"
+       },
+       " = ",
+       {
+        "v": 2.7070064586818523,
+        "k": "calc|ratio|pf~industry.json~states_annual/states/TX/consumption_tbtu/total/34|pf~industry.json~states_annual/states/LA/consumption_tbtu/total/34",
+        "u": "times"
+       },
+       ". The State Energy Data System counts the whole industrial sector (farms, mines and construction included), not only factories."
+      ]
+     ],
+     "why": "A state's industrial energy follows its refineries and chemical plants more than its population, so a smaller state can use a large share.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/where-energy-goes-i7.csv"
+    },
+    {
+     "id": "i5",
+     "tables": [
+      "eia_mecs_manufacturing"
+     ],
+     "q": "Chemicals in 2022: how much electricity did its plants generate on site, what was its net demand for electricity, and what share of the net demand is the on-site generation?",
+     "answer": [
+      "On site ",
+      {
+       "v": 60426000,
+       "k": "pf|industry.json|industries/industries/325/electricity_mwh/us/elec_onsite_generation",
+       "u": "MWh"
+      },
+      ", net demand ",
+      {
+       "v": 210095000,
+       "k": "pf|industry.json|industries/industries/325/electricity_mwh/us/elec_net_demand",
+       "u": "MWh"
+      },
+      ": ",
+      {
+       "v": 28.76127466146267,
+       "k": "calc|pct|pf~industry.json~industries/industries/325/electricity_mwh/us/elec_onsite_generation|pf~industry.json~industries/industries/325/electricity_mwh/us/elec_net_demand",
+       "u": "%"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 60426000,
+       "k": "pf|industry.json|industries/industries/325/electricity_mwh/us/elec_onsite_generation",
+       "u": "MWh"
+      },
+      " / ",
+      {
+       "v": 210095000,
+       "k": "pf|industry.json|industries/industries/325/electricity_mwh/us/elec_net_demand",
+       "u": "MWh"
+      },
+      " x 100 = ",
+      {
+       "v": 28.76127466146267,
+       "k": "calc|pct|pf~industry.json~industries/industries/325/electricity_mwh/us/elec_onsite_generation|pf~industry.json~industries/industries/325/electricity_mwh/us/elec_net_demand",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "industries, industries, 325, electricity_mwh, us: elec_onsite_generation ",
+       {
+        "v": 60426000,
+        "k": "pf|industry.json|industries/industries/325/electricity_mwh/us/elec_onsite_generation",
+        "u": "MWh"
+       },
+       "; elec_net_demand ",
+       {
+        "v": 210095000,
+        "k": "pf|industry.json|industries/industries/325/electricity_mwh/us/elec_net_demand",
+        "u": "MWh"
+       },
+       "."
+      ],
+      [
+       "Share: ",
+       {
+        "v": 60426000,
+        "k": "pf|industry.json|industries/industries/325/electricity_mwh/us/elec_onsite_generation",
+        "u": "MWh"
+       },
+       " / ",
+       {
+        "v": 210095000,
+        "k": "pf|industry.json|industries/industries/325/electricity_mwh/us/elec_net_demand",
+        "u": "MWh"
+       },
+       " x 100 = ",
+       {
+        "v": 28.76127466146267,
+        "k": "calc|pct|pf~industry.json~industries/industries/325/electricity_mwh/us/elec_onsite_generation|pf~industry.json~industries/industries/325/electricity_mwh/us/elec_net_demand",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "Many large plants burn fuel to make both steam and electricity (cogeneration), so part of their electricity never passes through the grid and is not in the utilities' sales.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/where-energy-goes-i5.csv"
+    }
+   ]
+  },
+  {
+   "slug": "your-own-balancing-authority",
+   "title": "Your own balancing authority: what it owns, what is coming, how clean it is, whom it leans on",
+   "line": "The Tennessee Valley Authority's power plants and its largest, what it plans to build and retire, what its nuclear and gas plants generated against what they could, the neighbour it imports from, two grids' carbon side by side, and how fast its demand grew.",
+   "teacher": "About 45 minutes. Prerequisites: MW against MWh, a share, a ratio, a difference in percentage points. Students open the Grid tool's map (/grid, the network view, Map), click the Tennessee Valley Authority and read the block Its own facts; then repeat any question for the authority they live in, from its own file under site/data/regions/authority/. The worked answers read site/data/regions/authority/tva.json, erco.json and ciso.json.",
+   "pages": [
+    {
+     "href": "/grid?grid=us48&view=network&shape=map",
+     "label": "The map of the balancing authorities"
+    },
+    {
+     "href": "/data/methods/authority_facts",
+     "label": "Method: every authority's own facts"
+    }
+   ],
+   "questions": [
+    {
+     "id": "b1",
+     "tables": [
+      "eia860m_operating_generators"
+     ],
+     "q": "Which is the Tennessee Valley Authority's largest power plant, how much capacity does it have, and what share of the authority's capacity is that?",
+     "answer": [
+      "Browns Ferry (AL, nuclear): ",
+      {
+       "v": 3854,
+       "k": "pf|regions/authority/tva.json|owns/largest_plants/0/mw",
+       "u": "MW"
+      },
+      " of ",
+      {
+       "v": 44697.4,
+       "k": "pf|regions/authority/tva.json|owns/total_mw",
+       "u": "MW"
+      },
+      ", or ",
+      {
+       "v": 8.622425465463316,
+       "k": "calc|pct|pf~regions/authority/tva.json~owns/largest_plants/0/mw|pf~regions/authority/tva.json~owns/total_mw",
+       "u": "%"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 3854,
+       "k": "pf|regions/authority/tva.json|owns/largest_plants/0/mw",
+       "u": "MW"
+      },
+      " / ",
+      {
+       "v": 44697.4,
+       "k": "pf|regions/authority/tva.json|owns/total_mw",
+       "u": "MW"
+      },
+      " x 100 = ",
+      {
+       "v": 8.622425465463316,
+       "k": "calc|pct|pf~regions/authority/tva.json~owns/largest_plants/0/mw|pf~regions/authority/tva.json~owns/total_mw",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "owns, largest_plants lists the ten largest plants from the largest: the first is ",
+       "Browns Ferry, ",
+       {
+        "v": 3854,
+        "k": "pf|regions/authority/tva.json|owns/largest_plants/0/mw",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "Share of owns, total_mw: ",
+       {
+        "v": 3854,
+        "k": "pf|regions/authority/tva.json|owns/largest_plants/0/mw",
+        "u": "MW"
+       },
+       " / ",
+       {
+        "v": 44697.4,
+        "k": "pf|regions/authority/tva.json|owns/total_mw",
+        "u": "MW"
+       },
+       " x 100 = ",
+       {
+        "v": 8.622425465463316,
+        "k": "calc|pct|pf~regions/authority/tva.json~owns/largest_plants/0/mw|pf~regions/authority/tva.json~owns/total_mw",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "A few large plants hold much of an authority's capacity, so the loss of one of them on a cold morning is felt across the whole authority.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/your-own-balancing-authority-b1.csv"
+    },
+    {
+     "id": "b2",
+     "tables": [
+      "eia860m_operating_generators",
+      "eia930_region_fuel_hourly"
+     ],
+     "q": "For the Tennessee Valley Authority, what share of its capacity is nuclear and what share is natural gas, and what share of its generation from November 2025 to October 2026 did each make? Which fleet runs harder?",
+     "answer": [
+      "Nuclear: ",
+      {
+       "v": 19.765802932609052,
+       "k": "calc|pct|pf~regions/authority/tva.json~owns/capacity_mw/nuclear|pf~regions/authority/tva.json~owns/total_mw",
+       "u": "%"
+      },
+      " of capacity, ",
+      {
+       "v": 40.6,
+       "k": "pf|regions/authority/tva.json|burns/share_pct/nuclear",
+       "u": "%"
+      },
+      " of generation. Natural gas: ",
+      {
+       "v": 41.594813121121135,
+       "k": "calc|pct|pf~regions/authority/tva.json~owns/capacity_mw/natural_gas|pf~regions/authority/tva.json~owns/total_mw",
+       "u": "%"
+      },
+      " of capacity, ",
+      {
+       "v": 33.22,
+       "k": "pf|regions/authority/tva.json|burns/share_pct/natural_gas",
+       "u": "%"
+      },
+      " of generation. ",
+      "Nuclear makes the larger share of generation for its share of capacity: it runs nearly every hour, gas plants run when they are needed."
+     ],
+     "line": [
+      {
+       "v": 8834.8,
+       "k": "pf|regions/authority/tva.json|owns/capacity_mw/nuclear",
+       "u": "MW"
+      },
+      " / ",
+      {
+       "v": 44697.4,
+       "k": "pf|regions/authority/tva.json|owns/total_mw",
+       "u": "MW"
+      },
+      " x 100 = ",
+      {
+       "v": 19.765802932609052,
+       "k": "calc|pct|pf~regions/authority/tva.json~owns/capacity_mw/nuclear|pf~regions/authority/tva.json~owns/total_mw",
+       "u": "%"
+      },
+      "; ",
+      {
+       "v": 18591.8,
+       "k": "pf|regions/authority/tva.json|owns/capacity_mw/natural_gas",
+       "u": "MW"
+      },
+      " / ",
+      {
+       "v": 44697.4,
+       "k": "pf|regions/authority/tva.json|owns/total_mw",
+       "u": "MW"
+      },
+      " x 100 = ",
+      {
+       "v": 41.594813121121135,
+       "k": "calc|pct|pf~regions/authority/tva.json~owns/capacity_mw/natural_gas|pf~regions/authority/tva.json~owns/total_mw",
+       "u": "%"
+      },
+      "; burns, share_pct: ",
+      {
+       "v": 40.6,
+       "k": "pf|regions/authority/tva.json|burns/share_pct/nuclear",
+       "u": "%"
+      },
+      " and ",
+      {
+       "v": 33.22,
+       "k": "pf|regions/authority/tva.json|burns/share_pct/natural_gas",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "Capacity shares from owns: ",
+       {
+        "v": 8834.8,
+        "k": "pf|regions/authority/tva.json|owns/capacity_mw/nuclear",
+        "u": "MW"
+       },
+       " and ",
+       {
+        "v": 18591.8,
+        "k": "pf|regions/authority/tva.json|owns/capacity_mw/natural_gas",
+        "u": "MW"
+       },
+       " of ",
+       {
+        "v": 44697.4,
+        "k": "pf|regions/authority/tva.json|owns/total_mw",
+        "u": "MW"
+       },
+       ": ",
+       {
+        "v": 19.765802932609052,
+        "k": "calc|pct|pf~regions/authority/tva.json~owns/capacity_mw/nuclear|pf~regions/authority/tva.json~owns/total_mw",
+        "u": "%"
+       },
+       " and ",
+       {
+        "v": 41.594813121121135,
+        "k": "calc|pct|pf~regions/authority/tva.json~owns/capacity_mw/natural_gas|pf~regions/authority/tva.json~owns/total_mw",
+        "u": "%"
+       },
+       "."
+      ],
+      [
+       "Generation shares from burns, share_pct, over November 2025 to October 2026: nuclear ",
+       {
+        "v": 40.6,
+        "k": "pf|regions/authority/tva.json|burns/share_pct/nuclear",
+        "u": "%"
+       },
+       ", natural gas ",
+       {
+        "v": 33.22,
+        "k": "pf|regions/authority/tva.json|burns/share_pct/natural_gas",
+        "u": "%"
+       },
+       "."
+      ],
+      [
+       "Compare each fleet's share of generation with its share of capacity."
+      ]
+     ],
+     "why": "Capacity says what a fleet could make in an hour; generation says what it made. A fleet whose share of generation is above its share of capacity runs more of the year than the others.",
+     "rows": 5,
+     "csv": "/problems/2026-11-21/your-own-balancing-authority-b2.csv"
+    },
+    {
+     "id": "b6",
+     "tables": [
+      "eia930_all_emissions",
+      "eia930_region_fuel_hourly"
+     ],
+     "q": "Over November 2025 to October 2026, how much CO2 did each MWh generated in ERCOT and in CAISO carry, by EIA's estimates, and ERCOT's is how many times CAISO's? Why does the Tennessee Valley Authority's file give no figure?",
+     "answer": [
+      "ERCOT ",
+      {
+       "v": 303.9,
+       "k": "pf|regions/authority/erco.json|burns/co2/intensity_kg_per_mwh",
+       "u": "kg CO2 per MWh"
+      },
+      ", CAISO ",
+      {
+       "v": 132.5,
+       "k": "pf|regions/authority/ciso.json|burns/co2/intensity_kg_per_mwh",
+       "u": "kg CO2 per MWh"
+      },
+      ": ERCOT's is ",
+      {
+       "v": 2.293584905660377,
+       "k": "calc|ratio|pf~regions/authority/erco.json~burns/co2/intensity_kg_per_mwh|pf~regions/authority/ciso.json~burns/co2/intensity_kg_per_mwh",
+       "u": "times"
+      },
+      " CAISO's. ",
+      "The Tennessee Valley Authority's file says why it has none: EIA's hourly CO2 estimates held by the ERW (eia930_all_emissions, from EIA's Grid Monitor workbooks) cover the seven ISOs and the Lower 48 only."
+     ],
+     "line": [
+      {
+       "v": 303.9,
+       "k": "pf|regions/authority/erco.json|burns/co2/intensity_kg_per_mwh",
+       "u": "kg CO2 per MWh"
+      },
+      " / ",
+      {
+       "v": 132.5,
+       "k": "pf|regions/authority/ciso.json|burns/co2/intensity_kg_per_mwh",
+       "u": "kg CO2 per MWh"
+      },
+      " = ",
+      {
+       "v": 2.293584905660377,
+       "k": "calc|ratio|pf~regions/authority/erco.json~burns/co2/intensity_kg_per_mwh|pf~regions/authority/ciso.json~burns/co2/intensity_kg_per_mwh",
+       "u": "times"
+      }
+     ],
+     "steps": [
+      [
+       "In site/data/regions/authority/erco.json and ciso.json: burns, co2, intensity_kg_per_mwh: ",
+       {
+        "v": 303.9,
+        "k": "pf|regions/authority/erco.json|burns/co2/intensity_kg_per_mwh",
+        "u": "kg CO2 per MWh"
+       },
+       " and ",
+       {
+        "v": 132.5,
+        "k": "pf|regions/authority/ciso.json|burns/co2/intensity_kg_per_mwh",
+        "u": "kg CO2 per MWh"
+       },
+       "."
+      ],
+      [
+       "Divide: ",
+       {
+        "v": 303.9,
+        "k": "pf|regions/authority/erco.json|burns/co2/intensity_kg_per_mwh",
+        "u": "kg CO2 per MWh"
+       },
+       " / ",
+       {
+        "v": 132.5,
+        "k": "pf|regions/authority/ciso.json|burns/co2/intensity_kg_per_mwh",
+        "u": "kg CO2 per MWh"
+       },
+       " = ",
+       {
+        "v": 2.293584905660377,
+        "k": "calc|ratio|pf~regions/authority/erco.json~burns/co2/intensity_kg_per_mwh|pf~regions/authority/ciso.json~burns/co2/intensity_kg_per_mwh",
+        "u": "times"
+       },
+       "."
+      ],
+      [
+       "In tva.json, burns, co2, intensity_kg_per_mwh is empty and burns, co2, why gives the reason."
+      ]
+     ],
+     "why": "The carbon a MWh carries follows the mix: more coal and gas, more CO2. A blank with its reason is a fact too: the estimate is not held for that authority, which is not the same as zero.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/your-own-balancing-authority-b6.csv"
+    },
+    {
+     "id": "b3",
+     "tables": [
+      "eia860m_retired_generators",
+      "eia860m_operating_generators"
+     ],
+     "q": "Of the retirements the Tennessee Valley Authority's owners have planned, which year and fuel has the most megawatts, how many, and what share of the authority's operating coal capacity is that?",
+     "answer": [
+      "2034, coal: ",
+      {
+       "v": 1900,
+       "k": "pf|regions/authority/tva.json|coming/retirements/6/mw",
+       "u": "MW"
+      },
+      " (4 generators) of ",
+      {
+       "v": 7643.9,
+       "k": "pf|regions/authority/tva.json|owns/capacity_mw/coal",
+       "u": "MW"
+      },
+      ", or ",
+      {
+       "v": 24.85642146024935,
+       "k": "calc|pct|pf~regions/authority/tva.json~coming/retirements/6/mw|pf~regions/authority/tva.json~owns/capacity_mw/coal",
+       "u": "%"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 1900,
+       "k": "pf|regions/authority/tva.json|coming/retirements/6/mw",
+       "u": "MW"
+      },
+      " / ",
+      {
+       "v": 7643.9,
+       "k": "pf|regions/authority/tva.json|owns/capacity_mw/coal",
+       "u": "MW"
+      },
+      " x 100 = ",
+      {
+       "v": 24.85642146024935,
+       "k": "calc|pct|pf~regions/authority/tva.json~coming/retirements/6/mw|pf~regions/authority/tva.json~owns/capacity_mw/coal",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "coming, retirements lists the planned retirements by year and fuel; the largest is ",
+       "2034, coal, ",
+       {
+        "v": 1900,
+        "k": "pf|regions/authority/tva.json|coming/retirements/6/mw",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "owns, capacity_mw, coal: ",
+       {
+        "v": 7643.9,
+        "k": "pf|regions/authority/tva.json|owns/capacity_mw/coal",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "Share: ",
+       {
+        "v": 1900,
+        "k": "pf|regions/authority/tva.json|coming/retirements/6/mw",
+        "u": "MW"
+       },
+       " / ",
+       {
+        "v": 7643.9,
+        "k": "pf|regions/authority/tva.json|owns/capacity_mw/coal",
+        "u": "MW"
+       },
+       " x 100 = ",
+       {
+        "v": 24.85642146024935,
+        "k": "calc|pct|pf~regions/authority/tva.json~coming/retirements/6/mw|pf~regions/authority/tva.json~owns/capacity_mw/coal",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "A planned retirement date is the owner's own, as EIA-860M reports it; it can move, but it says which part of the fleet the owner expects to close.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/your-own-balancing-authority-b3.csv"
+    },
+    {
+     "id": "b4",
+     "tables": [
+      "eia860m_planned_generators",
+      "eia860m_operating_generators"
+     ],
+     "q": "Of the generators planned in the Tennessee Valley Authority, which year and fuel has the most megawatts, how many, and how large is that against its operating natural gas capacity today?",
+     "answer": [
+      "2027, natural gas: ",
+      {
+       "v": 1830.6,
+       "k": "pf|regions/authority/tva.json|coming/additions/2/mw",
+       "u": "MW"
+      },
+      " (18 generators), or ",
+      {
+       "v": 9.846276315364838,
+       "k": "calc|pct|pf~regions/authority/tva.json~coming/additions/2/mw|pf~regions/authority/tva.json~owns/capacity_mw/natural_gas",
+       "u": "%"
+      },
+      " of today's ",
+      {
+       "v": 18591.8,
+       "k": "pf|regions/authority/tva.json|owns/capacity_mw/natural_gas",
+       "u": "MW"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 1830.6,
+       "k": "pf|regions/authority/tva.json|coming/additions/2/mw",
+       "u": "MW"
+      },
+      " / ",
+      {
+       "v": 18591.8,
+       "k": "pf|regions/authority/tva.json|owns/capacity_mw/natural_gas",
+       "u": "MW"
+      },
+      " x 100 = ",
+      {
+       "v": 9.846276315364838,
+       "k": "calc|pct|pf~regions/authority/tva.json~coming/additions/2/mw|pf~regions/authority/tva.json~owns/capacity_mw/natural_gas",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "coming, additions lists the planned generators by planned year and fuel; the largest is ",
+       "2027, natural gas, ",
+       {
+        "v": 1830.6,
+        "k": "pf|regions/authority/tva.json|coming/additions/2/mw",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "owns, capacity_mw, natural_gas: ",
+       {
+        "v": 18591.8,
+        "k": "pf|regions/authority/tva.json|owns/capacity_mw/natural_gas",
+        "u": "MW"
+       },
+       "."
+      ],
+      [
+       "Share: ",
+       {
+        "v": 1830.6,
+        "k": "pf|regions/authority/tva.json|coming/additions/2/mw",
+        "u": "MW"
+       },
+       " / ",
+       {
+        "v": 18591.8,
+        "k": "pf|regions/authority/tva.json|owns/capacity_mw/natural_gas",
+        "u": "MW"
+       },
+       " x 100 = ",
+       {
+        "v": 9.846276315364838,
+        "k": "calc|pct|pf~regions/authority/tva.json~coming/additions/2/mw|pf~regions/authority/tva.json~owns/capacity_mw/natural_gas",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "Planned generators often slip or are cancelled, so a plan is read as what the owners intend, set against what already runs.",
+     "rows": 2,
+     "csv": "/problems/2026-11-21/your-own-balancing-authority-b4.csv"
+    },
+    {
+     "id": "b5",
+     "tables": [
+      "ba_trade_partners"
+     ],
+     "q": "In 2025, with which neighbour did the Tennessee Valley Authority exchange the most power, what was its net import from that neighbour against the gross exchange, and what share of its demand were its net imports from all neighbours?",
+     "answer": [
+      "Midcontinent Independent System Operator, Inc. (MISO): net import ",
+      {
+       "v": 17649857,
+       "k": "pf|regions/authority/tva.json|trades/partners/0/net_import_mwh",
+       "u": "MWh"
+      },
+      " of a gross exchange of ",
+      {
+       "v": 17710707,
+       "k": "pf|regions/authority/tva.json|trades/partners/0/exchange_gross_mwh",
+       "u": "MWh"
+      },
+      ", or ",
+      {
+       "v": 99.65642252452147,
+       "k": "calc|pct|pf~regions/authority/tva.json~trades/partners/0/net_import_mwh|pf~regions/authority/tva.json~trades/partners/0/exchange_gross_mwh",
+       "u": "%"
+      },
+      ". From all neighbours, net imports were ",
+      {
+       "v": 4.87,
+       "k": "pf|regions/authority/tva.json|trades/net_import_share_of_demand_pct",
+       "u": "%"
+      },
+      " of demand."
+     ],
+     "line": [
+      {
+       "v": 17649857,
+       "k": "pf|regions/authority/tva.json|trades/partners/0/net_import_mwh",
+       "u": "MWh"
+      },
+      " / ",
+      {
+       "v": 17710707,
+       "k": "pf|regions/authority/tva.json|trades/partners/0/exchange_gross_mwh",
+       "u": "MWh"
+      },
+      " x 100 = ",
+      {
+       "v": 99.65642252452147,
+       "k": "calc|pct|pf~regions/authority/tva.json~trades/partners/0/net_import_mwh|pf~regions/authority/tva.json~trades/partners/0/exchange_gross_mwh",
+       "u": "%"
+      },
+      "; trades, net_import_share_of_demand_pct = ",
+      {
+       "v": 4.87,
+       "k": "pf|regions/authority/tva.json|trades/net_import_share_of_demand_pct",
+       "u": "%"
+      }
+     ],
+     "steps": [
+      [
+       "trades, partners lists the five largest partners by gross exchange; the largest is ",
+       "MISO, gross ",
+       {
+        "v": 17710707,
+        "k": "pf|regions/authority/tva.json|trades/partners/0/exchange_gross_mwh",
+        "u": "MWh"
+       },
+       ", net ",
+       {
+        "v": 17649857,
+        "k": "pf|regions/authority/tva.json|trades/partners/0/net_import_mwh",
+        "u": "MWh"
+       },
+       " (above zero, power came in)."
+      ],
+      [
+       "Net against gross: ",
+       {
+        "v": 17649857,
+        "k": "pf|regions/authority/tva.json|trades/partners/0/net_import_mwh",
+        "u": "MWh"
+       },
+       " / ",
+       {
+        "v": 17710707,
+        "k": "pf|regions/authority/tva.json|trades/partners/0/exchange_gross_mwh",
+        "u": "MWh"
+       },
+       " x 100 = ",
+       {
+        "v": 99.65642252452147,
+        "k": "calc|pct|pf~regions/authority/tva.json~trades/partners/0/net_import_mwh|pf~regions/authority/tva.json~trades/partners/0/exchange_gross_mwh",
+        "u": "%"
+       },
+       ". Near 100 percent the power ran one way nearly every hour."
+      ],
+      [
+       "trades, net_import_share_of_demand_pct: ",
+       {
+        "v": 4.87,
+        "k": "pf|regions/authority/tva.json|trades/net_import_share_of_demand_pct",
+        "u": "%"
+       },
+       "."
+      ]
+     ],
+     "why": "Gross exchange counts power both ways; net counts what was left after the two directions cancel, which is what the authority leaned on its neighbour for.",
+     "rows": 3,
+     "csv": "/problems/2026-11-21/your-own-balancing-authority-b5.csv"
+    },
+    {
+     "id": "b7",
+     "tables": [
+      "eia930_ba_demand_hourly",
+      "large_load_public"
+     ],
+     "q": "What was the Tennessee Valley Authority's highest demand and when, how much did its demand grow from 2019 to 2025, and ERCOT's growth was how many points more? How many public large-load rows are placed in each?",
+     "answer": [
+      "Peak ",
+      {
+       "v": 35086,
+       "k": "pf|regions/authority/tva.json|size/peak_mw",
+       "u": "MW"
+      },
+      " at 2025-01-22 07:00 local time (America/Chicago); growth since 2019 ",
+      {
+       "v": 7.15,
+       "k": "pf|regions/authority/tva.json|size/growth_since_2019_pct",
+       "u": "%"
+      },
+      ", ERCOT's ",
+      {
+       "v": 27.22,
+       "k": "pf|regions/authority/erco.json|size/growth_since_2019_pct",
+       "u": "%"
+      },
+      ": ",
+      {
+       "v": 20.07,
+       "k": "calc|diff|pf~regions/authority/erco.json~size/growth_since_2019_pct|pf~regions/authority/tva.json~size/growth_since_2019_pct",
+       "u": "percentage points"
+      },
+      " more. Public large-load rows: the TVA ",
+      {
+       "v": 0,
+       "k": "pf|regions/authority/tva.json|large_loads/count",
+       "u": "rows"
+      },
+      ", ERCOT ",
+      {
+       "v": 67,
+       "k": "pf|regions/authority/erco.json|large_loads/count",
+       "u": "rows"
+      },
+      "."
+     ],
+     "line": [
+      {
+       "v": 27.22,
+       "k": "pf|regions/authority/erco.json|size/growth_since_2019_pct",
+       "u": "%"
+      },
+      " - ",
+      {
+       "v": 7.15,
+       "k": "pf|regions/authority/tva.json|size/growth_since_2019_pct",
+       "u": "%"
+      },
+      " = ",
+      {
+       "v": 20.07,
+       "k": "calc|diff|pf~regions/authority/erco.json~size/growth_since_2019_pct|pf~regions/authority/tva.json~size/growth_since_2019_pct",
+       "u": "percentage points"
+      }
+     ],
+     "steps": [
+      [
+       "size, peak_mw and peak_local in tva.json: ",
+       {
+        "v": 35086,
+        "k": "pf|regions/authority/tva.json|size/peak_mw",
+        "u": "MW"
+       },
+       ", 2025-01-22 07:00."
+      ],
+      [
+       "size, growth_since_2019_pct: the TVA ",
+       {
+        "v": 7.15,
+        "k": "pf|regions/authority/tva.json|size/growth_since_2019_pct",
+        "u": "%"
+       },
+       ", ERCOT ",
+       {
+        "v": 27.22,
+        "k": "pf|regions/authority/erco.json|size/growth_since_2019_pct",
+        "u": "%"
+       },
+       "."
+      ],
+      [
+       "Subtract: ",
+       {
+        "v": 27.22,
+        "k": "pf|regions/authority/erco.json|size/growth_since_2019_pct",
+        "u": "%"
+       },
+       " - ",
+       {
+        "v": 7.15,
+        "k": "pf|regions/authority/tva.json|size/growth_since_2019_pct",
+        "u": "%"
+       },
+       " = ",
+       {
+        "v": 20.07,
+        "k": "calc|diff|pf~regions/authority/erco.json~size/growth_since_2019_pct|pf~regions/authority/tva.json~size/growth_since_2019_pct",
+        "u": "percentage points"
+       },
+       "."
+      ],
+      [
+       "large_loads, count in each file: ",
+       {
+        "v": 0,
+        "k": "pf|regions/authority/tva.json|large_loads/count",
+        "u": "rows"
+       },
+       " and ",
+       {
+        "v": 67,
+        "k": "pf|regions/authority/erco.json|large_loads/count",
+        "u": "rows"
+       },
+       "."
+      ]
+     ],
+     "why": "Demand growth since 2019 is where new load shows first; the large-load rows are the public announcements the ERW has read, not every request an authority has received.",
+     "rows": 5,
+     "csv": "/problems/2026-11-21/your-own-balancing-authority-b7.csv"
+    }
+   ]
+  }
+ ]
+}
