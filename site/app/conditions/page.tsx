@@ -117,7 +117,9 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
   const dCons = dailySeries(f, daily, [{ c: "cons_hours", label: "Constraint-hours", color: "accent" }]);
   const dAdder = dailySeries(f, daily, [{ c: "adder_hours", label: "Hours", color: "accent" }]);
   return (
-    <div data-operator={f.op} data-tag={tag}>
+    // Session 9001, row H4: min-w-0, so a wide table (the 47 notices of a heat wave) scrolls inside its own frame and
+    // the column, a grid item beside a second operator, never widens the page past a phone's screen
+    <div className="min-w-0" data-operator={f.op} data-tag={tag}>
       <h3 className="mb-1 font-serif text-xl text-accent">{f.name}</h3>
       <p className="mb-2 text-xs text-muted">{w.title}, {w.start} to {w.end}; days and hours in {f.time}. {hourly.length ? `Hour by hour (${hourly.length} hours), then day by day.` : "Day by day (no hourly figures are kept for this window: they are kept for the newest days and the nine events)."}</p>
       <Glance f={f} w={w} k={tag} />

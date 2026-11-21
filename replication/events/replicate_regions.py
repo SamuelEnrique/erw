@@ -121,11 +121,73 @@ def expected(file):
     return out
 
 
+ROW_SERIES = [("demand_mw", ("demand_mw",)), ("net_imports_mw", ("net_imports_mw",)),
+              ("gen_natural_gas_mw", ("gen", "natural_gas")), ("gen_coal_mw", ("gen", "coal"))]
+
+
+def write_rows(files, out):
+    """Session 8470: the hourly rows the Stata do-file (replicate_regions.do) reads, one row an event, region and hour:
+    the event's value and the baseline's of demand, net imports, natural gas and coal, empty where the file holds none.
+    Written from the event files on this copy (EIA's Form EIA-930, public domain); returns the rows written."""
+    import csv
+    from datetime import datetime, timedelta, timezone
+
+    def pick(d, path):
+        for k in path:
+            d = (d or {}).get(k)
+        return d or []
+
+    rows = 0
+    names = sorted(n for n in os.listdir(files) if n.endswith(".json")) if os.path.isdir(files) else []
+    built = []
+    with open(out, "w", encoding="utf-8", newline="") as f:
+        body = []
+        for name in names:
+            with open(os.path.join(files, name), encoding="utf-8") as g:
+                file = json.load(g)
+            if file.get("license", "public") != "public":
+                continue
+            built.append(f"{file.get('event')} built {file.get('built')}")
+            h = file["hours"]
+            step = h.get("step_hours") or 1
+            t0 = datetime.strptime(h["start"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+            for code in REGIONS:
+                r = (file.get("regions") or {}).get(code)
+                if not r:
+                    continue
+                base = r.get("baseline") or {}
+                cols = [(pick(r, p), pick(base, p)) for _, p in ROW_SERIES]
+                for i in range(h["n"]):
+                    ts = (t0 + timedelta(hours=i * step)).strftime("%Y-%m-%dT%H:%M:%SZ")
+                    vals = []
+                    for ev, bs in cols:
+                        for arr in (ev, bs):
+                            v = arr[i] if i < len(arr) else None
+                            vals.append(repr(v) if num(v) else "")
+                    body.append([file["event"], code, i, ts, step] + vals)
+                    rows += 1
+        f.write("# ERW replication rows of the events pages' whole country (replicate_regions.py --write-rows), from the event files "
+                f"site/data/regions/events/*.json (EIA Form EIA-930, public domain): {'; '.join(built) or 'none'}\n")
+        f.write(f"# written {datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')}; an empty cell is an hour the file does not hold\n")
+        w = csv.writer(f)
+        w.writerow(["event", "region", "i", "ts_utc", "step_hours"] + [f"{p}{n}" for n, _ in ROW_SERIES for p in ("", "base_")])
+        w.writerows(body)
+    return rows
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--figures", required=True)
+    ap.add_argument("--figures")
     ap.add_argument("--files", default=os.path.join(ROOT, "site", "data", "regions", "events"))
+    ap.add_argument("--write-rows", help="write the hourly rows replicate_regions.do reads to this CSV, and stop")
     a = ap.parse_args()
+    if a.write_rows:
+        n = write_rows(a.files, a.write_rows)
+        print(f"{n} rows written to {a.write_rows}" if n else f"no event's file at {a.files}: no row written")
+        return 0
+    if not a.figures:
+        print("--figures is needed (or --write-rows)")
+        return 2
     try:
         with open(a.figures, encoding="utf-8") as f:
             page = json.load(f)["events"]

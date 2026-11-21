@@ -37,15 +37,19 @@ class TheStops(unittest.TestCase):
     def test_todays_addresses_in_the_ruled_order(self):
         # chain 507 (session 8902): the ruled seven first, in the ruled order; the stops of what the site gained from 17
         # November 2026 follow them (tests/test_session8902_tour.py), so the path is longer than five minutes
+        # session 9601 (chain 620): the fourth stop, written "One grid at a time, ERCOT first", opens ERCOT's own
+        # address; /grid alone has opened on the Lower 48 since session 299, where two of the stop's headings are not
         self.assertEqual([s["href"] for s in self.t["STOPS"]][:7],
-                         ["/cost-of-power/battery", "/cost-of-power/seller", "/cost-of-power", "/grid", "/research", "/board", "/digest"])
+                         ["/cost-of-power/battery", "/cost-of-power/seller", "/cost-of-power", "/grid?grid=ercot", "/research", "/board", "/digest"])
         self.assertEqual(self.t["MINUTES"], round(sum(s["seconds"] for s in self.t["STOPS"]) / 60))
 
     def test_each_quoted_heading_is_one_the_check_reads(self):
         for s in self.t["STOPS"]:
             self.assertTrue(s["headings"], s["href"])
+            # session 9601: a stop may quote a fold and a heading inside it (`inFold`), which the check reads too
+            read = s["headings"] + ([s["inFold"]["fold"]] + s["inFold"]["headings"] if s.get("inFold") else [])
             for q in re.findall(r'"([^"]+)"', s["look"]):
-                self.assertIn(q, s["headings"], f"{s['href']}: the look quotes {q!r}, which the check does not read")
+                self.assertIn(q, read, f"{s['href']}: the look quotes {q!r}, which the check does not read")
 
     def test_no_old_address(self):
         for s in self.t["STOPS"]:

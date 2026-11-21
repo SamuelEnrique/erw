@@ -119,7 +119,23 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
   }
   const [a, r] = await Promise.all([attempt(policyActions), attempt(policyReads)]);
   const now = renderTime();
-  if (!a.ok) return <Brand><NoData what="policy actions" reason={a.reason} /></Brand>;
+  // Session 9601 (chain 620, the browser read of 20 November 2026): when the list of actions cannot be drawn (a table
+  // held for a license, or a failed read) the page was the two words "license needed" alone, with no heading and no
+  // way to its other views, which do draw; the menu's "Policy" opened it. The heading and the views stay; the reason
+  // stands where the list would have been. Nothing held is drawn.
+  if (!a.ok) return (
+    <Brand>
+    <div data-policy="not-drawn">
+      <h1 className="mb-1 text-3xl">Policy</h1>
+      <Views view={view} />
+      <div className="mb-2 max-w-3xl" data-policy-not-drawn="1">
+        <p className="mb-1">The list of every action is not drawn here:</p>
+        <NoData what="policy actions" reason={a.reason} />
+        <p className="mt-1 text-sm">The other views above are drawn from what may be shown.</p>
+      </div>
+    </div>
+    </Brand>
+  );
   const reads = new Map((r.ok ? r.data : []).map((x) => [x.action_event_id, x]));
   // Session 164: the rule's tags of every action, so that a reader reaches each tagged action whatever its date.
   const tagged = allTags(a.data);

@@ -104,6 +104,30 @@ class TheReplication(unittest.TestCase):
     def test_a_bad_figures_file_is_bad_input(self):
         self.assertEqual(replicate("--figures", os.path.join(self.tmp, "none.json")).returncode, 2)
 
+    def test_the_rows_the_do_file_reads(self):
+        # session 8470: --write-rows writes one row an event, region and hour, empty where the file holds none
+        out = os.path.join(self.tmp, "regions_rows.csv")
+        r = replicate("--write-rows", out, "--files", os.path.join(self.tmp, "events"))
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr[-800:])
+        with open(out, encoding="utf-8") as f:
+            lines = f.read().splitlines()
+        self.assertTrue(lines[0].startswith("# ERW replication rows") and "EIA Form EIA-930" in lines[0] and lines[1].startswith("# written "))
+        head = lines[2].split(",")
+        self.assertEqual(head[:5], ["event", "region", "i", "ts_utc", "step_hours"])
+        body = [l.split(",") for l in lines[3:]]
+        self.assertEqual(len(body), 12 * 48)  # the fixture: twelve regions of 48 hours, the Northwest not held
+        sw = [b for b in body if b[1] == "SW"]
+        self.assertEqual(sw[0][5], "")  # the Southwest's first hours are null in the fixture, left empty, never filled
+        self.assertEqual(sw[0][3], "2022-12-19T05:00:00Z")
+        with open(os.path.join(ROOT, "replication", "events", "replicate_regions.do"), encoding="utf-8") as f:
+            do = f.read()
+        for col in head[5:]:
+            self.assertIn(col, do)
+        self.assertIn("has not been run: Stata is not installed", do)
+        for d in DASHES:
+            self.assertNotIn(d, do)
+        self.assertEqual(replicate().returncode, 2)  # neither --figures nor --write-rows
+
 
 class TheSource(unittest.TestCase):
     def test_written_from_the_note_not_from_the_pages_code(self):

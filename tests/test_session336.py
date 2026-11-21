@@ -252,7 +252,8 @@ class ThePublisherFigure(unittest.TestCase):
 class TheWiring(unittest.TestCase):
     def test_the_daily_step_runs_the_connector_without_a_simulated_clock(self):
         text = open(os.path.join(ROOT, "warehouse", "run_daily.sh"), encoding="utf-8").read()
-        self.assertIn('pull eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$DAYS"\n', text)
+        # session 9002 (data request 569): the window is EIA930_DAYS (7, or $DAYS when more); still no --now
+        self.assertIn('pull eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$EIA930_DAYS"\n', text)
 
     def test_the_data_machine_reads_the_publishers_figure_after_its_scan(self):
         text = open(os.path.join(ROOT, "warehouse", "run_data_machine.sh"), encoding="utf-8").read()
