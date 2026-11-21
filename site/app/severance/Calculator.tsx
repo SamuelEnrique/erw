@@ -56,7 +56,7 @@ export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: num
       </select>
     </div>
   ) : (
-    <select value={tier[o.id] ?? 0} onChange={(e) => setTier({ ...tier, [o.id]: Number(e.target.value) })} className={field + " ml-5 text-xs"}>
+    <select value={tier[o.id] ?? 0} onChange={(e) => setTier({ ...tier, [o.id]: Number(e.target.value) })} className={field + " ml-5 text-xs"} aria-label={`Credit tier, ${o.name}`}>
       {o.tiers!.map((t) => <option key={t.pct} value={t.pct}>{t.label}</option>)}
     </select>
   );
