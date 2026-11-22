@@ -9202,3 +9202,10 @@ run_id,runner,connector,table,market,status,detail
 20261120T161658Z,github,news_brief,digest,brief,skipped,"the key's limit: the Anthropic API key has reached its usage limit; access returns 2026-12-01 at 00:00 UTC; no model call is sent until then; 0 of 400 stories scored, the table is left as it was; the day's stories were not scored, so no issue is written"
 20261120T161659Z,github,news_email,email,daily,skipped,"the newest digest is the issue of 2026-11-12, not today's (2026-11-20 UTC): today's brief was not written, so nothing is sent (session 206: a day without a brief sends no email)"
 20261120T161702Z,github,news_shadow_digest,digest,shadow,skipped,SHADOW_MODEL is not set (the kill switch): no shadow call
+20261122T100141Z,github,supabase_vacuum,catalogue,all,ok,0.2 MB -> 0.1 MB
+20261122T100141Z,github,supabase_vacuum,entities,all,ok,88.3 MB -> 78.3 MB
+20261122T100141Z,github,supabase_vacuum,events,all,ok,66.4 MB -> 56.0 MB
+20261122T100141Z,github,supabase_vacuum,headers,all,ok,0.8 MB -> 0.5 MB
+20261122T100141Z,github,supabase_vacuum,series,all,ok,1337.4 MB -> 1261.1 MB
+20261122T100141Z,github,supabase_vacuum,sources,all,ok,0.7 MB -> 0.3 MB
+20261122T100141Z,github,supabase_vacuum,supabase,all,ok,pg_database_size 1694.3 MB -> 1596.9 MB
