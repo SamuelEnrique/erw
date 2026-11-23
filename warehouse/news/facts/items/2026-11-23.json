@@ -1,0 +1,21 @@
+{
+ "date": "2026-11-23",
+ "fact_id": "ff_b35fa36efe",
+ "kind": "warehouse",
+ "fact": "The oldest generators still operating in EIA's inventory entered service in 1891: 9 conventional hydroelectric units at the Whiting plant in Wisconsin.",
+ "second": "",
+ "structure": "none",
+ "conjecture": "False",
+ "sources": [
+  {
+   "part": "fact",
+   "label": "ERW table eia860m_operating_generators",
+   "table": "eia860m_operating_generators",
+   "publisher": "U.S. Energy Information Administration (EIA)",
+   "url": "/data",
+   "raw": "warehouse/news/facts/raw/warehouse/oldest_20261027T154445Z.txt",
+   "span": "eia860m_operating_generators: earliest operating_year 1891: plant Whiting, state WI, technology Conventional Hydroelectric, 9 generators with that year; inventory vintage 2026-09; 28712 operating generators with a year",
+   "retrieved_at": "20261027T154445Z"
+  }
+ ]
+}
