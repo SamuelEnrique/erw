@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-11-22T16:57Z",
+ "written": "2026-11-23T17:13Z",
  "green_days": 0,
- "counted_to": "2026-11-21",
+ "counted_to": "2026-11-22",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -4222,6 +4222,139 @@
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 68 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-11-22": {
+   "rows": 763,
+   "failed": 10,
+   "missing": [],
+   "short": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 485,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "daily prices": {
+     "ok": 20,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 2,
+     "runs": 2
+    },
+    "energy roundup": {
+     "ok": 5,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 1,
+     "runs": 1
+    },
+    "hourly network": {
+     "ok": 18,
+     "skipped": 9,
+     "retried": 0,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 104,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 7,
+     "runs": 112
+    },
+    "weekly vacuum": {
+     "ok": 1,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-22T15:51",
+     "workflow": "daily prices",
+     "step": "supabase_load",
+     "reason": "FAILED news_index: RuntimeError: refused, older than the live copy: it has 20,852 rows here and 21,252 in Supabase (no retrieved_at to compare); 198 rows differ in value, 400 only in Supabase. Sync th"
+    },
+    {
+     "at": "2026-11-22T16:57",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_info_summary_and_table - AssertionError: assert 180819932 == 180821084"
+    },
+    {
+     "at": "2026-11-22T19:35",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_freeenergy",
+     "reason": "site/scripts/test-freeenergy.mjs exit 1"
+    },
+    {
+     "at": "2026-11-22T19:36",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_battery_dispatch_export",
+     "reason": "battery_dispatch_export FAILED: 8 monthly sums differ from battery_stack_monthly; nothing written"
+    },
+    {
+     "at": "2026-11-22T19:39",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_battery_scenario_steps",
+     "reason": "RuntimeError: ercot foresight 2h: the default cell is not battery_stack_monthly: 2026-10: this run 4325.355209658495, the table 4270.7523; 2026-10 days: 30 here, 29.0 in the table"
+    },
+    {
+     "at": "2026-11-22T19:40",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_battery_dispatch",
+     "reason": "dm_battery_dispatch_export did not finish; the group was put back as committed"
+    },
+    {
+     "at": "2026-11-22T19:40",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_battery_steps",
+     "reason": "dm_battery_scenario_steps did not finish; the group was put back as committed"
+    },
+    {
+     "at": "2026-11-22T19:41",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_replication",
+     "reason": "its tests exited 1 (tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720 tests.test_session3701 tests.test_session5074.Datacenter tests.test_session5074"
+    },
+    {
+     "at": "2026-11-22T19:56",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_commit",
+     "reason": "push to main refused: 1 failing tests: test_session8613.TheReplicationKnowsARebuiltFile.test_a_file_rebuilt_since_the_read_stops_the_comparison"
+    },
+    {
+     "at": "2026-11-22T23:32",
+     "workflow": "energy roundup",
+     "step": "ledger: live set",
+     "reason": "held out of the live catalogue (live_set.yaml, catalogue_hold): abs_suriname_electricity_annual, aedg_alaska_generation_monthly, aeso_alberta_load_hourly, afdc_ev_charging_state_annual, afdc_station_c"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-22T15:05",
+     "workflow": "daily prices",
+     "step": "ercot_as_prices",
+     "reason": "ercot_as_prices SKIPPED: stale at source (no request: ruling 2 of 6 November 2026 (docs/state/rulings_2026-11-06.md): ERCOT's /misapp and /misdownload paths, which its robots file disallows, are not a"
+    },
+    {
+     "at": "2026-11-22T17:53",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 69 days old (limit 28)"
     }
    ]
   }
