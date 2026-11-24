@@ -1,0 +1,57 @@
+{
+ "id": "thanksgiving_peak_hour",
+ "type": "post",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "decimals": 0,
+ "max": 9,
+ "labelWidth": 300,
+ "title": "Hours early the grid peaks on Thanksgiving",
+ "source": "Source: EIA, Hourly Electric Grid Monitor (EIA-930), demand, 2019-2025. Hour of peak demand, local time, end of hour: median of seven Thanksgivings against the 21 Thursdays before them. Grids: SPP, MISO, PJM, NYISO, ERCOT, ISO-NE, CAISO (MISO in Central time).",
+ "rows": [
+  {
+   "label": "Plains",
+   "value": 9,
+   "display": "9 h",
+   "second": "7 pm to 10 am"
+  },
+  {
+   "label": "Midwest",
+   "value": 7,
+   "display": "7 h",
+   "second": "6 pm to 11 am"
+  },
+  {
+   "label": "Mid-Atlantic",
+   "value": 7,
+   "display": "7 h",
+   "second": "7 pm to noon"
+  },
+  {
+   "label": "New York",
+   "value": 5,
+   "display": "5 h",
+   "second": "6 pm to 1 pm"
+  },
+  {
+   "label": "Texas",
+   "value": 4,
+   "display": "4 h",
+   "second": "4 pm to noon"
+  },
+  {
+   "label": "New England",
+   "value": 3,
+   "display": "3 h",
+   "second": "6 pm to 3 pm"
+  },
+  {
+   "label": "California",
+   "value": 0,
+   "display": "0 h",
+   "second": "6 pm to 6 pm"
+  }
+ ],
+ "_numbers_from": "eia930_ba_demand_hourly (retrieved 20261123T193514Z), demand_mw; runs/posts9900/b2/peaks.py, summary.csv"
+}

@@ -61,10 +61,11 @@ export const Post: React.FC<{ spec: PostSpec }> = ({ spec }) => {
   const secW = hasSec ? Math.ceil(secChars * 0.6 * 0.62 * numPeak) + 22 : 0;
   const labelW = (spec.labelWidth ?? 390) * (tall ? 1.08 : 1);
   const custom = spec.prefix !== undefined || spec.suffix !== undefined || rows.some((r) => r.display !== undefined);
-  const numFit = Math.ceil(chars * 0.6 * numPeak) + 8, numW0 = 180 * (tall ? 1.06 : 1);
+  // 18 px of slack past the widest number at its peak, as "75.2%" (162 px) has in the template's 180 px column
+  const numFit = Math.ceil(chars * 0.6 * numPeak) + 18, numW0 = 180 * (tall ? 1.06 : 1);
   const numW = hasSec ? numFit : custom ? Math.max(numW0, numFit) : numW0;
   const barMax = 1080 - 144 - labelW - numW - 24 - secW;
-  if (barMax < 200) throw new Error(`bar track ${barMax.toFixed(0)} px is under 200: shorten the labels (labelWidth)`);
+  if (!tall && barMax < 200) throw new Error(`bar track ${barMax.toFixed(0)} px is under 200: shorten the labels (labelWidth)`);
   const ruleY = H - 196, hf = (ruleY - 34 - top) / n;
   let y = top;
   return (
