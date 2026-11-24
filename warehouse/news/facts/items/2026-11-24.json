@@ -1,0 +1,31 @@
+{
+ "date": "2026-11-24",
+ "fact_id": "ff_5567ef9ab9",
+ "kind": "warehouse",
+ "fact": "The highest daily Henry Hub natural gas spot price in EIA's series, which starts on 1997-01-07, was 30.72 USD/MMBtu on 2026-01-23.",
+ "second": "That is about 11.1 times the latest close, 2.76 on 2026-10-27.",
+ "structure": "scale",
+ "conjecture": "False",
+ "sources": [
+  {
+   "part": "fact",
+   "label": "ERW table eia_fuel_spot_prices",
+   "table": "eia_fuel_spot_prices",
+   "publisher": "U.S. Energy Information Administration (EIA)",
+   "url": "/data",
+   "raw": "warehouse/news/facts/raw/warehouse/fuel_henry_hub_max_20261029T153911Z.txt",
+   "span": "eia_fuel_spot_prices eia:henry_hub: max 30.72 USD/MMBtu on 2026-01-23; series starts 1997-01-07; latest 2.76 on 2026-10-27; ratio of the max to the latest 11.1",
+   "retrieved_at": "20261029T153911Z"
+  },
+  {
+   "part": "second",
+   "label": "ERW table eia_fuel_spot_prices",
+   "table": "eia_fuel_spot_prices",
+   "publisher": "U.S. Energy Information Administration (EIA)",
+   "url": "/data",
+   "raw": "warehouse/news/facts/raw/warehouse/fuel_henry_hub_max_20261029T153911Z.txt",
+   "span": "eia_fuel_spot_prices eia:henry_hub: max 30.72 USD/MMBtu on 2026-01-23; series starts 1997-01-07; latest 2.76 on 2026-10-27; ratio of the max to the latest 11.1",
+   "retrieved_at": "20261029T153911Z"
+  }
+ ]
+}
