@@ -1,0 +1,49 @@
+{
+ "id": "uranium_us_origin_a",
+ "type": "post",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "decimals": 1,
+ "max": 100.0,
+ "title": "Uranium bought for US reactors that was of US origin",
+ "source": "Source: EIA, Uranium Marketing Annual Report. US-origin uranium as a percent of all uranium bought by the owners and operators of US reactors, 2003-2025, origin as the owners report it. 2025 is preliminary.",
+ "rows": [
+  {
+   "label": "2003",
+   "value": 18.036497,
+   "display": "18.0%"
+  },
+  {
+   "label": "2007",
+   "value": 7.792794,
+   "display": "7.8%"
+  },
+  {
+   "label": "2010",
+   "value": 7.915074,
+   "display": "7.9%"
+  },
+  {
+   "label": "2014",
+   "value": 6.215674,
+   "display": "6.2%"
+  },
+  {
+   "label": "2018",
+   "value": 9.677419,
+   "display": "9.7%"
+  },
+  {
+   "label": "2021",
+   "value": 5.353319,
+   "display": "5.4%"
+  },
+  {
+   "label": "2025",
+   "value": 7.249467,
+   "display": "7.2%"
+  }
+ ],
+ "_numbers_from": "shortlist section 24; https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-origin-uranium-us-uranium-origin.reproduce.py run 2026-11-24 on eia_uranium_marketing_annual, output runs/posts9900/c/s24.out"
+}

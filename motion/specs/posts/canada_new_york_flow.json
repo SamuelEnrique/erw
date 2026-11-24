@@ -1,0 +1,49 @@
+{
+ "id": "canada_new_york_flow",
+ "type": "post",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "decimals": 0,
+ "max": 1991.598516,
+ "title": "Mean hourly flow of power from Canada to New York",
+ "source": "Source: EIA, Hourly Electric Grid Monitor (EIA-930), interchange between EIA's regions. The mean hourly flow from Canada to New York, 2019-2025, from EIA's region-pair series; the two sides' reports of the same flow differ.",
+ "rows": [
+  {
+   "label": "2019",
+   "value": 1991.598516,
+   "display": "1,992 MW"
+  },
+  {
+   "label": "2020",
+   "value": 1974.572404,
+   "display": "1,975 MW"
+  },
+  {
+   "label": "2021",
+   "value": 1889.02032,
+   "display": "1,889 MW"
+  },
+  {
+   "label": "2022",
+   "value": 1654.924087,
+   "display": "1,655 MW"
+  },
+  {
+   "label": "2023",
+   "value": 777.827397,
+   "display": "778 MW"
+  },
+  {
+   "label": "2024",
+   "value": 552.940005,
+   "display": "553 MW"
+  },
+  {
+   "label": "2025",
+   "value": 211.028082,
+   "display": "211 MW"
+  }
+ ],
+ "_numbers_from": "shortlist section 8; https://github.com/SamuelEnrique/erw/blob/main/docs/findings/trade/pair-flow-rp-can-ny.reproduce.py run 2026-11-24 on eia930_region_pair_hourly, output runs/posts9900/c/s8.out"
+}

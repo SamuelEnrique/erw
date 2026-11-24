@@ -1,0 +1,49 @@
+{
+ "id": "us_share_world_oil_a",
+ "type": "post",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "decimals": 1,
+ "max": 100.0,
+ "title": "US share of world oil and liquids production",
+ "source": "Source: EIA, International Energy Statistics. US production of petroleum and other liquids as a percent of the world's, every fifth year, 1995-2025. Other producers' figures are EIA estimates and are revised.",
+ "rows": [
+  {
+   "label": "1995",
+   "value": 13.481377,
+   "display": "13.5%"
+  },
+  {
+   "label": "2000",
+   "value": 11.979223,
+   "display": "12.0%"
+  },
+  {
+   "label": "2005",
+   "value": 9.833324,
+   "display": "9.8%"
+  },
+  {
+   "label": "2010",
+   "value": 11.098804,
+   "display": "11.1%"
+  },
+  {
+   "label": "2015",
+   "value": 15.681109,
+   "display": "15.7%"
+  },
+  {
+   "label": "2020",
+   "value": 19.794642,
+   "display": "19.8%"
+  },
+  {
+   "label": "2025",
+   "value": 22.322314,
+   "display": "22.3%"
+  }
+ ],
+ "_numbers_from": "shortlist section 37; https://github.com/SamuelEnrique/erw/blob/main/docs/findings/oil_products_world/us-liquids-share-us-world-liquids.reproduce.py run 2026-11-24 on eia_world_oil_monthly, output runs/posts9900/c/s37.out"
+}

@@ -1,0 +1,49 @@
+{
+ "id": "dominion_mean_hour",
+ "type": "post",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "decimals": 0,
+ "max": 15403.008477,
+ "title": "Mean hour of demand in Dominion's Virginia zone",
+ "source": "Source: EIA, Hourly Electric Grid Monitor (EIA-930), demand by subregion. The mean hour of demand in PJM's Dominion zone (DOM), local years 2019-2025, as PJM reports it to EIA; a change of the zone's bounds or of PJM's reporting would move the level.",
+ "rows": [
+  {
+   "label": "2019",
+   "value": 11686.987407,
+   "display": "11,687 MW"
+  },
+  {
+   "label": "2020",
+   "value": 11509.635188,
+   "display": "11,510 MW"
+  },
+  {
+   "label": "2021",
+   "value": 12418.987668,
+   "display": "12,419 MW"
+  },
+  {
+   "label": "2022",
+   "value": 13118.070584,
+   "display": "13,118 MW"
+  },
+  {
+   "label": "2023",
+   "value": 13275.504994,
+   "display": "13,276 MW"
+  },
+  {
+   "label": "2024",
+   "value": 14198.916886,
+   "display": "14,199 MW"
+  },
+  {
+   "label": "2025",
+   "value": 15403.008477,
+   "display": "15,403 MW"
+  }
+ ],
+ "_numbers_from": "shortlist section 1; https://github.com/SamuelEnrique/erw/blob/main/docs/findings/demand/sub-mean-pjm-sub-dom.reproduce.py run 2026-11-24 on eia930_subba_demand_hourly_2019 to _2025, output runs/posts9900/c/s1.out"
+}

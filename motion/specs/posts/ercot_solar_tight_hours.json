@@ -1,0 +1,49 @@
+{
+ "id": "ercot_solar_tight_hours",
+ "type": "post",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "decimals": 1,
+ "max": 100.0,
+ "title": "Solar's output in ERCOT's tightest hours",
+ "source": "Source: EIA-930 hourly demand and generation, EIA-860M capacity (ERW grid stress table). Solar output in ERCOT's 100 hours of highest net load a year, percent of solar capacity, 2019-2025. Another definition of the tightest hours gives another share.",
+ "rows": [
+  {
+   "label": "2019",
+   "value": 71.103,
+   "display": "71.1%"
+  },
+  {
+   "label": "2020",
+   "value": 73.844,
+   "display": "73.8%"
+  },
+  {
+   "label": "2021",
+   "value": 71.434,
+   "display": "71.4%"
+  },
+  {
+   "label": "2022",
+   "value": 57.59,
+   "display": "57.6%"
+  },
+  {
+   "label": "2023",
+   "value": 48.655,
+   "display": "48.7%"
+  },
+  {
+   "label": "2024",
+   "value": 33.139,
+   "display": "33.1%"
+  },
+  {
+   "label": "2025",
+   "value": 5.022,
+   "display": "5.0%"
+  }
+ ],
+ "_numbers_from": "shortlist section 3; https://github.com/SamuelEnrique/erw/blob/main/docs/findings/markets_operations/tight-solar-ercot-tight-solar.reproduce.py run 2026-11-24 on grid_stress_yearly, output runs/posts9900/c/s3.out"
+}

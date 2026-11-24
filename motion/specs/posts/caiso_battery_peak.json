@@ -1,0 +1,49 @@
+{
+ "id": "caiso_battery_peak",
+ "type": "post",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "decimals": 1,
+ "max": 100.0,
+ "title": "California's battery fleet against its peak-day demand",
+ "source": "Source: EIA, Preliminary Monthly Electric Generator Inventory (EIA-860M) and EIA-930. CAISO's battery capacity at year's end as a percent of the mean demand of its ten highest days, 2019-2025. Batteries do not all run at full output at once.",
+ "rows": [
+  {
+   "label": "2019",
+   "value": 0.554036,
+   "display": "0.6%"
+  },
+  {
+   "label": "2020",
+   "value": 1.545048,
+   "display": "1.5%"
+  },
+  {
+   "label": "2021",
+   "value": 7.531181,
+   "display": "7.5%"
+  },
+  {
+   "label": "2022",
+   "value": 13.402308,
+   "display": "13.4%"
+  },
+  {
+   "label": "2023",
+   "value": 23.991584,
+   "display": "24.0%"
+  },
+  {
+   "label": "2024",
+   "value": 32.807125,
+   "display": "32.8%"
+  },
+  {
+   "label": "2025",
+   "value": 46.619278,
+   "display": "46.6%"
+  }
+ ],
+ "_numbers_from": "shortlist section 10; https://github.com/SamuelEnrique/erw/blob/main/docs/findings/cross_family/battery-per-peak-caiso-bat-peak.reproduce.py run 2026-11-24 on storage_buildout_monthly, eia930_daily_demand, output runs/posts9900/c/s10.out"
+}

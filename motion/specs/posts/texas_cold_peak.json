@@ -1,0 +1,49 @@
+{
+ "id": "texas_cold_peak",
+ "type": "post",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "decimals": 0,
+ "max": 75599.0,
+ "title": "Texas's highest hour of demand in late January",
+ "source": "Source: EIA, Hourly Electric Grid Monitor (EIA-930), Texas region demand. The highest hour from 23 January to 2 February (UTC days), 2020-2026. The window is the days the ERW gives to the January 2026 cold; another window moves the peaks.",
+ "rows": [
+  {
+   "label": "2020",
+   "value": 47074.0,
+   "display": "47,074 MW"
+  },
+  {
+   "label": "2021",
+   "value": 51607.0,
+   "display": "51,607 MW"
+  },
+  {
+   "label": "2022",
+   "value": 53813.0,
+   "display": "53,813 MW"
+  },
+  {
+   "label": "2023",
+   "value": 65552.0,
+   "display": "65,552 MW"
+  },
+  {
+   "label": "2024",
+   "value": 54806.0,
+   "display": "54,806 MW"
+  },
+  {
+   "label": "2025",
+   "value": 70603.0,
+   "display": "70,603 MW"
+  },
+  {
+   "label": "2026",
+   "value": 75599.0,
+   "display": "75,599 MW"
+  }
+ ],
+ "_numbers_from": "shortlist section 21; https://github.com/SamuelEnrique/erw/blob/main/docs/findings/events/cold-2026-tex.reproduce.py run 2026-11-24 on eia930_ba_demand_hourly, output runs/posts9900/c/s21.out"
+}
