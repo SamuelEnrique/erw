@@ -21,9 +21,16 @@ if (typeof document !== "undefined") {
   Promise.all(['600 64px "Source Serif 4"', '400 24px "IBM Plex Sans"', '500 24px "IBM Plex Mono"'].map((f) => document.fonts.load(f))).then(() => continueRender(h));
 }
 
+// Optional fields (session 9900, 24 November 2026); with none of them set the output is pixel-identical to the
+// approved template. max: the value at which a bar is full (default 100). prefix, suffix: around the number (default
+// suffix "%"). rows[].display: print the number as this text. rows[].second: a second figure in its own narrow column
+// right of the number (IBM Plex Mono 500, captions color, 0.62 of the number's size); the bar track gives up the width.
+// labelWidth: the label column in the 1080 layout (default 390), to shorten when the track would fall under 200 px.
+// 7 to 10 rows: the row height divides by rows minus one; frames should be 450 plus 40 for each row above seven.
 export type PostSpec = {
   id: string; type: "post"; width: number; height: number; frames: number;
-  title: string; source: string; rows: { label: string; value: number }[]; decimals?: number;
+  title: string; source: string; rows: { label: string; value: number; display?: string; second?: string }[]; decimals?: number;
+  max?: number; prefix?: string; suffix?: string; labelWidth?: number;
 };
 
 export const Post: React.FC<{ spec: PostSpec }> = ({ spec }) => {
@@ -44,8 +51,20 @@ export const Post: React.FC<{ spec: PostSpec }> = ({ spec }) => {
   const src = interpolate(f, [compAt + 12, compAt + 26], [0, 1], { ...cl, easing: Easing.out(Easing.cubic) });
   // layout: the chart fills the frame while it plays; after settling, the rule and source take the bottom
   const H = spec.height, tall = H > 1080, K = tall ? 1.15 : 1;
-  const top = tall ? 320 : 290, big = 168 * K, base = (H - 70 - top - big) / 6;
-  const labelW = 390 * (tall ? 1.08 : 1), numW = 180 * (tall ? 1.06 : 1), barMax = 1080 - 144 - labelW - numW - 24;
+  const top = tall ? 320 : 290, big = 168 * K, base = (H - 70 - top - big) / (n - 1);
+  const text = (r: PostSpec["rows"][number]) => r.display ?? `${spec.prefix ?? ""}${r.value.toFixed(dec)}${spec.suffix ?? "%"}`;
+  const fill = (v: number) => (spec.max === undefined ? v : (v / spec.max) * 100);
+  // IBM Plex Mono advances 0.6 em a character; the number's peak size is 54 px (times K), the second figure 0.62 of it
+  const numPeak = 54 * K, chars = Math.max(...rows.map((r) => text(r).length));
+  const secChars = Math.max(0, ...rows.map((r) => (r.second ?? "").length));
+  const hasSec = secChars > 0;
+  const secW = hasSec ? Math.ceil(secChars * 0.6 * 0.62 * numPeak) + 22 : 0;
+  const labelW = (spec.labelWidth ?? 390) * (tall ? 1.08 : 1);
+  const custom = spec.prefix !== undefined || spec.suffix !== undefined || rows.some((r) => r.display !== undefined);
+  const numFit = Math.ceil(chars * 0.6 * numPeak) + 8, numW0 = 180 * (tall ? 1.06 : 1);
+  const numW = hasSec ? numFit : custom ? Math.max(numW0, numFit) : numW0;
+  const barMax = 1080 - 144 - labelW - numW - 24 - secW;
+  if (barMax < 200) throw new Error(`bar track ${barMax.toFixed(0)} px is under 200: shorten the labels (labelWidth)`);
   const ruleY = H - 196, hf = (ruleY - 34 - top) / n;
   let y = top;
   return (
@@ -67,11 +86,17 @@ export const Post: React.FC<{ spec: PostSpec }> = ({ spec }) => {
           <div key={r.label} style={{ position: "absolute", left: 72, right: 72, top: ry, height: h, display: "flex", alignItems: "center", opacity: interpolate(f, [12 + i * 4, 26 + i * 4], [0, 1], cl) }}>
             <div style={{ width: labelW, fontFamily: on > 0.5 ? SERIF : SANS, fontWeight: on > 0.5 ? 600 : 400, fontSize: ((28 + 16 * on0) * (1 - c) + 33 * c) * K, whiteSpace: "nowrap" }}>{r.label}</div>
             <div style={{ width: barMax, height: barH, background: P.rule, position: "relative", marginLeft: 12 }}>
-              <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: `${r.value * g}%`, background: interpolateColors(on, [0, 1], [P.bar, P.cardinal]) }} />
+              <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: `${fill(r.value) * g}%`, background: interpolateColors(on, [0, 1], [P.bar, P.cardinal]) }} />
             </div>
             <div style={{ width: numW, textAlign: "right", fontFamily: MONO, fontWeight: 500, fontSize: ((28 + 26 * on0) * (1 - c) + 35 * c) * K, color: interpolateColors(on, [0, 1], [P.ink, P.cardinal]), fontVariantNumeric: "tabular-nums", opacity: g }}>
-              {r.value.toFixed(dec)}%
+              {/* number and suffix stay separate text nodes, as in the approved template (one string shapes differently) */}
+              {r.display ?? <>{spec.prefix}{r.value.toFixed(dec)}{spec.suffix ?? "%"}</>}
             </div>
+            {hasSec && (
+              <div style={{ width: secW, paddingLeft: 22, boxSizing: "border-box", textAlign: "left", whiteSpace: "nowrap", fontFamily: MONO, fontWeight: 500, fontSize: 0.62 * ((28 + 26 * on0) * (1 - c) + 35 * c) * K, color: P.captions, fontVariantNumeric: "tabular-nums", opacity: g }}>
+                {r.second ?? ""}
+              </div>
+            )}
           </div>
         );
       })}
