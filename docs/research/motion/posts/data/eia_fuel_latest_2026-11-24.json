@@ -1,0 +1,116 @@
+{
+ "retrieved_at": "2026-11-24T10:32:45Z",
+ "url": "https://api.eia.gov/v2/petroleum/pri/gnd/data/",
+ "response": {
+  "response": {
+   "total": "6",
+   "dateFormat": "YYYY-MM-DD",
+   "frequency": "weekly",
+   "data": [
+    {
+     "period": "2026-11-16",
+     "duoarea": "NUS",
+     "area-name": "U.S.",
+     "product": "EPD2D",
+     "product-name": "No 2 Diesel",
+     "process": "PTE",
+     "process-name": "Retail Sales",
+     "series": "EMD_EPD2D_PTE_NUS_DPG",
+     "series-description": "U.S. No 2 Diesel Retail Prices (Dollars per Gallon)",
+     "value": "5.937",
+     "units": "$/GAL"
+    },
+    {
+     "period": "2026-11-16",
+     "duoarea": "NUS",
+     "area-name": "U.S.",
+     "product": "EPMR",
+     "product-name": "Regular Gasoline",
+     "process": "PTE",
+     "process-name": "Retail Sales",
+     "series": "EMM_EPMR_PTE_NUS_DPG",
+     "series-description": "U.S. Regular All Formulations Retail Gasoline Prices (Dollars per Gallon)",
+     "value": "3.805",
+     "units": "$/GAL"
+    },
+    {
+     "period": "2026-11-09",
+     "duoarea": "NUS",
+     "area-name": "U.S.",
+     "product": "EPD2D",
+     "product-name": "No 2 Diesel",
+     "process": "PTE",
+     "process-name": "Retail Sales",
+     "series": "EMD_EPD2D_PTE_NUS_DPG",
+     "series-description": "U.S. No 2 Diesel Retail Prices (Dollars per Gallon)",
+     "value": "6.127",
+     "units": "$/GAL"
+    },
+    {
+     "period": "2026-11-09",
+     "duoarea": "NUS",
+     "area-name": "U.S.",
+     "product": "EPMR",
+     "product-name": "Regular Gasoline",
+     "process": "PTE",
+     "process-name": "Retail Sales",
+     "series": "EMM_EPMR_PTE_NUS_DPG",
+     "series-description": "U.S. Regular All Formulations Retail Gasoline Prices (Dollars per Gallon)",
+     "value": "3.995",
+     "units": "$/GAL"
+    },
+    {
+     "period": "2026-11-02",
+     "duoarea": "NUS",
+     "area-name": "U.S.",
+     "product": "EPD2D",
+     "product-name": "No 2 Diesel",
+     "process": "PTE",
+     "process-name": "Retail Sales",
+     "series": "EMD_EPD2D_PTE_NUS_DPG",
+     "series-description": "U.S. No 2 Diesel Retail Prices (Dollars per Gallon)",
+     "value": "6.292",
+     "units": "$/GAL"
+    },
+    {
+     "period": "2026-11-02",
+     "duoarea": "NUS",
+     "area-name": "U.S.",
+     "product": "EPMR",
+     "product-name": "Regular Gasoline",
+     "process": "PTE",
+     "process-name": "Retail Sales",
+     "series": "EMM_EPMR_PTE_NUS_DPG",
+     "series-description": "U.S. Regular All Formulations Retail Gasoline Prices (Dollars per Gallon)",
+     "value": "4.153",
+     "units": "$/GAL"
+    }
+   ]
+  },
+  "request": {
+   "command": "/v2/petroleum/pri/gnd/data/",
+   "params": {
+    "frequency": "weekly",
+    "data": [
+     "value"
+    ],
+    "facets": {
+     "series": [
+      "EMM_EPMR_PTE_NUS_DPG",
+      "EMD_EPD2D_PTE_NUS_DPG"
+     ]
+    },
+    "start": "2026-11-01",
+    "sort": [
+     {
+      "column": "period",
+      "direction": "desc"
+     }
+    ],
+    "length": "20"
+   }
+  },
+  "apiVersion": "2.1.14",
+  "ExcelAddInVersion": "2.1.0"
+ }
+}

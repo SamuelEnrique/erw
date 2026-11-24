@@ -1,0 +1,49 @@
+{
+ "id": "thanksgiving_gasoline_a",
+ "type": "post",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "decimals": 2,
+ "max": 4.19,
+ "title": "Gasoline on Thanksgiving week, 2020-2026",
+ "source": "Source: EIA, Weekly Retail Gasoline and Diesel Prices. US regular gasoline, all formulations, USD a gallon, nominal, on the Monday of Thanksgiving week, 2020-2025. 2026 is 16 November, the newest week EIA had published on 24 November.",
+ "rows": [
+  {
+   "label": "2020",
+   "value": 2.102,
+   "display": "$2.10"
+  },
+  {
+   "label": "2021",
+   "value": 3.395,
+   "display": "$3.40"
+  },
+  {
+   "label": "2022",
+   "value": 3.648,
+   "display": "$3.65"
+  },
+  {
+   "label": "2023",
+   "value": 3.289,
+   "display": "$3.29"
+  },
+  {
+   "label": "2024",
+   "value": 3.044,
+   "display": "$3.04"
+  },
+  {
+   "label": "2025",
+   "value": 3.061,
+   "display": "$3.06"
+  },
+  {
+   "label": "2026",
+   "value": 3.805,
+   "display": "$3.81"
+  }
+ ],
+ "_numbers_from": "eia_retail_fuel_prices (retrieved 20261120T150214Z), eia:EMM_EPMR_PTE_NUS_DPG; EIA API v2 read 2026-11-24T10:32:45Z, newest week 2026-11-16"
+}
