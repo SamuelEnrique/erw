@@ -161,6 +161,7 @@
    "display": "22.3%"
   }
  ],
+ "countries_in_other": 207,
  "method_a": "2025: each country's 12 monthly values summed (x_area country, product 53) over the world's 12 summed; the nine largest countries, and all other countries as the world less those nine",
  "blocks_a_2025": [
   {
@@ -236,5 +237,5 @@
  ],
  "post": "us_share_world_oil",
  "built_by": "docs/research/motion/posts/batch_2026-11-25/scripts/build_9901.py",
- "built_at": "2026-11-25T07:41:01Z"
+ "built_at": "2026-11-25T07:44:49Z"
 }

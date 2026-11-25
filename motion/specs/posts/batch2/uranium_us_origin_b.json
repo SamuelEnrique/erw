@@ -6,7 +6,7 @@
  "width": 1080,
  "height": 1080,
  "frames": 450,
- "title": "U.S.-origin share of uranium bought for U.S. reactors, 2003-2025",
+ "title": "U.S.-origin share of uranium for U.S. reactors, 2003-2025",
  "source": "Source: EIA Uranium Marketing Annual Report (Form EIA-858), ERW table eia_uranium_marketing_annual. Uranium bought by owners and operators of U.S. reactors. EIA published no U.S.-origin figure for 2019, 2020 and 2022.",
  "mode": "line",
  "points": [
@@ -155,10 +155,9 @@
  ],
  "xTicks": [
   2003,
-  2007,
-  2011,
-  2015,
-  2019,
+  2008,
+  2013,
+  2018,
   2025
  ]
 }

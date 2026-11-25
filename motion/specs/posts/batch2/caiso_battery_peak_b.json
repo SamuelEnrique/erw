@@ -6,7 +6,7 @@
  "width": 1080,
  "height": 1080,
  "frames": 450,
- "title": "California’s battery capacity against its peak-day demand, 2019-2025",
+ "title": "California’s battery power vs peak-day demand, 2019-2025",
  "source": "Source: EIA-860M battery capacity in December and EIA-930 demand, ERW tables storage_buildout_monthly and eia930_daily_demand. Peak-day demand: CAISO’s average demand on its ten highest days of the year.",
  "mode": "area",
  "points": [

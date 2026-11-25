@@ -1,5 +1,5 @@
 {
- "title": "U.S.-origin share of uranium bought for U.S. reactors, 2003-2025",
+ "title": "U.S.-origin share of uranium for U.S. reactors, 2003-2025",
  "original_source": "EIA, Uranium Marketing Annual Report (Form EIA-858), summary tables S1a to S3b",
  "erw_table": "eia_uranium_marketing_annual",
  "table_retrieved": "Retrieved: 20261023T070136Z (UTC) by warehouse/connectors/eia_uranium_marketing.py",
@@ -129,5 +129,5 @@
  "country_of_origin": "not in the ERW table (it holds U.S. and foreign origin only), so option A is the 100-square grid the prompt names as the fallback",
  "post": "uranium_us_origin",
  "built_by": "docs/research/motion/posts/batch_2026-11-25/scripts/build_9901.py",
- "built_at": "2026-11-25T07:41:00Z"
+ "built_at": "2026-11-25T07:44:47Z"
 }

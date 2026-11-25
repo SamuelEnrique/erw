@@ -209,16 +209,16 @@ s10 = read_repro("s10_caiso_battery.txt")
 st3 = [{"year": y, "value": s10[y], "display": pct(s10[y])} for y in range(2019, 2026)]
 assert [x["display"] for x in st3] == ["0.6%", "1.5%", "7.5%", "13.4%", "24.0%", "32.8%", "46.6%"]
 write_data("caiso_battery_peak", {
-    "title": "California" + RAP + "s battery capacity as a share of peak-day demand, 2019-2025",
+    "title": "California" + RAP + "s battery power vs peak-day demand, 2019-2025",
     "original_source": "EIA-860M (operating battery capacity, CAISO, December of each year) via ERW storage_buildout_monthly; EIA-930 daily demand (CISO) via ERW eia930_daily_demand",
     "erw_tables": ["storage_buildout_monthly", "eia930_daily_demand"],
     "tables_retrieved": [retrieved("storage_buildout_monthly"), retrieved("eia930_daily_demand")],
     "method": "battery_operating_mw of iso:caiso at December's end, as a percent of the mean of the year's ten highest daily demands of CISO divided by 24 (average MW); docs/findings/cross_family/battery-per-peak-caiso-bat-peak.reproduce.py, rerun 25 November 2026",
     "values": st3,
 })
-T3 = "California" + RAP + "s battery capacity against its peak-day demand, 2019-2025"
+T3 = "California" + RAP + "s battery power vs peak-day demand, 2019-2025"
 S3 = "Source: EIA-860M battery capacity in December and EIA-930 demand, ERW tables storage_buildout_monthly and eia930_daily_demand. Peak-day demand: CAISO" + RAP + "s average demand on its ten highest days of the year."
-write_spec("caiso_battery_peak", "a", "fillblock", T3, S3, steps=st3, blockLabel="Peak-day demand", fillLabel="Battery capacity")
+write_spec("caiso_battery_peak", "a", "fillblock", T3, S3, steps=st3, blockLabel="Peak-day demand", fillLabel="Installed battery power")
 write_spec("caiso_battery_peak", "b", "yearline", T3, S3, mode="area", points=st3, yMax=50,
            yTicks=[{"v": v, "label": f"{v}%"} for v in (0, 10, 20, 30, 40, 50)], xTicks=list(range(2019, 2026)))
 
@@ -250,7 +250,7 @@ for a, b in zip(lv, lv[1:]):
 tot = lv[-1]["value"] - lv[0]["value"]
 assert [x["display"] for x in steps5] == ["-177", "+909", "+699", "+157", "+923", "+1,204"], steps5
 write_data("dominion_mean_hour", {
-    "title": "Electricity demand in Dominion" + RAP + "s Virginia zone, 2019-2025",
+    "title": "Power demand in Dominion" + RAP + "s Virginia zone, 2019-2025",
     "original_source": "EIA Form EIA-930 subregion demand (PJM, Dominion zone, eia930_subba:PJM:DOM)",
     "erw_tables": [f"eia930_subba_demand_hourly_{y}" for y in range(2019, 2026)],
     "tables_retrieved": [retrieved(f"eia930_subba_demand_hourly_{y}") for y in (2019, 2025)],
@@ -258,7 +258,7 @@ write_data("dominion_mean_hour", {
     "levels": lv, "steps": steps5, "total_change": tot, "total_display": "+" + f"{int(r(tot, 0)):,} MW",
     "rounding_note": "each step is rounded from its own unrounded change; the six rounded steps sum to 3,715 while the rounded total is 3,716",
 })
-T5 = "Electricity demand in Dominion" + RAP + "s Virginia zone, 2019-2025"
+T5 = "Power demand in Dominion" + RAP + "s Virginia zone, 2019-2025"
 S5 = "Source: EIA-930 subregion demand, ERW tables eia930_subba_demand_hourly_2019 to _2025. PJM" + RAP + "s Dominion zone. Average hourly demand in each calendar year, Eastern time. Changes are rounded one by one."
 write_spec("dominion_mean_hour", "a", "staircase", T5, S5,
            base={"label": "2019", "value": lv[0]["value"], "display": lv[0]["display"]}, steps=steps5,
@@ -314,21 +314,21 @@ with open(os.path.join(OUT, "eia_uranium_marketing_annual.csv"), encoding="utf-8
             lbs[row["variable"]] = float(row["value"])
 assert abs(100 * lbs["purchased_us_origin"] / lbs["purchased_total"] - s24[2025]) < 1e-5
 write_data("uranium_us_origin", {
-    "title": "U.S.-origin share of uranium bought for U.S. reactors, 2003-2025",
+    "title": "U.S.-origin share of uranium for U.S. reactors, 2003-2025",
     "original_source": "EIA, Uranium Marketing Annual Report (Form EIA-858), summary tables S1a to S3b",
     "erw_table": "eia_uranium_marketing_annual", "table_retrieved": retrieved("eia_uranium_marketing_annual"),
     "method": "purchased_us_origin over purchased_total (pounds U3O8e) by year; EIA withheld or printed no U.S.-origin figure for 2019, 2020 and 2022 (no row, nothing filled); docs/findings/coal_uranium_metals/us-origin-uranium-us-uranium-origin.reproduce.py, rerun 25 November 2026",
     "values": pts8, "pounds_2025": lbs,
     "country_of_origin": "not in the ERW table (it holds U.S. and foreign origin only), so option A is the 100-square grid the prompt names as the fallback",
 })
-T8 = "U.S.-origin share of uranium bought for U.S. reactors, 2003-2025"
+T8 = "U.S.-origin share of uranium for U.S. reactors, 2003-2025"
 S8 = "Source: EIA Uranium Marketing Annual Report (Form EIA-858), ERW table eia_uranium_marketing_annual. Uranium bought by owners and operators of U.S. reactors. EIA published no U.S.-origin figure for 2019, 2020 and 2022."
 write_spec("uranium_us_origin", "a", "waffle", T8, S8,
            steps=[{"year": 2025, "value": s24[2025], "display": pct(s24[2025])}], unitText="of U.S. origin",
            squareNote="Each square: 1% of the uranium bought",
            extra=f"{r(lbs['purchased_us_origin'] / 1e6, 1)} million lb of {r(lbs['purchased_total'] / 1e6, 1)} million lb")
 write_spec("uranium_us_origin", "b", "yearline", T8, S8, mode="line", points=pts8, yMax=25,
-           yTicks=[{"v": v, "label": f"{v}%"} for v in (0, 5, 10, 15, 20, 25)], xTicks=[2003, 2007, 2011, 2015, 2019, 2025])
+           yTicks=[{"v": v, "label": f"{v}%"} for v in (0, 5, 10, 15, 20, 25)], xTicks=[2003, 2008, 2013, 2018, 2025])
 
 # ---- 9. U.S. share of world oil ------------------------------------------------------------------------------------------
 s37 = read_repro("s37_oil.txt")
@@ -361,13 +361,14 @@ write_data("us_share_world_oil", {
     "erw_table": "eia_world_oil_monthly", "table_retrieved": retrieved("eia_world_oil_monthly"),
     "method_b": "U.S. (USA:53) months summed over the world's (WORL:53) months, by year; docs/findings/oil_products_world/us-liquids-share-us-world-liquids.reproduce.py, rerun 25 November 2026",
     "values_b": pts9,
+    "countries_in_other": len(cty) - 9,
     "method_a": "2025: each country's 12 monthly values summed (x_area country, product 53) over the world's 12 summed; the nine largest countries, and all other countries as the world less those nine",
     "blocks_a_2025": items9,
 })
 T9 = "U.S. share of world oil and liquids production, 1995-2025"
 S9 = "Source: EIA International Energy Statistics, ERW table eia_world_oil_monthly. Production of crude oil and other liquids, the U.S. as a share of the world. Recent years include EIA estimates."
 write_spec("us_share_world_oil", "a", "treemap", T9, S9,
-           items=[{"label": x["label"], "value": x["share"], "display": x["display"], "lead": x["code"] == "USA"} for x in items9],
+           items=[{"label": x["label"], "value": x["share"], "display": x["display"], "lead": x["code"] == "USA", **({"countText": f"{len(cty) - 9} countries"} if x["code"] == "OTHER" else {})} for x in items9],
            leadSub="share of world output in 2025")
 write_spec("us_share_world_oil", "b", "yearline", T9, S9, mode="area", points=pts9, yMax=25,
            yTicks=[{"v": v, "label": f"{v}%"} for v in (0, 5, 10, 15, 20, 25)], xTicks=[1995, 2000, 2005, 2010, 2015, 2020, 2025])

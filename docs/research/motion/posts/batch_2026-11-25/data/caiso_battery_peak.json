@@ -1,5 +1,5 @@
 {
- "title": "California’s battery capacity as a share of peak-day demand, 2019-2025",
+ "title": "California’s battery power vs peak-day demand, 2019-2025",
  "original_source": "EIA-860M (operating battery capacity, CAISO, December of each year) via ERW storage_buildout_monthly; EIA-930 daily demand (CISO) via ERW eia930_daily_demand",
  "erw_tables": [
   "storage_buildout_monthly",
@@ -49,5 +49,5 @@
  ],
  "post": "caiso_battery_peak",
  "built_by": "docs/research/motion/posts/batch_2026-11-25/scripts/build_9901.py",
- "built_at": "2026-11-25T07:41:00Z"
+ "built_at": "2026-11-25T07:44:47Z"
 }

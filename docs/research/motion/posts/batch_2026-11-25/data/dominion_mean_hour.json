@@ -1,5 +1,5 @@
 {
- "title": "Electricity demand in Dominion’s Virginia zone, 2019-2025",
+ "title": "Power demand in Dominion’s Virginia zone, 2019-2025",
  "original_source": "EIA Form EIA-930 subregion demand (PJM, Dominion zone, eia930_subba:PJM:DOM)",
  "erw_tables": [
   "eia930_subba_demand_hourly_2019",
@@ -101,5 +101,5 @@
  "rounding_note": "each step is rounded from its own unrounded change; the six rounded steps sum to 3,715 while the rounded total is 3,716",
  "post": "dominion_mean_hour",
  "built_by": "docs/research/motion/posts/batch_2026-11-25/scripts/build_9901.py",
- "built_at": "2026-11-25T07:41:00Z"
+ "built_at": "2026-11-25T07:44:47Z"
 }

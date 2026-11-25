@@ -67,7 +67,8 @@
    "label": "All other countries",
    "value": 29.029893515792146,
    "display": "29.0%",
-   "lead": false
+   "lead": false,
+   "countText": "207 countries"
   }
  ],
  "leadSub": "share of world output in 2025"

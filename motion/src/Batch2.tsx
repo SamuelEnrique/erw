@@ -28,6 +28,9 @@ if (typeof document !== "undefined") {
 type Base = { id: string; type: string; width: number; height: number; frames: number; title: string; source: string };
 const zone = (H: number) => ({ top: H > 1080 ? 330 : 296, bottom: H - 196 - 40 });
 
+// a trailing period ("2019-2025") never breaks at its hyphen
+const titleParts = (t: string) => { const m = t.match(/^(.*?)(\d{4}-\d{4})$/); return m ? <>{m[1]}<span style={{ whiteSpace: "nowrap" }}>{m[2]}</span></> : t; };
+
 // The frame: header and title fully visible from frame 0 (the cover X and Instagram may show), the rule and source line
 // fading in at 368 to 382 as in Jensen.tsx.
 export const Shell2: React.FC<{ spec: Base; children: React.ReactNode }> = ({ spec, children }) => {
@@ -40,7 +43,7 @@ export const Shell2: React.FC<{ spec: Base; children: React.ReactNode }> = ({ sp
         <span style={{ fontFamily: SERIF, fontWeight: 600, fontSize: 34, color: P.cardinal }}>ERW</span>
         <span style={{ fontFamily: SANS, fontWeight: 400, fontSize: 32.5, color: P.ink, position: "relative", top: -2.5 }}>Research</span>
       </div>
-      <div data-check="title" style={{ position: "absolute", left: L, right: L, top: 126, fontFamily: SERIF, fontWeight: 600, fontSize: 62, lineHeight: 1.1 }}>{spec.title}</div>
+      <div data-check="title" style={{ position: "absolute", left: L, right: L, top: 126, fontFamily: SERIF, fontWeight: 600, fontSize: 62, lineHeight: 1.1 }}>{titleParts(spec.title)}</div>
       {children}
       <div style={{ position: "absolute", left: L, right: L, top: ruleY, height: 2, background: P.rule, opacity: src }} />
       <div data-check="source" style={{ position: "absolute", left: L, right: L, top: ruleY + 30, fontSize: 21, lineHeight: 1.42, color: P.captions, opacity: src, transform: `translateY(${(1 - src) * 12}px)` }}>{spec.source}</div>
@@ -61,8 +64,9 @@ export const Columns: React.FC<{ spec: ColSpec }> = ({ spec }) => {
   const { top, bottom } = zone(spec.height);
   const base = bottom - 46, span = base - top;
   const n = spec.rows.length, slot = W / n, cw = Math.min(104, slot * 0.7);
-  const longest = Math.max(...spec.rows.map((r) => r.display.length));
-  const fs = Math.min(30, (slot - 6) / (0.6 * longest));
+  const split = (d: string) => { const m = d.match(/^(.*) (MW)$/); return m ? [m[1], m[2]] : [d, ""]; };
+  const longest = Math.max(...spec.rows.map((r) => split(r.display)[0].length));
+  const fs = Math.min(30, (slot - 10) / (0.6 * longest));
   return (
     <Shell2 spec={spec}>
       <div style={{ position: "absolute", left: L, top: base, width: W, height: 2, background: P.ink, opacity: ramp(f, 6, 20) }} />
@@ -73,7 +77,10 @@ export const Columns: React.FC<{ spec: ColSpec }> = ({ spec }) => {
           <React.Fragment key={r.label}>
             <div style={{ position: "absolute", left: cx - cw / 2, top: base - h, width: cw, height: h, background: hl ? P.cardinal : P.mark }} />
             <Txt x={cx} y={base - (r.value / spec.max) * span - 10} anchor="center" v="bottom" o={ramp(f, st + 26, st + 40)}
-              style={{ fontFamily: MONO, fontWeight: 500, fontSize: fs, color: hl ? P.cardinal : P.ink }}>{r.display}</Txt>
+              style={{ textAlign: "center", lineHeight: 1.1, color: hl ? P.cardinal : P.ink }}>
+              <div style={{ fontFamily: MONO, fontWeight: 500, fontSize: fs }}>{split(r.display)[0]}</div>
+              {split(r.display)[1] && <div style={{ fontFamily: MONO, fontWeight: 500, fontSize: 19, color: hl ? P.cardinal : P.captions }}>{split(r.display)[1]}</div>}
+            </Txt>
             <Txt x={cx} y={base + 12} anchor="center" o={ramp(f, st, st + 14)} style={{ fontSize: 26, color: hl ? P.cardinal : P.ink }}>{r.label}</Txt>
           </React.Fragment>
         );
@@ -89,7 +96,8 @@ export const YearLine: React.FC<{ spec: YLSpec }> = ({ spec }) => {
   const { top, bottom } = zone(spec.height);
   const pt = top + (spec.yUnit ? 46 : 26), base = bottom - 46;
   const tickW = Math.max(...spec.yTicks.map((t) => t.label.length)) * 11 + 16;
-  const x0 = L + tickW + 14, x1 = R - 120;
+  const lastDisp = [...spec.points].reverse().find((p) => p.value !== null)!.display || "";
+  const x0 = L + tickW + 14, x1 = R - (18 + 0.6 * 32 * lastDisp.length + 6);
   const ys = spec.points.map((p) => p.year), y0 = Math.min(...ys), y1 = Math.max(...ys);
   const X = (yr: number) => x0 + ((yr - y0) / (y1 - y0)) * (x1 - x0);
   const Y = (v: number) => base - (v / spec.yMax) * (base - pt);
@@ -101,6 +109,15 @@ export const YearLine: React.FC<{ spec: YLSpec }> = ({ spec }) => {
   const clipW = (x1 - x0 + 24) * prog;
   const first = spec.points.find((p) => p.value !== null)!, last = [...spec.points].reverse().find((p) => p.value !== null)!;
   const head = x0 - 12 + clipW;
+  // the first label sits above the line wherever the line runs under it
+  const fw = 0.6 * 32 * (first.display || "").length + 8, fx0 = X(first.year) - 4, fx1 = fx0 + fw;
+  let firstY = Y(first.value!) - 6;
+  segs.forEach((s) => s.forEach((p, i) => {
+    const xa = X(p.year);
+    if (xa >= fx0 && xa <= fx1) firstY = Math.min(firstY, Y(p.value) - 6);
+    const q = s[i + 1];
+    if (q && xa < fx1 && X(q.year) > fx1) { const t = (fx1 - xa) / (X(q.year) - xa); firstY = Math.min(firstY, Y(p.value + (q.value - p.value) * t) - 6); }
+  }));
   const isArea = spec.mode === "area";
   const lineCol = P.cardinal;
   return (
@@ -133,7 +150,7 @@ export const YearLine: React.FC<{ spec: YLSpec }> = ({ spec }) => {
       {spec.xTicks.map((yr) => (
         <Txt key={yr} x={X(yr)} y={base + 12} anchor="center" o={ramp(f, 6, 22)} style={{ fontSize: 24 }}>{String(yr)}</Txt>
       ))}
-      <Txt x={X(first.year) - 4} y={Y(first.value!) - 18} anchor="left" v="bottom" o={ramp(f, 40, 54)} style={{ fontFamily: MONO, fontWeight: 500, fontSize: 32, textShadow: HALO }}>{first.display}</Txt>
+      <Txt x={X(first.year) - 4} y={firstY - 12} anchor="left" v="bottom" o={ramp(f, 40, 54)} style={{ fontFamily: MONO, fontWeight: 500, fontSize: 32, textShadow: HALO }}>{first.display}</Txt>
       <Txt x={X(last.year) + 18} y={Y(last.value!)} anchor="left" v="middle" o={ramp(f, 266, 282)} style={{ fontFamily: MONO, fontWeight: 500, fontSize: 32, color: P.cardinal }}>{last.display}</Txt>
     </Shell2>
   );
@@ -144,7 +161,7 @@ type WLSpec = Base & { values: number[]; dots: { i: number; label: string }[]; y
 export const WeekLine: React.FC<{ spec: WLSpec }> = ({ spec }) => {
   const f = useCurrentFrame();
   const { top, bottom } = zone(spec.height);
-  const pt = top + 20, base = bottom - 46;
+  const pt = top + 60, base = bottom - 46;
   const x0 = L + 58, x1 = R - 40, n = spec.values.length;
   const X = (i: number) => x0 + (i / (n - 1)) * (x1 - x0);
   const Y = (v: number) => base - (v / spec.yMax) * (base - pt);
@@ -160,10 +177,14 @@ export const WeekLine: React.FC<{ spec: WLSpec }> = ({ spec }) => {
         {spec.dots.map((p) => <circle key={p.i} cx={X(p.i)} cy={Y(spec.values[p.i])} r={9} fill={P.cardinal} stroke={P.fog} strokeWidth={3} opacity={head >= X(p.i) ? 1 : 0} />)}
       </svg>
       {spec.yTicks.map((t) => <Txt key={t.v} x={x0 - 14} y={Y(t.v)} anchor="right" v="middle" o={ramp(f, 4, 18)} style={{ fontFamily: MONO, fontWeight: 500, fontSize: 18, color: P.captions }}>{t.label}</Txt>)}
+      <div style={{ position: "absolute", left: x0, top: top - 10, display: "flex", gap: 30, alignItems: "center", fontSize: 22, opacity: ramp(f, 4, 18) }}>
+        <span style={{ display: "flex", alignItems: "center", gap: 9 }}><span style={{ width: 18, height: 18, borderRadius: 9, background: P.cardinal, display: "inline-block" }} />Thanksgiving week</span>
+        <span style={{ display: "flex", alignItems: "center", gap: 9 }}><span style={{ width: 28, height: 3, background: P.mark, display: "inline-block" }} />Every week</span>
+      </div>
       {spec.xTicks.map((t) => <Txt key={t.i} x={X(t.i)} y={base + 12} anchor="left" o={ramp(f, 4, 18)} style={{ fontSize: 22, color: P.ink }}>{t.label}</Txt>)}
       {spec.xTicks.map((t) => <div key={`t${t.i}`} style={{ position: "absolute", left: X(t.i) - 1, top: base, width: 2, height: 10, background: P.ink, opacity: ramp(f, 4, 18) }} />)}
       {spec.dots.map((p) => {
-        const at = X(p.i), o = interpolate(head - at, [0, 30], [0, 1], cl);
+        const at = X(p.i), o = Math.max(interpolate(head - at, [0, 30], [0, 1], cl), ramp(f, 300, 314));
         return <Txt key={p.i} x={at} y={Y(spec.values[p.i]) - 18} anchor="center" v="bottom" o={o} style={{ fontFamily: MONO, fontWeight: 500, fontSize: 24, color: P.cardinal, textShadow: HALO }}>{p.label}</Txt>;
       })}
     </Shell2>
@@ -224,7 +245,7 @@ export const Curves: React.FC<{ spec: CVSpec }> = ({ spec }) => {
   const f = useCurrentFrame();
   const { top, bottom } = zone(spec.height);
   const pt = top + 52, base = bottom - 46;
-  const x0 = L + 100, x1 = R - 24;
+  const x0 = L + 100, x1 = R - 50;
   const X = (he: number) => x0 + ((he - 1) / 23) * (x1 - x0);
   const Y = (v: number) => base - (v / spec.yMax) * (base - pt);
   const path = (vals: number[]) => vals.map((v, i) => `${i ? "L" : "M"}${X(i + 1).toFixed(2)},${Y(v).toFixed(2)}`).join(" ");
@@ -246,13 +267,12 @@ export const Curves: React.FC<{ spec: CVSpec }> = ({ spec }) => {
         <circle cx={b.x} cy={b.y} r={10} fill={P.cardinal} stroke={P.fog} strokeWidth={3} opacity={ramp(f, 270, 280)} />
       </svg>
       {spec.yTicks.map((t) => <Txt key={t.v} x={x0 - 16} y={Y(t.v)} anchor="right" v="middle" o={ramp(f, 4, 18)} style={{ fontFamily: MONO, fontWeight: 500, fontSize: 18, color: P.captions }}>{t.label}</Txt>)}
-      <Txt x={x0 - 16} y={pt - 30} anchor="right" v="middle" o={ramp(f, 4, 18)} style={{ fontSize: 18, color: P.captions }}>{spec.yUnit}</Txt>
       {spec.xTicks.map((t) => <Txt key={t.he} x={X(t.he)} y={base + 12} anchor="center" o={ramp(f, 4, 18)} style={{ fontSize: 22 }}>{t.label}</Txt>)}
       <Txt x={a.x} y={a.y - 20} anchor="center" v="bottom" o={ramp(f, 136, 150)} style={{ textAlign: "center", textShadow: HALO }}>
         <div style={{ fontSize: 21, color: P.captions }}>{spec.peaks.normal.label}</div>
         <div style={{ fontFamily: MONO, fontWeight: 500, fontSize: 24, color: P.ink }}>{spec.peaks.normal.text}</div>
       </Txt>
-      <Txt x={b.x} y={b.y - 20} anchor="center" v="bottom" o={ramp(f, 276, 290)} style={{ textAlign: "center", textShadow: HALO }}>
+      <Txt x={b.x} y={b.y + 20} anchor="center" v="top" o={ramp(f, 276, 290)} style={{ textAlign: "center", textShadow: HALO }}>
         <div style={{ fontSize: 21, color: P.cardinal }}>{spec.peaks.tg.label}</div>
         <div style={{ fontFamily: MONO, fontWeight: 500, fontSize: 24, color: P.cardinal }}>{spec.peaks.tg.text}</div>
       </Txt>
@@ -287,9 +307,6 @@ export const FillBlock: React.FC<{ spec: FBSpec }> = ({ spec }) => {
       <div style={{ position: "absolute", left: bx, top: by, width: bw, height: bh, background: P.fill, opacity: ramp(f, 4, 20) }} />
       <Txt x={bx + 18} y={by + 16} o={ramp(f, 8, 22)} style={{ fontSize: 28, color: P.ink }}>{spec.blockLabel}</Txt>
       <div style={{ position: "absolute", left: bx, top: by + bh - fillH, width: bw, height: fillH, background: P.cardinal }} />
-      {spec.steps.slice(0, k).map((s) => (
-        <div key={s.year} style={{ position: "absolute", left: bx, top: by + bh - (s.value / 100) * bh - 1, width: bw, height: 2, background: P.fog, opacity: 0.55 }} />
-      ))}
       <Txt x={bx + 18} y={by + bh - fillH + 14} o={interpolate(fillH, [70, 90], [0, 1], cl)} style={{ fontSize: 26, color: P.fog }}>{spec.fillLabel}</Txt>
       <div style={{ position: "absolute", left: bx + bw, top: by + bh - fillH - 1, width: 18, height: 2, background: P.cardinal, opacity: ramp(f, 40, 50) }} />
       <Txt x={lx} y={by + bh - fillH} v="middle" o={ramp(f, 40, 52)} style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
@@ -312,7 +329,7 @@ export const FlowBand: React.FC<{ spec: FLSpec }> = ({ spec }) => {
   const mx = Math.max(...spec.steps.map((s) => s.value));
   const tMax = (bottom - top) * 0.62, k = tMax / mx;
   const axis = top + 70 + tMax / 2 + ((bottom - top) - 70 - tMax) / 2;
-  const bx0 = L + 150, bx1 = R - 166;
+  const bx0 = L + 150, bx1 = R - 190;
   const grow = ramp(f, 30, 70);
   const { v, k: idx } = stepValue(f, spec.steps, 40, 34, 22, 1);
   const T = v * k;
@@ -374,7 +391,9 @@ export const Staircase: React.FC<{ spec: SCSpec }> = ({ spec }) => {
         return (
           <>
             <div style={{ position: "absolute", left: x - cw / 2, top: y0 - (y0 - y1) * g, width: cw, height: (y0 - y1) * g, background: P.cardinal }} />
-            <Txt x={R} y={y1 - 10} anchor="right" v="bottom" o={ramp(f, 266, 280)} style={{ fontFamily: MONO, fontWeight: 500, fontSize: 24, color: P.cardinal }}>{spec.total.display}</Txt>
+            <Txt x={x} y={y1 + 10} anchor="center" o={ramp(f, 266, 280)} style={{ fontFamily: MONO, fontWeight: 500, fontSize: 21, color: P.fog, textAlign: "center", lineHeight: 1.15 }}>
+              <div>{spec.total.display.replace(/ MW$/, "")}</div><div>MW</div>
+            </Txt>
             <Txt x={x} y={base + 12} anchor="center" o={ramp(f, 240, 254)} style={{ fontSize: 21, color: P.cardinal, textAlign: "center", lineHeight: 1.1 }}>{spec.total.label}</Txt>
           </>
         );
@@ -428,7 +447,7 @@ export const Ladder2: React.FC<{ spec: LDSpec }> = ({ spec }) => {
   const H = spec.height, { top, bottom } = zone(H);
   const base = bottom - 4, span = base - top - 20;
   const Y = (v: number) => base - (v / spec.max) * span;
-  const colX = L, colW = 236, lineX0 = colX + colW + 26, labelX = 650;
+  const colX = L, colW = 236, lineX0 = colX + colW + 26, labelX = 690;
   const rise = ramp(f, 120, 320, EIO);
   const now = spec.lead.value * rise;
   const order = [...spec.rows].sort((p, q) => p.value - q.value);
@@ -457,10 +476,10 @@ export const Ladder2: React.FC<{ spec: LDSpec }> = ({ spec }) => {
         );
       })}
       <div style={{ position: "absolute", left: colX, top: Y(now), width: colW, height: base - Y(now), background: P.cardinal }} />
-      <div style={{ position: "absolute", left: colX, width: colW + 120, top: Y(now) - 162, opacity: ramp(f, 100, 118) }}>
-        <div style={{ fontFamily: SERIF, fontWeight: 600, fontSize: 40, lineHeight: 1.05, color: P.cardinal }}>{spec.lead.label}</div>
-        <div style={{ fontSize: 23, lineHeight: 1.2, marginTop: 4 }}>{spec.lead.sub}</div>
-        <div style={{ fontFamily: MONO, fontWeight: 500, fontSize: 44, marginTop: 4, color: P.cardinal, whiteSpace: "nowrap" }}>{shown}</div>
+      <div style={{ position: "absolute", left: colX + 16, width: colW - 24, top: Y(now) + 14, opacity: interpolate(base - Y(now), [150, 190], [0, 1], cl), color: P.fog }}>
+        <div style={{ fontFamily: SERIF, fontWeight: 600, fontSize: 40, lineHeight: 1.05 }}>{spec.lead.label}</div>
+        <div style={{ fontSize: 22, lineHeight: 1.2, marginTop: 4, color: "#E9CFCB" }}>{spec.lead.sub}</div>
+        <div style={{ fontFamily: MONO, fontWeight: 500, fontSize: 34, marginTop: 6, whiteSpace: "nowrap" }}>{shown}</div>
       </div>
     </Shell2>
   );
@@ -488,7 +507,7 @@ function squarify(vals: number[], x: number, y: number, w: number, h: number): C
   }
   return out;
 }
-type TMSpec = Base & { items: { label: string; value: number; display: string; lead?: boolean }[]; leadSub: string };
+type TMSpec = Base & { items: { label: string; value: number; display: string; lead?: boolean; countText?: string }[]; leadSub: string };
 export const Treemap: React.FC<{ spec: TMSpec }> = ({ spec }) => {
   const f = useCurrentFrame();
   const { top, bottom } = zone(spec.height);
@@ -514,6 +533,7 @@ export const Treemap: React.FC<{ spec: TMSpec }> = ({ spec }) => {
               <div style={{ fontFamily: isLead ? SERIF : SANS, fontWeight: isLead ? 600 : 400, fontSize: fs, lineHeight: 1.12 }}>{b.it.label}</div>
               {isLead && <div style={{ fontSize: 21, lineHeight: 1.25, marginTop: 6, color: "#E9CFCB" }}>{spec.leadSub}</div>}
               <div style={{ fontFamily: MONO, fontWeight: 500, fontSize: isLead ? 46 : fs * 1.1, marginTop: 6 }}>{b.it.display}</div>
+              {b.it.countText && <div style={{ fontSize: Math.max(18, fs * 0.72), marginTop: 2, color: P.captions }}>{b.it.countText}</div>}
             </div>
           </div>
         );

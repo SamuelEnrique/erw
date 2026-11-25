@@ -6,7 +6,7 @@
  "width": 1080,
  "height": 1080,
  "frames": 450,
- "title": "Electricity demand in Dominion’s Virginia zone, 2019-2025",
+ "title": "Power demand in Dominion’s Virginia zone, 2019-2025",
  "source": "Source: EIA-930 subregion demand, ERW tables eia930_subba_demand_hourly_2019 to _2025. PJM’s Dominion zone. Average hourly demand in each calendar year, Eastern time. Changes are rounded one by one.",
  "mode": "line",
  "points": [
