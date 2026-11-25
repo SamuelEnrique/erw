@@ -1,6 +1,6 @@
 // The one composition, Motion: its size and length come from the spec it is given (specs.mjs writes them).
 import React from "react";
-import { Composition } from "remotion";
+import { AbsoluteFill, Composition } from "remotion";
 import { FPS } from "./brand";
 import { DrawOn } from "./DrawOn";
 import { Frame } from "./Frame";
@@ -10,7 +10,17 @@ import { Post } from "./Post";
 import { Blocks, Ladder } from "./Jensen";
 
 // type "post" is the approved LinkedIn post template (src/Post.tsx, 17 November 2026); the rest use the shared frame
-export const Motion: React.FC<{ spec: Spec }> = ({ spec }) => (spec as any).type === "blocks" ? <Blocks spec={spec as any} /> : (spec as any).type === "ladder" ? <Ladder spec={spec as any} /> : (spec as any).type === "post" ? <Post spec={spec as any} /> : (
+// Session 9901: canvasHeight (Instagram, 1920) places the spec's own layout (its height, 1350) on a taller fog canvas,
+// shifted down by canvasTop (default 200). Without canvasHeight nothing changes.
+export const Motion: React.FC<{ spec: Spec }> = ({ spec }) => (spec as any).canvasHeight ? (
+  <AbsoluteFill style={{ backgroundColor: "#F7F3EA" }}>
+    <div style={{ position: "absolute", left: 0, top: (spec as any).canvasTop ?? 200, width: spec.width, height: spec.height, overflow: "hidden" }}>
+      <MotionInner spec={spec} />
+    </div>
+  </AbsoluteFill>
+) : <MotionInner spec={spec} />;
+
+const MotionInner: React.FC<{ spec: Spec }> = ({ spec }) => (spec as any).type === "blocks" ? <Blocks spec={spec as any} /> : (spec as any).type === "ladder" ? <Ladder spec={spec as any} /> : (spec as any).type === "post" ? <Post spec={spec as any} /> : (
   <Frame spec={spec}>
     {spec.type === "draw-on" && <DrawOn spec={spec} />}
     {spec.type === "count-up" && <CountUp spec={spec} />}
@@ -33,6 +43,6 @@ export const Root: React.FC = () => (
     width={1080}
     height={1350}
     defaultProps={{ spec: placeholder }}
-    calculateMetadata={({ props }) => ({ durationInFrames: props.spec.frames, width: props.spec.width, height: props.spec.height })}
+    calculateMetadata={({ props }) => ({ durationInFrames: props.spec.frames, width: props.spec.width, height: (props.spec as any).canvasHeight ?? props.spec.height })}
   />
 );
