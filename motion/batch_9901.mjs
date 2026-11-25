@@ -40,7 +40,7 @@ for (const file of files) {
       const dir = path.join(out, base.post);
       fs.mkdirSync(dir, { recursive: true });
       const name = `${base.post}_${base.option}_${sh}`;
-      await renderMedia({ composition, serveUrl, codec: "h264", muted: true, outputLocation: path.join(dir, `${name}.mp4`), inputProps, scale: 2, crf: 12, x264Preset: "medium", concurrency: 2 });
+      await renderMedia({ composition, serveUrl, codec: "h264", muted: true, outputLocation: path.join(dir, `${name}.mp4`), inputProps, scale: 2, crf: 12, x264Preset: "medium", concurrency: 6 });
       await renderStill({ composition, serveUrl, output: path.join(dir, `${name}_thumb.png`), inputProps, frame: last, scale: 2 });
       console.log(path.join(dir, name));
     }
