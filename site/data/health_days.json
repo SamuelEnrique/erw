@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-11-24T04:31Z",
+ "written": "2026-11-25T17:10Z",
  "green_days": 0,
- "counted_to": "2026-11-23",
+ "counted_to": "2026-11-24",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -4499,6 +4499,131 @@
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 70 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-11-24": {
+   "rows": 750,
+   "failed": 10,
+   "missing": [],
+   "short": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 98
+    },
+    "daily prices": {
+     "ok": 18,
+     "skipped": 9,
+     "retried": 1,
+     "failed": 2,
+     "runs": 3
+    },
+    "hourly network": {
+     "ok": 20,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 26
+    },
+    "latest prices": {
+     "ok": 97,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 103,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 8,
+     "runs": 113
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-24T03:31",
+     "workflow": "daily prices",
+     "step": "supabase_load",
+     "reason": "FAILED tables: ['datacenter_projects', 'energy_deals', 'news_index', 'sources']"
+    },
+    {
+     "at": "2026-11-24T04:31",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_info_summary_and_table - AssertionError: assert 180843586 == 180844738"
+    },
+    {
+     "at": "2026-11-24T18:09",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_live_set",
+     "reason": "FAILED: coverage.csv is older than the tables it describes; nothing loaded. Run python warehouse/metadata/build_coverage.py (and read its exit code) first."
+    },
+    {
+     "at": "2026-11-24T19:25",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_freeenergy",
+     "reason": "site/scripts/test-freeenergy.mjs exit 1"
+    },
+    {
+     "at": "2026-11-24T19:27",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_battery_dispatch_export",
+     "reason": "battery_dispatch_export FAILED: 8 monthly sums differ from battery_stack_monthly; nothing written"
+    },
+    {
+     "at": "2026-11-24T19:29",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_battery_scenario_steps",
+     "reason": "RuntimeError: ercot foresight 2h: the default cell is not battery_stack_monthly: 2026-10: this run 4325.355209658495, the table 4270.7523; 2026-10 days: 30 here, 29.0 in the table"
+    },
+    {
+     "at": "2026-11-24T19:30",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_battery_dispatch",
+     "reason": "dm_battery_dispatch_export did not finish; the group was put back as committed"
+    },
+    {
+     "at": "2026-11-24T19:30",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_battery_steps",
+     "reason": "dm_battery_scenario_steps did not finish; the group was put back as committed"
+    },
+    {
+     "at": "2026-11-24T19:31",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_replication",
+     "reason": "its tests exited 1 (tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720 tests.test_session3701 tests.test_session5074.Datacenter tests.test_session5074"
+    },
+    {
+     "at": "2026-11-24T19:46",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_commit",
+     "reason": "push to main refused: 1 failing tests: test_session8613.TheReplicationKnowsARebuiltFile.test_a_file_rebuilt_since_the_read_stops_the_comparison"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-24T02:41",
+     "workflow": "daily prices",
+     "step": "ercot_as_prices",
+     "reason": "ercot_as_prices SKIPPED: stale at source (no request: ruling 2 of 6 November 2026 (docs/state/rulings_2026-11-06.md): ERCOT's /misapp and /misdownload paths, which its robots file disallows, are not a"
+    },
+    {
+     "at": "2026-11-24T02:44",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-21, 64 days old (limit 28)"
+    },
+    {
+     "at": "2026-11-24T17:42",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 71 days old (limit 28)"
     }
    ]
   }
