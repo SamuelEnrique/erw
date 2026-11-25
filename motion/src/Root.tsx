@@ -7,9 +7,10 @@ import { Frame } from "./Frame";
 import { CountUp, Reorder, RollCall } from "./Others";
 import type { Spec } from "./types";
 import { Post } from "./Post";
+import { Blocks, Ladder } from "./Jensen";
 
 // type "post" is the approved LinkedIn post template (src/Post.tsx, 17 November 2026); the rest use the shared frame
-export const Motion: React.FC<{ spec: Spec }> = ({ spec }) => (spec as any).type === "post" ? <Post spec={spec as any} /> : (
+export const Motion: React.FC<{ spec: Spec }> = ({ spec }) => (spec as any).type === "blocks" ? <Blocks spec={spec as any} /> : (spec as any).type === "ladder" ? <Ladder spec={spec as any} /> : (spec as any).type === "post" ? <Post spec={spec as any} /> : (
   <Frame spec={spec}>
     {spec.type === "draw-on" && <DrawOn spec={spec} />}
     {spec.type === "count-up" && <CountUp spec={spec} />}

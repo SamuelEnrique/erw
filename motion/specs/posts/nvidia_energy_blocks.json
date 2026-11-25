@@ -1,0 +1,72 @@
+{
+ "id": "nvidia_energy_blocks",
+ "type": "blocks",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "title": "NVIDIA’s one-day gain exceeds several U.S. energy sectors",
+ "source": "Source: SEC filings (shares outstanding, latest report) and closing prices of 23 November 2026 (StockAnalysis.com). Market value of U.S.-headquartered listed companies above $5 billion ($1 billion for renewables). The number in each box is its count of companies.",
+ "lead": {
+  "label": "NVIDIA",
+  "sub": "market value gained on Nov\u00a023",
+  "value": 952.4320000000002
+ },
+ "rows": [
+  {
+   "label": "Utilities",
+   "value": 1314.0749175026401,
+   "count": 40,
+   "countText": "40 companies"
+  },
+  {
+   "label": "Integrated Majors",
+   "value": 1045.24099046622,
+   "count": 2,
+   "countText": "2"
+  },
+  {
+   "label": "Midstream",
+   "value": 555.48383034596,
+   "count": 13,
+   "countText": "13"
+  },
+  {
+   "label": "Upstream",
+   "value": 541.61867751147,
+   "count": 17,
+   "countText": "17"
+  },
+  {
+   "label": "Power Equipment",
+   "value": 460.64873617148004,
+   "count": 8,
+   "countText": "8"
+  },
+  {
+   "label": "Downstream",
+   "value": 312.36621267705,
+   "count": 6,
+   "countText": "6"
+  },
+  {
+   "label": "Power Producers",
+   "value": 166.94303446865,
+   "count": 4,
+   "countText": "4"
+  },
+  {
+   "label": "Oilfield Services",
+   "value": 156.41666686035998,
+   "count": 6,
+   "countText": "6"
+  },
+  {
+   "label": "Renewables",
+   "value": 51.666281051895005,
+   "count": 9,
+   "countText": "9"
+  }
+ ],
+ "_numbers_from": "/home/claude/jensen/data/caps_included_floor1.csv (SEC cover pages; StockAnalysis.com closes of 2026-11-23)",
+ "showPct": false
+}
