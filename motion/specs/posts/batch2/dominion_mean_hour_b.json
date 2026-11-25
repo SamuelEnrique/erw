@@ -1,0 +1,82 @@
+{
+ "id": "dominion_mean_hour_b",
+ "post": "dominion_mean_hour",
+ "option": "b",
+ "type": "yearline",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "title": "Electricity demand in Dominion’s Virginia zone, 2019-2025",
+ "source": "Source: EIA-930 subregion demand, ERW tables eia930_subba_demand_hourly_2019 to _2025. PJM’s Dominion zone. Average hourly demand in each calendar year, Eastern time. Changes are rounded one by one.",
+ "mode": "line",
+ "points": [
+  {
+   "year": 2019,
+   "value": 11686.987407,
+   "display": "11,687 MW"
+  },
+  {
+   "year": 2020,
+   "value": 11509.635188,
+   "display": "11,510 MW"
+  },
+  {
+   "year": 2021,
+   "value": 12418.987668,
+   "display": "12,419 MW"
+  },
+  {
+   "year": 2022,
+   "value": 13118.070584,
+   "display": "13,118 MW"
+  },
+  {
+   "year": 2023,
+   "value": 13275.504994,
+   "display": "13,276 MW"
+  },
+  {
+   "year": 2024,
+   "value": 14198.916886,
+   "display": "14,199 MW"
+  },
+  {
+   "year": 2025,
+   "value": 15403.008477,
+   "display": "15,403 MW"
+  }
+ ],
+ "yMax": 16000,
+ "yTicks": [
+  {
+   "v": 0,
+   "label": "0"
+  },
+  {
+   "v": 4000,
+   "label": "4,000"
+  },
+  {
+   "v": 8000,
+   "label": "8,000"
+  },
+  {
+   "v": 12000,
+   "label": "12,000"
+  },
+  {
+   "v": 16000,
+   "label": "16,000"
+  }
+ ],
+ "yUnit": "MW",
+ "xTicks": [
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024,
+  2025
+ ]
+}

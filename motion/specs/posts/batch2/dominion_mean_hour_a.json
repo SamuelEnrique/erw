@@ -1,0 +1,70 @@
+{
+ "id": "dominion_mean_hour_a",
+ "post": "dominion_mean_hour",
+ "option": "a",
+ "type": "staircase",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "title": "Electricity demand in Dominion’s Virginia zone, 2019-2025",
+ "source": "Source: EIA-930 subregion demand, ERW tables eia930_subba_demand_hourly_2019 to _2025. PJM’s Dominion zone. Average hourly demand in each calendar year, Eastern time. Changes are rounded one by one.",
+ "base": {
+  "label": "2019",
+  "value": 11686.987407,
+  "display": "11,687 MW"
+ },
+ "steps": [
+  {
+   "label": "2020",
+   "from": 11686.987407,
+   "to": 11509.635188,
+   "delta": -177.35221900000033,
+   "display": "-177"
+  },
+  {
+   "label": "2021",
+   "from": 11509.635188,
+   "to": 12418.987668,
+   "delta": 909.3524799999996,
+   "display": "+909"
+  },
+  {
+   "label": "2022",
+   "from": 12418.987668,
+   "to": 13118.070584,
+   "delta": 699.0829159999994,
+   "display": "+699"
+  },
+  {
+   "label": "2023",
+   "from": 13118.070584,
+   "to": 13275.504994,
+   "delta": 157.43441000000166,
+   "display": "+157"
+  },
+  {
+   "label": "2024",
+   "from": 13275.504994,
+   "to": 14198.916886,
+   "delta": 923.4118920000001,
+   "display": "+923"
+  },
+  {
+   "label": "2025",
+   "from": 14198.916886,
+   "to": 15403.008477,
+   "delta": 1204.0915909999985,
+   "display": "+1,204"
+  }
+ ],
+ "total": {
+  "label": "Since 2019",
+  "value": 3716.021069999999,
+  "display": "+3,716 MW"
+ },
+ "last": {
+  "value": 15403.008477,
+  "display": "15,403 MW"
+ },
+ "max": 17000
+}

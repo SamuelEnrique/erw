@@ -1,0 +1,133 @@
+{
+ "title": "U.S.-origin share of uranium bought for U.S. reactors, 2003-2025",
+ "original_source": "EIA, Uranium Marketing Annual Report (Form EIA-858), summary tables S1a to S3b",
+ "erw_table": "eia_uranium_marketing_annual",
+ "table_retrieved": "Retrieved: 20261023T070136Z (UTC) by warehouse/connectors/eia_uranium_marketing.py",
+ "method": "purchased_us_origin over purchased_total (pounds U3O8e) by year; EIA withheld or printed no U.S.-origin figure for 2019, 2020 and 2022 (no row, nothing filled); docs/findings/coal_uranium_metals/us-origin-uranium-us-uranium-origin.reproduce.py, rerun 25 November 2026",
+ "values": [
+  {
+   "year": 2003,
+   "value": 18.036497,
+   "display": "18.0%"
+  },
+  {
+   "year": 2004,
+   "value": 19.253689,
+   "display": "19.3%"
+  },
+  {
+   "year": 2005,
+   "value": 16.740939,
+   "display": "16.7%"
+  },
+  {
+   "year": 2006,
+   "value": 16.241603,
+   "display": "16.2%"
+  },
+  {
+   "year": 2007,
+   "value": 7.792794,
+   "display": "7.8%"
+  },
+  {
+   "year": 2008,
+   "value": 14.469664,
+   "display": "14.5%"
+  },
+  {
+   "year": 2009,
+   "value": 14.154124,
+   "display": "14.2%"
+  },
+  {
+   "year": 2010,
+   "value": 7.915074,
+   "display": "7.9%"
+  },
+  {
+   "year": 2011,
+   "value": 9.492805,
+   "display": "9.5%"
+  },
+  {
+   "year": 2012,
+   "value": 17.049722,
+   "display": "17.0%"
+  },
+  {
+   "year": 2013,
+   "value": 16.521785,
+   "display": "16.5%"
+  },
+  {
+   "year": 2014,
+   "value": 6.215674,
+   "display": "6.2%"
+  },
+  {
+   "year": 2015,
+   "value": 6.017699,
+   "display": "6.0%"
+  },
+  {
+   "year": 2016,
+   "value": 10.671937,
+   "display": "10.7%"
+  },
+  {
+   "year": 2017,
+   "value": 6.744186,
+   "display": "6.7%"
+  },
+  {
+   "year": 2018,
+   "value": 9.677419,
+   "display": "9.7%"
+  },
+  {
+   "year": 2019,
+   "value": null,
+   "display": null
+  },
+  {
+   "year": 2020,
+   "value": null,
+   "display": null
+  },
+  {
+   "year": 2021,
+   "value": 5.353319,
+   "display": "5.4%"
+  },
+  {
+   "year": 2022,
+   "value": null,
+   "display": null
+  },
+  {
+   "year": 2023,
+   "value": 4.651163,
+   "display": "4.7%"
+  },
+  {
+   "year": 2024,
+   "value": 7.692308,
+   "display": "7.7%"
+  },
+  {
+   "year": 2025,
+   "value": 7.249467,
+   "display": "7.2%"
+  }
+ ],
+ "pounds_2025": {
+  "purchased_foreign_origin": 43500000.0,
+  "purchased_total": 46900000.0,
+  "purchased_us_origin": 3400000.0
+ },
+ "country_of_origin": "not in the ERW table (it holds U.S. and foreign origin only), so option A is the 100-square grid the prompt names as the fallback",
+ "post": "uranium_us_origin",
+ "built_by": "docs/research/motion/posts/batch_2026-11-25/scripts/build_9901.py",
+ "built_at": "2026-11-25T07:37:25Z"
+}

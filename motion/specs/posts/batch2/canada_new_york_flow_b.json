@@ -1,0 +1,50 @@
+{
+ "id": "canada_new_york_flow_b",
+ "post": "canada_new_york_flow",
+ "option": "b",
+ "type": "columns",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "title": "Power flow from Canada to New York, 2019-2025",
+ "source": "Source: EIA-930 interchange between regions, ERW table eia930_region_pair_hourly. The average hourly flow of power from Canada into New York in each year, in megawatts.",
+ "rows": [
+  {
+   "label": "2019",
+   "value": 1991.598516,
+   "display": "1,992 MW"
+  },
+  {
+   "label": "2020",
+   "value": 1974.572404,
+   "display": "1,975 MW"
+  },
+  {
+   "label": "2021",
+   "value": 1889.02032,
+   "display": "1,889 MW"
+  },
+  {
+   "label": "2022",
+   "value": 1654.924087,
+   "display": "1,655 MW"
+  },
+  {
+   "label": "2023",
+   "value": 777.827397,
+   "display": "778 MW"
+  },
+  {
+   "label": "2024",
+   "value": 552.940005,
+   "display": "553 MW"
+  },
+  {
+   "label": "2025",
+   "value": 211.028082,
+   "display": "211 MW"
+  }
+ ],
+ "highlight": 6,
+ "max": 2300
+}

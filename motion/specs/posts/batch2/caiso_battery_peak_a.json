@@ -1,0 +1,50 @@
+{
+ "id": "caiso_battery_peak_a",
+ "post": "caiso_battery_peak",
+ "option": "a",
+ "type": "fillblock",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "title": "California’s battery capacity against its peak-day demand, 2019-2025",
+ "source": "Source: EIA-860M battery capacity in December and EIA-930 demand, ERW tables storage_buildout_monthly and eia930_daily_demand. Peak-day demand: CAISO’s average demand on its ten highest days of the year.",
+ "steps": [
+  {
+   "year": 2019,
+   "value": 0.554036,
+   "display": "0.6%"
+  },
+  {
+   "year": 2020,
+   "value": 1.545048,
+   "display": "1.5%"
+  },
+  {
+   "year": 2021,
+   "value": 7.531181,
+   "display": "7.5%"
+  },
+  {
+   "year": 2022,
+   "value": 13.402308,
+   "display": "13.4%"
+  },
+  {
+   "year": 2023,
+   "value": 23.991584,
+   "display": "24.0%"
+  },
+  {
+   "year": 2024,
+   "value": 32.807125,
+   "display": "32.8%"
+  },
+  {
+   "year": 2025,
+   "value": 46.619278,
+   "display": "46.6%"
+  }
+ ],
+ "blockLabel": "Peak-day demand",
+ "fillLabel": "Battery capacity"
+}

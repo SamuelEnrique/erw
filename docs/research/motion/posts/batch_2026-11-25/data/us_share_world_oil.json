@@ -1,0 +1,240 @@
+{
+ "title": "U.S. share of world oil and liquids production, 1995-2025",
+ "original_source": "EIA International Energy Statistics (bulk file INTL.zip), total petroleum and other liquids production (product 53), thousand barrels a day, monthly",
+ "erw_table": "eia_world_oil_monthly",
+ "table_retrieved": "Retrieved: 20261023T101051Z (UTC) by warehouse/connectors/eia_intl_bulk.py; the file retrieved 2026-10-23T07:54:07Z, last modified 2026-10-19T19:55:35Z",
+ "method_b": "U.S. (USA:53) months summed over the world's (WORL:53) months, by year; docs/findings/oil_products_world/us-liquids-share-us-world-liquids.reproduce.py, rerun 25 November 2026",
+ "values_b": [
+  {
+   "year": 1995,
+   "value": 13.481377,
+   "display": "13.5%"
+  },
+  {
+   "year": 1996,
+   "value": 13.226139,
+   "display": "13.2%"
+  },
+  {
+   "year": 1997,
+   "value": 12.828242,
+   "display": "12.8%"
+  },
+  {
+   "year": 1998,
+   "value": 12.411725,
+   "display": "12.4%"
+  },
+  {
+   "year": 1999,
+   "value": 12.243992,
+   "display": "12.2%"
+  },
+  {
+   "year": 2000,
+   "value": 11.979223,
+   "display": "12.0%"
+  },
+  {
+   "year": 2001,
+   "value": 11.822447,
+   "display": "11.8%"
+  },
+  {
+   "year": 2002,
+   "value": 11.903527,
+   "display": "11.9%"
+  },
+  {
+   "year": 2003,
+   "value": 11.087184,
+   "display": "11.1%"
+  },
+  {
+   "year": 2004,
+   "value": 10.454077,
+   "display": "10.5%"
+  },
+  {
+   "year": 2005,
+   "value": 9.833324,
+   "display": "9.8%"
+  },
+  {
+   "year": 2006,
+   "value": 9.754577,
+   "display": "9.8%"
+  },
+  {
+   "year": 2007,
+   "value": 9.908579,
+   "display": "9.9%"
+  },
+  {
+   "year": 2008,
+   "value": 9.852911,
+   "display": "9.9%"
+  },
+  {
+   "year": 2009,
+   "value": 10.639197,
+   "display": "10.6%"
+  },
+  {
+   "year": 2010,
+   "value": 11.098804,
+   "display": "11.1%"
+  },
+  {
+   "year": 2011,
+   "value": 11.460799,
+   "display": "11.5%"
+  },
+  {
+   "year": 2012,
+   "value": 12.270464,
+   "display": "12.3%"
+  },
+  {
+   "year": 2013,
+   "value": 13.563601,
+   "display": "13.6%"
+  },
+  {
+   "year": 2014,
+   "value": 15.064781,
+   "display": "15.1%"
+  },
+  {
+   "year": 2015,
+   "value": 15.681109,
+   "display": "15.7%"
+  },
+  {
+   "year": 2016,
+   "value": 15.293968,
+   "display": "15.3%"
+  },
+  {
+   "year": 2017,
+   "value": 15.946571,
+   "display": "15.9%"
+  },
+  {
+   "year": 2018,
+   "value": 17.748429,
+   "display": "17.7%"
+  },
+  {
+   "year": 2019,
+   "value": 19.371581,
+   "display": "19.4%"
+  },
+  {
+   "year": 2020,
+   "value": 19.794642,
+   "display": "19.8%"
+  },
+  {
+   "year": 2021,
+   "value": 19.887919,
+   "display": "19.9%"
+  },
+  {
+   "year": 2022,
+   "value": 20.317242,
+   "display": "20.3%"
+  },
+  {
+   "year": 2023,
+   "value": 21.460918,
+   "display": "21.5%"
+  },
+  {
+   "year": 2024,
+   "value": 22.174749,
+   "display": "22.2%"
+  },
+  {
+   "year": 2025,
+   "value": 22.322314,
+   "display": "22.3%"
+  }
+ ],
+ "method_a": "2025: each country's 12 monthly values summed (x_area country, product 53) over the world's 12 summed; the nine largest countries, and all other countries as the world less those nine",
+ "blocks_a_2025": [
+  {
+   "code": "USA",
+   "label": "United States",
+   "kbd_2025_mean": 23725.332666666665,
+   "share": 22.322313812134357,
+   "display": "22.3%"
+  },
+  {
+   "code": "SAU",
+   "label": "Saudi Arabia",
+   "kbd_2025_mean": 11211.995985192834,
+   "share": 10.548964533319152,
+   "display": "10.5%"
+  },
+  {
+   "code": "RUS",
+   "label": "Russia",
+   "kbd_2025_mean": 10534.20098540947,
+   "share": 9.911251549563318,
+   "display": "9.9%"
+  },
+  {
+   "code": "CAN",
+   "label": "Canada",
+   "kbd_2025_mean": 6255.47157363811,
+   "share": 5.88554864420598,
+   "display": "5.9%"
+  },
+  {
+   "code": "CHN",
+   "label": "China",
+   "kbd_2025_mean": 5446.498223841084,
+   "share": 5.124414659973425,
+   "display": "5.1%"
+  },
+  {
+   "code": "IRN",
+   "label": "Iran",
+   "kbd_2025_mean": 4768.99833583425,
+   "share": 4.486979336294182,
+   "display": "4.5%"
+  },
+  {
+   "code": "BRA",
+   "label": "Brazil",
+   "kbd_2025_mean": 4650.385689076259,
+   "share": 4.375380954926081,
+   "display": "4.4%"
+  },
+  {
+   "code": "IRQ",
+   "label": "Iraq",
+   "kbd_2025_mean": 4499.941268070584,
+   "share": 4.233833199867969,
+   "display": "4.2%"
+  },
+  {
+   "code": "ARE",
+   "label": "UAE",
+   "kbd_2025_mean": 4337.948260117751,
+   "share": 4.081419793923396,
+   "display": "4.1%"
+  },
+  {
+   "code": "OTHER",
+   "label": "All other countries",
+   "kbd_2025_mean": 30854.502214088512,
+   "share": 29.029893515792146,
+   "display": "29.0%"
+  }
+ ],
+ "post": "us_share_world_oil",
+ "built_by": "docs/research/motion/posts/batch_2026-11-25/scripts/build_9901.py",
+ "built_at": "2026-11-25T07:37:27Z"
+}

@@ -1,0 +1,53 @@
+{
+ "title": "California’s battery capacity as a share of peak-day demand, 2019-2025",
+ "original_source": "EIA-860M (operating battery capacity, CAISO, December of each year) via ERW storage_buildout_monthly; EIA-930 daily demand (CISO) via ERW eia930_daily_demand",
+ "erw_tables": [
+  "storage_buildout_monthly",
+  "eia930_daily_demand"
+ ],
+ "tables_retrieved": [
+  "Retrieved: 20261024T145028Z (UTC) by warehouse/derived/storage_buildout.py",
+  "Retrieved: 20261123T152637Z (UTC) by warehouse/connectors/eia930_daily_demand.py --days 5 (335 rows pulled this run and merged; the earlier days as the earlier runs wrote them)"
+ ],
+ "method": "battery_operating_mw of iso:caiso at December's end, as a percent of the mean of the year's ten highest daily demands of CISO divided by 24 (average MW); docs/findings/cross_family/battery-per-peak-caiso-bat-peak.reproduce.py, rerun 25 November 2026",
+ "values": [
+  {
+   "year": 2019,
+   "value": 0.554036,
+   "display": "0.6%"
+  },
+  {
+   "year": 2020,
+   "value": 1.545048,
+   "display": "1.5%"
+  },
+  {
+   "year": 2021,
+   "value": 7.531181,
+   "display": "7.5%"
+  },
+  {
+   "year": 2022,
+   "value": 13.402308,
+   "display": "13.4%"
+  },
+  {
+   "year": 2023,
+   "value": 23.991584,
+   "display": "24.0%"
+  },
+  {
+   "year": 2024,
+   "value": 32.807125,
+   "display": "32.8%"
+  },
+  {
+   "year": 2025,
+   "value": 46.619278,
+   "display": "46.6%"
+  }
+ ],
+ "post": "caiso_battery_peak",
+ "built_by": "docs/research/motion/posts/batch_2026-11-25/scripts/build_9901.py",
+ "built_at": "2026-11-25T07:37:25Z"
+}

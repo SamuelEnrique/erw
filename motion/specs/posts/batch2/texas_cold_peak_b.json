@@ -1,0 +1,50 @@
+{
+ "id": "texas_cold_peak_b",
+ "post": "texas_cold_peak",
+ "option": "b",
+ "type": "columns",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "title": "Texas peak power demand in late January, 2020-2026",
+ "source": "Source: EIA-930 hourly demand, ERW table eia930_ba_demand_hourly. Texas (ERCOT): the highest hour of demand from 23 January to 2 February (UTC days) of each year.",
+ "rows": [
+  {
+   "label": "2020",
+   "value": 47074.0,
+   "display": "47,074 MW"
+  },
+  {
+   "label": "2021",
+   "value": 51607.0,
+   "display": "51,607 MW"
+  },
+  {
+   "label": "2022",
+   "value": 53813.0,
+   "display": "53,813 MW"
+  },
+  {
+   "label": "2023",
+   "value": 65552.0,
+   "display": "65,552 MW"
+  },
+  {
+   "label": "2024",
+   "value": 54806.0,
+   "display": "54,806 MW"
+  },
+  {
+   "label": "2025",
+   "value": 70603.0,
+   "display": "70,603 MW"
+  },
+  {
+   "label": "2026",
+   "value": 75599.0,
+   "display": "75,599 MW"
+  }
+ ],
+ "highlight": 6,
+ "max": 86000
+}

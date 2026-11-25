@@ -1,0 +1,47 @@
+{
+ "title": "Texas peak power demand in late January, 2020-2026",
+ "original_source": "EIA Form EIA-930 hourly demand, region TEX (ERCOT)",
+ "erw_table": "eia930_ba_demand_hourly",
+ "table_retrieved": "Retrieved: 20261124T181119Z (UTC) by warehouse/connectors/eia930_region_hourly.py",
+ "method": "the highest hour of the Texas region's demand from 23 January to 2 February (UTC days; every year holds all 264 hours); docs/findings/events/cold-2026-tex.reproduce.py, rerun 25 November 2026",
+ "values": [
+  {
+   "year": 2020,
+   "value": 47074.0,
+   "display": "47,074 MW"
+  },
+  {
+   "year": 2021,
+   "value": 51607.0,
+   "display": "51,607 MW"
+  },
+  {
+   "year": 2022,
+   "value": 53813.0,
+   "display": "53,813 MW"
+  },
+  {
+   "year": 2023,
+   "value": 65552.0,
+   "display": "65,552 MW"
+  },
+  {
+   "year": 2024,
+   "value": 54806.0,
+   "display": "54,806 MW"
+  },
+  {
+   "year": 2025,
+   "value": 70603.0,
+   "display": "70,603 MW"
+  },
+  {
+   "year": 2026,
+   "value": 75599.0,
+   "display": "75,599 MW"
+  }
+ ],
+ "post": "texas_cold_peak",
+ "built_by": "docs/research/motion/posts/batch_2026-11-25/scripts/build_9901.py",
+ "built_at": "2026-11-25T07:37:25Z"
+}

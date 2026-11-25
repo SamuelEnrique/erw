@@ -1,0 +1,47 @@
+{
+ "title": "Power flow from Canada to New York, 2019-2025",
+ "original_source": "EIA Form EIA-930, region-pair interchange (six-month files), Canada (CAN) to New York (NY)",
+ "erw_table": "eia930_region_pair_hourly",
+ "table_retrieved": "Retrieved: 20261124T181514Z (UTC) by warehouse/connectors/eia930_ba_interchange_hourly.py",
+ "method": "mean of the hourly interchange_mw of eia930:CAN-NY (MW sent from Canada to New York) by UTC year, an hour above three times the year's 99th percentile of absolute flow dropped; docs/findings/trade/pair-flow-rp-can-ny.reproduce.py, rerun 25 November 2026",
+ "values": [
+  {
+   "year": 2019,
+   "value": 1991.598516,
+   "display": "1,992 MW"
+  },
+  {
+   "year": 2020,
+   "value": 1974.572404,
+   "display": "1,975 MW"
+  },
+  {
+   "year": 2021,
+   "value": 1889.02032,
+   "display": "1,889 MW"
+  },
+  {
+   "year": 2022,
+   "value": 1654.924087,
+   "display": "1,655 MW"
+  },
+  {
+   "year": 2023,
+   "value": 777.827397,
+   "display": "778 MW"
+  },
+  {
+   "year": 2024,
+   "value": 552.940005,
+   "display": "553 MW"
+  },
+  {
+   "year": 2025,
+   "value": 211.028082,
+   "display": "211 MW"
+  }
+ ],
+ "post": "canada_new_york_flow",
+ "built_by": "docs/research/motion/posts/batch_2026-11-25/scripts/build_9901.py",
+ "built_at": "2026-11-25T07:37:25Z"
+}

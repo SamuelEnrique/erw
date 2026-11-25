@@ -1,0 +1,73 @@
+{
+ "id": "thanksgiving_peak_hour_a",
+ "post": "thanksgiving_peak_hour",
+ "option": "a",
+ "type": "clockshift",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "title": "Hour of peak power demand, Thanksgiving vs normal days",
+ "source": "Source: EIA-930 hourly demand, ERW table eia930_ba_demand_hourly. Median hour of peak demand (local time, hour ending) on Thanksgiving 2019-2025 and the three Thursdays before each. California’s recent midday peaks are battery charging counted as demand.",
+ "rows": [
+  {
+   "label": "Plains",
+   "normal": 19,
+   "tg": 10,
+   "normalText": "7 pm",
+   "tgText": "10 am",
+   "shiftText": "9 h earlier"
+  },
+  {
+   "label": "Midwest",
+   "normal": 18,
+   "tg": 11,
+   "normalText": "6 pm",
+   "tgText": "11 am",
+   "shiftText": "7 h earlier"
+  },
+  {
+   "label": "Mid-Atlantic",
+   "normal": 19,
+   "tg": 12,
+   "normalText": "7 pm",
+   "tgText": "noon",
+   "shiftText": "7 h earlier"
+  },
+  {
+   "label": "New York",
+   "normal": 18,
+   "tg": 13,
+   "normalText": "6 pm",
+   "tgText": "1 pm",
+   "shiftText": "5 h earlier"
+  },
+  {
+   "label": "Texas",
+   "normal": 16,
+   "tg": 12,
+   "normalText": "4 pm",
+   "tgText": "noon",
+   "shiftText": "4 h earlier"
+  },
+  {
+   "label": "New England",
+   "normal": 18,
+   "tg": 15,
+   "normalText": "6 pm",
+   "tgText": "3 pm",
+   "shiftText": "3 h earlier"
+  },
+  {
+   "label": "California",
+   "normal": 18,
+   "tg": 18,
+   "normalText": "6 pm",
+   "tgText": "6 pm",
+   "shiftText": "same hour"
+  }
+ ],
+ "legend": {
+  "normal": "Normal Thursday",
+  "tg": "Thanksgiving"
+ }
+}

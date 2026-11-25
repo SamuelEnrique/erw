@@ -1,0 +1,105 @@
+{
+ "title": "Electricity demand in Dominion’s Virginia zone, 2019-2025",
+ "original_source": "EIA Form EIA-930 subregion demand (PJM, Dominion zone, eia930_subba:PJM:DOM)",
+ "erw_tables": [
+  "eia930_subba_demand_hourly_2019",
+  "eia930_subba_demand_hourly_2020",
+  "eia930_subba_demand_hourly_2021",
+  "eia930_subba_demand_hourly_2022",
+  "eia930_subba_demand_hourly_2023",
+  "eia930_subba_demand_hourly_2024",
+  "eia930_subba_demand_hourly_2025"
+ ],
+ "tables_retrieved": [
+  "Retrieved: 20261023T020315Z (UTC) by warehouse/connectors/eia930_subba.py; 56 requests of 89",
+  "Retrieved: 20261022T015855Z (UTC) by warehouse/connectors/eia930_subba.py; 0 requests of 89"
+ ],
+ "method": "mean hourly demand by local year (America/New_York), an hour at or below zero or above three times its year's median dropped; docs/findings/demand/sub-mean-pjm-sub-dom.reproduce.py, rerun 25 November 2026",
+ "levels": [
+  {
+   "year": 2019,
+   "value": 11686.987407,
+   "display": "11,687 MW"
+  },
+  {
+   "year": 2020,
+   "value": 11509.635188,
+   "display": "11,510 MW"
+  },
+  {
+   "year": 2021,
+   "value": 12418.987668,
+   "display": "12,419 MW"
+  },
+  {
+   "year": 2022,
+   "value": 13118.070584,
+   "display": "13,118 MW"
+  },
+  {
+   "year": 2023,
+   "value": 13275.504994,
+   "display": "13,276 MW"
+  },
+  {
+   "year": 2024,
+   "value": 14198.916886,
+   "display": "14,199 MW"
+  },
+  {
+   "year": 2025,
+   "value": 15403.008477,
+   "display": "15,403 MW"
+  }
+ ],
+ "steps": [
+  {
+   "label": "2020",
+   "from": 11686.987407,
+   "to": 11509.635188,
+   "delta": -177.35221900000033,
+   "display": "-177"
+  },
+  {
+   "label": "2021",
+   "from": 11509.635188,
+   "to": 12418.987668,
+   "delta": 909.3524799999996,
+   "display": "+909"
+  },
+  {
+   "label": "2022",
+   "from": 12418.987668,
+   "to": 13118.070584,
+   "delta": 699.0829159999994,
+   "display": "+699"
+  },
+  {
+   "label": "2023",
+   "from": 13118.070584,
+   "to": 13275.504994,
+   "delta": 157.43441000000166,
+   "display": "+157"
+  },
+  {
+   "label": "2024",
+   "from": 13275.504994,
+   "to": 14198.916886,
+   "delta": 923.4118920000001,
+   "display": "+923"
+  },
+  {
+   "label": "2025",
+   "from": 14198.916886,
+   "to": 15403.008477,
+   "delta": 1204.0915909999985,
+   "display": "+1,204"
+  }
+ ],
+ "total_change": 3716.021069999999,
+ "total_display": "+3,716 MW",
+ "rounding_note": "each step is rounded from its own unrounded change; the six rounded steps sum to 3,715 while the rounded total is 3,716",
+ "post": "dominion_mean_hour",
+ "built_by": "docs/research/motion/posts/batch_2026-11-25/scripts/build_9901.py",
+ "built_at": "2026-11-25T07:37:25Z"
+}

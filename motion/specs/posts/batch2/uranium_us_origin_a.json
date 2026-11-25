@@ -1,0 +1,21 @@
+{
+ "id": "uranium_us_origin_a",
+ "post": "uranium_us_origin",
+ "option": "a",
+ "type": "waffle",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "title": "U.S.-origin share of uranium bought for U.S. reactors, 2003-2025",
+ "source": "Source: EIA Uranium Marketing Annual Report (Form EIA-858), ERW table eia_uranium_marketing_annual. Uranium bought by owners and operators of U.S. reactors. EIA published no U.S.-origin figure for 2019, 2020 and 2022.",
+ "steps": [
+  {
+   "year": 2025,
+   "value": 7.249467,
+   "display": "7.2%"
+  }
+ ],
+ "unitText": "of U.S. origin",
+ "squareNote": "Each square: 1% of the uranium bought",
+ "extra": "3.4 million lb of 46.9 million lb"
+}

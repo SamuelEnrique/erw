@@ -1,0 +1,74 @@
+{
+ "id": "us_share_world_oil_a",
+ "post": "us_share_world_oil",
+ "option": "a",
+ "type": "treemap",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "title": "U.S. share of world oil and liquids production, 1995-2025",
+ "source": "Source: EIA International Energy Statistics, ERW table eia_world_oil_monthly. Production of crude oil and other liquids, the U.S. as a share of the world. Recent years include EIA estimates.",
+ "items": [
+  {
+   "label": "United States",
+   "value": 22.322313812134357,
+   "display": "22.3%",
+   "lead": true
+  },
+  {
+   "label": "Saudi Arabia",
+   "value": 10.548964533319152,
+   "display": "10.5%",
+   "lead": false
+  },
+  {
+   "label": "Russia",
+   "value": 9.911251549563318,
+   "display": "9.9%",
+   "lead": false
+  },
+  {
+   "label": "Canada",
+   "value": 5.88554864420598,
+   "display": "5.9%",
+   "lead": false
+  },
+  {
+   "label": "China",
+   "value": 5.124414659973425,
+   "display": "5.1%",
+   "lead": false
+  },
+  {
+   "label": "Iran",
+   "value": 4.486979336294182,
+   "display": "4.5%",
+   "lead": false
+  },
+  {
+   "label": "Brazil",
+   "value": 4.375380954926081,
+   "display": "4.4%",
+   "lead": false
+  },
+  {
+   "label": "Iraq",
+   "value": 4.233833199867969,
+   "display": "4.2%",
+   "lead": false
+  },
+  {
+   "label": "UAE",
+   "value": 4.081419793923396,
+   "display": "4.1%",
+   "lead": false
+  },
+  {
+   "label": "All other countries",
+   "value": 29.029893515792146,
+   "display": "29.0%",
+   "lead": false
+  }
+ ],
+ "leadSub": "share of world output in 2025"
+}

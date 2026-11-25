@@ -1,0 +1,164 @@
+{
+ "id": "uranium_us_origin_b",
+ "post": "uranium_us_origin",
+ "option": "b",
+ "type": "yearline",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "title": "U.S.-origin share of uranium bought for U.S. reactors, 2003-2025",
+ "source": "Source: EIA Uranium Marketing Annual Report (Form EIA-858), ERW table eia_uranium_marketing_annual. Uranium bought by owners and operators of U.S. reactors. EIA published no U.S.-origin figure for 2019, 2020 and 2022.",
+ "mode": "line",
+ "points": [
+  {
+   "year": 2003,
+   "value": 18.036497,
+   "display": "18.0%"
+  },
+  {
+   "year": 2004,
+   "value": 19.253689,
+   "display": "19.3%"
+  },
+  {
+   "year": 2005,
+   "value": 16.740939,
+   "display": "16.7%"
+  },
+  {
+   "year": 2006,
+   "value": 16.241603,
+   "display": "16.2%"
+  },
+  {
+   "year": 2007,
+   "value": 7.792794,
+   "display": "7.8%"
+  },
+  {
+   "year": 2008,
+   "value": 14.469664,
+   "display": "14.5%"
+  },
+  {
+   "year": 2009,
+   "value": 14.154124,
+   "display": "14.2%"
+  },
+  {
+   "year": 2010,
+   "value": 7.915074,
+   "display": "7.9%"
+  },
+  {
+   "year": 2011,
+   "value": 9.492805,
+   "display": "9.5%"
+  },
+  {
+   "year": 2012,
+   "value": 17.049722,
+   "display": "17.0%"
+  },
+  {
+   "year": 2013,
+   "value": 16.521785,
+   "display": "16.5%"
+  },
+  {
+   "year": 2014,
+   "value": 6.215674,
+   "display": "6.2%"
+  },
+  {
+   "year": 2015,
+   "value": 6.017699,
+   "display": "6.0%"
+  },
+  {
+   "year": 2016,
+   "value": 10.671937,
+   "display": "10.7%"
+  },
+  {
+   "year": 2017,
+   "value": 6.744186,
+   "display": "6.7%"
+  },
+  {
+   "year": 2018,
+   "value": 9.677419,
+   "display": "9.7%"
+  },
+  {
+   "year": 2019,
+   "value": null,
+   "display": null
+  },
+  {
+   "year": 2020,
+   "value": null,
+   "display": null
+  },
+  {
+   "year": 2021,
+   "value": 5.353319,
+   "display": "5.4%"
+  },
+  {
+   "year": 2022,
+   "value": null,
+   "display": null
+  },
+  {
+   "year": 2023,
+   "value": 4.651163,
+   "display": "4.7%"
+  },
+  {
+   "year": 2024,
+   "value": 7.692308,
+   "display": "7.7%"
+  },
+  {
+   "year": 2025,
+   "value": 7.249467,
+   "display": "7.2%"
+  }
+ ],
+ "yMax": 25,
+ "yTicks": [
+  {
+   "v": 0,
+   "label": "0%"
+  },
+  {
+   "v": 5,
+   "label": "5%"
+  },
+  {
+   "v": 10,
+   "label": "10%"
+  },
+  {
+   "v": 15,
+   "label": "15%"
+  },
+  {
+   "v": 20,
+   "label": "20%"
+  },
+  {
+   "v": 25,
+   "label": "25%"
+  }
+ ],
+ "xTicks": [
+  2003,
+  2007,
+  2011,
+  2015,
+  2019,
+  2025
+ ]
+}

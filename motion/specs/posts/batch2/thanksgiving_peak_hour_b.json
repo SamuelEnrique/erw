@@ -1,0 +1,118 @@
+{
+ "id": "thanksgiving_peak_hour_b",
+ "post": "thanksgiving_peak_hour",
+ "option": "b",
+ "type": "curves",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "title": "Hour of peak power demand, Thanksgiving vs normal days",
+ "source": "Source: EIA-930 hourly demand, ERW table eia930_ba_demand_hourly. Mid-Atlantic grid (PJM), Eastern time: the average of each hour (hour ending) over Thanksgiving 2019-2025 and over the three Thursdays before each.",
+ "caption": "Mid-Atlantic grid (PJM), demand by hour",
+ "normal": [
+  79813.905,
+  78409.381,
+  77796.381,
+  77848.476,
+  79048.381,
+  82284.143,
+  88951.571,
+  93096.714,
+  92932.571,
+  91390.19,
+  90254.0,
+  87504.048,
+  88823.238,
+  88724.905,
+  88442.714,
+  88344.0,
+  89923.476,
+  93336.667,
+  94247.095,
+  93327.095,
+  91554.238,
+  88611.048,
+  84930.857,
+  81946.952
+ ],
+ "tg": [
+  79513.0,
+  77858.714,
+  76941.286,
+  76628.429,
+  76618.143,
+  77506.143,
+  79546.286,
+  82004.429,
+  83808.143,
+  85042.143,
+  85939.857,
+  86132.143,
+  85279.429,
+  83622.143,
+  81993.143,
+  80974.857,
+  80991.857,
+  82478.714,
+  82017.857,
+  81611.857,
+  81413.429,
+  80737.571,
+  79472.143,
+  77920.857
+ ],
+ "peaks": {
+  "normal": {
+   "he": 19,
+   "label": "Normal Thursday",
+   "text": "7 pm, 94,247 MW"
+  },
+  "tg": {
+   "he": 12,
+   "label": "Thanksgiving",
+   "text": "Noon, 86,132 MW"
+  }
+ },
+ "yMax": 100000,
+ "yTicks": [
+  {
+   "v": 0,
+   "label": "0"
+  },
+  {
+   "v": 25000,
+   "label": "25,000"
+  },
+  {
+   "v": 50000,
+   "label": "50,000"
+  },
+  {
+   "v": 75000,
+   "label": "75,000"
+  },
+  {
+   "v": 100000,
+   "label": "100,000"
+  }
+ ],
+ "yUnit": "MW",
+ "xTicks": [
+  {
+   "he": 6,
+   "label": "6 am"
+  },
+  {
+   "he": 12,
+   "label": "noon"
+  },
+  {
+   "he": 18,
+   "label": "6 pm"
+  },
+  {
+   "he": 24,
+   "label": "midnight"
+  }
+ ]
+}

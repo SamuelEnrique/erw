@@ -1,0 +1,205 @@
+{
+ "id": "us_share_world_oil_b",
+ "post": "us_share_world_oil",
+ "option": "b",
+ "type": "yearline",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "title": "U.S. share of world oil and liquids production, 1995-2025",
+ "source": "Source: EIA International Energy Statistics, ERW table eia_world_oil_monthly. Production of crude oil and other liquids, the U.S. as a share of the world. Recent years include EIA estimates.",
+ "mode": "area",
+ "points": [
+  {
+   "year": 1995,
+   "value": 13.481377,
+   "display": "13.5%"
+  },
+  {
+   "year": 1996,
+   "value": 13.226139,
+   "display": "13.2%"
+  },
+  {
+   "year": 1997,
+   "value": 12.828242,
+   "display": "12.8%"
+  },
+  {
+   "year": 1998,
+   "value": 12.411725,
+   "display": "12.4%"
+  },
+  {
+   "year": 1999,
+   "value": 12.243992,
+   "display": "12.2%"
+  },
+  {
+   "year": 2000,
+   "value": 11.979223,
+   "display": "12.0%"
+  },
+  {
+   "year": 2001,
+   "value": 11.822447,
+   "display": "11.8%"
+  },
+  {
+   "year": 2002,
+   "value": 11.903527,
+   "display": "11.9%"
+  },
+  {
+   "year": 2003,
+   "value": 11.087184,
+   "display": "11.1%"
+  },
+  {
+   "year": 2004,
+   "value": 10.454077,
+   "display": "10.5%"
+  },
+  {
+   "year": 2005,
+   "value": 9.833324,
+   "display": "9.8%"
+  },
+  {
+   "year": 2006,
+   "value": 9.754577,
+   "display": "9.8%"
+  },
+  {
+   "year": 2007,
+   "value": 9.908579,
+   "display": "9.9%"
+  },
+  {
+   "year": 2008,
+   "value": 9.852911,
+   "display": "9.9%"
+  },
+  {
+   "year": 2009,
+   "value": 10.639197,
+   "display": "10.6%"
+  },
+  {
+   "year": 2010,
+   "value": 11.098804,
+   "display": "11.1%"
+  },
+  {
+   "year": 2011,
+   "value": 11.460799,
+   "display": "11.5%"
+  },
+  {
+   "year": 2012,
+   "value": 12.270464,
+   "display": "12.3%"
+  },
+  {
+   "year": 2013,
+   "value": 13.563601,
+   "display": "13.6%"
+  },
+  {
+   "year": 2014,
+   "value": 15.064781,
+   "display": "15.1%"
+  },
+  {
+   "year": 2015,
+   "value": 15.681109,
+   "display": "15.7%"
+  },
+  {
+   "year": 2016,
+   "value": 15.293968,
+   "display": "15.3%"
+  },
+  {
+   "year": 2017,
+   "value": 15.946571,
+   "display": "15.9%"
+  },
+  {
+   "year": 2018,
+   "value": 17.748429,
+   "display": "17.7%"
+  },
+  {
+   "year": 2019,
+   "value": 19.371581,
+   "display": "19.4%"
+  },
+  {
+   "year": 2020,
+   "value": 19.794642,
+   "display": "19.8%"
+  },
+  {
+   "year": 2021,
+   "value": 19.887919,
+   "display": "19.9%"
+  },
+  {
+   "year": 2022,
+   "value": 20.317242,
+   "display": "20.3%"
+  },
+  {
+   "year": 2023,
+   "value": 21.460918,
+   "display": "21.5%"
+  },
+  {
+   "year": 2024,
+   "value": 22.174749,
+   "display": "22.2%"
+  },
+  {
+   "year": 2025,
+   "value": 22.322314,
+   "display": "22.3%"
+  }
+ ],
+ "yMax": 25,
+ "yTicks": [
+  {
+   "v": 0,
+   "label": "0%"
+  },
+  {
+   "v": 5,
+   "label": "5%"
+  },
+  {
+   "v": 10,
+   "label": "10%"
+  },
+  {
+   "v": 15,
+   "label": "15%"
+  },
+  {
+   "v": 20,
+   "label": "20%"
+  },
+  {
+   "v": 25,
+   "label": "25%"
+  }
+ ],
+ "xTicks": [
+  1995,
+  2000,
+  2005,
+  2010,
+  2015,
+  2020,
+  2025
+ ]
+}

@@ -1,0 +1,147 @@
+{
+ "title": "Hour of peak power demand, Thanksgiving vs normal days",
+ "original_source": "EIA Form EIA-930, Hourly Electric Grid Monitor, six-month files",
+ "erw_table": "eia930_ba_demand_hourly",
+ "table_retrieved": "Retrieved: 20261124T181119Z (UTC) by warehouse/connectors/eia930_region_hourly.py",
+ "method_a": "For each grid, the local hour (hour ending, local prevailing time; MISO in Central) of highest demand on each Thanksgiving 2019-2025 and on the three Thursdays before each; the median of the 21 Thursdays and of the 7 Thanksgivings (scripts/thanksgiving_peaks.py of session 9900, rerun 25 November 2026, identical to the 24 November summary).",
+ "rows_a": [
+  {
+   "code": "SWPP",
+   "label": "Plains",
+   "normal": 19,
+   "tg": 10,
+   "normalText": "7 pm",
+   "tgText": "10 am",
+   "shift": 9,
+   "shiftText": "9 h earlier"
+  },
+  {
+   "code": "MISO",
+   "label": "Midwest",
+   "normal": 18,
+   "tg": 11,
+   "normalText": "6 pm",
+   "tgText": "11 am",
+   "shift": 7,
+   "shiftText": "7 h earlier"
+  },
+  {
+   "code": "PJM",
+   "label": "Mid-Atlantic",
+   "normal": 19,
+   "tg": 12,
+   "normalText": "7 pm",
+   "tgText": "noon",
+   "shift": 7,
+   "shiftText": "7 h earlier"
+  },
+  {
+   "code": "NYIS",
+   "label": "New York",
+   "normal": 18,
+   "tg": 13,
+   "normalText": "6 pm",
+   "tgText": "1 pm",
+   "shift": 5,
+   "shiftText": "5 h earlier"
+  },
+  {
+   "code": "ERCO",
+   "label": "Texas",
+   "normal": 16,
+   "tg": 12,
+   "normalText": "4 pm",
+   "tgText": "noon",
+   "shift": 4,
+   "shiftText": "4 h earlier"
+  },
+  {
+   "code": "ISNE",
+   "label": "New England",
+   "normal": 18,
+   "tg": 15,
+   "normalText": "6 pm",
+   "tgText": "3 pm",
+   "shift": 3,
+   "shiftText": "3 h earlier"
+  },
+  {
+   "code": "CISO",
+   "label": "California",
+   "normal": 18,
+   "tg": 18,
+   "normalText": "6 pm",
+   "tgText": "6 pm",
+   "shift": 0,
+   "shiftText": "same hour"
+  }
+ ],
+ "method_b": "Mid-Atlantic grid (PJM), Eastern time: each hour ending's mean demand over the 7 Thanksgivings 2019-2025 and over the 21 Thursdays before them (all 24 hours present on every day).",
+ "profile_b_mw": {
+  "normal": [
+   79813.905,
+   78409.381,
+   77796.381,
+   77848.476,
+   79048.381,
+   82284.143,
+   88951.571,
+   93096.714,
+   92932.571,
+   91390.19,
+   90254.0,
+   87504.048,
+   88823.238,
+   88724.905,
+   88442.714,
+   88344.0,
+   89923.476,
+   93336.667,
+   94247.095,
+   93327.095,
+   91554.238,
+   88611.048,
+   84930.857,
+   81946.952
+  ],
+  "tg": [
+   79513.0,
+   77858.714,
+   76941.286,
+   76628.429,
+   76618.143,
+   77506.143,
+   79546.286,
+   82004.429,
+   83808.143,
+   85042.143,
+   85939.857,
+   86132.143,
+   85279.429,
+   83622.143,
+   81993.143,
+   80974.857,
+   80991.857,
+   82478.714,
+   82017.857,
+   81611.857,
+   81413.429,
+   80737.571,
+   79472.143,
+   77920.857
+  ]
+ },
+ "peaks_b": {
+  "normal": {
+   "hour_ending": 19,
+   "mw": 94247.095
+  },
+  "tg": {
+   "hour_ending": 12,
+   "mw": 86132.143
+  }
+ },
+ "post": "thanksgiving_peak_hour",
+ "built_by": "docs/research/motion/posts/batch_2026-11-25/scripts/build_9901.py",
+ "built_at": "2026-11-25T07:37:25Z"
+}

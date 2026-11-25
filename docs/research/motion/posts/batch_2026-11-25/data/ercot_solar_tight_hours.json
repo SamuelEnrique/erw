@@ -1,0 +1,47 @@
+{
+ "title": "Solar output in Texas’s tightest grid hours, 2019-2025",
+ "original_source": "EIA Form EIA-930 hourly demand and generation by source (per-BA workbooks) and EIA-860M generator inventory, via the ERW derived table grid_stress_yearly (warehouse/derived/mix_stress.py, docs/methods/grid_stress.md)",
+ "erw_table": "grid_stress_yearly",
+ "table_retrieved": "Retrieved: 20261006T095058Z (UTC) by warehouse/derived/mix_stress.py",
+ "method": "tight_solar_share_of_capacity_pct of iso:ercot: solar's output in the year's 100 hours of highest net load (demand less wind less solar) as a percent of installed solar capacity; docs/findings/markets_operations/tight-solar-ercot-tight-solar.reproduce.py, rerun 25 November 2026",
+ "values": [
+  {
+   "year": 2019,
+   "value": 71.103,
+   "display": "71.1%"
+  },
+  {
+   "year": 2020,
+   "value": 73.844,
+   "display": "73.8%"
+  },
+  {
+   "year": 2021,
+   "value": 71.434,
+   "display": "71.4%"
+  },
+  {
+   "year": 2022,
+   "value": 57.59,
+   "display": "57.6%"
+  },
+  {
+   "year": 2023,
+   "value": 48.655,
+   "display": "48.7%"
+  },
+  {
+   "year": 2024,
+   "value": 33.139,
+   "display": "33.1%"
+  },
+  {
+   "year": 2025,
+   "value": 5.022,
+   "display": "5.0%"
+  }
+ ],
+ "post": "ercot_solar_tight_hours",
+ "built_by": "docs/research/motion/posts/batch_2026-11-25/scripts/build_9901.py",
+ "built_at": "2026-11-25T07:37:25Z"
+}
