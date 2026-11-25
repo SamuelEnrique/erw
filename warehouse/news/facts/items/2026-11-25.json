@@ -1,0 +1,19 @@
+{
+ "date": "2026-11-25",
+ "fact_id": "ff_3589a4e471",
+ "kind": "history",
+ "fact": "The U.S. Energy Information Administration was established in 1977, building on systems first set up in 1974 after the oil market disruption of 1973.",
+ "second": "",
+ "structure": "none",
+ "conjecture": "False",
+ "sources": [
+  {
+   "label": "Wikipedia, Energy Information Administration",
+   "url": "https://en.wikipedia.org/wiki/Energy_Information_Administration",
+   "raw": "warehouse/news/facts/raw/wikipedia/energy_information_administration_20260928T083013Z.txt",
+   "retrieved_at": "20260928T083013Z",
+   "part": "fact",
+   "span": "The Department of Energy Organization Act of 1977 established EIA as the primary federal government authority on energy statistics and analysis, building upon systems and organizations first established in 1974 following the oil market disruption of 1973."
+  }
+ ]
+}
