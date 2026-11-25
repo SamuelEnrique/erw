@@ -198,7 +198,7 @@ T2 = "U.S. gasoline price on Thanksgiving week, 2020-2026"
 S2 = "Source: EIA weekly U.S. regular retail gasoline price, ERW table eia_retail_fuel_prices (the week of 23 November 2026 from EIA" + RAP + "s API). Thanksgiving week is its Monday" + RAP + "s price. Dollars per gallon, not adjusted for inflation."
 idx = {d: i for i, d in enumerate(weeks)}
 write_spec("thanksgiving_gasoline", "a", "weekline", T2, S2,
-           values=[x["value"] for x in series2], dots=[{"i": idx[x["week_of"]], "label": x["display"]} for x in tgw],
+           values=[x["value"] for x in series2], dots=[{"i": idx[x["week_of"]], "label": x["display"], **({"below": True} if x["year"] in (2020, 2024, 2026) else {})} for x in tgw],
            yMax=5.5, yTicks=[{"v": v, "label": f"${v}"} for v in range(0, 6)],
            xTicks=[{"i": next(i for i, d in enumerate(weeks) if d >= f"{y}-01-01"), "label": str(y)} for y in range(2020, 2027)])
 write_spec("thanksgiving_gasoline", "b", "columns", T2, S2,
@@ -282,8 +282,8 @@ T6 = "Solar output in Texas" + RAP + "s tightest grid hours, 2019-2025"
 S6 = "Source: ERW table grid_stress_yearly, from EIA-930 hourly data and EIA-860M capacity. ERCOT" + RAP + "s tightest hours: the 100 of each year with the highest demand less wind and solar. Output as a share of solar capacity."
 write_spec("ercot_solar_tight_hours", "a", "waffle", T6, S6, steps=st6, unitText="of solar capacity",
            squareNote="Each square: 1% of capacity")
-write_spec("ercot_solar_tight_hours", "b", "yearline", T6, S6, mode="line", points=st6, yMax=80,
-           yTicks=[{"v": v, "label": f"{v}%"} for v in (0, 20, 40, 60, 80)], xTicks=list(range(2019, 2026)))
+write_spec("ercot_solar_tight_hours", "b", "yearline", T6, S6, mode="line", points=st6, yMax=100,
+           yTicks=[{"v": v, "label": f"{v}%"} for v in (0, 25, 50, 75, 100)], xTicks=list(range(2019, 2026)))
 
 # ---- 7. Texas late-January peak -----------------------------------------------------------------------------------------
 s21 = read_repro("s21_texas.txt")

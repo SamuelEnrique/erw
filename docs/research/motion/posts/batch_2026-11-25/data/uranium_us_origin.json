@@ -129,5 +129,5 @@
  "country_of_origin": "not in the ERW table (it holds U.S. and foreign origin only), so option A is the 100-square grid the prompt names as the fallback",
  "post": "uranium_us_origin",
  "built_by": "docs/research/motion/posts/batch_2026-11-25/scripts/build_9901.py",
- "built_at": "2026-11-25T07:44:47Z"
+ "built_at": "2026-11-25T07:46:17Z"
 }

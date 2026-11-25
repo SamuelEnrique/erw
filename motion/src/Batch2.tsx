@@ -157,7 +157,7 @@ export const YearLine: React.FC<{ spec: YLSpec }> = ({ spec }) => {
 };
 
 // ---- the weekly price line, Thanksgiving weeks marked --------------------------------------------------------------------
-type WLSpec = Base & { values: number[]; dots: { i: number; label: string }[]; yMax: number; yTicks: { v: number; label: string }[]; xTicks: { i: number; label: string }[] };
+type WLSpec = Base & { values: number[]; dots: { i: number; label: string; below?: boolean }[]; yMax: number; yTicks: { v: number; label: string }[]; xTicks: { i: number; label: string }[] };
 export const WeekLine: React.FC<{ spec: WLSpec }> = ({ spec }) => {
   const f = useCurrentFrame();
   const { top, bottom } = zone(spec.height);
@@ -185,7 +185,7 @@ export const WeekLine: React.FC<{ spec: WLSpec }> = ({ spec }) => {
       {spec.xTicks.map((t) => <div key={`t${t.i}`} style={{ position: "absolute", left: X(t.i) - 1, top: base, width: 2, height: 10, background: P.ink, opacity: ramp(f, 4, 18) }} />)}
       {spec.dots.map((p) => {
         const at = X(p.i), o = Math.max(interpolate(head - at, [0, 30], [0, 1], cl), ramp(f, 300, 314));
-        return <Txt key={p.i} x={at} y={Y(spec.values[p.i]) - 18} anchor="center" v="bottom" o={o} style={{ fontFamily: MONO, fontWeight: 500, fontSize: 24, color: P.cardinal, textShadow: HALO }}>{p.label}</Txt>;
+        return <Txt key={p.i} x={at} y={Y(spec.values[p.i]) + (p.below ? 16 : -18)} anchor="center" v={p.below ? "top" : "bottom"} o={o} style={{ fontFamily: MONO, fontWeight: 500, fontSize: 24, color: P.cardinal, textShadow: HALO }}>{p.label}</Txt>;
       })}
     </Shell2>
   );
@@ -413,6 +413,7 @@ export const Waffle: React.FC<{ spec: WFSpec }> = ({ spec }) => {
   const { v, k } = multi ? stepValue(f, spec.steps, 30, 38, 24, 60) : { v: spec.steps[0].value * ramp(f, 40, 150, EIO), k: 0 };
   const cur = spec.steps[k];
   const rx = gx + G + 46;
+  const lab = multi ? ramp(f, 30, 44) : ramp(f, 146, 160);   // one step: the figure appears when the fill is complete
   return (
     <Shell2 spec={spec}>
       {Array.from({ length: 100 }, (_, i) => {
@@ -425,9 +426,9 @@ export const Waffle: React.FC<{ spec: WFSpec }> = ({ spec }) => {
           </React.Fragment>
         );
       })}
-      <Txt x={rx} y={gy - 6} o={ramp(f, 30, 44)} style={{ fontFamily: SERIF, fontWeight: 600, fontSize: 48 }}>{String(cur.year)}</Txt>
-      <Txt x={rx} y={gy + 58} o={ramp(f, 30, 44)} style={{ fontFamily: MONO, fontWeight: 500, fontSize: 76, color: P.cardinal }}>{cur.display}</Txt>
-      <Txt x={rx} y={gy + 158} o={ramp(f, 30, 44)} style={{ fontSize: 27 }}>{spec.unitText}</Txt>
+      <Txt x={rx} y={gy - 6} o={lab} style={{ fontFamily: SERIF, fontWeight: 600, fontSize: 48 }}>{String(cur.year)}</Txt>
+      <Txt x={rx} y={gy + 58} o={lab} style={{ fontFamily: MONO, fontWeight: 500, fontSize: 76, color: P.cardinal }}>{cur.display}</Txt>
+      <Txt x={rx} y={gy + 158} o={lab} style={{ fontSize: 27 }}>{spec.unitText}</Txt>
       {spec.extra && <Txt x={rx} y={gy + 204} o={ramp(f, 150, 166)} style={{ fontSize: 22, color: P.captions, whiteSpace: "normal", width: R - rx }}>{spec.extra}</Txt>}
       {multi && (
         <Txt x={rx} y={gy + 232} o={k >= 2 ? 1 : 0} style={{ display: "flex", alignItems: "baseline", gap: 12, color: P.captions }}>
