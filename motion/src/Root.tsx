@@ -8,6 +8,7 @@ import { CountUp, Reorder, RollCall } from "./Others";
 import type { Spec } from "./types";
 import { Post } from "./Post";
 import { Blocks, Ladder } from "./Jensen";
+import { Batch2, BATCH2_TYPES } from "./Batch2";
 
 // type "post" is the approved LinkedIn post template (src/Post.tsx, 17 November 2026); the rest use the shared frame
 // Session 9901: canvasHeight (Instagram, 1920) places the spec's own layout (its height, 1350) on a taller fog canvas,
@@ -20,7 +21,7 @@ export const Motion: React.FC<{ spec: Spec }> = ({ spec }) => (spec as any).canv
   </AbsoluteFill>
 ) : <MotionInner spec={spec} />;
 
-const MotionInner: React.FC<{ spec: Spec }> = ({ spec }) => (spec as any).type === "blocks" ? <Blocks spec={spec as any} /> : (spec as any).type === "ladder" ? <Ladder spec={spec as any} /> : (spec as any).type === "post" ? <Post spec={spec as any} /> : (
+const MotionInner: React.FC<{ spec: Spec }> = ({ spec }) => BATCH2_TYPES.includes((spec as any).type) ? <Batch2 spec={spec} /> : (spec as any).type === "blocks" ? <Blocks spec={spec as any} /> : (spec as any).type === "ladder" ? <Ladder spec={spec as any} /> : (spec as any).type === "post" ? <Post spec={spec as any} /> : (
   <Frame spec={spec}>
     {spec.type === "draw-on" && <DrawOn spec={spec} />}
     {spec.type === "count-up" && <CountUp spec={spec} />}

@@ -2,7 +2,7 @@
  "id": "texas_cold_peak_a",
  "post": "texas_cold_peak",
  "option": "a",
- "type": "ladder",
+ "type": "ladder2",
  "width": 1080,
  "height": 1080,
  "frames": 450,

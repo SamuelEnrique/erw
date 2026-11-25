@@ -298,7 +298,7 @@ write_data("texas_cold_peak", {
 })
 T7 = "Texas peak power demand in late January, 2020-2026"
 S7 = "Source: EIA-930 hourly demand, ERW table eia930_ba_demand_hourly. Texas (ERCOT): the highest hour of demand from 23 January to 2 February (UTC days) of each year."
-write_spec("texas_cold_peak", "a", "ladder", T7, S7,
+write_spec("texas_cold_peak", "a", "ladder2", T7, S7,
            lead={"label": "2026", "sub": "23 Jan to 2 Feb", "value": lv7[-1]["value"], "display": lv7[-1]["display"]},
            rows=[{"label": str(x["year"]), "value": x["value"], "display": x["display"]} for x in lv7[:-1]], max=80000)
 write_spec("texas_cold_peak", "b", "columns", T7, S7,
