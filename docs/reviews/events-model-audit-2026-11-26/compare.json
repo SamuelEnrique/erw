@@ -1,0 +1,5243 @@
+{
+ "pages": {
+  "uri-2021": [
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-07|est",
+    "shown": "47,496",
+    "raw": 47496.0,
+    "restated": 47495.99999999988,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-07|hi",
+    "shown": "223,706.76",
+    "raw": 223706.76060403234,
+    "restated": 223706.76060403223,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-07|lo",
+    "shown": "-128,714.76",
+    "raw": -128714.76060403234,
+    "restated": -128714.76060403246,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-08|est",
+    "shown": "2,711.34",
+    "raw": 2711.342696629348,
+    "restated": 2711.342696629232,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-08|hi",
+    "shown": "175,772.78",
+    "raw": 175772.78420393946,
+    "restated": 175772.7842039393,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-08|lo",
+    "shown": "-170,350.10",
+    "raw": -170350.09881068076,
+    "restated": -170350.09881068085,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-09|est",
+    "shown": "55,609.50",
+    "raw": 55609.5,
+    "restated": 55609.50000000023,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-09|hi",
+    "shown": "242,823.07",
+    "raw": 242823.0727929411,
+    "restated": 242823.07279294133,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-09|lo",
+    "shown": "-131,604.07",
+    "raw": -131604.0727929411,
+    "restated": -131604.07279294086,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-10|est",
+    "shown": "173,170.50",
+    "raw": 173170.5,
+    "restated": 173170.49999999977,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-10|hi",
+    "shown": "341,596.13",
+    "raw": 341596.1263519268,
+    "restated": 341596.1263519266,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-10|lo",
+    "shown": "4,744.87",
+    "raw": 4744.873648073204,
+    "restated": 4744.873648072971,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-11|est",
+    "shown": "361,578.66",
+    "raw": 361578.657303371,
+    "restated": 361578.6573033709,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-11|hi",
+    "shown": "541,821.55",
+    "raw": 541821.548693756,
+    "restated": 541821.5486937559,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-11|lo",
+    "shown": "181,335.77",
+    "raw": 181335.76591298598,
+    "restated": 181335.76591298587,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-12|est",
+    "shown": "413,170.00",
+    "raw": 413170.00000000047,
+    "restated": 413169.9999999999,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-12|hi",
+    "shown": "604,522.53",
+    "raw": 604522.5257913474,
+    "restated": 604522.5257913468,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-12|lo",
+    "shown": "221,817.47",
+    "raw": 221817.47420865353,
+    "restated": 221817.47420865294,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-13|est",
+    "shown": "458,439.50",
+    "raw": 458439.49999999977,
+    "restated": 458439.4999999999,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-13|hi",
+    "shown": "646,434.58",
+    "raw": 646434.5759721294,
+    "restated": 646434.5759721295,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-13|lo",
+    "shown": "270,444.42",
+    "raw": 270444.4240278702,
+    "restated": 270444.4240278703,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-14|est",
+    "shown": "612,496",
+    "raw": 612496.0,
+    "restated": 612495.9999999999,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-14|hi",
+    "shown": "788,706.76",
+    "raw": 788706.7606040323,
+    "restated": 788706.7606040322,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-14|lo",
+    "shown": "436,285.24",
+    "raw": 436285.2393959677,
+    "restated": 436285.23939596757,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-15|est",
+    "shown": "248,538.34",
+    "raw": 248538.34269662935,
+    "restated": 248538.34269662923,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-15|hi",
+    "shown": "421,599.78",
+    "raw": 421599.7842039395,
+    "restated": 421599.7842039393,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-15|lo",
+    "shown": "75,476.90",
+    "raw": 75476.90118931924,
+    "restated": 75476.90118931915,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-16|est",
+    "shown": "93,268.50",
+    "raw": 93268.5,
+    "restated": 93268.50000000023,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-16|hi",
+    "shown": "280,482.07",
+    "raw": 280482.0727929411,
+    "restated": 280482.07279294136,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-16|lo",
+    "shown": "-93,945.07",
+    "raw": -93945.0727929411,
+    "restated": -93945.07279294086,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-17|est",
+    "shown": "100,663.50",
+    "raw": 100663.5,
+    "restated": 100663.49999999977,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-17|hi",
+    "shown": "269,089.13",
+    "raw": 269089.1263519268,
+    "restated": 269089.1263519266,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-17|lo",
+    "shown": "-67,762.13",
+    "raw": -67762.1263519268,
+    "restated": -67762.12635192703,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-18|est",
+    "shown": "269,754.66",
+    "raw": 269754.657303371,
+    "restated": 269754.6573033709,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-18|hi",
+    "shown": "449,997.55",
+    "raw": 449997.548693756,
+    "restated": 449997.5486937559,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-18|lo",
+    "shown": "89,511.77",
+    "raw": 89511.76591298598,
+    "restated": 89511.76591298587,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-19|est",
+    "shown": "154,547.00",
+    "raw": 154547.00000000047,
+    "restated": 154546.99999999988,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-19|hi",
+    "shown": "345,899.53",
+    "raw": 345899.5257913474,
+    "restated": 345899.5257913468,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-19|lo",
+    "shown": "-36,805.53",
+    "raw": -36805.525791346474,
+    "restated": -36805.525791347056,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-20|est",
+    "shown": "69,718.50",
+    "raw": 69718.49999999977,
+    "restated": 69718.49999999988,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-20|hi",
+    "shown": "257,713.58",
+    "raw": 257713.5759721294,
+    "restated": 257713.57597212947,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-20|lo",
+    "shown": "-118,276.58",
+    "raw": -118276.57597212985,
+    "restated": -118276.5759721297,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-21|est",
+    "shown": "-61,954",
+    "raw": -61954.0,
+    "restated": -61954.00000000012,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-21|hi",
+    "shown": "114,256.76",
+    "raw": 114256.76060403234,
+    "restated": 114256.76060403223,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-21|lo",
+    "shown": "-238,164.76",
+    "raw": -238164.76060403234,
+    "restated": -238164.76060403246,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-22|est",
+    "shown": "-98,041.66",
+    "raw": -98041.65730337065,
+    "restated": -98041.65730337077,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-22|hi",
+    "shown": "75,019.78",
+    "raw": 75019.78420393946,
+    "restated": 75019.78420393931,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-22|lo",
+    "shown": "-271,103.10",
+    "raw": -271103.0988106808,
+    "restated": -271103.09881068085,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-23|est",
+    "shown": "-149,603.50",
+    "raw": -149603.5,
+    "restated": -149603.49999999977,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-23|hi",
+    "shown": "37,610.07",
+    "raw": 37610.07279294109,
+    "restated": 37610.072792941326,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-23|lo",
+    "shown": "-336,817.07",
+    "raw": -336817.0727929411,
+    "restated": -336817.0727929409,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-24|est",
+    "shown": "-167,599.50",
+    "raw": -167599.5,
+    "restated": -167599.50000000023,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-24|hi",
+    "shown": "826.13",
+    "raw": 826.1263519267959,
+    "restated": 826.1263519265631,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-24|lo",
+    "shown": "-336,025.13",
+    "raw": -336025.1263519268,
+    "restated": -336025.12635192706,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled_temp|est",
+    "shown": "30,283.66",
+    "raw": 30283.662334595632,
+    "restated": 30283.662334596316,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled_temp|hi",
+    "shown": "89,530.26",
+    "raw": 89530.25651272087,
+    "restated": 89530.25651270615,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled_temp|lo",
+    "shown": "-28,962.93",
+    "raw": -28962.931843529608,
+    "restated": -28962.93184351352,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled|cf",
+    "shown": "959,584.70",
+    "raw": 959584.7031835206,
+    "restated": 959584.7031835206,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled|est",
+    "shown": "155,794.96",
+    "raw": 155794.96284131182,
+    "restated": 155794.96284131304,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled|hi",
+    "shown": "258,169.25",
+    "raw": 258169.2477823287,
+    "restated": 258169.2477823299,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled|lo",
+    "shown": "53,420.68",
+    "raw": 53420.67790029496,
+    "restated": 53420.67790029617,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled|pct",
+    "shown": "16.24",
+    "raw": 16.23566552535134,
+    "restated": 16.235665525351468,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|weather_share|pct",
+    "shown": "80.56",
+    "raw": 80.56184758332547,
+    "restated": 80.56184758332519,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|ercot:HB_HUBAVG|rt_mean|pooled_temp|est",
+    "shown": "287.79",
+    "raw": 287.78683972483606,
+    "restated": 287.78683972486147,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|ercot:HB_HUBAVG|rt_mean|pooled_temp|hi",
+    "shown": "1,135.37",
+    "raw": 1135.3748037284158,
+    "restated": 1135.3748037281593,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|ercot:HB_HUBAVG|rt_mean|pooled_temp|lo",
+    "shown": "-559.80",
+    "raw": -559.8011242787436,
+    "restated": -559.8011242784365,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|ercot:HB_HUBAVG|rt_mean|pooled|est",
+    "shown": "2,293.84",
+    "raw": 2293.8441591651494,
+    "restated": 2293.844159165152,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|ercot:HB_HUBAVG|rt_mean|pooled|hi",
+    "shown": "3,901.61",
+    "raw": 3901.6074983268504,
+    "restated": 3901.607498326853,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|ercot:HB_HUBAVG|rt_mean|pooled|lo",
+    "shown": "686.08",
+    "raw": 686.0808200034485,
+    "restated": 686.0808200034512,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|uri_2021|ercot:HB_HUBAVG|rt_mean|pooled|pct",
+    "shown": "9,850.47",
+    "raw": 9850.474387600898,
+    "restated": 9850.474387600905,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:ERCO|demand_min_mw|2021-02-15T00:00:00Z|uri_2021",
+    "shown": "43,776",
+    "raw": 43776.0,
+    "restated": 43776.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:ERCO|demand_min_mw|2021-02-24T00:00:00Z|uri_2021",
+    "shown": "27,719",
+    "raw": 27719.0,
+    "restated": 27719.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:ERCO|intensity_generation|2021-02-09T00:00:00Z|uri_2021",
+    "shown": "479.44",
+    "raw": 479.4378,
+    "restated": 479.4378,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:ERCO|net_generation_mwh_day_change|2021-02-15T00:00:00Z|uri_2021",
+    "shown": "-308,863",
+    "raw": -308863.0,
+    "restated": -308863.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:ERCO|net_generation_mwh_vs_baseline|2021-02-21T00:00:00Z|uri_2021",
+    "shown": "-186,530.50",
+    "raw": -186530.5,
+    "restated": -186530.5,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2020-02-10T00:00:00Z|uri_2021",
+    "shown": "1,691.63",
+    "raw": 1691.63,
+    "restated": 1691.63,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00Z|uri_2021",
+    "shown": "9,051.55",
+    "raw": 9051.55,
+    "restated": 9051.55,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|demand_gwh",
+    "shown": "11,769.8",
+    "raw": null,
+    "restated": 11769.767,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|demand_pct",
+    "shown": "-2.3",
+    "raw": null,
+    "restated": -2.2788329852414866,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|coal",
+    "shown": "+167.3",
+    "raw": null,
+    "restated": 167.28,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|hydro",
+    "shown": "-250.3",
+    "raw": null,
+    "restated": -250.267,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|natural_gas",
+    "shown": "+49.4",
+    "raw": null,
+    "restated": 49.431,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|net",
+    "shown": "+329.3",
+    "raw": null,
+    "restated": 329.281,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|nuclear",
+    "shown": "-230.6",
+    "raw": null,
+    "restated": -230.584,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|other",
+    "shown": "-16.7",
+    "raw": null,
+    "restated": -16.713,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|solar",
+    "shown": "+315.5",
+    "raw": null,
+    "restated": 315.531,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|wind",
+    "shown": "+287.3",
+    "raw": null,
+    "restated": 287.319,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|hours",
+    "shown": "435",
+    "raw": null,
+    "restated": 435,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|peak_base_mw",
+    "shown": "32,028",
+    "raw": null,
+    "restated": 32028,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|peak_mw",
+    "shown": "33,291",
+    "raw": null,
+    "restated": 33291,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|demand_gwh",
+    "shown": "11,839.6",
+    "raw": null,
+    "restated": 11839.559,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|demand_pct",
+    "shown": "+12.1",
+    "raw": null,
+    "restated": 12.074859328506488,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|coal",
+    "shown": "+1,866.7",
+    "raw": null,
+    "restated": 1866.722,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|hydro",
+    "shown": "-26.6",
+    "raw": null,
+    "restated": -26.639,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|natural_gas",
+    "shown": "-415.2",
+    "raw": null,
+    "restated": -415.236,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|net",
+    "shown": "+1,405.1",
+    "raw": null,
+    "restated": 1405.055,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|nuclear",
+    "shown": "-40.9",
+    "raw": null,
+    "restated": -40.9,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|other",
+    "shown": "-56.3",
+    "raw": null,
+    "restated": -56.33,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|solar",
+    "shown": "+70.1",
+    "raw": null,
+    "restated": 70.147,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|wind",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|hours",
+    "shown": "435",
+    "raw": null,
+    "restated": 435,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|peak_base_mw",
+    "shown": "25,840",
+    "raw": null,
+    "restated": 25840,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|peak_mw",
+    "shown": "37,024",
+    "raw": null,
+    "restated": 37024,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|demand_gwh",
+    "shown": "15,289.6",
+    "raw": null,
+    "restated": 15289.592,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|demand_pct",
+    "shown": "+12.2",
+    "raw": null,
+    "restated": 12.234751155189935,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|coal",
+    "shown": "+1,343.4",
+    "raw": null,
+    "restated": 1343.44,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|hydro",
+    "shown": "-172.5",
+    "raw": null,
+    "restated": -172.519,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|natural_gas",
+    "shown": "+476.0",
+    "raw": null,
+    "restated": 476.043,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|net",
+    "shown": "+682.6",
+    "raw": null,
+    "restated": 682.563,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|nuclear",
+    "shown": "+2.0",
+    "raw": null,
+    "restated": 2.04,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|other",
+    "shown": "+115.1",
+    "raw": null,
+    "restated": 115.055,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|solar",
+    "shown": "+0.4",
+    "raw": null,
+    "restated": 0.417,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|wind",
+    "shown": "-1,090.0",
+    "raw": null,
+    "restated": -1089.951,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|hours",
+    "shown": "435",
+    "raw": null,
+    "restated": 435,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|peak_base_mw",
+    "shown": "33,413",
+    "raw": null,
+    "restated": 33413,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|peak_mw",
+    "shown": "43,614",
+    "raw": null,
+    "restated": 43614,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|demand_gwh",
+    "shown": "10,514.3",
+    "raw": null,
+    "restated": 10514.319,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|demand_pct",
+    "shown": "+0.7",
+    "raw": null,
+    "restated": 0.6536159820150063,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|coal",
+    "shown": "+498.3",
+    "raw": null,
+    "restated": 498.295,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|hydro",
+    "shown": "+3.9",
+    "raw": null,
+    "restated": 3.905,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|natural_gas",
+    "shown": "-871.5",
+    "raw": null,
+    "restated": -871.523,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|net",
+    "shown": "-122.6",
+    "raw": null,
+    "restated": -122.63,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|nuclear",
+    "shown": "+179.2",
+    "raw": null,
+    "restated": 179.191,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|other",
+    "shown": "+33.4",
+    "raw": null,
+    "restated": 33.434,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|solar",
+    "shown": "+90.0",
+    "raw": null,
+    "restated": 89.971,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|wind",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|hours",
+    "shown": "435",
+    "raw": null,
+    "restated": 435,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|peak_base_mw",
+    "shown": "33,814",
+    "raw": null,
+    "restated": 33814,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|peak_mw",
+    "shown": "34,001",
+    "raw": null,
+    "restated": 34001,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|demand_gwh",
+    "shown": "44,472.3",
+    "raw": null,
+    "restated": 44472.316,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|demand_pct",
+    "shown": "+9.1",
+    "raw": null,
+    "restated": 9.062686296012302,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|coal",
+    "shown": "+6,163.6",
+    "raw": null,
+    "restated": 6163.619,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|hydro",
+    "shown": "-105.5",
+    "raw": null,
+    "restated": -105.512,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|natural_gas",
+    "shown": "-627.8",
+    "raw": null,
+    "restated": -627.828,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|net",
+    "shown": "+7,501.5",
+    "raw": null,
+    "restated": 7501.512,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|nuclear",
+    "shown": "+1,089.0",
+    "raw": null,
+    "restated": 1089.033,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|other",
+    "shown": "+396.7",
+    "raw": null,
+    "restated": 396.734,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|solar",
+    "shown": "+91.3",
+    "raw": null,
+    "restated": 91.317,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|wind",
+    "shown": "+428.5",
+    "raw": null,
+    "restated": 428.499,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|hours",
+    "shown": "435",
+    "raw": null,
+    "restated": 435,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|peak_base_mw",
+    "shown": "97,872",
+    "raw": null,
+    "restated": 97872,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|peak_mw",
+    "shown": "117,372",
+    "raw": null,
+    "restated": 117372,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|demand_gwh",
+    "shown": "39,455.9",
+    "raw": null,
+    "restated": 39455.904,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|demand_pct",
+    "shown": "+10.9",
+    "raw": null,
+    "restated": 10.898574355670998,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|coal",
+    "shown": "+4,904.5",
+    "raw": null,
+    "restated": 4904.463,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|hydro",
+    "shown": "+17.5",
+    "raw": null,
+    "restated": 17.467,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|natural_gas",
+    "shown": "-177.2",
+    "raw": null,
+    "restated": -177.237,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|net",
+    "shown": "+3,945.8",
+    "raw": null,
+    "restated": 3945.75,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|nuclear",
+    "shown": "-546.0",
+    "raw": null,
+    "restated": -546.047,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|other",
+    "shown": "+130.6",
+    "raw": null,
+    "restated": 130.552,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|solar",
+    "shown": "+27.3",
+    "raw": null,
+    "restated": 27.305,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|wind",
+    "shown": "-410.8",
+    "raw": null,
+    "restated": -410.775,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|hours",
+    "shown": "435",
+    "raw": null,
+    "restated": 435,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|peak_base_mw",
+    "shown": "85,751",
+    "raw": null,
+    "restated": 85751,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|peak_mw",
+    "shown": "110,194",
+    "raw": null,
+    "restated": 110194,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|demand_gwh",
+    "shown": "6,354.8",
+    "raw": null,
+    "restated": 6354.838,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|demand_pct",
+    "shown": "+5.3",
+    "raw": null,
+    "restated": 5.328288717254374,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|coal",
+    "shown": "+184.3",
+    "raw": null,
+    "restated": 184.347,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|hydro",
+    "shown": "-128.7",
+    "raw": null,
+    "restated": -128.68,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|natural_gas",
+    "shown": "+670.2",
+    "raw": null,
+    "restated": 670.245,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|net",
+    "shown": "+576.5",
+    "raw": null,
+    "restated": 576.47,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|nuclear",
+    "shown": "-145.0",
+    "raw": null,
+    "restated": -144.983,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|other",
+    "shown": "+42.0",
+    "raw": null,
+    "restated": 41.959,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|solar",
+    "shown": "+1.0",
+    "raw": null,
+    "restated": 0.957,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|wind",
+    "shown": "-47.3",
+    "raw": null,
+    "restated": -47.307,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|hours",
+    "shown": "435",
+    "raw": null,
+    "restated": 435,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|peak_base_mw",
+    "shown": "16,038",
+    "raw": null,
+    "restated": 16038,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|peak_mw",
+    "shown": "17,898",
+    "raw": null,
+    "restated": 17898,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|demand_gwh",
+    "shown": "18,285.1",
+    "raw": null,
+    "restated": 18285.068,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|demand_pct",
+    "shown": "-5.8",
+    "raw": null,
+    "restated": -5.832255141985222,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|coal",
+    "shown": "-962.9",
+    "raw": null,
+    "restated": -962.891,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|hydro",
+    "shown": "+978.6",
+    "raw": null,
+    "restated": 978.63,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|natural_gas",
+    "shown": "+253.1",
+    "raw": null,
+    "restated": 253.098,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|net",
+    "shown": "+725.7",
+    "raw": null,
+    "restated": 725.655,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|nuclear",
+    "shown": "-9.7",
+    "raw": null,
+    "restated": -9.725,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|other",
+    "shown": "+42.8",
+    "raw": null,
+    "restated": 42.783,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|solar",
+    "shown": "+137.6",
+    "raw": null,
+    "restated": 137.569,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|wind",
+    "shown": "+808.5",
+    "raw": null,
+    "restated": 808.5,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|hours",
+    "shown": "435",
+    "raw": null,
+    "restated": 435,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|peak_base_mw",
+    "shown": "50,883",
+    "raw": null,
+    "restated": 50883,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|peak_mw",
+    "shown": "50,059",
+    "raw": null,
+    "restated": 50059,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|demand_gwh",
+    "shown": "7,968.0",
+    "raw": null,
+    "restated": 7967.962,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|demand_pct",
+    "shown": "+3.8",
+    "raw": null,
+    "restated": 3.8259416502722186,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|coal",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|hydro",
+    "shown": "-240.1",
+    "raw": null,
+    "restated": -240.085,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|natural_gas",
+    "shown": "+423.0",
+    "raw": null,
+    "restated": 422.967,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|net",
+    "shown": "-404.7",
+    "raw": null,
+    "restated": -404.694,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|nuclear",
+    "shown": "-343.9",
+    "raw": null,
+    "restated": -343.943,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|other",
+    "shown": "-121.6",
+    "raw": null,
+    "restated": -121.569,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|solar",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|wind",
+    "shown": "-122.1",
+    "raw": null,
+    "restated": -122.143,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|hours",
+    "shown": "435",
+    "raw": null,
+    "restated": 435,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|peak_base_mw",
+    "shown": "19,908",
+    "raw": null,
+    "restated": 19908,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|peak_mw",
+    "shown": "21,746",
+    "raw": null,
+    "restated": 21746,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|demand_gwh",
+    "shown": "12,121.6",
+    "raw": null,
+    "restated": 12121.636,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|demand_pct",
+    "shown": "+9.0",
+    "raw": null,
+    "restated": 8.956478929968867,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|coal",
+    "shown": "+2,546.8",
+    "raw": null,
+    "restated": 2546.826,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|hydro",
+    "shown": "-362.0",
+    "raw": null,
+    "restated": -361.961,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|natural_gas",
+    "shown": "-1,289.4",
+    "raw": null,
+    "restated": -1289.448,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|net",
+    "shown": "+1,081.6",
+    "raw": null,
+    "restated": 1081.601,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|nuclear",
+    "shown": "+79.0",
+    "raw": null,
+    "restated": 78.961,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|other",
+    "shown": "+33.1",
+    "raw": null,
+    "restated": 33.093,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|solar",
+    "shown": "+73.2",
+    "raw": null,
+    "restated": 73.205,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|wind",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|hours",
+    "shown": "435",
+    "raw": null,
+    "restated": 435,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|peak_base_mw",
+    "shown": "23,792",
+    "raw": null,
+    "restated": 23792,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|peak_mw",
+    "shown": "41,999",
+    "raw": null,
+    "restated": 41999,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|demand_gwh",
+    "shown": "2,618.1",
+    "raw": null,
+    "restated": 2618.057,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|demand_pct",
+    "shown": "-4.3",
+    "raw": null,
+    "restated": -4.262248442466996,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|coal",
+    "shown": "+38.2",
+    "raw": null,
+    "restated": 38.201,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|hydro",
+    "shown": "+8.3",
+    "raw": null,
+    "restated": 8.286,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|natural_gas",
+    "shown": "-387.8",
+    "raw": null,
+    "restated": -387.82,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|net",
+    "shown": "-801.1",
+    "raw": null,
+    "restated": -801.145,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|nuclear",
+    "shown": "-379.0",
+    "raw": null,
+    "restated": -378.978,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|other",
+    "shown": "-0.1",
+    "raw": null,
+    "restated": -0.116,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|solar",
+    "shown": "-22.0",
+    "raw": null,
+    "restated": -22.012,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|wind",
+    "shown": "+36.5",
+    "raw": null,
+    "restated": 36.519,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|hours",
+    "shown": "266",
+    "raw": null,
+    "restated": 266,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|peak_base_mw",
+    "shown": "10,723",
+    "raw": null,
+    "restated": 10723,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|peak_mw",
+    "shown": "11,902",
+    "raw": null,
+    "restated": 11902,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|demand_gwh",
+    "shown": "9,293.0",
+    "raw": null,
+    "restated": 9292.975,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|demand_pct",
+    "shown": "+16.2",
+    "raw": null,
+    "restated": 16.151109587923052,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|coal",
+    "shown": "+1,226.0",
+    "raw": null,
+    "restated": 1225.963,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|hydro",
+    "shown": "+32.0",
+    "raw": null,
+    "restated": 32.005,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|natural_gas",
+    "shown": "-213.3",
+    "raw": null,
+    "restated": -213.259,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|net",
+    "shown": "+1,114.1",
+    "raw": null,
+    "restated": 1114.056,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|nuclear",
+    "shown": "+129.0",
+    "raw": null,
+    "restated": 128.966,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|other",
+    "shown": "-0.5",
+    "raw": null,
+    "restated": -0.546,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|solar",
+    "shown": "+2.6",
+    "raw": null,
+    "restated": 2.552,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|wind",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|hours",
+    "shown": "435",
+    "raw": null,
+    "restated": 435,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|peak_base_mw",
+    "shown": "18,376",
+    "raw": null,
+    "restated": 18376,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|peak_mw",
+    "shown": "28,511",
+    "raw": null,
+    "restated": 28511,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|demand_gwh",
+    "shown": "19,954.1",
+    "raw": null,
+    "restated": 19954.141,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|demand_pct",
+    "shown": "+14.7",
+    "raw": null,
+    "restated": 14.71607598135765,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|coal",
+    "shown": "+404.4",
+    "raw": null,
+    "restated": 404.382,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|hydro",
+    "shown": "+4.8",
+    "raw": null,
+    "restated": 4.789,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|natural_gas",
+    "shown": "+2,778.6",
+    "raw": null,
+    "restated": 2778.605,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|net",
+    "shown": "+2,375.3",
+    "raw": null,
+    "restated": 2375.271,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|nuclear",
+    "shown": "-97.4",
+    "raw": null,
+    "restated": -97.383,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|other",
+    "shown": "-4.9",
+    "raw": null,
+    "restated": -4.878,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|solar",
+    "shown": "+187.0",
+    "raw": null,
+    "restated": 187.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|wind",
+    "shown": "-897.2",
+    "raw": null,
+    "restated": -897.243,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|hours",
+    "shown": "435",
+    "raw": null,
+    "restated": 435,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|peak_base_mw",
+    "shown": "40,461",
+    "raw": null,
+    "restated": 40461,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|peak_mw",
+    "shown": "69,215",
+    "raw": null,
+    "restated": 69215,
+    "verdict": "agrees"
+   }
+  ],
+  "caiso-heat-2020": [
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-11|est",
+    "shown": "-44,081.61",
+    "raw": -44081.61382113851,
+    "restated": -44081.6138211377,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-11|hi",
+    "shown": "45,251.79",
+    "raw": 45251.78771468245,
+    "restated": 45251.78771468329,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-11|lo",
+    "shown": "-133,415.02",
+    "raw": -133415.01535695948,
+    "restated": -133415.01535695867,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-12|est",
+    "shown": "-39,274.75",
+    "raw": -39274.75000000023,
+    "restated": -39274.74999999942,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-12|hi",
+    "shown": "50,820.55",
+    "raw": 50820.54967679728,
+    "restated": 50820.549676798095,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-12|lo",
+    "shown": "-129,370.05",
+    "raw": -129370.04967679775,
+    "restated": -129370.04967679693,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-13|est",
+    "shown": "9,188",
+    "raw": 9188.0,
+    "restated": 9188.000000000582,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-13|hi",
+    "shown": "102,819.04",
+    "raw": 102819.04263696451,
+    "restated": 102819.04263696507,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-13|lo",
+    "shown": "-84,443.04",
+    "raw": -84443.04263696451,
+    "restated": -84443.0426369639,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-14|est",
+    "shown": "92,608.75",
+    "raw": 92608.74999999988,
+    "restated": 92608.75000000058,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-14|hi",
+    "shown": "190,200.78",
+    "raw": 190200.783658783,
+    "restated": 190200.7836587837,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-14|lo",
+    "shown": "-4,983.28",
+    "raw": -4983.283658783228,
+    "restated": -4983.2836587825295,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-15|est",
+    "shown": "145,743.75",
+    "raw": 145743.75000000023,
+    "restated": 145743.75000000058,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-15|hi",
+    "shown": "245,131.18",
+    "raw": 245131.1783081216,
+    "restated": 245131.17830812198,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-15|lo",
+    "shown": "46,356.32",
+    "raw": 46356.32169187887,
+    "restated": 46356.3216918792,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-16|est",
+    "shown": "162,034.05",
+    "raw": 162034.05284552881,
+    "restated": 162034.05284552905,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-16|hi",
+    "shown": "267,648.76",
+    "raw": 267648.7563444443,
+    "restated": 267648.7563444446,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-16|lo",
+    "shown": "56,419.35",
+    "raw": 56419.34934661332,
+    "restated": 56419.34934661351,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-17|est",
+    "shown": "130,956.33",
+    "raw": 130956.33333333372,
+    "restated": 130956.33333333384,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-17|hi",
+    "shown": "227,225.96",
+    "raw": 227225.96010176136,
+    "restated": 227225.96010176148,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-17|lo",
+    "shown": "34,686.71",
+    "raw": 34686.70656490608,
+    "restated": 34686.7065649062,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-18|est",
+    "shown": "163,405.39",
+    "raw": 163405.3861788615,
+    "restated": 163405.3861788623,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-18|hi",
+    "shown": "252,738.79",
+    "raw": 252738.78771468246,
+    "restated": 252738.78771468328,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-18|lo",
+    "shown": "74,071.98",
+    "raw": 74071.98464304053,
+    "restated": 74071.98464304132,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-19|est",
+    "shown": "121,911.25",
+    "raw": 121911.24999999977,
+    "restated": 121911.25000000058,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-19|hi",
+    "shown": "212,006.55",
+    "raw": 212006.5496767973,
+    "restated": 212006.5496767981,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-19|lo",
+    "shown": "31,815.95",
+    "raw": 31815.950323202254,
+    "restated": 31815.95032320307,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-20|est",
+    "shown": "63,185",
+    "raw": 63185.0,
+    "restated": 63185.00000000058,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-20|hi",
+    "shown": "156,816.04",
+    "raw": 156816.04263696453,
+    "restated": 156816.04263696505,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-20|lo",
+    "shown": "-30,446.04",
+    "raw": -30446.042636964514,
+    "restated": -30446.042636963903,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-21|est",
+    "shown": "70,197.75",
+    "raw": 70197.74999999988,
+    "restated": 70197.75000000058,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-21|hi",
+    "shown": "167,789.78",
+    "raw": 167789.783658783,
+    "restated": 167789.7836587837,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-21|lo",
+    "shown": "-27,394.28",
+    "raw": -27394.283658783228,
+    "restated": -27394.28365878253,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-22|est",
+    "shown": "97,641.75",
+    "raw": 97641.75000000023,
+    "restated": 97641.75000000058,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-22|hi",
+    "shown": "197,029.18",
+    "raw": 197029.1783081216,
+    "restated": 197029.17830812198,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-22|lo",
+    "shown": "-1,745.68",
+    "raw": -1745.6783081211324,
+    "restated": -1745.6783081207977,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-23|est",
+    "shown": "109,855.05",
+    "raw": 109855.05284552881,
+    "restated": 109855.05284552905,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-23|hi",
+    "shown": "215,469.76",
+    "raw": 215469.7563444443,
+    "restated": 215469.75634444458,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-23|lo",
+    "shown": "4,240.35",
+    "raw": 4240.349346613322,
+    "restated": 4240.349346613511,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-24|est",
+    "shown": "89,483.33",
+    "raw": 89483.33333333372,
+    "restated": 89483.33333333384,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-24|hi",
+    "shown": "185,752.96",
+    "raw": 185752.96010176136,
+    "restated": 185752.96010176148,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-24|lo",
+    "shown": "-6,786.29",
+    "raw": -6786.293435093918,
+    "restated": -6786.293435093801,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled_temp|est",
+    "shown": "24,746.88",
+    "raw": 24746.882476103958,
+    "restated": 24746.88247610482,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled_temp|hi",
+    "shown": "48,593.49",
+    "raw": 48593.485709203334,
+    "restated": 48593.485709204666,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled_temp|lo",
+    "shown": "900.28",
+    "raw": 900.2792430045774,
+    "restated": 900.279243004974,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|cf",
+    "shown": "730,917.50",
+    "raw": 730917.4968060394,
+    "restated": 730917.4968060389,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|est",
+    "shown": "83,812.35",
+    "raw": 83812.35208497226,
+    "restated": 83812.35208497274,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|hi",
+    "shown": "120,719.05",
+    "raw": 120719.04571720475,
+    "restated": 120719.0457172052,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|lo",
+    "shown": "46,905.66",
+    "raw": 46905.65845273977,
+    "restated": 46905.658452740274,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|pct",
+    "shown": "11.47",
+    "raw": 11.466732216866497,
+    "restated": 11.46673221686657,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|weather_share|pct",
+    "shown": "70.47",
+    "raw": 70.47346618907127,
+    "restated": 70.47346618907042,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:CISO|demand_max_mw|2020-08-18T00:00:00Z|caiso_heat_2020",
+    "shown": "46,643",
+    "raw": 46643.0,
+    "restated": 46643.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-14T00:00:00Z|caiso_heat_2020",
+    "shown": "10.74",
+    "raw": 10.7438,
+    "restated": 10.7438,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-15T00:00:00Z|caiso_heat_2020",
+    "shown": "21.58",
+    "raw": 21.5848,
+    "restated": 21.5848,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00Z|caiso_heat_2020",
+    "shown": "23.50",
+    "raw": 23.4955,
+    "restated": 23.4955,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:CISO|intensity_generation|2020-08-18T00:00:00Z|caiso_heat_2020",
+    "shown": "305.93",
+    "raw": 305.9348,
+    "restated": 305.9348,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|demand_gwh",
+    "shown": "15,084.6",
+    "raw": null,
+    "restated": 15084.562,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|demand_pct",
+    "shown": "+9.5",
+    "raw": null,
+    "restated": 9.514060714151144,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|coal",
+    "shown": "+107.2",
+    "raw": null,
+    "restated": 107.206,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|hydro",
+    "shown": "-1,157.4",
+    "raw": null,
+    "restated": -1157.436,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|natural_gas",
+    "shown": "+2,205.1",
+    "raw": null,
+    "restated": 2205.068,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|net",
+    "shown": "+822.2",
+    "raw": null,
+    "restated": 822.17,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|nuclear",
+    "shown": "+4.7",
+    "raw": null,
+    "restated": 4.733,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|other",
+    "shown": "+35.4",
+    "raw": null,
+    "restated": 35.416,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|solar",
+    "shown": "-163.7",
+    "raw": null,
+    "restated": -163.742,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|wind",
+    "shown": "-222.3",
+    "raw": null,
+    "restated": -222.338,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|hours",
+    "shown": "363",
+    "raw": null,
+    "restated": 363,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|peak_base_mw",
+    "shown": "46,562",
+    "raw": null,
+    "restated": 46562,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|peak_mw",
+    "shown": "58,099",
+    "raw": null,
+    "restated": 58099,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|demand_gwh",
+    "shown": "10,034.4",
+    "raw": null,
+    "restated": 10034.446,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|demand_pct",
+    "shown": "-4.3",
+    "raw": null,
+    "restated": -4.324987678838007,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|coal",
+    "shown": "-191.1",
+    "raw": null,
+    "restated": -191.053,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|hydro",
+    "shown": "+103.9",
+    "raw": null,
+    "restated": 103.896,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|natural_gas",
+    "shown": "-251.8",
+    "raw": null,
+    "restated": -251.771,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|net",
+    "shown": "-466.0",
+    "raw": null,
+    "restated": -465.981,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|nuclear",
+    "shown": "-211.6",
+    "raw": null,
+    "restated": -211.591,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|other",
+    "shown": "+0.3",
+    "raw": null,
+    "restated": 0.305,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|solar",
+    "shown": "+69.1",
+    "raw": null,
+    "restated": 69.14,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|wind",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|hours",
+    "shown": "363",
+    "raw": null,
+    "restated": 363,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|peak_base_mw",
+    "shown": "39,507",
+    "raw": null,
+    "restated": 39507,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|peak_mw",
+    "shown": "38,704",
+    "raw": null,
+    "restated": 38704,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|demand_gwh",
+    "shown": "13,189.7",
+    "raw": null,
+    "restated": 13189.735,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|demand_pct",
+    "shown": "+0.7",
+    "raw": null,
+    "restated": 0.7161835756170002,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|coal",
+    "shown": "+505.4",
+    "raw": null,
+    "restated": 505.395,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|hydro",
+    "shown": "-409.2",
+    "raw": null,
+    "restated": -409.172,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|natural_gas",
+    "shown": "-296.7",
+    "raw": null,
+    "restated": -296.708,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|net",
+    "shown": "-216.4",
+    "raw": null,
+    "restated": -216.43,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|nuclear",
+    "shown": "-8.2",
+    "raw": null,
+    "restated": -8.215,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|other",
+    "shown": "+4.9",
+    "raw": null,
+    "restated": 4.899,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|solar",
+    "shown": "+2.0",
+    "raw": null,
+    "restated": 2.041,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|wind",
+    "shown": "-32.9",
+    "raw": null,
+    "restated": -32.905,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|hours",
+    "shown": "363",
+    "raw": null,
+    "restated": 363,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|peak_base_mw",
+    "shown": "45,394",
+    "raw": null,
+    "restated": 45394,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|peak_mw",
+    "shown": "48,223",
+    "raw": null,
+    "restated": 48223,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|demand_gwh",
+    "shown": "12,108.3",
+    "raw": null,
+    "restated": 12108.324,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|demand_pct",
+    "shown": "+3.1",
+    "raw": null,
+    "restated": 3.0636001498076335,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|coal",
+    "shown": "+376.6",
+    "raw": null,
+    "restated": 376.601,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|hydro",
+    "shown": "+2.2",
+    "raw": null,
+    "restated": 2.192,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|natural_gas",
+    "shown": "+10.8",
+    "raw": null,
+    "restated": 10.783,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|net",
+    "shown": "+368.3",
+    "raw": null,
+    "restated": 368.29,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|nuclear",
+    "shown": "-146.4",
+    "raw": null,
+    "restated": -146.356,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|other",
+    "shown": "+53.2",
+    "raw": null,
+    "restated": 53.22,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|solar",
+    "shown": "+104.9",
+    "raw": null,
+    "restated": 104.893,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|wind",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|hours",
+    "shown": "363",
+    "raw": null,
+    "restated": 363,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|peak_base_mw",
+    "shown": "42,025",
+    "raw": null,
+    "restated": 42025,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|peak_mw",
+    "shown": "47,659",
+    "raw": null,
+    "restated": 47659,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|demand_gwh",
+    "shown": "37,030.7",
+    "raw": null,
+    "restated": 37030.658,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|demand_pct",
+    "shown": "+0.2",
+    "raw": null,
+    "restated": 0.1870729696590072,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|coal",
+    "shown": "-332.8",
+    "raw": null,
+    "restated": -332.754,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|hydro",
+    "shown": "+78.3",
+    "raw": null,
+    "restated": 78.274,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|natural_gas",
+    "shown": "+1,290.1",
+    "raw": null,
+    "restated": 1290.079,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|net",
+    "shown": "+546.7",
+    "raw": null,
+    "restated": 546.687,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|nuclear",
+    "shown": "-286.8",
+    "raw": null,
+    "restated": -286.765,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|other",
+    "shown": "+76.0",
+    "raw": null,
+    "restated": 76.034,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|solar",
+    "shown": "+49.8",
+    "raw": null,
+    "restated": 49.758,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|wind",
+    "shown": "-126.2",
+    "raw": null,
+    "restated": -126.227,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|hours",
+    "shown": "363",
+    "raw": null,
+    "restated": 363,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|peak_base_mw",
+    "shown": "125,834",
+    "raw": null,
+    "restated": 125834,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|peak_mw",
+    "shown": "141,498",
+    "raw": null,
+    "restated": 141498,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|demand_gwh",
+    "shown": "32,801.7",
+    "raw": null,
+    "restated": 32801.69,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|demand_pct",
+    "shown": "-0.1",
+    "raw": null,
+    "restated": -0.10504570522097528,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|coal",
+    "shown": "-774.7",
+    "raw": null,
+    "restated": -774.668,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|hydro",
+    "shown": "+89.7",
+    "raw": null,
+    "restated": 89.731,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|natural_gas",
+    "shown": "+508.4",
+    "raw": null,
+    "restated": 508.4,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|net",
+    "shown": "-281.1",
+    "raw": null,
+    "restated": -281.096,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|nuclear",
+    "shown": "-727.0",
+    "raw": null,
+    "restated": -727.004,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|other",
+    "shown": "-4.8",
+    "raw": null,
+    "restated": -4.79,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|solar",
+    "shown": "+10.7",
+    "raw": null,
+    "restated": 10.691,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|wind",
+    "shown": "+578.3",
+    "raw": null,
+    "restated": 578.26,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|hours",
+    "shown": "363",
+    "raw": null,
+    "restated": 363,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|peak_base_mw",
+    "shown": "109,424",
+    "raw": null,
+    "restated": 109424,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|peak_mw",
+    "shown": "123,035",
+    "raw": null,
+    "restated": 123035,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|demand_gwh",
+    "shown": "5,742.6",
+    "raw": null,
+    "restated": 5742.571,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|demand_pct",
+    "shown": "+2.7",
+    "raw": null,
+    "restated": 2.7169344100784953,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|coal",
+    "shown": "-6.4",
+    "raw": null,
+    "restated": -6.387,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|hydro",
+    "shown": "-48.7",
+    "raw": null,
+    "restated": -48.687,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|natural_gas",
+    "shown": "+107.7",
+    "raw": null,
+    "restated": 107.702,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|net",
+    "shown": "-41.2",
+    "raw": null,
+    "restated": -41.238,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|nuclear",
+    "shown": "-78.4",
+    "raw": null,
+    "restated": -78.437,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|other",
+    "shown": "-15.3",
+    "raw": null,
+    "restated": -15.272,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|solar",
+    "shown": "+8.7",
+    "raw": null,
+    "restated": 8.703,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|wind",
+    "shown": "-8.9",
+    "raw": null,
+    "restated": -8.876,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|hours",
+    "shown": "363",
+    "raw": null,
+    "restated": 363,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|peak_base_mw",
+    "shown": "19,114",
+    "raw": null,
+    "restated": 19114,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|peak_mw",
+    "shown": "23,970",
+    "raw": null,
+    "restated": 23970,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|hours",
+    "shown": "0",
+    "raw": null,
+    "restated": 0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|demand_gwh",
+    "shown": "7,521.6",
+    "raw": null,
+    "restated": 7521.562,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|demand_pct",
+    "shown": "-0.5",
+    "raw": null,
+    "restated": -0.46010437078639643,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|coal",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|hydro",
+    "shown": "+15.8",
+    "raw": null,
+    "restated": 15.845,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|natural_gas",
+    "shown": "+466.5",
+    "raw": null,
+    "restated": 466.461,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|net",
+    "shown": "+117.9",
+    "raw": null,
+    "restated": 117.855,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|nuclear",
+    "shown": "-349.0",
+    "raw": null,
+    "restated": -348.983,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|other",
+    "shown": "-0.1",
+    "raw": null,
+    "restated": -0.053,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|solar",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|wind",
+    "shown": "-15.5",
+    "raw": null,
+    "restated": -15.457,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|hours",
+    "shown": "363",
+    "raw": null,
+    "restated": 363,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|peak_base_mw",
+    "shown": "24,562",
+    "raw": null,
+    "restated": 24562,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|peak_mw",
+    "shown": "29,685",
+    "raw": null,
+    "restated": 29685,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|demand_gwh",
+    "shown": "11,353.2",
+    "raw": null,
+    "restated": 11353.2,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|demand_pct",
+    "shown": "-4.1",
+    "raw": null,
+    "restated": -4.075603956919357,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|coal",
+    "shown": "-138.3",
+    "raw": null,
+    "restated": -138.283,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|hydro",
+    "shown": "+70.8",
+    "raw": null,
+    "restated": 70.811,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|natural_gas",
+    "shown": "-627.2",
+    "raw": null,
+    "restated": -627.162,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|net",
+    "shown": "-833.2",
+    "raw": null,
+    "restated": -833.206,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|nuclear",
+    "shown": "-248.7",
+    "raw": null,
+    "restated": -248.668,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|other",
+    "shown": "+19.3",
+    "raw": null,
+    "restated": 19.269,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|solar",
+    "shown": "+92.0",
+    "raw": null,
+    "restated": 91.98,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|wind",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|hours",
+    "shown": "363",
+    "raw": null,
+    "restated": 363,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|peak_base_mw",
+    "shown": "42,974",
+    "raw": null,
+    "restated": 42974,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|peak_mw",
+    "shown": "43,172",
+    "raw": null,
+    "restated": 43172,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|demand_gwh",
+    "shown": "6,529.9",
+    "raw": null,
+    "restated": 6529.866,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|demand_pct",
+    "shown": "+12.6",
+    "raw": null,
+    "restated": 12.614768531373254,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|coal",
+    "shown": "-89.1",
+    "raw": null,
+    "restated": -89.051,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|hydro",
+    "shown": "+12.5",
+    "raw": null,
+    "restated": 12.548,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|natural_gas",
+    "shown": "+134.5",
+    "raw": null,
+    "restated": 134.529,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|net",
+    "shown": "-964.3",
+    "raw": null,
+    "restated": -964.316,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|nuclear",
+    "shown": "-1,153.5",
+    "raw": null,
+    "restated": -1153.506,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|other",
+    "shown": "+0.0",
+    "raw": null,
+    "restated": 0.039,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|solar",
+    "shown": "-58.6",
+    "raw": null,
+    "restated": -58.573,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|wind",
+    "shown": "-18.5",
+    "raw": null,
+    "restated": -18.527,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|hours",
+    "shown": "363",
+    "raw": null,
+    "restated": 363,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|peak_base_mw",
+    "shown": "21,055",
+    "raw": null,
+    "restated": 21055,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|peak_mw",
+    "shown": "25,395",
+    "raw": null,
+    "restated": 25395,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|demand_gwh",
+    "shown": "7,308.6",
+    "raw": null,
+    "restated": 7308.551,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|demand_pct",
+    "shown": "-3.0",
+    "raw": null,
+    "restated": -3.016055551102758,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|coal",
+    "shown": "-214.3",
+    "raw": null,
+    "restated": -214.286,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|hydro",
+    "shown": "+6.0",
+    "raw": null,
+    "restated": 5.979,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|natural_gas",
+    "shown": "-366.6",
+    "raw": null,
+    "restated": -366.641,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|net",
+    "shown": "-434.5",
+    "raw": null,
+    "restated": -434.468,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|nuclear",
+    "shown": "+169.9",
+    "raw": null,
+    "restated": 169.939,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|other",
+    "shown": "-0.2",
+    "raw": null,
+    "restated": -0.204,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|solar",
+    "shown": "+3.2",
+    "raw": null,
+    "restated": 3.175,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|wind",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|hours",
+    "shown": "363",
+    "raw": null,
+    "restated": 363,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|peak_base_mw",
+    "shown": "27,756",
+    "raw": null,
+    "restated": 27756,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|peak_mw",
+    "shown": "27,735",
+    "raw": null,
+    "restated": 27735,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|demand_gwh",
+    "shown": "20,051.4",
+    "raw": null,
+    "restated": 20051.438,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|demand_pct",
+    "shown": "-0.6",
+    "raw": null,
+    "restated": -0.5834317635517003,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|coal",
+    "shown": "-367.0",
+    "raw": null,
+    "restated": -367.023,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|hydro",
+    "shown": "+2.0",
+    "raw": null,
+    "restated": 2.034,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|natural_gas",
+    "shown": "-78.6",
+    "raw": null,
+    "restated": -78.634,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|net",
+    "shown": "-103.4",
+    "raw": null,
+    "restated": -103.381,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|nuclear",
+    "shown": "+39.8",
+    "raw": null,
+    "restated": 39.793,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|other",
+    "shown": "+9.8",
+    "raw": null,
+    "restated": 9.779,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|solar",
+    "shown": "+291.9",
+    "raw": null,
+    "restated": 291.917,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|wind",
+    "shown": "-1.3",
+    "raw": null,
+    "restated": -1.28,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|hours",
+    "shown": "363",
+    "raw": null,
+    "restated": 363,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|peak_base_mw",
+    "shown": "70,026",
+    "raw": null,
+    "restated": 70026,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|peak_mw",
+    "shown": "74,166",
+    "raw": null,
+    "restated": 74166,
+    "verdict": "agrees"
+   }
+  ],
+  "elliott-2022": [
+   {
+    "key": "es|elliott_2022|eia930:ERCO|demand_mwh|pooled_temp|est",
+    "shown": "72,488.32",
+    "raw": 72488.31771176786,
+    "restated": 72488.31771177544,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:ERCO|demand_mwh|pooled_temp|hi",
+    "shown": "113,242.69",
+    "raw": 113242.69149896057,
+    "restated": 113242.6914989631,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:ERCO|demand_mwh|pooled_temp|lo",
+    "shown": "31,733.94",
+    "raw": 31733.943924575135,
+    "restated": 31733.94392458778,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:ERCO|demand_mwh|pooled|est",
+    "shown": "269,581.50",
+    "raw": 269581.5,
+    "restated": 269581.5000000002,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:ERCO|demand_mwh|pooled|hi",
+    "shown": "382,214.25",
+    "raw": 382214.2539461058,
+    "restated": 382214.253946106,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:ERCO|demand_mwh|pooled|lo",
+    "shown": "156,948.75",
+    "raw": 156948.74605389423,
+    "restated": 156948.74605389434,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:ERCO|demand_mwh|pooled|pct",
+    "shown": "28.31",
+    "raw": 28.30817591661002,
+    "restated": 28.30817591661004,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:ISNE|demand_mwh|pooled_temp|est",
+    "shown": "3,906.75",
+    "raw": 3906.747885926161,
+    "restated": 3906.7478859255125,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:ISNE|demand_mwh|pooled_temp|hi",
+    "shown": "9,624.02",
+    "raw": 9624.022185458356,
+    "restated": 9624.022185445887,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:ISNE|demand_mwh|pooled_temp|lo",
+    "shown": "-1,810.53",
+    "raw": -1810.526413606034,
+    "restated": -1810.526413594861,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:ISNE|demand_mwh|pooled|est",
+    "shown": "10,549.09",
+    "raw": 10549.090909090883,
+    "restated": 10549.090909091034,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:ISNE|demand_mwh|pooled|hi",
+    "shown": "19,912.76",
+    "raw": 19912.760969711715,
+    "restated": 19912.760969711864,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:ISNE|demand_mwh|pooled|lo",
+    "shown": "1,185.42",
+    "raw": 1185.420848470052,
+    "restated": 1185.420848470203,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:ISNE|demand_mwh|pooled|pct",
+    "shown": "3.14",
+    "raw": 3.1363552330427558,
+    "restated": 3.136355233042798,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:MISO|demand_mwh|pooled_temp|est",
+    "shown": "125,412.58",
+    "raw": 125412.57863228023,
+    "restated": 125412.57863224029,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:MISO|demand_mwh|pooled_temp|hi",
+    "shown": "218,681.14",
+    "raw": 218681.14002701401,
+    "restated": 218681.1400425544,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:MISO|demand_mwh|pooled_temp|lo",
+    "shown": "32,144.02",
+    "raw": 32144.017237546446,
+    "restated": 32144.01722192616,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:MISO|demand_mwh|pooled|est",
+    "shown": "236,278.71",
+    "raw": 236278.71033868127,
+    "restated": 236278.7103386807,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:MISO|demand_mwh|pooled|hi",
+    "shown": "357,071.88",
+    "raw": 357071.8827275494,
+    "restated": 357071.8827275493,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:MISO|demand_mwh|pooled|lo",
+    "shown": "115,485.54",
+    "raw": 115485.5379498131,
+    "restated": 115485.53794981213,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:MISO|demand_mwh|pooled|pct",
+    "shown": "13.74",
+    "raw": 13.737593362157357,
+    "restated": 13.737593362157327,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:NYIS|demand_mwh|pooled_temp|est",
+    "shown": "5,921.22",
+    "raw": 5921.220163978054,
+    "restated": 5921.220163976264,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:NYIS|demand_mwh|pooled_temp|hi",
+    "shown": "15,630.85",
+    "raw": 15630.847064907719,
+    "restated": 15630.84706491732,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:NYIS|demand_mwh|pooled_temp|lo",
+    "shown": "-3,788.41",
+    "raw": -3788.4067369516106,
+    "restated": -3788.406736964791,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:NYIS|demand_mwh|pooled|est",
+    "shown": "24,802.64",
+    "raw": 24802.636363636237,
+    "restated": 24802.636363636404,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:NYIS|demand_mwh|pooled|hi",
+    "shown": "37,322.47",
+    "raw": 37322.467126345146,
+    "restated": 37322.467126345335,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:NYIS|demand_mwh|pooled|lo",
+    "shown": "12,282.81",
+    "raw": 12282.805600927328,
+    "restated": 12282.805600927475,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:NYIS|demand_mwh|pooled|pct",
+    "shown": "5.99",
+    "raw": 5.991289397928408,
+    "restated": 5.991289397928446,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-19|est",
+    "shown": "300,948.25",
+    "raw": 300948.24999999907,
+    "restated": 300948.25,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-19|hi",
+    "shown": "667,431.03",
+    "raw": 667431.0294995569,
+    "restated": 667431.0294995578,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-19|lo",
+    "shown": "-65,534.53",
+    "raw": -65534.52949955873,
+    "restated": -65534.5294995578,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-20|est",
+    "shown": "247,615.75",
+    "raw": 247615.75,
+    "restated": 247615.75000000047,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-20|hi",
+    "shown": "615,747.48",
+    "raw": 615747.4765244818,
+    "restated": 615747.4765244822,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-20|lo",
+    "shown": "-120,515.98",
+    "raw": -120515.97652448178,
+    "restated": -120515.97652448132,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-21|est",
+    "shown": "283,343.00",
+    "raw": 283342.99999999907,
+    "restated": 283343.00000000047,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-21|hi",
+    "shown": "644,596.84",
+    "raw": 644596.8379683155,
+    "restated": 644596.8379683169,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-21|lo",
+    "shown": "-77,910.84",
+    "raw": -77910.83796831733,
+    "restated": -77910.83796831593,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-22|est",
+    "shown": "288,527.75",
+    "raw": 288527.75000000186,
+    "restated": 288527.75,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-22|hi",
+    "shown": "673,932.18",
+    "raw": 673932.1813572985,
+    "restated": 673932.1813572966,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-22|lo",
+    "shown": "-96,876.68",
+    "raw": -96876.68135729479,
+    "restated": -96876.68135729665,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-23|est",
+    "shown": "619,176.50",
+    "raw": 619176.4999999993,
+    "restated": 619176.5000000002,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-23|hi",
+    "shown": "962,684.27",
+    "raw": 962684.2659830954,
+    "restated": 962684.2659830963,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-23|lo",
+    "shown": "275,668.73",
+    "raw": 275668.73401690327,
+    "restated": 275668.7340169042,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-24|est",
+    "shown": "909,793.00",
+    "raw": 909792.9999999988,
+    "restated": 909793.0000000002,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-24|hi",
+    "shown": "1,441,053.24",
+    "raw": 1441053.2378291236,
+    "restated": 1441053.237829125,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-24|lo",
+    "shown": "378,532.76",
+    "raw": 378532.76217087416,
+    "restated": 378532.76217087545,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-25|est",
+    "shown": "635,253.50",
+    "raw": 635253.4999999995,
+    "restated": 635253.5000000002,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-25|hi",
+    "shown": "1,077,725.69",
+    "raw": 1077725.6854789741,
+    "restated": 1077725.685478975,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-25|lo",
+    "shown": "192,781.31",
+    "raw": 192781.31452102482,
+    "restated": 192781.31452102552,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-26|est",
+    "shown": "364,080.25",
+    "raw": 364080.24999999907,
+    "restated": 364080.25,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-26|hi",
+    "shown": "730,563.03",
+    "raw": 730563.0294995569,
+    "restated": 730563.0294995578,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-26|lo",
+    "shown": "-2,402.53",
+    "raw": -2402.529499558732,
+    "restated": -2402.5294995578006,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-27|est",
+    "shown": "267,008.75",
+    "raw": 267008.75,
+    "restated": 267008.75000000047,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-27|hi",
+    "shown": "635,140.48",
+    "raw": 635140.4765244818,
+    "restated": 635140.4765244822,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-27|lo",
+    "shown": "-101,122.98",
+    "raw": -101122.97652448178,
+    "restated": -101122.97652448132,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-28|est",
+    "shown": "217,850.00",
+    "raw": 217849.99999999907,
+    "restated": 217850.00000000047,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-28|hi",
+    "shown": "579,103.84",
+    "raw": 579103.8379683155,
+    "restated": 579103.8379683169,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-28|lo",
+    "shown": "-143,403.84",
+    "raw": -143403.83796831733,
+    "restated": -143403.83796831593,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-29|est",
+    "shown": "123,402.75",
+    "raw": 123402.75000000186,
+    "restated": 123402.75,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-29|hi",
+    "shown": "508,807.18",
+    "raw": 508807.1813572985,
+    "restated": 508807.18135729665,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-29|lo",
+    "shown": "-262,001.68",
+    "raw": -262001.6813572948,
+    "restated": -262001.68135729665,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled_temp|est",
+    "shown": "134,170.93",
+    "raw": 134170.93351736665,
+    "restated": 134170.933517373,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled_temp|hi",
+    "shown": "243,913.35",
+    "raw": 243913.34799130313,
+    "restated": 243913.34799080167,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled_temp|lo",
+    "shown": "24,428.52",
+    "raw": 24428.519043430162,
+    "restated": 24428.51904394431,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled|cf",
+    "shown": "2,182,817.32",
+    "raw": 2182817.3181818184,
+    "restated": 2182817.318181818,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled|est",
+    "shown": "386,999.95",
+    "raw": 386999.9545454541,
+    "restated": 386999.95454545505,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled|hi",
+    "shown": "517,036.28",
+    "raw": 517036.2848138954,
+    "restated": 517036.28481389646,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled|lo",
+    "shown": "256,963.62",
+    "raw": 256963.62427701283,
+    "restated": 256963.62427701365,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled|pct",
+    "shown": "17.73",
+    "raw": 17.729378969184946,
+    "restated": 17.729378969184992,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|weather_share|pct",
+    "shown": "65.33",
+    "raw": 65.33050406299003,
+    "restated": 65.33050406298848,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:SWPP|demand_mwh|pooled_temp|est",
+    "shown": "46,809.05",
+    "raw": 46809.054835762436,
+    "restated": 46809.054835748495,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:SWPP|demand_mwh|pooled_temp|hi",
+    "shown": "73,247.70",
+    "raw": 73247.69670275468,
+    "restated": 73247.6967026978,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:SWPP|demand_mwh|pooled_temp|lo",
+    "shown": "20,370.41",
+    "raw": 20370.4129687702,
+    "restated": 20370.41296879919,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:SWPP|demand_mwh|pooled|est",
+    "shown": "146,160.91",
+    "raw": 146160.90909090894,
+    "restated": 146160.9090909093,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:SWPP|demand_mwh|pooled|hi",
+    "shown": "211,816.63",
+    "raw": 211816.62676506964,
+    "restated": 211816.62676506996,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:SWPP|demand_mwh|pooled|lo",
+    "shown": "80,505.19",
+    "raw": 80505.19141674825,
+    "restated": 80505.19141674862,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|eia930:SWPP|demand_mwh|pooled|pct",
+    "shown": "20.90",
+    "raw": 20.897434031088586,
+    "restated": 20.897434031088636,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|ercot:HB_HUBAVG|rt_mean|pooled_temp|est",
+    "shown": "-28.14",
+    "raw": -28.14096481454907,
+    "restated": -28.14096481454975,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|ercot:HB_HUBAVG|rt_mean|pooled_temp|hi",
+    "shown": "5.03",
+    "raw": 5.027643968365258,
+    "restated": 5.027643968379341,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|ercot:HB_HUBAVG|rt_mean|pooled_temp|lo",
+    "shown": "-61.31",
+    "raw": -61.3095735974634,
+    "restated": -61.309573597478845,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|ercot:HB_HUBAVG|rt_mean|pooled|est",
+    "shown": "56.52",
+    "raw": 56.52026363636361,
+    "restated": 56.52026363636361,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|ercot:HB_HUBAVG|rt_mean|pooled|hi",
+    "shown": "132.89",
+    "raw": 132.88825087497565,
+    "restated": 132.88825087497565,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|ercot:HB_HUBAVG|rt_mean|pooled|lo",
+    "shown": "-19.85",
+    "raw": -19.847723602248422,
+    "restated": -19.84772360224845,
+    "verdict": "agrees"
+   },
+   {
+    "key": "es|elliott_2022|ercot:HB_HUBAVG|rt_mean|pooled|pct",
+    "shown": "264.66",
+    "raw": 264.6606916937829,
+    "restated": 264.66069169378295,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2022-12-23T00:00:00Z|elliott_2022",
+    "shown": "73,976",
+    "raw": 73976.0,
+    "restated": 73976.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_pct_vs_baseline|2022-12-23T00:00:00Z|elliott_2022",
+    "shown": "65.01",
+    "raw": 65.0127,
+    "restated": 65.0127,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:ERCO|intensity_generation|2022-12-24T00:00:00Z|elliott_2022",
+    "shown": "432.08",
+    "raw": 432.0844,
+    "restated": 432.0844,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_mw|2022-12-24T00:00:00Z|elliott_2022",
+    "shown": "17,382",
+    "raw": 17382.0,
+    "restated": 17382.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_pct_vs_baseline|2022-12-24T00:00:00Z|elliott_2022",
+    "shown": "10.80",
+    "raw": 10.8016,
+    "restated": 10.8016,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:ISNE|intensity_generation|2022-12-24T00:00:00Z|elliott_2022",
+    "shown": "420.18",
+    "raw": 420.1789,
+    "restated": 420.1789,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:MISO|demand_max_mw|2022-12-23T00:00:00Z|elliott_2022",
+    "shown": "101,533",
+    "raw": 101533.0,
+    "restated": 101533.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:MISO|demand_max_pct_vs_baseline|2022-12-23T00:00:00Z|elliott_2022",
+    "shown": "39.61",
+    "raw": 39.6074,
+    "restated": 39.6074,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:MISO|intensity_generation|2022-12-21T00:00:00Z|elliott_2022",
+    "shown": "575.47",
+    "raw": 575.4692,
+    "restated": 575.4692,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_mw|2022-12-24T00:00:00Z|elliott_2022",
+    "shown": "22,004",
+    "raw": 22004.0,
+    "restated": 22004.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_pct_vs_baseline|2022-12-24T00:00:00Z|elliott_2022",
+    "shown": "17.18",
+    "raw": 17.1797,
+    "restated": 17.1797,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:NYIS|intensity_generation|2022-12-24T00:00:00Z|elliott_2022",
+    "shown": "264.35",
+    "raw": 264.3486,
+    "restated": 264.3486,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00Z|elliott_2022",
+    "shown": "135,328",
+    "raw": 135328.0,
+    "restated": 135328.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2022-12-23T00:00:00Z|elliott_2022",
+    "shown": "41.76",
+    "raw": 41.7611,
+    "restated": 41.7611,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:PJM|intensity_generation|2022-12-24T00:00:00Z|elliott_2022",
+    "shown": "452.15",
+    "raw": 452.1515,
+    "restated": 452.1515,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:SWPP|demand_max_mw|2022-12-22T00:00:00Z|elliott_2022",
+    "shown": "47,026",
+    "raw": 47026.0,
+    "restated": 47026.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:SWPP|demand_max_mw|2022-12-23T00:00:00Z|elliott_2022",
+    "shown": "45,146",
+    "raw": 45146.0,
+    "restated": 45146.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:SWPP|demand_max_pct_vs_baseline|2022-12-23T00:00:00Z|elliott_2022",
+    "shown": "50.45",
+    "raw": 50.4465,
+    "restated": 50.4465,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:SWPP|intensity_generation|2022-12-24T00:00:00Z|elliott_2022",
+    "shown": "618.58",
+    "raw": 618.5827,
+    "restated": 618.5827,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|ercot:HB_HUBAVG|da_max|2022-12-24T00:00:00Z|elliott_2022",
+    "shown": "2,539.16",
+    "raw": 2539.16,
+    "restated": 2539.16,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2022-12-23T00:00:00Z|elliott_2022",
+    "shown": "3,701.72",
+    "raw": 3701.72,
+    "restated": 3701.72,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|ercot:HB_HUBAVG|rt_mean|2022-12-23T00:00:00Z|elliott_2022",
+    "shown": "557.53",
+    "raw": 557.527,
+    "restated": 557.527,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|demand_gwh",
+    "shown": "7,794.9",
+    "raw": null,
+    "restated": 7794.867,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|demand_pct",
+    "shown": "-0.1",
+    "raw": null,
+    "restated": -0.08526544638294158,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|coal",
+    "shown": "+122.7",
+    "raw": null,
+    "restated": 122.653,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|hydro",
+    "shown": "+143.1",
+    "raw": null,
+    "restated": 143.094,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|natural_gas",
+    "shown": "+522.5",
+    "raw": null,
+    "restated": 522.499,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|net",
+    "shown": "+910.9",
+    "raw": null,
+    "restated": 910.873,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|nuclear",
+    "shown": "+144.6",
+    "raw": null,
+    "restated": 144.577,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|other",
+    "shown": "+8.5",
+    "raw": null,
+    "restated": 8.539,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|solar",
+    "shown": "+103.7",
+    "raw": null,
+    "restated": 103.724,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|gen|wind",
+    "shown": "-133.8",
+    "raw": null,
+    "restated": -133.754,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|hours",
+    "shown": "267",
+    "raw": null,
+    "restated": 267,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|peak_base_mw",
+    "shown": "35,764",
+    "raw": null,
+    "restated": 35764,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAL|peak_mw",
+    "shown": "35,539",
+    "raw": null,
+    "restated": 35539,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|demand_gwh",
+    "shown": "8,542.5",
+    "raw": null,
+    "restated": 8542.453,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|demand_pct",
+    "shown": "+29.3",
+    "raw": null,
+    "restated": 29.286579336008927,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|coal",
+    "shown": "+1,505.8",
+    "raw": null,
+    "restated": 1505.849,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|hydro",
+    "shown": "+46.8",
+    "raw": null,
+    "restated": 46.825,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|natural_gas",
+    "shown": "+185.6",
+    "raw": null,
+    "restated": 185.574,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|net",
+    "shown": "+1,725.7",
+    "raw": null,
+    "restated": 1725.713,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|nuclear",
+    "shown": "-175.9",
+    "raw": null,
+    "restated": -175.943,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|other",
+    "shown": "+137.9",
+    "raw": null,
+    "restated": 137.884,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|solar",
+    "shown": "+30.0",
+    "raw": null,
+    "restated": 30.037,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|gen|wind",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|hours",
+    "shown": "267",
+    "raw": null,
+    "restated": 267,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|peak_base_mw",
+    "shown": "26,915",
+    "raw": null,
+    "restated": 26915,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CAR|peak_mw",
+    "shown": "44,630",
+    "raw": null,
+    "restated": 44630,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|demand_gwh",
+    "shown": "9,406.6",
+    "raw": null,
+    "restated": 9406.579,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|demand_pct",
+    "shown": "+20.7",
+    "raw": null,
+    "restated": 20.681442540707597,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|coal",
+    "shown": "+539.4",
+    "raw": null,
+    "restated": 539.399,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|hydro",
+    "shown": "-6.1",
+    "raw": null,
+    "restated": -6.057,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|natural_gas",
+    "shown": "+823.5",
+    "raw": null,
+    "restated": 823.473,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|net",
+    "shown": "+1,588.1",
+    "raw": null,
+    "restated": 1588.101,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|nuclear",
+    "shown": "-12.2",
+    "raw": null,
+    "restated": -12.155,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|other",
+    "shown": "+26.7",
+    "raw": null,
+    "restated": 26.656,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|solar",
+    "shown": "-0.9",
+    "raw": null,
+    "restated": -0.936,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|gen|wind",
+    "shown": "+214.3",
+    "raw": null,
+    "restated": 214.31,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|hours",
+    "shown": "267",
+    "raw": null,
+    "restated": 267,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|peak_base_mw",
+    "shown": "30,799",
+    "raw": null,
+    "restated": 30799,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|CENT|peak_mw",
+    "shown": "47,107",
+    "raw": null,
+    "restated": 47107,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|demand_gwh",
+    "shown": "7,648.9",
+    "raw": null,
+    "restated": 7648.888,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|demand_pct",
+    "shown": "+20.6",
+    "raw": null,
+    "restated": 20.634665286342376,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|coal",
+    "shown": "+375.3",
+    "raw": null,
+    "restated": 375.31,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|hydro",
+    "shown": "+0.1",
+    "raw": null,
+    "restated": 0.114,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|natural_gas",
+    "shown": "+615.4",
+    "raw": null,
+    "restated": 615.374,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|net",
+    "shown": "+1,383.1",
+    "raw": null,
+    "restated": 1383.13,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|nuclear",
+    "shown": "+59.0",
+    "raw": null,
+    "restated": 59.036,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|other",
+    "shown": "+313.6",
+    "raw": null,
+    "restated": 313.565,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|solar",
+    "shown": "+17.5",
+    "raw": null,
+    "restated": 17.526,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|gen|wind",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|hours",
+    "shown": "267",
+    "raw": null,
+    "restated": 267,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|peak_base_mw",
+    "shown": "27,182",
+    "raw": null,
+    "restated": 27182,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|FLA|peak_mw",
+    "shown": "42,612",
+    "raw": null,
+    "restated": 42612,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|demand_gwh",
+    "shown": "28,517.8",
+    "raw": null,
+    "restated": 28517.828,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|demand_pct",
+    "shown": "+17.6",
+    "raw": null,
+    "restated": 17.624595773861948,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|coal",
+    "shown": "+2,004.5",
+    "raw": null,
+    "restated": 2004.461,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|hydro",
+    "shown": "+98.9",
+    "raw": null,
+    "restated": 98.912,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|natural_gas",
+    "shown": "+850.5",
+    "raw": null,
+    "restated": 850.489,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|net",
+    "shown": "+3,591.8",
+    "raw": null,
+    "restated": 3591.844,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|nuclear",
+    "shown": "-28.6",
+    "raw": null,
+    "restated": -28.64,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|other",
+    "shown": "+687.8",
+    "raw": null,
+    "restated": 687.784,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|solar",
+    "shown": "+48.3",
+    "raw": null,
+    "restated": 48.283,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|gen|wind",
+    "shown": "-9.2",
+    "raw": null,
+    "restated": -9.178,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|hours",
+    "shown": "267",
+    "raw": null,
+    "restated": 267,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|peak_base_mw",
+    "shown": "94,720",
+    "raw": null,
+    "restated": 94720,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDA|peak_mw",
+    "shown": "135,328",
+    "raw": null,
+    "restated": 135328,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|demand_gwh",
+    "shown": "24,138.8",
+    "raw": null,
+    "restated": 24138.835,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|demand_pct",
+    "shown": "+15.8",
+    "raw": null,
+    "restated": 15.767459237240747,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|coal",
+    "shown": "+1,763.0",
+    "raw": null,
+    "restated": 1762.957,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|hydro",
+    "shown": "+115.6",
+    "raw": null,
+    "restated": 115.595,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|natural_gas",
+    "shown": "+2,665.7",
+    "raw": null,
+    "restated": 2665.749,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|net",
+    "shown": "+4,899.9",
+    "raw": null,
+    "restated": 4899.899,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|nuclear",
+    "shown": "-404.1",
+    "raw": null,
+    "restated": -404.105,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|other",
+    "shown": "+100.8",
+    "raw": null,
+    "restated": 100.795,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|solar",
+    "shown": "+32.7",
+    "raw": null,
+    "restated": 32.652,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|gen|wind",
+    "shown": "+626.3",
+    "raw": null,
+    "restated": 626.252,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|hours",
+    "shown": "267",
+    "raw": null,
+    "restated": 267,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|peak_base_mw",
+    "shown": "78,318",
+    "raw": null,
+    "restated": 78318,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|MIDW|peak_mw",
+    "shown": "114,818",
+    "raw": null,
+    "restated": 114818,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|demand_gwh",
+    "shown": "3,849.9",
+    "raw": null,
+    "restated": 3849.899,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|demand_pct",
+    "shown": "+3.1",
+    "raw": null,
+    "restated": 3.0830954550408016,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|coal",
+    "shown": "+9.6",
+    "raw": null,
+    "restated": 9.606,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|hydro",
+    "shown": "+67.0",
+    "raw": null,
+    "restated": 66.957,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|natural_gas",
+    "shown": "-151.2",
+    "raw": null,
+    "restated": -151.235,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|net",
+    "shown": "+369.4",
+    "raw": null,
+    "restated": 369.388,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|nuclear",
+    "shown": "+29.7",
+    "raw": null,
+    "restated": 29.703,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|other",
+    "shown": "+437.3",
+    "raw": null,
+    "restated": 437.295,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|solar",
+    "shown": "+9.2",
+    "raw": null,
+    "restated": 9.154,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|gen|wind",
+    "shown": "-32.1",
+    "raw": null,
+    "restated": -32.066,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|hours",
+    "shown": "267",
+    "raw": null,
+    "restated": 267,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|peak_base_mw",
+    "shown": "15,623",
+    "raw": null,
+    "restated": 15623,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NE|peak_mw",
+    "shown": "17,382",
+    "raw": null,
+    "restated": 17382,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|demand_gwh",
+    "shown": "12,392.5",
+    "raw": null,
+    "restated": 12392.481,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|demand_pct",
+    "shown": "+3.6",
+    "raw": null,
+    "restated": 3.5687718174836722,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|coal",
+    "shown": "+254.4",
+    "raw": null,
+    "restated": 254.36,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|hydro",
+    "shown": "-1,055.5",
+    "raw": null,
+    "restated": -1055.546,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|natural_gas",
+    "shown": "+362.1",
+    "raw": null,
+    "restated": 362.05,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|net",
+    "shown": "-632.1",
+    "raw": null,
+    "restated": -632.073,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|nuclear",
+    "shown": "+0.5",
+    "raw": null,
+    "restated": 0.54,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|other",
+    "shown": "+11.3",
+    "raw": null,
+    "restated": 11.323,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|solar",
+    "shown": "+53.9",
+    "raw": null,
+    "restated": 53.883,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|gen|wind",
+    "shown": "-255.9",
+    "raw": null,
+    "restated": -255.865,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|hours",
+    "shown": "267",
+    "raw": null,
+    "restated": 267,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|peak_base_mw",
+    "shown": "46,849",
+    "raw": null,
+    "restated": 46849,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NW|peak_mw",
+    "shown": "58,947",
+    "raw": null,
+    "restated": 58947,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|demand_gwh",
+    "shown": "4,870.0",
+    "raw": null,
+    "restated": 4869.982,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|demand_pct",
+    "shown": "+5.9",
+    "raw": null,
+    "restated": 5.929115975844592,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|coal",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|hydro",
+    "shown": "-48.3",
+    "raw": null,
+    "restated": -48.332,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|natural_gas",
+    "shown": "+427.1",
+    "raw": null,
+    "restated": 427.072,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|net",
+    "shown": "+299.7",
+    "raw": null,
+    "restated": 299.664,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|nuclear",
+    "shown": "-144.1",
+    "raw": null,
+    "restated": -144.122,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|other",
+    "shown": "+5.5",
+    "raw": null,
+    "restated": 5.509,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|solar",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|gen|wind",
+    "shown": "+59.5",
+    "raw": null,
+    "restated": 59.504,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|hours",
+    "shown": "267",
+    "raw": null,
+    "restated": 267,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|peak_base_mw",
+    "shown": "18,778",
+    "raw": null,
+    "restated": 18778,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|NY|peak_mw",
+    "shown": "22,004",
+    "raw": null,
+    "restated": 22004,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|demand_gwh",
+    "shown": "8,474.4",
+    "raw": null,
+    "restated": 8474.432,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|demand_pct",
+    "shown": "+21.3",
+    "raw": null,
+    "restated": 21.336633720071156,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|coal",
+    "shown": "+1,112.7",
+    "raw": null,
+    "restated": 1112.711,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|hydro",
+    "shown": "-55.9",
+    "raw": null,
+    "restated": -55.891,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|natural_gas",
+    "shown": "+418.6",
+    "raw": null,
+    "restated": 418.642,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|net",
+    "shown": "+1,392.6",
+    "raw": null,
+    "restated": 1392.579,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|nuclear",
+    "shown": "-132.4",
+    "raw": null,
+    "restated": -132.363,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|other",
+    "shown": "+11.1",
+    "raw": null,
+    "restated": 11.133,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|solar",
+    "shown": "+38.4",
+    "raw": null,
+    "restated": 38.365,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|gen|wind",
+    "shown": "0.0",
+    "raw": null,
+    "restated": 0.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|hours",
+    "shown": "267",
+    "raw": null,
+    "restated": 267,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|peak_base_mw",
+    "shown": "29,599",
+    "raw": null,
+    "restated": 29599,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SE|peak_mw",
+    "shown": "45,131",
+    "raw": null,
+    "restated": 45131,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|demand_gwh",
+    "shown": "2,971.1",
+    "raw": null,
+    "restated": 2971.076,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|demand_pct",
+    "shown": "+5.2",
+    "raw": null,
+    "restated": 5.1624560875682475,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|coal",
+    "shown": "+5.2",
+    "raw": null,
+    "restated": 5.173,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|hydro",
+    "shown": "-18.3",
+    "raw": null,
+    "restated": -18.27,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|natural_gas",
+    "shown": "+116.7",
+    "raw": null,
+    "restated": 116.686,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|net",
+    "shown": "+181.6",
+    "raw": null,
+    "restated": 181.563,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|nuclear",
+    "shown": "+6.6",
+    "raw": null,
+    "restated": 6.603,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|other",
+    "shown": "-0.2",
+    "raw": null,
+    "restated": -0.189,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|solar",
+    "shown": "+26.6",
+    "raw": null,
+    "restated": 26.628,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|gen|wind",
+    "shown": "+77.0",
+    "raw": null,
+    "restated": 76.988,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|hours",
+    "shown": "267",
+    "raw": null,
+    "restated": 267,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|peak_base_mw",
+    "shown": "12,210",
+    "raw": null,
+    "restated": 12210,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|SW|peak_mw",
+    "shown": "14,141",
+    "raw": null,
+    "restated": 14141,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|demand_gwh",
+    "shown": "6,075.7",
+    "raw": null,
+    "restated": 6075.748,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|demand_pct",
+    "shown": "+28.3",
+    "raw": null,
+    "restated": 28.332224425955616,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|coal",
+    "shown": "+247.1",
+    "raw": null,
+    "restated": 247.089,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|hydro",
+    "shown": "+99.8",
+    "raw": null,
+    "restated": 99.813,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|natural_gas",
+    "shown": "+677.3",
+    "raw": null,
+    "restated": 677.274,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|net",
+    "shown": "+1,029.9",
+    "raw": null,
+    "restated": 1029.927,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|nuclear",
+    "shown": "+43.1",
+    "raw": null,
+    "restated": 43.14,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|other",
+    "shown": "+6.6",
+    "raw": null,
+    "restated": 6.646,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|solar",
+    "shown": "+12.5",
+    "raw": null,
+    "restated": 12.459,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|gen|wind",
+    "shown": "+0.5",
+    "raw": null,
+    "restated": 0.467,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|hours",
+    "shown": "267",
+    "raw": null,
+    "restated": 267,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|peak_base_mw",
+    "shown": "19,830",
+    "raw": null,
+    "restated": 19830,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEN|peak_mw",
+    "shown": "33,225",
+    "raw": null,
+    "restated": 33225,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|demand_gwh",
+    "shown": "13,553.5",
+    "raw": null,
+    "restated": 13553.514,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|demand_pct",
+    "shown": "+27.9",
+    "raw": null,
+    "restated": 27.931734824646348,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|coal",
+    "shown": "-3.0",
+    "raw": null,
+    "restated": -2.996,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|hydro",
+    "shown": "-0.6",
+    "raw": null,
+    "restated": -0.556,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|natural_gas",
+    "shown": "+3,009.8",
+    "raw": null,
+    "restated": 3009.83,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|net",
+    "shown": "+2,981.3",
+    "raw": null,
+    "restated": 2981.343,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|nuclear",
+    "shown": "+0.6",
+    "raw": null,
+    "restated": 0.636,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|other",
+    "shown": "+34.0",
+    "raw": null,
+    "restated": 33.965,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|solar",
+    "shown": "+153.0",
+    "raw": null,
+    "restated": 153.008,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|gen|wind",
+    "shown": "-212.5",
+    "raw": null,
+    "restated": -212.531,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|hours",
+    "shown": "267",
+    "raw": null,
+    "restated": 267,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|peak_base_mw",
+    "shown": "40,557",
+    "raw": null,
+    "restated": 40557,
+    "verdict": "agrees"
+   },
+   {
+    "key": "wc|TEX|peak_mw",
+    "shown": "73,976",
+    "raw": null,
+    "restated": 73976,
+    "verdict": "agrees"
+   }
+  ],
+  "index": [
+   {
+    "key": "reached|caiso_heat_2020|n",
+    "shown": "2",
+    "raw": null,
+    "restated": 2,
+    "verdict": "agrees"
+   },
+   {
+    "key": "reached|caiso_heat_2020|of",
+    "shown": "12",
+    "raw": null,
+    "restated": 12,
+    "verdict": "agrees"
+   },
+   {
+    "key": "reached|elliott_2022|n",
+    "shown": "10",
+    "raw": null,
+    "restated": 10,
+    "verdict": "agrees"
+   },
+   {
+    "key": "reached|elliott_2022|of",
+    "shown": "13",
+    "raw": null,
+    "restated": 13,
+    "verdict": "agrees"
+   },
+   {
+    "key": "reached|uri_2021|n",
+    "shown": "9",
+    "raw": null,
+    "restated": 9,
+    "verdict": "agrees"
+   },
+   {
+    "key": "reached|uri_2021|of",
+    "shown": "13",
+    "raw": null,
+    "restated": 13,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00Z|caiso_heat_2020",
+    "shown": "23.50",
+    "raw": 23.4955,
+    "restated": 23.4955,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00Z|elliott_2022",
+    "shown": "135,328",
+    "raw": 135328.0,
+    "restated": 135328.0,
+    "verdict": "agrees"
+   },
+   {
+    "key": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00Z|uri_2021",
+    "shown": "9,051.55",
+    "raw": 9051.55,
+    "restated": 9051.55,
+    "verdict": "agrees"
+   }
+  ]
+ },
+ "summary": {
+  "uri-2021": {
+   "agree": 246,
+   "differ": 0,
+   "drawn_not_restated": 0,
+   "restated_not_drawn": 0,
+   "out_of_bounds": 101
+  },
+  "caiso-heat-2020": {
+   "agree": 213,
+   "differ": 0,
+   "drawn_not_restated": 0,
+   "restated_not_drawn": 0,
+   "out_of_bounds": 99
+  },
+  "elliott-2022": {
+   "agree": 275,
+   "differ": 0,
+   "drawn_not_restated": 0,
+   "restated_not_drawn": 0,
+   "out_of_bounds": 101
+  },
+  "index": {
+   "agree": 9,
+   "differ": 0,
+   "drawn_not_restated": 0,
+   "restated_not_drawn": 0,
+   "out_of_bounds": 0
+  }
+ }
+}

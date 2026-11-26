@@ -1,0 +1,8 @@
+[erw] the catalogue table returned no rows
+default: 294563 bytes drawn; 535 marked figures (54 not held); 53 distinct hovers; em dash none
+READ: ...EIA's average price of the industrial sector's energy, all fuels together, nominal dollars: not a tariff, and not the price of electricity or of any one fuel.
+READ: ...It is per million Btu of a smaller quantity than the total beside it (the electrical system losses are not in it, and in most states part of the rest is not either), so the expenditures are not the total times this price.
+(node:30584) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-a/site/lib/cells.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-a\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
