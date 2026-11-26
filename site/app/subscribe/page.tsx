@@ -45,9 +45,9 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
             one link away on the site.
           </li>
           <li>
-            <strong>Sundays, 4 PM Pacific:</strong> the <Link href="/roundup">ERW&apos;s Roundup</Link>: its opening number, the week in five numbers,
-            the first three stories of what mattered, the chart of the week, the week ahead and a fun fact; the weekend&apos;s stories and the rest of
-            the week are one link away on the site.
+            <strong>Sundays, 23:00 UTC (4 PM Pacific in summer time, 3 PM in winter):</strong> the <Link href="/roundup">ERW&apos;s Roundup</Link>: its
+            opening number, the week in five numbers, the first three stories of what mattered, the chart of the week, the week ahead and a fun fact;
+            the weekend&apos;s stories and the rest of the week are one link away on the site.
           </li>
           <li>
             Each figure says where it came from: a warehouse table, as on this site, or, for a figure a news story reported, its outlet. The email
