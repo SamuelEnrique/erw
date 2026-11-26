@@ -42,7 +42,7 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
             the latest Henry Hub, WTI and Brent closes, and a fun fact.
           </li>
           <li>
-            <strong>Sundays, 4 PM Pacific:</strong> the <Link href="/roundup">ERW&apos;s Roundup</Link>: the weekend&apos;s stories, the five stories of the week, the week&apos;s numbers and the chart of the week.
+            <strong>Sundays, 23:00 UTC (4 PM Pacific in summer time, 3 PM in winter):</strong> the <Link href="/roundup">ERW&apos;s Roundup</Link>: the weekend&apos;s stories, the five stories of the week, the week&apos;s numbers and the chart of the week.
           </li>
           <li>
             Every number comes from the warehouse and names its table, as on this site. The email links back to the site for everything else.

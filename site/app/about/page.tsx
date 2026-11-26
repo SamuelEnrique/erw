@@ -115,7 +115,8 @@ export default function About() {
           <strong>Schedule.</strong> The digest covers the 24 hours before it is written, Monday to Friday, by the daily run that starts at 14:00 UTC;
           there is no weekend issue. A day without a digest, before it is written or when none was, says so on its page and shows no other day&apos;s.
           ERW&apos;s Roundup covers an ISO week (Monday to Sunday, UTC), opens with the weekend&apos;s top stories, and is written and sent on Sundays at
-          23:00 UTC (4 PM Pacific). It was called Energy Week, on Mondays, until session 23.
+          23:00 UTC (4 PM Pacific in summer time; 3 PM from early November to mid-March, when the Pacific coast keeps standard time). It was
+          called Energy Week, on Mondays, until session 23.
         </p>
         <p>
           <strong>Chart of the day.</strong> Since 13 October 2026 each digest carries a chart drawn by code, with no model and no person choosing it: the
