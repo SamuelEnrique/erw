@@ -326,7 +326,7 @@ function Compare({ sc, names, dcNames, P, P2 }: { sc: Record<View, Scn>; names: 
     }
     const left = key === "pvtax" ? dcLeftOut(s.r) : [];
     return <td key={p} className={cls} data-cell={`${p}|${key}`}><Num check={`${dcKey(s.x)}|${figure}`} raw={v}>{dcDisplay(figure!, v)}</Num>
-      {left.length ? <span className="block text-xs italic text-muted" data-left-out={left.join(",")}>without {left.join(" or ")} tax</span> : null}</td>;
+      {left.length ? <span className="block whitespace-normal text-xs italic text-muted" data-left-out={left.join(",")}>without {left.join(" or ")} tax</span> : null}</td>;
   };
   const dcPropTip = (p: View) => { const s = sc[p]; return s.dc ? `${p.toUpperCase()}: ${P2.rules.states[s.x.state]?.property?.tip ?? `${stateName(s.x.state)}: no rule for a datacenter's property is read; the reader's own rates, where typed.`}` : null; };
   return (
