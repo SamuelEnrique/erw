@@ -33,7 +33,7 @@ export type DcRule = {
     start_before_year?: number;
     /** a longer term for a larger investment (Maryland: 20 years with USD 250 million) */
     term_years_big?: { min_investment_usd: number; years: number };
-    /** a discretionary abatement by application, held as words only (Nevada): never applied */
+    /** held as words only, never applied: an approval (Nevada), a local grant (Alabama), a threshold not read, or a program closed to new projects (Illinois, Massachusetts, Ohio, Nebraska) */
     discretionary?: boolean };
   /** session 10806: a least investment for the rule to apply (Montana's class seventeen, USD 50 million); below it no rule is held */
   property?: { building_ratio: number; equipment_ratio: number; cite: string; tip: string; min_investment_usd?: number };
@@ -178,7 +178,7 @@ export function dcChain(P: DcParams, state: string, phase: "construction" | "ope
 export function dcEligible(P: DcParams, x: DcInputs): { held: boolean; eligible: boolean; why: string } {
   const r = P.rules.states[x.state]?.sales_exemption;
   if (!r) return { held: false, eligible: false, why: "no datacenter sales tax exemption of this state has been read" };
-  if (r.discretionary) return { held: true, eligible: false, why: "the state's relief is held as words only, not applied: its hover says why (an approval, or a threshold not read)" };
+  if (r.discretionary) return { held: true, eligible: false, why: "the state's relief is held as words only, not applied: its hover says why (an approval, a local grant, a threshold not read, or a program closed to new projects)" };
   const usd = x.invest * 1e6;
   const spent = r.invest_before_year === undefined ? usd
     : usd * Math.max(0, Math.min(x.build, r.invest_before_year - x.start)) / x.build;
