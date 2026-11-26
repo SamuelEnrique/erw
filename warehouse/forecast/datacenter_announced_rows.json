@@ -634,6 +634,21 @@
    "years": "",
    "investment_partial": "capital equipment only",
    "note": "The investment is capital equipment only, as GOED states it: kept, but not used for a ratio or offered as the project's investment."
+  },
+  {
+   "id": "ok_google_pryor_2019",
+   "name": "Google, Pryor data center expansion (MidAmerica Industrial Park)",
+   "company": "Google",
+   "state": "ok",
+   "county": "Mayes County",
+   "doc": {"title": "Google Investment in Pryor, Okla. Reaches $3 Billion", "publisher": "Oklahoma Department of Commerce", "date": "2019-06-24", "url": "https://www.okcommerce.gov/google-investment-in-pryor-okla-reaches-3-billion/", "request": 304},
+   "mw": null,
+   "investment": {"value": 600000000, "year": 2019, "says": "$600 million", "qualifier": "expansion", "quote": "to announce a $600 million expansion of its data center at the"},
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "",
+   "note": "An expansion: the release says the project \"is expected to increase staff at the facility to more than 500\", a total for the whole facility, not the expansion's new jobs, so no job figure is kept."
   }
  ]
 }
