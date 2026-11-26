@@ -256,7 +256,7 @@ def monthly_rows(p, log):
         for code, name in BASINS.items():
             s = series_of(b, f"eia:{kind}{code}", variable)
             if s:
-                p.add("prod", f"eia:{kind}{code}", words, f"{name}, monthly", unit, "M", s, 1, "EIA, Short-Term Energy Outlook, history only (eia_basin_production_monthly)")
+                p.add("prod", f"eia:{kind}{code}", words, f"{name}, monthly", unit, "M", s, 1, "EIA, Short-Term Energy Outlook, without its forecast months: the newest months are EIA's estimates, revised each month (eia_basin_production_monthly)")
     t = read("eia_gas_trade_monthly")
     days_in = lambda d: (dt.date(d.year + (d.month == 12), d.month % 12 + 1, 1) - d).days      # noqa: E731
     per_day = lambda s: {d: v / 1000.0 / days_in(d) for d, v in s.items()}                     # noqa: E731  (MMcf in the month to bcf a day)
