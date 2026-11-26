@@ -88,7 +88,7 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
         ) : null}
         {ties.length ? (
           <> Over its {ties.length} reporting ties it {net > 0 ? "sent out more than it took in" : net < 0 ? "took in more than it sent out" : "sent out as much as it took in"}: a net {out ? "export" : "import"} of{" "}
-            {netNum} MW in the hour starting {hourOf(xHour, tz)}, {lagNum} hours before the latest hourly refresh of EIA-930&apos;s interchange ({`${snap.built.slice(0, 16).replace("T", " ")} UTC`}), which EIA publishes about two days late.</>
+            {netNum} MW in the hour starting {hourOf(xHour, tz)}, {lagNum} hours before the latest hourly refresh of EIA-930&apos;s interchange ({`${snap.built.slice(0, 16).replace("T", " ")} UTC`}), which EIA publishes about two days late. The sum reads {TIE_SIDE_WORDS}.</>
         ) : null}
         {cg ? <> Each MWh it generated carried <N t={CARBON} r={cg} /> kg of CO2 in the hour starting {hourOf(cg.ts_utc, tz)}, the latest EIA has estimated.</> : null}
       </p>
@@ -99,7 +99,7 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
         {/* session 1898 (lab path fault 3 of session 1885): the unit only beside a figure; the Lower 48's card read "by grid MW" */}
         <HeadlineNumber label={ties.length && !out ? "Net import" : "Net export"} unit={ties.length ? "MW" : undefined} value={ties.length ? netNum : <span className="text-muted">{grid.slug === "us48" ? "by grid" : "not reported"}</span>}
           note={ties.length
-            ? <>Hour starting {hourOf(xHour, tz)}, over <Num check={`net|ties|${grid.ba}|${xHour}`} raw={ties.length}>{shown(ties.length)}</Num> ties, {TIE_SIDE_WORDS}. <Link href={gridHref(grid.slug, "gravity")}>Each neighbour</Link>.</>
+            ? <>Hour starting {hourOf(xHour, tz)}, over <Num check={`net|ties|${grid.ba}|${xHour}`} raw={ties.length}>{shown(ties.length)}</Num> ties. <Link href={gridHref(grid.slug, "gravity")}>Each neighbour</Link>.</>
             : grid.slug === "us48" ? <>The Lower 48 is the sum of its grids: <Link href={gridHref(grid.slug, "gravity")}>the exchange of each</Link>.</>
               : <>No tie of {grid.label} reported in the hour starting {hourOf(xHour, tz)}, the newest hour every reporting pair holds (session 266: nothing stands in for it).</>} />
         <HeadlineNumber label="Carbon intensity" unit="kg CO2/MWh" value={cg ? <N t={CARBON} r={cg} /> : <span className="text-muted">not read</span>}
