@@ -1,0 +1,197 @@
+figures re-done: 152; equal: 122; differ: 30
+  2026-10-09: 11 re-done, 9 equal
+  2026-10-12: 11 re-done, 9 equal
+  2026-10-13: 11 re-done, 7 equal
+  2026-10-14: 11 re-done, 9 equal
+  2026-10-20: 11 re-done, 6 equal
+  2026-10-21: 11 re-done, 8 equal
+  2026-10-22: 11 re-done, 7 equal
+  2026-10-23: 11 re-done, 7 equal
+  2026-11-06: 8 re-done, 6 equal
+  2026-11-12: 56 re-done, 54 equal
+
+DIFFER (printed | re-done):
+  2026-10-09 | rt NYISO N.Y.C. value at 2026-10-08 12:00Z | printed 726.09 | re-done None
+  2026-10-09 | rt the highest of the day over the grids read | printed 726.09 N.Y.C. NYISO | re-done 1027.12 SPPNORTH_HUB SPP
+  2026-10-12 | dam NYISO N.Y.C. 2026-10-11 | printed 41.57 | re-done 0 of 24 hours
+  2026-10-12 | dam ISO-NE .H.INTERNAL_HUB 2026-10-11 | printed 38.54 | re-done 0 of 24 hours
+  2026-10-13 | dam NYISO N.Y.C. 2026-10-12 | printed 53.30 | re-done 0 of 24 hours
+  2026-10-13 | dam ISO-NE .H.INTERNAL_HUB 2026-10-12 | printed 46.62 | re-done 0 of 24 hours
+  2026-10-13 | rt NYISO LONGIL value at 2026-10-12 21:30Z | printed 129.57 | re-done None
+  2026-10-13 | rt the highest of the day over the grids read | printed 129.57 LONGIL NYISO | re-done 80.83 TH_NP15_GEN-APND CAISO
+  2026-10-14 | dam NYISO N.Y.C. 2026-10-13 | printed 51.42 | re-done 0 of 24 hours
+  2026-10-14 | dam ISO-NE .H.INTERNAL_HUB 2026-10-13 | printed 39.60 | re-done 0 of 24 hours
+  2026-10-20 | dam NYISO N.Y.C. 2026-10-19 | printed 52.53 | re-done 0 of 24 hours
+  2026-10-20 | dam ISO-NE .H.INTERNAL_HUB 2026-10-19 | printed 42.50 | re-done 0 of 24 hours
+  2026-10-20 | rt NYISO N.Y.C. value at 2026-10-19 12:00Z | printed 192.89 | re-done None
+  2026-10-20 | rt the highest of the day over the grids read | printed 192.89 N.Y.C. NYISO | re-done 85.54 TH_NP15_GEN-APND CAISO
+  2026-10-20 | fuel WTI Cushing crude 2026-10-14 | printed 101.91 | re-done 96.34
+  2026-10-21 | dam NYISO N.Y.C. 2026-10-20 | printed 49.25 | re-done 0 of 24 hours
+  2026-10-21 | dam ISO-NE .H.INTERNAL_HUB 2026-10-20 | printed 40.64 | re-done 0 of 24 hours
+  2026-10-21 | fuel WTI Cushing crude 2026-10-14 | printed 101.91 | re-done 96.34
+  2026-10-22 | dam NYISO N.Y.C. 2026-10-21 | printed 50.31 | re-done 0 of 24 hours
+  2026-10-22 | dam ISO-NE .H.INTERNAL_HUB 2026-10-21 | printed 43.74 | re-done 0 of 24 hours
+  2026-10-22 | rt NYISO LONGIL value at 2026-10-22 00:00Z | printed 1165.64 | re-done None
+  2026-10-22 | rt the highest of the day over the grids read | printed 1165.64 LONGIL NYISO | re-done 120.66 TH_ZP26_GEN-APND CAISO
+  2026-10-23 | dam NYISO N.Y.C. 2026-10-22 | printed 52.60 | re-done 0 of 24 hours
+  2026-10-23 | dam ISO-NE .H.INTERNAL_HUB 2026-10-22 | printed 40.92 | re-done 0 of 24 hours
+  2026-10-23 | rt NYISO LONGIL value at 2026-10-23 01:00Z | printed 129.51 | re-done None
+  2026-10-23 | rt the highest of the day over the grids read | printed 129.51 LONGIL NYISO | re-done 114.54 HB_SOUTH ERCOT
+  2026-11-06 | dam NYISO N.Y.C. 2026-11-05 | printed 38.55 | re-done 0 of 24 hours
+  2026-11-06 | dam ISO-NE .H.INTERNAL_HUB 2026-11-05 | printed 41.55 | re-done 0 of 24 hours
+  2026-11-12 | demand peak 2026-11-11 | printed 488034 at 23:00 | re-done 488341 at 23:00
+  2026-11-12 | demand peak 2026-11-11 | printed 488034 at 23:00 | re-done 488341 at 23:00
+
+ALL:
+  ok  2026-10-09 | dam ERCOT HB_NORTH 2026-10-08 | 59.70 | 59.70
+  ok  2026-10-09 | dam CAISO TH_SP15_GEN-APND 2026-10-08 | 55.10 | 55.10
+  ok  2026-10-09 | dam NYISO N.Y.C. 2026-10-08 | 40.34 | 40.34
+  ok  2026-10-09 | dam SPP SPPSOUTH_HUB 2026-10-08 | 37.94 | 37.94
+  ok  2026-10-09 | dam ISO-NE .H.INTERNAL_HUB 2026-10-08 | 35.77 | 35.77
+  ok  2026-10-09 | rt NYISO N.Y.C. local 2026-10-08 08:00 is UTC 2026-10-08 12:00 | 2026-10-08T12:00:00+00:00 | 2026-10-08T12:00:00+00:00
+  BAD 2026-10-09 | rt NYISO N.Y.C. value at 2026-10-08 12:00Z | 726.09 | None
+  BAD 2026-10-09 | rt the highest of the day over the grids read | 726.09 N.Y.C. NYISO | 1027.12 SPPNORTH_HUB SPP
+  ok  2026-10-09 | fuel Henry Hub natural gas 2026-10-06 | 3.03 | 3.03
+  ok  2026-10-09 | fuel WTI Cushing crude 2026-10-06 | 96.24 | 96.24
+  ok  2026-10-09 | fuel Brent crude 2026-10-06 | 125.44 | 125.44
+  ok  2026-10-12 | dam ERCOT HB_NORTH 2026-10-11 | 18.73 | 18.73
+  ok  2026-10-12 | dam CAISO TH_SP15_GEN-APND 2026-10-11 | 35.03 | 35.03
+  BAD 2026-10-12 | dam NYISO N.Y.C. 2026-10-11 | 41.57 | 0 of 24 hours
+  ok  2026-10-12 | dam SPP SPPSOUTH_HUB 2026-10-11 | -5.33 | -5.33
+  BAD 2026-10-12 | dam ISO-NE .H.INTERNAL_HUB 2026-10-11 | 38.54 | 0 of 24 hours
+  ok  2026-10-12 | rt SPP SPPSOUTH_HUB local 2026-10-11 20:00 is UTC 2026-10-12 01:00 | 2026-10-12T01:00:00+00:00 | 2026-10-12T01:00:00+00:00
+  ok  2026-10-12 | rt SPP SPPSOUTH_HUB value at 2026-10-12 01:00Z | 107.29 | 107.29
+  ok  2026-10-12 | rt the highest of the day over the grids read | 107.29 SPPSOUTH_HUB SPP | 107.29 SPPSOUTH_HUB SPP
+  ok  2026-10-12 | fuel Henry Hub natural gas 2026-10-06 | 3.03 | 3.03
+  ok  2026-10-12 | fuel WTI Cushing crude 2026-10-06 | 96.24 | 96.24
+  ok  2026-10-12 | fuel Brent crude 2026-10-06 | 125.44 | 125.44
+  ok  2026-10-13 | dam ERCOT HB_NORTH 2026-10-12 | 30.10 | 30.10
+  ok  2026-10-13 | dam CAISO TH_SP15_GEN-APND 2026-10-12 | 42.17 | 42.17
+  BAD 2026-10-13 | dam NYISO N.Y.C. 2026-10-12 | 53.30 | 0 of 24 hours
+  ok  2026-10-13 | dam SPP SPPSOUTH_HUB 2026-10-12 | 4.12 | 4.12
+  BAD 2026-10-13 | dam ISO-NE .H.INTERNAL_HUB 2026-10-12 | 46.62 | 0 of 24 hours
+  ok  2026-10-13 | rt NYISO LONGIL local 2026-10-12 17:30 is UTC 2026-10-12 21:30 | 2026-10-12T21:30:00+00:00 | 2026-10-12T21:30:00+00:00
+  BAD 2026-10-13 | rt NYISO LONGIL value at 2026-10-12 21:30Z | 129.57 | None
+  BAD 2026-10-13 | rt the highest of the day over the grids read | 129.57 LONGIL NYISO | 80.83 TH_NP15_GEN-APND CAISO
+  ok  2026-10-13 | fuel Henry Hub natural gas 2026-10-06 | 3.03 | 3.03
+  ok  2026-10-13 | fuel WTI Cushing crude 2026-10-06 | 96.24 | 96.24
+  ok  2026-10-13 | fuel Brent crude 2026-10-06 | 125.44 | 125.44
+  ok  2026-10-14 | dam ERCOT HB_NORTH 2026-10-13 | 41.21 | 41.21
+  ok  2026-10-14 | dam CAISO TH_SP15_GEN-APND 2026-10-13 | 31.63 | 31.63
+  BAD 2026-10-14 | dam NYISO N.Y.C. 2026-10-13 | 51.42 | 0 of 24 hours
+  ok  2026-10-14 | dam SPP SPPSOUTH_HUB 2026-10-13 | 32.00 | 32.00
+  BAD 2026-10-14 | dam ISO-NE .H.INTERNAL_HUB 2026-10-13 | 39.60 | 0 of 24 hours
+  ok  2026-10-14 | rt SPP SPPNORTH_HUB local 2026-10-13 12:45 is UTC 2026-10-13 17:45 | 2026-10-13T17:45:00+00:00 | 2026-10-13T17:45:00+00:00
+  ok  2026-10-14 | rt SPP SPPNORTH_HUB value at 2026-10-13 17:45Z | 1571.36 | 1571.36
+  ok  2026-10-14 | rt the highest of the day over the grids read | 1571.36 SPPNORTH_HUB SPP | 1571.36 SPPNORTH_HUB SPP
+  ok  2026-10-14 | fuel Henry Hub natural gas 2026-10-06 | 3.03 | 3.03
+  ok  2026-10-14 | fuel WTI Cushing crude 2026-10-06 | 96.24 | 96.24
+  ok  2026-10-14 | fuel Brent crude 2026-10-06 | 125.44 | 125.44
+  ok  2026-10-20 | dam ERCOT HB_NORTH 2026-10-19 | 23.41 | 23.41
+  ok  2026-10-20 | dam CAISO TH_SP15_GEN-APND 2026-10-19 | 44.78 | 44.78
+  BAD 2026-10-20 | dam NYISO N.Y.C. 2026-10-19 | 52.53 | 0 of 24 hours
+  ok  2026-10-20 | dam SPP SPPSOUTH_HUB 2026-10-19 | 21.85 | 21.85
+  BAD 2026-10-20 | dam ISO-NE .H.INTERNAL_HUB 2026-10-19 | 42.50 | 0 of 24 hours
+  ok  2026-10-20 | rt NYISO N.Y.C. local 2026-10-19 08:00 is UTC 2026-10-19 12:00 | 2026-10-19T12:00:00+00:00 | 2026-10-19T12:00:00+00:00
+  BAD 2026-10-20 | rt NYISO N.Y.C. value at 2026-10-19 12:00Z | 192.89 | None
+  BAD 2026-10-20 | rt the highest of the day over the grids read | 192.89 N.Y.C. NYISO | 85.54 TH_NP15_GEN-APND CAISO
+  ok  2026-10-20 | fuel Henry Hub natural gas 2026-10-14 | 3.22 | 3.22
+  BAD 2026-10-20 | fuel WTI Cushing crude 2026-10-14 | 101.91 | 96.34
+  ok  2026-10-20 | fuel Brent crude 2026-10-14 | 126.55 | 126.55
+  ok  2026-10-21 | dam ERCOT HB_NORTH 2026-10-20 | 28.38 | 28.38
+  ok  2026-10-21 | dam CAISO TH_SP15_GEN-APND 2026-10-20 | 45.01 | 45.01
+  BAD 2026-10-21 | dam NYISO N.Y.C. 2026-10-20 | 49.25 | 0 of 24 hours
+  ok  2026-10-21 | dam SPP SPPSOUTH_HUB 2026-10-20 | 23.33 | 23.33
+  BAD 2026-10-21 | dam ISO-NE .H.INTERNAL_HUB 2026-10-20 | 40.64 | 0 of 24 hours
+  ok  2026-10-21 | rt SPP SPPNORTH_HUB local 2026-10-20 09:45 is UTC 2026-10-20 14:45 | 2026-10-20T14:45:00+00:00 | 2026-10-20T14:45:00+00:00
+  ok  2026-10-21 | rt SPP SPPNORTH_HUB value at 2026-10-20 14:45Z | 276.41 | 276.41
+  ok  2026-10-21 | rt the highest of the day over the grids read | 276.41 SPPNORTH_HUB SPP | 276.41 SPPNORTH_HUB SPP
+  ok  2026-10-21 | fuel Henry Hub natural gas 2026-10-14 | 3.22 | 3.22
+  BAD 2026-10-21 | fuel WTI Cushing crude 2026-10-14 | 101.91 | 96.34
+  ok  2026-10-21 | fuel Brent crude 2026-10-14 | 126.55 | 126.55
+  ok  2026-10-22 | dam ERCOT HB_NORTH 2026-10-21 | 39.85 | 39.85
+  ok  2026-10-22 | dam CAISO TH_SP15_GEN-APND 2026-10-21 | 51.62 | 51.62
+  BAD 2026-10-22 | dam NYISO N.Y.C. 2026-10-21 | 50.31 | 0 of 24 hours
+  ok  2026-10-22 | dam SPP SPPSOUTH_HUB 2026-10-21 | 34.33 | 34.33
+  BAD 2026-10-22 | dam ISO-NE .H.INTERNAL_HUB 2026-10-21 | 43.74 | 0 of 24 hours
+  ok  2026-10-22 | rt NYISO LONGIL local 2026-10-21 20:00 is UTC 2026-10-22 00:00 | 2026-10-22T00:00:00+00:00 | 2026-10-22T00:00:00+00:00
+  BAD 2026-10-22 | rt NYISO LONGIL value at 2026-10-22 00:00Z | 1165.64 | None
+  BAD 2026-10-22 | rt the highest of the day over the grids read | 1165.64 LONGIL NYISO | 120.66 TH_ZP26_GEN-APND CAISO
+  ok  2026-10-22 | fuel Henry Hub natural gas 2026-10-20 | 3.10 | 3.10
+  ok  2026-10-22 | fuel WTI Cushing crude 2026-10-20 | 107.89 | 107.89
+  ok  2026-10-22 | fuel Brent crude 2026-10-20 | 115.22 | 115.22
+  ok  2026-10-23 | dam ERCOT HB_NORTH 2026-10-22 | 30.48 | 30.48
+  ok  2026-10-23 | dam CAISO TH_SP15_GEN-APND 2026-10-22 | 43.02 | 43.02
+  BAD 2026-10-23 | dam NYISO N.Y.C. 2026-10-22 | 52.60 | 0 of 24 hours
+  ok  2026-10-23 | dam SPP SPPSOUTH_HUB 2026-10-22 | 23.36 | 23.36
+  BAD 2026-10-23 | dam ISO-NE .H.INTERNAL_HUB 2026-10-22 | 40.92 | 0 of 24 hours
+  ok  2026-10-23 | rt NYISO LONGIL local 2026-10-22 21:00 is UTC 2026-10-23 01:00 | 2026-10-23T01:00:00+00:00 | 2026-10-23T01:00:00+00:00
+  BAD 2026-10-23 | rt NYISO LONGIL value at 2026-10-23 01:00Z | 129.51 | None
+  BAD 2026-10-23 | rt the highest of the day over the grids read | 129.51 LONGIL NYISO | 114.54 HB_SOUTH ERCOT
+  ok  2026-10-23 | fuel Henry Hub natural gas 2026-10-20 | 3.10 | 3.10
+  ok  2026-10-23 | fuel WTI Cushing crude 2026-10-20 | 107.89 | 107.89
+  ok  2026-10-23 | fuel Brent crude 2026-10-20 | 115.22 | 115.22
+  ok  2026-11-06 | dam ERCOT HB_NORTH 2026-11-05 | 19.86 | 19.86
+  ok  2026-11-06 | dam CAISO TH_SP15_GEN-APND 2026-11-05 | 43.40 | 43.40
+  BAD 2026-11-06 | dam NYISO N.Y.C. 2026-11-05 | 38.55 | 0 of 24 hours
+  ok  2026-11-06 | dam SPP SPPSOUTH_HUB 2026-11-05 | 24.07 | 24.07
+  BAD 2026-11-06 | dam ISO-NE .H.INTERNAL_HUB 2026-11-05 | 41.55 | 0 of 24 hours
+  ok  2026-11-06 | fuel Henry Hub natural gas 2026-11-03 | 2.63 | 2.63
+  ok  2026-11-06 | fuel WTI Cushing crude 2026-11-03 | 99.64 | 99.64
+  ok  2026-11-06 | fuel Brent crude 2026-11-03 | 107.03 | 107.03
+  ok  2026-11-12 | dam ERCOT HB_NORTH 2026-11-11 | 40.34 | 40.34
+  ok  2026-11-12 | dam ERCOT HB_NORTH 2026-11-10 (day before) | 38.24 | 38.24
+  ok  2026-11-12 | dam ERCOT HB_NORTH change | +2.10 | +2.10
+  ok  2026-11-12 | dam ERCOT HB_NORTH percent | +5.5 | +5.5
+  ok  2026-11-12 | dam CAISO TH_SP15_GEN-APND 2026-11-11 | 34.35 | 34.35
+  ok  2026-11-12 | dam CAISO TH_SP15_GEN-APND 2026-11-10 (day before) | 36.50 | 36.50
+  ok  2026-11-12 | dam CAISO TH_SP15_GEN-APND change | -2.15 | -2.15
+  ok  2026-11-12 | dam CAISO TH_SP15_GEN-APND percent | -5.9 | -5.9
+  ok  2026-11-12 | dam SPP SPPSOUTH_HUB 2026-11-11 | 20.68 | 20.68
+  ok  2026-11-12 | dam SPP SPPSOUTH_HUB 2026-11-10 (day before) | 33.98 | 33.98
+  ok  2026-11-12 | dam SPP SPPSOUTH_HUB change | -13.30 | -13.30
+  ok  2026-11-12 | dam SPP SPPSOUTH_HUB percent | -39.1 | -39.1
+  ok  2026-11-12 | mover Henry Hub natural gas 2026-11-11 | 3.00 | 3.00
+  ok  2026-11-12 | mover Henry Hub natural gas 2026-11-10 (before) | 3.00 | 3.00
+  ok  2026-11-12 | mover Henry Hub natural gas the close before 2026-11-11 is 2026-11-10 | 2026-11-10 | 2026-11-10
+  ok  2026-11-12 | mover Henry Hub natural gas change | 0.00 | 0.00
+  ok  2026-11-12 | mover Henry Hub natural gas percent | 0.0 | 0.0
+  ok  2026-11-12 | mover Henry Hub natural gas direction | up | up
+  ok  2026-11-12 | mover SPP SPPSOUTH_HUB day-ahead 2026-11-11 | 20.68 | 20.68
+  ok  2026-11-12 | mover SPP SPPSOUTH_HUB day-ahead 2026-11-10 (before) | 33.98 | 33.98
+  ok  2026-11-12 | mover SPP SPPSOUTH_HUB day-ahead change | 13.30 | 13.30
+  ok  2026-11-12 | mover SPP SPPSOUTH_HUB day-ahead percent | 39.1 | 39.1
+  ok  2026-11-12 | mover SPP SPPSOUTH_HUB day-ahead direction | down | down
+  ok  2026-11-12 | mover CAISO TH_SP15_GEN-APND day-ahead 2026-11-11 | 34.35 | 34.35
+  ok  2026-11-12 | mover CAISO TH_SP15_GEN-APND day-ahead 2026-11-10 (before) | 36.50 | 36.50
+  ok  2026-11-12 | mover CAISO TH_SP15_GEN-APND day-ahead change | 2.15 | 2.15
+  ok  2026-11-12 | mover CAISO TH_SP15_GEN-APND day-ahead percent | 5.9 | 5.9
+  ok  2026-11-12 | mover CAISO TH_SP15_GEN-APND day-ahead direction | down | down
+  ok  2026-11-12 | mover ERCOT HB_NORTH day-ahead 2026-11-11 | 40.34 | 40.34
+  ok  2026-11-12 | mover ERCOT HB_NORTH day-ahead 2026-11-10 (before) | 38.24 | 38.24
+  ok  2026-11-12 | mover ERCOT HB_NORTH day-ahead change | 2.10 | 2.10
+  ok  2026-11-12 | mover ERCOT HB_NORTH day-ahead percent | 5.5 | 5.5
+  ok  2026-11-12 | mover ERCOT HB_NORTH day-ahead direction | up | up
+  ok  2026-11-12 | mover Brent crude 2026-11-11 | 92.14 | 92.14
+  ok  2026-11-12 | mover Brent crude 2026-11-10 (before) | 90.16 | 90.16
+  ok  2026-11-12 | mover Brent crude the close before 2026-11-11 is 2026-11-10 | 2026-11-10 | 2026-11-10
+  ok  2026-11-12 | mover Brent crude change | 1.98 | 1.98
+  ok  2026-11-12 | mover Brent crude percent | 2.2 | 2.2
+  ok  2026-11-12 | mover Brent crude direction | up | up
+  ok  2026-11-12 | rt ERCOT HB_WEST local 2026-11-11 22:00 is UTC 2026-11-12 04:00 | 2026-11-12T04:00:00+00:00 | 2026-11-12T04:00:00+00:00
+  ok  2026-11-12 | rt ERCOT HB_WEST value at 2026-11-12 04:00Z | 926.42 | 926.42
+  ok  2026-11-12 | rt the highest of the day over the grids read | 926.42 HB_WEST ERCOT | 926.42 HB_WEST ERCOT
+  ok  2026-11-12 | fuel Henry Hub natural gas 2026-11-11 | 3.00 | 3.00
+  ok  2026-11-12 | fuel Henry Hub natural gas age in days | 1 | 1
+  ok  2026-11-12 | fuel WTI Cushing crude 2026-11-11 | 89.62 | 89.62
+  ok  2026-11-12 | fuel WTI Cushing crude age in days | 1 | 1
+  ok  2026-11-12 | fuel Brent crude 2026-11-11 | 92.14 | 92.14
+  ok  2026-11-12 | fuel Brent crude age in days | 1 | 1
+  BAD 2026-11-12 | demand peak 2026-11-11 | 488034 at 23:00 | 488341 at 23:00
+  ok  2026-11-12 | demand peak 2026-11-04 | 496093 at 22:00 | 496093 at 22:00
+  ok  2026-11-12 | demand peak is of the UTC day before the issue | 2026-11-11 | 2026-11-11
+  ok  2026-11-12 | demand percent on the week | -1.6 | -1.6
+  BAD 2026-11-12 | demand peak 2026-11-11 | 488034 at 23:00 | 488341 at 23:00
+  ok  2026-11-12 | demand peak 2026-11-04 | 496093 at 22:00 | 496093 at 22:00
+  ok  2026-11-12 | demand peak is of the UTC day before the issue | 2026-11-11 | 2026-11-11
+  ok  2026-11-12 | demand percent on the week | -1.6 | -1.6
