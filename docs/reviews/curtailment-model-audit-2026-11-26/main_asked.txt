@@ -1,0 +1,29 @@
+iso_curtailment_monthly caiso:ISO  since : 1547
+caiso_curtailment_daily caiso:ISO  since 2026-08-18T12:00:00Z: 602
+iso_curtailment_monthly caiso:ISO  since : 1547
+iso_curtailment_monthly caiso:ISO  since : 1547
+iso_curtailment_monthly caiso:ISO  since : 1547
+iso_curtailment_monthly caiso:ISO  since : 1547
+refused /rest/v1/catalogue 
+iso_curtailment_monthly spp:SPP  since : 1685
+spp_curtailment_daily spp:SPP  since 2026-08-18T12:00:00Z: 400
+iso_curtailment_monthly spp:SPP  since : 1685
+iso_curtailment_monthly spp:SPP  since : 1685
+iso_curtailment_monthly spp:SPP  since : 1685
+iso_curtailment_monthly spp:SPP  since : 1685
+refused /rest/v1/catalogue 
+iso_curtailment_monthly ercot:system  since : 0
+ercot_wind_solar_hsl_daily ercot:system  since 2026-08-18T12:00:00Z: 258
+refused /rest/v1/catalogue 
+refused /rest/v1/catalogue 
+refused /rest/v1/catalogue 
+iso_curtailment_monthly caiso:ISO  since : 1547
+caiso_curtailment_daily caiso:ISO  since 2026-08-18T12:00:00Z: 602
+iso_curtailment_monthly caiso:ISO  since : 1547
+iso_curtailment_monthly caiso:ISO  since : 1547
+iso_curtailment_monthly caiso:ISO  since : 1547
+iso_curtailment_monthly caiso:ISO  since : 1547
+refused /rest/v1/catalogue 
+refused /rest/v1/catalogue 
+refused /rest/v1/catalogue 
+refused /rest/v1/catalogue 

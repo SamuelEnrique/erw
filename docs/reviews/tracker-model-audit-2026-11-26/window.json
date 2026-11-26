@@ -1,0 +1,151 @@
+{
+ "by_month": {
+  "2025-01": {
+   "stories": 390,
+   "scored": 390,
+   "datacenter_power": 31,
+   "sent_to_extractor": 31
+  },
+  "2025-02": {
+   "stories": 363,
+   "scored": 363,
+   "datacenter_power": 26,
+   "sent_to_extractor": 26
+  },
+  "2025-03": {
+   "stories": 351,
+   "scored": 351,
+   "datacenter_power": 21,
+   "sent_to_extractor": 21
+  },
+  "2025-04": {
+   "stories": 383,
+   "scored": 383,
+   "datacenter_power": 46,
+   "sent_to_extractor": 46
+  },
+  "2025-05": {
+   "stories": 370,
+   "scored": 13,
+   "datacenter_power": 0,
+   "sent_to_extractor": 0
+  },
+  "2025-06": {
+   "stories": 369,
+   "scored": 0,
+   "datacenter_power": 0,
+   "sent_to_extractor": 0
+  },
+  "2025-07": {
+   "stories": 380,
+   "scored": 0,
+   "datacenter_power": 0,
+   "sent_to_extractor": 0
+  },
+  "2025-08": {
+   "stories": 368,
+   "scored": 0,
+   "datacenter_power": 0,
+   "sent_to_extractor": 0
+  },
+  "2025-09": {
+   "stories": 398,
+   "scored": 0,
+   "datacenter_power": 0,
+   "sent_to_extractor": 0
+  },
+  "2025-10": {
+   "stories": 650,
+   "scored": 265,
+   "datacenter_power": 4,
+   "sent_to_extractor": 4
+  },
+  "2025-11": {
+   "stories": 629,
+   "scored": 263,
+   "datacenter_power": 9,
+   "sent_to_extractor": 9
+  },
+  "2025-12": {
+   "stories": 656,
+   "scored": 262,
+   "datacenter_power": 8,
+   "sent_to_extractor": 8
+  },
+  "2026-01": {
+   "stories": 631,
+   "scored": 631,
+   "datacenter_power": 36,
+   "sent_to_extractor": 36
+  },
+  "2026-02": {
+   "stories": 652,
+   "scored": 652,
+   "datacenter_power": 30,
+   "sent_to_extractor": 30
+  },
+  "2026-03": {
+   "stories": 648,
+   "scored": 648,
+   "datacenter_power": 46,
+   "sent_to_extractor": 46
+  },
+  "2026-04": {
+   "stories": 636,
+   "scored": 636,
+   "datacenter_power": 41,
+   "sent_to_extractor": 41
+  },
+  "2026-05": {
+   "stories": 631,
+   "scored": 631,
+   "datacenter_power": 41,
+   "sent_to_extractor": 41
+  },
+  "2026-06": {
+   "stories": 636,
+   "scored": 393,
+   "datacenter_power": 22,
+   "sent_to_extractor": 22
+  },
+  "2026-07": {
+   "stories": 634,
+   "scored": 249,
+   "datacenter_power": 13,
+   "sent_to_extractor": 13
+  },
+  "2026-08": {
+   "stories": 549,
+   "scored": 221,
+   "datacenter_power": 7,
+   "sent_to_extractor": 7
+  },
+  "2026-09": {
+   "stories": 3567,
+   "scored": 3199,
+   "datacenter_power": 94,
+   "sent_to_extractor": 94
+  },
+  "2026-10": {
+   "stories": 11914,
+   "scored": 10279,
+   "datacenter_power": 522,
+   "sent_to_extractor": 522
+  },
+  "2026-11": {
+   "stories": 3371,
+   "scored": 1022,
+   "datacenter_power": 79,
+   "sent_to_extractor": 79
+  },
+  "2026-12": {
+   "stories": 1,
+   "scored": 1,
+   "datacenter_power": 0,
+   "sent_to_extractor": 0
+  }
+ },
+ "sent_total": 1076,
+ "sent_found": 1076,
+ "sent_since_2026_09": 695
+}
