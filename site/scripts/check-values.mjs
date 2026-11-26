@@ -1489,6 +1489,12 @@ async function main() {
       let pass = t !== undefined && t !== null && same && textOk;
       // session 9001: the conditions pages' forms join the text test on their own line (tests 315 and 1903 pin both ends of textOk)
       if (!pass && condOk && t !== undefined && t !== null && same) pass = true;
+      // chain 720 (session 10404): /forecast writes a megawatt of demand whole with commas (lib/predict.ts valueWords): an
+      // hour of tomorrow or of a past day, and an error in MW (the summary's mae; the column mae, position 6, of the
+      // scores' rows). A price and a percent keep two decimals and pass the rule above. Found by this check run on a
+      // build of the page with window B's files: 70 of tomorrow's 72 figures failed on "54,040" against 54039.5
+      const predictWhole = /^pf\|predict\/(?:[^|]+\|series\/demand\/(?:tomorrow\/|history\/|summary\/[^/]+\/mae\/)|scores\.json\|rows\/\d+\/6$)/.test(check) && text === Math.round(Number(raw)).toLocaleString("en-US");
+      if (!pass && predictWhole && t !== undefined && t !== null && same) pass = true;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
       // that day's, and a date the page writes beside the figure must be the same date
