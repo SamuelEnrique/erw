@@ -177,6 +177,8 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
 
 **Per well, month and product:** the base tax (Louisiana's oil rate from the completion date: 6.5 percent on or after July 1, 2025, else 12.5 percent, and 12.5 percent when no date is given; New Mexico's ad valorem rate from the district), the tax with the rules the reader ticks (one reduced rate per well and product, and the Texas low-producing oil credit beside it, as the calculator allows), and the regulatory fees apart.
 
+**Which month's rates.** Every month of a file is taxed at the rates the rules file holds today, whatever the month: Louisiana's gas rate (15.14 cents per Mcf) and horizontal well shares (80 percent for oil, 100 for gas) for July 2026 to June 2027, and New Mexico's table for April to August 2026. The month sets only the default price and the Texas certified price. A month outside those periods may have owed at another rate; the tab's lead says so (session 10207, `docs/reviews/severance-model-audit-2026-11-26.md`, finding 3). The past rates are not in the rules file.
+
 **"May qualify" flags.** A flag means the well's own numbers meet the rule's thresholds. The state still certifies or designates the well; the flag says so. Each flag cites its rule and states the numbers:
 
 | Rule | The test on the file's numbers |
