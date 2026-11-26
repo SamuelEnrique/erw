@@ -1,0 +1,60 @@
+
+== 2026-10-09: table eia_retail_sales_monthly; rule record
+  the issue prints NO chart section; the record exists (fact: Retail electricity sales in Utah, residential: 1,658,263 MWh in July 2026, the highest monthly value held since January 2001. The record until now was 1,484,757)
+
+== 2026-10-12: table eia_retail_electricity_prices; rule record
+  the issue prints NO chart section; the record exists (fact: Retail electricity price in Iowa, industrial: USD 99.90 per MWh in July 2026, the highest monthly value held since January 2001. The record until now was USD 91)
+
+== 2026-10-13: table eia_state_generation_monthly; rule record
+  printed fact equals the record's fact: True
+  record value 1028747.26 drawn as 1,028,747: in the sentence
+  record old_record 765381.4 drawn as 765,381: in the sentence
+  table now: 2026-07 = 1034450.83; record before it 765,381.40 in 2024-07; first month 2001-01; months held 308 (to 2026-08)
+  printed: value 1,028,747, record 765,381 in 2024-07; re-done: value 1,034,451, record 765,381 in 2024-07
+
+== 2026-10-14: table eia_retail_electricity_prices; rule record
+  printed fact equals the record's fact: True
+  record value 321.5 drawn as 321.5: in the sentence
+  record old_record 272.6 drawn as 272.6: in the sentence
+  table now: 2026-07 = 321.5; record before it 272.60 in 2006-06; first month 2001-01; months held 308 (to 2026-08)
+  printed: value 321.5, record 272.6 in 2006-06; re-done: value 321.5, record 272.6 in 2006-06
+
+== 2026-10-20: table eia_retail_sales_monthly; rule record
+  printed fact equals the record's fact: True
+  record value 1658262.63 drawn as 1,658,263: in the sentence
+  record old_record 1484756.88 drawn as 1,484,757: in the sentence
+  table now: 2026-07 = 1658262.63; record before it 1,484,756.88 in 2024-07; first month 2001-01; months held 308 (to 2026-08)
+  printed: value 1,658,263, record 1,484,757 in 2024-07; re-done: value 1,658,263, record 1,484,757 in 2024-07
+
+== 2026-10-21: table eia_retail_electricity_prices; rule record
+  printed fact equals the record's fact: True
+  record value 99.9 drawn as 99.90: in the sentence
+  record old_record 91.7 drawn as 91.70: in the sentence
+  table now: 2026-07 = 99.9; record before it 91.70 in 2022-07; first month 2001-01; months held 308 (to 2026-08)
+  printed: value 99.90, record 91.70 in 2022-07; re-done: value 99.90, record 91.70 in 2022-07
+
+== 2026-10-22: table eia861m_utility_sales_monthly; rule record
+  printed fact equals the record's fact: True
+  record value 87865.529 drawn as 87,866: in the sentence
+  record old_record 81361.103 drawn as 81,361: in the sentence
+  table eia861m_utility_sales_monthly is not on this machine: the figures rest on the record alone
+
+== 2026-10-23: table eia_padd_rail_barge_movements_monthly; rule record
+  printed fact equals the record's fact: True
+  record value 251.0 drawn as 251.0: in the sentence
+  record old_record 100.0 drawn as 100.0: in the sentence
+  table eia_padd_rail_barge_movements_monthly is not on this machine: the figures rest on the record alone
+
+== 2026-11-06: table onrr_revenue_monthly; rule record
+  printed fact equals the record's fact: True
+  record value -29834.4 drawn as -29,834: in the sentence
+  record old_record -1720.17 drawn as -1,720.2: in the sentence
+  table onrr_revenue_monthly is not on this machine: the figures rest on the record alone
+
+== 2026-11-12: table eia_state_generation_monthly; rule record
+  printed fact equals the record's fact: True
+  record value 1060503.7 drawn as 1,060,504: in the sentence
+  record old_record 765381.4 drawn as 765,381: in the sentence
+  the chart's own points: highest before the last 1,034,450.83 in 2026-07; record printed 765,381.40 (2024-07)  << A POINT DRAWN ON THE CHART BEATS THE PRINTED RECORD
+  table now: 2026-08 = 1060503.7; record before it 1,034,450.83 in 2026-07; first month 2001-01; months held 308 (to 2026-08)
+  printed: value 1,060,504, record 765,381 in 2024-07; re-done: value 1,060,504, record 1,034,451 in 2026-07

@@ -1,0 +1,11 @@
+refused http://localhost:9/rest/v1/series?select=value%2Cretrieved_at&table_name=eq.eia_fuel_spot_prices&entity=eq.eia%3Ahenry_hub&ts_utc=eq.2026-11-11T00%3A00%3A00Z&order=variable&limit=1&offset=0
+refused http://localhost:9/rest/v1/series?select=value%2Cretrieved_at&table_name=eq.eia_fuel_spot_prices&entity=eq.eia%3Ahenry_hub&ts_utc=eq.2026-11-10T00%3A00%3A00Z&order=variable&limit=1&offset=0
+refused http://localhost:9/rest/v1/series?select=value%2Cretrieved_at&table_name=eq.eia930_all_demand&entity=eq.eia930%3AUS48&variable=eq.demand_mw&ts_utc=eq.2026-11-11T23%3A00%3A00Z&limit=1&offset=0
+refused http://localhost:9/rest/v1/series?select=value%2Cretrieved_at&table_name=eq.eia930_all_demand&entity=eq.eia930%3AUS48&variable=eq.demand_mw&ts_utc=eq.2026-11-04T22%3A00%3A00Z&limit=1&offset=0
+refused http://localhost:9/rest/v1/series?select=value%2Cretrieved_at&table_name=eq.eia_fuel_spot_prices&entity=eq.eia%3Abrent&ts_utc=eq.2026-11-11T00%3A00%3A00Z&order=variable&limit=1&offset=0
+refused http://localhost:9/rest/v1/series?select=value%2Cretrieved_at&table_name=eq.eia_fuel_spot_prices&entity=eq.eia%3Abrent&ts_utc=eq.2026-11-10T00%3A00%3A00Z&order=variable&limit=1&offset=0
+refused http://localhost:9/rest/v1/series?select=value%2Cretrieved_at&table_name=eq.eia_fuel_spot_prices&entity=eq.eia%3Ahenry_hub&ts_utc=eq.2026-11-11T00%3A00%3A00Z&order=variable&limit=1&offset=0
+refused http://localhost:9/rest/v1/series?select=value%2Cretrieved_at&table_name=eq.eia_fuel_spot_prices&entity=eq.eia%3Awti_cushing&ts_utc=eq.2026-11-11T00%3A00%3A00Z&order=variable&limit=1&offset=0
+refused http://localhost:9/rest/v1/series?select=value%2Cretrieved_at&table_name=eq.eia_fuel_spot_prices&entity=eq.eia%3Abrent&ts_utc=eq.2026-11-11T00%3A00%3A00Z&order=variable&limit=1&offset=0
+refused http://localhost:9/rest/v1/series?select=value%2Cretrieved_at&table_name=eq.eia930_all_demand&entity=eq.eia930%3AUS48&variable=eq.demand_mw&ts_utc=eq.2026-11-11T23%3A00%3A00Z&limit=1&offset=0
+refused http://localhost:9/rest/v1/series?select=value%2Cretrieved_at&table_name=eq.eia930_all_demand&entity=eq.eia930%3AUS48&variable=eq.demand_mw&ts_utc=eq.2026-11-04T22%3A00%3A00Z&limit=1&offset=0
