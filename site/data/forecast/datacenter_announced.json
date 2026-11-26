@@ -1433,6 +1433,33 @@
    "incentive": "",
    "years": "It will have up to 2.25 million square feet of building space when completed, which is expected to be in 2029.",
    "note": "The county's own bulletin. Its split, USD 1.2 billion construction and 2.4 billion equipment (two thirds), is beside JLARC's 68.2 percent equipment share (forecast.md 13.5)."
+  },
+  {
+   "id": "wi_microsoft_mountpleasant2_2025",
+   "name": "Microsoft, second Mount Pleasant datacenter",
+   "company": "Microsoft",
+   "state": "wi",
+   "county": "Racine County",
+   "doc": {
+    "title": "Press Release: Gov. Evers, Microsoft Officials Announce New $4 Billion Investment in Mount Pleasant Datacenter",
+    "publisher": "State of Wisconsin (Office of the Governor, by its bulletin service)",
+    "date": "2025-09-18",
+    "url": "https://content.govdelivery.com/accounts/WIGOV/bulletins/3f327b5",
+    "request": 262
+   },
+   "mw": null,
+   "investment": {
+    "value": 4000000000,
+    "year": 2025,
+    "says": "$4 billion",
+    "qualifier": "approximately, by the end of 2028",
+    "quote": "the company has also committed to building a second datacenter, which will be similar in size and scale and in the same area at a cost of approximately $4 billion by the end of 2028"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "by the end of 2028",
+   "note": "The first datacenter (wi_microsoft_mountpleasant_2024) employed \"more than 3,000 construction workers during peak operations\"; the second \"is expected to require a similar workforce\", not a figure. Mount Pleasant is in Racine County (not named in the release)."
   }
  ]
 }
