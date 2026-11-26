@@ -251,12 +251,15 @@ async function setB(): Promise<Built> {
     const tot: V = { v: b.total, k: `bill|${s}|total`, u: "USD" };
     const wh: V = { v: (b.kwh * price.value) / 1000, k: `bill|${s}|wholesale|${price.ts_utc}`, u: "USD" };
     const sh: V = { v: (wh.v / b.total) * 100, k: `bill|${s}|share|${price.ts_utc}`, u: "%" };
-    return { price: row(M, price, "USD/MWh"), tot, wh, sh, kwh: b.kwh, month: mm.slice(0, 7), partial: !fm.length };
+    return { price: row(M, price, "USD/MWh"), tot, wh, sh, kwh: b.kwh, month: mm.slice(0, 7), partial: !fm.length, hub: hubName(ent) };
   };
   const [ca, tx] = [await w("CA"), await w("TX")];
+  // session 10229 (the problems audit, finding 1): the question names the price its key uses, the kWh it is applied to
+  // and the bill it is set against. Until then it asked "how many dollars are wholesale energy" and left the student to
+  // guess the hub, the weighting and the month: at the month's simple mean PG&E's answer is 26.55 USD, not 26.91.
   const billQ = (id: string, s: "CA" | "TX", x: Awaited<ReturnType<typeof w>>, who: string): Question => ({
     id, tables: [M],
-    q: `On the default ${who} bill of /learn/bill (${x.kwh} kWh), how many dollars are wholesale energy, and what share of the bill is that?`,
+    q: `On the default ${who} bill of /learn/bill (${x.kwh} kWh; taxes and local fees are not on it), how many dollars are wholesale energy, and what share of the bill is that? Value the kWh on the meter, with no losses added, at the load-weighted real-time price of the ${x.hub} in ${x.partial ? "the latest month held" : "the latest complete month"}, ${x.month}.`,
     answer: [x.wh, " of ", x.tot, ": ", x.sh, "."],
     line: [`${x.kwh} kWh x `, x.price, " / 1,000 = ", x.wh, "; ", x.wh, " / ", x.tot, " x 100 = ", x.sh],
     steps: [[`The bill: `, x.tot, ` (the tariff lines on /learn/bill).`], [`Wholesale: ${x.kwh} kWh x `, x.price, ` / 1,000 (${x.month}${x.partial ? ", a partial month" : ""}) = `, x.wh, "."], ["Share: ", x.wh, " / ", x.tot, " x 100 = ", x.sh, "."]],
