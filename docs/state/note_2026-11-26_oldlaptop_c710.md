@@ -59,6 +59,10 @@ Energy Research Warehouse (ERW). Chain file: `queue/done/710-night-26-november-o
 - The games (`play-model-audit-2026-11-26.md`): 8 findings; row 122; "What is stored" says a play's records cannot be joined, and they can (a privacy sentence).
 - The company database (`companies-model-audit-2026-11-26.md`): 7 findings; row 123; jointly owned plants counted twice in the default order.
 - The learning pages (`problems-model-audit-2026-11-26.md`): 7 findings; row 124; two keyed answers depend on a price the question does not name.
+- The signature explorers (`explore-model-audit-2026-11-26.md`): 7 findings; row 125; the peak premium's rise holds under every rule, its 2025 size runs 9.59 to 22.38 by the peak hours chosen.
+- The two report drafts (`reports-model-audit-2026-11-26.md`, saved from the agent's hand-back): 9 findings; row 126; the AI draft reads four regions and says seven.
+- The data and methods pages (`data-model-audit-2026-11-26.md`): 9 findings; row 127; Redivis holds 192 of 594 tables, not every table's history.
+- The chat over the warehouse (`ask-model-audit-2026-11-26.md`, no model called): 8 findings; row 128, and row 129 (`/terms` and `/privacy` words, Samuel's, not requested); the number check passes any figure whose digits sit in any source.
 - The same held-rows-in-public question gathered in the weekend page's tier 1 first item.
 
 ## What waits for Samuel, in plain words

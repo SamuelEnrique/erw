@@ -1,0 +1,16 @@
+Henry Hub: 7503 closes from 1997-01-07 to 2026-11-11; lowest 1.05 on 1998-12-04; other days at that low: ['1998-12-04']; close of 2026-10-06 3.03; ratio 2.886
+five lowest: [('1998-12-04', 1.05), ('1998-12-03', 1.21), ('2024-11-08', 1.21), ('2024-11-11', 1.21), ('2024-03-13', 1.25)]
+caiso series: [('caiso:ISO', 'curtailed_solar_local_mwh'), ('caiso:ISO', 'curtailed_solar_mwh'), ('caiso:ISO', 'curtailed_solar_system_mwh'), ('caiso:ISO', 'curtailed_wind_local_mwh'), ('caiso:ISO', 'curtailed_wind_mwh'), ('caiso:ISO', 'curtailed_wind_system_mwh'), ('caiso:ISO', 'share_curtailed_mwh'), ('caiso:ISO', 'share_curtailed_pct'), ('caiso:ISO', 'share_hours_held'), ('caiso:ISO', 'share_hours_in_month'), ('caiso:ISO', 'share_output_mwh'), ('caiso:ISO', 'solar_generation_mwh')]
+  caiso:ISO curtailed_solar_local_mwh: 57 months from 2022-01 to 2026-09; largest 1,177,287 in 2026-04
+  caiso:ISO curtailed_solar_mwh: 148 months from 2014-06 to 2026-09; largest 1,361,346 in 2026-05
+  caiso:ISO curtailed_solar_system_mwh: 57 months from 2022-01 to 2026-09; largest 285,572 in 2025-03
+  caiso:ISO curtailed_wind_local_mwh: 57 months from 2022-01 to 2026-09; largest 90,692 in 2026-04
+  caiso:ISO curtailed_wind_mwh: 148 months from 2014-06 to 2026-09; largest 111,303 in 2026-04
+  caiso:ISO curtailed_wind_system_mwh: 57 months from 2022-01 to 2026-09; largest 28,966 in 2026-03
+  caiso:ISO share_curtailed_mwh: 149 months from 2014-05 to 2026-09; largest 1,459,998 in 2026-04
+  caiso:ISO share_curtailed_pct: 149 months from 2014-05 to 2026-09; largest 16 in 2026-04
+  caiso:ISO share_hours_held: 149 months from 2014-05 to 2026-09; largest 744 in 2014-07
+  caiso:ISO share_hours_in_month: 149 months from 2014-05 to 2026-09; largest 744 in 2014-05
+  caiso:ISO share_output_mwh: 149 months from 2014-05 to 2026-09; largest 10,079,722 in 2026-06
+  caiso:ISO solar_generation_mwh: 139 months from 2014-05 to 2025-12; largest 6,904,875 in 2025-07
+  caiso:ISO wind_generation_mwh: 139 months from 2014-05 to 2025-12; largest 2,738,089 in 2024-05
