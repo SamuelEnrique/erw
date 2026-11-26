@@ -4,6 +4,16 @@ Energy Research Warehouse (ERW). Chain 750 (`queue/done/750-night-26-november-po
 
 How a row reads: what was done, what was seen, what should be seen, and whose it is. A site fault on a page no window owns tonight is fixed on a branch `wip/c750-<page>` with a test and is a row of `docs/state/landing_request_portable_w2.md`. A fault on a page another window owns tonight is a row here that names the window, and its code is not edited. A data fault is a row of `docs/state/data_requests_done_line.md`. A thing that is a choice is one line under "For Samuel's ruling" at the foot, with the page left as it is.
 
+## Where things stand (kept current)
+
+| | Count | Where |
+|---|---:|---|
+| Pages and views read in part B's form | 14 of the list's 14 begun; see each section | below |
+| Faults fixed on a branch, to be seen in a build | 3 (G1, C1, C2) | `wip/c750-grid-reliability`, `wip/c750-conditions`; rows 1 and 3 of `docs/state/landing_request_portable_w2.md` |
+| Faults filed for another window | 1 (two unlanded commits, L1) | row 2 of the same file |
+| Known to their owner, read again when repaired | 1 (the page files of 21 to 25 November, L2) | chain 701, part C |
+| For Samuel's ruling, the page left as it is | see the foot of this file | "For Samuel's ruling" |
+
 ## Part A: the rows that waited for a browser
 
 Rows 418 to 422 of `docs/state/browser_reads_wanted.md` were the only rows in state `wanted`. On 20 November their commits (the old laptop's sessions 8470, 8480 and 8490) were not in main. All three branch heads are in main now (`c7a96eea1`, `34c53f280`, `1e3a9e95b`), so each was read on production at 1280 and 390 px on 26 November about 11:20 UTC. All five are marked `seen` there, with the words read.
@@ -199,3 +209,12 @@ Read on production on 26 November at 11:42 UTC (`runs/c750/b10.mjs`). Both fault
 - Row 2 of `docs/state/landing_request_portable_w2.md` asks for the two commits, ready, to be seen. The branch is the desktop's second window's and is not touched here.
 
 Picture: `docs/reviews/browser-read-2026-11-26/events-covid-2020/covid-390-tables-showing.png` (390 px with the tables showing).
+
+## For Samuel's ruling (each with the page left as it is)
+
+1. **A reason on hover and a finger.** Why a strip or a cell is blank, why two figures differ, and what a colored cell holds are given as the browser's own tooltip. A mouse opens it; a finger at 390 px opens nothing. Seen on `/conditions` (the blank strips), `/congestion` (the hour-by-month cells, the operators not drawn), `/demand`, `/supply` and `/events` (blank cells and the figures' notes). The "i" marks and the chart cards do open on a tap. Default taken: nothing changed. The question: should a blank's reason open on a tap, as the "i" marks do?
+2. **`/congestion`, a thousands comma.** The lists print "1080.08 USD/MWh" beside "330,132". The gate's own check (`check-values`) pins USD/MWh "without a thousands comma". Default: left.
+3. **`/congestion`, "contingency Base Case".** CAISO's base case is printed as a contingency ("HUMBOLDT_IMP_NG (contingency Base Case)"); SPP's base case has no suffix. Default: left, as the operator's own word.
+4. **`/supply`, a year with a month left out.** The mix table is 1,325 px wide inside its frame (900 px otherwise), because "not held yet" does not wrap; on a phone two columns show at a time. The page itself keeps to 390 px. Default: left.
+5. **The tour's Digest stop** still quotes two headings the Digest page does not show ("Top of the industry", "ERW's Numbers Today"); the tour's check passes 101 of 103 for it. Standing since 20 November. Default: left.
+6. **`/conditions`, the alerts list.** On the branch every notice is a row (79 rows for CAISO's August 2020 heat wave). If the list should stay at 40, the page should say that it is cut and where it stops; one line either way.
