@@ -20,6 +20,8 @@ export type View = { years: Record<string, YearRow>; on: Record<string, OnRow>; 
 export type QueueFile = {
   table: string; built: string; vintage: string; input_retrieved: string; last_year: number; past: [number, number]; min_share: number; min_median: number;
   grids: string[]; techs: string[]; counts: Record<string, number>; views: Record<string, View>;
+  /** Session 7052: the builder's marks, "<grid>|<technology>": why a view's shares are the file's labels, not a count. */
+  not_comparable?: Record<string, string>;
 };
 
 export const GRIDS = [

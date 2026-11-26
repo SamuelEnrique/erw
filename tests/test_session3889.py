@@ -67,8 +67,11 @@ class TheSetIsOneBuild(unittest.TestCase):
         by = {r["id"]: r["mark"] for r in rows}
         for rid, _ in ids:
             self.assertEqual(by[rid], "built", rid)
-        self.assertEqual(by["isone-h-internal-hub-heat"], "held")
-        self.assertEqual(dict(kept)["isone-h-internal-hub-heat"], "only the held file has it")
+        # session 10000 (chain 701, data request 13 of docs/state/data_requests_five_tools.md): ISO-NE is held by its
+        # license, and a held grid's row with a value is no longer kept from the held file (it was the public file's
+        # copy of a held price); the other rows are chosen as before
+        self.assertNotIn("isone-h-internal-hub-heat", by)
+        self.assertNotIn("isone-h-internal-hub-heat", dict(kept))
 
     def test_the_hubs_prices_and_same_day_rows_are_still_chosen_alone(self):
         rows, _, kept, taken = self.twelfth_of_november()

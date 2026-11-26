@@ -46,7 +46,7 @@ export function DcCharts({ rows }: { rows: EntityRow[] }) {
   return (
     <ToolSection title="The tracker in charts" id="charts"
       note={<>The facilities the page&apos;s sums count (a named US state, not cancelled). A sum is of the MW the sources state, of any basis; the facilities that state none are counted in each hover and table. Hover a mark for its values.</>}>
-      <ChartFrame title="Planned and building MW, by the quarter first reported and by grid" note={<>Planned (announced, applied or permitted) and under construction; the grid a story names, else its queue&apos;s ISO, else its state&apos;s; the four grids with the most MW, the rest as other.</>}>
+      <ChartFrame title="Planned and building MW, by the quarter first reported and by grid" note={<>Planned (announced, applied or permitted) and under construction; the grid a story names, else its queue&apos;s ISO, else its state&apos;s; the four grids with the most MW, the rest as other. A quarter shows which stories were read as much as when a facility was announced: the news read is not even over time (the scope, above the list).</>}>
         {qs.length ? (
           <>
             <ul className="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-xs" aria-label="Legend">
@@ -85,7 +85,7 @@ export function DcCharts({ rows }: { rows: EntityRow[] }) {
           </>
         ) : <p className="text-sm text-muted" role="status">No counted facility is planned or building with a first report held.</p>}
       </ChartFrame>
-      <ChartFrame title="The operators with the most MW stated" note={<>The operator, else the developer; the MW its counted facilities state.</>}>
+      <ChartFrame title="The operators with the most MW stated" note={<>The operator a source names, as every view by operator reads it; a facility whose sources name only a developer is not here (decision 9); the MW its counted facilities state.</>}>
         {ops.length ? (
           <>
             <Bars chart="operator" unit=" MW" label="The operators with the most MW stated"

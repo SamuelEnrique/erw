@@ -41,6 +41,26 @@ const BAS = [
 // session 34: CAISO's own data, not EIA-930's
 const CAISO = { code: "ciso", entity: "caiso:ISO", label: "CAISO", tz: "Pacific", color: "var(--color-fuel-solar)" };
 const ISOS = ["CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "PJM", "SPP"];
+// Session 10212 (docs/reviews/storage-model-audit-2026-11-26.md, finding 1): EIA-930's Lower 48 battery series adds the
+// authorities that report a battery series, so it leaves out CAISO, NYISO and PJM, a third of the operating fleet's MW;
+// over the 30 days to 4 November 2026 CAISO's own output alone was 88 percent of it. The row and the line keep EIA's name.
+const LOWER48_WORDS = "The Lower 48 row is EIA-930's national total, which leaves out CAISO, NYISO and PJM: their batteries report no series to EIA-930, so it is not the whole country's battery output, and CAISO's own row in this table is not in it.";
+const LOWER48_LINE = "US Lower 48 (EIA-930, without CAISO, NYISO and PJM)";
+// Session 10212 (docs/reviews/storage-model-audit-2026-11-26.md, finding 2): the daily cycle's EIA-930 rows are written
+// only for a local day that ended at least 48 hours before the area's newest hour (warehouse/derived/storage_daily_cycle.py,
+// SETTLE_HOURS, session 7050), so the newest complete days are held back; CAISO's rows have no such wait. The hourly
+// charts draw those newest hours as EIA first posted them.
+const SETTLE_WORDS = "The EIA-930 rows show a day only once it ended at least 48 hours before EIA's newest hour, because EIA posts its newest hours early and fills them in later: the newest one or two complete days wait. CAISO's row has no such wait, so its day can be newer.";
+const NEWEST_WORDS = " These are EIA's newest hours, which it may still revise; the daily cycle below waits 48 hours for them.";
+// Session 10212 (docs/reviews/storage-model-audit-2026-11-26.md, finding 3): ISO-NE's and SPP's EIA-930 battery series
+// never go below zero (in the year to 4 November 2026: 0 of 8,832 and of 6,528 hours; SPP's are zero in 2,949), so their
+// lines carry no charging; docs/methods/eia930_all_storage.md says so, the page did not.
+const NO_CHARGE_WORDS = " ISO-NE's and SPP's lines never go below zero: they report no charging to EIA-930, so a zero hour there is not an idle battery.";
+// Session 10212 (docs/reviews/storage-model-audit-2026-11-26.md, finding 6): what two of the fleet's cells hold. Operating
+// is EIA-860M's operating sheet, statuses OP, SB, OS and OA (September 2026: 22 units, 508.0 MW on standby or out of
+// service); Retired is eia860m_retired_generators, the inventory's year and the year before (8 units, 338.5 MW, against
+// 50 units and 524.3 MW in EIA's full list of August 2026).
+const FLEET_STATUS_WORDS = "Operating is EIA's operating inventory, which also counts units on standby and units out of service (EIA's codes SB, OS and OA). Retired holds only the units retired in the inventory's year and the year before, not every battery ever retired.";
 const BUILD = ["under_construction", "planned"];
 
 function Tier({ tier }: { tier: "derived" | "source" }) {
@@ -223,7 +243,7 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
       <table className="w-full min-w-[640px] text-sm tabular-nums">
         <thead>
           <tr className="border-b border-rule text-left text-[11px] text-muted">
-            <th className="py-0.5 font-normal">Balancing authority, latest complete local day</th>
+            <th className="py-0.5 font-normal" data-day-head="1">Balancing authority, newest local day shown</th>
             <th className="pr-2 text-right font-normal" title={DISCHARGED_TITLE} data-discharged-title="1">Discharged MWh</th>
             <th className="pr-2 text-right font-normal">Charged MWh</th>
             <th className="pr-2 text-right font-normal">Out over in</th>
@@ -255,6 +275,7 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
           })}
         </tbody>
       </table>
+      <p className="mt-1 text-[11px] text-muted" data-lower48-note="1">{LOWER48_WORDS}</p>
       <p className="mt-1 text-[11px] text-muted" data-no-ratio-note="1">
         The Lower 48 row has no ratio: some balancing authorities report battery discharging to EIA and no charging ({named} on this day), so the national total is not a balanced account. Read each grid&apos;s own row.
       </p>
@@ -264,6 +285,7 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
         Out over in is the day&apos;s energy discharged over energy charged as reported, not a measured efficiency: charge
         carried across midnight moves it. Hours are local, the hour&apos;s start.
       </p>
+      <p className="mt-1 text-[11px] text-muted" data-settle-note="1">{SETTLE_WORDS}</p>
     </div>
   );
 }
@@ -340,11 +362,11 @@ async function FleetView() {
       ) : null}
 
       <ChartFrame title="The last 24 hours, by grid, MW"
-        note={<>EIA-930 net generation of battery storage: above zero the batteries are discharging, below zero charging. UTC hours{newest ? `, the 24 hours to ${new Date(newest).toISOString().slice(0, 16).replace("T", " ")} UTC, the newest EIA has published for every hour of its day` : ""}. The CAISO line is CAISO&apos;s own data (Today&apos;s Outlook, Total batteries), not EIA-930&apos;s. NYISO and PJM report no battery series.</>}>
+        note={<>EIA-930 net generation of battery storage: above zero the batteries are discharging, below zero charging.{NO_CHARGE_WORDS} UTC hours{newest ? `, the 24 hours to ${new Date(newest).toISOString().slice(0, 16).replace("T", " ")} UTC, the newest EIA has published for every hour of its day` : ""}.{NEWEST_WORDS} The CAISO line is CAISO&apos;s own data (Today&apos;s Outlook, Total batteries), not EIA-930&apos;s. NYISO and PJM report no battery series.</>}>
         {last24}
       </ChartFrame>
 
-      <ToolSection title="The fleet" note="Nameplate MW of every battery unit (prime mover BA) in EIA-860M, by EIA's status, and its Nameplate Energy Capacity (MWh) where EIA gives it: for operating and retired units, not for planned ones (EIA's Planned sheet has no such column). MWh is never estimated from MW.">
+      <ToolSection title="The fleet" note={`Nameplate MW of every battery unit (prime mover BA) in EIA-860M, by EIA's status, and its Nameplate Energy Capacity (MWh) where EIA gives it: for operating and retired units, not for planned ones (EIA's Planned sheet has no such column). MWh is never estimated from MW. ${FLEET_STATUS_WORDS}`}>
         {units.ok ? <Fleet units={units.data} /> : <NoData what="the fleet" reason={units.reason} />}
       </ToolSection>
 
@@ -368,12 +390,12 @@ async function FleetView() {
         {cycle.ok && cycle.data.length ? <Cycle rows={cycle.data} /> : <NoData what="the daily cycle" reason={cycle.ok ? "storage_daily_cycle returned no rows" : cycle.reason} />}
       </ToolSection>
 
-      <ToolSection title="Hour by hour, the last 30 days" note="EIA-930 net generation of battery storage, MW: above zero discharging, below zero charging. UTC hours. The CAISO line is CAISO's own data, not EIA-930's: Today's Outlook Total batteries (hybrid plants' batteries included), 5-minute values averaged to UTC hours.">
+      <ToolSection title="Hour by hour, the last 30 days" note={`EIA-930 net generation of battery storage, MW: above zero discharging, below zero charging.${NO_CHARGE_WORDS} UTC hours. The CAISO line is CAISO's own data, not EIA-930's: Today's Outlook Total batteries (hybrid plants' batteries included), 5-minute values averaged to UTC hours. The Lower 48 line is EIA-930's national total, which leaves out CAISO, NYISO and PJM.`}>
         {hourly.ok && newest ? (
           <>
             <LineChart lines={lines(newest - 30 * 86_400_000)} unit="MW" height={240} ariaLabel="Battery net generation by ISO, hourly, last 30 days" />
-            <LineChart lines={[{ label: "US Lower 48", color: "ink", gap: 3_600, points: us48.map((r) => ({ t: new Date(r.ts_utc).getTime() / 1000, v: r.value })) }]}
-              unit="MW" height={180} ariaLabel="US Lower 48 battery net generation, hourly, last 30 days" />
+            <LineChart lines={[{ label: LOWER48_LINE, color: "ink", gap: 3_600, points: us48.map((r) => ({ t: new Date(r.ts_utc).getTime() / 1000, v: r.value })) }]}
+              unit="MW" height={180} ariaLabel={`${LOWER48_LINE} battery net generation, hourly, last 30 days`} />
           </>
         ) : (
           <NoData what="the hourly series" reason={hourly.ok ? "eia930_all_storage returned no rows in the last 30 days" : hourly.reason} />

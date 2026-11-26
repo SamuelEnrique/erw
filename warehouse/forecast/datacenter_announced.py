@@ -21,6 +21,8 @@ ROWS = os.path.join(ROOT, "warehouse", "forecast", "datacenter_announced_rows.js
 OUT = os.path.join(ROOT, "site", "data", "forecast", "datacenter_announced.json")
 DEFLATOR = os.path.join(ROOT, "site", "data", "forecast", "deflator.json")
 READS = os.path.join(ROOT, "runs", "c740", "reads")
+if not os.path.isdir(READS):  # a worktree beside the window's folder: the reads stay in the window's own folder
+    READS = os.path.join(os.path.dirname(ROOT), "erw-w3", "runs", "c740", "reads")
 
 UNITS = {"billion": 1e9, "million": 1e6, "gigawatts": 1000.0, "gigawatt": 1000.0, "gw": 1000.0,
          "megawatts": 1.0, "megawatt": 1.0, "mw": 1.0}
@@ -98,7 +100,7 @@ def main(argv):
         if verify and r.get("incentive") and plain(r["incentive"]) not in text:
             raise SystemExit(f"{r['id']}.incentive: not found in the kept text")
 
-    inv_mw, perm_mw, perm_bn, cons_bn = [], [], [], []
+    inv_mw, perm_mw, perm_bn, cons_bn, mws = [], [], [], [], []
     for r in data["rows"]:
         inv = r.get("investment")
         inv25 = to_2025(inv["value"], inv["year"], index) if inv else None
@@ -107,6 +109,8 @@ def main(argv):
         perm = r.get("permanent_jobs")
         perm_ok = perm is not None and "kind not stated" not in perm["measure"]
         cons = r.get("construction_jobs")
+        if mw:
+            mws.append((r["id"], float(mw)))
         if inv25 and mw and not gen:
             inv_mw.append((r["id"], inv25 / mw / 1e6))
         if perm_ok and mw:
@@ -123,6 +127,8 @@ def main(argv):
         "computed": data["read"],
         "dollars": "2025 dollars by the GDP implicit price deflator of deflator.json; a 2026 announcement is taken as 2025 dollars",
         "defaults": {
+            "mw_stated": stat("MW as stated", "MW (each row's own measure)", mws,
+                              "the MW each document states, whatever it measures (IT capacity, critical IT, critical grid capacity, power required)"),
             "investment_per_mw": stat("Investment per MW", "USD million (2025) per MW", inv_mw,
                                       "investment over the MW the document states; rows whose investment includes power plants left out"),
             "permanent_jobs_per_mw": stat("Permanent jobs per MW", "jobs per MW", perm_mw,

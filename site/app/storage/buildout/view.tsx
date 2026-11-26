@@ -83,7 +83,7 @@ export async function BuildoutView({ sp }: { sp: Record<string, string | undefin
 
               <ToolSection title="Storage against solar">
                 <ChartFrame title="MWh of batteries per MW of solar, at each year's end"
-                  note="The ratio is the hours the grid's batteries could carry its whole solar fleet at nameplate output: at 1.0, they hold one hour of it.">
+                  note="The ratio is the batteries' energy counted in hours of the solar fleet's nameplate output: at 1.0, they hold as much energy as the solar fleet makes in one hour at nameplate. It compares energy only: in EIA's newest inventory the batteries' power is below the solar fleet's on every grid, so they could neither take in nor give back that output at its rate.">
                   <SolarLine v={v} />
                 </ChartFrame>
                 <YearTable v={v} />
@@ -122,7 +122,7 @@ export async function BuildoutView({ sp }: { sp: Record<string, string | undefin
                     </p>
                     <p>
                       The years are rebuilt from the one inventory held, by each unit&apos;s first operating month. A battery retired before {Number(v.newest.slice(0, 4)) - 1} is in
-                      no year, and a unit shows its present MW and MWh in every year it operated, so early years are slightly understated.
+                      no year, and a unit shows its present MW and MWh in every year it operated, so early years are understated: by EIA&apos;s full list of retired batteries, the United States&apos; end of 2019 lacks about a tenth of the MW then operating and the end of 2015 nearly a third.
                     </p>
                   </div>
                 </Fold>
