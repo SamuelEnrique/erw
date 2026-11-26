@@ -12,6 +12,7 @@ import { Section } from "@/components/Section";
 import { series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
+import { LICENSE_NEEDED, licenseHeldRow } from "@/lib/license";  // session 10232: the held regions are named, not "not held"
 
 // Session 62: the flagship analysis, a draft, internal only. "Where the next gigawatts for AI can come from": one row of
 // measures per ISO region (ai_power_regions, warehouse/derived/ai_power_regions.py; methods in
@@ -100,6 +101,11 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
     days: get(g.id, "interchange_days"), screened: get(g.id, "screened_pair_days"),
     evName: (() => { const f = all.find((x) => x.entity === `iso:${g.id}` && x.variable.startsWith("event_largest_is_")); return f ? EVENTS[f.variable.slice(17)] ?? f.variable.slice(17) : ""; })(),
   }));
+  // session 10232 (docs/reviews/reports-model-audit-2026-11-26.md, finding 1): from 21 October 2026 ai_power_regions is
+  // held by grid (lib/license.ts), and the read leaves out ISO-NE's, MISO's and NYISO's rows; the page names them, as the
+  // shape-premium draft names its held hubs, and draws "license needed" where it drew "not held" for them
+  const HELD = REGIONS.filter((g) => licenseHeldRow(T, `iso:${g.id}`));
+  const isHeld = (id: string) => HELD.some((g) => g.id === id);
   if (!R.some((r) => r.rt)) {
     return <div className="max-w-3xl"><h1 className="mb-3 text-3xl">Draft: where the next gigawatts for AI can come from</h1><p className="text-sm text-muted">The table {T} could not be read.</p></div>;
   }
@@ -130,6 +136,13 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         load would pay for energy, how much carbon it would carry, how stressed the grid is, how long new supply takes to connect, and how much the
         region leans on its neighbors. Every number below is a row of the table {T}, read from Supabase with its check key.
       </p>
+      {HELD.length ? (
+        <p className="mb-4 text-sm text-muted" data-held-regions>
+          {HELD.map((g) => g.name).join(", ")}: {LICENSE_NEEDED} (held from 21 October 2026, lib/license.ts), every measure of theirs. Where the
+          words below say seven, the findings, the rankings and the tables hold the other {REGIONS.length - HELD.length}, and PJM has no cost or
+          price-stress measure, so cost is compared across {R.filter((r) => r.cost).length}.
+        </p>
+      ) : null}
 
       <Section title="Five findings">
         <ol className="max-w-3xl list-decimal space-y-2 pl-5 text-sm">
@@ -223,7 +236,10 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
           <table className="text-sm">
             <thead><tr className="border-b border-ink text-left text-xs text-muted"><th className="py-1 pr-3">Region</th><th className="py-1 pr-3 text-right">Hours at or above USD 200/MWh</th><th className="py-1 pr-3 text-right">At or above 1,000</th><th className="py-1 pr-3 text-right">Highest hour, USD/MWh</th><th className="py-1 pr-3 text-right">Hours held</th><th className="py-1 pr-3 text-right">Largest studied event, percent of normal demand</th></tr></thead>
             <tbody>
-              {R.map((r) => (
+              {R.map((r) => isHeld(r.id) ? (
+                <tr key={r.id} className="border-b border-rule"><td className="py-1 pr-3">{r.name}</td>
+                  <td colSpan={5} className="py-1 pr-3 text-right text-muted">{LICENSE_NEEDED}</td></tr>
+              ) : (
                 <tr key={r.id} className="border-b border-rule"><td className="py-1 pr-3">{r.name}</td>
                   <td className="py-1 pr-3 text-right tabular-nums"><N x={r.s200} /></td><td className="py-1 pr-3 text-right tabular-nums"><N x={r.s1000} /></td>
                   <td className="py-1 pr-3 text-right tabular-nums"><N x={r.maxh} /></td><td className="py-1 pr-3 text-right tabular-nums"><N x={r.seen} /></td>
@@ -270,8 +286,8 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         <p className="mt-3 max-w-3xl text-sm">
           Berkeley Lab&apos;s Queued Up data hold every generation and storage request in the seven regions through 2025. {f0.name} turned requests into operating
           plants fastest, a median <N x={f0.yrs} /> years; {f1.name} slowest, <N x={f1.yrs} /> years. Most requests never get built: of the requests made from 2000 to
-          2019, {done[0].name} completed <N x={done[0].comp} /> percent and {done.at(-1)!.name} <N x={done.at(-1)!.comp} /> percent. ISO-NE has no median here: Berkeley Lab
-          gives no online dates for its completed requests.
+          2019, {done[0].name} completed <N x={done[0].comp} /> percent and {done.at(-1)!.name} <N x={done.at(-1)!.comp} /> percent.
+          {isHeld("isone") ? null : <> ISO-NE has no median here: Berkeley Lab gives no online dates for its completed requests.</>}
         </p>
         <p className="mt-2 max-w-3xl text-sm">
           The ISOs&apos; own queues, retrieved in September 2026, show the same order of size as Berkeley Lab&apos;s end-2025 counts, and differ where requests were added,
@@ -324,13 +340,13 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         <p className="mb-2 max-w-3xl text-sm">
           No single number says where a gigawatt should go: a buyer who cares most about cost, carbon or speed would choose differently. The table counts, for
           each region, how many of the five measures (cost, carbon, scarcity hours, time to connect, imports) put it in the better half of the regions held.
-          It is not a score: the measures are not weighted, and a region missing a measure (PJM&apos;s cost and stress, ISO-NE&apos;s time to connect) is counted only on
-          what it has.
+          It is not a score: the measures are not weighted, and a region missing a measure (PJM&apos;s cost and stress{isHeld("isone") ? "" : ", ISO-NE's time to connect"}) is counted only on
+          what it has.{HELD.length ? <> {HELD.map((g) => g.name).join(", ")}: {LICENSE_NEEDED}, so not counted.</> : null}
         </p>
         <div className="overflow-x-auto">
           <table className="text-sm">
             <thead><tr className="border-b border-ink text-left text-xs text-muted"><th className="py-1 pr-3">Region</th><th className="py-1 pr-3 text-right">Better half on</th><th className="py-1 pr-3 text-right">Of measures held</th></tr></thead>
-            <tbody>{tally.map((t) => <tr key={t.r.id} className="border-b border-rule"><td className="py-1 pr-3">{t.r.name}</td><td className="py-1 pr-3 text-right tabular-nums">{t.n}</td><td className="py-1 pr-3 text-right tabular-nums">{t.of}</td></tr>)}</tbody>
+            <tbody>{tally.map((t) => <tr key={t.r.id} className="border-b border-rule"><td className="py-1 pr-3">{t.r.name}</td>{isHeld(t.r.id) ? <td colSpan={2} className="py-1 pr-3 text-right text-muted">{LICENSE_NEEDED}</td> : <><td className="py-1 pr-3 text-right tabular-nums">{t.n}</td><td className="py-1 pr-3 text-right tabular-nums">{t.of}</td></>}</tr>)}</tbody>
           </table>
         </div>
         <p className="mt-3 max-w-3xl text-sm">
