@@ -44,7 +44,7 @@ export const SECTORS: { key: Sector; label: string }[] = [
   { key: "industrial", label: "Industry" }, { key: "transportation", label: "Transportation" }, { key: "all", label: "All sectors" },
 ];
 export const TECH_WORDS: Record<string, string> = {
-  natural_gas: "Natural gas", coal: "Coal", nuclear: "Nuclear", hydro: "Hydro (with pumped storage)", wind: "Wind", solar: "Solar", storage: "Batteries and pumped storage",
+  natural_gas: "Natural gas", coal: "Coal", nuclear: "Nuclear", hydro: "Hydro (pumped storage is under batteries)", wind: "Wind", solar: "Solar", storage: "Batteries and pumped storage",
   petroleum: "Petroleum", biomass: "Biomass", geothermal: "Geothermal", other: "Other",
 };
 export const CO2_WORDS: Record<string, string> = { all: "All fuels", coal: "Coal", natural_gas: "Natural gas", petroleum: "Petroleum", other: "Other" };
