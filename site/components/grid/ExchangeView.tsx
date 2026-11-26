@@ -14,7 +14,7 @@ import { ChartFrame, HeadlineNumber, HeadlineRow, SourceLine, ToolSection, ToolT
 import { HEADLINE, MEASURES, TABLE as SUPPLY_TABLE, supplyOf } from "@/lib/basupply";
 import { shown } from "@/lib/format";
 import { GRID_CHOICES, gridHref, type GridChoice } from "@/lib/gridtool";
-import { fetchHourly, netExports, pickSnapshot, tiesAt, topExporter } from "@/lib/network";
+import { TIE_SIDE_WORDS, fetchHourly, netExports, pickSnapshot, tiesAt, topExporter } from "@/lib/network";
 import { completeHour } from "@/lib/networkV3";
 import { attempt } from "@/lib/supabase";
 
@@ -43,7 +43,7 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
           The Lower 48 holds these seven grids and the other balancing authorities of the lower 48 states; what they trade with one another cancels inside it, so its own exchange is with Canada and Mexico alone. Here is what each of the seven grids sent out or took in over its ties in the hour starting {hourName(hour)}.
           {top ? <> The largest net exporter among all {snap.nodes.length} balancing authorities was {nameOf(top.id)}, with <Num check={`net|topexport|${hour}`} raw={top.mw}>{shown(top.mw)}</Num> MW.</> : null}
         </p>
-        <ToolSection title="The seven grids, that hour" note="Net export, MW: the sum of a grid's reporting ties, signed from its side. A negative number is a net import.">
+        <ToolSection title="The seven grids, that hour" note={`Net export, MW: the sum of a grid's reporting ties, signed from its side, ${TIE_SIDE_WORDS}. A negative number is a net import.`}>
           <ToolTable caption="Net export of the seven grids in the hour" minWidth={360} head={["Grid", "Net export, MW", "Ties reporting"]}
             rows={isos.map((g) => ({ key: g.slug, cells: [
               <Link key="g" href={gridHref(g.slug, "gravity")}>{g.label}</Link>,
@@ -84,13 +84,13 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
       </p>
       {ties.length ? (
         <HeadlineRow>
-          <HeadlineNumber label={out ? "Net export" : "Net import"} unit="MW" value={netNum} note="The sum of its reporting ties in the hour." />
+          <HeadlineNumber label={out ? "Net export" : "Net import"} unit="MW" value={netNum} note={`The sum of its reporting ties in the hour, ${TIE_SIDE_WORDS}.`} />
           <HeadlineNumber label="Ties reporting" value={<Num check={`net|ties|${ba}|${hour}`} raw={ties.length}>{shown(ties.length)}</Num>} note={`Neighbours with a flow in the hour starting ${hourName(hour)}.`} />
           <HeadlineNumber label="Largest flow" unit="MW" value={maxFlow !== null ? <Num check={`net|maxflow|${ba}|${hour}`} raw={maxFlow}>{shown(maxFlow)}</Num> : null} note={`Either way, with ${nameOf(ties[0].other)}.`} />
         </HeadlineRow>
       ) : null}
 
-      <ToolSection title="Each neighbour, that hour" note="Flow over the tie, MW, signed from this grid's side: a positive number left the grid, a negative one came in.">
+      <ToolSection title="Each neighbour, that hour" note={`Flow over the tie, MW, signed from this grid's side (a positive number left the grid, a negative one came in), ${TIE_SIDE_WORDS}.`}>
         {ties.length ? (
           <ToolTable caption={`${grid.label}'s ties in the hour`} minWidth={420} head={["Neighbour", "Flow, MW", "Direction"]}
             rows={ties.map((t) => ({ key: t.other, cells: [

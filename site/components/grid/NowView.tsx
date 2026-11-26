@@ -18,7 +18,7 @@ import { shown } from "@/lib/format";
 import { FUELS, fuelName, fuelOf, type GridData } from "@/lib/grid";
 import { gridHref, zoneWords, type GridChoice } from "@/lib/gridtool";
 import type { GridConfig } from "@/lib/markdown";
-import { fetchHourly, pickSnapshot, tiesAt } from "@/lib/network";
+import { TIE_SIDE_WORDS, fetchHourly, pickSnapshot, tiesAt } from "@/lib/network";
 import { completeHour } from "@/lib/networkV3";
 import { attempt } from "@/lib/supabase";
 import { GridYesterday } from "./Conditions";
@@ -88,7 +88,7 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
         ) : null}
         {ties.length ? (
           <> Over its {ties.length} reporting ties it {net > 0 ? "sent out more than it took in" : net < 0 ? "took in more than it sent out" : "sent out as much as it took in"}: a net {out ? "export" : "import"} of{" "}
-            {netNum} MW in the hour starting {hourOf(xHour, tz)}, {lagNum} hours before the latest hourly refresh of EIA-930&apos;s interchange ({`${snap.built.slice(0, 16).replace("T", " ")} UTC`}), which EIA publishes about two days late.</>
+            {netNum} MW in the hour starting {hourOf(xHour, tz)}, {lagNum} hours before the latest hourly refresh of EIA-930&apos;s interchange ({`${snap.built.slice(0, 16).replace("T", " ")} UTC`}), which EIA publishes about two days late. The sum reads {TIE_SIDE_WORDS}.</>
         ) : null}
         {cg ? <> Each MWh it generated carried <N t={CARBON} r={cg} /> kg of CO2 in the hour starting {hourOf(cg.ts_utc, tz)}, the latest EIA has estimated.</> : null}
       </p>
