@@ -48,6 +48,7 @@
   "wy_39_15_105": {"title": "Wyoming Statutes Title 39: 39-15-105(a)(viii)(S), sales tax exemptions for a data processing services center (with the definition in 39-15-101(a)(xliv)); 39-11-101, taxable value by class", "url": "https://wyoleg.gov/statutes/compress/title39.pdf", "read": "2026-11-26", "request": 303},
   "il_dor_excise": {"title": "Illinois Department of Revenue, Excise Tax Rates and Fees (the Electricity Excise Tax)", "url": "https://tax.illinois.gov/research/taxrates/excise.html", "read": "2026-11-26", "request": 307},
   "il_dceo": {"title": "Illinois Department of Commerce and Economic Opportunity, Data Center Investment Tax Exemptions and Credits (with its 2025 Data Centers Annual Report, request 248)", "url": "https://dceo.illinois.gov/expandrelocate/incentives/datacenters.html", "read": "2026-11-26", "request": 247},
+  "ar_aacd_2025": {"title": "Arkansas Department of Finance and Administration, Assessment Coordination Division, Annual Report 2025", "url": "https://www.dfa.arkansas.gov/wp-content/uploads/AACD_AnnualReport_2025.pdf", "read": "2026-11-26", "request": 337},
   "al_dor_adval": {"title": "Alabama Department of Revenue, Property (Ad Valorem) Tax", "url": "https://www.revenue.alabama.gov/tax-types/property-ad-valorem-tax/", "read": "2026-11-26", "request": 334},
   "ms_dor_appraisal": {"title": "Mississippi Department of Revenue, Local Property Appraisal", "url": "https://www.dor.ms.gov/county-services/local-property-appraisal", "read": "2026-11-26", "request": 335},
   "mo_137_115": {"title": "Missouri Revised Statutes 137.115, Real and personal property, assessment", "url": "https://revisor.mo.gov/main/OneSection.aspx?section=137.115", "read": "2026-11-26", "request": 330},
@@ -371,6 +372,9 @@
   },
   "ar": {
    "name": "Arkansas",
+   "property": {"building_ratio": 0.2, "equipment_ratio": 0.2, "cite": "ar_aacd_2025",
+    "quote": "Since at least 1955, County Assessors generally calculate taxes based on twenty percent of the current market value of the property",
+    "tip": "Arkansas (A.C.A. 26-26-303, as the Assessment Coordination Division's 2025 annual report states it): county assessors calculate taxes on twenty percent of current market value, times the district's millage, for real and personal property. The tool assesses the building and the equipment at 20 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate."},
    "sales_exemption": {
     "cite": "ar_act548_2025", "covers": ["equipment", "construction"], "min_investment_usd": 100000000, "min_jobs": 0, "rate_part": "state",
     "quote": "($100,000,000) at the facility no later than five (5) years",
