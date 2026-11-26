@@ -33,6 +33,9 @@ NEW = [
     ("site", "app", "forecast", "rows", "python", "route.ts"), ("site", "app", "forecast", "rows", "stata", "route.ts"),
     ("site", "app", "forecast", "scores", "route.ts"), ("site", "app", "forecast", "scores", "reader.ts"),
     ("site", "app", "forecast", "scores", "python", "route.ts"), ("site", "app", "forecast", "scores", "stata", "route.ts"),
+    ("site", "app", "forecast", "ledger", "route.ts"), ("site", "app", "forecast", "ledger", "reader.ts"),
+    ("site", "app", "forecast", "ledger", "python", "route.ts"), ("site", "app", "forecast", "ledger", "stata", "route.ts"),
+    ("site", "scripts", "check-forecast-files.mjs"),
     ("site", "scripts", "test-forecast.mjs"),
 ]
 
@@ -122,6 +125,34 @@ class TheSource(unittest.TestCase):
         config = src("site", "next.config.ts")
         for route in ("/forecast", "/forecast/rows", "/forecast/scores"):
             self.assertIn(f'"{route}": ["./data/predict/*.json"]', config)
+        self.assertIn('"/forecast/ledger": ["./data/predict/*.csv"]', config)
+
+    def test_the_ledger_is_served_as_written(self):
+        # the contract's change of 26 November 2026: every forecast as made on its day, never rewritten. The route hands
+        # the file on as it is, and only the two ledgers can be named
+        files = src("site", "lib", "predictfiles.ts")
+        self.assertIn('series === "price" ? "ledger_price.csv" : series === "demand" ? "ledger_demand.csv" : null', files)
+        route = src("site", "app", "forecast", "ledger", "route.ts")
+        self.assertIn("return new Response(text, {", route)
+        reader = src("site", "app", "forecast", "ledger", "reader.ts")
+        for col in ("series", "place", "target_day", "ts_utc", "local_hour", "made_utc", "inputs_through_utc", "horizon_days", "method", "erw", "lo", "hi"):
+            self.assertIn(f'"{col}"', reader)
+
+    def test_a_long_reason_is_a_hover_not_a_cell(self):
+        # found at a phone's width on the real files: "not published: no operator publishes a forecast of its day-ahead
+        # price" in every operator cell made the price tables 1,794 px wide
+        view = src("site", "app", "forecast", "view.tsx")
+        self.assertNotRegex(view, r'words=\{[^}]*operator_held \?\?')
+        self.assertGreaterEqual(view.count("shortHeld("), 6)
+
+    def test_the_month_table_holds_every_month(self):
+        view = src("site", "app", "forecast", "view.tsx")
+        # a long table scrolls inside a frame of its own height; nothing folds its rows away
+        self.assertIn("tall={keys.length > 30}", view)
+        self.assertIn("max-h-[30rem] overflow-y-auto", view)
+        table = view[view.index("function ScoreTable("):view.index("/** The report card of the places chosen")]
+        self.assertNotIn("<details", table)
+        self.assertNotRegex(table, r"\.slice\(|\.filter\(")
 
     def test_the_contracts_examples_show_nothing(self):
         d = os.path.join(ROOT, "docs", "state", "page_files_predict_examples")

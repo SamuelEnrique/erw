@@ -22,11 +22,11 @@ import { ChartFrame, HeadlineNumber, InputPanel, SourceLine, ToolHeader, ToolSec
 import { scrollRegion } from "@/lib/cells";
 import { pfKey } from "@/lib/pagefile";
 import {
-  FOUR, LABEL, METRIC_WORDS, NONE, SERIES, SERIES_WORDS, blankWhy, blankWords, dayScore, dayWords, daysOf, defaultDay, extreme, historyOf, hourWords, hrefOf, isShown,
-  localWords, methodShort, methodWhat, methodWords, methodsOf, metricDefault, metricOf, metricUnit, monthWords, orderedKeys, placeWords, queryOf, rowHours, scoreWords, scoresOf, tomorrowOf, utcWords, valueWords,
+  CUT_WORDS, FOUR, LABEL, METRIC_WORDS, NONE, OTHER_CUTS, SERIES, SERIES_WORDS, blankWhy, blankWords, dayScore, dayWords, daysOf, defaultDay, eventHref, extreme, historyOf, hourWords, hrefOf, isShown,
+  localWords, methodShort, methodWhat, methodWords, methodsOf, metricDefault, metricOf, metricUnit, monthWords, orderedKeys, placeWords, queryOf, rowHours, scoreWords, scoresOf, shortHeld, tomorrowOf, utcWords, valueWords,
   type Hour, type IndexPlace, type Metric, type PlaceFile, type PlaceSeries, type PredictIndex, type Query, type Score, type ScoresFile, type SeriesKey,
 } from "@/lib/predict";
-import { predictIndex, predictPlace, predictScores } from "@/lib/predictfiles";
+import { predictIndex, predictLedger, predictPlace, predictScores } from "@/lib/predictfiles";
 
 type Raw = Record<string, string | string[] | undefined>;
 type Slot = { mark: "a" | "b"; place: IndexPlace; file: PlaceFile | null };
@@ -59,7 +59,7 @@ function PlaceHead({ slot, s, index }: { slot: Slot; s: SeriesKey; index: Predic
   const ser = slot.file?.series?.[s];
   const shown = isShown(slot.file, ser);
   const why = shown && ser
-    ? `${LABEL} for ${dayWords(ser.target_day)}: made ${localWords(ser.made_utc, slot.place.time) || "at an hour the file does not say"} (${utcWords(ser.made_utc)}), from the place's own figures through ${localWords(ser.inputs_through_utc, slot.place.time) || "an hour the file does not say"}. Method: ${methodWords(ser.method ?? "not said")}, last fit ${ser.fit_day ?? "on a day the file does not say"}.${index.made_rule ? ` ${index.made_rule}` : ""}${index.choice_rule ? ` ${index.choice_rule}` : ""}`
+    ? `${LABEL} for ${dayWords(ser.target_day)}: made ${localWords(ser.made_utc, slot.place.time) || "at an hour the file does not say"} (${utcWords(ser.made_utc)}), from the place's own figures through ${localWords(ser.inputs_through_utc, slot.place.time) || "an hour the file does not say"}${typeof ser.horizon_days === "number" ? `, ${ser.horizon_days} days before the day forecast (2 is the day-ahead forecast as the method note defines it; more when the warehouse's series is behind)` : ""}. Method: ${methodWords(ser.method ?? "not said")}, last fit ${ser.fit_day ?? "on a day the file does not say"}.${index.made_rule ? ` ${index.made_rule}` : ""}${index.choice_rule ? ` ${index.choice_rule}` : ""}`
     : blankWhy(ser ?? slot.place.series?.[s], slot.file?.example === true || index.example === true);
   return (
     <h3 className="mb-2 font-serif text-xl text-accent" data-fc-place={slot.mark}>
@@ -97,6 +97,15 @@ function Tomorrow({ slot, s, index, scores }: { slot: Slot; s: SeriesKey; index:
     );
   }
   const hours = tomorrowOf(ser);
+  if (!hours.some((x) => x.erw !== null)) {
+    // a shown series whose target day holds no forecast (the contract's `tomorrow_held`): the blank says why
+    return (
+      <div className="min-w-0" data-fc-tomorrow={slot.mark} data-fc-shown="0">
+        <PlaceHead slot={slot} s={s} index={index} />
+        <Blank what={`${LABEL} of ${SERIES_WORDS[s].toLowerCase()}, ${placeWords(slot.place)}${ser.target_day ? `, ${dayWords(ser.target_day)}` : ""}`} words={shortHeld(ser.tomorrow_held)} why={ser.tomorrow_held ?? "The file holds no forecast for the day forecast now, and does not say why."} k={`tomorrow|${k}`} />
+      </div>
+    );
+  }
   const unit = ser.unit, tz = slot.place.time, file = fileOf(slot);
   const col = (n: string) => ser.tomorrow_columns.indexOf(n);
   const src = sourceWords(slot, ser, s, scores);
@@ -116,19 +125,19 @@ function Tomorrow({ slot, s, index, scores }: { slot: Slot; s: SeriesKey; index:
           value={top ? fig(top.hour, "erw", top.v, "top", `The highest hour of the ${LABEL}, the hour beginning ${localWords(top.hour.ts, tz)}.`) : none("No hour of the forecast is held.")}
           note={top ? `${LABEL}, ${top.hour.label}` : undefined} />
         <HeadlineNumber label="Operator, same hour" unit={opAtTop !== null ? unit : undefined}
-          value={top && opAtTop !== null ? fig(top.hour, "operator", opAtTop, "optop", `The operator's own forecast for the hour beginning ${localWords(top.hour.ts, tz)}.`) : none(opWhy, ser.operator_held ?? "not held")}
+          value={top && opAtTop !== null ? fig(top.hour, "operator", opAtTop, "optop", `The operator's own forecast for the hour beginning ${localWords(top.hour.ts, tz)}.`) : none(opWhy, shortHeld(ser.operator_held))}
           note={top && opAtTop !== null ? `${OPERATOR}, ${top.hour.label}` : undefined} />
         <HeadlineNumber label="Lowest hour" unit={low ? unit : undefined}
           value={low ? fig(low.hour, "erw", low.v, "low", `The lowest hour of the ${LABEL}, the hour beginning ${localWords(low.hour.ts, tz)}.`) : none("No hour of the forecast is held.")}
           note={low ? `${LABEL}, ${low.hour.label}` : undefined} />
       </div>
       <ChartFrame title={`${LABEL} of ${SERIES_WORDS[s].toLowerCase()}: ${dayWords(ser.target_day)}`} legend={band ? [BAND] : undefined}
-        tip={<> <Hint words="source" why={src} />{band ? <>, <Hint words="band" why={`${ser.band ?? index.band_rule ?? "The band's rule is not in the file."}${ser.band_coverage_pct !== null && ser.band_coverage_pct !== undefined ? ` Of the past hours scored, ${ser.band_coverage_pct}% fell inside their band.` : ""}`} /></> : null}{hasOp ? null : <>, <Hint words={`operator: ${ser.operator_held ?? "not held"}`} why={opWhy} /></>}</>}>
+        tip={<> <Hint words="source" why={src} />{band ? <>, <Hint words="band" why={`${ser.band ?? index.band_rule ?? "The band's rule is not in the file."}${ser.band_coverage_pct !== null && ser.band_coverage_pct !== undefined ? ` Of the past hours scored, ${ser.band_coverage_pct}% fell inside their band.` : ""}`} /></> : null}{hasOp ? null : <>, <Hint words={`operator: ${shortHeld(ser.operator_held)}`} why={opWhy} /></>}</>}>
         <CategoryChart id={`fc-tomorrow-${slot.mark}`} x={hours.map((h) => h.label)} series={chartSeries(hours, false)} unit={unit} zero={false} height={280} every={6} band={band} notes={hourNotes(hours, unit, tz)}
           label={`${LABEL} of ${SERIES_WORDS[s].toLowerCase()} for ${placeWords(slot.place)}, ${dayWords(ser.target_day)}, by the hour of the place's clock (${tz})${hasOp ? `, with the operator's own forecast` : ""}`} />
       </ChartFrame>
       <details className="mb-6 border-b border-rule py-2" data-fc-hours-fold={slot.mark}>
-        <summary className="cursor-pointer text-sm">Hour by hour, {dayWords(ser.target_day)}</summary>
+        <summary className="cursor-pointer py-1 text-sm">Hour by hour, {dayWords(ser.target_day)}</summary>
         <div className="pt-2">
           <ToolTable minWidth={400} caption={`${LABEL} of ${SERIES_WORDS[s].toLowerCase()} for ${placeWords(slot.place)}, ${dayWords(ser.target_day)}, hour by hour, ${unit}`}
             head={["Hour", LABEL, "Band, low", "Band, high", "Operator"]}
@@ -136,7 +145,7 @@ function Tomorrow({ slot, s, index, scores }: { slot: Slot; s: SeriesKey; index:
               h.erw !== null ? fig(h, "erw", h.erw, `h${h.i}|erw`, "") : <NotHeld key="e" why="No forecast is held for this hour." />,
               h.lo !== null ? fig(h, "lo", h.lo, `h${h.i}|lo`, "The band's low.") : <NotHeld key="l" why="No band is held for this hour." />,
               h.hi !== null ? fig(h, "hi", h.hi, `h${h.i}|hi`, "The band's high.") : <NotHeld key="u" why="No band is held for this hour." />,
-              h.operator !== null ? fig(h, "operator", h.operator, `h${h.i}|operator`, "The operator's own forecast.") : <NotHeld key="o" words={ser.operator_held ?? "not held"} why={opWhy} />] }))} />
+              h.operator !== null ? fig(h, "operator", h.operator, `h${h.i}|operator`, "The operator's own forecast.") : <NotHeld key="o" words={shortHeld(ser.operator_held)} why={opWhy} />] }))} />
         </div>
       </details>
     </div>
@@ -178,7 +187,7 @@ function PastDay({ slot, s, index, scores, asked }: { slot: Slot; s: SeriesKey; 
         rows={[{ key: "mae", cells: [day,
           ...FOUR.map((m) => (sc && sc.mae[m] !== undefined
             ? <span key={m} data-n={`fc|${k}|day|${m}`} data-fc-day-hours={sc.hours} title={`${methodWords(m)}: the mean absolute error over ${sc.hours} hours of ${day}.`}>{valueWords(sc.mae[m], unit)}</span>
-            : <NotHeld key={m} words={m === "operator" && ser.operator_held ? ser.operator_held : "not held"} why={m === "operator" && ser.operator_held ? `${OPERATOR}: ${ser.operator_held}.` : "No forecast of this method is held for the day, or what happened is not held."} />))] }]} />
+            : <NotHeld key={m} words={m === "operator" ? shortHeld(ser.operator_held) : "not held"} why={m === "operator" && ser.operator_held ? `${OPERATOR}: ${ser.operator_held}.` : "No forecast of this method is held for the day, or what happened is not held."} />))] }]} />
     </div>
   );
 }
@@ -188,7 +197,8 @@ function ScoreCell({ c, metric, unit, mcol, what }: { c: Score | undefined; metr
   const v = c ? c[metric] : null;
   if (!c || v === null) {
     const held = c?.held ?? null;
-    const words = held === "license needed" ? "license needed" : held === "not published" ? "not published" : "not held";
+    // the cell says the reason's first words ("not published"); the whole reason is its hover
+    const words = shortHeld(held);
     return <NotHeld words={words} why={held ? `${what}: ${held}.` : `${what}: no score is in the file for this method and cut${metric === "mape" ? " (a percent error is not defined where the value is at or near zero)" : ""}.`} />;
   }
   return <Num check={pfKey("predict/scores.json", ["rows", c.i, mcol])} raw={v} source={`${what}: ${METRIC_WORDS[metric].toLowerCase()}, ${metricUnit(metric, unit)}${c.hours !== null ? `, over ${c.hours.toLocaleString("en-US")} hours` : ""}. Every method of this row is scored on the same hours. site/data/predict/scores.json, row ${c.i}, column ${metric}.`}>{scoreWords(v, metric, unit)}</Num>;
@@ -199,16 +209,18 @@ type Group = { key: string; name: string; heads: ReactNode[]; held?: { words: st
 type GroupRow = { key: string; name: ReactNode; cells: (ReactNode[] | null)[] };
 /** The look is ToolTable's (a cardinal header, thin rules); with two places a first header row names each over its
  *  columns, and a place whose series is held is one column that says so. Every row is the same kind of row. */
-function ScoreTable({ caption, first, groups, rows, k, nowrap }: { caption: string; first: string; groups: Group[]; rows: GroupRow[]; k: string; nowrap?: boolean }) {
+/** `tall`: a table of many rows (a month a row since 2019) keeps to a frame of its own height and scrolls inside it
+ *  under its header, so the sections after it stay within reach; every row is in the page, none is folded away. */
+function ScoreTable({ caption, first, groups, rows, k, nowrap, tall }: { caption: string; first: string; groups: Group[]; rows: GroupRow[]; k: string; nowrap?: boolean; tall?: boolean }) {
   const two = groups.length > 1;
   // two places: the cells stand closer, so that both places' columns are in view at 1280 px
   const px = two ? "px-2" : "px-3";
   const edge = (i: number, light: boolean) => (two && i === 0 ? (light ? "border-l border-white/40" : "border-l border-rule") : "");
   return (
-    <div className="overflow-x-auto" {...scrollRegion(caption)} data-fc-table={k}>
+    <div className={`overflow-x-auto ${tall ? "max-h-[30rem] overflow-y-auto border-b border-rule" : ""}`} {...scrollRegion(caption)} data-fc-table={k} {...(tall ? { "data-fc-tall": rows.length } : {})}>
       <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth: two ? 760 : 420 }}>
         <caption className="sr-only">{caption}</caption>
-        <thead>
+        <thead className={tall ? "sticky top-0 z-[1] bg-white" : undefined}>
           {two ? (
             <tr className="bg-accent text-white">
               <td data-empty-head="1" className={`${px} pt-1.5`} />
@@ -237,8 +249,6 @@ function ScoreTable({ caption, first, groups, rows, k, nowrap }: { caption: stri
   );
 }
 
-const CUT_TITLE: Record<string, string> = { all: "Every hour scored", top10: "The ten highest-demand days", spike: "Price spikes (hours above the grid's 99th percentile)" };
-
 /** The report card of the places chosen: the last 30 days and the backtest, then by month, by hour of day, and the
  *  other cuts, each one table with a place's hours and methods as its columns. */
 function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: SeriesKey; index: PredictIndex; scores: ScoresFile | null; metric: Metric }) {
@@ -266,18 +276,20 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
     return [hoursCell(rowHours(g.cells, key, methods)), ...methods.map((m) => <ScoreCell key={m} c={g.cells.get(`${key}|${m}`)} metric={metric} unit={unit} mcol={mcol} what={`${methodWords(m)}, ${placeWords(x.slot.place)}, ${words}`} />)];
   };
   const keysOf = (cut: string) => orderedKeys(cut, [...new Set(info.flatMap((x) => x.cuts.get(cut)?.keys ?? []))]);
-  const table = (cut: string, first: string, name: (key: string) => ReactNode, title: string, words: (key: string) => string) => {
+  const table = (cut: string, first: string, name: (key: string) => ReactNode, title: string, words: (key: string) => string, each: string) => {
     const keys = keysOf(cut);
     if (!keys.length) return <p className="mb-5 text-sm" data-fc-cut-none={cut}><NotHeld words={`${title}: not held`} why={scores ? `The score file holds no row of the cut "${cut}" for ${slots.length > 1 ? "these places" : "this place"} and series.` : "The score file (site/data/predict/scores.json) is not on the site."} /></p>;
+    const over = scores?.cuts?.[cut];
     return (
       <div className="mb-5" data-fc-cut={cut}>
-        <h4 className="mb-1 text-sm font-semibold">{title}, {mu}</h4>
-        <ScoreTable k={cut} nowrap first={first} groups={groups(methods)} caption={`${names}${METRIC_WORDS[metric].toLowerCase()} of each method's forecast of ${SERIES_WORDS[s].toLowerCase()}, ${title.toLowerCase()}, ${mu}`}
+        <h4 className="mb-1 text-sm font-semibold"><span title={over ? `The score file's words on this cut: ${over}.` : undefined} className={over ? "cursor-help" : undefined}>{title}</span>, {mu} <span className="font-normal">({keys.length} {each})</span></h4>
+        <ScoreTable k={cut} nowrap tall={keys.length > 30} first={first} groups={groups(methods)} caption={`${names}${METRIC_WORDS[metric].toLowerCase()} of each method's forecast of ${SERIES_WORDS[s].toLowerCase()}, ${title.toLowerCase()}, ${mu}`}
           rows={keys.map((key) => ({ key, name: name(key), cells: info.map((x) => cutCells(x, cut, key, words(key))) }))} />
       </div>
     );
   };
-  const other = ["all", "top10", "spike", "event"].flatMap((cut) => keysOf(cut).map((key) => ({ cut, key, words: cut === "event" ? `Event: ${key.replace(/_/g, " ")}` : CUT_TITLE[cut] ?? cut })));
+  const eventWords = (key: string) => `Event: ${key.replace(/[_-]/g, " ")}`;
+  const other = OTHER_CUTS.flatMap((cut) => keysOf(cut).map((key) => ({ cut: cut as string, key, words: cut === "event" ? eventWords(key) : CUT_WORDS[cut] ?? cut })));
   const parts: [string, string][] = [["last_30_days", "The last 30 days"], ["backtest", "The backtest"]];
   return (
     <div data-fc-record={slots.map((x) => x.mark).join("")}>
@@ -292,18 +304,20 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
               ...FOUR.map((m) => {
                 const v = p?.[metric]?.[m];
                 return v === null || v === undefined
-                  ? <NotHeld key={m} words={m === "operator" && x.ser!.operator_held ? x.ser!.operator_held : "not held"} why={m === "operator" && x.ser!.operator_held ? `${OPERATOR}: ${x.ser!.operator_held}.` : "No score is in the file for this method and span."} />
+                  ? <NotHeld key={m} words={m === "operator" ? shortHeld(x.ser!.operator_held) : "not held"} why={m === "operator" && x.ser!.operator_held ? `${OPERATOR}: ${x.ser!.operator_held}.` : "No score is in the file for this method and span."} />
                   : <Num key={m} check={pfKey(file, ["series", s, "summary", part, metric, m])} raw={v} source={`${methodWords(m)}, ${placeWords(x.slot.place)}, ${words.toLowerCase()} (${span}): ${METRIC_WORDS[metric].toLowerCase()}, ${mu}. site/data/${file}.`}>{scoreWords(v, metric, unit)}</Num>;
               })];
           }) }))} />
       </div>
-      {table("month", "Month", (key) => monthWords(key), "By month", (key) => monthWords(key))}
-      {table("hour", "Hour", (key) => <span title={`The hour from ${hourWords(key)} of the place's own clock`} className="cursor-help">{hourWords(key)}</span>, "By hour of day", (key) => `the hour from ${hourWords(key)}`)}
+      {table("month", "Month", (key) => monthWords(key), "By month", (key) => monthWords(key), "months")}
+      {table("hour", "Hour", (key) => <span title={`The hour from ${hourWords(key)} of the place's own clock`} className="cursor-help">{hourWords(key)}</span>, "By hour of day", (key) => `the hour from ${hourWords(key)}`, "hours")}
       {other.length ? (
         <div className="mb-5" data-fc-cut="other">
-          <h4 className="mb-1 text-sm font-semibold">Every hour, the highest-demand days and the events, {mu}</h4>
+          <h4 className="mb-1 text-sm font-semibold">Every hour, the last two years, the highest-demand days and the events, {mu}</h4>
           <ScoreTable k="other" first="Hours scored" groups={groups(methods)} caption={`${names}${METRIC_WORDS[metric].toLowerCase()} of each method's forecast of ${SERIES_WORDS[s].toLowerCase()} over every hour scored, the ten highest-demand days, the price spikes and each event, ${mu}`}
-            rows={other.map(({ cut, key, words }) => ({ key: `${cut}|${key}`, name: <span title={scores?.cuts?.[cut]} className={scores?.cuts?.[cut] ? "cursor-help" : undefined}>{words}</span>, cells: info.map((x) => cutCells(x, cut, key, words.toLowerCase())) }))} />
+            rows={other.map(({ cut, key, words }) => ({ key: `${cut}|${key}`,
+              name: cut === "event" && eventHref(key) ? <SiteLink href={eventHref(key)!} title={`${scores?.cuts?.event ?? "An event of /events"}. Opens the event's page.`}>{words}</SiteLink> : <span title={scores?.cuts?.[cut]} className={scores?.cuts?.[cut] ? "cursor-help" : undefined}>{words}</span>,
+              cells: info.map((x) => cutCells(x, cut, key, words.toLowerCase())) }))} />
         </div>
       ) : null}
     </div>
@@ -415,6 +429,12 @@ export function ForecastView({ query }: { query: Raw }) {
                 <a href="/forecast/scores" download data-download="csv">CSV</a>,{" "}
                 <a href="/forecast/scores/python" download data-download="python">Python</a>,{" "}
                 <a href="/forecast/scores/stata" download data-download="stata">Stata</a></li>
+              {predictLedger(q.s) !== null ? (
+                <li data-fc-download="ledger">The ledger of {SERIES_WORDS[q.s].toLowerCase()}, every place: each forecast as it was made on its day, never rewritten:{" "}
+                  <a href={`/forecast/ledger?s=${q.s}`} download data-download="csv">CSV</a>,{" "}
+                  <a href={`/forecast/ledger/python?s=${q.s}`} download data-download="python">Python</a>,{" "}
+                  <a href={`/forecast/ledger/stata?s=${q.s}`} download data-download="stata">Stata</a></li>
+              ) : null}
               {q.s === "demand" ? slots.map((x) => (
                 <li key={`d${x.mark}`} data-fc-operator-record={x.place.place}><SiteLink href={`/demand?view=country&a=${demandKey(x.place)}#forecast`}>{placeWords(x.place)}: the operator&apos;s own forecast against demand, every year held</SiteLink></li>
               )) : null}

@@ -39,6 +39,18 @@ export function readPredict<T>(name: string): T | null {
   }
 }
 
+/** A ledger as the builder wrote it (every forecast as made on its day, appended and never rewritten: the contract's
+ *  change of 26 November 2026), as text, or null while it is not on the site. Only the two ledgers are named. */
+export function predictLedger(series: string | null): string | null {
+  const name = series === "price" ? "ledger_price.csv" : series === "demand" ? "ledger_demand.csv" : null;
+  if (!name) return null;
+  try {
+    return process.env.ERW_PREDICT_DIR ? testText(process.env.ERW_PREDICT_DIR, name) : siteText(name);
+  } catch {
+    return null;
+  }
+}
+
 export const predictIndex = () => readPredict<PredictIndex>("index.json");
 export const predictScores = () => readPredict<ScoresFile>("scores.json");
 /** A place's file, by the name the index gives it. */

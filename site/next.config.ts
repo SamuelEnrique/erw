@@ -96,7 +96,7 @@ const nextConfig: NextConfig = {
     "/supply": ["./data/regions/index.json", "./data/regions/trade/*.json", "./data/regions/trade_matrix.json", "./data/regions/mix/*.json"],
     // session 10401 (chain 720): /forecast and its download routes read the ERW forecast's page files (site/data/predict,
     // lib/predictfiles.ts) by names taken from the index at request time
-    "/forecast": ["./data/predict/*.json"], "/forecast/rows": ["./data/predict/*.json"], "/forecast/scores": ["./data/predict/*.json"] },
+    "/forecast": ["./data/predict/*.json"], "/forecast/rows": ["./data/predict/*.json"], "/forecast/scores": ["./data/predict/*.json"], "/forecast/ledger": ["./data/predict/*.csv"] },
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
   async redirects() {
     return [

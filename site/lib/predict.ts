@@ -34,6 +34,12 @@ export type PlaceSeries = IndexSeries & {
   tomorrow_columns: string[]; tomorrow: Cell[][]; operator_held: string | null;
   history_columns: string[]; history: Cell[][];
   summary: { last_30_days: SummaryPart; backtest: SummaryPart };
+  // the contract's additions of 26 November 2026 (its "Changes"): how many days lie between the last whole day read
+  // and the target day (2 for the day-ahead forecast; more when the warehouse's series is behind), the same for the
+  // demand a price forecast reads, why `tomorrow` is empty when it is, and each method's error on the days the choice
+  // of a method was made on
+  horizon_days?: number | null; demand_horizon_days?: number | null; tomorrow_held?: string | null;
+  method_mae_last_2_years?: Record<string, number | null>;
 };
 export type PlaceFile = {
   example?: boolean; contract?: string; built: string | null; tier?: string; label?: string;
@@ -71,6 +77,14 @@ export function blankWhy(s: Pick<IndexSeries, "status" | "held"> | undefined | n
   const held = (s.held ?? "").trim();
   if (s.status === "license needed") return `License needed: ${held && held !== "license needed" ? held : "the input is not public-licensed (docs/licenses.md)"}. Nothing of this series is shown.`;
   return held ? `${s.status}: ${held}` : s.status;
+}
+
+/** The words of a reason, short enough for a table's cell: what stands before its first colon ("not published" of "not
+ *  published: no operator publishes a forecast of its day-ahead price"); the whole reason stays in the cell's hover.
+ *  A reason with no such short head, or none, is "not held". */
+export function shortHeld(reason: string | null | undefined, dflt = "not held"): string {
+  const head = (reason ?? "").split(":")[0].trim();
+  return head && head.length <= 24 ? head : dflt;
 }
 
 // ---- Names ---------------------------------------------------------------------------------------------------------
@@ -226,6 +240,15 @@ export function scoresOf(scores: ScoresFile | null, place: string, series: Serie
   }
   return out;
 }
+/** The cuts that are one row each (or one row an event), in the order the page lists them under the month and hour
+ *  tables. `last_2_years` came with the contract's change of 26 November: the 730 days a place's method is chosen on. */
+export const OTHER_CUTS = ["all", "last_2_years", "top10", "spike", "event"] as const;
+export const CUT_WORDS: Record<string, string> = {
+  all: "Every hour scored", last_2_years: "The last two years", top10: "The ten highest-demand days", spike: "Price spikes (hours above the grid's 99th percentile)",
+};
+/** An event's key is its address on /events ("uri-2021"); only such a key is made a link. */
+export const eventHref = (key: string): string | null => (/^[a-z0-9][a-z0-9-]*$/.test(key) ? `/events/${key}` : null);
+
 /** A cut's keys in the order a reader expects where the file's order is not one: months oldest first, hours 0 to 23. */
 export function orderedKeys(cut: string, keys: string[]): string[] {
   if (cut === "month") return [...keys].sort();
