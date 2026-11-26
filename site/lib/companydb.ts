@@ -235,7 +235,7 @@ export function basisOf(col: string, table: string, links: Link[]): string {
   if (col === "n_policy_actions") return `a count of ${plural(distinct(of), "policy action", "policy actions")} over ${rows(of.length)}`;
   if (col === "plants_mw") return `the sum of ${rows(of.length)}, one an operating generator, at ${plural(distinct(of, (l) => l.detail), "plant", "plants")}`;
   if (col === "planned_mw") return `the sum of ${rows(of.length)}, one a planned generator, at ${plural(distinct(of, (l) => l.detail), "plant", "plants")}`;
-  if (col === "owned_mw") return `the sum of ${rows(of.length)} of ${plural(distinct(of), "jointly owned generator", "jointly owned generators")}, each its nameplate MW times the percent owned`;
+  if (col === "owned_mw") return `the sum of ${rows(of.length)} of ${plural(distinct(of), "jointly owned generator", "jointly owned generators")}, each its nameplate MW times the percent owned (a row whose generator EIA-860M's operating list does not hold adds no MW)`;
   if (col.startsWith("mw_")) {
     const fuel = col.slice(3);
     return `the sum of ${rows(of.filter((l) => (l.fuel || "other") === fuel).length)} of operating generators whose fuel is ${fuel}`;
