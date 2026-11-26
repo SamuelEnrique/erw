@@ -12,7 +12,7 @@ import { baseStyle, token, useEChart } from "@/components/echarts";
 import { InputPanel, Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { STATES } from "@/lib/regions";
 import {
-  COLOR, COLOR_KEY, DATE_WORDS, EVERYTHING, KIND, PLACED_AT, SOURCE_RULE, cardOf, circleOf, clickState, dateOf, nearOf, nearest, one, optionsOf, parseChoice, queryOf, select, sizeOf,
+  COLOR, COLOR_KEY, DATE_WORDS, EVERYTHING, KIND, PLACED_AT, SOURCE_RULE, cardOf, circleOf, clickState, dateOf, ercotCompletedIsSigned, nearOf, nearest, one, optionsOf, parseChoice, queryOf, select, sizeOf,
   sourceOf, sourceWords, statusWords, tidy, toggle, totals, whole,
   type CardPart, type Choice, type Filter, type MapFace, type MapFile, type SourceKind,
 } from "@/lib/projectmap";
@@ -299,7 +299,9 @@ export function ProjectMap({ file: f, statesGeo, serverSearch = "" }: { file: Ma
                 <h3 className="mb-2 text-xs uppercase tracking-wide text-muted">
                   {group === 0 ? "Generating units, by EIA's status" : group === KIND.queue ? "Queue positions, by status (MW requested)" : "Datacenters, by status (MW where stated)"}
                   <Tip id={`map-totals-${group}`} label={`the totals of ${KIND_WORD[group].toLowerCase()}`}>
-                    {sourceWords(f, SOURCE_KIND[group], SOURCE_RULE.chosen)} {group === KIND.datacenter ? "The MW is summed over the facilities that state one; the count under it says how many do." : group === KIND.queue ? "The MW is what each position asks to connect, not a load. For ERCOT's positions, \"Completed\" is a signed interconnection agreement, built or not: ERCOT's report has no status column (session 7537; docs/methods/energy_projects.md)." : "The MW is nameplate capacity, summed over the units of the status."}
+                    {sourceWords(f, SOURCE_KIND[group], SOURCE_RULE.chosen)} {group === KIND.datacenter ? "The MW is summed over the facilities that state one; the count under it says how many do." : group === KIND.queue ? `The MW is what each position asks to connect, not a load. ${ercotCompletedIsSigned(f)
+                      ? "For ERCOT's positions, \"Completed\" is a signed interconnection agreement, built or not: ERCOT's report has no status column, and this copy of the queue predates the connector's reading of ERCOT's own milestones (session 7537; docs/methods/energy_projects.md)."
+                      : "For ERCOT's positions, \"Completed\" is a position ERCOT approved to synchronize, and a signed agreement alone is \"Active\": the connector reads ERCOT's own milestones since session 7022 (docs/methods/energy_projects.md)."}` :"The MW is nameplate capacity, summed over the units of the status."}
                   </Tip>
                 </h3>
                 <div className="grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3 xl:grid-cols-4">
