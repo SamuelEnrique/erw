@@ -1692,6 +1692,40 @@
    "incentive": "",
    "years": "by the end of 2029",
    "note": "Jobs stated as \"hundreds of new jobs\", not a figure; the sites were not chosen when announced (\"final site selections will be decided at a later date\")."
+  },
+  {
+   "id": "ut_creekstone_millard_2026",
+   "name": "Creekstone Energy, Creekstone Gigasite (power and AI data center campus), near Delta",
+   "company": "Creekstone Energy",
+   "state": "ut",
+   "county": "Millard County",
+   "doc": {
+    "title": "Creekstone Energy, LLC Commits $17 Billion to Millard County Data Center Project",
+    "publisher": "Utah Governor's Office of Economic Opportunity",
+    "date": "2026-04-09",
+    "url": "https://business.utah.gov/tax-credits/creekstone-energy-llc-commits-17-billion-to-millard-county-data-center-project/",
+    "request": 357
+   },
+   "mw": null,
+   "investment": {
+    "value": 17082408000,
+    "year": 2026,
+    "says": "$17,082,408,000",
+    "qualifier": "during the next 20 years",
+    "quote": "Creekstone Energy plans to add 106 new, high-paying jobs and invest $17,082,408,000 in Utah during the next 20 years."
+   },
+   "investment_includes_generation": true,
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 106,
+    "measure": "new, high-paying jobs",
+    "says": "106 new, high-paying jobs",
+    "qualifier": "",
+    "quote": "Creekstone Energy plans to add 106 new, high-paying jobs and invest $17,082,408,000 in Utah during the next 20 years."
+   },
+   "incentive": "a post-performance tax reduction for its expansion in Millard County. The corporate incentive is part of the state's Rural Economic Development Tax Increment Financing (REDTIF) program.",
+   "years": "during the next 20 years",
+   "note": "The campus \"will feature an integrated on-site natural gas power generation system, utility-scale solar energy, and purpose-built data processing facilities\": the investment includes generation, so it enters no ratio and is not offered as the datacenter's investment."
   }
  ]
 }
