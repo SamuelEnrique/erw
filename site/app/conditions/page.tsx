@@ -35,6 +35,10 @@ const ALERT_SOURCE_WORDS = "The list is only as new as its source's last reading
 // (docs/methods/grid_congestion.md, decision 2), and the builder counts its rows, so a constraint binding under two
 // contingencies in an hour counts twice. The page said "(constraint, hour) pairs".
 const CONS_COUNT_WORDS = "The count is of (constraint, contingency) pairs as the operator lists them: a constraint that binds under two contingencies in the same hour counts twice, so it can stand above the number of separate constraints.";
+// Session 10219 (the conditions audit, finding 10): CAISO's report lists every curtailment of a resource, derates
+// included (docs/methods/grid_outages.md, decision 3), and the table sums them; SPP's is generation on outage. Both were
+// called "out of service". Said on CAISO's two outage charts.
+const CAISO_OUT_WORDS = "CAISO's figure is every curtailment its report lists, planned and forced: outages, and also derates the operator files as forced (ambient conditions, transmission induced, fuel). So it is megawatts unavailable, not only plants out of service, and not the same measure as SPP's generation on outage.";
 const STRIP_NAMES: Record<string, string> = { demand: "Demand and forecast", out: "Out of service", constraints: "Constraints binding", scarcity: "Scarcity adder", alerts: "Alerts", reserves: "Reserves against the requirement" };
 
 function Blank({ s, name, k }: { s: Strip; name: string; k: string }) {
@@ -150,7 +154,7 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
             </ChartFrame>
           ) : <NoneHeld title="Demand and the day-ahead forecast" f={f} c="forecast_peak" w={w} k={`${tag}-demand`} />}
           {st.out.status === "shown" ? (hOut.length ? (
-            <ChartFrame title="Out of service, MW" tip={<Hint words=" (source)" why={src("out")} />}>
+            <ChartFrame title="Out of service, MW" tip={<Hint words=" (source)" why={`${src("out")}${f.op === "caiso" ? `. ${CAISO_OUT_WORDS}` : ""}`} />}>
               <LineChart lines={hOut} unit="MW" ariaLabel={`${f.name} megawatts out of service by hour`} />
             </ChartFrame>
           ) : <NoneHeld title="Out of service" f={f} c="out_mean" w={w} k={`${tag}-out`} />) : <Blank s={st.out} name={STRIP_NAMES.out} k={`${tag}-out`} />}
@@ -172,7 +176,7 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
         </ChartFrame>
       ) : <NoneHeld title="Peak demand and the forecast's peak" f={f} c="forecast_peak" w={w} k={`${tag}-demand-d`} />}
       {st.out.status === "shown" ? (dOut.length ? (
-        <ChartFrame title="Out of service: the day's mean and highest hour, MW" tip={<Hint words=" (source)" why={src("out")} />}>
+        <ChartFrame title="Out of service: the day's mean and highest hour, MW" tip={<Hint words=" (source)" why={`${src("out")}${f.op === "caiso" ? `. ${CAISO_OUT_WORDS}` : ""}`} />}>
           <TimeChart series={dOut} unit="MW" x="day" ariaLabel={`${f.name} out of service by day`} />
         </ChartFrame>
       ) : hourly.length ? null : <NoneHeld title="Out of service" f={f} c="out_mean" w={w} k={`${tag}-out-d`} />) : hourly.length ? null : <Blank s={st.out} name={STRIP_NAMES.out} k={`${tag}-out-d`} />}
