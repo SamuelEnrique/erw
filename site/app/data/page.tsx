@@ -104,7 +104,7 @@ export default async function Data() {
                       ) : r.in_live_set === "yes" ? (
                         <a href={`/api/download?table=${r.table_name}`}>Download CSV</a>
                       ) : (
-                        <a href={site.redivis.url} title="On Redivis; version 1 is pending release">
+                        <a href={site.redivis.url} title="On Redivis where version 1's list marks the table in version 1, not yet where it marks it held; version 1 is pending release">
                           Redivis
                         </a>
                       )}
@@ -141,8 +141,9 @@ export default async function Data() {
         </p>
         <p className="mt-2 max-w-3xl text-xs text-muted">
           Download CSV gives the rows the site&apos;s live set holds, with the table&apos;s provenance header lines at the top, up to 500,000 rows; for a table
-          the live set keeps a window of (such as the last 35 days of prices), that window. The full history of every table, and the tables not in the
-          live set, are on <a href={site.redivis.url}>Redivis</a>, where version 1 is pending release.
+          the live set keeps a window of (such as the last 35 days of prices), that window. A table&apos;s full history, and a table not in the live set,
+          are on <a href={site.redivis.url}>Redivis</a> where version 1&apos;s list (<a href={`${site.repository}/blob/main/docs/redivis/release-v1/tables.csv`}>tables.csv</a>)
+          marks the table in version 1; a table the list marks held is not on Redivis yet (the account&apos;s storage is full). On Redivis, version 1 is pending release.
         </p>
         {/* session 312: the citation line of release v1 (docs/redivis/release-v1.md, "How to cite v1"); the date is added at the click */}
         <p className="mt-2 max-w-3xl text-xs text-muted">
@@ -183,17 +184,19 @@ export default async function Data() {
           <div>
             <h3 className="mb-1 text-lg">Redivis, the store of record</h3>
             <p className="mb-2 text-sm">
-              Every ERW table, full history, versioned:{" "}
+              The tables version 1&apos;s list marks in version 1, full history, versioned:{" "}
               <a href={site.redivis.url}>
                 <code className="font-mono">{site.redivis.dataset}</code> on Redivis
               </a>
               .
             </p>
             <p className="text-xs text-muted">
-              {site.redivis.status} (Checked {site.redivis.checked}.) This site reads a live subset of the public tables (<code className="font-mono">warehouse/supabase/live_set.yaml</code>):
+              {site.redivis.status} (Checked {site.redivis.checked}.) Since then the account&apos;s storage has filled: version 1&apos;s list marks each table
+              in version 1, held (not yet on Redivis, until there is room) or out. This site reads a live subset of the public tables (<code className="font-mono">warehouse/supabase/live_set.yaml</code>):
               the last 35 days of power prices, demand, generation and emissions, other windows of the daily curtailment, trader and retail sales tables, and the derived,
-              fuel, project, queue, deal and news tables whole. The ERCOT yearly history and the EIA-860M operating and planned generator tables are on
-              Redivis only; the project map carries every operating and planned generator.
+              fuel, project, queue, deal and news tables whole. The EIA-860M operating and planned generator tables are on Redivis only; the ERCOT yearly
+              history is not in the live set and, version 1&apos;s list marking it held, not yet on the dataset linked here. The project map carries every
+              operating and planned generator.
             </p>
           </div>
           <div>
