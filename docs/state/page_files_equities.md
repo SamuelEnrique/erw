@@ -84,4 +84,4 @@ Pushed with this contract, each with `"example": true` and every value null, no 
 
 ## Changes
 
-(none yet)
+- 2026-11-26 (session 10000): the first real files. Additions only, no field moved: `index.json` carries `held` (`companies`, `indices`, `prices`: why each list is empty) and each segment a `rule_why` beside its `rule` (null until the rule can be applied); `energy_prices.json` carries `since`. While no equity series is shown, a daily energy price is written from 2016-01-01 (the span of the longest shown equity series, once there is one). Why the equity side is empty: SEC EDGAR refuses the ERW's contact string and no free source of share prices may be kept (`docs/reviews/equities-sources-2026-11-26.md`); every board row is `not_held` with that reason and no file under `series/` is written by the builder (the four example files stay, marked `"example": true`).
