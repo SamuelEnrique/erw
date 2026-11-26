@@ -383,7 +383,7 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 | `x_deaths_direct` | Deaths directly caused by the event, as NCEI publishes them (the source's name: DEATHS_DIRECT) | count | integer | 0 to 102; 32 distinct | 0 |
 | `x_deaths_indirect` | Deaths indirectly caused by the event, as NCEI publishes them (the source's name: DEATHS_INDIRECT) | count | integer | 0, 1, 10, 11, 12, 13, 15, 18, 2, 20, 21, 25, 26, 29, 3, 4, 5, 56, 6, 7, 8, 9 | 0 |
 | `x_magnitude` | The event's magnitude as NCEI publishes it (knots for wind) (the source's name: MAGNITUDE) | knots for wind | number | 1.0 to 173.0; 129 distinct | 148335: NCEI gives no magnitude (types without one) |
-| `x_magnitude_type` | NCEI's code of the kind of magnitude, as published (EG, ES, MG, MS) (the source's name: MAGNITUDE_TYPE) | none | text | EG, ES, MG, MS | 148335: NCEI gives no magnitude |
+| `x_magnitude_type` | NCEI's kind of wind magnitude: EG a wind estimated gust, ES an estimated sustained wind, MS a measured sustained wind, MG a measured wind gust; empty for hail, whose magnitude is a size (the source's name: MAGNITUDE_TYPE) | none | text | EG, ES, MG, MS | 148335: NCEI gives no magnitude |
 | `x_tor_f_scale` | The tornado's rating on the Enhanced Fujita scale (EF0 to EF5, EFU), as published (the source's name: TOR_F_SCALE) | none | text | EF0, EF1, EF2, EF3, EF4, EF5, EFU | 393660: Not a tornado |
 | `x_tor_length_mi` | The length of the tornado's path (the source's name: TOR_LENGTH) | miles | number | 0.01 to 49.96; 1719 distinct | 393660: Not a tornado |
 | `x_tor_width_yd` | The width of the tornado's path (the source's name: TOR_WIDTH) | yards | number | 1.0 to 3960.0; 354 distinct | 393660: Not a tornado |
@@ -394,7 +394,7 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 | `x_data_source` | NCEI's data source code, as published (CSV in every row) (the source's name: DATA_SOURCE) | none | text | CSV | 0 |
 | `x_file_created` | The creation date of NCEI's yearly file the row came from (its c<YYYYMMDD>) | none | date | 2026-03-23, 2026-05-19, 2026-06-25, 2026-07-28, 2026-08-19, 2026-09-18 | 0 |
 
-Waiting for a second look: x_magnitude_type: NCEI's codes EG, ES, MG and MS are kept as published and not spelled out in the repository's documents. Read again on 20 November 2026 in the list of saved files under warehouse/raw/noaa_storm_events (the yearly details CSV files only, no format document): not found.; x_cz_type: two rows hold 5, as published; NCEI's meaning of it is not documented. Read again on 20 November 2026 in the list of saved files under warehouse/raw/noaa_storm_events (details CSV files only): not found.; x_data_source: CSV in every row; NCEI's meaning of the code is not documented. Read again on 20 November 2026 in the list of saved files under warehouse/raw/noaa_storm_events (details CSV files only): not found..
+Waiting for a second look: x_cz_type: two rows hold 5, as published; NCEI's meaning of it is not documented. Read again on 20 November 2026 in the list of saved files under warehouse/raw/noaa_storm_events (details CSV files only): not found.; x_data_source: CSV in every row; NCEI's meaning of the code is not documented. Read again on 20 November 2026 in the list of saved files under warehouse/raw/noaa_storm_events (details CSV files only): not found..
 
 ### `noaa_region_station_hourly_2018`
 
