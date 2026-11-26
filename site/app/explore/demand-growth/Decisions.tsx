@@ -12,8 +12,8 @@ export type DemandGrowthDecision = { key: string; text: string; def: string; sou
 export const DEMAND_GROWTH_DECISIONS: DemandGrowthDecision[] = [
   { key: "base-year",
     text: "Growth is measured from 2019: a year's demand over 2019's, less one, in percent.",
-    def: "2019, the last whole year before the pandemic and the first whole year the warehouse holds for every area. Another base year gives another figure: ERCOT's average demand grew 27.22 percent from 2019 to 2025 and 5.57 percent from 2024 to 2025.",
-    source: "Session 97; docs/methods/demand_growth.md. The growth on the year before is in the grid's table year by year." },
+    def: "2019, the last whole year before the pandemic and the first year the table writes. It is not the first whole year the warehouse holds: EIA's workbooks are whole for 2018 in every area, and the table's builder reads 2018's hours for its test of each hour. Another base year gives another figure: ERCOT's average demand grew 27.22 percent from 2019 to 2025 and 5.57 percent from 2024 to 2025; on 2018, CAISO's 2025 growth is -0.74 percent (+4.45 on 2019) and MISO's -0.63 (+2.20).",
+    source: "Session 97; docs/methods/demand_growth.md. The growth on the year before is in the grid's table year by year. 2018 restated from EIA's workbooks of 3 October 2026 by docs/reviews/demand-model-audit-2026-11-26.md, finding 7; warehouse/derived/demand_growth.py reads hours from the year before 2019." },
   { key: "weather",
     text: "Weather is not removed: a year's demand is what was metered that year.",
     def: "As metered. A mild year shows less growth than customers added, and one heat wave can set a peak. The adjustment is a second table, on Demand growth, \"With the weather taken out\".",
