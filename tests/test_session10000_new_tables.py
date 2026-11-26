@@ -117,5 +117,33 @@ class EveryForecastIssueKept(unittest.TestCase):
         self.assertTrue(callable(rt.rolling_tables))
 
 
+class TheEquitiesFiles(unittest.TestCase):
+    """Part D4: the equities page files by docs/state/page_files_equities.md; the equity side held with its reason."""
+    eq = load("warehouse/derived/equity_pages.py", "eq_t")
+
+    def test_the_moves_are_the_boards(self):
+        s = [("2025-12-31", 100.0), ("2026-10-26", 90.0), ("2026-11-19", 95.0), ("2026-11-25", 110.0), ("2026-11-26", 121.0)]
+        m = self.eq.moves(s)
+        self.assertEqual(m["d"], {"t": "2026-11-25", "v": 110.0, "ch": 11.0, "pct": 10.0})
+        self.assertEqual(m["w"]["t"], "2026-11-19")
+        self.assertEqual(m["m"]["t"], "2026-10-26")
+        self.assertEqual(m["ytd"], {"t": "2025-12-31", "v": 100.0, "ch": 21.0, "pct": 21.0})
+        self.assertIsNone(m["y"])                         # nothing held a year back: null, never a guess
+
+    def test_the_equity_side_is_held_with_its_reason_and_the_shape_is_the_contracts(self):
+        self.eq.energy_series = lambda: ([{"id": "wti", "status": "shown"}], {"wti": [["2026-11-26", 1.0]]})
+        files = self.eq.build("2026-11-26T00:00:00Z")
+        idx, board, prices = files["index.json"], files["board.json"], files["energy_prices.json"]
+        self.assertFalse(idx["example"])
+        self.assertEqual(len(idx["segments"]), 15)
+        self.assertEqual((idx["companies"], idx["indices"]), ([], []))
+        self.assertIn("SEC EDGAR refuses", idx["held"]["companies"])
+        self.assertEqual(len(board["rows"]), 30)
+        self.assertTrue(all(r["status"] == "not_held" and r["note"] for r in board["rows"]))
+        self.assertEqual(prices["since"], "2016-01-01")
+        for k in ("built", "method", "contract"):
+            self.assertIn(k, idx)
+
+
 if __name__ == "__main__":
     unittest.main()

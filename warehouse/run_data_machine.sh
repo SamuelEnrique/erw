@@ -107,6 +107,7 @@ PAGE_PATHS+=(site/data/curtailment/where_when.json)   # session 8014 (chain 581,
 PAGE_PATHS+=(site/data/conditions)   # session 9000 (chain 601, parts C and G): congestion and grid conditions (docs/state/page_files_conditions.md)
 PAGE_PATHS+=(site/data/storage/places.json)   # session 8014 (chain 581, part F1): batteries by authority and state
 PAGE_PATHS+=(site/data/queue_places.json)   # session 8014 (chain 581, part F2): the queues outside the seven grids
+PAGE_PATHS+=(site/data/equities)   # session 10000 (chain 701, part D4): the equities page files (dm_equity_pages)
 PAGE_PATHS+=(replication/datacenter/page_figures.json replication/datacenter/page_figures.csv   # session 3779: dm_datacenter_figures
             docs/methods/automated_analysis_findings.md   # session 3779: dm_cross_check_rows
             replication/analysis/page_figures.json replication/analysis/page_figures.csv)   # session 3803: dm_analysis_figures
@@ -387,6 +388,9 @@ soft_step dm_curtailment_worth "$PYTHON" warehouse/derived/curtailment_worth.py
 # page_keep.py takes a row of either build only where it is no older and no shorter than the held one: so the runner's
 # rows of the fuels and the other grids stand, and ERCOT's are refreshed here (the runner's are a rolling window).
 soft_step dm_board_page "$PYTHON" warehouse/derived/page_keep.py board
+# Session 10000 (chain 701, part D4): the equities page files (docs/state/page_files_equities.md), from the warehouse's own
+# tables; the equity side is held until a source a license allows is read (docs/reviews/equities-sources-2026-11-26.md)
+soft_step dm_equity_pages "$PYTHON" warehouse/derived/equity_pages.py
 # Session 349: the project map's copy (site/data/map.json, and map_v2.json for /resources), rebuilt each day from the
 # energy_projects this machine holds after the sync, so the queue positions placed by a city or a town (session 349)
 # and the day's queues reach /map without waiting for the monthly run. The same builder the monthly run calls.
