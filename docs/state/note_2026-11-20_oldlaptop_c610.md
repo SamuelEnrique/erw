@@ -37,3 +37,14 @@ Energy Research Warehouse (ERW). Chain 610 was written for the old laptop, which
 - **The linter's packages:** apply `npm audit fix --package-lock-only` (a minor version, developer-only) or leave it.
 - **The seven rows of part C:** change the words of `/privacy` and `/terms`, or leave them.
 - **Needs the key:** T2 (the chat's turns signed by the server, then the evaluation set).
+
+## The chain's end (session 9401, the old laptop, 26 November 2026)
+
+- **How it got here:** the old laptop took the resume file (611), put it back as 612, and continued from the progress file.
+- **Rows 7 to 13 of `docs/state/landing_request_desktop_w3.md` have all landed** (each head is an ancestor of `origin/main`; row 7 reached `main` on 21 November in the merge `0d1200daa`). The first item of "What waits for Samuel" above is done.
+- **The held-back finding is now written:** H9811 in [`docs/security.md`](https://github.com/SamuelEnrique/erw/blob/main/docs/security.md), section "The finding held back, written after its fix landed". In short: for a held grid (ISO-NE, MISO, NYISO), rows of the interconnection queue table were not dropped, because the hold read only the column a series row has. Only a holder of the internal cookie could see them, since every page is in review. Fixed and tested; nothing to rule.
+- **Security review by severity, final:** high 1 (fixed, landed), medium 0, low 3 (T1 fixed and landed, its number for Samuel; T2 needs the key; T3 noted).
+- **Part B again:** nothing landed after 20 November adds a route, page, header, workflow or new input. Nothing new found (`docs/security.md`, "Part B again").
+- **The weekend pack** was not updated after Saturday 21 November 10:00 PST, the chain's own end for it.
+- **What still waits for Samuel:** the rest of the list above. T1's number, the old link and the token, the linter's packages, part C's seven rows, and T2 when the key returns.
+- **The resume file is removed** by this session, and the queue step runs next.

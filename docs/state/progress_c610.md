@@ -16,3 +16,8 @@ Chain file: queue/done/610-night-20-november-oldlaptop-weekend-pack-security.md.
 - Session 9871, part E: the five least-tested pages drawn and read; `wip/9871-reader-pages-tests`, row 13. requested, 9871
 - Session 9872, part E: the next tier (`/data/standard`, sixteen tour stops, three company pages) on the same branch, 49 of 49; row 13 moved to `fc5883f60`. requested, 9872
 - Session 9873, part E: `/states`, `/conditions`, `/congestion`, `/attention`, `/deals/capital` added to the drawing, 74 of 74; row 13 at `fb3772ba9`. requested, 9873
+- Session 9401, the old laptop: resume file 611 taken, put back as 612 and pushed; precheck passed; no freeze. done, 9401
+- Session 9401: rows 7 to 13 found landed (all heads on `origin/main`; row 7 in `0d1200daa`, 21 November). done, 9401
+- Session 9401: the held-back finding written as H9811 in `docs/security.md`; its test passes on `main`. done, 9401
+- Session 9401, part E: part B again for what landed after the ground; nothing new (`docs/security.md`, "Part B again"). done, 9401
+- Session 9401, the last session: the chain's note extended, resume file 612 removed, queue step run. done, 9401
