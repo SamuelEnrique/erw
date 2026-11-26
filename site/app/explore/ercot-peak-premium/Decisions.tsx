@@ -24,7 +24,7 @@ export const PEAK_PREMIUM_DECISIONS: PeakPremiumDecision[] = [
     source: "docs/methods/ercot_peak_premium.md, \"Notation\"." },
   { key: "no-cap",
     text: "Every interval the source publishes is used: nothing is capped, floored or left out, negative prices and prices at the offer cap included.",
-    def: "No exclusion. February 2021 (Winter Storm Uri) is in 2021's figures: 645 intervals at or above 1,000 USD/MWh at the hub average, and a 99.9th percentile of 9,000.85.",
+    def: "No exclusion. February 2021 (Winter Storm Uri) is in 2021's figures: the year has 645 intervals at or above 1,000 USD/MWh at the hub average, 608 of them in February, and a 99.9th percentile of 9,000.85, which would be 1,058.53 without February.",
     source: "docs/methods/ercot_peak_premium.md, \"Notation\" and \"Completeness\"; ercot_peak_premium_annual." },
   { key: "price",
     text: "The price is ERCOT's real-time settlement point price, one value every 15 minutes, as ERCOT settles it. It is not the day-ahead price and not a traded forward.",
