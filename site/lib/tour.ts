@@ -110,7 +110,8 @@ export const NEW_STOPS: Stop[] = [
   },
   {
     href: "/ai-energy", title: "Energy per AI query", seconds: 30, landed: true,
-    line: "The energy a query to an AI model uses, as each publisher printed it, with who measured it and how.",
+    // session 10236 (audit finding 11): five of the page's rows are a company's whole fleet in a year, none is per token
+    line: "The energy of AI as each publisher printed it, for a query, a training run or a company's whole fleet in a year, with who measured it and how.",
     look: "Read \"Every figure, as printed\", then \"The publishers\".",
     headings: ["Every figure, as printed", "The publishers"],
   },
