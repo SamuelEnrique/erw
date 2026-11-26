@@ -83,6 +83,11 @@ the panel's note does the same for the last date held (2223-01-01).
 
 **The limits box**, on every view: of the rows held in the live set (18,989), those that file no number (10,956). Of
 these 10,907 file words and 49 file neither; the box said all 10,956 "give their price as words" until session 7501.
+Of the 8,033 rows that file a number, 4,119 file 0 (51.3 percent; 302 of them among the 1,317 numbers of energy,
+capacity and tolling, 3,817 in the other products), so 3,914 of the 18,989 (20.6 percent) file a number other than 0.
+Since session 10226 the box says "Of the numbers filed, about half are 0, most of them outside energy, capacity and
+tolling" (`docs/reviews/contracts-model-audit-2026-11-26.md`, finding 5): words, not a figure of the stored summary,
+which counts no zeros.
 
 **ERCOT**: the rows of the live set whose authority is ERCO (14 of 18,989; 244 in the whole file).
 

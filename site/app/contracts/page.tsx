@@ -33,7 +33,7 @@ function Limits({ rows, priced, first }: { rows: number | null; priced: number |
       <li><strong>About half the rows give their price as words, not a number.</strong>{rows !== null && priced !== null ? <> Of the {count(rows)} rows held
         here<Tip id="contracts-held-here" label="the rows held here"><span data-held-here="1">The rows the first view lists: the contracts signed{first ? ` since ${first}` : ""}, the
         1,000 days before the table was last loaded. The other three views read every row of the newest quarter&apos;s file, whenever it was signed.</span></Tip>, <span data-n="unpriced">{count(rows - priced)}</span> file
-        no number.</> : null} &quot;Market Based Rate&quot; or a formula is what the filer wrote; the column below shows it as filed and never fills one in.</li>
+        no number.</> : null} &quot;Market Based Rate&quot; or a formula is what the filer wrote; the column below shows it as filed and never fills one in. Of the numbers filed, about half are 0, most of them outside energy, capacity and tolling.</li>
       <li><strong>Every agreement in force is filed again each quarter.</strong> A contract here is new because its execution date is recent, not because it appears in this filing. One agreement is one row per product, so it can have several rows.</li>
     </ul>
   );
