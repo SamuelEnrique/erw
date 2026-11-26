@@ -7,7 +7,7 @@ export const TABLE = "shoulder_hours_monthly";
 export type Row = { entity: string; variable: string; ts_utc: string; value: number };
 
 export const GRIDS = [
-  { slug: "ercot", name: "ERCOT", short: "ERCOT", by: "", entity: "iso:ercot", note: "EIA-930 hourly demand, solar, wind and battery output, from January 2019." },
+  { slug: "ercot", name: "ERCOT", short: "ERCOT", by: "", entity: "iso:ercot", note: "EIA-930 hourly demand, solar and wind from January 2019, and battery output from November 2024 (EIA's series of it begins on 23 October 2024)." },
   { slug: "caiso", name: "CAISO", short: "CAISO", by: "by EIA-930, ", entity: "iso:caiso", note: "EIA-930 hourly demand, solar and wind, January 2019 to November 2025: EIA's generation series for California changed on 16 December 2025, and this page does not mix the changed series in. Battery output is CAISO's own (Today's Outlook), from August 2025." },
   // session 80: California on CAISO's own supply by fuel, a separate entity, never mixed with the EIA-930 one above
   { slug: "caiso-own", name: "CAISO, its own data", short: "CAISO", by: "by CAISO's own data, ", entity: "iso:caiso_own", note: "CAISO's own supply by fuel (Today's Outlook), from June 2025: solar, wind and battery output are CAISO's, and demand is the sum of its sources, imports and batteries included. A separate series from the EIA-930 one, never mixed with it." },

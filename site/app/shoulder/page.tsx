@@ -297,7 +297,7 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                     <li><strong>California, EIA-930:</strong> {GRIDS[1].note} Its values from 1 November 2023 to 2 December 2025 are read one hour earlier than EIA stamps them: over that period EIA&apos;s solar matches CAISO&apos;s own at that shift.</li>
                     <li><strong>California, CAISO&apos;s own data:</strong> {GRIDS[2].note}</li>
                     <li><strong>Texas&apos;s battery output:</strong> EIA-930&apos;s series as published, discharge only from 23 October 2024 to 15 December 2025 and net of charging from then.</li>
-                    <li><strong>Demand:</strong> an hour of demand that could not have happened (zero, or more than a quarter away from the four hours around it) is a blank, and its day is not a complete day.</li>
+                    <li><strong>Demand:</strong> an hour of demand that could not have happened (zero, more than a quarter away from the four hours around it, or outside one third to three times the grid&apos;s median hour) is a blank, and its day is not a complete day.</li>
                   </ul>
                 </Fold>
                 <Fold title="What this cannot see">
