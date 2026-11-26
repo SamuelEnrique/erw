@@ -50,3 +50,107 @@ Two things found while writing the list, before any page was opened:
 | B14 | The five pages the reader-page tests cover (tests only, no page change) | `/ai-energy`, `/industry`, `/queues/places`, `/storage/places`, `/curtailment/where-when` | desktop window 3 | 21 Nov 02:05 | read in full on 20 Nov (chain 620), before |
 
 The pages no browser has seen come first: B1 to B5, then B6 to B10, then the rest. Tonight's pages (`/forecast`, `/equities`, the board's new group, `/impact` with Datacenter, the All grids tab) are part C, read as each lands.
+
+## The first pass and the sweep (26 November, 11:28 to 11:40 UTC)
+
+- **Twelve addresses of the list at both widths** (`runs/c750/survey.mjs`): every page loads in under 3.3 s but `/internal/findings` (4.7 s at 1280 px, 3.5 s at 390 px); no sideways scroll, no empty chart, no heading that skips a level, no error in the console as each opens. `/problems` is no address (the sets live under `/learn`; B8 reads them there).
+- **Every page with a fixed address (82) and the Grid tool's 63 views (eight grids and thirteen regions, three views each), at 390 px** (`runs/c750/all_routes.mjs`, 146 addresses, 11:35 UTC). With something wrong: `/grid?grid=caiso` (row G1 below); `/data/licenses` shows the word "undefined" inside an address (row D1 below: the publisher's own answer, settled on 20 November, not a fault); `/cost-of-power` took 5.3 s and `/internal/waits` 8.4 s to load. `/data/standard` prints "null" as a word of its own text ("No sentinel codes (-999, NA, null)"), which is right.
+
+## B4 and row G1: the Grid tool's reliability table (`/grid?grid=caiso#reliability`)
+
+Whose: no window's page tonight (the old laptop's Grid audit, chain 710 part D, is of the tool's figures). Read on production at 1280 and 390 px (`runs/c750/b_a11y2.mjs`, `runs/c750/b4_cause.mjs`).
+
+- **The fix of 20 November is there.** The table "Every notice since 1998: days per year" has 226 cells with no day; each shows a dot in the muted text color (rgb 107, 103, 95 on white: 5.6 to 1) and is read aloud as "none". At 1280 px the page is 1265 of 1265 px wide.
+- **G1, a fault the fix brought with it: at 390 px the page is 539 px wide.** Done: `/grid?grid=caiso` opened at 390 px. Seen: the page scrolls sideways to 539 px (the header, the text and every chart slide off to the left). Should be seen: 390 px, the table scrolling inside its own frame, as on 20 November. Cause, shown on production's own page: each "none" label is placed "absolute" (the class `sr-only`); the table's frame scrolls sideways but is not the labels' containing block, so it does not clip them, and the 60 labels of the columns past the frame's right edge (to 538 px) widen the whole page. With the labels hidden the page is 390 px wide; with the labels back and the frame made "relative", 390 px, the table still 526 px wide inside its 358 px frame and the cells still read "none". The session that added the labels had no browser, and the last phone sweep (20 November) was a day before they landed.
+- **Fixed** on `wip/c750-grid-reliability` (`038ecbfcd`): the frame is `relative`; `tests/test_session11000_grid_reliability_phone.py` holds the rule for this component and fails on the code before. Row 1 of `docs/state/landing_request_portable_w2.md`, ready, to be seen. The other 145 addresses of the sweep keep to 390 px, so no other page has this today; 38 other components use `sr-only`, and the same thing would happen in any of them the day a label lands inside a wide table.
+
+Pictures: `docs/reviews/browser-read-2026-11-26/grid-caiso-reliability/reliability-table-1280.png` (the table at 1280 px, dots for the cells with no day); `docs/reviews/browser-read-2026-11-26/grid-caiso-reliability/reliability-390-page-scrolled-sideways.png` (390 px, the page pushed 150 px sideways: the text cut at the left edge).
+
+## B6: grid conditions (`/conditions`), read in full
+
+Whose: built by the data machine (chain 601); no window's tonight. Read on production on 26 November 11:48 to 11:55 UTC at 1280 and 390 px (`runs/c750/b6_conditions.mjs`). The page shows the files built 20 November (L2): its newest day is 20 November.
+
+**Five cases, written first, then taken on the page.**
+
+1. *A power trader:* on the last month's highest day, was ERCOT above its day-ahead forecast, and by how much? Opens the page as it stands. Answer on the page: the line at a glance names the day (65,888 MW on 2 November 2026); the daily table gives the forecast's peak beside it (65,196 MW), 692 MW under. Answered without leaving the page.
+2. *A reliability analyst:* what do ERCOT's strips show over Winter Storm Uri? Chooses the event. Answer: demand served fell from 69,215 MW on 14 February to 46,846 MW on 16 February against a forecast peak of 75,061 MW; the adder was above zero in all 24 hours of 16 February; six notices, among them "ERCOT calls for rotating outages" on 15 February. The megawatts out of service, the figure this reader wants most, are blank ("source needed", with the reason on hover): by the rule, and said.
+3. *A CAISO watcher:* in the September 2022 heat wave, how much was out of service, how congested was the grid, and which alerts were in force on each day? Answer: peak demand 51,104 MW on 6 September, 14,100 MW out in an hour on 9 September, 226 constraint-hours on 8 September, and that day's EEA 3 from 17:17 to 20:00. **The last day's alerts cannot be read: row C2.**
+4. *A student:* SPP around one ordinary day, 24 July 2024. Types the day, presses Show. Answer: the fifteen days either side, day by day: that day's peak 49,395 MW against a forecast peak of 47,164 MW, 9,262 MW out in its highest hour, 224 constraint-hours. The page says why no hour is drawn (hours are kept for the newest days and the nine events).
+5. *A reader on a phone:* ERCOT beside CAISO in the summer 2023 heat (row H4 of chain 601). Answer: the two operators stand one under the other, each with its own strips; the page is 390 px wide as it opens and with all twelve charts switched to their tables. H4 holds.
+
+**Figures.** In seven views (the five above, CAISO beside SPP over the August 2020 heat, PJM beside MISO), every chart switched to its table: 21 lines at a glance and 15,553 table cells at each width set beside `site/data/conditions/<operator>.json`. All agree but the two alert lists of row C2. (One hour of PJM, 2 November 04:00 UTC, is a row of "not held" on the page and no row in the file: EIA's file lacks it; the page says the truth.) The hourly tables page 500 rows at a time and say so ("Rows 1 to 500 of 865", Earlier, Later).
+
+**The hand, at both widths (11 of 11 checks).** Each chart gives a card inside the screen under the mouse and under a finger ("2026-10-24 17:00 UTC Demand 55,830 MW Day-ahead forecast 56,214 MW"); a choice goes into the address and the page draws it; after the back button the Operator list reads what the page draws; a link carrying two operators and an event opens on them; a day typed and Show keeps the operator; a day before the file (1 January 2010) and a wrong operator in the address break nothing (no empty chart; the second opens ERCOT); the decisions fold opens and its eight marks each open a box with a default and a source inside the screen (84 to 372 px at 390 px); the keyboard alone reaches the foot in 28 stops, each seen and marked.
+
+**Quiet faults.** None: no sideways scroll in any view at 390 px, no empty chart, no "undefined", "NaN" or "null", a blank strip a dashed box with its reason. Usable in 1.4 s as it opens (0.3 to 0.5 s for a second view).
+
+| # | Done | Seen | Should be seen | Whose, and state |
+|---|---|---|---|---|
+| C1 | Any view; the small line under each operator's name | "days and hours in America/Chicago clock time for days and hours" (the page wraps the file's `time`, which is already the whole phrase) | The clock said once | no window's; **fixed** on `wip/c750-conditions` (`569d15885`), with a test |
+| C2 | CAISO, the September 2022 heat wave; and CAISO over the August 2020 heat | The heading reads "Alerts and notices in force, 2022-08-31 to 2022-09-09 (44)"; the table under it has 40 rows and stops at 8 September. Nothing says the list is cut. Missing: 9 September's EEA 1 (16:00 to 20:00), EEA Watch, Flex Alert and RMO. Over August 2020: "(79)" and 40 rows, nothing after 17 August | Every notice the heading counts, or a line saying which are left out | no window's; **fixed** on `wip/c750-conditions` (every notice is a row), with a test that fails on the code before. Landing row 3, ready, to be seen |
+| C3 | Any blank strip, at 390 px with a finger | "Out of service: source needed" in a dashed box. The reason (ERCOT publishes this only on paths its robots file disallows) is the browser's own tooltip: a tap opens nothing. The table "What is held for each grid" says "on hover" too | On a phone, some way to read why a strip is blank | site-wide (part A, point 1); one line under "For Samuel's ruling"; the page left as it is |
+
+Pictures: `docs/reviews/browser-read-2026-11-26/conditions/conditions-as-it-opens-1280.png` (ERCOT, the newest 35 days); `docs/reviews/browser-read-2026-11-26/conditions/conditions-caiso-september-2022-1280.png` (its most telling choice: CAISO over the September 2022 heat wave, three lines at a glance); `docs/reviews/browser-read-2026-11-26/conditions/conditions-two-operators-390.png` (ERCOT beside CAISO at 390 px).
+
+## B11: where the grid is congested (`/congestion`), read in full
+
+Whose: built by the data machine (chain 601); no window's tonight. Read on production on 26 November 11:55 to 12:00 UTC at 1280 and 390 px (`runs/c750/b11_congestion.mjs`). The file is the one built 20 November (L2).
+
+**Five cases, written first, then taken on the page.**
+
+1. *A developer siting a load in SPP:* which constraints bound most in 2026, and what did each cost? Opens the page. Answer: of 1,880 constraints over 324 days, the one that bound most hours is SOONER_SONR_SONR_PHSHFT_PS (6,942 hours, mean shadow price 4.77 USD/MWh), and the one whose shadow price summed highest is TMP128_29363, contingency 333 (2,637 hours, mean 125.19, summed 330,132). The two lists stand one under the other, each under its own heading. Answered.
+2. *A trader:* when does the constraint that cost second most bind? Presses its name in the list. Answer: OSAWEBCLESOO, contingency 33380: the hour-by-month table is darkest in October and November just after midnight (75 hours in October's hour 1), and the chart by month runs to October 2026. Answered at 1280 px under the mouse; at 390 px the table's cells are colors only (row N2).
+3. *A CAISO analyst:* California's constraints of 2025. Chooses CAISO and 2025. Answer: 721 constraints, 69,868 constraint-hours; most hours 24723_CONTROL (4,567); highest sum 39021_SC21ATP (553,893). Answered.
+4. *An investor:* SPP's two hubs side by side in 2025. Answer: the North hub's mean congestion part was -3.69 USD/MWh (13.1 percent off its price, 6,069 hours taking off), the South hub's -2.90 (9.9 percent); the monthly lines and the two hour-by-month tables stand together. Answered.
+5. *A student:* which SPP constraint has bound most since 2014? Chooses "Every year held". Answer: TEXAS_CO_TXPS_TXCO_PHSHFT_PS, 60,293 hours; by sum, OSAWEBCLESOO, 1,999,437. Answered.
+
+**Figures.** In seven views at each width: 1,715 marked figures (each against its key in `site/data/conditions/congestion.json` and against the words on the screen), 350 ranked rows (the file's own top lists in the file's order; 1,400 cells), 4,608 cells of the hour-by-month tables read through their hover words, and 1,218 monthly figures with every chart switched to its table. 166 of 166 checks agree at 1280 px and at 390 px.
+
+**The hand, at both widths (12 of 12).** Each chart gives a card inside the screen; a press on a constraint's name opens when it binds and the Constraint list reads the same; after the back button the list reads what the page draws; choosing CAISO and Show draws a CAISO constraint (the constraint list still holds SPP's names until Show is pressed, and the page then takes CAISO's first); a link carrying two places and their year opens on them; wrong values in the address break nothing; the decisions fold's eight marks open inside the screen; the keyboard reaches the foot in 90 stops, each seen and marked.
+
+**Quiet faults.** None: no sideways scroll (the hour-by-month tables, 760 px wide, scroll inside their 358 px frames at 390 px), no empty chart, no "undefined", no skipped heading. Usable in 1.2 s as it opens.
+
+| # | Done | Seen | Should be seen | Whose, and state |
+|---|---|---|---|---|
+| N1 | The two ranked lists | "Highest: 1080.08 USD/MWh" with no thousands comma, beside "Summed: 330,132" with one | One form in a table | a choice the gate's check pins (`check-values`: "USD/MWh to two decimals without a thousands comma"); for Samuel's ruling, the page left as it is |
+| N2 | An hour-by-month table at 390 px, a finger on a cell | Nothing: each of the 288 cells is a color whose figure is its hover (which is also what a screen reader is given). The line under the table gives only the darkest cell's figure | On a phone, some way to read a cell | site-wide (part A, point 1); for Samuel's ruling |
+| N3 | CAISO's lists | "HUMBOLDT_IMP_NG (contingency Base Case)": the base case is written as a contingency, where SPP's base case has no suffix | The same form for both, or CAISO's word kept as the operator's | a choice of words; for Samuel's ruling |
+
+Pictures: `docs/reviews/browser-read-2026-11-26/congestion/congestion-as-it-opens-1280.png` (SPP, 2026, the list of constraints that bound most); `docs/reviews/browser-read-2026-11-26/congestion/congestion-two-hubs-1280.png` (its most telling choice: SPP's two hubs side by side, the table of places above and the months below).
+
+## B1: the policy week grid (`/policy?view=week`)
+
+Whose: no window's tonight. Read at 1280 and 390 px (`runs/c750/b_a11y.mjs`, `runs/c750/b_a11y2.mjs`).
+
+- As it opens (the last 7 days): "0 actions" and no grid; the page says the actions are held ("license needed") and that the dockets were held on 12 November 2026. With "Last 30 days": 3 actions, a grid of two agencies by nine topics.
+- **The fix is there.** Both buttons of the grid and both row totals have a name a screen reader says, the hover's own words ("Texas PUC: 2 actions on large-load tariff in the last 30 days"; "Texas PUC: 2 actions in all in the last 30 days"). The sixteen zeros are drawn at full strength in the muted color (5.6 to 1), each with its hover ("Texas PUC: 0 actions tagged large loads in the last 30 days").
+- A press on the grid's first button (a finger at 390 px, the mouse at 1280): the address becomes `/policy?view=week&days=30&agency=txpuc&topic=large-load-tariff`, the button reads pressed, the count "2 actions", and the two Texas rows are listed (9 November and 30 October 2026, docket 60332, "no read yet"). No sideways scroll at either width (1265 of 1265; 390 of 390). One h1, then h2, then h3.
+- Nothing to fix. One thing a reader will ask, already said on the page: the newest action is 9 November, seventeen days old, because nothing is extracted while the key is at its limit.
+
+Pictures: `docs/reviews/browser-read-2026-11-26/policy-week/policy-week-as-it-opens-1280.png` (the last 7 days: no action); `docs/reviews/browser-read-2026-11-26/policy-week/policy-week-30-days-1280.png` (the last 30 days: the grid with its zeros at full strength).
+
+## B2: the severance calculator's lists (`/severance`)
+
+Whose: no window's tonight. Read at 1280 and 390 px with every credit of every state and product ticked in turn (`runs/c750/b_a11y2.mjs`).
+
+- Every list and field of the calculator has a name, in every state (Texas, Louisiana, New Mexico) and product, with each credit chosen: no field without one.
+- **The list the fix named is not drawn on production.** "Credit tier, <credit>" is drawn only for a tiered credit that carries no certified price. Both tiered credits in the rules file (Texas, low-producing oil lease and low-producing gas well) carry certified prices, so the page draws the "Report period" list in its place, and that list is named ("Report period, Low-producing oil lease credit, Exempt Type 11"). The fix stands in the code for the day a tiered credit without certified prices is added; there is nothing to see of it today. No fault.
+- No sideways scroll with a credit ticked (1265 of 1265; 390 of 390).
+
+Pictures: `docs/reviews/browser-read-2026-11-26/severance/severance-as-it-opens-1280.png`; `docs/reviews/browser-read-2026-11-26/severance/severance-credit-ticked-1280.png` (the last credit ticked).
+
+## B3: one h1 a page and no level skipped (`/data/licenses`, `/map?tab=resources`, `/map?tab=queues`)
+
+Read at 1280 and 390 px with every fold open (`runs/c750/b_a11y.mjs`). **The fix is there on all three:** `/data/licenses` has one h1 ("Licenses") and 22 headings in order, the record's own title now an h2; `/map?tab=resources` one h1 ("Where the resources are") and 59 headings in order, the method note's headings one level down; `/map?tab=queues` one h1 and "Every entry year" an h2. No sideways scroll.
+
+- **D1, not a fault: the word "undefined" inside an address on `/data/licenses`.** Seen four times in the record of reads: "(answered at https://lustat.statec.lu/undefined)". The read of 20 November settled it (row E3 of `docs/reviews/browser-read-2026-11-20.md`): it is the publisher's own answer, its server sending a robots request to an address that ends "undefined", and the record (`warehouse/metadata/license_reads.csv`, reads 1560, 1565, 1582 and 1586) says what was answered. Not reopened; no request filed.
+
+## B10: the two fixes that read landed and are not on main
+
+Read on production on 26 November at 11:42 UTC (`runs/c750/b10.mjs`). Both faults are still there.
+
+- **`/curtailment/where-when`, the trend by year switched to its table:** the column reads "CAISO, the whole system: curtailment, GWh" over solar alone (2025: 3,482; with wind and solar chosen the same heading stands over 3,766). The unlanded commit `4f3247287` names the fuel in the heading.
+- **`/events/covid-2020` at 390 px:** 390 px wide as it opens; with a grid's chart switched to its table the page is 392 px wide (a table 739 px wide pushes its block past its column). The unlanded commit `923d4cb4f` keeps each block to its column.
+- Row 2 of `docs/state/landing_request_portable_w2.md` asks for the two commits, ready, to be seen. The branch is the desktop's second window's and is not touched here.
+
+Picture: `docs/reviews/browser-read-2026-11-26/events-covid-2020/covid-390-tables-showing.png` (390 px with the tables showing).

@@ -1,0 +1,46 @@
+eia930_all_demand eq.eia930:US48 eq.demand_mw: 121
+eia930_all_generation eq.eia930:US48 : 1632
+carbon_intensity_hourly eq.eia930:US48 : 240
+refused /storage/v1/object/public/erw-public/network/grid_network.json
+eia930_all_generation eq.eia930:US48 : 1632
+eia930_all_generation eq.eia930:US48 : 1632
+eia930_all_generation eq.eia930:US48 : 1632
+eia930_all_generation eq.eia930:US48 : 1632
+eia930_all_demand eq.eia930:US48 : 121
+eia930_all_generation eq.eia930:US48 : 1632
+eia930_all_generation eq.eia930:US48 : 1632
+eia930_all_generation eq.eia930:US48 : 1632
+eia930_all_generation eq.eia930:US48 : 1632
+eia930_all_generation eq.eia930:US48 : 1632
+refused /rest/v1/catalogue
+refused /rest/v1/catalogue
+refused /storage/v1/object/public/erw-public/network/grid_network.json
+carbon_intensity_hourly  : 1528
+carbon_intensity_monthly  eq.intensity_generation: 641
+carbon_intensity_hourly  : 1528
+carbon_intensity_hourly  : 1528
+carbon_intensity_hourly  : 1528
+carbon_intensity_hourly  : 1528
+refused /rest/v1/catalogue
+refused /rest/v1/catalogue
+refused /rest/v1/catalogue
+eia930_all_demand eq.eia930:PJM eq.demand_mw: 96
+eia930_all_generation eq.eia930:PJM : 648
+carbon_intensity_hourly eq.eia930:PJM : 96
+refused /storage/v1/object/public/erw-public/network/grid_network.json
+eia930_all_demand eq.eia930:PJM : 96
+eia930_all_generation eq.eia930:PJM : 648
+refused weather_obs_hourly
+refused /rest/v1/catalogue
+refused /rest/v1/catalogue
+refused /storage/v1/object/public/erw-public/network/grid_network.json
+refused ba_supply_monthly
+carbon_intensity_hourly  : 1528
+carbon_intensity_monthly  eq.intensity_generation: 641
+carbon_intensity_hourly  : 1528
+carbon_intensity_hourly  : 1528
+carbon_intensity_hourly  : 1528
+carbon_intensity_hourly  : 1528
+refused /rest/v1/catalogue
+refused /rest/v1/catalogue
+refused /rest/v1/catalogue
