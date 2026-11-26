@@ -1,0 +1,51 @@
+# Session 10226: /contracts, one rule at a time; counts only
+
+## 1. The quarters signed, as each quarter's own file filed them and as the newest file (2026 Q2) holds them: energy, capacity and tolling
+execution quarter | rows in its own file | rows in the next file | rows in 2026 Q2's file (the page) | the page over its own file | contracts: own file, 2026 Q2, kept | short terms (under a year): own file, 2026 Q2
+2025_Q3 | 2,129 | 200 | 273 | 0.128 | 2,052, 168, 46 | 1,946, 36
+2025_Q4 | 2,209 | 272 | 311 | 0.141 | 2,135, 214, 59 | 2,018, 41
+2026_Q1 | 701 | 396 | 396 | 0.565 | 556, 243, 84 | 383, 93
+2026_Q2 | 227 | None | 227 | 1.000 | 175, 175, 175 | 62, 62
+every product, rows: 2025_Q3 own file 2,976, 2026 Q2's 1,393; 2025_Q4 own file 3,290, 2026 Q2's 1,817; 2026_Q1 own file 1,954, 2026 Q2's 1,912
+
+## 2. Why a contract of an older quarter is missing from 2026 Q2's file (energy, capacity and tolling)
+2025_Q3: 2,006 of 2,052 contracts in its own file are not in 2026 Q2's; of them 1,921 file a termination date before 1 April 2026, 1,955 an actual termination date; 36 neither
+2025_Q4: 2,076 of 2,135 contracts in its own file are not in 2026 Q2's; of them 2,003 file a termination date before 1 April 2026, 2,015 an actual termination date; 37 neither
+2026_Q1: 472 of 556 contracts in its own file are not in 2026 Q2's; of them 348 file a termination date before 1 April 2026, 382 an actual termination date; 74 neither
+
+## 3. Filed late: contracts executed in a quarter that first appear in the next quarter's file (energy, capacity and tolling)
+2025_Q3: 2,052 contracts in its own file; 65 more first filed for 2025_Q4 (+3.2 percent); rows in 2025_Q4's file 200 against 2,129
+2025_Q4: 2,135 contracts in its own file; 126 more first filed for 2026_Q1 (+5.9 percent); rows in 2026_Q1's file 272 against 2,209
+2026_Q1: 556 contracts in its own file; 159 more first filed for 2026_Q2 (+28.6 percent); rows in 2026_Q2's file 396 against 701
+
+## 4. The window (1,000 days) against the whole file, rows by quarter of execution, every product
+2024_Q1: window 1,404, whole file 1,546
+2024_Q2: window 1,888, whole file 1,888
+2024_Q3: window 2,302, whole file 2,302
+2024_Q4: window 2,008, whole file 2,008
+2025_Q1: window 2,486, whole file 2,486
+2025_Q2: window 2,334, whole file 2,334
+2025_Q3: window 1,393, whole file 1,393
+2025_Q4: window 1,817, whole file 1,817
+2026_Q1: window 1,912, whole file 1,912
+2026_Q2: window 1,391, whole file 1,391
+rows of 2026 Q2's file executed before 2024-01-09: 167,884 of 186,873
+largest quarter in the window (every product): 2,486 rows (the read's limit 5,000)
+
+## 5. A price as a number: the rows of the window
+x_rate not empty 8,033; of them reading as a number 8,033, not a number 0; the number 0 4,119; empty 10,956
+
+## 6. The default view (2026 Q2 signed, energy, capacity and tolling): rows, agreements, contracts, products
+rows 227; agreements (seller name | agreement id) 174; contracts (company id | contract id) 175
+agreement and product: 198 pairs; 18 hold more than one row, 47 rows in them, largest 4
+contract and product: 199 pairs; 18 hold more than one row, 46 rows in them, largest 4
+sellers by name 78, by company id 78; buyers by name 95, by name in capitals and trimmed 93
+numbers by product and unit: CAPACITY $/KW-MO 2; CAPACITY $/MW 1; CAPACITY $/MW-DAY 15; CAPACITY $/MW-MO 37; CAPACITY (none) 1; ENERGY $/KWH 1; ENERGY $/MW-MO 1; ENERGY $/MWH 50; ENERGY (none) 4
+strips of one calendar month from its first day: to the month's last day 27
+
+## 7. ERCOT in 2026 Q2's whole file
+rows 244; by product: OTHER 197; INTERCONNECTION AGREEMENT 32; POINT-TO-POINT AGREEMENT 12; TOLLING ENERGY 3; filers 3, the largest filer's rows 229 (93.9 percent)
+
+## 8. The decisions' figures
+energy, capacity and tolling: 66,656 of 186,873 rows of the file (35.7 percent); of the rows signed in 2026 Q2 (the window): 227 of 1,391 (16.3 percent)
+in force 178,842, terminated 8,031, whole file 186,873
