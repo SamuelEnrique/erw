@@ -68,6 +68,7 @@ Heat waves and cold snaps are stories about the peak hour.
   - The highest peak hour against the baseline was on 2020-08-18 (+23.50 percent, 46,643 MW), not on the outage days (+10.74 and +21.58 percent).
   - The same report says "August 17 through 19 were projected to have much higher supply shortfalls", and credits a statewide mitigation effort and consumer conservation for avoiding further outages.
   - Demand served on 14 and 15 August also leaves out the load that was shed.
+- **The carbon intensity has no hydro under it (session 10225, 26 November 2026).** EIA's file holds no hydro for CAISO from the hour starting 2019-10-01T21:00Z to the hour starting 2020-08-24T17:00Z, and its net generation leaves it out too (`impossible_hours.md`, "California's hydro gap"), so each of the window's 14 days of `intensity_generation` divides CO2 by a net generation without hydro: the window averages 281.32 kg CO2/MWh against 204.95 (2018) and 184.98 (2019) on the baseline days, which hold it. The event's region file shows the same gap from the other side: California's hydro averages 1,273 MW over the window against 4,461 MW in the baseline (4.2 against 15.8 percent of net generation). The ERW's rule leaves those days out and is held (`impossible_hours.HELD`); the page says so in words (`docs/reviews/events-model-audit-2026-11-26.md`, finding 5).
 - **Left out:** three CISO days, each missing one hour in EIA's data:
   - 2020-08-10, an event day;
   - 2019-08-13 and 2019-08-25, baseline days, so their comparisons for 2020-08-11 and 2020-08-23 are missing.

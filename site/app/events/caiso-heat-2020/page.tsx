@@ -13,6 +13,12 @@ export const revalidate = 3600;
 const EV = "caiso_heat_2020";
 const RCA = "https://www.caiso.com/Documents/Final-Root-Cause-Analysis-Mid-August-2020-Extreme-Heat-Wave.pdf";
 const E = "eia930:CISO";
+// Session 10225 (chain 710, the events audit, finding 5): EIA's file holds no hydro for CAISO from 2019-10-01 21:00 UTC
+// to 2020-08-24 17:00 UTC (impossible_hours.CISO_NO_HYDRO), and its net generation leaves it out too, so every day of
+// this window divides CO2 by a net generation without hydro. The window's carbon intensity averages 281.32 kg/MWh
+// against 204.95 (2018) and 184.98 (2019) on the baseline days, which hold hydro. The ERW's rule leaves those hours out
+// and is held (docs/methods/impossible_hours.md); the page says so. Words only; no figure moves.
+const HYDRO_GAP_WORDS = "The carbon intensity on this page is too high in the event's window: EIA's figures for CAISO hold no hydro from October 2019 to the morning of 24 August 2020, and its net generation leaves the hydro out too, so every day of the window divides the CO2 by a net generation without it, while the baseline days of 2018 and 2019 hold it. The warehouse's own rule for those hours leaves them out; it is held until a person approves it.";
 
 export default function CaisoHeat2020({ searchParams }: PageProps = {}) {
   return (
@@ -35,7 +41,8 @@ export default function CaisoHeat2020({ searchParams }: PageProps = {}) {
       caveat={
         <>
           Demand here is demand served: during the rotating outages, customers whose power was cut used nothing. CAISO&apos;s prices for 2020 are not in the
-          warehouse, so this page has no price chart. Days are Pacific time.
+          warehouse, so this page has no price chart. Days are Pacific time.{" "}
+          <span data-hydro-gap="1">{HYDRO_GAP_WORDS}</span>
         </>
       }
       after={(rows) => {
