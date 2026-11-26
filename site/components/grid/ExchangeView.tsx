@@ -39,7 +39,8 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
     return (
       <div data-grid-view="exchange">
         <p className="mb-6 max-w-3xl text-base leading-relaxed">
-          The Lower 48 is the sum of its grids, so its exchange is theirs: what each of the seven grids sent out or took in over its ties in the hour starting {hourName(hour)}.
+          {/* session 10205 (Grid audit, finding 1): the Lower 48 is not the sum of the seven grids (they carry about two thirds of its demand), and its own exchange is with Canada and Mexico alone */}
+          The Lower 48 holds these seven grids and the other balancing authorities of the lower 48 states; what they trade with one another cancels inside it, so its own exchange is with Canada and Mexico alone. Here is what each of the seven grids sent out or took in over its ties in the hour starting {hourName(hour)}.
           {top ? <> The largest net exporter among all {snap.nodes.length} balancing authorities was {nameOf(top.id)}, with <Num check={`net|topexport|${hour}`} raw={top.mw}>{shown(top.mw)}</Num> MW.</> : null}
         </p>
         <ToolSection title="The seven grids, that hour" note="Net export, MW: the sum of a grid's reporting ties, signed from its side. A negative number is a net import.">
