@@ -5,7 +5,7 @@ import { TableDownloads } from "@/components/tool/TableDownloads";
 import { SourceLine, Tip, ToolHeader, ToolPage } from "@/components/tool/ToolPage";
 import { NOT_MODELED, TABLE, TAX_TABLE } from "@/lib/impact";
 import { pack, type Row } from "@/lib/forecast";
-import { gasSeverance, groupPlanned, params } from "@/lib/forecastdata";
+import { dcParams, dcProjectList, gasSeverance, groupPlanned, params } from "@/lib/forecastdata";
 import { parse, withProjects } from "@/lib/forecastui";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { Forecast } from "./Forecast";
@@ -33,18 +33,21 @@ export default async function Impact({ searchParams }: { searchParams: Promise<R
     select: "entity_id,name,capacity_mw,tech:extra->>technology_group,state:extra->>state,county:extra->>county,date:extra->>date",
     table_name: "eq.energy_projects", "extra->>kind": "eq.planned", "extra->>technology_group": "in.(wind,solar,natural_gas,geothermal)", order: "entity_id" }, HOURLY, 10_000));
   const list = planned.ok ? groupPlanned(planned.data) : [];
+  // chain 740: the datacenter (lib/datacenter.ts): its parameters and the announced projects of the left box
+  const P2 = dcParams();
+  const dcList = dcProjectList();
   return (
     <Brand noUsage>
       <ToolPage>
         <ToolHeader
           title="Local impact"
           crumb="Economics"
-          lead={<>Jobs, earnings and state and local taxes of a wind, solar, gas or geothermal plant, year by year from its construction to the end of its operation, with their present value: two scenarios side by side.<Tip id="lead" label="the tool">Jobs, earnings and output are NLR&apos;s JEDI models read for every state. Property tax follows the state&apos;s statute where the ERW holds one (each state's rule, or the reason none is held, in the property tax row's hover); sales and income tax follow the 2026 rates; severance follows the rules of the severance calculator. Every dollar is a 2025 dollar. Gross effects of an input-output model: what the project adds, not net of what the land, money and workers would otherwise have done. {NOT_MODELED.why}</Tip></>}
+          lead={<>Jobs, earnings and state and local taxes of a wind, solar, gas or geothermal plant or a datacenter, year by year from its construction to the end of its operation, with their present value: two scenarios side by side.<Tip id="lead" label="the tool">Jobs, earnings and output are NLR&apos;s JEDI models read for every state. Property tax follows the state&apos;s statute where the ERW holds one (each state's rule, or the reason none is held, in the property tax row's hover); sales and income tax follow the 2026 rates; severance follows the rules of the severance calculator. Every dollar is a 2025 dollar. Gross effects of an input-output model: what the project adds, not net of what the land, money and workers would otherwise have done. {NOT_MODELED.why}</Tip></>}
         />
         {!read.ok ? (
           <p className="border border-rule bg-paper px-3 py-2 text-sm" role="status">The table could not be read, so no number is shown: {read.reason}</p>
         ) : (
-          <Forecast P={P} jedi={pack(read.data)} start={withProjects(start, q, list.map((p) => p.id))} rules={gasSeverance()} planned={list} />
+          <Forecast P={P} P2={P2} dcList={dcList} jedi={pack(read.data)} start={withProjects(start, q, list.map((p) => p.id), dcList.map((p) => p.id))} rules={gasSeverance()} planned={list} />
         )}
         <div className="mt-10">
           <TableDownloads tables={[TABLE]} />
