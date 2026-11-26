@@ -32,6 +32,7 @@ Chain file: queue/done/710-night-26-november-oldlaptop-weekend-page-model-audits
 - Part D goes on, the interconnection queues: `docs/reviews/queues-model-audit-2026-11-26.md` on main at `b05198eb4`. Arithmetic right (17,246 values). 6 findings (1 medium, 4 low, 1 very low); words rows 94 to 98 requested as one group; 3 for Samuel's ruling (`-2`, `-7`, finding 5's figure); data request 19. Weekend page brought up to date. Report `archive/sessions/SESSION_10213_REPORT.md`. done, 10213
 - Part D goes on, the consumption page (`/demand`): session 10214, `erw-c710-a`, `wip/audit-demand-*`. started, 10201
 - Part D goes on, the storage page: `docs/reviews/storage-model-audit-2026-11-26.md` on main at `37969a2cf`. Arithmetic right (97 of 97, 629 of 629). 7 findings (1 major, 2 moderate, 4 minor); six words branches merged as `wip/audit-storage-words`, row 99 requested; 1 for Samuel's ruling (`-5`); data requests 20 and 21. Weekend page brought up to date. Report `archive/sessions/SESSION_10212_REPORT.md`. done, 10212
+- Part D goes on, the project map (`/map`): session 10216, `erw-c710-b`, `wip/audit-map-*`. started, 10201
 - Part D goes on, the deal tracker (`/deals`): session 10215, `erw-c710-c`, `wip/audit-deals-*`. started, 10201
 - Part D goes on: the storage page (session 10212, `erw-c710-b`, `wip/audit-storage-*`) and the interconnection queues (10213, `erw-c710-c`, `wip/audit-queues-*`). started, 10201
 - Part A, item 5 (kept current until Saturday 28 November 10:00 PST): open, after each step of parts B to D. started, 10201
