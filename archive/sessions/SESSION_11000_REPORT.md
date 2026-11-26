@@ -35,6 +35,13 @@ Filed for the windows that own the page tonight (rows of the review): CP1, `/cos
 
 - At about 12:23 UTC two runs I had put in the background were stopped, the laptop critically low on memory while the session waited on them: the sweep of all 616 method pages at a phone's width, and the site's figure check over its whole list. Neither is started again unless asked. Since then every read runs in the foreground. The figure check was run in the foreground on the five tools' addresses only; the method pages were not swept.
 
+## A slip of mine at 17:42 UTC: the internal view's door closed to this laptop for an hour
+
+- **What happened.** The door of the internal view counts every unlock, right or wrong, and allows 30 an hour from one address (`site/lib/guard.ts`, `TOKEN_TRIES`, Samuel's number of session 9812); past it the door answers as to a wrong token. My read kit unlocked once for every script it ran. Reading the 17:13 UTC landing I ran about 35 short scripts within the hour, and at 17:42 UTC the door stopped opening: the site's figure check reported "no internal cookie", and the next browser read failed at the form.
+- **Whom it touches.** Every reader from this laptop's address until the hour's count falls: this window, and the first window (chain 720) for anything it reads on production in the internal view. Its local builds are another address and are not touched. No page, table or file was changed by it.
+- **What I did.** I stopped trying the door (each try is counted, so more tries only keep it closed), told the first window in this window's landing file, and changed the kit so that it cannot happen again: it now keeps the reviewer's cookie between runs, as a person's browser does, and goes to the door only when no kept cookie opens the view (the cookie is in the system's temp folder, outside the repository, never printed). One unlock in place of one a script.
+- **What was not read because of it:** the site's own figure check (`check-values`) on `/forecast`, `/equities` and the board after the landing, and the first minute with tonight's pages. Both are taken up again once the door opens.
+
 ## Decisions made without you
 
 - **The precheck's failed check was passed over.** From a worktree `daily_cap` always fails (no cost ledger in the folder, and Supabase's copy did not answer). This window spends USD 0 on models, so the session went on, as the desktop's worktree windows do.
