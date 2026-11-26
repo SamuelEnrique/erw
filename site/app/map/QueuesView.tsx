@@ -16,7 +16,8 @@ export const QUEUE_TABLE = "iso_queue_statistics";
 const METHOD = "/data/methods/energy_projects";
 export const QUEUE_ISOS: [string, string][] = [["caiso", "CAISO"], ["ercot", "ERCOT"], ["nyiso", "NYISO"], ["miso", "MISO"], ["spp", "SPP"], ["isone", "ISO-NE"]];
 const NOT_HELD: Record<string, string> = {
-  ercot: "ERCOT's report lists active and completed positions only, so no withdrawn count and no withdrawal rate are held.",
+  // session 10216 (the map audit, finding 1): ERCOT's "Operating" follows the queue as last pulled (session 7022)
+  ercot: "ERCOT's report lists active and completed positions only, so no withdrawn count and no withdrawal rate are held. Its \"Operating\" follows the queue as the ERW last pulled it: from a pull before 17 November 2026 it counts every position with a signed interconnection agreement, built or not; from later pulls, the positions ERCOT approved to synchronize.",
   miso: "MISO's queue holds no in-service date, so no wait is held.",
   isone: "ISO-NE's queue holds no in-service date, so no wait is held.",
   spp: "SPP's wait reads its Commercial Operation Date, which its queue fills for active and withdrawn positions too: for an operating position it may be the date requested, not achieved.",

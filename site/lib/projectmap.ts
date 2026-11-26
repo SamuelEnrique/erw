@@ -94,10 +94,18 @@ export const PLACED_AT = ["exact coordinates", "county point", "city or town poi
 export const DATE_WORDS = ["began operating", "planned operation", "entered the queue", "planned year, as stated"];
 /** A row's status in the list's words. ERCOT's "Completed" is not ERCOT's word: its report has no status column, and the
  *  library the connector reads it through writes "Completed" when the interconnection agreement is signed, built or
- *  not (docs/methods/energy_projects.md, "ERCOT's 'Completed' is not ERCOT's word", session 7518). */
-export function statusWords(f: Pick<MapFile, "k" | "g" | "st" | "grids" | "statuses">, i: number): string {
+ *  not (docs/methods/energy_projects.md, "ERCOT's 'Completed' is not ERCOT's word", session 7518).
+ *  Session 10216 (the map audit, finding 1): since session 7022 (landed 16 November 2026) the connector reads ERCOT's own
+ *  milestones, so in a queue pulled from 17 November 2026 ERCOT's "completed" is a position ERCOT approved to
+ *  synchronize, and a signed agreement alone is "active". The words follow the copy's own queue vintage. */
+export const ERCOT_MILESTONES_FROM = "2026-11-17";
+/** True when the copy's queue predates ERCOT's milestones: its "completed" is then a signed agreement, built or not. */
+export const ercotCompletedIsSigned = (f: { vintages?: Record<string, string> }) => (f.vintages?.queue ?? "") < ERCOT_MILESTONES_FROM;
+export function statusWords(f: Pick<MapFile, "k" | "g" | "st" | "grids" | "statuses"> & { vintages?: Record<string, string> }, i: number): string {
   const s = f.statuses[f.st[i]];
-  if (f.k[i] === KIND.queue && s.slug === "q-completed" && f.grids[f.g[i]].slug === "ercot") return "Agreement signed, built or not (ERCOT; the table says completed)";
+  if (f.k[i] === KIND.queue && s.slug === "q-completed" && f.grids[f.g[i]].slug === "ercot") {
+    return ercotCompletedIsSigned(f) ? "Agreement signed, built or not (ERCOT; the table says completed)" : "Approved for synchronization (ERCOT; the table says completed)";
+  }
   return s.name;
 }
 
