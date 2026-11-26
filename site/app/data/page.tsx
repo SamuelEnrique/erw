@@ -149,7 +149,10 @@ export default async function Data() {
           How to cite a table: the publisher, the report, then &ldquo;via the Energy Research Warehouse (ERW), table{" "}
           <code className="font-mono">&lt;table&gt;</code>, Redivis dataset <code className="font-mono">energy_research_warehouse</code>, version v1&rdquo;,
           with the date of the release. Version: v1, pending release; each table&apos;s own line is in the release&apos;s{" "}
-          <a href="https://github.com/SamuelEnrique/erw/blob/main/docs/redivis/release-v1/tables.csv">table list</a>.
+          <a href="https://github.com/SamuelEnrique/erw/blob/main/docs/redivis/release-v1/tables.csv">table list</a>. The packages below write another
+          dataset&apos;s name, <code className="font-mono">datapages.erw</code>, the copy prepared under the Stanford organization (its own{" "}
+          <a href="https://github.com/SamuelEnrique/erw/blob/main/docs/redivis/release-v1-stanford/tables.csv">table list</a>); this page links and cites{" "}
+          <code className="font-mono">energy_research_warehouse</code>. Neither is released, so a citation names the dataset the table was read from.
         </p>
       </Section>
 
