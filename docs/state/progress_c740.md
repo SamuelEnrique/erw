@@ -16,11 +16,11 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 
 | Item | State | Session | Note |
 |---|---|---|---|
-| What the tool holds today | in progress | 10800 | `forecast.md` and `economic_impact.md` read whole. The datacenter sales tax exemptions of section 4 are prose only: no addresses, no quotes, no rows in `sales_exemptions.json`; they are read again here |
-| The method modeled on (LSU CES) | not started | | |
-| Sources: jobs and wages | not started | | `census_cbp_hosting_annual` (public, NAICS 518210 by state, 2012 to 2023) is on the machine; BLS refuses automated reads (section 10 of the note) |
-| Sources: announced projects | not started | | |
-| Sources: construction cost per MW | not started | | |
-| Sources: multipliers | not started | | |
-| Sources: taxes by state | not started | | |
-| Verdict | not started | | |
+| What the tool holds today | done | 10800 | `docs/reviews/impact-datacenter-sources-2026-11-26.md` section 1. The datacenter sales tax exemptions of the note's section 4 are prose only: no addresses, no quotes, no rows in `sales_exemptions.json`; read again |
+| The method modeled on (LSU CES) | done | 10800 | section 2: LEIM is RIMS II based, a subscription; LEAP places it third of four components |
+| Sources: jobs and wages | done | 10800 | CBP 518210 by state (held, public) used; QCEW refused; JLARC's figures for ranges |
+| Sources: announced projects | done (first pass) | 10800 | 8 agencies' hosts readable; gov.texas.gov, michigan.gov, georgia.org, DigitalBridge refuse |
+| Sources: construction cost per MW | done | 10800 | JLARC Table D-1 split (6.1, 19.6, 68.2, 6.1 percent); no public cost per MW: from part B |
+| Sources: multipliers | done | 10800 | JEDI none (12 families); RIMS II USD 520 a region, USD 160 an industry (paid); IMPLAN no printed price; Virginia's JLARC tables public |
+| Sources: taxes by state | in progress | 10800 | Virginia (exemption, property classes, consumption tax), Louisiana (rebate), Iowa (exemption) read; Indiana's statute behind a script; West Virginia's code host times out (waiting) |
+| Verdict | done | 10800 | five lines at the top of the review |
