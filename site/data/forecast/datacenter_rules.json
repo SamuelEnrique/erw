@@ -48,6 +48,8 @@
   "wy_39_15_105": {"title": "Wyoming Statutes Title 39: 39-15-105(a)(viii)(S), sales tax exemptions for a data processing services center (with the definition in 39-15-101(a)(xliv)); 39-11-101, taxable value by class", "url": "https://wyoleg.gov/statutes/compress/title39.pdf", "read": "2026-11-26", "request": 303},
   "il_dor_excise": {"title": "Illinois Department of Revenue, Excise Tax Rates and Fees (the Electricity Excise Tax)", "url": "https://tax.illinois.gov/research/taxrates/excise.html", "read": "2026-11-26", "request": 307},
   "il_dceo": {"title": "Illinois Department of Commerce and Economic Opportunity, Data Center Investment Tax Exemptions and Credits (with its 2025 Data Centers Annual Report, request 248)", "url": "https://dceo.illinois.gov/expandrelocate/incentives/datacenters.html", "read": "2026-11-26", "request": 247},
+  "al_dor_adval": {"title": "Alabama Department of Revenue, Property (Ad Valorem) Tax", "url": "https://www.revenue.alabama.gov/tax-types/property-ad-valorem-tax/", "read": "2026-11-26", "request": 334},
+  "ms_dor_appraisal": {"title": "Mississippi Department of Revenue, Local Property Appraisal", "url": "https://www.dor.ms.gov/county-services/local-property-appraisal", "read": "2026-11-26", "request": 335},
   "mo_137_115": {"title": "Missouri Revised Statutes 137.115, Real and personal property, assessment", "url": "https://revisor.mo.gov/main/OneSection.aspx?section=137.115", "read": "2026-11-26", "request": 330},
   "mo_137_016": {"title": "Missouri Revised Statutes 137.016, Real property subclasses", "url": "https://revisor.mo.gov/main/OneSection.aspx?section=137.016", "read": "2026-11-26", "request": 333},
   "nv_361_225": {"title": "Nevada Revised Statutes 361.225, Rate of assessment", "url": "https://www.leg.state.nv.us/NRS/NRS-361.html", "read": "2026-11-26", "request": 329},
@@ -357,6 +359,9 @@
   },
   "al": {
    "name": "Alabama",
+   "property": {"building_ratio": 0.2, "equipment_ratio": 0.2, "cite": "al_dor_adval",
+    "quote": "Class II: 20% All property not otherwise classified.",
+    "tip": "Alabama (the Department of Revenue's property tax page): property not otherwise classified (Class II) is assessed at 20 percent of its fair and reasonable market value. The tool assesses the building and the equipment at 20 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate; a local Chapter 9B abatement goes in the abatement input."},
    "sales_exemption": {
     "cite": "al_dor_9b", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
     "quote": "Act 2026-573 makes updates to the requirements for data processing centers granted an abatement under Chapter 9B on or after January 1, 2027.",
@@ -503,6 +508,10 @@
   },
   "ms": {
    "name": "Mississippi",
+   "property": {"building_ratio": 0.15, "equipment_ratio": 0.15, "cite": "ms_dor_appraisal",
+    "quote": "All other real property, except for real property included in Class I or IV 15%",
+    "personal": {"cite": "ms_dor_appraisal", "quote": "Personal property, except for motor vehicles and for personal property included in Class IV 15%"},
+    "tip": "Mississippi (the Department of Revenue's local property appraisal page): real property other than Class I or IV (Class II) and personal property other than motor vehicles and Class IV (Class III) are each assessed at 15 percent of true value. The tool assesses the building and the equipment at 15 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate; a county's fee in lieu goes in the abatement input."},
    "sales_exemption": {
     "cite": "ms_governor_xai", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
     "quote": "The Mississippi Development Authority has approved xAI for its Data Center Incentive, which provides a sales and use tax exemption for all computing and equipment software used by companies certified as data centers by the agency.",
