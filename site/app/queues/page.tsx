@@ -37,7 +37,13 @@ function flatWords(grid: Grid, tech: Tech, allWithdrawn: number | null) {
 function Withdrawn({ v, k, grid, tech }: { v: View; k: string; grid: Grid; tech: Tech }) {
   const x = v.whole.past_withdrawn_share_pct;
   if (x === undefined) return NOT;
-  if (!noneWithdrawn(v, file.min_share)) return <N k={k}>{two(x)}</N>;
+  if (!noneWithdrawn(v, file.min_share)) {
+    // session 10213 (docs/reviews/queues-model-audit-2026-11-26.md, finding 2): the builder's mark on a view whose share
+    // counts another grid's labels (the United States' solar with storage counts ERCOT's), drawn on the figure
+    const mark = file.not_comparable?.[`${grid.slug}|${tech.slug}`];
+    if (!mark) return <N k={k}>{two(x)}</N>;
+    return <span title={`${mark.replace(" (above)", "")} The method note, "ERCOT's solar with storage is not comparable", says why. Source: Lawrence Berkeley National Laboratory and GridTracker, Queued Up: 2026 Edition data file.`} data-not-comparable={`${grid.slug}|${tech.slug}`} className="underline decoration-dotted"><N k={k}>{two(x)}</N></span>;
+  }
   const all = viewOf(file, grid.slug, "all");
   return <span title={flatWords(grid, tech, all ? withdrawnOf(all) : null)} data-none-withdrawn={`${grid.slug}|${tech.slug}`} className="underline decoration-dotted"><N k={k}>{two(x)}</N></span>;
 }
