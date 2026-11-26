@@ -1,6 +1,6 @@
 # Note of chain 750 (the portable laptop's second window, 26 November 2026): the browser read
 
-Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-portable-window2-browser-read.md`. Progress: `docs/state/progress_c750.md`. The review: `docs/reviews/browser-read-2026-11-26.md`. Model spend USD 0. Kept current while the chain runs; this is its state at 17:50 UTC on 26 November.
+Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-portable-window2-browser-read.md`. Progress: `docs/state/progress_c750.md`. The review: `docs/reviews/browser-read-2026-11-26.md`. Model spend USD 0. Kept current while the chain runs; this is its state at 19:00 UTC on 26 November.
 
 ## First: prices the site holds back are served to any visitor as files
 
@@ -19,6 +19,7 @@ Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-po
   - `/forecast` (window E's): 43 addresses at each width, 38,042 figures agreeing with its files; nothing on it can be taken for a published figure; the score tables draw a loss exactly as a win (the operator is ahead in 24 of 29 places, and the page shows all 29); a held place's price is a blank;
   - `/equities` and the board: 19 addresses, 832 figures; a held price is a blank with its reason, never a zero; the board lost nothing (25 groups and 276 rows as before, one group of 30 rows added). The files hold no company yet, so "a company's filed figures open their filing" could not be read;
   - this window's rows 4, 5 and 6 seen fixed on production; the eight new labels of the method pages seen; the large-load rule newly read (Rhode Island) opens its order and the rule newly held is blank; 25 changed pages compared before and after, nothing lost.
+- **Tonight's third landing (18:35 UTC), read from 18:42 UTC:** this window's rows 7 and 8 seen fixed; `/forecast` with its new days ahead and day's peak (741 of 741 checks, 39,860 figures; the hover now says when the file's hour is not the rule's); `/equities` and the board unchanged; 27 changed pages compared before and after, nothing lost; the new problem set read. One thing found, the fifth worst below: the forecast the page draws for tomorrow is not the one its ledger keeps.
 - **Three more reads the chain does not ask for, each of which found something:** an accessibility audit of 39 pages (AccessLint), every link of 199 addresses read for a link told by color alone, and every address opened at 360, 320 and 768 px.
 - **Faults, by owning window:**
   - no window's page tonight: 12 found, 12 fixed on eight branches, each with a test (rows 1 and 3 to 9 of `docs/state/landing_request_portable_w2.md`). Rows 1 and 3 landed at 14:16 UTC and are seen on production; rows 4, 5 and 6 landed at 17:13 UTC; rows 7 and 8 (three links told by their color alone on `/events`, `/curtailment` and `/play/ev`, found by an accessibility audit of 39 pages and a read of every link of 199 addresses) and row 9 (`/learn/problems` wider than a 360 px phone, found by opening every address at 360, 320 and 768 px) are seen in a build by the first window and requested;
@@ -32,13 +33,14 @@ Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-po
 
 - At 17:42 UTC the internal view's door closed to this laptop until 18:00 UTC: it allows 30 unlocks an hour from one address, and my read kit unlocked once a script. Nothing was changed by it; the first window was told; the kit now keeps the reviewer's cookie (one unlock). The site's own figure check on the new pages and the first minute wait for the door.
 
-## The five worst things found
+## The worst things found (after the one at the top)
 
 1. **`/grid?grid=caiso` scrolls sideways on a phone** (539 of 390 px) since 21 November: the accessibility fix made that day without a browser put 226 hidden labels in the reliability table, and those past the table's frame widen the page. Fixed, seen in a build, requested.
 2. **`/conditions` dropped alerts without saying so:** 40 rows under a heading that counts 44 (CAISO's September 2022 heat wave lost its last day) and 40 of 79 (August 2020). Fixed, seen in a build, requested.
 3. **On the All grids tab of `/cost-of-power` the back button changes the address and not the page** (8 of 8 tries): the screen shows the flexible load under the datacenter's address, on a page that tells its reader to copy the address. And its "Grid by grid" view becomes 1,677 px wide on a phone after one tap on a chart's Table switch. Both filed for the windows that own the page tonight.
 4. **The Grid tool's "same day last week" loses its first 5 to 8 hours on every grid** whenever the loads are two days behind the clock, though the live set holds them. Fixed, seen in a build, requested.
-5. **The same place and day read two ways on two pages:** the Southeast on 13 November is 606.1 GWh on `/forecast` and 570.6 GWh on `/demand` (4 to 6 percent apart on five days), because the demand files are those of 21 November: every page that draws the data machine's page files shows 18 to 20 November (data request 575; window A repairs the files tonight). And **two fixes marked landed on 21 November were not on main** (landed tonight).
+5. **The forecast drawn for tomorrow is not the forecast the ledger keeps.** `/forecast` offers its ledger as "each forecast as it was made on its day, never rewritten", and it was not rewritten: it holds the making of 11:00 UTC. The page draws the making of 15:00 UTC, by another method: 672 of 696 place-hours of tomorrow's demand differ (Texas' highest hour 55,296 MW on the page, 54,040 MW in the ledger it serves). After the day, the record will hold a forecast no reader was shown. Data request 577 (windows A and B).
+6. **The same place and day read two ways on two pages:** the Southeast on 13 November is 606.1 GWh on `/forecast` and 570.6 GWh on `/demand` (4 to 6 percent apart on five days), because the demand files are those of 21 November: every page that draws the data machine's page files shows 18 to 20 November (data request 575; window A repairs the files tonight). And **two fixes marked landed on 21 November were not on main** (landed tonight).
 
 Also fixed: `/companies`, where five of six fields had no name for a screen reader; and the back button on the three forms that submit with their button (`/companies`, `/prices/compare`, `/conditions`), whose fields kept the later choice over the earlier page.
 
