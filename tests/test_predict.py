@@ -67,6 +67,9 @@ class NothingKnownEarly(unittest.TestCase):
     def test_three_days(self):
         self.check(3)
 
+    def test_seven_days(self):
+        self.check(7)
+
     def test_horizon_beyond_a_week_refused(self):
         with self.assertRaises(ValueError):
             demand.features(demand.matrix(demand.local_frame(synthetic(60), "UTC")), 8)
@@ -173,6 +176,30 @@ class TheFiles(unittest.TestCase):
             self.assertEqual(got, methods, p["place"])
             s = self.places[p["place"]]["series"]["demand"]
             self.assertIsNotNone(s["summary"]["backtest"]["mae"]["erw"], p["place"])
+
+    def test_every_place_has_its_peak(self):
+        cols = self.scores["rows_columns"]
+        rows = [dict(zip(cols, r)) for r in self.scores["rows"] if r[1] == "demand_peak"]
+        for p in self.index["places"]:
+            got = {r["method"] for r in rows if r["place"] == p["place"] and r["cut"] == "all" and r["mae"] is not None}
+            self.assertEqual(got, {m["id"] for m in self.scores["methods"]}, p["place"])
+            pk = self.places[p["place"]]["series"]["demand"]["peak"]
+            self.assertIsNotNone(pk["backtest"]["methods"]["erw"]["mae"], p["place"])
+
+    @unittest.skipUnless(os.path.exists(os.path.join(SITE, "ahead.json")), "ahead.json is not built here")
+    def test_further_ahead_shown_only_where_it_beats_the_week_ago_hour(self):
+        doc = load("ahead.json")
+        self.assertEqual(doc["tier"], "derived")
+        for p in doc["places"]:
+            for h in p["horizons"]:
+                m = h["last_2_years"]["mae"]
+                beats = m["regression"] is not None and m["week_ago"] is not None and m["regression"] < m["week_ago"]
+                self.assertEqual(h["shown"], beats, (p["place"], h["horizon_days"]))
+                if h["shown"]:
+                    self.assertTrue(h["forecast"], (p["place"], h["horizon_days"]))
+                else:
+                    self.assertIsNone(h["forecast"])
+                    self.assertTrue(h["held"])
 
     def test_every_shown_price_has_its_score(self):
         cols = self.scores["rows_columns"]

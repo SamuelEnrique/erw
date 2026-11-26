@@ -108,3 +108,38 @@ def coverage(hr, m, days=CHOICE_DAYS):
         return None
     inside = (x["actual"] >= x[m + "_lo"]) & (x["actual"] <= x[m + "_hi"])
     return round(float(inside.mean() * 100), 1)
+
+
+def peaks(hr, methods):
+    """One row a local day whose every hour is held by the actual and every method: the day's actual peak (MW and
+    local hour) and each method's forecast peak (the highest of its hourly forecasts, and the hour of it)."""
+    c = common(hr, methods)
+    full = c.groupby("day")["hour"].transform("size") == hr.groupby("day")["hour"].transform("size").reindex(c.index)
+    c = c[full.to_numpy()]
+    rows = []
+    for day, g in c.groupby("day"):
+        r = {"day": day, "actual": float(g["actual"].max()), "actual_hour": int(g.loc[g["actual"].idxmax(), "hour"])}
+        for m in methods:
+            r[m] = float(g[m].max())
+            r[m + "_hour"] = int(g.loc[g[m].idxmax(), "hour"])
+        rows.append(r)
+    return pd.DataFrame(rows)
+
+
+def peak_summary(pk, methods, days=None):
+    """{days, first_day, last_day, by method: {mae (MW), mape (percent), hour_exact_pct, hour_within_1_pct}} over the
+    peak table (the last `days` days when given)."""
+    x = pk
+    if days is not None and len(pk):
+        x = pk[pk["day"] > pk["day"].max() - pd.Timedelta(days=days)]
+    out = {"days": int(len(x)), "first_day": x["day"].min().strftime("%Y-%m-%d") if len(x) else None,
+           "last_day": x["day"].max().strftime("%Y-%m-%d") if len(x) else None, "methods": {}}
+    for m in methods:
+        if not len(x):
+            out["methods"][m] = None
+            continue
+        e = (x[m] - x["actual"]).abs()
+        dh = (x[m + "_hour"] - x["actual_hour"]).abs()
+        out["methods"][m] = {"mae": round(float(e.mean()), 1), "mape": round(float((e / x["actual"]).mean() * 100), 3),
+                             "hour_exact_pct": round(float((dh == 0).mean() * 100), 1), "hour_within_1_pct": round(float((dh <= 1).mean() * 100), 1)}
+    return out
