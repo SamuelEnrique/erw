@@ -55,6 +55,7 @@ export default async function AiEnergyPage({ searchParams }: { searchParams: Pro
       </HeadlineRow>
 
       <ToolSection title="Every figure, as printed" id="figures">
+        <p className="mb-3 max-w-3xl text-sm" data-ai-fleet-note="1">A fleet&apos;s figure is a company&apos;s whole consumption in a year, as the company reports it (its data centers, or its data centers and offices together): AI and every other use in it, wherever the company runs them, not the United States alone. No figure here gives AI&apos;s share of a fleet.</p>
         <form method="get" action="/ai-energy#figures" className="mb-3 flex flex-wrap items-end gap-3 text-sm [&_label]:max-w-full [&_select]:max-w-full" data-ai-form="1">
           <AutoSubmitSelect name="sort" value={order} options={ORDERS.map((o) => ({ value: o.value, label: o.label }))} label="Order" />
           <AutoSubmitSelect name="m" value={measure} options={[{ value: "all", label: "Every measure" }, ...all.map((x) => ({ value: x, label: x }))]} label="What is measured" />
@@ -64,7 +65,7 @@ export default async function AiEnergyPage({ searchParams }: { searchParams: Pro
         <ToolTable
           words
           minWidth={1100}
-          caption="Every published figure of the energy of AI, as printed"
+          caption="Every figure read, as printed: the energy of AI work, and of whole fleets that run AI among everything else"
           head={["Publisher", "Publication", "What it measures", "Of what", "Figure", "The publication's words"]}
           rows={rows.map((r) => ({ key: r.event_id, cells: [
             <span key="p" data-ai-row={r.event_id}>{r.parties}<span className="block text-xs text-muted">{r.x_publisher_kind}</span></span>,
