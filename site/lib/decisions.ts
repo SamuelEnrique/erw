@@ -558,7 +558,7 @@ export const CURTAILMENT_DECISIONS: Decision[] = [
     def: "A true map only from a published boundary.",
     source: "The operators' published zone boundaries; docs/methods/curtailment.md, \"Session 149\"." },
   { key: "held-grids", session: "session 144",
-    text: "ISO-NE's monthly undelivered energy is not pulled under its legal notice, NYISO prints curtailment only in a monthly PDF, PJM's needs a license, and MISO publishes no series and is paused: each is named with the reason and no number.",
+    text: "ISO-NE's monthly undelivered energy is held internal and not shown under its legal notice (pulled on the owner's ruling of 7 October 2026), NYISO prints curtailment only in a monthly PDF, PJM's needs a license, and MISO publishes no series and is paused: each is named with the reason and no number.",
     def: "Named with the reason, no figure.",
     source: "The operators' terms and published reports, as docs/methods/curtailment.md, \"NYISO and ISO-NE\", records them." },
 ];
