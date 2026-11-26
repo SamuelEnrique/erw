@@ -69,6 +69,7 @@ What the documents measure differs, and part B keeps it: megawatts are "critical
 | IMPLAN | https://implan.com/pricing/ (request 39, redirected to /implan-pricing-and-packages/; crawl delay 10 s) | no price printed ("Request Pricing"; "Pricing is generally based on an annual subscription") | **paid, not used** |
 | LSU LEIM | request 26 | subscription | **not public** |
 | JLARC (Weldon Cooper Center, IMPLAN 2022) | request 31, Tables D-3 and D-5 | a public state report | **public for Virginia only**: construction statewide direct 35,110 jobs, indirect 9,945, induced 13,992 on direct output USD 7,887.7 million a year; operations direct 4,373, indirect 6,615, induced 3,830 |
+| Georgia Department of Audits and Accounts, *Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption* (Carl Vinson Institute of Government, December 2025; IMPLAN 2023) (added in session 10809) | https://open.ga.gov/openga/report/downloadFile?rid=33298 (request 199; open.ga.gov's robots file allows it) | a public state report | **public for Georgia only**: Table 3, construction in 2025, direct 15,809 jobs and USD 1,231,869,099 of labor income, indirect 4,954 and 412,242,265, induced 7,587 and 444,499,037; Table 4, operations, direct 1,873 and 262,314,298, indirect 1,815 and 125,838,075, induced 1,783 and 104,443,068. Also: "Data center equipment is typically replaced, or 'refreshed,' every three to five years" |
 
 ### 3.5 The taxes, state by state (read so far)
 
