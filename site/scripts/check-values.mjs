@@ -162,6 +162,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/congestion", "/congestion?op=caiso&year=all",
   // and grid conditions' window at a glance, every figure a pf| key into site/data/conditions/<operator>.json
   "/conditions", "/conditions?a=spp&event=uri_2021", "/conditions?a=caiso&event=caiso_heat_2022&b=spp",
+  // session 10401 (chain 720, part C): the ERW forecast, every figure a pf| key into site/data/predict/<place>.json or
+  // scores.json (with no file there yet the page draws no figure, and has no floor until a run with the files writes one)
+  "/forecast", "/forecast?a=region-cal&b=region-tex&s=price&m=mape",
   // session 8905 (chain 590, part C): the fifth set of the whole country
   "/learn/problems/your-own-balancing-authority",
   // session 49: the network's default node card (ERCOT)
