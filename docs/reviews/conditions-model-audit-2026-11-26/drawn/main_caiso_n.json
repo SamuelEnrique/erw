@@ -1,0 +1,14 @@
+{
+ "pf|conditions/caiso.json|daily/3029/1": {
+  "raw": "34916",
+  "shown": "34,916"
+ },
+ "pf|conditions/caiso.json|daily/3048/5": {
+  "raw": "29078.3",
+  "shown": "29,078"
+ },
+ "pf|conditions/caiso.json|daily/3029/6": {
+  "raw": "313",
+  "shown": "313"
+ }
+}

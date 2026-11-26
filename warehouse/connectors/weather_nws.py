@@ -23,6 +23,12 @@ Tables (series shape):
   weather_forecast_hourly  the NWS hourly gridpoint forecast at the station's point (units=si): temperature_f and
                            wind_speed_mph (the lower number when NWS gives a range) for each hour it covers (about 156);
                            vintage is the forecast's updateTime, and each run merges a new vintage over the hours.
+  weather_forecast_issued_hourly  the same forecast, every issue kept (session 10000, chain 701: data request 4 of
+                           docs/state/data_requests_predict.md). The variable names the lead: temperature_f_lead<N>d and
+                           wind_speed_mph_lead<N>d, N the forecast hour's UTC date less the issue's UTC date (0 to 7), so a
+                           later issue never replaces an earlier one for the same hour; vintage is the issue's updateTime.
+                           Two issues read on one UTC day for the same lead: the later is kept (one a day is what the daily
+                           run reads). Restored on the runner before each run (warehouse/redivis/config.yaml), so it grows.
 """
 
 import argparse
@@ -43,6 +49,7 @@ UA = {"User-Agent": "(ERW energy research warehouse, https://github.com/SamuelEn
 STATIONS = {"ERCOT": ("KDFW", "US-TX"), "CAISO": ("KLAX", "US-CA"), "NYISO": ("KLGA", "US-NY"), "ISO-NE": ("KBOS", "US-MA"),
             "PJM": ("KPHL", "US-PA"), "MISO": ("KIND", "US-IN"), "SPP": ("KOKC", "US-OK")}
 OBS, FC = "weather_obs_hourly", "weather_forecast_hourly"
+ISSUED = "weather_forecast_issued_hourly"  # session 10000: every issue kept, the lead in the variable
 SOURCE_OBS, SOURCE_FC = "nws:observations", "nws:forecast_hourly"
 
 
@@ -113,6 +120,19 @@ def to_series(df, station, iso, geo, source, vintage=False):
     return pd.concat(out, ignore_index=True)
 
 
+def issued(f):
+    """The forecast rows with the lead in the variable: <variable>_lead<N>d, N the forecast hour's UTC date less the
+    issue's (its vintage) UTC date. A row without a vintage cannot be placed and stops the write."""
+    if (f["vintage"] == "").any():
+        raise RuntimeError(f"{ISSUED}: a forecast row without its issue time (vintage)")
+    lead = (pd.to_datetime(f["ts_utc"], utc=True).dt.normalize() - pd.to_datetime(f["vintage"], utc=True).dt.normalize()).dt.days
+    if (lead < 0).any():
+        raise RuntimeError(f"{ISSUED}: a forecast hour before its own issue's day")
+    out = f.copy()
+    out["variable"] = out["variable"] + "_lead" + lead.astype(str) + "d"
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW NWS weather")
     ap.add_argument("--days", type=int, default=30)
@@ -171,13 +191,25 @@ def main(argv=None):
                 f"Source: {SOURCE_FC} National Weather Service API, {API}/points/<lat,lon> then its forecastHourly "
                 "(units=si)"] + common, log)
             results.append(dict(table=FC, market="all", status="ok", detail=f"{len(fcs)} stations"))
+            ip.write_csv(issued(f)[ip.SERIES_COLS], ISSUED, [
+                "Energy Research Warehouse (ERW): NWS hourly forecast of temperature and wind at one airport per ISO, every issue kept "
+                "(session 10000, chain 701)",
+                "Shape: series (docs/datastandard.md v0). freq PT1H: ts_utc is the forecast hour's start (UTC). The variable names the "
+                "lead: temperature_f_lead<N>d (degF) and wind_speed_mph_lead<N>d (mph), N the forecast hour's UTC date less the issue's "
+                "UTC date; vintage is the issue's updateTime. A later issue never replaces an earlier one for the same hour; of two "
+                "issues read on one UTC day for the same lead, the later is kept.",
+                "Window: from the first run of 26 November 2026 onward; no issue before it was kept anywhere (weather_forecast_hourly "
+                "keeps only the latest), so the table can never reach back further.",
+                f"Source: {SOURCE_FC} National Weather Service API, {API}/points/<lat,lon> then its forecastHourly "
+                "(units=si)"] + common, log)
+            results.append(dict(table=ISSUED, market="all", status="ok", detail=f"{len(fcs)} stations"))
         ip.update_sources([
             dict(source=SOURCE_OBS, publisher="National Weather Service (NWS, NOAA)", report="Station observations (api.weather.gov)",
                  report_url="https://www.weather.gov/documentation/services-web-api", document_list=f"{API}/stations/KDFW/observations",
                  license="public", tables=[OBS]),
             dict(source=SOURCE_FC, publisher="National Weather Service (NWS, NOAA)", report="Hourly gridpoint forecast (api.weather.gov)",
                  report_url="https://www.weather.gov/documentation/services-web-api", document_list=f"{API}/points/<lat,lon>",
-                 license="public", tables=[FC])])
+                 license="public", tables=[FC, ISSUED])])
     except Exception:
         tb = ip.redact(traceback.format_exc())
         log(f"FAILED:\n{tb}")

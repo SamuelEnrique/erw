@@ -1,0 +1,104 @@
+figures compared 666, equal 563, differ 103
+   year caiso:TH_NP15_GEN-APND rtm_avg_price: file 33.2, restated 33.16 (unrounded 33.16246063701923)
+   year caiso:TH_NP15_GEN-APND rtm_negative_hours_share_pct: file 6.24, restated 6.26 (unrounded 6.261446886446887)
+   year caiso:TH_NP15_GEN-APND rtm_day_spread_top4_bottom4: file 20.58, restated 20.61 (unrounded 20.606412723214287)
+   year caiso:TH_NP15_GEN-APND rtm_daily_spread_mean_top4_bottom4: file 32.26, restated 32.27 (unrounded 32.26852299107143)
+   year caiso:TH_NP15_GEN-APND rtm_hours_held: file 8760, restated 8736
+   year caiso:TH_NP15_GEN-APND rtm_daily_spread_days: file 365, restated 364
+   year caiso:TH_NP15_GEN-APND grid_carbon_days_held: file 345, restated 344
+   year caiso:TH_NP15_GEN-APND grid_carbon_intensity: file 117.58, restated 117.72
+   year caiso:TH_SP15_GEN-APND rtm_avg_price: file 29.7, restated 29.71 (unrounded 29.713777844551284)
+   year caiso:TH_SP15_GEN-APND rtm_negative_hours_share_pct: file 12.76, restated 12.69 (unrounded 12.69459706959707)
+   year caiso:TH_SP15_GEN-APND rtm_day_spread_top4_bottom4: file 29.54, restated 29.47 (unrounded 29.472154635989014)
+   year caiso:TH_SP15_GEN-APND rtm_daily_spread_mean_top4_bottom4: file 42.33, restated 42.26 (unrounded 42.25501237980769)
+   year caiso:TH_SP15_GEN-APND rtm_hours_held: file 8760, restated 8736
+   year caiso:TH_SP15_GEN-APND rtm_daily_spread_days: file 365, restated 364
+   year caiso:TH_SP15_GEN-APND grid_carbon_days_held: file 345, restated 344
+   year caiso:TH_SP15_GEN-APND grid_carbon_intensity: file 117.58, restated 117.72
+   year ercot:HB_BUSAVG rtm_avg_price: file 32.67, restated 32.66 (unrounded 32.662128262362636)
+   year ercot:HB_BUSAVG rtm_above_200_hours_share_pct: file 0.84, restated 0.85 (unrounded 0.8470695970695971)
+   year ercot:HB_BUSAVG rtm_day_spread_top4_bottom4: file 35.74, restated 35.82 (unrounded 35.819476304945056)
+   year ercot:HB_BUSAVG rtm_daily_spread_mean_top4_bottom4: file 50.72, restated 50.79 (unrounded 50.79163976648352)
+   year ercot:HB_BUSAVG rtm_hours_held: file 8760, restated 8736
+   year ercot:HB_BUSAVG rtm_daily_spread_days: file 365, restated 364
+   year ercot:HB_HOUSTON rtm_avg_price: file 33.35, restated 33.33 (unrounded 33.32707417582418)
+   year ercot:HB_HOUSTON rtm_negative_hours_share_pct: file 1.54, restated 1.55 (unrounded 1.5453296703296704)
+   year ercot:HB_HOUSTON rtm_day_spread_top4_bottom4: file 29.18, restated 29.21 (unrounded 29.205837912087915)
+   year ercot:HB_HOUSTON rtm_daily_spread_mean_top4_bottom4: file 44.53, restated 44.59 (unrounded 44.58734375)
+   year ercot:HB_HOUSTON rtm_hours_held: file 8760, restated 8736
+   year ercot:HB_HOUSTON rtm_daily_spread_days: file 365, restated 364
+   year ercot:HB_HUBAVG rtm_avg_price: file 32.51, restated 32.5 (unrounded 32.503650412087914)
+   year ercot:HB_HUBAVG rtm_day_spread_top4_bottom4: file 34.71, restated 34.78 (unrounded 34.781935096153845)
+   year ercot:HB_HUBAVG rtm_daily_spread_mean_top4_bottom4: file 49.57, restated 49.64 (unrounded 49.64320741758242)
+   year ercot:HB_HUBAVG rtm_hours_held: file 8760, restated 8736
+   year ercot:HB_HUBAVG rtm_daily_spread_days: file 365, restated 364
+   year ercot:HB_NORTH rtm_avg_price: file 32.78, restated 32.79 (unrounded 32.787100503663005)
+   year ercot:HB_NORTH rtm_negative_hours_share_pct: file 3.0, restated 3.01 (unrounded 3.0105311355311355)
+   year ercot:HB_NORTH rtm_day_spread_top4_bottom4: file 38.11, restated 38.22 (unrounded 38.21693681318682)
+   year ercot:HB_NORTH rtm_daily_spread_mean_top4_bottom4: file 54.91, restated 54.95 (unrounded 54.95206387362637)
+   year ercot:HB_NORTH rtm_hours_held: file 8760, restated 8736
+   year ercot:HB_NORTH rtm_daily_spread_days: file 365, restated 364
+   year ercot:HB_SOUTH rtm_avg_price: file 32.91, restated 32.86 (unrounded 32.859534397893775)
+   year ercot:HB_SOUTH rtm_day_spread_top4_bottom4: file 32.5, restated 32.49 (unrounded 32.48889423076923)
+   year ercot:HB_SOUTH rtm_daily_spread_mean_top4_bottom4: file 48.21, restated 48.22 (unrounded 48.22440934065934)
+   year ercot:HB_SOUTH rtm_hours_held: file 8760, restated 8736
+   year ercot:HB_SOUTH rtm_daily_spread_days: file 365, restated 364
+   year ercot:HB_WEST rtm_avg_price: file 31.02, restated 31.04 (unrounded 31.040801282051284)
+   year ercot:HB_WEST rtm_negative_hours_share_pct: file 12.04, restated 12.0 (unrounded 11.996336996336996)
+   year ercot:HB_WEST rtm_day_spread_top4_bottom4: file 39.13, restated 39.3 (unrounded 39.298202266483514)
+   year ercot:HB_WEST rtm_daily_spread_mean_top4_bottom4: file 60.7, restated 60.73 (unrounded 60.725911744505495)
+   year ercot:HB_WEST rtm_hours_held: file 8760, restated 8736
+   year ercot:HB_WEST rtm_daily_spread_days: file 365, restated 364
+   month caiso:TH_NP15_GEN-APND rtm_avg_price: file 48.94, restated 48.98 (unrounded 48.97585371527777)
+   month caiso:TH_NP15_GEN-APND rtm_day_spread_top4_bottom4: file 22.3, restated 22.44 (unrounded 22.43500791666667)
+   month caiso:TH_NP15_GEN-APND rtm_daily_spread_mean_top4_bottom4: file 32.28, restated 32.43 (unrounded 32.430414375000005)
+   month caiso:TH_NP15_GEN-APND rtm_hours_held: file 744, restated 720
+   month caiso:TH_NP15_GEN-APND rtm_daily_spread_days: file 31, restated 30
+   month caiso:TH_SP15_GEN-APND rtm_avg_price: file 43.37, restated 43.94 (unrounded 43.94392166666667)
+   month caiso:TH_SP15_GEN-APND rtm_negative_hours_share_pct: file 3.23, restated 2.08 (unrounded 2.0833333333333335)
+   month caiso:TH_SP15_GEN-APND rtm_day_spread_top4_bottom4: file 32.61, restated 31.76 (unrounded 31.75523125)
+   month caiso:TH_SP15_GEN-APND rtm_daily_spread_mean_top4_bottom4: file 43.86, restated 42.95 (unrounded 42.95249541666667)
+   month caiso:TH_SP15_GEN-APND rtm_hours_held: file 744, restated 720
+   month caiso:TH_SP15_GEN-APND rtm_daily_spread_days: file 31, restated 30
+   month ercot:HB_BUSAVG rtm_avg_price: file 35.77, restated 35.81 (unrounded 35.81160416666667)
+   month ercot:HB_BUSAVG rtm_negative_hours_share_pct: file 1.48, restated 1.53 (unrounded 1.5277777777777777)
+   month ercot:HB_BUSAVG rtm_above_200_hours_share_pct: file 0.81, restated 0.83 (unrounded 0.8333333333333334)
+   month ercot:HB_BUSAVG rtm_day_spread_top4_bottom4: file 38.39, restated 39.44 (unrounded 39.43783333333333)
+   month ercot:HB_BUSAVG rtm_daily_spread_mean_top4_bottom4: file 47.82, restated 48.56 (unrounded 48.56095833333334)
+   month ercot:HB_BUSAVG rtm_hours_held: file 744, restated 720
+   month ercot:HB_BUSAVG rtm_daily_spread_days: file 31, restated 30
+   month ercot:HB_HOUSTON rtm_avg_price: file 38.82, restated 38.71 (unrounded 38.705527777777775)
+   month ercot:HB_HOUSTON rtm_negative_hours_share_pct: file 0.4, restated 0.42 (unrounded 0.4166666666666667)
+   month ercot:HB_HOUSTON rtm_above_200_hours_share_pct: file 0.27, restated 0.28 (unrounded 0.2777777777777778)
+   month ercot:HB_HOUSTON rtm_day_spread_top4_bottom4: file 31.86, restated 32.28 (unrounded 32.282333333333334)
+   month ercot:HB_HOUSTON rtm_daily_spread_mean_top4_bottom4: file 45.39, restated 46.12 (unrounded 46.12245833333334)
+   month ercot:HB_HOUSTON rtm_hours_held: file 744, restated 720
+   month ercot:HB_HOUSTON rtm_daily_spread_days: file 31, restated 30
+   month ercot:HB_HUBAVG rtm_avg_price: file 37.02, restated 37.06 (unrounded 37.05663194444445)
+   month ercot:HB_HUBAVG rtm_negative_hours_share_pct: file 1.48, restated 1.53 (unrounded 1.5277777777777777)
+   month ercot:HB_HUBAVG rtm_above_200_hours_share_pct: file 0.81, restated 0.83 (unrounded 0.8333333333333334)
+   month ercot:HB_HUBAVG rtm_day_spread_top4_bottom4: file 37.89, restated 38.9 (unrounded 38.9011875)
+   month ercot:HB_HUBAVG rtm_daily_spread_mean_top4_bottom4: file 47.64, restated 48.47 (unrounded 48.468916666666665)
+   month ercot:HB_HUBAVG rtm_hours_held: file 744, restated 720
+   month ercot:HB_HUBAVG rtm_daily_spread_days: file 31, restated 30
+   month ercot:HB_NORTH rtm_avg_price: file 33.7, restated 33.86 (unrounded 33.86167708333333)
+   month ercot:HB_NORTH rtm_negative_hours_share_pct: file 4.3, restated 4.44 (unrounded 4.444444444444445)
+   month ercot:HB_NORTH rtm_above_200_hours_share_pct: file 0.81, restated 0.83 (unrounded 0.8333333333333334)
+   month ercot:HB_NORTH rtm_day_spread_top4_bottom4: file 40.34, restated 41.58 (unrounded 41.57566666666667)
+   month ercot:HB_NORTH rtm_daily_spread_mean_top4_bottom4: file 50.91, restated 51.32 (unrounded 51.316583333333334)
+   month ercot:HB_NORTH rtm_hours_held: file 744, restated 720
+   month ercot:HB_NORTH rtm_daily_spread_days: file 31, restated 30
+   month ercot:HB_SOUTH rtm_avg_price: file 37.52, restated 37.09 (unrounded 37.08878819444445)
+   month ercot:HB_SOUTH rtm_negative_hours_share_pct: file 0.54, restated 0.56 (unrounded 0.5555555555555556)
+   month ercot:HB_SOUTH rtm_above_200_hours_share_pct: file 0.4, restated 0.42 (unrounded 0.4166666666666667)
+   month ercot:HB_SOUTH rtm_day_spread_top4_bottom4: file 35.44, restated 35.45 (unrounded 35.445145833333335)
+   month ercot:HB_SOUTH rtm_daily_spread_mean_top4_bottom4: file 45.48, restated 45.58 (unrounded 45.5779375)
+   month ercot:HB_SOUTH rtm_hours_held: file 744, restated 720
+   month ercot:HB_SOUTH rtm_daily_spread_days: file 31, restated 30
+   month ercot:HB_WEST rtm_avg_price: file 38.04, restated 38.57 (unrounded 38.57048611111111)
+   month ercot:HB_WEST rtm_negative_hours_share_pct: file 5.38, restated 4.58 (unrounded 4.583333333333333)
+   month ercot:HB_WEST rtm_above_200_hours_share_pct: file 1.08, restated 1.11 (unrounded 1.1111111111111112)
+   month ercot:HB_WEST rtm_day_spread_top4_bottom4: file 45.23, restated 47.49 (unrounded 47.49397916666666)
+   month ercot:HB_WEST rtm_daily_spread_mean_top4_bottom4: file 60.76, restated 61.13 (unrounded 61.13135416666667)
+   month ercot:HB_WEST rtm_hours_held: file 744, restated 720
+   month ercot:HB_WEST rtm_daily_spread_days: file 31, restated 30

@@ -129,7 +129,11 @@ export default async function WhereWhenPage({ searchParams }: { searchParams: Pr
   const keep = (omit: string[]) => Object.fromEntries(Object.entries({ a, b, year, fuel }).filter(([k]) => !omit.includes(k)));
   const places = [A, ...(B ? [B] : [])];
   const priceTrend: Line[] = places.filter((p) => p.kind === "price").map((p, i) => ({ label: nameOf(p), color: i ? "series-3" : "accent", points: trend(p, fuel) }));
-  const curtTrend: Line[] = places.filter((p) => p.kind === "curtailment").map((p, i) => ({ label: nameOf(p), color: i ? "series-5" : "series-1", points: trend(p, fuel) }));
+  // session 9203 (chain 620): the line's label names the fuel it sums, as the chart's title does; its table's column read
+  // "CAISO, the whole system: curtailment, GWh" over solar alone (3,482 GWh in 2025, where /curtailment gives 3,765.6
+  // for wind and solar together)
+  const trendFuel = fuel === "both" ? "wind and solar" : fuel;
+  const curtTrend: Line[] = places.filter((p) => p.kind === "curtailment").map((p, i) => ({ label: p.kind === "curtailment" ? `${p.c.name}: ${trendFuel} curtailed` : nameOf(p), color: i ? "series-5" : "series-1", points: trend(p, fuel) }));
   const tables = F.tables;
 
   return (

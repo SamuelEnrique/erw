@@ -74,7 +74,7 @@ export const SPECS: Record<Key, Spec> = {
   // session 213: the contract
   cshare: { key: "cshare", letter: "n", label: "Contract share", unit: "percent of the energy", min: 0, max: 100, whole: false, swing: 10, swingWords: "10 points",
     short: (v) => `contract ${n(v)}%`, words: (v) => `contract share ${n(v)} percent`, plain: n,
-    source: "No contract: the default is fully merchant. A contracted share of the energy is bought at the contract price in every year counted and pays nothing to the market" },
+    source: "No contract: the default is fully merchant. A contracted share of the energy is bought at the contract price in every year counted and pays nothing to the market. The contract is shaped like the load, the same share in every hour; a solar or wind contract settled at a hub delivers in its own hours, whose prices differ from the load's, and is not priced here" },
   cprice: { key: "cprice", letter: "c", label: "Contract price", unit: "USD per MWh", min: 0, max: 1000, whole: false, swing: 1, swingWords: "USD 1 per MWh",
     short: (v) => `contract USD ${n(v)}/MWh`, words: (v) => `contract price USD ${n(v)} per MWh`, plain: n,
     source: "No contract: the default is fully merchant. The price is the reader's own term; no published price is held" },

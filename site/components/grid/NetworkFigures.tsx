@@ -12,6 +12,7 @@ import { shown } from "@/lib/format";
 import { GRID_CHOICES, type GridChoice } from "@/lib/gridtool";
 import { gravityPanel, lower48Panel, networkPanel, type Fig } from "@/lib/gridKeys";
 import { GRAVITY_CENTER, GRAVITY_GRIDS } from "@/lib/networkGravity";
+import { TIE_SIDE_WORDS } from "@/lib/network";
 
 const hourName = (t: string) => `${t.slice(0, 10)} ${t.slice(11, 13)}:00 UTC`;
 
@@ -34,7 +35,7 @@ export function NetworkFigures({ snap, hour, grid, live }: { snap: Snapshot; hou
     return (
       <div data-grid-panel={panel} className="mt-8">
         <ToolSection title={`The seven grids, the hour shown (${hourName(hour)})`}
-          note="Net export, MW: the sum of a grid's reporting ties in the hour the network opens on, signed from its side; a negative number is a net import. Hover a figure for its table, filter, hour and the snapshot's refresh.">
+          note={`Net export, MW: the sum of a grid's reporting ties in the hour the network opens on, signed from its side, ${TIE_SIDE_WORDS}; a negative number is a net import. Hover a figure for its table, filter, hour and the snapshot's refresh.`}>
           <ToolTable caption="Net exchange of the seven grids in the hour the network shows" minWidth={380} head={["Grid", "Net export, MW", "Ties reporting"]}
             rows={rows.map((r) => ({ key: r.ba, cells: [
               ISO_GRIDS.find((g) => g.ba === r.ba)!.label,

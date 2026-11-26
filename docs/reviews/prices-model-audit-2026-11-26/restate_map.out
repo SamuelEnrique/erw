@@ -1,0 +1,28 @@
+figures compared 152, equal to the cent 145; largest gap 0.01
+caiso:TH_NP15_GEN-APND day 2026-11-16 (whole): all equal; newer whole days in the page's hourly file: ['2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20', '2026-11-21', '2026-11-22'] ... (9)
+caiso:TH_SP15_GEN-APND day 2026-11-16 (whole): day_spread_top4_bottom4 file 24.84 restated 24.83; negative_share_12m_pct file 11.63 restated 11.62; newer whole days in the page's hourly file: ['2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20', '2026-11-21', '2026-11-22'] ... (9)
+caiso:TH_ZP26_GEN-APND day 2026-11-16 (whole): avg_12m file None restated 30.320034246575343 ; negative_share_12m_pct file None restated 11.084474885844749 ; newer whole days in the page's hourly file: ['2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20'] (4)
+ercot:HB_BUSAVG day 2026-11-16 (whole): all equal; newer whole days in the page's hourly file: ['2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20'] (4)
+ercot:HB_HOUSTON day 2026-11-16 (whole): all equal; newer whole days in the page's hourly file: ['2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20'] (4)
+ercot:HB_HUBAVG day 2026-11-16 (whole): all equal; newer whole days in the page's hourly file: ['2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20'] (4)
+ercot:HB_NORTH day 2026-11-16 (whole): all equal; newer whole days in the page's hourly file: ['2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20'] (4)
+ercot:HB_SOUTH day 2026-11-16 (whole): all equal; newer whole days in the page's hourly file: ['2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20'] (4)
+ercot:HB_WEST day 2026-11-16 (whole): all equal; newer whole days in the page's hourly file: ['2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20'] (4)
+ercot:LZ_AEN day 2026-11-14 (whole): all equal; newer whole days in the page's hourly file: [] (0)
+ercot:LZ_CPS day 2026-11-14 (whole): all equal; newer whole days in the page's hourly file: [] (0)
+ercot:LZ_HOUSTON day 2026-11-14 (whole): all equal; newer whole days in the page's hourly file: [] (0)
+ercot:LZ_LCRA day 2026-11-14 (whole): all equal; newer whole days in the page's hourly file: [] (0)
+ercot:LZ_NORTH day 2026-11-14 (whole): all equal; newer whole days in the page's hourly file: [] (0)
+ercot:LZ_RAYBN day 2026-11-14 (whole): all equal; newer whole days in the page's hourly file: [] (0)
+ercot:LZ_SOUTH day 2026-11-14 (whole): all equal; newer whole days in the page's hourly file: [] (0)
+ercot:LZ_WEST day 2026-11-14 (whole): all equal; newer whole days in the page's hourly file: [] (0)
+spp:SPPNORTH_HUB day 2026-11-16 (whole): day_spread_top4_bottom4 file 38.51 restated 38.5; newer whole days in the page's hourly file: ['2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20', '2026-11-21', '2026-11-22'] ... (9)
+spp:SPPSOUTH_HUB day 2026-11-16 (whole): avg_12m file None restated 28.902675137362635 ; negative_share_12m_pct file None restated 11.458333333333334 ; newer whole days in the page's hourly file: ['2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20'] (4)
+scale day_avg: green 31.93 to red 54.09; areas colored 3 of 7 named; position on the scale {'CISO': 0.627, 'ERCO': 1.0, 'SWPP': 0.0}
+scale day_on_peak: green 32.63 to red 54.7; areas colored 3 of 7 named; position on the scale {'CISO': 0.434, 'ERCO': 1.0, 'SWPP': 0.0}
+scale day_off_peak: green 30.53 to red 53.06; areas colored 3 of 7 named; position on the scale {'CISO': 1.0, 'ERCO': 0.991, 'SWPP': 0.0}
+scale day_spread_top4_bottom4: green 24.84 to red 38.51; areas colored 3 of 7 named; position on the scale {'CISO': 0.0, 'ERCO': 0.71, 'SWPP': 1.0}
+scale avg_30d: green 30.6 to red 40.83; areas colored 2 of 7 named; position on the scale {'CISO': 1.0, 'SWPP': 0.0}
+scale avg_12m: green 30.29 to red 34.86; areas colored 3 of 7 named; position on the scale {'CISO': 0.0, 'ERCO': 1.0, 'SWPP': 0.921}
+scale negative_share_30d_pct: green 0.97 to red 4.3; areas colored 2 of 7 named; position on the scale {'CISO': 0.0, 'SWPP': 1.0}
+scale negative_share_12m_pct: green 0.53 to red 11.63; areas colored 3 of 7 named; position on the scale {'CISO': 1.0, 'ERCO': 0.0, 'SWPP': 0.485}

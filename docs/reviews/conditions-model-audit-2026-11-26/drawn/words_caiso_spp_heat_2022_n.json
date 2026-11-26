@@ -1,0 +1,26 @@
+{
+ "pf|conditions/caiso.json|daily/1528/1": {
+  "raw": "51104",
+  "shown": "51,104"
+ },
+ "pf|conditions/caiso.json|daily/1531/5": {
+  "raw": "14099.8",
+  "shown": "14,100"
+ },
+ "pf|conditions/caiso.json|daily/1530/6": {
+  "raw": "226",
+  "shown": "226"
+ },
+ "pf|conditions/spp.json|daily/1522/1": {
+  "raw": "46055",
+  "shown": "46,055"
+ },
+ "pf|conditions/spp.json|daily/1531/5": {
+  "raw": "11635.2",
+  "shown": "11,635"
+ },
+ "pf|conditions/spp.json|daily/1530/6": {
+  "raw": "512",
+  "shown": "512"
+ }
+}
