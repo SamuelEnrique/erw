@@ -106,7 +106,10 @@ Since session 152 demand growth is one page at one address, `/demand`, in review
   chart and number for number.
 - **With the weather taken out** (`/demand?view=weather`, with `?figure=` and `?year=`): the table
   `eia930_demand_weather`, whose method is [demand growth with the weather taken out](demand_weather.md). It was built
-  as a page of its own at `/demand/weather`, which redirects to the view.
+  as a page of its own at `/demand/weather`, which redirects to the view. Its growth is against the mean of 2019 to
+  2021, a base that holds the lockdowns of 2020, not against 2019 alone, so the two views give two figures for one grid
+  and year: 2025's average demand, MISO +2.20 percent here and +4.10 there, NYISO -2.73 and -0.48, PJM +5.37 and +7.16,
+  CAISO +4.45 and +2.86 (session 10214; until then the first view called the second "the same growth").
 
 No method or limitation is written out on the page face. What stood there in prose is now this note, and on the page
 a few words that show the same sentence when the mouse rests on them:

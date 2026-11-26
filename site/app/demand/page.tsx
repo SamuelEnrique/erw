@@ -83,7 +83,7 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
     <div data-view-body="metered">
       <p className="mb-8 text-sm" data-weather="1">
         <Hint words="Weather is not removed." why={`A year's demand is what was metered that year, hot summer and cold snap included. A grid whose ${file.last_year} was mild shows less growth than its customers added, and a single heat wave can set a peak. These are differences between years, not a trend line.`} />
-        {" "}<SiteLink href={viewHref("weather")}>The same growth with the weather taken out</SiteLink> is the second view.{" "}
+        {" "}<SiteLink href={viewHref("weather")}>Growth with the weather taken out</SiteLink> is the second view; it is measured against the mean of {FIT_YEARS.from} to {FIT_YEARS.to}, not against {file.base} alone, so its growth is not this view&apos;s figure.{" "}
         <span data-against-sales="1"><Hint words="Demand at the grid is not retail sales." why={AGAINST_SALES} />{" "}<SiteLink href={viewHref("consumption")}>Retail sales by state and sector</SiteLink> are the third.</span>
         {ba === "CISO" && CA_2019 ? <>{" "}<span data-ca-base="1"><Hint words="California's base year is low in its early months." why={caBaseWhy(CA_2019, faults.status_words)} />{" "}<SiteLink href={`/data/faults#${CA_2019.id}`}>The register&apos;s entry</SiteLink>.</span></> : null}
       </p>
