@@ -70,15 +70,17 @@ Each placeholder says why on hover.
 
 ## Which companies are on the map
 
+This section and the next describe a run written before 9 October 2026. A run since then searches for no company: its company tabs hold only what a data provider's pasted answer gives, labeled with the provider's name, with no score of the ERW's.
+
 A company is on the landscape when it is a private company, fits the stage and geography you asked for, and a fetched source ties it to at least one of the five trends. Its row says which trends and why.
 
 An organisation that does not meet this is not dropped silently: it stays in the Deal funnel with the stage it reached and the reason it stopped, for example "outside the geography asked for" or "no fetched source ties it to one of the five trends".
 
-Companies come from three places: the ERW's own companies and deals tables, web search, and PitchBook (below). The funnel says which for each.
+In such a run companies came from three places: the ERW's own companies and deals tables, web search, and PitchBook (below). The funnel says which for each.
 
 ## The confidence score
 
-Each company has a score from 0 to 100 that says how well documented it is, with one line beside it saying what it rests on. A high score means several independent, recent sources agree and the company or an investor confirms its stage and funding. It is a measure of the evidence, not of the company's quality.
+In a run written before 9 October 2026, each company has a score from 0 to 100 that says how well documented it is, with one line beside it saying what it rests on. A high score means several independent, recent sources agree and the company or an investor confirms its stage and funding. It is a measure of the evidence, not of the company's quality.
 
 ## PitchBook
 
