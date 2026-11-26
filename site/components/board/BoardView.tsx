@@ -182,12 +182,15 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
   );
   const name = (
     <th scope="row" className="whitespace-nowrap py-1 pl-2 pr-3 text-left font-normal">
-      {row.status === "ok" ? <button type="button" aria-pressed={open} data-row-open={row.id} className="text-left">{words}</button> : words}
+      {/* session 10402 (chain 720): a row with a page of its own is a link to it (the energy equities rows open /equities) */}
+      {row.status === "ok" && row.open ? <a href={row.open} data-row-href={row.id} className="text-left text-ink no-underline hover:underline" onClick={(e) => e.stopPropagation()}>{words}</a>
+        : row.status === "ok" ? <button type="button" aria-pressed={open} data-row-open={row.id} className="text-left">{words}</button> : words}
       {row.at ? <span className="ml-1.5 text-xs text-muted">{row.at}</span> : null}
       {row.link ? <span className="ml-1.5 text-xs" onClick={(e) => e.stopPropagation()} data-row-link={row.id}><SiteLink href={row.link.href}>{row.link.words}</SiteLink></span> : null}
     </th>
   );
-  const cols = 8 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; 1611: the day's extremes; 1613: the 12-month mean
+  const lean = !!group.lean;   // session 10402: the latest value, its date, the moves and the trend, and no other cell
+  const cols = (lean ? 3 : 8) + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; 1611: the day's extremes; 1613: the 12-month mean
   if (row.status !== "ok") {
     return (
       <tr className="border-b border-rule/70" data-row={row.id} data-status={row.status} hidden={hidden} id={domId}>
@@ -210,6 +213,7 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
         {age?.stale ? <span className="ml-1 border border-accent px-0.5 text-xs text-accent">stale</span> : null}
       </td>
       {MOVES.map(([k]) => <td key={k} className="py-1 pr-3 text-right text-xs"><MoveCell row={row} k={k} built={file.built} /></td>)}
+      {lean ? <td className="py-0.5 pr-3 text-right" onClick={(e) => e.stopPropagation()}><Spark row={row} /></td> : <>
       <td className="py-1 pr-3 text-right text-xs">{row.avg7 ? <span title={`the mean of the ${row.avg7.n} values held in the 7 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg7`}>{fmt(row.avg7.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 7-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
       <td className="py-1 pr-3 text-right text-xs">{row.avg30 ? <span title={`the mean of the ${row.avg30.n} values held in the 30 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg30`}>{fmt(row.avg30.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 30-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
       <td className="whitespace-nowrap py-1 pr-3 text-right text-xs"><Avg365Cell row={row} built={file.built} /></td>
@@ -218,6 +222,7 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
       <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted">{row.lo30 !== undefined ? <span title="the lowest and highest value of the last 30 days">{fmt(row.lo30, row.unit)} to {fmt(row.hi30!, row.unit)}</span> : row.freq && row.freq !== "D" ? <span title={`A ${FREQ_WORDS[row.freq]} series has no 30-day low and high.`} data-lo30-step={row.id}>{FREQ_WORDS[row.freq]}</span> : <span title="The last 30 days' lowest and highest values are not held for this row.">not held yet</span>}</td>
       <td className="py-0.5 pr-3 text-right" onClick={(e) => e.stopPropagation()}><Spark row={row} /></td>
       <td className="py-1 pr-2 text-right"><RangeBar row={row} /></td>
+      </>}
       {group.curve ? <td className="py-1 pr-2 text-left"><Curve row={row} /></td> : null}
       {group.extremes ? <td className="whitespace-nowrap py-1 pr-2 text-right text-xs"><ExtCell row={row} built={file.built} /></td> : null}
     </tr>
@@ -234,7 +239,8 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
   // its rows' names behind a toggle; the held rows stay in the page, blank, as they were (lib/board.ts, heldLines)
   const { shown, held } = heldLines(rows);
   const [named, setNamed] = useState<Record<string, boolean>>({});
-  const cols = 8 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; 1611: the day's extremes; 1613: the 12-month mean
+  // session 10402 (chain 720): a lean group (the energy equities) has the latest value, its date, the moves and the trend
+  const cols = (group.lean ? 3 : 8) + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; 1611: the day's extremes; 1613: the 12-month mean
   return (
     <section id={group.id} className="scroll-mt-4" aria-label={group.title} data-group={group.id}>
       <GroupFold title={group.title} open={unfolded} onToggle={fold} meta={<>
@@ -256,19 +262,19 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
       {/* session 1883 (audit row 41): the box is the containing block of the held line's screen-reader words (an
           absolutely placed sr-only span), so they are clipped by it; they widened the page to 521 px at 390 */}
       <div className="relative overflow-x-auto">
-        <table className="w-full min-w-[1180px] border-collapse text-sm tabular-nums" data-dense="1">
+        <table className={`w-full ${group.lean ? "min-w-[820px]" : "min-w-[1180px]"} border-collapse text-sm tabular-nums`} data-dense="1" {...(group.lean ? { "data-lean": group.id } : {})}>
           <thead>
             <tr className="border-b border-rule text-xs text-muted">
-              <th className="py-1 pl-2 text-left font-normal">Price</th>
+              <th className="py-1 pl-2 text-left font-normal">{group.lean ? "Series" : "Price"}</th>
               <th className="pr-3 text-right font-normal">Latest</th>
               <th className="pr-3 text-right font-normal">Its date</th>
               {MOVES.map(([k, n]) => <th key={k} className="pr-3 text-right font-normal">{n}</th>)}
-              <th className="pr-3 text-right font-normal">7-day avg</th>
-              <th className="pr-3 text-right font-normal">30-day avg</th>
-              <th className="pr-3 text-right font-normal" title="The mean of the values held in the 365 days ending on the latest, and the latest less it (session 1613)">12-month avg</th>
-              <th className="pr-3 text-right font-normal">30-day low to high</th>
+              {group.lean ? null : <th className="pr-3 text-right font-normal">7-day avg</th>}
+              {group.lean ? null : <th className="pr-3 text-right font-normal">30-day avg</th>}
+              {group.lean ? null : <th className="pr-3 text-right font-normal" title="The mean of the values held in the 365 days ending on the latest, and the latest less it (session 1613)">12-month avg</th>}
+              {group.lean ? null : <th className="pr-3 text-right font-normal">30-day low to high</th>}
               <th className="pr-3 text-right font-normal" title="The last 90 days of a daily row, a year of a weekly one, three years of a monthly or quarterly one (session 1609)">Trend</th>
-              <th className="pr-2 text-right font-normal">One-year range</th>
+              {group.lean ? null : <th className="pr-2 text-right font-normal">One-year range</th>}
               {group.curve ? <th className="pr-2 text-left font-normal">Futures 1 to 4</th> : null}
               {group.extremes ? <th className="pr-2 text-right font-normal" title="The latest complete day's highest and lowest hour, each with the hour it began in the grid's local time (session 1611); under them the last 7 and 30 days' peak hour and the hours above 100, 250 and 1,000 USD/MWh (h>100/250/1000, session 1612)">Day&apos;s high / low</th> : null}
             </tr>
@@ -499,7 +505,10 @@ export function BoardView({ file, footer, under }: { file: BoardFile; footer?: R
   const jump = useRef(false);
   const [jumps, setJumps] = useState(0);
   const onOpen = useCallback((id: string) => {
-    if (!file.rows.some((r) => r.id === id && r.status === "ok")) return;
+    const hit = file.rows.find((r) => r.id === id && r.status === "ok");
+    if (!hit) return;
+    // session 10402 (chain 720): a row with a page of its own opens that page, not the workbench
+    if (hit.open) { window.location.assign(hit.open); return; }
     jump.current = true;
     setJumps((n) => n + 1);
     setBench({ s: id });

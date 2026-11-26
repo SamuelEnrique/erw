@@ -15,8 +15,8 @@ export type ReaderSpec = {
   figures: string[];
   /** the columns the Python reader prints the first rows of */
   show: string[];
-  /** a column to count the rows by, in both readers */
-  count: string;
+  /** a column to count the rows by, in both readers; a CSV with no such column names none */
+  count?: string;
   /** the data frame's name in Python */
   name: string;
 };
@@ -42,7 +42,7 @@ export function csvReader(as: "py" | "do", url: string, spec: ReaderSpec): strin
       "print(\"\\n\".join(lines[:n]))",
       `${spec.name} = pd.read_csv(io.StringIO("\\n".join(lines[n:])), dtype={${spec.text.map((c) => `"${c}": str`).join(", ")}})`,
       `print(${spec.name}.shape)`,
-      `print(${spec.name}["${spec.count}"].value_counts(dropna=False))`,
+      ...(spec.count ? [`print(${spec.name}["${spec.count}"].value_counts(dropna=False))`] : []),
       `print(${spec.name}[[${spec.show.map((c) => `"${c}"`).join(", ")}]].head(24))`,
       "",
     ].join("\n");
@@ -76,8 +76,7 @@ export function csvReader(as: "py" | "do", url: string, spec: ReaderSpec): strin
     "import delimited using `raw', varnames(`=`n' + 1') encoding(\"utf-8\") bindquote(strict) stringcols(_all) clear",
     "",
     ...spec.figures.flatMap((c) => [`destring ${c}, replace force`, ""]),
-    `tabulate ${spec.count}, missing`,
-    "",
+    ...(spec.count ? [`tabulate ${spec.count}, missing`, ""] : []),
     "describe",
     "",
   ].join("\n");

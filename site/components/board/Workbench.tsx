@@ -105,7 +105,7 @@ function Stat({ label, value, title }: { label: string; value: React.ReactNode; 
 const NOT = <span className="text-xs text-muted">not held yet</span>;
 
 export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: Bench; row: Row; set: (patch: Partial<Bench>) => void }) {
-  const over = bench.o ? file.rows.find((r) => r.id === bench.o && r.status === "ok") ?? null : null;
+  const over = bench.o ? file.rows.find((r) => r.id === bench.o && r.status === "ok" && !r.open) ?? null : null;
   const canHourly = !!row.hourly && (!over || !!over.hourly);
   const hourly = bench.r === "h" && canHourly;
   const sA = useFile<SeriesFile>(`/board/s/${row.id}.json`);
@@ -191,7 +191,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
     URL.revokeObjectURL(a.href);
   };
 
-  const groupsOf = file.groups.map((g) => ({ g, rows: file.rows.filter((r) => r.group === g.id && r.status === "ok" && r.id !== row.id) })).filter((x) => x.rows.length);
+  const groupsOf = file.groups.map((g) => ({ g, rows: file.rows.filter((r) => r.group === g.id && r.status === "ok" && !r.open && r.id !== row.id) })).filter((x) => x.rows.length);
   const n2 = (v: number | null | undefined, unit = "") => (v === null || v === undefined ? NOT : <>{fmt(v, unit)}</>);
   return (
     <div className="border border-accent bg-paper/40 p-3 text-sm" data-workbench={row.id}>
