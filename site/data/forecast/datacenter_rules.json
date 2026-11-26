@@ -48,6 +48,7 @@
   "wy_39_15_105": {"title": "Wyoming Statutes Title 39: 39-15-105(a)(viii)(S), sales tax exemptions for a data processing services center (with the definition in 39-15-101(a)(xliv)); 39-11-101, taxable value by class", "url": "https://wyoleg.gov/statutes/compress/title39.pdf", "read": "2026-11-26", "request": 303},
   "il_dor_excise": {"title": "Illinois Department of Revenue, Excise Tax Rates and Fees (the Electricity Excise Tax)", "url": "https://tax.illinois.gov/research/taxrates/excise.html", "read": "2026-11-26", "request": 307},
   "il_dceo": {"title": "Illinois Department of Commerce and Economic Opportunity, Data Center Investment Tax Exemptions and Credits (with its 2025 Data Centers Annual Report, request 248)", "url": "https://dceo.illinois.gov/expandrelocate/incentives/datacenters.html", "read": "2026-11-26", "request": 247},
+  "tn_cot_aggregate_2025": {"title": "Tennessee Comptroller of the Treasury, Division of Property Assessments, 2025 Tax Aggregate Report", "url": "https://comptroller.tn.gov/content/dam/cot/pa/documents/tax-aggregate-reports/2025TaxAggregateReport.pdf", "read": "2026-11-26", "request": 341},
   "il_dor_qa318": {"title": "Illinois Department of Revenue, Questions and Answers 318: assessment levels", "url": "https://tax.illinois.gov/questionsandanswers/318.html", "read": "2026-11-26", "request": 339},
   "ar_aacd_2025": {"title": "Arkansas Department of Finance and Administration, Assessment Coordination Division, Annual Report 2025", "url": "https://www.dfa.arkansas.gov/wp-content/uploads/AACD_AnnualReport_2025.pdf", "read": "2026-11-26", "request": 337},
   "al_dor_adval": {"title": "Alabama Department of Revenue, Property (Ad Valorem) Tax", "url": "https://www.revenue.alabama.gov/tax-types/property-ad-valorem-tax/", "read": "2026-11-26", "request": 334},
@@ -315,6 +316,13 @@
     "quote": "A qualified firm that makes an investment in eligible data center costs in a qualified data center of at least $250,000,000 in the aggregate by the fifth year of operations and creates and maintains at least 20 new jobs at the qualified data center within two calendar years after the commencement of operations shall receive a sales tax exemption",
     "tip": "Kansas (Statutes 74-50,332 and 79-3606(xxxx)): a qualified firm that invests \"at least $250,000,000\" in eligible data center costs by the fifth year of operations and creates \"at least 20 new jobs\" receives a sales tax exemption on eligible data center costs, data center equipment and construction purchases, under an agreement with the Secretary of Commerce. The tool applies it to the equipment and the building's taxable share; the exemption's duration (K.S.A. 74-50,333, not read) is not modeled, so it runs over the whole horizon here, an upper bound."
    }
+  },
+  "tn": {
+   "name": "Tennessee",
+   "property": {"building_ratio": 0.4, "equipment_ratio": 0.3, "cite": "tn_cot_aggregate_2025",
+    "quote": "Real Property Assessment Industrial and Commercial 40%",
+    "personal": {"cite": "tn_cot_aggregate_2025", "quote": "Personal Property Assessment Industrial and Commercial 30%"},
+    "tip": "Tennessee (the Comptroller of the Treasury's 2025 Tax Aggregate Report): industrial and commercial real property is assessed at 40 percent of value and industrial and commercial personal property at 30 percent. The tool assesses the building at 40 percent and the equipment at 30 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate. No datacenter sales tax rule of Tennessee is read (www.tn.gov did not answer)."}
   },
   "nm": {
    "name": "New Mexico",
