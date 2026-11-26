@@ -27,7 +27,7 @@ export const CONDITIONS_DECISIONS: ConditionsDecision[] = [
     def: "The RTO balancing area.",
     source: "generation_outages_hourly." },
   { key: "scarcity", session: "session 9000",
-    text: "The scarcity strip is ERCOT's online reserve price adder, held from June 2014 until it ended on 4 December 2025. CAISO's alerts stand in its alerts strip; the other grids publish no adder of this kind in the files read.",
+    text: "The scarcity strip is ERCOT's online reserve price adder, held from June 2014 until it ended on 4 December 2025. It ended because ERCOT changed how it prices scarcity: since 5 December 2025 ERCOT clears energy and ancillary services together in real time, and scarcity is priced through the ancillary services' own demand curves, which the page does not draw. CAISO's alerts stand in its alerts strip; the other grids publish no adder of this kind in the files read.",
     def: "ERCOT's adder.",
     source: "ercot_rtm_price_adders; scarcity_hours_by_grid." },
   { key: "first", session: "session 9000",
