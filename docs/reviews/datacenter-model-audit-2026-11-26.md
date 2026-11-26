@@ -14,7 +14,7 @@ Session 10203, 26 November 2026, chain 710 (part B), the old laptop. Read as the
 - **The load is a price taker, and the page never says so (finding 3).** The size runs to 10,000 MW, 16.6 percent of ERCOT's mean demand in 2026, and every dollar scales linearly. A rough merit order from the page's own prices and ERCOT's load: +USD 0.42 per MWh at 1,000 MW (+1.2 percent), +4.21 at 10,000 MW (+12.3 percent). Fixed in words.
 - **The contract is a block shaped like the load (finding 5).** A lab's contract is usually a solar or wind PPA settled at a hub. Over the generator page's twelve months ERCOT's solar captured USD 23.27 per MWh at the hub average against a flat load's 32.20: each contracted MWh of solar costs the load USD 8.93 more than the page's arithmetic; at a 50 percent share, +4.46 per MWh of the load (+13.1 percent). Fixed in words.
 - **Two kinds of dollars, again (finding 4).** Each month's own dollars, never said; in the scenarios flat prices are discounted at Lazard's money rate of 9.6 percent. With prices rising 2 percent a year the present value of 20 years for 100 MW is USD 299.42 million, not 261.19 (+14.6 percent). A figure: for Samuel's ruling.
-- **Smaller.** The All grids tab's "All-in" leaves out distribution, ancillary services and losses (finding 2, words); the carbon is a grid average, not what the load adds (finding 6, words); the GPU defaults round 1.275 kW up and take the industry's overhead ratio, not a lab's (finding 7, a figure); California is priced at generator trading hubs, where a load pays its utility's load aggregation point, which no table holds (finding 8, a data request).
+- **Smaller.** The All grids tab's "All-in" did not name losses among what it leaves out, and its column's tip named nothing (finding 2, words); the carbon is a grid average, not what the load adds (finding 6, words); the GPU defaults round 1.275 kW up and take the industry's overhead ratio, not a lab's (finding 7, a figure); California is priced at generator trading hubs, where a load pays its utility's load aggregation point, which no table holds (finding 8, a data request).
 - **Five branches fix words and move no figure (1, 2, 3, 5, 6); two show a figure for ruling (4, 7); one shows a data gap (8).**
 
 ## The ground: each file and what it does
@@ -143,9 +143,122 @@ Sized where files on this machine allow; per MWh of the default flat load (34.07
 | 3 | Medium | The load is a price taker at any size to 10,000 MW; the page never says so | +0.42 per MWh at 1,000 MW, +4.21 at 10,000 (rough) | words | `wip/audit-datacenter-3` |
 | 4 | Medium | Each month's dollars, never said; flat prices at a money rate in the scenarios | present value +14.6 percent at 2 percent inflation | figure: ruling | `wip/audit-datacenter-4` |
 | 5 | Medium | The contract is a block in the load's own hours; a solar PPA costs more | +8.93 per contracted MWh; +4.46 per MWh at 50 percent | words | `wip/audit-datacenter-5` |
-| 2 | Medium | All grids' "All-in" leaves out distribution, ancillary services and losses | +0.23 (Oncor's distribution and riders) +0.27 to 0.33 (reserves), losses not sized | words | `wip/audit-datacenter-2` |
+| 2 | Low | All grids' "All-in" leaves out distribution, ancillary services and losses; the cell's hover named all but losses, the column's tip none | +0.23 (Oncor's distribution and riders) +0.27 to 0.33 (reserves), losses not sized | words | `wip/audit-datacenter-2` |
 | 7 | Low | 1.3 kW rounds the datasheet's 1.275 up; 1.56 is the industry's ratio, not a lab's | GPU-hour +1.9 percent; at 1.09, -30.1 percent | figure: ruling | `wip/audit-datacenter-7` |
 | 6 | Low | Carbon is the grid's average; the face never says it is not what the load adds | not sized (no marginal rate held) | words | `wip/audit-datacenter-6` |
 | 8 | Low | California is priced at generator trading hubs; a load pays its utility's load aggregation point | not sized (no table) | data request | `wip/audit-datacenter-8` |
 
-The sections of each finding follow as the branches are written.
+- Ranked by severity, then by size. One High, three Medium, four Low. Findings 4 and 7 move printed figures if fixed and are Samuel's ruling; finding 8 needs a table.
+- The five words branches (1, 2, 3, 5, 6) were merged together onto origin/main of 26 November in a trial: no conflict, and their tests with `tests/test_session190.py`, `test_session194.py` and `test_session462.py` pass (59 passed).
+
+## 1. "All-in power per GPU-hour" is energy and what is typed (High)
+
+- **Where.** `site/app/cost-of-power/LoadScenarios.tsx`, the row `allin` ("All-in power per GPU-hour, over the years counted", note "the upfront cost and the energy, over the GPU-hours run, both at the hurdle rate"), the chart's words ("where the all-in power per GPU-hour lands"); `site/lib/datacenter/finance.ts`, `levelGpuHour`; the note, section 4.14.
+- **Why it is wrong.** "All-in" tells a procurement lead the figure is the whole cost of power per GPU-hour. It is the present value of market energy, the other charges typed (default 0) and the upfront cost (default 0), over the present value of GPU-hours. At the defaults it equals the energy-only GPU-hour to the bit (0.0691), and the page's own delivery table, a few rows above, holds USD 8.81 per MWh for Oncor's area: 25.9 percent more than the energy. ERCOT's reserves add about 0.27 to 0.33; losses are not sized.
+- **The test.** `tests/test_audit_datacenter_1.py` on `wip/audit-datacenter-1`: through the page's libraries on its files the "all-in" figure equals the energy-only GPU-hour and Oncor's delivery is more than a fifth of the price (passes on main); the words test fails on main and passes on the branch.
+- **The fix on the branch, words only.** The row is "Levelized power per GPU-hour, over the years counted", its note "market energy, the other charges typed and the upfront cost, over the GPU-hours run, both at the hurdle rate; no delivery, ancillary service or loss charge unless typed as other charges"; the chart's two sentences say "levelized"; the note's 4.14 and `datacenter_cost.md` follow; `tests/test_session194.py` and the browser check `site/scripts/check-datacenter-scenarios.mjs` (its regex; not run here, it needs a built site) follow. The check key `a|allin` and the code's names are unchanged. No figure moves.
+- **Not done.** Adding delivery to the scenarios' default ("Delivery and other charges" at the zone's utility's total) moves the headline: the ruling file of 17 November, line 3, already holds it (`wip/alt-cost-of-power-2`).
+
+## 2. All grids' "All-in" did not name all it leaves out (Low)
+
+- **Where.** `site/lib/siting.ts` line 86 (the column's tip: "Energy, transmission and capacity added, drawn only where each of the three is held or is zero by market design."), `allInCell`; `site/app/cost-of-power/AllGridsView.tsx`, `AllInTd` (the cell's hover); `docs/methods/siting.md` line 10.
+- **Why it is wrong.** The sum is energy, ERCOT's four-peak transmission at the Commission's wholesale rate and capacity (zero in ERCOT). The cell's hover said delivery, distribution, ancillary and retail charges are not in it, and that the load's own effect is not modelled; it did not name losses, and the column's tip named nothing left out. For a Texas row in Oncor's area at 100 MW the page's own delivery table holds USD 0.23 per MWh of distribution and riders beside the transmission; ERCOT's day-ahead reserves come to about 0.27 to 0.33.
+- **The test.** `tests/test_audit_datacenter_2.py` on `wip/audit-datacenter-2`: the sum holds exactly the three parts and Oncor's distribution and riders are more than USD 0.1 per MWh (passes on main); the words test fails on main.
+- **The fix on the branch, words only.** The tip adds "No delivery, distribution, ancillary, loss or retail charge is in it, so it is not the whole bill."; the hover names losses; `siting.md` says so. `tests/test_session705.py` fails on origin/main too (a data file against the machine's table), not this branch's.
+
+## 3. The load is a price taker, unsaid (Medium)
+
+- **Where.** `site/lib/datacenter.ts` `LIMITS.mw` (0.1 to 10,000); `model.ts` and `page.tsx` multiply every per-MW figure by the size; the income note under the cost table; the note's list "What the model cannot see". The decisions block names no price taker for this page (the battery's decision 4 does for its own).
+- **Why it is wrong.** A lab sizing a 1 GW campus reads a price that its own demand would move. At 10,000 MW the load is 16.6 percent of ERCOT's mean demand in the page's 2026 file (60,187 MW). The All grids tab's hover says it ("what a load of N MW would itself do to them is not modelled"); "Your load" did not.
+- **How much, roughly.** The median `LZ_NORTH` price by ERCOT load in 1 GW bins over the twelve months (8,015 hours with both), each hour moved up the curve by the load: +USD 0.03 per MWh at 100 MW, +0.42 at 1,000 MW (+1.2 percent), +2.10 at 5,000, +4.21 at 10,000 (+12.3 percent). One curve for the year, blind to wind, sun and imports: an order of size, not a forecast.
+- **The test.** `tests/test_audit_datacenter_3.py` on `wip/audit-datacenter-3`: the size reaches 10,000 MW, 10,000 MW is more than 15 percent of the 2026 mean demand, and where `ercot_zone_load_hourly` is on the machine (`ERW_TABLES_DIR`) the rough curve rises more than USD 2 at 10,000 MW (passes on main); the words test fails on main.
+- **The fix on the branch, words only.** The sentence under the cost table adds "its own demand is taken not to move that price (at hundreds of megawatts and more it would: every dollar here is the figure for 1 MW times the size)"; the note's list gains a line with the figures above. A size cap or a price that moves with size is Samuel's ruling.
+
+## 4. Two kinds of dollars (Medium; a figure)
+
+- **Where.** Every sum in `lib/datacenter.ts` adds each month's own dollars; the cost chart sets 2015 beside 2026. `finance.ts`: `growth` 0 by default, `HURDLE` 9.6 (Lazard's weighted cost, "60% debt at an 8% interest rate and 40% equity at a 12% cost", rates in money), `presentValue`, `levelPrice`.
+- **Why it is wrong.** No word says which dollars. In the scenarios the last twelve months are repeated flat, which is a real reading, and discounted at a money rate: the battery audit's finding 9 and the generator audit's finding 2. For a buyer the error runs the other way: the cost's present value is too low.
+- **How much.** With prices rising 2 percent a year (this audit's assumption, the usual planning figure), the default case's present value for 100 MW is USD 299.42 million against 261.19 (+14.6 percent); at 2.5 percent 310.24 (+18.8). The fixed price with the same present value: 39.06 and 40.47 against 34.07. The levelized GPU-hour does not move (the same rate discounts both).
+- **The test.** `tests/test_audit_datacenter_4.py` on `wip/audit-datacenter-4`: the defaults (9.6, 0, 20), the ratios +14.63 and +18.78 percent, and that no word of the page or its library says inflation, nominal, real or today's dollars. Not for landing.
+- **For Samuel's ruling.** Default "left as it is". The smallest fix in words is a line saying the figures are each month's dollars and the 9.6 percent a money rate; any change of the default growth or rate moves the present value.
+
+## 5. The contract is shaped like the load (Medium)
+
+- **Where.** `finance.ts`, `contractYear` and `marketYear` (a share of the energy at a fixed price, the rest at the market, in every hour); the field's note (`SPECS.cshare.source`); the note, 4.14 and "What the model cannot see" ("no shape").
+- **Why it is wrong.** A lab's contract is most often a solar or wind PPA settled at a hub: the buyer pays the market in every hour and is paid the hub price less the strike on the plant's output. The page's arithmetic is a block in the load's own hours. The note says "no shape"; the page said nothing.
+- **How much.** Over the generator page's twelve months (October 2025 to September 2026, ERCOT's solar fleet at `HB_HUBAVG` in real time), a flat load paid USD 32.20 per MWh and solar captured 23.27: settled at the hub, each contracted MWh of solar costs the load 8.93 more than the page's arithmetic; at a 50 percent share, +4.46 per MWh of the load (+13.1 percent of 34.07). The zone's basis to the hub average and the plant's own node are on top.
+- **The test.** `tests/test_audit_datacenter_5.py` on `wip/audit-datacenter-5`: the year's cost is exactly (1 - s) K + s E c whatever the hours, and the public file's solar capture sits more than USD 5 under the flat mean (passes on main); the words test fails on main.
+- **The fix on the branch, words only.** The contract share's note adds "The contract is shaped like the load, the same share in every hour; a solar or wind contract settled at a hub delivers in its own hours, whose prices differ from the load's, and is not priced here"; the note's 4.14 gives the measured gap. Pricing a shaped contract is a model change: Samuel's ruling.
+
+## 6. The carbon is the grid's average, unsaid on the face (Low)
+
+- **Where.** `site/app/cost-of-power/LoadAnswers.tsx`, `HowClean` ("the power this load used over the last twelve months carried N kg of CO2 per MWh") and its note; `answers.ts`, `l12Carbon`, `windowCarbon`; the note, 4.8 and 4.16.
+- **Why it is wrong.** "Carried" reads as the load's own emissions. The figure is the grid's average intensity of consumed electricity weighted by the load's energy: location-based, not the emissions the load's own demand adds at the margin, and not a figure for any contract or certificate. At the monthly average a load that shifts a fifth of each day's energy has the flat load's carbon to the gram. The note said "an average of the hour, not the marginal plant" for the clean share alone (4.8); the page said it nowhere.
+- **How much.** Not sized: no marginal emission rate is held in the warehouse.
+- **The test.** `tests/test_audit_datacenter_6.py` on `wip/audit-datacenter-6`: the shifting load's monthly energy equals the flat load's in every month of the twelve (passes on main); the words test fails on main.
+- **The fix on the branch, words only.** The note under "How clean?" adds "Each figure is an average of what the grid's consumed electricity carried (location-based): not the emissions the load's own demand adds at the margin, and not a figure for any contract or certificate the load buys."; the note's 4.8 follows.
+
+## 7. The GPU defaults (Low; a figure)
+
+- **Where.** `site/lib/datacenter.ts`, `ASSUMED` and `DEFAULTS` (1.3 kW per GPU, overhead ratio 1.56), each with its source on hover.
+- **Why it matters.** The hover's own datasheet gives 10.2 kW for 8 GPUs, 1.275 kW: 1.3 puts every power per GPU-hour 1.96 percent high and the GPU count 1.9 percent low (49,310 against 50,277 for 100 MW). 1.56 is the industry's average across old and new rooms; the hover's own Google fleet figure, 1.09, is nearer what a lab builds today: at 1.09 every power per GPU-hour is 30.1 percent lower and 100 MW powers 70,572 GPUs. Both are stated, so nothing on the page is false; the default is the question.
+- **The test.** `tests/test_audit_datacenter_7.py` on `wip/audit-datacenter-7`: the defaults, the hover's words, and the four measured ratios and counts. Not for landing.
+- **For Samuel's ruling.** Default "left as it is" (1.3 and 1.56). The other choices: 1.275 (-1.9 percent on every GPU-hour), and an overhead ratio for a new AI site (1.09 gives -30.1 percent).
+
+## 8. California is priced at generator trading hubs (Low; a data request)
+
+- **Where.** `site/data/datacenter/index.json`: CAISO's regions are `TH_SP15_GEN-APND` (the default), `TH_ZP26_GEN-APND` and `TH_NP15_GEN-APND`. Decision 2: "A hub or load zone stands for the site".
+- **Why it matters.** A load in CAISO pays its utility's default load aggregation point, not a generator trading hub. The decision states the stand-in, so nothing is false; but the size of the gap is not known, and no DLAP price is held in the page's files or the warehouse.
+- **The test.** `tests/test_audit_datacenter_8.py` on `wip/audit-datacenter-8`: every CAISO region of the index is a generator trading hub. Not for landing.
+- **The data request** is in the hand-back: the DLAP prices of PG&E, SCE and SDG&E against the hubs over the page's twelve months.
+
+## The decisions block, line by line
+
+The 21 decisions at the page's foot (`DATACENTER_DECISIONS`; the note's section 12), each against this audit:
+
+1. Wholesale energy alone, every hour at the hour's price, no hedge: **right as stated**; losses and the load's own effect not named (findings 2, 3).
+2. A hub or load zone stands for the site: **as stated**; for California a generator hub (finding 8).
+3. 95 percent month, twelve counted months in a row: **right**; it acts on no month today.
+4. The bad month, top tenth of 36 by nearest rank: **right** (rank 4 of 36; interpolated it would be 37.11).
+5. Standard time: **right**; clock months would move the figure by USD 0.003.
+6. The rule, 30 prior days, a yearly budget, whole and at once: **right**, written a second time here with the same hours.
+7. The foreseen load with the rule's budget: **right**, and never below the rule's figure on any case held.
+8. 1.3 kW and 1.56: **as stated**; what each is worth is finding 7.
+9. One page in the battery page's layout: layout, not a model matter.
+10. Scenarios A and B, A sets the headline, the contract 0 by default: **right**; the contract's shape is finding 5.
+11. 9.6 percent, a generator's WACC: **as stated**; a money rate on flat prices is finding 4.
+12. Twenty years, the other charges, the change of prices and the upfront cost at none: **as stated**; "all-in" at those defaults is finding 1.
+13. USD 1,000 for every grid: **right as stated**; recomputed (4 hours, USD 446,175).
+14. Texas's delivery in its own table, never added: **right**; recomputed through the page's code (Oncor 8.81, AEP Texas 8.39 at 100 MW).
+15. A value outside its bounds brought inside: not tested here.
+16. A load that runs in under a tenth of the hours: not tested here.
+17. Public statements as facts with a link: not a model matter.
+18. The scenarios on the page's own twelve months by default: **right** (`chosen` returns no window for the default, so the headline is the page's own months, not the table's).
+19. Four summer peaks shown, not counted: **right as stated**; the default flexible way avoided none in 2024 and 2025 (cited rows).
+20. A node's band, added to nothing: **right as stated**.
+21. Capacity: none in ERCOT, "no public figure" elsewhere: **right as stated**.
+
+## What was checked and found right
+
+- **An hour's price, months and spans.** Restated from the note and equal to the library on 131 numbers; every hour of the default window held.
+- **The rule.** Thresholds read only the 720 hours before the day; k = round(q x H) at least 1; the yearly budget; the dearest day-ahead hours first. The default flexible way is off in 100 hours of the twelve, all in 2026, the budget spent by July.
+- **The foreseen load and "the rule kept".** Never below the rule's figure on 392 cases and 3,528 year rows; the kept share never above 100.
+- **The scenarios' formulas.** Price, bill, GPU-hour, GPUs, hours off and the breakeven GPU-hour (USD 230.36 per MWh not bought, 0.4672 per GPU-hour), present value, the fixed price, the levelized GPU-hour: restated and equal. `against` and `irr` read and right by inspection; not recomputed.
+- **The default window.** With no `py` in the address `chosen` returns null, so the scenarios and the headline stand on the page's own last twelve months, not on `price_years_by_window` (the fault of 13 November, row 4, does not reach the headline).
+- **Delivery.** `delivery.ts` on `texas_delivery.json` gives the table's figures; the Commission's 2026 rate, 75.527270 per kW a year, is USD 8.62 per MWh for a flat load.
+- **The replication** passes 14 of 14 on the page's window (2025-11 to 2026-10); unlike the battery page's (its finding 11), it is current.
+
+## Not covered, or left open
+
+- **Grid by grid** (`GridsView.tsx`, `cost_of_power.md`): a separate model on the `cost_of_power_*` tables; not restated here.
+- **The All grids tab's other columns** (headroom, months to connect, the siting card's figures): only the "All-in" sum was read.
+- **The answers' figures from the live set** (carbon, ERCOT's large-load reports, CAISO's notices): the replication checks the carbon on the public file; not restated here.
+- **Other grids and regions** for the one-rule measurements: the default case only. The foreseen check covers every grid.
+- **Losses, ERCOT's fees, real-time reserves since 5 December 2025, uplift and securitization charges**: no table held; losses are a data request.
+- **The pages drawn to HTML**: not done for the words branches (no figure moves and each change is a sentence or a label); part D of the chain draws each before its landing row is marked requested. `site/scripts/check-datacenter-scenarios.mjs` needs a built site and was not run.
+
+## Landing, rulings and data (returned to the chain's main session)
+
+- **For landing (words only):** `wip/audit-datacenter-1`, `-2`, `-3`, `-5`, `-6`. They merge together cleanly onto origin/main of 26 November.
+- **For Samuel's ruling, default "left as it is":** finding 4 (present value +14.6 percent at 2 percent inflation, USD 299.42 million against 261.19 for 100 MW); finding 7 (1.275 kW: -1.9 percent on every GPU-hour; an overhead ratio of 1.09: -30.1 percent).
+- **Data requests:** ERCOT's loss factors for a transmission-voltage load over the twelve months (finding 2); CAISO's DLAP prices against the trading hubs (finding 8).
