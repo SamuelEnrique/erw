@@ -40,6 +40,7 @@ One row per hub (or zone), local operating day and metric. `ts_utc` is the opera
 **Notes.**
 - **The four real-time metrics need every hour** of both markets on the day. A 15-minute table's hour needs all four intervals.
 - **NERC holidays:** New Year's Day, Memorial Day, Independence Day, Labor Day, Thanksgiving and Christmas Day. A holiday on a Sunday moves to Monday.
+- **The block is the Central and Western one in every grid (session 10209, `docs/reviews/trader-model-audit-2026-11-26.md`, finding 5).** Hours ending 7 to 22 local is the on-peak block of ERCOT, SPP and the Western contracts. The Eastern block, which NYISO, ISO-NE and PJM name and the Eastern contracts settle on, is hours ending 8 to 23 Eastern prevailing time (07:00 to 23:00), one hour later; the code takes hours ending 7 to 22 for NYISO and ISO-NE too, and for MISO in EST. Those grids are held or paused, so no page shows their on-peak figures, but their rows are in the table. Not sized: the audit reads no held grid's prices.
 - **Why this volatility.** Power prices can be zero or negative, so log returns are undefined on some days. The ERW measures volatility on the change in the daily average price, in USD/MWh, and does not annualize it.
 - **What a heat rate means here.** The implied heat rate is the day-ahead price over the gas price. It shows how many MMBtu of gas a MWh sells for. It is not any plant's heat rate, and it ignores the gas basis between Henry Hub and the ISO's own gas hubs, which the ERW does not hold.
 
