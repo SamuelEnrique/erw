@@ -83,7 +83,7 @@ export async function BuildoutView({ sp }: { sp: Record<string, string | undefin
 
               <ToolSection title="Storage against solar">
                 <ChartFrame title="MWh of batteries per MW of solar, at each year's end"
-                  note="The ratio is the hours the grid's batteries could carry its whole solar fleet at nameplate output: at 1.0, they hold one hour of it.">
+                  note="The ratio is the batteries' energy counted in hours of the solar fleet's nameplate output: at 1.0, they hold as much energy as the solar fleet makes in one hour at nameplate. It compares energy only: in EIA's newest inventory the batteries' power is below the solar fleet's on every grid, so they could neither take in nor give back that output at its rate.">
                   <SolarLine v={v} />
                 </ChartFrame>
                 <YearTable v={v} />
