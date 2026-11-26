@@ -25,6 +25,13 @@ release gate, so the ceilings stand on the route.
 
 **It fails closed.** Anything that is not a plain yes from the database is a no.
 
+**What it does not close for** (26 November 2026, session 10234, `docs/reviews/ask-model-audit-2026-11-26.md`, finding 6). The
+admission fails closed; the counting it rests on does not. A visitor's model call whose row the ledger refuses is logged on
+the server and the answer goes on (`site/lib/chat/ledger.ts` `recordCall`: only an evaluation's write, `strictLedger`, stops
+the question). The ceilings sum the ledger's rows, so a call the ledger lost is never counted, and a ledger that refused
+every row would leave the day's and the month's ceilings open while the questions went on being answered. What bounds the
+spend then is the provider's own limit, the outer wall of the section "What a ceiling is not" below.
+
 ## The configuration
 
 `site/lib/chat/limits.json`, each value overridden by the server's environment where set:
