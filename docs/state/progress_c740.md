@@ -85,3 +85,5 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | More states (part F) | done | 10813 to 10816 | by rule: Georgia, Utah, Arkansas, Oklahoma, Connecticut, Michigan (22 in all); words: Illinois, Massachusetts, Ohio, Nebraska (8 in all) |
 | Electricity taxes beyond Virginia | done | 10817, 10818 | Illinois (monthly blocks), Ohio (tiers or the self-assessing schedule, the lower) |
 | Wages from warehouse tables (request 7 built) | done | 10818 | `datacenter_wages.py --tables`; figures identical |
+| Property ratios a datacenter shares with all property | done | 10818 | Georgia 40 percent, New Mexico one third, Ohio 35 percent building and no equipment tax |
+| Build and read of 988e06dc9 | done | 10818 | thirteen addresses, check-values 1,680 of 1,680; row 14 updated |
