@@ -300,6 +300,15 @@ The pages of the menu that no window owns tonight, each walked at 1280 and 390 p
 | K1 | `/companies`, each field asked for the name a screen reader is given (`runs/c750/fields_named.mjs`, every page with a fixed address: 82 pages, 392 fields) | Five of the page's six fields have none: the Name box and the Kind, Segment, Grid and Has lists. Each stands in a label with an "i" mark before it, and a label names the first field inside it, which is the mark's own button ("About The search"). A screen reader says "search, edit text" and nothing more. No other page of the 82 has a field with no name | Each field named | no window's; **fixed** on `wip/c750-companies` (`d6dc93397`): each field carries its name; with a test |
 | K2 | `/companies`: Kind set to OEM, Show (2 of 12,724 companies), then the browser's back button; the same with State (`runs/c750/d_companies_probe.mjs`, 4 tries at each width) | The address and the table go back to all 12,724 companies; the list still reads "OEM" (or "CA"). 4 of 4 | The list reads what the page shows | no window's; **fixed** on the same branch: the form keeps no state (`autocomplete="off"`), which was tried on production's own page first: 4 of 4 then read the page's value. Chain 620's fix of 20 November mended the lists that submit themselves; this form submits with its button and was not among them. Landing row 5, ready, to be seen |
 
+**K2 is a class, so every form of its kind was tried.** The source was read for forms that submit with their button and hold a field that takes its value from the page once (`runs/c750/forms_scan.py`: 20 GET forms, 14 of them all mended lists or with no such field), and each of the others was tried in the browser at both widths: one field changed, the form's own button pressed, then the back button (`runs/c750/forms_back.mjs`).
+
+| # | Done | Seen | Should be seen | Whose, and state |
+|---|---|---|---|---|
+| K3 | `/prices/compare`: A set to SP15, the form's button, then the back button; the same with B | The page goes back to no A; the list still reads "caiso:TH_SP15_GEN-APND". 4 of 4 | The lists read what the page shows | no window's; **fixed** on `wip/c750-forms-back` (`9eb8fbcbc`) |
+| K4 | `/conditions`: a day typed (2024-07-24), Show, then the back button | The page draws the newest 35 days again; the Day box still reads the day. 4 of 4. (Its three lists were already right: they are the mended kind) | The Day box empty, as the page shows | no window's; **fixed** on the same branch. The mend, the form keeping no state, was tried on production's own pages first: 8 of 8 then read the page's value. Landing row 6, ready, to be seen |
+
+`/industry` and `/states` read right after the back button. Two forms of the same shape could not be tried and are not changed: `/deals` (its list is held for a license, so no form is drawn) and `/severance/lease/real` (drawn only once a file is given).
+
 ### The first minute, as production stands before tonight's landings
 
 Read 26 November 13:18 UTC with chain 620's own script (`runs/c750/d_first_minute.mjs`), as a stranger and as a reviewer, at 1280 and 390 px.
