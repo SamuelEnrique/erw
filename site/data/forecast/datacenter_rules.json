@@ -21,7 +21,9 @@
   "nc_105_164_3": {"title": "North Carolina General Statutes 105-164.3(201), Qualifying datacenter (with 105-164.13(55a), request 167)", "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.3.html", "read": "2026-11-26", "request": 177},
   "wi_238_40": {"title": "Wisconsin Statutes 238.40, Qualified data centers (with 77.54(70), request 180)", "url": "https://docs.legis.wisconsin.gov/document/statutes/238.40", "read": "2026-11-26", "request": 179},
   "ut_59_12_104": {"title": "Utah Code 59-12-104(84), Exemptions (version effective 1 January 2026)", "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S104_2026010120251206.html", "read": "2026-11-26", "request": 181},
-  "mt_15_6_162": {"title": "Montana Code Annotated 15-6-162, Class seventeen property", "url": "https://mca.legmt.gov/bills/mca/title_0150/chapter_0060/part_0010/section_0620/0150-0060-0010-0620.html", "read": "2026-11-26", "request": 182}
+  "mt_15_6_162": {"title": "Montana Code Annotated 15-6-162, Class seventeen property", "url": "https://mca.legmt.gov/bills/mca/title_0150/chapter_0060/part_0010/section_0620/0150-0060-0010-0620.html", "read": "2026-11-26", "request": 182},
+  "ks_74_50_332": {"title": "Kansas Statutes 74-50,332, exemption for costs and services used for the construction and operation of a qualified data center (with 79-3606(xxxx), request 159)", "url": "https://www.ksrevisor.gov/statutes/chapters/ch74/074_050_0332.html", "read": "2026-11-26", "request": 191},
+  "ga_doaa_2025": {"title": "Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption (December 2025, revised January 2026), with the Department of Revenue's exemption page (request 187)", "url": "https://www.audits2.ga.gov/wp-content/uploads/2025/12/Data-Center-Tax-Exemption-Summary-Revised.pdf", "read": "2026-11-26", "request": 188}
  },
  "split": {
   "cite": "jlarc_598",
@@ -201,6 +203,22 @@
     "cite": "mt_15_6_162", "building_ratio": 0.009, "equipment_ratio": 0.009, "min_investment_usd": 50000000,
     "quote": "Property identified as class seventeen property under this section, whether centrally or locally assessed, is taxed at 0.9% of its market value.",
     "tip": "Montana (Code 15-6-162): the land, improvements and equipment of a qualified data center (300,000 square feet and $150 million, or 25,000 square feet of new area and $50 million in 48 months) are class seventeen property, \"taxed at 0.9% of its market value\"; the mills are each district's. The tool takes 0.9 percent of the building's and the equipment's cost as the taxable value, with USD 50 million (the square footage is not checked), and applies the reader's rate (Montana's mills over 1,000, as a percent); below the threshold no rule is held."
+   }
+  },
+  "ks": {
+   "name": "Kansas",
+   "sales_exemption": {
+    "cite": "ks_74_50_332", "covers": ["equipment", "construction"], "min_investment_usd": 250000000, "min_jobs": 20,
+    "quote": "A qualified firm that makes an investment in eligible data center costs in a qualified data center of at least $250,000,000 in the aggregate by the fifth year of operations and creates and maintains at least 20 new jobs at the qualified data center within two calendar years after the commencement of operations shall receive a sales tax exemption",
+    "tip": "Kansas (Statutes 74-50,332 and 79-3606(xxxx)): a qualified firm that invests \"at least $250,000,000\" in eligible data center costs by the fifth year of operations and creates \"at least 20 new jobs\" receives a sales tax exemption on eligible data center costs, data center equipment and construction purchases, under an agreement with the Secretary of Commerce. The tool applies it to the equipment and the building's taxable share; the exemption's duration (K.S.A. 74-50,333, not read) is not modeled, so it runs over the whole horizon here, an upper bound."
+   }
+  },
+  "ga": {
+   "name": "Georgia",
+   "sales_exemption": {
+    "cite": "ga_doaa_2025", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "quote": "exempting a portion of construction materials and purchases of computer servers and related equipment from state and local sales and use taxes",
+    "tip": "Georgia (Code 48-8-3(68.1)): high-technology data center equipment, and a portion of construction materials, are exempt from state and local sales tax where the data center meets investment and New Quality Jobs thresholds that rise with the county's population (the Department of Revenue's page; the state auditor's evaluation, December 2025, revised January 2026, estimates USD 474.2 million of state revenue forgone in FY2025). Georgia's code is published through LexisNexis and its thresholds were not read: the tool applies no exemption."
    }
   },
   "ia": {

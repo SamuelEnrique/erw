@@ -200,6 +200,13 @@ test("Montana's class seventeen: 0.9 percent of market value with USD 50 million
   near(D.dcStat(small, "y1:propb"), 40e6 * 0.196 * 0.01);
 });
 
+test("Kansas (74-50,332): USD 250 million and 20 jobs, equipment and building; Georgia held as words", () => {
+  assert.equal(D.dcRun(D.dcDefaults(P, "ks", { invest: 250, perm: 20 }), P).exemption.eligible, true);
+  assert.equal(D.dcRun(D.dcDefaults(P, "ks", { invest: 250, perm: 19 }), P).exemption.eligible, false);
+  const ga = D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 100 }), P);
+  assert.equal(ga.exemption.held, true); assert.equal(ga.exemption.eligible, false); near(ga.sums.forgone, 0);
+});
+
 test("a check key carries every input and gives the figure back", () => {
   const x = { ...D.dcDefaults(P, "la"), brate: 9.5, matshare: null };
   const k = D.dcKey(x);

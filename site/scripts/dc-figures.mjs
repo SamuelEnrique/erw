@@ -38,6 +38,8 @@ export const CASES = [
   { id: "ut_words", state: "ut", set: { invest: 2000, perm: 100 } },
   { id: "mt_class17", state: "mt", set: { invest: 100, perm: 5, brate: 60, erate: 60 } },
   { id: "mt_below", state: "mt", set: { invest: 40, perm: 5, brate: 1, erate: 1 } },
+  { id: "ks_250m_building", state: "ks", set: { invest: 600, perm: 25, matshare: 35 } },
+  { id: "ga_words", state: "ga", set: { invest: 2000, perm: 100 } },
 ];
 const STREAMS = ["jobs", "earnings", "property", "propb", "prope", "salesbefore", "forgone", "sales", "income", "elec"];
 const out = CASES.map((c) => {
