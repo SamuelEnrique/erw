@@ -84,7 +84,8 @@ function series(kind, offset, status = "shown", held = null) {
     target_day: status === "shown" ? "2026-11-27" : null, hub: demand || status !== "shown" ? null : "ercot:HB_NORTH", market: demand ? null : "day-ahead",
     unit: demand ? "MW" : "USD/MWh", method_note: NOTES[kind], made_utc: status === "shown" ? "2026-11-26T13:00:00Z" : null, inputs_through_utc: status === "shown" ? "2026-11-26T11:00:00Z" : null,
     band: status === "shown" ? "the 10th to the 90th percentile of the method's own errors at this hour of the day over the last 60 days" : null, band_coverage_pct: status === "shown" ? 81.4 : null,
-    tomorrow_columns: TCOLS, operator_held: demand ? null : "not published", history_columns: HCOLS };
+    tomorrow_columns: TCOLS, operator_held: demand ? null : "not published: no operator publishes a forecast of its day-ahead price", history_columns: HCOLS,
+    horizon_days: status === "shown" ? 2 : null, tomorrow_held: null };
   if (status !== "shown") {
     return { ...base, tomorrow: [[iso("2026-11-27", 0, offset), 0, null, null, null, null]], history: [[iso("2026-11-25", 0, offset), "2026-11-25", 0, null, "backtest", null, null, null, null, null, null, null]],
       summary: { last_30_days: part(null, null, null, [null, null, null, null], [null, null, null, null]), backtest: part(null, null, null, [null, null, null, null], [null, null, null, null]) } };
@@ -127,7 +128,8 @@ for (const p of ["region-tex", "region-mida", "ba-erco"]) {
   add(p, "demand", "hour", "17", 365, d(1500, 1100, 2900, 3600, 1500));
   add(p, "demand", "hour", "3", 365, d(400, 600, 1200, 2000, 400));
   add(p, "demand", "top10", "", 240, d(2100, 1900, 5200, 6100, 2100));
-  add(p, "demand", "event", "uri_2021", 120, d(6000, 7000, 9000, 15000, 6000));
+  add(p, "demand", "event", "uri-2021", 120, d(6000, 7000, 9000, 15000, 6000));
+  add(p, "demand", "last_2_years", "", 17420, d(880, 940, 2350, 3250, 880));
 }
 add("region-tex", "price", "all", "", 8700, { erw: [7.05, 20.1], operator: null, yesterday: [10.4, 29.9], week_ago: [13.6, 36.2], flexible: [7.05, 20.1] });
 add("region-tex", "price", "month", "2026-11", 600, { erw: [9.5, 31.0], operator: null, yesterday: [8.1, 25.5], week_ago: [11.2, 30.3], flexible: [9.5, 31.0] });
@@ -139,6 +141,19 @@ const scores = { ...head, method_notes: NOTES, span: { demand: { first_day: "202
   metrics: { mae: "mean absolute error, in the series' unit", mape: "mean absolute percent error, in percent" }, mape_rule: "A percent error is not written for an hour whose price is within 1 USD/MWh of zero.",
   cuts: { all: "every hour scored", month: "key YYYY-MM", hour: "key 0 to 23, the place's clock", top10: "the place's ten highest-demand days of the backtest", event: "key: the event id of /events", spike: "price only: the hours above the grid's 99th percentile" },
   rows_columns: ["place", "series", "method", "cut", "key", "hours", "mae", "mape", "held"], rows };
+// the contract's additions of 26 November: a place whose target day holds no forecast says why (`tomorrow_held`); a
+// place scored month by month since 2023 (42 months: a long table keeps to a frame of its own); the demand ledger
+{
+  const erco = files[2].series.demand;
+  erco.tomorrow = erco.tomorrow.map((r) => [r[0], r[1], null, null, null, null]);
+  erco.tomorrow_held = "no data: the place's demand for the last whole day is not in the warehouse yet";
+  for (let i = 0; i < 40; i++) {
+    const m = `${2023 + Math.floor(i / 12)}-${String((i % 12) + 1).padStart(2, "0")}`;
+    if (m !== "2026-10" && m !== "2026-11") add("region-mida", "demand", "month", m, 700, { erw: [1000 + i, 2 + i / 100], operator: [900, 1.9], yesterday: [2500, 5], week_ago: [3300, 6.6], regression: [1000 + i, 2 + i / 100] });
+  }
+  fs.writeFileSync(path.join(FIX, "ledger_demand.csv"), ["# a test's fixture: the ledger's three lines of provenance", "# second line", "# third line",
+    "series,place,target_day,ts_utc,local_hour,made_utc,inputs_through_utc,horizon_days,method,erw,lo,hi", "demand,region-tex,2026-11-27,2026-11-27T06:00:00Z,0,2026-11-26T13:00:00Z,2026-11-26T11:00:00Z,2,regression,40000,38500,41500", ""].join("\n"));
+}
 fs.writeFileSync(path.join(FIX, "index.json"), JSON.stringify(index));
 fs.writeFileSync(path.join(FIX, "scores.json"), JSON.stringify(scores));
 files.forEach((f, i) => fs.writeFileSync(path.join(FIX, places[i].file), JSON.stringify(f)));
@@ -231,6 +246,21 @@ try {
   check(odd.includes('data-fc-series="demand"') && count(odd, /data-fc-tomorrow="/g) === 1 && odd.includes('data-fc-tomorrow="a" data-fc-shown="1"'), "an address the page does not know opens the defaults");
   const erco = draw(FIX, { a: "ba-erco", s: "price" });
   check(text(erco).includes("ERW forecast of price, Electric Reliability Council of Texas, Inc. (ERCO): too short a history") && erco.includes("fewer whole days of history than the method needs"), "a history too short is a blank with the file's reason");
+
+  // 3c2. the contract's additions of 26 November 2026, and what the first read at a phone's width found
+  check(/title="ERW forecast for Friday 27 Nov 2026: made [^"]*, 2 days before the day forecast \(2 is the day-ahead forecast/.test(html), "the place's hover says how many days before the day the forecast was made");
+  check(t.includes("The last two years") && /href="\/events\/uri-2021"[^>]*>Event: uri 2021</.test(html), "the two-year cut has its row; an event's row opens the event's page");
+  check(html.includes('href="/forecast/ledger?s=demand"') && html.includes('href="/forecast/ledger/stata?s=demand"') && !two.includes("/forecast/ledger"), "the ledger is offered where its file is on the site (demand), and not where it is not (price)");
+  check(!tt.includes("no operator publishes") && two.includes("not published: no operator publishes a forecast of its day-ahead price"), "a long reason is the cell's hover; the cell says its first words");
+  check(count(two, /data-not-held="1">not published</g) >= 6, "the operator's price cells say not published");
+  const noTomorrow = draw(FIX, { a: "ba-erco" });
+  check(noTomorrow.includes('data-fc-tomorrow="a" data-fc-shown="0"') && text(noTomorrow).includes("ERW forecast of demand, Electric Reliability Council of Texas, Inc. (ERCO), Friday 27 Nov 2026: no data") && noTomorrow.includes("the place&#x27;s demand for the last whole day is not in the warehouse yet"), "a target day with no forecast is a blank that says why");
+  check(noTomorrow.includes('data-fc-day-of="2026-11-25"') && noTomorrow.includes('data-fc-cut="month"'), "a place with no forecast for tomorrow still has its past days and its record");
+  const long = draw(FIX, { a: "region-mida" });
+  check(/data-fc-tall="42"/.test(long) && text(long).includes("(42 months)") && !/data-fc-tall=/.test(html) && t.includes("(2 months)"), "a month table of 42 rows keeps to a frame of its own; one of 2 rows does not");
+  check(count(long.slice(long.indexOf('data-fc-cut="month"'), long.indexOf('data-fc-cut="hour"')), /<tr /g) === 43, "the long table holds every month: none is folded away");
+  check(P.shortHeld("not published: no operator publishes") === "not published" && P.shortHeld(null) === "not held" && P.shortHeld("a reason that runs on for a whole sentence with no colon") === "not held", "the short words of a reason");
+  check(P.eventHref("uri-2021") === "/events/uri-2021" && P.eventHref("../x") === null && P.eventHref("a b") === null, "only an event's own address is made a link");
 
   // 3d. the pure parts
   const tex = files[1];
