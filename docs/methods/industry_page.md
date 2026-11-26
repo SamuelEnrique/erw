@@ -12,7 +12,7 @@ Session 8003, chain 501 step D2, 19 November 2026. Builder: `warehouse/derived/i
 | `electricity_sales_monthly` | `eia_retail_sales_monthly`: Form EIA-861M, electricity sold to industrial customers by state | January 2001 to the newest month | MWh |
 | `outlook` | `eia_aeo_industrial`: the Annual Energy Outlook 2026, the industrial sub-sector tables (24 to 34), energy use by fuel, every case | the AEO's years | TBtu |
 
-Every figure is as its publisher printed it: nothing is summed across sources, filled or scaled, except the unit changes the tables' headers state (billion Btu as TBtu, million dollars as USD). A cell EIA withholds has no figure. The industries are ranked by their 2022 total fuel consumption in the United States, at the three-digit NAICS level, where MECS prints a total.
+Every figure is as its publisher printed it: nothing is summed across sources, filled or scaled, except the unit changes the tables' headers state (billion Btu as TBtu, million dollars as USD). A cell EIA prints no figure for has no figure (EIA's codes * for an estimate under 0.5 in the table's unit, D, NA and Q; the table keeps no code, so the page cannot say which). The industries are ranked by their 2022 total fuel consumption in the United States, at the three-digit NAICS level, where MECS prints a total.
 
 ## The two new tables
 
@@ -38,7 +38,7 @@ The data machine's daily run calls the last after the Monthly Energy Review and 
 The page "Energy use by industry" (`/industry`, in review, in no menu) draws this file and nothing else: `site/app/industry/page.tsx`, its arithmetic in `site/lib/industry.ts`. What it shows:
 
 - **The industrial sector, month by month**: the Monthly Energy Review's eight series (Table 2.4) from a chosen year (from 2015 by default), and the newest month beside the same month a year before with the change in percent. A year's figure is the sum of its twelve months, written only when all twelve are held.
-- **Manufacturing industries ranked**: the 21 three-digit industries of the 2022 survey by total fuel consumption in a chosen Census region, largest first, with each fuel and the industry's share of the 21 industries' sum (not held in a region where EIA withholds a total). A cell EIA withholds is "not held" with EIA's reason on hover, never zero.
+- **Manufacturing industries ranked**: the 21 three-digit industries of the 2022 survey by total fuel consumption in a chosen Census region, largest first, with each fuel and the industry's share of the 21 industries' sum (not held in a region where EIA withholds a total). A cell EIA prints no figure for is "not held" with EIA's four codes on hover, never zero.
 - **Two industries side by side**: any of the survey's 81 industries, their fuels and the components of their electricity (Tables 11.1 and 11.3).
 - **States, year by year**: every state and the District of Columbia by a chosen source in a chosen year, with the total, the average price and the expenditures (nominal dollars); two states side by side, by year, with the change of the total since 2019 and electricity sold to industry by month (Form EIA-861M).
 - **EIA's outlook**: any series of any of the eleven industries of the Annual Energy Outlook 2026, two cases drawn, every case in the table. They are EIA's projections, not the ERW's.
@@ -54,7 +54,7 @@ Every figure carries its source on hover. The page computes only a year's twelve
 | Key | Choice | Default |
 |---|---|---|
 | `as-published` | Every figure is EIA's own; the page sums only a year's twelve months and computes only the shares and changes it names | EIA's figures as published |
-| `withheld` | A cell EIA withholds is "not held" with EIA's reason on hover, never zero | "not held" with the reason |
+| `withheld` | A cell the survey prints no figure for (* an estimate under 0.5, D, NA or Q) is "not held", never zero; the file keeps no code, so the hover gives all four (session 10224) | "not held" with the four codes |
 | `whole-year` | A year's figure from a monthly series is written only when all twelve months are held | twelve months or no figure |
 | `first-two` | Industries A and B open on the two largest three-digit industries; states A and B on the two largest by total in the newest year | Chemicals and Petroleum and Coal Products; Texas and Louisiana in 2024 |
 | `ranking` | Industries by total in the chosen region, states by the chosen source and year, largest first; one with no figure stands last | largest first |

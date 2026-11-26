@@ -22,7 +22,7 @@ import { IndustryDecisions } from "./Decisions";
 // ranked by fuel and region (2022 MECS), the states by year (State Energy Data System) with electricity sold to industry
 // by month (Form EIA-861M), and EIA's own projections by industry (Annual Energy Outlook). Two industries and two states
 // stand side by side. Every figure says its source on hover. Facts and no view: no figure of the ERW's own, nothing
-// filled; a cell EIA withholds is drawn as "not held" with EIA's reason on hover. In review (a path with no line in
+// filled; a cell EIA prints no figure for is drawn as "not held" with EIA's four codes on hover. In review (a path with no line in
 // lib/release.ts is in review); in no menu (chain 505).
 export const metadata: Metadata = { title: "Energy use by industry", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
@@ -37,7 +37,9 @@ const SRC = {
   sales: `${F.sources.electricity_sales}, as the ERW's table eia_retail_sales_monthly holds it.`,
   aeo: `${F.sources.outlook}, AEO${F.outlook.release}, as the ERW's table eia_aeo_industrial holds it: EIA's own projections, not the ERW's.`,
 };
-const WITHHELD = `EIA withholds or does not estimate this cell (its codes *, D, NA or Q), so it has no figure here. ${F.industries.note}`;
+// Audit of 26 November 2026, finding 4: the survey's * is an estimate under 0.5, not a withheld cell, and the file keeps
+// no code, so the hover names the four codes rather than the cell's own.
+const WITHHELD = "EIA prints no figure for this cell. It marks such a cell * (an estimate under 0.5 in the table's unit), D (withheld to avoid disclosure), NA (not available) or Q (withheld, its relative standard error above 50 percent); the file does not keep which, so the cell has no figure here. Fuel consumption counts some byproduct fuels twice, as EIA's note to Table 3.2 says.";
 
 type Query = Record<string, string | string[] | undefined>;
 const one = (q: Query, k: string) => (typeof q[k] === "string" ? (q[k] as string) : undefined);
@@ -45,7 +47,7 @@ const pick = <T extends string>(v: string | undefined, ok: readonly T[] | T[], d
 
 /** A figure with its source on hover; "not held" with the reason where the file has none. */
 function Fig({ v, src, k, digits }: { v: number | null; src: string; k: string; digits?: (v: number) => string }) {
-  if (v === null) return <span className="cursor-help text-muted" title={src.startsWith("EIA withholds") ? src : `Not held in the file. ${src}`} data-not-held={k}>not held</span>;
+  if (v === null) return <span className="cursor-help text-muted" title={src === WITHHELD ? src : `Not held in the file. ${src}`} data-not-held={k}>not held</span>;
   return <span className="cursor-help" title={src} data-fig={k}>{digits ? digits(v) : tbtu(v)}</span>;
 }
 const whole = (v: number) => Math.round(v).toLocaleString("en-US");
