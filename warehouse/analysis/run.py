@@ -188,6 +188,12 @@ def finding(headline, ch, compare):
     weekly = " to " in str(headline["period"])
     when = f"in the week of {headline['period']}" if weekly else f"in {month_words(headline['period'])}"
     versus = "a year earlier" if compare == "year" else ("the week before" if weekly else f"in {month_words(ch['prev_period'])}")
+    if weekly and compare != "year" and " to " in str(ch.get("prev_period", "")):
+        # session 10204 (the audit of Automated Analysis, finding 9): change() pairs a week with the previous HELD
+        # week; when the week just before was not held, the caption names the week it is compared with
+        start = pd.Timestamp(str(headline["period"]).split(" to ")[0]).date()
+        if (start - period_end(ch["prev_period"])).days != 1:
+            versus = f"in the week of {ch['prev_period']}"
     label = headline["label"][0].upper() + headline["label"][1:]
     d = ch["delta"]
     moved = "unchanged from" if d == 0 else f"{'up' if d > 0 else 'down'} {shown(abs(d))} from"

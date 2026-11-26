@@ -1,0 +1,51 @@
+{
+ "computed": "2026-11-26",
+ "by": "site/scripts/dc-crosscheck.mjs",
+ "cases": [
+  {
+   "case": "jlarc_typical_250k_sqft",
+   "investment_musd_2024": 250,
+   "model_forgone_musd_2024": 9.84,
+   "published": "about $9 million to $15.5 million (depending on the locality)",
+   "rate_pct": 5.77,
+   "at_lowest_and_highest_rate_musd": [
+    9.04,
+    11.94
+   ]
+  },
+  {
+   "case": "jlarc_typical_250k_sqft",
+   "investment_musd_2024": 325,
+   "model_forgone_musd_2024": 12.79,
+   "published": "about $9 million to $15.5 million (depending on the locality)",
+   "rate_pct": 5.77,
+   "at_lowest_and_highest_rate_musd": [
+    11.75,
+    15.52
+   ]
+  },
+  {
+   "case": "al_facebook_huntsville_2018",
+   "published_30y_revenue_musd_2018": 297.3,
+   "model_sales_tax_paid_musd_2018": 290.3,
+   "model_income_tax_musd_2018": 12.6,
+   "model_property_tax": "not held (no Alabama rate is held; the reader types the county's and city's)",
+   "model_total_held_musd_2018": 302.9,
+   "exemption_held": false
+  },
+  {
+   "case": "la_meta_richland_2026_indirect",
+   "published_indirect_per_operational_job": 1.9,
+   "virginia_indirect_plus_induced_per_direct_job": 2.389,
+   "model_for_louisiana": "not computed (no public multiplier held for Louisiana)"
+  },
+  {
+   "case": "jlarc_150m_equipment_5y_loudoun",
+   "published_range_musd": "10.8 to 0.4 (by county)",
+   "model_at_cost_musd": 31.13,
+   "loudoun_schedule_2026_musd": 9.96,
+   "model_over_loudoun": 3.13,
+   "model_with_loudoun_schedule_typed_musd": 9.96
+  }
+ ]
+}

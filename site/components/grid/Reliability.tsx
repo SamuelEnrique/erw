@@ -81,8 +81,11 @@ export async function Reliability() {
       </p>
 
       <h3 className="mb-1 text-base">Every notice since 1998: days per year</h3>
+      {/* session 11000 (chain 750): the table's frame is "relative" so that it is the containing block of the cells'
+          sr-only labels ("none", placed absolute). Without it the frame did not clip them, and the page was 539 px
+          wide at 390 px. */}
       {ns.ok ? (
-        <div className="mb-2 overflow-x-auto">
+        <div className="relative mb-2 overflow-x-auto">
           <table className="text-sm">
             <thead><tr className="border-b border-ink text-xs text-muted"><th className="py-1 pr-3 text-left">Year</th>{COLS.map((c) => <th key={c} className="px-1 py-1 text-right">{SHORT[c]}</th>)}</tr></thead>
             <tbody>

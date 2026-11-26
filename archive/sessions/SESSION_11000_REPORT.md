@@ -1,52 +1,54 @@
-# Session 11000 report: chain 750, the start, part A and part B
+# Session 11000 report: chain 750, the start, parts A, B and D, part C begun
 
-Energy Research Warehouse (ERW). 26 November 2026, the portable laptop's second window (`$HOME\Documents\erw-w2`, a worktree; code role), unattended. Chain file: `queue/done/750-night-26-november-portable-window2-browser-read.md`. Kept current while the session runs; the progress file `docs/state/progress_c750.md` has each step, and `docs/reviews/browser-read-2026-11-26.md` is the review itself.
+Energy Research Warehouse (ERW). 26 November 2026, the portable laptop's second window (`$HOME\Documents\erw-w2`, a worktree; code role), unattended. Chain file: `queue/done/750-night-26-november-portable-window2-browser-read.md`. Kept current while the session runs (state at 14:20 UTC); the progress file `docs/state/progress_c750.md` has each step, `docs/reviews/browser-read-2026-11-26.md` is the review itself, and `docs/state/note_2026-11-26_portable_w2_c750.md` is the short note.
 
 ## What was done
 
 - **The start.** The chain file taken by hand (`4e8d24f7e`); the resume file `queue/next/751-resume-chain-750.md` committed alone (`0fac57d61`); the progress file started. No freeze. Sessions 11000 to 11199 were free on origin/main and all 818 remote branches.
-- **Memory.** 1,656 MB free at the start (11:11 UTC); 1.8 to 4.5 GB available before each browser. One browser at a time, each closed before the next. No build, no whole suite, no model call.
-- **Part A, the rows that waited for a browser.** Rows 418 to 422 of `docs/state/browser_reads_wanted.md`: their three branches are in main now; all five read on production at 1280 and 390 px and marked seen. No row is left wanted.
-- **Part B, the list.** Nothing changed a page's code between 21 November 04:06 UTC and tonight, so the list is 14 pages and views landed 20 and 21 November. Each line says whether a browser read it on production after it landed.
-- **Part B, read so far (on production, internal view, 1280 px with a mouse and 390 px with a finger):**
-  - the four accessibility fixes of 20 November that were built without a browser (`/policy?view=week`, `/severance`, three headings pages, the Grid tool's reliability table);
-  - `/conditions` in full: five cases, 15,553 table cells and 21 summary lines against the page files in seven views, the hand 11 of 11 at each width;
-  - `/congestion` in full: five cases, 166 of 166 checks at each width (1,715 marked figures, 1,400 list cells, 4,608 cells of the hour-by-month tables, 1,218 monthly figures), the hand 12 of 12;
-  - the thirteen regions in the Grid tool: 94,435 cells against the mix files;
-  - chain 620's ten fixes and the tour's eighth stop: all on production;
-  - the problem edition of 21 November: 82 of 82 checks at each width;
-  - a sweep of 146 addresses at 390 px (every fixed address and the Grid tool's 63 views).
-- **Faults found and fixed (three branches, each with a test; none landed, none built here):**
-  - `wip/c750-grid-reliability` (`038ecbfcd`): `/grid?grid=caiso` was 539 px wide at 390 px. The labels the accessibility fix of 20 November added to the reliability table escape the table's scrolling frame and widen the page. One class.
-  - `wip/c750-conditions` (`569d15885`): `/conditions` listed 40 alerts under a heading that counted 44 (and 40 of 79), with no word that the list was cut; and each operator's line said its clock twice.
-- **Faults found and filed:**
-  - Two fixes of the desktop's second window read "landed" and never reached main (`4f3247287`, `923d4cb4f` on `wip/w2-c620-fixes`); both faults are still on production. Row 2 of this window's landing file.
-- **`docs/state/landing_request_portable_w2.md`** written in the form of the portable laptop's file: three rows, each `ready, to be seen` (the first window sees them in a build; window A's desk lands them).
-- **The pictures:** `docs/reviews/browser-read-2026-11-26/`, a folder a page.
+- **Memory.** 1,656 MB free at the start (11:11 UTC). Before each browser the read kit reads the memory and refuses under 1,500 MB: it refused three times (274 MB at 12:43, 1,032 MB at 14:05, and once more) while the first window built, and the session wrote up what it had instead. One browser at a time, each closed before the next. No build, no whole suite, no model call.
+- **Part A.** Rows 418 to 422 of `docs/state/browser_reads_wanted.md` read on production at 1280 and 390 px and marked seen. No row is left wanted.
+- **Part B, all of its list** (14 pages and views landed 20 and 21 November; nothing changed a page's code from 21 November 04:06 UTC until tonight): `/conditions` and `/congestion` in full, the thirteen regions of the Grid tool, the four accessibility fixes built without a browser, chain 620's ten fixes, the problem edition of 21 November, the events, demand and supply pages, the five reader-test pages.
+- **Part D,** taken while nothing of tonight's had landed: the five sellable tools (battery, generator, Automated Analysis, the Grid tool; what a datacenter pays read and not edited), fourteen more pages of the menu, the first minute, every form of the site against the back button.
+- **Sweeps:** 146 addresses at 390 px and 145 at 1280 px (every fixed address and the Grid tool's 63 views); the 173 addresses of the site's own check list at 390 px with every chart switched to its table; every field of 82 pages asked for its name.
+- **Figures:** about 120,000 set beside the page files; 5,142 beside Supabase by the site's own check on the five tools' addresses. One disagreement (the alerts list of `/conditions`).
+- **Part C** began at 14:16 UTC with the first landing of tonight (`task/c701-desk-3`: three of this window's rows, `/impact` with Datacenter, the old laptop's audit fixes).
 
-## The five worst things found so far
+## Faults found: ten fixed on six branches, four filed
 
-1. `/grid?grid=caiso` scrolls sideways on a phone (539 of 390 px) since 21 November: a fix made without a browser broke the page it mended. Fixed, to be seen.
-2. `/conditions` silently dropped the last day's alerts of CAISO's September 2022 heat wave, and half of the August 2020 one. Fixed, to be seen.
-3. Two fixes marked landed on 21 November are not on main. Filed.
-4. Every page that draws from the data machine's page files shows 18 to 20 November: its daily commits of 21 to 25 November sit on `wip/red-dm-*` branches. Known to window A (chain 701, part C); no request filed.
-5. A reason given on hover (why a strip or a cell is blank) cannot be opened by a finger. Site-wide; for Samuel's ruling.
+Each branch is cut from origin/main and carries a test that fails on the code before; none was built here. Rows of `docs/state/landing_request_portable_w2.md`.
+
+| Row | Branch | What | State at 14:20 UTC |
+|---:|---|---|---|
+| 1 | `wip/c750-grid-reliability` | `/grid?grid=caiso` 539 px wide at 390 px (the hidden labels of 20 November's accessibility fix escape the table's frame) | landed 14:16 UTC |
+| 2 | `wip/w2-c620-fixes` (the desktop's second window's) | two commits that read landed on 21 November and were not on main | landed 14:16 UTC |
+| 3 | `wip/c750-conditions` | `/conditions` listed 40 alerts under a heading counting 44 and 79; the clock said twice | landed 14:16 UTC |
+| 4 | `wip/c750-grid-last-week` | the Grid tool's "same day last week" lost its first 5 to 8 hours on every grid | requested |
+| 5 | `wip/c750-companies` | `/companies`: five of six fields with no name for a screen reader; the lists kept a choice after the back button | ready, to be seen |
+| 6 | `wip/c750-forms-back` | `/prices/compare` and `/conditions`: fields kept a choice after the back button | ready, to be seen |
+
+Filed for the windows that own the page tonight (rows of the review): CP1, `/cost-of-power?view=grids` is 1,677 px wide on a phone after one tap on a chart's Table switch (the old laptop); CP2, the All grids tab does not follow the back button (window A and the old laptop); R1, `/research` says of its small example charts "hover reads them" and they give no value (the old laptop). Known to its owner, no request filed: the data machine's page files of 21 to 25 November.
+
+## Stopped by Claude Code, and not started again
+
+- At about 12:23 UTC two runs I had put in the background were stopped, the laptop critically low on memory while the session waited on them: the sweep of all 616 method pages at a phone's width, and the site's figure check over its whole list. Neither is started again unless asked. Since then every read runs in the foreground. The figure check was run in the foreground on the five tools' addresses only; the method pages were not swept.
 
 ## Decisions made without you
 
 - **The precheck's failed check was passed over.** From a worktree `daily_cap` always fails (no cost ledger in the folder, and Supabase's copy did not answer). This window spends USD 0 on models, so the session went on, as the desktop's worktree windows do.
-- **A slip of mine, mended.** I ran the precheck twice without `--dry-run`. Each failed run recorded the laptop as idle, which would have emailed "ready for review" fifteen minutes later while both windows were working. I retook the machine's duty mark with `scripts/duty.py start` (the designed way: a machine on duty again after its idle row sends nothing), and a dry run of the ready check confirmed no email was due. This wrote one file in the main folder, `.erw/duty.json`, the same file a passing precheck writes; nothing else there was touched. The duty mark now names both windows' sessions.
-- **Documents go to main, code to `wip/c750-*` branches,** as the chain says and as the laptop's first window does.
-- **`/grid`'s fault was fixed here and not only filed.** The chain's table gives the old laptop the audits of `/cost-of-power` and Automated Analysis; its part D has also begun an audit of the Grid tool's figures. This fix is one class on the reliability table's frame and changes no figure, so it was made on its own branch, and the landing row says the audit is running.
-- **`/conditions` now lists every alert its heading counts** (on the branch), where the other reading was to keep the cut at 40 and add a sentence saying so. The cut was nowhere declared (not in the page's decisions, not in the method note). If the cut should stay, the branch's one line is easy to turn into the sentence.
-- **The second window's landing file was not edited** (another window's file). The two unlanded commits are a row of this window's own file instead.
-- **No data request was filed for the stale page files:** chain 701's file already names the cause and repairs it tonight.
-- **`/data/licenses`' "undefined" was not reopened:** the read of 20 November settled it as the publisher's own answer.
-- **Three "not a fault" calls on `/congestion`** (a thousands comma, a base case called a contingency, cells readable only on hover) went to the ruling list and not to a branch: the first is pinned by the gate's own check, the others are choices of words and of design.
+- **A slip of mine, mended.** I ran the precheck twice without `--dry-run`. Each failed run recorded the laptop as idle, which would have emailed "ready for review" fifteen minutes later while both windows were working. I retook the machine's duty mark with `scripts/duty.py start` (the designed way), and a dry run of the ready check confirmed no email was due. This wrote one file in the main folder, `.erw/duty.json`, the same file a passing precheck writes; nothing else there was touched.
+- **Documents go to main, code to `wip/c750-*` branches,** as the chain says.
+- **Faults on `/grid` were fixed here.** The chain's table gives the old laptop the audits of `/cost-of-power` and Automated Analysis; its part D also audited the Grid tool's figures (finished, on main). Neither of this window's two Grid fixes changes a figure that is drawn; the landing rows say which of the audit's branches touch a neighbouring file.
+- **`/cost-of-power` and `/research` were not edited,** though the three faults found there are small: the old laptop audits both tonight, and window A is writing the All grids tab.
+- **`/conditions` now lists every alert its heading counts,** where the other reading was to keep the cut at 40 and add a sentence. The cut was declared nowhere. Line 6 for a ruling says how to turn it back.
+- **The back button's mend for forms that submit with their button is `autocomplete="off"` on the form,** not chain 620's script for the lists that submit themselves: one attribute, no client code, tried on production's own pages (16 of 16 over the three forms). One thing changes for a reader: the browser no longer offers earlier entries in those boxes.
+- **The site-walking tests were run in place of the whole suite** (the first window's rule of today for a chain that forbids the suite): 121 test files on rows 1, 3 and 4 merged, 120 on each of rows 5 and 6; about 2,100 tests each time, none failing.
+- **The second window's landing file was not edited;** its two unlanded commits were a row of this window's file.
+- **No data request was filed** for the stale page files (chain 701 repairs them tonight), and `/data/licenses`' "undefined" was not reopened (settled on 20 November).
+- **A foreground figure check on the five tools only** was run after the full one was stopped: a smaller command, no browser, with 3 to 4 GB free. The full list and the method pages' sweep wait for your word.
 
 ## For Samuel's ruling
 
-Kept at the foot of `docs/reviews/browser-read-2026-11-26.md`, each with the page left as it is.
+Nine lines at the foot of `docs/reviews/browser-read-2026-11-26.md`, each with the page left as it is; the same nine in plain words in the note.
 
 ## Needs the key
 
@@ -54,4 +56,4 @@ Kept at the foot of `docs/reviews/browser-read-2026-11-26.md`, each with the pag
 
 ## What to review
 
-- `docs/reviews/browser-read-2026-11-26.md`, and the three rows of `docs/state/landing_request_portable_w2.md`.
+- `docs/reviews/browser-read-2026-11-26.md`, its pictures under `docs/reviews/browser-read-2026-11-26/`, and the six rows of `docs/state/landing_request_portable_w2.md`.

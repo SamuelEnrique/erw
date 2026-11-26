@@ -438,7 +438,7 @@ export const SUPPLY_DECISIONS: Decision[] = [
 /** /storage, battery storage (docs/methods/storage.md); its three tabs share the block. */
 export const STORAGE_DECISIONS: Decision[] = [
   { key: "sign", session: "session 31",
-    text: "Battery output is net generation as published: positive while the batteries discharge to the grid, negative while they charge, so a day's charging is the part below zero taken as a positive amount.",
+    text: "Battery output is net generation as published: positive while the batteries discharge to the grid, negative while they charge, so a day's charging is the part below zero taken as a positive amount. ISO-NE's and SPP's series never go below zero, nor did ERCOT's before 15 December 2025: for them charging is not in the series, and a zero hour is not an idle battery.",
     def: "Positive discharging, negative charging.",
     source: "EIA-930's battery series (fuel type BAT) and CAISO's Today's Outlook, both signed this way." },
   { key: "hour-start", session: "session 31",
@@ -558,7 +558,7 @@ export const CURTAILMENT_DECISIONS: Decision[] = [
     def: "A true map only from a published boundary.",
     source: "The operators' published zone boundaries; docs/methods/curtailment.md, \"Session 149\"." },
   { key: "held-grids", session: "session 144",
-    text: "ISO-NE's monthly undelivered energy is not pulled under its legal notice, NYISO prints curtailment only in a monthly PDF, PJM's needs a license, and MISO publishes no series and is paused: each is named with the reason and no number.",
+    text: "ISO-NE's monthly undelivered energy is held internal and not shown under its legal notice (pulled on the owner's ruling of 7 October 2026), NYISO prints curtailment only in a monthly PDF, PJM's needs a license, and MISO publishes no series and is paused: each is named with the reason and no number.",
     def: "Named with the reason, no figure.",
     source: "The operators' terms and published reports, as docs/methods/curtailment.md, \"NYISO and ISO-NE\", records them." },
 ];
@@ -578,7 +578,7 @@ export const QUEUES_DECISIONS: Decision[] = [
     def: "Seven groups from the cleaned type, hybrids apart.",
     source: "The data file's cleaned type field (type_clean)." },
   { key: "mw", session: "session 95",
-    text: "A request's MW is the sum of its parts as filed (all parts of a hybrid together); a request with no positive capacity is counted and adds no MW.",
+    text: "A request's MW is the sum of its parts as filed (all parts of a hybrid together, where the file gives each part MW: in CAISO and for some of the West's requests; in every other grid a hybrid's second part has no MW in the file); a request with no positive capacity is counted and adds no MW.",
     def: "Every part's MW summed; none filled.",
     source: "The data file's capacity of each part." },
   { key: "status", session: "session 95",
@@ -586,7 +586,7 @@ export const QUEUES_DECISIONS: Decision[] = [
     def: "Berkeley Lab's four statuses; unknown counted as entered only.",
     source: "The data file's queue status field." },
   { key: "past-window", session: "session 95",
-    text: "Completion and withdrawal shares are taken over requests that entered from 2000 to five years before the edition's last year, with a known status, so recent years, still mostly open, do not read as a low completion rate.",
+    text: "Completion and withdrawal shares are taken over requests that entered from 2000 to five years before the edition's last year, with a known status, so recent years, many of whose requests are still open, do not read as a low completion rate.",
     def: "Entered 2000 to 2020 for the 2026 edition.",
     source: "docs/methods/interconnection_queue_summary.md, \"Past requests\"." },
   { key: "floors", session: "session 95",

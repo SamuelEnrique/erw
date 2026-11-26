@@ -1,0 +1,93 @@
+== 19: requests recorded in service, by year of actual_in_service_date (and by status)
+miso_interconnection_queue rows 3881 | status counts: {'withdrawn': 2148, 'active': 1176, 'completed': 557}
+  actual in service 2023: 0
+  actual in service 2024: 0
+  actual in service 2025: 0
+  actual in service 2026: 0
+  status operational with a date in 2024 or 2025: 0 | newest actual_in_service_date: nan | retrieved: 2026-09-30T23:33:22Z
+nyiso_interconnection_queue rows 1814 | status counts: {'withdrawn': 1453, 'active': 210, 'completed': 151}
+  actual in service 2023: 11
+  actual in service 2024: 5
+  actual in service 2025: 4
+  actual in service 2026: 0
+  status operational with a date in 2024 or 2025: 9 | newest actual_in_service_date: 2025-10-31 | retrieved: 2026-09-26T00:06:50Z
+== 24: hifld_transmission_lines
+lines 10692 km 299994.0
+x_status
+                    lines        km
+x_status                           
+                     2367   53389.0
+IN SERVICE           8308  245420.1
+INACTIVE               15     571.5
+UNDER CONSTRUCTION      2     613.4
+x_inferred
+            lines        km
+x_inferred                 
+N            5202  210554.7
+Y            5490   89439.3
+x_source_date by year
+      lines       km
+yr                  
+1996      1     14.7
+1997      1     72.6
+2005      1      0.2
+2007      1      5.9
+2011      1     58.9
+2012      1      5.2
+2013      6    120.0
+2014   3546  98731.7
+2015   3869  97254.8
+2016    515  10117.7
+2017   1813  75280.1
+2018    297   6905.8
+2019    377   7274.6
+2020    162   1971.0
+2021     39   1172.5
+2022     34    391.9
+2024     28    616.7
+x_val_date by year
+      lines        km
+yr                   
+2014    735   41048.9
+2015   1975   62610.4
+2016    535   16986.6
+2017   4093  107987.5
+2018    809   21282.9
+2019   1127   22799.5
+2020    572   16698.5
+2021    495    4892.6
+2022    303    4581.6
+2024     48    1105.6
+== 25: ERCOT operating positions by entry year, two sources
+iso_queue_statistics variables: ['mw_entered', 'mw_operating', 'mw_status_not_stated', 'mw_waiting', 'positions_entered', 'positions_operating', 'positions_status_not_stated', 'positions_waiting', 'wait_positions', 'wait_years_mean', 'wait_years_median']
+variable             x_entry_year
+mw_operating         2013              162.1
+                     2014              201.6
+                     2015              810.4
+                     2016              446.0
+                     2017            2076.92
+                     2018            4053.94
+                     2019            2121.81
+                     2020             2691.1
+                     2021            2596.01
+                     2022            2224.93
+                     2023             579.86
+                     2024            1417.23
+                     2025                0.0
+                     2026                0.0
+positions_operating  2013                1.0
+                     2014                1.0
+                     2015                3.0
+                     2016                4.0
+                     2017               15.0
+                     2018               19.0
+                     2019               10.0
+                     2020               11.0
+                     2021               14.0
+                     2022               15.0
+                     2023                9.0
+                     2024                7.0
+                     2025                0.0
+                     2026                0.0
+ercot_interconnection_queue retrieved 2026-11-05T23:21:53Z | status counts: {'active': 1159, 'completed': 577}
+Series([], )
