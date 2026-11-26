@@ -4,105 +4,105 @@
  "modes": {
   "visitor": {
    "index": {
-    "sha256": "e63c739d046a14a2986ed44dca4706e37acf41da6e8bf5668592ddafbf830354",
-    "bytes": 25454,
+    "sha256": "9b18dcc3db748fde4a5c3819bd8d793f7797d160e8f1308a45216b22c26cdc44",
+    "bytes": 26260,
     "figures": 2
    },
    "uri-2021": {
-    "sha256": "1933611fbf258e04bf1b6df5e7ba2aff961096cc56adaaf872cce72f233630aa",
-    "bytes": 73597,
+    "sha256": "766bd65adc6f54645fa45f3361c59bfa1cf408231ba76ffb814bad01e9e43255",
+    "bytes": 74687,
     "figures": 9
    },
    "covid-2020": {
-    "sha256": "8c13c44e3ebe10582fde21699ac17fa43241dded49d82bb3ab947af593b9bcfc",
-    "bytes": 271485,
+    "sha256": "da554278fe1519bb4f26ce89b50a41030a8cae77f8522f9c4a7d0878c788da5a",
+    "bytes": 272017,
     "figures": 7
    },
    "caiso-heat-2020": {
-    "sha256": "56bf4ad14529e2fac40edac2023d2f0cd3f3e72919934cb8d9eb4a1904281d32",
-    "bytes": 58550,
+    "sha256": "c16de84b3c57e869f95f14cbeab636f227d632d46bfea2b4a517e09d01554221",
+    "bytes": 60265,
     "figures": 0
    },
    "caiso-heat-2022": {
-    "sha256": "a2523e2a633df20d02541dcfa0ff306f9904d0cc3f4e75aa0e8b0ff52461b029",
-    "bytes": 55713,
+    "sha256": "c193e1312606f4238b76c35bc30855132c1923e17d6c0df50944e018f958a853",
+    "bytes": 56245,
     "figures": 0
    },
    "elliott-2022": {
-    "sha256": "579643a691bd3871497d939f17b20122cab0c323055f4333c871ec03bc3233a0",
-    "bytes": 109284,
+    "sha256": "7c9fbbbc22234e85cf0b70f2da9d43c6f773045d06883c943f1f1f3a32fc7234",
+    "bytes": 109925,
     "figures": 10
    },
    "ercot-heat-2023": {
-    "sha256": "b62b8822807cdb76202660bfd2ce9d49ab8de6a05d3811172018c881fb5b3c5d",
-    "bytes": 105385,
+    "sha256": "c7060f5270133a104a4e570fcc11d9d37bbbe8899596acca7e87655f563c802d",
+    "bytes": 105917,
     "figures": 11
    },
    "cold-2025": {
-    "sha256": "66150e76a4ecaa94ce2b2b2d20d8440f65248f24b2812d6a2d0ba2c8c00bb293",
-    "bytes": 104932,
+    "sha256": "80255fd9ed5123b70cc5ecaeebbe729e5c8b8d22e811360a6b82c06bad8da7a0",
+    "bytes": 105464,
     "figures": 10
    },
    "east-heat-2025": {
-    "sha256": "6eaf272a01fccbb91c6656bba4206fd0edba2b6d47687b37893802ba5aa63c03",
-    "bytes": 80695,
+    "sha256": "43621f394797b4b90756ae3be3c51066e1dcc7e80fa2269fbc60ae9cb1c6c1c2",
+    "bytes": 81227,
     "figures": 0
    },
    "cold-2026": {
-    "sha256": "41d83421e0421de25005845439c95a6fdbce64c4cf575d8f839e7bb416fa2e5c",
-    "bytes": 108778,
+    "sha256": "26d12299065a17c5273b48115d35559b8e58ef69e467df9937b886533a93a97e",
+    "bytes": 109310,
     "figures": 10
    }
   },
   "unheld": {
    "index": {
-    "sha256": "e3ea58b5346d331486a4b98fff9374e2b6416d8a0d10d8f6036bfc0682135a37",
-    "bytes": 25132,
+    "sha256": "568a1d741f7d942b952a6597c4d17cf2847a18d0d3befd15053db0e6f11b8679",
+    "bytes": 25938,
     "figures": 9
    },
    "uri-2021": {
-    "sha256": "89450a5679de18bbd95bbeba438238d3ca01770441169fcbe8ebae4325a3e83a",
-    "bytes": 68456,
+    "sha256": "982b72d9e4656f6d1972299fdb33c89861987c74cee09f9285525326886afd64",
+    "bytes": 69546,
     "figures": 84
    },
    "covid-2020": {
-    "sha256": "a94d8b3d474543e332c16ca628be1a32c7472f53d5fa998d5449ea1918266e6a",
-    "bytes": 249626,
+    "sha256": "fb38bd918a3470323a401c9108b3c4138f04c795a79f8443f3924e26e8a0d7b3",
+    "bytes": 250158,
     "figures": 350
    },
    "caiso-heat-2020": {
-    "sha256": "a7633ba63ea740e46cc086663d62a17406f5ff3504286038b465723d0e5fe2dd",
-    "bytes": 54625,
+    "sha256": "3d3285fc6ded48f3ca0d2c5ce0a73216674e89202c6622f7a051234f630784e1",
+    "bytes": 56340,
     "figures": 65
    },
    "caiso-heat-2022": {
-    "sha256": "30d2445b8e79b751d3b58735429eadcdc6f62c0a853bbfb039eea8aee9c47982",
-    "bytes": 52534,
+    "sha256": "b7abaa4d2ff7a3304fce9289f585378d921a1fed819b38a1ef5e576b3f1ded3c",
+    "bytes": 53066,
     "figures": 53
    },
    "elliott-2022": {
-    "sha256": "62c10843aacad9973f75268559a4e36c808c9e6a8a5e48800590c9d628d8c719",
-    "bytes": 102302,
+    "sha256": "d0414c00c8f5aa04cdcd4ff25f513ab47543024fd84cfde90831e93b7edee52d",
+    "bytes": 102943,
     "figures": 122
    },
    "ercot-heat-2023": {
-    "sha256": "f7a2981dc71d7c8c1460c9d98298bdd3a24267b586938c1344ef3efed8f1def8",
-    "bytes": 96599,
+    "sha256": "c7def12ed98838ee833feb9c9b93542ce2607896d58216be41ce61111ee7c714",
+    "bytes": 97131,
     "figures": 156
    },
    "cold-2025": {
-    "sha256": "a06d347524dd9d74f4e72e609b00aefbd9419515956cb0c6045ca3b15d6fa638",
-    "bytes": 99350,
+    "sha256": "23920f2be764816fabcf390c0f36c2fa12b037dca31e23bcc5e37e885a3bc7c7",
+    "bytes": 99882,
     "figures": 96
    },
    "east-heat-2025": {
-    "sha256": "b6493d1b3dac0f0519ca9f2c1ba4900f3d3c945d1b8526d8f8fb6a51663a68e2",
-    "bytes": 76678,
+    "sha256": "13b5e4c9325b137384eed1a115191ecc8ee9b52b7b5833ea26966dccc227929f",
+    "bytes": 77210,
     "figures": 67
    },
    "cold-2026": {
-    "sha256": "f5362ae0c3604200928c75dc09f1f81916357f476dad73bd15da371b144804be",
-    "bytes": 103111,
+    "sha256": "9e41bc6416bc0bd4df907f77998355430ec795a38545a3b24b74386c21fcf355",
+    "bytes": 103643,
     "figures": 98
    }
   }
