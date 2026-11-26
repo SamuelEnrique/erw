@@ -13,6 +13,11 @@ export const revalidate = 3600;
 const EV = "caiso_heat_2020";
 const RCA = "https://www.caiso.com/Documents/Final-Root-Cause-Analysis-Mid-August-2020-Extreme-Heat-Wave.pdf";
 const E = "eia930:CISO";
+// Session 10225 (chain 710, the events audit, finding 3): "Not on the outage days" compares each day's highest hour of
+// demand served; the rotating outages came in the evening as solar fell, and the shed load is not in demand served.
+// By California's demand less solar and wind (the region file), 14 August was the highest of 14 to 19 August
+// (docs/reviews/events-model-audit-2026-11-26.md). Words only; no figure moves.
+const OUTAGE_HOURS_WORDS = "Read it with care: the comparison is each day's highest hour of demand served against its own baseline days. On 14 and 15 August load was being shed, and demand served leaves that load out; and CAISO's notices put the Stage 3 emergencies at 18:36 to 20:38 on the 14th and 18:27 to 18:48 on the 15th (Pacific time), in the evening as solar output fell. So these figures do not show that the grid was less stretched on the outage days: demand less solar and wind, the measure of the evening hours the outages came in, is not on this page.";
 
 export default function CaisoHeat2020({ searchParams }: PageProps = {}) {
   return (
@@ -47,7 +52,8 @@ export default function CaisoHeat2020({ searchParams }: PageProps = {}) {
             <strong>Not on the outage days.</strong> On 2020-08-14 and 15, the days of the rotating outages, the peak hour was <N r={d14} event={EV} />% and{" "}
             <N r={d15} event={EV} />% above the baseline; the highest came later, <N r={hi} event={EV} />% on {day(hi)}. The same report says &quot;August 17 through 19
             were projected to have much higher supply shortfalls&quot;, and that without a statewide mitigation effort and consumer conservation California was at
-            risk of further rotating outages on those days (<a href={RCA}>CAISO, CPUC and CEC</a>). The warehouse holds no weather or supply data to say more.
+            risk of further rotating outages on those days (<a href={RCA}>CAISO, CPUC and CEC</a>). The warehouse holds no weather or supply data to say more.{" "}
+            <span data-outage-hours="1">{OUTAGE_HOURS_WORDS}</span>
           </p>
         );
       }}
