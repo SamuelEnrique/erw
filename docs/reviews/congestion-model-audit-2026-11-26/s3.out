@@ -1,0 +1,47 @@
+constraints detailed: 307 | gaps: {}
+lists of 2026 re-ranked from the detailed set equal the page's: {'by_hours': True, 'by_cost': True}
+places ranked by the months' hour-weighted congestion mean, same order as the page's: True
+figures drawn: 245; restated: 245; equal to the file's year figure: 245; equal to the months rebuilt: 210
+   ('c-0', 'page', '33,140', 'months give', '33,143')
+   ('c-1', 'page', '330,132', 'months give', '330,133')
+   ('c-3', 'page', '34,058', 'months give', '34,056')
+   ('c-4', 'page', '275,705', 'months give', '275,704')
+   ('c-7', 'page', '37,906', 'months give', '37,905')
+   ('c-9', 'page', '32,700', 'months give', '32,699')
+   ('c-10', 'page', '38,566', 'months give', '38,567')
+   ('c-12', 'page', '100,565', 'months give', '100,563')
+   ('c-14', 'page', '37,900', 'months give', '37,899')
+   ('c-15', 'page', '180,279', 'months give', '180,278')
+   ('c-16', 'page', '44,904', 'months give', '44,906')
+   ('m-17', 'page', '97.37 USD/MWh', 'months give', '97.38 USD/MWh')
+   ('c-17', 'page', '90,459', 'months give', '90,462')
+   ('c-18', 'page', '80,239', 'months give', '80,238')
+   ('c-20', 'page', '36,222', 'months give', '36,223')
+   ('c-21', 'page', '75,515', 'months give', '75,514')
+   ('c-22', 'page', '5,860', 'months give', '5,859')
+   ('c-23', 'page', '18,483', 'months give', '18,482')
+   ('c-0', 'page', '330,132', 'months give', '330,133')
+   ('c-1', 'page', '275,705', 'months give', '275,704')
+   ('c-5', 'page', '180,279', 'months give', '180,278')
+   ('c-6', 'page', '168,894', 'months give', '168,895')
+   ('c-9', 'page', '101,728', 'months give', '101,727')
+   ('c-10', 'page', '100,565', 'months give', '100,563')
+   ('m-11', 'page', '97.37 USD/MWh', 'months give', '97.38 USD/MWh')
+   ('c-11', 'page', '90,459', 'months give', '90,462')
+   ('c-12', 'page', '88,438', 'months give', '88,437')
+   ('c-15', 'page', '85,333', 'months give', '85,332')
+   ('c-16', 'page', '83,320', 'months give', '83,319')
+   ('c-18', 'page', '80,239', 'months give', '80,238')
+   ('m-19', 'page', '237.43 USD/MWh', 'months give', '237.44 USD/MWh')
+   ('c-19', 'page', '77,166', 'months give', '77,167')
+   ('c-20', 'page', '75,515', 'months give', '75,514')
+   ('c-22', 'page', '70,587', 'months give', '70,586')
+   ('pc-spp:SPPNORTH_HUB', 'page', '2.22 USD/MWh', 'months give', '2.21 USD/MWh')
+held line drawn as restated: True | 1,880 constraints bound in 121,437 constraint-hours over 324 days held in 2026.
+constraint line drawn as restated: True | Bound 7,052 hours from 2024-04-03 to 2026-11-15.
+chosen spp:TMP128_29363|333 | table sum 7052 line sum 7052 hours 7052 | darkest 62 drawn: True
+place table darkest 30.54 USD/MWh drawn: True
+place year mean from its hour-by-month table 2.217 page 2.22
+caiso: first and last dates printed as UTC dates; 127 of 480 differ from the operator's own date
+spp: first and last dates printed as UTC dates; 187 of 614 differ from the operator's own date
+chosen constraint: printed 2024-04-03 to 2026-11-15 | Central 2024-04-03 to 2026-11-15

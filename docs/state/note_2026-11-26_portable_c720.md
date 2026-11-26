@@ -1,10 +1,11 @@
 # Chain 720, the portable laptop's first window: the ERW forecast page and the energy equities pages (note for Samuel)
 
-Energy Research Warehouse (ERW). Kept current; state at 13:15 UTC on 26 November 2026. Sessions 10400 to 10402. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10402_REPORT.md`.
+Energy Research Warehouse (ERW). Kept current; state at 13:45 UTC on 26 November 2026. Sessions 10400 to 10403. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10402_REPORT.md`.
 
 ## Where things stand
 
 - **Two new pages and one new group on the price board are built, tested, seen in a build and requested for landing.** Neither has landed yet, so nothing below can be clicked on production until window A's desk lands rows 54 and 55 of `docs/state/landing_request_portable.md`.
+- **The desk held both rows back once** (13:10 UTC): its whole suite failed three tests that keep lists of the site's files (the pages the value check reads, the files that read the disk, the routes that read the address), and the new pages were in none. That was this window's miss. Both rows were mended and requested again (13:31 and 13:42 UTC, heads `bf0430170` and `7d1ffc26b`).
 - **Both pages are in review and in no menu.** `site/lib/release.ts` and the menu were not touched.
 - **Both were read on the real files before those files landed** (copies taken from the other windows' branches into a folder of this laptop, never committed here).
 
@@ -35,7 +36,7 @@ What is real and what is not:
 
 ## 3. Energy equities, the page: `https://erw-flame.vercel.app/equities`
 
-- Open the address. **With today's files you should see** a dashed box under "The line" that says "Companies, indices and segment lines: license needed", then "Energy prices": WTI crude oil as a line over the last year (89.53 USD per barrel on 17 November), and a table of 12 energy prices with each one's latest value and its changes.
+- Open the address. **With today's files you should see** a dashed box under "The line" that says "Companies, indices and segment lines: license needed", then "Energy prices": WTI crude oil as a line over the last year (89.53 USD per barrel on 17 November), and a table of 12 energy prices with each one's latest value, its date under it, and its changes. Uranium says "monthly" under Day and Week; four power prices say "license needed" or "paused".
 - Press another price in the table, for example "Henry Hub natural gas, spot". **You should see** its line in place of WTI's.
 - Under "Choices", change "Window" to "5 years". **You should see** the line over five years.
 - Scroll to "Segments and indices". **You should see** the 15 segments, each saying "source needed" for its companies and "license needed" for its line, with the reason on hover.

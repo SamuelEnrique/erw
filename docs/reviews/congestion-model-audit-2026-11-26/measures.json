@@ -1,0 +1,598 @@
+{
+ "caiso_same_label": {},
+ "caiso_all_by_hours_first_by_name": [
+  "34112_EXCHEQUR_115_34116_LE GRAND_115_BR_1 _1",
+  14576.0,
+  "caiso:34116_LE GRAND_115_34115_ADRA TAP_115_BR_1 _1|PG1 MNDOTA-PNOCHE 115",
+  11897
+ ],
+ "caiso_all_by_hours_named_top10": [
+  [
+   "34112_EXCHEQUR_115_34116_LE GRAND_115_BR_1 _1",
+   14576.0
+  ],
+  [
+   "34116_LE GRAND_115_34115_ADRA TAP_115_BR_1 _1",
+   13191.0
+  ],
+  [
+   "31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1",
+   12812.0
+  ],
+  [
+   "HUMBOLDT_IMP_NG",
+   11405.0
+  ],
+  [
+   "30750_MOSSLD  _230_30797_LASAGUIL_230_BR_1 _1",
+   10673.0
+  ],
+  [
+   "22208_EL CAJON_69.0_22408_LOSCOCHS_69.0_BR_1 _1",
+   10653.0
+  ],
+  [
+   "7690-CONTRL-INYOKN_EXP_NG",
+   10299.0
+  ],
+  [
+   "31486_CARIBOU _115_30255_CARBOU M_ 1.0_XF_11",
+   8818.0
+  ],
+  [
+   "22192_DOUBLTTP_138_22300_FRIARS  _138_BR_1 _1",
+   7723.0
+  ],
+  [
+   "7820_TL 230S_OVERLOAD_NG",
+   7646.0
+  ]
+ ],
+ "caiso_all_by_cost_first_by_name": [
+  "31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1",
+  1836754.9,
+  "caiso:31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1|PG1 EGLRK-SLVR-FLTN 115_M",
+  1692263.2
+ ],
+ "caiso_all_by_cost_named_top10": [
+  [
+   "31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1",
+   1836754.9
+  ],
+  [
+   "30750_MOSSLD  _230_30797_LASAGUIL_230_BR_1 _1",
+   1279526.2
+  ],
+  [
+   "22208_EL CAJON_69.0_22408_LOSCOCHS_69.0_BR_1 _1",
+   1121043.0
+  ],
+  [
+   "22192_DOUBLTTP_138_22300_FRIARS  _138_BR_1 _1",
+   923418.6
+  ],
+  [
+   "39021_SC21ATP _70.0_34888_ARVIN   _70.0_BR_1 _1",
+   846306.1
+  ],
+  [
+   "31334_CLER LKE_60.0_31338_KONOCTI6_60.0_BR_1 _1",
+   767923.7
+  ],
+  [
+   "34116_LE GRAND_115_34115_ADRA TAP_115_BR_1 _1",
+   589193.0
+  ],
+  [
+   "24723_CONTROL _115_24865_TAP188  _115_BR_2 _1",
+   568819.4
+  ],
+  [
+   "7690-CONTRL-INYOKN_EXP_NG",
+   555201.6
+  ],
+  [
+   "30790_PANOCHE _230_30900_GATES   _230_BR_2 _1",
+   476581.7
+  ]
+ ],
+ "caiso_2026_by_hours_first_by_name": [
+  "7690-CONTRL-INYOKN_EXP_NG",
+  6519.0,
+  "caiso:7690-CONTRL-INYOKN_EXP_NG|Base Case",
+  6519
+ ],
+ "caiso_2026_by_hours_named_top10": [
+  [
+   "7690-CONTRL-INYOKN_EXP_NG",
+   6519.0
+  ],
+  [
+   "22208_EL CAJON_69.0_22408_LOSCOCHS_69.0_BR_1 _1",
+   4887.0
+  ],
+  [
+   "31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1",
+   4039.0
+  ],
+  [
+   "34116_LE GRAND_115_34115_ADRA TAP_115_BR_1 _1",
+   2435.0
+  ],
+  [
+   "34548_KETTLEMN_70.0_34552_GATES   _70.0_BR_1 _1",
+   1943.0
+  ],
+  [
+   "30750_MOSSLD  _230_30797_LASAGUIL_230_BR_1 _1",
+   1728.0
+  ],
+  [
+   "35202_USWP-WKR_60.0_33777_SBTAP   _60.0_BR_1 _1",
+   1574.0
+  ],
+  [
+   "34471_SNJQJCT _70.0_34469_GFFNJCT _70.0_BR_1 _1",
+   1504.0
+  ],
+  [
+   "34860_TAFT    _70.0_34943_Q356TAP _70.0_BR_1 _1",
+   1493.0
+  ],
+  [
+   "24701_KRAMER  _230_24601_VICTOR  _230_BR_2 _1",
+   1375.0
+  ]
+ ],
+ "caiso_2026_by_cost_first_by_name": [
+  "31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1",
+  677480.7,
+  "caiso:31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1|PG1 EGLRK-SLVR-FLTN 115_M",
+  677480.7
+ ],
+ "caiso_2026_by_cost_named_top10": [
+  [
+   "31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1",
+   677480.7
+  ],
+  [
+   "22208_EL CAJON_69.0_22408_LOSCOCHS_69.0_BR_1 _1",
+   440796.0
+  ],
+  [
+   "7690-CONTRL-INYOKN_EXP_NG",
+   300214.7
+  ],
+  [
+   "30750_MOSSLD  _230_30797_LASAGUIL_230_BR_1 _1",
+   183790.0
+  ],
+  [
+   "39021_SC21ATP _70.0_34888_ARVIN   _70.0_BR_1 _1",
+   146881.8
+  ],
+  [
+   "34548_KETTLEMN_70.0_34552_GATES   _70.0_BR_1 _1",
+   134988.1
+  ],
+  [
+   "38615_DS AMIGO_230_30790_PANOCHE _230_BR_1 _1",
+   113758.9
+  ],
+  [
+   "24723_CONTROL _115_24866_TAP189  _115_BR_1 _1",
+   70754.7
+  ],
+  [
+   "24701_KRAMER  _230_24601_VICTOR  _230_BR_2 _1",
+   63464.1
+  ],
+  [
+   "24723_CONTROL _115_24865_TAP188  _115_BR_2 _1",
+   58166.6
+  ]
+ ],
+ "caiso_2025_by_hours_first_by_name": [
+  "24723_CONTROL _115_24865_TAP188  _115_BR_2 _1",
+  4567.0,
+  "caiso:24723_CONTROL _115_24865_TAP188  _115_BR_2 _1|Base Case",
+  4567
+ ],
+ "caiso_2025_by_hours_named_top10": [
+  [
+   "24723_CONTROL _115_24865_TAP188  _115_BR_2 _1",
+   4567.0
+  ],
+  [
+   "7690-CONTRL-INYOKN_EXP_NG",
+   3232.0
+  ],
+  [
+   "31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1",
+   3125.0
+  ],
+  [
+   "34116_LE GRAND_115_34115_ADRA TAP_115_BR_1 _1",
+   2881.0
+  ],
+  [
+   "22208_EL CAJON_69.0_22408_LOSCOCHS_69.0_BR_1 _1",
+   2834.0
+  ],
+  [
+   "31486_CARIBOU _115_30255_CARBOU M_ 1.0_XF_11",
+   2576.0
+  ],
+  [
+   "39021_SC21ATP _70.0_34888_ARVIN   _70.0_BR_1 _1",
+   2554.0
+  ],
+  [
+   "HUMBOLDT_IMP_NG",
+   2212.0
+  ],
+  [
+   "30750_MOSSLD  _230_30797_LASAGUIL_230_BR_1 _1",
+   2034.0
+  ],
+  [
+   "30765_LOSBANOS_230_30790_PANOCHE _230_BR_2 _1",
+   1760.0
+  ]
+ ],
+ "caiso_2025_by_cost_first_by_name": [
+  "39021_SC21ATP _70.0_34888_ARVIN   _70.0_BR_1 _1",
+  605826.7,
+  "caiso:39021_SC21ATP _70.0_34888_ARVIN   _70.0_BR_1 _1|PG1 WHELRG-WEEDPC 70",
+  553893.0
+ ],
+ "caiso_2025_by_cost_named_top10": [
+  [
+   "39021_SC21ATP _70.0_34888_ARVIN   _70.0_BR_1 _1",
+   605826.7
+  ],
+  [
+   "31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1",
+   451050.0
+  ],
+  [
+   "24723_CONTROL _115_24865_TAP188  _115_BR_2 _1",
+   448184.1
+  ],
+  [
+   "30750_MOSSLD  _230_30797_LASAGUIL_230_BR_1 _1",
+   272036.6
+  ],
+  [
+   "22208_EL CAJON_69.0_22408_LOSCOCHS_69.0_BR_1 _1",
+   243311.6
+  ],
+  [
+   "7690-CONTRL-INYOKN_EXP_NG",
+   225632.8
+  ],
+  [
+   "30765_LOSBANOS_230_30790_PANOCHE _230_BR_2 _1",
+   219675.2
+  ],
+  [
+   "30790_PANOCHE _230_30900_GATES   _230_BR_2 _1",
+   109053.7
+  ],
+  [
+   "34116_LE GRAND_115_34115_ADRA TAP_115_BR_1 _1",
+   88732.8
+  ],
+  [
+   "34548_KETTLEMN_70.0_34552_GATES   _70.0_BR_1 _1",
+   82907.5
+  ]
+ ],
+ "spp_same_label": {
+  "Ozrk_B-xfmr_A": [
+   "spp:Ozrk_B-xfmr_A",
+   "spp:Ozrk_B-xfmr_A|BASE"
+  ],
+  "SPSNMTIES": [
+   "spp:SPSNMTIES",
+   "spp:SPSNMTIES|BASE"
+  ],
+  "TEXAS_CO_TXPS_TXCO_PHSHFT_PS": [
+   "spp:TEXAS_CO_TXPS_TXCO_PHSHFT_PS",
+   "spp:TEXAS_CO_TXPS_TXCO_PHSHFT_PS|BASE"
+  ]
+ },
+ "spp_all_by_hours_first_by_name": [
+  "TEXAS_CO_TXPS_TXCO_PHSHFT_PS",
+  92128.0,
+  "spp:TEXAS_CO_TXPS_TXCO_PHSHFT_PS",
+  60293
+ ],
+ "spp_all_by_hours_named_top10": [
+  [
+   "TEXAS_CO_TXPS_TXCO_PHSHFT_PS",
+   92128.0
+  ],
+  [
+   "TEMP89_22229",
+   18334.0
+  ],
+  [
+   "WATXFRWATXFR",
+   14777.0
+  ],
+  [
+   "Ozrk_B-xfmr_A",
+   14435.0
+  ],
+  [
+   "NEORIVNEOBLC",
+   14208.0
+  ],
+  [
+   "WDWFPLTATNOW",
+   14082.0
+  ],
+  [
+   "CHAWATCHAPAT",
+   11360.0
+  ],
+  [
+   "OSGCANBUSDEA",
+   11058.0
+  ],
+  [
+   "TMP109_22593",
+   10918.0
+  ],
+  [
+   "VALLEJAMES11_11_LN@JAMESTN<19165>",
+   10749.0
+  ]
+ ],
+ "spp_all_by_cost_first_by_name": [
+  "OSAWEBCLESOO",
+  1999437.0,
+  "spp:OSAWEBCLESOO|33380",
+  1999437.0
+ ],
+ "spp_all_by_cost_named_top10": [
+  [
+   "OSAWEBCLESOO",
+   1999437.0
+  ],
+  [
+   "TMP270_23432",
+   1622169.0
+  ],
+  [
+   "CHAWATCHAPAT",
+   1313082.4
+  ],
+  [
+   "NEORIVNEOBLC",
+   1279046.3
+  ],
+  [
+   "WDWFPLTATNOW",
+   1108742.7
+  ],
+  [
+   "TMP128_29363",
+   1072608.7
+  ],
+  [
+   "TMP109_22593",
+   1058000.5
+  ],
+  [
+   "OSGCANBUSDEA",
+   1037107.1
+  ],
+  [
+   "TMP348_25258",
+   964683.5
+  ],
+  [
+   "CIMXF2CIMXF3",
+   860138.1
+  ]
+ ],
+ "spp_2026_by_hours_first_by_name": [
+  "SOONER_SONR_SONR_PHSHFT_PS",
+  6942.0,
+  "spp:SOONER_SONR_SONR_PHSHFT_PS|BASE",
+  6942
+ ],
+ "spp_2026_by_hours_named_top10": [
+  [
+   "SOONER_SONR_SONR_PHSHFT_PS",
+   6942.0
+  ],
+  [
+   "TMP128_29363",
+   2637.0
+  ],
+  [
+   "TMP336_31246",
+   2056.0
+  ],
+  [
+   "Ozrk_B-xfmr_A",
+   1798.0
+  ],
+  [
+   "OSAWEBCLESOO",
+   1681.0
+  ],
+  [
+   "TEMP90_26027",
+   1624.0
+  ],
+  [
+   "TP1134_32007",
+   1608.0
+  ],
+  [
+   "TMP221_28668",
+   1463.0
+  ],
+  [
+   "TMP796_28794",
+   1402.0
+  ],
+  [
+   "TMP630_33215",
+   1325.0
+  ]
+ ],
+ "spp_2026_by_cost_first_by_name": [
+  "TMP128_29363",
+  330132.1,
+  "spp:TMP128_29363|333",
+  330132.1
+ ],
+ "spp_2026_by_cost_named_top10": [
+  [
+   "TMP128_29363",
+   330132.1
+  ],
+  [
+   "OSAWEBCLESOO",
+   275704.5
+  ],
+  [
+   "TEMP90_26027",
+   261803.9
+  ],
+  [
+   "TP1191_32124",
+   215532.8
+  ],
+  [
+   "TMP336_31246",
+   205635.8
+  ],
+  [
+   "TP1214_32539",
+   180279.1
+  ],
+  [
+   "TMP815_32602",
+   168894.3
+  ],
+  [
+   "TP1175_32775",
+   133931.3
+  ],
+  [
+   "TP1134_32007",
+   109628.8
+  ],
+  [
+   "TMP777_28815",
+   101728.1
+  ]
+ ],
+ "spp_2025_by_hours_first_by_name": [
+  "TEXAS_CO_TXPS_TXCO_PHSHFT_PS",
+  5724.0,
+  "spp:TEXAS_CO_TXPS_TXCO_PHSHFT_PS|BASE",
+  5724
+ ],
+ "spp_2025_by_hours_named_top10": [
+  [
+   "TEXAS_CO_TXPS_TXCO_PHSHFT_PS",
+   5724.0
+  ],
+  [
+   "TMP128_29363",
+   2766.0
+  ],
+  [
+   "OSAWEBCLESOO",
+   2169.0
+  ],
+  [
+   "TMP348_25258",
+   1899.0
+  ],
+  [
+   "Ozrk_B-xfmr_A",
+   1818.0
+  ],
+  [
+   "TMP374_25996",
+   1747.0
+  ],
+  [
+   "VALLEJAMES11_11_LN@JAMESTN<19165>",
+   1714.0
+  ],
+  [
+   "TP1134_32007",
+   1627.0
+  ],
+  [
+   "TMP266_27514",
+   1498.0
+  ],
+  [
+   "TEMP50_23126",
+   1313.0
+  ]
+ ],
+ "spp_2025_by_cost_first_by_name": [
+  "OSAWEBCLESOO",
+  554036.2,
+  "spp:OSAWEBCLESOO|33380",
+  554036.2
+ ],
+ "spp_2025_by_cost_named_top10": [
+  [
+   "OSAWEBCLESOO",
+   554036.2
+  ],
+  [
+   "TMP128_29363",
+   485308.1
+  ],
+  [
+   "EDWXFR87CRAI",
+   394952.3
+  ],
+  [
+   "TMP311_30771",
+   335032.8
+  ],
+  [
+   "TMP743_31320",
+   235841.7
+  ],
+  [
+   "TMP270_23432",
+   230548.8
+  ],
+  [
+   "TMP563_26603",
+   215929.5
+  ],
+  [
+   "TMP348_25258",
+   175219.3
+  ],
+  [
+   "TMP926_29347",
+   169488.6
+  ],
+  [
+   "TP1134_32007",
+   154827.7
+  ]
+ ],
+ "caiso_months_at_1500": 108,
+ "spp_months_at_1500": 16,
+ "caiso_2026_top10_cost_largest_month_share_median": 0.3778942336085476,
+ "spp_2026_top10_cost_largest_month_share_median": 0.29470119349980983,
+ "spp_north_2026_without_jan": 1.6801592718998863
+}

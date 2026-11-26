@@ -1,0 +1,9 @@
+window: 2026-10-26 00:00:00+00:00 to 2026-11-24 23:00:00+00:00
+                                                  hours     mwh  hours_below_zero  min_mw  max_mw
+entity      variable                                                                             
+eia930:ERCO net_generation_battery_mw               720 -193207               444   -8523   10456
+eia930:ISNE net_generation_battery_mw               720   25801                 0       0     303
+            net_generation_pumped_storage_mw        720  222795                 0       0    1778
+            net_generation_solar_with_battery_mw    720    1795                 0       0      15
+eia930:MISO net_generation_battery_mw               720  -16116               416    -620     896
+eia930:SWPP net_generation_battery_mw               720   42010                 0       0     561
