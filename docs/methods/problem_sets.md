@@ -6,7 +6,8 @@ Energy Research Warehouse (ERW). Five sets of five questions for a class, writte
 
 - Every figure is computed on the server when the page is built, from the live set (Supabase) or a committed file the site reads (`site/data/bill_rules.json`, `site/data/severance_rules.json`, `site/data/merchant_snapshot.json`, the network snapshot). None is typed.
 - Each figure carries a check key; `site/scripts/check-values.mjs` recomputes it on its own and compares it with the page. A derived figure is `calc|<op>|<A>|<B>` (ratio, difference, percent) of two keys that are each recomputed.
-- The pages are rebuilt at most once an hour, so the numbers move as the tables update.
+- The pages are rebuilt at most once an hour, so the numbers move as the tables update. The sets of the whole country read committed page files instead, and move when the data machine rebuilds a file; each set's page says which (session 10229).
+- **Rounding (session 10229, the problems audit's finding 4).** Every answer is computed from the unrounded figures and printed as a whole number or to two decimals, and each set's page says so. A student who divides the printed figures can differ in the last digit (on 26 November 2026, 3 of the 40 derived figures of the sets of the whole country: the sun's legend 4.37 against 4.36, the capacity factor 1.74 against 1.75, the industrial losses 473.69 against 473.70); one who reads the resource map's legend, which prints one decimal, more often (the sun's ratio 4.31, the wind's gap 0.60 against 0.62). The two questions that send the student to the legend say so in their first step.
 
 ## Which month, which hubs, which days (session 288, Samuel's rulings of 14 October 2026)
 
@@ -205,6 +206,9 @@ none, so its figures name no table.
   the live set by the data machine (`site/scripts/build-problem-edition.mjs`, which now writes a `pf|` figure as a row of
   its own with the page file as its source). Until then the index and each set's page link no edition for them, and the
   edition and teacher pages list no address for them; the live page carries every worked solution and why it matters.
+  Since the editions of 20 and 21 November 2026 (`site/data/problem_editions/2026-11-20.json` and `2026-11-21.json`,
+  built by the data machine) the sets of the whole country are in the dated editions too, and each set's page links the
+  newest (the problems audit of 26 November 2026, finding 5).
 - The industry page (`/industry`) is another branch's work and not on main; the set names the file's fields and links the
   method note only.
 
