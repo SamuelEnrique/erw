@@ -41,6 +41,10 @@ const BAS = [
 // session 34: CAISO's own data, not EIA-930's
 const CAISO = { code: "ciso", entity: "caiso:ISO", label: "CAISO", tz: "Pacific", color: "var(--color-fuel-solar)" };
 const ISOS = ["CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "PJM", "SPP"];
+// Session 10212 (docs/reviews/storage-model-audit-2026-11-26.md, finding 3): ISO-NE's and SPP's EIA-930 battery series
+// never go below zero (in the year to 4 November 2026: 0 of 8,832 and of 6,528 hours; SPP's are zero in 2,949), so their
+// lines carry no charging; docs/methods/eia930_all_storage.md says so, the page did not.
+const NO_CHARGE_WORDS = " ISO-NE's and SPP's lines never go below zero: they report no charging to EIA-930, so a zero hour there is not an idle battery.";
 const BUILD = ["under_construction", "planned"];
 
 function Tier({ tier }: { tier: "derived" | "source" }) {
@@ -340,7 +344,7 @@ async function FleetView() {
       ) : null}
 
       <ChartFrame title="The last 24 hours, by grid, MW"
-        note={<>EIA-930 net generation of battery storage: above zero the batteries are discharging, below zero charging. UTC hours{newest ? `, the 24 hours to ${new Date(newest).toISOString().slice(0, 16).replace("T", " ")} UTC, the newest EIA has published for every hour of its day` : ""}. The CAISO line is CAISO&apos;s own data (Today&apos;s Outlook, Total batteries), not EIA-930&apos;s. NYISO and PJM report no battery series.</>}>
+        note={<>EIA-930 net generation of battery storage: above zero the batteries are discharging, below zero charging.{NO_CHARGE_WORDS} UTC hours{newest ? `, the 24 hours to ${new Date(newest).toISOString().slice(0, 16).replace("T", " ")} UTC, the newest EIA has published for every hour of its day` : ""}. The CAISO line is CAISO&apos;s own data (Today&apos;s Outlook, Total batteries), not EIA-930&apos;s. NYISO and PJM report no battery series.</>}>
         {last24}
       </ChartFrame>
 
@@ -368,7 +372,7 @@ async function FleetView() {
         {cycle.ok && cycle.data.length ? <Cycle rows={cycle.data} /> : <NoData what="the daily cycle" reason={cycle.ok ? "storage_daily_cycle returned no rows" : cycle.reason} />}
       </ToolSection>
 
-      <ToolSection title="Hour by hour, the last 30 days" note="EIA-930 net generation of battery storage, MW: above zero discharging, below zero charging. UTC hours. The CAISO line is CAISO's own data, not EIA-930's: Today's Outlook Total batteries (hybrid plants' batteries included), 5-minute values averaged to UTC hours.">
+      <ToolSection title="Hour by hour, the last 30 days" note={`EIA-930 net generation of battery storage, MW: above zero discharging, below zero charging.${NO_CHARGE_WORDS} UTC hours. The CAISO line is CAISO's own data, not EIA-930's: Today's Outlook Total batteries (hybrid plants' batteries included), 5-minute values averaged to UTC hours.`}>
         {hourly.ok && newest ? (
           <>
             <LineChart lines={lines(newest - 30 * 86_400_000)} unit="MW" height={240} ariaLabel="Battery net generation by ISO, hourly, last 30 days" />
