@@ -89,7 +89,7 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
       </p>
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
-          <InputPanel title="Choose" reset={{ href: "/demand", defaults: "ERCOT, ranked by the growth of average demand since 2019." }} note={<>Whole years {first.year} to {last.year}. <Hint words="The year so far" why={`The year so far is January to ${through} of each year, so ${Number(last.year) + 1} is compared with the same months of ${file.base}.`} /></>}>
+          <InputPanel title="Choose" reset={{ href: "/demand", defaults: "ERCOT, ranked by the growth of average demand since 2019." }} note={<>Whole years {first.year} to {last.year}. <Hint words="The year so far" why={`The year so far is January to ${through} of each year, so ${Number(last.year) + 1} is compared with the same months of ${file.base}. EIA goes on revising its newest hours for some weeks, the Lower 48's total most, so the newest month of the year so far can move at the next build (this copy was built ${file.built.slice(0, 10)}).`} /></>}>
             <nav aria-label="Area" className="mb-4 text-sm">
               <div className="mb-1 text-xs uppercase tracking-wide text-muted">Grid</div>
               {file.order.map((b) => <div key={b}><Link href={href(slugOf(b), rank.slug)} aria-current={b === ba ? "true" : undefined} className={item(b === ba)}>{file.areas[b].name}</Link></div>)}
