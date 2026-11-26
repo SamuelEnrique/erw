@@ -1,0 +1,14 @@
+(a) the page's file: 76 views in the file, 76 restated; 17,246 values compared; 0 beyond rounding; views restated but not in the file: []
+    the file's counts against the rows: equal ({'requests': 38201, 'unknown_status': 10, 'without_year': 665, 'no_positive_capacity': 16, 'operating': 4789, 'operating_dated': 3098})
+    status read from q_status equals the table's status column on 38,201 of 38,201 rows
+(b) the default view's keyed numbers: 315 drawn, 315 restated, 312 equal to the digit
+    differs: ('year|2005|mw_active', '1,289', '1,288')
+    differs: ('year|2016|mw_entered', '213,253', '213,252')
+    differs: ('year|2022|mw_entered', '681,953', '681,952')
+    hovers (active bars, outcome bars, median points): 78 read, 77 equal; differs: ['Entered 2005: 1,289 MW still active, in 8 requests']
+    hovers the restatement expects (years from 2000): 78
+    the fold's four counts (operating, dated, without a year, unknown status): equal (4,789, 3,098, 665, 10)
+    'The most entered in': drawn 2025; restated year of most active MW 2025 (451,093.9 MW)
+    past window drawn ('2000', '2020'); restated 2000 to 2020; last year entered 2025
+    the nine regions' requests add to 38,201; the US view holds 38,201; rows with a region outside the nine: 0
+    the seven technologies' active MW add to 1,864,963.3; the US every-technology view 1,864,963.3
