@@ -75,7 +75,10 @@ export function RegionsReached({ event }: { event: string }) {
         Reached <strong><N k={`reached|${event}|n`}>{String(hit.length)}</N></strong> of <N k={`reached|${event}|of`}>{String(withDemand.length)}</N> regions:{" "}
         <Hint words={hit.length ? hit.map((r) => r.name).join(", ") : "none"}
           why={`A region is counted when its demand over the window (${file.start} to ${file.end}) stood ${REACHED_PCT} percent or more from the baseline, above or below. Default: ${REACHED_PCT} percent, this page's own choice (session 8410); no publisher's threshold stands behind it. Demand over the window against the baseline, percent: ${list}.${leftWords} Source: EIA Form EIA-930, by region.`} />.{" "}
-        <Link href={`/events/${event.replace(/_/g, "-")}#whole-country`}>The whole country</Link>
+        {/* session 11000: the line is a span set as a block, which the brand's rule for links in running text (p, li,
+            td: app/tokens.css) does not read, so this link was told from its sentence by its color alone (1.47 to 1
+            against the words; AccessLint, link-in-text-block, WCAG 1.4.1). It is underlined as those links are. */}
+        <Link href={`/events/${event.replace(/_/g, "-")}#whole-country`} className="underline">The whole country</Link>
       </>
     );
   }
