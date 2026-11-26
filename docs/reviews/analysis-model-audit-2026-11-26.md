@@ -64,7 +64,7 @@ Session 10204, 26 November 2026, chain 710 part C, on the old laptop. Read as an
 |---|---|---|---|---|---|
 | 2 | Held and paused grids' figures in public files | high | 56 NYISO days in a download; 190 gallery charts (NYISO 88, ISO-NE 54, MISO 48); NYISO and SPP in every week's results since the holds | `wip/audit-analysis-2` | figures: ruling |
 | 1 | The five tests are not a test against chance; how many were tried is not said | high | no-trend series pass 12 to 83 percent; 234 candidates | `wip/audit-analysis-1` | ruling |
-| 3 | The tightest hours are chosen by net load: draft 3 falls by construction | high (for draft 3) | a grid whose demand and sun never change: from about two thirds of capacity to nothing as solar grows | `wip/audit-analysis-3` | ruling; data request |
+| 3 | The tightest hours are chosen by net load: draft 3 falls by construction | high (for draft 3) | a grid whose demand and sun never change: 43.5 to 3.2 percent as solar grows from 5 to 60 percent of the peak | `wip/audit-analysis-3` | ruling; data request |
 | 4 | A plain mean of clock hours across midnight (draft 6) | medium | 2015: 6.04 plain, 2.54 circular, 3 median | `wip/audit-analysis-4` | ruling |
 | 5 | The deep hunt has no method note | medium | the engine of 549 drafts and all forty | `wip/audit-analysis-5` | words: landing |
 | 6 | The forty carry no step-or-trend flag and no round | medium | 12 of 37 a step by the engine's own rule | `wip/audit-analysis-6` | ruling |
@@ -109,7 +109,7 @@ Session 10204, 26 November 2026, chain 710 part C, on the old laptop. Read as an
 
 - **Where.** `warehouse/analysis/findings/deep/stress.py` (`tight_solar`, from `grid_stress_yearly`); the table's method `docs/methods/grid_stress.md` line 20: "The tightest hours: the 100 used hours of the year with the highest net load", net load "demand less wind less solar" (line 16).
 - **Why it misleads.** The hours are picked by subtracting solar. As a grid adds solar, its highest net-load hours move to the hours with no sun, whatever the sun does. The draft says "Solar's output in ERCOT's tightest hours, as a share of its solar capacity, was 5.0 percent of solar capacity in 2025, against 71.1 percent of solar capacity in 2019": a reader takes it as solar failing when the grid is tight; it is mostly the definition.
-- **How much, on the table's own definition.** A grid whose demand shape and solar shape never change, only solar's capacity (`tests/test_audit_analysis_3.py`): solar's output in the 100 hours of highest net load falls from about two thirds of capacity to nothing as capacity grows from 5 to 60 percent of the peak (the test prints the figures). The measure moves with nothing but capacity.
+- **How much, on the table's own definition.** A grid whose demand shape and solar shape never change, only solar's capacity (`tests/test_audit_analysis_3.py`): solar's output in the 100 hours of highest net load falls from 43.5 percent of capacity to 19.2, 6.3 and 3.2 as capacity grows from 5 to 20, 40 and 60 percent of the peak; in the 100 hours of highest demand it stays at 55.6 whatever the capacity. The measure moves with nothing but capacity.
 - **What would measure the thing named.** The same share in the 100 hours of highest demand (not net of solar). ERCOT's hourly demand and solar (EIA-930) are not on this machine: data request 2.
 - **Also.** Each year is one observation (`n` = 1), so test 3 ("sample large enough: 2019 holds 1 and 2025 holds 1 observations; the floor is 1") cannot fail; 83 of the 234 candidates have a floor of 1 or less (`a7`).
 - **Draft 3 is listed as shown wrong** (its reading, not its arithmetic). State untouched.
@@ -224,6 +224,29 @@ Session 10204, 26 November 2026, chain 710 part C, on the old laptop. Read as an
 - 28 of the forty's tables are not on this machine: their claims are re-done from their CSVs, their measures not from the tables.
 - The scanner's real flags: no run's `flags.json` is here; the rules are measured on simulated series only.
 - No Stata was run (none on this machine); no page was drawn (no build, by this machine's rule).
+
+## The branches
+
+Each from origin/main of 26 November 2026, pushed; the tests run with every test file that imports the changed module or reads the changed note.
+
+| Branch | Kind | Test | What else was run |
+|---|---|---|---|
+| `wip/audit-analysis-1` | figure: shows the finding, not for landing | `tests/test_audit_analysis_1.py` | |
+| `wip/audit-analysis-2` | figure: shows the finding, not for landing | `tests/test_audit_analysis_2.py` | |
+| `wip/audit-analysis-3` | figure: shows the finding, not for landing | `tests/test_audit_analysis_3.py` | |
+| `wip/audit-analysis-4` | figure: shows the finding, not for landing | `tests/test_audit_analysis_4.py` | |
+| `wip/audit-analysis-5` | words: `docs/methods/automated_analysis_findings.md` gains the section on the deep hunt | `tests/test_audit_analysis_5.py` | the 13 test files that read the note |
+| `wip/audit-analysis-6` | figure: shows the finding, not for landing | `tests/test_audit_analysis_6.py` | |
+| `wip/audit-analysis-7` | figure: shows the finding, not for landing | `tests/test_audit_analysis_7.py` | |
+| `wip/audit-analysis-8` | figure: shows the finding, not for landing | `tests/test_audit_analysis_8.py` | |
+| `wip/audit-analysis-9` | words: `warehouse/analysis/run.py`, `finding()` names the week compared with when it is not the one just before | `tests/test_audit_analysis_9.py` | the 14 test files that import `run.py` or test its captions (344 passed, 2 skipped) |
+| `wip/audit-analysis-10` | figure: shows the finding, not for landing | `tests/test_audit_analysis_10.py` | |
+| `wip/audit-analysis-11` | figure: shows the finding, not for landing | `tests/test_audit_analysis_11.py` | |
+| `wip/audit-analysis-12` | words: `warehouse/analysis/watch.py`, the battery line's title | `tests/test_audit_analysis_12.py` | the 4 test files that import `watch.py` (107 passed) |
+| `wip/audit-analysis-13` | words: `warehouse/analysis/findings/deep/prices.py`, two limits say "Nominal dollars" | `tests/test_audit_analysis_13.py` | the 3 test files that import the deep prices module (15 passed) |
+
+- The words branches fail their test on main and pass it on the branch; the figure branches pass on main.
+- No site build and no snapshot here (this machine's rules: no build, no request to a live service). This file and its folder change no page; every page is in review. The words branches touch no page file; their landing is the desk's, with rule 8's snapshot there.
 
 ## Data requests (returned to the chain's desk, not written here)
 
