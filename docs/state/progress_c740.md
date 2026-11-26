@@ -91,3 +91,5 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Assessment ratios by state | done | 10819 | South Carolina, Wyoming, Arizona, Missouri, Nevada, Alabama, Mississippi, Arkansas; rate fields to 60 percent |
 | Build and read of 3e15b9395 | done | 10819 | fifteen addresses, check-values 1,680 of 1,680; row 14 updated |
 | Data requests 6, 7, 9 | answered | 10820 | 6 landed (22 rows, grows when row 14 lands), 7 landed and read by the tool, 9 built on `wip/c701-tax` |
+| Row 14 landed (first head) | done | 10821 | `34904f82b` at 14:16 (landing 2); newer head `6352fb2e4` requested |
+| Window F's findings I1 to I5 | done | 10821 | fixed on the branch, tested, read at both widths |
