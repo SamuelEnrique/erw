@@ -320,6 +320,35 @@ Read 26 November 13:18 UTC with chain 620's own script (`runs/c750/d_first_minut
 
 Pictures: `docs/reviews/browser-read-2026-11-26/first-minute/` (`a-stranger-at-the-home-page-1280.png`, `the-home-page-internal-view-1280.png`, `the-menu-open-390.png`).
 
+## Part C: what landed tonight, as it landed
+
+### The landing of 14:16 UTC (`task/c701-desk-3`), read on production at 14:23 UTC
+
+Production showed the earlier build at 14:18 and 14:20 UTC and the new one from about 14:21:50 (`runs/c750/c_landed.mjs`, three reads). It brought `/impact` with Datacenter (window C), this window's rows 1, 2 and 3, and the old laptop's audit fixes of words.
+
+**This window's three rows, seen where a reader meets them, at 1280 and 390 px:**
+
+| Row | Before (14:18 UTC) | After (14:23 UTC) |
+|---|---|---|
+| 1, `/grid?grid=caiso` at 390 px | 539 of 390 px | 390 of 390 px; the reliability table 526 px wide inside its 358 px frame; its 226 empty cells still read "none" |
+| 3, `/conditions`, CAISO over the September 2022 heat wave | "(44)" over 40 rows, the last of 8 September | "(44)" over 44 rows, the last "2022-09-09 RMO 12:00 to 22:00" |
+| 3, the same over the August 2020 heat wave, beside SPP | "(79)" over 40 rows, the last of 17 August | "(79)" over 79 rows, the last of 24 August; the page 390 of 390 px with them |
+| 3, the line under an operator's name | "days and hours in America/Los_Angeles clock time for days and hours" | "America/Los_Angeles clock time for days and hours" |
+| 2, `/events/covid-2020` at 390 px with every table shown | 392 of 390 px | 390 of 390 px |
+| 2, `/curtailment/where-when`, the trend's table | "CAISO, the whole system: curtailment, GWh" over solar alone | "CAISO, the whole system: solar curtailed, GWh" |
+
+Picture: `docs/reviews/browser-read-2026-11-26/grid-caiso-reliability/reliability-390-after-the-landing.png` (CAISO's reliability section at 390 px after the landing).
+
+### `/impact` with Datacenter (window C's, chain 740: read, never edited)
+
+**The four plant types show the figures they showed before.** Every marked figure of sixteen addresses of `/impact` was saved while production still drew the earlier build, and again after it drew the new one (`runs/c750/c_impact_figs.mjs`). The deploy came in the middle of the first pass, so eleven addresses were truly read before (land-based wind in three states and as the page opens, utility solar in four, natural gas in three) and five after. On those eleven: 1,700 figures, each with the same key, the same raw value and the same words after as before; the page's sentences the same; the count of "not held" the same. None differs, none is gone. Geothermal was not caught before the deploy; its figures that earlier browser reads wrote down are on the page as they were (Nevada, 36 MW: property tax, first operating year USD 876,642; Nevada, 26.5 MW: taxes, present value USD 0 with its blanks). So are the opening page's (construction jobs 515, operating jobs 44.7, construction earnings USD 41 million, sales and use tax USD 19.9 million, earnings present value USD 83.6 million), Wyoming's wind (property tax over the life USD 36.2 million) and Minnesota's (689 job-years).
+
+**The Datacenter part, as far as it is read** (the read of its marks, its states and its announced projects was under way when the laptop's memory ran short at 14:28 UTC; it goes on below when it is back):
+
+- It opens on Texas, 1,000 MW and USD 11,000 million in 1.2 s: construction jobs 5,500, operating jobs 306, construction earnings USD 411.2 million, sales and use tax USD 2.46 billion, taxes at present value USD 1.45 billion.
+- **A part with no public source is blank with its reason,** each read on the screen: construction and operating output ("not computed for a datacenter"); property tax ("no property tax rate is held statewide: the reader's rates are not given"); the tax forgone by the exemption ("no datacenter sales tax exemption of this state has been read"); the tax on the electricity bought ("no statute on the electricity bought is read for this state"); severance reads "none" ("a datacenter burns no gas").
+- 53 "About" marks at each width, each opening a box inside the screen; no sideways scroll (1265 of 1265; 390 of 390); no error.
+
 ## For Samuel's ruling (each with the page left as it is)
 
 1. **A reason on hover and a finger.** Why a strip or a cell is blank, why two figures differ, and what a colored cell holds are given as the browser's own tooltip. A mouse opens it; a finger at 390 px opens nothing. Seen on `/conditions` (the blank strips), `/congestion` (the hour-by-month cells, the operators not drawn), `/demand`, `/supply` and `/events` (blank cells and the figures' notes). The "i" marks and the chart cards do open on a tap. Default taken: nothing changed. The question: should a blank's reason open on a tap, as the "i" marks do?
