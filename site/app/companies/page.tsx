@@ -64,6 +64,9 @@ export default async function Companies({ searchParams }: { searchParams: Promis
   const filtered = !!(q.q || q.kind || q.segment || q.state || q.grid || q.has);
   const dealsHeld = held.includes("energy_deals");
   const facHeld = held.includes("datacenter_facilities");
+  // session 10228 (companies audit, finding 1): policy_actions is held since 13 November 2026, so no agency is listed and
+  // every company's policy actions are 0; the lead, the column and the "Has" choice say so while it is held
+  const policyHeld = held.includes("policy_actions");
   const heldWords = held.length
     ? `Held for a license (the publishers ask for permission; warehouse/metadata/license_status.csv): ${held.map((t) => `${t} (${plural(ix.held_links[t] ?? 0, "row", "rows")})`).join(", ")}. Their rows add no company, no name and no figure here; ${plural(ix.held_only, "company", "companies")} named only in them ${ix.held_only === 1 ? "is" : "are"} not listed.`
     : "No input is held.";
@@ -73,9 +76,9 @@ export default async function Companies({ searchParams }: { searchParams: Promis
   // session 1878 (companies faults row 5): a name more than one listed row carries; its cells add the id
   const shared = sharedNames(all);
   // session 1878 (row 11): each column head a link to its order, the filters kept, page 1
-  const Head = ({ sort, label, right }: { sort: Sort; label: string; right?: boolean }) => (
+  const Head = ({ sort, label, right, tip }: { sort: Sort; label: string; right?: boolean; tip?: React.ReactNode }) => (
     <th scope="col" className={`px-3 py-1.5 font-normal${right ? " text-right" : ""}`} aria-sort={q.sort === sort ? (sort === "name" ? "ascending" : "descending") : undefined} data-sort-col={sort}>
-      <Link href={hrefOf("/companies", q, { sort, page: 1 })} title={`Order ${SORTS[sort].words}`} aria-current={q.sort === sort ? "true" : undefined}>{label}</Link>
+      <Link href={hrefOf("/companies", q, { sort, page: 1 })} title={`Order ${SORTS[sort].words}`} aria-current={q.sort === sort ? "true" : undefined}>{label}</Link>{tip}
     </th>
   );
   const csvHref = hrefOf("/companies/rows", { ...q, page: 1 });
@@ -85,7 +88,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
     <ToolPage>
       <ToolHeader
         title="Companies"
-        lead={<>Every company the warehouse names in a public row: EIA&apos;s operators, owners and utilities, ERCOT&apos;s interconnection queue, the NRC&apos;s licensees and the policy actions&apos; agencies.<Tip id="companies-what" label="What the directory is">Built from the tables held and nothing else: no figure is typed in and no model is asked. A company is one EIA utility id where it has one, else one name as the rows write it (docs/methods/companies.md). {heldWords}</Tip></>}
+        lead={<>Every company the warehouse names in a public row: {policyHeld ? <>EIA&apos;s operators, owners and utilities, ERCOT&apos;s interconnection queue and the NRC&apos;s licensees. The policy actions&apos; agencies are not listed while policy_actions is held for a license.</> : <>EIA&apos;s operators, owners and utilities, ERCOT&apos;s interconnection queue, the NRC&apos;s licensees and the policy actions&apos; agencies.</>}<Tip id="companies-what" label="What the directory is">Built from the tables held and nothing else: no figure is typed in and no model is asked. A company is one EIA utility id where it has one, else one name as the rows write it (docs/methods/companies.md). {heldWords}</Tip></>}
       />
       <div className="grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)]">
         <aside className="min-w-0">
@@ -106,10 +109,10 @@ export default async function Companies({ searchParams }: { searchParams: Promis
                 { value: "", label: "Anything" },
                 ...Object.entries(HAS_WORDS).map(([k, v]) => ({
                   value: k,
-                  label: (k === "deals" && dealsHeld) || (k === "facilities" && facHeld) ? `${v} (license needed)` : v,
+                  label: (k === "deals" && dealsHeld) || (k === "facilities" && facHeld) || (k === "policy" && policyHeld) ? `${v} (license needed)` : v,
                   disabled: (k === "deals" && dealsHeld) || (k === "facilities" && facHeld),
                 })),
-              ]} tip={dealsHeld || facHeld ? <Tip id="companies-has" label="Held filters">Deals and datacenter facilities are held for a license: which company has them is not shown until a permission is recorded.</Tip> : undefined} />
+              ]} tip={dealsHeld || facHeld || policyHeld ? <Tip id="companies-has" label="Held filters">Deals and datacenter facilities are held for a license: which company has them is not shown until a permission is recorded.{policyHeld ? " Policy actions are held too: no listed company has one while they are, so that choice finds none." : ""}</Tip> : undefined} />
               {q.sort !== "footprint" ? <input type="hidden" name="sort" value={q.sort} /> : null}
               <button type="submit" className="mt-1 border border-accent bg-accent px-3 py-1 text-sm text-white">Show</button>
             </InputPanel>
@@ -135,7 +138,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
                   <Head sort="operating" label="Operating MW" right />
                   <Head sort="planned" label="Planned MW" right />
                   <Head sort="queue" label="Queue MW" right />
-                  <Head sort="policy" label="Policy actions" right />
+                  <Head sort="policy" label="Policy actions" right tip={policyHeld ? <Tip id="companies-policy-held" label="Policy actions are held">policy_actions is held for a license (warehouse/metadata/license_status.csv): its rows add nothing here, so every company&apos;s count is 0 until a permission is recorded.</Tip> : undefined} />
                   <Head sort="footprint" label="Footprint MW" right />
                 </tr>
               </thead>
