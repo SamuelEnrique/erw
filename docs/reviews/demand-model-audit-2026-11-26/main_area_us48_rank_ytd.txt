@@ -1,0 +1,358 @@
+/demand?area=us48&rank=ytd: 119140 characters, 70 marked figures, 10 titles, 340 chart tips; em dashes: 0
+
+== titles
+A year's demand is what was metered that year, hot summer and cold snap included. A grid whose 2025 was mild shows less growth than its customers added, and a single heat wave can set a peak. These are differences between years, not a trend line.
+Demand at the grid is not sales to customers. EIA's retail sales moved with the Lower 48's demand, and apart from it in California and New England. From 2019 to 2025: United States retail sales +7.05 percent, the Lower 48's demand here +7.03; Texas +24.20, ERCOT +27.22; New York -1.26, NYISO -2.73; New England +0.14, ISO-NE -2.54; California -2.96, CAISO +4.45. A state is not a balancing authority, and sales leave out line losses. California: EIA's demand counts the power the batteries take to charge, which is not a sale to a customer. Where that charging is held (CAISO's own data, from June 2025): June to December 2025, demand here +2.81 percent on the same months of 2019, the charging 1,690 MW on average, demand less the charging -3.60 percent, retail sales -2.28 percent; January to August 2026, demand +10.75 percent, the charging 2,114 MW, demand less the charging +2.05 percent, retail sales -2.90 percent. The charging is more than all of the growth of June to December 2025 and 81 percent of that of January to August 2026; it does not close 2026's gap to sales. Source: EIA, Electric Power Monthly, data for August 2026, table 5.1 (sales to ultimate customers), and the same form (EIA-861M) by state as held in eia_retail_sales_monthly on 5 November 2026; the percents computed by session 7508. The batteries' charging: CAISO's supply by fuel as held in shoulder_hours_monthly (built 4 October 2026), computed by session 7517 (replication/demand_growth/california_charging.py).
+The year so far is January to October of each year, so 2026 is compared with the same months of 2019.
+Its total holds its members' faulty hours, and one of them would be the peak.
+Lower 48, 2025 on 2024: +2.73 percent, a calendar year's average over the year before's.
+The grid's own clock time, daylight saving included: Central for ERCOT, MISO and SPP, Pacific for CAISO, Eastern for PJM, NYISO, ISO-NE and the Lower 48. An hour is named by its start: 17:00 is the hour from 17:00 to 18:00, which the operators' own files call hour ending 18.
+From EIA-930's hourly demand. An hour is used when its demand is above zero and within 25 percent of the median of the four hours around it: EIA's file holds faulty hours, and a faulty high hour would otherwise be a year's peak. A year is written when at least 95 percent of its hours are used; its average is the mean of those hours. Nothing is filled.
+The last row compares January to October of 2026 with January to October of 2019: its growth is against those months, not against the whole of 2019.
+Each cell is one hour of the day in one month: the average demand of that hour over the month in 2025, against the same in 2019. Red is growth, dark grey a fall; the deeper, the larger. One hot or mild month colors a whole row, which is the weather and not a trend. The grid's own clock time, daylight saving included: Central for ERCOT, MISO and SPP, Pacific for CAISO, Eastern for PJM, NYISO, ISO-NE and the Lower 48. An hour is named by its start: 17:00 is the hour from 17:00 to 18:00, which the operators' own files call hour ending 18.
+Percent change since 2019: average and peak demand to 2025; the year so far is January to October against the same months of 2019. The Lower 48 is the total, not a grid among the seven.
+
+== chart tips
+Lower 48, 2019: average 458,599 MW
+Lower 48, 2020: average 443,460 MW
+Lower 48, 2021: average 457,916 MW
+Lower 48, 2022: average 472,831 MW
+Lower 48, 2023: average 465,583 MW
+Lower 48, 2024: average 477,770 MW
+Lower 48, 2025: average 490,819 MW
+January, 00:00: +14.87 percent, +65,720 MW
+January, 01:00: +15.97 percent, +68,686 MW
+January, 02:00: +16.65 percent, +70,443 MW
+January, 03:00: +16.90 percent, +71,097 MW
+January, 04:00: +16.97 percent, +71,850 MW
+January, 05:00: +16.25 percent, +70,744 MW
+January, 06:00: +14.71 percent, +67,597 MW
+January, 07:00: +13.53 percent, +65,468 MW
+January, 08:00: +12.88 percent, +63,934 MW
+January, 09:00: +11.83 percent, +59,106 MW
+January, 10:00: +10.94 percent, +54,297 MW
+January, 11:00: +10.60 percent, +51,868 MW
+January, 12:00: +10.48 percent, +50,457 MW
+January, 13:00: +10.30 percent, +48,863 MW
+January, 14:00: +10.18 percent, +47,671 MW
+January, 15:00: +10.26 percent, +47,675 MW
+January, 16:00: +10.32 percent, +48,286 MW
+January, 17:00: +10.04 percent, +48,278 MW
+January, 18:00: +9.51 percent, +47,302 MW
+January, 19:00: +9.15 percent, +46,311 MW
+January, 20:00: +9.22 percent, +46,716 MW
+January, 21:00: +10.31 percent, +51,223 MW
+January, 22:00: +11.51 percent, +55,320 MW
+January, 23:00: +12.99 percent, +59,936 MW
+February, 00:00: +9.89 percent, +42,201 MW
+February, 01:00: +10.71 percent, +44,359 MW
+February, 02:00: +11.07 percent, +44,986 MW
+February, 03:00: +11.22 percent, +45,257 MW
+February, 04:00: +11.25 percent, +45,585 MW
+February, 05:00: +10.70 percent, +44,461 MW
+February, 06:00: +9.36 percent, +41,138 MW
+February, 07:00: +8.22 percent, +38,034 MW
+February, 08:00: +7.43 percent, +35,244 MW
+February, 09:00: +6.62 percent, +31,751 MW
+February, 10:00: +6.32 percent, +30,248 MW
+February, 11:00: +6.47 percent, +30,675 MW
+February, 12:00: +6.95 percent, +32,490 MW
+February, 13:00: +7.09 percent, +32,787 MW
+February, 14:00: +7.37 percent, +33,759 MW
+February, 15:00: +7.66 percent, +34,867 MW
+February, 16:00: +8.20 percent, +37,353 MW
+February, 17:00: +8.24 percent, +38,154 MW
+February, 18:00: +7.61 percent, +36,191 MW
+February, 19:00: +6.81 percent, +33,033 MW
+February, 20:00: +6.41 percent, +31,170 MW
+February, 21:00: +6.99 percent, +33,385 MW
+February, 22:00: +8.00 percent, +36,876 MW
+February, 23:00: +9.11 percent, +40,260 MW
+March, 00:00: +3.40 percent, +13,602 MW
+March, 01:00: +3.45 percent, +13,348 MW
+March, 02:00: +3.14 percent, +11,930 MW
+March, 03:00: +2.93 percent, +11,062 MW
+March, 04:00: +2.62 percent, +9,924 MW
+March, 05:00: +2.13 percent, +8,288 MW
+March, 06:00: +0.97 percent, +3,977 MW
+March, 07:00: +0.16 percent, +695 MW
+March, 08:00: -0.20 percent, -878 MW
+March, 09:00: -0.55 percent, -2,469 MW
+March, 10:00: -0.54 percent, -2,427 MW
+March, 11:00: -0.07 percent, -317 MW
+March, 12:00: +0.60 percent, +2,643 MW
+March, 13:00: +1.32 percent, +5,696 MW
+March, 14:00: +2.01 percent, +8,603 MW
+March, 15:00: +2.86 percent, +12,174 MW
+March, 16:00: +3.66 percent, +15,570 MW
+March, 17:00: +4.43 percent, +18,927 MW
+March, 18:00: +4.60 percent, +19,912 MW
+March, 19:00: +3.91 percent, +17,258 MW
+March, 20:00: +2.84 percent, +12,747 MW
+March, 21:00: +2.54 percent, +11,324 MW
+March, 22:00: +2.78 percent, +12,040 MW
+March, 23:00: +3.45 percent, +14,310 MW
+April, 00:00: +10.46 percent, +39,008 MW
+April, 01:00: +11.04 percent, +39,305 MW
+April, 02:00: +11.21 percent, +38,620 MW
+April, 03:00: +11.13 percent, +37,642 MW
+April, 04:00: +10.91 percent, +36,809 MW
+April, 05:00: +10.17 percent, +35,073 MW
+April, 06:00: +8.73 percent, +31,777 MW
+April, 07:00: +7.29 percent, +27,982 MW
+April, 08:00: +6.50 percent, +25,791 MW
+April, 09:00: +5.98 percent, +24,299 MW
+April, 10:00: +5.99 percent, +24,707 MW
+April, 11:00: +6.20 percent, +25,795 MW
+April, 12:00: +6.89 percent, +28,794 MW
+April, 13:00: +7.24 percent, +30,450 MW
+April, 14:00: +7.75 percent, +32,696 MW
+April, 15:00: +8.22 percent, +34,889 MW
+April, 16:00: +8.81 percent, +37,624 MW
+April, 17:00: +9.34 percent, +40,224 MW
+April, 18:00: +9.78 percent, +42,164 MW
+April, 19:00: +9.39 percent, +40,566 MW
+April, 20:00: +8.36 percent, +36,454 MW
+April, 21:00: +8.09 percent, +34,891 MW
+April, 22:00: +8.44 percent, +35,086 MW
+April, 23:00: +9.55 percent, +37,622 MW
+May, 00:00: +8.20 percent, +32,575 MW
+May, 01:00: +9.20 percent, +34,581 MW
+May, 02:00: +9.57 percent, +34,475 MW
+May, 03:00: +9.67 percent, +33,872 MW
+May, 04:00: +9.57 percent, +33,183 MW
+May, 05:00: +8.83 percent, +31,030 MW
+May, 06:00: +7.30 percent, +26,700 MW
+May, 07:00: +5.91 percent, +22,607 MW
+May, 08:00: +4.59 percent, +18,387 MW
+May, 09:00: +3.42 percent, +14,299 MW
+May, 10:00: +2.35 percent, +10,215 MW
+May, 11:00: +2.01 percent, +9,017 MW
+May, 12:00: +1.88 percent, +8,660 MW
+May, 13:00: +1.96 percent, +9,222 MW
+May, 14:00: +1.96 percent, +9,395 MW
+May, 15:00: +2.29 percent, +11,137 MW
+May, 16:00: +2.98 percent, +14,600 MW
+May, 17:00: +3.47 percent, +17,123 MW
+May, 18:00: +4.11 percent, +20,202 MW
+May, 19:00: +4.85 percent, +23,495 MW
+May, 20:00: +5.16 percent, +24,625 MW
+May, 21:00: +5.13 percent, +24,038 MW
+May, 22:00: +5.63 percent, +25,332 MW
+May, 23:00: +6.55 percent, +27,809 MW
+June, 00:00: +13.71 percent, +60,699 MW
+June, 01:00: +14.72 percent, +61,272 MW
+June, 02:00: +15.03 percent, +59,584 MW
+June, 03:00: +14.93 percent, +57,211 MW
+June, 04:00: +14.77 percent, +55,562 MW
+June, 05:00: +13.85 percent, +52,267 MW
+June, 06:00: +13.10 percent, +50,593 MW
+June, 07:00: +12.02 percent, +48,245 MW
+June, 08:00: +11.01 percent, +46,443 MW
+June, 09:00: +10.35 percent, +46,085 MW
+June, 10:00: +10.02 percent, +47,084 MW
+June, 11:00: +10.32 percent, +50,841 MW
+June, 12:00: +10.73 percent, +55,030 MW
+June, 13:00: +10.87 percent, +57,623 MW
+June, 14:00: +10.82 percent, +58,870 MW
+June, 15:00: +10.88 percent, +60,330 MW
+June, 16:00: +10.90 percent, +61,230 MW
+June, 17:00: +11.10 percent, +62,797 MW
+June, 18:00: +11.45 percent, +64,440 MW
+June, 19:00: +11.99 percent, +66,323 MW
+June, 20:00: +12.24 percent, +66,175 MW
+June, 21:00: +12.02 percent, +63,453 MW
+June, 22:00: +12.33 percent, +62,241 MW
+June, 23:00: +13.13 percent, +62,315 MW
+July, 00:00: +10.20 percent, +51,259 MW
+July, 01:00: +11.15 percent, +52,622 MW
+July, 02:00: +11.59 percent, +51,930 MW
+July, 03:00: +11.70 percent, +50,414 MW
+July, 04:00: +11.68 percent, +49,222 MW
+July, 05:00: +11.18 percent, +47,115 MW
+July, 06:00: +10.38 percent, +44,552 MW
+July, 07:00: +9.45 percent, +41,914 MW
+July, 08:00: +8.44 percent, +39,340 MW
+July, 09:00: +7.55 percent, +37,389 MW
+July, 10:00: +6.62 percent, +34,931 MW
+July, 11:00: +6.33 percent, +35,444 MW
+July, 12:00: +6.43 percent, +37,810 MW
+July, 13:00: +6.40 percent, +39,138 MW
+July, 14:00: +6.23 percent, +39,200 MW
+July, 15:00: +6.08 percent, +39,066 MW
+July, 16:00: +5.91 percent, +38,485 MW
+July, 17:00: +6.08 percent, +39,805 MW
+July, 18:00: +6.32 percent, +41,172 MW
+July, 19:00: +6.88 percent, +43,909 MW
+July, 20:00: +7.37 percent, +45,696 MW
+July, 21:00: +7.58 percent, +45,566 MW
+July, 22:00: +8.12 percent, +46,500 MW
+July, 23:00: +8.96 percent, +48,177 MW
+August, 00:00: +6.49 percent, +31,760 MW
+August, 01:00: +7.40 percent, +34,041 MW
+August, 02:00: +7.81 percent, +34,221 MW
+August, 03:00: +7.91 percent, +33,413 MW
+August, 04:00: +7.86 percent, +32,571 MW
+August, 05:00: +7.40 percent, +30,736 MW
+August, 06:00: +6.37 percent, +27,151 MW
+August, 07:00: +5.24 percent, +23,064 MW
+August, 08:00: +4.05 percent, +18,539 MW
+August, 09:00: +3.01 percent, +14,494 MW
+August, 10:00: +2.10 percent, +10,713 MW
+August, 11:00: +1.72 percent, +9,303 MW
+August, 12:00: +1.91 percent, +10,819 MW
+August, 13:00: +1.89 percent, +11,131 MW
+August, 14:00: +1.82 percent, +11,103 MW
+August, 15:00: +1.79 percent, +11,142 MW
+August, 16:00: +1.92 percent, +12,173 MW
+August, 17:00: +2.17 percent, +13,847 MW
+August, 18:00: +2.63 percent, +16,682 MW
+August, 19:00: +3.17 percent, +19,687 MW
+August, 20:00: +3.40 percent, +20,626 MW
+August, 21:00: +3.66 percent, +21,524 MW
+August, 22:00: +4.44 percent, +24,714 MW
+August, 23:00: +5.21 percent, +27,164 MW
+September, 00:00: +3.74 percent, +16,809 MW
+September, 01:00: +4.70 percent, +19,884 MW
+September, 02:00: +5.31 percent, +21,427 MW
+September, 03:00: +5.53 percent, +21,579 MW
+September, 04:00: +5.65 percent, +21,693 MW
+September, 05:00: +5.42 percent, +20,967 MW
+September, 06:00: +4.61 percent, +18,486 MW
+September, 07:00: +3.94 percent, +16,346 MW
+September, 08:00: +2.85 percent, +12,226 MW
+September, 09:00: +1.38 percent, +6,235 MW
+September, 10:00: +0.25 percent, +1,176 MW
+September, 11:00: -0.54 percent, -2,709 MW
+September, 12:00: -0.70 percent, -3,691 MW
+September, 13:00: -0.83 percent, -4,548 MW
+September, 14:00: -0.93 percent, -5,282 MW
+September, 15:00: -0.85 percent, -4,913 MW
+September, 16:00: -0.60 percent, -3,531 MW
+September, 17:00: -0.06 percent, -375 MW
+September, 18:00: +0.53 percent, +3,089 MW
+September, 19:00: +0.84 percent, +4,824 MW
+September, 20:00: +0.80 percent, +4,519 MW
+September, 21:00: +1.17 percent, +6,339 MW
+September, 22:00: +1.78 percent, +9,134 MW
+September, 23:00: +2.55 percent, +12,230 MW
+October, 00:00: +8.89 percent, +34,394 MW
+October, 01:00: +9.55 percent, +35,240 MW
+October, 02:00: +9.87 percent, +35,168 MW
+October, 03:00: +9.66 percent, +33,749 MW
+October, 04:00: +9.39 percent, +32,675 MW
+October, 05:00: +8.64 percent, +30,653 MW
+October, 06:00: +7.20 percent, +26,922 MW
+October, 07:00: +5.92 percent, +23,382 MW
+October, 08:00: +4.82 percent, +19,684 MW
+October, 09:00: +3.59 percent, +15,110 MW
+October, 10:00: +3.29 percent, +14,189 MW
+October, 11:00: +3.43 percent, +15,063 MW
+October, 12:00: +4.27 percent, +18,979 MW
+October, 13:00: +5.24 percent, +23,577 MW
+October, 14:00: +5.99 percent, +27,186 MW
+October, 15:00: +6.86 percent, +31,389 MW
+October, 16:00: +7.70 percent, +35,500 MW
+October, 17:00: +8.31 percent, +38,539 MW
+October, 18:00: +8.25 percent, +38,367 MW
+October, 19:00: +7.03 percent, +32,871 MW
+October, 20:00: +6.13 percent, +28,460 MW
+October, 21:00: +6.13 percent, +27,666 MW
+October, 22:00: +6.77 percent, +29,257 MW
+October, 23:00: +8.01 percent, +32,634 MW
+November, 00:00: +4.88 percent, +19,570 MW
+November, 01:00: +4.73 percent, +18,434 MW
+November, 02:00: +4.58 percent, +17,544 MW
+November, 03:00: +4.27 percent, +16,245 MW
+November, 04:00: +3.85 percent, +14,720 MW
+November, 05:00: +3.17 percent, +12,440 MW
+November, 06:00: +1.99 percent, +8,229 MW
+November, 07:00: +1.08 percent, +4,687 MW
+November, 08:00: +0.50 percent, +2,249 MW
+November, 09:00: +0.57 percent, +2,570 MW
+November, 10:00: +1.37 percent, +6,129 MW
+November, 11:00: +2.68 percent, +11,898 MW
+November, 12:00: +4.27 percent, +18,763 MW
+November, 13:00: +5.55 percent, +24,174 MW
+November, 14:00: +6.54 percent, +28,356 MW
+November, 15:00: +7.30 percent, +31,559 MW
+November, 16:00: +7.61 percent, +33,207 MW
+November, 17:00: +6.86 percent, +30,728 MW
+November, 18:00: +5.43 percent, +24,925 MW
+November, 19:00: +4.28 percent, +19,812 MW
+November, 20:00: +3.65 percent, +16,822 MW
+November, 21:00: +4.00 percent, +17,997 MW
+November, 22:00: +4.50 percent, +19,528 MW
+November, 23:00: +4.18 percent, +17,403 MW
+December, 00:00: +12.75 percent, +53,534 MW
+December, 01:00: +13.29 percent, +54,114 MW
+December, 02:00: +13.54 percent, +54,073 MW
+December, 03:00: +13.73 percent, +54,311 MW
+December, 04:00: +13.53 percent, +53,726 MW
+December, 05:00: +13.03 percent, +52,975 MW
+December, 06:00: +11.79 percent, +50,359 MW
+December, 07:00: +11.02 percent, +49,372 MW
+December, 08:00: +10.52 percent, +48,467 MW
+December, 09:00: +10.15 percent, +47,233 MW
+December, 10:00: +10.11 percent, +46,969 MW
+December, 11:00: +10.75 percent, +49,365 MW
+December, 12:00: +11.46 percent, +51,935 MW
+December, 13:00: +12.06 percent, +54,024 MW
+December, 14:00: +12.59 percent, +55,844 MW
+December, 15:00: +12.86 percent, +56,955 MW
+December, 16:00: +12.69 percent, +56,920 MW
+December, 17:00: +12.27 percent, +56,612 MW
+December, 18:00: +11.10 percent, +52,539 MW
+December, 19:00: +10.47 percent, +50,128 MW
+December, 20:00: +10.17 percent, +48,620 MW
+December, 21:00: +10.15 percent, +47,698 MW
+December, 22:00: +10.91 percent, +49,650 MW
+December, 23:00: +11.85 percent, +51,803 MW
+January: +12.22 percent from 2019 to 2025
+February: +8.23 percent from 2019 to 2025
+March: +2.15 percent from 2019 to 2025
+April: +8.56 percent from 2019 to 2025
+May: +5.01 percent from 2019 to 2025
+June: +12.03 percent from 2019 to 2025
+July: +8.00 percent from 2019 to 2025
+August: +3.95 percent from 2019 to 2025
+September: +1.63 percent from 2019 to 2025
+October: +6.77 percent from 2019 to 2025
+November: +4.07 percent from 2019 to 2025
+December: +11.72 percent from 2019 to 2025
+00:00: +8.99 percent from 2019 to 2025
+01:00: +9.70 percent from 2019 to 2025
+02:00: +10.03 percent from 2019 to 2025
+03:00: +10.04 percent from 2019 to 2025
+04:00: +9.91 percent from 2019 to 2025
+05:00: +9.31 percent from 2019 to 2025
+06:00: +8.12 percent from 2019 to 2025
+07:00: +7.06 percent from 2019 to 2025
+08:00: +6.21 percent from 2019 to 2025
+09:00: +5.42 percent from 2019 to 2025
+10:00: +4.97 percent from 2019 to 2025
+11:00: +5.01 percent from 2019 to 2025
+12:00: +5.39 percent from 2019 to 2025
+13:00: +5.65 percent from 2019 to 2025
+14:00: +5.84 percent from 2019 to 2025
+15:00: +6.11 percent from 2019 to 2025
+16:00: +6.39 percent from 2019 to 2025
+17:00: +6.60 percent from 2019 to 2025
+18:00: +6.60 percent from 2019 to 2025
+19:00: +6.48 percent from 2019 to 2025
+20:00: +6.28 percent from 2019 to 2025
+21:00: +6.47 percent from 2019 to 2025
+22:00: +7.11 percent from 2019 to 2025
+23:00: +7.97 percent from 2019 to 2025
+decision-7018-demand-weather-in
+decision-7018-demand-screen
+decision-7018-demand-coverage
+decision-7018-demand-base-2019
+decision-7018-demand-hour-average
+decision-7018-demand-us48-no-peak
+decision-7018-demand-late-hours
+decision-7018-demand-adjusted
+decision-7018-demand-seven-grids
+
+== visible text
+ body:has(.brand-a) > header, body:has(.brand-a) > footer { font-family: sans-serif, system-ui, sans-serif; } As metered With the weather taken out Consumption The whole country Demand growth How much more power each grid uses than it did in 2019: the average over the year, the highest hour of the year, and in which months and hours of the day the growth sits. The seven grid operators and the Lower 48, from EIA's hourly record. See also the interconnection queue and where power is cheap . Method, sources and gaps Weather is not removed. The same growth with the weather taken out is the second view. Demand at the grid is not retail sales. Retail sales by state and sector are the third. Choose Grid ERCOT CAISO PJM MISO SPP NYISO ISO-NE Lower 48 Rank the grids by growth in Average demand Peak demand The year so far Whole years 2019 to 2025. The year so far Reset to the defaults : ERCOT, ranked by the growth of average demand since 2019. From 2019 to 2025, Lower 48's average demand went from 458,599 MW to 490,819 MW, a change of +7.03 percent. January to October of 2026 ran +10.24 percent against the same months of 2019. The growth is largest in January at 04:00 ( +16.97 percent). Weather is not removed. Average demand, 2019 to 2025 +7.03 percent 458,599 MW to 490,819 MW, the mean of the year's hours. Peak demand not held No peak is given for the Lower 48 2026 so far, against 2019 +10.24 percent January to October: 510,597 MW on average, against 463,176 MW in the same months of 2019. Year by year Lower 48: demand, MW Average over the year 0 100,000 200,000 300,000 400,000 500,000 2019 2020 2021 2022 2023 2024 2025 MW Lower 48: average and peak demand by year Year Average, MW Since 2019, percent On the year before, percent Peak, MW When, local time Peak since 2019, percent Hours used 2019 458,599 the base year the base year not held not held the base year 8,760 of 8,760 2020 443,460 -3.30 -3.30 not held not held not held 8,783 of 8,784 2021 457,916 -0.15 +3.26 not held not held not held 8,760 of 8,760 2022 472,831 +3.10 +3.26 not held not held not held 8,760 of 8,760 2023 465,583 +1.52 -1.53 not held not held not held 8,760 of 8,760 2024 477,770 +4.18 +2.62 not held not held not held 8,784 of 8,784 2025 490,819 +7.03 +2.73 not held not held not held 8,760 of 8,760 2026, to October 510,597 +10.24 same months not held not held not held 7,295 of 7,295 Hours left out for Lower 48: 1 that stand apart from their neighbours, 0 at or below zero, 24 blank. Which hours are used The last row Where the growth is Lower 48: change from 2019 to 2025, percent, by month and hour of the day Growth Fall 00:00 03:00 06:00 09:00 12:00 15:00 18:00 21:00 January February March April May June July August September October November December Largest: January at 04:00, +16.97 percent ( 71,850 MW). Smallest: September at 14:00, -0.93 percent ( -5,282 MW). By month 0 5 10 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec percent By hour of the day 0 2 4 6 8 10 00:00 03:00 06:00 09:00 12:00 15:00 18:00 21:00 percent How to read the cells The ranking: growth in the year so far The grids ranked by growth in the year so far since 2019 Grid Average demand Peak demand The year so far ↓ 1 ERCOT +27.22 +12.16 +33.34 2 SPP +11.14 +7.72 +16.22 3 CAISO +4.45 +0.03 +10.98 Lower 48 +7.03 not held +10.24 4 PJM +5.37 +5.41 +8.34 5 MISO +2.20 +3.21 +4.88 6 ISO-NE -2.54 +8.03 -1.20 7 NYISO -2.73 +4.80 -3.64 What is ranked Decisions on this page (each with its default and its source on hover) Weather is not removed: a year's demand is what was metered that year, heat waves and cold snaps included, so growth between two years is the difference of what was metered, not of a normal year. (session 97) i Default: As metered; the weather view removes it. Source: EIA Form EIA-930, hourly demand by balancing authority; docs/methods/demand_weather.md for the second view. An hour is used when its demand is held, above zero and within 25 percent of the median of the four hours around it, since EIA's file holds faulty hours and a faulty high hour would be a year's peak; nothing is filled. (session 97) i Default: Within 25 percent of the median of the four nearest held hours. Source: docs/methods/demand_growth.md, "Which hours are used": the steepest real ramps move about a tenth in an hour. A year's average and peak are written when at least 95 percent of its hours are used, a month when 95 percent of its hours are, and a month's hour of the day when 90 percent are. (session 97) i Default: 95 percent for a year or a month; 90 percent for a cell. Source: docs/methods/demand_growth.md, "The rows". Growth is measured against 2019, the last whole year before the pandemic in the file, and the newest partial year is set against the same months of every earlier year. (session 97) i Default: 2019 as the base; the year to date against the same months. Source: docs/methods/demand_growth.md, "The rows". An hour's demand is the average over the hour, so an operator's own record peak, measured over minutes, reads a little higher: ERCOT's 2023 record is 85,508 MW and the hour here 85,432. (session 97) i Default: Hourly averages, as EIA publishes them. Source: ERCOT's published 2023 peak; EIA-930's hourly demand. The Lower 48 has averages and no peak: its demand is EIA's sum over every balancing authority, faulty hours included, and such an hour passes the screen while it would set the peak. (session 97) i Default: No peak for the Lower 48. Source: docs/methods/demand_growth.md, "The Lower 48 has no peak". California's hours of November 2023 to 2 December 2025 are read one hour earlier, since EIA dated them one hour late; a row that would land on an hour already held is dropped and the emptied hour is not filled. (session 82) i Default: Set back one hour, 31 October 2023 23:00 to 2 December 2025 23:00 UTC. Source: docs/methods/eia930_caiso_break.md, "The late hours": against CAISO's own data and against the sun. A balancing authority's demand is EIA's Adjusted demand, and the Lower 48's is EIA's Demand, whose workbook has no adjusted column; each hour is dated by its start. (session 97) i Default: Adjusted demand for an authority; Demand for the Lower 48. Source: EIA-930's per-area workbooks, sheet "Published Hourly Data". The areas are the seven grid operators' balancing authorities and the Lower 48; the larger authorities outside them (TVA, Southern, Bonneville and others) are not held since 2019 and are not shown. (session 97) i Default: Seven operators and the Lower 48. Source: docs/methods/demand_growth.md, "Input". Source: ERW tables eia930_demand_growth . Derived from EIA Form EIA-930, hourly demand (public domain); built 2026-11-06. This page is in review and reads the site's own copy of the table. Download the tables: every public table is on Data and methods . 

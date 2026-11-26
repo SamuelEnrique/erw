@@ -1,0 +1,60 @@
+== hybrids' parts
+CAISO {'with_second_part': 733, 'second_part_with_mw': 730, 'active_solar_storage': 194, 'active_solar_storage_with_mw2': 193, 'active_solar_storage_mw': 120243.3, 'active_solar_storage_mw2': 58125.0}
+ERCOT {'with_second_part': 558, 'second_part_with_mw': 0, 'active_solar_storage': 524, 'active_solar_storage_with_mw2': 0, 'active_solar_storage_mw': 112067.6, 'active_solar_storage_mw2': 0}
+ISO-NE {'with_second_part': 253, 'second_part_with_mw': 0, 'active_solar_storage': 1, 'active_solar_storage_with_mw2': 0, 'active_solar_storage_mw': 160.0, 'active_solar_storage_mw2': 0}
+MISO {'with_second_part': 474, 'second_part_with_mw': 0, 'active_solar_storage': 144, 'active_solar_storage_with_mw2': 0, 'active_solar_storage_mw': 28414.5, 'active_solar_storage_mw2': 0}
+NYISO {'with_second_part': 114, 'second_part_with_mw': 0, 'active_solar_storage': 11, 'active_solar_storage_with_mw2': 0, 'active_solar_storage_mw': 2130.0, 'active_solar_storage_mw2': 0}
+PJM {'with_second_part': 531, 'second_part_with_mw': 0, 'active_solar_storage': 146, 'active_solar_storage_with_mw2': 0, 'active_solar_storage_mw': 13667.1, 'active_solar_storage_mw2': 0}
+SPP {'with_second_part': 182, 'second_part_with_mw': 0, 'active_solar_storage': 78, 'active_solar_storage_with_mw2': 0, 'active_solar_storage_mw': 17666.9, 'active_solar_storage_mw2': 0}
+West {'with_second_part': 1862, 'second_part_with_mw': 360, 'active_solar_storage': 553, 'active_solar_storage_with_mw2': 134, 'active_solar_storage_mw': 200361.7, 'active_solar_storage_mw2': 41911.0}
+Southeast {'with_second_part': 350, 'second_part_with_mw': 0, 'active_solar_storage': 65, 'active_solar_storage_with_mw2': 0, 'active_solar_storage_mw': 9083.1, 'active_solar_storage_mw2': 0}
+ERCOT active solar with storage, three rows (type_1, mw_1, type_2, mw_2, capacity): [('Solar', '201.04', 'Battery', '', '201.04'), ('Solar', '251.8', 'Battery', '', '251.8'), ('Battery', '306.2', 'Battery', '', '306.2')]
+CAISO active solar with storage, three rows: [('Solar', '500.0', 'Battery', '267.0', '767.0'), ('Solar', '2250.0', 'Battery', '2107.4', '4357.4'), ('Solar', '250.0', 'Battery', '250.0', '500.0')]
+active requests with a battery part that carries no MW (requests, their capacity MW): (1507, 326196.6)
+of which by region: {'West': 451, 'MISO': 206, 'NYISO': 11, 'Southeast': 65, 'SPP': 86, 'ERCOT': 539, 'PJM': 146, 'ISO-NE': 2, 'CAISO': 1}
+== newest dates
+NYISO: operation dates by year (2021 on): {'2021': 4, '2022': 9, '2023': 5}
+NYISO: withdrawal dates by year (2021 on): {'2021': 84, '2022': 57, '2023': 119}
+NYISO: withdrawn of entry years 2022 on, and of them with no withdrawal date: (613, 529)
+NYISO: operating of entry years 2020 on, and of them with no operation date: (0, 0)
+MISO: operation dates by year (2021 on): {'2021': 20, '2022': 19, '2023': 15, '2024': 10}
+MISO: withdrawal dates by year (2021 on): {'2021': 179, '2022': 46, '2023': 268, '2024': 87, '2025': 938, '2026': 33}
+MISO: withdrawn of entry years 2022 on, and of them with no withdrawal date: (1050, 9)
+MISO: operating of entry years 2020 on, and of them with no operation date: (2, 0)
+ISO-NE: operation dates by year (2021 on): {}
+ISO-NE: withdrawal dates by year (2021 on): {'2021': 40, '2022': 51, '2023': 56, '2024': 94, '2025': 336}
+ISO-NE: withdrawn of entry years 2022 on, and of them with no withdrawal date: (315, 0)
+ISO-NE: operating of entry years 2020 on, and of them with no operation date: (24, 24)
+West: operation dates by year (2021 on): {'2021': 12, '2022': 12, '2023': 13, '2024': 10, '2025': 3}
+West: withdrawal dates by year (2021 on): {'2021': 26, '2022': 87, '2023': 103, '2024': 12, '2025': 19}
+West: withdrawn of entry years 2022 on, and of them with no withdrawal date: (1353, 1262)
+West: operating of entry years 2020 on, and of them with no operation date: (77, 56)
+CAISO: operation dates by year (2021 on): {'2021': 19, '2022': 14, '2023': 12, '2024': 15, '2025': 14}
+CAISO: withdrawal dates by year (2021 on): {'2021': 88, '2022': 109, '2023': 43, '2024': 463, '2025': 112, '2026': 2}
+CAISO: withdrawn of entry years 2022 on, and of them with no withdrawal date: (488, 0)
+CAISO: operating of entry years 2020 on, and of them with no operation date: (6, 2)
+PJM: operation dates by year (2021 on): {'2021': 40, '2022': 32, '2023': 62, '2024': 60, '2025': 47}
+PJM: withdrawal dates by year (2021 on): {'2021': 274, '2022': 155, '2023': 300, '2024': 821, '2025': 655, '2026': 11}
+PJM: withdrawn of entry years 2022 on, and of them with no withdrawal date: (353, 3)
+PJM: operating of entry years 2020 on, and of them with no operation date: (29, 2)
+NYISO withdrawn dated exactly 2023-12-31: 6
+NYISO operating dated exactly 2023-12-31: 1
+== recent years
+2016 {'open': 9.7, 'withdrawn': 71.5, 'operating': 18.8}
+2017 {'open': 15.6, 'withdrawn': 67.4, 'operating': 16.9}
+2018 {'open': 17.0, 'withdrawn': 69.7, 'operating': 13.3}
+2019 {'open': 25.3, 'withdrawn': 63.3, 'operating': 11.3}
+2020 {'open': 24.8, 'withdrawn': 68.2, 'operating': 7.0}
+2021 {'open': 28.6, 'withdrawn': 68.6, 'operating': 2.8}
+2022 {'open': 44.1, 'withdrawn': 54.9, 'operating': 1.0}
+2023 {'open': 36.8, 'withdrawn': 60.7, 'operating': 2.6}
+2024 {'open': 49.3, 'withdrawn': 50.4, 'operating': 0.3}
+2025 {'open': 79.0, 'withdrawn': 20.4, 'operating': 0.6}
+view-years 2021 to 2025 with a request: mostly open (more than half active or suspended), of all: (128, 328)
+view-years 2021 to 2024 only: mostly open, of all: (81, 273)
+past window: the five views with the largest share still open: [(84.85, 'ercot|solar_battery'), (60.0, 'spp|solar_battery'), (58.67, 'ercot|battery'), (45.16, 'miso|solar_battery'), (35.79, 'spp|battery')]
+== places, exact
+places TEP ('q_status', 'withdrawn'): exact MW: 23268.45
+places BHCT ('q_status', 'withdrawn'): exact MW: 2870.35
+places PacifiCorp ('type_clean', 'Solar'): exact MW: 3591.05
+places: the negative row (owner, status, MW): [('TVA', 'withdrawn', '-75.0')]
