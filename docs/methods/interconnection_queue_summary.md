@@ -172,7 +172,11 @@ a withdrawn solar-with-storage request in ERCOT is counted as Solar or Battery a
 shares (66 past requests, none withdrawn) are the file's labels, not a count. The figures stand as the file gives them
 (nothing is estimated); the site's copy marks the pair as not comparable with another grid's (`not_comparable`, written
 by `queue_summary.not_comparable()` for any grid that types no closed request as a hybrid while it types live ones), and
-marks the United States' pair, whose withdrawn share counts ERCOT's 66 and so reads lower than a count would. ERCOT's
+marks the United States' pair, whose withdrawn share counts ERCOT's 66 and so reads lower than a count would. Until
+session 10213 the page drew only ERCOT's mark (`noneWithdrawn`), so the United States' 62.62 percent stood unmarked in the
+default view's technology table; the page now draws the file's mark on that figure wherever it is drawn
+(`docs/reviews/queues-model-audit-2026-11-26.md`, finding 2). Without ERCOT's 66 the United States' share withdrawn
+would be 66.08 percent (1,194 past requests), not 62.62 (1,260); the figure stands as the file gives it. ERCOT's
 Solar and Battery views take those requests in, so their withdrawn shares read higher than a typed count would.
 
 ## What waits for the owner (session 7018)
