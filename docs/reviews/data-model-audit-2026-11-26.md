@@ -15,7 +15,7 @@ Session 10233, 26 November 2026, chain 710 (part D), the old laptop. Read as a d
 - **A row's cells contradict each other (finding 4).** 4 tables print License "public" and, in the next cell, "Not public (unsettled)": the license record has not read their publishers' terms, the packages refuse them, and v1 leaves them out. The 32 held rows print "license needed" and "unsettled" for the same table. 3 tables print Tier "derived" without the "(derived)" mark. For ruling.
 - **The standard says its validator enforces what it states, and in six places it does not (findings 5 and 6).** The `x_` prefix (48 of the 55 entities and events tables here break it), the provenance header's "must" (32 of 222 name no address), the entity namespace (78 of 190), "only the series shape has a validator", a deferred vocabulary already enforced, "65 tables"; and "PJM data are internal; every other source is public" against 190 internal sources, 188 of them not PJM. Fixed in words.
 - **The faults page says a failing value "is used for nothing"; 9 listed tables still use them (finding 7),** under the rule's hold for "a page open to visitors", which no page has been since 8 October. Fixed in words; applying the rule is for ruling. **The licenses page says no number of a held table is shown; `/data` prints the row counts and dates of the 32 held tables it lists (finding 8).** Fixed in words; holding them is for ruling.
-- **Six branches fix words and move nothing (1, 2, 3, 5, 6, 8; finding 6's words ride on 5); four show a status, figure or data fault for ruling (7, 9, 10, 11).** Two data requests: the news index's row dated 1 December, and the nine held builds measured again on today's tables.
+- **Seven branches fix words and move no figure (`wip/audit-data-1` to `-6` and `-8`, merged as `wip/audit-data-words`); four carry a test only, for ruling or as a data fault (`-7`, `-9`, `-10`, `-11`).** Two data requests: the news index's row dated 1 December, and the nine held builds measured again on today's tables.
 
 ## The ground: each file and what it does
 
@@ -49,7 +49,7 @@ Session 10233, 26 November 2026, chain 710 (part D), the old laptop. Read as a d
 | `/data`'s 111 rows, 12 cells each | table and "(derived)", sector, interval, first and last day, last run ("not recorded" for 2), rows, source report, license, tier, download (46 "Download CSV", 33 "Redivis", 32 "Held: license needed"), tools (75 calls, 36 "Not public") | the same from coverage, the hold and the verdicts | 0 in 1,332 cells. The 32 held tables' row counts are printed (finding 8) |
 | `/data/licenses` | "49 tables are held from October 21, 2026"; NYISO 35, ISO-NE 30, MISO 28, then 15 news outlets and the Public Utility Commission of Texas 7 each; "119 publishers' sentences allow the ERW as it is ... 10 more allow the ERW as it is today" | 49 rows of `license_status.csv`, equal to the site copy field by field; all from 2026-10-21; all public in coverage; 280 verdicts, 129 "may be public", 119 also if commercial | 0 |
 | `/data/faults` | "30 faults are recorded, touching 29 tables: 1 worked around, 3 corrected, 10 screened, 16 held as published. 23 carry a note of something not settled."; "8 held for approval, 11 open, 11 fixed"; "The register as of 2026-11-16"; 30 entries | `faults.yaml`: the same, and every field of every entry equal to the site copy | 0 |
-| The methods list | 611 notes (this morning's bundle) | 615 public notes on disk (4 internal kept out by `build-content.mjs`); the 4 more are notes written today | 0 |
+| The methods list | 611 notes (this morning's bundle) | 615 public notes on disk (4 internal kept out by `build-content.mjs`); the 4 more were written after the bundle was built | 0 |
 | The links of the method notes | 196 relative or site links | every target exists and none is an internal note | 0 |
 | `docs/coverage.md` | 708 rows | the same 708 tables as `coverage.csv` | 0 |
 
@@ -100,16 +100,115 @@ Session 10233, 26 November 2026, chain 710 (part D), the old laptop. Read as a d
 
 | # | Severity | Finding | Effect | Fix | Branch |
 |---|---|---|---|---|---|
-| 1 | High | `/data` says it lists every public table, and every row's retrieval time | 111 of 591 public tables; 7 of 107 tables without a row's retrieval time | words | `wip/audit-data-1` |
-| 2 | High | Redivis is said to hold every table's full history; 7 of 33 Redivis links point at a draft without the table | 402 of the release list's 594 not yet in the dataset; ERCOT's yearly history "on Redivis only" is not on the linked one | words | `wip/audit-data-2` |
-| 3 | Medium | The page gives two dataset names to cite | `energy_research_warehouse` and `datapages.erw` | words; which to cite for ruling | `wip/audit-data-3` |
-| 4 | Medium | A row's license, tools and tier cells disagree | 4 "public" rows not public by the record; 32 "license needed" rows called "unsettled"; 3 derived rows unmarked | for ruling (a listed license or status) | `wip/audit-data-7` (test only) |
-| 5 | Medium | The standard says its validator enforces what it states; six rules or lines it does not, or no longer, hold | 48 of 55, 32 of 222, 78 of 190 tables here; two stale lines; 14 units outside the list | words | `wip/audit-data-4` |
-| 6 | Low | The standard's license rule names PJM alone | 188 non-PJM internal sources; 49 held tables; one declared exception | words | `wip/audit-data-5` |
-| 7 | Low | The faults page's rule is said to leave every failing value out; nine listed tables still use them | 9 tables; the method's measured effect (below) | words; applying it for ruling | `wip/audit-data-6`; `wip/audit-data-10` (test only) |
-| 8 | Low | The licenses page says no number of a held table is shown; `/data` and `/data/faults` show counts and dates of held tables | 32 row counts and 64 dates; 3 counts on the faults page | words; holding them for ruling | `wip/audit-data-8`; `wip/audit-data-9` (test only) |
-| 9 | Low | The news index's last row is dated 1 December | 1 of 20,852 rows; `/data`'s Last cell | data request | `wip/audit-data-11` (test only) |
+| 1 | High | `/data` says it lists every public table, and every row's retrieval time | 111 of 591 public tables; 7 of 107 tables without a row's retrieval time | words | `wip/audit-data-1` (`7bf0e781a`) |
+| 2 | High | Redivis is said to hold every table's full history; 7 of 33 Redivis links point at a draft without the table | 402 of the release list's 594 not yet in the dataset; ERCOT's yearly history "on Redivis only" is not on the linked one | words | `wip/audit-data-2` (`a04c149b3`) |
+| 3 | Medium | The page gives two dataset names to cite | `energy_research_warehouse` and `datapages.erw` | words; which to cite for ruling | `wip/audit-data-3` (`82d3a4fa4`) |
+| 4 | Medium | A row's license, tools and tier cells disagree | 4 "public" rows not public by the record; 32 "license needed" rows called "unsettled"; 3 derived rows unmarked | for ruling (a listed license or status) | `wip/audit-data-7` (`6311c4570`, test only) |
+| 5 | Medium | The standard says its validator enforces what it states; six rules or lines it does not, or no longer, hold | 48 of 55, 32 of 222, 78 of 190 tables here; two stale lines; 14 units outside the list | words | `wip/audit-data-4` (`41642e951`) |
+| 6 | Low | The standard's license rule names PJM alone | 188 non-PJM internal sources; 49 held tables; one declared exception | words | `wip/audit-data-5` (`694dbab3e`) |
+| 7 | Low | The faults page's rule is said to leave every failing value out; nine listed tables still use them | 9 tables; the method's measured effect (below) | words; applying it for ruling | `wip/audit-data-6` (`767fbf0b1`); `wip/audit-data-10` (`0fb119813`, test only) |
+| 8 | Low | The licenses page says no number of a held table is shown; `/data` and `/data/faults` show counts and dates of held tables | 32 row counts and 64 dates; 3 counts on the faults page | words; holding them for ruling | `wip/audit-data-8` (`deb85405e`); `wip/audit-data-9` (`5230e6d6a`, test only) |
+| 9 | Low | The news index's last row is dated 1 December | 1 of 20,852 rows; `/data`'s Last cell | data request | `wip/audit-data-11` (`25a48709d`, test only) |
 
-Each finding's section, its test and its fix follow.
+## 1. "Every public table", and every row's retrieval time (High)
 
-(The sections and the landing rows are completed below as each branch is made.)
+- **Where.** `site/app/data/page.tsx`, the lead.
+- **Why it is wrong.** The catalogue is `coverage.csv` less `catalogue_hold` (443 public tables) and less the tables `review_hold` loads (37): 111 of 591 public tables. A librarian reading "Every public table in the ERW" would catalogue a fifth of the warehouse as the whole of it. And 7 of the 107 listed tables this machine holds carry no `retrieved_at` column, so their rows' retrieval time is the header's, not the row's.
+- **The test.** `tests/test_audit_data_1.py`: public tables are under `catalogue_hold`, and `energy_deals` and `news_index` (in git) have no `retrieved_at` (passes on main); the words test fails on main.
+- **The fix, words only.** The lead says "The public tables in the site's live catalogue", that the retrieval time is in the header lines and on each row that has the columns, and that a public table the live set holds back is not listed while `coverage.csv` lists every table. No count is added.
+
+## 2. Redivis holds less than the page says (High)
+
+- **Where.** `site/app/data/page.tsx`: the download note, the Redivis cell's hover, Access.
+- **Why it is wrong.** The release list for the dataset `/data` links marks 137 of 594 rows in version 1 and 402 "held: not yet on Redivis ... the account's free 10 GB is full"; `site.json`'s status ("holds every ERW table") is a reading of 26 September. Of the 33 rows whose download cell is "Redivis", 7 point at a draft that does not hold the table: `caiso_outlook_demand`, `ercot_wind_solar_hsl_monthly`, `ercot_all_hub_prices_history` (refused at upload on 20 October and "no longer in the draft"; on the Stanford copy only) and the four tables of finding 4. The Access section says ERCOT's yearly history is "on Redivis only": it is in neither the live set nor the linked dataset. The dataset is not open to the public in any case (`site.json`, said on the page).
+- **The test.** `tests/test_audit_data_2.py`: the list marks more tables held than in v1, ERCOT's yearly history among them, and no live-set rule loads it (passes on main); the words test fails on main.
+- **The fix, words only.** Redivis holds the tables version 1's list marks in version 1; a table marked held is not there yet; the status line is followed by "Since then the account's storage has filled"; ERCOT's yearly history is said to be in neither place yet. The link and its target do not change.
+
+## 3. Two datasets to cite (Medium)
+
+- **Where.** `site/app/data/page.tsx`, the citation line; `site/lib/packages.ts`, `PACKAGES_CITATION`, printed in "Use the ERW in your tools".
+- **Why it is wrong.** A researcher copying the citation from `/data` writes `energy_research_warehouse`; one copying the packages' line, printed further down the same page, writes `datapages.erw` (the copy under the Stanford organization, 193 rows in its list, 190 tables in v1). Neither is released.
+- **The test.** `tests/test_audit_data_3.py`: the two names, `released: false`, two different lists (passes on main); the words test fails on main.
+- **The fix, words only.** The citation line names the packages' dataset and its list, says this page links and cites `energy_research_warehouse`, and that a citation names the dataset the table was read from.
+- **For Samuel's ruling.** Which dataset `/data` links and cites. Default "left as it is" (`energy_research_warehouse`, the old account, 137 rows in v1). The other choice: `datapages.erw` (193 rows in v1; `docs/redivis/organization-move.md` sets out the move). No branch: it is a choice of address, not a figure.
+
+## 4. One row, three answers (Medium)
+
+- **Where.** `/data`'s License, tools and Table cells (`page.tsx`, `lib/license.ts`, `lib/packages.ts`, coverage's `derived` flag).
+- **Why it matters.** `state_large_load_laws`, `utility_large_load_queue_totals`, `utility_large_load_rule_changes` and `utility_large_load_rules` (model-extracted, 27 to 100 rows) print License "public" and "Not public (unsettled)": their verdict says "The terms of US utilities, state commissions and legislatures ... have not been read or settled, so the ERW does not redistribute it until they are", v1 leaves them out, and the row links Redivis. The 32 held rows print "license needed" and "Not public (unsettled)" though each verdict's own sentence says the terms ask for written permission (a settled reading). `datacenter_queue_positions`, `energy_projects` and `storage_capacity` print Tier "derived" without "(derived)".
+- **The test.** `tests/test_audit_data_7.py` (test only): the 4, the 32 and the 3, measured.
+- **For Samuel's ruling.** Default "left as it is". The other choice moves a listed license or status, so it is not made: the License cell drawn from the verdict where the verdict is not public (4 cells "public" to "unsettled"), the held rows' tools cell worded "license needed" (32 labels), the mark drawn from the tier (3 marks).
+
+## 5. What the standard says its validator enforces (Medium)
+
+- **Where.** `docs/datastandard.md` (drawn on `/data/standard`, its three shapes in `/data`'s data dictionary); `warehouse/validate/erw_validate.py`.
+- **Why it is wrong.** The page says the validator "enforces what this page states", "enforces the `series` rules below", and that "only the `series` shape has a connector and a validator today". The validator checks all three shapes, and does not check: which fields a provenance header names (it warns only when there is no comment line; 32 of the 222 tables here name no address); the `x_` prefix (a warning for series, nothing for entities and events; 48 of their 55 here carry unprefixed columns, some by the standard's own Decisions); that an entity's namespace is the file's `source` part (78 of 190 series and entities tables here begin with another, as a derived or consolidated table must). The deferred list names `entity_type` and `status` as unenforced, though Decision 20 enforces both; "puts the cap far away: 65 tables" stands for a warehouse of 708; 14 of the validator's 72 units are named only in the Decisions.
+- **The test.** `tests/test_audit_data_4.py`: an events and an entities file with unprefixed columns, and a series file with no address and a foreign namespace, all pass clean; the entities' vocabularies exist (passes on main); the words test fails on main.
+- **The fix, words only.** The standard says what the validator checks and the three things it does not, each where its rule is; the version note, the deferred list and the cap's line are brought up to date; the Units list names the Decisions that added units. No rule is loosened or tightened.
+
+## 6. The standard's license rule (Low)
+
+- **Where.** `docs/datastandard.md`, General rules, License.
+- **Why it is wrong.** "PJM data are `internal`; every other source is `public`": the registry holds 190 internal sources, 188 of them not PJM (news outlets, operators' sites). "A table is `internal` if any of its sources is": `news_index` is public with internal sources by its own header line, as Decision 16 (d) allows, which the rule does not mention; nor the hold of 21 October, under which 49 public tables are held.
+- **The test.** `tests/test_audit_data_5.py` (passes on main; the words test fails on main).
+- **The fix, words only.** The rule names the other internal sources, the declared exception and the hold. No table's license moves.
+
+## 7. The rule for impossible values is held for nine tables (Low)
+
+- **Where.** `site/app/data/faults/page.tsx`, "The rule for impossible values"; `warehouse/derived/impossible_hours.py`, `HELD`.
+- **Why it is wrong.** The page says "A value that fails is used for nothing". The nine tables of `HELD` (the three carbon intensity tables, `cost_of_power_monthly` and `_carbon`, `ba_supply_monthly`, `ai_power_regions`, `caiso_reliability_daily`, `event_window_daily`) are built without the rule until a person approves, all nine are listed on `/data`, and five of them are downloadable today. The method note says so; the page did not.
+- **The tests.** `tests/test_audit_data_6.py` (the words; fails on main) and `tests/test_audit_data_10.py` (test only: the nine are listed public tables, and `site/lib/release.ts` has no live page, so `HELD`'s reason, "a page open to visitors", no longer holds).
+- **The fix, words only.** The page says a failing value is used for nothing in a table the rule is applied to, that a table the method marks Held still holds such values, and that the method gives what applying the rule would change.
+- **For Samuel's ruling.** Apply the rule to the nine (empty `HELD`). Default "left as it is". The effect, as session 118 measured it on the tables of 4 October (`docs/methods/impossible_hours.md`): 15,677 hours of `carbon_intensity_hourly`, 701 days and 33 months of the daily and monthly tables, 210 rows and 391 values of `ba_supply_monthly` (among them a balancing authority's October 2021 demand of 4,165,722,983 MWh that the rule gives as 55,904,508), 39 values of `cost_of_power_monthly`, 8 of `ai_power_regions`, 78 rows of `caiso_reliability_daily`, 159 of `event_window_daily`. Measuring it again on today's tables is data request 2.
+
+## 8. What of a held table is shown (Low)
+
+- **Where.** `site/app/data/licenses/page.tsx` ("A number read from a held table is not shown"); `site/app/data/page.tsx`, the Rows, First and Last cells; `components/Num.tsx`, `heldBy`; `/data/faults`, the entry "ISO-NE's and NYISO's real-time price files miss intervals on some days".
+- **Why it is wrong.** `heldBy` reads no `catalogue|` key as naming a table, so `/data` prints the row counts of the 32 held tables it lists (1,112,934 rows between them) and their 64 first and last days; the faults page prints the register's counts of ISO-NE's and NYISO's missing intervals (31 days, 11 days, 8,112 of 8,760 hours). These describe a table rather than read its values, but the licenses page's sentence covered them.
+- **The tests.** `tests/test_audit_data_8.py` (the words; fails on main) and `tests/test_audit_data_9.py` (test only: the 32 and their rows).
+- **The fix, words only.** The licenses page says a number read from a held table's values is not shown, and what describes the table is: its name, row count and dates on `/data`, the faults register's counts of its source's gaps.
+- **For Samuel's ruling.** Hold those too. Default "left as it is". The other choice: `heldBy` reads `catalogue|<table>|...` as naming the table, so 32 Rows cells print "license needed" (and the 64 dates likewise, by a change to how they are drawn).
+
+## 9. A news row dated after its run (Low, data)
+
+- **Where.** `news_index`, `/data`'s Last cell (2026-12-01, five days after coverage was built).
+- **Why it matters.** One row of 20,852 ("Industry event: Advancing Data Center Construction East 2026", Data Center Knowledge) is dated at the event, not at its publication, so the index's last day runs ahead of the run that wrote it. The coverage note explains a day-ahead table running past today, not a news index.
+- **The test.** `tests/test_audit_data_11.py` (test only).
+- **The fix.** The news pipeline's (data request 1). Not a page change.
+
+## The words branches drawn and read
+
+Each branch's pages were drawn with the site's own code (`draw_data.mjs`): `/data` (its catalogue answered from coverage as the loader writes it), `/data/faults`, `/data/licenses`, `/data/standard` (the standard read from the branch's file) and two method pages. Each new sentence was found in the drawn text or a hover, and `nofig.py` found the 1,332 cells of `/data`'s table equal to origin/main's and no printed number gone or added on any page, except the new words' own (decision numbers, "version 1", "21 October 2026"; on the standard, `eia930` and the `&#39;` of a rendered apostrophe). No em dash in any drawing.
+
+| Branch | Where the words are drawn | Read |
+|---|---|---|
+| `wip/audit-data-1` | `/data`'s lead | pass: "The public tables in the site's live catalogue."; "... with the source report and retrieval time in its header lines, and on each row where the table has the columns source and retrieved_at."; "Nor is a public table the live set holds back (catalogue_hold and review_hold in warehouse/supabase/live_set.yaml): coverage.csv lists every table of the warehouse." |
+| `wip/audit-data-2` | the download note; the Redivis cell's hover; Access | pass: "... a table the list marks held is not on Redivis yet (the account's storage is full). On Redivis, version 1 is pending release."; "On Redivis where version 1's list marks the table in version 1, not yet where it marks it held ..."; "The tables version 1's list marks in version 1, full history, versioned"; "(Checked 2026-09-26.) Since then the account's storage has filled ..."; "the ERCOT yearly history is not in the live set and, version 1's list marking it held, not yet on the dataset linked here." |
+| `wip/audit-data-3` | the citation line | pass: "The packages below write another dataset's name, datapages.erw, the copy prepared under the Stanford organization (its own table list); this page links and cites energy_research_warehouse. Neither is released, so a citation names the dataset the table was read from." |
+| `wip/audit-data-4` | `/data/standard`; `/data`'s data dictionary (the entity column's note) | pass: all eight sentences (the version note, the three exceptions, the header, the `x_` prefix, the namespace, the deferred list, the cap, the units) |
+| `wip/audit-data-5` | `/data/standard`, License | pass: "... third-party news text among them (Decision 15); every other source is public. A table is internal if any of its sources is, unless the table declares its own license in a header line ... Since 21 October 2026 a public table whose publisher's own page asks for permission or a license is also held ..." |
+| `wip/audit-data-6` | `/data/faults`, the rule | pass: "In a table the rule is applied to, a value that fails is used for nothing, and nothing is filled. A table the method marks Held has the rule in its builder and waits for a person to approve it, so it still holds such values; the method says what applying it would change." |
+| `wip/audit-data-8` | `/data/licenses`, the held list | pass: "A number read from a held table's values is not shown. ... What describes the table is shown: its name, its row count and its first and last day on Data, and the faults register's counts of the gaps in its source." |
+| `wip/audit-data-words` (the seven merged) | every page above | pass: all 23 sentences drawn; 1,332 cells and every printed number equal to origin/main's |
+
+- The seven merge onto origin/main of 26 November (`5b974eebd`) without a conflict: `wip/audit-data-words` (`a9d9f1b28`). Their tests with every test file that reads the changed files (the 12 that read `app/data/page.tsx`, the 4 that read the faults page, the 2 that read the licenses page, the 21 that read the standard, `test_session102` and `test_session119`) pass on the merge: 386 passed, 14 skipped, 1 failed, `test_session148`'s node test, which fails the same way on origin/main (`t148_main.out`). No test runs node with the site's packages, so none needs the guard.
+
+## Not covered, or left open
+
+- **The live catalogue itself.** Restated from the files the loader writes it from; the database was not read. A table not on the loading machine keeps its catalogue row as Supabase has it, which only the data machine can see.
+- **Rows and dates against the tables.** The main copy's tables are older restores (61 of 104 listed differ from coverage); coverage is the data machine's, and the loader refuses a coverage that does not describe its tables.
+- **"The pages in review leave the affected figures out and say so"** (`/data/faults`): seen for `carbon_intensity_monthly`; not checked for the other eight held tables.
+- **Whether the permission letters were sent**: not in the files.
+- **The pages in a browser**: drawn to HTML with the site's own code; no layout, no width of 390 px.
+
+## Landing, rulings and data (returned to the chain's main session)
+
+- **For landing (words only):** `wip/audit-data-words` (`a9d9f1b28`), the seven words branches merged (`-1` `7bf0e781a`, `-2` `a04c149b3`, `-3` `82d3a4fa4`, `-4` `41642e951`, `-5` `694dbab3e`, `-6` `767fbf0b1`, `-8` `deb85405e`); each drawn and read (pass); no figure moved.
+- **For Samuel's ruling, default "left as it is":**
+  - Finding 3, no branch: `/data` links and cites `energy_research_warehouse` (137 rows in v1) or `datapages.erw` (193 rows in v1).
+  - Finding 4, `wip/audit-data-7` (`6311c4570`), not for landing: the License cell from the verdict where it is not public (4 cells "public" to "unsettled"); the held rows' tools cell "license needed" (32 labels); "(derived)" from the tier (3 marks).
+  - Finding 7, `wip/audit-data-10` (`0fb119813`), not for landing: apply the rule for impossible values to the nine held tables (session 118's measure above: 15,677 hours, 701 days, 33 months, 210 rows and 391 values, 39, 8, 78 and 159).
+  - Finding 8, `wip/audit-data-9` (`5230e6d6a`), not for landing: hold the row counts and dates of the 32 held tables `/data` lists (32 figures and 64 dates to "license needed").
+- **Data request 1:** `news_index`: why one row (`news:187332992d0a353d`, Data Center Knowledge, "Industry event: Advancing Data Center Construction East 2026") is dated 2026-12-01T12:00:00Z, after the run of 2026-11-25T15:10:04Z that wrote it; whether the feed's listing pages are dated at their events, and how many rows of the index are dated after their own `retrieved` run.
+- **Data request 2:** build the nine tables of `impossible_hours.HELD` both ways in a trial folder (`ERW_SCREEN_TRIAL=1`) from today's inputs and report, per table, the rows before and after and the values that change, as session 118's table does.
+- **Needs the key:** nothing.
