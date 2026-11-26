@@ -143,7 +143,7 @@ def append_ledger(site, rows, series="demand"):
     return len(new)
 
 
-def demand_place(place, dem, op, ref, made, evs):
+def demand_place(place, dem, op, ref, made, evs, wx=None):
     """Everything about one place's demand: the backtest frame, the choice, score rows, tomorrow, the file's series."""
     tz = data.place_tz(place, ref)
     s = dem[place]
@@ -151,6 +151,15 @@ def demand_place(place, dem, op, ref, made, evs):
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", RuntimeWarning)
         res = demand.place_forecasts(s, tz, h=2)
+    wk = None
+    region = data.place_region(place, ref)
+    if wx is not None and region in wx.columns:
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", RuntimeWarning)
+            pw = demand.regression_weather_known(res["M"], wx[region], tz, 2)
+        res["P"]["with_weather_known"] = pw
+        res["lo"]["with_weather_known"], res["hi"]["with_weather_known"] = demand.band(res["M"], pw, 2)
+        wk = region
     hr = demand.hourly(res, o)
     choice, maes = score.choose(hr, demand.METHODS, extra=["operator"])
     for suf in ("", "_lo", "_hi"):
@@ -159,6 +168,18 @@ def demand_place(place, dem, op, ref, made, evs):
     rows = score.rows(place, "demand", hr, SCORED, evs)
     pk = score.peaks(hr, SCORED)
     rows += peak_rows(place, pk)
+    weather = None
+    if wk is not None:
+        # the separate line "with the weather known": scored on its own hours (the region's temperature is held to
+        # its last observation), never the ERW forecast, never in the choice
+        wm = ["with_weather_known", "regression", "operator"]
+        weather = {"what": f"the regression with the region's observed temperature added (region {wk.upper()}, region_weather_hourly): it reads the day's own weather, so it is not a forecast; it shows how much of the regression's error a perfect weather forecast could remove",
+                   "region": wk.upper()}
+        for cut, days in (("all", None), ("last_2_years", score.CHOICE_DAYS)):
+            sm = score.summary(hr, wm, days=days)
+            weather[cut] = sm
+            for m in wm:
+                rows.append([place, "demand_weather_known", m, cut, "", sm["hours"], sm["mae"][m], sm["mape"][m], None])
     # tomorrow: the place's next local day after the hour of the run
     frame = res["frame"]
     last = demand.last_whole_day(frame, tz)
@@ -181,7 +202,7 @@ def demand_place(place, dem, op, ref, made, evs):
     else:
         tm_held = f"no data: the last whole day held ({day_str(last)}) is {h} days before the target day; the forecast reads at most 7"
     return {"place": place, "tz": tz, "hr": hr, "choice": choice, "maes": maes, "rows": rows, "tomorrow": tm, "tomorrow_held": tm_held,
-            "target": target, "h": h, "inputs_through": inputs_through, "last_whole_day": last, "res": res, "peaks": pk}
+            "target": target, "h": h, "inputs_through": inputs_through, "last_whole_day": last, "res": res, "peaks": pk, "weather": weather}
 
 
 def history_rows(p, ledger, nd=None):
@@ -241,6 +262,7 @@ def demand_series(p, made, ledger):
         peak["last_2_years"] = score.peak_summary(pk, meths, days=score.CHOICE_DAYS)
         peak["backtest"] = score.peak_summary(pk, meths)
     s["peak"] = peak
+    s["with_weather_known"] = p.get("weather")
     return s
 
 
@@ -417,12 +439,13 @@ def main(argv=None):
     ref, _ = data.reference()
     names = data.names()
     evs = events()
+    wx = data.weather_panel()
     ledger = read_ledger(a.site_dir)
     results, srows, new_ledger = [], [], []
     for place in places:
         if place not in dem.columns:
             raise SystemExit(f"{place}: no demand held")
-        p = demand_place(place, dem, op, ref, made, evs)
+        p = demand_place(place, dem, op, ref, made, evs, wx)
         results.append(p)
         srows += p["rows"]
         if p["tomorrow"] is not None:
@@ -482,6 +505,7 @@ def main(argv=None):
                     "price": {"first_day": day_str(min(q["hr"]["day"].min() for q in prices.values())) if prices else None,
                               "last_day": day_str(max(q["hr"]["day"].max() for q in prices.values())) if prices else None}},
               methods=[{"id": m, "what": METHOD_WORDS[m]} for m in SCORED],
+              separate_lines={"with_weather_known": "the regression with the region's observed temperature added: it reads the target day's own weather, so it is not a forecast and never the ERW forecast; scored apart (series demand_weather_known, cuts all and last_2_years) on the hours its weather is held, beside the regression and the operator on the same hours"},
               metrics={"mae": "mean absolute error, in the series' unit", "mape": "mean absolute percent error, in percent"},
               mape_rule="Demand: every hour scored (demand is always above zero). Price: only hours whose actual price is at least 5 USD/MWh in size; a percent of a price near zero means nothing, and the cell is null when no hour qualifies.",
               cuts={"all": "every hour of the backtest held by every method", "last_2_years": "the last 730 days of the backtest (the days the method is chosen on)",
