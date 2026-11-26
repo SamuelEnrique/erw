@@ -157,7 +157,7 @@ function TxTd({ r, x }: { r: Row; x: SitingInputs }) {
 function AllInTd({ r, x }: { r: Row; x: SitingInputs }) {
   const a = allInCell(SITING_DC, SITING_FILES, r, x);
   if ("missing" in a) return a.words === "license needed" ? <Held table="iso_all_capacity_prices" why={`Computed where the capacity tables are held and drawn as "license needed" (session 408's rule): ${a.missing}`} /> : <Words words="not held" why={`Not every part is held: ${a.missing}`} />;
-  return <Fig check={`allgrids|allin|${r.id}|${profileKey(x)}`} v={a.v} tip={`Energy USD ${two(a.parts.energy)}, transmission USD ${two(a.parts.transmission)} and capacity USD ${two(a.parts.capacity)} per MWh${r.grid === "ercot" ? " (ERCOT has no capacity market)" : ""}. No delivery, distribution, ancillary or retail charge is in it. The prices are the market's as they were: what a load of ${x.mw.toLocaleString("en-US")} MW would itself do to them is not modelled.`} />;
+  return <Fig check={`allgrids|allin|${r.id}|${profileKey(x)}`} v={a.v} tip={`Energy USD ${two(a.parts.energy)}, transmission USD ${two(a.parts.transmission)} and capacity USD ${two(a.parts.capacity)} per MWh${r.grid === "ercot" ? " (ERCOT has no capacity market)" : ""}. No delivery, distribution, ancillary, loss or retail charge is in it. The prices are the market's as they were: what a load of ${x.mw.toLocaleString("en-US")} MW would itself do to them is not modelled.`} />;
 }
 
 /** A figure computed from an internal table: "license needed" in place, with the table and why on hover (session 408's

@@ -83,7 +83,7 @@ export const COLUMNS: Column[] = [
   { id: "utility", head: "Utility", unit: "USD per MWh", tables: ["utility_service_territories", "eia861_utility_sales"],
     tip: "Where the row's name is a place, its county's utilities (utility_service_territories) and the largest seller to industry among them; else the state's largest; its industrial revenue per MWh and sales growth (eia861_utility_sales), with its kind beside it: bundled (no word), delivery only or energy only." },
   { id: "allin", head: "All-in", unit: "USD per MWh", tables: [],
-    tip: "Energy, transmission and capacity added, drawn only where each of the three is held or is zero by market design." },
+    tip: "Energy, transmission and capacity added, drawn only where each of the three is held or is zero by market design. No delivery, distribution, ancillary, loss or retail charge is in it, so it is not the whole bill." },
 ];
 
 // ---------------------------------------------------------------------------------------------------------------------
