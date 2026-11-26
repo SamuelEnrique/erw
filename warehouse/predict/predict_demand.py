@@ -32,7 +32,7 @@ MIN_FIT_DAYS = 300
 BAND_DAYS = 365
 BAND_MIN = 60
 BAND_Q = (0.10, 0.90)
-METHODS = ["yesterday", "week_ago", "regression"]
+METHODS = ["yesterday", "week_ago", "regression", "regression_recent"]
 FEATURES = ["const", "l_same_hour_A", "l_mean_A", "l_same_hour_T7", "l_mean_week_A",
             "dow_T_mon", "dow_T_tue", "dow_T_wed", "dow_T_thu", "dow_T_fri", "dow_T_sat",
             "dow_A_mon", "dow_A_tue", "dow_A_wed", "dow_A_thu", "dow_A_fri", "dow_A_sat",
@@ -153,6 +153,56 @@ def walk_ols(X, Y, h, fit_days=FIT_DAYS, min_fit=MIN_FIT_DAYS):
     return P, B
 
 
+FEATURES_RECENT = FEATURES + ["l_last_hour_A", "l_same_hour_A1", "l_same_hour_T14"]
+
+
+def features_recent(M, h):
+    """The regression's rows with three more regressors, all from days held when the forecast is made (session 10601):
+    the log of the last hour (23) of day A, the most recent demand read; the log of the same hour on day A-1; the log of
+    the same hour on day T-14. Lone gaps are filled for the regressors as in `features`; an hour at or below zero is
+    taken as not held."""
+    X, Y = features(M, h)
+    raw = M.to_numpy(dtype=float)
+    filled = raw.copy()
+    lone = np.isnan(raw[:, 1:23]) & np.isfinite(raw[:, 0:22]) & np.isfinite(raw[:, 2:24])
+    filled[:, 1:23] = np.where(lone, (raw[:, 0:22] + raw[:, 2:24]) / 2.0, raw[:, 1:23])
+    with np.errstate(divide="ignore", invalid="ignore"):
+        lf = np.log(np.where(filled > 0, filled, np.nan))
+    n = len(raw)
+
+    def lag(a, d):
+        out = np.full_like(a, np.nan)
+        if d < n:
+            out[d:] = a[:n - d]
+        return out
+
+    extra = np.stack([np.repeat(lag(lf[:, 23], h)[:, None], 24, axis=1), lag(lf, h + 1), lag(lf, 14)], axis=2)
+    return np.concatenate([X, extra], axis=2), Y
+
+
+def regression_recent(M, h, fit_days=FIT_DAYS, min_fit=MIN_FIT_DAYS):
+    """The regression with the three recent regressors of `features_recent`, fitted and refit exactly as `regression`."""
+    X, Y = features_recent(M, h)
+    L, B = walk_ols(X, Y, h, fit_days, min_fit)
+    return np.exp(L), B
+
+
+def regression_weather_known(M, temp, tz, h):
+    """The regression of `regression` with the weather as it turned out added: the region's observed temperature at the
+    target hour, its square, and the target day's mean temperature. NOT a forecast (it reads the target day's own
+    weather) and never the ERW forecast: it says how much of the regression's error a perfect weather forecast could
+    remove. temp: the region's hourly temperature (UTC Series)."""
+    X, Y = features(M, h)
+    f = local_frame(temp, tz)
+    T = matrix(f).reindex(M.index).to_numpy(dtype=float)
+    lone = np.isnan(T[:, 1:23]) & np.isfinite(T[:, 0:22]) & np.isfinite(T[:, 2:24])
+    T[:, 1:23] = np.where(lone, (T[:, 0:22] + T[:, 2:24]) / 2.0, T[:, 1:23])
+    tmean = np.mean(T, axis=1)
+    W = np.stack([T / 100.0, (T / 100.0) ** 2, np.repeat((tmean / 100.0)[:, None], 24, axis=1)], axis=2)
+    L, B = walk_ols(np.concatenate([X, W], axis=2), Y, h)
+    return np.exp(L)
+
+
 def simple(M, h):
     """The two simple methods: P_yesterday[i, k] = M[i-h, k], P_week_ago[i, k] = M[i-7, k] (the raw hours)."""
     raw = M.to_numpy(dtype=float)
@@ -187,8 +237,9 @@ def place_forecasts(s, tz, h=2):
     # h empty days after the last day held: the rows of the days still to come, whose forecasts read only held days
     M = M.reindex(pd.date_range(M.index.min(), M.index.max() + pd.Timedelta(days=h), freq="D"))
     reg, B = regression(M, h)
+    reg2, _ = regression_recent(M, h)
     y, w = simple(M, h)
-    P = {"yesterday": y, "week_ago": w, "regression": reg}
+    P = {"yesterday": y, "week_ago": w, "regression": reg, "regression_recent": reg2}
     lo, hi = {}, {}
     for m, arr in P.items():
         lo[m], hi[m] = band(M, arr, h)

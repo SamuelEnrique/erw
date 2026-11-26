@@ -1,0 +1,304 @@
+{
+ "group": "billtax_c701",
+ "request": "data request 53, docs/state/data_requests_five_tools.md",
+ "changes": [
+  {
+   "utility": "Pacific Gas and Electric Company",
+   "state": "CA",
+   "rule_name": "Energy Commission tax (Energy Resources Surcharge, electrical energy surcharge)",
+   "bill": "PG&E, San Francisco (E-TOU-C, bundled, territory T, 600 kWh, winter, 30 days; default 229.63 USD)",
+   "rate": "0.0003 USD per kWh",
+   "applies_to": "each kWh of electrical energy consumed in California that is purchased from an electrical utility; stated as a separate item on the bill",
+   "effective": "calendar year 2026 (CDTFA notice L1020); PG&E Preliminary Statement Part K, effective January 1, 2019, 'currently fixed at $0.00030 per kilowatthour'",
+   "on_default_bill": "600 kWh x 0.0003 = 0.18 USD",
+   "source_url": "https://cdtfa.ca.gov/formspubs/L1020.pdf",
+   "date_read": "2026-11-26",
+   "cites": [
+    {
+     "url": "https://cdtfa.ca.gov/formspubs/L1020.pdf",
+     "page": "1",
+     "section": "notice title",
+     "quote": "2026 Energy Resources (Electrical Energy) Surcharge Rate",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://cdtfa.ca.gov/formspubs/L1020.pdf",
+     "page": "1",
+     "section": "notice text",
+     "quote": "The California Energy Commission (CEC) set the electrical energy surcharge rate for the 2026 calendar year to remain at three-tenths mill ($.0003) per kilowatt-hour.",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://cdtfa.ca.gov/formspubs/L1020.pdf",
+     "page": "1",
+     "section": "notice text",
+     "quote": "The electrical energy surcharge is imposed on electrical energy consumed in California that is purchased from an electrical utility.",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_PRELIM_K.pdf",
+     "page": "1",
+     "section": "Electric Preliminary Statement Part K, Sheet 1",
+     "quote": "The tax will be stated as a separate item on the billing statement.",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_PRELIM_K.pdf",
+     "page": "1",
+     "section": "Electric Preliminary Statement Part K, Sheet 1",
+     "quote": "It is currently fixed at $0.00030 per kilowatthour.",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_PRELIM_K.pdf",
+     "page": "1",
+     "section": "Sheet 1, footer (Advice 5444-E)",
+     "quote": "January 1, 2019",
+     "date_read": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "utility": "City and County of San Francisco",
+   "state": "CA",
+   "rule_name": "San Francisco Utility Users Tax",
+   "bill": "PG&E, San Francisco (E-TOU-C, bundled, territory T, 600 kWh, winter, 30 days; default 229.63 USD)",
+   "rate": "7.5 percent of taxable charges; residential customers exempt (BTRC sec. 707.1), so 0 on this bill",
+   "applies_to": "charges for electrical energy service to non-exempt users; charges for 'residential customers' of electrical energy are exempt",
+   "effective": "as stated on the Treasurer's UUT statement form read 2026-11-26 (form undated in its text)",
+   "on_default_bill": "0.00 USD (residential exemption)",
+   "source_url": "https://sftreasurer.org/UUT",
+   "date_read": "2026-11-26",
+   "cites": [
+    {
+     "url": "https://sftreasurer.org/UUT",
+     "page": "1",
+     "section": "UUT statement, line 2A",
+     "quote": "2A. Residential Customers (BTRC Sec 707.1)",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://sftreasurer.org/UUT",
+     "page": "2",
+     "section": "Instructions, Line 2A",
+     "quote": "Under BTRC sec. 707.1, charges for “residential customers” of electrical energy or gas, water or steam are exempt.",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://sftreasurer.org/UUT",
+     "page": "2",
+     "section": "Instructions, Line 5",
+     "quote": "The Utility Users Tax rate is 7.5%. Multiply Line 4 by 0.075.",
+     "date_read": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "utility": "Pacific Gas and Electric Company",
+   "state": "CA",
+   "rule_name": "Franchise Fee Surcharge (Schedule E-FFS)",
+   "bill": "PG&E, San Francisco (E-TOU-C, bundled, territory T, 600 kWh, winter, 30 days; default 229.63 USD)",
+   "rate": "residential, per kWh: 0.00086 USD (pre-2009 vintage), 0.00064 (2009), 0.00061 (2010); later vintages on sheets 2 and 3 not paired here (their columns did not read cleanly); 0 on the bundled default bill",
+   "applies_to": "per kWh of usage of direct access and Community Choice Aggregation customers only (electric volumes procured from third parties and transported by PG&E); not a bundled customer",
+   "effective": "January 1, 2026 (Sheet 2, Advice 7797-E)",
+   "on_default_bill": "0.00 USD (the default bill is bundled service)",
+   "source_url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-FFS.pdf",
+   "date_read": "2026-11-26",
+   "cites": [
+    {
+     "url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-FFS.pdf",
+     "page": "1",
+     "section": "Schedule E-FFS, Sheet 1, Applicability",
+     "quote": "this schedule applies to all electric volumes procured by Customers from third-party entities and transported by PG&E",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-FFS.pdf",
+     "page": "1",
+     "section": "Schedule E-FFS, Sheet 1, Rates",
+     "quote": "an Electric Franchise Fee Surcharge shall be charged to all direct access and Community Choice Aggregation electric service customers, unless otherwise exempted.",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-FFS.pdf",
+     "page": "1",
+     "section": "Schedule E-FFS, Sheet 1, Rates",
+     "quote": "according to the following rates per kWh of usage:",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-FFS.pdf",
+     "page": "2",
+     "section": "Schedule E-FFS, Sheet 2 (Cal. P.U.C. Sheet No. 60705-E)",
+     "quote": "Customer Class Pre-2009 Vintage 2009 Vintage 2010 Vintage",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-FFS.pdf",
+     "page": "2",
+     "section": "Schedule E-FFS, Sheet 2",
+     "quote": "Residential $0.00086 (R) $0.00064 (R) $0.00061 (R)",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-FFS.pdf",
+     "page": "2",
+     "section": "Schedule E-FFS, Sheet 2, footer",
+     "quote": "January 1, 2026",
+     "date_read": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "utility": "Retail electric provider (PURA 16.001)",
+   "state": "TX",
+   "rule_name": "PUC Assessment (gross receipts assessment)",
+   "bill": "Oncor, Dallas (retailer energy charge plus Oncor delivery, 600 kWh; default 95.27 USD)",
+   "rate": "one-sixth of one percent (0.1667 percent) of gross receipts",
+   "applies_to": "the retail electric provider's gross receipts from rates charged to the ultimate consumer (the whole bill); a retailer that itemizes it must label it 'PUC Assessment'",
+   "effective": "PURA as amended, effective as of September 1, 2025 (the PUCT's edition)",
+   "on_default_bill": "if passed through on the whole bill: 95.27 x 1/600 = 0.16 USD (whether the retailer itemizes it is the retailer's choice; not read)",
+   "source_url": "https://ftp.puc.texas.gov/public/puct-info/agency/rulesnlaws/statutes/Pura25.pdf",
+   "date_read": "2026-11-26",
+   "cites": [
+    {
+     "url": "https://ftp.puc.texas.gov/public/puct-info/agency/rulesnlaws/statutes/Pura25.pdf",
+     "page": "1",
+     "section": "title page",
+     "quote": "Effective as of September 1, 2025",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://ftp.puc.texas.gov/public/puct-info/agency/rulesnlaws/statutes/Pura25.pdf",
+     "page": "87",
+     "section": "Sec. 16.001(b)",
+     "quote": "An assessment under this section is equal to one-sixth of one percent of the public utility's, retail electric provider’s, or electric cooperative’s gross receipts from rates charged to the ultimate consumer in this state.",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://ftp.puc.texas.gov/public/puct-info/agency/rulesnlaws/subrules/electric/ch25complete.pdf",
+     "page": "753",
+     "section": "16 TAC §25.479 (Issuance and Format of Bills), defined terms",
+     "quote": "PUC Assessment -- A fee assessed to recover the statutory fee for administering the Public Utility Regulatory Act.",
+     "date_read": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "utility": "Retail electric provider (Tax Code ch. 182)",
+   "state": "TX",
+   "rule_name": "Miscellaneous Gross Receipts Tax Reimbursement",
+   "bill": "Oncor, Dallas (retailer energy charge plus Oncor delivery, 600 kWh; default 95.27 USD)",
+   "rate": "not found (the rate is in Tax Code sec. 182.022; no readable official copy: see the notes)",
+   "applies_to": "imposed on retail electric providers operating in an incorporated city or town of more than 1,000 people; excluded from the EFL 'price'",
+   "effective": "16 TAC §25.479 and §25.475 as in the PUCT's chapter 25 (effective 01/06/2022)",
+   "on_default_bill": "not computed (rate not found)",
+   "source_url": "https://ftp.puc.texas.gov/public/puct-info/agency/rulesnlaws/subrules/electric/ch25complete.pdf",
+   "date_read": "2026-11-26",
+   "cites": [
+    {
+     "url": "https://ftp.puc.texas.gov/public/puct-info/agency/rulesnlaws/subrules/electric/ch25complete.pdf",
+     "page": "753",
+     "section": "16 TAC §25.479, defined terms",
+     "quote": "Miscellaneous Gross Receipts Tax Reimbursement -- A fee assessed to recover he miscellaneous gross receipts tax imposed on retail electric providers operating in an incorporated city or town having a population of more than 1,000.",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://ftp.puc.texas.gov/public/puct-info/agency/rulesnlaws/subrules/electric/ch25complete.pdf",
+     "page": "726",
+     "section": "16 TAC §25.475(b)(8)",
+     "quote": "Price -- The cost for a retail electric product that includes all recurring charges, including the cost of ancillary services, excluding state and local sales taxes, and reimbursement for the state miscellaneous gross receipts tax.",
+     "date_read": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "utility": "State of Texas and City of Dallas",
+   "state": "TX",
+   "rule_name": "Sales tax (state, and City of Dallas, on residential electricity)",
+   "bill": "Oncor, Dallas (retailer energy charge plus Oncor delivery, 600 kWh; default 95.27 USD)",
+   "rate": "not found (whether residential electricity is taxed, and the Dallas rate, is the Comptroller's record, which its robots file bars: see the notes)",
+   "applies_to": "a bill line the rules define; collected for the state, cities and special purpose districts",
+   "effective": "16 TAC §25.479 (effective 01/06/2022)",
+   "on_default_bill": "not computed (rate not found)",
+   "source_url": "https://ftp.puc.texas.gov/public/puct-info/agency/rulesnlaws/subrules/electric/ch25complete.pdf",
+   "date_read": "2026-11-26",
+   "cites": [
+    {
+     "url": "https://ftp.puc.texas.gov/public/puct-info/agency/rulesnlaws/subrules/electric/ch25complete.pdf",
+     "page": "753",
+     "section": "16 TAC §25.479, defined terms",
+     "quote": "Sales tax -- Sales tax collected by authorized taxing authorities, such as the state, cities and special purpose districts.",
+     "date_read": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "utility": "Oncor Electric Delivery (PURA 33.008)",
+   "state": "TX",
+   "rule_name": "Municipal franchise charge (City of Dallas)",
+   "bill": "Oncor, Dallas (retailer energy charge plus Oncor delivery, 600 kWh; default 95.27 USD)",
+   "rate": "a charge per kWh delivered inside the city; the Dallas figure not found; no separate line: it is inside the delivery charges",
+   "applies_to": "each kWh delivered to a retail customer whose point of delivery is inside the city; included in the nonbypassable delivery charges the retailer pays Oncor (so already inside Oncor's delivery charges on the default bill)",
+   "effective": "PURA as amended, effective as of September 1, 2025; Oncor tariff as read 2026-11-26",
+   "on_default_bill": "0.00 USD added (already within the delivery charges the bill counts)",
+   "source_url": "https://ftp.puc.texas.gov/public/puct-info/agency/rulesnlaws/statutes/Pura25.pdf",
+   "date_read": "2026-11-26",
+   "cites": [
+    {
+     "url": "https://ftp.puc.texas.gov/public/puct-info/agency/rulesnlaws/statutes/Pura25.pdf",
+     "page": "116",
+     "section": "Sec. 33.008(b)",
+     "quote": "a charge based on each kilowatt hour of electricity delivered by the utility to each retail customer whose consuming facility's point of delivery is located within the municipality's boundaries.",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://ftp.puc.texas.gov/public/puct-info/agency/rulesnlaws/statutes/Pura25.pdf",
+     "page": "117",
+     "section": "Sec. 33.008(c)",
+     "quote": "The charge shall be included in the nonbypassable delivery charges that a customer's retail electric provider must pay under Section 39.107 to the utility serving the customer.",
+     "date_read": "2026-11-26"
+    },
+    {
+     "url": "https://www.oncor.com/content/dam/oncorwww/documents/about-us/regulatory/tariff-and-rate-schedules/Tariff%20for%20Retail%20Delivery%20Service.pdf",
+     "page": "103",
+     "section": "Tariff 6.1.1.6.4, Rider DCRF, definition of OTC",
+     "quote": "not including municipal franchise fees.",
+     "date_read": "2026-11-26"
+    }
+   ]
+  }
+ ],
+ "not_found": [
+  {
+   "bill": "PG&E, San Francisco (E-TOU-C, bundled, territory T, 600 kWh, winter, 30 days; default 229.63 USD)",
+   "line": "California sales tax on residential electricity",
+   "why": "not read: no CDTFA page on it was requested within the budget; not a line the read PG&E sheets name"
+  },
+  {
+   "bill": "PG&E, San Francisco (E-TOU-C, bundled, territory T, 600 kWh, winter, 30 days; default 229.63 USD)",
+   "line": "Any other line on a PG&E bill (PG&E's own bill pages)",
+   "why": "not read: PG&E's website terms ('Mining') bar bots and information-gathering programs, read after three pge.com documents; no further pge.com page was requested"
+  },
+  {
+   "bill": "Oncor, Dallas (retailer energy charge plus Oncor delivery, 600 kWh; default 95.27 USD)",
+   "line": "Miscellaneous gross receipts tax rate (Tax Code sec. 182.022)",
+   "why": "comptroller.texas.gov: robots file disallows the reader (the misc gross receipts page); statutes.capitol.texas.gov serves its htm and pdf addresses as a script-only page with no statute text"
+  },
+  {
+   "bill": "Oncor, Dallas (retailer energy charge plus Oncor delivery, 600 kWh; default 95.27 USD)",
+   "line": "Texas state sales tax treatment of residential electricity (Tax Code sec. 151.317)",
+   "why": "same two hosts: the Comptroller's utility pages are disallowed by robots; the statute site has no text without scripts"
+  },
+  {
+   "bill": "Oncor, Dallas (retailer energy charge plus Oncor delivery, 600 kWh; default 95.27 USD)",
+   "line": "City of Dallas local sales tax on residential electricity",
+   "why": "the Comptroller's list of cities taxing residential gas and electricity (taxes/sales/utility/cities.php) is disallowed by its robots file; no other official copy found"
+  },
+  {
+   "bill": "Oncor, Dallas (retailer energy charge plus Oncor delivery, 600 kWh; default 95.27 USD)",
+   "line": "City of Dallas franchise charge per kWh",
+   "why": "not in Oncor's tariff (no municipal rider); the city's figure was not searched further"
+  }
+ ]
+}

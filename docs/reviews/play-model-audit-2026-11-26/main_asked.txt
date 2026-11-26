@@ -1,0 +1,12 @@
+refused http://localhost:9/rest/v1/series?select=ts_utc%2Cvalue%2Cretrieved_at%2Csource%2Csource_url&table_name=eq.iso_rtm_hub_prices&entity=eq.ercot%3AHB_HUBAVG&variable=eq.spp_rtm&market=eq.ercot_rtm&ts_utc=gte.2026-10-27T15%3A00%3A00Z&order=ts_utc&limit=1000&offset=0
+refused http://localhost:9/rest/v1/entities?select=entity_id%2Ccapacity_mw%2Cstatus%2Cstate%3Aextra-%3E%3Estate%2Ciso%3Aextra-%3E%3Eiso%2Cplanned_year%3Aextra-%3E%3Eplanned_year%2Cmwh%3Aextra-%3E%3Eenergy_capacity_mwh%2Cvintage&table_name=eq.storage_capacity&order=entity_id&limit=1000&offset=0
+refused http://localhost:9/rest/v1/catalogue?select=*&order=table_name&limit=1000&offset=0
+refused http://localhost:9/rest/v1/catalogue?select=*&order=table_name&limit=1000&offset=0
+refused http://localhost:9/rest/v1/series?select=ts_utc%2Cvalue%2Cretrieved_at%2Csource%2Csource_url&table_name=eq.iso_rtm_hub_prices&entity=eq.ercot%3AHB_HUBAVG&variable=eq.spp_rtm&market=eq.ercot_rtm&ts_utc=gte.2026-10-27T15%3A00%3A00Z&order=ts_utc&limit=1000&offset=0
+refused http://localhost:9/rest/v1/entities?select=entity_id%2Ccapacity_mw%2Cstatus%2Cstate%3Aextra-%3E%3Estate%2Ciso%3Aextra-%3E%3Eiso%2Cplanned_year%3Aextra-%3E%3Eplanned_year%2Cmwh%3Aextra-%3E%3Eenergy_capacity_mwh%2Cvintage&table_name=eq.storage_capacity&order=entity_id&limit=1000&offset=0
+refused http://localhost:9/rest/v1/catalogue?select=*&order=table_name&limit=1000&offset=0
+refused http://localhost:9/rest/v1/catalogue?select=*&order=table_name&limit=1000&offset=0
+refused http://localhost:9/rest/v1/series?select=ts_utc%2Cvalue%2Cretrieved_at%2Csource%2Csource_url&table_name=eq.iso_rtm_hub_prices&entity=eq.ercot%3AHB_HUBAVG&variable=eq.spp_rtm&market=eq.ercot_rtm&ts_utc=gte.2026-10-27T15%3A00%3A00Z&order=ts_utc&limit=1000&offset=0
+refused http://localhost:9/rest/v1/entities?select=entity_id%2Ccapacity_mw%2Cstatus%2Cstate%3Aextra-%3E%3Estate%2Ciso%3Aextra-%3E%3Eiso%2Cplanned_year%3Aextra-%3E%3Eplanned_year%2Cmwh%3Aextra-%3E%3Eenergy_capacity_mwh%2Cvintage&table_name=eq.storage_capacity&order=entity_id&limit=1000&offset=0
+refused http://localhost:9/rest/v1/catalogue?select=*&order=table_name&limit=1000&offset=0
+refused http://localhost:9/rest/v1/catalogue?select=*&order=table_name&limit=1000&offset=0

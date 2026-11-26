@@ -1,0 +1,15 @@
+index: 81075 bytes drawn; em dash none
+index_policy: 15491 bytes drawn; em dash none
+fpl: 213544 bytes drawn; em dash none
+google: 31341 bytes drawn; em dash none
+ceg: 39469 bytes drawn; em dash none
+[erw] the catalogue table returned no rows
+tab: 1416490 bytes drawn; em dash none
+READ: ...The policy actions' agencies are not listed while policy_actions is held for a license.
+READ: ...Companies, the largest footprint first Company Kind Segment States Operating MW Planned MW Queue MW Policy actions i policy_actions is held for a license (warehouse/metadata/license_status.csv): its rows add nothing here, so every company's count is 0 until a permission is recorded.
+READ: ...Anything Operating plants ERCOT queue positions Reactors Policy actions (license needed) Deals (license needed) Datacenter facilities (license needed) Show Reset to the defaults : every listed company, the largest footprint first.
+READ: ...Policy actions are held too: no listed company has one while they are, so that choice finds none.
+(node:18672) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-b/site/lib/cells.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-b\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

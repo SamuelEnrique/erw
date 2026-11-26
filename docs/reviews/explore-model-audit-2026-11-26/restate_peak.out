@@ -1,0 +1,63 @@
+annual rows of HB_HUBAVG 2015 to 2025 equal at six decimals: 308 of 308; worst (0.0, None)
+monthly rows of HB_HUBAVG 2015 to 2025 equal at six decimals: 3696 of 3696; worst (0.0, None)
+2015: intervals 35040; peak 7300, midday 5840, overnight 21900
+  days not of 96 intervals: {'2015-03-08': 92, '2015-11-01': 100}
+2025: intervals 35040; peak 7300, midday 5840, overnight 21900
+  days not of 96 intervals: {'2025-03-09': 92, '2025-11-02': 100}
+default view: {} keyed figures 64; headline labels ['Peak-block IQR, HB_HUBAVG, 2025', 'Peak median minus midday median, HB_HUBAVG, 2025', 'Median, all intervals, HB_HUBAVG, 2025']
+default view: 64 of 64 drawn figures equal the restatement as written; differing: []
+the default view, figure by figure (page text):
+   peak_iqr|2025-01-01T00:00:00Z 34.12
+   peak_iqr|2015-01-01T00:00:00Z 7.64
+   peak_minus_midday_median|2025-01-01T00:00:00Z 14.52
+   peak_minus_midday_median|2015-01-01T00:00:00Z -0.16
+   all_median|2025-01-01T00:00:00Z 25.68
+   all_median|2015-01-01T00:00:00Z 20.49
+   overnight_min|2015-01-01T00:00:00Z -11.58
+   overnight_q1|2015-01-01T00:00:00Z 17.32
+   overnight_median|2015-01-01T00:00:00Z 19.10
+   overnight_q3|2015-01-01T00:00:00Z 21.72
+   overnight_max|2015-01-01T00:00:00Z 849.44
+   overnight_min|2025-01-01T00:00:00Z -31.88
+   overnight_q1|2025-01-01T00:00:00Z 19.21
+   overnight_median|2025-01-01T00:00:00Z 24.79
+   overnight_q3|2025-01-01T00:00:00Z 32.74
+   overnight_max|2025-01-01T00:00:00Z 3,553.10
+   midday_min|2015-01-01T00:00:00Z -3.98
+   midday_q1|2015-01-01T00:00:00Z 20.38
+   midday_median|2015-01-01T00:00:00Z 24.28
+   midday_q3|2015-01-01T00:00:00Z 29.71
+   midday_max|2015-01-01T00:00:00Z 1,207.89
+   midday_min|2025-01-01T00:00:00Z -18.25
+   midday_q1|2025-01-01T00:00:00Z 15.18
+   midday_median|2025-01-01T00:00:00Z 22.52
+   midday_q3|2025-01-01T00:00:00Z 29.52
+   midday_max|2025-01-01T00:00:00Z 330.35
+   peak_min|2015-01-01T00:00:00Z 7.57
+   peak_q1|2015-01-01T00:00:00Z 20.85
+   peak_median|2015-01-01T00:00:00Z 24.12
+   peak_q3|2015-01-01T00:00:00Z 28.49
+   peak_max|2015-01-01T00:00:00Z 1,538.66
+   peak_min|2025-01-01T00:00:00Z -16.13
+   peak_q1|2025-01-01T00:00:00Z 24.91
+   peak_median|2025-01-01T00:00:00Z 37.04
+   peak_q3|2025-01-01T00:00:00Z 59.03
+   peak_max|2025-01-01T00:00:00Z 2,350.31
+   all_min|2015-01-01T00:00:00Z -11.58
+   all_q1|2015-01-01T00:00:00Z 17.99
+   all_q3|2015-01-01T00:00:00Z 24.52
+   all_max|2015-01-01T00:00:00Z 1,538.66
+   all_min|2025-01-01T00:00:00Z -31.88
+   all_q1|2025-01-01T00:00:00Z 19.37
+   all_q3|2025-01-01T00:00:00Z 36.44
+   all_max|2025-01-01T00:00:00Z 3,553.10
+   all_p999|2015-01-01T00:00:00Z 583.96
+   all_p999|2025-01-01T00:00:00Z 311.80
+   worst_interval_multiple|2015-01-01T00:00:00Z 28.50
+   worst_interval_multiple|2025-01-01T00:00:00Z 12.14
+   n_scarcity|2015-01-01T00:00:00Z 5
+   n_scarcity|2025-01-01T00:00:00Z 9
+   n_negative|2015-01-01T00:00:00Z 297
+   n_negative|2025-01-01T00:00:00Z 959
+   n_intervals|2015-01-01T00:00:00Z 35,040
+   n_intervals|2025-01-01T00:00:00Z 35,040

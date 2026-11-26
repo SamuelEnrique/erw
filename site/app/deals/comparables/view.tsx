@@ -152,7 +152,7 @@ export async function ComparablesView({ sp }: { sp: Record<string, string | unde
           </p>
 
           <ChartFrame title={`The median ${what === "price" ? "price, USD per MWh" : "size, MW"}, by ${dim.label.toLowerCase()}`}
-            note={<>Only the groups in which {MIN_DISCLOSED} or more deals state the figure ({whole(charted)} of {whole(cells.length)}); the others are in the table below. A median is of the figures the stories state; a deal that states none is left out, not counted as zero.</>}>
+            note={<>Only the groups in which {MIN_DISCLOSED} or more deals state the figure ({whole(charted)} of {whole(cells.length)}); the others are in the table below. A median is of the figures the stories state; a deal that states none is left out, not counted as zero. A group holds every technology, country and stage of its kind: by deal type, a power purchase&apos;s median sets a solar plant of tens of MW beside a nuclear plant of thousands, and a median of three is the middle deal&apos;s own figure, not a market&apos;s.</>}>
             {charted ? <Bars cells={cells} what={what} /> : <p className="text-sm text-muted" role="status">No group has {MIN_DISCLOSED} deals that state a {what === "price" ? "price" : "size"}.</p>}
           </ChartFrame>
 

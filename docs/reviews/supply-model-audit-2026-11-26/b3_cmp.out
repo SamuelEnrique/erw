@@ -1,0 +1,6 @@
+marked figures equal: True 188 188
+country figures equal: True 1387 1387
+visible text equal: False
+  text delete: 'held yet not held yet Day-ahead energy cleared NYISO licensed source needed Day-ahead en' -> 'held yet not held yet Day-ahead energy cleared NYISO license needed Day-ahead en'
+  text delete: 'icensed source needed Day-ahead energy cleared ISO-NE licensed source needed Day-ahead e' -> ' NYISO license needed Day-ahead energy cleared ISO-NE license needed Day-ahead e'
+titles: 2668 2668 changed: 0

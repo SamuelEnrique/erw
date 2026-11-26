@@ -17,7 +17,7 @@ ok(L.statesOf("ND, SD, MT, WY and other member states").join() === "ND,SD,MT,WY"
 ok(L.dateWords("2026-10-08") === "2026-10-08" && L.dateWords("2026-10") === "2026-10" && L.dateWords("not published") === "not published", "a date is a day, a month or not published");
 
 // the file and its counts
-ok(file.rules.length === 100 && file.held_rules.length === 22 && all.length === 122, "100 public rules and 22 held: 122 lines");
+ok(file.rules.length === 101 && file.held_rules.length === 23 && all.length === 124, "101 public rules and 23 held: 124 lines");
 ok(file.changes.length === 94 && file.held_changes.length === 4 && file.laws.length === 27 && file.held_laws.length === 1, "94 changes and 4 held; 27 laws and 1 held");
 ok(L.FIELDS.length === 8 && L.FIELDS.every((f) => file.fields.includes(f)) && file.fields.every((f) => L.FIELDS.includes(f)), "the eight fields are the file's");
 ok(file.rules.every((r) => L.RULE_STATUSES.includes(r.status)) && file.laws.every((l) => L.LAW_STATUSES.includes(l.status)), "every status is one the page words");
@@ -25,7 +25,7 @@ ok(file.rules.every((r) => L.GRID_KEYS.includes(r.grid)) && file.held_rules.ever
 ok(file.changes.every((c) => L.CHANGE_GROUPS.some(([k]) => k === c.group)) && file.changes.every((c) => c.kind in L.CHANGE_KIND_WORDS), "every change's region and kind has its words");
 for (const s of L.RULE_STATUSES) ok(L.largeLoadStat(file, `largeload|rules|status|${s}`) === (file.counts.rules[s] ?? 0), `the count of rules ${s} is the file's (${file.counts.rules[s] ?? 0})`);
 for (const s of L.LAW_STATUSES) ok(L.largeLoadStat(file, `largeload|laws|status|${s}`) === (file.counts.laws[s] ?? 0), `the count of laws ${s} is the file's (${file.counts.laws[s] ?? 0})`);
-ok(L.largeLoadStat(file, "largeload|rules|all") === 122 && L.largeLoadStat(file, "largeload|rules|public") === 100 && L.largeLoadStat(file, "largeload|rules|held") === 22, "the rule counts: all, public, held");
+ok(L.largeLoadStat(file, "largeload|rules|all") === 124 && L.largeLoadStat(file, "largeload|rules|public") === 101 && L.largeLoadStat(file, "largeload|rules|held") === 23, "the rule counts: all, public, held");
 ok(L.largeLoadStat(file, "largeload|changes|public") === 94 && L.largeLoadStat(file, "largeload|changes|held") === 4 && L.largeLoadStat(file, "largeload|laws|public") === 27 && L.largeLoadStat(file, "largeload|laws|held") === 1, "the change and law counts");
 ok(L.CHANGE_GROUPS.reduce((s, [k]) => s + L.largeLoadStat(file, `largeload|changes|group|${k}`), 0) === 94, "the changes by region sum to 94");
 ok(L.largeLoadStat(file, "largeload|rules|state|TX") === all.filter((r) => /\bTX\b/.test(r.state)).length && L.largeLoadStat(file, "largeload|rules|state|TX") >= 8, "the rules of a state count public and held");
@@ -53,23 +53,23 @@ ok(v.words === "25 MW" && v.tip.includes("As the document prints it: p. 1"), "a 
 ok(file.rules.every((r) => L.FIELDS.every((f) => r.fields[f].kind !== "see" || r.fields[f].held || all.some((x) => x.id === r.fields[f].row && !x.held))), "a pointer to the utility's other row names a public row of the file, or is held");
 
 // the filters and the sort
-ok(L.filterLines(all, L.NO_RULE_FILTERS).length === 122, "no filter holds every rule");
+ok(L.filterLines(all, L.NO_RULE_FILTERS).length === 124, "no filter holds every rule");
 const tx = L.filterLines(all, { ...L.NO_RULE_FILTERS, states: ["TX"] });
 ok(tx.length === L.largeLoadStat(file, "largeload|rules|state|TX") && tx.every((r) => L.statesOf(r.state).includes("TX")), `by state: ${tx.length} in Texas`);
 ok(L.filterLines(all, { ...L.NO_RULE_FILTERS, grids: ["pjm"] }).length === L.largeLoadStat(file, "largeload|rules|grid|pjm"), "by grid");
 ok(L.filterLines(all, { ...L.NO_RULE_FILTERS, statuses: ["proposed"] }).length === file.counts.rules.proposed, "by status");
-ok(L.filterLines(all, { ...L.NO_RULE_FILTERS, statuses: [L.HELD_STATUS] }).length === 22 && L.filterLines(all, { ...L.NO_RULE_FILTERS, statuses: [L.HELD_STATUS] }).every((r) => r.held && !r.rule), "by status, the held rows: their status is not read");
+ok(L.filterLines(all, { ...L.NO_RULE_FILTERS, statuses: [L.HELD_STATUS] }).length === 23 && L.filterLines(all, { ...L.NO_RULE_FILTERS, statuses: [L.HELD_STATUS] }).every((r) => r.held && !r.rule), "by status, the held rows: their status is not read");
 ok(L.filterLines(all, { ...L.NO_RULE_FILTERS, find: "dominion" }).length >= 1 && L.filterLines(all, { ...L.NO_RULE_FILTERS, find: "DOMINION" }).every((r) => `${r.utility} ${r.rule?.name ?? ""}`.toLowerCase().includes("dominion")), "by a utility's or a rule's name");
 ok(L.filterLines(all, { states: ["VA"], grids: ["pjm"], statuses: ["in effect"], find: "" }).every((r) => r.grid === "pjm" && r.rule.status === "in effect"), "the filters together");
 for (const k of L.RULE_SORTS) {
   const up = L.sortLines(all, k, "asc"), down = L.sortLines(all, k, "desc");
   const empty = (r) => (k === "utility" || k === "grid" ? false : k === "state" ? !r.state : r.held || (k === "status" ? false : k === "date" ? !/^\d{4}/.test(r.rule.status_date) : r.rule.fields[k].kind !== "value"));
   const lastOk = (rows) => { const i = rows.findIndex(empty); return i === -1 || rows.slice(i).every(empty); };
-  ok(up.length === 122 && down.length === 122 && lastOk(up) && lastOk(down), `sorts on ${k}, a row with nothing printed last either way`);
+  ok(up.length === 124 && down.length === 124 && lastOk(up) && lastOk(down), `sorts on ${k}, a row with nothing printed last either way`);
 }
 ok(L.sortLines(all, "date", "desc")[0].rule.status_date >= L.sortLines(all, "date", "desc")[5].rule.status_date, "by date, latest first");
 const o = L.ruleOptions(all);
-ok(o.statuses.reduce((s, x) => s + x.n, 0) === 122 && o.grids.reduce((s, x) => s + x.n, 0) === 122 && o.states.find((x) => x.key === "TX").n === tx.length, "the filters' choices count the rules they hold");
+ok(o.statuses.reduce((s, x) => s + x.n, 0) === 124 && o.grids.reduce((s, x) => s + x.n, 0) === 124 && o.states.find((x) => x.key === "TX").n === tx.length, "the filters' choices count the rules they hold");
 
 // a row of the tab
 const oncor = L.rowRules(file, [{ number: "19327", name: "TXU Energy Retail Co, LLC" }, { number: "44372", name: "Oncor Electric Delivery Company LLC" }], "TX", "ercot");
@@ -121,7 +121,7 @@ const parse = (text) => { const rows = []; let row = [], cell = "", q = false;
   return rows; };
 const csv = L.rulesCsv(all, file, "/cost-of-power?view=allgrids");
 const body = csv.slice(csv.indexOf("\n") + 1), rows = parse(body);
-ok(csv.startsWith("# Energy Research Warehouse (ERW)") && rows[0].join() === L.RULE_CSV_COLS.join() && rows.length === 123 && rows.every((r) => r.length === L.RULE_CSV_COLS.length), "the rules' CSV: a provenance line, the columns, 122 rows of equal width");
+ok(csv.startsWith("# Energy Research Warehouse (ERW)") && rows[0].join() === L.RULE_CSV_COLS.join() && rows.length === 125 && rows.every((r) => r.length === L.RULE_CSV_COLS.length), "the rules' CSV: a provenance line, the columns, 124 rows of equal width");
 const col = (name) => L.RULE_CSV_COLS.indexOf(name);
 let same = 0;
 for (const r of file.rules) { const line = rows.find((x) => x[0] === r.id);
@@ -130,7 +130,7 @@ for (const r of file.rules) { const line = rows.find((x) => x[0] === r.id);
     if (c.kind === "withheld" && (line[col(f)] !== L.LICENSE_NEEDED || line[col(`${f}_cite`)] !== "")) { failed++; console.log(`FAIL the CSV prints a withheld field: ${r.id} ${f}`); } } }
 ok(same === kinds.value, `every value and its cite is in the CSV as the file has it (${same})`);
 const heldLines = rows.filter((x) => x[col("license")] === "internal");
-ok(heldLines.length === 22 && heldLines.every((x) => L.FIELDS.every((f) => x[col(f)] === L.LICENSE_NEEDED && x[col(`${f}_cite`)] === "") && x[col("source_url")] === "" && x[col("notes")] === "" && x[col("rule")] === L.LICENSE_NEEDED), "a held row's CSV line is its id, utility and place; every other cell license needed or empty");
+ok(heldLines.length === 23 && heldLines.every((x) => L.FIELDS.every((f) => x[col(f)] === L.LICENSE_NEEDED && x[col(`${f}_cite`)] === "") && x[col("source_url")] === "" && x[col("notes")] === "" && x[col("rule")] === L.LICENSE_NEEDED), "a held row's CSV line is its id, utility and place; every other cell license needed or empty");
 ok(L.rulesCsv(tx, file, "x").split("\n").length === tx.length + 3, "the CSV holds the rows shown");
 const ccsv = parse(L.changesCsv(file.changes, file, "x").replace(/^[^\n]*\n/, ""));
 ok(ccsv[0].join() === L.CHANGE_CSV_COLS.join() && ccsv.length === 95 && ccsv.every((r) => r.length === L.CHANGE_CSV_COLS.length) && ccsv[1][L.CHANGE_CSV_COLS.indexOf("what")] === file.changes[0].what, "the changes' CSV");

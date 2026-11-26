@@ -1,0 +1,14 @@
+query: default; marked figures drawn 535, restated 535; equal 535; differ 0
+  drawn, not restated: []
+  restated, not drawn: 0 []
+  industries' order equal: True (21 rows)
+  states' order equal: True (51 rows; first five drawn ['Texas', 'Louisiana', 'California', 'Pennsylvania', 'Indiana'])
+  label latest month words: equal (July 2026: total energy consumed by the industrial sector)
+  label whole year label: equal (Industrial sector, 2025)
+  label largest industry note: equal (Chemicals (NAICS 325), United States)
+  label industries hover: equal (Industry A is Chemicals and Industry B is Petroleum and Coal Products)
+  label states hover: equal (the two largest by the industrial sector's total consumption in 2024)
+  label file built: equal (File built 2026-11-19)
+  label outlook to: equal (EIA's outlook to 2050)
+  label decision first-two: equal (Chemicals and Petroleum and Coal Products; Texas and Louisiana in 2024)
+items: 535 figures + 2 orders + 8 labels equal; 0 not

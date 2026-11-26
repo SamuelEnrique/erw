@@ -39,6 +39,8 @@ Terms: HIFLD's layers carry "None (Public Use)" in their metadata (the verdict r
 
 Each line simplified (Douglas-Peucker) at a tolerance doubled from 0.005 degrees until the file is under 2 MB, coordinates rounded to 3 decimals, in columns (`fields`, `rows`, `names`, `paths`). On `/map`'s Projects tab, under "Lines on the map", each layer is a switch, off as the page opens; turned on, its file is read once and drawn under the marks. A line's hover gives its name (its two ends, or EIA's name), its operator, its size and unit (kV, or km where EIA gives no capacity), "State: not in the source (a line crosses states)", and its source with its table.
 
+**What the drawing does not tell apart (session 10216, the map audit of 26 November 2026, finding 4).** The pull asks for every line whose `VOLTAGE` is 230 or more, with no condition on `STATUS`, and the web file keeps `id`, `kv`, `owner`, `from`, `to` and `km` only. So a line HIFLD lists as under construction, or with a status it does not state, is drawn as a line in service, and a voltage HIFLD marks as inferred (`INFERRED`) is drawn as any other. The date in a line's hover is `retrieved_at`, the day the ERW read PASDA's copy; HIFLD's own dates (`SOURCEDATE`, `VAL_DATE`) are in `hifld_transmission_lines` line by line (`x_source_date`, `x_val_date`), with `x_status` and `x_inferred`, and not in the web file. HIFLD's open catalog was retired on 26 August 2025, so PASDA's copy may be older than the day it was read. The tip of "Lines on the map" says so; how many lines each status, flag and year holds is a data request of the audit.
+
 ## Run
 
 `python warehouse/connectors/hifld_lines.py get` (about three minutes), then `build` (about five seconds, under the data lock); `build --out-dir DIR` for a trial.

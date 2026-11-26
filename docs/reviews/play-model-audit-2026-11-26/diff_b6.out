@@ -1,0 +1,22 @@
+asked.txt: 0 only in main, 0 only in b6
+battery_easy.txt: 2 only in main, 3 only in b6
+   - no forecast, no reserve, no degradation cost.
+   - no forecast;
+   + no forecast, except that the fleet call's notice names the day's dearest hour 15 minutes before it begins;
+   + no reserve, no degradation cost.
+   + no forecast, except the same notice of the day's dearest hour;
+battery_hard.txt: 2 only in main, 3 only in b6
+   - no forecast, no reserve, no degradation cost.
+   - no forecast;
+   + no forecast, except that the fleet call's notice names the day's dearest hour 15 minutes before it begins;
+   + no reserve, no degradation cost.
+   + no forecast, except the same notice of the day's dearest hour;
+battery_normal.txt: 2 only in main, 3 only in b6
+   - no forecast, no reserve, no degradation cost.
+   - no forecast;
+   + no forecast, except that the fleet call's notice names the day's dearest hour 15 minutes before it begins;
+   + no reserve, no degradation cost.
+   + no forecast, except the same notice of the day's dearest hour;
+endtable_hard.txt: 0 only in main, 0 only in b6
+endtable_normal.txt: 0 only in main, 0 only in b6
+ev.txt: 0 only in main, 0 only in b6

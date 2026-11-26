@@ -1,0 +1,73 @@
+{
+ "held_questions": 48,
+ "by_status": [
+  [
+   "answered",
+   45
+  ],
+  [
+   "not_in_warehouse",
+   3
+  ]
+ ],
+ "held_results_by_grid": [
+  [
+   "NYISO",
+   52
+  ],
+  [
+   "ISO-NE",
+   37
+  ]
+ ],
+ "records": [
+  "session 1113|g07|answered",
+  "session 1113|g08|answered",
+  "session 1113|d05|answered",
+  "session 1113|d07|answered",
+  "session 1149, first set|g07|answered",
+  "session 1149, first set|g08|answered",
+  "session 1149, first set|d05|answered",
+  "session 1149, first set|d07|answered",
+  "session 2221, Python loop|g07|answered",
+  "session 2221, Python loop|g08|answered",
+  "session 2221, Python loop|d05|answered",
+  "session 2221, Python loop|d07|answered",
+  "session 2222, Python loop|g07|answered",
+  "session 2222, Python loop|g08|answered",
+  "session 2222, Python loop|d05|answered",
+  "session 2222, Python loop|d07|answered",
+  "session 2223, Python loop|g07|answered",
+  "session 2223, Python loop|g08|answered",
+  "session 2223, Python loop|d05|answered",
+  "session 2223, Python loop|d07|answered",
+  "session 2224, Python loop, the twenty|l08|answered",
+  "session 2948, Python loop, the board's five|k01|answered",
+  "session 2968, Python loop|g07|answered",
+  "session 2968, Python loop|g08|answered",
+  "session 2968, Python loop|d05|answered",
+  "session 2968, Python loop|d07|answered",
+  "session 2968, Python loop, the twenty|l08|answered",
+  "session 3280, Python loop, the trader's twenty|tr19|answered",
+  "session 3297, Python loop, the investor's iv14 again and iv18 to iv20|iv19|answered",
+  "session 3769, Python loop|g07|answered",
+  "session 3769, Python loop|g08|answered",
+  "session 3769, Python loop|d05|answered",
+  "session 3769, Python loop|d07|answered",
+  "session 5251, the site's loop, the platform set|pr11|answered",
+  "session 5257, the site's loop, the platform set|pr14|answered",
+  "session 5260, the site's loop, the platform set|pr11|answered",
+  "session 5260, the site's loop, the platform set|pr14|answered",
+  "session 5274, the site's loop, the platform set|pr11|not_in_warehouse",
+  "session 5275, the site's loop, the trader set|tr19|answered",
+  "session 6101, the site's loop, the platform set|pr11|not_in_warehouse",
+  "session 6102, the site's loop, the platform set|pr14|answered",
+  "session 6107, the site's loop, the platform set|pr11|answered",
+  "session 6107, the site's loop, the platform set|pr14|answered",
+  "session 6137, the site's loop, the trader set|tr19|not_in_warehouse",
+  "session 6142, the site's loop, the platform set|pr11|answered",
+  "session 6142, the site's loop, the platform set|pr14|answered",
+  "session 6192, the site's loop, the heldout set|h23|answered",
+  "session 6192, the site's loop, the heldout set|h24|answered"
+ ]
+}

@@ -12,7 +12,7 @@ Session 8003, chain 501 step D2, 19 November 2026. Builder: `warehouse/derived/i
 | `electricity_sales_monthly` | `eia_retail_sales_monthly`: Form EIA-861M, electricity sold to industrial customers by state | January 2001 to the newest month | MWh |
 | `outlook` | `eia_aeo_industrial`: the Annual Energy Outlook 2026, the industrial sub-sector tables (24 to 34), energy use by fuel, every case | the AEO's years | TBtu |
 
-Every figure is as its publisher printed it: nothing is summed across sources, filled or scaled, except the unit changes the tables' headers state (billion Btu as TBtu, million dollars as USD). A cell EIA withholds has no figure. The industries are ranked by their 2022 total fuel consumption in the United States, at the three-digit NAICS level, where MECS prints a total.
+Every figure is as its publisher printed it: nothing is summed across sources, filled or scaled, except the unit changes the tables' headers state (billion Btu as TBtu, million dollars as USD). A cell EIA prints no figure for has no figure (EIA's codes * for an estimate under 0.5 in the table's unit, D, NA and Q; the table keeps no code, so the page cannot say which). The industries are ranked by their 2022 total fuel consumption in the United States, at the three-digit NAICS level, where MECS prints a total.
 
 ## The two new tables
 
@@ -23,7 +23,7 @@ Both are public (EIA, a work of the U.S. government; record 1 of `warehouse/meta
 
 ## What the file does not say
 
-It ranks industries and states by what EIA printed. It does not explain a change, compare an industry's energy with its output, or add an industry's figures across the surveys, which measure different things (MECS counts manufacturing's fuel by plant; SEDS and the Monthly Energy Review count the whole industrial sector, agriculture, mining and construction included).
+It ranks industries and states by what EIA printed. It does not explain a change, compare an industry's energy with its output, or add an industry's figures across the surveys, which measure different things (MECS counts manufacturing's fuel by plant; SEDS and the Monthly Energy Review count the whole industrial sector, agriculture, mining and construction included). The page says so in the lead (session 10224): the sector's total also counts feedstocks and the sector's share of electrical system losses, while MECS's Table 3.2 counts only energy used as fuel, electricity at 3,412 Btu a kWh; manufacturing's 15,742 TBtu of fuel in 2022 is 50.5 percent of the Monthly Energy Review's industrial total of that year (31,168.8 TBtu) and 60.4 percent of its end use (26,075.8). The headline names its figure "by fuel".
 
 ## Build
 
@@ -38,12 +38,14 @@ The data machine's daily run calls the last after the Monthly Energy Review and 
 The page "Energy use by industry" (`/industry`, in review, in no menu) draws this file and nothing else: `site/app/industry/page.tsx`, its arithmetic in `site/lib/industry.ts`. What it shows:
 
 - **The industrial sector, month by month**: the Monthly Energy Review's eight series (Table 2.4) from a chosen year (from 2015 by default), and the newest month beside the same month a year before with the change in percent. A year's figure is the sum of its twelve months, written only when all twelve are held.
-- **Manufacturing industries ranked**: the 21 three-digit industries of the 2022 survey by total fuel consumption in a chosen Census region, largest first, with each fuel and the industry's share of the 21 industries' sum (not held in a region where EIA withholds a total). A cell EIA withholds is "not held" with EIA's reason on hover, never zero.
-- **Two industries side by side**: any of the survey's 81 industries, their fuels and the components of their electricity (Tables 11.1 and 11.3).
+- **Manufacturing industries ranked**: the 21 three-digit industries of the 2022 survey by total fuel consumption in a chosen Census region, largest first, with each fuel and the industry's share of the 21 industries' sum (not held in a region where EIA withholds a total). A cell EIA prints no figure for is "not held" with EIA's four codes on hover, never zero.
+- **Two industries side by side**: any of the survey's 81 industries, their fuels and the components of their electricity (Tables 11.1 and 11.3). Table 3.2's "Net electricity" is not an industry's electricity use: it equals purchases plus transfers in plus onsite generation from renewables other than wood and other biomass, less sales and transfers offsite, at 3,412 Btu a kWh (within 1 TBtu in all 52 industries with every part held, session 10224); electricity made onsite from fuel (cogeneration, 146,163,000 MWh in 2022) is counted in that fuel. Paper's net electricity is 51.6 percent of its net demand, Chemicals' 71.4 percent. The State Energy Data System's and Form EIA-861M's electricity is electricity sold to industrial customers, without what plants make for themselves (in the South 22.1 percent of manufacturing's net demand in 2022). The hovers say so.
 - **States, year by year**: every state and the District of Columbia by a chosen source in a chosen year, with the total, the average price and the expenditures (nominal dollars); two states side by side, by year, with the change of the total since 2019 and electricity sold to industry by month (Form EIA-861M).
 - **EIA's outlook**: any series of any of the eleven industries of the Annual Energy Outlook 2026, two cases drawn, every case in the table. They are EIA's projections, not the ERW's.
 
 Every figure carries its source on hover. The page computes only a year's twelve months summed, the shares and the percent changes it names.
+
+The states' "Average price" is the State Energy Data System's industrial total average price (TEICD): all fuels together, not a tariff and not the price of electricity. It is per a smaller quantity than the total beside it, so the expenditures are not the total times the price: in 2024 the expenditures over the price are below the total in all 52 rows (21.8 to 93.5 percent of it, the nation 63.8) and below 99 percent of the end use in 48 (Texas: $51.5 bn over $9.11 is 5,650 TBtu, against a total of 8,113 TBtu, or $6.34 per MMBtu of the total). Electricity alone, the electricity expenditures over the electricity sold at 3,412 Btu a kWh, is $57.14 a MWh in Texas in 2024 and $78.10 in the nation; the page does not show it. The hover says so (session 10224).
 
 ### Replication and cross-check
 
@@ -54,10 +56,10 @@ Every figure carries its source on hover. The page computes only a year's twelve
 | Key | Choice | Default |
 |---|---|---|
 | `as-published` | Every figure is EIA's own; the page sums only a year's twelve months and computes only the shares and changes it names | EIA's figures as published |
-| `withheld` | A cell EIA withholds is "not held" with EIA's reason on hover, never zero | "not held" with the reason |
+| `withheld` | A cell the survey prints no figure for (* an estimate under 0.5, D, NA or Q) is "not held", never zero; the file keeps no code, so the hover gives all four (session 10224) | "not held" with the four codes |
 | `whole-year` | A year's figure from a monthly series is written only when all twelve months are held | twelve months or no figure |
 | `first-two` | Industries A and B open on the two largest three-digit industries; states A and B on the two largest by total in the newest year | Chemicals and Petroleum and Coal Products; Texas and Louisiana in 2024 |
-| `ranking` | Industries by total in the chosen region, states by the chosen source and year, largest first; one with no figure stands last | largest first |
-| `cases` | The outlook opens on the Counterfactual Baseline case and the High Electricity Demand case; every case is in the table | AEO2026 names no Reference case |
+| `ranking` | Industries by total in the chosen region (the United States first), states by the chosen source and year (the total in the newest year first), largest first; one with no figure stands last | largest first |
+| `cases` | The outlook opens on Iron and steel, its total energy use, and on the Counterfactual Baseline case and the High Electricity Demand case; every case is in the table (session 10224 named the industry and series) | AEO2026 names no Reference case |
 | `from-2015` | The monthly chart opens on the months from 2015; the file holds them from January 1973 | from 2015 |
 | `nominal` | Prices and expenditures in nominal dollars, as the State Energy Data System gives them | nominal dollars |

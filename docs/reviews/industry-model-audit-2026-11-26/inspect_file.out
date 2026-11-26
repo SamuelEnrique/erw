@@ -1,0 +1,48 @@
+built 2026-11-19T12:04:44Z license public tables ['eia_mecs_manufacturing', 'eia_sector_energy_consumption_monthly', 'eia_seds_industrial_annual', 'eia_seds_state_energy', 'eia_retail_sales_monthly', 'eia_aeo_industrial']
+sources {
+ "monthly": "U.S. Energy Information Administration, Monthly Energy Review (Table 2.4)",
+ "industries": "U.S. Energy Information Administration, 2022 Manufacturing Energy Consumption Survey (Tables 3.2, 11.1, 11.3)",
+ "states": "U.S. Energy Information Administration, State Energy Data System",
+ "electricity_sales": "U.S. Energy Information Administration, Form EIA-861M",
+ "outlook": "U.S. Energy Information Administration, Annual Energy Outlook (industrial sub-sector tables)"
+}
+monthly TBtu 1973-01 2026-07 643 ['total', 'end_use_total', 'coal', 'natural_gas', 'petroleum', 'renewables', 'electricity_retail_sales', 'electrical_system_losses']
+   total 1973-01 2026-07 643 [2617.221, 2766.799, 2769.211, 2644.35, 2658.662, 2617.972, 2722.393, 2768.996, 2478.461, 2600.177, 2508.504, 2629.673, 2627.93, 2713.602]
+   end_use_total 1973-01 2026-07 643 [2171.246, 2284.336, 2307.278, 2214.196, 2249.827, 2202.132, 2287.361, 2340.288, 2122.996, 2218.047, 2140.191, 2213.177, 2192.32, 2239.905]
+   coal 1973-01 2026-07 643 [68.042, 68.694, 68.534, 67.598, 70.309, 69.478, 70.316, 67.476, 65.839, 68.284, 65.478, 67.553, 66.1, 62.746]
+   natural_gas 1973-01 2026-07 643 [851.268, 881.814, 897.583, 866.934, 896.451, 943.883, 1013.838, 1016.373, 904.036, 949.655, 905.575, 909.799, 882.629, 897.699]
+   petroleum 1973-01 2026-07 643 [755.915, 813.601, 821.1, 786.193, 785.342, 713.426, 715.174, 774.322, 707.481, 716.468, 703.386, 735.971, 744.972, 759.605]
+   renewables 1973-01 2026-07 643 [193.224, 201.473, 200.778, 191.953, 199.424, 194.859, 201.185, 197.461, 180.639, 196.526, 179.434, 198.799, 190.761, 199.479]
+   electricity_retail_sales 1973-01 2026-07 643 [307.156, 322.95, 322.57, 303.808, 300.271, 281.225, 289.702, 286.754, 268.366, 290.797, 290.035, 303.057, 311.26, 322.104]
+   electrical_system_losses 1973-01 2026-07 643 [445.975, 482.463, 461.933, 430.154, 408.835, 415.841, 435.032, 428.708, 355.465, 382.13, 368.314, 416.496, 435.61, 473.696]
+mecs 2022 TBtu (fuel), MWh (electricity components) ['us', 'northeast', 'midwest', 'south', 'west'] ['total', 'net_electricity', 'natural_gas', 'coal', 'coke_and_breeze', 'residual_fuel_oil', 'distillate_fuel_oil', 'hgl', 'hydrogen', 'other'] 81
+ranked_3_digit ['325', '324', '322', '331', '311', '327', '332', '321', '326', '336', '312', '333', '334', '335', '313', '339', '323', '337', '314', '315', '316']
+note EIA withholds or does not estimate some cells (codes *, D, NA, Q); such a cell has no figure here. Fuel consumption counts some byproduct fuels twice, as EIA's note to Table 3.2 says.
+325 Chemicals 1 {'coal': 63.0, 'coke_and_breeze': 0.0, 'distillate_fuel_oil': 8.0, 'hgl': 16.0, 'hydrogen': 94.0, 'natural_gas': 2585.0, 'net_electricity': 512.0, 'other': 698.0, 'total': 3976.0} {'elec_net_demand': 210095000.0, 'elec_onsite_generation': 60426000.0, 'elec_purchases': 164097000.0, 'elec_sales_transfers_offsite': 15770000.0, 'elec_transfers_in': 1341000.0, 'gen_cogeneration': 59772000.0, 'gen_other': 395000.0, 'gen_renewable': 259000.0}
+324 Petroleum and Coal Products 2 {'coal': 7.0, 'coke_and_breeze': 7.0, 'distillate_fuel_oil': 7.0, 'hgl': 29.0, 'hydrogen': 100.0, 'natural_gas': 1109.0, 'net_electricity': 160.0, 'other': 2123.0, 'residual_fuel_oil': 2.0, 'total': 3543.0} {'elec_net_demand': 69531000.0, 'elec_onsite_generation': 23016000.0, 'elec_purchases': 50583000.0, 'elec_sales_transfers_offsite': 6640000.0, 'elec_transfers_in': 2572000.0, 'gen_cogeneration': 22239000.0, 'gen_other': 537000.0, 'gen_renewable': 240000.0}
+322 Paper 3 {'coal': 32.0, 'coke_and_breeze': 0.0, 'distillate_fuel_oil': 4.0, 'hgl': 3.0, 'natural_gas': 617.0, 'net_electricity': 170.0, 'other': 1170.0, 'residual_fuel_oil': 8.0, 'total': 2003.0} {'elec_net_demand': 96642000.0, 'elec_onsite_generation': 47281000.0, 'elec_purchases': 54384000.0, 'elec_sales_transfers_offsite': 5027000.0, 'elec_transfers_in': 4000.0, 'gen_cogeneration': 45831000.0, 'gen_other': 1099000.0, 'gen_renewable': 350000.0}
+331 Primary Metals 4 {'coal': 9.0, 'coke_and_breeze': 284.0, 'distillate_fuel_oil': 8.0, 'hgl': 4.0, 'hydrogen': 2.0, 'natural_gas': 626.0, 'net_electricity': 339.0, 'other': 174.0, 'residual_fuel_oil': 2.0, 'total': 1449.0} {'elec_net_demand': 104372000.0, 'elec_onsite_generation': 4920000.0, 'elec_purchases': 99753000.0, 'elec_sales_transfers_offsite': 302000.0, 'gen_cogeneration': 4891000.0, 'gen_other': 11000.0, 'gen_renewable': 17000.0}
+seds TBtu; USD; USD/MMBtu 1990 2024 35 52 ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'US', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY']
+US keys ['coal', 'distillate_fuel_oil', 'hgl', 'electrical_system_losses', 'petroleum', 'petroleum_coke', 'renewables', 'residual_fuel_oil', 'total', 'end_use_total', 'wood_and_waste', 'electricity', 'natural_gas'] ['coal', 'electricity', 'natural_gas', 'petroleum', 'total']
+US total last 6 [31720.862, 30295.267, 31376.391, 31147.159, 31020.145, 31356.63] price [9.9, 8.71, 11.56, 14.53, 12.14, 11.53]
+TX {'coal': [6.34, 4.647, 3.589], 'distillate_fuel_oil': [177.887, 173.62, 168.483], 'hgl': [2266.465, 2461.168, 2750.975], 'electrical_system_losses': [659.858, 702.624, 758.933], 'petroleum': [3598.715, 3780.276, 4050.462], 'petroleum_coke': [154.872, 148.275, 151.615], 'renewables': [107.486, 100.96, 89.218], 'residual_fuel_oil': [15.047, 12.49, 13.521], 'total': [7336.369, 7672.8, 8113.456], 'end_use_total': [6676.511, 6970.176, 7354.523], 'wood_and_waste': [87.177, 80.678, 67.471], 'electricity': [491.007, 539.946, 600.973], 'natural_gas': [2476.744, 2550.695, 2617.228]}
+LA {'coal': [4.977, 4.168, 4.098], 'distillate_fuel_oil': [28.348, 27.668, 26.85], 'hgl': [594.94, 595.802, 602.506], 'electrical_system_losses': [197.302, 178.316, 184.307], 'petroleum': [1169.376, 1158.001, 1185.034], 'petroleum_coke': [70.773, 72.653, 69.276], 'renewables': [115.304, 115.466, 118.349], 'residual_fuel_oil': [3.758, 3.12, 3.377], 'total': [2982.767, 2955.587, 2997.206], 'end_use_total': [2785.465, 2777.271, 2812.899], 'wood_and_waste': [114.962, 115.136, 118.053], 'electricity': [136.971, 136.051, 138.937], 'natural_gas': [1359.137, 1365.355, 1368.208]}
+sales MWh 2001-01 2026-08 308 62
+  TX last 14 [16992556.1, 17037730.7, 16160440.0, 16185611.3, 15112659.2, 15653802.6, 14049964.8, 12786410.9, 13697035.2, 14125269.9, 14833601.4, 15025734.2, 15220428.9, 14869624.7]
+outlook TBtu 2026 True 2025 2050 26 history []
+cases {'altelec': 'Alternative Electricity', 'alttrnp': 'Alternative Transportation', 'cb2026': 'Counterfactual Baseline case', 'electrnp': 'Alternative Electricity and Transportation', 'highZTC': 'High Zero-Carbon Technology Cost', 'higheldmd': 'High Electricity Demand', 'highogs': 'High Oil and Gas Supply', 'hm2026': 'High Economic Growth', 'lm2026': 'Low Economic Growth', 'lowZTC': 'Low Zero-Carbon Technology Cost', 'lowogs': 'Low Oil and Gas Supply'}
+industries ['aluminum', 'bulk_chemicals', 'cement_and_lime', 'food', 'glass', 'iron_and_steel', 'metal_based_durables', 'nonmanufacturing', 'other_manufacturing', 'paper', 'refining']
+    Iron and Steel : Energy Use : Coal Subtotal
+    Iron and Steel : Energy Use : Distillate Fuel Oil
+    Iron and Steel : Energy Use : Hydrogen
+    Iron and Steel : Energy Use : Metallurgical Coal
+    Iron and Steel : Energy Use : Natural Gas
+    Iron and Steel : Energy Use : Net Coke Imports
+    Iron and Steel : Energy Use : Other Petroleum
+    Iron and Steel : Energy Use : Petroleum Subtotal
+    Iron and Steel : Energy Use : Propane
+    Iron and Steel : Energy Use : Purchased Electricity
+    Iron and Steel : Energy Use : Renewables
+    Iron and Steel : Energy Use : Residual Fuel Oil
+    Iron and Steel : Energy Use : Steam Coal
+    Iron and Steel : Energy Use : Total

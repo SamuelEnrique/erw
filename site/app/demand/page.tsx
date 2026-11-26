@@ -83,13 +83,13 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
     <div data-view-body="metered">
       <p className="mb-8 text-sm" data-weather="1">
         <Hint words="Weather is not removed." why={`A year's demand is what was metered that year, hot summer and cold snap included. A grid whose ${file.last_year} was mild shows less growth than its customers added, and a single heat wave can set a peak. These are differences between years, not a trend line.`} />
-        {" "}<SiteLink href={viewHref("weather")}>The same growth with the weather taken out</SiteLink> is the second view.{" "}
+        {" "}<SiteLink href={viewHref("weather")}>Growth with the weather taken out</SiteLink> is the second view; it is measured against the mean of {FIT_YEARS.from} to {FIT_YEARS.to}, not against {file.base} alone, so its growth is not this view&apos;s figure.{" "}
         <span data-against-sales="1"><Hint words="Demand at the grid is not retail sales." why={AGAINST_SALES} />{" "}<SiteLink href={viewHref("consumption")}>Retail sales by state and sector</SiteLink> are the third.</span>
         {ba === "CISO" && CA_2019 ? <>{" "}<span data-ca-base="1"><Hint words="California's base year is low in its early months." why={caBaseWhy(CA_2019, faults.status_words)} />{" "}<SiteLink href={`/data/faults#${CA_2019.id}`}>The register&apos;s entry</SiteLink>.</span></> : null}
       </p>
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
-          <InputPanel title="Choose" reset={{ href: "/demand", defaults: "ERCOT, ranked by the growth of average demand since 2019." }} note={<>Whole years {first.year} to {last.year}. <Hint words="The year so far" why={`The year so far is January to ${through} of each year, so ${Number(last.year) + 1} is compared with the same months of ${file.base}.`} /></>}>
+          <InputPanel title="Choose" reset={{ href: "/demand", defaults: "ERCOT, ranked by the growth of average demand since 2019." }} note={<>Whole years {first.year} to {last.year}. <Hint words="The year so far" why={`The year so far is January to ${through} of each year, so ${Number(last.year) + 1} is compared with the same months of ${file.base}. EIA goes on revising its newest hours for some weeks, the Lower 48's total most, so the newest month of the year so far can move at the next build (this copy was built ${file.built.slice(0, 10)}).`} /></>}>
             <nav aria-label="Area" className="mb-4 text-sm">
               <div className="mb-1 text-xs uppercase tracking-wide text-muted">Grid</div>
               {file.order.map((b) => <div key={b}><Link href={href(slugOf(b), rank.slug)} aria-current={b === ba ? "true" : undefined} className={item(b === ba)}>{file.areas[b].name}</Link></div>)}
@@ -106,7 +106,7 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
             From {first.year} to {last.year}, {area.name}&apos;s average demand went from <N k="sum|avg0">{whole(first.row.avg_demand_mw)}</N> MW to <N k="sum|avg1">{whole(last.row.avg_demand_mw)}</N> MW, a change of <N k="sum|avg_growth">{signed(last.row.avg_demand_growth_since_2019_pct)}</N> percent
             {last.row.peak_demand_mw !== undefined ? <>, and its highest hour from <N k="sum|peak0">{whole(first.row.peak_demand_mw)}</N> MW to <N k="sum|peak1">{whole(last.row.peak_demand_mw)}</N> MW (<N k="sum|peak_growth">{signed(last.row.peak_demand_growth_since_2019_pct)}</N> percent)</> : null}.{" "}
             {ytd ? <>January to {through} of {ytd.year} ran <N k="sum|ytd_growth">{signed(ytd.row.ytd_avg_demand_growth_since_2019_pct)}</N> percent against the same months of {file.base}.</> : null}{" "}
-            {ex ? <>The growth is largest in {monthName(ex.most.month)} at {hourName(ex.most.hour)} (<N k="sum|cell_most">{signed(ex.most.pct)}</N> percent).</> : null} Weather is not removed.
+            {ex ? <>Of the cells of month and hour, the one that grew most is {monthName(ex.most.month)} at {hourName(ex.most.hour)} (<N k="sum|cell_most">{signed(ex.most.pct)}</N> percent), one month of {file.last_year} against the same month of {file.base}: a cold or hot month can make it, and the cell that grows most moves from year to year.</> : null} Weather is not removed.
           </p>
           <HeadlineRow>
             <HeadlineNumber label={`Average demand, ${first.year} to ${last.year}`} value={<N k="head|avg_growth">{signed(last.row.avg_demand_growth_since_2019_pct)}</N>} unit="percent"
@@ -121,7 +121,7 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
 
           <ToolSection title="Year by year"
             note={<>Hours left out for {area.name}: <N k="screen|jumps">{whole(area.screened.jumps)}</N> that stand apart from their neighbours, <N k="screen|zero">{whole(area.screened.not_positive)}</N> at or below zero, <N k="screen|blank">{whole(area.screened.blank)}</N> blank.{" "}
-              <Hint words="Which hours are used" why={`From EIA-930's hourly demand. An hour is used when its demand is above zero and within ${Math.round(file.jump * 100)} percent of the median of the four hours around it: EIA's file holds faulty hours, and a faulty high hour would otherwise be a year's peak. A year is written when at least ${Math.round(file.near_year * 100)} percent of its hours are used; its average is the mean of those hours. Nothing is filled.`} />{" "}
+              <Hint words="Which hours are used" why={`From EIA-930's hourly demand. An hour is used when its demand is above zero and within ${Math.round(file.jump * 100)} percent of the median of the four hours around it: EIA's file holds faulty hours, and a faulty high hour would otherwise be a year's peak. A year is written when at least ${Math.round(file.near_year * 100)} percent of its hours are used; its average is the mean of those hours. Nothing is filled here. A grid operator's hours are EIA's Adjusted demand, which already holds EIA's own estimate for an hour the operator reported nothing for or reported implausibly, and such an hour is used as a reported one: MISO's highest hour of 2025 (24 July 2025, a day MISO reported nothing) is EIA's estimate.`} />{" "}
               <Hint words="The last row" why={`The last row compares January to ${through} of ${ytd?.year ?? "the newest year"} with January to ${through} of ${file.base}: its growth is against those months, not against the whole of ${file.base}.`} /></>}>
             <ChartFrame title={`${area.name}: demand, MW`} legend={[{ label: "Average over the year", color: "var(--color-accent)" }, ...(last.row.peak_demand_mw !== undefined ? [{ label: "The year's highest hour", color: "var(--color-ink)" }] : [])]}>
               <Hover><YearsChart area={area} /></Hover>

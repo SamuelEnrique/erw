@@ -102,8 +102,10 @@ export const PROBLEM_DECISIONS: ProblemDecision[] = [
     source: "site/data/regions/authority/tva.json, erco.json and ciso.json (EIA-860M, Form EIA-930, ba_trade_partners, large_load_public); docs/methods/authority_facts.md.", session: "session 8905" },
 ];
 
-export function ProblemDecisions({ slug }: { slug?: string }) {
-  const list = slug ? PROBLEM_DECISIONS.filter((d) => d.sets.includes(slug)) : PROBLEM_DECISIONS;
+export function ProblemDecisions({ slug, waiting }: { slug?: string; waiting?: ProblemDecision[] }) {
+  // session 10404 (chain 720, part E): a waiting set's page draws its own choices, handed in by the page (`waiting`);
+  // the index draws the list above alone, so it names no choice of a set it does not list
+  const list = slug ? [...PROBLEM_DECISIONS, ...(waiting ?? [])].filter((d) => d.sets.includes(slug)) : PROBLEM_DECISIONS;
   return (
     <details className="mt-10 border-t border-rule pt-3 text-sm" data-decisions={slug ?? "problem-sets"}>
       <summary className="cursor-pointer py-1 text-accent">Decisions on this page ({list.length}): each choice that moves a figure or an answer, with its default and its source</summary>

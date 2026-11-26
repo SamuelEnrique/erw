@@ -1,8 +1,8 @@
 {
  "about": "Payroll per job by state, 2023, for a datacenter's earnings in /impact: operations from NAICS 518210, construction from NAICS 2362 and 238 together. In 2023 dollars; the tool puts them in 2025 dollars by deflator.json. NAICS 518210 is wider than datacenters (JLARC, Data Centers in Virginia 2024, Appendix D: only 15 percent of Virginia's 518210 employment was datacenter employment in 2016), a proxy said on the page. The Bureau infuses noise into employment and payroll (the noise flags kept).",
- "source": "U.S. Census Bureau, County Business Patterns 2023, state file cbp23st.zip (construction) and the warehouse table census_cbp_hosting_annual (518210), with the Bureau's state codes (state.txt)",
+ "source": "U.S. Census Bureau, County Business Patterns 2023, from the warehouse tables census_cbp_construction_annual (NAICS 2362 and 238) and census_cbp_hosting_annual (518210)",
  "source_url": "https://www2.census.gov/programs-surveys/cbp/datasets/2023/cbp23st.zip",
- "read": "2026-11-26, chain 740 session 10801 (runs/c740/probe/probe.csv requests 129 and 130 on lab-desktop)",
+ "read": "2026-11-26, chain 740 session 10817, from the tables as window A wrote them (census_cbp_construction_annual retrieved 20261126T114852Z)",
  "license": "may be public (the Census Bureau, license_verdicts.csv; its name is not to imply endorsement). Cite the U.S. Census Bureau, County Business Patterns.",
  "year": 2023,
  "written_by": "warehouse/forecast/datacenter_wages.py",

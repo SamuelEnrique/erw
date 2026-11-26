@@ -1,0 +1,16 @@
+default view: 200 of 212 distinct keyed figures equal the restatement from the queue tables held here
+  differs: ('series|iso_queue_statistics|caiso:queue_2019|positions_withdrawn|2019-01-01T00:00:00Z', '100', '99')
+  differs: ('series|iso_queue_statistics|caiso:queue_2019|positions_waiting|2019-01-01T00:00:00Z', '30', '31')
+  differs: ('series|iso_queue_statistics|caiso:queue_2019|withdrawal_rate|2019-01-01T00:00:00Z', '0.72', '0.71')
+  differs: ('series_hdr|iso_queue_statistics|iso:caiso|Positions with no queue date|CAISO', '0', 'a header count, checked apart below')
+  differs: ('series|iso_queue_statistics|ercot:queue_2023|positions_entered|2023-01-01T00:00:00Z', '301', '306')
+  differs: ('series|iso_queue_statistics|ercot:queue_2023|positions_operating|2023-01-01T00:00:00Z', '118', '117')
+  differs: ('series|iso_queue_statistics|ercot:queue_2023|positions_waiting|2023-01-01T00:00:00Z', '183', '189')
+  differs: ('series|iso_queue_statistics|ercot:queue_2023|wait_years_median|2023-01-01T00:00:00Z', '2.33', '2.30')
+  differs: ('series|iso_queue_statistics|spp:queue_2023|positions_operating|2023-01-01T00:00:00Z', '8', '7')
+  differs: ('series|iso_queue_statistics|spp:queue_2023|positions_waiting|2023-01-01T00:00:00Z', '86', '87')
+  differs: ('series|iso_queue_statistics|spp:queue_2023|wait_years_median|2023-01-01T00:00:00Z', '2.22', '2.14')
+  differs: ('series|iso_queue_statistics|spp:queue_2023|wait_positions|2023-01-01T00:00:00Z', '7', '6')
+CAISO 2023: {'entered': 4, 'operating': 0, 'withdrawn': 4, 'waiting': 0, 'status_not_stated': 0} ; 2022: {'entered': 2, 'operating': 0, 'withdrawn': 2, 'waiting': 0, 'status_not_stated': 0}
+CAISO entry years held: 1999 to 2023
+CAISO positions with no queue date: 0

@@ -1,0 +1,34 @@
+asked.txt: 0 only in main, 0 only in b1
+battery_easy.txt: 3 only in main, 6 only in b1
+   - Posting one stores the level, your nickname if you give one, your score, the perfect-foresight score and the time;
+   - Each finished game also stores its moves (one per fifteen minutes) and its score with a random id, for later research on how people run batteries:
+   - never shown, with no nickname or IP address, and nothing that joins it to a leaderboard row.
+   + Posting one stores the level, your nickname if you give one, your score, the perfect-foresight score, the mode and battery settings it was played under, and the time;
+   + Each finished game also stores, with a random id, its moves (one per fifteen minutes), its score, the level, the mode and battery settings and the time, for later research on how people run batteries:
+   + never shown, with no nickname or IP address.
+   + If you also post the score, the two records share the level, the score, the settings and a time seconds apart, so they could be matched to each other;
+   + no column joins them.
+   + As on the site's other pages, the page view and the fact that a setting was changed (never its value) are counted for the day under a code that changes every day, and the limit of 30 game requests an hour is counted under a daily code made from your address, never the address itself.
+battery_hard.txt: 3 only in main, 6 only in b1
+   - Posting one stores the level, your nickname if you give one, your score, the perfect-foresight score and the time;
+   - Each finished game also stores its moves (one per fifteen minutes) and its score with a random id, for later research on how people run batteries:
+   - never shown, with no nickname or IP address, and nothing that joins it to a leaderboard row.
+   + Posting one stores the level, your nickname if you give one, your score, the perfect-foresight score, the mode and battery settings it was played under, and the time;
+   + Each finished game also stores, with a random id, its moves (one per fifteen minutes), its score, the level, the mode and battery settings and the time, for later research on how people run batteries:
+   + never shown, with no nickname or IP address.
+   + If you also post the score, the two records share the level, the score, the settings and a time seconds apart, so they could be matched to each other;
+   + no column joins them.
+   + As on the site's other pages, the page view and the fact that a setting was changed (never its value) are counted for the day under a code that changes every day, and the limit of 30 game requests an hour is counted under a daily code made from your address, never the address itself.
+battery_normal.txt: 3 only in main, 6 only in b1
+   - Posting one stores the level, your nickname if you give one, your score, the perfect-foresight score and the time;
+   - Each finished game also stores its moves (one per fifteen minutes) and its score with a random id, for later research on how people run batteries:
+   - never shown, with no nickname or IP address, and nothing that joins it to a leaderboard row.
+   + Posting one stores the level, your nickname if you give one, your score, the perfect-foresight score, the mode and battery settings it was played under, and the time;
+   + Each finished game also stores, with a random id, its moves (one per fifteen minutes), its score, the level, the mode and battery settings and the time, for later research on how people run batteries:
+   + never shown, with no nickname or IP address.
+   + If you also post the score, the two records share the level, the score, the settings and a time seconds apart, so they could be matched to each other;
+   + no column joins them.
+   + As on the site's other pages, the page view and the fact that a setting was changed (never its value) are counted for the day under a code that changes every day, and the limit of 30 game requests an hour is counted under a daily code made from your address, never the address itself.
+endtable_hard.txt: 0 only in main, 0 only in b1
+endtable_normal.txt: 0 only in main, 0 only in b1
+ev.txt: 0 only in main, 0 only in b1

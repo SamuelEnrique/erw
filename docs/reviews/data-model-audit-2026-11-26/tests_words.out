@@ -1,0 +1,3 @@
+=========================== short test summary info ===========================
+FAILED tests/test_session148.py::TheNodeTests::test_the_sessions_own_tests_pass_with_no_request_and_no_switch_set
+1 failed, 386 passed, 14 skipped, 382 subtests passed in 41.91s

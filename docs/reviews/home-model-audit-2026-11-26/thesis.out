@@ -1,0 +1,72 @@
+THE GATE: 100 of 100 inputs give the same verdict and reason as the site's gate
+  'geothermal': refuse (few_words); with no model: refused by table, 4 chips
+  'oil & gas': refuse (sector_only); with no model: refused by table, 4 chips
+  'oil & gas demand': refuse (sector_only); with no model: refused by table, 4 chips
+  'energy trends': refuse (sector_only); with no model: refused by rules, 5 chips
+  'batteries': refuse (few_words); with no model: refused by table, 4 chips
+  'AI for energy': refuse (sector_only); with no model: refused by table, 4 chips
+  'for data centers': refuse (few_words); with no model: refused by table, 4 chips
+  'storage for data centers': pass (customer); with no model: run by rules, 0 chips
+  'Geothermal mapping and sensing': pass (curated); with no model: run by rules, 0 chips
+  'Methane leak detection for oil and gas operators': pass (curated); with no model: run by rules, 0 chips
+  'Long-duration storage for data centers': pass (curated); with no model: run by rules, 0 chips
+  'AI software that maps hidden geothermal resources': pass (curated); with no model: run by rules, 0 chips
+  'solar panel recycling': pass (sells); with no model: run by rules, 0 chips
+  'hydrogen': refuse (few_words); with no model: refused by table, 4 chips
+  'green hydrogen production': refuse (sector_only); with no model: refused by table, 4 chips
+  'nuclear fusion startups': refuse (sector_only); with no model: refused by table, 4 chips
+  'grid-scale battery storage software for merchant operators': pass (sells); with no model: run by rules, 0 chips
+  'carbon capture': pass (sells); with no model: run by rules, 0 chips
+  'carbon capture for cement plants': pass (sells); with no model: run by rules, 0 chips
+  'EV charging': pass (sells); with no model: run by rules, 0 chips
+  'heat pumps for homeowners': pass (sells); with no model: run by rules, 0 chips
+  'transmission': refuse (few_words); with no model: refused by table, 4 chips
+  'small modular reactors': pass (sells); with no model: run by rules, 0 chips
+  'data center power demand': refuse (sector_only); with no model: refused by table, 4 chips
+  'wind turbine blade recycling': pass (curated); with no model: run by rules, 0 chips
+  'perovskite solar cells': pass (sells); with no model: run by rules, 0 chips
+  'virtual power plants': unsure (open); with no model: run by rules, 0 chips
+  'lithium extraction from brine': pass (sells); with no model: run by rules, 0 chips
+  'critical minerals': unsure (open); with no model: run by rules, 0 chips
+  'LNG export terminals': unsure (open); with no model: run by rules, 0 chips
+  'geothermal energy in Texas': refuse (sector_only); with no model: refused by table, 4 chips
+  'residential solar financing': pass (sells); with no model: run by rules, 0 chips
+  'offshore wind': refuse (sector_only); with no model: refused by table, 4 chips
+  'AI data center cooling': pass (sells); with no model: run by rules, 0 chips
+  'grid interconnection queue software': pass (sells); with no model: run by rules, 0 chips
+  'Electrolyzer stack manufacturing': pass (curated); with no model: run by rules, 0 chips
+  'demand response': unsure (open); with no model: run by rules, 0 chips
+  'community solar for renters': pass (customer); with no model: run by rules, 0 chips
+  'coal plant repurposing': pass (sells); with no model: run by rules, 0 chips
+  'flow batteries': unsure (open); with no model: run by rules, 0 chips
+  curated niches (the table's chips, the defaults, the examples): 60, of which pass: 60
+  typed inputs no rule speaks for (the model would be asked; with no model they run): 5: ['virtual power plants', 'critical minerals', 'LNG export terminals', 'demand response', 'flow batteries']
+
+THE SAVED RUNS (version 1, 6 October 2026)
+geothermal-mapping-and-sensing_20261006T192107Z-c34eaf.json: cost USD 1.4197 (over today's USD 1.00 a run), 11 calls, 32 searches
+  funnel restated [40, 22, 15, 3, 1]; the report's [40, 22, 15, 3, 1]; equal
+  landscape 3 (restated 3); pipeline 1 = min(10, 1 tied with confidence >= 60): True; tied but under 60 said 'too low': True (2)
+  texts printed with '(not confirmed: ...)': 9, carrying 13 numbers no cited source holds, e.g. ['135, 6', '1416.9, 2632.3', '3849.2, 135, 135000']
+geothermal-mapping-and-sensing_20261006T193007Z-8fea8a.json: cost USD 0.8908 (under today's USD 1.00 a run), 3 calls, 22 searches
+  funnel restated [27, 19, 15, 8, 5]; the report's [27, 19, 15, 8, 5]; equal
+  landscape 8 (restated 8); pipeline 5 = min(10, 5 tied with confidence >= 60): True; tied but under 60 said 'too low': True (3)
+  texts printed with '(not confirmed: ...)': 10, carrying 18 numbers no cited source holds, e.g. ['135', '2024, 5, 6', '2026, 2, 25, 14.2']
+geothermal-mapping-and-sensing_20261006T193517Z-50a8be.json: cost USD 0.7163 (under today's USD 1.00 a run), 2 calls, 22 searches
+  funnel restated [32, 25, 17, 12, 7]; the report's [32, 25, 17, 12, 7]; equal
+  landscape 12 (restated 12); pipeline 7 = min(10, 7 tied with confidence >= 60): True; tied but under 60 said 'too low': True (5)
+  texts printed with '(not confirmed: ...)': 7, carrying 13 numbers no cited source holds, e.g. ['135', '2024, 5, 6', '2026, 2, 25, 14.2']
+geothermal-mapping-and-sensing_20261006T193817Z-934443.json: cost USD 0.7223 (under today's USD 1.00 a run), 2 calls, 22 searches
+  funnel restated [24, 17, 14, 9, 6]; the report's [24, 17, 14, 9, 6]; equal
+  landscape 9 (restated 9); pipeline 6 = min(10, 6 tied with confidence >= 60): True; tied but under 60 said 'too low': True (3)
+  texts printed with '(not confirmed: ...)': 10, carrying 19 numbers no cited source holds, e.g. ['135', '2024, 5, 6', '2026, 2, 25, 14.2']
+grid-scale-battery-storage-software-for-merchant-o_20261006T: cost USD 1.1396 (over today's USD 1.00 a run), 9 calls, 26 searches
+  funnel restated [26, 18, 18, 5, 2]; the report's [26, 18, 18, 5, 2]; equal
+  landscape 5 (restated 5); pipeline 2 = min(10, 2 tied with confidence >= 60): True; tied but under 60 said 'too low': True (3)
+  texts printed with '(not confirmed: ...)': 13, carrying 17 numbers no cited source holds, e.g. ['2', '2', '148.0, 180.0']
+all five runs: 49 texts print 80 numbers beside '(not confirmed: ...)'
+
+THE SPENDING GUARD (read from the code)
+a run: USD 1.00; a UTC day: USD 8.00 (counted from thesis_runs.usd); runs a day: 6 (the database counts); 6 runs x 1.00 = 6.00
+the market run's stage reserves: {'market research': 0.45, 'market structure': 0.12, 'market structure rest': 0.12, 'series pick': 0.06, 'market write': 0.12, 'policy pick': 0.04}; sum 0.91: a run starts only when that much is left under its ceiling
+the gate's model call: 40 calls an hour on one server instance, 400 output tokens at most, no retry, 8 s
+  a stage that costs more than its reserve is kept (Careful.charge logs and does not stop): the ceiling stops the next stage, not the call

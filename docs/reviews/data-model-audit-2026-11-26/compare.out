@@ -1,0 +1,21 @@
+rows_drawn: 111
+keys_compared: 1332
+gaps_by_column: {"6": 32}
+gaps_not_held_row_count: []
+held_row_counts_drawn: 32
+held_row_counts_drawn_sum: 1112934
+download_cells: {"Held: license needed": 32, "Download CSV": 46, "Redivis": 33}
+tools_cells: {"Not public ": 36, "Python, Stata, R ": 75}
+aside: "Coverage 111 public tables"
+aside_matches_restated: true
+methods_listed_drawn: 612
+licenses_held_sentence: "Held: license needed 49 tables are held from October 21, 2026"
+licenses_held_matches: true
+licenses_publisher_rows_missing: []
+licenses_both: ["119", 119]
+licenses_today_only: ["10", 10]
+faults_summary_drawn: "30 faults are recorded, touching 29 tables: 1 worked around, 3 corrected, 10 screened, 16 held as published . 23 carry a note"
+faults_summary_matches: true
+faults_resolution_drawn: "8 held for approval, 11 open, 11 fixed "
+faults_register_date_drawn: "The register as of 2026-11-16"
+faults_articles_drawn: 30

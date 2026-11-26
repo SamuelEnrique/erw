@@ -1,0 +1,86 @@
+marked figures equal: True 188 188
+country figures equal: True 1387 1387
+visible text equal: False
+  text delete: 'held yet not held yet Day-ahead energy cleared NYISO licensed source needed Day-ahead en' -> 'held yet not held yet Day-ahead energy cleared NYISO license needed Day-ahead en'
+  text delete: 'icensed source needed Day-ahead energy cleared ISO-NE licensed source needed Day-ahead e' -> ' NYISO license needed Day-ahead energy cleared ISO-NE license needed Day-ahead e'
+titles: 2668 2678 changed: 2596
+  BEFORE: The latest less the value one step before: a week for a weekly series, a month for a monthly one
+  AFTER:  East, Midwest, Mountain, Pacific and South Central are the five storage regions of EIA's Weekly Natural Gas Storage Report, each a group of states. They are not the electricity regions of the section "The whole country" below, which are EIA's groups of balancing authorities: the Midwest there has other borders
+  BEFORE: The value 52 weeks before for a weekly series (364 days, the same weekday, or the nearest within 3 days), as EIA's storage report sets a week beside the same week a year before; the same month a year before for a monthly
+  AFTER:  The latest less the value one step before: a week for a weekly series, a month for a monthly one
+  BEFORE: The period's change less the five-year average change of the same period
+  AFTER:  The value 52 weeks before for a weekly series (364 days, the same weekday, or the nearest within 3 days), as EIA's storage report sets a week beside the same week a year before; the same month a year before for a monthly series. The price board's Year takes the newest value at least 365 days before, so for a weekly series its base can be a week older: the date of each base is on hover in both
+  BEFORE: The last 52 values held: 52 weeks for a weekly series, 52 months (over four years) for a monthly one. A week or month not held is left out and the line closes over it, so a line can span more than 52 steps; each point's 
+  AFTER:  The mean of the values 52, 104, 156, 208 and 260 weeks before (for a monthly series, the same month of the five years before), with their lowest and highest on hover; given only when all five are held. It stands for normal at this point of the year only for a series with a season and no trend. For production, which has grown, and for positioning, it measures the five years' trend, not the season; and where a series changed its level within the five years (New York's and SPP's oil burned for power fell to near zero from 2023), it stands for a level the series no longer has. Read the year before
+  BEFORE: Source: EIA, Weekly Natural Gas Storage Report (eia_gas_storage_weekly). Open its seasonal chart.
+  AFTER:  The period's change less the five-year average change of the same period
+  BEFORE: billion cubic feet
+  AFTER:  The last 52 values held: 52 weeks for a weekly series, 52 months (over four years) for a monthly one. A week or month not held is left out and the line closes over it, so a line can span more than 52 steps; each point's date is on hover
+  BEFORE: a weekly series: the date its week ends
+  AFTER:  Source: EIA, Weekly Natural Gas Storage Report (eia_gas_storage_weekly). Open its seasonal chart.
+  BEFORE: against 3,801 Bcf, the week before (30 Oct 2026)
+  AFTER:  billion cubic feet
+  BEFORE: against 3,950 Bcf, a year before (7 Nov 2025)
+  AFTER:  a weekly series: the date its week ends
+  BEFORE: the five years before ran from 3,644 to 3,972 Bcf at this point of the year
+  AFTER:  against 3,801 Bcf, the week before (30 Oct 2026)
+  BEFORE: the five-year average
+  AFTER:  against 3,950 Bcf, a year before (7 Nov 2025)
+  BEFORE: this week's change +61 Bcf; the five-year average change of the same week +47; the five years' changes ran from +26 to +64
+  AFTER:  the five years before ran from 3,644 to 3,972 Bcf at this point of the year
+  BEFORE: Source: EIA, Weekly Natural Gas Storage Report (eia_gas_storage_weekly). Open its seasonal chart.
+  AFTER:  the five-year average
+  BEFORE: billion cubic feet
+  AFTER:  this week's change +61 Bcf; the five-year average change of the same week +47; the five years' changes ran from +26 to +64
+  BEFORE: a weekly series: the date its week ends
+  AFTER:  Source: EIA, Weekly Natural Gas Storage Report (eia_gas_storage_weekly). Open its seasonal chart.
+  BEFORE: against 926.0 Bcf, the week before (30 Oct 2026)
+  AFTER:  billion cubic feet
+  BEFORE: against 914.0 Bcf, a year before (7 Nov 2025)
+  AFTER:  a weekly series: the date its week ends
+  BEFORE: the five years before ran from 882.0 to 943.0 Bcf at this point of the year
+  AFTER:  against 926.0 Bcf, the week before (30 Oct 2026)
+  BEFORE: the five-year average
+  AFTER:  against 914.0 Bcf, a year before (7 Nov 2025)
+  BEFORE: this week's change +12.0 Bcf; the five-year average change of the same week +8.2; the five years' changes ran from +3.0 to +17.0
+  AFTER:  the five years before ran from 882.0 to 943.0 Bcf at this point of the year
+  BEFORE: Source: EIA, Weekly Natural Gas Storage Report (eia_gas_storage_weekly). Open its seasonal chart.
+  AFTER:  the five-year average
+  BEFORE: billion cubic feet
+  AFTER:  this week's change +12.0 Bcf; the five-year average change of the same week +8.2; the five years' changes ran from +3.0 to +17.0
+  BEFORE: a weekly series: the date its week ends
+  AFTER:  Source: EIA, Weekly Natural Gas Storage Report (eia_gas_storage_weekly). Open its seasonal chart.
+  BEFORE: against 1,111 Bcf, the week before (30 Oct 2026)
+  AFTER:  billion cubic feet
+  BEFORE: against 1,117 Bcf, a year before (7 Nov 2025)
+  AFTER:  a weekly series: the date its week ends
+  BEFORE: the five years before ran from 1,079 to 1,141 Bcf at this point of the year
+  AFTER:  against 1,111 Bcf, the week before (30 Oct 2026)
+  BEFORE: the five-year average
+  AFTER:  against 1,117 Bcf, a year before (7 Nov 2025)
+  BEFORE: this week's change +18 Bcf; the five-year average change of the same week +11; the five years' changes ran from +4 to +16
+  AFTER:  the five years before ran from 1,079 to 1,141 Bcf at this point of the year
+  BEFORE: Source: EIA, Weekly Natural Gas Storage Report (eia_gas_storage_weekly). Open its seasonal chart.
+  AFTER:  the five-year average
+  BEFORE: billion cubic feet
+  AFTER:  this week's change +18 Bcf; the five-year average change of the same week +11; the five years' changes ran from +4 to +16
+  BEFORE: a weekly series: the date its week ends
+  AFTER:  Source: EIA, Weekly Natural Gas Storage Report (eia_gas_storage_weekly). Open its seasonal chart.
+  BEFORE: against 260.0 Bcf, the week before (30 Oct 2026)
+  AFTER:  billion cubic feet
+  BEFORE: against 280.0 Bcf, a year before (7 Nov 2025)
+  AFTER:  a weekly series: the date its week ends
+  BEFORE: the five years before ran from 208.0 to 291.0 Bcf at this point of the year
+  AFTER:  against 260.0 Bcf, the week before (30 Oct 2026)
+  BEFORE: the five-year average
+  AFTER:  against 280.0 Bcf, a year before (7 Nov 2025)
+  BEFORE: this week's change +2.0 Bcf; the five-year average change of the same week +1.0; the five years' changes ran from −1.0 to +3.0
+  AFTER:  the five years before ran from 208.0 to 291.0 Bcf at this point of the year
+  BEFORE: Source: EIA, Weekly Natural Gas Storage Report (eia_gas_storage_weekly). Open its seasonal chart.
+  AFTER:  the five-year average
+  BEFORE: billion cubic feet
+  AFTER:  this week's change +2.0 Bcf; the five-year average change of the same week +1.0; the five years' changes ran from −1.0 to +3.0
+  BEFORE: a weekly series: the date its week ends
+  AFTER:  Source: EIA, Weekly Natural Gas Storage Report (eia_gas_storage_weekly). Open its seasonal chart.
+  BEFORE: against 296.0 Bcf, the week before (30 Oct 2026)
+  AFTER:  billion cubic feet

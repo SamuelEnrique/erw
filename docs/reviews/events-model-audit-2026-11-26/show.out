@@ -1,0 +1,119 @@
+uri.rtPeak ['2021-02-17', 9051.55]
+uri.rtBase ['2020-02-10', 1691.63]
+uri.lowDemand ['2021-02-24', 27719.0]
+uri.low15 ['2021-02-15', 43776.0]
+uri.fall ['2021-02-15', -308863.0]
+uri.short ['2021-02-21', -186530.5]
+uri.ciPeak ['2021-02-09', 479.4378]
+caiso_heat_2020.eia930:CISO.hi ['2020-08-18', 23.4955]
+caiso_heat_2020.eia930:CISO.peak ['2020-08-18', 46643.0]
+caiso_heat_2020.eia930:CISO.top ['2020-08-18', 46643.0]
+caiso_heat_2020.eia930:CISO.ci ['2020-08-18', 305.9348]
+caiso_heat_2020.2020-08-14 10.7438
+caiso_heat_2020.2020-08-15 21.5848
+elliott_2022.eia930:PJM.hi ['2022-12-23', 41.7611]
+elliott_2022.eia930:PJM.peak ['2022-12-23', 135328.0]
+elliott_2022.eia930:PJM.top ['2022-12-23', 135328.0]
+elliott_2022.eia930:PJM.ci ['2022-12-24', 452.1515]
+elliott_2022.eia930:MISO.hi ['2022-12-23', 39.6074]
+elliott_2022.eia930:MISO.peak ['2022-12-23', 101533.0]
+elliott_2022.eia930:MISO.top ['2022-12-23', 101533.0]
+elliott_2022.eia930:MISO.ci ['2022-12-21', 575.4692]
+elliott_2022.eia930:SWPP.hi ['2022-12-23', 50.4465]
+elliott_2022.eia930:SWPP.peak ['2022-12-23', 45146.0]
+elliott_2022.eia930:SWPP.top ['2022-12-22', 47026.0]
+elliott_2022.eia930:SWPP.ci ['2022-12-24', 618.5827]
+elliott_2022.eia930:NYIS.hi ['2022-12-24', 17.1797]
+elliott_2022.eia930:NYIS.peak ['2022-12-24', 22004.0]
+elliott_2022.eia930:NYIS.top ['2022-12-24', 22004.0]
+elliott_2022.eia930:NYIS.ci ['2022-12-24', 264.3486]
+elliott_2022.eia930:ISNE.hi ['2022-12-24', 10.8016]
+elliott_2022.eia930:ISNE.peak ['2022-12-24', 17382.0]
+elliott_2022.eia930:ISNE.top ['2022-12-24', 17382.0]
+elliott_2022.eia930:ISNE.ci ['2022-12-24', 420.1789]
+elliott_2022.eia930:ERCO.hi ['2022-12-23', 65.0127]
+elliott_2022.eia930:ERCO.peak ['2022-12-23', 73976.0]
+elliott_2022.eia930:ERCO.top ['2022-12-23', 73976.0]
+elliott_2022.eia930:ERCO.ci ['2022-12-24', 432.0844]
+elliott_2022.hub.rt_max ['2022-12-23', 3701.72]
+elliott_2022.hub.rt_mean ['2022-12-23', 557.527]
+elliott_2022.hub.da_max ['2022-12-24', 2539.16]
+uri_2021.wc.reached ['CAR', 'CENT', 'MIDA', 'MIDW', 'NE', 'NW', 'SE', 'TEN', 'TEX']
+caiso_heat_2020.wc.reached ['CAL', 'SW']
+elliott_2022.wc.reached ['CAR', 'CENT', 'FLA', 'MIDA', 'MIDW', 'NY', 'SE', 'SW', 'TEN', 'TEX']
+es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled_temp|est 24746.8825
+es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled_temp|hi 48593.4857
+es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled_temp|lo 900.2792
+es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|cf 730917.4968
+es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|est 83812.3521
+es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|hi 120719.0457
+es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|lo 46905.6585
+es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|pct 11.4667
+es|caiso_heat_2020|eia930:CISO|demand_mwh|weather_share|pct 70.4735
+es|elliott_2022|eia930:ERCO|demand_mwh|pooled_temp|est 72488.3177
+es|elliott_2022|eia930:ERCO|demand_mwh|pooled_temp|hi 113242.6915
+es|elliott_2022|eia930:ERCO|demand_mwh|pooled_temp|lo 31733.9439
+es|elliott_2022|eia930:ERCO|demand_mwh|pooled|est 269581.5
+es|elliott_2022|eia930:ERCO|demand_mwh|pooled|hi 382214.2539
+es|elliott_2022|eia930:ERCO|demand_mwh|pooled|lo 156948.7461
+es|elliott_2022|eia930:ERCO|demand_mwh|pooled|pct 28.3082
+es|elliott_2022|eia930:ISNE|demand_mwh|pooled_temp|est 3906.7479
+es|elliott_2022|eia930:ISNE|demand_mwh|pooled_temp|hi 9624.0222
+es|elliott_2022|eia930:ISNE|demand_mwh|pooled_temp|lo -1810.5264
+es|elliott_2022|eia930:ISNE|demand_mwh|pooled|est 10549.0909
+es|elliott_2022|eia930:ISNE|demand_mwh|pooled|hi 19912.761
+es|elliott_2022|eia930:ISNE|demand_mwh|pooled|lo 1185.4208
+es|elliott_2022|eia930:ISNE|demand_mwh|pooled|pct 3.1364
+es|elliott_2022|eia930:MISO|demand_mwh|pooled_temp|est 125412.5786
+es|elliott_2022|eia930:MISO|demand_mwh|pooled_temp|hi 218681.14
+es|elliott_2022|eia930:MISO|demand_mwh|pooled_temp|lo 32144.0172
+es|elliott_2022|eia930:MISO|demand_mwh|pooled|est 236278.7103
+es|elliott_2022|eia930:MISO|demand_mwh|pooled|hi 357071.8827
+es|elliott_2022|eia930:MISO|demand_mwh|pooled|lo 115485.5379
+es|elliott_2022|eia930:MISO|demand_mwh|pooled|pct 13.7376
+es|elliott_2022|eia930:NYIS|demand_mwh|pooled_temp|est 5921.2202
+es|elliott_2022|eia930:NYIS|demand_mwh|pooled_temp|hi 15630.8471
+es|elliott_2022|eia930:NYIS|demand_mwh|pooled_temp|lo -3788.4067
+es|elliott_2022|eia930:NYIS|demand_mwh|pooled|est 24802.6364
+es|elliott_2022|eia930:NYIS|demand_mwh|pooled|hi 37322.4671
+es|elliott_2022|eia930:NYIS|demand_mwh|pooled|lo 12282.8056
+es|elliott_2022|eia930:NYIS|demand_mwh|pooled|pct 5.9913
+es|elliott_2022|eia930:PJM|demand_mwh|pooled_temp|est 134170.9335
+es|elliott_2022|eia930:PJM|demand_mwh|pooled_temp|hi 243913.348
+es|elliott_2022|eia930:PJM|demand_mwh|pooled_temp|lo 24428.519
+es|elliott_2022|eia930:PJM|demand_mwh|pooled|cf 2182817.3182
+es|elliott_2022|eia930:PJM|demand_mwh|pooled|est 386999.9545
+es|elliott_2022|eia930:PJM|demand_mwh|pooled|hi 517036.2848
+es|elliott_2022|eia930:PJM|demand_mwh|pooled|lo 256963.6243
+es|elliott_2022|eia930:PJM|demand_mwh|pooled|pct 17.7294
+es|elliott_2022|eia930:PJM|demand_mwh|weather_share|pct 65.3305
+es|elliott_2022|eia930:SWPP|demand_mwh|pooled_temp|est 46809.0548
+es|elliott_2022|eia930:SWPP|demand_mwh|pooled_temp|hi 73247.6967
+es|elliott_2022|eia930:SWPP|demand_mwh|pooled_temp|lo 20370.413
+es|elliott_2022|eia930:SWPP|demand_mwh|pooled|est 146160.9091
+es|elliott_2022|eia930:SWPP|demand_mwh|pooled|hi 211816.6268
+es|elliott_2022|eia930:SWPP|demand_mwh|pooled|lo 80505.1914
+es|elliott_2022|eia930:SWPP|demand_mwh|pooled|pct 20.8974
+es|elliott_2022|ercot:HB_HUBAVG|rt_mean|pooled_temp|est -28.141
+es|elliott_2022|ercot:HB_HUBAVG|rt_mean|pooled_temp|hi 5.0276
+es|elliott_2022|ercot:HB_HUBAVG|rt_mean|pooled_temp|lo -61.3096
+es|elliott_2022|ercot:HB_HUBAVG|rt_mean|pooled|est 56.5203
+es|elliott_2022|ercot:HB_HUBAVG|rt_mean|pooled|hi 132.8883
+es|elliott_2022|ercot:HB_HUBAVG|rt_mean|pooled|lo -19.8477
+es|elliott_2022|ercot:HB_HUBAVG|rt_mean|pooled|pct 264.6607
+es|uri_2021|eia930:ERCO|demand_mwh|pooled_temp|est 30283.6623
+es|uri_2021|eia930:ERCO|demand_mwh|pooled_temp|hi 89530.2565
+es|uri_2021|eia930:ERCO|demand_mwh|pooled_temp|lo -28962.9318
+es|uri_2021|eia930:ERCO|demand_mwh|pooled|cf 959584.7032
+es|uri_2021|eia930:ERCO|demand_mwh|pooled|est 155794.9628
+es|uri_2021|eia930:ERCO|demand_mwh|pooled|hi 258169.2478
+es|uri_2021|eia930:ERCO|demand_mwh|pooled|lo 53420.6779
+es|uri_2021|eia930:ERCO|demand_mwh|pooled|pct 16.2357
+es|uri_2021|eia930:ERCO|demand_mwh|weather_share|pct 80.5618
+es|uri_2021|ercot:HB_HUBAVG|rt_mean|pooled_temp|est 287.7868
+es|uri_2021|ercot:HB_HUBAVG|rt_mean|pooled_temp|hi 1135.3748
+es|uri_2021|ercot:HB_HUBAVG|rt_mean|pooled_temp|lo -559.8011
+es|uri_2021|ercot:HB_HUBAVG|rt_mean|pooled|est 2293.8442
+es|uri_2021|ercot:HB_HUBAVG|rt_mean|pooled|hi 3901.6075
+es|uri_2021|ercot:HB_HUBAVG|rt_mean|pooled|lo 686.0808
+es|uri_2021|ercot:HB_HUBAVG|rt_mean|pooled|pct 9850.4744

@@ -1,0 +1,6 @@
+places 52, figures compared 312, largest gap 2.7284841053187847e-12, keyed figures differing 0
+US {"verdict":{"gasPer100":14.796296296296298,"evPer100":5.6296,"gasYear":2219.444444444445,"evYear":844.44,"saveYear":1375.0044444444447,"extra":5000,"payback":3.636351882498965,"npv":3886.946269601145},"keyed":{"power_cents":18.16,"gas":3.995,"payback":3.6,"npv":3887}}
+(node:736) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-c/site/lib/ev.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-c\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

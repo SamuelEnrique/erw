@@ -25,11 +25,15 @@ No public source gives a state's generation by the hour. EIA's hourly figures (F
 | large_load_laws | `state_large_load_laws` | the ERW's research files, each law read at its own page |
 | severance | `site/data/severance_rules.json` | the severance tool's rules, each cited |
 
+Net interstate trade (session 10223, the states audit, finding 1) is a line of EIA's disposition (`docs/methods/eia_state_source_disposition_annual.md`), so it is out less in: positive where a state sent more electricity to other states than it took in. Read that way, net generation and international imports less the trade equal the sales, losses and exports to within EIA's direct use in 51 of the 52 places (the median rest 2.7 percent of the disposition); read the other way, 23 places fall below zero (the median 43.9 percent). The page said "in less out" until session 10223.
+
 ## Arithmetic
 
 - A twelve-month window is the newest twelve months the part holds, summed. A source with no figure in any of the twelve months is null, never zero.
 - A whole year is the sum of its twelve months, and is null when any month is missing.
 - A share is the source's sum over the sum of every source's for the same months. A source can be below zero (pumped storage uses more than it makes), so a share can be below zero, as EIA's figures make it.
+- What the groups hold (session 10223, the states audit, finding 3): pumped storage is in "Oil and other" (EIA's code HPS, `docs/methods/generation_mix.md`), the line that falls below zero (132 whole state-years, Virginia's 2024 -906,229 MWh); solar is utility-scale only, small-scale solar is not in EIA's state figures. In the capacity table pumped storage is in "Batteries and pumped storage".
+- A source is summed over the months EIA prints for it (finding 4): in a month EIA withholds a source, its generation is in "Not itemized by EIA", and the source's twelve months hold fewer than twelve. On the files of 20 November 2026, 44 places print such a source; in 27 it is only "Not itemized" itself, in 17 another source too. The District of Columbia's natural gas, its largest source, is 9 months (40.05 percent of the twelve months; the 3 withheld months' unitemized generation, 20,722 MWh, would make it 49.15).
 - Revenue is EIA's sales times EIA's average price, month by month and sector by sector. EIA computes the price as revenue over sales; the product gives EIA's revenue to within the price's rounding (a tenth of a dollar a MWh). The warehouse holds no state revenue column: the utilities' rows of `eia861m_utility_sales_monthly` do not sum to the state totals (EIA's state figures include its estimates for the utilities it does not survey each month), so they are not used.
 - Who operates the grid: each county counts whole for its primary authority (the one whose utilities serve most of the county's customers in EIA-861 of 2025), weighted by the Census Bureau's newest county population. A county whose utilities name no authority, or that EIA-861 lists with no utility, is counted under "No authority named" with its reason.
 - Nothing else is computed: no estimate, no model, no fill.
@@ -58,7 +62,7 @@ The replication also reads the page for four choices of place (Texas alone, Cali
 
 | Key | Decision | Default |
 |---|---|---|
-| `as-published` | The publishers' figures as the files hold them; only the sums, shares, revenue and population shares named above | as published |
+| `as-published` | The publishers' figures as the files hold them; only the sums, shares, revenue and population shares named above. The ERW fills nothing; EIA's monthly figures hold EIA's own estimates and its newest months are revised (session 10223, the states audit, finding 5) | as published |
 | `not-held` | A figure a source does not print is "not held" with the reason, never zero | "not held" |
 | `first-place` | The page opens on Texas, the largest generator of the fifty states, with no second place | Texas; no second place |
 | `twelve-months` | Headlines and the sector table are the newest twelve months; a year only when all twelve months are held | newest twelve months |
@@ -67,4 +71,4 @@ The replication also reads the page for four choices of place (Texas alone, Cali
 | `monthly` | Monthly, said once, with the link to the Grid tool | monthly |
 | `opening-views` | Yearly generation from 2001; monthly charts from 2015; share chart on natural gas; price chart on homes | as listed |
 | `nominal` | Nominal dollars; cents a kWh on the page | nominal |
-| `places` | The fifty states, DC and the United States; Puerto Rico has no file | 52 places |
+| `places` | The fifty states, DC and the United States; Puerto Rico has no file. The United States' plants are EIA-860M's whole, Puerto Rico's 6,474 MW in them; its generation and sales leave Puerto Rico out (session 10223, the states audit, finding 7) | 52 places |

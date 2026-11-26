@@ -100,8 +100,12 @@ async function NowView() {
         const ents = latest.ok ? latest.data.filter((r) => r.entity.startsWith(prefix)) : [];
         const daRows = rows.ok ? rows.data : [];
         const entities = Array.from(new Set([...ents.map((e) => e.entity), ...daRows.map((r) => r.entity)])).sort();
-        // session 7539 (the read, row 1): a grid whose day-ahead read was refused for a license, with no row read
-        const held = !rows.ok && isLicenseReason(rows.reason) && entities.length === 0;
+        // session 7539 (the read, row 1): a grid whose day-ahead read was refused for a license. Session 10218 (the prices
+        // audit, finding 4): whatever latest_prices holds of it. The connector writes NYISO's and ISO-NE's newest
+        // intervals there every 15 minutes, and MISO's last one of 4 October stays, so "no row read" did not hold: each of
+        // the grid's zones was listed with its price "license needed", the held interval's start, and a day-ahead cell
+        // saying the table had no row, which is not so (its rows are held, not absent)
+        const held = !rows.ok && isLicenseReason(rows.reason);
         return (
           <Section key={m.iso} title={m.iso} id={m.iso.toLowerCase()}>
             {!rows.ok && !held ? <NoData what={`${m.iso} day-ahead`} reason={rows.reason} /> : null}

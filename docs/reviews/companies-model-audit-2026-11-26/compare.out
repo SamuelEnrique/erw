@@ -1,0 +1,10 @@
+204,275 keys compared; 9 gaps; 104 states lists equal up to the order of tied states
+GAP ('eia-19728:footprint_mw', 395.2, 395.1)
+GAP ('eia-2548:footprint_mw', 122.3, 122.2)
+GAP ('eia-49880:footprint_mw', 42.1, 42.0)
+GAP ('drawn:eia-3046:footprint', '14,425', '14,424')
+GAP ('drawn:eia-10000:footprint', '8,702', '8,701')
+GAP ('drawn:eia-11208:op', '7,111', '7,110')
+GAP ('drawn:eia-61060:op', '1,934', '1,933')
+GAP ('drawn option kind power marketer (439)', False, True)
+GAP ('eia-6452: headline owned_mw', False, True)

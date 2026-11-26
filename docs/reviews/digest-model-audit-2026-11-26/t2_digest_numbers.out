@@ -1,0 +1,24 @@
+ok   every figure of the numbers section and the chart has its table and key
+ok   from 21 October a held grid's figure is held, the others are not
+ok   the old form (the table in the row) and an old table name are read, and held by the table they became
+ok   the markdown carries each figure as Num draws it, and the hold's words in place of a held one
+ok   a chart drawn from a held table is held with its picture
+ok   a key's characters are escaped in the attribute
+ok   the chart's rounding is the chart-maker's
+ok   the days: a Digest, a weekend, today before it is written, a weekday without one, and outside the archive
+ok   a revised figure keeps its span and gains one note line at the end of the numbers, at the value held now
+ok   every Digest the site holds has its numbers read: a key for each figure, and none left as a bare number
+ok   session 804: the day before, the movers and the demand line carry their keys
+
+11 tests passed
+ok   the Tables line folds under Sources and each mark gets its table as a hover
+ok   the five numbers' row that is the opening number says so
+ok   a story row of the v2 block is keyed to its story
+ok   the chart is drawn with a hover on each point
+ok   a stored Roundup holds a held grid's prices (session 1989, faults file row 94)
+ok   session 3457 (row 152): the Digest's real-time line in row 71's form, the variable read from the Tables line
+17 passed
+(node:3176) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-c/site/lib/digest.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-c\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

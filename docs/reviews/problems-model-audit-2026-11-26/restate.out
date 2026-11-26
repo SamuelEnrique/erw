@@ -1,0 +1,27 @@
+figures restated 142, equal to the digit and in order 142; problems 0
+  who-trades-with-whom: 8 questions, 29 answer figures, 111 keyed figures drawn
+  storm-across-the-country: 8 questions, 37 answer figures, 120 keyed figures drawn
+  under-the-ground-and-in-the-wind: 7 questions, 22 answer figures, 79 keyed figures drawn
+  where-energy-goes: 8 questions, 25 answer figures, 89 keyed figures drawn
+  your-own-balancing-authority: 8 questions, 29 answer figures, 104 keyed figures drawn
+words {'t-month': 'October 2026', 't4-year': 2019, 't5-years': (2019, 2025), 't6-year': 2025, 't7-month': 'July 2018', 'sx-at': '2022-12-24 11:00 UTC', 's1-at': '2022-12-24 01:00 UTC', 's2-at': '2021-02-15 01:00 UTC', 'top-into-TEN': 'MIDW-TEN', 'i-month': 'July 2026', 'i-prev': 'July 2025', 'first': '325', 'second': '324', 'i7-year': '2024', 'rank_is_us_total_order': True, 'b1-plant': 'Browns Ferry', 'b3': (2034, 'coal'), 'b4': (2027, 'natural_gas'), 'b5-partner': 'MISO', 'b7-years': (2025, 2025), 'months': (['2025-11', '2026-10'], ['2025-11', '2026-10'], ['2025-11', '2026-10'])}
+derived figures 40; from the printed inputs a different last digit in 3:
+   ('under-the-ground-and-in-the-wind', 'rx', 'ratio', '4.36', '4.37', False)
+   ('under-the-ground-and-in-the-wind', 'r3', 'ratio', '1.75', '1.74', False)
+   ('where-energy-goes', 'i1', 'diff', '473.70', '473.69', False)
+map legend ends {'solar_ghi': (1.584, 6.912, 1.6, 6.9, 1), 'solar_dni': (0.936, 9.0, 0.9, 9.0, 1), 'wind_speed_100m': (1.591, 13.582, 1.6, 13.6, 1), 'wind_capacity_factor': (0.0118, 0.5445, 0.01, 0.54, 2)}
+  solar_ghi: file 1.584 to 6.912; the map prints 1.6 to 6.9
+  solar_dni: file 0.936 to 9.0; the map prints 0.9 to 9.0
+  wind_speed_100m: file 1.591 to 13.582; the map prints 1.6 to 13.6
+  wind_capacity_factor: file 0.0118 to 0.5445; the map prints 0.01 to 0.54
+rx from the map's legend: 4.31 key 4.36 from the answer's printed figures 4.37
+r1 from the map's legend: 0.60 printed source max less map top 0.60
+r2 from the map's legend: 1.30
+bill CA {'by total rates': '229.63', 'by components': '229.63', 'baseline kWh': '225', 'generation line': '69.45', 'pcia': '-6.07', 'drawn': '229.63', 'equal to the digit': True}
+bill SCE {'total': '224.76', 'baseline kWh': '360', 'drawn': '224.76', 'equal to the digit': True}
+bill SDGE {'total': '332.91', 'drawn': '332.91', 'equal to the digit': True}
+bill TX {'total': '95.27', 'energy': '54.42', 'delivery fixed': '4.06', 'delivery per kWh rate': '0.06', 'delivery': '40.85', 'drawn': '95.27', 'equal to the digit': True}
+bill TXC {'total': '95.28', 'energy': '51.18', 'delivery fixed': '4.90', 'delivery per kWh rate': '0.07', 'delivery': '44.10', 'drawn': '95.28', 'equal to the digit': True}
+Texas default energy charge, derived again: 0.09071133333333335
+B3/B4 CA {'entity': 'caiso:TH_NP15_GEN-APND', 'month': '2026-09', 'price': 44.8469, 'wholesale': 26.90814, 'share': 11.718047170686397, 'shown': ('44.85', '26.91', '11.72'), 'simple mean that month': 44.2548, 'with 5 percent losses': ('28.25', '12.30')}
+B3/B4 TX {'entity': 'ercot:HB_HUBAVG', 'month': '2026-09', 'price': 39.5037, 'wholesale': 23.70222, 'share': 24.878160909888614, 'shown': ('39.50', '23.70', '24.88'), 'simple mean that month': 38.3874, 'with 5 percent losses': ('24.89', '26.12')}
