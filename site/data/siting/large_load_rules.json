@@ -4,11 +4,11 @@
 "utility_large_load_rule_changes",
 "state_large_load_laws"
 ],
-"built":"2026-11-16T17:10:29Z",
+"built":"2026-11-26T13:40:43Z",
 "retrieved":{
-"utility_large_load_rules":"20261116T164658Z",
-"utility_large_load_rule_changes":"20261116T164658Z",
-"state_large_load_laws":"20261116T164658Z"
+"utility_large_load_rules":"20261126T133951Z",
+"utility_large_load_rule_changes":"20261126T133951Z",
+"state_large_load_laws":"20261126T133951Z"
 },
 "method":"docs/methods/large_load_research.md",
 "fields":[
@@ -916,6 +916,63 @@
 "clause":"Regulatory proceedings table, Empire Electric, Missouri: \"On September 11, 2026, Empire Electric filed a Large Load tariff with the Missouri Public Service Commission, as required by Missouri Senate Bill 4.\"",
 "basis":"Algonquin's filing on SEC EDGAR and the Missouri PSC's own page",
 "notes":"The MD&A says the proposed tariff is intended to support economic development and large-load investment while requiring large-load customers to pay their representative cost of service. Missouri S.B. 4 is the law the filing implements (MD&A quote above; the PSC fact sheet says the law required the PSC to adopt rates for large load customers). Empire in Kansas, Oklahoma and Arkansas: no large-load rule found (the MD&A lists only the Missouri filing). Waits: the ET-2026-0184 tariff sheets from EFIS once the case address is known.",
+"withheld":[]
+},
+{
+"id":"c701_unreached-01",
+"utility":"The Narragansett Electric Company d/b/a Rhode Island Energy",
+"state":"RI",
+"region":"ISO-NE",
+"grid":"isone",
+"name":"Extra-large electric load tariff ordered by the RI PUC in Report and Order No. 25873 (Docket Nos. 25-45-GE and 25-33-GE), to be filed by 31 December 2026",
+"status":"ordered",
+"status_date":"2026-11-20",
+"status_cite":"https://ripuc.ri.gov/Docket-25-45-GE (read 2026-11-26) RI PUC docket page, list of documents: \"PUC Report and Order No. 25873 (11/20/26)\" | p. 151, ordering paragraph 52: \"The Narragansett Electric Company d/b/a Rhode Island Energy shall file an extra-large electric load tariff by December 31, 2026\"",
+"date_kind":"stated date",
+"docket":"RI PUC Docket No. 25-45-GE (consolidated with Docket No. 25-33-GE); Report and Order No. 25873",
+"docket_cite":"p. 1, caption: \"DOCKET NO. 25-45-GE DOCKET NO. 25-33-GE\" | p. 144, ordering clauses: \"(25873) ORDERED\" | https://ripuc.ri.gov/Docket-25-45-GE (read 2026-11-26) RI PUC docket page: \"Docket No. 25-45-GE - The Narragansett Electric Co. d/b/a Rhode Island Energy - Application for Approval of a Change in Electric and Gas Base Distribution Rates (filed on November 26, 2025)\"",
+"fields":{
+"threshold_mw":{
+"kind":"value",
+"v":"20 MW minimum demand to define the class initially, unless the company files testimony supporting a different threshold",
+"cite":"p. 140, VIII.D Large Load Tariff: \"The Company shall initially define the class using a minimum demand of 20 MW or provide testimony supporting a different threshold.\" | p. 151, ordering paragraph 52: \"The Company should initially define the class minimum demand of 20 MW or provide testimony supporting a different threshold.\""
+},
+"min_demand":{
+"kind":"not published",
+"cite":"searched: Report and Order No. 25873, Section VIII.D (pp. 138 to 140) and ordering paragraph 52 (p. 151): the order sets the tariff's aims (no harm to reliability and resilience, no cost shift, no undue rate shock) and the initial 20 MW threshold only; the tariff itself is due by 31 December 2026 and was not on the docket page read on 26 November 2026"
+},
+"contract_term":{
+"kind":"not published",
+"cite":"searched: Report and Order No. 25873, pp. 138 to 140 and 151: no contract term set"
+},
+"collateral":{
+"kind":"not published",
+"cite":"searched: Report and Order No. 25873, pp. 138 to 140 and 151: no collateral set"
+},
+"exit_fee":{
+"kind":"not published",
+"cite":"searched: Report and Order No. 25873, pp. 138 to 140 and 151: no exit fee set (the order records testimony on the risk of stranded costs, p. 139, but orders no fee)"
+},
+"study_timeline":{
+"kind":"not published",
+"cite":"searched: Report and Order No. 25873, pp. 138 to 140 (footnote 359 says the one 300 MW application is being studied and a Project Feasibility Report is being developed, with no study duration)"
+},
+"connection_timeline":{
+"kind":"not published",
+"cite":"searched: Report and Order No. 25873, pp. 138 to 140: testimony that transmission-connected large data centers may take years to bring load online, with no timeline set"
+},
+"queue_size":{
+"kind":"value",
+"v":"One transmission interconnection application, a prospective data center customer with anticipated demand of 300 MW, under study; additional inquiries for projects of 100 to 300 MW (as the order records the company's discovery response and hearing testimony)",
+"cite":"p. 138, VIII.D Large Load Tariff: \"The record indicates that the Company has received a 300-megawatt\" | p. 139, VIII.D Large Load Tariff: \"data center application and additional inquiries for projects in the 100- to 300-megawatt range.\" | p. 139, footnote 359: \"The anticipated demand for this prospective customer is 300 MW. This application is currently being studied and a Project Feasibility Report is being developed.\""
+}
+},
+"url":"https://ripuc.ri.gov/sites/g/files/xkgbur841/files/2026-11/RI%20Energy%2025-45-GE%20Ord25873%20Final%2011-20-26%20v2%20w-seal.pdf",
+"title":"RI PUC Report and Order No. 25873, Docket No. 25-45-GE and Docket No. 25-33-GE (Rhode Island Energy base distribution rates and motion to reopen tariff advice, hold harmless), issued 20 November 2026",
+"read":"2026-11-26",
+"clause":"p. 140, VIII.D Large Load Tariff: \"the Commission directs the Company to file, by December 31, 2026, an extra-large electric load tariff designed, at a minimum, to prevent such customers, including data centers, from adversely affecting grid reliability and resilience, shifting costs to existing customers, or causing undue rate shock.\"",
+"basis":"the RI PUC's own copy of its order and its docket page (ripuc.ri.gov, robots allow this reader)",
+"notes":"Status: The order directs a filing due by 31 December 2026; no large-load tariff filing was listed on the docket page read on 26 November 2026. The order's date is the one the docket page prints beside it (11/20/26); the order's signature page has no text layer. Existing practice as the order records it (p. 139): in discovery the company said it would put a large load interconnecting to the distribution system on the G-32 rate; a PPL witness testified that customers at or above approximately 10 MW have generally been evaluated for possible transmission-level interconnection, a threshold not applied rigidly, case by case. The witness list (p. 8) names Kimberly Gauntner of PPL Corporation on large load tariffs. Waits: the company's filing of the tariff, due by 31 December 2026, presumably in a new docket (not stated). Leads not used: Senate bills S-2427 and S-2776 of 2026 on large data center loads (rilegislature.gov, not read).",
 "withheld":[]
 },
 {
@@ -6122,9 +6179,34 @@
 "state":"WA",
 "region":"Tacoma Power balancing authority, WECC (outside an ISO)",
 "grid":"other"
+},
+{
+"id":"c701_unreached-02",
+"utility":"Kansas Gas and Electric Company (Evergy Kansas South, Inc.)",
+"state":"",
+"region":"",
+"grid":"other"
 }
 ],
 "changes":[
+{
+"id":"c701_changes-01",
+"date":"2026-11-20",
+"date_printed":"2026-11-20",
+"date_kind":"stated date",
+"group":"c701_changes",
+"utility":"The Narragansett Electric Company d/b/a Rhode Island Energy",
+"state":"RI",
+"rule":"Extra-large electric load tariff ordered by the RI PUC in Report and Order No. 25873 (Docket Nos. 25-45-GE and 25-33-GE), to be filed by 31 December 2026",
+"affects":"c701_unreached-01",
+"docket":"RI PUC Docket No. 25-45-GE (consolidated with Docket No. 25-33-GE); Report and Order No. 25873",
+"kind":"order issued",
+"what":"The Rhode Island PUC's Report and Order No. 25873 orders Rhode Island Energy to file an extra-large electric load tariff by 31 December 2026, the class defined initially at a minimum demand of 20 MW.",
+"cite":"https://ripuc.ri.gov/Docket-25-45-GE (read 2026-11-26) RI PUC docket page, list of documents: \"PUC Report and Order No. 25873 (11/20/26)\" | p. 151, ordering paragraph 52: \"The Narragansett Electric Company d/b/a Rhode Island Energy shall file an extra-large electric load tariff by December 31, 2026\"",
+"url":"https://ripuc.ri.gov/sites/g/files/xkgbur841/files/2026-11/RI%20Energy%2025-45-GE%20Ord25873%20Final%2011-20-26%20v2%20w-seal.pdf",
+"title":"RI PUC Report and Order No. 25873, Docket No. 25-45-GE and Docket No. 25-33-GE (Rhode Island Energy base distribution rates and motion to reopen tariff advice, hold harmless), issued 20 November 2026",
+"read":"2026-11-26"
+},
 {
 "id":"west_changes-15",
 "date":"2026-11-13",
@@ -8673,7 +8755,7 @@
 "in effect":52,
 "approved":21,
 "proposed":25,
-"ordered":1,
+"ordered":2,
 "denied":1
 },
 "laws":{
@@ -8685,9 +8767,9 @@
 "vetoed":1,
 "died":1
 },
-"changes":94,
+"changes":95,
 "held":{
-"rules":22,
+"rules":23,
 "changes":4,
 "laws":1
 }

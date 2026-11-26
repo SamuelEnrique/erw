@@ -49,8 +49,8 @@ import iso_prices as ip  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 RESEARCH = os.path.join(ROOT, "docs", "research", "large_load")
-FILES = {"rules": "utilities_2026-11-13.csv", "changes": "changes_2026-11-13.csv", "laws": "legislation_2026-11-13.csv",
-         "totals": "utilities_2026-11-13.csv"}
+FILES = {"rules": "utilities_2026-11-26.csv", "changes": "changes_2026-11-26.csv", "laws": "legislation_2026-11-13.csv",  # session 10000: the files of 26 November
+         "totals": "utilities_2026-11-26.csv"}
 NAMES = {"rules": "utility_large_load_rules", "changes": "utility_large_load_rule_changes", "laws": "state_large_load_laws",
          "totals": "utility_large_load_queue_totals"}
 SOURCE = "research:large_load_2026-11-13"
