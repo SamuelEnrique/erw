@@ -48,6 +48,8 @@
   "wy_39_15_105": {"title": "Wyoming Statutes Title 39, 39-15-105(a)(viii)(S), sales tax exemptions for a data processing services center (with the definition in 39-15-101(a)(xliv))", "url": "https://wyoleg.gov/statutes/compress/title39.pdf", "read": "2026-11-26", "request": 303},
   "il_dor_excise": {"title": "Illinois Department of Revenue, Excise Tax Rates and Fees (the Electricity Excise Tax)", "url": "https://tax.illinois.gov/research/taxrates/excise.html", "read": "2026-11-26", "request": 307},
   "il_dceo": {"title": "Illinois Department of Commerce and Economic Opportunity, Data Center Investment Tax Exemptions and Credits (with its 2025 Data Centers Annual Report, request 248)", "url": "https://dceo.illinois.gov/expandrelocate/incentives/datacenters.html", "read": "2026-11-26", "request": 247},
+  "mn_272_02": {"title": "Minnesota Statutes 272.02, Exempt property, subdivision 9 (personal property; exceptions)", "url": "https://www.revisor.mn.gov/statutes/cite/272.02/pdf", "read": "2026-11-26", "request": 320},
+  "ia_427a_2": {"title": "Iowa Code 2025, 427A.2, Personal property not subject to property tax", "url": "https://www.legis.iowa.gov/docs/code/2025/427A.2.pdf", "read": "2026-11-26", "request": 319},
   "ga_dor_valuation": {"title": "Georgia Department of Revenue, Property Tax Valuation (O.C.G.A. 48-5-7)", "url": "https://dor.georgia.gov/property-tax-valuation", "read": "2026-11-26", "request": 314},
   "nm_trd_general": {"title": "New Mexico Taxation and Revenue Department, Property Tax Division, State Assessed Property Bureau, General Instructions", "url": "https://www.tax.newmexico.gov/businesses/wp-content/uploads/sites/4/2020/12/GENERAL_INSTRUCTIONS.pdf", "read": "2026-11-26", "request": 315},
   "ga_hb1291": {"title": "Georgia House Bill 1291 (2022), as passed and signed, amending Code Section 48-8-3(68.1)", "url": "https://gov.georgia.gov/document/2022-signed-legislation/hb-1291/download", "read": "2026-11-26", "request": 245},
@@ -159,6 +161,9 @@
   },
   "mn": {
    "name": "Minnesota",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "mn_272_02",
+    "quote": "Except for the taxable personal property enumerated below,",
+    "tip": "Minnesota (Statutes 272.02, subdivision 9): all personal property is exempt except that enumerated (an electric generating, transmission or distribution system's, pipelines', railroad docks', leaseholds', manufactured homes' and flight property), so a datacenter's equipment owes no property tax. The building is taxed on its market value by class rates the ERW does not hold: the tool takes the building at its cost and the reader's effective rate, an upper bound."},
    "sales_exemption": {
     "cite": "mn_297a_68_42", "covers": ["equipment"], "min_investment_usd": 30000000, "min_jobs": 0, "term_years": 35, "start_before_year": 2042, "rate_part": "state",
     "quote": "where the total cost of construction or refurbishment, investment in enterprise information technology equipment, and computer software is at least $30,000,000 within a 48-month period",
@@ -466,6 +471,9 @@
   },
   "ia": {
    "name": "Iowa",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "ia_427a_2",
+    "quote": "Personal property shall not be listed or assessed for taxation and is not subject to the",
+    "tip": "Iowa (Code 427A.2, 2025): \"Personal property shall not be listed or assessed for taxation and is not subject to the property tax\", so a datacenter's equipment owes none. The building's assessment limitation for commercial property is not read: the tool takes the building at its cost and the reader's rate, an upper bound."},
    "sales_exemption": {
     "cite": "ia_dor_dc",
     "covers": ["equipment"],
