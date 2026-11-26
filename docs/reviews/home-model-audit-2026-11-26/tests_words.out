@@ -1,0 +1,50 @@
+..................s.........................s............s.............. [  8%]
+.....s...............ss.............sssss.................sssss......... [ 17%]
+........................................................................ [ 25%]
+....................................................................s... [ 34%]
+........s.................ss..sss..................s.................... [ 43%]
+......s..........F...s...................................ssssss......... [ 51%]
+........................................................................ [ 60%]
+........................................................................ [ 68%]
+.................s..............................................ss...... [ 77%]
+..s...........s...................................s..................... [ 86%]
+.sss.................................................................... [ 94%]
+........................s...................                             [100%]
+================================== FAILURES ===================================
+_ TheNodeTests.test_the_sessions_own_tests_pass_with_no_request_and_no_switch_set _
+
+self = <test_session156.TheNodeTests testMethod=test_the_sessions_own_tests_pass_with_no_request_and_no_switch_set>
+
+    def test_the_sessions_own_tests_pass_with_no_request_and_no_switch_set(self):
+        node = shutil.which("node")
+        if not node or not os.path.isdir(os.path.join(ROOT, "site", "node_modules")):
+            self.skipTest("node or the site's packages are not here")
+        # the switches are taken out of the child's environment only: this process's is not changed
+        env = {k: v for k, v in os.environ.items() if k not in ("ASK_FORMS", "ASK_PAGES", "ASK_ROLLUP", "ASK_RULE_PLAN", "ASK_READER_EFFORT", "ASK_WRITER_EFFORT", "ASK_PLANNER", "ASK_FAST", "ASK_THINKING", "NEXT_PHASE")}
+        r = subprocess.run([node, "--import", "./scripts/alias-register.mjs", "scripts/test-ask-ready.mjs"], cwd=os.path.join(ROOT, "site"), capture_output=True, text=True, timeout=300, env=env)
+>       self.assertEqual(r.returncode, 0, r.stdout[-2500:] + r.stderr[-1500:])
+E       AssertionError: 1 != 0 : ,"attempt":1,"where":"loop","untraced_numbers":["18.3179","60.2746"],"unit_mismatches":[],"uncited_tables":["ercot_hub_prices_daily"],"no_citation":false,"problems":["series names result ids no tool returned: r1"]}}
+E       {"erw_ask_check":{"question_id":null,"attempt":2,"where":"loop","untraced_numbers":["18.3179","60.2746"],"unit_mismatches":[],"uncited_tables":["ercot_hub_prices_daily"],"no_citation":false,"problems":["series names result ids no tool returned: r1"]}}
+E       ok 15 the model is shown the query with its three arguments, in compare's two queries too; ASK_FORMS=off shows the tools as they were; the exported spec is untouched
+E       ok 16 source precedence: the operator's own figure leads and the derived one is named, and each tool result says which it is
+E       {"erw_ask_check":{"question_id":null,"attempt":1,"where":"fast path","untraced_numbers":["91075"],"unit_mismatches":[],"uncited_tables":["grid_stress_yearly"],"no_citation":false,"problems":[]}}
+E       {"erw_ask_check":{"question_id":null,"attempt":1,"where":"fast path, again","untraced_numbers":["91075"],"unit_mismatches":[],"uncited_tables":["grid_stress_yearly"],"no_citation":false,"problems":[]}}
+E       {"erw_ask_check":{"question_id":null,"attempt":1,"where":"loop","untraced_numbers":["91075"],"unit_mismatches":[],"uncited_tables":["grid_stress_yearly"],"no_citation":false,"problems":[]}}
+E       {"erw_ask_check":{"question_id":null,"attempt":2,"where":"loop","untraced_numbers":["91075"],"unit_mismatches":[],"uncited_tables":["grid_stress_yearly"],"no_citation":false,"problems":[]}}
+E       FAIL 17 the year's highest hourly demand: one reading turn fetches both, the answer leads with ERCOT's own and names the derived one, and both numbers are traced
+E          AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+E          
+E          5 !== 2
+E          
+E              at file:///C:/Users/lossa/Documents/erw-c710-a/site/scripts/test-ask-ready.mjs:522:10
+E              at async test (file:///C:/Users/lossa/Documents/erw-c710-a/site/scripts/test-ask-ready.mjs:55:9)
+E              at async file:///C:/Users/lossa/Documents/erw-c710-a/site/scripts/test-ask-ready.mjs:508:1
+E       ok 18 the briefing says which source holds Texas's curtailment share, in one sentence taken from the page's Method note
+E       ok 19 a refusal about another grid closes in the tool's own name: the old words are gone from the prompt the model is given, and stay where they are still true
+E       ok 20 the judge asks the thirteen refusals about another grid for the closing words, and every other question as before
+E       9 of 20 passed
+
+tests\test_session156.py:426: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_session156.py::TheNodeTests::test_the_sessions_own_tests_pass_with_no_request_and_no_switch_set
+1 failed, 793 passed, 42 skipped in 146.12s (0:02:26)

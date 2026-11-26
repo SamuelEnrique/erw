@@ -1,0 +1,59 @@
+==================== THE TOUR
+ruled stops 7, new stops written 9, new landed 9; the path: 16 stops
+seconds 595 = 9.92 minutes; rounded 10 (JS Math.round of 9.9167)
+   1. What a battery earns (/cost-of-power/battery) 45 s
+   2. What a generator earns (/cost-of-power/seller) 45 s
+   3. What a datacenter pays (/cost-of-power) 45 s
+   4. The grid (/grid?grid=ercot) 40 s
+   5. Research (/research) 40 s
+   6. The price board (/board) 30 s
+   7. The Energy Digest (/digest) 30 s
+   8. Every region of the grid (/grid) 40 s
+   9. A storm across the country (/events/elliott-2022) 40 s
+  10. Demand in every region (/demand) 35 s
+  11. Who trades with whom (/supply) 35 s
+  12. What is under the ground and in the wind (/map?tab=resources) 35 s
+  13. Where energy goes (/industry) 35 s
+  14. Energy per AI query (/ai-energy) 30 s
+  15. Every state (/states) 35 s
+  16. Grid conditions (/conditions) 35 s
+the lead names after the seven: its regions, a storm across it, demand, trade and the resource map
+new stops the lead names: 5; new stops it does not name: 4: ['Where energy goes', 'Energy per AI query', 'Every state', 'Grid conditions']
+lib/pages.ts's line for /tour: Twelve stops for a first visit, about eight minutes, one page each with Back and Next: the three tools, the grid, research, the price board and the digest, then the whole country: its regions, a storm across it, demand, trade and the resource map.
+  'after the tour' sentence: lists every tool by who it is for
+  the home page's sections (ToolSection titles and the strip): ["Today's chart", 'The five groups', "ERW's Energy Digest", 'The live, citable record of the US energy system.'] | HOME_GROUPS: ["Economics", "Grid", "Infrastructure", "Analysis", "Games"]
+  does app/page.tsx read lib/audience (the tools by who they are for)? False
+-- the headings each stop's words quote, looked for in the site's source and the Digest's newest issue
+  /digest: "Top of the industry" in source: ['app\\page.tsx', 'lib\\digest.ts']; a heading of latest.md: False
+  /digest: "ERW's Numbers Today" in source: []; a heading of latest.md: True
+  latest.md's headings: ['The opening number', 'The numbers', 'What moved', 'More', "ERW's Chart of the Day", "ERW's Fun Fact"]
+  latest.md's title: ERW Daily Digest, 2026-11-12
+-- the numbers the stops' words print, from their own files
+  /grid: regions 13 ('thirteen'); new regions 6 ('six of them new')
+  /conditions: events 9 ('the nine events')
+  /demand: base 2019, last whole year 2025 ('year by year since 2019')
+  /states: first year offered 2001 ('since 2001')
+  /ai-energy: rows 23; keys of the file ['built', 'license', 'method', 'provenance', 'rows', 'table']
+==================== THE HOME PAGE
+Analysis: catalogue entries 11 (the home figure); their ids ['batteries_lunch', 'gas_sets_price', 'queue_divorce', 'peak_hour_moved', 'who_rescues_whom', 'negative_prices_west', 'batteries_curtailment', 'batteries_lunch_grids', 'peak_hour_grids', 'batteries_curtailment_hourly', 'impact_study']
+  card files in data/findings/ 14; analysisflow's words: seven findings, three of them in two versions, and the impact study
+Grid: ERCOT demand newest 2026-11-12T23:00:00Z value 54234 -> printed 54,234 MW, note 'at 23:00 UTC on 2026-11-12' (1680 rows)
+Fuel Henry Hub natural gas: newest 2026-11-11 3.00 USD/MMBtu
+Fuel WTI crude, Cushing: newest 2026-11-11 89.62 USD/bbl
+Fuel Brent crude: newest 2026-11-11 92.14 USD/bbl
+Infrastructure: operating units 1137, 54,488.9 MW (of 1627 rows; Retrieved: 20260929T235850Z (UTC) by warehouse/derived/storage_capacity.py)
+Games: ERCOT operating units 259, 18,204.5 MW
+  the operating rows by EIA's own status code: {'OA': 10, 'OP': 1115, 'OS': 10, 'SB': 2}; MW not 'OP': 508.0
+  ERCOT's operating rows not 'OP': 2 units, 200.0 MW
+Economics: window 2025-10 to 2026-09, USD 81.40 per kW (the strategy is perfect foresight, 'foresight'; 1419 rows)
+-- today's chart and the Digest
+  newest chart record 2026-11-12.json: date 2026-11-12, table eia_state_generation_monthly, source scanner
+  fact: Net generation from natural gas in Wyoming: 1,060,504 MWh in August 2026, the highest monthly value held since January 2001. The record until now was 765,381 MWh, in July 2024.
+  'Drawn by code from the scanner's strongest flag of the day' against its record's why: the strongest of the scanner's 1 flag(s) of the day that no Digest has shown (rank 12; rule record, strength 11.0029); the most related to the day's top stories
+  latest.md has '## Top of the industry': False
+  the home's title cleaner (removes "ERW's Energy Digest, " or "Energy Digest, ") leaves: 'ERW Daily Digest, 2026-11-12'
+  the opening line printed: '**12 November 2026.** Data through 17:56 ET, 22:56 UTC.'
+  the newest issue's 'What moved': 5 list items; 'More': 36 list items
+  newest issues: ['2026-10-22', '2026-10-23', '2026-11-06', '2026-11-12']; days from the newest to 2026-11-26: 14
+  in the last issue of the old form (2026-11-06), the first five stories carry 5 numbers, e.g. [['2026'], ['$33.1']]
+home_rows.json written

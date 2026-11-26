@@ -63,6 +63,9 @@ Energy Research Warehouse (ERW). Chain file: `queue/done/710-night-26-november-o
 - The two report drafts (`reports-model-audit-2026-11-26.md`, saved from the agent's hand-back): 9 findings; row 126; the AI draft reads four regions and says seven.
 - The data and methods pages (`data-model-audit-2026-11-26.md`): 9 findings; row 127; Redivis holds 192 of 594 tables, not every table's history.
 - The chat over the warehouse (`ask-model-audit-2026-11-26.md`, no model called): 8 findings; row 128, and row 129 (`/terms` and `/privacy` words, Samuel's, not requested); the number check passes any figure whose digits sit in any source.
+- The Digest and Roundup as published (`digest-model-audit-2026-11-26.md`, no issue touched): 7 findings; rows 130 and 131; `/roundup` printed held prices its week page hides; the line under each story is the scoring model's, unchecked.
+- The home page, tour and Thesis Builder (`home-model-audit-2026-11-26.md`): 14 findings; row 132 (row 133 for Samuel's yes); the Thesis Builder is said to answer "from the tables" and does not.
+- In all, 32 audits tonight: every tool's arithmetic right; about 230 findings; word fixes in rows 59 to 133 of the old laptop's landing file (35 landed at 14:16 UTC); data requests 6 to 59.
 - The same held-rows-in-public question gathered in the weekend page's tier 1 first item.
 
 ## What waits for Samuel, in plain words
