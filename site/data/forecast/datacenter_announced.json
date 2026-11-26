@@ -5,6 +5,26 @@
  "computed": "2026-11-26",
  "dollars": "2025 dollars by the GDP implicit price deflator of deflator.json; a 2026 announcement is taken as 2025 dollars",
  "defaults": {
+  "mw_stated": {
+   "name": "MW as stated",
+   "unit": "MW (each row's own measure)",
+   "how": "the MW each document states, whatever it measures (IT capacity, critical IT, critical grid capacity, power required)",
+   "n": 7,
+   "low": 3.0,
+   "low_row": "al_aubix_auburn_2021",
+   "median": 1800.0,
+   "high": 5000.0,
+   "high_row": "la_meta_richland_2026",
+   "rows": [
+    "al_aubix_auburn_2021",
+    "wv_penzance_berkeley_2026",
+    "va_cleanarc_caroline_2025",
+    "ky_paducah_2026",
+    "wv_nscale_2026",
+    "wv_starwood_mason_2026",
+    "la_meta_richland_2026"
+   ]
+  },
   "investment_per_mw": {
    "name": "Investment per MW",
    "unit": "USD million (2025) per MW",
