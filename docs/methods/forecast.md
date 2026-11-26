@@ -373,10 +373,12 @@ For one datacenter (the reader's, or an announced project picked from the left b
 
 | Input | Default | Source |
 |---|---|---|
-| MW | 1,800 | the median of the 7 MW the announced projects' documents state (3 to 5,000), each in its own measure |
-| Investment | MW times USD 8.333333 million | the median of 6 announced projects' investment per MW, in 2025 dollars (3.0 to 46.8) |
-| Permanent jobs | MW times 0.208333 | the median of 5 projects' permanent jobs per MW (0.05 to 0.333); per billion dollars, 16 projects, median 56.25 (9.3 to 121.8), shown in the hover |
-| Construction workers each year | investment times 325 a USD billion | the median of 6 projects' construction jobs per billion as announced (63 to 1,218): headcounts, at peak where the document says so |
+| MW | 1,000 | the median of the 9 MW the announced projects' documents state (3 to 5,000), each in its own measure |
+| Investment | MW times USD 11.0 million | the median of 8 announced projects' investment per MW, in 2025 dollars (3.0 to 46.8) |
+| Permanent jobs | MW times 0.306122 | the median of 7 projects' permanent jobs per MW (0.05 to 0.667); per billion dollars, 19 projects, median 50 (7.5 to 121.8), shown in the hover |
+| Construction workers each year | investment times 250 a USD billion | the median of 9 projects' construction jobs per billion as announced (63 to 1,218): headcounts, at peak where the document says so |
+
+The medians above were computed on 26 November 2026 from 25 rows (session 10807, part F: Hut 8 River Bend, Amazon in Caddo and Bossier, Applied Digital's Delta Forge 1 added to the 22 of session 10801, whose medians were 1,800 MW, USD 8.33 million a MW, 0.208 jobs a MW and 325 construction jobs a billion). Each new row moves them; `datacenter_announced.json` carries the date it was computed.
 | Spending split | building 19.6, equipment 68.2, land 6.1 percent (other 6.1) | JLARC Table D-1 |
 | Equipment bought again every | 5 years | JLARC, page 18 |
 | Construction | 2 years | JLARC, page 14: "12 to 18 months" a building |
@@ -398,8 +400,8 @@ For one datacenter (the reader's, or an announced project picked from the left b
 
 ### 13.4 Decisions (every choice a reader could dispute, what was chosen and why, and what the other choice would give)
 
-1. **The default of a ratio is the median of the announced projects, not the mean.** The rows are few (5 to 16) and skewed (an investment per MW from 3.0 to 46.8 million). The mean would give USD 17.77 million a MW (NScale's 34.6 and the AUBix colocation site's 46.8 lift it); the median, 8.33, keeps two outliers from setting the default. The range travels with it.
-2. **Permanent jobs by MW, not by investment.** MW is what a reader of a utility filing or a county notice has first; by investment the default for the 1,800 MW default (USD 15 billion) would be 844 jobs instead of 375.
+1. **The default of a ratio is the median of the announced projects, not the mean.** The rows are few (7 to 19) and skewed (an investment per MW from 3.0 to 46.8 million). The mean would give USD 19.93 million a MW (NScale's 34.6, Hut 8's 40.8 and the AUBix colocation site's 46.8 lift it); the median, 11.0, keeps the outliers from setting the default. The range travels with it.
+2. **Permanent jobs by MW, not by investment.** MW is what a reader of a utility filing or a county notice has first; by investment the default for the 1,000 MW default (USD 11 billion) would be 550 jobs instead of 306.1.
 3. **Construction workers held at the announced figure in every construction year.** Documents state a peak headcount or a count with no period, never job-years. Holding the peak in every year is an upper reading of job-years; a profile (a ramp up and down) would need a source no document gives. The hover says so.
 4. **Rows of different MW measures in one default.** IT capacity, critical IT, critical grid capacity and power required are mixed (7 rows). Splitting them would leave defaults of one or two rows. A reader with a project's own MW and measure types them.
 5. **Virginia's multipliers for Virginia only.** Applying them elsewhere would give every state a supply chain and induced effect, but from another state's economy; the blank says what is missing and its price.
