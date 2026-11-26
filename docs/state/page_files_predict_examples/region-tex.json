@@ -1,0 +1,47 @@
+{
+  "example": true,
+  "contract": "docs/state/page_files_predict.md",
+  "built": null,
+  "tier": "derived",
+  "label": "ERW forecast",
+  "place": "region-tex",
+  "name": "Texas",
+  "kind": "region",
+  "eia930": "TEX",
+  "time": "America/Chicago",
+  "tables": [],
+  "series": {
+    "demand": {
+      "status": "not built", "held": "example file: no forecast exists yet",
+      "method": null, "fit_day": null, "target_day": null, "hub": null, "market": null,
+      "unit": "MW", "method_note": "docs/methods/predict.md",
+      "made_utc": null, "inputs_through_utc": null,
+      "band": null, "band_coverage_pct": null,
+      "tomorrow_columns": ["ts_utc", "local_hour", "erw", "lo", "hi", "operator"],
+      "tomorrow": [["2026-11-27T06:00:00Z", 0, null, null, null, null]],
+      "operator_held": null,
+      "history_columns": ["ts_utc", "local_day", "local_hour", "made_utc", "kind", "erw", "lo", "hi", "operator", "actual", "yesterday", "week_ago"],
+      "history": [["2026-11-25T06:00:00Z", "2026-11-25", 0, null, "backtest", null, null, null, null, null, null, null]],
+      "summary": {
+        "last_30_days": {"first_day": null, "last_day": null, "hours": null, "mae": {"erw": null, "operator": null, "yesterday": null, "week_ago": null}, "mape": {"erw": null, "operator": null, "yesterday": null, "week_ago": null}},
+        "backtest": {"first_day": null, "last_day": null, "hours": null, "mae": {"erw": null, "operator": null, "yesterday": null, "week_ago": null}, "mape": {"erw": null, "operator": null, "yesterday": null, "week_ago": null}}
+      }
+    },
+    "price": {
+      "status": "not built", "held": "example file: no forecast exists yet",
+      "method": null, "fit_day": null, "target_day": null, "hub": null, "market": "day-ahead",
+      "unit": "USD/MWh", "method_note": "docs/methods/predict_price.md",
+      "made_utc": null, "inputs_through_utc": null,
+      "band": null, "band_coverage_pct": null,
+      "tomorrow_columns": ["ts_utc", "local_hour", "erw", "lo", "hi", "operator"],
+      "tomorrow": [["2026-11-27T06:00:00Z", 0, null, null, null, null]],
+      "operator_held": "not published",
+      "history_columns": ["ts_utc", "local_day", "local_hour", "made_utc", "kind", "erw", "lo", "hi", "operator", "actual", "yesterday", "week_ago"],
+      "history": [["2026-11-25T06:00:00Z", "2026-11-25", 0, null, "backtest", null, null, null, null, null, null, null]],
+      "summary": {
+        "last_30_days": {"first_day": null, "last_day": null, "hours": null, "mae": {"erw": null, "operator": null, "yesterday": null, "week_ago": null}, "mape": {"erw": null, "operator": null, "yesterday": null, "week_ago": null}},
+        "backtest": {"first_day": null, "last_day": null, "hours": null, "mae": {"erw": null, "operator": null, "yesterday": null, "week_ago": null}, "mape": {"erw": null, "operator": null, "yesterday": null, "week_ago": null}}
+      }
+    }
+  }
+}
