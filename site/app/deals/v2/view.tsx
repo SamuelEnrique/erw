@@ -212,7 +212,7 @@ export async function TrackerView({ sp }: { sp: Record<string, string | undefine
                 <HeadlineNumber label="Disclosed megawatts" value={c.withMw ? <span data-deals="mw">{whole(c.mw)}</span> : <span className="text-muted" data-deals="mw">{NOT_STATED}</span>} unit={c.withMw ? "MW" : undefined}
                   note={<>the sum over the <span data-deals="with_mw">{whole(c.withMw)}</span> {c.withMw === 1 ? "deal that states" : "deals that state"} a size; the other {whole(c.deals - c.withMw)} are not counted as zero, they are not known</>} />
                 <HeadlineNumber label="State a price" value={<span data-deals="with_price">{whole(c.withPrice)}</span>} unit={`of ${whole(c.deals)}`}
-                  note={<>in US dollars per MWh. <span data-deals="with_dollars">{whole(c.withDollars)}</span> state a value in US dollars: a purchase price, a financing or a valuation, each as stated and not summed here (session 1852; the sums by kind are on the AI-power view).</>} />
+                  note={<>in US dollars per MWh. <span data-deals="with_dollars">{whole(c.withDollars)}</span> state a value in US dollars: a purchase price, a financing or a contract&apos;s value, each as stated (a valuation is not kept) and not summed here (session 1852; the sums by kind are on the AI-power view).</>} />
               </HeadlineRow>
 
               <ChartFrame title="Deals by month"
