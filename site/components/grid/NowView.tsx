@@ -100,7 +100,7 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
         <HeadlineNumber label={ties.length && !out ? "Net import" : "Net export"} unit={ties.length ? "MW" : undefined} value={ties.length ? netNum : <span className="text-muted">{grid.slug === "us48" ? "by grid" : "not reported"}</span>}
           note={ties.length
             ? <>Hour starting {hourOf(xHour, tz)}, over <Num check={`net|ties|${grid.ba}|${xHour}`} raw={ties.length}>{shown(ties.length)}</Num> ties. <Link href={gridHref(grid.slug, "gravity")}>Each neighbour</Link>.</>
-            : grid.slug === "us48" ? <>The Lower 48 is the sum of its grids: <Link href={gridHref(grid.slug, "gravity")}>the exchange of each</Link>.</>
+            : grid.slug === "us48" ? <>Trade between its grids cancels inside the Lower 48; its own exchange is with Canada and Mexico. <Link href={gridHref(grid.slug, "gravity")}>The exchange of each grid</Link>.</>
               : <>No tie of {grid.label} reported in the hour starting {hourOf(xHour, tz)}, the newest hour every reporting pair holds (session 266: nothing stands in for it).</>} />
         <HeadlineNumber label="Carbon intensity" unit="kg CO2/MWh" value={cg ? <N t={CARBON} r={cg} /> : <span className="text-muted">not read</span>}
           note={cg ? <>Of generation, hour starting {hourOf(cg.ts_utc, tz)}.{cd ? <> Of the power used here, imports counted: <N t={CARBON} r={cd} />.</> : null}</> : ci.ok ? "No hour in the last seven days." : ci.reason} />
