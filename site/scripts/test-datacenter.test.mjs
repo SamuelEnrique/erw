@@ -226,6 +226,10 @@ test("Georgia (48-8-3(68.1) as HB 1291 amended it): USD 250 million and 25 jobs,
   assert.equal(D.dcRun(D.dcDefaults(P, "ga", { invest: 249, perm: 100 }), P).exemption.eligible, false);
   // a project starting in 2032 or later buys nothing in the exemption's period
   near(D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 100, start: 2032 }), P).sums.forgone, 0);
+  // property (session 10818): Georgia assesses at 40 percent (48-5-7); USD 2 billion, the reader's 1 percent: building 2e9 x 19.6% x 40% x 1% = 1,568,000
+  near(D.dcStat(D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 100, brate: 1, erate: 1 }), P), "y1:propb"), 1568000, "GA building");
+  // New Mexico, one third: equipment at cost 2e9 x 68.2% x 0.333333 x 1% = 4,546,662.12
+  near(D.dcStat(D.dcRun(D.dcDefaults(P, "nm", { invest: 2000, perm: 100, brate: 1, erate: 1 }), P), "y1:prope"), 2e9 * 0.682 * 0.333333 * 0.01, "NM equipment");
 });
 
 test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and 4); Mississippi and Illinois held as words", () => {

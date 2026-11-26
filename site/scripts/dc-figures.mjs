@@ -50,6 +50,9 @@ export const CASES = [
   { id: "ne_words", state: "ne", set: { invest: 2000, perm: 100 } },
   { id: "al_words", state: "al", set: { invest: 2000, perm: 100 } },
   { id: "wy_rule", state: "wy", set: { invest: 800, perm: 30 } },
+  // session 10818: Georgia's 40 percent and New Mexico's one third, the reader's rates typed
+  { id: "ga_property", state: "ga", set: { invest: 2000, perm: 100, brate: 2.5, erate: 2.5 } },
+  { id: "nm_property", state: "nm", set: { invest: 1500, perm: 60, brate: 3, erate: 3, eqv1: 60, eqstep: 15, eqfloor: 10 } },
   { id: "mi_2050", state: "mi", set: { invest: 500, perm: 40, life: 30, matshare: 30 } },
   { id: "mt_class17", state: "mt", set: { invest: 100, perm: 5, brate: 60, erate: 60 } },
   { id: "mt_below", state: "mt", set: { invest: 40, perm: 5, brate: 1, erate: 1 } },
