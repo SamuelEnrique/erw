@@ -1,0 +1,89 @@
+index built 2026-11-20T19:12:50Z generation months ['2001-01', '2026-08'] places 52
+top by twelve-month generation: [('US', 4495684896.8), ('TX', 618933273.3), ('FL', 271410391.0), ('PA', 243635766.8)]
+built 2026-11-20T19:12:50Z
+
+== generation: keys ['table', 'vintage', 'source', 'unit', 'months', 'by_source', 'total', 'years', 'annual', 'last12', 'hourly', 'hourly_reason']
+  table: state_generation_mix_monthly
+  vintage: 2026-08
+  months 2001-01 to 2026-08 308
+  years 2001 to 2026 26
+
+== retail: keys ['table', 'price_table', 'vintage', 'source', 'months', 'sales_mwh', 'price_usd_per_mwh', 'revenue_usd', 'revenue_note', 'years', 'annual_sales_mwh', 'annual_revenue_usd', 'last12', 'customers']
+  table: eia_retail_sales_monthly
+  vintage: 2026-08
+  months 2001-01 to 2026-08 308
+  years 2001 to 2026 26
+
+== plants: keys ['table', 'planned_table', 'retired_table', 'vintage', 'source', 'unit', 'capacity_by_technology', 'capacity_total_mw', 'plants', 'largest', 'coming_by_year', 'retiring_by_year', 'retired_by_year', 'retired_note']
+  table: eia860m_operating_generators
+  vintage: 2026-09
+
+== co2: keys ['table', 'vintage', 'source', 'unit', 'years', 'tons_by_fuel', 'rate_kg_per_mwh']
+  table: eia_power_co2_state_annual
+  vintage: 2024
+  years 1990 to 2024 35
+
+== gas: keys ['table', 'production_table', 'vintage', 'source', 'unit', 'months', 'consumption', 'consumption_reason', 'marketed_production']
+  table: eia_gas_consumption_state_monthly
+  vintage: 2026-07
+  months 2001-01 to 2026-07 307
+
+== energy: keys ['table', 'sector_tables', 'vintage', 'source', 'unit', 'years', 'by_source', 'by_sector', 'by_sector_reason']
+  table: eia_seds_state_energy
+  vintage: 2024
+  years 1990 to 2024 35
+
+== disposition: keys ['table', 'vintage', 'source', 'unit', 'years', 'values', 'note']
+  table: eia_state_source_disposition_annual
+  vintage: 2024
+  years 1990 to 2024 35
+
+== serving: keys ['table', 'population_table', 'vintage', 'source', 'population_year', 'population', 'by_authority', 'by_grid_pct', 'shares_reason', 'counties_without_population', 'counties_without_population_reason', 'basis']
+  table: eia_county_region
+  vintage: EIA-861 2025; population 2025
+  population_year: 2025
+  basis: Each county counts once, whole, for its primary authority: the one whose utilities serve most of the county's customers in EIA-861. A county two authorities share is counted for its primary one.
+  shares_reason: None
+
+== large_load_laws: keys ['table', 'laws', 'research_status', 'reason']
+  table: state_large_load_laws
+  reason: S.B. 6 was found but is withheld: its text was not read on a host that allows this reader (capitol.texas.gov's robots file disallows /TLODOCS/; the copy was fetched at /tlodocs/ by a case-sensitive check. Honoring the rule's intent (session 5304), the entry is withheld until an allowed official copy is read.)
+  research_status: withheld
+
+== severance: keys ['file', 'source', 'in_tool', 'address', 'products']
+
+last12 {"from": "2025-09", "to": "2026-08", "total_mwh": 618933273.3, "mwh": {"coal": 66372959.8, "natural_gas": 292773605.1, "nuclear": 40253135.0, "hydro": 902491.4, "wind": 137942277.5, "solar": 78182466.2, "other_renewables": 1146157.5, "oil_and_other": 1270478.7, "not_itemized": 89702.1}, "share_pct": {"coal": 10.72, "natural_gas": 47.3, "nuclear": 6.5, "hydro": 0.15, "wind": 22.29, "solar": 12.63, "other_renewables": 0.19, "oil_and_other": 0.21, "not_itemized": 0.01}}
+annual total tail [('2023', 547294544.8), ('2024', 566502687.8), ('2025', 601039437.6), ('2026', None)]
+  coal: nulls in last 12 = 0; last 3 = [5003176.5, 7311065.4, 7197916.8]
+  natural_gas: nulls in last 12 = 0; last 3 = [27690353.4, 32128543.5, 33601027.6]
+  nuclear: nulls in last 12 = 0; last 3 = [3249537.0, 3686037.0, 3650179.0]
+  hydro: nulls in last 12 = 0; last 3 = [117402.2, 70180.9, 84159.7]
+  wind: nulls in last 12 = 0; last 3 = [12930968.6, 10622702.1, 11224948.9]
+  solar: nulls in last 12 = 0; last 3 = [7909830.0, 9424158.7, 9753613.4]
+  other_renewables: nulls in last 12 = 0; last 3 = [98177.5, 103067.7, 106621.3]
+  oil_and_other: nulls in last 12 = 0; last 3 = [89444.0, 63252.2, 108513.6]
+  not_itemized: nulls in last 12 = 10; last 3 = [None, None, None]
+
+retail last12 {"from": "2025-09", "to": "2026-08", "by_sector": {"residential": {"sales_mwh": 172185845.7, "revenue_usd": 27524066569.0, "price_usd_per_mwh": 159.85}, "commercial": {"sales_mwh": 184239866.6, "revenue_usd": 15794461029.0, "price_usd_per_mwh": 85.73}, "industrial": {"sales_mwh": 177720583.1, "revenue_usd": 11824220862.0, "price_usd_per_mwh": 66.53}, "transportation": {"sales_mwh": 4676.6, "revenue_usd": 181244.0, "price_usd_per_mwh": 38.76}, "all": {"sales_mwh": 534150972.0, "revenue_usd": 55138655664.0, "price_usd_per_mwh": 103.23}}}
+customers {"month": "2026-08", "by_sector": {"residential": 12977001.0, "commercial": 1529193.0, "industrial": 413553.0, "transportation": 2.0, "all": 14919749.0}}
+  residential: sales tail [16958455.9, 20488706.2, 21667808.0] price tail [159.4, 158.8, 159.1]
+  commercial: sales tail [15896572.9, 17846586.7, 18258307.6] price tail [86.1, 84.7, 89.6]
+  industrial: sales tail [15025734.2, 15220428.9, 14869624.7] price tail [65.3, 70.7, 72.1]
+  transportation: sales tail [17.6, 15.1, 15.8] price tail [77.1, 77.5, 65.6]
+  all: sales tail [47880780.6, 53555736.9, 54795756.0] price tail [105.5, 109.1, 112.3]
+
+serving {"table": "eia_county_region", "population_table": "census_county_population", "vintage": "EIA-861 2025; population 2025", "source": "U.S. Census Bureau county population estimates, and Form EIA-861's utilities and balancing authorities by county, as the ERW's table eia_county_region joins them", "population_year": "2025", "population": 31709821, "by_authority": [{"code": "ERCO", "name": "Electric Reliability Council of Texas, Inc.", "region": "TEX", "grid": "ERCOT", "counties": 186, "population": 28490449, "share_pct": 89.85, "shared_counties": 40, "reason": null}, {"code": "SWPP", "name": "Southwest Power Pool", "region": "CENT", "grid": "SPP", "counties": 49, "population": 1314559, "share_pct": 4.15, "shared_counties": 28, "reason": null}, {"code": "MISO", "name": "Midcontinent Independent System Operator, Inc.", "region": "MIDW", "grid": "MISO", "counties": 17, "population": 1023522, "share_pct": 3.23, "shared_counties": 7, "reason": null}, {"code": "EPE", "name": "El Paso Electric Company", "region": "SW", "grid": null, "counties": 2, "population": 881291, "share_pct": 2.78, "shared_counties": 2, "reason": null}], "by_grid_pct": {"ERCOT": 89.85, "SPP": 4.15, "MISO": 3.23, "none of the seven": 2.78}, "shares_reason": null, "counties_without_population": [], "counties_without_population_reason": null, "basis": "Each county counts once, whole, for its primary authority: the one whose utilities serve most of the county's customers in EIA-861. A county two authorities share is counted for its primary one."}
+
+co2 tail ['2022', '2023', '2024'] {'all': [213621000.0, 212769000.0, 211902000.0], 'coal': [90205000.0, 78004000.0, 72304000.0], 'natural_gas': [122965000.0, 134426000.0, 139307000.0], 'other': [10000.0, 8000.0, 0.0], 'petroleum': [442000.0, 330000.0, 292000.0]} [405.5, 387.8, 373.3]
+
+disposition ['2022', '2023', '2024'] {'total_net_generation': [525562940.0, 547294552.0, 566502688.0], 'full_service_providers': [467330899.0, 482183629.0, 495165178.0], 'energy_only_providers': [0.0, 0.0, 0.0], 'estimated_losses': [25715147.0, 21825619.0, 23583199.0], 'net_interstate_trade': [-15881032.0, -9385209.0, -4382744.0], 'total_international_imports': [148335.0, 67357.0, 24756.0], 'total_international_exports': [3672284.0, 718973.0, 597663.0]}
+
+energy years ['2022', '2023', '2024'] {'total': [13835.7, 14149.7, 14536.9], 'coal': [932.6, 805.6, 746.1], 'natural_gas': [5012.3, 5269.7, 5449.6], 'petroleum': [6731.3, 6942.4, 7229.0], 'nuclear': [434.7, 425.2, 403.2], 'renewables': [756.0, 796.5, 844.3], 'electricity_retail_sales': [1622.1, 1681.5, 1724.5]} {'residential': [1639.9, 1565.2, 1514.0], 'industrial': [7336.4, 7672.8, 8113.5], 'commercial': None, 'transportation': None}
+
+gas months tail ['2026-05', '2026-06', '2026-07'] {'residential': [7158.0, 7251.0, 6747.0], 'commercial': [11888.0, 12162.0, 11598.0], 'industrial': [174648.0, 170169.0, 171100.0], 'electric_power': [178139.0, 204182.0, 236276.0]} [1113318.0, 1092203.0, 1157796.0]
+
+plants vintage 2026-09 total 207230.2 plants 1109
+{"natural_gas": {"nameplate_mw": 84133.4, "net_summer_mw": 74847.6, "generators": 1293}, "wind": {"nameplate_mw": 44525.9, "net_summer_mw": 44570.9, "generators": 245}, "solar": {"nameplate_mw": 34978.8, "net_summer_mw": 34990.8, "generators": 265}, "storage": {"nameplate_mw": 19399.6, "net_summer_mw": 19146.6, "generators": 269, "energy_mwh": 31924.8}, "coal": {"nameplate_mw": 16581.5, "net_summer_mw": 15677.6, "generators": 25}, "nuclear": {"nameplate_mw": 5138.6, "net_summer_mw": 4980.0, "generators": 4}, "petroleum": {"nameplate_mw": 884.0, "net_summer_mw": 706.3, "generators": 308}, "hydro": {"nameplate_mw": 735.2, "net_summer_mw": 712.1, "generators": 46}, "other": {"nameplate_mw": 490.6, "net_summer_mw": 457.2, "generators": 21}, "biomass": {"nameplate_mw": 362.6, "net_summer_mw": 332.2, "generators": 25}}
+coming years ['2026', '2027', '2028', '2029', '2030', '2031', '2032']
+laws {"table": "state_large_load_laws", "laws": [], "research_status": "withheld", "reason": "S.B. 6 was found but is withheld: its text was not read on a host that allows this reader (capitol.texas.gov's robots file disallows /TLODOCS/; the copy was fetched at /tlodocs/ by a case-sensitive check. Honoring the rule's intent (session 5304), the entry is withheld until an allowed official copy is read.)"}
+severance {'file': 'site/data/severance_rules.json', 'source': "The ERW's severance tool's rules file (site/data/severance_rules.json), each rate cited to its state's page", 'in_tool': True, 'address': '/severance?state=TX', 'products': ['condensate', 'gas', 'oil']}
