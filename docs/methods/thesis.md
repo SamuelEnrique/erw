@@ -55,14 +55,14 @@ A run asks the EIA and FRED for at most five series together (one request each, 
 
 Every fact, row and figure carries the sources it rests on, as small numbered links. A source is either a web page the run fetched or a table of the ERW.
 
-**A number is written only if it appears in a fetched source that its row cites.** A figure that could not be found there is not shown. Nothing is estimated to fill a gap, and nothing is smoothed.
+**Every number is checked against the fetched sources its row cites.** A short cell whose number is not found there is replaced by "not confirmed". A sentence (40 characters or more) keeps its words and its numbers and is followed by "(not confirmed: ...)", naming each number no cited source holds, so the reader sees both the sentence and which of its numbers no source gives (session 10236's audit counted 80 such numbers in 49 texts of the five runs saved on 6 October 2026). A trend's written Fact holding such a number is not shown: the trend's cited claim stands in its place. Nothing is estimated to fill a gap, and nothing is smoothed.
 
 ## The placeholders
 
 | On the page | Meaning |
 |---|---|
 | not disclosed | No fetched source gives this |
-| not confirmed | A figure was offered but does not appear in a fetched source, so it is not shown |
+| not confirmed | A figure was offered but does not appear in a fetched source, so it is not shown. After a sentence, "(not confirmed: ...)" names the numbers in it that no cited source holds |
 | not held yet | The ERW has no source for this |
 | PitchBook pending | Asked of PitchBook; shown when the PitchBook answer is submitted |
 
