@@ -62,7 +62,11 @@ const quiet = (html, where) => {
 }
 
 // ---- 3. Files of the contract's shape, with a test's made-up values --------------------------------------------------
-const FIX = fs.mkdtempSync(path.join(os.tmpdir(), "erw-c720-predict-"));
+// `--keep <folder>` writes the fixture there and leaves it, for a build served with ERW_PREDICT_DIR set to it (to see the
+// page's layout before the real files exist; such a build is looked at on this machine and never deployed)
+const KEEP = process.argv.includes("--keep") ? process.argv[process.argv.indexOf("--keep") + 1] : null;
+if (KEEP) fs.mkdirSync(KEEP, { recursive: true });
+const FIX = KEEP ?? fs.mkdtempSync(path.join(os.tmpdir(), "erw-c720-predict-"));
 const FIXTURE = "scripts/test-forecast.mjs: made-up values, a test's fixture";
 const head = { fixture: FIXTURE, contract: "docs/state/page_files_predict.md", built: "2026-11-26T14:05:00Z", tier: "derived", label: "ERW forecast" };
 const NOTES = { demand: "docs/methods/predict.md", price: "docs/methods/predict_price.md" };
@@ -249,7 +253,7 @@ try {
   const fall = { ...tex.series.demand, history: [["2026-11-01T06:00:00Z", "2026-11-01", 1, null, "backtest", 1, 0, 2, 1, 1, 1, 1], ["2026-11-01T07:00:00Z", "2026-11-01", 1, null, "backtest", 1, 0, 2, 1, 1, 1, 1]] };
   check(P.historyOf(fall).map((x) => x.label).join("|") === "01:00|01:00 (again)", "the repeated hour of the autumn clock change is named");
 } finally {
-  fs.rmSync(FIX, { recursive: true, force: true });
+  if (!KEEP) fs.rmSync(FIX, { recursive: true, force: true });
 }
 
 if (fails.length) { console.log(`FAIL ${fails.length} of ${n}:\n  ${fails.join("\n  ")}`); process.exitCode = 1; }
