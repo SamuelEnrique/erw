@@ -68,7 +68,7 @@ class TheComponentsDrawn(unittest.TestCase):
         self.assertTrue(m and m.group(1) == m.group(2) and int(m.group(2)) >= 50, self.out[-500:])
 
     def test_the_blank_cells_are_counted_in_the_drawn_pages(self):
-        self.assertRegex(self.out, r"(?m)^ok   the rules table draws 228 blank cells that say license needed: 220 of the 22 held rows, 8 fields of public rows")
+        self.assertRegex(self.out, r"(?m)^ok   the rules table draws 238 blank cells that say license needed: 230 of the 23 held rows, 8 fields of public rows")
         self.assertRegex(self.out, r"(?m)^ok   the changes open on the newest 12 of 94, and the 4 held are drawn blank \(16 cells\)")
         self.assertRegex(self.out, r"(?m)^ok   the 27 laws and bills and the 1 held, whose four cells are blank")
         self.assertRegex(self.out, r"(?m)^ok   \d+ values and cites of held rows and withheld fields, searched for in the drawn pages: none found")
