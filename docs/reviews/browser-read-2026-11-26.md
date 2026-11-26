@@ -4,6 +4,14 @@ Energy Research Warehouse (ERW). Chain 750 (`queue/done/750-night-26-november-po
 
 How a row reads: what was done, what was seen, what should be seen, and whose it is. A site fault on a page no window owns tonight is fixed on a branch `wip/c750-<page>` with a test and is a row of `docs/state/landing_request_portable_w2.md`. A fault on a page another window owns tonight is a row here that names the window, and its code is not edited. A data fault is a row of `docs/state/data_requests_done_line.md`. A thing that is a choice is one line under "For Samuel's ruling" at the foot, with the page left as it is.
 
+## First: prices the site holds back are served to any visitor as files (row H1, data request 576)
+
+Found at 17:52 UTC on 26 November, while reading what a visitor with no cookie is served. Older than tonight's landings; nothing was changed here.
+
+| # | Done | Seen | Should be seen | Whose, and state |
+|---|---|---|---|---|
+| H1 | The static files the pages load (`site/public`) asked for as a visitor: one of each kind by a header-only request (`runs/c750/visitor_static.mjs`), then every file of the folder named for a grid whose prices are held, counted by folder and grid from the files in this folder, their sizes, spans and dates (`runs/c750/public_held4.py`). No value of a series was read, printed or copied | Production answers 200 for each. 234 files hold prices, or figures computed from prices, of NYISO (122), ISO-NE (64) and MISO (48). (a) `seller/prices/isone_2025.json` and `nyiso_2019.json` to `nyiso_2025.json` (8 files, in git): 8,760 hourly day-ahead prices a year of ISO-NE's internal hub and NYISO's N.Y.C. zone, built 20 November, a month after their tables were marked license needed (21 October). (b) `board/h/isone-*.json` (9) and `nyiso-*.json` (27), in git: hourly prices through 5 and 21 October, written before the hold and not taken out. (c) 190 files of the Automated Analysis gallery for those grids' hubs, computed 8 November, not in git, on production. No PJM price file was found | A held grid's prices not served: the pages draw them "license needed" (`warehouse/metadata/license_verdicts.csv`: "needs written permission" for both) | window A's (the data machine's builders write the files). **Filed:** data request 576, with the lists. Not deleted here: a hold is a person's, and a session deletes no file. For Samuel: the copies in git's history, and MISO's files (its pause says its tables and pages stay as they are) |
+
 ## Where things stand (kept current)
 
 | | Count | Where |

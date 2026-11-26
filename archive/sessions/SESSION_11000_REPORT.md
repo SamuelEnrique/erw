@@ -2,6 +2,15 @@
 
 Energy Research Warehouse (ERW). 26 November 2026, the portable laptop's second window (`$HOME\Documents\erw-w2`, a worktree; code role), unattended. Chain file: `queue/done/750-night-26-november-portable-window2-browser-read.md`. Kept current while the session runs (state at 17:50 UTC); the progress file `docs/state/progress_c750.md` has each step, `docs/reviews/browser-read-2026-11-26.md` is the review itself, and `docs/state/note_2026-11-26_portable_w2_c750.md` is the short note.
 
+## First, for Samuel: prices the site holds back are served to any visitor as files
+
+Found at 17:52 UTC while reading what a visitor with no cookie is served; not caused by tonight's landings; nothing was changed by this window.
+
+- Every page is in review and a held figure is drawn "license needed" or "paused". But the files under `site/public` are served to whoever asks for them, and 234 of them hold prices, or figures computed from prices, of grids whose prices are held: NYISO (122 files), ISO-NE (64) and MISO (48).
+- The plainest: `site/public/seller/prices/isone_2025.json` and `nyiso_2019.json` to `nyiso_2025.json`, each a year of hourly day-ahead prices (8,760 values), **built on 20 November, a month after those tables were marked license needed (21 October)**; and 36 hourly files under `site/public/board/h/` for NYISO and ISO-NE, written before the hold and never taken out. Both sets are in the public repository as well. The other 190 are the Automated Analysis gallery's files for those grids' hubs (computed 8 November; not in git, on production).
+- Production answers 200 to a request for one of each kind (asked by header only; no value was read, printed or copied here).
+- Filed as data request 576 for window A (`docs/state/data_requests_done_line.md`), with the lists. Not deleted here: a hold is a person's, the files are the data machine's, and a session deletes no file. What waits for you: whether the copies in git's history matter, and MISO's (its pause says its tables and pages stay as they are).
+
 ## What was done
 
 - **The start.** The chain file taken by hand (`4e8d24f7e`); the resume file `queue/next/751-resume-chain-750.md` committed alone (`0fac57d61`); the progress file started. No freeze. Sessions 11000 to 11199 were free on origin/main and all 818 remote branches.
