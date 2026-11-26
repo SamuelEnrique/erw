@@ -1,0 +1,10 @@
+2020: plain mean 21.1811, median 16.5600, n 35136
+2021: plain mean 148.1886, median 24.6000, n 35040
+2022: plain mean 62.3034, median 44.0200, n 35040
+2023: plain mean 48.3568, median 21.3700, n 35040
+2024: plain mean 26.8258, median 19.6000, n 35136
+2025: plain mean 32.4906, median 25.6800, n 35040
+2021: intervals at or above 1,000: 645 in the year, 608 in February
+2021: 99.9th percentile of the year 9000.8469; without February 1058.5282
+2015: highest interval 1538.66 at 2015-02-08 18:15:00 local (hour 18)
+2025: highest interval 3553.1 at 2025-04-07 06:45:00 local (hour 6)
