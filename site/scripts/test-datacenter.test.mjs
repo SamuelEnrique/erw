@@ -20,10 +20,15 @@ const near = (a, b, msg = "", rel = 1e-9) => assert.ok(Math.abs(a - b) <= rel * 
 
 test("defaults: the announced projects' medians, JLARC's split, refresh and build time, CBP's wages in 2025 dollars", () => {
   const x = D.dcDefaults(P, "va");
-  assert.equal(x.mw, 1800);                       // median of the 7 MW stated (3 to 5,000)
-  near(x.invest, D.dcRound(1800 * 8.333333, 2));   // USD 8.333333 million a MW (median of 6), to the cent of a million
-  near(x.perm, 375);                              // 1,800 MW x 0.208333 jobs a MW, to one decimal
-  near(x.cons, D.dcRound((x.invest / 1000) * 325, 1));  // 325 construction jobs a USD billion (median of 6)
+  // the medians move as announced projects are added (part F): read them from the file, and check them against the rows
+  const A = P.announced.defaults;
+  assert.equal(x.mw, D.dcRound(A.mw_stated.median, 3));
+  near(x.invest, D.dcRound(x.mw * A.investment_per_mw.median, 2));          // USD million a MW, to the cent of a million
+  near(x.perm, D.dcRound(x.mw * A.permanent_jobs_per_mw.median, 1));
+  near(x.cons, D.dcRound((x.invest / 1000) * A.construction_jobs_per_billion.median, 1));
+  const mws = P.announced.rows.filter((r) => r.mw).map((r) => r.mw.value).sort((a, b) => a - b);
+  const mid = mws.length % 2 ? mws[(mws.length - 1) / 2] : (mws[mws.length / 2 - 1] + mws[mws.length / 2]) / 2;
+  near(A.mw_stated.median, mid, "the MW median is the rows' median"); assert.equal(A.mw_stated.n, mws.length);
   assert.equal(x.bld, 19.6); assert.equal(x.eq, 68.2); assert.equal(x.land, 6.1); assert.equal(x.refresh, 5);
   assert.equal(x.build, 2);                       // 18 months in whole years
   assert.equal(x.life, 20);                       // a horizon, not a sourced life
@@ -68,10 +73,10 @@ test("Louisiana: Meta, Richland Parish, as LED's 13 July 2026 release states it 
 });
 
 test("Virginia: CleanArc, Caroline County, as VEDP's November 2025 release states it (nearly 1,000 MW, USD 3 billion, 50 jobs)", () => {
-  const x = D.dcDefaults(P, "va", { mw: 1000, invest: 3000, perm: 50, start: 2026, build: 2, life: 20, mwh: 5000000 });
+  // the release states no construction figure: the test fixes 975 workers a year (3 x 325, the default when written)
+  const x = D.dcDefaults(P, "va", { mw: 1000, invest: 3000, perm: 50, cons: 975, start: 2026, build: 2, life: 20, mwh: 5000000 });
   const r = D.dcRun(x, P);
   assert.ok(r.ok);
-  near(x.cons, D.dcRound(3 * 325, 1));            // the release states no construction figure: the default, 975
   // Code 58.1-609.3(18): USD 3 billion >= 150 million and 50 >= 50 jobs: eligible; purchases through 2034 exempt.
   assert.equal(r.exemption.eligible, true);
   // Equipment 3e9 x 68.2% = 2.046e9; at 5.77 percent 118,054,200 a purchase; bought in the build (2026-27) and in 2033, 2038, 2043.

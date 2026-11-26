@@ -28,9 +28,9 @@
    "case": "al_facebook_huntsville_2018",
    "published_30y_revenue_musd_2018": 297.3,
    "model_sales_tax_paid_musd_2018": 290.3,
-   "model_income_tax_musd_2018": 13,
+   "model_income_tax_musd_2018": 12.6,
    "model_property_tax": "not held (no Alabama rate is held; the reader types the county's and city's)",
-   "model_total_held_musd_2018": 303.3,
+   "model_total_held_musd_2018": 302.9,
    "exemption_held": false
   },
   {

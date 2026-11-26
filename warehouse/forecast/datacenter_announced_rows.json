@@ -333,6 +333,51 @@
    "incentive": "",
    "years": "within the next two years",
    "note": "No jobs stated. The page names the place, not the county."
+  },
+  {
+   "id": "la_hut8_riverbend_2025",
+   "name": "Hut 8, River Bend AI data center campus, Phase I",
+   "company": "Hut 8",
+   "state": "la",
+   "county": "West Feliciana Parish",
+   "doc": {"title": "Hut 8 Selects Southeast Louisiana as Site of $10 Billion Artificial Intelligence Data Center", "publisher": "Louisiana Economic Development", "date": "2025-12-17", "url": "https://www.opportunitylouisiana.gov/news/hut-8-selects-southeast-louisiana-as-site-of-10-billion-artificial-intelligence-data-center", "request": 192},
+   "mw": {"value": 245, "measure": "critical IT load", "says": "245 MW", "qualifier": "", "quote": "Hut 8 tapped Entergy Louisiana to provide an initial 330 megawatts (MW) of utility capacity to support 245 MW of critical IT load for Fluidstack"},
+   "investment": {"value": 10000000000, "year": 2025, "says": "$10 billion", "qualifier": "up to", "quote": "The project represents a up to $10 billion investment in Phase I, including Hut 8's investment in data center infrastructure."},
+   "construction_jobs": {"value": 1000, "measure": "workers at peak", "says": "1,000 construction workers", "qualifier": "approximately", "quote": "At the peak of construction on Phase I, Hut 8 anticipates approximately 1,000 construction workers on-site."},
+   "permanent_jobs": {"value": 75, "measure": "direct new jobs", "says": "75 direct new jobs", "qualifier": "at least", "quote": "Once operational, Phase I of the River Bend campus is expected to create at least 75 direct new jobs"},
+   "incentive": "",
+   "years": "Construction on the data center is already underway with operations expected to commence by the second quarter of 2027.",
+   "note": "The 330 MW of utility capacity support the 245 MW of critical IT load: the row holds the IT load."
+  },
+  {
+   "id": "la_amazon_caddo_bossier_2026",
+   "name": "Amazon, data center campuses in Caddo and Bossier Parishes (STACK Infrastructure)",
+   "company": "Amazon Web Services; STACK Infrastructure",
+   "state": "la",
+   "county": "Caddo Parish; Bossier Parish",
+   "doc": {"title": "Amazon Selects Louisiana for $12 Billion Data Center Campuses in Major U.S. Expansion", "publisher": "Louisiana Economic Development", "date": "2026-02-23", "url": "https://www.opportunitylouisiana.gov/news/amazon-selects-louisiana-for-12-billion-data-center-campuses-in-major-u-s-expansion", "request": 193},
+   "mw": null,
+   "investment": {"value": 12000000000, "year": 2026, "says": "$12 billion", "qualifier": "", "quote": "Amazon announced plans to invest $12 billion to construct new, state-of-the-art data center campuses that will support cloud computing technologies."},
+   "construction_jobs": {"value": 1500, "measure": "construction jobs, period not stated", "says": "1,500 construction jobs", "qualifier": "up to", "quote": "STACK anticipates this project will support up to 1,500 construction jobs"},
+   "permanent_jobs": {"value": 540, "measure": "direct new jobs", "says": "540 direct new jobs", "qualifier": "", "quote": "The project is expected to create 540 direct new jobs"},
+   "incentive": "",
+   "years": "Construction is expected to begin in the coming weeks.",
+   "note": ""
+  },
+  {
+   "id": "la_applied_digital_rapides_2026",
+   "name": "Applied Digital, Delta Forge 1 AI factory campus",
+   "company": "Applied Digital",
+   "state": "la",
+   "county": "Rapides Parish",
+   "doc": {"title": "Central Louisiana Secures $3.6 Billion Applied Digital AI Factory Campus", "publisher": "Louisiana Economic Development", "date": "2026-05-26", "url": "https://www.opportunitylouisiana.gov/news/central-louisiana-secures-3-6-billion-applied-digital-ai-factory-campus", "request": 194},
+   "mw": {"value": 300, "measure": "critical IT load", "says": "300 megawatts", "qualifier": "", "quote": "Delta Forge 1, will initially include two facilities totaling 300 megawatts of critical IT load"},
+   "investment": {"value": 3600000000, "year": 2026, "says": "$3.6 billion", "qualifier": "", "quote": "Applied Digital Corporation announced plans to develop a $3.6 billion, state-of-the-art artificial intelligence (AI) factory campus in Rapides Parish."},
+   "construction_jobs": {"value": 1000, "measure": "workers at peak", "says": "1,000 construction jobs", "qualifier": "more than", "quote": "The project will create over 1,000 construction jobs at peak construction."},
+   "permanent_jobs": {"value": 200, "measure": "full-time on-site jobs", "says": "200 new full-time, on-site jobs", "qualifier": "", "quote": "The new campus will directly support 200 new full-time, on-site jobs with salaries 150% of the state average wage."},
+   "incentive": "",
+   "years": "",
+   "note": ""
   }
  ]
 }
