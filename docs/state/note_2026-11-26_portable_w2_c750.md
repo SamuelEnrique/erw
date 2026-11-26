@@ -2,6 +2,10 @@
 
 Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-portable-window2-browser-read.md`. Progress: `docs/state/progress_c750.md`. The review: `docs/reviews/browser-read-2026-11-26.md`. Model spend USD 0. Kept current while the chain runs; this is its state at 17:50 UTC on 26 November.
 
+## First: prices the site holds back are served to any visitor as files
+
+- Found at 17:52 UTC, older than tonight, nothing changed by this window. The pages draw a held price as "license needed"; the files under `site/public` are served to anyone. 234 of them hold prices, or figures from prices, of NYISO, ISO-NE and MISO: a year of hourly prices a file in `site/public/seller/prices/` (`isone_2025.json`, `nyiso_2019.json` to `nyiso_2025.json`, built 20 November, a month after the hold of 21 October), 36 hourly files in `site/public/board/h/` left from before the hold, and 190 gallery files. The first two sets are in the public repository too. Data request 576 (window A). Yours to rule: the copies in git's history, and MISO's.
+
 ## Pages read, and what was found
 
 - **Read on production in a real browser, at 1280 px with a mouse and 390 px with a finger:**
