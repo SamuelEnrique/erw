@@ -42,7 +42,7 @@ export default async function AiEnergyPage({ searchParams }: { searchParams: Pro
       <div data-ai-energy="1">
       <ToolHeader
         title="Energy per AI query, as published"
-        lead={<>Every figure a model maker, a cloud operator or a peer-reviewed paper has printed for the energy of an AI query, a token, a training run or a fleet, in the publication&apos;s own words, with its date and{" "}
+        lead={<>Each figure the publications read so far print for the energy of an AI query, a training run, a deployment or a fleet (a model maker&apos;s, a cloud operator&apos;s or a peer-reviewed paper&apos;s), not every figure ever printed, in the publication&apos;s own words, with its date and{" "}
           <Hint words="what it measures" why="Each publication measures something of its own: one prompt, a thousand inferences, a training run, a deployment, a year of a fleet. Most figures are not comparable with one another, and the page sets none against another. Where two publications give a figure for the same thing (the search that produced the Evolved Transformer), both rows stand, each with its subject." />.{" "}
           <Hint words="Nothing here is the ERW's own" why="No figure is averaged, summed, converted to another unit or ranked. Each is the number the publication printed, read by a session from the publication's saved copy." />.</>}
         under={<p className="mt-2 text-xs text-muted" data-license-line="1">License: {F.license}. File built {F.built.slice(0, 10)}.</p>}
