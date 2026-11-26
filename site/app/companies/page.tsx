@@ -153,7 +153,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
                     <td className="px-3 py-1.5 text-right">{figureCell(r, "planned_mw", sourceOf("planned_mw: EIA-860M planned generators' nameplate"))}</td>
                     <td className="px-3 py-1.5 text-right">{figureCell(r, "queue_mw", sourceOf("queue_mw: ERCOT queue positions neither withdrawn nor completed"))}</td>
                     <td className="px-3 py-1.5 text-right">{r.n_policy_actions ? <Key id={r.id} col="n_policy_actions" raw={r.n_policy_actions} source={sourceOf("n_policy_actions: policy_actions rows")}>{count(r.n_policy_actions)}</Key> : <span className="text-muted">0</span>}</td>
-                    <td className="px-3 py-1.5 text-right">{figureCell(r, "footprint_mw", sourceOf("footprint_mw: operating, owned, planned and queue MW summed, a sort key"))}</td>
+                    <td className="px-3 py-1.5 text-right">{figureCell(r, "footprint_mw", sourceOf("footprint_mw: operating, owned, planned and queue MW summed, a sort key; a jointly owned generator the company also operates counts twice, whole in operating MW and for its share in owned MW"))}</td>
                   </tr>
                 ))}
               </tbody>
