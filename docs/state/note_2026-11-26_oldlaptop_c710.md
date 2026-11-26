@@ -55,6 +55,10 @@ Energy Research Warehouse (ERW). Chain file: `queue/done/710-night-26-november-o
 - The industry page (`industry-model-audit-2026-11-26.md`): 8 findings; row 118; the whole industrial sector set beside manufacturing fuel, half of it.
 - The supply page (`supply-model-audit-2026-11-26.md`): 5 findings; row 119; California's gas burn compared across a change of source (-22.8 percent against +0.8 like for like).
 - The events pages (`events-model-audit-2026-11-26.md`): 9 findings; row 120; the weather share fitted on the event days too (Uri's effect changes sign fitted on the baseline alone); the paper's columns untouched.
+- The contracts page (`contracts-model-audit-2026-11-26.md`): 6 findings; row 121; every quarter read from the newest file, so older quarters show only the survivors.
+- The games (`play-model-audit-2026-11-26.md`): 8 findings; row 122; "What is stored" says a play's records cannot be joined, and they can (a privacy sentence).
+- The company database (`companies-model-audit-2026-11-26.md`): 7 findings; row 123; jointly owned plants counted twice in the default order.
+- The learning pages (`problems-model-audit-2026-11-26.md`): 7 findings; row 124; two keyed answers depend on a price the question does not name.
 - The same held-rows-in-public question gathered in the weekend page's tier 1 first item.
 
 ## What waits for Samuel, in plain words
