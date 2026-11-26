@@ -56,6 +56,11 @@ const NEWEST_WORDS = " These are EIA's newest hours, which it may still revise; 
 // never go below zero (in the year to 4 November 2026: 0 of 8,832 and of 6,528 hours; SPP's are zero in 2,949), so their
 // lines carry no charging; docs/methods/eia930_all_storage.md says so, the page did not.
 const NO_CHARGE_WORDS = " ISO-NE's and SPP's lines never go below zero: they report no charging to EIA-930, so a zero hour there is not an idle battery.";
+// Session 10212 (docs/reviews/storage-model-audit-2026-11-26.md, finding 6): what two of the fleet's cells hold. Operating
+// is EIA-860M's operating sheet, statuses OP, SB, OS and OA (September 2026: 22 units, 508.0 MW on standby or out of
+// service); Retired is eia860m_retired_generators, the inventory's year and the year before (8 units, 338.5 MW, against
+// 50 units and 524.3 MW in EIA's full list of August 2026).
+const FLEET_STATUS_WORDS = "Operating is EIA's operating inventory, which also counts units on standby and units out of service (EIA's codes SB, OS and OA). Retired holds only the units retired in the inventory's year and the year before, not every battery ever retired.";
 const BUILD = ["under_construction", "planned"];
 
 function Tier({ tier }: { tier: "derived" | "source" }) {
@@ -361,7 +366,7 @@ async function FleetView() {
         {last24}
       </ChartFrame>
 
-      <ToolSection title="The fleet" note="Nameplate MW of every battery unit (prime mover BA) in EIA-860M, by EIA's status, and its Nameplate Energy Capacity (MWh) where EIA gives it: for operating and retired units, not for planned ones (EIA's Planned sheet has no such column). MWh is never estimated from MW.">
+      <ToolSection title="The fleet" note={`Nameplate MW of every battery unit (prime mover BA) in EIA-860M, by EIA's status, and its Nameplate Energy Capacity (MWh) where EIA gives it: for operating and retired units, not for planned ones (EIA's Planned sheet has no such column). MWh is never estimated from MW. ${FLEET_STATUS_WORDS}`}>
         {units.ok ? <Fleet units={units.data} /> : <NoData what="the fleet" reason={units.reason} />}
       </ToolSection>
 
