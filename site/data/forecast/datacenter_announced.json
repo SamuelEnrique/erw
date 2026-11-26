@@ -75,10 +75,10 @@
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 28,
+   "n": 30,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
-   "median": 51.218004,
+   "median": 50.0,
    "high": 121.786859,
    "high_row": "sc_meta_aiken_2024",
    "rows": [
@@ -88,9 +88,11 @@
     "sc_cielo_cherokee_2025",
     "va_cleanarc_caroline_2025",
     "la_meta_richland_2026",
+    "mo_metrobloks_clay_2026",
     "va_aws_2023",
     "in_meta_lebanon_2026",
     "wv_penzance_berkeley_2026",
+    "mo_amazon_montgomery_2026",
     "ia_meta_davenport_2024",
     "la_amazon_caddo_bossier_2026",
     "la_meta_richland_2024",
@@ -1460,6 +1462,72 @@
    "incentive": "",
    "years": "by the end of 2028",
    "note": "The first datacenter (wi_microsoft_mountpleasant_2024) employed \"more than 3,000 construction workers during peak operations\"; the second \"is expected to require a similar workforce\", not a figure. Mount Pleasant is in Racine County (not named in the release)."
+  },
+  {
+   "id": "mo_amazon_montgomery_2026",
+   "name": "Amazon, Montgomery City data center campus",
+   "company": "Amazon",
+   "state": "mo",
+   "county": "Montgomery County",
+   "doc": {
+    "title": "Amazon Investing $10 Billion in Montgomery County",
+    "publisher": "Missouri Department of Economic Development",
+    "date": "2026-06-15",
+    "url": "https://ded.mo.gov/press-room/amazon-investing-10-billion-montgomery-county",
+    "request": 268
+   },
+   "mw": null,
+   "investment": {
+    "value": 10000000000,
+    "year": 2026,
+    "says": "$10 billion",
+    "qualifier": "",
+    "quote": "Today, Amazon announced its plans to invest $10 billion to construct a new, state-of-the-art data center campus in Montgomery City."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 400,
+    "measure": "new direct jobs",
+    "says": "400 new direct jobs",
+    "qualifier": "",
+    "quote": "the project is expected to create 400 new direct jobs"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Construction jobs stated as \"thousands\", not a figure."
+  },
+  {
+   "id": "mo_metrobloks_clay_2026",
+   "name": "Metrobloks, Liberty data center campus",
+   "company": "Metrobloks",
+   "state": "mo",
+   "county": "Clay County",
+   "doc": {
+    "title": "Metrobloks announces plans for $1.4 billion data center in Liberty",
+    "publisher": "Missouri Department of Economic Development",
+    "date": "2026-03-24",
+    "url": "https://ded.mo.gov/press-room/metrobloks-announces-plans-14-billion-data-center-liberty",
+    "request": 269
+   },
+   "mw": null,
+   "investment": {
+    "value": 1400000000,
+    "year": 2026,
+    "says": "$1.4 billion",
+    "qualifier": "",
+    "quote": "announced today its plans to invest $1.4 billion in Liberty for a new, state-of-the-art, high-density data center campus."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 30,
+    "measure": "jobs",
+    "says": "30 jobs",
+    "qualifier": "at least",
+    "quote": "at least 30 jobs with an average annual wage of $95,649"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "568,800 square feet in three buildings; average annual wage USD 95,649 (not used: the tool's wage is CBP's)."
   }
  ]
 }
