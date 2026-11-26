@@ -73,7 +73,7 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Item | State | Session | Note |
 |---|---|---|---|
 | More announced projects | done (first pass) | 10807 | 25 rows (Hut 8 River Bend, Amazon Caddo and Bossier, Applied Digital Delta Forge 1 added); defaults recomputed and dated |
-| JEDI plant types the page lacks | requested | 10807 | data request 8 for window A |
+| JEDI plant types the page lacks | waiting | 10807, 10820 | data request 8: window A builds the coal and CSP trough models in its gate 6 (the table of 8,370 rows waits for the data lock); the page's types follow once the table is written |
 | Published IMPLAN ratios beyond Virginia | done | 10809, 10810 | Georgia (the state auditor's evaluation) and Minnesota (the Legislative Budget Office's), each its own state only |
 | An equipment value schedule (a county's, typed) | done | 10809 | three fields; Loudoun's 2026 schedule reproduces its USD 9.96 million |
 | Window F's browser read, rows naming `/impact` | none yet | 10808 | `docs/reviews/browser-read-2026-11-26.md`: `/impact` with Datacenter is part C, read as it lands |
@@ -90,3 +90,4 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Equipment untaxed where the state says so | done | 10819 | Iowa, Minnesota, North Dakota, Wisconsin, Kansas (25 percent building), with Ohio |
 | Assessment ratios by state | done | 10819 | South Carolina, Wyoming, Arizona, Missouri, Nevada, Alabama, Mississippi, Arkansas; rate fields to 60 percent |
 | Build and read of 3e15b9395 | done | 10819 | fifteen addresses, check-values 1,680 of 1,680; row 14 updated |
+| Data requests 6, 7, 9 | answered | 10820 | 6 landed (22 rows, grows when row 14 lands), 7 landed and read by the tool, 9 built on `wip/c701-tax` |
