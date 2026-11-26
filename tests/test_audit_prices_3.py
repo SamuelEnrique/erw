@@ -66,6 +66,7 @@ class AverageIsAFlatLoads(unittest.TestCase):
         self.assertAlmostEqual(weighted, 31.42, delta=0.005)
         self.assertGreater(weighted / simple - 1, 0.04)
 
+    @unittest.skipUnless(os.path.isdir(os.path.join(SITE, "node_modules")), "site/node_modules is not on this copy")
     def test_the_page_says_each_hour_counts_once(self):
         out = subprocess.run(["node", "--import", "./scripts/tsx-register.mjs", "scripts/audit-prices-3-draw.mjs", "{}"],
                              cwd=SITE, capture_output=True, text=True, timeout=600)

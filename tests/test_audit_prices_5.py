@@ -48,6 +48,7 @@ class TheLegendNamesTheDay(unittest.TestCase):
         self.assertGreaterEqual(newest_whole_day("caiso-th-sp15-gen-apnd"), dt.date(2026, 11, 25))
         self.assertGreaterEqual(newest_whole_day("spp-sppnorth-hub"), dt.date(2026, 11, 25))
 
+    @unittest.skipUnless(os.path.isdir(os.path.join(SITE, "node_modules")), "site/node_modules is not on this copy")
     def test_the_legend_names_the_day_and_the_build(self):
         with open(os.path.join(SITE, "data", "regions", "prices_map.json"), encoding="utf-8") as f:
             m = json.load(f)

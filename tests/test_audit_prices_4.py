@@ -35,6 +35,7 @@ class HeldGridsWhateverLatestPricesHolds(unittest.TestCase):
         sb = open(os.path.join(SITE, "lib", "supabase.ts"), encoding="utf-8").read()
         self.assertIn('if (!t || !licenseNeeded(t)) return { throw: false, filter: false };', sb)   # no table named: no hold
 
+    @unittest.skipUnless(os.path.isdir(os.path.join(SITE, "node_modules")), "site/node_modules is not on this copy")
     def test_the_pages_draw_a_held_grid_as_held(self):
         out = subprocess.run(["node", "--import", "./scripts/prices-read-register.mjs", "scripts/audit-prices-4-draw.mjs"],
                              cwd=SITE, capture_output=True, text=True, timeout=600)

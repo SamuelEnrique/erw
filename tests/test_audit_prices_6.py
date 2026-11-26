@@ -25,6 +25,7 @@ class DayAheadRunsToTheNewestHourPublished(unittest.TestCase):
         self.assertIn("if (opts.since) q.ts_utc = `gte.${opts.since}`;", data)
         self.assertNotIn("lte.", data[data.index("export async function series"):data.index("export async function newest")])
 
+    @unittest.skipUnless(os.path.isdir(os.path.join(SITE, "node_modules")), "site/node_modules is not on this copy")
     def test_the_page_says_the_two_windows(self):
         out = subprocess.run(["node", "--import", "./scripts/prices-read-register.mjs", "scripts/audit-prices-6-draw.mjs"],
                              cwd=SITE, capture_output=True, text=True, timeout=600)

@@ -40,6 +40,7 @@ class LoadZonesAreCompared(unittest.TestCase):
             self.assertTrue(ZONES <= got, f"{period}: {sorted(ZONES - got)}")
         self.assertEqual(sum(1 for r in f["year"] if r["entity"] in ZONES), 8)
 
+    @unittest.skipUnless(os.path.isdir(os.path.join(SITE, "node_modules")), "site/node_modules is not on this copy")
     def test_the_page_says_so_and_counts_hubs_and_zones_apart(self):
         f = load()
         n_year = len(f["year"])
