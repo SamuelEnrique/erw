@@ -21,7 +21,20 @@ export type DcField = {
   name: string; input: keyof DcInputs; label: string; unit: string; min: number; max: number; whole: boolean; group: DcGroup;
   nullable?: boolean; options?: { value: number; label: string }[];
   source: (state: string, P: DcParams) => string;
+  /** session 10821 (window F's I1): the documents the default comes from, opened from its hover */
+  links?: (state: string, P: DcParams) => DcLink[];
 };
+export type DcLink = { href: string; text: string };
+/** a cited source of the rules file as a link (its title and address) */
+const cite = (P: DcParams, key: string | undefined): DcLink[] => {
+  const s = key ? (P.rules as unknown as { sources?: Record<string, { title: string; url: string }> }).sources?.[key] : undefined;
+  return s ? [{ href: s.url, text: s.title }] : [];
+};
+// the two tables' own addresses, as their files hold them (datacenter_wages.json and sales_tax.json, source_url)
+const CBP: DcLink = { href: "https://www2.census.gov/programs-surveys/cbp/datasets/2023/cbp23st.zip", text: "Census County Business Patterns 2023, state file" };
+const TF: DcLink = { href: "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/", text: "Tax Foundation, State and Local Sales Tax Rates, Midyear 2026" };
+const ruleCite = (P: DcParams, s: string, part: "sales_exemption" | "property" | "electricity") =>
+  cite(P, (P.rules.states[s]?.[part] as { cite?: string } | undefined)?.cite);
 const n = (v: number, d = 0) => v.toLocaleString("en-US", { maximumFractionDigits: d });
 const range = (P: DcParams, k: keyof DcParams["announced"]["defaults"], d = 3) => {
   const s = P.announced.defaults[k];
@@ -83,6 +96,19 @@ export const DC_FIELDS: DcField[] = [
   { name: "drate", input: "rate", label: "Discount rate, real", unit: "%", min: 0, max: 20, whole: false, group: "value",
     source: () => "OMB Circular A-94's base case for benefit-cost analysis, 7 percent real. Its Appendix C gives 2.0 percent for 30-year Treasury borrowing (2026), the rate for cost-effectiveness analysis." },
 ];
+// session 10821 (window F's I1): each default's documents, opened from its hover. The announced projects' documents open
+// from the list of projects; the discount rate's (OMB Circular A-94) has no address in the ERW's files, so it has none here.
+const DC_LINKS: Record<string, (s: string, P: DcParams) => DcLink[]> = {
+  dbuild: (_s, P) => cite(P, (P.rules.build as { cite?: string }).cite),
+  bld: (_s, P) => cite(P, (P.rules.split as { cite?: string }).cite), eq: (_s, P) => cite(P, (P.rules.split as { cite?: string }).cite),
+  land: (_s, P) => cite(P, (P.rules.split as { cite?: string }).cite),
+  refresh: (_s, P) => cite(P, (P.rules.refresh as { cite?: string }).cite),
+  opwage: () => [CBP], conswage: () => [CBP], dsales: () => [TF],
+  dcex: (s, P) => ruleCite(P, s, "sales_exemption"),
+  brate: (s, P) => ruleCite(P, s, "property"), erate: (s, P) => ruleCite(P, s, "property"),
+  mwh: (s, P) => ruleCite(P, s, "electricity"),
+};
+for (const f of DC_FIELDS) if (DC_LINKS[f.name]) f.links = DC_LINKS[f.name];
 export const DC_NAMES = DC_FIELDS.map((f) => f.name).concat(["dcproj"]);
 
 export function dcClamp(f: DcField, x: number): number {
@@ -101,11 +127,18 @@ export function dcResolve(P: DcParams, v: Record<string, number>, state: string)
 
 /** The announced projects the left box offers (datacenter_announced.json's rows, trimmed for the browser) */
 export type DcProject = { id: string; name: string; state: string; where: string; date: string; publisher: string; url: string;
-  mw: number | null; measure: string | null; invest: number | null; perm: number | null; cons: number | null; consMeasure: string | null };
+  mw: number | null; measure: string | null; invest: number | null; perm: number | null; cons: number | null; consMeasure: string | null;
+  /** session 10821 (window F's I4): a figure the document states that the pick does not take, and why (the row's note) */
+  skipped: string | null };
 type Fig = { value: number; measure?: string; year?: number } | null;
 export function dcProjects(rows: { id: string; name: string; state: string; county: string | null; place?: string; doc: { date: string; publisher: string; url: string };
-  mw: Fig; investment: Fig; permanent_jobs: Fig; construction_jobs: Fig; investment_includes_generation?: boolean; investment_partial?: string }[], index: Record<string, number>): DcProject[] {
+  mw: Fig; investment: Fig; permanent_jobs: Fig; construction_jobs: Fig; investment_includes_generation?: boolean; investment_partial?: string;
+  note?: string }[], index: Record<string, number>): DcProject[] {
   return rows.map((r) => {
+    const notTaken: string[] = [];
+    if (r.investment && (r.investment_includes_generation || r.investment_partial)) notTaken.push("its investment");
+    if (r.permanent_jobs && String(r.permanent_jobs.measure).includes("kind not stated")) notTaken.push("its jobs figure");
+    const skipped = notTaken.length ? `The document's ${notTaken.join(" and ").replace(/its /g, "")} ${notTaken.length > 1 ? "are" : "is"} not taken, and keep${notTaken.length > 1 ? "" : "s"} the default: ${r.note ?? ""}`.trim() : null;
     const y = r.investment?.year ?? 2025;
     const k = index[String(y)] ? index["2025"] / index[String(y)] : 1;  // a 2026 announcement taken as 2025 dollars
     return {
@@ -115,6 +148,7 @@ export function dcProjects(rows: { id: string; name: string; state: string; coun
       invest: r.investment && !r.investment_includes_generation && !r.investment_partial ? Math.round((r.investment.value * k) / 1e4) / 100 : null,  // USD million, 2025
       perm: r.permanent_jobs && !String(r.permanent_jobs.measure).includes("kind not stated") ? r.permanent_jobs.value : null,
       cons: r.construction_jobs?.value ?? null, consMeasure: r.construction_jobs?.measure ?? null,
+      skipped,
     };
   });
 }

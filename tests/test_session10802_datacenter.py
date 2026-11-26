@@ -28,6 +28,15 @@ class TheModel(unittest.TestCase):
                            capture_output=True, text=True, timeout=180)
         self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-2000:])
 
+    def test_the_ui_node_tests_pass(self):
+        """Session 10821: window F's I4 (a figure not taken is said) and I5 (a project alone in the address sets its figures)."""
+        node = shutil.which("node")
+        if not node:
+            raise unittest.SkipTest("node is not on the path")
+        r = subprocess.run([node, "--no-warnings", "--import", "./scripts/tsx-register.mjs", "--test", "scripts/test-datacenter-ui.test.mjs"],
+                           cwd=SITE, capture_output=True, text=True, timeout=180)
+        self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-2000:])
+
     def test_the_model_imports_nothing(self):
         with open(os.path.join(SITE, "lib", "dcimpact.ts"), encoding="utf-8") as f:
             self.assertNotRegex(f.read(), r"(?m)^import ")
