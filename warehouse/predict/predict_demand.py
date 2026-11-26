@@ -131,9 +131,9 @@ def walk_ols(X, Y, h, fit_days=FIT_DAYS, min_fit=MIN_FIT_DAYS):
     """The walk-forward least squares shared by every regression of the forecast: for each day i and hour k, the
     coefficients fitted on rows j = i-h-fit_days+1 to i-h (those held, with every regressor present) and the fitted
     value X[i, k] . beta. Returns (L, B): L[i, k] the fitted value (NaN without a fit or a full row), B the
-    coefficients. Each window is solved from its own rows by numpy.linalg.lstsq (an SVD), never from running sums:
-    session 10601's replication found that differences of running normal equations lost up to 0.4 percent on these
-    nearly collinear log regressors."""
+    coefficients. Each window is solved from its own rows by numpy.linalg.lstsq (an SVD), the plainest form, which
+    replication/predict/replicate.py repeats; until session 10601 the windows were solved from differences of running
+    normal equations, which gave the same forecasts at the stored precision."""
     n, K, p = X.shape
     valid = np.isfinite(X).all(axis=2) & np.isfinite(Y)
     cn = np.concatenate([np.zeros((1, K)), np.cumsum(valid, axis=0)])

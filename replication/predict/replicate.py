@@ -120,7 +120,8 @@ def refit(M, T, k):
         fil[lone, j] = (raw[lone, j - 1] + raw[lone, j + 1]) / 2
     days = M.index
     lf = np.log(np.where(fil > 0, fil, np.nan))
-    dmean = np.where(np.isnan(fil).any(axis=1), np.nan, fil.mean(axis=1))
+    # a day's mean only when every hour is held and above zero (an hour at or below zero is taken as not held)
+    dmean = np.where((np.isnan(fil) | ~(fil > 0)).any(axis=1), np.nan, fil.mean(axis=1))
     week = pd.Series(dmean, index=days).rolling(7, min_periods=5).mean()
     hol_days = USFederalHolidayCalendar().holidays(days.min() - pd.Timedelta(days=30), days.max() + pd.Timedelta(days=30))
     thanks = [d for d in hol_days if d.month == 11 and d.day >= 22 and d.dayofweek == 3]
