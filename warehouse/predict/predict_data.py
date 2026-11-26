@@ -178,6 +178,32 @@ def price_panel():
     return cached("price_" + "_".join(sorted(HUBS)), PRICE_TABLES, build)
 
 
+def weather_panel():
+    """Wide frame, index the UTC hour, one column a region (lower-case EIA code): region_weather_hourly's observed
+    population-weighted temperature, degrees F. Observations, never a forecast: used only by the separate line
+    "with the weather known", which is never the ERW forecast."""
+    def build():
+        d = read("region_weather_hourly", ["entity", "variable", "ts_utc", "value"], lambda d: d["variable"] == "temperature_f")
+        cols = {}
+        for e, g in d.groupby("entity"):
+            s = pd.Series(g["value"].to_numpy(dtype=float), index=pd.DatetimeIndex(g["ts"])).sort_index()
+            cols[e.split(":", 1)[1].lower()] = s[~s.index.duplicated(keep="last")]
+        df = pd.DataFrame(cols)
+        df = df.reindex(pd.date_range(df.index.min(), df.index.max(), freq="h"))
+        df.index.name = "ts"
+        return df
+    return cached("weather", ["region_weather_hourly"], build)
+
+
+def place_region(place, ref):
+    """The EIA region (lower case) a place lies in: the region itself, or the authority's region in EIA's reference."""
+    kind, code = place.split("-", 1)
+    if kind == "region":
+        return code
+    r = ref.get(code.upper())
+    return r["region"].lower() if r and r.get("region") else None
+
+
 def gas_series():
     """Henry Hub's daily spot price (eia_fuel_spot_prices, USD/MMBtu), indexed by its date."""
     d = read("eia_fuel_spot_prices", ["entity", "variable", "ts_utc", "value"], lambda d: (d["entity"] == "eia:henry_hub") & (d["variable"] == "spot_price"))

@@ -153,6 +153,22 @@ def walk_ols(X, Y, h, fit_days=FIT_DAYS, min_fit=MIN_FIT_DAYS):
     return P, B
 
 
+def regression_weather_known(M, temp, tz, h):
+    """The regression of `regression` with the weather as it turned out added: the region's observed temperature at the
+    target hour, its square, and the target day's mean temperature. NOT a forecast (it reads the target day's own
+    weather) and never the ERW forecast: it says how much of the regression's error a perfect weather forecast could
+    remove. temp: the region's hourly temperature (UTC Series)."""
+    X, Y = features(M, h)
+    f = local_frame(temp, tz)
+    T = matrix(f).reindex(M.index).to_numpy(dtype=float)
+    lone = np.isnan(T[:, 1:23]) & np.isfinite(T[:, 0:22]) & np.isfinite(T[:, 2:24])
+    T[:, 1:23] = np.where(lone, (T[:, 0:22] + T[:, 2:24]) / 2.0, T[:, 1:23])
+    tmean = np.mean(T, axis=1)
+    W = np.stack([T / 100.0, (T / 100.0) ** 2, np.repeat((tmean / 100.0)[:, None], 24, axis=1)], axis=2)
+    L, B = walk_ols(np.concatenate([X, W], axis=2), Y, h)
+    return np.exp(L)
+
+
 def simple(M, h):
     """The two simple methods: P_yesterday[i, k] = M[i-h, k], P_week_ago[i, k] = M[i-7, k] (the raw hours)."""
     raw = M.to_numpy(dtype=float)
