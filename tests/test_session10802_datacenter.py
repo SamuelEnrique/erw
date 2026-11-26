@@ -105,6 +105,11 @@ class TheRunFiles(unittest.TestCase):
             self.assertNotIn("DIFFERS", r.stdout)
             self.assertIn("A elec: script 190580000.0", r.stdout)   # 9,529,000 a year
             self.assertIn("B elec: script 203286212.7", r.stdout)   # 10,164,310.64 a year
+            # session 10821: the Stata download carries the electricity tax too (Stata is not on this machine: its lines are checked)
+            with open(os.path.join(d, "run.do"), encoding="utf-8") as f:
+                do = f.read()
+            self.assertIn("scalar elec_year = min(elec_year, max(0, min(kwh_year, 500000000) - 0) * 0.00257", do)
+            self.assertEqual(do.count('display "electricity tax over the operating years: "'), 2)
 
 
 class TheParameters(unittest.TestCase):

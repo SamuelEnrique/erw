@@ -14,7 +14,7 @@ const COLS = ["scenario", "year", "phase", "jobs_onsite", "jobs_supply_chain", "
 export const DC_HEAD = (what: string) => [
   `# Energy Research Warehouse (ERW): Local impact, a datacenter, ${what}`,
   "# Size, investment and jobs: the reader's, or the medians of announced projects' own documents (site/data/forecast/datacenter_announced.json); the spending split, refresh cycle and build time: JLARC, Data Centers in Virginia 2024; Virginia's supply chain and induced ratios: JLARC Appendix D (Weldon Cooper Center, IMPLAN).",
-  "# Wages: U.S. Census Bureau, County Business Patterns 2023. Sales and income tax tables: Tax Foundation, 2026 (CC BY-NC 4.0). Exemptions, property and electricity rules: each state's statute as quoted in the ERW's rules.",
+  "# Wages: U.S. Census Bureau, County Business Patterns 2023. Sales and income tax tables: Tax Foundation, 2026 (CC BY-NC 4.0). Exemptions, property and electricity rules: each state's statute or agency page, as quoted in the ERW's rules.",
   "# Every dollar is a 2025 dollar. Gross effects, not net of what would have happened otherwise.",
 ];
 export type Scenario = { dc: true; x: DcInputs; r: DcResult } | { dc: false; csvRows: string[]; inputs: unknown };
@@ -246,6 +246,21 @@ export function dcStata(P: DcParams, sc: Record<View, Scenario>): string {
     }
     for (const [v, t] of [["salesbefore", s.r.sums.salesbefore], ["forgone", s.r.sums.forgone], ["sales", s.r.sums.sales], ["income", s.r.sums.income]] as const)
       out.push(`quietly summarize ${v}`, `display "${v}: " %18.2f r(sum) "   tool: " %18.2f ${t ?? 0}`);
+    // session 10821: the tax on the electricity bought, by the state's monthly blocks on a twelfth of the year's kWh, and
+    // where the state lets a large buyer elect another schedule by the year's kWh (Ohio), the lower of the two
+    const el = b.rule?.electricity ?? null;
+    if (el && x.mwh !== null) {
+      const blocks = (v: string, bl: { upto_kwh: number | null; usd_per_kwh: number }[]) => {
+        let lo = 0; const parts: string[] = [];
+        for (const k of bl) { parts.push(k.upto_kwh === null ? `max(0, ${v} - ${lo}) * ${k.usd_per_kwh}` : `max(0, min(${v}, ${k.upto_kwh}) - ${lo}) * ${k.usd_per_kwh}`); lo = k.upto_kwh ?? lo; }
+        return parts.join(" + ");
+      };
+      out.push(`scalar kwh_month = ${x.mwh} * 1000 / 12`, `scalar elec_year = 12 * (${blocks("kwh_month", el.blocks)})`);
+      const alt = (el as { elective?: { min_annual_kwh: number; annual_blocks: { upto_kwh: number | null; usd_per_kwh: number }[] } | null }).elective;
+      if (alt && x.mwh * 1000 >= alt.min_annual_kwh)
+        out.push(`scalar kwh_year = ${x.mwh} * 1000`, `scalar elec_year = min(elec_year, ${blocks("kwh_year", alt.annual_blocks)})`);
+      out.push(`display "electricity tax over the operating years: " %18.2f ${x.life} * elec_year "   tool: " %18.2f ${s.r.sums.elec ?? 0}`);
+    }
   }
   return out.join("\n") + "\n";
 }
