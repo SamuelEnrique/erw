@@ -153,10 +153,13 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
       </Section>
       <Section title="What is stored">
         <p className="max-w-3xl text-sm">
-          Scores are public. Posting one stores the level, your nickname if you give one, your score, the perfect-foresight score and the time; nothing
-          else, and no email, account or IP address. Each finished game also stores its moves (one per fifteen minutes) and its score with a random id, for
-          later research on how people run batteries: never shown, with no nickname or IP address, and nothing that joins it to a leaderboard row. No
-          trackers, no sound.
+          Scores are public. Posting one stores the level, your nickname if you give one, your score, the perfect-foresight score, the mode and battery
+          settings it was played under, and the time; nothing else, and no email, account or IP address. Each finished game also stores, with a random id,
+          its moves (one per fifteen minutes), its score, the level, the mode and battery settings and the time, for later research on how people run
+          batteries: never shown, with no nickname or IP address. If you also post the score, the two records share the level, the score, the settings
+          and a time seconds apart, so they could be matched to each other; no column joins them. As on the site&apos;s other pages, the page view and
+          the fact that a setting was changed (never its value) are counted for the day under a code that changes every day, and the limit of 30 game
+          requests an hour is counted under a daily code made from your address, never the address itself. No trackers, no sound.
         </p>
       </Section>
       <Cite tables={[T, "ercot_all_hub_prices_history"]} note="Today's level from the live set; the five famous days frozen from the history (site/data/battery_levels.json, warehouse/derived/battery_levels.py)" />
