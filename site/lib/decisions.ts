@@ -586,7 +586,7 @@ export const QUEUES_DECISIONS: Decision[] = [
     def: "Berkeley Lab's four statuses; unknown counted as entered only.",
     source: "The data file's queue status field." },
   { key: "past-window", session: "session 95",
-    text: "Completion and withdrawal shares are taken over requests that entered from 2000 to five years before the edition's last year, with a known status, so recent years, still mostly open, do not read as a low completion rate.",
+    text: "Completion and withdrawal shares are taken over requests that entered from 2000 to five years before the edition's last year, with a known status, so recent years, many of whose requests are still open, do not read as a low completion rate.",
     def: "Entered 2000 to 2020 for the 2026 edition.",
     source: "docs/methods/interconnection_queue_summary.md, \"Past requests\"." },
   { key: "floors", session: "session 95",

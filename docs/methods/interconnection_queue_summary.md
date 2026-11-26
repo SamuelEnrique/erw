@@ -71,8 +71,12 @@ for `active`, `suspended`, `operating` and `withdrawn`. A year in which no reque
 | `median_years_to_operation` | the median over those of the days from `q_date` to `on_date`, over 365.25 |
 
 **Past requests** entered from 2000 to five years before the edition's last year. Five years is long enough for most
-outcomes to be known. Recent years are mostly still
-open, and a share that included them would read as a low completion rate when it is only an early one.
+outcomes to be known in most views, not in all: of the requests of 2000 to 2020, 10.33 percent are still open in the
+United States, but 58.67 percent of ERCOT's standalone batteries and 60.00 percent of SPP's solar with storage
+(the headline's "still active or suspended" gives each view's). Recent years hold many open requests, though most are
+not open: in the United States 28.6 to 49.3 percent of each year 2021 to 2024 is still open and most of the rest is
+withdrawn; only 2025 is mostly open (79.0 percent). A share that included them would read as a low completion rate when
+it is only an early one (session 10213, `docs/reviews/queues-model-audit-2026-11-26.md`, finding 3).
 
 **When a figure is not written.** A share, when fewer than 20 past requests are counted: under that, one project moves
 it by five points or more. A median, when fewer than 5 requests are dated. The page says "not held".
@@ -139,7 +143,7 @@ The page draws these at its foot (`site/lib/decisions.ts`, `QUEUES_DECISIONS`), 
 3. Technologies follow Berkeley Lab's cleaned type: solar, solar with storage, storage alone, onshore wind, offshore wind and gas each on its own, and every other type and hybrid in one "other"; storage alone and solar with storage are kept apart from solar. **Default:** Seven groups from the cleaned type, hybrids apart. **Source:** The data file's cleaned type field (type_clean). (session 95)
 4. A request's MW is the sum of its parts as filed (all parts of a hybrid together); a request with no positive capacity is counted and adds no MW. **Default:** Every part's MW summed; none filled. **Source:** The data file's capacity of each part. (session 95)
 5. Status is Berkeley Lab's: active, suspended, operational and withdrawn; a request of unknown status is counted as entered and in no status, and suspended requests are not in the active figures. **Default:** Berkeley Lab's four statuses; unknown counted as entered only. **Source:** The data file's queue status field. (session 95)
-6. Completion and withdrawal shares are taken over requests that entered from 2000 to five years before the edition's last year, with a known status, so recent years, still mostly open, do not read as a low completion rate. **Default:** Entered 2000 to 2020 for the 2026 edition. **Source:** docs/methods/interconnection_queue_summary.md, "Past requests". (session 95)
+6. Completion and withdrawal shares are taken over requests that entered from 2000 to five years before the edition's last year, with a known status, so recent years, many of whose requests are still open, do not read as a low completion rate. **Default:** Entered 2000 to 2020 for the 2026 edition. **Source:** docs/methods/interconnection_queue_summary.md, "Past requests". (session 95)
 7. A share is written only from at least 20 past requests and a median only from at least 5 dated ones; below that the cell reads "not held", since one project would move a smaller share by five points or more. **Default:** 20 requests for a share; 5 for a median. **Source:** docs/methods/interconnection_queue_summary.md, "When a figure is not written". (session 95)
 8. Years to operation are the days from the request to the operation date over 365.25, for requests that reached operation with both dates in order; a request dated the other way round is left out, and ISO-NE, whose operating requests carry no date, has no median. **Default:** Dated requests only, both dates in order. **Source:** The data file's request and operation dates. (session 95)
 9. The figures are of what the queues record: operators keep finished and withdrawn requests for different lengths of time, and the file holds no cost, developer, network upgrade or reason for a withdrawal, and no forecast of what will be built. **Default:** What the queues record, nothing inferred. **Source:** docs/methods/interconnection_queue_summary.md, "What the table does not hold". (session 95)

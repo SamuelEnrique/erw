@@ -223,7 +223,7 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
               </ToolSection>
 
               <ToolSection title="What became of each year's requests"
-                note={<>The black line above the bars marks the years counted as past requests, {p0} to {p1}: old enough (five years or more) for most outcomes to be known. Recent years are mostly still open, which is why they are not in the shares above.</>}>
+                note={<>The black line above the bars marks the years counted as past requests, {p0} to {p1}: five years old or more, so in most views most of their outcomes are known (the headline&apos;s &quot;still active or suspended&quot; says how many are not). Recent years still hold many requests whose outcome is not known (in most views fewer than half of each year 2021 to 2024, and most of 2025), which is why they are not in the shares above.</>}>
                 <ChartFrame title={`${name}: by year entered`} legend={[{ label: "Reached operation", color: COLOR.operating }, { label: "Still active or suspended", color: COLOR.open }, { label: "Withdrawn", color: COLOR.withdrawn }]}>
                   <OutcomeChart view={view} name={name} />
                 </ChartFrame>
