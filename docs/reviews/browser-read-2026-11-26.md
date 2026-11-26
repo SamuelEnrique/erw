@@ -293,7 +293,7 @@ Pictures: `docs/reviews/browser-read-2026-11-26/datacenter-pays/cost-of-power-as
 
 ### The rest of the menu, by hand
 
-The pages of the menu that no window owns tonight, each walked at 1280 and 390 px with the same checks as the tools above (`runs/c750/d_tool.mjs`): `/prices`, `/prices/compare`, `/supply`, `/contracts`, `/severance`, `/battery/customer`, `/shoulder` (92 of 92 checks at each width); `/demand`, `/curtailment`, `/datacenters`, `/storage`, `/deals`, `/companies`, `/events` (89 of 92: the three are the rows below). Every page opens in under 1.6 s with no quiet fault. The charts of `/prices/compare`, `/shoulder` and `/demand` give their figures only as the browser's own tooltip, as the read of 20 November noted (its row S2); not reopened.
+The pages of the menu that no window owns tonight, each walked at 1280 and 390 px with the same checks as the tools above (`runs/c750/d_tool.mjs`): `/prices`, `/prices/compare`, `/supply`, `/contracts`, `/severance`, `/battery/customer`, `/shoulder` (92 of 92 checks at each width); `/demand`, `/curtailment`, `/datacenters`, `/storage`, `/deals`, `/companies`, `/events` (89 of 92: the three are the rows below). Every page opens in under 1.6 s with no quiet fault. The charts of `/prices/compare`, `/shoulder` and `/demand` give their figures only as the browser's own tooltip, as the read of 20 November noted (its row S2); not reopened. Then fourteen more (14:42 to 14:52 UTC): `/map`, `/deals/capital`, `/policy`, `/thesis`, `/play/battery`, `/learn/bill`, `/states` (92 of 92 at each width); `/industry`, `/ai-energy`, `/queues/places`, `/storage/places`, `/explore/ercot-peak-premium`, `/explore/demand-growth`, `/explore/interconnection` (98 of 98 at 390 px; 96 of 98 at 1280 px, the two a read that came while the page was still going back: tried again with longer waits, 6 of 6). No fault on these fourteen.
 
 | # | Done | Seen | Should be seen | Whose, and state |
 |---|---|---|---|---|
@@ -374,6 +374,23 @@ Picture: `docs/reviews/browser-read-2026-11-26/grid-caiso-reliability/reliabilit
 Also seen, and not this page's: the shared "About" mark does not close on Escape (known since the tooling pass of 20 October), and an open box covers the mark of the row under it, so the next mark answers only after a press elsewhere.
 
 Pictures: `docs/reviews/browser-read-2026-11-26/impact-datacenter/impact-datacenter-as-it-opens-1280.png` (Texas, 1,000 MW); `docs/reviews/browser-read-2026-11-26/impact-datacenter/impact-datacenter-an-announced-project-1280.png` (its most telling choice: an announced project picked in Louisiana); `docs/reviews/browser-read-2026-11-26/impact-datacenter/impact-datacenter-virginia-1280.png` (Virginia, the exemption's cost).
+
+### Before `/equities` lands: its energy prices against the price board
+
+The equities page files reached main at 12:51 UTC (`site/data/equities/`, built 12:14 UTC; the equity side held, eight energy prices shown); the page had not landed at 14:54 UTC. The same number in two places was read from the file and from the board as production drew it at 14:53 UTC (`runs/c750/c_board_capture.mjs`, `c_equities_vs_board.py`):
+
+| Series of the equities file | The file's latest | The price board |
+|---|---|---|
+| WTI crude oil, Cushing, spot | 89.53 on 17 November | 89.53 USD/bbl, 17 Nov |
+| Brent crude oil, Europe, spot | 92.94 on 17 November | 92.94 USD/bbl, 17 Nov |
+| Henry Hub natural gas, spot | 3.10 on 17 November | 3.10 USD/MMBtu, 17 Nov |
+| ERCOT Hub average, day-ahead, daily mean | 46.3104 on 25 November | 46.31 USD/MWh, 25 Nov |
+| CAISO SP15, day-ahead, daily mean | 38.8894 on 25 November | 38.89 USD/MWh, 25 Nov |
+| CAISO NP15, day-ahead, daily mean | 48.6138 on 25 November | 48.61, 25 Nov (the week's table) |
+| Uranium, monthly average | 72.8876 for October 2026 | 72.89 USD/lb, Oct 2026 |
+| California carbon allowance, current auction | 32.48 for August 2026 | 32.48 USD/t CO2e, Aug 2026 |
+
+Eight of eight agree, value and day. The four series the file holds back carry no value in it, each with its reason (PJM Western Hub, NYISO New York City and ISO-NE Mass Hub "license needed", MISO Indiana Hub "paused"); the board draws the same hubs blank ("licensed source needed", "license needed"). The board itself is recorded as it stood (25 groups, 276 rows, 12 tiles), to be set beside the board once the equities group lands.
 
 ## For Samuel's ruling (each with the page left as it is)
 

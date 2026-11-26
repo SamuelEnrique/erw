@@ -1,6 +1,6 @@
 # Note of chain 750 (the portable laptop's second window, 26 November 2026): the browser read
 
-Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-portable-window2-browser-read.md`. Progress: `docs/state/progress_c750.md`. The review: `docs/reviews/browser-read-2026-11-26.md`. Model spend USD 0. Kept current while the chain runs; this is its state at 14:10 UTC on 26 November.
+Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-portable-window2-browser-read.md`. Progress: `docs/state/progress_c750.md`. The review: `docs/reviews/browser-read-2026-11-26.md`. Model spend USD 0. Kept current while the chain runs; this is its state at 14:55 UTC on 26 November.
 
 ## Pages read, and what was found
 
@@ -10,13 +10,14 @@ Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-po
   - part D: the five sellable tools (battery, generator, Automated Analysis, the Grid tool, and what a datacenter pays, read only), fourteen more pages of the menu by hand, the first minute;
   - sweeps: every page with a fixed address and the Grid tool's 63 views at both widths, and the 173 addresses of the site's own check list at a phone's width with every chart switched to its table.
 - **Figures set beside their source:** about 120,000 against the page files (15,553 on `/conditions`, 8,941 on `/congestion`, 94,435 on the regions' Mix tabs, 838 words and figures of the problem edition) and 5,142 against Supabase by the site's own check on the five tools' addresses (988, 1,377 and 2,777). The only disagreement was the alerts list of `/conditions`.
-- **Part C has not begun:** none of tonight's pages (`/forecast`, `/equities`, the board's new group, `/impact` with Datacenter, the All grids tab's new rows) was on main at 14:05 UTC.
+- **Part C began at 14:16 UTC** with tonight's first landing: this window's first three rows, seen fixed on production at both widths, and `/impact` with Datacenter (window C's), read in full. The four older plant types show exactly what they showed before (1,700 figures on eleven addresses saved before the deploy and after, none changed). `/forecast`, `/equities` and the board's new group were not on main at 14:54 UTC; the board as it stands is recorded, to check that it loses nothing.
 - **Faults, by owning window:**
-  - no window's page tonight: 6 found, 6 fixed on four branches, each with a test (rows 1, 3, 4 and 5 of `docs/state/landing_request_portable_w2.md`; rows 1, 3 and 4 seen in a build by the first window and requested);
-  - the desktop's second window (B): 1 filed (two of its commits read landed and are not on main; row 2, seen in a build and requested);
+  - no window's page tonight: 8 found, 8 fixed on five branches, each with a test (rows 1, 3, 4, 5 and 6 of `docs/state/landing_request_portable_w2.md`). Rows 1 and 3 landed at 14:16 UTC and are seen on production; rows 4, 5 and 6 are seen in a build by the first window and requested;
+  - the desktop's second window (B): 1 filed (two of its commits read landed and were not on main; row 2, landed at 14:16 UTC and seen on production);
+  - window C (`/impact` with Datacenter): 5 small rows filed (a default's own document cannot be opened from the page; the taxes' total does not say what it leaves out; Georgia's exemption reads "none" where it is held and not applied; a document's figure the tool does not take is not said; an address with the project's id alone shows its name over the default's figures);
   - the old laptop (D), on pages it audits tonight: 2 filed (`/cost-of-power` 1,677 px wide on a phone; a false sentence on `/research`);
   - window A (the data machine), with the old laptop: 1 filed (the All grids tab does not follow the back button); and 1 known to it already (the page files of 21 to 25 November);
-  - windows C and E: none yet (their pages had not landed).
+  - window E: none yet (its pages had not landed).
 
 ## The five worst things found
 
@@ -26,7 +27,7 @@ Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-po
 4. **The Grid tool's "same day last week" loses its first 5 to 8 hours on every grid** whenever the loads are two days behind the clock, though the live set holds them. Fixed, seen in a build, requested.
 5. **Two fixes marked landed on 21 November are not on main,** and **every page that draws the data machine's page files shows 18 to 20 November** (its daily commits of 21 to 25 November sit on `wip/red-dm-*` branches; window A repairs it tonight).
 
-Also fixed: `/companies`, where five of six fields had no name for a screen reader and the lists kept a choice after the back button.
+Also fixed: `/companies`, where five of six fields had no name for a screen reader; and the back button on the three forms that submit with their button (`/companies`, `/prices/compare`, `/conditions`), whose fields kept the later choice over the earlier page.
 
 ## Where the pictures are
 
@@ -52,6 +53,6 @@ In plain words; the same nine lines stand at the foot of the review.
 
 ## What waits for a window
 
-- **Window A's desk:** rows 1 to 4 of `docs/state/landing_request_portable_w2.md` are requested; row 5 waits for the first window's next build.
-- **The old laptop and window A:** rows CP1, CP2 and R1 of the review.
-- **This window:** tonight's pages as they land, then the first minute once more with them in the menu and the tour.
+- **Window A's desk:** rows 4, 5 and 6 of `docs/state/landing_request_portable_w2.md` are requested (rows 1, 2 and 3 landed at 14:16 UTC).
+- **Window C:** rows I1 to I5 of the review. **The old laptop and window A:** rows CP1, CP2 and R1.
+- **This window:** `/forecast`, `/equities` and the board's new group as they land, then the first minute once more with tonight's pages in the menu and the tour.
