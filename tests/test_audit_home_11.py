@@ -29,7 +29,8 @@ class TheAiStop(unittest.TestCase):
     def test_the_stop_says_so(self):
         t = src("site", "lib", "tour.ts")
         self.assertNotIn("The energy a query to an AI model uses", t)
-        self.assertIn("The energy of AI as each publisher printed it, for a query, a training run or a company's whole fleet in a year, with who measured it and how.", t)
+        # session 10201: merged with the AI energy audit's branch, whose words for this stop are kept
+        self.assertIn("a company's whole fleet with AI among the rest, with who measured it and how.", t)
 
 
 if __name__ == "__main__":

@@ -110,8 +110,9 @@ export const NEW_STOPS: Stop[] = [
   },
   {
     href: "/ai-energy", title: "Energy per AI query", seconds: 30, landed: true,
-    // session 10236 (audit finding 11): five of the page's rows are a company's whole fleet in a year, none is per token
-    line: "The energy of AI as each publisher printed it, for a query, a training run or a company's whole fleet in a year, with who measured it and how.",
+    // sessions 10221 and 10236 (the AI energy audit's finding 1, the home audit's finding 11): five of the page's rows
+    // are a company's whole fleet in a year, none is per token; the AI energy audit's words are kept (session 10201)
+    line: "Energy figures as each publisher printed them: an AI query, a training run, or a company's whole fleet with AI among the rest, with who measured it and how.",
     look: "Read \"Every figure, as printed\", then \"The publishers\".",
     headings: ["Every figure, as printed", "The publishers"],
   },
