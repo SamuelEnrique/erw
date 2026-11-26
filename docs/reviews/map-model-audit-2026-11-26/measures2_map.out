@@ -1,0 +1,154 @@
+== 1. The point of interconnection in the public queue tables (main copy, read only)
+  caiso: 514 of 514 positions not withdrawn name a point of interconnection (100.0 percent); # Retrieved: 20260926T000645Z (UTC) by warehouse/connectors/iso_queues.py via gridstatus 0.36.0 CAISO.get_interconnection_queue
+    for example: ['Cascade-Cottonwood 115 kV', 'Vincent Substation 220kV', 'Blue Lake Power Substation']
+  ercot: 1,778 of 1,778 positions not withdrawn name a point of interconnection (100.0 percent); # Retrieved: 20260926T000645Z (UTC) by warehouse/connectors/iso_queues.py via gridstatus 0.36.0 Ercot.get_interconnection_queue
+    for example: ['tap 345kV 23912 Ogallala - 23910 Windmill', 'tap 345kV 23914 Tule Canyon - 23912 Ogallala', '60400 Lynx 138kV']
+  spp: 987 of 1,023 positions not withdrawn name a point of interconnection (96.5 percent); # Retrieved: 20260926T000645Z (UTC) by warehouse/connectors/iso_queues.py via gridstatus 0.36.0 SPP.get_interconnection_queue
+    for example: ['South Huntley 230 kV Substation', "GridLiance's Cougar 69 kV Substation", 'Bonanza Station 34.5 kV bus']
+== 2. The proposed in-service date: in the page's file, on no card
+  3,252 of 3,684 positions carry one; queue vintage 2026-11-05
+    ('caiso', 'q-active', 'passed') 36
+    ('caiso', 'q-active', 'to come') 225
+    ('caiso', 'q-completed', 'none') 252
+    ('ercot', 'q-active', 'passed') 15
+    ('ercot', 'q-active', 'to come') 1144
+    ('ercot', 'q-completed', 'passed') 36
+    ('ercot', 'q-completed', 'to come') 541
+    ('isone', 'q-active', 'passed') 7
+    ('isone', 'q-active', 'to come') 43
+    ('isone', 'q-completed', 'none') 79
+    ('isone', 'q-completed', 'passed') 285
+    ('spp', 'q-active', 'none') 39
+    ('spp', 'q-active', 'passed') 36
+    ('spp', 'q-active', 'to come') 550
+    ('spp', 'q-completed', 'none') 42
+    ('spp', 'q-completed', 'passed') 298
+    ('spp', 'q-none', 'none') 16
+    ('spp', 'q-none', 'passed') 9
+    ('spp', 'q-none', 'to come') 9
+    ('spp', 'q-suspended', 'none') 4
+    ('spp', 'q-suspended', 'to come') 18
+  active positions whose proposed date had passed by the vintage: 94 of 2,095
+== 3. EIA units drawn in another state: the nearest county internal point is another state's, and the unit is over 50 miles from its own county's point
+  121 units, 14,014.6 MW; plants: 54
+    (2600, 'CT', 'CA', 'Hartford', 'AmericoldCA - Plainville, CT', 'operating', 2.0, '70557:G003')
+    (1537, 'AR', 'CA', 'Lee', 'Big Creek Solar LLC', 'planned', 400.0, '64670:KOV4A')
+    (276, 'ME', 'MA', 'Franklin', 'Rangeley', 'operating', 3.0, '70519:19735')
+    (230, 'MO', 'KS', 'Nodaway', 'Mullin Creek #1 Generating Station', 'planned', 489.7, '68296:MC1')
+    (122, 'CA', 'AZ', 'San Bernardino', 'Parker Dam', 'operating', 30.0, '447:4')
+    (122, 'CA', 'AZ', 'San Bernardino', 'Parker Dam', 'operating', 30.0, '447:3')
+    (122, 'CA', 'AZ', 'San Bernardino', 'Parker Dam', 'operating', 30.0, '447:2')
+    (122, 'CA', 'AZ', 'San Bernardino', 'Parker Dam', 'operating', 30.0, '447:1')
+    (111, 'CA', 'AZ', 'San Bernardino', 'Vidal Energy Center', 'planned', 160.0, '68907:2')
+    (111, 'CA', 'AZ', 'San Bernardino', 'Vidal Energy Center', 'planned', 160.0, '68907:1')
+    (100, 'NV', 'CA', 'Nye', 'Sunshine Valley Solar', 'operating', 103.5, '59826:GEN01')
+    (95, 'AZ', 'UT', 'Navajo', 'Kayenta Solar Project', 'operating', 28.0, '61268:PV2')
+    (95, 'AZ', 'UT', 'Navajo', 'Kayenta Solar Project', 'operating', 27.3, '61268:PV1')
+    (90, 'AZ', 'NM', 'Apache', 'Western Renewable Energy', 'operating', 3.0, '56358:1')
+    (86, 'NY', 'MA', 'Suffolk', 'Sunrise Wind', 'planned', 924.0, '67435:SRWND')
+    (83, 'CA', 'AZ', 'Riverside', 'Venable Solar 2', 'operating', 1.5, '58290:VSPV')
+    (83, 'CA', 'AZ', 'Riverside', 'Venable Solar 1', 'operating', 1.5, '58289:VNPV')
+    (82, 'NY', 'RI', 'Suffolk', 'South Fork Wind', 'operating', 130.0, '65561:SFWND')
+    (80, 'NV', 'AZ', 'Clark', 'Arida Solar (Hybrid)', 'planned', 370.0, '63841:BESS')
+    (80, 'NV', 'AZ', 'Clark', 'Arida Solar (Hybrid)', 'planned', 370.0, '63841:ARIDA')
+    (78, 'CA', 'AZ', 'Riverside', 'Palo Verde College', 'operating', 1.2, '57773:1')
+    (78, 'AZ', 'UT', 'Coconino', 'Glen Canyon Dam', 'operating', 165.0, '153:8')
+    (78, 'AZ', 'UT', 'Coconino', 'Glen Canyon Dam', 'operating', 165.0, '153:6')
+    (78, 'AZ', 'UT', 'Coconino', 'Glen Canyon Dam', 'operating', 165.0, '153:5')
+    (78, 'AZ', 'UT', 'Coconino', 'Glen Canyon Dam', 'operating', 165.0, '153:4')
+    (78, 'AZ', 'UT', 'Coconino', 'Glen Canyon Dam', 'operating', 165.0, '153:3')
+    (78, 'AZ', 'UT', 'Coconino', 'Glen Canyon Dam', 'operating', 165.0, '153:2')
+    (78, 'AZ', 'UT', 'Coconino', 'Glen Canyon Dam', 'operating', 165.0, '153:1')
+    (78, 'AZ', 'UT', 'Coconino', 'Glen Canyon Dam', 'operating', 157.0, '153:7')
+    (76, 'CA', 'AZ', 'Riverside', 'Blythe Mesa Solar II', 'operating', 223.6, '65053:IPBMS')
+    (76, 'CA', 'AZ', 'Riverside', 'Blythe Mesa Solar II', 'operating', 112.0, '65053:BMSES')
+    (76, 'CA', 'AZ', 'Riverside', 'Blythe Energy Inc', 'operating', 227.0, '55295:ST1')
+    (76, 'CA', 'AZ', 'Riverside', 'Blythe Energy Inc', 'operating', 182.0, '55295:CT2')
+    (76, 'CA', 'AZ', 'Riverside', 'Blythe Energy Inc', 'operating', 182.0, '55295:CT1')
+    (76, 'AZ', 'NM', 'Apache', 'Springerville', 'operating', 458.1, '8223:4')
+    (76, 'AZ', 'NM', 'Apache', 'Springerville', 'operating', 458.1, '8223:3')
+    (76, 'AZ', 'NM', 'Apache', 'Springerville', 'operating', 424.8, '8223:2')
+    (76, 'AZ', 'NM', 'Apache', 'Springerville', 'operating', 424.8, '8223:1')
+    (76, 'AZ', 'NM', 'Apache', 'Springerville', 'operating', 8.3, '8223:WMS')
+    (76, 'AZ', 'NM', 'Apache', 'Springerville', 'operating', 3.7, '8223:SGSS')
+    (76, 'AZ', 'NM', 'Apache', 'Springerville', 'operating', 1.4, '8223:SGSS1')
+    (75, 'CA', 'AZ', 'Riverside', 'Solar Blythe 2', 'operating', 20.0, '60558:PV1')
+    (75, 'CA', 'AZ', 'Riverside', 'Grace Energy Center', 'planned', 500.0, '69820:GRA2')
+    (75, 'CA', 'AZ', 'Riverside', 'Grace Energy Center', 'planned', 500.0, '69820:GRA1')
+    (73, 'OR', 'ID', 'Malheur', 'Hyline Solar Center, LLC', 'operating', 9.0, '60331:HSC1')
+    (73, 'CA', 'AZ', 'Riverside', 'Solar Blythe LLC', 'operating', 21.0, '56939:1')
+    (73, 'CA', 'AZ', 'Riverside', 'McCoy Solar Energy Project Hybrid', 'operating', 230.0, '58462:MCST1')
+    (73, 'CA', 'AZ', 'Riverside', 'McCoy Solar Energy Project Hybrid', 'operating', 41.9, '58462:BLK7')
+    (73, 'CA', 'AZ', 'Riverside', 'McCoy Solar Energy Project Hybrid', 'operating', 41.9, '58462:1')
+    (73, 'CA', 'AZ', 'Riverside', 'McCoy Solar Energy Project Hybrid', 'operating', 39.6, '58462:BLK3')
+    (73, 'CA', 'AZ', 'Riverside', 'McCoy Solar Energy Project Hybrid', 'operating', 36.5, '58462:BLK8')
+    (73, 'CA', 'AZ', 'Riverside', 'McCoy Solar Energy Project Hybrid', 'operating', 31.4, '58462:BLK5')
+    (73, 'CA', 'AZ', 'Riverside', 'McCoy Solar Energy Project Hybrid', 'operating', 31.4, '58462:BLK4')
+    (73, 'CA', 'AZ', 'Riverside', 'McCoy Solar Energy Project Hybrid', 'operating', 26.9, '58462:BLK6')
+    (73, 'CA', 'AZ', 'Riverside', 'McCoy Solar Energy Project Hybrid', 'operating', 21.0, '58462:BLK2')
+    (73, 'CA', 'AZ', 'Riverside', 'Desert Quartzite', 'operating', 300.0, '59871:GEN01')
+    (73, 'CA', 'AZ', 'Riverside', 'Desert Quartzite', 'operating', 150.0, '59871:GEN02')
+    (73, 'CA', 'AZ', 'Riverside', 'Blythe Solar III, LLC Hybrid', 'operating', 136.8, '60094:BLSL3')
+    (73, 'CA', 'AZ', 'Riverside', 'Blythe Solar III, LLC Hybrid', 'operating', 115.0, '60094:BLST3')
+    (73, 'CA', 'AZ', 'Riverside', 'Blythe Solar II, LLC', 'operating', 115.0, '60092:BLST2')
+    (73, 'CA', 'AZ', 'Riverside', 'Blythe Solar II, LLC', 'operating', 33.9, '60092:BLCK5')
+    (73, 'CA', 'AZ', 'Riverside', 'Blythe Solar II, LLC', 'operating', 33.2, '60092:BLCK4')
+    (73, 'CA', 'AZ', 'Riverside', 'Blythe Solar II, LLC', 'operating', 32.1, '60092:BLCK7')
+    (73, 'CA', 'AZ', 'Riverside', 'Blythe Solar II, LLC', 'operating', 32.0, '60092:BLCK6')
+    (73, 'CA', 'AZ', 'Riverside', 'Blythe Solar 110, LLC', 'operating', 63.0, '60093:BES1')
+    (73, 'CA', 'AZ', 'Riverside', 'Blythe Solar 110, LLC', 'operating', 38.7, '60093:BLCK1')
+    (73, 'CA', 'AZ', 'Riverside', 'Blythe Solar 110, LLC', 'operating', 36.3, '60093:BLCK2')
+    (73, 'CA', 'AZ', 'Riverside', 'Blythe Solar 110, LLC', 'operating', 34.8, '60093:BLCK3')
+    (71, 'CA', 'AZ', 'Riverside', 'Blythe Solar IV, LLC', 'operating', 68.7, '60095:BLS4B')
+    (71, 'CA', 'AZ', 'Riverside', 'Blythe Solar IV, LLC', 'operating', 68.7, '60095:BLS4A')
+    (71, 'CA', 'AZ', 'Riverside', 'Blythe Solar IV, LLC', 'operating', 47.0, '60095:BLST4')
+    (71, 'CA', 'AZ', 'Riverside', 'Arlington Energy Center III', 'operating', 131.0, '64564:AEC3')
+    (71, 'CA', 'AZ', 'Riverside', 'Arlington Energy Center III', 'operating', 110.0, '64564:AEC3B')
+    (71, 'CA', 'AZ', 'Riverside', 'Arlington Energy Center II', 'operating', 133.0, '64481:AEC2')
+    (71, 'CA', 'AZ', 'Riverside', 'Arlington Energy Center II', 'operating', 132.0, '64481:AEC2B')
+    (71, 'CA', 'AZ', 'Riverside', 'Arlington Energy Center II', 'operating', 100.0, '64481:AEC1')
+    (70, 'OR', 'ID', 'Malheur', 'Ontario Solar Center', 'operating', 3.0, '61860:ONTRO')
+    (69, 'OR', 'ID', 'Malheur', 'Fry Ontario Solar Project', 'planned', 4.2, '70516:PV1')
+    (69, 'CA', 'AZ', 'Riverside', 'Crimson', 'operating', 200.0, '65140:SWSH1')
+    (69, 'CA', 'AZ', 'Riverside', 'Crimson', 'operating', 150.0, '65140:SWSH2')
+    (68, 'CA', 'NV', 'San Bernardino', 'Stateline Solar', 'operating', 75.9, '58646:STL')
+    (68, 'CA', 'NV', 'San Bernardino', 'Stateline Solar', 'operating', 37.9, '58646:STL7')
+    (68, 'CA', 'NV', 'San Bernardino', 'Stateline Solar', 'operating', 37.9, '58646:STL6')
+    (68, 'CA', 'NV', 'San Bernardino', 'Stateline Solar', 'operating', 37.9, '58646:STL5')
+    (68, 'CA', 'NV', 'San Bernardino', 'Stateline Solar', 'operating', 37.9, '58646:STL4')
+    (68, 'CA', 'NV', 'San Bernardino', 'Stateline Solar', 'operating', 37.9, '58646:STL3')
+    (68, 'CA', 'NV', 'San Bernardino', 'Stateline Solar', 'operating', 34.1, '58646:STL2')
+    (67, 'OR', 'ID', 'Malheur', 'Vale Solar Center', 'operating', 3.0, '61856:VALE')
+    (67, 'NV', 'UT', 'Lincoln', 'Escape Solar Plant', 'operating', 115.0, '67898:ESPH2')
+    (67, 'NV', 'UT', 'Lincoln', 'Escape Solar Plant', 'operating', 100.0, '67898:ESPHB')
+    (67, 'NV', 'UT', 'Lincoln', 'Escape Solar Plant', 'operating', 70.0, '67898:ESPH1')
+    (66, 'VA', 'NC', 'Tazewell', 'Hera Solar', 'planned', 13.3, '70409:ENX41')
+    (66, 'OR', 'ID', 'Malheur', 'Verde Light Community Solar', 'operating', 3.0, '68338:VERDE')
+    (66, 'AZ', 'UT', 'Coconino', 'Red Antelope Solar & Energy Storage Farm', 'planned', 400.0, '64208:30PNA')
+    (66, 'AZ', 'UT', 'Coconino', 'Red Antelope Solar & Energy Storage Farm', 'planned', 300.0, '64208:30PNB')
+    (65, 'CA', 'NV', 'Inyo', 'Big Pine Creek', 'operating', 3.2, '391:1')
+    (64, 'CA', 'NV', 'San Bernardino', 'Ivanpah 3', 'operating', 133.4, '57075:ST1')
+    (63, 'NV', 'UT', 'Clark', 'NV - Nokomis - CHI', 'operating', 3.0, '67591:CHINV')
+    (63, 'CA', 'NV', 'San Bernardino', 'Ivanpah 2', 'operating', 133.4, '57073:ST1')
+    (62, 'CA', 'NV', 'San Bernardino', 'Ivanpah 1', 'operating', 126.0, '57074:ST1')
+    (61, 'OR', 'ID', 'Malheur', 'Railroad Solar Center, LLC', 'operating', 4.5, '60333:RSC1')
+    (61, 'MN', 'WI', 'St Louis', 'M L Hibbard', 'operating', 37.5, '1897:4')
+    (61, 'MN', 'WI', 'St Louis', 'M L Hibbard', 'operating', 35.3, '1897:3')
+    (60, 'OR', 'ID', 'Malheur', 'Thunderegg Solar Center, LLC', 'operating', 10.0, '60334:TSC1')
+    (59, 'OR', 'ID', 'Malheur', 'Morgan Solar Center', 'operating', 3.0, '61855:MORGN')
+    (59, 'AZ', 'NV', 'Mohave', 'Hoover Dam (AZ)', 'operating', 130.0, '8902:A7')
+    (59, 'AZ', 'NV', 'Mohave', 'Hoover Dam (AZ)', 'operating', 130.0, '8902:A6')
+    (59, 'AZ', 'NV', 'Mohave', 'Hoover Dam (AZ)', 'operating', 130.0, '8902:A4')
+    (59, 'AZ', 'NV', 'Mohave', 'Hoover Dam (AZ)', 'operating', 130.0, '8902:A3')
+    (59, 'AZ', 'NV', 'Mohave', 'Hoover Dam (AZ)', 'operating', 130.0, '8902:A2')
+    (59, 'AZ', 'NV', 'Mohave', 'Hoover Dam (AZ)', 'operating', 130.0, '8902:A1')
+    (59, 'AZ', 'NV', 'Mohave', 'Hoover Dam (AZ)', 'operating', 127.0, '8902:A5')
+    (59, 'AZ', 'NV', 'Mohave', 'Hoover Dam (AZ)', 'operating', 68.5, '8902:A9')
+    (59, 'AZ', 'NV', 'Mohave', 'Hoover Dam (AZ)', 'operating', 61.5, '8902:A8')
+    (59, 'AZ', 'NV', 'Mohave', 'Hoover Dam (AZ)', 'operating', 2.4, '8902:A0')
+    (58, 'OR', 'ID', 'Malheur', 'Neal Hot Springs Geothermal Project', 'operating', 11.0, '58022:NHS3')
+    (58, 'OR', 'ID', 'Malheur', 'Neal Hot Springs Geothermal Project', 'operating', 11.0, '58022:NHS2')
+    (58, 'OR', 'ID', 'Malheur', 'Neal Hot Springs Geothermal Project', 'operating', 11.0, '58022:NHS1')
+    (56, 'OR', 'ID', 'Malheur', 'Vale Air Solar Center, LLC', 'operating', 10.0, '60335:VASC1')
+    (53, 'OR', 'ID', 'Malheur', 'Grove Solar Center, LLC', 'operating', 6.0, '60330:GSC1')
+    (53, 'MN', 'WI', 'St Louis', 'Jean Duluth Solar', 'operating', 1.6, '66743:DUL')
