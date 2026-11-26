@@ -85,6 +85,15 @@ median.
 ## What the table does not hold
 
 - Requests after the end of 2025. The file is a yearly edition.
+- One date for every grid (session 10213, `docs/reviews/queues-model-audit-2026-11-26.md`, finding 5). Each grid's
+  newest dates in the 2026 edition differ: the newest request date is 19 to 24 December 2025 in ERCOT, MISO, SPP, the
+  West and the Southeast, 26 September 2025 in NYISO, 1 July 2025 in PJM, 14 January 2025 in ISO-NE (one request of
+  2025) and 17 April 2023 in CAISO (none of 2024 or 2025). The newest operation date is 30 to 31 December 2025 in ERCOT,
+  PJM and SPP, 15 November and 15 December 2025 in CAISO and the Southeast, 1 June 2025 in the West, 19 December 2024 in
+  MISO and 31 December 2023 in NYISO (ISO-NE dates none), so the chart of waits has no point for a later year there
+  because the file dates none. The statuses run past the year's end: 53 withdrawn requests (13,275 MW; 33 of MISO's,
+  11 of PJM's) carry a withdrawal date of 2 to 16 January 2026, so "active at the end of 2025" is 8,513 requests where
+  it would be up to 8,566 at that date (1,864,963 MW, up to 1,878,238). The page's fold says so.
 - Every plant that operates: a request is operational only when its operator's queue says so, and operators differ in
   how long they keep finished and withdrawn requests. A share is of what the queues record.
 - The storage part of a hybrid on its own.
