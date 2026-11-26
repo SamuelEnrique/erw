@@ -13,7 +13,7 @@ import { Num } from "@/components/Num";
 import { ShareBar } from "@/components/ShareBar";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { HeadlineNumber, HeadlineRow, SourceLine, ToolSection, ToolTable } from "@/components/tool/ToolPage";
-import { daysAgo, series, type SeriesRow } from "@/lib/data";
+import { DEMAND_DAYS, daysAgo, series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { FUELS, fuelName, fuelOf, type GridData } from "@/lib/grid";
 import { gridHref, zoneWords, type GridChoice } from "@/lib/gridtool";
@@ -43,7 +43,8 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
   const entity = `eia930:${grid.ba}`;
   const tz = cfg?.tz ?? null;
   const [dem, gen, ci, fetched] = await Promise.all([
-    attempt(() => series(DEMAND, { entity, variable: "demand_mw", since: daysAgo(9) })),
+    // session 11000 (chain 750): DEMAND_DAYS, so the same hour a week earlier is read while the loads are days behind
+    attempt(() => series(DEMAND, { entity, variable: "demand_mw", since: daysAgo(DEMAND_DAYS) })),
     attempt(() => series(GEN, { entity, since: daysAgo(34) })),
     attempt(() => series(CARBON, { entity, since: daysAgo(7) })),
     fetchHourly(FRESH),
