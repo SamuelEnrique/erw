@@ -1,0 +1,285 @@
+{
+ "answers": 1327,
+ "pass_as_stored": 1327,
+ "fail_without_question_and_arguments": 80,
+ "fail_on_tool_results_alone": 81,
+ "examples": [
+  {
+   "run": "session 267",
+   "id": "q04",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  },
+  {
+   "run": "session 267",
+   "id": "q30",
+   "status": "not_in_warehouse",
+   "without_question_and_arguments": [
+    "2012"
+   ],
+   "without_the_day_line_too": [
+    "2012"
+   ]
+  },
+  {
+   "run": "session 302",
+   "id": "q19",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "48"
+   ],
+   "without_the_day_line_too": [
+    "48"
+   ]
+  },
+  {
+   "run": "session 302",
+   "id": "q28",
+   "status": "not_in_warehouse",
+   "without_question_and_arguments": [
+    "2010"
+   ],
+   "without_the_day_line_too": [
+    "2010"
+   ]
+  },
+  {
+   "run": "session 1113",
+   "id": "b04",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "2"
+   ],
+   "without_the_day_line_too": [
+    "2"
+   ]
+  },
+  {
+   "run": "session 1114",
+   "id": "p02",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "48"
+   ],
+   "without_the_day_line_too": [
+    "48"
+   ]
+  },
+  {
+   "run": "session 1114",
+   "id": "p09",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "48"
+   ],
+   "without_the_day_line_too": [
+    "48"
+   ]
+  },
+  {
+   "run": "session 1149, first set",
+   "id": "b04",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "2"
+   ],
+   "without_the_day_line_too": [
+    "2"
+   ]
+  },
+  {
+   "run": "session 1149, second set",
+   "id": "t05",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "15"
+   ],
+   "without_the_day_line_too": [
+    "15"
+   ]
+  },
+  {
+   "run": "session 1149, second set",
+   "id": "f01",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  },
+  {
+   "run": "session 1149, second set",
+   "id": "f02",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  },
+  {
+   "run": "session 1149, second set",
+   "id": "f09",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  },
+  {
+   "run": "session 1149, second set",
+   "id": "p02",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "48"
+   ],
+   "without_the_day_line_too": [
+    "48"
+   ]
+  },
+  {
+   "run": "session 1149, second set",
+   "id": "p09",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "48",
+    "23"
+   ],
+   "without_the_day_line_too": [
+    "48",
+    "23"
+   ]
+  },
+  {
+   "run": "session 2221, Python loop",
+   "id": "b01",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  },
+  {
+   "run": "session 2221, Python loop",
+   "id": "b03",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  },
+  {
+   "run": "session 2221, Python loop",
+   "id": "b06",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  },
+  {
+   "run": "session 2221, Python loop",
+   "id": "b08",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  },
+  {
+   "run": "session 2222, Python loop",
+   "id": "b01",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  },
+  {
+   "run": "session 2222, Python loop",
+   "id": "b02",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  },
+  {
+   "run": "session 2222, Python loop",
+   "id": "b03",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  },
+  {
+   "run": "session 2222, Python loop",
+   "id": "b06",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  },
+  {
+   "run": "session 2222, Python loop",
+   "id": "b08",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  },
+  {
+   "run": "session 2223, Python loop",
+   "id": "b01",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  },
+  {
+   "run": "session 2223, Python loop",
+   "id": "b02",
+   "status": "answered",
+   "without_question_and_arguments": [
+    "4"
+   ],
+   "without_the_day_line_too": [
+    "4"
+   ]
+  }
+ ]
+}

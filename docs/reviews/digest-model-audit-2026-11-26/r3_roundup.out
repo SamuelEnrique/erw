@@ -1,0 +1,99 @@
+figures re-done: 98; equal: 67; differ: 31
+  ok  2026-W43 | week mean ERCOT HB_NORTH | printed 25.73 | re-done 25.73
+  ok  2026-W43 | week before mean ERCOT HB_NORTH | printed 33.61 | re-done 33.61
+  ok  2026-W43 | week change ERCOT HB_NORTH | printed -7.88 | re-done -7.88
+  ok  2026-W43 | week mean CAISO TH_SP15_GEN-APND | printed 42.53 | re-done 42.53
+  ok  2026-W43 | week before mean CAISO TH_SP15_GEN-APND | printed 39.18 | re-done 39.18
+  ok  2026-W43 | week change CAISO TH_SP15_GEN-APND | printed +3.35 | re-done +3.35
+  BAD 2026-W43 | week mean NYISO N.Y.C. | printed 47.64 | re-done 0 of 168 hours
+  BAD 2026-W43 | week before mean NYISO N.Y.C. | printed 48.42 | re-done 0 of 168 hours
+  ok  2026-W43 | week mean SPP SPPSOUTH_HUB | printed 20.15 | re-done 20.15
+  BAD 2026-W43 | week mean ISO-NE .H.INTERNAL_HUB | printed 40.34 | re-done 0 of 168 hours
+  BAD 2026-W43 | week before mean ISO-NE .H.INTERNAL_HUB | printed 40.89 | re-done 0 of 168 hours
+  BAD 2026-W43 | rt week high NYISO LONGIL at 2026-10-22 00:00Z | printed 1165.64 | re-done row not in this copy
+  BAD 2026-W43 | rt the week's highest among rows retrieved before the issue (every grid) | printed 1165.64 LONGIL NYISO | re-done 276.41 SPPNORTH_HUB SPP 2026-10-20 14:45Z
+  BAD 2026-W43 | rt the week's highest among rows retrieved before the issue (grids not held) | printed 1165.64 LONGIL NYISO | re-done 276.41 SPPNORTH_HUB SPP 2026-10-20 14:45Z
+  BAD 2026-W43 | rt the week's highest held now (every grid in this copy) | printed 1165.64 LONGIL NYISO | re-done 291.37 SPPNORTH_HUB SPP 2026-10-26 02:00Z
+  ok  2026-W43 | fuel Henry Hub natural gas 2026-10-20 | printed 3.10 | re-done 3.10
+  ok  2026-W43 | fuel Henry Hub natural gas 2026-10-13 (a week before) | printed 3.14 | re-done 3.14
+  ok  2026-W43 | fuel Henry Hub natural gas change | printed -0.04 | re-done -0.04
+  ok  2026-W43 | fuel Henry Hub natural gas percent | printed -1.3 | re-done -1.3
+  ok  2026-W43 | fuel Henry Hub natural gas the close a week before is the newest on or before 2026-10-13 | printed 2026-10-13 | re-done 2026-10-13
+  ok  2026-W43 | fuel WTI Cushing crude 2026-10-20 | printed 107.89 | re-done 107.89
+  ok  2026-W43 | fuel WTI Cushing crude 2026-10-13 (a week before) | printed 95.39 | re-done 95.39
+  ok  2026-W43 | fuel WTI Cushing crude change | printed +12.50 | re-done +12.50
+  ok  2026-W43 | fuel WTI Cushing crude percent | printed +13.1 | re-done +13.1
+  ok  2026-W43 | fuel WTI Cushing crude the close a week before is the newest on or before 2026-10-13 | printed 2026-10-13 | re-done 2026-10-13
+  ok  2026-W43 | fuel Brent crude 2026-10-20 | printed 115.22 | re-done 115.22
+  ok  2026-W43 | fuel Brent crude 2026-10-13 (a week before) | printed 125.78 | re-done 125.78
+  ok  2026-W43 | fuel Brent crude change | printed -10.56 | re-done -10.56
+  ok  2026-W43 | fuel Brent crude percent | printed -8.4 | re-done -8.4
+  ok  2026-W43 | fuel Brent crude the close a week before is the newest on or before 2026-10-13 | printed 2026-10-13 | re-done 2026-10-13
+  ok  2026-W43 | US48 week peak among rows retrieved before the issue | printed 519440 at 2026-10-20 22:00 | re-done 519440 at 2026-10-20 22:00
+  ok  2026-W43 | US48 week peak held now | printed 519440 at 2026-10-20 22:00 | re-done 519440 at 2026-10-20 22:00
+  BAD 2026-W43 | US48 hours of the week held now (the issue's count, then) | printed 144 | re-done 168
+  BAD 2026-W44 | week mean ERCOT HB_NORTH hours held (now; at writing fewer may have been) | printed 120 of 169 hours | re-done 33.19
+  ok  2026-W44 | week before mean ERCOT HB_NORTH | printed 25.73 | re-done 25.73
+  BAD 2026-W44 | week mean CAISO TH_SP15_GEN-APND hours held (now; at writing fewer may have been) | printed 120 of 169 hours | re-done 44.34
+  ok  2026-W44 | week before mean CAISO TH_SP15_GEN-APND | printed 42.53 | re-done 42.53
+  BAD 2026-W44 | week mean NYISO N.Y.C. hours held (now; at writing fewer may have been) | printed 144 of 169 hours | re-done 0 of 169 hours
+  BAD 2026-W44 | week before mean NYISO N.Y.C. | printed 47.64 | re-done 0 of 168 hours
+  BAD 2026-W44 | week mean SPP SPPSOUTH_HUB hours held (now; at writing fewer may have been) | printed 120 of 169 hours | re-done 27.62
+  ok  2026-W44 | week before mean SPP SPPSOUTH_HUB | printed 20.15 | re-done 20.15
+  BAD 2026-W44 | week mean ISO-NE .H.INTERNAL_HUB hours held (now; at writing fewer may have been) | printed 120 of 169 hours | re-done 0 of 169 hours
+  BAD 2026-W44 | week before mean ISO-NE .H.INTERNAL_HUB | printed 40.34 | re-done 0 of 168 hours
+  BAD 2026-W44 | rt week high NYISO CAPITL at 2026-10-29 21:30Z | printed 588.05 | re-done row not in this copy
+  BAD 2026-W44 | rt the week's highest among rows retrieved before the issue (every grid) | printed 588.05 CAPITL NYISO | re-done 177.95 SPPNORTH_HUB SPP 2026-10-27 12:15Z
+  BAD 2026-W44 | rt the week's highest among rows retrieved before the issue (grids not held) | printed 588.05 CAPITL NYISO | re-done 177.95 SPPNORTH_HUB SPP 2026-10-27 12:15Z
+  BAD 2026-W44 | rt the week's highest held now (every grid in this copy) | printed 588.05 CAPITL NYISO | re-done 209.55 HB_WEST ERCOT 2026-11-01 02:45Z
+  ok  2026-W44 | fuel Henry Hub natural gas 2026-10-27 | printed 2.76 | re-done 2.76
+  ok  2026-W44 | fuel Henry Hub natural gas 2026-10-20 (a week before) | printed 3.10 | re-done 3.10
+  ok  2026-W44 | fuel Henry Hub natural gas change | printed -0.34 | re-done -0.34
+  ok  2026-W44 | fuel Henry Hub natural gas percent | printed -11.0 | re-done -11.0
+  ok  2026-W44 | fuel Henry Hub natural gas the close a week before is the newest on or before 2026-10-20 | printed 2026-10-20 | re-done 2026-10-20
+  ok  2026-W44 | fuel WTI Cushing crude 2026-10-27 | printed 103.37 | re-done 103.37
+  ok  2026-W44 | fuel WTI Cushing crude 2026-10-20 (a week before) | printed 107.89 | re-done 107.89
+  ok  2026-W44 | fuel WTI Cushing crude change | printed -4.52 | re-done -4.52
+  ok  2026-W44 | fuel WTI Cushing crude percent | printed -4.2 | re-done -4.2
+  ok  2026-W44 | fuel WTI Cushing crude the close a week before is the newest on or before 2026-10-20 | printed 2026-10-20 | re-done 2026-10-20
+  ok  2026-W44 | fuel Brent crude 2026-10-27 | printed 123.10 | re-done 123.10
+  ok  2026-W44 | fuel Brent crude 2026-10-20 (a week before) | printed 115.22 | re-done 115.22
+  ok  2026-W44 | fuel Brent crude change | printed +7.88 | re-done +7.88
+  ok  2026-W44 | fuel Brent crude percent | printed +6.8 | re-done +6.8
+  ok  2026-W44 | fuel Brent crude the close a week before is the newest on or before 2026-10-20 | printed 2026-10-20 | re-done 2026-10-20
+  BAD 2026-W44 | US48 week peak among rows retrieved before the issue | printed 500531 at 2026-10-29 21:00 | re-done 500505 at 2026-10-28 22:00
+  BAD 2026-W44 | US48 week peak held now | printed 500531 at 2026-10-29 21:00 | re-done 500538 at 2026-10-29 21:00
+  BAD 2026-W44 | US48 hours of the week held now (the issue's count, then) | printed 96 | re-done 168
+  ok  2026-W45 | week mean ERCOT HB_NORTH hours held (now; at writing fewer may have been) | printed 120 of 168 hours | re-done 120 of 168 hours
+  ok  2026-W45 | week before mean ERCOT HB_NORTH | printed 33.19 | re-done 33.19
+  ok  2026-W45 | week mean CAISO TH_SP15_GEN-APND hours held (now; at writing fewer may have been) | printed 120 of 168 hours | re-done 120 of 168 hours
+  ok  2026-W45 | week before mean CAISO TH_SP15_GEN-APND | printed 44.34 | re-done 44.34
+  BAD 2026-W45 | week mean NYISO N.Y.C. hours held (now; at writing fewer may have been) | printed 120 of 168 hours | re-done 0 of 168 hours
+  BAD 2026-W45 | week before mean NYISO N.Y.C. | printed 40.90 | re-done 0 of 169 hours
+  ok  2026-W45 | week mean SPP SPPSOUTH_HUB hours held (now; at writing fewer may have been) | printed 120 of 168 hours | re-done 120 of 168 hours
+  ok  2026-W45 | week before mean SPP SPPSOUTH_HUB | printed 27.62 | re-done 27.62
+  BAD 2026-W45 | week mean ISO-NE .H.INTERNAL_HUB hours held (now; at writing fewer may have been) | printed 120 of 168 hours | re-done 0 of 168 hours
+  BAD 2026-W45 | week before mean ISO-NE .H.INTERNAL_HUB | printed 40.28 | re-done 0 of 169 hours
+  ok  2026-W45 | rt week high ERCOT HB_SOUTH at 2026-11-03 23:45Z | printed 302.71 | re-done 302.71
+  BAD 2026-W45 | rt the week's highest among rows retrieved before the issue (every grid) | printed 302.71 HB_SOUTH ERCOT | re-done 302.71 HB_SOUTH ERCOT 2026-11-03 23:45Z
+  BAD 2026-W45 | rt the week's highest among rows retrieved before the issue (grids not held) | printed 302.71 HB_SOUTH ERCOT | re-done 302.71 HB_SOUTH ERCOT 2026-11-03 23:45Z
+  BAD 2026-W45 | rt the week's highest held now (every grid in this copy) | printed 302.71 HB_SOUTH ERCOT | re-done 302.71 HB_SOUTH ERCOT 2026-11-03 23:45Z
+  ok  2026-W45 | fuel Henry Hub natural gas 2026-11-03 | printed 2.63 | re-done 2.63
+  ok  2026-W45 | fuel Henry Hub natural gas 2026-10-27 (a week before) | printed 2.76 | re-done 2.76
+  ok  2026-W45 | fuel Henry Hub natural gas change | printed -0.13 | re-done -0.13
+  ok  2026-W45 | fuel Henry Hub natural gas percent | printed -4.7 | re-done -4.7
+  ok  2026-W45 | fuel Henry Hub natural gas the close a week before is the newest on or before 2026-10-27 | printed 2026-10-27 | re-done 2026-10-27
+  ok  2026-W45 | fuel WTI Cushing crude 2026-11-03 | printed 99.64 | re-done 99.64
+  ok  2026-W45 | fuel WTI Cushing crude 2026-10-27 (a week before) | printed 103.37 | re-done 103.37
+  ok  2026-W45 | fuel WTI Cushing crude change | printed -3.73 | re-done -3.73
+  ok  2026-W45 | fuel WTI Cushing crude percent | printed -3.6 | re-done -3.6
+  ok  2026-W45 | fuel WTI Cushing crude the close a week before is the newest on or before 2026-10-27 | printed 2026-10-27 | re-done 2026-10-27
+  ok  2026-W45 | fuel Brent crude 2026-11-03 | printed 107.03 | re-done 107.03
+  ok  2026-W45 | fuel Brent crude 2026-10-27 (a week before) | printed 123.10 | re-done 123.10
+  ok  2026-W45 | fuel Brent crude change | printed -16.07 | re-done -16.07
+  ok  2026-W45 | fuel Brent crude percent | printed -13.1 | re-done -13.1
+  ok  2026-W45 | fuel Brent crude the close a week before is the newest on or before 2026-10-27 | printed 2026-10-27 | re-done 2026-10-27
+  ok  2026-W45 | US48 week peak among rows retrieved before the issue | printed 502100 at 2026-11-02 23:00 | re-done 502100 at 2026-11-02 23:00
+  ok  2026-W45 | US48 week peak held now | printed 502100 at 2026-11-02 23:00 | re-done 502100 at 2026-11-02 23:00
+  ok  2026-W45 | US48 hours of the week held now (the issue's count, then) | printed 72 | re-done 72
+  BAD 2026-W45 | five numbers: US48 peak says how many hours it rests on | printed no count of hours in the line | re-done the numbers section: from 72 hours of the week
