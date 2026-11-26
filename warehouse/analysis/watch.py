@@ -69,7 +69,7 @@ WATCH = [
     dict(name="watch_ercot_cost_of_power", title="What a MWh cost in Texas, weighted by when the grid uses it", table="cost_of_power_monthly",
          entity="ercot:HB_HUBAVG", variable="rt_load_weighted", by="month", how="last", compare="year", unit="USD/MWh",
          label="ERCOT load-weighted real-time price"),
-    dict(name="watch_battery_model_ercot", title="What a 2-hour battery could earn in Texas (a model's upper bound)", table="battery_stack_monthly",
+    dict(name="watch_battery_model_ercot", title="What a 2-hour battery could earn in Texas (a model with perfect foresight, not an upper bound)", table="battery_stack_monthly",
          entity="ercot:HB_HUBAVG", variable="foresight_2h_revenue_total_usd_per_mw", by="month", how="last",
          whole=("foresight_2h_days_held", "foresight_2h_days_in_month"), compare="year", unit="USD/MW",
          label="modelled revenue of a 2-hour battery at the ERCOT hub average"),
