@@ -14,7 +14,7 @@ export function MonitorCalendar({ rows, today, last = "", built = "", hidden = 0
 }) {
   const c = calendarOf(rows, today, last);
   const lift = (n: number, words: string) => (
-    <a href={liftHref} data-monitor-lift={n} className={tip} title={`Steps on records scored below significance ${floor}; this lifts the floor, the other filters kept.`}
+    <a href={liftHref} data-monitor-lift={n} className={tip} title={`Steps on records scored below significance ${floor}, or not scored at all (the newest documents, and the grid operators' and FERC's large-load orders, which are never scored); this lifts the floor, the other filters kept.`}
       onClick={(e) => { if (onLift) { e.preventDefault(); onLift(); } }}>{words}</a>
   );
   return (
