@@ -357,6 +357,8 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
           </tbody>
         </table>
       </div>
+      {/* session 10209 (docs/reviews/trader-model-audit-2026-11-26.md, finding 2): which gas the week's heat rate divides by */}
+      <p className="mt-1 text-xs text-muted" data-week-heat="1">Heat rate, week: each day&apos;s day-ahead mean over the Henry Hub spot price EIA dates on that day, or on the newest trading day up to 4 days before. EIA dates it by the trading day, gas traded that day for the next day&apos;s flow, while the day-ahead power traded the day before; and the newest days, before EIA publishes their gas, take a price up to 4 days older. Not any plant&apos;s heat rate, and not a regional gas hub&apos;s.</p>
       <h3 className="mb-1 mt-3 text-xs text-muted">The week&apos;s highest real-time intervals</h3>
       <ol className="grid gap-x-8 text-xs tabular-nums sm:grid-cols-2 xl:grid-cols-3">
         {file.spikes.filter((s) => grid === "all" || s.grid === grid).slice(0, 30).map((s) => (
