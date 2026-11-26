@@ -52,8 +52,18 @@ Branch `wip/c720-forecast`, cut from origin/main. The contract `docs/state/page_
 
 ## Part D: energy equities
 
+Branch `wip/c720-equities`, stacked on `wip/c720-forecast` (it shares the download readers). The contract `docs/state/page_files_equities.md` and its six example files (every value null) were on main at the start; no real file is on main or on any branch yet (read 12:15 UTC).
+
 | Step | State | Session |
 |---|---|---|
+| 1. The group on `/board`: the contract's rows turned into the board's own rows, after the board's own groups (`withEquities`, `site/lib/equities.ts`); its table has the latest value, its date, the five moves and the trend; a held row is the board's own blank with its hover; a row opens its series on `/equities`. With the example files the group is one blank row | done on the branch | 10402 |
+| 2. `/equities`: a segment, an index or a company as a line over any window with an energy price laid over on its own axis; a segment's two weightings named plainly; a company's filed figures (the newest period side by side, every period behind a fold, each period a link to its filing); two side by side; every company in one table that filters and sorts; segments and indices | done on the branch | 10402 |
+| 3a. Downloads (`/equities/rows`, `/equities/filed`, `/equities/list`, each with Python and Stata readers) and tests: `site/scripts/test-equities.mjs` 93 of 93, `tests/test_session10402_equities.py` 10 passed; the 111 test files that name the board, the tour, the routes or the config: 5 older tests of the board's source failed at first (each pins a line of the board's code) and pass now with those lines kept as they were; test 8430 fails as on main | done | 10402 |
+| 3b. The build at 1280 and 390 px | in hand: the build is running | 10402 |
+| 3c. The five cases on window A's real files, every figure beside the files | waiting: the real files are not on main | |
+| Data requests 571 and 572 (the list's last close, moves and market value; the board rows' other cells) | requested of window A, `docs/state/data_requests_done_line.md` | 10401 |
+| Landing requested | after 3b | |
+| A tour stop, held | done on the branch (`WAITING_STOPS`) | 10402 |
 
 ## Part E
 

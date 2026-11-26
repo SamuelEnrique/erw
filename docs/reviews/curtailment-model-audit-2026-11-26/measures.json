@@ -1,0 +1,439 @@
+{
+ "1_value|2025|TH_SP15_GEN-APND|rt": {
+  "usd": -41172401.0,
+  "usd_per_mwh": -10.93,
+  "months": 12
+ },
+ "1_value|2025|TH_SP15_GEN-APND|da": {
+  "usd": -22260380.0,
+  "usd_per_mwh": -5.91,
+  "months": 12
+ },
+ "1_value|2025|TH_NP15_GEN-APND|rt": {
+  "usd": 24939711.0,
+  "usd_per_mwh": 6.62,
+  "months": 12
+ },
+ "1_value|2025|TH_NP15_GEN-APND|da": {
+  "usd": 44993281.0,
+  "usd_per_mwh": 11.95,
+  "months": 12
+ },
+ "1_value|2026|TH_SP15_GEN-APND|rt": {
+  "usd": -29009424.0,
+  "usd_per_mwh": -5.48,
+  "months": 10
+ },
+ "1_value|2026|TH_SP15_GEN-APND|da": {
+  "usd": -13579324.0,
+  "usd_per_mwh": -2.56,
+  "months": 10
+ },
+ "1_value|2026|TH_NP15_GEN-APND|rt": {
+  "usd": 27718464.0,
+  "usd_per_mwh": 5.23,
+  "months": 10
+ },
+ "1_value|2026|TH_NP15_GEN-APND|da": {
+  "usd": 34931528.0,
+  "usd_per_mwh": 6.59,
+  "months": 10
+ },
+ "2_flat|2025": {
+  "months": 12,
+  "hours_priced": 8760.0,
+  "hours_any": 4868.0,
+  "share_hours_any_pct": 55.6,
+  "flat_any": 21.57,
+  "all": 31.19,
+  "curtailment_weighted": -10.93,
+  "hours_ge1": 4660.0,
+  "hours_ge10": 4108.0,
+  "hours_ge100": 3188.0,
+  "flat_ge1": 20.64,
+  "flat_ge10": 18.09,
+  "flat_ge100": 13.19,
+  "hours_under1_mwh": 208.0,
+  "mwh_in_hours_under10": 2580.1
+ },
+ "2_flat|2026": {
+  "months": 10,
+  "hours_priced": 7271.0,
+  "hours_any": 5857.0,
+  "share_hours_any_pct": 80.6,
+  "flat_any": 26.99,
+  "all": 28.32,
+  "curtailment_weighted": -5.48,
+  "hours_ge1": 4492.0,
+  "hours_ge10": 3505.0,
+  "hours_ge100": 2689.0,
+  "flat_ge1": 22.26,
+  "flat_ge10": 16.38,
+  "flat_ge100": 10.82,
+  "hours_under1_mwh": 1365.0,
+  "mwh_in_hours_under10": 4047.7
+ },
+ "3_battery|2025|2h": {
+  "intervals": 724.17,
+  "hourly": 728,
+  "pct": 0.53
+ },
+ "3_battery|2025|4h": {
+  "intervals": 1426.84,
+  "hourly": 1450.9,
+  "pct": 1.69
+ },
+ "3_battery|2025|8h": {
+  "intervals": 2753.89,
+  "hourly": 2848.07,
+  "pct": 3.42
+ },
+ "4_share_output_2026": {
+  "2026-01": {
+   "days_with_report_output": 29,
+   "share_on_report_output": 0.61,
+   "page_share": 0.6123
+  },
+  "2026-02": {
+   "days_with_report_output": 26,
+   "share_on_report_output": 5.46,
+   "page_share": 4.7896
+  },
+  "2026-03": {
+   "days_with_report_output": 27,
+   "share_on_report_output": 10.94,
+   "page_share": 9.8601
+  },
+  "2026-04": {
+   "days_with_report_output": 25,
+   "share_on_report_output": 18.97,
+   "page_share": 15.81
+  },
+  "2026-05": {
+   "days_with_report_output": 25,
+   "share_on_report_output": 17.06,
+   "page_share": 13.5784
+  },
+  "2026-06": {
+   "days_with_report_output": 20,
+   "share_on_report_output": 6.92,
+   "page_share": 5.6189
+  },
+  "2026-07": {
+   "days_with_report_output": 9,
+   "share_on_report_output": 2.19,
+   "page_share": 2.4782
+  },
+  "2026-08": {
+   "days_with_report_output": 28,
+   "share_on_report_output": 1.88,
+   "page_share": 1.6567
+  },
+  "2026-09": {
+   "days_with_report_output": 25,
+   "share_on_report_output": 2.27,
+   "page_share": 2.0625
+  },
+  "2026-10": {
+   "days_with_report_output": 28,
+   "share_on_report_output": 2.53,
+   "page_share": 2.7344
+  }
+ },
+ "5_period": {
+  "ten_months_2026": {
+   "share": 6.52,
+   "curtailed": 5288355
+  },
+  "twelve_months_to_2026_10": {
+   "months": [
+    "2025-11",
+    "2026-10"
+   ],
+   "share": 5.98,
+   "curtailed": 5344831,
+   "profile_curtailed": 5354345
+  },
+  "year_2025": {
+   "share": 4.53,
+   "curtailed": 3765628
+  },
+  "nov_dec_2025_curtailed": 56476
+ },
+ "6_clock": {
+  "clock_peak_centroid": [
+   15,
+   12.95
+  ],
+  "standard_peak_centroid": [
+   14,
+   12.05
+  ]
+ },
+ "7_ercot": {
+  "wind": {
+   "page_share_of_limit": 6.67,
+   "caiso_way": 6.67,
+   "above_mwh": 2776.1
+  },
+  "solar": {
+   "page_share_of_limit": 5.68,
+   "caiso_way": 5.6,
+   "above_mwh": 177132.7
+  },
+  "both": {
+   "page_share_of_limit": 6.27,
+   "caiso_way": 6.23
+  },
+  "nov1_hours": [
+   {
+    "ts": "2026-11-01T00:00:00Z",
+    "local": "2026-10-31 19:00",
+    "wind_gen": 3254.15,
+    "wind_hsl": 3360.12,
+    "solar_gen": 0.37,
+    "solar_hsl": 5.33
+   },
+   {
+    "ts": "2026-11-01T01:00:00Z",
+    "local": "2026-10-31 20:00",
+    "wind_gen": 3943.52,
+    "wind_hsl": 4144.56,
+    "solar_gen": 0.32,
+    "solar_hsl": 0.8
+   },
+   {
+    "ts": "2026-11-01T02:00:00Z",
+    "local": "2026-10-31 21:00",
+    "wind_gen": 4277.3,
+    "wind_hsl": 4500.3,
+    "solar_gen": 0.38,
+    "solar_hsl": 0.92
+   },
+   {
+    "ts": "2026-11-01T03:00:00Z",
+    "local": "2026-10-31 22:00",
+    "wind_gen": 4320.05,
+    "wind_hsl": 4549.01,
+    "solar_gen": 0.4,
+    "solar_hsl": 0.88
+   },
+   {
+    "ts": "2026-11-01T04:00:00Z",
+    "local": "2026-10-31 23:00",
+    "wind_gen": 4463.09,
+    "wind_hsl": 4627.39,
+    "solar_gen": 0.33,
+    "solar_hsl": 0.82
+   },
+   {
+    "ts": "2026-11-01T05:00:00Z",
+    "local": "2026-11-01 00:00",
+    "wind_gen": 5078.91,
+    "wind_hsl": 5253.83,
+    "solar_gen": 0.47,
+    "solar_hsl": 0.9
+   },
+   {
+    "ts": "2026-11-01T08:00:00Z",
+    "local": "2026-11-01 02:00",
+    "wind_gen": 4487.21,
+    "wind_hsl": 4875.1,
+    "solar_gen": 0.4,
+    "solar_hsl": 0.86
+   },
+   {
+    "ts": "2026-11-01T09:00:00Z",
+    "local": "2026-11-01 03:00",
+    "wind_gen": 4379.13,
+    "wind_hsl": 4695.23,
+    "solar_gen": 0.25,
+    "solar_hsl": 0.74
+   }
+  ]
+ },
+ "8_spp_output": {
+  "2025-01": {
+   "output_mwh": 9460990,
+   "curtailed_mwh": 1043566,
+   "share": 9.9344
+  },
+  "2025-02": {
+   "output_mwh": 9163810,
+   "curtailed_mwh": 1124570,
+   "share": 10.9305
+  },
+  "2025-03": {
+   "output_mwh": 11424413,
+   "curtailed_mwh": 2402975,
+   "share": 17.3784
+  },
+  "2025-04": {
+   "output_mwh": 10919525,
+   "curtailed_mwh": 2358048,
+   "share": 17.7596
+  },
+  "2025-05": {
+   "output_mwh": 9060115,
+   "curtailed_mwh": 591475,
+   "share": 6.1283
+  },
+  "2025-06": {
+   "output_mwh": 8620296,
+   "curtailed_mwh": 925484,
+   "share": 9.6952
+  },
+  "2025-07": {
+   "output_mwh": 8829360,
+   "curtailed_mwh": 283908,
+   "share": 3.1153
+  },
+  "2025-08": {
+   "output_mwh": 7890027,
+   "curtailed_mwh": 279833,
+   "share": 3.4252
+  },
+  "2025-09": {
+   "output_mwh": 7403258,
+   "curtailed_mwh": 619436,
+   "share": 7.721
+  },
+  "2025-10": {
+   "output_mwh": 9366553,
+   "curtailed_mwh": 1551126,
+   "share": 14.2075
+  },
+  "2025-11": {
+   "output_mwh": 9545063,
+   "curtailed_mwh": 1196649,
+   "share": 11.1402
+  },
+  "2025-12": {
+   "output_mwh": 11121771,
+   "curtailed_mwh": 1120211,
+   "share": 9.1506
+  },
+  "2026-01": {
+   "output_mwh": 9093497,
+   "curtailed_mwh": 1085956,
+   "share": 10.6681
+  },
+  "2026-02": {
+   "output_mwh": 9526379,
+   "curtailed_mwh": 1168408,
+   "share": 10.925
+  },
+  "2026-03": {
+   "output_mwh": 12293967,
+   "curtailed_mwh": 2633252,
+   "share": 17.6406
+  },
+  "2026-04": {
+   "output_mwh": 12184047,
+   "curtailed_mwh": 1921464,
+   "share": 13.6221
+  },
+  "2026-05": {
+   "output_mwh": 10302826,
+   "curtailed_mwh": 1013256,
+   "share": 8.9541
+  },
+  "2026-06": {
+   "output_mwh": 10376477,
+   "curtailed_mwh": 905456,
+   "share": 8.0257
+  },
+  "2026-07": {
+   "output_mwh": 9072603,
+   "curtailed_mwh": 257201,
+   "share": 2.7568
+  },
+  "2026-08": {
+   "output_mwh": 10091765,
+   "curtailed_mwh": 405035,
+   "share": 3.8587
+  },
+  "2026-09": {
+   "output_mwh": 10034447,
+   "curtailed_mwh": 404688,
+   "share": 3.8766
+  },
+  "2026-10": {
+   "output_mwh": 10475285,
+   "curtailed_mwh": 1194321,
+   "share": 10.2345
+  }
+ },
+ "9_fleet_hours": {
+  "2025-09": {
+   "in_curtailed_hours_pct": 94.9,
+   "fleet_charged_mwh": 1284822.2,
+   "curtailed_mwh": 179634.2
+  },
+  "2025-10": {
+   "in_curtailed_hours_pct": 96.2,
+   "fleet_charged_mwh": 1404111.1,
+   "curtailed_mwh": 256402.6
+  },
+  "2025-11": {
+   "in_curtailed_hours_pct": 75.2,
+   "fleet_charged_mwh": 1096837.8,
+   "curtailed_mwh": 25510.9
+  },
+  "2025-12": {
+   "in_curtailed_hours_pct": 83.0,
+   "fleet_charged_mwh": 1204204.4,
+   "curtailed_mwh": 29285.7
+  },
+  "2026-01": {
+   "in_curtailed_hours_pct": 97.5,
+   "fleet_charged_mwh": 1415535.8,
+   "curtailed_mwh": 26572.9
+  },
+  "2026-02": {
+   "in_curtailed_hours_pct": 97.4,
+   "fleet_charged_mwh": 1327372.8,
+   "curtailed_mwh": 242714.1
+  },
+  "2026-03": {
+   "in_curtailed_hours_pct": 97.6,
+   "fleet_charged_mwh": 1647133.8,
+   "curtailed_mwh": 774414.9
+  },
+  "2026-04": {
+   "in_curtailed_hours_pct": 99.6,
+   "fleet_charged_mwh": 1546490.5,
+   "curtailed_mwh": 1459998.0
+  },
+  "2026-05": {
+   "in_curtailed_hours_pct": 100.0,
+   "fleet_charged_mwh": 1638769.0,
+   "curtailed_mwh": 1448984.5
+  },
+  "2026-06": {
+   "in_curtailed_hours_pct": 100.0,
+   "fleet_charged_mwh": 1676796.2,
+   "curtailed_mwh": 600082.4
+  },
+  "2026-07": {
+   "in_curtailed_hours_pct": 99.3,
+   "fleet_charged_mwh": 1645631.3,
+   "curtailed_mwh": 241070.9
+  },
+  "2026-08": {
+   "in_curtailed_hours_pct": 99.2,
+   "fleet_charged_mwh": 1729843.0,
+   "curtailed_mwh": 154937.1
+  },
+  "2026-09": {
+   "in_curtailed_hours_pct": 96.3,
+   "fleet_charged_mwh": 1566453.0,
+   "curtailed_mwh": 166629.5
+  },
+  "2026-10": {
+   "in_curtailed_hours_pct": 98.6,
+   "fleet_charged_mwh": 1668563.5,
+   "curtailed_mwh": 182465.2
+  }
+ }
+}

@@ -1,0 +1,4559 @@
+{
+ "months": {
+  "2025-01": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      510327.0,
+      510327.0
+     ],
+     "usd_per_mwh": [
+      3.92,
+      3.92
+     ],
+     "mwh": [
+      130267.0,
+      130267.0
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      324,
+      324
+     ],
+     "neg": [
+      46.39,
+      46.39
+     ],
+     "flat": [
+      26.43,
+      26.43
+     ],
+     "all": [
+      42.0,
+      42.0
+     ]
+    },
+    "measures": {
+     "hours_ge1": 310,
+     "price_ge1": 25.40659362903226,
+     "hours_ge10": 281,
+     "price_ge10": 23.869605516014236,
+     "hours_ge100": 221,
+     "price_ge100": 21.311805203619908,
+     "mwh_in_hours_under10": 123.74165541666666,
+     "mwh_in_hours_under100": 3029.00141525
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      1545237.0,
+      1545237.0
+     ],
+     "usd_per_mwh": [
+      11.86,
+      11.86
+     ],
+     "mwh": [
+      130267.0,
+      130267.0
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      324,
+      324
+     ],
+     "neg": [
+      29.18,
+      29.18
+     ],
+     "flat": [
+      26.24,
+      26.24
+     ],
+     "all": [
+      41.35,
+      41.35
+     ]
+    },
+    "measures": {
+     "hours_ge1": 310,
+     "price_ge1": 25.287479451612903,
+     "hours_ge10": 281,
+     "price_ge10": 23.972045551601422,
+     "hours_ge100": 221,
+     "price_ge100": 22.093783122171946,
+     "mwh_in_hours_under10": 123.74165541666666,
+     "mwh_in_hours_under100": 3029.00141525
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      3597619.0,
+      3597619.0
+     ],
+     "usd_per_mwh": [
+      27.62,
+      27.62
+     ],
+     "mwh": [
+      130267.0,
+      130267.0
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      324,
+      324
+     ],
+     "neg": [
+      11.62,
+      11.62
+     ],
+     "flat": [
+      39.19,
+      39.19
+     ],
+     "all": [
+      48.69,
+      48.69
+     ]
+    },
+    "measures": {
+     "hours_ge1": 310,
+     "price_ge1": 38.599897822580644,
+     "hours_ge10": 281,
+     "price_ge10": 37.944634964412806,
+     "hours_ge100": 221,
+     "price_ge100": 37.44294592760181,
+     "mwh_in_hours_under10": 123.74165541666666,
+     "mwh_in_hours_under100": 3029.00141525
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      4262180.0,
+      4262180.0
+     ],
+     "usd_per_mwh": [
+      32.72,
+      32.72
+     ],
+     "mwh": [
+      130267.0,
+      130267.0
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      324,
+      324
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      39.5,
+      39.5
+     ],
+     "all": [
+      48.23,
+      48.23
+     ]
+    },
+    "measures": {
+     "hours_ge1": 310,
+     "price_ge1": 39.005972870967746,
+     "hours_ge10": 281,
+     "price_ge10": 38.31033971530249,
+     "hours_ge100": 221,
+     "price_ge100": 37.61168457013575,
+     "mwh_in_hours_under10": 123.74165541666666,
+     "mwh_in_hours_under100": 3029.00141525
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 61.83,
+     "intervals": 61.83,
+     "hourly": 62
+    },
+    "4": {
+     "page": 119.67,
+     "intervals": 119.67,
+     "hourly": 123.5
+    },
+    "8": {
+     "page": 210.33,
+     "intervals": 210.33,
+     "hourly": 238.19
+    }
+   }
+  },
+  "2025-02": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -10071323.0,
+      -10071323.0
+     ],
+     "usd_per_mwh": [
+      -20.04,
+      -20.04
+     ],
+     "mwh": [
+      502516.4,
+      502516.4
+     ],
+     "hours_priced": [
+      672,
+      672
+     ],
+     "hours_curtailed": [
+      309,
+      309
+     ],
+     "neg": [
+      90.06,
+      90.06
+     ],
+     "flat": [
+      7.86,
+      7.86
+     ],
+     "all": [
+      28.35,
+      28.35
+     ]
+    },
+    "measures": {
+     "hours_ge1": 303,
+     "price_ge1": 7.08882805280528,
+     "hours_ge10": 278,
+     "price_ge10": 3.8855479316546764,
+     "hours_ge100": 234,
+     "price_ge100": -3.3835345085470085,
+     "mwh_in_hours_under10": 99.03282541666667,
+     "mwh_in_hours_under100": 2092.1678298333336
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -4745460.0,
+      -4745460.0
+     ],
+     "usd_per_mwh": [
+      -9.44,
+      -9.44
+     ],
+     "mwh": [
+      502516.4,
+      502516.4
+     ],
+     "hours_priced": [
+      672,
+      672
+     ],
+     "hours_curtailed": [
+      309,
+      309
+     ],
+     "neg": [
+      87.06,
+      87.06
+     ],
+     "flat": [
+      11.37,
+      11.37
+     ],
+     "all": [
+      30.88,
+      30.88
+     ]
+    },
+    "measures": {
+     "hours_ge1": 303,
+     "price_ge1": 10.595345181518152,
+     "hours_ge10": 278,
+     "price_ge10": 7.295565971223022,
+     "hours_ge100": 234,
+     "price_ge100": 1.3527928632478634,
+     "mwh_in_hours_under10": 99.03282541666667,
+     "mwh_in_hours_under100": 2092.1678298333336
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      3933735.0,
+      3933735.0
+     ],
+     "usd_per_mwh": [
+      7.83,
+      7.83
+     ],
+     "mwh": [
+      502516.4,
+      502516.4
+     ],
+     "hours_priced": [
+      672,
+      672
+     ],
+     "hours_curtailed": [
+      309,
+      309
+     ],
+     "neg": [
+      35.78,
+      35.78
+     ],
+     "flat": [
+      26.89,
+      26.89
+     ],
+     "all": [
+      38.37,
+      38.37
+     ]
+    },
+    "measures": {
+     "hours_ge1": 303,
+     "price_ge1": 26.364684158415844,
+     "hours_ge10": 278,
+     "price_ge10": 24.350844064748202,
+     "hours_ge100": 234,
+     "price_ge100": 19.840877350427352,
+     "mwh_in_hours_under10": 99.03282541666667,
+     "mwh_in_hours_under100": 2092.1678298333336
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      10792087.0,
+      10792087.0
+     ],
+     "usd_per_mwh": [
+      21.48,
+      21.48
+     ],
+     "mwh": [
+      502516.4,
+      502516.4
+     ],
+     "hours_priced": [
+      672,
+      672
+     ],
+     "hours_curtailed": [
+      309,
+      309
+     ],
+     "neg": [
+      6.86,
+      6.86
+     ],
+     "flat": [
+      34.27,
+      34.27
+     ],
+     "all": [
+      42.83,
+      42.83
+     ]
+    },
+    "measures": {
+     "hours_ge1": 303,
+     "price_ge1": 33.828689933993395,
+     "hours_ge10": 278,
+     "price_ge10": 32.13201715827338,
+     "hours_ge100": 234,
+     "price_ge100": 29.195219957264957,
+     "mwh_in_hours_under10": 99.03282541666667,
+     "mwh_in_hours_under100": 2092.1678298333336
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 56.0,
+     "intervals": 56,
+     "hourly": 56
+    },
+    "4": {
+     "page": 112.0,
+     "intervals": 112,
+     "hourly": 112
+    },
+    "8": {
+     "page": 220.0,
+     "intervals": 220.0,
+     "hourly": 224.0
+    }
+   }
+  },
+  "2025-03": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -25620012.0,
+      -25620012.0
+     ],
+     "usd_per_mwh": [
+      -27.88,
+      -27.88
+     ],
+     "mwh": [
+      919019.5,
+      919019.5
+     ],
+     "hours_priced": [
+      743,
+      743
+     ],
+     "hours_curtailed": [
+      360,
+      360
+     ],
+     "neg": [
+      93.59,
+      93.59
+     ],
+     "flat": [
+      4.81,
+      4.81
+     ],
+     "all": [
+      24.81,
+      24.81
+     ]
+    },
+    "measures": {
+     "hours_ge1": 354,
+     "price_ge1": 3.84800854519774,
+     "hours_ge10": 328,
+     "price_ge10": 1.1079000762195124,
+     "hours_ge100": 287,
+     "price_ge100": -4.833686236933798,
+     "mwh_in_hours_under10": 121.72263525,
+     "mwh_in_hours_under100": 1717.5557666666666
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -19337602.0,
+      -19337602.0
+     ],
+     "usd_per_mwh": [
+      -21.04,
+      -21.04
+     ],
+     "mwh": [
+      919019.5,
+      919019.5
+     ],
+     "hours_priced": [
+      743,
+      743
+     ],
+     "hours_curtailed": [
+      360,
+      360
+     ],
+     "neg": [
+      94.04,
+      94.04
+     ],
+     "flat": [
+      3.33,
+      3.33
+     ],
+     "all": [
+      24.42,
+      24.42
+     ]
+    },
+    "measures": {
+     "hours_ge1": 354,
+     "price_ge1": 2.470671412429379,
+     "hours_ge10": 328,
+     "price_ge10": -0.2905932926829267,
+     "hours_ge100": 287,
+     "price_ge100": -5.300818013937282,
+     "mwh_in_hours_under10": 121.72263525,
+     "mwh_in_hours_under100": 1717.5557666666666
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -6406725.0,
+      -6406725.0
+     ],
+     "usd_per_mwh": [
+      -6.97,
+      -6.97
+     ],
+     "mwh": [
+      919019.5,
+      919019.5
+     ],
+     "hours_priced": [
+      743,
+      743
+     ],
+     "hours_curtailed": [
+      360,
+      360
+     ],
+     "neg": [
+      59.94,
+      59.94
+     ],
+     "flat": [
+      17.06,
+      17.06
+     ],
+     "all": [
+      30.56,
+      30.56
+     ]
+    },
+    "measures": {
+     "hours_ge1": 354,
+     "price_ge1": 16.255888488700567,
+     "hours_ge10": 328,
+     "price_ge10": 14.394042454268293,
+     "hours_ge100": 287,
+     "price_ge100": 10.18825888501742,
+     "mwh_in_hours_under10": 121.72263525,
+     "mwh_in_hours_under100": 1717.5557666666666
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      1172347.0,
+      1172347.0
+     ],
+     "usd_per_mwh": [
+      1.28,
+      1.28
+     ],
+     "mwh": [
+      919019.5,
+      919019.5
+     ],
+     "hours_priced": [
+      743,
+      743
+     ],
+     "hours_curtailed": [
+      360,
+      360
+     ],
+     "neg": [
+      51.62,
+      51.62
+     ],
+     "flat": [
+      18.65,
+      18.65
+     ],
+     "all": [
+      31.8,
+      31.8
+     ]
+    },
+    "measures": {
+     "hours_ge1": 354,
+     "price_ge1": 18.006731129943503,
+     "hours_ge10": 328,
+     "price_ge10": 16.140348719512197,
+     "hours_ge100": 287,
+     "price_ge100": 12.681986968641114,
+     "mwh_in_hours_under10": 121.72263525,
+     "mwh_in_hours_under100": 1717.5557666666666
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 62.0,
+     "intervals": 62,
+     "hourly": 62
+    },
+    "4": {
+     "page": 124.0,
+     "intervals": 124,
+     "hourly": 124
+    },
+    "8": {
+     "page": 243.58,
+     "intervals": 243.58,
+     "hourly": 246.56
+    }
+   }
+  },
+  "2025-04": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -11855391.0,
+      -11855391.0
+     ],
+     "usd_per_mwh": [
+      -16.06,
+      -16.06
+     ],
+     "mwh": [
+      738184.8,
+      738184.8
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      469,
+      469
+     ],
+     "neg": [
+      92.79,
+      92.79
+     ],
+     "flat": [
+      6.33,
+      6.33
+     ],
+     "all": [
+      17.11,
+      17.11
+     ]
+    },
+    "measures": {
+     "hours_ge1": 462,
+     "price_ge1": 5.970866612554112,
+     "hours_ge10": 430,
+     "price_ge10": 3.7596068023255813,
+     "hours_ge100": 359,
+     "price_ge100": -1.5454194986072425,
+     "mwh_in_hours_under10": 149.0659785,
+     "mwh_in_hours_under100": 3476.8284838333334
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -8898756.0,
+      -8898756.0
+     ],
+     "usd_per_mwh": [
+      -12.05,
+      -12.05
+     ],
+     "mwh": [
+      738184.8,
+      738184.8
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      469,
+      469
+     ],
+     "neg": [
+      92.88,
+      92.88
+     ],
+     "flat": [
+      7.63,
+      7.63
+     ],
+     "all": [
+      17.79,
+      17.79
+     ]
+    },
+    "measures": {
+     "hours_ge1": 462,
+     "price_ge1": 7.265510411255411,
+     "hours_ge10": 430,
+     "price_ge10": 5.126668139534884,
+     "hours_ge100": 359,
+     "price_ge100": -0.24907047353760445,
+     "mwh_in_hours_under10": 149.0659785,
+     "mwh_in_hours_under100": 3476.8284838333334
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -5920637.0,
+      -5920637.0
+     ],
+     "usd_per_mwh": [
+      -8.02,
+      -8.02
+     ],
+     "mwh": [
+      738184.8,
+      738184.8
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      469,
+      469
+     ],
+     "neg": [
+      64.26,
+      64.26
+     ],
+     "flat": [
+      16.34,
+      16.34
+     ],
+     "all": [
+      23.46,
+      23.46
+     ]
+    },
+    "measures": {
+     "hours_ge1": 462,
+     "price_ge1": 16.05332224025974,
+     "hours_ge10": 430,
+     "price_ge10": 14.41220476744186,
+     "hours_ge100": 359,
+     "price_ge100": 10.919675766016713,
+     "mwh_in_hours_under10": 149.0659785,
+     "mwh_in_hours_under100": 3476.8284838333334
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -2189313.0,
+      -2189313.0
+     ],
+     "usd_per_mwh": [
+      -2.97,
+      -2.97
+     ],
+     "mwh": [
+      738184.8,
+      738184.8
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      469,
+      469
+     ],
+     "neg": [
+      61.64,
+      61.64
+     ],
+     "flat": [
+      14.38,
+      14.38
+     ],
+     "all": [
+      21.94,
+      21.94
+     ]
+    },
+    "measures": {
+     "hours_ge1": 462,
+     "price_ge1": 14.078289199134199,
+     "hours_ge10": 430,
+     "price_ge10": 12.44479511627907,
+     "hours_ge100": 359,
+     "price_ge100": 8.292744289693594,
+     "mwh_in_hours_under10": 149.0659785,
+     "mwh_in_hours_under100": 3476.8284838333334
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 60.0,
+     "intervals": 60,
+     "hourly": 60
+    },
+    "4": {
+     "page": 120.0,
+     "intervals": 120,
+     "hourly": 120
+    },
+    "8": {
+     "page": 239.08,
+     "intervals": 239.08,
+     "hourly": 240
+    }
+   }
+  },
+  "2025-05": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -3769230.0,
+      -3769230.0
+     ],
+     "usd_per_mwh": [
+      -8.34,
+      -8.34
+     ],
+     "mwh": [
+      451683.0,
+      451683.0
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      600,
+      600
+     ],
+     "neg": [
+      75.73,
+      75.73
+     ],
+     "flat": [
+      18.06,
+      18.06
+     ],
+     "all": [
+      22.18,
+      22.18
+     ]
+    },
+    "measures": {
+     "hours_ge1": 588,
+     "price_ge1": 17.829711394557823,
+     "hours_ge10": 554,
+     "price_ge10": 16.558298736462095,
+     "hours_ge100": 457,
+     "price_ge100": 13.254106564551423,
+     "mwh_in_hours_under10": 194.68688108333333,
+     "mwh_in_hours_under100": 5087.106765833333
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -3302976.0,
+      -3302976.0
+     ],
+     "usd_per_mwh": [
+      -7.31,
+      -7.31
+     ],
+     "mwh": [
+      451683.0,
+      451683.0
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      600,
+      600
+     ],
+     "neg": [
+      77.21,
+      77.21
+     ],
+     "flat": [
+      17.82,
+      17.82
+     ],
+     "all": [
+      22.32,
+      22.32
+     ]
+    },
+    "measures": {
+     "hours_ge1": 588,
+     "price_ge1": 17.398503911564625,
+     "hours_ge10": 554,
+     "price_ge10": 15.845515072202165,
+     "hours_ge100": 457,
+     "price_ge100": 11.89450479212254,
+     "mwh_in_hours_under10": 194.68688108333333,
+     "mwh_in_hours_under100": 5087.106765833333
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      1996014.0,
+      1996014.0
+     ],
+     "usd_per_mwh": [
+      4.42,
+      4.42
+     ],
+     "mwh": [
+      451683.0,
+      451683.0
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      600,
+      600
+     ],
+     "neg": [
+      41.71,
+      41.71
+     ],
+     "flat": [
+      22.41,
+      22.41
+     ],
+     "all": [
+      25.15,
+      25.15
+     ]
+    },
+    "measures": {
+     "hours_ge1": 588,
+     "price_ge1": 22.259627848639454,
+     "hours_ge10": 554,
+     "price_ge10": 21.343505685920576,
+     "hours_ge100": 457,
+     "price_ge100": 19.259077516411377,
+     "mwh_in_hours_under10": 194.68688108333333,
+     "mwh_in_hours_under100": 5087.106765833333
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      1947863.0,
+      1947863.0
+     ],
+     "usd_per_mwh": [
+      4.31,
+      4.31
+     ],
+     "mwh": [
+      451683.0,
+      451683.0
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      600,
+      600
+     ],
+     "neg": [
+      37.6,
+      37.6
+     ],
+     "flat": [
+      22.77,
+      22.77
+     ],
+     "all": [
+      25.93,
+      25.93
+     ]
+    },
+    "measures": {
+     "hours_ge1": 588,
+     "price_ge1": 22.44736923469388,
+     "hours_ge10": 554,
+     "price_ge10": 21.30812371841155,
+     "hours_ge100": 457,
+     "price_ge100": 18.403857330415754,
+     "mwh_in_hours_under10": 194.68688108333333,
+     "mwh_in_hours_under100": 5087.106765833333
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 62.0,
+     "intervals": 62,
+     "hourly": 62
+    },
+    "4": {
+     "page": 124.0,
+     "intervals": 124,
+     "hourly": 124
+    },
+    "8": {
+     "page": 248.0,
+     "intervals": 248,
+     "hourly": 248
+    }
+   }
+  },
+  "2025-06": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      593340.0,
+      593340.0
+     ],
+     "usd_per_mwh": [
+      2.32,
+      2.32
+     ],
+     "mwh": [
+      255878.6,
+      255878.6
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      458,
+      458
+     ],
+     "neg": [
+      47.31,
+      47.31
+     ],
+     "flat": [
+      21.19,
+      21.19
+     ],
+     "all": [
+      27.21,
+      27.21
+     ]
+    },
+    "measures": {
+     "hours_ge1": 436,
+     "price_ge1": 20.29742975917431,
+     "hours_ge10": 395,
+     "price_ge10": 18.786913734177215,
+     "hours_ge100": 335,
+     "price_ge100": 16.144555746268654,
+     "mwh_in_hours_under10": 139.64561175,
+     "mwh_in_hours_under100": 2887.6991299166666
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      867697.0,
+      867697.0
+     ],
+     "usd_per_mwh": [
+      3.39,
+      3.39
+     ],
+     "mwh": [
+      255878.6,
+      255878.6
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      458,
+      458
+     ],
+     "neg": [
+      47.97,
+      47.97
+     ],
+     "flat": [
+      20.89,
+      20.89
+     ],
+     "all": [
+      27.53,
+      27.53
+     ]
+    },
+    "measures": {
+     "hours_ge1": 436,
+     "price_ge1": 19.86398642201835,
+     "hours_ge10": 395,
+     "price_ge10": 17.909813468354432,
+     "hours_ge100": 335,
+     "price_ge100": 14.55719152238806,
+     "mwh_in_hours_under10": 139.64561175,
+     "mwh_in_hours_under100": 2887.6991299166666
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      4176676.0,
+      4176676.0
+     ],
+     "usd_per_mwh": [
+      16.32,
+      16.32
+     ],
+     "mwh": [
+      255878.6,
+      255878.6
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      458,
+      458
+     ],
+     "neg": [
+      27.28,
+      27.28
+     ],
+     "flat": [
+      28.2,
+      28.2
+     ],
+     "all": [
+      31.46,
+      31.46
+     ]
+    },
+    "measures": {
+     "hours_ge1": 436,
+     "price_ge1": 27.639366628440367,
+     "hours_ge10": 395,
+     "price_ge10": 26.52973430379747,
+     "hours_ge100": 335,
+     "price_ge100": 25.119141044776118,
+     "mwh_in_hours_under10": 139.64561175,
+     "mwh_in_hours_under100": 2887.6991299166666
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      3944138.0,
+      3944138.0
+     ],
+     "usd_per_mwh": [
+      15.41,
+      15.41
+     ],
+     "mwh": [
+      255878.6,
+      255878.6
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      458,
+      458
+     ],
+     "neg": [
+      11.61,
+      11.61
+     ],
+     "flat": [
+      28.11,
+      28.11
+     ],
+     "all": [
+      32.01,
+      32.01
+     ]
+    },
+    "measures": {
+     "hours_ge1": 436,
+     "price_ge1": 27.484617224770645,
+     "hours_ge10": 395,
+     "price_ge10": 26.24960101265823,
+     "hours_ge100": 335,
+     "price_ge100": 23.93879994029851,
+     "mwh_in_hours_under10": 139.64561175,
+     "mwh_in_hours_under100": 2887.6991299166666
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 58.0,
+     "intervals": 58,
+     "hourly": 58
+    },
+    "4": {
+     "page": 116.0,
+     "intervals": 116,
+     "hourly": 116
+    },
+    "8": {
+     "page": 232.0,
+     "intervals": 232,
+     "hourly": 232
+    }
+   }
+  },
+  "2025-07": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      2808827.0,
+      2808827.0
+     ],
+     "usd_per_mwh": [
+      19.31,
+      19.31
+     ],
+     "mwh": [
+      145458.4,
+      145458.4
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      459,
+      459
+     ],
+     "neg": [
+      10.14,
+      10.14
+     ],
+     "flat": [
+      27.67,
+      27.67
+     ],
+     "all": [
+      33.17,
+      33.17
+     ]
+    },
+    "measures": {
+     "hours_ge1": 443,
+     "price_ge1": 27.002046896162526,
+     "hours_ge10": 409,
+     "price_ge10": 26.09666577017115,
+     "hours_ge100": 337,
+     "price_ge100": 24.27254821958457,
+     "mwh_in_hours_under10": 171.64228275,
+     "mwh_in_hours_under100": 3238.0802689166667
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      3168815.0,
+      3168815.0
+     ],
+     "usd_per_mwh": [
+      21.79,
+      21.79
+     ],
+     "mwh": [
+      145458.4,
+      145458.4
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      459,
+      459
+     ],
+     "neg": [
+      9.41,
+      9.41
+     ],
+     "flat": [
+      30.33,
+      30.33
+     ],
+     "all": [
+      35.63,
+      35.63
+     ]
+    },
+    "measures": {
+     "hours_ge1": 443,
+     "price_ge1": 29.652267562076748,
+     "hours_ge10": 409,
+     "price_ge10": 28.599764938875307,
+     "hours_ge100": 337,
+     "price_ge100": 25.835526884272998,
+     "mwh_in_hours_under10": 171.64228275,
+     "mwh_in_hours_under100": 3238.0802689166667
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      4411779.0,
+      4411779.0
+     ],
+     "usd_per_mwh": [
+      30.33,
+      30.33
+     ],
+     "mwh": [
+      145458.4,
+      145458.4
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      459,
+      459
+     ],
+     "neg": [
+      0.67,
+      0.67
+     ],
+     "flat": [
+      32.83,
+      32.83
+     ],
+     "all": [
+      35.94,
+      35.94
+     ]
+    },
+    "measures": {
+     "hours_ge1": 443,
+     "price_ge1": 32.51005569977427,
+     "hours_ge10": 409,
+     "price_ge10": 32.14359297066015,
+     "hours_ge100": 337,
+     "price_ge100": 31.25251238872404,
+     "mwh_in_hours_under10": 171.64228275,
+     "mwh_in_hours_under100": 3238.0802689166667
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      4325376.0,
+      4325376.0
+     ],
+     "usd_per_mwh": [
+      29.74,
+      29.74
+     ],
+     "mwh": [
+      145458.4,
+      145458.4
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      459,
+      459
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      34.79,
+      34.79
+     ],
+     "all": [
+      37.6,
+      37.6
+     ]
+    },
+    "measures": {
+     "hours_ge1": 443,
+     "price_ge1": 34.345171422121894,
+     "hours_ge10": 409,
+     "price_ge10": 33.72073882640587,
+     "hours_ge100": 337,
+     "price_ge100": 31.749795074183975,
+     "mwh_in_hours_under10": 171.64228275,
+     "mwh_in_hours_under100": 3238.0802689166667
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 62.0,
+     "intervals": 62,
+     "hourly": 62
+    },
+    "4": {
+     "page": 124.0,
+     "intervals": 124,
+     "hourly": 124
+    },
+    "8": {
+     "page": 248.0,
+     "intervals": 248,
+     "hourly": 248
+    }
+   }
+  },
+  "2025-08": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      3623306.0,
+      3623306.0
+     ],
+     "usd_per_mwh": [
+      27.85,
+      27.85
+     ],
+     "mwh": [
+      130107.4,
+      130107.4
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      458,
+      458
+     ],
+     "neg": [
+      5.91,
+      5.91
+     ],
+     "flat": [
+      36.92,
+      36.92
+     ],
+     "all": [
+      39.43,
+      39.43
+     ]
+    },
+    "measures": {
+     "hours_ge1": 443,
+     "price_ge1": 36.31611704288939,
+     "hours_ge10": 393,
+     "price_ge10": 34.97568460559796,
+     "hours_ge100": 332,
+     "price_ge100": 33.139963027108436,
+     "mwh_in_hours_under10": 239.98998391666666,
+     "mwh_in_hours_under100": 2657.5053728333332
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      3665176.0,
+      3665176.0
+     ],
+     "usd_per_mwh": [
+      28.17,
+      28.17
+     ],
+     "mwh": [
+      130107.4,
+      130107.4
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      458,
+      458
+     ],
+     "neg": [
+      0.39,
+      0.39
+     ],
+     "flat": [
+      36.2,
+      36.2
+     ],
+     "all": [
+      39.15,
+      39.15
+     ]
+    },
+    "measures": {
+     "hours_ge1": 443,
+     "price_ge1": 35.417273092550786,
+     "hours_ge10": 393,
+     "price_ge10": 33.54029048346056,
+     "hours_ge100": 332,
+     "price_ge100": 31.25274936746988,
+     "mwh_in_hours_under10": 239.98998391666666,
+     "mwh_in_hours_under100": 2657.5053728333332
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      4610699.0,
+      4610699.0
+     ],
+     "usd_per_mwh": [
+      35.44,
+      35.44
+     ],
+     "mwh": [
+      130107.4,
+      130107.4
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      458,
+      458
+     ],
+     "neg": [
+      0.65,
+      0.65
+     ],
+     "flat": [
+      38.25,
+      38.25
+     ],
+     "all": [
+      39.73,
+      39.73
+     ]
+    },
+    "measures": {
+     "hours_ge1": 443,
+     "price_ge1": 37.894485665914225,
+     "hours_ge10": 393,
+     "price_ge10": 36.71866685750636,
+     "hours_ge100": 332,
+     "price_ge100": 35.53633667168675,
+     "mwh_in_hours_under10": 239.98998391666666,
+     "mwh_in_hours_under100": 2657.5053728333332
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      4334038.0,
+      4334038.0
+     ],
+     "usd_per_mwh": [
+      33.31,
+      33.31
+     ],
+     "mwh": [
+      130107.4,
+      130107.4
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      458,
+      458
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      38.83,
+      38.83
+     ],
+     "all": [
+      40.64,
+      40.64
+     ]
+    },
+    "measures": {
+     "hours_ge1": 443,
+     "price_ge1": 38.16540823927765,
+     "hours_ge10": 393,
+     "price_ge10": 36.709561959287534,
+     "hours_ge100": 332,
+     "price_ge100": 34.89664864457831,
+     "mwh_in_hours_under10": 239.98998391666666,
+     "mwh_in_hours_under100": 2657.5053728333332
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 62.0,
+     "intervals": 62,
+     "hourly": 62
+    },
+    "4": {
+     "page": 124.0,
+     "intervals": 124,
+     "hourly": 124
+    },
+    "8": {
+     "page": 248.0,
+     "intervals": 248,
+     "hourly": 248
+    }
+   }
+  },
+  "2025-09": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      2733953.0,
+      2733953.0
+     ],
+     "usd_per_mwh": [
+      15.22,
+      15.22
+     ],
+     "mwh": [
+      179634.2,
+      179634.2
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      414,
+      414
+     ],
+     "neg": [
+      16.47,
+      16.47
+     ],
+     "flat": [
+      30.25,
+      30.25
+     ],
+     "all": [
+      35.97,
+      35.97
+     ]
+    },
+    "measures": {
+     "hours_ge1": 392,
+     "price_ge1": 29.12321957908163,
+     "hours_ge10": 345,
+     "price_ge10": 26.99716195652174,
+     "hours_ge100": 269,
+     "price_ge100": 22.53012351301115,
+     "mwh_in_hours_under10": 225.9083875,
+     "mwh_in_hours_under100": 3389.257043916667
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      3489505.0,
+      3489505.0
+     ],
+     "usd_per_mwh": [
+      19.43,
+      19.43
+     ],
+     "mwh": [
+      179634.2,
+      179634.2
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      414,
+      414
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      33.05,
+      33.05
+     ],
+     "all": [
+      39.04,
+      39.04
+     ]
+    },
+    "measures": {
+     "hours_ge1": 392,
+     "price_ge1": 31.74798163265306,
+     "hours_ge10": 345,
+     "price_ge10": 29.515105304347827,
+     "hours_ge100": 269,
+     "price_ge100": 24.94124594795539,
+     "mwh_in_hours_under10": 225.9083875,
+     "mwh_in_hours_under100": 3389.257043916667
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      5909738.0,
+      5909738.0
+     ],
+     "usd_per_mwh": [
+      32.9,
+      32.9
+     ],
+     "mwh": [
+      179634.2,
+      179634.2
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      414,
+      414
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      43.98,
+      43.98
+     ],
+     "all": [
+      45.22,
+      45.22
+     ]
+    },
+    "measures": {
+     "hours_ge1": 392,
+     "price_ge1": 42.93241415816326,
+     "hours_ge10": 345,
+     "price_ge10": 41.231117608695655,
+     "hours_ge100": 269,
+     "price_ge100": 37.86161059479554,
+     "mwh_in_hours_under10": 225.9083875,
+     "mwh_in_hours_under100": 3389.257043916667
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      6505022.0,
+      6505022.0
+     ],
+     "usd_per_mwh": [
+      36.21,
+      36.21
+     ],
+     "mwh": [
+      179634.2,
+      179634.2
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      414,
+      414
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      43.44,
+      43.44
+     ],
+     "all": [
+      45.81,
+      45.81
+     ]
+    },
+    "measures": {
+     "hours_ge1": 392,
+     "price_ge1": 42.608203265306116,
+     "hours_ge10": 345,
+     "price_ge10": 41.35411933333333,
+     "hours_ge100": 269,
+     "price_ge100": 38.6282492936803,
+     "mwh_in_hours_under10": 225.9083875,
+     "mwh_in_hours_under100": 3389.257043916667
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 60.0,
+     "intervals": 60,
+     "hourly": 60
+    },
+    "4": {
+     "page": 120.0,
+     "intervals": 120,
+     "hourly": 120
+    },
+    "8": {
+     "page": 237.23,
+     "intervals": 237.23,
+     "hourly": 240
+    }
+   }
+  },
+  "2025-10": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -540929.0,
+      -540929.0
+     ],
+     "usd_per_mwh": [
+      -2.11,
+      -2.11
+     ],
+     "mwh": [
+      256402.6,
+      256402.6
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      350,
+      350
+     ],
+     "neg": [
+      70.96,
+      70.96
+     ],
+     "flat": [
+      17.25,
+      17.25
+     ],
+     "all": [
+      30.29,
+      30.29
+     ]
+    },
+    "measures": {
+     "hours_ge1": 337,
+     "price_ge1": 16.056450741839765,
+     "hours_ge10": 304,
+     "price_ge10": 12.887100904605264,
+     "hours_ge100": 256,
+     "price_ge100": 9.0608396484375,
+     "mwh_in_hours_under10": 133.53084483333333,
+     "mwh_in_hours_under100": 2193.342258
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      236400.0,
+      236400.0
+     ],
+     "usd_per_mwh": [
+      0.92,
+      0.92
+     ],
+     "mwh": [
+      256402.6,
+      256402.6
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      350,
+      350
+     ],
+     "neg": [
+      61.47,
+      61.47
+     ],
+     "flat": [
+      16.83,
+      16.83
+     ],
+     "all": [
+      31.08,
+      31.08
+     ]
+    },
+    "measures": {
+     "hours_ge1": 337,
+     "price_ge1": 15.575326172106827,
+     "hours_ge10": 304,
+     "price_ge10": 12.640459934210526,
+     "hours_ge100": 256,
+     "price_ge100": 9.1654638671875,
+     "mwh_in_hours_under10": 133.53084483333333,
+     "mwh_in_hours_under100": 2193.342258
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      7162728.0,
+      7162728.0
+     ],
+     "usd_per_mwh": [
+      27.94,
+      27.94
+     ],
+     "mwh": [
+      256402.6,
+      256402.6
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      350,
+      350
+     ],
+     "neg": [
+      12.07,
+      12.07
+     ],
+     "flat": [
+      38.68,
+      38.68
+     ],
+     "all": [
+      42.63,
+      42.63
+     ]
+    },
+    "measures": {
+     "hours_ge1": 337,
+     "price_ge1": 38.07943278931751,
+     "hours_ge10": 304,
+     "price_ge10": 36.45232796052632,
+     "hours_ge100": 256,
+     "price_ge100": 34.61305048828125,
+     "mwh_in_hours_under10": 133.53084483333333,
+     "mwh_in_hours_under100": 2193.342258
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      7975731.0,
+      7975731.0
+     ],
+     "usd_per_mwh": [
+      31.11,
+      31.11
+     ],
+     "mwh": [
+      256402.6,
+      256402.6
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      350,
+      350
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      37.82,
+      37.82
+     ],
+     "all": [
+      42.6,
+      42.6
+     ]
+    },
+    "measures": {
+     "hours_ge1": 337,
+     "price_ge1": 37.19188747774481,
+     "hours_ge10": 304,
+     "price_ge10": 35.78155684210526,
+     "hours_ge100": 256,
+     "price_ge100": 34.2113262109375,
+     "mwh_in_hours_under10": 133.53084483333333,
+     "mwh_in_hours_under100": 2193.342258
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 62.0,
+     "intervals": 62,
+     "hourly": 62
+    },
+    "4": {
+     "page": 124.0,
+     "intervals": 124,
+     "hourly": 124
+    },
+    "8": {
+     "page": 245.25,
+     "intervals": 245.25,
+     "hourly": 247.0
+    }
+   }
+  },
+  "2025-11": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      205304.0,
+      205304.0
+     ],
+     "usd_per_mwh": [
+      7.55,
+      7.55
+     ],
+     "mwh": [
+      27190.4,
+      27190.4
+     ],
+     "hours_priced": [
+      721,
+      721
+     ],
+     "hours_curtailed": [
+      277,
+      277
+     ],
+     "neg": [
+      42.52,
+      42.52
+     ],
+     "flat": [
+      31.68,
+      31.68
+     ],
+     "all": [
+      40.03,
+      40.03
+     ]
+    },
+    "measures": {
+     "hours_ge1": 245,
+     "price_ge1": 30.567063469387755,
+     "hours_ge10": 149,
+     "price_ge10": 25.055225,
+     "hours_ge100": 55,
+     "price_ge100": 10.82109,
+     "mwh_in_hours_under10": 464.03868308333335,
+     "mwh_in_hours_under100": 3176.8481920833333
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      420210.0,
+      420210.0
+     ],
+     "usd_per_mwh": [
+      15.45,
+      15.45
+     ],
+     "mwh": [
+      27190.4,
+      27190.4
+     ],
+     "hours_priced": [
+      721,
+      721
+     ],
+     "hours_curtailed": [
+      277,
+      277
+     ],
+     "neg": [
+      15.66,
+      15.66
+     ],
+     "flat": [
+      31.96,
+      31.96
+     ],
+     "all": [
+      40.57,
+      40.57
+     ]
+    },
+    "measures": {
+     "hours_ge1": 245,
+     "price_ge1": 30.765791795918368,
+     "hours_ge10": 149,
+     "price_ge10": 25.0948055704698,
+     "hours_ge100": 55,
+     "price_ge100": 15.471077999999999,
+     "mwh_in_hours_under10": 464.03868308333335,
+     "mwh_in_hours_under100": 3176.8481920833333
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      1069781.0,
+      1069781.0
+     ],
+     "usd_per_mwh": [
+      39.34,
+      39.34
+     ],
+     "mwh": [
+      27190.4,
+      27190.4
+     ],
+     "hours_priced": [
+      721,
+      721
+     ],
+     "hours_curtailed": [
+      277,
+      277
+     ],
+     "neg": [
+      2.8,
+      2.8
+     ],
+     "flat": [
+      46.39,
+      46.39
+     ],
+     "all": [
+      49.33,
+      49.33
+     ]
+    },
+    "measures": {
+     "hours_ge1": 245,
+     "price_ge1": 45.55893265306123,
+     "hours_ge10": 149,
+     "price_ge10": 43.28554093959732,
+     "hours_ge100": 55,
+     "price_ge100": 37.76434636363636,
+     "mwh_in_hours_under10": 464.03868308333335,
+     "mwh_in_hours_under100": 3176.8481920833333
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      1133263.0,
+      1133263.0
+     ],
+     "usd_per_mwh": [
+      41.68,
+      41.68
+     ],
+     "mwh": [
+      27190.4,
+      27190.4
+     ],
+     "hours_priced": [
+      721,
+      721
+     ],
+     "hours_curtailed": [
+      277,
+      277
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      47.16,
+      47.16
+     ],
+     "all": [
+      49.15,
+      49.15
+     ]
+    },
+    "measures": {
+     "hours_ge1": 245,
+     "price_ge1": 46.543027755102045,
+     "hours_ge10": 149,
+     "price_ge10": 44.31346369127517,
+     "hours_ge100": 55,
+     "price_ge100": 40.73016163636364,
+     "mwh_in_hours_under10": 464.03868308333335,
+     "mwh_in_hours_under100": 3176.8481920833333
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 56.34,
+     "intervals": 56.34,
+     "hourly": 60
+    },
+    "4": {
+     "page": 97.97,
+     "intervals": 97.97,
+     "hourly": 116.19
+    },
+    "8": {
+     "page": 160.56,
+     "intervals": 160.56,
+     "hourly": 196.71
+    }
+   }
+  },
+  "2025-12": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      209427.0,
+      209427.0
+     ],
+     "usd_per_mwh": [
+      7.15,
+      7.15
+     ],
+     "mwh": [
+      29285.7,
+      29285.7
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      390,
+      390
+     ],
+     "neg": [
+      50.13,
+      50.13
+     ],
+     "flat": [
+      30.35,
+      30.35
+     ],
+     "all": [
+      33.31,
+      33.31
+     ]
+    },
+    "measures": {
+     "hours_ge1": 347,
+     "price_ge1": 29.747862463976947,
+     "hours_ge10": 242,
+     "price_ge10": 27.21948367768595,
+     "hours_ge100": 46,
+     "price_ge100": 9.679360326086956,
+     "mwh_in_hours_under10": 517.0860194166667,
+     "mwh_in_hours_under100": 6720.5013410833335
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      631374.0,
+      631374.0
+     ],
+     "usd_per_mwh": [
+      21.56,
+      21.56
+     ],
+     "mwh": [
+      29285.7,
+      29285.7
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      390,
+      390
+     ],
+     "neg": [
+      3.35,
+      3.35
+     ],
+     "flat": [
+      33.8,
+      33.8
+     ],
+     "all": [
+      36.57,
+      36.57
+     ]
+    },
+    "measures": {
+     "hours_ge1": 347,
+     "price_ge1": 33.19642657060518,
+     "hours_ge10": 242,
+     "price_ge10": 31.15432880165289,
+     "hours_ge100": 46,
+     "price_ge100": 21.702392173913044,
+     "mwh_in_hours_under10": 517.0860194166667,
+     "mwh_in_hours_under100": 6720.5013410833335
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      398304.0,
+      398304.0
+     ],
+     "usd_per_mwh": [
+      13.6,
+      13.6
+     ],
+     "mwh": [
+      29285.7,
+      29285.7
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      390,
+      390
+     ],
+     "neg": [
+      35.9,
+      35.9
+     ],
+     "flat": [
+      34.51,
+      34.51
+     ],
+     "all": [
+      36.71,
+      36.71
+     ]
+    },
+    "measures": {
+     "hours_ge1": 347,
+     "price_ge1": 34.10822694524496,
+     "hours_ge10": 242,
+     "price_ge10": 31.78679958677686,
+     "hours_ge100": 46,
+     "price_ge100": 14.893314673913045,
+     "mwh_in_hours_under10": 517.0860194166667,
+     "mwh_in_hours_under100": 6720.5013410833335
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      790549.0,
+      790549.0
+     ],
+     "usd_per_mwh": [
+      26.99,
+      26.99
+     ],
+     "mwh": [
+      29285.7,
+      29285.7
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      390,
+      390
+     ],
+     "neg": [
+      0.1,
+      0.1
+     ],
+     "flat": [
+      38.86,
+      38.86
+     ],
+     "all": [
+      40.49,
+      40.49
+     ]
+    },
+    "measures": {
+     "hours_ge1": 347,
+     "price_ge1": 38.32822198847262,
+     "hours_ge10": 242,
+     "price_ge10": 36.486827603305784,
+     "hours_ge100": 46,
+     "price_ge100": 28.10917239130435,
+     "mwh_in_hours_under10": 517.0860194166667,
+     "mwh_in_hours_under100": 6720.5013410833335
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 62.0,
+     "intervals": 62,
+     "hourly": 62
+    },
+    "4": {
+     "page": 121.2,
+     "intervals": 121.2,
+     "hourly": 123.21
+    },
+    "8": {
+     "page": 221.85,
+     "intervals": 221.85,
+     "hourly": 239.61
+    }
+   }
+  },
+  "2026-01": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      262227.0,
+      262227.0
+     ],
+     "usd_per_mwh": [
+      9.87,
+      9.87
+     ],
+     "mwh": [
+      26572.9,
+      26572.9
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      586,
+      586
+     ],
+     "neg": [
+      31.77,
+      31.77
+     ],
+     "flat": [
+      29.88,
+      29.88
+     ],
+     "all": [
+      33.16,
+      33.16
+     ]
+    },
+    "measures": {
+     "hours_ge1": 369,
+     "price_ge1": 25.438703523035233,
+     "hours_ge10": 264,
+     "price_ge10": 23.004379166666666,
+     "hours_ge100": 48,
+     "price_ge100": 8.659,
+     "mwh_in_hours_under10": 502.673028,
+     "mwh_in_hours_under100": 6971.720675
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      586785.0,
+      586785.0
+     ],
+     "usd_per_mwh": [
+      22.08,
+      22.08
+     ],
+     "mwh": [
+      26572.9,
+      26572.9
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      586,
+      586
+     ],
+     "neg": [
+      0.18,
+      0.18
+     ],
+     "flat": [
+      31.82,
+      31.82
+     ],
+     "all": [
+      34.17,
+      34.17
+     ]
+    },
+    "measures": {
+     "hours_ge1": 369,
+     "price_ge1": 28.984052439024392,
+     "hours_ge10": 264,
+     "price_ge10": 27.435472234848486,
+     "hours_ge100": 48,
+     "price_ge100": 19.056244375000002,
+     "mwh_in_hours_under10": 502.673028,
+     "mwh_in_hours_under100": 6971.720675
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      412325.0,
+      412325.0
+     ],
+     "usd_per_mwh": [
+      15.52,
+      15.52
+     ],
+     "mwh": [
+      26572.9,
+      26572.9
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      586,
+      586
+     ],
+     "neg": [
+      25.44,
+      25.44
+     ],
+     "flat": [
+      31.92,
+      31.92
+     ],
+     "all": [
+      33.87,
+      33.87
+     ]
+    },
+    "measures": {
+     "hours_ge1": 369,
+     "price_ge1": 28.8053783197832,
+     "hours_ge10": 264,
+     "price_ge10": 27.25300539772727,
+     "hours_ge100": 48,
+     "price_ge100": 16.5494,
+     "mwh_in_hours_under10": 502.673028,
+     "mwh_in_hours_under100": 6971.720675
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      663465.0,
+      663465.0
+     ],
+     "usd_per_mwh": [
+      24.97,
+      24.97
+     ],
+     "mwh": [
+      26572.9,
+      26572.9
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      586,
+      586
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      33.52,
+      33.52
+     ],
+     "all": [
+      35.12,
+      35.12
+     ]
+    },
+    "measures": {
+     "hours_ge1": 369,
+     "price_ge1": 31.295939051490517,
+     "hours_ge10": 264,
+     "price_ge10": 30.05638693181818,
+     "hours_ge100": 48,
+     "price_ge100": 23.120411875000002,
+     "mwh_in_hours_under10": 502.673028,
+     "mwh_in_hours_under100": 6971.720675
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 62.0,
+     "intervals": 62,
+     "hourly": 62
+    },
+    "4": {
+     "page": 122.41,
+     "intervals": 122.41,
+     "hourly": 122.41
+    },
+    "8": {
+     "page": 232.55,
+     "intervals": 232.55,
+     "hourly": 232.55
+    }
+   }
+  },
+  "2026-02": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -1255952.0,
+      -1255952.0
+     ],
+     "usd_per_mwh": [
+      -5.17,
+      -5.17
+     ],
+     "mwh": [
+      242714.1,
+      242714.1
+     ],
+     "hours_priced": [
+      672,
+      672
+     ],
+     "hours_curtailed": [
+      363,
+      363
+     ],
+     "neg": [
+      79.12,
+      79.12
+     ],
+     "flat": [
+      16.07,
+      16.07
+     ],
+     "all": [
+      22.3,
+      22.3
+     ]
+    },
+    "measures": {
+     "hours_ge1": 275,
+     "price_ge1": 10.598702090909091,
+     "hours_ge10": 235,
+     "price_ge10": 7.872654893617021,
+     "hours_ge100": 171,
+     "price_ge100": 3.0464548245614034,
+     "mwh_in_hours_under10": 160.060197,
+     "mwh_in_hours_under100": 2850.361835
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      35572.0,
+      35572.0
+     ],
+     "usd_per_mwh": [
+      0.15,
+      0.15
+     ],
+     "mwh": [
+      242714.1,
+      242714.1
+     ],
+     "hours_priced": [
+      672,
+      672
+     ],
+     "hours_curtailed": [
+      363,
+      363
+     ],
+     "neg": [
+      65.49,
+      65.49
+     ],
+     "flat": [
+      18.13,
+      18.13
+     ],
+     "all": [
+      24.44,
+      24.44
+     ]
+    },
+    "measures": {
+     "hours_ge1": 275,
+     "price_ge1": 13.480933272727272,
+     "hours_ge10": 235,
+     "price_ge10": 11.135457829787233,
+     "hours_ge100": 171,
+     "price_ge100": 7.104015204678362,
+     "mwh_in_hours_under10": 160.060197,
+     "mwh_in_hours_under100": 2850.361835
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      2456372.0,
+      2456372.0
+     ],
+     "usd_per_mwh": [
+      10.12,
+      10.12
+     ],
+     "mwh": [
+      242714.1,
+      242714.1
+     ],
+     "hours_priced": [
+      672,
+      672
+     ],
+     "hours_curtailed": [
+      363,
+      363
+     ],
+     "neg": [
+      41.58,
+      41.58
+     ],
+     "flat": [
+      24.86,
+      24.86
+     ],
+     "all": [
+      27.86,
+      27.86
+     ]
+    },
+    "measures": {
+     "hours_ge1": 275,
+     "price_ge1": 21.202862545454543,
+     "hours_ge10": 235,
+     "price_ge10": 19.813587234042554,
+     "hours_ge100": 171,
+     "price_ge100": 17.189826461988304,
+     "mwh_in_hours_under10": 160.060197,
+     "mwh_in_hours_under100": 2850.361835
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      4007851.0,
+      4007851.0
+     ],
+     "usd_per_mwh": [
+      16.51,
+      16.51
+     ],
+     "mwh": [
+      242714.1,
+      242714.1
+     ],
+     "hours_priced": [
+      672,
+      672
+     ],
+     "hours_curtailed": [
+      363,
+      363
+     ],
+     "neg": [
+      6.33,
+      6.33
+     ],
+     "flat": [
+      26.16,
+      26.16
+     ],
+     "all": [
+      29.41,
+      29.41
+     ]
+    },
+    "measures": {
+     "hours_ge1": 275,
+     "price_ge1": 23.206583672727273,
+     "hours_ge10": 235,
+     "price_ge10": 21.965686595744682,
+     "hours_ge100": 171,
+     "price_ge100": 20.24411596491228,
+     "mwh_in_hours_under10": 160.060197,
+     "mwh_in_hours_under100": 2850.361835
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 54.73,
+     "intervals": 54.73,
+     "hourly": 54.73
+    },
+    "4": {
+     "page": 108.6,
+     "intervals": 108.6,
+     "hourly": 108.6
+    },
+    "8": {
+     "page": 212.6,
+     "intervals": 212.6,
+     "hourly": 212.6
+    }
+   }
+  },
+  "2026-03": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -6812382.0,
+      -6812382.0
+     ],
+     "usd_per_mwh": [
+      -8.8,
+      -8.8
+     ],
+     "mwh": [
+      774414.9,
+      774414.9
+     ],
+     "hours_priced": [
+      743,
+      743
+     ],
+     "hours_curtailed": [
+      446,
+      446
+     ],
+     "neg": [
+      86.83,
+      86.83
+     ],
+     "flat": [
+      14.81,
+      14.81
+     ],
+     "all": [
+      21.0,
+      21.0
+     ]
+    },
+    "measures": {
+     "hours_ge1": 374,
+     "price_ge1": 8.435078877005347,
+     "hours_ge10": 345,
+     "price_ge10": 6.399243695652173,
+     "hours_ge100": 289,
+     "price_ge100": 1.793505795847751,
+     "mwh_in_hours_under10": 158.339433,
+     "mwh_in_hours_under100": 2022.535522
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -4347780.0,
+      -4347780.0
+     ],
+     "usd_per_mwh": [
+      -5.61,
+      -5.61
+     ],
+     "mwh": [
+      774414.9,
+      774414.9
+     ],
+     "hours_priced": [
+      743,
+      743
+     ],
+     "hours_curtailed": [
+      446,
+      446
+     ],
+     "neg": [
+      84.07,
+      84.07
+     ],
+     "flat": [
+      9.37,
+      9.37
+     ],
+     "all": [
+      16.56,
+      16.56
+     ]
+    },
+    "measures": {
+     "hours_ge1": 374,
+     "price_ge1": 5.648154037433155,
+     "hours_ge10": 345,
+     "price_ge10": 3.842465565217392,
+     "hours_ge100": 289,
+     "price_ge100": -0.6935029411764706,
+     "mwh_in_hours_under10": 158.339433,
+     "mwh_in_hours_under100": 2022.535522
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -2201458.0,
+      -2201458.0
+     ],
+     "usd_per_mwh": [
+      -2.84,
+      -2.84
+     ],
+     "mwh": [
+      774414.9,
+      774414.9
+     ],
+     "hours_priced": [
+      743,
+      743
+     ],
+     "hours_curtailed": [
+      446,
+      446
+     ],
+     "neg": [
+      71.47,
+      71.47
+     ],
+     "flat": [
+      21.49,
+      21.49
+     ],
+     "all": [
+      24.54,
+      24.54
+     ]
+    },
+    "measures": {
+     "hours_ge1": 374,
+     "price_ge1": 15.255539705882354,
+     "hours_ge10": 345,
+     "price_ge10": 13.993140869565218,
+     "hours_ge100": 289,
+     "price_ge100": 9.744226730103806,
+     "mwh_in_hours_under10": 158.339433,
+     "mwh_in_hours_under100": 2022.535522
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      421331.0,
+      421331.0
+     ],
+     "usd_per_mwh": [
+      0.54,
+      0.54
+     ],
+     "mwh": [
+      774414.9,
+      774414.9
+     ],
+     "hours_priced": [
+      743,
+      743
+     ],
+     "hours_curtailed": [
+      446,
+      446
+     ],
+     "neg": [
+      52.75,
+      52.75
+     ],
+     "flat": [
+      17.6,
+      17.6
+     ],
+     "all": [
+      22.51,
+      22.51
+     ]
+    },
+    "measures": {
+     "hours_ge1": 374,
+     "price_ge1": 14.398053502673797,
+     "hours_ge10": 345,
+     "price_ge10": 12.882297971014491,
+     "hours_ge100": 289,
+     "price_ge100": 8.873521660899653,
+     "mwh_in_hours_under10": 158.339433,
+     "mwh_in_hours_under100": 2022.535522
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 62.0,
+     "intervals": 62,
+     "hourly": 62
+    },
+    "4": {
+     "page": 124.0,
+     "intervals": 124,
+     "hourly": 124
+    },
+    "8": {
+     "page": 248.0,
+     "intervals": 248,
+     "hourly": 248
+    }
+   }
+  },
+  "2026-04": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -18091370.0,
+      -18091370.0
+     ],
+     "usd_per_mwh": [
+      -12.39,
+      -12.39
+     ],
+     "mwh": [
+      1459998.0,
+      1459998.0
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      502,
+      502
+     ],
+     "neg": [
+      94.73,
+      94.73
+     ],
+     "flat": [
+      1.1,
+      1.1
+     ],
+     "all": [
+      6.31,
+      6.31
+     ]
+    },
+    "measures": {
+     "hours_ge1": 449,
+     "price_ge1": -0.9815489977728286,
+     "hours_ge10": 421,
+     "price_ge10": -2.1769035035629454,
+     "hours_ge100": 369,
+     "price_ge100": -5.404423780487805,
+     "mwh_in_hours_under10": 124.743291,
+     "mwh_in_hours_under100": 2306.031755
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -14582517.0,
+      -14582517.0
+     ],
+     "usd_per_mwh": [
+      -9.99,
+      -9.99
+     ],
+     "mwh": [
+      1459998.0,
+      1459998.0
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      502,
+      502
+     ],
+     "neg": [
+      96.76,
+      96.76
+     ],
+     "flat": [
+      3.09,
+      3.09
+     ],
+     "all": [
+      8.84,
+      8.84
+     ]
+    },
+    "measures": {
+     "hours_ge1": 449,
+     "price_ge1": 0.7463687527839644,
+     "hours_ge10": 421,
+     "price_ge10": -0.5809385748218527,
+     "hours_ge100": 369,
+     "price_ge100": -3.7398953387533873,
+     "mwh_in_hours_under10": 124.743291,
+     "mwh_in_hours_under100": 2306.031755
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -3907129.0,
+      -3907129.0
+     ],
+     "usd_per_mwh": [
+      -2.68,
+      -2.68
+     ],
+     "mwh": [
+      1459998.0,
+      1459998.0
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      502,
+      502
+     ],
+     "neg": [
+      68.12,
+      68.12
+     ],
+     "flat": [
+      9.49,
+      9.49
+     ],
+     "all": [
+      12.44,
+      12.44
+     ]
+    },
+    "measures": {
+     "hours_ge1": 449,
+     "price_ge1": 8.128954398663698,
+     "hours_ge10": 421,
+     "price_ge10": 7.401041508313539,
+     "hours_ge100": 369,
+     "price_ge100": 4.918005352303523,
+     "mwh_in_hours_under10": 124.743291,
+     "mwh_in_hours_under100": 2306.031755
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -23378.0,
+      -23378.0
+     ],
+     "usd_per_mwh": [
+      -0.02,
+      -0.02
+     ],
+     "mwh": [
+      1459998.0,
+      1459998.0
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      502,
+      502
+     ],
+     "neg": [
+      56.99,
+      56.99
+     ],
+     "flat": [
+      11.0,
+      11.0
+     ],
+     "all": [
+      14.66,
+      14.66
+     ]
+    },
+    "measures": {
+     "hours_ge1": 449,
+     "price_ge1": 9.33648267260579,
+     "hours_ge10": 421,
+     "price_ge10": 8.440270237529692,
+     "hours_ge100": 369,
+     "price_ge100": 6.263134200542005,
+     "mwh_in_hours_under10": 124.743291,
+     "mwh_in_hours_under100": 2306.031755
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 60.0,
+     "intervals": 60,
+     "hourly": 60
+    },
+    "4": {
+     "page": 120.0,
+     "intervals": 120,
+     "hourly": 120
+    },
+    "8": {
+     "page": 240.0,
+     "intervals": 240,
+     "hourly": 240
+    }
+   }
+  },
+  "2026-05": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -15140895.0,
+      -15140895.0
+     ],
+     "usd_per_mwh": [
+      -10.45,
+      -10.45
+     ],
+     "mwh": [
+      1448984.5,
+      1448984.5
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      595,
+      595
+     ],
+     "neg": [
+      95.8,
+      95.8
+     ],
+     "flat": [
+      4.29,
+      4.29
+     ],
+     "all": [
+      8.99,
+      8.99
+     ]
+    },
+    "measures": {
+     "hours_ge1": 439,
+     "price_ge1": -1.8922272209567197,
+     "hours_ge10": 414,
+     "price_ge10": -3.4604369565217388,
+     "hours_ge100": 378,
+     "price_ge100": -5.669712037037037,
+     "mwh_in_hours_under10": 135.122433,
+     "mwh_in_hours_under100": 1600.10194
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -13122108.0,
+      -13122108.0
+     ],
+     "usd_per_mwh": [
+      -9.06,
+      -9.06
+     ],
+     "mwh": [
+      1448984.5,
+      1448984.5
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      595,
+      595
+     ],
+     "neg": [
+      94.85,
+      94.85
+     ],
+     "flat": [
+      5.55,
+      5.55
+     ],
+     "all": [
+      9.59,
+      9.59
+     ]
+    },
+    "measures": {
+     "hours_ge1": 439,
+     "price_ge1": -0.22836296127562644,
+     "hours_ge10": 414,
+     "price_ge10": -1.829241690821256,
+     "hours_ge100": 378,
+     "price_ge100": -4.207884814814815,
+     "mwh_in_hours_under10": 135.122433,
+     "mwh_in_hours_under100": 1600.10194
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      2208077.0,
+      2208077.0
+     ],
+     "usd_per_mwh": [
+      1.52,
+      1.52
+     ],
+     "mwh": [
+      1448984.5,
+      1448984.5
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      595,
+      595
+     ],
+     "neg": [
+      55.57,
+      55.57
+     ],
+     "flat": [
+      13.77,
+      13.77
+     ],
+     "all": [
+      15.95,
+      15.95
+     ]
+    },
+    "measures": {
+     "hours_ge1": 439,
+     "price_ge1": 10.62941076309795,
+     "hours_ge10": 414,
+     "price_ge10": 9.723236231884059,
+     "hours_ge100": 378,
+     "price_ge100": 8.182645568783068,
+     "mwh_in_hours_under10": 135.122433,
+     "mwh_in_hours_under100": 1600.10194
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      2272737.0,
+      2272737.0
+     ],
+     "usd_per_mwh": [
+      1.57,
+      1.57
+     ],
+     "mwh": [
+      1448984.5,
+      1448984.5
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      595,
+      595
+     ],
+     "neg": [
+      43.14,
+      43.14
+     ],
+     "flat": [
+      13.36,
+      13.36
+     ],
+     "all": [
+      15.92,
+      15.92
+     ]
+    },
+    "measures": {
+     "hours_ge1": 439,
+     "price_ge1": 9.89007492027335,
+     "hours_ge10": 414,
+     "price_ge10": 8.801498840579711,
+     "hours_ge100": 378,
+     "price_ge100": 7.17777582010582,
+     "mwh_in_hours_under10": 135.122433,
+     "mwh_in_hours_under100": 1600.10194
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 62.0,
+     "intervals": 62,
+     "hourly": 62
+    },
+    "4": {
+     "page": 124.0,
+     "intervals": 124,
+     "hourly": 124
+    },
+    "8": {
+     "page": 248.0,
+     "intervals": 248,
+     "hourly": 248
+    }
+   }
+  },
+  "2026-06": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -4240862.0,
+      -4240862.0
+     ],
+     "usd_per_mwh": [
+      -7.07,
+      -7.07
+     ],
+     "mwh": [
+      600082.4,
+      600082.4
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      679,
+      679
+     ],
+     "neg": [
+      79.68,
+      79.68
+     ],
+     "flat": [
+      12.54,
+      12.54
+     ],
+     "all": [
+      13.5,
+      13.5
+     ]
+    },
+    "measures": {
+     "hours_ge1": 552,
+     "price_ge1": 9.752499184782607,
+     "hours_ge10": 430,
+     "price_ge10": 5.815905523255814,
+     "hours_ge100": 362,
+     "price_ge100": 2.3285889502762434,
+     "mwh_in_hours_under10": 405.639078,
+     "mwh_in_hours_under100": 2723.273233
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      -2517799.0,
+      -2517799.0
+     ],
+     "usd_per_mwh": [
+      -4.2,
+      -4.2
+     ],
+     "mwh": [
+      600082.4,
+      600082.4
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      679,
+      679
+     ],
+     "neg": [
+      79.93,
+      79.93
+     ],
+     "flat": [
+      15.06,
+      15.06
+     ],
+     "all": [
+      15.93,
+      15.93
+     ]
+    },
+    "measures": {
+     "hours_ge1": 552,
+     "price_ge1": 12.247841775362318,
+     "hours_ge10": 430,
+     "price_ge10": 7.362647209302325,
+     "hours_ge100": 362,
+     "price_ge100": 3.5926494751381215,
+     "mwh_in_hours_under10": 405.639078,
+     "mwh_in_hours_under100": 2723.273233
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      1655111.0,
+      1655111.0
+     ],
+     "usd_per_mwh": [
+      2.76,
+      2.76
+     ],
+     "mwh": [
+      600082.4,
+      600082.4
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      679,
+      679
+     ],
+     "neg": [
+      50.69,
+      50.69
+     ],
+     "flat": [
+      20.31,
+      20.31
+     ],
+     "all": [
+      20.82,
+      20.82
+     ]
+    },
+    "measures": {
+     "hours_ge1": 552,
+     "price_ge1": 18.623037182971014,
+     "hours_ge10": 430,
+     "price_ge10": 15.737695523255814,
+     "hours_ge100": 362,
+     "price_ge100": 12.762945165745858,
+     "mwh_in_hours_under10": 405.639078,
+     "mwh_in_hours_under100": 2723.273233
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      1770103.0,
+      1770103.0
+     ],
+     "usd_per_mwh": [
+      2.95,
+      2.95
+     ],
+     "mwh": [
+      600082.4,
+      600082.4
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      679,
+      679
+     ],
+     "neg": [
+      48.93,
+      48.93
+     ],
+     "flat": [
+      20.66,
+      20.66
+     ],
+     "all": [
+      21.25,
+      21.25
+     ]
+    },
+    "measures": {
+     "hours_ge1": 552,
+     "price_ge1": 18.67953809782609,
+     "hours_ge10": 430,
+     "price_ge10": 15.11096676744186,
+     "hours_ge100": 362,
+     "price_ge100": 12.145335386740333,
+     "mwh_in_hours_under10": 405.639078,
+     "mwh_in_hours_under100": 2723.273233
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 60.0,
+     "intervals": 60,
+     "hourly": 60
+    },
+    "4": {
+     "page": 120.0,
+     "intervals": 120,
+     "hourly": 120
+    },
+    "8": {
+     "page": 240.0,
+     "intervals": 240,
+     "hourly": 240
+    }
+   }
+  },
+  "2026-07": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      5696966.0,
+      5696966.0
+     ],
+     "usd_per_mwh": [
+      23.63,
+      23.63
+     ],
+     "mwh": [
+      241070.9,
+      241070.9
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      728,
+      728
+     ],
+     "neg": [
+      6.27,
+      6.27
+     ],
+     "flat": [
+      39.2,
+      39.2
+     ],
+     "all": [
+      39.43,
+      39.43
+     ]
+    },
+    "measures": {
+     "hours_ge1": 630,
+     "price_ge1": 38.10830123015873,
+     "hours_ge10": 401,
+     "price_ge10": 33.61414551122194,
+     "hours_ge100": 318,
+     "price_ge100": 26.87010935534591,
+     "mwh_in_hours_under10": 877.140365,
+     "mwh_in_hours_under100": 3760.0644429999998
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      6646872.0,
+      6646872.0
+     ],
+     "usd_per_mwh": [
+      27.57,
+      27.57
+     ],
+     "mwh": [
+      241070.9,
+      241070.9
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      728,
+      728
+     ],
+     "neg": [
+      10.12,
+      10.12
+     ],
+     "flat": [
+      37.35,
+      37.35
+     ],
+     "all": [
+      37.64,
+      37.64
+     ]
+    },
+    "measures": {
+     "hours_ge1": 630,
+     "price_ge1": 36.68806046031746,
+     "hours_ge10": 401,
+     "price_ge10": 32.17619825436409,
+     "hours_ge100": 318,
+     "price_ge100": 28.78771694968554,
+     "mwh_in_hours_under10": 877.140365,
+     "mwh_in_hours_under100": 3760.0644429999998
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      7302829.0,
+      7302829.0
+     ],
+     "usd_per_mwh": [
+      30.29,
+      30.29
+     ],
+     "mwh": [
+      241070.9,
+      241070.9
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      728,
+      728
+     ],
+     "neg": [
+      0.45,
+      0.45
+     ],
+     "flat": [
+      36.36,
+      36.36
+     ],
+     "all": [
+      36.72,
+      36.72
+     ]
+    },
+    "measures": {
+     "hours_ge1": 630,
+     "price_ge1": 35.178332023809524,
+     "hours_ge10": 401,
+     "price_ge10": 33.378685037406484,
+     "hours_ge100": 318,
+     "price_ge100": 30.648192295597482,
+     "mwh_in_hours_under10": 877.140365,
+     "mwh_in_hours_under100": 3760.0644429999998
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      6942870.0,
+      6942870.0
+     ],
+     "usd_per_mwh": [
+      28.8,
+      28.8
+     ],
+     "mwh": [
+      241070.9,
+      241070.9
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      728,
+      728
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      36.64,
+      36.64
+     ],
+     "all": [
+      36.91,
+      36.91
+     ]
+    },
+    "measures": {
+     "hours_ge1": 630,
+     "price_ge1": 35.91824074603174,
+     "hours_ge10": 401,
+     "price_ge10": 32.66371837905237,
+     "hours_ge100": 318,
+     "price_ge100": 29.731822672955975,
+     "mwh_in_hours_under10": 877.140365,
+     "mwh_in_hours_under100": 3760.0644429999998
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 62.0,
+     "intervals": 62,
+     "hourly": 62
+    },
+    "4": {
+     "page": 124.0,
+     "intervals": 124,
+     "hourly": 124
+    },
+    "8": {
+     "page": 248.0,
+     "intervals": 248,
+     "hourly": 248
+    }
+   }
+  },
+  "2026-08": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      5183384.0,
+      5183384.0
+     ],
+     "usd_per_mwh": [
+      33.45,
+      33.45
+     ],
+     "mwh": [
+      154937.1,
+      154937.1
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      717,
+      717
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      54.71,
+      54.71
+     ],
+     "all": [
+      55.33,
+      55.33
+     ]
+    },
+    "measures": {
+     "hours_ge1": 573,
+     "price_ge1": 50.16370497382199,
+     "hours_ge10": 379,
+     "price_ge10": 41.74293284960422,
+     "hours_ge100": 290,
+     "price_ge100": 37.79778112068965,
+     "mwh_in_hours_under10": 715.790434,
+     "mwh_in_hours_under100": 4314.141681
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      5563495.0,
+      5563495.0
+     ],
+     "usd_per_mwh": [
+      35.91,
+      35.91
+     ],
+     "mwh": [
+      154937.1,
+      154937.1
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      717,
+      717
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      49.8,
+      49.8
+     ],
+     "all": [
+      50.32,
+      50.32
+     ]
+    },
+    "measures": {
+     "hours_ge1": 573,
+     "price_ge1": 46.1502372425829,
+     "hours_ge10": 379,
+     "price_ge10": 42.26814926121372,
+     "hours_ge100": 290,
+     "price_ge100": 37.46535003448276,
+     "mwh_in_hours_under10": 715.790434,
+     "mwh_in_hours_under100": 4314.141681
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      5927196.0,
+      5927196.0
+     ],
+     "usd_per_mwh": [
+      38.26,
+      38.26
+     ],
+     "mwh": [
+      154937.1,
+      154937.1
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      717,
+      717
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      46.04,
+      46.04
+     ],
+     "all": [
+      46.24,
+      46.24
+     ]
+    },
+    "measures": {
+     "hours_ge1": 573,
+     "price_ge1": 44.28081226003491,
+     "hours_ge10": 379,
+     "price_ge10": 42.07072288918206,
+     "hours_ge100": 290,
+     "price_ge100": 39.22338267241379,
+     "mwh_in_hours_under10": 715.790434,
+     "mwh_in_hours_under100": 4314.141681
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      6172804.0,
+      6172804.0
+     ],
+     "usd_per_mwh": [
+      39.84,
+      39.84
+     ],
+     "mwh": [
+      154937.1,
+      154937.1
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      717,
+      717
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      47.39,
+      47.39
+     ],
+     "all": [
+      47.54,
+      47.54
+     ]
+    },
+    "measures": {
+     "hours_ge1": 573,
+     "price_ge1": 45.49155883071553,
+     "hours_ge10": 379,
+     "price_ge10": 43.11017150395778,
+     "hours_ge100": 290,
+     "price_ge100": 39.682972724137926,
+     "mwh_in_hours_under10": 715.790434,
+     "mwh_in_hours_under100": 4314.141681
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 62.0,
+     "intervals": 62,
+     "hourly": 62
+    },
+    "4": {
+     "page": 124.0,
+     "intervals": 124,
+     "hourly": 124
+    },
+    "8": {
+     "page": 245.2,
+     "intervals": 245.2,
+     "hourly": 245.2
+    }
+   }
+  },
+  "2026-09": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      2919716.0,
+      2919716.0
+     ],
+     "usd_per_mwh": [
+      17.52,
+      17.52
+     ],
+     "mwh": [
+      166629.5,
+      166629.5
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      637,
+      637
+     ],
+     "neg": [
+      20.4,
+      20.4
+     ],
+     "flat": [
+      37.02,
+      37.02
+     ],
+     "all": [
+      38.31,
+      38.31
+     ]
+    },
+    "measures": {
+     "hours_ge1": 477,
+     "price_ge1": 32.95687872117401,
+     "hours_ge10": 330,
+     "price_ge10": 27.459198181818184,
+     "hours_ge100": 267,
+     "price_ge100": 23.955284831460673,
+     "mwh_in_hours_under10": 667.678321,
+     "mwh_in_hours_under100": 2831.0838590000003
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      3939993.0,
+      3939993.0
+     ],
+     "usd_per_mwh": [
+      23.65,
+      23.65
+     ],
+     "mwh": [
+      166629.5,
+      166629.5
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      637,
+      637
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      39.51,
+      39.51
+     ],
+     "all": [
+      40.77,
+      40.77
+     ]
+    },
+    "measures": {
+     "hours_ge1": 477,
+     "price_ge1": 35.29794964360587,
+     "hours_ge10": 330,
+     "price_ge10": 29.999515969696972,
+     "hours_ge100": 267,
+     "price_ge100": 25.989544756554306,
+     "mwh_in_hours_under10": 667.678321,
+     "mwh_in_hours_under100": 2831.0838590000003
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      6596333.0,
+      6596333.0
+     ],
+     "usd_per_mwh": [
+      39.59,
+      39.59
+     ],
+     "mwh": [
+      166629.5,
+      166629.5
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      637,
+      637
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      43.55,
+      43.55
+     ],
+     "all": [
+      44.25,
+      44.25
+     ]
+    },
+    "measures": {
+     "hours_ge1": 477,
+     "price_ge1": 41.54245262054507,
+     "hours_ge10": 330,
+     "price_ge10": 39.561066136363635,
+     "hours_ge100": 267,
+     "price_ge100": 37.323902247191015,
+     "mwh_in_hours_under10": 667.678321,
+     "mwh_in_hours_under100": 2831.0838590000003
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      5876971.0,
+      5876971.0
+     ],
+     "usd_per_mwh": [
+      35.27,
+      35.27
+     ],
+     "mwh": [
+      166629.5,
+      166629.5
+     ],
+     "hours_priced": [
+      720,
+      720
+     ],
+     "hours_curtailed": [
+      637,
+      637
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      44.35,
+      44.35
+     ],
+     "all": [
+      45.09,
+      45.09
+     ]
+    },
+    "measures": {
+     "hours_ge1": 477,
+     "price_ge1": 41.687921970649896,
+     "hours_ge10": 330,
+     "price_ge10": 38.87199445454545,
+     "hours_ge100": 267,
+     "price_ge100": 36.271488239700375,
+     "mwh_in_hours_under10": 667.678321,
+     "mwh_in_hours_under100": 2831.0838590000003
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 60.0,
+     "intervals": 60,
+     "hourly": 60
+    },
+    "4": {
+     "page": 120.0,
+     "intervals": 120,
+     "hourly": 120
+    },
+    "8": {
+     "page": 240.0,
+     "intervals": 240,
+     "hourly": 240
+    }
+   }
+  },
+  "2026-10": {
+   "TH_SP15_GEN-APND|rt": {
+    "agree": false,
+    "pairs": {
+     "value_usd": [
+      2469744.0,
+      2621015.0
+     ],
+     "usd_per_mwh": [
+      13.54,
+      17.96
+     ],
+     "mwh": [
+      182465.2,
+      145902.0
+     ],
+     "hours_priced": [
+      744,
+      720
+     ],
+     "hours_curtailed": [
+      623,
+      604
+     ],
+     "neg": [
+      35.81,
+      23.3
+     ],
+     "flat": [
+      40.97,
+      41.66
+     ],
+     "all": [
+      43.37,
+      43.94
+     ]
+    },
+    "measures": {
+     "hours_ge1": 354,
+     "price_ge1": 33.79419816384181,
+     "hours_ge10": 286,
+     "price_ge10": 30.6704166958042,
+     "hours_ge100": 197,
+     "price_ge100": 25.56162182741117,
+     "mwh_in_hours_under10": 300.549325,
+     "mwh_in_hours_under100": 4386.579071
+    }
+   },
+   "TH_SP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      4218163.0,
+      4218163.0
+     ],
+     "usd_per_mwh": [
+      23.12,
+      23.12
+     ],
+     "mwh": [
+      182465.2,
+      182465.2
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      623,
+      623
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      44.48,
+      44.48
+     ],
+     "all": [
+      46.78,
+      46.78
+     ]
+    },
+    "measures": {
+     "hours_ge1": 371,
+     "price_ge1": 36.205122102425875,
+     "hours_ge10": 303,
+     "price_ge10": 33.08257280528053,
+     "hours_ge100": 214,
+     "price_ge100": 29.328696401869156,
+     "mwh_in_hours_under10": 300.549373,
+     "mwh_in_hours_under100": 4386.579119
+    }
+   },
+   "TH_NP15_GEN-APND|rt": {
+    "agree": false,
+    "pairs": {
+     "value_usd": [
+      7268808.0,
+      5813000.0
+     ],
+     "usd_per_mwh": [
+      39.84,
+      39.84
+     ],
+     "mwh": [
+      182465.2,
+      145902.0
+     ],
+     "hours_priced": [
+      744,
+      720
+     ],
+     "hours_curtailed": [
+      623,
+      604
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      47.81,
+      47.85
+     ],
+     "all": [
+      48.94,
+      48.98
+     ]
+    },
+    "measures": {
+     "hours_ge1": 354,
+     "price_ge1": 42.58637881355932,
+     "hours_ge10": 286,
+     "price_ge10": 41.0538145979021,
+     "hours_ge100": 197,
+     "price_ge100": 39.55960862944163,
+     "mwh_in_hours_under10": 300.549325,
+     "mwh_in_hours_under100": 4386.579071
+    }
+   },
+   "TH_NP15_GEN-APND|da": {
+    "agree": true,
+    "pairs": {
+     "value_usd": [
+      6826774.0,
+      6826774.0
+     ],
+     "usd_per_mwh": [
+      37.41,
+      37.41
+     ],
+     "mwh": [
+      182465.2,
+      182465.2
+     ],
+     "hours_priced": [
+      744,
+      744
+     ],
+     "hours_curtailed": [
+      623,
+      623
+     ],
+     "neg": [
+      0.0,
+      0.0
+     ],
+     "flat": [
+      49.38,
+      49.38
+     ],
+     "all": [
+      50.59,
+      50.59
+     ]
+    },
+    "measures": {
+     "hours_ge1": 371,
+     "price_ge1": 44.38823514824798,
+     "hours_ge10": 303,
+     "price_ge10": 42.14895194719472,
+     "hours_ge100": 214,
+     "price_ge100": 40.340133177570095,
+     "mwh_in_hours_under10": 300.549373,
+     "mwh_in_hours_under100": 4386.579119
+    }
+   },
+   "battery": {
+    "2": {
+     "page": 62.0,
+     "intervals": 62,
+     "hourly": 62
+    },
+    "4": {
+     "page": 122.65,
+     "intervals": 122.65,
+     "hourly": 122.65
+    },
+    "8": {
+     "page": 242.65,
+     "intervals": 242.65,
+     "hourly": 242.65
+    }
+   }
+  }
+ },
+ "years": {}
+}
