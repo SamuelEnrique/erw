@@ -37,7 +37,7 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
 |---|---|---|
 | Oil | Sec. 202.052(a) | 4.6 percent of market value or 4.6 cents a barrel, whichever is greater. The calculator applies the greater. |
 | Gas | Sec. 201.052(a) | 7.5 percent of market value |
-| Condensate | Sec. 201.055(b) | the oil rate of Sec. 202.052. The calculator applies 4.6 percent and not the per-barrel alternative, which the Comptroller's page does not state for condensate. |
+| Condensate | Sec. 201.055(b) | the oil rate of Sec. 202.052. The calculator applies 4.6 percent and not the per-barrel alternative, which the Comptroller's page does not state for condensate. The section's own words carry the floor, so this is the page's choice, not the law; the floor acts only below USD 1 a barrel, and the decisions fold says so (session 10207, `docs/reviews/severance-model-audit-2026-11-26.md`, finding 5). |
 | EOR | Secs. 202.052(b), 202.054(g) | 2.3 percent, for 10 years from the month after the Railroad Commission certifies a positive production response |
 | EOR with anthropogenic CO2 | Sec. 202.0545(a), (b) | an additional 50 percent reduction until the 30th anniversary of the Comptroller's first approval, prorated to the anthropogenic share of the CO2 |
 | Two-year inactive wells | Sec. 202.056(b); gas by Sec. 201.053(4) | a five-year exemption |

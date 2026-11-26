@@ -20,7 +20,7 @@ export const SEVERANCE_DECISIONS: SeveranceDecision[] = [
     def: "1 Mcf counted as 1 MMBtu.",
     source: "A choice of session 40, stated in the method note; no statute sets it." },
   { key: "tx-oil-floor",
-    text: "Texas oil owes 4.6 percent of market value or 4.6 cents a barrel, whichever is greater. Texas condensate owes 4.6 percent with no floor per barrel.",
+    text: "Texas oil owes 4.6 percent of market value or 4.6 cents a barrel, whichever is greater. Texas condensate is taxed here at 4.6 percent with no floor per barrel, since the Comptroller's page states none, though Sec. 201.055(b) taxes it at the oil rate, which has the floor. The floor acts only below USD 1 a barrel.",
     def: "The greater of the two for oil; the percentage alone for condensate.",
     source: "Texas Tax Code Sec. 202.052(a) for oil; Sec. 201.055(b) and the Comptroller's Natural Gas Production Tax page for condensate, which states no amount per barrel." },
   { key: "one-reduced-rate",
