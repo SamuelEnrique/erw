@@ -48,13 +48,14 @@ HISTORY_DAYS = 35
 DEMAND_MADE_HOUR = 20      # UTC, on day T-1 (the ground, section 3)
 LARGE_BAS = ["BPAT", "CISO", "CPLE", "DUK", "ERCO", "FPC", "FPL", "ISNE", "MISO", "NYIS", "PACE", "PJM", "PSCO", "SOCO", "SWPP", "TVA"]
 PLACES = [f"region-{r.lower()}" for r in data.REGIONS] + [f"ba-{b.lower()}" for b in LARGE_BAS]
-SCORED = ["erw", "operator", "yesterday", "week_ago", "regression"]
+SCORED = ["erw", "operator", "yesterday", "week_ago", "regression", "regression_recent"]
 METHOD_WORDS = {
     "erw": "the method chosen for the place by the rule of the method note (the lowest mean absolute error of the ERW's methods over the last two years of the backtest)",
     "operator": "the operator's own day-ahead demand forecast, as filed on Form EIA-930 (eia930_forecast_error_hourly, the screened hours left out); for the price none is published, and its rows are held",
     "yesterday": "the same local hour of the latest whole day held when the forecast is made (two days before the target day, for the day-ahead forecast)",
     "week_ago": "the same local hour seven days before the target day",
     "regression": "the least-squares regression of the method note, one a local hour, refit for every day on the 730 days before it",
+    "regression_recent": "the same regression with three more recent regressors (the last hour of the latest day read, the same hour the day before it, the same hour two weeks before the target day); added in session 10601",
 }
 # price status by place until part E: the grid's hub, or why none (the ground, section 2)
 PRICE_GRID = {"region-tex": "ercot", "ba-erco": "ercot", "region-cent": "spp", "ba-swpp": "spp", "region-cal": "caiso",
@@ -385,8 +386,8 @@ def write_tables(out, results, score_rows, built):
         for r in results:
             ent = "eia930:" + r["place"].split("-", 1)[1].upper()
             hr = r["hr"]
-            # the regression only: the two simple methods are the demand table's own hours, a lag apart
-            for m in ["regression"]:
+            # the two regressions only: the two simple methods are the demand table's own hours, a lag apart
+            for m in ["regression", "regression_recent"]:
                 x = hr.dropna(subset=[m])
                 for ts, v, lo, hi, made in zip(x["ts"], x[m], x[m + "_lo"], x[m + "_hi"], x["made_utc"]):
                     f.write(f"{ent},demand_forecast_mw,{iso(ts)},{v:.1f},MW,PT1H,erw:predict,{r['place']},{m},{iso(made)},2,"
