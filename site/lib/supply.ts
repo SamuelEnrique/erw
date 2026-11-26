@@ -48,6 +48,11 @@ export function holdRows(file: SupplyFile, heldGrids: string[], title: (grid: st
     ...file,
     rows: file.rows.map((r) => {
       const g = CLEARED_GRID[r.id];
+      // session 10222 (the supply audit, finding 2): since session 7051 the builder itself writes a held grid's row
+      // with status "licensed" and its note ("Held, not shown"), which drew "licensed source needed" as though the ERW
+      // lacked the source; such a row reads "license needed", as the price board writes it. PJM's row, which the ERW
+      // does not hold at all, keeps "licensed source needed". Only the words change: the row carries no figure either way.
+      if (g && r.status === "licensed" && /\bheld\b/i.test(r.note ?? "")) return { ...r, status: "held" };
       if (!g || !held.has(g) || r.status !== "ok") return r;
       return { id: r.id, group: r.group, label: r.label, at: r.at, unit: r.unit, freq: "", sense: 0, status: "held", note: title(g) };
     }),
