@@ -1,0 +1,15 @@
+{
+ "vintage": "2026-09",
+ "us": {
+  "battery_operating_mw": "56120.7",
+  "battery_operating_mwh": "154272.4",
+  "battery_operating_mwh_per_mw": "2.7498",
+  "battery_operating_units": "1156",
+  "battery_operating_mw_net_added_12m": "18330.2",
+  "battery_operating_mwh_net_added_12m": "48824.6",
+  "solar_operating_mw": "172181.6",
+  "battery_mwh_per_solar_mw": "0.8960"
+ },
+ "agree": 629,
+ "differ": 0
+}
