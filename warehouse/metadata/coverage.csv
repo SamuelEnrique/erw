@@ -22,9 +22,9 @@ ba_boundaries,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,71,snapshot,2026-11-19T10:3
 ba_supply_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,473,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,158503,erw:ba_supply,2026-10-02T23:03:48Z,pass,public,power,yes,derived
 ba_trade_partners,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,406,P1Y,2018-01-01T00:00:00Z,2026-01-01T00:00:00Z,5987,erw:interchange_pairs,2026-11-20T19:03:53Z,pass,public,power,yes,derived
 battery_sourced_ranges,battery,,18,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z,90,nlr:atb-2025-v1,2026-10-19T12:40:18Z,pass,public,power,no,source
-battery_stack_monthly,CAISO;ERCOT,caiso;ercot,2,P1M,2018-01-01T00:00:00Z,2026-11-01T00:00:00Z,11634,erw:battery_stack,2026-11-25T15:18:25Z,pass,public,power,yes,derived
+battery_stack_monthly,CAISO;ERCOT,caiso;ercot,2,P1M,2018-01-01T00:00:00Z,2026-11-01T00:00:00Z,11634,erw:battery_stack,2026-11-26T11:12:10Z,pass,public,power,yes,derived
 battery_stack_review_monthly,NYISO;SPP,nyiso;spp,2,P1M,2024-09-01T00:00:00Z,2026-10-01T00:00:00Z,3744,erw:battery_stack,2026-10-04T17:20:21Z,pass,public,power,yes,derived
-battery_stack_stress_daily,CAISO;ERCOT,caiso;ercot,2,P1D,2021-02-07T00:00:00Z,2026-10-08T00:00:00Z,1890,erw:battery_stack,2026-11-25T15:18:25Z,pass,public,power,yes,derived
+battery_stack_stress_daily,CAISO;ERCOT,caiso;ercot,2,P1D,2021-02-07T00:00:00Z,2026-10-08T00:00:00Z,1890,erw:battery_stack,2026-11-26T11:12:10Z,pass,public,power,yes,derived
 bchydro_ba_load_hourly,bchydro,,1,PT1H,2024-01-01T08:00:00Z,2026-10-01T06:00:00Z,24095,bchydro:hourly_control_area_load_report,2026-10-25T11:57:52Z,pass,internal,power,no,source
 bcrp_peru_electricity_monthly,bcrp,,25,P1M,2005-01-01T00:00:00Z,2026-06-01T00:00:00Z,6450,bcrp_pe:bcrpdata_produccion_electricidad_departamento,2026-10-25T00:56:01Z,pass,public,power,no,source
 bcrp_peru_hydrocarbons_monthly,bcrp,,3,P1M,2000-01-01T00:00:00Z,2026-08-01T00:00:00Z,960,bcrp_pe:bcrpdata_produccion_hidrocarburos,2026-10-25T01:01:14Z,pass,public,oil;gas,no,source
@@ -67,6 +67,7 @@ cence_costarica_generation_monthly,cence,,117,P1M,2020-01-01T00:00:00Z,2026-08-0
 censtatd_hk_electricity,censtatd,,1,P1M;P3M,1979-01-01T00:00:00Z,2026-08-01T00:00:00Z,3699,censtatd:hong_kong_energy_statistics,2026-10-24T06:50:35Z,pass,public,power,no,source
 census_bps_state_annual,census,,51,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,6732,census:bps_state_annual,2026-10-24T00:20:21Z,pass,public,power,no,source
 census_c30_construction_monthly,census,,110,P1M,1993-01-01T00:00:00Z,2026-08-01T00:00:00Z,82760,census:c30_construction_spending,2026-10-24T04:56:02Z,pass,public,power;datacenters,no,source
+census_cbp_construction_annual,census,,51,P1Y,2012-01-01T00:00:00Z,2023-01-01T00:00:00Z,3672,census:cbp_state_construction,2026-11-26T11:48:52Z,pass,public,power;datacenters,no,source
 census_cbp_hosting_annual,census,,51,P1Y,2012-01-01T00:00:00Z,2023-01-01T00:00:00Z,1836,census:cbp_state_518210,2026-10-24T00:26:22Z,pass,public,power;datacenters,no,source
 census_county_population,none,,1887,;P1Y,2018-07-01T00:00:00Z,2025-07-01T00:00:00Z,28293,census:popest/co-est2025-alldata;census:popest/intercensal_county_2010_2020,2026-11-18T01:26:49Z,pass,public,power,no,source
 census_metro_population,none,,387,,2020-04-01T00:00:00Z,2025-07-01T00:00:00Z,1650,census:popest_cbsa,2026-10-06T00:40:24Z,"pass, 1 warnings",public,power,no,source
@@ -90,6 +91,7 @@ cost_of_power_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;caiso_rtm;erco
 cso_ireland_electricity_monthly,cso,,2,P1M,1975-01-01T00:00:00Z,2026-08-01T00:00:00Z,644,cso:MSM01,2026-10-24T06:58:59Z,pass,public,power,no,source
 csp_latvia_electricity_monthly,csp,,10,P1M,2006-01-01T00:00:00Z,2026-08-01T00:00:00Z,2039,csp:ENB010m,2026-10-24T06:32:11Z,pass,internal,power,no,source
 czso_cz_regional_electricity_annual,czso,,255,P1Y,2024-01-01T00:00:00Z,2024-01-01T00:00:00Z,360,czso:comparison_of_regions_14_energy,2026-10-26T05:06:13Z,pass,public,power,no,source
+datacenter_announced,none,,1,event,2018-06-14T00:00:00Z,2026-09-03T00:00:00Z,22,1 outlets,2026-11-26T11:49:08Z,pass,internal,power;datacenters,no,model_extracted
 datacenter_facilities,none,,458,snapshot,2026-11-25T15:12:13Z,2026-11-25T15:12:13Z,458,Bloomberg;Bloomberg.com;Data Center Dynamics;Data Center Frontier;Data Center Knowledge;Energy-Storage.news;Financial Times;Hart Energy;Heatmap News;Latitude Media;Natural Gas Intelligence;OilPrice.com;POWER Magazine;Reuters;Utility Dive;WSJ;aws:locations;digitalrealty:data-centers;equinix:us-data-centers;ercot:interconnection_queue;google:datacenter-locations;meta:datacenter-locations;microsoft:azure-geographies;nyiso:interconnection_queue;oracle:public-cloud-regions;switch:locations,2026-11-25T15:12:12Z,pass,public,power;datacenters,no,model_extracted
 datacenter_operator_sites,none,,264,snapshot,2026-11-23T15:08:45Z,2026-11-23T15:08:45Z,264,aws:locations;digitalrealty:data-centers;equinix:us-data-centers;google:datacenter-locations;meta:datacenter-locations;microsoft:azure-geographies;oracle:public-cloud-regions;switch:locations,2026-11-23T15:05:26Z,pass,public,power;datacenters,no,source
 datacenter_projects,none,,193,snapshot,2026-09-27T04:31:06Z,2026-11-12T22:09:20Z,193,Bloomberg;Bloomberg.com;Data Center Dynamics;Data Center Frontier;Data Center Knowledge;Energy-Storage.news;Financial Times;Hart Energy;Heatmap News;Latitude Media;Natural Gas Intelligence;OilPrice.com;POWER Magazine;Reuters;Utility Dive;WSJ,2026-11-12T22:09:19Z,pass,public,power;datacenters,no,model_extracted

@@ -374,6 +374,11 @@ fi
 # ---- 3. the page files ------------------------------------------------------------------------------------------------
 echo "== the page files (each rebuilt from the tables here; a failed builder leaves its file as it was)"
 soft_step dm_datacenter_page "$PYTHON" warehouse/derived/datacenter_page.py
+# Session 10000 (chain 701, data request 6 of docs/state/data_requests_forecast.md): the announced datacenters, from chain
+# 740's evidence rows (warehouse/forecast/datacenter_announced_rows.json); no request; its stores when it moved
+was_dca="$(sha_of datacenter_announced)"
+soft_step dm_datacenter_announced "$PYTHON" warehouse/derived/datacenter_announced_table.py
+table_stores dm_datacenter_announced_stores datacenter_announced "$was_dca"
 soft_step dm_capture_price "$PYTHON" warehouse/derived/capture_price.py --cache-dir runs/capture_cache
 soft_step dm_curtailment_shares "$PYTHON" warehouse/derived/curtailment_shares.py
 soft_step dm_free_energy "$PYTHON" warehouse/derived/free_energy.py
