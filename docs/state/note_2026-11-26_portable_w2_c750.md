@@ -44,7 +44,7 @@ Also fixed: `/companies`, where five of six fields had no name for a screen read
 
 ## What waits for Samuel, with the page left as it is
 
-In plain words; the same twelve lines stand at the foot of the review.
+In plain words; the same thirteen lines stand at the foot of the review.
 
 1. Should the reason a figure is blank open on a tap, as the "i" marks do? Today only a mouse can read it.
 2. `/congestion` prints "1080.08 USD/MWh" beside "330,132": a thousands comma in one column and none in the other. The gate's own check holds it that way.
