@@ -1498,6 +1498,12 @@ async function main() {
       // build of the page with window B's files: 70 of tomorrow's 72 figures failed on "54,040" against 54039.5
       const predictWhole = /^pf\|predict\/(?:[^|]+\|series\/demand\/(?:tomorrow\/|history\/|summary\/[^/]+\/mae\/)|scores\.json\|rows\/\d+\/6$)/.test(check) && text === Math.round(Number(raw)).toLocaleString("en-US");
       if (!pass && predictWhole && t !== undefined && t !== null && same) pass = true;
+      // chain 720 (session 10404): /equities writes a change above zero with its sign (lib/equities.ts signedPct and
+      // signedLevel: "+0.32%", "+1.25"), two decimals always. A fall and a zero pass the rule above. Found by this check
+      // run on a build of the page with window A's files: 21 of the 43 figures failed on "+0.32%" against 0.32
+      const equitiesSigned = /^pf\|equities\/[^|]+\|(?:.*\/)?moves(?:_value_weight)?\/[a-z]+\/(?:pct|ch)$/.test(check) && Number(raw) > 0
+        && text === `+${Number(raw).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}${check.endsWith("/pct") ? "%" : ""}`;
+      if (!pass && equitiesSigned && t !== undefined && t !== null && same) pass = true;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
       // that day's, and a date the page writes beside the figure must be the same date
