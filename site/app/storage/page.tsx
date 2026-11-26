@@ -41,6 +41,11 @@ const BAS = [
 // session 34: CAISO's own data, not EIA-930's
 const CAISO = { code: "ciso", entity: "caiso:ISO", label: "CAISO", tz: "Pacific", color: "var(--color-fuel-solar)" };
 const ISOS = ["CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "PJM", "SPP"];
+// Session 10212 (docs/reviews/storage-model-audit-2026-11-26.md, finding 6): what two of the fleet's cells hold. Operating
+// is EIA-860M's operating sheet, statuses OP, SB, OS and OA (September 2026: 22 units, 508.0 MW on standby or out of
+// service); Retired is eia860m_retired_generators, the inventory's year and the year before (8 units, 338.5 MW, against
+// 50 units and 524.3 MW in EIA's full list of August 2026).
+const FLEET_STATUS_WORDS = "Operating is EIA's operating inventory, which also counts units on standby and units out of service (EIA's codes SB, OS and OA). Retired holds only the units retired in the inventory's year and the year before, not every battery ever retired.";
 const BUILD = ["under_construction", "planned"];
 
 function Tier({ tier }: { tier: "derived" | "source" }) {
@@ -344,7 +349,7 @@ async function FleetView() {
         {last24}
       </ChartFrame>
 
-      <ToolSection title="The fleet" note="Nameplate MW of every battery unit (prime mover BA) in EIA-860M, by EIA's status, and its Nameplate Energy Capacity (MWh) where EIA gives it: for operating and retired units, not for planned ones (EIA's Planned sheet has no such column). MWh is never estimated from MW.">
+      <ToolSection title="The fleet" note={`Nameplate MW of every battery unit (prime mover BA) in EIA-860M, by EIA's status, and its Nameplate Energy Capacity (MWh) where EIA gives it: for operating and retired units, not for planned ones (EIA's Planned sheet has no such column). MWh is never estimated from MW. ${FLEET_STATUS_WORDS}`}>
         {units.ok ? <Fleet units={units.data} /> : <NoData what="the fleet" reason={units.reason} />}
       </ToolSection>
 
