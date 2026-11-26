@@ -177,6 +177,27 @@ class TheFiles(unittest.TestCase):
             s = self.places[p["place"]]["series"]["demand"]
             self.assertIsNotNone(s["summary"]["backtest"]["mae"]["erw"], p["place"])
 
+    def test_each_file_agrees_with_the_report_card(self):
+        """The check of each file's figures: a place file's summary of the backtest is the score file's row 'all' for
+        the same method, the band's coverage lies in 0 to 100, and every history row's band holds its own forecast."""
+        cols = self.scores["rows_columns"]
+        rows = {(r[0], r[1], r[2], r[3], r[4]): dict(zip(cols, r)) for r in self.scores["rows"]}
+        for p in self.index["places"]:
+            for name in ("demand", "price"):
+                s = self.places[p["place"]]["series"][name]
+                if s["status"] != "shown":
+                    continue
+                for m in ("erw", "yesterday", "week_ago"):
+                    want = rows[(p["place"], name, m, "all", "")]
+                    got = s["summary"]["backtest"]
+                    self.assertEqual(got["hours"], want["hours"], (p["place"], name, m))
+                    self.assertAlmostEqual(got["mae"][m], want["mae"], places=2, msg=(p["place"], name, m))
+                self.assertTrue(0 <= s["band_coverage_pct"] <= 100, p["place"])
+                for row in s["history"]:
+                    erw, lo, hi = row[5], row[6], row[7]
+                    if None not in (erw, lo, hi) and row[4] == "backtest":
+                        self.assertTrue(lo <= erw <= hi, (p["place"], name, row[0]))
+
     def test_every_place_has_its_peak(self):
         cols = self.scores["rows_columns"]
         rows = [dict(zip(cols, r)) for r in self.scores["rows"] if r[1] == "demand_peak"]
