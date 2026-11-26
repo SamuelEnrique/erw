@@ -275,7 +275,7 @@ Each formula is on hover on the page.
 | 3-2-1 crack spread | (2 x gasoline + 1 x diesel) x 42 / 3 - crude, USD a barrel: Gulf Coast conventional gasoline and ultra-low sulfur diesel against WTI, and New York Harbor products against Brent. Yields: two barrels of gasoline and one of diesel from three of crude, before any cost |
 | Brent minus WTI | Brent spot - WTI spot at Cushing |
 | Day-ahead minus real time | day-ahead daily mean - real-time daily mean, same day and hub |
-| Battery spread | the day's highest hourly price - its lowest, on complete operating days, by hub and market; the 30-day average is the row's 30-day average |
+| Battery spread | the day's highest hourly price - its lowest, on complete operating days, by hub and market; the 30-day average is the row's 30-day average. In either order, one hour each way, before losses: the trader's top-bottom spread, not what a battery earns, which must charge before it discharges and loses energy doing so (session 10206, `docs/reviews/board-model-audit-2026-11-26.md`, finding 5). Over the 365 days to 20 or 25 November 2026, day-ahead, the lowest hour came after the highest on 16 percent of days at ERCOT's hub average, 21 at ERCOT West, 46 at CAISO SP15 and 37 at SPP North; charging first, the year's mean spread is 7.8, 9.6, 5.0 and 9.7 percent lower, and at an 85 percent round trip 13.9, 13.5, 10.6 and 14.0 percent lower |
 | On-peak less off-peak | the day's on-peak mean - its off-peak mean |
 
 EIA publishes spot gas about a week behind, so the newest spark spread is a few days older than the newest power price. EIA publishes plant fuel costs about three months behind, so the dark spread is as old.

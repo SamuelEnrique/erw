@@ -1,6 +1,6 @@
 {
  "from": "2026-10-21",
- "written": "2026-11-20",
+ "written": "2026-11-26",
  "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
@@ -911,7 +911,9 @@
   },
   "caiso_tie_flows_5min": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "caiso_wind_solar_forecast": {
    "status": "public",
@@ -990,6 +992,12 @@
    ]
   },
   "census_c30_construction_monthly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "census_cbp_construction_annual": {
    "status": "public",
    "pages": [
     "/data"
@@ -1211,11 +1219,15 @@
   },
   "constraints_binding_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "constraints_binding_monthly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "cost_of_power_carbon": {
    "status": "license needed",
@@ -3440,7 +3452,9 @@
   },
   "generation_outages_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "generator_pipeline_by_grid": {
    "status": "public",
@@ -3456,7 +3470,9 @@
   },
   "grid_all_alerts": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "grid_network_links": {
    "status": "public",
@@ -4456,11 +4472,15 @@
   },
   "price_congestion_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "price_congestion_monthly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "price_years_by_window": {
    "status": "public",
@@ -4921,6 +4941,10 @@
     "/data"
    ]
   },
+  "weather_forecast_issued_hourly": {
+   "status": "public",
+   "pages": []
+  },
   "weather_obs_hourly": {
    "status": "public",
    "pages": [
@@ -4934,7 +4958,7 @@
    ]
   }
  },
- "internal_tables": 116,
+ "internal_tables": 117,
  "pages": {
   "/": {
    "label": "Home",
@@ -5005,7 +5029,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 533
+   "public": 541
   },
   "/data/faults": {
    "label": "Known faults in source data",

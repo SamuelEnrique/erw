@@ -659,6 +659,8 @@ catalogue_hold:
   - census_bps_state_annual
   - afdc_ev_charging_state_annual
   - census_cbp_hosting_annual
+  - census_cbp_construction_annual     # session 10000 (chain 701): not yet on Redivis, as the hosting table
+  - weather_forecast_issued_hourly     # session 10000 (chain 701): every NWS issue kept; not yet on Redivis
   - statcan_electricity_generation_monthly
   - emi_nz_generation_demand_monthly
   - census_c30_construction_monthly

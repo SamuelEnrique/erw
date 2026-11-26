@@ -1,0 +1,248 @@
+# The codebook's metadata of table weather_forecast_issued_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: weather_forecast_issued_hourly
+family: other_sources
+shape: series
+row: 'One NWS hourly forecast value (temperature or wind) for one airport and one forecast hour, as one issue gave it; the variable names the lead in days (the hour''s UTC date less the issue''s).'
+time: 'ts_utc is the forecast hour''s start (UTC, freq PT1H); vintage is the issue''s updateTime.'
+vintage_rule: 'Appended run to run and never replaced across leads: a later issue writes another variable (another lead); of two issues read on one UTC day for the same lead, the later is kept.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: nws:forecast_hourly National Weather Service API, https://api.weather.gov/points/<lat,lon> then its forecastHourly
+    (units=si)
+  url: https://api.weather.gov/points/<lat,lon>
+cite: National Weather Service (NWS, NOAA). Hourly gridpoint forecast (api.weather.gov). Via the Energy Research Warehouse
+  (ERW), table `weather_forecast_issued_hourly`.
+method: ''
+header_title: NWS hourly forecast of temperature and wind at one airport per ISO, every issue kept (session 10000, chain 701)
+header_shape: 'Shape: series (docs/datastandard.md v0). freq PT1H: ts_utc is the forecast hour''s start (UTC). The variable
+  names the lead: temperature_f_lead<N>d (degF) and wind_speed_mph_lead<N>d (mph), N the forecast hour''s UTC date less the
+  issue''s UTC date; vintage is the issue''s updateTime. A later issue never replaces an earlier one for the same hour; of
+  two issues read on one UTC day for the same lead, the later is kept.'
+read:
+  date: '2026-11-26'
+  rows: 2184
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      nws:KBOS: 312
+      nws:KDFW: 312
+      nws:KIND: 312
+      nws:KLAX: 312
+      nws:KLGA: 312
+      nws:KOKC: 312
+      nws:KPHL: 312
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 156
+    earliest: '2026-11-26T12:00:00Z'
+    latest: '2026-12-02T23:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 72
+    lowest: 0.0
+    highest: 82.4
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      degF: 1092
+      mph: 1092
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 2184
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 312
+      US-IN: 312
+      US-MA: 312
+      US-NY: 312
+      US-OK: 312
+      US-PA: 312
+      US-TX: 312
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2184
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      CAISO: 312
+      ERCOT: 312
+      ISO-NE: 312
+      MISO: 312
+      NYISO: 312
+      PJM: 312
+      SPP: 312
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nws:forecast_hourly: 2184
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://api.weather.gov/gridpoints/BOX/73,101/forecast/hourly?units=si: 312
+      https://api.weather.gov/gridpoints/FWD/81,109/forecast/hourly?units=si: 312
+      https://api.weather.gov/gridpoints/IND/54,67/forecast/hourly?units=si: 312
+      https://api.weather.gov/gridpoints/LOX/149,41/forecast/hourly?units=si: 312
+      https://api.weather.gov/gridpoints/OKX/37,46/forecast/hourly?units=si: 312
+      https://api.weather.gov/gridpoints/OUN/94,90/forecast/hourly?units=si: 312
+      https://api.weather.gov/gridpoints/PHI/48,75/forecast/hourly?units=si: 312
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-26T12:04:36Z': 312
+      '2026-11-26T12:04:37Z': 312
+      '2026-11-26T12:04:39Z': 312
+      '2026-11-26T12:04:41Z': 312
+      '2026-11-26T12:04:43Z': 312
+      '2026-11-26T12:04:45Z': 312
+      '2026-11-26T12:04:47Z': 312
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-26T06:26:58Z': 312
+      '2026-11-26T09:07:45Z': 312
+      '2026-11-26T09:14:54Z': 312
+      '2026-11-26T09:37:47Z': 312
+      '2026-11-26T11:11:43Z': 312
+      '2026-11-26T11:21:09Z': 312
+      '2026-11-26T11:45:22Z': 312
+  missing_cells: 0
+variables:
+- name: temperature_f_lead0d
+  label: null
+  unit: degF
+  rows: 84
+  first: '2026-11-26T12:00:00Z'
+  last: '2026-11-26T23:00:00Z'
+- name: temperature_f_lead1d
+  label: null
+  unit: degF
+  rows: 168
+  first: '2026-11-27T00:00:00Z'
+  last: '2026-11-27T23:00:00Z'
+- name: temperature_f_lead2d
+  label: null
+  unit: degF
+  rows: 168
+  first: '2026-11-28T00:00:00Z'
+  last: '2026-11-28T23:00:00Z'
+- name: temperature_f_lead3d
+  label: null
+  unit: degF
+  rows: 168
+  first: '2026-11-29T00:00:00Z'
+  last: '2026-11-29T23:00:00Z'
+- name: temperature_f_lead4d
+  label: null
+  unit: degF
+  rows: 168
+  first: '2026-11-30T00:00:00Z'
+  last: '2026-11-30T23:00:00Z'
+- name: temperature_f_lead5d
+  label: null
+  unit: degF
+  rows: 168
+  first: '2026-12-01T00:00:00Z'
+  last: '2026-12-01T23:00:00Z'
+- name: temperature_f_lead6d
+  label: null
+  unit: degF
+  rows: 168
+  first: '2026-12-02T00:00:00Z'
+  last: '2026-12-02T23:00:00Z'
+- name: wind_speed_mph_lead0d
+  label: null
+  unit: mph
+  rows: 84
+  first: '2026-11-26T12:00:00Z'
+  last: '2026-11-26T23:00:00Z'
+- name: wind_speed_mph_lead1d
+  label: null
+  unit: mph
+  rows: 168
+  first: '2026-11-27T00:00:00Z'
+  last: '2026-11-27T23:00:00Z'
+- name: wind_speed_mph_lead2d
+  label: null
+  unit: mph
+  rows: 168
+  first: '2026-11-28T00:00:00Z'
+  last: '2026-11-28T23:00:00Z'
+- name: wind_speed_mph_lead3d
+  label: null
+  unit: mph
+  rows: 168
+  first: '2026-11-29T00:00:00Z'
+  last: '2026-11-29T23:00:00Z'
+- name: wind_speed_mph_lead4d
+  label: null
+  unit: mph
+  rows: 168
+  first: '2026-11-30T00:00:00Z'
+  last: '2026-11-30T23:00:00Z'
+- name: wind_speed_mph_lead5d
+  label: null
+  unit: mph
+  rows: 168
+  first: '2026-12-01T00:00:00Z'
+  last: '2026-12-01T23:00:00Z'
+- name: wind_speed_mph_lead6d
+  label: null
+  unit: mph
+  rows: 168
+  first: '2026-12-02T00:00:00Z'
+  last: '2026-12-02T23:00:00Z'
+second_look: null

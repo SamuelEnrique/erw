@@ -470,7 +470,7 @@ class ThePage(unittest.TestCase):
         self.assertLess(self.shared.index('data-row="differs"'), self.shared.index('data-row="against"'))
         self.assertIn("differenceWords(s.a, s.b)", self.block)
         self.assertIn("against={{ words: versus, rate: versusRate, even: versusEven }}", self.block)
-        for label in ("Present value of the cost, at the hurdle rate", "Fixed price with the same present value", "Hours off, and the breakeven value of a GPU-hour", "All-in power per GPU-hour, over the years counted"):
+        for label in ("Present value of the cost, at the hurdle rate", "Fixed price with the same present value", "Hours off, and the breakeven value of a GPU-hour", "Levelized power per GPU-hour, over the years counted"):
             self.assertIn(f'", "{label}", ', self.block)
         self.assertIn("hurdle rate is ${hurdle} percent.", self.block)                 # the rate of return is stated beside the hurdle rate
 

@@ -1,0 +1,180 @@
+== 1. Names and keys
+caiso: 240 detailed keys; labels drawn identically for two or more keys: 0
+   names under two or more keys among the detailed: 33
+   all by_hours: first by key caiso:34116_LE GRAND_115_34115_ADRA TAP_115_BR_1 _1|PG1 MNDOTA-PNOCHE 115 (11,897.0); first by name 34112_EXCHEQUR_115_34116_LE GRAND_115_BR_1 _1 (14,576.0); names in the keyed top 25 that recur: 2; names of the named top 25 not in the keyed list: 3
+   all by_cost: first by key caiso:31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1|PG1 EGLRK-SLVR-FLTN 115_M (1,692,263.2); first by name 31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1 (1,836,754.9); names in the keyed top 25 that recur: 2; names of the named top 25 not in the keyed list: 4
+   2026 by_hours: first by key caiso:7690-CONTRL-INYOKN_EXP_NG|Base Case (6,519.0); first by name 7690-CONTRL-INYOKN_EXP_NG (6,519.0); names in the keyed top 25 that recur: 2; names of the named top 25 not in the keyed list: 2
+   2026 by_cost: first by key caiso:31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1|PG1 EGLRK-SLVR-FLTN 115_M (677,480.7); first by name 31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1 (677,480.7); names in the keyed top 25 that recur: 3; names of the named top 25 not in the keyed list: 3
+   2025 by_hours: first by key caiso:24723_CONTROL _115_24865_TAP188  _115_BR_2 _1|Base Case (4,567.0); first by name 24723_CONTROL _115_24865_TAP188  _115_BR_2 _1 (4,567.0); names in the keyed top 25 that recur: 1; names of the named top 25 not in the keyed list: 1
+   2025 by_cost: first by key caiso:39021_SC21ATP _70.0_34888_ARVIN   _70.0_BR_1 _1|PG1 WHELRG-WEEDPC 70 (553,893.0); first by name 39021_SC21ATP _70.0_34888_ARVIN   _70.0_BR_1 _1 (605,826.7); names in the keyed top 25 that recur: 3; names of the named top 25 not in the keyed list: 3
+spp: 307 detailed keys; labels drawn identically for two or more keys: 3
+    Ozrk_B-xfmr_A <- ['spp:Ozrk_B-xfmr_A', 'spp:Ozrk_B-xfmr_A|BASE'] [['2015', '2017', '2018', '2019', '2020', '2021'], ['2021', '2022', '2023', '2024', '2025', '2026']]
+    SPSNMTIES <- ['spp:SPSNMTIES', 'spp:SPSNMTIES|BASE'] [['2017', '2018', '2019', '2020', '2021'], ['2021', '2022', '2023', '2024', '2025', '2026']]
+    TEXAS_CO_TXPS_TXCO_PHSHFT_PS <- ['spp:TEXAS_CO_TXPS_TXCO_PHSHFT_PS', 'spp:TEXAS_CO_TXPS_TXCO_PHSHFT_PS|BASE'] [['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021'], ['2021', '2022', '2023', '2024', '2025']]
+   names under two or more keys among the detailed: 24
+   all by_hours: first by key spp:TEXAS_CO_TXPS_TXCO_PHSHFT_PS (60,293.0); first by name TEXAS_CO_TXPS_TXCO_PHSHFT_PS (92,128.0); names in the keyed top 25 that recur: 3; names of the named top 25 not in the keyed list: 4
+   all by_cost: first by key spp:OSAWEBCLESOO|33380 (1,999,437.0); first by name OSAWEBCLESOO (1,999,437.0); names in the keyed top 25 that recur: 3; names of the named top 25 not in the keyed list: 4
+   2026 by_hours: first by key spp:SOONER_SONR_SONR_PHSHFT_PS|BASE (6,942.0); first by name SOONER_SONR_SONR_PHSHFT_PS (6,942.0); names in the keyed top 25 that recur: 0; names of the named top 25 not in the keyed list: 0
+   2026 by_cost: first by key spp:TMP128_29363|333 (330,132.1); first by name TMP128_29363 (330,132.1); names in the keyed top 25 that recur: 0; names of the named top 25 not in the keyed list: 0
+   2025 by_hours: first by key spp:TEXAS_CO_TXPS_TXCO_PHSHFT_PS|BASE (5,724.0); first by name TEXAS_CO_TXPS_TXCO_PHSHFT_PS (5,724.0); names in the keyed top 25 that recur: 0; names of the named top 25 not in the keyed list: 0
+   2025 by_cost: first by key spp:OSAWEBCLESOO|33380 (554,036.2); first by name OSAWEBCLESOO (554,036.2); names in the keyed top 25 that recur: 0; names of the named top 25 not in the keyed list: 0
+
+== 1b. The SPP monitor's four flowgates of 2025, on the page's list (by key) and by name
+   OSAWEBCLESOO: on the page's 2025 cost list at [(1, 'spp:OSAWEBCLESOO|33380', 554036.2)]
+   TMP128_29363: on the page's 2025 cost list at [(2, 'spp:TMP128_29363|333', 485308.1)]
+   TMP563_26603: on the page's 2025 cost list at [(7, 'spp:TMP563_26603|13430', 215929.5)]
+   TMP266_27514: on the page's 2025 cost list at [(12, 'spp:TMP266_27514|8767', 135412.1)]
+
+== 2. The highest shadow prices
+caiso: the most common highest values among detailed constraints: [(1000.0, 3), (420.49, 1), (637.12, 1), (1277.84, 1), (1653.66, 1), (337.98, 1)]
+   constraint-months whose highest is 1,500.00 or more: 108; the largest highest held: 8529.24
+   2026 by_hours: of the 25, highest at 1,500.00: 1; at 1,400 or more: 1
+   2026 by_cost: of the 25, highest at 1,500.00: 4; at 1,400 or more: 4
+spp: the most common highest values among detailed constraints: [(1500.0, 12), (0, 2), (999.93, 2), (750.0, 2), (185.3, 1), (863.24, 1)]
+   constraint-months whose highest is 1,500.00 or more: 16; the largest highest held: 1751.81
+   2026 by_hours: of the 25, highest at 1,500.00: 0; at 1,400 or more: 2
+   2026 by_cost: of the 25, highest at 1,500.00: 2; at 1,400 or more: 9
+
+== 3. How much of a year's sum one month carries
+   caiso 2026 cost rank 1 31336_HPLND JT_60.0_31370_CLVRDLJT_60.0_BR_1 _1 (contingency PG1 EGLRK-SLVR-FLTN 115_M): 9 months; its largest month 2026-10 carries 17 percent
+   caiso 2026 cost rank 2 22208_EL CAJON_69.0_22408_LOSCOCHS_69.0_BR_1 _1 (contingency SD1 LCOCHS-GR-MIGUEL 69): 10 months; its largest month 2026-09 carries 23 percent
+   caiso 2026 cost rank 3 7690-CONTRL-INYOKN_EXP_NG (contingency Base Case): 11 months; its largest month 2026-04 carries 21 percent
+   caiso 2026 cost rank 4 30750_MOSSLD  _230_30797_LASAGUIL_230_BR_1 _1 (contingency PG1 MOSSLD-LOSBNS 500): 11 months; its largest month 2026-05 carries 21 percent
+   caiso 2026 cost rank 5 39021_SC21ATP _70.0_34888_ARVIN   _70.0_BR_1 _1 (contingency PG1 WHELRG-WEEDPC 70): 8 months; its largest month 2026-08 carries 56 percent
+   caiso 2026 cost rank 6 34548_KETTLEMN_70.0_34552_GATES   _70.0_BR_1 _1 (contingency Base Case): 11 months; its largest month 2026-05 carries 18 percent
+   caiso 2026 cost rank 7 22208_EL CAJON_69.0_22408_LOSCOCHS_69.0_BR_1 _1 (contingency SD1 MIGUEL-JMACHA_1 69): 8 months; its largest month 2026-01 carries 76 percent
+   caiso 2026 cost rank 8 38615_DS AMIGO_230_30790_PANOCHE _230_BR_1 _1 (contingency PG1 GATES-LOSBNS_1 500): 4 months; its largest month 2026-11 carries 65 percent
+   caiso 2026 cost rank 9 24723_CONTROL _115_24866_TAP189  _115_BR_1 _1 (contingency Base Case): 4 months; its largest month 2026-03 carries 93 percent
+   caiso 2026 cost rank 10 24701_KRAMER  _230_24601_VICTOR  _230_BR_2 _1 (contingency Base Case): 9 months; its largest month 2026-08 carries 38 percent
+   spp 2026 cost rank 1 TMP128_29363 (contingency 333): 11 months; its largest month 2026-04 carries 23 percent
+   spp 2026 cost rank 2 OSAWEBCLESOO (contingency 33380): 10 months; its largest month 2026-06 carries 21 percent
+   spp 2026 cost rank 3 TEMP90_26027 (contingency 17569): 11 months; its largest month 2026-10 carries 25 percent
+   spp 2026 cost rank 4 TP1191_32124 (contingency 17062): 7 months; its largest month 2026-08 carries 46 percent
+   spp 2026 cost rank 5 TMP336_31246 (contingency 10196): 10 months; its largest month 2026-06 carries 27 percent
+   spp 2026 cost rank 6 TP1214_32539 (contingency 2909): 11 months; its largest month 2026-01 carries 27 percent
+   spp 2026 cost rank 7 TMP815_32602 (contingency CON1057): 7 months; its largest month 2026-01 carries 43 percent
+   spp 2026 cost rank 8 TP1175_32775 (contingency 714): 8 months; its largest month 2026-03 carries 53 percent
+   spp 2026 cost rank 9 TP1134_32007 (contingency 25918): 11 months; its largest month 2026-06 carries 32 percent
+   spp 2026 cost rank 10 TMP777_28815 (contingency 25948): 9 months; its largest month 2026-06 carries 29 percent
+
+== 4. A place's year mean against its months
+   spp:SPPNORTH_HUB: months of 2025 and 2026 [month, hours, LMP, energy, congestion, loss]:
+      ['2025-01', 744, 25.72, 38.43, -11.75, -0.96]
+      ['2025-02', 672, 26.75, 35.95, -8.67, -0.52]
+      ['2025-03', 743, 19.54, 28.1, -7.61, -0.95]
+      ['2025-04', 720, 20.91, 32.95, -10.87, -1.17]
+      ['2025-05', 744, 27.98, 30.72, -2.37, -0.37]
+      ['2025-06', 720, 29.69, 31.23, -1.4, -0.14]
+      ['2025-07', 744, 37.2, 35.98, 0.67, 0.55]
+      ['2025-08', 744, 34.93, 31.87, 2.93, 0.13]
+      ['2025-09', 720, 32.03, 29.88, 2.41, -0.26]
+      ['2025-10', 744, 24.31, 30.0, -5.11, -0.58]
+      ['2025-11', 721, 28.43, 31.96, -2.98, -0.55]
+      ['2025-12', 744, 29.42, 29.31, 0.0, 0.1]
+      ['2026-01', 744, 74.07, 66.67, 7.27, 0.14]
+      ['2026-02', 672, 25.97, 24.47, 1.3, 0.2]
+      ['2026-03', 743, 19.04, 18.23, 0.78, 0.03]
+      ['2026-04', 720, 19.87, 20.65, -0.54, -0.24]
+      ['2026-05', 744, 23.49, 24.74, -0.82, -0.43]
+      ['2026-06', 720, 27.17, 27.27, -0.18, 0.08]
+      ['2026-07', 744, 50.89, 39.08, 10.31, 1.5]
+      ['2026-08', 744, 41.42, 37.19, 3.31, 0.92]
+      ['2026-09', 720, 36.21, 36.66, -0.5, 0.05]
+      ['2026-10', 744, 32.81, 30.74, 1.7, 0.36]
+      ['2026-11', 481, 26.9, 25.65, 0.94, 0.31]
+   spp:SPPSOUTH_HUB: months of 2025 and 2026 [month, hours, LMP, energy, congestion, loss]:
+      ['2025-01', 744, 42.23, 38.43, 3.36, 0.44]
+      ['2025-02', 672, 35.93, 35.95, -0.5, 0.49]
+      ['2025-03', 743, 17.19, 28.1, -10.47, -0.44]
+      ['2025-04', 720, 22.29, 32.95, -10.39, -0.27]
+      ['2025-05', 744, 28.39, 30.72, -2.34, 0.01]
+      ['2025-06', 720, 29.16, 31.23, -2.03, -0.03]
+      ['2025-07', 744, 35.64, 35.98, -0.23, -0.11]
+      ['2025-08', 744, 31.98, 31.87, -0.05, 0.17]
+      ['2025-09', 720, 26.97, 29.88, -3.38, 0.46]
+      ['2025-10', 744, 27.38, 30.0, -2.85, 0.24]
+      ['2025-11', 721, 29.74, 31.96, -2.27, 0.06]
+      ['2025-12', 744, 25.43, 29.31, -3.63, -0.26]
+      ['2026-01', 744, 60.59, 66.67, -5.82, -0.25]
+      ['2026-02', 672, 19.2, 24.47, -4.66, -0.61]
+      ['2026-03', 743, 9.52, 18.23, -8.17, -0.53]
+      ['2026-04', 720, 11.23, 20.65, -8.8, -0.62]
+      ['2026-05', 744, 23.11, 24.74, -1.46, -0.16]
+      ['2026-06', 720, 26.84, 27.27, -0.15, -0.28]
+      ['2026-07', 744, 34.96, 39.08, -3.26, -0.86]
+      ['2026-08', 744, 43.3, 37.19, 6.61, -0.5]
+      ['2026-09', 720, 38.58, 36.66, 2.08, -0.16]
+      ['2026-10', 744, 23.28, 30.74, -6.94, -0.53]
+      ['2026-11', 481, 21.37, 25.65, -3.94, -0.34]
+   caiso:DLAP_PGAE-APND 2026: mean congestion 1.34; without its largest month (2026-05) 1.05; that month carries 29 percent of the year's sum
+   caiso:DLAP_SCE-APND 2026: mean congestion -1.43; without its largest month (2026-05) -1.19; that month carries 25 percent of the year's sum
+   caiso:DLAP_SDGE-APND 2026: mean congestion 2.24; without its largest month (2026-10) 1.73; that month carries 30 percent of the year's sum
+   caiso:DLAP_VEA-APND 2026: mean congestion -2.29; without its largest month (2026-11) -2.02; that month carries 17 percent of the year's sum
+   caiso:TH_NP15_GEN-APND 2026: mean congestion 0.13; without its largest month (2026-08) 0.51; that month carries -248 percent of the year's sum
+   caiso:TH_SP15_GEN-APND 2026: mean congestion -3.09; without its largest month (2026-05) -2.94; that month carries 14 percent of the year's sum
+   caiso:TH_ZP26_GEN-APND 2026: mean congestion -3.16; without its largest month (2026-08) -2.96; that month carries 15 percent of the year's sum
+   spp:SPPNORTH_HUB 2026: mean congestion 2.21; without its largest month (2026-07) 1.36; that month carries 45 percent of the year's sum
+   spp:SPPSOUTH_HUB 2026: mean congestion -3.10; without its largest month (2026-04) -2.52; that month carries 26 percent of the year's sum
+   SPP North 2026 without January: 1.68 (page 2.22)
+   spp:SPPNORTH_HUB April to November: 2025 congestion -2.07, energy 31.83; 2026 congestion 1.84, energy 30.49
+   spp:SPPSOUTH_HUB April to November: 2025 congestion -2.92, energy 31.83; 2026 congestion -1.89, energy 30.49
+
+== 5. The places table, as it opens (2026), and the energy part across places of one operator
+   1. caiso:DLAP_SDGE-APND 2.24
+   2. spp:SPPNORTH_HUB 2.22
+   3. caiso:DLAP_PGAE-APND 1.34
+   4. caiso:TH_NP15_GEN-APND 0.13
+   5. caiso:DLAP_SCE-APND -1.43
+   6. caiso:DLAP_VEA-APND -2.29
+   7. caiso:TH_SP15_GEN-APND -3.09
+   8. spp:SPPSOUTH_HUB -3.1
+   9. caiso:TH_ZP26_GEN-APND -3.16
+   caiso 2025-07: the energy part at each place [38.65, 38.65, 38.65, 38.65, 38.65, 38.65, 38.65]
+   caiso 2026-01: the energy part at each place [36.65, 36.65, 36.65, 36.65, 36.65, 36.65, 36.65]
+   spp 2025-07: the energy part at each place [35.98, 35.98]
+   spp 2026-01: the energy part at each place [66.67, 66.67]
+
+== 6. Windows
+   caiso: constraints first 2015-01-01T13:00:00Z, last 2026-11-21T07:00:00Z; days held {'2015': 363, '2016': 366, '2017': 364, '2018': 364, '2019': 365, '2020': 366, '2021': 365, '2022': 364, '2023': 365, '2024': 366, '2025': 365, '2026': 324}
+   spp: constraints first 2014-03-01T06:00:00Z, last 2026-11-21T05:00:00Z; days held {'2014': 306, '2015': 365, '2016': 366, '2017': 365, '2018': 365, '2019': 365, '2020': 366, '2021': 365, '2022': 365, '2023': 365, '2024': 366, '2025': 365, '2026': 324}
+   caiso:DLAP_PGAE-APND: first month 2023-08 528 hours; last month 2026-11 481 hours; years ['2023', '2024', '2025', '2026'], hours a year [3457, 8784, 8760, 7776]
+   caiso:DLAP_SCE-APND: first month 2023-08 528 hours; last month 2026-11 481 hours; years ['2023', '2024', '2025', '2026'], hours a year [3457, 8784, 8760, 7776]
+   caiso:DLAP_SDGE-APND: first month 2023-08 528 hours; last month 2026-11 481 hours; years ['2023', '2024', '2025', '2026'], hours a year [3457, 8784, 8760, 7776]
+   caiso:DLAP_VEA-APND: first month 2023-08 528 hours; last month 2026-11 481 hours; years ['2023', '2024', '2025', '2026'], hours a year [3457, 8784, 8760, 7776]
+   caiso:TH_NP15_GEN-APND: first month 2023-08 528 hours; last month 2026-11 481 hours; years ['2023', '2024', '2025', '2026'], hours a year [3457, 8784, 8760, 7776]
+   caiso:TH_SP15_GEN-APND: first month 2023-08 528 hours; last month 2026-11 481 hours; years ['2023', '2024', '2025', '2026'], hours a year [3457, 8784, 8760, 7776]
+   caiso:TH_ZP26_GEN-APND: first month 2023-08 528 hours; last month 2026-11 481 hours; years ['2023', '2024', '2025', '2026'], hours a year [3457, 8784, 8760, 7776]
+   spp:SPPNORTH_HUB: first month 2022-01 744 hours; last month 2026-11 481 hours; years ['2022', '2023', '2024', '2025', '2026'], hours a year [8760, 8760, 8784, 8760, 7776]
+   spp:SPPSOUTH_HUB: first month 2022-01 744 hours; last month 2026-11 481 hours; years ['2022', '2023', '2024', '2025', '2026'], hours a year [8760, 8760, 8784, 8760, 7776]
+
+== 7. Hours with a congestion part of zero
+   caiso:DLAP_PGAE-APND 2023: 518 of 3457 hours at zero (15 percent)
+   caiso:DLAP_PGAE-APND 2024: 1309 of 8784 hours at zero (15 percent)
+   caiso:DLAP_PGAE-APND 2025: 463 of 8760 hours at zero (5 percent)
+   caiso:DLAP_SCE-APND 2023: 614 of 3457 hours at zero (18 percent)
+   caiso:DLAP_SCE-APND 2024: 1358 of 8784 hours at zero (15 percent)
+   caiso:DLAP_SCE-APND 2025: 570 of 8760 hours at zero (7 percent)
+   caiso:DLAP_SDGE-APND 2023: 736 of 3457 hours at zero (21 percent)
+   caiso:DLAP_SDGE-APND 2024: 1506 of 8784 hours at zero (17 percent)
+   caiso:DLAP_SDGE-APND 2025: 982 of 8760 hours at zero (11 percent)
+   caiso:DLAP_SDGE-APND 2026: 457 of 7776 hours at zero (6 percent)
+   caiso:DLAP_VEA-APND 2023: 728 of 3457 hours at zero (21 percent)
+   caiso:DLAP_VEA-APND 2024: 1687 of 8784 hours at zero (19 percent)
+   caiso:DLAP_VEA-APND 2025: 1311 of 8760 hours at zero (15 percent)
+   caiso:DLAP_VEA-APND 2026: 1011 of 7776 hours at zero (13 percent)
+   caiso:TH_NP15_GEN-APND 2023: 482 of 3457 hours at zero (14 percent)
+   caiso:TH_NP15_GEN-APND 2024: 897 of 8784 hours at zero (10 percent)
+   caiso:TH_SP15_GEN-APND 2023: 693 of 3457 hours at zero (20 percent)
+   caiso:TH_SP15_GEN-APND 2024: 1221 of 8784 hours at zero (14 percent)
+   caiso:TH_ZP26_GEN-APND 2023: 1002 of 3457 hours at zero (29 percent)
+   caiso:TH_ZP26_GEN-APND 2024: 1720 of 8784 hours at zero (20 percent)
+   caiso:TH_ZP26_GEN-APND 2025: 1436 of 8760 hours at zero (16 percent)
+   caiso:TH_ZP26_GEN-APND 2026: 1362 of 7776 hours at zero (18 percent)
+
+== 8. The share rule
+   caiso:DLAP_SCE-APND: months with no share (mean LMP not above zero): []; months with a share of 50 percent or more in size: [('2024-04', -63.5)]
+   caiso:DLAP_VEA-APND: months with no share (mean LMP not above zero): []; months with a share of 50 percent or more in size: [('2024-03', -53.2), ('2024-04', -177.9), ('2024-05', -130.2)]
+   caiso:TH_SP15_GEN-APND: months with no share (mean LMP not above zero): []; months with a share of 50 percent or more in size: [('2024-04', -92.7), ('2024-05', -51.1), ('2026-04', -50.0)]
+   caiso:TH_ZP26_GEN-APND: months with no share (mean LMP not above zero): []; months with a share of 50 percent or more in size: [('2024-05', -56.7)]
+   spp:SPPNORTH_HUB: months with no share (mean LMP not above zero): []; months with a share of 50 percent or more in size: [('2023-09', -53.7), ('2023-10', -74.8), ('2024-04', -151.1), ('2024-10', -92.1), ('2025-04', -52.0)]
+   spp:SPPSOUTH_HUB: months with no share (mean LMP not above zero): []; months with a share of 50 percent or more in size: [('2025-03', -60.9), ('2026-03', -85.8), ('2026-04', -78.4)]

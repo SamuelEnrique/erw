@@ -66,6 +66,9 @@ The pages no browser has seen come first: B1 to B5, then B6 to B10, then the res
 - **Twelve addresses of the list at both widths** (`runs/c750/survey.mjs`): every page loads in under 3.3 s but `/internal/findings` (4.7 s at 1280 px, 3.5 s at 390 px); no sideways scroll, no empty chart, no heading that skips a level, no error in the console as each opens. `/problems` is no address (the sets live under `/learn`; B8 reads them there).
 - **Every page with a fixed address (82) and the Grid tool's 63 views (eight grids and thirteen regions, three views each), at 390 px** (`runs/c750/all_routes.mjs`, 146 addresses, 11:35 UTC). With something wrong: `/grid?grid=caiso` (row G1 below); `/data/licenses` shows the word "undefined" inside an address (row D1 below: the publisher's own answer, settled on 20 November, not a fault); `/cost-of-power` took 5.3 s and `/internal/waits` 8.4 s to load. `/data/standard` prints "null" as a word of its own text ("No sentinel codes (-999, NA, null)"), which is right.
 
+- **The same sweep at 1280 px** (13:20 UTC, 145 addresses): clean; `/internal/waits` takes 7.9 s to load, as on 20 November.
+- **The 173 addresses of the site's own check list** (`check-values --list`: the views with choices in their address, where a page's other states live), each at 390 px as it opens and then with every chart switched to its table and every fold open (`runs/c750/quiet_tables.mjs`, 13:30 to 13:45 UTC): no empty chart, no "undefined", no skipped heading, no error. Sideways scroll on four addresses, all three faults of this file: `/grid?grid=caiso` and `/grid/caiso` (G1, fixed), `/events/covid-2020` (row 2 of the landing file) and `/cost-of-power?view=grids` (CP1, filed). Nothing else is wider than its screen.
+
 ## B4 and row G1: the Grid tool's reliability table (`/grid?grid=caiso#reliability`)
 
 Whose: no window's page tonight (the old laptop's Grid audit, chain 710 part D, is of the tool's figures). Read on production at 1280 and 390 px (`runs/c750/b_a11y2.mjs`, `runs/c750/b4_cause.mjs`).
@@ -287,6 +290,15 @@ Whose: the old laptop audits it tonight (window D, chain 710, part B: `docs/revi
 | CP3 | The All grids tab, the keyboard alone from the top | 500 stops and the foot not reached: 436 of them are the "About" marks of the table's rows (467 on the nodes view) | Noted, not a fault of function: every stop is seen and marked | for Samuel's ruling (line 9) |
 
 Pictures: `docs/reviews/browser-read-2026-11-26/datacenter-pays/cost-of-power-as-it-opens-1280.png`; `docs/reviews/browser-read-2026-11-26/datacenter-pays/cost-of-power-grids-390-after-one-table.png` (CP1: 390 px after one tap on Table, the page pushed sideways).
+
+### The rest of the menu, by hand
+
+The pages of the menu that no window owns tonight, each walked at 1280 and 390 px with the same checks as the tools above (`runs/c750/d_tool.mjs`): `/prices`, `/prices/compare`, `/supply`, `/contracts`, `/severance`, `/battery/customer`, `/shoulder` (92 of 92 checks at each width); `/demand`, `/curtailment`, `/datacenters`, `/storage`, `/deals`, `/companies`, `/events` (89 of 92: the three are the rows below). Every page opens in under 1.6 s with no quiet fault. The charts of `/prices/compare`, `/shoulder` and `/demand` give their figures only as the browser's own tooltip, as the read of 20 November noted (its row S2); not reopened.
+
+| # | Done | Seen | Should be seen | Whose, and state |
+|---|---|---|---|---|
+| K1 | `/companies`, each field asked for the name a screen reader is given (`runs/c750/fields_named.mjs`, every page with a fixed address: 82 pages, 392 fields) | Five of the page's six fields have none: the Name box and the Kind, Segment, Grid and Has lists. Each stands in a label with an "i" mark before it, and a label names the first field inside it, which is the mark's own button ("About The search"). A screen reader says "search, edit text" and nothing more. No other page of the 82 has a field with no name | Each field named | no window's; **fixed** on `wip/c750-companies` (`d6dc93397`): each field carries its name; with a test |
+| K2 | `/companies`: Kind set to OEM, Show (2 of 12,724 companies), then the browser's back button; the same with State (`runs/c750/d_companies_probe.mjs`, 4 tries at each width) | The address and the table go back to all 12,724 companies; the list still reads "OEM" (or "CA"). 4 of 4 | The list reads what the page shows | no window's; **fixed** on the same branch: the form keeps no state (`autocomplete="off"`), which was tried on production's own page first: 4 of 4 then read the page's value. Chain 620's fix of 20 November mended the lists that submit themselves; this form submits with its button and was not among them. Landing row 5, ready, to be seen |
 
 ### The first minute, as production stands before tonight's landings
 

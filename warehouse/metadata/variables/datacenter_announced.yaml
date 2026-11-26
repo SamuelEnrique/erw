@@ -1,0 +1,436 @@
+# The codebook's metadata of table datacenter_announced (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: datacenter_announced
+family: other_sources
+shape: events
+row: 'One named datacenter project and one public document (a state agency''s or the company''s own release), with each figure the document states beside its own words.'
+time: 'event_date is the document''s date (a document dated by month only: the month''s first day, x_date_precision month).'
+vintage_rule: 'Rebuilt whole from warehouse/forecast/datacenter_announced_rows.json by each run; retrieved_at is the run''s time.'
+keys:
+- event_id
+license: internal
+tier: model_extracted
+interval: event
+source:
+- name: erw:datacenter_announced ERW, announced datacenters (docs/methods/datacenter_announced.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/datacenter_announced.md
+cite: 'Energy Research Warehouse (ERW), read from public documents. Announced datacenters: each project''s own government
+  or company document (docs/methods/datacenter_announced.md). Via the Energy Research Warehouse (ERW), table `datacenter_announced`.'
+method: docs/methods/datacenter_announced.md
+header_title: announced datacenters, what a named project's own government or company document said it would bring, one row
+  a project and a document, every figure with the document's own words (session 10000, chain 701)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id erw_dc_announced:<row id>; event_date the document''s date
+  (a document dated by month only: the month''s first day, x_date_precision month, x_doc_date as printed); event_type announcement;
+  parties the company; mw as stated (x_mw_measure says what it measures: IT capacity, grid capacity); for each figure its
+  value, measure, says (the phrase), qualifier and quote (the sentence): investment (USD, x_investment_year), construction
+  jobs, permanent jobs; x_incentive, x_years, x_note as written. A figure a document does not state is empty.'
+read:
+  date: '2026-11-26'
+  rows: 22
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 22
+- name: mw
+  shared: true
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 15
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 22
+- name: currency
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: status
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: x_doc_date
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_date_precision
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_name
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_county
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 6
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_place
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 18
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_doc_title
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_doc_publisher
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_doc_request
+  label: null
+  unit: null
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_mw_measure
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 15
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_mw_says
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 15
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_mw_qualifier
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 18
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_mw_quote
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 15
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_investment_usd
+  label: null
+  unit: null
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_investment_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_investment_says
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_investment_qualifier
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 17
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_investment_quote
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_investment_includes_generation
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 21
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_construction_jobs
+  label: null
+  unit: null
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 15
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_construction_jobs_measure
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 15
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_construction_jobs_says
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 15
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_construction_jobs_qualifier
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 17
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_construction_jobs_quote
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 15
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_permanent_jobs
+  label: null
+  unit: null
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 4
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_permanent_jobs_measure
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 4
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_permanent_jobs_says
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 4
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_permanent_jobs_qualifier
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 11
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_permanent_jobs_quote
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 4
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_wage
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 21
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_incentive
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 14
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_years
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 15
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_note
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 7
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

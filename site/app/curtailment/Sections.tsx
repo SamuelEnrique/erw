@@ -184,6 +184,11 @@ export const HUB_WORDS: Record<string, string> = {
   HB_HUBAVG: "ERCOT's hub average: the simple average of the prices of its four trading hubs, North, South, Houston and West",
   HB_BUSAVG: "ERCOT's bus average: the simple average of the prices of the buses of its four trading hubs",
 };
+// session 10210 (the curtailment audit, finding 2): what the value is and is not, as docs/methods/curtailment.md "What it
+// is worth" says and the page did not. CAISO publishes one figure for its whole system, much of it turned down for local
+// congestion, behind a line where the price is below the hub's; SP15 and NP15 give the same energy values of opposite
+// sign in 2025 and 2026 (USD -29.0 million against 27.7 million over January to October 2026, real time)
+export const WORTH_WORDS = "The hub's price stands for a place the data does not name: CAISO publishes one curtailment figure for its whole system, and energy turned down for local congestion sits behind a congested line, where the price is below the hub's. The two hubs can value the same energy with opposite signs (the table below). A value below zero is what the energy would have fetched at the hub, not a loss anyone booked, and it leaves out the tax credits and renewable certificates a plant forgoes when it is turned down.";
 /** The curtailed MWh of a period, priced or not: the month's own, or a year's months added when each of them holds it. */
 export function curtailedOf(side: Side | undefined, p: string): number | null {
   if (!side) return null;
@@ -250,6 +255,7 @@ export function Worth({ file, c, estimate }: { file: WorthFile; c: Choice; estim
           <HeadlineNumber label="A flat load in those hours paid" value={<N k="worth|flat">{two(v.price_curtailed_hours_mean)}</N>} unit="USD per MWh"
             note={<>Against <N k="worth|all">{two(v.price_all_hours_mean)}</N> in every hour of {periodWords(p)}: the mean price of the <N k="worth|hours">{whole(v.hours_curtailed_priced)}</N> hours with any curtailment.</>} />
         </HeadlineRow>
+        <p className="-mt-4 mb-8 max-w-3xl text-sm" data-worth-words="1">{WORTH_WORDS}</p>
         <ChartFrame title={`Value of curtailed energy by month, at ${placeName(g.main_hub ?? "")} real-time prices`} legend={[{ label: "Value, USD", color: "var(--color-accent)" }, { label: "USD per MWh curtailed", color: "var(--color-ink)" }]}>
           <XY id="worth-months" x={ms} unit="USD" unit2="USD/MWh" label="California: the value of curtailed wind and solar by month at the hub's real-time prices"
             series={[{ name: "Value", color: "var(--color-accent)", values: ms.map((m) => caisoSide.months![m].value_usd), unit: "USD" },
