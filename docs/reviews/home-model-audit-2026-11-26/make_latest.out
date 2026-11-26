@@ -1,0 +1,5 @@
+{'entity': 'caiso:TH_SP15_GEN-APND', 'variable': 'lmp_rtm_15m_mean', 'ts_utc': '2026-11-13T07:45:00Z', 'value': '39.1412', 'unit': 'USD/MWh'}
+{'entity': 'ercot:HB_HUBAVG', 'variable': 'spp_rtm', 'ts_utc': '2026-11-13T05:45:00Z', 'value': '36.39', 'unit': 'USD/MWh'}
+{'entity': 'miso:INDIANA.HUB', 'variable': 'lmp_rtm', 'ts_utc': '2026-10-03T04:00:00Z', 'value': '27.56', 'unit': 'USD/MWh'}
+{'entity': 'spp:SPPNORTH_HUB', 'variable': 'lmp_rtm_15m_mean', 'ts_utc': '2026-11-13T05:45:00Z', 'value': '21.3667', 'unit': 'USD/MWh'}
+mains without a row: ['isone:.H.INTERNAL_HUB', 'nyiso:N.Y.C.']
