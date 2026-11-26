@@ -30,7 +30,7 @@
    "model_sales_tax_paid_musd_2018": 290.3,
    "model_income_tax_musd_2018": 12.7,
    "model_property_tax": "not held (no Alabama rate is held; the reader types the county's and city's)",
-   "model_total_held_musd_2018": 303,
+   "model_total_held_musd_2018": 303.1,
    "exemption_held": false
   },
   {

@@ -75,10 +75,10 @@
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 27,
+   "n": 28,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
-   "median": 52.436009,
+   "median": 51.218004,
    "high": 121.786859,
    "high_row": "sc_meta_aiken_2024",
    "rows": [
@@ -95,6 +95,7 @@
     "la_amazon_caddo_bossier_2026",
     "la_meta_richland_2024",
     "nc_aws_richmond_2025",
+    "az_beale_pima_2025",
     "ia_google_cedarrapids_2024",
     "la_applied_digital_rapides_2026",
     "pa_aws_2025",
@@ -115,10 +116,10 @@
    "name": "Construction jobs per billion dollars",
    "unit": "construction jobs (headcount as announced) per USD billion (2025)",
    "how": "construction jobs as announced over the investment; at peak or period not stated, as each row says",
-   "n": 10,
+   "n": 11,
    "low": 63.222543,
    "low_row": "wv_nscale_2026",
-   "median": 263.888889,
+   "median": 277.777778,
    "high": 1217.868592,
    "high_row": "al_meta_montgomery_2024",
    "rows": [
@@ -131,6 +132,7 @@
     "in_meta_lebanon_2026",
     "la_meta_richland_2024",
     "wi_microsoft_mountpleasant_2024",
+    "az_beale_pima_2025",
     "al_meta_montgomery_2024"
    ]
   }
@@ -1392,6 +1394,45 @@
    "incentive": "",
    "years": "",
    "note": "Cedar Rapids is in Linn County (not named in the release)."
+  },
+  {
+   "id": "az_beale_pima_2025",
+   "name": "Beale Infrastructure, Project Blue technology campus, Tucson",
+   "company": "Beale Infrastructure",
+   "state": "az",
+   "county": "Pima County",
+   "doc": {
+    "title": "Supervisors approve billion-dollar development deal with data center provider",
+    "publisher": "Pima County, Arizona",
+    "date": "2025-06-17",
+    "url": "https://content.govdelivery.com/accounts/AZPIMA/bulletins/3e58e79",
+    "request": 242
+   },
+   "mw": null,
+   "investment": {
+    "value": 3600000000,
+    "year": 2025,
+    "says": "$3.6 billion",
+    "qualifier": "estimated",
+    "quote": "Total investment estimated to be $3.6 billion consisting of $1.2 billion for construction and another $2.4 billion for equipment;"
+   },
+   "construction_jobs": {
+    "value": 3000,
+    "measure": "direct construction jobs during construction",
+    "says": "3,000 or more direct construction jobs",
+    "qualifier": "or more",
+    "quote": "3,000 or more direct construction jobs and more than 2,000 additional indirect jobs forecasted during construction;"
+   },
+   "permanent_jobs": {
+    "value": 180,
+    "measure": "permanent full-time jobs at build-out",
+    "says": "180 permanent full-time jobs",
+    "qualifier": "estimated",
+    "quote": "Estimated 180 permanent full-time jobs at build-out with average salaries of $64,000;"
+   },
+   "incentive": "",
+   "years": "It will have up to 2.25 million square feet of building space when completed, which is expected to be in 2029.",
+   "note": "The county's own bulletin. Its split, USD 1.2 billion construction and 2.4 billion equipment (two thirds), is beside JLARC's 68.2 percent equipment share (forecast.md 13.5)."
   }
  ]
 }
