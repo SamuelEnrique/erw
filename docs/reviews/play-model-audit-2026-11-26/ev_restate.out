@@ -1,0 +1,28 @@
+file against the tables, mismatches: 52
+   US gas: file 2026-11-09 3.995; table newest 2026-11-02 4.153
+   AL gas: file 2026-11-09 3.481; table newest 2026-11-02 3.636
+   AK gas: file 2026-11-09 4.584; table newest 2026-11-02 4.771
+   AZ gas: file 2026-11-09 4.584; table newest 2026-11-02 4.771
+   AR gas: file 2026-11-09 3.481; table newest 2026-11-02 3.636
+   CA gas: file 2026-11-09 5.562; table newest 2026-11-02 5.748
+   CO gas: file 2026-11-09 3.746; table newest 2026-11-02 4.068
+   CT gas: file 2026-11-09 4.06; table newest 2026-11-02 4.145
+   DE gas: file 2026-11-09 4.146; table newest 2026-11-02 4.232
+   DC gas: file 2026-11-09 4.146; table newest 2026-11-02 4.232
+   FL gas: file 2026-11-09 3.726; table newest 2026-11-02 3.791
+   GA gas: file 2026-11-09 3.609; table newest 2026-11-02 3.695
+   HI gas: file 2026-11-09 4.584; table newest 2026-11-02 4.771
+   ID gas: file 2026-11-09 3.946; table newest 2026-11-02 4.213
+   IL gas: file 2026-11-09 3.868; table newest 2026-11-02 4.102
+   IN gas: file 2026-11-09 3.868; table newest 2026-11-02 4.102
+   IA gas: file 2026-11-09 3.868; table newest 2026-11-02 4.102
+   KS gas: file 2026-11-09 3.868; table newest 2026-11-02 4.102
+   KY gas: file 2026-11-09 3.868; table newest 2026-11-02 4.102
+   LA gas: file 2026-11-09 3.481; table newest 2026-11-02 3.636
+US: power 181.6 gas 3.995 | gas/yr 2219.44 ev/yr 844.44 save 1375.00 payback 3.6363518824989645 npv 3886.95 | 12m power 180.58 (['2025-09-01', '2026-08-01']) payback 3.6238923220794694 npv 3917.50 | 52w gas 3.7328 payback 4.067180929829866 npv 2945.57 | disc payback 4.115377612395594
+CA: power 297.5 gas 5.562 | gas/yr 3090.00 ev/yr 1383.38 save 1706.62 payback 2.929759027320003 npv 6030.28 | 12m power 325.77 (['2025-09-01', '2026-08-01']) payback 3.1742303285010967 npv 5180.76 | 52w gas 5.2048 payback 3.315290502330266 npv 4747.58 | disc payback 3.2510154087013845
+TX: power 159.1 gas 3.408 | gas/yr 1893.33 ev/yr 739.81 save 1153.52 payback 4.334564831363756 npv 2455.43 | 12m power 160.17 (['2025-09-01', '2026-08-01']) payback 4.353283464052763 npv 2423.38 | 52w gas 3.2503 payback 4.690915008678792 npv 1889.07 | disc payback 5.006818622017008
+HI: power 471.8 gas 4.584 | gas/yr 2546.67 ev/yr 2193.87 save 352.80 payback 14.1724695055698 npv -2719.80 | 12m power 443.86 (['2025-09-01', '2026-08-01']) payback 10.35785526796204 npv -1880.04 | 52w gas 4.4190 payback 19.14911794580047 npv -3312.40 | disc payback 25.279208982791694
+WA: power 146.3 gas 4.874 | gas/yr 2707.78 ev/yr 680.29 save 2027.48 payback 2.466112193308123 npv 8104.05 | 12m power 142.44 (['2025-09-01', '2026-08-01']) payback 2.4444809154961287 npv 8220.01 | 52w gas 4.7981 payback 2.5185204351133668 npv 7831.37 | disc payback 2.702333127778316
+MA: power 304.8 gas 4.007 | gas/yr 2226.11 ev/yr 1417.32 save 808.79 payback 6.18206596401763 npv 227.39 | 12m power 303.51 (['2025-09-01', '2026-08-01']) payback 6.136495082877629 npv 266.21 | 52w gas 3.6705 payback 8.04029106678307 npv -980.73 | disc payback 7.584618136619677
+LA: power 128.7 gas 3.481 | gas/yr 1933.89 ev/yr 598.46 save 1335.43 payback 3.744101480126518 npv 3631.19 | 12m power 130.92 (['2025-09-01', '2026-08-01']) payback 3.773224985876609 npv 3564.57 | 52w gas 3.2852 payback 4.076136232555486 npv 2928.11 | disc payback 4.252896437214436

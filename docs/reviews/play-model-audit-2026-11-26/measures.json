@@ -1,0 +1,216 @@
+{
+ "2026-11-12": {
+  "dp": 2.0882140276466523,
+  "any_power": 2.090238660068626,
+  "end_at_least_start": 1.7809140276466524,
+  "end_at_least_start_any_power": 1.8008199648629244,
+  "start_empty": 1.7085114527485357,
+  "no_bonus": 1.557814027646652,
+  "wear_charged": 0.4810490956357972,
+  "hourly_mean_prices": 2.008347914124041,
+  "dayahead_perfect": 1.5173013072824582,
+  "dayahead_plan_scored_at_realtime": 1.6193082435324917,
+  "dayahead_mean": 44.263749999999995,
+  "retail_month": [
+   "TX",
+   "2026-08-01",
+   159.1
+  ],
+  "retail_buy_any_power": 1.217298614916823,
+  "retail_buy_end_at_least_start_any_power": 0.17691111111111146,
+  "any_power_end_free_check": 2.090238660068626,
+  "hard": 29.8218428456358,
+  "hard_without_emergency": 0.44907409563579714,
+  "houston_perfect": 1.2474854069949093,
+  "hubavg_plan_scored_at_houston": 1.0356668025461502
+ },
+ "2021-02-15": {
+  "dp": 240.2273968381772,
+  "any_power": 240.74264374180513,
+  "end_at_least_start": 181.71929147330562,
+  "end_at_least_start_any_power": 183.1526361826691,
+  "start_empty": 140.82673500000007,
+  "no_bonus": 195.24999683817722,
+  "wear_charged": 236.17368148942987,
+  "hourly_mean_prices": 220.01222258849387,
+  "dayahead_perfect": 100.21911254451267,
+  "dayahead_plan_scored_at_realtime": -8.8908125,
+  "dayahead_mean": 6604.382083333334,
+  "retail_month": [
+   "TX",
+   "2021-02-01",
+   126.9
+  ],
+  "retail_buy_any_power": 524.9851348853474,
+  "retail_buy_end_at_least_start_any_power": 493.56991057565205,
+  "any_power_end_free_check": 240.74264374180513,
+  "hard": 154.67176787479752,
+  "hard_without_emergency": 186.74792533628136
+ },
+ "2023-08-10": {
+  "dp": 60.97101214052081,
+  "any_power": 61.16909490800804,
+  "end_at_least_start": 60.73402839052081,
+  "end_at_least_start_any_power": 60.9359135986998,
+  "start_empty": 60.7795568980914,
+  "no_bonus": 44.79006214052082,
+  "wear_charged": 58.4991259972986,
+  "hourly_mean_prices": 52.47808341776826,
+  "dayahead_perfect": 37.02526083840088,
+  "dayahead_plan_scored_at_realtime": 16.768642554048007,
+  "dayahead_mean": 420.6641666666667,
+  "retail_month": [
+   "TX",
+   "2023-08-01",
+   141.7
+  ],
+  "retail_buy_any_power": 64.00556037684179,
+  "retail_buy_end_at_least_start_any_power": 62.99734720183861,
+  "any_power_end_free_check": 61.16909490800804,
+  "hard": 48.36345717559471,
+  "hard_without_emergency": 50.88408241965683
+ },
+ "2026-04-26": {
+  "dp": 0.44060062202981554,
+  "any_power": 0.44187822325424814,
+  "end_at_least_start": 0.3040872766261136,
+  "end_at_least_start_any_power": 0.3079084598363642,
+  "start_empty": 0.2601525000000003,
+  "no_bonus": 0.3018257678137189,
+  "wear_charged": 0.0,
+  "hourly_mean_prices": 0.40916344419410444,
+  "dayahead_perfect": 0.7654335092170725,
+  "dayahead_plan_scored_at_realtime": 0.0987303823630895,
+  "dayahead_mean": 29.66125,
+  "retail_month": [
+   "TX",
+   "2026-04-01",
+   170.0
+  ],
+  "retail_buy_any_power": 0.3363196017409127,
+  "retail_buy_end_at_least_start_any_power": -0.0,
+  "any_power_end_free_check": 0.44187822325424814,
+  "hard": 29.4860703456358,
+  "hard_without_emergency": 0.0
+ },
+ "2026-08-29": {
+  "dp": 0.9328155426516888,
+  "any_power": 0.9352406970754308,
+  "end_at_least_start": 0.7327655426516887,
+  "end_at_least_start_any_power": 0.7468639638513902,
+  "start_empty": 0.7710280669258881,
+  "no_bonus": 0.665953042651689,
+  "wear_charged": 0.0,
+  "hourly_mean_prices": 0.8483639098481469,
+  "dayahead_perfect": 1.0509797282919355,
+  "dayahead_plan_scored_at_realtime": 0.8595428581076194,
+  "dayahead_mean": 32.63166666666667,
+  "retail_month": [
+   "TX",
+   "2026-08-01",
+   159.1
+  ],
+  "retail_buy_any_power": 0.616212583432013,
+  "retail_buy_end_at_least_start_any_power": -0.0,
+  "any_power_end_free_check": 0.9352406970754308,
+  "hard": 29.608716595635798,
+  "hard_without_emergency": 0.0
+ },
+ "2025-01-05": {
+  "dp": 0.794890787059468,
+  "any_power": 0.798382925833292,
+  "end_at_least_start": 0.6723233192881007,
+  "end_at_least_start_any_power": 0.6801044716487274,
+  "start_empty": 1.0034053787013517,
+  "no_bonus": 0.696965787059468,
+  "wear_charged": 0.2256552441326793,
+  "hourly_mean_prices": 0.7569916668969822,
+  "dayahead_perfect": 0.5116601417305908,
+  "dayahead_plan_scored_at_realtime": 0.5182770568273253,
+  "dayahead_mean": 7.894166666666667,
+  "retail_month": [
+   "TX",
+   "2025-01-01",
+   146.3
+  ],
+  "retail_buy_any_power": 0.2235993554273466,
+  "retail_buy_end_at_least_start_any_power": -0.0,
+  "any_power_end_free_check": 0.798382925833292,
+  "hard": 29.72360808976848,
+  "hard_without_emergency": 0.2256552441326793
+ },
+ "2026-04-27": {
+  "dp": 0.8266531324241815,
+  "any_power": 0.8306339179151212,
+  "end_at_least_start": 0.7774968824241815,
+  "end_at_least_start_any_power": 0.7843473363756629,
+  "start_empty": 0.7598587196400878,
+  "no_bonus": 0.7618936324241814,
+  "wear_charged": 0.24503847323744882,
+  "hourly_mean_prices": 0.7247864859400988,
+  "retail_month": [
+   "CA",
+   "2026-04-01",
+   352.9
+  ],
+  "retail_buy_any_power": 0.1607720343675843,
+  "retail_buy_end_at_least_start_any_power": -0.0,
+  "any_power_end_free_check": 0.8306339179151212,
+  "hard": 29.71282960637324,
+  "hard_without_emergency": 0.24503847323744882
+ },
+ "2026-07-24": {
+  "dp": 12.980595314553243,
+  "any_power": 13.015966366770892,
+  "end_at_least_start": 12.36089210072164,
+  "end_at_least_start_any_power": 12.371308904730471,
+  "start_empty": 12.392858975000001,
+  "no_bonus": 8.404814814553239,
+  "wear_charged": 10.451070628818172,
+  "hourly_mean_prices": 12.57353805213897,
+  "retail_month": [
+   "CA",
+   "2026-07-01",
+   336.1
+  ],
+  "retail_buy_any_power": 10.2666390902275,
+  "retail_buy_end_at_least_start_any_power": 7.875245666666666,
+  "any_power_end_free_check": 13.015966366770892,
+  "hard": 34.30221473318237,
+  "hard_without_emergency": 10.182868628818172
+ },
+ "_rules": {
+  "lowest_mean_day": [
+   "2025-01-05",
+   -10.655624999999997,
+   4255,
+   "2015-01-01",
+   "2026-08-25"
+  ],
+  "lowest_5": [
+   "2025-01-05",
+   "2021-02-21",
+   "2021-02-28",
+   "2021-02-24",
+   "2024-04-13"
+  ],
+  "after_history": [
+   74,
+   "2026-08-26",
+   "2026-11-12",
+   "2026-10-11",
+   13.854062500000005
+  ],
+  "calm_day": [
+   "2026-04-26",
+   17.679999999999996,
+   92
+  ],
+  "uri_mean": [
+   6764.752187500002,
+   1403.49,
+   9004.59,
+   96
+  ]
+ }
+}
