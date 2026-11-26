@@ -205,7 +205,7 @@ export default async function Home() {
           <Groups N={N} />
           <Digest />
           <SourceLine tables={[...new Set(["latest_prices", markets.fuels.table, ...(chartTable ? [chartTable] : []), ...HOME_GROUPS.map((g) => N[g]?.table).filter((t): t is string => !!t && !t.includes(" "))])]}
-            note={<>Every number on this page is read from the ERW&apos;s tables and checked against them; the findings are counted from the library&apos;s own catalogue. <Link href="/data">Data and methods</Link>.</>} />
+            note={<>Every figure of the strip and the five groups is read from the ERW&apos;s tables and checked against them, and today&apos;s chart from its table; the analyses are counted from the library&apos;s own catalogue; the Digest&apos;s stories are the news as each source reported it. <Link href="/data">Data and methods</Link>.</>} />
         </div>
       </ToolPage>
     </Brand>
