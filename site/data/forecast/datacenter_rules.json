@@ -24,6 +24,7 @@
   "mt_15_6_162": {"title": "Montana Code Annotated 15-6-162, Class seventeen property", "url": "https://mca.legmt.gov/bills/mca/title_0150/chapter_0060/part_0010/section_0620/0150-0060-0010-0620.html", "read": "2026-11-26", "request": 182},
   "ks_74_50_332": {"title": "Kansas Statutes 74-50,332, exemption for costs and services used for the construction and operation of a qualified data center (with 79-3606(xxxx), request 159)", "url": "https://www.ksrevisor.gov/statutes/chapters/ch74/074_050_0332.html", "read": "2026-11-26", "request": 191},
   "ga_cvi_2025": {"title": "Carl Vinson Institute of Government for the Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption, full report (December 2025), Tables 3 and 4 (IMPLAN 2023)", "url": "https://open.ga.gov/openga/report/downloadFile?rid=33298", "read": "2026-11-26", "request": 199},
+  "mn_cvi_2025": {"title": "Carl Vinson Institute of Government for Minnesota's Legislative Budget Office, Tax Expenditure Evaluation: Minnesota Data Center Equipment Exemption (December 2025), Tables 3 and 4 (IMPLAN 2023)", "url": "https://www.lbo.mn.gov/terc/meetings/2026/2026_01_15/UGA_Data_Center_Evaluation_Report.pdf", "read": "2026-11-26", "request": 214},
   "ms_governor_xai": {"title": "Office of Governor Tate Reeves, Tech leader xAI investing more than $20 billion in Southaven (8 January 2026)", "url": "https://governorreeves.ms.gov/tech-leader-xai-investing-more-than-20-billion-in-southaven/", "read": "2026-11-26", "request": 89},
   "pa_dor_cdce": {"title": "Pennsylvania Department of Revenue, Computer Data Center Equipment Exemption Program guidelines (with the program's FAQ, request 206)", "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/incentivescreditsprograms/computerdatacenterequipprog/documents/computer_data_center_equip_exemption_program_guidelines.pdf", "read": "2026-11-26", "request": 205},
   "ky_dor_stf_2025": {"title": "Kentucky Department of Revenue, Sales Tax Facts, June 2025 (House Bill 775's thresholds for KRS 139.499, request 207)", "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202025%20-%20Jun.pdf", "read": "2026-11-26", "request": 208},
@@ -51,6 +52,20 @@
   "words": "A choice of horizon, not a sourced life: no public document read states a datacenter's operating life. 20 years is the initial term of Louisiana's exemption agreement (R.S. 47:305.73(B)(3)(b)). The reader sets the horizon."
  },
  "multipliers": {
+  "mn": {
+   "cite": "mn_cvi_2025",
+   "words": "Minnesota only: the Carl Vinson Institute of Government's IMPLAN analysis (2023 data) for Minnesota's Legislative Budget Office, Tax Expenditure Evaluation: Minnesota Data Center Equipment Exemption (December 2025): Table 3, the economic impact of USD 346.8 million of direct construction output in 2013; Table 4, of USD 58.8 million of direct operations output in 2024 (677 permanent jobs). The tool applies its ratios of indirect and induced to direct jobs and labor income to the reader's on-site jobs and earnings.",
+   "construction": {
+    "direct": {"jobs": 2292, "earnings_musd": 223.307, "quote": "Direct 2,292 $223,307,000 $303,808,000 $581,831,000"},
+    "indirect": {"jobs": 507, "earnings_musd": 49.16, "quote": "Indirect 507 $49,160,000 $73,496,000 $156,702,000"},
+    "induced": {"jobs": 776, "earnings_musd": 47.204, "quote": "Induced 776 $47,204,000 $93,510,000 $150,780,000"}
+   },
+   "operations": {
+    "direct": {"jobs": 677, "earnings_musd": 57.134, "quote": "Direct 677 $57,134,000 $75,698,000 $141,202,000"},
+    "indirect": {"jobs": 315, "earnings_musd": 25.54, "quote": "Indirect 315 $25,540,000 $40,819,000 $72,238,000"},
+    "induced": {"jobs": 385, "earnings_musd": 25.905, "quote": "Induced 385 $25,905,000 $47,784,000 $77,477,000"}
+   }
+  },
   "ga": {
    "cite": "ga_cvi_2025",
    "words": "Georgia only: the Carl Vinson Institute of Government's IMPLAN analysis (2023 data) for the state auditor's evaluation of the data center exemption, statewide, 2025: Table 3, the economic impact of USD 3.3 billion of direct construction output; Table 4, of USD 715 million of direct operations output (1,873 permanent jobs). The tool applies its ratios of indirect and induced to direct jobs and labor income to the reader's on-site jobs and earnings. Its construction is \"the building shell and its accompanying equipment\", servers adjusted for leakage.",

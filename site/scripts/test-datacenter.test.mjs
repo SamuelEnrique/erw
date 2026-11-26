@@ -246,6 +246,13 @@ test("Pennsylvania (Act 25 of 2021, the Department's guidelines): USD 100 millio
   assert.equal(D.dcRun(D.dcDefaults(P, "pa", { invest: 200, perm: 44 }), P).exemption.eligible, false);
 });
 
+test("Minnesota's published IMPLAN ratios (the Carl Vinson Institute for the Legislative Budget Office, Tables 3 and 4)", () => {
+  const r = D.dcRun(D.dcDefaults(P, "mn", { invest: 1000, perm: 100, cons: 500, build: 2 }), P);
+  assert.equal(r.chain.held, true);
+  near(D.dcStat(r, "c:jobs:total"), 2 * 500 * 3575 / 2292);      // (2,292 + 507 + 776) / 2,292
+  near(D.dcStat(r, "o:jobs:total"), 100 * 1377 / 677);           // (677 + 315 + 385) / 677
+});
+
 test("Kentucky (KRS 139.499, HB 775): USD 450 million in a county of 100,000 or more", () => {
   assert.equal(D.dcRun(D.dcDefaults(P, "ky", { invest: 450, perm: 10 }), P).exemption.eligible, true);
   assert.equal(D.dcRun(D.dcDefaults(P, "ky", { invest: 449, perm: 10 }), P).exemption.eligible, false);
