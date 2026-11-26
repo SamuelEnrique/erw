@@ -186,3 +186,44 @@ The last two years (built 26 November 2026 at 12:58 UTC; `runs/c730/table_w.py`)
 with the weather known beats the operator in 12 of 29
 
 What it says: with the weather known the regression would close more than the whole gap to the operator in MIDA and PJM, FLA and SW, and 70 percent or more of it in CAR, MIDW, TEN, CPLE, DUK, FPL and MISO; it closes less than half in TEX (43 percent), NE (37) and BPAT (9), so there the operator's forecast holds something beyond the weather that this regression lacks. With the weather known, the line beats the operator in 12 places; the operator stays ahead in 17.
+
+## 14. A fourth candidate: regression_recent (session 10601)
+
+The regression of section 3 with three more regressors, all from days held when the forecast is made: the log of the last hour (23:00 local) of day A, the most recent demand read; the log of the same hour on day A-1; the log of the same hour on day T-14. Fitted and refit exactly as the regression (30 coefficients an hour). It was tried first on six places (`runs/c730/trial_reg2.py`): it lowered the mean absolute error of the last two years by 1.6 to 8.4 percent in all six. It was then added as a candidate of the choice rule, which picks it in 28 of 29 places (PSCO keeps the regression). Nothing else changed. `replication/predict/replicate.py` refits it from these words too.
+
+The last two years with the four candidates (built 26 November 2026 at 14:05 UTC; the table of section 7 is the build of 11:15 UTC, kept as it was):
+
+| Place | Hours (2 years) | ERW MAPE % | Operator MAPE % | Yesterday's hour MAPE % | Week-ago hour MAPE % | ERW MAE MW | Operator MAE MW | ERW MAPE %, whole backtest | Operator MAPE %, whole backtest | Who wins (2 years) |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| ba-cple | 16,931 | 9.60 | 4.03 | 12.65 | 15.81 | 717 | 294 | 9.06 | 4.08 | operator |
+| region-car | 15,490 | 7.42 | 2.27 | 10.17 | 12.99 | 2,055 | 614 | 6.89 | 2.39 | operator |
+| region-se | 17,514 | 6.37 | 1.27 | 9.12 | 11.15 | 1,838 | 360 | 6.12 | 2.01 | operator |
+| ba-soco | 17,514 | 6.37 | 1.27 | 9.12 | 11.15 | 1,838 | 360 | 6.11 | 2.32 | operator |
+| region-ne | 17,516 | 7.57 | 2.80 | 10.88 | 11.39 | 995 | 340 | 6.86 | 2.56 | operator |
+| ba-isne | 17,516 | 7.57 | 2.80 | 10.88 | 11.39 | 995 | 340 | 6.86 | 2.56 | operator |
+| region-ten | 17,516 | 7.01 | 2.34 | 9.56 | 12.46 | 1,443 | 473 | 7.04 | 2.26 | operator |
+| ba-tva | 17,516 | 7.01 | 2.34 | 9.56 | 12.46 | 1,443 | 473 | 7.04 | 2.26 | operator |
+| ba-duk | 17,388 | 7.56 | 3.04 | 10.74 | 12.88 | 1,004 | 407 | 6.95 | 2.84 | operator |
+| region-ny | 17,321 | 5.70 | 2.73 | 8.70 | 9.08 | 998 | 479 | 5.10 | 2.63 | operator |
+| ba-nyis | 17,321 | 5.70 | 2.73 | 8.70 | 9.08 | 998 | 479 | 5.10 | 2.63 | operator |
+| region-tex | 17,372 | 4.91 | 2.08 | 6.33 | 8.14 | 2,839 | 1,177 | 5.47 | 2.39 | operator |
+| ba-erco | 17,372 | 4.91 | 2.08 | 6.33 | 8.14 | 2,839 | 1,177 | 5.47 | 2.39 | operator |
+| ba-fpl | 17,464 | 5.84 | 3.16 | 7.24 | 9.74 | 993 | 536 | 6.19 | 3.57 | operator |
+| region-midw | 17,492 | 3.86 | 1.98 | 6.73 | 7.78 | 3,350 | 1,659 | 3.86 | 2.42 | operator |
+| ba-bpat | 17,516 | 3.32 | 1.88 | 5.45 | 5.77 | 243 | 134 | 3.61 | 1.98 | operator |
+| region-mida | 17,389 | 4.76 | 3.48 | 7.65 | 8.66 | 4,854 | 3,376 | 4.86 | 3.61 | operator |
+| ba-pjm | 17,389 | 4.76 | 3.48 | 7.65 | 8.66 | 4,854 | 3,376 | 4.86 | 3.61 | operator |
+| ba-miso | 17,492 | 3.65 | 2.42 | 6.55 | 7.35 | 2,899 | 1,856 | 3.69 | 2.77 | operator |
+| region-sw | 17,382 | 4.89 | 4.51 | 6.41 | 8.24 | 712 | 605 | 4.56 | 3.50 | operator |
+| region-fla | 15,582 | 5.86 | 5.50 | 7.58 | 10.29 | 1,826 | 1,734 | 5.98 | 5.57 | operator |
+| ba-pace | 17,420 | 3.95 | 4.97 | 5.70 | 6.05 | 248 | 303 | 3.95 | 5.19 | ERW |
+| region-nw | 14,663 | 2.68 | 5.05 | 4.49 | 4.75 | 1,183 | 2,195 | 2.68 | 3.99 | ERW |
+| region-cent | 15,038 | 5.03 | 8.04 | 6.55 | 8.58 | 1,819 | 2,806 | 4.75 | 4.63 | ERW |
+| ba-swpp | 16,965 | 4.94 | 8.25 | 6.40 | 8.47 | 1,772 | 2,844 | 4.74 | 4.79 | ERW |
+| region-cal | 16,922 | 4.15 | 7.61 | 7.32 | 7.04 | 1,395 | 2,455 | 4.00 | 4.68 | ERW |
+| ba-ciso | 17,420 | 4.20 | 8.50 | 7.48 | 6.82 | 1,150 | 2,274 | 4.06 | 5.08 | ERW |
+| ba-psco | 17,510 | 6.67 | 13.64 | 8.77 | 9.04 | 362 | 749 | 6.61 | 6.44 | ERW |
+| ba-fpc | 17,365 | 7.49 | 23.77 | 9.50 | 12.80 | 508 | 1,610 | 7.49 | 22.85 | ERW |
+
+
+The ERW's error falls in every place where the new candidate is chosen (TEX from 5.22 to 4.91 percent, SE from 6.81 to 6.37, MIDA from 5.19 to 4.76, NE from 7.99 to 7.57), but the operator still wins in the same 21 places and the ERW in the same 8.
