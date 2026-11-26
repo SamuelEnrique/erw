@@ -28,6 +28,7 @@
   "ms_governor_xai": {"title": "Office of Governor Tate Reeves, Tech leader xAI investing more than $20 billion in Southaven (8 January 2026)", "url": "https://governorreeves.ms.gov/tech-leader-xai-investing-more-than-20-billion-in-southaven/", "read": "2026-11-26", "request": 89},
   "pa_dor_cdce": {"title": "Pennsylvania Department of Revenue, Computer Data Center Equipment Exemption Program guidelines (with the program's FAQ, request 206)", "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/incentivescreditsprograms/computerdatacenterequipprog/documents/computer_data_center_equip_exemption_program_guidelines.pdf", "read": "2026-11-26", "request": 205},
   "ky_dor_stf_2025": {"title": "Kentucky Department of Revenue, Sales Tax Facts, June 2025 (House Bill 775's thresholds for KRS 139.499, request 207)", "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202025%20-%20Jun.pdf", "read": "2026-11-26", "request": 208},
+  "wa_jlarc_2026": {"title": "Washington Joint Legislative Audit and Review Committee, 2026 tax preference review: Data Centers in Urban Counties", "url": "https://leg.wa.gov/jlarc/taxReports/2026/data/b/report.html", "read": "2026-11-26", "request": 216},
   "in_iedc_dcste": {"title": "Indiana Economic Development Corporation, Data Center Sales Tax Exemption (Indiana Code 6-2.5-15)", "url": "https://iedc.in.gov/incentives/data-center-sales-tax-exemption", "read": "2026-11-26", "request": 106},
   "ga_doaa_2025": {"title": "Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption (December 2025, revised January 2026), with the Department of Revenue's exemption page (request 187)", "url": "https://www.audits2.ga.gov/wp-content/uploads/2025/12/Data-Center-Tax-Exemption-Summary-Revised.pdf", "read": "2026-11-26", "request": 188}
  },
@@ -269,6 +270,14 @@
     "cite": "ky_dor_stf_2025", "covers": ["equipment"], "min_investment_usd": 450000000, "min_jobs": 0,
     "quote": "For counties with a population of 100,000 or more, the minimum capital investment is $450,000,000.",
     "tip": "Kentucky (KRS 139.499, with KRS 154.20-220 as House Bill 775 amended it, effective 27 June 2025, the Department of Revenue's words): data center equipment of a qualified data center project approved by the Kentucky Economic Development Finance Authority is exempt, where the project invests at least $450,000,000 in a county of 100,000 people or more ($100,000,000 in a county of 50,000 to 100,000; $25,000,000 below 50,000); building materials and electricity are excluded. The tool applies it to the equipment with the largest county's threshold (county populations are not held); its term is the agreement's, not stated, so it runs over the whole horizon here, an upper bound."
+   }
+  },
+  "wa": {
+   "name": "Washington",
+   "sales_exemption": {
+    "cite": "wa_jlarc_2026", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "quote": "Be in a county with a population of 800,000 or more. This means it must be in King, Pierce, or Snohomish County.",
+    "tip": "Washington: the urban exemption (RCW 82.08.9861, as the Legislature's audit committee describes it in its 2026 review) exempts computer servers and power infrastructure of a data center in a county of 800,000 people or more (King, Pierce, Snohomish) with 20,000 square feet of server space and 1.5 MW of power; it \"allowed no new exemptions after fiscal year 2028\" and expires fully on 1 July 2038. The rural exemption (RCW 82.08.986) is not read: the Legislature's statute site disallows every automated read. The tool applies no exemption."
    }
   },
   "in": {
