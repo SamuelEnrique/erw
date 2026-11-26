@@ -96,7 +96,11 @@ const nextConfig: NextConfig = {
     "/supply": ["./data/regions/index.json", "./data/regions/trade/*.json", "./data/regions/trade_matrix.json", "./data/regions/mix/*.json"],
     // session 10401 (chain 720): /forecast and its download routes read the ERW forecast's page files (site/data/predict,
     // lib/predictfiles.ts) by names taken from the index at request time
-    "/forecast": ["./data/predict/*.json"], "/forecast/rows": ["./data/predict/*.json"], "/forecast/scores": ["./data/predict/*.json"] },
+    "/forecast": ["./data/predict/*.json"], "/forecast/rows": ["./data/predict/*.json"], "/forecast/scores": ["./data/predict/*.json"],
+    // session 10402 (chain 720): /equities and its download routes read the equities page files (site/data/equities,
+    // lib/equitiesfiles.ts) by names taken from the list at request time
+    "/equities": ["./data/equities/**/*.json"], "/equities/rows": ["./data/equities/**/*.json"], "/equities/rows/*": ["./data/equities/**/*.json"],
+    "/equities/filed": ["./data/equities/**/*.json"], "/equities/filed/*": ["./data/equities/**/*.json"], "/equities/list": ["./data/equities/index.json"] },
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
   async redirects() {
     return [

@@ -10,7 +10,8 @@ import { gridName, licenseHeldGrids } from "@/lib/license";
 export const dynamic = "force-static";
 
 export function GET() {
-  // session 10402 (chain 720): the energy equities group's rows with the board's own, as the page draws them
-  const file = holdRows(withEquities(fileJson as unknown as BoardFile, equitiesBoard()), licenseHeldGrids().map(gridName));
+  // session 10402 (chain 720): the energy equities group's rows after the board's own, as the page draws them (the
+  // hold of the day is the board's own grids'; the group's rows carry their own status)
+  const file = withEquities(holdRows(fileJson as unknown as BoardFile, licenseHeldGrids().map(gridName)), equitiesBoard());
   return new Response(rowsCsv(file), { headers: { "Content-Type": "text/csv; charset=utf-8", "Content-Disposition": "attachment; filename=\"erw_board_rows.csv\"", "X-Robots-Tag": "noindex" } });
 }

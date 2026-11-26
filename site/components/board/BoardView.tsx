@@ -21,6 +21,9 @@ import {
 } from "@/lib/board";
 
 const METHOD = "/data/methods/price_board";
+/** Session 10402 (chain 720): the columns a lean group's table does not have (the 7-day, 30-day and 12-month means, the
+ *  30-day low to high, the one-year range). */
+const LEAN_LESS = 5;
 const PERCENT = (r: Row) => !r.formula && r.unit !== "USD/MWh" && r.unit !== "USD/MW-hour" && r.unit !== "percent";
 
 /** The aside the workbench is docked in: on the right from the xl width, above the tables below it. One string, so the
@@ -182,20 +185,20 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
   );
   const name = (
     <th scope="row" className="whitespace-nowrap py-1 pl-2 pr-3 text-left font-normal">
-      {/* session 10402 (chain 720): a row with a page of its own is a link to it (the energy equities rows open /equities) */}
-      {row.status === "ok" && row.open ? <a href={row.open} data-row-href={row.id} className="text-left text-ink no-underline hover:underline" onClick={(e) => e.stopPropagation()}>{words}</a>
-        : row.status === "ok" ? <button type="button" aria-pressed={open} data-row-open={row.id} className="text-left">{words}</button> : words}
+      {row.status === "ok" ? <button type="button" aria-pressed={open} data-row-open={row.id} className="text-left">{words}</button> : words}
       {row.at ? <span className="ml-1.5 text-xs text-muted">{row.at}</span> : null}
       {row.link ? <span className="ml-1.5 text-xs" onClick={(e) => e.stopPropagation()} data-row-link={row.id}><SiteLink href={row.link.href}>{row.link.words}</SiteLink></span> : null}
     </th>
   );
-  const lean = !!group.lean;   // session 10402: the latest value, its date, the moves and the trend, and no other cell
-  const cols = (lean ? 3 : 8) + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; 1611: the day's extremes; 1613: the 12-month mean
+  const cols = 8 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; 1611: the day's extremes; 1613: the 12-month mean
+  // session 10402 (chain 720): a lean group's row has the latest value, its date, the moves and the trend, and no other
+  // cell (five columns fewer); a row with a page of its own (`open`) says where its name's button goes
+  const lean = !!group.lean;
   if (row.status !== "ok") {
     return (
       <tr className="border-b border-rule/70" data-row={row.id} data-status={row.status} hidden={hidden} id={domId}>
         {name}
-        <td colSpan={cols} className="py-1 pr-2 text-left text-xs italic text-muted"><span title={row.note} className="cursor-help border-b border-dotted border-muted">{PLACEHOLDER[row.status]}</span></td>
+        <td colSpan={cols - (lean ? LEAN_LESS : 0)} className="py-1 pr-2 text-left text-xs italic text-muted"><span title={row.note} className="cursor-help border-b border-dotted border-muted">{PLACEHOLDER[row.status]}</span></td>
       </tr>
     );
   }
@@ -204,6 +207,7 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
   const age = closeAge(row, file.built);
   return (
     <tr className={`cursor-pointer border-b border-rule/70 hover:bg-paper ${open ? "bg-paper outline outline-1 -outline-offset-1 outline-accent" : ""}`} data-row={row.id}
+      {...(row.open ? { "data-row-href": row.open, title: "Opens this series on the energy equities page" } : {})}
       onClick={() => onOpen(row.id)}>
       {name}
       <td className="py-1 pr-3 text-right font-semibold" title={inputsWords(row) ?? undefined} {...(row.inputs ? { "data-inputs": row.id } : {})}><span data-n={`${row.id}|last`}>{fmt(last.v, row.unit)}</span><span className="ml-1 text-xs font-normal text-muted">{row.unit}</span></td>
@@ -239,8 +243,9 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
   // its rows' names behind a toggle; the held rows stay in the page, blank, as they were (lib/board.ts, heldLines)
   const { shown, held } = heldLines(rows);
   const [named, setNamed] = useState<Record<string, boolean>>({});
+  const cols = 8 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; 1611: the day's extremes; 1613: the 12-month mean
   // session 10402 (chain 720): a lean group (the energy equities) has the latest value, its date, the moves and the trend
-  const cols = (group.lean ? 3 : 8) + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; 1611: the day's extremes; 1613: the 12-month mean
+  const span = cols - (group.lean ? LEAN_LESS : 0);
   return (
     <section id={group.id} className="scroll-mt-4" aria-label={group.title} data-group={group.id}>
       <GroupFold title={group.title} open={unfolded} onToggle={fold} meta={<>
@@ -287,7 +292,7 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
                 <Fragment key={grid}>
                   <tr className="border-b border-rule/70" data-held-line={`${group.id}|${grid}`} data-held-count={hs.length}>
                     <th scope="row" className="whitespace-nowrap py-1 pl-2 pr-3 text-left font-normal text-muted">{grid}: {hs.length} {hs.length === 1 ? "row" : "rows"}</th>
-                    <td colSpan={cols} className="py-1 pr-2 text-left text-xs text-muted">
+                    <td colSpan={span} className="py-1 pr-2 text-left text-xs text-muted">
                       <span className="italic"><span title={heldNote(grid)} className="cursor-help border-b border-dotted border-muted">{PLACEHOLDER.license}</span><span className="sr-only">: {heldNote(grid)}</span></span>
                       <button type="button" aria-expanded={!!named[grid]} aria-controls={hs.map((r) => `${id}-${r.id}`).join(" ")} data-held-toggle={`${group.id}|${grid}`}
                         onClick={() => setNamed((n) => ({ ...n, [grid]: !n[grid] }))} className="ml-3 border border-rule bg-white px-1.5 py-px not-italic text-ink hover:border-accent">

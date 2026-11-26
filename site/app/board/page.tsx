@@ -26,7 +26,10 @@ export const metadata: Metadata = { title: "Price board", robots: { index: false
 
 // session 1116: the rows of the grids held for a license on the day are made "license needed" here, on the server, so no
 // held figure is in what the browser receives (lib/board.ts, holdRows)
-const raw = fileJson as unknown as BoardFile;
+// session 10402 (chain 720, part D): with the energy equities group after the board's own groups (lib/equities.ts
+// withEquities: the rows of site/data/equities/board.json in the board's own row form; nothing of the board moves, and
+// with no equities file the board's file is handed back as it is)
+const raw = withEquities(fileJson as unknown as BoardFile, equitiesBoard());
 
 // Session 328: the tables board_page.py reads (scripts/page_tables.py on this page and its builder); the downloads keep
 // those in the public catalogue, each as its CSV with a Python and a Stata reader
@@ -47,9 +50,7 @@ const TABLES = ["ercot_all_hub_prices_history", "iso_hub_prices_history", "caiso
 const BOARD_QUESTIONS = (boardQuestions as { questions: { question: string }[] }).questions.map((q) => q.question);
 
 export default function Board() {
-  // session 10402 (chain 720, part D): the energy equities group, after the board's own groups (lib/equities.ts
-  // withEquities: the rows of site/data/equities/board.json in the board's own row form; nothing of the board moves)
-  const file = holdRows(withEquities(raw, equitiesBoard()), licenseHeldGrids().map(gridName));
+  const file = holdRows(raw, licenseHeldGrids().map(gridName));
   // session 502: the same list, with each table's license, under the title
   // session 1137: the rows drawn here, as one CSV (app/board/rows/route.ts), beside each table's own download
   return <Brand><BoardView file={file} under={<TableLicenses tables={TABLES} />} footer={<><p className="mb-2 text-sm" data-board-rows="1"><SiteLink href="/board/rows">The rows drawn here, as one CSV</SiteLink> (every figure of this page, each with its source; a held row with none), with a reader in <SiteLink href="/board/rows/python">Python</SiteLink> and in <SiteLink href="/board/rows/stata">Stata</SiteLink></p><section className="mb-6" aria-label="Ask the board" data-board-ask="1"><h2 className="mb-1 text-lg">Ask the board</h2><p className="mb-2 max-w-3xl text-sm">Questions of the board's own derived tables, answered by the general chat: every number from a query, each hub's value with its own date.</p><AskForm examples={BOARD_QUESTIONS} placeholder="For example: which hub is highest today?" /></section><DecisionsBlock id="7018" title="Decisions on this page (each with its default and its source on hover)" items={BOARD_DECISIONS} /><TableDownloads tables={TABLES} /></>} /></Brand>;
