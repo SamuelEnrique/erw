@@ -31,6 +31,10 @@ const ALERT_ROW_WORDS = "Each row is one notice, region and day it covers, as th
 // reading. ERCOT's notices (warehouse/connectors/ercot_grid_notices.py) are in no scheduled run; CAISO's report is read
 // each day but CAISO revises it from time to time. Said where the page says none.
 const ALERT_SOURCE_WORDS = "The list is only as new as its source's last reading: ERCOT's notices are read from its news releases when a session reads them, not each day, and CAISO's from its grid emergencies history, which CAISO revises from time to time. A window after the last reading shows none whether or not a notice was issued.";
+// Session 10219 (the conditions audit, finding 9): constraints_binding_hourly is keyed by constraint and contingency
+// (docs/methods/grid_congestion.md, decision 2), and the builder counts its rows, so a constraint binding under two
+// contingencies in an hour counts twice. The page said "(constraint, hour) pairs".
+const CONS_COUNT_WORDS = "The count is of (constraint, contingency) pairs as the operator lists them: a constraint that binds under two contingencies in the same hour counts twice, so it can stand above the number of separate constraints.";
 const STRIP_NAMES: Record<string, string> = { demand: "Demand and forecast", out: "Out of service", constraints: "Constraints binding", scarcity: "Scarcity adder", alerts: "Alerts", reserves: "Reserves against the requirement" };
 
 function Blank({ s, name, k }: { s: Strip; name: string; k: string }) {
@@ -151,7 +155,7 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
             </ChartFrame>
           ) : <NoneHeld title="Out of service" f={f} c="out_mean" w={w} k={`${tag}-out`} />) : <Blank s={st.out} name={STRIP_NAMES.out} k={`${tag}-out`} />}
           {st.constraints.status === "shown" ? (hCons.length ? (
-            <ChartFrame title="Constraints binding (count) and the largest shadow price (USD/MWh)" tip={<Hint words=" (source)" why={`${src("constraints")}. The largest shadow price is by size: SPP prints them negative.`} />}>
+            <ChartFrame title="Constraints binding (count) and the largest shadow price (USD/MWh)" tip={<Hint words=" (source)" why={`${src("constraints")}. The largest shadow price is by size: SPP prints them negative. ${CONS_COUNT_WORDS}`} />}>
               <LineChart lines={hCons} unit="count" unit2="USD/MWh" ariaLabel={`${f.name} constraints binding by hour`} />
             </ChartFrame>
           ) : <NoneHeld title="Constraints binding" f={f} c="cons_hours" w={w} k={`${tag}-cons`} />) : <Blank s={st.constraints} name={STRIP_NAMES.constraints} k={`${tag}-cons`} />}
@@ -173,7 +177,7 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
         </ChartFrame>
       ) : hourly.length ? null : <NoneHeld title="Out of service" f={f} c="out_mean" w={w} k={`${tag}-out-d`} />) : hourly.length ? null : <Blank s={st.out} name={STRIP_NAMES.out} k={`${tag}-out-d`} />}
       {st.constraints.status === "shown" ? (dCons.length ? (
-        <ChartFrame title="Constraint-hours a day" tip={<Hint words=" (source)" why={`${src("constraints")}. The number of (constraint, hour) pairs that bound in the day-ahead market.`} />}>
+        <ChartFrame title="Constraint-hours a day" tip={<Hint words=" (source)" why={`${src("constraints")}. The number of (constraint, contingency, hour) rows that bound in the day-ahead market. ${CONS_COUNT_WORDS}`} />}>
           <TimeChart series={dCons} unit="count" x="day" ariaLabel={`${f.name} constraint-hours by day`} />
         </ChartFrame>
       ) : hourly.length ? null : <NoneHeld title="Constraints binding" f={f} c="cons_hours" w={w} k={`${tag}-cons-d`} />) : hourly.length ? null : <Blank s={st.constraints} name={STRIP_NAMES.constraints} k={`${tag}-cons-d`} />}
