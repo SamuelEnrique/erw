@@ -1,0 +1,139 @@
+{
+ "answers": 1327,
+ "rule_checked_on": 30,
+ "rule_disagreements_with_unverified": 0,
+ "all": {
+  "pool": {
+   "n": 1327,
+   "mean": 103.3602,
+   "median": 68,
+   "min": 3,
+   "max": 461
+  },
+  "ints": {
+   "n": 1327,
+   "mean": 0.3112,
+   "median": 0.29,
+   "min": 0.02,
+   "max": 0.75
+  },
+  "dec1": {
+   "n": 1327,
+   "mean": 0.0797,
+   "median": 0.075,
+   "min": 0.005,
+   "max": 0.19
+  },
+  "dec2": {
+   "n": 1327,
+   "mean": 0.011,
+   "median": 0.0125,
+   "min": 0.0,
+   "max": 0.025
+  },
+  "big": {
+   "n": 1327,
+   "mean": 0.0002,
+   "median": 0.0,
+   "min": 0.0,
+   "max": 0.005
+  },
+  "moved": {
+   "n": 683,
+   "mean": 0.001,
+   "median": 0.0,
+   "min": 0.0,
+   "max": 0.3333
+  }
+ },
+ "with_list_tables": {
+  "pool": {
+   "n": 923,
+   "mean": 138.506,
+   "median": 114,
+   "min": 12,
+   "max": 461
+  },
+  "ints": {
+   "n": 923,
+   "mean": 0.3895,
+   "median": 0.39,
+   "min": 0.05,
+   "max": 0.75
+  },
+  "dec1": {
+   "n": 923,
+   "mean": 0.0996,
+   "median": 0.0975,
+   "min": 0.015,
+   "max": 0.19
+  },
+  "dec2": {
+   "n": 923,
+   "mean": 0.0121,
+   "median": 0.0125,
+   "min": 0.005,
+   "max": 0.025
+  },
+  "big": {
+   "n": 923,
+   "mean": 0.0002,
+   "median": 0.0,
+   "min": 0.0,
+   "max": 0.005
+  },
+  "moved": {
+   "n": 344,
+   "mean": 0.0,
+   "median": 0.0,
+   "min": 0.0,
+   "max": 0.0
+  }
+ },
+ "without_list_tables": {
+  "pool": {
+   "n": 404,
+   "mean": 23.0644,
+   "median": 18.0,
+   "min": 3,
+   "max": 304
+  },
+  "ints": {
+   "n": 404,
+   "mean": 0.1324,
+   "median": 0.12,
+   "min": 0.02,
+   "max": 0.48
+  },
+  "dec1": {
+   "n": 404,
+   "mean": 0.0341,
+   "median": 0.03,
+   "min": 0.005,
+   "max": 0.115
+  },
+  "dec2": {
+   "n": 404,
+   "mean": 0.0084,
+   "median": 0.0075,
+   "min": 0.0,
+   "max": 0.02
+  },
+  "big": {
+   "n": 404,
+   "mean": 0.0004,
+   "median": 0.0,
+   "min": 0.0,
+   "max": 0.005
+  },
+  "moved": {
+   "n": 339,
+   "mean": 0.002,
+   "median": 0.0,
+   "min": 0.0,
+   "max": 0.3333
+  }
+ },
+ "moved_figures": 1449,
+ "moved_let_through": 2
+}
