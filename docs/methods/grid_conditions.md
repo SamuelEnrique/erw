@@ -22,3 +22,7 @@ Chain 601, part G (session 9000, 20 November 2026). Builder: `warehouse/derived/
 5. **SPP's area.** SPP's outages are its RTO balancing area (`spp:SPP`), the area of EIA's SWPP; the western area added in April 2026 (`spp:SWPW`) and SPP's total are in the table and not drawn.
 6. **Days are the operator's.** A day is the operator's local day (Pacific, Central or Eastern); hourly charts mark UTC instants.
 7. **First view.** ERCOT, its newest 35 days, no second operator.
+
+## How new the alerts are (session 10219)
+
+The alerts strip is only as new as each source's last reading. ERCOT's notices (`warehouse/connectors/ercot_grid_notices.py`) are read when a session runs the connector; no scheduled run reads them, and the table as built on 20 November 2026 was read on 19 October, its last notice of 15 October. CAISO's grid emergencies history is read each day on the data machine, and CAISO revises the report from time to time (the copy held on 20 November is its revision of 9 October). A window after the last reading shows none whether or not a notice was issued, and the page says so where it says none.

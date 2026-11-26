@@ -24,6 +24,10 @@ type Query = Record<string, string | string[] | undefined>;
 const one = (q: Query, k: string) => (typeof q[k] === "string" ? (q[k] as string) : undefined);
 const NONE = "none";
 const TABLES = ["eia930_ba_demand_hourly", "generation_outages_hourly", "constraints_binding_hourly", "ercot_rtm_price_adders", "grid_all_alerts"];
+// Session 10219 (the conditions audit, finding 5): "None held in this window" is only as new as the source's last
+// reading. ERCOT's notices (warehouse/connectors/ercot_grid_notices.py) are in no scheduled run; CAISO's report is read
+// each day but CAISO revises it from time to time. Said where the page says none.
+const ALERT_SOURCE_WORDS = "The list is only as new as its source's last reading: ERCOT's notices are read from its news releases when a session reads them, not each day, and CAISO's from its grid emergencies history, which CAISO revises from time to time. A window after the last reading shows none whether or not a notice was issued.";
 const STRIP_NAMES: Record<string, string> = { demand: "Demand and forecast", out: "Out of service", constraints: "Constraints binding", scarcity: "Scarcity adder", alerts: "Alerts", reserves: "Reserves against the requirement" };
 
 function Blank({ s, name, k }: { s: Strip; name: string; k: string }) {
@@ -174,7 +178,7 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
             <ToolTable minWidth={360} caption={`Alerts and notices, ${w.start} to ${w.end} (${alerts.length})`} head={["Date", "Kind, as the operator words it", "Start", "End"]}
               rows={alerts.slice(0, 40).map((a, i) => ({ key: `${a[0]}-${i}`, cells: [<a key="d" className="underline" href={a[4]} title={src("alerts")}>{a[0]}</a>, a[1], a[2] ?? "", a[3] ?? ""] }))} />
           ) : (
-            <p className="text-sm text-muted" data-none-held={`${tag}-alerts`}>None held in this window. {f.alerts.length ? `The last the file holds is of ${f.alerts.reduce((m, a) => (a[0] > m ? a[0] : m), f.alerts[0][0])}.` : "The file holds none."}</p>
+            <p className="text-sm text-muted" data-none-held={`${tag}-alerts`}>None held in this window. {f.alerts.length ? `The last the file holds is of ${f.alerts.reduce((m, a) => (a[0] > m ? a[0] : m), f.alerts[0][0])}.` : "The file holds none."} {ALERT_SOURCE_WORDS}</p>
           )}
         </>
       ) : <Blank s={st.alerts} name={STRIP_NAMES.alerts} k={`${tag}-alerts`} />}
