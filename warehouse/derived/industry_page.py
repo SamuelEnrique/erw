@@ -98,7 +98,7 @@ def main(argv=None):
             "regions": ["us", "northeast", "midwest", "south", "west"],
             "fuels": [f[len("fuel_"):] for f in MECS_FUELS], "ranked_3_digit": level3,
             "industries": dict(sorted(inds.items())),
-            "note": "EIA withholds or does not estimate some cells (codes *, D, NA, Q); such a cell has no figure here. Fuel consumption counts some byproduct fuels twice, as EIA's note to Table 3.2 says."}
+            "note": "EIA prints no figure for some cells (codes * for an estimate under 0.5, D, NA, Q); such a cell has no figure here. Fuel consumption counts some byproduct fuels twice, as EIA's note to Table 3.2 says."}
     # SEDS by state
     sd = read("eia_seds_industrial_annual", ["entity", "variable", "ts_utc", "value", "unit"])
     sd["sid"], sd["st"] = sd["entity"].str.split(":").str[1], sd["entity"].str.split(":").str[2]
