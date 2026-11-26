@@ -44,6 +44,9 @@ Filed for the windows that own the page tonight (rows of the review): CP1, `/cos
 - **The site-walking tests were run in place of the whole suite** (the first window's rule of today for a chain that forbids the suite): 121 test files on rows 1, 3 and 4 merged, 120 on each of rows 5 and 6; about 2,100 tests each time, none failing.
 - **The second window's landing file was not edited;** its two unlanded commits were a row of this window's file.
 - **No data request was filed** for the stale page files (chain 701 repairs them tonight), and `/data/licenses`' "undefined" was not reopened (settled on 20 November).
+- **An accessibility audit with AccessLint was run** on fifteen pages while nothing of tonight's was landing, by the procedure of `docs/tooling.md` (one headless browser on port 9222, the internal view opened by the form, the browser stopped after and checked gone; 3.6 GB free when it started; no other browser open). The chain does not ask for it; the reading taken is that "read as its readers" includes a reader with a screen reader. It is no gate and nothing was changed on its word.
+- **A data request was filed for a difference between two sets of page files** (row 575 of `docs/state/data_requests_done_line.md`): the Southeast's demand on 13 to 17 November is 4 to 6 percent higher in the forecast's files (built today) than in `/demand`'s (built 21 November). Which one EIA gives today could not be read from this laptop, and the row says so.
+- **A note was left for the first window in this window's landing file,** not in its own files: the companies filter of `/equities` has the shape that keeps a choice after the back button (read from its branch, not yet seen in a browser).
 - **A foreground figure check on the five tools only** was run after the full one was stopped: a smaller command, no browser, with 3 to 4 GB free. The full list and the method pages' sweep wait for your word.
 
 ## For Samuel's ruling
