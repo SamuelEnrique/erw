@@ -24,3 +24,12 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Sources: multipliers | done | 10800 | JEDI none (12 families); RIMS II USD 520 a region, USD 160 an industry (paid); IMPLAN no printed price; Virginia's JLARC tables public |
 | Sources: taxes by state | in progress | 10800 | Virginia (exemption, property classes, consumption tax), Louisiana (rebate), Iowa (exemption) read; Indiana's statute behind a script; West Virginia's code host times out (waiting) |
 | Verdict | done | 10800 | five lines at the top of the review |
+
+## Part B: the evidence table of announced datacenters
+
+| Item | State | Session | Note |
+|---|---|---|---|
+| Rows transcribed, every quote checked against the kept text | done | 10801 | 22 rows, 10 states (LA 2, VA 3, MS 5, NC 1, PA 1, IN 2, WV 3, KY 1, AL 3, OK 1): `warehouse/forecast/datacenter_announced_rows.json`, `datacenter_announced.py --verify-reads` |
+| `site/data/forecast/datacenter_announced.json` with the defaults | done | 10801 | investment per MW: 6 rows, median USD 8.33 million (3.0 to 46.8); permanent jobs per MW: 5 rows, median 0.208 (0.05 to 0.333); permanent jobs per USD billion: 16 rows, median 56.25 (9.3 to 121.8); construction jobs (headcount as announced) per USD billion: 6 rows, median 325 (63 to 1,218) |
+| Request for window A: `datacenter_announced` | requested | 10801 | row 6 of `docs/state/data_requests_forecast.md` |
+| Wages by state (CBP 2023: 518210 operations; 2362 and 238 construction) | done | 10801 | `site/data/forecast/datacenter_wages.json`, 51 states; request 7 asks window A for the construction rows as a table |
