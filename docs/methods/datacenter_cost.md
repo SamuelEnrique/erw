@@ -226,11 +226,11 @@ fourth, the cost of capital, was 8 percent here until the owner's ruling of 11 O
 **The rows.** Market energy over the last twelve months; a year's cost; power per GPU-hour; a bad month; the hours off
 with the breakeven value of a GPU-hour (what the power not bought would have cost, per GPU-hour not run); the present
 value of the cost at the hurdle rate; the fixed price with the same present value (the breakeven of a contract for the
-whole of the energy against the market); and the all-in power per GPU-hour over the years counted. A row "What
+whole of the energy against the market); and the levelized power per GPU-hour over the years counted (labelled "all-in" until session 10203). A row "What
 differs" names the assumptions that differ, and a row "B against A" states the difference in numbers: the year's cost,
 the GPU-hours run, the present value, the upfront cost of B at which the two present values are equal, and, when one
 scenario costs more upfront, the rate that extra cost returns in lower yearly cost, beside that scenario's hurdle rate.
-A chart shows how far each assumption moves the all-in power per GPU-hour.
+A chart shows how far each assumption moves the levelized power per GPU-hour.
 
 **How the two ways are made.** The server computes the load flat and the load flexible over the same twelve months,
 with the functions the page already uses, and hands both to the browser. Nothing else is modeled: the seven other

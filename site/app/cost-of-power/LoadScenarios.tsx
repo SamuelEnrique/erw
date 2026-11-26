@@ -82,13 +82,13 @@ function useBlock(f: Facts) {
   const bars = sensitivity(a, siteOf(f, s.view).ways);
   const side = (t: Side | null) => (t ? `${four(t.v)} at ${plain(t.value)}` : "no step inside its bounds");
   const chart: Chart | null = bars.length ? { bars: bars.map((b) => ({ ...b, down: b.down ? { value: b.down.value, v: b.down.v } : null, up: b.up ? { value: b.up.value, v: b.up.v } : null })),
-    moves: "all-in power per GPU-hour", axis: "per GPU-hour", fmt: four, pad: 0.0001, wide: true,
+    moves: "levelized power per GPU-hour", axis: "per GPU-hour", fmt: four, pad: 0.0001, wide: true,
     says: (b) => {
       if (b.key === "run") {
         const t = b.down ?? b.up;
         return t ? `How the load runs, the other way (${f.words[t.value]}): ${four(t.v)} per GPU-hour; ${four(b.base)} as it is (${f.words[a.run]}).` : "How the load runs: the other way is not held here, so it has no step.";
       }
-      return `${b.label}, moved by ${b.step}: all-in power per GPU-hour is ${side(b.down)} and ${side(b.up)}; ${four(b.base)} at ${plain(a[b.key as Key])}.`;
+      return `${b.label}, moved by ${b.step}: levelized power per GPU-hour is ${side(b.down)} and ${side(b.up)}; ${four(b.base)} at ${plain(a[b.key as Key])}.`;
     },
     sizeWords: (b) => four(b.size), stepWords: (b) => (b.key === "run" ? b.step : `by ${b.step}`),
     heads: ["Per GPU-hour, lowered", "Per GPU-hour, raised"],
@@ -143,7 +143,7 @@ export function LoadScenarios({ facts: f }: { facts: Facts }) {
       (c) => (c.r ? { v: usd(c.r.pv * f.mw), raw: c.r.pv, note: `${plain(c.y.life)} years at ${plain(c.y.hurdle)} percent${c.y.upfront > 0 ? `; USD ${plain(c.y.upfront)} per kW upfront` : ""}${c.y.growth !== 0 ? `; prices ${rising(c.y.growth)}` : ""}${c.y.cshare > 0 ? `; ${contractNote(c).replace(/; $/, "")}` : ""}` } : none(c))),
     row("level", "Fixed price with the same present value", "a contract for the whole of the energy, USD per MWh: its breakeven against the market",
       (c) => (c.r && c.w ? { v: `USD ${two(c.r.level)}`, raw: c.r.level, note: c.y.growth === 0 ? "the last twelve months' market price, repeated every year" : `the market's USD ${two(c.w.per)}, ${rising(c.y.growth)} for ${plain(c.y.life)} years` } : none(c))),
-    row("allin", "All-in power per GPU-hour, over the years counted", "the upfront cost and the energy, over the GPU-hours run, both at the hurdle rate",
+    row("allin", "Levelized power per GPU-hour, over the years counted", "market energy, the other charges typed and the upfront cost, over the GPU-hours run, both at the hurdle rate; no delivery, ancillary service or loss charge unless typed as other charges",
       (c) => (c.r ? { v: four(c.r.allIn), raw: c.r.allIn, note: `${whole(c.r.gpuHours * f.mw)} GPU-hours a year` } : none(c))),
   ];
 
@@ -198,7 +198,7 @@ export function LoadSensitivity({ facts: f }: { facts: Facts }) {
   return (
     <>
       <p className="mb-2 max-w-3xl text-sm" data-how-to-read="1">
-        Each row moves one assumption of scenario {s.view.toUpperCase()} down and up by the step named, holds the other nine, and draws where the all-in power per
+        Each row moves one assumption of scenario {s.view.toUpperCase()} down and up by the step named, holds the other nine, and draws where the levelized power per
         GPU-hour lands from the scenario&apos;s own figure (the line); the longest bars are the assumptions that matter most.
       </p>
       <Sensitivity c={chart} view={s.view} />
