@@ -118,6 +118,18 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
   const rank = (list: Reg[], r: Reg) => (list.indexOf(r) >= 0 ? (list.indexOf(r) === list.length - 1 ? "last" : ORD[list.indexOf(r)]) : "not ranked");
   const tally = R.map((r) => ({ r, n: [cheap, clean, calm, fast, self].filter((l) => half(l, r)).length, of: [cheap, clean, calm, fast, self].filter((l) => l.includes(r)).length }))
     .sort((a, b) => b.n - a.n || a.r.name.localeCompare(b.r.name));
+  // session 10232 (docs/reviews/reports-model-audit-2026-11-26.md, finding 4): the sentences below follow the rows. A tie is
+  // named as a tie; the widest gap of the measures that can be set as a ratio is named, not asserted; the regions where
+  // day-ahead ran below real time are listed, and the sentence reads whole when there are none
+  const topTally = tally.filter((t) => t.n === tally[0].n);
+  const s1000 = by((r) => r.s1000, "desc");
+  const topS1000 = s1000.filter((r) => r.s1000!.v === s1000[0].s1000!.v);
+  const daLow = R.filter((r) => r.da && r.rt && r.da.v < r.rt.v);
+  const gaps: [string, number][] = [
+    ["cost", c1.cost!.v / c0.cost!.v], ["carbon", ci1.ci!.v / ci0.ci!.v],
+    ["hours at or above USD 200/MWh", calm[0].s200!.v > 0 ? calm.at(-1)!.s200!.v / calm[0].s200!.v : Infinity], ["years to connect", f1.yrs!.v / f0.yrs!.v],
+  ];
+  const widest = [...gaps].sort((a, b) => b[1] - a[1])[0][0];
 
   return (
     <Brand>
@@ -193,8 +205,8 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         <p className="mt-3 max-w-3xl text-sm">
           A flat load pays the plain average of the hub&apos;s hourly prices, because it buys the same MW in every hour. Over the year that average ran from{" "}
           <N x={c0.rt} /> USD/MWh in {c0.name} to <N x={c1.rt} /> USD/MWh in {c1.name}. The {c1.name} figure is {c1.id === "nyiso" ? "the New York City zone, the dearest part of NYISO; upstate zones are cheaper" : `at ${c1.hub}`}.
-          Day-ahead prices ran above real time in every region but {R.filter((r) => r.da && r.rt && r.da.v < r.rt.v).map((r) => r.name).join(", ") || "none"}: a buyer
-          who fixes the day before pays a small premium for certainty.
+          {daLow.length ? <>Day-ahead prices ran above real time in every region priced but {daLow.map((r) => r.name).join(", ")}: </> : <>Day-ahead prices ran above real time in every region priced: </>}a buyer
+          who fixed the day before paid more, on average, than one who took the real-time price.
         </p>
         <p className="mt-2 max-w-3xl text-sm">
           These are energy prices at a hub, not a delivered bill. Capacity charges (large in PJM, ISO-NE, NYISO and MISO), transmission, distribution,
@@ -212,9 +224,11 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         </div>
         <p className="mt-3 max-w-3xl text-sm">
           The intensity is consumption-based: the CO2 of the generation each region actually used, imports included, per MWh of its demand, averaged over the
-          year&apos;s days, from <N x={ci0.ci} /> kg/MWh in {ci0.name} to <N x={ci1.ci} /> kg/MWh in {ci1.name}, which still burns more coal and gas in its mix.
-          A new load is served at the margin, by whatever plant runs next, which is usually gas almost everywhere: the average is where a region starts,
-          not the CO2 of the next MWh. The gap between regions is still the largest of the five measures.
+          year&apos;s days, from <N x={ci0.ci} /> kg/MWh in {ci0.name} to <N x={ci1.ci} /> kg/MWh in {ci1.name} (the table holds each region&apos;s intensity, not its mix).
+          A new load is served at the margin, by whatever plant runs next, and the table does not hold that plant&apos;s CO2: the average is where a region starts,
+          not the CO2 of the next MWh. {widest === "carbon"
+            ? "Of the four measures that can be set as the worst region over the best (cost, carbon, hours at or above USD 200/MWh, years to connect), carbon's gap is the widest."
+            : `Of the four measures that can be set as the worst region over the best (cost, carbon, hours at or above USD 200/MWh, years to connect), the gap in ${widest} is wider than carbon's.`}
         </p>
       </Section>
 
@@ -234,7 +248,7 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         </div>
         <p className="mt-3 max-w-3xl text-sm">
           Scarcity shows in the price. {calm[0].name} had the fewest hours at or above USD 200/MWh, <N x={calm[0].s200} />; {calm.at(-1)!.name} the most, <N x={calm.at(-1)!.s200} />.
-          Hours above USD 1,000 were rare everywhere: {by((r) => r.s1000, "desc")[0].name} had the most, <N x={by((r) => r.s1000, "desc")[0].s1000} />. A steady load in a
+          Hours above USD 1,000 were rare everywhere: {topS1000.map((r) => r.name).join(" and ")} had the most, <N x={topS1000[0].s1000} />{topS1000.length > 1 ? " each" : ""}. A steady load in a
           region with many dear hours either pays them or hedges them; it also adds to the demand in the hours that are already tight.
         </p>
         <p className="mt-2 max-w-3xl text-sm">
@@ -245,9 +259,10 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         </p>
         <p className="mt-2 max-w-3xl text-sm">
           Grid emergencies are held for CAISO only: <N x={R.find((r) => r.id === "caiso")!.emerg} /> days with an ISO-wide Flex Alert or emergency from July 2018 to
-          April 2025. The event studies add the scale of the worst weather the warehouse has measured: the largest effect on daily demand was{" "}
+          April 2025. The event studies, as they stood when the table was built (an event studied since is not in it), add the scale of the worst weather they had measured: the largest effect on daily demand was{" "}
           <N x={by((r) => r.ev, "desc")[0].ev} /> percent above normal, in {by((r) => r.ev, "desc")[0].name} during {by((r) => r.ev, "desc")[0].evName}, after
-          temperature is accounted for where the study holds it. A region that runs short in its extremes is where a new
+          temperature is accounted for where the study holds it, and day of week and year alone where it does not, so the regions&apos; figures are not all
+          alike. A region that runs short in its extremes is where a new
           flat load matters most, and where it should bring its own flexibility or supply.
         </p>
       </Section>
@@ -334,7 +349,9 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
           </table>
         </div>
         <p className="mt-3 max-w-3xl text-sm">
-          {tally[0].r.name} is in the better half on {tally[0].n} of its {tally[0].of} measures, the most of any region. The tension is in the data: the cleanest
+          {topTally.length > 1
+            ? <>{topTally.map((t) => t.r.name).join(", ").replace(/, ([^,]*)$/, " and $1")} share the most: each is in the better half on {tally[0].n} of its measures. </>
+            : <>{tally[0].r.name} is in the better half on {tally[0].n} of its {tally[0].of} measures, the most of any region. </>}The tension is in the data: the cleanest
           region, {ci0.name}, is the {rank(fast, ci0)} of {fast.length} to connect new supply, and the fastest, {f0.name}, is the {rank(clean, f0)} of {clean.length} on
           carbon. A campus that wants all three brings its own: a contract for new clean supply where connection is fast, or flexibility that lets it avoid the tight
           hours where they are many.
