@@ -13,7 +13,8 @@ What it is made from. Window P4 of the portable laptop (sessions 5300 to 5304) r
 docs/research/large_load/fetch_doc.py (robots first, Anthropic's agents by name included; the paused publishers and the
 barred hosts refused) and wrote docs/research/large_load/utilities_2026-11-13.csv (122 rows, 1,699 cites matched, every
 row read by five auditors: audit_2026-11-14.md), changes_2026-11-13.csv (98 rows, 364 cites) and
-legislation_2026-11-13.csv (28 rows, 295 cites). Every value is printed in the document its cite names. This script makes
+legislation_2026-11-13.csv (28 rows, 295 cites; since session 10000 legislation_2026-11-26.csv, the same rows with four
+laws in force read again: data request 27 of docs/state/data_requests_five_tools.md). Every value is printed in the document its cite names. This script makes
 no request and no model call: it reads the three files as committed and reshapes them.
 
 The license, row by row (the files' license column; the owner's ruling 4 of 6 November 2026). A table has one license,
@@ -49,7 +50,7 @@ import iso_prices as ip  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 RESEARCH = os.path.join(ROOT, "docs", "research", "large_load")
-FILES = {"rules": "utilities_2026-11-26.csv", "changes": "changes_2026-11-13.csv", "laws": "legislation_2026-11-13.csv",  # session 10000: the rules of 26 November; the changes stay at 13 November while the pages word their window so
+FILES = {"rules": "utilities_2026-11-26.csv", "changes": "changes_2026-11-13.csv", "laws": "legislation_2026-11-26.csv",  # session 10000: the rules of 26 November; the changes stay at 13 November while the pages word their window so
          "totals": "utilities_2026-11-26.csv"}
 NAMES = {"rules": "utility_large_load_rules", "changes": "utility_large_load_rule_changes", "laws": "state_large_load_laws",
          "totals": "utility_large_load_queue_totals"}

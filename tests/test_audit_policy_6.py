@@ -26,7 +26,9 @@ class TheEnactedHoverSaysWhatItIs(unittest.TestCase):
         f = json.loads(src("site", "data", "siting", "large_load_rules.json"))
         md = [l for l in f["laws"] if l["state"] == "MD" and l["bill"].startswith("S.B. 937")]
         self.assertEqual(len(md), 1)
-        self.assertEqual(md[0]["status"], "enacted")
+        # session 10000 (chain 701, data request 27 from this audit): the law read again on 26 November 2026 is in force
+        # since 1 June 2025, so the file now says so; the hover's words (below) stay for the two laws still marked enacted
+        self.assertEqual(md[0]["status"], "in effect")
         self.assertEqual(md[0]["effective"], "2025-06-01")
         self.assertLess(md[0]["effective"], md[0]["read"][:10])
 
