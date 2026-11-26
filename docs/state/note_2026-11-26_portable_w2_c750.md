@@ -1,6 +1,6 @@
 # Note of chain 750 (the portable laptop's second window, 26 November 2026): the browser read
 
-Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-portable-window2-browser-read.md`. Progress: `docs/state/progress_c750.md`. The review: `docs/reviews/browser-read-2026-11-26.md`. Model spend USD 0. Kept current while the chain runs; this is its state at 15:25 UTC on 26 November.
+Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-portable-window2-browser-read.md`. Progress: `docs/state/progress_c750.md`. The review: `docs/reviews/browser-read-2026-11-26.md`. Model spend USD 0. Kept current while the chain runs; this is its state at 16:10 UTC on 26 November.
 
 ## Pages read, and what was found
 
@@ -12,11 +12,11 @@ Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-po
 - **Figures set beside their source:** about 120,000 against the page files (15,553 on `/conditions`, 8,941 on `/congestion`, 94,435 on the regions' Mix tabs, 838 words and figures of the problem edition) and 5,142 against Supabase by the site's own check on the five tools' addresses (988, 1,377 and 2,777). The only disagreement was the alerts list of `/conditions`.
 - **Part C began at 14:16 UTC** with tonight's first landing: this window's first three rows, seen fixed on production at both widths, and `/impact` with Datacenter (window C's), read in full. The four older plant types show exactly what they showed before (1,700 figures on eleven addresses saved before the deploy and after, none changed). `/forecast`, `/equities` and the board's new group were not on main at 15:21 UTC (the desk's next gate is announced for after 16:15 UTC); the board as it stands is recorded, to check that it loses nothing, and the eight energy prices in the equities page files already agree with the board.
 - **Faults, by owning window:**
-  - no window's page tonight: 8 found, 8 fixed on five branches, each with a test (rows 1, 3, 4, 5 and 6 of `docs/state/landing_request_portable_w2.md`). Rows 1 and 3 landed at 14:16 UTC and are seen on production; rows 4, 5 and 6 are seen in a build by the first window and requested;
+  - no window's page tonight: 9 found, 9 fixed on six branches, each with a test (rows 1, 3, 4, 5, 6 and 7 of `docs/state/landing_request_portable_w2.md`). Rows 1 and 3 landed at 14:16 UTC and are seen on production; rows 4, 5 and 6 are seen in a build by the first window and requested; row 7 (a link on `/events` told by its color alone, found by an accessibility audit of 39 pages) is ready, to be seen;
   - the desktop's second window (B): 1 filed (two of its commits read landed and were not on main; row 2, landed at 14:16 UTC and seen on production);
   - window C (`/impact` with Datacenter): 5 small rows filed (a default's own document cannot be opened from the page; the taxes' total does not say what it leaves out; Georgia's exemption reads "none" where it is held and not applied; a document's figure the tool does not take is not said; an address with the project's id alone shows its name over the default's figures);
   - the old laptop (D), on pages it audits tonight: 2 filed (`/cost-of-power` 1,677 px wide on a phone; a false sentence on `/research`);
-  - window A (the data machine), with the old laptop: 1 filed (the All grids tab does not follow the back button); and 1 known to it already (the page files of 21 to 25 November);
+  - window A (the data machine), with the old laptop: 2 filed (the All grids tab does not follow the back button; two regions of one name on it) and 1 data request (row 575: the Southeast's demand of 13 to 17 November is 4 to 6 percent higher in the forecast's files than in `/demand`'s); and 1 known to it already (the page files of 21 to 25 November);
   - window E: none yet (its pages had not landed).
 
 ## The five worst things found
