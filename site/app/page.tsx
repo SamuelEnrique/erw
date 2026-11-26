@@ -132,8 +132,9 @@ async function groupNumbers() {
       note: "Batteries operating in ERCOT, the real fleet the battery game sets beside your own.", table: "storage_capacity" };
   }
   // Analysis: the findings in the library (site/data/findings/catalogue.json, checked by the value checker from the file)
-  out.Analysis = { value: <Num check="findings|count" raw={findings.length}>{n0(findings.length)}</Num>, unit: "findings",
-    note: "In the research library today, each run with the inputs you choose.", table: "findings catalogue" };
+  // session 10236 (audit finding 3): the catalogue holds analyses, seven findings (three in two versions) and the impact study
+  out.Analysis = { value: <Num check="findings|count" raw={findings.length}>{n0(findings.length)}</Num>, unit: "analyses",
+    note: "Analyses you can run in the research library, each with the inputs you choose: seven findings, three of them in two versions, and the impact study.", table: "findings catalogue" };
   return out;
 }
 
