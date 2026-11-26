@@ -108,4 +108,88 @@ This machine holds neither the live set nor `eia930_ba_demand_hourly`, `generati
 | 10 | Minor | CAISO's "out of service" holds derates and curtailments, SPP's outages only | CAISO's trial mean 21,400 MW (note); not separable here (data request b) | `wip/audit-conditions-10` | words, for landing |
 | 11 | Minor | The operator line: "days and hours in ... clock time" where hourly charts are UTC; "the newest 35 days" hold 36, the last with the forecast only | 36 days, 0 of 24 demand hours on the last, every grid | `wip/audit-conditions-11` | words, for landing |
 
-The sections for each finding follow, with their tests and branches.
+Every test file below was run on its own branch with the four test files that read the page (`test_session9000_conditions.py`, `test_session9001_conditions_phone.py`, `test_session9001_conditions_reader.py`, `test_session9001_congestion_trace.py`) and, where a method note changed, the four that read every note (`test_session142.py`, `147`, `158`, `160`): all pass (224 to 245 tests a run). Each words branch was drawn to HTML with the site's own components (`draw.mjs`, eight views: the default, CAISO, SPP, CAISO's 2020 heat wave, ERCOT's COVID and Uri windows, PJM's COVID window, CAISO beside SPP in 2022) and its new words read: every drawn figure is unchanged against main, and the words read right. The drawn text of main and of the merged branch is in `drawn/`.
+
+### 1. An impossible hour printed as the peak
+
+- **Where.** `warehouse/derived/conditions_page.py` `hourly_frame` and `daily_rows` take every EIA-930 hour; `page.tsx` `Glance` prints the window's largest `demand_peak`. The ERW's rule for such hours (`docs/methods/impossible_hours.md`, `warehouse/derived/impossible_hours.py`) is applied by the energy mix, the carbon tables and others, not here.
+- **How much.** PJM, COVID window: 215,682 MW in the hour starting 2020-04-10 03:00 UTC (the four hours around it: median 71,370; the day's forecast peak 80,270). Screened, the window's highest is 108,513 MW on 26 May. In daily rows, which no screen can reach from the page files: PJM 224,345 MW on 13 July 2020 (forecast 123,094), printed as the highest peak for any chosen day from 28 June to 28 July 2020 (31 days). Elsewhere the lowest hour of a day is 0 MW on 5 NYISO days, 14 MW on a CAISO day and 1,505 MW on an SPP day (drawn on the hourly charts where a window keeps them; not printed as a figure). The drawn page prints "Highest peak demand: 215,682 MW, on 2020-04-09" (`drawn/main_pjm_covid.txt`).
+- **The test.** `tests/test_audit_conditions_1.py` (passes on main: it shows the finding).
+- **For the owner.** Applying the ERW's own rule in the builder would move PJM's COVID-window peak from 215,682 MW to 108,513 and every figure resting on the hours it leaves out (4 hours in the kept windows). Default: left as it is.
+
+### 2 and 3. What the alerts count is
+
+- **Where.** `page.tsx`: "Alerts and notices in force, {start} to {end} ({alerts.length})", `alerts = f.alerts.filter(...)` by date. `caiso_grid_emergencies` is "one row per notice type, region and local (Pacific) day covered", and CAISO's report reprints a notice each time it revises it (on 14 August 2020 the RMO of 14 to 17 August four times, issued 14, 15, 16 and 17 August); `ercot_grid_notices` is "one row per notice and Central day it covers", with `update` (a release that ends or cancels a notice) and `statement` (a release that announces none) among the kinds. The table on the page shows no region.
+- **How much.** In each window, rows against distinct notices (kind, start, end) from the inputs: CAISO heat 2020 79 against 23 (42 rows repeat the date, kind, start and end of another); Uri (CAISO) 26 against 3, all restricted maintenance in Southern California; heat 2022 44 against 35 (4 of them Northern California transmission emergencies); ERCOT heat 2023 23 against 15; Uri (ERCOT) 6 against 4, of which one statement and one update. Since July 2018, 81 of CAISO's 320 rows repeat another of the same day, kind, region, start and end; ERCOT's 178 rows hold 20 updates and 19 statements (`alerts.out`).
+- **Finding 2, the fix on the branch.** Words only. The heading: "Alerts and notices listed, {start} to {end} ({n} rows)"; under it: "Each row is one notice, region and day it covers, as the operator lists it: a notice over three days is three rows, a notice the operator reissued is listed again, the region is not shown, and ERCOT's rows include its releases that end a notice or announce none. So the count is of rows, not of separate notices."; the lead's "the alerts in force" becomes "the alerts and notices the operators list"; the method note's row to match. Test `tests/test_audit_conditions_2.py` (fails on main, passes on the branch). Drawn and read: pass.
+- **Finding 3, for the owner.** Counting distinct notices (and leaving out ERCOT's updates and statements) would move the heading's count: heat 2020 79 to 23, Uri (CAISO) 26 to 3, ERCOT heat 2023 23 to 15. Test `tests/test_audit_conditions_3.py` (passes on main). Default: left as it is.
+
+### 4. CAISO's times not read
+
+- **Where.** `warehouse/connectors/caiso_emergencies.py` `span`: it reads "MM/DD/YYYY HH:MM through MM/DD/YYYY HH:MM", one date with two clock times, and "HH:MM - HH:MM"; it leaves start and end empty for "08/14/2020 at 18:36 through 08/14/2020 at 20:38", "September 3 at 4:00 PM to September 3 at 9:00 PM" and "2021-07-12 16:00:00 through 2021-07-12 21:00:00".
+- **How much.** 470 rows since 1998 with a printed time frame and no start (stage 1 145, stage 2 111, stage 3 41, Flex Alert 48, RMO 73, others 52); 15 since the page's first day: the Stage 3 rotating outages of 14 and 15 August 2020 and 13 Flex Alerts (12 July 2021, 3 to 8 September 2022 and others). The page draws them with empty Start and End cells (`drawn/main_caiso_heat_2020.txt`). `scarcity_hours_by_grid` counts a CAISO notice's hours from the same start and end, so such a notice counts no hour there; none falls in its window (October 2023 on), so no figure of that table moves today.
+- **The test.** `tests/test_audit_conditions_4.py` (passes on main).
+- **For the owner.** Reading the three forms would fill 15 rows' cells on `/conditions` and change the table `caiso_grid_emergencies` (window A's to rebuild). Default: left as it is.
+
+### 5. "None held" where the source was not read
+
+- **Where.** `page.tsx`, the alerts' none line. `warehouse/connectors/ercot_grid_notices.py` is in no runner (`warehouse/*.sh`, `.github/workflows`, `scripts/*.ps1`); `caiso_emergencies.py` runs daily (`run_data_machine_tables.sh`).
+- **How much.** The ERCOT table on the page was read on 19 October 2026 (`retrieved_at`), its last notice of 15 October. The default view's window starts on 16 October: it prints "None held in this window" for every day of it, whatever ERCOT issued. CAISO's report on the page is its revision of 9 October (last notice 8 October).
+- **The fix on the branch.** Words only. The none line adds: "The list is only as new as its source's last reading: ERCOT's notices are read from its news releases when a session reads them, not each day, and CAISO's from its grid emergencies history, which CAISO revises from time to time. A window after the last reading shows none whether or not a notice was issued."; the note gains "How new the alerts are". Test `tests/test_audit_conditions_5.py` (fails on main). Drawn and read: pass.
+- **For the owner, beside the fix.** Putting `ercot_grid_notices.py --pull` in the data machine's daily run would make the words less needed; that is a schedule, not a word, and is left to the owner (no persistence is installed from a chain).
+
+### 6 and 7. The adder above zero
+
+- **Where.** `conditions_page.py` `daily_rows`: `adder_hours = (adder > 0).sum()`; `hourly_rows` keeps each hour to 0.1. `page.tsx`: the glance "Most hours with the adder above zero in a day", the chart "Hours the adder was above zero, a day".
+- **How much.** `ercot_rtm_price_adders`, July 2018 to 4 December 2025: 10,492 hours above zero, of which 5,799 under 5 cents (0.0 on the chart), 2,333 from 5 cents to USD 1, 1,301 from 1 to 10, 703 from 10 to 100, 316 from 100 to 1,000, 40 at 1,000 or more; the median above zero 1.6 cents. 518 hours the daily count holds are 0.0 in the page's own hourly rows. By year at USD 1 against above zero: 2019 494 of 2,113, 2022 713 of 2,420, 2024 78 of 430, 2025 15 of 193.
+- **Finding 6, the fix on the branch.** Words only: "above zero, however small" in the glance and the chart's title, and on both adder charts' hovers "An hour counts when the adder's hourly mean is above zero, however small: of ERCOT's hours above zero from July 2018 to the adder's end, more than half were under 5 cents per MWh (the median 1.6 cents), and those draw as 0.0 on the hourly chart, whose values are kept to one decimal."; the note's row to match. Test `tests/test_audit_conditions_6.py`. Drawn and read: pass.
+- **Finding 7, for the owner.** Counting at USD 1 (or USD 100, the datacenter page's level for the same adder) would move the glance and the daily chart: the COVID window 20 hours (16 March 2020) to 6 (8 April) or 3 (27 April); heat 2022 15 to 10 or 6; ERCOT heat 2023 12 to 10 or 2; Uri 24 to 24 or 22. Test `tests/test_audit_conditions_7.py` (passes on main). Default: left as it is.
+
+### 8. ERCOT's scarcity moved; the page said it ended
+
+- **Where.** `Decisions.tsx` "scarcity"; the strip's note in the page file; the empty strip (`NoneHeld`). `docs/methods/ercot_rt_price_adders.md`: "On 5 December 2025 ERCOT began clearing energy and ancillary services together in real time. Scarcity is priced through the ancillary services' own demand curves from that day."
+- **How much.** The default view (ERCOT, the newest days) draws no scarcity figure, and every window after 4 December 2025 the same, with only "The file's last figure is of 2025-12-04".
+- **The fix on the branch.** Words only: the decision adds "It ended because ERCOT changed how it prices scarcity: since 5 December 2025 ERCOT clears energy and ancillary services together in real time, and scarcity is priced through the ancillary services' own demand curves, which the page does not draw."; ERCOT's empty adder strip says the same; the note gains decision 8. Test `tests/test_audit_conditions_8.py`. Drawn and read: pass.
+
+### 9. Constraint-hours count contingencies
+
+- **Where.** `conditions_page.py`: `cons_n = count` of `constraints_binding_hourly` rows an hour; that table's key is constraint and contingency (`grid_congestion.md`, decision 2: "CAISO lists one branch under more than one contingency in the same hour"). The page's hover: "The number of (constraint, hour) pairs".
+- **How much.** Not measured: the table is not on this machine (data request a).
+- **The fix on the branch.** Words only: "(constraint, contingency, hour) rows" and on both constraint charts "The count is of (constraint, contingency) pairs as the operator lists them: a constraint that binds under two contingencies in the same hour counts twice, so it can stand above the number of separate constraints."; the note's row to match. Test `tests/test_audit_conditions_9.py`. Drawn and read: pass.
+
+### 10. CAISO's "out of service"
+
+- **Where.** `page.tsx`, "Out of service, MW" and the glance "Most megawatts out of service in an hour"; `grid_outages.md`, decision 3: CAISO's report "holds every curtailment of a resource: planned maintenance, forced outages, and derates the operator files as forced (ambient conditions, transmission induced, fuel)". SPP's figure is generation on outage.
+- **How much.** CAISO's opening view prints 29,078 MW (4 November 2026); the trial of 14 to 18 November averaged about 21,400 MW (7,400 planned, 14,000 forced, the note's). The share that is derates is not separable in the table (data request b).
+- **The fix on the branch.** Words only, on CAISO's two outage charts: "CAISO's figure is every curtailment its report lists, planned and forced: outages, and also derates the operator files as forced (ambient conditions, transmission induced, fuel). So it is megawatts unavailable, not only plants out of service, and not the same measure as SPP's generation on outage."; the note's row to match. Test `tests/test_audit_conditions_10.py`. Drawn and read: pass.
+
+### 11. The operator line
+
+- **Where.** `page.tsx`: "{title}, {start} to {end}; days and hours in {f.time}", where the file's `time` is "America/Chicago clock time for days and hours"; `TimeChart.tsx` labels an hourly axis "... UTC". `conditions_page.py`: the newest window is the build's UTC day less 35 days to that day.
+- **How much.** "the newest 35 days" hold 36 calendar days; the last, 20 November, holds the forecast for every hour and demand for none, on every grid (EIA's demand to the hour starting 2026-11-20 05:00 UTC, 23:00 Central on 19 November).
+- **The fix on the branch.** Words only: "days in America/Chicago clock time, the hourly charts in UTC." and, where the window's last days hold no demand, "EIA's demand is held to 2026-11-19; the days after it carry the forecast only." Test `tests/test_audit_conditions_11.py`. Drawn and read: pass.
+- **Beside window F's branch.** `wip/c750-conditions` (session 11000) also rewrites this line, to say the clock once; its words still say hours run on the local clock. The two conflict on this line and on the alerts heading's neighbours: whichever lands second takes this branch's line and window F's `alerts.map` (every row) together.
+
+**Together.** Branches 2, 5, 6, 8, 9, 10 and 11 each add a constant after `TABLES` in `page.tsx` or a row of the note's table, so they conflict when merged one after another. `wip/audit-conditions-words` is branch 2 with 5, 6, 8, 9, 10 and 11 merged and each conflict resolved by keeping both sides' words: its seven audit tests and the eight test files above pass (245 tests); drawn, all eight views' figures unchanged, the words read: pass (`drawn/words_*.txt`).
+
+## What was checked and found right
+
+- `windowOf`: an event's own days; a chosen day's fifteen days either side, with the hours of a kept window that holds the day; else the newest window.
+- The glance: the first day of the largest figure; the adder dropped when its largest is zero; each figure a `pf|` key into the file, drawn as the key's value (`drawn/main_*_n.json`).
+- Daily aggregation by the operator's local day, with 23- and 25-hour days; a day's peak, lowest, mean, highest and counts as the method says; nothing filled.
+- The status table and `index.json` agree with each file's strips; every blank strip carries its reason.
+- The headroom cell on `/cost-of-power` (capacity over peak, ERCOT's reserve margin) restates to the digit and its hover says what it is not.
+- No held grid's table is read; no OE-417 row reaches the page.
+
+## Not covered, or left open
+
+- `eia930_ba_demand_hourly`, `generation_outages_hourly` and `constraints_binding_hourly` are not on this machine, so the page files' demand, outage and constraint figures were restated from the files' own hours, not from those tables (data requests a and b; demand: c).
+- `/grid`'s "yesterday" block (peak demand and the forecast's error, `components/grid/Conditions.tsx`) reads the live set and was not re-done; the grid audit of this morning left it open too.
+- `grid_stress_yearly` (the energy mix's view) and `scarcity_hours_by_grid` (the datacenter page's "Will the power be there?") are not read by `/conditions` and were not re-done here beyond what the notes say.
+- The Ask panel was not run (it calls a model).
+
+## Rows for the desk
+
+- **Landing (words):** `wip/audit-conditions-words` `f52a015ed` (2, 5, 6, 8, 9, 10, 11 merged, conflicts resolved), or each alone: `wip/audit-conditions-2` `bb326f993`; `-5` `5a7fc88b0`; `-6` `5cc1febe0`; `-8` `b636ae5f0`; `-9` `b45b76621`; `-10` `8914e1eb7`; `-11` `e56fa0851`. Each conflicts with window F's `wip/c750-conditions` on `page.tsx` (finding 11).
+- **For the owner (not for landing):** `wip/audit-conditions-1` `2dfb30ce9`; `-3` `76cb5f63d`; `-4` `417aceced`; `-7` `59ecf30f7`.
+- **Data requests:** (a) from `constraints_binding_hourly`, for `caiso_dam` and `spp_dam` over the last twelve months held: rows an hour against distinct `x_constraint` an hour (mean, and the share of hours where they differ), and the same for a day's sum; it sizes finding 9. (b) from CAISO's Curtailed and Non-Operational Generator reports as `grid_outages.py` reads them, the hourly megawatts split by the report's nature of work (outage against derate: ambient, transmission induced, fuel), 14 to 18 November 2026; it sizes finding 10. (c) from `eia930_ba_demand_hourly` for the seven grids since July 2018, the hours `impossible_hours.screen` leaves out, each with its value and the four around it, and each local day whose peak moves; it sizes finding 1 beyond the kept windows.
