@@ -1,0 +1,24 @@
+{
+  "example": true,
+  "contract": "docs/state/page_files_predict.md",
+  "built": null,
+  "tier": "derived",
+  "label": "ERW forecast",
+  "method_notes": {"demand": "docs/methods/predict.md", "price": "docs/methods/predict_price.md"},
+  "span": {"demand": {"first_day": null, "last_day": null}, "price": {"first_day": null, "last_day": null}},
+  "methods": [
+    {"id": "erw", "what": "the method chosen for the place by the rule of the method note"},
+    {"id": "operator", "what": "the operator's own day-ahead forecast, as EIA-930 prints it"},
+    {"id": "yesterday", "what": "the same hour of the day before"},
+    {"id": "week_ago", "what": "the same hour seven days before"},
+    {"id": "regression", "what": "the regression of the method note"}
+  ],
+  "metrics": {"mae": "mean absolute error, in the series' unit", "mape": "mean absolute percent error, in percent"},
+  "mape_rule": null,
+  "cuts": {"all": "every hour scored", "month": "key YYYY-MM", "hour": "key 0 to 23, the place's clock", "top10": "the place's ten highest-demand days of the backtest", "event": "key: the event id of /events", "spike": "price only: the hours above the grid's 99th percentile"},
+  "rows_columns": ["place", "series", "method", "cut", "key", "hours", "mae", "mape", "held"],
+  "rows": [
+    ["region-tex", "demand", "operator", "hour", "17", null, null, null, "example file: no score exists yet"],
+    ["region-mida", "price", "erw", "all", "", null, null, null, "license needed"]
+  ]
+}

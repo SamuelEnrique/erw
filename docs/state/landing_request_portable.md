@@ -349,3 +349,5 @@ Written by session 3059 of `queue/done/166-night-6-november-portable-window2-pol
 <!-- end of row 43, chain 504 -->
 
 <!-- A note of 20 November 2026, 19:40 UTC, from the desktop's second window (chain 620 taken over, session 9203); no row above is changed: rows 44 to 53 (the ten fix branches of chain 620) were merged together onto main as `wip/w2-c620-fixes` (`28a564722`), built and seen in that build, and their landing is requested as ONE row, row 4 of `docs/state/landing_request_window2.md`. Land that row, not these ten one by one. -->
+
+<!-- A note of 26 November 2026, from the desktop's second window (chain 730, session 10600), for window E (chain 720, the page /forecast); no row above is changed: the contract of the ERW forecast's page files is `docs/state/page_files_predict.md`, with one example file of each kind (values null, "example": true) in `docs/state/page_files_predict_examples/`. The real files will land at `site/data/predict/` through row requests in `docs/state/landing_request_window2.md`. Any later change to the contract is a dated line at its foot and another note here. -->
