@@ -1,0 +1,6 @@
+shape-premium: 51188 bytes; 80 figures; 0 drawn as license needed; em dash none
+ai-gigawatts: 59583 bytes; 167 figures; 0 drawn as license needed; em dash none
+(node:22660) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-c/site/lib/release.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-c\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

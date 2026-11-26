@@ -1,0 +1,14 @@
+index: 81193 bytes drawn; em dash none
+index_policy: 15609 bytes drawn; em dash none
+fpl: 213804 bytes drawn; em dash none
+google: 31501 bytes drawn; em dash none
+ceg: 39729 bytes drawn; em dash none
+[erw] the catalogue table returned no rows
+tab: 1416490 bytes drawn; em dash none
+READ: ...A parent's figures are not summed and a group's companies are rows of their own, so a holding company may list no MW while its operating companies list thousands; the footprint ranks those companies, not groups.
+READ: ...A parent is a second field, never in place of the name: its figures are not summed with this company's, and its other companies are rows of their own.
+READ: ...Another id is another company, even of the same group: a holding company's operating utilities and project companies are listed apart and not summed here.
+(node:424) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-b/site/lib/cells.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-b\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

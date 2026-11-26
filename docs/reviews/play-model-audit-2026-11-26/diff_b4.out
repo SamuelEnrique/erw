@@ -1,0 +1,16 @@
+asked.txt: 0 only in main, 0 only in b4
+battery_easy.txt: 0 only in main, 3 only in b4
+   + No household buys or sells at these wholesale prices.
+   + A home pays its retail rate for the power it takes, which carries delivery and other charges the wholesale price does not, and is paid for the power it sends back whatever its retailer or aggregator offers.
+   + Charged at the average price Texas homes paid that month (EIA) and made to end the day as full as it began, the perfect battery of the calm spring day would earn nothing.
+battery_hard.txt: 0 only in main, 3 only in b4
+   + No household buys or sells at these wholesale prices.
+   + A home pays its retail rate for the power it takes, which carries delivery and other charges the wholesale price does not, and is paid for the power it sends back whatever its retailer or aggregator offers.
+   + Charged at the average price Texas homes paid that month (EIA) and made to end the day as full as it began, the perfect battery of the calm spring day would earn nothing.
+battery_normal.txt: 0 only in main, 3 only in b4
+   + No household buys or sells at these wholesale prices.
+   + A home pays its retail rate for the power it takes, which carries delivery and other charges the wholesale price does not, and is paid for the power it sends back whatever its retailer or aggregator offers.
+   + Charged at the average price Texas homes paid that month (EIA) and made to end the day as full as it began, the perfect battery of the calm spring day would earn nothing.
+endtable_hard.txt: 0 only in main, 0 only in b4
+endtable_normal.txt: 0 only in main, 0 only in b4
+ev.txt: 0 only in main, 0 only in b4

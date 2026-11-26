@@ -1,0 +1,29 @@
+index: 88846 bytes drawn; em dash none
+index_policy: 17312 bytes drawn; em dash none
+fpl: 214290 bytes drawn; em dash none
+google: 31546 bytes drawn; em dash none
+ceg: 39774 bytes drawn; em dash none
+[erw] the catalogue table returned no rows
+tab: 1416693 bytes drawn; em dash none
+READ: ...The policy actions' agencies are not listed while policy_actions is held for a license.
+READ: ...Companies, the largest footprint first Company Kind Segment States Operating MW Planned MW Queue MW Policy actions i policy_actions is held for a license (warehouse/metadata/license_status.csv): its rows add nothing here, so every company's count is 0 until a permission is recorded.
+READ: ...Anything Operating plants ERCOT queue positions Reactors Policy actions (license needed) Deals (license needed) Datacenter facilities (license needed) Show Reset to the defaults : every listed company, the largest footprint first.
+READ: ...Policy actions are held too: no listed company has one while they are, so that choice finds none.
+READ: ...company_directory, footprint_mw: operating, owned, planned and queue MW summed, a sort key; a jointly owned generator the company also operates counts twice, whole in operating MW and for its share in owned MW: summed from the public rows of company_links (docs/methods/companies.md).
+READ: ...Held for a license (the publishers ask for permission; warehouse/metadata/license_status.csv): datacenter_facilities (486 links), datacenter_projects (220 links), energy_deals (958 links), nyiso_interconnection_queue (1,604 links), policy_actions (3,249 links), a link being a company named in one of a table's rows (a row that names two companies is two links).
+READ: ...Built 2026-11-16 from the public rows of 8 of the 13 tables it reads (5 held for a license add nothing), each input as the warehouse held it that day, so a figure is as of its input's own date and the dates differ (EIA-860M's monthly inventory, EIA-860 and EIA-861's annual files, the ERCOT queue and the NRC's list as last read); the method is docs/methods/companies.md .
+READ: ...i Built from the warehouse's own tables and nothing else: no figure is typed in and no model is asked.
+READ: ...A parent's figures are not summed and a group's companies are rows of their own, so a holding company may list no MW while its operating companies list thousands; the footprint ranks those companies, not groups.
+READ: ...A parent is a second field, never in place of the name: its figures are not summed with this company's, and its other companies are rows of their own.
+READ: ...Another id is another company, even of the same group: a holding company's operating utilities and project companies are listed apart and not summed here.
+READ: ...Kind i The first of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, power marketer, other that the company's rows show: EIA-861's ownership (a retail or wholesale power marketer is a power marketer), EIA-860's sector, a queue's interconnection customer, an NRC licensee, a policy action's agency; lab or hyperscaler and OEM from the reviewed aliases only; other where no rule applies.
+READ: ...The choices here do not offer power marketer: such a company shows its kind in the table.
+READ: ...The first of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, power marketer, other that its rows show; other where no rule applies.
+READ: ...A generator EIA-860M's operating list does not hold (retired, or not matched) is counted here and adds no MW.
+READ: ...6452 Owner's address state i EIA-860 owner address: the state of the owner's address in EIA-860's owner schedule, an address on a form, not a stated headquarters; it is often none of the states the company's rows name.
+READ: ...company_directory, owned_mw: the sum of 5 rows of 5 jointly owned generators, each its nameplate MW times the percent owned (a row whose generator EIA-860M's operating list does not hold adds no MW); the rows are company_links from eia860_generator_owners.
+READ: ...Two sources: the rows marked "from deals; not yet researched" are the deals' parties, seeded by warehouse/companies/seed_from_deals.py from the deal tracker's rows; the others were researched by warehouse/thesis/build.py from the public web sources each row links (docs/methods/thesis.md).
+(node:3608) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-b/site/lib/cells.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-b\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
