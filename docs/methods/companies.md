@@ -97,7 +97,7 @@ Written by `check_companies.py --crosscheck` to `docs/reviews/companies-crossche
 
 ## What it cannot say
 
-- **Corporate families.** EIA files name operating companies, not their holding companies; a parent is known only where the NRC, a deal's "X's Y" or the reviewed file says so. American Electric Power's operating utilities are separate rows with no parent.
+- **Corporate families.** EIA files name operating companies, not their holding companies; a parent is known only where the NRC, a deal's "X's Y" or the reviewed file says so. American Electric Power's operating utilities are separate rows with no parent. In the page files of 16 November 2026, 18 listed companies carry a parent; the 12 rows whose name begins "Duke" hold 60,830 operating MW (summed, more than any listed company; the largest of them, 23,868 MW, is sixth by footprint), the 13 "Constellation" rows 32,154 MW, and NextEra Energy, Inc. lists 0 MW though Florida Power & Light names it as parent. The index's count line and a company's parent and EIA id hovers say a row is a company, not its group (session 10228, the companies audit, finding 4).
 - **Queue developers outside ERCOT and NYISO**: the CAISO, ISO-NE, MISO, SPP and Berkeley Lab files name none.
 - **Headquarters**: only for owners of jointly owned generators.
 - **Project companies**: a solar project's own LLC is a company of its own (it is EIA's operator); grouping it under its sponsor needs a source that states the tie.

@@ -122,6 +122,8 @@ export default async function Companies({ searchParams }: { searchParams: Promis
           <p className="mb-3 text-sm" data-companies-count={kept.length}>
             <strong>{count(kept.length)}</strong> of {count(ix.n_listed)} companies{filtered ? " match" : ""}; page {page} of {pages}.
             <Tip id="companies-held" label="What is not listed">{heldWords}</Tip>
+            {/* session 10228 (companies audit, finding 4): a row is a company as the rows name it, not its group */}
+            <Tip id="companies-group" label="A company, not its group">Each row is a company as EIA, ERCOT and the NRC name it: an operating utility, a plant&apos;s operator, a project company. A parent&apos;s figures are not summed and a group&apos;s companies are rows of their own, so a holding company may list no MW while its operating companies list thousands; the footprint ranks those companies, not groups. A parent is named on a company&apos;s page only where a source states it, such as the NRC&apos;s parent field or the reviewed aliases.</Tip>
           </p>
           <div className="overflow-x-auto" role="region" aria-label="Companies" tabIndex={0}>
             <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth: 760 }}>
