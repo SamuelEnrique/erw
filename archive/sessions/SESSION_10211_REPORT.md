@@ -39,4 +39,5 @@ Chain 710, part D, the old laptop, 26 November 2026, worktree `erw-c710-c`, bran
 
 ## Problems
 
+- No before and after snapshot of the live pages (CLAUDE.md rule 8) for the push to main: it carries only this report and the audit's files under `docs/reviews/`, no page or table, and the session's brief forbids any request to a live service. `scripts/freeze.py status`: no freeze.
 - One rule broken: a one-line `python -c` was run once (a count of `grid_basis` values, read only). It asked no permission and changed nothing; every other script ran by name from `runs/c10211/`.
