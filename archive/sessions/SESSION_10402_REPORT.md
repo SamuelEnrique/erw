@@ -25,6 +25,14 @@ Energy Research Warehouse (ERW). 26 November 2026, the portable laptop's first w
 - **The phone's width under a finger** (part E, taken early for both pages): the chart answers a tap; the folds, the sort heads, a company's name and the filter's box answer a finger. Found and mended: this page's small links (a column's head, a segment's count, "Draw it") were under 24 px. Left: a period's link in the filed table is 18 px tall in a row 30 px tall (the rule's spacing exception); the shared charts' Chart and Table switch is 22 px (a line for Samuel's ruling in session 10401's report).
 - **Not checked, because the files do not exist yet:** the five cases on real figures and every figure beside the files. No real equities file is on main or on any branch (read 12:55 UTC).
 
+## Added at 13:08 UTC: the pages on the equities files as window A first built them
+
+- Window A's first files appeared in its desk's stack (`origin/wip/c701-desk-1`, built 12:14 UTC). **They hold no company, no index and no segment line yet:** SEC EDGAR refuses the ERW's contact string, so no company is put in a segment, and no price source has terms that let the ERW keep daily share prices. They hold 15 segments, 30 board rows marked not held, and 12 energy prices of which 8 are shown. This is what Samuel will most likely meet this weekend.
+- **The first cut drew that state as "not built yet". That was wrong:** the list is real, and it says why each part is missing. The page now says so, part by part: the line ("license needed", both reasons on hover), the companies ("source needed"), the indices, and each of the 15 segments with why its rule is not applied.
+- **And it draws what the files do show:** a new section "Energy prices", each price with its latest value and its change over a day, a week, a month, the year to date and a year; the first shown price (WTI) as a line of its own while nothing else can be drawn; a held or paused price as a row that says why. A monthly or quarterly price says "monthly" or "quarterly" where the file repeats the month's change as a day's.
+- `site/scripts/check-equities-files.mjs` on those files: 25 pages, 1,092 figures, 0 differing; the board's 30 rows as the file has them, the board's own 1,319 rows as they were. Seen in a build made and served with those files at 1280 and 390 px. Head `011838634`.
+- Data request 574: what the built files carry beyond the contract's text.
+
 ## The standing step
 
 - Row 3 of the second window's file (`wip/c750-conditions`) was seen in a build at 1280 and 390 px and marked requested: 44 notices under a heading that counts 44; 79 rows at 390 px with the page 390 px wide; each operator's line says its clock once.
@@ -50,6 +58,8 @@ Energy Research Warehouse (ERW). 26 November 2026, the portable laptop's first w
 - **The board's older row "Energy equities: licensed source needed"** (in "Capacity and equities") beside the new group of the same name. Default taken: both are left as they are.
 - **Where `/equities` sits in the menu and what it is called.** Default taken: in no menu; its title is "Energy equities".
 - **Where the group sits on the board.** Default taken: last, after the board's own groups.
+- **Thirty blank rows on the board while nothing is held.** The group is closed until its title is pressed; open, it is 30 rows that each say "not held yet" with the reasons on hover, as the chain asks of a held series. Default taken: every row drawn. The other way is one line with the count and the reasons, as the board draws a grid held for a license.
+- **What `/equities` opens on while no company or index is held.** Default taken: the first energy price the files show (WTI) as a line of its own, under a blank that says why the companies' place is empty.
 
 ## Needs the key
 
