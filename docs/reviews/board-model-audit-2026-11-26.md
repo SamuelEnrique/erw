@@ -49,7 +49,7 @@ Session 10206, 26 November 2026, chain 710 (part D), the old laptop. Read as a p
 | On-peak, off-peak, on-peak less off-peak, by day | 24,361 | all, to the cent | |
 | Battery spread, by day | 80,617 | all within 0.01 | 7,249 by 0.01: the hours are rounded to the cent in the file |
 | The on-peak flag of each hour | 1,145,008 hours | all | |
-| The day's high and low, the 7 and 30 days' peak hour, complete days, hours and hours above 100, 250 and 1,000 | 33 rows, 594 figures | all (prices within 0.005) | one row's day (SPP South, real time, 22 November) is not in its hourly file (finding 1) |
+| The day's high and low, the 7 and 30 days' peak hour, complete days, hours and hours above 100, 250 and 1,000 | 33 rows, 529 figures | all (prices within 0.005) | one row's day (SPP South, real time, 22 November) is not in its hourly file (finding 1) |
 | Hub spreads; spark; implied heat rate; dark; the eight cracks; Brent less WTI; day-ahead less real time | 24,697; 24,675; 4,922; 154; 59,474; 9,854; 32,913 | all, within 0.0001 | SPP South's day-ahead less real time holds 21 and 22 November, whose day-ahead means are not on the board's day-ahead row; CAISO's and SPP's spark and heat rows lack 21 November, which their inputs allow (finding 1) |
 | The week table: day-ahead, real time less day-ahead, heat rate, their changes; largest real-time premium; hours 50 over; 30-day volatility | CAISO SP15 and NP15, SPP North | all to the cent | on-peak and off-peak only under the five-day block (finding 3). ERCOT's six hubs, CAISO ZP26 and SPP South not restated: their hourly files end 20 November and the week ends 25 November (finding 1) |
 
@@ -113,7 +113,48 @@ Each line changes one choice and keeps every other. Measured on the page's own f
 | 4 | Low | The strip's lowest and highest grid are dated 5 days before the build with no stale mark | the strip's day 20 Nov on the file of 25 Nov | words (a mark) | `wip/audit-board-4` |
 | 5 | Low | "Battery spread" is the highest hour less the lowest in either order, no losses, one hour: not what a battery earns, and not said | ordered -5.0 to -9.7 percent; at 85 percent round trip -10.6 to -14.0 | words (the note) | `wip/audit-board-5` |
 
-FINDINGS_DETAIL
+- Ranked by severity, then by size. One High, two Medium, two Low. Finding 1 moves printed figures if its rule is changed and is Samuel's ruling; finding 2 is the builder's, run on the data machine.
+- The three words branches (3, 4, 5) were merged together onto origin/main of 26 November in a trial: no conflict, their tests pass (5 of 5). Each branch's test run with every test file that reads the changed component or note: 227, 207 and 80 passed; `site/scripts/test-board-read.mjs` 31 of 31 and `test-board-1116`, `1137`, `1193`, `1311` pass on branches 3 and 4.
+
+## 1. Rows kept from an earlier build are older than the file's own prices (High; a figure)
+
+- **Where.** `warehouse/derived/page_keep.py`, `choose`: a built row is taken only where it is no older and no shorter (98 percent of the held points) than the held one; else the held row stays, with `held = {since, newest, why}`. The board's tiles, groups, strip and workbench read the kept row; the week table and the spikes come from the new build.
+- **Why it is wrong.** On the board built 25 November 2026 the daily runner's build held ERCOT's prices to 25 November with 90 days of history; the held rows hold 2,879 days to 20 November, so the keeper kept them. ERCOT Hub average's day-ahead tile reads USD 16.18 on 20 November, marked stale; the week table on the same page reads 46.31 on 25 November as "Day-ahead, latest". The page marks every kept row stale, so no stale figure reads as current; but a trader sees two "latest" prices for one hub, and the newest is not on the tile. The same keep leaves inputs and outputs out of step: SPP South's day-ahead less real time (new build) holds 21 and 22 November, whose day-ahead means are not on the board's day-ahead row (kept); SPP South's real-time "Day's high / low" is of 22 November, a day its hourly file (kept) does not hold; the spark set (Henry Hub with every spark and heat row, kept together) ends on 20 November though 21 November's spread can be made from the rows drawn; the workbench's hourly files for ERCOT's six hubs, CAISO ZP26 and SPP South end on 20 November.
+- **How much.** 245 rows are kept (151 public). 98 public rows are marked stale that the new build's newest would have kept current: power 28, battery 27, ancillary 14 (up to 53 days behind), day-ahead less real time 11, hub spreads 11, on-peak 6, plant fuel 1. The other kept rows (45 gas by state, 3 heating, 4 metals, 1 spark) would be no more current with the new build. One kept row is from a build before the YTD move and the 12-month mean (Montana's gas to power plants): no YTD, no 12-month mean, a trend of seven years under a header that says three.
+- **Why now.** The data machine's page files last ran on 20 November (`3b1ad41e8`); its run rebuilds every row with its whole history, and the keep then takes it. So the first cure is a run, not code.
+- **The test.** `tests/test_audit_board_1.py` on `wip/audit-board-1`: the rule (a newer, shorter build loses), and on the file of 25 November the tile older than the week table and the 98 rows. Passes on main; not for landing.
+- **For Samuel's ruling.** Default "left as it is". The other choice: the keeper appends the new build's newer points to the held row's history and recomputes the row (the tile would read 46.31 on 25 November; 98 rows current). That moves figures.
+- **Data request.** The data machine's board step (`dm_board_page`) run, and the reason it has not run since 20 November said.
+
+## 2. Held grids' week lines and spikes in the public file (Medium; the builder)
+
+- **Where.** `warehouse/derived/board_page.py`, `build_week`: the week table from `iso_trader_daily` and the spikes from `iso_rt_top_intervals` for every grid but MISO. Every other builder of the board asks `ls.held_grids()` (power, reserves, spark, battery, day-ahead less real time); this one does not. `site/lib/board.ts`, `holdRows`, drops the held grids' week lines and spikes on the server.
+- **Why it is wrong.** `site/data/board.json` is committed to the public repository. On the file of 25 November it holds 20 week lines of NYISO's and ISO-NE's hubs and zones (day-ahead means to 25 November) and 20 of their real-time spikes (17 to 20 November), a month after the hold of 21 October. No reader of the page sees one; anyone reading the repository does. The held public files of 13 November (`docs/reviews/held-public-files-2026-11-13.md`) named the series and hourly files, not these, and the request of 13 November (data request 28 of `docs/state/data_requests_licenses.md`) stopped new writes for the spark, heat and dark rows only.
+- **The test.** `tests/test_audit_board_2.py` on `wip/audit-board-2`: counts and dates only (no value read out), that the page drops them, and that `build_week` names no held grid. Passes on main; not for landing.
+- **The fix, for the data machine** (window A; `board_page.py` may be touched by window E tonight, so no edit here): `build_week` skips an `iso` whose grid is in `ls.held_grids()` for both the week and the spikes, as `build_power` does. A tightening that moves no figure a reader sees. Removing the lines already committed is the owner's ruling, as for the held public files.
+
+## 3. The week table's on-peak is not the on-peak group's (Medium; words)
+
+- **Where.** `site/components/board/BoardView.tsx`, `WeekTable` (the heads "On-peak DA, week" and "Off-peak DA, week" had no hover; each cell's hover "the 7 days to ..."); `Workbench.tsx`, the same five figures; `warehouse/derived/trader_view.py` (on-peak: weekdays that are not NERC holidays, every grid) against `board_page.py`'s on-peak group (CAISO Monday to Saturday).
+- **Why it is wrong.** One page carries two on-peaks for CAISO and says neither. A CAISO Saturday is on-peak in the group and off-peak in the week. And the on-peak week is the latest 7 weekdays that hold an on-peak mean (17 to 25 November on the file), where the hover says "the 7 days to 25 Nov 2026".
+- **How much.** SP15's week on the file of 25 November: off-peak 42.72 as drawn, 45.36 under the group's rule (+2.64, 6.2 percent); on-peak 29.34 and 29.45. NP15: off-peak 57.22 and 56.93, on-peak 58.90 and 60.60. Restated from the page's hourly file, each to the cent under the five-day block.
+- **The test.** `tests/test_audit_board_3.py` on `wip/audit-board-3`: the measured gap from the hourly file (passes on main) and the words drawn with the page's own component (fails on main).
+- **The fix on the branch, words only.** The two heads say on hover which hours and days (Monday to Friday in every grid, CAISO included, where the group takes Monday to Saturday; the 7 weekdays can run over 9 calendar days); the on-peak cell says "the latest 7 weekdays with an on-peak mean, to ..."; the workbench says the same; `price_board.md` and `trader_view.md` say so. It touches `BoardView.tsx` and `Workbench.tsx`, not `site/app/board/`; if window E edits the same lines tonight, the landing desk merges after window E's landing. No figure moves. Taking one block for both is Samuel's ruling and would move figures.
+
+## 4. The strip's lowest and highest grid carry no stale mark (Low; words)
+
+- **Where.** `BoardView.tsx`, `Headline`: the two cells' note is the row's label and `dateWords(ex.day)`; `gridExtremes` takes the newest day every priced main hub holds.
+- **Why it is wrong.** The rule of the read of 16 November (row 1: a stale number is never shown as current) was applied to the strip's closes and range cells, not to these two. On the file of 25 November ERCOT's day-ahead row ends on 20 November (finding 1), so the strip compares 20 November, five days before the build, and dates it with no mark beside closes that carry one.
+- **The test.** `tests/test_audit_board_4.py` on `wip/audit-board-4`: drawn with the page's own component, the two cells read "(stale)" with the age on hover past a market's 3 days, and none on a copy whose build day is the strip's day. Fails on main.
+- **The fix on the branch, words only.** The day reads "(stale)" past 3 days (`weekStale`, the week table's rule, already imported), with the age on hover and `data-head-stale`; `price_board.md` says so. No figure moves.
+
+## 5. "Battery spread" is the top-bottom convention, unsaid (Low; words)
+
+- **Where.** `board_page.py`, `FORMULAS["battery"]` ("the day's highest hourly price - its lowest hourly price at the hub, on complete operating days"), drawn in the name's hover; `price_board.md`, the spreads table.
+- **Why it matters.** A trader knows the top-bottom spread; a reader from a fund reads "battery spread" as what a battery takes. It is in either order (on 16 to 46 percent of days the lowest hour comes after the highest), one hour each way and before losses.
+- **How much.** Day-ahead, the 365 days to 20 or 25 November: charging first, the mean spread is 7.8 (ERCOT Hub average, 55.22 to 50.89), 9.6 (ERCOT West), 5.0 (CAISO SP15) and 9.7 percent (SPP North) lower; at an 85 percent round trip 13.9, 13.5, 10.6 and 14.0 percent lower.
+- **The test.** `tests/test_audit_board_5.py` on `wip/audit-board-5`: from the page's hourly file, order and losses make it smaller (passes on main); the note's words (fail on main).
+- **The fix on the branch, words only: the note.** The row's own formula is the builder's words, in a file window E may touch tonight; the ready text for after window E lands, for window A: `"the day's highest hourly price - its lowest hourly price at the hub, on complete operating days, in either order, one hour each way and before losses: the top-bottom spread, not what a battery earns"`. It reaches the page at the data machine's next build.
 
 ## What was checked and found right
 
@@ -133,4 +174,21 @@ FINDINGS_DETAIL
 
 ## Landing, rulings and data (returned to the chain's main session)
 
-LANDING_ROWS
+- **For landing (words only):** `wip/audit-board-3` (`b7307258e`), `wip/audit-board-4` (`2990df68e`), `wip/audit-board-5` (`8fb73f0a3`). They merge together cleanly onto origin/main of 26 November. Branches 3 and 4 touch `site/components/board/BoardView.tsx` (3 also `Workbench.tsx`): land after window E's board group if both are waiting.
+- **Not for landing:** `wip/audit-board-1` (`947f9f9de`, a figure), `wip/audit-board-2` (`b438aa45f`, the builder's fix).
+- **For Samuel's ruling, default "left as it is":** finding 1, the keeper's rule (append a shorter build's newer points to the held history: ERCOT Hub average's day-ahead tile 16.18 on 20 November to 46.31 on 25 November; 98 public rows current).
+- **Data requests:** the data machine's board step run and why it has not run since 20 November (finding 1); `build_week` to skip held grids (finding 2); the battery formula's words in the builder after window E lands (finding 5); ERCOT's six hubs', CAISO ZP26's and SPP South's week lines restated from `iso_trader_daily` of 19 to 25 November, which this machine does not hold.
+
+## The words branches of the datacenter audit, drawn (part D, second bullet)
+
+`/cost-of-power` drawn to HTML with the site's own page and drawer (`site/scripts/cost-of-power-read.mjs`, its reads answered from table files cut to a year) for four cases (the default, 1,000 MW at `LZ_NORTH`, the All grids tab at 100 and 1,000 MW), on origin/main and on each branch, and compared line by line (`draw_dc.mjs`, `compare_draw.py`, `pair_diff.py`, `numbers_same.py`; `task1_summary.out`).
+
+| Branch | Head | What changed in the drawing | Verdict |
+|---|---|---|---|
+| `wip/audit-datacenter-1` | `8c85398c8` | the row "Levelized power per GPU-hour, over the years counted" and its note; "all-in" to "levelized" in the sensitivity chart's sentence, caption and nine hovers; no "all-in" left on the view; every number the same, in order | pass |
+| `wip/audit-datacenter-2` | `e6ed957b4` | the All grids "All-in" column's tip gains its sentence; ", loss" in the 14 cells' hovers; nothing else | pass |
+| `wip/audit-datacenter-3` | `70b141e1a` | the income note gains the price-taker clause (one number added: "1 MW"); nothing else | pass |
+| `wip/audit-datacenter-5` | `886f65045` | the contract share's hover gains its two sentences; nothing else | pass |
+| `wip/audit-datacenter-6` | `763efd9c8` | the note under "How clean?" gains its sentence; nothing else | pass |
+
+No em dash in any drawing.
