@@ -35,3 +35,15 @@ The page as it opens (Texas wind) reads exactly as before: 515 construction jobs
 | A South Carolina county assessor | 600 MW, USD 2 billion, 200 jobs, 32 percent rates (320 mills), in South Carolina (A) and Kansas (B) at 13 percent | South Carolina: building USD 7.5 million at 6 percent, equipment 45.8 million at 10.5 percent; Kansas: building 12.7 million at 25 percent, equipment USD 0 (79-223). The 32 percent rate is accepted (the fields took up to 20 before). Answers them; a fee in lieu goes in the abatement input |
 
 No fault found in these three. The Illinois equipment line is a reader's choice by design (no page read says whether the county taxes it).
+
+## Window F's findings on production (I1 to I5, `docs/reviews/browser-read-2026-11-26.md`) and what was done (session 10821, `6352fb2e4` and after)
+
+| # | Finding | Done |
+|---|---|---|
+| I1 | No default's mark held a link to its document | Each default's hover links its documents: JLARC's report (build, split, refresh), Census CBP's file (wages), the Tax Foundation's table (sales rate), OMB Circular A-94's Appendix C (the rate's 2.0 percent), and the state's cited source for its exemption, property and electricity rules. The announced projects' documents open from the list, as before |
+| I2 | "Taxes, present value" did not say it left out property and electricity | The cell says "without property or electricity tax" (or the one left out) and the hover names what each scenario leaves out |
+| I3 | Relief held as words read "none" | It reads "not held", as a state with no rule read; "none" stays for a rule the project falls short of |
+| I4 | Paducah's investment and Starwood's jobs were silently not taken | The list says which figure is not taken and why, with the row's note (Vantage's equipment-only investment too) |
+| I5 | An address naming the project alone opened with the defaults | It takes the project's figures, as a pick does; a figure the address gives is kept |
+
+Seventeen addresses read at 1280 and 390 px on the build of 15:42 UTC: no sideways scroll (after the I2 line was made to wrap), no console error.

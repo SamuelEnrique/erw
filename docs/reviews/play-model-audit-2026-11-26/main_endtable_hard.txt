@@ -1,0 +1,6 @@
+Earned Bought, kWh Sold, kWh You $5.30 7.12 at 29.88 6.61 at 950.68 The perfect battery $48.36 13.50 at 182.94 12.36 at 2,532.31 No battery $0.00 none none Under each amount, its average price in USD per MWh; on Hard the emergency hour's prices are a game rule. With no battery nothing is bought or sold, and nothing is earned. A battery earns the spread: the perfect battery bought at an average of 182.94 and sold at 2,532.31 USD per MWh, 2,349.37 apart, and loses 10 percent of the energy on the round trip, plus $0.11 of wear on each kWh it sells. It starts half full, so it can sell more than it buys.
+
+--- hovers ---
+Your play, scored by the game's own model (lib/battery.ts, simulate) under the rules of this mode, on the day's real prices. Not a real battery's earnings.
+The same battery with every price of the day known in advance: the game's exact dynamic programme (lib/battery.ts, optimum) under the same rules. The most any play of this day could earn; not a real battery's earnings.
+The day with no battery at all: nothing bought or sold. With the rooftop add-on, the roof's power sold as it is made.

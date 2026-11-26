@@ -24,6 +24,11 @@ Energy Research Warehouse (ERW). 26 November 2026, the portable laptop's first w
 - **Not drawn at all yet:** the contract's line "with the weather known" is empty in every one of the 29 files on main, and the fourth method ("regression with the recent days") is in none. The page has the words for the method; the line waits for a file that holds it.
 - **A day the file does not show** (the file shows a day only where its forecast beat the same hour a week ago over two years) is a row that says "not shown" with the file's reason on hover. Today all 29 places show every day.
 
+## Two smaller things in the same session
+
+- **The hour a forecast was made (the second window's review, row F2).** Every file on main records its forecast as made at 12:00 UTC; the index's rule, which the page prints in the same hover, says 20:00 UTC for demand and 14:00 UTC for price. The hover now calls the rule "the rule" and, where the two hours differ, says: "The file records this forecast as made at 12:00 UTC, not at the rule's 20:00 UTC: the hour given here is the file's." It gives no reason, because the files hold none. On row 57's branch (`23cca4522`).
+- **The equities page reads the fields window A added to its contract** in answer to this window's data requests 571 and 572: a company's last close, its changes and its market value; a board row's averages, 30-day low and high and one-year range. **No file carries them yet,** so nothing a reader sees changes today. With the first company and the first shown row they are drawn with no change of code. Row 58 (`wip/c720-equities-cells`, `2416043ec`); 24 checks on a fixture of made-up values, looked at in a build on this machine only.
+
 ## Tests
 
 - `site/scripts/test-forecast-peak.mjs`: 90 checks on a fixture of the contract's shape (made-up values, never read by the site's own folder). `tests/test_session10405_forecast_peak.py`: 10 tests.

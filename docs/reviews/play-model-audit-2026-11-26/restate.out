@@ -1,0 +1,16 @@
+           today 2026-11-12 normal n=96 dp=2.088214 sim(best)=2.088214 any-power=2.090239 lp=2.090239 naive=1.5567 bad=-1.1906 sell_first=0.3797 end_soc(best)=0.0000 why=-
+           today 2026-11-12   hard n=96 dp=29.821843 sim(best)=29.821843 any-power=29.828610 lp=29.828610 naive=26.5363 bad=-5.5918 sell_first=-0.1627 end_soc(best)=0.6890 why=-
+             uri 2021-02-15 normal n=96 dp=240.227397 sim(best)=240.227397 any-power=240.742644 lp=240.742644 naive=-8.8908 bad=-7.0726 sell_first=56.4103 end_soc(best)=0.0000 why=-
+             uri 2021-02-15   hard n=96 dp=154.671768 sim(best)=154.671768 any-power=158.858713 lp=186.207630 naive=-8.8908 bad=-5.8441 sell_first=27.8381 end_soc(best)=0.2127 why=-
+            heat 2023-08-10 normal n=96 dp=60.971012 sim(best)=60.971012 any-power=61.169095 lp=61.169095 naive=17.2432 bad=-5.6259 sell_first=0.1750 end_soc(best)=0.0000 why=-
+            heat 2023-08-10   hard n=96 dp=48.363457 sim(best)=48.363457 any-power=48.448018 lp=51.006171 naive=5.3011 bad=-6.1564 sell_first=-0.2831 end_soc(best)=3.3750 why=-
+            calm 2026-04-26 normal n=96 dp=0.440601 sim(best)=0.440601 any-power=0.441878 lp=0.441878 naive=0.0933 bad=-0.1444 sell_first=0.1666 end_soc(best)=0.0000 why=-
+            calm 2026-04-26   hard n=96 dp=29.486070 sim(best)=29.486070 any-power=29.498294 lp=29.498294 naive=-0.8265 bad=-0.5918 sell_first=-0.2862 end_soc(best)=0.6890 why=-
+           solar 2026-08-29 normal n=96 dp=0.932816 sim(best)=0.932816 any-power=0.935241 lp=0.935241 naive=0.3573 bad=-0.4503 sell_first=0.1583 end_soc(best)=0.0000 why=-
+           solar 2026-08-29   hard n=96 dp=29.608717 sim(best)=29.608717 any-power=29.616222 lp=29.616222 naive=-0.9094 bad=-0.7289 sell_first=-0.2931 end_soc(best)=0.6890 why=-
+        negative 2025-01-05 normal n=96 dp=0.794891 sim(best)=0.794891 any-power=0.798383 lp=0.809081 naive=0.5256 bad=-0.4341 sell_first=-0.2018 end_soc(best)=0.0000 why=-
+        negative 2025-01-05   hard n=96 dp=29.723608 sim(best)=29.723608 any-power=29.723608 lp=29.723608 naive=26.2761 bad=-5.2498 sell_first=-0.4722 end_soc(best)=5.0673 why=-
+caiso-solar-noon 2026-04-27 normal n=96 dp=0.826653 sim(best)=0.826653 any-power=0.830634 lp=0.836170 naive=-0.0046 bad=0.0148 sell_first=0.0667 end_soc(best)=0.0000 why=-
+caiso-solar-noon 2026-04-27   hard n=96 dp=29.712830 sim(best)=29.712830 any-power=29.712830 lp=29.712830 naive=-1.1970 bad=-1.1757 sell_first=-0.3366 end_soc(best)=5.0673 why=-
+      caiso-duck 2026-07-24 normal n=96 dp=12.980595 sim(best)=12.980595 any-power=13.015966 lp=13.015966 naive=7.2597 bad=-5.6552 sell_first=0.6638 end_soc(best)=0.0000 why=-
+      caiso-duck 2026-07-24   hard n=96 dp=34.302215 sim(best)=34.302215 any-power=34.354778 lp=34.557602 naive=0.7088 bad=-4.0139 sell_first=-0.0965 end_soc(best)=0.9827 why=-
