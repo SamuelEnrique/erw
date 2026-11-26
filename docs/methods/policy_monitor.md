@@ -430,7 +430,10 @@ record and the text do not state is empty: a date or a figure is never estimated
   environmental_review, meeting, decision, notice or announcement, by written rules over the title and the Register's
   action line (a release's opening words too). A Register rule is a rule, or an approval of a state's program or plan.
 - **action_status**: proposed, final, effective, stayed, vacated, withdrawn, filed, open, scheduled, issued or announced,
-  as of the document's date (a final rule is effective once its effective date has come).
+  as of the document's date: a rule is "effective" only when its effective date is on or before the document's own date,
+  and a rule whose effective date comes later stays "final", on the page too, after that date has passed (the monitor's
+  Status is its newest document's, "as of the newest document"; audit of 26 November 2026, finding 6: on the file of 25
+  November, 96 of the 126 records marked final had an effective date on or before 26 November).
 - **dates** and **dates_evidence**: every dated step the text states, as kind and date (effective, expires,
   comments_due, intervention_due, review_due, decision_due, meeting), each with the sentence it stands in or the record's
   field. A date counts only where a deadline's or an effective date's words stand right before it; the date of a
@@ -509,15 +512,20 @@ and history. The monitor is a view of `/policy` (`?view=monitor`, in review with
 instrument, status, sector, grid, state, date range, significance, each choice with its count) and the results at
 the right; a sort on every column (an empty value last either way); "N shown of M records held"; a row opens to its
 proceeding, history and sources; the evidence of each date and figure and the quotation of each impact sentence as
-hovers. Above the table, the calendar: the actions of the past seven days and every dated step of the thirty days
+hovers. Above the table, the calendar: the actions of the past week (from seven days before the day to the day, both
+counted: eight calendar days; audit of 26 November 2026, finding 4) and every dated step of the thirty days
 ahead (comment and intervention deadlines, effective dates and ends, hearings and sessions, environmental documents
 and decisions due), of the records the filters leave. Below it, the charts of every record of the file: records by
-month and body, records by sector and band of significance, and the MW and USD the records state as their own summed
-by month (only what is stated; a figure in another unit is shown in its row and never added). The filtered records
-download as CSV with every source, with a Python and a Stata reader of that CSV.
+month and body, records by sector and band of significance, and the figures stated by month. Since session 1876
+(policy faults row 28) that table adds nothing: for each month of a record's newest document and each unit, it counts the
+records stating a figure in that unit and shows the largest, with its record (a sum had added a terminal's cost
+estimate to a penalty). Sessions 3062 to 1876 drew the MW and USD summed by month; this paragraph said so until the
+audit of 26 November 2026 (finding 7). The filtered records download as CSV with every source, with a Python and a
+Stata reader of that CSV.
 
-**The tracer.** Each date, figure and sum the page shows carries a key (`policycal|<record>|<document>|<kind>|<date>`,
-`policyfig|<record>|<document>|<value>|<unit>`, `policysum|<unit>|<month>|<value>|<records>`, as `data-check`), which
+**The tracer.** Each date and figure the page shows carries a key (`policycal|<record>|<document>|<kind>|<date>`,
+`policyfig|<record>|<document>|<value>|<unit>`, as `data-check`; the `policysum|<unit>|<month>|<value>|<records>` key of
+session 3062 is no longer drawn, and the check of a sum stays for an older file's keys), which
 `site/scripts/policy-figures.mjs` prints as the page makes them and `scripts/check_policy.py` traces: a step to its
 document's row of `policy_actions` (the connector's own columns, or what `fields.derive` reads from the row's summary
 where the copy holds no text), a figure the same way, a sum to its records' figures, each traced, added. ok, FAIL, or
@@ -585,7 +593,7 @@ Section 14 describes the fields as session 3056 wrote them. Since then:
 - **What it is.** Under the records of `/policy?view=monitor`, the rows of `state_large_load_laws` (`docs/methods/large_load_research.md`): 27 laws and bills of the 2025 and 2026 sessions and 1 held, one row each, with the status and its date (the text's cite on hover), the effective date, the smallest load the text names, and what it requires topic by topic, each topic's words and cite on hover. A topic a law names twice is numbered. They are not records of the monitor and take no part in its filters' counts, its calendar or its charts.
 - **It follows the State filter.** The address `/policy?view=monitor&state=TX#large-load-laws` opens on a state's laws; the All grids tab links a rule's state so.
 - **A state with no row is never said to have no law.** The research's legislation files record, by state, what was searched where nothing was found, the legislatures whose sites could not be read, and one bill that was read and is withheld (Texas S.B. 6: its copy sits on a path the legislature's robots file disallows). The block says "none found where searched", "not read", "S.B. 6, read and not shown" (a row of its own, its cells blank) or "not searched", with what was searched on hover. Where the research's words hold a lead from the news, which is not verified, they are not carried and the hover names the research file. The builder (`warehouse/derived/large_load_rules_page.py`, `law_searches`) writes them; 22 states have such a record, and Alaska and Hawaii none.
-- **A chosen state links its utilities' own rules** on the All grids tab (`/cost-of-power?view=allgrids&rstate=<ST>#large-load-rules`), with their count and the count of changes in 90 days; there the State filter chooses the changes too.
+- **A chosen state links its utilities' own rules** on the All grids tab (`/cost-of-power?view=allgrids&rstate=<ST>#large-load-rules`), with their count and the count of changes in the 90 days to 13 November 2026 (every change of `utility_large_load_rule_changes`, whose window ends that day; not the 90 days to the page's day: audit of 26 November 2026, finding 5); there the State filter chooses the changes too.
 - **A held law** (Indiana's, read on a site whose terms ask permission) is its state and bill and four blank cells that say "license needed".
 - **The rows drawn are the rows counted** (session 7600, the browser read of 16 November 2026). The bill read and not shown is a row of the block and not of the table, so the line reads "28 of 28 shown, and 1 read and not shown" with every state, and "0 of 28 shown, and 1 read and not shown" for Texas alone. A law whose text prints no status date says "date not published" under its status.
 - **The State filter's hover says what a record is:** a federal action or a release of one of four bodies. A state commission's own dockets are not records, and a grid operator's action that names no state is under Grid.

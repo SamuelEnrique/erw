@@ -9,7 +9,7 @@ Written by session 8014 (chain 581, part B, step 1) before the files land. The b
 | `site/data/states/index.json` | One row a place: the fifty states, the District of Columbia and the United States (`US`) |
 | `site/data/states/<st>.json` | One place, `<st>` its two-letter code in lower case (`ca.json`, `dc.json`, `us.json`) |
 
-Puerto Rico is in the generation table and in no other table the page reads, so it has no file.
+Puerto Rico has no file: of the tables the page reads, only the generation table and EIA-860M hold it, and the United States' `plants` part takes EIA-860M whole, Puerto Rico in it (26 November 2026, session 10223: this line said no other table held Puerto Rico).
 
 ## Rules every part keeps
 

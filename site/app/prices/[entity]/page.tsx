@@ -11,6 +11,7 @@ import { count, node, price, utc } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 import { heldOf, realLessDayAhead, variableWords, whenWords } from "@/lib/pricehub";
 import { label } from "@/lib/pricecompare";
+import { LICENSE_NEEDED, isLicenseReason, licenseGridTitle, licenseHeldGrid } from "@/lib/license";
 
 export const revalidate = 3600;
 
@@ -62,9 +63,13 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
   if (daRows.length) lines.push({ label: `Day-ahead, ${variableWords(m.da.variable)}`, points: toLine(daRows), color: "muted", step: true });
   if (rtRows.length) lines.push({ label: `Real time, ${variableWords(m.rt!.variable)}`, points: toLine(rtRows), color: "accent" });
   const lp = latest.ok ? latest.data.find((r) => r.entity === entity) : undefined;
+  // session 10218 (the prices audit, finding 4): a read refused for a license is held, not empty; and a held grid's
+  // newest interval (latest_prices holds NYISO's and ISO-NE's, and MISO's of 4 October) is drawn without a unit or start
+  const refused = { rt: !!rt && !rt.ok && isLicenseReason(rt.reason), da: !da.ok && isLicenseReason(da.reason) };
+  const heldGrid = licenseHeldGrid(m.iso);
   const summary = [
-    { name: "Real time", src: m.rt, s: stats(rtRows), held: heldOf(rtRows, m.rt?.freq) },
-    { name: "Day-ahead", src: m.da, s: stats(daRows), held: heldOf(daRows, m.da.freq) },
+    { name: "Real time", src: m.rt, s: stats(rtRows), held: heldOf(rtRows, m.rt?.freq), refused: refused.rt },
+    { name: "Day-ahead", src: m.da, s: stats(daRows), held: heldOf(daRows, m.da.freq), refused: refused.da },
   ];
   // session 7539 (the read, row 5): real time less day-ahead over the hours both hold
   const dart = m.rt ? realLessDayAhead(rtRows, daRows, m.rt.freq) : null;
@@ -86,8 +91,8 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
           Latest real-time interval:{" "}
           <Num check={`latest_prices|${lp.entity}|${lp.variable}|${lp.ts_utc}`} raw={lp.value} className="text-lg tabular-nums">
             {price(lp.value)}
-          </Num>{" "}
-          {lp.unit}, starting {utc(lp.ts_utc)} <span className="text-xs text-muted" title={lp.variable}>({variableWords(lp.variable)})</span>
+          </Num>
+          {heldGrid ? null : <>{" "}{lp.unit}, starting {utc(lp.ts_utc)} <span className="text-xs text-muted" title={lp.variable}>({variableWords(lp.variable)})</span></>}
         </p>
       ) : null}
 
@@ -117,7 +122,7 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
             </tr>
           </thead>
           <tbody>
-            {summary.map(({ name: market, src, s, held }) => (
+            {summary.map(({ name: market, src, s, held, refused: isRefused }) => (
               <tr key={market} className="border-b border-rule/60">
                 <td className="py-1 pr-4"><span title={src ? `${src.variable}: ${variableWords(src.variable)}` : undefined}>{market}</span></td>
                 <td className="py-1 pr-4 font-mono text-xs">{src ? src.table : ""}</td>
@@ -137,9 +142,15 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
                     <td className="py-1 pr-4 text-xs">{utc(s.last)}</td>
                   </>
                 ) : (
+                  isRefused ? (
+                    <td colSpan={6} className="py-1 pr-4 text-xs" data-held-market={market}>
+                      <span title={licenseGridTitle(m.iso)}>{LICENSE_NEEDED}</span>: the rows of {src?.table} are held, not shown
+                    </td>
+                  ) : (
                   <td colSpan={6} className="py-1 pr-4 text-xs text-muted">
                     no data: {src ? `no rows in ${src.table} for this entity in the last 30 days` : `no real-time table named for ${m.iso} in site/data/markets.json`}
                   </td>
+                  )
                 )}
               </tr>
             ))}
@@ -159,7 +170,9 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
             ) : null}
           </tbody>
         </table>
-        <p className="mt-1 text-xs text-muted">Min, mean and max of every interval in the window, USD/MWh, computed on this page from the rows charted above.</p>
+        {/* session 10218 (the prices audit, finding 6): the day-ahead read has no end, so it reaches the newest hour
+            published, which can be the next day's; its window then ends up to 36 hours after the real time's */}
+        <p className="mt-1 text-xs text-muted" data-window-said="1">Min, mean and max of every interval held from 30 days before the page was drawn, USD/MWh, computed on this page from the rows charted above. The day-ahead runs to the newest hour published, which can be tomorrow&apos;s, so its window can end with tomorrow&apos;s last hour, up to 36 hours after the real time&apos;s: the From and To columns give each.</p>
       </div>
     </Brand>
   );

@@ -9,7 +9,7 @@ The chain prompt names the table jedi_multipliers; a series table's name has thr
 is nlr_jedi_multipliers (source nlr, the JEDI models, their multipliers), as battery_sourced_ranges was named in
 session 306.
 
-    python warehouse/connectors/jedi_multipliers.py --pull   # ask NLR for the four workbooks (four requests)
+    python warehouse/connectors/jedi_multipliers.py --pull   # ask NLR for the six workbooks (six requests)
     .venv-jedi\\Scripts\\python.exe -I warehouse/connectors/jedi_recalc.py   # JEDI's formulas for every location
     python warehouse/connectors/jedi_multipliers.py          # the table, from the workbooks and that step's files
 
@@ -77,6 +77,18 @@ MODELS = {
         file="01d-jedi-geothermal-model-rel-gt12-23-16.xlsm", page="https://www.nlr.gov/analysis/jedi/geothermal",
         url="https://www.nlr.gov/docs/libraries/analysis/01d-jedi-geothermal-model-rel-gt12-23-16.xlsm",
         model="JEDI Geothermal Model", version=("About", "A6"), unit_note="millions of dollars"),
+    # session 10000 (chain 701, window C's data request 8): two more of the models NLR lists, each at its own saved project.
+    # The conventional hydropower model is not here: computed from its constants with its saved inputs, 13 of its 30
+    # summary figures differ from the ones it saved (SummaryResults!D7, local construction spending, 156.70 against
+    # 210.92 million dollars), so jedi_recalc refuses it. The transmission line model's figures are per mile, not per MW
+    "coal": dict(
+        file="01d-jedi-coal-model-rel-c12-23-16.xlsm", page="https://www.nlr.gov/analysis/jedi/coal",
+        url="https://www.nlr.gov/docs/libraries/analysis/01d-jedi-coal-model-rel-c12-23-16.xlsm",
+        model="JEDI Coal Model", version=("About JEDI", "A6"), unit_note="millions of dollars"),
+    "csp_trough": dict(
+        file="01d-jedi-csp-trough-model-rel-csp12-23-16.xlsm", page="https://www.nlr.gov/analysis/jedi/csp",
+        url="https://www.nlr.gov/docs/libraries/analysis/01d-jedi-csp-trough-model-rel-csp12-23-16.xlsm",
+        model="JEDI Concentrating Solar Power Trough Model", version=("About JEDI", "A7"), unit_note="millions of dollars"),
 }
 NOT_HELD = {"battery_storage": "NLR publishes no JEDI model for battery storage: the thirteen models listed on "
                                "https://www.nlr.gov/analysis/jedi/models (read 20 October 2026) have none, so no row is written"}
@@ -114,7 +126,8 @@ def recalc_spec():
 
 
 def pull(log):
-    """Four requests, one a workbook, kept as they came. NLR's robots file allows every path (read 20 October 2026)."""
+    """One request a workbook, kept as they came. NLR's robots file allows every path (read 20 October 2026, and again 26 November
+    2026, request 49 of runs/c701/probe/probe.csv)."""
     import requests
     os.makedirs(RAW, exist_ok=True)
     for tech, m in MODELS.items():
@@ -208,7 +221,7 @@ def rows_for(tech, m, spec, rec, version, mult, sha, kept, log):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="JEDI's jobs, earnings and output per MW (session 345)")
-    ap.add_argument("--pull", action="store_true", help="ask NLR for the four workbooks first (four requests)")
+    ap.add_argument("--pull", action="store_true", help="ask NLR for the six workbooks first (six requests)")
     a = ap.parse_args(argv)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -262,7 +275,8 @@ def main(argv=None):
         ip.write_snapshot(df[cols], NAME, header, log, cols)
         ip.update_sources([dict(source=SOURCE, publisher=PUBLISHER,
                                 report="Jobs and Economic Development Impact (JEDI) models: land-based wind W9.14.18, "
-                                       "photovoltaics PV05.20.21, natural gas NG4.17.17, geothermal GT12.23.16",
+                                       "photovoltaics PV05.20.21, natural gas NG4.17.17, geothermal GT12.23.16, coal C12.23.16, "
+                                       "concentrating solar power trough CSP12.23.16",
                                 report_url=PAGE, document_list=PAGE, license="public", tables=[NAME])])
         log(f"wrote {len(df)} rows")
         print(f"{NAME}: {len(df)} rows, {df['x_technology'].nunique()} technologies, {df['x_location'].nunique()} locations")

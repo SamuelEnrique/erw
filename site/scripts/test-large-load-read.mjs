@@ -154,7 +154,8 @@ const lawsTx = renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: ["TX"
 ok(words((lawsTx.match(/<p[^>]*data-laws-counts[\s\S]*?<\/p>/) ?? [""])[0]).includes(`0 of ${total} shown, and 1 read and not shown`), "row 9: Texas alone: 0 of 28 shown, and 1 read and not shown");
 const lawsMd = renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: ["MD"], clearStates: () => {} }));
 ok(!/data-laws-not-shown/.test(lawsMd), "row 9: a state with no such bill says nothing of it");
-ok(/enacted<\/button>[\s\S]{0,400}date not published/.test(renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: ["VA"], clearStates: () => {} }))), "row 6: a law with no status date printed says so of the date");
+// session 10217 (the policy audit, finding 8): the "enacted" hover is longer, so the status's date stands further on
+ok(/enacted<\/button>[\s\S]{0,700}date not published/.test(renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: ["VA"], clearStates: () => {} }))), "row 6: a law with no status date printed says so of the date");
 
 // ---- row 10: targets a finger can meet (axe: target size)
 ok(/\[data-llr="cell"\] :is\(a, button\[data-tip-trigger\]\),\n\.brand-a \[data-llr="laws"\] td :is\(a\[data-law-doc\], button\[data-tip-trigger\]\) \{\n  display: inline-block;\n  min-height: 24px;\n  line-height: 24px;\n\}/.test(css), "row 10: the hub cells' rule lines and the laws' documents are 24 px high");

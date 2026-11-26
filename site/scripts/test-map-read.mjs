@@ -74,7 +74,7 @@ for (const c of CASES) {
   ok(same, `row 2, case ${c.n}: the list holds the ${v.mine.length} rows nearest first, each distance inside half a tenth of a mile of this test's`);
 }
 ok(/data-near-name="\d+">Summerhill BESS</.test(views[1].html) && rowsOf(views[1].html)[0].shown === 5.7, "row 2, case 1: the nearest is Summerhill BESS, 5.7 miles, a planned battery of 143 MW (2028-12)");
-ok(views[3].text.includes("4.1 | Flint | Planned unit | Batteries | Under construction, half or less complete | 200.0 | 2027-07 (planned operation) | exact coordinates"), "row 2, case 3: Flint, a 200 MW battery under construction 4.1 miles from New Albany, planned for 2027-07");
+ok(views[3].text.includes("4.1 | Flint | Planned unit | Batteries | Under construction, half or less complete | 200.0 | 2027-07 (planned operation) | EIA's plant coordinates"), "row 2, case 3: Flint, a 200 MW battery under construction 4.1 miles from New Albany, planned for 2027-07");
 ok(views[4].html.includes('data-map-near-none="1"'), "row 2, case 4: within 30 miles of Mason City the list says no row is chosen");
 ok(views[1].text.includes("(entered the queue)") && views[1].text.includes("(planned operation)"), "row 7: the list's date says what it is: a queue's date of entry is not a planned operation date");
 ok(src("../app/map/ProjectMap.tsx").includes("`, ${dateOf(f.d[i])} (${DATE_WORDS[kind]})`") && L.DATE_WORDS.length === 4, "row 7: the mark's hover says what its date is too");
@@ -86,9 +86,9 @@ ok(!drawView("?kind=queue&grid=ercot").includes('data-map-queues-drawn="1"') && 
 
 // ---- row 4: a queue position is measured from its county's point; the list and the note say so
 const kern = views[5];
-ok(kern.html.includes('data-map-near-county="1">89<') && /89 of the 89 queue positions are measured from their county's or town's point/.test(kern.text), "row 4, case 5: 89 of the 89 queue positions near Bakersfield are at a county's or town's point, and the list says so");
+ok(kern.html.includes('data-map-near-county="1">89<') && /89 of the 89 queue positions are measured from their county's, city's or town's point/.test(kern.text), "row 4, case 5: 89 of the 89 queue positions near Bakersfield are at a county's or town's point, and the list says so");
 ok(rowsOf(kern.html).filter((r) => f.k[r.i] === 2).every((r) => r.shown === 16.4), "row 4, case 5: every one of them stands 16.4 miles off, at Kern County's one point");
-ok([...kern.html.matchAll(/data-near-placed="(\d+)">([^<]*)</g)].every((m) => m[2] === L.PLACED_AT[f.pr[Number(m[1])]]), "row 4: each row's \"Placed at\" is its file's precision code");
+ok([...kern.html.matchAll(/data-near-placed="(\d+)">([^<]*)</g)].every((m) => m[2].replace(/&#x27;/g, "'") === L.PLACED_AT[f.pr[Number(m[1])]]), "row 4: each row's \"Placed at\" is its file's precision code");
 
 // ---- row 5: ERCOT's "Completed" in plain words
 const statuses = [...views[1].html.matchAll(/data-near-status="(\d+)">([^<]*)</g)];

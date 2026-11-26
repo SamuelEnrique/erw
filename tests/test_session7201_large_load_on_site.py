@@ -68,7 +68,7 @@ class TheComponentsDrawn(unittest.TestCase):
         self.assertTrue(m and m.group(1) == m.group(2) and int(m.group(2)) >= 50, self.out[-500:])
 
     def test_the_blank_cells_are_counted_in_the_drawn_pages(self):
-        self.assertRegex(self.out, r"(?m)^ok   the rules table draws 228 blank cells that say license needed: 220 of the 22 held rows, 8 fields of public rows")
+        self.assertRegex(self.out, r"(?m)^ok   the rules table draws 238 blank cells that say license needed: 230 of the 23 held rows, 8 fields of public rows")
         self.assertRegex(self.out, r"(?m)^ok   the changes open on the newest 12 of 94, and the 4 held are drawn blank \(16 cells\)")
         self.assertRegex(self.out, r"(?m)^ok   the 27 laws and bills and the 1 held, whose four cells are blank")
         self.assertRegex(self.out, r"(?m)^ok   \d+ values and cites of held rows and withheld fields, searched for in the drawn pages: none found")
@@ -130,7 +130,7 @@ class TheTab(unittest.TestCase):
         with open(os.path.join(SITE, "data", "siting", "large_load_rules.json"), encoding="utf-8") as fh:
             f = json.load(fh)
         fields = sum(1 for r in f["rules"] for c in r["fields"].values() if c["kind"] == "withheld" or (c["kind"] == "see" and c.get("held")))
-        self.assertEqual((len(f["held_rules"]) * 10 + fields, len(f["held_changes"]) * 4, len(f["held_laws"]) * 4), (228, 16, 4))
+        self.assertEqual((len(f["held_rules"]) * 10 + fields, len(f["held_changes"]) * 4, len(f["held_laws"]) * 4), (238, 16, 4))  # session 10000: one more held rule (Evergy Kansas South), ten cells
 
     def test_the_page_file_reaches_the_browser_through_one_module(self):
         users = []

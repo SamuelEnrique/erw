@@ -1,11 +1,11 @@
 {
  "_about": "Session 6111: the keys of questions_newtables.yaml as computed from the tables' own files by scripts/ask_eval/newtables_questions.py, not a run.",
- "computed_at_utc": "2026-11-14T19:10:28Z",
+ "computed_at_utc": "2026-11-26T15:31:28Z",
  "source": "the tables' files on this machine (the erw package's local backend), restored from the archive by scripts/sync.py",
  "table_runs": {
-  "utility_large_load_rules": "20261114T105035Z",
-  "utility_large_load_rule_changes": "20261114T105035Z",
-  "state_large_load_laws": "20261114T105035Z",
+  "utility_large_load_rules": "20261126T135954Z",
+  "utility_large_load_rule_changes": "20261126T135954Z",
+  "state_large_load_laws": "20261126T135954Z",
   "forecast_tool_parameters": "20261114T133323Z",
   "deal_counterparties": "20261113T151045Z",
   "iso_reserve_margin_reports": "20261112T165529Z"
@@ -315,7 +315,7 @@
   },
   "ru01": {
    "expected": [
-    100.0
+    101.0
    ],
    "tolerance": 0.01,
    "text": [],
@@ -461,7 +461,7 @@
   },
   "ru10": {
    "expected": [
-    77.0
+    78.0
    ],
    "tolerance": 0.01,
    "text": [],

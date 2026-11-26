@@ -62,9 +62,9 @@ export const DC_FIELDS: DcField[] = [
   { name: "dcex", input: "dcex", label: "The state's datacenter exemption", unit: "", min: 0, max: 1, whole: true, group: "taxes",
     options: [{ value: 1, label: "Applied where the project qualifies" }, { value: 0, label: "Not applied" }],
     source: (s, P) => P.rules.states[s]?.sales_exemption?.tip ?? "No datacenter sales tax exemption of this state has been read: the sales tax is before exemptions." },
-  { name: "brate", input: "brate", label: "Property tax on the building", unit: "% of assessed value", min: 0, max: 20, whole: false, group: "taxes", nullable: true,
+  { name: "brate", input: "brate", label: "Property tax on the building", unit: "% of assessed value", min: 0, max: 60, whole: false, group: "taxes", nullable: true,
     source: (s, P) => P.rules.states[s]?.property?.tip ?? "No rule of this state for a datacenter's property has been read: a rate typed here is the reader's own, on the building's cost." },
-  { name: "erate", input: "erate", label: "Property tax on the equipment", unit: "% of assessed value", min: 0, max: 20, whole: false, group: "taxes", nullable: true,
+  { name: "erate", input: "erate", label: "Property tax on the equipment", unit: "% of assessed value", min: 0, max: 60, whole: false, group: "taxes", nullable: true,
     source: (s, P) => P.rules.states[s]?.property?.tip ?? "No rule of this state for a datacenter's property has been read: a rate typed here is the reader's own, on the equipment's cost." },
   { name: "eqv1", input: "eqv1", label: "Equipment's taxable value, first year", unit: "% of its cost", min: 0, max: 100, whole: false, group: "taxes",
     source: () => "Default 100: the equipment held at its cost, an upper bound (no state's schedule for datacenter equipment is read). A county's own schedule is typed here and below: Loudoun County's for computer equipment in a data center from 2026 is 60, 45, 30, 15 and 10 percent of original cost in its first five years (type 60, 15 and 10). The age restarts when the equipment is bought again." },
@@ -79,7 +79,7 @@ export const DC_FIELDS: DcField[] = [
   { name: "abateyears", input: "abateyears", label: "Abated for", unit: "operating years", min: 1, max: 60, whole: true, group: "taxes", nullable: true,
     source: () => "The agreement's years, from the first operating year. Not given: every year." },
   { name: "mwh", input: "mwh", label: "Electricity bought", unit: "MWh a year", min: 0, max: 200000000, whole: false, group: "taxes", nullable: true,
-    source: (s, P) => `${P.rules.states[s]?.electricity?.tip ?? "No statute of this state on a datacenter's electricity has been read."} No public document read gives a datacenter's load: not given until the reader types it (the MW times 8,760 times the share of the year at full load).` },
+    source: (s, P) => `${P.rules.states[s]?.electricity?.tip ?? "No tax per kWh of this state on a datacenter's electricity has been read (Virginia, Illinois and Ohio are)."} No public document read gives a datacenter's load: not given until the reader types it (the MW times 8,760 times the share of the year at full load).` },
   { name: "drate", input: "rate", label: "Discount rate, real", unit: "%", min: 0, max: 20, whole: false, group: "value",
     source: () => "OMB Circular A-94's base case for benefit-cost analysis, 7 percent real. Its Appendix C gives 2.0 percent for 30-year Treasury borrowing (2026), the rate for cost-effectiveness analysis." },
 ];
@@ -104,7 +104,7 @@ export type DcProject = { id: string; name: string; state: string; where: string
   mw: number | null; measure: string | null; invest: number | null; perm: number | null; cons: number | null; consMeasure: string | null };
 type Fig = { value: number; measure?: string; year?: number } | null;
 export function dcProjects(rows: { id: string; name: string; state: string; county: string | null; place?: string; doc: { date: string; publisher: string; url: string };
-  mw: Fig; investment: Fig; permanent_jobs: Fig; construction_jobs: Fig; investment_includes_generation?: boolean }[], index: Record<string, number>): DcProject[] {
+  mw: Fig; investment: Fig; permanent_jobs: Fig; construction_jobs: Fig; investment_includes_generation?: boolean; investment_partial?: string }[], index: Record<string, number>): DcProject[] {
   return rows.map((r) => {
     const y = r.investment?.year ?? 2025;
     const k = index[String(y)] ? index["2025"] / index[String(y)] : 1;  // a 2026 announcement taken as 2025 dollars
@@ -112,7 +112,7 @@ export function dcProjects(rows: { id: string; name: string; state: string; coun
       id: r.id, name: r.name, state: r.state, where: r.county ?? r.place ?? "", date: r.doc.date, publisher: r.doc.publisher, url: r.doc.url,
       mw: r.mw?.value ?? null, measure: r.mw?.measure ?? null,
       // the DOE Paducah figure includes power plants: not offered as the datacenter's investment
-      invest: r.investment && !r.investment_includes_generation ? Math.round((r.investment.value * k) / 1e4) / 100 : null,  // USD million, 2025
+      invest: r.investment && !r.investment_includes_generation && !r.investment_partial ? Math.round((r.investment.value * k) / 1e4) / 100 : null,  // USD million, 2025
       perm: r.permanent_jobs && !String(r.permanent_jobs.measure).includes("kind not stated") ? r.permanent_jobs.value : null,
       cons: r.construction_jobs?.value ?? null, consMeasure: r.construction_jobs?.measure ?? null,
     };

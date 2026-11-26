@@ -10,7 +10,8 @@ Tables: `energy_deals`, `energy_deals_evidence`, `energy_companies`
 
 - **The stories.** The news stories the ERW scores (`news_stories`, `warehouse/news/`) that are scored, of the sectors
   deal, ppa, capital, nuclear, generation, datacenter_power, lng, oil or gas, with a significance of 5 or more. The
-  page shows the deals reported since 1 October 2025.
+  page shows every deal the table holds, the first dated January 2025; the stories scored are not even over that span
+  (`docs/methods/deal_tracker.md`, section 8).
 - **The extraction.** Stories about the same event (the scorer's cluster) are sent together to a model, which says
   whether they report a specific transaction and, if so, extracts each deal: its type, buyer, seller, other parties,
   asset, technology, state, country, megawatts, megawatt hours, dollars, price, term, status, announced date, whether

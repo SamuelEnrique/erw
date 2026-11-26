@@ -48,7 +48,8 @@ class TheReplicationPackages(unittest.TestCase):
         self.assertIn("*   NPV at the hurdle rate, USD million for 100 MW: -76.66", src("site", "public", "seller", "erw_2026_generator_replication.do"))
         self.assertIn("*   revenue, last twelve months, USD per kW: 59.85", src("site", "public", "seller", "erw_2026_generator_replication.do"))
         self.assertIn("*   market energy, a flat load, last twelve months, USD per MWh: 33.73", src("site", "public", "datacenter", "erw_2026_datacenter_replication.do"))
-        self.assertIn("*   last twelve months, all streams, USD per kW: 81.40", src("site", "public", "battery", "erw_2026_battery_replication.do"))
+        # session 10000 (chain 701): the public do-file states the window November 2025 to October 2026 (80.40, before 81.40)
+        self.assertIn("*   last twelve months, all streams, USD per kW: 80.40", src("site", "public", "battery", "erw_2026_battery_replication.do"))
         self.assertIn("*   hour_shown = 2026-10-12T03:00:00Z", src("site", "public", "grid", "erw_2026_grid_replication.do"))
 
     def test_the_generator_mirror_and_do_file_apply_solars_degradation(self):

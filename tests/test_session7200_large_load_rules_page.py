@@ -94,7 +94,7 @@ class ThePageFile(unittest.TestCase):
             self.assertEqual(self.file["counts"][key], want)
         self.assertEqual(self.file["counts"]["changes"], len(self.tables[page.CHANGES]))
         self.assertEqual((len(self.file["rules"]), len(self.file["held_rules"]), len(self.file["changes"]), len(self.file["held_changes"]),
-                          len(self.file["laws"]), len(self.file["held_laws"])), (100, 22, 94, 4, 27, 1))
+                          len(self.file["laws"]), len(self.file["held_laws"])), (101, 23, 94, 4, 27, 1))  # session 10000: Rhode Island Energy (public) and Evergy Kansas South (held) added
 
     def test_a_held_row_is_its_name_and_place_only(self):
         for r in self.file["held_rules"]:

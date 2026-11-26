@@ -6,7 +6,7 @@ import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { shown } from "@/lib/format";
-import { problemSet, SETS, type Part, type Question } from "@/lib/problems";
+import { problemSet, SETS, WAITING_DECISIONS, WAITING_GUIDE, WAITING_SETS, type Part, type Question } from "@/lib/problems";
 import { GUIDE, pageFilesOf, sourceOfKey } from "@/lib/problemkit";  // session 3650: the outcome line, and each figure's source as its hover
 import citations from "@/data/table_citations.json";
 import { editionHolds, editionPath, editions, longDate, teacherPath } from "@/lib/problemEditions";
@@ -17,12 +17,15 @@ import { ProblemDecisions } from "../Decisions";  // session 7534 (chain 304): t
 // carries its check key; the numbers move as the data updates. "Show answer" is a plain <details>, so it works without
 // scripts and a teacher can assign the page with the answers closed.
 export const revalidate = 3600;
+// session 10404 (chain 720, part E): a waiting set (lib/problems.ts, WAITING_SETS) has this page too; it is in no index
+// and no dated edition until the owner approves it
+const ALL = [...SETS, ...WAITING_SETS];
 export function generateStaticParams() {
-  return SETS.map((s) => ({ slug: s.slug }));
+  return ALL.map((s) => ({ slug: s.slug }));
 }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  return { title: SETS.find((s) => s.slug === slug)?.title ?? "Problem set" };
+  return { title: ALL.find((s) => s.slug === slug)?.title ?? "Problem set" };
 }
 
 const cite = (t: string) => (citations as Record<string, string>)[t];
@@ -73,17 +76,19 @@ function Example({ q }: { q: Question }) {
 
 export default async function Problems({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  if (!SETS.some((s) => s.slug === slug)) notFound();
+  if (!ALL.some((s) => s.slug === slug)) notFound();
   const got = await attempt(() => problemSet(slug));
-  const meta = SETS.find((s) => s.slug === slug)!;
+  const meta = ALL.find((s) => s.slug === slug)!;
+  const waiting = WAITING_SETS.some((s) => s.slug === slug);
   return (
     <Brand>
-    <div>
+    <div data-waiting-set={waiting ? slug : undefined}>
       <p className="mb-1 text-xs text-muted"><Link href="/learn/problems">Problem sets</Link> / {meta.title}</p>
       <h1 className="mb-1 text-3xl">{meta.title}</h1>
       <p className="mb-3 max-w-3xl text-sm">{meta.line} Every answer is computed from the warehouse&apos;s tables when the page is built, so the numbers move as the data updates.</p>
       {/* session 3650: what a student should be able to do after the set, in one line (lib/problemkit.ts, GUIDE) */}
       {GUIDE[slug] ? <p className="mb-3 max-w-3xl text-sm" data-can><strong>After this set</strong> a student can {GUIDE[slug].can}.</p> : null}
+      {WAITING_GUIDE[slug] ? <p className="mb-3 max-w-3xl text-sm" data-can><strong>After this set</strong> a student can {WAITING_GUIDE[slug].can}.</p> : null}
       <div className="mb-5 max-w-3xl border-l-2 border-accent pl-3 text-sm">
         <p><strong>For teachers.</strong> {meta.teacher}</p>
         <p className="mt-1 text-xs text-muted">Pages: {meta.pages.map((p, i) => <span key={p.href}>{i ? ", " : ""}<Link href={p.href}>{p.label}</Link></span>)}.</p>
@@ -124,7 +129,7 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
         </>
       )}
       {/* session 7534 (chain 304): the set's decisions, each with its default and source on hover */}
-      <ProblemDecisions slug={slug} />
+      <ProblemDecisions slug={slug} waiting={WAITING_DECISIONS} />
     </div>
     </Brand>
   );
