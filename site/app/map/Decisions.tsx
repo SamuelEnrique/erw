@@ -47,7 +47,7 @@ export const MAP_DECISIONS: MapDecision[] = [
     def: "No size: every row.",
     source: "A choice of session 167, stated in the method note; no source sets it." },
   { key: "near", session: "session 7537",
-    text: "A distance from a point is measured from each row's own point: EIA's coordinates for a unit, the county's or the town's point for a queue position, the city's point for a datacenter. Once a distance is asked for, a row with no point is left out.",
+    text: "A distance from a point is measured from each row's own point: EIA's coordinates of the unit's plant for a unit, the county's, city's or town's point for a queue position, and for a datacenter the operator's own coordinates, its city's or town's point or its county's point (the list's \"Placed at\" says which). Once a distance is asked for, a row with no point is left out.",
     def: "No point: every row. Both ends of the distance are counted in.",
     source: "The great-circle distance (the haversine formula) on a sphere of the Earth's mean radius, 3,958.8 miles; the read of 16 November 2026 (docs/reviews/map-read-2026-11-16.md, row 1)." },
   { key: "us-state", session: "session 167",

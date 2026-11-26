@@ -243,7 +243,7 @@ export function ProjectMap({ file: f, statesGeo, serverSearch = "" }: { file: Ma
           <div className="mt-3 text-xs uppercase tracking-wide text-muted">
             Near a point
             <Tip id="map-near" label="how the distance is measured">
-              Type a point as latitude, longitude in decimal degrees (for example 32.4487, -99.7331, the form a web map copies), or press &quot;Measure from this row&quot; on a row&apos;s card; then a distance in miles. Both are needed. The distance is the great-circle distance on a sphere of the Earth&apos;s mean radius, 3,958.8 miles, from each row&apos;s own point: EIA&apos;s coordinates for a unit, the county&apos;s or the town&apos;s point for a queue position, the city&apos;s point for a datacenter, not their sites. Both ends are counted in; a row with no point is left out. The list under the map gives every row within it, nearest first.
+              Type a point as latitude, longitude in decimal degrees (for example 32.4487, -99.7331, the form a web map copies), or press &quot;Measure from this row&quot; on a row&apos;s card; then a distance in miles. Both are needed. The distance is the great-circle distance on a sphere of the Earth&apos;s mean radius, 3,958.8 miles, from each row&apos;s own point, not its site: EIA&apos;s coordinates of the unit&apos;s plant for a unit, the county&apos;s, city&apos;s or town&apos;s point for a queue position, and for a datacenter the operator&apos;s own coordinates, its city&apos;s or town&apos;s point or its county&apos;s point (the list&apos;s &quot;Placed at&quot; says which). Both ends are counted in; a row with no point is left out. The list under the map gives every row within it, nearest first.
             </Tip>
           </div>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-sm">
@@ -434,7 +434,7 @@ function Key({ f, picked }: { f: MapFace; picked: number[] }) {
         {kinds.has(KIND.operating) ? <li className="inline-flex items-center gap-1.5">{mark("dot")}operating unit</li> : null}
         {kinds.has(KIND.planned) ? <li className="inline-flex items-center gap-1.5">{mark("ring")}planned unit</li> : null}
         {kinds.has(KIND.planned) ? <li className="inline-flex items-center gap-1.5">{mark("heavy")}planned, under construction</li> : null}
-        {kinds.has(KIND.queue) ? <li className="inline-flex items-center gap-1.5">{mark("triangle")}queue position, at its county&apos;s point</li> : null}
+        {kinds.has(KIND.queue) ? <li className="inline-flex items-center gap-1.5">{mark("triangle")}queue position, at its county&apos;s, city&apos;s or town&apos;s point</li> : null}
         {kinds.has(KIND.datacenter) ? <li className="inline-flex items-center gap-1.5">{mark("diamond")}datacenter</li> : null}
         <li className="text-muted">size: MW</li>
       </ul>
@@ -513,7 +513,7 @@ export function NearList({ f, near, rows, open }: { f: MapFace; near: { la: numb
     <ToolSection title={`Within ${near.miles.toLocaleString("en-US")} miles of ${near.la}, ${near.lo}, nearest first`} id="near"
       note={<>
         <span data-map-near-count="1" data-source={sourceOf(f, "all", "the rows chosen within the distance, each row's own fields")}>{whole(rows.length)}</span> {rows.length === 1 ? "row" : "rows"} of what is chosen{rows.length > shown.length ? <>; the nearest <span data-map-near-shown="1">{whole(shown.length)}</span> are listed, and the totals above count them all</> : null}.
-        {atCounty ? <> <span data-map-near-county="1">{whole(atCounty)}</span> of the {whole(queue)} queue positions are measured from their county&apos;s or town&apos;s point, not their site: a position is listed when that point is within the distance, wherever its site lies in the county, and left out when it is not, however near its site.</> : null}
+        {atCounty ? <> <span data-map-near-county="1">{whole(atCounty)}</span> of the {whole(queue)} queue positions are measured from their county&apos;s, city&apos;s or town&apos;s point, not their site: a position is listed when that point is within the distance, wherever its site lies in the county, and left out when it is not, however near its site.</> : null}
         <Tip id="map-near-list" label="the figures of this list">{sourceWords(f, "all", "each row's own fields")} The miles are computed in your browser: the great-circle distance on a sphere of 3,958.8 miles from the point to the row&apos;s own point, rounded to a tenth of a mile. A unit&apos;s MW is its nameplate; a queue position&apos;s is what it asks to connect; a datacenter&apos;s is what a story or its operator states. The same project can be a planned unit and a queue position: the map does not match the two, and its totals keep each kind apart.</Tip>
       </>}>
       {shown.length ? (
