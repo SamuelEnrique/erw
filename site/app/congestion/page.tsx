@@ -28,6 +28,10 @@ const NONE = "none";
 const usd = (v: number) => `${v.toFixed(2)} USD/MWh`;
 const whole = (v: number) => Math.round(v).toLocaleString("en-US");
 const pct = (v: number) => `${v.toFixed(1)}%`;
+// Session 10220 (congestion audit, finding 3): the window a figure covers, in the operator's own days (the file's time
+// stamps are UTC; an SPP hour from 18:00 Central standard time is the next day in UTC).
+const TZ: Record<string, string> = { spp: "America/Chicago", caiso: "America/Los_Angeles" };
+const localDay = (ts: string, op: string) => new Intl.DateTimeFormat("en-CA", { timeZone: TZ[op] ?? "UTC", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(ts));
 const SHOWN = F.operators.filter((o) => o.status === "shown" && F.constraints[o.id]);
 const PLACES: Place[] = Object.values(F.places).flat();
 const placeOf = (id: string) => PLACES.find((p) => p.id === id) ?? null;
@@ -120,6 +124,13 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
   };
   const head = ["Constraint, as the operator names it", "Hours bound", "Mean shadow price", "Highest", "Summed (USD/MWh x hours)"];
   const ranked = PLACES.filter((p) => p.by_year[py]).map((p) => ({ p, y: p.by_year[py] })).sort((x, z) => (z.y.congestion_mean ?? 0) - (x.y.congestion_mean ?? 0));
+  // Session 10220 (congestion audit, finding 3): the days the places' year holds, so a year that is not whole says so.
+  const spans = ranked.map(({ p }) => {
+    const o = p.id.split(":")[0], a = localDay(p.first, o), z = localDay(p.last, o);
+    return [a > `${py}-01-01` ? a : `${py}-01-01`, z < `${py}-12-31` ? z : `${py}-12-31`];
+  });
+  const pwin = spans.length && spans.every((s) => s[0] === spans[0][0] && s[1] === spans[0][1]) ? spans[0] : null;
+  const spanOf = (id: string) => spans[ranked.findIndex(({ p }) => p.id === id)];
   const congLines: Line[] = [A, ...(B ? [B] : [])].map((p, i) => ({ label: labelOf(p), color: i ? "series-3" : "accent",
     points: p.monthly.filter((m) => m[4] !== null).map((m) => ({ t: monthT(m[0]), v: m[4] as number })) }));
   const shareLines: Line[] = [A, ...(B ? [B] : [])].map((p, i) => ({ label: labelOf(p), color: i ? "series-3" : "accent",
@@ -152,7 +163,7 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
       <ToolSection title="The constraints that bound most and cost most" id="top">
         {O ? (
           <>
-            <p className="mb-2 text-sm" data-held-line="1">{O.constraints_by_year[year] !== undefined ? <>{whole(O.constraints_by_year[year])} constraints bound in {whole(O.hours_by_year[year])} constraint-hours over {O.days_held[year]} days held in {year}.</> : <>Every year held: {years.join(", ")}.</>} {" "}
+            <p className="mb-2 text-sm" data-held-line="1">{O.constraints_by_year[year] !== undefined ? <>{whole(O.constraints_by_year[year])} constraints bound in {whole(O.hours_by_year[year])} constraint-hours over {O.days_held[year]} days held in {year}{year === years[years.length - 1] ? <span data-window-line="1">, to {localDay(O.last, op)}, the newest day held; the year is not whole</span> : null}.</> : <>Every year held: {years.join(", ")}, the newest day held {localDay(O.last, op)}.</>} {" "}
               <Hint words="(what a constraint is)" why={ELEMENT_WORDS} /> {" "}
               <Hint words="(source)" why={`${src.constraints}. Hours in ${O.time}. ${F.sign_rule}`} /></p>
             {/* Session 9001, row H1: each list has a visible heading, so a reader can tell the two apart. */}
@@ -168,7 +179,7 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
       <ToolSection title="When a constraint binds" id="when">
         {C ? (
           <>
-            <p className="mb-1 text-sm" data-constraint={ck}><span className="font-medium break-all">{constraintLabel(C)}</span>{C.monitored ? <>: monitored element {C.monitored}</> : null}{C.type ? <>, type {C.type}</> : null}{C.nerc_id ? <>, NERC flowgate {C.nerc_id}</> : null}. Bound {whole(C.hours)} hours from {C.first.slice(0, 10)} to {C.last.slice(0, 10)}. {" "}
+            <p className="mb-1 text-sm" data-constraint={ck}><span className="font-medium break-all">{constraintLabel(C)}</span>{C.monitored ? <>: monitored element {C.monitored}</> : null}{C.type ? <>, type {C.type}</> : null}{C.nerc_id ? <>, NERC flowgate {C.nerc_id}</> : null}. Bound {whole(C.hours)} hours from {C.first.slice(0, 10)} to {C.last.slice(0, 10)} <span data-utc-days="1">(days in UTC, not the operator&apos;s clock)</span>. {" "}
               <Hint words="(source)" why={`${src.constraints}. ${F.sign_rule}`} /></p>
             <Heat cells={C.hod_month} k="c" label={`${constraintLabel(C)}: hours bound, by month and hour of the day, every year held`} src={() => `Hours it bound in that hour of the day in that month, every year held summed. ${src.constraints}.`} fmt={whole} note={<>Hours of the day in {O.time}.</>} />
             <ChartFrame title="Hours bound, by month" tip={<Hint words=" (source)" why={`${src.constraints}. A month with no point is a month it did not bind in the day-ahead market.`} />}>
@@ -179,13 +190,13 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
       </ToolSection>
 
       <ToolSection title="Where congestion adds to the price and where it takes off" id="places">
-        <ToolTable minWidth={680} caption={`Hubs and zones by their mean congestion part, ${py}, the largest addition first`} head={["Place", "Mean LMP", "Mean congestion part", "Share of the price", "Hours it added", "Hours it took off"]}
+        <ToolTable minWidth={680} caption={`Hubs and zones by their mean congestion part, ${py}${pwin ? ` (the hours held from ${pwin[0]} to ${pwin[1]})` : " (the days held differ by place: each place's on the hover of its mean LMP)"}, the largest addition first`} head={["Place", "Mean LMP", "Mean congestion part", "Share of the price", "Hours it added", "Hours it took off"]}
           rows={ranked.map(({ p, y }) => {
             const s = `${F.sources[p.id.split(":")[0]].prices}. ${p.time}.`;
             const at = (f: string) => pfKey(PF, ["places", p.id.split(":")[0], { id: p.id }, "by_year", py, f]);
             return { key: p.id, highlight: p.id === a || p.id === b, cells: [
               <a key="n" className="underline" href={`/congestion?op=${op}&year=${year}&c=${encodeURIComponent(ck)}&a=${encodeURIComponent(p.id)}&py=${py}#side`}>{labelOf(p)}</a>,
-              <Fig key="l" v={y.lmp_mean} src={`Mean day-ahead LMP over ${y.hours} hours held. ${s}`} k={`pl-${p.id}`} check={at("lmp_mean")} fmt={usd} />,
+              <Fig key="l" v={y.lmp_mean} src={`Mean day-ahead LMP over ${y.hours} hours held, ${spanOf(p.id)[0]} to ${spanOf(p.id)[1]}. ${s}`} k={`pl-${p.id}`} check={at("lmp_mean")} fmt={usd} />,
               <Fig key="c" v={y.congestion_mean} src={`Mean congestion part over ${y.hours} hours held; highest ${y.congestion_max}, lowest ${y.congestion_min}. ${s}`} k={`pc-${p.id}`} check={at("congestion_mean")} fmt={usd} />,
               <Fig key="s" v={y.congestion_share_pct} src={`${F.share_rule} ${s}`} k={`ps-${p.id}`} check={at("congestion_share_pct")} fmt={pct} reason={`The mean LMP was not above zero. ${s}`} />,
               <Fig key="u" v={y.hours_congestion_up} src={`Hours whose congestion part was above zero. ${s}`} k={`pu-${p.id}`} check={at("hours_congestion_up")} fmt={whole} />,
@@ -200,6 +211,7 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
         <ChartFrame title="Mean congestion part of the day-ahead price, by month (USD/MWh)" tip={<Hint words=" (source)" why={[A, ...(B ? [B] : [])].map((p) => F.sources[p.id.split(":")[0]].prices).join("; ")} />}>
           <LineChart lines={congLines} unit="USD/MWh" x="month" ariaLabel="Mean congestion part by month" />
         </ChartFrame>
+        <p className="mb-2 text-xs text-muted" data-months-line="1">Each point is the mean of the hours held in its month, so the first and the newest month can hold part of a month: {[A, ...(B ? [B] : [])].map((p) => `${p.name} is held from ${localDay(p.first, p.id.split(":")[0])} to ${localDay(p.last, p.id.split(":")[0])}`).join("; ")}.</p>
         <ChartFrame title="Share of the price that was congestion, by month" tip={<Hint words=" (source)" why={F.share_rule} />}>
           <LineChart lines={shareLines} unit="%" x="month" ariaLabel="Congestion share of the price by month" />
         </ChartFrame>

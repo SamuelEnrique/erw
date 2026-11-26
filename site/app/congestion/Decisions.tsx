@@ -35,7 +35,7 @@ export const CONGESTION_DECISIONS: CongestionDecision[] = [
     def: "SPP, the newest year.",
     source: "The page's own choice." },
   { key: "clock", session: "session 9000",
-    text: "Hours of the day and months are each operator's own clock: Central for SPP, Pacific for CAISO.",
+    text: "Hours of the day, months and years are each operator's own clock: Central for SPP, Pacific for CAISO. The dates a constraint first and last bound are UTC days, as the file stamps them: an SPP hour from 18:00 Central (19:00 in summer time), or a CAISO hour from 16:00 Pacific (17:00 in summer time), falls on the next UTC day. The newest year is not whole: it ends on the newest day held, which the page names.",
     def: "As each operator keeps time.",
     source: "The operating day of each file." },
 ];
