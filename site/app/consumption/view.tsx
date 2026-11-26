@@ -152,7 +152,7 @@ export async function ConsumptionView() {
             </div>
           ))}
         </div>
-        <Cite tables={[SALES]} note={`Change: ${label} against ${prevLabel}. States that sold at least 1,000,000 MWh (1 TWh) to the sector in the earlier 12 months, so a small base does not lead`} />
+        <Cite tables={[SALES]} note={`Change: ${label} against ${prevLabel}. States that sold at least 1,000,000 MWh (1 TWh) to the sector in the earlier 12 months, so a small base does not lead. A sector is the class a utility bills a customer under, and customers move between classes, so one sector's growth can be another's loss: read it beside the state's other sectors and all-sector change in the table below. The months are EIA's estimates from its monthly sample of sellers, revised when the annual survey is in`} />
       </Section>
 
       <Section title="Sector shares and growth, by state" id="states">
@@ -247,7 +247,7 @@ export async function ConsumptionView() {
                   </tbody>
                 </table>
                 </div>
-                <Cite tables={[MER]} note="Trillion British thermal units, as EIA publishes them; the latest 12 months against the 12 before. The MER lags the retail sales by a few months" />
+                <Cite tables={[MER]} note="Trillion British thermal units, as EIA publishes them; the latest 12 months against the 12 before. A sector's total energy consumed holds its share of the electrical system's losses in making and delivering the power it buys, so it is more than the energy its own sites use. The MER lags the retail sales by a few months" />
               </>
             );
           })()
