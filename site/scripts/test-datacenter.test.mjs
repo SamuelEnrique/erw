@@ -249,6 +249,13 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   const ok = D.dcRun(D.dcDefaults(P, "ok", { invest: 10, perm: 1, start: 2026, build: 2, life: 10 }), P);
   assert.equal(ok.exemption.eligible, true);
   near(ok.sums.forgone, 2 * 10e6 * 0.682 * 0.045, "OK forgone: the build and 2033, 613,800");
+  // Connecticut (DECD's program page, session 10815): USD 200 million; 20 years, 30 with USD 400 million; 6.35 percent, no local tax
+  assert.equal(D.dcRun(D.dcDefaults(P, "ct", { invest: 199, perm: 5 }), P).exemption.eligible, false);
+  const ct = D.dcRun(D.dcDefaults(P, "ct", { invest: 300, perm: 5, start: 2026, build: 2, life: 30 }), P);
+  // purchases in the build (2026-27) and 2033, 2038, 2043 are before 2046; 2048 and 2053 are not: 4 of 6
+  near(ct.sums.forgone, 4 * 300e6 * 0.682 * 0.0635, "CT 20 years");
+  const ct30 = D.dcRun(D.dcDefaults(P, "ct", { invest: 400, perm: 5, start: 2026, build: 2, life: 30 }), P);
+  near(ct30.sums.forgone, 6 * 400e6 * 0.682 * 0.0635, "CT 30 years: every purchase before 2056");
   // Illinois (session 10813): the program paused for new applications from 1 July 2026, held as words
   const il = D.dcRun(D.dcDefaults(P, "il", { invest: 2000, perm: 100 }), P);
   assert.equal(il.exemption.held, true); assert.equal(il.exemption.eligible, false); near(il.sums.forgone, 0);
