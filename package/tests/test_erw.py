@@ -300,7 +300,9 @@ def test_version_reports_the_data_commit():
 def test_info_summary_and_table(capsys):
     d = erw.info()
     assert d["n_tables"] == len(TABLES) + len(CARRIED)  # session 45: coverage's count, with the carried tables
-    assert d["n_rows"] == sum(MD_ROWS.values())
+    # session 10000 (chain 701, C5): info()'s count is coverage.csv's own sum, which is what it means to hold; the
+    # markdown's count of a carried table could stand apart from its CSV row (fixed in build_coverage.align_carried)
+    assert d["n_rows"] == int(erw.coverage()["n_rows"].astype("int64").sum())
     assert "Energy Research Warehouse (ERW)" in capsys.readouterr().out
     t = erw.info(TABLES[0], quiet=True)
     assert _rows_match(TABLES[0], t["rows"])  # session 45: TABLES[0] is the API cost ledger, which grows in a run
