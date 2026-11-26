@@ -108,6 +108,7 @@ PAGE_PATHS+=(site/data/conditions)   # session 9000 (chain 601, parts C and G): 
 PAGE_PATHS+=(site/data/storage/places.json)   # session 8014 (chain 581, part F1): batteries by authority and state
 PAGE_PATHS+=(site/data/queue_places.json)   # session 8014 (chain 581, part F2): the queues outside the seven grids
 PAGE_PATHS+=(site/data/equities)   # session 10000 (chain 701, part D4): the equities page files (dm_equity_pages)
+PAGE_PATHS+=(site/data/predict)    # session 10000 (chain 701, data request 1 of chain 730): the ERW forecast (dm_predict)
 PAGE_PATHS+=(replication/datacenter/page_figures.json replication/datacenter/page_figures.csv   # session 3779: dm_datacenter_figures
             docs/methods/automated_analysis_findings.md   # session 3779: dm_cross_check_rows
             replication/analysis/page_figures.json replication/analysis/page_figures.csv)   # session 3803: dm_analysis_figures
@@ -312,6 +313,10 @@ soft_step dm_authority_facts "$PYTHON" warehouse/derived/authority_facts.py
 # Session 8012 (chain 505, part D1): the day-ahead demand forecast beside the demand that came (two tables and
 # site/data/regions/forecast/), from the six-month files saved above and eia930_ba_demand_hourly
 soft_step dm_forecast_error "$PYTHON" warehouse/derived/forecast_error.py
+# Session 10000 (chain 701, data request 1 of docs/state/data_requests_predict.md, chain 730): the ERW's own demand
+# forecast, made once a day from the tables as they stand after the EIA-930 refresh; it appends tomorrow's forecast to
+# site/data/predict/ledger_demand.csv (never rewriting a row) and rewrites the page files there. No network, no model
+soft_step dm_predict "$PYTHON" warehouse/predict/run.py
 # Session 8013 (chain 505, part D2): the operators' wind and solar forecasts beside the output (site/data/regions/
 # renewables_forecast.json), from caiso_wind_solar_forecast and ercot_wind_solar_forecast; no table of its own
 soft_step dm_renewable_forecast_error "$PYTHON" warehouse/derived/renewable_forecast_error.py
