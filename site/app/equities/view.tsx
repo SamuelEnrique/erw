@@ -309,15 +309,17 @@ function Prices({ prices, q, first, drawn, alone }: { prices: EqPrices; q: Query
       ) : <Blank what={drawn.label} words={isShown(drawn) ? "no value in this window" : blankWords(drawn.status, prices.example === true)} why={isShown(drawn) ? `${drawn.label} holds ${drawn.first ?? "?"} to ${drawn.last ?? "?"}.` : blankWhy(drawn.status, drawn.why, prices.example === true)} k={`price|${drawn.id}`} />) : null}
       <div data-eq-prices={prices.series.length}>
         <ToolTable minWidth={640} caption="The energy prices the files carry: the latest value of each and its change over a day, a week, a month, the year to date and a year, in percent"
-          head={[alone ? "Price" : "Price (press one to lay it over)", "Latest", "Its date", ...MOVE_WORDS.map(([k, w]) => (k === "ytd" ? <abbr key={k} title="Year to date" className="no-underline">YTD</abbr> : w))]}
+          head={[alone ? "Price" : "Price (press one to lay it over)", "Latest, its date", ...MOVE_WORDS.map(([k, w]) => (k === "ytd" ? <abbr key={k} title="Year to date" className="no-underline">YTD</abbr> : w))]}
           rows={prices.series.map((x, i) => {
             const name = <SiteLink key="n" href={hrefOf(q, { p: x.id }, first, alone ? "#prices" : "#line")} title={x.source ? `${x.source}${x.table ? ` (ERW table ${x.table})` : ""}` : undefined} className="inline-block min-w-[12rem] py-0.5">{x.label}</SiteLink>;
             if (!isShown(x) || !x.last_value) return { key: x.id, highlight: drawn?.id === x.id, cells: [name], wide: <span className="cursor-help" title={blankWhy(x.status, x.why, prices.example === true)} data-eq-price-held={x.id}>{blankWords(isShown(x) ? null : x.status, prices.example === true)}</span> };
-            // the unit stands after the value, small, as the price board writes a row's (one column fewer: the nine
-            // columns ran 147 px past the table's frame at 1280 px)
+            // the unit stands after the value, small, as the price board writes a row's, and the value's date under it
+            // (two columns fewer: the nine columns ran 147 px past the table's frame at 1280 px)
             return { key: x.id, highlight: drawn?.id === x.id, cells: [name,
-              <span key="v" className="whitespace-nowrap"><Num check={pfKey(file, ["series", i, "last_value", "v"])} raw={x.last_value.v} source={`${x.source ?? ""}`}>{levelWords(x.last_value.v)}</Num><span className="ml-1 font-sans text-xs text-muted">{x.unit}</span></span>,
-              <span key="t" title={`A ${FREQ_WORDS[x.freq] ?? "daily"} price; held ${x.first ?? "?"} to ${x.last ?? "?"}`} className="cursor-help whitespace-nowrap">{dateWords(x.last_value.t, x.freq === "M" || x.freq === "Q" ? "M" : "D")}</span>,
+              <span key="v" className="inline-block whitespace-nowrap">
+                <span className="block"><Num check={pfKey(file, ["series", i, "last_value", "v"])} raw={x.last_value.v} source={`${x.source ?? ""}`}>{levelWords(x.last_value.v)}</Num><span className="ml-1 font-sans text-xs text-muted">{x.unit}</span></span>
+                <span className="block cursor-help font-sans text-xs" title={`A ${FREQ_WORDS[x.freq] ?? "daily"} price; held ${x.first ?? "?"} to ${x.last ?? "?"}`}>{dateWords(x.last_value.t, x.freq === "M" || x.freq === "Q" ? "M" : "D")}</span>
+              </span>,
               ...MOVE_WORDS.map(([k, w]) => {
                 if (noStep(x.freq, k)) return <span key={k} className="cursor-help text-muted" title={`A ${FREQ_WORDS[x.freq]} price has no change over a ${w.toLowerCase()} of its own.`} data-eq-no-step={`${x.id}|${k}`}>{FREQ_WORDS[x.freq]}</span>;
                 const m = x.moves?.[k];
