@@ -63,6 +63,7 @@ import restore as R  # noqa: E402
 CONFIG = yaml.safe_load(open(os.path.join(ROOT, "warehouse", "redivis", "config.yaml"), encoding="utf-8"))
 REDIVIS_MANIFEST = os.path.join(ROOT, CONFIG["manifest"])
 MIGRATIONS = os.path.join(ROOT, "warehouse", "metadata", "table_migrations.csv")
+ARCHIVE_MANIFEST = os.path.join(ROOT, "warehouse", "metadata", "archive_manifest.csv")  # session 10000
 SLICES = 16  # the replay's slices by the first hex digit of a row's key hash
 CAP_MESSAGE = "Cannot export more than"  # Redivis's answer when the 30-day export limit is reached
 
@@ -83,7 +84,13 @@ def rolling_tables():
     moved = set(man.loc[man.get("migrated_to", pd.Series(dtype=str)).fillna("") != "", "table"])
     if os.path.exists(MIGRATIONS):
         moved |= set(pd.read_csv(MIGRATIONS, dtype=str)["old_table"])
-    return sorted(n for n in man["table"] if A.rolling(n) and n not in moved)
+    # Session 10000 (chain 701): and the rolling tables the archive holds. The Redivis account has been full since
+    # session 363, so a rolling table first written after it (weather_forecast_issued_hourly) has no upload row and was
+    # never restored: each run would start it empty. The archive is the first source of every restore (session 305)
+    names = set(man["table"])
+    if os.path.exists(ARCHIVE_MANIFEST):
+        names |= set(pd.read_csv(ARCHIVE_MANIFEST, dtype=str, keep_default_na=False)["table"])
+    return sorted(n for n in names if A.rolling(n) and n not in moved)
 
 
 def write_atomic(path, writer):

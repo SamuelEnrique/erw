@@ -137,7 +137,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 405: the interconnection explorer (the default, CAISO in positions; ERCOT in MW over a window; SPP; a held queue)
   "/explore/interconnection", "/explore/interconnection?queue=ercot&measure=mw&from=2018&to=2025", "/explore/interconnection?queue=spp",
   "/explore/interconnection?queue=nyiso",
-  "/impact", "/impact?tech=utility_pv&state=mn&bstate=sd", "/impact?tech=natural_gas&state=tx&instate=50&btech=geothermal&bstate=ca", "/impact?state=ia&iaval=1&levy=30&bstate=ne", "/impact?tech=utility_pv&state=or&iaval=1&btech=utility_pv&bstate=nd", "/impact?tech=utility_pv&state=mi&iaval=1&bstate=vt&bown=1.4&bownyears=25", "/impact?state=il&levy=80&bstate=wv",
+  "/impact", "/impact?tech=utility_pv&state=mn&bstate=sd", "/impact?tech=natural_gas&state=tx&instate=50&btech=geothermal&bstate=ca", "/impact?state=ia&iaval=1&levy=30&bstate=ne", "/impact?tech=utility_pv&state=or&iaval=1&btech=utility_pv&bstate=nd", "/impact?tech=utility_pv&state=mi&iaval=1&bstate=vt&bown=1.4&bownyears=25", "/impact?state=il&levy=80&bstate=wv", "/impact?tech=datacenter&state=va&dmw=1000&invest=3000&perm=50&mwh=5000000&bstate=la", "/impact?tech=datacenter&state=la&dmw=5000&invest=50000&perm=1000&cons=7500&dbuild=5&brate=10&erate=10&btech=land_based_wind",
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=spp&asset=wind",  // session 145: MISO is blank on the page, so the fourth view is SPP's wind
   // session 38: today's level's price range
   "/play/ev",  // session 3276: the EV game's four figures at the defaults (ev|US|...)
@@ -265,6 +265,7 @@ async function all(table, params) {
 
 const impactRows = new Map(), impactAll = new Map();   // session 347: /impact's rows, by technology and state, and by technology
 const forecastRows = new Map(); let forecastParams = null, forecastSev = null, forecastLib = null;   // session 4214: the forecast's rows, by technology and state, and its parameters
+let dcimpactParams = null, dcimpactLib = null;   // chain 740: the datacenter on /impact, its parameter files and its library
 const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
 const dcllRows = new Map();
 const dcqRows = new Map();   // session 468: the view by grid of /datacenters, one grid's groups read once
@@ -581,6 +582,20 @@ async function truth(check) {
       };
     }
     return F.stat(F.run(k.x, forecastRows.get(rk), forecastParams, forecastSev), k.figure) ?? undefined;
+  }
+  // chain 740 (session 10803): the datacenter on /impact, datacenter|<every input of the scenario>|<figure>: recomputed by
+  // lib/dcimpact.ts (the page's own arithmetic) from this script's own read of the parameter files of site/data/forecast/
+  if (p[0] === "datacenter") {
+    const D = await import("../lib/dcimpact.ts");
+    dcimpactLib = D;
+    const k = D.dcParseKey(check);
+    if (!k) return undefined;
+    if (!dcimpactParams) {
+      const d = (n) => JSON.parse(fs.readFileSync(path.join(here, "..", "data", "forecast", n), "utf-8"));
+      dcimpactParams = { announced: d("datacenter_announced.json"), rules: d("datacenter_rules.json"), wages: d("datacenter_wages.json"),
+        sales: d("sales_tax.json"), income: d("income_tax.json"), deflator: d("deflator.json") };
+    }
+    return D.dcStat(D.dcRun(k.x, dcimpactParams), k.figure) ?? undefined;
   }
   if (p[0] === "series") {
     const [, table, entity, variable, at, event] = p;
@@ -1475,6 +1490,8 @@ async function main() {
       // session 4219 (chain 239): the forecast on /impact writes its figures as lib/forecast.ts's displayOf does (jobs to one
       // decimal under 100, whole above; dollars as "USD 41 million"), the text compared with that form of the raw
       const forecastOk = /^forecast\|/.test(check) && forecastLib !== null && text === forecastLib.displayOf(check.slice(check.lastIndexOf("|") + 1), Number(raw));
+      // chain 740 (session 10803): a datacenter figure on /impact is written by lib/dcimpact.ts's dcDisplay
+      const dcimpactOk = /^datacenter\|/.test(check) && dcimpactLib !== null && text === dcimpactLib.dcDisplay(check.slice(check.lastIndexOf("|") + 1), Number(raw));
       // chain 370 (session 7050, the landing desk): a <span data-format="usd"> amount under a million is written by the site's
       // usdShort (lib/batterystack.ts) at the runtime's own precision; /grid/caiso/alerts' day effect shows "-479,791" for
       // -479791.0043, so the whole dollars are the figure too
@@ -1482,7 +1499,7 @@ async function main() {
       // session 9001 (chain 601, part H): /congestion and /conditions write their page-file figures as their pages do: USD/MWh
       // to two decimals without a thousands comma, a share to one decimal with "%", a count or a sum whole with commas
       const condOk = /^pf\|conditions\//.test(check) && (text === `${Number(raw).toFixed(2)} USD/MWh` || text === `${Number(raw).toFixed(1)}%` || text === Math.round(Number(raw)).toLocaleString("en-US"));
-      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || storyOk || usdWhole || chartOk || dcWhole || dcOne || forecastOk;
+      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || storyOk || usdWhole || chartOk || dcWhole || dcOne || forecastOk || dcimpactOk;
       let pass = t !== undefined && t !== null && same && textOk;
       // session 9001: the conditions pages' forms join the text test on their own line (tests 315 and 1903 pin both ends of textOk)
       if (!pass && condOk && t !== undefined && t !== null && same) pass = true;

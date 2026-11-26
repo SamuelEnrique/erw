@@ -1,0 +1,14 @@
+default: cheapest caiso:TH_SP15_GEN-APND 30.27, dearest ercot:LZ_AEN 39.01, most below zero caiso:TH_SP15_GEN-APND 11.79, widest ercot:LZ_WEST 42.31, count 17
+ab: cheapest caiso:TH_SP15_GEN-APND 30.27, dearest ercot:LZ_AEN 39.01, most below zero caiso:TH_SP15_GEN-APND 11.79, widest ercot:LZ_WEST 42.31, count 17
+month: cheapest spp:SPPSOUTH_HUB 23.66, dearest caiso:TH_NP15_GEN-APND 50.59, most below zero spp:SPPSOUTH_HUB 15.97, widest ercot:LZ_WEST 50.07, count 19
+rtm: cheapest caiso:TH_SP15_GEN-APND 29.7, dearest ercot:LZ_WEST 35.36, most below zero caiso:TH_SP15_GEN-APND 12.76, widest ercot:LZ_WEST 43.4, count 13
+drawn figures checked 456, equal 450
+   default caiso:TH_NP15_GEN-APND|carbon: drawn '117.58', restated '117.72'
+   default caiso:TH_SP15_GEN-APND|carbon: drawn '117.58', restated '117.72'
+   ab caiso:TH_NP15_GEN-APND|carbon: drawn '117.58', restated '117.72'
+   ab caiso:TH_SP15_GEN-APND|carbon: drawn '117.58', restated '117.72'
+   rtm caiso:TH_NP15_GEN-APND|carbon: drawn '117.58', restated '117.72'
+   rtm caiso:TH_SP15_GEN-APND|carbon: drawn '117.58', restated '117.72'
+marked keys per view: {'default': 109, 'ab': 142, 'month': 119, 'rtm': 85}
+== the default view's sentence and headline, as drawn
+Over the twelve months to October 2026, CAISO, SP15 hub (south) had the lowest average day-ahead price of the 17 hubs compared, USD 30.27 per MWh, and ERCOT, Austin Energy load zone the highest, USD 39.01 . CAISO, SP15 hub (south) spent the most hours below zero: 11.79 percent of them. Lowest average price 30.27 USD per MWh CAISO, SP15 hub (south). The highest: ERCOT, Austin Energy load zone, 39.01 . Most hours below zero 11.79 percent CAISO, SP15 hub (south). Widest daily spread 42.31 USD per MWh ERCOT, West load zone: the four dearest hours of its average day less the four cheapest. A and B, side by side A none CAISO, NP15 hub (north) CAISO, SP15 hub (south) ERCOT, Austin Energy load zone 

@@ -1,0 +1,1138 @@
+{
+ "page_file_built": "2026-11-19T19:42:04Z",
+ "rows": 23,
+ "checks": 96,
+ "unequal": 0,
+ "items": [
+  {
+   "item": "Figures",
+   "restated": "23",
+   "drawn": "23",
+   "equal": true
+  },
+  {
+   "item": "Publications",
+   "restated": "9",
+   "drawn": "9",
+   "equal": true
+  },
+  {
+   "item": "peer-reviewed note",
+   "restated": "2 of them peer-reviewed papers",
+   "drawn": "2 of them peer-reviewed papers",
+   "equal": true
+  },
+  {
+   "item": "Newest",
+   "restated": "July 9, 2026",
+   "drawn": "July 9, 2026",
+   "equal": true
+  },
+  {
+   "item": "Newest note",
+   "restated": "Microsoft: 2026 Environmental Sustainability Report Data Fact Sheet",
+   "drawn": "Microsoft: 2026 Environmental Sustainability Report Data Fact Sheet",
+   "equal": true
+  },
+  {
+   "item": "File built",
+   "restated": "2026-11-19",
+   "drawn": "2026-11-19",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:strubell_2019_1",
+   "restated": "1,507 kWh",
+   "drawn": "1,507 kWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:strubell_2019_2",
+   "restated": "656,347 kWh",
+   "drawn": "656,347 kWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:patterson_2021_1",
+   "restated": "86 MWh",
+   "drawn": "86 MWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:patterson_2021_2",
+   "restated": "232 MWh",
+   "drawn": "232 MWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:patterson_2021_3",
+   "restated": "24 MWh",
+   "drawn": "24 MWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:patterson_2021_4",
+   "restated": "179 MWh",
+   "drawn": "179 MWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:patterson_2021_5",
+   "restated": "1,287 MWh",
+   "drawn": "1,287 MWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:patterson_2021_6",
+   "restated": "12.2 TWh",
+   "drawn": "12.2 TWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:patterson_2022_1",
+   "restated": "15.4 TWh",
+   "drawn": "15.4 TWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:patterson_2022_2",
+   "restated": "10.8 TWh",
+   "drawn": "10.8 TWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:patterson_2022_3",
+   "restated": "7.5 MWh",
+   "drawn": "7.5 MWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:bloom_2022_1",
+   "restated": "433,196 kWh",
+   "drawn": "433,196 kWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:bloom_2022_2",
+   "restated": "914 kWh",
+   "drawn": "914 kWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:bloom_2022_3",
+   "restated": "1,163,032 kWh",
+   "drawn": "1,163,032 kWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:luccioni_2024_1",
+   "restated": "0.047 kWh",
+   "drawn": "0.047 kWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:luccioni_2024_2",
+   "restated": "2.9 kWh",
+   "drawn": "2.9 kWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:luccioni_2024_3",
+   "restated": "0.0001 kWh",
+   "drawn": "0.0001 kWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:openai_2025_1",
+   "restated": "0.34 Wh",
+   "drawn": "0.34 Wh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:google_2025_1",
+   "restated": "0.24 Wh",
+   "drawn": "0.24 Wh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:google_2025_2",
+   "restated": "0.14 Wh",
+   "drawn": "0.14 Wh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:google_2025_3",
+   "restated": "0.1 Wh",
+   "drawn": "0.1 Wh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:meta_2025_1",
+   "restated": "18,061,781 MWh",
+   "drawn": "18,061,781 MWh",
+   "equal": true
+  },
+  {
+   "item": "figure ai_energy:microsoft_2026_1",
+   "restated": "37,026,353 MWh",
+   "drawn": "37,026,353 MWh",
+   "equal": true
+  },
+  {
+   "item": "default order",
+   "restated": [
+    "ai_energy:google_2025_1",
+    "ai_energy:google_2025_2",
+    "ai_energy:google_2025_3",
+    "ai_energy:patterson_2021_1",
+    "ai_energy:patterson_2021_2",
+    "ai_energy:patterson_2021_3",
+    "ai_energy:patterson_2021_4",
+    "ai_energy:patterson_2021_5",
+    "ai_energy:patterson_2021_6",
+    "ai_energy:patterson_2022_1",
+    "ai_energy:patterson_2022_2",
+    "ai_energy:patterson_2022_3",
+    "ai_energy:bloom_2022_1",
+    "ai_energy:bloom_2022_2",
+    "ai_energy:bloom_2022_3",
+    "ai_energy:luccioni_2024_1",
+    "ai_energy:luccioni_2024_2",
+    "ai_energy:luccioni_2024_3",
+    "ai_energy:meta_2025_1",
+    "ai_energy:microsoft_2026_1",
+    "ai_energy:openai_2025_1",
+    "ai_energy:strubell_2019_1",
+    "ai_energy:strubell_2019_2"
+   ],
+   "drawn": [
+    "ai_energy:google_2025_1",
+    "ai_energy:google_2025_2",
+    "ai_energy:google_2025_3",
+    "ai_energy:patterson_2021_1",
+    "ai_energy:patterson_2021_2",
+    "ai_energy:patterson_2021_3",
+    "ai_energy:patterson_2021_4",
+    "ai_energy:patterson_2021_5",
+    "ai_energy:patterson_2021_6",
+    "ai_energy:patterson_2022_1",
+    "ai_energy:patterson_2022_2",
+    "ai_energy:patterson_2022_3",
+    "ai_energy:bloom_2022_1",
+    "ai_energy:bloom_2022_2",
+    "ai_energy:bloom_2022_3",
+    "ai_energy:luccioni_2024_1",
+    "ai_energy:luccioni_2024_2",
+    "ai_energy:luccioni_2024_3",
+    "ai_energy:meta_2025_1",
+    "ai_energy:microsoft_2026_1",
+    "ai_energy:openai_2025_1",
+    "ai_energy:strubell_2019_1",
+    "ai_energy:strubell_2019_2"
+   ],
+   "equal": true
+  },
+  {
+   "item": "order publisher",
+   "restated": [
+    "ai_energy:google_2025_1",
+    "ai_energy:google_2025_2",
+    "ai_energy:google_2025_3",
+    "ai_energy:patterson_2021_1",
+    "ai_energy:patterson_2021_2",
+    "ai_energy:patterson_2021_3",
+    "ai_energy:patterson_2021_4",
+    "ai_energy:patterson_2021_5",
+    "ai_energy:patterson_2021_6",
+    "ai_energy:patterson_2022_1",
+    "ai_energy:patterson_2022_2",
+    "ai_energy:patterson_2022_3",
+    "ai_energy:bloom_2022_1",
+    "ai_energy:bloom_2022_2",
+    "ai_energy:bloom_2022_3",
+    "ai_energy:luccioni_2024_1",
+    "ai_energy:luccioni_2024_2",
+    "ai_energy:luccioni_2024_3",
+    "ai_energy:meta_2025_1",
+    "ai_energy:microsoft_2026_1",
+    "ai_energy:openai_2025_1",
+    "ai_energy:strubell_2019_1",
+    "ai_energy:strubell_2019_2"
+   ],
+   "drawn": [
+    "ai_energy:google_2025_1",
+    "ai_energy:google_2025_2",
+    "ai_energy:google_2025_3",
+    "ai_energy:patterson_2021_1",
+    "ai_energy:patterson_2021_2",
+    "ai_energy:patterson_2021_3",
+    "ai_energy:patterson_2021_4",
+    "ai_energy:patterson_2021_5",
+    "ai_energy:patterson_2021_6",
+    "ai_energy:patterson_2022_1",
+    "ai_energy:patterson_2022_2",
+    "ai_energy:patterson_2022_3",
+    "ai_energy:bloom_2022_1",
+    "ai_energy:bloom_2022_2",
+    "ai_energy:bloom_2022_3",
+    "ai_energy:luccioni_2024_1",
+    "ai_energy:luccioni_2024_2",
+    "ai_energy:luccioni_2024_3",
+    "ai_energy:meta_2025_1",
+    "ai_energy:microsoft_2026_1",
+    "ai_energy:openai_2025_1",
+    "ai_energy:strubell_2019_1",
+    "ai_energy:strubell_2019_2"
+   ],
+   "equal": true
+  },
+  {
+   "item": "order measures",
+   "restated": [
+    "ai_energy:bloom_2022_2",
+    "ai_energy:patterson_2021_6",
+    "ai_energy:patterson_2022_1",
+    "ai_energy:patterson_2022_2",
+    "ai_energy:microsoft_2026_1",
+    "ai_energy:meta_2025_1",
+    "ai_energy:patterson_2021_1",
+    "ai_energy:patterson_2021_2",
+    "ai_energy:patterson_2021_3",
+    "ai_energy:patterson_2021_4",
+    "ai_energy:patterson_2021_5",
+    "ai_energy:patterson_2022_3",
+    "ai_energy:bloom_2022_1",
+    "ai_energy:strubell_2019_1",
+    "ai_energy:strubell_2019_2",
+    "ai_energy:bloom_2022_3",
+    "ai_energy:luccioni_2024_2",
+    "ai_energy:luccioni_2024_1",
+    "ai_energy:luccioni_2024_3",
+    "ai_energy:google_2025_1",
+    "ai_energy:google_2025_3",
+    "ai_energy:google_2025_2",
+    "ai_energy:openai_2025_1"
+   ],
+   "drawn": [
+    "ai_energy:bloom_2022_2",
+    "ai_energy:patterson_2021_6",
+    "ai_energy:patterson_2022_1",
+    "ai_energy:patterson_2022_2",
+    "ai_energy:microsoft_2026_1",
+    "ai_energy:meta_2025_1",
+    "ai_energy:patterson_2021_1",
+    "ai_energy:patterson_2021_2",
+    "ai_energy:patterson_2021_3",
+    "ai_energy:patterson_2021_4",
+    "ai_energy:patterson_2021_5",
+    "ai_energy:patterson_2022_3",
+    "ai_energy:bloom_2022_1",
+    "ai_energy:strubell_2019_1",
+    "ai_energy:strubell_2019_2",
+    "ai_energy:bloom_2022_3",
+    "ai_energy:luccioni_2024_2",
+    "ai_energy:luccioni_2024_1",
+    "ai_energy:luccioni_2024_3",
+    "ai_energy:google_2025_1",
+    "ai_energy:google_2025_3",
+    "ai_energy:google_2025_2",
+    "ai_energy:openai_2025_1"
+   ],
+   "equal": true
+  },
+  {
+   "item": "order newest",
+   "restated": [
+    "ai_energy:microsoft_2026_1",
+    "ai_energy:meta_2025_1",
+    "ai_energy:google_2025_1",
+    "ai_energy:google_2025_2",
+    "ai_energy:google_2025_3",
+    "ai_energy:openai_2025_1",
+    "ai_energy:luccioni_2024_1",
+    "ai_energy:luccioni_2024_2",
+    "ai_energy:luccioni_2024_3",
+    "ai_energy:bloom_2022_1",
+    "ai_energy:bloom_2022_2",
+    "ai_energy:bloom_2022_3",
+    "ai_energy:patterson_2022_1",
+    "ai_energy:patterson_2022_2",
+    "ai_energy:patterson_2022_3",
+    "ai_energy:patterson_2021_1",
+    "ai_energy:patterson_2021_2",
+    "ai_energy:patterson_2021_3",
+    "ai_energy:patterson_2021_4",
+    "ai_energy:patterson_2021_5",
+    "ai_energy:patterson_2021_6",
+    "ai_energy:strubell_2019_1",
+    "ai_energy:strubell_2019_2"
+   ],
+   "drawn": [
+    "ai_energy:microsoft_2026_1",
+    "ai_energy:meta_2025_1",
+    "ai_energy:google_2025_1",
+    "ai_energy:google_2025_2",
+    "ai_energy:google_2025_3",
+    "ai_energy:openai_2025_1",
+    "ai_energy:luccioni_2024_1",
+    "ai_energy:luccioni_2024_2",
+    "ai_energy:luccioni_2024_3",
+    "ai_energy:bloom_2022_1",
+    "ai_energy:bloom_2022_2",
+    "ai_energy:bloom_2022_3",
+    "ai_energy:patterson_2022_1",
+    "ai_energy:patterson_2022_2",
+    "ai_energy:patterson_2022_3",
+    "ai_energy:patterson_2021_1",
+    "ai_energy:patterson_2021_2",
+    "ai_energy:patterson_2021_3",
+    "ai_energy:patterson_2021_4",
+    "ai_energy:patterson_2021_5",
+    "ai_energy:patterson_2021_6",
+    "ai_energy:strubell_2019_1",
+    "ai_energy:strubell_2019_2"
+   ],
+   "equal": true
+  },
+  {
+   "item": "order oldest",
+   "restated": [
+    "ai_energy:strubell_2019_1",
+    "ai_energy:strubell_2019_2",
+    "ai_energy:patterson_2021_1",
+    "ai_energy:patterson_2021_2",
+    "ai_energy:patterson_2021_3",
+    "ai_energy:patterson_2021_4",
+    "ai_energy:patterson_2021_5",
+    "ai_energy:patterson_2021_6",
+    "ai_energy:patterson_2022_1",
+    "ai_energy:patterson_2022_2",
+    "ai_energy:patterson_2022_3",
+    "ai_energy:bloom_2022_1",
+    "ai_energy:bloom_2022_2",
+    "ai_energy:bloom_2022_3",
+    "ai_energy:luccioni_2024_1",
+    "ai_energy:luccioni_2024_2",
+    "ai_energy:luccioni_2024_3",
+    "ai_energy:openai_2025_1",
+    "ai_energy:google_2025_1",
+    "ai_energy:google_2025_2",
+    "ai_energy:google_2025_3",
+    "ai_energy:meta_2025_1",
+    "ai_energy:microsoft_2026_1"
+   ],
+   "drawn": [
+    "ai_energy:strubell_2019_1",
+    "ai_energy:strubell_2019_2",
+    "ai_energy:patterson_2021_1",
+    "ai_energy:patterson_2021_2",
+    "ai_energy:patterson_2021_3",
+    "ai_energy:patterson_2021_4",
+    "ai_energy:patterson_2021_5",
+    "ai_energy:patterson_2021_6",
+    "ai_energy:patterson_2022_1",
+    "ai_energy:patterson_2022_2",
+    "ai_energy:patterson_2022_3",
+    "ai_energy:bloom_2022_1",
+    "ai_energy:bloom_2022_2",
+    "ai_energy:bloom_2022_3",
+    "ai_energy:luccioni_2024_1",
+    "ai_energy:luccioni_2024_2",
+    "ai_energy:luccioni_2024_3",
+    "ai_energy:openai_2025_1",
+    "ai_energy:google_2025_1",
+    "ai_energy:google_2025_2",
+    "ai_energy:google_2025_3",
+    "ai_energy:meta_2025_1",
+    "ai_energy:microsoft_2026_1"
+   ],
+   "equal": true
+  },
+  {
+   "item": "measures offered",
+   "restated": [
+    "energy of a deployment",
+    "energy of a fleet in a year",
+    "energy of a fleet in a year (electricity consumed within the organization)",
+    "energy of a fleet in a year (electricity consumed)",
+    "energy of a training run",
+    "energy of a training run (kWh times PUE)",
+    "energy of all the experiments of a project",
+    "energy per 1,000 inferences (the mean of the image generation task)",
+    "energy per 1,000 inferences (the mean of the text generation task)",
+    "energy per inference",
+    "energy per prompt",
+    "energy per prompt (one part of it)",
+    "energy per query"
+   ],
+   "drawn": [
+    "energy of a deployment",
+    "energy of a fleet in a year",
+    "energy of a fleet in a year (electricity consumed within the organization)",
+    "energy of a fleet in a year (electricity consumed)",
+    "energy of a training run",
+    "energy of a training run (kWh times PUE)",
+    "energy of all the experiments of a project",
+    "energy per 1,000 inferences (the mean of the image generation task)",
+    "energy per 1,000 inferences (the mean of the text generation task)",
+    "energy per inference",
+    "energy per prompt",
+    "energy per prompt (one part of it)",
+    "energy per query"
+   ],
+   "equal": true
+  },
+  {
+   "item": "filter energy of a deployment",
+   "restated": [
+    "ai_energy:bloom_2022_2"
+   ],
+   "drawn": [
+    "ai_energy:bloom_2022_2"
+   ],
+   "equal": true
+  },
+  {
+   "item": "filter energy of a fleet in a year",
+   "restated": [
+    "ai_energy:patterson_2021_6",
+    "ai_energy:patterson_2022_1",
+    "ai_energy:patterson_2022_2"
+   ],
+   "drawn": [
+    "ai_energy:patterson_2021_6",
+    "ai_energy:patterson_2022_1",
+    "ai_energy:patterson_2022_2"
+   ],
+   "equal": true
+  },
+  {
+   "item": "filter energy of a fleet in a year (electricity consumed within the organization)",
+   "restated": [
+    "ai_energy:microsoft_2026_1"
+   ],
+   "drawn": [
+    "ai_energy:microsoft_2026_1"
+   ],
+   "equal": true
+  },
+  {
+   "item": "filter energy of a fleet in a year (electricity consumed)",
+   "restated": [
+    "ai_energy:meta_2025_1"
+   ],
+   "drawn": [
+    "ai_energy:meta_2025_1"
+   ],
+   "equal": true
+  },
+  {
+   "item": "filter energy of a training run",
+   "restated": [
+    "ai_energy:patterson_2021_1",
+    "ai_energy:patterson_2021_2",
+    "ai_energy:patterson_2021_3",
+    "ai_energy:patterson_2021_4",
+    "ai_energy:patterson_2021_5",
+    "ai_energy:patterson_2022_3",
+    "ai_energy:bloom_2022_1"
+   ],
+   "drawn": [
+    "ai_energy:patterson_2021_1",
+    "ai_energy:patterson_2021_2",
+    "ai_energy:patterson_2021_3",
+    "ai_energy:patterson_2021_4",
+    "ai_energy:patterson_2021_5",
+    "ai_energy:patterson_2022_3",
+    "ai_energy:bloom_2022_1"
+   ],
+   "equal": true
+  },
+  {
+   "item": "filter energy of a training run (kWh times PUE)",
+   "restated": [
+    "ai_energy:strubell_2019_1",
+    "ai_energy:strubell_2019_2"
+   ],
+   "drawn": [
+    "ai_energy:strubell_2019_1",
+    "ai_energy:strubell_2019_2"
+   ],
+   "equal": true
+  },
+  {
+   "item": "filter energy of all the experiments of a project",
+   "restated": [
+    "ai_energy:bloom_2022_3"
+   ],
+   "drawn": [
+    "ai_energy:bloom_2022_3"
+   ],
+   "equal": true
+  },
+  {
+   "item": "filter energy per 1,000 inferences (the mean of the image generation task)",
+   "restated": [
+    "ai_energy:luccioni_2024_2"
+   ],
+   "drawn": [
+    "ai_energy:luccioni_2024_2"
+   ],
+   "equal": true
+  },
+  {
+   "item": "filter energy per 1,000 inferences (the mean of the text generation task)",
+   "restated": [
+    "ai_energy:luccioni_2024_1"
+   ],
+   "drawn": [
+    "ai_energy:luccioni_2024_1"
+   ],
+   "equal": true
+  },
+  {
+   "item": "filter energy per inference",
+   "restated": [
+    "ai_energy:luccioni_2024_3"
+   ],
+   "drawn": [
+    "ai_energy:luccioni_2024_3"
+   ],
+   "equal": true
+  },
+  {
+   "item": "filter energy per prompt",
+   "restated": [
+    "ai_energy:google_2025_1",
+    "ai_energy:google_2025_3"
+   ],
+   "drawn": [
+    "ai_energy:google_2025_1",
+    "ai_energy:google_2025_3"
+   ],
+   "equal": true
+  },
+  {
+   "item": "filter energy per prompt (one part of it)",
+   "restated": [
+    "ai_energy:google_2025_2"
+   ],
+   "drawn": [
+    "ai_energy:google_2025_2"
+   ],
+   "equal": true
+  },
+  {
+   "item": "filter energy per query",
+   "restated": [
+    "ai_energy:openai_2025_1"
+   ],
+   "drawn": [
+    "ai_energy:openai_2025_1"
+   ],
+   "equal": true
+  },
+  {
+   "item": "publishers list",
+   "restated": [
+    "Google: 3 figures in 1 publication (2025)",
+    "Google and the University of California at Berkeley: 9 figures in 2 publications (2021, 2022)",
+    "Hugging Face (BigScience) with Graphcore and LISN: 3 figures in 1 publication (2022)",
+    "Hugging Face and Carnegie Mellon University: 3 figures in 1 publication (2024)",
+    "Meta: 1 figure in 1 publication (2025)",
+    "Microsoft: 1 figure in 1 publication (2026)",
+    "OpenAI (Sam Altman's blog): 1 figure in 1 publication (2025)",
+    "University of Massachusetts Amherst: 2 figures in 1 publication (2019)"
+   ],
+   "drawn": [
+    "Google: 3 figures in 1 publication (2025)",
+    "Google and the University of California at Berkeley: 9 figures in 2 publications (2021, 2022)",
+    "Hugging Face (BigScience) with Graphcore and LISN: 3 figures in 1 publication (2022)",
+    "Hugging Face and Carnegie Mellon University: 3 figures in 1 publication (2024)",
+    "Meta: 1 figure in 1 publication (2025)",
+    "Microsoft: 1 figure in 1 publication (2026)",
+    "OpenAI (Sam Altman's blog): 1 figure in 1 publication (2025)",
+    "University of Massachusetts Amherst: 2 figures in 1 publication (2019)"
+   ],
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:google_2025_1",
+   "restated": [
+    "Period: May 2025 (page 7). Peer-reviewed: no (preprint by the model maker).",
+    "Basis: the paper's comprehensive boundary: active AI accelerators, host CPU and DRAM, idle machines provisioned, data center overhead (PUE). Source: Measuring the environmental impact of delivering AI at Google Scale (https://arxiv.org/abs/2508.15734), page 1, as saved on 2026-11-19 (sha256 348b58c83207).",
+    "Page 1 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: May 2025 (page 7). Peer-reviewed: no (preprint by the model maker).",
+    "Basis: the paper's comprehensive boundary: active AI accelerators, host CPU and DRAM, idle machines provisioned, data center overhead (PUE). Source: Measuring the environmental impact of delivering AI at Google Scale (https://arxiv.org/abs/2508.15734), page 1, as saved on 2026-11-19 (sha256 348b58c83207).",
+    "Page 1 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:google_2025_1",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:google_2025_2",
+   "restated": [
+    "Period: May 2025. Peer-reviewed: no (preprint by the model maker).",
+    "Basis: the active AI accelerators only. Source: Measuring the environmental impact of delivering AI at Google Scale (https://arxiv.org/abs/2508.15734), page 7, as saved on 2026-11-19 (sha256 348b58c83207).",
+    "Page 7 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: May 2025. Peer-reviewed: no (preprint by the model maker).",
+    "Basis: the active AI accelerators only. Source: Measuring the environmental impact of delivering AI at Google Scale (https://arxiv.org/abs/2508.15734), page 7, as saved on 2026-11-19 (sha256 348b58c83207).",
+    "Page 7 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:google_2025_2",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:google_2025_3",
+   "restated": [
+    "Period: May 2025. Peer-reviewed: no (preprint by the model maker).",
+    "Basis: a narrower boundary, as the paper describes it: a methodology aligned with a more narrow, existing approach (its Figure 1). Source: Measuring the environmental impact of delivering AI at Google Scale (https://arxiv.org/abs/2508.15734), page 7, as saved on 2026-11-19 (sha256 348b58c83207).",
+    "Page 7 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: May 2025. Peer-reviewed: no (preprint by the model maker).",
+    "Basis: a narrower boundary, as the paper describes it: a methodology aligned with a more narrow, existing approach (its Figure 1). Source: Measuring the environmental impact of delivering AI at Google Scale (https://arxiv.org/abs/2508.15734), page 7, as saved on 2026-11-19 (sha256 348b58c83207).",
+    "Page 7 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:google_2025_3",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:patterson_2021_1",
+   "restated": [
+    "Period: not stated. Peer-reviewed: no (preprint).",
+    "Basis: as the paper measures it for Google's own models. Source: Carbon Emissions and Large Neural Network Training (https://arxiv.org/abs/2104.10350), page 5, as saved on 2026-11-19 (sha256 89b7f0b905ca).",
+    "Page 5 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: not stated. Peer-reviewed: no (preprint).",
+    "Basis: as the paper measures it for Google's own models. Source: Carbon Emissions and Large Neural Network Training (https://arxiv.org/abs/2104.10350), page 5, as saved on 2026-11-19 (sha256 89b7f0b905ca).",
+    "Page 5 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:patterson_2021_1",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:patterson_2021_2",
+   "restated": [
+    "Period: not stated. Peer-reviewed: no (preprint).",
+    "Basis: as the paper measures it for Google's own models. Source: Carbon Emissions and Large Neural Network Training (https://arxiv.org/abs/2104.10350), page 5 to 6, as saved on 2026-11-19 (sha256 89b7f0b905ca).",
+    "Page 5 to 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: not stated. Peer-reviewed: no (preprint).",
+    "Basis: as the paper measures it for Google's own models. Source: Carbon Emissions and Large Neural Network Training (https://arxiv.org/abs/2104.10350), page 5 to 6, as saved on 2026-11-19 (sha256 89b7f0b905ca).",
+    "Page 5 to 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:patterson_2021_2",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:patterson_2021_3",
+   "restated": [
+    "Period: not stated. Peer-reviewed: no (preprint).",
+    "Basis: as the paper measures it for Google's own models. Source: Carbon Emissions and Large Neural Network Training (https://arxiv.org/abs/2104.10350), page 6, as saved on 2026-11-19 (sha256 89b7f0b905ca).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: not stated. Peer-reviewed: no (preprint).",
+    "Basis: as the paper measures it for Google's own models. Source: Carbon Emissions and Large Neural Network Training (https://arxiv.org/abs/2104.10350), page 6, as saved on 2026-11-19 (sha256 89b7f0b905ca).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:patterson_2021_3",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:patterson_2021_4",
+   "restated": [
+    "Period: not stated. Peer-reviewed: no (preprint).",
+    "Basis: the paper's estimate. Source: Carbon Emissions and Large Neural Network Training (https://arxiv.org/abs/2104.10350), page 6, as saved on 2026-11-19 (sha256 89b7f0b905ca).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: not stated. Peer-reviewed: no (preprint).",
+    "Basis: the paper's estimate. Source: Carbon Emissions and Large Neural Network Training (https://arxiv.org/abs/2104.10350), page 6, as saved on 2026-11-19 (sha256 89b7f0b905ca).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:patterson_2021_4",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:patterson_2021_5",
+   "restated": [
+    "Period: not stated. Peer-reviewed: no (preprint).",
+    "Basis: the paper's estimate (\"Its estimated carbon emissions due to training are 552 tCO2e and its energy consumption is 1287 MWh\"). Source: Carbon Emissions and Large Neural Network Training (https://arxiv.org/abs/2104.10350), page 7, as saved on 2026-11-19 (sha256 89b7f0b905ca).",
+    "Page 7 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: not stated. Peer-reviewed: no (preprint).",
+    "Basis: the paper's estimate (\"Its estimated carbon emissions due to training are 552 tCO2e and its energy consumption is 1287 MWh\"). Source: Carbon Emissions and Large Neural Network Training (https://arxiv.org/abs/2104.10350), page 7, as saved on 2026-11-19 (sha256 89b7f0b905ca).",
+    "Page 7 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:patterson_2021_5",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:patterson_2021_6",
+   "restated": [
+    "Period: 2019. Peer-reviewed: no (preprint).",
+    "Basis: Google's own report as the paper cites it ([Goo20]), the denominator of its Table 4. Source: Carbon Emissions and Large Neural Network Training (https://arxiv.org/abs/2104.10350), page 6, as saved on 2026-11-19 (sha256 89b7f0b905ca).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: 2019. Peer-reviewed: no (preprint).",
+    "Basis: Google's own report as the paper cites it ([Goo20]), the denominator of its Table 4. Source: Carbon Emissions and Large Neural Network Training (https://arxiv.org/abs/2104.10350), page 6, as saved on 2026-11-19 (sha256 89b7f0b905ca).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:patterson_2021_6",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:patterson_2022_1",
+   "restated": [
+    "Period: 2020. Peer-reviewed: no (preprint).",
+    "Basis: the hyperscaler's sustainability report, as the paper cites it. Source: The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink (https://arxiv.org/abs/2204.05149), page 6, as saved on 2026-11-19 (sha256 99baa6948df1).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: 2020. Peer-reviewed: no (preprint).",
+    "Basis: the hyperscaler's sustainability report, as the paper cites it. Source: The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink (https://arxiv.org/abs/2204.05149), page 6, as saved on 2026-11-19 (sha256 99baa6948df1).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:patterson_2022_1",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:patterson_2022_2",
+   "restated": [
+    "Period: 2020. Peer-reviewed: no (preprint).",
+    "Basis: the hyperscaler's sustainability report, as the paper cites it. Source: The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink (https://arxiv.org/abs/2204.05149), page 6, as saved on 2026-11-19 (sha256 99baa6948df1).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: 2020. Peer-reviewed: no (preprint).",
+    "Basis: the hyperscaler's sustainability report, as the paper cites it. Source: The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink (https://arxiv.org/abs/2204.05149), page 6, as saved on 2026-11-19 (sha256 99baa6948df1).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:patterson_2022_2",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:patterson_2022_3",
+   "restated": [
+    "Period: not stated. Peer-reviewed: no (preprint).",
+    "Basis: as the paper states it. Source: The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink (https://arxiv.org/abs/2204.05149), page 8, as saved on 2026-11-19 (sha256 99baa6948df1).",
+    "Page 8 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: not stated. Peer-reviewed: no (preprint).",
+    "Basis: as the paper states it. Source: The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink (https://arxiv.org/abs/2204.05149), page 8, as saved on 2026-11-19 (sha256 99baa6948df1).",
+    "Page 8 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:patterson_2022_3",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:bloom_2022_1",
+   "restated": [
+    "Period: the training, 118 days. Peer-reviewed: no (preprint as read; the arXiv page names no journal).",
+    "Basis: the paper's Table 1. Source: Estimating the Carbon Footprint of BLOOM, a 176B Parameter Language Model (https://arxiv.org/abs/2211.02001), page 2, as saved on 2026-11-19 (sha256 cd8c3732e179).",
+    "Page 2 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: the training, 118 days. Peer-reviewed: no (preprint as read; the arXiv page names no journal).",
+    "Basis: the paper's Table 1. Source: Estimating the Carbon Footprint of BLOOM, a 176B Parameter Language Model (https://arxiv.org/abs/2211.02001), page 2, as saved on 2026-11-19 (sha256 cd8c3732e179).",
+    "Page 2 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:bloom_2022_1",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:bloom_2022_2",
+   "restated": [
+    "Period: the paper's deployment study. Peer-reviewed: no (preprint as read; the arXiv page names no journal).",
+    "Basis: the paper's measurement. Source: Estimating the Carbon Footprint of BLOOM, a 176B Parameter Language Model (https://arxiv.org/abs/2211.02001), page 6, as saved on 2026-11-19 (sha256 cd8c3732e179).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: the paper's deployment study. Peer-reviewed: no (preprint as read; the arXiv page names no journal).",
+    "Basis: the paper's measurement. Source: Estimating the Carbon Footprint of BLOOM, a 176B Parameter Language Model (https://arxiv.org/abs/2211.02001), page 6, as saved on 2026-11-19 (sha256 cd8c3732e179).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:bloom_2022_2",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:bloom_2022_3",
+   "restated": [
+    "Period: the BigScience project. Peer-reviewed: no (preprint as read; the arXiv page names no journal).",
+    "Basis: the paper's estimate. Source: Estimating the Carbon Footprint of BLOOM, a 176B Parameter Language Model (https://arxiv.org/abs/2211.02001), page 7, as saved on 2026-11-19 (sha256 cd8c3732e179).",
+    "Page 7 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: the BigScience project. Peer-reviewed: no (preprint as read; the arXiv page names no journal).",
+    "Basis: the paper's estimate. Source: Estimating the Carbon Footprint of BLOOM, a 176B Parameter Language Model (https://arxiv.org/abs/2211.02001), page 7, as saved on 2026-11-19 (sha256 cd8c3732e179).",
+    "Page 7 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:bloom_2022_3",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:luccioni_2024_1",
+   "restated": [
+    "Period: the study's experiments. Peer-reviewed: yes (ACM FAccT '24).",
+    "Basis: the mean over the study's models for the task, on its hardware. Source: Power Hungry Processing: Watts Driving the Cost of AI Deployment? (https://arxiv.org/abs/2311.16863), page 6, as saved on 2026-11-19 (sha256 997025051680).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: the study's experiments. Peer-reviewed: yes (ACM FAccT '24).",
+    "Basis: the mean over the study's models for the task, on its hardware. Source: Power Hungry Processing: Watts Driving the Cost of AI Deployment? (https://arxiv.org/abs/2311.16863), page 6, as saved on 2026-11-19 (sha256 997025051680).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:luccioni_2024_1",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:luccioni_2024_2",
+   "restated": [
+    "Period: the study's experiments. Peer-reviewed: yes (ACM FAccT '24).",
+    "Basis: the mean over the study's models for the task, on its hardware. Source: Power Hungry Processing: Watts Driving the Cost of AI Deployment? (https://arxiv.org/abs/2311.16863), page 6, as saved on 2026-11-19 (sha256 997025051680).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: the study's experiments. Peer-reviewed: yes (ACM FAccT '24).",
+    "Basis: the mean over the study's models for the task, on its hardware. Source: Power Hungry Processing: Watts Driving the Cost of AI Deployment? (https://arxiv.org/abs/2311.16863), page 6, as saved on 2026-11-19 (sha256 997025051680).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:luccioni_2024_2",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:luccioni_2024_3",
+   "restated": [
+    "Period: the study's experiments. Peer-reviewed: yes (ACM FAccT '24).",
+    "Basis: the study's measurement. Source: Power Hungry Processing: Watts Driving the Cost of AI Deployment? (https://arxiv.org/abs/2311.16863), page 12, as saved on 2026-11-19 (sha256 997025051680).",
+    "Page 12 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: the study's experiments. Peer-reviewed: yes (ACM FAccT '24).",
+    "Basis: the study's measurement. Source: Power Hungry Processing: Watts Driving the Cost of AI Deployment? (https://arxiv.org/abs/2311.16863), page 12, as saved on 2026-11-19 (sha256 997025051680).",
+    "Page 12 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:luccioni_2024_3",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:meta_2025_1",
+   "restated": [
+    "Period: 2024 (the index reports the fiscal year 2024; the table runs 2020 to 2024). Peer-reviewed: no (a company report).",
+    "Basis: the index's table Electricity Consumption by Facility, in MWh; the date is the report's launch as Meta's news page dates it (12 September 2025). Source: 2025 Environmental Data Index (2025 Sustainability Report) (https://sustainability.atmeta.com/asset/2025-environmental-data-index), page 6, as saved on 2026-11-19 (sha256 d7527cd23308).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: 2024 (the index reports the fiscal year 2024; the table runs 2020 to 2024). Peer-reviewed: no (a company report).",
+    "Basis: the index's table Electricity Consumption by Facility, in MWh; the date is the report's launch as Meta's news page dates it (12 September 2025). Source: 2025 Environmental Data Index (2025 Sustainability Report) (https://sustainability.atmeta.com/asset/2025-environmental-data-index), page 6, as saved on 2026-11-19 (sha256 d7527cd23308).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:meta_2025_1",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:microsoft_2026_1",
+   "restated": [
+    "Period: fiscal year 2025 (ended 30 June 2025; the table runs FY20 to FY25). Peer-reviewed: no (a company report).",
+    "Basis: the fact sheet's Table 5, Energy consumption within the organization (MWh); the date is that of Microsoft's post accompanying the report, as its address on blogs.microsoft.com gives it (2026/07/09); the fact sheet prints no date of its own. Source: 2026 Environmental Sustainability Report Data Fact Sheet (https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/msc/documents/presentations/CSR/2026-Microsoft-Environmental-Data-Fact-Sheet-PDF.pdf), page 6, as saved on 2026-11-19 (sha256 0fd180837df0).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: fiscal year 2025 (ended 30 June 2025; the table runs FY20 to FY25). Peer-reviewed: no (a company report).",
+    "Basis: the fact sheet's Table 5, Energy consumption within the organization (MWh); the date is that of Microsoft's post accompanying the report, as its address on blogs.microsoft.com gives it (2026/07/09); the fact sheet prints no date of its own. Source: 2026 Environmental Sustainability Report Data Fact Sheet (https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/msc/documents/presentations/CSR/2026-Microsoft-Environmental-Data-Fact-Sheet-PDF.pdf), page 6, as saved on 2026-11-19 (sha256 0fd180837df0).",
+    "Page 6 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:microsoft_2026_1",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:openai_2025_1",
+   "restated": [
+    "Period: not stated. Peer-reviewed: no (a blog post by the company's chief executive).",
+    "Basis: not stated. Source: The Gentle Singularity (https://blog.samaltman.com/the-gentle-singularity), page the post (one page), as saved on 2026-11-19 (sha256 a23ccf280f49).",
+    "Page the post (one page) of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: not stated. Peer-reviewed: no (a blog post by the company's chief executive).",
+    "Basis: not stated. Source: The Gentle Singularity (https://blog.samaltman.com/the-gentle-singularity), page the post (one page), as saved on 2026-11-19 (sha256 a23ccf280f49).",
+    "Page the post (one page) of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:openai_2025_1",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:strubell_2019_1",
+   "restated": [
+    "Period: not stated. Peer-reviewed: yes (ACL 2019).",
+    "Basis: the paper's estimate (its Table 3, column kWh·PUE). Source: Energy and Policy Considerations for Deep Learning in NLP (https://arxiv.org/abs/1906.02243), page 4, as saved on 2026-11-19 (sha256 0af70b6db336).",
+    "Page 4 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: not stated. Peer-reviewed: yes (ACL 2019).",
+    "Basis: the paper's estimate (its Table 3, column kWh·PUE). Source: Energy and Policy Considerations for Deep Learning in NLP (https://arxiv.org/abs/1906.02243), page 4, as saved on 2026-11-19 (sha256 0af70b6db336).",
+    "Page 4 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:strubell_2019_1",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "hovers ai_energy:strubell_2019_2",
+   "restated": [
+    "Period: not stated. Peer-reviewed: yes (ACL 2019).",
+    "Basis: the paper's estimate (its Table 3, column kWh·PUE). Source: Energy and Policy Considerations for Deep Learning in NLP (https://arxiv.org/abs/1906.02243), page 4, as saved on 2026-11-19 (sha256 0af70b6db336).",
+    "Page 4 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "drawn": [
+    "Period: not stated. Peer-reviewed: yes (ACL 2019).",
+    "Basis: the paper's estimate (its Table 3, column kWh·PUE). Source: Energy and Policy Considerations for Deep Learning in NLP (https://arxiv.org/abs/1906.02243), page 4, as saved on 2026-11-19 (sha256 0af70b6db336).",
+    "Page 4 of the publication, as saved; the ERW cut these words from its saved copy."
+   ],
+   "equal": true
+  },
+  {
+   "item": "cells ai_energy:strubell_2019_2",
+   "restated": true,
+   "drawn": true,
+   "equal": true
+  },
+  {
+   "item": "decisions",
+   "restated": [
+    "as-printed",
+    "no-sum",
+    "order",
+    "no-pair",
+    "which-publications"
+   ],
+   "drawn": [
+    "as-printed",
+    "no-sum",
+    "order",
+    "no-pair",
+    "which-publications"
+   ],
+   "equal": true
+  }
+ ]
+}

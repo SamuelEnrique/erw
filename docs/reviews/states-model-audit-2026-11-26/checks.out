@@ -1,0 +1,72 @@
+== 1. Net interstate trade: which sign balances the profile (newest year)
+  places: 52; the rest (EIA's direct use) below zero when trade is read 'in less out': 23; when read 'out less in': 1
+  state, year, trade, rest as percent of disposition read in-less-out, read out-less-in:
+    ('AK', '2024', 0, 5.7, 5.7)
+    ('AL', '2024', 45473808, 105.7, 6.4)
+    ('AR', '2024', 8121558, 33.6, 2.4)
+    ('AZ', '2024', 19773352, 43.9, 2.0)
+    ('CA', '2024', -53170113, -34.9, 6.5)
+    ('CO', '2024', -1378178, -3.2, 1.4)
+    ('CT', '2024', 15034568, 109.8, 4.3)
+    ('DC', '2024', -10650452, -198.7, 2.2)
+    ('DE', '2024', -7860855, -125.7, 6.4)
+    ('FL', '2024', -6426658, -2.7, 2.1)
+    ('GA', '2024', -23143069, -25.7, 3.8)
+    ('HI', '2024', 0, -1.5, -1.5)
+    ('IA', '2024', 10209351, 40.3, 4.8)
+    ('ID', '2024', -8318897, -57.5, 2.7)
+    ('IL', '2024', 42075109, 63.5, 2.9)
+    ('IN', '2024', -14733534, -20.8, 7.6)
+    ('KS', '2024', 13947317, 66.0, 1.3)
+    ('KY', '2024', -11741135, -29.0, 1.2)
+    ('LA', '2024', -16048529, -16.3, 15.9)
+    ('MA', '2024', -32011354, -121.6, 3.0)
+    ('MD', '2024', -27046030, -86.4, 1.6)
+    ('ME', '2024', 2183717, 49.1, 13.4)
+    ('MI', '2024', 18656491, 38.5, 3.2)
+    ('MN', '2024', -7299302, -18.0, 3.3)
+    ('MO', '2024', -15351002, -36.7, 1.0)
+    ('MS', '2024', 24196549, 99.3, 4.3)
+    ('MT', '2024', 10218513, 121.8, 0.8)
+    ('NC', '2024', -10881115, -13.3, 1.9)
+    ('ND', '2024', 10579449, 66.7, 1.2)
+    ('NE', '2024', -281846, 0.4, 1.9)
+    ('NH', '2024', 5357908, 95.2, 1.4)
+    ('NJ', '2024', -19136447, -46.3, 3.8)
+    ('NM', '2024', 7523344, 49.4, 1.8)
+    ('NV', '2024', 2514651, 12.9, 1.1)
+    ('NY', '2024', -15534925, -18.1, 2.7)
+    ('OH', '2024', -20390743, -23.9, 1.5)
+    ('OK', '2024', 17244889, 47.5, 1.8)
+    ('OR', '2024', 1153679, 5.4, 1.7)
+    ('PA', '2024', 84824698, 119.8, 5.5)
+    ('RI', '2024', 1766013, 49.3, 3.6)
+    ('SC', '2024', 10077131, 25.8, 2.9)
+    ('SD', '2024', 6440287, 91.3, 1.1)
+    ('TN', '2024', -34685604, -61.5, 2.9)
+    ('TX', '2024', -4382744, 8.2, 9.9)
+    ('US', '2024', 0, 4.3, 4.3)
+    ('UT', '2024', -1996537, -8.7, 2.3)
+    ('VA', '2024', -45197052, -60.2, 2.4)
+    ('VT', '2024', 2683457, 94.8, 0.8)
+    ('WA', '2024', 7514232, 16.9, 1.1)
+    ('WI', '2024', -8130924, -20.0, 2.7)
+    ('WV', '2024', 15096392, 90.2, 2.8)
+    ('WY', '2024', 21027580, 242.6, 9.2)
+  median absolute rest: in-less-out 43.9 percent; out-less-in 2.7 percent
+
+== 2. DC's last twelve months
+  total 227,667.8 MWh; natural gas over 9 months 91,170.2 (40.05 percent); not itemized in the 3 months gas is missing 20,721.9
+  if those three months' unitemized generation were gas: 49.15 percent
+  with natural gas not held, the largest source would be solar at 21.83 percent; every share: {'coal': None, 'natural_gas': 40.05, 'nuclear': None, 'hydro': None, 'wind': None, 'solar': 21.83, 'other_renewables': 20.57, 'oil_and_other': 0.08, 'not_itemized': 17.48}
+
+== 3. The United States' plants and Puerto Rico
+  ten largest: [('Grand Coulee', 'Grant', 6809.0), ('Vogtle', 'Burke', 4658.0), ('West County Energy Center', 'Palm Beach', 4263.0), ('Palo Verde', 'Maricopa', 4209.6), ('W A Parish', 'Fort Bend', 4008.4), ('Browns Ferry', 'Limestone', 3854.0), ('Bowen', 'Bartow', 3498.6), ('Crystal River', 'Citrus', 3449.0), ('Barry', 'Mobile', 3343.5), ('Gibson', 'Gibson', 3339.5)]
+  US capacity 1,423,491.7 MW; plants 14864
+
+== 4. Use per person (the page prints none): retail sales over the 2025 county population
+  TX: 16.84 MWh a person a year (sales 534,150,972 MWh, people 31,709,821)
+  CA: 6.20 MWh a person a year (sales 244,196,163 MWh, people 39,355,309)
+  VA: 16.81 MWh a person a year (sales 149,264,232 MWh, people 8,880,107)
+  WY: 29.85 MWh a person a year (sales 17,575,657 MWh, people 588,753)
+  DC: 14.64 MWh a person a year (sales 10,154,052 MWh, people 693,645)

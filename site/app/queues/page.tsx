@@ -37,7 +37,13 @@ function flatWords(grid: Grid, tech: Tech, allWithdrawn: number | null) {
 function Withdrawn({ v, k, grid, tech }: { v: View; k: string; grid: Grid; tech: Tech }) {
   const x = v.whole.past_withdrawn_share_pct;
   if (x === undefined) return NOT;
-  if (!noneWithdrawn(v, file.min_share)) return <N k={k}>{two(x)}</N>;
+  if (!noneWithdrawn(v, file.min_share)) {
+    // session 10213 (docs/reviews/queues-model-audit-2026-11-26.md, finding 2): the builder's mark on a view whose share
+    // counts another grid's labels (the United States' solar with storage counts ERCOT's), drawn on the figure
+    const mark = file.not_comparable?.[`${grid.slug}|${tech.slug}`];
+    if (!mark) return <N k={k}>{two(x)}</N>;
+    return <span title={`${mark.replace(" (above)", "")} The method note, "ERCOT's solar with storage is not comparable", says why. Source: Lawrence Berkeley National Laboratory and GridTracker, Queued Up: 2026 Edition data file.`} data-not-comparable={`${grid.slug}|${tech.slug}`} className="underline decoration-dotted"><N k={k}>{two(x)}</N></span>;
+  }
   const all = viewOf(file, grid.slug, "all");
   return <span title={flatWords(grid, tech, all ? withdrawnOf(all) : null)} data-none-withdrawn={`${grid.slug}|${tech.slug}`} className="underline decoration-dotted"><N k={k}>{two(x)}</N></span>;
 }
@@ -63,7 +69,7 @@ function ActiveChart({ view, name }: { view: View; name: string }) {
         return (
           <g key={d.year}>
             {v > 0 ? <rect x={L + i * bw + 1.5} y={y(v)} width={Math.max(1, bw - 3)} height={y(0) - y(v)} fill={COLOR.active} data-bar={d.year}>
-              <title>{`Entered ${d.year}: ${whole(v)} MW still active, in ${whole(d.row!.requests_active)} requests`}</title>
+              <title>{`Entered ${d.year}: ${whole(v)} MW still active, in ${whole(d.row!.requests_active)} ${d.row!.requests_active === 1 ? "request" : "requests"}`}</title>
             </rect> : null}
             {d.year % 5 === 0 ? <text x={L + (i + 0.5) * bw} y={H - 10} textAnchor="middle" fontSize="11" fill="var(--color-muted)">{d.year}</text> : null}
           </g>
@@ -206,7 +212,7 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
               </p>
               <HeadlineRow>
                 <HeadlineNumber label="Active capacity" value={<N k="head|active_mw">{whole(w.total_active_mw)}</N>} unit="MW"
-                  note={<><N k="head|active_requests">{whole(w.total_active_requests)}</N> {w.total_active_requests === 1 ? "request" : "requests"}. Suspended, and not counted here: <N k="head|suspended_requests">{whole(w.total_suspended_requests)}</N> {w.total_suspended_requests === 1 ? "request" : "requests"}, <N k="head|suspended_mw">{whole(w.total_suspended_mw)}</N> MW.{peak ? <> The most entered in {peak.year}.</> : null}</>} />
+                  note={<><N k="head|active_requests">{whole(w.total_active_requests)}</N> {w.total_active_requests === 1 ? "request" : "requests"}. Suspended, and not counted here: <N k="head|suspended_requests">{whole(w.total_suspended_requests)}</N> {w.total_suspended_requests === 1 ? "request" : "requests"}, <N k="head|suspended_mw">{whole(w.total_suspended_mw)}</N> MW.{peak ? <> More of it entered in {peak.year} than in any other year (by the MW still active; the year in which the most MW or the most requests entered can be another).</> : null}</>} />
                 <HeadlineNumber label={`Reached operation, of ${p0} to ${p1}`} value={share(w.past_operating_share_pct, "head|operating")} unit={w.past_operating_share_pct !== undefined ? "percent" : undefined}
                   note={w.past_operating_share_pct !== undefined ? <>Of <N k="head|past_requests">{whole(w.past_requests)}</N> requests. By capacity: {share(w.past_mw_operating_share_pct, "head|operating_mw")} percent of <N k="head|past_mw">{whole(w.past_mw)}</N> MW.</> : <>Fewer than {file.min_share} requests entered in those years: no share is given.</>} />
                 <HeadlineNumber label="Withdrawn" value={<Withdrawn v={view} k="head|withdrawn" grid={grid} tech={tech} />} unit={w.past_withdrawn_share_pct !== undefined ? "percent" : undefined}
@@ -217,13 +223,13 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
 
               <ToolSection title="Active capacity, by the year it entered">
                 <ChartFrame title={`${name}: MW still active`} legend={[{ label: "Active at the end of " + file.last_year, color: COLOR.active }]}
-                  note={<>Each bar is the capacity of the requests that entered the queue that year and are still active. A request&apos;s capacity is what it asked to connect; for solar with storage, both parts. <N k="without_year">{whole(w.requests_without_year)}</N> of this view&apos;s <N k="total_requests">{whole(w.total_requests)}</N> requests have no year entered and are in no bar.</>}>
+                  note={<>Each bar is the capacity of the requests that entered the queue that year and are still active. A request&apos;s capacity is what it asked to connect, the sum of the parts the file gives MW for: a hybrid&apos;s second part has its own MW in CAISO and for some of the West&apos;s requests, and in no other grid, where a solar-with-storage request carries one figure. <N k="without_year">{whole(w.requests_without_year)}</N> of this view&apos;s <N k="total_requests">{whole(w.total_requests)}</N> requests have no year entered and are in no bar.</>}>
                   <ActiveChart view={view} name={name} />
                 </ChartFrame>
               </ToolSection>
 
               <ToolSection title="What became of each year's requests"
-                note={<>The black line above the bars marks the years counted as past requests, {p0} to {p1}: old enough (five years or more) for most outcomes to be known. Recent years are mostly still open, which is why they are not in the shares above.</>}>
+                note={<>The black line above the bars marks the years counted as past requests, {p0} to {p1}: five years old or more, so in most views most of their outcomes are known (the headline&apos;s &quot;still active or suspended&quot; says how many are not). Recent years still hold many requests whose outcome is not known (in most views fewer than half of each year 2021 to 2024, and most of 2025), which is why they are not in the shares above.</>}>
                 <ChartFrame title={`${name}: by year entered`} legend={[{ label: "Reached operation", color: COLOR.operating }, { label: "Still active or suspended", color: COLOR.open }, { label: "Withdrawn", color: COLOR.withdrawn }]}>
                   <OutcomeChart view={view} name={name} />
                 </ChartFrame>
@@ -242,7 +248,7 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
           )}
 
           <ToolSection title={`${grid.name}: storage, solar with storage, and the rest`} id="kinds"
-            note={<>Storage alone and solar with storage are kept apart from solar and from each other: a solar-with-storage request is one request at one point of interconnection, and its capacity is both parts together. Shares are of the requests that entered from {p0} to {p1}; &quot;not held&quot; means fewer than {file.min_share} such requests, or fewer than {file.min_median} dated ones.</>}>
+            note={<>Storage alone and solar with storage are kept apart from solar and from each other: a solar-with-storage request is one request at one point of interconnection, and its capacity is the sum of the parts the file gives MW for. Berkeley Lab&apos;s file gives the second part its own MW in CAISO and for some of the West&apos;s requests, and in no other grid, so CAISO&apos;s solar-with-storage MW count both parts where ERCOT&apos;s, PJM&apos;s and the rest count one figure: the grids&apos; MW of hybrids are not alike. Shares are of the requests that entered from {p0} to {p1}; &quot;not held&quot; means fewer than {file.min_share} such requests, or fewer than {file.min_median} dated ones.</>}>
             <ToolTable minWidth={760} caption={`${grid.name}: the queue by technology`}
               head={["Technology", "Active, MW", "Active requests", "Reached operation, percent", "Withdrawn, percent", "Median years to operation"]}
               rows={kinds.map(({ t, v }) => ({ key: t.slug, highlight: t.slug === tech.slug || (tech.slug === "all" && (t.slug === "battery" || t.slug === "solar_battery")), cells: v ? [
@@ -268,6 +274,7 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
           <Fold title="What the file does not hold">
             <ul className="max-w-3xl list-disc space-y-1 pl-5">
               <li>Requests after the end of {file.last_year}: the file is a yearly edition, not a live queue.</li>
+              <li data-grid-dates="1">One date for every grid. The 2026 edition is Berkeley Lab&apos;s of the end of 2025, but each grid&apos;s newest dates in it differ: it holds no CAISO request after 17 April 2023 and one ISO-NE request of 2025; NYISO&apos;s newest operation date is 31 December 2023 and MISO&apos;s 19 December 2024, so a later year has no point for them because the file dates none, not because none was built. And its statuses run past the year&apos;s end: 53 requests (13,275 MW) carry a withdrawal date of 2 to 16 January 2026 and count as withdrawn, not active.</li>
               <li>Every plant that operates. A request is &quot;operational&quot; here only when its operator&apos;s queue says so; operators differ in how long they keep finished and withdrawn requests, so a share is of what the queue records, not of everything ever proposed.</li>
               <li>The operation date of many built requests: of {whole(file.counts.operating)} that reached operation, {whole(file.counts.operating_dated)} have both a request date and an operation date in order. ISO-NE&apos;s have none, so it has no median wait.</li>
               <li>The year entered of {whole(file.counts.without_year)} requests, and the status of {whole(file.counts.unknown_status)}.</li>

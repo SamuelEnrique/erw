@@ -107,6 +107,8 @@ PAGE_PATHS+=(site/data/curtailment/where_when.json)   # session 8014 (chain 581,
 PAGE_PATHS+=(site/data/conditions)   # session 9000 (chain 601, parts C and G): congestion and grid conditions (docs/state/page_files_conditions.md)
 PAGE_PATHS+=(site/data/storage/places.json)   # session 8014 (chain 581, part F1): batteries by authority and state
 PAGE_PATHS+=(site/data/queue_places.json)   # session 8014 (chain 581, part F2): the queues outside the seven grids
+PAGE_PATHS+=(site/data/equities)   # session 10000 (chain 701, part D4): the equities page files (dm_equity_pages)
+PAGE_PATHS+=(site/data/predict)    # session 10000 (chain 701, data request 1 of chain 730): the ERW forecast (dm_predict)
 PAGE_PATHS+=(replication/datacenter/page_figures.json replication/datacenter/page_figures.csv   # session 3779: dm_datacenter_figures
             docs/methods/automated_analysis_findings.md   # session 3779: dm_cross_check_rows
             replication/analysis/page_figures.json replication/analysis/page_figures.csv)   # session 3803: dm_analysis_figures
@@ -311,6 +313,10 @@ soft_step dm_authority_facts "$PYTHON" warehouse/derived/authority_facts.py
 # Session 8012 (chain 505, part D1): the day-ahead demand forecast beside the demand that came (two tables and
 # site/data/regions/forecast/), from the six-month files saved above and eia930_ba_demand_hourly
 soft_step dm_forecast_error "$PYTHON" warehouse/derived/forecast_error.py
+# Session 10000 (chain 701, data request 1 of docs/state/data_requests_predict.md, chain 730): the ERW's own demand
+# forecast, made once a day from the tables as they stand after the EIA-930 refresh; it appends tomorrow's forecast to
+# site/data/predict/ledger_demand.csv (never rewriting a row) and rewrites the page files there. No network, no model
+soft_step dm_predict "$PYTHON" warehouse/predict/run.py
 # Session 8013 (chain 505, part D2): the operators' wind and solar forecasts beside the output (site/data/regions/
 # renewables_forecast.json), from caiso_wind_solar_forecast and ercot_wind_solar_forecast; no table of its own
 soft_step dm_renewable_forecast_error "$PYTHON" warehouse/derived/renewable_forecast_error.py
@@ -374,6 +380,11 @@ fi
 # ---- 3. the page files ------------------------------------------------------------------------------------------------
 echo "== the page files (each rebuilt from the tables here; a failed builder leaves its file as it was)"
 soft_step dm_datacenter_page "$PYTHON" warehouse/derived/datacenter_page.py
+# Session 10000 (chain 701, data request 6 of docs/state/data_requests_forecast.md): the announced datacenters, from chain
+# 740's evidence rows (warehouse/forecast/datacenter_announced_rows.json); no request; its stores when it moved
+was_dca="$(sha_of datacenter_announced)"
+soft_step dm_datacenter_announced "$PYTHON" warehouse/derived/datacenter_announced_table.py
+table_stores dm_datacenter_announced_stores datacenter_announced "$was_dca"
 soft_step dm_capture_price "$PYTHON" warehouse/derived/capture_price.py --cache-dir runs/capture_cache
 soft_step dm_curtailment_shares "$PYTHON" warehouse/derived/curtailment_shares.py
 soft_step dm_free_energy "$PYTHON" warehouse/derived/free_energy.py
@@ -382,6 +393,9 @@ soft_step dm_curtailment_worth "$PYTHON" warehouse/derived/curtailment_worth.py
 # page_keep.py takes a row of either build only where it is no older and no shorter than the held one: so the runner's
 # rows of the fuels and the other grids stand, and ERCOT's are refreshed here (the runner's are a rolling window).
 soft_step dm_board_page "$PYTHON" warehouse/derived/page_keep.py board
+# Session 10000 (chain 701, part D4): the equities page files (docs/state/page_files_equities.md), from the warehouse's own
+# tables; the equity side is held until a source a license allows is read (docs/reviews/equities-sources-2026-11-26.md)
+soft_step dm_equity_pages "$PYTHON" warehouse/derived/equity_page_files.py
 # Session 349: the project map's copy (site/data/map.json, and map_v2.json for /resources), rebuilt each day from the
 # energy_projects this machine holds after the sync, so the queue positions placed by a city or a town (session 349)
 # and the day's queues reach /map without waiting for the monthly run. The same builder the monthly run calls.

@@ -128,7 +128,7 @@ export async function EmissionsParts({ focus = null, grid }: { focus?: string | 
         How much CO2 each ISO&apos;s power carries, from EIA&apos;s hourly CO2 estimates for EIA-930. <Link href={METHOD}>Method</Link>.
       </p>
 
-      <Section title="Carbon intensity now, ranked" aside={<Tier />}>
+      <Section title="Carbon intensity, each ISO's latest hour, ranked" aside={<Tier />}>
         {!got.ok ? (
           <NoData what="carbon intensity" reason={got.reason} />
         ) : latest.length === 0 ? (
@@ -158,8 +158,8 @@ export async function EmissionsParts({ focus = null, grid }: { focus?: string | 
               </tbody>
             </table>
             <p className="mt-1 text-xs text-muted">
-              Of generation: the CO2 EIA estimates for the power made in the ISO, over its net generation. Of demand: the CO2 of
-              the power used there, imports counted and exports taken out, over its demand; the two differ by trade. EIA
+              Of generation: the CO2 EIA estimates for the power made in the ISO (each fuel&apos;s generation in the hour times one emission factor for that fuel, so which plant ran does not enter), over its net generation. Of demand: the CO2 of
+              the power used there, imports counted at EIA&apos;s own estimate of their CO2 and exports taken out, over its demand; the two differ by trade. Both are averages over all the power of the hour, not the CO2 an added MWh of load would cause, which can be half the average or half as much again. EIA
               publishes generation a day or more late, so the latest hour is not the current one.
             </p>
           </div>

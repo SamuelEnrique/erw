@@ -233,7 +233,7 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
   const box = await evaluate(`(() => { const e = document.querySelector('[data-bar="${first.key}"]'); e.scrollIntoView({ block: "center" }); const r = e.getBoundingClientRect(); return { x: r.x + r.width * 0.75, y: r.y + r.height / 2 }; })()`);
   await noRequest("pointing at a bar", () => send("Input.dispatchMouseEvent", { type: "mouseMoved", x: box.x, y: box.y }));
   const hover = await evaluate(STATE);
-  check(/moved by .+: all-in power per GPU-hour is USD [\d.]+ at [\d,.-]+ and USD [\d.]+ at [\d,.-]+; USD [\d.]+ at /.test(hover.readout) && hover.readout === first.title, "pointing at a bar states the two values and the step", hover.readout);
+  check(/moved by .+: levelized power per GPU-hour is USD [\d.]+ at [\d,.-]+ and USD [\d.]+ at [\d,.-]+; USD [\d.]+ at /.test(hover.readout) && hover.readout === first.title, "pointing at a bar states the two values and the step", hover.readout);
   check(/^How the load runs, the other way \(the same in every hour\): USD [\d.]+ per GPU-hour; USD [\d.]+ as it is \(off in the 100 most expensive hours of each year\)\.$/.test(s.bars.find((b) => b.key === "run").title), "the way of running has one step, the other way, stated with both figures", s.bars.find((b) => b.key === "run").title);
   await shot("datacenter-scenarios-compared-desktop", 1280);
 

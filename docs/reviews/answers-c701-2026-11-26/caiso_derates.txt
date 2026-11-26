@@ -1,0 +1,11 @@
+{'20261118': 'raw', '20261117': 'raw', '20261116': 'raw', '20261115': 'raw', '20261114': 'raw'}
+natures of work (rows, five days): {'AMBIENT_DUE_TO_TEMP': 4712, 'PLANT_TROUBLE': 1499, 'AMBIENT_NOT_DUE_TO_TEMP': 1378, 'PLANT_MAINTENANCE': 1180, 'TRANSMISSION_INDUCED': 326, 'AMBIENT_DUE_TO_FUEL_INSUFFICIENCY': 313, 'TECHNICAL_LIMITATIONS_NOT_IN_MARKET_MODEL': 195, 'ENVIRONMENTAL_RESTRICTIONS': 138, 'UNIT_TESTING': 96, 'NEW_GENERATOR_TEST_ENERGY': 54, 'METERING_TELEMETRY': 31, 'TRANSITIONAL_LIMITATION': 14, 'SHORT_TERM_USE_LIMIT_REACHED': 8, 'RIMS_OUTAGE': 3, 'RTU_RIG': 1}
+mean MW over each day's hours:
+             total   outage  derate  ambient  transmission   fuel
+local_day                                                        
+20261114   20325.0  15863.3  4461.7   1499.6        2401.4  560.6
+20261115   20817.6  16741.5  4076.1   1437.6        2069.5  569.0
+20261116   21602.0  17879.7  3722.3    983.1        2124.5  614.7
+20261117   21602.8  17926.1  3676.7   1045.5        2072.9  558.2
+20261118   22461.7  18180.1  4281.6   1018.1        2706.3  557.0
+five days: {'total': 21361.8, 'outage': 17318.1, 'derate': 4043.7, 'ambient': 1196.8, 'transmission': 2274.9, 'fuel': 571.9} | derate share of the total 18.9 percent

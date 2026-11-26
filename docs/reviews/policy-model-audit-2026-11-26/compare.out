@@ -1,0 +1,35 @@
+DIFF calendar|weekFrom: page '2026-11-18' | restated '2026-11-19'
+DIFF calendar|week|n: page 6 | restated 4
+PAGE ONLY calendar|week|4: '2026-11-18|ferc:CP26-564|FERC|Environmental review|scheduled'
+PAGE ONLY calendar|week|5: '2026-11-18|ferc:PF26-7|FERC|Application|filed'
+RESTATED ONLY laws90|changes|AL: 1
+RESTATED ONLY laws90|changes|AR: 6
+RESTATED ONLY laws90|changes|AZ: 3
+RESTATED ONLY laws90|changes|CA: 2
+RESTATED ONLY laws90|changes|CO: 2
+RESTATED ONLY laws90|changes|FL: 8
+RESTATED ONLY laws90|changes|IA: 1
+RESTATED ONLY laws90|changes|ID: 2
+RESTATED ONLY laws90|changes|IN: 1
+RESTATED ONLY laws90|changes|KS: 1
+RESTATED ONLY laws90|changes|LA: 1
+RESTATED ONLY laws90|changes|MD: 1
+RESTATED ONLY laws90|changes|MI: 1
+RESTATED ONLY laws90|changes|MO: 3
+RESTATED ONLY laws90|changes|NC: 2
+RESTATED ONLY laws90|changes|NE: 1
+RESTATED ONLY laws90|changes|NJ: 1
+RESTATED ONLY laws90|changes|NM: 3
+RESTATED ONLY laws90|changes|NV: 1
+RESTATED ONLY laws90|changes|NY: 1
+RESTATED ONLY laws90|changes|OK: 2
+RESTATED ONLY laws90|changes|OR: 5
+RESTATED ONLY laws90|changes|PA: 15
+RESTATED ONLY laws90|changes|SC: 1
+RESTATED ONLY laws90|changes|TN: 1
+RESTATED ONLY laws90|changes|TX: 10
+RESTATED ONLY laws90|changes|UT: 1
+RESTATED ONLY laws90|changes|WA: 2
+RESTATED ONLY laws90|changes|WI: 2
+RESTATED ONLY laws90|changes|WY: 2
+equal 534, differ 2, page only 2, restated only 30, of 568 keys

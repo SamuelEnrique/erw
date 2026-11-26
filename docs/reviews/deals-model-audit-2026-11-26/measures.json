@@ -1,0 +1,821 @@
+{
+ "ai_basis_set": 16,
+ "ai_by_kind": {
+  "behind_the_meter": 4,
+  "capital": 75,
+  "compute_capacity": 29,
+  "fuel_supply": 2,
+  "gas_buildout": 6,
+  "m_and_a": 24,
+  "nuclear_restart_uprate": 1,
+  "offtake": 11,
+  "other": 27,
+  "ppa": 20,
+  "project_finance": 12,
+  "storage": 1
+ },
+ "ai_by_type": {
+  "behind_the_meter": 4,
+  "debt": 32,
+  "equity_raise": 34,
+  "fuel_supply": 2,
+  "joint_venture": 14,
+  "lease": 10,
+  "m_and_a": 23,
+  "offtake": 22,
+  "other": 36,
+  "ppa": 22,
+  "project_finance": 13
+ },
+ "ai_no_energy_word": 160,
+ "ai_no_energy_word_by_kind": {
+  "capital": 63,
+  "compute_capacity": 29,
+  "m_and_a": 17,
+  "offtake": 10,
+  "other": 21,
+  "ppa": 8,
+  "project_finance": 12
+ },
+ "ai_tagged": 212,
+ "ai_tech_top": [
+  [
+   "-",
+   146
+  ],
+  [
+   "data center",
+   25
+  ],
+  [
+   "gas",
+   12
+  ],
+  [
+   "nuclear",
+   10
+  ],
+  [
+   "solar",
+   5
+  ],
+  [
+   "geothermal",
+   2
+  ],
+  [
+   "AI",
+   1
+  ],
+  [
+   "virtual power plant",
+   1
+  ],
+  [
+   "gas engine",
+   1
+  ],
+  [
+   "copper",
+   1
+  ]
+ ],
+ "ai_with_mw": [
+  17,
+  13307.5
+ ],
+ "ai_with_usd": [
+  122,
+  3059388000000.0
+ ],
+ "candidate_mw_counted_twice": 0,
+ "candidate_pairs_detail": [],
+ "candidate_pairs_same_type_parties_30d": 0,
+ "candidate_usd_counted_twice": 0,
+ "checked_by_month_of_check": {
+  "2026-09": 1571,
+  "2026-10": 941,
+  "2026-11": 387
+ },
+ "checked_last": "2026-11-12T22:08:35Z",
+ "companies_from_deals": 541,
+ "companies_from_deals_with_deal_tag": 541,
+ "companies_from_deals_with_location": 195,
+ "companies_from_deals_with_story_link": 541,
+ "companies_rows": 562,
+ "date_basis": {
+  "first_story_published": 579,
+  "stated": 4
+ },
+ "days_from_newest_to_2026_11_26": 14,
+ "doubtful_pairs": [
+  {
+   "both_held": true
+  },
+  {
+   "both_held": true
+  },
+  {
+   "both_held": true
+  }
+ ],
+ "doubtful_usd_both": [
+  [
+   96000000.0,
+   null
+  ],
+  [
+   15000000000.0,
+   200000000000.0
+  ],
+  [
+   40000000000.0,
+   50000000000.0
+  ]
+ ],
+ "evidence_rows_found": 578,
+ "fields_version": {
+  "2232": 54,
+  "upgraded": 529
+ },
+ "first_date": "2025-01-05",
+ "flag_kinds": {
+  "headline": 13,
+  "record": 13,
+  "usd N above the bound N": 1
+ },
+ "flags_rows": 14,
+ "folded_deals": 578,
+ "folded_lost_figures": [
+  {
+   "dup_mw": null,
+   "dup_usd": null,
+   "kept_mw": null,
+   "kept_usd": 3800000000.0
+  },
+  {
+   "dup_mw": null,
+   "dup_usd": null,
+   "kept_mw": null,
+   "kept_usd": null
+  },
+  {
+   "dup_mw": null,
+   "dup_usd": 1700000000.0,
+   "kept_mw": null,
+   "kept_usd": 1750000000.0
+  },
+  {
+   "dup_mw": 433.0,
+   "dup_usd": 4200000000.0,
+   "kept_mw": null,
+   "kept_usd": 4000000000.0
+  },
+  {
+   "dup_mw": null,
+   "dup_usd": null,
+   "kept_mw": 190.0,
+   "kept_usd": null
+  }
+ ],
+ "last_date": "2026-11-12",
+ "median_mw_behind_the_meter_mix": [
+  [
+   280.0,
+   "-",
+   "behind_the_meter",
+   "-"
+  ],
+  [
+   450.0,
+   "gas",
+   "behind_the_meter",
+   "-"
+  ],
+  [
+   900.0,
+   "-",
+   "behind_the_meter",
+   "-"
+  ]
+ ],
+ "median_mw_m_and_a_mix": [
+  [
+   65.0,
+   "data center",
+   "m_and_a",
+   "-"
+  ],
+  [
+   892.0,
+   "gas",
+   "m_and_a",
+   "-"
+  ],
+  [
+   5400.0,
+   "-",
+   "m_and_a",
+   "-"
+  ]
+ ],
+ "median_mw_offtake_mix": [
+  [
+   20.0,
+   "-",
+   "compute_capacity",
+   "-"
+  ],
+  [
+   50.0,
+   "data center",
+   "offtake",
+   "Saudi Arabia"
+  ],
+  [
+   380.0,
+   "-",
+   "offtake",
+   "-"
+  ]
+ ],
+ "median_mw_other_mix": [
+  [
+   222.0,
+   "data center",
+   "other",
+   "-"
+  ],
+  [
+   620.0,
+   "gas",
+   "other",
+   "-"
+  ],
+  [
+   720.0,
+   "gas",
+   "other",
+   "-"
+  ],
+  [
+   900.0,
+   "gas",
+   "gas_buildout",
+   "-"
+  ],
+  [
+   1700.0,
+   "gas",
+   "other",
+   "-"
+  ],
+  [
+   6000.0,
+   "nuclear",
+   "other",
+   "-"
+  ]
+ ],
+ "median_mw_ppa_mix": [
+  [
+   43.5,
+   "solar",
+   "ppa",
+   "-"
+  ],
+  [
+   150.0,
+   "geothermal",
+   "ppa",
+   "-"
+  ],
+  [
+   190.0,
+   "nuclear",
+   "ppa",
+   "-"
+  ],
+  [
+   230.0,
+   "-",
+   "ppa",
+   "-"
+  ],
+  [
+   270.0,
+   "nuclear",
+   "nuclear_restart_uprate",
+   "-"
+  ],
+  [
+   300.0,
+   "solar-plus-storage",
+   "storage",
+   "-"
+  ],
+  [
+   396.0,
+   "geothermal",
+   "ppa",
+   "-"
+  ],
+  [
+   509.0,
+   "solar",
+   "storage",
+   "-"
+  ],
+  [
+   702.0,
+   "fuel cell",
+   "ppa",
+   "-"
+  ],
+  [
+   1200.0,
+   "-",
+   "ppa",
+   "-"
+  ],
+  [
+   2800.0,
+   "fuel cells",
+   "ppa",
+   "-"
+  ],
+  [
+   3600.0,
+   "nuclear",
+   "ppa",
+   "-"
+  ]
+ ],
+ "mw_by_country": {
+  "": 38147.0,
+  "Saudi Arabia": 50.0,
+  "US": 2100.0
+ },
+ "mw_by_stage": {
+  "": [
+   5,
+   4714.5
+  ],
+  "announced": [
+   3,
+   5950.0
+  ],
+  "closed": [
+   3,
+   5600.0
+  ],
+  "signed": [
+   24,
+   24032.5
+  ]
+ },
+ "mw_by_status": {
+  "": [
+   5,
+   4714.5
+  ],
+  "announced": [
+   3,
+   5950.0
+  ],
+  "closed": [
+   3,
+   5600.0
+  ],
+  "signed": [
+   24,
+   24032.5
+  ]
+ },
+ "mw_top10": [
+  {
+   "ai": "false",
+   "country": "",
+   "date": "2026-10-20",
+   "flags": false,
+   "kind": "other",
+   "mw": 6000.0,
+   "mwh": null,
+   "status": "signed",
+   "tech": "nuclear",
+   "type": "other"
+  },
+  {
+   "ai": "false",
+   "country": "",
+   "date": "2026-09-30",
+   "flags": false,
+   "kind": "m_and_a",
+   "mw": 5400.0,
+   "mwh": null,
+   "status": "closed",
+   "tech": "",
+   "type": "m_and_a"
+  },
+  {
+   "ai": "true",
+   "country": "",
+   "date": "2025-02-26",
+   "flags": false,
+   "kind": "gas_buildout",
+   "mw": 5000.0,
+   "mwh": null,
+   "status": "announced",
+   "tech": "gas",
+   "type": "joint_venture"
+  },
+  {
+   "ai": "false",
+   "country": "",
+   "date": "2026-10-06",
+   "flags": false,
+   "kind": "ppa",
+   "mw": 3600.0,
+   "mwh": null,
+   "status": "signed",
+   "tech": "nuclear",
+   "type": "ppa"
+  },
+  {
+   "ai": "false",
+   "country": "",
+   "date": "2026-06-05",
+   "flags": false,
+   "kind": "fuel_supply",
+   "mw": 3000.0,
+   "mwh": null,
+   "status": "signed",
+   "tech": "gas",
+   "type": "fuel_supply"
+  },
+  {
+   "ai": "true",
+   "country": "",
+   "date": "2026-04-13",
+   "flags": false,
+   "kind": "ppa",
+   "mw": 2800.0,
+   "mwh": null,
+   "status": "signed",
+   "tech": "fuel cells",
+   "type": "ppa"
+  },
+  {
+   "ai": "false",
+   "country": "US",
+   "date": "2026-10-12",
+   "flags": true,
+   "kind": "capital",
+   "mw": 2100.0,
+   "mwh": null,
+   "status": "signed",
+   "tech": "solar",
+   "type": "joint_venture"
+  },
+  {
+   "ai": "false",
+   "country": "",
+   "date": "2026-09-30",
+   "flags": false,
+   "kind": "other",
+   "mw": 1700.0,
+   "mwh": null,
+   "status": "",
+   "tech": "gas",
+   "type": "other"
+  },
+  {
+   "ai": "true",
+   "country": "",
+   "date": "2026-10-07",
+   "flags": false,
+   "kind": "ppa",
+   "mw": 1200.0,
+   "mwh": null,
+   "status": "",
+   "tech": "",
+   "type": "ppa"
+  },
+  {
+   "ai": "false",
+   "country": "",
+   "date": "2026-10-19",
+   "flags": false,
+   "kind": "smr",
+   "mw": 960.0,
+   "mwh": null,
+   "status": "signed",
+   "tech": "nuclear",
+   "type": "smr"
+  }
+ ],
+ "mw_top3_share": 40.7,
+ "mw_us_named_country": [
+  1,
+  2100.0
+ ],
+ "named_grid_rows": [
+  {
+   "ai": "true",
+   "grid": "PJM",
+   "state": "",
+   "state_grid": ""
+  }
+ ],
+ "no_usd_other_currency_in_evidence": 10,
+ "nov_days": {
+  "2026-11-04": 3,
+  "2026-11-05": 13,
+  "2026-11-11": 6,
+  "2026-11-12": 10
+ },
+ "nov_folded_pairs_in_month": 0,
+ "nov_mw_by_status": {
+  "": 892.0,
+  "announced": 900.0,
+  "signed": 709.5
+ },
+ "rows": 583,
+ "rows_by_country_top": [
+  [
+   "",
+   470
+  ],
+  [
+   "United States",
+   15
+  ],
+  [
+   "US",
+   11
+  ],
+  [
+   "Canada",
+   8
+  ],
+  [
+   "India",
+   8
+  ],
+  [
+   "Brazil",
+   6
+  ],
+  [
+   "Japan",
+   5
+  ],
+  [
+   "Australia",
+   4
+  ]
+ ],
+ "rows_dated_before_2025_10_01": 42,
+ "same_mw_same_party_60d": [],
+ "scored_last_at": "2026-11-12T22:06:09Z",
+ "scored_last_story": "2026-12-01",
+ "stories_after_newest_deal": 2107,
+ "stories_after_newest_deal_scored_eligible": 0,
+ "sure_below_0_6": [
+  143,
+  5100.0
+ ],
+ "sure_below_0_7": [
+  297,
+  18592.0
+ ],
+ "tracker_mw": 40297.0,
+ "tracker_mw_without_cancelled": [
+  35,
+  40297.0
+ ],
+ "tracker_mw_without_cancelled_and_rumored": [
+  35,
+  40297.0
+ ],
+ "usd_and_mw_rows": 8,
+ "usd_kept_other_currency_in_evidence": 2,
+ "usd_per_mw": [
+  {
+   "kind": "capital",
+   "status": "closed",
+   "tech": "solar",
+   "type": "debt",
+   "usd_per_mw_million": 1.281
+  },
+  {
+   "kind": "capital",
+   "status": "signed",
+   "tech": "data center",
+   "type": "debt",
+   "usd_per_mw_million": 5.0
+  },
+  {
+   "kind": "capital",
+   "status": "signed",
+   "tech": "solar",
+   "type": "joint_venture",
+   "usd_per_mw_million": 0.571
+  },
+  {
+   "kind": "compute_capacity",
+   "status": "signed",
+   "tech": "",
+   "type": "offtake",
+   "usd_per_mw_million": 35.0
+  },
+  {
+   "kind": "gas_buildout",
+   "status": "",
+   "tech": "gas",
+   "type": "other",
+   "usd_per_mw_million": 0.689
+  },
+  {
+   "kind": "ppa",
+   "status": "signed",
+   "tech": "nuclear",
+   "type": "ppa",
+   "usd_per_mw_million": 1.194
+  },
+  {
+   "kind": "ppa",
+   "status": "",
+   "tech": "",
+   "type": "ppa",
+   "usd_per_mw_million": 0.667
+  },
+  {
+   "kind": "ppa",
+   "status": "signed",
+   "tech": "fuel cell",
+   "type": "ppa",
+   "usd_per_mw_million": 5.698
+  }
+ ],
+ "usd_rows_with_valuation_word_in_evidence": 6,
+ "usd_span_valuation_word": 0,
+ "window": {
+  "2025-01": {
+   "deals": 11,
+   "eligible": 56,
+   "scored": 390,
+   "sent": 56,
+   "stories": 390
+  },
+  "2025-02": {
+   "deals": 8,
+   "eligible": 44,
+   "scored": 363,
+   "sent": 44,
+   "stories": 363
+  },
+  "2025-03": {
+   "deals": 14,
+   "eligible": 40,
+   "scored": 351,
+   "sent": 40,
+   "stories": 351
+  },
+  "2025-04": {
+   "deals": 9,
+   "eligible": 51,
+   "scored": 383,
+   "sent": 51,
+   "stories": 383
+  },
+  "2025-05": {
+   "deals": 0,
+   "eligible": 2,
+   "scored": 13,
+   "sent": 2,
+   "stories": 370
+  },
+  "2025-06": {
+   "deals": 0,
+   "stories": 369
+  },
+  "2025-07": {
+   "deals": 0,
+   "stories": 380
+  },
+  "2025-08": {
+   "deals": 0,
+   "stories": 368
+  },
+  "2025-09": {
+   "deals": 0,
+   "stories": 398
+  },
+  "2025-10": {
+   "deals": 17,
+   "eligible": 50,
+   "scored": 265,
+   "sent": 50,
+   "stories": 650
+  },
+  "2025-11": {
+   "deals": 22,
+   "eligible": 50,
+   "scored": 263,
+   "sent": 50,
+   "stories": 629
+  },
+  "2025-12": {
+   "deals": 11,
+   "eligible": 37,
+   "scored": 262,
+   "sent": 37,
+   "stories": 656
+  },
+  "2026-01": {
+   "deals": 32,
+   "eligible": 138,
+   "scored": 631,
+   "sent": 138,
+   "stories": 631
+  },
+  "2026-02": {
+   "deals": 41,
+   "eligible": 143,
+   "scored": 652,
+   "sent": 143,
+   "stories": 652
+  },
+  "2026-03": {
+   "deals": 42,
+   "eligible": 167,
+   "scored": 648,
+   "sent": 167,
+   "stories": 648
+  },
+  "2026-04": {
+   "deals": 38,
+   "eligible": 125,
+   "scored": 636,
+   "sent": 125,
+   "stories": 636
+  },
+  "2026-05": {
+   "deals": 32,
+   "eligible": 128,
+   "scored": 631,
+   "sent": 128,
+   "stories": 631
+  },
+  "2026-06": {
+   "deals": 23,
+   "eligible": 93,
+   "scored": 393,
+   "sent": 93,
+   "stories": 636
+  },
+  "2026-07": {
+   "deals": 15,
+   "eligible": 48,
+   "scored": 249,
+   "sent": 48,
+   "stories": 634
+  },
+  "2026-08": {
+   "deals": 10,
+   "eligible": 49,
+   "scored": 221,
+   "sent": 49,
+   "stories": 549
+  },
+  "2026-09": {
+   "deals": 59,
+   "eligible": 351,
+   "scored": 3199,
+   "sent": 351,
+   "stories": 3567
+  },
+  "2026-10": {
+   "deals": 162,
+   "eligible": 1198,
+   "scored": 10279,
+   "sent": 1198,
+   "stories": 11914
+  },
+  "2026-11": {
+   "deals": 32,
+   "eligible": 129,
+   "scored": 1022,
+   "sent": 129,
+   "stories": 3371
+  },
+  "2026-12": {
+   "deals": 0,
+   "scored": 1,
+   "stories": 1
+  }
+ },
+ "with_mw_and_mwh": 1,
+ "with_mwh": 3
+}

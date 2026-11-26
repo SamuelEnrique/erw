@@ -1,0 +1,234 @@
+Choose
+Kind: all
+Select allClear
+Operating units
+Planned units
+Queue positions
+Datacenters
+Grid: all
+Select allClear
+ERCOT
+CAISO
+PJM
+MISO
+SPP
+NYISO
+ISO-NE
+Outside the seven ISOs
+Grid not stated
+Technology: all
+Select allClear
+Solar
+Wind
+Batteries
+Other storage
+Natural gas
+Nuclear
+Coal
+Hydro
+Petroleum
+Biomass
+Geothermal
+Other
+Storage (queue positions)
+Hybrid
+Transmission
+Datacenter (a load)
+Not stated
+Status: all
+Select allClear
+Generating units
+Operating
+Planned, regulatory approvals not started
+Regulatory approvals pending
+Regulatory approvals received, not under construction
+Under construction, half or less complete
+Under construction, more than half complete
+Construction complete, not yet operating
+Other
+Queue positions
+Active
+Suspended
+Completed
+Not stated
+Datacenters
+Operating
+Under construction
+Planned
+Active
+Completed
+Withdrawn
+Not stated
+State (or click one on the map): all
+Select allClear
+Not stated
+AK
+AL
+AR
+AZ
+CA
+CO
+CT
+DC
+DE
+FL
+GA
+HI
+IA
+ID
+IL
+IN
+KS
+KY
+LA
+MA
+MD
+ME
+MI
+MN
+MO
+MS
+MT
+NC
+ND
+NE
+NH
+NJ
+NM
+NV
+NY
+OH
+OK
+OR
+PA
+PR
+RI
+SC
+SD
+TN
+TX
+UT
+VA
+VT
+WA
+WI
+WV
+WY
+Size, MW
+to
+Near a pointiType a point as latitude, longitude in decimal degrees (for example 32.4487, -99.7331, the form a web map copies), or press "Measure from this row" on a row's card; then a distance in miles. Both are needed. The distance is the great-circle distance on a sphere of the Earth's mean radius, 3,958.8 miles, from each row's own point, not its site: EIA's coordinates of the unit's plant for a unit, the county's, city's or town's point for a queue position, and for a datacenter the operator's own coordinates, its city's or town's point or its county's point (the list's "Placed at" says which). Both ends are counted in; a row with no point is left out. The list under the map gives every row within it, nearest first.
+withinmiles
+Lines on the mapiTransmission lines of 230 kV and above are HIFLD's Electric Power Transmission Lines, and the HGL pipelines are EIA's layer of January 2020, both as Penn State's PASDA serves them; each is simplified for the web, and its hover names its table. EIA's layers of natural gas, crude oil and petroleum product pipelines, LNG terminals, refineries and underground gas storage are served from a host whose robots file refuses this reader, so they are not drawn; HIFLD's compressor stations and substations are not in a public service the ERW reads. Every line HIFLD lists at 230 kV or more is drawn alike, whatever its status (in service, under construction, or a status HIFLD does not state) and whether HIFLD inferred its voltage; the date in a line's hover is the day the ERW read PASDA's copy, not the date of HIFLD's data, which the table keeps line by line. The method note says each.
+Transmission lines, 230 kV and above
+HGL pipelines (EIA)
+ResetThe map, the totals and the table follow these choices, and the address keeps them, so a view can be shared. Nothing you choose leaves this page.
+In every grid and every state, the map holds 31,073 generating units of EIA's inventory of 2026-09, 1,713,756 MW; 3,684 queue positions, 768,297 MW requested; and 278 datacenters, 28,254 MW stated at 21 of them.iComputed in your browser from the page's own copy of the four tables (eia860m_operating_generators and eia860m_planned_generators and energy_projects and datacenter_facilities, built 2026-11-19, the copy built 2026-11-19), summed over the rows chosen. Nothing is read from the live set for this figure. MW is never added across kinds: a unit's nameplate, a queue position's request and a datacenter's stated load are different things. Queue positions are those of ERCOT, CAISO, SPP and ISO-NE alone: no queue position of PJM, MISO or NYISO is on this map.iEach grid operator's own terms decide it: MISO's pulls are paused while its terms are reviewed, NYISO's legal notice confers no license, and the ERW holds no queue of PJM. Their generating units, operating and planned, are on the map from EIA's inventory. The line "The queue positions drawn" of Decisions on this page gives the same rule with its sources.
+Generating units, by EIA's statusiComputed in your browser from the page's own copy of EIA-860M's operating and planned generators (eia860m_operating_generators and eia860m_planned_generators, EIA's inventory of 2026-09, the copy built 2026-11-19), summed over the rows chosen. Nothing is read from the live set for this figure. The MW is nameplate capacity, summed over the units of the status. "Operating" is EIA's operating inventory: it also holds units on standby and units out of service, some not expected back within the next calendar year (EIA's codes SB, OA and OS; a unit's card names its code).
+Operating
+1,423,492MW
+28,712 units
+Planned, regulatory approvals not started
+100,557MW
+695 units
+Regulatory approvals pending
+64,727MW
+406 units
+Regulatory approvals received, not under construction
+27,036MW
+228 units
+Under construction, half or less complete
+54,089MW
+465 units
+Under construction, more than half complete
+26,135MW
+409 units
+Construction complete, not yet operating
+17,720MW
+158 units
+Queue positions, by status (MW requested)iComputed in your browser from the page's own copy of the interconnection queue positions (energy_projects, vintage 2026-11-05, the copy built 2026-11-19), summed over the rows chosen. Nothing is read from the live set for this figure. The MW is what each position asks to connect, not a load. For ERCOT's positions, "Completed" is a signed interconnection agreement, built or not: ERCOT's report has no status column, and this copy of the queue predates the connector's reading of ERCOT's own milestones (session 7537; docs/methods/energy_projects.md).
+Active
+525,944MW
+2,095 positions
+Suspended
+3,852MW
+22 positions
+Completed
+237,247MW
+1,533 positions
+Not stated
+1,254MW
+34 positions
+Datacenters, by status (MW where stated)iComputed in your browser from the page's own copy of the datacenter tracker's facilities (datacenter_facilities, vintage 2026-11-15, the copy built 2026-11-19), summed over the rows chosen. Nothing is read from the live set for this figure. The MW is summed over the facilities that state one; the count under it says how many do.
+Operating
+75MW
+25 facilities, MW stated at 1
+Under construction
+108MW
+2 facilities, MW stated at 1
+Planned
+21,305MW
+52 facilities, MW stated at 8
+Active
+not stated
+1 facility, no MW stated
+Completed
+not stated
+1 facility, no MW stated
+Withdrawn
+not stated
+4 facilities, no MW stated
+Not stated
+6,766MW
+193 facilities, MW stated at 11
+The map
+operating unit
+planned unit
+planned, under construction or built and not yet operating
+queue position, at its county's, city's or town's point
+datacenter
+size: MW, above 25 MW (smaller rows and every datacenter at one size)
+Natural gas
+Coal
+Nuclear
+Wind
+Solar
+Hydro
+Batteries and other storage
+Everything else
+MISO queue positions: paused while terms are reviewed
+NYISO queue positions: NYISO's terms do not allow it
+Click a unit on the map for its card: name, capacity, status, operator or developer, date and the table it comes from.
+Drag to move, scroll or pinch to zoom, hover for a row, click a unit for its card, click a state to choose it. 367 of the rows chosen have no place on the drawing (Puerto Rico, or no location in the source); they are in the totals and the table.iComputed in your browser from the page's own copy of the four tables (eia860m_operating_generators and eia860m_planned_generators and energy_projects and datacenter_facilities, built 2026-11-19, the copy built 2026-11-19), every row chosen that has a place on the drawing is a mark. Nothing is read from the live set for this figure. A mark's hover names its table, its vintage and its row.
+By technology
+Count and MW by technology group and kind, of what is chosen
+Technology group | Operating units | MW | Planned units | MW | Queue positions | MW requested |
+Solar | 8,387 | 172,182 | 1,103 | 122,247 | 967 | 190,229 |
+Wind | 1,584 | 167,070 | 77 | 23,543 | 585 | 119,854 |
+Batteries | 1,156 | 56,121 | 484 | 64,235 | 0 | |
+Other storage | 156 | 22,381 | 11 | 2,600 | 0 | |
+Natural gas | 6,848 | 583,461 | 495 | 71,103 | 395 | 140,924 |
+Nuclear | 96 | 103,698 | 5 | 4,968 | 13 | 282 |
+Coal | 448 | 182,158 | 0 | | 20 | 3,181 |
+Hydro | 4,003 | 80,163 | 117 | 431 | 63 | 1,599 |
+Petroleum | 3,972 | 36,061 | 23 | 174 | 55 | 3,863 |
+Biomass | 1,750 | 12,508 | 29 | 211 | 18 | 191 |
+Geothermal | 164 | 4,092 | 8 | 114 | 0 | |
+Other | 148 | 3,596 | 5 | 139 | 56 | 4,225 |
+Storage (queue positions) | 0 | | 0 | | 1,189 | 222,542 |
+Hybrid | 0 | | 0 | | 308 | 78,910 |
+Not stated | 0 | | 4 | 500 | 15 | 2,497 |
+Count and MW of what is chosen, by technology group and kind.iComputed in your browser from the page's own copy of the four tables (eia860m_operating_generators and eia860m_planned_generators and energy_projects and datacenter_facilities, built 2026-11-19, the copy built 2026-11-19), summed over the rows chosen. Nothing is read from the live set for this figure. A unit's MW is its nameplate; a queue position's is what it asks to connect. Datacenters have no technology and are not in this table.
+--- decisions ---
+Decisions on this page (12): each choice that moves a figure, with its default and its source
+A unit's megawatts are its nameplate capacity. Net summer capacity, the measure of EIA's own published totals, is lower.iDefault: Nameplate capacity.Source: EIA, Form EIA-860M, "Nameplate Capacity (MW)". Over the operating units of the inventory of 2026-09, net summer capacity is 7.5 percent lower (docs/methods/map.md, section 12).Made in: session 105.
+Megawatts are never added across kinds: a unit's nameplate, a queue position's request and a datacenter's stated load are three different things.iDefault: Each kind has its own count and its own sum.Source: A queue position is a request, and most are withdrawn before they are built (docs/methods/energy_projects.md); a datacenter's megawatts are a load a story or its operator states.Made in: session 167.
+A queue position is on the map while it is not withdrawn: active, suspended, completed, or with no status stated. A completed position may be a unit the inventory already lists.iDefault: Withdrawn positions are left out.Source: The table energy_projects, its standard status; the first version of the map (session 16).Made in: sessions 16 and 167.
+The queue positions drawn are ERCOT's, SPP's, CAISO's and ISO-NE's. MISO's and NYISO's are held back, and no queue of PJM is held.iDefault: Four queues.Source: Each grid operator's own terms: MISO's pulls are paused while its terms are reviewed (docs/methods/miso_pause.md); NYISO's legal notice confers no license.Made in: sessions 159 and 167.
+A unit's grid is EIA's balancing authority for it. The seven ISOs are named; every other balancing authority, and a unit with none, is "Outside the seven ISOs".iDefault: EIA's balancing authority code.Source: EIA, Form EIA-860M, "Balancing Authority Code". In the inventory of 2026-09, 973 units have none: EIA leaves 727 blank and writes "NA" for 246.Made in: session 105.
+A battery is a storage unit whose prime mover is a battery; pumped storage and the other kinds are "Other storage". A queue's storage request does not say what kind it is.iDefault: EIA prime mover code BA.Source: EIA, Form EIA-860 instructions, the prime mover codes.Made in: session 105.
+A planned unit keeps EIA's own seven status codes, from approvals not started to construction complete; they are not folded into "planned" and "under construction".iDefault: EIA's code, in plain words.Source: EIA, Form EIA-860 instructions, the proposed status codes P, L, T, U, V, TS and OT; the owner's words of 8 October 2026.Made in: session 167.
+A queue position is drawn at its county's point, or its city's or town's, not at its site. A name the Census Bureau's files do not hold in its state leaves the position off the drawing.iDefault: The internal point of the county, the place or the town; no fuzzy matching.Source: U.S. Census Bureau, 2025 Gazetteer Files (counties, places, county subdivisions); docs/methods/energy_projects.md, "Coordinates".Made in: sessions 16 and 349.
+When a size is asked for, a row whose source states no megawatts is left out: it cannot be said to fit one. Both ends of the size are counted in.iDefault: No size: every row.Source: A choice of session 167, stated in the method note; no source sets it.Made in: session 167.
+A distance from a point is measured from each row's own point: EIA's coordinates of the unit's plant for a unit, the county's, city's or town's point for a queue position, and for a datacenter the operator's own coordinates, its city's or town's point or its county's point (the list's "Placed at" says which). Once a distance is asked for, a row with no point is left out.iDefault: No point: every row. Both ends of the distance are counted in.Source: The great-circle distance (the haversine formula) on a sphere of the Earth's mean radius, 3,958.8 miles; the read of 16 November 2026 (docs/reviews/map-read-2026-11-16.md, row 1).Made in: session 7537.
+A datacenter is drawn when the tracker places it in a US state. A facility abroad, or one no story names a state for, is counted in the file and not drawn.iDefault: The facilities with a US state.Source: The table datacenter_facilities, its state column (docs/methods/datacenter_facilities.md).Made in: session 167.
+Retired units are not on the map, and nothing since the inventory's month is in its units (the queue positions and the datacenters are of their own, later days, in the source line).iDefault: Operating and planned units of one month.Source: EIA, Form EIA-860M, published about a month after the month it describes; retired units are in the table eia860m_retired_generators.Made in: session 105.

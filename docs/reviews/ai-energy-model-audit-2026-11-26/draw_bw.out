@@ -1,0 +1,30 @@
+[erw] the catalogue table returned no rows
+default: 50782 bytes drawn; em dash none
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+views drawn: 18
+READ: ...ody:has(.brand-a) > header, body:has(.brand-a) > footer { font-family: stand-in, system-ui, sans-serif; } Energy per AI query, as published Each figure the publications read so far print for the energy of an AI query, a training run, a deployment or a fleet (a model maker's, a cloud operator's or a peer-reviewed paper's), not every figure ever printed, in the publication's own words, with its date and what it measures .
+READ: ...Figures 23 each a number a publication printed Publications 9 2 of them peer-reviewed papers, counted only where the page the ERW read names the venue Newest July 9, 2026 Microsoft: 2026 Environmental Sustainability Report Data Fact Sheet.
+READ: ...A date is the one the publication prints, or, for a company report that prints none, the date of the post that launched it (the figure's hover says which) Every figure, as printed A fleet's figure is a company's whole consumption in a year, as the company reports it (its data centers, or its data centers and offices together): AI and every other use in it, wherever the company runs them, not the United States alone.
+READ: ...A date is the one the publication prints, or, for a company report that prints none, the date of the post that launched it (the figure's hover says which) Every figure, as printed A fleet's figure is a company's whole consumption in a year, as the company reports it (its data centers, or its data centers and offices together): AI and every other use in it, wherever the company runs them, not the United States alone.
+READ: ...leet in a year (electricity consumed) energy of a training run energy of a training run (kWh times PUE) energy of all the experiments of a project energy per 1,000 inferences (the mean of the image generation task) energy per 1,000 inferences (the mean of the text generation task) energy per inference energy per prompt energy per prompt (one part of it) energy per query Show The order shown first Every figure read, as printed: the energy of AI work, and of whole fleets that run AI among everything else Publisher Publication What it measures Of what Figure The publication's words Google model maker and cloud operator Measuring the environmental impact of delivering AI at Google Scale August 21, 2025; Cooper Elsworth, Keguo Huang, David Patterson, Ian Schneider, Robert Sedivy, Savannah Goodman, Ben Townsend, Parthasarathy Ranganathan, Jeff Dean, Amin Vahdat, Ben Gomes, James Manyika energy per prompt the median Gemini Apps text prompt 0.24 Wh “we find the median Gemini Apps text prompt consumes 0.24 Wh of energy” (p.
+READ: ...Most publications measure different things; where two give a figure for the same thing, both rows stand, each with its subject, and neither is preferred: the neural architecture search that produced the Evolved Transformer has Strubell and others' estimate (2019, in kWh times PUE) and Google's authors' own figure (2022), under two measures.
+(node:26800) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-a/site/lib/cells.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-a\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
