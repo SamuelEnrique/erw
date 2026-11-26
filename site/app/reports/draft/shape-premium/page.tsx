@@ -138,6 +138,10 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
     return { ...h, lw, sm, pr, hrs, inMonth, pct: calc("pct", pr, sm) };
   }).sort((a, b) => b.pr.v - a.pr.v);
   const top = six[0], low = six.at(-1)!, topPct = [...six].sort((a, b) => b.pct.v - a.pct.v)[0];
+  // session 10232 (docs/reviews/reports-model-audit-2026-11-26.md, finding 3): the sentences below follow the rows. The
+  // sign is said only when every hub's premium is above zero, and "nearly every hour" only when every hub holds the month whole
+  const nonPos = six.filter((s) => s.pr.v <= 0);
+  const allWhole = six.every((s) => s.hrs.v === s.inMonth.v);
 
   // 2. ERCOT, every complete real-time month
   const ems = monthsOf(rows, ERCOT, "rt").filter((m) => m.complete);
@@ -155,6 +159,11 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
     return { y, usd: sk("usdmw", `${y}-01-01`, `${Number(y) + 1}-01-01`, s.usdmw), mean: sk("mean", `${y}-01-01`, `${Number(y) + 1}-01-01`, s.mean) };
   });
   const y21 = yearly.find((x) => x.y === "2021"), lastY = yearly.at(-1)!;
+  // session 10232 (finding 3): what the words about the years rest on, read from the rows: the largest month of the
+  // latest complete year, whether Uri's month was most of 2021's premium, and the years the table leaves out
+  const lastBig = [...ems].filter((m) => m.ts.startsWith(lastY.y)).sort((a, b) => b.premium - a.premium)[0];
+  const uriMostOf2021 = !!y21 && big[0].ts.startsWith("2021") && (big[0].premium * big[0].hours) / y21.usd.v > 0.5;
+  const leftOut = [...new Set(monthsOf(rows, ERCOT, "rt").map((m) => m.ts.slice(0, 4)))].filter((y) => !years.includes(y));
   const last12Start = new Date(Date.parse(`${endAll}T00:00:00Z`) - 365 * 86_400_000).toISOString().slice(0, 8) + "01";
   const s12 = stats(rows, ERCOT, "rt", last12Start, endAll);
   const n12 = sk("n", last12Start, endAll, s12.n), usd12 = sk("usdmw", last12Start, endAll, s12.usdmw), mean12 = sk("mean", last12Start, endAll, s12.mean);
@@ -187,6 +196,9 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
     return { ...h, cells, lo: rowV(P, lo), hi: rowV(P, hi), loH: lo.variable.slice(-2), hiH: hi.variable.slice(-2), days: days ? rowV(P, days) : null };
   });
   const ercotShape = shapes.find((s) => s.e === ERCOT)!;
+  // session 10232 (finding 3): "in progress" only when the profile month holds fewer days than it has
+  const pmDays = new Date(Date.UTC(Number(pm.slice(0, 4)), Number(pm.slice(5, 7)), 0)).getUTCDate();
+  const pmInProgress = !ercotShape.days || ercotShape.days.v < pmDays;
   const topShape = shapes.find((s) => s.e === top.e)!;
   const ercotDa = rowV(M, find(ERCOT, "da_shape_premium", latest)), ercotRt = rowV(M, find(ERCOT, "rt_shape_premium", latest));
 
@@ -195,7 +207,7 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
     <article className="max-w-3xl">
       <p className="mb-2 text-xs uppercase tracking-wide text-accent">Draft, internal: not for circulation. Not in the nav, not indexed.</p>
       <h1 className="mb-1 text-3xl">What flat load pays: the shape premium across six ISOs</h1>
-      <p className="mb-6 text-sm text-muted">Energy Research Warehouse (ERW), deep-dive report 1, draft of 2026-10-01. Every number is read from the warehouse&apos;s cost-of-power tables and checked against them.</p>
+      <p className="mb-6 text-sm text-muted">Energy Research Warehouse (ERW), deep-dive report 1, words of 2026-10-01. Every number is read from the warehouse&apos;s cost-of-power tables when the page is opened and checked against them, so the months and figures below move with the tables.</p>
       {HELD.length ? (
         <p className="mb-6 text-sm text-muted" data-held-hubs>
           {HELD.map((h) => h.iso).join(", ")}: {LICENSE_NEEDED} (held from 21 October 2026, lib/license.ts). Where the words below say six, the tables and charts hold the other {OPEN.length}.
@@ -223,7 +235,9 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
           Day-ahead, over the days of {month(latest)} the warehouse holds for every hub ({top.hrs.v === top.inMonth.v ? "the whole month" : <><N x={top.hrs} /> of <N x={top.inMonth} /> hours</>}),
           the premium runs from <N x={low.pr} /> USD/MWh at {low.iso}&apos;s {low.hub} to <N x={top.pr} /> USD/MWh at {top.iso}&apos;s {top.hub}. Against the
           flat price, the spread is wider still: {low.iso}&apos;s premium is <N x={low.pct} /> percent of its simple average, {topPct.iso}&apos;s{" "}
-          <N x={topPct.pct} /> percent. Day-ahead is used here because it is the one market every hub holds for nearly every hour of the month.
+          <N x={topPct.pct} /> percent. {allWhole
+            ? "Day-ahead is used here because it is the one market every hub holds for nearly every hour of the month."
+            : "Day-ahead is used here because it is the one market every hub holds; this month is held only in part, so the ranking rests on the hours held."}{" "}
           The twelve-month view below reads the real-time market over a year.
         </p>
         <Bars items={six.map((s) => ({ label: s.iso, v: s.pr.v }))} />
@@ -242,10 +256,12 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
         </table>
         <p className="mt-1 text-xs text-muted">USD/MWh, day-ahead, {month(latest)}. Percent: the premium over the simple average.</p>
         <p className="mt-3">
-          One month is a thin basis for ranking grids. {topShape.iso}&apos;s lead comes from its evening: in real time its dearest hour of the day,{" "}
+          One month is a thin basis for ranking grids. {topShape.iso}&apos;s lead shows in its hours: in real time its dearest hour of the day,{" "}
           {topShape.hiH}:00, averaged <N x={topShape.hi} /> USD/MWh over the days held, <N x={calc("ratio", topShape.hi, topShape.lo)} /> times its cheapest,{" "}
-          {topShape.loH}:00 (<N x={topShape.lo} />). A few dear evenings are enough to lift a month&apos;s load-weighted price, and they need not recur. What
-          the six agree on is the sign: in every hub, the grid&apos;s own load paid more per megawatt-hour than a flat load would have.
+          {topShape.loH}:00 (<N x={topShape.lo} />). A few dear hours are enough to lift a month&apos;s load-weighted price, and they need not recur.{" "}
+          {nonPos.length === 0
+            ? <>What the {six.length} agree on is the sign: in every hub, the grid&apos;s own load paid more per megawatt-hour than a flat load would have.</>
+            : <>They do not agree on the sign: at {nonPos.map((s) => `${s.iso}'s ${s.hub}`).join(" and ")} the grid&apos;s own load paid less per megawatt-hour than a flat load would have.</>}
         </p>
       </Section>
 
@@ -294,9 +310,10 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
           the grid&apos;s bought far more of its energy at the storm&apos;s prices than a flat load did, which bought the same amount every hour.
         </p>
         <p className="mb-3">
-          Away from Uri, the premium is a summer story: the largest months fall in July, August and September, when the evening peak of air
-          conditioning meets the hour solar output falls away. And it has shrunk. Counting each complete year, a megawatt shaped like ERCOT&apos;s load paid{" "}
-          {y21 ? <><N x={y21.usd} /> USD more than a flat megawatt in 2021, </> : null}and <N x={lastY.usd} /> USD more in {lastY.y}. Over the
+          Away from Uri, the largest months have mostly fallen in July, August and September, when the evening peak of air
+          conditioning meets the hour solar output falls away; in {lastY.y}, the latest complete year, the largest was {month(lastBig.ts)}. And it has shrunk.
+          Counting each complete year, a megawatt shaped like ERCOT&apos;s load paid{" "}
+          {y21 ? <><N x={y21.usd} /> USD more than a flat megawatt in 2021{uriMostOf2021 ? " (a poor base: Uri's February alone was most of that year's premium)" : ""}, </> : null}and <N x={lastY.usd} /> USD more in {lastY.y}. Over the
           latest twelve months held (<N x={n12} /> of them complete), the difference was <N x={usd12} /> USD per megawatt, a mean premium of{" "}
           <N x={mean12} /> USD/MWh. The warehouse does not say why; the same years saw ERCOT&apos;s battery fleet grow, and batteries sell into exactly
           the hours that make the premium.
@@ -305,12 +322,12 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
           <thead><tr className="border-b border-rule text-xs text-muted"><th className="py-1">Year</th><th className="text-right">Mean premium, USD/MWh</th><th className="text-right">Grid-shaped over flat, USD per MW</th></tr></thead>
           <tbody>{yearly.map((x) => <tr key={x.y} className="border-b border-rule"><td className="py-1">{x.y}</td><td className="text-right"><N x={x.mean} /></td><td className="text-right"><N x={x.usd} /></td></tr>)}</tbody>
         </table>
-        <p className="mt-1 text-xs text-muted">Complete years only. USD per MW: each month&apos;s premium times its hours, summed over the year.</p>
+        <p className="mt-1 text-xs text-muted">Complete years only{leftOut.length ? ` (${leftOut.join(", ")} left out: a month short of hours, or not yet over)` : ""}. USD per MW: each month&apos;s premium times its hours, summed over the year.</p>
       </Section>
 
       <Section title="Where in the day it comes from">
         <p className="mb-3">
-          The premium exists because prices and load peak together. In {month(pm)} (the days held; the month is in progress), ERCOT&apos;s mean real-time
+          The premium exists because prices and load peak together. In {month(pm)}{pmInProgress ? " (the days held; the month is in progress)" : ""}, ERCOT&apos;s mean real-time
           price was lowest at {ercotShape.loH}:00, <N x={ercotShape.lo} /> USD/MWh, when solar floods the grid, and highest at {ercotShape.hiH}:00,{" "}
           <N x={ercotShape.hi} />, after the sun has set and before the evening load falls: <N x={calc("ratio", ercotShape.hi, ercotShape.lo)} /> times as much. Each hub
           has its own shape, and its own dear hours.
@@ -338,7 +355,7 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
       <Section title="Day-ahead or real-time">
         <p>
           Most of this report reads the real-time market, where ERCOT&apos;s history is longest, and the six-ISO comparison reads the day-ahead
-          market, which every hub holds. The two premiums are close but not the same. In {month(latest)}, ERCOT&apos;s day-ahead premium was{" "}
+          market, which every hub holds. Over a whole month the two premiums are usually close; over a few days they need not be. In {month(latest)}, ERCOT&apos;s day-ahead premium was{" "}
           <N x={ercotDa} /> USD/MWh and its real-time premium <N x={ercotRt} /> over the hours held. Day-ahead prices are set the day before, on
           forecasts of load and of wind and sun; real-time prices settle what actually happened, so they carry the surprises: a forecast that missed the
           evening ramp, a plant that tripped. A buyer who hedges day-ahead locks in the day-ahead shape; one who floats in real time takes the
@@ -357,8 +374,8 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
         <p>
           Two cautions. First, the premium measured here is at the hub and in the energy market only: a real load pays its own node, plus capacity,
           transmission and ancillary charges that this table leaves out, and a flat load may pay a demand charge that a shaped one avoids. Second, the
-          premium is not a law: Uri shows how far it can jump in a single month, and its recent shrinking shows it can fade as storage and solar
-          reshape the day. A flat load is a bet that the evening stays dear.
+          premium is not a law: Uri shows how far it can jump in a single month, and its recent shrinking, which the warehouse does not explain,
+          shows it can fade. A flat load is a bet that the evening stays dear.
         </p>
       </Section>
 
