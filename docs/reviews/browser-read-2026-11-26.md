@@ -118,6 +118,51 @@ Whose: built by the data machine (chain 601); no window's tonight. Read on produ
 
 Pictures: `docs/reviews/browser-read-2026-11-26/congestion/congestion-as-it-opens-1280.png` (SPP, 2026, the list of constraints that bound most); `docs/reviews/browser-read-2026-11-26/congestion/congestion-two-hubs-1280.png` (its most telling choice: SPP's two hubs side by side, the table of places above and the months below).
 
+## B7: the thirteen regions in the Grid tool (`/grid?region=<region>`), on the files rebuilt 21 November
+
+Whose: no window's page tonight (the old laptop's audit, chain 710 part D, is of the tool's figures and edits no page). Read on production on 26 November 12:01 to 12:06 UTC (`runs/c750/b7_regions.mjs`).
+
+- **Figures, 1280 px:** for each of the thirteen regions' Mix tab, with every chart switched to its table: the latest hour held, the 840 hours of the last 35 days, the average day of the latest month and the month's shares, each cell against `site/data/regions/mix/<region>.json`: 94,435 cells, 221 of 221 checks agree. The Clean and Network tabs of each region open with their heading and no quiet fault.
+- **390 px:** the latest hour of each region against its file (104 cells), no sideways scroll as each opens and with every table shown, no empty chart, one h1: 117 of 117.
+- **What a reader sees first is six days old (L2).** "The latest hour held" reads 20 November 2026 for ten regions (04:00 to 07:00 UTC), 19 November 06:00 for the Southwest and 18 November 04:00 for the Carolinas. The page is true to its file; the file is the one built 21 November 01:10 UTC. Window A's repair tonight (chain 701, part C, item 3) brings the newer files; this row is read again then.
+- Each page loads in 0.3 to 1.8 s. No fault of the pages.
+
+Picture: `docs/reviews/browser-read-2026-11-26/grid-regions/grid-tennessee-as-it-opens-1280.png` (Tennessee's Mix tab: the latest hour held, 20 November 05:00 UTC).
+
+## B9: chain 620's ten fixes and the tour's eighth stop, on production
+
+Whose: the portable laptop's own fixes of 20 November, seen in a build by the desktop's second window, landed 21 November 00:10 UTC; no browser had read them on production. Read 26 November 12:04 to 12:08 UTC with the site's own checks and chain 620's script (`site/scripts/check-back-button.mjs`, `site/scripts/check-tour.mjs`, `runs/c750/b9_fixes.mjs`). **All are there.**
+
+| Fix | Seen on production |
+|---|---|
+| The back button on lists that submit themselves | `check-back-button`: 16 of 16 on `/queues/places`, `/storage/places`, `/curtailment/where-when`, `/ai-energy` (after the back button each list reads what the page shows; on 20 November 0 of 6 pages did) |
+| `/internal/findings` on a phone | 390 of 390 px (470 before) |
+| The resource set's legend | the worked example reads lowest 1.58, highest 6.91 kWh/m2/day, each figure's hover naming the part of the layer it is read from (Alaska, Hawaii); the map's legend for the same layer runs 1.6 to 6.9 |
+| The Grid panel's words for an exporter | Seminole Electric: "It sent out, net, power equal to 592 percent of its demand."; TVA, an importer, reads as before |
+| The tour's headings and its eighth stop | `check-tour`: 101 of 103; the two that fail are the Digest stop's headings ("Top of the industry", "ERW's Numbers Today"), left for Samuel's ruling on 20 November and still his |
+| The price map's window | the hover names its days: "34.86 USD/MWh at HB_HUBAVG, day-ahead, the 365 days to 2026-11-16"; "the 30 days to ..."; the day itself for a day's price. The day is 16 November: the price map's file is the one of 19 November (L2) |
+| `/policy` when its list is held | the heading, the three views, and "The list of every action is not drawn here: license needed" |
+| A transmission line's end HIFLD does not name | "an end HIFLD does not name (its mark UNKNOWN202457) to FRANNIE"; a line with both ends named reads as before; no hover prints the mark as a place |
+| Six method pages on a phone | each 390 px wide (the whole set of method pages is swept in B13) |
+| `/data/faults` on a phone | 390 px wide (417 before) |
+
+Pictures, one a fix that draws something: `docs/reviews/browser-read-2026-11-26/chain-620-fixes-on-production/` (`authority-sent-out-1280.png`, `price-window-1280.png`, `line-end-unnamed-1280.png`, `resource-set-legend-1280.png`, `policy-1280.png`, `findings-390.png`).
+
+## B8: the problem edition of 21 November (`/learn/problems`)
+
+Whose: the data machine's edition file; the pages are no window's tonight. Read 26 November 12:09 UTC at 1280 and 390 px (`runs/c750/b8_edition.mjs`). `/problems` is no address; the sets are at `/learn/problems`.
+
+- The index lists the edition's ten sets; each set's page links the edition of 2026-11-21; each dated edition and its teacher page open and name their date (30 pages a width).
+- **Words and figures:** the 59 questions' words are on the edition pages, and each figure of the answers, their lines and their steps is on the teacher pages as the file `site/data/problem_editions/2026-11-21.json` gives it: 838 checked, none missing.
+- **The irradiance question** (the reason the edition was made): the teacher page answers "Global Horizontal Irradiance 6.91 kWh/m2/day; Direct Normal Irradiance 9 kWh/m2/day: 1.30 times", the legend the map draws. The edition of 20 November keeps its 6.50, as an edition does.
+- No sideways scroll, no empty chart, no skipped heading, no "undefined" at either width: 82 of 82 checks at each. No fault.
+
+Pictures: `docs/reviews/browser-read-2026-11-26/problem-edition/problems-index-1280.png` (the ten sets); `docs/reviews/browser-read-2026-11-26/problem-edition/resource-set-edition-1280.png` (the resource set's edition of 21 November).
+
+## B5: the findings review page's charts (`/internal/findings`)
+
+The branch behind this row (`wip/9820-findings-charts`, the desktop's fourth window) changed how the warehouse draws a finding's picture (`warehouse/analysis/findings/card_image.py`, `deep/redraw.py`) and no page code, so nothing on the page changed with its landing; a draft's picture changes only when it is drawn again. The page as it stands on production: 42 charts, none empty, 1265 of 1265 and 390 of 390 px wide, no error in the console; it takes 4.7 s to load at 1280 px and 3.5 s at 390 px (the slowest page of the list, under five seconds). No fault.
+
 ## B1: the policy week grid (`/policy?view=week`)
 
 Whose: no window's tonight. Read at 1280 and 390 px (`runs/c750/b_a11y.mjs`, `runs/c750/b_a11y2.mjs`).
