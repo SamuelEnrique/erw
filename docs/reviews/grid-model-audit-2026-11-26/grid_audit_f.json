@@ -1,0 +1,245 @@
+{
+ "factors": {
+  "US48": {
+   "net_generation_natural_gas_mw": {
+    "hours": 336,
+    "first": "2026-10-20T00:00:00Z",
+    "last": "2026-11-02T23:00:00Z",
+    "kg_per_mwh_median": 410.33,
+    "p05": 410.3,
+    "p95": 412.04,
+    "distinct_to_0p1": 33
+   },
+   "net_generation_coal_mw": {
+    "hours": 336,
+    "first": "2026-10-20T00:00:00Z",
+    "last": "2026-11-02T23:00:00Z",
+    "kg_per_mwh_median": 1030.52,
+    "p05": 1030.26,
+    "p95": 1031.12,
+    "distinct_to_0p1": 30
+   },
+   "net_generation_oil_mw": {
+    "hours": 336,
+    "first": "2026-10-20T00:00:00Z",
+    "last": "2026-11-02T23:00:00Z",
+    "kg_per_mwh_median": 933.34,
+    "p05": 883.14,
+    "p95": 939.93,
+    "distinct_to_0p1": 118
+   }
+  },
+  "ERCO": {
+   "net_generation_natural_gas_mw": {
+    "hours": 336,
+    "first": "2026-10-20T00:00:00Z",
+    "last": "2026-11-02T23:00:00Z",
+    "kg_per_mwh_median": 418.76,
+    "p05": 417.09,
+    "p95": 420.26,
+    "distinct_to_0p1": 47
+   },
+   "net_generation_coal_mw": {
+    "hours": 336,
+    "first": "2026-10-20T00:00:00Z",
+    "last": "2026-11-02T23:00:00Z",
+    "kg_per_mwh_median": 1119.85,
+    "p05": 1113.78,
+    "p95": 1127.31,
+    "distinct_to_0p1": 144
+   }
+  },
+  "PJM": {
+   "net_generation_natural_gas_mw": {
+    "hours": 264,
+    "first": "2026-10-20T00:00:00Z",
+    "last": "2026-10-30T23:00:00Z",
+    "kg_per_mwh_median": 390.42,
+    "p05": 388.75,
+    "p95": 391.5,
+    "distinct_to_0p1": 41
+   },
+   "net_generation_coal_mw": {
+    "hours": 264,
+    "first": "2026-10-20T00:00:00Z",
+    "last": "2026-10-30T23:00:00Z",
+    "kg_per_mwh_median": 1025.05,
+    "p05": 1021.11,
+    "p95": 1031.35,
+    "distinct_to_0p1": 111
+   },
+   "net_generation_oil_mw": {
+    "hours": 264,
+    "first": "2026-10-20T00:00:00Z",
+    "last": "2026-10-30T23:00:00Z",
+    "kg_per_mwh_median": 936.87,
+    "p05": 933.0,
+    "p95": 1117.07,
+    "distinct_to_0p1": 146
+   }
+  },
+  "MISO": {
+   "net_generation_natural_gas_mw": {
+    "hours": 336,
+    "first": "2026-10-20T00:00:00Z",
+    "last": "2026-11-02T23:00:00Z",
+    "kg_per_mwh_median": 427.82,
+    "p05": 426.11,
+    "p95": 429.35,
+    "distinct_to_0p1": 48
+   },
+   "net_generation_coal_mw": {
+    "hours": 336,
+    "first": "2026-10-20T00:00:00Z",
+    "last": "2026-11-02T23:00:00Z",
+    "kg_per_mwh_median": 1054.53,
+    "p05": 1048.82,
+    "p95": 1061.56,
+    "distinct_to_0p1": 135
+   }
+  },
+  "SWPP": {
+   "net_generation_natural_gas_mw": {
+    "hours": 288,
+    "first": "2026-10-20T00:00:00Z",
+    "last": "2026-10-31T23:00:00Z",
+    "kg_per_mwh_median": 475.66,
+    "p05": 473.84,
+    "p95": 477.16,
+    "distinct_to_0p1": 49
+   },
+   "net_generation_coal_mw": {
+    "hours": 288,
+    "first": "2026-10-20T00:00:00Z",
+    "last": "2026-10-31T23:00:00Z",
+    "kg_per_mwh_median": 1089.51,
+    "p05": 1083.65,
+    "p95": 1096.29,
+    "distinct_to_0p1": 127
+   }
+  },
+  "ISNE": {
+   "net_generation_natural_gas_mw": {
+    "hours": 336,
+    "first": "2026-10-20T00:00:00Z",
+    "last": "2026-11-02T23:00:00Z",
+    "kg_per_mwh_median": 394.6,
+    "p05": 393.02,
+    "p95": 396.01,
+    "distinct_to_0p1": 43
+   },
+   "net_generation_oil_mw": {
+    "hours": 27,
+    "first": "2026-10-21T07:00:00Z",
+    "last": "2026-10-22T21:00:00Z",
+    "kg_per_mwh_median": 963.15,
+    "p05": 916.95,
+    "p95": 1113.09,
+    "distinct_to_0p1": 24
+   }
+  },
+  "NYIS": {
+   "net_generation_natural_gas_mw": {
+    "hours": 336,
+    "first": "2026-10-20T00:00:00Z",
+    "last": "2026-11-02T23:00:00Z",
+    "kg_per_mwh_median": 459.01,
+    "p05": 457.18,
+    "p95": 460.65,
+    "distinct_to_0p1": 50
+   }
+  }
+ },
+ "imports": {
+  "US48": {
+   "hours": 457,
+   "partners": [
+    "CAN",
+    "MEX"
+   ],
+   "imported_co2_per_imported_mwh": 483.8,
+   "own_generation_intensity_same_hours": 356.6,
+   "gross_imports_mean_mw": 3530.7
+  },
+  "ERCO": {
+   "hours": 418,
+   "partners": [
+    "CEN",
+    "SWPP"
+   ],
+   "imported_co2_per_imported_mwh": 432.1,
+   "own_generation_intensity_same_hours": 384.4,
+   "gross_imports_mean_mw": 264.9
+  },
+  "PJM": {
+   "hours": 457,
+   "partners": [
+    "CPLE",
+    "CPLW",
+    "DUK",
+    "LGEE",
+    "MISO",
+    "NYIS",
+    "TVA"
+   ],
+   "imported_co2_per_imported_mwh": 327.1,
+   "own_generation_intensity_same_hours": 317.4,
+   "gross_imports_mean_mw": 1982.3
+  },
+  "MISO": {
+   "hours": 460,
+   "partners": [
+    "AECI",
+    "IESO",
+    "LGEE",
+    "MHEB",
+    "PJM",
+    "SIKE",
+    "SOCO",
+    "SPA",
+    "SWPP",
+    "TVA"
+   ],
+   "imported_co2_per_imported_mwh": 363.0,
+   "own_generation_intensity_same_hours": 458.4,
+   "gross_imports_mean_mw": 5756.8
+  },
+  "SWPP": {
+   "hours": 268,
+   "partners": [
+    "AECI",
+    "EPE",
+    "ERCO",
+    "MISO",
+    "PNM",
+    "PSCO"
+   ],
+   "imported_co2_per_imported_mwh": 551.1,
+   "own_generation_intensity_same_hours": 445.3,
+   "gross_imports_mean_mw": 483.7
+  },
+  "ISNE": {
+   "hours": 310,
+   "partners": [
+    "HQT",
+    "NBSO",
+    "NYIS"
+   ],
+   "imported_co2_per_imported_mwh": 310.3,
+   "own_generation_intensity_same_hours": 208.7,
+   "gross_imports_mean_mw": 509.8
+  },
+  "NYIS": {
+   "hours": 460,
+   "partners": [
+    "HQT",
+    "IESO",
+    "ISNE",
+    "PJM"
+   ],
+   "imported_co2_per_imported_mwh": 318.0,
+   "own_generation_intensity_same_hours": 253.1,
+   "gross_imports_mean_mw": 3165.1
+  }
+ }
+}

@@ -1,0 +1,50 @@
+variables: ['customers', 'retail_sales']
+compared: retail_sales
+== vintage as of 2026-10-01: newest month 2026-07, twelve months 2025-08 to 2026-07; 369 state-sector totals with all twelve in both
+  totals revised by more than 0.1 percent: 173 | by more than 1 percent: 27 | mean absolute revision: 0.405 percent
+                                 v_then         v_now          rev  rev_pct
+entity                                                                     
+eia:retail_sales:OR:IND    1.650330e+07  1.471781e+07  -1785481.12  -10.819
+eia:retail_sales:OR:COM    2.635825e+07  2.813672e+07   1778472.54    6.747
+eia:retail_sales:TX:IND    1.699500e+08  1.798887e+08   9938668.04    5.848
+eia:retail_sales:WSC:IND   2.586853e+08  2.680314e+08   9346096.76    3.613
+eia:retail_sales:IN:TRA    2.231047e+04  2.155955e+04      -750.92   -3.366
+eia:retail_sales:ME:IND    2.309671e+06  2.364346e+06     54674.83    2.367
+eia:retail_sales:TX:ALL    5.211194e+08  5.327171e+08  11597733.65    2.226
+eia:retail_sales:CA:RES    8.369728e+07  8.536271e+07   1665427.85    1.990
+eia:retail_sales:NH:IND    1.834402e+06  1.801262e+06    -33139.75   -1.807
+eia:retail_sales:PACC:IND  7.670181e+07  7.545756e+07  -1244250.38   -1.622
+  months shared: 88230 | months revised (any): 4603 | largest monthly revisions:
+                 entity               ts_utc     v_then      v_now  rev_pct
+eia:retail_sales:IN:TRA 2026-06-01T00:00:00Z    2148.12    1397.30  -34.952
+eia:retail_sales:OR:IND 2025-12-01T00:00:00Z 1384173.90 1022379.12  -26.138
+eia:retail_sales:OR:IND 2025-09-01T00:00:00Z 1383076.44 1023516.72  -25.997
+eia:retail_sales:OR:IND 2025-10-01T00:00:00Z 1369870.09 1019556.87  -25.573
+eia:retail_sales:OR:IND 2025-03-01T00:00:00Z 1306240.40  973459.49  -25.476
+eia:retail_sales:OR:IND 2025-05-01T00:00:00Z 1328330.43  990101.49  -25.463
+eia:retail_sales:OR:IND 2025-04-01T00:00:00Z 1297851.24  969006.69  -25.338
+eia:retail_sales:OR:IND 2025-08-01T00:00:00Z 1507469.05 1126094.79  -25.299
+== vintage as of 2026-10-28: newest month 2026-08, twelve months 2025-09 to 2026-08; 370 state-sector totals with all twelve in both
+  totals revised by more than 0.1 percent: 0 | by more than 1 percent: 0 | mean absolute revision: 0.0 percent
+                              v_then        v_now  rev  rev_pct
+entity                                                         
+eia:retail_sales:AK:ALL   6297810.90   6297810.90  0.0      0.0
+eia:retail_sales:AK:COM   2668930.93   2668930.93  0.0      0.0
+eia:retail_sales:AK:IND   1480670.81   1480670.81  0.0      0.0
+eia:retail_sales:AK:RES   2148209.20   2148209.20  0.0      0.0
+eia:retail_sales:AL:ALL  90119647.58  90119647.58  0.0      0.0
+eia:retail_sales:AL:COM  23116416.06  23116416.06  0.0      0.0
+eia:retail_sales:AL:IND  33558459.12  33558459.12  0.0      0.0
+eia:retail_sales:AL:RES  33444772.41  33444772.41  0.0      0.0
+eia:retail_sales:AR:ALL  53776030.52  53776030.52  0.0      0.0
+eia:retail_sales:AR:COM  11940159.15  11940159.15  0.0      0.0
+  months shared: 88517 | months revised (any): 0 | largest monthly revisions:
+                 entity               ts_utc    v_then     v_now  rev_pct
+eia:retail_sales:AK:ALL 2001-01-01T00:00:00Z 521035.66 521035.66      0.0
+eia:retail_sales:AK:ALL 2001-02-01T00:00:00Z 486096.55 486096.55      0.0
+eia:retail_sales:AK:ALL 2001-03-01T00:00:00Z 443795.75 443795.75      0.0
+eia:retail_sales:AK:ALL 2001-04-01T00:00:00Z 442196.78 442196.78      0.0
+eia:retail_sales:AK:ALL 2001-05-01T00:00:00Z 415900.66 415900.66      0.0
+eia:retail_sales:AK:ALL 2001-06-01T00:00:00Z 414234.48 414234.48      0.0
+eia:retail_sales:AK:ALL 2001-07-01T00:00:00Z 421093.34 421093.34      0.0
+eia:retail_sales:AK:ALL 2001-08-01T00:00:00Z 422705.64 422705.64      0.0

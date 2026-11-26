@@ -1,0 +1,444 @@
+{
+ "ties": [
+  {
+   "tie": "MISO-SWPP",
+   "hours_first": 1176,
+   "hours_second": 1152,
+   "hours_both": 1128,
+   "mean_first_mw": -188.4,
+   "mean_second_mw": 3553.7,
+   "mean_abs_gap_mw": 4237.9,
+   "sign_disagrees_hours": 340
+  },
+  {
+   "tie": "MISO-PJM",
+   "hours_first": 1176,
+   "hours_second": 1128,
+   "hours_both": 1104,
+   "mean_first_mw": -2047.7,
+   "mean_second_mw": -1033.0,
+   "mean_abs_gap_mw": 1212.6,
+   "sign_disagrees_hours": 295
+  },
+  {
+   "tie": "NYIS-PJM",
+   "hours_first": 1200,
+   "hours_second": 1128,
+   "hours_both": 1128,
+   "mean_first_mw": -1914.4,
+   "mean_second_mw": -1693.9,
+   "mean_abs_gap_mw": 623.5,
+   "sign_disagrees_hours": 20
+  },
+  {
+   "tie": "ERCO-SWPP",
+   "hours_first": 1152,
+   "hours_second": 1152,
+   "hours_both": 1104,
+   "mean_first_mw": -140.8,
+   "mean_second_mw": -293.6,
+   "mean_abs_gap_mw": 535.8,
+   "sign_disagrees_hours": 325
+  },
+  {
+   "tie": "AZPS-CISO",
+   "hours_first": 1152,
+   "hours_second": 1152,
+   "hours_both": 1104,
+   "mean_first_mw": 1046.1,
+   "mean_second_mw": 1436.8,
+   "mean_abs_gap_mw": 472.2,
+   "sign_disagrees_hours": 1
+  },
+  {
+   "tie": "PJM-TVA",
+   "hours_first": 1128,
+   "hours_second": 1152,
+   "hours_both": 1128,
+   "mean_first_mw": -803.7,
+   "mean_second_mw": -1023.1,
+   "mean_abs_gap_mw": 353.3,
+   "sign_disagrees_hours": 18
+  },
+  {
+   "tie": "CPLE-PJM",
+   "hours_first": 1152,
+   "hours_second": 1128,
+   "hours_both": 1128,
+   "mean_first_mw": 946.7,
+   "mean_second_mw": 1034.6,
+   "mean_abs_gap_mw": 268.0,
+   "sign_disagrees_hours": 55
+  },
+  {
+   "tie": "PSCO-SWPP",
+   "hours_first": 1128,
+   "hours_second": 1152,
+   "hours_both": 1104,
+   "mean_first_mw": -13.0,
+   "mean_second_mw": -161.1,
+   "mean_abs_gap_mw": 233.4,
+   "sign_disagrees_hours": 76
+  },
+  {
+   "tie": "AECI-SWPP",
+   "hours_first": 1200,
+   "hours_second": 1152,
+   "hours_both": 1152,
+   "mean_first_mw": -234.5,
+   "mean_second_mw": -240.0,
+   "mean_abs_gap_mw": 222.7,
+   "sign_disagrees_hours": 269
+  },
+  {
+   "tie": "DUK-PJM",
+   "hours_first": 1152,
+   "hours_second": 1128,
+   "hours_both": 1128,
+   "mean_first_mw": 221.6,
+   "mean_second_mw": 170.6,
+   "mean_abs_gap_mw": 180.0,
+   "sign_disagrees_hours": 104
+  },
+  {
+   "tie": "SPA-SWPP",
+   "hours_first": 576,
+   "hours_second": 576,
+   "hours_both": 192,
+   "mean_first_mw": 128.4,
+   "mean_second_mw": 131.9,
+   "mean_abs_gap_mw": 152.4,
+   "sign_disagrees_hours": 50
+  },
+  {
+   "tie": "LGEE-PJM",
+   "hours_first": 1200,
+   "hours_second": 1128,
+   "hours_both": 1128,
+   "mean_first_mw": 160.2,
+   "mean_second_mw": 163.3,
+   "mean_abs_gap_mw": 146.9,
+   "sign_disagrees_hours": 217
+  },
+  {
+   "tie": "MISO-SOCO",
+   "hours_first": 1176,
+   "hours_second": 1152,
+   "hours_both": 1128,
+   "mean_first_mw": -143.4,
+   "mean_second_mw": -7.1,
+   "mean_abs_gap_mw": 131.0,
+   "sign_disagrees_hours": 124
+  },
+  {
+   "tie": "CISO-SRP",
+   "hours_first": 1152,
+   "hours_second": 1176,
+   "hours_both": 1128,
+   "mean_first_mw": -1061.9,
+   "mean_second_mw": -976.5,
+   "mean_abs_gap_mw": 84.1,
+   "sign_disagrees_hours": 66
+  },
+  {
+   "tie": "MISO-TVA",
+   "hours_first": 1176,
+   "hours_second": 1152,
+   "hours_both": 1128,
+   "mean_first_mw": 2203.8,
+   "mean_second_mw": 2282.0,
+   "mean_abs_gap_mw": 83.7,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "BANC-CISO",
+   "hours_first": 1080,
+   "hours_second": 1152,
+   "hours_both": 1056,
+   "mean_first_mw": 5.3,
+   "mean_second_mw": 30.0,
+   "mean_abs_gap_mw": 41.4,
+   "sign_disagrees_hours": 52
+  },
+  {
+   "tie": "CPLW-PJM",
+   "hours_first": 1152,
+   "hours_second": 648,
+   "hours_both": 648,
+   "mean_first_mw": -32.3,
+   "mean_second_mw": -28.5,
+   "mean_abs_gap_mw": 35.1,
+   "sign_disagrees_hours": 86
+  },
+  {
+   "tie": "SIKE-SWPP",
+   "hours_first": 1152,
+   "hours_second": 576,
+   "hours_both": 576,
+   "mean_first_mw": -90.5,
+   "mean_second_mw": -85.0,
+   "mean_abs_gap_mw": 13.1,
+   "sign_disagrees_hours": 5
+  },
+  {
+   "tie": "ISNE-NYIS",
+   "hours_first": 1200,
+   "hours_second": 1200,
+   "hours_both": 1200,
+   "mean_first_mw": -66.7,
+   "mean_second_mw": -75.9,
+   "mean_abs_gap_mw": 13.0,
+   "sign_disagrees_hours": 10
+  },
+  {
+   "tie": "BPAT-CISO",
+   "hours_first": 1152,
+   "hours_second": 1152,
+   "hours_both": 1104,
+   "mean_first_mw": 314.5,
+   "mean_second_mw": 373.8,
+   "mean_abs_gap_mw": 8.4,
+   "sign_disagrees_hours": 2
+  },
+  {
+   "tie": "CISO-LDWP",
+   "hours_first": 1152,
+   "hours_second": 1200,
+   "hours_both": 1152,
+   "mean_first_mw": -473.9,
+   "mean_second_mw": -434.4,
+   "mean_abs_gap_mw": 6.9,
+   "sign_disagrees_hours": 8
+  },
+  {
+   "tie": "AECI-MISO",
+   "hours_first": 1200,
+   "hours_second": 1176,
+   "hours_both": 1176,
+   "mean_first_mw": 408.1,
+   "mean_second_mw": 403.0,
+   "mean_abs_gap_mw": 5.0,
+   "sign_disagrees_hours": 3
+  },
+  {
+   "tie": "CISO-IID",
+   "hours_first": 1152,
+   "hours_second": 1152,
+   "hours_both": 1104,
+   "mean_first_mw": -253.2,
+   "mean_second_mw": -259.8,
+   "mean_abs_gap_mw": 3.5,
+   "sign_disagrees_hours": 2
+  },
+  {
+   "tie": "LGEE-MISO",
+   "hours_first": 1200,
+   "hours_second": 1176,
+   "hours_both": 1176,
+   "mean_first_mw": -276.8,
+   "mean_second_mw": -276.6,
+   "mean_abs_gap_mw": 3.5,
+   "sign_disagrees_hours": 2
+  },
+  {
+   "tie": "CISO-WALC",
+   "hours_first": 1152,
+   "hours_second": 1152,
+   "hours_both": 1104,
+   "mean_first_mw": -85.0,
+   "mean_second_mw": -84.2,
+   "mean_abs_gap_mw": 3.4,
+   "sign_disagrees_hours": 6
+  },
+  {
+   "tie": "CISO-NEVP",
+   "hours_first": 1152,
+   "hours_second": 1152,
+   "hours_both": 1104,
+   "mean_first_mw": -1307.2,
+   "mean_second_mw": -1319.1,
+   "mean_abs_gap_mw": 3.1,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "CISO-TIDC",
+   "hours_first": 1152,
+   "hours_second": 1200,
+   "hours_both": 1152,
+   "mean_first_mw": 328.0,
+   "mean_second_mw": 325.9,
+   "mean_abs_gap_mw": 2.3,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "MISO-SPA",
+   "hours_first": 1176,
+   "hours_second": 576,
+   "hours_both": 576,
+   "mean_first_mw": -42.6,
+   "mean_second_mw": -50.9,
+   "mean_abs_gap_mw": 2.1,
+   "sign_disagrees_hours": 6
+  },
+  {
+   "tie": "CISO-PACW",
+   "hours_first": 1152,
+   "hours_second": 1200,
+   "hours_both": 1152,
+   "mean_first_mw": -10.5,
+   "mean_second_mw": -10.2,
+   "mean_abs_gap_mw": 0.4,
+   "sign_disagrees_hours": 3
+  },
+  {
+   "tie": "MISO-SIKE",
+   "hours_first": 1176,
+   "hours_second": 1152,
+   "hours_both": 1128,
+   "mean_first_mw": -41.5,
+   "mean_second_mw": -41.4,
+   "mean_abs_gap_mw": 0.2,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "BHBA-SWPP",
+   "hours_first": 1200,
+   "hours_second": 0,
+   "hours_both": 0,
+   "mean_first_mw": -80.2,
+   "mean_second_mw": null,
+   "mean_abs_gap_mw": null,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "CEN-CISO",
+   "hours_first": 0,
+   "hours_second": 1152,
+   "hours_both": 0,
+   "mean_first_mw": null,
+   "mean_second_mw": -85.3,
+   "mean_abs_gap_mw": null,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "CEN-ERCO",
+   "hours_first": 0,
+   "hours_second": 1152,
+   "hours_both": 0,
+   "mean_first_mw": null,
+   "mean_second_mw": -32.3,
+   "mean_abs_gap_mw": null,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "EPE-SWPP",
+   "hours_first": 1152,
+   "hours_second": 1152,
+   "hours_both": 1152,
+   "mean_first_mw": 0.0,
+   "mean_second_mw": 0.0,
+   "mean_abs_gap_mw": 0.0,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "HQT-ISNE",
+   "hours_first": 0,
+   "hours_second": 1200,
+   "hours_both": 0,
+   "mean_first_mw": null,
+   "mean_second_mw": -145.2,
+   "mean_abs_gap_mw": null,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "HQT-NYIS",
+   "hours_first": 0,
+   "hours_second": 1200,
+   "hours_both": 0,
+   "mean_first_mw": null,
+   "mean_second_mw": -140.3,
+   "mean_abs_gap_mw": null,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "IESO-MISO",
+   "hours_first": 0,
+   "hours_second": 1176,
+   "hours_both": 0,
+   "mean_first_mw": null,
+   "mean_second_mw": 789.1,
+   "mean_abs_gap_mw": null,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "IESO-NYIS",
+   "hours_first": 0,
+   "hours_second": 1200,
+   "hours_both": 0,
+   "mean_first_mw": null,
+   "mean_second_mw": 409.5,
+   "mean_abs_gap_mw": null,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "ISNE-NBSO",
+   "hours_first": 1200,
+   "hours_second": 0,
+   "hours_both": 0,
+   "mean_first_mw": 140.4,
+   "mean_second_mw": null,
+   "mean_abs_gap_mw": null,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "MHEB-MISO",
+   "hours_first": 0,
+   "hours_second": 1176,
+   "hours_both": 0,
+   "mean_first_mw": null,
+   "mean_second_mw": 944.4,
+   "mean_abs_gap_mw": null,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "PNM-SWPP",
+   "hours_first": 1200,
+   "hours_second": 1152,
+   "hours_both": 1152,
+   "mean_first_mw": 0.0,
+   "mean_second_mw": 0.0,
+   "mean_abs_gap_mw": 0.0,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "SPC-SWPP",
+   "hours_first": 0,
+   "hours_second": 576,
+   "hours_both": 0,
+   "mean_first_mw": null,
+   "mean_second_mw": 59.6,
+   "mean_abs_gap_mw": null,
+   "sign_disagrees_hours": 0
+  },
+  {
+   "tie": "SWPP-WAUW",
+   "hours_first": 120,
+   "hours_second": 0,
+   "hours_both": 0,
+   "mean_first_mw": 60.7,
+   "mean_second_mw": null,
+   "mean_abs_gap_mw": null,
+   "sign_disagrees_hours": 0
+  }
+ ],
+ "carbon_newest": {
+  "eia930:CISO": "2026-11-02T23:00:00Z",
+  "eia930:ERCO": "2026-11-02T23:00:00Z",
+  "eia930:ISNE": "2026-11-02T23:00:00Z",
+  "eia930:MISO": "2026-11-02T23:00:00Z",
+  "eia930:NYIS": "2026-11-02T23:00:00Z",
+  "eia930:PJM": "2026-10-30T23:00:00Z",
+  "eia930:SWPP": "2026-10-31T23:00:00Z",
+  "eia930:US48": "2026-11-02T23:00:00Z"
+ }
+}

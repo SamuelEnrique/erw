@@ -1,0 +1,65 @@
+whole months compared (the table holds every hour the page does): 106; the mean LMP equal to the cent: 105
+  differs ('iso_dam_hub_prices.csv', 'caiso:TH_SP15_GEN-APND', '2026-10', 46.75, 46.78)
+months whose hour count differs between the page and the table (not compared above):
+   iso_dam_hub_prices.csv caiso:TH_NP15_GEN-APND 2026-08: table 144 hours mean 51.95; page 744 hours mean 47.54
+   iso_dam_hub_prices.csv caiso:TH_NP15_GEN-APND 2026-11: table 265 hours mean 47.85; page 481 hours mean 48.65
+   iso_dam_hub_prices.csv caiso:TH_SP15_GEN-APND 2026-08: table 144 hours mean 62.53; page 744 hours mean 50.32
+   iso_dam_hub_prices.csv caiso:TH_SP15_GEN-APND 2026-11: table 265 hours mean 40.20; page 481 hours mean 37.27
+   iso_dam_hub_prices.csv caiso:TH_ZP26_GEN-APND 2026-08: table 144 hours mean 49.95; page 744 hours mean 45.18
+   iso_dam_hub_prices.csv caiso:TH_ZP26_GEN-APND 2026-11: table 265 hours mean 41.88; page 481 hours mean 38.56
+   iso_dam_hub_prices.csv spp:SPPNORTH_HUB 2026-08: table 144 hours mean 39.72; page 744 hours mean 41.42
+   iso_dam_hub_prices.csv spp:SPPNORTH_HUB 2026-10: table 720 hours mean 33.16; page 744 hours mean 32.81
+   iso_dam_hub_prices.csv spp:SPPNORTH_HUB 2026-11: table 265 hours mean 29.22; page 481 hours mean 26.9
+   iso_dam_hub_prices.csv spp:SPPSOUTH_HUB 2026-08: table 144 hours mean 39.13; page 744 hours mean 43.3
+   iso_dam_hub_prices.csv spp:SPPSOUTH_HUB 2026-10: table 720 hours mean 23.66; page 744 hours mean 23.28
+   iso_dam_hub_prices.csv spp:SPPSOUTH_HUB 2026-11: table 265 hours mean 24.63; page 481 hours mean 21.37
+   iso_hub_prices_history.csv caiso:TH_NP15_GEN-APND 2023-08: table 744 hours mean 67.19; page 528 hours mean 69.32
+   iso_hub_prices_history.csv caiso:TH_NP15_GEN-APND 2026-10: table 504 hours mean 51.74; page 744 hours mean 50.59
+   iso_hub_prices_history.csv caiso:TH_SP15_GEN-APND 2023-08: table 744 hours mean 74.97; page 528 hours mean 76.44
+   iso_hub_prices_history.csv caiso:TH_SP15_GEN-APND 2026-10: table 504 hours mean 48.79; page 744 hours mean 46.75
+   iso_hub_prices_history.csv spp:SPPNORTH_HUB 2026-06: table 696 hours mean 27.37; page 720 hours mean 27.17
+   iso_hub_prices_history.csv spp:SPPNORTH_HUB 2026-10: table 480 hours mean 33.81; page 744 hours mean 32.81
+months by table: {'iso_hub_prices_history.csv': 104, 'iso_dam_hub_prices.csv': 20}
+
+SP15 less NP15, by year (means of the hours both hubs hold), day-ahead against real time, from iso_hub_prices_history:
+  2025, 8760 hours: day-ahead spread mean -6.01, sd 10.45; real-time spread mean -6.07, sd 17.06; real time less day-ahead spread: mean -0.06, mean absolute 6.12, hours where they differ by more than 10: 1596
+  2025 real-time spread: lowest -795.95, highest 195.48; day-ahead lowest -70.95, highest 27.61
+  2025 real-time spread summed -53204; its 10 most extreme hours sum -1411
+
+The page's day-ahead parts, SP15 less NP15 and SPP South less North, by year (hour-weighted means of the months):
+  TH_SP15_GEN-APND less TH_NP15_GEN-APND 2023: LMP -5.37 = energy 0.00 + congestion -4.63 + loss -0.74 + ghg 0.00; loss is 14 percent of the two parts' sizes
+  TH_SP15_GEN-APND less TH_NP15_GEN-APND 2024: LMP -7.99 = energy 0.00 + congestion -7.15 + loss -0.84 + ghg 0.00; loss is 11 percent of the two parts' sizes
+  TH_SP15_GEN-APND less TH_NP15_GEN-APND 2025: LMP -6.01 = energy 0.00 + congestion -4.99 + loss -1.02 + ghg 0.00; loss is 17 percent of the two parts' sizes
+  TH_SP15_GEN-APND less TH_NP15_GEN-APND 2026: LMP -3.86 = energy 0.00 + congestion -3.22 + loss -0.64 + ghg 0.00; loss is 17 percent of the two parts' sizes
+  SPPSOUTH_HUB less SPPNORTH_HUB 2023: LMP 2.73 = energy 0.00 + congestion 2.65 + loss 0.08; loss is 3 percent of the two parts' sizes
+  SPPSOUTH_HUB less SPPNORTH_HUB 2024: LMP 9.24 = energy 0.00 + congestion 9.09 + loss 0.16; loss is 2 percent of the two parts' sizes
+  SPPSOUTH_HUB less SPPNORTH_HUB 2025: LMP 1.24 = energy 0.00 + congestion 0.79 + loss 0.45; loss is 36 percent of the two parts' sizes
+  SPPSOUTH_HUB less SPPNORTH_HUB 2026: LMP -6.03 = energy 0.00 + congestion -5.32 + loss -0.71; loss is 12 percent of the two parts' sizes
+
+SPP North hub, real time less day-ahead, monthly means (iso_hub_prices_history):
+  2024-09: day-ahead 19.84, real time 18.37, real time less day-ahead -1.48
+  2024-10: day-ahead 14.84, real time 11.91, real time less day-ahead -2.93
+  2024-11: day-ahead 18.08, real time 17.04, real time less day-ahead -1.04
+  2024-12: day-ahead 23.80, real time 22.52, real time less day-ahead -1.28
+  2025-01: day-ahead 25.72, real time 22.30, real time less day-ahead -3.42
+  2025-02: day-ahead 26.75, real time 23.33, real time less day-ahead -3.42
+  2025-03: day-ahead 19.54, real time 18.46, real time less day-ahead -1.08
+  2025-04: day-ahead 20.91, real time 16.67, real time less day-ahead -4.24
+  2025-05: day-ahead 27.98, real time 26.74, real time less day-ahead -1.24
+  2025-06: day-ahead 29.69, real time 31.18, real time less day-ahead +1.49
+  2025-07: day-ahead 37.20, real time 35.46, real time less day-ahead -1.74
+  2025-08: day-ahead 34.93, real time 35.41, real time less day-ahead +0.48
+  2025-09: day-ahead 32.03, real time 36.00, real time less day-ahead +3.98
+  2025-10: day-ahead 24.31, real time 22.86, real time less day-ahead -1.45
+  2025-11: day-ahead 28.43, real time 24.74, real time less day-ahead -3.68
+  2025-12: day-ahead 29.42, real time 30.79, real time less day-ahead +1.37
+  2026-01: day-ahead 74.07, real time 52.78, real time less day-ahead -21.29
+  2026-02: day-ahead 25.97, real time 24.76, real time less day-ahead -1.21
+  2026-03: day-ahead 19.04, real time 15.71, real time less day-ahead -3.33
+  2026-04: day-ahead 19.87, real time 18.52, real time less day-ahead -1.35
+  2026-05: day-ahead 23.49, real time 23.37, real time less day-ahead -0.12
+  2026-06: day-ahead 27.37, real time 25.46, real time less day-ahead -1.91
+  2026-07: day-ahead 50.89, real time 53.79, real time less day-ahead +2.90
+  2026-08: day-ahead 41.42, real time 38.90, real time less day-ahead -2.52
+  2026-09: day-ahead 36.21, real time 36.68, real time less day-ahead +0.48
+  2026-10: day-ahead 33.81, real time 36.68, real time less day-ahead +2.87

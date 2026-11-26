@@ -190,7 +190,7 @@ columns:
   source_name: null
   documented_by: header; data
 - name: x_flag
-  label: 'Eurostat''s flag of the observation: b break in series; i (see Eurostat''s metadata)'
+  label: 'Eurostat''s flag of the observation: b break in time series; i value imputed by Eurostat or other receiving agencies'
   unit: none
   type: text
   values:
@@ -200,7 +200,7 @@ columns:
   missing_cells: 428
   missing_meaning: No flag on the observation
   source_name: null
-  documented_by: method eurostat_ev_recharging_annual.md; method eurostat_electricity_monthly.md
+  documented_by: source Eurostat, code list OBS_FLAG (ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/ESTAT/OBS_FLAG; robots disallows not this path), read 2026-11-26
 - name: x_conf_status
   label: Eurostat's confidentiality status of the observation
   unit: none
@@ -248,7 +248,4 @@ variables:
   rows: 91
   first: '2019-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
-second_look:
-- 'x_flag: the meaning of Eurostat''s flag i is not written in the repository (the method note says to see Eurostat''s metadata).
-  Read again on 20 November 2026 in the saved SDMX-CSV and codes TSV under warehouse/raw/eurostat_ev_recharging and the flag
-  labels of five saved Eurostat JSON-stat files (they label b, C, e, m and p only): not found.'
+second_look: null

@@ -457,7 +457,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 | `x_geo_code` | Eurostat's geo code of the country | none | text | for example AT, BE, BG; 33 distinct | 0 |
 | `x_tra_infr` | Eurostat's TRA_INFR code: RCHRG_PNT recharging point, RCHRG_STN station, RCHRG_POOL pool, RCHRG_POOL_HVY heavy-duty pool | none | text | RCHRG_PNT, RCHRG_POOL, RCHRG_POOL_HVY, RCHRG_STN | 0 |
 | `x_unit` | Eurostat's unit code of the figure: NR a number, KW power output | none | text | KW, NR | 0 |
-| `x_flag` | Eurostat's flag of the observation: b break in series; i (see Eurostat's metadata) | none | text | b, i | 428: No flag on the observation |
+| `x_flag` | Eurostat's flag of the observation: b break in time series; i value imputed by Eurostat or other receiving agencies | none | text | b, i | 428: No flag on the observation |
 | `x_conf_status` | Eurostat's confidentiality status of the observation | none | empty | no cell holds a value | 465: Not filled: no cell holds a value |
 
 Variables (6):
@@ -470,8 +470,6 @@ Variables (6):
 | `recharging_pools` | Recharging pools | count | 81 | 2019-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `recharging_pools_power` | Power output of the recharging pools, MW (Eurostat's kW divided by 1,000) | MW | 80 | 2019-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `recharging_stations` | Recharging stations | count | 91 | 2019-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-
-Waiting for a second look: x_flag: the meaning of Eurostat's flag i is not written in the repository (the method note says to see Eurostat's metadata). Read again on 20 November 2026 in the saved SDMX-CSV and codes TSV under warehouse/raw/eurostat_ev_recharging and the flag labels of five saved Eurostat JSON-stat files (they label b, C, e, m and p only): not found..
 
 ### `eurostat_ev_recharging_power_annual`
 
@@ -502,7 +500,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 | `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 1171 |
 | `x_geo_code` | Eurostat's geo code of the country | none | text | for example AT, BE, BG; 33 distinct | 0 |
 | `x_power` | Eurostat's POWER code of the category: TOTAL, AC, DC, AC_KW_LT7P4 below 7.4 kW, AC_KW_LE7P4-LE22 7.4 to 22 kW, AC_KW_GT22 above 22 kW, DC_KW_LT50 below 50 kW, DC_KW_LE50-LT150 50 to 150 kW, DC_KW_LE150-LT350 150 to 350 kW, DC_KW_GE350 350 kW and above | none | text | AC, AC_KW_GT22, AC_KW_LE7P4-LE22, AC_KW_LT7P4, DC, DC_KW_GE350, DC_KW_LE150-LT350, DC_KW_LE50-LT150, DC_KW_LT50, TOTAL | 0 |
-| `x_flag` | Eurostat's flag of the observation: b break in series; i (see Eurostat's metadata) | none | text | b, i | 1086: No flag on the observation |
+| `x_flag` | Eurostat's flag of the observation: b break in time series; i value imputed by Eurostat or other receiving agencies | none | text | b, i | 1086: No flag on the observation |
 | `x_conf_status` | Eurostat's confidentiality status of the observation | none | empty | no cell holds a value | 1171: Not filled: no cell holds a value |
 
 Variables (1):
@@ -510,8 +508,6 @@ Variables (1):
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
 | `recharging_points` | Recharging points for electric vehicles in the power category | count | 1171 | 2019-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-
-Waiting for a second look: x_flag: the meaning of Eurostat's flag i is not written in the repository (the method note says to see Eurostat's metadata). Read again on 20 November 2026 in the saved SDMX-CSV under warehouse/raw/eurostat_ev_recharging_power and the flag labels of five saved Eurostat JSON-stat files (they label b, C, e, m and p only): not found..
 
 ### `eurostat_fossil_share_annual`
 
@@ -632,7 +628,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 | `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 1253 |
 | `x_geo_code` | Eurostat's geo code of the country or aggregate | none | text | for example BA, BE, BG; 32 distinct | 0 |
 | `x_partner` | Eurostat's code of the country of origin: DZ Algeria, NG Nigeria, NO Norway, QA Qatar, RU Russia, UK the United Kingdom, US the United States | none | text | DZ, NG, NO, QA, RU, UK, US | 0 |
-| `x_flag` | Eurostat's flag of the observation: i on every row (see Eurostat's metadata) | none | text | i | 0 |
+| `x_flag` | Eurostat's flag of the observation: i value imputed by Eurostat or other receiving agencies (on every row) | none | text | i | 0 |
 | `x_conf_status` | Eurostat's confidentiality status of the observation | none | empty | no cell holds a value | 1253: Not filled: no cell holds a value |
 
 Variables (1):
@@ -640,8 +636,6 @@ Variables (1):
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
 | `import_dependency_by_origin` | Natural gas (G3000) import dependency on the country of origin, percent, as Eurostat gives it | pct | 1253 | 2015-01-01T00:00:00Z | 2020-01-01T00:00:00Z |
-
-Waiting for a second look: x_flag: the meaning of Eurostat's flag i is not written in the repository (the header says to see Eurostat's metadata). Read again on 20 November 2026 in the saved SDMX-CSV under warehouse/raw/eurostat_gas_import_origin and the flag labels of five saved Eurostat JSON-stat files (they label b, C, e, m and p only): not found..
 
 ### `eurostat_gas_imports_monthly`
 
@@ -1199,7 +1193,5 @@ Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `supply_diversity_index` | Eurostat's diversity index of energy supply (INX), as given; the ERW reads no direction into it | index | 891 | 1992-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-
-Waiting for a second look: supply_diversity_index: the file gives the index without its method; Eurostat's metadata for nrg_ind_di defines it, and the repository does not. Read again on 20 November 2026 in the saved SDMX-CSV under warehouse/raw/eurostat_supply_diversity (data rows only): not found..
+| `supply_diversity_index` | Eurostat's diversity index of energy supply (INX): built on the Herfindahl-Hirschman index principle from the energy balance's supply of every fuel (primary production, recovered and recycled products, imports, stock draw), rounded to 4 places; between 0 and 1, a lower value meaning a more varied fuel mix (Eurostat's metadata nrg_ind_di_esmsip2, ec.europa.eu/eurostat/cache/metadata/en/nrg_ind_di_esmsip2.htm, read 2026-11-26; the page's text refers to "the calculation above" but holds no formula, so none is copied here) | index | 891 | 1992-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
 

@@ -1,0 +1,11 @@
+zone  avg_mw_2020  avg_mw_2025  growth_pct  added_mw hours_2020 hours_2025
+FWES       3682.1       7606.3      106.57    3924.2     8784.0     8696.0
+NCEN      13154.0      15515.6       17.95    2361.6     8784.0     8709.0
+COAS      12209.9      14518.2       18.91    2308.3     8784.0     8703.0
+SCEN       6905.8       9096.1       31.72    2190.3     8784.0     8712.0
+SOUT       3478.1       4492.2       29.16    1014.1     8784.0     8712.0
+NRTH        943.1       1940.1      105.73     997.1     8781.0     8704.0
+EAST       1624.6       1840.2       13.27     215.6     8784.0     8706.0
+WEST       1374.8       1444.8        5.09      69.9     8782.0     8699.0
+the eight zones: 2020 43372.4 2025 56453.5 growth 30.16 added 13081.1
+2019 hours used per zone: {'eia930_subba:ERCO:COAS': '5251.0', 'eia930_subba:ERCO:EAST': '5251.0', 'eia930_subba:ERCO:FWES': '5251.0', 'eia930_subba:ERCO:NCEN': '5251.0', 'eia930_subba:ERCO:NRTH': '5251.0', 'eia930_subba:ERCO:SCEN': '5251.0', 'eia930_subba:ERCO:SOUT': '5250.0', 'eia930_subba:ERCO:WEST': '5251.0'}

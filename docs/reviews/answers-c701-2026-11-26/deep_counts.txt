@@ -1,0 +1,26 @@
+2026-11-19 authorities              claims   79 passed  13 drafts   7 loaded   7 dry_run False 2026-11-19T12:57:39Z
+2026-11-19 boem502                  claims    3 passed   3 drafts   3 loaded   3 dry_run False 2026-11-19T13:17:40Z
+2026-11-19 cross502                 claims   28 passed  10 drafts   9 loaded   9 dry_run False 2026-11-19T12:19:53Z
+2026-11-19 cross502_util            claims   26 passed  12 drafts   8 loaded   8 dry_run False 2026-11-19T13:07:54Z
+2026-11-19 events                   claims  113 passed  42 drafts  30 loaded  30 dry_run False None
+2026-11-19 forecasts                claims  108 passed  67 drafts  18 loaded  18 dry_run False 2026-11-19T12:04:26Z
+2026-11-19 forecasts_revisions      claims   74 passed  25 drafts  12 loaded  12 dry_run False 2026-11-19T12:53:50Z
+2026-11-19 gas502                   claims   94 passed  31 drafts  10 loaded  10 dry_run False 2026-11-19T12:48:38Z
+2026-11-19 large_load               claims   17 passed  15 drafts  15 loaded  15 dry_run False None
+2026-11-19 misc502                  claims  100 passed   5 drafts   5 loaded   5 dry_run False 2026-11-19T13:04:15Z
+2026-11-19 oilx502                  claims   87 passed  13 drafts  12 loaded  12 dry_run False 2026-11-19T12:51:19Z
+2026-11-19 ops502                   claims   89 passed  27 drafts  10 loaded  10 dry_run False 2026-11-19T12:24:30Z
+2026-11-19 part_d                   claims  156 passed 102 drafts  20 loaded  20 dry_run False 2026-11-19T12:11:42Z
+2026-11-19 regions                  claims   57 passed  35 drafts  27 loaded  27 dry_run False 2026-11-19T11:17:58Z
+2026-11-19 rte502                   claims    6 passed   3 drafts   3 loaded   3 dry_run False 2026-11-19T13:19:58Z
+2026-11-19 seds502                  claims  258 passed 243 drafts  18 loaded  18 dry_run False 2026-11-19T12:27:22Z
+2026-11-19 seds502_tariffs          claims  156 passed 156 drafts  12 loaded  12 dry_run False 2026-11-19T12:30:36Z
+2026-11-19 the_rest                 claims   19 passed   9 drafts   8 loaded   0 dry_run True 2026-11-19T12:07:19Z
+2026-11-19 trade                    claims  196 passed  76 drafts  34 loaded  34 dry_run False 2026-11-19T11:05:38Z
+2026-11-19 utilities861             claims  276 passed 187 drafts  17 loaded  17 dry_run False 2026-11-19T12:15:38Z
+2026-11-19 weather                  claims   26 passed   3 drafts   3 loaded   3 dry_run False 2026-11-19T12:45:29Z
+2026-11-19 world_power              claims   96 passed  74 drafts  16 loaded  16 dry_run False 2026-11-19T13:14:50Z
+2026-11-19 worldco2                 claims   93 passed  89 drafts  12 loaded  12 dry_run False 2026-11-19T12:42:15Z
+2026-11-19 worldcoal                claims   57 passed  49 drafts  12 loaded  12 dry_run False 2026-11-19T12:37:14Z
+2026-11-19 worldoil                 claims  156 passed 128 drafts  16 loaded  16 dry_run False 2026-11-19T13:25:15Z
+total {'claims': 2370, 'passed': 1417, 'drafts': 337, 'loaded': 329, 'families': 25}

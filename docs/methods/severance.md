@@ -37,7 +37,7 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
 |---|---|---|
 | Oil | Sec. 202.052(a) | 4.6 percent of market value or 4.6 cents a barrel, whichever is greater. The calculator applies the greater. |
 | Gas | Sec. 201.052(a) | 7.5 percent of market value |
-| Condensate | Sec. 201.055(b) | the oil rate of Sec. 202.052. The calculator applies 4.6 percent and not the per-barrel alternative, which the Comptroller's page does not state for condensate. |
+| Condensate | Sec. 201.055(b) | the oil rate of Sec. 202.052. The calculator applies 4.6 percent and not the per-barrel alternative, which the Comptroller's page does not state for condensate. The section's own words carry the floor, so this is the page's choice, not the law; the floor acts only below USD 1 a barrel, and the decisions fold says so (session 10207, `docs/reviews/severance-model-audit-2026-11-26.md`, finding 5). |
 | EOR | Secs. 202.052(b), 202.054(g) | 2.3 percent, for 10 years from the month after the Railroad Commission certifies a positive production response |
 | EOR with anthropogenic CO2 | Sec. 202.0545(a), (b) | an additional 50 percent reduction until the 30th anniversary of the Comptroller's first approval, prorated to the anthropogenic share of the CO2 |
 | Two-year inactive wells | Sec. 202.056(b); gas by Sec. 201.053(4) | a five-year exemption |
@@ -155,6 +155,7 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
 - **The reader picks the district** from the table's list.
 - **The TRD calculation note** (`nm_trd_calc`) shows the same oil rates in a 2017 example, and says each tax is rounded to the cent separately. The calculator does not round per tax.
 - **The Oil and Gas Production Equipment Ad Valorem Tax** is annual (due November 30) and is not computed.
+- **A local levy in the total.** The ad valorem production tax is levied at the rate of the production unit's county district, so a New Mexico total with its district holds a local levy, and a Texas or Louisiana total holds none (no local tax of those states is read). Left out by default, it puts a New Mexico total 13.6 to 19.5 percent low against the median and the highest district. The calculator's lead says so (session 10207, `docs/reviews/severance-model-audit-2026-11-26.md`, finding 4).
 
 ## The calculator
 
@@ -176,6 +177,8 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
 **Prices.** A blank price is the month's mean of the warehouse's EIA daily spot prices (`eia_fuel_spot_prices`): WTI Cushing for oil and condensate, Henry Hub for gas (USD per MMBtu, applied per Mcf as if one Mcf held one MMBtu), each labeled with the number of days averaged. A hub price is not the value at the well. A month the warehouse does not hold is not computed until a price is entered.
 
 **Per well, month and product:** the base tax (Louisiana's oil rate from the completion date: 6.5 percent on or after July 1, 2025, else 12.5 percent, and 12.5 percent when no date is given; New Mexico's ad valorem rate from the district), the tax with the rules the reader ticks (one reduced rate per well and product, and the Texas low-producing oil credit beside it, as the calculator allows), and the regulatory fees apart.
+
+**Which month's rates.** Every month of a file is taxed at the rates the rules file holds today, whatever the month: Louisiana's gas rate (15.14 cents per Mcf) and horizontal well shares (80 percent for oil, 100 for gas) for July 2026 to June 2027, and New Mexico's table for April to August 2026. The month sets only the default price and the Texas certified price. A month outside those periods may have owed at another rate; the tab's lead says so (session 10207, `docs/reviews/severance-model-audit-2026-11-26.md`, finding 3). The past rates are not in the rules file.
 
 **"May qualify" flags.** A flag means the well's own numbers meet the rule's thresholds. The state still certifies or designates the well; the flag says so. Each flag cites its rule and states the numbers:
 
@@ -305,7 +308,7 @@ Both tabs end with the downloads of `eia_fuel_spot_prices` and, since session 75
 ### How a figure is computed (the calculator, and each line of the lease tool)
 
 1. **Gross value** = volume x price.
-2. **Taxable value.** Louisiana oil and condensate: gross less volume x the transport fee per barrel. New Mexico oil and gas: gross less gross x the royalty percent, less volume x trucking per unit. Elsewhere: gross. Never below zero. The page shows the taxable value only when it differs from the gross.
+2. **Taxable value.** Louisiana oil and condensate: gross less volume x the transport fee per barrel. New Mexico oil and gas: gross less gross x the royalty percent, less volume x trucking per unit. Elsewhere: gross. Never below zero. The page shows the taxable value only when it differs from the gross. Louisiana's statute values oil at the higher of the receipts less those fees or the posted field price; no posted price is held, so the floor is not applied and the decisions fold says so (session 10207, `docs/reviews/severance-model-audit-2026-11-26.md`, finding 1).
 3. **Each base tax** = taxable value x rate (`pct_value`) or volume x rate (`per_unit`). Texas oil takes the greater of that and volume x 0.046.
 4. **Tax at the base rate** = the sum of the base taxes.
 5. **One reduced rate** replaces the first base tax only, by its `kind`:

@@ -1,0 +1,142 @@
+{
+ "buyer": {
+  "cells_adding_two_or_more_kinds": 15,
+  "cells_with_usd": 82,
+  "largest_mixed": [
+   [
+    425.1,
+    [
+     "capital",
+     "compute",
+     "other"
+    ]
+   ],
+   [
+    159.9,
+    [
+     "capital",
+     "compute",
+     "grid"
+    ]
+   ],
+   [
+    125.8,
+    [
+     "capital",
+     "nuclear"
+    ]
+   ],
+   [
+    98.4,
+    [
+     "capital",
+     "compute",
+     "grid",
+     "other"
+    ]
+   ],
+   [
+    82.0,
+    [
+     "capital",
+     "other"
+    ]
+   ]
+  ],
+  "usd_in_mixed_cells": 1129388000000.0
+ },
+ "grid": {
+  "cells_adding_two_or_more_kinds": 3,
+  "cells_with_usd": 4,
+  "largest_mixed": [
+   [
+    3023.6,
+    [
+     "capital",
+     "compute",
+     "gas",
+     "grid",
+     "nuclear",
+     "other",
+     "renewables_storage"
+    ]
+   ],
+   [
+    17.8,
+    [
+     "compute",
+     "gas",
+     "grid"
+    ]
+   ],
+   [
+    2.0,
+    [
+     "capital",
+     "other"
+    ]
+   ]
+  ],
+  "usd_in_mixed_cells": 3043388000000.0
+ },
+ "quarter": {
+  "cells_adding_two_or_more_kinds": 6,
+  "cells_with_usd": 7,
+  "largest_mixed": [
+   [
+    1655.8,
+    [
+     "capital",
+     "compute",
+     "gas",
+     "grid",
+     "nuclear",
+     "other"
+    ]
+   ],
+   [
+    619.1,
+    [
+     "capital",
+     "compute",
+     "gas",
+     "nuclear",
+     "other"
+    ]
+   ],
+   [
+    292.9,
+    [
+     "capital",
+     "compute",
+     "gas",
+     "grid",
+     "nuclear",
+     "renewables_storage"
+    ]
+   ],
+   [
+    271.7,
+    [
+     "capital",
+     "compute",
+     "gas",
+     "grid",
+     "nuclear",
+     "other",
+     "renewables_storage"
+    ]
+   ],
+   [
+    121.8,
+    [
+     "capital",
+     "compute",
+     "other"
+    ]
+   ]
+  ],
+  "usd_in_mixed_cells": 3059130000000.0
+ },
+ "usd_total": 3059388000000.0
+}

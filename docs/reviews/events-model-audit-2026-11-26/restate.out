@@ -1,0 +1,11 @@
+740 figures restated; info 91 entries -> runs/c10225/restate.json
+caiso_heat_2020.study.CISO {"n": 42, "nbase": 28, "days": 14, "temp_n": 42, "mean_day_effect": 83775.28890824679, "pooled": 83812.35208497274, "pooled_temp": 24746.88247610482, "temp_mean_day_effect": 30277.41406961148}
+elliott_2022.study.eia930:ERCO {"n": 33, "nbase": 22, "days": 11, "temp_n": 33, "mean_day_effect": 269581.5000000002, "pooled": 269581.5000000002, "pooled_temp": 72488.31771177544, "temp_mean_day_effect": 201521.76267379086}
+elliott_2022.study.eia930:ISNE {"n": 33, "nbase": 22, "days": 11, "temp_n": 33, "mean_day_effect": 10549.090909090788, "pooled": 10549.090909091034, "pooled_temp": 3906.7478859255125, "temp_mean_day_effect": 7850.834330108297}
+elliott_2022.study.eia930:MISO {"n": 32, "nbase": 21, "days": 11, "temp_n": 32, "mean_day_effect": 234756.65542521875, "pooled": 236278.7103386807, "pooled_temp": 125412.57863224029, "temp_mean_day_effect": 232035.32523600335}
+elliott_2022.study.eia930:NYIS {"n": 33, "nbase": 22, "days": 11, "temp_n": 33, "mean_day_effect": 24802.63636363627, "pooled": 24802.636363636404, "pooled_temp": 5921.220163976264, "temp_mean_day_effect": 8961.070818665437}
+elliott_2022.study.eia930:PJM {"n": 33, "nbase": 22, "days": 11, "temp_n": 33, "mean_day_effect": 386999.9545454548, "pooled": 386999.95454545505, "pooled_temp": 134170.933517373, "temp_mean_day_effect": 742711.897578928}
+elliott_2022.study.eia930:SWPP {"n": 33, "nbase": 22, "days": 11, "temp_n": 33, "mean_day_effect": 146160.90909090932, "pooled": 146160.9090909093, "pooled_temp": 46809.054835748495, "temp_mean_day_effect": 83462.31838800186}
+elliott_2022.study.hub {"n": 33, "nbase": 22, "days": 11, "temp_n": 33, "mean_day_effect": 56.52026363636364, "pooled": 56.52026363636361, "pooled_temp": -28.14096481454975, "temp_mean_day_effect": 27.220346504770827}
+uri.study.ERCO {"n": 54, "nbase": 36, "days": 18, "temp_n": 54, "mean_day_effect": 143553.51903870158, "pooled": 155794.96284131304, "pooled_temp": 30283.662334596316, "temp_mean_day_effect": -92179.6694828624}
+uri.study.hub {"n": 54, "nbase": 36, "days": 18, "temp_n": 54, "mean_day_effect": 2332.08391355077, "pooled": 2293.844159165152, "pooled_temp": 287.78683972486147, "temp_mean_day_effect": 2317.2851191912696}

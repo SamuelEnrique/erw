@@ -1,0 +1,176 @@
+Choose
+Kind: Queue positions
+Select allClear
+Operating units
+Planned units
+Queue positions
+Datacenters
+Grid: ERCOT
+Select allClear
+ERCOT
+CAISO
+PJM
+MISO
+SPP
+NYISO
+ISO-NE
+Outside the seven ISOs
+Grid not stated
+Technology: all
+Select allClear
+Solar
+Wind
+Batteries
+Other storage
+Natural gas
+Nuclear
+Coal
+Hydro
+Petroleum
+Biomass
+Geothermal
+Other
+Storage (queue positions)
+Hybrid
+Transmission
+Datacenter (a load)
+Not stated
+Status: all
+Select allClear
+Queue positions
+Active
+Suspended
+Completed
+Not stated
+State (or click one on the map): all
+Select allClear
+Not stated
+AK
+AL
+AR
+AZ
+CA
+CO
+CT
+DC
+DE
+FL
+GA
+HI
+IA
+ID
+IL
+IN
+KS
+KY
+LA
+MA
+MD
+ME
+MI
+MN
+MO
+MS
+MT
+NC
+ND
+NE
+NH
+NJ
+NM
+NV
+NY
+OH
+OK
+OR
+PA
+PR
+RI
+SC
+SD
+TN
+TX
+UT
+VA
+VT
+WA
+WI
+WV
+WY
+Size, MW
+to
+Near a pointiType a point as latitude, longitude in decimal degrees (for example 32.4487, -99.7331, the form a web map copies), or press "Measure from this row" on a row's card; then a distance in miles. Both are needed. The distance is the great-circle distance on a sphere of the Earth's mean radius, 3,958.8 miles, from each row's own point: EIA's coordinates for a unit, the county's or the town's point for a queue position, the city's point for a datacenter, not their sites. Both ends are counted in; a row with no point is left out. The list under the map gives every row within it, nearest first.
+withinmiles
+Lines on the mapiTransmission lines of 230 kV and above are HIFLD's Electric Power Transmission Lines, and the HGL pipelines are EIA's layer of January 2020, both as Penn State's PASDA serves them; each is simplified for the web, and its hover names its table. EIA's layers of natural gas, crude oil and petroleum product pipelines, LNG terminals, refineries and underground gas storage are served from a host whose robots file refuses this reader, so they are not drawn; HIFLD's compressor stations and substations are not in a public service the ERW reads. The method note says each.
+Transmission lines, 230 kV and above
+HGL pipelines (EIA)
+ResetThe map, the totals and the table follow these choices, and the address keeps them, so a view can be shared. Nothing you choose leaves this page.
+In ERCOT and every state, within 30 miles of 32.4487, -99.7331, the map holds 38 queue positions, 11,559 MW requested.iComputed in your browser from the page's own copy of the four tables (eia860m_operating_generators and eia860m_planned_generators and energy_projects and datacenter_facilities, built 2026-11-19, the copy built 2026-11-19), summed over the rows chosen. Nothing is read from the live set for this figure. MW is never added across kinds: a unit's nameplate, a queue position's request and a datacenter's stated load are different things.
+Queue positions, by status (MW requested)iComputed in your browser from the page's own copy of the interconnection queue positions (energy_projects, vintage 2026-11-23, the copy built 2026-11-19), summed over the rows chosen. Nothing is read from the live set for this figure. The MW is what each position asks to connect, not a load. For ERCOT's positions, "Completed" is a position ERCOT approved to synchronize, and a signed agreement alone is "Active": the connector reads ERCOT's own milestones since session 7022 (docs/methods/energy_projects.md).
+Active
+8,652MW
+24 positions
+Completed
+2,907MW
+14 positions
+The map
+queue position, at its county's point
+size: MW
+Natural gas
+Wind
+Solar
+Batteries and other storage
+MISO queue positions: paused while terms are reviewed
+NYISO queue positions: NYISO's terms do not allow it
+Click a unit on the map for its card: name, capacity, status, operator or developer, date and the table it comes from.
+Drag to move, scroll or pinch to zoom, hover for a row, click a unit for its card, click a state to choose it.iComputed in your browser from the page's own copy of the four tables (eia860m_operating_generators and eia860m_planned_generators and energy_projects and datacenter_facilities, built 2026-11-19, the copy built 2026-11-19), every row chosen that has a place on the drawing is a mark. Nothing is read from the live set for this figure. A mark's hover names its table, its vintage and its row.
+Within 30 miles of 32.4487, -99.7331, nearest first
+The rows chosen within 30 miles of the point, nearest first
+Miles | Name | Kind | Technology | Status | MW | Date | Placed at |
+13.9 | Key City Solar SLF | Queue position | Solar | Active | 989.1 requested | 2025-07-07 (entered the queue) | county point |
+13.9 | Dog Star Solar I | Queue position | Solar | Active | 499.0 requested | 2025-07-07 (entered the queue) | county point |
+13.9 | Dog Star Solar II | Queue position | Solar | Active | 499.0 requested | 2025-07-02 (entered the queue) | county point |
+13.9 | Forts Trail BESS | Queue position | Storage (queue positions) | Active | 208.8 requested | 2022-06-02 (entered the queue) | county point |
+13.9 | Forts Trail BESS 2 | Queue position | Storage (queue positions) | Active | 205.5 requested | 2023-02-20 (entered the queue) | county point |
+13.9 | Taylor County Paul Storage | Queue position | Storage (queue positions) | Active | 204.9 requested | 2024-12-19 (entered the queue) | county point |
+13.9 | Forts Trail Solar | Queue position | Solar | Active | 200.8 requested | 2022-06-02 (entered the queue) | county point |
+13.9 | Buffalo Gap 3 Wind Repower | Queue position | Wind | Approved for synchronization (ERCOT; the table says completed) | 168.4 requested | 2024-12-03 (entered the queue) | county point |
+13.9 | Chimney Rock BESS | Queue position | Storage (queue positions) | Active | 156.0 requested | 2025-02-14 (entered the queue) | county point |
+13.9 | Buffalo Gap 1 Wind Repower | Queue position | Wind | Approved for synchronization (ERCOT; the table says completed) | 120.2 requested | 2025-01-28 (entered the queue) | county point |
+13.9 | Horse13 CallD repower | Queue position | Wind | Approved for synchronization (ERCOT; the table says completed) | 44.0 requested | 2016-10-03 (entered the queue) | county point |
+13.9 | HHGT repower Horse13+CallD | Queue position | Wind | Approved for synchronization (ERCOT; the table says completed) | 44.0 requested | 2016-10-03 (entered the queue) | county point |
+13.9 | Key City Battery Storage SLF | Queue position | Storage (queue positions) | Active | 1.9 requested | 2025-07-07 (entered the queue) | county point |
+22.0 | Hackberry Draw Solar | Queue position | Solar | Active | 653.0 requested | 2026-08-03 (entered the queue) | county point |
+22.0 | Moccasin Storage | Queue position | Storage (queue positions) | Active | 603.1 requested | 2025-01-28 (entered the queue) | county point |
+22.0 | Funston Solar | Queue position | Solar | Approved for synchronization (ERCOT; the table says completed) | 351.1 requested | 2024-02-27 (entered the queue) | county point |
+22.0 | Project FluxNet Solar SLF | Queue position | Solar | Active | 273.8 requested | 2026-02-06 (entered the queue) | county point |
+22.0 | Skeeter Solar | Queue position | Solar | Active | 251.0 requested | 2024-06-03 (entered the queue) | county point |
+22.0 | Tiger Solar | Queue position | Solar | Approved for synchronization (ERCOT; the table says completed) | 250.9 requested | 2021-04-29 (entered the queue) | county point |
+22.0 | Lone Tiger Solar | Queue position | Solar | Active | 242.8 requested | 2026-09-18 (entered the queue) | county point |
+22.0 | Crowded Star Solar | Queue position | Solar | Approved for synchronization (ERCOT; the table says completed) | 218.8 requested | 2019-01-21 (entered the queue) | county point |
+22.0 | Hamby Solar | Queue position | Solar | Approved for synchronization (ERCOT; the table says completed) | 205.8 requested | 2024-03-22 (entered the queue) | county point |
+22.0 | Crowded Star I BESS | Queue position | Storage (queue positions) | Approved for synchronization (ERCOT; the table says completed) | 202.7 requested | 2023-08-21 (entered the queue) | county point |
+22.0 | Anson Solar 2 | Queue position | Solar | Approved for synchronization (ERCOT; the table says completed) | 200.9 requested | 2017-06-23 (entered the queue) | county point |
+22.0 | Anson Solar Center, Phase III | Queue position | Solar | Active | 200.0 requested | 2017-06-23 (entered the queue) | county point |
+22.0 | Crowded Star Solar II | Queue position | Solar | Approved for synchronization (ERCOT; the table says completed) | 189.5 requested | 2020-03-26 (entered the queue) | county point |
+22.0 | Anson BAT | Queue position | Storage (queue positions) | Approved for synchronization (ERCOT; the table says completed) | 153.6 requested | 2020-12-03 (entered the queue) | county point |
+22.0 | Solara BESS 1 | Queue position | Storage (queue positions) | Active | 150.0 requested | 2022-07-05 (entered the queue) | county point |
+22.0 | Solara BESS 2 | Queue position | Storage (queue positions) | Active | 150.0 requested | 2022-07-05 (entered the queue) | county point |
+22.0 | Project Golf Battery SLF | Queue position | Storage (queue positions) | Active | 61.9 requested | 2026-02-06 (entered the queue) | county point |
+22.0 | Project FluxNet Battery SLF | Queue position | Storage (queue positions) | Active | 60.9 requested | 2026-02-06 (entered the queue) | county point |
+23.6 | Ironwood Energy Center | Queue position | Natural gas | Active | 1,485.0 requested | 2026-10-21 (entered the queue) | county point |
+23.6 | Ironwood Energy Center II | Queue position | Natural gas | Active | 742.5 requested | 2026-10-22 (entered the queue) | county point |
+23.6 | Sequoia II Solar | Queue position | Solar | Approved for synchronization (ERCOT; the table says completed) | 417.5 requested | 2020-01-22 (entered the queue) | county point |
+23.6 | Hittson Creek Solar | Queue position | Solar | Active | 402.9 requested | 2024-12-19 (entered the queue) | county point |
+23.6 | Baird North Wind | Queue position | Wind | Approved for synchronization (ERCOT; the table says completed) | 340.0 requested | 2018-05-04 (entered the queue) | county point |
+23.6 | Hittson Creek BESS | Queue position | Storage (queue positions) | Active | 205.4 requested | 2024-12-19 (entered the queue) | county point |
+23.6 | Guitar BESS | Queue position | Storage (queue positions) | Active | 204.8 requested | 2023-05-15 (entered the queue) | county point |
+38 rows of what is chosen. 38 of the 38 queue positions are measured from their county's or town's point, not their site: a position is listed when that point is within the distance, wherever its site lies in the county, and left out when it is not, however near its site.iComputed in your browser from the page's own copy of the four tables (eia860m_operating_generators and eia860m_planned_generators and energy_projects and datacenter_facilities, built 2026-11-19, the copy built 2026-11-19), each row's own fields. Nothing is read from the live set for this figure. The miles are computed in your browser: the great-circle distance on a sphere of 3,958.8 miles from the point to the row's own point, rounded to a tenth of a mile. A unit's MW is its nameplate; a queue position's is what it asks to connect; a datacenter's is what a story or its operator states. The same project can be a planned unit and a queue position: the map does not match the two, and its totals keep each kind apart.
+By technology
+Count and MW by technology group and kind, of what is chosen
+Technology group | Queue positions | MW requested |
+Solar | 17 | 6,046 |
+Wind | 5 | 717 |
+Natural gas | 2 | 2,228 |
+Storage (queue positions) | 14 | 2,570 |
+Count and MW of what is chosen, by technology group and kind.iComputed in your browser from the page's own copy of the four tables (eia860m_operating_generators and eia860m_planned_generators and energy_projects and datacenter_facilities, built 2026-11-19, the copy built 2026-11-19), summed over the rows chosen. Nothing is read from the live set for this figure. A unit's MW is its nameplate; a queue position's is what it asks to connect. Datacenters have no technology and are not in this table.

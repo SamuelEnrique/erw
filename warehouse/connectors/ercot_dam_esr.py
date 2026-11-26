@@ -599,12 +599,21 @@ def daily(log, run_id, get=None, run=None, table_path=None, missing_path=None, p
     log("  " + line)
     if table_path is None:
         ip.write_status("ercot_dam_esr", run_id, [{"table": TABLE, "status": "ok", "rows": total, "detail": f"the standing pull: {day} added, {len(rows):,} rows"}])
-    rc = 0
+    # Session 10000 (chain 701, part C6): the offers builder only after the monthly awards builder passed. On 21 November
+    # the run went on to the offers with the awards table not rebuilt, and the step said "2026-09 is in
+    # ercot_storage_dam_offers_daily and not in ercot_storage_dam_awards_monthly: build that table first", hiding why the
+    # awards builder had not written September. Now its own failure is the step's, and the offers wait for the next run
     for cmd in ([sys.executable, MONTHLY_BUILDER], [sys.executable, OFFERS_BUILDER, "--days", day.isoformat()]):
         code = run(cmd, cwd=ROOT).returncode
         log(f"{os.path.basename(cmd[1])} {' '.join(cmd[2:])}: exit {code}")
-        rc = rc or code
-    return 1 if rc else 0
+        if code:
+            if cmd[1] == MONTHLY_BUILDER:
+                line = (f"ercot_storage_dam_awards_monthly FAILED: {os.path.basename(MONTHLY_BUILDER)} exit {code}; "
+                        f"the offers tables were not built after it (session 10000)")
+                print(line, flush=True)
+                log(line)
+            return 1
+    return 0
 
 
 def main(argv=None):

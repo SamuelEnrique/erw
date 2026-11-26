@@ -45,6 +45,12 @@ Storage alone and solar with storage are kept apart from solar and from each oth
   of unknown status (10 in the file) is counted as entered and in no status.
 - **MW** is the request's `capacity_mw` (its `mw_1 + mw_2 + mw_3`: for a hybrid, all of its parts). A request with no
   positive capacity (16) is counted and adds no MW.
+- **A hybrid's parts carry MW in two regions only** (session 10213, `docs/reviews/queues-model-audit-2026-11-26.md`,
+  finding 1). In the 2026 edition 730 of CAISO's 733 requests with a second part (`type_2`) give that part its own MW,
+  and 360 of the West's 1,862; in ERCOT, ISO-NE, MISO, NYISO, PJM, SPP and the Southeast none of the 2,462 does
+  (`mw_2` empty). So "all of its parts" is both parts in CAISO and one figure elsewhere: CAISO's active MW are 190,717,
+  or 129,435 with each hybrid at its largest part (-32.1 percent); the West's 448,601 or 394,235; every other grid's the
+  same either way. The figures stand as the file gives them; the page says so beside the chart and the technology table.
 - **The year entered** is `q_year`. A request without one (665) is in the totals of the whole file and in no year.
 
 ## The rows
@@ -71,8 +77,12 @@ for `active`, `suspended`, `operating` and `withdrawn`. A year in which no reque
 | `median_years_to_operation` | the median over those of the days from `q_date` to `on_date`, over 365.25 |
 
 **Past requests** entered from 2000 to five years before the edition's last year. Five years is long enough for most
-outcomes to be known. Recent years are mostly still
-open, and a share that included them would read as a low completion rate when it is only an early one.
+outcomes to be known in most views, not in all: of the requests of 2000 to 2020, 10.33 percent are still open in the
+United States, but 58.67 percent of ERCOT's standalone batteries and 60.00 percent of SPP's solar with storage
+(the headline's "still active or suspended" gives each view's). Recent years hold many open requests, though most are
+not open: in the United States 28.6 to 49.3 percent of each year 2021 to 2024 is still open and most of the rest is
+withdrawn; only 2025 is mostly open (79.0 percent). A share that included them would read as a low completion rate when
+it is only an early one (session 10213, `docs/reviews/queues-model-audit-2026-11-26.md`, finding 3).
 
 **When a figure is not written.** A share, when fewer than 20 past requests are counted: under that, one project moves
 it by five points or more. A median, when fewer than 5 requests are dated. The page says "not held".
@@ -85,6 +95,15 @@ median.
 ## What the table does not hold
 
 - Requests after the end of 2025. The file is a yearly edition.
+- One date for every grid (session 10213, `docs/reviews/queues-model-audit-2026-11-26.md`, finding 5). Each grid's
+  newest dates in the 2026 edition differ: the newest request date is 19 to 24 December 2025 in ERCOT, MISO, SPP, the
+  West and the Southeast, 26 September 2025 in NYISO, 1 July 2025 in PJM, 14 January 2025 in ISO-NE (one request of
+  2025) and 17 April 2023 in CAISO (none of 2024 or 2025). The newest operation date is 30 to 31 December 2025 in ERCOT,
+  PJM and SPP, 15 November and 15 December 2025 in CAISO and the Southeast, 1 June 2025 in the West, 19 December 2024 in
+  MISO and 31 December 2023 in NYISO (ISO-NE dates none), so the chart of waits has no point for a later year there
+  because the file dates none. The statuses run past the year's end: 53 withdrawn requests (13,275 MW; 33 of MISO's,
+  11 of PJM's) carry a withdrawal date of 2 to 16 January 2026, so "active at the end of 2025" is 8,513 requests where
+  it would be up to 8,566 at that date (1,864,963 MW, up to 1,878,238). The page's fold says so.
 - Every plant that operates: a request is operational only when its operator's queue says so, and operators differ in
   how long they keep finished and withdrawn requests. A share is of what the queues record.
 - The storage part of a hybrid on its own.
@@ -124,7 +143,7 @@ Berkeley Lab's own summary of the same edition, "Queued Up: 2026 Edition, Charac
 | Wind | 220 GW | 219.7 GW (onshore 196.3, offshore 23.4) |
 | Storage | approximately 749 GW | 552.7 GW (battery 544.1, other storage 8.6) |
 
-Solar, gas and wind agree within 0.4 GW. Storage does not: the summary does not say on that page how its storage figure is built, and the difference (about 196 GW) is not reconciled here. The page's own technology groups count a request once by its cleaned type (a solar and storage hybrid is "solar with storage"), so its figures by group are not the summary's figures by part. The count of active requests is 4 percent above the summary's approximate count of projects.
+Solar, gas and wind agree within 0.4 GW. Storage does not: the summary does not say on that page how its storage figure is built, and the difference (about 196 GW) is not reconciled here. Measured since (session 10213): 1,507 active requests have a battery part that carries no MW in the file (539 in ERCOT, 451 in the West, 206 in MISO, 146 in PJM, the rest elsewhere), 326.2 GW of capacity in all, the other part's; a battery the file sizes at nothing is in none of the 552.7 GW. That is a likely part of the difference, not an established one. The page's own technology groups count a request once by its cleaned type (a solar and storage hybrid is "solar with storage"), so its figures by group are not the summary's figures by part. The count of active requests is 4 percent above the summary's approximate count of projects.
 
 **Active MW by part type (session 7051, done-line request 190).** Each grid's `all` row also holds `active_mw_parts_battery`, `_solar`, `_wind` (onshore and offshore), `_gas` and `_other_storage`: over the active requests, the MW of every part (`type_1` to `type_3` with `mw_1` to `mw_3`) of that type, so a hybrid's battery counts beside a battery standing alone. In the 2026 edition the United States' battery parts are 544,128 MW, the cross-check's 544.1 GW above (ERCOT 165,315; CAISO 109,820; the West outside CAISO 118,927). `replication/queues/replicate.py` recomputes them.
 
@@ -137,9 +156,9 @@ The page draws these at its foot (`site/lib/decisions.ts`, `QUEUES_DECISIONS`), 
 1. Every figure is from Berkeley Lab's yearly Queued Up data file, one row a request through the end of 2025; a newer request is not in it, and the next edition replaces every figure. **Default:** The 2026 edition, through 2025. **Source:** Lawrence Berkeley National Laboratory and GridTracker, Queued Up: 2026 Edition data file (CC BY 4.0). (session 95)
 2. A request is counted once, under the region of the queue that holds it: the seven ISOs, Berkeley Lab's West and Southeast outside them, and the United States as every request of the file. **Default:** Berkeley Lab's region; the US as every request. **Source:** The data file's region field; docs/methods/interconnection_queue_summary.md, "Grids and technologies". (session 95)
 3. Technologies follow Berkeley Lab's cleaned type: solar, solar with storage, storage alone, onshore wind, offshore wind and gas each on its own, and every other type and hybrid in one "other"; storage alone and solar with storage are kept apart from solar. **Default:** Seven groups from the cleaned type, hybrids apart. **Source:** The data file's cleaned type field (type_clean). (session 95)
-4. A request's MW is the sum of its parts as filed (all parts of a hybrid together); a request with no positive capacity is counted and adds no MW. **Default:** Every part's MW summed; none filled. **Source:** The data file's capacity of each part. (session 95)
+4. A request's MW is the sum of its parts as filed (all parts of a hybrid together, where the file gives each part MW: in CAISO and for some of the West's requests; in every other grid a hybrid's second part has no MW in the file); a request with no positive capacity is counted and adds no MW. **Default:** Every part's MW summed; none filled. **Source:** The data file's capacity of each part. (session 95)
 5. Status is Berkeley Lab's: active, suspended, operational and withdrawn; a request of unknown status is counted as entered and in no status, and suspended requests are not in the active figures. **Default:** Berkeley Lab's four statuses; unknown counted as entered only. **Source:** The data file's queue status field. (session 95)
-6. Completion and withdrawal shares are taken over requests that entered from 2000 to five years before the edition's last year, with a known status, so recent years, still mostly open, do not read as a low completion rate. **Default:** Entered 2000 to 2020 for the 2026 edition. **Source:** docs/methods/interconnection_queue_summary.md, "Past requests". (session 95)
+6. Completion and withdrawal shares are taken over requests that entered from 2000 to five years before the edition's last year, with a known status, so recent years, many of whose requests are still open, do not read as a low completion rate. **Default:** Entered 2000 to 2020 for the 2026 edition. **Source:** docs/methods/interconnection_queue_summary.md, "Past requests". (session 95)
 7. A share is written only from at least 20 past requests and a median only from at least 5 dated ones; below that the cell reads "not held", since one project would move a smaller share by five points or more. **Default:** 20 requests for a share; 5 for a median. **Source:** docs/methods/interconnection_queue_summary.md, "When a figure is not written". (session 95)
 8. Years to operation are the days from the request to the operation date over 365.25, for requests that reached operation with both dates in order; a request dated the other way round is left out, and ISO-NE, whose operating requests carry no date, has no median. **Default:** Dated requests only, both dates in order. **Source:** The data file's request and operation dates. (session 95)
 9. The figures are of what the queues record: operators keep finished and withdrawn requests for different lengths of time, and the file holds no cost, developer, network upgrade or reason for a withdrawal, and no forecast of what will be built. **Default:** What the queues record, nothing inferred. **Source:** docs/methods/interconnection_queue_summary.md, "What the table does not hold". (session 95)
@@ -166,7 +185,11 @@ a withdrawn solar-with-storage request in ERCOT is counted as Solar or Battery a
 shares (66 past requests, none withdrawn) are the file's labels, not a count. The figures stand as the file gives them
 (nothing is estimated); the site's copy marks the pair as not comparable with another grid's (`not_comparable`, written
 by `queue_summary.not_comparable()` for any grid that types no closed request as a hybrid while it types live ones), and
-marks the United States' pair, whose withdrawn share counts ERCOT's 66 and so reads lower than a count would. ERCOT's
+marks the United States' pair, whose withdrawn share counts ERCOT's 66 and so reads lower than a count would. Until
+session 10213 the page drew only ERCOT's mark (`noneWithdrawn`), so the United States' 62.62 percent stood unmarked in the
+default view's technology table; the page now draws the file's mark on that figure wherever it is drawn
+(`docs/reviews/queues-model-audit-2026-11-26.md`, finding 2). Without ERCOT's 66 the United States' share withdrawn
+would be 66.08 percent (1,194 past requests), not 62.62 (1,260); the figure stands as the file gives it. ERCOT's
 Solar and Battery views take those requests in, so their withdrawn shares read higher than a typed count would.
 
 ## What waits for the owner (session 7018)

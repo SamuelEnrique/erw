@@ -495,7 +495,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 | `x_longitude` | The facility's longitude, decimal degrees as EPA gives it (west negative) (the source's name: 13. LONGITUDE) | degree | number | -166.535932 to 145.764563; 2811 distinct | 0 |
 | `x_parent` | The facility's parent company, EPA's standardized name (the source's name: 17. STANDARD PARENT CO NAME) | none | text | for example A TEICHERT & SON INC, ABH ENTERPRISES INC, ADAMS RESOURCES & ENERGY INC; 583 distinct | 282: EPA gives no parent company (282 rows) |
 | `x_carcinogen` | Whether the chemical is a carcinogen: YES or NO (the source's name: 46. CARCINOGEN) | none | text | NO, YES | 0 |
-| `x_pbt` | EPA's PBT flag of the chemical: YES or NO (the source's name: 47. PBT) | none | text | NO, YES | 0 |
+| `x_pbt` | EPA's flag of a persistent, bioaccumulative and toxic (PBT) chemical (column 47 of the TRI basic data file): YES the chemical is a PBT, NO it is not; a facility may not report a PBT's quantities by range codes (EPA's Appendix B lists the PBT chemicals) (the source's name: 47. PBT) | none | text | NO, YES | 0 |
 | `x_pfas` | Whether the chemical is a PFAS: YES or NO (the source's name: 48. PFAS) | none | text | NO, YES | 0 |
 | `x_form_type` | The form type: R, or A (EPA's short form, which reports no quantities, so its totals are 0) (the source's name: 49. FORM TYPE) | none | text | A, R | 0 |
 
@@ -506,6 +506,4 @@ Variables (3):
 | `off_site_release_total` | The form's off-site releases: transferred off site for disposal or release (EPA's OFF-SITE RELEASE TOTAL) | g; lb | 128161 | 2015-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
 | `on_site_release_total` | The form's on-site releases: to air, water, underground injection and land (EPA's ON-SITE RELEASE TOTAL) | g; lb | 128161 | 2015-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
 | `total_releases` | The form's total releases: on-site and off-site disposal or other releases (EPA's TOTAL RELEASES), in lb, or g for dioxins | g; lb | 128161 | 2015-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
-
-Waiting for a second look: x_pbt: the connector says only whether the chemical is 'a PBT'; the term is not expanded in the repository. Read again on 20 November 2026 in the headings and values of the saved TRI basic data CSV under warehouse/raw/epa_tri_energy (column 47. PBT, YES or NO; column 43. CLASSIFICATION, TRI, PBT or Dioxin): not found..
 

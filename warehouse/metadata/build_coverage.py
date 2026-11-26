@@ -129,6 +129,7 @@ TIER_RULES = [
     # session 255: the statements whose source document is public, as facts with a link (the figures are the research
     # agent's, each proved by code in large_load_statements), and the license verdict the ERW's code gives each document
     ("model_extracted", r"^large_load_public$"),
+    ("model_extracted", r"^datacenter_announced$"),  # session 10000: read from the documents by a chain session (chain 740), as the large-load tables
     ("derived", r"^large_load_document_verdicts$"),
     # session 3937: the research pass of 13 and 14 November 2026 (window P4, AI research sessions), every cite matched in its
     # document by the pass's own code (docs/research/large_load/verify_quotes.py) and every rules row read by five auditors
@@ -489,6 +490,8 @@ SECTOR_RULES = [
     (r"^census_bps_state_annual$", "power"),  # session 2154: the Census Bureau's building permits by state, a year
     (r"^afdc_ev_charging_state_annual$", "power"),  # session 2155: AFDC's EV charging stations and ports by state, each December
     (r"^census_cbp_hosting_annual$", "power;datacenters"),  # session 2160: CBP's data processing and hosting (NAICS 518210) by state
+    (r"^census_cbp_construction_annual$", "power;datacenters"),  # session 10000: CBP's construction trades (NAICS 2362, 238) by state, for /impact
+    (r"^datacenter_announced$", "power;datacenters"),  # session 10000: announced datacenters, each project's own document (chain 740's rows)
     (r"^statcan_electricity_generation_monthly$", "power"),  # session 2176: Statistics Canada's monthly generation by province, class and type
     (r"^emi_nz_generation_demand_monthly$", "power"),  # session 2254: EMI's New Zealand grid generation and demand, nationally and by island, a month
     (r"^census_c30_construction_monthly$", "power;datacenters"),  # session 2258: the Census Bureau's construction spending by type and owner, a month (data centers, power)
@@ -632,7 +635,7 @@ SECTOR_RULES = [
     # session 24: the policy monitor (tool 12)
     (r"^policy_(actions|reads)(_evidence)?$", "news"),
     # session 24: NWS weather at the ISO load centers, the /grid overlay
-    (r"^weather_(obs|forecast)_hourly$", "power"),
+    (r"^weather_(obs|forecast|forecast_issued)_hourly$", "power"),  # session 10000: every issue of the forecast
     # session 25: companies found by the Thesis Builder (tool 27), the seed of the company database (tool 10)
     (r"^energy_companies$", "deals"),
     # session 3302: the company database (tool 10): every company the warehouse names, its names and its rows
@@ -1157,7 +1160,29 @@ def carried_over(present):
     lost = [r["table"] for r in gone if r["table"] not in md]
     if lost:
         raise ValueError(f"cannot carry over {lost}: no line for them in {os.path.relpath(DOC, ROOT)}")
+    for r in gone:
+        md[r["table"]] = align_carried(md[r["table"]], r)
     return gone, md
+
+
+def align_carried(line, row):
+    """Session 10000 (chain 701, part C5): a carried table's line in docs/coverage.md takes its first and last interval,
+    rows and last run from its carried CSV row, the record every reader of coverage.csv uses. The two were carried
+    apart: from 23 November the CSV held ercot_all_hub_prices_history at 3,124,224 rows to 19 November and the line at
+    3,125,376 to 21 November, and the package's test of erw.info() failed every day. Other cells are left as they are."""
+    cells = re.split(r"(?<!\\)\|", line)
+    # cells[0] is the text before the first bar (empty), cells[1:] the columns in MD_COLS order, then what follows the last
+    at = {c: MD_COLS.index(c) + 1 for c in ("First interval (UTC)", "Last interval (UTC)", "Rows", "Last run (UTC)")}
+    if len(cells) < at["Last run (UTC)"] + 2:
+        return line
+    put = {"First interval (UTC)": str(row.get("ts_min", "")).replace("T", " ").rstrip("Z"),
+           "Last interval (UTC)": str(row.get("ts_max", "")).replace("T", " ").rstrip("Z"),
+           "Rows": f"{int(row['n_rows']):,}" if str(row.get("n_rows", "")).isdigit() else None,
+           "Last run (UTC)": str(row.get("last_run", "")).replace("T", " ").rstrip("Z")}
+    for col, v in put.items():
+        if v is not None and v != "":
+            cells[at[col]] = f" {v} "
+    return "|".join(cells)
 
 
 MD_COLS = ["Table", "ISO", "Market", "Variable", "Nodes", "Interval",

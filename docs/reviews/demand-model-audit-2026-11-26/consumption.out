@@ -1,0 +1,7 @@
+latest 2026-08; US all sectors 4,122,912,132 MWh, +1.80 percent
+IND NM +13.5 (other -248,885; own +1,939,973), OR +12.1 (other +24,488; own +1,604,876), AR +9.1 (other +23,330; own +1,898,771), IA +8.3 (other +175,872; own +2,441,642), AK +7.6 (other +77,831; own +104,761), AZ +6.2 (other +4,272,357; own +898,478), MS +6.0 (other +107,139; own +963,039), TN +5.8 (other +341,628; own +1,412,410), MA +4.7 (other +312,880; own +275,409), WI +4.5 (other +502,067; own +1,031,451)
+COM NE +17.9 (other +312,525; own +2,545,761), OH +15.6 (other +582,035; own +8,509,324), IN +14.2 (other +907,333; own +3,477,243), AZ +11.6 (other +898,478; own +4,272,357), WY +8.2 (other +8,901; own +448,810), TX +8.0 (other -7,672,895; own +13,653,363), UT +6.8 (other -74,690; own +982,566), GA +6.1 (other +271,592; own +3,443,874), OK +6.0 (other -119,458; own +1,607,192), VA +5.1 (other -226,187; own +4,280,194)
+offsetting steps in the last 48 months: 0
+MER: {"latest": "2026-07", "TEICBUS": 31739.931, "TNICBUS": 26727.718, "LOICBUS": 5012.214, "TECCBUS": 17232.758, "TNCCBUS": 9927.666, "industrial_losses_share_pct": 15.791508809518206, "commercial_total_less_end_use_share_pct": 42.39073049131196}
+retrieved dates of rows in the windows: ['2026-09-29', '2026-10-22', '2026-10-23']
+largest ALL less the four sectors: ('CO', 20897300.330000006)

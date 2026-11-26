@@ -1,0 +1,28 @@
+rows 35035; drawn 34668; not drawn 367
+projection box by state group: [(('alaska', 'AK'), 547), (('hawaii', 'HI'), 251), (('lower48', 'other'), 33870), ((None, 'PR'), 231)]
+  queue MW: file's own count 768,296.0, sum of the rows as rounded in the file 768,296.9
+EIA tables of the main copy: 31073 units, vintages {'2026-09': 31073}
+units in the file against EIA's tables: same {'mw': 31073, 'lat': 31073, 'lon': 31073, 'state': 31073, 'grid': 31073, 'tech': 31073, 'status': 31073, 'name': 31073}; differ {}
+gazetteer keys: 3244
+   not found: 'Linn & Bates' KS 38.2165 -94.8449
+   not found: 'Hempstead Co.' AR 33.736 -93.6644
+   not found: 'Caddo Prsh.' LA 32.5801 -93.885
+   not found: 'Terry & Hockley' TX 33.1712 -102.3393
+   not found: 'Antelope & Wheeler County' NE 42.1832 -98.058
+   not found: 'Webster Co' NE 40.1806 -98.4986
+   not found: 'Kingfisher Co' OK 35.9494 -97.9346
+   not found: 'Moffat & Rio Blanco Counties' CO 40.6109 -108.2172
+   not found: 'Wayne Co' NE 42.2107 -97.1262
+   not found: 'Le Flore Co' OK 34.8974 -94.6951
+   not found: 'Johnston Co' OK 34.3135 -96.6543
+   not found: 'Franklin & Wood' TX 33.1758 -95.2191
+   not found: 'Caddo & Kiowa Counties' OK 35.1679 -98.381
+   not found: 'Berkshire & Franklin' MA 42.3715 -73.2179
+queue positions at a county point (3414): {'same point': 3400, 'county words not found by the restatement': 14}
+  another point: gap in miles, largest ten:
+  another point within 0.01 mile: 0; over 0.1 mile: 0
+  another point equal to the gazetteer's point cut (not rounded) to four decimals: 0
+  another point, which file it is nearest: {}
+  Connecticut in the 2025 file: ['capitolplanningregion', 'greaterbridgeportplanningregion', 'lowerconnecticutrivervalleyplanningregion', 'naugatuckvalleyplanningregion', 'northeasternconnecticutplanningregion', 'northwesthillsplanningregion', 'southcentralconnecticutplanningregion', 'southeasternconnecticutplanningregion', 'westernconnecticutplanningregion']
+
+RESULT: 142 of 142 drawn figures and checks agree

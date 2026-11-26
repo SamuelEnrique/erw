@@ -1,0 +1,5 @@
+watch_wti: week of 2026-10-19: 107.17 (file 107.17), before 99.93, change 7.2400; ranked among 104: score 87.5, as large 13 (caption: 87.5, 13 of 104)
+peak_premium_block ERCOT HB_NORTH 2026-10-23 to 2026-10-29: intervals 672; peak median 32.9600 minus midday median 16.0500 = 16.91 (file 16.91)
+curtailment_midday 2026-10-22 to 2026-10-28: 33335.55 MWh (file 33335.55)
+negative_price_hours ERCOT HB_WEST 2026-09: hours held 720, below zero 19 (file 19)
+storage_evening_peak 2026-10-23 to 2026-10-29: intervals 336, mean 6763.2 MW (file 6763.2); with 21:00 to 21:59 as well: see the method's words '17:00 to 21:00'

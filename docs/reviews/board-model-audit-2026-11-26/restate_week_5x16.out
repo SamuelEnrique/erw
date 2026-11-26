@@ -1,0 +1,71 @@
+  ercot-hb-hubavg: the hours' last complete day-ahead day 2026-11-20, real time 2026-11-19
+  ercot-hb-busavg: the hours' last complete day-ahead day 2026-11-20, real time 2026-11-19
+  ercot-hb-houston: the hours' last complete day-ahead day 2026-11-20, real time 2026-11-19
+  ercot-hb-north: the hours' last complete day-ahead day 2026-11-20, real time 2026-11-19
+  ercot-hb-south: the hours' last complete day-ahead day 2026-11-20, real time 2026-11-19
+  ercot-hb-west: the hours' last complete day-ahead day 2026-11-20, real time 2026-11-19
+  caiso-th-sp15-gen-apnd: the hours' last complete day-ahead day 2026-11-25, real time 2026-11-24
+  caiso-th-sp15-gen-apnd da_onpeak_mean_usd: the 7 values run over 9 calendar days (2026-11-17 to 2026-11-25)
+  caiso-th-zp26-gen-apnd: the hours' last complete day-ahead day 2026-11-20, real time 2026-11-19
+  caiso-th-np15-gen-apnd: the hours' last complete day-ahead day 2026-11-25, real time 2026-11-24
+  caiso-th-np15-gen-apnd da_onpeak_mean_usd: the 7 values run over 9 calendar days (2026-11-17 to 2026-11-25)
+  spp-sppnorth-hub: the hours' last complete day-ahead day 2026-11-25, real time 2026-11-22
+  spp-sppnorth-hub da_onpeak_mean_usd: the 7 values run over 9 calendar days (2026-11-17 to 2026-11-25)
+  spp-sppsouth-hub: the hours' last complete day-ahead day 2026-11-20, real time 2026-11-18
+  (14 lines of words)
+--- Part 4, the week table from the hours: 96 figures compared, 50 differ (50 of them on public rows)
+  week 30-day volatility            9 compared,    0 differ (0 public), largest gap 9.25658e-05 (caiso-th-sp15-gen-apnd)
+  week 30-day volatility: 31 days held      2 compared,    2 differ (2 public), largest gap 1 (caiso-th-zp26-gen-apnd)
+      caiso-th-zp26-gen-apnd: mine 0.0 file 1.0
+      spp-sppsouth-hub: mine 0.0 file 1.0
+  week da_mean_usd: change on the 7 before      3 compared,    0 differ (0 public), largest gap 0.000485714 (spp-sppnorth-hub)
+  week da_mean_usd: its end held      8 compared,    8 differ (8 public), largest gap 1 (ercot-hb-hubavg)
+      ercot-hb-hubavg: mine 0.0 file 1.0
+      ercot-hb-busavg: mine 0.0 file 1.0
+      ercot-hb-houston: mine 0.0 file 1.0
+      ercot-hb-north: mine 0.0 file 1.0
+  week da_mean_usd: mean, to 4 decimals      3 compared,    3 differ (3 public), largest gap 0.000228571 (spp-sppnorth-hub)
+      caiso-th-sp15-gen-apnd: mine 34.57535714285714 file 34.5752
+      caiso-th-np15-gen-apnd: mine 59.073630952380945 file 59.0737
+      spp-sppnorth-hub: mine 26.908571428571427 file 26.9088
+  week da_mean_usd: mean, to the cent      3 compared,    0 differ (0 public), largest gap 0.000228571 (spp-sppnorth-hub)
+  week da_offpeak_mean_usd: change on the 7 before      3 compared,    0 differ (0 public), largest gap 0.00057619 (caiso-th-np15-gen-apnd)
+  week da_offpeak_mean_usd: its end held      8 compared,    8 differ (8 public), largest gap 1 (ercot-hb-hubavg)
+      ercot-hb-hubavg: mine 0.0 file 1.0
+      ercot-hb-busavg: mine 0.0 file 1.0
+      ercot-hb-houston: mine 0.0 file 1.0
+      ercot-hb-north: mine 0.0 file 1.0
+  week da_offpeak_mean_usd: mean, to 4 decimals      3 compared,    3 differ (3 public), largest gap 0.000404762 (caiso-th-sp15-gen-apnd)
+      caiso-th-sp15-gen-apnd: mine 42.71940476190476 file 42.719
+      caiso-th-np15-gen-apnd: mine 57.2235119047619 file 57.2237
+      spp-sppnorth-hub: mine 19.082202380952378 file 19.0825
+  week da_offpeak_mean_usd: mean, to the cent      3 compared,    0 differ (0 public), largest gap 0.000404762 (caiso-th-sp15-gen-apnd)
+  week da_onpeak_mean_usd: change on the 7 before      3 compared,    0 differ (0 public), largest gap 0.000339286 (caiso-th-sp15-gen-apnd)
+  week da_onpeak_mean_usd: its end held      8 compared,    8 differ (8 public), largest gap 1 (ercot-hb-hubavg)
+      ercot-hb-hubavg: mine 0.0 file 1.0
+      ercot-hb-busavg: mine 0.0 file 1.0
+      ercot-hb-houston: mine 0.0 file 1.0
+      ercot-hb-north: mine 0.0 file 1.0
+  week da_onpeak_mean_usd: mean, to 4 decimals      3 compared,    2 differ (2 public), largest gap 6.42857e-05 (caiso-th-np15-gen-apnd)
+      caiso-th-np15-gen-apnd: mine 58.90053571428571 file 58.9006
+      spp-sppnorth-hub: mine 31.33294642857143 file 31.333
+  week da_onpeak_mean_usd: mean, to the cent      3 compared,    0 differ (0 public), largest gap 6.42857e-05 (caiso-th-np15-gen-apnd)
+  week da_rt_spread_mean_usd: change on the 7 before      2 compared,    0 differ (0 public), largest gap 0.000195238 (caiso-th-np15-gen-apnd)
+  week da_rt_spread_mean_usd: its end held      7 compared,    7 differ (7 public), largest gap 1 (ercot-hb-hubavg)
+      ercot-hb-hubavg: mine 0.0 file 1.0
+      ercot-hb-busavg: mine 0.0 file 1.0
+      ercot-hb-houston: mine 0.0 file 1.0
+      ercot-hb-north: mine 0.0 file 1.0
+  week da_rt_spread_mean_usd: mean, to 4 decimals      2 compared,    1 differ (1 public), largest gap 0.000204762 (caiso-th-sp15-gen-apnd)
+      caiso-th-sp15-gen-apnd: mine -2.416904761904763 file -2.4167
+  week da_rt_spread_mean_usd: mean, to the cent      2 compared,    0 differ (0 public), largest gap 0.000204762 (caiso-th-sp15-gen-apnd)
+  week hours RT over DA + 50        2 compared,    0 differ (0 public), largest gap 0 (caiso-th-sp15-gen-apnd)
+  week implied_heat_rate: change on the 7 before      3 compared,    0 differ (0 public), largest gap 0.000127863 (spp-sppnorth-hub)
+  week implied_heat_rate: its end held      8 compared,    8 differ (8 public), largest gap 1 (ercot-hb-hubavg)
+      ercot-hb-hubavg: mine 0.0 file 1.0
+      ercot-hb-busavg: mine 0.0 file 1.0
+      ercot-hb-houston: mine 0.0 file 1.0
+      ercot-hb-north: mine 0.0 file 1.0
+  week implied_heat_rate: mean, to 4 decimals      3 compared,    0 differ (0 public), largest gap 4.47503e-05 (spp-sppnorth-hub)
+  week implied_heat_rate: mean, to the cent      3 compared,    0 differ (0 public), largest gap 4.47503e-05 (spp-sppnorth-hub)
+  week largest RT minus DA hour      2 compared,    0 differ (0 public), largest gap 0.006 (caiso-th-sp15-gen-apnd)

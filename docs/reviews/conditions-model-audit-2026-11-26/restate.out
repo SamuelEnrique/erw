@@ -1,0 +1,29 @@
+built 2026-11-20T19:16:52Z
+DEFAULT (ERCOT): the newest 35 days 2026-10-16 to 2026-11-20 days 36 hours drawn 865
+   Highest peak demand 65,888 on 2026-11-02
+   alerts heading 0 rows drawn 0
+OPEN caiso 2026-10-16 2026-11-20 hours 865 [('demand_peak', '34,916', '2026-10-16'), ('out_max', '29,078', '2026-11-04'), ('cons_hours', '313', '2026-10-16')] alerts 0
+OPEN ercot 2026-10-16 2026-11-20 hours 865 [('demand_peak', '65,888', '2026-11-02')] alerts 0
+OPEN spp 2026-10-16 2026-11-20 hours 865 [('demand_peak', '36,383', '2026-10-28'), ('out_max', '30,514', '2026-11-05'), ('cons_hours', '740', '2026-11-20')] alerts None
+OPEN miso 2026-10-16 2026-11-20 hours 864 [('demand_peak', '79,593', '2026-11-17')] alerts None
+OPEN pjm 2026-10-16 2026-11-20 hours 864 [('demand_peak', '106,646', '2026-11-17')] alerts None
+OPEN nyiso 2026-10-16 2026-11-20 hours 865 [('demand_peak', '18,952', '2026-11-13')] alerts None
+OPEN isone 2026-10-16 2026-11-20 hours 865 [('demand_peak', '15,275', '2026-11-16')] alerts None
+CUT caiso caiso_heat_2020 79 drawn 40 last drawn 2020-08-17 last in window 2020-08-24
+CUT caiso caiso_heat_2022 44 drawn 40 last drawn 2022-09-08 last in window 2022-09-09
+DAILY caiso 2277 differ 9 {0: 253} [{'day': '2026-10-26', 'col': 'out_mean', 'file': 20794.0, 'restated': 20793.9}, {'day': '2026-11-09', 'col': 'out_mean', 'file': 23548.7, 'restated': 23548.6}, {'day': '2026-11-15', 'col': 'out_mean', 'file': 20817.7, 'restated': 20817.6}]
+DAILY ercot 2277 differ 143 {0: 253} [{'day': '2020-03-02', 'col': 'adder_hours', 'file': 11, 'restated': 6}, {'day': '2020-03-03', 'col': 'adder_hours', 'file': 12, 'restated': 3}, {'day': '2020-03-04', 'col': 'adder_hours', 'file': 2, 'restated': 0}]
+DAILY spp 2277 differ 65 {0: 253} [{'day': '2026-10-16', 'col': 'out_mean', 'file': 24690.3, 'restated': 24690.2}, {'day': '2026-10-17', 'col': 'out_mean', 'file': 24203.5, 'restated': 24203.4}, {'day': '2026-10-20', 'col': 'out_mean', 'file': 25887.8, 'restated': 25887.7}]
+DAILY miso 2268 differ 0 {0: 252, -1: 1} []
+DAILY pjm 2268 differ 0 {0: 252, -1: 1} []
+DAILY nyiso 2277 differ 0 {0: 253} []
+DAILY isone 2277 differ 0 {0: 253} []
+ALERTS_BY_DAY {'caiso': {'days': 3065, 'mismatch': [], 'n_mismatch': 0, 'alerts_on_days_not_in_daily': 1586}, 'ercot': {'days': 3064, 'mismatch': [], 'n_mismatch': 0, 'alerts_on_days_not_in_daily': 60}}
+RECENT caiso {'start': '2026-10-16', 'end': '2026-11-20', 'days_in_window': 36, 'hours_rows': 865, 'first_hour': '2026-10-16T07:00:00Z', 'last_hour': '2026-11-21T07:00:00Z', 'last_day_rows': 24, 'last_day_demand_hours': 0, 'last_day_forecast_hours': 24, 'last_demand_hour': '2026-11-20T07:00:00Z', 'last_forecast_hour': '2026-11-21T07:00:00Z', 'first_demand_day': '2026-10-16'}
+RECENT ercot {'start': '2026-10-16', 'end': '2026-11-20', 'days_in_window': 36, 'hours_rows': 865, 'first_hour': '2026-10-16T05:00:00Z', 'last_hour': '2026-11-21T05:00:00Z', 'last_day_rows': 24, 'last_day_demand_hours': 0, 'last_day_forecast_hours': 24, 'last_demand_hour': '2026-11-20T05:00:00Z', 'last_forecast_hour': '2026-11-21T05:00:00Z', 'first_demand_day': '2026-10-16'}
+RECENT spp {'start': '2026-10-16', 'end': '2026-11-20', 'days_in_window': 36, 'hours_rows': 865, 'first_hour': '2026-10-16T05:00:00Z', 'last_hour': '2026-11-21T05:00:00Z', 'last_day_rows': 24, 'last_day_demand_hours': 0, 'last_day_forecast_hours': 24, 'last_demand_hour': '2026-11-20T05:00:00Z', 'last_forecast_hour': '2026-11-21T05:00:00Z', 'first_demand_day': '2026-10-16'}
+RECENT miso {'start': '2026-10-16', 'end': '2026-11-20', 'days_in_window': 36, 'hours_rows': 864, 'first_hour': '2026-10-16T05:00:00Z', 'last_hour': '2026-11-21T04:00:00Z', 'last_day_rows': 23, 'last_day_demand_hours': 0, 'last_day_forecast_hours': 23, 'last_demand_hour': '2026-11-20T04:00:00Z', 'last_forecast_hour': '2026-11-21T04:00:00Z', 'first_demand_day': '2026-10-16'}
+RECENT pjm {'start': '2026-10-16', 'end': '2026-11-20', 'days_in_window': 36, 'hours_rows': 864, 'first_hour': '2026-10-16T04:00:00Z', 'last_hour': '2026-11-21T04:00:00Z', 'last_day_rows': 24, 'last_day_demand_hours': 0, 'last_day_forecast_hours': 24, 'last_demand_hour': '2026-11-20T04:00:00Z', 'last_forecast_hour': '2026-11-21T04:00:00Z', 'first_demand_day': '2026-10-16'}
+RECENT nyiso {'start': '2026-10-16', 'end': '2026-11-20', 'days_in_window': 36, 'hours_rows': 865, 'first_hour': '2026-10-16T04:00:00Z', 'last_hour': '2026-11-21T04:00:00Z', 'last_day_rows': 24, 'last_day_demand_hours': 0, 'last_day_forecast_hours': 24, 'last_demand_hour': '2026-11-20T04:00:00Z', 'last_forecast_hour': '2026-11-21T04:00:00Z', 'first_demand_day': '2026-10-16'}
+RECENT isone {'start': '2026-10-16', 'end': '2026-11-20', 'days_in_window': 36, 'hours_rows': 865, 'first_hour': '2026-10-16T04:00:00Z', 'last_hour': '2026-11-21T04:00:00Z', 'last_day_rows': 24, 'last_day_demand_hours': 0, 'last_day_forecast_hours': 24, 'last_demand_hour': '2026-11-20T04:00:00Z', 'last_forecast_hour': '2026-11-21T04:00:00Z', 'first_demand_day': '2026-10-16'}
+status {'caiso': ['shown', 'shown', 'shown', 'not published', 'shown', 'source needed'], 'ercot': ['shown', 'source needed', 'source needed', 'shown', 'shown', 'source needed'], 'spp': ['shown', 'shown', 'shown', 'not published', 'not read', 'source needed'], 'miso': ['shown', 'paused', 'paused', 'paused', 'paused', 'source needed'], 'pjm': ['shown', 'license needed', 'license needed', 'license needed', 'license needed', 'source needed'], 'nyiso': ['shown', 'license needed', 'license needed', 'license needed', 'license needed', 'source needed'], 'isone': ['shown', 'license needed', 'license needed', 'license needed', 'license needed', 'source needed']} index matches True

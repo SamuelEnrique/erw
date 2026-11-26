@@ -1,0 +1,314 @@
+column adjusted_demand; base 2019; ytd month 9; neighbour test on; october from API: no
+values and peak hours: 23964 equal, 249 differ, 8 on the page only, 23 restated only
+DIFF ERCO 2019 ytd_avg_demand_mw: page 44790.7 restated 45199.8
+DIFF ERCO 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF ERCO 2019 ytd_hours_used: page 7295 restated 6551
+DIFF ERCO 2020 ytd_avg_demand_growth_since_2019_pct: page -1.32 restated -1.65
+DIFF ERCO 2020 ytd_avg_demand_mw: page 44200.0 restated 44454.8
+DIFF ERCO 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF ERCO 2020 ytd_hours_used: page 7319 restated 6575
+DIFF ERCO 2021 ytd_avg_demand_growth_since_2019_pct: page 2.31 restated 1.87
+DIFF ERCO 2021 ytd_avg_demand_mw: page 45826.5 restated 46044.9
+DIFF ERCO 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF ERCO 2021 ytd_hours_used: page 7295 restated 6551
+DIFF ERCO 2022 ytd_avg_demand_growth_since_2019_pct: page 11.85 restated 12.53
+DIFF ERCO 2022 ytd_avg_demand_mw: page 50096.9 restated 50865.2
+DIFF ERCO 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF ERCO 2022 ytd_hours_used: page 7295 restated 6551
+DIFF ERCO 2023 ytd_avg_demand_growth_since_2019_pct: page 16.87 restated 16.93
+DIFF ERCO 2023 ytd_avg_demand_mw: page 52345.0 restated 52851.4
+DIFF ERCO 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF ERCO 2023 ytd_hours_used: page 7295 restated 6551
+DIFF ERCO 2024 ytd_avg_demand_growth_since_2019_pct: page 20.47 restated 19.62
+DIFF ERCO 2024 ytd_avg_demand_mw: page 53960.0 restated 54065.9
+DIFF ERCO 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF ERCO 2024 ytd_hours_used: page 7319 restated 6575
+RESTATED ONLY ERCO 2025 avg_demand_growth_since_2019_mw: 11919.6
+RESTATED ONLY ERCO 2025 peak_demand_growth_since_2019_mw: 9064.0
+DIFF ERCO 2025 ytd_avg_demand_growth_since_2019_pct: page 26.97 restated 26.28
+DIFF ERCO 2025 ytd_avg_demand_mw: page 56872.1 restated 57077.5
+DIFF ERCO 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF ERCO 2025 ytd_hours_used: page 7295 restated 6551
+PAGE ONLY ERCO 2026 avg_demand_mw_m10: 55880.7
+RESTATED ONLY ERCO 2026 ytd_avg_demand_growth_since_2019_mw: 14960.0
+DIFF ERCO 2026 ytd_avg_demand_growth_since_2019_pct: page 33.34 restated 33.1
+DIFF ERCO 2026 ytd_avg_demand_mw: page 59723.4 restated 60159.8
+DIFF ERCO 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF ERCO 2026 ytd_hours_used: page 7295 restated 6551
+SCREEN ERCO blank: page 48 restated 48
+SCREEN ERCO not_positive: page 0 restated 0
+SCREEN ERCO jumps: page 0 restated 0
+BAND ERCO: yearly medians 40522.5 to 57780.0; hours whose range test the band leaves open: 0; last used hour 2026-10-03T04:00:00Z
+DIFF CISO 2019 ytd_avg_demand_mw: page 24641.9 restated 24744.2
+DIFF CISO 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF CISO 2019 ytd_hours_used: page 7267 restated 6523
+DIFF CISO 2020 ytd_avg_demand_growth_since_2019_pct: page 2.06 restated 1.43
+DIFF CISO 2020 ytd_avg_demand_mw: page 25149.2 restated 25097.8
+DIFF CISO 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF CISO 2020 ytd_hours_used: page 7318 restated 6575
+DIFF CISO 2021 ytd_avg_demand_growth_since_2019_pct: page 2.44 restated 2.72
+DIFF CISO 2021 ytd_avg_demand_mw: page 25242.9 restated 25416.5
+DIFF CISO 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF CISO 2021 ytd_hours_used: page 7295 restated 6551
+DIFF CISO 2022 ytd_avg_demand_growth_since_2019_pct: page 4.99 restated 4.94
+DIFF CISO 2022 ytd_avg_demand_mw: page 25870.6 restated 25965.6
+DIFF CISO 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF CISO 2022 ytd_hours_used: page 7295 restated 6551
+DIFF CISO 2023 ytd_avg_demand_growth_since_2019_pct: page 2.06 restated 1.79
+DIFF CISO 2023 ytd_avg_demand_mw: page 25150.0 restated 25186.1
+DIFF CISO 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF CISO 2023 ytd_hours_used: page 7295 restated 6551
+DIFF CISO 2024 ytd_avg_demand_growth_since_2019_pct: page 4.5 restated 3.79
+DIFF CISO 2024 ytd_avg_demand_mw: page 25750.2 restated 25683.1
+DIFF CISO 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF CISO 2024 ytd_hours_used: page 7319 restated 6575
+RESTATED ONLY CISO 2025 avg_demand_growth_since_2019_mw: 1089.3
+RESTATED ONLY CISO 2025 peak_demand_growth_since_2019_mw: 11.0
+DIFF CISO 2025 ytd_avg_demand_growth_since_2019_pct: page 4.67 restated 4.64
+DIFF CISO 2025 ytd_avg_demand_mw: page 25793.5 restated 25891.5
+DIFF CISO 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF CISO 2025 ytd_hours_used: page 7294 restated 6550
+PAGE ONLY CISO 2026 avg_demand_mw_m10: 28097.8
+RESTATED ONLY CISO 2026 ytd_avg_demand_growth_since_2019_mw: 2518.7
+DIFF CISO 2026 ytd_avg_demand_growth_since_2019_pct: page 10.98 restated 10.18
+DIFF CISO 2026 ytd_avg_demand_mw: page 27348.1 restated 27262.9
+DIFF CISO 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF CISO 2026 ytd_hours_used: page 7294 restated 6550
+SCREEN CISO blank: page 48 restated 48
+SCREEN CISO not_positive: page 0 restated 0
+SCREEN CISO jumps: page 38 restated 38
+BAND CISO: yearly medians 22443.0 to 26149.0; hours whose range test the band leaves open: 0; last used hour 2026-10-03T06:00:00Z
+DIFF PJM 2019 ytd_avg_demand_mw: page 91743.5 restated 93180.6
+DIFF PJM 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF PJM 2019 ytd_hours_used: page 7295 restated 6551
+DIFF PJM 2020 ytd_avg_demand_growth_since_2019_pct: page -4.29 restated -4.42
+DIFF PJM 2020 ytd_avg_demand_mw: page 87806.0 restated 89060.4
+DIFF PJM 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF PJM 2020 ytd_hours_used: page 7314 restated 6570
+DIFF PJM 2021 ytd_avg_demand_growth_since_2019_pct: page -0.17 restated -0.32
+DIFF PJM 2021 ytd_avg_demand_mw: page 91589.1 restated 92885.4
+DIFF PJM 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF PJM 2021 ytd_hours_used: page 7295 restated 6551
+DIFF PJM 2022 ytd_avg_demand_growth_since_2019_pct: page 0.99 restated 1.17
+DIFF PJM 2022 ytd_avg_demand_mw: page 92654.9 restated 94269.6
+DIFF PJM 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF PJM 2022 ytd_hours_used: page 7295 restated 6551
+DIFF PJM 2023 ytd_avg_demand_growth_since_2019_pct: page -2.22 restated -2.56
+DIFF PJM 2023 ytd_avg_demand_mw: page 89710.3 restated 90797.8
+DIFF PJM 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF PJM 2023 ytd_hours_used: page 7295 restated 6551
+DIFF PJM 2024 ytd_avg_demand_growth_since_2019_pct: page 1.47 restated 1.48
+DIFF PJM 2024 ytd_avg_demand_mw: page 93095.8 restated 94563.9
+DIFF PJM 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF PJM 2024 ytd_hours_used: page 7319 restated 6575
+RESTATED ONLY PJM 2025 avg_demand_growth_since_2019_mw: 4903.3
+RESTATED ONLY PJM 2025 peak_demand_growth_since_2019_mw: 8245.0
+DIFF PJM 2025 ytd_avg_demand_growth_since_2019_pct: page 4.66 restated 4.55
+DIFF PJM 2025 ytd_avg_demand_mw: page 96019.6 restated 97422.6
+DIFF PJM 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF PJM 2025 ytd_hours_used: page 7295 restated 6551
+PAGE ONLY PJM 2026 avg_demand_mw_m10: 86463.2
+RESTATED ONLY PJM 2026 ytd_avg_demand_growth_since_2019_mw: 7687.7
+DIFF PJM 2026 ytd_avg_demand_growth_since_2019_pct: page 8.34 restated 8.25
+DIFF PJM 2026 ytd_avg_demand_mw: page 99399.2 restated 100868.3
+DIFF PJM 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF PJM 2026 ytd_hours_used: page 7295 restated 6551
+SCREEN PJM blank: page 28 restated 27
+SCREEN PJM not_positive: page 0 restated 0
+SCREEN PJM jumps: page 7 restated 7
+BAND PJM: yearly medians 85023.0 to 124751.0; hours whose range test the band leaves open: 0; last used hour 2026-10-03T03:00:00Z
+DIFF MISO 2019 ytd_avg_demand_mw: page 74674.5 restated 75499.4
+DIFF MISO 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF MISO 2019 ytd_hours_used: page 7295 restated 6551
+DIFF MISO 2020 ytd_avg_demand_growth_since_2019_pct: page -4.41 restated -4.54
+DIFF MISO 2020 ytd_avg_demand_mw: page 71378.4 restated 72074.0
+DIFF MISO 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF MISO 2020 ytd_hours_used: page 7319 restated 6575
+DIFF MISO 2021 ytd_avg_demand_growth_since_2019_pct: page -0.82 restated -1.04
+DIFF MISO 2021 ytd_avg_demand_mw: page 74064.0 restated 74717.5
+DIFF MISO 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF MISO 2021 ytd_hours_used: page 7295 restated 6551
+DIFF MISO 2022 ytd_avg_demand_growth_since_2019_pct: page 0.43 restated 0.87
+DIFF MISO 2022 ytd_avg_demand_mw: page 74999.2 restated 76154.6
+DIFF MISO 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF MISO 2022 ytd_hours_used: page 7295 restated 6551
+DIFF MISO 2023 ytd_avg_demand_growth_since_2019_pct: page -0.95 restated -0.99
+DIFF MISO 2023 ytd_avg_demand_mw: page 73962.3 restated 74749.7
+DIFF MISO 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF MISO 2023 ytd_hours_used: page 7295 restated 6551
+DIFF MISO 2024 ytd_avg_demand_growth_since_2019_pct: page -0.76 restated -0.83
+DIFF MISO 2024 ytd_avg_demand_mw: page 74109.8 restated 74874.5
+DIFF MISO 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF MISO 2024 ytd_hours_used: page 7319 restated 6575
+RESTATED ONLY MISO 2025 avg_demand_growth_since_2019_mw: 1633.0
+RESTATED ONLY MISO 2025 peak_demand_growth_since_2019_mw: 3743.0
+DIFF MISO 2025 ytd_avg_demand_growth_since_2019_pct: page 2.14 restated 2.05
+DIFF MISO 2025 ytd_avg_demand_mw: page 76270.8 restated 77050.9
+DIFF MISO 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF MISO 2025 ytd_hours_used: page 7295 restated 6551
+PAGE ONLY MISO 2026 avg_demand_mw_m10: 71220.0
+RESTATED ONLY MISO 2026 ytd_avg_demand_growth_since_2019_mw: 3625.0
+DIFF MISO 2026 ytd_avg_demand_growth_since_2019_pct: page 4.88 restated 4.8
+DIFF MISO 2026 ytd_avg_demand_mw: page 78318.2 restated 79124.4
+DIFF MISO 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF MISO 2026 ytd_hours_used: page 7295 restated 6551
+SCREEN MISO blank: page 24 restated 24
+SCREEN MISO not_positive: page 0 restated 0
+SCREEN MISO jumps: page 0 restated 0
+BAND MISO: yearly medians 69525.5 to 92985.0; hours whose range test the band leaves open: 0; last used hour 2026-10-03T04:00:00Z
+DIFF SWPP 2019 ytd_avg_demand_mw: page 31041.0 restated 31462.4
+DIFF SWPP 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF SWPP 2019 ytd_hours_used: page 7295 restated 6551
+DIFF SWPP 2020 ytd_avg_demand_growth_since_2019_pct: page -3.02 restated -3.34
+DIFF SWPP 2020 ytd_avg_demand_mw: page 30102.9 restated 30410.5
+DIFF SWPP 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF SWPP 2020 ytd_hours_used: page 7319 restated 6575
+DIFF SWPP 2021 ytd_avg_demand_growth_since_2019_pct: page -0.14 restated -0.13
+DIFF SWPP 2021 ytd_avg_demand_mw: page 30997.3 restated 31421.3
+DIFF SWPP 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF SWPP 2021 ytd_hours_used: page 7295 restated 6551
+DIFF SWPP 2022 ytd_avg_demand_growth_since_2019_pct: page 4.65 restated 5.05
+DIFF SWPP 2022 ytd_avg_demand_mw: page 32485.4 restated 33051.6
+DIFF SWPP 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF SWPP 2022 ytd_hours_used: page 7295 restated 6551
+DIFF SWPP 2023 ytd_avg_demand_growth_since_2019_pct: page 4.34 restated 4.26
+DIFF SWPP 2023 ytd_avg_demand_mw: page 32389.1 restated 32801.4
+DIFF SWPP 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF SWPP 2023 ytd_hours_used: page 7295 restated 6551
+DIFF SWPP 2024 ytd_avg_demand_growth_since_2019_pct: page 7.69 restated 7.32
+DIFF SWPP 2024 ytd_avg_demand_mw: page 33426.7 restated 33764.2
+DIFF SWPP 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF SWPP 2024 ytd_hours_used: page 7318 restated 6574
+RESTATED ONLY SWPP 2025 avg_demand_growth_since_2019_mw: 3426.9
+RESTATED ONLY SWPP 2025 peak_demand_growth_since_2019_mw: 3900.0
+DIFF SWPP 2025 ytd_avg_demand_growth_since_2019_pct: page 10.94 restated 10.42
+DIFF SWPP 2025 ytd_avg_demand_mw: page 34435.6 restated 34742.1
+DIFF SWPP 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF SWPP 2025 ytd_hours_used: page 7294 restated 6550
+PAGE ONLY SWPP 2026 avg_demand_mw_m10: 32135.3
+RESTATED ONLY SWPP 2026 ytd_avg_demand_growth_since_2019_mw: 5060.7
+DIFF SWPP 2026 ytd_avg_demand_growth_since_2019_pct: page 16.22 restated 16.08
+DIFF SWPP 2026 ytd_avg_demand_mw: page 36075.6 restated 36523.1
+DIFF SWPP 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF SWPP 2026 ytd_hours_used: page 7295 restated 6551
+SCREEN SWPP blank: page 24 restated 24
+SCREEN SWPP not_positive: page 0 restated 0
+SCREEN SWPP jumps: page 2 restated 2
+BAND SWPP: yearly medians 28765.5 to 38136.0; hours whose range test the band leaves open: 0; last used hour 2026-10-03T04:00:00Z
+DIFF NYIS 2019 ytd_avg_demand_mw: page 17898.1 restated 18144.7
+DIFF NYIS 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF NYIS 2019 ytd_hours_used: page 7294 restated 6550
+DIFF NYIS 2020 ytd_avg_demand_growth_since_2019_pct: page -3.85 restated -3.95
+DIFF NYIS 2020 ytd_avg_demand_mw: page 17209.6 restated 17428.7
+DIFF NYIS 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF NYIS 2020 ytd_hours_used: page 7319 restated 6575
+DIFF NYIS 2021 ytd_avg_demand_growth_since_2019_pct: page -2.19 restated -2.28
+DIFF NYIS 2021 ytd_avg_demand_mw: page 17507.0 restated 17731.6
+DIFF NYIS 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF NYIS 2021 ytd_hours_used: page 7295 restated 6551
+DIFF NYIS 2022 ytd_avg_demand_growth_since_2019_pct: page -1.82 restated -1.51
+DIFF NYIS 2022 ytd_avg_demand_mw: page 17571.9 restated 17870.2
+DIFF NYIS 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF NYIS 2022 ytd_hours_used: page 7295 restated 6551
+DIFF NYIS 2023 ytd_avg_demand_growth_since_2019_pct: page -5.84 restated -6.13
+DIFF NYIS 2023 ytd_avg_demand_mw: page 16853.4 restated 17032.6
+DIFF NYIS 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF NYIS 2023 ytd_hours_used: page 7295 restated 6551
+DIFF NYIS 2024 ytd_avg_demand_growth_since_2019_pct: page -3.64 restated -3.57
+DIFF NYIS 2024 ytd_avg_demand_mw: page 17247.4 restated 17497.8
+DIFF NYIS 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF NYIS 2024 ytd_hours_used: page 7316 restated 6574
+RESTATED ONLY NYIS 2025 avg_demand_growth_since_2019_mw: -485.3
+RESTATED ONLY NYIS 2025 peak_demand_growth_since_2019_mw: 1460.0
+DIFF NYIS 2025 ytd_avg_demand_growth_since_2019_pct: page -3.48 restated -3.34
+DIFF NYIS 2025 ytd_avg_demand_mw: page 17275.9 restated 17538.2
+DIFF NYIS 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF NYIS 2025 ytd_hours_used: page 7293 restated 6549
+PAGE ONLY NYIS 2026 avg_demand_mw_m10: 14731.6
+RESTATED ONLY NYIS 2026 ytd_avg_demand_growth_since_2019_mw: -612.0
+DIFF NYIS 2026 ytd_avg_demand_growth_since_2019_pct: page -3.64 restated -3.37
+DIFF NYIS 2026 ytd_avg_demand_mw: page 17246.8 restated 17532.7
+DIFF NYIS 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF NYIS 2026 ytd_hours_used: page 7289 restated 6545
+SCREEN NYIS blank: page 24 restated 24
+SCREEN NYIS not_positive: page 12 restated 12
+SCREEN NYIS jumps: page 0 restated 0
+BAND NYIS: yearly medians 16357.5 to 23475.0; hours whose range test the band leaves open: 0; last used hour 2026-10-03T03:00:00Z
+DIFF ISNE 2019 ytd_avg_demand_mw: page 13469.2 restated 13644.2
+DIFF ISNE 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF ISNE 2019 ytd_hours_used: page 7295 restated 6551
+DIFF ISNE 2020 ytd_avg_demand_growth_since_2019_pct: page -2.42 restated -2.58
+DIFF ISNE 2020 ytd_avg_demand_mw: page 13143.9 restated 13292.8
+DIFF ISNE 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF ISNE 2020 ytd_hours_used: page 7319 restated 6575
+DIFF ISNE 2021 ytd_avg_demand_growth_since_2019_pct: page -0.44 restated -0.39
+DIFF ISNE 2021 ytd_avg_demand_mw: page 13410.4 restated 13590.4
+DIFF ISNE 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF ISNE 2021 ytd_hours_used: page 7295 restated 6551
+DIFF ISNE 2022 ytd_avg_demand_growth_since_2019_pct: page -0.57 restated -0.23
+DIFF ISNE 2022 ytd_avg_demand_mw: page 13392.9 restated 13612.4
+DIFF ISNE 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF ISNE 2022 ytd_hours_used: page 7295 restated 6551
+DIFF ISNE 2023 ytd_avg_demand_growth_since_2019_pct: page -5.22 restated -5.28
+DIFF ISNE 2023 ytd_avg_demand_mw: page 12766.6 restated 12924.3
+DIFF ISNE 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF ISNE 2023 ytd_hours_used: page 7295 restated 6551
+DIFF ISNE 2024 ytd_avg_demand_growth_since_2019_pct: page -3.64 restated -3.48
+DIFF ISNE 2024 ytd_avg_demand_mw: page 12979.1 restated 13169.5
+DIFF ISNE 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF ISNE 2024 ytd_hours_used: page 7319 restated 6575
+RESTATED ONLY ISNE 2025 avg_demand_growth_since_2019_mw: -343.0
+RESTATED ONLY ISNE 2025 peak_demand_growth_since_2019_mw: 1925.0
+DIFF ISNE 2025 ytd_avg_demand_growth_since_2019_pct: page -3.44 restated -3.37
+DIFF ISNE 2025 ytd_avg_demand_mw: page 13005.8 restated 13184.3
+DIFF ISNE 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF ISNE 2025 ytd_hours_used: page 7295 restated 6551
+PAGE ONLY ISNE 2026 avg_demand_mw_m10: 11391.9
+RESTATED ONLY ISNE 2026 ytd_avg_demand_growth_since_2019_mw: -118.5
+DIFF ISNE 2026 ytd_avg_demand_growth_since_2019_pct: page -1.2 restated -0.87
+DIFF ISNE 2026 ytd_avg_demand_mw: page 13308.1 restated 13525.7
+DIFF ISNE 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF ISNE 2026 ytd_hours_used: page 7295 restated 6551
+SCREEN ISNE blank: page 24 restated 24
+SCREEN ISNE not_positive: page 0 restated 0
+SCREEN ISNE jumps: page 0 restated 0
+BAND ISNE: yearly medians 12496.5 to 19561.0; hours whose range test the band leaves open: 6; last used hour 2026-10-03T03:00:00Z
+DIFF US48 2019 ytd_avg_demand_mw: page 463176.3 restated 468210.5
+DIFF US48 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF US48 2019 ytd_hours_used: page 7295 restated 6551
+DIFF US48 2020 ytd_avg_demand_growth_since_2019_pct: page -3.56 restated -3.7
+DIFF US48 2020 ytd_avg_demand_mw: page 446700.4 restated 450884.0
+DIFF US48 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF US48 2020 ytd_hours_used: page 7318 restated 6574
+DIFF US48 2021 ytd_avg_demand_growth_since_2019_pct: page 0.04 restated -0.0
+DIFF US48 2021 ytd_avg_demand_mw: page 463355.2 restated 468209.9
+DIFF US48 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF US48 2021 ytd_hours_used: page 7295 restated 6551
+DIFF US48 2022 ytd_avg_demand_growth_since_2019_pct: page 2.8 restated 3.27
+DIFF US48 2022 ytd_avg_demand_mw: page 476135.1 restated 483510.1
+DIFF US48 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF US48 2022 ytd_hours_used: page 7295 restated 6551
+DIFF US48 2023 ytd_avg_demand_growth_since_2019_pct: page 1.54 restated 1.53
+DIFF US48 2023 ytd_avg_demand_mw: page 470306.8 restated 475379.8
+DIFF US48 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF US48 2023 ytd_hours_used: page 7295 restated 6551
+DIFF US48 2024 ytd_avg_demand_growth_since_2019_pct: page 4.19 restated 4.15
+DIFF US48 2024 ytd_avg_demand_mw: page 482605.3 restated 487648.7
+DIFF US48 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF US48 2024 ytd_hours_used: page 7319 restated 6575
+RESTATED ONLY US48 2025 avg_demand_growth_since_2019_mw: 32220.3
+DIFF US48 2025 ytd_avg_demand_mw: page 494845.7 restated 500255.6
+DIFF US48 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF US48 2025 ytd_hours_used: page 7295 restated 6551
+DIFF US48 2026 avg_demand_mw_m08: page 592629.3 restated 592625.6
+DIFF US48 2026 avg_demand_mw_m09: page 541551.6 restated 541210.6
+PAGE ONLY US48 2026 avg_demand_mw_m10: 460894.6
+RESTATED ONLY US48 2026 ytd_avg_demand_growth_since_2019_mw: 47993.1
+DIFF US48 2026 ytd_avg_demand_growth_since_2019_pct: page 10.24 restated 10.25
+DIFF US48 2026 ytd_avg_demand_mw: page 510596.8 restated 516203.6
+DIFF US48 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF US48 2026 ytd_hours_used: page 7295 restated 6551
+SCREEN US48 blank: page 24 restated 24
+SCREEN US48 not_positive: page 0 restated 0
+SCREEN US48 jumps: page 1 restated 1
+BAND US48: yearly medians 431780.0 to 562686.0; hours whose range test the band leaves open: 0; last used hour 2026-10-03T03:00:00Z
