@@ -116,7 +116,7 @@ The sentence and the totals follow every choice. MW is never added across kinds:
 
 ### The marks
 
-A dot is an operating unit; a ring a planned unit (a heavier ring: under construction or built and not yet operating, EIA's U, V and TS; the key says both since the map audit of 26 November 2026, finding 3, and the hover of the units' totals says that "Operating" also holds EIA's SB, OA and OS: on the copy of 19 November 2026, 2,334 units and 26,568.6 MW of its 28,712 and 1,423,491.7); a triangle a queue position at its county's point; a diamond a datacenter. A mark's color is its technology and its area grows with its MW. The key under the map is plain: it toggles nothing (version 2's legend toggled statuses; the lists of the panel do that now).
+A dot is an operating unit; a ring a planned unit (a heavier ring: under construction or built and not yet operating, EIA's U, V and TS; the key says both since the map audit of 26 November 2026, finding 3, and the hover of the units' totals says that "Operating" also holds EIA's SB, OA and OS: on the copy of 19 November 2026, 2,334 units and 26,568.6 MW of its 28,712 and 1,423,491.7); a triangle a queue position at its county's point; a diamond a datacenter. A mark's color is its technology and its size grows with its MW above 25 MW: its diameter is 2 + 0.2 times the square root of the MW, held between 3 and 18 pixels, so every row under 25 MW is drawn at the smallest size (on the copy of 19 November 2026, 69.5 percent of the operating units) and a datacenter is always one size (the key says so since the map audit of 26 November 2026, finding 5). The key under the map is plain: it toggles nothing (version 2's legend toggled statuses; the lists of the panel do that now).
 
 ### The address
 

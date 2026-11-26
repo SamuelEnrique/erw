@@ -55,7 +55,7 @@ export const MAP_DECISIONS: MapDecision[] = [
     def: "The facilities with a US state.",
     source: "The table datacenter_facilities, its state column (docs/methods/datacenter_facilities.md)." },
   { key: "retired", session: "session 105",
-    text: "Retired units are not on the map, and nothing since the inventory's month is in it.",
+    text: "Retired units are not on the map, and nothing since the inventory's month is in its units (the queue positions and the datacenters are of their own, later days, in the source line).",
     def: "Operating and planned units of one month.",
     source: "EIA, Form EIA-860M, published about a month after the month it describes; retired units are in the table eia860m_retired_generators." },
 ];

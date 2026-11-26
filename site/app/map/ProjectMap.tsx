@@ -438,7 +438,7 @@ function Key({ f, picked }: { f: MapFace; picked: number[] }) {
         {kinds.has(KIND.planned) ? <li className="inline-flex items-center gap-1.5">{mark("heavy")}planned, under construction or built and not yet operating</li> : null}
         {kinds.has(KIND.queue) ? <li className="inline-flex items-center gap-1.5">{mark("triangle")}queue position, at its county&apos;s, city&apos;s or town&apos;s point</li> : null}
         {kinds.has(KIND.datacenter) ? <li className="inline-flex items-center gap-1.5">{mark("diamond")}datacenter</li> : null}
-        <li className="text-muted">size: MW</li>
+        <li className="text-muted">size: MW, above 25 MW (smaller rows and every datacenter at one size)</li>
       </ul>
       <ul className="mt-1 flex flex-wrap gap-x-4 gap-y-1">
         {COLOR_KEY.filter((c) => hues.has(c.color)).map((c) => (
