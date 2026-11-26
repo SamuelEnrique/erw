@@ -284,6 +284,8 @@ EIA publishes spot gas about a week behind, so the newest spark spread is a few 
 
 The markets page's table, unchanged in content (`trader_view.md`): from `iso_trader_daily`, the week's means with their change on the week before, the largest real-time premium, the hours real time ran more than 50 USD/MWh above day-ahead, and 30-day volatility; from `iso_rt_top_intervals`, the week's highest real-time intervals. A week is the latest 7 operating days the operator has for each measure, so the real-time measures and the heat rate end earlier than day-ahead (the end is on hover). MISO's rows of both tables are not read.
 
+**The week's on-peak is not the on-peak group's (session 10206, `docs/reviews/board-model-audit-2026-11-26.md`, finding 3).** The week's "On-peak DA" and "Off-peak DA" take `trader_view.md`'s block, Monday to Friday in every grid, CAISO included, while the group "Power, on-peak and off-peak" takes CAISO's Monday to Saturday (the Western 6x16). So a CAISO Saturday is off-peak in the week and on-peak in the group: on the file of 25 November 2026 SP15's off-peak week is 42.72 USD/MWh as drawn and 45.36 under the group's rule, its on-peak week 29.34 and 29.45. The on-peak week is the mean of the latest 7 weekdays that hold an on-peak mean, so its 7 values run over 9 calendar days (17 to 25 November on that file), not 7. The column heads and the cells say so on hover; no figure changed.
+
 ## The markets workbench
 
 Opens beside the tables when a row is clicked, and at full width with Expand. Its state is in the address, so a view can be shared.

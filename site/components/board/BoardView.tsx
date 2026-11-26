@@ -303,6 +303,16 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
 
 const WEEK_COLS: [string, string][] = [["da_mean_usd", "Day-ahead"], ["da_onpeak_mean_usd", "On-peak DA"], ["da_offpeak_mean_usd", "Off-peak DA"], ["da_rt_spread_mean_usd", "RT minus DA"], ["implied_heat_rate", "Heat rate"]];
 const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+// session 10206 (docs/reviews/board-model-audit-2026-11-26.md, finding 3): the week's on-peak and off-peak take
+// trader_view.md's block, Monday to Friday in every grid (CAISO's Saturdays off-peak), not the on-peak group's CAISO
+// Monday to Saturday; the on-peak week is the latest 7 weekdays that hold one, so it can run over 9 calendar days
+const WEEK_HEAD_TITLES: Record<string, string> = {
+  da_onpeak_mean_usd: "The mean of the on-peak means of the latest 7 weekdays that hold one (hours ending 7 to 22 local, Monday to Friday, NERC holidays off), so the 7 can run over 9 calendar days. Monday to Friday in every grid, CAISO included, where the group \"Power, on-peak and off-peak\" takes Monday to Saturday.",
+  da_offpeak_mean_usd: "The mean of the off-peak means of the latest 7 days: every hour outside the on-peak block, the whole day on weekends and NERC holidays. CAISO's Saturdays are off-peak here and on-peak in the group \"Power, on-peak and off-peak\".",
+};
+const weekWords = (k: string, end: string, ch: boolean) => k === "da_onpeak_mean_usd"
+  ? `the latest 7 weekdays with an on-peak mean, to ${dateWords(end)}${ch ? "; the change is on the 7 such weekdays before" : ""}`
+  : `the 7 days to ${dateWords(end)}${ch ? "; the change is on the 7 days before" : ""}`;
 
 /** The week by hub, as the markets page had it: the week's means with their change on the week before, the largest
  *  real-time premium, the hours real time ran 50 above day-ahead, and 30-day volatility. */
@@ -312,7 +322,7 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
   const cell = (w: WeekRow, k: string) => {
     const m = w.means[k];
     if (!m) return <span className="text-xs text-muted" title="A week's mean needs the measure on all 7 days.">not held yet</span>;
-    return <span title={`the 7 days to ${dateWords(m.end)}${m.ch !== null ? "; the change is on the 7 days before" : ""}`}><span data-n={`week|${w.hub}|${k}`}>{two(m.v)}</span>{m.ch !== null ? <span className={`ml-1 text-xs ${m.ch > 0 ? "text-up" : m.ch < 0 ? "text-down" : "text-muted"}`}>{m.ch > 0 ? "+" : m.ch < 0 ? "−" : ""}{two(Math.abs(m.ch))}</span> : null}</span>;
+    return <span title={weekWords(k, m.end, m.ch !== null)}><span data-n={`week|${w.hub}|${k}`}>{two(m.v)}</span>{m.ch !== null ? <span className={`ml-1 text-xs ${m.ch > 0 ? "text-up" : m.ch < 0 ? "text-down" : "text-muted"}`}>{m.ch > 0 ? "+" : m.ch < 0 ? "−" : ""}{two(Math.abs(m.ch))}</span> : null}</span>;
   };
   return (
     <section id="week" className="scroll-mt-4" aria-label="The week, by hub" data-group="week">
@@ -331,7 +341,7 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
               <th className="pr-3 text-right font-normal">Day-ahead, latest</th>
               {/* session 7538 (the board read, row 8): "RT minus DA" is real time less day-ahead, the opposite sign of the group
                   "Day-ahead minus real time, by hub" above, whose 7-day avg is this figure with its sign turned */}
-              {WEEK_COLS.map(([k, n]) => <th key={k} className="pr-3 text-right font-normal" {...(k === "da_rt_spread_mean_usd" ? { title: "Real time less day-ahead: the mean of the week's 7 daily differences, the real-time daily mean less the day-ahead daily mean. The group \"Day-ahead minus real time, by hub\" takes the other order, so its 7-day avg is this figure with its sign turned.", "data-week-sign": "1" } : {})}>{n}, week</th>)}
+              {WEEK_COLS.map(([k, n]) => <th key={k} className="pr-3 text-right font-normal" {...(k === "da_rt_spread_mean_usd" ? { title: "Real time less day-ahead: the mean of the week's 7 daily differences, the real-time daily mean less the day-ahead daily mean. The group \"Day-ahead minus real time, by hub\" takes the other order, so its 7-day avg is this figure with its sign turned.", "data-week-sign": "1" } : WEEK_HEAD_TITLES[k] ? { title: WEEK_HEAD_TITLES[k], "data-week-peak": k } : {})}>{n}, week</th>)}
               <th className="pr-3 text-right font-normal">Largest RT minus DA</th>
               <th className="pr-3 text-right font-normal">Hours RT over DA + 50</th>
               <th className="pr-2 text-right font-normal">30-day volatility</th>

@@ -28,7 +28,7 @@ One row per hub (or zone), local operating day and metric. `ts_utc` is the opera
 | Variable | Unit | Definition |
 |---|---|---|
 | `da_mean_usd` | USD/MWh | mean of the day's day-ahead hourly prices. The day must have every hour: 24, or 23 or 25 on a daylight saving change day. With an hour missing, nothing is written for the hub and day |
-| `da_onpeak_mean_usd` | USD/MWh | mean over on-peak hours: the standard 5x16 block, hours starting 06:00 to 21:00 local (hours ending 7 to 22), on weekdays that are not NERC holidays. Not written on weekends and holidays |
+| `da_onpeak_mean_usd` | USD/MWh | mean over on-peak hours: the standard 5x16 block, hours starting 06:00 to 21:00 local (hours ending 7 to 22), on weekdays that are not NERC holidays, in every grid (CAISO's Saturdays included among the off-peak days, where the price board's on-peak group takes Monday to Saturday). Not written on weekends and holidays |
 | `da_offpeak_mean_usd` | USD/MWh | mean over every other hour of the day (the whole day on weekends and holidays) |
 | `rt_mean_usd` | USD/MWh | mean of the day's hourly real-time prices |
 | `da_rt_spread_mean_usd` | USD/MWh | mean over the day's hours of (real-time minus day-ahead) |
