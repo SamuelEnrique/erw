@@ -1,0 +1,73 @@
+hubs read: 11 Henry Hub to 2026-11-11
+
+--- 1. Off-peak week: mean of daily means (the page) against hour-weighted (every off-peak hour of the 7 days counts once)
+  caiso:TH_NP15_GEN-APND     72 weeks to 2026-11-13: hour-weighted less the page's, mean -1.38, mean absolute 1.57, largest -4.33 USD/MWh
+  caiso:TH_SP15_GEN-APND     72 weeks to 2026-11-13: hour-weighted less the page's, mean -2.55, mean absolute 2.60, largest -6.06 USD/MWh
+  ercot:HB_HUBAVG            72 weeks to 2026-11-13: hour-weighted less the page's, mean -0.21, mean absolute 1.48, largest -5.86 USD/MWh
+  ercot:HB_NORTH             72 weeks to 2026-11-13: hour-weighted less the page's, mean -0.18, mean absolute 1.55, largest -5.68 USD/MWh
+  ercot:HB_WEST              72 weeks to 2026-11-13: hour-weighted less the page's, mean -0.40, mean absolute 1.98, largest -9.35 USD/MWh
+  spp:SPPNORTH_HUB           71 weeks to 2026-11-13: hour-weighted less the page's, mean +2.72, mean absolute 2.76, largest +7.08 USD/MWh
+  spp:SPPSOUTH_HUB           71 weeks to 2026-11-13: hour-weighted less the page's, mean +3.77, mean absolute 3.95, largest +7.52 USD/MWh
+
+  the week on the board of 25 November, from the page's hourly files:
+  caiso-th-sp15-gen-apnd   2026-11-19 to 2026-11-25: the page's way 42.72, hour-weighted 39.36 (88 hours), gap -3.36
+  caiso-th-np15-gen-apnd   2026-11-19 to 2026-11-25: the page's way 57.22, hour-weighted 58.74 (88 hours), gap +1.51
+  spp-sppnorth-hub         2026-11-19 to 2026-11-25: the page's way 19.08, hour-weighted 16.61 (88 hours), gap -2.48
+  spp-sppsouth-hub         2026-11-14 to 2026-11-20: the page's way 8.68, hour-weighted 14.48 (88 hours), gap +5.80
+  ercot-hb-hubavg          2026-11-14 to 2026-11-20: the page's way 32.34, hour-weighted 31.56 (88 hours), gap -0.78
+
+--- 2. Implied heat rate: Henry Hub of the operating day's own trading date (the code) against the trading date before it
+     (EIA's daily Henry Hub is dated by the trading date, gas for next-day flow; the day-ahead power market for day D trades on D-1)
+  caiso:TH_NP15_GEN-APND     78 days: heat rate (code) less heat rate (the day before), mean -0.017, mean absolute 0.395, largest +2.162 MMBtu/MWh; days on another gas price 51
+  caiso:TH_SP15_GEN-APND     78 days: heat rate (code) less heat rate (the day before), mean -0.013, mean absolute 0.366, largest +2.097 MMBtu/MWh; days on another gas price 51
+  ercot:HB_HUBAVG            78 days: heat rate (code) less heat rate (the day before), mean -0.031, mean absolute 0.307, largest -1.777 MMBtu/MWh; days on another gas price 51
+  ercot:HB_NORTH             78 days: heat rate (code) less heat rate (the day before), mean -0.031, mean absolute 0.292, largest -1.707 MMBtu/MWh; days on another gas price 51
+  ercot:HB_WEST              78 days: heat rate (code) less heat rate (the day before), mean -0.035, mean absolute 0.312, largest -2.254 MMBtu/MWh; days on another gas price 51
+  spp:SPPNORTH_HUB           77 days: heat rate (code) less heat rate (the day before), mean -0.003, mean absolute 0.265, largest +1.483 MMBtu/MWh; days on another gas price 50
+  spp:SPPSOUTH_HUB           77 days: heat rate (code) less heat rate (the day before), mean -0.030, mean absolute 0.242, largest +1.380 MMBtu/MWh; days on another gas price 50
+
+  the board's Henry Hub series ends 2026-11-17; the heat-rate week of the board of 25 November ends 2026-11-21:
+    2026-11-15 (Sun): gas of 2026-11-13 (2 days before)
+    2026-11-16 (Mon): gas of 2026-11-16 (0 days before)
+    2026-11-17 (Tue): gas of 2026-11-17 (0 days before)
+    2026-11-18 (Wed): gas of 2026-11-17 (1 days before)
+    2026-11-19 (Thu): gas of 2026-11-17 (2 days before)
+    2026-11-20 (Fri): gas of 2026-11-17 (3 days before)
+    2026-11-21 (Sat): gas of 2026-11-17 (4 days before)
+
+--- 3. Heat-rate week: mean of 7 daily ratios (the page) against the week's mean day-ahead over the mean gas of those days
+  caiso:TH_NP15_GEN-APND     72 weeks: page less ratio of means, mean +0.035, largest +0.132
+  caiso:TH_SP15_GEN-APND     72 weeks: page less ratio of means, mean +0.036, largest +0.163
+  ercot:HB_HUBAVG            72 weeks: page less ratio of means, mean +0.011, largest +0.198
+  ercot:HB_NORTH             72 weeks: page less ratio of means, mean +0.009, largest +0.194
+  ercot:HB_WEST              72 weeks: page less ratio of means, mean +0.008, largest +0.258
+  spp:SPPNORTH_HUB           71 weeks: page less ratio of means, mean -0.001, largest +0.107
+  spp:SPPSOUTH_HUB           71 weeks: page less ratio of means, mean +0.000, largest +0.108
+
+--- 4. 30-day volatility: the page's USD standard deviation of daily changes against a trader's measures
+  caiso-th-sp15-gen-apnd   to 2026-11-25: page 8.5936 USD/MWh (22.2 percent of the 31 days' mean 38.65); log returns 0.2518 a day, annualized x sqrt(365) 481 percent; 7-day changes 7.22
+  caiso-th-np15-gen-apnd   to 2026-11-25: page 6.9284 USD/MWh (13.7 percent of the 31 days' mean 50.50); log returns 0.1378 a day, annualized x sqrt(365) 263 percent; 7-day changes 10.26
+  caiso-th-zp26-gen-apnd   to 2026-11-20: page 9.1249 USD/MWh (22.3 percent of the 31 days' mean 40.92); log returns 0.2499 a day, annualized x sqrt(365) 477 percent; 7-day changes 9.02
+  spp-sppnorth-hub         to 2026-11-25: page 15.4043 USD/MWh (53.2 percent of the 31 days' mean 28.94); log returns 1.0002 a day, annualized x sqrt(365) 1911 percent; 7-day changes 21.05
+  spp-sppsouth-hub         to 2026-11-20: page 13.6270 USD/MWh (60.5 percent of the 31 days' mean 22.52); a day at or below zero: no log return; 7-day changes 18.13
+  ercot-hb-hubavg          to 2026-11-20: 31 calendar days not whole (2 missing: ['2026-11-07', '2026-11-08']); the newest 31 held days (2026-10-19 to 2026-11-20) give 12.0616
+  ercot-hb-north           to 2026-11-20: 31 calendar days not whole (2 missing: ['2026-11-07', '2026-11-08']); the newest 31 held days (2026-10-19 to 2026-11-20) give 11.7935
+  ercot-hb-west            to 2026-11-20: 31 calendar days not whole (2 missing: ['2026-11-07', '2026-11-08']); the newest 31 held days (2026-10-19 to 2026-11-20) give 18.1932
+
+--- 5. Hours real time over day-ahead + 50: the hour's mean of 4 intervals (the code) against any interval of the hour
+  caiso:TH_NP15_GEN-APND     hours by the mean 3, hours with an interval over 19 (x6.3)
+  caiso:TH_SP15_GEN-APND     hours by the mean 15, hours with an interval over 28 (x1.9)
+  ercot:HB_HUBAVG            hours by the mean 31, hours with an interval over 56 (x1.8)
+  ercot:HB_NORTH             hours by the mean 42, hours with an interval over 68 (x1.6)
+  ercot:HB_WEST              hours by the mean 40, hours with an interval over 80 (x2.0)
+
+--- 6. SPP: the real-time week the method's rule makes from the page's hourly file (the page shows 'not held yet')
+  spp-sppnorth-hub: days with both markets whole, newest 2026-11-22; the latest 7 2026-11-13 to 2026-11-22: RT minus DA week -3.73, largest hourly 31.29, hours over DA + 50: 0
+      change on the 7 before (2026-11-06 to 2026-11-12): -2.63
+  spp-sppsouth-hub: days with both markets whole, newest 2026-11-18; the latest 7 2026-11-10 to 2026-11-18: RT minus DA week -3.66, largest hourly 99.19, hours over DA + 50: 1
+      change on the 7 before (2026-11-03 to 2026-11-09): +3.04
+
+--- 7. The windows of one row's columns on the board of 2026-11-25T15:23:51Z
+  ercot-hb-hubavg: da_mean_usd ends 2026-11-25; da_onpeak_mean_usd ends 2026-11-25; da_offpeak_mean_usd ends 2026-11-25; da_rt_spread_mean_usd ends 2026-11-24; implied_heat_rate ends 2026-11-21; volatility as of 2026-11-06
+  caiso-th-sp15-gen-apnd: da_mean_usd ends 2026-11-25; da_onpeak_mean_usd ends 2026-11-25; da_offpeak_mean_usd ends 2026-11-25; da_rt_spread_mean_usd ends 2026-11-24; implied_heat_rate ends 2026-11-21; volatility as of 2026-11-25
+  spp-sppnorth-hub: da_mean_usd ends 2026-11-25; da_onpeak_mean_usd ends 2026-11-25; da_offpeak_mean_usd ends 2026-11-25; implied_heat_rate ends 2026-11-21; volatility as of 2026-11-25
