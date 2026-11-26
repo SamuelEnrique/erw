@@ -92,5 +92,30 @@ class TheAnnouncedDatacenters(unittest.TestCase):
             self.assertIn('"license": "internal"', f.read())
 
 
+class EveryForecastIssueKept(unittest.TestCase):
+    """Data request 4 of docs/state/data_requests_predict.md: weather_forecast_issued_hourly keeps each NWS issue."""
+
+    def test_the_lead_is_in_the_variable_so_a_later_issue_never_replaces_an_earlier(self):
+        import pandas as pd
+        nws = load("warehouse/connectors/weather_nws.py", "nws_t")
+        f = pd.DataFrame({"entity": ["nws:KDFW"] * 3, "variable": ["temperature_f"] * 3,
+                          "ts_utc": ["2026-11-27T18:00:00Z", "2026-11-27T18:00:00Z", "2026-11-26T23:00:00Z"],
+                          "vintage": ["2026-11-26T12:30:00Z", "2026-11-25T12:30:00Z", "2026-11-26T12:30:00Z"]})
+        out = nws.issued(f)
+        self.assertEqual(list(out["variable"]), ["temperature_f_lead1d", "temperature_f_lead2d", "temperature_f_lead0d"])
+        self.assertFalse(out.duplicated(["entity", "variable", "ts_utc"]).any())
+        with self.assertRaises(RuntimeError):
+            nws.issued(f.assign(vintage=["", "x", "y"]))
+
+    def test_the_runner_restores_a_rolling_table_the_archive_holds(self):
+        sys.path.insert(0, os.path.join(ROOT, "warehouse"))
+        rt = load("warehouse/restore_tables.py", "rt_t")
+        with open(os.path.join(ROOT, "warehouse", "restore_tables.py"), encoding="utf-8") as f:
+            self.assertIn("names |= set(pd.read_csv(ARCHIVE_MANIFEST", f.read())
+        with open(os.path.join(ROOT, "warehouse", "redivis", "config.yaml"), encoding="utf-8") as f:
+            self.assertIn("^weather_(obs|forecast|forecast_issued)_hourly$", f.read())
+        self.assertTrue(callable(rt.rolling_tables))
+
+
 if __name__ == "__main__":
     unittest.main()

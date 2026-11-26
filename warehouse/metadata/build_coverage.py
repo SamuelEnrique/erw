@@ -635,7 +635,7 @@ SECTOR_RULES = [
     # session 24: the policy monitor (tool 12)
     (r"^policy_(actions|reads)(_evidence)?$", "news"),
     # session 24: NWS weather at the ISO load centers, the /grid overlay
-    (r"^weather_(obs|forecast)_hourly$", "power"),
+    (r"^weather_(obs|forecast|forecast_issued)_hourly$", "power"),  # session 10000: every issue of the forecast
     # session 25: companies found by the Thesis Builder (tool 27), the seed of the company database (tool 10)
     (r"^energy_companies$", "deals"),
     # session 3302: the company database (tool 10): every company the warehouse names, its names and its rows

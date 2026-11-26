@@ -395,7 +395,7 @@ for _t in ("boem_renewable_leases", "egrid_power_plants", "eia861_utility_sales"
            "nrc_rop_findings",
            "interconnection_durations", "interconnection_durations_summary",
            "grid_peak_vs_capacity",
-           "census_cbp_construction_annual"):  # 510 to 672 the same way; session 10000 (chain 701) the construction trades
+           "census_cbp_construction_annual", "weather_forecast_issued_hourly"):  # 510 to 672 the same way; session 10000 (chain 701) the construction trades
     STORAGE_HELD[_t] = ("held: not yet on Redivis (written 21 October 2026, session 489; the account's free 10 GB is full, "
                         f"session 363). In v1 by its license once uploaded: python warehouse/redivis/upload.py {_t}, after the "
                         "storage is settled")

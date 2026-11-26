@@ -703,6 +703,7 @@ wb_commodity_prices_monthly,wb,,15,P1M,1960-01-01T00:00:00Z,2026-09-01T00:00:00Z
 wb_electricity_access_annual,wb,,215,P1Y,2000-01-01T00:00:00Z,2024-01-01T00:00:00Z,5350,worldbank:wdi_electricity_access,2026-10-23T23:45:20Z,pass,public,power,no,source
 wb_iea_electricity_annual,wb,,209,P1Y,2000-01-01T00:00:00Z,2025-01-01T00:00:00Z,8220,worldbank:wdi_iea_electricity,2026-10-23T23:45:20Z,pass,internal,power,no,source
 weather_forecast_hourly,weather,,7,PT1H,2026-09-28T09:00:00Z,2026-12-02T01:00:00Z,21562,nws:forecast_hourly,2026-11-25T14:48:31Z,pass,public,power,no,source
+weather_forecast_issued_hourly,weather,,7,PT1H,2026-11-26T12:00:00Z,2026-12-02T23:00:00Z,2184,nws:forecast_hourly,2026-11-26T12:04:33Z,pass,public,power,no,source
 weather_obs_hourly,weather,,7,PT1H,2026-09-21T09:00:00Z,2026-11-25T13:00:00Z,21571,nws:observations,2026-11-25T14:48:31Z,pass,public,power,no,source
 wfigs_wildfires,none,,1,event,2015-01-18T00:00:00Z,2026-10-21T00:00:00Z,6222,1 outlets,2026-10-23T23:13:01Z,pass,public,power,no,source
 zimstat_zimbabwe_generation_monthly,zimstat,,85,P1M,2019-01-01T00:00:00Z,2026-03-01T00:00:00Z,85,zimstat:index_of_electricity_generation,2026-10-24T16:28:31Z,pass,internal,power,no,source

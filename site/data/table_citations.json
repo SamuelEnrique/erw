@@ -587,6 +587,7 @@
  "wb_commodity_prices_monthly": "World Bank. World Bank Commodity Price Data (The Pink Sheet).",
  "wb_electricity_access_annual": "World Bank. World Development Indicators (Indicators API v2): EG.ELC.ACCS.ZS.",
  "weather_forecast_hourly": "National Weather Service (NWS, NOAA). Hourly gridpoint forecast (api.weather.gov).",
+ "weather_forecast_issued_hourly": "National Weather Service (NWS, NOAA). Hourly gridpoint forecast (api.weather.gov).",
  "weather_obs_hourly": "National Weather Service (NWS, NOAA). Station observations (api.weather.gov).",
  "wfigs_wildfires": "National Interagency Fire Center (NIFC). Wildland Fire Interagency Geospatial Services (WFIGS): Incident Locations."
 }

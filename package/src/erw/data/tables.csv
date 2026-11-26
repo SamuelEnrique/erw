@@ -703,6 +703,7 @@ wb_commodity_prices_monthly,public,,,,World Bank,"Public: every publisher's term
 wb_electricity_access_annual,public,,,,World Bank,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 wb_iea_electricity_annual,internal,,,IEA (standalone datasets),IEA (standalone datasets),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 weather_forecast_hourly,public,,,,NWS,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+weather_forecast_issued_hourly,public,,,,NWS,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 weather_obs_hourly,public,,,,NWS,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 wfigs_wildfires,public,,,,National Interagency Fire Center (NIFC),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 zimstat_zimbabwe_generation_monthly,internal,,,Zimbabwe National Statistics Agency (ZIMSTAT),Zimbabwe National Statistics Agency (ZIMSTAT),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none

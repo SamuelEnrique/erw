@@ -4941,6 +4941,10 @@
     "/data"
    ]
   },
+  "weather_forecast_issued_hourly": {
+   "status": "public",
+   "pages": []
+  },
   "weather_obs_hourly": {
    "status": "public",
    "pages": [
