@@ -59,7 +59,8 @@ test("Louisiana: Meta, Richland Parish, as LED's 13 July 2026 release states it 
   near(r.sums.income, 1636950 * 20 + 12961125 * 5, "LA income");
   // On site only: no public multiplier for Louisiana.
   assert.equal(r.chain.held, false); assert.equal(D.dcStat(r, "c:jobs:supply_chain"), null);
-  near(D.dcStat(r, "c:earnings:total"), 7500 * 70480); near(D.dcStat(r, "o:earnings:total"), 1000 * 67440);
+  near(D.dcStat(r, "c:earnings:total"), 7500 * 70480 * 5); near(D.dcStat(r, "o:earnings:total"), 1000 * 67440);  // construction over the 5-year build
+  near(D.dcStat(r, "c:jobs:total"), 7500 * 5); near(D.dcStat(r, "year:2027:jobs"), 7500);
   assert.equal(r.elec.held, false);               // no Louisiana statute on electricity read
   // The same project without the exemption: every purchase taxed.
   const nx = D.dcRun({ ...x, dcex: false }, P);
@@ -81,10 +82,10 @@ test("Virginia: CleanArc, Caroline County, as VEDP's November 2025 release state
   // 2,500 x 0.001595 + 47,500 x 0.001085 + 416,616,666.67 x 0.000875 = 364,595.108 a month, 4,375,141.30 a year.
   near(D.dcStat(r, "y1:elec"), 4375141.3, "VA electricity a year", 1e-9);
   near(r.sums.elec, 4375141.3 * 20, "VA electricity over 20 years", 1e-9);
-  // JLARC's Virginia ratios: construction jobs 975 x (35,110 + 9,945 + 13,992) / 35,110; earnings 975 x 74,336 x 4,282.3 / 2,646.6.
+  // JLARC's Virginia ratios, each construction year: jobs 975 x (35,110 + 9,945 + 13,992) / 35,110; earnings 975 x 74,336 x 4,282.3 / 2,646.6; over the 2-year build twice that.
   assert.equal(r.chain.held, true);
-  near(D.dcStat(r, "c:jobs:total"), 975 * 59047 / 35110);
-  near(D.dcStat(r, "c:earnings:total"), 975 * 74336 * (2646.6 + 843.8 + 791.9) / 2646.6);
+  near(D.dcStat(r, "c:jobs:total"), 2 * 975 * 59047 / 35110);
+  near(D.dcStat(r, "c:earnings:total"), 2 * 975 * 74336 * (2646.6 + 843.8 + 791.9) / 2646.6);
   // Operations: 50 x (4,373 + 6,615 + 3,830) / 4,373 jobs; 50 x 152,609 x (419.4 + 552.2 + 216.8) / 419.4 earnings.
   near(D.dcStat(r, "o:jobs:total"), 50 * 14818 / 4373);
   near(D.dcStat(r, "o:earnings:total"), 50 * 152609 * 1188.4 / 419.4);

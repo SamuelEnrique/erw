@@ -104,6 +104,8 @@ export type DcResult = {
 };
 
 const ZERO = (): Record<DcEffect, number> => ({ onsite: 0, supply_chain: 0, induced: 0, total: 0 });
+const times = (r: Record<DcEffect, number>, f: number): Record<DcEffect, number> =>
+  ({ onsite: r.onsite * f, supply_chain: r.supply_chain * f, induced: r.induced * f, total: r.total * f });
 export const dcRound = (v: number, d: number) => Math.round(v * 10 ** d) / 10 ** d;
 export function dcTo2025(P: DcParams, y: number): number {
   const a = P.deflator.index[String(DC_BASE_YEAR)], b = P.deflator.index[String(y)];
@@ -276,7 +278,9 @@ export function dcRun(x: DcInputs, P: DcParams): DcResult {
   const propNote = x.brate === null && x.erate === null ? "no property tax rate is held statewide: the reader's rates are not given"
     : x.brate === null ? "the building's rate is not given" : x.erate === null ? "the equipment's rate is not given" : "";
   return {
-    ok: true, years, sums, pv: { ...pvS, taxes }, construction: c, operations: o,
+    // construction over the build (job-years and their earnings), as lib/forecast.ts's construction lines are; each
+    // construction year holds the workers on site the reader gives (an announced peak held in every year: an upper reading)
+    ok: true, years, sums, pv: { ...pvS, taxes }, construction: { jobs: times(c.jobs, x.build), earnings: times(c.earnings, x.build) }, operations: o,
     chain: { held: chC !== null, note: chC ? "" : "no public multiplier for datacenters is held for this state: the figures are the on-site effect alone" },
     exemption: { held: el.held, eligible: el.eligible, applied: el.eligible && x.dcex, note: el.held ? (el.eligible ? (x.dcex ? "applied" : "not applied (the scenario's choice)") : el.why) : el.why },
     property: { held: x.brate !== null && x.erate !== null, note: propNote },
