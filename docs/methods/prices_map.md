@@ -22,4 +22,4 @@ A grid whose prices `docs/licenses.md` holds for a license (today ISO-NE and NYI
 
 ## Limits
 
-The day is the newest held when the file was built, which can be a few days old if the price tables have not been refreshed on the machine; the file names the day. A hub's thirty days can be blank while its twelve months are not, when the newest weeks hold a gap (ERCOT's hubs held 673 of 721 hours on 19 November 2026).
+The day is the newest held when the file was built, which can be a few days old if the price tables have not been refreshed on the machine; the file names the day. Since session 10218 (the prices audit, `docs/reviews/prices-model-audit-2026-11-26.md`, finding 5) the legend names it too, with the day the file was built, and says when the areas' days differ: on 26 November 2026 the file built on 19 November colored the map by 16 November, while the site's own hourly price files held whole days to 20 November for ERCOT and 25 November for CAISO and SPP. A hub's thirty days can be blank while its twelve months are not, when the newest weeks hold a gap (ERCOT's hubs held 673 of 721 hours on 19 November 2026).

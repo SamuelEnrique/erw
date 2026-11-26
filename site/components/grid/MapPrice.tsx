@@ -41,6 +41,21 @@ export function priceRange(m: PricesMap, k: PriceMeasure): [number, number] | nu
   return vs.length ? [Math.min(...vs), Math.max(...vs)] : null;
 }
 const unitOf = (k: PriceMeasure) => PRICE_MEASURES.find((x) => x[0] === k)![2];
+
+/** Session 10218 (docs/reviews/prices-model-audit-2026-11-26.md, finding 5): the day the colors are of, and when the
+ *  file was built. "The newest day" is the newest whole day the file held when it was built: on 26 November 2026 the
+ *  file of 19 November colored the map by 16 November, and the legend gave no date (only each area's hover did). */
+export function whenOf(m: PricesMap, k: PriceMeasure): string {
+  const days = Object.entries(m.bas).filter(([id, b]) => typeof b.day === "string" && priceValue(m, id, k) !== null).map(([, b]) => b.day as string);
+  return [...new Set(days)].sort().join(",");
+}
+export function whenWords(m: PricesMap, k: PriceMeasure): string {
+  const days = whenOf(m, k).split(",").filter(Boolean);
+  const built = (m.built ?? "").slice(0, 10);
+  const span = k.startsWith("day") ? "day-ahead of" : `day-ahead, the ${k.includes("30d") ? "30" : "365"} days to`;
+  const when = days.length === 0 ? "" : days.length === 1 ? `${span} ${days[0]}` : `${span} each area's own day (${days.join(", ")}: the colors set different days side by side)`;
+  return `${when}${when && built ? ", " : ""}${built ? `from the price file built ${built}` : ""}`;
+}
 const fmt = (v: number, k: PriceMeasure) => (unitOf(k) === "percent" ? `${v.toFixed(2)} percent of hours` : `${v.toFixed(2)} USD/MWh`);
 
 /** The hover line of an area while the map is colored by price. */
@@ -74,7 +89,7 @@ export function PriceControls({ on, setOn, measure, setMeasure, m }: { on: boole
             {PRICE_MEASURES.map(([k, label]) => <option key={k} value={k}>{label}</option>)}
           </select>
           <span className="text-xs text-muted" data-map-price-range={r ? `${r[0]}-${r[1]}` : "none"}>
-            {m === null ? "Reading the prices..." : m === "none" ? "The price file is not on the site yet." : r ? <>Green {fmt(r[0], measure)} to red {fmt(r[1], measure)}, each grid&apos;s main hub (the price board&apos;s). </> : "No area holds this measure. "}
+            {m === null ? "Reading the prices..." : m === "none" ? "The price file is not on the site yet." : r ? <>Green {fmt(r[0], measure)} to red {fmt(r[1], measure)}, each grid&apos;s main hub (the price board&apos;s), <span data-map-price-when={whenOf(m, measure)}>{whenWords(m, measure)}</span>. </> : "No area holds this measure. "}
             {held.length ? <span className="cursor-help border-b border-dotted border-muted" title="A grid whose prices docs/licenses.md holds for a license is drawn blank, its hover saying license needed; MISO is paused; an authority with no public hub price in the warehouse is blank too.">Blank: {held.join(", ")} (license needed or paused), and areas with no public price</span> : null}
           </span>
           <details className="w-full text-xs" data-decisions="map-price">
