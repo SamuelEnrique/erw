@@ -38,5 +38,37 @@ class TheHoursEndWithThePrices(unittest.TestCase):
         self.assertLess(s.index("last = last_price_hour("), s.index('lines = head + ["kind,ts_utc,kg_co2_per_mwh"]'))
 
 
+class TheMonitorRebuildsTheChangesTable(unittest.TestCase):
+    """Data request 26 (the policy audit, finding 2): from 20 November the daily monitor file left out the 15 large-load
+    orders of FERC and the grid operators, because GitHub's runner holds no utility_large_load_rule_changes.csv. The
+    daily step now rebuilds it from the archive first; a rebuild that fails leaves no partial input."""
+
+    def test_the_daily_step_rebuilds_the_table_when_absent(self):
+        import importlib.util
+        import types
+        spec = importlib.util.spec_from_file_location("monitor_t", os.path.join(ROOT, "warehouse", "policy", "monitor_site.py"))
+        m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m)
+        calls = []
+
+        def fake_run(cmd, cwd=None):
+            calls.append(cmd)
+            return types.SimpleNamespace(returncode=1)
+        import subprocess
+        keep = subprocess.run
+        subprocess.run = fake_run
+        try:
+            with tempfile.TemporaryDirectory() as d:
+                open(os.path.join(d, "policy_actions.csv"), "w").close()
+                m.read = lambda p: (_ for _ in ()).throw(RuntimeError("stop after the restore"))
+                with self.assertRaises(RuntimeError):
+                    m.main(["--in-dir", d, "--out", os.path.join(d, "monitor.json"), "--daily"])
+        finally:
+            subprocess.run = keep
+        self.assertEqual(len(calls), 1)
+        self.assertIn("utility_large_load_rule_changes", calls[0])
+        self.assertIn("--from-bucket", calls[0])
+
+
 if __name__ == "__main__":
     unittest.main()
