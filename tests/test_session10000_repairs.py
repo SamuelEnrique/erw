@@ -61,6 +61,34 @@ class ACarriedLineTakesItsCountsFromItsRow(unittest.TestCase):
         self.assertIn('assert d["n_rows"] == int(erw.coverage()["n_rows"].astype("int64").sum())', s)
 
 
+class TheOffersWaitForTheAwardsTable(unittest.TestCase):
+    """C6: on 21 November the standing pull of ERCOT's storage awards ran the offers builder after the monthly awards
+    builder had not rebuilt its table, and the step said only "build that table first". The offers now wait."""
+
+    def test_a_failed_awards_build_stops_the_offers_and_is_named(self):
+        import contextlib
+        import io
+        import sys
+        sys.path.insert(0, os.path.join(ROOT, "tests"))
+        import test_session116 as t116
+        case = t116.StandingPull("test_one_zip_a_run_the_oldest_day_first")
+        case.setUp()
+        try:
+            def failing(cmd, **kw):
+                case.ran.append([os.path.basename(cmd[1])] + cmd[2:])
+                return type("R", (), {"returncode": 1 if cmd[1] == t116.esr.MONTHLY_BUILDER else 0})()
+            case.run_builder = failing
+            z2 = t116.zip_of(t116.DAY2)
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                code = case.daily([case.doc(t116.DAY2, z2, "20"), case.doc(t116.DAY1, t116.zip_of(t116.DAY1), "10")], {"20": z2})
+            self.assertEqual(code, 1)
+            self.assertEqual(case.ran, [["ercot_storage_dam_awards.py"]])
+            self.assertIn("ercot_storage_dam_awards_monthly FAILED", out.getvalue())
+        finally:
+            case.tearDown()
+
+
 class EveryLiveSetLoadFollowsItsCoverage(unittest.TestCase):
     def test_each_load_has_the_coverage_build_of_its_own_tables_just_before_it(self):
         lines = [ln.strip() for ln in text("warehouse", "run_data_machine_tables.sh").splitlines()]
