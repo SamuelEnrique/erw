@@ -25,6 +25,8 @@ No public source gives a state's generation by the hour. EIA's hourly figures (F
 | large_load_laws | `state_large_load_laws` | the ERW's research files, each law read at its own page |
 | severance | `site/data/severance_rules.json` | the severance tool's rules, each cited |
 
+Net interstate trade (session 10223, the states audit, finding 1) is a line of EIA's disposition (`docs/methods/eia_state_source_disposition_annual.md`), so it is out less in: positive where a state sent more electricity to other states than it took in. Read that way, net generation and international imports less the trade equal the sales, losses and exports to within EIA's direct use in 51 of the 52 places (the median rest 2.7 percent of the disposition); read the other way, 23 places fall below zero (the median 43.9 percent). The page said "in less out" until session 10223.
+
 ## Arithmetic
 
 - A twelve-month window is the newest twelve months the part holds, summed. A source with no figure in any of the twelve months is null, never zero.
