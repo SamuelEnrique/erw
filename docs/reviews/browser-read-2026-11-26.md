@@ -227,6 +227,40 @@ Read on production on 26 November at 11:42 UTC (`runs/c750/b10.mjs`). Both fault
 
 Picture: `docs/reviews/browser-read-2026-11-26/events-covid-2020/covid-390-tables-showing.png` (390 px with the tables showing).
 
+## Part D: the sellable tools, at 1280 and 390 px
+
+Read on production on 26 November from 12:30 UTC, while none of tonight's pages had landed. Figures by the site's own `check-values` (each marked figure fetched in the internal view and set beside Supabase's public REST view; run in the foreground on each tool's own addresses); the hand by `runs/c750/d_battery.mjs` and `runs/c750/d_tool.mjs`.
+
+### What a battery earns (`/cost-of-power/battery`)
+
+Whose: no window's tonight (its model was audited on 20 November; that audit's branches are the old laptop's).
+
+**Five cases.** (1) *A developer:* what did a 100 MW, 4-hour battery in ERCOT earn over the last twelve months? The page's first sentence: USD 80.40 per kW (USD 8.04 million), 33 percent of it from ancillary services. (2) *A lender:* did it cover its debt, and what does a bad month look like? 2.58 times; the 10th-percentile month of the last 36 is USD 475,477 (December 2024). (3) *A CAISO developer:* 4 hours on the day-ahead schedule: choosing CAISO and then the schedule puts both in the address and the sentence reads USD 65.96 per kW, debt covered 1.94 times. (4) *An investor:* is it worth building, and how much does the capital cost matter? With the capital cost changed from 1,110 to 800 USD per kW the coverage goes from 2.58 to 3.58 and the address carries `ac=800`; the field's Reset puts every figure back. (5) *A reader on a phone:* a link carrying 2 hours opens on 2 hours (USD 57.90 per kW, 47 percent from ancillary services), every figure's key saying so. Each answered on the page.
+
+**Figures.** `check-values` on the tool's 13 addresses (both grids at 2, 4 and 8 hours under both strategies, the scenario and assumption addresses, the awards page) with the generator page's four: 988 of 988 match Supabase.
+
+**The hand, 24 of 24 at each width.** Every control has a name; the units switch, the grid and the strategy each carry into the address; after the back button the choices read what the address says; a held grid in the address (PJM) leaves the page on ERCOT with PJM's choice disabled and "license needed" beside it, and no figure of PJM is drawn; the fifteen boxes of the headline and chart pickers each change the page and change it back; the nine "About" marks each open a box inside the screen; both charts give a card under the mouse and a finger; the keyboard reaches the foot (85 stops at 1280 px, 35 at 390 px, where the assumptions are folded), every stop seen and marked. No sideways scroll after any step, with every fold open, at 390 px. Usable in 0.4 s. **No fault.**
+
+Pictures: `docs/reviews/browser-read-2026-11-26/battery/battery-as-it-opens-1280.png`; `docs/reviews/browser-read-2026-11-26/battery/battery-caiso-day-ahead-1280.png` (its most telling choice: CAISO on the day-ahead schedule).
+
+### What a generator earns (`/cost-of-power/seller`)
+
+Five views as five cases: a solar developer in ERCOT (opens: USD 59.85 per kW over October 2025 to September 2026, against a long-run USD 102.24 a year; the price it received was USD 23.27 per MWh), a battery selling energy alone (USD 58.53), a gas peaker (a margin over fuel of USD 48.15), a wind plant in SPP at the North hub (USD 83.59; "SPP holds one full year, 2025 ... There is no long-run average yet"), a solar plant in CAISO at SP15 (USD 28.45; 51.6 percent below the flat average price). Each first sentence answers its reader.
+
+- **Figures:** in the 988 of 988 above.
+- **The hand, 70 of 70 at 1280 px and 69 of 69 at 390 px:** no quiet fault as each opens or with every table shown and every fold open; every control named; both charts give a card; no mark's box past the screen; the keyboard to the foot (79 to 94 stops). Each view loads in 0.3 to 1.5 s. **No fault.**
+- Noted on 20 November and unchanged: this tool's last twelve months end in September 2026 and the battery tool's in October.
+
+Picture: `docs/reviews/browser-read-2026-11-26/generator/generator-as-it-opens-1280.png`.
+
+### Automated Analysis (`/research`, its cards, `/attention`)
+
+- **Figures:** `check-values` on `/research`, five cards, `/attention` and the Grid tool's addresses together: 1,377 of 1,377 match Supabase.
+- **The hand, 65 of 65 at each width** on `/research`, three cards and `/attention`: no quiet fault, every control named (242 buttons on `/research`), each card's charts answer the mouse and a finger with their figures ("2021-01 ERCOT: Worst-interval multiple (P99.9 / median): 19.37"), the keyboard reaches the foot (377 stops on `/research`). Each loads in under a second.
+- **One thing left to look at when the laptop has memory:** on `/research` at 1280 px the six small example charts tried gave no card under the mouse, where the page says "real values, hover reads them" (at 390 px a finger got a card on the six charts tried there, which are other charts of the page). Whether the examples answer through the browser's own tooltip was being read when memory ran out (274 MB at 12:43 UTC); not yet a row.
+
+Picture: `docs/reviews/browser-read-2026-11-26/automated-analysis/research-as-it-opens-1280.png`.
+
 ## For Samuel's ruling (each with the page left as it is)
 
 1. **A reason on hover and a finger.** Why a strip or a cell is blank, why two figures differ, and what a colored cell holds are given as the browser's own tooltip. A mouse opens it; a finger at 390 px opens nothing. Seen on `/conditions` (the blank strips), `/congestion` (the hour-by-month cells, the operators not drawn), `/demand`, `/supply` and `/events` (blank cells and the figures' notes). The "i" marks and the chart cards do open on a tap. Default taken: nothing changed. The question: should a blank's reason open on a tap, as the "i" marks do?
