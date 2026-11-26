@@ -62,7 +62,7 @@ The replication also reads the page for four choices of place (Texas alone, Cali
 
 | Key | Decision | Default |
 |---|---|---|
-| `as-published` | The publishers' figures as the files hold them; only the sums, shares, revenue and population shares named above | as published |
+| `as-published` | The publishers' figures as the files hold them; only the sums, shares, revenue and population shares named above. The ERW fills nothing; EIA's monthly figures hold EIA's own estimates and its newest months are revised (session 10223, the states audit, finding 5) | as published |
 | `not-held` | A figure a source does not print is "not held" with the reason, never zero | "not held" |
 | `first-place` | The page opens on Texas, the largest generator of the fifty states, with no second place | Texas; no second place |
 | `twelve-months` | Headlines and the sector table are the newest twelve months; a year only when all twelve months are held | newest twelve months |
