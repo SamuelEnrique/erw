@@ -1,0 +1,51 @@
+{
+  "built": "2026-11-26T11:00:00Z",
+  "example": true,
+  "method": "docs/methods/equities.md",
+  "contract": "docs/state/page_files_equities.md",
+  "license": "internal",
+  "id": "XOM",
+  "kind": "company",
+  "name": null,
+  "cik": null,
+  "ticker": "XOM",
+  "exchange": null,
+  "segments": ["integrated_oil_gas"],
+  "status": "source needed",
+  "why": "example file: no data written yet",
+  "source": null,
+  "units": {
+    "close": "USD/share",
+    "adj_close": "USD/share",
+    "volume": "shares",
+    "market_value": "USD",
+    "revenue": "USD",
+    "net_income": "USD",
+    "capex": "USD",
+    "debt": "USD",
+    "shares_outstanding": "shares"
+  },
+  "held": {
+    "close": "example file: no data written yet",
+    "adj_close": "example file: no data written yet",
+    "volume": "example file: no data written yet",
+    "market_value": "example file: no data written yet"
+  },
+  "daily_columns": ["day", "close", "adj_close", "volume", "market_value"],
+  "daily": [
+    ["2026-11-25", null, null, null, null]
+  ],
+  "last": null,
+  "moves": {"d": null, "w": null, "m": null, "ytd": null, "y": null},
+  "quarterly_columns": ["period_start", "period_end", "months", "fy", "fp", "form", "filed", "revenue", "net_income", "capex", "debt", "shares_outstanding", "accession", "url"],
+  "quarterly": [
+    [null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+  ],
+  "concepts": {
+    "revenue": null,
+    "net_income": null,
+    "capex": null,
+    "debt": null,
+    "shares_outstanding": null
+  }
+}
