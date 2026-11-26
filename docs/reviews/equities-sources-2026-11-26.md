@@ -50,3 +50,16 @@ Energy Research Warehouse (ERW). Written by session 10000 (chain 701) on 26 Nove
 - IEX: no historical download at all (the HIST section of the market data page, request 18).
 - Nasdaq: its robots file was not asked again: the probe asks an address once a chain (request 4 was reset); left for the next chain.
 - Alpha Vantage: still needs a key the repository does not hold; its terms were not read.
+
+## Read again (part F, 26 November 2026, 22:53 to 22:57 UTC)
+
+The sources whose robots file or terms were not read the first time, read once more through `docs/research/large_load/fetch_doc.py` (robots first, each host's own robots file, Nasdaq's 30-second crawl delay kept between its requests). The answers are cached under `runs/s5300/docs/` on lab-desktop (not in git).
+
+| Source | Robots file | Terms | Verdict |
+|---|---|---|---|
+| Nasdaq (nasdaq.com) | read: `Crawl-delay: 30` for every agent; `/api/v1/*` and the option chains disallowed; no AI agent named | read at `/legal` (`/terms-of-use` answers 404): "Not access or use the Service, or any process, whether automated or manual, to capture data or content from the Service"; the license is "solely for your personal, non-commercial use"; no content shared or copied "without Nasdaq's prior written approval" | **closed**: automated capture is barred |
+| S&P Dow Jones Indices (spglobal.com) | read: the index exports and factsheets disallowed (`/spdji/*/idsexport*/`, `/spdji/*/idsfactsheet*/`, `/spdji/*/idsenhancedfactsheet*/`); GPTBot given a crawl delay, no Anthropic agent named | not read: `/en/terms-of-use` answers HTTP 403 | **closed**: the paths that carry index levels are disallowed |
+| NYSE (ICE's terms) | nyse.com read the first time (nothing relevant disallowed); www.ice.com's read now (the terms page allowed) | read at `ice.com/privacy-security-center/terms-of-use` (the link nyse.com gives): a licence "only for your own personal, non-commercial use"; "spiders, robots, avatars, agents, tools or other devices or mechanisms to navigate, search or determine this Website is strictly prohibited, unless expressly permitted by ICE" | **closed** |
+| IEX | read the first time (nothing disallowed) | not read: the market data page's "Terms of Use" link is malformed (`www.iexexchange.io/https://iex.io/legal/terms/index`) and `iex.io/legal/terms/index` answers 404 | unchanged: not pulled (IEX's own trades are not a consolidated close) |
+
+Nothing here changes D2 and D3: the equity tables still wait on the SEC ruling and on a price source whose licence allows it. Stooq (robots refuse every reader but two search engines) and Alpha Vantage (a key the repository does not hold) were not asked again.
