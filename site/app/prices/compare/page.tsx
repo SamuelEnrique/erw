@@ -230,7 +230,7 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
               </ToolSection>
 
               <ToolSection title="The table" id="table"
-                note={<>{market.name} prices by the hour, in each grid&apos;s own clock time (daylight saving included), from {w.start} to {w.end} (the end not included). Hours below zero and above USD 200 are shares of the hours held. The spread is read off the average day: the mean price of each hour of the day over the period, its four dearest hours less its four cheapest.
+                note={<>{market.name} prices by the hour, in each grid&apos;s own clock time (daylight saving included), from {w.start} to {w.end} (the end not included). <span data-avg-said="1">The average price counts every hour held once: what a flat load, the same every hour, would pay at the hub or zone. A load shaped like the grid&apos;s own, heavier in the dearer hours, pays more than this average.</span> Hours below zero and above USD 200 are shares of the hours held. The spread is read off the average day: the mean price of each hour of the day over the period, its four dearest hours less its four cheapest.
                   It is not the mean of each day&apos;s own spread, which is larger, since the dearest and the cheapest hours move from day to day.
                   The carbon intensity is the grid&apos;s generation over the same period (kg of CO2 per MWh), not the hub&apos;s. A heading sorts by its column.</>}>
                 <ToolTable minWidth={700} caption={`Hub and zone prices compared, ${market.name.toLowerCase()}, ${when}`}
@@ -260,6 +260,7 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
 
           <Fold title="How it is computed">
             <p className="max-w-3xl">From each grid operator&apos;s public day-ahead and real-time prices at its hubs and zones. A real-time hour is the mean of its four 15-minute prices and is counted only when all four are held; ISO-NE&apos;s is its own hourly report.
+              The average is the simple mean of the hours held, each hour once, not weighted by the grid&apos;s load or by any buyer&apos;s.
               A hub is in a period when at least {Math.round(file.near_hours * 100)} percent of the period&apos;s hours are held; nothing is filled. The full method: <SiteLink href={METHOD}>where power is cheap</SiteLink>.</p>
           </Fold>
           <Fold title="What this does not tell you">

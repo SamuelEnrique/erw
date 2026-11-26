@@ -60,7 +60,7 @@ For each market, `dam` (day-ahead) and `rtm` (real-time), over the hours held in
 
 | Variable | Unit | Meaning |
 |---|---|---|
-| `<m>_avg_price` | USD/MWh | the mean of the hourly prices |
+| `<m>_avg_price` | USD/MWh | the mean of the hourly prices, each hour once: what a flat load would pay. Not weighted by load; a load shaped like the grid's pays more (session 10218, the prices audit: over the twelve months to October 2026, weighting each day-ahead hour by ERCOT's or CAISO's own hourly load raises the average by 4.0 to 7.1 percent, `docs/reviews/prices-model-audit-2026-11-26.md`) |
 | `<m>_negative_hours_share_pct` | percent | the share of hours with a price below zero |
 | `<m>_above_200_hours_share_pct` | percent | the share of hours with a price above USD 200 per MWh |
 | `<m>_day_spread_top4_bottom4` | USD/MWh | on the average day (the mean price of each local hour of the day over the window), the mean of its four dearest hours less the mean of its four cheapest. The four need not be next to each other |
