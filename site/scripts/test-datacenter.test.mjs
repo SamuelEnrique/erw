@@ -271,6 +271,10 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   // Alabama (session 10816): local Chapter 9B abatements, granted case by case, held as words
   const al = D.dcRun(D.dcDefaults(P, "al", { invest: 2000, perm: 100 }), P);
   assert.equal(al.exemption.held, true); assert.equal(al.exemption.eligible, false);
+  // Wyoming (39-15-105(a)(viii)(S), session 10816): USD 5 million; the state's 4 percent; no term
+  assert.equal(D.dcRun(D.dcDefaults(P, "wy", { invest: 4, perm: 5 }), P).exemption.eligible, false);
+  const wy = D.dcRun(D.dcDefaults(P, "wy", { invest: 100, perm: 5, start: 2026, build: 2, life: 10 }), P);
+  near(wy.sums.forgone, 2 * 100e6 * 0.682 * 0.04, "WY: the build and 2033 at 4 percent");
   // Michigan (the Strategic Fund's guidelines, session 10815): USD 250 million and 30 jobs, purchases through 2050, certificates before 2030
   assert.equal(D.dcRun(D.dcDefaults(P, "mi", { invest: 300, perm: 29 }), P).exemption.eligible, false);
   assert.equal(D.dcRun(D.dcDefaults(P, "mi", { invest: 300, perm: 30, start: 2030 }), P).exemption.eligible, false);
