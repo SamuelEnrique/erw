@@ -394,8 +394,11 @@ function EndTable({ mine, perfect, none, rules, big }: { mine: Tally; perfect: T
   // session 2402: each row's hover names where its figures come from: the game's own model (lib/battery.ts, simulate and
   // optimum) under the rules of this play, on the day's real prices; no figure here is a real battery's earnings
   const WHY: Record<string, string> = {
-    You: "Your play, scored by the game's own model (lib/battery.ts, simulate) under the rules of this mode, on the day's real prices. Not a real battery's earnings.",
-    "The perfect battery": "The same battery with every price of the day known in advance: the game's exact dynamic programme (lib/battery.ts, optimum) under the same rules. The most any play of this day could earn; not a real battery's earnings.",
+    // session 10227 (the play audit's finding 5): on Hard the emergency hour is traded at the game's prices, not the day's
+    // real ones; the perfect battery is held to the game's three moves (a battery free to run at part power earns up to
+    // 2.7 percent more on the levels held)
+    You: `Your play, scored by the game's own model (lib/battery.ts, simulate) under the rules of this mode, on the day's real prices${rules.emergency ? ", except the emergency hour, traded at the game's prices" : ""}. Not a real battery's earnings.`,
+    "The perfect battery": "The same battery with every price of the day known in advance, held to the game's three moves (charge at full power, sell at full power, or hold): the game's exact dynamic programme (lib/battery.ts, optimum) under the same rules. The most any play of this day could earn; a battery free to run at part power could earn a little more. Not a real battery's earnings.",
     "No battery": "The day with no battery at all: nothing bought or sold. With the rooftop add-on, the roof's power sold as it is made.",
   };
   const rows: [string, Tally | null, number][] = [["You", mine, mine.score], ["The perfect battery", perfect, perfect.score], ["No battery", null, none]];
@@ -423,7 +426,7 @@ function EndTable({ mine, perfect, none, rules, big }: { mine: Tally; perfect: T
       <p className="mt-1 text-xs text-muted">Under each amount, its average price in USD per MWh{rules.emergency ? "; on Hard the emergency hour's prices are a game rule" : ""}. {none !== 0 ? "No battery: the roof's power alone, sold as it is made." : "With no battery nothing is bought or sold, and nothing is earned."}</p>
       <p className={`mt-2 ${big ? "text-base" : "text-sm"}`} data-end-why>
         {spread !== null
-          ? <>A battery earns the spread: the perfect battery bought at an average of {p(perfect.buyPrice)} and sold at {p(perfect.sellPrice)} USD per MWh, {p(spread)} apart, and loses {Math.round((1 - rules.eta ** 2) * 100)} percent of the energy on the round trip{rules.deg > 0 ? `, plus ${usd(rules.deg)} of wear on each kWh it sells` : ""}. It starts half full, so it can sell more than it buys.</>
+          ? <>A battery earns the spread: the perfect battery bought at an average of {p(perfect.buyPrice)} and sold at {p(perfect.sellPrice)} USD per MWh, {p(spread)} apart, and loses {Math.round((1 - rules.eta ** 2) * 100)} percent of the energy on the round trip{rules.deg > 0 ? `, plus ${usd(rules.deg)} of wear on each kWh taken out of it` : ""}. It starts half full, so it can sell more than it buys.</>
           : perfect.soldKwh > 0
             ? <>The perfect battery only sold, at an average of {p(perfect.sellPrice)} USD per MWh: no price that day paid for charging again after the round trip&apos;s loss. It starts half full.</>
             : <>No hour that day paid for the round trip: the perfect battery&apos;s best play was to wait.</>}
