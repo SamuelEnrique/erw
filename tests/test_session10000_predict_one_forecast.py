@@ -51,6 +51,14 @@ class TheLedgersMakingIsDrawn(unittest.TestCase):
         self.assertIn('from_ledger(p, ledger, "price")', s)
         self.assertEqual(s.count('s["tomorrow_from"] = '), 2)
 
+    def test_the_peak_reads_the_ledgers_column(self):
+        # the peak chooses its own method (session 10601); tomorrow drawn from the ledger holds only the ledger's
+        # method, so the peak of tomorrow takes that column, never a column the frame lacks
+        with open(os.path.join(ROOT, "warehouse", "predict", "run.py"), encoding="utf-8") as f:
+            s = f.read()
+        if "peak_choice" in s:
+            self.assertIn('c = p["choice"] if made_first is not None else p.get("peak_choice", p["choice"])', s)
+
 
 if __name__ == "__main__":
     unittest.main()
