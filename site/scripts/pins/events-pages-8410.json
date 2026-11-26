@@ -14,13 +14,13 @@
     "figures": 9
    },
    "covid-2020": {
-    "sha256": "b8bee26d5c8aef369c3e5f42cf8b5f5dac37425f5a86252ca4a40159987d298a",
-    "bytes": 271357,
+    "sha256": "8c13c44e3ebe10582fde21699ac17fa43241dded49d82bb3ab947af593b9bcfc",
+    "bytes": 271485,
     "figures": 7
    },
    "caiso-heat-2020": {
-    "sha256": "23dfce991d1d5e2c9eb44a735c9542b6cdb1039687d393a72a63490f2dd11090",
-    "bytes": 58077,
+    "sha256": "56867435b64212582eaad46cb36767f27d362fc46c59e206331059edbb959417",
+    "bytes": 58659,
     "figures": 0
    },
    "caiso-heat-2022": {
@@ -66,13 +66,13 @@
     "figures": 84
    },
    "covid-2020": {
-    "sha256": "e14687a99eec805e252ba5724bc23e0b04cac78d01ab5bf48d5fca1130ee5818",
-    "bytes": 249498,
+    "sha256": "a94d8b3d474543e332c16ca628be1a32c7472f53d5fa998d5449ea1918266e6a",
+    "bytes": 249626,
     "figures": 350
    },
    "caiso-heat-2020": {
-    "sha256": "b0a924c4f419b14558fd66a2b34c3fee5f5804090a4891039fa45de9181b72e8",
-    "bytes": 54152,
+    "sha256": "0969901d6b0a80d8901ff61caf8e0e6324b631e3e9cf43546c8b738f6c7fa2ed",
+    "bytes": 54734,
     "figures": 65
    },
    "caiso-heat-2022": {
