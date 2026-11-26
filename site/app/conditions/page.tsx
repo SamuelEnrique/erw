@@ -24,6 +24,9 @@ type Query = Record<string, string | string[] | undefined>;
 const one = (q: Query, k: string) => (typeof q[k] === "string" ? (q[k] as string) : undefined);
 const NONE = "none";
 const TABLES = ["eia930_ba_demand_hourly", "generation_outages_hourly", "constraints_binding_hourly", "ercot_rtm_price_adders", "grid_all_alerts"];
+// Session 10219 (the conditions audit, finding 2): the count under the alerts heading is of rows, and a row is not a
+// separate notice. Said beside the count, as the connectors' own notes say it.
+const ALERT_ROW_WORDS = "Each row is one notice, region and day it covers, as the operator lists it: a notice over three days is three rows, a notice the operator reissued is listed again, the region is not shown, and ERCOT's rows include its releases that end a notice or announce none. So the count is of rows, not of separate notices.";
 const STRIP_NAMES: Record<string, string> = { demand: "Demand and forecast", out: "Out of service", constraints: "Constraints binding", scarcity: "Scarcity adder", alerts: "Alerts", reserves: "Reserves against the requirement" };
 
 function Blank({ s, name, k }: { s: Strip; name: string; k: string }) {
@@ -169,9 +172,10 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
       ) : hourly.length ? null : <NoneHeld title="Hours the adder was above zero" f={f} c="adder_hours" w={w} k={`${tag}-scar-d`} />) : hourly.length ? null : <Blank s={st.scarcity} name={STRIP_NAMES.scarcity} k={`${tag}-scar-d`} />}
       {st.alerts.status === "shown" ? (
         <>
-          <h4 className="mb-1 mt-4 font-serif text-base text-accent" data-alerts-heading={tag}>Alerts and notices in force, {w.start} to {w.end} ({alerts.length})</h4>
+          <h4 className="mb-1 mt-4 font-serif text-base text-accent" data-alerts-heading={tag}>Alerts and notices listed, {w.start} to {w.end} ({alerts.length} rows)</h4>
+          <p className="mb-1 text-xs text-muted" data-alerts-rows={tag}>{ALERT_ROW_WORDS}</p>
           {alerts.length ? (
-            <ToolTable minWidth={360} caption={`Alerts and notices, ${w.start} to ${w.end} (${alerts.length})`} head={["Date", "Kind, as the operator words it", "Start", "End"]}
+            <ToolTable minWidth={360} caption={`Alerts and notices, ${w.start} to ${w.end} (${alerts.length} rows)`} head={["Date", "Kind, as the operator words it", "Start", "End"]}
               rows={alerts.slice(0, 40).map((a, i) => ({ key: `${a[0]}-${i}`, cells: [<a key="d" className="underline" href={a[4]} title={src("alerts")}>{a[0]}</a>, a[1], a[2] ?? "", a[3] ?? ""] }))} />
           ) : (
             <p className="text-sm text-muted" data-none-held={`${tag}-alerts`}>None held in this window. {f.alerts.length ? `The last the file holds is of ${f.alerts.reduce((m, a) => (a[0] > m ? a[0] : m), f.alerts[0][0])}.` : "The file holds none."}</p>
@@ -204,7 +208,7 @@ export default async function ConditionsPage({ searchParams }: { searchParams: P
       <div data-conditions="1">
       <ToolHeader
         title="Grid conditions"
-        lead={<>Is the grid tight, and is it congested: demand against the day-ahead forecast, the megawatts out of service, the constraints binding, the scarcity adder and the alerts in force, each a strip on one time axis. Any day in history, or one of the nine events; two operators side by side. {" "}
+        lead={<>Is the grid tight, and is it congested: demand against the day-ahead forecast, the megawatts out of service, the constraints binding, the scarcity adder and the alerts and notices the operators list, each a strip on one time axis. Any day in history, or one of the nine events; two operators side by side. {" "}
           <Hint words="What it does not say" why="The page shows what the operators and EIA published. It makes no estimate of its own and gives no advice. A strip an operator's terms hold, or that no open source publishes, is drawn blank with the reason on hover." /></>}
         under={<p className="mt-2 text-xs text-muted" data-license-line="1">License: public. Files built {INDEX.built.slice(0, 10)}.</p>}
       />

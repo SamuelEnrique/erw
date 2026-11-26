@@ -10,7 +10,7 @@ Chain 601, part G (session 9000, 20 November 2026). Builder: `warehouse/derived/
 | Out of service | SPP, CAISO | `generation_outages_hourly` | megawatts out in the hour; a day's mean and highest hour |
 | Constraints binding | SPP, CAISO | `constraints_binding_hourly` | constraints that bound in the hour and the largest shadow price by size; a day's constraint-hours |
 | Scarcity adder | ERCOT | `ercot_rtm_price_adders` (RTORPA, the online reserve adder, hourly mean) | the adder in the hour; the day's hours above zero (June 2014 to 4 December 2025) |
-| Alerts | CAISO, ERCOT | `grid_all_alerts` | each notice with its date, its kind in the operator's words, start and end |
+| Alerts | CAISO, ERCOT | `grid_all_alerts` | a row as the operator lists it, with its date, its kind in the operator's words, start and end: one row for each notice, region and day it covers, a reissued CAISO notice listed again, and ERCOT's releases that end a notice or announce none among them, so the heading's count is of rows, not of separate notices (session 10219: the August 2020 heat wave's 79 rows are 23 notices) |
 | Reserves against the requirement | none | | blank: no operator whose terms allow it publishes this over time in the files read |
 
 ## Decisions
