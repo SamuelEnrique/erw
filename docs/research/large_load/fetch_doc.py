@@ -13,6 +13,8 @@ What it does:
 - refuses a paused publisher (warehouse/metadata/paused_sources.csv: MISO, the Virginia SCC) and a host whose terms or
   answers bar this reader (Con Edison, Eversource, Duquesne Light), with no request;
 - reads the host's robots.txt for the agent "ERW-research-reader" and for "*", and refuses a disallowed path;
+- follows a redirect only after the target passes the same checks (not barred or paused, its own host's robots file
+  allows the path), at most 5 times (session 10000); meta.json lists each redirect followed;
 - waits at least 3 seconds between two requests to the same host;
 - saves the answer in its own new folder under runs/s5300/docs/<sha1 of the URL, 16>/ (raw file, meta.json);
 - a PDF is turned into text with pdftotext twice: reading order (text.txt) and layout (layout.txt); pages are split by
@@ -134,6 +136,40 @@ CTX = _context()
 def get(url: str, timeout: int = 60):
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})
     return urllib.request.urlopen(req, timeout=timeout, context=CTX)
+
+
+class RedirectRefused(Exception):
+    """A redirect to an address this reader may not read: a barred or paused host, or a robots file that disallows it."""
+
+
+class CheckedRedirect(urllib.request.HTTPRedirectHandler):
+    """Session 10000 (chain 701): a redirect is followed only after its target passes the checks the first address
+    passed: the host is not barred or paused, and the target host's own robots file allows the path. Before, urllib
+    followed a redirect at once, so a page on another host was read before that host's robots file (chain 701, data
+    request 27: assets.senate.mn to assets.mnsenate.gov; session 2656's probe likewise). At most 5 redirects."""
+    max_redirections = 5
+
+    def __init__(self):
+        super().__init__()
+        self.followed = []
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        why = refused(host_of(newurl))
+        if why:
+            raise RedirectRefused(f"redirected ({code}) to {newurl}: {why}")
+        ok, verdict = robots_verdict(newurl)
+        if not ok:
+            raise RedirectRefused(f"redirected ({code}) to {newurl}: {verdict}")
+        self.followed.append({"to": newurl, "code": code, "robots": verdict})
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def get_checked(url: str, timeout: int = 60):
+    """A document request whose every redirect is checked first (CheckedRedirect). Returns (response, redirects)."""
+    handler = CheckedRedirect()
+    opener = urllib.request.build_opener(handler, urllib.request.HTTPSHandler(context=CTX))
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})
+    return opener.open(req, timeout=timeout), handler.followed
 
 
 def robots_verdict(url: str) -> tuple[bool, str]:
@@ -311,12 +347,15 @@ def fetch(url: str) -> dict:
     wait_host(host)
     now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
     try:
-        with get(url) as r:
+        resp, redirects = get_checked(url)
+        with resp as r:
             raw = r.read()
             final = r.geturl()
             code = r.status
             ctype = r.headers.get("Content-Type", "")
             charset = r.headers.get_content_charset()
+    except RedirectRefused as e:
+        return {"url": url, "status": "refused", "reason": str(e), "robots": verdict}
     except urllib.error.HTTPError as e:
         return {"url": url, "status": "error", "reason": f"HTTP {e.code}", "robots": verdict}
     except Exception as e:
@@ -332,6 +371,7 @@ def fetch(url: str) -> dict:
         "retrieved_at": now.isoformat().replace("+00:00", "Z"),
         "date_read": now.date().isoformat(),
         "robots": verdict,
+        "redirects": redirects,  # each followed only after its target's robots file allowed it (session 10000)
         "sha256": hashlib.sha256(raw).hexdigest(),
         "bytes": len(raw),
         "kind": "pdf" if is_pdf else "html",
