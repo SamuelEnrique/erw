@@ -36,20 +36,27 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
       </p>
       <Section title="What the email is">
         <ul className="max-w-3xl list-disc space-y-1 pl-5 text-sm">
+          {/* session 10238 (docs/reviews/small-pages-audit-2026-11-26.md, finding 2): the email of the issues in the v2 form (session
+              2703; warehouse/news/email_digest.py render: the opening number, the numbers block, three stories, the chart, the fun fact) */}
           <li>
-            <strong>Weekdays (no weekend issue):</strong> the top 5 headlines of the day&apos;s <Link href="/digest">Energy Digest</Link>, each with why it matters and a link to
-            its source, and the digest&apos;s numbers: yesterday&apos;s day-ahead average at each ISO&apos;s main hub, the highest real-time price, and
-            the latest Henry Hub, WTI and Brent closes, and a fun fact.
+            <strong>Weekdays (no weekend issue):</strong> the day&apos;s <Link href="/digest">Energy Digest</Link> in short: its opening number; its
+            numbers (a market price, a physical figure such as demand, a project, and a policy, capital or reliability figure); the first three
+            stories of what moved, each with why it matters and a link to its source; the chart of the day and a fun fact. The rest of the issue is
+            one link away on the site.
           </li>
           <li>
-            <strong>Sundays, 4 PM Pacific:</strong> the <Link href="/roundup">ERW&apos;s Roundup</Link>: the weekend&apos;s stories, the five stories of the week, the week&apos;s numbers and the chart of the week.
+            <strong>Sundays, 23:00 UTC (4 PM Pacific in summer time, 3 PM in winter):</strong> the <Link href="/roundup">ERW&apos;s Roundup</Link>: its
+            opening number, the week in five numbers, the first three stories of what mattered, the chart of the week, the week ahead and a fun fact;
+            the weekend&apos;s stories and the rest of the week are one link away on the site.
           </li>
           <li>
-            Every number comes from the warehouse and names its table, as on this site. The email links back to the site for everything else.
+            Each figure says where it came from: a warehouse table, as on this site, or, for a figure a news story reported, its outlet. The email
+            links back to the site for everything else.
           </li>
           <li>
-            <strong>Your topics:</strong> the email&apos;s top stories are the day&apos;s (or week&apos;s) highest-ranked stories in the topics you choose. The
-            numbers, the fun fact and, on Sundays, the chart of the week are always included. The <Link href="/digest">website digest</Link> stays complete.
+            <strong>Your topics:</strong> with every topic chosen, the email&apos;s stories are the first three of the issue&apos;s own; with fewer,
+            up to five of the day&apos;s (or week&apos;s) highest-ranked stories in the topics you choose. The numbers, the chart and the fun fact are
+            always included. The <Link href="/digest">website digest</Link> stays complete.
           </li>
         </ul>
       </Section>
@@ -101,16 +108,21 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
             Sign up
           </button>
         </form>
-        <p className="mt-3 max-w-3xl text-sm">Privacy: your address is used only to send the emails you chose, never shared or sold, and you can ask for it to be removed at any time.</p>
+        <p className="mt-3 max-w-3xl text-sm">Privacy: your address is used only to send the emails you chose and is never sold; it is shared with no one but Resend, the service that sends the emails (the confirmation and every issue), and you can ask for it to be removed at any time.</p>{/* session 10238, small pages audit finding 7: app/api/subscribe/route.ts and warehouse/news/email_digest.py post each address to api.resend.com */}
         <div className="mt-4 max-w-3xl space-y-2 text-xs text-muted">
           <p>
+            {/* session 10238 (docs/reviews/small-pages-audit-2026-11-26.md, finding 1): since migration 034 the site's server writes the
+                address with the service key, which can read the table; the suppression list is stored too (migration 007) */}
             What is stored: the address, which emails and topics you chose, the time it was added, and when it was confirmed or unsubscribed, in the
-            ERW&apos;s Supabase database. The public site can add an address but cannot read one back; only the warehouse&apos;s own service key can. The
-            address is used for this email only, and never shared.
+            ERW&apos;s Supabase database; an address that unsubscribes is also kept on a suppression list, so that it is never emailed again. The
+            site&apos;s server writes the address with the warehouse&apos;s service key, which can read the table and which no browser is given; no page
+            of the site reads an address back. The address is used for this email only.
           </p>
           <p>
             Double opt-in: after you sign up, a confirmation email arrives with a signed link; nothing else is sent until you follow it. Every email
-            then carries a signed unsubscribe link that works in one click (<code className="font-mono">warehouse/news/email_digest.py</code>).
+            then carries a signed unsubscribe link (<code className="font-mono">warehouse/news/email_digest.py</code>): it opens this page, and one
+            press of its button stops every email (the link alone changes nothing, so a mail scanner that follows it cannot unsubscribe you); a mail
+            program that shows its own unsubscribe button stops them in one click.{/* session 10238, small pages audit finding 6: app/api/unsubscribe/route.ts */}
           </p>
         </div>
       </Section>

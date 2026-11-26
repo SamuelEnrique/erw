@@ -266,17 +266,17 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
       </ToolSection>
 
       <ToolSection title={`What rose in the week of ${day(wk)}`} id="attention-rising"
-        note="Each sector's and state's Attention Index this week against the mean of the four weeks before (a week without a row counts as zero). Places are the counties, cities and metros the week's stories named.">
+        note="Each sector's and state's Attention Index this week against its mean over the classified weeks among the four before (a classified week without a row counts as zero; a week the classifier has not reached does not count, so an early week is set against fewer than four). Places are the counties, cities and metros the week's stories named.">
         <div className="grid gap-6 md:grid-cols-3">
           {rising.sectors.length ? (
-            <ToolTable caption="Sectors, every story" head={["Sector", "This week %", "Four weeks before %", "Change"]}
+            <ToolTable caption="Sectors, every story" head={["Sector", "This week %", "Mean before %", "Change"]}
               rows={rising.sectors.map((r) => ({ key: r.key, cells: [
                 <button key="s" type="button" className={rowButton} onClick={() => openCell(r.index, "all")} data-attention-open={`sector:${r.key}`}>{SECTOR_NAME[r.key] ?? r.key}</button>,
                 S(ATT, `attention:${r.key}:all`, "attention_index", r.this, pct(r.this)),
                 R("sector", r.key, "mean_before", r.before), R("sector", r.key, "change", r.change)] }))} minWidth={0} />
           ) : <p className="text-sm text-muted" data-attention-rising="sectors-none">No sector has a story this week.</p>}
           {rising.states.length ? (
-            <ToolTable caption="States, all energy" head={["State", "This week %", "Four weeks before %", "Change"]}
+            <ToolTable caption="States, all energy" head={["State", "This week %", "Mean before %", "Change"]}
               rows={rising.states.map((r) => ({ key: r.key, cells: [
                 <button key="s" type="button" className={rowButton} onClick={() => openCell(energyIndex, "US-" + r.key)} data-attention-open={`state:${r.key}`}>{STATES[r.key] ?? r.key}</button>,
                 S(ATT, `attention:energy:US-${r.key}`, "attention_index", r.this, pct(r.this)),
