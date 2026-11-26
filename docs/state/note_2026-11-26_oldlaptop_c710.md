@@ -51,6 +51,10 @@ Energy Research Warehouse (ERW). Chain file: `queue/done/710-night-26-november-o
 - Grid conditions (`conditions-model-audit-2026-11-26.md`): 11 findings; row 114; no screen for impossible hours (PJM peak 215,682 MW against 108,513).
 - The prices pages and map (`prices-model-audit-2026-11-26.md`): 6 findings; row 115; ERCOT load zones called hubs; SPP October "not held" though held.
 - AI's energy (`ai-energy-model-audit-2026-11-26.md`): 8 findings; row 116; 5 of 23 rows are a company's whole consumption.
+- The states page (`states-model-audit-2026-11-26.md`): 8 findings; row 117; the trade row's sign label is backwards (Virginia imports 45 TWh net, the page reads as exports).
+- The industry page (`industry-model-audit-2026-11-26.md`): 8 findings; row 118; the whole industrial sector set beside manufacturing fuel, half of it.
+- The supply page (`supply-model-audit-2026-11-26.md`): 5 findings; row 119; California's gas burn compared across a change of source (-22.8 percent against +0.8 like for like).
+- The events pages (`events-model-audit-2026-11-26.md`): 9 findings; row 120; the weather share fitted on the event days too (Uri's effect changes sign fitted on the baseline alone); the paper's columns untouched.
 - The same held-rows-in-public question gathered in the weekend page's tier 1 first item.
 
 ## What waits for Samuel, in plain words

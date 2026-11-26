@@ -1,0 +1,60 @@
+{"rows": 73, "rows_equal_to_file": 56, "cells": 511, "cells_equal_to_page": 506, "major_lng": ["eia:NGM_EPG0_ENG_YALTA-Z00_MMCF", "eia:NGM_EPG0_ENG_YCAM-Z00_MMCF", "eia:NGM_EPG0_ENG_YCCPL-Z00_MMCF", "eia:NGM_EPG0_ENG_YCPT-Z00_MMCF", "eia:NGM_EPG0_ENG_YCRP-Z00_MMCF", "eia:NGM_EPG0_ENG_YELBA-Z00_MMCF", "eia:NGM_EPG0_ENG_YFPT-Z00_MMCF", "eia:NGM_EPG0_ENG_YGPT-Z00_MMCF", "eia:NGM_EPG0_ENG_YPLAQ-Z00_MMCF", "eia:NGM_EPG0_ENG_YSPL-Z00_MMCF"]}
+== eia-coprha ['change']
+   file     change {"v": -0.7496, "avg5": 0.2866, "lo": -0.2228, "hi": 1.1043, "surprise": -1.0362, "outside": true}
+   restated change {"v": -0.7495999999999938, "avg5": 0.28655940000000013, "lo": -0.22280299999999897, "hi": 1.1041999999999987, "surprise": -1.036159399999994, "outside": true}
+== eia-ngmpbk ['year.pct']
+   file     year {"t": "2025-08-01", "v": 3.4006, "ch": 0.1895, "pct": 5.5714}
+   restated year {"t": "2025-08-01", "v": 3.4006, "ch": 0.18950000000000022, "pct": 5.572546021290368}
+== eia-ngmpef ['change']
+   file     change {"v": 0.1256, "avg5": 0.0235, "lo": -0.0721, "hi": 0.1464, "surprise": 0.1021, "outside": false}
+   restated change {"v": 0.1255999999999986, "avg5": 0.02356240000000014, "lo": -0.07200000000000006, "hi": 0.14639999999999986, "surprise": 0.10203759999999847, "outside": false}
+== eia-ngmppm ['change']
+   file     change {"v": 0.5146, "avg5": 0.4034, "lo": 0.2496, "hi": 0.563, "surprise": 0.1112, "outside": false}
+   restated change {"v": 0.5146000000000015, "avg5": 0.4033501999999999, "lo": 0.2495510000000003, "hi": 0.5628999999999991, "surprise": 0.11124980000000162, "outside": false}
+== eia-ngmpr48 ['year.pct']
+   file     year {"t": "2025-08-01", "v": 25.2577, "ch": 0.6035, "pct": 2.3892}
+   restated year {"t": "2025-08-01", "v": 25.2577, "ch": 0.6035000000000004, "pct": 2.389370370223735}
+== eia-n9133us2 ['prev', 'change']
+   file     prev {"t": "2026-07-01", "v": 16.7293, "ch": -0.1287}
+   restated prev {"t": "2026-07-01", "v": 16.7293, "ch": -0.12879999999999825}
+   file     change {"v": -0.1287, "avg5": 0.3593, "lo": -0.0607, "hi": 1.2807, "surprise": -0.488, "outside": true}
+   restated change {"v": -0.12879999999999825, "avg5": 0.3592845161290324, "lo": -0.06067741935483717, "hi": 1.2806999999999995, "surprise": -0.48808451612903064, "outside": true}
+== eia-ngm-epg0-eng-yspl-z00-mmcf ['year']
+   file     year {"t": "2025-08-01", "v": 3.8121, "ch": 0.0231, "pct": 0.605}
+   restated year {"t": "2025-08-01", "v": 3.8121, "ch": 0.02300000000000013, "pct": 0.6033419899792799}
+== eia-ngm-epg0-eng-ycrp-z00-mmcf ['change']
+   file     change {"v": -0.0962, "avg5": 0.0646, "lo": -0.0493, "hi": 0.1985, "surprise": -0.1609, "outside": true}
+   restated change {"v": -0.09620000000000006, "avg5": 0.06462645161290329, "lo": -0.04929999999999968, "hi": 0.1984999999999999, "surprise": -0.16082645161290335, "outside": true}
+== eia-ngm-epg0-eng-ycam-z00-mmcf ['year.pct', 'change']
+   file     year {"t": "2025-08-01", "v": 1.7758, "ch": 0.2805, "pct": 15.7987}
+   restated year {"t": "2025-08-01", "v": 1.7758, "ch": 0.28049999999999975, "pct": 15.795697713706485}
+   file     change {"v": 0.2746, "avg5": -0.0469, "lo": -0.3239, "hi": 0.0438, "surprise": 0.3216, "outside": true}
+   restated change {"v": 0.27459999999999973, "avg5": -0.04690064516129042, "lo": -0.3239032258064518, "hi": 0.04379999999999984, "surprise": 0.3215006451612902, "outside": true}
+== eia-ngm-epg0-eng-yfpt-z00-mmcf ['prev']
+   file     prev {"t": "2026-07-01", "v": 1.6782, "ch": -0.1802}
+   restated prev {"t": "2026-07-01", "v": 1.6782, "ch": -0.1802999999999999}
+== eia-ngm-epg0-eng-yccpl-z00-mmcf ['year.pct']
+   file     year {"t": "2025-08-01", "v": 1.384, "ch": 0.0252, "pct": 1.8227}
+   restated year {"t": "2025-08-01", "v": 1.384, "ch": 0.02520000000000011, "pct": 1.8208092485549214}
+== eia-ngm-epg0-eng-ycpt-z00-mmcf ['year.pct']
+   file     year {"t": "2025-08-01", "v": 0.7324, "ch": -0.0188, "pct": -2.5634}
+   restated year {"t": "2025-08-01", "v": 0.7324, "ch": -0.01880000000000004, "pct": -2.56690333151284}
+== eia-ngm-epg0-eng-yelba-z00-mmcf ['year.pct']
+   file     year {"t": "2025-08-01", "v": 0.2152, "ch": 0.1369, "pct": 63.6037}
+   restated year {"t": "2025-08-01", "v": 0.2152, "ch": 0.13690000000000002, "pct": 63.61524163568774}
+== erw-lng-other-points ['year.pct', 'change']
+   file     year {"t": "2025-08-01", "v": 0.0035, "ch": 0.0005, "pct": 12.7273}
+   restated year {"t": "2025-08-01", "v": 0.0035, "ch": 0.0005, "pct": 14.285714285714286}
+   file     change {"v": -0.1076, "avg5": 0.0004, "lo": -0.001, "hi": 0.0024, "surprise": -0.108, "outside": true}
+   restated change {"v": -0.1076, "avg5": 0.0003838709677419355, "lo": -0.0010999999999999998, "hi": 0.0024193548387096775, "surprise": -0.10798387096774194, "outside": true}
+== eia-n9132mx2 ['year.pct', 'change']
+   file     year {"t": "2025-08-01", "v": 7.3896, "ch": 0.3207, "pct": 4.3396}
+   restated year {"t": "2025-08-01", "v": 7.3896, "ch": 0.32070000000000043, "pct": 4.3398830789217335}
+   file     change {"v": 0.3694, "avg5": 0.0774, "lo": -0.2276, "hi": 0.5072, "surprise": 0.2919, "outside": false}
+   restated change {"v": 0.36939999999999973, "avg5": 0.07741483870967762, "lo": -0.2275999999999998, "hi": 0.5070999999999994, "surprise": 0.2919851612903221, "outside": false}
+== eia-n9102cn2 ['year.pct']
+   file     year {"t": "2025-08-01", "v": 7.6614, "ch": -0.1337, "pct": -1.7448}
+   restated year {"t": "2025-08-01", "v": 7.6614, "ch": -0.13370000000000015, "pct": -1.7451118594512771}
+== eia-n9103us2 ['year.pct']
+   file     year {"t": "2025-08-01", "v": 0.0076, "ch": 0.001, "pct": 12.7119}
+   restated year {"t": "2025-08-01", "v": 0.0076, "ch": 0.001, "pct": 13.157894736842106}
