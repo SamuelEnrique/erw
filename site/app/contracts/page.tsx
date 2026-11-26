@@ -64,7 +64,8 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
     <ToolPage>
       <ToolHeader title="Where power contracts are being struck"
         lead={<>Sellers of wholesale power file their contracts with the Federal Energy Regulatory Commission every quarter: who sells to whom, which product,
-          for how long, at what price and delivered where. This lists the contracts by the quarter they were signed. It hardly covers Texas: sales inside
+          for how long, at what price and delivered where. This lists the contracts by the quarter they were signed, all read from the newest quarter&apos;s
+          filings: an earlier quarter shows only the contracts still in effect in the newest one, not every contract signed in it. It hardly covers Texas: sales inside
           ERCOT are outside the Commission&apos;s jurisdiction. See also <SiteLink href="/deals">deals from the news</SiteLink>.</>} />
       <div className="mb-8 border-l-2 border-accent bg-paper px-4 py-3">
         <div className="mb-2 text-xs uppercase tracking-wide text-muted">Three limits of this record</div>
@@ -89,7 +90,9 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
               <nav aria-label="Quarter signed" className="mb-4 text-sm">
                 {/* session 7510: the count beside a quarter is every product's and every authority's, and says so; a quarter's link keeps the balancing authority chosen, so one region is followed quarter by quarter */}
                 <div className="mb-1 text-xs uppercase tracking-wide text-muted">Quarter signed<Tip id="contracts-quarter-rows" label="the rows beside each quarter"><span className="normal-case tracking-normal" data-quarter-rows="1">The rows beside
-                  each quarter are every product&apos;s, delivered anywhere: the count does not follow the product or the balancing authority chosen. The sentence beside the panel counts the rows of the choice.</span></Tip></div>
+                  each quarter are every product&apos;s, delivered anywhere: the count does not follow the product or the balancing authority chosen. The sentence beside the panel counts the rows of the choice.
+                  Every quarter is read from the newest quarter&apos;s filings, which hold the contracts in effect in it: a contract signed in an earlier quarter that has since
+                  ended, as most short strips have, is not here, and the newest quarter lacks the contracts its filers report a quarter late. The counts are not a series of signings.</span></Tip></div>
                 {held.slice(0, 12).map((h) => (
                   <div key={h.quarter}><Link href={href(h.quarter, product.slug, ba)} aria-current={h.quarter === quarter ? "true" : undefined} className={item(h.quarter === quarter)}>{h.quarter.replace("-", " ")}</Link>{" "}
                     <span className="text-xs text-muted">{count(h.rows)} rows</span>
