@@ -268,6 +268,9 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   // Nebraska (session 10815): ImagiNE incentives closed to data centers by the order of 21 July 2026, held as words
   const ne = D.dcRun(D.dcDefaults(P, "ne", { invest: 2000, perm: 100 }), P);
   assert.equal(ne.exemption.held, true); assert.equal(ne.exemption.eligible, false);
+  // Alabama (session 10816): local Chapter 9B abatements, granted case by case, held as words
+  const al = D.dcRun(D.dcDefaults(P, "al", { invest: 2000, perm: 100 }), P);
+  assert.equal(al.exemption.held, true); assert.equal(al.exemption.eligible, false);
   // Michigan (the Strategic Fund's guidelines, session 10815): USD 250 million and 30 jobs, purchases through 2050, certificates before 2030
   assert.equal(D.dcRun(D.dcDefaults(P, "mi", { invest: 300, perm: 29 }), P).exemption.eligible, false);
   assert.equal(D.dcRun(D.dcDefaults(P, "mi", { invest: 300, perm: 30, start: 2030 }), P).exemption.eligible, false);

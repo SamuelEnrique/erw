@@ -32,6 +32,7 @@
   "ky_dor_stf_2025": {"title": "Kentucky Department of Revenue, Sales Tax Facts, June 2025 (House Bill 775's thresholds for KRS 139.499, request 207)", "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202025%20-%20Jun.pdf", "read": "2026-11-26", "request": 208},
   "wa_jlarc_2026": {"title": "Washington Joint Legislative Audit and Review Committee, 2026 tax preference review: Data Centers in Urban Counties", "url": "https://leg.wa.gov/jlarc/taxReports/2026/data/b/report.html", "read": "2026-11-26", "request": 216},
   "in_iedc_dcste": {"title": "Indiana Economic Development Corporation, Data Center Sales Tax Exemption (Indiana Code 6-2.5-15)", "url": "https://iedc.in.gov/incentives/data-center-sales-tax-exemption", "read": "2026-11-26", "request": 106},
+  "al_dor_9b": {"title": "Alabama Department of Revenue, Chapter 9B Abatements (Code Title 40, Chapter 9B, the Tax Incentive Reform Act of 1992)", "url": "https://www.revenue.alabama.gov/tax-incentives/chapter-9b-abatements/", "read": "2026-11-26", "request": 301},
   "ar_act548_2025": {"title": "Arkansas Act 548 of 2025 (HB 1444), amending Arkansas Code 26-52-456, Data centers, approved 10 April 2025", "url": "https://arkleg.state.ar.us/Home/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2FACT548.pdf", "read": "2026-11-26", "request": 259},
   "ct_decd_dc": {"title": "Connecticut Department of Economic and Community Development, Office of Data Infrastructure Administration and Security: About (the Data Center Tax Incentive Program)", "url": "https://portal.ct.gov/DECD/Content/Business-Development/Data-Infrastructure-Administration-and-Security/Office-of-Data-Infrastructure-Administration-and-Security/About", "read": "2026-11-26", "request": 285},
   "ma_eoed_qdc": {"title": "Massachusetts Executive Office of Economic Development, Massachusetts Qualified Data Center Sales and Use Tax Exemption (with its notice of the pause)", "url": "https://www.mass.gov/info-details/massachusetts-qualified-data-center-sales-and-use-tax-exemption", "read": "2026-11-26", "request": 289},
@@ -294,6 +295,15 @@
     "cite": "wa_jlarc_2026", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
     "quote": "Be in a county with a population of 800,000 or more. This means it must be in King, Pierce, or Snohomish County.",
     "tip": "Washington: the urban exemption (RCW 82.08.9861, as the Legislature's audit committee describes it in its 2026 review) exempts computer servers and power infrastructure of a data center in a county of 800,000 people or more (King, Pierce, Snohomish) with 20,000 square feet of server space and 1.5 MW of power; it \"allowed no new exemptions after fiscal year 2028\" and expires fully on 1 July 2038. The rural exemption (RCW 82.08.986) is not read: the Legislature's statute site disallows every automated read. The tool applies no exemption."
+   }
+  },
+  "al": {
+   "name": "Alabama",
+   "sales_exemption": {
+    "cite": "al_dor_9b", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "quote": "Act 2026-573 makes updates to the requirements for data processing centers granted an abatement under Chapter 9B on or after January 1, 2027.",
+    "terms": {"cite": "al_dor_9b", "quote": "cities, counties, and public industrial authorities may grant tax abatements for new and expanding qualifying projects"},
+    "tip": "Alabama (Code Title 40, Chapter 9B, as the Department of Revenue describes it): cities, counties and public industrial authorities \"may grant\" abatements of state sales and use taxes (all but a 0.75 percent state portion) and of property taxes. For a data processing center granted one before 1 January 2027: 10 years with up to $200 million invested in 10 years, 20 years above that and below $400 million, 30 years of property tax with more than $400 million in 20 years. Act 2026-573 changes the requirements for abatements granted from 1 January 2027, which the Department has not yet described. A local grant, not a statute's rate: the tool applies none (the abatement input carries a granted property abatement)."
    }
   },
   "ar": {
