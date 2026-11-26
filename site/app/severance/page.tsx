@@ -76,8 +76,9 @@ async function CalculatorView() {
         <p className="border-l-2 border-accent pl-2 text-muted">
           <strong>An estimate for education and planning, not tax advice.</strong> Deductions such as marketing costs vary by state: they are listed, and
           computed only where the state&apos;s rule states them (Louisiana&apos;s transport charges on oil, New Mexico&apos;s royalties and trucking). New Mexico&apos;s
-          rates are the Taxation and Revenue Department&apos;s latest published table, for April to August 2026. Local taxes, county levies and
-          federal royalties are not here. <Link href="/data/methods/severance">Method</Link>.
+          rates are the Taxation and Revenue Department&apos;s latest published table, for April to August 2026. Local taxes and federal royalties
+          are not here, with one exception: New Mexico&apos;s ad valorem production tax, levied at the rate of the production unit&apos;s county district, is in
+          the total when a district is chosen. A Texas or Louisiana total here holds no local tax. <Link href="/data/methods/severance">Method</Link>.
         </p>
         <p className="mt-2">
           <strong>A whole lease?</strong> <Link href="/severance?tab=lease" prefetch={false}>The lease tool</Link> takes a CSV of every well&apos;s monthly production, computes
