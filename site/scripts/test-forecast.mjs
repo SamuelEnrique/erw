@@ -158,7 +158,7 @@ try {
   // every chart of the model's line says "ERW forecast"
   const charts = [...html.matchAll(/data-svg-chart="category"[^>]*>[\s\S]*?aria-label="([^"]*)"/g)].map((m) => m[1]);
   check(charts.length === 2 && charts.every((c) => c.startsWith("ERW forecast of demand for Texas")), `two charts, each named "ERW forecast" (${charts.length})`);
-  check(count(html, /data-series="ERW forecast"/g) === 2 && count(html, /data-band-name="Band"/g) === 2, "the ERW forecast's line and its band on both charts");
+  check(count(html, /data-series="ERW forecast"/g) === 2 && count(html, /data-band-name=""/g) === 2 && count(html, /Band of the ERW forecast/g) === 2, "the ERW forecast's line and its band on both charts, the band named in the chart's legend");
   check(count(html, /data-series="Operator&#x27;s forecast"/g) === 2, "the operator's own forecast on both charts");
   check(count(html, /data-series="What happened"/g) === 1, "what happened on the past day's chart only");
   check(t.includes("Friday 27 Nov 2026") && html.includes('data-fc-day-of="2026-11-25"'), "tomorrow is 27 November; the past day opens on the newest held, 25 November");
@@ -167,18 +167,20 @@ try {
   // the past day the ERW forecast lost: drawn as any other, the four errors side by side
   for (const [m, v] of [["erw", "500"], ["operator", "100"], ["yesterday", "300"], ["week_ago", "400"]]) check(new RegExp(`data-n="fc\\|a\\|demand\\|day\\|${m}" data-fc-day-hours="24"[^>]*>${v}<`).test(html), `25 November: ${m}'s mean absolute error is ${v} MW over 24 hours`);
   // the report card: the months and hours the ERW forecast lost are in the same table, in the file's months oldest first
-  const month = html.slice(html.indexOf('data-fc-cut="a|month"'), html.indexOf('data-fc-cut="a|hour"'));
+  const month = html.slice(html.indexOf('data-fc-cut="month"'), html.indexOf('data-fc-cut="hour"'));
   check(month.indexOf("Oct 2026") > 0 && month.indexOf("Oct 2026") < month.indexOf("Nov 2026"), "by month: October before November");
   check(/>2\.60<[\s\S]*>1\.60<[\s\S]*>1\.40<[\s\S]*>1\.80</.test(month), "by month: October (the ERW 2.60%, the operator 1.60%) and November (1.40%, 1.80%), both drawn");
   const rowClass = [...month.matchAll(/<tr class="([^"]*)">/g)].map((m) => m[1].trim());
   check(rowClass.length === 3 && new Set(rowClass.slice(1)).size === 1, "by month: the month the ERW forecast lost and the month it won are the same kind of row");
   check(!/font-semibold|bg-paper|text-up|text-down/.test(month.replace(/<h4[^>]*>/g, "")), "by month: no cell is weighted or colored by who won");
-  const hour = html.slice(html.indexOf('data-fc-cut="a|hour"'), html.indexOf('data-fc-cut="a|other"'));
+  const hour = html.slice(html.indexOf('data-fc-cut="hour"'), html.indexOf('data-fc-cut="other"'));
   check(hour.indexOf("03:00") > 0 && hour.indexOf("03:00") < hour.indexOf("17:00"), "by hour of day: 03:00 before 17:00");
-  check(html.includes('data-fc-cut="a|other"') && t.includes("The ten highest-demand days") && t.includes("Event: uri 2021") && t.includes("Every hour scored"), "the other cuts: every hour, the ten highest-demand days, the event");
+  check(html.includes('data-fc-cut="other"') && t.includes("The ten highest-demand days") && t.includes("Event: uri 2021") && t.includes("Every hour scored"), "the other cuts: every hour, the ten highest-demand days, the event");
   check(html.includes('data-check="pf|predict/scores.json|rows/0/7" data-raw="1.81"'), "a score carries its key into the score file");
   check(html.includes('data-check="pf|predict/region-tex.json|series/demand/summary/backtest/mape/erw" data-raw="1.81"'), "the backtest's figure carries its key into the place's file");
-  check(t.includes("Regression") && t.includes("Flexible model"), "every method the score file names has its column");
+  check(month.includes(">Regression<") && !month.includes(">Flexible<"), "a method the score file scores for the series has its column; one it does not score for it has none");
+  check(/title="Same hour yesterday: the same hour of the day before"[^>]*>Yesterday</.test(month), "a column's short name carries its full name and the file's words on hover");
+  check(!html.includes("data-fc-group="), "one place: no row of place names over the columns");
   // every place at once, in the index's own order, the held one as any other row
   const all = html.slice(html.indexOf("data-fc-all="));
   check(html.includes('data-fc-all="3"') && all.indexOf("Mid-Atlantic") < all.indexOf(">Texas<") && all.indexOf(">Texas<") < all.indexOf("Electric Reliability Council of Texas, Inc. (ERCO)"), "every place: the index's own order, not sorted by score");
@@ -205,6 +207,16 @@ try {
   check(count(two, /data-series="Operator&#x27;s forecast"/g) === 0 && tt.includes("not published"), "no operator's price forecast is drawn; the page says not published");
   check(/title="Operator&#x27;s forecast[^"]*not published/.test(two), "the operator's blank says why on hover");
   check(tt.includes("Price spikes"), "price: the spike hours' row");
+  const monthTwo = two.slice(two.indexOf('data-fc-cut="month"'), two.indexOf('data-fc-cut="other"'));
+  check(/data-fc-group="a">Texas</.test(monthTwo) && /data-fc-group="b">Mid-Atlantic</.test(monthTwo), "A and B: the score table names each place over its columns");
+  check(/>Flexible</.test(monthTwo) && /<td[^>]*><span[^>]*title="License needed[^"]*"[^>]*>license needed<\/span><\/td>/.test(monthTwo), "A and B: the held place is one column that says license needed, with why on hover");
+  const both = draw(FIX, { a: "region-tex", b: "ba-erco" });
+  const monthBoth = both.slice(both.indexOf('data-fc-cut="month"'), both.indexOf('data-fc-cut="hour"'));
+  check(/>2\.60<[\s\S]*>2\.08<[\s\S]*>1\.40<[\s\S]*>1\.12</.test(monthBoth), "A and B, demand: one row a month, Texas's score then ERCOT's in the same row");
+  check(count(monthBoth, /<tr /g) === 4, "A and B, demand: two header rows and one row a month");
+  // the metric follows the series unless the reader chose the other one
+  check(draw(FIX, { s: "price", m: "mape" }).includes('data-fc-metric="mape"') && draw(FIX, { s: "price", m: "mae" }).includes('data-fc-metric="mae"'), "price: percent error when asked for");
+  check(/<select name="m"[^>]*>\s*<option value="" selected="">Error in USD\/MWh \(MAE\)<\/option><option value="mape">/.test(two), "the score's list opens on the series' own metric, sent as no choice");
   const allTwo = two.slice(two.indexOf("data-fc-all="));
   check(/data-fc-all-blank="region-mida">license needed</.test(allTwo) && /data-fc-all-blank="ba-erco">too short a history</.test(allTwo), "every place, price: the held places are rows with their words");
   quiet(two, "A and B");
@@ -226,6 +238,7 @@ try {
   check(q.a === "region-tex" && q.b === null && q.s === "demand" && P.metricOf(q) === "mape" && P.hrefOf(q) === "/forecast", "the defaults and their address");
   check(P.hrefOf(q, { b: "region-mida", s: "price" }) === "/forecast?b=region-mida&s=price", "an address carries a choice");
   check(P.queryOf({ a: "region-tex", b: "region-tex" }, index).b === null, "B is never A");
+  check(P.queryOf({ s: "price", m: "mae" }, index).m === null && P.queryOf({ s: "price", m: "mape" }, index).m === "mape" && P.queryOf({ m: "mape" }, index).m === null && P.queryOf({ m: "mae" }, index).m === "mae", "a metric is kept in the address only where it is not the series' own");
   const sc = P.dayScore(P.historyOf(tex.series.price).filter((x) => x.day === "2026-11-25"));
   check(sc && sc.hours === 24 && sc.methods.join() === "erw,yesterday,week_ago" && sc.mae.erw === 5, "a day's score leaves out a method with no forecast (the operator's price) and counts the same hours for the rest");
   const short = P.historyOf(tex.series.demand).filter((x) => x.day === "2026-11-25").map((x, i) => (i < 4 ? { ...x, operator: null } : x));

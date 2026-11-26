@@ -80,11 +80,19 @@ export const METHOD_WORDS: Record<string, string> = {
   regression: "Regression", flexible: "Flexible model", with_weather_known: "With the weather known",
 };
 export const methodWords = (id: string) => METHOD_WORDS[id] ?? id.replace(/_/g, " ");
-/** The four methods the page sets side by side everywhere (the chain's list), then any other the score file names. */
+/** A method's name at the head of a table's column, where its full name is on hover. The model's keeps its two words. */
+export const METHOD_SHORT: Record<string, string> = { erw: LABEL, operator: "Operator", yesterday: "Yesterday", week_ago: "Week ago", regression: "Regression", flexible: "Flexible" };
+export const methodShort = (id: string) => METHOD_SHORT[id] ?? methodWords(id);
+/** The four methods the page sets side by side everywhere (the chain's list), then any other the score file names and
+ *  scores for the series (a method with no row at all for a series has no column there: the flexible model of price
+ *  is not a column of demand's tables). */
 export const FOUR = ["erw", "operator", "yesterday", "week_ago"] as const;
-export function methodsOf(scores: ScoresFile | null): string[] {
-  const named = (scores?.methods ?? []).map((m) => m.id);
-  return [...FOUR, ...named.filter((m) => !(FOUR as readonly string[]).includes(m))];
+export function methodsOf(scores: ScoresFile | null, series?: SeriesKey): string[] {
+  const named = (scores?.methods ?? []).map((m) => m.id).filter((m) => !(FOUR as readonly string[]).includes(m));
+  if (!scores || !series) return [...FOUR, ...named];
+  const sc = scores.rows_columns.indexOf("series"), mc = scores.rows_columns.indexOf("method");
+  const scored = new Set(scores.rows.filter((r) => r[sc] === series).map((r) => String(r[mc])));
+  return [...FOUR, ...named.filter((m) => scored.has(m))];
 }
 export const methodWhat = (scores: ScoresFile | null, id: string): string => scores?.methods.find((m) => m.id === id)?.what ?? "";
 
@@ -256,12 +264,16 @@ export function queryOf(q: Raw, index: PredictIndex | null): Query {
   const b = has(bRaw) && bRaw !== a ? (bRaw as string) : null;
   const s: SeriesKey = one(q, "s") === "price" ? "price" : "demand";
   const day = /^\d{4}-\d{2}-\d{2}$/.test(one(q, "day") ?? "") ? (one(q, "day") as string) : null;
-  const m = one(q, "m") === "mae" ? "mae" : one(q, "m") === "mape" ? "mape" : null;
+  // a metric is kept only where it differs from the series' own, so a reader who changes the series without touching
+  // the metric gets that series' own (the form sends the metric with every choice)
+  const asked = one(q, "m") === "mae" ? "mae" : one(q, "m") === "mape" ? "mape" : null;
+  const m = asked && asked !== metricDefault(s) ? asked : null;
   return { a, b, s, day, m };
 }
-/** The metric shown when the address names none: percent error for demand, error in USD/MWh for price (a percent of a
- *  price near zero is not defined: the score file's `mape_rule`). */
-export const metricOf = (q: Query): Metric => q.m ?? (q.s === "price" ? "mae" : "mape");
+/** The metric a series opens on: percent error for demand, error in USD/MWh for price (a percent of a price near zero
+ *  is not defined: the score file's `mape_rule`). */
+export const metricDefault = (s: SeriesKey): Metric => (s === "price" ? "mae" : "mape");
+export const metricOf = (q: Query): Metric => q.m ?? metricDefault(q.s);
 /** The page's address for a state, leaving out what is the default. */
 export function hrefOf(q: Query, patch: Partial<Query> = {}, hash = ""): string {
   const x = { ...q, ...patch };

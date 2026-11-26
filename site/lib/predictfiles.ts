@@ -12,13 +12,15 @@ export function predictDir(): string {
   return process.env.ERW_PREDICT_DIR ?? path.join(process.cwd(), "data", "predict");
 }
 
-/** One page file, or null while it is not on the site or cannot be read as JSON. Only a plain file name is read. */
+/** One page file, or null while it is not on the site or cannot be read as JSON. Only a plain file name is read.
+ *  The build is told not to follow these reads (they would have it carry the whole project with the route): the files
+ *  are named for it in next.config.ts (outputFileTracingIncludes, "/forecast"). */
 export function readPredict<T>(name: string): T | null {
   if (!/^[a-z0-9][a-z0-9_-]*\.json$/.test(name)) return null;
-  const at = path.join(predictDir(), name);
+  const at = path.join(/*turbopackIgnore: true*/ predictDir(), name);
   try {
-    if (!fs.existsSync(at)) return null;
-    const v = JSON.parse(fs.readFileSync(at, "utf8")) as T & { fixture?: string };
+    if (!fs.existsSync(/*turbopackIgnore: true*/ at)) return null;
+    const v = JSON.parse(fs.readFileSync(/*turbopackIgnore: true*/ at, "utf8")) as T & { fixture?: string };
     if (v && typeof v === "object" && "fixture" in v && v.fixture && !process.env.ERW_PREDICT_DIR) return null;
     return v;
   } catch {
