@@ -58,8 +58,10 @@ export const RULED_STOPS: Stop[] = [
   {
     href: "/digest", title: "The Energy Digest", seconds: 30,
     line: "The weekday brief: the day's energy news, scored and ranked, with the day's numbers from the warehouse and a chart.",
-    look: "Read \"Top of the industry\", then \"ERW's Numbers Today\".",
-    headings: ["Top of the industry", "ERW's Numbers Today"],
+    // session 10236 (audit finding 8): the page draws today's issue only, and the issues since 12 November have no "Top of
+    // the industry" ("ERW's Numbers Today" is a sub-heading of "More"); "Archive" is drawn every day
+    look: "Read today's issue; when there is none yet, open the newest the page names, or the newest under \"Archive\", and read its opening number, then its numbers.",
+    headings: ["Archive"],
   },
 ];
 
