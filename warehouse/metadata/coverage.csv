@@ -79,9 +79,9 @@ cftc_cot_positions,cftc,nymex,9,P1W,2015-01-06T00:00:00Z,2026-11-03T00:00:00Z,98
 cisos_cook_electricity_quarterly,cisos,,12,P3M,2014-01-01T00:00:00Z,2025-10-01T00:00:00Z,1049,cisos_ck:energy_statistics_tables_2025q4,2026-10-25T05:01:09Z,pass,internal,power,no,source
 clean_energy_hourly,clean,,7,PT1H,2019-01-01T05:00:00Z,2026-11-16T07:00:00Z,478164,erw:clean_energy,2026-11-16T18:00:39Z,pass,public,power;carbon,yes,derived
 clean_energy_summary,clean,,7,P1M;P1Y,2019-01-01T00:00:00Z,2026-10-01T00:00:00Z,27834,erw:clean_energy,2026-11-16T18:00:39Z,pass,public,power;carbon,yes,derived
-company_aliases,none,,25986,snapshot,2026-11-16T09:04:07Z,2026-11-16T09:04:07Z,25986,erw:companies,2026-11-16T09:04:07Z,pass,public,power;deals,no,model_extracted
-company_directory,none,,14033,snapshot,2026-11-16T09:04:07Z,2026-11-16T09:04:07Z,14033,erw:companies,2026-11-16T09:04:07Z,pass,public,power;deals,no,model_extracted
-company_links,none,,97198,snapshot,2026-11-16T09:04:07Z,2026-11-16T09:04:07Z,97198,erw:companies,2026-11-16T09:04:07Z,pass,public,power;deals,no,model_extracted
+company_aliases,none,,25990,snapshot,2026-11-26T22:05:40Z,2026-11-26T22:05:40Z,25990,erw:companies,2026-11-26T22:05:40Z,pass,public,power;deals,no,model_extracted
+company_directory,none,,14017,snapshot,2026-11-26T22:05:40Z,2026-11-26T22:05:40Z,14017,erw:companies,2026-11-26T22:05:40Z,pass,public,power;deals,no,model_extracted
+company_links,none,,97346,snapshot,2026-11-26T22:05:40Z,2026-11-26T22:05:40Z,97346,erw:companies,2026-11-26T22:05:40Z,pass,public,power;deals,no,model_extracted
 constraints_binding_hourly,constraints,caiso_dam;spp_dam,16380,PT1H,2014-03-01T06:00:00Z,2026-11-27T07:00:00Z,1810397,caiso:PRC_NOMOGRAM;spp:DA-BC,2026-11-26T20:28:49Z,pass,public,power,no,source
 constraints_binding_monthly,constraints,caiso_dam;spp_dam,16380,P1M,2014-03-01T00:00:00Z,2026-11-01T00:00:00Z,227156,erw:constraints_binding_monthly,2026-11-26T20:31:27Z,pass,public,power,yes,derived
 cosit_iraq_electricity_annual,cosit,,14,P1Y,2021-01-01T00:00:00Z,2024-01-01T00:00:00Z,56,cosit_iq:electricity_projects_2024_tables_1_3,2026-10-25T10:20:43Z,pass,internal,power,no,source

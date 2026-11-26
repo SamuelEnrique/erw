@@ -1,0 +1,18 @@
+columns: ['id', 'name', 'kind', 'segment', 'hq_state', 'states', 'grids', 'n_plants', 'plants_mw', 'owned_mw', 'planned_mw', 'n_queue', 'queue_mw', 'n_reactors', 'n_policy_actions', 'footprint_mw', 'n_links', 'aka', 'first_seen', 'last_seen']
+built 2026-11-16T09:04:33Z -> 2026-11-26T22:06:36Z
+listed 12724 -> 12708 | directory 14033 -> 14017 | held only 1309 -> 1309
+held links by table: {'datacenter_facilities': (486, 486), 'datacenter_projects': (220, 220), 'energy_deals': (958, 958), 'nyiso_interconnection_queue': (1604, 1604), 'policy_actions': (3249, 3351)}
+MW columns: ['plants_mw', 'owned_mw', 'planned_mw', 'queue_mw', 'footprint_mw']
+top 10 by footprint_mw:
+   eia-6452 Florida Power & Light Co 42934.1
+   eia-18642 Tennessee Valley Authority 40452.1
+   eia-55951 Constellation Nuclear 30026.4
+   eia-7140 Georgia Power Co 27833.2
+   eia-19876 Virginia Electric & Power Co 25081.5
+   eia-5416 Duke Energy Carolinas, LLC 24862.0
+   eia-11241 Entergy Louisiana LLC 24825.2
+   eia-49893 Invenergy Services LLC 18531.2
+   eia-195 Alabama Power Co 18341.1
+   eia-14354 PacifiCorp 17310.1
+companies whose MW moved by 1 MW or more, by column: {'plants_mw': 62, 'owned_mw': 5, 'planned_mw': 0, 'queue_mw': 38, 'footprint_mw': 105} | any: 105 | new ids: 30 | ids gone: 46
+double count fields in the index: none named so
