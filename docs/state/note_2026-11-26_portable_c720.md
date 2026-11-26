@@ -1,12 +1,13 @@
 # Chain 720, the portable laptop's first window: the ERW forecast page and the energy equities pages (note for Samuel)
 
-Energy Research Warehouse (ERW). Kept current; state at 18:16 UTC on 26 November 2026. Sessions 10400 to 10406. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10406_REPORT.md`.
+Energy Research Warehouse (ERW). Kept current; state at 18:33 UTC on 26 November 2026. Sessions 10400 to 10407. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10407_REPORT.md`.
 
 ## Where things stand
 
 - **The two new pages, the board's new group and the forecast's problem set are on production since 17:13 UTC** (landing 3 of window A's desk, `693a4a3f5`: rows 54, 55 and 56). They are in review: you see them in the internal view, a visitor sees the in-review page.
 - **Read on production at 17:30 to 17:40 UTC:** both pages and the board at 1280 and 390 px, no sideways scroll; the site's value check, 1,950 of 1,950 figures of `/forecast`, `/equities` and the problem set equal to the files; all 18 download addresses answer, a reader's address carries only the checked value, an unknown place answers 404; the problem set draws its 6 questions and 83 figures and is not in the list of sets. Against main's files on this laptop: every drawn figure of `/forecast` (69,888, all 29 places) and of `/equities` (1,092), none differing.
-- **Not yet landed:** rows 57 (the peak and the days after tomorrow) and 58 (the equities fields no file carries yet), in the desk's gate 7.
+- **Not yet landed:** rows 57 (the peak and the days after tomorrow) and 58 (the equities fields no file carries yet), in the desk's gate 7; rows 59 (the line "with the weather known"), 60 and 61 after them.
+- **The second window read both pages on production** (43 addresses of `/forecast`, 19 of `/equities` and the board, 18:25 UTC in its review). Every figure agreed with the files and the board lost nothing it had. It filed four small faults for this window, all mended (rows 57, 60 and 61): the hour a forecast was made could not be read on a phone or with the keyboard (a small "i" mark beside the place's name now opens on a tap); the hover gave two different hours with no word between them; a held price's hover said "License needed: license needed"; the first blank of `/equities` said "license needed" over a hover that began "source needed".
 - **Window B's files were rebuilt at 14:05 UTC** and landed with the pages: Texas now uses the fourth method ("regression with the recent days"), every figure moved a little, and the line "with the weather known" is now filled for all 29 places. The page on production does not draw that line yet; it is requested as row 59 (18:15 UTC).
 - **Two new pages and one new group on the price board were built, tested, seen in a build and requested for landing** in sessions 10401 and 10402.
 - **The desk held both rows back once** (13:10 UTC): its whole suite failed three tests that keep lists of the site's files (the pages the value check reads, the files that read the disk, the routes that read the address), and the new pages were in none. That was this window's miss. Both rows were mended and requested again (13:31 and 13:42 UTC, heads `bf0430170` and `7d1ffc26b`).
@@ -105,7 +106,7 @@ What is real and what is not:
 
 ## What waits on others
 
-- **Window A's desk:** landing rows 54 to 58 (each at its newest head).
+- **Window A's desk:** landing rows 57 to 61 (each at its newest head; 54 to 56 landed at 17:13 UTC).
 - **Window B:** nothing asked. Its files of 14:05 UTC hold the fourth method (on production its name reads "regression recent" until row 57 lands with its words) and the line "with the weather known" for all 29 places, which the page does not draw yet.
 - **Window A:** data requests 571 to 574 in `docs/state/data_requests_done_line.md` (the list's last close and changes; the board rows' other cells; the board's older row; what the built files carry beyond the contract's text). And the two rulings its own work waits on: the SEC's contact string and a price source.
 - **Window B:** nothing asked. Its contract and files were enough.
