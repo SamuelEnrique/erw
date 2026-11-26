@@ -56,8 +56,10 @@ export const DEFAULT_SETTINGS: Settings = { kwh: SETTINGS.kwh.def, kw: SETTINGS.
 
 export const DIFFICULTIES: Record<Difficulty, { label: string; forecastHours: number; reserve: boolean; degradation: boolean; emergency: boolean; addons: boolean; what: string }> = {
   easy: { label: "Easy", forecastHours: 24, reserve: false, degradation: false, emergency: false, addons: false, what: "the whole day's real prices show ahead of time as a forecast; no reserve, no wear, no emergency" },
-  normal: { label: "Normal", forecastHours: 0, reserve: false, degradation: false, emergency: false, addons: false, what: "no forecast, no reserve, no degradation cost" },
-  hard: { label: "Hard", forecastHours: 0, reserve: true, degradation: true, emergency: true, addons: true, what: "no forecast; the backup reserve is enforced, each kWh discharged costs the degradation cost, and a grid emergency strikes: the price spikes toward the cap, then a two-hour outage runs the house on the battery" },
+  normal: { label: "Normal", forecastHours: 0, reserve: false, degradation: false, emergency: false, addons: false, what: "no forecast, except that the fleet call's notice names the day's dearest hour 15 minutes before it begins; no reserve, no degradation cost" },
+  // session 10227 (the play audit's finding 6): Normal and Hard said "no forecast", yet the fleet call's notice tells the
+  // player, 15 minutes ahead, that the next hour is the day's dearest (vppHour reads the whole day); the words say so
+  hard: { label: "Hard", forecastHours: 0, reserve: true, degradation: true, emergency: true, addons: true, what: "no forecast, except the same notice of the day's dearest hour; the backup reserve is enforced, each kWh discharged costs the degradation cost, and a grid emergency strikes: the price spikes toward the cap, then a two-hour outage runs the house on the battery" },
 };
 
 /** Session 63: the money a play starts with, USD (a game rule). Below $0 the game ends. */
