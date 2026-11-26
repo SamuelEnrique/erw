@@ -41,6 +41,12 @@ const BAS = [
 // session 34: CAISO's own data, not EIA-930's
 const CAISO = { code: "ciso", entity: "caiso:ISO", label: "CAISO", tz: "Pacific", color: "var(--color-fuel-solar)" };
 const ISOS = ["CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "PJM", "SPP"];
+// Session 10212 (docs/reviews/storage-model-audit-2026-11-26.md, finding 2): the daily cycle's EIA-930 rows are written
+// only for a local day that ended at least 48 hours before the area's newest hour (warehouse/derived/storage_daily_cycle.py,
+// SETTLE_HOURS, session 7050), so the newest complete days are held back; CAISO's rows have no such wait. The hourly
+// charts draw those newest hours as EIA first posted them.
+const SETTLE_WORDS = "The EIA-930 rows show a day only once it ended at least 48 hours before EIA's newest hour, because EIA posts its newest hours early and fills them in later: the newest one or two complete days wait. CAISO's row has no such wait, so its day can be newer.";
+const NEWEST_WORDS = " These are EIA's newest hours, which it may still revise; the daily cycle below waits 48 hours for them.";
 const BUILD = ["under_construction", "planned"];
 
 function Tier({ tier }: { tier: "derived" | "source" }) {
@@ -223,7 +229,7 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
       <table className="w-full min-w-[640px] text-sm tabular-nums">
         <thead>
           <tr className="border-b border-rule text-left text-[11px] text-muted">
-            <th className="py-0.5 font-normal">Balancing authority, latest complete local day</th>
+            <th className="py-0.5 font-normal" data-day-head="1">Balancing authority, newest local day shown</th>
             <th className="pr-2 text-right font-normal" title={DISCHARGED_TITLE} data-discharged-title="1">Discharged MWh</th>
             <th className="pr-2 text-right font-normal">Charged MWh</th>
             <th className="pr-2 text-right font-normal">Out over in</th>
@@ -264,6 +270,7 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
         Out over in is the day&apos;s energy discharged over energy charged as reported, not a measured efficiency: charge
         carried across midnight moves it. Hours are local, the hour&apos;s start.
       </p>
+      <p className="mt-1 text-[11px] text-muted" data-settle-note="1">{SETTLE_WORDS}</p>
     </div>
   );
 }
@@ -340,7 +347,7 @@ async function FleetView() {
       ) : null}
 
       <ChartFrame title="The last 24 hours, by grid, MW"
-        note={<>EIA-930 net generation of battery storage: above zero the batteries are discharging, below zero charging. UTC hours{newest ? `, the 24 hours to ${new Date(newest).toISOString().slice(0, 16).replace("T", " ")} UTC, the newest EIA has published for every hour of its day` : ""}. The CAISO line is CAISO&apos;s own data (Today&apos;s Outlook, Total batteries), not EIA-930&apos;s. NYISO and PJM report no battery series.</>}>
+        note={<>EIA-930 net generation of battery storage: above zero the batteries are discharging, below zero charging. UTC hours{newest ? `, the 24 hours to ${new Date(newest).toISOString().slice(0, 16).replace("T", " ")} UTC, the newest EIA has published for every hour of its day` : ""}.{NEWEST_WORDS} The CAISO line is CAISO&apos;s own data (Today&apos;s Outlook, Total batteries), not EIA-930&apos;s. NYISO and PJM report no battery series.</>}>
         {last24}
       </ChartFrame>
 
