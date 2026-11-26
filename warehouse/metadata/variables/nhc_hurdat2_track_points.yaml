@@ -180,8 +180,10 @@ columns:
   source_name: null
   documented_by: header; method nhc_hurdat2_track_points.md
 - name: x_record
-  label: 'The file''s record identifier: L a landfall, I an intensity peak, P a minimum pressure, others as the file writes
-    them'
+  label: 'The file''s record identifier: C closest approach to a coast, not followed by a landfall; G genesis; I an intensity
+    peak in both pressure and wind; L a landfall (the center crossing a coastline); P a minimum in central pressure; R more
+    detail on the intensity while it changes rapidly; S a change of status; T more detail on the track; W the maximum sustained
+    wind speed'
   unit: none
   type: text
   values:
@@ -198,7 +200,7 @@ columns:
   missing_cells: 27230
   missing_meaning: The fix carries no record identifier
   source_name: null
-  documented_by: connector nhc_hurdat2.py; method nhc_hurdat2_track_points.md
+  documented_by: source NHC, HURDAT2 format description (www.nhc.noaa.gov/data/hurdat/hurdat2-format-atlantic.pdf, robots disallows nothing), read 2026-11-26
 - name: x_landfall
   label: 1 where x_record is L (a landfall), else 0
   unit: none
@@ -276,7 +278,4 @@ columns:
       '2026-09-30T18:37:36Z': 13836
       '2026-09-30T18:37:37Z': 13976
   missing_cells: 0
-second_look:
-- 'x_record: the record identifiers C, G, R, S, T and W are not defined in the connector or the method note (L, I and P are).
-  Read again on 20 November 2026 in the connector and the two saved HURDAT2 text files under warehouse/raw/nhc_hurdat2 (data
-  lines only, no format description): not found.'
+second_look: null

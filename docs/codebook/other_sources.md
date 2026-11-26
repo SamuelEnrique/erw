@@ -2799,7 +2799,7 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 | `x_storm_name` | The storm's name as the file writes it (UNNAMED for some) | none | text | for example ADOLPH, ADRIAN, AGATHA; 341 distinct | 0 |
 | `x_basin` | The basin: atlantic or pacific | none | text | atlantic, pacific | 0 |
 | `x_time_utc` | The fix's UTC time, HHMM (0000, 0600, 1200, 1800, or another hour for a record the file marks) | none | integer | 0 to 2330; 126 distinct | 0 |
-| `x_record` | The file's record identifier: L a landfall, I an intensity peak, P a minimum pressure, others as the file writes them | none | text | C, G, I, L, P, R, S, T, W | 27230: The fix carries no record identifier |
+| `x_record` | The file's record identifier: C closest approach to a coast, not followed by a landfall; G genesis; I an intensity peak in both pressure and wind; L a landfall (the center crossing a coastline); P a minimum in central pressure; R more detail on the intensity while it changes rapidly; S a change of status; T more detail on the track; W the maximum sustained wind speed | none | text | C, G, I, L, P, R, S, T, W | 27230: The fix carries no record identifier |
 | `x_landfall` | 1 where x_record is L (a landfall), else 0 | none | integer | 0, 1 | 0 |
 | `x_lat` | The fix's latitude, decimal degrees, north positive | degree | number | 0.4 to 70.7; 585 distinct | 0 |
 | `x_lon` | The fix's longitude, decimal degrees, east positive | degree | number | -180.0 to 179.9; 1923 distinct | 0 |
@@ -2807,8 +2807,6 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 | `x_min_pressure_mb` | The minimum central pressure | mb | integer | 872 to 1024; 129 distinct | 41: The file writes -999 (no pressure given) |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T20:09:44Z, 2026-10-23T20:09:46Z | 0 |
 | `vintage` | When the publisher published the document the value came from, in UTC. Here: The basin file's Last-Modified (UTC) | none | utc time | 2026-09-30T18:37:36Z, 2026-09-30T18:37:37Z | 0 |
-
-Waiting for a second look: x_record: the record identifiers C, G, R, S, T and W are not defined in the connector or the method note (L, I and P are). Read again on 20 November 2026 in the connector and the two saved HURDAT2 text files under warehouse/raw/nhc_hurdat2 (data lines only, no format description): not found..
 
 ### `nlr_atb_electricity_costs`
 
