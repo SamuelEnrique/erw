@@ -229,3 +229,37 @@ The last two years with the four candidates (built 26 November 2026 at 14:05 UTC
 The ERW's error falls in every place where the new candidate is chosen (TEX from 5.22 to 4.91 percent, SE from 6.81 to 6.37, MIDA from 5.19 to 4.76, NE from 7.99 to 7.57), but the operator still wins in the same 21 places and the ERW in the same 8.
 
 Session 10601, after section 14: each horizon of `ahead.json` now uses the better of the regression and `regression_recent` by the same rule (lower mean absolute error over the last two years). `regression_recent` is chosen at 91 of 145 place-horizons; its advantage shrinks with the horizon (TEX: 3,417 against 3,464 MW at h = 3, 4,087 against 4,095 at h = 7), as the most recent hour read lies further from the day forecast. All 145 still beat the week-ago hour.
+
+## 15. The cross-check: ERCOT's own figure beside the backtest (session 10601)
+
+ERCOT prints a chart of its Mid-Term Load Forecast's monthly mean absolute percent error, including the day-ahead (RUC) forecast, on www.ercot.com/gridinfo/load/forecast (robots: `/gridinfo/` is not disallowed). The chart is an image, `www.ercot.com/files/assets/2026/11/05/load-backcast.png` (the page's file names are swapped: the file named for the MAPE chart, `load-mtlf-mape.png`, shows the backcast), fetched once on 26 November 2026. Its monthly values were read off the image to about 0.05 point (`runs/c730/crosscheck_ercot.py` holds the readings). Beside them, the backtest's monthly error of ERCOT's forecast as filed on Form EIA-930 (ba-erco, cut `month` of `scores.json`), on the hours the backtest scores:
+
+| Month | ERCOT's chart, day-ahead RUC MAPE % (read off the image) | Operator's forecast as filed on EIA-930, MAPE % (backtest) | ERW forecast, MAPE % | Hours |
+|---|---:|---:|---:|---:|
+| 2024-10 | 1.55 | 1.51 | 5.32 | 744 |
+| 2024-11 | 2.05 | 2.13 | 4.77 | 721 |
+| 2024-12 | 1.82 | 1.81 | 4.13 | 744 |
+| 2025-01 | 2.89 | 3.14 | 8.05 | 744 |
+| 2025-02 | 2.72 | 3.17 | 7.48 | 672 |
+| 2025-03 | 1.97 | 2.19 | 4.52 | 741 |
+| 2025-04 | 2.06 | 2.14 | 4.54 | 720 |
+| 2025-05 | 2.72 | 2.58 | 5.65 | 744 |
+| 2025-06 | 2.42 | 2.25 | 4.72 | 720 |
+| 2025-07 | 2.25 | 2.23 | 3.08 | 744 |
+| 2025-08 | 2.13 | 2.15 | 3.10 | 744 |
+| 2025-09 | 1.78 | 1.99 | 4.61 | 720 |
+| 2025-10 | 1.72 | 2.45 | 5.16 | 744 |
+| 2025-11 | 2.17 | 2.52 | 4.17 | 721 |
+| 2025-12 | 2.21 | 2.56 | 5.91 | 600 |
+| 2026-01 | 2.70 | 2.70 | 6.58 | 744 |
+| 2026-02 | 1.50 | 1.46 | 4.49 | 672 |
+| 2026-03 | 1.77 | 1.76 | 5.85 | 741 |
+| 2026-04 | 1.60 | 1.60 | 5.88 | 720 |
+| 2026-05 | 2.48 | 2.48 | 6.05 | 744 |
+| 2026-06 | 1.85 | 1.86 | 4.53 | 720 |
+| 2026-07 | 1.49 | 1.50 | 3.51 | 744 |
+| 2026-08 | 1.46 | 1.44 | 3.59 | 744 |
+| 2026-09 | 1.33 | 1.34 | 4.29 | 720 |
+| 2026-10 | 1.51 | 1.51 | 4.75 | 744 |
+
+What it says: from February 2026 the two agree to 0.02 point every month, so the operator series the ERW scores itself against is, in those months, the forecast ERCOT grades itself on. Before, the EIA-930 filing scores up to 0.73 point worse (October 2025: 2.45 against 1.72; January and February 2025, October to December 2025), which can come from the filing being a different vintage of the forecast or from a different demand basis; the backtest does not say which. Over the 25 months the chart averages 2.01 percent and the filings 2.10. The ERW's forecast is beside them for scale. A second place (CAISO: its market monitor's 2024 annual report prints no such figure; SPP: none found) is not yet read.
