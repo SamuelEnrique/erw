@@ -1,0 +1,13 @@
+asked.txt: 0 only in main, 0 only in b2
+battery_easy.txt: 0 only in main, 2 only in b2
+   + The battery starts half full at no cost, and whatever is left in it when the day ends counts for nothing, so selling the starting charge counts as earnings:
+   + on the calm spring day it is nearly a third of the perfect battery's score.
+battery_hard.txt: 0 only in main, 2 only in b2
+   + The battery starts half full at no cost, and whatever is left in it when the day ends counts for nothing, so selling the starting charge counts as earnings:
+   + on the calm spring day it is nearly a third of the perfect battery's score.
+battery_normal.txt: 0 only in main, 2 only in b2
+   + The battery starts half full at no cost, and whatever is left in it when the day ends counts for nothing, so selling the starting charge counts as earnings:
+   + on the calm spring day it is nearly a third of the perfect battery's score.
+endtable_hard.txt: 0 only in main, 0 only in b2
+endtable_normal.txt: 0 only in main, 0 only in b2
+ev.txt: 0 only in main, 0 only in b2

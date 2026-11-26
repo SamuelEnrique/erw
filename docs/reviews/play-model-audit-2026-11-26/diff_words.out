@@ -1,0 +1,76 @@
+asked.txt: 0 only in main, 0 only in words
+battery_easy.txt: 5 only in main, 14 only in words
+   - no forecast, no reserve, no degradation cost.
+   - no forecast;
+   - Posting one stores the level, your nickname if you give one, your score, the perfect-foresight score and the time;
+   - Each finished game also stores its moves (one per fifteen minutes) and its score with a random id, for later research on how people run batteries:
+   - never shown, with no nickname or IP address, and nothing that joins it to a leaderboard row.
+   + No household buys or sells at these wholesale prices.
+   + A home pays its retail rate for the power it takes, which carries delivery and other charges the wholesale price does not, and is paid for the power it sends back whatever its retailer or aggregator offers.
+   + Charged at the average price Texas homes paid that month (EIA) and made to end the day as full as it began, the perfect battery of the calm spring day would earn nothing.
+   + no forecast, except that the fleet call's notice names the day's dearest hour 15 minutes before it begins;
+   + no reserve, no degradation cost.
+   + no forecast, except the same notice of the day's dearest hour;
+   + The battery starts half full at no cost, and whatever is left in it when the day ends counts for nothing, so selling the starting charge counts as earnings:
+   + on Normal, on the calm spring day, it is nearly a third of the perfect battery's score.
+   + Posting one stores the level, your nickname if you give one, your score, the perfect-foresight score, the mode and battery settings it was played under, and the time;
+   + Each finished game also stores, with a random id, its moves (one per fifteen minutes), its score, the level, the mode and battery settings and the time, for later research on how people run batteries:
+   + never shown, with no nickname or IP address.
+   + If you also post the score, the two records share the level, the score, the settings and a time seconds apart, so they could be matched to each other;
+   + no column joins them.
+   + As on the site's other pages, the page view and the fact that a setting was changed (never its value) are counted for the day under a code that changes every day, and the limit of 30 game requests an hour is counted under a daily code made from your address, never the address itself.
+battery_hard.txt: 5 only in main, 14 only in words
+   - no forecast, no reserve, no degradation cost.
+   - no forecast;
+   - Posting one stores the level, your nickname if you give one, your score, the perfect-foresight score and the time;
+   - Each finished game also stores its moves (one per fifteen minutes) and its score with a random id, for later research on how people run batteries:
+   - never shown, with no nickname or IP address, and nothing that joins it to a leaderboard row.
+   + No household buys or sells at these wholesale prices.
+   + A home pays its retail rate for the power it takes, which carries delivery and other charges the wholesale price does not, and is paid for the power it sends back whatever its retailer or aggregator offers.
+   + Charged at the average price Texas homes paid that month (EIA) and made to end the day as full as it began, the perfect battery of the calm spring day would earn nothing.
+   + no forecast, except that the fleet call's notice names the day's dearest hour 15 minutes before it begins;
+   + no reserve, no degradation cost.
+   + no forecast, except the same notice of the day's dearest hour;
+   + The battery starts half full at no cost, and whatever is left in it when the day ends counts for nothing, so selling the starting charge counts as earnings:
+   + on Normal, on the calm spring day, it is nearly a third of the perfect battery's score.
+   + Posting one stores the level, your nickname if you give one, your score, the perfect-foresight score, the mode and battery settings it was played under, and the time;
+   + Each finished game also stores, with a random id, its moves (one per fifteen minutes), its score, the level, the mode and battery settings and the time, for later research on how people run batteries:
+   + never shown, with no nickname or IP address.
+   + If you also post the score, the two records share the level, the score, the settings and a time seconds apart, so they could be matched to each other;
+   + no column joins them.
+   + As on the site's other pages, the page view and the fact that a setting was changed (never its value) are counted for the day under a code that changes every day, and the limit of 30 game requests an hour is counted under a daily code made from your address, never the address itself.
+battery_normal.txt: 5 only in main, 14 only in words
+   - no forecast, no reserve, no degradation cost.
+   - no forecast;
+   - Posting one stores the level, your nickname if you give one, your score, the perfect-foresight score and the time;
+   - Each finished game also stores its moves (one per fifteen minutes) and its score with a random id, for later research on how people run batteries:
+   - never shown, with no nickname or IP address, and nothing that joins it to a leaderboard row.
+   + No household buys or sells at these wholesale prices.
+   + A home pays its retail rate for the power it takes, which carries delivery and other charges the wholesale price does not, and is paid for the power it sends back whatever its retailer or aggregator offers.
+   + Charged at the average price Texas homes paid that month (EIA) and made to end the day as full as it began, the perfect battery of the calm spring day would earn nothing.
+   + no forecast, except that the fleet call's notice names the day's dearest hour 15 minutes before it begins;
+   + no reserve, no degradation cost.
+   + no forecast, except the same notice of the day's dearest hour;
+   + The battery starts half full at no cost, and whatever is left in it when the day ends counts for nothing, so selling the starting charge counts as earnings:
+   + on Normal, on the calm spring day, it is nearly a third of the perfect battery's score.
+   + Posting one stores the level, your nickname if you give one, your score, the perfect-foresight score, the mode and battery settings it was played under, and the time;
+   + Each finished game also stores, with a random id, its moves (one per fifteen minutes), its score, the level, the mode and battery settings and the time, for later research on how people run batteries:
+   + never shown, with no nickname or IP address.
+   + If you also post the score, the two records share the level, the score, the settings and a time seconds apart, so they could be matched to each other;
+   + no column joins them.
+   + As on the site's other pages, the page view and the fact that a setting was changed (never its value) are counted for the day under a code that changes every day, and the limit of 30 game requests an hour is counted under a daily code made from your address, never the address itself.
+endtable_hard.txt: 4 only in main, 4 only in words
+   - the perfect battery bought at an average of 182.94 and sold at 2,532.31 USD per MWh, 2,349.37 apart, and loses 10 percent of the energy on the round trip, plus $0.11 of wear on each kWh it sells.
+   - Your play, scored by the game's own model (lib/battery.ts, simulate) under the rules of this mode, on the day's real prices.
+   - The same battery with every price of the day known in advance:
+   - not a real battery's earnings.
+   + the perfect battery bought at an average of 182.94 and sold at 2,532.31 USD per MWh, 2,349.37 apart, and loses 10 percent of the energy on the round trip, plus $0.11 of wear on each kWh taken out of it.
+   + Your play, scored by the game's own model (lib/battery.ts, simulate) under the rules of this mode, on the day's real prices, except the emergency hour, traded at the game's prices.
+   + The same battery with every price of the day known in advance, held to the game's three moves (charge at full power, sell at full power, or hold):
+   + a battery free to run at part power could earn a little more.
+endtable_normal.txt: 2 only in main, 2 only in words
+   - The same battery with every price of the day known in advance:
+   - not a real battery's earnings.
+   + The same battery with every price of the day known in advance, held to the game's three moves (charge at full power, sell at full power, or hold):
+   + a battery free to run at part power could earn a little more.
+ev.txt: 0 only in main, 0 only in words
