@@ -44,7 +44,8 @@
    "published_range_musd": "10.8 to 0.4 (by county)",
    "model_at_cost_musd": 31.13,
    "loudoun_schedule_2026_musd": 9.96,
-   "model_over_loudoun": 3.13
+   "model_over_loudoun": 3.13,
+   "model_with_loudoun_schedule_typed_musd": 9.96
   }
  ]
 }

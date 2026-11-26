@@ -23,6 +23,8 @@
   "ut_59_12_104": {"title": "Utah Code 59-12-104(84), Exemptions (version effective 1 January 2026)", "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S104_2026010120251206.html", "read": "2026-11-26", "request": 181},
   "mt_15_6_162": {"title": "Montana Code Annotated 15-6-162, Class seventeen property", "url": "https://mca.legmt.gov/bills/mca/title_0150/chapter_0060/part_0010/section_0620/0150-0060-0010-0620.html", "read": "2026-11-26", "request": 182},
   "ks_74_50_332": {"title": "Kansas Statutes 74-50,332, exemption for costs and services used for the construction and operation of a qualified data center (with 79-3606(xxxx), request 159)", "url": "https://www.ksrevisor.gov/statutes/chapters/ch74/074_050_0332.html", "read": "2026-11-26", "request": 191},
+  "ga_cvi_2025": {"title": "Carl Vinson Institute of Government for the Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption, full report (December 2025), Tables 3 and 4 (IMPLAN 2023)", "url": "https://open.ga.gov/openga/report/downloadFile?rid=33298", "read": "2026-11-26", "request": 199},
+  "ms_governor_xai": {"title": "Office of Governor Tate Reeves, Tech leader xAI investing more than $20 billion in Southaven (8 January 2026)", "url": "https://governorreeves.ms.gov/tech-leader-xai-investing-more-than-20-billion-in-southaven/", "read": "2026-11-26", "request": 89},
   "ga_doaa_2025": {"title": "Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption (December 2025, revised January 2026), with the Department of Revenue's exemption page (request 187)", "url": "https://www.audits2.ga.gov/wp-content/uploads/2025/12/Data-Center-Tax-Exemption-Summary-Revised.pdf", "read": "2026-11-26", "request": 188}
  },
  "split": {
@@ -46,6 +48,20 @@
   "words": "A choice of horizon, not a sourced life: no public document read states a datacenter's operating life. 20 years is the initial term of Louisiana's exemption agreement (R.S. 47:305.73(B)(3)(b)). The reader sets the horizon."
  },
  "multipliers": {
+  "ga": {
+   "cite": "ga_cvi_2025",
+   "words": "Georgia only: the Carl Vinson Institute of Government's IMPLAN analysis (2023 data) for the state auditor's evaluation of the data center exemption, statewide, 2025: Table 3, the economic impact of USD 3.3 billion of direct construction output; Table 4, of USD 715 million of direct operations output (1,873 permanent jobs). The tool applies its ratios of indirect and induced to direct jobs and labor income to the reader's on-site jobs and earnings. Its construction is \"the building shell and its accompanying equipment\", servers adjusted for leakage.",
+   "construction": {
+    "direct": {"jobs": 15809, "earnings_musd": 1231.869099, "quote": "Direct 15,809 $1,231,869,099 $1,711,951,079 $3,327,831,038"},
+    "indirect": {"jobs": 4954, "earnings_musd": 412.242265, "quote": "Indirect 4,954 $412,242,265 $746,365,809 $1,438,728,686"},
+    "induced": {"jobs": 7587, "earnings_musd": 444.499037, "quote": "Induced 7,587 $444,499,037 $893,176,707 $1,457,284,887"}
+   },
+   "operations": {
+    "direct": {"jobs": 1873, "earnings_musd": 262.314298, "quote": "Direct 1,873 $262,314,298 $392,407,516 $714,985,059"},
+    "indirect": {"jobs": 1815, "earnings_musd": 125.838075, "quote": "Indirect 1,815 $125,838,075 $220,972,405 $387,049,638"},
+    "induced": {"jobs": 1783, "earnings_musd": 104.443068, "quote": "Induced 1,783 $104,443,068 $209,967,071 $342,537,826"}
+   }
+  },
   "va": {
    "cite": "jlarc_598",
    "words": "Virginia only: the Weldon Cooper Center's IMPLAN analysis for JLARC (2022 IMPLAN data, the data center sector customized: electricity 40 percent of operating spending, labor 15 percent), statewide annual averages of fiscal years 2021 to 2023 (Appendix D, Tables D-3 and D-5). The tool applies its ratios of indirect and induced to direct jobs and earnings to the reader's on-site jobs and earnings. JLARC's direct construction jobs include about 7,000 IT workers making and installing equipment beside 28,000 construction workers; its direct operating jobs are half of what datacenters reported to VEDP (the other half are contractors, counted as indirect).",
@@ -219,6 +235,14 @@
     "cite": "ga_doaa_2025", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
     "quote": "exempting a portion of construction materials and purchases of computer servers and related equipment from state and local sales and use taxes",
     "tip": "Georgia (Code 48-8-3(68.1)): high-technology data center equipment, and a portion of construction materials, are exempt from state and local sales tax where the data center meets investment and New Quality Jobs thresholds that rise with the county's population (the Department of Revenue's page; the state auditor's evaluation, December 2025, revised January 2026, estimates USD 474.2 million of state revenue forgone in FY2025). Georgia's code is published through LexisNexis and its thresholds were not read: the tool applies no exemption."
+   }
+  },
+  "ms": {
+   "name": "Mississippi",
+   "sales_exemption": {
+    "cite": "ms_governor_xai", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "quote": "The Mississippi Development Authority has approved xAI for its Data Center Incentive, which provides a sales and use tax exemption for all computing and equipment software used by companies certified as data centers by the agency.",
+    "tip": "Mississippi: the Mississippi Development Authority's Data Center Incentive \"provides a sales and use tax exemption for all computing and equipment software used by companies certified as data centers by the agency\" (the governor's release on xAI, 8 January 2026). The statute's thresholds (Code 57-113-21) are not read from an official text: the tool applies no exemption. Counties and cities also agree fees in lieu of property tax (the abatement input)."
    }
   },
   "ia": {

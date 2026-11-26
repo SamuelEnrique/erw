@@ -266,8 +266,8 @@ const DC_FIGURE: Record<string, string | null> = { cjobs: "c:jobs:total", ojobs:
   cout: null, oout: null, prop1: "y1:property", propl: "sum:property", sales: "sum:sales", income: "sum:income", sev: null, pvtax: "pv:taxes", pvearn: "pv:earnings" };
 /** The words added to a plant line's hover when a scenario is a datacenter */
 const DC_TIP: Record<string, string> = {
-  cjobs: "For a datacenter: the construction workers on site each construction year times the years (an announced peak held in every year, an upper reading), and in Virginia JLARC's supply chain and induced ratios; elsewhere on site only.",
-  ojobs: "For a datacenter: the permanent jobs on site, and in Virginia JLARC's supply chain and induced ratios; elsewhere on site only.",
+  cjobs: "For a datacenter: the construction workers on site each construction year times the years (an announced peak held in every year, an upper reading), and in Virginia and Georgia the supply chain and induced ratios of the state's own published study (JLARC, 2024; the Carl Vinson Institute for the state auditor, 2025); elsewhere on site only.",
+  ojobs: "For a datacenter: the permanent jobs on site, and in Virginia and Georgia the supply chain and induced ratios of the state's own published study (JLARC, 2024; the Carl Vinson Institute for the state auditor, 2025); elsewhere on site only.",
   cearn: "For a datacenter: the construction workers times Census CBP's payroll per job of nonresidential building and specialty trades in the state.",
   oearn: "For a datacenter: the permanent jobs times Census CBP's payroll per job of NAICS 518210 in the state.",
   cout: "Not computed for a datacenter: no public model gives its output.", oout: "Not computed for a datacenter.",

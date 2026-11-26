@@ -130,7 +130,9 @@ def run(x):
         br = prop["building_ratio"] if prop else 1.0
         er = prop["equipment_ratio"] if prop else 1.0
         pb = None if x["brate"] is None else building * keep * br * x["brate"] / 100 * cut
-        pe = None if x["erate"] is None else equipment * er * x["erate"] / 100 * cut
+        age = i % x["refresh"] if x["refresh"] > 0 else i  # 13.1: the equipment's age restarts when it is bought again
+        eqval = equipment * max(x["eqfloor"], x["eqv1"] - x["eqstep"] * age) / 100
+        pe = None if x["erate"] is None else eqval * er * x["erate"] / 100 * cut
         years.append({"year": y, "phase": "operations", "jobs": oj, "earnings": oe,
                       "property": pb + pe if pb is not None and pe is not None else None, "propb": pb, "prope": pe,
                       "salesbefore": sb, "forgone": fg, "sales": sb - fg, "income": oj * income_tax(st, oe / oj) if oj > 0 else 0.0, "elec": elec})

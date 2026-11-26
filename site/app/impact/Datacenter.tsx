@@ -154,7 +154,7 @@ export function DcYears({ x, r, view }: { x: DcInputs; r: DcResult; view: View }
               { name: "Induced", color: "var(--color-muted)", values: val((i) => r.years[i].jobs.induced) }] : []),
           ]}
           says={jobsSays}
-          tip={<Tip id={`jobs-${view}`} label="jobs by year">{r.chain.held ? "On site, and in the supply chain and induced by JLARC's published Virginia ratios." : "On site only: no public multiplier for datacenters is held for this state, so the supply chain and induced jobs are not drawn (BEA sells them)."} Construction years hold the construction workers on site; operating years the permanent jobs.</Tip>} />
+          tip={<Tip id={`jobs-${view}`} label="jobs by year">{r.chain.held ? "On site, and in the supply chain and induced by the ratios of the state's own published study (Virginia: JLARC, 2024; Georgia: the Carl Vinson Institute for the state auditor, 2025)." : "On site only: no public multiplier for datacenters is held for this state, so the supply chain and induced jobs are not drawn (BEA sells them)."} Construction years hold the construction workers on site; operating years the permanent jobs.</Tip>} />
         <details className="border-t border-rule" open={open} onToggle={(e) => setOpen((e.target as HTMLDetailsElement).open)} data-year-table={view}>
           <summary className="cursor-pointer py-2 text-sm font-semibold">Every year</summary>
           <div className="overflow-x-auto">

@@ -212,6 +212,31 @@ test("Kansas (74-50,332): USD 250 million and 20 jobs, equipment and building; G
   assert.equal(ga.exemption.held, true); assert.equal(ga.exemption.eligible, false); near(ga.sums.forgone, 0);
 });
 
+test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and 4); Mississippi held as words", () => {
+  const r = D.dcRun(D.dcDefaults(P, "ga", { invest: 1000, perm: 100, cons: 500, build: 2 }), P);
+  assert.equal(r.chain.held, true);
+  // construction: 500 on site each year x (15,809 + 4,954 + 7,587) / 15,809, over two years
+  near(D.dcStat(r, "c:jobs:total"), 2 * 500 * 28350 / 15809);
+  // operations: 100 x (1,873 + 1,815 + 1,783) / 1,873 jobs; earnings 100 x wage x (262.314298 + 125.838075 + 104.443068) / 262.314298
+  near(D.dcStat(r, "o:jobs:total"), 100 * 5471 / 1873);
+  const w = D.dcDefaults(P, "ga").opwage;
+  near(D.dcStat(r, "o:earnings:total"), 100 * w * (262.314298 + 125.838075 + 104.443068) / 262.314298);
+  const ms = D.dcRun(D.dcDefaults(P, "ms", { invest: 2000, perm: 100 }), P);
+  assert.equal(ms.exemption.held, true); assert.equal(ms.exemption.eligible, false);
+});
+
+test("the equipment's taxable value by a county's schedule: Loudoun's 2026 (60, 45, 30, 15, 10 percent) reproduced", () => {
+  // USD 150 million of computer equipment at Loudoun's $4.15 per $100 over five years: 150e6 x (0.60 + 0.45 + 0.30 + 0.15 + 0.10) x 0.0415 = 9,960,000
+  const x = D.dcDefaults(P, "va", { invest: 150 / 0.682, perm: 50, start: 2026, build: 1, life: 5, refresh: 0, brate: 0, erate: 4.15, eqv1: 60, eqstep: 15, eqfloor: 10 });
+  const r = D.dcRun(x, P);
+  near(r.years.filter((y) => y.phase === "operations").reduce((a, y) => a + y.prope, 0), 9960000, "Loudoun five years");
+  // the age restarts at each purchase: with a 3-year cycle the fourth operating year is at 60 percent again
+  const c = D.dcRun({ ...x, refresh: 3, life: 6 }, P);
+  near(D.dcStat(c, "year:2030:prope"), 150e6 * 0.60 * 0.0415);
+  // at cost (the defaults 100, 0, 0): 150e6 x 0.0415 a year
+  near(D.dcStat(D.dcRun({ ...x, eqv1: 100, eqstep: 0, eqfloor: 0 }, P), "y1:prope"), 150e6 * 0.0415);
+});
+
 test("a check key carries every input and gives the figure back", () => {
   const x = { ...D.dcDefaults(P, "la"), brate: 9.5, matshare: null };
   const k = D.dcKey(x);

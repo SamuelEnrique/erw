@@ -156,7 +156,9 @@ def run(d):
         br = prop["building_ratio"] if prop else 1.0
         er = prop["equipment_ratio"] if prop else 1.0
         pb = None if x["brate"] is None else bval * br * x["brate"] / 100 * ab
-        pe = None if x["erate"] is None else eq * er * x["erate"] / 100 * ab
+        age = i % x["refresh"] if x["refresh"] > 0 else i
+        eqval = eq * max(x["eqfloor"], x["eqv1"] - x["eqstep"] * age) / 100
+        pe = None if x["erate"] is None else eqval * er * x["erate"] / 100 * ab
         p = pb + pe if pb is not None and pe is not None else None
         if p is None:
             prop_all = False
@@ -227,7 +229,9 @@ export function dcStata(P: DcParams, sc: Record<View, Scenario>): string {
     if (x.brate !== null && x.erate !== null) {
       out.push(`gen ab = cond(${x.abate} > 0 & (${x.abateyears === null ? 1 : `op < ${x.abateyears}`}), 1 - ${x.abate / 100}, 1)`,
         `gen bval = bld * ${x.bldyears === null ? 1 : `max(0, 1 - op / ${x.bldyears})`}`,
-        `gen property = cond(build, ., bval * ${pr?.building_ratio ?? 1} * ${x.brate / 100} * ab + eq * ${pr?.equipment_ratio ?? 1} * ${x.erate / 100} * ab)`,
+        `gen age = cond(${x.refresh} > 0, mod(op, ${x.refresh}), op)`,
+        `gen eqval = eq * max(${x.eqfloor}, ${x.eqv1} - ${x.eqstep} * age) / 100`,
+        `gen property = cond(build, ., bval * ${pr?.building_ratio ?? 1} * ${x.brate / 100} * ab + eqval * ${pr?.equipment_ratio ?? 1} * ${x.erate / 100} * ab)`,
         "quietly summarize property", `display "property tax over the life: " %18.2f r(sum) "   tool: " %18.2f ${s.r.sums.property ?? 0}`);
     }
     for (const [v, t] of [["salesbefore", s.r.sums.salesbefore], ["forgone", s.r.sums.forgone], ["sales", s.r.sums.sales], ["income", s.r.sums.income]] as const)

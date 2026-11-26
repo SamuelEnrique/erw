@@ -65,8 +65,12 @@ for (const usd of [250, 325]) {
   const r = D.dcRun(x, P);
   const model = r.years.filter((y) => y.phase === "operations").reduce((a, y) => a + (y.prope ?? 0), 0);
   const loudoun = 150e6 * (0.60 + 0.45 + 0.30 + 0.15 + 0.10) * 0.0415;
+  // session 10809: the same with Loudoun's schedule typed (60, 15 points a year, floor 10)
+  const ry = D.dcRun({ ...x, eqv1: 60, eqstep: 15, eqfloor: 10 }, P);
+  const typed = ry.years.filter((y) => y.phase === "operations").reduce((a, y) => a + (y.prope ?? 0), 0);
   out.push({ case: "jlarc_150m_equipment_5y_loudoun", published_range_musd: "10.8 to 0.4 (by county)", model_at_cost_musd: +(model / 1e6).toFixed(2),
-    loudoun_schedule_2026_musd: +(loudoun / 1e6).toFixed(2), model_over_loudoun: +(model / loudoun).toFixed(2) });
+    loudoun_schedule_2026_musd: +(loudoun / 1e6).toFixed(2), model_over_loudoun: +(model / loudoun).toFixed(2),
+    model_with_loudoun_schedule_typed_musd: +(typed / 1e6).toFixed(2) });
 }
 
 fs.writeFileSync(path.join(here, "..", "..", "docs", "reviews", "impact-datacenter-crosscheck-2026-11-26.json"), JSON.stringify({ computed: "2026-11-26", by: "site/scripts/dc-crosscheck.mjs", cases: out }, null, 1) + "\n");

@@ -82,6 +82,9 @@ export type DcInputs = {
   bldyears: number | null;
   /** an abatement of the property tax, percent, for this many operating years (null: every year) */
   abate: number; abateyears: number | null;
+  /** session 10809: the equipment's taxable value in the years of its cycle, percent of its cost: the first year's, the points it
+   *  falls each year, and its floor (100, 0, 0: held at cost, an upper bound; a county's schedule is typed, e.g. Loudoun's) */
+  eqv1: number; eqstep: number; eqfloor: number;
   /** the electricity bought, MWh a year (null: not given) */
   mwh: number | null;
   /** real discount rate, percent */
@@ -156,7 +159,7 @@ export function dcDefaults(P: DcParams, state: string, set: Partial<DcInputs> = 
     perm: dcRound(mw * D.permanent_jobs_per_mw.median!, 1), cons: dcRound((invest / 1000) * D.construction_jobs_per_billion.median!, 1),
     opwage: dcRound(dcWage(P, state, "operations") ?? NaN, 0), conswage: dcRound(dcWage(P, state, "construction") ?? NaN, 0),
     sales: st ? dcRound((st.state_rate + st.avg_local_rate) * 100, 4) : 0, matshare: null, dcex: true,
-    brate: null, erate: null, bldyears: null, abate: 0, abateyears: null, mwh: null, rate: 7,
+    brate: null, erate: null, bldyears: null, abate: 0, abateyears: null, mwh: null, rate: 7, eqv1: 100, eqstep: 0, eqfloor: 0,
     ...set, state,
   };
 }
@@ -271,8 +274,11 @@ export function dcRun(x: DcInputs, P: DcParams): DcResult {
     const br = prop?.building_ratio ?? 1, er = prop?.equipment_ratio ?? 1;
     const ab = x.abate > 0 && (x.abateyears === null || i < x.abateyears) ? 1 - x.abate / 100 : 1;
     const propb = x.brate === null ? null : bval * br * (x.brate / 100) * ab;
-    const prope = x.erate === null ? null : eqCost * er * (x.erate / 100) * ab;
-    const value = x.brate === null && x.erate === null ? null : (x.brate === null ? 0 : bval * br) + (x.erate === null ? 0 : eqCost * er);
+    // the equipment's age in its cycle: bought in the build (age 0 in the first operating year) or again every refresh cycle
+    const age = x.refresh > 0 ? i % x.refresh : i;
+    const eqval = eqCost * Math.max(x.eqfloor, x.eqv1 - x.eqstep * age) / 100;
+    const prope = x.erate === null ? null : eqval * er * (x.erate / 100) * ab;
+    const value = x.brate === null && x.erate === null ? null : (x.brate === null ? 0 : bval * br) + (x.erate === null ? 0 : eqval * er);
     years.push({ year, phase: "operations", jobs: { ...o.jobs }, earnings: { ...o.earnings }, equipment, building: 0,
       property: propb !== null && prope !== null ? propb + prope : null, propb, prope,
       salesbefore: t.before, forgone: t.forgone, sales: t.paid,
@@ -322,7 +328,7 @@ export function dcDisplay(figure: string, v: number): string {
 
 // ---- check keys ------------------------------------------------------------------------------------------------------
 export const DC_KEY_ORDER: (keyof DcInputs)[] = ["state", "mw", "invest", "start", "build", "life", "bld", "eq", "land", "refresh", "perm", "cons",
-  "opwage", "conswage", "sales", "matshare", "dcex", "brate", "erate", "bldyears", "abate", "abateyears", "mwh", "rate"];
+  "opwage", "conswage", "sales", "matshare", "dcex", "brate", "erate", "bldyears", "abate", "abateyears", "mwh", "rate", "eqv1", "eqstep", "eqfloor"];
 export function dcKey(x: DcInputs): string {
   return ["datacenter", ...DC_KEY_ORDER.map((k) => { const v = x[k]; return v === null ? "-" : typeof v === "boolean" ? (v ? "1" : "0") : String(v); })].join("|");
 }
