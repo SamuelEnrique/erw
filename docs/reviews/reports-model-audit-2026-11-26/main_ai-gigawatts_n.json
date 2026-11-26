@@ -1,0 +1,832 @@
+[
+ {
+  "key": "calc|ratio|series~ai_power_regions~iso:ercot~flat_1gw_cost_usd~2025-09-01T00:00:00Z|series~ai_power_regions~iso:caiso~flat_1gw_cost_usd~2025-09-01T00:00:00Z",
+  "raw": "1.1086994264429961",
+  "shown": "1.11"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|flat_1gw_cost_usd|2025-09-01T00:00:00Z",
+  "raw": "249062342.1633",
+  "shown": "249.06 million"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|flat_1gw_cost_usd|2025-09-01T00:00:00Z",
+  "raw": "276135275.905",
+  "shown": "276.14 million"
+ },
+ {
+  "key": "calc|diff|series~ai_power_regions~iso:ercot~flat_1gw_cost_usd~2025-09-01T00:00:00Z|series~ai_power_regions~iso:caiso~flat_1gw_cost_usd~2025-09-01T00:00:00Z",
+  "raw": "27072933.741699964",
+  "shown": "27.07 million"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|flat_1gw_co2_t|2025-09-01T00:00:00Z",
+  "raw": "1250885.7907",
+  "shown": "1,250,885.79"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|flat_1gw_co2_t|2025-09-01T00:00:00Z",
+  "raw": "3600882.6449",
+  "shown": "3,600,882.64"
+ },
+ {
+  "key": "calc|ratio|series~ai_power_regions~iso:spp~flat_1gw_co2_t~2025-09-01T00:00:00Z|series~ai_power_regions~iso:caiso~flat_1gw_co2_t~2025-09-01T00:00:00Z",
+  "raw": "2.8786661993217892",
+  "shown": "2.88"
+ },
+ {
+  "key": "calc|diff|series~ai_power_regions~iso:spp~flat_1gw_co2_t~2025-09-01T00:00:00Z|series~ai_power_regions~iso:caiso~flat_1gw_co2_t~2025-09-01T00:00:00Z",
+  "raw": "2349996.8542",
+  "shown": "2,349,996.85"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "3.7906",
+  "shown": "3.79"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "7.7933",
+  "shown": "7.79"
+ },
+ {
+  "key": "calc|diff|series~ai_power_regions~iso:caiso~lbnl_median_years_to_cod~2026-01-01T00:00:00Z|series~ai_power_regions~iso:ercot~lbnl_median_years_to_cod~2026-01-01T00:00:00Z",
+  "raw": "4.002700000000001",
+  "shown": "4.00"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|lbnl_completion_pct|2026-01-01T00:00:00Z",
+  "raw": "30.2731",
+  "shown": "30.27"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|lbnl_completion_pct|2026-01-01T00:00:00Z",
+  "raw": "12.9767",
+  "shown": "12.98"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|lbnl_active_mw|2026-01-01T00:00:00Z",
+  "raw": "408002.06",
+  "shown": "408,002.06"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|lbnl_active_mw|2026-01-01T00:00:00Z",
+  "raw": "190717.1308",
+  "shown": "190,717.13"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "27.0215",
+  "shown": "27.02"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|net_import_days_pct|2025-09-01T00:00:00Z",
+  "raw": "100",
+  "shown": "100"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "-3.0021",
+  "shown": "-3.00"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|flat_rt_price_usd_mwh|2025-09-01T00:00:00Z",
+  "raw": "28.4318",
+  "shown": "28.43"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|flat_da_price_usd_mwh|2025-09-01T00:00:00Z",
+  "raw": "28.8243",
+  "shown": "28.82"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|flat_1gw_cost_usd|2025-09-01T00:00:00Z",
+  "raw": "249062342.1633",
+  "shown": "249.06 million"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|flat_rt_price_usd_mwh|2025-09-01T00:00:00Z",
+  "raw": "30.6266",
+  "shown": "30.63"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|flat_da_price_usd_mwh|2025-09-01T00:00:00Z",
+  "raw": "33.1068",
+  "shown": "33.11"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|flat_1gw_cost_usd|2025-09-01T00:00:00Z",
+  "raw": "268289072.7555",
+  "shown": "268.29 million"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|flat_rt_price_usd_mwh|2025-09-01T00:00:00Z",
+  "raw": "31.5223",
+  "shown": "31.52"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|flat_da_price_usd_mwh|2025-09-01T00:00:00Z",
+  "raw": "33.5866",
+  "shown": "33.59"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|flat_1gw_cost_usd|2025-09-01T00:00:00Z",
+  "raw": "276135275.905",
+  "shown": "276.14 million"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|flat_rt_price_usd_mwh|2025-09-01T00:00:00Z",
+  "raw": "28.4318",
+  "shown": "28.43"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|flat_rt_price_usd_mwh|2025-09-01T00:00:00Z",
+  "raw": "31.5223",
+  "shown": "31.52"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "142.7952",
+  "shown": "142.80"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|flat_1gw_co2_t|2025-09-01T00:00:00Z",
+  "raw": "1250885.7907",
+  "shown": "1,250,885.79"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|carbon_days|2025-09-01T00:00:00Z",
+  "raw": "353",
+  "shown": "353"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "303.3714",
+  "shown": "303.37"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|flat_1gw_co2_t|2025-09-01T00:00:00Z",
+  "raw": "2657533.3014",
+  "shown": "2,657,533.30"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|carbon_days|2025-09-01T00:00:00Z",
+  "raw": "361",
+  "shown": "361"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "333.4104",
+  "shown": "333.41"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|flat_1gw_co2_t|2025-09-01T00:00:00Z",
+  "raw": "2920675.1581",
+  "shown": "2,920,675.16"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|carbon_days|2025-09-01T00:00:00Z",
+  "raw": "356",
+  "shown": "356"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "411.0597",
+  "shown": "411.06"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|flat_1gw_co2_t|2025-09-01T00:00:00Z",
+  "raw": "3600882.6449",
+  "shown": "3,600,882.64"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|carbon_days|2025-09-01T00:00:00Z",
+  "raw": "233",
+  "shown": "233"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "142.7952",
+  "shown": "142.80"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "411.0597",
+  "shown": "411.06"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|scarcity_hours_200|2025-09-01T00:00:00Z",
+  "raw": "19",
+  "shown": "19"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|scarcity_hours_1000|2025-09-01T00:00:00Z",
+  "raw": "1",
+  "shown": "1"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|max_rt_hour_usd_mwh|2025-09-01T00:00:00Z",
+  "raw": "1147.8641",
+  "shown": "1,147.86"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|rt_hours_seen|2025-09-01T00:00:00Z",
+  "raw": "8728",
+  "shown": "8,728"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|event_largest_effect_pct|2025-09-01T00:00:00Z",
+  "raw": "3.1548",
+  "shown": "3.15"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|scarcity_hours_200|2025-09-01T00:00:00Z",
+  "raw": "57",
+  "shown": "57"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|scarcity_hours_1000|2025-09-01T00:00:00Z",
+  "raw": "1",
+  "shown": "1"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|max_rt_hour_usd_mwh|2025-09-01T00:00:00Z",
+  "raw": "1072.015",
+  "shown": "1,072.02"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|rt_hours_seen|2025-09-01T00:00:00Z",
+  "raw": "8621",
+  "shown": "8,621"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|event_largest_effect_pct|2025-09-01T00:00:00Z",
+  "raw": "8.7776",
+  "shown": "8.78"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|event_largest_effect_pct|2025-09-01T00:00:00Z",
+  "raw": "7.3434",
+  "shown": "7.34"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|scarcity_hours_200|2025-09-01T00:00:00Z",
+  "raw": "160",
+  "shown": "160"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|scarcity_hours_1000|2025-09-01T00:00:00Z",
+  "raw": "0",
+  "shown": "0"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|max_rt_hour_usd_mwh|2025-09-01T00:00:00Z",
+  "raw": "989.1931",
+  "shown": "989.19"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|rt_hours_seen|2025-09-01T00:00:00Z",
+  "raw": "8755",
+  "shown": "8,755"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|event_largest_effect_pct|2025-09-01T00:00:00Z",
+  "raw": "6.142",
+  "shown": "6.14"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|scarcity_hours_200|2025-09-01T00:00:00Z",
+  "raw": "19",
+  "shown": "19"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|scarcity_hours_200|2025-09-01T00:00:00Z",
+  "raw": "160",
+  "shown": "160"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|scarcity_hours_1000|2025-09-01T00:00:00Z",
+  "raw": "1",
+  "shown": "1"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|emergency_days|2018-07-01T00:00:00Z",
+  "raw": "39",
+  "shown": "39"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|event_largest_effect_pct|2025-09-01T00:00:00Z",
+  "raw": "8.7776",
+  "shown": "8.78"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|lbnl_active_mw|2026-01-01T00:00:00Z",
+  "raw": "408002.06",
+  "shown": "408,002.06"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|lbnl_active_requests|2026-01-01T00:00:00Z",
+  "raw": "1796",
+  "shown": "1,796"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "3.7906",
+  "shown": "3.79"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|lbnl_cod_sample|2026-01-01T00:00:00Z",
+  "raw": "376",
+  "shown": "376"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|lbnl_completion_pct|2026-01-01T00:00:00Z",
+  "raw": "30.2731",
+  "shown": "30.27"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|queue_active_mw|2026-09-30T00:00:00Z",
+  "raw": "301059.16",
+  "shown": "301,059.16"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|lbnl_active_mw|2026-01-01T00:00:00Z",
+  "raw": "190717.1308",
+  "shown": "190,717.13"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|lbnl_active_requests|2026-01-01T00:00:00Z",
+  "raw": "432",
+  "shown": "432"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "7.7933",
+  "shown": "7.79"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|lbnl_cod_sample|2026-01-01T00:00:00Z",
+  "raw": "96",
+  "shown": "96"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|lbnl_completion_pct|2026-01-01T00:00:00Z",
+  "raw": "12.9767",
+  "shown": "12.98"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|queue_active_mw|2026-09-30T00:00:00Z",
+  "raw": "74197.7334",
+  "shown": "74,197.73"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|lbnl_active_mw|2026-01-01T00:00:00Z",
+  "raw": "151152.019",
+  "shown": "151,152.02"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|lbnl_active_requests|2026-01-01T00:00:00Z",
+  "raw": "683",
+  "shown": "683"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "4.8063",
+  "shown": "4.81"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|lbnl_cod_sample|2026-01-01T00:00:00Z",
+  "raw": "108",
+  "shown": "108"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|lbnl_completion_pct|2026-01-01T00:00:00Z",
+  "raw": "17.0361",
+  "shown": "17.04"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|queue_active_mw|2026-09-30T00:00:00Z",
+  "raw": "134810.085",
+  "shown": "134,810.09"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|lbnl_active_mw|2026-01-01T00:00:00Z",
+  "raw": "130610.8194",
+  "shown": "130,610.82"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|lbnl_active_requests|2026-01-01T00:00:00Z",
+  "raw": "1134",
+  "shown": "1,134"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "4.8925",
+  "shown": "4.89"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|lbnl_cod_sample|2026-01-01T00:00:00Z",
+  "raw": "427",
+  "shown": "427"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|lbnl_completion_pct|2026-01-01T00:00:00Z",
+  "raw": "23.9331",
+  "shown": "23.93"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "3.7906",
+  "shown": "3.79"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "7.7933",
+  "shown": "7.79"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|lbnl_completion_pct|2026-01-01T00:00:00Z",
+  "raw": "30.2731",
+  "shown": "30.27"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|lbnl_completion_pct|2026-01-01T00:00:00Z",
+  "raw": "12.9767",
+  "shown": "12.98"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "3.7906",
+  "shown": "3.79"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "7.7933",
+  "shown": "7.79"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "-3.0021",
+  "shown": "-3.00"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|pair_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "-2.7328",
+  "shown": "-2.73"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|net_import_days_pct|2025-09-01T00:00:00Z",
+  "raw": "12.5",
+  "shown": "12.50"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|peak_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "-2.0733",
+  "shown": "-2.07"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|interchange_days|2025-09-01T00:00:00Z",
+  "raw": "224",
+  "shown": "224"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|screened_pair_days|2025-09-01T00:00:00Z",
+  "raw": "0",
+  "shown": "0"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|demand_mwh|2025-09-01T00:00:00Z",
+  "raw": "855443603",
+  "shown": "855,443,603"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "-1.1109",
+  "shown": "-1.11"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|pair_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "-1.5039",
+  "shown": "-1.50"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|net_import_days_pct|2025-09-01T00:00:00Z",
+  "raw": "14",
+  "shown": "14"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|peak_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "-1.3112",
+  "shown": "-1.31"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|interchange_days|2025-09-01T00:00:00Z",
+  "raw": "200",
+  "shown": "200"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|screened_pair_days|2025-09-01T00:00:00Z",
+  "raw": "9",
+  "shown": "9"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|demand_mwh|2025-09-01T00:00:00Z",
+  "raw": "306227309",
+  "shown": "306,227,309"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "0.0915",
+  "shown": "0.09"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|pair_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "0.0747",
+  "shown": "0.07"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|net_import_days_pct|2025-09-01T00:00:00Z",
+  "raw": "61.1465",
+  "shown": "61.15"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|peak_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "0.138",
+  "shown": "0.14"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|interchange_days|2025-09-01T00:00:00Z",
+  "raw": "314",
+  "shown": "314"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|screened_pair_days|2025-09-01T00:00:00Z",
+  "raw": "0",
+  "shown": "0"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|demand_mwh|2025-09-01T00:00:00Z",
+  "raw": "499203537",
+  "shown": "499,203,537"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "27.0215",
+  "shown": "27.02"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|pair_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "16.641",
+  "shown": "16.64"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|net_import_days_pct|2025-09-01T00:00:00Z",
+  "raw": "100",
+  "shown": "100"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|peak_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "7.1848",
+  "shown": "7.18"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|interchange_days|2025-09-01T00:00:00Z",
+  "raw": "312",
+  "shown": "312"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|screened_pair_days|2025-09-01T00:00:00Z",
+  "raw": "0",
+  "shown": "0"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|demand_mwh|2025-09-01T00:00:00Z",
+  "raw": "231494922",
+  "shown": "231,494,922"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "27.0215",
+  "shown": "27.02"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "-3.0021",
+  "shown": "-3.00"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "27.0215",
+  "shown": "27.02"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|pair_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "16.641",
+  "shown": "16.64"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|flat_1gw_cost_usd|2025-09-01T00:00:00Z",
+  "raw": "249062342.1633",
+  "shown": "249.06 million"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "142.7952",
+  "shown": "142.80"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "7.7933",
+  "shown": "7.79"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|scarcity_hours_200|2025-09-01T00:00:00Z",
+  "raw": "19",
+  "shown": "19"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "27.0215",
+  "shown": "27.02"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|flat_1gw_cost_usd|2025-09-01T00:00:00Z",
+  "raw": "268289072.7555",
+  "shown": "268.29 million"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "411.0597",
+  "shown": "411.06"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "4.8063",
+  "shown": "4.81"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|scarcity_hours_200|2025-09-01T00:00:00Z",
+  "raw": "160",
+  "shown": "160"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "-1.1109",
+  "shown": "-1.11"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|flat_1gw_cost_usd|2025-09-01T00:00:00Z",
+  "raw": "276135275.905",
+  "shown": "276.14 million"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "303.3714",
+  "shown": "303.37"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "3.7906",
+  "shown": "3.79"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|scarcity_hours_200|2025-09-01T00:00:00Z",
+  "raw": "57",
+  "shown": "57"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "0.0915",
+  "shown": "0.09"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|flat_1gw_cost_usd|2025-09-01T00:00:00Z",
+  "raw": "249062342.1633",
+  "shown": "249.06 million"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "142.7952",
+  "shown": "142.80"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "7.7933",
+  "shown": "7.79"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|scarcity_hours_200|2025-09-01T00:00:00Z",
+  "raw": "19",
+  "shown": "19"
+ },
+ {
+  "key": "series|ai_power_regions|iso:caiso|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "27.0215",
+  "shown": "27.02"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|flat_1gw_cost_usd|2025-09-01T00:00:00Z",
+  "raw": "276135275.905",
+  "shown": "276.14 million"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "303.3714",
+  "shown": "303.37"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "3.7906",
+  "shown": "3.79"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|scarcity_hours_200|2025-09-01T00:00:00Z",
+  "raw": "57",
+  "shown": "57"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "0.0915",
+  "shown": "0.09"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "333.4104",
+  "shown": "333.41"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "4.8925",
+  "shown": "4.89"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "-3.0021",
+  "shown": "-3.00"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|flat_1gw_cost_usd|2025-09-01T00:00:00Z",
+  "raw": "276135275.905",
+  "shown": "276.14 million"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "303.3714",
+  "shown": "303.37"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "3.7906",
+  "shown": "3.79"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|scarcity_hours_200|2025-09-01T00:00:00Z",
+  "raw": "57",
+  "shown": "57"
+ },
+ {
+  "key": "series|ai_power_regions|iso:ercot|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "0.0915",
+  "shown": "0.09"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|flat_1gw_cost_usd|2025-09-01T00:00:00Z",
+  "raw": "268289072.7555",
+  "shown": "268.29 million"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "411.0597",
+  "shown": "411.06"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "4.8063",
+  "shown": "4.81"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|scarcity_hours_200|2025-09-01T00:00:00Z",
+  "raw": "160",
+  "shown": "160"
+ },
+ {
+  "key": "series|ai_power_regions|iso:spp|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "-1.1109",
+  "shown": "-1.11"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|carbon_intensity_kg_mwh|2025-09-01T00:00:00Z",
+  "raw": "333.4104",
+  "shown": "333.41"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|lbnl_median_years_to_cod|2026-01-01T00:00:00Z",
+  "raw": "4.8925",
+  "shown": "4.89"
+ },
+ {
+  "key": "series|ai_power_regions|iso:pjm|net_import_share_pct|2025-09-01T00:00:00Z",
+  "raw": "-3.0021",
+  "shown": "-3.00"
+ }
+]
