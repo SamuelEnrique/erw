@@ -39,7 +39,7 @@ export const CASES = [
   { id: "mt_class17", state: "mt", set: { invest: 100, perm: 5, brate: 60, erate: 60 } },
   { id: "mt_below", state: "mt", set: { invest: 40, perm: 5, brate: 1, erate: 1 } },
   { id: "ks_250m_building", state: "ks", set: { invest: 600, perm: 25, matshare: 35 } },
-  { id: "ga_words", state: "ga", set: { invest: 2000, perm: 100 } },
+  { id: "ga_rule", state: "ga", set: { invest: 2000, perm: 100 } },
   // session 10809: Georgia's ratios, the equipment schedule, Mississippi's words
   { id: "ga_chain", state: "ga", set: { invest: 1000, perm: 100, cons: 500 } },
   { id: "va_loudoun_schedule", state: "va", set: { invest: 500, perm: 50, refresh: 4, life: 12, brate: 0.805, erate: 4.15, eqv1: 60, eqstep: 15, eqfloor: 10 } },
