@@ -588,6 +588,21 @@
    "incentive": "",
    "years": "",
    "note": "568,800 square feet in three buildings; average annual wage USD 95,649 (not used: the tool's wage is CBP's)."
+  },
+  {
+   "id": "ga_facebook_stantonsprings_2018",
+   "name": "Facebook (Meta), Stanton Springs data center",
+   "company": "Facebook (Meta)",
+   "state": "ga",
+   "county": "Newton County",
+   "doc": {"title": "Deal: Facebook to invest $750 million in Stanton Springs data center", "publisher": "Office of the Governor of Georgia (Governor Nathan Deal)", "date": "2018-03-07", "url": "https://nathandeal.georgia.gov/press-releases/2018-03-07/deal-facebook-invest-750-million-stanton-springs-data-center", "request": 275},
+   "mw": null,
+   "investment": {"value": 750000000, "year": 2018, "says": "$750 million", "qualifier": "over the next five years", "quote": "Facebook will create at least 100 full-time jobs and invest $750 million in a new data center in Stanton Springs over the next five years."},
+   "construction_jobs": null,
+   "permanent_jobs": {"value": 100, "measure": "full-time jobs", "says": "100 full-time jobs", "qualifier": "at least", "quote": "Facebook will create at least 100 full-time jobs and invest $750 million in a new data center in Stanton Springs over the next five years."},
+   "incentive": "",
+   "years": "over the next five years",
+   "note": "Stanton Springs is a park shared by Newton, Walton and Morgan counties; the release thanks Newton County as the company's new community. The 2018 dollars are deflated to 2025 by the GDP deflator."
   }
  ]
 }
