@@ -357,3 +357,16 @@ test("a check key carries every input and gives the figure back", () => {
   const p = D.dcParseKey(`${k}|sum:sales`);
   assert.deepEqual(p.x, x); assert.equal(p.figure, "sum:sales");
 });
+
+test("every state runs (session 10821): defaults, and with rates, MWh, a typed schedule and an abatement; every figure finite", () => {
+  const states = Object.keys(P.sales.states);
+  assert.ok(states.length >= 51);
+  for (const st of states) {
+    for (const set of [{}, { brate: 3, erate: 3, mwh: 2000000, eqv1: 60, eqstep: 15, eqfloor: 10, abate: 50, abateyears: 10, matshare: 40 }]) {
+      const r = D.dcRun(D.dcDefaults(P, st, set), P);
+      assert.ok(r.ok, `${st}: ${r.why}`);
+      for (const [k, v] of Object.entries(r.sums)) if (v !== null) assert.ok(Number.isFinite(v) && v >= 0, `${st} ${k} ${v}`);
+      assert.ok(Number.isFinite(r.pv.taxes), `${st} pv`);
+    }
+  }
+});
