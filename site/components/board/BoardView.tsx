@@ -417,8 +417,13 @@ function Headline({ file, market, setMarket, onOpen }: { file: BoardFile; market
     // label counts them and the hover names them and the grids not on the board
     const words = gridExtremesWords(ex, file.held ?? []);
     const of = `of ${ex.grids} ${ex.grids === 1 ? "grid" : "grids"}`;
-    cells.push({ k: "low", label: `Lowest ${of}, ${market === "da" ? "day-ahead" : "real time"}`, r: ex.low.row, v: ex.low.v, note: `${ex.low.row.label}, ${dateWords(ex.day)}`, tip: words });
-    cells.push({ k: "high", label: `Highest ${of}, ${market === "da" ? "day-ahead" : "real time"}`, r: ex.high.row, v: ex.high.v, note: `${ex.high.row.label}, ${dateWords(ex.day)}`, tip: words });
+    // session 10206 (docs/reviews/board-model-audit-2026-11-26.md, finding 4): the day compared is the newest every priced
+    // main hub holds, and is marked stale past a market's 3 days as the closes beside it are (weekStale, the same rule)
+    const st = weekStale(ex.day, file.built);
+    const day = `${dateWords(ex.day)}${st ? " (stale)" : ""}`;
+    const tip = st ? `${words} ${st}` : words;
+    cells.push({ k: "low", label: `Lowest ${of}, ${market === "da" ? "day-ahead" : "real time"}`, r: ex.low.row, v: ex.low.v, note: `${ex.low.row.label}, ${day}`, tip, stale: !!st });
+    cells.push({ k: "high", label: `Highest ${of}, ${market === "da" ? "day-ahead" : "real time"}`, r: ex.high.row, v: ex.high.v, note: `${ex.high.row.label}, ${day}`, tip, stale: !!st });
   }
   for (const [id, label] of [["eia-henry-hub-spot", "Henry Hub gas"], ["eia-wti-cushing-spot", "WTI crude"], ["eia-brent-spot", "Brent crude"], ["erw-brent-minus-wti", "Brent minus WTI"]] as const) {
     const r = row(id);
