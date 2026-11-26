@@ -9,10 +9,10 @@
    "name": "MW as stated",
    "unit": "MW (each row's own measure)",
    "how": "the MW each document states, whatever it measures (IT capacity, critical IT, critical grid capacity, power required)",
-   "n": 9,
+   "n": 10,
    "low": 3.0,
    "low_row": "al_aubix_auburn_2021",
-   "median": 1000.0,
+   "median": 1400.0,
    "high": 5000.0,
    "high_row": "la_meta_richland_2026",
    "rows": [
@@ -24,6 +24,7 @@
     "ky_paducah_2026",
     "wv_nscale_2026",
     "wv_starwood_mason_2026",
+    "in_amazon_northern_2025",
     "la_meta_richland_2026"
    ]
   },
@@ -31,15 +32,16 @@
    "name": "Investment per MW",
    "unit": "USD million (2025) per MW",
    "how": "investment over the MW the document states; rows whose investment includes power plants left out",
-   "n": 8,
+   "n": 9,
    "low": 3.0,
    "low_row": "va_cleanarc_caroline_2025",
-   "median": 11.0,
+   "median": 10.0,
    "high": 46.807678,
    "high_row": "al_aubix_auburn_2021",
    "rows": [
     "va_cleanarc_caroline_2025",
     "wv_starwood_mason_2026",
+    "in_amazon_northern_2025",
     "wv_penzance_berkeley_2026",
     "la_meta_richland_2026",
     "la_applied_digital_rapides_2026",
@@ -52,10 +54,10 @@
    "name": "Permanent jobs per MW",
    "unit": "jobs per MW",
    "how": "permanent or operational jobs over the MW stated; jobs of a kind not stated left out",
-   "n": 7,
+   "n": 8,
    "low": 0.05,
    "low_row": "va_cleanarc_caroline_2025",
-   "median": 0.306122,
+   "median": 0.314311,
    "high": 0.666667,
    "high_row": "la_applied_digital_rapides_2026",
    "rows": [
@@ -65,6 +67,7 @@
     "la_hut8_riverbend_2025",
     "wv_nscale_2026",
     "ky_paducah_2026",
+    "in_amazon_northern_2025",
     "la_applied_digital_rapides_2026"
    ]
   },
@@ -72,15 +75,16 @@
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 19,
+   "n": 22,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
-   "median": 50.0,
+   "median": 52.777778,
    "high": 121.786859,
    "high_row": "al_meta_montgomery_2024",
    "rows": [
     "la_hut8_riverbend_2025",
     "wv_nscale_2026",
+    "ms_avaio_rankin_2025",
     "va_cleanarc_caroline_2025",
     "la_meta_richland_2026",
     "va_aws_2023",
@@ -93,8 +97,10 @@
     "pa_aws_2025",
     "ms_aws_madison_2026",
     "ms_aws_vicksburg_2025",
+    "in_amazon_northern_2025",
     "in_aws_stjoseph_2024",
     "ms_aws_madison_2024",
+    "in_google_fortwayne_2024",
     "ms_aws_clinton_2026",
     "al_facebook_huntsville_2018",
     "al_meta_montgomery_2024"
@@ -1049,6 +1055,139 @@
    "incentive": "",
    "years": "",
    "note": ""
+  },
+  {
+   "id": "in_amazon_northern_2025",
+   "name": "Amazon, data center campuses in Northern Indiana",
+   "company": "Amazon Web Services",
+   "state": "in",
+   "county": null,
+   "place": "Northern Indiana",
+   "doc": {
+    "title": "Amazon to invest $15 billion in Indiana for new data centers",
+    "publisher": "Amazon",
+    "date": "2025-11-24",
+    "url": "https://www.aboutamazon.com/news/company-news/amazon-15-billion-indiana-data-centers",
+    "request": 218
+   },
+   "mw": {
+    "value": 2400,
+    "measure": "data center capacity",
+    "says": "2.4 gigawatts",
+    "qualifier": "",
+    "quote": "The new project will add 2.4 gigawatts of data center capacity in the region."
+   },
+   "investment": {
+    "value": 15000000000,
+    "year": 2025,
+    "says": "$15 billion",
+    "qualifier": "",
+    "quote": "Amazon plans to invest an additional $15 billion in Northern Indiana to build data center campuses, creating 1,100 new high-skilled jobs"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 1100,
+    "measure": "new high-skilled jobs",
+    "says": "1,100 new high-skilled jobs",
+    "qualifier": "",
+    "quote": "Amazon plans to invest an additional $15 billion in Northern Indiana to build data center campuses, creating 1,100 new high-skilled jobs"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Separate from the St. Joseph County campus of 2024 (in_aws_stjoseph_2024). The release names the region, not the counties."
+  },
+  {
+   "id": "in_google_fortwayne_2024",
+   "name": "Google, Fort Wayne data center",
+   "company": "Google",
+   "state": "in",
+   "county": "Allen County",
+   "doc": {
+    "title": "Gov. Holcomb announces Google is building a $2B data center in Northeast Indiana",
+    "publisher": "State of Indiana",
+    "date": "2024-04-26",
+    "url": "https://events.in.gov/event/gov-holcomb-announces-google-is-building-a-2b-data-center-in-northeast-indiana",
+    "request": 222
+   },
+   "mw": null,
+   "investment": {
+    "value": 2000000000,
+    "year": 2024,
+    "says": "$2 billion",
+    "qualifier": "",
+    "quote": "to announce plans to establish a new $2 billion data center in Fort Wayne"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 200,
+    "measure": "new jobs",
+    "says": "200 new, competitive jobs",
+    "qualifier": "up to",
+    "quote": "The new facility is expected to create up to 200 new, competitive jobs"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Fort Wayne is in Allen County, named in the release."
+  },
+  {
+   "id": "ms_avaio_rankin_2025",
+   "name": "AVAIO Digital Taurus data center campus, Brandon",
+   "company": "AVAIO Digital",
+   "state": "ms",
+   "county": "Rankin County",
+   "doc": {
+    "title": "AVAIO Digital to locate $6 billion data center campus in Rankin County",
+    "publisher": "Office of Governor Tate Reeves",
+    "date": "2025-08-19",
+    "url": "https://governorreeves.ms.gov/avaio-digital-to-locate-6-billion-data-center-campus-in-rankin-county-campus-represents-the-third-largest-economic-development-project-in-state-history/",
+    "request": 219
+   },
+   "mw": null,
+   "investment": {
+    "value": 6000000000,
+    "year": 2025,
+    "says": "$6 billion",
+    "qualifier": "",
+    "quote": "has announced a new $6 billion data center campus at the East Metropolitan Center Business and Industrial Park in Brandon."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 60,
+    "measure": "direct, high-tech jobs",
+    "says": "60 direct, high-tech jobs",
+    "qualifier": "at least",
+    "quote": "These include at least 60 direct, high-tech jobs and hundreds of indirect jobs ranging from construction to other related industries."
+   },
+   "incentive": "The Mississippi Development Authority approved AVAIO Digital Taurus for the state's Data Center Enterprises tax exemption.",
+   "years": "AVAIO Digital expects construction of the data center complex to be complete during the first half of 2027.",
+   "note": ""
+  },
+  {
+   "id": "ms_compass_lauderdale_2025",
+   "name": "Compass Datacenters, Meridian campus",
+   "company": "Compass Datacenters",
+   "state": "ms",
+   "county": "Lauderdale County",
+   "doc": {
+    "title": "Compass Datacenters project generates $10 billion investment in Lauderdale County",
+    "publisher": "Office of Governor Tate Reeves",
+    "date": "2025-01-09",
+    "url": "https://governorreeves.ms.gov/compass-datacenters-project-generates-10-billion-investment-in-lauderdale-county/",
+    "request": 221
+   },
+   "mw": null,
+   "investment": {
+    "value": 10000000000,
+    "year": 2025,
+    "says": "$10 billion",
+    "qualifier": "",
+    "quote": "Upon occupancy, Compass Datacenters' campus will represent an investment of $10 billion, including future tenants' information technology equipment."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "MDA also will certify Compass Datacenters as a data center operator, which will provide the company with 10-year state income and franchise tax exemptions, as well as a sales and use tax exemption on construction materials, equipment and software and hardware replacements.",
+   "years": "",
+   "note": "Jobs stated as \"thousands of direct and indirect jobs\", not a figure."
   }
  ]
 }
