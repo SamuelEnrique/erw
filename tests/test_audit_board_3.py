@@ -69,6 +69,7 @@ class WeekOnPeakIsFiveBySixteen(unittest.TestCase):
         self.assertAlmostEqual(off(5), 45.36, delta=0.005)           # Monday to Saturday: the on-peak group's rule for CAISO
         self.assertAlmostEqual(w["v"], 42.72, delta=0.005)
 
+    @unittest.skipUnless(os.path.isdir(os.path.join(SITE, "node_modules")), "site/node_modules is not on this copy")
     def test_the_heads_and_cells_say_the_block_and_the_days(self):
         out = subprocess.run(["node", "--import", "./scripts/tsx-register.mjs", "--input-type=module", "-e", JS,
                               URL("lib", "board.ts"), URL("components", "board", "BoardView.tsx"), os.path.join(SITE, "data", "board.json")],

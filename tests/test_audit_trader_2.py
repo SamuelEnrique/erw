@@ -96,6 +96,7 @@ class HeatRateGasDay(unittest.TestCase):
         _, used = gas(end, henry_hub(), 0)
         self.assertEqual(used, dt.date(2026, 11, 17))         # four days before the power's day
 
+    @unittest.skipUnless(os.path.isdir(os.path.join(SITE, "node_modules")), "site/node_modules is not on this copy")
     def test_the_note_and_the_page_say_which_gas(self):
         with open(os.path.join(ROOT, "docs", "methods", "trader_view.md"), encoding="utf-8") as f:
             text = f.read()

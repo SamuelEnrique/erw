@@ -80,6 +80,7 @@ class SppRealTimeIsHeldAndNotRead(unittest.TestCase):
         self.assertAlmostEqual(sum(means) / 7, -3.73, delta=0.005)
         self.assertEqual(str(wk[-1]), "2026-11-22")
 
+    @unittest.skipUnless(os.path.isdir(os.path.join(SITE, "node_modules")), "site/node_modules is not on this copy")
     def test_the_notes_and_the_page_say_so(self):
         for p in (("docs", "methods", "trader_view.md"), ("docs", "methods", "iso_trader_daily.md")):
             with open(os.path.join(ROOT, *p), encoding="utf-8") as f:

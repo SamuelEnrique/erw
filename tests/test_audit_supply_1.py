@@ -25,7 +25,10 @@ def test_the_join_day_is_the_warehouse_join():
     join = re.search(r'^JOIN = "(\d{4}-\d{2}-\d{2})T08:00:00Z"', read("warehouse", "derived", "caiso_join.py"), re.M)
     assert join, "caiso_join.JOIN not found"
     # JOIN is midnight Pacific: its UTC day is the Pacific day the page names
-    assert f'export const CAISO_JOIN_DAY = "{join.group(1)}";' in lib
+    # session 10000 (chain 701's desk): the day is taken from the site's one copy of JOIN (lib/caisoJoin.ts), since
+    # tests/test_session78.py allows the date in no other file; its UTC day is the Pacific day the page names
+    assert "export const CAISO_JOIN_DAY = CAISO_JOIN.slice(0, 10);" in lib
+    assert f'export const CAISO_JOIN = "{join.group(1)}T08:00:00Z";' in read("site", "lib", "caisoJoin.ts")
 
 
 def test_the_crossing_cells_carry_the_words():

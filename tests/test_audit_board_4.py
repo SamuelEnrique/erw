@@ -31,6 +31,7 @@ console.log(JSON.stringify({ day: ex.day, built: file.built, now: read(file), fr
 
 
 class StripDayMarkedStale(unittest.TestCase):
+    @unittest.skipUnless(os.path.isdir(os.path.join(SITE, "node_modules")), "site/node_modules is not on this copy")
     def test_the_strip_marks_an_old_day(self):
         out = subprocess.run(["node", "--import", "./scripts/tsx-register.mjs", "--input-type=module", "-e", JS,
                               URL("lib", "board.ts"), URL("components", "board", "BoardView.tsx"), os.path.join(SITE, "data", "board.json")],

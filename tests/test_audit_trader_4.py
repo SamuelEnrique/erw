@@ -71,6 +71,7 @@ class WeekHeadsSayWhatTheyMeasure(unittest.TestCase):
         ch = [means[last31[i]] - means[last31[i - 1]] for i in range(1, 31)]
         self.assertAlmostEqual(statistics.stdev(ch), 12.06, delta=0.005)
 
+    @unittest.skipUnless(os.path.isdir(os.path.join(SITE, "node_modules")), "site/node_modules is not on this copy")
     def test_the_heads_say_what_they_measure(self):
         out = subprocess.run(["node", "--import", "./scripts/tsx-register.mjs", "--input-type=module", "-e", JS,
                               URL("lib", "board.ts"), URL("components", "board", "BoardView.tsx"), os.path.join(SITE, "data", "board.json")],
