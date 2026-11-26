@@ -34,7 +34,9 @@ function Select({ name, label, value, options, tip }: { name: string; label: str
   return (
     <label className="mb-3 flex flex-col text-xs text-muted">
       <span>{label}{tip}</span>
-      <select name={name} defaultValue={value} className="mt-1 border border-rule bg-white px-2 py-1 text-sm text-ink">
+      {/* session 11000 (chain 750): aria-label. A <label> names the first field inside it, and where a tip stands before
+          the list that is the tip's own button ("About The kind"): the list had no name for a screen reader. */}
+      <select name={name} defaultValue={value} aria-label={label} className="mt-1 border border-rule bg-white px-2 py-1 text-sm text-ink">
         {options.map((o) => <option key={o.value} value={o.value} disabled={o.disabled}>{o.label}</option>)}
       </select>
     </label>
@@ -89,11 +91,15 @@ export default async function Companies({ searchParams }: { searchParams: Promis
       />
       <div className="grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)]">
         <aside className="min-w-0">
-          <form method="get" action="/companies">
+          {/* session 11000 (chain 750): autoComplete="off". A browser puts a form's last state back when a page of its
+              history is shown again; these fields take their value from the page once, so after a choice, Show and the
+              back button the page listed every company while the list still read the choice (Kind: OEM over 12,724
+              companies). With it off the browser keeps no state for the form, and the fields read what the page shows. */}
+          <form method="get" action="/companies" autoComplete="off">
             <InputPanel title="Choose" reset={{ href: "/companies", defaults: "every listed company, the largest footprint first." }}>
               <label className="mb-3 flex flex-col text-xs text-muted">
                 <span>Name<Tip id="companies-q" label="The search">Every word typed must be in the company&apos;s name or in another name its rows give it.</Tip></span>
-                <input type="search" name="q" defaultValue={q.q} maxLength={80} className="mt-1 border border-rule bg-white px-2 py-1 text-sm text-ink" />
+                <input type="search" name="q" defaultValue={q.q} maxLength={80} aria-label="Name" className="mt-1 border border-rule bg-white px-2 py-1 text-sm text-ink" />
               </label>
               <Select name="kind" label="Kind" value={q.kind} options={[{ value: "", label: "Every kind" }, ...opt(ix.kinds, KIND_ORDER)]}
                 tip={<Tip id="companies-kind" label="The kind">The first of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, other that the company&apos;s rows show: EIA-861&apos;s ownership, EIA-860&apos;s sector, a queue&apos;s interconnection customer, an NRC licensee, a policy action&apos;s agency; lab or hyperscaler and OEM from the reviewed aliases only.</Tip>} />

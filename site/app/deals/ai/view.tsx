@@ -71,7 +71,7 @@ export async function AiView({ sp }: { sp: Record<string, string | undefined> })
     <>
       <ToolHeader title="Deals for AI power"
         crumb={<>Every deal: <Link href="/deals?tab=tracker" className="underline">Tracker</Link>. Side by side: <Link href="/deals?view=comparables" className="underline">Comparables</Link></>}
-        lead={<>The deals the AI-power rule tags: a named AI lab, hyperscaler, datacenter operator or AI-load buyer is a party, or the load the deal serves is a datacenter. A sum is of the figures the stories state; the deals that state none are counted beside it, never added as zero.</>} />
+        lead={<>The deals the AI-power rule tags: a named AI lab, hyperscaler, datacenter operator or AI-load buyer is a party, or the load the deal serves is a datacenter. A sum is of the figures the stories state; the deals that state none are counted beside it, never added as zero. A group&apos;s sum adds every kind of deal in it and every stage: by buyer, grid or quarter, the US dollars of a raise, an acquisition, a financing and a compute contract are added together, rumored talks with signed deals; grouped by the kind of supply, each sum is of one kind.</>} />
       <nav aria-label="Group by" className="mb-6 flex flex-wrap items-baseline gap-x-4 gap-y-1 text-sm" data-ai-by={by}>
         <span className="font-semibold">Group by</span>
         {AI_DIMENSIONS.map((d) => (
@@ -97,7 +97,7 @@ export async function AiView({ sp }: { sp: Record<string, string | undefined> })
             {whole(ai.length)} of the {whole(all.length)} deals held are tagged AI power (the register&apos;s folded pairs counted once).
           </p>
           <ToolSection title={`By ${dim.label.toLowerCase()}`} id="ai-groups"
-            note={<>{by === "grid" ? <>A grid named in a story, else the grid that serves most of the state the story names; </> : null}{by === "supply" ? <>The kind of supply is read from the deal&apos;s kind and its stated technology; </> : null}{by === "buyer" ? <>The buyer as one name a company; for a raise or a loan with no buyer named, the party named first; </> : null}&quot;not stated&quot; holds the deals whose stories state none.</>}>
+            note={<>{by === "grid" ? <>The grid that serves most of the state the story names (a grid a story names without a state is not read here, as in the tracker and the comparables: decision 7); </> : null}{by === "supply" ? <>The kind of supply is read from the deal&apos;s kind and its stated technology; </> : null}{by === "buyer" ? <>The buyer as one name a company; for a raise or a loan with no buyer named, the party named first; </> : null}&quot;not stated&quot; holds the deals whose stories state none.</>}>
             <div className="overflow-x-auto">
               <table className="w-full border-collapse text-left text-sm" data-ai-table={by}>
                 <caption className="sr-only">The AI-power deals by {dim.label.toLowerCase()}</caption>

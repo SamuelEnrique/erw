@@ -283,7 +283,7 @@ const DC_LINES: DcLine[] = [
     why: (r) => (r.exemption.held ? null : r.exemption.note) },
   { key: "dcpropb", label: "Property tax on the building, first operating year", tip: "The building and site at their cost, assessed by the state's rule where read, times the reader's rate, less any abatement.", figure: "y1:propb", why: (r) => (r.years.some((y) => y.propb !== null) ? null : "the building's rate is not given") },
   { key: "dcprope", label: "Property tax on the equipment, first operating year", tip: "The equipment at its cost (bought again every refresh cycle), assessed by the state's rule where read, times the reader's rate, less any abatement.", figure: "y1:prope", why: (r) => (r.years.some((y) => y.prope !== null) ? null : "the equipment's rate is not given") },
-  { key: "dcelec", label: "Tax on the electricity bought, each year", tip: "By the state's statute where one is read (Virginia's consumption tax per kWh), on the MWh the reader gives.", figure: "y1:elec", why: (r) => (r.elec.held ? null : r.elec.note) },
+  { key: "dcelec", label: "Tax on the electricity bought, each year", tip: "By the state's tax per kWh where one is read (Virginia's consumption tax, Illinois' electricity excise tax, Ohio's kilowatt-hour tax), on the MWh the reader gives.", figure: "y1:elec", why: (r) => (r.elec.held ? null : r.elec.note) },
 ];
 function dcWords(x: DcInputs): string { return `Datacenter, ${stateName(x.state)}, ${plain(x.mw, 1)} MW`; }
 function dcWhy(r: DcResult, key: string): string | null {

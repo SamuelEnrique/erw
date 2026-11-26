@@ -57,7 +57,7 @@ export function StateLaws({ file, states, clearStates }: { file: LawsProp; state
       ) : null}
       {ruleStates.length ? (
         <p className="mb-2 text-sm" data-laws-rules="1">
-          The utilities&apos; own large-load rules: {ruleStates.map((s, i) => <span key={s}>{i ? ", " : ""}<SiteLink href={rulesHref(s)} gate="plain" data-laws-rules-state={s}>{file.rules![s]} in {s}</SiteLink>{file.changes?.[s] ? ` (${file.changes[s]} ${file.changes[s] === 1 ? "change" : "changes"} in the last 90 days)` : ""}</span>)}, on What a datacenter pays.
+          The utilities&apos; own large-load rules: {ruleStates.map((s, i) => <span key={s}>{i ? ", " : ""}<SiteLink href={rulesHref(s)} gate="plain" data-laws-rules-state={s}>{file.rules![s]} in {s}</SiteLink>{file.changes?.[s] ? ` (${file.changes[s]} ${file.changes[s] === 1 ? "change" : "changes"} in the 90 days to 13 November 2026)` : ""}</span>)}, on What a datacenter pays.
         </p>
       ) : null}
       {!states.length && file.rules ? (

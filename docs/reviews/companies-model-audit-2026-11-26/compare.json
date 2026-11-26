@@ -1,0 +1,52 @@
+{
+ "keys": 204275,
+ "gaps": 9,
+ "ties_in_state_order": 104,
+ "gap_list": [
+  [
+   "eia-19728:footprint_mw",
+   395.2,
+   395.1
+  ],
+  [
+   "eia-2548:footprint_mw",
+   122.3,
+   122.2
+  ],
+  [
+   "eia-49880:footprint_mw",
+   42.1,
+   42.0
+  ],
+  [
+   "drawn:eia-3046:footprint",
+   "14,425",
+   "14,424"
+  ],
+  [
+   "drawn:eia-10000:footprint",
+   "8,702",
+   "8,701"
+  ],
+  [
+   "drawn:eia-11208:op",
+   "7,111",
+   "7,110"
+  ],
+  [
+   "drawn:eia-61060:op",
+   "1,934",
+   "1,933"
+  ],
+  [
+   "drawn option kind power marketer (439)",
+   false,
+   true
+  ],
+  [
+   "eia-6452: headline owned_mw",
+   false,
+   true
+  ]
+ ]
+}

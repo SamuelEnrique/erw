@@ -1,0 +1,88 @@
+== /about: the platform's counts, from docs/platform-tools.md
+  restated: {'total': 31, 'yes': 6, 'partial': 19, 'no': 2, 'planned': 4}; 'Today 25 of them have a working data layer (6 complete, 19 partial), 2 are not built and 4 are planned', of 31 tools
+  EQUAL  platform total (site/content/docs.json): page/table 31 | restated 31
+  EQUAL  platform yes (site/content/docs.json): page/table 6 | restated 6
+  EQUAL  platform partial (site/content/docs.json): page/table 19 | restated 19
+  EQUAL  platform no (site/content/docs.json): page/table 2 | restated 2
+  EQUAL  platform planned (site/content/docs.json): page/table 4 | restated 4
+== /resources (the Resources tab of /map): the default view
+  layers in the two lists: 15; with a file on the server: 15: wind_speed_100m, wind_capacity_factor, solar_ghi, solar_dni, geothermal_hydrothermal_sites, geothermal_hydrothermal_favorability, geothermal_egs_favorability, oil_gas_basins, oil_gas_plays, hydropower_npd, hydropower_nsd, biomass, offshore_wind_leases, offshore_wind_planning_areas, coal_fields
+  held by group: {'wind': ['wind_speed_100m', 'wind_capacity_factor'], 'solar': ['solar_ghi', 'solar_dni'], 'geothermal': ['geothermal_hydrothermal_sites', 'geothermal_hydrothermal_favorability', 'geothermal_egs_favorability'], 'oil and gas': ['oil_gas_basins', 'oil_gas_plays'], 'hydropower': ['hydropower_npd', 'hydropower_nsd'], 'biomass': ['biomass'], 'offshore wind': ['offshore_wind_leases', 'offshore_wind_planning_areas'], 'coal': ['coal_fields']}
+  named as not held: [('wind', 'Gross capacity factor'), ('uranium', 'Uranium deposits'), ('critical minerals', 'Critical mineral deposits')]
+  coal fields held: True; a wind capacity factor layer held: ['Wind capacity factor (supply curve sites)']
+  the default layer (a bare address): wind_speed_100m (Wind speed at 100 m, m/s)
+    level 0.2 deg: 319 x 128 cells, 27060 held, min 2.042, max 11.310, mean 6.962
+    level 0.1 deg: 638 x 256 cells, 108190 held, min 1.734, max 12.781, mean 6.961
+    level 0.05 deg: 1276 x 512 cells, 433080 held, min 1.591, max 13.582, mean 6.961
+  EQUAL  legend minimum = the files' lowest held cell: page/table 1.591 | restated 1.591
+  EQUAL  legend maximum = the files' highest held cell: page/table 13.582 | restated 13.582
+  the legend's ticks as printed (range 11.991, so one decimal): ['1.6', '5.0', '6.0', '7.0', '8.0', '9.0', '13.6']
+  KX = cos(37.5 degrees) = 0.7934; the page prints KX.toFixed(4)
+  decisions listed: 10 (the summary prints the count)
+  Marcellus in the plays file: Area_sq_mi 58326.3781947 (page: 58,326) -> 58,326
+  simplification by layer: {'wind_speed_100m': 'grid', 'wind_capacity_factor': 'points', 'solar_ghi': 'grid', 'solar_dni': 'grid', 'geothermal_hydrothermal_sites': 'points', 'geothermal_hydrothermal_favorability': '0.03', 'geothermal_egs_favorability': '0.02', 'oil_gas_basins': '0.01', 'oil_gas_plays': '0.01', 'hydropower_npd': 'points', 'hydropower_nsd': '0.01', 'biomass': '0.015', 'offshore_wind_leases': 'not simplified', 'offshore_wind_planning_areas': 'not simplified', 'coal_fields': '0.01'}
+  energy_projects queue rows (main copy, retrieved 2026-10-03) by grid and place precision:
+    caiso    county       2234 rows    473,247.2 MW
+    caiso    none           44 rows     18,949.6 MW
+    ercot    county       1778 rows    437,981.0 MW
+    isone    county       1594 rows    149,817.7 MW
+    isone    none          157 rows     43,278.9 MW
+    miso     county       3621 rows    644,147.9 MW
+    miso     none          260 rows     68,849.8 MW
+    spp      county       2561 rows    507,764.3 MW
+    spp      none          515 rows    102,375.9 MW
+== /attention: the default view, from the week files of the same build
+  built 2026-11-16T09:24:19Z (its Monday 2026-11-16); the opening week: 2026-11-02 (index 96); sector 0 = datacenters; place: every story
+  EQUAL  classified stories of the week (the week file's rows): page/table 518 | restated 518
+  EQUAL  judged = classified + scored 0 and not sent: page/table 631 | restated 631
+  EQUAL  datacenters, every story, stories: page/table 63 | restated 63
+  EQUAL  datacenters, Attention Index (shown to 2 decimals): page/table 9.98 | restated 9.98
+  EQUAL  datacenters, opposition stories: page/table 19 | restated 19
+  EQUAL  datacenters, Friction Index (2 decimals): page/table 30.16 | restated 30.16
+  EQUAL  datacenters, tone (2 decimals): page/table -0.11 | restated -0.11
+  EQUAL  datacenters, kinds of opposition: page/table {'moratorium': 1, 'other_opposition': 1, 'political_opposition': 11, 'protest': 6} | restated {'moratorium': 1, 'political_opposition': 11, 'protest': 6, 'other_opposition': 1}
+  the headline row, restated: 63 stories of 631 judged (518 classified, 113 scored 0 and not sent; 631 held); Attention Index 9.98; Friction Index 30.16 (19 stories: {'moratorium': 1, 'political_opposition': 11, 'protest': 6, 'other_opposition': 1}); tone -0.11
+  the weeks before the opening week that count: ['2026-10-05', '2026-10-12', '2026-10-19', '2026-10-26'] (4 of the four)
+  EQUAL  what rose: rows equal (this week, the mean before, the change): page/table 30 | restated 30
+  EQUAL  places named, datacenters: page/table {('Cheyenne', 'WY'): [1, 0], ('Lowndes County', 'AL'): [1, 0], ('Santa Rosa', 'CA'): [1, 0]} | restated {('Lowndes County', 'AL'): [1, 0], ('Santa Rosa', 'CA'): [1, 0], ('Cheyenne', 'WY'): [1, 0]}
+  places as listed (first ten): [(('Cheyenne', 'WY'), [1, 0]), (('Lowndes County', 'AL'), [1, 0]), (('Santa Rosa', 'CA'), [1, 0])]
+  EQUAL  footer: classified stories (sum of week files): page/table 8119 | restated 8119
+  EQUAL  footer: reporting opposition: page/table 254 | restated 254
+  EQUAL  footer: weeks with stories: page/table 5 | restated 5
+  EQUAL  the note's percent: page/table 29.6 | restated 29.6
+  EQUAL  the note's classified = the footer's: page/table 8119 | restated 8119
+  DIFFER the note's stories held = the sum of the weeks' stories held: page/table 27419 | restated 27417
+== /shoulder: ERCOT, from EIA-930's own workbook, by the method's words
+  ERCOT months held: 93 (2019-01 to 2026-09); the default month (latest with every figure): 2026-08; later held: ['2026-09']
+  EIA's workbook: warehouse\raw\eia930_emissions\20261004T021545Z\20261004T021615.318504Z_00004_ERCO.xlsx
+  columns found: ['Adjusted BAT Gen', 'Adjusted SNB Gen', 'Adjusted SUN Gen', 'Adjusted WNB Gen', 'Adjusted WND Gen', 'Adjusted demand', 'UTC time']
+  rule A: grid median 46,553.5 MW; 0 held hours of demand blanked
+  local days 3199, complete 3013
+  every ERCOT month's figures: 2132 of 2132 equal to the table (to 0.0001); differing: 0
+  the default month as the page prints it, restated: In 2026-08, ERCOT's evening shoulder lasted 5 hours, from 19:00 to 24:00 (midnight); its batteries could run 1.65 hours at full power, covering 1.65 of them. ... would need 3.66 hours on the average day
+    headline notes: 66,629.88 MWh above the mean; fleet 18,204.50 MW holding 30,019.80 MWh; midday surplus 80,960.51 MWh over 14 hours around 09:00; net load mean 46,449.91 MW; days 31; second measure 3 h 19:00 to 22:00, 22,526.34 MWh, needed 1.24 h; evening peak 66,315.77 MW at 20:00
+  2026: 274 days ranked (table: 274.0)
+  EQUAL  2026 days ranked: page/table 274.0 | restated 274.0
+    EQUAL  rank 1 2026-01-10: above mean 122,254.29 (table 122254.2917), needed 8.6069 (table 8.6069), discharged 11,651.00 (table 11651.0), rank in table 1.0
+    EQUAL  rank 2 2026-02-25: above mean 109,731.33 (table 109731.3333), needed 7.2277 (table 7.2277), discharged 19,847.00 (table 19847.0), rank in table 2.0
+    EQUAL  rank 3 2026-02-19: above mean 108,925.67 (table 108925.6667), needed 7.1746 (table 7.1746), discharged 17,290.00 (table 17290.0), rank in table 3.0
+    EQUAL  rank 4 2026-02-15: above mean 104,925.83 (table 104925.8333), needed 6.9112 (table 6.9112), discharged 16,128.00 (table 16128.0), rank in table 4.0
+    EQUAL  rank 5 2026-01-17: above mean 101,609.04 (table 101609.0417), needed 7.1535 (table 7.1535), discharged 16,128.00 (table 16128.0), rank in table 5.0
+    EQUAL  rank 6 2026-03-07: above mean 98,374.21 (table 98374.2083), needed 6.2791 (table 6.2791), discharged 17,193.00 (table 17193.0), rank in table 6.0
+    EQUAL  rank 7 2026-01-06: above mean 94,969.38 (table 94969.375), needed 6.6860 (table 6.686), discharged 15,632.00 (table 15632.0), rank in table 7.0
+    EQUAL  rank 8 2026-07-31: above mean 90,422.83 (table 90422.8333), needed 5.0041 (table 5.0041), discharged 24,060.00 (table 24060.0), rank in table 8.0
+    EQUAL  rank 9 2026-03-23: above mean 90,225.25 (table 90225.25), needed 5.7589 (table 5.7589), discharged 19,429.00 (table 19429.0), rank in table 9.0
+    EQUAL  rank 10 2026-07-21: above mean 90,143.42 (table 90143.4167), needed 4.9887 (table 4.9887), discharged 27,353.00 (table 27353.0), rank in table 10.0
+  EQUAL  2026: the ten worst days' mean hours needed: page/table 6.5791 | restated 6.5791
+  the decisions' figures:
+    end of 2025, ERCOT: 13909.3 MW, 21578.8 MWh
+    end of 2025, CAISO: 15759.8 MW, 54150.5 MWh
+    iso:ercot: 93 months; cut at midnight in 23; by year: 2019 0 of 12, 2020 0 of 12, 2021 0 of 12, 2022 0 of 12, 2023 0 of 12, 2024 3 of 12, 2025 11 of 12, 2026 9 of 9
+      lowest hour 01:00 to 04:00 in 60 of 93 months (last 2024-05); 09:00 to 14:00 in 31; since 2024-07 all in 09 to 14: True
+      battery output held from 2024-11 (23 months); the panel's note says 'battery output, from January 2019'
+    iso:caiso: 81 months; cut at midnight in 81; by year: 2019 10 of 10, 2020 12 of 12, 2021 12 of 12, 2022 12 of 12, 2023 12 of 12, 2024 12 of 12, 2025 11 of 11
+      lowest hour 01:00 to 04:00 in 0 of 81 months (last -); 09:00 to 14:00 in 81; since 2024-07 all in 09 to 14: True
+    iso:caiso_own: 16 months; cut at midnight in 16; by year: 2025 7 of 7, 2026 9 of 9
+      lowest hour 01:00 to 04:00 in 0 of 16 months (last -); 09:00 to 14:00 in 16; since 2024-07 all in 09 to 14: True
+    both California sources hold 6 months: ['2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11']
+== 1 not equal: ["the note's stories held = the sum of the weeks' stories held"]

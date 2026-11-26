@@ -1,0 +1,15 @@
+index: 80668 bytes drawn; em dash none
+index_policy: 15084 bytes drawn; em dash none
+fpl: 213544 bytes drawn; em dash none
+google: 31341 bytes drawn; em dash none
+ceg: 39469 bytes drawn; em dash none
+[erw] the catalogue table returned no rows
+tab: 1416490 bytes drawn; em dash none
+READ: ...Held for a license (the publishers ask for permission; warehouse/metadata/license_status.csv): datacenter_facilities (486 links), datacenter_projects (220 links), energy_deals (958 links), nyiso_interconnection_queue (1,604 links), policy_actions (3,249 links), a link being a company named in one of a table's rows (a row that names two companies is two links).
+READ: ...Held for a license (the publishers ask for permission; warehouse/metadata/license_status.csv): datacenter_facilities (486 links), datacenter_projects (220 links), energy_deals (958 links), nyiso_interconnection_queue (1,604 links), policy_actions (3,249 links), a link being a company named in one of a table's rows (a row that names two companies is two links).
+READ: ...Built 2026-11-16 from the public rows of 8 of the 13 tables it reads (5 held for a license add nothing), each input as the warehouse held it that day, so a figure is as of its input's own date and the dates differ (EIA-860M's monthly inventory, EIA-860 and EIA-861's annual files, the ERCOT queue and the NRC's list as last read); the method is docs/methods/companies.md .
+READ: ...i Built from the warehouse's own tables and nothing else: no figure is typed in and no model is asked.
+(node:10932) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-b/site/lib/cells.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-b\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

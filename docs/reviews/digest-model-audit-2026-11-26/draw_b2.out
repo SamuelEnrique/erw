@@ -1,0 +1,10 @@
+roundup_index: 21993 bytes; held marks 0; em dash none
+roundup_W45: 22103 bytes; held marks 0; em dash none
+digest_2026-11-21: 693 bytes; held marks 0; em dash none
+digest_2026-11-14: 693 bytes; held marks 0; em dash none
+digest_2026-11-12: 42695 bytes; held marks 4; em dash none
+digest_index: 8731 bytes; held marks 0; em dash none
+(node:24808) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-c/site/lib/markdown.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-c\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

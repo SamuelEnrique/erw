@@ -22,7 +22,7 @@ import { IndustryDecisions } from "./Decisions";
 // ranked by fuel and region (2022 MECS), the states by year (State Energy Data System) with electricity sold to industry
 // by month (Form EIA-861M), and EIA's own projections by industry (Annual Energy Outlook). Two industries and two states
 // stand side by side. Every figure says its source on hover. Facts and no view: no figure of the ERW's own, nothing
-// filled; a cell EIA withholds is drawn as "not held" with EIA's reason on hover. In review (a path with no line in
+// filled; a cell EIA prints no figure for is drawn as "not held" with EIA's four codes on hover. In review (a path with no line in
 // lib/release.ts is in review); in no menu (chain 505).
 export const metadata: Metadata = { title: "Energy use by industry", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
@@ -33,11 +33,13 @@ const COLORS = ["accent", "series-1", "series-3", "series-5", "series-6", "serie
 const SRC = {
   monthly: `${F.sources.monthly}, as the ERW's table eia_sector_energy_consumption_monthly holds it.`,
   mecs: `${F.sources.industries}, as the ERW's table eia_mecs_manufacturing holds it. Figures are for ${F.industries.survey_year}.`,
-  seds: `${F.sources.states}, as the ERW's tables eia_seds_industrial_annual and eia_seds_state_energy hold it.`,
-  sales: `${F.sources.electricity_sales}, as the ERW's table eia_retail_sales_monthly holds it.`,
+  seds: `${F.sources.states}, as the ERW's tables eia_seds_industrial_annual and eia_seds_state_energy hold it. Electricity is the electricity sold to industrial customers; electricity a plant makes for itself is not in it, and the fuel burned to make it is counted with the other fuels.`,
+  sales: `${F.sources.electricity_sales}, as the ERW's table eia_retail_sales_monthly holds it. Sales only: electricity a plant makes for itself is not in it.`,
   aeo: `${F.sources.outlook}, AEO${F.outlook.release}, as the ERW's table eia_aeo_industrial holds it: EIA's own projections, not the ERW's.`,
 };
-const WITHHELD = `EIA withholds or does not estimate this cell (its codes *, D, NA or Q), so it has no figure here. ${F.industries.note}`;
+// Audit of 26 November 2026, finding 4: the survey's * is an estimate under 0.5, not a withheld cell, and the file keeps
+// no code, so the hover names the four codes rather than the cell's own.
+const WITHHELD = "EIA prints no figure for this cell. It marks such a cell * (an estimate under 0.5 in the table's unit), D (withheld to avoid disclosure), NA (not available) or Q (withheld, its relative standard error above 50 percent); the file does not keep which, so the cell has no figure here. Fuel consumption counts some byproduct fuels twice, as EIA's note to Table 3.2 says.";
 
 type Query = Record<string, string | string[] | undefined>;
 const one = (q: Query, k: string) => (typeof q[k] === "string" ? (q[k] as string) : undefined);
@@ -45,9 +47,11 @@ const pick = <T extends string>(v: string | undefined, ok: readonly T[] | T[], d
 
 /** A figure with its source on hover; "not held" with the reason where the file has none. */
 function Fig({ v, src, k, digits }: { v: number | null; src: string; k: string; digits?: (v: number) => string }) {
-  if (v === null) return <span className="cursor-help text-muted" title={src.startsWith("EIA withholds") ? src : `Not held in the file. ${src}`} data-not-held={k}>not held</span>;
+  if (v === null) return <span className="cursor-help text-muted" title={src === WITHHELD ? src : `Not held in the file. ${src}`} data-not-held={k}>not held</span>;
   return <span className="cursor-help" title={src} data-fig={k}>{digits ? digits(v) : tbtu(v)}</span>;
 }
+/** What the survey's "Net electricity" holds (audit of 26 November 2026, finding 2): it equals the Table 11.1 parts so. */
+const NET_ELEC = "Net electricity is the electricity bought and transferred in, plus what the plants made from renewables other than wood and other biomass, less what they sold or transferred offsite, at 3,412 Btu a kWh. Electricity a plant makes from its own fuel is not in it: that fuel is counted in its own column. An industry's electricity use is its net demand, in the Electricity table under Two industries side by side.";
 const whole = (v: number) => Math.round(v).toLocaleString("en-US");
 const usd = (v: number) => `$${v.toFixed(2)}`;
 const billions = (v: number) => `$${(v / 1e9).toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} bn`;
@@ -56,6 +60,8 @@ const SHORT: Record<string, string> = { total: "Total", end_use_total: "End use"
 const twh = (v: number) => (v / 1e6).toLocaleString("en-US", { maximumFractionDigits: 1 });
 const stateName = (st: string) => (st === "US" ? "United States" : STATES[st] ?? st);
 const monthWords = (m: string) => new Date(Date.UTC(Number(m.slice(0, 4)), Number(m.slice(5, 7)) - 1, 1)).toLocaleString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
+/** What the State Energy Data System's industrial average price is (audit of 26 November 2026, finding 3). */
+const PRICE_WHY = `EIA's average price of the industrial sector's energy, all fuels together, nominal dollars: not a tariff, and not the price of electricity or of any one fuel. It is per million Btu of a smaller quantity than the total beside it (the electrical system losses are not in it, and in most states part of the rest is not either), so the expenditures are not the total times this price. ${SRC.seds}`;
 
 function Form({ children, anchor, keep }: { children: ReactNode; anchor: string; keep: Record<string, string> }) {
   return (
@@ -129,14 +135,15 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
         title="Energy use by industry"
         lead={<>How much energy American industry uses, of which fuels, in which industries and states, and what EIA projects: the industrial sector month by month, the manufacturing industries of the{" "}
           <Hint words={`${F.industries.survey_year} survey`} why={SRC.mecs} />, every state year by year, and EIA&apos;s outlook to {F.outlook.years[F.outlook.years.length - 1]}.{" "}
-          <Hint words="Two of each side by side" why="Choose two industries, two states or two of EIA's cases; each pair is drawn in the same table or chart." />.</>}
+          <Hint words="Two of each side by side" why="Choose two industries, two states or two of EIA's cases; each pair is drawn in the same table or chart." />.{" "}
+          <Hint words="The industrial sector and the survey count different things" why="The industrial sector of the Monthly Energy Review and the State Energy Data System is manufacturing, agriculture, mining and construction together, and its total counts energy used as a raw material (feedstocks) and the sector's share of the energy lost making and moving electricity. The 2022 survey counts manufacturing alone, and only the energy it uses as fuel, with its electricity at 3,412 Btu a kWh and no losses. An industry's figure is not a part of the sector's total." />.</>}
         under={<p className="mt-2 text-xs text-muted" data-license-line="1">License: public (<Hint words="EIA" why="U.S. Energy Information Administration: its data are in the public domain, and EIA asks to be credited as the source. Every table this page reads is public in the ERW's license register." />). File built {F.built.slice(0, 10)}.</p>}
       />
 
       <HeadlineRow>
         <HeadlineNumber label="Industrial sector, latest month" value={last ? <Fig v={monthValue(F, "total", last)} src={SRC.monthly} k="h-month" /> : <Fig v={null} src={SRC.monthly} k="h-month" />} unit={F.monthly.unit} note={last ? `${monthWords(last)}: ${F.monthly.labels.total}` : undefined} />
         <HeadlineNumber label={`Industrial sector, ${lastYear ?? "latest whole year"}`} value={<Fig v={lastYear ? yearSum(F, "total", lastYear) : null} src={`The sum of the year's twelve months. ${SRC.monthly}`} k="h-year" />} unit={F.monthly.unit} note="the twelve months summed" />
-        <HeadlineNumber label={`Largest manufacturing industry, ${F.industries.survey_year}`} value={<Fig v={top.total} src={SRC.mecs} k="h-top" />} unit={F.industries.unit.split(" ")[0]} note={`${top.name} (NAICS ${top.naics}), United States`} />
+        <HeadlineNumber label={`Largest manufacturing industry by fuel, ${F.industries.survey_year}`} value={<Fig v={top.total} src={SRC.mecs} k="h-top" />} unit={F.industries.unit.split(" ")[0]} note={`${top.name} (NAICS ${top.naics}), United States: fuel consumption, feedstocks not counted`} />
       </HeadlineRow>
 
       <ToolSection title="The industrial sector, month by month" id="monthly">
@@ -171,7 +178,7 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
           rows={ranked.map((r, i) => ({ key: r.naics, cells: [
             <span key="n" title={`NAICS ${r.naics}`} data-industry-rank={i + 1}>{i + 1}. {r.name}</span>,
             <Fig key="s" v={shareOfSum(F, r.naics, region)} src={`The industry's total as a percent of the sum of the three-digit industries' totals in the region; not held where EIA withholds a total there. ${SRC.mecs}`} k={`sh-${r.naics}`} digits={(v) => `${v.toFixed(1)}%`} />,
-            ...MECS_FUELS.map((f) => <Fig key={f.key} v={r.fuels[f.key] ?? null} src={(r.fuels[f.key] ?? null) === null ? WITHHELD : `${f.label}, ${F.industries.unit.split(" ")[0]}. ${SRC.mecs}`} k={`f-${r.naics}-${f.key}`} />),
+            ...MECS_FUELS.map((f) => <Fig key={f.key} v={r.fuels[f.key] ?? null} src={(r.fuels[f.key] ?? null) === null ? WITHHELD : `${f.label}, ${F.industries.unit.split(" ")[0]}. ${f.key === "net_electricity" ? `${NET_ELEC} ` : ""}${SRC.mecs}`} k={`f-${r.naics}-${f.key}`} />),
           ] }))}
         />
       </ToolSection>
@@ -186,8 +193,8 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
           caption={`Fuel consumption of ${name(ia)} and ${name(ib)}, ${F.industries.survey_year}, ${MECS_REGIONS.find((r) => r.key === region)?.label}`}
           head={[`Fuel (${MECS_REGIONS.find((r) => r.key === region)?.label}, ${F.industries.unit.split(" ")[0]})`, `A: ${name(ia)}`, `B: ${name(ib)}`]}
           rows={MECS_FUELS.map((f) => ({ key: f.key, highlight: f.key === "total", cells: [f.label,
-            <Fig key="a" v={fuelCell(ia, f.key)} src={fuelCell(ia, f.key) === null ? WITHHELD : SRC.mecs} k={`a-${f.key}`} />,
-            <Fig key="b" v={fuelCell(ib, f.key)} src={fuelCell(ib, f.key) === null ? WITHHELD : SRC.mecs} k={`b-${f.key}`} />] }))}
+            <Fig key="a" v={fuelCell(ia, f.key)} src={fuelCell(ia, f.key) === null ? WITHHELD : f.key === "net_electricity" ? `${NET_ELEC} ${SRC.mecs}` : SRC.mecs} k={`a-${f.key}`} />,
+            <Fig key="b" v={fuelCell(ib, f.key)} src={fuelCell(ib, f.key) === null ? WITHHELD : f.key === "net_electricity" ? `${NET_ELEC} ${SRC.mecs}` : SRC.mecs} k={`b-${f.key}`} />] }))}
         />
         <h3 className="mb-1 mt-5 font-serif text-base text-accent">Electricity, MWh</h3>
         <ToolTable
@@ -212,7 +219,7 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
             <span key="n" data-state-rank={i + 1}>{i + 1}. {stateName(r.st)}</span>,
             <Fig key="v" v={r.value} src={SRC.seds} k={`s-${r.st}`} />,
             ...(src === "total" ? [] : [<Fig key="t" v={r.total} src={SRC.seds} k={`st-${r.st}`} />]),
-            <Fig key="p" v={r.price} src={`The industrial sector's total average price, nominal dollars. ${SRC.seds}`} k={`sp-${r.st}`} digits={usd} />,
+            <Fig key="p" v={r.price} src={PRICE_WHY} k={`sp-${r.st}`} digits={usd} />,
             <Fig key="e" v={r.expenditures} src={`The industrial sector's total expenditures, nominal dollars. ${SRC.seds}`} k={`se-${r.st}`} digits={billions} />,
           ] }))}
         />
@@ -233,7 +240,7 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
           rows={[
             ...SEDS_SOURCES.map((s) => ({ key: s.key, highlight: s.key === "total", cells: [`${s.label} (TBtu)`, <Fig key="a" v={stateValue(F, sa, s.key, year)} src={SRC.seds} k={`sa-${s.key}`} />, <Fig key="b" v={stateValue(F, sb, s.key, year)} src={SRC.seds} k={`sb-${s.key}`} />] })),
             { key: "chg", cells: [`Total, change since 2019`, <Fig key="a" v={changePct(F, sa, "total", 2019, year)} src={`Percent change of the total from 2019 to ${year}. ${SRC.seds}`} k="sa-chg" digits={(v) => pct1(v) as string} />, <Fig key="b" v={changePct(F, sb, "total", 2019, year)} src={`Percent change of the total from 2019 to ${year}. ${SRC.seds}`} k="sb-chg" digits={(v) => pct1(v) as string} />] },
-            { key: "price", cells: ["Average price (USD per MMBtu)", <Fig key="a" v={statePrice(F, sa, year)} src={SRC.seds} k="sa-price" digits={usd} />, <Fig key="b" v={statePrice(F, sb, year)} src={SRC.seds} k="sb-price" digits={usd} />] },
+            { key: "price", cells: ["Average price (USD per MMBtu)", <Fig key="a" v={statePrice(F, sa, year)} src={PRICE_WHY} k="sa-price" digits={usd} />, <Fig key="b" v={statePrice(F, sb, year)} src={PRICE_WHY} k="sb-price" digits={usd} />] },
             { key: "exp", cells: ["Expenditures, total", <Fig key="a" v={stateValue(F, sa, "total", year, "expenditures_usd")} src={`Nominal dollars. ${SRC.seds}`} k="sa-exp" digits={billions} />, <Fig key="b" v={stateValue(F, sb, "total", year, "expenditures_usd")} src={`Nominal dollars. ${SRC.seds}`} k="sb-exp" digits={billions} />] },
             { key: "sales", cells: [`Electricity sold to industry, ${year} (TWh)`, <Fig key="a" v={salesYear(F, sa, year)} src={`The year's twelve months summed. ${SRC.sales}`} k="sa-sales" digits={twh} />, <Fig key="b" v={salesYear(F, sb, year)} src={`The year's twelve months summed. ${SRC.sales}`} k="sb-sales" digits={twh} />] },
           ]}

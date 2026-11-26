@@ -321,7 +321,7 @@ questions:
   refuse: true
   hold: false
   count: false
-  withheld: [100.0]
+  withheld: [101.0]
   withheld_text: []
   note: "a visitor's chat cannot read utility_large_load_rules today (not in the live set): a refusal, no figure, never the table's own. When it can: utility_large_load_rules: the count of rows"
 - id: ru02
@@ -465,7 +465,7 @@ questions:
   refuse: true
   hold: false
   count: false
-  withheld: [77.0]
+  withheld: [78.0]
   withheld_text: []
   note: "a visitor's chat cannot read utility_large_load_rules today (not in the live set): a refusal, no figure, never the table's own. When it can: utility_large_load_rules: the count of rows whose event_date is in 2026"
 - id: ru11

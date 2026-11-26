@@ -1,0 +1,34 @@
+data: 350466 bytes drawn; em dash none
+faults: 94055 bytes drawn; em dash none
+licenses: 1282162 bytes drawn; em dash none
+standard: 90301 bytes drawn; em dash none
+method_impossible_hours: 23133 bytes drawn; em dash none
+method_packages: 41589 bytes drawn; em dash none
+data table rows drawn: 111
+found:  Data The public tables in the site's live catalogue. Each table is one of three shapes (series, entities, events), in UTC, with the source report and retrieval time in its 
+found: retrieved_at . Internal tables, licensed for internal use only, are not listed. Nor is a public table the live set holds back ( catalogue_hold and review_hold in warehouse/supabase/live_set.yaml ): coverage.csv lists every table of the warehouse
+found:  on Redivis where version 1's list ( tables.csv ) marks the table in version 1; a table the list marks held is not on Redivis yet (the account's storage is full). On Redivis, version 1 is pending release. How to cite a table: the publisher, the report, then “via the Energy Researc
+found:  11:12 UTC. 2026-11-25 15:17 UTC. As the publisher published it, reshaped only. On Redivis where version 1's list marks the table in version 1, not yet where it marks it held; version 1 is pending release. 2026-11-25 15:06 UTC. 2026-11-25 15:04 UTC. 2026-10-19 11:31 UTC. 2026-11-25 14:43 UTC. 
+found: sign up. Supabase subscribers (insert only) Access Redivis, the store of record The tables version 1's list marks in version 1, full history, versioned: energy_research_warehouse on Redivis . The dataset holds every ERW table as an unreleased draft. A version is released
+found: OT yearly history is not in the live set and, version 1's list marking it held, not yet on the dataset linked here. The project map carries every operating and planned generator. The erw Python package pip install "git+https://github.
+found: on: v1, pending release; each table's own line is in the release's table list . The packages below write another dataset's name, datapages.erw , the copy prepared under the Stanford organization (its own table list ); this page links and cites energy_research_wa
+found: on (its own table list ); this page links and cites energy_research_warehouse . Neither is released, so a citation names the dataset the table was read from. Pages Page What it shows Tables it reads Price board Every price held on one dense screen: power by hub and zone, gas, 
+found: me first; events (session 6, Decision 15) and entities (session 8, Decision 20) have had connectors and validator checks since, and all three are expected to change as new sources meet them. A change to a required column or a unit convention bump
+found:  warehouse/validate/erw_validate.py checks the rules of the three shapes below, with three exceptions this page states where they arise: which fields a provenance header names, the x_ prefix of an extra column, and whether an entity&#39;s namespace is the
+found:  # , such as a URL. The validator warns when a file has no comment line at all; it does not check which of these the lines name. Column names are lowercase snake_case . Required columns come first, in the order given below. Optional columns use th
+found: are prefixed x_ . The validator warns of an unprefixed column in a series table and does not check entities or events tables, many of which keep their extra columns under their own names ( news_stories &#39;s title and summary , Decision 15). T
+found: ifier, unchanged: ercot:HB_NORTH . Stable across files so tables can be joined. The validator checks the form namespace:native_id only (a warning, for series ); a derived or consolidated table keeps its inputs&#39; namespaces ( eia930: in carbon_intensit
+found: y the IRW enforces its tag vocabulary ( entity_type and the status of an entity have been enforced since Decision 20). An entity crosswalk between namespaces (the same plant in EIA-860 and in an ISO queue). Revision history as a first-c
+found: ables (the reason the IRW shards). Session 29&#39;s consolidation (decision 28) left 65 tables then; coverage.csv lists the tables now, and the cap counts the tables of one dataset.  Data / docs/methods/impossible_hours
+found: ge_rt_offers_monthly ). A new unit is added here and to the validator together. Some Decisions added units without a line in this list: dwt (Decision 22), ratio (23), TBtu (25), MMBtu/MWh (26), year (36), USD/kW-month and USD/MW-hour (37), USD/kW , USD/k
+found: l , and so is every source whose terms do not allow the ERW to redistribute it, third-party news text among them (Decision 15); every other source is public . A table is internal if any of its sources is, unless the table declares its own license
+found: ); every other source is public . A table is internal if any of its sources is, unless the table declares its own license in a header line (Decision 16 (d): news_index is public, holding only links, metadata and the model&#39;s own fields). Since 21 October 
+found: #39;s own page asks for permission or a license is also held, "license needed", until a permission is recorded ( warehouse/metadata/license_status.csv , docs/licenses.md ). The table-level value is the license column of warehouse/metadata/coverage.csv , which erw.covera
+found: deviation of the pair's own median, and never left out for less than 5,000 MWh. In a table the rule is applied to, a value that fails is used for nothing, and nothing is filled. A table the method marks Held has the rule in its builder and waits for a person to approve it,
+found: e is applied to, a value that fails is used for nothing, and nothing is filled. A table the method marks Held has the rule in its builder and waits for a person to approve it, so it still holds such values; the method says what applying it would change. The
+found: for written permission or a paid license, and no permission is recorded for it. A number read from a held table's values is not shown. In its place the site writes “license needed”, with the publishers in the hover. What describes the table is shown: its
+found: n its place the site writes “license needed”, with the publishers in the hover. What describes the table is shown: its name, its row count and its first and last day on Data , and the faults register's counts of the gaps in its sourc
+(node:29536) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-a/site/lib/markdown.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-a\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

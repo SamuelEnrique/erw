@@ -26,8 +26,17 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 - Part B push: `c701-B-before` and `c701-B-after`, 0 differences in 25 pages (expected).
 - The battery table's load into the live set: `c701-bs-before` and `c701-bs-after`, 0 differences (expected).
 - Landing 1 (`3dcb86434`): `c701-L1-before` and `c701-L1-after`, 0 differences (expected: every page is in review).
-- Landing 2: `c701-L2-before` (13:41 UTC); after: see the progress file.
+- Landing 2 (`f00acbd70`, 14:16 UTC): `c701-L2-before` (13:41) and `c701-L2-after` (14:23), 0 differences (expected: every page is in review).
+- The desk's doc pushes from 14:23 to 14:40: `c701-L2-after` and `c701-p9-after`, 0 differences (expected).
+- Landing 3 (`693a4a3f5`, 17:13 UTC): `c701-L3-before` (16:36) and `c701-L3-after` (17:19), 0 differences (expected). Doc pushes to 17:27: `c701-p10-after`, 0 differences.
+- Gate 7 pushed 18:08 with `c701-L4-before`; its after snapshot: the progress file.
 - The progress pushes: pairs `c701-p4` to `c701-p8`, 0 differences each.
+
+## The desk in the afternoon
+
+- Window D's data rows 7, 12, 13, 18 to 25, 28 to 37, 39, 40, 42 to 45 answered from this machine's tables and saved files (each with its script and output in `docs/reviews/answers-c701-2026-11-26/`); 26 and 27 built for gate 6; 14 waits on chain 720's board group; 38 is window B's; 41 taken (BLS refuses automated reads; the deflator is held; STEO's CPI-U queued).
+- Built for the gates: JEDI's coal and CSP trough models (window C's request 8), the datacenter tax rules in `impact_tax_rules` (request 9), the week-ahead forecast step and ERCOT's forecast posting time (predict 6 and 5 in part), four large-load laws in force, the research reader's redirect check.
+- Old laptop's row 114 returned to its window (it conflicts in substance with window F's `/conditions` fix now on main); row 115's node tests given the usual guard.
 
 ## Decisions made without you
 
@@ -49,3 +58,5 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 - The stale source "IEA" with an en dash in Supabase: prune it (`load.py --prune`). Default: left; the load says held.
 - `datacenter_announced`: may the facts alone (values, measures, addresses) be a public selection? Default: internal.
 - The large-load changes after 13 November wait until the policy page words its window from the data. Default: not loaded.
+- pge.com: its Terms of Use bar bots and spiders copying information for another site without PG&E's authorization, yet pge.com is not on the research reader's barred list and site/data/bill_rules.json already cites pge.com tariff sheets (found by data request 53). Default: the reader stopped at pge.com; nothing changed in the bill rules.
+- A news story dated after its retrieval (event listings, a feed whose stamps run ahead: 7 of 29,177): skip and count it in the ingest, as an undated one is? Default: left as it is.

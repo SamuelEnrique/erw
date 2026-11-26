@@ -1,0 +1,97 @@
+{
+ "group": "c701_since_1113",
+ "changes": [
+  {
+   "utility": "Entergy Arkansas, LLC",
+   "state": "AR",
+   "rule_name": "Docket 25-055-P: Amended and Restated Agreement for Electric Service with Altitude Capital, LLC (Google), higher maximum demand and faster ramp",
+   "affects": "entergy-06",
+   "change": "order issued",
+   "date": "2026-11-16",
+   "docket": "25-055-P (Order No. 15)",
+   "source_url": "https://apps.apsc.arkansas.gov/pdf/25/25-055-P_123_1.pdf",
+   "source_title": "Arkansas Public Service Commission, Docket No. 25-055-P, Order No. 15 (Doc. 123)",
+   "what": "On a motion of the General Staff filed 13 November 2026, the Commission's Chief Administrative Law Judge amended the procedural schedule: Staff and intervenor testimony moved to 23 November 2026, EAL reply testimony and the settlement or issues list to 18 December 2026, opposition to settlement to 23 December 2026, and the public evidentiary hearing stays on 4 January 2027 (unchanged). A procedural order only: no decision on the amended agreement.",
+   "cites": [
+    {"page": "1", "section": "filing stamp", "quote": "APSC FILED Time: 11/16/2026 3:10:55 PM"},
+    {"page": "1", "section": "Order No. 15", "quote": "filed its Motion to Amend Procedural Schedule (Motion)"},
+    {"page": "1", "section": "Order No. 15, proposed schedule", "quote": "Staff/Intervenor Testimony"},
+    {"page": "1", "section": "Order No. 15, proposed schedule", "quote": "Monday, November 23, 2026"},
+    {"page": "1", "section": "Order No. 15, proposed schedule", "quote": "EAL Reply Testimony Settlement/Issues List Friday, December 18, 2026"},
+    {"page": "1", "section": "Order No. 15, proposed schedule", "quote": "Monday, January 4, 2027 (unchanged)"},
+    {"page": "2", "section": "Order No. 15", "quote": "For good cause shown, the Commission grants Staffs Motion and amends the procedural schedule as proposed above."},
+    {"url": "https://apps.apsc.arkansas.gov/olsv2/docket_search_results.asp?CaseNumber=25-055-P", "page": "1", "section": "docket listing, items 123 to 125", "quote": "123. ORDER NO. 15 (HICKMAN) For good cause shown, the Commission grants Staffs Motion and amends the procedural schedule as proposed in this order."}
+   ],
+   "license": "public",
+   "license_basis": "the Arkansas PSC's own docket copy (apps.apsc.arkansas.gov, robots allow it), as the row",
+   "date_read": "2026-11-26"
+  },
+  {
+   "utility": "The Empire District Electric Company d/b/a Liberty (Empire Electric)",
+   "state": "MO",
+   "rule_name": "Empire District Electric (Liberty) Missouri Large Load tariff, Schedule TS-LL, MO PSC Case ET-2026-0184",
+   "affects": "ameren_evergy_spp-11",
+   "change": "hearing set",
+   "date": "2026-11-24",
+   "docket": "MO PSC Case No. ET-2026-0184",
+   "source_url": "https://efis.psc.mo.gov/Document/Display/899652",
+   "source_title": "Missouri PSC, Case No. ET-2026-0184, Amended Order Establishing Procedural Schedule (Issue Date: November 24, 2026)",
+   "what": "The Commission set the procedural schedule for Liberty's large load tariff case: the EFIS record lists an Order Setting Evidentiary Hearing Date of 13 November 2026 and an Order Establishing Procedural Schedule of 23 November 2026, amended on 24 November 2026; the amended order sets Staff and intervenor rebuttal for 28 January 2027, surrebuttal for 19 February 2027 and the evidentiary hearing to start on 29 March 2027 (29 March to 1 April 2027), with initial briefs on 4 May and reply briefs on 18 May 2027.",
+   "cites": [
+    {"page": "1", "section": "caption", "quote": "AMENDED ORDER ESTABLISHING PROCEDURAL SCHEDULE"},
+    {"page": "1", "section": "caption", "quote": "Issue Date: November 24, 2026"},
+    {"page": "1", "section": "order", "quote": "The Commission issued an order establishing a procedural schedule for this case on November 23, 2026."},
+    {"page": "1", "section": "schedule", "quote": "Staff Report/Rebuttal and Intervenor Rebuttal"},
+    {"page": "1", "section": "schedule", "quote": "January 28, 2027"},
+    {"page": "2", "section": "schedule", "quote": "March 5, 2027 March 9, 2027 March 9, 2027 March 16, 2027 March 29 - April 1, 2027"},
+    {"page": "2", "section": "schedule", "quote": "May 4, 2027 May 18, 2027"},
+    {"page": "2", "section": "paragraph 2", "quote": "The Hearing will start on March 29, 2027, at 9:00 a.m."},
+    {"url": "https://efis.psc.mo.gov/Case/Display/102769", "page": "1", "section": "filing list, item 34", "quote": "Order Setting Evidentiary Hearing Date and Directing a Proposed Procedural Schedule"},
+    {"url": "https://efis.psc.mo.gov/Case/Display/102769", "page": "1", "section": "filing list, item 39", "quote": "Amended Order Establishing Procedural Schedule"}
+   ],
+   "license": "public",
+   "license_basis": "the Missouri PSC's own EFIS copy (efis.psc.mo.gov, robots allow it)",
+   "date_read": "2026-11-26"
+  }
+ ],
+ "no_change": [
+  {"utility": "Southwestern Electric Power Company (SWEPCO), Texas (aep-08), PUCT Docket No. 58796", "searched": "PUCT Interchange filing list for control number 58796, read 26 November 2026: 109 items, the last item 109 the PUC OPDM 'PROPOSED ORDER WITH MEMORANDUM' of 28 October 2026; no final order filed."},
+  {"utility": "Southwestern Public Service Company (xcel_plains-04), PUCT Docket No. 60332", "searched": "PUCT Interchange filing list for control number 60332, read 26 November 2026, items to 47 (25 November 2026): intervention, protective order certifications, RFIs, DCC's and Commission Staff's lists of issues (16 and 17 November), SPS's proof of notice (16 and 18 November), and Commission Staff's recommendation on sufficiency of notice and proposed procedural schedule (23 November 2026). No commission order in the window; the effective date stays suspended by Order No. 5 (held)."},
+  {"utility": "Tampa Electric Company (southern_florida-05), FPSC Docket 20260146-EI", "searched": "Florida PSC Commission Conference Agenda for 1 December 2026 (issued 24 November 2026): no item for docket 20260146-EI (it lists 20260158-EU, a rulemaking petition on large load measurement under 366.043, F.S., and other Tampa Electric dockets). The FPSC docket page loads by script and gave no text. Web searches found no order in the docket."},
+  {"utility": "Montana-Dakota Utilities Co. (remainder-04), NDPSC Case No. PU-26-235", "searched": "NDPSC case folder https://www.psc.nd.gov/webdocs/case/26-0235/ read 26 November 2026: last documents 018-010.pdf (2026-09-10), 018-020.pdf and 018-030.pdf (2026-09-08); nothing filed after 10 September 2026."},
+  {"utility": "Ameren Illinois Company (ameren_evergy_spp-09), ICC Docket 26-0625", "searched": "ICC suspension cases list read 26 November 2026: 26-0625 still 'Case Status: Initial', 'Suspension Ends: December 6, 2026 Resuspension Ends: June 6, 2027' (as held)."},
+  {"utility": "Minnesota Power (great_lakes-07), MPUC Docket 26-159", "searched": "MPUC data centers page read 26 November 2026: 'Status: Filed on March 26, 2026', comment period to 28 August 2026, the Commission to deliberate at a public meeting; no decision listed."},
+  {"utility": "Delmarva Power & Light Company (pjm_east-02), DE PSC Docket 25-0826", "searched": "DE PSC news list (psc-news category) and the 'large load tariff' tag page, read 26 November 2026: the last large-load items are the joint agency comments of 9 April 2026 and the docket opening of October 2025; Delmarva rate case 25-1555 items only after that. DelaFile not read."},
+  {"utility": "Consolidated Edison and the New York utilities (northeast-03), NY PSC Case 26-E-0045", "searched": "NY DPS GovDelivery bulletin of 17 September 2026 (draft GEIS scope, comments to 20 October 2026), before the window; web searches found no final scope or order after 13 November 2026. The DPS bulletin list answered HTTP 404; documents.dps.ny.gov not read."},
+  {"utility": "Entergy Louisiana, LLC (entergy-01), LPSC Docket U-37882", "searched": "LPSC home page and agenda page, the 18 November 2026 Revised Agenda and Supplemental Agenda, read 26 November 2026: no U-37882 item on either (R-37905 on private use networks for large loads was on the agenda). Minutes of 18 November not yet posted."},
+  {"utility": "Arizona Public Service Company (southwest_california-02), ACC E-01345A-25-0105", "searched": "ACC news list read 26 November 2026, items 15 October to 23 November 2026: TEP rate case vote (17 November) and other items; nothing on the APS rate case or a Recommended Opinion and Order. Lead (ACC page of 10 July 2026 seen in search, not read): the ALJ's ROO expected by late November 2026."},
+  {"utility": "Nevada Power Company and Sierra Pacific Power Company (southwest_california-05), PUCN Docket 26-05007", "searched": "PUCN calendar read 26 November 2026: hearings in 26-05007 on 26 to 29 October and from 16 November 2026, Phase 3 rebuttal testimony due 2 November (as held); no order found."},
+  {"utility": "El Paso Electric Company (texas-07, texas-08), NM PRC Case No. 25-00082-UT", "searched": "NM PRC public hearings page read 26 November 2026 (the page also announces a hearing streamed 'today, November 10, 2026', so the listing predates the window): 'Docket 25-00082-UT - El Paso Electric Application for Revision of Retail Electric Rates Pursuant to Advice Notice No. 317. This hearing is set for December 9 - 22, 2026, at 9:00 a.m.' The date the hearing was set is not printed; not written as a change in the window, but the rows hold no hearing date (for the parent)."},
+  {"utility": "Northern Virginia Electric Cooperative (dominion-06)", "searched": "NOVEC news release index read 26 November 2026: the last releases are 8 October 2026 (energy vampires) and 17 July 2026 (the Terms and Conditions filing); nothing after. The Virginia SCC is paused and was not asked."},
+  {"utility": "City of Ames Electric Services (coops_public_power_2-06)", "searched": "City of Ames Data Center Development Updates page read 26 November 2026: the Council's 24 November 2026 meeting discusses data center zoning options with no final action; no electric tariff or ordinance change listed."},
+  {"utility": "Duke Energy Carolinas and Duke Energy Progress (duke-03), SC PSC Docket 2026-138-E", "searched": "SC PSC Recent News read 26 November 2026 (items 1 September to 20 November 2026): allowable ex parte briefings and staff items only, nothing on 2026-138-E. The SC PSC docket system (dms.psc.sc.gov) is disallowed by its robots file."}
+ ],
+ "not_read": [
+  {"utility": "Duke Energy Carolinas, LLC and Duke Energy Progress, LLC (duke-01, duke-02), NCUC E-7 Sub 1329 and E-2 Sub 1380", "why": "The NCUC portal (starw1.ncuc.gov) bars Claude's agents; the NCUC's own site (www.ncuc.gov home and newsroom, read 26 November 2026) posts no 2026 press release on the orders; EDGAR full-text search refused (robots 403). Leads only, not values: WUNC and WFAE (18 November 2026) and Axios Raleigh (17 November 2026) report that the Commission on Tuesday 17 November 2026 approved Duke's rate increases with new rates for data centers of at least 50 MW, effective 1 January 2027, including a stranded generation charge, minimum contract lengths and early termination fees. The order itself was not read: a probable status change for duke-01 and duke-02 to be confirmed from the order."},
+  {"utility": "Public Service Company of Oklahoma (aep-07), OCC Cause PUD 2025-000075", "why": "No OCC order copy found on a readable host (OCC news feed and data center act page read 26 November 2026, nothing on PSO; psoklahoma.com/ratereview.aspx HTTP 404). Leads only (gcn.com and okcfox.com, seen in search): the Commission voted 2-1 on 5 November 2026 to approve the rate case by an 'Interim Order', OCC Order No. 761871, creating a large-load class for loads over 75 MW with supply options left for further study. The vote predates the window; the order's issue date was not found."},
+  {"utility": "Duke Energy Ohio, Inc. (duke-05), PUCO 26-0755-EL-ATA", "why": "The PUCO docketing system's robots file bars Claude's agents; web search found no decision or hearing."},
+  {"utility": "Public Service Company of Colorado (xcel_plains-03), Proceeding 26AL-0137E", "why": "puc.colorado.gov/electric-rate-cases now refused by its robots file (26 November 2026); web search found only an op-ed of 28 October 2026 saying hearings had begun, no decision."},
+  {"utility": "Northern States Power Company-Wisconsin (xcel_plains-05) and Wisconsin Power and Light (xcel_plains-06), PSCW", "why": "PSCW ERF bars Claude's agents; web searches found no November 2026 decision or schedule (only earlier PSCW actions on We Energies and the Meta contract)."},
+  {"utility": "Evergy Kansas Central and Evergy Metro (ameren_evergy_spp-08), KCC", "why": "Docket number still unknown; the KCC docket system answers with a bot check; web search found nothing on the Customer Affordability Enhancement Plan."},
+  {"utility": "Oklahoma Gas and Electric Company (ameren_evergy_spp-10), OCC", "why": "No OCC docket copy readable; web search found no settlement or order (the 12 January 2027 hearing as held)."},
+  {"utility": "NorthWestern Energy (northwest_mountain-09), Montana PSC", "why": "psc.mt.gov/News answered HTTP 403; web search found no decision or hearing date."}
+ ],
+ "queue": {
+  "searched": "ERCOT: the Board's Item 14 Batch Zero Update of 14 to 15 September 2026 (conditional base load 204 projects, 66.4 GW; studied 158 projects, 127.9 GW; excluded 302.2 GW, 373 projects) is already held by window A (ercot_large_load_batch_update_april_2026.yaml, session 3949), so it is not newer than the research; ERCOT's Monthly Operational Overview for October 2026 (17 November 2026) prints generation requests (461,414 MW as of 31 October 2026) and loads approved to energize ('Of the 9,456 MW that have received Approval to Energize', p. 9), not a large-load request total. ERCOT's Interconnection and Grid Analysis Update of September 2026 says the large-load figures are in Item 14. Georgia Power: the Q2 and Q3 2026 large load reports were not found by search and the GA PSC docket page answered with a bot check. No newer period of a total large-load request figure was found."
+ },
+ "refused": [
+  {"utility": "Duke Energy Carolinas and Duke Energy Progress (duke-03)", "url": "https://dms.psc.sc.gov/Web/Dockets/2026-138-E", "reason": "robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot, Claude-User, Claude-Web, Claude-SearchBot, anthropic-ai"},
+  {"utility": "Public Service Company of Colorado (xcel_plains-03)", "url": "https://puc.colorado.gov/electric-rate-cases", "reason": "robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot, Claude-User, Claude-Web, Claude-SearchBot, anthropic-ai"},
+  {"utility": "Duke Energy (duke-01, duke-02)", "url": "https://efts.sec.gov/LATEST/search-index?q=%22large%20load%22&forms=8-K&dateRange=custom&startdt=2026-11-13&enddt=2026-11-26", "reason": "robots.txt answered 403: treated as disallow all"},
+  {"utility": "Georgia Power Company (queue)", "url": "https://psc.ga.gov/search/facts-docket/?docketId=56002", "reason": "blocked: the answer looks like a bot check; not retried with another agent"},
+  {"utility": "NorthWestern Energy (northwest_mountain-09)", "url": "https://psc.mt.gov/News/", "reason": "HTTP 403"},
+  {"utility": "The Empire District Electric Company (ameren_evergy_spp-11)", "url": "https://efis.psc.mo.gov/Document/Display/896107", "reason": "blocked: the answer looks like a bot check (a mistyped document number; the right one, 899652, was read)"},
+  {"utility": "Public Service Company of Oklahoma (aep-07)", "url": "https://www.psoklahoma.com/ratereview.aspx", "reason": "HTTP 404"},
+  {"utility": "New York utilities (northeast-03)", "url": "https://content.govdelivery.com/accounts/NYSDPSPO/bulletins", "reason": "HTTP 404"}
+ ]
+}

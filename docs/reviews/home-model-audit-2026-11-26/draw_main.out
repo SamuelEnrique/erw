@@ -1,0 +1,29 @@
+home: 12070 bytes drawn; em dash none
+tour: 10854 bytes drawn; em dash none
+stop1: 4182 bytes drawn; em dash none
+stop2: 4123 bytes drawn; em dash none
+stop3: 4041 bytes drawn; em dash none
+stop4: 4031 bytes drawn; em dash none
+stop5: 4047 bytes drawn; em dash none
+stop6: 4019 bytes drawn; em dash none
+stop7: 4038 bytes drawn; em dash none
+stop8: 4294 bytes drawn; em dash none
+stop9: 4106 bytes drawn; em dash none
+stop10: 4067 bytes drawn; em dash none
+stop11: 4108 bytes drawn; em dash none
+stop12: 4178 bytes drawn; em dash none
+stop13: 4028 bytes drawn; em dash none
+stop14: 3999 bytes drawn; em dash none
+stop15: 4090 bytes drawn; em dash none
+stop16: 4306 bytes drawn; em dash none
+thesis_scope: 13132 bytes drawn; em dash none
+thesis_trends: 41161 bytes drawn; em dash none
+thesis_landscape: 14337 bytes drawn; em dash none
+thesis_funnel: 60731 bytes drawn; em dash none
+thesis_capital: 8082 bytes drawn; em dash none
+thesis_risks: 7847 bytes drawn; em dash none
+FOUND: Start the tour After the tour: the home page lists every tool by who it is for, and data and methods says how every number is built.
+(node:2352) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-a/site/lib/license.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-a\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

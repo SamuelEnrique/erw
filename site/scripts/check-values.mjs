@@ -137,7 +137,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 405: the interconnection explorer (the default, CAISO in positions; ERCOT in MW over a window; SPP; a held queue)
   "/explore/interconnection", "/explore/interconnection?queue=ercot&measure=mw&from=2018&to=2025", "/explore/interconnection?queue=spp",
   "/explore/interconnection?queue=nyiso",
-  "/impact", "/impact?tech=utility_pv&state=mn&bstate=sd", "/impact?tech=natural_gas&state=tx&instate=50&btech=geothermal&bstate=ca", "/impact?state=ia&iaval=1&levy=30&bstate=ne", "/impact?tech=utility_pv&state=or&iaval=1&btech=utility_pv&bstate=nd", "/impact?tech=utility_pv&state=mi&iaval=1&bstate=vt&bown=1.4&bownyears=25", "/impact?state=il&levy=80&bstate=wv", "/impact?tech=datacenter&state=va&dmw=1000&invest=3000&perm=50&mwh=5000000&bstate=la", "/impact?tech=datacenter&state=la&dmw=5000&invest=50000&perm=1000&cons=7500&dbuild=5&brate=10&erate=10&btech=land_based_wind",
+  "/impact", "/impact?tech=utility_pv&state=mn&bstate=sd", "/impact?tech=natural_gas&state=tx&instate=50&btech=geothermal&bstate=ca", "/impact?state=ia&iaval=1&levy=30&bstate=ne", "/impact?tech=utility_pv&state=or&iaval=1&btech=utility_pv&bstate=nd", "/impact?tech=utility_pv&state=mi&iaval=1&bstate=vt&bown=1.4&bownyears=25", "/impact?state=il&levy=80&bstate=wv", "/impact?tech=datacenter&state=va&dmw=1000&invest=3000&perm=50&mwh=5000000&bstate=la", "/impact?tech=datacenter&state=la&dmw=5000&invest=50000&perm=1000&cons=7500&dbuild=5&brate=10&erate=10&btech=land_based_wind", "/impact?tech=datacenter&state=ar&dmw=600&invest=6000&perm=500&matshare=40&bstate=mi&bdmw=1000&binvest=3000&bperm=40&bdlife=30",
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=spp&asset=wind",  // session 145: MISO is blank on the page, so the fourth view is SPP's wind
   // session 38: today's level's price range
   "/play/ev",  // session 3276: the EV game's four figures at the defaults (ev|US|...)
@@ -158,6 +158,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 8901 (chain 507, part C): the four sets of the whole country, every figure a pf| key into a committed page file
   "/learn/problems/who-trades-with-whom", "/learn/problems/storm-across-the-country", "/learn/problems/under-the-ground-and-in-the-wind",
   "/learn/problems/where-energy-goes",
+  // session 10404 (chain 720, part E): the waiting set of the ERW forecast's report card, every figure a pf| key into site/data/predict/scores.json
+  "/learn/problems/a-forecasts-report-card",
   // session 9001 (chain 601, part H): the congestion page's tables, every figure a pf| key into site/data/conditions/congestion.json
   "/congestion", "/congestion?op=caiso&year=all",
   // and grid conditions' window at a glance, every figure a pf| key into site/data/conditions/<operator>.json

@@ -1,0 +1,86 @@
+iso_rtm_hub_prices: rows from 2026-08-26 05:00 to 2026-11-13 07:45 UTC
+nyiso_rtm_zone_prices: rows from 2026-08-26 04:00 to 2026-10-08 03:45 UTC
+isone_rtm_zone_prices: rows from 2026-08-27 04:00 to 2026-10-08 03:45 UTC
+isone_rtm_zone_prices_hourly: rows from 2026-08-26 04:00 to 2026-10-07 03:00 UTC
+
+2026-10-09 (written 2026-10-09T15:34 UTC), operating day 2026-10-08:
+  ercot: 576 rows; highest 345.92 at HB_WEST 2026-10-09 00:00Z (spp_rtm, iso_rtm_hub_prices), retrieved 2026-10-11T14:08:59Z; no row retrieved before the issue
+  spp: 192 rows; highest 1027.12 at SPPNORTH_HUB 2026-10-08 22:45Z (lmp_rtm_15m_mean, iso_rtm_hub_prices), retrieved 2026-10-10T14:21:51Z; no row retrieved before the issue
+  caiso: 288 rows; highest 74.63 at TH_NP15_GEN-APND 2026-10-09 00:45Z (lmp_rtm_15m_mean, iso_rtm_hub_prices), retrieved 2026-10-09T14:12:40Z; highest among rows retrieved before the issue: 74.63 at TH_NP15_GEN-APND (288 rows)
+  nyiso: no rows
+  isone: no rows
+  miso: no rows
+
+2026-10-12 (written 2026-10-12T15:35 UTC), operating day 2026-10-11:
+  ercot: 576 rows; highest 44.98 at HB_SOUTH 2026-10-12 01:00Z (spp_rtm, iso_rtm_hub_prices), retrieved 2026-10-12T14:09:30Z; highest among rows retrieved before the issue: 44.98 at HB_SOUTH (576 rows)
+  spp: 192 rows; highest 107.29 at SPPSOUTH_HUB 2026-10-12 01:00Z (lmp_rtm_15m_mean, iso_rtm_hub_prices), retrieved 2026-10-12T14:25:15Z; highest among rows retrieved before the issue: 107.29 at SPPSOUTH_HUB (192 rows)
+  caiso: 288 rows; highest 55.35 at TH_NP15_GEN-APND 2026-10-12 00:45Z (lmp_rtm_15m_mean, iso_rtm_hub_prices), retrieved 2026-10-12T14:11:03Z; highest among rows retrieved before the issue: 55.35 at TH_NP15_GEN-APND (288 rows)
+  nyiso: no rows
+  isone: no rows
+  miso: no rows
+
+2026-10-13 (written 2026-10-13T15:36 UTC), operating day 2026-10-12:
+  ercot: 576 rows; highest 72.20 at HB_HOUSTON 2026-10-13 02:30Z (spp_rtm, iso_rtm_hub_prices), retrieved 2026-10-13T14:10:33Z; highest among rows retrieved before the issue: 72.20 at HB_HOUSTON (576 rows)
+  spp: no rows
+  caiso: 288 rows; highest 80.83 at TH_NP15_GEN-APND 2026-10-12 14:15Z (lmp_rtm_15m_mean, iso_rtm_hub_prices), retrieved 2026-10-13T14:12:49Z; highest among rows retrieved before the issue: 80.83 at TH_NP15_GEN-APND (288 rows)
+  nyiso: no rows
+  isone: no rows
+  miso: no rows
+
+2026-10-14 (written 2026-10-14T16:18 UTC), operating day 2026-10-13:
+  ercot: 576 rows; highest 127.48 at HB_HOUSTON 2026-10-13 22:15Z (spp_rtm, iso_rtm_hub_prices), retrieved 2026-10-14T14:11:51Z; highest among rows retrieved before the issue: 127.48 at HB_HOUSTON (576 rows)
+  spp: 192 rows; highest 1571.36 at SPPNORTH_HUB 2026-10-13 17:45Z (lmp_rtm_15m_mean, iso_rtm_hub_prices), retrieved 2026-10-14T14:26:54Z; highest among rows retrieved before the issue: 1571.36 at SPPNORTH_HUB (192 rows)
+  caiso: 288 rows; highest 160.63 at TH_NP15_GEN-APND 2026-10-13 14:15Z (lmp_rtm_15m_mean, iso_rtm_hub_prices), retrieved 2026-10-14T14:13:53Z; highest among rows retrieved before the issue: 160.63 at TH_NP15_GEN-APND (288 rows)
+  nyiso: no rows
+  isone: no rows
+  miso: no rows
+
+2026-10-20 (written 2026-10-20T06:55 UTC), operating day 2026-10-19:
+  ercot: 576 rows; highest 64.58 at HB_WEST 2026-10-20 00:00Z (spp_rtm, iso_rtm_hub_prices), retrieved 2026-10-20T05:23:04Z; highest among rows retrieved before the issue: 64.58 at HB_WEST (576 rows)
+  spp: no rows
+  caiso: 288 rows; highest 85.54 at TH_NP15_GEN-APND 2026-10-20 00:45Z (lmp_rtm_15m_mean, iso_rtm_hub_prices), retrieved 2026-10-21T14:13:06Z; no row retrieved before the issue
+  nyiso: no rows
+  isone: no rows
+  miso: no rows
+
+2026-10-21 (written 2026-10-21T15:45 UTC), operating day 2026-10-20:
+  ercot: 576 rows; highest 55.80 at HB_WEST 2026-10-20 23:45Z (spp_rtm, iso_rtm_hub_prices), retrieved 2026-10-21T14:11:17Z; highest among rows retrieved before the issue: 55.80 at HB_WEST (576 rows)
+  spp: 192 rows; highest 276.41 at SPPNORTH_HUB 2026-10-20 14:45Z (lmp_rtm_15m_mean, iso_rtm_hub_prices), retrieved 2026-10-21T14:24:24Z; highest among rows retrieved before the issue: 276.41 at SPPNORTH_HUB (192 rows)
+  caiso: 288 rows; highest 186.89 at TH_ZP26_GEN-APND 2026-10-21 03:00Z (lmp_rtm_15m_mean, iso_rtm_hub_prices), retrieved 2026-10-21T14:13:12Z; highest among rows retrieved before the issue: 186.89 at TH_ZP26_GEN-APND (288 rows)
+  nyiso: no rows
+  isone: no rows
+  miso: no rows
+
+2026-10-22 (written 2026-10-22T15:39 UTC), operating day 2026-10-21:
+  ercot: 576 rows; highest 77.85 at HB_HOUSTON 2026-10-21 22:45Z (spp_rtm, iso_rtm_hub_prices), retrieved 2026-10-22T14:12:32Z; highest among rows retrieved before the issue: 77.85 at HB_HOUSTON (576 rows)
+  spp: no rows
+  caiso: 288 rows; highest 120.66 at TH_ZP26_GEN-APND 2026-10-21 20:45Z (lmp_rtm_15m_mean, iso_rtm_hub_prices), retrieved 2026-10-22T14:14:40Z; highest among rows retrieved before the issue: 120.66 at TH_ZP26_GEN-APND (288 rows)
+  nyiso: no rows
+  isone: no rows
+  miso: no rows
+
+2026-10-23 (written 2026-10-23T15:45 UTC), operating day 2026-10-22:
+  ercot: 576 rows; highest 114.54 at HB_SOUTH 2026-10-22 13:00Z (spp_rtm, iso_rtm_hub_prices), retrieved 2026-10-25T14:17:16Z; no row retrieved before the issue
+  spp: no rows
+  caiso: 288 rows; highest 99.46 at TH_NP15_GEN-APND 2026-10-22 23:30Z (lmp_rtm_15m_mean, iso_rtm_hub_prices), retrieved 2026-10-23T14:18:11Z; highest among rows retrieved before the issue: 99.46 at TH_NP15_GEN-APND (288 rows)
+  nyiso: no rows
+  isone: no rows
+  miso: no rows
+
+2026-11-06 (written 2026-11-06T00:48 UTC), operating day 2026-11-05:
+  ercot: no rows
+  spp: no rows
+  caiso: no rows
+  nyiso: no rows
+  isone: no rows
+  miso: no rows
+
+2026-11-12 (written 2026-11-12T22:56 UTC), operating day 2026-11-11:
+  ercot: 576 rows; highest 926.42 at HB_WEST 2026-11-12 04:00Z (spp_rtm, iso_rtm_hub_prices), retrieved 2026-11-12T21:27:59Z; highest among rows retrieved before the issue: 926.42 at HB_WEST (576 rows)
+  spp: no rows
+  caiso: 288 rows; highest 66.48 at TH_SP15_GEN-APND 2026-11-11 23:45Z (lmp_rtm_15m_mean, iso_rtm_hub_prices), retrieved 2026-11-12T21:30:26Z; highest among rows retrieved before the issue: 66.48 at TH_SP15_GEN-APND (288 rows)
+  nyiso: no rows
+  isone: no rows
+  miso: no rows
+
+US48 demand 2026-11-11 23:00 UTC: 488341 MW, retrieved 2026-11-13T14:36:06Z
