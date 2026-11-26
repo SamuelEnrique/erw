@@ -204,7 +204,7 @@ for name, d in DATA.items():
 
 export function dcStata(P: DcParams, sc: Record<View, Scenario>): string {
   const out: string[] = [...DC_HEAD("the tax arithmetic in Stata").map((l) => `* ${l.slice(2)}`),
-    "* Recomputes each datacenter scenario's sales tax (before the exemption, forgone, paid), property tax and income tax by year,",
+    "* Recomputes each datacenter scenario's sales tax (before the exemption, forgone, paid), property tax, income tax and electricity tax,",
     "* and displays each total beside the tool's. A plant scenario is replicated by the plant download.", "clear all", "set more off"];
   for (const p of VIEWS) {
     const s = sc[p];
