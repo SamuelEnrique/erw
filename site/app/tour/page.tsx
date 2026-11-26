@@ -36,7 +36,7 @@ export default function Tour() {
         <Link href={stopPath(1)} className="inline-block border border-accent bg-accent px-4 py-2 no-underline"><span className="text-white">Start the tour</span></Link>
       </div>
       <p className="max-w-3xl text-sm text-muted">
-        After the tour: the <Link href="/">home page</Link> lists every tool by who it is for, and <Link href="/data">data and methods</Link> says how every
+        After the tour: the <Link href="/">home page</Link> shows the five groups of tools, and <Link href="/data">data and methods</Link> says how every
         number is built.
       </p>
     </div>

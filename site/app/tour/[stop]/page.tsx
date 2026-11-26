@@ -39,7 +39,7 @@ export default async function TourStop({ params }: { params: Promise<{ stop: str
       <div className="mb-8">
         <Link href={s.href} className="inline-block border border-accent bg-accent px-4 py-2 no-underline" data-tour-open><span className="text-white">Open {s.title.replace(/^The /, "the ")}</span></Link>
       </div>
-      <p className="text-sm text-muted">{n < STOPS.length ? <>Next: <Link href={stopPath(n + 1)}>{STOPS[n].title}</Link>.</> : <>The last stop. After the tour: the <Link href="/">home page</Link> lists every tool by who it is for, and <Link href="/data">data and methods</Link> says how every number is built.</>}</p>
+      <p className="text-sm text-muted">{n < STOPS.length ? <>Next: <Link href={stopPath(n + 1)}>{STOPS[n].title}</Link>.</> : <>The last stop. After the tour: the <Link href="/">home page</Link> shows the five groups of tools, and <Link href="/data">data and methods</Link> says how every number is built.</>}</p>
     </div>
     </Brand>
   );
