@@ -288,6 +288,17 @@ Whose: the old laptop audits it tonight (window D, chain 710, part B: `docs/revi
 
 Pictures: `docs/reviews/browser-read-2026-11-26/datacenter-pays/cost-of-power-as-it-opens-1280.png`; `docs/reviews/browser-read-2026-11-26/datacenter-pays/cost-of-power-grids-390-after-one-table.png` (CP1: 390 px after one tap on Table, the page pushed sideways).
 
+### The first minute, as production stands before tonight's landings
+
+Read 26 November 13:18 UTC with chain 620's own script (`runs/c750/d_first_minute.mjs`), as a stranger and as a reviewer, at 1280 and 390 px.
+
+- **A stranger** meets the in-review page at every address, by the owner's instruction of 8 October; `/internal/findings` answers "No page at this address" to one. Nothing of the site is shown.
+- **A reviewer:** the home page opens in 0.3 s; the menu's six groups hold 33 entries; the 54 distinct addresses of the menu, the home page, the foot and the tour were each asked for: 54 of 54 answer with their heading (`/ask` answers through its redirect to the Grid tool, as designed). Each group of the menu opens inside the screen at both widths. The keyboard's first stops are "Skip to content", the home link, the six groups, then the Digest, the Roundup and Email.
+- **Unchanged since 20 November, and already rows there (not reopened):** the in-review page's heading for the home address is "/" (row D8 of the read of 20 November, for Samuel's ruling); at 390 px an open group of the menu covers the groups under it, so the next needs a second press (row D9, noted).
+- **Tonight's pages are not in the menu, on `/in-review` or in the tour yet** (none has landed); this is read again when they are.
+
+Pictures: `docs/reviews/browser-read-2026-11-26/first-minute/` (`a-stranger-at-the-home-page-1280.png`, `the-home-page-internal-view-1280.png`, `the-menu-open-390.png`).
+
 ## For Samuel's ruling (each with the page left as it is)
 
 1. **A reason on hover and a finger.** Why a strip or a cell is blank, why two figures differ, and what a colored cell holds are given as the browser's own tooltip. A mouse opens it; a finger at 390 px opens nothing. Seen on `/conditions` (the blank strips), `/congestion` (the hour-by-month cells, the operators not drawn), `/demand`, `/supply` and `/events` (blank cells and the figures' notes). The "i" marks and the chart cards do open on a tap. Default taken: nothing changed. The question: should a blank's reason open on a tap, as the "i" marks do?
