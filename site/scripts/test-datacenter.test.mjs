@@ -288,6 +288,8 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   // South Carolina (12-43-220(e), (f)): building at 6 percent, equipment at 10.5 percent; USD 1 billion at the reader's 30 percent (300 mills)
   const scp = D.dcRun(D.dcDefaults(P, "sc", { invest: 1000, perm: 50, brate: 30, erate: 30 }), P);
   near(D.dcStat(scp, "y1:propb"), 196e6 * 0.06 * 0.30, "SC building 3,528,000"); near(D.dcStat(scp, "y1:prope"), 682e6 * 0.105 * 0.30, "SC equipment 21,483,000");
+  // Wyoming (39-11-101): all other property at 9.5 percent; 1e9 at the reader's 7 percent: building 196e6 x 9.5% x 7% = 1,303,400
+  near(D.dcStat(D.dcRun(D.dcDefaults(P, "wy", { invest: 1000, perm: 50, brate: 7, erate: 7 }), P), "y1:propb"), 1303400, "WY building");
   // Ohio's kWh tax (session 10817): 5,000,000 MWh a year; the monthly tiers give 12 x (9.30 + 54.47 + 416,651,666.67 x 0.00363) = 18,150,111.84,
   // the self-assessing schedule 500,000,000 x 0.00257 + 4,500,000,000 x 0.001832 = 9,529,000: the lower is taken
   near(D.dcStat(D.dcRun(D.dcDefaults(P, "oh", { invest: 2000, perm: 100, mwh: 5000000 }), P), "y1:elec"), 9529000, "OH elected", 1e-9);

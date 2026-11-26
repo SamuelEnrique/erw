@@ -45,7 +45,7 @@
   "oh_governor_pause": {"title": "Office of the Governor of Ohio, Governor DeWine Announces Pause of Data Center Tax Exemption (bulletin of 27 May 2026)", "url": "https://content.govdelivery.com/accounts/OHIOGOVERNOR/bulletins/419304d", "read": "2026-11-26", "request": 290},
   "ok_iec_2026": {"title": "State of Oklahoma Incentive Evaluation Commission, Computer Services and Data Processing Tax Exemption, Draft Evaluation (PFM Group Consulting, 30 September 2026)", "url": "https://oklahoma.gov/content/dam/ok/en/omes/documents/computer-services-exemption-draft.pdf", "read": "2026-11-26", "request": 256},
   "ok_commerce_dc": {"title": "Oklahoma Department of Commerce, Oklahoma Data Center Industry Tax Incentives", "url": "https://www.okcommerce.gov/wp-content/uploads/Data-Center-Industry-Tax-Incentives.pdf", "read": "2026-11-26", "request": 257},
-  "wy_39_15_105": {"title": "Wyoming Statutes Title 39, 39-15-105(a)(viii)(S), sales tax exemptions for a data processing services center (with the definition in 39-15-101(a)(xliv))", "url": "https://wyoleg.gov/statutes/compress/title39.pdf", "read": "2026-11-26", "request": 303},
+  "wy_39_15_105": {"title": "Wyoming Statutes Title 39: 39-15-105(a)(viii)(S), sales tax exemptions for a data processing services center (with the definition in 39-15-101(a)(xliv)); 39-11-101, taxable value by class", "url": "https://wyoleg.gov/statutes/compress/title39.pdf", "read": "2026-11-26", "request": 303},
   "il_dor_excise": {"title": "Illinois Department of Revenue, Excise Tax Rates and Fees (the Electricity Excise Tax)", "url": "https://tax.illinois.gov/research/taxrates/excise.html", "read": "2026-11-26", "request": 307},
   "il_dceo": {"title": "Illinois Department of Commerce and Economic Opportunity, Data Center Investment Tax Exemptions and Credits (with its 2025 Data Centers Annual Report, request 248)", "url": "https://dceo.illinois.gov/expandrelocate/incentives/datacenters.html", "read": "2026-11-26", "request": 247},
   "sc_12_43_220": {"title": "South Carolina Code of Laws 12-43-220, Classifications and assessment ratios", "url": "https://www.scstatehouse.gov/code/t12c043.php", "read": "2026-11-26", "request": 328},
@@ -438,6 +438,10 @@
   },
   "wy": {
    "name": "Wyoming",
+   "property": {"building_ratio": 0.095, "equipment_ratio": 0.095, "cite": "wy_39_15_105",
+    "quote": "(C) All other property, real and personal, nine and one-half percent (9.5%).",
+    "industrial": {"cite": "wy_39_15_105", "quote": "(B) Property used for industrial purposes, eleven and one-half percent (11.5%);"},
+    "tip": "Wyoming (W.S. 39-11-101, title 39 on wyoleg.gov): taxable value is 11.5 percent of fair market value for property used for industrial purposes (manufacturing, processing materials, minerals, transforming property into new products) and 9.5 percent for all other property, real and personal. A datacenter is taken as other property: the building and the equipment at 9.5 percent of their cost (no depreciation table is read: an upper bound), times the reader's rate."},
    "sales_exemption": {
     "cite": "wy_39_15_105", "covers": ["equipment"], "min_investment_usd": 5000000, "min_jobs": 0, "rate_part": "state",
     "quote": "of not less than five million dollars ($5,000,000.00)",
