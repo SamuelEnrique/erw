@@ -1,0 +1,8 @@
+storage_capacity.csv: rows=1648 (snapshot; previous file 0 rows)
+storage_capacity: 1648 units; operating: 1156 units, 56,120.7 MW, 154,272.4 MWh; planned: 244 units, 40,936.2 MW, 0.0 MWh; retired: 8 units, 338.5 MW, 1,236.1 MWh; under_construction: 240 units, 23,298.6 MW, 0.0 MWh
+storage_capacity 0
+storage_daily_cycle.csv: rows=9079
+storage_daily_cycle 0
+storage_buildout_monthly.csv: rows=21382 (this run 21382: 21382 new, 0 replaced, 0 kept) range=2015-01-01T00:00:00Z..2026-09-01T00:00:00Z nodes=iso:caiso,iso:ercot,iso:isone,iso:miso,iso:nyiso,iso:pjm,iso:spp,us:outside_isos,us:total min=0.00 max=172181.60 MW/MWh/MWh/MW/count
+storage_buildout: 21382 rows, 141 months to 2026-09; 1156 operating battery units (1 without energy), 8 retired, 8387 solar, 484 planned; outside the seven ISOs: 260 battery units, 16,037.9 MW (21 with no code)
+storage_buildout 0

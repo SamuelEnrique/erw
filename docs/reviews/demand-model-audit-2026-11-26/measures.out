@@ -1,0 +1,43 @@
+A and B. Growth of average demand to 2025, percent, on four bases; and the rate a year two ways
+area | on 2019 (page) | on the mean of 2019-2021 | on 2021 | on 2022 | a year, endpoints 2019-2025 | a year, trend of 2019-2025 | trend without 2020 | largest year-on-year
+ERCOT | +27.22 | +26.65 | +24.35 | +13.35 | +4.09 | +4.54 | +4.31 | 2022 +9.70
+CAISO | +4.45 | +3.20 | +2.17 | +0.13 | +0.73 | +0.65 | +0.66 | 2023 -2.45
+PJM | +5.37 | +6.98 | +5.91 | +4.07 | +0.88 | +0.92 | +0.67 | 2020 -4.01
+MISO | +2.20 | +4.04 | +3.36 | +1.63 | +0.36 | +0.48 | +0.21 | 2020 -4.17
+SPP | +11.14 | +12.54 | +11.95 | +6.02 | +1.78 | +2.05 | +1.82 | 2022 +5.59
+NYISO | -2.73 | -0.62 | -0.26 | -0.72 | -0.46 | -0.38 | -0.56 | 2020 -3.88
+ISO-NE | -2.54 | -1.38 | -1.57 | -1.41 | -0.43 | -0.51 | -0.63 | 2023 -4.21
+Lower 48 | +7.03 | +8.27 | +7.19 | +3.80 | +1.14 | +1.33 | +1.08 | 2020 -3.30
+
+C. The largest and smallest month-and-hour cell against 2019, with the last year moved
+ERCOT: to 2023: largest July 02:00 +26.95, smallest January 06:00 +2.94; to 2024: largest October 16:00 +35.13, smallest September 14:00 +6.06; to 2025: largest January 02:00 +42.55, smallest September 14:00 +14.29
+CAISO: to 2023: largest March 22:00 +27.15, smallest June 15:00 -21.66; to 2024: largest October 09:00 +19.82, smallest April 16:00 -12.75; to 2025: largest March 08:00 +19.76, smallest July 15:00 -12.33
+PJM: to 2023: largest August 03:00 +4.56, smallest January 20:00 -9.01; to 2024: largest June 00:00 +15.26, smallest March 07:00 -6.55; to 2025: largest December 01:00 +17.85, smallest March 10:00 -4.71
+MISO: to 2023: largest August 01:00 +7.12, smallest January 06:00 -7.34; to 2024: largest June 01:00 +9.58, smallest February 14:00 -9.79; to 2025: largest June 23:00 +9.81, smallest March 09:00 -6.66
+SPP: to 2023: largest August 23:00 +11.40, smallest February 18:00 -3.06; to 2024: largest October 16:00 +19.74, smallest February 19:00 -5.20; to 2025: largest October 16:00 +20.13, smallest September 13:00 -1.18
+NYISO: to 2023: largest September 02:00 +3.09, smallest May 11:00 -13.45; to 2024: largest June 01:00 +10.02, smallest March 12:00 -13.40; to 2025: largest December 02:00 +9.11, smallest August 11:00 -16.82
+ISO-NE: to 2023: largest September 00:00 +9.53, smallest May 11:00 -20.04; to 2024: largest June 01:00 +13.41, smallest October 12:00 -17.66; to 2025: largest June 23:00 +13.37, smallest August 11:00 -21.66
+Lower 48: to 2023: largest August 03:00 +8.70, smallest January 07:00 -4.00; to 2024: largest June 02:00 +14.61, smallest September 15:00 -3.64; to 2025: largest January 04:00 +16.97, smallest September 14:00 -0.93
+ERCOT, January at 02:00, MW by year: 2019 35,837, 2020 34,291, 2021 37,501, 2022 41,137, 2023 38,593, 2024 47,914, 2025 51,087
+ERCOT, January heating degree days (five cities, weighted): 2019 472, 2020 341, 2021 402, 2022 504, 2023 341, 2024 561, 2025 568, 2026 464
+
+D. EIA's Demand in place of its Adjusted demand, and no neighbour test: growth to 2025, percent
+ERCOT: average (27.22, 27.23, 27.22); peak (12.16, 12.16, 12.16) (page, Demand, no neighbour test)
+CAISO: average (4.45, 4.58, 4.53); peak (0.03, 0.03, 0.03) (page, Demand, no neighbour test)
+PJM: average (5.37, 5.41, 5.36); peak (5.41, 5.41, 3.4) (page, Demand, no neighbour test)
+MISO: average (2.2, 2.1, 2.2); peak (3.21, 1.29, 3.21) (page, Demand, no neighbour test)
+SPP: average (11.14, 11.14, 11.14); peak (7.72, 7.72, 7.72) (page, Demand, no neighbour test)
+NYISO: average (-2.73, -2.73, -2.73); peak (4.8, 4.8, 4.8) (page, Demand, no neighbour test)
+ISO-NE: average (-2.54, -2.55, -2.54); peak (8.03, 8.03, 8.03) (page, Demand, no neighbour test)
+Lower 48: average (7.03, 7.03, 7.03); peak (None, None, None) (page, Demand, no neighbour test)
+largest move of a whole-year growth under 'Demand': MISO 2025 peak_demand_growth_since_2019_pct: 3.21 becomes 1.29
+largest move of a whole-year growth under 'no neighbour test': PJM 2020 peak_demand_growth_since_2019_pct: -4.52 becomes 44.48
+
+E. The weather view's split of 2025's energy (against the mean of 2019 to 2021), beside the as-metered growth on 2019
+ERCOT: as metered on 2019 +27.22; weather view: growth +26.55 = weather +2.37 + not explained +24.18 (give or take 4.04) a finding
+CAISO: as metered on 2019 +4.45; weather view: growth +2.86 = weather -1.69 + not explained +4.55 (give or take 3.21) a finding
+PJM: as metered on 2019 +5.37; weather view: growth +7.16 = weather +0.58 + not explained +6.58 (give or take 2.54) a finding
+MISO: as metered on 2019 +2.20; weather view: growth +4.10 = weather +0.57 + not explained +3.53 (give or take 2.57) a finding
+SPP: as metered on 2019 +11.14; weather view: growth +12.70 = weather +0.18 + not explained +12.52 (give or take 1.46) a finding
+NYISO: as metered on 2019 -2.73; weather view: growth -0.48 = weather -0.45 + not explained -0.03 (give or take 3.04)
+ISO-NE: as metered on 2019 -2.54; weather view: growth -1.28 = weather -0.17 + not explained -1.11 (give or take 1.70)
