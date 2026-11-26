@@ -260,7 +260,10 @@ async function setB(): Promise<Built> {
     answer: [x.wh, " of ", x.tot, ": ", x.sh, "."],
     line: [`${x.kwh} kWh x `, x.price, " / 1,000 = ", x.wh, "; ", x.wh, " / ", x.tot, " x 100 = ", x.sh],
     steps: [[`The bill: `, x.tot, ` (the tariff lines on /learn/bill).`], [`Wholesale: ${x.kwh} kWh x `, x.price, ` / 1,000 (${x.month}${x.partial ? ", a partial month" : ""}) = `, x.wh, "."], ["Share: ", x.wh, " / ", x.tot, " x 100 = ", x.sh, "."]],
-    why: "Most of a home's bill pays for wires, programs and fixed charges, not the power itself; how much differs by state.",
+    // session 10229 (the problems audit, finding 2): until then "Most of a home's bill pays for wires, programs and fixed
+    // charges, not the power itself", which the default Oncor bill contradicts: its retailer's energy charge, the power
+    // as the home buys it, is more than half the bill. What is small is the wholesale energy inside it.
+    why: "The wholesale energy is the smaller part of a home's bill. The rest pays for the wires, programs and fixed charges, and for what the power costs the utility or the retailer above the wholesale price (its contracts and hedges, the grid's reserves, the energy lost on the wires, its margin): in Texas the retailer's energy charge alone is more than half the default bill. How much differs by state.",
   });
   const q3 = billQ("b3", "CA", ca, "PG&E (California)");
   const q4 = billQ("b4", "TX", tx, "Oncor (Texas)");
