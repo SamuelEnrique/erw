@@ -17,7 +17,7 @@ import announced from "@/data/forecast/datacenter_announced.json";
 import dcRules from "@/data/forecast/datacenter_rules.json";
 import wages from "@/data/forecast/datacenter_wages.json";
 import { type Params } from "./forecast";
-import type { DcParams } from "./datacenter";
+import type { DcParams } from "./dcimpact";
 import { dcProjects, type DcProject } from "./dcui";
 export { pack, unpack, PACK, groupPlanned, type Packed, type Planned } from "./forecast";
 
@@ -57,7 +57,7 @@ export function params(): Params {
   };
 }
 
-/** Chain 740: the datacenter's parameters (lib/datacenter.ts), trimmed to what the model and the left box read: the
+/** Chain 740: the datacenter's parameters (lib/dcimpact.ts), trimmed to what the model and the left box read: the
  *  announced projects' defaults (not their quotes, which stay in the file and its warehouse request), the rules with
  *  their hover words, CBP's wages; the sales, income and deflator tables are the plants' own. */
 export function dcParams(): DcParams {

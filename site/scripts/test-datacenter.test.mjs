@@ -1,4 +1,4 @@
-// Chain 740 (lab-desktop window 3), session 10802: the datacenter of /impact (lib/datacenter.ts) against arithmetic done
+// Chain 740 (lab-desktop window 3), session 10802: the datacenter of /impact (lib/dcimpact.ts) against arithmetic done
 // by hand from the statutes and the parameter files, for three announced projects whose own documents state MW,
 // investment and jobs (site/data/forecast/datacenter_announced.json): Meta in Richland Parish, Louisiana (LED, 13 July
 // 2026), CleanArc in Caroline County, Virginia (VEDP, November 2025), Penzance in Berkeley County, West Virginia (the
@@ -11,7 +11,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const D = await import("../lib/datacenter.ts");
+const D = await import("../lib/dcimpact.ts");
 const F = await import("../lib/forecast.ts");
 const data = (n) => JSON.parse(fs.readFileSync(path.join(here, "..", "data", "forecast", n), "utf8"));
 const P = { announced: data("datacenter_announced.json"), rules: data("datacenter_rules.json"), wages: data("datacenter_wages.json"),

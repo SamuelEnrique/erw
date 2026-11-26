@@ -33,7 +33,7 @@ export default async function Impact({ searchParams }: { searchParams: Promise<R
     select: "entity_id,name,capacity_mw,tech:extra->>technology_group,state:extra->>state,county:extra->>county,date:extra->>date",
     table_name: "eq.energy_projects", "extra->>kind": "eq.planned", "extra->>technology_group": "in.(wind,solar,natural_gas,geothermal)", order: "entity_id" }, HOURLY, 10_000));
   const list = planned.ok ? groupPlanned(planned.data) : [];
-  // chain 740: the datacenter (lib/datacenter.ts): its parameters and the announced projects of the left box
+  // chain 740: the datacenter (lib/dcimpact.ts): its parameters and the announced projects of the left box
   const P2 = dcParams();
   const dcList = dcProjectList();
   return (

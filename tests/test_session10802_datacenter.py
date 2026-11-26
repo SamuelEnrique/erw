@@ -1,4 +1,4 @@
-"""Session 10802 (chain 740): the datacenter in /impact (site/lib/datacenter.ts) and its parameter files.
+"""Session 10802 (chain 740): the datacenter in /impact (site/lib/dcimpact.ts) and its parameter files.
 
 Energy Research Warehouse (ERW). No network, no model, no build. Runs site/scripts/test-datacenter.test.mjs (three
 announced projects, each tax line worked by hand from the statutes), checks that the model imports nothing, that every
@@ -29,7 +29,7 @@ class TheModel(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-2000:])
 
     def test_the_model_imports_nothing(self):
-        with open(os.path.join(SITE, "lib", "datacenter.ts"), encoding="utf-8") as f:
+        with open(os.path.join(SITE, "lib", "dcimpact.ts"), encoding="utf-8") as f:
             self.assertNotRegex(f.read(), r"(?m)^import ")
 
 

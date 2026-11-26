@@ -1,10 +1,10 @@
 // Chain 740 (lab-desktop window 3), session 10803: the datacenter's fields on /impact and its address. A datacenter is
 // the fifth entry of the technology list (its place, DC_IX, is after the four JEDI plants); its fields have names of
 // their own (dmw, invest, perm, ...), so no plant field or address moves. A field the reader has not set is NaN in the
-// scenario's Values and follows its default for the state (lib/datacenter.ts, dcDefaults): an investment not given
+// scenario's Values and follows its default for the state (lib/dcimpact.ts, dcDefaults): an investment not given
 // follows the MW, permanent jobs the MW, construction workers the investment.
 import { TECHS } from "./impact";
-import { dcDefaults, dcWage, type DcInputs, type DcParams } from "./datacenter";
+import { dcDefaults, dcWage, type DcInputs, type DcParams } from "./dcimpact";
 
 export const DC_IX = TECHS.length;
 export const isDcIx = (i: number) => i === DC_IX;
