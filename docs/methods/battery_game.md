@@ -247,7 +247,7 @@ Kelsey's ask 4 (5 October 2026): at the end of every mode, one table of three ro
 
 ## What the game leaves out
 
-- **The customer's side:** retail electricity rates and time-of-use tariffs, transmission and distribution charges, and fixed fees. The battery buys and sells at the wholesale real-time price, which no household does.
+- **The customer's side:** retail electricity rates and time-of-use tariffs, transmission and distribution charges, and fixed fees. The battery buys and sells at the wholesale real-time price, which no household does. **What it is worth (session 10227, the play audit's finding 4; the page says it since):** bought at the state's average residential price of that month (EIA, `eia_retail_electricity_prices`; Texas USD 170.0 per MWh in April 2026) and sold at the real-time price, a battery free to run at any power, made to end the day at least half full, earns USD 0.00 on the calm spring day (2026-04-26), the solar-heavy day, the negative-price day and CAISO's cheapest midday, against the game's 0.44, 0.93, 0.79 and 0.83; on the newest ERCOT day the audit held (2026-11-12, at August's 159.1) 0.18 against 2.09. On the scarcity days it earns more (Uri's day 493.57, the heat day 63.00), because a fixed retail price is then far below the wholesale one, a case no retail plan would let a home sell into.
 - **Real program terms:** ERCOT's ADER pilot is the model, but the bonus, the notice, the hour and the reserve rule are the game's.
 - **Taxes and incentives:** the federal storage tax credit and any utility incentive.
 - **Physics the model skips:**
