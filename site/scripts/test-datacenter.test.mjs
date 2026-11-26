@@ -239,6 +239,16 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   near(D.dcStat(r, "o:earnings:total"), 100 * w * (262.314298 + 125.838075 + 104.443068) / 262.314298);
   const ms = D.dcRun(D.dcDefaults(P, "ms", { invest: 2000, perm: 100 }), P);
   assert.equal(ms.exemption.held, true); assert.equal(ms.exemption.eligible, false);
+  // Arkansas (26-52-456 as Act 548 of 2025 amended it, session 10813): USD 100 million; the state's rate only; no term
+  assert.equal(D.dcRun(D.dcDefaults(P, "ar", { invest: 99, perm: 5 }), P).exemption.eligible, false);
+  const ar = D.dcRun(D.dcDefaults(P, "ar", { invest: 2000, perm: 5, start: 2026, build: 2, life: 10 }), P);
+  assert.equal(ar.exemption.eligible, true);
+  // equipment 1.364e9 bought in the build and in 2033, at the state's 6.5 percent (0.065 in the sales table): 177,320,000
+  near(ar.sums.forgone, 2 * 1.364e9 * P.sales.states.ar.state_rate, "AR forgone at the state rate");
+  // Oklahoma (the Incentive Evaluation Commission's draft of 30 September 2026, session 10813): no threshold or term; the state's 4.5 percent
+  const ok = D.dcRun(D.dcDefaults(P, "ok", { invest: 10, perm: 1, start: 2026, build: 2, life: 10 }), P);
+  assert.equal(ok.exemption.eligible, true);
+  near(ok.sums.forgone, 2 * 10e6 * 0.682 * 0.045, "OK forgone: the build and 2033, 613,800");
   // Illinois (session 10813): the program paused for new applications from 1 July 2026, held as words
   const il = D.dcRun(D.dcDefaults(P, "il", { invest: 2000, perm: 100 }), P);
   assert.equal(il.exemption.held, true); assert.equal(il.exemption.eligible, false); near(il.sums.forgone, 0);

@@ -36,6 +36,10 @@ export const CASES = [
   { id: "nc_75m", state: "nc", set: { invest: 75, perm: 5 } },
   { id: "wi_building", state: "wi", set: { invest: 200, perm: 5, matshare: 40, start: 2026, build: 2, life: 10 } },
   { id: "ut_rule", state: "ut", set: { invest: 2000, perm: 100 } },
+  // session 10813: Arkansas (state rate, construction covered), Oklahoma (no threshold, state rate), Illinois (words)
+  { id: "ar_rule", state: "ar", set: { invest: 2000, perm: 20, matshare: 40 } },
+  { id: "ok_rule", state: "ok", set: { invest: 500, perm: 20 } },
+  { id: "il_words", state: "il", set: { invest: 2000, perm: 100 } },
   { id: "mt_class17", state: "mt", set: { invest: 100, perm: 5, brate: 60, erate: 60 } },
   { id: "mt_below", state: "mt", set: { invest: 40, perm: 5, brate: 1, erate: 1 } },
   { id: "ks_250m_building", state: "ks", set: { invest: 600, perm: 25, matshare: 35 } },
