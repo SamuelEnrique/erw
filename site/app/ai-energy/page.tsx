@@ -51,7 +51,7 @@ export default async function AiEnergyPage({ searchParams }: { searchParams: Pro
       <HeadlineRow>
         <HeadlineNumber label="Figures" value={<span data-fig="h-figures">{F.rows.length}</span>} note="each a number a publication printed" />
         <HeadlineNumber label="Publications" value={<span data-fig="h-publications">{pubs}</span>} note={`${peer} of them peer-reviewed papers, counted only where the page the ERW read names the venue`} />
-        <HeadlineNumber label="Newest" value={<span className="text-2xl" data-fig="h-newest">{dateWords(newest.event_date)}</span>} note={`${newest.parties}: ${newest.x_title}`} />
+        <HeadlineNumber label="Newest" value={<span className="text-2xl" data-fig="h-newest">{dateWords(newest.event_date)}</span>} note={`${newest.parties}: ${newest.x_title}. A date is the one the publication prints, or, for a company report that prints none, the date of the post that launched it (the figure's hover says which)`} />
       </HeadlineRow>
 
       <ToolSection title="Every figure, as printed" id="figures">
