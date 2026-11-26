@@ -9,6 +9,7 @@ docs/state/data_requests_forecast.md). Payroll per job = annual payroll / employ
 
 Usage (one run, untrusted file read as data):
   python -I warehouse/forecast/datacenter_wages.py CBP23ST_ZIP STATE_TXT CBP_HOSTING_CSV
+  python -I warehouse/forecast/datacenter_wages.py --tables CBP_HOSTING_CSV CBP_CONSTRUCTION_CSV   (session 10817: both from warehouse tables)
 """
 import csv, io, json, os, sys, zipfile
 
@@ -39,6 +40,49 @@ def main(zip_path, state_txt, hosting_csv):
                 "employment": int(emp), "annual_payroll_usd": int(ap) * 1000,
                 "emp_noise": row["emp_nf"], "ap_noise": row["ap_nf"]}
 
+    write(construction, hosting_csv, sorted(set(fips.values())), {
+        "source": "U.S. Census Bureau, County Business Patterns 2023, state file cbp23st.zip (construction) and the warehouse table census_cbp_hosting_annual (518210), with the Bureau's state codes (state.txt)",
+        "source_url": "https://www2.census.gov/programs-surveys/cbp/datasets/2023/cbp23st.zip",
+        "read": "2026-11-26, chain 740 session 10801 (runs/c740/probe/probe.csv requests 129 and 130 on lab-desktop)"})
+
+
+def series_rows(path):
+    """The rows of an ERW series table, its # header lines skipped."""
+    with open(path, encoding="utf-8") as f:
+        return list(csv.DictReader(io.StringIO("".join(ln for ln in f if not ln.startswith("#")))))
+
+
+def main_tables(hosting_csv, construction_csv):
+    """Session 10817: both industries from warehouse tables (census_cbp_hosting_annual and census_cbp_construction_annual,
+    data request 7, built by window A), so the tool keeps no private read of the Bureau's files."""
+    parts = {"census_cbp_2362": "nonresidential_building", "census_cbp_238": "specialty_trades"}
+    got = {}
+    for r in series_rows(construction_csv):
+        if not r["ts_utc"].startswith(str(YEAR)):
+            continue
+        ent, st = r["entity"].split(":")
+        if ent not in parts:
+            continue
+        got.setdefault(st, {}).setdefault(parts[ent], {})[r["variable"]] = r
+    construction = {}
+    for st, by in got.items():
+        for part, v in by.items():
+            if "employment" not in v or "annual_payroll" not in v:
+                continue
+            emp, ap = float(v["employment"]["value"]), float(v["annual_payroll"]["value"])
+            if emp <= 0:
+                continue
+            construction.setdefault(st, {})[part] = {
+                "employment": int(emp), "annual_payroll_usd": int(ap),
+                "emp_noise": v["employment"]["x_emp_noise"], "ap_noise": v["annual_payroll"]["x_ap_noise"]}
+    hosting_states = {r["entity"].split(":")[1] for r in series_rows(hosting_csv) if r["ts_utc"].startswith(str(YEAR))}
+    write(construction, hosting_csv, sorted(hosting_states | set(construction)), {
+        "source": "U.S. Census Bureau, County Business Patterns 2023, from the warehouse tables census_cbp_construction_annual (NAICS 2362 and 238) and census_cbp_hosting_annual (518210)",
+        "source_url": "https://www2.census.gov/programs-surveys/cbp/datasets/2023/cbp23st.zip",
+        "read": "2026-11-26, chain 740 session 10817, from the tables as window A wrote them (census_cbp_construction_annual retrieved 20261126T114852Z)"})
+
+
+def write(construction, hosting_csv, state_list, meta):
     hosting = {}
     with open(hosting_csv, encoding="utf-8") as f:
         rows = csv.DictReader(io.StringIO("".join(ln for ln in f if not ln.startswith("#"))))
@@ -49,7 +93,7 @@ def main(zip_path, state_txt, hosting_csv):
             hosting.setdefault(st, {})[r["variable"]] = (float(r["value"]), r["x_emp_noise"], r["x_ap_noise"])
 
     states = {}
-    for st in sorted(set(fips.values())):
+    for st in state_list:
         rec = {}
         h = hosting.get(st, {})
         if "employment" in h and "annual_payroll" in h and h["employment"][0] > 0:
@@ -68,9 +112,9 @@ def main(zip_path, state_txt, hosting_csv):
 
     out = {
         "about": "Payroll per job by state, 2023, for a datacenter's earnings in /impact: operations from NAICS 518210, construction from NAICS 2362 and 238 together. In 2023 dollars; the tool puts them in 2025 dollars by deflator.json. NAICS 518210 is wider than datacenters (JLARC, Data Centers in Virginia 2024, Appendix D: only 15 percent of Virginia's 518210 employment was datacenter employment in 2016), a proxy said on the page. The Bureau infuses noise into employment and payroll (the noise flags kept).",
-        "source": "U.S. Census Bureau, County Business Patterns 2023, state file cbp23st.zip (construction) and the warehouse table census_cbp_hosting_annual (518210), with the Bureau's state codes (state.txt)",
-        "source_url": "https://www2.census.gov/programs-surveys/cbp/datasets/2023/cbp23st.zip",
-        "read": "2026-11-26, chain 740 session 10801 (runs/c740/probe/probe.csv requests 129 and 130 on lab-desktop)",
+        "source": meta["source"],
+        "source_url": meta["source_url"],
+        "read": meta["read"],
         "license": "may be public (the Census Bureau, license_verdicts.csv; its name is not to imply endorsement). Cite the U.S. Census Bureau, County Business Patterns.",
         "year": YEAR,
         "written_by": "warehouse/forecast/datacenter_wages.py",
@@ -85,4 +129,7 @@ def main(zip_path, state_txt, hosting_csv):
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:4])
+    if sys.argv[1:2] == ["--tables"]:
+        main_tables(*sys.argv[2:4])
+    else:
+        main(*sys.argv[1:4])

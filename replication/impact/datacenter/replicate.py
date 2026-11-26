@@ -112,6 +112,15 @@ def run(x):
             tax += max(0.0, min(month, hi) - lo) * blk["usd_per_kwh"]
             lo = hi
         elec = 12 * tax
+        alt = elec_rule.get("elective")
+        if alt and x["mwh"] * 1000 >= alt["min_annual_kwh"]:
+            # session 10817: a schedule a large buyer may elect instead (Ohio's self-assessing purchaser), on the year's kWh
+            year_kwh, lo, elected = x["mwh"] * 1000, 0.0, 0.0
+            for blk in alt["annual_blocks"]:
+                hi = float("inf") if blk["upto_kwh"] is None else blk["upto_kwh"]
+                elected += max(0.0, min(year_kwh, hi) - lo) * blk["usd_per_kwh"]
+                lo = hi
+            elec = min(elec, elected)
 
     years = []
     cj, ce = year_jobs(x["cons"], x["conswage"], ratios(st, "construction"))

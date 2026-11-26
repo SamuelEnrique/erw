@@ -226,6 +226,10 @@ test("Georgia (48-8-3(68.1) as HB 1291 amended it): USD 250 million and 25 jobs,
   assert.equal(D.dcRun(D.dcDefaults(P, "ga", { invest: 249, perm: 100 }), P).exemption.eligible, false);
   // a project starting in 2032 or later buys nothing in the exemption's period
   near(D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 100, start: 2032 }), P).sums.forgone, 0);
+  // property (session 10818): Georgia assesses at 40 percent (48-5-7); USD 2 billion, the reader's 1 percent: building 2e9 x 19.6% x 40% x 1% = 1,568,000
+  near(D.dcStat(D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 100, brate: 1, erate: 1 }), P), "y1:propb"), 1568000, "GA building");
+  // New Mexico, one third: equipment at cost 2e9 x 68.2% x 0.333333 x 1% = 4,546,662.12
+  near(D.dcStat(D.dcRun(D.dcDefaults(P, "nm", { invest: 2000, perm: 100, brate: 1, erate: 1 }), P), "y1:prope"), 2e9 * 0.682 * 0.333333 * 0.01, "NM equipment");
 });
 
 test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and 4); Mississippi and Illinois held as words", () => {
@@ -259,12 +263,43 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   // Illinois (session 10813): the program paused for new applications from 1 July 2026, held as words
   const il = D.dcRun(D.dcDefaults(P, "il", { invest: 2000, perm: 100 }), P);
   assert.equal(il.exemption.held, true); assert.equal(il.exemption.eligible, false); near(il.sums.forgone, 0);
+  // Illinois' electricity excise tax (session 10817): 5,000,000 MWh a year is 416,666,666.67 kWh a month; the nine lower blocks
+  // 6.6 + 153.12 + 151.5 + 1,188 + 1,430 + 5,400 + 5,080 + 11,650 + 20,700 = 45,759.22, and 396,666,666.67 x 0.00202 = 801,266.67:
+  // 847,025.89 a month, 10,164,310.64 a year
+  const ile = D.dcRun(D.dcDefaults(P, "il", { invest: 2000, perm: 100, mwh: 5000000 }), P);
+  near(D.dcStat(ile, "y1:elec"), 10164310.64, "IL electricity a year", 1e-9);
   // Massachusetts (session 10815): applications not accepted since the framework of 25 June 2026, held as words
   const ma = D.dcRun(D.dcDefaults(P, "ma", { invest: 2000, perm: 200 }), P);
   assert.equal(ma.exemption.held, true); assert.equal(ma.exemption.eligible, false); near(ma.sums.forgone, 0);
   // Ohio (session 10815): the Tax Credit Authority takes no new requests since the Governor's directive of 27 May 2026, held as words
   const oh = D.dcRun(D.dcDefaults(P, "oh", { invest: 2000, perm: 100 }), P);
   assert.equal(oh.exemption.held, true); assert.equal(oh.exemption.eligible, false); near(oh.sums.forgone, 0);
+  // Ohio's property (session 10818): building at 35 percent of cost, equipment untaxed since 2009; USD 1 billion at the reader's 6 percent: 196e6 x 35% x 6% = 4,116,000
+  const ohp = D.dcRun(D.dcDefaults(P, "oh", { invest: 1000, perm: 50, brate: 6, erate: 6 }), P);
+  near(D.dcStat(ohp, "y1:propb"), 4116000, "OH building"); near(D.dcStat(ohp, "y1:prope"), 0, "OH equipment");
+  // Iowa (427A.2), Minnesota (272.02 subd. 9), North Dakota (the Tax Commissioner) and Wisconsin (2023 Act 12) tax no personal property: equipment 0; the building at cost x the reader's 2 percent: 1e9 x 19.6% x 2% = 3,920,000
+  for (const st of ["ia", "mn", "nd", "wi"]) {
+    const r = D.dcRun(D.dcDefaults(P, st, { invest: 1000, perm: 50, brate: 2, erate: 2 }), P);
+    near(D.dcStat(r, "y1:propb"), 3920000, st + " building"); near(D.dcStat(r, "y1:prope"), 0, st + " equipment");
+  }
+  // Kansas (79-1439, 79-223): building at 25 percent, equipment exempt; 1e9 x 19.6% x 25% x 2% = 980,000
+  const ksp = D.dcRun(D.dcDefaults(P, "ks", { invest: 1000, perm: 50, brate: 2, erate: 2 }), P);
+  near(D.dcStat(ksp, "y1:propb"), 980000, "KS building"); near(D.dcStat(ksp, "y1:prope"), 0, "KS equipment");
+  // South Carolina (12-43-220(e), (f)): building at 6 percent, equipment at 10.5 percent; USD 1 billion at the reader's 30 percent (300 mills)
+  const scp = D.dcRun(D.dcDefaults(P, "sc", { invest: 1000, perm: 50, brate: 30, erate: 30 }), P);
+  near(D.dcStat(scp, "y1:propb"), 196e6 * 0.06 * 0.30, "SC building 3,528,000"); near(D.dcStat(scp, "y1:prope"), 682e6 * 0.105 * 0.30, "SC equipment 21,483,000");
+  // Wyoming (39-11-101): all other property at 9.5 percent; 1e9 at the reader's 7 percent: building 196e6 x 9.5% x 7% = 1,303,400
+  near(D.dcStat(D.dcRun(D.dcDefaults(P, "wy", { invest: 1000, perm: 50, brate: 7, erate: 7 }), P), "y1:propb"), 1303400, "WY building");
+  // Arizona 15 percent (42-15001, class one), Missouri 32 and 33.3 percent (137.115), Nevada 35 percent (361.225), Alabama 20 percent (Class II), Mississippi 15 percent (Classes II and III); USD 1 billion at the reader's 10 percent
+  for (const [st, b, e] of [["az", 0.15, 0.15], ["mo", 0.32, 0.333333], ["nv", 0.35, 0.35], ["al", 0.2, 0.2], ["ms", 0.15, 0.15], ["ar", 0.2, 0.2]]) {
+    const r = D.dcRun(D.dcDefaults(P, st, { invest: 1000, perm: 50, brate: 10, erate: 10 }), P);
+    near(D.dcStat(r, "y1:propb"), 196e6 * b * 0.10, st + " building"); near(D.dcStat(r, "y1:prope"), 682e6 * e * 0.10, st + " equipment");
+  }
+  // Ohio's kWh tax (session 10817): 5,000,000 MWh a year; the monthly tiers give 12 x (9.30 + 54.47 + 416,651,666.67 x 0.00363) = 18,150,111.84,
+  // the self-assessing schedule 500,000,000 x 0.00257 + 4,500,000,000 x 0.001832 = 9,529,000: the lower is taken
+  near(D.dcStat(D.dcRun(D.dcDefaults(P, "oh", { invest: 2000, perm: 100, mwh: 5000000 }), P), "y1:elec"), 9529000, "OH elected", 1e-9);
+  // 40,000 MWh is below the 45 million kWh a self-assessing location needs: the tiers, 145,311.84
+  near(D.dcStat(D.dcRun(D.dcDefaults(P, "oh", { invest: 100, perm: 10, mwh: 40000 }), P), "y1:elec"), 145311.84, "OH tiers", 1e-9);
   // Nebraska (session 10815): ImagiNE incentives closed to data centers by the order of 21 July 2026, held as words
   const ne = D.dcRun(D.dcDefaults(P, "ne", { invest: 2000, perm: 100 }), P);
   assert.equal(ne.exemption.held, true); assert.equal(ne.exemption.eligible, false);
