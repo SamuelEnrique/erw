@@ -74,6 +74,10 @@ function Heat({ cells, label, src, fmt, k, note }: { cells: (number | null)[][];
   );
 }
 
+// Session 10220 (congestion audit, finding 4): SPP's files name its western balancing area (SWPW) from 1 April 2026, the
+// day its market took in the west (docs/methods/spp_dam_cleared_energy.md), and the page set SPP's years side by side.
+const SPP_WEST_WORDS = "SPP's market took in its western area on 1 April 2026 (SPP's files name the area SWPW from that day), so SPP's constraints and price parts from April 2026 may be those of a larger market than before. The page sets SPP's months and years side by side across that day with no mark, and whether SPP's hubs' congestion parts moved because of it is not known here.";
+
 function constraintLabel(c: Constraint) {
   return c.contingency && c.contingency !== "BASE" ? `${c.name} (contingency ${c.contingency})` : c.name;
 }
@@ -154,6 +158,8 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
             <ToolTable minWidth={720} caption={`${F.operators.find((o) => o.id === op)?.name}: the constraints whose shadow price summed highest, ${yearWords}`} head={head} rows={top.by_cost.map(rowOf)} />
           </>
         ) : <p className="text-sm text-muted">No constraint of this operator is held.</p>}
+        {/* Session 10220 (congestion audit, finding 4): SPP's market changed on 1 April 2026. */}
+        {op === "spp" ? <p className="mt-2 max-w-3xl text-xs text-muted" data-spp-west="1">{SPP_WEST_WORDS}</p> : null}
         <p className="mt-2 text-sm" data-not-drawn="1">Not drawn: {blank.map((o) => <span key={o.id} className="mr-2 cursor-help text-muted underline decoration-dotted" title={`${o.status}: ${o.why ?? ""}`} data-blank={o.id}>{o.name} ({o.status})</span>)}</p>
       </ToolSection>
 

@@ -11,7 +11,7 @@ export const CONGESTION_DECISIONS: CongestionDecision[] = [
     def: "The operators' figures as published.",
     source: "site/data/conditions/congestion.json, built by warehouse/derived/congestion_page.py (docs/methods/grid_congestion.md)." },
   { key: "operators", session: "session 9000",
-    text: "SPP and CAISO are drawn. ERCOT publishes its shadow prices only on paths its robots file disallows; PJM, NYISO and ISO-NE are held by their terms; MISO is paused. Each is named with its reason on hover and no number.",
+    text: "SPP and CAISO are drawn. ERCOT publishes its shadow prices only on paths its robots file disallows, or through an API whose key has not been made; PJM, NYISO and ISO-NE are held by their terms; MISO is paused. Each is named with its reason on hover and no number. SPP's market took in its western area on 1 April 2026, and SPP's figures before and after that day stand side by side with no mark.",
     def: "SPP and CAISO.",
     source: "docs/reviews/grid-conditions-sources-2026-11-20.md; docs/licenses.md; the owner's ruling of 6 November 2026." },
   { key: "names", session: "session 9000",
