@@ -1,0 +1,7 @@
+columns ['entity', 'variable', 'ts_utc', 'value', 'unit', 'freq', 'geo', 'market', 'node', 'source', 'source_url', 'retrieved_at', 'vintage']
+('caiso_dam', 'caiso:TH_NP15_GEN-APND', 'lmp_dam', 'TH_NP15_GEN-APND') ['2026-08-26T07:00:00Z', '2026-11-14T07:00:00Z', 1873]
+('caiso_dam', 'caiso:TH_SP15_GEN-APND', 'lmp_dam', 'TH_SP15_GEN-APND') ['2026-08-26T07:00:00Z', '2026-11-14T07:00:00Z', 1873]
+('caiso_dam', 'caiso:TH_ZP26_GEN-APND', 'lmp_dam', 'TH_ZP26_GEN-APND') ['2026-08-26T07:00:00Z', '2026-11-14T07:00:00Z', 1873]
+('spp_dam', 'spp:SPPNORTH_HUB', 'lmp_dam', 'SPPNORTH_HUB') ['2026-08-26T05:00:00Z', '2026-11-14T05:00:00Z', 1849]
+('spp_dam', 'spp:SPPSOUTH_HUB', 'lmp_dam', 'SPPSOUTH_HUB') ['2026-08-26T05:00:00Z', '2026-11-14T05:00:00Z', 1849]
+markets ['caiso_dam', 'ercot_dam', 'miso_dam', 'spp_dam']

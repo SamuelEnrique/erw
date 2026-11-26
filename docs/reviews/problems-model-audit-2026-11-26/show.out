@@ -1,0 +1,234 @@
+========== who-trades-with-whom
+[tx] Q: In October 2026, how much power did Tennessee report receiving from the Southeast, how much did the Southeast report for the same flow, and how many times the Southeast's report was Tennessee's?
+   A: October 2026: Tennessee's report -81,343 MWh, the Southeast's -81,468 MWh: Tennessee's is 1.00 times the Southeast's. Both have the same sign, so both say Tennessee sent power to the Southeast.
+   L: -81,343 MWh / -81,468 MWh = 1.00 times
+   S: On /supply, The whole country, pick Tennessee and the year 2026; or open site/data/regions/trade/ten.json and take position 99 of its months (2026-10).
+   S: Under neighbors, SE: net_imports_mwh is Tennessee's own report, -81,343 MWh; their_report_mwh is the Southeast's report of the same flow, turned to Tennessee's side, -81,468 MWh.
+   S: Divide: -81,343 MWh / -81,468 MWh = 1.00 times. A ratio near one says the two sides agree.
+[t1] Q: In October 2026, what were Tennessee's net imports from all its neighbours together, by its own report, and from each of its 4 neighbours? From which did it import the most?
+   A: October 2026: in all 574,900 MWh. Carolinas -94,603 MWh; Mid-Atlantic -899,413 MWh; Midwest 1,650,259 MWh; Southeast -81,343 MWh. The most from Midwest; to Carolinas, Mid-Atlantic, Southeast it sent power (below zero).
+   L: -94,603 MWh + -899,413 MWh + 1,650,259 MWh + -81,343 MWh = 574,900 MWh
+   S: Open the table Net imports by month and by neighbour for Tennessee, or site/data/regions/trade/ten.json at position 99 (2026-10).
+   S: Each neighbour's net_imports_mwh, Tennessee's own report: Carolinas -94,603 MWh; Mid-Atlantic -899,413 MWh; Midwest 1,650,259 MWh; Southeast -81,343 MWh.
+   S: The file's own total, net_imports_mwh: 574,900 MWh, the sum of the four.
+   S: Above zero Tennessee imported; below zero it sent power out. The largest import: Midwest, 1,650,259 MWh.
+[t6] Q: California and Mexico in 2025: how much power did California report sending to Mexico, over how many hours, and for how many hours does the file hold a report from Mexico's side? What does that leave out?
+   A: California reported 971,140 MWh over 8,712 hours; Mexico's side: 0 hours. With one report there is no second figure to compare, so no gap can be formed.
+   L: a_report_mwh = 971,140 MWh; hours_a = 8,712 hours; hours_b = 0 hours
+   S: In region_pairs, the row with a CAL, b MEX, year 2025. Above zero: power from California to Mexico.
+   S: a_report_mwh, California's report: 971,140 MWh, over hours_a, 8,712 hours.
+   S: hours_b: 0 hours. b_report_mwh and gap_mwh are empty: Mexico's operators file nothing with EIA's Form EIA-930.
+[t2] Q: In October 2026, Tennessee's largest flow, in size, was with the Midwest. What did Tennessee report, what did the Midwest report for the same flow, and how many times the Midwest's report was Tennessee's?
+   A: Tennessee 1,650,259 MWh, the Midwest 1,583,612 MWh: Tennessee's report is 1.04 times the Midwest's; the file's gap is 66,647 MWh.
+   L: 1,650,259 MWh / 1,583,612 MWh = 1.04 times
+   S: Under neighbors, MIDW: net_imports_mwh (Tennessee's report) 1,650,259 MWh; their_report_mwh (the Midwest's, turned to Tennessee's side) 1,583,612 MWh.
+   S: Divide: 1,650,259 MWh / 1,583,612 MWh = 1.04 times.
+   S: The file's gap_mwh, Tennessee's report less the Midwest's over the hours both reported: 66,647 MWh.
+[t7] Q: In July 2018, the ended month of the file in which Tennessee reported its flow with the Midwest for the smallest share of the hours, for how many hours did it report, of how many in the month, and what share is that?
+   A: July 2018: 407 hours of 744 hours, or 54.70 %; its net import from the Midwest that month, 410,651 MWh, sums only those hours.
+   L: 407 hours / 744 hours x 100 = 54.70 %
+   S: In site/data/regions/trade/ten.json, position 0 (2018-07): neighbors, MIDW, hours_own, 407 hours; hours_in_month, 744 hours.
+   S: Divide and multiply by 100: 407 hours / 744 hours x 100 = 54.70 %.
+   S: The month's net import, 410,651 MWh, is a sum over the hours reported: the missing hours are not filled.
+[t5] Q: Power from the Midwest to Tennessee: by Tennessee's own report, how many times its 2019 flow was its 2025 flow? And by the Midwest's report?
+   A: By Tennessee's report 1.66 times; by the Midwest's 1.67 times. The two sides' levels differ, but each says the flow grew by about the same factor.
+   L: 16,681,508 MWh / 10,053,816 MWh = 1.66 times; 15,679,234 MWh / 9,404,170 MWh = 1.67 times
+   S: In region_pairs, the rows with a MIDW, b TEN, for 2019 and 2025, the first and the latest years both sides reported in all twelve months.
+   S: Tennessee's report (b_report_mwh): 10,053,816 MWh in 2019, 16,681,508 MWh in 2025; 16,681,508 MWh / 10,053,816 MWh = 1.66 times.
+   S: The Midwest's report (a_report_mwh): 9,404,170 MWh in 2019, 15,679,234 MWh in 2025; 15,679,234 MWh / 9,404,170 MWh = 1.67 times.
+[t3] Q: In October 2026, what did Tennessee and the Mid-Atlantic each report for the flow between them? Subtract the Mid-Atlantic's report from Tennessee's, and compare the result with the gap the file gives. Why can the two differ?
+   A: Tennessee -899,413 MWh, the Mid-Atlantic -675,342 MWh; Tennessee's less the Mid-Atlantic's is -224,071 MWh, the file's gap -222,699 MWh: not the same, because each report runs over its own side's hours and the gap over the hours both reported.
+   L: -899,413 MWh - -675,342 MWh = -224,071 MWh; the file's gap_mwh = -222,699 MWh
+   S: Under neighbors, MIDA: net_imports_mwh -899,413 MWh and their_report_mwh -675,342 MWh.
+   S: Subtract: -899,413 MWh - -675,342 MWh = -224,071 MWh.
+   S: The file's gap_mwh: -222,699 MWh. Tennessee reported 744 hours, the Mid-Atlantic 743 hours, both 743 hours: the gap is taken over the hours both reported only.
+[t4] Q: In the table Who trades with whom, find the Mid-Atlantic and Tennessee in 2019, the year their two reports differ most. Which way did each side say the power ran over the year, and how far apart are their reports?
+   A: The Mid-Atlantic reported 2,437,201 MWh (it says the power ran from the Mid-Atlantic to Tennessee); Tennessee reported -6,612,970 MWh (it says it ran from Tennessee to the Mid-Atlantic): the two sides disagree on the direction. Apart by 9,050,171 MWh; the file's gap, over the hours both reported, is 9,034,597 MWh.
+   L: 2,437,201 MWh - -6,612,970 MWh = 9,050,171 MWh; the file's gap_mwh = 9,034,597 MWh
+   S: In site/data/regions/trade_matrix.json, region_pairs, the row with a MIDA, b TEN, year 2019. A report above zero is power from a (the Mid-Atlantic) to b (Tennessee).
+   S: a_report_mwh, the Mid-Atlantic's: 2,437,201 MWh. b_report_mwh, Tennessee's: -6,612,970 MWh.
+   S: Subtract: 2,437,201 MWh - -6,612,970 MWh = 9,050,171 MWh; the file's gap_mwh: 9,034,597 MWh.
+   S: The page turns each pair to the direction of the mean and marks a report below zero as counting the flow the other way.
+========== storm-across-the-country
+[sx] Q: Winter Storm Elliott (2022-12-19 to 2022-12-29): what was the Carolinas' highest hour of demand in the window, when was it, what was the baseline's demand in that hour, and how many times the baseline was it?
+   A: 2022-12-24 11:00 UTC: 44,630 MW against a baseline of 26,915 MW: 1.66 times the baseline.
+   L: 44,630 MW / 26,915 MW = 1.66 times
+   S: On /events/elliott-2022, The whole country, the table Each region across the event: the Carolinas' Highest hour, 44,630 MW, at 2022-12-24 11:00 UTC, and Baseline that hour, 26,915 MW.
+   S: In site/data/regions/events/elliott_2022.json: regions, CAR, demand_mw, the largest value (position 126 of the window's hours, counted from 2022-12-19T05:00:00Z); baseline, demand_mw, the same position.
+   S: Divide: 44,630 MW / 26,915 MW = 1.66 times.
+[s1] Q: Winter Storm Elliott: what was Tennessee's highest hour of demand in the window, when was it, what was the baseline's demand in that hour, and how many times the baseline was it?
+   A: 2022-12-24 01:00 UTC: 33,225 MW against 19,830 MW: 1.68 times the baseline.
+   L: 33,225 MW / 19,830 MW = 1.68 times
+   S: The table Each region across the event, Tennessee: Highest hour 33,225 MW, at 2022-12-24 01:00 UTC; Baseline that hour 19,830 MW.
+   S: Or regions, TEN, demand_mw at position 116, and baseline, demand_mw at the same position.
+   S: Divide: 33,225 MW / 19,830 MW = 1.68 times.
+[s2] Q: Winter Storm Uri (2021-02-07 to 2021-02-24): what was Texas's highest hour of demand in the window, when was it, and by how many MW did it exceed the baseline's demand in that hour?
+   A: 2021-02-15 01:00 UTC: 69,215 MW against 40,461 MW: 28,754 MW above the baseline.
+   L: 69,215 MW - 40,461 MW = 28,754 MW
+   S: On /events/uri-2021, The whole country, Texas: Highest hour 69,215 MW, at 2021-02-15 01:00 UTC; Baseline that hour 40,461 MW.
+   S: Or site/data/regions/events/uri_2021.json: regions, TEX, demand_mw at position 188; baseline, demand_mw at the same position. The baseline here is the same calendar days of 2019 and 2020.
+   S: Subtract: 69,215 MW - 40,461 MW = 28,754 MW.
+[s3] Q: In Tennessee's highest hour of Elliott (2022-12-24 01:00 UTC), how much did natural gas, coal, nuclear and hydro generate, what share of the region's net generation was natural gas, and how many times the baseline's natural gas in that hour was it?
+   A: Natural gas 10,727 MW, coal 2,423 MW, nuclear 8,593 MW, hydro 5,497 MW; natural gas was 39.23 % of net generation (27,342 MW) and 2.00 times the baseline's 5,353 MW.
+   L: 10,727 MW / 27,342 MW x 100 = 39.23 %; 10,727 MW / 5,353 MW = 2.00 times
+   S: Pick Tennessee under A region hour by hour and read Generation by source at that hour; or regions, TEN, gen, each source at position 116.
+   S: Natural gas 10,727 MW, coal 2,423 MW, nuclear 8,593 MW, hydro 5,497 MW; net_generation_mw 27,342 MW.
+   S: Share: 10,727 MW / 27,342 MW x 100 = 39.23 %.
+   S: The baseline's natural gas that hour: 5,353 MW; 10,727 MW / 5,353 MW = 2.00 times.
+[s5] Q: In the same hour (2022-12-24 01:00 UTC), what were Tennessee's net imports, and its baseline's? How much flowed between Tennessee and each of its 4 neighbours, and which sent the most into Tennessee?
+   A: Net imports 5,807 MW against 392 MW in the baseline. Carolinas to Tennessee 57 MW; Mid-Atlantic to Tennessee 2,561 MW; Midwest to Tennessee 4,827 MW; Southeast to Tennessee -52 MW. The most from Midwest; below zero, Tennessee sent power to Southeast.
+   L: the largest flow into Tennessee = 4,827 MW (Midwest); net imports 5,807 MW against 392 MW
+   S: Tennessee's net_imports_mw at that hour (above zero it imports): 5,807 MW; the baseline's: 392 MW.
+   S: Under pairs, each pair ending in TEN (power from the first region to Tennessee, above zero), flow_mw at position 116: CAR-TEN 57 MW; MIDA-TEN 2,561 MW; MIDW-TEN 4,827 MW; SE-TEN -52 MW.
+   S: The table Power between regions, pair by pair gives the same pairs over the whole window, in the direction of the net flow.
+[s4] Q: In Texas's highest hour of Uri (2021-02-15 01:00 UTC), how did wind and natural gas generation compare with the baseline's in that hour?
+   A: Wind 8,087 MW against 10,408 MW, a difference of -2,321 MW; natural gas 43,798 MW against 16,616 MW, 2.64 times the baseline.
+   L: 8,087 MW - 10,408 MW = -2,321 MW; 43,798 MW / 16,616 MW = 2.64 times
+   S: Pick Texas under A region hour by hour on /events/uri-2021 and read Generation by source at 2021-02-15 01:00 UTC; or regions, TEX, gen and baseline, gen, at position 188.
+   S: Wind: 8,087 MW, baseline 10,408 MW; 8,087 MW - 10,408 MW = -2,321 MW.
+   S: Natural gas: 43,798 MW, baseline 16,616 MW; 43,798 MW / 16,616 MW = 2.64 times.
+[s6] Q: Compare the two storms: at its highest hour, how much did Texas import in Uri, and Tennessee in Elliott? Tennessee's net imports were how many times Texas's?
+   A: Texas 1,194 MW at 69,215 MW of demand; Tennessee 5,807 MW at 33,225 MW: Tennessee's net imports were 4.86 times Texas's.
+   L: 5,807 MW / 1,194 MW = 4.86 times
+   S: Texas, regions, TEX, net_imports_mw at position 188 of Uri's window: 1,194 MW.
+   S: Tennessee, regions, TEN, net_imports_mw at position 116 of Elliott's window: 5,807 MW.
+   S: Divide: 5,807 MW / 1,194 MW = 4.86 times.
+[s7] Q: In Texas's highest hour of Uri (2021-02-15 01:00 UTC), how much power did the Central region report sending to Texas, how much did Texas report receiving, and how far apart are the two reports?
+   A: Central reported 820 MW, Texas 812 MW: apart by 8 MW.
+   L: 820 MW - 812 MW = 8 MW
+   S: Under pairs, CENT-TEX (power from Central to Texas, above zero): flow_mw_a, Central's own report, and flow_mw_b, Texas's report turned to the same direction, at position 188.
+   S: Central 820 MW, Texas 812 MW; 820 MW - 812 MW = 8 MW.
+   S: The page's flow_mw takes the first region's report where it is held, else the second's.
+========== under-the-ground-and-in-the-wind
+[rx] Q: Switch on the layer "Global Horizontal Irradiance" (annual average daily total solar resource). What are the lowest and the highest values of its legend, and the highest is how many times the lowest?
+   A: Lowest 1.58 kWh/m2/day, highest 6.91 kWh/m2/day: the sunniest cell receives 4.36 times the energy per square metre of the least sunny.
+   L: 6.91 kWh/m2/day / 1.58 kWh/m2/day = 4.36 times
+   S: On the resources tab of /map, switch on Global Horizontal Irradiance; the legend runs from its lowest to its highest value, in kWh/m2/day, over every part of the layer (the contiguous states; Hawaii; Alaska south of 60 degrees north), and prints one decimal. In site/data/resources/manifest.json the layer with id solar_ghi holds a legend for the contiguous states and one for each of its other extents: the map's legend runs from the lowest of their lows (Alaska south of 60 degrees north) to the highest of their highs (Hawaii).
+   S: Lowest 1.58 kWh/m2/day, highest 6.91 kWh/m2/day.
+   S: Divide: 6.91 kWh/m2/day / 1.58 kWh/m2/day = 4.36 times.
+[r2] Q: Two solar layers share a unit (kWh/m2/day): "Global Horizontal Irradiance" and "Direct Normal Irradiance". What is the highest value of each legend, and the second's is how many times the first's?
+   A: Global Horizontal Irradiance 6.91 kWh/m2/day; Direct Normal Irradiance 9 kWh/m2/day: 1.30 times.
+   L: 9 kWh/m2/day / 6.91 kWh/m2/day = 1.30 times
+   S: Switch on each layer in turn and read the legend's top; or, in the list, the highest of each layer's legends over its parts (Hawaii for solar_ghi, the contiguous states for solar_dni): 6.91 kWh/m2/day and 9 kWh/m2/day.
+   S: Divide: 9 kWh/m2/day / 6.91 kWh/m2/day = 1.30 times.
+[r1] Q: The layer "Wind speed at 100 m": what is the highest value of its legend, what is the highest value in the source's own cells (the list's source_stats, max), and how far apart are they? Why is the map's lower?
+   A: The legend's highest 13.58 m/s, the source's highest 14.20 m/s: the map's is lower by 0.62 m/s, because each map cell is the mean of the source's cells inside it.
+   L: 14.20 m/s - 13.58 m/s = 0.62 m/s
+   S: Switch on Wind speed at 100 m and read the legend's top; or the layer wind_speed_100m, legend, max: 13.58 m/s.
+   S: The source's own grain is 2 km ("2km x 2km"); the list's source_stats, max, is the highest of its cells: 14.20 m/s.
+   S: Subtract: 14.20 m/s - 13.58 m/s = 0.62 m/s. The Method note says a coarser cell is the mean of the source's cells inside it, and a mean is never above the highest of what it averages.
+[r3] Q: The layer "Wind capacity factor (supply curve sites)" (Mean capacity factor across 11.5km grid-cell (the source's capacity_factor_ac)) is a ratio. What are the mean and the highest values the list gives for it, and the highest is how many times the mean?
+   A: Mean 0.31 ratio, highest 0.54 ratio: the best place is 1.75 times the mean. Even there a wind farm makes less in a year than it would at full power every hour.
+   L: 0.54 ratio / 0.31 ratio = 1.75 times
+   S: In site/data/resources/manifest.json, the layer wind_capacity_factor, stats: mean 0.31 ratio, max 0.54 ratio. The legend on the map runs to the same top.
+   S: A capacity factor is the energy a plant makes over the energy it would make at full power every hour: a ratio, so multiply by 100 for a percent.
+   S: Divide: 0.54 ratio / 0.31 ratio = 1.75 times.
+[r6] Q: The layer "Solid biomass resources by county" is counted in dry metric tons/year. What is its national total, how much of it is crop residue (the part CropRes), and what share is that?
+   A: In all 315,802,780.06 dry metric tons/year; crop residue 173,997,321.42 dry metric tons/year, or 55.10 %. A tonne is a mass, not energy: the map does not say how much power it would make.
+   L: 173,997,321.42 dry metric tons/year / 315,802,780.06 dry metric tons/year x 100 = 55.10 %
+   S: In site/data/resources/manifest.json, the layer biomass: national_total 315,802,780.06 dry metric tons/year; parts, CropRes, 173,997,321.42 dry metric tons/year.
+   S: Share: 173,997,321.42 dry metric tons/year / 315,802,780.06 dry metric tons/year x 100 = 55.10 %.
+[r4] Q: The layer "Identified hydrothermal systems": how many sites does it hold, what is the sum of their estimated output (Mean Megawatts electric (MWe), the source's MWe_Mean), the largest site's, and what share of the sum is the largest?
+   A: 253 sites: in all 9,060.80 MWe; the largest 2,209.90 MWe, or 24.39 % of the sum.
+   L: 2,209.90 MWe / 9,060.80 MWe x 100 = 24.39 %
+   S: In site/data/resources/manifest.json, the layer geothermal_hydrothermal_sites: stats, n, 253 sites; total_mwe_mean, 9,060.80 MWe; stats, max, 2,209.90 MWe.
+   S: Share: 2,209.90 MWe / 9,060.80 MWe x 100 = 24.39 %.
+[r5] Q: The layer "Hydropower potential at non-powered dams" holds dams that make no power today. What capacity and what yearly energy does it estimate for them in all, and how many hours of full output a year is that energy?
+   A: Capacity 3,939.27 MW, energy 15,244,926.85 MWh a year: 3,869.99 hours of full output a year.
+   L: 15,244,926.85 MWh a year / 3,939.27 MW = 3,869.99 hours
+   S: In site/data/resources/manifest.json, the layer hydropower_npd: total_cap_mw 3,939.27 MW and total_gen_mwh_yr 15,244,926.85 MWh a year.
+   S: MWh divided by MW is hours: 15,244,926.85 MWh a year / 3,939.27 MW = 3,869.99 hours, the hours the dams would need at full power to make a year's energy.
+========== where-energy-goes
+[ix] Q: In 2022, how much fuel did Chemicals (NAICS 325) consume in the United States in all, how much of it was natural gas, and what share is that?
+   A: Chemicals: in all 3,976 TBtu, natural gas 2,585 TBtu, or 65.02 %.
+   L: 2,585 TBtu / 3,976 TBtu x 100 = 65.02 %
+   S: In site/data/industry.json: industries, industries, 325, by_region, us: total and natural_gas.
+   S: Total 3,976 TBtu; natural gas 2,585 TBtu.
+   S: Share: 2,585 TBtu / 3,976 TBtu x 100 = 65.02 %.
+[i1] Q: In July 2026, the newest month of the file, how much energy did the industrial sector consume in all, how much was end use, and how far apart are they? Compare with the sector's share of electrical system losses.
+   A: July 2026: in all 2,713.60 TBtu, end use 2,239.91 TBtu: apart by 473.70 TBtu; the losses the file gives are 473.70 TBtu.
+   L: 2,713.60 TBtu - 2,239.91 TBtu = 473.70 TBtu; electrical_system_losses = 473.70 TBtu
+   S: In site/data/industry.json: monthly, by_source, at position 642 of monthly, months (2026-07).
+   S: total 2,713.60 TBtu; end_use_total 2,239.91 TBtu.
+   S: Subtract: 2,713.60 TBtu - 2,239.91 TBtu = 473.70 TBtu; electrical_system_losses, 473.70 TBtu, is the industrial sector's share of electrical system energy losses.
+[i2] Q: How much energy did the industrial sector consume in July 2026 and in July 2025, a year before, and the first is how many times the second?
+   A: July 2026 2,713.60 TBtu, July 2025 2,766.80 TBtu: 0.98 times.
+   L: 2,713.60 TBtu / 2,766.80 TBtu = 0.98 times
+   S: monthly, by_source, total at positions 642 (2026-07) and 630 (2025-07).
+   S: Divide: 2,713.60 TBtu / 2,766.80 TBtu = 0.98 times.
+[i3] Q: The industries ranked by fuel consumption in 2022: which two used the most, how much did each use, and the first's is how many times the second's?
+   A: Chemicals 3,976 TBtu, Petroleum and Coal Products 3,543 TBtu: 1.12 times.
+   L: 3,976 TBtu / 3,543 TBtu = 1.12 times
+   S: industries, ranked_3_digit, lists the industries from the largest: 325 (Chemicals) and 324 (Petroleum and Coal Products) first.
+   S: Each one's by_region, us, total: 3,976 TBtu and 3,543 TBtu.
+   S: Divide: 3,976 TBtu / 3,543 TBtu = 1.12 times.
+[i6] Q: Chemicals in 2022: how much fuel did its plants in the South census region consume, of how much in the United States, and what share is that?
+   A: The South 2,725 TBtu of 3,976 TBtu, or 68.54 %.
+   L: 2,725 TBtu / 3,976 TBtu x 100 = 68.54 %
+   S: industries, industries, 325, by_region: south, total, 2,725 TBtu; us, total, 3,976 TBtu.
+   S: Share: 2,725 TBtu / 3,976 TBtu x 100 = 68.54 %.
+[i4] Q: Petroleum and Coal Products in 2022: how much of its fuel does the survey count as "other", of how much in all, and what share is that?
+   A: Other 2,123 TBtu of 3,543 TBtu, or 59.92 %.
+   L: 2,123 TBtu / 3,543 TBtu x 100 = 59.92 %
+   S: industries, industries, 324, by_region, us: other 2,123 TBtu, total 3,543 TBtu.
+   S: Share: 2,123 TBtu / 3,543 TBtu x 100 = 59.92 %.
+[i7] Q: In 2024, the newest year the file holds for both, how much energy did the industrial sector consume in Texas and in Louisiana, and Texas's is how many times Louisiana's?
+   A: 2024: Texas 8,113.46 TBtu, Louisiana 2,997.21 TBtu: 2.71 times.
+   L: 8,113.46 TBtu / 2,997.21 TBtu = 2.71 times
+   S: states_annual, states, TX and LA, consumption_tbtu, total, at position 34 of states_annual, years (2024).
+   S: Texas 8,113.46 TBtu, Louisiana 2,997.21 TBtu.
+   S: Divide: 8,113.46 TBtu / 2,997.21 TBtu = 2.71 times. The State Energy Data System counts the whole industrial sector (farms, mines and construction included), not only factories.
+[i5] Q: Chemicals in 2022: how much electricity did its plants generate on site, what was its net demand for electricity, and what share of the net demand is the on-site generation?
+   A: On site 60,426,000 MWh, net demand 210,095,000 MWh: 28.76 %.
+   L: 60,426,000 MWh / 210,095,000 MWh x 100 = 28.76 %
+   S: industries, industries, 325, electricity_mwh, us: elec_onsite_generation 60,426,000 MWh; elec_net_demand 210,095,000 MWh.
+   S: Share: 60,426,000 MWh / 210,095,000 MWh x 100 = 28.76 %.
+========== your-own-balancing-authority
+[bx] Q: How much generating capacity does the Tennessee Valley Authority hold in all, how much of it is nuclear, and what share is that?
+   A: In all 44,697.40 MW, nuclear 8,834.80 MW, or 19.77 % (EIA-860M of 2026-09).
+   L: 8,834.80 MW / 44,697.40 MW x 100 = 19.77 %
+   S: On /grid, the network view, Map: click the Tennessee Valley Authority and read Its own facts, What it owns; or open site/data/regions/authority/tva.json.
+   S: owns, total_mw is every operating generator EIA places in the authority, 44,697.40 MW; owns, capacity_mw, nuclear is 8,834.80 MW.
+   S: Share: 8,834.80 MW / 44,697.40 MW x 100 = 19.77 %.
+[b1] Q: Which is the Tennessee Valley Authority's largest power plant, how much capacity does it have, and what share of the authority's capacity is that?
+   A: Browns Ferry (AL, nuclear): 3,854 MW of 44,697.40 MW, or 8.62 %.
+   L: 3,854 MW / 44,697.40 MW x 100 = 8.62 %
+   S: owns, largest_plants lists the ten largest plants from the largest: the first is Browns Ferry, 3,854 MW.
+   S: Share of owns, total_mw: 3,854 MW / 44,697.40 MW x 100 = 8.62 %.
+[b2] Q: For the Tennessee Valley Authority, what share of its capacity is nuclear and what share is natural gas, and what share of its generation from November 2025 to October 2026 did each make? Which fleet runs harder?
+   A: Nuclear: 19.77 % of capacity, 40.60 % of generation. Natural gas: 41.59 % of capacity, 33.22 % of generation. Nuclear makes the larger share of generation for its share of capacity: it runs nearly every hour, gas plants run when they are needed.
+   L: 8,834.80 MW / 44,697.40 MW x 100 = 19.77 %; 18,591.80 MW / 44,697.40 MW x 100 = 41.59 %; burns, share_pct: 40.60 % and 33.22 %
+   S: Capacity shares from owns: 8,834.80 MW and 18,591.80 MW of 44,697.40 MW: 19.77 % and 41.59 %.
+   S: Generation shares from burns, share_pct, over November 2025 to October 2026: nuclear 40.60 %, natural gas 33.22 %.
+   S: Compare each fleet's share of generation with its share of capacity.
+[b6] Q: Over November 2025 to October 2026, how much CO2 did each MWh generated in ERCOT and in CAISO carry, by EIA's estimates, and ERCOT's is how many times CAISO's? Why does the Tennessee Valley Authority's file give no figure?
+   A: ERCOT 303.90 kg CO2 per MWh, CAISO 132.50 kg CO2 per MWh: ERCOT's is 2.29 times CAISO's. The Tennessee Valley Authority's file says why it has none: EIA's hourly CO2 estimates held by the ERW (eia930_all_emissions, from EIA's Grid Monitor workbooks) cover the seven ISOs and the Lower 48 only.
+   L: 303.90 kg CO2 per MWh / 132.50 kg CO2 per MWh = 2.29 times
+   S: In site/data/regions/authority/erco.json and ciso.json: burns, co2, intensity_kg_per_mwh: 303.90 kg CO2 per MWh and 132.50 kg CO2 per MWh.
+   S: Divide: 303.90 kg CO2 per MWh / 132.50 kg CO2 per MWh = 2.29 times.
+   S: In tva.json, burns, co2, intensity_kg_per_mwh is empty and burns, co2, why gives the reason.
+[b3] Q: Of the retirements the Tennessee Valley Authority's owners have planned, which year and fuel has the most megawatts, how many, and what share of the authority's operating coal capacity is that?
+   A: 2034, coal: 1,900 MW (4 generators) of 7,643.90 MW, or 24.86 %.
+   L: 1,900 MW / 7,643.90 MW x 100 = 24.86 %
+   S: coming, retirements lists the planned retirements by year and fuel; the largest is 2034, coal, 1,900 MW.
+   S: owns, capacity_mw, coal: 7,643.90 MW.
+   S: Share: 1,900 MW / 7,643.90 MW x 100 = 24.86 %.
+[b4] Q: Of the generators planned in the Tennessee Valley Authority, which year and fuel has the most megawatts, how many, and how large is that against its operating natural gas capacity today?
+   A: 2027, natural gas: 1,830.60 MW (18 generators), or 9.85 % of today's 18,591.80 MW.
+   L: 1,830.60 MW / 18,591.80 MW x 100 = 9.85 %
+   S: coming, additions lists the planned generators by planned year and fuel; the largest is 2027, natural gas, 1,830.60 MW.
+   S: owns, capacity_mw, natural_gas: 18,591.80 MW.
+   S: Share: 1,830.60 MW / 18,591.80 MW x 100 = 9.85 %.
+[b5] Q: In 2025, with which neighbour did the Tennessee Valley Authority exchange the most power, what was its net import from that neighbour against the gross exchange, and what share of its demand were its net imports from all neighbours?
+   A: Midcontinent Independent System Operator, Inc. (MISO): net import 17,649,857 MWh of a gross exchange of 17,710,707 MWh, or 99.66 %. From all neighbours, net imports were 4.87 % of demand.
+   L: 17,649,857 MWh / 17,710,707 MWh x 100 = 99.66 %; trades, net_import_share_of_demand_pct = 4.87 %
+   S: trades, partners lists the five largest partners by gross exchange; the largest is MISO, gross 17,710,707 MWh, net 17,649,857 MWh (above zero, power came in).
+   S: Net against gross: 17,649,857 MWh / 17,710,707 MWh x 100 = 99.66 %. Near 100 percent the power ran one way nearly every hour.
+   S: trades, net_import_share_of_demand_pct: 4.87 %.
+[b7] Q: What was the Tennessee Valley Authority's highest demand and when, how much did its demand grow from 2019 to 2025, and ERCOT's growth was how many points more? How many public large-load rows are placed in each?
+   A: Peak 35,086 MW at 2025-01-22 07:00 local time (America/Chicago); growth since 2019 7.15 %, ERCOT's 27.22 %: 20.07 percentage points more. Public large-load rows: the TVA 0 rows, ERCOT 67 rows.
+   L: 27.22 % - 7.15 % = 20.07 percentage points
+   S: size, peak_mw and peak_local in tva.json: 35,086 MW, 2025-01-22 07:00.
+   S: size, growth_since_2019_pct: the TVA 7.15 %, ERCOT 27.22 %.
+   S: Subtract: 27.22 % - 7.15 % = 20.07 percentage points.
+   S: large_loads, count in each file: 0 rows and 67 rows.

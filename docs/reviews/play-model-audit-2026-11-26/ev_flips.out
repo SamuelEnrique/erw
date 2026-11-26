@@ -1,0 +1,11 @@
+power_12m_verdict: NPV above zero in 50 of 52 places at the page's rule, 51 under this one; sign flips 1: ME -72->689
+   largest moves (abs, code, npv, npv', payback, payback'): [(958.720664669494, 'CT', 2212, 1253, 4.5, 5.2), (873.0669375751986, 'IA', 3762, 4635, 3.7, 3.4), (849.5246850989879, 'CA', 6030, 5181, 2.9, 3.2), (839.7571548163041, 'HI', -2720, -1880, 14.2, 10.4), (760.8655640715542, 'ME', -72, 689, 6.6, 5.7), (682.9757713045219, 'AK', 2621, 3304, 4.2, 3.9)]
+   mean change of the NPV over the places: 135.53
+gas_52w_verdict: NPV above zero in 50 of 52 places at the page's rule, 46 under this one; sign flips 4: MA 227->-981, NH 1271->-53, NY 1169->-146, RI 1109->-215
+   largest moves (abs, code, npv, npv', payback, payback'): [(1348.8504064383833, 'DC', 2079, 730, 4.6, 5.6), (1348.8504064383824, 'PA', 3344, 1995, 3.9, 4.6), (1348.8504064383824, 'NJ', 2491, 1142, 4.3, 5.3), (1348.8504064383824, 'MD', 3455, 2107, 3.8, 4.5), (1348.8504064383824, 'DE', 4267, 2918, 3.5, 4.1), (1324.1299986619406, 'VT', 2413, 1089, 4.4, 5.3)]
+   mean change of the NPV over the places: -971.72
+both_verdict: NPV above zero in 50 of 52 places at the page's rule, 46 under this one; sign flips 4: CT 2212->-71, MA 227->-942, NY 1169->-112, RI 1109->-624
+   largest moves (abs, code, npv, npv', payback, payback'): [(2282.8506633314337, 'CT', 2212, -71, 4.5, 6.6), (2132.223832738964, 'CA', 6030, 3898, 2.9, 3.6), (1732.8635735680555, 'RI', 1109, -624, 5.3, 7.4), (1366.4559632202318, 'VT', 2413, 1047, 4.4, 5.3), (1324.3063559844604, 'MD', 3455, 2131, 3.8, 4.5), (1280.4531812060777, 'NY', 1169, -112, 5.2, 6.6)]
+   mean change of the NPV over the places: -836.19
+payback undiscounted and discounted at 5 percent: [('US', 3.64, 4.12), ('CA', 2.93, 3.25), ('TX', 4.33, 5.01), ('MA', 6.18, 7.58), ('HI', 14.17, 25.28)]
+US gas newest 3.995 52 weeks mean 3.7328 ['2025-11-10', '2026-11-02'] | power newest 181.6 12 months mean 180.58 ['2025-09-01', '2026-08-01']

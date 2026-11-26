@@ -1,0 +1,3 @@
+FOUND: ...Among the contracts filed with FERC, 227 rows of energy, capacity and tolling were signed in 2026 Q2: 174 agreements between 78 sellers and 95 buyers. 112 of the rows state a price as a number. Contract rows signed that quarter 227 174 agreements; one row per product of an agreement, and per price period where the filer files one. Rows with a price as a number 112 The other 115 give words: a market-based rate, a formula, or nothing.
+em dashes in the page: 0
+PASS

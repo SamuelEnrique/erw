@@ -171,6 +171,8 @@
     "/impact?state=ia&iaval=1&levy=30&bstate=ne": 10,
     "/impact?tech=utility_pv&state=or&iaval=1&btech=utility_pv&bstate=nd": 10,
     "/impact?tech=utility_pv&state=mi&iaval=1&bstate=vt&bown=1.4&bownyears=25": 10,
-    "/impact?state=il&levy=80&bstate=wv": 10
+    "/impact?state=il&levy=80&bstate=wv": 10,
+    "/impact?tech=datacenter&state=va&dmw=1000&invest=3000&perm=50&mwh=5000000&bstate=la": 10,
+    "/impact?tech=datacenter&state=la&dmw=5000&invest=50000&perm=1000&cons=7500&dbuild=5&brate=10&erate=10&btech=land_based_wind": 10
   }
 }

@@ -1,0 +1,3 @@
+FOUND: ...Public utilities, and other sellers with more than a small presence in the market, file the terms of their agreements each quarter. This page reads the contract files of one quarter's filings and nothing of the transactions. Signed: the contract's execution date. A row whose execution date cannot be read, or reads as a year after 2262 (a typing error no table can hold as a date), is left out and counted, not guessed.
+em dashes in the page: 0
+PASS

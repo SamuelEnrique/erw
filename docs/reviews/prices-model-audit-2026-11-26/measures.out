@@ -1,0 +1,73 @@
+== A. twelve months' day-ahead average, simple against load-weighted, over the hours both hold
+  ercot load: 8,045 hours, 2025-10-31T00:00:00+00:00 to 2026-10-01T04:00:00+00:00
+  caiso load: 8,607 hours, 2025-10-31T00:00:00+00:00 to 2026-10-24T14:00:00+00:00
+  caiso:TH_NP15_GEN-APND: page 34.11; over the 8,576 hours with load: simple 33.81, load-weighted 35.15, gap +1.34 (+4.0 percent)
+  caiso:TH_SP15_GEN-APND: page 30.27; over the 8,576 hours with load: simple 30.01, load-weighted 31.42, gap +1.42 (+4.7 percent)
+  caiso:TH_ZP26_GEN-APND: page None; over the 1,424 hours with load: simple 44.32, load-weighted 45.39, gap +1.07 (+2.4 percent)
+  ercot:HB_BUSAVG: page 34.69; over the 8,016 hours with load: simple 34.58, load-weighted 36.64, gap +2.06 (+5.9 percent)
+  ercot:HB_HOUSTON: page 35.6; over the 8,016 hours with load: simple 35.37, load-weighted 37.55, gap +2.18 (+6.2 percent)
+  ercot:HB_HUBAVG: page 34.59; over the 8,016 hours with load: simple 34.39, load-weighted 36.41, gap +2.02 (+5.9 percent)
+  ercot:HB_NORTH: page 34.76; over the 8,016 hours with load: simple 34.79, load-weighted 36.96, gap +2.17 (+6.2 percent)
+  ercot:HB_SOUTH: page 34.77; over the 8,016 hours with load: simple 34.51, load-weighted 36.26, gap +1.75 (+5.1 percent)
+  ercot:HB_WEST: page 33.21; over the 8,016 hours with load: simple 32.88, load-weighted 34.87, gap +1.99 (+6.1 percent)
+  ercot:LZ_AEN: page 39.01; over the 8,016 hours with load: simple 38.76, load-weighted 41.41, gap +2.66 (+6.9 percent)
+  ercot:LZ_CPS: page 38.99; over the 8,016 hours with load: simple 39.02, load-weighted 41.48, gap +2.46 (+6.3 percent)
+  ercot:LZ_HOUSTON: page 35.91; over the 8,016 hours with load: simple 35.64, load-weighted 37.83, gap +2.19 (+6.1 percent)
+  ercot:LZ_LCRA: page 38.64; over the 8,016 hours with load: simple 38.45, load-weighted 41.18, gap +2.73 (+7.1 percent)
+  ercot:LZ_NORTH: page 35.69; over the 8,016 hours with load: simple 35.69, load-weighted 38.11, gap +2.42 (+6.8 percent)
+  ercot:LZ_RAYBN: page 35.97; over the 8,016 hours with load: simple 36.04, load-weighted 38.43, gap +2.39 (+6.6 percent)
+  ercot:LZ_SOUTH: page 34.86; over the 8,016 hours with load: simple 34.31, load-weighted 36.10, gap +1.80 (+5.2 percent)
+  ercot:LZ_WEST: page 37.2; over the 8,016 hours with load: simple 36.89, load-weighted 38.56, gap +1.67 (+4.5 percent)
+== B. hours the comparison lacks that the page's own hourly files hold
+  spp:SPPNORTH_HUB rtm year: the comparison 31.66 over 8568 of 8760 hours; the page's hourly file 31.77 over 8760 hours (below zero 10.50 percent; the comparison 10.52)
+  spp:SPPNORTH_HUB dam month: the comparison 33.16 over 720 of 744 hours; the page's hourly file 33.16 over 720 hours (below zero 5.42 percent; the comparison 5.42)
+  spp:SPPNORTH_HUB rtm month: the comparison not written over - of 744 hours; the page's hourly file 34.35 over 744 hours (below zero 9.41 percent; the comparison -)
+  spp:SPPSOUTH_HUB dam month: the comparison 23.66 over 720 of 744 hours; the page's hourly file 23.66 over 720 hours (below zero 15.97 percent; the comparison 15.97)
+  spp:SPPSOUTH_HUB rtm month: the comparison not written over - of 744 hours; the page's hourly file 25.30 over 744 hours (below zero 19.22 percent; the comparison -)
+  caiso:TH_ZP26_GEN-APND rtm month: the comparison 45.35 over 720 of 744 hours; the page's hourly file 44.88 over 744 hours (below zero 2.96 percent; the comparison 2.08)
+== C. carbon intensity: mean of daily figures against generation-weighted days
+  CISO: 61 days (2026-08-26 to 2026-10-29): mean of days 154.64, generation-weighted 159.42 kg/MWh, gap +4.77 (+3.09 percent)
+    October 2026 (27 days): mean of days 184.16, generation-weighted 187.17, gap +3.01 (+1.63 percent)
+  ERCO: 68 days (2026-08-26 to 2026-11-02): mean of days 328.96, generation-weighted 330.62 kg/MWh, gap +1.66 (+0.50 percent)
+    October 2026 (31 days): mean of days 315.40, generation-weighted 315.60, gap +0.20 (+0.06 percent)
+  SWPP: 67 days (2026-08-26 to 2026-10-31): mean of days 425.13, generation-weighted 427.93 kg/MWh, gap +2.79 (+0.66 percent)
+    October 2026 (31 days): mean of days 391.82, generation-weighted 391.05, gap -0.77 (-0.20 percent)
+== D. hours above USD 200 against above USD 100, twelve months, day-ahead
+  caiso:TH_NP15_GEN-APND: above 200 0.03 percent, above 100 0.41 percent
+  caiso:TH_SP15_GEN-APND: above 200 0.03 percent, above 100 0.48 percent
+  ercot:HB_BUSAVG: above 200 0.74 percent, above 100 2.23 percent
+  ercot:HB_HOUSTON: above 200 0.71 percent, above 100 1.79 percent
+  ercot:HB_HUBAVG: above 200 0.75 percent, above 100 2.15 percent
+  ercot:HB_NORTH: above 200 0.75 percent, above 100 2.29 percent
+  ercot:HB_SOUTH: above 200 0.71 percent, above 100 2.01 percent
+  ercot:HB_WEST: above 200 0.78 percent, above 100 2.60 percent
+  ercot:LZ_AEN: above 200 0.88 percent, above 100 2.89 percent
+  ercot:LZ_CPS: above 200 0.89 percent, above 100 2.85 percent
+  ercot:LZ_HOUSTON: above 200 0.72 percent, above 100 1.79 percent
+  ercot:LZ_LCRA: above 200 0.82 percent, above 100 3.04 percent
+  ercot:LZ_NORTH: above 200 0.79 percent, above 100 2.60 percent
+  ercot:LZ_RAYBN: above 200 0.80 percent, above 100 2.52 percent
+  ercot:LZ_SOUTH: above 200 0.65 percent, above 100 1.93 percent
+  ercot:LZ_WEST: above 200 0.84 percent, above 100 2.99 percent
+  spp:SPPNORTH_HUB: above 200 1.26 percent, above 100 3.54 percent
+== E. the map: another hub for an area, and a newer day
+  day_avg as drawn: {CISO: 45.82, ERCO: 54.09, SWPP: 31.93} positions {'CISO': 0.63, 'ERCO': 1.0, 'SWPP': 0.0}
+    CISO by caiso:TH_NP15_GEN-APND (56.28, day 2026-11-16): positions {'CISO': 1.0, 'ERCO': 0.91, 'SWPP': 0.0}
+    SWPP by spp:SPPSOUTH_HUB (28.66, day 2026-11-16): positions {'CISO': 0.67, 'ERCO': 1.0, 'SWPP': 0.0}
+    ERCO by ercot:HB_WEST (70.03, day 2026-11-16): positions {'CISO': 0.36, 'ERCO': 1.0, 'SWPP': 0.0}
+    ERCO by ercot:LZ_WEST (23.36, day 2026-11-14): positions {'CISO': 1.0, 'ERCO': 0.0, 'SWPP': 0.38}
+    within CISO: 45.82 to 56.28 over 3 hubs and zones
+    within ERCO: 22.17 to 70.03 over 14 hubs and zones
+    within SWPP: 28.66 to 31.93 over 2 hubs and zones
+  avg_12m as drawn: {CISO: 30.29, ERCO: 34.86, SWPP: 34.5} positions {'CISO': 0.0, 'ERCO': 1.0, 'SWPP': 0.92}
+    CISO by caiso:TH_NP15_GEN-APND (34.1, day 2026-11-16): positions {'CISO': 0.0, 'ERCO': 1.0, 'SWPP': 0.53}
+    SWPP by spp:SPPSOUTH_HUB: not held for avg_12m
+    ERCO by ercot:HB_WEST (33.7, day 2026-11-16): positions {'CISO': 0.0, 'ERCO': 0.81, 'SWPP': 1.0}
+    ERCO by ercot:LZ_WEST (37.7, day 2026-11-14): positions {'CISO': 0.0, 'ERCO': 1.0, 'SWPP': 0.57}
+    within CISO: 30.29 to 34.1 over 2 hubs and zones
+    within ERCO: 33.7 to 39.17 over 14 hubs and zones
+    within SWPP: 34.5 to 34.5 over 1 hubs and zones
+  newest day all three areas hold whole in the page's hourly files: 2026-11-20: {'CISO': 20.54, 'ERCO': 16.18, 'SWPP': 6.06} positions {'CISO': 1.0, 'ERCO': 0.7, 'SWPP': 0.0} (the map: 2026-11-16)
+    CISO newest whole day in its hourly file: 2026-11-25
+    ERCO newest whole day in its hourly file: 2026-11-20
+    SWPP newest whole day in its hourly file: 2026-11-25

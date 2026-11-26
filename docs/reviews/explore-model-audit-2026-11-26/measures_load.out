@@ -1,0 +1,8 @@
+2015: intervals without a load hour 0
+  plain means: peak 29.36, midday 32.03, difference -2.68; all 24.18
+  load-weighted means: peak 30.91, midday 35.11, difference -4.20; all 26.08
+  load-weighted medians: peak 24.87, midday 25.67, difference -0.80
+2025: intervals without a load hour 0
+  plain means: peak 48.13, midday 23.46, difference 24.68; all 32.49
+  load-weighted means: peak 48.93, midday 24.84, difference 24.09; all 33.67
+  load-weighted medians: peak 37.67, midday 23.40, difference 14.27

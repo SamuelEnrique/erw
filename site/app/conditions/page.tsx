@@ -41,6 +41,12 @@ const CONS_COUNT_WORDS = "The count is of (constraint, contingency) pairs as the
 const CAISO_OUT_WORDS = "CAISO's figure is every curtailment its report lists, planned and forced: outages, and also derates the operator files as forced (ambient conditions, transmission induced, fuel). So it is megawatts unavailable, not only plants out of service, and not the same measure as SPP's generation on outage.";
 const STRIP_NAMES: Record<string, string> = { demand: "Demand and forecast", out: "Out of service", constraints: "Constraints binding", scarcity: "Scarcity adder", alerts: "Alerts", reserves: "Reserves against the requirement" };
 
+/** Session 11000 (chain 750): the clock a file's days and hours run on, said once. The files write `time` as a whole
+ *  phrase ("America/Chicago clock time for days and hours"); a file that gave the zone alone would still read right. */
+function clockWords(time: string): string {
+  return /days and hours/.test(time) ? time : `days and hours in ${time}`;
+}
+
 function Blank({ s, name, k }: { s: Strip; name: string; k: string }) {
   return (
     <div className="my-2 flex h-16 cursor-help items-center justify-center border border-dashed border-rule bg-panel text-sm text-muted" title={`${s.status}: ${s.why ?? ""}`} data-blank-strip={k}>
@@ -155,7 +161,11 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
     // the column, a grid item beside a second operator, never widens the page past a phone's screen
     <div className="min-w-0" data-operator={f.op} data-tag={tag}>
       <h3 className="mb-1 font-serif text-xl text-accent">{f.name}</h3>
-      <p className="mb-2 text-xs text-muted">{w.title}, {w.start} to {w.end}; days in {f.time.split(" ")[0]} clock time, the hourly charts in UTC.{demandEnds(f, daily, w.end)} {hourly.length ? `Hour by hour (${hourly.length} hours), then day by day.` : "Day by day (no hourly figures are kept for this window: they are kept for the newest days and the nine events)."}</p>
+      {/* session 11000 (chain 750): the file's `time` already reads "America/Chicago clock time for days and hours"; the
+          line read "days and hours in America/Chicago clock time for days and hours". clockWords() says it once.
+          Session 10219 (the conditions audit, finding 11) and session 10201's merge: that is the files' clock; every
+          hourly chart labels its instants in UTC (TimeChart's minute axis), and demandEnds says where demand stops. */}
+      <p className="mb-2 text-xs text-muted">{w.title}, {w.start} to {w.end}; {clockWords(f.time)} in the files, the hourly charts labelled in UTC.{demandEnds(f, daily, w.end)} {hourly.length ? `Hour by hour (${hourly.length} hours), then day by day.` : "Day by day (no hourly figures are kept for this window: they are kept for the newest days and the nine events)."}</p>
       <Glance f={f} w={w} k={tag} />
       {hourly.length ? (
         <>
@@ -203,11 +213,15 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
       ) : hourly.length ? null : <NoneHeld title="Hours the adder was above zero" f={f} c="adder_hours" extra={f.op === "ercot" ? ERCOT_SCARCITY_WORDS : undefined} w={w} k={`${tag}-scar-d`} />) : hourly.length ? null : <Blank s={st.scarcity} name={STRIP_NAMES.scarcity} k={`${tag}-scar-d`} />}
       {st.alerts.status === "shown" ? (
         <>
-          <h4 className="mb-1 mt-4 font-serif text-base text-accent" data-alerts-heading={tag}>Alerts and notices listed, {w.start} to {w.end} ({alerts.length} rows)</h4>
+          {/* session 11000 (chain 750): every notice the heading counts is a row of the table. The list stopped at 40
+              without a word: CAISO's September 2022 heat wave lost its last day (4 of 44), its August 2020 one 39 of 79.
+              Session 10219 (the conditions audit, finding 2) and session 10201's merge: the count is of rows, not of
+              separate notices, and the heading and the line under it say so. */}
+          <h4 className="mb-1 mt-4 font-serif text-base text-accent" data-alerts-heading={tag}>Rows of alerts and notices listed, {w.start} to {w.end} ({alerts.length})</h4>
           <p className="mb-1 text-xs text-muted" data-alerts-rows={tag}>{ALERT_ROW_WORDS}</p>
           {alerts.length ? (
-            <ToolTable minWidth={360} caption={`Alerts and notices, ${w.start} to ${w.end} (${alerts.length} rows)`} head={["Date", "Kind, as the operator words it", "Start", "End"]}
-              rows={alerts.slice(0, 40).map((a, i) => ({ key: `${a[0]}-${i}`, cells: [<a key="d" className="underline" href={a[4]} title={src("alerts")}>{a[0]}</a>, a[1], a[2] ?? "", a[3] ?? ""] }))} />
+            <ToolTable minWidth={360} caption={`Rows of alerts and notices, ${w.start} to ${w.end} (${alerts.length})`} head={["Date", "Kind, as the operator words it", "Start", "End"]}
+              rows={alerts.map((a, i) => ({ key: `${a[0]}-${i}`, cells: [<a key="d" className="underline" href={a[4]} title={src("alerts")}>{a[0]}</a>, a[1], a[2] ?? "", a[3] ?? ""] }))} />
           ) : (
             <p className="text-sm text-muted" data-none-held={`${tag}-alerts`}>None held in this window. {f.alerts.length ? `The last the file holds is of ${f.alerts.reduce((m, a) => (a[0] > m ? a[0] : m), f.alerts[0][0])}.` : "The file holds none."} {ALERT_SOURCE_WORDS}</p>
           )}

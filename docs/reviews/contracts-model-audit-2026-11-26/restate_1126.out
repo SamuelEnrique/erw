@@ -1,0 +1,53 @@
+# Session 10226: /contracts, the default view, restated from the raw table against the page drawn by its own code
+# load day 2026-11-26: the live set holds the rows executed on or after 2024-03-01; today 2026-11-26; the quarter's file 186,873 rows, the window 17,968
+# the default: 2026-Q2, energy, capacity and tolling, every balancing authority; ties in the authorities' list: 4
+same  cannot_see|ercot_rows: restated 14, drawn 14
+same  headline|affiliate: restated 7, drawn 7
+same  headline|unpriced: restated 115, drawn 115
+same  headline|zero: restated 17, drawn 17
+same  limits|rows_held: restated 17968, drawn 17968
+same  limits|unpriced: restated 10385, drawn 10385
+same  panel|ba_rows|1: restated 106, drawn 106
+same  panel|ba_rows|10: restated 1, drawn 1
+same  panel|ba_rows|11: restated 1, drawn 1
+same  panel|ba_rows|12: restated 1, drawn 1
+same  panel|ba_rows|13: restated 1, drawn 1
+same  panel|ba_rows|2: restated 35, drawn 35
+same  panel|ba_rows|3: restated 31, drawn 31
+same  panel|ba_rows|4: restated 23, drawn 23
+same  panel|ba_rows|5: restated 12, drawn 12
+same  panel|ba_rows|6: restated 10, drawn 10
+same  panel|ba_rows|7: restated 3, drawn 3
+same  panel|ba_rows|8: restated 2, drawn 2
+same  panel|ba_rows|9: restated 1, drawn 1
+same  panel|later_rows: restated 54, drawn 54
+same  panel|quarter_rows|2024-Q1: restated 383, drawn 383
+same  panel|quarter_rows|2024-Q2: restated 1888, drawn 1888
+same  panel|quarter_rows|2024-Q3: restated 2302, drawn 2302
+same  panel|quarter_rows|2024-Q4: restated 2008, drawn 2008
+same  panel|quarter_rows|2025-Q1: restated 2486, drawn 2486
+same  panel|quarter_rows|2025-Q2: restated 2334, drawn 2334
+same  panel|quarter_rows|2025-Q3: restated 1393, drawn 1393
+same  panel|quarter_rows|2025-Q4: restated 1817, drawn 1817
+same  panel|quarter_rows|2026-Q1: restated 1912, drawn 1912
+same  panel|quarter_rows|2026-Q2: restated 1391, drawn 1391
+same  sentence|agreements: restated 174, drawn 174
+same  sentence|buyers: restated 95, drawn 95
+same  sentence|priced: restated 112, drawn 112
+same  sentence|rows: restated 227, drawn 227
+same  sentence|sellers: restated 78, drawn 78
+same  table|as_filed_marks: restated 0, drawn 0
+same  table|no_unit_marks: restated 5, drawn 5
+same  table|rows_drawn: restated 227, drawn 227
+same  table|terms_in_days: restated 52, drawn 52
+same  table|terms_in_years: restated 99, drawn 99
+same  panel|filed_for: restated '2026 Q2', drawn '2026 Q2'
+same  panel|first_last: restated 'executed from 2024-03-01 to 2223-01-01 as filed.', drawn 'executed from 2024-03-01 to 2223-01-01 as filed.'
+same  panel|later_last: restated '2223 Q1', drawn '2223 Q1'
+same  held_here|since: restated '2024-03-01', drawn '2024-03-01'
+same  panel|oldest_held_from: restated '2024-03-01', drawn '2024-03-01'
+same  default|quarter: restated '2026 Q2', drawn '2026 Q2'
+same  panel|ba_names: restated 'not stated FPC PJM CISO NYIS MISO BPAT AMMO EES ISNE PSCO SWPP WACM', drawn 'not stated FPC PJM CISO NYIS MISO BPAT AMMO EES ISNE PSCO SWPP WACM'
+same  panel|quarters_listed: restated '2026-Q2 2026-Q1 2025-Q4 2025-Q3 2025-Q2 2025-Q1 2024-Q4 2024-Q3 2024-Q2 2024-Q1', drawn '2026-Q2 2026-Q1 2025-Q4 2025-Q3 2025-Q2 2025-Q1 2024-Q4 2024-Q3 2024-Q2 2024-Q1'
+table, row by row (date, as filed, years, days, no unit): 227 of 227 the same (drawn 227)
+FIGURES: 40 of 40 the same; WORDS: 8 of 8 the same; TABLE CELLS: 1135 of 1135

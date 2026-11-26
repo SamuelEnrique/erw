@@ -24,7 +24,8 @@ class TheLineNamesEachClock(unittest.TestCase):
     def test_the_line_says_utc_for_the_hourly_charts(self):
         s = src("site", "app", "conditions", "page.tsx")
         self.assertNotIn("days and hours in {f.time}", s)
-        self.assertIn('days in {f.time.split(" ")[0]} clock time, the hourly charts in UTC.{demandEnds(f, daily, w.end)}', s)
+        # session 10201: merged with chain 750's clockWords(), which names the files' clock once
+        self.assertIn('{clockWords(f.time)} in the files, the hourly charts labelled in UTC.{demandEnds(f, daily, w.end)}', s)
         self.assertIn("EIA's demand is held to ${last}; the days after it carry the forecast only.", s)
 
     @unittest.skipUnless(os.path.exists(os.path.join(DIR, "ercot.json")), "the conditions files are not in this checkout")

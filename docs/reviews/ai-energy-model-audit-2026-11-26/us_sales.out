@@ -1,0 +1,115 @@
+{
+ "columns": [
+  "entity",
+  "variable",
+  "ts_utc",
+  "value",
+  "unit",
+  "freq",
+  "geo",
+  "market",
+  "node",
+  "source",
+  "source_url",
+  "retrieved_at",
+  "vintage"
+ ],
+ "keys_seen": [
+  [
+   "eia:customers:US:ALL|customers",
+   "count"
+  ],
+  [
+   "eia:customers:US:COM|customers",
+   "count"
+  ],
+  [
+   "eia:customers:US:IND|customers",
+   "count"
+  ],
+  [
+   "eia:customers:US:OTH|customers",
+   "count"
+  ],
+  [
+   "eia:customers:US:RES|customers",
+   "count"
+  ],
+  [
+   "eia:customers:US:TRA|customers",
+   "count"
+  ],
+  [
+   "eia:retail_sales:US:ALL|retail_sales",
+   "MWh"
+  ],
+  [
+   "eia:retail_sales:US:COM|retail_sales",
+   "MWh"
+  ],
+  [
+   "eia:retail_sales:US:IND|retail_sales",
+   "MWh"
+  ],
+  [
+   "eia:retail_sales:US:OTH|retail_sales",
+   "MWh"
+  ],
+  [
+   "eia:retail_sales:US:RES|retail_sales",
+   "MWh"
+  ],
+  [
+   "eia:retail_sales:US:TRA|retail_sales",
+   "MWh"
+  ]
+ ],
+ "eia:retail_sales:US:ALL|retail_sales": {
+  "2020": 3717674480.87,
+  "2020 months": 12,
+  "2024": 3975381831.63,
+  "2024 months": 12,
+  "Jul 2024 to Jun 2025": 4037886062.89,
+  "fy months": 12
+ },
+ "eia:retail_sales:US:COM|retail_sales": {
+  "2020": 1287439583.13,
+  "2020 months": 12,
+  "2024": 1450941216.0900002,
+  "2024 months": 12,
+  "Jul 2024 to Jun 2025": 1476467268.42,
+  "fy months": 12
+ },
+ "eia:retail_sales:US:IND|retail_sales": {
+  "2020": 959082028.01,
+  "2020 months": 12,
+  "2024": 1034584189.64,
+  "2024 months": 12,
+  "Jul 2024 to Jun 2025": 1043650324.01,
+  "fy months": 12
+ },
+ "eia:retail_sales:US:OTH|retail_sales": {
+  "2020": 0.0,
+  "2020 months": 12,
+  "2024": 0.0,
+  "2024 months": 12,
+  "Jul 2024 to Jun 2025": 0,
+  "fy months": 12
+ },
+ "eia:retail_sales:US:RES|retail_sales": {
+  "2020": 1464605045.79,
+  "2020 months": 12,
+  "2024": 1482873585.88,
+  "2024 months": 12,
+  "Jul 2024 to Jun 2025": 1510494486.33,
+  "fy months": 12
+ },
+ "eia:retail_sales:US:TRA|retail_sales": {
+  "2020": 6547824.02,
+  "2020 months": 12,
+  "2024": 6982840.0,
+  "2024 months": 12,
+  "Jul 2024 to Jun 2025": 7273984.13,
+  "fy months": 12
+ }
+}

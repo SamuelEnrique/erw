@@ -22,7 +22,8 @@ class TheHeadingSaysRows(unittest.TestCase):
         s = src("site", "app", "conditions", "page.tsx")
         self.assertNotIn("Alerts and notices in force", s)
         self.assertNotIn("the alerts in force", s)
-        self.assertIn("Alerts and notices listed, {w.start} to {w.end} ({alerts.length} rows)", s)
+        # session 10201: merged with chain 750's whole list, whose heading ends "({alerts.length})</h4>"
+        self.assertIn("Rows of alerts and notices listed, {w.start} to {w.end} ({alerts.length})</h4>", s)
 
     def test_a_line_says_what_a_row_is(self):
         s = src("site", "app", "conditions", "page.tsx")

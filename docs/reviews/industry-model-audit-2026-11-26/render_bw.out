@@ -1,0 +1,116 @@
+[erw] the catalogue table returned no rows
+Each child in a list should have a unique "key" prop.
+
+Check the top-level render call using <p>. See https://react.dev/link/warning-keys for more information.
+ok   /ai-energy: draws (49575 characters)
+ok   /ai-energy: one h1 and no level skipped (1 2 2)
+ok   /ai-energy: every tip has its one target, every button a name
+ok   /ai-energy: every table has a caption (1 tables)
+ok   /ai-energy: every image has its words
+[erw] the catalogue table returned no rows
+Each child in a list should have a unique "key" prop.
+
+Check the top-level render call using <p>. See https://react.dev/link/warning-keys for more information.
+ok   /industry: draws (340452 characters)
+ok   /industry: one h1 and no level skipped (1 2 2 2 3 2 2 2)
+ok   /industry: every tip has its one target, every button a name
+ok   /industry: every table has a caption (7 tables)
+ok   /industry: every image has its words
+[erw] the catalogue table returned no rows
+Each child in a list should have a unique "key" prop.
+
+Check the top-level render call using <p>. See https://react.dev/link/warning-keys for more information.
+ok   /queues/places: draws (173949 characters)
+ok   /queues/places: one h1 and no level skipped (1 2 2 2)
+ok   /queues/places: every tip has its one target, every button a name
+ok   /queues/places: every table has a caption (3 tables)
+ok   /queues/places: every image has its words
+[erw] the catalogue table returned no rows
+Each child in a list should have a unique "key" prop.
+
+Check the top-level render call using <p>. See https://react.dev/link/warning-keys for more information.
+ok   /storage/places: draws (227199 characters)
+ok   /storage/places: one h1 and no level skipped (1 2 2 2)
+ok   /storage/places: every tip has its one target, every button a name
+ok   /storage/places: every table has a caption (4 tables)
+ok   /storage/places: every image has its words
+[erw] the catalogue table returned no rows
+Each child in a list should have a unique "key" prop.
+
+Check the top-level render call using <p>. See https://react.dev/link/warning-keys for more information.
+ok   /curtailment/where-when: draws (167730 characters)
+ok   /curtailment/where-when: one h1 and no level skipped (1 2 2 2)
+ok   /curtailment/where-when: every tip has its one target, every button a name
+ok   /curtailment/where-when: every table has a caption (3 tables)
+ok   /curtailment/where-when: every image has its words
+[erw] the catalogue table returned no rows
+Each child in a list should have a unique "key" prop.
+
+Check the top-level render call using <p>. See https://react.dev/link/warning-keys for more information.
+ok   /states: draws (234648 characters)
+ok   /states: one h1 and no level skipped (1 2 2 2 2 3 3 3 2 2 2 2)
+ok   /states: every tip has its one target, every button a name
+ok   /states: every table has a caption (11 tables)
+ok   /states: every image has its words
+[erw] the catalogue table returned no rows
+Each child in a list should have a unique "key" prop.
+
+Check the top-level render call using <p>. See https://react.dev/link/warning-keys for more information.
+ok   /conditions: draws (61229 characters)
+ok   /conditions: one h1 and no level skipped (1 2 3 4 2)
+ok   /conditions: every tip has its one target, every button a name
+ok   /conditions: every table has a caption (1 tables)
+ok   /conditions: every image has its words
+[erw] the catalogue table returned no rows
+Each child in a list should have a unique "key" prop.
+
+Check the top-level render call using <p>. See https://react.dev/link/warning-keys for more information.
+ok   /congestion: draws (395474 characters)
+ok   /congestion: one h1 and no level skipped (1 2 3 3 2 2 2)
+ok   /congestion: every tip has its one target, every button a name
+ok   /congestion: every table has a caption (5 tables)
+ok   /congestion: every image has its words
+[erw] the catalogue table returned no rows
+[erw] the catalogue table returned no rows
+Each child in a list should have a unique "key" prop.
+
+Check the top-level render call using <p>. See https://react.dev/link/warning-keys for more information.
+ok   /attention: draws (49342 characters)
+ok   /attention: one h1 and no level skipped (1 2 2 2 2 2)
+ok   /attention: every tip has its one target, every button a name
+ok   /attention: every table has a caption (3 tables)
+ok   /attention: every image has its words
+ok   /deals/capital: draws (3359 characters)
+ok   /deals/capital: one h1 and no level skipped (1)
+ok   /deals/capital: every tip has its one target, every button a name
+ok   /deals/capital: every table has a caption (0 tables)
+ok   /deals/capital: every image has its words
+ok   /data/standard: draws, one h1, no level skipped (1 2 2 2 2 2 2 2), tips and buttons named, 4 tables (a document's own, not captioned)
+ok   /tour/1: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/2: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/3: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/4: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/5: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/6: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/7: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/8: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/9: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/10: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/11: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/12: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/13: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/14: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/15: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /tour/16: draws, one h1, no level skipped (1 2), tips and buttons named, 0 tables captioned
+ok   /companies/eia-6452: draws, one h1, no level skipped (1 2 2 2 3 3 3 3 3 3 3 2), tips and buttons named, 8 tables captioned
+ok   /companies/eia-18642: draws, one h1, no level skipped (1 2 2 2 3 3 3 3 3 3 3 2), tips and buttons named, 8 tables captioned
+ok   /companies/eia-55951: draws, one h1, no level skipped (1 2 2 2 3 3 3 2), tips and buttons named, 4 tables captioned
+ok   /ai-energy: Figures 23, the file's 23 rows
+ok   /ai-energy: Publications 9, the file's 9 titles
+ok   /ai-energy: Newest July 9, 2026, the file's newest date
+ok   /ai-energy: one table row a figure (23)
+74 of 74 passed
+(node:29148) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-a/site/lib/cells.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-a\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

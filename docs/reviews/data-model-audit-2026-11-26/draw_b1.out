@@ -1,0 +1,14 @@
+data: 346309 bytes drawn; em dash none
+faults: 93846 bytes drawn; em dash none
+licenses: 1281949 bytes drawn; em dash none
+standard: 88255 bytes drawn; em dash none
+method_impossible_hours: 23133 bytes drawn; em dash none
+method_packages: 41589 bytes drawn; em dash none
+data table rows drawn: 111
+found:  Data The public tables in the site's live catalogue. Each table is one of three shapes (series, entities, events), in UTC, with the source report and retrieval time in its 
+found:  of three shapes (series, entities, events), in UTC, with the source report and retrieval time in its header lines, and on each row where the table has the columns source and retrieved_at . Internal tables, licensed for internal use only, are not listed. Nor is a public table the live set holds back ( cata
+MISSING: Nor is a public table the live set holds back (catalogue_hold and review_hold in warehouse/supabase/live_set.yaml): coverage.csv lists every table of the warehouse.
+(node:29504) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-a/site/lib/markdown.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-a\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

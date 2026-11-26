@@ -1,0 +1,13 @@
+served cost_of_power_monthly offset 0
+served cost_of_power_monthly offset 1000
+served cost_of_power_monthly offset 2000
+served cost_of_power_monthly offset 3000
+served cost_of_power_monthly offset 4000
+served cost_of_power_hourly_profile offset 0
+served cost_of_power_hourly_profile offset 1000
+served cost_of_power_hourly_profile offset 2000
+served cost_of_power_hourly_profile offset 3000
+served cost_of_power_hourly_profile offset 4000
+refused http://localhost:9/rest/v1/catalogue?select=*&order=table_name&limit=1000&offset=0
+served ai_power_regions offset 0
+refused http://localhost:9/rest/v1/catalogue?select=*&order=table_name&limit=1000&offset=0

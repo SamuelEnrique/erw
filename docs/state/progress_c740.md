@@ -22,7 +22,7 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Sources: announced projects | done (first pass) | 10800 | 8 agencies' hosts readable; gov.texas.gov, michigan.gov, georgia.org, DigitalBridge refuse |
 | Sources: construction cost per MW | done | 10800 | JLARC Table D-1 split (6.1, 19.6, 68.2, 6.1 percent); no public cost per MW: from part B |
 | Sources: multipliers | done | 10800 | JEDI none (12 families); RIMS II USD 520 a region, USD 160 an industry (paid); IMPLAN no printed price; Virginia's JLARC tables public |
-| Sources: taxes by state | in progress | 10800 | Virginia (exemption, property classes, consumption tax), Louisiana (rebate), Iowa (exemption) read; Indiana's statute behind a script; West Virginia's code host times out (waiting) |
+| Sources: taxes by state | done | 10800 to 10820 | Virginia (exemption, property classes, consumption tax), Louisiana (rebate), Iowa (exemption) read; Indiana's statute behind a script; West Virginia's code host times out (waiting) |
 | Verdict | done | 10800 | five lines at the top of the review |
 
 ## Part B: the evidence table of announced datacenters
@@ -53,7 +53,7 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Cross-check | done | 10804 | JLARC's exemption value reproduced (9.04 to 15.52 against "about $9 million to $15.5 million"); Huntsville and LED beside the model, differences stated |
 | Replication `replication/impact/datacenter/` | done | 10804, 10805 | `replicate.py` 4,460 of 4,460 figures of 18 cases; `replicate_datacenter.do` (not run: no Stata) |
 | Local build, seen at 1280 and 390 px, five readers' cases | done | 10808 | three builds under the lock (12:15 to 12:29 UTC); six addresses at both widths, no overflow, no console error; check-values 1,506 of 1,506; four faults fixed; `docs/reviews/impact-datacenter-readers-2026-11-26.md` |
-| Landing request | requested | 10810 | row 14 of `docs/state/landing_request_desktop_w3.md`, head `34904f82b`, port 3740 (13:08 UTC) |
+| Landing request | landed, then row 15 requested | 10810, 10821 | row 14 (`34904f82b`) landed at 14:16 UTC in landing 2; row 15 asks for the newer head |
 
 ## Part E: more states
 
@@ -73,13 +73,24 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Item | State | Session | Note |
 |---|---|---|---|
 | More announced projects | done (first pass) | 10807 | 25 rows (Hut 8 River Bend, Amazon Caddo and Bossier, Applied Digital Delta Forge 1 added); defaults recomputed and dated |
-| JEDI plant types the page lacks | requested | 10807 | data request 8 for window A |
+| JEDI plant types the page lacks | waiting | 10807, 10820 | data request 8: window A builds the coal and CSP trough models in its gate 6 (the table of 8,370 rows waits for the data lock); the page's types follow once the table is written |
 | Published IMPLAN ratios beyond Virginia | done | 10809, 10810 | Georgia (the state auditor's evaluation) and Minnesota (the Legislative Budget Office's), each its own state only |
 | An equipment value schedule (a county's, typed) | done | 10809 | three fields; Loudoun's 2026 schedule reproduces its USD 9.96 million |
-| Window F's browser read, rows naming `/impact` | none yet | 10808 | `docs/reviews/browser-read-2026-11-26.md`: `/impact` with Datacenter is part C, read as it lands |
+| Window F's browser read, rows naming `/impact` | read, five findings fixed | 10808, 10821 | `docs/reviews/browser-read-2026-11-26.md`: `/impact` with Datacenter is part C, read as it lands |
 | More states, words or rules | done | 10809, 10810 | Pennsylvania and Kentucky by rule; Mississippi, Indiana and Washington as words (23 states in `datacenter_rules.json`) |
 | Words-only states turned into rules where the law can be read | done | 10813 | Georgia (HB 1291 as signed, through 2031), Utah (59-12-102(111)); Illinois added as words (program paused 1 July 2026); Mississippi stays words |
-| Statutes re-read | done | 10813 | Utah's code showed a version effective 1 July 2026, read; paragraph unchanged |
-| A build and read of the newest head | waiting | 10813 | the build lock was held by window A's gate at 13:25 UTC |
+| Statutes re-read | done | 10813, 10821 | Utah's code (a July 2026 version, paragraph unchanged); Florida's 212.08 and Iowa's 427A.2 in their 2026 editions (unchanged) |
+| A build and read of the newest head | done | 10813, 10816 | `3fb425592` built 14:00 UTC, eleven addresses at 1280 and 390 px, check-values 1,506 of 1,506; row 14 updated |
 | Minnesota's announced projects (DEED's release on Meta in Rosemount) | waiting | 10815 | mn.gov's robots file sets Visit-time 0000-1200; read after 00:00 UTC |
 | More states (part F) | done | 10813 to 10816 | by rule: Georgia, Utah, Arkansas, Oklahoma, Connecticut, Michigan (22 in all); words: Illinois, Massachusetts, Ohio, Nebraska (8 in all) |
+| Electricity taxes beyond Virginia | done | 10817, 10818 | Illinois (monthly blocks), Ohio (tiers or the self-assessing schedule, the lower) |
+| Wages from warehouse tables (request 7 built) | done | 10818 | `datacenter_wages.py --tables`; figures identical |
+| Property ratios a datacenter shares with all property | done | 10818 | Georgia 40 percent, New Mexico one third, Ohio 35 percent building and no equipment tax |
+| Build and read of 988e06dc9 | done | 10818 | thirteen addresses, check-values 1,680 of 1,680; row 14 updated |
+| Equipment untaxed where the state says so | done | 10819 | Iowa, Minnesota, North Dakota, Wisconsin, Kansas (25 percent building), with Ohio |
+| Assessment ratios by state | done | 10819 | South Carolina, Wyoming, Arizona, Missouri, Nevada, Alabama, Mississippi, Arkansas; rate fields to 60 percent |
+| Build and read of 3e15b9395 | done | 10819 | fifteen addresses, check-values 1,680 of 1,680; row 14 updated |
+| Data requests 6, 7, 9 | answered | 10820 | 6 landed (22 rows, grows when row 14 lands), 7 landed and read by the tool, 9 built on `wip/c701-tax` |
+| Row 14 landed (first head) | done | 10821 | `34904f82b` at 14:16 (landing 2); newer head `6352fb2e4` requested |
+| Window F's findings I1 to I5 | done | 10821 | fixed on the branch, tested, read at both widths |
+| Landing row 15 (the newer head) | requested | 10821 | `617bd736d` or later (checked 16:18 UTC: not yet on main; window F's file has no new `/impact` lines); row 14 landed at `34904f82b` |

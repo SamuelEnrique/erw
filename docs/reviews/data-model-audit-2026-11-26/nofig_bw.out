@@ -1,0 +1,8 @@
+/data rows 111 and 111; cells 1332; cells that differ 0 []
+data: numbers 2170 and 2179; gone {}; new (not allowed) {}
+faults: numbers 1296 and 1296; gone {}; new (not allowed) {}
+licenses: numbers 21815 and 21815; gone {}; new (not allowed) {}
+standard: numbers 744 and 771; gone {}; new (not allowed) {}
+method_impossible_hours: numbers 618 and 618; gone {}; new (not allowed) {}
+method_packages: numbers 431 and 431; gone {}; new (not allowed) {}
+no figure moved

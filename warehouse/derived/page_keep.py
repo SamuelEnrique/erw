@@ -16,7 +16,8 @@ This script runs a builder into a temporary folder and then takes the new build 
      row's trend).
   2. Otherwise the held row is kept exactly as it was, with its own date on it, and counted as "kept".
   3. A row the new build blanks as "paused" or "licensed" is always taken: a pause is never undone by a kept row.
-  4. A row only the held file has is kept; a row only the new build has is taken.
+  4. A row only the held file has is kept (session 10000: unless its grid is one the license holds, which is dropped);
+     a row only the new build has is taken.
   5. The board's hourly files follow the same rule: taken when they reach at least as far back and as far forward.
   6. Session 3889: the board's rows computed from Henry Hub with a look-back (the spark spreads and implied heat rates)
      and Henry Hub's own row are one set: when one of them is kept, all are kept (BOARD_TOGETHER).
@@ -157,6 +158,24 @@ def hold_together(decisions, old_by, new_by, sets):
     return moved
 
 
+GRID_OF_PREFIX = {"nyiso": "NYISO", "isone": "ISO-NE", "miso": "MISO", "pjm": "PJM", "ercot": "ERCOT", "caiso": "CAISO", "spp": "SPP"}
+
+
+def grid_of(row):
+    """A board row's grid: its tags' grid, else the grid its id begins with; None for a row of no grid."""
+    g = (row.get("tags") or {}).get("grid")
+    return g or GRID_OF_PREFIX.get(str(row.get("id", "")).split("-", 1)[0])
+
+
+def held_grid_names():
+    """Session 10000 (chain 701, data request 13 of docs/state/data_requests_five_tools.md): the grids the license holds
+    (license_status.held_grids()). A row only the held file has was kept forever (rule 4), so 94 rows of NYISO and ISO-NE
+    built before the hold of 20 October 2026 stayed in the public board.json with their values; such a row is dropped."""
+    sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
+    import license_status as ls
+    return set(ls.held_grids())
+
+
 def merge_rows(old_body, new_body, points_old, points_new, log, together=None):
     old_rows, new_rows = named(old_body), named(new_body)
     old_by = {r["id"]: r for r in old_rows}
@@ -172,9 +191,17 @@ def merge_rows(old_body, new_body, points_old, points_new, log, together=None):
             out.append(r); taken.append(r["id"])
         else:
             out.append(old_by[r["id"]]); kept.append((r["id"], why))
+    held_grids = held_grid_names()
+    dropped = []
     for r in old_rows:
         if r["id"] not in new_by and r.get("group") in order:
+            if grid_of(r) in held_grids and r.get("status") == "ok":  # session 10000: a held grid's row with a value is not kept
+                dropped.append(r["id"])
+                continue
             out.append(r); kept.append((r["id"], "only the held file has it"))
+    if dropped:
+        log(f"  dropped {len(dropped)} rows only the held file has, of grids the license holds ({', '.join(sorted(held_grids))}): "
+            f"{', '.join(dropped[:6])}{' and more' if len(dropped) > 6 else ''}")
     out.sort(key=lambda r: order[r["group"]])                      # stable: rows keep their order inside a group
     mark_held(out, dict(kept))
     sources = sorted({r["source"] for r in out if isinstance(r.get("source"), str)})
@@ -230,6 +257,15 @@ def board(args, log):
             for old in os.listdir(s_old):
                 if old.endswith(".json") and old[:-5] not in set(taken):
                     os.remove(os.path.join(s_old, old))
+        # session 10000: a held grid's row dropped by merge_rows takes its series file with it (the file is its history)
+        final = {r["id"] for r in rows}
+        held = held_grid_names()
+        gone = [r["id"] for r in named(old_body) if r["id"] not in final and grid_of(r) in held and r.get("status") == "ok"]
+        for rid in gone:
+            if os.path.exists(os.path.join(s_old, rid + ".json")):
+                os.remove(os.path.join(s_old, rid + ".json"))
+        if gone:
+            log(f"  removed the series files of {len(gone)} dropped rows of held grids")
         hourly_kept = 0
         for name in sorted(f for f in os.listdir(h_new) if f.endswith(".json")):
             src, dst = os.path.join(h_new, name), os.path.join(h_old, name)

@@ -25,3 +25,25 @@ The page as it opens (Texas wind) reads exactly as before: 515 construction jobs
 
 - The year chart's labels crowd at 22 or more years (the plants' chart does the same; a shared component, not this chain's to change).
 - Construction workers at an announced peak are held in every construction year (an upper reading of job-years), said in the field's hover and in `forecast.md` 13.4.
+
+## Three more readers (session 10820, on the build of `3e15b9395`, read at 14:47 UTC)
+
+| Reader | What they set | What the page gives, and whether it answers them |
+|---|---|---|
+| A state budget analyst comparing two neighbours | 600 MW, USD 6 billion, 500 permanent jobs, the building's taxable share 40 percent, in Arkansas (A) and Oklahoma (B) | sales tax before exemptions USD 1.6 billion and 1.48 billion; forgone USD 1.09 billion (Act 548, the state's 6.5 percent, equipment and building) and 736.6 million (the evaluation's no-threshold exemption, the state's 4.5 percent, equipment only); each hover says only the state's part is applied. Answers them, with the state-rate caveat in sight |
+| A utility planner in the Ohio valley | 600 MW, USD 6 billion, 200 jobs, 5,000,000 MWh a year, 7 percent property rates, in Ohio (A) and Illinois (B) | electricity tax USD 9.5 million a year in Ohio (the self-assessing schedule, the lower) and 10.2 million in Illinois (ten blocks); property: Ohio's building 28.8 million at 35 percent and its equipment USD 0 (untaxed since 2009); Illinois' building 82.3 million at one third and its equipment 286.4 million at the typed rate, which the hover says to leave blank unless the county taxes it. Answers them, the Illinois equipment line hanging on the reader's choice |
+| A South Carolina county assessor | 600 MW, USD 2 billion, 200 jobs, 32 percent rates (320 mills), in South Carolina (A) and Kansas (B) at 13 percent | South Carolina: building USD 7.5 million at 6 percent, equipment 45.8 million at 10.5 percent; Kansas: building 12.7 million at 25 percent, equipment USD 0 (79-223). The 32 percent rate is accepted (the fields took up to 20 before). Answers them; a fee in lieu goes in the abatement input |
+
+No fault found in these three. The Illinois equipment line is a reader's choice by design (no page read says whether the county taxes it).
+
+## Window F's findings on production (I1 to I5, `docs/reviews/browser-read-2026-11-26.md`) and what was done (session 10821, `6352fb2e4` and after)
+
+| # | Finding | Done |
+|---|---|---|
+| I1 | No default's mark held a link to its document | Each default's hover links its documents: JLARC's report (build, split, refresh), Census CBP's file (wages), the Tax Foundation's table (sales rate), OMB Circular A-94's Appendix C (the rate's 2.0 percent), and the state's cited source for its exemption, property and electricity rules. The announced projects' documents open from the list, as before |
+| I2 | "Taxes, present value" did not say it left out property and electricity | The cell says "without property or electricity tax" (or the one left out) and the hover names what each scenario leaves out |
+| I3 | Relief held as words read "none" | It reads "not held", as a state with no rule read; "none" stays for a rule the project falls short of |
+| I4 | Paducah's investment and Starwood's jobs were silently not taken | The list says which figure is not taken and why, with the row's note (Vantage's equipment-only investment too) |
+| I5 | An address naming the project alone opened with the defaults | It takes the project's figures, as a pick does; a figure the address gives is kept |
+
+Seventeen addresses read at 1280 and 390 px on the build of 15:42 UTC: no sideways scroll (after the I2 line was made to wrap), no console error.

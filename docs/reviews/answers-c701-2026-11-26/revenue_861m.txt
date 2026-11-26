@@ -1,0 +1,28 @@
+sales: 861M sampled against the page, median -24.35 percent; implied price 861M against the page (RES, COM, IND), median ratio 1.001
+state-sectors with all twelve months in both: 202
+861M sampled revenue against sales x price, percent: median -23.62 | mean -33.91 | within 1 percent: 18 | below by more than 5 percent: 156 | above by more than 1 percent: 0
+RES: median -24.52 percent; all states 176.86 against 267.69 billion USD
+COM: median -23.66 percent; all states 119.40 against 211.30 billion USD
+IND: median -26.82 percent; all states 49.24 against 93.27 billion USD
+largest gaps:
+           months      page_usd  m861_months     m861_usd    m861_mwh     page_mwh  gap_pct  sales_gap_pct  price_861m  price_page
+st sector                                                                                                                         
+DC TRA         12  4.542917e+07           12          0.0        0.00    345544.57  -100.00        -100.00         NaN      131.47
+   IND         12  3.498941e+07           12          0.0        0.00    191948.43  -100.00        -100.00         NaN      182.29
+MA TRA         12  2.992126e+07           12          0.0        0.00    311046.43  -100.00        -100.00         NaN       96.20
+MD TRA         12  6.823694e+07           12          0.0        0.00    446586.76  -100.00        -100.00         NaN      152.80
+OH TRA         12  3.364427e+06           12          0.0        0.00     32520.91  -100.00        -100.00         NaN      103.45
+RI TRA         12  5.130380e+06           12          0.0        0.00     21824.22  -100.00        -100.00         NaN      235.08
+TX TRA         12  2.206246e+05           12          0.0        0.00      5735.79  -100.00        -100.00         NaN       38.46
+OH IND         12  4.911070e+09           12   96785440.0   781485.37  50581783.28   -98.03         -98.46      123.85       97.09
+PA TRA         12  5.727292e+07           12    1618811.0    11037.75    534826.05   -97.17         -97.94      146.66      107.09
+   IND         12  4.818685e+09           12  186444695.0  1456666.45  46218134.64   -96.13         -96.85      127.99      104.26
+IL TRA         12  4.432204e+07           12    1798874.0    14067.96    476332.66   -95.94         -97.05      127.87       93.05
+MA IND         12  1.204384e+09           12   53051462.0   275189.82   6188990.43   -95.60         -95.55      192.78      194.60
+Texas:
+        months      page_usd  m861_months      m861_usd     m861_mwh      page_mwh  gap_pct  sales_gap_pct  price_861m  price_page
+sector                                                                                                                            
+COM         12  1.564287e+10           12  2.843028e+09  28474809.34  1.829263e+08   -81.83         -84.43       99.84       85.51
+IND         12  1.184594e+10           12  1.275824e+09  22588690.49  1.798887e+08   -89.23         -87.44       56.48       65.85
+RES         12  2.706099e+10           12  3.629523e+09  26189489.48  1.698964e+08   -86.59         -84.59      138.59      159.28
+TRA         12  2.206246e+05           12  0.000000e+00         0.00  5.735790e+03  -100.00        -100.00         NaN       38.46

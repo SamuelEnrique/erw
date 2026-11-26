@@ -186,3 +186,80 @@ The last two years (built 26 November 2026 at 12:58 UTC; `runs/c730/table_w.py`)
 with the weather known beats the operator in 12 of 29
 
 What it says: with the weather known the regression would close more than the whole gap to the operator in MIDA and PJM, FLA and SW, and 70 percent or more of it in CAR, MIDW, TEN, CPLE, DUK, FPL and MISO; it closes less than half in TEX (43 percent), NE (37) and BPAT (9), so there the operator's forecast holds something beyond the weather that this regression lacks. With the weather known, the line beats the operator in 12 places; the operator stays ahead in 17.
+
+## 14. A fourth candidate: regression_recent (session 10601)
+
+The regression of section 3 with three more regressors, all from days held when the forecast is made: the log of the last hour (23:00 local) of day A, the most recent demand read; the log of the same hour on day A-1; the log of the same hour on day T-14. Fitted and refit exactly as the regression (30 coefficients an hour). It was tried first on six places (`runs/c730/trial_reg2.py`): it lowered the mean absolute error of the last two years by 1.6 to 8.4 percent in all six. It was then added as a candidate of the choice rule, which picks it in 28 of 29 places (PSCO keeps the regression). Nothing else changed. `replication/predict/replicate.py` refits it from these words too.
+
+The last two years with the four candidates (built 26 November 2026 at 14:05 UTC; the table of section 7 is the build of 11:15 UTC, kept as it was):
+
+| Place | Hours (2 years) | ERW MAPE % | Operator MAPE % | Yesterday's hour MAPE % | Week-ago hour MAPE % | ERW MAE MW | Operator MAE MW | ERW MAPE %, whole backtest | Operator MAPE %, whole backtest | Who wins (2 years) |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| ba-cple | 16,931 | 9.60 | 4.03 | 12.65 | 15.81 | 717 | 294 | 9.06 | 4.08 | operator |
+| region-car | 15,490 | 7.42 | 2.27 | 10.17 | 12.99 | 2,055 | 614 | 6.89 | 2.39 | operator |
+| region-se | 17,514 | 6.37 | 1.27 | 9.12 | 11.15 | 1,838 | 360 | 6.12 | 2.01 | operator |
+| ba-soco | 17,514 | 6.37 | 1.27 | 9.12 | 11.15 | 1,838 | 360 | 6.11 | 2.32 | operator |
+| region-ne | 17,516 | 7.57 | 2.80 | 10.88 | 11.39 | 995 | 340 | 6.86 | 2.56 | operator |
+| ba-isne | 17,516 | 7.57 | 2.80 | 10.88 | 11.39 | 995 | 340 | 6.86 | 2.56 | operator |
+| region-ten | 17,516 | 7.01 | 2.34 | 9.56 | 12.46 | 1,443 | 473 | 7.04 | 2.26 | operator |
+| ba-tva | 17,516 | 7.01 | 2.34 | 9.56 | 12.46 | 1,443 | 473 | 7.04 | 2.26 | operator |
+| ba-duk | 17,388 | 7.56 | 3.04 | 10.74 | 12.88 | 1,004 | 407 | 6.95 | 2.84 | operator |
+| region-ny | 17,321 | 5.70 | 2.73 | 8.70 | 9.08 | 998 | 479 | 5.10 | 2.63 | operator |
+| ba-nyis | 17,321 | 5.70 | 2.73 | 8.70 | 9.08 | 998 | 479 | 5.10 | 2.63 | operator |
+| region-tex | 17,372 | 4.91 | 2.08 | 6.33 | 8.14 | 2,839 | 1,177 | 5.47 | 2.39 | operator |
+| ba-erco | 17,372 | 4.91 | 2.08 | 6.33 | 8.14 | 2,839 | 1,177 | 5.47 | 2.39 | operator |
+| ba-fpl | 17,464 | 5.84 | 3.16 | 7.24 | 9.74 | 993 | 536 | 6.19 | 3.57 | operator |
+| region-midw | 17,492 | 3.86 | 1.98 | 6.73 | 7.78 | 3,350 | 1,659 | 3.86 | 2.42 | operator |
+| ba-bpat | 17,516 | 3.32 | 1.88 | 5.45 | 5.77 | 243 | 134 | 3.61 | 1.98 | operator |
+| region-mida | 17,389 | 4.76 | 3.48 | 7.65 | 8.66 | 4,854 | 3,376 | 4.86 | 3.61 | operator |
+| ba-pjm | 17,389 | 4.76 | 3.48 | 7.65 | 8.66 | 4,854 | 3,376 | 4.86 | 3.61 | operator |
+| ba-miso | 17,492 | 3.65 | 2.42 | 6.55 | 7.35 | 2,899 | 1,856 | 3.69 | 2.77 | operator |
+| region-sw | 17,382 | 4.89 | 4.51 | 6.41 | 8.24 | 712 | 605 | 4.56 | 3.50 | operator |
+| region-fla | 15,582 | 5.86 | 5.50 | 7.58 | 10.29 | 1,826 | 1,734 | 5.98 | 5.57 | operator |
+| ba-pace | 17,420 | 3.95 | 4.97 | 5.70 | 6.05 | 248 | 303 | 3.95 | 5.19 | ERW |
+| region-nw | 14,663 | 2.68 | 5.05 | 4.49 | 4.75 | 1,183 | 2,195 | 2.68 | 3.99 | ERW |
+| region-cent | 15,038 | 5.03 | 8.04 | 6.55 | 8.58 | 1,819 | 2,806 | 4.75 | 4.63 | ERW |
+| ba-swpp | 16,965 | 4.94 | 8.25 | 6.40 | 8.47 | 1,772 | 2,844 | 4.74 | 4.79 | ERW |
+| region-cal | 16,922 | 4.15 | 7.61 | 7.32 | 7.04 | 1,395 | 2,455 | 4.00 | 4.68 | ERW |
+| ba-ciso | 17,420 | 4.20 | 8.50 | 7.48 | 6.82 | 1,150 | 2,274 | 4.06 | 5.08 | ERW |
+| ba-psco | 17,510 | 6.67 | 13.64 | 8.77 | 9.04 | 362 | 749 | 6.61 | 6.44 | ERW |
+| ba-fpc | 17,365 | 7.49 | 23.77 | 9.50 | 12.80 | 508 | 1,610 | 7.49 | 22.85 | ERW |
+
+
+The ERW's error falls in every place where the new candidate is chosen (TEX from 5.22 to 4.91 percent, SE from 6.81 to 6.37, MIDA from 5.19 to 4.76, NE from 7.99 to 7.57), but the operator still wins in the same 21 places and the ERW in the same 8.
+
+Session 10601, after section 14: each horizon of `ahead.json` now uses the better of the regression and `regression_recent` by the same rule (lower mean absolute error over the last two years). `regression_recent` is chosen at 91 of 145 place-horizons; its advantage shrinks with the horizon (TEX: 3,417 against 3,464 MW at h = 3, 4,087 against 4,095 at h = 7), as the most recent hour read lies further from the day forecast. All 145 still beat the week-ago hour.
+
+## 15. The cross-check: ERCOT's own figure beside the backtest (session 10601)
+
+ERCOT prints a chart of its Mid-Term Load Forecast's monthly mean absolute percent error, including the day-ahead (RUC) forecast, on www.ercot.com/gridinfo/load/forecast (robots: `/gridinfo/` is not disallowed). The chart is an image, `www.ercot.com/files/assets/2026/11/05/load-backcast.png` (the page's file names are swapped: the file named for the MAPE chart, `load-mtlf-mape.png`, shows the backcast), fetched once on 26 November 2026. Its monthly values were read off the image to about 0.05 point (`runs/c730/crosscheck_ercot.py` holds the readings). Beside them, the backtest's monthly error of ERCOT's forecast as filed on Form EIA-930 (ba-erco, cut `month` of `scores.json`), on the hours the backtest scores:
+
+| Month | ERCOT's chart, day-ahead RUC MAPE % (read off the image) | Operator's forecast as filed on EIA-930, MAPE % (backtest) | ERW forecast, MAPE % | Hours |
+|---|---:|---:|---:|---:|
+| 2024-10 | 1.55 | 1.51 | 5.32 | 744 |
+| 2024-11 | 2.05 | 2.13 | 4.77 | 721 |
+| 2024-12 | 1.82 | 1.81 | 4.13 | 744 |
+| 2025-01 | 2.89 | 3.14 | 8.05 | 744 |
+| 2025-02 | 2.72 | 3.17 | 7.48 | 672 |
+| 2025-03 | 1.97 | 2.19 | 4.52 | 741 |
+| 2025-04 | 2.06 | 2.14 | 4.54 | 720 |
+| 2025-05 | 2.72 | 2.58 | 5.65 | 744 |
+| 2025-06 | 2.42 | 2.25 | 4.72 | 720 |
+| 2025-07 | 2.25 | 2.23 | 3.08 | 744 |
+| 2025-08 | 2.13 | 2.15 | 3.10 | 744 |
+| 2025-09 | 1.78 | 1.99 | 4.61 | 720 |
+| 2025-10 | 1.72 | 2.45 | 5.16 | 744 |
+| 2025-11 | 2.17 | 2.52 | 4.17 | 721 |
+| 2025-12 | 2.21 | 2.56 | 5.91 | 600 |
+| 2026-01 | 2.70 | 2.70 | 6.58 | 744 |
+| 2026-02 | 1.50 | 1.46 | 4.49 | 672 |
+| 2026-03 | 1.77 | 1.76 | 5.85 | 741 |
+| 2026-04 | 1.60 | 1.60 | 5.88 | 720 |
+| 2026-05 | 2.48 | 2.48 | 6.05 | 744 |
+| 2026-06 | 1.85 | 1.86 | 4.53 | 720 |
+| 2026-07 | 1.49 | 1.50 | 3.51 | 744 |
+| 2026-08 | 1.46 | 1.44 | 3.59 | 744 |
+| 2026-09 | 1.33 | 1.34 | 4.29 | 720 |
+| 2026-10 | 1.51 | 1.51 | 4.75 | 744 |
+
+What it says: from February 2026 the two agree to 0.02 point every month, so the operator series the ERW scores itself against is, in those months, the forecast ERCOT grades itself on. Before, the EIA-930 filing scores up to 0.73 point worse (October 2025: 2.45 against 1.72; January and February 2025, October to December 2025), which can come from the filing being a different vintage of the forecast or from a different demand basis; the backtest does not say which. Over the 25 months the chart averages 2.01 percent and the filings 2.10. The ERW's forecast is beside them for scale. A second place (CAISO: its market monitor's 2024 annual report prints no such figure; SPP: none found) is not yet read.

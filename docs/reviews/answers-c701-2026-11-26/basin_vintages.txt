@@ -1,0 +1,20 @@
+today: newest month 2026-08 | variables ['crude_production', 'gas_marketed_production']
+== as of 2026-10-01: the table was not yet in the archive (no rows)
+== as of 2026-10-20: newest month 2026-07; shared values 228; moved at all 224; more than 1 percent 10; largest 3.94 percent
+   its three newest months (2026-05 to 2026-07): 36 values, mean absolute move 0.56 percent, largest 3.94
+    entity                variable               ts_utc  v_then  v_now    pct
+eia:NGMPBK gas_marketed_production 2026-07-01T00:00:00Z   3.436  3.572  3.936
+eia:COPRHA        crude_production 2026-03-01T00:00:00Z  32.969 33.768  2.422
+eia:NGMPEF gas_marketed_production 2026-03-01T00:00:00Z   7.816  7.703 -1.453
+eia:NGMPAP gas_marketed_production 2026-07-01T00:00:00Z  37.013 37.547  1.443
+eia:NGMPAP gas_marketed_production 2026-06-01T00:00:00Z  37.429 37.965  1.430
+eia:NGMPBK gas_marketed_production 2026-03-01T00:00:00Z   3.352  3.398  1.362
+== as of 2026-11-05: newest month 2026-07; shared values 228; moved at all 224; more than 1 percent 10; largest 3.94 percent
+   its three newest months (2026-05 to 2026-07): 36 values, mean absolute move 0.56 percent, largest 3.94
+    entity                variable               ts_utc  v_then  v_now    pct
+eia:NGMPBK gas_marketed_production 2026-07-01T00:00:00Z   3.436  3.572  3.936
+eia:COPRHA        crude_production 2026-03-01T00:00:00Z  32.969 33.768  2.422
+eia:NGMPEF gas_marketed_production 2026-03-01T00:00:00Z   7.816  7.703 -1.453
+eia:NGMPAP gas_marketed_production 2026-07-01T00:00:00Z  37.013 37.547  1.443
+eia:NGMPAP gas_marketed_production 2026-06-01T00:00:00Z  37.429 37.965  1.430
+eia:NGMPBK gas_marketed_production 2026-03-01T00:00:00Z   3.352  3.398  1.362

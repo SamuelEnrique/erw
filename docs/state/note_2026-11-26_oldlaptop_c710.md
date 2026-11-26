@@ -35,6 +35,39 @@ Energy Research Warehouse (ERW). Chain file: `queue/done/710-night-26-november-o
   - 4 word fixes requested (rows 72 to 75); 1 waits for a ruling.
 - In all: 19 word fixes requested, 1 waiting on another branch; 17 for Samuel's ruling, each with its measured effect; 10 data requests (rows 6 to 15 of `docs/state/data_requests_five_tools.md`).
 
+## Part D goes on: more audits in the same form (sessions 10209 onward)
+
+- Each found the arithmetic right. Each words fix is a requested row in `docs/state/landing_request_oldlaptop.md`; each figure fix is a test on its own branch, for Samuel's ruling; each measurement this machine cannot make is a row in `docs/state/data_requests_five_tools.md`.
+- The trader view (`docs/reviews/trader-model-audit-2026-11-26.md`): 6 findings; rows 89 to 93; SPP's real-time table is held but never read; heat rate against the next day's gas; off-peak week by days, not hours.
+- The curtailment tracker (`curtailment-model-audit-2026-11-26.md`): 7 findings; rows 85 to 88; held grids' hour counts printed; "What it is worth" is a hub price while 81 percent was local congestion.
+- The datacenter power tracker (`tracker-model-audit-2026-11-26.md`): 6 findings; rows 79 to 84; a third of the MW is one Utah row joined from two stories.
+- The storage page (`storage-model-audit-2026-11-26.md`): 7 findings; row 99; "US Lower 48" leaves out CAISO, NYISO and PJM.
+- The interconnection queues (`queues-model-audit-2026-11-26.md`): 6 findings; rows 94 to 98; CAISO's hybrids counted at both parts (32.1 percent above a like count).
+- The consumption page (`demand-model-audit-2026-11-26.md`): 7 findings; rows 100 to 104; from 2018, CAISO's and MISO's growth is negative.
+- The deal tracker (`deals-model-audit-2026-11-26.md`): 6 findings; rows 105 to 110; the held deals CSV and its evidence file are tracked in the public repository.
+- The project map (`map-model-audit-2026-11-26.md`): 6 findings; row 111; 50 datacenters with 25,158 MW have no point.
+- The policy monitor (`policy-model-audit-2026-11-26.md`): 8 findings; row 112; a held table shown in the monitor view; 15 large-load orders dropped on 20 November.
+- Congestion (`congestion-model-audit-2026-11-26.md`): 7 findings; row 113; SPP and CAISO places ranked in one list across different references.
+- Grid conditions (`conditions-model-audit-2026-11-26.md`): 11 findings; row 114; no screen for impossible hours (PJM peak 215,682 MW against 108,513).
+- The prices pages and map (`prices-model-audit-2026-11-26.md`): 6 findings; row 115; ERCOT load zones called hubs; SPP October "not held" though held.
+- AI's energy (`ai-energy-model-audit-2026-11-26.md`): 8 findings; row 116; 5 of 23 rows are a company's whole consumption.
+- The states page (`states-model-audit-2026-11-26.md`): 8 findings; row 117; the trade row's sign label is backwards (Virginia imports 45 TWh net, the page reads as exports).
+- The industry page (`industry-model-audit-2026-11-26.md`): 8 findings; row 118; the whole industrial sector set beside manufacturing fuel, half of it.
+- The supply page (`supply-model-audit-2026-11-26.md`): 5 findings; row 119; California's gas burn compared across a change of source (-22.8 percent against +0.8 like for like).
+- The events pages (`events-model-audit-2026-11-26.md`): 9 findings; row 120; the weather share fitted on the event days too (Uri's effect changes sign fitted on the baseline alone); the paper's columns untouched.
+- The contracts page (`contracts-model-audit-2026-11-26.md`): 6 findings; row 121; every quarter read from the newest file, so older quarters show only the survivors.
+- The games (`play-model-audit-2026-11-26.md`): 8 findings; row 122; "What is stored" says a play's records cannot be joined, and they can (a privacy sentence).
+- The company database (`companies-model-audit-2026-11-26.md`): 7 findings; row 123; jointly owned plants counted twice in the default order.
+- The learning pages (`problems-model-audit-2026-11-26.md`): 7 findings; row 124; two keyed answers depend on a price the question does not name.
+- The signature explorers (`explore-model-audit-2026-11-26.md`): 7 findings; row 125; the peak premium's rise holds under every rule, its 2025 size runs 9.59 to 22.38 by the peak hours chosen.
+- The two report drafts (`reports-model-audit-2026-11-26.md`, saved from the agent's hand-back): 9 findings; row 126; the AI draft reads four regions and says seven.
+- The data and methods pages (`data-model-audit-2026-11-26.md`): 9 findings; row 127; Redivis holds 192 of 594 tables, not every table's history.
+- The chat over the warehouse (`ask-model-audit-2026-11-26.md`, no model called): 8 findings; row 128, and row 129 (`/terms` and `/privacy` words, Samuel's, not requested); the number check passes any figure whose digits sit in any source.
+- The Digest and Roundup as published (`digest-model-audit-2026-11-26.md`, no issue touched): 7 findings; rows 130 and 131; `/roundup` printed held prices its week page hides; the line under each story is the scoring model's, unchecked.
+- The home page, tour and Thesis Builder (`home-model-audit-2026-11-26.md`): 14 findings; row 132 (row 133 for Samuel's yes); the Thesis Builder is said to answer "from the tables" and does not.
+- In all, 32 audits tonight: every tool's arithmetic right; about 230 findings; word fixes in rows 59 to 133 of the old laptop's landing file (35 landed at 14:16 UTC); data requests 6 to 59.
+- The same held-rows-in-public question gathered in the weekend page's tier 1 first item.
+
 ## What waits for Samuel, in plain words
 
 - Whether to take held and paused grids' figures out of the public analysis files and the board file (tier 1, first item).

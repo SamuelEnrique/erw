@@ -1,0 +1,19 @@
+figures compared 693; largest difference 1.819e-12; disagreements 0
+
+level, mode: optimum (three actions) | any power | naive | bad | sell first | idle  (USD, one battery)
+           today 2026-11-12|normal: 2.0882 | 2.0902 | 1.5567  | -1.1906  | 0.3797 | 0.0000 | best bought 28.8136 kWh at 22.08, sold 32.3358 at 67.85
+           today 2026-11-12|hard: 29.8218 | 29.8286 | 26.5363  | -5.5918 bankrupt | -0.1627 | 0.0000 | best bought 2.5000 kWh at 12.79, sold 5.0000 at 3043.36
+             uri 2021-02-15|normal: 240.2274 | 240.7426 | -8.8908 bankrupt | -7.0726 bankrupt | 56.4103 | 0.0000 | best bought 31.7302 kWh at 3538.89, sold 34.9608 at 8796.7
+             uri 2021-02-15|hard: 154.6718 | 158.8587 | -8.8908 bankrupt | -5.8441 bankrupt | 27.8381 | 0.0000 | best bought 18.1727 kWh at 2940.66, sold 19.5572 at 8638.81
+            heat 2023-08-10|normal: 60.9710 | 61.1691 | 17.2432  | -5.6259 bankrupt | 0.1750 | 0.0000 | best bought 27.9485 kWh at 180.87, sold 31.5572 at 1579.52
+            heat 2023-08-10|hard: 48.3635 | 48.4480 | 5.3011  | -6.1564 bankrupt | -0.2831 | 0.0000 | best bought 13.5040 kWh at 182.94, sold 12.3554 at 2532.31
+            calm 2026-04-26|normal: 0.4406 | 0.4419 | 0.0933  | -0.1444  | 0.1666 | 0.0000 | best bought 24.6151 kWh at 20.2, sold 28.5572 at 27.74
+            calm 2026-04-26|hard: 29.4861 | 29.4983 | -0.8265  | -0.5918  | -0.2862 | 0.0000 | best bought 2.5000 kWh at 24.21, sold 5.0000 at 3012.64
+           solar 2026-08-29|normal: 0.9328 | 0.9352 | 0.3573  | -0.4503  | 0.1583 | 0.0000 | best bought 19.7858 kWh at 20.05, sold 24.2108 at 43.87
+           solar 2026-08-29|hard: 29.6087 | 29.6162 | -0.9094  | -0.7289  | -0.2931 | 0.0000 | best bought 2.5000 kWh at 14.71, sold 5.0000 at 3022.53
+        negative 2025-01-05|normal: 0.7949 | 0.7984 | 0.5256  | -0.4341  | -0.2018 | 0.0000 | best bought 48.2262 kWh at -21.18, sold 49.8072 at -6.51
+        negative 2025-01-05|hard: 29.7236 | 29.7236 | 26.2761  | -5.2498 bankrupt | -0.4722 | 0.0000 | best bought 7.1151 kWh at -31.71, sold 5.0000 at 3007.77
+caiso-solar-noon 2026-04-27|normal: 0.8267 | 0.8306 | -0.0046  | 0.0148  | 0.0667 | 0.0000 | best bought 40.7580 kWh at -14.2, sold 43.0858 at 4.25
+caiso-solar-noon 2026-04-27|hard: 29.7128 | 29.7128 | -1.1970  | -1.1757  | -0.3366 | 0.0000 | best bought 7.1151 kWh at -34.44, sold 5.0000 at 3004.75
+      caiso-duck 2026-07-24|normal: 12.9806 | 13.0160 | 7.2597  | -5.6552 bankrupt | 0.6638 | 0.0000 | best bought 37.5000 kWh at 51.71, sold 40.1536 at 257.61
+      caiso-duck 2026-07-24|hard: 34.3022 | 34.3548 | 0.7088  | -4.0139  | -0.0965 | 0.0000 | best bought 8.3651 kWh at 35.36, sold 10.0000 at 1895.35

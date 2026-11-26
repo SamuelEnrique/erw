@@ -1,0 +1,10 @@
+{
+ "pf|conditions/ercot.json|daily/688/1": {
+  "raw": "64190",
+  "shown": "64,190"
+ },
+ "pf|conditions/ercot.json|daily/624/8": {
+  "raw": "20",
+  "shown": "20"
+ }
+}
