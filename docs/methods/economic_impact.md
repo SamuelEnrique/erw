@@ -205,6 +205,19 @@ apply until a statute is held.
 JEDI's own property-tax line is not used in its place: JEDI's wind workbook says it "does not currently have default
 data for taxes per MW", and a tax figure on this page comes from a statute or does not appear.
 
+### Datacenter rules in the table (26 November 2026)
+
+Since session 10000 (chain 701, request 9 of `docs/state/data_requests_forecast.md`) the table also holds the
+datacenter rules `/impact` applies, from `site/data/forecast/datacenter_rules.json` (read by chain 740 on 26 November
+2026, each value beside the words it comes from): one row a state's sales tax exemption (`event_type`
+`datacenter_sales_exemption`), its property tax treatment of a datacenter (`datacenter_property_rule`) and its tax on a
+datacenter's electricity (`datacenter_electricity_tax`), where the file holds one; 54 rows of 34 states on the day
+built. Each row keeps the rule's figures as the file holds them in `x_detail` (JSON: what it covers, the minimum
+investment, jobs and MW, the last exempt year, the term, the spending window, a rule held as words), its words in
+`x_quote`, what the tool does with it in `x_what`, its source's title, address and day read. Nothing is read again: the
+file is the record, and `warehouse/forecast/datacenter_rules_check.py --verify-reads` checks its quotes against the
+documents kept on lab-desktop.
+
 ### Terms
 
 The pages are state statutes and the agencies' own pages. Their publishers' terms of reuse were not read (no request
