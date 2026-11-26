@@ -142,6 +142,18 @@ export function localWords(ts: string | null | undefined, tz: string): string {
   }
 }
 export const utcWords = (ts: string | null | undefined) => (ts ? `${ts.slice(0, 10)} ${ts.slice(11, 16)} UTC` : "");
+/** Session 10405 (the browser read of 26 November, row F2): the index's rule names the hour of the day a series'
+ *  forecast is made ("The demand forecast ... is made at 20:00 UTC the day before ...; the day-ahead price forecast at
+ *  14:00 UTC ..."), and a file records the hour its own forecast was made. Where the two hours differ (a build run
+ *  outside its daily hour), a hover that prints both says so in a sentence between them: the hour of the rule for the
+ *  series, the hour the file records, and which one the page gives. Null when they agree, or when the rule names no
+ *  hour for the series or the file no hour. The reason for a difference is not in the files, and none is given. */
+export function madeOffRule(madeUtc: string | null | undefined, rule: string | null | undefined, series: SeriesKey): string | null {
+  const made = /^\d{4}-\d{2}-\d{2}T(\d{2}:\d{2})/.exec(madeUtc ?? "")?.[1];
+  const said = new RegExp(`${series} forecast[^;.]*?\\b(\\d{1,2}:\\d{2}) UTC`, "i").exec(rule ?? "")?.[1]?.padStart(5, "0");
+  if (!made || !said || made === said) return null;
+  return `The file records this forecast as made at ${made} UTC, not at the rule's ${said} UTC: the hour given here is the file's.`;
+}
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const DOW = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 /** "Friday 27 Nov 2026" from "2026-11-27". */

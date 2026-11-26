@@ -27,7 +27,7 @@ import {
   type Hour, type IndexPlace, type Metric, type PlaceFile, type PlaceSeries, type PredictIndex, type Query, type Score, type ScoresFile, type SeriesKey,
 } from "@/lib/predict";
 // session 10405 (chain 720, part E): the day's peak and the days after tomorrow (the contract's changes of session 10601)
-import { PEAK_HOURS, PEAK_SPANS, aheadDays, aheadOf, pctWords, type AheadFile } from "@/lib/predict";
+import { PEAK_HOURS, PEAK_SPANS, aheadDays, aheadOf, madeOffRule, pctWords, type AheadFile } from "@/lib/predict";
 import { predictAhead, predictIndex, predictLedger, predictPlace, predictScores } from "@/lib/predictfiles";
 
 type Raw = Record<string, string | string[] | undefined>;
@@ -61,7 +61,7 @@ function PlaceHead({ slot, s, index }: { slot: Slot; s: SeriesKey; index: Predic
   const ser = slot.file?.series?.[s];
   const shown = isShown(slot.file, ser);
   const why = shown && ser
-    ? `${LABEL} for ${dayWords(ser.target_day)}: made ${localWords(ser.made_utc, slot.place.time) || "at an hour the file does not say"} (${utcWords(ser.made_utc)}), from the place's own figures through ${localWords(ser.inputs_through_utc, slot.place.time) || "an hour the file does not say"}${typeof ser.horizon_days === "number" ? `, ${ser.horizon_days} days before the day forecast (2 is the day-ahead forecast as the method note defines it; more when the warehouse's series is behind)` : ""}. Method: ${methodWords(ser.method ?? "not said")}, last fit ${ser.fit_day ?? "on a day the file does not say"}.${index.made_rule ? ` ${index.made_rule}` : ""}${index.choice_rule ? ` ${index.choice_rule}` : ""}`
+    ? `${LABEL} for ${dayWords(ser.target_day)}: made ${localWords(ser.made_utc, slot.place.time) || "at an hour the file does not say"} (${utcWords(ser.made_utc)}), from the place's own figures through ${localWords(ser.inputs_through_utc, slot.place.time) || "an hour the file does not say"}${typeof ser.horizon_days === "number" ? `, ${ser.horizon_days} days before the day forecast (2 is the day-ahead forecast as the method note defines it; more when the warehouse's series is behind)` : ""}. Method: ${methodWords(ser.method ?? "not said")}, last fit ${ser.fit_day ?? "on a day the file does not say"}.${index.made_rule ? ` The rule: ${index.made_rule}${madeOffRule(ser.made_utc, index.made_rule, s) ? ` ${madeOffRule(ser.made_utc, index.made_rule, s)}` : ""}` : ""}${index.choice_rule ? ` ${index.choice_rule}` : ""}`
     : blankWhy(ser ?? slot.place.series?.[s], slot.file?.example === true || index.example === true);
   return (
     <h3 className="mb-2 font-serif text-xl text-accent" data-fc-place={slot.mark}>

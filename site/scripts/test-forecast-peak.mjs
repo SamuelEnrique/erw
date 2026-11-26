@@ -175,6 +175,26 @@ save("ahead.json", ahead);
   check(!P.scoresCsv(scores, url).includes("demand_peak") && P.scoresCsv(withPeak, url).includes("# series demand_peak:") && P.scoresCsv(withPeak, url).includes("holds the count of days"), "the report card's CSV says what a row of the peak counts, only when it has one");
 }
 
+// ---- 7. The hour a forecast was made, beside the rule's hour (the browser read of 26 November, row F2) ---------------
+{
+  const RULE = "The demand forecast for a place's day is made at 20:00 UTC the day before, from the demand the warehouse holds then (through 23:00 local two days before the day); the day-ahead price forecast at 14:00 UTC the day before, before any grid publishes its day-ahead prices for the day; each file gives the hour it was made and the last hour it read.";
+  check(P.madeOffRule("2026-11-26T12:00:00Z", RULE, "demand") === "The file records this forecast as made at 12:00 UTC, not at the rule's 20:00 UTC: the hour given here is the file's.", `madeOffRule, demand off its hour: ${P.madeOffRule("2026-11-26T12:00:00Z", RULE, "demand")}`);
+  check(P.madeOffRule("2026-11-26T12:00:00Z", RULE, "price")?.includes("not at the rule's 14:00 UTC"), "madeOffRule: the price's hour is the price's, not demand's");
+  check(P.madeOffRule("2026-11-26T20:00:00Z", RULE, "demand") === null && P.madeOffRule("2026-11-26T14:00:00Z", RULE, "price") === null, "madeOffRule: a forecast made at the rule's hour needs no word");
+  check(P.madeOffRule("2026-11-26T14:00:00Z", RULE, "demand") !== null, "madeOffRule: demand made at the price's hour is off its own");
+  check(P.madeOffRule(null, RULE, "demand") === null && P.madeOffRule("2026-11-26T12:00:00Z", null, "demand") === null && P.madeOffRule("2026-11-26T12:00:00Z", "Made each day.", "demand") === null, "madeOffRule: no hour in the file, no rule, or a rule that names no hour");
+  const index = load("index.json");
+  index.made_rule = RULE;
+  save("index.json", index);
+  const off = draw(FIX, { a: "region-tex" });
+  check(off.includes("The rule: The demand forecast for a place&#x27;s day is made at 20:00 UTC") && off.includes("The file records this forecast as made at 13:00 UTC, not at the rule&#x27;s 20:00 UTC: the hour given here is the file&#x27;s."), "the place's hover prints the rule's hour and the file's with no word between them");
+  const t2 = load("region-tex.json");
+  t2.series.demand.made_utc = "2026-11-26T20:00:00Z";
+  save("region-tex.json", t2);
+  const on = draw(FIX, { a: "region-tex" });
+  check(on.includes("The rule: The demand forecast") && !on.includes("The file records this forecast as made at"), "a forecast made at the rule's hour carries the word of a difference");
+}
+
 fs.rmSync(FIX, { recursive: true, force: true });
 if (fails.length) { console.log(`FAIL ${fails.length} of ${n}:\n  ${fails.join("\n  ")}`); process.exitCode = 1; }
 else console.log(`ok: ${n} checks of /forecast's peak and days ahead (a fixture of the contract's shape)`);
