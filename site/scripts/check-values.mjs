@@ -165,6 +165,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 10401 (chain 720, part C): the ERW forecast, every figure a pf| key into site/data/predict/<place>.json or
   // scores.json (with no file there yet the page draws no figure, and has no floor until a run with the files writes one)
   "/forecast", "/forecast?a=region-cal&b=region-tex&s=price&m=mape",
+  // session 10402 (chain 720, part D): energy equities, every figure a pf| key into site/data/equities/energy_prices.json
+  // or a series' file (with the contract's example files the page draws no figure)
+  "/equities", "/equities?p=henry_hub&win=5y",
   // session 8905 (chain 590, part C): the fifth set of the whole country
   "/learn/problems/your-own-balancing-authority",
   // session 49: the network's default node card (ERCOT)

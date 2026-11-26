@@ -140,6 +140,14 @@ export const WAITING_STOPS: (Stop & { waits: string })[] = [
     look: "Read \"Tomorrow\" for Texas, then \"How it has done\": the months and hours where the ERW forecast lost stand in the same table as the ones where it won. Then read \"Every place\".",
     headings: ["Tomorrow", "How it has done", "Every place"],
   },
+  // Session 10402 (chain 720, part D): energy equities. It waits for the data machine's equities files: until they hold
+  // figures the page is its title and one blank.
+  {
+    href: "/equities", title: "Energy equities", seconds: 40, waits: "the equities page files with figures (site/data/equities/), written by the data machine's equities build",
+    line: "The listed energy companies by segment, the energy indices and the energy prices beside them: a company, an index or a segment as a line over any window, and what each company filed, as published.",
+    look: "Read \"The line\" for the first segment and lay an energy price over it; then read \"Every company\" and choose one to see what it filed.",
+    headings: ["The line", "Every company"],
+  },
 ];
 
 /** The guided path: the ruled seven, then the new stops whose pages have landed. */
