@@ -4188,16 +4188,14 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `tilt_deg` | The panels' tilt (the source's name: p_tilt) | degree | integer | 0 to 90; 54 distinct | 1323: USGS leaves it blank |
 | `battery` | batteries where the facility has them (the source's name: p_battery) | none | text | batteries | 6236: The facility has no battery listed |
 | `agrivoltaic` | non-agrivoltaic, or es, grazing, crop and their combinations, as USGS gives them (the source's name: p_agrivolt) | none | text | crop, crop,es, crop,grazing, crop,grazing,es, es, es,grazing, grazing, non-agrivoltaic | 0 |
-| `site_type` | The site type (greenfield, landfill, superfund and others, as USGS gives them) (the source's name: p_type) | none | text | AML, PCSC, RCRA, greenfield, landfill, landfill named, superfund | 0 |
+| `site_type` | USGS's general category of the facility's site (p_type): greenfield (land that may have been wildland, urbanized, cultivated or reclaimed); RCRA (a Resource Conservation and Recovery Act site, a facility that treats, stores or disposes of hazardous wastes and needs cleanup under RCRA's corrective action program); superfund; AML (abandoned hardrock mines and mineral processing sites listed in the Superfund Enterprise Management System); landfill (designated a landfill in EPA's RE-Powering Matrix); landfill named (the facility's name holds the word landfill, EPA does not list it as one); PCSC (a brownfield site that EPA's RE-Powering Matrix gives no specific designation; USGS does not expand the letters) (the source's name: p_type) | none | text | AML, PCSC, RCRA, greenfield, landfill, landfill named, superfund | 0 |
 | `system_type` | The system type: ground, rooftop, canopy, floating, or more than one (the source's name: p_sys_type) | none | text | canopy, canopy,ground, canopy,ground,rooftop, canopy,rooftop, floating, ground, ground,rooftop, rooftop | 0 |
 | `image_date` | The image's date, YYYY-MM-DD (the source's name: p_img_date) | none | date | 2009-04-17 to 2026-02-08; 1573 distinct | 1: USGS's date is no calendar date (one row: 20240231) |
 | `digitizing_confidence` | The digitizing confidence (1 to 4) (the source's name: p_dig_conf) | none | integer | 1, 2, 3, 4 | 0 |
-| `zscore` | USGS's z-score, as published (the source's name: p_zscore) | none | number | -1.04 to 58.18; 339 distinct | 0 |
+| `zscore` | USGS's z-score of the facility's DC capacity over its area (p_cap_dc / p_area): how many standard deviations the record lies from the mean of all records; a high or low value may mean an error in the capacity or the area (the source's name: p_zscore) | none | number | -1.04 to 58.18; 339 distinct | 0 |
 | `multi_polygon` | single or multi: whether the facility's outline is one polygon or several, as USGS gives it (the source's name: multi_poly) | none | text | multi, single | 0 |
 | `comments` | USGS's comments (community solar) (the source's name: p_comm) | none | text | community solar | 5510: USGS gives no comment |
 | `image_date_usgs` | The image date as USGS gives it (YYYYMMDD) (the source's name: p_img_date) | none | integer | 20090417 to 20260208; 1574 distinct | 0 |
-
-Waiting for a second look: zscore (USGS's p_zscore): what the z-score measures is not written in the connector, the method note or the header. Read again on 20 November 2026 in the saved USPVDB API response under warehouse/raw/uspvdb (records only, no field descriptions): not found.; site_type: the codes AML, PCSC and RCRA are not defined in the repository. Read again on 20 November 2026 in the saved USPVDB API response under warehouse/raw/uspvdb (records only, no field descriptions): not found..
 
 ### `uswtdb_wind_turbines`
 
