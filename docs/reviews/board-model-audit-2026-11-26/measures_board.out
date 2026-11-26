@@ -1,0 +1,11 @@
+1. Battery spread, day-ahead, the last 365 complete days of each hub's hourly file
+  ercot-hb-hubavg: 365 days 2025-11-19 to 2026-11-20; board's mean 55.22; ordered 50.89 (-7.8%); ordered at 85% round trip 47.52 (-13.9%); two hours a side, either order 52.44; days the lowest hour came after the highest 57 (16%)
+  ercot-hb-west: 365 days 2025-11-19 to 2026-11-20; board's mean 65.23; ordered 58.94 (-9.6%); ordered at 85% round trip 56.40 (-13.5%); two hours a side, either order 62.16; days the lowest hour came after the highest 78 (21%)
+  caiso-th-sp15-gen-apnd: 365 days 2025-11-26 to 2026-11-25; board's mean 37.27; ordered 35.41 (-5.0%); ordered at 85% round trip 33.32 (-10.6%); two hours a side, either order 35.50; days the lowest hour came after the highest 167 (46%)
+  spp-sppnorth-hub: 365 days 2025-11-24 to 2026-11-25; board's mean 61.30; ordered 55.36 (-9.7%); ordered at 85% round trip 52.72 (-14.0%); two hours a side, either order 57.29; days the lowest hour came after the highest 136 (37%)
+2. Spark spread, ERCOT Hub average, against the board's own row
+  the 30 days to 2026-11-20: the board's rule (all hours, 7.0) 14.92 over 28 days (the row's 30-day avg 14.92 over 28); on-peak hours, weekdays only 15.80 over 22 days; EIA's fleet heat rate 7.781 12.70
+  the latest day, 2026-11-20: board -5.52; at 7.781: -7.94
+3. The 30-day mean over the days held (the board) against a mean that needs all 30 days
+  power-group rows whose 30-day avg is of fewer than 30 days: 114 of 249; by count of days {19: 4, 20: 2, 22: 10, 25: 2, 26: 2, 27: 8, 28: 51, 29: 35}
+  the header says "30-day avg"; the count is on hover only

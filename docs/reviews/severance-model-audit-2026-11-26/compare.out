@@ -1,0 +1,27 @@
+default oil: 2026-10, 22 days, mean 102.066364, rounded 102.07 (page 102.07)
+default gas: 2026-10, 22 days, mean 2.987727, rounded 2.99 (page 2.99)
+printed: WTI Cushing, the mean of 22 daily EIA spot prices in 2026-10, $102.07 per barrel
+printed: Gross value $102,070.00
+printed: Oil production tax, 4.6% $4,695.22
+printed: Tax at the base rate $4,695.22
+printed: Tax with the exemptions chosen $4,695.22
+printed: Savings $0.00
+printed: Oil Field Clean-Up Fee (a fee, not in the tax or the savings) $6.25
+printed: Rules version 2026-09-30.2
+printed: oil, Oil production tax: 4.6% of value
+printed: oil, Oil Field Clean-Up Fee: $0.00625 per bbl
+printed: Latest certified price: $53.55 for 2026-08 (2005 dollars)
+printed: gas, Natural gas production tax: 7.5% of value
+printed: gas, Oil-Field Cleanup Regulatory Fee on Natural Gas: $0.000667 per Mcf
+printed: Latest certified price: $1.36 for 2026-08 (2005 dollars)
+printed: condensate, Condensate production tax: 4.6% of value
+printed: gas, Natural gas severance tax: $0.1514 per Mcf
+printed: condensate, Severance tax on distillate, condensate or similar resources: 12.5% of value
+printed: oil, Oil and Gas Severance Tax: 3.75% of value
+printed: oil, Oil and Gas Emergency School Tax: 3.15% of value
+printed: oil, Oil and Gas Conservation Tax: 0.24% of value
+printed: gas, Oil and Gas Severance Tax: 3.75% of value
+printed: gas, Oil and Gas Emergency School Tax: 4% of value
+printed: gas, Oil and Gas Conservation Tax: 0.19% of value
+
+907 compared, 0 differ; the largest relative gap 2.2e-16 (NM|oil|district=EDDY, district 16, suffix 1530|baseTotal)

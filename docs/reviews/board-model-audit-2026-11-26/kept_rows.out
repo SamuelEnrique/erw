@@ -1,0 +1,20 @@
+built 2026-11-25; rows with a value 1208; kept from an earlier build 245 (151 public)
+why: {"the new build's history is shorter": 56, 'only the held file has it': 95}
+group: kept rows | a newer value held by the new build | marked stale on the page | would not be stale with the new build's newest
+  as             14 |   14 (up to 53 days) |   14 |   14
+  battery        27 |   27 (up to 11 days) |   27 |   27
+  da_rt          11 |   11 (up to 10 days) |   11 |   11
+  gasprices      45 |   45 (up to 1583 days) |   45 |    0
+  heating         3 |    3 (up to 2765 days) |    3 |    0
+  hubspread      11 |   11 (up to 7 days) |   11 |   11
+  metals          4 |    4 (up to 30 days) |    0 |    0
+  peak            6 |    6 (up to 6 days) |    6 |    6
+  plantfuel       1 |    1 (up to 62 days) |    1 |    1
+  power          28 |   28 (up to 12 days) |   28 |   28
+  spark           1 |    1 (up to 31 days) |    0 |    0
+the top twelve kept: [('ercot-hb-hubavg-da', '2026-11-20', '2026-11-25'), ('ercot-hb-hubavg-rt', '2026-11-19', '2026-11-25')]
+public rows with no YTD move key at all (a row from a build before session 1608): 1 ['eia-plant-fuel-cost-mt-ng-cost-per-mmbtu']
+public rows with a one-year range and no 12-month mean (built before session 1613): 1 ['eia-plant-fuel-cost-mt-ng-cost-per-mmbtu']
+ercot-hb-hubavg: row's latest day-ahead 2026-11-20; the week table's latest day-ahead 2026-11-25
+caiso-th-sp15-gen-apnd: row's latest day-ahead 2026-11-25; the week table's latest day-ahead 2026-11-25
+spp-sppnorth-hub: row's latest day-ahead 2026-11-25; the week table's latest day-ahead 2026-11-25

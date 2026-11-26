@@ -4,6 +4,16 @@ Energy Research Warehouse (ERW). Chain 750 (`queue/done/750-night-26-november-po
 
 How a row reads: what was done, what was seen, what should be seen, and whose it is. A site fault on a page no window owns tonight is fixed on a branch `wip/c750-<page>` with a test and is a row of `docs/state/landing_request_portable_w2.md`. A fault on a page another window owns tonight is a row here that names the window, and its code is not edited. A data fault is a row of `docs/state/data_requests_done_line.md`. A thing that is a choice is one line under "For Samuel's ruling" at the foot, with the page left as it is.
 
+## Where things stand (kept current)
+
+| | Count | Where |
+|---|---:|---|
+| Pages and views read in part B's form | 14 of the list's 14 begun; see each section | below |
+| Faults fixed on a branch, to be seen in a build | 3 (G1, C1, C2) | `wip/c750-grid-reliability`, `wip/c750-conditions`; rows 1 and 3 of `docs/state/landing_request_portable_w2.md` |
+| Faults filed for another window | 1 (two unlanded commits, L1) | row 2 of the same file |
+| Known to their owner, read again when repaired | 1 (the page files of 21 to 25 November, L2) | chain 701, part C |
+| For Samuel's ruling, the page left as it is | see the foot of this file | "For Samuel's ruling" |
+
 ## Part A: the rows that waited for a browser
 
 Rows 418 to 422 of `docs/state/browser_reads_wanted.md` were the only rows in state `wanted`. On 20 November their commits (the old laptop's sessions 8470, 8480 and 8490) were not in main. All three branch heads are in main now (`c7a96eea1`, `34c53f280`, `1e3a9e95b`), so each was read on production at 1280 and 390 px on 26 November about 11:20 UTC. All five are marked `seen` there, with the words read.
@@ -62,7 +72,8 @@ Whose: no window's page tonight (the old laptop's Grid audit, chain 710 part D, 
 
 - **The fix of 20 November is there.** The table "Every notice since 1998: days per year" has 226 cells with no day; each shows a dot in the muted text color (rgb 107, 103, 95 on white: 5.6 to 1) and is read aloud as "none". At 1280 px the page is 1265 of 1265 px wide.
 - **G1, a fault the fix brought with it: at 390 px the page is 539 px wide.** Done: `/grid?grid=caiso` opened at 390 px. Seen: the page scrolls sideways to 539 px (the header, the text and every chart slide off to the left). Should be seen: 390 px, the table scrolling inside its own frame, as on 20 November. Cause, shown on production's own page: each "none" label is placed "absolute" (the class `sr-only`); the table's frame scrolls sideways but is not the labels' containing block, so it does not clip them, and the 60 labels of the columns past the frame's right edge (to 538 px) widen the whole page. With the labels hidden the page is 390 px wide; with the labels back and the frame made "relative", 390 px, the table still 526 px wide inside its 358 px frame and the cells still read "none". The session that added the labels had no browser, and the last phone sweep (20 November) was a day before they landed.
-- **Fixed** on `wip/c750-grid-reliability` (`038ecbfcd`): the frame is `relative`; `tests/test_session11000_grid_reliability_phone.py` holds the rule for this component and fails on the code before. Row 1 of `docs/state/landing_request_portable_w2.md`, ready, to be seen. The other 145 addresses of the sweep keep to 390 px, so no other page has this today; 38 other components use `sr-only`, and the same thing would happen in any of them the day a label lands inside a wide table.
+- **Fixed** on `wip/c750-grid-reliability` (`038ecbfcd`): the frame is `relative`; `tests/test_session11000_grid_reliability_phone.py` holds the rule for this component and fails on the code before. Row 1 of `docs/state/landing_request_portable_w2.md`, ready, to be seen. The other 145 addresses of the sweep keep to 390 px, so no other page has this today. The source was read for the same trap (`runs/c750/sr_only_scan.py`, 345 files): 37 other scrolling frames hold a label of this class and are not positioned, each one label, a table's caption or a heading at the frame's left edge, which cannot reach past the screen; the reliability table is the only one with labels in its cells. The same thing would happen in any of them the day a label is put in a cell of a wide table.
+- **Seen in a build** by the laptop's first window (session 10401, about 12:00 UTC): 390 of 390 px, the table scrolling in its frame; row 1 marked requested.
 
 Pictures: `docs/reviews/browser-read-2026-11-26/grid-caiso-reliability/reliability-table-1280.png` (the table at 1280 px, dots for the cells with no day); `docs/reviews/browser-read-2026-11-26/grid-caiso-reliability/reliability-390-page-scrolled-sideways.png` (390 px, the page pushed 150 px sideways: the text cut at the left edge).
 
@@ -118,6 +129,51 @@ Whose: built by the data machine (chain 601); no window's tonight. Read on produ
 
 Pictures: `docs/reviews/browser-read-2026-11-26/congestion/congestion-as-it-opens-1280.png` (SPP, 2026, the list of constraints that bound most); `docs/reviews/browser-read-2026-11-26/congestion/congestion-two-hubs-1280.png` (its most telling choice: SPP's two hubs side by side, the table of places above and the months below).
 
+## B7: the thirteen regions in the Grid tool (`/grid?region=<region>`), on the files rebuilt 21 November
+
+Whose: no window's page tonight (the old laptop's audit, chain 710 part D, is of the tool's figures and edits no page). Read on production on 26 November 12:01 to 12:06 UTC (`runs/c750/b7_regions.mjs`).
+
+- **Figures, 1280 px:** for each of the thirteen regions' Mix tab, with every chart switched to its table: the latest hour held, the 840 hours of the last 35 days, the average day of the latest month and the month's shares, each cell against `site/data/regions/mix/<region>.json`: 94,435 cells, 221 of 221 checks agree. The Clean and Network tabs of each region open with their heading and no quiet fault.
+- **390 px:** the latest hour of each region against its file (104 cells), no sideways scroll as each opens and with every table shown, no empty chart, one h1: 117 of 117.
+- **What a reader sees first is six days old (L2).** "The latest hour held" reads 20 November 2026 for ten regions (04:00 to 07:00 UTC), 19 November 06:00 for the Southwest and 18 November 04:00 for the Carolinas. The page is true to its file; the file is the one built 21 November 01:10 UTC. Window A's repair tonight (chain 701, part C, item 3) brings the newer files; this row is read again then.
+- Each page loads in 0.3 to 1.8 s. No fault of the pages.
+
+Picture: `docs/reviews/browser-read-2026-11-26/grid-regions/grid-tennessee-as-it-opens-1280.png` (Tennessee's Mix tab: the latest hour held, 20 November 05:00 UTC).
+
+## B9: chain 620's ten fixes and the tour's eighth stop, on production
+
+Whose: the portable laptop's own fixes of 20 November, seen in a build by the desktop's second window, landed 21 November 00:10 UTC; no browser had read them on production. Read 26 November 12:04 to 12:08 UTC with the site's own checks and chain 620's script (`site/scripts/check-back-button.mjs`, `site/scripts/check-tour.mjs`, `runs/c750/b9_fixes.mjs`). **All are there.**
+
+| Fix | Seen on production |
+|---|---|
+| The back button on lists that submit themselves | `check-back-button`: 16 of 16 on `/queues/places`, `/storage/places`, `/curtailment/where-when`, `/ai-energy` (after the back button each list reads what the page shows; on 20 November 0 of 6 pages did) |
+| `/internal/findings` on a phone | 390 of 390 px (470 before) |
+| The resource set's legend | the worked example reads lowest 1.58, highest 6.91 kWh/m2/day, each figure's hover naming the part of the layer it is read from (Alaska, Hawaii); the map's legend for the same layer runs 1.6 to 6.9 |
+| The Grid panel's words for an exporter | Seminole Electric: "It sent out, net, power equal to 592 percent of its demand."; TVA, an importer, reads as before |
+| The tour's headings and its eighth stop | `check-tour`: 101 of 103; the two that fail are the Digest stop's headings ("Top of the industry", "ERW's Numbers Today"), left for Samuel's ruling on 20 November and still his |
+| The price map's window | the hover names its days: "34.86 USD/MWh at HB_HUBAVG, day-ahead, the 365 days to 2026-11-16"; "the 30 days to ..."; the day itself for a day's price. The day is 16 November: the price map's file is the one of 19 November (L2) |
+| `/policy` when its list is held | the heading, the three views, and "The list of every action is not drawn here: license needed" |
+| A transmission line's end HIFLD does not name | "an end HIFLD does not name (its mark UNKNOWN202457) to FRANNIE"; a line with both ends named reads as before; no hover prints the mark as a place |
+| Six method pages on a phone | each 390 px wide (the whole set of method pages is swept in B13) |
+| `/data/faults` on a phone | 390 px wide (417 before) |
+
+Pictures, one a fix that draws something: `docs/reviews/browser-read-2026-11-26/chain-620-fixes-on-production/` (`authority-sent-out-1280.png`, `price-window-1280.png`, `line-end-unnamed-1280.png`, `resource-set-legend-1280.png`, `policy-1280.png`, `findings-390.png`).
+
+## B8: the problem edition of 21 November (`/learn/problems`)
+
+Whose: the data machine's edition file; the pages are no window's tonight. Read 26 November 12:09 UTC at 1280 and 390 px (`runs/c750/b8_edition.mjs`). `/problems` is no address; the sets are at `/learn/problems`.
+
+- The index lists the edition's ten sets; each set's page links the edition of 2026-11-21; each dated edition and its teacher page open and name their date (30 pages a width).
+- **Words and figures:** the 59 questions' words are on the edition pages, and each figure of the answers, their lines and their steps is on the teacher pages as the file `site/data/problem_editions/2026-11-21.json` gives it: 838 checked, none missing.
+- **The irradiance question** (the reason the edition was made): the teacher page answers "Global Horizontal Irradiance 6.91 kWh/m2/day; Direct Normal Irradiance 9 kWh/m2/day: 1.30 times", the legend the map draws. The edition of 20 November keeps its 6.50, as an edition does.
+- No sideways scroll, no empty chart, no skipped heading, no "undefined" at either width: 82 of 82 checks at each. No fault.
+
+Pictures: `docs/reviews/browser-read-2026-11-26/problem-edition/problems-index-1280.png` (the ten sets); `docs/reviews/browser-read-2026-11-26/problem-edition/resource-set-edition-1280.png` (the resource set's edition of 21 November).
+
+## B5: the findings review page's charts (`/internal/findings`)
+
+The branch behind this row (`wip/9820-findings-charts`, the desktop's fourth window) changed how the warehouse draws a finding's picture (`warehouse/analysis/findings/card_image.py`, `deep/redraw.py`) and no page code, so nothing on the page changed with its landing; a draft's picture changes only when it is drawn again. The page as it stands on production: 42 charts, none empty, 1265 of 1265 and 390 of 390 px wide, no error in the console; it takes 4.7 s to load at 1280 px and 3.5 s at 390 px (the slowest page of the list, under five seconds). No fault.
+
 ## B1: the policy week grid (`/policy?view=week`)
 
 Whose: no window's tonight. Read at 1280 and 390 px (`runs/c750/b_a11y.mjs`, `runs/c750/b_a11y2.mjs`).
@@ -154,3 +210,12 @@ Read on production on 26 November at 11:42 UTC (`runs/c750/b10.mjs`). Both fault
 - Row 2 of `docs/state/landing_request_portable_w2.md` asks for the two commits, ready, to be seen. The branch is the desktop's second window's and is not touched here.
 
 Picture: `docs/reviews/browser-read-2026-11-26/events-covid-2020/covid-390-tables-showing.png` (390 px with the tables showing).
+
+## For Samuel's ruling (each with the page left as it is)
+
+1. **A reason on hover and a finger.** Why a strip or a cell is blank, why two figures differ, and what a colored cell holds are given as the browser's own tooltip. A mouse opens it; a finger at 390 px opens nothing. Seen on `/conditions` (the blank strips), `/congestion` (the hour-by-month cells, the operators not drawn), `/demand`, `/supply` and `/events` (blank cells and the figures' notes). The "i" marks and the chart cards do open on a tap. Default taken: nothing changed. The question: should a blank's reason open on a tap, as the "i" marks do?
+2. **`/congestion`, a thousands comma.** The lists print "1080.08 USD/MWh" beside "330,132". The gate's own check (`check-values`) pins USD/MWh "without a thousands comma". Default: left.
+3. **`/congestion`, "contingency Base Case".** CAISO's base case is printed as a contingency ("HUMBOLDT_IMP_NG (contingency Base Case)"); SPP's base case has no suffix. Default: left, as the operator's own word.
+4. **`/supply`, a year with a month left out.** The mix table is 1,325 px wide inside its frame (900 px otherwise), because "not held yet" does not wrap; on a phone two columns show at a time. The page itself keeps to 390 px. Default: left.
+5. **The tour's Digest stop** still quotes two headings the Digest page does not show ("Top of the industry", "ERW's Numbers Today"); the tour's check passes 101 of 103 for it. Standing since 20 November. Default: left.
+6. **`/conditions`, the alerts list.** On the branch every notice is a row (79 rows for CAISO's August 2020 heat wave). If the list should stay at 40, the page should say that it is cut and where it stops; one line either way.
