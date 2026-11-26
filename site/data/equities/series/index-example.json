@@ -1,0 +1,25 @@
+{
+  "built": "2026-11-26T11:00:00Z",
+  "example": true,
+  "method": "docs/methods/equities.md",
+  "contract": "docs/state/page_files_equities.md",
+  "license": "internal",
+  "id": "index-example",
+  "kind": "index",
+  "name": null,
+  "cik": null,
+  "ticker": null,
+  "exchange": null,
+  "segments": null,
+  "status": "source needed",
+  "why": "example file: no data written yet",
+  "source": null,
+  "units": {"level": "points"},
+  "held": {"level": "example file: no data written yet"},
+  "daily_columns": ["day", "level"],
+  "daily": [
+    ["2026-11-25", null]
+  ],
+  "last": null,
+  "moves": {"d": null, "w": null, "m": null, "ytd": null, "y": null}
+}
