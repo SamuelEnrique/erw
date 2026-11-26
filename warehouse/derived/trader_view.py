@@ -27,8 +27,9 @@ Metrics per hub and local operating day (all hours of the day present, or nothin
                              latest trading day up to 4 days before it (weekends, holidays)
     da_volatility_30d_usd    sample standard deviation of the 30 day-over-day changes in
                              da_mean_usd over the 31 days ending that day (all 31 required)
-The real-time metrics need every hour of both markets; SPP has no real-time table, so it has
-the day-ahead metrics only. PJM is absent: the ERW has no PJM price table (its data needs a
+The real-time metrics need every hour of both markets; SPP's real-time prices are held
+(spp_rtm_hub_prices) but ISOS gives SPP no real-time table, so it has the day-ahead metrics only
+(session 10209, docs/reviews/trader-model-audit-2026-11-26.md, finding 1). PJM is absent: the ERW has no PJM price table (its data needs a
 licensed API key). Values are exact decimal arithmetic on the published prices, rounded to
 4 decimals. A row whose value is unchanged keeps its earlier retrieved_at (the Supabase loader
 compares every column; see generation_mix.py).

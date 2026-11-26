@@ -309,6 +309,9 @@ const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2,
 function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFile; grid: string; pick: (v: string) => void; onOpen: (id: string) => void; unfolded: boolean; fold: (open: boolean) => void }) {
   const grids = [...new Set(file.week.map((w) => w.grid))];
   const rows = file.week.filter((w) => grid === "all" || w.grid === grid);
+  // session 10209 (docs/reviews/trader-model-audit-2026-11-26.md, finding 1): SPP's real-time prices are held and drawn in
+  // the groups above, but trader_view.py does not read them, so SPP's real-time cells of the week say why they are empty
+  const sppRt = (w: WeekRow) => w.grid === "SPP" ? "SPP's real-time prices are held (the real-time rows of the groups above), but the week's real-time measures are not computed for SPP: the trader view does not read them." : null;
   const cell = (w: WeekRow, k: string) => {
     const m = w.means[k];
     if (!m) return <span className="text-xs text-muted" title="A week's mean needs the measure on all 7 days.">not held yet</span>;
@@ -342,9 +345,9 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
               <tr key={w.hub} className="cursor-pointer border-b border-rule/70 hover:bg-paper" onClick={() => onOpen(`${w.hub}-da`)}>
                 <th scope="row" className="py-1 pl-2 pr-3 text-left font-normal"><button type="button" data-row-open={`${w.hub}-da`} className="text-left"><span title={`Code: ${w.code}`}>{w.label}</span></button></th>
                 <td className="pr-3 text-right">{w.last_da ? <span title={dateWords(w.last_da.t)}><span data-n={`week|${w.hub}|last`}>{two(w.last_da.v)}</span><span className="ml-1 text-xs text-muted">{shortDate(w.last_da.t)}</span></span> : <span className="text-xs text-muted">not held yet</span>}</td>
-                {WEEK_COLS.map(([k]) => <td key={k} className="pr-3 text-right">{cell(w, k)}</td>)}
-                <td className="pr-3 text-right">{w.max_spread ? <span title={`${dateWords(w.max_spread.start)} to ${dateWords(w.max_spread.end)}`}>{two(w.max_spread.v)}</span> : <span className="text-xs text-muted" title="Needs a real-time price on each of the week's 7 days.">not held yet</span>}</td>
-                <td className="pr-3 text-right">{w.hours50 ? <span title={`${dateWords(w.hours50.start)} to ${dateWords(w.hours50.end)}`}>{w.hours50.v.toLocaleString("en-US")}</span> : <span className="text-xs text-muted" title="Needs a real-time price on each of the week's 7 days.">not held yet</span>}</td>
+                {WEEK_COLS.map(([k]) => <td key={k} className="pr-3 text-right">{k === "da_rt_spread_mean_usd" && !w.means[k] && sppRt(w) ? <span className="text-xs text-muted" title={sppRt(w) ?? undefined} data-week-spp-rt="1">not computed</span> : cell(w, k)}</td>)}
+                <td className="pr-3 text-right">{w.max_spread ? <span title={`${dateWords(w.max_spread.start)} to ${dateWords(w.max_spread.end)}`}>{two(w.max_spread.v)}</span> : <span className="text-xs text-muted" title={sppRt(w) ?? "Needs a real-time price on each of the week's 7 days."}>{sppRt(w) ? "not computed" : "not held yet"}</span>}</td>
+                <td className="pr-3 text-right">{w.hours50 ? <span title={`${dateWords(w.hours50.start)} to ${dateWords(w.hours50.end)}`}>{w.hours50.v.toLocaleString("en-US")}</span> : <span className="text-xs text-muted" title={sppRt(w) ?? "Needs a real-time price on each of the week's 7 days."}>{sppRt(w) ? "not computed" : "not held yet"}</span>}</td>
                 {/* session 7538 (the board read, row 9): a volatility measured days before the build is marked stale, as a row is
                     (ERCOT's stopped on 6 November, two day-ahead days short, and read as current) */}
                 <td className="whitespace-nowrap pr-2 text-right">{w.vol ? <span title={`as of ${dateWords(w.vol.t)}${weekStale(w.vol.t, file.built) ? `: ${weekStale(w.vol.t, file.built)}` : ""}`}>{two(w.vol.v)}{weekStale(w.vol.t, file.built) ? <span className="ml-1 border border-accent px-0.5 text-xs text-accent" data-week-stale={`${w.hub}|vol`}>stale</span> : null}</span> : <span className="text-xs text-muted" title="Needs 31 days of day-ahead prices.">not held yet</span>}</td>
