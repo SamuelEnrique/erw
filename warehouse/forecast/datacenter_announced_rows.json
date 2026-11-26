@@ -680,6 +680,21 @@
    "incentive": "a post-performance tax reduction for its expansion in Millard County. The corporate incentive is part of the state's Rural Economic Development Tax Increment Financing (REDTIF) program.",
    "years": "during the next 20 years",
    "note": "The campus \"will feature an integrated on-site natural gas power generation system, utility-scale solar energy, and purpose-built data processing facilities\": the investment includes generation, so it enters no ratio and is not offered as the datacenter's investment."
+  },
+  {
+   "id": "ga_switch_douglas_2017",
+   "name": "Switch, The Keep (Switch PRIME data center campus)",
+   "company": "Switch",
+   "state": "ga",
+   "county": "Douglas County",
+   "doc": {"title": "Deal: Global technology company to invest $2.5 billion in Douglas County", "publisher": "Office of the Governor of Georgia (Governor Nathan Deal)", "date": "2017-05-25", "url": "https://nathandeal.georgia.gov/press-releases/2017-05-25/deal-global-technology-company-invest-25-billion-douglas-county/", "request": 358},
+   "mw": null,
+   "investment": {"value": 2500000000, "year": 2017, "says": "$2.5 billion", "qualifier": "with its clients", "quote": "will create 65 jobs, and along with its clients, invest $2.5 billion in a Switch PRIME data center in Douglas County."},
+   "construction_jobs": null,
+   "permanent_jobs": {"value": 65, "measure": "jobs", "says": "65 jobs", "qualifier": "", "quote": "will create 65 jobs, and along with its clients, invest $2.5 billion in a Switch PRIME data center in Douglas County."},
+   "incentive": "",
+   "years": "",
+   "note": "The investment includes the clients' (tenants') equipment, as the release says. 2017 dollars are deflated to 2025 by the GDP deflator."
   }
  ]
 }
