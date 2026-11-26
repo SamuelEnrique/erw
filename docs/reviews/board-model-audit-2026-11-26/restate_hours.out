@@ -1,0 +1,40 @@
+on-peak flags: 1145008 hours read, 0 differ from the rule written again
+--- Part 2, the power rows from the hours: 266809 figures compared, 44799 differ (44799 of them on public rows)
+  bat: day's figure, to the cent  80617 compared, 7249 differ (7249 public), largest gap 0.01 (ercot-hb-west-rt-battery)
+      ercot-hb-hubavg-rt-battery: mine 90.16 file 90.17
+      ercot-hb-hubavg-rt-battery: mine 13.79 file 13.7975
+      ercot-hb-hubavg-rt-battery: mine 15.16 file 15.1525
+      ercot-hb-hubavg-rt-battery: mine 10.05 file 10.0425
+  complete days the file lacks     34 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  daily mean, to 4 decimals     80617 compared, 37545 differ (37545 public), largest gap 0.00236667 (ercot-hb-busavg-rt)
+      ercot-hb-hubavg-rt: mine 22.27541666666667 file 22.2758
+      ercot-hb-hubavg-rt: mine 38.915416666666665 file 38.9153
+      ercot-hb-hubavg-rt: mine 26.06041666666667 file 26.0602
+      ercot-hb-hubavg-rt: mine 20.077916666666667 file 20.0781
+  daily mean, to the cent       80617 compared,    0 differ (0 public), largest gap 0.00236667 (ercot-hb-busavg-rt)
+  ext m: complete days             33 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  ext m: hours                     33 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  ext m: hours above 100           33 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  ext m: hours above 1000          33 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  ext m: hours above 250           33 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  ext m: peak hour                 33 compared,    1 differ (1 public), largest gap 0.005 (ercot-hb-houston-rt)
+      ercot-hb-houston-rt: mine 223.98 file 223.985
+  ext w: complete days             33 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  ext w: hours                     33 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  ext w: hours above 100           33 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  ext w: hours above 1000          33 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  ext w: hours above 250           33 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  ext w: peak hour                 33 compared,    0 differ (0 public), largest gap 0.005 (ercot-hb-busavg-rt)
+  ext: day's high                  33 compared,    1 differ (1 public), largest gap 0.005 (ercot-hb-west-rt)
+      ercot-hb-west-rt: mine 44.04 file 44.045
+  ext: day's low                   33 compared,    2 differ (2 public), largest gap 0.005 (ercot-lz-south-rt)
+      ercot-hb-west-rt: mine 0.92 file 0.915
+      ercot-lz-south-rt: mine 15.72 file 15.715
+  ext: high's local hour           33 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  ext: hours                       33 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  ext: its day complete in the hours      1 compared,    1 differ (1 public), largest gap 1 (spp-sppsouth-hub-rt)
+      spp-sppsouth-hub-rt: mine 0.0 file 1.0
+  file days not complete in hours     34 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  less: day's figure, to the cent   7251 compared,    0 differ (0 public), largest gap 0.0047 (ercot-hb-hubavg-rt-peak-less-off)
+  off: day's figure, to the cent   9859 compared,    0 differ (0 public), largest gap 0.0044 (ercot-hb-hubavg-rt-offpeak)
+  peak: day's figure, to the cent   7251 compared,    0 differ (0 public), largest gap 0.00285 (ercot-hb-hubavg-rt-peak)
