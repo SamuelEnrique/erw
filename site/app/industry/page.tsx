@@ -56,6 +56,8 @@ const SHORT: Record<string, string> = { total: "Total", end_use_total: "End use"
 const twh = (v: number) => (v / 1e6).toLocaleString("en-US", { maximumFractionDigits: 1 });
 const stateName = (st: string) => (st === "US" ? "United States" : STATES[st] ?? st);
 const monthWords = (m: string) => new Date(Date.UTC(Number(m.slice(0, 4)), Number(m.slice(5, 7)) - 1, 1)).toLocaleString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
+/** What the State Energy Data System's industrial average price is (audit of 26 November 2026, finding 3). */
+const PRICE_WHY = `EIA's average price of the industrial sector's energy, all fuels together, nominal dollars: not a tariff, and not the price of electricity or of any one fuel. It is per million Btu of a smaller quantity than the total beside it (the electrical system losses are not in it, and in most states part of the rest is not either), so the expenditures are not the total times this price. ${SRC.seds}`;
 
 function Form({ children, anchor, keep }: { children: ReactNode; anchor: string; keep: Record<string, string> }) {
   return (
@@ -212,7 +214,7 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
             <span key="n" data-state-rank={i + 1}>{i + 1}. {stateName(r.st)}</span>,
             <Fig key="v" v={r.value} src={SRC.seds} k={`s-${r.st}`} />,
             ...(src === "total" ? [] : [<Fig key="t" v={r.total} src={SRC.seds} k={`st-${r.st}`} />]),
-            <Fig key="p" v={r.price} src={`The industrial sector's total average price, nominal dollars. ${SRC.seds}`} k={`sp-${r.st}`} digits={usd} />,
+            <Fig key="p" v={r.price} src={PRICE_WHY} k={`sp-${r.st}`} digits={usd} />,
             <Fig key="e" v={r.expenditures} src={`The industrial sector's total expenditures, nominal dollars. ${SRC.seds}`} k={`se-${r.st}`} digits={billions} />,
           ] }))}
         />
@@ -233,7 +235,7 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
           rows={[
             ...SEDS_SOURCES.map((s) => ({ key: s.key, highlight: s.key === "total", cells: [`${s.label} (TBtu)`, <Fig key="a" v={stateValue(F, sa, s.key, year)} src={SRC.seds} k={`sa-${s.key}`} />, <Fig key="b" v={stateValue(F, sb, s.key, year)} src={SRC.seds} k={`sb-${s.key}`} />] })),
             { key: "chg", cells: [`Total, change since 2019`, <Fig key="a" v={changePct(F, sa, "total", 2019, year)} src={`Percent change of the total from 2019 to ${year}. ${SRC.seds}`} k="sa-chg" digits={(v) => pct1(v) as string} />, <Fig key="b" v={changePct(F, sb, "total", 2019, year)} src={`Percent change of the total from 2019 to ${year}. ${SRC.seds}`} k="sb-chg" digits={(v) => pct1(v) as string} />] },
-            { key: "price", cells: ["Average price (USD per MMBtu)", <Fig key="a" v={statePrice(F, sa, year)} src={SRC.seds} k="sa-price" digits={usd} />, <Fig key="b" v={statePrice(F, sb, year)} src={SRC.seds} k="sb-price" digits={usd} />] },
+            { key: "price", cells: ["Average price (USD per MMBtu)", <Fig key="a" v={statePrice(F, sa, year)} src={PRICE_WHY} k="sa-price" digits={usd} />, <Fig key="b" v={statePrice(F, sb, year)} src={PRICE_WHY} k="sb-price" digits={usd} />] },
             { key: "exp", cells: ["Expenditures, total", <Fig key="a" v={stateValue(F, sa, "total", year, "expenditures_usd")} src={`Nominal dollars. ${SRC.seds}`} k="sa-exp" digits={billions} />, <Fig key="b" v={stateValue(F, sb, "total", year, "expenditures_usd")} src={`Nominal dollars. ${SRC.seds}`} k="sb-exp" digits={billions} />] },
             { key: "sales", cells: [`Electricity sold to industry, ${year} (TWh)`, <Fig key="a" v={salesYear(F, sa, year)} src={`The year's twelve months summed. ${SRC.sales}`} k="sa-sales" digits={twh} />, <Fig key="b" v={salesYear(F, sb, year)} src={`The year's twelve months summed. ${SRC.sales}`} k="sb-sales" digits={twh} />] },
           ]}
