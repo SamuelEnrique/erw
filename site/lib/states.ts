@@ -51,7 +51,9 @@ export const CO2_WORDS: Record<string, string> = { all: "All fuels", coal: "Coal
 export const GAS_WORDS: Record<string, string> = { residential: "Homes", commercial: "Businesses", industrial: "Industry", electric_power: "Power plants" };
 export const SEDS_WORDS: Record<string, string> = {
   total: "Total energy", coal: "Coal", natural_gas: "Natural gas", petroleum: "Petroleum", nuclear: "Nuclear electric power", renewables: "Renewable energy",
-  electricity_retail_sales: "Electricity sold to customers",
+  // session 10223 (the states audit, finding 8): SEDS's total holds the energy that made the electricity sold (the fuels,
+  // and the net flow of electricity into the state), so this row is not added to the rows above it
+  electricity_retail_sales: "Electricity sold to customers (already counted in the total)",
 };
 
 const DIR = () => path.join(process.cwd(), "data", "states");
