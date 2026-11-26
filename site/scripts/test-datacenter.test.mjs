@@ -282,6 +282,9 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
     const r = D.dcRun(D.dcDefaults(P, st, { invest: 1000, perm: 50, brate: 2, erate: 2 }), P);
     near(D.dcStat(r, "y1:propb"), 3920000, st + " building"); near(D.dcStat(r, "y1:prope"), 0, st + " equipment");
   }
+  // Kansas (79-1439, 79-223): building at 25 percent, equipment exempt; 1e9 x 19.6% x 25% x 2% = 980,000
+  const ksp = D.dcRun(D.dcDefaults(P, "ks", { invest: 1000, perm: 50, brate: 2, erate: 2 }), P);
+  near(D.dcStat(ksp, "y1:propb"), 980000, "KS building"); near(D.dcStat(ksp, "y1:prope"), 0, "KS equipment");
   // Ohio's kWh tax (session 10817): 5,000,000 MWh a year; the monthly tiers give 12 x (9.30 + 54.47 + 416,651,666.67 x 0.00363) = 18,150,111.84,
   // the self-assessing schedule 500,000,000 x 0.00257 + 4,500,000,000 x 0.001832 = 9,529,000: the lower is taken
   near(D.dcStat(D.dcRun(D.dcDefaults(P, "oh", { invest: 2000, perm: 100, mwh: 5000000 }), P), "y1:elec"), 9529000, "OH elected", 1e-9);

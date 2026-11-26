@@ -48,6 +48,8 @@
   "wy_39_15_105": {"title": "Wyoming Statutes Title 39, 39-15-105(a)(viii)(S), sales tax exemptions for a data processing services center (with the definition in 39-15-101(a)(xliv))", "url": "https://wyoleg.gov/statutes/compress/title39.pdf", "read": "2026-11-26", "request": 303},
   "il_dor_excise": {"title": "Illinois Department of Revenue, Excise Tax Rates and Fees (the Electricity Excise Tax)", "url": "https://tax.illinois.gov/research/taxrates/excise.html", "read": "2026-11-26", "request": 307},
   "il_dceo": {"title": "Illinois Department of Commerce and Economic Opportunity, Data Center Investment Tax Exemptions and Credits (with its 2025 Data Centers Annual Report, request 248)", "url": "https://dceo.illinois.gov/expandrelocate/incentives/datacenters.html", "read": "2026-11-26", "request": 247},
+  "ks_79_1439": {"title": "Kansas Statutes 79-1439, Assessment of real and personal property, rates", "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_014_0039.html", "read": "2026-11-26", "request": 326},
+  "ks_79_223": {"title": "Kansas Statutes 79-223, Exemption of certain commercial and industrial machinery and equipment", "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_002_0023.html", "read": "2026-11-26", "request": 325},
   "nd_tax_exempt": {"title": "North Dakota Office of State Tax Commissioner, Property Generally Exempt from Taxation", "url": "https://www.tax.nd.gov/property-tax-exemptions-credits", "read": "2026-11-26", "request": 323},
   "wi_act12_info": {"title": "Wisconsin Department of Revenue, 2023 Wisconsin Act 12 Information", "url": "https://www.revenue.wi.gov/Documents/2023-Act12-Information.pdf", "read": "2026-11-26", "request": 324},
   "mn_272_02": {"title": "Minnesota Statutes 272.02, Exempt property, subdivision 9 (personal property; exceptions)", "url": "https://www.revisor.mn.gov/statutes/cite/272.02/pdf", "read": "2026-11-26", "request": 320},
@@ -278,6 +280,10 @@
   },
   "ks": {
    "name": "Kansas",
+   "property": {"building_ratio": 0.25, "equipment_ratio": 0, "cite": "ks_79_1439",
+    "quote": "real property used for commercial and industrial purposes and buildings and other improvements located upon land devoted to agricultural use at 25%;",
+    "equipment": {"cite": "ks_79_223", "quote": "Commercial and industrial machinery and equipment acquired by qualified purchase or lease made or entered into after June 30, 2006"},
+    "tip": "Kansas: real property used for commercial and industrial purposes is assessed at 25 percent (K.S.A. 79-1439), and commercial and industrial machinery and equipment bought after 30 June 2006 is exempt from all property taxes (K.S.A. 79-223). The tool assesses the building at 25 percent of its cost and the equipment at nothing, and applies the reader's rate."},
    "sales_exemption": {
     "cite": "ks_74_50_332", "covers": ["equipment", "construction"], "min_investment_usd": 250000000, "min_jobs": 20,
     "quote": "A qualified firm that makes an investment in eligible data center costs in a qualified data center of at least $250,000,000 in the aggregate by the fifth year of operations and creates and maintains at least 20 new jobs at the qualified data center within two calendar years after the commencement of operations shall receive a sales tax exemption",
