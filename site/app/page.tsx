@@ -173,7 +173,8 @@ function Groups({ N }: { N: Awaited<ReturnType<typeof groupNumbers>> }) {
 /** The latest Digest: its title, its opening line and its first five stories (docs/digest/latest.md). */
 function Digest() {
   const items = topItems(DOCS.latest, 5);
-  const title = digestTitle(DOCS.latest).replace(/^(?:ERW's )?Energy Digest,\s*/, "");
+  // session 10236: the issues since 12 November are titled "ERW Daily Digest, <date>"; the link names the date alone, as before
+  const title = digestTitle(DOCS.latest).replace(/^(?:(?:ERW's )?Energy|ERW Daily) Digest,\s*/, "");
   const opening = DOCS.latest.split("\n").map((s) => s.trim()).find((s) => s && !s.startsWith("#")) ?? "";
   return (
     <ToolSection title="ERW's Energy Digest" id="digest" note={<>The weekday brief of energy news, scored and ranked. <Link href="/digest">The full Digest of {title} and the archive</Link>; <Link href="/roundup">ERW&apos;s Roundup</Link> on Sundays.</>}>
