@@ -40,5 +40,30 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 |---|---|---|---|
 | The four plant types pinned before the first edit | done | 10802 | `site/scripts/test-impact-pins.test.mjs`, `tests/fixtures/forecast/plant_pins.json` (32 technology-state runs, 16 figures each), branch `wip/c740-impact-datacenter` |
 | `site/data/forecast/datacenter_rules.json` | done | 10802 | JLARC's split, refresh (5 years), build (18 months), Virginia multipliers; Virginia, Louisiana, Iowa rules; 14 quotes verified against the kept text |
-| `site/lib/datacenter.ts` | done | 10802 | on-site jobs and earnings, Virginia's chain, property (building, equipment), sales before, forgone and paid, income, electricity (Virginia), present values, check keys |
-| Tests: three announced projects, tax lines by hand | done | 10802 | `site/scripts/test-datacenter.test.mjs` (9 tests: Louisiana Meta, Virginia CleanArc, West Virginia Penzance and the rules' edges), `tests/test_session10802_datacenter.py` |
+| `site/lib/dcimpact.ts` (first written to `site/lib/datacenter.ts`, which is `/cost-of-power`'s library: overwritten on the wip branch only, restored byte for byte in session 10803, never on main) | done | 10802, 10803 | on-site jobs and earnings, Virginia's chain, property (building, equipment), sales before, forgone and paid, income, electricity (Virginia), present values, check keys |
+| Tests: three announced projects, tax lines by hand | done | 10802 | `site/scripts/test-datacenter.test.mjs` (12 tests by session 10805), `tests/test_session10802_datacenter.py` |
+
+## Part D: the page and the notes
+
+| Item | State | Session | Note |
+|---|---|---|---|
+| "Datacenter" in the project types: fields, announced projects to pick, A and B, years, other states, CSV, Python, Stata | done (code) | 10803 | `site/lib/dcui.ts`, `site/app/impact/Datacenter.tsx`, `site/app/impact/Forecast.tsx`, `site/lib/dcfiles.ts`; tsc clean for these files; 109 tests touching `/impact` pass |
+| check-values: `datacenter|` keys, two new addresses | done | 10803 | `site/scripts/check-values.mjs` |
+| `forecast.md` section 13 with its decisions block | done | 10804 | pushed to main |
+| Cross-check | done | 10804 | JLARC's exemption value reproduced (9.04 to 15.52 against "about $9 million to $15.5 million"); Huntsville and LED beside the model, differences stated |
+| Replication `replication/impact/datacenter/` | done | 10804, 10805 | `replicate.py` 4,460 of 4,460 figures of 18 cases; `replicate_datacenter.do` (not run: no Stata) |
+| Local build, seen at 1280 and 390 px, five readers' cases | waiting | 10803 | the build lock was held by window B's suite, then by window A's gate `land-21574e2f` (from 11:47 UTC) |
+| Landing request | not started | | after the build and the reads |
+
+## Part E: more states
+
+| State | Sales exemption | Session | Note |
+|---|---|---|---|
+| Minnesota, South Carolina, Missouri, North Dakota, Maryland, Florida, Idaho | done | 10805 | thresholds and terms from each statute, tests by hand |
+| Nevada | done (words only) | 10805 | NRS 360.754 is an abatement the Office may approve: never applied |
+| Washington | held: refused | 10805 | app.leg.wa.gov's robots file disallows every path (`Disallow: /`, behind a byte order mark my first reading missed; no page was read) |
+| New York | held: refused | 10805 | www.nysenate.gov answered HTTP 403 |
+| Texas | held: not readable | 10805 | statutes.capitol.texas.gov serves a script-built page; gov.texas.gov disallows ClaudeBot; comptroller.texas.gov disallows `/*/` |
+| Kansas, Arizona, North Carolina | to read | 10805 | each statute's thresholds sit in another section (K.S.A. 74-50,331; A.R.S. 41-1519; G.S. 105-164.3) |
+| Utah, Wisconsin | to read | 10805 | the pages read hold no section text (Utah's loads by script; Wisconsin's subsection not on the page read) |
+| Montana | to read | 10805 | archive.legmt.gov redirects to mca.legmt.gov, whose robots file is not read yet |

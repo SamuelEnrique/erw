@@ -1,0 +1,146 @@
+{
+ "restated": {
+  "us48": {
+   "intensity_generation": {
+    "hours": 720,
+    "co2_unrevised_hours": 514,
+    "equal_to_4dp_of_those": 103,
+    "max_abs_diff_of_those": 0.1108
+   },
+   "intensity_demand": {
+    "hours": 720,
+    "co2_unrevised_hours": 365,
+    "equal_to_4dp_of_those": 41,
+    "max_abs_diff_of_those": 0.253
+   }
+  },
+  "erco": {
+   "intensity_generation": {
+    "hours": 720,
+    "co2_unrevised_hours": 514,
+    "equal_to_4dp_of_those": 514,
+    "max_abs_diff_of_those": 0.0
+   },
+   "intensity_demand": {
+    "hours": 720,
+    "co2_unrevised_hours": 451,
+    "equal_to_4dp_of_those": 451,
+    "max_abs_diff_of_those": 0.0
+   }
+  },
+  "pjm": {
+   "intensity_generation": {
+    "hours": 720,
+    "co2_unrevised_hours": 514,
+    "equal_to_4dp_of_those": 514,
+    "max_abs_diff_of_those": 0.0
+   },
+   "intensity_demand": {
+    "hours": 720,
+    "co2_unrevised_hours": 293,
+    "equal_to_4dp_of_those": 293,
+    "max_abs_diff_of_those": 0.0
+   }
+  },
+  "miso": {
+   "intensity_generation": {
+    "hours": 720,
+    "co2_unrevised_hours": 514,
+    "equal_to_4dp_of_those": 514,
+    "max_abs_diff_of_those": 0.0
+   },
+   "intensity_demand": {
+    "hours": 720,
+    "co2_unrevised_hours": 279,
+    "equal_to_4dp_of_those": 279,
+    "max_abs_diff_of_those": 0.0
+   }
+  },
+  "swpp": {
+   "intensity_generation": {
+    "hours": 720,
+    "co2_unrevised_hours": 514,
+    "equal_to_4dp_of_those": 514,
+    "max_abs_diff_of_those": 0.0
+   },
+   "intensity_demand": {
+    "hours": 720,
+    "co2_unrevised_hours": 341,
+    "equal_to_4dp_of_those": 341,
+    "max_abs_diff_of_those": 0.0
+   }
+  },
+  "isne": {
+   "intensity_generation": {
+    "hours": 719,
+    "co2_unrevised_hours": 513,
+    "equal_to_4dp_of_those": 513,
+    "max_abs_diff_of_those": 0.0
+   },
+   "intensity_demand": {
+    "hours": 719,
+    "co2_unrevised_hours": 420,
+    "equal_to_4dp_of_those": 420,
+    "max_abs_diff_of_those": 0.0
+   }
+  },
+  "nyis": {
+   "intensity_generation": {
+    "hours": 720,
+    "co2_unrevised_hours": 514,
+    "equal_to_4dp_of_those": 514,
+    "max_abs_diff_of_those": 0.0
+   },
+   "intensity_demand": {
+    "hours": 720,
+    "co2_unrevised_hours": 305,
+    "equal_to_4dp_of_those": 305,
+    "max_abs_diff_of_those": 0.0
+   }
+  }
+ },
+ "imports_bound": {
+  "us48": {
+   "hours": 8760,
+   "of_demand_kg_per_mwh": 333.8,
+   "imported_co2_per_mwh_demand": 2.2,
+   "imported_share_of_consumed_pct": 0.7
+  },
+  "erco": {
+   "hours": 8688,
+   "of_demand_kg_per_mwh": 305.5,
+   "imported_co2_per_mwh_demand": 1.2,
+   "imported_share_of_consumed_pct": 0.4
+  },
+  "pjm": {
+   "hours": 8704,
+   "of_demand_kg_per_mwh": 339.8,
+   "imported_co2_per_mwh_demand": 7.4,
+   "imported_share_of_consumed_pct": 2.2
+  },
+  "miso": {
+   "hours": 8746,
+   "of_demand_kg_per_mwh": 438.8,
+   "imported_co2_per_mwh_demand": 23.5,
+   "imported_share_of_consumed_pct": 5.3
+  },
+  "swpp": {
+   "hours": 5808,
+   "of_demand_kg_per_mwh": 414.3,
+   "imported_co2_per_mwh_demand": 11.1,
+   "imported_share_of_consumed_pct": 2.7
+  },
+  "isne": {
+   "hours": 8759,
+   "of_demand_kg_per_mwh": 237.9,
+   "imported_co2_per_mwh_demand": 21.5,
+   "imported_share_of_consumed_pct": 9.1
+  },
+  "nyis": {
+   "hours": 8743,
+   "of_demand_kg_per_mwh": 266.6,
+   "imported_co2_per_mwh_demand": 66.5,
+   "imported_share_of_consumed_pct": 25.0
+  }
+ }
+}

@@ -352,3 +352,73 @@ Signing this note accepts, as the tool's rules: sections 2 to 8 as completed by 
 - Signed off by:
 - Date:
 - Items ruled, and how:
+
+## 13. Datacenters (chain 740, lab-desktop window 3, sessions 10800 on, 26 November 2026)
+
+The owner set this down on 2 October 2026: the Center for Energy Studies' approach (LSU, Dr. Greg Upton), for datacenters. The tool adds a fifth project type, "Datacenter", to `/impact`; the four plant types keep every figure (`site/scripts/test-impact-pins.test.mjs` pins 32 technology-state runs from the code before the first edit). The ground, every source with its robots file, terms and verdict, is `docs/reviews/impact-datacenter-sources-2026-11-26.md`. Code: `site/lib/dcimpact.ts` (the model, pure), `site/lib/dcui.ts` (fields and address), `site/app/impact/Datacenter.tsx` (its parts of the page), `site/lib/dcfiles.ts` (the run's files). Parameters: `site/data/forecast/datacenter_announced.json`, `datacenter_rules.json`, `datacenter_wages.json`, with the plants' `sales_tax.json`, `income_tax.json` and `deflator.json`.
+
+### 13.1 What the tool computes for a datacenter
+
+For one datacenter (the reader's, or an announced project picked from the left box's list): MW as the reader states them, state, investment (USD million, 2025 dollars), first construction year, construction years, operating years. For each calendar year:
+
+- **Jobs and earnings on site.** Each construction year holds the construction workers on site the reader gives; each operating year the permanent jobs on site. Earnings are jobs times a wage per job: Census County Business Patterns 2023, annual payroll over employment, NAICS 518210 for operations and NAICS 2362 and 238 together for construction, by state, in 2025 dollars by the deflator. The construction lines of the A and B table are over the build (workers each year times the years), as the plants' job-years are.
+- **Supply chain and induced.** Only in Virginia: the ratios of indirect and induced to direct jobs and earnings of the Weldon Cooper Center's IMPLAN analysis for JLARC (Data Centers in Virginia 2024, Appendix D, Tables D-3 and D-5, statewide annual averages of FY2021 to FY2023): construction jobs 9,945 and 13,992 per 35,110 direct, earnings USD 843.8 and 791.9 million per 2,646.6; operations jobs 6,615 and 3,830 per 4,373, earnings 552.2 and 216.8 per 419.4. Elsewhere the two effects are blank, with the reason on hover: no free public multiplier for this industry was found (JEDI has no datacenter model; BEA's RIMS II sells them, USD 160 an industry for every state; IMPLAN prints no price; LSU's LEIM is a subscription).
+- **Sales and use tax.** The equipment (the investment times the equipment share) is bought over the construction years and again every refresh cycle in the operating years (operating years 5, 10, 15, ... at the default cycle), at its first cost in 2025 dollars; the building's taxable purchases (the building share times the reader's taxable share) are taxed only where the reader gives that share. Tax before any exemption = purchases times the state's rate plus its average local rate (Tax Foundation, midyear 2026). The state's datacenter exemption, where read, forgoes the tax on what it covers (equipment; Louisiana's also construction) in the years it runs, when the investment and the permanent jobs meet the statute's thresholds; the wage tests are not checked. Three lines: before, forgone, paid.
+- **Property tax.** The building at its cost (or falling straight to 0 over the reader's years) and the equipment at its cost, each times the state's assessment ratio where a rule is read (Louisiana: 10 and 15 percent), times the reader's rate (percent of assessed value), less the reader's abatement for its years. No statewide rate is held for any state read: the line is blank until the reader types the locality's rates.
+- **State income tax** on the earnings, as section 6 (each job one single filer on the year's average wage, all effects).
+- **Tax on the electricity bought**, where a statute is read and the reader gives the MWh a year: Virginia's consumption tax (Code 58.1-2900) on a twelfth of the year's kWh each month, by its blocks.
+- **Each stream's sum and present value** as section 8. "Taxes, present value" adds property (only when every operating year has it), sales paid, income and electricity.
+
+### 13.2 Defaults and their sources
+
+| Input | Default | Source |
+|---|---|---|
+| MW | 1,800 | the median of the 7 MW the announced projects' documents state (3 to 5,000), each in its own measure |
+| Investment | MW times USD 8.333333 million | the median of 6 announced projects' investment per MW, in 2025 dollars (3.0 to 46.8) |
+| Permanent jobs | MW times 0.208333 | the median of 5 projects' permanent jobs per MW (0.05 to 0.333); per billion dollars, 16 projects, median 56.25 (9.3 to 121.8), shown in the hover |
+| Construction workers each year | investment times 325 a USD billion | the median of 6 projects' construction jobs per billion as announced (63 to 1,218): headcounts, at peak where the document says so |
+| Spending split | building 19.6, equipment 68.2, land 6.1 percent (other 6.1) | JLARC Table D-1 |
+| Equipment bought again every | 5 years | JLARC, page 18 |
+| Construction | 2 years | JLARC, page 14: "12 to 18 months" a building |
+| Operation | 20 years | a horizon, not a life: no public document read states a datacenter's life; 20 years is Louisiana's agreement term |
+| Wages | CBP 2023 by state, 2025 dollars | `datacenter_wages.json` |
+| Sales tax rate | the state's plus average local | Tax Foundation |
+| Building's taxable share, property rates, abatement, MWh | not given (abatement 0) | no public source gives them statewide |
+| Exemption applied | yes, where the project qualifies | the statute's own words in the hover |
+| Discount rate | 7 percent real | OMB A-94 |
+
+### 13.3 The states held (26 November 2026)
+
+- **Virginia**: exemption (58.1-609.3(18): USD 150 million and 50 jobs at 1.5 times the local wage; through 30 June 2035, whole years: 2035's purchases taxed); property classes (58.1-3506(A)(43), 58.1-3295.3), rates local; consumption tax on electricity (58.1-2900); supply chain and induced from JLARC.
+- **Louisiana**: exemption (R.S. 47:305.73: 50 jobs and USD 200 million spent before 1 July 2029, counted as the build's whole years before 2029; 20 years from the first construction year; the 10-year renewal is LED's discretion and not assumed); assessment at 10 and 15 percent (Constitution art. VII, s. 18), millages local.
+- **Iowa**: exemption on equipment with USD 200 million (the Department of Revenue's page for Code 423.3(95)); the electricity part needs a price the tool does not hold; property not read.
+- **Part E (sessions 10805 and 10806)**, each read from the statute and tested by hand: Minnesota (297A.68 subd. 42: USD 30 million in 48 months; 35 years; the state's rate only, the words naming the 297A.62 rate; certified before 1 July 2042), South Carolina (12-36-2120(79): USD 50 million and 25 jobs; certified before 2032, then ten years, so through 2041), Missouri (144.810: USD 25 million and 10 jobs; 15 years; equipment and construction materials; the net fiscal benefit cap not modeled, an upper bound), North Dakota (57-39.2-04.17: no investment or jobs threshold), Maryland (Tax-General 11-239: USD 5 million and 5 positions; 10 years, 20 with USD 250 million), Florida (212.08(5)(r): USD 150 million and a critical IT load of 100 MW, the reader's MW read as that load; equipment and construction materials), Idaho (63-3622VV: USD 250 million and 30 jobs; equipment and facilities), Arizona (41-1519 with 42-5061(B)(23): USD 50 million, the larger county's threshold, as county population is not held; through the tenth full year after certification), North Carolina (105-164.13(55a) with 105-164.3(201): USD 75 million), Wisconsin (77.54(70) with 238.40: USD 150 million, the largest county's threshold; equipment and construction), Kansas (74-50,332: USD 250 million and 20 jobs; equipment and construction; the duration in 74-50,333 not read, so over the whole horizon, an upper bound); Montana's class seventeen property (15-6-162: 0.9 percent of market value with USD 50 million; below it no rule). Held as words and never applied: Nevada (NRS 360.754, an abatement the Office may approve), Utah (59-12-104(84): "qualifying data center" is defined in 59-12-102, not read), Georgia (48-8-3(68.1): thresholds by county population in a code published through LexisNexis; the state auditor's evaluation read).
+- **Refused or not readable, honoured**: Washington (app.leg.wa.gov disallows every path), New York (HTTP 403), Texas (a script-built statute site; the governor's site disallows ClaudeBot; the Comptroller's `/*/`), Ohio (codes.ohio.gov disallows every path), Illinois (its certificate fails and it answered 403 before). West Virginia waits: its code host does not answer.
+- **Every other state**: sales tax before exemptions, income tax, the reader's property rates; no exemption, electricity tax or multiplier.
+
+### 13.4 Decisions (every choice a reader could dispute, what was chosen and why, and what the other choice would give)
+
+1. **The default of a ratio is the median of the announced projects, not the mean.** The rows are few (5 to 16) and skewed (an investment per MW from 3.0 to 46.8 million). The mean would give USD 17.77 million a MW (NScale's 34.6 and the AUBix colocation site's 46.8 lift it); the median, 8.33, keeps two outliers from setting the default. The range travels with it.
+2. **Permanent jobs by MW, not by investment.** MW is what a reader of a utility filing or a county notice has first; by investment the default for the 1,800 MW default (USD 15 billion) would be 844 jobs instead of 375.
+3. **Construction workers held at the announced figure in every construction year.** Documents state a peak headcount or a count with no period, never job-years. Holding the peak in every year is an upper reading of job-years; a profile (a ramp up and down) would need a source no document gives. The hover says so.
+4. **Rows of different MW measures in one default.** IT capacity, critical IT, critical grid capacity and power required are mixed (7 rows). Splitting them would leave defaults of one or two rows. A reader with a project's own MW and measure types them.
+5. **Virginia's multipliers for Virginia only.** Applying them elsewhere would give every state a supply chain and induced effect, but from another state's economy; the blank says what is missing and its price.
+6. **The wage of NAICS 518210 for a datacenter job.** JLARC finds that 518210 is wider than datacenters; the proxy may overstate (software and IT services in Northern Virginia) or understate. JLARC's interview figure for Virginia, "about $100,000 per year" for employees and contractors, is two thirds of CBP's Virginia USD 152,609 (2025 dollars).
+7. **Equipment bought again at its first real cost.** Prices of servers fall and their power rises; no public figure gives the next generation's cost. The reader sets the cycle (0: bought once).
+8. **Property at cost, an upper bound.** No depreciation schedule for datacenter equipment is read for any state; a locality's schedule (JLARC: "percentage of original cost") would lower the equipment's tax in the cycle's later years.
+9. **Exemption thresholds checked on investment and jobs only.** The wage tests (Virginia: 1.5 times the local wage) need the locality's average wage, not held. A project below the wage test would show a forgone tax it would not get.
+10. **Whole years.** Virginia's exemption ends on 30 June 2035: purchases in 2035 are taxed; Louisiana's spending before 1 July 2029 is counted in whole years before 2029. A proration would move these by half a year's purchases.
+11. **Output not computed.** No public model gives a datacenter's output; the plant lines of output read "not held" for a datacenter.
+12. **The operating years default, 20, is a horizon.** No document read states a datacenter's life; a longer horizon adds taxes and earnings linearly.
+
+### 13.5 Cross-check (`site/scripts/dc-crosscheck.mjs`, `docs/reviews/impact-datacenter-crosscheck-2026-11-26.json`)
+
+| Document | What it says | Model | Difference and its likely cause |
+|---|---|---|---|
+| JLARC 2024, page 21: a typical 250,000 sq ft datacenter costing USD 250 to 325 million | the exemption's "initial benefit of about $9 million to $15.5 million in savings (depending on the locality)" | USD 9.84 to 12.79 million at Virginia's average rate (5.77 percent); 9.04 to 15.52 million at the lowest (5.3) and highest (7.0) rates | none at the rates' ends: JLARC's equipment share (68.2 percent) and the rates reproduce its range |
+| Alabama's governor, 14 June 2018: Facebook in Huntsville, USD 750 million, 100 jobs at USD 80,000 | "Total new revenue over thirty years ... $297.3 million" for the state, county and city | sales tax paid USD 290.3 million and income tax 13.0 million over 30 operating years, in 2018 dollars; property not held | not the same taxes: Alabama's datacenter abatements (40-9B) are not held, so the model's sales tax is before exemptions (seven equipment purchases), and the release's figure likely rests on property tax, which the model leaves to the reader's rates. The closeness of the totals is not agreement |
+| LED, 13 July 2026: Meta, Richland Parish | "an additional 1,900 indirect new jobs" for about 1,000 operational: 1.9 | Louisiana: not computed; Virginia's indirect plus induced per direct operating job: 2.389 | LED's method is not stated; JLARC's direct jobs are half of what datacenters report (contractors counted as indirect), which raises Virginia's ratio |
+
+### 13.6 Check keys
+
+A datacenter figure's key is `datacenter|<every input of its scenario, in DC_KEY_ORDER>|<figure>` (`site/lib/dcimpact.ts`, `dcKey`, `dcParseKey`, `dcStat`); `site/scripts/check-values.mjs` recomputes it with `dcRun` from its own read of the parameter files, and compares the text with `dcDisplay`. Figures: `c:<jobs|earnings>:<effect>`, `o:...`, `sum:<stream>`, `pv:<stream>`, `pv:taxes`, `y1:<stream>`, `year:<yyyy>:<stream>`; streams `jobs, earnings, property, propb, prope, salesbefore, forgone, sales, income, elec`, and in a year `equipment`, `building`, `value`, `mwh`. Addresses added: `/impact?tech=datacenter&state=va&dmw=1000&invest=3000&perm=50&mwh=5000000&bstate=la` and `/impact?tech=datacenter&state=la&dmw=5000&invest=50000&perm=1000&cons=7500&dbuild=5&brate=10&erate=10&btech=land_based_wind`.
