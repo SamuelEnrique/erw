@@ -90,7 +90,7 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
           <> Over its {ties.length} reporting ties it {net > 0 ? "sent out more than it took in" : net < 0 ? "took in more than it sent out" : "sent out as much as it took in"}: a net {out ? "export" : "import"} of{" "}
             {netNum} MW in the hour starting {hourOf(xHour, tz)}, {lagNum} hours before the latest hourly refresh of EIA-930&apos;s interchange ({`${snap.built.slice(0, 16).replace("T", " ")} UTC`}), which EIA publishes about two days late. The sum reads {TIE_SIDE_WORDS}.</>
         ) : null}
-        {cg ? <> Each MWh it generated carried <N t={CARBON} r={cg} /> kg of CO2 in the hour starting {hourOf(cg.ts_utc, tz)}, the latest EIA has estimated.</> : null}
+        {cg ? <> Each MWh it generated carried <N t={CARBON} r={cg} /> kg of CO2 in the hour starting {hourOf(cg.ts_utc, tz)}, the latest EIA has estimated: its CO2 estimates come days after the hour, so this hour is older than the hour of demand named first.</> : null}
       </p>
 
       <HeadlineRow>
