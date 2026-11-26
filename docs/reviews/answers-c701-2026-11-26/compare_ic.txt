@@ -1,0 +1,2 @@
+figures compared: 135 | equal: 134 | differ: 1
+  differs: ('ercot', 2023, 'withdrawn', 0, None)
