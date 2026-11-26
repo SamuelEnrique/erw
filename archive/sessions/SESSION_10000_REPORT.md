@@ -28,6 +28,8 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 - Landing 1 (`3dcb86434`): `c701-L1-before` and `c701-L1-after`, 0 differences (expected: every page is in review).
 - Landing 2 (`f00acbd70`, 14:16 UTC): `c701-L2-before` (13:41) and `c701-L2-after` (14:23), 0 differences (expected: every page is in review).
 - The desk's doc pushes from 14:23 to 14:40: `c701-L2-after` and `c701-p9-after`, 0 differences (expected).
+- Landing 3 (`693a4a3f5`, 17:13 UTC): `c701-L3-before` (16:36) and `c701-L3-after` (17:19), 0 differences (expected). Doc pushes to 17:27: `c701-p10-after`, 0 differences.
+- Gate 7 pushed 18:08 with `c701-L4-before`; its after snapshot: the progress file.
 - The progress pushes: pairs `c701-p4` to `c701-p8`, 0 differences each.
 
 ## The desk in the afternoon
