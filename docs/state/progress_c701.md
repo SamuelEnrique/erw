@@ -15,4 +15,9 @@ One line a landing, request, repair, source, table, file or view: its state and 
 
 ## Part B: the equities contract
 
-- B, `docs/state/page_files_equities.md` and six example files under `site/data/equities/` (every value null, `"example": true`): written, session 10000; pushed with a before and after snapshot (`c701-B-before`, `c701-B-after`).
+- B, `docs/state/page_files_equities.md` and six example files under `site/data/equities/` (every value null, `"example": true`): done, session 10000: on main at `f52d6872d` (10:54 UTC, within the chain's first hour), deployed 10:58 UTC; snapshots `c701-B-before` and `c701-B-after`: 0 differences on all 25 pages (expected: no page reads `site/data/equities/`). Note: the two pushes before it (the queue move `1a0606f86` and the resume file `1b7814005`) touched no site file and went without a snapshot.
+
+## Part C: repairs
+
+- C1, the load into Supabase: cause found, session 10000. The older-than-live guard refuses `datacenter_projects`, `energy_deals` and `news_index` (Supabase holds 2 projects, 7 deals and 400 stories loaded on 13 November that no copy in the repository holds; the three are model-extracted, rebuilt only with a model call); `sources` fails its count on one name in Supabase that `sources.csv` no longer has (`IEA` with an en dash), which only a person prunes. The guard is right and stands. Fix on `wip/c701-repairs` (`17e79196e`): those cases are held, the step ends as a skip whose reason begins `held:`, any other refusal still fails; test `tests/test_session10000_load_held.py`. State: waiting to land.
+- C2, the battery files: cause found, session 10000. This machine's `battery_stack_monthly` is the build of 14 November (its October has 29 days held: 15 October had no energy hours then); the price tables have since filled 15 October, and the exports solve October again with 30 days. GitHub rebuilds the table daily (11,634 rows on 24 November), but `scripts/sync.py` compares only row counts and the newest timestamp with Redivis, so a table rewritten in value with the same rows and the same newest month is called current and never brought here. Fix: in progress.
