@@ -120,7 +120,9 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
           </p>
           <p>
             Double opt-in: after you sign up, a confirmation email arrives with a signed link; nothing else is sent until you follow it. Every email
-            then carries a signed unsubscribe link that works in one click (<code className="font-mono">warehouse/news/email_digest.py</code>).
+            then carries a signed unsubscribe link (<code className="font-mono">warehouse/news/email_digest.py</code>): it opens this page, and one
+            press of its button stops every email (the link alone changes nothing, so a mail scanner that follows it cannot unsubscribe you); a mail
+            program that shows its own unsubscribe button stops them in one click.{/* session 10238, small pages audit finding 6: app/api/unsubscribe/route.ts */}
           </p>
         </div>
       </Section>
