@@ -104,7 +104,7 @@ export type DcProject = { id: string; name: string; state: string; where: string
   mw: number | null; measure: string | null; invest: number | null; perm: number | null; cons: number | null; consMeasure: string | null };
 type Fig = { value: number; measure?: string; year?: number } | null;
 export function dcProjects(rows: { id: string; name: string; state: string; county: string | null; place?: string; doc: { date: string; publisher: string; url: string };
-  mw: Fig; investment: Fig; permanent_jobs: Fig; construction_jobs: Fig; investment_includes_generation?: boolean }[], index: Record<string, number>): DcProject[] {
+  mw: Fig; investment: Fig; permanent_jobs: Fig; construction_jobs: Fig; investment_includes_generation?: boolean; investment_partial?: string }[], index: Record<string, number>): DcProject[] {
   return rows.map((r) => {
     const y = r.investment?.year ?? 2025;
     const k = index[String(y)] ? index["2025"] / index[String(y)] : 1;  // a 2026 announcement taken as 2025 dollars
@@ -112,7 +112,7 @@ export function dcProjects(rows: { id: string; name: string; state: string; coun
       id: r.id, name: r.name, state: r.state, where: r.county ?? r.place ?? "", date: r.doc.date, publisher: r.doc.publisher, url: r.doc.url,
       mw: r.mw?.value ?? null, measure: r.mw?.measure ?? null,
       // the DOE Paducah figure includes power plants: not offered as the datacenter's investment
-      invest: r.investment && !r.investment_includes_generation ? Math.round((r.investment.value * k) / 1e4) / 100 : null,  // USD million, 2025
+      invest: r.investment && !r.investment_includes_generation && !r.investment_partial ? Math.round((r.investment.value * k) / 1e4) / 100 : null,  // USD million, 2025
       perm: r.permanent_jobs && !String(r.permanent_jobs.measure).includes("kind not stated") ? r.permanent_jobs.value : null,
       cons: r.construction_jobs?.value ?? null, consMeasure: r.construction_jobs?.measure ?? null,
     };

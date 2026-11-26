@@ -75,10 +75,10 @@
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 31,
+   "n": 32,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
-   "median": 50.0,
+   "median": 51.218004,
    "high": 121.786859,
    "high_row": "sc_meta_aiken_2024",
    "rows": [
@@ -103,6 +103,7 @@
     "pa_aws_2025",
     "ms_aws_madison_2026",
     "ms_aws_vicksburg_2025",
+    "nv_google_storey_2020",
     "in_amazon_northern_2025",
     "in_aws_stjoseph_2024",
     "ms_aws_madison_2024",
@@ -119,12 +120,12 @@
    "name": "Construction jobs per billion dollars",
    "unit": "construction jobs (headcount as announced) per USD billion (2025)",
    "how": "construction jobs as announced over the investment; at peak or period not stated, as each row says",
-   "n": 11,
+   "n": 12,
    "low": 63.222543,
    "low_row": "wv_nscale_2026",
-   "median": 277.777778,
-   "high": 1217.868592,
-   "high_row": "al_meta_montgomery_2024",
+   "median": 338.888889,
+   "high": 3406.856898,
+   "high_row": "nv_google_storey_2020",
    "rows": [
     "wv_nscale_2026",
     "la_hut8_riverbend_2025",
@@ -136,7 +137,8 @@
     "la_meta_richland_2024",
     "wi_microsoft_mountpleasant_2024",
     "az_beale_pima_2025",
-    "al_meta_montgomery_2024"
+    "al_meta_montgomery_2024",
+    "nv_google_storey_2020"
    ]
   }
  },
@@ -1562,6 +1564,79 @@
    "incentive": "",
    "years": "over the next five years",
    "note": "Stanton Springs is a park shared by Newton, Walton and Morgan counties; the release thanks Newton County as the company's new community. The 2018 dollars are deflated to 2025 by the GDP deflator."
+  },
+  {
+   "id": "nv_google_storey_2020",
+   "name": "Google, Tahoe Reno Industrial Center data center",
+   "company": "Google (Design, LLC)",
+   "state": "nv",
+   "county": "Storey County",
+   "doc": {
+    "title": "GOED approves Google and Lithium Nevada Corp. for abatements",
+    "publisher": "Nevada Governor's Office of Economic Development",
+    "date": "2020-09-16",
+    "url": "https://goed.nv.gov/newsroom/goed-approves-google-and-lithium-nevada-corp-for-abatements/",
+    "request": 277
+   },
+   "mw": null,
+   "investment": {
+    "value": 600000000,
+    "year": 2020,
+    "says": "$600 million",
+    "qualifier": "",
+    "quote": "Google plans to invest $600 million in a data center for Google products and services at the Tahoe Reno Industrial Center (TRIC) in Storey County that will employ at least 50 people at an average wage of $31.29 per hour."
+   },
+   "construction_jobs": {
+    "value": 2500,
+    "measure": "construction jobs (GOED's estimate)",
+    "says": "more than 2,500 construction jobs",
+    "qualifier": "more than",
+    "quote": "Additionally, GOED estimates this will create more than 2,500 construction jobs."
+   },
+   "permanent_jobs": {
+    "value": 50,
+    "measure": "people employed",
+    "says": "at least 50 people",
+    "qualifier": "at least",
+    "quote": "Google plans to invest $600 million in a data center for Google products and services at the Tahoe Reno Industrial Center (TRIC) in Storey County that will employ at least 50 people at an average wage of $31.29 per hour."
+   },
+   "incentive": "In return for the $25 million abatement that Google will receive",
+   "years": "",
+   "note": "Construction jobs are GOED's estimate, with no period; a count, not job-years."
+  },
+  {
+   "id": "nv_vantage_storey_2024",
+   "name": "Vantage Data Centers, Storey County data center",
+   "company": "Vantage Data Centers",
+   "state": "nv",
+   "county": "Storey County",
+   "doc": {
+    "title": "Data center plans to invest $254 million and generate $76 million in tax revenue",
+    "publisher": "Nevada Governor's Office of Economic Development",
+    "date": "2024-11-14",
+    "url": "https://goed.nv.gov/newsroom/data-center-plans-to-invest-254-million-and-generate-76-million-in-tax-revenue/",
+    "request": 279
+   },
+   "mw": null,
+   "investment": {
+    "value": 254000000,
+    "year": 2024,
+    "says": "$254 million",
+    "qualifier": "capital equipment",
+    "quote": "Additionally, the company will make a capital equipment investment of $254 million"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 10,
+    "measure": "jobs within five years",
+    "says": "approximately 10 jobs",
+    "qualifier": "approximately",
+    "quote": "The company is projected to create approximately 10 jobs within five years at an average hourly wage of $64."
+   },
+   "incentive": "The Nevada Governor's Office of Economic Development (GOED) has approved Vantage Data Centers to receive $19,274,000 in tax abatements.",
+   "years": "",
+   "investment_partial": "capital equipment only",
+   "note": "The investment is capital equipment only, as GOED states it: kept, but not used for a ratio or offered as the project's investment."
   }
  ]
 }

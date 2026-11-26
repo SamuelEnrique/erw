@@ -12,6 +12,7 @@
   "mn_297a_68_42": {"title": "Minnesota Statutes 297A.68, subdivision 42, Data centers", "url": "https://www.revisor.mn.gov/statutes/cite/297A.68", "read": "2026-11-26", "request": 153},
   "sc_12_36_2120_79": {"title": "South Carolina Code 12-36-2120(79), datacenter equipment and electricity", "url": "https://www.scstatehouse.gov/code/t12c036.php", "read": "2026-11-26", "request": 155},
   "mo_144_810": {"title": "Revised Statutes of Missouri 144.810, Data storage centers, exemption from sales and use tax", "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.810", "read": "2026-11-26", "request": 156},
+  "nv_goed_dc": {"title": "Nevada Governor's Office of Economic Development, Nevada Data Center Tax Abatements (summary sheet, NRS 360.754)", "url": "https://goed.nv.gov/wp-content/uploads/2025/08/Data-Center-2026.pdf", "read": "2026-11-26", "request": 280},
   "nv_360_754": {"title": "Nevada Revised Statutes 360.754, Partial abatement of certain taxes imposed on new or expanded data center", "url": "https://www.leg.state.nv.us/NRS/NRS-360.html", "read": "2026-11-26", "request": 157},
   "nd_57_39_2_04_17": {"title": "North Dakota Century Code 57-39.2-04.17, exemption for enterprise information technology equipment and software used in a qualified data center", "url": "https://ndlegis.gov/cencode/t57c39-2.pdf", "read": "2026-11-26", "request": 160},
   "md_tg_11_239": {"title": "Maryland Code, Tax-General 11-239, Qualified data centers", "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-239&enactments=false", "read": "2026-11-26", "request": 161},
@@ -171,7 +172,8 @@
    "sales_exemption": {
     "cite": "nv_360_754", "covers": [], "min_investment_usd": 25000000, "min_jobs": 10, "discretionary": true,
     "quote": "a cumulative capital investment of at least $25,000,000 in capital assets that will be used or located at the data center",
-    "tip": "Nevada (NRS 360.754): the Office of Economic Development may approve a partial abatement of the property and sales taxes on a new or expanded data center, for up to 10 years with 10 Nevada employees and \"a cumulative capital investment of at least $25,000,000\", or up to 20 years with 50 employees and $100,000,000, among other conditions. An approval, not a statute's rate: the tool applies none (the abatement input carries an approved property abatement)."
+    "terms": {"cite": "nv_goed_dc", "quote": "Sales and use tax abatement reducing the rate to 2% for 10 or 20 years - requires the Governor's Office of Economic Development Board to approve a reduction to 2% by a two-thirds vote"},
+    "tip": "Nevada (NRS 360.754): the Office of Economic Development may approve a partial abatement of the property and sales taxes on a new or expanded data center, for up to 10 years with 10 Nevada employees and \"a cumulative capital investment of at least $25,000,000\", or up to 20 years with 50 employees and $100,000,000, among other conditions. Its summary sheet (2025): 75 percent of the personal property tax, and the sales and use tax reduced to 2 percent, \"by a two-thirds vote\" of its Board, at wages of at least the statewide average. An approval, not a statute's rate: the tool applies none (the abatement input carries an approved property abatement; the sales tax rate input takes 2 for an approved reduction)."
    }
   },
   "nd": {

@@ -14,7 +14,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 440,
-    "cons": 3888.9,
+    "cons": 4744.4,
     "opwage": 152609,
     "conswage": 74336,
     "sales": 5.77,
@@ -39,29 +39,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 6540.241478211336,
-     "earnings": 467751021.4743143,
+     "jobs": 7978.997060666476,
+     "earnings": 570649270.0462177,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 275459800,
      "forgone": 275459800,
      "sales": 0,
-     "income": 21571273.147361223,
+     "income": 26316631.520568945,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 6540.241478211336,
-     "earnings": 467751021.4743143,
+     "jobs": 7978.997060666476,
+     "earnings": 570649270.0462177,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 275459800,
      "forgone": 275459800,
      "sales": 0,
-     "income": 21571273.147361223,
+     "income": 26316631.520568945,
      "elec": null
     },
     {
@@ -346,28 +346,28 @@
     }
    ],
    "sums": {
-    "jobs": 42899.46306161363,
-    "earnings": 4740873319.248105,
+    "jobs": 45776.97422652391,
+    "earnings": 4946669816.3919115,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 2203678400,
     "forgone": 1101839200,
     "sales": 1101839200,
-    "income": 237675762.97830632,
+    "income": 247166479.72472176,
     "elec": null
    },
    "pv": {
-    "earnings": 2788740644.8425813,
+    "earnings": 2987805480.8648615,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 1295005831.664576,
     "forgone": 875983904.1197228,
     "sales": 419021927.54485327,
-    "income": 138034503.60152912,
+    "income": 147214776.3422207,
     "elec": null,
-    "taxes": 557056431.1463823
+    "taxes": 566236703.887074
    }
   },
   {
@@ -383,7 +383,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 440,
-    "cons": 3888.9,
+    "cons": 4744.4,
     "opwage": 130137,
     "conswage": 74765,
     "sales": 8.2,
@@ -408,8 +408,8 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 3888.9,
-     "earnings": 290753608.5,
+     "jobs": 4744.4,
+     "earnings": 354715066,
      "property": null,
      "propb": null,
      "prope": null,
@@ -422,8 +422,8 @@
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 3888.9,
-     "earnings": 290753608.5,
+     "jobs": 4744.4,
+     "earnings": 354715066,
      "property": null,
      "propb": null,
      "prope": null,
@@ -715,8 +715,8 @@
     }
    ],
    "sums": {
-    "jobs": 16577.8,
-    "earnings": 1726712817,
+    "jobs": 18288.8,
+    "earnings": 1854635732,
     "property": null,
     "propb": null,
     "prope": null,
@@ -727,7 +727,7 @@
     "elec": null
    },
    "pv": {
-    "earnings": 1129417001.511443,
+    "earnings": 1253155522.0955553,
     "property": null,
     "propb": null,
     "prope": null,
@@ -1163,7 +1163,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 50,
-    "cons": 833.3,
+    "cons": 1016.7,
     "opwage": 152609,
     "conswage": 74336,
     "sales": 5.77,
@@ -1188,29 +1188,29 @@
     {
      "year": 2026,
      "phase": "construction",
-     "jobs": 1401.4202534890344,
-     "earnings": 100228066.08412302,
+     "jobs": 1709.857160353176,
+     "earnings": 122287141.2309227,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 59027099.99999999,
      "forgone": 59027099.99999999,
      "sales": 0,
-     "income": 4622217.571471651,
+     "income": 5639515.906534536,
      "elec": null
     },
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 1401.4202534890344,
-     "earnings": 100228066.08412302,
+     "jobs": 1709.857160353176,
+     "earnings": 122287141.2309227,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 59027099.99999999,
      "forgone": 59027099.99999999,
      "sales": 0,
-     "income": 4622217.571471651,
+     "income": 5639515.906534536,
      "elec": null
     },
     {
@@ -1495,28 +1495,28 @@
     }
    ],
    "sums": {
-    "jobs": 6191.360973477042,
-    "earnings": 632884686.2931864,
+    "jobs": 6808.234787205326,
+    "earnings": 677002836.5867857,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 472216799.99999994,
     "forgone": 236108399.99999997,
     "sales": 236108399.99999997,
-    "income": 31350482.493350547,
+    "income": 33385079.163476314,
     "elec": 87502825.99999997
    },
    "pv": {
-    "earnings": 407971784.9743114,
+    "earnings": 450646818.2022323,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 277501249.64240915,
     "forgone": 187710836.59708345,
     "sales": 89790413.0453257,
-    "income": 19885588.22435493,
+    "income": 21853632.666953217,
     "elec": 43318046.03583747,
-    "taxes": 152994047.3055181
+    "taxes": 154962091.74811637
    }
   },
   {
@@ -1901,7 +1901,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 60,
-    "cons": 694.4,
+    "cons": 847.2,
     "opwage": 152609,
     "conswage": 74336,
     "sales": 5.77,
@@ -1926,29 +1926,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 1167.8221817146111,
-     "earnings": 83521383.76192851,
+     "jobs": 1424.7968783822273,
+     "earnings": 101899937.1012469,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 54843849.99999999,
      "forgone": 0,
      "sales": 54843849.99999999,
-     "income": 3851755.5281770243,
+     "income": 4699319.244630725,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 1167.8221817146111,
-     "earnings": 83521383.76192851,
+     "jobs": 1424.7968783822273,
+     "earnings": 101899937.1012469,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 54843849.99999999,
      "forgone": 0,
      "sales": 54843849.99999999,
-     "income": 3851755.5281770243,
+     "income": 4699319.244630725,
      "elec": null
     },
     {
@@ -2233,28 +2233,28 @@
     }
    ],
    "sums": {
-    "jobs": 6401.868923227983,
-    "earnings": 685957032.4737852,
+    "jobs": 6915.8183165632145,
+    "earnings": 722714139.152422,
     "property": 1119641875,
     "propb": 58279375,
     "prope": 1061362500,
     "salesbefore": 404823199.99999994,
     "forgone": 0,
     "sales": 404823199.99999994,
-    "income": 34230767.87684277,
+    "income": 35925895.30975017,
     "elec": null
    },
    "pv": {
-    "earnings": 418465906.674062,
+    "earnings": 454020678.0875097,
     "property": 495996823.8770329,
     "propb": 27659975.712696295,
     "prope": 468336848.1643367,
     "salesbefore": 242190314.2658705,
     "forgone": 0,
     "sales": 242190314.2658705,
-    "income": 20583776.426039807,
+    "income": 22223455.765347436,
     "elec": null,
-    "taxes": 758770914.5689431
+    "taxes": 760410593.9082508
    }
   },
   {
@@ -2270,7 +2270,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 20,
-    "cons": 55.3,
+    "cons": 67.4,
     "opwage": 84299,
     "conswage": 78399,
     "sales": 6.94,
@@ -2295,29 +2295,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 55.3,
-     "earnings": 4335464.7,
+     "jobs": 67.4,
+     "earnings": 5284092.600000001,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 4709414.600000001,
      "forgone": 0,
      "sales": 4709414.600000001,
-     "income": 128703.11860000002,
+     "income": 156864.1988,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 55.3,
-     "earnings": 4335464.7,
+     "jobs": 67.4,
+     "earnings": 5284092.600000001,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 4709414.600000001,
      "forgone": 0,
      "sales": 4709414.600000001,
-     "income": 128703.11860000002,
+     "income": 156864.1988,
      "elec": null
     },
     {
@@ -2602,28 +2602,28 @@
     }
    ],
    "sums": {
-    "jobs": 510.6,
-    "earnings": 42390529.4,
+    "jobs": 534.8,
+    "earnings": 44287785.2,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 37675316.800000004,
     "forgone": 0,
     "sales": 37675316.800000004,
-    "income": 1278031.0372,
+    "income": 1334353.1975999998,
     "elec": null
    },
    "pv": {
-    "earnings": 25080100.996874142,
+    "earnings": 26915297.027715266,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 22140143.02895122,
     "forgone": 0,
     "sales": 22140143.02895122,
-    "income": 754244.0551666858,
+    "income": 808723.9019087419,
     "elec": null,
-    "taxes": 22894387.084117904
+    "taxes": 22948866.93085996
    }
   },
   {
@@ -2639,7 +2639,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 100,
-    "cons": 1388.9,
+    "cons": 1694.4,
     "opwage": 67440,
     "conswage": 70480,
     "sales": 10.13,
@@ -2664,29 +2664,29 @@
     {
      "year": 2030,
      "phase": "construction",
-     "jobs": 1388.9,
-     "earnings": 97889672,
+     "jobs": 1694.4,
+     "earnings": 119421312,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 172716500,
      "forgone": 0,
      "sales": 172716500,
-     "income": 2400227.535,
+     "income": 2928177.36,
      "elec": null
     },
     {
      "year": 2031,
      "phase": "construction",
-     "jobs": 1388.9,
-     "earnings": 97889672,
+     "jobs": 1694.4,
+     "earnings": 119421312,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 172716500,
      "forgone": 0,
      "sales": 172716500,
-     "income": 2400227.535,
+     "income": 2928177.36,
      "elec": null
     },
     {
@@ -2831,28 +2831,28 @@
     }
    ],
    "sums": {
-    "jobs": 3777.8,
-    "earnings": 263219344,
+    "jobs": 4388.8,
+    "earnings": 306282624,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 690866000,
     "forgone": 0,
     "sales": 690866000,
-    "income": 6437405.07,
+    "income": 7493304.72,
     "elec": null
    },
    "pv": {
-    "earnings": 233643602.75892472,
+    "earnings": 275298270.79630786,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 549252101.3080461,
     "forgone": 0,
     "sales": 549252101.3080461,
-    "income": 5717940.353077535,
+    "income": 6739301.229479402,
     "elec": null,
-    "taxes": 554970041.6611236
+    "taxes": 555991402.5375255
    }
   },
   {
@@ -2868,7 +2868,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 50,
-    "cons": 277.8,
+    "cons": 338.9,
     "opwage": 133896,
     "conswage": 91879,
     "sales": 8.14,
@@ -2893,29 +2893,29 @@
     {
      "year": 2026,
      "phase": "construction",
-     "jobs": 433.30497382198956,
-     "earnings": 36538389.71702723,
+     "jobs": 528.6071116928447,
+     "earnings": 44574731.01188096,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 27757400,
      "forgone": 23460799.999999996,
      "sales": 4296600.000000004,
-     "income": 1824515.870162302,
+     "income": 2225804.277890584,
      "elec": null
     },
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 433.30497382198956,
-     "earnings": 36538389.71702723,
+     "jobs": 528.6071116928447,
+     "earnings": 44574731.01188096,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 27757400,
      "forgone": 23460799.999999996,
      "sales": 4296600.000000004,
-     "income": 1824515.870162302,
+     "income": 2225804.277890584,
      "elec": null
     },
     {
@@ -3480,28 +3480,28 @@
     }
    ],
    "sums": {
-    "jobs": 4934.556771868504,
-    "earnings": 581995944.3446158,
+    "jobs": 5125.161047610214,
+    "earnings": 598068626.9343233,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 444118400,
     "forgone": 328451199.99999994,
     "sales": 115667200.00000006,
-    "income": 32074448.755966112,
+    "income": 32877025.571422677,
     "elec": null
    },
    "pv": {
-    "earnings": 229208897.1868251,
+    "earnings": 244755837.8226636,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 162870392.21635175,
     "forgone": 133820894.53671035,
     "sales": 29049497.679641433,
-    "income": 12383862.089545557,
+    "income": 13160186.392347,
     "elec": null,
-    "taxes": 41433359.76918699
+    "taxes": 42209684.07198843
    }
   },
   {
@@ -3517,7 +3517,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 5,
-    "cons": 83.3,
+    "cons": 101.7,
     "opwage": 117059,
     "conswage": 81162,
     "sales": 6,
@@ -3542,29 +3542,29 @@
     {
      "year": 2026,
      "phase": "construction",
-     "jobs": 83.3,
-     "earnings": 6760794.6,
+     "jobs": 101.7,
+     "earnings": 8254175.4,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 6138000,
      "forgone": 6138000,
      "sales": 0,
-     "income": 290847.781,
+     "income": 355092.66900000005,
      "elec": null
     },
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 83.3,
-     "earnings": 6760794.6,
+     "jobs": 101.7,
+     "earnings": 8254175.4,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 6138000,
      "forgone": 6138000,
      "sales": 0,
-     "income": 290847.781,
+     "income": 355092.66900000005,
      "elec": null
     },
     {
@@ -3849,28 +3849,28 @@
     }
    ],
    "sums": {
-    "jobs": 266.6,
-    "earnings": 25227489.2,
+    "jobs": 303.4,
+    "earnings": 28214250.8,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 49104000,
     "forgone": 49104000,
     "sales": 0,
-    "income": 1103990.562,
+    "income": 1232480.338,
     "elec": null
    },
    "pv": {
-    "earnings": 18874269.52320502,
+    "earnings": 21763333.313859228,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 28856282.458482757,
     "forgone": 28856282.458482757,
     "sales": 0,
-    "income": 821228.9160636383,
+    "income": 945515.7554655074,
     "elec": null,
-    "taxes": 821228.9160636383
+    "taxes": 945515.7554655074
    }
   },
   {
@@ -3886,7 +3886,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 5,
-    "cons": 55.6,
+    "cons": 67.8,
     "opwage": 117059,
     "conswage": 81162,
     "sales": 6,
@@ -3911,29 +3911,29 @@
     {
      "year": 2026,
      "phase": "construction",
-     "jobs": 55.6,
-     "earnings": 4512607.2,
+     "jobs": 67.8,
+     "earnings": 5502783.6,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 4092000,
      "forgone": 4092000,
      "sales": 0,
-     "income": 194131.29200000002,
+     "income": 236728.446,
      "elec": null
     },
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 55.6,
-     "earnings": 4512607.2,
+     "jobs": 67.8,
+     "earnings": 5502783.6,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 4092000,
      "forgone": 4092000,
      "sales": 0,
-     "income": 194131.29200000002,
+     "income": 236728.446,
      "elec": null
     },
     {
@@ -4218,28 +4218,28 @@
     }
    ],
    "sums": {
-    "jobs": 211.2,
-    "earnings": 20731114.4,
+    "jobs": 235.6,
+    "earnings": 22711467.2,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 32736000,
     "forgone": 16368000,
     "sales": 16368000,
-    "income": 910557.584,
+    "income": 995751.892,
     "elec": null
    },
    "pv": {
-    "earnings": 14524972.403578857,
+    "earnings": 16440547.308251753,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 19237521.638988502,
     "forgone": 13012882.953004053,
     "sales": 6224638.685984451,
-    "income": 634123.1850075636,
+    "income": 716530.7633066289,
     "elec": null,
-    "taxes": 6858761.870992015
+    "taxes": 6941169.44929108
    }
   },
   {
@@ -4255,7 +4255,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 10,
-    "cons": 41.7,
+    "cons": 50.8,
     "opwage": 128802,
     "conswage": 64020,
     "sales": 6.98,
@@ -4280,8 +4280,8 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 41.7,
-     "earnings": 2669634,
+     "jobs": 50.8,
+     "earnings": 3252216,
      "property": null,
      "propb": null,
      "prope": null,
@@ -4294,8 +4294,8 @@
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 41.7,
-     "earnings": 2669634,
+     "jobs": 50.8,
+     "earnings": 3252216,
      "property": null,
      "propb": null,
      "prope": null,
@@ -4587,8 +4587,8 @@
     }
    ],
    "sums": {
-    "jobs": 283.4,
-    "earnings": 31099668,
+    "jobs": 301.6,
+    "earnings": 32264832,
     "property": null,
     "propb": null,
     "prope": null,
@@ -4599,7 +4599,7 @@
     "elec": null
    },
    "pv": {
-    "earnings": 17917237.951878242,
+    "earnings": 19044289.110756744,
     "property": null,
     "propb": null,
     "prope": null,
@@ -4624,7 +4624,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 10,
-    "cons": 416.7,
+    "cons": 508.3,
     "opwage": 128802,
     "conswage": 64020,
     "sales": 6.98,
@@ -4649,8 +4649,8 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 416.7,
-     "earnings": 26677134,
+     "jobs": 508.3,
+     "earnings": 32541366,
      "property": null,
      "propb": null,
      "prope": null,
@@ -4663,8 +4663,8 @@
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 416.7,
-     "earnings": 26677134,
+     "jobs": 508.3,
+     "earnings": 32541366,
      "property": null,
      "propb": null,
      "prope": null,
@@ -4956,8 +4956,8 @@
     }
    ],
    "sums": {
-    "jobs": 1033.4,
-    "earnings": 79114668,
+    "jobs": 1216.6,
+    "earnings": 90843132,
     "property": null,
     "propb": null,
     "prope": null,
@@ -4968,7 +4968,7 @@
     "elec": null
    },
    "pv": {
-    "earnings": 64361653.83972869,
+    "earnings": 75706476.4939343,
     "property": null,
     "propb": null,
     "prope": null,
@@ -4993,7 +4993,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 25,
-    "cons": 27.8,
+    "cons": 33.9,
     "opwage": 105919,
     "conswage": 68086,
     "sales": 7.49,
@@ -5018,29 +5018,29 @@
     {
      "year": 2031,
      "phase": "construction",
-     "jobs": 27.8,
-     "earnings": 1892790.8,
+     "jobs": 33.9,
+     "earnings": 2308115.4,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 2554090.0000000005,
      "forgone": 2554090.0000000005,
      "sales": 0,
-     "income": 50033.900680000006,
+     "income": 61012.56234,
      "elec": null
     },
     {
      "year": 2032,
      "phase": "construction",
-     "jobs": 27.8,
-     "earnings": 1892790.8,
+     "jobs": 33.9,
+     "earnings": 2308115.4,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 2554090.0000000005,
      "forgone": 2554090.0000000005,
      "sales": 0,
-     "income": 50033.900680000006,
+     "income": 61012.56234,
      "elec": null
     },
     {
@@ -5325,28 +5325,28 @@
     }
    ],
    "sums": {
-    "jobs": 555.6,
-    "earnings": 56745081.6,
+    "jobs": 567.8,
+    "earnings": 57575730.8,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 20432720.000000004,
     "forgone": 10216360.000000002,
     "sales": 10216360.000000002,
-    "income": 1985507.7513600008,
+    "income": 2007465.0746800008,
     "elec": null
    },
    "pv": {
-    "earnings": 29879216.661467884,
+    "earnings": 30682695.093243584,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 12007419.756335326,
     "forgone": 8122207.776500031,
     "sales": 3885211.979835295,
-    "income": 1030176.6905381902,
+    "income": 1051415.783656134,
     "elec": null,
-    "taxes": 4915388.670373485
+    "taxes": 4936627.763491429
    }
   },
   {
@@ -5362,7 +5362,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 500,
-    "cons": 1388.9,
+    "cons": 1694.4,
     "opwage": 109586,
     "conswage": 75756,
     "sales": 8.24,
@@ -5387,8 +5387,8 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 1388.9,
-     "earnings": 105217508.4,
+     "jobs": 1694.4,
+     "earnings": 128360966.4,
      "property": null,
      "propb": null,
      "prope": null,
@@ -5401,8 +5401,8 @@
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 1388.9,
-     "earnings": 105217508.4,
+     "jobs": 1694.4,
+     "earnings": 128360966.4,
      "property": null,
      "propb": null,
      "prope": null,
@@ -5694,8 +5694,8 @@
     }
    ],
    "sums": {
-    "jobs": 12777.8,
-    "earnings": 1306295016.8,
+    "jobs": 13388.8,
+    "earnings": 1352581932.8,
     "property": null,
     "propb": null,
     "prope": null,
@@ -5706,7 +5706,7 @@
     "elec": null
    },
    "pv": {
-    "earnings": 746054266.3014642,
+    "earnings": 790827124.3014642,
     "property": null,
     "propb": null,
     "prope": null,
@@ -5731,7 +5731,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 10,
-    "cons": 111.1,
+    "cons": 135.6,
     "opwage": 106818,
     "conswage": 81591,
     "sales": 8.45,
@@ -5756,43 +5756,43 @@
     {
      "year": 2026,
      "phase": "construction",
-     "jobs": 111.1,
-     "earnings": 9064760.1,
+     "jobs": 135.6,
+     "earnings": 11063739.6,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 8787999.999999998,
      "forgone": 8787999.999999998,
      "sales": 0,
-     "income": 321906.1395,
+     "income": 392893.542,
      "elec": null
     },
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 111.1,
-     "earnings": 9064760.1,
+     "jobs": 135.6,
+     "earnings": 11063739.6,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 8787999.999999998,
      "forgone": 8787999.999999998,
      "sales": 0,
-     "income": 321906.1395,
+     "income": 392893.542,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 111.1,
-     "earnings": 9064760.1,
+     "jobs": 135.6,
+     "earnings": 11063739.6,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 8787999.999999998,
      "forgone": 8787999.999999998,
      "sales": 0,
-     "income": 321906.1395,
+     "income": 392893.542,
      "elec": null
     },
     {
@@ -6077,28 +6077,28 @@
     }
    ],
    "sums": {
-    "jobs": 533.3,
-    "earnings": 48557880.3,
+    "jobs": 606.8,
+    "earnings": 54554818.8,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 95518799.99999999,
     "forgone": 72467199.99999999,
     "sales": 23051599.999999996,
-    "income": 1782341.218499998,
+    "income": 1995303.425999998,
     "elec": null
    },
    "pv": {
-    "earnings": 35338118.073426016,
+    "earnings": 40951288.82593715,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 54478835.85143229,
     "forgone": 47658699.19795335,
     "sales": 6820136.653478947,
-    "income": 1281737.904357773,
+    "income": 1481071.820243222,
     "elec": null,
-    "taxes": 8101874.55783672
+    "taxes": 8301208.473722168
    }
   },
   {
@@ -6114,7 +6114,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 30,
-    "cons": 69.4,
+    "cons": 84.7,
     "opwage": 106764,
     "conswage": 63469,
     "sales": 6.03,
@@ -6139,29 +6139,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 69.4,
-     "earnings": 4404748.600000001,
+     "jobs": 84.7,
+     "earnings": 5375824.3,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 5140575,
      "forgone": 5140575,
      "sales": 0,
-     "income": 156536.83560000002,
+     "income": 191047.11779999998,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 69.4,
-     "earnings": 4404748.600000001,
+     "jobs": 84.7,
+     "earnings": 5375824.3,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 5140575,
      "forgone": 5140575,
      "sales": 0,
-     "income": 156536.83560000002,
+     "income": 191047.11779999998,
      "elec": null
     },
     {
@@ -6446,28 +6446,28 @@
     }
    ],
    "sums": {
-    "jobs": 738.8,
-    "earnings": 72867897.2,
+    "jobs": 769.4,
+    "earnings": 74810048.6,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 41124600,
     "forgone": 41124600,
     "sales": 0,
-    "income": 3043199.0712,
+    "income": 3112219.6356,
     "elec": null
    },
    "pv": {
-    "earnings": 40233280.1021015,
+    "earnings": 42111903.185279064,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 24167136.55897931,
     "forgone": 24167136.55897931,
     "sales": 0,
-    "income": 1654374.4099759576,
+    "income": 1721137.2923628734,
     "elec": null,
-    "taxes": 1654374.4099759576
+    "taxes": 1721137.2923628734
    }
   },
   {
@@ -6483,7 +6483,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 3,
-    "cons": 13.9,
+    "cons": 16.9,
     "opwage": 70643,
     "conswage": 87838,
     "sales": 7.09,
@@ -6508,29 +6508,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 13.9,
-     "earnings": 1220948.2,
+     "jobs": 16.9,
+     "earnings": 1484462.2,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 1208845,
      "forgone": 1208845,
      "sales": 0,
-     "income": 6305.4361499999995,
+     "income": 7666.321649999999,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 13.9,
-     "earnings": 1220948.2,
+     "jobs": 16.9,
+     "earnings": 1484462.2,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 1208845,
      "forgone": 1208845,
      "sales": 0,
-     "income": 6305.4361499999995,
+     "income": 7666.321649999999,
      "elec": null
     },
     {
@@ -6815,28 +6815,28 @@
     }
    ],
    "sums": {
-    "jobs": 87.8,
-    "earnings": 6680476.4,
+    "jobs": 93.8,
+    "earnings": 7207504.4,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 9670760,
     "forgone": 9670760,
     "sales": 0,
-    "income": 19710.432299999982,
+    "income": 22432.203299999983,
     "elec": null
    },
    "pv": {
-    "earnings": 4460319.270128965,
+    "earnings": 4970108.036484106,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 5683084.5175178535,
     "forgone": 5683084.5175178535,
     "sales": 0,
-    "income": 15712.985812471808,
+    "income": 18345.72691994844,
     "elec": null,
-    "taxes": 15712.985812471808
+    "taxes": 18345.72691994844
    }
   },
   {
@@ -6852,7 +6852,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 5,
-    "cons": 27.8,
+    "cons": 33.9,
     "opwage": 98701,
     "conswage": 73547,
     "sales": 8.54,
@@ -6877,29 +6877,29 @@
     {
      "year": 2026,
      "phase": "construction",
-     "jobs": 27.8,
-     "earnings": 2044606.6,
+     "jobs": 33.9,
+     "earnings": 2493243.3,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 2912139.9999999995,
      "forgone": 2912139.9999999995,
      "sales": 0,
-     "income": 45311.91500000001,
+     "income": 55254.457500000004,
      "elec": null
     },
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 27.8,
-     "earnings": 2044606.6,
+     "jobs": 33.9,
+     "earnings": 2493243.3,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 2912139.9999999995,
      "forgone": 2912139.9999999995,
      "sales": 0,
-     "income": 45311.91500000001,
+     "income": 55254.457500000004,
      "elec": null
     },
     {
@@ -7184,28 +7184,28 @@
     }
    ],
    "sums": {
-    "jobs": 155.6,
-    "earnings": 13959313.2,
+    "jobs": 167.8,
+    "earnings": 14856586.6,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 23297119.999999996,
     "forgone": 11648559.999999998,
     "sales": 11648559.999999998,
-    "income": 316501.33,
+    "income": 336386.41500000004,
     "elec": null
    },
    "pv": {
-    "earnings": 8841621.179657431,
+    "earnings": 9709544.515171448,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 13690702.899746817,
     "forgone": 9260835.034887882,
     "sales": 4429867.864858934,
-    "income": 199479.56699726993,
+    "income": 218714.20529166245,
     "elec": null,
-    "taxes": 4629347.431856204
+    "taxes": 4648582.070150596
    }
   },
   {
@@ -7221,7 +7221,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 5,
-    "cons": 20.8,
+    "cons": 25.4,
     "opwage": 117764,
     "conswage": 68963,
     "sales": 7.1,
@@ -7246,29 +7246,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 20.8,
-     "earnings": 1434430.4000000001,
+     "jobs": 25.4,
+     "earnings": 1751660.2,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 1815824.9999999998,
      "forgone": 1815824.9999999998,
      "sales": 0,
-     "income": 46652.29296,
+     "income": 56969.62697999999,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 20.8,
-     "earnings": 1434430.4000000001,
+     "jobs": 25.4,
+     "earnings": 1751660.2,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 1815824.9999999998,
      "forgone": 1815824.9999999998,
      "sales": 0,
-     "income": 46652.29296,
+     "income": 56969.62697999999,
      "elec": null
     },
     {
@@ -7553,28 +7553,28 @@
     }
    ],
    "sums": {
-    "jobs": 141.6,
-    "earnings": 14645260.8,
+    "jobs": 150.8,
+    "earnings": 15279720.4,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 14526599.999999998,
     "forgone": 14526599.999999998,
     "sales": 0,
-    "income": 512310.4459200001,
+    "income": 532945.11396,
     "elec": null
    },
    "pv": {
-    "earnings": 8604895.697238153,
+    "earnings": 9218601.945836285,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 8536650.227301147,
     "forgone": 8536650.227301147,
     "sales": 0,
-    "income": 297680.3260905956,
+    "income": 317640.0283535862,
     "elec": null,
-    "taxes": 297680.3260905956
+    "taxes": 317640.0283535862
    }
   },
   {
@@ -7590,7 +7590,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 5,
-    "cons": 55.6,
+    "cons": 67.8,
     "opwage": 98567,
     "conswage": 84468,
     "sales": 5.72,
@@ -7615,29 +7615,29 @@
     {
      "year": 2026,
      "phase": "construction",
-     "jobs": 55.6,
-     "earnings": 4696420.8,
+     "jobs": 67.8,
+     "earnings": 5726930.399999999,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 4349488,
      "forgone": 4349488,
      "sales": 0,
-     "income": 172153.39039999997,
+     "income": 209928.05519999997,
      "elec": null
     },
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 55.6,
-     "earnings": 4696420.8,
+     "jobs": 67.8,
+     "earnings": 5726930.399999999,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 4349488,
      "forgone": 4349488,
      "sales": 0,
-     "income": 172153.39039999997,
+     "income": 209928.05519999997,
      "elec": null
     },
     {
@@ -7782,28 +7782,28 @@
     }
    ],
    "sums": {
-    "jobs": 161.2,
-    "earnings": 14321191.6,
+    "jobs": 185.6,
+    "earnings": 16382210.799999999,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 16501056,
     "forgone": 16501056,
     "sales": 0,
-    "income": 536483.3308000002,
+    "income": 612032.6604000002,
     "elec": null
    },
    "pv": {
-    "earnings": 12320614.826846277,
+    "earnings": 14314217.510958426,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 13273173.362237696,
     "forgone": 13273173.362237696,
     "sales": 0,
-    "income": 459190.92060374864,
+    "income": 532269.0104504776,
     "elec": null,
-    "taxes": 459190.92060374864
+    "taxes": 532269.0104504776
    }
   },
   {
@@ -7819,7 +7819,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 100,
-    "cons": 555.6,
+    "cons": 677.8,
     "opwage": 128653,
     "conswage": 69356,
     "sales": 7.42,
@@ -7844,29 +7844,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 555.6,
-     "earnings": 38534193.6,
+     "jobs": 677.8,
+     "earnings": 47009496.8,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 50604400,
      "forgone": 50604400,
      "sales": 0,
-     "income": 1178062.0151999998,
+     "income": 1437167.8075999997,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 555.6,
-     "earnings": 38534193.6,
+     "jobs": 677.8,
+     "earnings": 47009496.8,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 50604400,
      "forgone": 50604400,
      "sales": 0,
-     "income": 1178062.0151999998,
+     "income": 1437167.8075999997,
      "elec": null
     },
     {
@@ -8151,28 +8151,28 @@
     }
    ],
    "sums": {
-    "jobs": 3111.2,
-    "earnings": 334374387.2,
+    "jobs": 3355.6,
+    "earnings": 351324993.6,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 404835200,
     "forgone": 404835200,
     "sales": 0,
-    "income": 11874241.030399995,
+    "income": 12392452.615199994,
     "elec": null
    },
    "pv": {
-    "earnings": 201926123.5746159,
+    "earnings": 218322270.88676542,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 237904017.60215783,
     "forgone": 237904017.60215783,
     "sales": 0,
-    "income": 6990973.575596705,
+    "income": 7492234.31416493,
     "elec": null,
-    "taxes": 6990973.575596705
+    "taxes": 7492234.31416493
    }
   },
   {
@@ -8188,7 +8188,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 20,
-    "cons": 555.6,
+    "cons": 677.8,
     "opwage": 94442,
     "conswage": 64596,
     "sales": 9.48,
@@ -8213,29 +8213,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 555.6,
-     "earnings": 35889537.6,
+     "jobs": 677.8,
+     "earnings": 43783168.8,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 72085920.00000001,
      "forgone": 49426000.00000001,
      "sales": 22659920.000000007,
-     "income": 1281499.1784,
+     "income": 1563355.1892,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 555.6,
-     "earnings": 35889537.6,
+     "jobs": 677.8,
+     "earnings": 43783168.8,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 72085920.00000001,
      "forgone": 49426000.00000001,
      "sales": 22659920.000000007,
-     "income": 1281499.1784,
+     "income": 1563355.1892,
      "elec": null
     },
     {
@@ -8520,28 +8520,28 @@
     }
    ],
    "sums": {
-    "jobs": 1511.2,
-    "earnings": 109555875.2,
+    "jobs": 1755.6,
+    "earnings": 125343137.6,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 532093440.00000006,
     "forgone": 364832000,
     "sales": 167261440.00000006,
-    "income": 3951201.556800003,
+    "income": 4514913.578400003,
     "elec": null
    },
    "pv": {
-    "earnings": 88132467.94345863,
+    "earnings": 103403324.56401937,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 318331255.3539623,
     "forgone": 218265101.24480537,
     "sales": 100066154.10915697,
-    "income": 3166388.339356595,
+    "income": 3711661.182679959,
     "elec": null,
-    "taxes": 103232542.44851357
+    "taxes": 103777815.29183693
    }
   },
   {
@@ -8557,7 +8557,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 20,
-    "cons": 138.9,
+    "cons": 169.4,
     "opwage": 80640,
     "conswage": 64419,
     "sales": 9.06,
@@ -8582,29 +8582,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 138.9,
-     "earnings": 8947799.1,
+     "jobs": 169.4,
+     "earnings": 10912578.6,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 15447300,
      "forgone": 7672500,
      "sales": 7774800,
-     "income": 326881.0094999999,
+     "income": 398658.33699999994,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 138.9,
-     "earnings": 8947799.1,
+     "jobs": 169.4,
+     "earnings": 10912578.6,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 15447300,
      "forgone": 7672500,
      "sales": 7774800,
-     "income": 326881.0094999999,
+     "income": 398658.33699999994,
      "elec": null
     },
     {
@@ -8889,28 +8889,28 @@
     }
    ],
    "sums": {
-    "jobs": 677.8,
-    "earnings": 50151598.2,
+    "jobs": 738.8,
+    "earnings": 54081157.2,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 123578400,
     "forgone": 61380000,
     "sales": 62198400,
-    "income": 1887082.0189999999,
+    "income": 2030636.6739999999,
     "elec": null
    },
    "pv": {
-    "earnings": 33278476.927260242,
+    "earnings": 37079498.95062473,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 72621644.18718159,
     "forgone": 36070353.07310344,
     "sales": 36551291.11407816,
-    "income": 1242929.13283084,
+    "income": 1381788.0748168214,
     "elec": null,
-    "taxes": 37794220.246909
+    "taxes": 37933079.18889498
    }
   },
   {
@@ -8926,7 +8926,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 100,
-    "cons": 555.6,
+    "cons": 677.8,
     "opwage": 126470,
     "conswage": 94496,
     "sales": 8.98,
@@ -8951,29 +8951,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 555.6,
-     "earnings": 52501977.6,
+     "jobs": 677.8,
+     "earnings": 64049388.8,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 61243600,
      "forgone": 0,
      "sales": 61243600,
-     "income": 2518403.9562000004,
+     "income": 3072307.7780999998,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 555.6,
-     "earnings": 52501977.6,
+     "jobs": 677.8,
+     "earnings": 64049388.8,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 61243600,
      "forgone": 0,
      "sales": 61243600,
-     "income": 2518403.9562000004,
+     "income": 3072307.7780999998,
      "elec": null
     },
     {
@@ -9258,28 +9258,28 @@
     }
    ],
    "sums": {
-    "jobs": 3111.2,
-    "earnings": 357943955.2,
+    "jobs": 3355.6,
+    "earnings": 381038777.6,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 489948800,
     "forgone": 0,
     "sales": 489948800,
-    "income": 17267762.9124,
+    "income": 18375570.556199998,
     "elec": null
    },
    "pv": {
-    "earnings": 226786534.3878905,
+    "earnings": 249125918.67200264,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 287921573.8635279,
     "forgone": 0,
     "sales": 287921573.8635279,
-    "income": 10926954.920231167,
+    "income": 11998525.865402196,
     "elec": null,
-    "taxes": 298848528.78375906
+    "taxes": 299920099.7289301
    }
   },
   {
@@ -9295,7 +9295,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 5,
-    "cons": 27.8,
+    "cons": 33.9,
     "opwage": 87869,
     "conswage": 71691,
     "sales": 0,
@@ -9320,29 +9320,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 27.8,
-     "earnings": 1993009.8,
+     "jobs": 33.9,
+     "earnings": 2430324.9,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 74772.0337,
+     "income": 91178.84685,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 27.8,
-     "earnings": 1993009.8,
+     "jobs": 33.9,
+     "earnings": 2430324.9,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 74772.0337,
+     "income": 91178.84685,
      "elec": null
     },
     {
@@ -9627,28 +9627,28 @@
     }
    ],
    "sums": {
-    "jobs": 155.6,
-    "earnings": 12772919.6,
+    "jobs": 167.8,
+    "earnings": 13647549.8,
     "property": 9482400,
     "propb": 2116800.0000000005,
     "prope": 7365600,
     "salesbefore": 0,
     "forgone": 0,
     "sales": 0,
-    "income": 509913.91739999986,
+    "income": 542727.5436999999,
     "elec": null
    },
    "pv": {
-    "earnings": 8205567.7333610235,
+    "earnings": 9051588.534295604,
     "property": 4694237.415031888,
     "propb": 1047916.3249957291,
     "prope": 3646321.090036158,
     "salesbefore": 0,
     "forgone": 0,
     "sales": 0,
-    "income": 323052.5943801177,
+    "income": 354792.8777637626,
     "elec": null,
-    "taxes": 5017290.009412006
+    "taxes": 5049030.292795651
    }
   },
   {
@@ -9664,7 +9664,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 5,
-    "cons": 11.1,
+    "cons": 13.6,
     "opwage": 87869,
     "conswage": 71691,
     "sales": 0,
@@ -9689,29 +9689,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 11.1,
-     "earnings": 795770.1,
+     "jobs": 13.6,
+     "earnings": 974997.6,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 29855.020650000002,
+     "income": 36579.1244,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 11.1,
-     "earnings": 795770.1,
+     "jobs": 13.6,
+     "earnings": 974997.6,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 29855.020650000002,
+     "income": 36579.1244,
      "elec": null
     },
     {
@@ -9996,28 +9996,28 @@
     }
    ],
    "sums": {
-    "jobs": 122.2,
-    "earnings": 10378440.2,
+    "jobs": 127.2,
+    "earnings": 10736895.2,
     "property": 7024000,
     "propb": 1568000,
     "prope": 5456000,
     "salesbefore": 0,
     "forgone": 0,
     "sales": 0,
-    "income": 420079.8912999999,
+    "income": 433528.09879999986,
     "elec": null
    },
    "pv": {
-    "earnings": 5889412.4258843865,
+    "earnings": 6236142.262332985,
     "property": 3477212.9000236196,
     "propb": 776234.314811651,
     "prope": 2700978.5852119704,
     "salesbefore": 0,
     "forgone": 0,
     "sales": 0,
-    "income": 236157.06446095888,
+    "income": 249165.37732310838,
     "elec": null,
-    "taxes": 3713369.9644845785
+    "taxes": 3726378.277346728
    }
   },
   {
@@ -10033,7 +10033,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 25,
-    "cons": 166.7,
+    "cons": 203.3,
     "opwage": 123820,
     "conswage": 70646,
     "sales": 8.71,
@@ -10058,29 +10058,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 166.7,
-     "earnings": 11776688.2,
+     "jobs": 203.3,
+     "earnings": 14362331.8,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 19613178.000000004,
      "forgone": 19613178.000000004,
      "sales": 0,
-     "income": 523831.37866,
+     "income": 638841.7473400001,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 166.7,
-     "earnings": 11776688.2,
+     "jobs": 203.3,
+     "earnings": 14362331.8,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 19613178.000000004,
      "forgone": 19613178.000000004,
      "sales": 0,
-     "income": 523831.37866,
+     "income": 638841.7473400001,
      "elec": null
     },
     {
@@ -10365,28 +10365,28 @@
     }
    ],
    "sums": {
-    "jobs": 833.4,
-    "earnings": 85463376.4,
+    "jobs": 906.6,
+    "earnings": 90634663.6,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 146150316.00000003,
     "forgone": 146150316.00000003,
     "sales": 0,
-    "income": 4102397.2573200017,
+    "income": 4332417.994680001,
     "elec": null
    },
    "pv": {
-    "earnings": 53431323.05700492,
+    "earnings": 58433456.00279932,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 87247175.20508467,
     "forgone": 87247175.20508467,
     "sales": 0,
-    "income": 2525631.77036419,
+    "income": 2748128.4649133496,
     "elec": null,
-    "taxes": 2525631.77036419
+    "taxes": 2748128.4649133496
    }
   },
   {
@@ -10402,7 +10402,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 100,
-    "cons": 555.6,
+    "cons": 677.8,
     "opwage": 126740,
     "conswage": 76529,
     "sales": 7.56,
@@ -10427,29 +10427,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 996.3476500727434,
-     "earnings": 72091016.74535021,
+     "jobs": 1215.4867480549053,
+     "earnings": 87946888.31893155,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 51559200,
      "forgone": 51559200,
      "sales": 0,
-     "income": 2851575.519513527,
+     "income": 3478757.8961955877,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 996.3476500727434,
-     "earnings": 72091016.74535021,
+     "jobs": 1215.4867480549053,
+     "earnings": 87946888.31893155,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 51559200,
      "forgone": 51559200,
      "sales": 0,
-     "income": 2851575.519513527,
+     "income": 3478757.8961955877,
      "elec": null
     },
     {
@@ -10734,28 +10734,28 @@
     }
    ],
    "sums": {
-    "jobs": 7834.660062558732,
-    "earnings": 620187700.4966216,
+    "jobs": 8272.938258523054,
+    "earnings": 651899443.6437843,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 412473600,
     "forgone": 103118400,
     "sales": 309355200,
-    "income": 25083123.19795622,
+    "income": 26337487.951320343,
     "elec": null
    },
    "pv": {
-    "earnings": 375111164.040404,
+    "earnings": 405785607.1780801,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 242392772.65125516,
     "forgone": 99745368.22429907,
     "sales": 142647404.4269561,
-    "income": 15110604.095199157,
+    "income": 16323938.225789685,
     "elec": null,
-    "taxes": 157758008.52215526
+    "taxes": 158971342.65274578
    }
   },
   {
@@ -11140,7 +11140,7 @@
     "land": 6.1,
     "refresh": 4,
     "perm": 50,
-    "cons": 138.9,
+    "cons": 169.4,
     "opwage": 152609,
     "conswage": 74336,
     "sales": 5.77,
@@ -11165,29 +11165,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 233.59807177442326,
-     "earnings": 16706682.322194513,
+     "jobs": 284.89210481344344,
+     "earnings": 20375176.280631755,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 9837849.999999998,
      "forgone": 9837849.999999998,
      "sales": 0,
-     "income": 770462.0432946265,
+     "income": 939641.9736077017,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 233.59807177442326,
-     "earnings": 16706682.322194513,
+     "jobs": 284.89210481344344,
+     "earnings": 20375176.280631755,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 9837849.999999998,
      "forgone": 9837849.999999998,
      "sales": 0,
-     "income": 770462.0432946265,
+     "income": 939641.9736077017,
      "elec": null
     },
     {
@@ -11360,28 +11360,28 @@
     }
    ],
    "sums": {
-    "jobs": 2500.308423448229,
-    "earnings": 292870497.11935335,
+    "jobs": 2602.896489526269,
+    "earnings": 300207485.0362278,
     "property": 73148550,
     "propb": 9466800,
     "prope": 63681750,
     "salesbefore": 59027099.999999985,
     "forgone": 39351399.99999999,
     "sales": 19675699.999999996,
-    "income": 14804552.496833608,
+    "income": 15142912.357459754,
     "elec": null
    },
    "pv": {
-    "earnings": 192817803.70227426,
+    "earnings": 199914796.68728837,
     "property": 46579816.53422313,
     "propb": 5856060.952670011,
     "prope": 40723755.581553124,
     "salesbefore": 42144980.1968502,
     "forgone": 32142852.029595144,
     "sales": 10002128.16725506,
-    "income": 9695258.315588979,
+    "income": 10022550.330306796,
     "elec": null,
-    "taxes": 66277203.01706717
+    "taxes": 66604495.03178499
    }
   },
   {
@@ -11397,7 +11397,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 100,
-    "cons": 555.6,
+    "cons": 677.8,
     "opwage": 65295,
     "conswage": 66508,
     "sales": 7.06,
@@ -11422,29 +11422,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 555.6,
-     "earnings": 36951844.800000004,
+     "jobs": 677.8,
+     "earnings": 45079122.4,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 48149200,
      "forgone": 0,
      "sales": 48149200,
-     "income": 1071374.592,
+     "income": 1307015.2959999999,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 555.6,
-     "earnings": 36951844.800000004,
+     "jobs": 677.8,
+     "earnings": 45079122.4,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 48149200,
      "forgone": 0,
      "sales": 48149200,
-     "income": 1071374.592,
+     "income": 1307015.2959999999,
      "elec": null
     },
     {
@@ -11729,28 +11729,28 @@
     }
    ],
    "sums": {
-    "jobs": 3111.2,
-    "earnings": 204493689.60000002,
+    "jobs": 3355.6,
+    "earnings": 220748244.8,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 385193600,
     "forgone": 0,
     "sales": 385193600,
-    "income": 5902349.184,
+    "income": 6373630.592,
     "elec": null
    },
    "pv": {
-    "earnings": 136134518.45990443,
+    "earnings": 151857382.60196048,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 226361504.61876473,
     "forgone": 0,
     "sales": 226361504.61876473,
-    "income": 3933839.4423477817,
+    "income": 4389705.103357129,
     "elec": null,
-    "taxes": 230295344.06111252
+    "taxes": 230751209.72212186
    }
   },
   {
@@ -11766,7 +11766,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 45,
-    "cons": 55.6,
+    "cons": 67.8,
     "opwage": 118782,
     "conswage": 81187,
     "sales": 6.34,
@@ -11791,29 +11791,29 @@
     {
      "year": 2026,
      "phase": "construction",
-     "jobs": 55.6,
-     "earnings": 4513997.2,
+     "jobs": 67.8,
+     "earnings": 5504478.6,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 4323880,
      "forgone": 4092000,
      "sales": 231880,
-     "income": 138579.71404000002,
+     "income": 168987.49302,
      "elec": null
     },
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 55.6,
-     "earnings": 4513997.2,
+     "jobs": 67.8,
+     "earnings": 5504478.6,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 4323880,
      "forgone": 4092000,
      "sales": 231880,
-     "income": 138579.71404000002,
+     "income": 168987.49302,
      "elec": null
     },
     {
@@ -12238,28 +12238,28 @@
     }
    ],
    "sums": {
-    "jobs": 1461.2,
-    "earnings": 169383694.4,
+    "jobs": 1485.6,
+    "earnings": 171364657.2,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 51886560,
     "forgone": 40920000,
     "sales": 10966560,
-    "income": 5200079.418079999,
+    "income": 5260894.976039999,
     "elec": null
    },
    "pv": {
-    "earnings": 70722109.39033987,
+    "earnings": 72638274.34174174,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 23671248.33963525,
     "forgone": 21084758.18281652,
     "sales": 2586490.1568187294,
-    "income": 2171168.758283433,
+    "income": 2229995.022291471,
     "elec": null,
-    "taxes": 4757658.915102162
+    "taxes": 4816485.1791102
    }
   },
   {
@@ -12644,7 +12644,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 30,
-    "cons": 166.7,
+    "cons": 203.3,
     "opwage": 67791,
     "conswage": 69373,
     "sales": 6,
@@ -12669,29 +12669,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 166.7,
-     "earnings": 11564479.1,
+     "jobs": 203.3,
+     "earnings": 14103530.9,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 12276000,
      "forgone": 12276000,
      "sales": 0,
-     "income": 385152.8485,
+     "income": 469715.50150000013,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 166.7,
-     "earnings": 11564479.1,
+     "jobs": 203.3,
+     "earnings": 14103530.9,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 12276000,
      "forgone": 12276000,
      "sales": 0,
-     "income": 385152.8485,
+     "income": 469715.50150000013,
      "elec": null
     },
     {
@@ -12976,28 +12976,28 @@
     }
    ],
    "sums": {
-    "jobs": 933.4,
-    "earnings": 63803558.2,
+    "jobs": 1006.6,
+    "earnings": 68881661.8,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 98208000,
     "forgone": 98208000,
     "sales": 0,
-    "income": 2123356.6970000006,
+    "income": 2292482.0030000005,
     "elec": null
    },
    "pv": {
-    "earnings": 42508258.25096595,
+    "earnings": 47420255.65844259,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 57712564.916965514,
     "forgone": 57712564.916965514,
     "sales": 0,
-    "income": 1414933.154056537,
+    "income": 1578526.3238789667,
     "elec": null,
-    "taxes": 1414933.154056537
+    "taxes": 1578526.3238789667
    }
   },
   {
@@ -13013,7 +13013,7 @@
     "land": 6.1,
     "refresh": 5,
     "perm": 100,
-    "cons": 555.6,
+    "cons": 677.8,
     "opwage": 98238,
     "conswage": 77643,
     "sales": 7,
@@ -13038,29 +13038,29 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 555.6,
-     "earnings": 43138450.800000004,
+     "jobs": 677.8,
+     "earnings": 52626425.4,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 47740000.00000001,
      "forgone": 0,
      "sales": 47740000.00000001,
-     "income": 1256194.0986,
+     "income": 1532484.4493,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 555.6,
-     "earnings": 43138450.800000004,
+     "jobs": 677.8,
+     "earnings": 52626425.4,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 47740000.00000001,
      "forgone": 0,
      "sales": 47740000.00000001,
-     "income": 1256194.0986,
+     "income": 1532484.4493,
      "elec": null
     },
     {
@@ -13345,28 +13345,28 @@
     }
    ],
    "sums": {
-    "jobs": 3111.2,
-    "earnings": 282752901.6,
+    "jobs": 3355.6,
+    "earnings": 301728850.8,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 381920000.00000006,
     "forgone": 0,
     "sales": 381920000.00000006,
-    "income": 8249430.197199995,
+    "income": 8802010.898599995,
     "elec": null
    },
    "pv": {
-    "earnings": 180719691.87018842,
+    "earnings": 199074932.4514968,
     "property": null,
     "propb": null,
     "prope": null,
     "salesbefore": 224437752.4548659,
     "forgone": 0,
     "sales": 224437752.4548659,
-    "income": 5270314.969960957,
+    "income": 5804820.601688993,
     "elec": null,
-    "taxes": 229708067.42482686
+    "taxes": 230242573.05655488
    }
   }
  ]
