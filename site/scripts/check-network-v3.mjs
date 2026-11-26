@@ -18,7 +18,7 @@
 // Exit 1 on a failure; "not proven" (exit 0) without a browser, or where the browser cannot draw 3D.
 import fs from "node:fs";
 import { withBrowser } from "./browser.mjs";
-import { easternHours, trace, PAUSED_PRICE } from "../lib/networkV3.ts";
+import { easternHours, trace, PAUSED_PRICE, HELD_PRICE } from "../lib/networkV3.ts";
 
 // Session 237: /network redirects to the Network view of the Grid tool (/grid?grid=<grid>&view=network), where the
 // network's own words are written under the tool's (lib/gridtool.ts: its view as net, its grid as node). The checks
@@ -105,7 +105,8 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   check((await evaluate(STATE)).rings === 0 && !(await evaluate(`!!document.querySelector('[data-price-legend]')`)), "prices are off by default: no ring, no legend");
   await evaluate(click(button("Prices: off")));
   s = await wait(`(() => { const s = ${STATE}; return s.rings > 0 ? s : null; })()`, 10000, "the price rings");
-  const priced = Object.keys(y21.hub_prices).filter((b) => y21.hub_prices[b][i] !== null && b !== "PJM");
+  // session 11000: a grid whose price is held for a license (NYISO, ISO-NE) has no ring either, whatever the file carries
+  const priced = Object.keys(y21.hub_prices).filter((b) => y21.hub_prices[b][i] !== null && b !== "PJM" && !HELD_PRICE[b]);
   check(s.rings === priced.length && priced.includes("ERCO"), `with prices on, a ring on each grid with a public price held that day: ${s.rings} (the file: ${priced.join(", ")})`);
   const p2 = await evaluate(`document.querySelector('[data-panel]').innerText`);
   const price = p2.match(/Hub price this day\s+([\d,.]+) USD\/MWh/);
@@ -119,9 +120,20 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   await wait(`document.querySelector('[data-network-view]').getAttribute('data-t') === '2025-07-15'`, 20000, "a day of 2025");
   const y25 = year(2025), j = y25.days.indexOf("2025-07-15");
   // session 124: a paused publisher's hub (MISO) has no ring on this page, though the file still holds its price
-  const priced25 = Object.keys(y25.hub_prices).filter((b) => y25.hub_prices[b][j] !== null && b !== "PJM" && !PAUSED_PRICE[b]);
+  // session 11000: nor a hub held for a license (NYISO, ISO-NE): ERCOT, CAISO and SPP are the grids with a ring
+  const priced25 = Object.keys(y25.hub_prices).filter((b) => y25.hub_prices[b][j] !== null && b !== "PJM" && !PAUSED_PRICE[b] && !HELD_PRICE[b]);
   const scene25 = await wait(`(() => { const s = ${RINGS}; return s.rings === ${priced25.length} ? s : null; })()`, 10000, "the rings of a day of 2025");
-  check(scene25.rings === priced25.length && priced25.length >= 5, `a day of 2025 has a ring on ${scene25.rings} grids (${priced25.join(", ")})`);
+  check(scene25.rings === priced25.length && priced25.length >= 3 && !priced25.some((b) => HELD_PRICE[b]), `a day of 2025 has a ring on ${scene25.rings} grids (${priced25.join(", ")}), none of them held for a license`);
+  // session 11000: a held grid's panel on that day: the site's words for a held figure, its reason on hover, and no price
+  const pickBa = (id) => `(() => { const sel = document.querySelector('select'); Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value').set.call(sel, '${id}'); sel.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`;
+  for (const held of Object.keys(HELD_PRICE)) {
+    await evaluate(pickBa(held));
+    await wait(`document.querySelector('[data-panel]')?.getAttribute('data-panel') === ${JSON.stringify(held)}`, 10000, `${held}'s panel`);
+    const hp = await evaluate(`({ words: document.querySelector('[data-price-held]')?.innerText ?? null, why: document.querySelector('[data-price-held]')?.getAttribute('title') ?? null, panel: document.querySelector('[data-panel]').innerText })`);
+    check(hp.words === "license needed" && hp.why === HELD_PRICE[held] && !/Hub price this day\s+-?[\d,.]+ USD\/MWh/.test(hp.panel) && !/Over the period shown/.test(hp.panel), `${held}'s panel on a day of 2025 shows no price and reads "${hp.words}"`);
+  }
+  await evaluate(pickBa("ERCO"));   // the panel as the checks below expect it
+  await wait(`document.querySelector('[data-panel]')?.getAttribute('data-panel') === 'ERCO'`, 10000, "ERCOT's panel again");
   const shot = await send("Page.captureScreenshot", { format: "png" });
   fs.mkdirSync(new URL("../../runs/session93/", import.meta.url), { recursive: true });
   fs.writeFileSync(new URL("../../runs/session93/v3_prices_2025-07-15.png", import.meta.url), Buffer.from(shot.data, "base64"));

@@ -86,6 +86,17 @@ export const PAUSED_WORDS = "paused while terms are reviewed";
 export const PAUSED_PRICE: Record<string, string> = {
   MISO: "Not shown: MISO's own files are paused since 4 October 2026 while a person reviews its terms. Its flows, demand and carbon here are EIA's, which are not paused.",
 };
+/** Session 11000: a hub price held for a license. NYISO's and ISO-NE's terms ask for written permission, which the ERW
+ * has not recorded (warehouse/metadata/license_verdicts.csv: "needs written permission"; iso_hub_prices_history is
+ * marked license needed since 21 October 2026). The live week reads the live set, which holds them back; the files of
+ * a past day and of the June 2025 story still carry them (data request 576), and the replay printed the day's price
+ * and drew its ring. The page draws no ring and prints no figure of a held price in any view; these are the words it
+ * prints in the price's place (the site's words for a held figure) and each grid's hover. */
+export const HELD_WORDS = "license needed";
+export const HELD_PRICE: Record<string, string> = {
+  NYIS: "Not shown: NYISO's terms ask for written permission, which the ERW has not recorded; its prices are held since 21 October 2026. Its flows, demand and carbon here are EIA's, which are public.",
+  ISNE: "Not shown: ISO-NE's terms ask for written permission, which the ERW has not recorded; its prices are held since 21 October 2026. Its flows, demand and carbon here are EIA's, which are public.",
+};
 
 /** Session 124: a node that is not one network, so nothing is traced through it. CEN is Mexico's operator: its tie to
  * California (Baja California) and its ties to Texas belong to systems that do not connect inside Mexico. */
