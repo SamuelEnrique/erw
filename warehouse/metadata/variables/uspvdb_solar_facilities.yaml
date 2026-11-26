@@ -407,7 +407,13 @@ columns:
   source_name: p_agrivolt
   documented_by: method uspvdb_solar_facilities.md
 - name: site_type
-  label: The site type (greenfield, landfill, superfund and others, as USGS gives them)
+  label: 'USGS''s general category of the facility''s site (p_type): greenfield (land that may have been wildland,
+    urbanized, cultivated or reclaimed); RCRA (a Resource Conservation and Recovery Act site, a facility that treats,
+    stores or disposes of hazardous wastes and needs cleanup under RCRA''s corrective action program); superfund; AML
+    (abandoned hardrock mines and mineral processing sites listed in the Superfund Enterprise Management System);
+    landfill (designated a landfill in EPA''s RE-Powering Matrix); landfill named (the facility''s name holds the word
+    landfill, EPA does not list it as one); PCSC (a brownfield site that EPA''s RE-Powering Matrix gives no specific
+    designation; USGS does not expand the letters)'
   unit: none
   type: text
   values:
@@ -422,7 +428,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: p_type
-  documented_by: method uspvdb_solar_facilities.md; data
+  documented_by: source USGS, U.S. Large-Scale Solar Photovoltaic Database API documentation (energy.usgs.gov/uspvdb/api-doc, no robots file), read 2026-11-26
 - name: system_type
   label: 'The system type: ground, rooftop, canopy, floating, or more than one'
   unit: none
@@ -468,7 +474,9 @@ columns:
   source_name: p_dig_conf
   documented_by: method uspvdb_solar_facilities.md
 - name: zscore
-  label: USGS's z-score, as published
+  label: 'USGS''s z-score of the facility''s DC capacity over its area (p_cap_dc / p_area): how many standard
+    deviations the record lies from the mean of all records; a high or low value may mean an error in the capacity or
+    the area'
   unit: none
   type: number
   values:
@@ -478,7 +486,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: p_zscore
-  documented_by: method uspvdb_solar_facilities.md
+  documented_by: source USGS, U.S. Large-Scale Solar Photovoltaic Database API documentation (energy.usgs.gov/uspvdb/api-doc, no robots file), read 2026-11-26
 - name: multi_polygon
   label: 'single or multi: whether the facility''s outline is one polygon or several, as USGS gives it'
   unit: none
@@ -514,9 +522,4 @@ columns:
   missing_meaning: never empty
   source_name: p_img_date
   documented_by: header; method uspvdb_solar_facilities.md
-second_look:
-- 'zscore (USGS''s p_zscore): what the z-score measures is not written in the connector, the method note or the header. Read
-  again on 20 November 2026 in the saved USPVDB API response under warehouse/raw/uspvdb (records only, no field descriptions):
-  not found.'
-- 'site_type: the codes AML, PCSC and RCRA are not defined in the repository. Read again on 20 November 2026 in the saved
-  USPVDB API response under warehouse/raw/uspvdb (records only, no field descriptions): not found.'
+second_look: null

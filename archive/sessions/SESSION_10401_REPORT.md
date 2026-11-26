@@ -23,6 +23,17 @@ Energy Research Warehouse (ERW). 26 November 2026, the portable laptop's first w
 - **Seen in a build at 1280 and 390 px.** With no files: the title and the blank; a visitor gets the in-review page at the page and at its download routes. With the server pointed at the test's fixture, on this machine only: no sideways scroll at 390 px with one place, two places, demand and price; the chart answers a mouse and a finger; 46 stops of the keyboard, each with a ring; the back button returns each of two choices; the six downloads answer.
 - **Not checked, because the files do not exist yet:** the five cases on real figures, every figure beside the files, and that Vercel's build carries `site/data/predict/` with the route (the reader's folder is written out for the build's trace and named in `next.config.ts`; the first read on production after window B's files land settles it).
 
+## Added at 12:40 UTC: the page on window B's real files
+
+- Window B's files appeared on its branch `wip/c730-predict-v2` (33 files, built 11:49 UTC; 29 places; price shown for six of them). A copy was taken into a folder of this machine, never committed here, and the page was drawn on it. The branch's head moved to `1002da9c3`.
+- **Every figure beside the files.** `site/scripts/check-forecast-files.mjs` draws the page for every place, both series and both metrics, and sets each figure beside the file its key names: 120 pages, 60,474 figures, 0 differing; 134 figures of a day's error computed again, 0 differing; no "undefined", "NaN" or "null".
+- **What the real files showed and what was mended.**
+  - Every operator cell of the price tables read "not published: no operator publishes a forecast of its day-ahead price", and the tables were up to 1,794 px wide. A cell now says the reason's first words ("not published") and the whole reason is its hover.
+  - The month table is 89 rows long for Texas (July 2019 on). It keeps to a frame of its own height and scrolls under its header. Every month is in it; none is folded away.
+  - The contract gained fields after the page was first written: a target day with no forecast says why (`tomorrow_held`); the place's hover says how many days ahead the forecast was made (`horizon_days`); the score file's cut of the last two years has its row; an event's row opens the event's page; the two ledgers (every forecast as made on its day, never rewritten) are offered as the builder wrote them, with Python and Stata readers.
+  - Three of this page's own controls were under 24 px for a finger (the fold of the hours); mended. The Chart and Table switch of the shared charts is 22 px tall on every page of the site: not this window's, a line for Samuel's ruling.
+- **What a reader meets on the real files:** for Texas the ERW forecast's mean absolute percent error over the backtest is 5.86 percent and the operator's own is 2.39 percent. The page draws that as it is, in every table.
+
 ## The standing step (the second window's rows)
 
 - Rows 1 and 2 of `docs/state/landing_request_portable_w2.md` were seen in one build (their branches merged with main and with this branch on a local branch, `local/c720-see-1`, not pushed) and marked requested: `/grid?grid=caiso#reliability` is 390 of 390 px with its table scrolling in its own frame; `/curtailment/where-when`'s trend names the fuel it sums, the figures unchanged; `/events/covid-2020` is 390 of 390 px with every chart switched to its table.
@@ -42,6 +53,7 @@ Energy Research Warehouse (ERW). 26 November 2026, the portable laptop's first w
 
 - **Where `/forecast` sits in the menu, and what it is called there.** It is in no menu now. Default taken: none; the page's title is "ERW forecast".
 - **The place it opens on.** Default taken: Texas.
+- **The Chart and Table switch of the site's shared charts is 22 px tall** (24 is the least a finger's target should be). It is on every page that draws a chart. Default taken: left as it is.
 
 ## Needs the key
 

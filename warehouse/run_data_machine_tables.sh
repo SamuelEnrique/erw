@@ -229,12 +229,18 @@ if [ "$monthly" = "1" ]; then
   echo "the monthly steps ran on $(date -u +%FT%TZ)$([ "${MONTHLY_PULLS:-1}" = "0" ] && echo " (MONTHLY_PULLS=0: without CAISO's reports)")" > "$stamp"
 fi
 echo "== the live set, for the tables only this machine builds"
+# Session 10000 (chain 701, part C4): their coverage rows first. From 21 November dm_live_set failed every day with
+# "coverage.csv is older than the tables it describes" (ercot_rtm_price_adders: coverage 603,156 rows, the file 603,492):
+# the table's stores had built its row here on 22 November, but this machine's commit was refused, and each morning's
+# dm_sync pulled main's coverage.csv, which carries the older row. Built here, the rows describe the files the load reads
+soft_step dm_live_set_coverage "$PYTHON" warehouse/metadata/build_coverage.py --only "$LIVE_ONLY"
 soft_step dm_live_set "$PYTHON" warehouse/supabase/load.py --no-vacuum --only "$LIVE_ONLY"
 grep -E "^(match|MISMATCH|refused)|pg_database_size:" runs/daily_dm_live_set.out
 # session 314: the tables each grid's scoped chat reads, by rule from the live set just loaded (docs/grids/grid_tables.json)
 soft_step dm_grid_tables "$PYTHON" warehouse/chat/grid_tables.py
 if [ "$weekly" = "1" ]; then
   echo "== the live set, once a week: every table this machine writes that a live-set rule names (session 271)"
+  soft_step dm_live_set_weekly_coverage "$PYTHON" warehouse/metadata/build_coverage.py --only "$WEEKLY_LIVE"   # session 10000, as above
   soft_step dm_live_set_weekly "$PYTHON" warehouse/supabase/load.py --no-vacuum --only "$WEEKLY_LIVE"
   grep -E "^(match|MISMATCH|refused)|pg_database_size:" runs/daily_dm_live_set_weekly.out
   echo "the weekly steps ran on $(date -u +%FT%TZ)" > "$wstamp"
