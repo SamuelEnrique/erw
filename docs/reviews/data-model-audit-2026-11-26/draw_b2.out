@@ -1,0 +1,16 @@
+data: 349277 bytes drawn; em dash none
+faults: 93846 bytes drawn; em dash none
+licenses: 1281949 bytes drawn; em dash none
+standard: 88255 bytes drawn; em dash none
+method_impossible_hours: 23133 bytes drawn; em dash none
+method_packages: 41589 bytes drawn; em dash none
+data table rows drawn: 111
+found:  on Redivis where version 1's list ( tables.csv ) marks the table in version 1; a table the list marks held is not on Redivis yet (the account's storage is full). On Redivis, version 1 is pending release. How to cite a table: the publisher, the report, then “via the Energy Research Warehouse (ERW), table <table> , Redivis 
+found:  11:12 UTC. 2026-11-25 15:17 UTC. As the publisher published it, reshaped only. On Redivis where version 1's list marks the table in version 1, not yet where it marks it held; version 1 is pending release. 2026-11-25 15:06 UTC. 2026-11-25 15:04 UTC. 2026-10-19 11:31 UTC. 2026-11-25 14:43 UTC. 
+found: sign up. Supabase subscribers (insert only) Access Redivis, the store of record The tables version 1's list marks in version 1, full history, versioned: energy_research_warehouse on Redivis . The dataset holds every ERW table as an unreleased draft. A version is released
+found: review; until then the dataset is not open to the public. (Checked 2026-09-26.) Since then the account's storage has filled: version 1's list marks each table in version 1, held (not yet on Redivis, until there is room) or out. This site reads
+found: OT yearly history is not in the live set and, version 1's list marking it held, not yet on the dataset linked here. The project map carries every operating and planned generator. The erw Python package pip install "git+https://github.
+(node:25048) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-a/site/lib/markdown.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-a\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

@@ -1,0 +1,20 @@
+
+held rows whose tools cell says unsettled: 32
+.
+listed as public, verdict not public: 4 ['state_large_load_laws', 'utility_large_load_queue_totals', 'utility_large_load_rule_changes', 'utility_large_load_rules']
+.
+tier derived, no mark: 3 ['datacenter_queue_positions', 'energy_projects', 'storage_capacity']
+.
+3 passed in 0.40s
+
+held tables listed on /data with a printed row count: 32; rows printed between them: 1,112,934; dates: 64
+.
+1 passed in 0.29s
+
+the rule is held for 9 listed public tables while no page is live: ['ai_power_regions', 'ba_supply_monthly', 'caiso_reliability_daily', 'carbon_intensity_daily', 'carbon_intensity_hourly', 'carbon_intensity_monthly', 'cost_of_power_carbon', 'cost_of_power_monthly', 'event_window_daily']
+.
+1 passed in 0.62s
+
+news_index rows dated after its last run (2026-11-25T15:10:04Z): 1; 2026-12-01T12:00:00Z Data Center Knowledge: Industry event: Advancing Data Center Construction East 2026
+.
+1 passed in 0.35s

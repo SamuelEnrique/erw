@@ -1,0 +1,90 @@
+coverage_tables: 708
+coverage_by_license: {"public": 591, "internal": 117}
+coverage_by_tier: {"source": 576, "derived": 99, "model_extracted": 33}
+coverage_by_validator: {"pass": 705, "pass, 1 warnings": 3}
+public_tables: 591
+listed: 111
+public_not_listed: {"catalogue_hold": 443, "review_hold, loaded": 37}
+review_hold_not_loaded_but_listed: []
+listed_download_cell: {"held": 32, "download": 46, "redivis": 33}
+listed_rows_sum: 15315459
+listed_ts_min: "1920-01-01T00:00:00Z"
+listed_ts_max: "2026-12-02T01:00:00Z"
+listed_ts_max_after_today: [["news_index", "2026-12-01"], ["weather_forecast_hourly", "2026-12-02"]]
+listed_last_run_missing: ["datacenter_queue_positions", "lbnl_interconnection_queue"]
+listed_last_run_range: ["2026-09-26T00:06:45Z", "2026-11-26T11:12:10Z"]
+listed_last_run_before_2026_11_01: 16
+listed_last_run_before_2026_10_01: 3
+listed_by_tier: {"derived": 35, "model_extracted": 16, "source": 60}
+listed_derived_yes: 32
+listed_validator_not_pass: []
+listed_held: ["ai_power_regions", "cost_of_power_carbon", "cost_of_power_hourly_profile", "cost_of_power_monthly", "datacenter_facilities", "datacenter_operator_sites", "datacenter_projects", "datacenter_queue_positions", "energy_deals", "energy_projects", "event_study_estimates", "event_window_daily", "iso_dam_hub_prices", "iso_hub_prices_history", "iso_rt_top_intervals", "iso_rtm_hub_prices", "iso_trader_dai ...
+listed_license_vs_tools: {"license cell license needed; tools cell Not public (unsettled)": 32, "license cell public; tools cell calls": 75, "license cell public; tools cell Not public (unsettled)": 4}
+listed_public_cell_but_not_public_verdict: [["state_large_load_laws", "unsettled"], ["utility_large_load_queue_totals", "unsettled"], ["utility_large_load_rule_changes", "unsettled"], ["utility_large_load_rules", "unsettled"]]
+listed_held_but_calls_offered: []
+listed_no_verdict: []
+release_v1_rows: 594
+release_v1_by_in_v1: {"held": 402, "no": 55, "yes": 137}
+listed_cell_vs_release: {"held; release list no": 32, "download; release list yes": 44, "redivis; release list yes": 25, "redivis; release list held": 4, "download; release list held": 2, "redivis; release list no": 4}
+listed_not_in_release_list: 0
+stanford_rows: 193
+listed_redivis_link_on_neither: 7
+license_csv_rows: 49
+license_json_rows: 49
+license_csv_vs_json: []
+license_json_hold_values: {"(none)": 49}
+held_count: 49
+held_from_file: "2026-10-21"
+held_from_days: {"2026-10-21": 49}
+held_by_publisher: [["NYISO", 35], ["ISO-NE", 30], ["MISO", 28], ["Bloomberg", 7], ["Data Center Dynamics", 7], ["Data Center Frontier", 7], ["Energy-Storage.news", 7], ["Financial Times", 7], ["Hart Energy", 7], ["Heatmap News", 7], ["Latitude Media", 7], ["Natural Gas Intelligence", 7], ["OilPrice.com", 7], ["POWER Magazine", 7], ["Public Utility Commission of Texas", 7], ["Reuters", 7], ["Utility Dive", 7], ["WSJ ...
+held_coverage_license: {"public": 49}
+held_not_in_coverage: []
+held_internal_in_coverage: []
+held_on_data_page: 32
+held_where: {"listed on /data": 32, "catalogue_hold": 11, "review_hold": 6}
+verdict_rows: 280
+verdicts: {"may be public": 129, "needs written permission": 150, "needs a paid license": 1}
+permissive_both: 119
+permissive_today_only: 10
+verdict_keys_duplicated: []
+linked_files_exist: {"docs/reviews/licenses/nyiso-permission-letter.md": true, "docs/reviews/licenses/miso-permission-letter.md": true, "docs/reviews/licenses/pjm-permission-letter.md": true, "docs/reviews/licenses/spp-permission-letter.md": true, "docs/reviews/isone-permission-email.md": true, "docs/licenses_costs.md": true, "docs/licenses.md": true}
+sources_rows: 770
+sources_by_license: {"internal": 190, "public": 580}
+sources_internal_not_pjm: 188
+sources_internal_pjm: 2
+public_tables_with_an_internal_source: ["datacenter_projects", "energy_deals", "news_index", "nyiso_load_queue"]
+public_listed_with_an_internal_source: ["datacenter_projects", "energy_deals", "news_index"]
+listed_tables_no_registry_source: 6
+faults_restated: {"faults": 30, "by_status": {"worked_around": 1, "corrected": 3, "screened": 10, "held_as_published": 16}, "by_resolution": {"fixed": 11, "held_for_approval": 8, "open": 11}, "tables_touched": 29, "with_open": 23}
+faults_site_copy: {"faults": 30, "by_status": {"screened": 10, "corrected": 3, "worked_around": 1, "held_as_published": 16}, "by_resolution": {"fixed": 11, "held_for_approval": 8, "open": 11}, "tables_touched": 29, "with_open": 23, "built": "2026-11-16T20:49:30Z"}
+faults_row_fields_differ: ["caiso_curtailment_reason_blank", "caiso_curtailment_workbooks_overlap", "caiso_oasis_autumn_clock_day", "caiso_renewable_report_clock_change", "caiso_supply_short_days", "eia930_ciso_demand_low_early_2019", "eia930_ciso_generation_break", "eia930_ciso_hours_one_hour_late", "eia930_ciso_impossible_demand_hours", "eia930_ciso_no_hydro", "eia930_ciso_solar_below_caiso", "eia930_ciso_ties_disagree", ...
+faults_tables_not_in_coverage: []
+faults_tables_internal: ["ferc_eqr_contracts"]
+faults_tables_held: ["ai_power_regions", "cost_of_power_carbon", "cost_of_power_monthly", "event_window_daily", "hub_price_comparison", "iso_hub_prices_history", "merchant_revenue_monthly"]
+faults_without_last_and_open: 7
+method_notes_md: 619
+method_notes_listed: 615
+linked_slugs: 152
+linked_slugs_missing: {"resource_layers": ["docs/methods/resource_layers_table.md (md path)"], "x": ["site/lib/markdown.ts"]}
+linked_slugs_internal: {"digest_scoring": ["docs/methods/roundup_selection.md (md path)"], "forecast": ["docs/methods/economic_impact.md (md path)", "docs/methods/impact_tax_rules.md (md path)"]}
+listed_derived: 35
+listed_derived_no_note_names_it: []
+listed_derived_tier_vs_flag: {"derived=yes tier=derived": 32, "derived=no tier=derived": 3}
+coverage_md_rows: 708
+coverage_md_vs_csv: {"only_md": [], "only_csv": []}
+units_validator: 72
+units_in_units_bullet_not_validator: ["ercot_storage_rt_offers_monthly", "merchant_revenue_monthly"]
+units_validator_not_in_units_bullet: ["FTE-year/MW", "FTE/MW", "MMBtu/MWh", "TBtu", "USD/MW-hour", "USD/MW-year", "USD/kW", "USD/kW-month", "USD/kW-year", "USD/kWh", "dwt", "m3", "ratio", "year"]
+units_validator_not_anywhere_in_standard: []
+standard_version_line: "# ERW Data Standard v0"
+redivis_cap_line: "- Sharding rules for Redivis, which caps a dataset at 1000 tables (the reason the IRW shards). Session 29's consolidation (decision 28) puts the cap far away: 65 tables."
+disk: {"on_disk": 222, "series": 167, "series with extra columns not x_": 0, "events": 32, "events with extra columns not x_": 25, "entities": 23, "entities with extra columns not x_": 23}
+disk_extra_not_x: 48
+disk_extra_not_x_by_license_public: 31
+disk_header_no_retrieved: 1
+disk_header_no_url: 32
+disk_header_no_connector: 0
+disk_namespace_not_first_part: 78
+disk_namespace_examples: ["ba_supply_monthly", "battery_sourced_ranges", "battery_stack_monthly", "battery_stack_stress_daily", "caiso_interconnection_queue", "carbon_intensity_daily", "carbon_intensity_hourly", "carbon_intensity_monthly"]
+names_over_40: []
+series_names_under_3_parts: []

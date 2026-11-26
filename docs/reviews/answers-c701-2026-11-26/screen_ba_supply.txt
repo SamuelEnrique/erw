@@ -1,0 +1,14 @@
+<string>:12: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+rows off 161898 on 161688 {'both': 161688, 'left_only': 210, 'right_only': 0}
+values that change: 391
+{'net_import_share_pct': 176, 'balance_all_days_mwh': 26, 'balance_days': 26, 'demand_all_days_mwh': 26, 'net_import_balance_mwh': 23, 'demand_mwh': 23, 'net_import_balance_share_pct': 23, 'net_import_pairs_share_pct': 23}
+                 entity                                variable                ts_utc value_off value_on           pct
+103546  eia930:PJM-CPLW                    net_import_share_pct  2021-10-01T00:00:00Z   -0.0001  -0.0126  12500.000000
+102032       eia930:PJM            net_import_balance_share_pct  2021-10-01T00:00:00Z   -0.0455  -4.8689  10600.879121
+105066  eia930:PJM-NYIS                    net_import_share_pct  2021-10-01T00:00:00Z   -0.0081  -0.5956   7253.086420
+104306  eia930:PJM-LGEE                    net_import_share_pct  2021-10-01T00:00:00Z   -0.0009  -0.0642   7033.333333
+102407       eia930:PJM  net_import_total_interchange_share_pct  2021-10-01T00:00:00Z   -0.0696  -4.8947   6932.614943
+102222       eia930:PJM              net_import_pairs_share_pct  2021-10-01T00:00:00Z   -0.0991  -6.9556   6918.768920
+104686  eia930:PJM-MISO                    net_import_share_pct  2021-10-01T00:00:00Z   -0.0938  -6.5076   6837.739872
+103166  eia930:PJM-CPLE                    net_import_share_pct  2021-10-01T00:00:00Z    -0.007  -0.4696   6608.571429
+rows in one build only: {('left_only', 'balance_all_days_mwh'): 10, ('left_only', 'balance_days'): 10, ('left_only', 'demand_all_days_mwh'): 10, ('left_only', 'demand_mwh'): 10, ('left_only', 'net_import_balance_mwh'): 10, ('left_only', 'net_import_balance_share_pct'): 10, ('left_only', 'net_import_pairs_share_pct'): 10, ('left_only', 'net_import_share_pct'): 120}

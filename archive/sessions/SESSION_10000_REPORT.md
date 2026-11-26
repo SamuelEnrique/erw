@@ -56,3 +56,5 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 - The stale source "IEA" with an en dash in Supabase: prune it (`load.py --prune`). Default: left; the load says held.
 - `datacenter_announced`: may the facts alone (values, measures, addresses) be a public selection? Default: internal.
 - The large-load changes after 13 November wait until the policy page words its window from the data. Default: not loaded.
+- pge.com: its Terms of Use bar bots and spiders copying information for another site without PG&E's authorization, yet pge.com is not on the research reader's barred list and site/data/bill_rules.json already cites pge.com tariff sheets (found by data request 53). Default: the reader stopped at pge.com; nothing changed in the bill rules.
+- A news story dated after its retrieval (event listings, a feed whose stamps run ahead: 7 of 29,177): skip and count it in the ingest, as an undated one is? Default: left as it is.

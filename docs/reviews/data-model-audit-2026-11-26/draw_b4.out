@@ -1,0 +1,19 @@
+data: 346029 bytes drawn; em dash none
+faults: 93846 bytes drawn; em dash none
+licenses: 1281949 bytes drawn; em dash none
+standard: 89744 bytes drawn; em dash none
+method_impossible_hours: 23133 bytes drawn; em dash none
+method_packages: 41589 bytes drawn; em dash none
+data table rows drawn: 111
+found: me first; events (session 6, Decision 15) and entities (session 8, Decision 20) have had connectors and validator checks since, and all three are expected to change as new sources meet them. A change to a required column or a unit convention bump
+found: p of this file and gets a line in Decisions. warehouse/validate/erw_validate.py checks the rules of the three shapes below, with three exceptions this page states where they arise: which fields a provenance header names, the x_ prefix of an extra column, and whether an entity&#39;s namespace is the
+found:  # , such as a URL. The validator warns when a file has no comment line at all; it does not check which of these the lines name. Column names are lowercase snake_case . Required columns come first, in the order given below. Optional columns use th
+found: are prefixed x_ . The validator warns of an unprefixed column in a series table and does not check entities or events tables, many of which keep their extra columns under their own names ( news_stories &#39;s title and summary , Decision 15). T
+found: ifier, unchanged: ercot:HB_NORTH . Stable across files so tables can be joined. The validator checks the form namespace:native_id only (a warning, for series ); a derived or consolidated table keeps its inputs&#39; namespaces ( eia930: in carbon_intensit
+found: y the IRW enforces its tag vocabulary ( entity_type and the status of an entity have been enforced since Decision 20). An entity crosswalk between namespaces (the same plant in EIA-860 and in an ISO queue). Revision history as a first-c
+found: ables (the reason the IRW shards). Session 29&#39;s consolidation (decision 28) left 65 tables then; coverage.csv lists the tables now, and the cap counts the tables of one dataset.  Data / docs/methods/impossible_hours
+found: ge_rt_offers_monthly ). A new unit is added here and to the validator together. Some Decisions added units without a line in this list: dwt (Decision 22), ratio (23), TBtu (25), MMBtu/MWh (26), year (36), USD/kW-month and USD/MW-hour (37), USD/kW , USD/k
+(node:27700) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-a/site/lib/markdown.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-a\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
