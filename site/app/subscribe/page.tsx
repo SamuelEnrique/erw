@@ -101,12 +101,12 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
             Sign up
           </button>
         </form>
-        <p className="mt-3 max-w-3xl text-sm">Privacy: your address is used only to send the emails you chose, never shared or sold, and you can ask for it to be removed at any time.</p>
+        <p className="mt-3 max-w-3xl text-sm">Privacy: your address is used only to send the emails you chose and is never sold; it is shared with no one but Resend, the service that sends the emails (the confirmation and every issue), and you can ask for it to be removed at any time.</p>{/* session 10238, small pages audit finding 7: app/api/subscribe/route.ts and warehouse/news/email_digest.py post each address to api.resend.com */}
         <div className="mt-4 max-w-3xl space-y-2 text-xs text-muted">
           <p>
             What is stored: the address, which emails and topics you chose, the time it was added, and when it was confirmed or unsubscribed, in the
             ERW&apos;s Supabase database. The public site can add an address but cannot read one back; only the warehouse&apos;s own service key can. The
-            address is used for this email only, and never shared.
+            address is used for this email only.
           </p>
           <p>
             Double opt-in: after you sign up, a confirmation email arrives with a signed link; nothing else is sent until you follow it. Every email
