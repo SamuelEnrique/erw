@@ -129,6 +129,7 @@ TIER_RULES = [
     # session 255: the statements whose source document is public, as facts with a link (the figures are the research
     # agent's, each proved by code in large_load_statements), and the license verdict the ERW's code gives each document
     ("model_extracted", r"^large_load_public$"),
+    ("model_extracted", r"^datacenter_announced$"),  # session 10000: read from the documents by a chain session (chain 740), as the large-load tables
     ("derived", r"^large_load_document_verdicts$"),
     # session 3937: the research pass of 13 and 14 November 2026 (window P4, AI research sessions), every cite matched in its
     # document by the pass's own code (docs/research/large_load/verify_quotes.py) and every rules row read by five auditors
@@ -489,6 +490,8 @@ SECTOR_RULES = [
     (r"^census_bps_state_annual$", "power"),  # session 2154: the Census Bureau's building permits by state, a year
     (r"^afdc_ev_charging_state_annual$", "power"),  # session 2155: AFDC's EV charging stations and ports by state, each December
     (r"^census_cbp_hosting_annual$", "power;datacenters"),  # session 2160: CBP's data processing and hosting (NAICS 518210) by state
+    (r"^census_cbp_construction_annual$", "power;datacenters"),  # session 10000: CBP's construction trades (NAICS 2362, 238) by state, for /impact
+    (r"^datacenter_announced$", "power;datacenters"),  # session 10000: announced datacenters, each project's own document (chain 740's rows)
     (r"^statcan_electricity_generation_monthly$", "power"),  # session 2176: Statistics Canada's monthly generation by province, class and type
     (r"^emi_nz_generation_demand_monthly$", "power"),  # session 2254: EMI's New Zealand grid generation and demand, nationally and by island, a month
     (r"^census_c30_construction_monthly$", "power;datacenters"),  # session 2258: the Census Bureau's construction spending by type and owner, a month (data centers, power)
@@ -632,7 +635,7 @@ SECTOR_RULES = [
     # session 24: the policy monitor (tool 12)
     (r"^policy_(actions|reads)(_evidence)?$", "news"),
     # session 24: NWS weather at the ISO load centers, the /grid overlay
-    (r"^weather_(obs|forecast)_hourly$", "power"),
+    (r"^weather_(obs|forecast|forecast_issued)_hourly$", "power"),  # session 10000: every issue of the forecast
     # session 25: companies found by the Thesis Builder (tool 27), the seed of the company database (tool 10)
     (r"^energy_companies$", "deals"),
     # session 3302: the company database (tool 10): every company the warehouse names, its names and its rows

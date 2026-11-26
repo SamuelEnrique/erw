@@ -1,0 +1,76 @@
+Part 1: generation, places 52 largest twelve-month gap (MWh) ('GA', 0.9, True) windows equal True
+Part 1: retail all-sector price, places 52 largest gap (USD/MWh) ('VA', -0.005, True, True) windows equal True retail window = generation window True
+Part 1: sources printed over the last twelve months with a month missing: 44
+    ('AL', {'not_itemized': 1}, {'not_itemized': 0.006})
+    ('AK', {'wind': 3, 'solar': 8}, {'wind': 1.316, 'solar': 0.011})
+    ('AZ', {'other_renewables': 1, 'not_itemized': 8}, {'other_renewables': 0.189, 'not_itemized': 0.046})
+    ('AR', {'not_itemized': 6}, {'not_itemized': 0.033})
+    ('CA', {'not_itemized': 11}, {'not_itemized': 0.001})
+    ('CO', {'not_itemized': 3}, {'not_itemized': 0.038})
+    ('CT', {'hydro': 1, 'not_itemized': 6}, {'hydro': 0.534, 'not_itemized': 0.296})
+    ('DC', {'natural_gas': 3, 'oil_and_other': 8}, {'natural_gas': 40.045, 'oil_and_other': 0.08})
+    ('FL', {'hydro': 5, 'not_itemized': 4}, {'hydro': 0.038, 'not_itemized': 0.049})
+    ('GA', {'not_itemized': 3}, {'not_itemized': 0.173})
+    ('HI', {'hydro': 7, 'not_itemized': 2}, {'hydro': 0.348, 'not_itemized': 0.901})
+    ('ID', {'not_itemized': 7}, {'not_itemized': 0.167})
+    ('IL', {'hydro': 6}, {'hydro': 0.026})
+    ('IN', {'hydro': 1, 'not_itemized': 7}, {'hydro': 0.248, 'not_itemized': 0.1})
+    ('IA', {'not_itemized': 11}, {'not_itemized': 0.018})
+    ('KS', {'not_itemized': 10}, {'not_itemized': 0.031})
+    ('KY', {'not_itemized': 9}, {'not_itemized': 0.023})
+    ('LA', {'not_itemized': 9}, {'not_itemized': 0.004})
+    ('MA', {'not_itemized': 9}, {'not_itemized': 0.183})
+    ('MN', {'not_itemized': 2}, {'not_itemized': 0.383})
+    ('MS', {'not_itemized': 8}, {'not_itemized': 0.003})
+    ('MO', {'not_itemized': 9}, {'not_itemized': 0.156})
+    ('MT', {'not_itemized': 9}, {'not_itemized': 0.016})
+    ('NE', {'natural_gas': 2, 'not_itemized': 1}, {'natural_gas': 4.155, 'not_itemized': 0.833})
+    ('NV', {'not_itemized': 11}, {'not_itemized': 0.009})
+    ('NH', {'solar': 8}, {'solar': 0.005})
+    ('NJ', {'not_itemized': 2}, {'not_itemized': 0.041})
+    ('NM', {'hydro': 8}, {'hydro': 0.072})
+    ('NY', {'not_itemized': 11}, {'not_itemized': 0.079})
+    ('NC', {'not_itemized': 9}, {'not_itemized': 0.181})
+    ('ND', {'not_itemized': 5}, {'not_itemized': 0.044})
+    ('OH', {'hydro': 1, 'not_itemized': 6}, {'hydro': 0.269, 'not_itemized': 0.078})
+    ('OK', {'not_itemized': 11}, {'not_itemized': 0.002})
+    ('PA', {'not_itemized': 6}, {'not_itemized': 0.072})
+    ('RI', {'hydro': 8}, {'hydro': 0.005})
+    ('SC', {'not_itemized': 9}, {'not_itemized': 0.077})
+    ('SD', {'other_renewables': 8}, {'other_renewables': 0.032})
+    ('TN', {'wind': 2}, {'wind': 0.0})
+    ('TX', {'not_itemized': 10}, {'not_itemized': 0.014})
+    ('UT', {'hydro': 1, 'not_itemized': 6}, {'hydro': 1.591, 'not_itemized': 0.659})
+    ('VA', {'not_itemized': 10}, {'not_itemized': 0.241})
+    ('WV', {'other_renewables': 3, 'not_itemized': 3}, {'other_renewables': 0.004, 'not_itemized': 0.014})
+    ('WI', {'not_itemized': 3}, {'not_itemized': 0.15})
+    ('WY', {'not_itemized': 11}, {'not_itemized': 0.179})
+
+/states view default: 203 marked figures; 200 equal to the restatement; 3 differ; 0 not restated; 164 restated but not drawn
+   differs: ('r-TX-residential-p', '15.98', '15.99')
+   differs: ('cm-TX-solar-2026', '9,933', '9,932')
+   differs: ('sv-TX-SWPP', '4.2%', '4.1%')
+   restated, not drawn: ['gyt-TX-2002', 'gy-TX-coal-2002', 'gy-TX-natural_gas-2002', 'gy-TX-nuclear-2002', 'gy-TX-hydro-2002', 'gy-TX-wind-2002', 'gy-TX-other_renewables-2002', 'gy-TX-oil_and_other-2002', 'gyt-TX-2003', 'gy-TX-coal-2003', 'gy-TX-natural_gas-2003', 'gy-TX-nuclear-2003', 'gy-TX-hydro-2003', 'gy-TX-wind-2003', 'gy-TX-other_renewables-2003', 'gy-TX-oil_and_other-2003', 'gyt-TX-2004', 'gy-TX-coal-2004', 'gy-TX-natural_gas-2004', 'gy-TX-nuclear-2004', 'gy-TX-hydro-2004', 'gy-TX-wind-2004', 'gy-TX-other_renewables-2004', 'gy-TX-oil_and_other-2004', 'gyt-TX-2006', 'gy-TX-coal-2006', 'gy-TX-natural_gas-2006', 'gy-TX-nuclear-2006', 'gy-TX-hydro-2006', 'gy-TX-wind-2006', 'gy-TX-other_renewables-2006', 'gy-TX-oil_and_other-2006', 'gyt-TX-2007', 'gy-TX-coal-2007', 'gy-TX-natural_gas-2007', 'gy-TX-nuclear-2007', 'gy-TX-hydro-2007', 'gy-TX-wind-2007', 'gy-TX-other_renewables-2007', 'gy-TX-oil_and_other-2007']
+   headline: largest source natural_gas; CO2 year 2024, rate 373.3
+
+/states view a_CA_b_WV: 363 marked figures; 360 equal to the restatement; 3 differ; 0 not restated; 301 restated but not drawn
+   differs: ('sd-a-p-commercial', '26.99', '27.00')
+   differs: ('r-CA-commercial-p', '26.99', '27.00')
+   differs: ('c-CA-biomass', '1,097', '1,096')
+   restated, not drawn: ['gyt-CA-2002', 'gy-CA-coal-2002', 'gy-CA-natural_gas-2002', 'gy-CA-nuclear-2002', 'gy-CA-hydro-2002', 'gy-CA-wind-2002', 'gy-CA-solar-2002', 'gy-CA-other_renewables-2002', 'gy-CA-oil_and_other-2002', 'gyt-CA-2003', 'gy-CA-coal-2003', 'gy-CA-natural_gas-2003', 'gy-CA-nuclear-2003', 'gy-CA-hydro-2003', 'gy-CA-wind-2003', 'gy-CA-solar-2003', 'gy-CA-other_renewables-2003', 'gy-CA-oil_and_other-2003', 'gyt-CA-2004', 'gy-CA-coal-2004', 'gy-CA-natural_gas-2004', 'gy-CA-nuclear-2004', 'gy-CA-hydro-2004', 'gy-CA-wind-2004', 'gy-CA-solar-2004', 'gy-CA-other_renewables-2004', 'gy-CA-oil_and_other-2004', 'gyt-CA-2006', 'gy-CA-coal-2006', 'gy-CA-natural_gas-2006', 'gy-CA-nuclear-2006', 'gy-CA-hydro-2006', 'gy-CA-wind-2006', 'gy-CA-solar-2006', 'gy-CA-other_renewables-2006', 'gy-CA-oil_and_other-2006', 'gyt-CA-2007', 'gy-CA-coal-2007', 'gy-CA-natural_gas-2007', 'gy-CA-nuclear-2007']
+   headline: largest source natural_gas; CO2 year 2024, rate 184.6
+
+/states view a_US: 285 marked figures; 282 equal to the restatement; 3 differ; 0 not restated; 186 restated but not drawn
+   differs: ('cs-US-solar', '171,198', '171,197')
+   differs: ('cs-US-biomass', '11,054', '11,053')
+   differs: ('pl-US-8', '3,344', '3,343')
+   restated, not drawn: ['gyt-US-2002', 'gy-US-coal-2002', 'gy-US-natural_gas-2002', 'gy-US-nuclear-2002', 'gy-US-hydro-2002', 'gy-US-wind-2002', 'gy-US-solar-2002', 'gy-US-other_renewables-2002', 'gy-US-oil_and_other-2002', 'gyt-US-2003', 'gy-US-coal-2003', 'gy-US-natural_gas-2003', 'gy-US-nuclear-2003', 'gy-US-hydro-2003', 'gy-US-wind-2003', 'gy-US-solar-2003', 'gy-US-other_renewables-2003', 'gy-US-oil_and_other-2003', 'gyt-US-2004', 'gy-US-coal-2004', 'gy-US-natural_gas-2004', 'gy-US-nuclear-2004', 'gy-US-hydro-2004', 'gy-US-wind-2004', 'gy-US-solar-2004', 'gy-US-other_renewables-2004', 'gy-US-oil_and_other-2004', 'gyt-US-2006', 'gy-US-coal-2006', 'gy-US-natural_gas-2006', 'gy-US-nuclear-2006', 'gy-US-hydro-2006', 'gy-US-wind-2006', 'gy-US-solar-2006', 'gy-US-other_renewables-2006', 'gy-US-oil_and_other-2006', 'gyt-US-2007', 'gy-US-coal-2007', 'gy-US-natural_gas-2007', 'gy-US-nuclear-2007']
+   headline: largest source natural_gas; CO2 year 2024, rate 356.1
+
+/states view a_CT_b_NY: 359 marked figures; 355 equal to the restatement; 4 differ; 0 not restated; 311 restated but not drawn
+   differs: ('sd-b-p-all', '23.29', '23.28')
+   differs: ('g12s-NY-other_renewables', '1.1%', '1.0%')
+   differs: ('r-NY-all-p', '23.29', '23.28')
+   differs: ('cs-CT-petroleum', '2,204', '2,203')
+   restated, not drawn: ['gyt-CT-2002', 'gy-CT-coal-2002', 'gy-CT-natural_gas-2002', 'gy-CT-nuclear-2002', 'gy-CT-hydro-2002', 'gy-CT-other_renewables-2002', 'gy-CT-oil_and_other-2002', 'gyt-CT-2003', 'gy-CT-coal-2003', 'gy-CT-natural_gas-2003', 'gy-CT-nuclear-2003', 'gy-CT-hydro-2003', 'gy-CT-other_renewables-2003', 'gy-CT-oil_and_other-2003', 'gyt-CT-2004', 'gy-CT-coal-2004', 'gy-CT-natural_gas-2004', 'gy-CT-nuclear-2004', 'gy-CT-hydro-2004', 'gy-CT-other_renewables-2004', 'gy-CT-oil_and_other-2004', 'gyt-CT-2006', 'gy-CT-coal-2006', 'gy-CT-natural_gas-2006', 'gy-CT-nuclear-2006', 'gy-CT-hydro-2006', 'gy-CT-other_renewables-2006', 'gy-CT-oil_and_other-2006', 'gyt-CT-2007', 'gy-CT-coal-2007', 'gy-CT-natural_gas-2007', 'gy-CT-nuclear-2007', 'gy-CT-hydro-2007', 'gy-CT-other_renewables-2007', 'gy-CT-oil_and_other-2007', 'gyt-CT-2008', 'gy-CT-coal-2008', 'gy-CT-natural_gas-2008', 'gy-CT-nuclear-2008', 'gy-CT-hydro-2008']
+   headline: largest source natural_gas; CO2 year 2024, rate 245.4

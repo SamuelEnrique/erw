@@ -77,7 +77,7 @@ export function GridsView({ sites, active }: { sites: SitesRead; active: Read<Qu
           <ul className="mt-3 max-w-3xl list-disc space-y-1 pl-5 text-sm">
             <li><strong>Sites</strong> counts the positions; <strong>sites stating MW</strong>, those whose position states the MW it asks for, the count behind the sum beside it.</li>
             <li><strong>Active positions</strong> are the grid&apos;s whole queue (or the zone&apos;s, where the queue names one) whose status is active: requests to connect generation or storage, not plants and not load.</li>
-            <li><strong>The price</strong> is the cheapest and the dearest load zone of the grid (or the zone the queue names) for a flat load, at the calculator&apos;s defaults, over its last twelve complete months. Energy only.</li>
+            <li><strong>The price</strong> is the cheapest and the dearest load zone of the grid (or the zone the queue names) for a flat load, at the calculator&apos;s defaults, over its last twelve complete months. Energy only. Each zone is in its own market, real time where twelve complete months are held, else day-ahead, so the two ends can be in different markets; the power side of the facilities view names each zone&apos;s market.</li>
             {!active.ok ? <li>The queue totals could not be read: {active.reason}</li> : null}
             {sites.data.held.length ? <li data-grids-held="1">Not read: the queues of {sites.data.held.map(gridName).join(", ")}, held while their operators&apos; terms ask for a license.</li> : null}
           </ul>

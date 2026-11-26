@@ -5,6 +5,7 @@
 // carries only what the reader set: scenario A under plain names, B under the same names after "b", and view=b.
 import { STATES, TECHS } from "./impact";
 import { capexDefault, cfDefault, defaults, ilrDefault, type Inputs, type Params, type TechKey } from "./forecast";
+import { DC_FIELDS, DC_IX, dcClamp } from "./dcui";
 
 export type Values = Record<string, number>;
 export type Both = { a: Values; b: Values; view: "a" | "b" };
@@ -29,9 +30,12 @@ export type FieldDef = {
 };
 
 export const STATE_LIST = STATES.filter(([k]) => k !== "us");
-const techIx = (k: string) => TECHS.findIndex((t) => t.key === k);
+// chain 740: "datacenter" is the fifth technology, after the four JEDI plants (lib/dcui.ts, DC_IX)
+const techIx = (k: string) => (k === "datacenter" ? DC_IX : TECHS.findIndex((t) => t.key === k));
 const stateIx = (k: string) => STATE_LIST.findIndex(([s]) => s === k);
 export const techOfIx = (i: number): TechKey => (TECHS[i] ?? TECHS[0]).key;
+/** the technology's name in the address: a plant's key, or "datacenter" */
+export const techNameOfIx = (i: number): string => (i === DC_IX ? "datacenter" : techOfIx(i));
 export const stateOfIx = (i: number): string => (STATE_LIST[i] ?? STATE_LIST[0])[0];
 const n = (v: number, d = 0) => v.toLocaleString("en-US", { maximumFractionDigits: d });
 
@@ -57,9 +61,9 @@ export const statuteHeld = (t: TechKey, s: string, P: Params) =>
   (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind !== "note" && !(r.kind === "valuation" && r.requires === "option") && r.kind !== "exempt_years" && r.kind !== "capacity_option" && r.kind !== "own_exempt" && !r.adds_to_property);
 
 export const FIELDS: FieldDef[] = [
-  { key: "tech", label: "Technology", unit: "", min: 0, max: TECHS.length - 1, whole: true, group: "project",
-    options: () => TECHS.map((t, i) => ({ value: i, label: t.label })),
-    source: () => "Each is NLR's own JEDI model of that kind of plant, read for every state (nlr_jedi_multipliers). NLR publishes no JEDI model for battery storage." },
+  { key: "tech", label: "Technology", unit: "", min: 0, max: DC_IX, whole: true, group: "project",
+    options: () => TECHS.map((t, i) => ({ value: i, label: t.label })).concat([{ value: DC_IX, label: "Datacenter" }]),
+    source: () => "Each plant is NLR's own JEDI model of that kind of plant, read for every state (nlr_jedi_multipliers). NLR publishes no JEDI model for battery storage, nor for datacenters: a datacenter's jobs and investment come from announced projects' own documents, its wages from Census County Business Patterns, its taxes from the state's statutes where read." },
   { key: "state", label: "State", unit: "", min: 0, max: STATE_LIST.length - 1, whole: true, group: "project",
     options: () => STATE_LIST.map(([, name], i) => ({ value: i, label: name })),
     source: () => "JEDI's multipliers, the tax rules and the default costs are each the state's own." },
@@ -145,7 +149,8 @@ export const FIELD = Object.fromEntries(FIELDS.map((f) => [f.key, f])) as Record
 /** The address name of a field: tech, state, mw, cost (USD/kW; old /impact links' capex was a percent and is dropped), ... */
 const NAME: Partial<Record<keyof Inputs, string>> = { capex: "cost" };
 export const param = (k: string, view: "a" | "b") => `${view === "b" ? "b" : ""}${NAME[k as keyof Inputs] ?? k}`;
-const PARAMS = new Set(FIELDS.flatMap((f) => [param(f.key, "a"), param(f.key, "b")]).concat(["view", "capex", "abate", "proj", "bproj"]));
+const PARAMS = new Set(FIELDS.flatMap((f) => [param(f.key, "a"), param(f.key, "b")]).concat(["view", "capex", "abate", "proj", "bproj"])
+  .concat(DC_FIELDS.flatMap((f) => [f.name, `b${f.name}`]), ["dcproj", "bdcproj"]));
 export const dropParam = (name: string) => PARAMS.has(name);
 
 /** A scenario's values from the address (NaN for every field not given; technology and state always given). */
@@ -158,6 +163,12 @@ export function parse(q: Record<string, string | undefined>): Both {
       if (!Number.isFinite(x) || x < 0 && (f.key === "tech" || f.key === "state")) x = NaN;
       if (Number.isFinite(x)) x = clampTo(f, x);
       v[f.key] = x;
+    }
+    // chain 740: the datacenter's fields, under names of their own (lib/dcui.ts)
+    for (const f of DC_FIELDS) {
+      const raw = q[view === "b" ? `b${f.name}` : f.name];
+      const x = raw === undefined || raw === "" ? NaN : Number(raw);
+      v[f.name] = Number.isFinite(x) ? dcClamp(f, x) : NaN;
     }
     if (!Number.isFinite(v.tech)) v.tech = base ? base.tech : techIx("land_based_wind");
     if (!Number.isFinite(v.state)) v.state = base ? base.state : stateIx("tx");
@@ -178,9 +189,13 @@ export function query(s: Both): [string, string][] {
     for (const f of FIELDS) {
       const x = v[f.key];
       if (!Number.isFinite(x)) continue;
-      if (f.key === "tech") { if (view === "a" ? x !== techIx("land_based_wind") : x !== s.a.tech) out.push([param("tech", view), techOfIx(x)]); continue; }
+      if (f.key === "tech") { if (view === "a" ? x !== techIx("land_based_wind") : x !== s.a.tech) out.push([param("tech", view), techNameOfIx(x)]); continue; }
       if (f.key === "state") { if (view === "a" ? x !== stateIx("tx") : x !== s.a.state) out.push([param("state", view), stateOfIx(x)]); continue; }
       out.push([param(f.key, view), String(x)]);
+    }
+    for (const f of DC_FIELDS) {
+      const x = v[f.name];
+      if (Number.isFinite(x)) out.push([view === "b" ? `b${f.name}` : f.name, String(x)]);
     }
   }
   if (s.view === "b") out.push(["view", "b"]);
@@ -201,16 +216,21 @@ export function resolve(P: Params, v: Values): Inputs {
 
 /** Session 4216: the planned project of each scenario, held as its place in the page's list (Values.proj, NaN for none)
  *  and written in the address by its id (proj, bproj), so a link names the project, not a place in a list. */
-export function withProjects(s: Both, q: Record<string, string | undefined>, ids: string[]): Both {
+export function withProjects(s: Both, q: Record<string, string | undefined>, ids: string[], dcIds: string[] = []): Both {
   const at = (v: string | undefined) => (v ? ids.indexOf(v) : -1);
   const a = at(q.proj), b = at(q.bproj);
-  return { ...s, a: { ...s.a, proj: a >= 0 ? a : NaN }, b: { ...s.b, proj: b >= 0 ? b : NaN } };
+  // chain 740: an announced datacenter picked in the left box (dcproj, bdcproj), by its row id
+  const dc = (v: string | undefined) => (v ? dcIds.indexOf(v) : -1);
+  const da = dc(q.dcproj), db = dc(q.bdcproj);
+  return { ...s, a: { ...s.a, proj: a >= 0 ? a : NaN, dcproj: da >= 0 ? da : NaN }, b: { ...s.b, proj: b >= 0 ? b : NaN, dcproj: db >= 0 ? db : NaN } };
 }
-export function queryWithProjects(s: Both, ids: string[]): [string, string][] {
+export function queryWithProjects(s: Both, ids: string[], dcIds: string[] = []): [string, string][] {
   const out = query(s);
   for (const view of ["a", "b"] as const) {
     const i = s[view].proj;
     if (Number.isFinite(i) && ids[i]) out.push([view === "b" ? "bproj" : "proj", ids[i]]);
+    const j = s[view].dcproj;
+    if (Number.isFinite(j) && dcIds[j]) out.push([view === "b" ? "bdcproj" : "dcproj", dcIds[j]]);
   }
   return out;
 }

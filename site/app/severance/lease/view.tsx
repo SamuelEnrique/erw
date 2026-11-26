@@ -41,6 +41,11 @@ export async function LeaseView() {
           the base rate and with the reduced rates you tick, and flags each rule whose thresholds the well&apos;s own numbers meet, with the statute or
           agency page that states it. Texas, Louisiana and New Mexico, on the same cited rules as the <Link href="/severance" prefetch={false}>calculator</Link>.
         </p>
+        <p className="mb-2">
+          Every month of a file is taxed at the rates the rules file holds today: Louisiana&apos;s gas rate and horizontal well shares for July 2026 to
+          June 2027, New Mexico&apos;s table for April to August 2026. A month outside those may have owed at another rate; only Texas&apos;s certified
+          prices are read month by month.
+        </p>
         <p className="mb-2 border-l-2 border-accent pl-2">
           <strong>Your file stays on your computer.</strong> It is read and computed in this browser tab. Nothing in it is sent to this site&apos;s server
           or anywhere else, and nothing is stored: close the tab and it is gone. The results download is made in the browser too.

@@ -5,14 +5,36 @@
  "computed": "2026-11-26",
  "dollars": "2025 dollars by the GDP implicit price deflator of deflator.json; a 2026 announcement is taken as 2025 dollars",
  "defaults": {
+  "mw_stated": {
+   "name": "MW as stated",
+   "unit": "MW (each row's own measure)",
+   "how": "the MW each document states, whatever it measures (IT capacity, critical IT, critical grid capacity, power required)",
+   "n": 9,
+   "low": 3.0,
+   "low_row": "al_aubix_auburn_2021",
+   "median": 1000.0,
+   "high": 5000.0,
+   "high_row": "la_meta_richland_2026",
+   "rows": [
+    "al_aubix_auburn_2021",
+    "la_hut8_riverbend_2025",
+    "la_applied_digital_rapides_2026",
+    "wv_penzance_berkeley_2026",
+    "va_cleanarc_caroline_2025",
+    "ky_paducah_2026",
+    "wv_nscale_2026",
+    "wv_starwood_mason_2026",
+    "la_meta_richland_2026"
+   ]
+  },
   "investment_per_mw": {
    "name": "Investment per MW",
    "unit": "USD million (2025) per MW",
    "how": "investment over the MW the document states; rows whose investment includes power plants left out",
-   "n": 6,
+   "n": 8,
    "low": 3.0,
    "low_row": "va_cleanarc_caroline_2025",
-   "median": 8.333333,
+   "median": 11.0,
    "high": 46.807678,
    "high_row": "al_aubix_auburn_2021",
    "rows": [
@@ -20,7 +42,9 @@
     "wv_starwood_mason_2026",
     "wv_penzance_berkeley_2026",
     "la_meta_richland_2026",
+    "la_applied_digital_rapides_2026",
     "wv_nscale_2026",
+    "la_hut8_riverbend_2025",
     "al_aubix_auburn_2021"
    ]
   },
@@ -28,39 +52,44 @@
    "name": "Permanent jobs per MW",
    "unit": "jobs per MW",
    "how": "permanent or operational jobs over the MW stated; jobs of a kind not stated left out",
-   "n": 5,
+   "n": 7,
    "low": 0.05,
    "low_row": "va_cleanarc_caroline_2025",
-   "median": 0.208333,
-   "high": 0.333333,
-   "high_row": "ky_paducah_2026",
+   "median": 0.306122,
+   "high": 0.666667,
+   "high_row": "la_applied_digital_rapides_2026",
    "rows": [
     "va_cleanarc_caroline_2025",
     "la_meta_richland_2026",
     "wv_penzance_berkeley_2026",
+    "la_hut8_riverbend_2025",
     "wv_nscale_2026",
-    "ky_paducah_2026"
+    "ky_paducah_2026",
+    "la_applied_digital_rapides_2026"
    ]
   },
   "permanent_jobs_per_billion": {
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 16,
-   "low": 9.320809,
-   "low_row": "wv_nscale_2026",
-   "median": 56.25,
+   "n": 19,
+   "low": 7.5,
+   "low_row": "la_hut8_riverbend_2025",
+   "median": 50.0,
    "high": 121.786859,
    "high_row": "al_meta_montgomery_2024",
    "rows": [
+    "la_hut8_riverbend_2025",
     "wv_nscale_2026",
     "va_cleanarc_caroline_2025",
     "la_meta_richland_2026",
     "va_aws_2023",
     "in_meta_lebanon_2026",
     "wv_penzance_berkeley_2026",
+    "la_amazon_caddo_bossier_2026",
     "la_meta_richland_2024",
     "nc_aws_richmond_2025",
+    "la_applied_digital_rapides_2026",
     "pa_aws_2025",
     "ms_aws_madison_2026",
     "ms_aws_vicksburg_2025",
@@ -75,16 +104,19 @@
    "name": "Construction jobs per billion dollars",
    "unit": "construction jobs (headcount as announced) per USD billion (2025)",
    "how": "construction jobs as announced over the investment; at peak or period not stated, as each row says",
-   "n": 6,
+   "n": 9,
    "low": 63.222543,
    "low_row": "wv_nscale_2026",
-   "median": 325.0,
+   "median": 250.0,
    "high": 1217.868592,
    "high_row": "al_meta_montgomery_2024",
    "rows": [
     "wv_nscale_2026",
+    "la_hut8_riverbend_2025",
+    "la_amazon_caddo_bossier_2026",
     "la_meta_richland_2026",
     "wv_penzance_berkeley_2026",
+    "la_applied_digital_rapides_2026",
     "in_meta_lebanon_2026",
     "la_meta_richland_2024",
     "al_meta_montgomery_2024"
@@ -888,6 +920,135 @@
    "incentive": "",
    "years": "within the next two years",
    "note": "No jobs stated. The page names the place, not the county."
+  },
+  {
+   "id": "la_hut8_riverbend_2025",
+   "name": "Hut 8, River Bend AI data center campus, Phase I",
+   "company": "Hut 8",
+   "state": "la",
+   "county": "West Feliciana Parish",
+   "doc": {
+    "title": "Hut 8 Selects Southeast Louisiana as Site of $10 Billion Artificial Intelligence Data Center",
+    "publisher": "Louisiana Economic Development",
+    "date": "2025-12-17",
+    "url": "https://www.opportunitylouisiana.gov/news/hut-8-selects-southeast-louisiana-as-site-of-10-billion-artificial-intelligence-data-center",
+    "request": 192
+   },
+   "mw": {
+    "value": 245,
+    "measure": "critical IT load",
+    "says": "245 MW",
+    "qualifier": "",
+    "quote": "Hut 8 tapped Entergy Louisiana to provide an initial 330 megawatts (MW) of utility capacity to support 245 MW of critical IT load for Fluidstack"
+   },
+   "investment": {
+    "value": 10000000000,
+    "year": 2025,
+    "says": "$10 billion",
+    "qualifier": "up to",
+    "quote": "The project represents a up to $10 billion investment in Phase I, including Hut 8's investment in data center infrastructure."
+   },
+   "construction_jobs": {
+    "value": 1000,
+    "measure": "workers at peak",
+    "says": "1,000 construction workers",
+    "qualifier": "approximately",
+    "quote": "At the peak of construction on Phase I, Hut 8 anticipates approximately 1,000 construction workers on-site."
+   },
+   "permanent_jobs": {
+    "value": 75,
+    "measure": "direct new jobs",
+    "says": "75 direct new jobs",
+    "qualifier": "at least",
+    "quote": "Once operational, Phase I of the River Bend campus is expected to create at least 75 direct new jobs"
+   },
+   "incentive": "",
+   "years": "Construction on the data center is already underway with operations expected to commence by the second quarter of 2027.",
+   "note": "The 330 MW of utility capacity support the 245 MW of critical IT load: the row holds the IT load."
+  },
+  {
+   "id": "la_amazon_caddo_bossier_2026",
+   "name": "Amazon, data center campuses in Caddo and Bossier Parishes (STACK Infrastructure)",
+   "company": "Amazon Web Services; STACK Infrastructure",
+   "state": "la",
+   "county": "Caddo Parish; Bossier Parish",
+   "doc": {
+    "title": "Amazon Selects Louisiana for $12 Billion Data Center Campuses in Major U.S. Expansion",
+    "publisher": "Louisiana Economic Development",
+    "date": "2026-02-23",
+    "url": "https://www.opportunitylouisiana.gov/news/amazon-selects-louisiana-for-12-billion-data-center-campuses-in-major-u-s-expansion",
+    "request": 193
+   },
+   "mw": null,
+   "investment": {
+    "value": 12000000000,
+    "year": 2026,
+    "says": "$12 billion",
+    "qualifier": "",
+    "quote": "Amazon announced plans to invest $12 billion to construct new, state-of-the-art data center campuses that will support cloud computing technologies."
+   },
+   "construction_jobs": {
+    "value": 1500,
+    "measure": "construction jobs, period not stated",
+    "says": "1,500 construction jobs",
+    "qualifier": "up to",
+    "quote": "STACK anticipates this project will support up to 1,500 construction jobs"
+   },
+   "permanent_jobs": {
+    "value": 540,
+    "measure": "direct new jobs",
+    "says": "540 direct new jobs",
+    "qualifier": "",
+    "quote": "The project is expected to create 540 direct new jobs"
+   },
+   "incentive": "",
+   "years": "Construction is expected to begin in the coming weeks.",
+   "note": ""
+  },
+  {
+   "id": "la_applied_digital_rapides_2026",
+   "name": "Applied Digital, Delta Forge 1 AI factory campus",
+   "company": "Applied Digital",
+   "state": "la",
+   "county": "Rapides Parish",
+   "doc": {
+    "title": "Central Louisiana Secures $3.6 Billion Applied Digital AI Factory Campus",
+    "publisher": "Louisiana Economic Development",
+    "date": "2026-05-26",
+    "url": "https://www.opportunitylouisiana.gov/news/central-louisiana-secures-3-6-billion-applied-digital-ai-factory-campus",
+    "request": 194
+   },
+   "mw": {
+    "value": 300,
+    "measure": "critical IT load",
+    "says": "300 megawatts",
+    "qualifier": "",
+    "quote": "Delta Forge 1, will initially include two facilities totaling 300 megawatts of critical IT load"
+   },
+   "investment": {
+    "value": 3600000000,
+    "year": 2026,
+    "says": "$3.6 billion",
+    "qualifier": "",
+    "quote": "Applied Digital Corporation announced plans to develop a $3.6 billion, state-of-the-art artificial intelligence (AI) factory campus in Rapides Parish."
+   },
+   "construction_jobs": {
+    "value": 1000,
+    "measure": "workers at peak",
+    "says": "1,000 construction jobs",
+    "qualifier": "more than",
+    "quote": "The project will create over 1,000 construction jobs at peak construction."
+   },
+   "permanent_jobs": {
+    "value": 200,
+    "measure": "full-time on-site jobs",
+    "says": "200 new full-time, on-site jobs",
+    "qualifier": "",
+    "quote": "The new campus will directly support 200 new full-time, on-site jobs with salaries 150% of the state average wage."
+   },
+   "incentive": "",
+   "years": "",
+   "note": ""
   }
  ]
 }
