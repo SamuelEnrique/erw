@@ -128,7 +128,7 @@ export async function EmissionsParts({ focus = null, grid }: { focus?: string | 
         How much CO2 each ISO&apos;s power carries, from EIA&apos;s hourly CO2 estimates for EIA-930. <Link href={METHOD}>Method</Link>.
       </p>
 
-      <Section title="Carbon intensity now, ranked" aside={<Tier />}>
+      <Section title="Carbon intensity, each ISO's latest hour, ranked" aside={<Tier />}>
         {!got.ok ? (
           <NoData what="carbon intensity" reason={got.reason} />
         ) : latest.length === 0 ? (
