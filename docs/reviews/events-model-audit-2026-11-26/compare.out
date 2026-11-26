@@ -1,0 +1,30 @@
+{
+ "uri-2021": {
+  "agree": 246,
+  "differ": 0,
+  "drawn_not_restated": 0,
+  "restated_not_drawn": 0,
+  "out_of_bounds": 101
+ },
+ "caiso-heat-2020": {
+  "agree": 213,
+  "differ": 0,
+  "drawn_not_restated": 0,
+  "restated_not_drawn": 0,
+  "out_of_bounds": 99
+ },
+ "elliott-2022": {
+  "agree": 275,
+  "differ": 0,
+  "drawn_not_restated": 0,
+  "restated_not_drawn": 0,
+  "out_of_bounds": 101
+ },
+ "index": {
+  "agree": 9,
+  "differ": 0,
+  "drawn_not_restated": 0,
+  "restated_not_drawn": 0,
+  "out_of_bounds": 0
+ }
+}

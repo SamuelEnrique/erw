@@ -21,7 +21,14 @@ export const MOVE_WORDS: [MoveKey, string][] = [["d", "Day"], ["w", "Week"], ["m
 export type EqBoardRow = {
   id: string; group: string; label: string; unit: string; freq?: string; tags?: Record<string, string | null>; source?: number;
   status: string; note?: string; basis?: string; last?: { t: string; v: number }; moves?: EqMoves; spark?: { t0: string; d: number[]; v: number[] }; file?: string;
+  // session 10405 (chain 720, part E): the board's other cells in the board's own forms, on each `ok` row once the
+  // equity side holds one (the contract's dated line of 26 November, data request 572); no row carries them yet
+  avg7?: Row["avg7"]; avg30?: Row["avg30"]; avg365?: Row["avg365"]; lo30?: number; hi30?: number; range?: Row["range"];
 };
+/** Session 10405: the board's cells a row may carry beyond its latest value, its moves and its trend. */
+const WIDE_CELLS = ["avg7", "avg30", "avg365", "lo30", "hi30", "range"] as const;
+/** A row that holds a figure and at least one of the board's other cells. */
+export const hasWideCells = (r: EqBoardRow): boolean => r.status === "ok" && WIDE_CELLS.some((k) => r[k] !== undefined && r[k] !== null);
 export type EqBoardFile = { built: string; example?: boolean; method?: string; contract?: string; group: Group; sources: string[]; rows: EqBoardRow[] };
 export const EQUITIES_GROUP = "equities";
 const BOARD_STATUS: readonly string[] = ["ok", "paused", "licensed", "license", "not_held", "working"];
@@ -48,6 +55,8 @@ export function boardRow(r: EqBoardRow, offset: number): Row {
   const id = seriesIdOf(r.file);
   return {
     ...base, basis: r.basis, last: r.last, moves: r.moves as Row["moves"], spark: r.spark,
+    // session 10405: the board's other cells, where the file holds them (a cell it does not hold is left out, never a nought)
+    ...Object.fromEntries(WIDE_CELLS.filter((k) => r[k] !== undefined && r[k] !== null).map((k) => [k, r[k]])),
     ...(typeof r.source === "number" ? { source: offset + r.source } : {}),
     ...(id ? { open: `/equities?a=${encodeURIComponent(id)}` } : {}),
   };
@@ -60,7 +69,9 @@ export function boardRow(r: EqBoardRow, offset: number): Row {
 export function withEquities(file: BoardFile, eq: EqBoardFile | null): BoardFile {
   if (!eq || !eq.group || eq.group.id !== EQUITIES_GROUP || !Array.isArray(eq.rows)) return file;
   if (file.groups.some((g) => g.id === EQUITIES_GROUP)) return file;
-  const group: Group = { ...eq.group, lean: true };
+  // lean while no row carries the board's other cells (session 10405): with the first row that does, the group's table
+  // takes the board's full set of columns, and a row without them shows blanks there as any board row does
+  const group: Group = { ...eq.group, lean: eq.example === true || !eq.rows.some(hasWideCells) };
   if (eq.example === true) {
     const blank: Row = { id: "equities-not-built", group: EQUITIES_GROUP, label: "Segments and indices", at: "", code: "", unit: "", freq: "", tags: {}, status: "not_held",
       note: "The equities files on the site are the contract's examples: no figure has been written yet (docs/state/page_files_equities.md)." };
@@ -79,7 +90,15 @@ export type EqCompany = {
   segments: string[]; segments_note: string | null; directory_id: string | null;
   price_status: string; price_why: string | null; fundamentals_status: string; fundamentals_why: string | null;
   first: string | null; last: string | null; file: string;
+  // session 10405 (chain 720, part E): a company's last close, its changes and its market value (the contract's dated
+  // line of 26 November, data request 571), each null where its price or share count is held; no company carries them yet
+  last_close?: { t: string; v: number } | null; moves?: EqMoves | null; market_value?: { t: string; v: number } | null;
 };
+/** Session 10405: whether any company of a list carries a close, a change or a market value (the table has the columns
+ *  only then: a list with none of them is the table as it was). */
+export const companiesPriced = (rows: EqCompany[]): boolean => rows.some((c) => !!c.last_close || !!c.market_value || (!!c.moves && Object.values(c.moves).some(Boolean)));
+/** A sum of dollars as the site's value check writes a figure: whole with commas, or two decimals. */
+export const wholeWords = (v: number) => (Number.isInteger(v) ? v.toLocaleString("en-US") : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 export type EqIndexEntry = { id: string; name: string | null; publisher: string | null; kind: string; proxy_for: string | null; status: string; why: string | null; first: string | null; last: string | null; file: string };
 export type EqList = {
   built: string; example?: boolean; method?: string; contract?: string; license?: string; tables?: string[]; last_day: string | null;

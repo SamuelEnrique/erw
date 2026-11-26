@@ -1,16 +1,16 @@
 # Note of chain 750 (the portable laptop's second window, 26 November 2026): the browser read
 
-Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-portable-window2-browser-read.md`. Progress: `docs/state/progress_c750.md`. The review: `docs/reviews/browser-read-2026-11-26.md`. Model spend USD 0. Kept current while the chain runs; this is its state at 14:55 UTC on 26 November.
+Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-portable-window2-browser-read.md`. Progress: `docs/state/progress_c750.md`. The review: `docs/reviews/browser-read-2026-11-26.md`. Model spend USD 0. Kept current while the chain runs; this is its state at 15:25 UTC on 26 November.
 
 ## Pages read, and what was found
 
 - **Read on production in a real browser, at 1280 px with a mouse and 390 px with a finger:**
   - part A: the five rows that waited for a browser, all seen;
   - part B: everything landed 20 and 21 November (`/conditions` and `/congestion` in full, the thirteen regions of the Grid tool, the four accessibility fixes, chain 620's ten fixes, the problem edition of 21 November, the events, demand and supply pages);
-  - part D: the five sellable tools (battery, generator, Automated Analysis, the Grid tool, and what a datacenter pays, read only), fourteen more pages of the menu by hand, the first minute;
+  - part D: the five sellable tools (battery, generator, Automated Analysis, the Grid tool, and what a datacenter pays, read only), then every other page with a fixed address by hand (43 pages), the first minute, and ten readers' cases taken on the Grid tool and Automated Analysis;
   - sweeps: every page with a fixed address and the Grid tool's 63 views at both widths, and the 173 addresses of the site's own check list at a phone's width with every chart switched to its table.
 - **Figures set beside their source:** about 120,000 against the page files (15,553 on `/conditions`, 8,941 on `/congestion`, 94,435 on the regions' Mix tabs, 838 words and figures of the problem edition) and 5,142 against Supabase by the site's own check on the five tools' addresses (988, 1,377 and 2,777). The only disagreement was the alerts list of `/conditions`.
-- **Part C began at 14:16 UTC** with tonight's first landing: this window's first three rows, seen fixed on production at both widths, and `/impact` with Datacenter (window C's), read in full. The four older plant types show exactly what they showed before (1,700 figures on eleven addresses saved before the deploy and after, none changed). `/forecast`, `/equities` and the board's new group were not on main at 14:54 UTC; the board as it stands is recorded, to check that it loses nothing.
+- **Part C began at 14:16 UTC** with tonight's first landing: this window's first three rows, seen fixed on production at both widths, and `/impact` with Datacenter (window C's), read in full. The four older plant types show exactly what they showed before (1,700 figures on eleven addresses saved before the deploy and after, none changed). `/forecast`, `/equities` and the board's new group were not on main at 15:21 UTC (the desk's next gate is announced for after 16:15 UTC); the board as it stands is recorded, to check that it loses nothing, and the eight energy prices in the equities page files already agree with the board.
 - **Faults, by owning window:**
   - no window's page tonight: 8 found, 8 fixed on five branches, each with a test (rows 1, 3, 4, 5 and 6 of `docs/state/landing_request_portable_w2.md`). Rows 1 and 3 landed at 14:16 UTC and are seen on production; rows 4, 5 and 6 are seen in a build by the first window and requested;
   - the desktop's second window (B): 1 filed (two of its commits read landed and were not on main; row 2, landed at 14:16 UTC and seen on production);
@@ -35,7 +35,7 @@ Also fixed: `/companies`, where five of six fields had no name for a screen read
 
 ## What waits for Samuel, with the page left as it is
 
-In plain words; the same nine lines stand at the foot of the review.
+In plain words; the same twelve lines stand at the foot of the review.
 
 1. Should the reason a figure is blank open on a tap, as the "i" marks do? Today only a mouse can read it.
 2. `/congestion` prints "1080.08 USD/MWh" beside "330,132": a thousands comma in one column and none in the other. The gate's own check holds it that way.
@@ -45,7 +45,12 @@ In plain words; the same nine lines stand at the foot of the review.
 6. `/conditions`: on the branch every alert is listed (79 rows for August 2020). If the list should stop at 40, the page should say so.
 7. A chart switched to its table prints "not held" for a missing value and gives no reason.
 8. `/research` says of its small example charts "hover reads them"; they give no value. Take the words out, or give the examples their values.
-9. The All grids tab has more than 500 keyboard stops before its foot.
+9. The All grids tab has more than 500 keyboard stops before its foot; so have `/data` and `/terms`.
+10. The Grid tool's Network view says "copy the address to share the view"; while a Watch story plays the address is still the live week's. It takes the story once paused.
+11. The Price years list: on the battery tool one step back leaves the tool; on the generator's page it undoes the choice. One way for both?
+12. `/digest` says "No Digest yet for Thursday 26 November ... the daily run starts at 14:00 UTC" while the Digest is paused (the newest is 12 November). A line saying it is paused, and since when?
+
+Line 1 grew by one page: `/queues`' three charts give a year's figure only as the browser's tooltip, so a phone reads none of them.
 
 ## Stopped, and not started again unless asked
 
