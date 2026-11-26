@@ -45,7 +45,7 @@ export const STATES_DECISIONS: StatesDecision[] = [
     def: "Nominal; cents a kWh.",
     source: "Form EIA-861M." },
   { key: "places", session: "session 8014",
-    text: "The fifty states, the District of Columbia and the United States as a whole. Puerto Rico is in the generation table and in no other table the page reads, so it has no file.",
+    text: "The fifty states, the District of Columbia and the United States as a whole. Puerto Rico has no file: of the tables the page reads, only the generation table and EIA-860M hold it. The United States' capacity, plants, planned and retiring generators are EIA-860M's whole, with Puerto Rico's 6,474 MW in them; its generation and sales are EIA's national totals, without Puerto Rico.",
     def: "52 places.",
     source: "site/data/states/index.json." },
 ];
