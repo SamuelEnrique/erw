@@ -68,6 +68,12 @@ function shareCurtailed(grid: string, m: string, mwh: number, held: number, days
   const all = p.curtailed_solar_mwh + p.curtailed_wind_mwh;
   return <span data-share-days={m} className="cursor-help underline decoration-dotted" title={`Over the ${held} of ${days} days for which CAISO's wind and solar output is held; a day without it is left out of both sides of the share. Every day held of the month, from CAISO's record by the hour: ${whole(all)} MWh over ${p.days_held} of ${p.days_in_month} days`}>{whole(mwh)}</span>;
 }
+// session 10210 (the curtailment audit, finding 4): a year the profile holds only in part is named with its months, so
+// "In 2026" (January to October, ten months) is not read as a whole year beside 2025's twelve
+const spanOf = (period: string): string => {
+  const ms = Object.keys(profile.months).filter((m) => m.startsWith(`${period}-`)).sort();
+  return period.length === 4 && ms.length && ms.length < 12 ? `, ${monthName(ms[0]).split(" ")[0]} to ${monthName(ms[ms.length - 1]).split(" ")[0]}` : "";
+};
 const LOCAL = "Turned down to relieve a congested line somewhere on the grid", SYSTEM = "Turned down because the whole system had more supply than it could use or export";
 
 /** By day and by month, from the curtailment tables (what /curtailment showed), with the shares of shares.json. */
@@ -263,9 +269,9 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
               const peak = peakHour(r), cover = reasonCover(r), ps = sg ? periodShare(sg, period) : null;
               const bm = batteryMonths(profile), battMonth = period.length === 7 ? (hasBattery(r) ? period : null) : bm.filter((m) => m.startsWith(period)).at(-1) ?? null, br = battMonth ? profile.months[battMonth] : null;
               return (
-                <>In {periodName(period)}, California curtailed <N k="sum|solar">{whole(r.curtailed_solar_mwh)}</N> MWh of solar and <N k="sum|wind">{whole(r.curtailed_wind_mwh)}</N> MWh of wind{ps ? <>, <N k="sum|share">{two(ps.share)}</N> percent of its available wind and solar output</> : null}, more in the hour from {hourName(peak.hour)} than in any other.{" "}
+                <>In {periodName(period)}{spanOf(period)}, California curtailed <N k="sum|solar">{whole(r.curtailed_solar_mwh)}</N> MWh of solar and <N k="sum|wind">{whole(r.curtailed_wind_mwh)}</N> MWh of wind{ps ? <>, <N k="sum|share">{two(ps.share)}</N> percent of its available wind and solar output</> : null}, more in the hour from {hourName(peak.hour)} than in any other.{" "}
                   {cover === "none" ? <>CAISO published no reason for it then.</> : <><N k="sum|local">{whole(r.curtailed_solar_local_mwh + r.curtailed_wind_local_mwh)}</N> MWh was for local congestion and <N k="sum|system">{whole(r.curtailed_solar_system_mwh + r.curtailed_wind_system_mwh)}</N> MWh for system-wide oversupply{cover === "part" ? ", with no reason published for the rest" : ""}.</>}{" "}
-                  {br && br.curtailed_while_charging_share_pct !== undefined ? <>In {periodName(battMonth!)}, <N k="sum|while">{two(br.curtailed_while_charging_share_pct)}</N> percent of that month&apos;s curtailment fell in hours in which the batteries were already charging.</> : null}</>
+                  {br && br.curtailed_while_charging_share_pct !== undefined ? <>In {periodName(battMonth!)}, <N k="sum|while">{two(br.curtailed_while_charging_share_pct)}</N> percent of that month&apos;s curtailment fell in hours in which the batteries took in more than they gave back; both are totals for the whole system, not a count of what the batteries could have taken.</> : null}</>
               );
             })() : c.grid === "spp" && sg && marks ? (
               <>In {monthName(marks.last)}, SPP curtailed <N k="sum|curtailed">{whole(sg.months[marks.last].curtailed_mwh)}</N> MWh of wind and solar, <N k="sum|share">{two(sg.months[marks.last].share_pct)}</N> percent of its available output; its highest month held is {monthName(marks.highest)}, at <N k="sum|highest">{two(sg.months[marks.highest].share_pct)}</N> percent. {cheap}</>
@@ -279,7 +285,7 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
 
           {c.grid === "caiso" ? (() => {
             const peak = peakHour(r), cover = reasonCover(r);
-            const days = period.length === 7 ? <><N k="days_held">{whole(r.days_held)}</N> of {whole(r.days_in_month)} days</> : <><N k="days_held">{whole(r.days_held)}</N> of {whole(r.days_in_period)} days, {r.months} months</>;
+            const days = period.length === 7 ? <><N k="days_held">{whole(r.days_held)}</N> of {whole(r.days_in_month)} days</> : <><N k="days_held">{whole(r.days_held)}</N> of {whole(r.days_in_period)} days, {r.months} months{spanOf(period)}</>;
             const ps = sg ? periodShare(sg, period) : null;
             return (
               <>
