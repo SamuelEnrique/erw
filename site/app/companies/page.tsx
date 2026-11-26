@@ -67,6 +67,8 @@ export default async function Companies({ searchParams }: { searchParams: Promis
   // session 10228 (companies audit, finding 1): policy_actions is held since 13 November 2026, so no agency is listed and
   // every company's policy actions are 0; the lead, the column and the "Has" choice say so while it is held
   const policyHeld = held.includes("policy_actions");
+  // session 10228 (companies audit, finding 5): a kind the index counts that the Kind choices (KIND_ORDER) do not offer
+  const kindsUnoffered = Object.keys(ix.kinds).filter((k) => !KIND_ORDER.includes(k));
   const heldWords = held.length
     ? `Held for a license (the publishers ask for permission; warehouse/metadata/license_status.csv): ${held.map((t) => `${t} (${plural(ix.held_links[t] ?? 0, "link", "links")})`).join(", ")}, a link being a company named in one of a table's rows (a row that names two companies is two links). Their rows add no company, no name and no figure here; ${plural(ix.held_only, "company", "companies")} named only in them ${ix.held_only === 1 ? "is" : "are"} not listed.`
     : "No input is held.";
@@ -99,7 +101,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
                 <input type="search" name="q" defaultValue={q.q} maxLength={80} className="mt-1 border border-rule bg-white px-2 py-1 text-sm text-ink" />
               </label>
               <Select name="kind" label="Kind" value={q.kind} options={[{ value: "", label: "Every kind" }, ...opt(ix.kinds, KIND_ORDER)]}
-                tip={<Tip id="companies-kind" label="The kind">The first of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, other that the company&apos;s rows show: EIA-861&apos;s ownership, EIA-860&apos;s sector, a queue&apos;s interconnection customer, an NRC licensee, a policy action&apos;s agency; lab or hyperscaler and OEM from the reviewed aliases only.</Tip>} />
+                tip={<Tip id="companies-kind" label="The kind">The first of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, power marketer, other that the company&apos;s rows show: EIA-861&apos;s ownership (a retail or wholesale power marketer is a power marketer), EIA-860&apos;s sector, a queue&apos;s interconnection customer, an NRC licensee, a policy action&apos;s agency; lab or hyperscaler and OEM from the reviewed aliases only; other where no rule applies.{kindsUnoffered.length ? ` The choices here do not offer ${kindsUnoffered.join(", ")}: such a company shows its kind in the table.` : ""}</Tip>} />
               <Select name="segment" label="Segment" value={q.segment} options={[{ value: "", label: "Every segment" }, ...opt(ix.segments)]}
                 tip={<Tip id="companies-segment" label="The segment">The fuel or line with the most MW across the company&apos;s plants, plans and queue positions; a utility or a government body with none is its kind&apos;s line.</Tip>} />
               <Select name="state" label="State" value={q.state} options={[{ value: "", label: "Every state" }, ...Object.keys(ix.states).sort().map((k) => ({ value: k, label: stateLabel(k, ix.states[k]) }))]} />
