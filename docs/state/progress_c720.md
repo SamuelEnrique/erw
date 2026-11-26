@@ -32,6 +32,7 @@ All eight were checked against main first, as the chain asks. Each head is an an
 
 | Step | State | Session |
 |---|---|---|
+| `docs/reviews/pages-ground-2026-11-26.md`: what both pages reuse (the frame, the chart with a band, the place picker, A and B, the board's rows and held rows, the workbench's pure parts, the downloads), what they do not, what the contracts leave open, and five cases a page | done | 10400 |
 
 ## Part C: the ERW forecast, `/forecast`
 
