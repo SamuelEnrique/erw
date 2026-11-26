@@ -168,6 +168,14 @@ def demand_place(place, dem, op, ref, made, evs, wx=None):
     hr["made_utc"] = pd.to_datetime(hr["day"] - pd.Timedelta(days=1)).dt.tz_localize("UTC") + pd.Timedelta(hours=DEMAND_MADE_HOUR)
     rows = score.rows(place, "demand", hr, SCORED, evs)
     pk = score.peaks(hr, SCORED)
+    # the peak's own choice, by the same rule on the peak's error (part F: "scored the same way"): the candidate whose
+    # day peaks missed least over the last two years; "erw" in the peak's record is that method's peak
+    peak_choice = choice
+    if len(pk):
+        pm = score.peak_summary(pk, demand.METHODS, days=score.CHOICE_DAYS)["methods"]
+        peak_choice = min((v["mae"], m) for m, v in pm.items() if v)[1]
+        pk["erw"] = pk[peak_choice]
+        pk["erw_hour"] = pk[peak_choice + "_hour"]
     rows += peak_rows(place, pk)
     weather = None
     if wk is not None:
@@ -203,7 +211,7 @@ def demand_place(place, dem, op, ref, made, evs, wx=None):
     else:
         tm_held = f"no data: the last whole day held ({day_str(last)}) is {h} days before the target day; the forecast reads at most 7"
     return {"place": place, "tz": tz, "hr": hr, "choice": choice, "maes": maes, "rows": rows, "tomorrow": tm, "tomorrow_held": tm_held,
-            "target": target, "h": h, "inputs_through": inputs_through, "last_whole_day": last, "res": res, "peaks": pk, "weather": weather}
+            "target": target, "h": h, "inputs_through": inputs_through, "last_whole_day": last, "res": res, "peaks": pk, "weather": weather, "peak_choice": peak_choice}
 
 
 def history_rows(p, ledger, nd=None):
@@ -280,16 +288,16 @@ def demand_series(p, made, ledger):
         s["tomorrow_held"] = None
     # part F: the day's peak, tomorrow's and the record of past ones
     pk = p.get("peaks")
-    peak = {"what": "the day's highest hourly demand and its local hour; a method's peak is the highest of its own hourly forecasts for the day, and the hour of it",
-            "tomorrow": None, "last_2_years": None, "backtest": None}
+    peak = {"what": "the day's highest hourly demand and its local hour; a method's peak is the highest of its own hourly forecasts for the day, and the hour of it; erw is the method chosen for the peak (method), the candidate whose day peaks missed least over the last two years",
+            "method": p.get("peak_choice", p["choice"]), "tomorrow": None, "last_2_years": None, "backtest": None}
     if tm is not None and len(tm):
-        c = p["choice"]
+        c = p.get("peak_choice", p["choice"])
         j = tm[c].idxmax()
         if pd.notna(j):
             peak["tomorrow"] = {"local_hour": int(tm.loc[j, "hour"]), "ts_utc": iso(tm.loc[j, "ts"]), "erw": num(tm.loc[j, c]),
                                 "lo": num(tm.loc[j, c + "_lo"]), "hi": num(tm.loc[j, c + "_hi"])}
     if pk is not None and len(pk):
-        meths = ["erw", "operator", "yesterday", "week_ago"]
+        meths = ["erw", "operator", "yesterday", "week_ago", "regression", "regression_recent"]
         peak["last_2_years"] = score.peak_summary(pk, meths, days=score.CHOICE_DAYS)
         peak["backtest"] = score.peak_summary(pk, meths)
     s["peak"] = peak
