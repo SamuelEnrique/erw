@@ -549,6 +549,30 @@ def union_table(name):
     return any(re.search(p, name) for p in LIVE.get("union_by_key") or [])
 
 
+REFUSED_OLDER = "refused, older than the live copy"
+
+
+def held_reason(name, exc, tier):
+    """Session 10000 (chain 701, part C1): why a table's failure is a hold, or None when it is a failure. From 21 November
+    2026 every daily load "failed" on datacenter_projects, energy_deals and news_index: the guard of older_than_live
+    refused them because Supabase holds rows (loaded 13 November) that no copy in the repository holds, and the three are
+    model-extracted, rebuilt only with a model call, which the owner's rule 4 of 16 November 2026 closes while the key is
+    at its limit. The guard is right and stands; such a table is held, its live rows kept, and the step says so in place
+    of a failure. Any other refusal, and any refusal of a table the ERW builds without a model, stays a failure."""
+    if tier == "model_extracted" and str(exc).startswith(REFUSED_OLDER):
+        return (f"{name}: older here than the live copy and model-extracted (rebuilt only with a model call); "
+                "the guard stands and the live rows are kept")
+    return None
+
+
+def sources_held(want, n, stale, prune):
+    """Session 10000: the sources count differs only by names Supabase holds that sources.csv no longer has, which only a
+    person deletes (load.py --prune, session 18). A hold with the names, not a failure. None when it is anything else."""
+    if prune or not stale or n != want + len(stale):
+        return None
+    return f"sources: {len(stale)} in Supabase and not in sources.csv ({', '.join(stale[:3])}); only a person prunes them (load.py --prune)"
+
+
 def gate(probe=None, url=None):
     """Session 477: None when the database gate is open, else why it is closed. Without SUPABASE_DB_URL the probe
     cannot run and the load goes on as before (the API path), saying so."""
@@ -772,6 +796,8 @@ def main(argv=None):
         print(f"no stored row hashes ({type(exc).__name__}: {str(exc)[:150]}); every table is compared row by row")
     hashes = {}
     failed = []
+    held = []  # session 10000: refusals the guard is right to make (held_reason), and the sources only a person prunes
+    tiers = dict(zip(cov["table"], cov["tier"])) if "tier" in cov.columns else {}
     recon = []
     changed = {}  # session 455: rows written or deleted, by shape table, for the vacuum's choice
     conn = db_reader()  # session 166: the whole-table reads, outside the API's 8-second statement timeout
@@ -816,6 +842,12 @@ def main(argv=None):
             if not ok:
                 failed.append(name)
         except Exception as exc:
+            why_held = held_reason(name, exc, tiers.get(name))
+            if why_held:  # session 10000: the guard is right and stands; a hold, not a failure
+                held.append(why_held)
+                recon.append((name, shape, len(df), None, "HELD", None, None, False))
+                print(f"HELD   {name}: {str(exc)[:300]}")
+                continue
             failed.append(name)
             recon.append((name, shape, len(df), None, f"FAILED {type(exc).__name__}", None, None, False))
             print(f"FAILED {name}: {type(exc).__name__}: {str(exc)[:300]}")
@@ -925,9 +957,12 @@ def main(argv=None):
     for t, want in ((("sources", len(srcs)),) if args.only else (("catalogue", len(cat)), ("sources", len(srcs)))):
         n = client.table(t).select("*", count="exact", head=True).execute().count
         ok = n == want
-        recon.append((t, "meta", want, n, "match" if ok else "MISMATCH", want, None, False))
-        print(f"{'match   ' if ok else 'MISMATCH'} {t}: CSV {want:,}, Supabase {n:,}")
-        if not ok:
+        why_held = None if ok or t != "sources" else sources_held(want, n, stale, args.prune)
+        recon.append((t, "meta", want, n, "match" if ok else ("HELD" if why_held else "MISMATCH"), want, None, False))
+        print(f"{'match   ' if ok else ('HELD    ' if why_held else 'MISMATCH')} {t}: CSV {want:,}, Supabase {n:,}")
+        if why_held:
+            held.append(why_held)
+        elif not ok:
             failed.append(t)
 
     # session 29 (human ruling): vacuum after every load, and print the size before and after;
@@ -981,9 +1016,16 @@ def main(argv=None):
     if warn_mb and mb > warn_mb:
         print(f"WARNING: database is {mb:.1f} MB, over the {warn_mb} MB warning line (limit {LIVE['max_mb']} MB); "
               "trim a live window in warehouse/supabase/live_set.yaml", file=sys.stderr)
+    for h in held:
+        print(f"held: {h}")
     if failed:
         print(f"FAILED tables: {failed}", file=sys.stderr)
         return 1
+    if held:  # session 10000: every table not held loaded; the step is a skip whose reason says held (health.py run)
+        names = [h.split(":", 1)[0] for h in held]
+        print(f"supabase_load SKIPPED: held: {', '.join(names)} (the guard stands; see the held lines above)")
+        sys.stdout.flush()
+        return GATE_SKIP
     return 0
 
 

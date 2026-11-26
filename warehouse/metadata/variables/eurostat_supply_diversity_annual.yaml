@@ -175,12 +175,13 @@ columns:
   documented_by: connector eurostat_supply_diversity.py
 variables:
 - name: supply_diversity_index
-  label: Eurostat's diversity index of energy supply (INX), as given; the ERW reads no direction into it
+  label: 'Eurostat''s diversity index of energy supply (INX): built on the Herfindahl-Hirschman index principle from the energy
+    balance''s supply of every fuel (primary production, recovered and recycled products, imports, stock draw), rounded to 4
+    places; between 0 and 1, a lower value meaning a more varied fuel mix (Eurostat''s metadata nrg_ind_di_esmsip2,
+    ec.europa.eu/eurostat/cache/metadata/en/nrg_ind_di_esmsip2.htm, read 2026-11-26; the page''s text refers to "the calculation
+    above" but holds no formula, so none is copied here)'
   unit: index
   rows: 891
   first: '1992-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
-second_look:
-- 'supply_diversity_index: the file gives the index without its method; Eurostat''s metadata for nrg_ind_di defines it, and
-  the repository does not. Read again on 20 November 2026 in the saved SDMX-CSV under warehouse/raw/eurostat_supply_diversity
-  (data rows only): not found.'
+second_look: null
