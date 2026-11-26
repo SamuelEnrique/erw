@@ -69,6 +69,7 @@ The pages no browser has seen come first: B1 to B5, then B6 to B10, then the res
 
 - **The same sweep at 1280 px** (13:20 UTC, 145 addresses): clean; `/internal/waits` takes 7.9 s to load, as on 20 November.
 - **The 173 addresses of the site's own check list** (`check-values --list`: the views with choices in their address, where a page's other states live), each at 390 px as it opens and then with every chart switched to its table and every fold open (`runs/c750/quiet_tables.mjs`, 13:30 to 13:45 UTC): no empty chart, no "undefined", no skipped heading, no error. Sideways scroll on four addresses, all three faults of this file: `/grid?grid=caiso` and `/grid/caiso` (G1, fixed), `/events/covid-2020` (row 2 of the landing file) and `/cost-of-power?view=grids` (CP1, filed). Nothing else is wider than its screen.
+- **The same 173 addresses at 1280 px,** each as it opens and with every chart switched to its table and every fold open (15:39 to 15:49 UTC, after the landing of 14:16): no sideways scroll, no empty chart, no skipped heading, no error on any. What the sweep marks is one thing only, the blank with no reason of line 7 under "For Samuel's ruling": 11,561 blanks in the charts' tables, 9,959 of them a bare "not held" (84 addresses). `/data/licenses` still prints a publisher's own answer ending "undefined" (settled 20 November, not reopened).
 
 ## B4 and row G1: the Grid tool's reliability table (`/grid?grid=caiso#reliability`)
 
