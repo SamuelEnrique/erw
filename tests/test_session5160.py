@@ -54,6 +54,23 @@ READS_THE_ADDRESS = {
     "app/cost-of-power/seller/months.csv/route.ts": TOOLS,
     "app/cost-of-power/seller/tables.csv/route.ts": TOOLS,
     "app/cost-of-power/tables.csv/route.ts": TOOLS,
+    # session 10402 (chain 720): the equities downloads read the address through one helper (app/equities/reader.ts
+    # seriesOf: the id is looked up among the series the list names, or the answer is 404), and a reader's address is
+    # built again from that series' own id
+    "app/equities/rows/route.ts": ["const s = seriesOf(req);", 'if (!s) return notHere("No series of this id is on the site.");'],
+    "app/equities/rows/python/route.ts": ["const s = seriesOf(req);", "const url = new URL(`/equities/rows?id=${encodeURIComponent(s.id)}`, req.url).toString();"],
+    "app/equities/rows/stata/route.ts": ["const s = seriesOf(req);", "const url = new URL(`/equities/rows?id=${encodeURIComponent(s.id)}`, req.url).toString();"],
+    "app/equities/filed/route.ts": ["const s = seriesOf(req);", 'if (!s || s.kind !== "company") return notHere("No company of this id is on the site.");'],
+    "app/equities/filed/python/route.ts": ["const s = seriesOf(req);", "const url = new URL(`/equities/filed?id=${encodeURIComponent(s.id)}`, req.url).toString();"],
+    "app/equities/filed/stata/route.ts": ["const s = seriesOf(req);", "const url = new URL(`/equities/filed?id=${encodeURIComponent(s.id)}`, req.url).toString();"],
+    # session 10401 (chain 720): the ERW forecast's downloads. A place is one the index lists, or the answer is 404; a
+    # ledger is one of two fixed names; a reader's address is built again from the checked value, never passed on
+    "app/forecast/rows/route.ts": ['const place = index?.places.find((p) => p.place === u.searchParams.get("place"));', "if (!place || !file) return new Response("],
+    "app/forecast/rows/python/route.ts": ['const place = predictIndex()?.places.find((p) => p.place === new URL(req.url).searchParams.get("place"));', "const url = new URL(`/forecast/rows?place=${place.place}`, req.url).toString();"],
+    "app/forecast/rows/stata/route.ts": ['const place = predictIndex()?.places.find((p) => p.place === new URL(req.url).searchParams.get("place"));', "const url = new URL(`/forecast/rows?place=${place.place}`, req.url).toString();"],
+    "app/forecast/ledger/route.ts": ['const s = new URL(req.url).searchParams.get("s") === "price" ? "price" : "demand";'],
+    "app/forecast/ledger/python/route.ts": ['const s = new URL(req.url).searchParams.get("s") === "price" ? "price" : "demand";'],
+    "app/forecast/ledger/stata/route.ts": ['const s = new URL(req.url).searchParams.get("s") === "price" ? "price" : "demand";'],
     "app/internal/findings/file/route.ts": ["if (!ID.test(id) || !FILE_NAME.test(name) || !name.startsWith(id) || !type) return hidden();"],
     "app/internal/unlock/route.ts": "the old link's token, or nothing once the link is retired (rows 3 and 4); the form's door reads the body, capped at 2,000 characters",
     "app/severance/finder/download/route.ts": "the internal token, or nothing once the link is retired (rows 3 and 4)",

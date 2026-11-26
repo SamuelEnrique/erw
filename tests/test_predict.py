@@ -201,6 +201,20 @@ class TheFiles(unittest.TestCase):
                     self.assertIsNone(h["forecast"])
                     self.assertTrue(h["held"])
 
+    def test_the_weather_known_line_is_never_the_forecast(self):
+        cols = self.scores["rows_columns"]
+        for r in self.scores["rows"]:
+            r = dict(zip(cols, r))
+            if r["method"] == "with_weather_known":
+                self.assertEqual(r["series"], "demand_weather_known", r)
+        self.assertNotIn("with_weather_known", {m["id"] for m in self.scores["methods"]})
+        for p in self.index["places"]:
+            for s in p["series"].values():
+                self.assertNotEqual(s["method"], "with_weather_known")
+            d = self.places[p["place"]]["series"]["demand"]
+            self.assertNotEqual(d["method"], "with_weather_known")
+            self.assertNotIn("with_weather_known", d["history_columns"] + d["tomorrow_columns"])
+
     def test_every_shown_price_has_its_score(self):
         cols = self.scores["rows_columns"]
         rows = [dict(zip(cols, r)) for r in self.scores["rows"]]

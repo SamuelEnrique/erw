@@ -42,8 +42,8 @@ function sound(html, what) {
 
 // ---- the table as it opens
 const first = table();
-ok(count(first, /data-llr-row="/g) === 12 && first.includes(">122 rules shown") === false && /12[^<]*of[^<]*122|122/.test(text(first)), "the table opens on its first 12 rules of 122");
-ok(text(first).includes("122 of 122 rules shown") && text(first).includes("Next 12 (12 of 122 drawn"), "the line says 122 of 122 shown, and the next 12 are a button away");
+ok(count(first, /data-llr-row="/g) === 12 && first.includes(">124 rules shown") === false && /12[^<]*of[^<]*124|124/.test(text(first)), "the table opens on its first 12 rules of 124");
+ok(text(first).includes("124 of 124 rules shown") && text(first).includes("Next 12 (12 of 124 drawn"), "the line says 124 of 124 shown, and the next 12 are a button away");
 ok(count(first, /data-llr-head="/g) === 13 && L.FIELDS.every((f) => first.includes(`data-llr-head="${f}"`)), "thirteen headings sort: the utility, the state, the grid, the status, the date and the eight fields");
 ok(["state", "grid", "status", "find"].every((k) => first.includes(`data-llr-filter="${k}"`)) && first.includes('data-llr-csv="rules"') && count(first, /data-download="python"/g) === 2 && count(first, /data-download="stata"/g) === 2, "the filters by state, grid, status and name, and the CSV, Python and Stata of the rules and of the changes");
 ok(!/href="data:/.test(first) && first.length < 190_000, `no file is held in the page as a link's address, and the table and the changes weigh ${Math.round(first.length / 1000)} thousand characters as they open`);
@@ -53,18 +53,18 @@ sound(first, "the table as it opens");
 const order = L.sortLines(L.lines(file), "utility", "asc"), last = order.at(-1);
 const all = table({ rule: last.id });
 const rowsHtml = all.slice(all.indexOf("<tbody>"), all.indexOf('id="large-load-changes"'));
-ok(count(all, /data-llr-row="/g) === 122 && count(all, /data-llr-held="1"/g) >= 22, "with the last rule open, all 122 rules are drawn");
+ok(count(all, /data-llr-row="/g) === 124 && count(all, /data-llr-held="1"/g) >= 23, "with the last rule open, all 124 rules are drawn");
 const cardBlanks = last.held ? 10 : L.FIELDS.filter((f) => ["withheld", "held"].includes(L.drawn(last.rule.fields[f], f).kind)).length;
 const blanks = count(rowsHtml, /data-license-held="utility_large_load_rules"/g);
-ok(blanks === 22 * 10 + 8 + cardBlanks, `the rules table draws ${blanks} blank cells that say license needed: 220 of the 22 held rows, 8 fields of public rows${cardBlanks ? `, ${cardBlanks} in the open rule` : ""}`);
+ok(blanks === 23 * 10 + 8 + cardBlanks, `the rules table draws ${blanks} blank cells that say license needed: 230 of the 23 held rows, 8 fields of public rows${cardBlanks ? `, ${cardBlanks} in the open rule` : ""}`);
 ok(count(rowsHtml, /aria-label="[^"]*: license needed"/g) === blanks, "each blank cell names what it is and says license needed to a screen reader");
 const heldRows = [...rowsHtml.matchAll(/<tr id="llr-row-[^"]+"[^>]*data-llr-held="1"[^>]*>([\s\S]*?)<\/tr>/g)].map((m) => m[1]);
-ok(heldRows.length === 22 && heldRows.every((r) => count(r, /data-license-held=/g) === 10 && !/<a\b/.test(r) && !/data-llr-field=/.test(r)), "a held row is its utility, its state and its grid, and ten blank cells: no document, no value");
+ok(heldRows.length === 23 && heldRows.every((r) => count(r, /data-license-held=/g) === 10 && !/<a\b/.test(r) && !/data-llr-field=/.test(r)), "a held row is its utility, its state and its grid, and ten blank cells: no document, no value");
 ok(count(all, /data-llr-opened="/g) === 1 && count(all, /data-rule-card="/g) === 1, "the open rule is drawn in full under its row");
 sound(all, "the table with every rule drawn");
 
 // ---- no value of a held research row is in anything the pages draw
-const csvRows = (() => { const t = fs.readFileSync(new URL("../../docs/research/large_load/utilities_2026-11-13.csv", import.meta.url), "utf-8").split("\n").filter((l) => !l.startsWith("#")).join("\n");
+const csvRows = (() => { const t = fs.readFileSync(new URL("../../docs/research/large_load/utilities_2026-11-26.csv", import.meta.url), "utf-8").split("\n").filter((l) => !l.startsWith("#")).join("\n");
   const out = []; let row = [], cell = "", q = false;
   for (let i = 0; i < t.length; i++) { const ch = t[i];
     if (q) { if (ch === '"' && t[i + 1] === '"') { cell += '"'; i++; } else if (ch === '"') q = false; else cell += ch; }
@@ -83,16 +83,16 @@ for (const r of csvRows) {
     if (drawnText.includes(v.replace(/\s+/g, " "))) leaked.push(`${r.row_id} ${c}`);
   }
 }
-ok(csvRows.length === 122 && searched > 100 && !leaked.length, `${searched} values and cites of held rows and withheld fields, searched for in the drawn pages: none found${leaked.length ? ` (found: ${leaked.slice(0, 3).join(", ")})` : ""}`);
+ok(csvRows.length === 124 && searched > 100 && !leaked.length, `${searched} values and cites of held rows and withheld fields, searched for in the drawn pages: none found${leaked.length ? ` (found: ${leaked.slice(0, 3).join(", ")})` : ""}`);
 
 // ---- the filters, as the address sets them
 const tx = table({ state: "TX" });
 // session 7204: the State filter chooses the changes too
 const txChanges = L.filterChanges(file.changes, [], ["TX"]).length;
 ok(txChanges > 0 && text(tx).includes(`${txChanges} of 94 changes, TX (the State filter above;`) && count(tx.slice(tx.indexOf('id="large-load-changes"')), /data-llr-change="[^"]+" data-llr-held="1"/g) === 0, `the rules' State filter chooses the changes too: ${txChanges} of Texas, and no held change's row (its state is not known) is drawn`);
-ok(count(tx, /data-llr-row="/g) === L.largeLoadStat(file, "largeload|rules|state|TX") && text(tx).includes(`${L.largeLoadStat(file, "largeload|rules|state|TX")} of 122 rules shown (TX)`), "the address's state sets the filter: the rules of Texas, public and held");
+ok(count(tx, /data-llr-row="/g) === L.largeLoadStat(file, "largeload|rules|state|TX") && text(tx).includes(`${L.largeLoadStat(file, "largeload|rules|state|TX")} of 124 rules shown (TX)`), "the address's state sets the filter: the rules of Texas, public and held");
 const held = table({ status: "held" });
-ok(count(held, /data-llr-row="/g) === 12 && text(held).includes("22 of 122 rules shown (license needed)"), "the status filter's held choice shows the 22 rows held for a license");
+ok(count(held, /data-llr-row="/g) === 12 && text(held).includes("23 of 124 rules shown (license needed)"), "the status filter's held choice shows the 23 rows held for a license");
 const dom = table({ find: "dominion" });
 ok(count(dom, /data-llr-row="/g) >= 1 && [...dom.matchAll(/data-llr-open="[^"]+"[^>]*>([^<]+)</g)].length >= 1, "a utility is found by name");
 const byDate = table({ sort: "date", dir: "desc" });
@@ -187,7 +187,7 @@ ok(!txLaws.includes("data-license-held"), "a bill withheld for a robots file is 
 const gaAz = renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: ["GA", "AZ", "HI"], clearStates: () => {} }));
 const said = [...gaAz.matchAll(/data-law-search="([^"]+)" data-law-search-state="([A-Z]{2})"/g)].map((m) => `${m[2]} ${m[1]}`).join("; ");
 ok(said === "GA not read; AZ none found; HI not searched" && ["GA: ", "AZ: ", "HI: "].every((w) => text(gaAz).includes(w)) && !gaAz.includes("<table"), "Georgia not read, Arizona none found where searched, Hawaii not searched: each in place, with no table drawn");
-ok(text(txLaws).includes(`The utilities' own large-load rules: ${L.largeLoadStat(file, "largeload|rules|state|TX")} in TX`) && txLaws.includes('href="/cost-of-power?view=allgrids&amp;rstate=TX#large-load-rules"') && /\(\d+ changes? in the last 90 days\)/.test(text(txLaws)), "a chosen state links its utilities' own rules on the All grids tab, with their count and the changes'");
+ok(text(txLaws).includes(`The utilities' own large-load rules: ${L.largeLoadStat(file, "largeload|rules|state|TX")} in TX`) && txLaws.includes('href="/cost-of-power?view=allgrids&amp;rstate=TX#large-load-rules"') && /\(\d+ changes? in the 90 days to 13 November 2026\)/.test(text(txLaws)), "a chosen state links its utilities' own rules on the All grids tab, with their count and the changes'");
 ok(count(laws, /data-law-withheld="TX"/g) === 1 && laws.includes('data-laws-searched="22"') && count(laws, /data-law-search-state="/g) === 22 && laws.includes('data-laws-rules="all"'), "with no state chosen: Texas's withheld bill is a row, and one line names the 22 states with no row and what the read found in each");
 ok(!/href="data:/.test(laws) && laws.length < 220_000, `the laws weigh ${Math.round(laws.length / 1000)} thousand characters`);
 sound(laws, "the laws");

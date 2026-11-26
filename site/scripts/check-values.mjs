@@ -137,7 +137,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 405: the interconnection explorer (the default, CAISO in positions; ERCOT in MW over a window; SPP; a held queue)
   "/explore/interconnection", "/explore/interconnection?queue=ercot&measure=mw&from=2018&to=2025", "/explore/interconnection?queue=spp",
   "/explore/interconnection?queue=nyiso",
-  "/impact", "/impact?tech=utility_pv&state=mn&bstate=sd", "/impact?tech=natural_gas&state=tx&instate=50&btech=geothermal&bstate=ca", "/impact?state=ia&iaval=1&levy=30&bstate=ne", "/impact?tech=utility_pv&state=or&iaval=1&btech=utility_pv&bstate=nd", "/impact?tech=utility_pv&state=mi&iaval=1&bstate=vt&bown=1.4&bownyears=25", "/impact?state=il&levy=80&bstate=wv", "/impact?tech=datacenter&state=va&dmw=1000&invest=3000&perm=50&mwh=5000000&bstate=la", "/impact?tech=datacenter&state=la&dmw=5000&invest=50000&perm=1000&cons=7500&dbuild=5&brate=10&erate=10&btech=land_based_wind",
+  "/impact", "/impact?tech=utility_pv&state=mn&bstate=sd", "/impact?tech=natural_gas&state=tx&instate=50&btech=geothermal&bstate=ca", "/impact?state=ia&iaval=1&levy=30&bstate=ne", "/impact?tech=utility_pv&state=or&iaval=1&btech=utility_pv&bstate=nd", "/impact?tech=utility_pv&state=mi&iaval=1&bstate=vt&bown=1.4&bownyears=25", "/impact?state=il&levy=80&bstate=wv", "/impact?tech=datacenter&state=va&dmw=1000&invest=3000&perm=50&mwh=5000000&bstate=la", "/impact?tech=datacenter&state=la&dmw=5000&invest=50000&perm=1000&cons=7500&dbuild=5&brate=10&erate=10&btech=land_based_wind", "/impact?tech=datacenter&state=ar&dmw=600&invest=6000&perm=500&matshare=40&bstate=mi&bdmw=1000&binvest=3000&bperm=40&bdlife=30",
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=spp&asset=wind",  // session 145: MISO is blank on the page, so the fourth view is SPP's wind
   // session 38: today's level's price range
   "/play/ev",  // session 3276: the EV game's four figures at the defaults (ev|US|...)
@@ -158,10 +158,18 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 8901 (chain 507, part C): the four sets of the whole country, every figure a pf| key into a committed page file
   "/learn/problems/who-trades-with-whom", "/learn/problems/storm-across-the-country", "/learn/problems/under-the-ground-and-in-the-wind",
   "/learn/problems/where-energy-goes",
+  // session 10404 (chain 720, part E): the waiting set of the ERW forecast's report card, every figure a pf| key into site/data/predict/scores.json
+  "/learn/problems/a-forecasts-report-card",
   // session 9001 (chain 601, part H): the congestion page's tables, every figure a pf| key into site/data/conditions/congestion.json
   "/congestion", "/congestion?op=caiso&year=all",
   // and grid conditions' window at a glance, every figure a pf| key into site/data/conditions/<operator>.json
   "/conditions", "/conditions?a=spp&event=uri_2021", "/conditions?a=caiso&event=caiso_heat_2022&b=spp",
+  // session 10401 (chain 720, part C): the ERW forecast, every figure a pf| key into site/data/predict/<place>.json or
+  // scores.json (with no file there yet the page draws no figure, and has no floor until a run with the files writes one)
+  "/forecast", "/forecast?a=region-cal&b=region-tex&s=price&m=mape",
+  // session 10402 (chain 720, part D): energy equities, every figure a pf| key into site/data/equities/energy_prices.json
+  // or a series' file (with the contract's example files the page draws no figure)
+  "/equities", "/equities?p=henry_hub&win=5y",
   // session 8905 (chain 590, part C): the fifth set of the whole country
   "/learn/problems/your-own-balancing-authority",
   // session 49: the network's default node card (ERCOT)
@@ -1503,6 +1511,18 @@ async function main() {
       let pass = t !== undefined && t !== null && same && textOk;
       // session 9001: the conditions pages' forms join the text test on their own line (tests 315 and 1903 pin both ends of textOk)
       if (!pass && condOk && t !== undefined && t !== null && same) pass = true;
+      // chain 720 (session 10404): /forecast writes a megawatt of demand whole with commas (lib/predict.ts valueWords): an
+      // hour of tomorrow or of a past day, and an error in MW (the summary's mae; the column mae, position 6, of the
+      // scores' rows). A price and a percent keep two decimals and pass the rule above. Found by this check run on a
+      // build of the page with window B's files: 70 of tomorrow's 72 figures failed on "54,040" against 54039.5
+      const predictWhole = /^pf\|predict\/(?:[^|]+\|series\/demand\/(?:tomorrow\/|history\/|summary\/[^/]+\/mae\/)|scores\.json\|rows\/\d+\/6$)/.test(check) && text === Math.round(Number(raw)).toLocaleString("en-US");
+      if (!pass && predictWhole && t !== undefined && t !== null && same) pass = true;
+      // chain 720 (session 10404): /equities writes a change above zero with its sign (lib/equities.ts signedPct and
+      // signedLevel: "+0.32%", "+1.25"), two decimals always. A fall and a zero pass the rule above. Found by this check
+      // run on a build of the page with window A's files: 21 of the 43 figures failed on "+0.32%" against 0.32
+      const equitiesSigned = /^pf\|equities\/[^|]+\|(?:.*\/)?moves(?:_value_weight)?\/[a-z]+\/(?:pct|ch)$/.test(check) && Number(raw) > 0
+        && text === `+${Number(raw).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}${check.endsWith("/pct") ? "%" : ""}`;
+      if (!pass && equitiesSigned && t !== undefined && t !== null && same) pass = true;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
       // that day's, and a date the page writes beside the figure must be the same date

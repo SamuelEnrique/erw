@@ -93,6 +93,10 @@ READS_THE_DISK = {
     "lib/countryfiles.ts": 'return process.env.ERW_REGIONS_DIR ?? path.join(process.cwd(), "data", "regions");',
     "lib/regionsdata.ts": 'return regionsFile("ba_boundaries.json");',
     "lib/datacenterdata.ts": "const g = INDEX.grids[grid];",
+    # session 10402 (chain 720): the equities page files under data/equities/. A series' file is the one the list names
+    # for an id the address names (the id is looked up in the list: lib/equities.ts picksOf, never used as a path), and a
+    # name that is not a plain .json file name, or one under series/, is refused, as is any "..".
+    "lib/equitiesfiles.ts": r'if (!/^(series\/)?[A-Za-z0-9][A-Za-z0-9._-]*\.json$/.test(rel) || rel.includes("..")) return null;',
     "lib/finder.ts": "const f = `${outDir()}/${SUMMARY}`;",
     "lib/findings.ts": "if (!/^[a-z0-9_.-]+$/i.test(cardId) || !fs.existsSync(f)) return null;",
     "lib/howsoondata.ts": None,
@@ -100,6 +104,10 @@ READS_THE_DISK = {
     # data/ (lib/problemsets/*.ts); the name is refused unless it is a .json path under data/ with no "..", "." or empty step
     "lib/pagefile.ts": "if (!parsePf(`pf|${file}|`)) throw new Error(`not a page file under site/data: ${file}`);",
     "lib/policyweekdata.ts": None,
+    # session 10401 (chain 720): the ERW forecast's page files under data/predict/. A place's file is the one the index
+    # names for a place the address names (the place is looked up in the index, never used as a path), the two ledgers
+    # are two fixed names, and a name that is not a plain .json file name is refused
+    "lib/predictfiles.ts": r"if (!/^[a-z0-9][a-z0-9_-]*\.json$/.test(name)) return null;",
     "lib/problemEditions.ts": r"if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !editions().includes(date)) return null;",
     "lib/problems.ts": 'path.join(process.cwd(), "data", "merchant_snapshot.json")',
     "lib/resourcesdata.ts": 'if (!/^[A-Za-z0-9._-]+$/.test(file) || file.includes("..")) return null;',

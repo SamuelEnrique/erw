@@ -69,6 +69,8 @@ The newest year is partial: it has the year-to-date rows and its months, and no 
 **An hour's demand is the average over the hour.** An operator's own record peak is measured over minutes and reads
 a little higher: ERCOT's 2023 record is 85,508 MW; the hour here is 85,432.
 
+**EIA's estimates inside Adjusted demand (session 10214).** "Nothing is filled" is the ERW's rule. EIA's Adjusted demand, which this table reads for a balancing authority, already holds EIA's own estimate for an hour the authority reported nothing for (EIA's "Demand" blank) or reported implausibly (another value), and the screen uses such an hour as a reported one. On the workbooks of 3 October 2026, local years 2019 to 2025: ERCOT 24 hours (all in 2025), CAISO 94, PJM 171 (7 of them replaced values, one of 2,147,409,866 MW), MISO 58, SPP 2, ISO-NE 2, NYISO none: 351 hours. One of the 105 peaks of the page's file is such an hour: MISO's highest hour of 2025, 120,343 MW at 15:00 Central on 24 July 2025, a day MISO reported nothing. MISO's own highest reported hour of 2025 is 118,106 MW on 29 July 2025 (+1.29 percent on 2019, against +3.21). Which to show is the owner's ruling (`wip/audit-demand-2`); until then the table is as EIA publishes it ([the audit](../reviews/demand-model-audit-2026-11-26.md), finding 1).
+
 **Texas, December 2025.** EIA's file is blank for ERCOT for parts of 5 to 14 December 2025 (24 hours of the year are
 not used). 2025 holds 8,736 of 8,760 hours and is written.
 
@@ -98,6 +100,13 @@ site's copy and on the page for California.
 A weather adjustment; the larger balancing authorities outside the seven; who is using the power; demand served behind
 the meter (rooftop solar lowers the demand a grid sees at midday); a forecast.
 
+**The cell that grew most (session 10214).** The summary names the month-and-hour cell with the largest change from
+2019 to the last whole year: the largest of up to 288 cells, each one month of one year against the same month of
+2019. It moves with the weather. For ERCOT the cell that grew most is July at 02:00 to 2023 (+26.95 percent), October
+at 16:00 to 2024 (+35.13) and January at 02:00 to 2025 (+42.55); January 2025 was the coldest January held for ERCOT's
+five cities (568 heating degree days, against 472 in January 2019). The sentence says so since session 10214; the
+figure is unchanged.
+
 ## On the page
 
 Since session 152 demand growth is one page at one address, `/demand`, in review, with views kept in the address (two then; since session 239 a third, consumption, what `/consumption` showed, read from `eia_retail_sales_monthly` and `eia_sector_energy_consumption_monthly`):
@@ -106,7 +115,10 @@ Since session 152 demand growth is one page at one address, `/demand`, in review
   chart and number for number.
 - **With the weather taken out** (`/demand?view=weather`, with `?figure=` and `?year=`): the table
   `eia930_demand_weather`, whose method is [demand growth with the weather taken out](demand_weather.md). It was built
-  as a page of its own at `/demand/weather`, which redirects to the view.
+  as a page of its own at `/demand/weather`, which redirects to the view. Its growth is against the mean of 2019 to
+  2021, a base that holds the lockdowns of 2020, not against 2019 alone, so the two views give two figures for one grid
+  and year: 2025's average demand, MISO +2.20 percent here and +4.10 there, NYISO -2.73 and -0.48, PJM +5.37 and +7.16,
+  CAISO +4.45 and +2.86 (session 10214; until then the first view called the second "the same growth").
 
 No method or limitation is written out on the page face. What stood there in prose is now this note, and on the page
 a few words that show the same sentence when the mouse rests on them:
@@ -255,7 +267,7 @@ The as-metered view draws these at its foot (`site/lib/decisions.ts`, `DEMAND_DE
 5. An hour's demand is the average over the hour, so an operator's own record peak, measured over minutes, reads a little higher: ERCOT's 2023 record is 85,508 MW and the hour here 85,432. **Default:** Hourly averages, as EIA publishes them. **Source:** ERCOT's published 2023 peak; EIA-930's hourly demand. (session 97)
 6. The Lower 48 has averages and no peak: its demand is EIA's sum over every balancing authority, faulty hours included, and such an hour passes the screen while it would set the peak. **Default:** No peak for the Lower 48. **Source:** docs/methods/demand_growth.md, "The Lower 48 has no peak". (session 97)
 7. California's hours of November 2023 to 2 December 2025 are read one hour earlier, since EIA dated them one hour late; a row that would land on an hour already held is dropped and the emptied hour is not filled. **Default:** Set back one hour, 31 October 2023 23:00 to 2 December 2025 23:00 UTC. **Source:** docs/methods/eia930_caiso_break.md, "The late hours": against CAISO's own data and against the sun. (session 82)
-8. A balancing authority's demand is EIA's Adjusted demand, and the Lower 48's is EIA's Demand, whose workbook has no adjusted column; each hour is dated by its start. **Default:** Adjusted demand for an authority; Demand for the Lower 48. **Source:** EIA-930's per-area workbooks, sheet "Published Hourly Data". (session 97)
+8. A balancing authority's demand is EIA's Adjusted demand, and the Lower 48's is EIA's Demand, whose workbook has no adjusted column; each hour is dated by its start. Adjusted demand holds EIA's own estimate where an authority reported nothing or an implausible value, and the page uses such an hour as a reported one: 351 hours of the seven authorities from 2019 to 2025, MISO's highest hour of 2025 (24 July, a day MISO reported nothing) among them. **Default:** Adjusted demand for an authority; Demand for the Lower 48. **Source:** EIA-930's per-area workbooks, sheet "Published Hourly Data"; the count of EIA's estimates is session 10214's, on the workbooks of 3 October 2026 (docs/reviews/demand-model-audit-2026-11-26.md, finding 1). (session 97)
 9. The areas are the seven grid operators' balancing authorities and the Lower 48; the larger authorities outside them (TVA, Southern, Bonneville and others) are not held since 2019 and are not shown. **Default:** Seven operators and the Lower 48. **Source:** docs/methods/demand_growth.md, "Input". (session 97)
 
 ## What waits for the owner (session 7018)

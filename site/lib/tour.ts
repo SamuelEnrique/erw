@@ -110,7 +110,7 @@ export const NEW_STOPS: Stop[] = [
   },
   {
     href: "/ai-energy", title: "Energy per AI query", seconds: 30, landed: true,
-    line: "The energy a query to an AI model uses, as each publisher printed it, with who measured it and how.",
+    line: "Energy figures as each publisher printed them: an AI query, a training run, or a company's whole fleet with AI among the rest, with who measured it and how.",
     look: "Read \"Every figure, as printed\", then \"The publishers\".",
     headings: ["Every figure, as printed", "The publishers"],
   },
@@ -125,6 +125,28 @@ export const NEW_STOPS: Stop[] = [
     line: "Is a grid tight, and is it congested: demand against the forecast, the megawatts out of service, the constraints binding and the alerts in force, on one time axis, for any day or for one of the nine events.",
     look: "Read \"The strips\" for ERCOT, then choose Winter Storm Uri under Event; then read \"What is held for each grid\".",
     headings: ["The strips", "What is held for each grid"],
+  },
+];
+
+/** Session 10401 (chain 720): stops written and held back although their page is on main, because the files the page
+ *  draws are not there yet: until they are, the page has none of the headings its stop quotes. `landed` cannot say this
+ *  (a new stop is `landed` exactly when its page is in site/app: tests/test_session8902_tour.py), so such a stop waits
+ *  here, on no page of the tour, with what it waits for in `waits`. The session that lands those files moves the stop
+ *  into NEW_STOPS with `landed: true`, without `waits`, and runs check-tour. */
+export const WAITING_STOPS: (Stop & { waits: string })[] = [
+  {
+    href: "/forecast", title: "ERW forecast", seconds: 40, waits: "the ERW forecast's page files (site/data/predict/), written by the data machine's forecast build",
+    line: "The ERW's own forecast of tomorrow's demand and price for a region or a balancing authority, with the operator's own forecast beside it, and the record of how each has done against what happened.",
+    look: "Read \"Tomorrow\" for Texas, then \"How it has done\": the months and hours where the ERW forecast lost stand in the same table as the ones where it won. Then read \"Every place\".",
+    headings: ["Tomorrow", "How it has done", "Every place"],
+  },
+  // Session 10402 (chain 720, part D): energy equities. It waits for the data machine's equities files: until they hold
+  // figures the page is its title and one blank.
+  {
+    href: "/equities", title: "Energy equities", seconds: 40, waits: "the equities page files with figures (site/data/equities/), written by the data machine's equities build",
+    line: "The listed energy companies by segment, the energy indices and the energy prices beside them: a company, an index or a segment as a line over any window, and what each company filed, as published.",
+    look: "Read \"The line\" for the first segment and lay an energy price over it; then read \"Every company\" and choose one to see what it filed.",
+    headings: ["The line", "Every company"],
   },
 ];
 

@@ -121,6 +121,13 @@ export async function headers(table: string): Promise<string[]> {
   return rows.map((r) => r.line);
 }
 
+/** Session 11000 (chain 750, the browser read of 26 November 2026): how many days of hourly demand the Grid tool reads
+ *  back from the clock. A grid's page sets the latest day EIA has published beside the same day a week earlier. That
+ *  day begins up to a day before the latest hour, the week adds seven, and the latest hour is itself behind the clock
+ *  by as long as the loads are: the window must reach the lag plus eight days. Nine days held only while the loads
+ *  were less than a day behind; sixteen hold up to eight days behind. */
+export const DEMAND_DAYS = 16;
+
 /** ISO timestamp for `days` days before now, for PostgREST filters. */
 export function daysAgo(days: number, now = Date.now()): string {
   // floored to the hour, so every render within an hour asks for the same URL (and hits the cache)

@@ -111,8 +111,9 @@ def score(x, m):
     return len(x), round(float(e.mean()), 2), round(float((e / x["actual"]).mean() * 100), 3)
 
 
-def refit(M, T, k):
-    """The note's regression for day T and hour k, fitted here on the window's own rows."""
+def refit(M, T, k, recent=False):
+    """The note's regression for day T and hour k, fitted here on the window's own rows; with recent, the regression
+    with the three recent regressors of the note's section 14 (the last hour of day A, the hour on A-1, the hour on T-14)."""
     raw = M.to_numpy(float)
     fil = raw.copy()
     for j in range(1, 23):
@@ -137,7 +138,8 @@ def refit(M, T, k):
     def row(D):
         i = pos.get(D)
         A, S = D - pd.Timedelta(days=H), D - pd.Timedelta(days=7)
-        if i is None or A not in pos or S not in pos:
+        A1, F = D - pd.Timedelta(days=H + 1), D - pd.Timedelta(days=14)
+        if i is None or A not in pos or S not in pos or (recent and (A1 not in pos or F not in pos)):
             return None
         a, s = pos[A], pos[S]
         x = [1.0, lf[a, k], np.log(dmean[a]), lf[s, k], np.log(week.iloc[a])]
@@ -145,6 +147,8 @@ def refit(M, T, k):
         x += [is_hol(D), is_bridge(D), is_hol(A), is_bridge(A), is_hol(S), is_bridge(S)]
         t = D.dayofyear / 365.25
         x += [np.sin(2 * np.pi * t), np.cos(2 * np.pi * t), np.sin(4 * np.pi * t), np.cos(4 * np.pi * t)]
+        if recent:
+            x += [lf[a, 23], lf[pos[A1], k], lf[pos[F], k]]
         return np.array(x)
 
     rows, ys = [], []
@@ -174,7 +178,7 @@ def main():
     dem, tz = demand_places(a.tables, places)
     ops = operator(a.tables)
     bt = read(a.backtest, ["ts_utc", "value", "x_place", "x_method"])
-    bt = bt[bt["x_method"] == "regression"]
+    bt = bt[bt["x_method"].isin(["regression", "regression_recent"])]
     events = {}
     for p in sorted(glob.glob(os.path.join(ROOT, "site", "data", "regions", "events", "*.json"))):
         e = json.load(open(p, encoding="utf-8"))
@@ -191,17 +195,18 @@ def main():
         x["yesterday"] = np.where(i >= H, raw[np.clip(i - H, 0, None), k], np.nan)
         x["week_ago"] = np.where(i >= 7, raw[np.clip(i - 7, 0, None), k], np.nan)
         x["operator"] = ops[p].reindex(pd.DatetimeIndex(x["ts"])).to_numpy() if p in ops else np.nan
-        b = bt[bt["x_place"] == p]
-        x["regression"] = pd.Series(b["value"].to_numpy(float), index=pd.DatetimeIndex(pd.to_datetime(b["ts_utc"], utc=True))).reindex(pd.DatetimeIndex(x["ts"])).to_numpy()
+        for meth in ("regression", "regression_recent"):
+            b = bt[(bt["x_place"] == p) & (bt["x_method"] == meth)]
+            x[meth] = pd.Series(b["value"].to_numpy(float), index=pd.DatetimeIndex(pd.to_datetime(b["ts_utc"], utc=True))).reindex(pd.DatetimeIndex(x["ts"])).to_numpy()
         maes = {}
         last = x["day"].max()
         recent = x[x["day"] > last - pd.Timedelta(days=730)]
-        c2 = recent.dropna(subset=["actual", "yesterday", "week_ago", "regression", "operator"])
-        for m in ("yesterday", "week_ago", "regression"):
+        c2 = recent.dropna(subset=["actual", "yesterday", "week_ago", "regression", "regression_recent", "operator"])
+        for m in ("yesterday", "week_ago", "regression", "regression_recent"):
             maes[m] = score(c2, m)[1]
         chosen = min(maes, key=maes.get)
         x["erw"] = x[chosen]
-        c = x.dropna(subset=["actual", "erw", "operator", "yesterday", "week_ago", "regression"]).reset_index(drop=True)
+        c = x.dropna(subset=["actual", "erw", "operator", "yesterday", "week_ago", "regression", "regression_recent"]).reset_index(drop=True)
         last = c["day"].max()
         rec = c["day"] > last - pd.Timedelta(days=730)
         cuts = {("all", ""): np.ones(len(c), bool), ("last_2_years", ""): rec.to_numpy()}
@@ -218,12 +223,12 @@ def main():
                 cuts[("event", eid)] = msk
         shown = {(r["method"], r["cut"], r["key"]): r for r in rows if r["place"] == p}
         for (cut, key), msk in cuts.items():
-            for m in ("erw", "operator", "yesterday", "week_ago", "regression"):
+            for m in ("erw", "operator", "yesterday", "week_ago", "regression", "regression_recent"):
                 n, mae, mape = score(c[msk], m)
                 r = shown.get((m, cut, key))
                 ok = r is not None and r["hours"] == n and abs(r["mae"] - mae) <= 0.011 and abs(r["mape"] - mape) <= 0.0011
                 figs.append((f"{p}.{m}.{cut}.{key}", None if r is None else (r["hours"], r["mae"], r["mape"]), (n, mae, mape), ok))
-        extra = set(shown) - {(m, cu, ke) for (cu, ke) in cuts for m in ("erw", "operator", "yesterday", "week_ago", "regression")}
+        extra = set(shown) - {(m, cu, ke) for (cu, ke) in cuts for m in ("erw", "operator", "yesterday", "week_ago", "regression", "regression_recent")}
         for e in sorted(extra):
             figs.append((f"{p}.{e[0]}.{e[1]}.{e[2]}", shown[e]["hours"], None, False))
         # the regression refitted here on sample days
@@ -232,11 +237,12 @@ def main():
             if T not in M.index:
                 continue
             for hr in (3, 17):
-                mine = refit(M, T, hr)
-                ts = x.loc[(x["day"] == T) & (x["hour"] == hr), "regression"]
-                stored = float(ts.iloc[0]) if len(ts) and np.isfinite(ts.iloc[0]) else None
-                ok = (mine is None and stored is None) or (mine is not None and stored is not None and abs(mine - stored) <= 0.15)
-                refits.append((f"{p}.{d}.h{hr}", stored, mine, ok))
+                for meth in ("regression", "regression_recent"):
+                    mine = refit(M, T, hr, recent=meth == "regression_recent")
+                    ts = x.loc[(x["day"] == T) & (x["hour"] == hr), meth]
+                    stored = float(ts.iloc[0]) if len(ts) and np.isfinite(ts.iloc[0]) else None
+                    ok = (mine is None and stored is None) or (mine is not None and stored is not None and abs(mine - stored) <= 0.15)
+                    refits.append((f"{p}.{meth}.{d}.h{hr}", stored, mine, ok))
         print(f"{p}: chosen {chosen}, {sum(1 for f_ in figs if f_[0].startswith(p + '.') and f_[3])} of {sum(1 for f_ in figs if f_[0].startswith(p + '.'))} figures equal", flush=True)
     out = os.path.join(HERE, "figures.csv")
     with open(out, "w", encoding="utf-8", newline="\n") as fh:

@@ -10,7 +10,7 @@
 //
 // Each figure is compared with the value the pack prints, at the precision it prints. Prints one line a figure and
 // exits 1 on any difference (or when the table cannot be read, or the file of steps no longer describes the table).
-// The figures are those of the table as it stood on 2026-10-14 (the last twelve months October 2025 to September
+// The figures are those of the table as it stood on 2026-11-26 (session 10000; until then 2026-10-14, the last twelve months October 2025 to September
 // 2026). When the newest complete month moves (October 2026, about the first days of November) every figure moves:
 // update EXPECTED, the pack and the methods note together, in the same commit. Reads only; writes nothing.
 import fs from "node:fs";
@@ -25,40 +25,40 @@ const STEPS = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "battery_
 /** The pack's figures: name, the value printed, and the decimals it is printed to. */
 export const EXPECTED = [
   // the headline of each case the pack quotes (scenario A at the defaults)
-  ["ercot 4h foresight: last twelve months, USD per kW", 81.40, 2],
-  ["ercot 4h foresight: last twelve months, USD for 100 MW", 8140219, 0],
+  ["ercot 4h foresight: last twelve months, USD per kW", 80.40, 2],
+  ["ercot 4h foresight: last twelve months, USD for 100 MW", 8040161, 0],
   ["ercot 4h foresight: share from ancillary services, percent", 33, 0],
   ["ercot 4h foresight: a bad month, USD for 100 MW", 475477, 0],
   ["ercot 4h foresight: debt payments, USD a year for 100 MW", 2261119, 0],
-  ["ercot 4h foresight: debt coverage, times", 2.63, 2],
+  ["ercot 4h foresight: debt coverage, times", 2.58, 2],
   ["ercot 4h foresight: 2023 to 2025, a year, USD per kW", 255.08, 2],
-  ["ercot 4h foresight: every year held, a year, USD per kW", 614.58, 2],
-  ["ercot 4h foresight: without February 2021, a year, USD per kW", 269.68, 2],
+  ["ercot 4h foresight: every year held, a year, USD per kW", 613.27, 2],
+  ["ercot 4h foresight: without February 2021, a year, USD per kW", 268.38, 2],
   ["ercot 4h foresight: the one month's share of everything held, percent", 57, 0],
-  ["ercot 4h foresight: NPV at the hurdle rate, USD million for 100 MW", -69.78, 2],
-  ["ercot 4h foresight: IRR, percent a year", -8.8, 1],
+  ["ercot 4h foresight: NPV at the hurdle rate, USD million for 100 MW", -70.42, 2],
+  ["ercot 4h foresight: IRR, percent a year", -9.3, 1],
   ["ercot 4h foresight: breakeven toll, USD per kW-month", 4.19, 2],
-  ["ercot 4h dayahead: last twelve months, USD per kW", 73.00, 2],
-  ["ercot 4h dayahead: share from ancillary services, percent", 35, 0],
-  ["ercot 4h dayahead: debt coverage, times", 2.26, 2],
-  ["caiso 4h foresight: last twelve months, USD per kW", 79.05, 2],
-  ["caiso 4h dayahead: last twelve months, USD per kW", 64.96, 2],
-  ["caiso 4h dayahead: share from ancillary services, percent", 51, 0],
-  ["caiso 4h dayahead: debt coverage, times", 1.90, 2],
+  ["ercot 4h dayahead: last twelve months, USD per kW", 72.59, 2],
+  ["ercot 4h dayahead: share from ancillary services, percent", 36, 0],
+  ["ercot 4h dayahead: debt coverage, times", 2.24, 2],
+  ["caiso 4h foresight: last twelve months, USD per kW", 80.12, 2],
+  ["caiso 4h dayahead: last twelve months, USD per kW", 65.96, 2],
+  ["caiso 4h dayahead: share from ancillary services, percent", 53, 0],
+  ["caiso 4h dayahead: debt coverage, times", 1.94, 2],
   // scenario A moved, the default case's revenue held
-  ["contract 50 percent at USD 10: debt coverage, times", 3.48, 2],
-  ["contract 50 percent at USD 10: NPV, USD million for 100 MW", -51.13, 2],
-  ["capital cost 620: NPV, USD million for 100 MW", -23.12, 2],
-  ["capital cost 620: IRR, percent a year", 2.1, 1],
+  ["contract 50 percent at USD 10: debt coverage, times", 3.46, 2],
+  ["contract 50 percent at USD 10: NPV, USD million for 100 MW", -51.46, 2],
+  ["capital cost 620: NPV, USD million for 100 MW", -23.77, 2],
+  ["capital cost 620: IRR, percent a year", 1.8, 1],
   // the sensitivity chart at the defaults (data/battery_scenario_steps.json for efficiency and cycles)
   ["sensitivity: first row", "Cycles a day, at most", null],
   ["sensitivity: second row", "Capital cost", null],
-  ["sensitivity: cycles, the move down to 0.5, USD million", 11.14, 2],
-  ["sensitivity: cycles, the move up to 1.5, USD million", 1.40, 2],
+  ["sensitivity: cycles, the move down to 0.5, USD million", 10.93, 2],
+  ["sensitivity: cycles, the move up to 1.5, USD million", 1.37, 2],
   ["sensitivity: capital cost, the larger move, USD million", 9.52, 2],
-  ["sensitivity: degradation, the larger move, USD million", 3.02, 2],
-  ["scenario B at 92 percent and 2 cycles: last twelve months, USD per kW", 88.24, 2],
-  ["1.5 cycles: last twelve months, USD per kW", 83.57, 2],
+  ["sensitivity: degradation, the larger move, USD million", 2.98, 2],
+  ["scenario B at 92 percent and 2 cycles: last twelve months, USD per kW", 87.18, 2],
+  ["1.5 cycles: last twelve months, USD per kW", 82.54, 2],
 ];
 
 function env(name) {

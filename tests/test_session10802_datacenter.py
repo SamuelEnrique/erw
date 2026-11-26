@@ -63,6 +63,40 @@ class TheRunFiles(unittest.TestCase):
             self.assertNotIn("DIFFERS", r.stdout)
             self.assertGreaterEqual(r.stdout.count(" ok"), 18, r.stdout)
 
+    def test_downloaded_python_agrees_for_arkansas_and_georgia(self):
+        """Session 10813: the state's rate with construction covered (Arkansas) and an end year with a spending window (Georgia)."""
+        node = shutil.which("node")
+        if not node:
+            raise unittest.SkipTest("node is not on the path")
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            env = dict(os.environ, DC_FILES_PAIR="ar-ga")
+            r = subprocess.run([node, "--no-warnings", os.path.join(SITE, "scripts", "dc-files-check.mjs"), d], cwd=ROOT, capture_output=True, text=True, timeout=120, env=env)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            r = subprocess.run([sys.executable, os.path.join(d, "run.py")], capture_output=True, text=True, timeout=120)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertNotIn("DIFFERS", r.stdout)
+            # Arkansas: 4 equipment purchases of 1.364e9 and 40 percent of the 392e6 building, at the state's 6.5 percent
+            self.assertIn("A forgone: script 364832000.0", r.stdout)
+            # Georgia: the build's equipment only (through 2031), at 7.56 percent
+            self.assertIn("B forgone: script 103118400.0", r.stdout)
+
+    def test_downloaded_python_agrees_for_ohio_and_illinois_electricity(self):
+        """Session 10817: Ohio's elective self-assessing kWh schedule and Illinois' ten monthly blocks, 5,000,000 MWh a year for 20 years."""
+        node = shutil.which("node")
+        if not node:
+            raise unittest.SkipTest("node is not on the path")
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            env = dict(os.environ, DC_FILES_PAIR="oh-il")
+            r = subprocess.run([node, "--no-warnings", os.path.join(SITE, "scripts", "dc-files-check.mjs"), d], cwd=ROOT, capture_output=True, text=True, timeout=120, env=env)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            r = subprocess.run([sys.executable, os.path.join(d, "run.py")], capture_output=True, text=True, timeout=120)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertNotIn("DIFFERS", r.stdout)
+            self.assertIn("A elec: script 190580000.0", r.stdout)   # 9,529,000 a year
+            self.assertIn("B elec: script 203286212.7", r.stdout)   # 10,164,310.64 a year
+
 
 class TheParameters(unittest.TestCase):
     def test_files_name_sources_and_hold_no_dash(self):

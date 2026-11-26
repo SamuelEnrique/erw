@@ -250,6 +250,17 @@ def main(argv=None):
     reads_path = os.path.join(args.in_dir, "policy_reads.csv")
     reads = read(reads_path) if os.path.exists(reads_path) else None
     cp = os.path.join(args.in_dir, "utility_large_load_rule_changes.csv")
+    if args.daily and not os.path.exists(cp):
+        # Session 10000 (chain 701, data request 26 of docs/state/data_requests_five_tools.md): GitHub's runner never
+        # holds this table (it is not a rolling table, and policy_monitor_site.py rebuilds only its own three), so from
+        # 20 November the daily file left out the 15 large-load orders of FERC and the grid operators. Rebuilt from the
+        # ERW's archive first, as policy_monitor_site.py does; a rebuild that does not finish is not an input
+        import subprocess
+        print("policy_monitor_records: utility_large_load_rule_changes is not on this machine; rebuilding it from the archive (erw-archive)")
+        r = subprocess.run([sys.executable, os.path.join(ROOT, "warehouse", "archive", "restore.py"), "utility_large_load_rule_changes",
+                            "--from-bucket", "--out", cp], cwd=ROOT)
+        if r.returncode != 0 and os.path.exists(cp):
+            os.remove(cp)
     changes = read(cp) if os.path.exists(cp) else None
     return write(build(read(path), reads, impact_reads(), changes=changes), args.out, args.daily)
 
