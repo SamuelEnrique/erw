@@ -86,12 +86,13 @@ name both. NLR's offshore wind model (an installer) and its distributed wind mod
 Each workbook's dollars are its own dollar year (`x_dollar_year`). The table converts nothing: a reader who adds the
 models together, or compares them, deflates them first.
 
-**Two more models, 26 November 2026** (session 10000, chain 701, window C's data request 8). The table holds six since:
+**Three more models, 26 November 2026** (session 10000, chain 701, window C's data request 8). The table holds seven since:
 
 | `x_technology` | NLR's model | Release (the About sheet) | File | Saved project | Per MW of | Dollar year | Multipliers (IMPLAN) |
 |---|---|---|---|---|---|---|---|
 | `coal` | JEDI Coal Model | C12.23.16 | `01d-jedi-coal-model-rel-c12-23-16.xlsm` | 600 MW in South Dakota, construction from 2014 over 55 months | nameplate MW (600) | 2011 | Year of Data 2014 |
 | `csp_trough` | JEDI Concentrating Solar Power Trough Model | CSP12.23.16 | `01d-jedi-csp-trough-model-rel-csp12-23-16.xlsm` | 100 MW parabolic trough plant with 6 hours of thermal storage in California, built 2011 | nameplate MW (100) | 2009 | Year of Data 2014 |
+| `biopower` | JEDI Biopower Model | B12.23.16 | `01d-jedi-biopower-model-rel-b12-23-16.xlsm` | 50 MW direct combustion plant (stoker boiler, corn stover) in California, construction from 2013 over 24 months | plant MW (50) | 2012 | Year of Data 2014 |
 
 Each was read as the four were (every formula cell emptied and computed again; the saved project reproduced, 30 of
 30 figures, before any location was set; every total the sum of its three lines at all 52 locations). The four held
@@ -100,9 +101,9 @@ rows came back the same keys and values (only `retrieved_at`, the day the file w
 table: the conventional hydropower model (CH12.23.16), which computed from its constants with its saved inputs gives
 13 of its 30 summary figures other than the ones it saved (its local construction spending 156.70 against 210.92
 million dollars), so the recalculation refuses it before any location is set; and the transmission line model
-(TL12.23.16), whose project is a line of so many miles, so its figures are per mile, not per MW. NLR's petroleum,
-biofuels and marine and hydrokinetic models were not read (the request names them only if their workbooks carry a
-state list; not checked this time). The page offers the four types until window C adds the two.
+(TL12.23.16), whose project is a line of so many miles, so its figures are per mile, not per MW. Of NLR's biofuels models only biopower is a power plant, and it is in (added later that day); the marine and
+hydrokinetic workbook carries no list of locations on its Project Location, so it is not read for every state; the
+petroleum model and the biofuel refinery models are not power plants. The page offers the four types until window C adds the two.
 
 ### How the ERW read them: each workbook's own formulas, for every state
 
