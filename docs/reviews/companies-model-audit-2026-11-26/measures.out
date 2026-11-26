@@ -1,0 +1,30 @@
+built "2026-11-16T09:04:33Z"
+double_count {"companies": 106, "mw": 62735.3, "generators": 360, "owned_mw_all": 261761.7, "rank_without_overlap": {"top10": {"changed_places": 5, "left_top": 1}, "top50": {"changed_places": 41, "left_top": 2}}, "rank_operated_planned_queue_only": {"top10": {"changed_places": 6, "left_top": 1}, "top50": {"changed_places": 46, "left_top": 4}}, "top10": [["eia-6452", "Florida Power & Light Co", 42934.1, 919.2], ["eia-18642", "Tennessee Valley Authority", 40452.1, 12.2], ["eia-55951", "Constellation Nuclear", 30026.4, 3984.8], ["eia-7140", "Georgia Power Co", 27775.7, 3872.5], ["eia-19876", "Virginia Electric & Power Co", 25081.5, 3873.3], ["eia-5416", "Duke Energy Carolinas, LLC", 24832.0, 463.8], ["eia-1
+owned_without_mw {"links": 651, "of": 5680, "companies": 337, "companies_with_owned": 2047}
+double_rounding {"cells": {"owned_mw": 18, "footprint_mw": 37, "plants_mw": 9, "queue_mw": 16}, "companies": 50, "max_gap_mw": 1}
+policy {"held_links": 3249, "cells_above_zero": 0, "regulators_listed": 0, "has_policy_option_returns": 0}
+held_rows_vs_links {"datacenter_facilities": {"page_says_rows": 486, "main_copy_file_rows": 458, "coverage_rows": "458"}, "datacenter_projects": {"page_says_rows": 220, "main_copy_file_rows": 193, "coverage_rows": "193"}, "energy_deals": {"page_says_rows": 958, "main_copy_file_rows": 583, "coverage_rows": "583"}, "nyiso_interconnection_queue": {"page_says_rows": 1604, "main_copy_file_rows": 1814, "coverage_rows": "1814"}, "policy_actions": {"page_says_rows": 3249, "main_copy_file_rows": 2057, "coverage_rows": "2127"}}
+kind_filter {"page_list": ["regulator", "lab or hyperscaler", "OEM", "utility", "IPP", "lender or investor", "developer", "operator", "other"], "missing": {"power marketer": 439}}
+families {"constellation": {"rows": 13, "operating_mw": 32154.0, "largest_row": ["eia-55951", "Constellation Nuclear", 23798.1], "planned_mw": 0.0, "queue_mw": 1336.5, "rows_with_parent": 1}, "nextera": {"rows": 23, "operating_mw": 4402.7, "largest_row": ["eia-55906", "NextEra Energy Point Beach LLC", 1311.0], "planned_mw": 1453.6, "queue_mw": 2674.4, "rows_with_parent": 2}, "duke": {"rows": 12, "operating_mw": 60829.6, "largest_row": ["eia-5416", "Duke Energy Carolinas, LLC", 23868.3], "planned_mw": 815.2, "queue_mw": 0.0, "rows_with_parent": 2}, "dominion": {"rows": 6, "operating_mw": 11531.3, "largest_row": ["eia-17539", "Dominion Energy South Carolina, Inc", 6212.9], "planned_mw": 4353.9, "queue_
+parents {"companies_with_parent": 18, "parent_linked": 11, "bases": {"nrc_power_reactors": 15, "reviewed_aliases.csv": 3}}
+nextera_rows [["eia-6854", "NextEra Energy Seabrook LLC", "IPP", 1242.0, 2337.8], ["nextera-energy-interconnection-holdings", "NextEra Energy Interconnection Holdings, LLC", "developer", 0.0, 1691.4], ["eia-55906", "NextEra Energy Point Beach LLC", "IPP", 1311.0, 1311.0], ["eia-67843", "NextEra Energy Resources - ERCOT", "IPP", 0.0, 1000.0], ["nextera-energy-resources-interconnection-holdings", "NextEra Energy Resources Interconnection Holdings, LLC", "developer", 0.0, 983.0], ["eia-64260", "Nextera Energy Resources", "IPP", 291.6, 493.2]]
+near_duplicates {"groups": 98, "rows": 202, "eia_id_pairs": 96, "shared_exact_names": 37, "example_keys": []}
+hold {"leaks": {}, "held_companies_listed": 139, "held_companies_whose_name_no_public_row_writes": 10, "held_only_not_listed": 1309}
+hq {"with_hq": 2031, "hq_not_among_states": 1015, "with_hq_and_no_operating": 1722}
+ercot_queue_links {"Active": 1169, "Completed": 589}
+kinds {"IPP": 5143, "utility": 3224, "other": 2707, "developer": 1192, "power marketer": 439, "operator": 15, "OEM": 2, "lab or hyperscaler": 1, "lender or investor": 1}
+other_kind 2707
+energy_companies {"rows": 562, "from_deals": 541, "researched": 21, "stage_names_exchange": 3, "conf_below_50": 431, "conf_below_50_from_deals": 431, "from_deals_with_location": 195}
+SOURCE datacenter_facilities 
+SOURCE datacenter_projects 
+SOURCE eia860_generator_owners eia:eia860:owner U.S. Energy Information Administration, Form EIA-860 Annual Electric Generator Report, 4___Owner_Y2025.xlsx, https://www.eia.gov/electricity/data/eia860/
+SOURCE eia860_plants_annual eia:eia860:plant U.S. Energy Information Administration, Form EIA-860 Annual Electric Generator Report, plant file, https://www.eia.gov/electricity/data/eia860/
+SOURCE eia860m_operating_generators eia:860m EIA-860M Monthly Update to the Annual Electric Generator Report, sheets Operating, Operating_PR (Inventory of Operating Generators as of September 2026; Inventory of Operating Generators as of September 2026 - Puerto Rico), https://www.eia.gov/electricity/data/eia860m/xls/september_generato
+SOURCE eia860m_planned_generators eia:860m EIA-860M Monthly Update to the Annual Electric Generator Report, sheets Planned, Planned_PR (Inventory of Planned Generators as of September 2026; Inventory of Planned Generators as of September 2026 - Puerto Rico), https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xl
+SOURCE eia861_utility_data eia:eia861:utility_data U.S. Energy Information Administration, Form EIA-861 Annual Electric Power Industry Report (Utility_Data_<year>.xlsx), https://www.eia.gov/electricity/data/eia861/
+SOURCE energy_deals 
+SOURCE ercot_interconnection_queue ercot:interconnection_queue ERCOT Generation Interconnection Status (GIS) report, https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1281327706
+SOURCE nrc_power_reactors nrc:power_reactors U.S. Nuclear Regulatory Commission, List of Power Reactor Units and the operating and decommissioning reactors datasets, https://www.nrc.gov/reactors/operating/list-power-reactor-units.html
+SOURCE nyiso_interconnection_queue nyiso:interconnection_queue NYISO NYISO Interconnection Queue, https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx
+SOURCE policy_actions 
+SOURCE utility_service_territories eia:eia861_territory U.S. Energy Information Administration, Form EIA-861 Annual Electric Power Industry Report (Service_Territory_2025.xlsx), https://www.eia.gov/electricity/data/eia861/
