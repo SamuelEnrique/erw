@@ -42,11 +42,15 @@ function lastHeld(f: OperatorFile, c: string): string | null {
   return null;
 }
 
-function NoneHeld({ title, f, c, w, k }: { title: string; f: OperatorFile; c: string; w: { start: string; end: string }; k: string }) {
+// Session 10219 (the conditions audit, finding 8): ERCOT's adder ended on 4 December 2025 because ERCOT changed how it
+// prices scarcity (docs/methods/ercot_rt_price_adders.md); the page said only that it ended. Said where the strip is empty.
+const ERCOT_SCARCITY_WORDS = "The adder ended because ERCOT changed how it prices scarcity, not because scarcity ended: since 5 December 2025 ERCOT clears energy and ancillary services together in real time, and scarcity is priced through the ancillary services' own demand curves, which this page does not draw.";
+
+function NoneHeld({ title, f, c, w, k, extra }: { title: string; f: OperatorFile; c: string; w: { start: string; end: string }; k: string; extra?: string }) {
   const last = lastHeld(f, c);
   return (
     <div className="my-2 border border-dashed border-rule bg-panel px-3 py-4 text-center text-sm text-muted" data-none-held={k}>
-      {title}: no figure held from {w.start} to {w.end}. {last ? `The file's last figure is of ${last}.` : "The file holds none."}
+      {title}: no figure held from {w.start} to {w.end}. {last ? `The file's last figure is of ${last}.` : "The file holds none."}{extra ? ` ${extra}` : ""}
     </div>
   );
 }
@@ -144,7 +148,7 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
             <ChartFrame title="Online reserve price adder, USD/MWh (hourly mean)" tip={<Hint words=" (source)" why={`${src("scarcity")}. ${st.scarcity.note ?? ""}`} />}>
               <LineChart lines={hAdder} unit="USD/MWh" ariaLabel={`${f.name} reserve price adder by hour`} />
             </ChartFrame>
-          ) : <NoneHeld title="Online reserve price adder" f={f} c="adder_hours" w={w} k={`${tag}-scar`} />) : <Blank s={st.scarcity} name={STRIP_NAMES.scarcity} k={`${tag}-scar`} />}
+          ) : <NoneHeld title="Online reserve price adder" f={f} c="adder_hours" extra={f.op === "ercot" ? ERCOT_SCARCITY_WORDS : undefined} w={w} k={`${tag}-scar`} />) : <Blank s={st.scarcity} name={STRIP_NAMES.scarcity} k={`${tag}-scar`} />}
         </>
       ) : null}
       {dDemand.length ? (
@@ -166,7 +170,7 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
         <ChartFrame title="Hours the adder was above zero, a day" tip={<Hint words=" (source)" why={`${src("scarcity")}. ${st.scarcity.note ?? ""}`} />}>
           <TimeChart series={dAdder} unit="hours" x="day" ariaLabel={`${f.name} scarcity hours by day`} />
         </ChartFrame>
-      ) : hourly.length ? null : <NoneHeld title="Hours the adder was above zero" f={f} c="adder_hours" w={w} k={`${tag}-scar-d`} />) : hourly.length ? null : <Blank s={st.scarcity} name={STRIP_NAMES.scarcity} k={`${tag}-scar-d`} />}
+      ) : hourly.length ? null : <NoneHeld title="Hours the adder was above zero" f={f} c="adder_hours" extra={f.op === "ercot" ? ERCOT_SCARCITY_WORDS : undefined} w={w} k={`${tag}-scar-d`} />) : hourly.length ? null : <Blank s={st.scarcity} name={STRIP_NAMES.scarcity} k={`${tag}-scar-d`} />}
       {st.alerts.status === "shown" ? (
         <>
           <h4 className="mb-1 mt-4 font-serif text-base text-accent" data-alerts-heading={tag}>Alerts and notices in force, {w.start} to {w.end} ({alerts.length})</h4>
