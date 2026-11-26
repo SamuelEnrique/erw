@@ -23,7 +23,7 @@ Both are public (EIA, a work of the U.S. government; record 1 of `warehouse/meta
 
 ## What the file does not say
 
-It ranks industries and states by what EIA printed. It does not explain a change, compare an industry's energy with its output, or add an industry's figures across the surveys, which measure different things (MECS counts manufacturing's fuel by plant; SEDS and the Monthly Energy Review count the whole industrial sector, agriculture, mining and construction included).
+It ranks industries and states by what EIA printed. It does not explain a change, compare an industry's energy with its output, or add an industry's figures across the surveys, which measure different things (MECS counts manufacturing's fuel by plant; SEDS and the Monthly Energy Review count the whole industrial sector, agriculture, mining and construction included). The page says so in the lead (session 10224): the sector's total also counts feedstocks and the sector's share of electrical system losses, while MECS's Table 3.2 counts only energy used as fuel, electricity at 3,412 Btu a kWh; manufacturing's 15,742 TBtu of fuel in 2022 is 50.5 percent of the Monthly Energy Review's industrial total of that year (31,168.8 TBtu) and 60.4 percent of its end use (26,075.8). The headline names its figure "by fuel".
 
 ## Build
 

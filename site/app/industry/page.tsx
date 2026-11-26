@@ -129,14 +129,15 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
         title="Energy use by industry"
         lead={<>How much energy American industry uses, of which fuels, in which industries and states, and what EIA projects: the industrial sector month by month, the manufacturing industries of the{" "}
           <Hint words={`${F.industries.survey_year} survey`} why={SRC.mecs} />, every state year by year, and EIA&apos;s outlook to {F.outlook.years[F.outlook.years.length - 1]}.{" "}
-          <Hint words="Two of each side by side" why="Choose two industries, two states or two of EIA's cases; each pair is drawn in the same table or chart." />.</>}
+          <Hint words="Two of each side by side" why="Choose two industries, two states or two of EIA's cases; each pair is drawn in the same table or chart." />.{" "}
+          <Hint words="The industrial sector and the survey count different things" why="The industrial sector of the Monthly Energy Review and the State Energy Data System is manufacturing, agriculture, mining and construction together, and its total counts energy used as a raw material (feedstocks) and the sector's share of the energy lost making and moving electricity. The 2022 survey counts manufacturing alone, and only the energy it uses as fuel, with its electricity at 3,412 Btu a kWh and no losses. An industry's figure is not a part of the sector's total." />.</>}
         under={<p className="mt-2 text-xs text-muted" data-license-line="1">License: public (<Hint words="EIA" why="U.S. Energy Information Administration: its data are in the public domain, and EIA asks to be credited as the source. Every table this page reads is public in the ERW's license register." />). File built {F.built.slice(0, 10)}.</p>}
       />
 
       <HeadlineRow>
         <HeadlineNumber label="Industrial sector, latest month" value={last ? <Fig v={monthValue(F, "total", last)} src={SRC.monthly} k="h-month" /> : <Fig v={null} src={SRC.monthly} k="h-month" />} unit={F.monthly.unit} note={last ? `${monthWords(last)}: ${F.monthly.labels.total}` : undefined} />
         <HeadlineNumber label={`Industrial sector, ${lastYear ?? "latest whole year"}`} value={<Fig v={lastYear ? yearSum(F, "total", lastYear) : null} src={`The sum of the year's twelve months. ${SRC.monthly}`} k="h-year" />} unit={F.monthly.unit} note="the twelve months summed" />
-        <HeadlineNumber label={`Largest manufacturing industry, ${F.industries.survey_year}`} value={<Fig v={top.total} src={SRC.mecs} k="h-top" />} unit={F.industries.unit.split(" ")[0]} note={`${top.name} (NAICS ${top.naics}), United States`} />
+        <HeadlineNumber label={`Largest manufacturing industry by fuel, ${F.industries.survey_year}`} value={<Fig v={top.total} src={SRC.mecs} k="h-top" />} unit={F.industries.unit.split(" ")[0]} note={`${top.name} (NAICS ${top.naics}), United States: fuel consumption, feedstocks not counted`} />
       </HeadlineRow>
 
       <ToolSection title="The industrial sector, month by month" id="monthly">
