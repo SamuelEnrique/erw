@@ -85,7 +85,7 @@ export function DcCharts({ rows }: { rows: EntityRow[] }) {
           </>
         ) : <p className="text-sm text-muted" role="status">No counted facility is planned or building with a first report held.</p>}
       </ChartFrame>
-      <ChartFrame title="The operators with the most MW stated" note={<>The operator, else the developer; the MW its counted facilities state.</>}>
+      <ChartFrame title="The operators with the most MW stated" note={<>The operator a source names, as every view by operator reads it; a facility whose sources name only a developer is not here (decision 9); the MW its counted facilities state.</>}>
         {ops.length ? (
           <>
             <Bars chart="operator" unit=" MW" label="The operators with the most MW stated"
