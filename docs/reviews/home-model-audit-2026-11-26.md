@@ -15,7 +15,7 @@ Session 10236, 26 November 2026, chain 710 (part D), the old laptop. Read as a f
 - **The Thesis Builder's description promises a company map it no longer makes (finding 12).** Since 9 October a run searches for no company; the landscape, the funnel and the pipeline fill only from a provider's answer a person pastes. Its method note says a number not found in a cited source "is not shown"; the code prints it in any sentence of 40 characters or more, followed by "(not confirmed: ...)", 80 numbers in 49 texts of the five saved runs (finding 13). Fixed in words; hiding them is for ruling.
 - **What a user's upload holds and where it goes is as the code says.** A Harmonic answer is stored whole with the run (internal table, SHA-256 of the pasted text); a PitchBook answer in the run's row under a one-time key; a Crunchbase answer is refused before it is read. No pasted text goes to a model. The niche typed goes to Anthropic's small model only when the rules cannot decide, and the run sends niche, stage and geography to the run's models. `/privacy` names none of this (listed for Samuel; it applies only to the internal view).
 - **The spending guard caps a run at USD 1.00 and a day at USD 8.00, six runs a day; the gate's call at 40 an hour on one server instance.** A stage that costs more than its reserve is kept: the ceiling stops the next stage, not the call (two of the five saved runs, at the old ceiling, cost USD 1.42 and 1.14).
-- **Eleven branches fix words and move no figure; two carry a test only, for ruling (the Digest's stories; the held grids' interval times on the strip); one shows the literal-number check's behaviour for ruling.** No data request. Nothing needs the key. No security weakness of high severity was found.
+- **Thirteen branches fix words and move no figure (`wip/audit-home-1` to `-5`, `-7` to `-14`; twelve merged as `wip/audit-home-words` for landing, the tour's Digest stop `-8` kept apart for Samuel's yes, since session 9601 left that stop for his ruling); three carry a test only, for ruling (`-6`, `-15`, `-16`).** No data request. Nothing needs the key. No security weakness of high severity was found.
 
 ## The ground: each file and what it does
 
@@ -133,22 +133,22 @@ Two of the five saved runs (version 1, the old USD 2.00 ceiling) cost USD 1.42 a
 
 | # | Severity | Finding | Effect | Fix | Branch |
 |---|---|---|---|---|---|
-| 1 | Medium | The home page's Digest block prints "no data" and an odd link | 0 of 5 stories drawn; "The full Digest of ERW Daily Digest, 2026-11-12" | words (the link); the stories for ruling | `wip/audit-home-1`; `wip/audit-home-13` (test only) |
-| 2 | Medium | "Every answer from the tables" is said of the Thesis Builder | one tool of the five named | words | `wip/audit-home-2` |
-| 3 | Medium | "11 findings" counts analyses | 7 findings, 3 of them in two versions, and the impact study | words | `wip/audit-home-3` |
-| 4 | Medium | "What a battery earned" is the model's battery with perfect foresight | the home's one dollar figure | words | `wip/audit-home-4` |
-| 8 | Medium | The tour's Digest stop quotes two headings the page does not draw | 2 of 2 headings | words | `wip/audit-home-8` |
-| 12 | Medium | The Thesis Builder's line promises a company map no run makes | 3 of its 10 named parts | words | `wip/audit-home-12` |
-| 13 | Medium | The method note says an unconfirmed number is not shown | 80 numbers in 49 texts of 5 saved runs | words; hiding them for ruling | `wip/audit-home-14` (words); `wip/audit-home-15` (test only) |
-| 5 | Low | "Operating" batteries hold EIA's standby and out-of-service units | 508 MW in the US, 200 MW in ERCOT | words | `wip/audit-home-5` |
-| 6 | Low | A held grid's interval time is printed beside "license needed" | 3 grids | for ruling | `wip/audit-home-6` (test only) |
-| 7 | Low | "Every number on this page is read from the ERW's tables" | the Digest's stories carry the news's numbers | words | `wip/audit-home-7` |
-| 9 | Low | The tour's count and list | "Twelve stops, eight minutes" for 16 and 10; 4 of 9 later stops unnamed | words | `wip/audit-home-9` |
-| 10 | Low | "The home page lists every tool by who it is for" | 2 places | words | `wip/audit-home-10` |
-| 11 | Low | The AI energy stop calls every figure a query's | 5 of 23 rows are fleets | words | `wip/audit-home-11` |
-| 14 | Low | The method note describes the company search as current | 3 sections | words | `wip/audit-home-16` |
+| 1 | Medium | The home page's Digest block prints "no data" and an odd link | 0 of 5 stories drawn; "The full Digest of ERW Daily Digest, 2026-11-12" | words (the link); the stories for ruling | `wip/audit-home-1` (`5fbcb2e7c`); `wip/audit-home-15` (`d89401635`, test only) |
+| 2 | Medium | "Every answer from the tables" is said of the Thesis Builder | one tool of the five named | words | `wip/audit-home-2` (`10202bb0a`) |
+| 3 | Medium | "11 findings" counts analyses | 7 findings, 3 of them in two versions, and the impact study | words | `wip/audit-home-3` (`3f135816f`) |
+| 4 | Medium | "What a battery earned" is the model's battery with perfect foresight | the home's one dollar figure | words | `wip/audit-home-4` (`5dfb83b5f`) |
+| 8 | Medium | The tour's Digest stop quotes two headings the page does not draw | 2 of 2 headings | words, for Samuel's yes (session 9601 left the stop for his ruling) | `wip/audit-home-8` (`e60dc30c0`) |
+| 12 | Medium | The Thesis Builder's line promises a company map no run makes | 3 of its 10 named parts | words | `wip/audit-home-12` (`df07aa4ad`) |
+| 13 | Medium | The method note says an unconfirmed number is not shown | 80 numbers in 49 texts of 5 saved runs | words; hiding them for ruling | `wip/audit-home-13` (`adb6f7a43`, words); `wip/audit-home-16` (`83654e097`, test only) |
+| 5 | Low | "Operating" batteries hold EIA's standby and out-of-service units | 508 MW in the US, 200 MW in ERCOT | words | `wip/audit-home-5` (`72da5b7ac`) |
+| 6 | Low | A held grid's interval time is printed beside "license needed" | 3 grids | for ruling | `wip/audit-home-6` (`9b9194376`, test only) |
+| 7 | Low | "Every number on this page is read from the ERW's tables" | the Digest's stories carry the news's numbers | words | `wip/audit-home-7` (`55a72d8e5`) |
+| 9 | Low | The tour's count and list | "Twelve stops, eight minutes" for 16 and 10; 4 of 9 later stops unnamed | words | `wip/audit-home-9` (`5386e11c3`) |
+| 10 | Low | "The home page lists every tool by who it is for" | 2 places | words | `wip/audit-home-10` (`1e0a3885d`) |
+| 11 | Low | The AI energy stop calls every figure a query's | 5 of 23 rows are fleets | words | `wip/audit-home-11` (`2a9636751`) |
+| 14 | Low | The method note describes the company search as current | 3 sections | words | `wip/audit-home-14` (`fce430daf`) |
 
-(Branch numbers follow the order the branches were made, not the findings' numbers.)
+(The branch of a words fix carries its finding's number; `-15` and `-16` are the test-only branches of findings 1 and 13.)
 
 ## 1. The Digest block (Medium)
 
@@ -156,7 +156,7 @@ Two of the five saved runs (version 1, the old USD 2.00 ceiling) cost USD 1.42 a
 - **Why it is wrong.** The block reads the first five items under "## Top of the industry". The issue of 6 November was the last of that form; the issue of 12 November (the newest, `latest.md`) is "ERW Daily Digest" with "The opening number", "The numbers", "What moved", "More". So the block prints "no data for the digest: docs/digest/latest.md has no 'Top of the industry' section" under "The weekday brief of energy news, scored and ranked", and the title cleaner, written for "ERW's Energy Digest, ", leaves the whole title in the link: "The full Digest of ERW Daily Digest, 2026-11-12 and the archive". A first reader sees an empty block on the front page.
 - **The test.** `tests/test_audit_home_1.py`: the newest issue has no "Top of the industry" (passes on main); the link's words name the issue's date only (fails on main).
 - **The fix, words only.** The title cleaner also takes "ERW Daily Digest, ", so the link reads "The full Digest of 2026-11-12 and the archive", as it did for the old form.
-- **For Samuel's ruling** (`wip/audit-home-13`, test only). The block reads the new form's "What moved" when "Top of the industry" is not there. Default "left as it is". The effect: 5 stories drawn instead of "no data" (the newest issue's "What moved" holds 5).
+- **For Samuel's ruling** (`wip/audit-home-15`, `d89401635`, test only, `tests/test_audit_home_15.py`). The block reads the new form's "What moved" when "Top of the industry" is not there. Default "left as it is". The effect: 5 stories drawn instead of "no data" (the newest issue's "What moved" holds 5).
 
 ## 2. "Every answer from the tables" (Medium)
 
@@ -205,14 +205,15 @@ Two of the five saved runs (version 1, the old USD 2.00 ceiling) cost USD 1.42 a
 - **Where.** `site/lib/tour.ts`, the stop `/digest`: `look` and `headings`.
 - **Why it is wrong.** "Read \"Top of the industry\", then \"ERW's Numbers Today\"." `/digest` draws today's issue only, and there has been none since 12 November; the newest issue has no "Top of the industry" at all and "ERW's Numbers Today" only as a sub-heading of "More". `check-tour` would fail both on a built site.
 - **The test.** `tests/test_audit_home_8.py`: the newest issue's headings (passes on main); the stop quotes no heading the newest issue lacks, and `/digest` draws "Archive" (fails on main).
-- **The fix, words only.** "Read today's issue; when there is none yet, open the newest under \"Archive\" and read \"The opening number\", then \"The numbers\"." Its heading for the check: "Archive", which `/digest` draws every day.
+- **The fix, words only.** "Read today's issue; when there is none yet, open the newest the page names, or the newest under \"Archive\", and read its opening number, then its numbers." Its one quoted heading, for the check: "Archive", which `/digest` draws every day (`test_session9601`'s rule that every quoted phrase is a heading the check reads holds).
+- **Why it is apart.** Session 9601 (20 November) found the same two headings and left the stop "as it is, for the owner's ruling: no Digest work is done here". The branch changes only the tour's words, but it is returned for Samuel's yes, not merged into the words branch.
 
 ## 9. The tour's count and list (Low)
 
 - **Where.** `site/lib/pages.ts`, the tour's line (drawn on `/about` and `/data`); `site/app/tour/page.tsx`, the lead.
 - **Why it is wrong.** The line says "Twelve stops for a first visit, about eight minutes"; the path has 16 stops, 595 seconds ("about 10 minutes" on the tour itself). The lead names five of the nine stops after the ruled seven and not "Where energy goes", "Energy per AI query", "Every state" or "Grid conditions".
 - **The test.** `tests/test_audit_home_9.py` (16 stops, 595 seconds; the words fail on main).
-- **The fix, words only.** The line drops the count it cannot keep ("Stops for a first visit, one page each ...") and names the later stops; the lead adds "where energy goes, the energy of AI, every state and grid conditions".
+- **The fix, words only.** The line drops the count it cannot keep ("A guided path for a first visit, one page a stop with Back and Next: ...") and names the later stops; the lead adds "the resource map, where energy goes, the energy of AI, every state and grid conditions". `tests/test_session292.py`'s assertion of the old line is changed with it.
 
 ## 10. "Lists every tool by who it is for" (Low)
 
@@ -239,20 +240,38 @@ Two of the five saved runs (version 1, the old USD 2.00 ceiling) cost USD 1.42 a
 
 - **Where.** `docs/methods/thesis.md`, "Where a number comes from" and the placeholders' table; `warehouse/thesis/build.py`, `check_numbers`.
 - **Why it is wrong.** `check_numbers` replaces a text under 40 characters (or one with no cited source) by "not confirmed"; a longer text keeps every number and adds "(not confirmed: <the numbers>)". In the five saved runs 49 texts print 80 numbers that way, in every tab but the funnel (drawn: "... 14.2 (not confirmed: 2026, 2, 25, 14.2)"). A market run's scope, timing and capital sentences pass the same check.
-- **The test.** `tests/test_audit_home_14.py`: `check_numbers` with a stand-in run keeps a long sentence's number and marks it (passes on main); the note says so (fails on main).
-- **The fix, words only.** The note says what the code does: a short cell is replaced by "not confirmed"; a sentence keeps its number and is followed by "(not confirmed: ...)", naming the numbers no cited source holds, so a reader sees both.
-- **For Samuel's ruling** (`wip/audit-home-15`, test only). A sentence holding a number no cited source holds is not shown (as a trend's Fact already is). Default "left as it is". The effect on the saved runs: 49 texts of 5 runs (9, 10, 7, 10, 13) replaced by "not confirmed".
+- **The test.** `tests/test_audit_home_13.py`: `check_numbers`, read in the code, keeps a long sentence's number and marks it (passes on main); the note says so (fails on main).
+- **The fix, words only.** The note says what the code does: a short cell is replaced by "not confirmed"; a sentence keeps its number and is followed by "(not confirmed: ...)", naming the numbers no cited source holds, so a reader sees both. `tests/test_session135.py`'s assertion of the old sentence is changed with it.
+- **For Samuel's ruling** (`wip/audit-home-16`, `83654e097`, test only, `tests/test_audit_home_16.py`). A sentence holding a number no cited source holds is not shown (as a trend's Fact already is). Default "left as it is". The effect on the saved runs: 49 texts of 5 runs (9, 10, 7, 10, 13) replaced by "not confirmed".
 
 ## 14. The company search, described as current (Low)
 
 - **Where.** `docs/methods/thesis.md`: "Which companies are on the map", "The confidence score".
 - **Why it is wrong.** "Companies come from three places: the ERW's own companies and deals tables, web search, and PitchBook (below)." The note's own lead says the ERW does not search for companies since 9 October; the selection rule and the confidence score describe the runs written before.
-- **The test.** `tests/test_audit_home_16.py` (the words fail on main).
+- **The test.** `tests/test_audit_home_14.py` (the words fail on main).
 - **The fix, words only.** Each of the two sections says it describes a run written before 9 October 2026.
 
 ## The words branches drawn and read
 
-(Filled in below as each branch is drawn.)
+Each branch's words were drawn with the site's own code: `draw.mjs` (`/`, `/tour`, the 16 stops, six tabs of a saved report) on `wip/audit-home-words` and on `wip/audit-home-8`; `draw2.mjs` (`/about`, which draws `lib/pages.ts`'s lines, and `docs/methods/thesis.md` through the site's `render`) on `wip/audit-home-words`. Every new sentence was found in the drawing; no em dash in any drawing. `nofig.py` set every number of the 24 drawn pages against origin/main's drawing of the same rows: 23 pages equal; on `/` only the "100" of "100 MW" (the words removed) and "2026." becoming "2026," differ. No figure moved.
+
+| Branch | Where the words are drawn | Read |
+|---|---|---|
+| `wip/audit-home-1` | `/`, the Digest block | pass: "The full Digest of 2026-11-12 and the archive" |
+| `wip/audit-home-2` | `/`, Analysis | pass: "Research on demand, a warehouse you can ask, the events and policy, every answer from the tables; and the Thesis Builder, internal, whose market reports cite the web pages and public series they rest on." |
+| `wip/audit-home-3` | `/`, Analysis | pass: "11 analyses Analyses you can run in the research library, each with the inputs you choose: seven findings, three of them in two versions, and the impact study." |
+| `wip/audit-home-4` | `/`, Economics | pass: "USD 81.40 per kW What the model's 4-hour battery in ERCOT would have earned with perfect foresight of prices, October 2025 to September 2026, per kW of power." |
+| `wip/audit-home-5` | `/`, Infrastructure and Games | pass: "54,488.90 MW Batteries EIA lists as operating in the US, a few standby and out-of-service units among them, nameplate power, from its monthly generator inventory."; "18,204.50 MW Batteries EIA lists as operating in ERCOT, standby and out-of-service units among them, ..." |
+| `wip/audit-home-7` | `/`, the source line | pass: "Every figure of the strip and the five groups is read from the ERW's tables and checked against them, and today's chart from its table; the analyses are counted from the library's own catalogue; the Digest's stories are the news as each source reported it." |
+| `wip/audit-home-8` | `/tour/7` | pass: "What to look at Read today's issue; when there is none yet, open the newest the page names, or the newest under \"Archive\", and read its opening number, then its numbers." |
+| `wip/audit-home-9` | `/tour`; `/about` | pass: "16 stops ... about 10 minutes in all: ... trade, the resource map, where energy goes, the energy of AI, every state and grid conditions"; "The tour: A guided path for a first visit, one page a stop with Back and Next: ..." |
+| `wip/audit-home-10` | `/tour`; `/tour/16` | pass: "After the tour: the home page shows the five groups of tools, and data and methods says how every number is built." |
+| `wip/audit-home-11` | `/tour/14` | pass: "The energy of AI as each publisher printed it, for a query, a training run or a company's whole fleet in a year, with who measured it and how." |
+| `wip/audit-home-12` | `/about` | pass: "Thesis Builder: Type a niche and get a sourced market report of it: ... the company landscape, deal funnel and pipeline fill from a data provider's answer you paste from your own account. Internal." |
+| `wip/audit-home-13` | `/data/methods/thesis` (rendered) | pass: "Every number is checked against the fetched sources its row cites. A short cell whose number is not found there is replaced by \"not confirmed\". A sentence (40 characters or more) keeps its words and its numbers and is followed by \"(not confirmed: ...)\" ..."; the placeholders' row |
+| `wip/audit-home-14` | `/data/methods/thesis` (rendered) | pass: "This section and the next describe a run written before 9 October 2026. ..."; "In such a run companies came from three places ..."; "In a run written before 9 October 2026, each company has a score ..." |
+
+- The twelve (all but `-8`) merge onto origin/main of 26 November (`07f3c9a7a`) without a conflict: `wip/audit-home-words` (`51eca33ab`). The 16 new tests with every test file that reads a changed file (`site/app/page.tsx`, `site/lib/tour.ts`, `site/app/tour/`, `site/lib/pages.ts`, `docs/methods/thesis.md`: 67 files) on the merge: 793 passed, 42 skipped, 1 failed, `test_session156`'s node test of the Ask loop, which fails the same way on clean origin/main (`tests_main.out`). On origin/main each of the 13 words tests fails in its words test and passes in its other (`tests_main.out`). Two older tests were changed with the words they held (`test_session292`, `test_session135`). No new test runs node, so none needs the guard.
 
 ## Not covered, or left open
 
@@ -267,4 +286,11 @@ Two of the five saved runs (version 1, the old USD 2.00 ceiling) cost USD 1.42 a
 
 ## Landing, rulings and data (returned to the chain's main session)
 
-(Filled in below.)
+- **For landing (words only):** `wip/audit-home-words` (`51eca33ab`), twelve words branches merged (`-1` `5fbcb2e7c`, `-2` `10202bb0a`, `-3` `3f135816f`, `-4` `5dfb83b5f`, `-5` `72da5b7ac`, `-7` `55a72d8e5`, `-9` `5386e11c3`, `-10` `1e0a3885d`, `-11` `2a9636751`, `-12` `df07aa4ad`, `-13` `adb6f7a43`, `-14` `fce430daf`); each drawn and read (pass); no figure moved.
+- **Ready, for Samuel's yes:** `wip/audit-home-8` (`e60dc30c0`), the tour's Digest stop, words only, drawn and read (pass); session 9601 left the stop for his ruling.
+- **For Samuel's ruling, default "left as it is":**
+  - Finding 1, `wip/audit-home-15` (`d89401635`), not for landing: the home page's Digest block reads the new form's "What moved" when "Top of the industry" is absent; 5 stories drawn instead of "no data".
+  - Finding 6, `wip/audit-home-6` (`9b9194376`), not for landing: a held grid's strip figure drawn with no unit and no interval time; 3 times and 3 units not drawn.
+  - Finding 13, `wip/audit-home-16` (`83654e097`), not for landing: a Thesis Builder sentence holding a number no cited source holds is not shown; 49 texts of the 5 saved runs replaced by "not confirmed".
+- **Data requests:** none.
+- **Needs the key:** nothing.
