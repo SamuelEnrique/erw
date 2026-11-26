@@ -58,3 +58,7 @@ What the table says, plainly:
 ## 5. The files
 
 The price is `series.price` of each place's file, with `hub`, `market` (`day-ahead`), `horizon_days` (the days between the last whole day of prices read and the target day: 1 in the backtest, 2 for the first live forecast, made at 11:00 UTC on 26 November when the warehouse held prices through 25 November) and `demand_horizon_days` (3). `operator` is `null` throughout and `operator_held` says why. Every forecast as made is appended to `site/data/predict/ledger_price.csv`, never rewritten (the one exception is the correction at the head of this note: rows for held places that should never have been written); the first rows are for 27 November, six places (TEX, ERCO, CENT, SWPP, CAL, CISO).
+
+## 6. Tried and not built (session 10601)
+
+A price regression with more of the latest days' shape (the same hour two days before, and the latest day's highest and lowest hourly prices; `runs/c730/trial_price2.py`), over the last two years: ERCOT 17.51 USD/MWh against the regression's 16.25 and yesterday's price 13.07 (worse: the latest day's highest price carries a spike into the next day); SPP 14.22 against 14.64; CAISO 5.82 against 5.91. Gains of 3 and 1.5 percent where it helps and a loss where the ERW already trails yesterday's price: it is not added as a candidate.

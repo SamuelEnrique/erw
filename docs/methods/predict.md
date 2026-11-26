@@ -227,3 +227,5 @@ The last two years with the four candidates (built 26 November 2026 at 14:05 UTC
 
 
 The ERW's error falls in every place where the new candidate is chosen (TEX from 5.22 to 4.91 percent, SE from 6.81 to 6.37, MIDA from 5.19 to 4.76, NE from 7.99 to 7.57), but the operator still wins in the same 21 places and the ERW in the same 8.
+
+Session 10601, after section 14: each horizon of `ahead.json` now uses the better of the regression and `regression_recent` by the same rule (lower mean absolute error over the last two years). `regression_recent` is chosen at 91 of 145 place-horizons; its advantage shrinks with the horizon (TEX: 3,417 against 3,464 MW at h = 3, 4,087 against 4,095 at h = 7), as the most recent hour read lies further from the day forecast. All 145 still beat the week-ago hour.
