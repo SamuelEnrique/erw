@@ -122,13 +122,26 @@ Each line changes one choice and keeps every other. The default case is Texas oi
 
 | # | Severity | Finding | Effect | Fix | Branch |
 |---|---|---|---|---|---|
-| 3 | Medium | The Lease tab taxes every month of a file, back to January 2023, at the rates held today; never said | not sized (data request 2) | words | `wip/audit-severance-3` |
-| 1 | Medium | Louisiana's floor (the posted field price) is printed under the table and not applied | not sized (no posted price held); any transport typed lowers the tax without a floor | words | `wip/audit-severance-1` |
-| 2 | Low | Louisiana condensate takes the transport deduction; the cited statute taxes condensate on gross value | -USD 250.00 on 1,000 bbl at USD 2 a barrel (-1.96 percent); -14.63 on the sample lease | figure: ruling | `wip/audit-severance-2` |
-| 4 | Low | "County levies are not here", yet New Mexico's district levy is; its default leaves it out | a New Mexico total 13.6 to 19.5 percent low without it | words | `wip/audit-severance-4` |
-| 5 | Low | "Texas condensate owes 4.6 percent with no floor"; the cited section carries the floor | 0 above USD 1 a barrel | words | `wip/audit-severance-5` |
+| 3 | Medium | The Lease tab taxes every month of a file, back to January 2023, at the rates held today; never said | not sized (data request 2) | words | `wip/audit-severance-3` (`a1d8dce6d`) |
+| 1 | Medium | Louisiana's floor (the posted field price) is printed under the table and not applied | not sized (no posted price held); any transport typed lowers the tax without a floor | words | `wip/audit-severance-1` (`f5b469121`) |
+| 2 | Low | Louisiana condensate takes the transport deduction; the cited statute taxes condensate on gross value | -USD 250.00 on 1,000 bbl at USD 2 a barrel (-1.96 percent); -14.63 on the sample lease | figure: ruling | `wip/audit-severance-2` (`36f162994`) |
+| 4 | Low | "County levies are not here", yet New Mexico's district levy is; its default leaves it out | a New Mexico total 13.6 to 19.5 percent low without it | words | `wip/audit-severance-4` (`72d183f8b`) |
+| 5 | Low | "Texas condensate owes 4.6 percent with no floor"; the cited section carries the floor | 0 above USD 1 a barrel | words | `wip/audit-severance-5` (`f59cd1171`) |
 
 - Two Medium, three Low. Only finding 2 would move a figure if fixed.
+- The four words branches (1, 3, 4, 5) were merged together onto origin/main of 26 November in a trial: no conflict, and their tests with `tests/test_session7502_severance.py`, `test_session282.py`, `test_session334.py`, `test_session239.py`, `test_session45.py` and `test_session40.py` pass (61 passed). Each branch's words test fails on main and passes on the branch; each branch's arithmetic test passes on both.
+
+## The words branches drawn and read
+
+Each branch's page was drawn to HTML with the site's own code (`draw_words.mjs`: `page.tsx` whole, both tabs, through the site's loaders, the default prices from the CSV) and its new sentences read in the drawn text, the decisions' tips included. No em dash in any drawing.
+
+| Branch | Where the words are drawn | Read |
+|---|---|---|
+| `wip/audit-severance-1` | the decisions fold, decision 9, both tabs | pass: "Louisiana's floor, the posted field price, is not held, so its value here is the price typed less the fees typed, which can be below the value the state taxes." sits between the Texas sentence and "Type each in its box." |
+| `wip/audit-severance-3` | the Lease tab's lead, after "on the same cited rules as the calculator" | pass: the two sentences read in order, before "Your file stays on your computer." |
+| `wip/audit-severance-4` | the calculator's lead | pass: "Local taxes and federal royalties are not here, with one exception: ... A Texas or Louisiana total here holds no local tax." then "Method" |
+| `wip/audit-severance-5` | the decisions fold, decision 3, both tabs | pass: the sentence reads whole, its tip's default and source unchanged |
+| the four merged | both tabs | pass: all four sentences drawn |
 
 ## 1. Louisiana's floor is printed and not applied (Medium)
 
@@ -191,10 +204,10 @@ Each line changes one choice and keeps every other. The default case is Texas oi
 - **New Mexico's "AD /2" column read as the production rate** (the rules file's note): TRD's own Total Rate equals the sum on every row (the method note); the spreadsheet itself was not read here, and neither was the assessment ratio TRD's page names.
 - **Louisiana's pressure base for an Mcf and Texas's**: not read; no web read was made.
 - **Texas's exempt royalty interests and the late-filing cut of high-cost gas** (Sec. 201.057(f)): left out by the method note, not sized.
-- **The pages in a browser**: the words branches were drawn to HTML with the site's own code and read (below); no layout, no width of 390 px.
+- **The pages in a browser**: the words branches were drawn to HTML with the site's own code and read (above); no layout, no width of 390 px.
 
 ## Landing, rulings and data (returned to the chain's main session)
 
-- **For landing (words only):** `wip/audit-severance-1`, `-3`, `-4`, `-5`.
-- **For Samuel's ruling, default "left as it is":** finding 2.
+- **For landing (words only):** `wip/audit-severance-1` (`f5b469121`), `-3` (`a1d8dce6d`), `-4` (`72d183f8b`), `-5` (`f59cd1171`). They merge together cleanly onto origin/main of 26 November; each was drawn and read (pass).
+- **For Samuel's ruling, default "left as it is":** finding 2, `wip/audit-severance-2` (`36f162994`), not for landing: Louisiana condensate stops taking the transport deduction; 1,000 bbl at USD 102.07 with USD 2 a barrel owe USD 12,758.75 instead of 12,508.75 (+250.00, +2.0 percent); no figure moves at the default (no transport typed).
 - **Data requests:** (1) EIA's crude oil first purchase prices for Texas, Louisiana and New Mexico, monthly; (2) the past rates: Louisiana's gas rate and horizontal well shares for each fiscal year July 2022 to June 2026, and TRD's New Mexico tables for each period from January 2023 to March 2026 and from September 2026.
