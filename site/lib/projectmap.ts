@@ -47,8 +47,9 @@ export const EVERYTHING: Choice = { kind: null, grid: null, tech: null, status: 
 // candidate site; docs/reviews/map-read-2026-11-16.md, rows 1 to 3): a point and a distance. The page had no way to
 // ask "within 30 miles of here": a state was the smallest choice. A point is typed as "latitude, longitude" in decimal
 // degrees (the form a web map copies); the distance is the great-circle distance on a sphere of the Earth's mean
-// radius, 3,958.8 miles, from the row's own point: EIA's coordinates for a unit, the county's or the town's internal
-// point for a queue position, the city's point for a datacenter (the "Placed at" of a row says which). Both ends are
+// radius, 3,958.8 miles, from the row's own point: EIA's coordinates of the unit's plant for a unit, the county's, the
+// city's or the town's internal point for a queue position, the operator's coordinates or the city's, town's or county's
+// point for a datacenter (the "Placed at" of a row says which; session 10216, the map audit, finding 2). Both ends are
 // counted in. A row with no point cannot be said to be near and is left out once a distance is asked for.
 export const EARTH_MILES = 3958.8;
 export type Point = { la: number; lo: number };
@@ -89,7 +90,9 @@ export function nearest(f: Pick<MapFile, "la" | "lo">, picked: number[], n: Poin
     .sort((a, b) => a.miles - b.miles || a.i - b.i);
 }
 /** Where a row's point is, in the words of the list (the file's precision code). */
-export const PLACED_AT = ["exact coordinates", "county point", "city or town point", "operator's coordinates", "not placed"];
+// session 10216 (the map audit, finding 2): a unit's point is EIA's for its plant (every unit of a plant at one point), not
+// an exact site
+export const PLACED_AT = ["EIA's plant coordinates", "county point", "city or town point", "operator's coordinates", "not placed"];
 /** What a row's date is, in the words of the list. */
 export const DATE_WORDS = ["began operating", "planned operation", "entered the queue", "planned year, as stated"];
 /** A row's status in the list's words. ERCOT's "Completed" is not ERCOT's word: its report has no status column, and the
@@ -328,7 +331,7 @@ export function cardOf(f: MapFile, i: number): Card {
     if (own) said += ` (as the queue states it: ${own})`;
   }
   const at = f.la[i] === null || f.lo[i] === null ? "" : `, ${f.la[i]}, ${f.lo[i]}`;
-  const place = ["exact coordinates" + at, `county point (Census gazetteer)${at}; not the site itself`, `city or town point (Census gazetteer)${at}; not the site itself`,
+  const place = ["EIA's coordinates of the plant" + at,`county point (Census gazetteer)${at}; not the site itself`, `city or town point (Census gazetteer)${at}; not the site itself`,
     `the operator's coordinates${at}`, "not placed"][f.pr[i]] ?? "not placed";
   const m = f.more.datacenter;
   const developer = dc ? m.developer[j] : "";
