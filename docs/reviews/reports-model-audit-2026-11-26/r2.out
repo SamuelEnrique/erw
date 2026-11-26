@@ -1,0 +1,82 @@
+== Shape premium: section 'Six ISOs' ==
+latest day-ahead month every open hub holds: 2026-10-01
+  caiso:TH_SP15_GEN-APND: da premium -0.3840, da_hours 48 of 744
+  ercot:HB_HUBAVG: da premium 0.2135, da_hours 48 of 744
+  spp:SPPNORTH_HUB: da premium 0.4936, da_hours 48 of 744
+  hubs with a premium at or below zero in that month: ['caiso:TH_SP15_GEN-APND'] (the page says 'in every hub, the grid's own load paid more')
+latest day-ahead month complete at every open hub: 2026-09-01
+  caiso:TH_SP15_GEN-APND: da premium 0.8110, simple 40.7681, pct 1.99
+  ercot:HB_HUBAVG: da premium 1.0505, simple 38.7972, pct 2.71
+  spp:SPPNORTH_HUB: da premium 3.4391, simple 36.2065, pct 9.50
+months every open hub holds day-ahead: 26; of them partial at one hub or more: 11
+complete day-ahead months at all three: 15; months with a premium at or below zero at one hub or more: 2: [('2026-04-01', [-0.31, 1.33, 0.54]), ('2026-05-01', [-0.17, 0.29, 0.86])]
+months all six hubs hold day-ahead: 26; with a premium at or below zero somewhere: [('2024-11-01', {'caiso': -0.02}), ('2025-10-01', {'caiso': -0.45}), ('2025-11-01', {'caiso': -0.3}), ('2026-01-01', {'caiso': -0.3}), ('2026-02-01', {'caiso': -0.28}), ('2026-04-01', {'caiso': -0.31}), ('2026-05-01', {'caiso': -0.17}), ('2026-10-01', {'caiso': -0.38})]
+
+== Shape premium: 'Eight years of ERCOT' ==
+complete real-time months 96, first 2018-08-01, last 2026-09-01; months held 100
+months held but not complete (left out of the chart, which places bars by order, not by date): ['2018-07-01', '2018-11-01', '2025-12-01', '2026-10-01']
+months with no real-time premium row: []
+largest twelve complete months: [('2021-02-01', 246.77), ('2019-08-01', 31.33), ('2023-08-01', 29.27), ('2022-07-01', 21.11), ('2023-09-01', 20.61), ('2023-06-01', 11.45), ('2022-12-01', 10.22), ('2022-05-01', 9.72), ('2022-02-01', 7.97), ('2019-09-01', 7.26), ('2026-01-01', 6.88), ('2020-08-01', 5.3)]
+away from Uri, of the ten largest months 5 fall in July to September
+  2018: 4 complete months; largest 2018-10 3.51
+  2019: 12 complete months; largest 2019-08 31.33
+  2020: 12 complete months; largest 2020-08 5.30
+  2021: 12 complete months; largest 2021-02 246.77
+  2022: 12 complete months; largest 2022-07 21.11
+  2023: 12 complete months; largest 2023-08 29.27
+  2024: 12 complete months; largest 2024-01 3.93
+  2025: 11 complete months; largest 2025-02 3.07
+  2026: 9 complete months; largest 2026-01 6.88
+yearly USD per MW (complete years), with and without February 2021:
+  2019: 41,886.44
+  2020: 13,552.31
+  2021: 182,548.73; without February: 16,716.40 (February is 90.8 percent of the year)
+  2022: 49,327.53
+  2023: 53,417.71
+  2024: 13,600.31
+  2025: 11 complete months; sum over them 8,806.56 (not a complete year: left out of the page's table)
+
+== Shape premium: day-ahead against real time, ERCOT, complete months of both ==
+months 96; real time less day-ahead, without February 2021: median -0.08, mean -0.38, largest 6.59, smallest -12.77; opposite signs in 1 months
+February 2021: real time 246.77, day-ahead 236.25
+
+== Shape premium: 'Where in the day' ==
+  2026-10-01 caiso:TH_SP15_GEN-APND: cheapest 09:00 5.07, dearest 18:00 61.41, days 2.0
+  2026-10-01 ercot:HB_HUBAVG: cheapest 14:00 31.40, dearest 22:00 61.65, days 2.0
+  2026-10-01 spp:SPPNORTH_HUB: cheapest 23:00 19.23, dearest 17:00 40.59, days 2.0
+  2026-09-01 (the month before) caiso:TH_SP15_GEN-APND: cheapest 09:00 20.10, dearest 06:00 52.65, days 30.0, ratio 2.62
+  2026-09-01 (the month before) ercot:HB_HUBAVG: cheapest 09:00 22.53, dearest 20:00 73.13, days 30.0, ratio 3.25
+  2026-09-01 (the month before) spp:SPPNORTH_HUB: cheapest 02:00 12.56, dearest 18:00 115.18, days 30.0, ratio 9.17
+
+== AI gigawatts: the table read as the page reads it ==
+-- as a visitor with the token sees it today (ISO-NE, MISO, NYISO held): ['caiso', 'ercot', 'pjm', 'spp']
+   cost: cheapest caiso, dearest ercot, ratio 1.11, diff 27,072,934
+   carbon: cleanest caiso, dirtiest spp, ratio 2.88
+   ratio of the worst to the best region: cost 1.11, carbon 2.88, hours at or above 200 8.42 (spp 160 / caiso 19), years to connect 2.06; the page says carbon's gap 'is still the largest of the five measures'
+   hours at or above 1,000: [('caiso', 1.0), ('ercot', 1.0), ('spp', 0.0)] (the page names the first as 'had the most')
+   regions where day-ahead ran below real time: none
+     caiso: day-ahead less real time 0.39 USD/MWh
+     ercot: day-ahead less real time 2.06 USD/MWh
+     spp: day-ahead less real time 2.48 USD/MWh
+   tally (region, better half on, of held): [('caiso', 3, 5), ('ercot', 3, 5), ('spp', 3, 5), ('pjm', 1, 3), ('isone', 0, 0), ('miso', 0, 0), ('nyiso', 0, 0)]; regions at the top: ['caiso', 'ercot', 'spp'] (the page says the first is 'the most of any region')
+   rt hours priced: [('caiso', 8681.0), ('ercot', 8712.0), ('spp', 8736.0)] of 8,760
+-- all seven, as the words were written (session 62): ['caiso', 'ercot', 'isone', 'miso', 'nyiso', 'pjm', 'spp']
+   cost: cheapest caiso, dearest isone, ratio 2.48, diff 367,369,154
+   carbon: cleanest caiso, dirtiest miso, ratio 3.05
+   ratio of the worst to the best region: cost 2.48, carbon 3.05, hours at or above 200 21.47 (isone 408 / caiso 19), years to connect 2.06; the page says carbon's gap 'is still the largest of the five measures'
+   hours at or above 1,000: [('miso', 13.0), ('nyiso', 5.0), ('caiso', 1.0), ('ercot', 1.0), ('isone', 0.0), ('spp', 0.0)] (the page names the first as 'had the most')
+   regions where day-ahead ran below real time: none
+     caiso: day-ahead less real time 0.39 USD/MWh
+     ercot: day-ahead less real time 2.06 USD/MWh
+     isone: day-ahead less real time 3.22 USD/MWh
+     miso: day-ahead less real time 3.29 USD/MWh
+     nyiso: day-ahead less real time 4.03 USD/MWh
+     spp: day-ahead less real time 2.48 USD/MWh
+   tally (region, better half on, of held): [('ercot', 5, 5), ('spp', 4, 5), ('caiso', 3, 5), ('miso', 2, 5), ('isone', 1, 4), ('nyiso', 1, 5), ('pjm', 1, 3)]; regions at the top: ['ercot'] (the page says the first is 'the most of any region')
+   rt hours priced: [('caiso', 8681.0), ('ercot', 8712.0), ('isone', 8160.0), ('miso', 8746.0), ('nyiso', 8496.0), ('spp', 8736.0)] of 8,760
+
+== AI gigawatts: CAISO's balance either side of 16 December 2025 (the page's own banner) ==
+extract columns: ['ts_utc', 'demand_mwh', 'net_generation_mwh', 'co2_emissions_generated', 'co2_emissions_consumed', 'co2_emissions_coal', 'co2_emissions_natural_gas', 'co2_emissions_oil', 'co2_emissions_other', 'co2_emissions_imported', 'co2_emissions_exported']
+  2025-09-01 to 2025-12-15: demand 65,985,587 MWh, net generation 52,539,030, balance share 20.38 percent
+  2025-12-16 to 2026-08-31: demand 165,509,335 MWh, net generation 116,402,461, balance share 29.67 percent
+  the year: demand 231,494,922 MWh, net generation 168,941,491, balance share 27.02 percent
