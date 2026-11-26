@@ -35,7 +35,9 @@ export default function ProblemSets() {
               <div className="text-sm text-muted">{s.line}</div>
               {/* session 3650: the grids, the tables and the skills the set uses, and its figures as CSV (public tables only) */}
               {GUIDE[s.slug] ? (
-                <div className="text-sm" data-set-facts={s.slug}>
+                // session 11000: the line holds table names and file paths in mono, each one word that cannot wrap: on a
+                // phone of 360 px the page was 373 px wide (320 px: the same). A name too long for the line now breaks.
+                <div className="text-sm [overflow-wrap:anywhere]" data-set-facts={s.slug}>
                   Grid: {GUIDE[s.slug].grids.join(", ")}. Tables: {GUIDE[s.slug].tables.map((t, i) => <span key={t}>{i ? ", " : ""}<Link href={`/data#${t}`} className="font-mono">{t}</Link></span>)}{GUIDE[s.slug].tables.length ? null : "none of the warehouse's"}.
                   {/* session 8901: a set of the whole country names the committed page files its figures read */}
                   {GUIDE[s.slug].files?.length ? <span data-set-files={s.slug}>{" "}Page files: {GUIDE[s.slug].files!.map((f, i) => <span key={f}>{i ? ", " : ""}<span className="font-mono">site/data/{f}</span></span>)}.</span> : null}
