@@ -41,6 +41,11 @@ const BAS = [
 // session 34: CAISO's own data, not EIA-930's
 const CAISO = { code: "ciso", entity: "caiso:ISO", label: "CAISO", tz: "Pacific", color: "var(--color-fuel-solar)" };
 const ISOS = ["CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "PJM", "SPP"];
+// Session 10212 (docs/reviews/storage-model-audit-2026-11-26.md, finding 1): EIA-930's Lower 48 battery series adds the
+// authorities that report a battery series, so it leaves out CAISO, NYISO and PJM, a third of the operating fleet's MW;
+// over the 30 days to 4 November 2026 CAISO's own output alone was 88 percent of it. The row and the line keep EIA's name.
+const LOWER48_WORDS = "The Lower 48 row is EIA-930's national total, which leaves out CAISO, NYISO and PJM: their batteries report no series to EIA-930, so it is not the whole country's battery output, and CAISO's own row in this table is not in it.";
+const LOWER48_LINE = "US Lower 48 (EIA-930, without CAISO, NYISO and PJM)";
 const BUILD = ["under_construction", "planned"];
 
 function Tier({ tier }: { tier: "derived" | "source" }) {
@@ -255,6 +260,7 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
           })}
         </tbody>
       </table>
+      <p className="mt-1 text-[11px] text-muted" data-lower48-note="1">{LOWER48_WORDS}</p>
       <p className="mt-1 text-[11px] text-muted" data-no-ratio-note="1">
         The Lower 48 row has no ratio: some balancing authorities report battery discharging to EIA and no charging ({named} on this day), so the national total is not a balanced account. Read each grid&apos;s own row.
       </p>
@@ -368,12 +374,12 @@ async function FleetView() {
         {cycle.ok && cycle.data.length ? <Cycle rows={cycle.data} /> : <NoData what="the daily cycle" reason={cycle.ok ? "storage_daily_cycle returned no rows" : cycle.reason} />}
       </ToolSection>
 
-      <ToolSection title="Hour by hour, the last 30 days" note="EIA-930 net generation of battery storage, MW: above zero discharging, below zero charging. UTC hours. The CAISO line is CAISO's own data, not EIA-930's: Today's Outlook Total batteries (hybrid plants' batteries included), 5-minute values averaged to UTC hours.">
+      <ToolSection title="Hour by hour, the last 30 days" note="EIA-930 net generation of battery storage, MW: above zero discharging, below zero charging. UTC hours. The CAISO line is CAISO's own data, not EIA-930's: Today's Outlook Total batteries (hybrid plants' batteries included), 5-minute values averaged to UTC hours. The Lower 48 line is EIA-930's national total, which leaves out CAISO, NYISO and PJM.">
         {hourly.ok && newest ? (
           <>
             <LineChart lines={lines(newest - 30 * 86_400_000)} unit="MW" height={240} ariaLabel="Battery net generation by ISO, hourly, last 30 days" />
-            <LineChart lines={[{ label: "US Lower 48", color: "ink", gap: 3_600, points: us48.map((r) => ({ t: new Date(r.ts_utc).getTime() / 1000, v: r.value })) }]}
-              unit="MW" height={180} ariaLabel="US Lower 48 battery net generation, hourly, last 30 days" />
+            <LineChart lines={[{ label: LOWER48_LINE, color: "ink", gap: 3_600, points: us48.map((r) => ({ t: new Date(r.ts_utc).getTime() / 1000, v: r.value })) }]}
+              unit="MW" height={180} ariaLabel={`${LOWER48_LINE} battery net generation, hourly, last 30 days`} />
           </>
         ) : (
           <NoData what="the hourly series" reason={hourly.ok ? "eia930_all_storage returned no rows in the last 30 days" : hourly.reason} />
