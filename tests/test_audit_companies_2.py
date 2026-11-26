@@ -1,7 +1,7 @@
 """Audit of the company database, finding 2 (session 10228, docs/reviews/companies-model-audit-2026-11-26.md): the
 default order of /companies is the footprint, "operating, owned, planned and queue MW summed, a sort key". A jointly
 owned generator the company also operates is in its operating MW whole and in its owned MW for its share, so it counts
-twice: in the page files of 16 November 2026, 360 generators at 106 companies, 62,735 MW (Florida Power & Light's St.
+twice: in the page files of 16 November 2026, 360 generators at 106 companies, 62,736 MW (Florida Power & Light's St.
 Lucie unit 2, 919.2 MW of its share, among them). The method note says so; the page and the download did not.
 
 1. In the page files, a company's footprint is its operating, owned, planned and queue MW summed, and Florida Power &
@@ -49,7 +49,7 @@ class TheFootprintCountsTwice(unittest.TestCase):
                       src("site", "app", "companies", "page.tsx"))
         self.assertIn("a jointly owned generator the company also operates counts twice, whole in plants_mw and for its share in owned_mw",
                       src("site", "lib", "companydb.ts"))
-        self.assertIn("360 jointly owned generators at 106 companies, 62,735 MW counted twice", flat(src("docs", "methods", "companies.md")))
+        self.assertIn("360 jointly owned generators at 106 companies, 62,736 MW counted twice", flat(src("docs", "methods", "companies.md")))
 
 
 if __name__ == "__main__":
