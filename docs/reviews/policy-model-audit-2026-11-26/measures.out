@@ -1,0 +1,73 @@
+base|opened: 295
+week|7: {'rule': 'page (to minus 7, both ends: 8 days)', 'from': '2026-11-18', 'to': '2026-11-25', 'n': 6, 'dates': {'2026-11-25': 1, '2026-11-24': 3, '2026-11-18': 2}}
+week|6: {'rule': 'seven days (to minus 6)', 'from': '2026-11-19', 'to': '2026-11-25', 'n': 4, 'dates': {'2026-11-25': 1, '2026-11-24': 3}}
+week|extra_over_30_days: {'mean_extra': 1.2, 'max_extra': 4, 'days_with_extra': 20}
+unscored|n: 56
+unscored|by_body: {'NRC': 23, 'FERC': 18, 'DOE': 9, 'BLM': 3, 'BSEE': 1, 'CPUC': 1, 'Interior': 1}
+unscored|by_month: {'2026-09': 3, '2026-10': 9, '2026-11': 44}
+unscored|with_steps_ahead: 13
+unscored|large_load_titles: 0
+all|large_load_titles: 2
+opened|large_load_titles: 1
+rule|unscored_shown_at_opening: {'shown': 351, 'from': 295}
+status|final: {'all': 126, 'effective_date_passed_by_today': 96, 'effective_date_ahead': 9, 'no_effective_date': 21}
+status|final_opened: {'all': 26, 'effective_date_passed_by_today': 14}
+status|effective: {'all': 70, 'opened': 5}
+status|proposed_or_open_comments_closed: {'proposed_or_open': 175, 'every_comment_date_passed': 133, 'opened': 35}
+status|newest_not_final_but_history_holds_a_final_rule: 5
+next|opened: {'ahead': 53, 'passed': 143, 'none': 99}
+next|opened_passed_is_effective: 22
+changes|public: 94
+changes|dates: {'first': '2026-08-18', 'last': '2026-11-13', 'since90': '2026-08-28'}
+changes|before_90_days_to_today: {'n': 14, 'states': {'MI': 2, 'PA': 1, 'TX': 3, 'GA': 1, 'DE': 1, 'AR': 1, 'KY': 1, 'TN': 1, 'IL': 1, 'WA': 1, 'MD': 1}}
+changes|date_kind: {'date read': 7, 'stated date': 87}
+changes|held: 4
+changes|retrieved: 20261116T164658Z
+changes|multi_state_rows: 1
+laws|enacted_effective_passed_by_today: [('MD', 'S.B. 937 (Chapter 625 of 2025), Next Generation Energy Act', '2025-06-01')]
+laws|in_effect_effective_ahead: []
+laws|effective_words: {'date': 12, 'not published': 15}
+laws|read_dates: {'2026-11-13': 11, '2026-11-14': 16}
+laws|date_kind: {'stated date': 22, 'date read': 5}
+laws|threshold_not_published: 3
+laws|requirements: 95
+laws|requirements_without_cite: 0
+laws|threshold_without_cite: 0
+steps|n: 2108
+steps|date_not_in_words: {'n': 0, 'first': []}
+steps|from_register_record: 65
+figures|n: 299
+figures|value_not_in_words: {'n': 0, 'first': []}
+figures|units: {'USD': 92, 'MW': 99, 'Dth/d': 56, 'MMcf/d': 8, 'kW': 38, 'Bcf/d': 1, 'kV': 3, 'GW': 2}
+keys|status_unmapped: []
+keys|instrument_unmapped: []
+keys|kind_unmapped: []
+keys|sector_unmapped: []
+keys|history_status_unmapped: []
+keys|history_document_prefixes: {'federalregister': 1833, 'nrc': 174, 'doe': 44, 'cpuc': 39, 'puct': 37}
+keys|impact_models: {'claude-sonnet-5-5': 53}
+keys|bears_on_tables_opened: 22
+dup|same_body_title_records: {'groups': 69, 'records': 212}
+dup|same_body_title_min_gap_days: {'<=45': 38, '>45': 31}
+dup|same_body_title_opened: 1
+dup|proceeding_id_in_two_records: {'ids': 1, 'first': [('docket:EPA-HQ-OAR-2025-0124', ['docket:EPA-HQ-OAR-2025-0124.2060-AX00', 'docket:EPA-HQ-OAR-2025-0124.2060-AW55'])]}
+dup|rin_split_records: 4
+held_publisher|records: {'all': 37, 'opened': 11, 'with_figure': 18, 'opened_with_figure': 9}
+records|bodies_state_level: {'CPUC': 39, 'Texas Governor': 17, 'PUCT': 20}
+paused|miso_grid_records: {'all': 4, 'opened': 3}
+paused|va_state_records: {'all': 27, 'opened': 7}
+paused|source_hosts: {'federalregister.gov': 1833, 'nrc.gov': 174, 'energy.gov': 44, 'cpuc.ca.gov': 39, 'ftp.puc.texas.gov': 20, 'gov.texas.gov': 17}
+paused|misoenergy_or_scc_source: 0
+paused|vascc_docket_rows: {'n': 18, 'newest': '2026-09-09', 'in_30_days': 0}
+statefile|built: 2026-11-12T22:45:32Z
+statefile|by_regulator: {'txpuc': 21, 'vascc': 18, 'ferc': 16, 'cpuc': 13, 'papuc': 10, 'puco': 10, 'ilcc': 9, 'iurc': 7, 'orpuc': 7, 'azcc': 5, 'gapsc': 4}
+scope|marked: {'all': 20, 'opened': 0}
+changes_docs|in_monitor: 0
+monitor|fields_from: {'record and text': 1833, 'text': 191, 'title': 103}
+monitor|built: 2026-11-25
+monitor|documents: 2127
+asof|monitor_built: 2026-11-25
+asof|monitor_last_document: 2026-11-25
+asof|large_load_file_built: 2026-11-16T17:10:29Z
+asof|large_load_retrieved: {'utility_large_load_rules': '20261116T164658Z', 'utility_large_load_rule_changes': '20261116T164658Z', 'state_large_load_laws': '20261116T164658Z'}
+asof|state_rules_built: 2026-11-12T22:45:32Z

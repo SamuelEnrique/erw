@@ -76,6 +76,14 @@ Branch `wip/c720-equities`, stacked on `wip/c720-forecast` (it shares the downlo
 | One problem set a page, held out of the dated edition | waiting: a problem set reads its figures from page files on main (`site/lib/problemsets/common.ts` throws on a figure that is not there), and neither page's real files are on main | |
 | `docs/reviews/browser-read-2026-11-26.md`: rows that name this window's pages | read at 12:25 UTC: none yet (the review's part C waits for the landings) | 10402 |
 
+## The last session's steps
+
+| Step | State | Session |
+|---|---|---|
+| The note `docs/state/note_2026-11-26_portable_c720.md` | done, kept current | 10403 |
+| The resume file `queue/next/721-resume-chain-720.md` removed | done | 10403 |
+| `scripts/chain_queue.py next` | a dry run only: no file waits for this laptop, so part E goes on. Not run for real: it would take the whole laptop off duty and send "ready for review" while the second window works on it (session 10403's report) | 10403 |
+
 ## The standing step (rows of `docs/state/landing_request_portable_w2.md`)
 
 | Row | State | Session |
