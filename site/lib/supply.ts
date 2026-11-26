@@ -107,6 +107,21 @@ export function burnWeekWords(file: SupplyFile, r: Row): string | null {
   }
   return `This grid's newest whole week. The week ending ${week} is held for ${ahead.join(", ")}; this grid's hours of that week are not all held yet in the hourly generation by fuel the rows are built from`;
 }
+/** Session 10222 (the supply audit, finding 1): California's burn rows are EIA-930's hours before 16 December 2025 and
+ *  CAISO's own supply by fuel from that day (warehouse/derived/caiso_join.py, JOIN), and the seven grids' total holds
+ *  California's. A comparison whose base lies before that day and whose latest lies on or after it crosses the change of
+ *  source, and EIA's California natural gas ran far above CAISO's own in the years before (the weeks both hold: about 30
+ *  percent in 2024 and 47 percent in 2025). The words for such a cell's hover; null when the cell does not cross it. Only
+ *  the words change: every figure is the file's. */
+export const CAISO_JOIN_DAY = "2025-12-16";
+export function joinWords(r: Row, base: string | null | undefined): string | null {
+  if (r.group !== "burn" || !r.last || !/^burn-(caiso|all)-/.test(r.id)) return null;
+  if (r.last.t.slice(0, 10) < CAISO_JOIN_DAY) return null;
+  if (base !== null && base !== undefined && base.slice(0, 10) >= CAISO_JOIN_DAY) return null;
+  const whose = r.id.startsWith("burn-all-") ? "California's part of this total is" : "California is";
+  const gas = /natural-gas$/.test(r.id) ? " EIA's California natural gas ran about 30 percent above CAISO's own in 2024 and about 47 percent above it in 2025 (the weeks both hold), so the change against those years is lower than the gas burned alone would make it." : "";
+  return `${whose} EIA-930's hours before 16 December 2025 and CAISO's own supply by fuel from that day, so this comparison crosses a change of source.${gas}`;
+}
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 /** "25 Sep 2026" from a day; a monthly value is written "Jul 2026". */
 export function dateWords(t: string, freq = "W"): string {

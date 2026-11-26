@@ -9,7 +9,7 @@ import { TableDownloads } from "@/components/tool/TableDownloads";
 import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
 import { SUPPLY_DECISIONS } from "@/lib/decisions";
 import fileJson from "@/data/supply.json";
-import { HEADLINE, PLACEHOLDER, burnWeekWords, choiceOf, dateWords, easternNow, fmt, holdRows, latestTitle, nextRelease, hrefOf, pct, reading, releaseWords, rowsOf, shortDate, signed, surprises, toggled, unitTitle, withPlaceWords, withUnitWords, type Choice, type Group, type Row, type SupplyFile } from "@/lib/supply";
+import { HEADLINE, PLACEHOLDER, burnWeekWords, joinWords, choiceOf, dateWords, easternNow, fmt, holdRows, latestTitle, nextRelease, hrefOf, pct, reading, releaseWords, rowsOf, shortDate, signed, surprises, toggled, unitTitle, withPlaceWords, withUnitWords, type Choice, type Group, type Row, type SupplyFile } from "@/lib/supply";
 import { licenseGridTitle, licenseHeldGrids } from "@/lib/license";
 import { GRID_CHOICES, gridHref } from "@/lib/gridtool";
 
@@ -43,10 +43,12 @@ function Tag({ r }: { r: "tighter" | "looser" | null }) {
 }
 
 /** One comparison: the difference with its sign, the percent where the series cannot be negative, and the reading. */
-function Against({ row, diff, percent, from, what }: { row: Row; diff: number | null | undefined; percent?: number | null; from?: { t: string; v: number }; what: string }) {
+function Against({ row, diff, percent, from, what, note }: { row: Row; diff: number | null | undefined; percent?: number | null; from?: { t: string; v: number }; what: string; note?: string | null }) {
   if (diff === null || diff === undefined) return <NH why={`The value this is measured against is not held (${what}).`} />;
+  // session 10222 (the supply audit, finding 1): a comparison across California's change of source says so on hover
+  const tail = note ? `. ${note}` : "";
   return (
-    <span className="whitespace-nowrap" title={from ? `against ${fmt(from.v, row.unit)} ${row.unit}, ${what}${from.t ? ` (${dateWords(from.t, row.freq)})` : ""}` : what}>
+    <span className="whitespace-nowrap" title={`${from ? `against ${fmt(from.v, row.unit)} ${row.unit}, ${what}${from.t ? ` (${dateWords(from.t, row.freq)})` : ""}` : what}${tail}`}>
       {signed(diff, row.unit, row.last!.v)}
       {percent !== null && percent !== undefined ? <span className="ml-1 text-[10px] text-muted">{pct(percent)}</span> : null}
       <Tag r={moved(diff, row) ? reading(row.sense, diff) : null} />
@@ -58,7 +60,8 @@ function Surprise({ row }: { row: Row }) {
   const c = row.change;
   if (!c) return <NH why="The value one step before the latest is not held." />;
   if (c.surprise === null || c.avg5 === null) return <NH why="The same change is not held for each of the five years before." />;
-  const title = `this ${row.freq === "M" ? "month" : "week"}'s change ${signed(c.v, row.unit, row.last!.v)} ${row.unit}; the five-year average change of the same ${row.freq === "M" ? "month" : "week"} ${signed(c.avg5, row.unit, row.last!.v)}; the five years' changes ran from ${signed(c.lo!, row.unit, row.last!.v)} to ${signed(c.hi!, row.unit, row.last!.v)}`;
+  const join = joinWords(row, null);
+  const title = `this ${row.freq === "M" ? "month" : "week"}'s change ${signed(c.v, row.unit, row.last!.v)} ${row.unit}; the five-year average change of the same ${row.freq === "M" ? "month" : "week"} ${signed(c.avg5, row.unit, row.last!.v)}; the five years' changes ran from ${signed(c.lo!, row.unit, row.last!.v)} to ${signed(c.hi!, row.unit, row.last!.v)}${join ? `. ${join}` : ""}`;
   return (
     <span className={`whitespace-nowrap ${c.outside ? "border border-accent bg-paper px-1 font-semibold" : ""}`} title={title} data-surprise={c.outside ? row.id : undefined}>
       {signed(c.surprise, row.unit, row.last!.v)}{c.outside ? <span className="ml-1 text-[10px] font-normal text-accent">outside range</span> : null}
@@ -118,9 +121,9 @@ function Table({ group, c }: { group: Group; c: Choice }) {
                   <td className="whitespace-nowrap py-1 pr-3 text-right font-semibold"><span data-n={`${r.id}|last`} title={latestTitle(r)} data-latest-title={latestTitle(r) ? r.id : undefined}>{fmt(last.v, r.unit)}</span><span className="ml-1 cursor-help text-[10px] font-normal text-muted" title={unitTitle(r.unit)} data-unit={r.unit}>{r.unit}</span></td>
                   <td className="whitespace-nowrap py-1 pr-3 text-right text-[11px] text-muted" title={burnWeekWords(file, r) ?? (r.freq === "M" ? "a monthly series" : "a weekly series: the date its week ends")} data-week-behind={burnWeekWords(file, r) ? r.id : undefined}>{dateWords(last.t, r.freq)}</td>
                   <td className="py-1 pr-3 text-right text-xs"><Against row={r} diff={r.prev?.ch} from={r.prev ?? undefined} what={r.freq === "M" ? "the month before" : "the week before"} /></td>
-                  <td className="py-1 pr-3 text-right text-xs"><Against row={r} diff={r.year?.ch} percent={r.year?.pct} from={r.year ?? undefined} what="a year before" /></td>
-                  <td className="py-1 pr-3 text-right text-xs">{r.avg5 ? <span title={`the five years before ran from ${fmt(r.avg5.lo, r.unit, last.v)} to ${fmt(r.avg5.hi, r.unit, last.v)} ${r.unit} at this point of the year`} data-n={`${r.id}|avg5`}>{fmt(r.avg5.v, r.unit, last.v)}</span> : <NH why="One of the five years before does not hold this point of the year." />}</td>
-                  <td className={`py-1 pr-3 text-right text-xs ${r.avg5?.outside ? "font-semibold" : ""}`}>{r.avg5 ? <Against row={r} diff={r.avg5.ch} percent={r.avg5.pct} what={`the five-year average${r.avg5.outside ? "; the latest is outside the five years' range" : ""}`} /> : <NH why="One of the five years before does not hold this point of the year." />}</td>
+                  <td className="py-1 pr-3 text-right text-xs"><Against row={r} diff={r.year?.ch} percent={r.year?.pct} from={r.year ?? undefined} what="a year before" note={joinWords(r, r.year?.t)} /></td>
+                  <td className="py-1 pr-3 text-right text-xs">{r.avg5 ? <span title={`the five years before ran from ${fmt(r.avg5.lo, r.unit, last.v)} to ${fmt(r.avg5.hi, r.unit, last.v)} ${r.unit} at this point of the year${joinWords(r, null) ? `. ${joinWords(r, null)}` : ""}`} data-n={`${r.id}|avg5`}>{fmt(r.avg5.v, r.unit, last.v)}</span> : <NH why="One of the five years before does not hold this point of the year." />}</td>
+                  <td className={`py-1 pr-3 text-right text-xs ${r.avg5?.outside ? "font-semibold" : ""}`}>{r.avg5 ? <Against row={r} diff={r.avg5.ch} percent={r.avg5.pct} what={`the five-year average${r.avg5.outside ? "; the latest is outside the five years' range" : ""}`} note={joinWords(r, null)} /> : <NH why="One of the five years before does not hold this point of the year." />}</td>
                   <td className="py-1 pr-3 text-right text-xs"><Surprise row={r} /></td>
                   <td className="py-0.5 pr-3 text-right"><Trend row={r} /></td>
                   {pos ? <>
