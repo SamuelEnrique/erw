@@ -36,20 +36,27 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
       </p>
       <Section title="What the email is">
         <ul className="max-w-3xl list-disc space-y-1 pl-5 text-sm">
+          {/* session 10238 (docs/reviews/small-pages-audit-2026-11-26.md, finding 2): the email of the issues in the v2 form (session
+              2703; warehouse/news/email_digest.py render: the opening number, the numbers block, three stories, the chart, the fun fact) */}
           <li>
-            <strong>Weekdays (no weekend issue):</strong> the top 5 headlines of the day&apos;s <Link href="/digest">Energy Digest</Link>, each with why it matters and a link to
-            its source, and the digest&apos;s numbers: yesterday&apos;s day-ahead average at each ISO&apos;s main hub, the highest real-time price, and
-            the latest Henry Hub, WTI and Brent closes, and a fun fact.
+            <strong>Weekdays (no weekend issue):</strong> the day&apos;s <Link href="/digest">Energy Digest</Link> in short: its opening number; its
+            numbers (a market price, a physical figure such as demand, a project, and a policy, capital or reliability figure); the first three
+            stories of what moved, each with why it matters and a link to its source; the chart of the day and a fun fact. The rest of the issue is
+            one link away on the site.
           </li>
           <li>
-            <strong>Sundays, 4 PM Pacific:</strong> the <Link href="/roundup">ERW&apos;s Roundup</Link>: the weekend&apos;s stories, the five stories of the week, the week&apos;s numbers and the chart of the week.
+            <strong>Sundays, 4 PM Pacific:</strong> the <Link href="/roundup">ERW&apos;s Roundup</Link>: its opening number, the week in five numbers,
+            the first three stories of what mattered, the chart of the week, the week ahead and a fun fact; the weekend&apos;s stories and the rest of
+            the week are one link away on the site.
           </li>
           <li>
-            Every number comes from the warehouse and names its table, as on this site. The email links back to the site for everything else.
+            Each figure says where it came from: a warehouse table, as on this site, or, for a figure a news story reported, its outlet. The email
+            links back to the site for everything else.
           </li>
           <li>
-            <strong>Your topics:</strong> the email&apos;s top stories are the day&apos;s (or week&apos;s) highest-ranked stories in the topics you choose. The
-            numbers, the fun fact and, on Sundays, the chart of the week are always included. The <Link href="/digest">website digest</Link> stays complete.
+            <strong>Your topics:</strong> with every topic chosen, the email&apos;s stories are the first three of the issue&apos;s own; with fewer,
+            up to five of the day&apos;s (or week&apos;s) highest-ranked stories in the topics you choose. The numbers, the chart and the fun fact are
+            always included. The <Link href="/digest">website digest</Link> stays complete.
           </li>
         </ul>
       </Section>
