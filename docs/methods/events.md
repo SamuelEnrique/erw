@@ -17,6 +17,7 @@ Built in session 36B for the Historical Event Analyzer (`/events`). One derived 
 - **Window:** 2021-02-07 to 2021-02-24, eighteen days: the week before the storm, the storm, and the week after.
 - **Baseline:** the same calendar days of 2019 and 2020. For the comparison variables, the baseline of a day is the mean of those two years' values for the same calendar day.
 - **The date the page cites:** EIA writes that "ERCOT began implementing rotating outages at midnight on February 15" (https://www.eia.gov/todayinenergy/detail.php?id=46836).
+- **The price sat at the ceiling (session 10225, 26 November 2026).** On 16, 17 and 18 February the hub's daily mean real-time price was 8,970.14, 9,002.04 and 8,989.10 USD/MWh against highest 15-minute prices of 9,000.85, 9,051.55 and 9,006.13: within 0.6 percent, so the price hardly moved for three days. A price at the market's ceiling (ERCOT's offer cap, whose document the warehouse does not hold) is set by the ceiling, not by bids, so the page's price figures and the event study's price estimate (+2,293.84 USD/MWh a day) measure the ceiling as much as the scarcity. The page says so in words (`docs/reviews/events-model-audit-2026-11-26.md`, finding 8); the count of intervals near the ceiling is the ruling alternative `wip/alt-events-4`.
 
 ## The second event: COVID-19, spring 2020 (`covid_2020`)
 
