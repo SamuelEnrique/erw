@@ -1,0 +1,16 @@
+E         storm-across-the-country: a link to an edition that does not hold it
+E         storm-across-the-country: an edition address for a set no edition holds
+E         the edition pages: 50 addresses, not the five sets' two each
+E         the index: storm-across-the-country's page files and its no-edition line
+E         the index: under-the-ground-and-in-the-wind's page files and its no-edition line
+E         the index: where-energy-goes's page files and its no-edition line
+E         the index: who-trades-with-whom's page files and its no-edition line
+E         the index: your-own-balancing-authority's page files and its no-edition line
+E         under-the-ground-and-in-the-wind: a link to an edition that does not hold it
+E         under-the-ground-and-in-the-wind: an edition address for a set no edition holds
+E         where-energy-goes: a link to an edition that does not hold it
+E         where-energy-goes: an edition address for a set no edition holds
+E         who-trades-with-whom: a link to an edition that does not hold it
+E         who-trades-with-whom: an edition address for a set no edition holds
+E         your-own-balancing-authority: a link to an edition that does not hold it
+E         your-own-balancing-authority: an edition address for a set no edition holds
