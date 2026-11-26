@@ -1,0 +1,598 @@
+{
+ "operating_by_eia_status": {
+  "OA": {
+   "units": 10,
+   "mw": 362.0
+  },
+  "OP": {
+   "units": 1134,
+   "mw": 55612.7
+  },
+  "OS": {
+   "units": 10,
+   "mw": 144.0
+  },
+  "SB": {
+   "units": 2,
+   "mw": 2.0
+  }
+ },
+ "operating_by_eia_status_labels": [
+  [
+   "OA",
+   "Out of service but expected to return to service in next calendar year"
+  ],
+  [
+   "OP",
+   "Operating"
+  ],
+  [
+   "OS",
+   "Out of service and NOT expected to return to service in next calendar year"
+  ],
+  [
+   "SB",
+   "Standby/Backup: available for service but not normally used"
+  ]
+ ],
+ "net_summer": {
+  "units_with": 1156,
+  "nameplate_of_those": 56120.7,
+  "net_summer": 55746.0,
+  "nameplate_all": 56120.7
+ },
+ "operating_states_outside_lower48": {
+  "AK": 131.7,
+  "HI": 516.9,
+  "PR": 38.2
+ },
+ "fleet_share": {
+  "no_bat_series_mw": 18200.1,
+  "four_in_table_mw": 21882.7,
+  "other_mw": 16037.9,
+  "no_bat_share_pct": 32.4,
+  "lower48_outside_no_bat_mw": 37233.8
+ },
+ "us48_vs_caiso_30d": {
+  "hours": 683,
+  "us48_discharged_mwh": 1467480,
+  "caiso_discharged_mwh": 1286677,
+  "us48_peak_mw": 15900.0,
+  "caiso_peak_hourly_mw": 10841,
+  "hours_caiso_above_us48": 267
+ },
+ "sign_by_series": {
+  "eia930:ERCO": {
+   "hours": 8808,
+   "negative": 5030,
+   "zero": 3,
+   "positive": 3775,
+   "first_negative": "2025-12-15 06:00:00+00:00"
+  },
+  "eia930:ISNE": {
+   "hours": 8832,
+   "negative": 0,
+   "zero": 37,
+   "positive": 8795,
+   "first_negative": null
+  },
+  "eia930:MISO": {
+   "hours": 8832,
+   "negative": 5015,
+   "zero": 28,
+   "positive": 3789,
+   "first_negative": "2025-11-01 03:00:00+00:00"
+  },
+  "eia930:SWPP": {
+   "hours": 6528,
+   "negative": 0,
+   "zero": 2949,
+   "positive": 3579,
+   "first_negative": null
+  },
+  "eia930:US48": {
+   "hours": 8856,
+   "negative": 4310,
+   "zero": 4,
+   "positive": 4542,
+   "first_negative": "2025-11-01 15:00:00+00:00"
+  },
+  "caiso:ISO": {
+   "hours": 8791,
+   "negative": 4294,
+   "zero": 0,
+   "positive": 4497,
+   "first_negative": "2025-11-01 10:00:00+00:00"
+  }
+ },
+ "newest_days": {
+  "eia930:ERCO": {
+   "newest_hour": "2026-11-04T23:00:00+00:00",
+   "newest_complete": "2026-11-03",
+   "newest_settled": "2026-11-01"
+  },
+  "eia930:ISNE": {
+   "newest_hour": "2026-11-04T23:00:00+00:00",
+   "newest_complete": "2026-11-03",
+   "newest_settled": "2026-11-01"
+  },
+  "eia930:MISO": {
+   "newest_hour": "2026-11-04T23:00:00+00:00",
+   "newest_complete": "2026-11-03",
+   "newest_settled": "2026-11-01"
+  },
+  "eia930:SWPP": {
+   "newest_hour": "2026-11-04T23:00:00+00:00",
+   "newest_complete": "2026-11-03",
+   "newest_settled": "2026-11-01"
+  },
+  "eia930:US48": {
+   "newest_hour": "2026-11-04T23:00:00+00:00",
+   "newest_complete": "2026-11-03",
+   "newest_settled": "2026-11-01"
+  },
+  "caiso:ISO": {
+   "newest_hour": "2026-11-05T07:00:00+00:00",
+   "newest_complete": "2026-11-04",
+   "newest_settled": "no rule (CAISO)"
+  }
+ },
+ "newest_days_values": {
+  "eia930:ERCO": {
+   "2026-10-27": {
+    "discharged": 27478,
+    "hours_above_zero": 9
+   },
+   "2026-10-28": {
+    "discharged": 31215,
+    "hours_above_zero": 9
+   },
+   "2026-10-29": {
+    "discharged": 15782,
+    "hours_above_zero": 9
+   },
+   "2026-10-30": {
+    "discharged": 15565,
+    "hours_above_zero": 12
+   },
+   "2026-10-31": {
+    "discharged": 28207,
+    "hours_above_zero": 13
+   },
+   "2026-11-01": {
+    "discharged": 19559,
+    "hours_above_zero": 8
+   },
+   "2026-11-02": {
+    "discharged": 18655,
+    "hours_above_zero": 8
+   },
+   "2026-11-03": {
+    "discharged": 19953,
+    "hours_above_zero": 8
+   }
+  },
+  "eia930:ISNE": {
+   "2026-10-27": {
+    "discharged": 1149,
+    "hours_above_zero": 24
+   },
+   "2026-10-28": {
+    "discharged": 952,
+    "hours_above_zero": 24
+   },
+   "2026-10-29": {
+    "discharged": 1231,
+    "hours_above_zero": 24
+   },
+   "2026-10-30": {
+    "discharged": 943,
+    "hours_above_zero": 24
+   },
+   "2026-10-31": {
+    "discharged": 627,
+    "hours_above_zero": 24
+   },
+   "2026-11-01": {
+    "discharged": 569,
+    "hours_above_zero": 25
+   },
+   "2026-11-02": {
+    "discharged": 858,
+    "hours_above_zero": 24
+   },
+   "2026-11-03": {
+    "discharged": 1269,
+    "hours_above_zero": 24
+   }
+  },
+  "eia930:MISO": {
+   "2026-10-27": {
+    "discharged": 1631,
+    "hours_above_zero": 12
+   },
+   "2026-10-28": {
+    "discharged": 1170,
+    "hours_above_zero": 8
+   },
+   "2026-10-29": {
+    "discharged": 1667,
+    "hours_above_zero": 11
+   },
+   "2026-10-30": {
+    "discharged": 2300,
+    "hours_above_zero": 15
+   },
+   "2026-10-31": {
+    "discharged": 1578,
+    "hours_above_zero": 10
+   },
+   "2026-11-01": {
+    "discharged": 1680,
+    "hours_above_zero": 8
+   },
+   "2026-11-02": {
+    "discharged": 1275,
+    "hours_above_zero": 10
+   },
+   "2026-11-03": {
+    "discharged": 981,
+    "hours_above_zero": 8
+   }
+  },
+  "eia930:SWPP": {
+   "2026-10-27": {
+    "discharged": 1245,
+    "hours_above_zero": 17
+   },
+   "2026-10-28": {
+    "discharged": 761,
+    "hours_above_zero": 11
+   },
+   "2026-10-29": {
+    "discharged": 1391,
+    "hours_above_zero": 13
+   },
+   "2026-10-30": {
+    "discharged": 1384,
+    "hours_above_zero": 16
+   },
+   "2026-10-31": {
+    "discharged": 500,
+    "hours_above_zero": 11
+   },
+   "2026-11-01": {
+    "discharged": 12,
+    "hours_above_zero": 4
+   },
+   "2026-11-02": {
+    "discharged": 405,
+    "hours_above_zero": 12
+   },
+   "2026-11-03": {
+    "discharged": 830,
+    "hours_above_zero": 11
+   }
+  },
+  "eia930:US48": {
+   "2026-10-27": {
+    "discharged": 51050,
+    "hours_above_zero": 12
+   },
+   "2026-10-28": {
+    "discharged": 57551,
+    "hours_above_zero": 11
+   },
+   "2026-10-29": {
+    "discharged": 38293,
+    "hours_above_zero": 11
+   },
+   "2026-10-30": {
+    "discharged": 35835,
+    "hours_above_zero": 14
+   },
+   "2026-10-31": {
+    "discharged": 54686,
+    "hours_above_zero": 16
+   },
+   "2026-11-01": {
+    "discharged": 36538,
+    "hours_above_zero": 12
+   },
+   "2026-11-02": {
+    "discharged": 44201,
+    "hours_above_zero": 10
+   },
+   "2026-11-03": {
+    "discharged": 45508,
+    "hours_above_zero": 10
+   }
+  }
+ },
+ "fall_back_2026_11_01": {
+  "eia930:US48": {
+   "hours": 25,
+   "discharged": 36538.0,
+   "charged": 39141.0,
+   "hour_01_values": [
+    1402.0,
+    -206.0
+   ],
+   "discharged_24h": 36538.0
+  },
+  "eia930:ERCO": {
+   "hours": 25,
+   "discharged": 19559.0,
+   "charged": 36582.0,
+   "hour_01_values": [
+    -686.0,
+    -880.0
+   ],
+   "discharged_24h": 19559.0
+  },
+  "eia930:ISNE": {
+   "hours": 25,
+   "discharged": 569.0,
+   "charged": 0,
+   "hour_01_values": [
+    7.0,
+    1.0
+   ],
+   "discharged_24h": 568.0
+  },
+  "eia930:SWPP": {
+   "hours": 25,
+   "discharged": 12.0,
+   "charged": 0.0,
+   "hour_01_values": [
+    0.0,
+    0.0
+   ],
+   "discharged_24h": 12.0
+  }
+ },
+ "out_over_in": {
+  "eia930:ERCO": {
+   "days": 30,
+   "first": "2026-10-03",
+   "last": "2026-11-01",
+   "thirty_day": 0.81,
+   "daily_min": 0.487,
+   "daily_median": 0.812,
+   "daily_max": 1.633
+  },
+  "eia930:MISO": {
+   "days": 30,
+   "first": "2026-10-01",
+   "last": "2026-11-01",
+   "thirty_day": 0.823,
+   "daily_min": 0.405,
+   "daily_median": 0.89,
+   "daily_max": 1.992
+  },
+  "caiso:ISO": {
+   "days": 30,
+   "first": "2026-10-05",
+   "last": "2026-11-04",
+   "thirty_day": 0.87,
+   "daily_min": 0.653,
+   "daily_median": 0.877,
+   "daily_max": 1.106
+  }
+ },
+ "ercot_months": {
+  "2025-10": {
+   "discharged": 3823,
+   "charged": 0
+  },
+  "2025-11": {
+   "discharged": 542549,
+   "charged": 0
+  },
+  "2025-12": {
+   "discharged": 492101,
+   "charged": 314603
+  },
+  "2026-01": {
+   "discharged": 528063,
+   "charged": 666931
+  },
+  "2026-02": {
+   "discharged": 512393,
+   "charged": 646470
+  },
+  "2026-03": {
+   "discharged": 587686,
+   "charged": 744666
+  },
+  "2026-04": {
+   "discharged": 554973,
+   "charged": 709835
+  },
+  "2026-05": {
+   "discharged": 563315,
+   "charged": 720061
+  },
+  "2026-06": {
+   "discharged": 546938,
+   "charged": 717985
+  },
+  "2026-07": {
+   "discharged": 705980,
+   "charged": 900270
+  },
+  "2026-08": {
+   "discharged": 796960,
+   "charged": 994715
+  },
+  "2026-09": {
+   "discharged": 787056,
+   "charged": 989955
+  },
+  "2026-10": {
+   "discharged": 824477,
+   "charged": 1010886
+  },
+  "2026-11": {
+   "discharged": 76044,
+   "charged": 116761
+  }
+ },
+ "planned_dated_before_inventory": {
+  "units": 0,
+  "mw": 0.0,
+  "of_which_2026": 0.0,
+  "earliest": null,
+  "under_construction_mw": 0.0
+ },
+ "planned_2026": {
+  "mw": 9650.0,
+  "dated_before_inventory_mw": 0.0
+ },
+ "retired": {
+  "window_units": 8,
+  "window_mw": 338.5,
+  "window_dates": [
+   "2025-01",
+   "2025-06",
+   "2025-07",
+   "2025-08",
+   "2025-08",
+   "2025-09",
+   "2025-09",
+   "2026-02"
+  ],
+  "all_units": 50,
+  "all_mw": 524.3,
+  "all_vintage": "2026-08",
+  "before_2025_units": 42,
+  "before_2025_mw": 185.8
+ },
+ "buildout_year_ends_with_retired": {
+  "2015": {
+   "page_mw": 250.2,
+   "put_back_mw": 112.7,
+   "with_them": 362.9,
+   "pct": 45.0
+  },
+  "2016": {
+   "page_mw": 461.4,
+   "put_back_mw": 125.6,
+   "with_them": 587.0,
+   "pct": 27.2
+  },
+  "2017": {
+   "page_mw": 579.0,
+   "put_back_mw": 114.2,
+   "with_them": 693.2,
+   "pct": 19.7
+  },
+  "2018": {
+   "page_mw": 799.4,
+   "put_back_mw": 111.5,
+   "with_them": 910.9,
+   "pct": 13.9
+  },
+  "2019": {
+   "page_mw": 1004.0,
+   "put_back_mw": 111.4,
+   "with_them": 1115.4,
+   "pct": 11.1
+  },
+  "2020": {
+   "page_mw": 1589.0,
+   "put_back_mw": 106.0,
+   "with_them": 1695.0,
+   "pct": 6.7
+  },
+  "2021": {
+   "page_mw": 5020.8,
+   "put_back_mw": 95.5,
+   "with_them": 5116.3,
+   "pct": 1.9
+  },
+  "2022": {
+   "page_mw": 9329.8,
+   "put_back_mw": 38.9,
+   "with_them": 9368.7,
+   "pct": 0.4
+  },
+  "2023": {
+   "page_mw": 16568.3,
+   "put_back_mw": 33.0,
+   "with_them": 16601.3,
+   "pct": 0.2
+  },
+  "2024": {
+   "page_mw": 27634.3,
+   "put_back_mw": 0.0,
+   "with_them": 27634.3,
+   "pct": 0.0
+  }
+ },
+ "battery_vs_solar": {
+  "caiso": {
+   "battery_mw": 17265.5,
+   "battery_mwh": 59726.3,
+   "solar_mw": 26034.5,
+   "mwh_per_solar_mw": 2.2941,
+   "battery_mw_over_solar_mw": 0.663
+  },
+  "ercot": {
+   "battery_mw": 19194.6,
+   "battery_mwh": 31719.8,
+   "solar_mw": 33779.7,
+   "mwh_per_solar_mw": 0.939,
+   "battery_mw_over_solar_mw": 0.568
+  },
+  "isone": {
+   "battery_mw": 1021.7,
+   "battery_mwh": 2130.8,
+   "solar_mw": 3759.6,
+   "mwh_per_solar_mw": 0.5668,
+   "battery_mw_over_solar_mw": 0.272
+  },
+  "miso": {
+   "battery_mw": 1175.9,
+   "battery_mwh": 3449.9,
+   "solar_mw": 24862.7,
+   "mwh_per_solar_mw": 0.1388,
+   "battery_mw_over_solar_mw": 0.047
+  },
+  "nyiso": {
+   "battery_mw": 268.7,
+   "battery_mwh": 760.6,
+   "solar_mw": 3020.8,
+   "mwh_per_solar_mw": 0.2518,
+   "battery_mw_over_solar_mw": 0.089
+  },
+  "outside": {
+   "battery_mw": 16037.9,
+   "battery_mwh": 53371.5,
+   "solar_mw": 58495.1,
+   "mwh_per_solar_mw": 0.9124,
+   "battery_mw_over_solar_mw": 0.274
+  },
+  "pjm": {
+   "battery_mw": 665.9,
+   "battery_mwh": 1504.0,
+   "solar_mw": 19518.6,
+   "mwh_per_solar_mw": 0.0771,
+   "battery_mw_over_solar_mw": 0.034
+  },
+  "spp": {
+   "battery_mw": 490.5,
+   "battery_mwh": 1609.5,
+   "solar_mw": 2710.6,
+   "mwh_per_solar_mw": 0.5938,
+   "battery_mw_over_solar_mw": 0.181
+  },
+  "us": {
+   "battery_mw": 56120.7,
+   "battery_mwh": 154272.4,
+   "solar_mw": 172181.6,
+   "mwh_per_solar_mw": 0.896,
+   "battery_mw_over_solar_mw": 0.326
+  }
+ }
+}
