@@ -170,6 +170,22 @@ class TheSource(unittest.TestCase):
         # a monthly price's change over a day is its month's in the file: the page says the step, as the board does
         self.assertIn('(freq === "M" && (k === "d" || k === "w"))', lib)
 
+    def test_the_value_check_knows_a_rise_is_written_with_its_sign(self):
+        # session 10404: the value check run on a build with window A's files failed 21 of /equities' 43 figures
+        # ("+0.32%" against 0.32): the page writes a change above zero with its sign (lib/equities.ts signedPct,
+        # signedLevel), and the check's rule for it stands on its own line, beside the text test older tests pin
+        text = src("site", "scripts", "check-values.mjs")
+        self.assertIn("const equitiesSigned = /^pf\\|equities\\/", text)
+        self.assertIn("if (!pass && equitiesSigned && t !== undefined && t !== null && same) pass = true;", text)
+        self.assertIn('export const signedPct = (v: number) => `${v > 0 ? "+" : v < 0 ? "-" : ""}${fixed(Math.abs(v), 2)}%`;', src("site", "lib", "equities.ts"))
+        rule = re.search(r"const equitiesSigned = /(.+?)/\.test\(check\)", text).group(1).replace("\\/", "/")
+        for key in ("pf|equities/energy_prices.json|series/0/moves/d/pct", "pf|equities/series/XOM.json|moves/ytd/pct",
+                    "pf|equities/series/seg-utilities.json|moves_value_weight/y/ch"):
+            self.assertRegex(key, rule)
+        for key in ("pf|equities/energy_prices.json|series/0/last_value/v", "pf|predict/scores.json|rows/1/moves/d/pct",
+                    "pf|equities/series/XOM.json|filed/0/moves"):
+            self.assertNotRegex(key, rule)
+
     def test_no_em_dash(self):
         for parts in NEW:
             self.assertNotIn(EM, src(*parts), "/".join(parts))

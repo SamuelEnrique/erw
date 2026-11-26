@@ -160,6 +160,22 @@ class TheSource(unittest.TestCase):
             with open(os.path.join(d, name), encoding="utf-8") as f:
                 self.assertIs(json.load(f)["example"], True, name)
 
+    def test_the_value_check_knows_a_megawatt_is_written_whole(self):
+        # session 10404: the value check run on a build with window B's files failed 70 of tomorrow's 72 hours of demand
+        # ("54,040" against 54039.5): the page writes a megawatt whole (lib/predict.ts valueWords), and the check's
+        # rule for it stands on its own line, beside the text test older tests pin
+        text = src("site", "scripts", "check-values.mjs")
+        self.assertIn("const predictWhole = /^pf\\|predict\\/", text)
+        self.assertIn("if (!pass && predictWhole && t !== undefined && t !== null && same) pass = true;", text)
+        self.assertIn('unit === "MW" ? Math.round(v).toLocaleString("en-US")', src("site", "lib", "predict.ts"))
+        rule = re.search(r"const predictWhole = /(.+?)/\.test\(check\)", text).group(1).replace("\\/", "/")
+        for key in ("pf|predict/region-tex.json|series/demand/tomorrow/17/2", "pf|predict/ba-ciso.json|series/demand/history/40/3",
+                    "pf|predict/region-tex.json|series/demand/summary/backtest/mae/erw", "pf|predict/scores.json|rows/7495/6"):
+            self.assertRegex(key, rule)
+        for key in ("pf|predict/region-tex.json|series/price/tomorrow/17/2", "pf|predict/scores.json|rows/7495/7",
+                    "pf|predict/region-tex.json|series/demand/summary/backtest/mape/erw", "pf|conditions/x.json|series/demand/tomorrow/1/2"):
+            self.assertNotRegex(key, rule)
+
     def test_no_em_dash(self):
         for parts in NEW:
             self.assertNotIn(EM, src(*parts), "/".join(parts))
