@@ -193,7 +193,8 @@ class TheFiles(unittest.TestCase):
         for p in doc["places"]:
             for h in p["horizons"]:
                 m = h["last_2_years"]["mae"]
-                beats = m["regression"] is not None and m["week_ago"] is not None and m["regression"] < m["week_ago"]
+                meth = h.get("method", "regression")
+                beats = m[meth] is not None and m["week_ago"] is not None and m[meth] < m["week_ago"]
                 self.assertEqual(h["shown"], beats, (p["place"], h["horizon_days"]))
                 if h["shown"]:
                     self.assertTrue(h["forecast"], (p["place"], h["horizon_days"]))
