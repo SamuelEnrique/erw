@@ -57,7 +57,7 @@ Every figure carries its source on hover. The page computes only a year's twelve
 | `withheld` | A cell EIA withholds is "not held" with EIA's reason on hover, never zero | "not held" with the reason |
 | `whole-year` | A year's figure from a monthly series is written only when all twelve months are held | twelve months or no figure |
 | `first-two` | Industries A and B open on the two largest three-digit industries; states A and B on the two largest by total in the newest year | Chemicals and Petroleum and Coal Products; Texas and Louisiana in 2024 |
-| `ranking` | Industries by total in the chosen region, states by the chosen source and year, largest first; one with no figure stands last | largest first |
-| `cases` | The outlook opens on the Counterfactual Baseline case and the High Electricity Demand case; every case is in the table | AEO2026 names no Reference case |
+| `ranking` | Industries by total in the chosen region (the United States first), states by the chosen source and year (the total in the newest year first), largest first; one with no figure stands last | largest first |
+| `cases` | The outlook opens on Iron and steel, its total energy use, and on the Counterfactual Baseline case and the High Electricity Demand case; every case is in the table (session 10224 named the industry and series) | AEO2026 names no Reference case |
 | `from-2015` | The monthly chart opens on the months from 2015; the file holds them from January 1973 | from 2015 |
 | `nominal` | Prices and expenditures in nominal dollars, as the State Energy Data System gives them | nominal dollars |
