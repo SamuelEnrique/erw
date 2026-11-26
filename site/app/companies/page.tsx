@@ -68,7 +68,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
   // every company's policy actions are 0; the lead, the column and the "Has" choice say so while it is held
   const policyHeld = held.includes("policy_actions");
   const heldWords = held.length
-    ? `Held for a license (the publishers ask for permission; warehouse/metadata/license_status.csv): ${held.map((t) => `${t} (${plural(ix.held_links[t] ?? 0, "row", "rows")})`).join(", ")}. Their rows add no company, no name and no figure here; ${plural(ix.held_only, "company", "companies")} named only in them ${ix.held_only === 1 ? "is" : "are"} not listed.`
+    ? `Held for a license (the publishers ask for permission; warehouse/metadata/license_status.csv): ${held.map((t) => `${t} (${plural(ix.held_links[t] ?? 0, "link", "links")})`).join(", ")}, a link being a company named in one of a table's rows (a row that names two companies is two links). Their rows add no company, no name and no figure here; ${plural(ix.held_only, "company", "companies")} named only in them ${ix.held_only === 1 ? "is" : "are"} not listed.`
     : "No input is held.";
   const sourceOf = (col: string) => `company_directory, ${col}: summed from the public rows of company_links (docs/methods/companies.md)`;
   const opt = (rec: Record<string, number>, order?: string[]) =>
@@ -88,7 +88,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
     <ToolPage>
       <ToolHeader
         title="Companies"
-        lead={<>Every company the warehouse names in a public row: {policyHeld ? <>EIA&apos;s operators, owners and utilities, ERCOT&apos;s interconnection queue and the NRC&apos;s licensees. The policy actions&apos; agencies are not listed while policy_actions is held for a license.</> : <>EIA&apos;s operators, owners and utilities, ERCOT&apos;s interconnection queue, the NRC&apos;s licensees and the policy actions&apos; agencies.</>}<Tip id="companies-what" label="What the directory is">Built from the tables held and nothing else: no figure is typed in and no model is asked. A company is one EIA utility id where it has one, else one name as the rows write it (docs/methods/companies.md). {heldWords}</Tip></>}
+        lead={<>Every company the warehouse names in a public row: {policyHeld ? <>EIA&apos;s operators, owners and utilities, ERCOT&apos;s interconnection queue and the NRC&apos;s licensees. The policy actions&apos; agencies are not listed while policy_actions is held for a license.</> : <>EIA&apos;s operators, owners and utilities, ERCOT&apos;s interconnection queue, the NRC&apos;s licensees and the policy actions&apos; agencies.</>}<Tip id="companies-what" label="What the directory is">Built from the warehouse&apos;s own tables and nothing else: no figure is typed in and no model is asked. A company is one EIA utility id where it has one, else one name as the rows write it (docs/methods/companies.md). {heldWords}</Tip></>}
       />
       <div className="grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)]">
         <aside className="min-w-0">
@@ -167,7 +167,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
               {page < pages ? <Link href={hrefOf("/companies", q, { page: page + 1 })} rel="next">Next {PAGE_SIZE}</Link> : null}
             </nav>
           ) : null}
-          <SourceLine tables={["company_directory", "company_aliases", "company_links"]} note={<>Built {ix.built.slice(0, 10)} from {ix.tables.length} tables held; the method is <Link href="/data/methods/companies">docs/methods/companies.md</Link>.</>} />
+          <SourceLine tables={["company_directory", "company_aliases", "company_links"]} note={<>Built {ix.built.slice(0, 10)} from the public rows of {ix.tables.length - held.length} of the {ix.tables.length} tables it reads ({held.length} held for a license add nothing), each input as the warehouse held it that day, so a figure is as of its input&apos;s own date and the dates differ (EIA-860M&apos;s monthly inventory, EIA-860 and EIA-861&apos;s annual files, the ERCOT queue and the NRC&apos;s list as last read); the method is <Link href="/data/methods/companies">docs/methods/companies.md</Link>.</>} />
         </div>
       </div>
     </ToolPage>
