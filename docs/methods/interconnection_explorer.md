@@ -206,6 +206,9 @@ build of 21 October 2026, from the pulls of 19 October (and 26 September for NYI
 were last pulled on 5 November. The page says both in its freshness lines. Its source line said the queues were "as
 the ERW last pulled them"; session 7509 changed it to the pull the table was built from. The figures' hover words
 (`site/lib/explore/source.ts`, a file the three explorers share) still say "as the ERW last pulled it": fault 7.
+Session 10231 (26 November 2026, `docs/reviews/explore-model-audit-2026-11-26.md`, finding 6) changes them to "as the
+ERW held it when the table was built": on 26 November the catalogue gives the table's build as 16 November and CAISO's
+queue as pulled again on 23 November.
 
 ## The replication
 

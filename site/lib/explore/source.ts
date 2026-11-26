@@ -34,7 +34,7 @@ export const SOURCES: Record<string, TableSource> = {
     method: "Demand growth since 2019", interval: "P1Y",
   },
   iso_queue_statistics: {
-    report: "the ISO's own interconnection queue as the ERW last pulled it (<iso>_interconnection_queue), computed by the ERW",
+    report: "the ISO's own interconnection queue as the ERW held it when the table was built (<iso>_interconnection_queue), computed by the ERW",
     method: "Energy projects, Queue statistics", interval: "P1Y",
   },
 };

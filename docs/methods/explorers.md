@@ -36,7 +36,7 @@ What the three share (`site/components/explore/Explore.tsx`):
 `/explore/interconnection`
 
 - **The question.** What became of the positions that entered each ISO's interconnection queue in a year (reached operation, withdrawn, still waiting, status not stated), in positions or in MW, for the six queues.
-- **The tables.** `iso_queue_statistics` (method `docs/methods/energy_projects.md`, "Queue statistics"), from each ISO's own interconnection queue as the ERW last pulled it (`<iso>_interconnection_queue`).
+- **The tables.** `iso_queue_statistics` (method `docs/methods/energy_projects.md`, "Queue statistics"), from each ISO's own interconnection queue as the ERW held it when the table was built (`<iso>_interconnection_queue`), which can be older than the ERW's last pull: the queues are pulled weekly and the table is rebuilt by hand on the data machine.
 - **The computation.** None on the page: each figure is the table's count, or one count its header states, for a queue, an entry year and a status.
 - **The tolerance.** The table's row, exactly (counts and MW).
 - **The limits.** A queue whose publisher asks for permission (NYISO, MISO, ISO-NE since 21 October 2026, `site/lib/license.ts`) is held: not read, its figures not shown, the page says so. While the table's header says it was built before the fix of 20 October 2026, the page says in one line that its counts are the first build's and shows them as the table holds them, never a corrected guess.
