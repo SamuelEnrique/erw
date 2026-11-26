@@ -201,7 +201,7 @@ export function DcOtherStates({ P2, v, x, view, states }: { P2: DcParams; v: Val
         categories={shown.map((p) => ({ label: p.name, sub: p.k === x.state ? "yours" : undefined }))}
         series={[{ name: "Sales, income and electricity taxes, present value", color: "var(--color-accent)", values: shown.map((p) => p.taxes) }]}
         saysOnCard
-        says={(i) => `${shown[i].name}: ${usdText(shown[i].taxes)}${shown[i].rule ? `; a datacenter statute is held (forgone by its exemption, present value ${usdText(shown[i].forgone)})` : "; no datacenter statute held: sales tax before exemptions"}`}
+        says={(i) => `${shown[i].name}: ${usdText(shown[i].taxes)}${shown[i].rule ? `; a datacenter rule is applied (forgone by its exemption, present value ${usdText(shown[i].forgone)})` : "; no datacenter rule applied (none read, or held as words): sales tax before exemptions"}`}
         tip={<Tip id={`dc-state-taxes-${view}`} label="taxes in other states">The ten states with the most, the scenario&apos;s own and the five with the fewest.</Tip>} />
     </section>
   );
