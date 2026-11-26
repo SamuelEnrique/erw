@@ -386,6 +386,7 @@ The medians above were computed on 26 November 2026 from 25 rows (session 10807,
 | Wages | CBP 2023 by state, 2025 dollars | `datacenter_wages.json` |
 | Sales tax rate | the state's plus average local | Tax Foundation |
 | Building's taxable share, property rates, abatement, MWh | not given (abatement 0) | no public source gives them statewide |
+| Equipment's taxable value by its age in its cycle (session 10809) | 100 percent of cost, falling 0 points a year, floor 0: held at cost | no state's schedule for datacenter equipment is read; a county's is typed (Loudoun's 2026: 60, 15 points a year, floor 10, which gives its 60, 45, 30, 15 and 10 percent) |
 | Exemption applied | yes, where the project qualifies | the statute's own words in the hover |
 | Discount rate | 7 percent real | OMB A-94 |
 
