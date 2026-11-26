@@ -1,0 +1,8 @@
+columns ['entity', 'variable', 'ts_utc', 'value', 'unit', 'freq', 'geo', 'market', 'node', 'source', 'source_url', 'retrieved_at', 'vintage']
+('caiso_dam', 'caiso:TH_NP15_GEN-APND', 'lmp_dam', 'TH_NP15_GEN-APND') ['2023-07-06T07:00:00Z', '2026-10-22T06:00:00Z', 28896]
+('caiso_dam', 'caiso:TH_SP15_GEN-APND', 'lmp_dam', 'TH_SP15_GEN-APND') ['2023-07-06T07:00:00Z', '2026-10-22T06:00:00Z', 28896]
+('caiso_rtm', 'caiso:TH_NP15_GEN-APND', 'lmp_rtm_15m_mean', 'TH_NP15_GEN-APND') ['2023-07-06T07:00:00Z', '2026-10-21T06:45:00Z', 115392]
+('caiso_rtm', 'caiso:TH_SP15_GEN-APND', 'lmp_rtm_15m_mean', 'TH_SP15_GEN-APND') ['2023-07-06T07:00:00Z', '2026-10-21T06:45:00Z', 115392]
+('spp_dam', 'spp:SPPNORTH_HUB', 'lmp_dam', 'SPPNORTH_HUB') ['2024-09-01T05:00:00Z', '2026-10-22T04:00:00Z', 18696]
+('spp_rtm', 'spp:SPPNORTH_HUB', 'lmp_rtm_15m_mean', 'SPPNORTH_HUB') ['2024-09-01T05:00:00Z', '2026-10-21T04:45:00Z', 74304]
+markets ['caiso_dam', 'caiso_rtm', 'isone_dam', 'isone_rtm', 'miso_dam', 'miso_rtm', 'nyiso_dam', 'nyiso_rtm', 'spp_dam', 'spp_rtm']
