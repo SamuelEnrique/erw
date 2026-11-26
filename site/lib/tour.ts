@@ -128,6 +128,20 @@ export const NEW_STOPS: Stop[] = [
   },
 ];
 
+/** Session 10401 (chain 720): stops written and held back although their page is on main, because the files the page
+ *  draws are not there yet: until they are, the page has none of the headings its stop quotes. `landed` cannot say this
+ *  (a new stop is `landed` exactly when its page is in site/app: tests/test_session8902_tour.py), so such a stop waits
+ *  here, on no page of the tour, with what it waits for in `waits`. The session that lands those files moves the stop
+ *  into NEW_STOPS with `landed: true`, without `waits`, and runs check-tour. */
+export const WAITING_STOPS: (Stop & { waits: string })[] = [
+  {
+    href: "/forecast", title: "ERW forecast", seconds: 40, waits: "the ERW forecast's page files (site/data/predict/), written by the data machine's forecast build",
+    line: "The ERW's own forecast of tomorrow's demand and price for a region or a balancing authority, with the operator's own forecast beside it, and the record of how each has done against what happened.",
+    look: "Read \"Tomorrow\" for Texas, then \"How it has done\": the months and hours where the ERW forecast lost stand in the same table as the ones where it won. Then read \"Every place\".",
+    headings: ["Tomorrow", "How it has done", "Every place"],
+  },
+];
+
 /** The guided path: the ruled seven, then the new stops whose pages have landed. */
 export const STOPS: Stop[] = [...RULED_STOPS, ...NEW_STOPS.filter((s) => s.landed)];
 
