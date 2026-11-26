@@ -1,0 +1,23 @@
+{
+  "example": true,
+  "contract": "docs/state/page_files_predict.md",
+  "built": null,
+  "tier": "derived",
+  "label": "ERW forecast",
+  "method_notes": {"demand": "docs/methods/predict.md", "price": "docs/methods/predict_price.md"},
+  "made_rule": null,
+  "band_rule": null,
+  "choice_rule": null,
+  "places": [
+    {"place": "region-tex", "name": "Texas", "kind": "region", "eia930": "TEX", "time": "America/Chicago", "file": "region-tex.json",
+     "series": {
+       "demand": {"status": "not built", "held": "example file: no forecast exists yet", "method": null, "fit_day": null, "target_day": null, "hub": null, "market": null},
+       "price": {"status": "not built", "held": "example file: no forecast exists yet", "method": null, "fit_day": null, "target_day": null, "hub": null, "market": "day-ahead"}
+     }},
+    {"place": "region-mida", "name": "Mid-Atlantic", "kind": "region", "eia930": "MIDA", "time": "America/New_York", "file": "region-mida.json",
+     "series": {
+       "demand": {"status": "not built", "held": "example file: no forecast exists yet", "method": null, "fit_day": null, "target_day": null, "hub": null, "market": null},
+       "price": {"status": "license needed", "held": "license needed", "method": null, "fit_day": null, "target_day": null, "hub": null, "market": "day-ahead"}
+     }}
+  ]
+}
