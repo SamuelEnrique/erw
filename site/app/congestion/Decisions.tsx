@@ -27,7 +27,7 @@ export const CONGESTION_DECISIONS: CongestionDecision[] = [
     def: "Summed shadow price.",
     source: "The page file's cost_rule." },
   { key: "share", session: "session 9000",
-    text: "A month's or a year's congestion share is its mean congestion part over its mean LMP, times 100; none when the mean LMP is not above zero.",
+    text: "A month's or a year's congestion share is its mean congestion part over its mean LMP, times 100; none when the mean LMP is not above zero. The congestion part is the operator's own, measured against its own reference price (the energy part is the same at every place of one operator), so a part or a share compares places of one operator only, not SPP's with CAISO's.",
     def: "Mean over mean.",
     source: "The page file's share_rule." },
   { key: "first", session: "session 9000",
