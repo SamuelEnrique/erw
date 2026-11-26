@@ -395,7 +395,7 @@ soft_step dm_curtailment_worth "$PYTHON" warehouse/derived/curtailment_worth.py
 soft_step dm_board_page "$PYTHON" warehouse/derived/page_keep.py board
 # Session 10000 (chain 701, part D4): the equities page files (docs/state/page_files_equities.md), from the warehouse's own
 # tables; the equity side is held until a source a license allows is read (docs/reviews/equities-sources-2026-11-26.md)
-soft_step dm_equity_pages "$PYTHON" warehouse/derived/equity_pages.py
+soft_step dm_equity_pages "$PYTHON" warehouse/derived/equity_page_files.py
 # Session 349: the project map's copy (site/data/map.json, and map_v2.json for /resources), rebuilt each day from the
 # energy_projects this machine holds after the sync, so the queue positions placed by a city or a town (session 349)
 # and the day's queues reach /map without waiting for the monthly run. The same builder the monthly run calls.

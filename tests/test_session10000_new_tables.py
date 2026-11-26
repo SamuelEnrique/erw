@@ -119,7 +119,7 @@ class EveryForecastIssueKept(unittest.TestCase):
 
 class TheEquitiesFiles(unittest.TestCase):
     """Part D4: the equities page files by docs/state/page_files_equities.md; the equity side held with its reason."""
-    eq = load("warehouse/derived/equity_pages.py", "eq_t")
+    eq = load("warehouse/derived/equity_page_files.py", "eq_t")
 
     def test_the_moves_are_the_boards(self):
         s = [("2025-12-31", 100.0), ("2026-10-26", 90.0), ("2026-11-19", 95.0), ("2026-11-25", 110.0), ("2026-11-26", 121.0)]

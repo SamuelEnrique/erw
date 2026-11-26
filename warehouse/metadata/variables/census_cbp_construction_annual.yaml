@@ -1,0 +1,255 @@
+# The codebook's metadata of table census_cbp_construction_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: census_cbp_construction_annual
+family: census
+shape: series
+row: One state's establishments, employment or annual payroll in NAICS 2362 (nonresidential building construction) or NAICS
+  238 (specialty trade contractors) in one year, County Business Patterns, all legal forms.
+time: ts_utc is 1 January of the reference year at 00:00:00Z (freq P1Y).
+vintage_rule: A snapshot, replaced whole by each run; vintage is each year's file's Last-Modified time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: census:cbp_state_construction U.S. Census Bureau, County Business Patterns, state files
+  url: https://www2.census.gov/programs-surveys/cbp/datasets/
+cite: 'Census Bureau. County Business Patterns: state files, NAICS 2362 and 238 (the construction trades). Via the Energy
+  Research Warehouse (ERW), table `census_cbp_construction_annual`.'
+method: docs/methods/census_cbp_construction_annual.md
+header_title: U.S. Census Bureau, County Business Patterns, NAICS 2362 (nonresidential building construction) and NAICS 238
+  (specialty trade contractors), by state, 2012 to 2023 (session 10000, chain 701)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity census_cbp_2362:<state> or census_cbp_238:<state>; variables
+  establishments and employment (count; employment in the pay period including 12 March) and annual_payroll (USD, the Bureau''s
+  thousands times 1,000); freq P1Y; ts_utc 1 January of the year; geo US-<state>; node the state; x_naics 2362 or 238; x_emp_noise
+  and x_ap_noise (the Bureau''s noise flags: G low, H moderate, J high, N not available); x_naics_vintage 2017 or 2022.'
+read:
+  date: '2026-11-26'
+  rows: 3672
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 102
+    examples:
+    - census_cbp_2362:ak
+    - census_cbp_2362:al
+    - census_cbp_2362:ar
+    - census_cbp_2362:az
+    - census_cbp_2362:ca
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2012-01-01T00:00:00Z': 306
+      '2013-01-01T00:00:00Z': 306
+      '2014-01-01T00:00:00Z': 306
+      '2015-01-01T00:00:00Z': 306
+      '2016-01-01T00:00:00Z': 306
+      '2017-01-01T00:00:00Z': 306
+      '2018-01-01T00:00:00Z': 306
+      '2019-01-01T00:00:00Z': 306
+      '2020-01-01T00:00:00Z': 306
+      '2021-01-01T00:00:00Z': 306
+      '2022-01-01T00:00:00Z': 306
+      '2023-01-01T00:00:00Z': 306
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3458
+    lowest: 76.0
+    highest: 45772683000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD: 1224
+      count: 2448
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 3672
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3672
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      census:cbp_state_construction: 3672
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www2.census.gov/programs-surveys/cbp/datasets/2012/cbp12st.zip: 306
+      https://www2.census.gov/programs-surveys/cbp/datasets/2013/cbp13st.zip: 306
+      https://www2.census.gov/programs-surveys/cbp/datasets/2014/cbp14st.zip: 306
+      https://www2.census.gov/programs-surveys/cbp/datasets/2015/cbp15st.zip: 306
+      https://www2.census.gov/programs-surveys/cbp/datasets/2016/cbp16st.zip: 306
+      https://www2.census.gov/programs-surveys/cbp/datasets/2017/cbp17st.zip: 306
+      https://www2.census.gov/programs-surveys/cbp/datasets/2018/cbp18st.zip: 306
+      https://www2.census.gov/programs-surveys/cbp/datasets/2019/cbp19st.zip: 306
+      https://www2.census.gov/programs-surveys/cbp/datasets/2020/cbp20st.zip: 306
+      https://www2.census.gov/programs-surveys/cbp/datasets/2021/cbp21st.zip: 306
+      https://www2.census.gov/programs-surveys/cbp/datasets/2022/cbp22st.zip: 306
+      https://www2.census.gov/programs-surveys/cbp/datasets/2023/cbp23st.zip: 306
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T00:23:53Z': 306
+      '2026-10-24T00:24:51Z': 306
+      '2026-10-24T00:24:56Z': 306
+      '2026-10-24T00:25:00Z': 306
+      '2026-10-24T00:25:05Z': 306
+      '2026-10-24T00:25:09Z': 306
+      '2026-10-24T00:25:14Z': 306
+      '2026-10-24T00:25:18Z': 306
+      '2026-10-24T00:25:22Z': 306
+      '2026-10-24T00:25:26Z': 306
+      '2026-10-24T00:25:30Z': 306
+      '2026-10-24T00:25:35Z': 306
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2017-05-09T20:25:03Z': 306
+      '2017-05-19T11:34:13Z': 306
+      '2018-04-19T18:27:42Z': 306
+      '2018-09-12T13:55:44Z': 306
+      '2018-09-13T13:14:51Z': 306
+      '2019-11-26T18:58:28Z': 306
+      '2020-06-25T11:01:49Z': 306
+      '2021-04-22T10:53:32Z': 306
+      '2022-04-28T10:35:51Z': 306
+      '2023-04-27T11:41:44Z': 306
+      '2024-06-27T11:29:29Z': 306
+      '2025-06-26T12:00:29Z': 306
+  missing_cells: 0
+- name: x_naics
+  label: 'The NAICS code of the row: 2362 (nonresidential building construction) or 238 (specialty trade contractors)'
+  unit: none
+  type: integer
+  values:
+    list:
+      '238': 1836
+      '2362': 1836
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_emp_noise
+  label: 'The Bureau''s noise flag for employment: G low, H moderate, J high noise, N not available; D and S mark a figure
+    the Bureau withholds, kept as a zero'
+  unit: none
+  type: text
+  values:
+    list:
+      G: 3630
+      H: 42
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ap_noise
+  label: 'The Bureau''s noise flag for annual payroll: G low, H moderate, J high noise, N not available; D marks a figure
+    the Bureau withholds'
+  unit: none
+  type: text
+  values:
+    list:
+      G: 3603
+      H: 69
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_naics_vintage
+  label: 'The NAICS edition the year''s file uses: 2017 (2012 to 2021) or 2022 (2022 on)'
+  unit: year
+  type: integer
+  values:
+    list:
+      '2017': 3060
+      '2022': 612
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: annual_payroll
+  label: null
+  unit: USD
+  rows: 1224
+  first: '2012-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: employment
+  label: null
+  unit: count
+  rows: 1224
+  first: '2012-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: establishments
+  label: null
+  unit: count
+  rows: 1224
+  first: '2012-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+second_look: null

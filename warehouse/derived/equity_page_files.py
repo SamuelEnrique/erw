@@ -24,7 +24,7 @@ index file is written. The energy prices are the warehouse's own:
 Each daily series is written from 2016-01-01 (the contract's span is that of the longest shown equity series; none is
 shown yet, so the last ten whole years and this one: a dated line of the contract says so).
 
-    python warehouse/derived/equity_pages.py [--out DIR]
+    python warehouse/derived/equity_page_files.py [--out DIR]
 
 Method: docs/methods/equities.md.
 """

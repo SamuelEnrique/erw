@@ -2,7 +2,7 @@
 
 Written by session 10000 (chain 701, part B) on 26 November 2026, before any of these files holds data, so that window E (chain 720) can build `/equities` and the board's equities group against it. The shape is fixed here; which companies, indices and series fill it is part D's. A later change to the shape is one dated line in "Changes" at the foot of this file and one line in `docs/state/landing_request_portable.md` saying so.
 
-Every file is written whole by its builder, from warehouse tables only; no builder makes a request. Builder: `warehouse/derived/equity_pages.py` (part D4). Method: `docs/methods/equities.md`. Tables read: `equity_universe`, `equity_prices_daily`, `equity_fundamentals_quarterly`, `equity_index_daily`, and for the energy prices the warehouse's own price tables named in file 4.
+Every file is written whole by its builder, from warehouse tables only; no builder makes a request. Builder: `warehouse/derived/equity_page_files.py` (part D4). Method: `docs/methods/equities.md`. Tables read: `equity_universe`, `equity_prices_daily`, `equity_fundamentals_quarterly`, `equity_index_daily`, and for the energy prices the warehouse's own price tables named in file 4.
 
 ## Rules every file follows
 

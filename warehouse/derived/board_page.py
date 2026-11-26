@@ -1219,9 +1219,9 @@ def build_week(log):
     # Session 10000 (chain 701, data request 13 of docs/state/data_requests_five_tools.md, the board audit): a grid the
     # license holds (ls.held_grids(): NYISO and ISO-NE) has no week line and no spike in the file. Until now the page
     # stripped them on the server, but the file is in the public repository: 20 week lines and 20 spikes of theirs
-    held = ls.held_grids()
+    held_now = ls.held_grids()
     for iso, (grid, tz) in ISO.items():
-        if grid in held:
+        if grid in held_now:
             log(f"  the week, {grid}: held by its license; no week line")
             continue
         rows = t[t["market"] == iso]
@@ -1257,7 +1257,7 @@ def build_week(log):
                 item["vol"] = dict(t=vols[-1][0][:10], v=round(vols[-1][1], 4))
             out.append(item)
     top = pb.read_table("iso_rt_top_intervals")
-    top = top[top["market"].isin([m for m, (g, _) in ISO.items() if g not in held])]   # session 10000: no held grid's spike
+    top = top[top["market"].isin([m for m, (g, _) in ISO.items() if g not in held_now])]   # session 10000: no held grid's spike
     spikes = [dict(hub=slug(e), grid=ISO[m][0], label=f"{ISO[m][0]} {HUB_WORDS.get(e.split(':', 1)[1], e.split(':', 1)[1])}", code=e.split(":", 1)[1], t=ts, v=round(float(x), 4), tz=ISO[m][1], freq=f)
               for e, m, ts, x, f in zip(top["entity"], top["market"], top["ts_utc"], top["value"], top["freq"])]
     spikes.sort(key=lambda r: (-r["v"], r["t"]))
