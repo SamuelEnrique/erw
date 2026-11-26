@@ -157,6 +157,8 @@ def demand_place(place, dem, op, ref, made, evs):
         hr["erw" + suf] = hr[choice + suf]
     hr["made_utc"] = pd.to_datetime(hr["day"] - pd.Timedelta(days=1)).dt.tz_localize("UTC") + pd.Timedelta(hours=DEMAND_MADE_HOUR)
     rows = score.rows(place, "demand", hr, SCORED, evs)
+    pk = score.peaks(hr, SCORED)
+    rows += peak_rows(place, pk)
     # tomorrow: the place's next local day after the hour of the run
     frame = res["frame"]
     last = demand.last_whole_day(frame, tz)
@@ -179,7 +181,7 @@ def demand_place(place, dem, op, ref, made, evs):
     else:
         tm_held = f"no data: the last whole day held ({day_str(last)}) is {h} days before the target day; the forecast reads at most 7"
     return {"place": place, "tz": tz, "hr": hr, "choice": choice, "maes": maes, "rows": rows, "tomorrow": tm, "tomorrow_held": tm_held,
-            "target": target, "h": h, "inputs_through": inputs_through, "last_whole_day": last, "res": res}
+            "target": target, "h": h, "inputs_through": inputs_through, "last_whole_day": last, "res": res, "peaks": pk}
 
 
 def history_rows(p, ledger, nd=None):
@@ -224,7 +226,33 @@ def demand_series(p, made, ledger):
         c = p["choice"]
         s["tomorrow"] = [[iso(r["ts"]), int(r["hour"]), num(r[c]), num(r[c + "_lo"]), num(r[c + "_hi"]), num(r["operator"])] for _, r in tm.iterrows()]
         s["tomorrow_held"] = None
+    # part F: the day's peak, tomorrow's and the record of past ones
+    pk = p.get("peaks")
+    peak = {"what": "the day's highest hourly demand and its local hour; a method's peak is the highest of its own hourly forecasts for the day, and the hour of it",
+            "tomorrow": None, "last_2_years": None, "backtest": None}
+    if tm is not None and len(tm):
+        c = p["choice"]
+        j = tm[c].idxmax()
+        if pd.notna(j):
+            peak["tomorrow"] = {"local_hour": int(tm.loc[j, "hour"]), "ts_utc": iso(tm.loc[j, "ts"]), "erw": num(tm.loc[j, c]),
+                                "lo": num(tm.loc[j, c + "_lo"]), "hi": num(tm.loc[j, c + "_hi"])}
+    if pk is not None and len(pk):
+        meths = ["erw", "operator", "yesterday", "week_ago"]
+        peak["last_2_years"] = score.peak_summary(pk, meths, days=score.CHOICE_DAYS)
+        peak["backtest"] = score.peak_summary(pk, meths)
+    s["peak"] = peak
     return s
+
+
+def peak_rows(place, pk):
+    """Score rows of the day's peak (series demand_peak): `hours` holds the count of days."""
+    out = []
+    for cut, days in (("all", None), ("last_2_years", score.CHOICE_DAYS)):
+        sm = score.peak_summary(pk, SCORED, days=days)
+        for m in SCORED:
+            v = sm["methods"][m]
+            out.append([place, "demand_peak", m, cut, "", sm["days"], v["mae"] if v else None, v["mape"] if v else None, None])
+    return out
 
 
 PRICE_SCORED = ["erw", "yesterday", "week_ago", "regression"]
@@ -352,6 +380,26 @@ def write_tables(out, results, score_rows, built):
     return p, q
 
 
+def write_price_table(out, prices, built):
+    """The price regression's backtest, one row a place and hour (data request 5), in the series shape."""
+    os.makedirs(out, exist_ok=True)
+    p = os.path.join(out, "predict_price_backtest.csv")
+    with open(p, "w", encoding="utf-8", newline="\n") as f:
+        f.write("# Energy Research Warehouse (ERW): the ERW forecast of day-ahead hub prices, the walk-forward backtest of the regression (tier derived: a model's output, not a published figure)\n")
+        f.write("# Shape: series (docs/datastandard.md v0). entity the hub; variable lmp_dam_forecast; ts_utc the hour's start (UTC); x_place the place whose demand forecast it reads; x_made_utc the hour the forecast is taken as made (14:00 UTC the day before); x_lo, x_hi the band. Method: docs/methods/predict_price.md.\n")
+        f.write(f"# Retrieved: {built.replace('-', '').replace(':', '')} (UTC) by warehouse/predict/run.py\n")
+        f.write("# Source: erw:predict, from the day-ahead hub prices of ERCOT, SPP and CAISO, eia930_ba_demand_hourly and eia_fuel_spot_prices (public)\n")
+        f.write("# License: public (derived by the ERW from ERCOT, SPP, CAISO and EIA data).\n")
+        f.write("entity,variable,ts_utc,value,unit,freq,source,x_place,x_method,x_made_utc,x_lo,x_hi,x_kind\n")
+        for place, q in prices.items():
+            hr = q["hr"].dropna(subset=["regression"])
+            ent = data.HUBS[q["grid"]]
+            for ts, v, lo, hi, made in zip(hr["ts"], hr["regression"], hr["regression_lo"], hr["regression_hi"], hr["made_utc"]):
+                f.write(f"{ent},lmp_dam_forecast,{iso(ts)},{v:.2f},USD/MWh,PT1H,erw:predict,{place},regression,{iso(made)},"
+                        f"{'' if not np.isfinite(lo) else f'{lo:.2f}'},{'' if not np.isfinite(hi) else f'{hi:.2f}'},backtest\n")
+    return p
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="The ERW forecast's daily run (chain 730)")
     ap.add_argument("--site-dir", default=SITE)
@@ -443,6 +491,8 @@ def main(argv=None):
               rows_columns=score.COLUMNS, rows=srows)
     write_json(os.path.join(a.site_dir, "scores.json"), sc)
     p, q = write_tables(a.out_dir, results, srows, built)
+    if prices:
+        write_price_table(a.out_dir, prices, built)
     print(f"{now_utc()} wrote {len(results)} place files, index.json, scores.json ({len(srows)} rows) to {a.site_dir}; tables {p}, {q}", flush=True)
 
 

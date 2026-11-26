@@ -131,15 +131,11 @@ def walk_ols(X, Y, h, fit_days=FIT_DAYS, min_fit=MIN_FIT_DAYS):
     """The walk-forward least squares shared by every regression of the forecast: for each day i and hour k, the
     coefficients fitted on rows j = i-h-fit_days+1 to i-h (those held, with every regressor present) and the fitted
     value X[i, k] . beta. Returns (L, B): L[i, k] the fitted value (NaN without a fit or a full row), B the
-    coefficients. The normal equations of each window are differences of running sums, solved by numpy.linalg.lstsq."""
+    coefficients. Each window is solved from its own rows by numpy.linalg.lstsq (an SVD), the plainest form, which
+    replication/predict/replicate.py repeats; until session 10601 the windows were solved from differences of running
+    normal equations, which gave the same forecasts at the stored precision."""
     n, K, p = X.shape
     valid = np.isfinite(X).all(axis=2) & np.isfinite(Y)
-    Xz = np.where(valid[..., None], X, 0.0)
-    Yz = np.where(valid, Y, 0.0)
-    G = np.einsum("nkp,nkq->nkpq", Xz, Xz)
-    b = np.einsum("nkp,nk->nkp", Xz, Yz)
-    cG = np.concatenate([np.zeros((1, K, p, p)), np.cumsum(G, axis=0)])
-    cb = np.concatenate([np.zeros((1, K, p)), np.cumsum(b, axis=0)])
     cn = np.concatenate([np.zeros((1, K)), np.cumsum(valid, axis=0)])
     P = np.full((n, K), np.nan)
     B = np.full((n, K, p), np.nan)
@@ -148,17 +144,12 @@ def walk_ols(X, Y, h, fit_days=FIT_DAYS, min_fit=MIN_FIT_DAYS):
         if hi <= 0:
             continue
         lo = max(0, hi - fit_days)
-        cnt = cn[hi] - cn[lo]
-        ok = cnt >= min_fit
-        if not ok.any():
-            continue
-        Gw = cG[hi] - cG[lo]
-        bw = cb[hi] - cb[lo]
+        ok = (cn[hi] - cn[lo] >= min_fit) & np.isfinite(X[i]).all(axis=1)
         for k in np.flatnonzero(ok):
-            beta = np.linalg.lstsq(Gw[k], bw[k], rcond=None)[0]
+            v = valid[lo:hi, k]
+            beta = np.linalg.lstsq(X[lo:hi, k][v], Y[lo:hi, k][v], rcond=None)[0]
             B[i, k] = beta
-            if np.isfinite(X[i, k]).all():
-                P[i, k] = float(X[i, k] @ beta)
+            P[i, k] = float(X[i, k] @ beta)
     return P, B
 
 
