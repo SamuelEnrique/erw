@@ -1,0 +1,57 @@
+rows: {'restated': 1208}
+rows whose series file ends on another day than the row's latest: 0
+--- Part 1, each row's figures from its own series file: 23547 figures compared, 175 differ (17 of them on public rows)
+  30-day high                     273 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  30-day low                      273 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  avg30: count                    273 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  avg30: mean                     273 compared,    5 differ (3 public), largest gap 6e-05 (ercot-lz-north-rt)
+      ercot-hb-houston-rt: mine 35.31704333333333 file 35.3171
+      spp-sppnorth-hub-da: mine 28.720153333333332 file 28.7201
+      ercot-lz-north-rt: mine 33.07336 file 33.0733
+      nyiso-centrl-rt-battery: mine held file held
+  avg365: count                  1055 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  avg365: drawn or not             35 compared,   35 differ (1 public), largest gap 1 (a held row)
+      nyiso-n-y-c-da-peak: mine held file held
+      eia-plant-fuel-cost-mt-ng-cost-per-mmbtu: mine 1.0 file 0.0
+  avg365: latest less mean       1055 compared,    0 differ (0 public), largest gap 9.69697e-05 (spp-sppnorth-hub-spp-sppsouth-hub-da)
+  avg365: mean                   1055 compared,    3 differ (3 public), largest gap 5.26882e-05 (spp-swpw-as-price-dam-regdn)
+      ercot-lz-south-rt: mine 35.09834849315068 file 35.0984
+      ercot-hb-north-spark: mine 9.807049862258953 file 9.8071
+      spp-swpw-as-price-dam-regdn: mine 12.837947311827957 file 12.838
+  avg7: count                     273 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  avg7: mean                      273 compared,    7 differ (7 public), largest gap 7.14286e-05 (spp-sppnorth-hub-da-offpeak)
+      ercot-hb-hubavg-da-peak-less-off: mine -2.79626 file -2.7962
+      spp-sppnorth-hub-da-peak: mine 38.24156 file 38.2415
+      spp-sppnorth-hub-da-offpeak: mine 19.08247142857143 file 19.0824
+      ercot-hb-hubavg-spp-sppnorth-hub-da: mine 9.510057142857145 file 9.51
+  latest                         1208 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  move d: base date               273 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  move d: change                  273 compared,    0 differ (0 public), largest gap 0.0001 (a held row)
+  move d: held or not             935 compared,    0 differ (0 public), largest gap 0 (ercot-nodes-all-basis-p50)
+  move d: percent shown            12 compared,    0 differ (0 public), largest gap 0.005 (eia-henry-hub-spot)
+  move m: base date              1022 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  move m: change                 1022 compared,    0 differ (0 public), largest gap 0.0001 (ercot-lz-south-da)
+  move m: held or not             186 compared,    0 differ (0 public), largest gap 0 (eia-gas-price-pg1-saz)
+  move m: percent shown           497 compared,    0 differ (0 public), largest gap 0.005 (eia-gas-price-pg1-sms)
+  move w: base date               463 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  move w: change                  463 compared,    0 differ (0 public), largest gap 0.0001 (spp-sppsouth-hub-rt-battery)
+  move w: held or not             745 compared,    0 differ (0 public), largest gap 0 (ercot-nodes-all-basis-p50)
+  move w: percent shown           202 compared,    0 differ (0 public), largest gap 0.00496464 (eia-heating-price-w-epllpa-prs-sal-dpg)
+  move y: base date              1099 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  move y: change                 1099 compared,    0 differ (0 public), largest gap 0.0001 (imf-pcps-pnick)
+  move y: held or not             109 compared,    0 differ (0 public), largest gap 0 (spp-sppsouth-hub-rt)
+  move y: percent shown           640 compared,    0 differ (0 public), largest gap 0.00498465 (eia-gas-price-prs-swv)
+  move ytd: base date            1057 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  move ytd: change               1057 compared,    0 differ (0 public), largest gap 0.0001 (spp-sppsouth-hub-da)
+  move ytd: held or not           151 compared,   35 differ (1 public), largest gap 1 (a held row)
+      nyiso-n-y-c-da-peak: mine held file held
+      eia-plant-fuel-cost-mt-ng-cost-per-mmbtu: mine 1.0 file 0.0
+  move ytd: percent shown         632 compared,    0 differ (0 public), largest gap 0.005 (eia-emd-epd2d-pte-r20-dpg-retail)
+  range hi                       1090 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  range lo                       1090 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  range n                        1090 compared,    0 differ (0 public), largest gap 0 (ercot-hb-hubavg-da)
+  range position                 1086 compared,    1 differ (1 public), largest gap 5.03886e-05 (spp-sppnorth-hub-heat)
+      spp-sppnorth-hub-heat: mine 0.06394961136713995 file 0.064
+  trend: points the same         1208 compared,   89 differ (1 public), largest gap 1 (a held row)
+      nyiso-n-y-c-da-peak: mine held file held
+      eia-plant-fuel-cost-mt-ng-cost-per-mmbtu: mine 0.0 file 1.0

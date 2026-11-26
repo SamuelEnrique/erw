@@ -1,0 +1,111 @@
+{
+ "_reports_over_20000_mw": {
+  "n": 2,
+  "read_by_page_rule": 0,
+  "by_reporter": [
+   {
+    "a": "SWPP",
+    "b": "MISO",
+    "n": 2
+   }
+  ]
+ },
+ "CISO": {
+  "ties": 11,
+  "hours": 1152,
+  "page_rule_mean_net_export_mw": -4197.5,
+  "own_first_mean_net_export_mw": -4618.9,
+  "mean_of_two_mean_net_export_mw": -4372.2,
+  "page_minus_own_first_mean_abs_mw": 487.5,
+  "page_minus_own_first_median_abs_mw": 506.0,
+  "page_minus_own_first_mean_mw": 421.4,
+  "page_minus_own_first_max_abs_mw": 1361.0,
+  "sign_differs_hours": 11,
+  "page_minus_mean2_mean_abs_mw": 246.1,
+  "page_minus_mean2_median_abs_mw": 258.0
+ },
+ "ERCO": {
+  "ties": 2,
+  "hours": 1152,
+  "page_rule_mean_net_export_mw": -108.5,
+  "own_first_mean_net_export_mw": -108.5,
+  "mean_of_two_mean_net_export_mw": -176.9,
+  "page_minus_own_first_mean_abs_mw": 0.0,
+  "page_minus_own_first_median_abs_mw": 0.0,
+  "page_minus_own_first_mean_mw": 0.0,
+  "page_minus_own_first_max_abs_mw": 0.0,
+  "sign_differs_hours": 0,
+  "page_minus_mean2_mean_abs_mw": 256.7,
+  "page_minus_mean2_median_abs_mw": 188.2
+ },
+ "ISNE": {
+  "ties": 3,
+  "hours": 1200,
+  "page_rule_mean_net_export_mw": 218.9,
+  "own_first_mean_net_export_mw": 218.9,
+  "mean_of_two_mean_net_export_mw": 214.3,
+  "page_minus_own_first_mean_abs_mw": 0.0,
+  "page_minus_own_first_median_abs_mw": 0.0,
+  "page_minus_own_first_mean_mw": 0.0,
+  "page_minus_own_first_max_abs_mw": 0.0,
+  "sign_differs_hours": 0,
+  "page_minus_mean2_mean_abs_mw": 6.5,
+  "page_minus_mean2_median_abs_mw": 4.0
+ },
+ "MISO": {
+  "ties": 10,
+  "hours": 1176,
+  "page_rule_mean_net_export_mw": -2122.8,
+  "own_first_mean_net_export_mw": -2119.7,
+  "mean_of_two_mean_net_export_mw": -1579.0,
+  "page_minus_own_first_mean_abs_mw": 6.6,
+  "page_minus_own_first_median_abs_mw": 5.0,
+  "page_minus_own_first_mean_mw": -3.1,
+  "page_minus_own_first_max_abs_mw": 179.0,
+  "sign_differs_hours": 0,
+  "page_minus_mean2_mean_abs_mw": 689.0,
+  "page_minus_mean2_median_abs_mw": 451.2
+ },
+ "NYIS": {
+  "ties": 4,
+  "hours": 1200,
+  "page_rule_mean_net_export_mw": -2117.0,
+  "own_first_mean_net_export_mw": -2107.7,
+  "mean_of_two_mean_net_export_mw": -2012.8,
+  "page_minus_own_first_mean_abs_mw": 13.0,
+  "page_minus_own_first_median_abs_mw": 8.0,
+  "page_minus_own_first_mean_mw": -9.3,
+  "page_minus_own_first_max_abs_mw": 262.0,
+  "sign_differs_hours": 0,
+  "page_minus_mean2_mean_abs_mw": 293.7,
+  "page_minus_mean2_median_abs_mw": 214.5
+ },
+ "PJM": {
+  "ties": 7,
+  "hours": 1152,
+  "page_rule_mean_net_export_mw": 1786.1,
+  "own_first_mean_net_export_mw": 632.3,
+  "mean_of_two_mean_net_export_mw": 1104.8,
+  "page_minus_own_first_mean_abs_mw": 1615.7,
+  "page_minus_own_first_median_abs_mw": 990.0,
+  "page_minus_own_first_mean_mw": 1153.9,
+  "page_minus_own_first_max_abs_mw": 9954.0,
+  "sign_differs_hours": 370,
+  "page_minus_mean2_mean_abs_mw": 881.6,
+  "page_minus_mean2_median_abs_mw": 502.8
+ },
+ "SWPP": {
+  "ties": 11,
+  "hours": 120,
+  "page_rule_mean_net_export_mw": 317.6,
+  "own_first_mean_net_export_mw": 561.3,
+  "mean_of_two_mean_net_export_mw": 439.5,
+  "page_minus_own_first_mean_abs_mw": 687.8,
+  "page_minus_own_first_median_abs_mw": 574.0,
+  "page_minus_own_first_mean_mw": -243.7,
+  "page_minus_own_first_max_abs_mw": 2338.0,
+  "sign_differs_hours": 29,
+  "page_minus_mean2_mean_abs_mw": 343.9,
+  "page_minus_mean2_median_abs_mw": 287.0
+ }
+}

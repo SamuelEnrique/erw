@@ -1,0 +1,44 @@
+  caiso-th-sp15-gen-apnd-spark: 1 days with a day-ahead mean and a gas price within 4 days are not in the row, newest 2026-11-21
+  caiso-th-sp15-gen-apnd-heat: 1 days with a day-ahead mean and a gas price within 4 days are not in the row, newest 2026-11-21
+  spp-sppnorth-hub-spark: 1 days with a day-ahead mean and a gas price within 4 days are not in the row, newest 2026-11-21
+  spp-sppnorth-hub-heat: 1 days with a day-ahead mean and a gas price within 4 days are not in the row, newest 2026-11-21
+  caiso-th-np15-gen-apnd-spark: 1 days with a day-ahead mean and a gas price within 4 days are not in the row, newest 2026-11-21
+  erw-brent-minus-wti: Brent less WTI restated
+  erw-crack-321-gulf-coast: inputs eia-eer-epmru-pf4-rgc-dpg-spot, eia-eer-epd2dxl0-pf4-rgc-dpg-spot, eia-wti-cushing-spot
+  erw-crack-321-new-york: inputs eia-eer-epmru-pf4-y35ny-dpg-spot, eia-eer-epd2dxl0-pf4-y35ny-dpg-spot, eia-brent-spot
+  eia-eer-epmru-pf4-rgc-dpg-less-eia-wti-cushing: inputs eia-eer-epmru-pf4-rgc-dpg-spot, eia-wti-cushing-spot
+  eia-eer-epd2dxl0-pf4-rgc-dpg-less-eia-wti-cushing: inputs eia-eer-epd2dxl0-pf4-rgc-dpg-spot, eia-wti-cushing-spot
+  eia-eer-epjk-pf4-rgc-dpg-less-eia-wti-cushing: inputs eia-eer-epjk-pf4-rgc-dpg-spot, eia-wti-cushing-spot
+  eia-eer-epmru-pf4-y35ny-dpg-less-eia-brent: inputs eia-eer-epmru-pf4-y35ny-dpg-spot, eia-brent-spot
+  eia-eer-epd2dxl0-pf4-y35ny-dpg-less-eia-brent: inputs eia-eer-epd2dxl0-pf4-y35ny-dpg-spot, eia-brent-spot
+  eia-eer-epd2f-pf4-y35ny-dpg-less-eia-brent: inputs eia-eer-epd2f-pf4-y35ny-dpg-spot, eia-brent-spot
+  erw-wb-natural-gas-europe-less-natural-gas-us: formula the World Bank's monthly average price of natural gas europe - its natural gas us, the same month
+  erw-wb-liquefied-natural-gas-japan-less-natural-gas-us: formula the World Bank's monthly average price of liquefied natural gas japan - its natural gas us, the same month
+  erw-wb-liquefied-natural-gas-japan-less-natural-gas-europe: formula the World Bank's monthly average price of liquefied natural gas japan - its natural gas europe, the same month
+--- Part 3, the spreads from their inputs: 166601 figures compared, 9885 differ (7 of them on public rows)
+  Brent less WTI                 9854 compared,    0 differ (0 public), largest gap 1.77636e-14 (erw-brent-minus-wti)
+  crack                         59474 compared,    0 differ (0 public), largest gap 4.9738e-14 (erw-crack-321-gulf-coast)
+  da less rt: a day an input lacks   2436 compared, 2436 differ (2 public), largest gap 1 (spp-sppsouth-hub-da-minus-rt)
+      spp-sppsouth-hub-da-minus-rt: mine 0.0 file 1.0
+      spp-sppsouth-hub-da-minus-rt: mine 0.0 file 1.0
+      nyiso-n-y-c-da-minus-rt: mine held file held
+      nyiso-n-y-c-da-minus-rt: mine held file held
+  dark                            154 compared,    0 differ (0 public), largest gap 5.48387e-05 (ercot-hb-hubavg-dark)
+  dark: a month an input lacks    116 compared,  116 differ (0 public), largest gap 1 (a held row)
+      nyiso-n-y-c-dark: mine held file held
+  day-ahead minus real time     32913 compared,    0 differ (0 public), largest gap 0.0001 (ercot-lz-houston-da-minus-rt)
+  heat                           4922 compared,    0 differ (0 public), largest gap 8.11321e-05 (ercot-hb-hubavg-heat)
+  heat: a day an input lacks     3664 compared, 3664 differ (0 public), largest gap 1 (a held row)
+      nyiso-n-y-c-heat: mine held file held
+  heat: days it could hold and lacks      5 compared,    2 differ (2 public), largest gap 1 (caiso-th-sp15-gen-apnd-heat)
+      caiso-th-sp15-gen-apnd-heat: mine 0.0 file 1.0
+      spp-sppnorth-hub-heat: mine 0.0 file 1.0
+  hub spread                    24697 compared,    0 differ (0 public), largest gap 0.0001 (ercot-hb-north-ercot-hb-houston-rt)
+  hub spread: input days it lacks     14 compared,    0 differ (0 public), largest gap 0 (ercot-hb-north-ercot-hb-houston-da)
+  spark                         24675 compared,    0 differ (0 public), largest gap 0.0001 (ercot-hb-houston-spark)
+  spark: a day an input lacks    3664 compared, 3664 differ (0 public), largest gap 1 (a held row)
+      nyiso-n-y-c-spark: mine held file held
+  spark: days it could hold and lacks     13 compared,    3 differ (3 public), largest gap 1 (caiso-th-sp15-gen-apnd-spark)
+      caiso-th-sp15-gen-apnd-spark: mine 0.0 file 1.0
+      spp-sppnorth-hub-spark: mine 0.0 file 1.0
+      caiso-th-np15-gen-apnd-spark: mine 0.0 file 1.0
