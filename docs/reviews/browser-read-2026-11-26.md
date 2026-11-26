@@ -291,6 +291,15 @@ Whose: the old laptop audits it tonight (window D, chain 710, part B: `docs/revi
 
 Pictures: `docs/reviews/browser-read-2026-11-26/datacenter-pays/cost-of-power-as-it-opens-1280.png`; `docs/reviews/browser-read-2026-11-26/datacenter-pays/cost-of-power-grids-390-after-one-table.png` (CP1: 390 px after one tap on Table, the page pushed sideways).
 
+### The rest of the menu, by hand
+
+The pages of the menu that no window owns tonight, each walked at 1280 and 390 px with the same checks as the tools above (`runs/c750/d_tool.mjs`): `/prices`, `/prices/compare`, `/supply`, `/contracts`, `/severance`, `/battery/customer`, `/shoulder` (92 of 92 checks at each width); `/demand`, `/curtailment`, `/datacenters`, `/storage`, `/deals`, `/companies`, `/events` (89 of 92: the three are the rows below). Every page opens in under 1.6 s with no quiet fault. The charts of `/prices/compare`, `/shoulder` and `/demand` give their figures only as the browser's own tooltip, as the read of 20 November noted (its row S2); not reopened.
+
+| # | Done | Seen | Should be seen | Whose, and state |
+|---|---|---|---|---|
+| K1 | `/companies`, each field asked for the name a screen reader is given (`runs/c750/fields_named.mjs`, every page with a fixed address: 82 pages, 392 fields) | Five of the page's six fields have none: the Name box and the Kind, Segment, Grid and Has lists. Each stands in a label with an "i" mark before it, and a label names the first field inside it, which is the mark's own button ("About The search"). A screen reader says "search, edit text" and nothing more. No other page of the 82 has a field with no name | Each field named | no window's; **fixed** on `wip/c750-companies` (`d6dc93397`): each field carries its name; with a test |
+| K2 | `/companies`: Kind set to OEM, Show (2 of 12,724 companies), then the browser's back button; the same with State (`runs/c750/d_companies_probe.mjs`, 4 tries at each width) | The address and the table go back to all 12,724 companies; the list still reads "OEM" (or "CA"). 4 of 4 | The list reads what the page shows | no window's; **fixed** on the same branch: the form keeps no state (`autocomplete="off"`), which was tried on production's own page first: 4 of 4 then read the page's value. Chain 620's fix of 20 November mended the lists that submit themselves; this form submits with its button and was not among them. Landing row 5, ready, to be seen |
+
 ### The first minute, as production stands before tonight's landings
 
 Read 26 November 13:18 UTC with chain 620's own script (`runs/c750/d_first_minute.mjs`), as a stranger and as a reviewer, at 1280 and 390 px.
