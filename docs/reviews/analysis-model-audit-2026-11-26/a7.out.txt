@@ -1,0 +1,278 @@
+authorities: 7 candidates; in dollars 0; of those saying nominal 0
+boem502: 3 candidates; in dollars 0; of those saying nominal 0
+buildout: 8 candidates; in dollars 1; of those saying nominal 1
+coal: 9 candidates; in dollars 2; of those saying nominal 2
+cross: 3 candidates; in dollars 0; of those saying nominal 0
+cross502: 4 candidates; in dollars 0; of those saying nominal 0
+datacenters: 7 candidates; in dollars 4; of those saying nominal 4
+demand: 8 candidates; in dollars 0; of those saying nominal 0
+emissions: 6 candidates; in dollars 0; of those saying nominal 0
+events: no CANDIDATES
+ferc714: 3 candidates; in dollars 0; of those saying nominal 0
+fuels_carbon: 9 candidates; in dollars 8; of those saying nominal 8
+gas: 8 candidates; in dollars 0; of those saying nominal 0
+gas502: 2 candidates; in dollars 0; of those saying nominal 0
+generation: 7 candidates; in dollars 0; of those saying nominal 0
+hourly930: no CANDIDATES
+large_load: no CANDIDATES
+misc502: 2 candidates; in dollars 0; of those saying nominal 0
+nuclear_fleet: 7 candidates; in dollars 0; of those saying nominal 0
+oil: 8 candidates; in dollars 4; of those saying nominal 4
+oil_regional: 4 candidates; in dollars 2; of those saying nominal 2
+oil_world: 10 candidates; in dollars 0; of those saying nominal 0
+oilx502: 2 candidates; in dollars 0; of those saying nominal 0
+ops502: 4 candidates; in dollars 0; of those saying nominal 0
+other_us: 4 candidates; in dollars 0; of those saying nominal 0
+partd: 6 candidates; in dollars 0; of those saying nominal 0
+prices: 8 candidates; in dollars 4; of those saying nominal 2
+prices_markets: 10 candidates; in dollars 3; of those saying nominal 3
+queues: 8 candidates; in dollars 0; of those saying nominal 0
+regions: 10 candidates; in dollars 0; of those saying nominal 0
+retail: 6 candidates; in dollars 2; of those saying nominal 2
+rte502: 6 candidates; in dollars 0; of those saying nominal 0
+seds502: 8 candidates; in dollars 3; of those saying nominal 3
+stress: 5 candidates; in dollars 0; of those saying nominal 0
+trade: 9 candidates; in dollars 0; of those saying nominal 0
+utilities861: 4 candidates; in dollars 1; of those saying nominal 1
+weather: 13 candidates; in dollars 0; of those saying nominal 0
+world_power: 6 candidates; in dollars 0; of those saying nominal 0
+worldco2: 3 candidates; in dollars 0; of those saying nominal 0
+worldcoal: 3 candidates; in dollars 0; of those saying nominal 0
+worldoil: 4 candidates; in dollars 0; of those saying nominal 0
+ALL: 234 candidates; in dollars 34; saying nominal 32; n_floor of 1 or less 83
+
+module,candidate,unit,n_floor,first_words,usd,says_nominal
+authorities,ba_mean_mw,MW,8000,,False,False
+authorities,ba_peak_mw,MW,8000,,False,False
+authorities,ba_gen_ratio,percent,8000,,False,False
+authorities,ba_co2_intensity,kg CO2 per MWh,8000,,False,False
+authorities,ba_coal_co2_share,percent,8000,,False,False
+authorities,ba_top_winter,percent of the top hours,8000,,False,False
+authorities,ba_load_factor,percent,8000,,False,False
+boem502,gulf_oil,thousand barrels a day,12,the first full year the ERW holds,False,False
+boem502,gulf_gas,million cubic feet a day,12,,False,False
+boem502,gulf_leases,leases,12,,False,False
+buildout,added_mw,MW,1,the first year this measure counts,False,False
+buildout,battery_hours,MWh per MW,1,the first year this measure counts,False,False
+buildout,coal_retired,MW,1,,False,False
+buildout,turbine_kw,kW,1,the first year this measure counts,False,False
+buildout,turbine_rotor,m,1,the first year this measure counts,False,False
+buildout,res_pv_price,USD per kW DC,1,the first year this measure counts,True,True
+buildout,battery_fleet_mw,MW,1,,False,False
+buildout,fleet_hours,MWh per MW,1,,False,False
+coal,wyoming_share,percent of US coal production,1,,False,False
+coal,appalachia_share,percent of US coal production,1,,False,False
+coal,underground_share,percent of US coal production,1,,False,False
+coal,tons_per_employee,short tons per employee,1,,False,False
+coal,power_coal_price,USD per short ton,1,,True,True
+coal,us_origin_uranium,percent of uranium purchased,1,the first year EIA's report holds,False,False
+coal,uranium_price,USD per pound U3O8e,1,the first year EIA's report holds,True,True
+coal,spot_uranium_share,percent of uranium purchased,1,the first year EIA's report holds,False,False
+coal,us_enrichment_share,percent of enrichment services,1,the first year EIA's report holds,False,False
+cross,battery_per_peak,percent of peak-day demand,330,the first year both tables hold,False,False
+cross,built_per_asked,percent of MW requested,1,the first year this measure counts,False,False
+cross,storage_per_solar,MWh per MW of solar,1,the first year the ERW's fleet table holds,False,False
+cross502,peak_vs_5y,percent,1,the first year this measure counts,False,False
+cross502,peak_vs_3y,percent,1,the first year this measure counts,False,False
+cross502,energy_vs_5y,percent,1,the first year this measure counts,False,False
+cross502,energy_vs_3y,percent,1,the first year this measure counts,False,False
+datacenters,dc_construction,USD billion,11,,True,True
+datacenters,dc_share,percent of private nonresidential construction,11,,False,True
+datacenters,power_construction,USD billion,11,,True,True
+datacenters,hosting_jobs,employees,1,,False,False
+datacenters,hosting_sites,establishments,1,,False,False
+datacenters,hosting_pay,USD thousand a year,1,,True,True
+datacenters,hosting_revenue,USD billion,4,,True,True
+demand,top_days,GWh a day,330,,False,False
+demand,mean_day,GWh a day,330,,False,False
+demand,winter_vs_summer,percent of the summer top days,330,,False,False
+demand,peak_to_mean,percent of the mean day,330,,False,False
+demand,sub_p99,MW,8000,,False,False
+demand,sub_mean,MW,8000,,False,False
+demand,sub_night_share,percent of the all-hours mean,8000,,False,False
+demand,sub_load_factor,percent of the 99th-percentile hour,8000,,False,False
+emissions,power_co2,million tCO2,1,the first year this measure counts,False,False
+emissions,power_co2_share,percent of US energy CO2,1,the first year this measure counts,False,False
+emissions,transport_co2_share,percent of US energy CO2,1,the first year this measure counts,False,False
+emissions,coal_co2_share,percent of US energy CO2,1,the first year this measure counts,False,False
+emissions,power_co2_per_mwh,kg CO2 per MWh,1,the first year this measure counts,False,False
+emissions,conus_temperature,degrees F above the 1901 to 2000 mean,11,the first year this measure counts,False,False
+ferc714,summer_growth,percent a year,1,the first filing the ERW holds,False,False
+ferc714,winter_growth,percent a year,1,the first filing the ERW holds,False,False
+ferc714,energy_growth,percent a year,1,the first filing the ERW holds,False,False
+fuels_carbon,europe_gas_premium,USD per MMBtu,12,the first year this comparison counts,True,True
+fuels_carbon,japan_lng_premium,USD per MMBtu,12,the first year this comparison counts,True,True
+fuels_carbon,residential_markup,USD per Mcf,10,,True,True
+fuels_carbon,power_vs_citygate,USD per Mcf,10,,True,True
+fuels_carbon,industrial_vs_citygate,USD per Mcf,10,,True,True
+fuels_carbon,carb_allowance_price,USD per tCO2,4,,True,True
+fuels_carbon,lcfs_credit_price,USD per tCO2,40,,True,True
+fuels_carbon,brent_wti_spread,USD per barrel,200,,True,True
+fuels_carbon,henry_hub_winter,percent of the year's mean,200,,False,False
+gas,lng_share,percent of dry production,11,,False,False
+gas,power_share,percent of consumption,11,,False,False
+gas,state_production_share,percent of US marketed production,11,,False,False
+gas,flared_share,percent of gross withdrawals,11,,False,False
+gas,state_power_share,percent of delivered gas,11,,False,False
+gas,shale_share,percent of gross withdrawals,11,,False,False
+gas,mexico_exports,Bcf,11,,False,False
+gas,storage_outside,percent of weeks,45,,False,False
+gas502,s2s_in,bcf a day,1,,False,False
+gas502,s2s_out,bcf a day,1,,False,False
+generation,solar_share,percent of net generation,11,,False,False
+generation,wind_share,percent of net generation,11,,False,False
+generation,coal_share,percent of net generation,11,,False,False
+generation,gas_share,percent of net generation,11,,False,False
+generation,small_solar_ratio,percent of net generation,11,,False,False
+generation,solar_midday_share,percent of generation,11,,False,False
+generation,gas_evening_share,percent of generation,11,,False,False
+misc502,quakes_m3,earthquakes,1,,False,False
+misc502,reactor_power,percent of full power,330,,False,False
+nuclear_fleet,us_outage_share,percent of capacity,330,,False,False
+nuclear_fleet,us_nuclear_capacity,MW,330,,False,False
+nuclear_fleet,reactor_outage_days,days,330,,False,False
+nuclear_fleet,nuclear_share,percent of net generation,11,,False,False
+nuclear_fleet,hydro_share,percent of net generation,11,,False,False
+nuclear_fleet,gas_heat_rate,MMBtu per MWh,1,,False,False
+nuclear_fleet,coal_heat_rate,MMBtu per MWh,1,,False,False
+oil,gasoline_crack,USD per barrel,200,,True,True
+oil,diesel_crack,USD per barrel,200,,True,True
+oil,jet_crack,USD per barrel,200,,True,True
+oil,crude_share_of_pump,percent of the retail price,40,,False,True
+oil,pump_over_spot,USD per gallon,40,,True,True
+oil,net_imports,thousand barrels a day,11,the first year the ERW's table holds,False,False
+oil,import_share,percent of US crude imports,11,,False,False
+oil,state_crude_share,percent of US crude production,11,,False,False
+oil_regional,gas_premium,USD per gallon,45,the first year the ERW's regional table holds,True,True
+oil_regional,diesel_premium,USD per gallon,45,,True,True
+oil_regional,propane_to_crude,percent of WTI,200,,False,True
+oil_regional,tanker_transits,tanker transits,330,the first year PortWatch's table holds,False,False
+oil_world,us_liquids_share,percent of world production,11,,False,False
+oil_world,us_ngpl_share,percent of world NGPL,11,,False,False
+oil_world,refining_capacity,thousand barrels a day,11,,False,False
+oil_world,api_gravity,degrees API,11,,False,False
+oil_world,sulfur_content,percent sulfur by weight,11,,False,False
+oil_world,supplied_gasoline,thousand barrels a day,11,,False,False
+oil_world,supplied_distillate,thousand barrels a day,11,,False,False
+oil_world,supplied_jet,thousand barrels a day,11,,False,False
+oil_world,supplied_propane,thousand barrels a day,11,,False,False
+oil_world,supplied_residual,thousand barrels a day,11,,False,False
+oilx502,exp_crude_dest,thousand barrels a day,12,the first year with all twelve months listed,False,False
+oilx502,exp_product,thousand barrels a day,12,,False,False
+ops502,nuc_out_mean,MW,330,,False,False
+ops502,nuc_out_peak,MW,330,,False,False
+ops502,nuc_out_share,percent,330,,False,False
+ops502,coal_stocks_dec,million short tons,1,,False,False
+other_us,renewable_share,percent of primary energy production,11,,False,False
+other_us,home_electric_spend,percent of home energy spending,1,the first year the ERW's table holds,False,True
+other_us,ev_share,percent of registered light-duty vehicles,1,the first year the ERW's table holds,False,False
+other_us,dcfast_ports,ports,1,the first year the ERW's table holds,False,False
+partd,ghg_power_state,million t CO2e,1,the first year the ERW holds,False,False
+partd,ghg_onshore_basin,million t CO2e,1,,False,False
+partd,coal_basin_share,percent,1,,False,False
+partd,coal_mode_share,percent,1,,False,False
+partd,coal_sulfur,percent sulfur,1,,False,False
+partd,gas_net_receipts,Bcf,1,,False,False
+prices,midday_discount,percent of the all-hours mean,8000,,False,False
+prices,evening_premium,percent of the all-hours mean,8000,,False,False
+prices,daily_spread,USD per MWh,330,,True,True
+prices,top_days_share,percent,330,,False,False
+prices,top_hours_share,percent,8000,,False,True
+prices,hub_basis,USD per MWh,8000,,True,False
+prices,spark_spread,USD per MWh,200,,True,False
+prices,hour_to_hour_move,USD per MWh,8000,,True,True
+prices_markets,as_price_mean,USD per MW-hour,8000,,True,True
+prices_markets,da_above_rt_share,percent of hours,8000,,False,False
+prices_markets,cheapest_hour,hours after local midnight,330,,False,False
+prices_markets,winter_top_share,percent of the dearest hours,8000,,False,False
+prices_markets,weekend_discount,percent of the weekday mean,8000,,False,False
+prices_markets,morning_shoulder,percent of the all-hours mean,8000,,False,False
+prices_markets,midday_minus_night,USD per MWh,8000,,True,True
+prices_markets,spread_4h,USD per MWh,330,,True,True
+prices_markets,wide_spread_days,percent of days,330,,False,True
+prices_markets,henry_hub_volatility,percent a day,200,,False,False
+queues,months_by_region,months,1,the first year this measure counts,False,False
+queues,months_by_type,months,1,the first year this measure counts,False,False
+queues,withdrawn_by_type,percent of MW leaving the queue,1,the first year this measure counts,False,False
+queues,request_size,MW,1,the first year this measure counts,False,False
+queues,requested_by_type,MW,1,the first year this measure counts,False,False
+queues,storage_share,percent of requested MW,1,the first year this measure counts,False,False
+queues,hybrid_share,percent of solar MW requested,1,the first year this measure counts,False,False
+queues,withdrawn_share,percent of MW leaving the queue,1,the first year this measure counts,False,False
+regions,peak_mw,MW,8000,,False,False
+regions,mean_mw,MW,8000,,False,False
+regions,winter_summer,percent,8000,,False,False
+regions,top_winter,percent of the top hours,8000,,False,False
+regions,load_factor,percent,8000,,False,False
+regions,gen_ratio,percent,8000,,False,False
+regions,coal_share,percent,12,,False,False
+regions,gas_share,percent,12,,False,False
+regions,solar_share,percent,12,,False,False
+regions,nuclear_share,percent,12,,False,False
+retail,commercial_sales,TWh,11,,False,True
+retail,res_price,USD per MWh,11,,True,True
+retail,res_over_ind,USD per MWh,11,,True,True
+retail,saidi,minutes a customer,1,the first year EIA's reliability table holds,False,False
+retail,ami_share,percent of meters,1,the first year EIA's meter table holds,False,True
+retail,net_metered,MW,1,the first year EIA's net metering table holds,False,True
+rte502,fr_mean_nuclear,MW,15000,,False,False
+rte502,fr_mean_wind,MW,15000,,False,False
+rte502,fr_mean_solar,MW,15000,,False,False
+rte502,fr_mean_gas,MW,15000,,False,False
+rte502,fr_mean_consumption,MW,15000,,False,False
+rte502,fr_nuclear_share,percent,15000,,False,False
+seds502,seds_total,TBtu,1,,False,False
+seds502,seds_elec_comm,TWh,1,,False,False
+seds502,seds_elec_ind,TWh,1,,False,False
+seds502,seds_gas_power,TBtu,1,,False,False
+seds502,seds_renew_share,percent,1,,False,False
+seds502,seds_price_comm,USD per MWh,1,,True,True
+seds502,seds_price_ind,USD per MWh,1,,True,True
+seds502,seds_elec_spend,billion USD,1,,True,True
+stress,tight_solar,percent of solar capacity,1,the first year the ERW's table holds,False,False
+stress,tight_wind,percent of wind capacity,1,the first year the ERW's table holds,False,False
+stress,tight_gas,percent of gas capacity,1,the first year the ERW's table holds,False,False
+stress,wind_solar_cf,percent of capacity,1,the first year the ERW's table holds,False,False
+stress,calm_hours,hours,1,the first year the ERW's table holds,False,False
+trade,pair_flow,MW,8000,,False,False
+trade,region_net,percent,8000,,False,False
+trade,tie_flow,MW,8000,,False,False
+trade,pair_against,percent of hours,8000,,False,False
+trade,pair_against_summer,percent of hours,2000,,False,False
+trade,pair_against_winter,percent of hours,2000,,False,False
+trade,region_against,percent of hours,8000,,False,False
+trade,pair_side_gap,MW,8000,,False,False
+trade,tie_side_gap,MW,8000,,False,False
+utilities861,util_commercial,TWh,12,,False,False
+utilities861,util_industrial,TWh,12,,False,False
+utilities861,util_total,TWh,12,,False,False
+utilities861,util_commercial_price,USD per MWh,12,,True,True
+weather,cold_mw,MW,8000,,False,False
+weather,hot_mw,MW,8000,,False,False
+weather,cold_ratio,percent,8000,,False,False
+weather,hot_ratio,percent,8000,,False,False
+weather,temp_top,F,8000,,False,False
+weather,cold_hours,hours,8000,,False,False
+weather,hot_hours,hours,8000,,False,False
+weather,winter_temp,F,2000,,False,False
+weather,summer_temp,F,2000,,False,False
+weather,min_temp,F,8000,,False,False
+weather,max_temp,F,8000,,False,False
+weather,cdd,degree days a day,8000,,False,False
+weather,hdd,degree days a day,8000,,False,False
+world_power,eu_share_coal,percent,12,,False,False
+world_power,eu_share_gas,percent,12,,False,False
+world_power,eu_share_nuclear,percent,12,,False,False
+world_power,eu_share_wind,percent,12,,False,False
+world_power,eu_share_solar,percent,12,,False,False
+world_power,eu_net_imports,percent,12,,False,False
+worldco2,co2_total,million t CO2,1,,False,False
+worldco2,co2_coal,million t CO2,1,,False,False
+worldco2,co2_gas,million t CO2,1,,False,False
+worldcoal,wc_consumption,million short tons,1,,False,False
+worldcoal,wc_production,million short tons,1,,False,False
+worldcoal,wc_exports,million short tons,1,,False,False
+worldoil,wog_crude,thousand barrels a day,1,,False,False
+worldoil,wog_oil_use,thousand barrels a day,1,,False,False
+worldoil,wog_gas,billion cubic feet,1,,False,False
+worldoil,wog_gas_exports,billion cubic feet,1,,False,False

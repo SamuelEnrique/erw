@@ -1,0 +1,1463 @@
+{
+ "now": "2026-11-26T12:00:00Z",
+ "price": {
+  "oil": {
+   "value": 102.07,
+   "month": "2026-10",
+   "n": 22
+  },
+  "gas": {
+   "value": 2.99,
+   "month": "2026-10",
+   "n": 22
+  }
+ },
+ "cases": {
+  "TX|oil|base": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 4695.22,
+   "withTotal": 4695.22,
+   "savings": 0,
+   "lines": {
+    "tx_oil": 4695.22
+   },
+   "fees": {
+    "tx_oil_fee": 6.25
+   }
+  },
+  "TX|oil|opt=tx_eor": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 4695.22,
+   "withTotal": 2347.61,
+   "savings": 2347.61,
+   "lines": {
+    "tx_oil": 4695.22
+   },
+   "fees": {
+    "tx_oil_fee": 6.25
+   }
+  },
+  "TX|oil|opt=tx_eor_co2": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 4695.22,
+   "withTotal": 1173.805,
+   "savings": 3521.415,
+   "lines": {
+    "tx_oil": 4695.22
+   },
+   "fees": {
+    "tx_oil_fee": 6.25
+   }
+  },
+  "TX|oil|opt=tx_oil_inactive": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 4695.22,
+   "withTotal": 0,
+   "savings": 4695.22,
+   "lines": {
+    "tx_oil": 4695.22
+   },
+   "fees": {
+    "tx_oil_fee": 6.25
+   }
+  },
+  "TX|oil|credit=tx_lp_oil": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 4695.22,
+   "withTotal": 4695.22,
+   "savings": 0,
+   "lines": {
+    "tx_oil": 4695.22
+   },
+   "fees": {
+    "tx_oil_fee": 6.25
+   }
+  },
+  "TX|gas|base": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 224.25,
+   "withTotal": 224.25,
+   "savings": 0,
+   "lines": {
+    "tx_gas": 224.25
+   },
+   "fees": {
+    "tx_gas_fee": 0.6669999999999999
+   }
+  },
+  "TX|gas|opt=tx_hcg": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 224.25,
+   "withTotal": 112.125,
+   "savings": 112.125,
+   "lines": {
+    "tx_gas": 224.25
+   },
+   "fees": {
+    "tx_gas_fee": 0.6669999999999999
+   }
+  },
+  "TX|gas|opt=tx_lp_gas": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 224.25,
+   "withTotal": 0,
+   "savings": 224.25,
+   "lines": {
+    "tx_gas": 224.25
+   },
+   "fees": {
+    "tx_gas_fee": 0.6669999999999999
+   }
+  },
+  "TX|gas|opt=tx_flared": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 224.25,
+   "withTotal": 0,
+   "savings": 224.25,
+   "lines": {
+    "tx_gas": 224.25
+   },
+   "fees": {
+    "tx_gas_fee": 0.6669999999999999
+   }
+  },
+  "TX|gas|opt=tx_would_flare": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 224.25,
+   "withTotal": 0,
+   "savings": 224.25,
+   "lines": {
+    "tx_gas": 224.25
+   },
+   "fees": {
+    "tx_gas_fee": 0.6669999999999999
+   }
+  },
+  "TX|gas|opt=tx_restim": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 224.25,
+   "withTotal": 0,
+   "savings": 224.25,
+   "lines": {
+    "tx_gas": 224.25
+   },
+   "fees": {
+    "tx_gas_fee": 0.6669999999999999
+   }
+  },
+  "TX|gas|opt=tx_gas_inactive": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 224.25,
+   "withTotal": 0,
+   "savings": 224.25,
+   "lines": {
+    "tx_gas": 224.25
+   },
+   "fees": {
+    "tx_gas_fee": 0.6669999999999999
+   }
+  },
+  "TX|condensate|base": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 4695.22,
+   "withTotal": 4695.22,
+   "savings": 0,
+   "lines": {
+    "tx_cond": 4695.22
+   },
+   "fees": {}
+  },
+  "LA|oil|base": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 12758.75,
+   "withTotal": 12758.75,
+   "savings": 0,
+   "lines": {
+    "la_oil": 12758.75
+   },
+   "fees": {}
+  },
+  "LA|oil|variant=la_oil_pre2025": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 12758.75,
+   "withTotal": 12758.75,
+   "savings": 0,
+   "lines": {
+    "la_oil": 12758.75
+   },
+   "fees": {}
+  },
+  "LA|oil|variant=la_oil_post2025": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 6634.55,
+   "withTotal": 6634.55,
+   "savings": 0,
+   "lines": {
+    "la_oil": 6634.55
+   },
+   "fees": {}
+  },
+  "LA|oil|opt=la_incapable": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 12758.75,
+   "withTotal": 6379.375,
+   "savings": 6379.375,
+   "lines": {
+    "la_oil": 12758.75
+   },
+   "fees": {}
+  },
+  "LA|oil|opt=la_stripper": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 12758.75,
+   "withTotal": 3189.6875,
+   "savings": 9569.0625,
+   "lines": {
+    "la_oil": 12758.75
+   },
+   "fees": {}
+  },
+  "LA|oil|opt=la_oil_inactive": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 12758.75,
+   "withTotal": 3189.6875,
+   "savings": 9569.0625,
+   "lines": {
+    "la_oil": 12758.75
+   },
+   "fees": {}
+  },
+  "LA|oil|opt=la_oil_orphan": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 12758.75,
+   "withTotal": 1597.3955,
+   "savings": 11161.3545,
+   "lines": {
+    "la_oil": 12758.75
+   },
+   "fees": {}
+  },
+  "LA|oil|opt=la_oil_horizontal": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 12758.75,
+   "withTotal": 2551.7499999999995,
+   "savings": 10207,
+   "lines": {
+    "la_oil": 12758.75
+   },
+   "fees": {}
+  },
+  "LA|oil|opt=la_oil_deep": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 12758.75,
+   "withTotal": 0,
+   "savings": 12758.75,
+   "lines": {
+    "la_oil": 12758.75
+   },
+   "fees": {}
+  },
+  "LA|oil|opt=la_orphan_enh": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 12758.75,
+   "withTotal": 0,
+   "savings": 12758.75,
+   "lines": {
+    "la_oil": 12758.75
+   },
+   "fees": {}
+  },
+  "LA|oil|transport2": {
+   "gross": 102070,
+   "taxable": 100070,
+   "baseTotal": 12508.75,
+   "withTotal": 12508.75,
+   "savings": 0,
+   "lines": {
+    "la_oil": 12508.75
+   },
+   "fees": {}
+  },
+  "LA|gas|base": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 151.4,
+   "withTotal": 151.4,
+   "savings": 0,
+   "lines": {
+    "la_gas": 151.4
+   },
+   "fees": {}
+  },
+  "LA|gas|opt=la_gas_lowpress": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 151.4,
+   "withTotal": 30,
+   "savings": 121.4,
+   "lines": {
+    "la_gas": 151.4
+   },
+   "fees": {}
+  },
+  "LA|gas|opt=la_gas_incapable": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 151.4,
+   "withTotal": 13,
+   "savings": 138.4,
+   "lines": {
+    "la_gas": 151.4
+   },
+   "fees": {}
+  },
+  "LA|gas|opt=la_gas_inactive": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 151.4,
+   "withTotal": 37.85,
+   "savings": 113.55000000000001,
+   "lines": {
+    "la_gas": 151.4
+   },
+   "fees": {}
+  },
+  "LA|gas|opt=la_gas_orphan": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 151.4,
+   "withTotal": 18.925,
+   "savings": 132.475,
+   "lines": {
+    "la_gas": 151.4
+   },
+   "fees": {}
+  },
+  "LA|gas|opt=la_gas_horizontal": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 151.4,
+   "withTotal": 0,
+   "savings": 151.4,
+   "lines": {
+    "la_gas": 151.4
+   },
+   "fees": {}
+  },
+  "LA|gas|opt=la_gas_deep": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 151.4,
+   "withTotal": 0,
+   "savings": 151.4,
+   "lines": {
+    "la_gas": 151.4
+   },
+   "fees": {}
+  },
+  "LA|condensate|base": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 12758.75,
+   "withTotal": 12758.75,
+   "savings": 0,
+   "lines": {
+    "la_cond": 12758.75
+   },
+   "fees": {}
+  },
+  "LA|condensate|opt=la_cond_deep": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 12758.75,
+   "withTotal": 0,
+   "savings": 12758.75,
+   "lines": {
+    "la_cond": 12758.75
+   },
+   "fees": {}
+  },
+  "LA|condensate|transport2": {
+   "gross": 102070,
+   "taxable": 100070,
+   "baseTotal": 12508.75,
+   "withTotal": 12508.75,
+   "savings": 0,
+   "lines": {
+    "la_cond": 12508.75
+   },
+   "fees": {}
+  },
+  "NM|oil|base": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 7287.798,
+   "withTotal": 7287.798,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 0
+   },
+   "fees": {}
+  },
+  "NM|oil|district=CHAVES, district 01, suffix 0510": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8351.67361,
+   "withTotal": 8351.67361,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1063.87561
+   },
+   "fees": {}
+  },
+  "NM|oil|district=CHAVES, district 06, suffix 0520": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8470.48309,
+   "withTotal": 8470.48309,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1182.68509
+   },
+   "fees": {}
+  },
+  "NM|oil|district=CHAVES, district 08, suffix 0530": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8574.39035,
+   "withTotal": 8574.39035,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1286.59235
+   },
+   "fees": {}
+  },
+  "NM|oil|district=CHAVES, district 20, suffix 0540": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8335.44448,
+   "withTotal": 8335.44448,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1047.64648
+   },
+   "fees": {}
+  },
+  "NM|oil|district=CHAVES, district 28, suffix 0550": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8013.005349999999,
+   "withTotal": 8013.005349999999,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 725.20735
+   },
+   "fees": {}
+  },
+  "NM|oil|district=CHAVES, district 14, suffix 0560": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8268.18035,
+   "withTotal": 8268.18035,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 980.3823500000001
+   },
+   "fees": {}
+  },
+  "NM|oil|district=COLFAX, district 03, suffix 0710": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8509.98418,
+   "withTotal": 8509.98418,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1222.18618
+   },
+   "fees": {}
+  },
+  "NM|oil|district=COLFAX, district 11, suffix 720": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8508.75934,
+   "withTotal": 8508.75934,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1220.9613399999998
+   },
+   "fees": {}
+  },
+  "NM|oil|district=EDDY, district 00C, suffix 1510": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8439.24967,
+   "withTotal": 8439.24967,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1151.4516700000001
+   },
+   "fees": {}
+  },
+  "NM|oil|district=EDDY CARLSBAD, district 00C, suffix 1511": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8756.99358,
+   "withTotal": 8756.99358,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1469.19558
+   },
+   "fees": {}
+  },
+  "NM|oil|district=EDDY, district 10, suffix 1520": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8045.7698199999995,
+   "withTotal": 8045.7698199999995,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 757.97182
+   },
+   "fees": {}
+  },
+  "NM|oil|district=EDDY, district 16, suffix 1530": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8260.525099999999,
+   "withTotal": 8260.525099999999,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 972.7271000000001
+   },
+   "fees": {}
+  },
+  "NM|oil|district=EDDY ARTESIA, district 16, suffix 1531": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8439.1476,
+   "withTotal": 8439.1476,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1151.3495999999998
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA, district 01, suffix 2510": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8955.82594,
+   "withTotal": 8955.82594,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1668.0279400000002
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA, district 08, suffix 2520": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8567.44959,
+   "withTotal": 8567.44959,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1279.65159
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA EUNICE, district 08, suffix 2521": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8957.86734,
+   "withTotal": 8957.86734,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1670.0693400000002
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA, district 16, suffix 2530": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8764.85297,
+   "withTotal": 8764.85297,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1477.0549700000001
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA HOBBS, district 16, suffix 2531": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 9048.40343,
+   "withTotal": 9048.40343,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1760.60543
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA, district 19, suffix 2540": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8414.44666,
+   "withTotal": 8414.44666,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1126.6486599999998
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA JAL, district 19, suffix 2541": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8804.86441,
+   "withTotal": 8804.86441,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1517.06641
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA, district 28, suffix 2550": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8728.0057,
+   "withTotal": 8728.0057,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1440.2077000000002
+   },
+   "fees": {}
+  },
+  "NM|oil|district=MCKINLEY, district 1, suffix 3110": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8870.49542,
+   "withTotal": 8870.49542,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1582.69742
+   },
+   "fees": {}
+  },
+  "NM|oil|district=RIO ARRIBA, district 21, suffix 3910": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8552.95565,
+   "withTotal": 8552.95565,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1265.1576499999999
+   },
+   "fees": {}
+  },
+  "NM|oil|district=RIO ARRIBA, district 53, suffix 3920": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8552.95565,
+   "withTotal": 8552.95565,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1265.1576499999999
+   },
+   "fees": {}
+  },
+  "NM|oil|district=ROOSEVELT, district 02, suffix 4110": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8089.557849999999,
+   "withTotal": 8089.557849999999,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 801.7598499999999
+   },
+   "fees": {}
+  },
+  "NM|oil|district=ROOSEVELT, district 39, suffix 4120": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8369.22965,
+   "withTotal": 8369.22965,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1081.43165
+   },
+   "fees": {}
+  },
+  "NM|oil|district=ROOSEVELT, district 05, suffix 4130": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8089.557849999999,
+   "withTotal": 8089.557849999999,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 801.7598499999999
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SANDOVAL, district 20, suffix 4310": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8647.268329999999,
+   "withTotal": 8647.268329999999,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1359.47033
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SAN JUAN, district 02, suffix 4510": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8689.93359,
+   "withTotal": 8689.93359,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1402.1355899999999
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SAN JUAN AZTEC, district 02, suffix 4511": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 9040.74818,
+   "withTotal": 9040.74818,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1752.9501800000003
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SAN JUAN, district 05, suffix 4520": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8562.6523,
+   "withTotal": 8562.6523,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1274.8543000000002
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SAN JUAN FARMINGTON, district 05, suffix 4521": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8676.25621,
+   "withTotal": 8676.25621,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1388.45821
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SAN JUAN, district 06, suffix 4530": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8676.25621,
+   "withTotal": 8676.25621,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1388.45821
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SAN JUAN BLOOMFIELD, district 06, suffix 4531": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 9033.50121,
+   "withTotal": 9033.50121,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1745.7032100000001
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SAN JUAN, district 22, suffix 4540": {
+   "gross": 102070,
+   "taxable": 102070,
+   "baseTotal": 8570.71583,
+   "withTotal": 8570.71583,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3827.625,
+    "nm_school_oil": 3215.205,
+    "nm_cons_oil": 244.968,
+    "nm_adval": 1282.9178299999999
+   },
+   "fees": {}
+  },
+  "NM|oil|jal_royalty12.5_truck1": {
+   "gross": 102070,
+   "taxable": 88311.25,
+   "baseTotal": 7617.99335875,
+   "withTotal": 7617.99335875,
+   "savings": 0,
+   "lines": {
+    "nm_sev": 3311.671875,
+    "nm_school_oil": 2781.804375,
+    "nm_cons_oil": 211.94699999999997,
+    "nm_adval": 1312.57010875
+   },
+   "fees": {}
+  },
+  "NM|gas|base": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 237.40600000000003,
+   "withTotal": 237.40600000000003,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 0
+   },
+   "fees": {}
+  },
+  "NM|gas|district=CHAVES, district 01, suffix 0510": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 268.57077000000004,
+   "withTotal": 268.57077000000004,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 31.16477
+   },
+   "fees": {}
+  },
+  "NM|gas|district=CHAVES, district 06, suffix 0520": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 272.05113000000006,
+   "withTotal": 272.05113000000006,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 34.64513
+   },
+   "fees": {}
+  },
+  "NM|gas|district=CHAVES, district 08, suffix 0530": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 275.09495000000004,
+   "withTotal": 275.09495000000004,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 37.68895
+   },
+   "fees": {}
+  },
+  "NM|gas|district=CHAVES, district 20, suffix 0540": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 268.09536,
+   "withTotal": 268.09536,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 30.68936
+   },
+   "fees": {}
+  },
+  "NM|gas|district=CHAVES, district 28, suffix 0550": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 258.64995000000005,
+   "withTotal": 258.64995000000005,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 21.24395
+   },
+   "fees": {}
+  },
+  "NM|gas|district=CHAVES, district 14, suffix 0560": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 266.12495,
+   "withTotal": 266.12495,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 28.718950000000003
+   },
+   "fees": {}
+  },
+  "NM|gas|district=COLFAX, district 03, suffix 0710": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 273.20826000000005,
+   "withTotal": 273.20826000000005,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 35.802260000000004
+   },
+   "fees": {}
+  },
+  "NM|gas|district=COLFAX, district 11, suffix 720": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 273.17238000000003,
+   "withTotal": 273.17238000000003,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 35.76638
+   },
+   "fees": {}
+  },
+  "NM|gas|district=EDDY, district 00C, suffix 1510": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 271.13619000000006,
+   "withTotal": 271.13619000000006,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 33.73019
+   },
+   "fees": {}
+  },
+  "NM|gas|district=EDDY CARLSBAD, district 00C, suffix 1511": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 280.44406000000004,
+   "withTotal": 280.44406000000004,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 43.03806
+   },
+   "fees": {}
+  },
+  "NM|gas|district=EDDY, district 10, suffix 1520": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 259.60974000000004,
+   "withTotal": 259.60974000000004,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 22.20374
+   },
+   "fees": {}
+  },
+  "NM|gas|district=EDDY, district 16, suffix 1530": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 265.90070000000003,
+   "withTotal": 265.90070000000003,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 28.4947
+   },
+   "fees": {}
+  },
+  "NM|gas|district=EDDY ARTESIA, district 16, suffix 1531": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 271.13320000000004,
+   "withTotal": 271.13320000000004,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 33.727199999999996
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA, district 01, suffix 2510": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 286.26858000000004,
+   "withTotal": 286.26858000000004,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 48.86258000000001
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA, district 08, suffix 2520": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 274.89163,
+   "withTotal": 274.89163,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 37.48563
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA EUNICE, district 08, suffix 2521": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 286.32838000000004,
+   "withTotal": 286.32838000000004,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 48.922380000000004
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA, district 16, suffix 2530": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 280.67429000000004,
+   "withTotal": 280.67429000000004,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 43.26829
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA HOBBS, district 16, suffix 2531": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 288.98051000000004,
+   "withTotal": 288.98051000000004,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 51.574510000000004
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA, district 19, suffix 2540": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 270.40962,
+   "withTotal": 270.40962,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 33.00362
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA JAL, district 19, suffix 2541": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 281.84637000000004,
+   "withTotal": 281.84637000000004,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 44.44037
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA, district 28, suffix 2550": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 279.59490000000005,
+   "withTotal": 279.59490000000005,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 42.188900000000004
+   },
+   "fees": {}
+  },
+  "NM|gas|district=MCKINLEY, district 1, suffix 3110": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 283.76894000000004,
+   "withTotal": 283.76894000000004,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 46.362939999999995
+   },
+   "fees": {}
+  },
+  "NM|gas|district=RIO ARRIBA, district 21, suffix 3910": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 274.46705000000003,
+   "withTotal": 274.46705000000003,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 37.06105
+   },
+   "fees": {}
+  },
+  "NM|gas|district=RIO ARRIBA, district 53, suffix 3920": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 274.46705000000003,
+   "withTotal": 274.46705000000003,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 37.06105
+   },
+   "fees": {}
+  },
+  "NM|gas|district=ROOSEVELT, district 02, suffix 4110": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 260.89245000000005,
+   "withTotal": 260.89245000000005,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 23.486449999999998
+   },
+   "fees": {}
+  },
+  "NM|gas|district=ROOSEVELT, district 39, suffix 4120": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 269.08505,
+   "withTotal": 269.08505,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 31.67905
+   },
+   "fees": {}
+  },
+  "NM|gas|district=ROOSEVELT, district 05, suffix 4130": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 260.89245000000005,
+   "withTotal": 260.89245000000005,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 23.486449999999998
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SANDOVAL, district 20, suffix 4310": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 277.22981000000004,
+   "withTotal": 277.22981000000004,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 39.82381
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SAN JUAN, district 02, suffix 4510": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 278.47963000000004,
+   "withTotal": 278.47963000000004,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 41.073629999999994
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SAN JUAN AZTEC, district 02, suffix 4511": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 288.75626000000005,
+   "withTotal": 288.75626000000005,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 51.350260000000006
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SAN JUAN, district 05, suffix 4520": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 274.75110000000006,
+   "withTotal": 274.75110000000006,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 37.3451
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SAN JUAN FARMINGTON, district 05, suffix 4521": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 278.07897,
+   "withTotal": 278.07897,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 40.67297
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SAN JUAN, district 06, suffix 4530": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 278.07897,
+   "withTotal": 278.07897,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 40.67297
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SAN JUAN BLOOMFIELD, district 06, suffix 4531": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 288.54397000000006,
+   "withTotal": 288.54397000000006,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 51.13797
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SAN JUAN, district 22, suffix 4540": {
+   "gross": 2990,
+   "taxable": 2990,
+   "baseTotal": 274.98731000000004,
+   "withTotal": 274.98731000000004,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 112.125,
+    "nm_school_gas": 119.60000000000001,
+    "nm_cons_gas": 5.681,
+    "nm_adval_gas": 37.581309999999995
+   },
+   "fees": {}
+  },
+  "NM|gas|jal_royalty12.5_truck1": {
+   "gross": 2990,
+   "taxable": 1616.25,
+   "baseTotal": 152.35257375,
+   "withTotal": 152.35257375,
+   "savings": 0,
+   "lines": {
+    "nm_sev_gas": 60.609375,
+    "nm_school_gas": 64.65,
+    "nm_cons_gas": 3.070875,
+    "nm_adval_gas": 24.022323749999998
+   },
+   "fees": {}
+  }
+ },
+ "printed": {
+  "calculator": "Reset to the defaults : Texas, oil, a monthly volume of 1,000 at the latest price shown, no deductions. State Texas Louisiana New Mexico Product oil gas condensate Monthly volume, bbl i Every tax and fee here is in proportion to the volume: the whole well's or lease's month gives the whole tax, and one owner's share of the volume (a one-eighth royalty: the month's volume divided by 8) gives the tax on that share. Who bears the tax, the operator or each owner, is not a rule this page has read. Price, USD per bbl Default price (an assumption, edit it): WTI Cushing, the mean of 22 daily EIA spot prices in 2026-10, $102.07 per barrel. A hub price is not the value at the well, which is what the states tax. Reduced rate or exemption (one per well and month) None: the base rate Enhanced Oil Recovery (EOR), Exempt Type 05 EOR using anthropogenic carbon dioxide, Exempt Type 14 Two-Year Inactive Well Exemption Low-producing oil lease credit, Exempt Type 11 Gross value $102,070.00 Oil production tax, 4.6% $4,695.22 Crude Oil Production Tax Tax at the base rate $4,695.22 Tax with the exemptions chosen $4,695.22 Savings $0.00 Oil Field Clean-Up Fee (a fee, not in the tax or the savings) $6.25 Crude Oil Production Tax Texas taxes the market value of oil, gas and condensate (the Comptroller's pages). Marketing costs: the Comptroller publishes an 'Audit Policy on Natural Gas Marketing Costs' that this page did not read, so no deduction is computed.",
+  "page": "Calculator Lease Severance tax calculator: Texas, Louisiana, New Mexico What a month of oil, gas or condensate owes in state production taxes at the base rate, what it owes with the reduced rates and exemptions a well may qualify for, and the difference. Every rate, exemption and threshold cites the statute or state agency page whose text states it. An estimate for education and planning, not tax advice. Deductions such as marketing costs vary by state: they are listed, and computed only where the state's rule states them (Louisiana's transport charges on oil, New Mexico's royalties and trucking). New Mexico's rates are the Taxation and Revenue Department's latest published table, for April to August 2026. Local taxes, county levies and federal royalties are not here. Method . A whole lease? The lease tool takes a CSV of every well's monthly production, computes each well and month, and flags the reduced rates each well's numbers may qualify for. Your file is read in your browser and never sent. Calculator Reset to the defaults : Texas, oil, a monthly volume of 1,000 at the latest price shown, no deductions. State Texas Louisiana New Mexico Product oil gas condensate Monthly volume, bbl i Every tax and fee here is in proportion to the volume: the whole well's or lease's month gives the whole tax, and one owner's share of the volume (a one-eighth royalty: the month's volume divided by 8) gives the tax on that share. Who bears the tax, the operator or each owner, is not a rule this page has read. Price, USD per bbl Default price (an assumption, edit it): WTI Cushing, the mean of 22 daily EIA spot prices in 2026-10, $102.07 per barrel. A hub price is not the value at the well, which is what the states tax. Reduced rate or exemption (one per well and month) None: the base rate Enhanced Oil Recovery (EOR), Exempt Type 05 EOR using anthropogenic carbon dioxide, Exempt Type 14 Two-Year Inactive Well Exemption Low-producing oil lease credit, Exempt Type 11 Gross value $102,070.00 Oil production tax, 4.6% $4,695.22 Crude Oil Production Tax Tax at the base rate $4,695.22 Tax with the exemptions chosen $4,695.22 Savings $0.00 Oil Field Clean-Up Fee (a fee, not in the tax or the savings) $6.25 Crude Oil Production Tax Texas taxes the market value of oil, gas and condensate (the Comptroller's pages). Marketing costs: the Comptroller publishes an 'Audit Policy on Natural Gas Marketing Costs' that this page did not read, so no deduction is computed. Source: ERW table eia_fuel_spot_prices . Default prices only: EIA daily spot prices (WTI Cushing, Henry Hub). The tax rules are site/data/severance_rules.json, each with its statute or agency citation. Rules version 2026-09-30.2. Every rule, with its source Texas oil, Oil production tax: 4.6% of value; effective 1951-09-01. Crude Oil Production Tax ; Sec. 202.052(a) oil, Enhanced Oil Recovery (EOR), Exempt Type 05: The tax rate falls from 4.6 to 2.3 percent of market value. 10 years beginning the first day of the month after the Railroad Commission certifies a positive production response (or, for an expansion, incremental production). Crude Oil Production Tax ; Sec. 202.052(b); Sec. 202.054(g) oil, EOR using anthropogenic carbon dioxide, Exempt Type 14: Up to an additional 50 percent reduction of the tax rate (the calculator applies it to the EOR rate, 2.3 percent). Until the 30th anniversary of the date the Comptroller first approves the application; the reduction is prorated to the anthropogenic share of the carbon dioxide used. Crude Oil Production Tax ; Sec. 202.0545(a), (b) oil, Two-Year Inactive Well Exemption: 0.0 percent of market value. Five years. Crude Oil Production Tax ; Sec. 202.056(b) oil, Low-producing oil lease credit, Exempt Type 11: A credit of 25, 50 or 100 percent of the tax, set by the Comptroller-certified average (in 2005 dollars) oil price for the report month (not the price entered here); it can combine with Types 05 and 14. Each report month, while the lease qualifies and by the certified price. Tax Credit for Qualifying Low-Producing Oil Leases ; Sec. 202.058(c) Latest certified price: $53.55 for 2026-08 (2005 dollars). oil, Oil Field Clean-Up Fee: $0.00625 per bbl (report periods September 2015 and later). Crude Oil Production Tax gas, Natural gas production tax: 7.5% of value; effective 1969-10-01. Natural Gas Production Tax ; Sec. 201.052(a) gas, High-Cost Gas Reduced Tax Rate, Type 5: The rate is 7.5 percent less 7.5 percent times the ratio of the well's drilling and completion costs to twice the median, never below zero: a well at the median pays 3.75 percent, one at twice the median or more pays nothing. The first 120 consecutive calendar months from first production, or until the cumulative reduction equals 50 percent of the drilling and completion costs, whichever occurs first (wells spudded or completed after August 31, 1996). Natural Gas Production Tax ; Sec. 201.057(c) gas, Low-producing gas well credit: A credit of 25, 50 or 100 percent of the tax, set by the Comptroller-certified average (in 2005 dollars) gas price for the report month (not the price entered here). It cannot be reported with high-cost gas for the same well and period. Each report month, while the well qualifies and by the certified price. Tax Credit for Qualifying Low-Producing Gas Wells ; Sec. 201.059(b) Latest certified price: $1.36 for 2026-08 (2005 dollars). gas, Flared Gas Exemption, Type 4: 0.0 percent of market value. Natural Gas Production Tax ; Sec. 201.053(2) gas, Gas that would otherwise be vented or flared: 0.0 percent of market value. Natural Gas Production Tax ; Sec. 201.061(b) gas, Gas from certain restimulation wells, Type 17: 0.0 percent of market value. Until the earlier of the last day of the 36th consecutive month after the well first produces following the restimulation treatment, or the date the exempted taxes (chapters 201 and 202) reach the lesser of the restimulation costs or $750,000. Natural Gas Production Tax ; Sec. 202.062(c) gas, Two-Year Inactive Well Exemption, Type 16: 0.0 percent of market value. Five years. Natural Gas Production Tax ; Sec. 202.056(b); Sec. 201.053(4) gas, Oil-Field Cleanup Regulatory Fee on Natural Gas: $0.000667 per Mcf. Natural Gas Production Tax condensate, Condensate production tax: 4.6% of value; effective 1953-08-27. Natural Gas Production Tax ; Sec. 201.055(b) Louisiana oil, Oil severance tax: 12.5% (well completed before july 1, 2025); 6.5% (well completed on or after july 1, 2025); effective 2025-07-01 for the 6.5 percent rate (wells completed on or after that date). La. R.S. 47:633, Severance tax; rates; administration oil, Incapable oil well: 6.25 percent of value. While certified (by the 25th day of the second month after production). La. R.S. 47:633, Severance tax; rates; administration oil, Stripper oil well: 3.125 percent of value; exempt in any month the average value is below $20 per barrel. Until the well averages more than 10 barrels per day for an entire calendar month. La. R.S. 47:633, Severance tax; rates; administration oil, Inactive well returned to production (production commencing before October 1, 2028): 3.125 percent of value (6.25 percent if production commences on or after October 1, 2028). Ten years. La. R.S. 47:633, Severance tax; rates; administration oil, Orphan well returned to production (production commencing before October 1, 2028): 1.565 percent of value (3.125 percent if production commences on or after October 1, 2028). Ten years. La. R.S. 47:633, Severance tax; rates; administration oil, Horizontal well exemption (FY 2027 oil price $73.28: 80 percent): 80 percent of the tax exempt for July 1, 2026 to June 30, 2027: the tiers run from 100 percent at $70 or less to none above $110, on the average NYMEX price the Secretary sets each July 1. 24 months or until payout of the well cost, whichever comes first. Revenue Information Bulletin No. 26-014 (August 3, 2026): Prices Applicable to Oil and Gas for Horizontal Wells, July 1, 2026 to June 30, 2027 oil, Deep well exemption: Exempt from severance tax. 24 months from commercial production or until payout of the well cost, whichever comes first. La. R.S. 47:633, Severance tax; rates; administration oil, Orphan well enhancement (production commencing October 1, 2021 to June 30, 2031): Exempt from severance tax; from the fourth month an amount equal to the tax is remitted to the well's site-specific trust account. As certified; the operator keeps the first three months' amount. La. R.S. 47:633, Severance tax; rates; administration gas, Natural gas severance tax: $0.1514 per Mcf; effective 2026-07-01 to 2027-06-30. Revenue Information Bulletin No. 26-013 (June 2, 2026): Natural Gas Severance Tax Rate Effective July 1, 2026, through June 30, 2027 gas, Gas from a low-pressure oil well (50 psig or less): 3 cents per Mcf. Each month the pressure test is met. La. R.S. 47:633, Severance tax; rates; administration gas, Incapable gas well (under 250,000 cubic feet per day): 1.3 cents per Mcf. Each month the test is met. La. R.S. 47:633, Severance tax; rates; administration gas, Inactive gas well returned to production (before October 1, 2028): 25 percent of the gas rate: 3.785 cents per Mcf for July 1, 2026 to June 30, 2027. Ten years. Revenue Information Bulletin No. 26-013 (June 2, 2026): Natural Gas Severance Tax Rate Effective July 1, 2026, through June 30, 2027 gas, Orphan gas well returned to production (before October 1, 2028): 12.5 percent of the gas rate: 1.8925 cents per Mcf for July 1, 2026 to June 30, 2027. Ten years. Revenue Information Bulletin No. 26-013 (June 2, 2026): Natural Gas Severance Tax Rate Effective July 1, 2026, through June 30, 2027 gas, Horizontal well exemption (FY 2027 gas price $3.63/MMBtu: 100 percent): 100 percent exempt for July 1, 2026 to June 30, 2027 (the tiers run from 100 percent at $4.50/MMBtu or less to none above $7). 24 months or until payout for wells completed before July 1, 2025; 18 months or until payout for wells completed on or after July 1, 2025. Revenue Information Bulletin No. 26-014 (August 3, 2026): Prices Applicable to Oil and Gas for Horizontal Wells, July 1, 2026 to June 30, 2027 gas, Deep well exemption: Exempt from severance tax. 24 months from commercial production or until payout, whichever comes first. La. R.S. 47:633, Severance tax; rates; administration condensate, Severance tax on distillate, condensate or similar resources: 12.5% of value. La. R.S. 47:633, Severance tax; rates; administration condensate, Deep well exemption: Exempt from severance tax. 24 months from commercial production or until payout, whichever comes first. La. R.S. 47:633, Severance tax; rates; administration New Mexico oil, Oil and Gas Severance Tax: 3.75% of value; effective 2026-04-01 to 2026-08-31 (TRD table). New Mexico Oil and Gas Production tax rates for 04/01/2026 through 08/31/2026 by county and appropriate suffix (spreadsheet, revised) oil, Oil and Gas Emergency School Tax: 3.15% of value; effective 2026-04-01 to 2026-08-31 (TRD table). New Mexico Oil and Gas Production tax rates for 04/01/2026 through 08/31/2026 by county and appropriate suffix (spreadsheet, revised) oil, Oil and Gas Conservation Tax: 0.24% of value; effective 2026-04-01 to 2026-08-31 (TRD table). New Mexico Oil and Gas Production tax rates for 04/01/2026 through 08/31/2026 by county and appropriate suffix (spreadsheet, revised) oil, Oil and Gas Ad Valorem Production Tax: your production unit's rate (by county, district and suffix); effective 2026-04-01 to 2026-08-31 (TRD table). Oil & Gas Production Taxes gas, Oil and Gas Severance Tax: 3.75% of value; effective 2025-09-01 to 2026-08-31 (TRD table). New Mexico Oil and Gas Production tax rates for 04/01/2026 through 08/31/2026 by county and appropriate suffix (spreadsheet, revised) gas, Oil and Gas Emergency School Tax: 4% of value; effective 2025-09-01 to 2026-08-31 (TRD table). New Mexico Oil and Gas Production tax rates for 04/01/2026 through 08/31/2026 by county and appropriate suffix (spreadsheet, revised) gas, Oil and Gas Conservation Tax: 0.19% of value; effective 2025-09-01 to 2026-08-31 (TRD table). New Mexico Oil and Gas Production tax rates for 04/01/2026 through 08/31/2026 by county and appropriate suffix (spreadsheet, revised) gas, Oil and Gas Ad Valorem Production Tax: your production unit's rate (by county, district and suffix); effective 2026-04-01 to 2026-08-31 (TRD table). Oil & Gas Production Taxes Decisions on this page (each with its default and its source on hover) The price a month opens on is a hub price, not the value at the well, which is what the states tax. Type the lease's own price in the price box, or in the price columns of a lease file. i Default: The mean of EIA's daily spot price over the latest complete calendar month: WTI Cushing for oil and condensate, Henry Hub for gas. In a lease file, a blank price is the mean of the production month. Source: EIA daily spot prices, the table eia_fuel_spot_prices (series RWTC and RNGWHHD), offered as a CSV under both tabs. Gas is priced per Mcf with Henry Hub's price per MMBtu, as if one Mcf held one MMBtu. A richer or leaner gas is worth more or less: type its price per Mcf. i Default: 1 Mcf counted as 1 MMBtu. Source: A choice of session 40, stated in the method note; no statute sets it. Texas oil owes 4.6 percent of market value or 4.6 cents a barrel, whichever is greater. Texas condensate owes 4.6 percent with no floor per barrel. i Default: The greater of the two for oil; the percentage alone for condensate. Source: Texas Tax Code Sec. 202.052(a) for oil; Sec. 201.055(b) and the Comptroller's Natural Gas Production Tax page for condensate, which states no amount per barrel. One reduced rate or exemption applies to a well and month, and it replaces the first tax of the state's list (New Mexico's other three taxes stay). Texas's low-producing oil lease credit is the one rule that stacks: it is taken after the reduced rate. i Default: None ticked: the tax at the base rate. Source: The Comptroller's Natural Gas Production Tax page (one incentive per well per report period) and its Low-Producing Oil Leases page (the credit combines with Types 05 and 14). A Texas low-producing credit is 0, 25, 50 or 100 percent by the Comptroller's certified price of the report period, which is in 2005 dollars, never by the price typed. Choose the report period under the rule. i Default: The latest report period the rules file holds, August 2026: gas USD 1.36 per Mcf (100 percent credit), oil USD 53.55 per barrel (no credit). In a lease file, the production month's; a month not held earns no credit. Source: Texas Comptroller, the certified average taxable prices on its low-producing wells and leases pages, read 30 September 2026; Tax Code Secs. 201.059(b) and 202.058(c). Texas high-cost gas is taxed at 7.5 percent less 7.5 percent times half the well's cost ratio, never below zero. The limit of 50 percent of drilling and completion costs in savings is not tracked. Type the ratio under the rule, or in a lease file's hcg_cost_ratio. i Default: A cost ratio of 1.0, the median well: 3.75 percent. Source: Texas Tax Code Sec. 201.057(c); the Comptroller's Natural Gas Production Tax page (Type 5). Louisiana oil is taxed at 12.5 percent from a well completed before July 1, 2025 and at 6.5 percent from one completed on or after. Choose the completion in the list, or give completion_date in a lease file. i Default: Completed before July 1, 2025: 12.5 percent. A lease file with no date takes the same. Source: La. R.S. 47:633, as amended through Acts 2025, No. 373. Louisiana gas is taxed by volume, not value, at the rate the Department of Revenue sets each July 1, and its horizontal well exemption follows the price the department publishes for the fiscal year. i Default: 15.14 cents per Mcf for July 1, 2026 to June 30, 2027; horizontal wells 80 percent exempt for oil and 100 percent for gas in fiscal year 2027. Source: Louisiana Department of Revenue, RIB No. 26-013 (June 2, 2026) and RIB No. 26-014 (August 3, 2026). A deduction is computed only where the state's rule states it: Louisiana's trucking, barging and pipeline fees on oil and condensate, and New Mexico's royalties to the United States, the state or a tribe and its trucking. Texas's marketing costs for gas are not computed. Type each in its box. i Default: No deduction: every box opens on 0. Source: La. R.S. 47:633; New Mexico Taxation and Revenue Department, Oil and Gas Production Taxes. New Mexico's ad valorem production tax is the rate of the production unit's county, district and suffix. With no district chosen it is left out, and the total is the other three taxes. Choose the district in the list. i Default: Not chosen: ad valorem left out (the 35 rows of the table run from 0.7105 to 1.7249 percent). Source: New Mexico Taxation and Revenue Department, the rate table effective April 1 to August 31, 2026, its latest when read on 30 September 2026. Each tax is computed to the fraction of a cent and the total is rounded once for display. New Mexico's return rounds each of its four taxes to the cent on its own, so a return can differ from the total here by a cent or two. i Default: No rounding of a single tax. Source: New Mexico Taxation and Revenue Department, OGT Return Tax Due Calculation Method (Rev. 1, 2017). Texas's two regulatory fees (USD 0.00625 a barrel of oil, USD 0.000667 per Mcf of gas) are shown on their own line and are in neither the tax nor the savings. i Default: Shown apart. Source: Texas Comptroller, Crude Oil Production Tax and Natural Gas Production Tax pages. In the lease tool a rule is flagged when the file's own numbers meet its thresholds, and a well's potential savings take, for each month and product, the one flagged rule that saves the most. The state still certifies or designates the well. Tick or untick each rule under the well. i Default: Nothing ticked unless the file's exemptions column claims it. Source: The thresholds of each rule as its cited page states them; the tests on the file's numbers are in the method note. A Texas gas well is tested as low-producing on the three months before the month, at 90 Mcf a day or less, when it produced gas in each of them; otherwise on the month itself, so a new well's first short month does not count. i Default: The three months before, when the file holds gas in each. Source: The Comptroller's Low-Producing Gas Wells page for the 90 Mcf a day over three months; the rule for a new well is a choice of session 57. Each is described in the method note , with the arithmetic of every figure. Download the tables: every public table is on Data and methods ."
+ },
+ "requests": [
+  "http://localhost:9/rest/v1/series eq.eia_fuel_spot_prices",
+  "http://localhost:9/rest/v1/series eq.eia_fuel_spot_prices",
+  "http://localhost:9/rest/v1/series eq.eia_fuel_spot_prices",
+  "http://localhost:9/rest/v1/series eq.eia_fuel_spot_prices",
+  "http://localhost:9/rest/v1/catalogue ",
+  "http://localhost:9/rest/v1/catalogue "
+ ]
+}

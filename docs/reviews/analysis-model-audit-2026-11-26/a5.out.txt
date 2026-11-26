@@ -1,0 +1,24 @@
+impact_study CSV rows: 56 of which in the window: 28 ; control_value cells held (NYISO New York City, daily): 56
+  n 28, lag rule gives 3; b 3016.4007, se 1598.9276, p 0.0704  (card: 3,016.4007, 1,598.9276, 0.0704)
+  difference in differences from the means: 3016.4007
+  lags  0: se    995.16, p 0.0055
+  lags  1: se   1319.87, p 0.0307
+  lags  2: se   1502.09, p 0.0551
+  lags  3: se   1598.93, p 0.0704
+  lags  5: se   1629.84, p 0.0756
+  lags  7: se   1554.88, p 0.0633
+  lags 10: se   1356.66, p 0.0351
+  lags 13: se   1192.00, p 0.0178
+  ordinary least squares error (independent, equal-variance days): 995.16
+  residual autocorrelation, after=0, lags 1,2,3,5,7: 0.437, 0.005, -0.175, -0.173, -0.309
+  residual autocorrelation, after=1, lags 1,2,3,5,7: 0.758, 0.398, 0.086, -0.262, -0.319
+batteries_lunch_grids: 15 regressions; HC1 p < 0.05: 5; Newey-West p < 0.05: 5
+   crosses 0.05: nyiso:worst_interval_multiple coef 25.73, HC1 se 12.28 p 0.0393; NW se 15.81 p 0.1076, lags 3, n 93
+   crosses 0.05: spp:hours_top1pct coef 9.733, HC1 se 4.411 p 0.0518; NW se 4.09 p 0.0386, lags 2, n 25
+batteries_curtailment: 4 regressions; HC1 p < 0.05: 4; Newey-West p < 0.05: 4
+batteries_lunch: 3 regressions; HC1 p < 0.05: 3; Newey-West p < 0.05: 3
+batteries_curtailment_hourly: n 67368, k 120, months 94
+  clustered by day: 2807 clusters; charging per MW -0.0956246, se 0.0101466, t -9.42, p 8.75e-21
+  clustered by week (Monday to Sunday): 409 clusters; charging per MW -0.0956246, se 0.0166023, t -5.76, p 1.66e-08
+  clustered by month: 94 clusters; charging per MW -0.0956246, se 0.0267731, t -3.57, p 0.000564
+  card: -0.0956246, se 0.0101466 (clustered by day)

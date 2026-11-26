@@ -1,0 +1,72 @@
+== 2026-W39 keys: ['caption', 'chart', 'citations', 'computed_at', 'files', 'headline', 'history_n', 'notability_z', 'note', 'note_by', 'option', 'params', 'percentile', 'rule', 'source_line', 'subtitle', 'tables', 'template', 'title', 'week']
+  template: "peak_premium_block"
+  rule: "highest robust z of the headline against its own history among eligible public templates (at least 8 earlier values, headline period ended within 45 days)"
+  caption: "ERCOT HB_NORTH real-time prices: peak median 50.09 USD/MWh vs midday 30.11 and overnight 29.01 (2026-08-28 to 2026-09-26). Latest week's peak-minus-midday gap of 28.08 USD/MWh scores a robust z of 2.46 against its own history."
+  headline: {"label": "peak minus midday median, latest 7 days", "value": 28.08, "unit": "USD/MWh", "period": "2026-09-20 to 2026-09-26"}
+  results: 9 entries; with a score: 0
+== 2026-W40 keys: ['caption', 'chart', 'citations', 'computed_at', 'files', 'headline', 'history_n', 'notability_z', 'note', 'note_by', 'option', 'params', 'percentile', 'rule', 'source_line', 'subtitle', 'tables', 'template', 'title', 'week']
+  template: "deals_by_month"
+  rule: "highest robust z of the headline against its own history among eligible public templates (at least 8 earlier values, headline period ended within 45 days)"
+  caption: "Energy deals in the news, 2025-10 to 2026-09: 2026-09 had the most in any month, 59 deals, and m and a was the most common type, with 91. From ERW's Chart of the Week."
+  headline: {"label": "deals in the latest ended month", "value": 59, "unit": "deals", "period": "2026-09"}
+  results: 9 entries; with a score: 0
+== 2026-W41 keys: ['also_moved', 'caption', 'change', 'chart', 'citations', 'computed_at', 'files', 'finding', 'headline', 'history_n', 'model_caption', 'notability_z', 'note', 'note_by', 'option', 'params', 'percentile', 'picked_by', 'rule', 'source_line', 'subtitle', 'tables', 'template', 'title', 'week']
+  template: "watch_battery_discharge_us"
+  rule: "the change that ranks highest among the measure's own earlier changes, among measurements of the energy system whose newest period is new this week: the change from the period before (weekly figures) or from the same month a year earlier (monthly figures with a season), ranked by size among the last 104 weekly or 36 monthly changes before it (at least 8); counts of what the ERW itself has collect
+  finding: "Lower 48 battery discharge, daily mean of the week: 45,968 MWh a day in the week of 2026-09-28 to 2026-10-04, down 8,790.43 from 54,758.43 the week before. Of the 98 week-to-week moves before it, 3 were as large."
+  caption: "Lower 48 battery discharge, daily mean of the week: 45,968 MWh a day in the week of 2026-09-28 to 2026-10-04, down 8,790.43 from 54,758.43 the week before. Of the 98 week-to-week moves before it, 3 were as large."
+  headline: {"label": "Lower 48 battery discharge, daily mean of the week", "value": 45968.0, "unit": "MWh a day", "period": "2026-09-28 to 2026-10-04"}
+  results: 39 entries; with a score: 31
+    (96.9, 'watch_battery_discharge_us', 98, 'previous')
+    (93.3, 'watch_caiso_regup', 104, 'previous')
+    (88.5, 'watch_spp_regup', 104, 'previous')
+    (84.6, 'watch_crude_exports', 104, 'previous')
+    (83.7, 'watch_nyiso_reg', 104, 'previous')
+    (82.2, 'peak_premium_block', 90, 'previous')
+    (81.7, 'watch_diesel_retail', 104, 'previous')
+    (80.8, 'watch_wti', 104, 'previous')
+== 2026-W43 keys: ['also_moved', 'caption', 'change', 'chart', 'citations', 'computed_at', 'files', 'finding', 'headline', 'history_n', 'model_caption', 'notability_z', 'note', 'note_by', 'option', 'params', 'percentile', 'picked_by', 'rule', 'source_line', 'subtitle', 'tables', 'template', 'title', 'week']
+  template: "watch_caiso_regup"
+  rule: "the change that ranks highest among the measure's own earlier changes, among measurements of the energy system whose newest period is new this week: the change from the period before (weekly figures) or from the same month a year earlier (monthly figures with a season), ranked by size among the last 104 weekly or 36 monthly changes before it (at least 8); counts of what the ERW itself has collect
+  finding: "CAISO Regulation Up day-ahead price, weekly mean: 3.14 USD/MW in the week of 2026-10-12 to 2026-10-18, down 9.7 from 12.84 the week before. It is the largest week-to-week move of the last 105."
+  caption: "CAISO Regulation Up day-ahead price, weekly mean: 3.14 USD/MW in the week of 2026-10-12 to 2026-10-18, down 9.7 from 12.84 the week before. It is the largest week-to-week move of the last 105."
+  headline: {"label": "CAISO Regulation Up day-ahead price, weekly mean", "value": 3.14, "unit": "USD/MW", "period": "2026-10-12 to 2026-10-18"}
+  results: 40 entries; with a score: 25
+    (100.0, 'watch_caiso_regup', 104, 'previous')
+    (91.7, 'watch_retail_sales', 36, 'year')
+    (91.7, 'watch_storage_buildout_ercot', 36, 'previous')
+    (81.7, 'curtailment_midday', 104, 'previous')
+    (78.8, 'watch_crude_exports', 104, 'previous')
+    (78.5, 'watch_caiso_solar', 65, 'previous')
+    (77.8, 'watch_retail_price', 36, 'year')
+    (77.0, 'watch_battery_discharge_us', 100, 'previous')
+== 2026-W44 keys: ['also_moved', 'caption', 'change', 'chart', 'citations', 'computed_at', 'files', 'finding', 'headline', 'history_n', 'model_caption', 'notability_z', 'note', 'note_by', 'option', 'params', 'percentile', 'picked_by', 'rule', 'source_line', 'subtitle', 'tables', 'template', 'title', 'week']
+  template: "watch_wti"
+  rule: "the change that ranks highest among the measure's own earlier changes, among measurements of the energy system whose newest period is new this week: the change from the period before (weekly figures) or from the same month a year earlier (monthly figures with a season), ranked by size among the last 104 weekly or 36 monthly changes before it (at least 8); counts of what the ERW itself has collect
+  finding: "WTI spot price at Cushing, weekly mean: 107.17 USD/bbl in the week of 2026-10-19 to 2026-10-25, up 7.24 from 99.93 the week before. Of the 104 week-to-week moves before it, 13 were as large."
+  caption: "WTI spot price at Cushing, weekly mean: 107.17 USD/bbl in the week of 2026-10-19 to 2026-10-25, up 7.24 from 99.93 the week before. Of the 104 week-to-week moves before it, 13 were as large."
+  headline: {"label": "WTI spot price at Cushing, weekly mean", "value": 107.17, "unit": "USD/bbl", "period": "2026-10-19 to 2026-10-25"}
+  results: 40 entries; with a score: 21
+    (87.5, 'watch_wti', 104, 'previous')
+    (87.5, 'watch_crude_exports', 104, 'previous')
+    (81.8, 'watch_caiso_solar', 66, 'previous')
+    (77.9, 'watch_diesel_retail', 104, 'previous')
+    (75.0, 'watch_brent', 104, 'previous')
+    (73.8, 'storage_evening_peak', 61, 'previous')
+    (72.7, 'da_rt_spread_by_hour', 11, 'previous')
+    (68.3, 'watch_ercot_da_price', 104, 'previous')
+== 2026-W45 keys: ['also_moved', 'caption', 'change', 'chart', 'citations', 'computed_at', 'files', 'finding', 'headline', 'history_n', 'model_caption', 'notability_z', 'note', 'note_by', 'option', 'params', 'percentile', 'picked_by', 'rule', 'source_line', 'subtitle', 'tables', 'template', 'title', 'week']
+  template: "watch_battery_discharge_us"
+  rule: "the change that ranks highest among the measure's own earlier changes, among measurements of the energy system whose newest period is new this week: the change from the period before (weekly figures) or from the same month a year earlier (monthly figures with a season), ranked by size among the last 104 weekly or 36 monthly changes before it (at least 8); counts of what the ERW itself has collect
+  finding: "Lower 48 battery discharge, daily mean of the week: 47,682.14 MWh a day in the week of 2026-10-26 to 2026-11-01, down 6,317.57 from 53,999.71 the week before. Of the 102 week-to-week moves before it, 8 were as large."
+  caption: "Lower 48 battery discharge, daily mean of the week: 47,682.14 MWh a day in the week of 2026-10-26 to 2026-11-01, down 6,317.57 from 53,999.71 the week before. Of the 102 week-to-week moves before it, 8 were as large."
+  headline: {"label": "Lower 48 battery discharge, daily mean of the week", "value": 47682.14, "unit": "MWh a day", "period": "2026-10-26 to 2026-11-01"}
+  results: 40 entries; with a score: 21
+    (92.2, 'watch_battery_discharge_us', 102, 'previous')
+    (82.7, 'watch_crude_exports', 104, 'previous')
+    (77.9, 'watch_henry_hub', 104, 'previous')
+    (69.2, 'watch_ulsd_ny', 104, 'previous')
+    (69.2, 'watch_ercot_da_price', 104, 'previous')
+    (64.4, 'watch_caiso_regup', 104, 'previous')
+    (62.5, 'watch_diesel_retail', 104, 'previous')
+    (50.0, 'da_rt_spread_by_hour', 12, 'previous')

@@ -1,0 +1,22 @@
+oil 2026-10 n=22 mean=102.066364 -> 102.07; gas 2026-10 n=22 mean=2.987727 -> 2.99; cases 108
+default {"oil_price": "102.07", "gas_price": "2.99", "tx_oil_tax": "4695.22", "tx_gas_tax": "224.25"}
+window|oil {"twelve_month_mean": "82.02", "tax_at_twelve": "3772.92", "change_pct": -19.643381992750072, "november_partial_days": 8, "november_mean": "93.69", "tax_at_november": "4309.74", "november_change_pct": -8.210051925149408, "monthly_min": 57.972272727272724, "monthly_max": 102.134, "monthly_cv_pct": 20.28479681390902, "months": {"2025-11": 60.0622, "2025-12": 57.9723, "2026-01": 60.037, "2026-02": 64
+window|gas {"twelve_month_mean": "3.58", "tax_at_twelve": "268.50", "change_pct": 19.732441471571907, "november_partial_days": 8, "november_mean": "2.74", "tax_at_november": "205.50", "november_change_pct": -8.361204013377927, "monthly_min": 2.7676190476190476, "monthly_max": 7.717894736842105, "monthly_cv_pct": 37.00252575938227, "months": {"2025-11": 3.7941, "2025-12": 4.2638, "2026-01": 7.7179, "2026-02":
+rounding|oil {"unrounded_mean": "102.0663636363636363636363636", "tax_unrounded": "4695.05", "tax_rounded": "4695.22"}
+heat|TX {"tax_1to1": "224.25", "tax_at_1034": "231.87", "change_pct": 3.4}
+heat|NM {"tax_1to1": "237.41", "tax_at_1034": "245.48", "change_pct": 3.4}
+heat|LA {"tax_1to1": "151.40", "tax_at_1034": "151.40", "change_pct": 0.0}
+la_completion {"before": "12758.75", "on_or_after": "6634.55", "change_pct": -48.0}
+la_condensate_transport {"no_deduction": "12758.75", "with_2_per_bbl": "12508.75", "change": "-250.00", "change_pct": -1.9594396002743215}
+la_condensate_transport|sample {"deduction_effect_on_sample": "14.63"}
+nm_district|oil {"none": "7287.80", "min": "8013.01", "median_rate_pct": "1.24900", "median": "8562.65", "max": "9048.40", "none_vs_median_pct": -14.888544522589104, "none_vs_max_pct": -19.457636295953705}
+nm_district|gas {"none": "237.41", "min": "258.65", "median_rate_pct": "1.24900", "median": "274.75", "max": "288.98", "none_vs_median_pct": -13.59233866579606, "none_vs_max_pct": -17.847054806568096}
+nm_conservation|oil {"at_0.24": "244.97", "at_0.19": "193.93", "change": "-51.04"}
+tx_fpp|fy2025 {"at_fpp": 6621844278, "at_wti": 6729074711, "wti_over_fpp_pct": 1.6193439244147685}
+tx_fpp|fy2026 {"at_fpp": 7175971817, "at_wti": 7215622875, "wti_over_fpp_pct": 0.5525531455693007}
+certified_sep2026|oil {"price": "48.59", "credit_pct": 0, "credit_pct_aug": 0}
+certified_sep2026|gas {"price": "1.23", "credit_pct": 100, "credit_pct_aug": 100}
+tx_floor {"binds_below_usd_per_bbl": "1"}
+effective_rate_pct {"TX|oil": 4.6, "TX|gas": 7.5, "TX|condensate": 4.6, "LA|oil": 12.5, "LA|gas": 5.063545150501672, "LA|condensate": 12.5, "NM|oil": 7.14, "NM|oil|median district": 8.389, "NM|gas": 7.94, "NM|gas|median district": 9.189}
+la_gas_share_of_value_pct {"2025-11": 3.9904061569278615, "2025-12": 3.5508232093437777, "2026-01": 1.9616735122248279, "2026-02": 4.1804727192401145, "2026-03": 4.97355540225354, "2026-04": 5.470443705737823, "2026-05": 5.152288582610176, "2026-06": 4.814296616636988, "2026-07": 5.20811833505332, "2026-08": 5.435875341088611, "2026-09": 5.134640168215424, "2026-10": 5.067443183719918}
+nm_royalty12.5|oil {"none": "7287.80", "royalty": "6376.82", "change_pct": -12.5}

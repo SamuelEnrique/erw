@@ -1,0 +1,73 @@
+{
+ "base": {
+  "per": 34.07137214611872,
+  "months": "2025-11 to 2026-10",
+  "gpu_hour": 0.06909674271232877,
+  "pv": 2611949.7339308276
+ },
+ "l12_hours_held_of_due": [
+  8760,
+  8760
+ ],
+ "m1_hub_HB_NORTH": -1.2812462303678132,
+ "m2_day_ahead": 1.6265011415525166,
+ "m3_clock_time_months": -0.0030308219178110107,
+ "m4_gpu_1_275": {
+  "gpu_hour": 0.06776795919863014,
+  "change": -0.019230769230769162,
+  "gpus_100mw": 50276.52086475616
+ },
+ "m5_pue_1_09": {
+  "gpu_hour": 0.04827913433105023,
+  "change": -0.3012820512820512,
+  "gpus_100mw": 70571.63020465772
+ },
+ "m6_inflation_2.0": {
+  "pv_100mw": 299419361.16412747,
+  "pv_change": 0.14634427023800067,
+  "level": 39.05752223884981
+ },
+ "m6_inflation_2.5": {
+  "pv_100mw": 310244571.9370469,
+  "pv_change": 0.18778921319495478,
+  "level": 40.46960831391085
+ },
+ "m6_pv_100mw_default": 261194973.39308277,
+ "m7_bad_interpolated_p90": 37.108418538786474,
+ "m7_bad_nearest_rank": 37.88271505376341,
+ "m8_ancillary_40_days": {
+  "hours": 672,
+  "first": "2026-09-03T05:00:00Z",
+  "last": "2026-10-13T04:00:00Z",
+  "usd_per_mwh_load": 0.2708897058240999,
+  "products": [
+   "ercot:ECRS",
+   "ercot:NSPIN",
+   "ercot:REGDN",
+   "ercot:REGUP",
+   "ercot:RRS"
+  ]
+ },
+ "m8_ancillary_twelve_months_estimate": {
+  "hours": 8015,
+  "usd_per_mwh_load": 0.32886474447058445
+ },
+ "m9_solar_shape": {
+  "window": "2025-10 to 2026-09 (the generator file's twelve months)",
+  "flat_hub": 32.19967665525104,
+  "solar_capture": 23.270942027907967,
+  "gap_per_mwh_contracted": 8.928734627343072
+ },
+ "m10_own_effect": {
+  "hours": 8015,
+  "mean_price_rise_usd_mwh": {
+   "100": 0.02641983780411727,
+   "1000": 0.41708733624454153,
+   "5000": 2.1025714285714288,
+   "10000": 4.205032439176544
+  },
+  "mean_load_mw": 58335.08259095197
+ },
+ "m11_demand_mean_mw_2026": 60187.2,
+ "m11_peak_mw_2026": 91133.7
+}

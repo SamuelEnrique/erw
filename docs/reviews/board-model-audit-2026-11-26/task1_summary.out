@@ -1,0 +1,86 @@
+## wip/audit-datacenter-1, case default
+  10  replace: [n] -> [zed]
+   9  delete: [a] -> []
+   9  insert: [] -> [eve]
+   9  delete: [-] -> []
+   1  replace: [A] -> [Leve]
+   1  delete: [l-] -> []
+   1  insert: [] -> [market energy, the other charges typed and ]
+   1  delete: [ and the energy] -> []
+   1  insert: [] -> [; no delivery, ancillary service or loss charge unless typed as other charges]
+## wip/audit-datacenter-1, case gw
+  10  replace: [n] -> [zed]
+   9  delete: [a] -> []
+   9  insert: [] -> [eve]
+   9  delete: [-] -> []
+   1  replace: [A] -> [Leve]
+   1  delete: [l-] -> []
+   1  insert: [] -> [market energy, the other charges typed and ]
+   1  delete: [ and the energy] -> []
+   1  insert: [] -> [; no delivery, ancillary service or loss charge unless typed as other charges]
+## wip/audit-datacenter-2, case allgrids
+  14  insert: [] -> [, loss]
+   1  insert: [] -> [No delivery, distribution, ancillary, loss or retail charge is in it, so it is not the whole bill. ]
+## wip/audit-datacenter-2, case allgrids_gw
+  14  insert: [] -> [, loss]
+   1  insert: [] -> [No delivery, distribution, ancillary, loss or retail charge is in it, so it is not the whole bill. ]
+## wip/audit-datacenter-3, case default
+   1  insert: [] -> [its own demand is taken not to move that price (at hundreds of megawatts and more it would: every dollar here is the figure for 1 MW times the size), ]
+## wip/audit-datacenter-3, case gw
+   1  insert: [] -> [its own demand is taken not to move that price (at hundreds of megawatts and more it would: every dollar here is the figure for 1 MW times the size), ]
+## wip/audit-datacenter-5, case default
+   1  insert: [] -> [ The contract is shaped like the load, the same share in every hour; a solar or wind contract settled at a hub delivers in its own hours, whose prices differ from the load's, and is not priced here.]
+## wip/audit-datacenter-6, case default
+   1  insert: [] -> [Each figure is an average of what the grid's consumed electricity carried (location-based): not the emissions the load's own demand adds at the margin, and not a figure for any contract or certificate the load buys. ]
+## numbers, wip/audit-datacenter-1
+allgrids.txt: 11568 numbers on main, 11568 on the branch, the same in order: True
+allgrids_gw.txt: 11568 numbers on main, 11568 on the branch, the same in order: True
+default.txt: 991 numbers on main, 991 on the branch, the same in order: True
+gw.txt: 991 numbers on main, 991 on the branch, the same in order: True
+## numbers, wip/audit-datacenter-2
+allgrids.txt: 11568 numbers on main, 11568 on the branch, the same in order: True
+allgrids_gw.txt: 11568 numbers on main, 11568 on the branch, the same in order: True
+default.txt: 991 numbers on main, 991 on the branch, the same in order: True
+gw.txt: 991 numbers on main, 991 on the branch, the same in order: True
+## numbers, wip/audit-datacenter-3
+allgrids.txt: 11568 numbers on main, 11568 on the branch, the same in order: True
+allgrids_gw.txt: 11568 numbers on main, 11568 on the branch, the same in order: True
+default.txt: 991 numbers on main, 992 on the branch, the same in order: False
+   first difference at 362 100 1
+gw.txt: 991 numbers on main, 992 on the branch, the same in order: False
+   first difference at 362 1,000 1
+## numbers, wip/audit-datacenter-5
+allgrids.txt: 11568 numbers on main, 11568 on the branch, the same in order: True
+allgrids_gw.txt: 11568 numbers on main, 11568 on the branch, the same in order: True
+default.txt: 991 numbers on main, 991 on the branch, the same in order: True
+gw.txt: 991 numbers on main, 991 on the branch, the same in order: True
+## numbers, wip/audit-datacenter-6
+allgrids.txt: 11568 numbers on main, 11568 on the branch, the same in order: True
+allgrids_gw.txt: 11568 numbers on main, 11568 on the branch, the same in order: True
+default.txt: 991 numbers on main, 991 on the branch, the same in order: True
+gw.txt: 991 numbers on main, 991 on the branch, the same in order: True
+##### branch wip/audit-datacenter-1 at 8c85398c8
+===== allgrids: 302 lines on main, 302 on the branch; em dashes in the branch's HTML: 0
+===== allgrids_gw: 302 lines on main, 302 on the branch; em dashes in the branch's HTML: 0
+===== default: 306 lines on main, 306 on the branch; em dashes in the branch's HTML: 0
+===== gw: 306 lines on main, 306 on the branch; em dashes in the branch's HTML: 0
+##### branch wip/audit-datacenter-2 at e6ed957b4
+===== allgrids: 302 lines on main, 302 on the branch; em dashes in the branch's HTML: 0
+===== allgrids_gw: 302 lines on main, 302 on the branch; em dashes in the branch's HTML: 0
+===== default: 306 lines on main, 306 on the branch; em dashes in the branch's HTML: 0
+===== gw: 306 lines on main, 306 on the branch; em dashes in the branch's HTML: 0
+##### branch wip/audit-datacenter-3 at 70b141e1a
+===== allgrids: 302 lines on main, 302 on the branch; em dashes in the branch's HTML: 0
+===== allgrids_gw: 302 lines on main, 302 on the branch; em dashes in the branch's HTML: 0
+===== default: 306 lines on main, 306 on the branch; em dashes in the branch's HTML: 0
+===== gw: 306 lines on main, 306 on the branch; em dashes in the branch's HTML: 0
+##### branch wip/audit-datacenter-5 at 886f65045
+===== allgrids: 302 lines on main, 302 on the branch; em dashes in the branch's HTML: 0
+===== allgrids_gw: 302 lines on main, 302 on the branch; em dashes in the branch's HTML: 0
+===== default: 306 lines on main, 306 on the branch; em dashes in the branch's HTML: 0
+===== gw: 306 lines on main, 306 on the branch; em dashes in the branch's HTML: 0
+##### branch wip/audit-datacenter-6 at 763efd9c8
+===== allgrids: 302 lines on main, 302 on the branch; em dashes in the branch's HTML: 0
+===== allgrids_gw: 302 lines on main, 302 on the branch; em dashes in the branch's HTML: 0
+===== default: 306 lines on main, 306 on the branch; em dashes in the branch's HTML: 0
+===== gw: 306 lines on main, 306 on the branch; em dashes in the branch's HTML: 0

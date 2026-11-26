@@ -1,6 +1,6 @@
 # The ERW forecast: the ground (chain 730, part C)
 
-Session 10600, 26 November 2026, lab-desktop's second window. Read only: every figure below was computed from the warehouse's tables in `C:\Users\Shared\Documents\erw\warehouse\output` as they stood at about 11:00 UTC on 26 November 2026, by `runs/c730/ground.py` and `runs/c730/ground_prices.py` (not in git; they use `warehouse/predict/data.py`, which is). Nothing was fetched from any publisher.
+Session 10600, 26 November 2026, lab-desktop's second window. Read only: every figure below was computed from the warehouse's tables in `C:\Users\Shared\Documents\erw\warehouse\output` as they stood at about 11:00 UTC on 26 November 2026, by `runs/c730/ground.py` and `runs/c730/ground_prices.py` (not in git; they use `warehouse/predict/predict_data.py`, which is). Nothing was fetched from any publisher.
 
 ## 1. What exists already, read and used (never built a second time)
 
@@ -58,8 +58,8 @@ The other 42 authorities that file demand are not forecast under this reading (m
 | ERCOT | HB_NORTH, HB_HOUSTON, HB_SOUTH, HB_WEST, HB_HUBAVG, HB_BUSAVG | 2015-01-01 to 2026-11-26 | public | about 11.4 hours before the delivery day begins (median; at least 9.6) | forecast (HB_NORTH, for TEX and ERCO) |
 | SPP | SPPNORTH_HUB (SPPSOUTH_HUB from 2026-08-26 only) | 2018-07-01 to 2026-11-26 | public | not stated in the table | forecast (SPPNORTH_HUB, for CENT and SWPP) |
 | CAISO | TH_SP15_GEN-APND, TH_NP15_GEN-APND (ZP26 from 2026-08-26 only) | 2023-07-06 to 2026-11-26 | public | not stated in the table | forecast (SP15, for CAL and CISO) |
-| ISO-NE | .H.INTERNAL_HUB | 2024-09-01 to 2026-11-26 | public | about 11.1 hours before the day (median) | forecast (for NE and ISNE) |
-| NYISO | N.Y.C. | 2024-09-01 to 2026-11-26 | public | the table's `vintage` is later than the day (a file revised after the market), so not readable from it | forecast (for NY and NYIS) |
+| ISO-NE | .H.INTERNAL_HUB | 2024-09-01 to 2026-11-26 | flagged public in coverage, but ISO-NE's terms ask for written permission (`license_verdicts.csv`; `iso_hub_prices_history` license needed since 2026-10-21) | about 11.1 hours before the day (median) | not forecast: `license needed` (corrected, see the foot) |
+| NYISO | N.Y.C. | 2024-09-01 to 2026-11-26 | flagged public in coverage, but NYISO's terms ask for written permission (`license_verdicts.csv`; `iso_hub_prices_history` license needed since 2026-10-21) | the table's `vintage` is later than the day (a file revised after the market), so not readable from it | not forecast: `license needed` (corrected, see the foot) |
 | MISO | eight hubs | to 2026-10-04 | public, but paused (`paused_sources.csv`, MISO's terms) | about 10.9 hours before the day | not forecast: `paused` (no price since 4 October can be scored or used) |
 | PJM | none held | | needs a paid license (`docs/licenses.md`, PJM's data license) | | not forecast: `license needed` |
 
@@ -88,5 +88,9 @@ Places with no hub of their own (CAR, FLA, NW, SE, SW, TEN and their authorities
 ## 4. The order of the build
 
 1. Demand, the 29 places above (part D), every method on the same walk-forward backtest from 2019-07-01 (a year of history first) to 2026-11-24, so that the nine events from 2020 on are scored; the choice of method by the last two whole years.
-2. Price, the five grids with public, current hub prices (ERCOT, SPP, CAISO, ISO-NE, NYISO; part E). CAISO's history begins in July 2023 and ISO-NE's and NYISO's in September 2024: their backtests are shorter, and each file says its span.
+2. Price, the three grids whose hub prices may be public by their publishers' terms and are current (ERCOT, SPP, CAISO; part E). CAISO's history begins in July 2023: its backtest is shorter, and each file says its span.
 3. Not forecast, with the reason in every file: MISO's price (paused), PJM's price (license needed), the places with no hub of their own (not built), the 42 smaller authorities (below the threshold), weather-driven methods (no dated weather forecast held).
+
+## Correction (same session, 26 November 2026, about 12:00 UTC)
+
+The first version of this file took the price license from the `license` column of `coverage.csv`, where `iso_hub_prices_history` is flagged public. The per-publisher record says otherwise: ISO-NE and NYISO ask for written permission, which the ERW has not recorded (`warehouse/metadata/license_verdicts.csv`), and `warehouse/metadata/license_status.csv` holds `iso_hub_prices_history` as "license needed" since 21 October 2026. ISO-NE's and NYISO's prices are therefore held, like PJM's: not forecast, not scored, not read by the forecast. ERCOT, SPP and CAISO "may be public" and stay. The rows above are corrected in place, each marked; `docs/methods/predict_price.md` carries the same correction at its head.
