@@ -48,6 +48,11 @@
   "wy_39_15_105": {"title": "Wyoming Statutes Title 39: 39-15-105(a)(viii)(S), sales tax exemptions for a data processing services center (with the definition in 39-15-101(a)(xliv)); 39-11-101, taxable value by class", "url": "https://wyoleg.gov/statutes/compress/title39.pdf", "read": "2026-11-26", "request": 303},
   "il_dor_excise": {"title": "Illinois Department of Revenue, Excise Tax Rates and Fees (the Electricity Excise Tax)", "url": "https://tax.illinois.gov/research/taxrates/excise.html", "read": "2026-11-26", "request": 307},
   "il_dceo": {"title": "Illinois Department of Commerce and Economic Opportunity, Data Center Investment Tax Exemptions and Credits (with its 2025 Data Centers Annual Report, request 248)", "url": "https://dceo.illinois.gov/expandrelocate/incentives/datacenters.html", "read": "2026-11-26", "request": 247},
+  "mo_137_115": {"title": "Missouri Revised Statutes 137.115, Real and personal property, assessment", "url": "https://revisor.mo.gov/main/OneSection.aspx?section=137.115", "read": "2026-11-26", "request": 330},
+  "mo_137_016": {"title": "Missouri Revised Statutes 137.016, Real property subclasses", "url": "https://revisor.mo.gov/main/OneSection.aspx?section=137.016", "read": "2026-11-26", "request": 333},
+  "nv_361_225": {"title": "Nevada Revised Statutes 361.225, Rate of assessment", "url": "https://www.leg.state.nv.us/NRS/NRS-361.html", "read": "2026-11-26", "request": 329},
+  "az_42_15001": {"title": "Arizona Revised Statutes 42-15001, Assessed valuation of class one property", "url": "https://www.azleg.gov/ars/42/15001.htm", "read": "2026-11-26", "request": 331},
+  "az_42_12001": {"title": "Arizona Revised Statutes 42-12001, Class one property", "url": "https://www.azleg.gov/ars/42/12001.htm", "read": "2026-11-26", "request": 332},
   "sc_12_43_220": {"title": "South Carolina Code of Laws 12-43-220, Classifications and assessment ratios", "url": "https://www.scstatehouse.gov/code/t12c043.php", "read": "2026-11-26", "request": 328},
   "ks_79_1439": {"title": "Kansas Statutes 79-1439, Assessment of real and personal property, rates", "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_014_0039.html", "read": "2026-11-26", "request": 326},
   "ks_79_223": {"title": "Kansas Statutes 79-223, Exemption of certain commercial and industrial machinery and equipment", "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_002_0023.html", "read": "2026-11-26", "request": 325},
@@ -189,6 +194,11 @@
   },
   "mo": {
    "name": "Missouri",
+   "property": {"building_ratio": 0.32, "equipment_ratio": 0.333333, "cite": "mo_137_115",
+    "quote": "(c)  For real property in subclass (3), thirty-two percent.",
+    "personal": {"cite": "mo_137_115", "quote": "the assessor shall annually assess all personal property at thirty-three and one-third percent of its true value in money"},
+    "subclass": {"cite": "mo_137_016", "quote": "all real property used directly or indirectly for any commercial, mining, industrial, manufacturing, trade, professional, business, or similar purpose"},
+    "tip": "Missouri (RSMo 137.115, with the subclasses of 137.016): real property used for commercial, industrial or business purposes (subclass 3) is assessed at 32 percent of true value, and personal property at 33 and one-third percent. The tool assesses the building at 32 percent and the equipment at one third of their cost (no depreciation table is read: an upper bound) and applies the reader's rate."},
    "sales_exemption": {
     "cite": "mo_144_810", "covers": ["equipment", "construction"], "min_investment_usd": 25000000, "min_jobs": 10, "term_years": 15,
     "quote": "The new facility project investment is at least twenty-five million dollars during a period of up to thirty-six consecutive months",
@@ -197,6 +207,9 @@
   },
   "nv": {
    "name": "Nevada",
+   "property": {"building_ratio": 0.35, "equipment_ratio": 0.35, "cite": "nv_361_225",
+    "quote": "property subject to taxation must be assessed at 35 percent of its taxable value.",
+    "tip": "Nevada (NRS 361.225): all property subject to taxation is assessed at 35 percent of its taxable value. The tool assesses the building and the equipment at 35 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate; an abatement the Office of Economic Development approves goes in the abatement input."},
    "sales_exemption": {
     "cite": "nv_360_754", "covers": [], "min_investment_usd": 25000000, "min_jobs": 10, "discretionary": true,
     "quote": "a cumulative capital investment of at least $25,000,000 in capital assets that will be used or located at the data center",
@@ -241,6 +254,10 @@
   },
   "az": {
    "name": "Arizona",
+   "property": {"building_ratio": 0.15, "equipment_ratio": 0.15, "cite": "az_42_15001",
+    "quote": "17. Fifteen percent beginning from and after December 31, 2026.",
+    "class": {"cite": "az_42_12001", "quote": "13. Personal property that is devoted to any other commercial or industrial use, other than property that is specifically included in another class described in this article, and that is valued at full cash value."},
+    "tip": "Arizona (A.R.S. 42-12001 and 42-15001): real and personal property devoted to commercial or industrial use is class one (subclasses 12 and 13), assessed at 15.5 percent of full cash value in 2026 and 15 percent from 2027. The tool assesses the building and the equipment at 15 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate."},
    "sales_exemption": {
     "cite": "az_41_1519", "covers": ["equipment"], "min_investment_usd": 50000000, "min_jobs": 0, "term_years": 11,
     "quote": "$50,000,000 of new investment, including costs of land, buildings, improvements, modular data centers and computer data center equipment, whether owned or leased or paid for pursuant to a right to use agreement, if the computer data center is located in a county with a population of more than eight hundred thousand persons.",
