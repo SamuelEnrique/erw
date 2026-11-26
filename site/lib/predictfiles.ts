@@ -12,15 +12,26 @@ export function predictDir(): string {
   return process.env.ERW_PREDICT_DIR ?? path.join(process.cwd(), "data", "predict");
 }
 
-/** One page file, or null while it is not on the site or cannot be read as JSON. Only a plain file name is read.
- *  The build is told not to follow these reads (they would have it carry the whole project with the route): the files
- *  are named for it in next.config.ts (outputFileTracingIncludes, "/forecast"). */
+/** The text of a file of the site's own folder, or null. The path is written out from the site's root so that the build
+ *  sees which folder is read and carries that folder with the route, and no more (a path it cannot follow has it carry
+ *  the whole project); next.config.ts names the files for it as well (outputFileTracingIncludes, "/forecast"). */
+function siteText(name: string): string | null {
+  const at = path.join(process.cwd(), "data", "predict", name);
+  return fs.existsSync(at) ? fs.readFileSync(at, "utf8") : null;
+}
+/** The text of a file of a test's folder (ERW_PREDICT_DIR), or null. The build is told not to follow these reads. */
+function testText(dir: string, name: string): string | null {
+  const at = path.join(/*turbopackIgnore: true*/ dir, name);
+  return fs.existsSync(/*turbopackIgnore: true*/ at) ? fs.readFileSync(/*turbopackIgnore: true*/ at, "utf8") : null;
+}
+
+/** One page file, or null while it is not on the site or cannot be read as JSON. Only a plain file name is read. */
 export function readPredict<T>(name: string): T | null {
   if (!/^[a-z0-9][a-z0-9_-]*\.json$/.test(name)) return null;
-  const at = path.join(/*turbopackIgnore: true*/ predictDir(), name);
   try {
-    if (!fs.existsSync(/*turbopackIgnore: true*/ at)) return null;
-    const v = JSON.parse(fs.readFileSync(/*turbopackIgnore: true*/ at, "utf8")) as T & { fixture?: string };
+    const text = process.env.ERW_PREDICT_DIR ? testText(process.env.ERW_PREDICT_DIR, name) : siteText(name);
+    if (text === null) return null;
+    const v = JSON.parse(text) as T & { fixture?: string };
     if (v && typeof v === "object" && "fixture" in v && v.fixture && !process.env.ERW_PREDICT_DIR) return null;
     return v;
   } catch {

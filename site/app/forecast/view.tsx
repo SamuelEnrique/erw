@@ -199,8 +199,10 @@ type Group = { key: string; name: string; heads: ReactNode[]; held?: { words: st
 type GroupRow = { key: string; name: ReactNode; cells: (ReactNode[] | null)[] };
 /** The look is ToolTable's (a cardinal header, thin rules); with two places a first header row names each over its
  *  columns, and a place whose series is held is one column that says so. Every row is the same kind of row. */
-function ScoreTable({ caption, first, groups, rows, k }: { caption: string; first: string; groups: Group[]; rows: GroupRow[]; k: string }) {
+function ScoreTable({ caption, first, groups, rows, k, nowrap }: { caption: string; first: string; groups: Group[]; rows: GroupRow[]; k: string; nowrap?: boolean }) {
   const two = groups.length > 1;
+  // two places: the cells stand closer, so that both places' columns are in view at 1280 px
+  const px = two ? "px-2" : "px-3";
   const edge = (i: number, light: boolean) => (two && i === 0 ? (light ? "border-l border-white/40" : "border-l border-rule") : "");
   return (
     <div className="overflow-x-auto" {...scrollRegion(caption)} data-fc-table={k}>
@@ -209,24 +211,24 @@ function ScoreTable({ caption, first, groups, rows, k }: { caption: string; firs
         <thead>
           {two ? (
             <tr className="bg-accent text-white">
-              <td data-empty-head="1" className="px-3 pt-1.5" />
-              {groups.map((g) => <th key={g.key} scope="colgroup" colSpan={g.held ? 1 : g.heads.length} className="border-l border-white/40 px-3 pt-1.5 text-left font-semibold" data-fc-group={g.key}>{g.name}</th>)}
+              <td data-empty-head="1" className={`${px} pt-1.5`} />
+              {groups.map((g) => <th key={g.key} scope="colgroup" colSpan={g.held ? 1 : g.heads.length} className={`border-l border-white/40 ${px} pt-1.5 text-left font-semibold`} data-fc-group={g.key}>{g.name}</th>)}
             </tr>
           ) : null}
           <tr className="bg-accent text-white">
-            <th scope="col" className="px-3 py-1.5 font-normal">{first}</th>
+            <th scope="col" className={`${px} py-1.5 font-normal`}>{first}</th>
             {groups.flatMap((g) => (g.held
-              ? [<td key={g.key} data-empty-head="1" className="border-l border-white/40 px-3 py-1.5" />]
-              : g.heads.map((h, i) => <th key={`${g.key}${i}`} scope="col" className={`px-3 py-1.5 text-right font-normal ${edge(i, true)}`}>{h}</th>)))}
+              ? [<td key={g.key} data-empty-head="1" className={`border-l border-white/40 ${px} py-1.5`} />]
+              : g.heads.map((h, i) => <th key={`${g.key}${i}`} scope="col" className={`${px} py-1.5 text-right font-normal ${edge(i, true)}`}>{h}</th>)))}
           </tr>
         </thead>
         <tbody>
           {rows.map((r) => (
             <tr key={r.key} className="border-b border-rule">
-              <th scope="row" className="px-3 py-1.5 font-normal">{r.name}</th>
+              <th scope="row" className={`${px} py-1.5 font-normal ${nowrap ? "whitespace-nowrap" : ""}`}>{r.name}</th>
               {groups.flatMap((g, gi) => (g.held
-                ? [<td key={g.key} className="border-l border-rule px-3 py-1.5 text-left"><NotHeld words={g.held.words} why={g.held.why} /></td>]
-                : (r.cells[gi] ?? g.heads.map((_, i) => <NotHeld key={i} why="The score file holds no row of this cut for this place." />)).map((c, i) => <td key={`${g.key}${i}`} className={`px-3 py-1.5 text-right ${edge(i, false)}`}>{c}</td>)))}
+                ? [<td key={g.key} className={`border-l border-rule ${px} py-1.5 text-left`}><NotHeld words={g.held.words} why={g.held.why} /></td>]
+                : (r.cells[gi] ?? g.heads.map((_, i) => <NotHeld key={i} why="The score file holds no row of this cut for this place." />)).map((c, i) => <td key={`${g.key}${i}`} className={`${px} py-1.5 text-right ${edge(i, false)}`}>{c}</td>)))}
             </tr>
           ))}
         </tbody>
@@ -270,7 +272,7 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
     return (
       <div className="mb-5" data-fc-cut={cut}>
         <h4 className="mb-1 text-sm font-semibold">{title}, {mu}</h4>
-        <ScoreTable k={cut} first={first} groups={groups(methods)} caption={`${names}${METRIC_WORDS[metric].toLowerCase()} of each method's forecast of ${SERIES_WORDS[s].toLowerCase()}, ${title.toLowerCase()}, ${mu}`}
+        <ScoreTable k={cut} nowrap first={first} groups={groups(methods)} caption={`${names}${METRIC_WORDS[metric].toLowerCase()} of each method's forecast of ${SERIES_WORDS[s].toLowerCase()}, ${title.toLowerCase()}, ${mu}`}
           rows={keys.map((key) => ({ key, name: name(key), cells: info.map((x) => cutCells(x, cut, key, words(key))) }))} />
       </div>
     );
