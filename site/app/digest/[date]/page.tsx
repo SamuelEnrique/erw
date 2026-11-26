@@ -3,7 +3,7 @@ import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { notFound } from "next/navigation";
 import { DOCS, digestDates, isoWeek, renderDigest, weeklyWeeks } from "@/lib/markdown";
-import { ISSUE_NOTES, dayKind, dayWords } from "@/lib/digest";
+import { ISSUE_NOTES, dayKind, dayWords, roundupDue } from "@/lib/digest";
 import { digestRevisions } from "@/lib/digestLive";
 import { utcDay } from "@/lib/license";
 
@@ -47,7 +47,13 @@ export default async function DigestDay({ params }: PageProps<"/digest/[date]">)
         {nav}
         <h1 className="mb-2 text-3xl">{TITLE[kind]}</h1>
         <p className="max-w-prose" data-digest-none={kind}>
-          {kind === "weekend" ? (
+          {kind === "weekend" && !weeklyWeeks().includes(week) && roundupDue(week) ? (
+            // session 10235 (finding 2): a week whose Roundup was due and never written is said so, not "not written yet"
+            <>
+              {dayWords(date)}: ERW&apos;s Energy Digest is written Monday to Friday. No Roundup was written for {week}, the week that holds this
+              day (<Link href="/roundup">all Roundups</Link>).
+            </>
+          ) : kind === "weekend" ? (
             <>
               {dayWords(date)}: ERW&apos;s Energy Digest is written Monday to Friday. The weekend&apos;s top stories open ERW&apos;s Roundup for {week},
               written and sent on Sunday at 23:00 UTC (4 PM Pacific){" "}
