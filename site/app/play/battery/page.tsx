@@ -108,6 +108,11 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
             degradation cost of $0.11 per kWh discharged (from Lazard&apos;s 2025 storage cost study), both enforced on Hard. Every assumption and its source:{" "}
             <Link href="/data/methods/battery_game">the method</Link>.
           </p>
+          <p className="max-w-3xl">
+            No household buys or sells at these wholesale prices. A home pays its retail rate for the power it takes, which carries delivery and other charges
+            the wholesale price does not, and is paid for the power it sends back whatever its retailer or aggregator offers. Charged at the average price Texas
+            homes paid that month (EIA) and made to end the day as full as it began, the perfect battery of the calm spring day would earn nothing.
+          </p>
         </div>
       </Section>
       <Section title="The game's rules (version 5)">
