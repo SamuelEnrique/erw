@@ -24,6 +24,10 @@ type Query = Record<string, string | string[] | undefined>;
 const one = (q: Query, k: string) => (typeof q[k] === "string" ? (q[k] as string) : undefined);
 const NONE = "none";
 const TABLES = ["eia930_ba_demand_hourly", "generation_outages_hourly", "constraints_binding_hourly", "ercot_rtm_price_adders", "grid_all_alerts"];
+// Session 10219 (the conditions audit, finding 10): CAISO's report lists every curtailment of a resource, derates
+// included (docs/methods/grid_outages.md, decision 3), and the table sums them; SPP's is generation on outage. Both were
+// called "out of service". Said on CAISO's two outage charts.
+const CAISO_OUT_WORDS = "CAISO's figure is every curtailment its report lists, planned and forced: outages, and also derates the operator files as forced (ambient conditions, transmission induced, fuel). So it is megawatts unavailable, not only plants out of service, and not the same measure as SPP's generation on outage.";
 const STRIP_NAMES: Record<string, string> = { demand: "Demand and forecast", out: "Out of service", constraints: "Constraints binding", scarcity: "Scarcity adder", alerts: "Alerts", reserves: "Reserves against the requirement" };
 
 function Blank({ s, name, k }: { s: Strip; name: string; k: string }) {
@@ -131,7 +135,7 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
             </ChartFrame>
           ) : <NoneHeld title="Demand and the day-ahead forecast" f={f} c="forecast_peak" w={w} k={`${tag}-demand`} />}
           {st.out.status === "shown" ? (hOut.length ? (
-            <ChartFrame title="Out of service, MW" tip={<Hint words=" (source)" why={src("out")} />}>
+            <ChartFrame title="Out of service, MW" tip={<Hint words=" (source)" why={`${src("out")}${f.op === "caiso" ? `. ${CAISO_OUT_WORDS}` : ""}`} />}>
               <LineChart lines={hOut} unit="MW" ariaLabel={`${f.name} megawatts out of service by hour`} />
             </ChartFrame>
           ) : <NoneHeld title="Out of service" f={f} c="out_mean" w={w} k={`${tag}-out`} />) : <Blank s={st.out} name={STRIP_NAMES.out} k={`${tag}-out`} />}
@@ -153,7 +157,7 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
         </ChartFrame>
       ) : <NoneHeld title="Peak demand and the forecast's peak" f={f} c="forecast_peak" w={w} k={`${tag}-demand-d`} />}
       {st.out.status === "shown" ? (dOut.length ? (
-        <ChartFrame title="Out of service: the day's mean and highest hour, MW" tip={<Hint words=" (source)" why={src("out")} />}>
+        <ChartFrame title="Out of service: the day's mean and highest hour, MW" tip={<Hint words=" (source)" why={`${src("out")}${f.op === "caiso" ? `. ${CAISO_OUT_WORDS}` : ""}`} />}>
           <TimeChart series={dOut} unit="MW" x="day" ariaLabel={`${f.name} out of service by day`} />
         </ChartFrame>
       ) : hourly.length ? null : <NoneHeld title="Out of service" f={f} c="out_mean" w={w} k={`${tag}-out-d`} />) : hourly.length ? null : <Blank s={st.out} name={STRIP_NAMES.out} k={`${tag}-out-d`} />}

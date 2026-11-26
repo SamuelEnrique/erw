@@ -7,7 +7,7 @@ Chain 601, part G (session 9000, 20 November 2026). Builder: `warehouse/derived/
 | Strip | Grids drawn | Table | What a point is |
 |---|---|---|---|
 | Demand and forecast | all seven | `eia930_ba_demand_hourly` (EIA-930, the grid's balancing authority: CISO, ERCO, SWPP, MISO, PJM, NYIS, ISNE) | an hour's demand and EIA's day-ahead demand forecast; a day's peak and lowest |
-| Out of service | SPP, CAISO | `generation_outages_hourly` | megawatts out in the hour; a day's mean and highest hour |
+| Out of service | SPP, CAISO | `generation_outages_hourly` | megawatts out in the hour; a day's mean and highest hour. SPP's is generation on outage; CAISO's is every curtailment its report lists, derates included (`grid_outages.md`, decision 3), so the two are not the same measure (session 10219) |
 | Constraints binding | SPP, CAISO | `constraints_binding_hourly` | constraints that bound in the hour and the largest shadow price by size; a day's constraint-hours |
 | Scarcity adder | ERCOT | `ercot_rtm_price_adders` (RTORPA, the online reserve adder, hourly mean) | the adder in the hour; the day's hours above zero (June 2014 to 4 December 2025) |
 | Alerts | CAISO, ERCOT | `grid_all_alerts` | each notice with its date, its kind in the operator's words, start and end |
