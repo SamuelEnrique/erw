@@ -71,7 +71,7 @@ for r in rows("carbon_intensity_daily", lambda r: r["variable"] == "intensity_de
 for reg, (ba, *_) in REG.items():
     g = cd.get(f"eia930:{ba}", [])
     if g:
-        got[reg].update(carbon_intensity_kg_mwh=st.mean(g), flat_1gw_co2_t=st.mean(g) * 8760 * 1000, carbon_days=float(len(g)))
+        got[reg].update(carbon_intensity_kg_mwh=st.mean(g), flat_1gw_co2_t=st.mean(g) * 8760 * 1000 / 1000,carbon_days=float(len(g)))
 
 # stress: hourly means of the hub's real-time prices
 for reg, (ba, hub, mk, _) in REG.items():
