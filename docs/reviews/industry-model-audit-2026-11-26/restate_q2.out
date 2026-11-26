@@ -1,0 +1,14 @@
+query: region=south&a=322&b=331&year=2019&src=electricity&sa=OH&sb=PA&oi=bulk_chemicals&from=1990; marked figures drawn 586, restated 586; equal 586; differ 0
+  drawn, not restated: []
+  restated, not drawn: 0 []
+  industries' order equal: True (21 rows)
+  states' order equal: True (51 rows; first five drawn ['Texas', 'Pennsylvania', 'Ohio', 'California', 'Indiana'])
+  label latest month words: equal (July 2026: total energy consumed by the industrial sector)
+  label whole year label: equal (Industrial sector, 2025)
+  label largest industry note: equal (Chemicals (NAICS 325), United States)
+  label industries hover: MISSING (Industry A is Paper and Industry B is Primary Metals)
+  label states hover: equal (the two largest by the industrial sector's total consumption in 2024)
+  label file built: equal (File built 2026-11-19)
+  label outlook to: equal (EIA's outlook to 2050)
+  label decision first-two: equal (Chemicals and Petroleum and Coal Products; Texas and Louisiana in 2024)
+items: 586 figures + 2 orders + 7 labels equal; 1 not

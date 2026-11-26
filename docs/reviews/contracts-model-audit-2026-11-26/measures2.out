@@ -1,0 +1,18 @@
+# Session 10226: /contracts, a number filed with a description; ERCOT's rows. Counts only
+## The window's rows of energy, capacity and tolling (executed on or after 2024-01-09) that file a rate as a number
+numbers: 1,317
+numbers, not 0: 1,015
+with a description: 1,110
+with a description, not 0: 821
+numbers signed in 2026 Q2: 112
+numbers signed in 2026 Q2 with a description: 106
+description names an index, LMP, adder, plus, formula, escalation or a percent (not the words market or hub): 178
+the same, not 0: 156
+the same, signed in 2026 Q2: 1
+## ERCOT's rows of the file (balancing authority ERCO), by product name and product type
+OTHER | T: 197
+INTERCONNECTION AGREEMENT | T: 32
+POINT-TO-POINT AGREEMENT | T: 12
+TOLLING ENERGY | MB: 3
+## ERCOT's rows of product OTHER: words of transmission, interconnection or wheeling in the description, tariff, agreement or increment
+transmission words: 197

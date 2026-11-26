@@ -1,0 +1,113 @@
+built 2026-11-17T08:45:54Z rows 100
+gasstor   eia-nw2-epg0-swo-r48-bcf                 ok        W 2026-11-06         3862.0 bcf
+gasstor   eia-nw2-epg0-swo-r31-bcf                 ok        W 2026-11-06          938.0 bcf
+gasstor   eia-nw2-epg0-swo-r32-bcf                 ok        W 2026-11-06         1129.0 bcf
+gasstor   eia-nw2-epg0-swo-r34-bcf                 ok        W 2026-11-06          262.0 bcf
+gasstor   eia-nw2-epg0-swo-r35-bcf                 ok        W 2026-11-06          298.0 bcf
+gasstor   eia-nw2-epg0-swo-r33-bcf                 ok        W 2026-11-06         1235.0 bcf
+gasstor   eia-nw2-epg0-sso-r33-bcf                 ok        W 2026-11-06          312.0 bcf
+gasstor   eia-nw2-epg0-sno-r33-bcf                 ok        W 2026-11-06          924.0 bcf
+stocks    eia-wcestus1                             ok        W 2026-11-06        414.417 million bbl
+stocks    eia-w-epc0-sax-ycuok-mbbl                ok        W 2026-11-06         27.356 million bbl
+stocks    eia-wgtstus1                             ok        W 2026-11-06        210.757 million bbl
+stocks    eia-wdistus1                             ok        W 2026-11-06         103.33 million bbl
+stocks    eia-wcsstus1                             ok        W 2026-11-06        279.535 million bbl
+prod      eia-wcrfpus2                             ok        W 2026-11-06        14013.0 thousand bbl/d
+prod      eia-w-epc0-fpf-r48-mbbld                 ok        W 2026-11-06        13517.0 thousand bbl/d
+prod      eia-w-epc0-fpf-sak-mbbld                 ok        W 2026-11-06          496.0 thousand bbl/d
+prod      gasprod-weekly                           licensed                              bcf/d
+prod      eia-coprap                               ok        M 2026-08-01       203.0249 thousand bbl/d
+prod      eia-coprbk                               ok        M 2026-08-01      1218.2633 thousand bbl/d
+prod      eia-copref                               ok        M 2026-08-01      1104.8497 thousand bbl/d
+prod      eia-coprha                               ok        M 2026-08-01        32.2824 thousand bbl/d
+prod      eia-coprpm                               ok        M 2026-08-01       6821.978 thousand bbl/d
+prod      eia-coprr48                              ok        M 2026-08-01       2082.932 thousand bbl/d
+prod      eia-ngmpap                               ok        M 2026-08-01        37.9922 bcf/d
+prod      eia-ngmpbk                               ok        M 2026-08-01         3.5901 bcf/d
+prod      eia-ngmpef                               ok        M 2026-08-01         8.2503 bcf/d
+prod      eia-ngmpha                               ok        M 2026-08-01         17.632 bcf/d
+prod      eia-ngmppm                               ok        M 2026-08-01        30.9314 bcf/d
+prod      eia-ngmpr48                              ok        M 2026-08-01        25.8612 bcf/d
+refining  eia-wpuleus3                             ok        W 2026-11-06           95.2 percent
+refining  eia-w-na-yup-r10-per                     ok        W 2026-11-06           93.1 percent
+refining  eia-w-na-yup-r20-per                     ok        W 2026-11-06           96.9 percent
+refining  eia-w-na-yup-r30-per                     ok        W 2026-11-06           95.4 percent
+refining  eia-w-na-yup-r40-per                     ok        W 2026-11-06           96.0 percent
+refining  eia-w-na-yup-r50-per                     ok        W 2026-11-06           91.6 percent
+refining  eia-wcrrius2                             ok        W 2026-11-06        17047.0 thousand bbl/d
+refining  eia-wcrrip12                             ok        W 2026-11-06          850.0 thousand bbl/d
+refining  eia-wcrrip22                             ok        W 2026-11-06         4140.0 thousand bbl/d
+refining  eia-wcrrip32                             ok        W 2026-11-06         9424.0 thousand bbl/d
+refining  eia-wcrrip42                             ok        W 2026-11-06          626.0 thousand bbl/d
+refining  eia-wcrrip52                             ok        W 2026-11-06         2007.0 thousand bbl/d
+trade     eia-wcrimus2                             ok        W 2026-11-06         6698.0 thousand bbl/d
+trade     eia-wcrexus2                             ok        W 2026-11-06         3455.0 thousand bbl/d
+trade     eia-wcrntus2                             ok        W 2026-11-06         3243.0 thousand bbl/d
+trade     eia-wrpimus2                             ok        W 2026-11-06         1161.0 thousand bbl/d
+trade     eia-wrpexus2                             ok        W 2026-11-06         7543.0 thousand bbl/d
+trade     eia-wrpntus2                             ok        W 2026-11-06        -6382.0 thousand bbl/d
+trade     eia-wttntus2                             ok        W 2026-11-06        -3139.0 thousand bbl/d
+trade     eia-w-epm0f-im0-nus-z00-mbbld            ok        W 2026-11-06           11.0 thousand bbl/d
+trade     eia-wdiimus2                             ok        W 2026-11-06           99.0 thousand bbl/d
+trade     eia-wdiexus2                             ok        W 2026-11-06         1198.0 thousand bbl/d
+gastrade  eia-n9133us2                             ok        M 2026-08-01        16.6005 bcf/d
+gastrade  eia-ngm-epg0-eng-yspl-z00-mmcf           ok        M 2026-08-01         3.8351 bcf/d
+gastrade  eia-ngm-epg0-eng-yplaq-z00-mmcf          ok        M 2026-08-01         3.3795 bcf/d
+gastrade  eia-ngm-epg0-eng-ycrp-z00-mmcf           ok        M 2026-08-01          3.037 bcf/d
+gastrade  eia-ngm-epg0-eng-ycam-z00-mmcf           ok        M 2026-08-01         2.0563 bcf/d
+gastrade  eia-ngm-epg0-eng-yfpt-z00-mmcf           ok        M 2026-08-01         1.4979 bcf/d
+gastrade  eia-ngm-epg0-eng-yccpl-z00-mmcf          ok        M 2026-08-01         1.4092 bcf/d
+gastrade  eia-ngm-epg0-eng-ycpt-z00-mmcf           ok        M 2026-08-01         0.7136 bcf/d
+gastrade  eia-ngm-epg0-eng-yelba-z00-mmcf          ok        M 2026-08-01         0.3521 bcf/d
+gastrade  eia-ngm-epg0-eng-ygpt-z00-mmcf           ok        M 2026-08-01         0.2175 bcf/d
+gastrade  eia-ngm-epg0-eng-yalta-z00-mmcf          ok        M 2026-08-01         0.0983 bcf/d
+gastrade  erw-lng-other-points                     ok        M 2026-08-01          0.004 bcf/d
+gastrade  eia-n9132mx2                             ok        M 2026-08-01         7.7103 bcf/d
+gastrade  eia-n9132cn2                             ok        M 2026-08-01         2.8235 bcf/d
+gastrade  eia-n9102cn2                             ok        M 2026-08-01         7.5277 bcf/d
+gastrade  eia-n9103us2                             ok        M 2026-08-01         0.0086 bcf/d
+burn      burn-all-natural-gas                     ok        W 2026-10-30        20.4837 bcf/d
+burn      burn-caiso-natural-gas                   ok        W 2026-11-13         1.4551 bcf/d
+burn      burn-ercot-natural-gas                   ok        W 2026-11-13         4.6575 bcf/d
+burn      burn-isone-natural-gas                   ok        W 2026-11-13         1.1571 bcf/d
+burn      burn-miso-natural-gas                    ok        W 2026-11-06         4.9927 bcf/d
+burn      burn-nyiso-natural-gas                   ok        W 2026-11-13         1.1734 bcf/d
+burn      burn-pjm-natural-gas                     ok        W 2026-11-13         6.2311 bcf/d
+burn      burn-spp-natural-gas                     ok        W 2026-11-13         1.8688 bcf/d
+burn      burn-caiso-coal                          ok        W 2026-11-13         0.0358 thousand short tons/d
+burn      burn-ercot-coal                          ok        W 2026-11-13       100.2907 thousand short tons/d
+burn      burn-isone-coal                          not_held                              thousand short tons/d
+burn      burn-miso-coal                           ok        W 2026-11-06       202.2435 thousand short tons/d
+burn      burn-pjm-coal                            ok        W 2026-11-13       177.1149 thousand short tons/d
+burn      burn-spp-coal                            ok        W 2026-11-13       114.2131 thousand short tons/d
+burn      burn-caiso-oil                           not_held                              kbbl/d
+burn      burn-isone-oil                           not_held                              kbbl/d
+burn      burn-miso-oil                            not_held                              kbbl/d
+burn      burn-nyiso-oil                           ok        W 2026-11-13            0.0 kbbl/d
+burn      burn-pjm-oil                             ok        W 2026-11-13        19.4047 kbbl/d
+burn      burn-spp-oil                             ok        W 2026-11-13            0.0 kbbl/d
+cleared   cleared-ercot                            not_held                              MWh/d
+cleared   cleared-caiso                            ok        W 2026-11-13    522073.0371 MWh/d
+cleared   cleared-nyiso                            licensed                              MWh/d
+cleared   cleared-iso-ne                           licensed                              MWh/d
+cleared   cleared-spp                              ok        W 2026-11-13    849505.1714 MWh/d
+cleared   cleared-spp-west                         ok        W 2026-11-13     66041.8143 MWh/d
+cleared   cleared-miso                             paused                                MWh/d
+cleared   cleared-pjm                              licensed                              MWh/d
+position  cftc-067651                              ok        W 2026-11-03        21728.0 contracts
+position  cftc-06765t                              ok        W 2026-11-03         4671.0 contracts
+position  cftc-023651                              ok        W 2026-11-03      -225359.0 contracts
+position  cftc-111659                              ok        W 2026-11-03        86971.0 contracts
+position  ice-brent                                licensed                              contracts
+sources:
+0 CAISO OASIS, Market Schedules (ENE_SLRS), the ISO's total load cleared in the day-ahead market
+1 CFTC, Commitments of Traders, Disaggregated report, futures only (cftc_cot_positions)
+2 EIA, Short-Term Energy Outlook, history only (eia_basin_production_monthly)
+3 EIA, U.S. natural gas imports and exports by point of entry and exit (eia_gas_trade_monthly); the month's volume over its days
+4 EIA, U.S. natural gas imports and exports by point of entry and exit (eia_gas_trade_monthly); the month's volume over its days; the total less the terminals named
+5 EIA, Weekly Natural Gas Storage Report (eia_gas_storage_weekly)
+6 EIA, Weekly Petroleum Status Report (eia_petroleum_supply_weekly)
+7 SPP Marketplace portal, Market Clearing (DA-MC), Total Demand, balancing authority area SPP
+8 SPP Marketplace portal, Market Clearing (DA-MC), Total Demand, balancing authority area SWPW (from 1 April 2026)
+9 derived from EIA-930 hourly generation by source (the energy mix's held hours) at stated heat rates
+calendar {"retrieved_at": "2026-11-16T11:56:29Z", "timezone": "America/New_York", "reports": [{"id": "wpsr", "name": "Weekly Petroleum Status Report", "publisher": "EIA", "page": "https://www.eia.gov/petroleum/supply/weekly/schedule.php", "covers": "the week ending the Friday before", "rule": "Wednesdays at 10:30 Eastern", "read": "the page's holiday table, 13 alternate dates", "weekday": 2, "time": "10:30", "exceptions": [{"date": "2026-01-22", "time": "12:00", "holiday": "Martin Luther King Jr. Day"}, {"date": "2026-02-19", "time": "12:00", "holiday": "President's Day"}, {"date": "2026-05-28", "time"
