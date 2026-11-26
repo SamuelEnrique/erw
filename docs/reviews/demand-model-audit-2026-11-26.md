@@ -181,7 +181,7 @@ Each from `origin/main`, pushed; tests run: the branch's own test and every test
 | `wip/audit-demand-7` | `9e3583db1` | words, for landing | `site/app/demand/page.tsx` | `tests/test_audit_demand_7.py` | pass |
 | `wip/audit-demand-8` | `607923413` | figure, not for landing | test only | `tests/test_audit_demand_8.py` | not drawn (no words) |
 
-Branches 1, 3, 4 and 7 change different lines of `site/app/demand/page.tsx` (124, 86, 109, 92) and 1, 3 and 4 different places of `docs/methods/demand_growth.md`; they were made apart and not trial-merged together.
+Branches 1, 3, 4 and 7 change different lines of `site/app/demand/page.tsx` (124, 86, 109, 92) and 1, 3 and 4 different places of `docs/methods/demand_growth.md`; trial-merged together onto `origin/main` (`ea02c6820`) they merge without a conflict, their tests and the page's pass (58 passed), and the default view draws the same 91 figures.
 
 ## Data requests (rows for the data machine)
 
