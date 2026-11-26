@@ -42,7 +42,7 @@ y_d = a + sum over event days k of b_k 1[d = k] + sum over weekdays w of g_w 1[w
   - The intercept and the weekday effects describe the average baseline year, and the event year's counterfactual is that average.
   - With one baseline year (COVID-19) there is no year contrast, and the counterfactual is that year.
 - **Each event day's effect b_k:** the day's value less its counterfactual, which is the fit of the baseline days alone evaluated at that day. This is exactly the coefficient of the day's indicator in the full regression.
-- **The pooled effect:** one indicator for every event day, in place of the day indicators, in the same regression. It is a weekday-weighted mean of the day effects, MWh (or USD/MWh) per day.
+- **The pooled effect:** one indicator for every event day, in place of the day indicators, in the same regression. It is a weekday-weighted mean of the day effects, MWh (or USD/MWh) per day. That holds for this specification only: with the weather terms (below) the pooled regression fits them on the event days as well as the baseline days, while each day's effect is fitted on the baseline days alone, so the pooled effect is then not a mean of the day effects (session 10225, "Where the weather terms are fitted", below).
 - **`counterfactual_mean`:** the mean counterfactual over the event days. The pages give the pooled effect as a percent of it.
 
 ## Temperature-controlled specification (`dow_year_temp_v1`, session 49)
@@ -57,6 +57,20 @@ y_d = ... (as above) + h1 HDD_d + h2 HDD_d^2 + k1 CDD_d + k2 CDD_d^2 + e_d
 - **Variables:** `<outcome>_effect_day_temp`, `<outcome>_effect_pooled_temp`, `<outcome>_counterfactual_mean_temp`, `x_spec` `dow_year_temp_v1`.
 - **Dependent columns** (a degree-day term that is zero on every day, such as HDD in an August window): both estimators drop a column whose part not explained by the columns before it is below 1e-9 of its length (greedy Gram-Schmidt), in the same order in Python, TypeScript and the notebook.
 - **What the pages say:** each `/events` page gives both pooled estimates for the lead grid. When the two have the same sign and the temperature-controlled one is no larger in size, the page says the weather terms account for 1 - (controlled / original) of the original, in percent. Otherwise it says no share can be put down to weather, and gives no percent.
+
+### Where the weather terms are fitted (session 10225, 26 November 2026)
+
+The temperature-controlled pooled estimate is one regression over every day with a single window indicator, so the four weather terms are fitted on the event days as well as the baseline days: the event's own days, among them days of load shed (Uri) and days colder or hotter than any baseline day, shape the curve that is then said to account for part of the effect. Each event day's estimate is fitted on the baseline days alone. The two rules are the same model and give very different answers, measured on `event_window_daily` (run 20261019T094329Z) with the window's mean of the day effects as the second rule:
+
+| Event, grid | Pooled with weather (the page) | Share the page prints | Day effects, weather fitted on the baseline days alone, the window's mean | Share by the page's own condition |
+|---|---|---|---|---|
+| Uri, ERCOT demand | +30,284 MWh a day | 80.56 percent | -92,180 | none (the sign turns) |
+| Uri, ERCOT hub price | +287.79 USD/MWh | (not printed: not the lead) 87.45 | +2,317.29 | 0.63 |
+| CAISO 2020, demand | +24,747 | 70.47 | +30,277 | 63.86 |
+| Elliott, PJM demand | +134,171 | 65.33 | +742,712 | none (larger than without weather) |
+| Elliott, MISO, ERCOT, SPP, ISO-NE, NYISO | | 46.92, 73.11, 67.97, 62.97, 76.13 (not printed) | | 1.16, 25.25, 42.90, 25.58, 63.87 |
+
+Neither rule is the weather's share. With the event days in, the curve bends to the event; with them out, it is carried beyond the days it was fitted on: 9 of Uri's 18 days were colder than any baseline day (heating degree days to 50.0 against at most 30.0), 6 of Elliott's 11 in PJM (55.2 against 38.2), and 8 of CAISO 2020's 14 hotter than any (cooling degree days to 22.0 against 13.8). The page says so beside the share. Scripts and figures: `docs/reviews/events-model-audit-2026-11-26/`.
 
 ## Linear-trend robustness row (`dow_trend_v1`, session 49)
 

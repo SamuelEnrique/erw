@@ -24,6 +24,12 @@ export const revalidate = 3600;
 const T = "event_window_daily";
 const METHOD = "/data/methods/events";
 const EIA_URL = "https://www.eia.gov/todayinenergy/detail.php?id=46836";
+// Session 10225 (chain 710, the events audit, finding 8): from 16 to 18 February 2021 the hub's daily mean real-time
+// price stood within 0.6 percent of the day's highest 15-minute price (8,970.14 against 9,000.85; 9,002.04 against
+// 9,051.55; 8,989.10 against 9,006.13): the price sat at the market's ceiling, so its figures and the event study's
+// price estimate (+2,293.84 USD/MWh a day) measure the ceiling as much as scarcity. Words only; no figure moves
+// (docs/reviews/events-model-audit-2026-11-26.md; the count of intervals near the ceiling is wip/alt-events-4's).
+const CEILING_WORDS = "On 16 to 18 February the hub's daily mean real-time price stood within one percent of the day's highest 15-minute price: the price hardly moved for three days, held at the market's ceiling (ERCOT's offer cap, whose document the warehouse does not hold). A price at a ceiling is set by the ceiling, not by what buyers would have paid, so the price figures here, and the price's estimate further down, measure the ceiling's reach as much as the scarcity.";
 const YEARS = [
   { y: "2021", label: "2021 (Uri)", color: "accent" },
   { y: "2020", label: "2020", color: "var(--color-fuel-gas)" },
@@ -86,7 +92,8 @@ export default async function Uri({ searchParams }: PageProps = {}) {
         </p>
         <p className="text-muted">
           Demand here is demand served. During the rotating outages, customers whose power was cut used nothing, so demand served is less than what
-          Texans would have used. Days are ERCOT operating days (Central time). <Link href={METHOD}>Method</Link>.
+          Texans would have used. Days are ERCOT operating days (Central time).{" "}
+          <span data-uri-ceiling="1">{CEILING_WORDS}</span> <Link href={METHOD}>Method</Link>.
         </p>
       </div>
       {!got.ok || !rows.length ? (
