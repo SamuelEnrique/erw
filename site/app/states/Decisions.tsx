@@ -9,11 +9,11 @@ export type StatesDecision = { key: string; text: string; session: string; def: 
 
 export const STATES_DECISIONS: StatesDecision[] = [
   { key: "as-published", session: "session 8014",
-    text: "Every figure is EIA's or the Census Bureau's own as the files hold it. The page sums months into years and twelve-month windows, and computes only the shares, the revenue and the population shares it names. Nothing is filled, scaled or estimated.",
+    text: "Every figure is EIA's or the Census Bureau's own as the files hold it. The page sums months into years and twelve-month windows, and computes only the shares, the revenue and the population shares it names. The ERW fills, scales and estimates nothing. EIA's monthly figures hold EIA's own estimates (Form EIA-861M's sales include its estimate for the utilities it does not survey each month: Texas's 2024 months sum to 2.07 percent more than the annual form's sales), and EIA revises its newest months.",
     def: "The publishers' figures as published.",
     source: "site/data/states/, built by warehouse/derived/states_page.py from sixteen ERW tables (docs/methods/states_page.md)." },
   { key: "not-held", session: "session 8014",
-    text: "A figure a source does not print for a place is drawn as \"not held\" with the reason on hover. It is never drawn as zero; a zero is a zero the source printed.",
+    text: "A figure a source does not print for a place is drawn as \"not held\" with the reason on hover. It is never drawn as zero; a zero is a zero the source printed. A figure smaller than half the last digit shown prints as 0.0, 0.0% or $0.00 bn: Texas's transportation sales, 4,677 MWh in the twelve months, print as 0.0 TWh.",
     def: "\"not held\" with the reason on hover.",
     source: "The contract's rules, docs/state/page_files_states.md." },
   { key: "first-place", session: "session 8014",
@@ -45,7 +45,7 @@ export const STATES_DECISIONS: StatesDecision[] = [
     def: "Nominal; cents a kWh.",
     source: "Form EIA-861M." },
   { key: "places", session: "session 8014",
-    text: "The fifty states, the District of Columbia and the United States as a whole. Puerto Rico is in the generation table and in no other table the page reads, so it has no file.",
+    text: "The fifty states, the District of Columbia and the United States as a whole. Puerto Rico has no file: of the tables the page reads, only the generation table and EIA-860M hold it. The United States' capacity, plants, planned and retiring generators are EIA-860M's whole, with Puerto Rico's 6,474 MW in them; its generation and sales are EIA's national totals, without Puerto Rico.",
     def: "52 places.",
     source: "site/data/states/index.json." },
 ];

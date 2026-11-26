@@ -42,19 +42,20 @@ export default async function AiEnergyPage({ searchParams }: { searchParams: Pro
       <div data-ai-energy="1">
       <ToolHeader
         title="Energy per AI query, as published"
-        lead={<>Every figure a model maker, a cloud operator or a peer-reviewed paper has printed for the energy of an AI query, a token, a training run or a fleet, in the publication&apos;s own words, with its date and{" "}
-          <Hint words="what it measures" why="Each publication measures something different: one prompt, a thousand inferences, a training run, a deployment, a year of a fleet. The figures are not comparable with one another, and the page sets none against another." />.{" "}
+        lead={<>Each figure the publications read so far print for the energy of an AI query, a training run, a deployment or a fleet (a model maker&apos;s, a cloud operator&apos;s or a peer-reviewed paper&apos;s), not every figure ever printed, in the publication&apos;s own words, with its date and{" "}
+          <Hint words="what it measures" why="Each publication measures something of its own: one prompt, a thousand inferences, a training run, a deployment, a year of a fleet. Most figures are not comparable with one another, and the page sets none against another. Where two publications give a figure for the same thing (the search that produced the Evolved Transformer), both rows stand, each with its subject." />.{" "}
           <Hint words="Nothing here is the ERW's own" why="No figure is averaged, summed, converted to another unit or ranked. Each is the number the publication printed, read by a session from the publication's saved copy." />.</>}
         under={<p className="mt-2 text-xs text-muted" data-license-line="1">License: {F.license}. File built {F.built.slice(0, 10)}.</p>}
       />
 
       <HeadlineRow>
         <HeadlineNumber label="Figures" value={<span data-fig="h-figures">{F.rows.length}</span>} note="each a number a publication printed" />
-        <HeadlineNumber label="Publications" value={<span data-fig="h-publications">{pubs}</span>} note={`${peer} of them peer-reviewed papers`} />
-        <HeadlineNumber label="Newest" value={<span className="text-2xl" data-fig="h-newest">{dateWords(newest.event_date)}</span>} note={`${newest.parties}: ${newest.x_title}`} />
+        <HeadlineNumber label="Publications" value={<span data-fig="h-publications">{pubs}</span>} note={`${peer} of them peer-reviewed papers, counted only where the page the ERW read names the venue`} />
+        <HeadlineNumber label="Newest" value={<span className="text-2xl" data-fig="h-newest">{dateWords(newest.event_date)}</span>} note={`${newest.parties}: ${newest.x_title}. A date is the one the publication prints, or, for a company report that prints none, the date of the post that launched it (the figure's hover says which)`} />
       </HeadlineRow>
 
       <ToolSection title="Every figure, as printed" id="figures">
+        <p className="mb-3 max-w-3xl text-sm" data-ai-fleet-note="1">A fleet&apos;s figure is a company&apos;s whole consumption in a year, as the company reports it (its data centers, or its data centers and offices together): AI and every other use in it, wherever the company runs them, not the United States alone. No figure here gives AI&apos;s share of a fleet.</p>
         <form method="get" action="/ai-energy#figures" className="mb-3 flex flex-wrap items-end gap-3 text-sm [&_label]:max-w-full [&_select]:max-w-full" data-ai-form="1">
           <AutoSubmitSelect name="sort" value={order} options={ORDERS.map((o) => ({ value: o.value, label: o.label }))} label="Order" />
           <AutoSubmitSelect name="m" value={measure} options={[{ value: "all", label: "Every measure" }, ...all.map((x) => ({ value: x, label: x }))]} label="What is measured" />
@@ -64,7 +65,7 @@ export default async function AiEnergyPage({ searchParams }: { searchParams: Pro
         <ToolTable
           words
           minWidth={1100}
-          caption="Every published figure of the energy of AI, as printed"
+          caption="Every figure read, as printed: the energy of AI work, and of whole fleets that run AI among everything else"
           head={["Publisher", "Publication", "What it measures", "Of what", "Figure", "The publication's words"]}
           rows={rows.map((r) => ({ key: r.event_id, cells: [
             <span key="p" data-ai-row={r.event_id}>{r.parties}<span className="block text-xs text-muted">{r.x_publisher_kind}</span></span>,

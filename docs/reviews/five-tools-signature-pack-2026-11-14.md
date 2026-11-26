@@ -33,7 +33,7 @@ Energy Research Warehouse (ERW). Written by session 5502 of chain 269 (`queue/do
 | 2025, USD 87.44 per kW | the fleet's nowcast, USD 29.4 | Modo Energy, 3 February 2026 | +58.04 | the same reasons; ours over theirs 3.0, near 2024's 2.7 |
 | The fall from 2024 to 2025, -40.8 percent | "-37%" per kW of storage capacity | Potomac Economics, 2025 State of the Market Report for ERCOT, June 2026 | -3.8 points | the mix of streams: the same falls by stream, ours more in reserves |
 | Ancillary services, January to July 2026: USD 2.25 per kW a month | the fleet's day-ahead awards, USD 0.40 | ERCOT's awards, `ercot_storage_dam_awards_monthly` | 5.66 times | the model sells reserves as if the market had no limit; printed on the page |
-| Debt coverage 2.63 | the ATB's lender coverage 2.0 | ATB 2025, financial cases | +0.63 | a required coverage against what twelve months gave on 20 percent debt |
+| Debt coverage 2.58 | the ATB's lender coverage 2.0 | ATB 2025, financial cases | +0.58 | a required coverage against what twelve months gave on 20 percent debt |
 | Breakeven toll, USD 4.19 per kW-month | Lazard's LCOS, USD 12.08 to 26.67 per kW-month | Lazard, June 2025, LCOS v10.0 | -7.89 to -22.48 | the toll pays debt and O&M only; Lazard's cost pays charging, augmentation, taxes and a return on equity |
 | CAISO 2025, day-ahead, USD 85.59 per kW | the market monitor's model, USD 77.3 | CAISO DMM, 2025 annual report, Table 1.8 | +8.29 | hub against nodes, four reserves against regulation, 0.86 against 0.85 |
 
@@ -48,14 +48,14 @@ do replicate.do
 log close
 ```
 
-**Expected:** the file ends with "the page shows, for the months of the public file:" and these lines, each difference inside its tolerance:
+**Expected** (written again on 26 November 2026 by chain 701, session 10000, for the public file's new window, November 2025 to October 2026: the figures of 14 November were those of October 2025 to September 2026): the file ends with "the page shows, for the months of the public file:" and these lines, each difference inside its tolerance:
 
-- last twelve months, all streams, USD per kW: 81.40 (mirror 81.4022)
+- last twelve months, all streams, USD per kW: 80.40 (mirror 80.4016)
 - share from ancillary services, percent: 33
 - annual debt payments, USD: 2,261,119
-- debt coverage, last twelve months, times: 2.63 (2.6271)
-- scenario A, NPV at the hurdle rate, USD per kW: -697.80; USD for 100 MW: -69,779,883
-- scenario A, IRR, percent a year: -8.8 (-8.8091)
+- debt coverage, last twelve months, times: 2.58 (2.5829)
+- scenario A, NPV at the hurdle rate, USD per kW: -704.23; USD for 100 MW: -70,423,260
+- scenario A, IRR, percent a year: -9.3 (-9.2617)
 - scenario A, breakeven toll, USD per kW-month: 4.19 (4.1887)
 - scenario A, merchant tail, years: 0
 - months held of the 36: 36; a bad month: December 2024 (Stata prints the month as 2024m12), USD 475,477 for 100 MW

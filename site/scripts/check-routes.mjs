@@ -126,6 +126,8 @@ const PAGES = [
   "/states", "/states?a=CA&b=WV", "/states?a=DC&b=US&from=2020", "/states?a=zz",  // session 8014 (chain 581, part B): every state on one page (in review)
   "/congestion", "/congestion?op=caiso&year=all", "/congestion?op=spp&a=spp%3ASPPSOUTH_HUB&b=caiso%3ATH_SP15_GEN-APND", "/congestion?op=zz&c=zz&a=zz",  // session 9000 (chain 601, part C): congestion (in review)
   "/conditions", "/conditions?a=spp&b=caiso", "/conditions?a=ercot&event=uri_2021", "/conditions?a=caiso&day=2020-08-14", "/conditions?a=zz&event=zz&day=zz",  // session 9000 (chain 601, part G): grid conditions (in review)
+  "/forecast", "/forecast?b=region-cal", "/forecast?a=region-cal&b=region-tex&s=price&m=mae", "/forecast?a=zz&b=zz&s=zz&day=zz&m=zz",  // session 10401 (chain 720, part C): the ERW forecast (in review)
+  "/equities", "/equities?a=XOM&b=CVX&p=wti&win=3m", "/equities?seg=regulated_utilities&sort=ticker&dir=desc", "/equities?a=zz&b=zz&p=zz&win=zz&seg=zz&sort=zz",  // session 10402 (chain 720, part D): energy equities (in review)
   "/industry", "/ai-energy",  // session 8013 (chain 505, part B): energy use by industry, and energy per AI query as published (in review)
   "/policy?view=week", "/policy?view=week&days=30", "/policy?view=week&days=30&agency=ferc&topic=large_load&grid=pjm&large=1", "/policy?view=week&grid=miso", "/data/methods/policy_monitor",  // session 157: "What changed this week", the second view of the policy monitor (in review; scripts/check-policy.mjs opens it in a real browser)
 ];

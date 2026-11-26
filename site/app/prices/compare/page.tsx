@@ -21,6 +21,8 @@ export const metadata: Metadata = { title: "Where power is cheap", robots: { ind
 const file = fileJson as unknown as CompareFile;
 const METHOD = "/data/methods/hub_price_comparison";
 const N = ({ k, children }: { k: string; children: string }) => <span data-n={k}>{children}</span>;
+/** Session 10218: a row that is a zone, by the name the page gives it ("ERCOT, West load zone"), not a hub. */
+const isZone = (r: { entity: string; grid: string; node: string }) => /\bzone\b/i.test(label(r));
 // session 7540: "not held" is drawn in the page's own ink, its reason on hover (the page standard: no grey text)
 const NOT = <span title="Fewer than 95 percent of the period's hours are held (90 percent of its days for the grid's carbon intensity); nothing is filled.">not held</span>;
 // session 7540: a figure of a grid that holds hub_price_comparison under a license is drawn "license needed", the
@@ -81,7 +83,7 @@ function AandB({ file, c, shown, held, a, b }: { file: CompareFile; c: ReturnTyp
   };
   const pa = find(a), pb = find(b);
   const name = (p: Pick) => (p.kind === "row" ? label(p.r) : p.kind === "held" ? label(p.h) : p.kind === "absent" ? p.e : "none chosen");
-  const absent = <span title={`Not in ${when}: the zones and the hubs other than the eleven with a year of history are held since late August 2026, so they are in the month and not in the twelve months.`}>not in this period</span>;
+  const absent = <span title={`Not in ${when}: the hubs and zones other than the ${file.year.length} with a year of history are held since late August 2026, so they are in the month and not in the twelve months.`}>not in this period</span>;
   const valueCell = (p: Pick, k: string, v: (r: Row) => number | undefined, fmt: (x: number) => string) =>
     p.kind === "none" ? "" : p.kind === "held" ? HELD : p.kind === "absent" ? absent : v(p.r) === undefined ? NOT : <N k={k}>{fmt(v(p.r)!)}</N>;
   const diff = (k: string, v: (r: Row) => number | undefined, fmt: (x: number) => string) => {
@@ -99,7 +101,10 @@ function AandB({ file, c, shown, held, a, b }: { file: CompareFile; c: ReturnTyp
   const hours = (m: "dam" | "rtm") => (r: Row) => (m === "dam" ? r.dam_hours_held : r.rtm_hours_held);
   return (
     <ToolSection title="A and B, side by side" id="ab">
-      <form method="get" action="/prices/compare" className="mb-3 flex flex-wrap items-end gap-3 text-sm" data-ab-form="1">
+      {/* session 11000 (chain 750): autoComplete="off". A browser puts a form's last state back when a page of its
+          history is shown again, and these lists take their value from the page once: after a choice, Compare and the
+          back button the page showed no A while the list still read SP15. With it off the browser keeps no state. */}
+      <form method="get" action="/prices/compare" autoComplete="off" className="mb-3 flex flex-wrap items-end gap-3 text-sm" data-ab-form="1">
         <input type="hidden" name="period" value={c.period} /><input type="hidden" name="market" value={c.market} />
         <input type="hidden" name="sort" value={c.sort.slug} /><input type="hidden" name="dir" value={c.dir} />
         {(["a", "b"] as const).map((k) => (
@@ -162,12 +167,18 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
   const noCarbon = [...new Set(rows.filter((r) => r.grid_carbon_intensity === undefined).map((r) => r.grid))];
   const heldWho = heldGrids(held);
   const nameCell = (r: { entity: string; grid: string; node: string }) => (NAME_WORDS[r.entity] ? <span title={NAME_WORDS[r.entity]} data-name-words={r.entity}>{label(r)}</span> : label(r));
+  // session 10218 (docs/reviews/prices-model-audit-2026-11-26.md, finding 1): ERCOT's load zones are in both periods
+  // since session 7052, so the words count hubs and zones apart and name the grids shown, as the file holds them
+  const zones = (rs: { entity: string; grid: string; node: string }[]) => rs.filter((r) => isZone(r)).length;
+  const what = (rs: { entity: string; grid: string; node: string }[]) => (zones(rs) ? "hubs and zones" : "hubs");
+  const shownGrids = [...new Set([...file.year, ...file.month].filter((r) => !licenseHeldRow(TABLE, r.entity)).map((r) => r.grid))];
+  const gridWords = shownGrids.length > 1 ? `${shownGrids.slice(0, -1).join(", ")} and ${shownGrids.at(-1)}` : shownGrids.join("");
 
   return (
     <Brand>
     <ToolPage>
       <ToolHeader title="Where power is cheap"
-        lead={<>The hub and zone prices of five grids, side by side: the average price, how often it falls below zero or climbs above USD 200, how far the dearest hours of the day stand above the cheapest, and how clean the grid behind it is.
+        lead={<><span data-lead-grids={shownGrids.join(",")}>The hub and zone prices of {["no grid", "one grid", "two grids", "three grids", "four grids", "five grids", "six grids"][shownGrids.length] ?? `${shownGrids.length} grids`}, {gridWords}, side by side</span>: the average price, how often it falls below zero or climbs above USD 200, how far the dearest hours of the day stand above the cheapest, and how clean the grid behind it is.
           Sort by any of them. See also <SiteLink href="/prices">prices by hub</SiteLink> and <SiteLink href="/cost-of-power/battery">what a battery earns</SiteLink>.</>} />
       <p className="mb-8 max-w-3xl border-l-2 border-accent bg-paper px-3 py-2 text-sm" data-not-a-site="1">
         <span className="font-semibold">A hub is not a site.</span> A hub or zone price is an average over many points of a grid. The price at one substation differs from it by congestion and losses, sometimes by a lot,
@@ -175,10 +186,10 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
       </p>
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
-          <InputPanel title="Choose" reset={{ href: "/prices/compare", defaults: "twelve months, day-ahead, ordered by the average price, cheapest first." }} note={<>Twelve months of history are held for {file.year.length} hubs; the zones and the other hubs are held since late August 2026, so they are in the month and not in the year.</>}>
+          <InputPanel title="Choose" reset={{ href: "/prices/compare", defaults: "twelve months, day-ahead, ordered by the average price, cheapest first." }} note={<span data-panel-year={`${file.year.length}|${zones(file.year)}`}>Twelve months of history are held for {file.year.length} {what(file.year)}{zones(file.year) ? ` (${file.year.length - zones(file.year)} hubs and ${zones(file.year)} of ERCOT's load zones, held since 2015)` : ""}; the other hubs and zones are held since late August 2026, so they are in the month and not in the twelve months.</span>}>
             <nav aria-label="Period" className="mb-4 text-sm">
               <div className="mb-1 text-xs uppercase tracking-wide text-muted">Period</div>
-              <div><Link href={href({ ...c, ...keep, period: "year", sort: c.sort.slug, dir: c.dir })} aria-current={c.period === "year" ? "true" : undefined} className={item(c.period === "year")}>Twelve months to {monthName(file.end_month)}: {file.year.length} hubs</Link></div>
+              <div><Link href={href({ ...c, ...keep, period: "year", sort: c.sort.slug, dir: c.dir })} aria-current={c.period === "year" ? "true" : undefined} className={item(c.period === "year")}>Twelve months to {monthName(file.end_month)}: {file.year.length} {what(file.year)}</Link></div>
               <div><Link href={href({ ...c, ...keep, period: "month", sort: c.sort.slug, dir: c.dir })} aria-current={c.period === "month" ? "true" : undefined} className={item(c.period === "month")}>{monthName(file.end_month)}: {file.month.length} hubs and zones</Link></div>
             </nav>
             <nav aria-label="Market" className="mb-4 text-sm">
@@ -199,7 +210,7 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
           ) : (
             <>
               <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
-                Over {when}, {label(cheapest)} had the lowest average {market.name.toLowerCase()} price of the <N k="count">{String(rows.length)}</N> hubs{c.period === "month" ? " and zones" : ""} compared, USD <N k="sum|cheapest">{two(valueOf(cheapest, c.market, avg)!)}</N> per MWh,
+                Over {when}, {label(cheapest)} had the lowest average {market.name.toLowerCase()} price of the <N k="count">{String(rows.length)}</N> {what(rows)} compared, USD <N k="sum|cheapest">{two(valueOf(cheapest, c.market, avg)!)}</N> per MWh,
                 and {label(dearest)} the highest, USD <N k="sum|dearest">{two(valueOf(dearest, c.market, avg)!)}</N>.{" "}
                 {valueOf(negative, c.market, neg)! > 0
                   ? <>{label(negative)} spent the most hours below zero: <N k="sum|negative">{two(valueOf(negative, c.market, neg)!)}</N> percent of them.</>
@@ -222,7 +233,7 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
               </ToolSection>
 
               <ToolSection title="The table" id="table"
-                note={<>{market.name} prices by the hour, in each grid&apos;s own clock time (daylight saving included), from {w.start} to {w.end} (the end not included). Hours below zero and above USD 200 are shares of the hours held. The spread is read off the average day: the mean price of each hour of the day over the period, its four dearest hours less its four cheapest.
+                note={<>{market.name} prices by the hour, in each grid&apos;s own clock time (daylight saving included), from {w.start} to {w.end} (the end not included). <span data-avg-said="1">The average price counts every hour held once: what a flat load, the same every hour, would pay at the hub or zone. A load shaped like the grid&apos;s own, heavier in the dearer hours, pays more than this average.</span> Hours below zero and above USD 200 are shares of the hours held. The spread is read off the average day: the mean price of each hour of the day over the period, its four dearest hours less its four cheapest.
                   It is not the mean of each day&apos;s own spread, which is larger, since the dearest and the cheapest hours move from day to day.
                   The carbon intensity is the grid&apos;s generation over the same period (kg of CO2 per MWh), not the hub&apos;s. A heading sorts by its column.</>}>
                 <ToolTable minWidth={700} caption={`Hub and zone prices compared, ${market.name.toLowerCase()}, ${when}`}
@@ -252,6 +263,7 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
 
           <Fold title="How it is computed">
             <p className="max-w-3xl">From each grid operator&apos;s public day-ahead and real-time prices at its hubs and zones. A real-time hour is the mean of its four 15-minute prices and is counted only when all four are held; ISO-NE&apos;s is its own hourly report.
+              The average is the simple mean of the hours held, each hour once, not weighted by the grid&apos;s load or by any buyer&apos;s.
               A hub is in a period when at least {Math.round(file.near_hours * 100)} percent of the period&apos;s hours are held; nothing is filled. The full method: <SiteLink href={METHOD}>where power is cheap</SiteLink>.</p>
           </Fold>
           <Fold title="What this does not tell you">
@@ -261,7 +273,7 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
               <li>Next year. Twelve months hold one winter and one summer; a cold snap or a mild season moves every figure here.</li>
               <li>The carbon of the power a site would take. The intensity is the grid&apos;s average generation, not the marginal plant and not a hub&apos;s.</li>
               <li>Whether power can be had there at all: an interconnection or a large-load request is its own queue.</li>
-              <li>ERCOT&apos;s eight load zones. Their prices are held in the warehouse since 2015 and priced on <SiteLink href="/cost-of-power?view=allgrids">the cost of power page</SiteLink>; they are not in this comparison.</li>
+              <li data-zones-said="1">The price where a load settles outside ERCOT. ERCOT&apos;s eight load zones are compared here, in both periods, beside its hubs; CAISO&apos;s and SPP&apos;s rows are hubs only, and a load there settles at its own load point, which is not held.</li>
             </ul>
           </Fold>
           <DecisionsBlock id="7018-compare" title="Decisions on this page (each with its default and its source on hover)" items={COMPARE_DECISIONS} />

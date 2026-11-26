@@ -31,7 +31,7 @@ Read and with no row: Mistral AI's note of July 2025, "Our contribution to a glo
 ## Limits
 
 - Twenty-three figures from nine publications: the first reading, not every figure ever printed. A later session adds rows by the same rule.
-- Several figures are one publisher's estimate of another's model (Patterson and others on GPT-3; Strubell and others on BERT and a neural architecture search); `x_basis` says so.
+- Several figures are one publisher's estimate of another's model (Patterson and others on GPT-3; Strubell and others on BERT and a neural architecture search). `x_basis` says "the paper's estimate" on each, and names no other maker; the subject names it for GPT-3 ("OpenAI's model") and for the search ("So et al."), and not for BERT, Google's model, which Strubell and others priced on 64 V100 GPUs (audit of 26 November 2026, finding 8).
 - Google's 2019 and 2020 fleet figures and Microsoft's of 2020 are what the papers cite from the companies' reports; Microsoft's own fact sheet of 2026 and Meta's data index were read on the companies' hosts. Google's environmental reports are served from `www.gstatic.com/gumdrop/`, which that host's robots file disallows, so they were not read; Meta's data index was read on its own site.
 
 ## Build
@@ -53,6 +53,6 @@ The page "Energy per AI query, as published" (`/ai-energy`, in review, in no men
 | `as-printed` | Every figure is the number its publication printed, in its own unit, beside its own words; no unit converted | the printed number and unit |
 | `no-sum` | Nothing averaged, summed or set against another figure; the publications measure different things | no figure of the ERW's own |
 | `order` | Publisher A to Z, then date; or what is measured, or date; never by size | publisher, A to Z |
-| `no-pair` | No two figures set side by side, since no two publications measure the same thing the same way | one table of every figure |
+| `no-pair` | No two figures set side by side by the page; where two publications give a figure for the same thing, both rows stand, each with its subject, neither preferred (the neural architecture search that produced the Evolved Transformer: Strubell and others' estimate of 2019, in kWh times PUE, and Google's authors' figure of 2022; audit of 26 November 2026, finding 2) | one table of every figure |
 | `which-publications` | The publications a session found and could read; a host that refuses automated reading is named under Limits | nine publications on 19 November 2026 |
 

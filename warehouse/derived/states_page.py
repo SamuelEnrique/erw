@@ -296,7 +296,9 @@ def build_disposition(disp, st):
         vals = dict(zip(h["year"], h["value"]))
         out[v] = [num(vals.get(y), 0) for y in years] if len(h) else None
     return {"table": "eia_state_source_disposition_annual", "vintage": years[-1], "source": SRC["disposition"], "unit": "MWh", "years": years, "values": out,
-            "note": "Net interstate trade is EIA's figure: positive where the state took in more electricity from other states than it sent out."}
+            # session 10223 (the states audit, finding 1): EIA lists net interstate trade among the disposition, so it is
+            # out less in; the note said the opposite until then
+            "note": "Net interstate trade is EIA's figure, a line of the disposition: positive where the state sent more electricity to other states than it took in from them, below zero where it took in more."}
 
 
 def build_serving(county, pop, ba_meta, st):

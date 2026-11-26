@@ -65,6 +65,12 @@ function Missing({ what, reason }: { what: string; reason?: string }) {
   return <p className="my-2 text-sm text-muted" data-part-missing={what} title={reason}>Not held for this place: {reason ?? "the file holds no figure"}.</p>;
 }
 
+// session 10223 (the states audit, findings 3 and 4): what the groups hold, and how a source with a month EIA withholds
+// is summed (docs/methods/generation_mix.md: oil and other = PET + OOG + HPS + OTH; small-scale solar not included;
+// not itemized = EIA's all-fuels total less the groups)
+const WHAT_SOURCES_HOLD = "A source can be below zero: pumped storage uses more than it makes, and it is counted in Oil and other (EIA's code HPS), so that line can fall below zero. Solar is EIA's utility-scale solar: small-scale solar, such as rooftop panels, is not in EIA's state figures here.";
+const SUMMED_OVER_MONTHS = "A source is summed over the months EIA prints for it: in a month EIA withholds a source, its generation is in Not itemized by EIA, so that source's twelve months can hold fewer than twelve.";
+
 /** What one place runs on: the stacked months and the last twelve months by source. */
 function RunsOn({ f, from }: { f: StateFile; from: number }) {
   const g = f.generation;
@@ -76,7 +82,7 @@ function RunsOn({ f, from }: { f: StateFile; from: number }) {
   const src = srcOf(g);
   return (
     <>
-      <ChartFrame title={`${f.name}: net generation by source, TWh a year`} tip={<Hint words=" (source)" why={`${src} Whole years only: a year is drawn for a source when all twelve of its months are held. A source can be below zero: pumped storage uses more than it makes.`} />}>
+      <ChartFrame title={`${f.name}: net generation by source, TWh a year`} tip={<Hint words=" (source)" why={`${src} Whole years only: a year is drawn for a source when all twelve of its months are held. ${WHAT_SOURCES_HOLD}`} />}>
         <LineChart lines={yearly} unit="TWh" x="year" ariaLabel={`Net generation by source by year, ${f.name}`} />
       </ChartFrame>
       <ChartFrame title={`${f.name}: net generation by source, GWh a month`} tip={<Hint words=" (source)" why={`${src} A month EIA prints no figure for a source is a gap in its line.`} />}>
@@ -88,7 +94,7 @@ function RunsOn({ f, from }: { f: StateFile; from: number }) {
         head={["Source", "TWh", "Share"]}
         rows={[...GEN_SOURCES.map((s) => ({ key: s, cells: [FUEL_WORDS[s] ?? s,
           <Fig key="v" v={g.last12.mwh[s]} src={src} k={`g12-${f.state}-${s}`} fmt={twh} reason={`EIA prints no ${(FUEL_WORDS[s] ?? s).toLowerCase()} generation for ${f.name} in these months. ${src}`} />,
-          <Fig key="s" v={g.last12.share_pct[s]} src={`The source's twelve months over the sum of every source's. ${src}`} k={`g12s-${f.state}-${s}`} fmt={pct} reason={`EIA prints no ${(FUEL_WORDS[s] ?? s).toLowerCase()} generation for ${f.name} in these months.`} />] })),
+          <Fig key="s" v={g.last12.share_pct[s]} src={`The source's twelve months over the sum of every source's. ${SUMMED_OVER_MONTHS} ${src}`} k={`g12s-${f.state}-${s}`} fmt={pct} reason={`EIA prints no ${(FUEL_WORDS[s] ?? s).toLowerCase()} generation for ${f.name} in these months.`} />] })),
           { key: "total", highlight: true, cells: ["All sources", <Fig key="v" v={g.last12.total_mwh} src={`The sum of the sources. ${src}`} k={`g12t-${f.state}`} fmt={twh} />, "100%"] }]}
       />
     </>
@@ -174,6 +180,11 @@ function Built({ f }: { f: StateFile }) {
   );
 }
 
+// session 10223 (the states audit, finding 1): EIA's state profile lists net interstate trade among the disposition, so
+// it is out less in: positive where a state sent more to other states than it took in. The files' note (built before
+// this) said the opposite; the page says it here until the files are rebuilt with the builder's corrected note.
+const TRADE_NOTE = "Net interstate trade is EIA's figure, a line of the disposition: positive where the state sent more electricity to other states than it took in from them, below zero where it took in more.";
+
 function Operates({ f }: { f: StateFile }) {
   const s = f.serving;
   if (!s.by_authority) return <Missing what="serving" reason={s.reason} />;
@@ -195,8 +206,8 @@ function Operates({ f }: { f: StateFile }) {
         <ToolTable
           caption={`${f.name}: where its electricity came from and went, the state profile`}
           head={["MWh a year", ...dy]}
-          rows={[["total_net_generation", "Net generation in the state"], ["full_service_providers", "Sold by full-service providers"], ["energy_only_providers", "Sold by energy-only providers"], ["net_interstate_trade", "Net interstate trade (in less out)"], ["estimated_losses", "Estimated losses"]].map(([k, label]) => ({ key: k, cells: [label,
-            ...dy.map((y) => <Fig key={y} v={atYear(d.years, d.values[k], y)} src={srcOf(d, d.note)} k={`dp-${f.state}-${k}-${y}`} fmt={whole} />)] }))}
+          rows={[["total_net_generation", "Net generation in the state"], ["full_service_providers", "Sold by full-service providers"], ["energy_only_providers", "Sold by energy-only providers"], ["net_interstate_trade", "Net interstate trade (out less in)"], ["estimated_losses", "Estimated losses"]].map(([k, label]) => ({ key: k, cells: [label,
+            ...dy.map((y) => <Fig key={y} v={atYear(d.years, d.values[k], y)} src={srcOf(d, TRADE_NOTE)} k={`dp-${f.state}-${k}-${y}`} fmt={whole} />)] }))}
         />
       ) : <Missing what="disposition" reason={d.reason} />}
     </>

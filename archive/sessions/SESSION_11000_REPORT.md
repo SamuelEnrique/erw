@@ -13,7 +13,7 @@ Energy Research Warehouse (ERW). 26 November 2026, the portable laptop's second 
 - **Figures:** about 120,000 set beside the page files; 5,142 beside Supabase by the site's own check on the five tools' addresses. One disagreement (the alerts list of `/conditions`).
 - **Part C** began at 14:16 UTC with the first landing of tonight (`task/c701-desk-3`: three of this window's rows, `/impact` with Datacenter, the old laptop's audit fixes). Rows 1, 2 and 3 are seen fixed on production at both widths; `/impact` with Datacenter was read in full (rows I1 to I5 for window C), its four older plant types unchanged (1,700 figures on eleven addresses, before and after); the site's own figure check after the landing: 6,680 of 6,680. `/forecast`, `/equities` and the board's new group were not on main at 15:21 UTC (the desk's next gate is announced for after 16:15 UTC); the board as it stands is recorded (25 groups, 276 rows, 12 tiles) to show it loses nothing, and the eight energy prices in the equities page files already agree with the board.
 
-## Faults found: nine fixed on six branches of this window's (and row 2, two commits of another window's), ten filed and one data request
+## Faults found: twelve fixed on eight branches of this window's (and row 2, two commits of another window's), twelve filed and one data request
 
 Each branch is cut from origin/main and carries a test that fails on the code before; none was built here. Rows of `docs/state/landing_request_portable_w2.md`.
 
@@ -22,10 +22,12 @@ Each branch is cut from origin/main and carries a test that fails on the code be
 | 1 | `wip/c750-grid-reliability` | `/grid?grid=caiso` 539 px wide at 390 px (the hidden labels of 20 November's accessibility fix escape the table's frame) | landed 14:16 UTC |
 | 2 | `wip/w2-c620-fixes` (the desktop's second window's) | two commits that read landed on 21 November and were not on main | landed 14:16 UTC |
 | 3 | `wip/c750-conditions` | `/conditions` listed 40 alerts under a heading counting 44 and 79; the clock said twice | landed 14:16 UTC |
-| 4 | `wip/c750-grid-last-week` | the Grid tool's "same day last week" lost its first 5 to 8 hours on every grid | requested |
-| 5 | `wip/c750-companies` | `/companies`: five of six fields with no name for a screen reader; the lists kept a choice after the back button | requested (seen in a build by the first window) |
-| 6 | `wip/c750-forms-back` | `/prices/compare` and `/conditions`: fields kept a choice after the back button | requested (seen in a build by the first window) |
-| 7 | `wip/c750-events-link` | `/events`: nine links "The whole country" told from their sentence by color alone (found by the accessibility audit, seen on production) | ready, to be seen (written 16:07 UTC) |
+| 4 | `wip/c750-grid-last-week` | the Grid tool's "same day last week" lost its first 5 to 8 hours on every grid | landed 17:13 UTC |
+| 5 | `wip/c750-companies` | `/companies`: five of six fields with no name for a screen reader; the lists kept a choice after the back button | landed 17:13 UTC |
+| 6 | `wip/c750-forms-back` | `/prices/compare` and `/conditions`: fields kept a choice after the back button | landed 17:13 UTC |
+| 7 | `wip/c750-events-link` | `/events`: nine links "The whole country" told from their sentence by color alone (found by the accessibility audit, seen on production) | requested (seen in a build by the first window, 16:11 UTC) |
+| 8 | `wip/c750-links-color` | `/curtailment` and `/play/ev`: two more links told by color alone (found by reading every link of 199 addresses) | requested (seen in a build by the first window, 16:27 UTC) |
+| 9 | `wip/c750-problems-phone` | `/learn/problems` 373 px wide on a phone of 360 px (found by opening 195 addresses at 360, 320 and 768 px) | ready, to be seen (written 17:07 UTC) |
 
 Filed for the windows that own the page tonight (rows of the review): CP1, `/cost-of-power?view=grids` is 1,677 px wide on a phone after one tap on a chart's Table switch (the old laptop); CP2, the All grids tab does not follow the back button (window A and the old laptop); R1, `/research` says of its small example charts "hover reads them" and they give no value (the old laptop); I1 to I5 on `/impact` with Datacenter (window C): no default's own document can be opened from the page, the taxes' total does not say what it leaves out, Georgia's exemption reads "none", a document's figure the tool does not take is not said (Paducah's USD 100 billion, Starwood's 1,500 jobs), and an address with the project's id alone shows its name over the default's figures; CP4, two regions of one name on the All grids tab (window A). One data request, row 575 (window A): the Southeast's demand of 13 to 17 November differs by 4 to 6 percent between the forecast's page files and `/demand`'s. Known to its owner, no request filed: the data machine's page files of 21 to 25 November.
 
