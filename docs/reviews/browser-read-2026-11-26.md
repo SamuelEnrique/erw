@@ -170,6 +170,22 @@ Whose: the data machine's edition file; the pages are no window's tonight. Read 
 
 Pictures: `docs/reviews/browser-read-2026-11-26/problem-edition/problems-index-1280.png` (the ten sets); `docs/reviews/browser-read-2026-11-26/problem-edition/resource-set-edition-1280.png` (the resource set's edition of 21 November).
 
+## B12 and B14: the events, demand and supply pages on the real region files, and the five pages of the reader-page tests
+
+Read 26 November 12:25 to 12:29 UTC at 1280 and 390 px, each as it opens and then with every chart switched to its table and every fold open (`runs/c750/quiet_tables.mjs`): the nine events' whole-country sections (a different pair of regions each), four pairs on `/demand?view=country`, four on `/supply#whole-country`, and `/ai-energy`, `/industry`, `/queues/places`, `/storage/places`, `/curtailment/where-when`. 22 addresses a width.
+
+- **No quiet fault but the one already filed:** no sideways scroll but `/events/covid-2020` at 390 px with its tables showing (392 px, row 2 of the landing file); no empty chart; no "undefined", "NaN" or "null"; no skipped heading; every page loads in 0.3 to 2.2 s.
+- The figures of these pages were set beside their files in full on 20 November (the desktop's second window: 6,431, 11,119 and 912, none differing) and part A read the five rows that changed after; they are not counted again.
+- **One thing seen on all of them, not new and site-wide:** a chart switched to its table prints "not held" where a series has no value, and that blank gives no reason on hover. On these 22 pages 1,206 of 3,218 blanks are of this kind (the other 2,012, the tables the pages draw themselves, each give their reason). The shared chart table knows only that the value is missing, not why. One line under "For Samuel's ruling".
+
+## B13: the variables table on the method pages (`/data/methods/<note>`)
+
+Whose: the desktop's second window's tonight (chain 730): read, never edited.
+
+- The file the table is drawn from (`site/data/codebook_methods.json`) and its component last changed on 20 November 14:07 UTC, before chain 620 read 473 method pages cell for cell (10,443 variables, none differing), and no branch of tonight touches either. The cells are not read again.
+- On the first twelve pages at 390 px (`runs/c750/methods_sweep.mjs`): each draws its variables (186 in all), nine of them as one block a variable, as the component means at a phone's width; none scrolls sideways; no row with an empty name or label.
+- **The sweep of all 616 method pages at 390 px did not finish:** it was stopped by Claude Code at about 12:23 UTC, the laptop critically low on memory while the session waited on it (the first window was building). It is not started again unless asked. What stands in its place: the six pages chain 620's fix mended are 390 px wide (B9), and the full sweep of 20 November found no other.
+
 ## B5: the findings review page's charts (`/internal/findings`)
 
 The branch behind this row (`wip/9820-findings-charts`, the desktop's fourth window) changed how the warehouse draws a finding's picture (`warehouse/analysis/findings/card_image.py`, `deep/redraw.py`) and no page code, so nothing on the page changed with its landing; a draft's picture changes only when it is drawn again. The page as it stands on production: 42 charts, none empty, 1265 of 1265 and 390 of 390 px wide, no error in the console; it takes 4.7 s to load at 1280 px and 3.5 s at 390 px (the slowest page of the list, under five seconds). No fault.
@@ -219,3 +235,4 @@ Picture: `docs/reviews/browser-read-2026-11-26/events-covid-2020/covid-390-table
 4. **`/supply`, a year with a month left out.** The mix table is 1,325 px wide inside its frame (900 px otherwise), because "not held yet" does not wrap; on a phone two columns show at a time. The page itself keeps to 390 px. Default: left.
 5. **The tour's Digest stop** still quotes two headings the Digest page does not show ("Top of the industry", "ERW's Numbers Today"); the tour's check passes 101 of 103 for it. Standing since 20 November. Default: left.
 6. **`/conditions`, the alerts list.** On the branch every notice is a row (79 rows for CAISO's August 2020 heat wave). If the list should stay at 40, the page should say that it is cut and where it stops; one line either way.
+7. **"not held" in a chart's table, with no reason.** A chart switched to its table prints "not held" for a missing value and gives no reason on hover (1,206 blanks on the 22 pages of B12 and B14). The tables the pages draw themselves do give one. Default: left; the shared chart table does not know why a value is missing.

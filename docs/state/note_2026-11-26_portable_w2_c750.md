@@ -5,7 +5,7 @@ Energy Research Warehouse (ERW). The chain: `queue/done/750-night-26-november-po
 ## Pages read, and what was found
 
 - **Read on production in a real browser, at 1280 px with a mouse and 390 px with a finger:** the five rows that waited for a browser; `/conditions` and `/congestion` in full (five readers' cases each, every table cell and marked figure against the page files, everything that answers to the hand); the thirteen regions of the Grid tool; the four accessibility fixes of 20 November; chain 620's ten fixes; the problem edition of 21 November; a sweep of 146 addresses and of the method pages at a phone's width.
-- **Figures set beside their files:** about 113,000 (15,553 on `/conditions`, 8,941 on `/congestion`, 94,435 on the regions' Mix tabs, 838 words and figures of the problem edition). Two disagreed, both the same fault (the alerts list, below).
+- **Figures set beside their files:** about 120,000 (15,553 on `/conditions`, 8,941 on `/congestion`, 94,435 on the regions' Mix tabs, 838 words and figures of the problem edition). Two disagreed, both the same fault (the alerts list, below).
 - **Faults, by owning window:**
   - no window's page tonight: 3 found, 3 fixed on branches with tests (to be seen in a build, then landed by window A's desk);
   - the desktop's second window (B): 1 filed (two of its commits read landed and are not on main);
