@@ -71,7 +71,7 @@ export async function AiView({ sp }: { sp: Record<string, string | undefined> })
     <>
       <ToolHeader title="Deals for AI power"
         crumb={<>Every deal: <Link href="/deals?tab=tracker" className="underline">Tracker</Link>. Side by side: <Link href="/deals?view=comparables" className="underline">Comparables</Link></>}
-        lead={<>The deals the AI-power rule tags: a named AI lab, hyperscaler, datacenter operator or AI-load buyer is a party, or the load the deal serves is a datacenter. A sum is of the figures the stories state; the deals that state none are counted beside it, never added as zero.</>} />
+        lead={<>The deals the AI-power rule tags: a named AI lab, hyperscaler, datacenter operator or AI-load buyer is a party, or the load the deal serves is a datacenter. A sum is of the figures the stories state; the deals that state none are counted beside it, never added as zero. A group&apos;s sum adds every kind of deal in it and every stage: by buyer, grid or quarter, the US dollars of a raise, an acquisition, a financing and a compute contract are added together, rumored talks with signed deals; grouped by the kind of supply, each sum is of one kind.</>} />
       <nav aria-label="Group by" className="mb-6 flex flex-wrap items-baseline gap-x-4 gap-y-1 text-sm" data-ai-by={by}>
         <span className="font-semibold">Group by</span>
         {AI_DIMENSIONS.map((d) => (
