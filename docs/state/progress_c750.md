@@ -9,3 +9,5 @@ Energy Research Warehouse (ERW). `queue/done/750-night-26-november-portable-wind
 | The start, 2: the chain file taken by hand (`4e8d24f7e`, queue/next to queue/done, pushed) | done | 11000 |
 | The start, 3: the resume file `queue/next/751-resume-chain-750.md`, committed alone (`0fac57d61`, pushed) | done | 11000 |
 | The start, 4: this file | done | 11000 |
+| The read kit: `runs/c750/lib.mjs` and `kit.mjs` (after chain 620's; the laptop's own Chrome through `site/scripts/browser.mjs`, so no package is installed in this folder; a browser is refused under 1,500 MB available; the internal token read from the main folder's files, never written) | done | 11000 |
+| Part A: rows 418 to 422 of `docs/state/browser_reads_wanted.md`, the only rows in state wanted. Their three branch heads are in main now. Read on production at 1280 and 390 px (1,767 and 2,205 MB available before the two browsers): all five seen and marked, 418 and 421 at the addresses where their cases still arise (the files rebuilt on 20 November removed them at the rows' own addresses). No row is left wanted. Two pictures under `docs/reviews/browser-read-2026-11-26/part-a/` | done | 11000 |
