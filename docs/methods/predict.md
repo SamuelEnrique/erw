@@ -100,3 +100,41 @@ What the table says, plainly:
 - **Net demand** (demand less wind and solar) is not forecast: the wind and solar forecasts held carry no publication time (CAISO) or begin on 30 September 2026 (ERCOT), so a net demand forecast could not be shown to use only what was published before its hour (`docs/methods/predict_price.md`, section 2; data request 5).
 - **The band, honestly.** Each file prints `band_coverage_pct`, the share of the last two years' hours whose demand fell inside the band; the band aims at 80 percent.
 - **The cross-check** against an operator's own published forecast error: CAISO's market monitor's 2024 annual report prints none (`docs/state/progress_c730.md`).
+
+## 11. The peak (session 10601)
+
+For each place and day, the peak is the highest hourly demand and its local hour; a method's peak is the highest of its own hourly forecasts for the day, and the hour of it, scored on the days whose every hour every method holds. Each place file carries tomorrow's peak (`series.demand.peak.tomorrow`: the hour, the ERW forecast and its band there) and the record; `scores.json` has the `demand_peak` rows. The last two years (built 26 November 2026 at 12:27 UTC; `runs/c730/table_f.py` prints the table from the files):
+
+| Place | Days | ERW peak MAPE % | Operator peak MAPE % | Yesterday's peak MAPE % | ERW peak hour exact % | Operator peak hour exact % | ERW within 1 hour % | Operator within 1 hour % |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| region-cal | 702 | 4.96 | 2.37 | 7.34 | 45.7 | 29.5 | 71.5 | 72.4 |
+| region-car | 649 | 9.15 | 2.40 | 11.25 | 40.2 | 63.8 | 69.5 | 91.4 |
+| region-cent | 319 | 6.02 | 6.61 | 7.49 | 41.4 | 59.6 | 68.0 | 83.1 |
+| region-fla | 651 | 6.50 | 5.80 | 7.70 | 43.3 | 47.6 | 74.7 | 89.2 |
+| region-mida | 719 | 5.83 | 1.85 | 8.04 | 47.8 | 11.8 | 70.0 | 77.5 |
+| region-midw | 725 | 4.58 | 1.98 | 6.71 | 45.8 | 69.1 | 73.9 | 91.3 |
+| region-ne | 726 | 6.12 | 1.17 | 8.09 | 63.2 | 79.6 | 93.7 | 98.1 |
+| region-nw | 608 | 3.14 | 4.93 | 4.76 | 56.6 | 54.1 | 78.6 | 82.1 |
+| region-ny | 715 | 5.55 | 2.61 | 7.54 | 53.4 | 76.8 | 88.5 | 96.9 |
+| region-se | 724 | 8.11 | 1.18 | 10.04 | 39.5 | 92.0 | 71.0 | 98.9 |
+| region-sw | 697 | 5.75 | 3.48 | 6.70 | 53.7 | 47.2 | 85.4 | 89.4 |
+| region-ten | 726 | 8.50 | 2.58 | 10.22 | 34.2 | 57.9 | 65.8 | 88.4 |
+| region-tex | 722 | 6.30 | 2.19 | 6.73 | 44.2 | 59.0 | 73.8 | 88.6 |
+| ba-bpat | 726 | 4.39 | 1.78 | 6.50 | 48.3 | 65.4 | 80.7 | 89.5 |
+| ba-ciso | 722 | 4.82 | 2.55 | 7.33 | 42.7 | 25.6 | 66.2 | 64.0 |
+| ba-cple | 699 | 10.66 | 4.10 | 13.10 | 35.8 | 53.2 | 65.5 | 84.8 |
+| ba-duk | 719 | 9.68 | 3.27 | 12.04 | 38.7 | 58.1 | 69.4 | 89.2 |
+| ba-erco | 722 | 6.30 | 2.19 | 6.73 | 44.2 | 59.0 | 73.8 | 88.6 |
+| ba-fpc | 716 | 8.27 | 24.59 | 9.76 | 43.3 | 51.4 | 71.6 | 86.7 |
+| ba-fpl | 718 | 6.82 | 2.92 | 7.61 | 37.7 | 35.4 | 71.7 | 79.1 |
+| ba-isne | 726 | 6.12 | 1.17 | 8.09 | 63.2 | 79.6 | 93.7 | 98.1 |
+| ba-miso | 725 | 4.31 | 2.40 | 6.47 | 45.1 | 64.1 | 74.2 | 89.5 |
+| ba-nyis | 715 | 5.55 | 2.61 | 7.54 | 53.4 | 76.8 | 88.5 | 96.9 |
+| ba-pace | 721 | 4.40 | 3.79 | 5.57 | 29.4 | 30.2 | 59.2 | 58.3 |
+| ba-pjm | 719 | 5.83 | 1.85 | 8.04 | 47.8 | 11.8 | 70.0 | 77.5 |
+| ba-psco | 721 | 7.37 | 13.71 | 8.77 | 27.2 | 23.9 | 58.9 | 49.1 |
+| ba-soco | 724 | 8.11 | 1.18 | 10.04 | 39.5 | 92.0 | 71.0 | 98.9 |
+| ba-swpp | 702 | 6.30 | 8.71 | 7.34 | 44.4 | 57.5 | 69.9 | 80.1 |
+| ba-tva | 726 | 8.50 | 2.58 | 10.22 | 34.2 | 57.9 | 65.8 | 88.4 |
+
+The ERW's peak is closer than the operator's in 5 of 29 places (CENT, NW, FPC, PSCO, SWPP); it names the peak hour exactly more often than the operator in 8 (CAL, MIDA, NW, SW, CISO, FPL, PJM, PSCO), most strikingly in MIDA and PJM, where the operator names the hour on 11.8 percent of days and the ERW on 47.8 percent. The CENT row covers 319 days: the operator's region forecast is missing on many SPP days, and a day enters only when every method holds every hour.
