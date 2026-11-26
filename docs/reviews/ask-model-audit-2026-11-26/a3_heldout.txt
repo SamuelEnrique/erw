@@ -1,0 +1,274 @@
+====================================================================================================
+h03 | What was ERCOT's highest hourly demand in the week of Monday 12 to Sunday 18 October 2026 (Central time), in MW?
+KEY expected [81154.0] tol 0.5 text [] refuse False hold False
+KEY note: eia930_all_demand, eia930:ERCO, demand_mw: the maximum of the 168 hourly rows of the local week (America/Chicago); checked whole
+STATUS answered | retried False | calls 2 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: ERCOT's highest hourly demand in the week of Monday 12 to Sunday 18 October 2026 (Central time) was 81,154 MW (eia930_all_demand, EIA-930 balancing authority ERCO). It came in the hour starting 4 pm Central on 13 October 2026. The week is complete: all 168 hours are held.
+CITES: ['eia930_all_demand']
+  call 1 list_tables {}
+  call 2 query {"table": "eia930_all_demand", "aggregation": "max", "entity": "eia930:ERCO", "variable": "demand_mw", "start": "2026-10-12", "end": "2026-10-19", "tz": "America/Chicago"}
+     key 81154.0 found at out.result[0].value = 81154.0
+====================================================================================================
+h04 | How much electricity was sold to commercial customers in Florida in May 2026, in MWh?
+KEY expected [9016531.06] tol 0.5 text [] refuse False hold False
+KEY note: eia_retail_sales_monthly, eia:retail_sales:FL:COM, retail_sales: the 2026-05 row
+STATUS answered | retried False | calls 2 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: Florida's commercial customers were sold 9,016,531.06 MWh of electricity in May 2026 (eia_retail_sales_monthly, EIA Form EIA-861M monthly retail sales, source tier).
+CITES: ['eia_retail_sales_monthly']
+  call 1 query {"table": "eia_retail_sales_monthly", "aggregation": "latest", "entity": "eia:retail_sales:FL:COM", "variable": "retail_sales", "start": "2026-05-01", "end": "2026-06-01"}
+     key 9016531.06 found at out.result[0].value = 9016531.06
+====================================================================================================
+h05 | By how much had PJM's average demand in 2025 grown since 2019, in percent?
+KEY expected [5.37] tol 0.01 text [] refuse False hold False
+KEY note: eia930_demand_growth, eia930:PJM, avg_demand_growth_since_2019_pct: the 2025 row
+STATUS answered | retried False | calls 7 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: PJM's average demand in 2025 was 5.37 percent above its 2019 level (eia930_demand_growth, derived from EIA-930 hourly demand). The average was 96,257.2 MW in 2025 against 91,353.9 MW in 2019, both annual averages in MW. Years are calendar years, in UTC.
+CITES: ['eia930_demand_growth']
+  call 1 list_tables {}
+  call 2 describe_table {"table": "eia930_demand_growth"}
+  call 3 query {"table": "eia930_demand_growth", "aggregation": "latest", "entity": "eia930:PJM", "variable": "avg_demand_growth_since_2019_pct", "start": "2025-01-01", "end": "2026-01-01"}
+     key 5.37 found at out.result[0].value = 5.37
+  call 4 query {"table": "eia930_demand_growth", "aggregation": "latest", "entity": "eia930:PJM", "variable": "avg_demand_mw", "group_by": "year", "start": "2019-01-01", "end": "2026-01-01"}
+  call 5 query {"table": "eia930_demand_growth", "aggregation": "latest", "entity": "eia930:PJM", "variable": "avg_demand_mw", "start": "2025-01-01", "end": "2026-01-01"}
+  call 6 query {"table": "eia930_demand_growth", "aggregation": "latest", "entity": "eia930:PJM", "variable": "avg_demand_mw", "start": "2019-01-01", "end": "2020-01-01"}
+====================================================================================================
+h06 | What was the carbon intensity of ERCOT's generation in August 2026, in kg of CO2 per MWh?
+KEY expected [326.6858] tol 0.01 text [] refuse False hold False
+KEY note: carbon_intensity_monthly, eia930:ERCO, intensity_generation: the 2026-08 row
+STATUS answered | retried False | calls 4 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: ERCOT's generation had a carbon intensity of 326.69 kgCO2/MWh in August 2026. This is the monthly figure for the ERCOT balancing authority (eia930:ERCO), intensity_generation, in the carbon_intensity_monthly table. The table is derived. It divides EIA's estimated CO2 from generation by EIA's net generation. The month is complete in the table, which uses UTC months.
+CITES: ['carbon_intensity_monthly']
+  call 1 list_tables {}
+  call 2 describe_table {"table": "carbon_intensity_monthly"}
+  call 3 query {"table": "carbon_intensity_monthly", "aggregation": "latest", "entity": "eia930:ERCO", "variable": "intensity_generation", "start": "2026-08-01", "end": "2026-09-01"}
+     key 326.6858 found at out.result[0].value = 326.6858
+====================================================================================================
+h07 | What was PJM's peak demand in 2025, in MW?
+KEY expected [160560.0] tol 0.5 text [] refuse False hold False
+KEY note: grid_peak_vs_capacity, grid_peak_vs_capacity:pjm, peak_demand_mw: the 2025 row
+STATUS answered | retried False | calls 6 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: PJM's peak demand in 2025 was 160,560 MW (grid_peak_vs_capacity, peak_demand_mw, annual value for 2025). This is a derived table built from EIA Forms EIA-930 and EIA-860M. I did not retrieve the hour when the peak occurred.
+CITES: ['grid_peak_vs_capacity']
+  call 1 list_tables {}
+  call 2 describe_table {"table": "grid_peak_vs_capacity"}
+  call 3 query {"table": "grid_peak_vs_capacity", "aggregation": "latest", "entity": "grid_peak_vs_capacity:pjm", "variable": "peak_demand_mw"}
+     key 160560.0 found at out.result[0].value = 160560.0
+  call 4 query {"table": "grid_peak_vs_capacity", "aggregation": "latest", "entity": "grid_peak_vs_capacity:pjm", "variable": "peak_demand_mw", "value_column": "x_at"}
+  call 5 query {"table": "grid_peak_vs_capacity", "aggregation": "latest", "entity": "grid_peak_vs_capacity:pjm", "variable": "peak_demand_mw", "group_by": "x_at"}
+====================================================================================================
+h08 | What was the average hourly day-ahead price at ERCOT's South hub (HB_SOUTH) on 11 November 2026 (Central time), in USD per MWh?
+KEY expected [53.1621] tol 0.01 text [] refuse False hold False
+KEY note: iso_dam_hub_prices, ercot:HB_SOUTH, spp_dam: the mean of the 24 hourly rows of the local day; checked whole
+STATUS answered | retried False | calls 1 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: The average day-ahead price at ERCOT's HB_SOUTH hub on 11 November 2026 (Central time) was 53.16 USD/MWh (iso_dam_hub_prices, variable spp_dam). It is the mean of all 24 hourly prices that day, from 12 am to 11 pm Central.
+CITES: ['iso_dam_hub_prices']
+  call 1 query {"table": "iso_dam_hub_prices", "aggregation": "mean", "entity": "ercot:HB_SOUTH", "start": "2026-11-11", "end": "2026-11-12", "tz": "America/Chicago"}
+     key 53.1621 found at out.result[0].value = 53.162083
+====================================================================================================
+h09 | What was the highest hourly day-ahead price at CAISO's NP15 hub on 12 November 2026 (Pacific time), in USD per MWh?
+KEY expected [55.5375] tol 0.01 text [] refuse False hold False
+KEY note: iso_dam_hub_prices, caiso:TH_NP15_GEN-APND, lmp_dam: the maximum of the 24 hourly rows of the local day; checked whole
+STATUS answered | retried False | calls 1 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: The highest hourly day-ahead price at CAISO's NP15 hub (TH_NP15_GEN-APND) on 12 November 2026, Pacific time, was 55.54 USD/MWh (iso_dam_hub_prices, variable lmp_dam). It came in the hour starting 6 am Pacific. All 24 hours of that day are held.
+CITES: ['iso_dam_hub_prices']
+  call 1 query {"table": "iso_dam_hub_prices", "aggregation": "max", "entity": "TH_NP15_GEN-APND", "start": "2026-11-12", "end": "2026-11-13", "tz": "America/Los_Angeles"}
+     key 55.5375 found at out.result[0].value = 55.53749
+====================================================================================================
+h11 | What was the average real-time price at ERCOT's Houston hub (HB_HOUSTON) on 11 November 2026 (Central time), over its 15-minute intervals, in USD per MWh?
+KEY expected [49.083] tol 0.01 text [] refuse False hold False
+KEY note: iso_rtm_hub_prices, ercot:HB_HOUSTON, spp_rtm: the mean of the 96 fifteen-minute rows of the local day; checked whole
+STATUS answered | retried False | calls 1 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: The average real-time price at HB_HOUSTON on 11 November 2026 (Central time) was 49.08 USD/MWh (iso_rtm_hub_prices, variable spp_rtm). It is the mean of all 96 fifteen-minute intervals, from 12 am to 11:45 pm Central, so the day is complete.
+CITES: ['iso_rtm_hub_prices']
+  call 1 query {"table": "iso_rtm_hub_prices", "aggregation": "mean", "entity": "ercot:HB_HOUSTON", "variable": "spp_rtm", "start": "2026-11-11", "end": "2026-11-12", "tz": "America/Chicago"}
+     key 49.083 found at out.result[0].value = 49.083021
+====================================================================================================
+h12 | What was the highest 15-minute real-time price at CAISO's ZP26 hub on 12 November 2026 (Pacific time), in USD per MWh?
+KEY expected [64.1376] tol 0.01 text [] refuse False hold False
+KEY note: iso_rtm_hub_prices, caiso:TH_ZP26_GEN-APND, lmp_rtm_15m_mean: the maximum of the 96 fifteen-minute rows of the local day; checked whole
+STATUS answered | retried False | calls 1 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: The highest 15-minute real-time price at CAISO's TH_ZP26_GEN-APND hub on 12 November 2026 (Pacific time) was 64.14 USD/MWh (iso_rtm_hub_prices). It came in the interval starting 3:45 pm Pacific. The figure is the highest of 96 fifteen-minute intervals, and the day is complete. Each interval is the ERW's time-weighted mean of CAISO's 5-minute prices, not a published price.
+CITES: ['iso_rtm_hub_prices']
+  call 1 query {"table": "iso_rtm_hub_prices", "aggregation": "max", "entity": "TH_ZP26_GEN-APND", "variable": "lmp_rtm_15m_mean", "start": "2026-11-12", "end": "2026-11-13", "tz": "America/Los_Angeles"}
+     key 64.1376 found at out.result[0].value = 64.1376
+====================================================================================================
+h13 | What was the simple average day-ahead price at SPP's North hub in August 2026, in USD per MWh?
+KEY expected [41.4166] tol 0.01 text [] refuse False hold False
+KEY note: cost_of_power_monthly, spp:SPPNORTH_HUB, da_simple_mean: the 2026-08 row
+STATUS answered | retried False | calls 5 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: SPP North hub's simple average day-ahead price in August 2026 was 41.42 USD/MWh (cost_of_power_monthly, derived table). It is the plain mean of all 744 hourly day-ahead prices in the month, so the month is complete. That table's load-weighted figure is 45.07 USD/MWh, but the question asks for the simple average. Times follow the table's local-month convention.
+CITES: ['cost_of_power_monthly']
+  call 1 list_tables {}
+  call 2 query {"table": "cost_of_power_monthly", "aggregation": "latest", "entity": "spp:SPPNORTH_HUB", "start": "2026-08-01", "end": "2026-09-01"}
+     key 41.4166 found at out.result[3].value = 41.4166
+  call 3 query {"table": "iso_hub_prices_history", "aggregation": "mean", "entity": "SPPNORTH_HUB", "start": "2026-08-01", "end": "2026-09-01"}
+  call 4 compare {"a": {"table": "cost_of_power_monthly", "aggregation": "latest"}, "b": {"table": "cost_of_power_monthly", "aggregation": "latest"}}
+====================================================================================================
+h14 | What was the load-weighted real-time price at CAISO's SP15 hub in July 2026, in USD per MWh?
+KEY expected [40.6615] tol 0.01 text [] refuse False hold False
+KEY note: cost_of_power_monthly, caiso:TH_SP15_GEN-APND, rt_load_weighted: the 2026-07 row
+STATUS answered | retried False | calls 6 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: CAISO's SP15 hub (TH_SP15_GEN-APND) had a load-weighted real-time price of 40.66 USD/MWh in July 2026 (cost_of_power_monthly, derived). That is the hourly real-time price weighted by the CAISO balancing authority's demand. The month is complete, with 744 of 744 hours held. The flat-load real-time mean for the month was 39.43 USD/MWh (cost_of_power_monthly). The months are local (Pacific) months.
+CITES: ['cost_of_power_monthly']
+  call 1 list_tables {}
+  call 2 query {"table": "cost_of_power_monthly", "aggregation": "latest", "entity": "caiso:TH_SP15_GEN-APND", "variable": "rt_load_weighted", "start": "2026-07-01", "end": "2026-08-01"}
+     key 40.6615 found at out.result[0].value = 40.6615
+  call 3 query {"table": "cost_of_power_monthly", "aggregation": "latest", "entity": "caiso:TH_SP15_GEN-APND", "variable": "rt_hours", "start": "2026-07-01", "end": "2026-08-01"}
+  call 4 query {"table": "cost_of_power_monthly", "aggregation": "latest", "entity": "caiso:TH_SP15_GEN-APND", "variable": "hours_in_month", "start": "2026-07-01", "end": "2026-08-01"}
+  call 5 query {"table": "cost_of_power_monthly", "aggregation": "latest", "entity": "caiso:TH_SP15_GEN-APND", "variable": "rt_simple_mean", "start": "2026-07-01", "end": "2026-08-01"}
+====================================================================================================
+h15 | What was the Henry Hub natural gas spot price on 4 November 2026, in USD per MMBtu?
+KEY expected [2.63] tol 0.01 text [] refuse False hold False
+KEY note: eia_fuel_spot_prices, eia:henry_hub, spot_price: the row of 2026-11-04
+STATUS answered | retried False | calls 2 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: The Henry Hub natural gas spot price on 4 November 2026 was 2.63 USD/MMBtu (eia_fuel_spot_prices, EIA daily spot price for that trading date).
+CITES: ['eia_fuel_spot_prices']
+  call 1 query {"table": "eia_fuel_spot_prices", "aggregation": "latest", "entity": "eia:henry_hub", "start": "2026-11-04", "end": "2026-11-05"}
+     key 2.63 found at out.result[0].value = 2.63
+====================================================================================================
+h17 | How many MW of battery storage were operating in the United States in June 2026?
+KEY expected [52657.9] tol 0.5 text [] refuse False hold False
+KEY note: storage_buildout_monthly, us:total, battery_operating_mw: the 2026-06 row
+STATUS answered | retried False | calls 2 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: About 52,657.9 MW of battery storage was operating in the United States in June 2026 (us:total, storage_buildout_monthly, derived from EIA-860M). The figure covers the seven grids plus the area outside them.
+CITES: ['storage_buildout_monthly']
+  call 1 query {"table": "storage_buildout_monthly", "aggregation": "latest", "entity": "us:total", "variable": "battery_operating_mw", "start": "2026-06-01", "end": "2026-07-01"}
+     key 52657.9 found at out.result[0].value = 52657.9
+====================================================================================================
+h19 | How many MW are withdrawn in SPP's interconnection queue, summed over its withdrawn requests?
+KEY expected [419636.335] tol 0.5 text [] refuse False hold False
+KEY note: spp_interconnection_queue: the sum of capacity_mw over the rows whose status is withdrawn
+STATUS answered | retried False | calls 2 | stored ok False {'number': False, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': False}
+ANSWER: SPP's interconnection queue holds 419,388.74 MW across its 2,058 withdrawn requests (spp_interconnection_queue, a sum of capacity_mw; the queue was last retrieved 5 November 2026).
+CITES: ['spp_interconnection_queue']
+  call 1 query {"table": "spp_interconnection_queue", "aggregation": "sum", "where": {"status": "withdrawn"}}
+  call 2 query {"table": "spp_interconnection_queue", "aggregation": "count", "where": {"status": "withdrawn"}}
+====================================================================================================
+h20 | What was the median time from interconnection request to commercial operation for ERCOT projects that reached operation in 2023, in months?
+KEY expected [45.5] tol 0.01 text [] refuse False hold False
+KEY note: interconnection_durations_summary, lbnl_durations:ercot, median_months: the 2023 row
+STATUS answered | retried False | calls 3 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: For ERCOT projects that reached commercial operation in 2023, the median time from interconnection request to operation was 45.5 months (interconnection_durations_summary). That covers 63 completed projects. The middle half of projects took 35.9 to 54.75 months. The figures are derived by the ERW from Berkeley Lab's Queued Up file.
+CITES: ['interconnection_durations_summary']
+  call 1 list_tables {}
+  call 2 describe_table {"table": "interconnection_durations_summary"}
+  call 3 query {"table": "interconnection_durations_summary", "aggregation": "latest", "entity": "lbnl_durations:ercot", "start": "2023-01-01", "end": "2024-01-01", "group_by": "variable"}
+     key 45.5 found at out.summary.first.value = 45.5
+     key 45.5 found at out.result[0].value = 45.5
+====================================================================================================
+h21 | How many projects in SPP reached commercial operation in 2024, according to Berkeley Lab's interconnection durations?
+KEY expected [12.0] tol 0.01 text [] refuse False hold False
+KEY note: interconnection_durations_summary, lbnl_durations:spp, projects: the 2024 row
+STATUS answered | retried False | calls 5 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: 12 SPP projects reached commercial operation in 2024 (count of completed projects, interconnection_durations_summary, a table derived by the ERW from Berkeley Lab's Queued Up file; year 2024 is the operation year in the table's annual row).
+CITES: ['interconnection_durations_summary']
+  call 1 list_tables {}
+  call 2 describe_table {"table": "interconnection_durations_summary"}
+  call 3 describe_table {"table": "interconnection_durations"}
+  call 4 query {"table": "interconnection_durations_summary", "aggregation": "latest", "entity": "lbnl_durations:spp", "variable": "projects", "start": "2024-01-01", "end": "2025-01-01"}
+     key 12.0 found at out.result[0].value = 12.0
+====================================================================================================
+h22 | How many public large-load statements does the warehouse hold in all?
+KEY expected [341.0] tol 0.01 text [] refuse False hold False
+KEY note: large_load_public: the count of its rows
+STATUS answered | retried False | calls 5 | stored ok True {'number': True, 'text': None, 'table': True, 'cited': True, 'refusal': True, 'ok': True}
+ANSWER: The warehouse holds 341 public large-load statements in all (large_load_public, a public table that is model-extracted). Of these, 250 give a MW figure and 91 give a wait or duration. The rows span 1 May 2024 to 30 September 2026.
+CITES: ['large_load_public']
+  call 1 list_tables {}
+     key 341.0 found at out.tables[110].rows = 341.0
+  call 2 query {"table": "large_load_public", "aggregation": "count"}
+     key 341.0 found at out.rows_matched = 341.0
+     key 341.0 found at out.result[0].count = 341.0
+  call 3 describe_table {"table": "large_load_public"}
+     key 341.0 found at out.rows_in_live_set = 341.0
+  call 4 query {"table": "large_load_public", "aggregation": "count", "group_by": "row_kind"}
+     key 341.0 found at out.rows_matched = 341.0
+     key 341.0 found at out.summary.sum_of_rows = 341.0
+     key 341.0 found at out.summary.all_rows_together.count = 341.0
+====================================================================================================
+h23 | What was the average day-ahead price at ISO New England's Internal Hub on 11 November 2026, in USD per MWh?
+KEY expected [] tol 0.01 text ['license needed'] refuse True hold True
+KEY note: ISO-NE's rows are held for a license: the hold's words, and no ISO-NE figure (the public grids' figures of the same day may follow)
+STATUS answered | retried False | calls 2 | stored ok True {'number': None, 'text': True, 'table': None, 'cited': None, 'refusal': False, 'no_figure': False, 'ok': True, 'hold_answer': True}
+ANSWER: ISO-NE's rows of iso_trader_daily are held for a license ("license needed"), so I can't give a figure for the ISO New England Internal Hub on 11 November 2026. The same figure, the mean day-ahead price on 11 November 2026 (New York local day) in USD/MWh, for the other grids' hubs (iso_trader_daily, derived): CAISO TH_NP15_GEN-APND 44.28, TH_SP15_GEN-APND 34.35, TH_ZP26_GEN-APND 35.70. ERCOT HB_BUSAVG 45.02, HB_HOUSTON 39.94, HB_HUBAVG 47.65, HB_NORTH 40.34, HB_SOUTH 53.16, HB_WEST 57.17. SPP SPPNORTH_HUB 24.21, SPPSOUTH_HUB 20.68.
+CITES: ['iso_trader_daily']
+  call 1 list_tables {"iso": "ISO-NE"}
+  call 2 query {"table": "iso_trader_daily", "aggregation": "mean", "variable": "da_mean_usd", "entity": "isone:.H.INTERNAL_HUB", "start": "2026-11-11", "end": "2026-11-12", "tz": "America/New_York"}
+====================================================================================================
+h24 | What was the average day-ahead price in NYISO's Zone A (West) on 12 November 2026, in USD per MWh?
+KEY expected [] tol 0.01 text ['license needed'] refuse True hold True
+KEY note: NYISO's rows are held for a license: the hold's words, and no NYISO figure
+STATUS answered | retried False | calls 5 | stored ok True {'number': None, 'text': True, 'table': None, 'cited': None, 'refusal': False, 'no_figure': False, 'ok': True, 'hold_answer': True}
+ANSWER: NYISO's rows are held for a license ("license needed"), so I can't give the Zone A (West) day-ahead average for 12 November 2026. The same figure is available for the grids that are public. These are the day-ahead daily means on 12 November 2026 (iso_trader_daily, derived):
+- CAISO TH_NP15_GEN-APND: 44.92 USD/MWh
+- CAISO TH_SP15_GEN-APND: 37.50 USD/MWh
+- CAISO TH_ZP26_GEN-APND: 36.55 USD/MWh
+- ERCOT HB_BUSAVG: 41.99 USD/MWh
+- ERCOT HB_HOUSTON: 38.74 USD/MWh
+- ERCOT HB_HUBAVG: 44.26 USD/MWh
+- ERCOT HB_NORTH: 38.93 USD/MWh
+- ERCOT HB_SOUTH: 43.92 USD/MWh
+- ERCOT HB_WEST: 55.47 USD/MWh
+- SPP SPPNORTH_HUB: 40.27 USD/MWh
+- SPP SPPSOUTH_HUB: 32.58 USD/MWh
+CITES: ['iso_trader_daily']
+  call 1 describe_table {"table": "nyiso_dam_zone_prices"}
+  call 2 list_tables {"iso": "NYISO"}
+  call 3 query {"table": "iso_trader_daily", "aggregation": "mean", "entity": "nyiso:WEST", "variable": "da_mean_usd", "start": "2026-11-12", "end": "2026-11-13"}
+  call 4 query {"table": "iso_trader_daily", "aggregation": "latest", "entity": "caiso:TH_SP15_GEN-APND", "variable": "da_mean_usd", "start": "2026-11-12", "end": "2026-11-13"}
+====================================================================================================
+h25 | How many energy deals were announced in September 2026?
+KEY expected [] tol 0.01 text ['license needed'] refuse True hold True
+KEY note: energy_deals is held whole for a license: the hold's words and no figure
+STATUS not_in_warehouse | retried False | calls 1 | stored ok True {'number': None, 'text': True, 'table': None, 'cited': None, 'refusal': True, 'no_figure': True, 'ok': True}
+ANSWER: I can't give a count. The energy deals table is held because it needs a license. It is license needed: the publishers' own pages ask for permission, and none is recorded yet. So this is not in the warehouse.
+CITES: []
+  call 1 describe_table {"table": "energy_deals"}
+====================================================================================================
+h26 | How many policy actions does the warehouse's policy table record for September 2026?
+KEY expected [] tol 0.01 text ['license needed'] refuse True hold True
+KEY note: policy_actions is held whole for a license: the hold's words and no figure
+STATUS not_in_warehouse | retried False | calls 3 | stored ok True {'number': None, 'text': True, 'table': None, 'cited': None, 'refusal': True, 'no_figure': True, 'ok': True}
+ANSWER: The warehouse's policy table (policy_actions) is "license needed", so I can't give a September 2026 count. The Public Utility Commission of Texas asks for permission and none is recorded yet. I'm therefore stating no figure.
+CITES: []
+  call 1 query {"table": "policy_actions", "aggregation": "count", "start": "2026-09-01", "end": "2026-10-01"}
+  call 2 list_tables {"sector": "news"}
+====================================================================================================
+h27 | What was the average day-ahead price at MISO's Minnesota hub on 11 November 2026, in USD per MWh?
+KEY expected [] tol 0.01 text ['paused'] refuse True hold False
+KEY note: MISO is paused since 4 October 2026: the pause's words and no MISO figure
+STATUS not_in_warehouse | retried False | calls 6 | stored ok True {'number': None, 'text': True, 'table': None, 'cited': None, 'refusal': True, 'no_figure': True, 'ok': True}
+ANSWER: Not in the warehouse. MISO is paused while terms are reviewed (since 4 October 2026), so the warehouse shows no MISO figures. That includes the day-ahead price at the Minnesota hub on 11 November 2026. Its trader-view table (iso_trader_daily) holds no MISO hubs.
+CITES: ['iso_trader_daily']
+  call 1 list_tables {"iso": "MISO"}
+  call 2 query {"table": "iso_trader_daily", "aggregation": "mean", "entity": "miso:MINN.HUB", "variable": "da_mean_usd", "start": "2026-11-11", "end": "2026-11-12"}
+  call 3 query {"table": "iso_trader_daily", "aggregation": "count", "entity": "miso:MINN.HUB"}
+  call 4 describe_table {"table": "iso_trader_daily"}
+  call 5 compare {"a": {"table": "iso_trader_daily", "aggregation": "count"}, "b": {"table": "iso_trader_daily", "aggregation": "count"}}
+====================================================================================================
+h28 | How much LNG did the United States export to South Korea in 2025?
+KEY expected [] tol 0.01 text ["Redivis|live set|not loaded|not available here|cannot read|can't read", 'LNG'] refuse True hold False
+KEY note: eia_lng_exports_monthly is a table of the record, not loaded into the live set: the answer says so and states no figure
+STATUS not_in_warehouse | retried False | calls 3 | stored ok True {'number': None, 'text': True, 'table': None, 'cited': None, 'refusal': True, 'no_figure': True, 'ok': True}
+ANSWER: Not in the warehouse this chat reads. US LNG exports by destination are held in eia_lng_exports_monthly, but that table is on Redivis and not in the live set this chat can query. No other readable table holds LNG exports to South Korea, so I can't give a figure for 2025.
+CITES: []
+  call 1 describe_table {"table": "eia_lng_exports_monthly"}
+  call 2 list_tables {"sector": "lng"}
+====================================================================================================
+h29 | How many sites does Equinix operate, according to the warehouse's datacenter operator sites table?
+KEY expected [] tol 0.01 text ["Redivis|live set|not loaded|not available here|cannot read|can't read", 'operator|site'] refuse True hold False
+KEY note: datacenter_operator_sites is a table of the record, not loaded into the live set: the answer says so and states no figure
+STATUS not_in_warehouse | retried False | calls 3 | stored ok True {'number': None, 'text': True, 'table': None, 'cited': None, 'refusal': True, 'no_figure': True, 'ok': True}
+ANSWER: Not in the warehouse this chat reads. The datacenter_operator_sites table is on Redivis and not in the live set, so I can't give an Equinix site count from it. I haven't substituted a count from another table.
+CITES: []
+  call 1 describe_table {"table": "datacenter_operator_sites"}
+  call 2 list_tables {"sector": "datacenters"}
+====================================================================================================
+h30 | What planning reserve margin did CAISO's 2026 summer assessment say was achieved, according to the warehouse's reserve margin reports?
+KEY expected [] tol 0.01 text ["Redivis|live set|not loaded|not available here|cannot read|can't read", 'reserve'] refuse True hold False
+KEY note: iso_reserve_margin_reports is a table of the record, not loaded into the live set: the answer says so and states no figure
+STATUS error | retried False | calls 1 | stored ok False {'number': None, 'text': False, 'table': None, 'cited': None, 'refusal': False, 'no_figure': True, 'ok': False}
+ANSWER: None
+CITES: []
+  call 1 list_tables {}
+  call 2 describe_table {"table": "iso_reserve_margin_reports"}
