@@ -36,7 +36,7 @@ All eight were checked against main first, as the chain asks. Each head is an an
 
 ## Part C: the ERW forecast, `/forecast`
 
-Branch `wip/c720-forecast`, cut from origin/main. The contract `docs/state/page_files_predict.md` was on main at the start. The real files (`site/data/predict/`) are on no branch yet (read at 13:10 UTC): the page is built and tested against the contract's example files and a fixture of the contract's shape, and reads the real files with no change of code when they land.
+Branch `wip/c720-forecast`, cut from origin/main. The contract `docs/state/page_files_predict.md` was on main at the start. The real files (`site/data/predict/`) are on no branch yet (read at about 11:35 UTC on 26 November): the page is built and tested against the contract's example files and a fixture of the contract's shape, and reads the real files with no change of code when they land.
 
 | Step | State | Session |
 |---|---|---|
@@ -45,9 +45,9 @@ Branch `wip/c720-forecast`, cut from origin/main. The contract `docs/state/page_
 | 3. Two places side by side; the hour made and the method on the place's hover; "ERW forecast" on every chart | done on the branch | 10401 |
 | 4. Downloads: `/forecast/rows` and `/forecast/scores`, each with a Python and a Stata reader; every figure with its key into its file and its source on hover | done on the branch | 10401 |
 | 5a. Tests that pin what a reader sees: `site/scripts/test-forecast.mjs` (105 checks: no files, the contract's examples, a fixture) and `tests/test_session10401_forecast.py` (10 passed); the 90 test files that name a changed module: 1,202 passed, 2 failed (test 8430, which fails on main on this laptop; test 8902's flag rule, mended: the tour stop waits in a list of its own); lint clean | done | 10401 |
-| 5b. The page seen in a build at 1280 and 390 px, on the fixture (layout only) | in hand: the first build of the session is running | 10401 |
-| 5c. On window B's real files: the five cases, every figure beside the files, the keyboard, the back button | waiting: `site/data/predict/` is not on main | |
-| Landing requested | after 5b | |
+| 5b. The page seen in a build at 1280 and 390 px | done: three builds (exit 0, 70 to 118 s, 2.6 to 3.7 GB free before each). With no files (as main is): the title and one blank; a visitor gets the in-review page. With the server pointed at the test's fixture (layout only, made-up values, this machine only): one place, two places, demand and price, no sideways scroll at 390 px, the chart under a mouse and a finger, the keyboard from top to bottom (46 stops, each with a ring), the back button after two choices, the six downloads. What the look changed: two places' scores became columns of one table (they were two cramped tables), the band is named in the chart's legend (its name stood on the line's), the metric follows the series, the choices stay in view | 10401 |
+| 5c. On window B's real files: the five cases, every figure beside the files, the keyboard, the back button | waiting: `site/data/predict/` is not on main or on any branch (read 11:59 UTC) | |
+| Landing requested | done: row 54 of `docs/state/landing_request_portable.md`, head `004fc764a` | 10401 |
 | A tour stop, held | done on the branch: `WAITING_STOPS` in `site/lib/tour.ts` (a new stop is `landed` exactly when its page exists, so a page that lands before its files cannot be held by that flag) | 10401 |
 
 ## Part D: energy equities
@@ -64,3 +64,6 @@ Branch `wip/c720-forecast`, cut from origin/main. The contract `docs/state/page_
 
 | Row | State | Session |
 |---|---|---|
+| 1, `wip/c750-grid-reliability` (`038ecbfcd`) | done: seen in a build at 390 and 1280 px (390 of 390 px; the table scrolls in its frame), marked requested | 10401 |
+| 2, the two commits of `wip/w2-c620-fixes` not on main (`923d4cb4f`) | done: seen in a build (the trend names its fuel, figures unchanged; the COVID page 390 of 390 px with every table shown), marked requested | 10401 |
+| 3, `wip/c750-conditions` (`569d15885`) | written at 12:00 UTC, after the build of rows 1 and 2: to be seen in the next build | |
