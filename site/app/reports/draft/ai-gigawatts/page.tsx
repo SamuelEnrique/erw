@@ -13,6 +13,7 @@ import { series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 import { LICENSE_NEEDED, licenseHeldRow } from "@/lib/license";  // session 10232: the held regions are named, not "not held"
+import { caisoJoinDay } from "@/lib/caisoJoin";  // session 10232: the import sentences name the break's day as the banner does
 
 // Session 62: the flagship analysis, a draft, internal only. "Where the next gigawatts for AI can come from": one row of
 // measures per ISO region (ai_power_regions, warehouse/derived/ai_power_regions.py; methods in
@@ -136,6 +137,10 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
     ["hours at or above USD 200/MWh", calm[0].s200!.v > 0 ? calm.at(-1)!.s200!.v / calm[0].s200!.v : Infinity], ["years to connect", f1.yrs!.v / f0.yrs!.v],
   ];
   const widest = [...gaps].sort((a, b) => b[1] - a[1])[0][0];
+  // session 10232 (docs/reviews/reports-model-audit-2026-11-26.md, finding 5): the region whose balance and pair sums differ
+  // most, as section 6 names it; when it is California, the words say what the note at the top says of its balance
+  const joinDay = caisoJoinDay();   // the one date (lib/caisoJoin.ts), as the banner reads it
+  const gapReg = [...R].filter((r) => r.imp && r.pair).sort((a, b) => Math.abs(b.imp!.v - b.pair!.v) - Math.abs(a.imp!.v - a.pair!.v))[0];
 
   return (
     <Brand>
@@ -181,7 +186,7 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
           </li>
           <li>
             <strong>Some regions lean on their neighbors.</strong> Over the year, {imp1.name} imported a net <N x={imp1.imp} /> percent of its demand (EIA&apos;s own
-            balance) and was a net importer on <N x={imp1.impd} /> percent of its complete days. {imp0.name} is at the other end: <N x={imp0.imp} /> percent (a negative
+            balance{imp1.id === "caiso" ? <>, which reads high for California from {joinDay}, as the note at the top says; the pair sums give <N x={imp1.pair} /> percent</> : null}) and was a net importer on <N x={imp1.impd} /> percent of its complete days. {imp0.name} is at the other end: <N x={imp0.imp} /> percent (a negative
             share is a net exporter). A new gigawatt in an importing region adds to that reliance unless new supply comes with it.
           </li>
         </ol>
@@ -336,7 +341,7 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         </div>
         <p className="mt-3 max-w-3xl text-sm">
           The headline share is EIA&apos;s own balance for each region: demand less net generation, over demand, for the year&apos;s complete hours. {imp1.name} imported
-          the most, a net <N x={imp1.imp} /> percent of its demand; {imp0.name} exported the most, <N x={imp0.imp} /> percent. The other columns come from the
+          the most, a net <N x={imp1.imp} /> percent of its demand{imp1.id === "caiso" ? ` (a balance that reads high from ${joinDay}, when EIA's generation total for California fell below CAISO's own supply)` : ""}; {imp0.name} exported the most, <N x={imp0.imp} /> percent. The other columns come from the
           interchange EIA reports with each neighbor, summed per day, on complete days only: a day counts when every regular neighbor reported it.
           EIA&apos;s daily interchange is missing for some days of the year in every region (the complete-days column says how many remain), and a few pair-days
           are impossible (one day SPP and MISO reported more energy across their tie than SPP uses in a day); those are left out and counted.
@@ -346,7 +351,7 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
           stories: in {[...R].filter((r) => r.imp && r.pair).sort((a, b) => Math.abs(b.imp!.v - b.pair!.v) - Math.abs(a.imp!.v - a.pair!.v))[0].name} the balance says{" "}
           <N x={[...R].filter((r) => r.imp && r.pair).sort((a, b) => Math.abs(b.imp!.v - b.pair!.v) - Math.abs(a.imp!.v - a.pair!.v))[0].imp} /> percent and the pairs{" "}
           <N x={[...R].filter((r) => r.imp && r.pair).sort((a, b) => Math.abs(b.imp!.v - b.pair!.v) - Math.abs(a.imp!.v - a.pair!.v))[0].pair} /> percent, and the gap is EIA&apos;s
-          data, not this report&apos;s. The peak-day share uses the pair sums: on a region&apos;s ten highest-demand complete days, how much of its demand came from
+          data, not this report&apos;s{gapReg.id === "caiso" ? ` (in California, most of it is the break of ${joinDay} the note at the top names)` : ""}. The peak-day share uses the pair sums: on a region&apos;s ten highest-demand complete days, how much of its demand came from
           neighbors.
         </p>
       </Section>
