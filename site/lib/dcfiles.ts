@@ -46,7 +46,8 @@ export function dcBundle(P: DcParams, x: DcInputs, r: DcResult) {
       min_mw: rule.sales_exemption.min_mw ?? null, start_before_year: rule.sales_exemption.start_before_year ?? null, term_years_big: rule.sales_exemption.term_years_big ?? null,
       discretionary: !!rule.sales_exemption.discretionary, rate_part: rule.sales_exemption.rate_part ?? null,
       state_rate_pct: (P.sales.states[x.state]?.state_rate ?? 0) * 100 } : null,
-      property: rule.property ? { building_ratio: rule.property.building_ratio, equipment_ratio: rule.property.equipment_ratio } : null,
+      property: rule.property && (rule.property.min_investment_usd === undefined || x.invest * 1e6 >= rule.property.min_investment_usd)
+        ? { building_ratio: rule.property.building_ratio, equipment_ratio: rule.property.equipment_ratio } : null,
       electricity: rule.electricity ? { blocks: rule.electricity.blocks } : null } : null,
     multipliers: m ? { construction: { direct: m.construction.direct, indirect: m.construction.indirect, induced: m.construction.induced },
       operations: { direct: m.operations.direct, indirect: m.operations.indirect, induced: m.operations.induced } } : null,

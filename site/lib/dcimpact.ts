@@ -35,7 +35,8 @@ export type DcRule = {
     term_years_big?: { min_investment_usd: number; years: number };
     /** a discretionary abatement by application, held as words only (Nevada): never applied */
     discretionary?: boolean };
-  property?: { building_ratio: number; equipment_ratio: number; cite: string; tip: string };
+  /** session 10806: a least investment for the rule to apply (Montana's class seventeen, USD 50 million); below it no rule is held */
+  property?: { building_ratio: number; equipment_ratio: number; cite: string; tip: string; min_investment_usd?: number };
   electricity?: { cite: string; kind: "monthly_blocks"; blocks: { upto_kwh: number | null; usd_per_kwh: number }[]; tip: string };
 };
 /** The parameter files the datacenter reads (site/data/forecast/): the page and check-values load them */
@@ -239,7 +240,7 @@ export function dcRun(x: DcInputs, P: DcParams): DcResult {
   const el = dcEligible(P, x);
   const rule = P.rules.states[x.state];
   const covers = rule?.sales_exemption?.covers ?? [];
-  const prop = rule?.property;
+  const prop = rule?.property && (rule.property.min_investment_usd === undefined || x.invest * 1e6 >= rule.property.min_investment_usd) ? rule.property : undefined;
   const st = P.income.states[x.state];
   const elec = dcElecTax(P, x);
   const years: DcYear[] = [];

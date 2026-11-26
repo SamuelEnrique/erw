@@ -63,6 +63,8 @@ def run(x):
     rule = RULES["states"].get(st, {})
     ex = rule.get("sales_exemption")
     prop = rule.get("property")
+    if prop and prop.get("min_investment_usd") is not None and x["invest"] * 1e6 < prop["min_investment_usd"]:
+        prop = None  # 13.3: Montana's class seventeen needs USD 50 million; below it no rule is held
     elec_rule = rule.get("electricity")
     total = x["invest"] * 1e6
     building, equipment = total * x["bld"] / 100, total * x["eq"] / 100

@@ -16,7 +16,12 @@
   "nd_57_39_2_04_17": {"title": "North Dakota Century Code 57-39.2-04.17, exemption for enterprise information technology equipment and software used in a qualified data center", "url": "https://ndlegis.gov/cencode/t57c39-2.pdf", "read": "2026-11-26", "request": 160},
   "md_tg_11_239": {"title": "Maryland Code, Tax-General 11-239, Qualified data centers", "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-239&enactments=false", "read": "2026-11-26", "request": 161},
   "fl_212_08_5_r": {"title": "Florida Statutes 2025, 212.08(5)(r), Data center property", "url": "https://www.flsenate.gov/Laws/Statutes/2025/212.08", "read": "2026-11-26", "request": 163},
-  "id_63_3622vv": {"title": "Idaho Code 63-3622VV, Data center equipment and facilities", "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH36/SECT63-3622VV/", "read": "2026-11-26", "request": 164}
+  "id_63_3622vv": {"title": "Idaho Code 63-3622VV, Data center equipment and facilities", "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH36/SECT63-3622VV/", "read": "2026-11-26", "request": 164},
+  "az_41_1519": {"title": "Arizona Revised Statutes 41-1519, Computer data centers; certification (with 42-5061(B)(23), request 169)", "url": "https://www.azleg.gov/ars/41/01519.htm", "read": "2026-11-26", "request": 176},
+  "nc_105_164_3": {"title": "North Carolina General Statutes 105-164.3(201), Qualifying datacenter (with 105-164.13(55a), request 167)", "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.3.html", "read": "2026-11-26", "request": 177},
+  "wi_238_40": {"title": "Wisconsin Statutes 238.40, Qualified data centers (with 77.54(70), request 180)", "url": "https://docs.legis.wisconsin.gov/document/statutes/238.40", "read": "2026-11-26", "request": 179},
+  "ut_59_12_104": {"title": "Utah Code 59-12-104(84), Exemptions (version effective 1 January 2026)", "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S104_2026010120251206.html", "read": "2026-11-26", "request": 181},
+  "mt_15_6_162": {"title": "Montana Code Annotated 15-6-162, Class seventeen property", "url": "https://mca.legmt.gov/bills/mca/title_0150/chapter_0060/part_0010/section_0620/0150-0060-0010-0620.html", "read": "2026-11-26", "request": 182}
  },
  "split": {
   "cite": "jlarc_598",
@@ -156,6 +161,46 @@
     "cite": "id_63_3622vv", "covers": ["equipment", "construction"], "min_investment_usd": 250000000, "min_jobs": 30,
     "quote": "in amounts of at least two hundred fifty million dollars ($250,000,000) in the aggregate within the first five (5) years after commencement of construction and that it will create and maintain at least thirty (30) new jobs at the data center",
     "tip": "Idaho (Code 63-3622VV): eligible server equipment and new data center facilities are exempt for a qualifying business entity that invests \"at least two hundred fifty million dollars\" within five years of the start of construction and creates \"at least thirty (30) new jobs\" paying the county's average weekly wage. The tool applies it to the equipment and the building's taxable share; the wage test is not checked."
+   }
+  },
+  "az": {
+   "name": "Arizona",
+   "sales_exemption": {
+    "cite": "az_41_1519", "covers": ["equipment"], "min_investment_usd": 50000000, "min_jobs": 0, "term_years": 11,
+    "quote": "$50,000,000 of new investment, including costs of land, buildings, improvements, modular data centers and computer data center equipment, whether owned or leased or paid for pursuant to a right to use agreement, if the computer data center is located in a county with a population of more than eight hundred thousand persons.",
+    "tip": "Arizona (Revised Statutes 42-5061(B)(23) and 41-1519): computer data center equipment sold to the owner, operator or a qualified colocation tenant of a center certified by the Arizona Commerce Authority is exempt during the qualification period, \"expiring at the end of the tenth full calendar year following the calendar year containing the effective date\" (twentieth for a sustainable redevelopment project), where the center reaches $25,000,000 of new investment in a county of 800,000 people or fewer, or $50,000,000 in a larger county, within five years. The tool applies it to the equipment from the first construction year through the tenth full year after it, with USD 50 million (the county's population is not held: a center of 25 to 50 million in a smaller county qualifies and is not shown so)."
+   }
+  },
+  "nc": {
+   "name": "North Carolina",
+   "sales_exemption": {
+    "cite": "nc_105_164_3", "covers": ["equipment"], "min_investment_usd": 75000000, "min_jobs": 0,
+    "quote": "at least seventy-five million dollars ($75,000,000) in private funds has been or will be invested by one or more owners, users, or tenants of the datacenter within five years",
+    "tip": "North Carolina (General Statutes 105-164.13(55a), with the definition of a qualifying datacenter in 105-164.3(201)): electricity and datacenter support equipment of a datacenter for which \"at least seventy-five million dollars ($75,000,000) in private funds has been or will be invested\" within five years are exempt, where the datacenter meets its tier's wage standard and provides health insurance. The tool applies it to the equipment; the electricity part needs a price; the wage standard is not checked."
+   }
+  },
+  "wi": {
+   "name": "Wisconsin",
+   "sales_exemption": {
+    "cite": "wi_238_40", "covers": ["equipment", "construction"], "min_investment_usd": 150000000, "min_jobs": 0,
+    "quote": "For buildings located in a county having a population greater than 100,000, $150,000,000.",
+    "tip": "Wisconsin (Statutes 77.54(70), certified under 238.40): tangible personal property and items used exclusively for the development, construction, operation or replacement of a qualified data center, \"including computer server equipment\" and electricity, are exempt, for a center that reaches a qualified investment of $150,000,000 within 5 years of certification in a county above 100,000 people ($100,000,000 above 50,000; $50,000,000 otherwise). The tool applies it to the equipment and the building's taxable share with USD 150 million (the county's population is not held: smaller counties' lower thresholds are not shown); the electricity part needs a price."
+   }
+  },
+  "ut": {
+   "name": "Utah",
+   "sales_exemption": {
+    "cite": "ut_59_12_104", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "quote": "amounts paid or charged for a purchase or lease made by a qualifying data center or an occupant of a qualifying data center of machinery, equipment, or normal operating repair or replacement parts",
+    "tip": "Utah (Code 59-12-104(84)): machinery and equipment bought by a \"qualifying data center\" or its occupant for its operation, with an economic life of a year or more, are exempt. What makes a data center qualifying is defined in 59-12-102, not read by the ERW: the tool applies no exemption until it is."
+   }
+  },
+  "mt": {
+   "name": "Montana",
+   "property": {
+    "cite": "mt_15_6_162", "building_ratio": 0.009, "equipment_ratio": 0.009, "min_investment_usd": 50000000,
+    "quote": "Property identified as class seventeen property under this section, whether centrally or locally assessed, is taxed at 0.9% of its market value.",
+    "tip": "Montana (Code 15-6-162): the land, improvements and equipment of a qualified data center (300,000 square feet and $150 million, or 25,000 square feet of new area and $50 million in 48 months) are class seventeen property, \"taxed at 0.9% of its market value\"; the mills are each district's. The tool takes 0.9 percent of the building's and the equipment's cost as the taxable value, with USD 50 million (the square footage is not checked), and applies the reader's rate (Montana's mills over 1,000, as a percent); below the threshold no rule is held."
    }
   },
   "ia": {

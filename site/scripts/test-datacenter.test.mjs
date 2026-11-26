@@ -178,6 +178,28 @@ test("Florida (212.08(5)(r)): USD 150 million and a critical IT load of 100 MW; 
   assert.equal(nv.exemption.held, true); assert.equal(nv.exemption.eligible, false); near(nv.sums.forgone, 0);
 });
 
+test("Arizona through the tenth full year (41-1519), North Carolina USD 75 million, Wisconsin USD 150 million and the building, Utah held as words", () => {
+  const az = D.dcRun(D.dcDefaults(P, "az", { invest: 100, perm: 5, start: 2026, build: 2, life: 20 }), P);
+  // equipment 68.2e6 at 8.54 percent = 5,824,280 a purchase; build (2026-27), 2033 before 2037; 2038 and 2043 taxed.
+  assert.equal(az.exemption.eligible, true); near(az.sums.forgone, 2 * 68.2e6 * 0.0854, "AZ");
+  assert.equal(D.dcRun(D.dcDefaults(P, "az", { invest: 49, perm: 5 }), P).exemption.eligible, false);
+  assert.equal(D.dcRun(D.dcDefaults(P, "nc", { invest: 75, perm: 5 }), P).exemption.eligible, true);
+  assert.equal(D.dcRun(D.dcDefaults(P, "nc", { invest: 74, perm: 5 }), P).exemption.eligible, false);
+  const wi = D.dcRun(D.dcDefaults(P, "wi", { invest: 200, perm: 5, matshare: 40, start: 2026, build: 2, life: 10 }), P);
+  // no term: every purchase forgone: build and 2033 equipment (2 x 136.4e6) and the building's 40 percent of 39.2e6, at 5.72 percent.
+  near(wi.sums.forgone, (2 * 136.4e6 + 39.2e6 * 0.4) * 0.0572, "WI");
+  const ut = D.dcRun(D.dcDefaults(P, "ut", { invest: 2000, perm: 100 }), P);
+  assert.equal(ut.exemption.held, true); assert.equal(ut.exemption.eligible, false);
+});
+
+test("Montana's class seventeen: 0.9 percent of market value with USD 50 million, else no rule (the reader's rate on cost)", () => {
+  const mt = D.dcRun(D.dcDefaults(P, "mt", { invest: 100, perm: 5, brate: 60, erate: 60 }), P);
+  // building 19.6e6 x 0.009 x 60% = 105,840; equipment 68.2e6 x 0.009 x 60% = 368,280
+  near(D.dcStat(mt, "y1:propb"), 105840); near(D.dcStat(mt, "y1:prope"), 368280);
+  const small = D.dcRun(D.dcDefaults(P, "mt", { invest: 40, perm: 5, brate: 1, erate: 1 }), P);
+  near(D.dcStat(small, "y1:propb"), 40e6 * 0.196 * 0.01);
+});
+
 test("a check key carries every input and gives the figure back", () => {
   const x = { ...D.dcDefaults(P, "la"), brate: 9.5, matshare: null };
   const k = D.dcKey(x);

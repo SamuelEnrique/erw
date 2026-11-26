@@ -31,6 +31,13 @@ export const CASES = [
   { id: "mo_15y_building", state: "mo", set: { invest: 400, perm: 10, matshare: 50, start: 2026, build: 3, life: 20 } },
   { id: "id_threshold", state: "id", set: { invest: 250, perm: 30 } },
   { id: "nd_no_threshold", state: "nd", set: { mw: 20, invest: 50, perm: 3 } },
+  // session 10806
+  { id: "az_tenth_year", state: "az", set: { invest: 100, perm: 5, start: 2026, build: 2, life: 20 } },
+  { id: "nc_75m", state: "nc", set: { invest: 75, perm: 5 } },
+  { id: "wi_building", state: "wi", set: { invest: 200, perm: 5, matshare: 40, start: 2026, build: 2, life: 10 } },
+  { id: "ut_words", state: "ut", set: { invest: 2000, perm: 100 } },
+  { id: "mt_class17", state: "mt", set: { invest: 100, perm: 5, brate: 60, erate: 60 } },
+  { id: "mt_below", state: "mt", set: { invest: 40, perm: 5, brate: 1, erate: 1 } },
 ];
 const STREAMS = ["jobs", "earnings", "property", "propb", "prope", "salesbefore", "forgone", "sales", "income", "elec"];
 const out = CASES.map((c) => {
