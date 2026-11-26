@@ -20,7 +20,8 @@
   "az_41_1519": {"title": "Arizona Revised Statutes 41-1519, Computer data centers; certification (with 42-5061(B)(23), request 169)", "url": "https://www.azleg.gov/ars/41/01519.htm", "read": "2026-11-26", "request": 176},
   "nc_105_164_3": {"title": "North Carolina General Statutes 105-164.3(201), Qualifying datacenter (with 105-164.13(55a), request 167)", "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.3.html", "read": "2026-11-26", "request": 177},
   "wi_238_40": {"title": "Wisconsin Statutes 238.40, Qualified data centers (with 77.54(70), request 180)", "url": "https://docs.legis.wisconsin.gov/document/statutes/238.40", "read": "2026-11-26", "request": 179},
-  "ut_59_12_104": {"title": "Utah Code 59-12-104(84), Exemptions (version effective 1 January 2026)", "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S104_2026010120251206.html", "read": "2026-11-26", "request": 181},
+  "ut_59_12_104": {"title": "Utah Code 59-12-104(84), Exemptions (version effective 1 July 2026; the version effective 1 January 2026, request 181, has the same paragraph)", "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S104_2026050620260701.html", "read": "2026-11-26", "request": 251},
+  "ut_59_12_102": {"title": "Utah Code 59-12-102(111), Definitions: qualifying data center (version effective 1 July 2026)", "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html", "read": "2026-11-26", "request": 250},
   "mt_15_6_162": {"title": "Montana Code Annotated 15-6-162, Class seventeen property", "url": "https://mca.legmt.gov/bills/mca/title_0150/chapter_0060/part_0010/section_0620/0150-0060-0010-0620.html", "read": "2026-11-26", "request": 182},
   "ks_74_50_332": {"title": "Kansas Statutes 74-50,332, exemption for costs and services used for the construction and operation of a qualified data center (with 79-3606(xxxx), request 159)", "url": "https://www.ksrevisor.gov/statutes/chapters/ch74/074_050_0332.html", "read": "2026-11-26", "request": 191},
   "ga_cvi_2025": {"title": "Carl Vinson Institute of Government for the Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption, full report (December 2025), Table 1 (the thresholds) and Tables 3 and 4 (IMPLAN 2023)", "url": "https://open.ga.gov/openga/report/downloadFile?rid=33298", "read": "2026-11-26", "request": 199},
@@ -229,9 +230,10 @@
   "ut": {
    "name": "Utah",
    "sales_exemption": {
-    "cite": "ut_59_12_104", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "cite": "ut_59_12_104", "covers": ["equipment"], "min_investment_usd": 0, "min_jobs": 0,
     "quote": "amounts paid or charged for a purchase or lease made by a qualifying data center or an occupant of a qualifying data center of machinery, equipment, or normal operating repair or replacement parts",
-    "tip": "Utah (Code 59-12-104(84)): machinery and equipment bought by a \"qualifying data center\" or its occupant for its operation, with an economic life of a year or more, are exempt. What makes a data center qualifying is defined in 59-12-102, not read by the ERW: the tool applies no exemption until it is."
+    "definition": {"cite": "ut_59_12_102", "quote": "consists of one or more buildings that total 150,000 or more square feet;"},
+    "tip": "Utah (Code 59-12-104(84), the version effective 1 July 2026, unchanged in this paragraph): machinery, equipment and repair or replacement parts bought by a \"qualifying data center\" or its occupant for its operation, with an economic life of a year or more, are exempt. A qualifying data center (59-12-102(111)) is a new operation constructed on or after 1 July 2016, in one or more buildings that total 150,000 square feet or more, owned or leased by its operator (or a company under common ownership) on land the operator owns or leases. The statute sets no investment, jobs or term: the tool applies the exemption to the equipment over the whole horizon. The floor area is not an input: a datacenter of less than 150,000 square feet does not qualify, and the reader turns the exemption off for it."
    }
   },
   "mt": {

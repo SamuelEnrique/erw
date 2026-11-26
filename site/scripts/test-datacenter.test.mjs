@@ -193,8 +193,12 @@ test("Arizona through the tenth full year (41-1519), North Carolina USD 75 milli
   const wi = D.dcRun(D.dcDefaults(P, "wi", { invest: 200, perm: 5, matshare: 40, start: 2026, build: 2, life: 10 }), P);
   // no term: every purchase forgone: build and 2033 equipment (2 x 136.4e6) and the building's 40 percent of 39.2e6, at 5.72 percent.
   near(wi.sums.forgone, (2 * 136.4e6 + 39.2e6 * 0.4) * 0.0572, "WI");
-  const ut = D.dcRun(D.dcDefaults(P, "ut", { invest: 2000, perm: 100 }), P);
-  assert.equal(ut.exemption.held, true); assert.equal(ut.exemption.eligible, false);
+  // Utah (59-12-104(84) with 59-12-102(111), session 10813): no investment, jobs or term; equipment only, every purchase forgone
+  const ut = D.dcRun(D.dcDefaults(P, "ut", { invest: 2000, perm: 1, start: 2026, build: 2, life: 10 }), P);
+  assert.equal(ut.exemption.eligible, true);
+  const urate = D.dcDefaults(P, "ut").sales / 100;
+  near(ut.sums.forgone, 2 * 2e9 * 0.682 * urate, "UT: the build and 2033");
+  near(D.dcRun(D.dcDefaults(P, "ut", { invest: 2000, perm: 1, dcex: false }), P).sums.forgone, 0);
 });
 
 test("Montana's class seventeen: 0.9 percent of market value with USD 50 million, else no rule (the reader's rate on cost)", () => {

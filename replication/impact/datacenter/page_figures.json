@@ -7807,7 +7807,7 @@
    }
   },
   {
-   "id": "ut_words",
+   "id": "ut_rule",
    "inputs": {
     "mw": 1400,
     "invest": 2000,
@@ -7838,7 +7838,7 @@
     "state": "ut"
    },
    "ok": true,
-   "eligible": false,
+   "eligible": true,
    "chain": false,
    "years": [
     {
@@ -7850,8 +7850,8 @@
      "propb": null,
      "prope": null,
      "salesbefore": 50604400,
-     "forgone": 0,
-     "sales": 50604400,
+     "forgone": 50604400,
+     "sales": 0,
      "income": 1178062.0151999998,
      "elec": null
     },
@@ -7864,8 +7864,8 @@
      "propb": null,
      "prope": null,
      "salesbefore": 50604400,
-     "forgone": 0,
-     "sales": 50604400,
+     "forgone": 50604400,
+     "sales": 0,
      "income": 1178062.0151999998,
      "elec": null
     },
@@ -7948,8 +7948,8 @@
      "propb": null,
      "prope": null,
      "salesbefore": 101208800,
-     "forgone": 0,
-     "sales": 101208800,
+     "forgone": 101208800,
+     "sales": 0,
      "income": 475905.85000000003,
      "elec": null
     },
@@ -8018,8 +8018,8 @@
      "propb": null,
      "prope": null,
      "salesbefore": 101208800,
-     "forgone": 0,
-     "sales": 101208800,
+     "forgone": 101208800,
+     "sales": 0,
      "income": 475905.85000000003,
      "elec": null
     },
@@ -8088,8 +8088,8 @@
      "propb": null,
      "prope": null,
      "salesbefore": 101208800,
-     "forgone": 0,
-     "sales": 101208800,
+     "forgone": 101208800,
+     "sales": 0,
      "income": 475905.85000000003,
      "elec": null
     },
@@ -8157,8 +8157,8 @@
     "propb": null,
     "prope": null,
     "salesbefore": 404835200,
-    "forgone": 0,
-    "sales": 404835200,
+    "forgone": 404835200,
+    "sales": 0,
     "income": 11874241.030399995,
     "elec": null
    },
@@ -8168,11 +8168,11 @@
     "propb": null,
     "prope": null,
     "salesbefore": 237904017.60215783,
-    "forgone": 0,
-    "sales": 237904017.60215783,
+    "forgone": 237904017.60215783,
+    "sales": 0,
     "income": 6990973.575596705,
     "elec": null,
-    "taxes": 244894991.17775452
+    "taxes": 6990973.575596705
    }
   },
   {
