@@ -224,7 +224,7 @@ test("Georgia (48-8-3(68.1) as HB 1291 amended it): USD 250 million and 25 jobs,
   near(D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 100, start: 2032 }), P).sums.forgone, 0);
 });
 
-test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and 4); Mississippi held as words", () => {
+test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and 4); Mississippi and Illinois held as words", () => {
   const r = D.dcRun(D.dcDefaults(P, "ga", { invest: 1000, perm: 100, cons: 500, build: 2 }), P);
   assert.equal(r.chain.held, true);
   // construction: 500 on site each year x (15,809 + 4,954 + 7,587) / 15,809, over two years
@@ -235,6 +235,9 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   near(D.dcStat(r, "o:earnings:total"), 100 * w * (262.314298 + 125.838075 + 104.443068) / 262.314298);
   const ms = D.dcRun(D.dcDefaults(P, "ms", { invest: 2000, perm: 100 }), P);
   assert.equal(ms.exemption.held, true); assert.equal(ms.exemption.eligible, false);
+  // Illinois (session 10813): the program paused for new applications from 1 July 2026, held as words
+  const il = D.dcRun(D.dcDefaults(P, "il", { invest: 2000, perm: 100 }), P);
+  assert.equal(il.exemption.held, true); assert.equal(il.exemption.eligible, false); near(il.sums.forgone, 0);
 });
 
 test("the equipment's taxable value by a county's schedule: Loudoun's 2026 (60, 45, 30, 15, 10 percent) reproduced", () => {
