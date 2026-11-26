@@ -1,0 +1,8 @@
+nyiso: 67991 hours from 2019, main ['natural_gas', 'nuclear', 'hydro'], 2822 complete days of 2833, newest hour 2026-10-04T03:00:00+00:00
+ercot: 67991 hours from 2019, main ['natural_gas', 'coal', 'nuclear', 'wind', 'solar'], 2822 complete days of 2833, newest hour 2026-10-04T04:00:00+00:00
+isone: 67991 hours from 2019, main ['natural_gas', 'nuclear', 'hydro', 'other'], 2823 complete days of 2833, newest hour 2026-10-04T03:00:00+00:00
+spp: 67991 hours from 2019, main ['natural_gas', 'coal', 'nuclear', 'wind'], 2804 complete days of 2833, newest hour 2026-10-04T04:00:00+00:00
+miso: 67991 hours from 2019, main ['natural_gas', 'coal', 'nuclear', 'wind'], 2832 complete days of 2833, newest hour 2026-10-04T04:00:00+00:00
+pjm: 67991 hours from 2019, main ['natural_gas', 'coal', 'nuclear'], 2774 complete days of 2833, newest hour 2026-10-04T03:00:00+00:00
+caiso: 60983 hours from 2019, main ['natural_gas', 'nuclear', 'wind', 'solar', 'hydro'], 2197 complete days of 2541, newest hour 2025-12-16T07:00:00+00:00
+done

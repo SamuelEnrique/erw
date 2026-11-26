@@ -1,0 +1,42 @@
+== 1. California's gas, EIA's (before the join) against CAISO's own, the same weeks
+  2019: 30 weeks, EIA 1.1605 Bcf/d, CAISO's own 1.1617, EIA over own -0.1 percent
+  2020: 11 weeks, EIA 1.6873 Bcf/d, CAISO's own 1.6864, EIA over own +0.0 percent
+  2021: 46 weeks, EIA 1.5539 Bcf/d, CAISO's own 1.5521, EIA over own +0.1 percent
+  2022: 46 weeks, EIA 1.7304 Bcf/d, CAISO's own 1.7289, EIA over own +0.1 percent
+  2023: 50 weeks, EIA 1.7666 Bcf/d, CAISO's own 1.7534, EIA over own +0.8 percent
+  2024: 44 weeks, EIA 1.7064 Bcf/d, CAISO's own 1.3079, EIA over own +30.5 percent
+  2025: 46 weeks, EIA 1.6162 Bcf/d, CAISO's own 1.0970, EIA over own +47.3 percent
+  week ending 2025-11-14: EIA 1.8838252651880423, own 1.4434205862184872
+  week ending 2024-11-15: EIA 1.6695280892684943, own 1.2875531437828902
+  week ending 2023-11-17: EIA 2.1002059236809476, own 2.100720251351426
+  week ending 2022-11-18: EIA 2.1436512467281994, own 2.1437422463369606
+  week ending 2021-11-19: EIA 1.6484063920650225, own 1.6497041191293567
+  week ending 2025-10-31: EIA 1.8523856178536988, own 1.3004964731340405
+  the seven grids together, week ending 2026-10-30: 20.4837; on the year (base 2025-10-31) page +0.6916 (+3.49 percent); with CAISO's own in the base +1.2435 (+6.46 percent)
+== 2. Oil burned for power: yearly means of the restated weeks, and the share of weeks at zero
+  nyiso 2019: 19.454 (2/47 zero) 2020: 28.437 (0/51 zero) 2021: 23.213 (0/53 zero) 2022: 25.420 (0/52 zero) 2023: 11.356 (0/52 zero) 2024: 1.520 (0/50 zero) 2025: 0.915 (15/51 zero) 2026: 1.405 (8/39 zero)
+    last week above zero: 2026-09-18; first: 2019-01-11
+  spp 2019: 0.655 (2/44 zero) 2020: 0.472 (0/50 zero) 2021: 1.257 (0/53 zero) 2022: 1.163 (0/52 zero) 2023: 1.125 (0/52 zero) 2024: 0.525 (10/52 zero) 2025: 0.114 (29/52 zero) 2026: 0.412 (20/32 zero)
+    last week above zero: 2026-05-15; first: 2019-01-11
+  pjm 2019: 9.274 (0/51 zero) 2020: 10.962 (0/46 zero) 2021: 12.153 (0/51 zero) 2022: 14.599 (0/43 zero) 2023: 14.520 (0/47 zero) 2024: 21.366 (0/48 zero) 2025: 26.297 (0/50 zero) 2026: 32.663 (0/39 zero)
+    last week above zero: 2026-10-02; first: 2019-01-11
+  burn-nyiso-oil: latest {'t': '2026-11-13', 'v': 0.0}, year {'t': '2025-11-14', 'v': 0.0057, 'ch': -0.0057, 'pct': -100.0}, five-year {'v': 9.5055, 'lo': 0.0057, 'hi': 27.2204, 'ch': -9.5055, 'pct': -100.0, 'outside': True}
+  burn-spp-oil: latest {'t': '2026-11-13', 'v': 0.0}, year {'t': '2025-11-14', 'v': 0.0, 'ch': 0.0, 'pct': None}, five-year {'v': 0.2064, 'lo': 0.0, 'hi': 0.5313, 'ch': -0.2064, 'pct': -100.0, 'outside': False}
+== 3. ERCOT: gas burn, the year before and the five years, and coal
+  natural_gas week ending 2025-11-14: 2.5432527345364373
+  natural_gas week ending 2024-11-15: 3.554455820360931
+  natural_gas week ending 2023-11-17: 3.6915039537126324
+  natural_gas week ending 2022-11-18: 3.2821069568811128
+  natural_gas week ending 2021-11-19: 2.1063904119024657
+  coal week ending 2025-11-14: 79.20136691729324
+  coal week ending 2024-11-15: 85.96942706766917
+  coal week ending 2023-11-17: 107.19238045112782
+  coal week ending 2022-11-18: 107.88122105263157
+  coal week ending 2021-11-19: 90.97111278195487
+== 4. The weeks of the join: a week built on both sources
+  week ending 2025-12-19: file spark 1.1852, CAISO's own alone 0.990188529251963
+== 5. Heat rate: the gas burn at another stated rate (the page's 7.6 MMBtu/MWh)
+  7.0: the seven grids together 18.87 Bcf/d (page 20.48); the change on the year +0.64; percents unchanged
+  7.2: the seven grids together 19.41 Bcf/d (page 20.48); the change on the year +0.66; percents unchanged
+  7.8: the seven grids together 21.02 Bcf/d (page 20.48); the change on the year +0.71; percents unchanged
+  8.0: the seven grids together 21.56 Bcf/d (page 20.48); the change on the year +0.73; percents unchanged
