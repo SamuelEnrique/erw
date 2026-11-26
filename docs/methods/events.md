@@ -257,6 +257,8 @@ two equal values the earlier day is taken.
 
 ### Assumptions, with their defaults and sources
 
+**Who chose the windows (session 10225, 26 November 2026).** No account names a window's edges: the ERW chose them, around the days an account names (Uri, CAISO 2020, Elliott and the others before session 64) or, for the January 2025 cold, the June 2025 heat and the January 2026 cold, as the days of the highest hours in EIA's data. A window chosen around the highest days picks days because demand was high, so the estimate of their effect tends to be larger than for a window fixed before looking, and the interval does not allow for the choice; the decisions block says so. The edges are worth much: cut to the days its own account names, the pooled effect on daily demand served is Uri +269,649 MWh a day against the page's +155,795 (14 to 17 February, the storm part of the window), CAISO 2020 +135,437 against +83,812 (14 to 19 August, the Root Cause Analysis's days), PJM over Elliott +498,085 against +387,000 (21 to 26 December, FERC's), measured on `event_window_daily` (run 20261019T094329Z), the window's other days left out of the fit (`docs/reviews/events-model-audit-2026-11-26.md`).
+
 The decisions block below lists them, each as the pages draw it. The ones that move figures most: the window's dates;
 the baseline (the same weekday 364 and 728 days earlier; Uri the same calendar days of 2019 and 2020); demand served,
 not wanted; complete days only; and, for the estimates, the absence of a trend (growth since the baseline years counts
@@ -309,7 +311,7 @@ have no input, and every figure is fixed when the table is built or the page is 
 
 | # | Key | The choice | Default | Source |
 |---|---|---|---|---|
-| 1 | `window` | each event a fixed window of local days, both ends included | each event's dates (sections above) | each event's section |
+| 1 | `window` | each event a fixed window of local days, both ends included; the edges the ERW's own, and three windows chosen from the data around the highest hours (session 10225) | each event's dates (sections above) | each event's section |
 | 2 | `baseline` | the same weekday 364 and 728 days earlier | Uri the same calendar days of 2019 and 2020; COVID-19 2019 and 2018 (the Lower 48 2019) | "Baseline: weekday-aligned", "Session 49" |
 | 3 | `local-day` | the grid's own local day (MISO Eastern Standard Time all year) | each grid's zone | "The second event: COVID-19" |
 | 4 | `complete` | a day only when every interval is held; nothing filled | complete days only | "Complete days only" |
