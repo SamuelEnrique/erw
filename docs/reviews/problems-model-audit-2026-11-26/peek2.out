@@ -1,0 +1,54 @@
+Elliott TEN peak position 116
+  natural_gas: at the peak 10727, baseline that hour 5353; the window's highest 11541
+  coal: at the peak 2423, baseline that hour 2307; the window's highest 4484
+  nuclear: at the peak 8593, baseline that hour 8420; the window's highest 8601
+  hydro: at the peak 5497, baseline that hour 2988; the window's highest 5672
+  wind: at the peak 0, baseline that hour 0; the window's highest 12
+  solar: at the peak -1, baseline that hour -1; the window's highest 502
+  other: at the peak 103, baseline that hour 18; the window's highest 117
+MECS 2022: 21 industries' sum 15740.0 first four [('325', 3976.0), ('324', 3543.0), ('322', 2003.0), ('331', 1449.0)] share 0.6970139771283355
+caiso:TH_NP15_GEN-APND months held 2024-09 to 2026-10
+  2025-10 lw 42.7581 full False -> wholesale 25.65 share 11.17
+  2025-11 lw 50.5174 full False -> wholesale 30.31 share 13.20
+  2025-12 lw 36.9910 full False -> wholesale 22.19 share 9.67
+  2026-01 lw 33.6643 full False -> wholesale 20.20 share 8.80
+  2026-02 lw 27.9181 full False -> wholesale 16.75 share 7.29
+  2026-03 lw 26.5741 full False -> wholesale 15.94 share 6.94
+  2026-04 lw 12.5221 full True -> wholesale 7.51 share 3.27
+  2026-05 lw 16.3091 full True -> wholesale 9.79 share 4.26
+  2026-06 lw 21.2573 full True -> wholesale 12.75 share 5.55
+  2026-07 lw 37.6560 full True -> wholesale 22.59 share 9.84
+  2026-08 lw 46.9855 full True -> wholesale 28.19 share 12.28
+  2026-09 lw 44.8469 full True -> wholesale 26.91 share 11.72
+  2026-10 lw 50.1104 full False -> wholesale 30.07 share 13.09
+  winter months 2025-10 to 2026-05 held whole: 2, mean lw 14.4156 -> wholesale 8.65, share 3.77
+ercot:HB_HUBAVG months held 2018-07 to 2026-10
+  2025-10 lw 34.6756 full True -> wholesale 20.81 share 21.84
+  2025-11 lw 34.6695 full True -> wholesale 20.80 share 21.83
+  2025-12 lw 35.3253 full False -> wholesale 21.20 share 22.25
+  2026-01 lw 54.4810 full True -> wholesale 32.69 share 34.31
+  2026-02 lw 20.5177 full True -> wholesale 12.31 share 12.92
+  2026-03 lw 23.0450 full True -> wholesale 13.83 share 14.51
+  2026-04 lw 35.1513 full True -> wholesale 21.09 share 22.14
+  2026-05 lw 26.6574 full True -> wholesale 15.99 share 16.79
+  2026-06 lw 29.4033 full True -> wholesale 17.64 share 18.52
+  2026-07 lw 29.7880 full True -> wholesale 17.87 share 18.76
+  2026-08 lw 36.6951 full True -> wholesale 22.02 share 23.11
+  2026-09 lw 39.5037 full True -> wholesale 23.70 share 24.88
+  2026-10 lw 42.6257 full False -> wholesale 25.58 share 26.84
+  winter months 2025-10 to 2026-05 held whole: 7, mean lw 32.7425 -> wholesale 19.65, share 20.62
+caiso:TH_SP15_GEN-APND months held 2024-09 to 2026-10
+  2025-10 lw 29.9704 full False -> wholesale 17.98 share 8.00
+  2025-11 lw 40.1717 full False -> wholesale 24.10 share 10.72
+  2025-12 lw 33.4969 full False -> wholesale 20.10 share 8.94
+  2026-01 lw 32.6940 full False -> wholesale 19.62 share 8.73
+  2026-02 lw 22.0127 full False -> wholesale 13.21 share 5.88
+  2026-03 lw 22.6733 full False -> wholesale 13.60 share 6.05
+  2026-04 lw 6.0625 full True -> wholesale 3.64 share 1.62
+  2026-05 lw 8.7339 full True -> wholesale 5.24 share 2.33
+  2026-06 lw 13.6936 full True -> wholesale 8.22 share 3.66
+  2026-07 lw 40.6615 full True -> wholesale 24.40 share 10.85
+  2026-08 lw 56.9423 full True -> wholesale 34.17 share 15.20
+  2026-09 lw 38.5194 full True -> wholesale 23.11 share 10.28
+  2026-10 lw 38.4887 full False -> wholesale 23.09 share 10.27
+  winter months 2025-10 to 2026-05 held whole: 2, mean lw 7.3982 -> wholesale 4.44, share 1.97

@@ -1,0 +1,14 @@
+index: 80311 bytes drawn; em dash none
+index_policy: 14727 bytes drawn; em dash none
+fpl: 213589 bytes drawn; em dash none
+google: 31386 bytes drawn; em dash none
+ceg: 39514 bytes drawn; em dash none
+[erw] the catalogue table returned no rows
+tab: 1416490 bytes drawn; em dash none
+READ: ...Kind i The first of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, power marketer, other that the company's rows show: EIA-861's ownership (a retail or wholesale power marketer is a power marketer), EIA-860's sector, a queue's interconnection customer, an NRC licensee, a policy action's agency; lab or hyperscaler and OEM from the reviewed aliases only; other where no rule applies.
+READ: ...The choices here do not offer power marketer: such a company shows its kind in the table.
+READ: ...The first of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, power marketer, other that its rows show; other where no rule applies.
+(node:11856) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-b/site/lib/cells.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-b\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

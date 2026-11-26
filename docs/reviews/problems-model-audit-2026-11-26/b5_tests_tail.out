@@ -1,0 +1,4 @@
+=========================== short test summary info ===========================
+FAILED tests/test_session7534_problem_sets.py::TheReplication::test_the_kept_figures_are_the_pages
+FAILED tests/test_session8901_problem_sets_country.py::TheNodeTests::test_each_figure_is_pinned_to_its_file_and_drawn
+2 failed, 96 passed in 16.15s
