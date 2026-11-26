@@ -1,0 +1,15 @@
+index: 80117 bytes drawn; em dash none
+index_policy: 14533 bytes drawn; em dash none
+fpl: 213985 bytes drawn; em dash none
+google: 31341 bytes drawn; em dash none
+ceg: 39469 bytes drawn; em dash none
+[erw] the catalogue table returned no rows
+tab: 1416490 bytes drawn; em dash none
+READ: ...A generator EIA-860M's operating list does not hold (retired, or not matched) is counted here and adds no MW.
+READ: ...6452 Owner's address state i EIA-860 owner address: the state of the owner's address in EIA-860's owner schedule, an address on a form, not a stated headquarters; it is often none of the states the company's rows name.
+READ: ...6452 Owner's address state i EIA-860 owner address: the state of the owner's address in EIA-860's owner schedule, an address on a form, not a stated headquarters; it is often none of the states the company's rows name.
+READ: ...company_directory, owned_mw: the sum of 5 rows of 5 jointly owned generators, each its nameplate MW times the percent owned (a row whose generator EIA-860M's operating list does not hold adds no MW); the rows are company_links from eia860_generator_owners.
+(node:26220) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-b/site/lib/cells.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-b\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

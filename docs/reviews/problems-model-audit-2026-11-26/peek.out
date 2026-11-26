@@ -1,0 +1,49 @@
+ten.json built 2026-11-21T01:13:18Z months 2018-07 to 2026-11 n 101
+  CAR fields ['gap_mwh', 'hours_both', 'hours_own', 'hours_their', 'net_imports_mwh', 'their_report_mwh']
+   month0 hours_own 743 hours_their 744 hours_both 743 of 744
+   lowest shares [(0.6019, '2026-11'), (0.9986, '2022-11'), (0.9986, '2023-11'), (0.9986, '2024-11')]
+  MIDA fields ['gap_mwh', 'hours_both', 'hours_own', 'hours_their', 'net_imports_mwh', 'their_report_mwh']
+   month0 hours_own 743 hours_their 744 hours_both 743 of 744
+   lowest shares [(0.6019, '2026-11'), (0.9986, '2022-11'), (0.9986, '2023-11'), (0.9986, '2024-11')]
+  MIDW fields ['gap_mwh', 'hours_both', 'hours_own', 'hours_their', 'net_imports_mwh', 'their_report_mwh']
+   month0 hours_own 407 hours_their 743 hours_both 407 of 744
+   lowest shares [(0.547, '2018-07'), (0.6019, '2026-11'), (0.9355, '2019-07'), (0.9667, '2019-06')]
+  SE fields ['gap_mwh', 'hours_both', 'hours_own', 'hours_their', 'net_imports_mwh', 'their_report_mwh']
+   month0 hours_own 743 hours_their 743 hours_both 743 of 744
+   lowest shares [(0.6019, '2026-11'), (0.9986, '2022-11'), (0.9986, '2023-11'), (0.9986, '2024-11')]
+matrix keys ['built', 'tables', 'method', 'license', 'years', 'first_month', 'upto', 'regions', 'region_pairs', 'ba_pairs']
+  MIDA-TEN 2018 1000972.0 -3195847.0 4176312.0 6 6 4392 4416
+  MIDA-TEN 2019 2437201.0 -6612970.0 9034597.0 12 12 8735 8760
+  MIDA-TEN 2020 -4684083.0 -7373146.0 2640587.0 12 12 8735 8784
+  MIDA-TEN 2021 -3160120.0 -5672603.0 2113645.0 12 12 8303 8760
+  MIDA-TEN 2022 -5579605.0 -6228821.0 613273.0 12 12 8712 8759
+  MIDA-TEN 2023 -6984844.0 -6206569.0 -811224.0 12 12 8711 8759
+  MIDA-TEN 2024 -5618798.0 -5837337.0 182734.0 12 12 8735 8783
+  MIDA-TEN 2025 -4836384.0 -5399931.0 534866.0 12 12 8734 8759
+  MIDA-TEN 2026 -5225773.0 -6471321.0 1194378.0 11 11 7607 7657
+  MIDW-TEN 2018 5525842.0 5608261.0 6 6
+  MIDW-TEN 2019 9404170.0 10053816.0 12 12
+  MIDW-TEN 2020 9800225.0 9501767.0 12 12
+  MIDW-TEN 2021 12794206.0 12747085.0 12 12
+  MIDW-TEN 2022 18776466.0 18817701.0 12 12
+  MIDW-TEN 2023 12096230.0 13103193.0 12 12
+  MIDW-TEN 2024 16602848.0 17714607.0 12 12
+  MIDW-TEN 2025 15679234.0 16681508.0 12 12
+  MIDW-TEN 2026 17073063.0 17951561.0 11 11
+wind_speed_100m legend {'min': 1.591, 'max': 13.582, 'stops': [5, 6, 7, 8, 9]} stats None source_stats {'n_valid': 2329810, 'min': 1.3643567765910602, 'mean': 6.948255333197336, 'max': 14.20068193950776, 'n_valid_whole_file': 2329810, 'n_cells_whole_file': 3525072} unit m/s
+    keys ['checks', 'credit', 'extent', 'grid', 'group', 'id', 'kind', 'legend', 'levels', 'notes_for_method', 'publisher', 'reduction', 'retrieved_at_utc', 'source_bytes', 'source_cell_deg', 'source_file', 'source_resolution', 'source_sha256', 'source_stats', 'source_title', 'source_url', 'terms_file', 'terms_notice', 'terms_quote', 'terms_quotes', 'terms_sha256', 'terms_url', 'title', 'unit', 'value_label', 'vintage']
+wind_capacity_factor legend {'min': 0.0118, 'max': 0.5445, 'stops': [0.1, 0.2, 0.3, 0.4, 0.5]} stats {'n': 56528, 'min': 0.011792347, 'mean': 0.3115885580584312, 'max': 0.54448533} source_stats None unit ratio
+    keys ['bytes', 'columns_meaning', 'credit', 'extent', 'file', 'group', 'id', 'kind', 'legend', 'notes_for_method', 'point_spacing_km', 'publisher', 'reduction', 'retrieved_at_utc', 'rows', 'source_bytes', 'source_file', 'source_resolution', 'source_sha256', 'source_title', 'source_url', 'stats', 'terms_file', 'terms_quote', 'terms_quotes', 'terms_sha256', 'terms_url', 'title', 'unit', 'value_label', 'vintage']
+solar_ghi legend {'min': 2.808, 'max': 6.504, 'stops': [3.5, 4.0, 4.5, 5.0, 5.5, 6.0]} stats None source_stats {'n_valid': 680754, 'min': 2.76, 'mean': 4.603647171698441, 'max': 6.5039997, 'n_valid_whole_file': 2018267, 'n_cells_whole_file': 7978500} unit kWh/m2/day
+    extent Hawaii legend {'min': 2.88, 'max': 6.912, 'stops': [4.0, 4.5, 5.0, 5.5, 6.0]} stats None source_stats {'n_valid': 3200, 'min': 2.8799999, 'mean': 5.512664990999999, 'max': 6.9119997}
+    extent Alaska south of 60 degrees north, with the part of Canada inside the same box legend {'min': 1.584, 'max': 3.36, 'stops': [2.0, 2.2, 2.4, 2.6, 2.8]} stats None source_stats {'n_valid': 58634, 'min': 1.5600001, 'mean': 2.379723577976942, 'max': 3.3600001}
+    keys ['checks', 'credit', 'extent', 'grid', 'group', 'id', 'kind', 'legend', 'levels', 'notes_for_method', 'other_extents', 'publisher', 'reduction', 'retrieved_at_utc', 'source_bytes', 'source_cell_deg', 'source_file', 'source_resolution', 'source_sha256', 'source_stats', 'source_title', 'source_url', 'terms_file', 'terms_notice', 'terms_quote', 'terms_quotes', 'terms_sha256', 'terms_url', 'title', 'unit', 'value_label', 'vintage']
+solar_dni legend {'min': 2.784, 'max': 9.0, 'stops': [4.0, 5.0, 6.0, 7.0]} stats None source_stats {'n_valid': 680754, 'min': 2.76, 'mean': 5.415261270891981, 'max': 9.0, 'n_valid_whole_file': 2018267, 'n_cells_whole_file': 7978500} unit kWh/m2/day
+    extent Hawaii legend {'min': 1.992, 'max': 8.976, 'stops': [3.0, 4.0, 5.0, 6.0]} stats None source_stats {'n_valid': 3200, 'min': 1.9920001, 'mean': 5.546879994531249, 'max': 8.976}
+    extent Alaska south of 60 degrees north, with the part of Canada inside the same box legend {'min': 0.936, 'max': 4.152, 'stops': [2.0, 2.5, 3.0, 3.5]} stats None source_stats {'n_valid': 58634, 'min': 0.912, 'mean': 2.472641410484531, 'max': 4.2720003}
+    keys ['checks', 'credit', 'extent', 'grid', 'group', 'id', 'kind', 'legend', 'levels', 'notes_for_method', 'other_extents', 'publisher', 'reduction', 'retrieved_at_utc', 'source_bytes', 'source_cell_deg', 'source_file', 'source_resolution', 'source_sha256', 'source_stats', 'source_title', 'source_url', 'terms_file', 'terms_notice', 'terms_quote', 'terms_quotes', 'terms_sha256', 'terms_url', 'title', 'unit', 'value_label', 'vintage']
+tva burns.months ['2025-11', '2026-10'] co2 {'tco2_generated': None, 'intensity_kg_per_mwh': None, 'why': "EIA's hourly CO2 estimates held by the ERW (eia930_all_emissions, from EIA's Grid Monitor workbooks) cover the seven ISOs and the Lower 48 only"} size {'table': 'eia930_ba_demand_hourly', 'vintage': '2018-07-01 to 2026-11-17', 'source': "U.S. Energy Information Administration, Form EIA-930, demand (adjusted where EIA prints it; screened as the demand file's method says)", 'peak_mw': 35086.0, 'peak_at': '2025-01-22T13:00:00Z', 'peak_local': '2025-01-22 07:00', 'tz': 'America/Chicago', 'growth_year': 2025, 'growth_since_2019_pct': 7.15} trades.year 2025 owns.vintage 2026-09
+erco burns.months ['2025-11', '2026-10'] co2 {'table': 'eia930_all_emissions', 'vintage': '2025-11 to 2026-10', 'source': 'U.S. Energy Information Administration, Hourly Electric Grid Monitor, CO2 emissions estimates (CO2 Emissions Generated)', 'tco2_generated': 152950473.0, 'hours': 8664, 'intensity_kg_per_mwh': 303.9, 'basis': "EIA's CO2 Emissions Generated over the hours that also hold net generation, divided by that net generation"} size {'table': 'eia930_ba_demand_hourly', 'vintage': '2018-07-02 to 2026-11-17', 'source': "U.S. Energy Information Administration, Form EIA-930, demand (adjusted where EIA prints it; screened as the demand file's method says)", 'peak_mw': 91075.0, 'peak_at': '2026-07-22T22:00:00Z', 'peak_local': '2026-07-22 17:00', 'tz': 'America/Chicago', 'growth_year': 2025, 'growth_since_2019_pct': 27.22} trades.year 2025 owns.vintage 2026-09
+ciso burns.months ['2025-11', '2026-10'] co2 {'table': 'eia930_all_emissions', 'vintage': '2025-11 to 2026-10', 'source': 'U.S. Energy Information Administration, Hourly Electric Grid Monitor, CO2 emissions estimates (CO2 Emissions Generated)', 'tco2_generated': 21683208.0, 'hours': 8448, 'intensity_kg_per_mwh': 132.5, 'basis': "EIA's CO2 Emissions Generated over the hours that also hold net generation, divided by that net generation"} size {'table': 'eia930_ba_demand_hourly', 'vintage': '2018-07-01 to 2026-11-17', 'source': "U.S. Energy Information Administration, Form EIA-930, demand (adjusted where EIA prints it; screened as the demand file's method says)", 'peak_mw': 51104.0, 'peak_at': '2022-09-07T00:00:00Z', 'peak_local': '2022-09-06 17:00', 'tz': 'America/Los_Angeles', 'growth_year': 2025, 'growth_since_2019_pct': 4.45} trades.year 2025 owns.vintage 2026-09
+elliott_2022 2022-12-19 2022-12-29 the same weekday 364 and 728 days earlier {'start': '2022-12-19T05:00:00Z', 'step_hours': 1, 'n': 267} pairs ending TEN ['CAR-TEN', 'MIDA-TEN', 'MIDW-TEN', 'SE-TEN'] pairs with TEN ['CAR-TEN', 'MIDA-TEN', 'MIDW-TEN', 'SE-TEN']
+uri_2021 2021-02-07 2021-02-24 the same calendar days of 2019 and 2020 {'start': '2021-02-07T05:00:00Z', 'step_hours': 1, 'n': 435} pairs ending TEN ['CAR-TEN', 'MIDA-TEN', 'MIDW-TEN', 'SE-TEN'] pairs with TEN ['CAR-TEN', 'MIDA-TEN', 'MIDW-TEN', 'SE-TEN']
