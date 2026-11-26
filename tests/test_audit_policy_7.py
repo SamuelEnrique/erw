@@ -28,7 +28,8 @@ class TheMonitorDrawsAHeldTable(unittest.TestCase):
     def test_the_table_is_held_whole(self):
         status = json.loads(src("site", "data", "license_status.json"))
         self.assertEqual(status["tables"]["policy_actions"]["status"], "license needed")
-        self.assertEqual(status["tables"]["policy_actions"].get("hold"), "whole")
+        self.assertEqual(status["all"]["policy_actions"]["status"], "license needed")
+        self.assertEqual(status["all"]["policy_actions"].get("hold"), "whole")
 
     def test_the_monitor_branch_reads_the_file_with_no_gate(self):
         page = src("site", "app", "policy", "page.tsx")
