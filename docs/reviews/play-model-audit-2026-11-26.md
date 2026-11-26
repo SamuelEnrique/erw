@@ -7,7 +7,7 @@ Session 10227, chain 710 part D, 26 November 2026, the old laptop. Read as a bat
 
 ## In short
 
-- **The arithmetic is right.** An independent restatement (no site code) of the battery game's scorer and of its perfect battery agrees with the site's own `simulate`, `tally` and `optimum` on 693 of 693 figures (8 levels, Easy, Normal and Hard, 6 plays each: the best, a naive clock rule, a bad one, selling first, idling, and the site's own best plan), to 2e-12 USD, and on the server's four-place scores. The EV game: 312 of 312 figures for the 52 places of its price file, and all 208 keyed figures, to 3e-12.
+- **The arithmetic is right.** An independent restatement (no site code) of the battery game's scorer and of its perfect battery agrees with the site's own `simulate`, `tally` and `optimum` on 693 of 693 figures (8 levels, Easy, Normal and Hard, 6 plays each: the best, a naive clock rule, a bad one, selling first, idling, and the site's own best plan), to 2e-12 USD, and on the server's four-place scores. The EV game: 312 of 312 figures for the 52 places of its price file, to 3e-12, and every place's keyed figures as the page rounds them.
 - **"The perfect battery" is the true optimum of the game.** A second dynamic programme written here gives the same score on all 16 day-and-mode cases; a battery free to run at any power (a mixed-integer programme) earns at most 2.7 percent more (Uri on Hard), 0.1 percent on the default day.
 - **What is stored was wrong in one clause (finding 1).** "Nothing that joins it to a leaderboard row": a posted play leaves two rows with the same level, score to four places, preset and a time seconds apart. Words, for landing.
 - **The starting charge is free and the end charge worthless (findings 2 and 3).** Ending the day as full as it began would cut the perfect score 15 percent on the default day, 24 on Uri's, 31 on the calm spring day. The page now says the rule (words); changing it is the owner's.
@@ -108,10 +108,10 @@ The page opens on Easy (Normal and Easy score alike; Easy only shows the day ahe
 | 1 | Moderate | "What is stored" says a play's research record has "nothing that joins it to a leaderboard row", and a posted score stores "nothing else" than five fields | both rows carry the level, the score to four places, the preset and a time stamped by the same database seconds apart; the public row also stores the preset and difficulty; the usage counts and the hourly limit's daily code were not named | `wip/audit-play-1` (`b07de2fb7`) | words, for landing |
 | 2 | Moderate | The page does not say the starting half charge is free and the end charge counts for nothing | the perfect plan sells 3.52 kWh more than it buys on the default day | `wip/audit-play-2` (`4f12d4559`) | words, for landing |
 | 3 | Moderate | The rule itself: every score includes the starting charge sold | ending at least half full: default -15 percent, Uri -24, calm -31 | `wip/audit-play-3` (`a7863f750`) | figure, the owner's ruling |
-| 4 | Moderate | The page never says no household buys or sells at wholesale | at the Texas average residential price, ending half full: default 2.09 to 0.18; 0.00 on calm, solar, negative and CAISO noon | `wip/audit-play-4` | words, for landing |
-| 5 | Minor | The end table's hovers: "on the day's real prices" on Hard; the perfect battery "the same battery" though held to three moves; wear "on each kWh it sells" | any power +0.1 to +2.7 percent; wear USD 0.116 per kWh sold | `wip/audit-play-5` | words, for landing |
-| 6 | Minor | Normal says "no forecast" while the fleet call names the day's dearest hour 15 minutes ahead | the bonus alone is 25 percent of the default day's perfect score | `wip/audit-play-6` | words, for landing |
-| 7 | Moderate | The EV verdict uses the newest week of gasoline and the newest month of electricity, held flat for 8 years | 52-week gasoline: US NPV 3,887 to 2,946, four states below zero; 12-month electricity: CA NPV -849, ME above zero | `wip/audit-play-7` | figure, the owner's ruling |
+| 4 | Moderate | The page never says no household buys or sells at wholesale | at the Texas average residential price, ending half full: default 2.09 to 0.18; 0.00 on calm, solar, negative and CAISO noon | `wip/audit-play-4` (`01bf977ea`) | words, for landing |
+| 5 | Minor | The end table's hovers: "on the day's real prices" on Hard; the perfect battery "the same battery" though held to three moves; wear "on each kWh it sells" | any power +0.1 to +2.7 percent; wear USD 0.116 per kWh sold | `wip/audit-play-5` (`bb95cfdc7`) | words, for landing |
+| 6 | Minor | Normal says "no forecast" while the fleet call names the day's dearest hour 15 minutes ahead | the bonus alone is 25 percent of the default day's perfect score | `wip/audit-play-6` (`0c175118f`) | words, for landing |
+| 7 | Moderate | The EV verdict uses the newest week of gasoline and the newest month of electricity, held flat for 8 years | 52-week gasoline: US NPV 3,887 to 2,946, four states below zero; 12-month electricity: CA NPV -849, ME above zero | `wip/audit-play-7` (`881d7fbde`) | figure, the owner's ruling |
 | 8 | Minor | "ERCOT's offer cap since 2023" | the history's highest interval: 9,051.55 in 2021, 5,101.55 in 2022, 5,075.46 in 2023: the cap was 5,000 in 2022 already | none | to be confirmed by a person |
 
 ### 1. What is stored
@@ -125,8 +125,51 @@ The page opens on Easy (Normal and Easy score alike; Easy only shows the day ahe
 - **Finding 2, the fix on the branch.** Words only, in the money rule: "The battery starts half full at no cost, and whatever is left in it when the day ends counts for nothing, so selling the starting charge counts as earnings: on Normal, on the calm spring day, it is nearly a third of the perfect battery's score." The note gives the measured effect. Drawn and read: pass (`diff_b2.out`). Test `tests/test_audit_play_2.py` (an independent dynamic programme: 0.440601 free, 0.304087 ending half full); the 13 test files pass (143 tests).
 - **Finding 3, for the owner.** Ending at least as full as it began would move every perfect score and share: Uri 240.2274 to 181.7193, heat 60.9710 to 60.7340, calm 0.4406 to 0.3041, solar 0.9328 to 0.7328, negative 0.7949 to 0.6723, CAISO noon 0.8267 to 0.7775, CAISO ramp 12.9806 to 12.3609. Test `tests/test_audit_play_3.py` (passes on main: it shows the rule). Default: left as it is.
 
+### 4. Wholesale both ways
+
+- **Where.** `step`: a charge costs `bought x price` and a sale earns `delivered x price`, the interval's real-time price both ways. The page's intro says "wholesale power prices" and "sell when it is dear"; the ADER section says what a home is paid is set by its retailer or aggregator, about the bonus only. The method note's "What the game leaves out" says "which no household does"; the page did not.
+- **Measured.** Bought at the state's average residential price of that month (Texas 170.0 USD/MWh in April 2026; the newest ERCOT day at August's 159.1), sold at real time, a battery free to run at any power and made to end at least half full earns 0.00 on the calm, solar, negative and CAISO-noon days and 0.18 on the default day (against the game's 0.44, 0.93, 0.79, 0.83 and 2.09). On Uri's and the heat day it earns more (493.57, 63.00): a fixed retail price far below a scarcity price, a case no retail plan would let a home sell into.
+- **The fix on the branch.** Words only, a paragraph under "The day and the battery": "No household buys or sells at these wholesale prices. A home pays its retail rate for the power it takes, which carries delivery and other charges the wholesale price does not, and is paid for the power it sends back whatever its retailer or aggregator offers. Charged at the average price Texas homes paid that month (EIA) and made to end the day as full as it began, the perfect battery of the calm spring day would earn nothing." The note gives the measured cases. Drawn and read: pass (`diff_b4.out`). Test `tests/test_audit_play_4.py`; the 13 test files pass (144 tests).
+
+### 5. The end table's words
+
+- **Where.** `Game.tsx`, `EndTable`: the "You" hover ("on the day's real prices"), "The perfect battery" hover ("The same battery with every price of the day known in advance ... The most any play of this day could earn"), and the line under the table ("$0.11 of wear on each kWh it sells"). `step` charges wear on the kWh taken out (`wear: taken * r.deg`), so a kWh sold carries 0.11 / sqrt(0.9) = 0.116. On Hard the dearest hour is traded at `emergencyOf`'s prices.
+- **The fix on the branch.** Words only: on Hard, "You" adds ", except the emergency hour, traded at the game's prices"; the perfect battery is "held to the game's three moves (charge at full power, sell at full power, or hold)", "the most any play of this day could earn; a battery free to run at part power could earn a little more"; the line says "of wear on each kWh taken out of it". Drawn (the end table drawn with the site's own component, made reachable by a loader hook under `runs/` that adds one export at load time; the repository is unchanged) and read: pass (`diff_b5.out`). Test `tests/test_audit_play_5.py`; the 18 test files that read `Game.tsx` pass (193 tests).
+
+### 6. "No forecast"
+
+- **Where.** `DIFFICULTIES.normal.what` and `hard.what` ("no forecast"), shown in the page's rules; `Game.tsx` shows "Fleet call in 15 minutes: the grid's dearest hour of the day" one interval before `vppHour`'s hour, which is read from the whole day. The ADER section says the hour is the game's choice; the modes line did not.
+- **The fix on the branch.** Words only: Normal "no forecast, except that the fleet call's notice names the day's dearest hour 15 minutes before it begins; no reserve, no degradation cost", Hard "no forecast, except the same notice of the day's dearest hour; ..."; the note's table. Drawn and read: pass (`diff_b6.out`). Test `tests/test_audit_play_6.py`; the 26 test files that read `lib/battery.ts`, the page or the note pass (330 tests).
+
+### 7. The EV game's week of gasoline
+
+- **Where.** `site/data/ev_prices.json` (newest month, newest week), `lib/ev.ts` `verdict` (each year's saving at today's prices). Said on the page: "the newest month EIA has published", "the newest weekly price", "Today's two prices are held for every year the car is kept", with the ten weeks' swing in the decision's source.
+- **Measured** (`ev_flips.out`). The 52 weeks to 2 November in place of the newest week: the US payback 3.6 to 4.1 years, net present value 3,887 to 2,946; the mean place -972; NPV below zero in 6 places instead of 2 (Massachusetts 227 to -981, New Hampshire 1,271 to -53, New York 1,169 to -146, Rhode Island 1,109 to -215). The 12 months to August in place of August: the US +31, California 6,030 to 5,181 (297.5 to 325.77 USD/MWh), Hawaii's payback 14.2 to 10.4 years, Maine -72 to 689. Both: Connecticut, Massachusetts, New York and Rhode Island below zero.
+- **For the owner.** Test `tests/test_audit_play_7.py` (passes on main: it shows the size). Default: left as it is.
+
+### 8. The cap's year
+
+- **Where.** `page.tsx` ("ERCOT's offer cap since 2023, used for every grid"), `lib/battery.ts` (`EMERGENCY` comment), the note's version 3.
+- **Measured** (`summary.out`). The highest HB_HUBAVG real-time interval of each year in `ercot_all_hub_prices_history`: 9,005.29 in 2019, 9,051.55 in 2021, then 5,101.55 in 2022, 5,075.46 in 2023, 4,981.33 in 2024. The cap was already USD 5,000 in 2022, as the warehouse's own peak-premium note reads the market monitor ("the system-wide offer cap is 5,000 USD per MWh", 2022 to 2024). The Commission's rule date is not in the repository and no web read was made here, so no branch: a person confirms the year, and the words change on a branch then. Default: left as it is.
+
+## What was checked and found right
+
+- The scorer: charge and discharge clipped at full and at the reserve, the square root of the round trip each way, the fleet call's hour (earliest on a tie) and its bonus, money below USD 0 ends the play, Hard's spike (a price at the cap left alone), the outage's draw, lights out charged for the whole outage at USD 35,000 per MWh; the server rescoring every play with the same functions.
+- The perfect battery: exact over the three moves (two dynamic programmes, 16 cases); never out of money; keeps the lights on where it can on every case.
+- The end table's tally (bought and sold kWh and their averages), the day at a glance, the fleet's 50 MW and 135 MWh, the reserve's 3.38 kWh against the outage's 3.16, USD 105.00 for a dark two hours.
+- The levels: complete days only, their rules (the negative-price day, the calm day); the four ERCOT days frozen from the history equal its rows, 96 of 96 intervals each, to the cent (`levels_check.out`; the solar day and the two California days were not compared).
+- The EV game: every figure at every place, payback equal to the chart's crossing, the net present value's timing (end of each year, the extra on the day of purchase), the electricity cells equal to EIA's newest month, the credit off with the IRS's date.
+
+## Not covered, or left open
+
+- Today's level as the live set holds it was not read; the newest complete day in the main copy (2026-11-12) stood in for it.
+- The game's browser behaviour (timing, the replay's animation, the share card's picture) was not run; no browser was opened.
+- The EV game's gasoline cells of 9 November were not checked against a table (data request b).
+- How many posted scores can be matched to a research record was not counted: it needs the live set (data request c).
+- The roof add-on was rescored by the site's code only (its optimum, `site_side.out`: the demo note's 88.34 on the heat day), not restated independently.
+
 ## Rows for the desk
 
-- **Landing (words, requested):** to be filled when every branch is pushed.
-- **For the owner (not for landing):** `wip/audit-play-3` `a7863f750`; `wip/audit-play-7`.
+- **Landing (words, requested):** `wip/audit-play-words` `b049745f7` (1, 2, 4, 5 and 6 merged, no conflict; 347 tests of the 31 files that read the touched files pass; drawn, every change read: pass), or each alone: `wip/audit-play-1` `b07de2fb7`; `wip/audit-play-2` `4f12d4559`; `wip/audit-play-4` `01bf977ea`; `wip/audit-play-5` `bb95cfdc7`; `wip/audit-play-6` `0c175118f`.
+- **For the owner (not for landing):** `wip/audit-play-3` `a7863f750` (ending the day as full as it began); `wip/audit-play-7` `881d7fbde` (a year of gasoline and electricity in the EV game).
 - **Data requests:** (a) CAISO SP15 day-ahead prices (`iso_dam_hub_prices`, `caiso:TH_SP15_GEN-APND`, `lmp_dam`) for 2026-04-27 and 2026-07-24, Pacific days, which this machine's copy lacks: to measure the day-ahead plan on the two California levels. (b) The 52 gasoline cells of `site/data/ev_prices.json` (week of 9 November 2026) against the data machine's `eia_regional_retail_fuel_prices`, and the 52-week mean to that week for each: this machine's copy ends 2 November. (c) On the live set, with the service key, a count only (no row copied): the `game_scores` rows (`check` false) for which a `game_plays` row has the same `level_date`, `preset` and `score` and a `ts` within 120 seconds; it sizes finding 1.
