@@ -1,5 +1,8 @@
 """Session 10000 (chain 701, part C): the week's broken daily steps, each held at its cause.
 
+- C2: the battery page's two downloads failed from 24 November: the runner builds battery_stack_monthly without ERCOT's
+  price history, so 15 October 2026 (absent from the rolling table) was left out there and October held 29 days, while
+  the downloads, solved here from the history, held 30. The data machine now builds and stores the stack before them.
 - C4: from 21 November the data machine's live-set load failed every day with "coverage.csv is older than the tables it
   describes" (ercot_rtm_price_adders): this machine's commit was refused, so each morning's sync brought back main's
   older coverage row. Each live-set load of warehouse/run_data_machine_tables.sh now follows the coverage build of the
@@ -15,6 +18,21 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 def text(*p):
     with open(os.path.join(ROOT, *p), encoding="utf-8") as f:
         return f.read()
+
+
+class TheStackIsBuiltHereBeforeTheBatteryDownloads(unittest.TestCase):
+    def test_the_stack_and_its_stores_come_before_both_downloads(self):
+        s = text("warehouse", "run_data_machine.sh")
+        stack = s.index('soft_step dm_battery_stack "$PYTHON" warehouse/derived/battery_stack.py')
+        stores = s.index('table_stores dm_battery_stack_stores battery_stack_monthly "$was_bs"')
+        self.assertLess(s.index('was_bs="$(sha_of battery_stack_monthly)"'), stack)
+        self.assertLess(stack, stores)
+        self.assertLess(stores, s.index("soft_step dm_battery_dispatch_export"))
+        self.assertLess(stores, s.index("soft_step dm_battery_scenario_steps"))
+
+    def test_the_runner_keeps_a_month_whose_earlier_rows_held_more_days(self):
+        s = text("warehouse", "derived", "battery_stack.py")
+        self.assertIn("keep = [k for k in ho.index if k not in hn.index or ho[k] > hn[k]]", s)
 
 
 class EveryLiveSetLoadFollowsItsCoverage(unittest.TestCase):
