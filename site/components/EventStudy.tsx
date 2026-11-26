@@ -25,6 +25,12 @@ const OUTCOME: Record<string, { what: string; unit: string }> = {
 
 type Row = { entity: string; variable: string; s: Study; t: Study | null };
 
+// Session 10225 (chain 710, the events audit, finding 1): the temperature-controlled estimate is one regression with a
+// single window indicator, so its weather terms are fitted on the event days as well as the baseline days, while each
+// event day's estimate below is fitted on the baseline days alone. On Winter Storm Uri the two rules give ERCOT +30,284
+// and -92,180 MWh a day, so "80.56 percent" under one and no share under the other (docs/reviews/events-model-audit-2026-11-26.md).
+const WEATHER_FIT_WORDS = "The weather terms here are fitted on the event days and the baseline days together, while each event day's estimate below fits them on the baseline days alone, so the two can differ widely; and where an event day was colder or hotter than any baseline day, the curve is carried beyond the days it was fitted on. So a share, where one is given, is a property of this one fit, not a measured part of the effect that the weather caused.";
+
 function E({ ev, r, term, field, v }: { ev: string; r: Row; term: string; field: string; v: number }) {
   return <Num check={`es|${ev}|${r.entity}|${r.variable}|${term}|${field}`} raw={v}>{shown(v)}</Num>;
 }
@@ -101,7 +107,8 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
             <>The weather terms account for <E ev={event} r={lead} term="weather_share" field="pct" v={(1 - lead.t.pooled.estimate / p.estimate) * 100} /> percent of the estimate without them.</>
           ) : (
             <>With the weather terms the estimate is not smaller in size or keeps no sign in common with the one without them, so no share of it can be put down to weather.</>
-          )}
+          )}{" "}
+          <span data-weather-fit="1">{WEATHER_FIT_WORDS}</span>
         </p>
       ) : (
         <p className="mb-2 max-w-3xl text-sm text-muted">No weather station is held for {name}, so there is no temperature-controlled estimate.</p>
