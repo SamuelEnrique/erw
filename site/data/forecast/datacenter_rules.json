@@ -1,0 +1,100 @@
+{
+ "about": "What /impact needs to model a datacenter (docs/methods/forecast.md, the datacenter sections), read by chain 740 (lab-desktop window 3) on 26 November 2026 from public documents, each value beside the words it comes from. `request` is the row of runs/c740/probe/probe.csv on lab-desktop. warehouse/forecast/datacenter_rules_check.py --verify-reads checks every quote against the kept text. A state not under `states` has no datacenter rule read: its exemption, property and electricity lines are blank with the reason.",
+ "sources": {
+  "jlarc_598": {"title": "Joint Legislative Audit and Review Commission, Data Centers in Virginia 2024, Report 598 (December 2024)", "url": "https://jlarc.virginia.gov/pdfs/reports/Rpt598.pdf", "read": "2026-11-26", "request": 31},
+  "va_58_1_609_3": {"title": "Code of Virginia 58.1-609.3, Exemptions (subdivisions 18 and 19)", "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-609.3/", "read": "2026-11-26", "request": 97},
+  "va_58_1_3506": {"title": "Code of Virginia 58.1-3506, Other classifications of tangible personal property (A 43)", "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter35/section58.1-3506/", "read": "2026-11-26", "request": 98},
+  "va_58_1_3295_3": {"title": "Code of Virginia 58.1-3295.3, Assessment of real property; data centers", "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter32/section58.1-3295.3/", "read": "2026-11-26", "request": 100},
+  "va_58_1_2900": {"title": "Code of Virginia 58.1-2900, Electric utility consumption tax", "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter29/section58.1-2900/", "read": "2026-11-26", "request": 101},
+  "la_47_305_73": {"title": "Louisiana Revised Statutes 47:305.73, Exemptions; data center facility equipment", "url": "https://legis.la.gov/Legis/Law.aspx?d=1186787", "read": "2026-11-26", "request": 104},
+  "la_const_7_18": {"title": "Louisiana Constitution, article VII, section 18", "url": "https://www.legis.la.gov/Legis/Law.aspx?d=206545", "read": "2026-11-13", "request": "161 of runs/w4/probe.csv (chain 239)"},
+  "ia_dor_dc": {"title": "Iowa Department of Revenue, Data Center Sales and Use Tax Incentives", "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/data-centers", "read": "2026-11-26", "request": 71}
+ },
+ "split": {
+  "cite": "jlarc_598",
+  "land_pct": 6.1, "building_pct": 19.6, "equipment_pct": 68.2, "other_pct": 6.1,
+  "quote": "% 6.1% 19.6% 68.2% 6.1%",
+  "words": "JLARC, Data Centers in Virginia 2024, Appendix D, Table D-1: the initial capital spending of the datacenters using Virginia's exemption, 2021 to 2023, as VEDP collected it: land acquisition 6.1 percent, building and site improvements 19.6 percent, exempt equipment or software 68.2 percent, other 6.1 percent. \"The percentages of spending by capital spending category are consistent with other research.\""
+ },
+ "refresh": {
+  "cite": "jlarc_598", "years": 5,
+  "quote": "Data center equipment is typically replaced every five years",
+  "words": "JLARC, Data Centers in Virginia 2024, page 18: \"Data center equipment is typically replaced every five years, which resets the depreciation schedule.\" The tool buys the equipment again at its first cost, in 2025 dollars, every that many operating years."
+ },
+ "build": {
+  "cite": "jlarc_598", "months": 18,
+  "quote": "data center building usually takes about 12 to 18 months",
+  "words": "JLARC, Data Centers in Virginia 2024, page 14: \"Construction of an individual data center building usually takes about 12 to 18 months, and it can take five or more years to fully build out a campus.\" The default is 18 months in whole years (2); a campus built in phases is the reader's longer figure."
+ },
+ "life": {
+  "years": 20,
+  "words": "A choice of horizon, not a sourced life: no public document read states a datacenter's operating life. 20 years is the initial term of Louisiana's exemption agreement (R.S. 47:305.73(B)(3)(b)). The reader sets the horizon."
+ },
+ "multipliers": {
+  "va": {
+   "cite": "jlarc_598",
+   "words": "Virginia only: the Weldon Cooper Center's IMPLAN analysis for JLARC (2022 IMPLAN data, the data center sector customized: electricity 40 percent of operating spending, labor 15 percent), statewide annual averages of fiscal years 2021 to 2023 (Appendix D, Tables D-3 and D-5). The tool applies its ratios of indirect and induced to direct jobs and earnings to the reader's on-site jobs and earnings. JLARC's direct construction jobs include about 7,000 IT workers making and installing equipment beside 28,000 construction workers; its direct operating jobs are half of what datacenters reported to VEDP (the other half are contractors, counted as indirect).",
+   "construction": {
+    "direct": {"jobs": 35110, "earnings_musd": 2646.6, "quote": "Direct 35,110 $2,646.6 M $3,342.1 M $7,887.7 M"},
+    "indirect": {"jobs": 9945, "earnings_musd": 843.8, "quote": "Indirect 9,945 843.8 1,504.2 2,806.8"},
+    "induced": {"jobs": 13992, "earnings_musd": 791.9, "quote": "Induced 13,992 791.9 1,570.9 2,596.8"}
+   },
+   "operations": {
+    "direct": {"jobs": 4373, "earnings_musd": 419.4, "quote": "4,373 $419.4 M $1,051.1 M $2,795.8 M"},
+    "indirect": {"jobs": 6615, "earnings_musd": 552.2, "quote": "Indirect 6,615 552.2 1,217.8 2,188.1"},
+    "induced": {"jobs": 3830, "earnings_musd": 216.8, "quote": "Induced 3,830 216.8 430.2 711.1"}
+   }
+  }
+ },
+ "states": {
+  "va": {
+   "name": "Virginia",
+   "sales_exemption": {
+    "cite": "va_58_1_609_3",
+    "covers": ["equipment"],
+    "min_investment_usd": 150000000, "min_jobs": 50, "last_year": 2034,
+    "quote": "Beginning July 1, 2010, and ending June 30, 2035, except as provided in subdivision 19, computer equipment or enabling software purchased or leased for the processing, storage, retrieval, or communication of data, including but not limited to servers, routers, connections, and other enabling hardware, including chillers and backup generators used or to be used in the operation of the equipment exempted in this paragraph",
+    "tip": "Virginia (Code 58.1-609.3(18)): computer equipment and enabling software, \"including chillers and backup generators\", are exempt through 30 June 2035 for a datacenter with \"a new capital investment ... of at least $150 million\" and \"at least 50 new jobs\" paying \"at least one and one-half times the prevailing average wage in that locality\" (10 jobs and $70 million in a distressed locality); not \"general building improvements or other fixtures\". The tool applies it when the investment and the permanent jobs meet the thresholds (the wage test is not checked), to equipment bought through 2034 (whole years: 2035's purchases are taxed). Subdivision 19 extends it to 2040 or 2050 for an operator investing $35 billion or $100 billion: not modeled."
+   },
+   "property": {
+    "building_ratio": 1, "equipment_ratio": 1,
+    "cite": "va_58_1_3506",
+    "quote": "Computer equipment and peripherals used in a data center.",
+    "tip": "Virginia: a datacenter's computer equipment and peripherals are their own class of tangible personal property for local taxation (Code 58.1-3506(A)(43)), each locality setting its rate and valuing it \"by means of a percentage or percentages of original cost\"; its fixtures (generators, substations, chillers, HVAC) are real property assessed \"using the cost approach\" (58.1-3295.3). Both rates are the locality's: none is held statewide. The tool applies the reader's rates to the building and the equipment at their cost, an upper bound where the locality depreciates."
+   },
+   "electricity": {
+    "cite": "va_58_1_2900",
+    "kind": "monthly_blocks",
+    "blocks": [{"upto_kwh": 2500, "usd_per_kwh": 0.001595}, {"upto_kwh": 50000, "usd_per_kwh": 0.001085}, {"upto_kwh": null, "usd_per_kwh": 0.000875}],
+    "quote": "Each consumer of electricity in the Commonwealth shall pay electric utility consumption tax on all electricity consumed per month in excess of 50,000 kWh at the rate of $0.000875 per kWh",
+    "tip": "Virginia's electric utility consumption tax (Code 58.1-2900), on each consumer's kWh a month: $0.001595 a kWh to 2,500, $0.001085 to 50,000, $0.000875 above (the state, special regulatory and local shares together). The tool takes a twelfth of the year's MWh as each month's. The local consumer utility tax (58.1-3812 on) is not read and not included."
+   }
+  },
+  "la": {
+   "name": "Louisiana",
+   "sales_exemption": {
+    "cite": "la_47_305_73",
+    "covers": ["equipment", "construction"],
+    "min_investment_usd": 200000000, "min_jobs": 50, "term_years": 20, "invest_before_year": 2029,
+    "quote": "the data center facility operator shall provide a sworn attestation that the project will create a minimum of fifty new direct, permanent jobs in Louisiana and intends to expend at least two hundred million dollars in new capital investment in Louisiana on or after July 1, 2024, and before July 1, 2029.",
+    "tip": "Louisiana (R.S. 47:305.73): state and local sales and use taxes \"shall not apply\" to an approved datacenter's equipment and to its \"costs of construction and building materials\", engineering, design, labor and installation, for a facility that attests to \"a minimum of fifty new direct, permanent jobs\" and \"at least two hundred million dollars in new capital investment\" before 1 July 2029; the agreement's \"initial term of twenty years\" may be renewed \"for an additional ten years\" at LED's discretion (not assumed). The tool applies it when the permanent jobs and the investment spent in whole years before 2029 meet the thresholds, for 20 years from the first construction year, to the equipment and, where the reader gives the building's taxable share, to the building."
+   },
+   "property": {
+    "building_ratio": 0.10, "equipment_ratio": 0.15,
+    "cite": "la_const_7_18",
+    "quote": "",
+    "tip": "Louisiana (Constitution article VII, section 18): land and improvements are assessed at 10 percent of fair market value and other property at 15 percent; the millages are each parish's and taxing district's (none held statewide). The tool assesses the building at 10 percent and the equipment at 15 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate. A payment in lieu agreed with a parish is not a statute: the abatement input is its place."
+   }
+  },
+  "ia": {
+   "name": "Iowa",
+   "sales_exemption": {
+    "cite": "ia_dor_dc",
+    "covers": ["equipment"],
+    "min_investment_usd": 200000000, "min_jobs": 0,
+    "quote": "An eligible data center business must make a minimum investment in an Iowa physical location of $200 million within the first six years of operation in Iowa and meet other requirements described below.",
+    "tip": "Iowa (Code 423.3(95), as the Department of Revenue states it): with \"a minimum investment in an Iowa physical location of $200 million within the first six years\", qualifying computers and equipment are exempt permanently, and backup fuel and electricity for the first 10 years (in a city above 30,000) or 15 years, for property operating from 6 June 2025. The tool applies the equipment exemption when the investment meets the threshold; the electricity part needs a price the tool does not hold. Iowa's property tax on a datacenter is not read."
+   }
+  }
+ }
+}
