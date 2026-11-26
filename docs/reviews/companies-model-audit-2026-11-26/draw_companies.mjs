@@ -54,6 +54,9 @@ const keep = (name, html) => {
   const t = words(html);
   fs.writeFileSync(`${prefix}_${name}.txt`, t);
   text += " " + t;
+  // the hovers drawn as title attributes are read too (a cell's source, a column's order)
+  const titles = Array.from(new Set(Array.from(html.matchAll(/title="([^"]*)"/g), (m) => ent(m[1]))));
+  text += " " + titles.join(". ");
   console.log(`${name}: ${html.length} bytes drawn; em dash ${html.includes(String.fromCharCode(0x2014)) ? "FOUND" : "none"}`);
 };
 const Index = (await imp("app/companies/page.tsx")).default;
