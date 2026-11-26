@@ -215,7 +215,9 @@ try {
   check(count(two, /data-fc-tomorrow="/g) === 2 && two.includes("xl:grid-cols-2"), "A and B: two places side by side");
   check(two.includes('data-fc-tomorrow="a" data-fc-shown="1"') && two.includes('data-fc-tomorrow="b" data-fc-shown="0"'), "A and B: Texas's price shown, the Mid-Atlantic's held");
   check(tt.includes("ERW forecast of price, Mid-Atlantic: license needed"), "a held price is a blank that says license needed");
-  check(/data-fc-blank="tomorrow\|b\|price"/.test(two) && /title="License needed: license needed: PJM&#x27;s terms[^"]*Nothing of this series is shown\."/.test(two), "the held price's hover gives the file's reason");
+  check(/data-fc-blank="tomorrow\|b\|price"/.test(two) && /title="License needed: PJM&#x27;s terms[^"]*Nothing of this series is shown\."/.test(two), "the held price's hover gives the file's reason");
+  // session 10407 (the browser read's row FC3): this line pinned the status said twice ("License needed: license needed: ..."), the fault itself
+  check(!/License needed: license needed/i.test(two), "the held price's hover says its status twice");
   const b = two.slice(two.indexOf('data-fc-tomorrow="b"'), two.indexOf('id="record"'));
   check(!b.includes("data-check=") && !/\d{2}\.\d{2}/.test(text(b)), "no figure of the held price is on the page");
   check(/data-n="fc\|a\|price\|top">65\.00</.test(two) && tt.includes("ercot:HB_NORTH, day-ahead"), "Texas's price: the highest hour 65.00 USD/MWh, the hub named");
