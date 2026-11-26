@@ -9,7 +9,7 @@ export type StatesDecision = { key: string; text: string; session: string; def: 
 
 export const STATES_DECISIONS: StatesDecision[] = [
   { key: "as-published", session: "session 8014",
-    text: "Every figure is EIA's or the Census Bureau's own as the files hold it. The page sums months into years and twelve-month windows, and computes only the shares, the revenue and the population shares it names. Nothing is filled, scaled or estimated.",
+    text: "Every figure is EIA's or the Census Bureau's own as the files hold it. The page sums months into years and twelve-month windows, and computes only the shares, the revenue and the population shares it names. The ERW fills, scales and estimates nothing. EIA's monthly figures hold EIA's own estimates (Form EIA-861M's sales include its estimate for the utilities it does not survey each month: Texas's 2024 months sum to 2.07 percent more than the annual form's sales), and EIA revises its newest months.",
     def: "The publishers' figures as published.",
     source: "site/data/states/, built by warehouse/derived/states_page.py from sixteen ERW tables (docs/methods/states_page.md)." },
   { key: "not-held", session: "session 8014",
