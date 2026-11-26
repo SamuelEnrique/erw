@@ -21,7 +21,7 @@ The page's figures read these columns and no other:
 
 | The page's word | Column | Read as |
 |---|---|---|
-| signed | `event_date` | the execution date, its first ten characters |
+| signed | `event_date` | the execution date, its first ten characters. The connector leaves out a row whose date cannot be read (none for 2026 Q2) or lies outside 1677-09-22 to 2262-04-11 (11 rows for 2026 Q2: 2526, 2706 and 2915), and counts both in the table's header (session 10226, finding 6) |
 | in force | `x_actual_termination_date` | in force when empty (the table's `status` says the same on every row) |
 | product | `x_product_name` | trimmed, in capitals: filers write a name in more than one way |
 | seller, its filer | `x_seller_company_name`, `x_company_id` | as filed |

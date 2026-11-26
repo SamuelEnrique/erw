@@ -163,7 +163,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
               <Fold title="What a row is">
                 <ul className="max-w-3xl list-disc space-y-1.5 pl-5">
                   <li><strong>The record:</strong> FERC&apos;s Electric Quarterly Reports. Public utilities, and other sellers with more than a small presence in the market, file the terms of their agreements each quarter. This page reads the contract files of one quarter&apos;s filings and nothing of the transactions.</li>
-                  <li><strong>Signed:</strong> the contract&apos;s execution date. A row whose execution date cannot be read is left out, not guessed.</li>
+                  <li><strong>Signed:</strong> the contract&apos;s execution date. A row whose execution date cannot be read, or reads as a year after 2262 (a typing error no table can hold as a date), is left out and counted, not guessed.</li>
                   <li><strong>Product:</strong> FERC&apos;s product name, with the class (F firm, NF non-firm, UP unit power) and the term (LT long, ST short) where filed.</li>
                   <li><strong>Term:</strong> the filed commencement and termination dates; the years between them when both are dates. A term under one year also gives its days, the first and the last both counted: a strip of one month is 0.1 years and 30 days.</li>
                   <li data-fold-quantity="1"><strong>Quantity:</strong> the number and its units as filed: megawatts (MW), megawatt-hours (MWH), or megawatts by the month, the day or the year (MW-MO, MW-DAY, MW-YR). Most rows state none.</li>
