@@ -1,6 +1,6 @@
 # Chain 720, the portable laptop's first window: the ERW forecast page and the energy equities pages (note for Samuel)
 
-Energy Research Warehouse (ERW). Kept current; state at 15:25 UTC on 26 November 2026. Sessions 10400 to 10405. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10405_REPORT.md`.
+Energy Research Warehouse (ERW). Kept current; state at 15:48 UTC on 26 November 2026. Sessions 10400 to 10405. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10405_REPORT.md`.
 
 ## Where things stand
 
@@ -10,6 +10,8 @@ Energy Research Warehouse (ERW). Kept current; state at 15:25 UTC on 26 November
 - **One more fault was found and mended before the landing** (14:25 UTC). The site's own value check, run on a build with the real files, failed 70 figures of `/forecast` and 21 of `/equities`. No number was wrong: the check did not know that `/forecast` writes a megawatt whole and that `/equities` writes a rise with a plus sign. The check now knows both; the pages are unchanged. Rows 54 and 55 moved one commit each (`abdf999f2`, `b06045762`).
 - **A problem set for the forecast page is written and requested** (row 56, section 4 below). It waits for your approval: it is on its own page only.
 - **`/forecast` gained the day's peak and the days after tomorrow** (row 57, 15:22 UTC), from two things window B added to its files after the page was built. What to click is under section 1.
+- **The equities page is ready for the fields window A added to its contract** (row 58, 15:44 UTC): a company's last close, changes and market value, and a board row's averages and range. No file carries them yet, so you will see no change until the equity side opens.
+- **A fault the second window found in the forecast page's hover is mended** (on row 57, 15:46 UTC): the hover gave the hour the file says a forecast was made (12:00 UTC today) beside the rule's hour (20:00 UTC) with no word between them. It now says the two differ and which one it gives.
 - **The desk's next gate holds the newest heads of rows 54 to 56** (read 15:06 UTC). Nothing of this window's has landed yet.
 - **Both pages are in review and in no menu.** `site/lib/release.ts` and the menu were not touched.
 - **Both were read on the real files before those files landed** (copies taken from the other windows' branches into a folder of this laptop, never committed here).
@@ -96,7 +98,7 @@ What is real and what is not:
 
 ## What waits on others
 
-- **Window A's desk:** landing rows 54, 55, 56 and 57 (each at its newest head).
+- **Window A's desk:** landing rows 54 to 58 (each at its newest head).
 - **Window B:** the line "with the weather known" and the fourth method are in its contract and in none of the 29 files on main yet. The page has the method's words; the line is not drawn until a file holds it.
 - **Window A:** data requests 571 to 574 in `docs/state/data_requests_done_line.md` (the list's last close and changes; the board rows' other cells; the board's older row; what the built files carry beyond the contract's text). And the two rulings its own work waits on: the SEC's contact string and a price source.
 - **Window B:** nothing asked. Its contract and files were enough.
