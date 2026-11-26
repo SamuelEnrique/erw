@@ -157,7 +157,7 @@ export const seriesSource = (built: string, table: string, entity: string, varia
   `${table}, ${entity}, ${variable}, week of ${day(week)}; ${run(built)}`;
 export const risingSource = (built: string, week: string, kind: "sector" | "state", key: string, field: "this" | "mean_before" | "change") =>
   `${ATT}, attention_index of ${kind === "sector" ? `attention:${key}:all` : `attention:energy:US-${key}`}, week of ${day(week)}: ${
-    field === "this" ? "this week" : field === "mean_before" ? "the mean of the four weeks before (data/attention.json, rising)" : "this week less the mean of the four weeks before (data/attention.json, rising)"}; ${run(built)}`;
+    field === "this" ? "this week" : field === "mean_before" ? "the mean over the classified weeks among the four before (data/attention.json, rising)" : "this week less the mean over the classified weeks among the four before (data/attention.json, rising)"}; ${run(built)}`;
 export const placeSource = (built: string, week: string, sectorKey: string, p: Place, field: "stories" | "opposition") =>
   `${LINKS}: ${sectorKey === "energy" ? "energy" : SECTOR_NAME[sectorKey]?.toLowerCase() ?? sectorKey} stories naming ${p.place}${p.state ? `, ${p.state}` : ""}${field === "opposition" ? " that report opposition" : ""}, week of ${day(week)} (data/attention.json, places); ${run(built)}`;
 export const fileSource = (built: string, field: "stories" | "opposition" | "weeks_with_stories") =>
