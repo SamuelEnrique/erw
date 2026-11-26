@@ -27,6 +27,7 @@
   "ms_governor_xai": {"title": "Office of Governor Tate Reeves, Tech leader xAI investing more than $20 billion in Southaven (8 January 2026)", "url": "https://governorreeves.ms.gov/tech-leader-xai-investing-more-than-20-billion-in-southaven/", "read": "2026-11-26", "request": 89},
   "pa_dor_cdce": {"title": "Pennsylvania Department of Revenue, Computer Data Center Equipment Exemption Program guidelines (with the program's FAQ, request 206)", "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/incentivescreditsprograms/computerdatacenterequipprog/documents/computer_data_center_equip_exemption_program_guidelines.pdf", "read": "2026-11-26", "request": 205},
   "ky_dor_stf_2025": {"title": "Kentucky Department of Revenue, Sales Tax Facts, June 2025 (House Bill 775's thresholds for KRS 139.499, request 207)", "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202025%20-%20Jun.pdf", "read": "2026-11-26", "request": 208},
+  "in_iedc_dcste": {"title": "Indiana Economic Development Corporation, Data Center Sales Tax Exemption (Indiana Code 6-2.5-15)", "url": "https://iedc.in.gov/incentives/data-center-sales-tax-exemption", "read": "2026-11-26", "request": 106},
   "ga_doaa_2025": {"title": "Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption (December 2025, revised January 2026), with the Department of Revenue's exemption page (request 187)", "url": "https://www.audits2.ga.gov/wp-content/uploads/2025/12/Data-Center-Tax-Exemption-Summary-Revised.pdf", "read": "2026-11-26", "request": 188}
  },
  "split": {
@@ -253,6 +254,14 @@
     "cite": "ky_dor_stf_2025", "covers": ["equipment"], "min_investment_usd": 450000000, "min_jobs": 0,
     "quote": "For counties with a population of 100,000 or more, the minimum capital investment is $450,000,000.",
     "tip": "Kentucky (KRS 139.499, with KRS 154.20-220 as House Bill 775 amended it, effective 27 June 2025, the Department of Revenue's words): data center equipment of a qualified data center project approved by the Kentucky Economic Development Finance Authority is exempt, where the project invests at least $450,000,000 in a county of 100,000 people or more ($100,000,000 in a county of 50,000 to 100,000; $25,000,000 below 50,000); building materials and electricity are excluded. The tool applies it to the equipment with the largest county's threshold (county populations are not held); its term is the agreement's, not stated, so it runs over the whole horizon here, an upper bound."
+   }
+  },
+  "in": {
+   "name": "Indiana",
+   "sales_exemption": {
+    "cite": "in_iedc_dcste", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "quote": "The Data Center Gross Retail and Use Tax Exemption provides a sales and use tax exemption on purchases of qualifying data center equipment and energy to operators of a qualified data center for a period not to exceed 25 years for data center investments of less than $750 million.",
+    "tip": "Indiana (Code 6-2.5-15, as the IEDC states it): qualifying data center equipment and energy are exempt \"for a period not to exceed 25 years\" below $750 million of investment, and \"up to 50 years\" above, as the IEDC awards it (Meta's Lebanon campus: a 35-year term for a minimum $1 billion in six years, request 88); local governments may also exempt enterprise information technology equipment from property tax with $25 million invested. The statute's minimum investments by county population sit in a code the ERW's reader cannot read (iga.in.gov builds it by script): the tool applies no exemption."
    }
   },
   "ms": {
