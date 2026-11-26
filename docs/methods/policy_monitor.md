@@ -509,7 +509,8 @@ and history. The monitor is a view of `/policy` (`?view=monitor`, in review with
 instrument, status, sector, grid, state, date range, significance, each choice with its count) and the results at
 the right; a sort on every column (an empty value last either way); "N shown of M records held"; a row opens to its
 proceeding, history and sources; the evidence of each date and figure and the quotation of each impact sentence as
-hovers. Above the table, the calendar: the actions of the past seven days and every dated step of the thirty days
+hovers. Above the table, the calendar: the actions of the past week (from seven days before the day to the day, both
+counted: eight calendar days; audit of 26 November 2026, finding 4) and every dated step of the thirty days
 ahead (comment and intervention deadlines, effective dates and ends, hearings and sessions, environmental documents
 and decisions due), of the records the filters leave. Below it, the charts of every record of the file: records by
 month and body, records by sector and band of significance, and the MW and USD the records state as their own summed
