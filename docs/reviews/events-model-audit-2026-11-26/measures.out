@@ -1,0 +1,366 @@
+{
+ "weather_rule": {
+  "uri ERCOT demand": {
+   "pooled": 155794.96,
+   "pooled_temp": 30283.66,
+   "share_page": 80.56,
+   "mean_day": 143553.52,
+   "mean_day_temp_baseline_fit": -92179.67,
+   "share_baseline_fit": null,
+   "event_days": 18,
+   "hdd_baseline_max": 29.98,
+   "cdd_baseline_max": 3.99,
+   "event_days_colder_than_any_baseline": [
+    "2021-02-11",
+    "2021-02-12",
+    "2021-02-13",
+    "2021-02-14",
+    "2021-02-15",
+    "2021-02-16",
+    "2021-02-17",
+    "2021-02-18",
+    "2021-02-19"
+   ],
+   "event_days_hotter_than_any_baseline": [],
+   "hdd_event_max": 50.01,
+   "cdd_event_max": 2.0
+  },
+  "uri ERCOT hub price": {
+   "pooled": 2293.84,
+   "pooled_temp": 287.79,
+   "share_page": 87.45,
+   "mean_day": 2332.08,
+   "mean_day_temp_baseline_fit": 2317.29,
+   "share_baseline_fit": 0.63,
+   "event_days": 18,
+   "hdd_baseline_max": 29.98,
+   "cdd_baseline_max": 3.99,
+   "event_days_colder_than_any_baseline": [
+    "2021-02-11",
+    "2021-02-12",
+    "2021-02-13",
+    "2021-02-14",
+    "2021-02-15",
+    "2021-02-16",
+    "2021-02-17",
+    "2021-02-18",
+    "2021-02-19"
+   ],
+   "event_days_hotter_than_any_baseline": [],
+   "hdd_event_max": 50.01,
+   "cdd_event_max": 2.0
+  },
+  "caiso_heat_2020 CAISO demand": {
+   "pooled": 83812.35,
+   "pooled_temp": 24746.88,
+   "share_page": 70.47,
+   "mean_day": 83775.29,
+   "mean_day_temp_baseline_fit": 30277.41,
+   "share_baseline_fit": 63.86,
+   "event_days": 14,
+   "hdd_baseline_max": 0.0,
+   "cdd_baseline_max": 13.75,
+   "event_days_colder_than_any_baseline": [
+    "2020-08-11"
+   ],
+   "event_days_hotter_than_any_baseline": [
+    "2020-08-14",
+    "2020-08-15",
+    "2020-08-16",
+    "2020-08-17",
+    "2020-08-18",
+    "2020-08-19",
+    "2020-08-22",
+    "2020-08-23"
+   ],
+   "hdd_event_max": 0.48,
+   "cdd_event_max": 21.99
+  },
+  "elliott eia930:PJM demand": {
+   "pooled": 386999.95,
+   "pooled_temp": 134170.93,
+   "share_page": 65.33,
+   "mean_day": 386999.95,
+   "mean_day_temp_baseline_fit": 742711.9,
+   "share_baseline_fit": null,
+   "event_days": 11,
+   "hdd_baseline_max": 38.22,
+   "cdd_baseline_max": 0.0,
+   "event_days_colder_than_any_baseline": [
+    "2022-12-19",
+    "2022-12-23",
+    "2022-12-24",
+    "2022-12-25",
+    "2022-12-26",
+    "2022-12-27"
+   ],
+   "event_days_hotter_than_any_baseline": [],
+   "hdd_event_max": 55.23,
+   "cdd_event_max": 0.0
+  },
+  "elliott eia930:ERCO demand": {
+   "pooled": 269581.5,
+   "pooled_temp": 72488.32,
+   "share_page": 73.11,
+   "mean_day": 269581.5,
+   "mean_day_temp_baseline_fit": 201521.76,
+   "share_baseline_fit": 25.25,
+   "event_days": 11,
+   "hdd_baseline_max": 20.04,
+   "cdd_baseline_max": 8.27,
+   "event_days_colder_than_any_baseline": [
+    "2022-12-21",
+    "2022-12-22",
+    "2022-12-23",
+    "2022-12-24",
+    "2022-12-25",
+    "2022-12-26",
+    "2022-12-27"
+   ],
+   "event_days_hotter_than_any_baseline": [],
+   "hdd_event_max": 44.52,
+   "cdd_event_max": 1.23
+  },
+  "elliott eia930:SWPP demand": {
+   "pooled": 146160.91,
+   "pooled_temp": 46809.05,
+   "share_page": 67.97,
+   "mean_day": 146160.91,
+   "mean_day_temp_baseline_fit": 83462.32,
+   "share_baseline_fit": 42.9,
+   "event_days": 11,
+   "hdd_baseline_max": 33.99,
+   "cdd_baseline_max": 2.46,
+   "event_days_colder_than_any_baseline": [
+    "2022-12-22",
+    "2022-12-23",
+    "2022-12-24"
+   ],
+   "event_days_hotter_than_any_baseline": [],
+   "hdd_event_max": 53.52,
+   "cdd_event_max": 0.0
+  },
+  "elliott eia930:MISO demand": {
+   "pooled": 236278.71,
+   "pooled_temp": 125412.58,
+   "share_page": 46.92,
+   "mean_day": 234756.66,
+   "mean_day_temp_baseline_fit": 232035.33,
+   "share_baseline_fit": 1.16,
+   "event_days": 11,
+   "hdd_baseline_max": 63.51,
+   "cdd_baseline_max": 0.0,
+   "event_days_colder_than_any_baseline": [
+    "2022-12-21",
+    "2022-12-22",
+    "2022-12-23",
+    "2022-12-24"
+   ],
+   "event_days_hotter_than_any_baseline": [],
+   "hdd_event_max": 71.97,
+   "cdd_event_max": 0.0
+  },
+  "elliott eia930:NYIS demand": {
+   "pooled": 24802.64,
+   "pooled_temp": 5921.22,
+   "share_page": 76.13,
+   "mean_day": 24802.64,
+   "mean_day_temp_baseline_fit": 8961.07,
+   "share_baseline_fit": 63.87,
+   "event_days": 11,
+   "hdd_baseline_max": 36.42,
+   "cdd_baseline_max": 0.0,
+   "event_days_colder_than_any_baseline": [
+    "2022-12-24",
+    "2022-12-25",
+    "2022-12-26"
+   ],
+   "event_days_hotter_than_any_baseline": [],
+   "hdd_event_max": 53.52,
+   "cdd_event_max": 0.0
+  },
+  "elliott eia930:ISNE demand": {
+   "pooled": 10549.09,
+   "pooled_temp": 3906.75,
+   "share_page": 62.97,
+   "mean_day": 10549.09,
+   "mean_day_temp_baseline_fit": 7850.83,
+   "share_baseline_fit": 25.58,
+   "event_days": 11,
+   "hdd_baseline_max": 39.03,
+   "cdd_baseline_max": 0.0,
+   "event_days_colder_than_any_baseline": [
+    "2022-12-24",
+    "2022-12-25"
+   ],
+   "event_days_hotter_than_any_baseline": [],
+   "hdd_event_max": 50.01,
+   "cdd_event_max": 0.0
+  }
+ },
+ "narrowed": {
+  "uri ERCOT, the storm part of the window (14 to 17 February)": {
+   "window": [
+    "2021-02-07",
+    "2021-02-24"
+   ],
+   "cut": [
+    "2021-02-14",
+    "2021-02-17"
+   ],
+   "pooled": 155794.96,
+   "pct": 16.24,
+   "pooled_cut": 269649.09,
+   "pct_cut": 28.43,
+   "lo_cut": 65955.06,
+   "hi_cut": 473343.13
+  },
+  "caiso_heat_2020 CAISO, the report's days (14 to 19 August)": {
+   "window": [
+    "2020-08-10",
+    "2020-08-24"
+   ],
+   "cut": [
+    "2020-08-14",
+    "2020-08-19"
+   ],
+   "pooled": 83812.35,
+   "pct": 11.47,
+   "pooled_cut": 135436.51,
+   "pct_cut": 18.69,
+   "lo_cut": 110627.51,
+   "hi_cut": 160245.51
+  },
+  "elliott PJM, FERC's days (21 to 26 December)": {
+   "window": [
+    "2022-12-19",
+    "2022-12-29"
+   ],
+   "cut": [
+    "2022-12-21",
+    "2022-12-26"
+   ],
+   "pooled": 386999.95,
+   "pct": 17.73,
+   "pooled_cut": 498085.48,
+   "pct_cut": 23.28,
+   "lo_cut": 313651.4,
+   "hi_cut": 682519.57
+  }
+ },
+ "ciso_intensity_hydro_gap": {
+  "event_days": 14,
+  "event_mean": 281.32,
+  "event_max": 305.9348,
+  "baseline": {
+   "2018": {
+    "days": 15,
+    "mean": 204.95
+   },
+   "2019": {
+    "days": 13,
+    "mean": 184.98
+   }
+  },
+  "CAL_region_file": {
+   "hours": 363,
+   "hydro_event_mean_mw": 1273,
+   "hydro_baseline_mean_mw": 4461,
+   "net_gen_event_mean_mw": 30467,
+   "net_gen_baseline_mean_mw": 28202,
+   "hydro_share_event_pct": 4.18,
+   "hydro_share_baseline_pct": 15.82
+  }
+ },
+ "caiso_net_peak": {
+  "2020-08-14": {
+   "ciso_peak_mw": 46024.0,
+   "cal_gross_peak": [
+    57530,
+    "17:00"
+   ],
+   "cal_net_peak": [
+    54390,
+    "18:00"
+   ]
+  },
+  "2020-08-15": {
+   "ciso_peak_mw": 44528.0,
+   "cal_gross_peak": [
+    55898,
+    "17:00"
+   ],
+   "cal_net_peak": [
+    52166,
+    "18:00"
+   ]
+  },
+  "2020-08-17": {
+   "ciso_peak_mw": 44706.0,
+   "cal_gross_peak": [
+    55917,
+    "16:00"
+   ],
+   "cal_net_peak": [
+    51456,
+    "18:00"
+   ]
+  },
+  "2020-08-18": {
+   "ciso_peak_mw": 46643.0,
+   "cal_gross_peak": [
+    58099,
+    "16:00"
+   ],
+   "cal_net_peak": [
+    52013,
+    "18:00"
+   ]
+  },
+  "2020-08-19": {
+   "ciso_peak_mw": 45501.0,
+   "cal_gross_peak": [
+    56881,
+    "15:00"
+   ],
+   "cal_net_peak": [
+    50210,
+    "18:00"
+   ]
+  },
+  "shed_needed_to_reorder_mw": {
+   "2020-08-14": 619,
+   "2020-08-15": 2115
+  }
+ },
+ "uri_prices": {
+  "days_rt_max_at_or_above_8900": [
+   [
+    "2021-02-15",
+    9004.59,
+    6764.7522
+   ],
+   [
+    "2021-02-16",
+    9000.85,
+    8970.1444
+   ],
+   [
+    "2021-02-17",
+    9051.55,
+    9002.0444
+   ],
+   [
+    "2021-02-18",
+    9006.13,
+    8989.1001
+   ],
+   [
+    "2021-02-19",
+    8992.2,
+    3410.837
+   ]
+  ],
+  "rt_max_window": 9051.55
+ }
+}

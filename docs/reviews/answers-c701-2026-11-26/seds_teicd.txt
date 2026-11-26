@@ -1,0 +1,15 @@
+TEICB | Total energy consumption in the industrial sector Billion Btu
+TEICV | Total energy expenditures in the industrial sector Million dollars
+TEICD | Total energy average price in the industrial sector Dollars per million Btu
+ESICV | Electricity expenditures in the industrial sector Million dollars
+NGICV | Natural gas expenditures in the industrial sector (including supplemental gaseous fuels) Million dollars
+TX 2022: TEICB 7,336,369 billion Btu, TEICV 66,650 million USD, TEICD 13.19; V/B 9.08 USD/MMBtu; V/D 5,053,048 billion Btu = 68.9 percent of TEICB
+TX 2023: TEICB 7,672,800 billion Btu, TEICV 50,169 million USD, TEICD 9.41; V/B 6.54 USD/MMBtu; V/D 5,331,467 billion Btu = 69.5 percent of TEICB
+LA 2022: TEICB 2,982,767 billion Btu, TEICV 23,690 million USD, TEICD 11.25; V/B 7.94 USD/MMBtu; V/D 2,105,796 billion Btu = 70.6 percent of TEICB
+LA 2023: TEICB 2,955,587 billion Btu, TEICV 16,115 million USD, TEICD 7.71; V/B 5.45 USD/MMBtu; V/D 2,090,117 billion Btu = 70.7 percent of TEICB
+CA 2022: TEICB 1,540,017 billion Btu, TEICV 21,506 million USD, TEICD 23.13; V/B 13.97 USD/MMBtu; V/D 929,805 billion Btu = 60.4 percent of TEICB
+CA 2023: TEICB 1,458,574 billion Btu, TEICV 20,408 million USD, TEICD 22.71; V/B 13.99 USD/MMBtu; V/D 898,631 billion Btu = 61.6 percent of TEICB
+OH 2022: TEICB 1,135,214 billion Btu, TEICV 10,596 million USD, TEICD 15.06; V/B 9.33 USD/MMBtu; V/D 703,612 billion Btu = 62.0 percent of TEICB
+OH 2023: TEICB 1,127,397 billion Btu, TEICV 9,147 million USD, TEICD 12.89; V/B 8.11 USD/MMBtu; V/D 709,635 billion Btu = 62.9 percent of TEICB
+US 2022: TEICB 31,147,159 billion Btu, TEICV 285,478 million USD, TEICD 14.53; V/B 9.17 USD/MMBtu; V/D 19,647,495 billion Btu = 63.1 percent of TEICB
+US 2023: TEICB 31,020,145 billion Btu, TEICV 238,831 million USD, TEICD 12.14; V/B 7.70 USD/MMBtu; V/D 19,673,040 billion Btu = 63.4 percent of TEICB
