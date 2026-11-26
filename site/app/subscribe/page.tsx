@@ -104,9 +104,12 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
         <p className="mt-3 max-w-3xl text-sm">Privacy: your address is used only to send the emails you chose, never shared or sold, and you can ask for it to be removed at any time.</p>
         <div className="mt-4 max-w-3xl space-y-2 text-xs text-muted">
           <p>
+            {/* session 10238 (docs/reviews/small-pages-audit-2026-11-26.md, finding 1): since migration 034 the site's server writes the
+                address with the service key, which can read the table; the suppression list is stored too (migration 007) */}
             What is stored: the address, which emails and topics you chose, the time it was added, and when it was confirmed or unsubscribed, in the
-            ERW&apos;s Supabase database. The public site can add an address but cannot read one back; only the warehouse&apos;s own service key can. The
-            address is used for this email only, and never shared.
+            ERW&apos;s Supabase database; an address that unsubscribes is also kept on a suppression list, so that it is never emailed again. The
+            site&apos;s server writes the address with the warehouse&apos;s service key, which can read the table and which no browser is given; no page
+            of the site reads an address back. The address is used for this email only, and never shared.
           </p>
           <p>
             Double opt-in: after you sign up, a confirmation email arrives with a signed link; nothing else is sent until you follow it. Every email
