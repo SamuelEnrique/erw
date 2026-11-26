@@ -29,6 +29,8 @@ const file = holdRows(withPlaceWords(withUnitWords(fileJson as unknown as Supply
 const BURN_GRIDS = GRID_CHOICES.filter((g) => g.slug !== "us48");
 const LAST_YEAR = "The value 52 weeks before for a weekly series (364 days, the same weekday, or the nearest within 3 days), as EIA's storage report sets a week beside the same week a year before; the same month a year before for a monthly series. The price board's Year takes the newest value at least 365 days before, so for a weekly series its base can be a week older: the date of each base is on hover in both";
 const LAST_52 = "The last 52 values held: 52 weeks for a weekly series, 52 months (over four years) for a monthly one. A week or month not held is left out and the line closes over it, so a line can span more than 52 steps; each point's date is on hover";
+// session 10222 (the supply audit, finding 3): what the five-year average is, and where it is not the season
+const FIVE_YEARS = "The mean of the values 52, 104, 156, 208 and 260 weeks before (for a monthly series, the same month of the five years before), with their lowest and highest on hover; given only when all five are held. It stands for normal at this point of the year only for a series with a season and no trend. For production, which has grown, and for positioning, it measures the five years' trend, not the season; and where a series changed its level within the five years (New York's and SPP's oil burned for power fell to near zero from 2023), it stands for a level the series no longer has. Read the year before beside it";
 const METHOD = "/data/methods/supply_and_trade";
 // session 333: the tables the file is built from, as its sources name them in brackets ("CFTC, ... (cftc_cot_positions)")
 const TABLES = [...new Set((file.sources as string[]).flatMap((s) => [...s.matchAll(/\(([a-z0-9]+(?:_[a-z0-9]+)+)\)/g)].map((m) => m[1])))];
@@ -91,7 +93,7 @@ function Table({ group, c }: { group: Group; c: Choice }) {
               <th className="pr-3 text-right font-normal">Its date</th>
               <th className="pr-3 text-right font-normal" title="The latest less the value one step before: a week for a weekly series, a month for a monthly one">On the period before</th>
               <th className="pr-3 text-right font-normal" title={LAST_YEAR} data-head="year">On last year</th>
-              <th className="pr-3 text-right font-normal">Five-year average</th>
+              <th className="pr-3 text-right font-normal" title={FIVE_YEARS} data-head="avg5">Five-year average</th>
               <th className="pr-3 text-right font-normal">Against the average</th>
               <th className="pr-3 text-right font-normal" title="The period's change less the five-year average change of the same period">Change against the five-year average change</th>
               <th className="pr-3 text-right font-normal" title={LAST_52} data-head="last52">Last 52</th>
