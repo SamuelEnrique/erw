@@ -33,6 +33,20 @@ class TheModel(unittest.TestCase):
             self.assertNotRegex(f.read(), r"(?m)^import ")
 
 
+class TheReplication(unittest.TestCase):
+    """Session 10804: the page's figures drawn again from lib/dcimpact.ts, then replicate.py (written from the note) agrees."""
+
+    def test_replication_agrees(self):
+        node = shutil.which("node")
+        if not node:
+            raise unittest.SkipTest("node is not on the path")
+        r = subprocess.run([node, "--no-warnings", os.path.join(SITE, "scripts", "dc-figures.mjs")], cwd=ROOT, capture_output=True, text=True, timeout=120)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        r = subprocess.run([sys.executable, os.path.join(ROOT, "replication", "impact", "datacenter", "replicate.py")], capture_output=True, text=True, timeout=120)
+        self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-2000:])
+        self.assertRegex(r.stdout, r"(\d+) of \1 figures agree")
+
+
 class TheParameters(unittest.TestCase):
     def test_files_name_sources_and_hold_no_dash(self):
         for name in FILES:
