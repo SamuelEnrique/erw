@@ -1,0 +1,23 @@
+== (a)
+held from 2023-08-10T07:00:00Z to 2026-11-26T07:00:00Z
+2026-04-27 hours 24 | mean 2.85 | low -18.4458 | high 21.2569
+2026-07-24 hours 24 | mean 53.31 | low 37.59762 | high 81.7768
+== (b)
+fuel table to 2026-11-23 | variables ['retail_price']
+an EV state entry: {"code": "AL", "name": "Alabama", "power": {"value": 163.3, "unit": "USD/MWh", "ts": "2026-08-01", "entity": "eia:retail_price:AL:RES", "table": "eia_retail_electricity_prices"}, "gas": {"value": 3.481, "unit": "USD/gal", "ts": "2026-11-09", "entity": "eia:EMM_EPMR_PTE_R30_DPG", "table": "eia_regional_retail_fuel_prices", "where": "region", "region": "the Gulf Coast (PADD 3)"}}
+us: {"power": {"value": 181.6, "unit": "USD/MWh", "ts": "2026-08-01", "entity": "eia:retail_price:US:RES", "table": "eia_retail_electricity_prices"}, "gas": {"value": 3.995, "unit": "USD/gal", "ts": "2026-11-09", "entity": "eia:EMM_EPMR_PTE_NUS_DPG", "table": "eia_regional_retail_fuel_prices", "where": 
+cells 52 | equal to the table's same week: 52 | 52 weeks held for: 52
+code  file  table_same_week  mean_52w  weeks     newest  equal  mean_vs_week_pct
+  CT  4.06             4.06     3.712     52 2026-11-23   True             -8.57
+  ME  4.06             4.06     3.712     52 2026-11-23   True             -8.57
+  NH  4.06             4.06     3.712     52 2026-11-23   True             -8.57
+  VT  4.06             4.06     3.712     52 2026-11-23   True             -8.57
+  RI  4.06             4.06     3.712     52 2026-11-23   True             -8.57
+code  file  table_same_week  mean_52w  weeks     newest  equal  mean_vs_week_pct
+  NC 3.609            3.609     3.497     52 2026-11-23   True             -3.10
+  VA 3.609            3.609     3.497     52 2026-11-23   True             -3.10
+  SC 3.609            3.609     3.497     52 2026-11-23   True             -3.10
+  WV 3.609            3.609     3.497     52 2026-11-23   True             -3.10
+  WA 4.874            4.874     4.813     52 2026-11-23   True             -1.25
+US: code  file  table_same_week  mean_52w  weeks     newest  equal  mean_vs_week_pct
+  US 3.995            3.995     3.751     52 2026-11-23   True             -6.11
