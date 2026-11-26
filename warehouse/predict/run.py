@@ -291,7 +291,11 @@ def demand_series(p, made, ledger):
     peak = {"what": "the day's highest hourly demand and its local hour; a method's peak is the highest of its own hourly forecasts for the day, and the hour of it; erw is the method chosen for the peak (method), the candidate whose day peaks missed least over the last two years",
             "method": p.get("peak_choice", p["choice"]), "tomorrow": None, "last_2_years": None, "backtest": None}
     if tm is not None and len(tm):
-        c = p.get("peak_choice", p["choice"])
+        # session 10000 (done-line request 577): tomorrow drawn from the ledger holds the ledger's method only, so its
+        # peak is that making's highest hour, and says so
+        c = p["choice"] if made_first is not None else p.get("peak_choice", p["choice"])
+        if made_first is not None:
+            peak["tomorrow_method"] = c
         j = tm[c].idxmax()
         if pd.notna(j):
             peak["tomorrow"] = {"local_hour": int(tm.loc[j, "hour"]), "ts_utc": iso(tm.loc[j, "ts"]), "erw": num(tm.loc[j, c]),
