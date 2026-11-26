@@ -32,11 +32,23 @@ All eight were checked against main first, as the chain asks. Each head is an an
 
 | Step | State | Session |
 |---|---|---|
+| `docs/reviews/pages-ground-2026-11-26.md`: what both pages reuse (the frame, the chart with a band, the place picker, A and B, the board's rows and held rows, the workbench's pure parts, the downloads), what they do not, what the contracts leave open, and five cases a page | done | 10400 |
 
 ## Part C: the ERW forecast, `/forecast`
 
+Branch `wip/c720-forecast`, cut from origin/main. The contract `docs/state/page_files_predict.md` was on main at the start. The real files (`site/data/predict/`) are on no branch yet (read at 13:10 UTC): the page is built and tested against the contract's example files and a fixture of the contract's shape, and reads the real files with no change of code when they land.
+
 | Step | State | Session |
 |---|---|---|
+| 1. Tomorrow: the ERW forecast by hour with its band, the operator's forecast beside it, three figures, the hours as a table; a tab for price; a held price a blank with "license needed" | done on the branch (`site/app/forecast/view.tsx`, `site/lib/predict.ts`) | 10401 |
+| 2. How it has done: any past day beside what happened with the day's errors; the last 30 days and the backtest; the score by month, by hour of day, the other cuts; every place at once, in the index's order | done on the branch | 10401 |
+| 3. Two places side by side; the hour made and the method on the place's hover; "ERW forecast" on every chart | done on the branch | 10401 |
+| 4. Downloads: `/forecast/rows` and `/forecast/scores`, each with a Python and a Stata reader; every figure with its key into its file and its source on hover | done on the branch | 10401 |
+| 5a. Tests that pin what a reader sees: `site/scripts/test-forecast.mjs` (105 checks: no files, the contract's examples, a fixture) and `tests/test_session10401_forecast.py` (10 passed); the 90 test files that name a changed module: 1,202 passed, 2 failed (test 8430, which fails on main on this laptop; test 8902's flag rule, mended: the tour stop waits in a list of its own); lint clean | done | 10401 |
+| 5b. The page seen in a build at 1280 and 390 px, on the fixture (layout only) | in hand: the first build of the session is running | 10401 |
+| 5c. On window B's real files: the five cases, every figure beside the files, the keyboard, the back button | waiting: `site/data/predict/` is not on main | |
+| Landing requested | after 5b | |
+| A tour stop, held | done on the branch: `WAITING_STOPS` in `site/lib/tour.ts` (a new stop is `landed` exactly when its page exists, so a page that lands before its files cannot be held by that flag) | 10401 |
 
 ## Part D: energy equities
 

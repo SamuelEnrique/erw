@@ -1,0 +1,1541 @@
+{
+ "about": "Payroll per job by state, 2023, for a datacenter's earnings in /impact: operations from NAICS 518210, construction from NAICS 2362 and 238 together. In 2023 dollars; the tool puts them in 2025 dollars by deflator.json. NAICS 518210 is wider than datacenters (JLARC, Data Centers in Virginia 2024, Appendix D: only 15 percent of Virginia's 518210 employment was datacenter employment in 2016), a proxy said on the page. The Bureau infuses noise into employment and payroll (the noise flags kept).",
+ "source": "U.S. Census Bureau, County Business Patterns 2023, state file cbp23st.zip (construction) and the warehouse table census_cbp_hosting_annual (518210), with the Bureau's state codes (state.txt)",
+ "source_url": "https://www2.census.gov/programs-surveys/cbp/datasets/2023/cbp23st.zip",
+ "read": "2026-11-26, chain 740 session 10801 (runs/c740/probe/probe.csv requests 129 and 130 on lab-desktop)",
+ "license": "may be public (the Census Bureau, license_verdicts.csv; its name is not to imply endorsement). Cite the U.S. Census Bureau, County Business Patterns.",
+ "year": 2023,
+ "written_by": "warehouse/forecast/datacenter_wages.py",
+ "states": {
+  "ak": {
+   "operations": {
+    "naics": "518210",
+    "employment": 1074,
+    "annual_payroll_usd": 81229000,
+    "per_job_usd": 75632.22,
+    "emp_noise": "H",
+    "ap_noise": "J"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 11657,
+    "annual_payroll_usd": 1122206000,
+    "per_job_usd": 96268.85,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 3480,
+      "annual_payroll_usd": 383201000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 8177,
+      "annual_payroll_usd": 739005000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "al": {
+   "operations": {
+    "naics": "518210",
+    "employment": 3588,
+    "annual_payroll_usd": 268323000,
+    "per_job_usd": 74783.44,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 78011,
+    "annual_payroll_usd": 5238245000,
+    "per_job_usd": 67147.52,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 15192,
+      "annual_payroll_usd": 1309618000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 62819,
+      "annual_payroll_usd": 3928627000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "ar": {
+   "operations": {
+    "naics": "518210",
+    "employment": 6131,
+    "annual_payroll_usd": 550041000,
+    "per_job_usd": 89714.73,
+    "emp_noise": "H",
+    "ap_noise": "H"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 47307,
+    "annual_payroll_usd": 2902874000,
+    "per_job_usd": 61362.46,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 6386,
+      "annual_payroll_usd": 471403000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 40921,
+      "annual_payroll_usd": 2431471000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "az": {
+   "operations": {
+    "naics": "518210",
+    "employment": 14607,
+    "annual_payroll_usd": 1369567000,
+    "per_job_usd": 93761.0,
+    "emp_noise": "H",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 160395,
+    "annual_payroll_usd": 11206123000,
+    "per_job_usd": 69865.79,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 17805,
+      "annual_payroll_usd": 1680538000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 142590,
+      "annual_payroll_usd": 9525585000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "ca": {
+   "operations": {
+    "naics": "518210",
+    "employment": 123859,
+    "annual_payroll_usd": 26183592000,
+    "per_job_usd": 211398.38,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 664541,
+    "annual_payroll_usd": 54757746000,
+    "per_job_usd": 82399.35,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 81838,
+      "annual_payroll_usd": 8985063000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 582703,
+      "annual_payroll_usd": 45772683000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "co": {
+   "operations": {
+    "naics": "518210",
+    "employment": 17689,
+    "annual_payroll_usd": 2393768000,
+    "per_job_usd": 135325.23,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 130920,
+    "annual_payroll_usd": 9908029000,
+    "per_job_usd": 75680.03,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 18691,
+      "annual_payroll_usd": 2021269000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 112229,
+      "annual_payroll_usd": 7886760000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "ct": {
+   "operations": {
+    "naics": "518210",
+    "employment": 4962,
+    "annual_payroll_usd": 702658000,
+    "per_job_usd": 141607.82,
+    "emp_noise": "G",
+    "ap_noise": "H"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 49925,
+    "annual_payroll_usd": 4153606000,
+    "per_job_usd": 83196.92,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 5685,
+      "annual_payroll_usd": 613142000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 44240,
+      "annual_payroll_usd": 3540464000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "dc": {
+   "operations": {
+    "naics": "518210",
+    "employment": 3494,
+    "annual_payroll_usd": 421243000,
+    "per_job_usd": 120561.82,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 7411,
+    "annual_payroll_usd": 567350000,
+    "per_job_usd": 76555.12,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 1199,
+      "annual_payroll_usd": 104541000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 6212,
+      "annual_payroll_usd": 462809000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "de": {
+   "operations": {
+    "naics": "518210",
+    "employment": 1743,
+    "annual_payroll_usd": 274085000,
+    "per_job_usd": 157249.0,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 17922,
+    "annual_payroll_usd": 1285105000,
+    "per_job_usd": 71705.45,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 1170,
+      "annual_payroll_usd": 121577000,
+      "emp_noise": "H",
+      "ap_noise": "H"
+     },
+     "specialty_trades": {
+      "employment": 16752,
+      "annual_payroll_usd": 1163528000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "fl": {
+   "operations": {
+    "naics": "518210",
+    "employment": 30385,
+    "annual_payroll_usd": 3717746000,
+    "per_job_usd": 122354.65,
+    "emp_noise": "G",
+    "ap_noise": "H"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 427271,
+    "annual_payroll_usd": 25984701000,
+    "per_job_usd": 60815.5,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 40773,
+      "annual_payroll_usd": 3712441000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 386498,
+      "annual_payroll_usd": 22272260000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "ga": {
+   "operations": {
+    "naics": "518210",
+    "employment": 26230,
+    "annual_payroll_usd": 3157980000,
+    "per_job_usd": 120395.73,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 164281,
+    "annual_payroll_usd": 11942986000,
+    "per_job_usd": 72698.52,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 23117,
+      "annual_payroll_usd": 2322702000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 141164,
+      "annual_payroll_usd": 9620284000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "hi": {
+   "operations": {
+    "naics": "518210",
+    "employment": 528,
+    "annual_payroll_usd": 51593000,
+    "per_job_usd": 97714.02,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 24220,
+    "annual_payroll_usd": 2078887000,
+    "per_job_usd": 85833.48,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 4933,
+      "annual_payroll_usd": 533022000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 19287,
+      "annual_payroll_usd": 1545865000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "ia": {
+   "operations": {
+    "naics": "518210",
+    "employment": 3900,
+    "annual_payroll_usd": 312311000,
+    "per_job_usd": 80079.74,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 61386,
+    "annual_payroll_usd": 4571708000,
+    "per_job_usd": 74474.77,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 9240,
+      "annual_payroll_usd": 768126000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 52146,
+      "annual_payroll_usd": 3803582000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "id": {
+   "operations": {
+    "naics": "518210",
+    "employment": 2002,
+    "annual_payroll_usd": 203042000,
+    "per_job_usd": 101419.58,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 47877,
+    "annual_payroll_usd": 2886620000,
+    "per_job_usd": 60292.42,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 4848,
+      "annual_payroll_usd": 374292000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 43029,
+      "annual_payroll_usd": 2512328000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "il": {
+   "operations": {
+    "naics": "518210",
+    "employment": 21934,
+    "annual_payroll_usd": 2635138000,
+    "per_job_usd": 120139.42,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 177298,
+    "annual_payroll_usd": 15915328000,
+    "per_job_usd": 89765.98,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 23420,
+      "annual_payroll_usd": 2525968000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 153878,
+      "annual_payroll_usd": 13389360000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "in": {
+   "operations": {
+    "naics": "518210",
+    "employment": 4977,
+    "annual_payroll_usd": 464456000,
+    "per_job_usd": 93320.47,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 120596,
+    "annual_payroll_usd": 8894748000,
+    "per_job_usd": 73756.58,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 17547,
+      "annual_payroll_usd": 1511560000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 103049,
+      "annual_payroll_usd": 7383188000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "ks": {
+   "operations": {
+    "naics": "518210",
+    "employment": 3679,
+    "annual_payroll_usd": 432731000,
+    "per_job_usd": 117621.91,
+    "emp_noise": "H",
+    "ap_noise": "H"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 53922,
+    "annual_payroll_usd": 3618714000,
+    "per_job_usd": 67110.16,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 7034,
+      "annual_payroll_usd": 543581000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 46888,
+      "annual_payroll_usd": 3075133000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "ky": {
+   "operations": {
+    "naics": "518210",
+    "employment": 6971,
+    "annual_payroll_usd": 448920000,
+    "per_job_usd": 64398.22,
+    "emp_noise": "H",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 62026,
+    "annual_payroll_usd": 4087550000,
+    "per_job_usd": 65900.59,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 8341,
+      "annual_payroll_usd": 638062000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 53685,
+      "annual_payroll_usd": 3449488000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "la": {
+   "operations": {
+    "naics": "518210",
+    "employment": 2884,
+    "annual_payroll_usd": 184762000,
+    "per_job_usd": 64064.49,
+    "emp_noise": "H",
+    "ap_noise": "H"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 82161,
+    "annual_payroll_usd": 5500845000,
+    "per_job_usd": 66952.02,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 11095,
+      "annual_payroll_usd": 801669000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 71066,
+      "annual_payroll_usd": 4699176000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "ma": {
+   "operations": {
+    "naics": "518210",
+    "employment": 27905,
+    "annual_payroll_usd": 4655831000,
+    "per_job_usd": 166845.76,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 127510,
+    "annual_payroll_usd": 11914064000,
+    "per_job_usd": 93436.31,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 14932,
+      "annual_payroll_usd": 1835280000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 112578,
+      "annual_payroll_usd": 10078784000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "md": {
+   "operations": {
+    "naics": "518210",
+    "employment": 13631,
+    "annual_payroll_usd": 1515766000,
+    "per_job_usd": 111199.91,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 134890,
+    "annual_payroll_usd": 10399903000,
+    "per_job_usd": 77099.14,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 16347,
+      "annual_payroll_usd": 1660827000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 118543,
+      "annual_payroll_usd": 8739076000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "me": {
+   "operations": {
+    "naics": "518210",
+    "employment": 1840,
+    "annual_payroll_usd": 153397000,
+    "per_job_usd": 83367.93,
+    "emp_noise": "H",
+    "ap_noise": "J"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 22002,
+    "annual_payroll_usd": 1478039000,
+    "per_job_usd": 67177.48,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 1584,
+      "annual_payroll_usd": 121968000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 20418,
+      "annual_payroll_usd": 1356071000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "mi": {
+   "operations": {
+    "naics": "518210",
+    "employment": 10198,
+    "annual_payroll_usd": 1064212000,
+    "per_job_usd": 104354.97,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 139778,
+    "annual_payroll_usd": 11180782000,
+    "per_job_usd": 79989.57,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 21007,
+      "annual_payroll_usd": 1964093000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 118771,
+      "annual_payroll_usd": 9216689000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "mn": {
+   "operations": {
+    "naics": "518210",
+    "employment": 15633,
+    "annual_payroll_usd": 1988426000,
+    "per_job_usd": 127194.14,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 100053,
+    "annual_payroll_usd": 8732632000,
+    "per_job_usd": 87280.06,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 11996,
+      "annual_payroll_usd": 1234351000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 88057,
+      "annual_payroll_usd": 7498281000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "mo": {
+   "operations": {
+    "naics": "518210",
+    "employment": 7389,
+    "annual_payroll_usd": 749774000,
+    "per_job_usd": 101471.65,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 115381,
+    "annual_payroll_usd": 8942881000,
+    "per_job_usd": 77507.4,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 19353,
+      "annual_payroll_usd": 2072271000,
+      "emp_noise": "G",
+      "ap_noise": "H"
+     },
+     "specialty_trades": {
+      "employment": 96028,
+      "annual_payroll_usd": 6870610000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "ms": {
+   "operations": {
+    "naics": "518210",
+    "employment": 1621,
+    "annual_payroll_usd": 100546000,
+    "per_job_usd": 62027.14,
+    "emp_noise": "J",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 28886,
+    "annual_payroll_usd": 1824990000,
+    "per_job_usd": 63179.05,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 5496,
+      "annual_payroll_usd": 435978000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 23390,
+      "annual_payroll_usd": 1389012000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "mt": {
+   "operations": {
+    "naics": "518210",
+    "employment": 701,
+    "annual_payroll_usd": 58513000,
+    "per_job_usd": 83470.76,
+    "emp_noise": "H",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 23818,
+    "annual_payroll_usd": 1622055000,
+    "per_job_usd": 68102.07,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 3085,
+      "annual_payroll_usd": 277792000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 20733,
+      "annual_payroll_usd": 1344263000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "nc": {
+   "operations": {
+    "naics": "518210",
+    "employment": 17241,
+    "annual_payroll_usd": 1928736000,
+    "per_job_usd": 111869.15,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 175183,
+    "annual_payroll_usd": 11476356000,
+    "per_job_usd": 65510.67,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 18272,
+      "annual_payroll_usd": 1657847000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 156911,
+      "annual_payroll_usd": 9818509000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "nd": {
+   "operations": {
+    "naics": "518210",
+    "employment": 234,
+    "annual_payroll_usd": 15703000,
+    "per_job_usd": 67106.84,
+    "emp_noise": "J",
+    "ap_noise": "J"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 18605,
+    "annual_payroll_usd": 1552424000,
+    "per_job_usd": 83441.23,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 2191,
+      "annual_payroll_usd": 184908000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 16414,
+      "annual_payroll_usd": 1367516000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "ne": {
+   "operations": {
+    "naics": "518210",
+    "employment": 6313,
+    "annual_payroll_usd": 704657000,
+    "per_job_usd": 111619.99,
+    "emp_noise": "H",
+    "ap_noise": "H"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 45082,
+    "annual_payroll_usd": 3012336000,
+    "per_job_usd": 66819.04,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 5886,
+      "annual_payroll_usd": 467553000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 39196,
+      "annual_payroll_usd": 2544783000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "nh": {
+   "operations": {
+    "naics": "518210",
+    "employment": 3418,
+    "annual_payroll_usd": 476693000,
+    "per_job_usd": 139465.48,
+    "emp_noise": "H",
+    "ap_noise": "H"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 25569,
+    "annual_payroll_usd": 2067922000,
+    "per_job_usd": 80876.14,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 2001,
+      "annual_payroll_usd": 214318000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 23568,
+      "annual_payroll_usd": 1853604000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "nj": {
+   "operations": {
+    "naics": "518210",
+    "employment": 18632,
+    "annual_payroll_usd": 2614234000,
+    "per_job_usd": 140308.82,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 127555,
+    "annual_payroll_usd": 10493926000,
+    "per_job_usd": 82269.81,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 14146,
+      "annual_payroll_usd": 1438895000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 113409,
+      "annual_payroll_usd": 9055031000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "nm": {
+   "operations": {
+    "naics": "518210",
+    "employment": 943,
+    "annual_payroll_usd": 86535000,
+    "per_job_usd": 91765.64,
+    "emp_noise": "G",
+    "ap_noise": "H"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 33676,
+    "annual_payroll_usd": 2083328000,
+    "per_job_usd": 61863.88,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 4896,
+      "annual_payroll_usd": 371218000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 28780,
+      "annual_payroll_usd": 1712110000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "nv": {
+   "operations": {
+    "naics": "518210",
+    "employment": 3419,
+    "annual_payroll_usd": 355919000,
+    "per_job_usd": 104100.32,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 86049,
+    "annual_payroll_usd": 6192461000,
+    "per_job_usd": 71964.36,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 7858,
+      "annual_payroll_usd": 758606000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 78191,
+      "annual_payroll_usd": 5433855000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "ny": {
+   "operations": {
+    "naics": "518210",
+    "employment": 39730,
+    "annual_payroll_usd": 9820156000,
+    "per_job_usd": 247172.31,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 279561,
+    "annual_payroll_usd": 23059281000,
+    "per_job_usd": 82483.9,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 35109,
+      "annual_payroll_usd": 3873169000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 244452,
+      "annual_payroll_usd": 19186112000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "oh": {
+   "operations": {
+    "naics": "518210",
+    "employment": 14692,
+    "annual_payroll_usd": 1650867000,
+    "per_job_usd": 112365.03,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 171493,
+    "annual_payroll_usd": 12863138000,
+    "per_job_usd": 75006.78,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 24191,
+      "annual_payroll_usd": 2129242000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 147302,
+      "annual_payroll_usd": 10733896000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "ok": {
+   "operations": {
+    "naics": "518210",
+    "employment": 3296,
+    "annual_payroll_usd": 252486000,
+    "per_job_usd": 76603.76,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 57508,
+    "annual_payroll_usd": 3519186000,
+    "per_job_usd": 61194.72,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 8360,
+      "annual_payroll_usd": 650167000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 49148,
+      "annual_payroll_usd": 2869019000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "or": {
+   "operations": {
+    "naics": "518210",
+    "employment": 6706,
+    "annual_payroll_usd": 742087000,
+    "per_job_usd": 110660.16,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 87366,
+    "annual_payroll_usd": 6908110000,
+    "per_job_usd": 79070.92,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 9353,
+      "annual_payroll_usd": 937826000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 78013,
+      "annual_payroll_usd": 5970284000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "pa": {
+   "operations": {
+    "naics": "518210",
+    "employment": 19443,
+    "annual_payroll_usd": 2193876000,
+    "per_job_usd": 112836.29,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 193519,
+    "annual_payroll_usd": 14924862000,
+    "per_job_usd": 77123.5,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 26604,
+      "annual_payroll_usd": 2368756000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 166915,
+      "annual_payroll_usd": 12556106000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "ri": {
+   "operations": {
+    "naics": "518210",
+    "employment": 488,
+    "annual_payroll_usd": 46619000,
+    "per_job_usd": 95530.74,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 17153,
+    "annual_payroll_usd": 1350776000,
+    "per_job_usd": 78748.67,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 2375,
+      "annual_payroll_usd": 255214000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 14778,
+      "annual_payroll_usd": 1095562000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "sc": {
+   "operations": {
+    "naics": "518210",
+    "employment": 3727,
+    "annual_payroll_usd": 375001000,
+    "per_job_usd": 100617.39,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 71095,
+    "annual_payroll_usd": 4598255000,
+    "per_job_usd": 64677.61,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 7894,
+      "annual_payroll_usd": 704523000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 63201,
+      "annual_payroll_usd": 3893732000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "sd": {
+   "operations": {
+    "naics": "518210",
+    "employment": 425,
+    "annual_payroll_usd": 30444000,
+    "per_job_usd": 71632.94,
+    "emp_noise": "H",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 18571,
+    "annual_payroll_usd": 1238861000,
+    "per_job_usd": 66709.44,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 2817,
+      "annual_payroll_usd": 210130000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 15754,
+      "annual_payroll_usd": 1028731000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "tn": {
+   "operations": {
+    "naics": "518210",
+    "employment": 8802,
+    "annual_payroll_usd": 688923000,
+    "per_job_usd": 78268.92,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 112001,
+    "annual_payroll_usd": 7856602000,
+    "per_job_usd": 70147.61,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 14007,
+      "annual_payroll_usd": 1250533000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 97994,
+      "annual_payroll_usd": 6606069000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "tx": {
+   "operations": {
+    "naics": "518210",
+    "employment": 56290,
+    "annual_payroll_usd": 6958730000,
+    "per_job_usd": 123622.85,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 545803,
+    "annual_payroll_usd": 38764320000,
+    "per_job_usd": 71022.55,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 66104,
+      "annual_payroll_usd": 6200944000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 479699,
+      "annual_payroll_usd": 32563376000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "ut": {
+   "operations": {
+    "naics": "518210",
+    "employment": 9239,
+    "annual_payroll_usd": 1129127000,
+    "per_job_usd": 122213.12,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 92180,
+    "annual_payroll_usd": 6073267000,
+    "per_job_usd": 65884.87,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 10269,
+      "annual_payroll_usd": 935828000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 81911,
+      "annual_payroll_usd": 5137439000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "va": {
+   "operations": {
+    "naics": "518210",
+    "employment": 33404,
+    "annual_payroll_usd": 4842578000,
+    "per_job_usd": 144970.0,
+    "emp_noise": "H",
+    "ap_noise": "H"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 151265,
+    "annual_payroll_usd": 10681568000,
+    "per_job_usd": 70614.93,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 17952,
+      "annual_payroll_usd": 1692917000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 133313,
+      "annual_payroll_usd": 8988651000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "vt": {
+   "operations": {
+    "naics": "518210",
+    "employment": 2294,
+    "annual_payroll_usd": 379370000,
+    "per_job_usd": 165374.89,
+    "emp_noise": "J",
+    "ap_noise": "J"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 10785,
+    "annual_payroll_usd": 757075000,
+    "per_job_usd": 70197.03,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 1372,
+      "annual_payroll_usd": 116636000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 9413,
+      "annual_payroll_usd": 640439000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "wa": {
+   "operations": {
+    "naics": "518210",
+    "employment": 14485,
+    "annual_payroll_usd": 2911082000,
+    "per_job_usd": 200972.18,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 168299,
+    "annual_payroll_usd": 13836209000,
+    "per_job_usd": 82212.07,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 19269,
+      "annual_payroll_usd": 2036368000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 149030,
+      "annual_payroll_usd": 11799841000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "wi": {
+   "operations": {
+    "naics": "518210",
+    "employment": 5998,
+    "annual_payroll_usd": 561614000,
+    "per_job_usd": 93633.54,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 102832,
+    "annual_payroll_usd": 8251234000,
+    "per_job_usd": 80239.94,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 15939,
+      "annual_payroll_usd": 1553480000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 86893,
+      "annual_payroll_usd": 6697754000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "wv": {
+   "operations": {
+    "naics": "518210",
+    "employment": 461,
+    "annual_payroll_usd": 24849000,
+    "per_job_usd": 53902.39,
+    "emp_noise": "G",
+    "ap_noise": "G"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 17760,
+    "annual_payroll_usd": 1082586000,
+    "per_job_usd": 60956.42,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 2132,
+      "annual_payroll_usd": 142721000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     },
+     "specialty_trades": {
+      "employment": 15628,
+      "annual_payroll_usd": 939865000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  },
+  "wy": {
+   "operations": {
+    "naics": "518210",
+    "employment": 292,
+    "annual_payroll_usd": 29285000,
+    "per_job_usd": 100291.1,
+    "emp_noise": "H",
+    "ap_noise": "H"
+   },
+   "construction": {
+    "naics": "2362 and 238",
+    "employment": 12486,
+    "annual_payroll_usd": 847713000,
+    "per_job_usd": 67893.08,
+    "parts": {
+     "nonresidential_building": {
+      "employment": 1491,
+      "annual_payroll_usd": 128149000,
+      "emp_noise": "H",
+      "ap_noise": "H"
+     },
+     "specialty_trades": {
+      "employment": 10995,
+      "annual_payroll_usd": 719564000,
+      "emp_noise": "G",
+      "ap_noise": "G"
+     }
+    }
+   }
+  }
+ }
+}
