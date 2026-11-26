@@ -99,8 +99,12 @@ export function blankWords(status: string | undefined | null, example = false): 
 export function blankWhy(s: Pick<IndexSeries, "status" | "held"> | undefined | null, example = false): string {
   if (example) return "The file on the site is the contract's example: no forecast has been written yet (docs/state/page_files_predict.md, section 5).";
   if (!s) return "The file of this place is not on the site.";
-  const held = (s.held ?? "").trim();
-  if (s.status === "license needed") return `License needed: ${held && held !== "license needed" ? held : "the input is not public-licensed (docs/licenses.md)"}. Nothing of this series is shown.`;
+  // session 10407 (the browser read of 26 November, row FC3): the file's reason begins with its own status ("license
+  // needed: PJM's prices ...", "paused: MISO's terms ..."), so the status was said twice. It is said once, and a reason
+  // that ends in its own full stop gets no second one.
+  const whole = (s.held ?? "").trim();
+  const held = whole.toLowerCase().startsWith(`${(s.status ?? "").toLowerCase()}:`) ? whole.slice((s.status ?? "").length + 1).trim() : whole;
+  if (s.status === "license needed") return `License needed: ${held && held !== "license needed" ? held.replace(/\.$/, "") : "the input is not public-licensed (docs/licenses.md)"}. Nothing of this series is shown.`;
   return held ? `${s.status}: ${held}` : s.status;
 }
 

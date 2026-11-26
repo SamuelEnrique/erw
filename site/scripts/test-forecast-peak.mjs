@@ -230,6 +230,29 @@ save("ahead.json", ahead);
   check(!P.scoresCsv(scores, "https://example.invalid/x").includes("demand_weather_known") && P.scoresCsv(withLine, "https://example.invalid/x").includes("# series demand_weather_known: not a forecast. the regression with the region's observed temperature added"), "the report card's CSV says the line's rows are not a forecast's, only when it has one");
 }
 
+// ---- 9. The browser read of 26 November, rows FC1 and FC3 (session 10407) ---------------------------------------------
+{
+  // FC3: a file's reason that begins with its own status says the status once
+  const why = (status, held) => P.blankWhy({ status, held });
+  check(why("license needed", "license needed: PJM's prices need a paid data license") === "License needed: PJM's prices need a paid data license. Nothing of this series is shown.", `a held price's hover: ${why("license needed", "license needed: PJM's prices need a paid data license")}`);
+  check(why("license needed", "License needed: the terms ask for written permission.") === "License needed: the terms ask for written permission. Nothing of this series is shown.", "a reason with its own capital and full stop");
+  check(why("paused", "paused: MISO's terms forbid automated access") === "paused: MISO's terms forbid automated access" && why("not built", "not built: no organised day-ahead market") === "not built: no organised day-ahead market", "paused and not built: the status once");
+  check(why("too short", "fewer whole days of history than the method needs") === "too short: fewer whole days of history than the method needs" && why("paused", null) === "paused" && why("license needed", null).startsWith("License needed: the input is not public-licensed"), "a reason that names no status keeps its status before it; no reason, the status alone");
+  for (const [status, held] of [["license needed", "license needed: x"], ["paused", "paused: x"], ["not built", "not built: x"]]) check(!new RegExp(`${status}: ${status}`, "i").test(why(status, held)), `${status}: said twice`);
+  // FC1: the hour a forecast was made, behind a mark a finger and the keyboard open, once a place
+  const one = draw(FIX, { a: "region-tex" });
+  check(count(one, /data-tip="fc-made-a"/g) === 1 && count(one, /data-fc-made="a"/g) === 1 && !one.includes("fc-made-b"), "one place: not one mark for when its forecast was made");
+  const mark = between(one, 'data-fc-made="a"', "</h3>");
+  check(/<button type="button"[^>]*aria-label="About when the ERW forecast for Texas was made, from which figures and by which method"/.test(mark), "the mark is not a button with its name");
+  check(/role="tooltip" id="tip-fc-made-a"[^>]*>ERW forecast for [^<]*made 2026-11-26[^<]*\(2026-11-26 20:00 UTC\)[^<]*Method: Regression/.test(mark), `the mark's words do not give the hour the forecast was made and its method: ${text(mark).slice(0, 200)}`);
+  check(one.includes('title="ERW forecast for ') && one.indexOf('data-fc-made="a"') > one.indexOf('data-fc-place="a"'), "the name's own hover is gone, or the mark is not beside the name");
+  const two = draw(FIX, { a: "region-tex", b: "region-mida", s: "price" });
+  check(count(two, /data-tip="fc-made-a"/g) === 1 && count(two, /data-tip="fc-made-b"/g) === 1, "two places: not one mark each");
+  check(/aria-label="About why nothing is drawn for Mid-Atlantic"/.test(two) && /id="tip-fc-made-b"[^>]*>License needed: PJM/.test(two), "a held place's mark does not say why nothing is drawn, the status once");
+  check(new Set([...two.matchAll(/ id="(tip-[^"]+)"/g)].map((m) => m[1])).size === [...two.matchAll(/ id="(tip-[^"]+)"/g)].length, "two marks of the page share an id");
+  quiet(one, "the mark of when it was made");
+}
+
 fs.rmSync(FIX, { recursive: true, force: true });
 if (fails.length) { console.log(`FAIL ${fails.length} of ${n}:\n  ${fails.join("\n  ")}`); process.exitCode = 1; }
 else console.log(`ok: ${n} checks of /forecast's peak and days ahead (a fixture of the contract's shape)`);

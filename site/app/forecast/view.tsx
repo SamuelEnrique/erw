@@ -19,6 +19,8 @@ import { SiteLink } from "@/components/SiteLink";
 import { CategoryChart, type CatSeries } from "@/components/svgchart";
 import { ToolTabs } from "@/components/tool/Choose";
 import { ChartFrame, HeadlineNumber, InputPanel, SourceLine, ToolHeader, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+// session 10407 (the browser read of 26 November, row FC1): the mark that opens on a hover, a tap and the keyboard
+import { Tip } from "@/components/tool/ToolPage";
 import { scrollRegion } from "@/lib/cells";
 import { pfKey } from "@/lib/pagefile";
 import {
@@ -59,7 +61,11 @@ function sourceWords(slot: Slot, ser: PlaceSeries, s: SeriesKey, scores: ScoresF
 }
 
 /** The place's heading: its name, and on hover the hour the forecast was made and the method the place uses. */
-function PlaceHead({ slot, s, index }: { slot: Slot; s: SeriesKey; index: PredictIndex }) {
+/** `tip` (session 10407; the browser read's row FC1): the same words behind a mark that a finger and the keyboard open
+ *  too, beside the name. The name's own hover answers a mouse alone, so on a phone or with the keyboard a reader could
+ *  not learn when the forecast was made or how old the figures it rests on are. Given once a place, where tomorrow's
+ *  forecast is drawn; the value is the mark's id on the page. */
+function PlaceHead({ slot, s, index, tip }: { slot: Slot; s: SeriesKey; index: PredictIndex; tip?: string }) {
   const ser = slot.file?.series?.[s];
   const shown = isShown(slot.file, ser);
   const why = shown && ser
@@ -68,6 +74,7 @@ function PlaceHead({ slot, s, index }: { slot: Slot; s: SeriesKey; index: Predic
   return (
     <h3 className="mb-2 font-serif text-xl text-accent" data-fc-place={slot.mark}>
       <span className="cursor-help border-b border-dotted border-muted" title={why}>{placeWords(slot.place)}</span>
+      {tip ? <span className="font-sans" data-fc-made={slot.mark}><Tip id={tip} label={shown ? `when the ${LABEL} for ${placeWords(slot.place)} was made, from which figures and by which method` : `why nothing is drawn for ${placeWords(slot.place)}`}>{why}</Tip></span> : null}
       {s === "price" && shown && ser?.hub ? <span className="ml-2 font-sans text-sm text-ink" title={`The hub the price forecast is of, ${ser.market ?? "day-ahead"} market.`}>{ser.hub}, {ser.market ?? "day-ahead"}</span> : null}
     </h3>
   );
@@ -95,7 +102,7 @@ function Tomorrow({ slot, s, index, scores }: { slot: Slot; s: SeriesKey; index:
     const example = slot.file?.example === true || index.example === true;
     return (
       <div className="min-w-0" data-fc-tomorrow={slot.mark} data-fc-shown="0">
-        <PlaceHead slot={slot} s={s} index={index} />
+        <PlaceHead slot={slot} s={s} index={index} tip={`fc-made-${slot.mark}`} />
         <Blank what={`${LABEL} of ${SERIES_WORDS[s].toLowerCase()}, ${placeWords(slot.place)}`} words={blankWords(of?.status, example)} why={blankWhy(of, example)} k={`tomorrow|${k}`} />
       </div>
     );
@@ -105,7 +112,7 @@ function Tomorrow({ slot, s, index, scores }: { slot: Slot; s: SeriesKey; index:
     // a shown series whose target day holds no forecast (the contract's `tomorrow_held`): the blank says why
     return (
       <div className="min-w-0" data-fc-tomorrow={slot.mark} data-fc-shown="0">
-        <PlaceHead slot={slot} s={s} index={index} />
+        <PlaceHead slot={slot} s={s} index={index} tip={`fc-made-${slot.mark}`} />
         <Blank what={`${LABEL} of ${SERIES_WORDS[s].toLowerCase()}, ${placeWords(slot.place)}${ser.target_day ? `, ${dayWords(ser.target_day)}` : ""}`} words={shortHeld(ser.tomorrow_held)} why={ser.tomorrow_held ?? "The file holds no forecast for the day forecast now, and does not say why."} k={`tomorrow|${k}`} />
       </div>
     );
@@ -123,7 +130,7 @@ function Tomorrow({ slot, s, index, scores }: { slot: Slot; s: SeriesKey; index:
   const none = (why: string, words?: string) => <span className="font-sans text-base"><NotHeld words={words} why={why} /></span>;
   return (
     <div className="min-w-0" data-fc-tomorrow={slot.mark} data-fc-shown="1" data-fc-hours={hours.length}>
-      <PlaceHead slot={slot} s={s} index={index} />
+      <PlaceHead slot={slot} s={s} index={index} tip={`fc-made-${slot.mark}`} />
       <div className="mb-4 grid gap-4 sm:grid-cols-3">
         <HeadlineNumber label="Highest hour" unit={top ? unit : undefined}
           value={top ? fig(top.hour, "erw", top.v, "top", `The highest hour of the ${LABEL}, the hour beginning ${localWords(top.hour.ts, tz)}.`) : none("No hour of the forecast is held.")}
