@@ -155,10 +155,15 @@ def build_retail(sales, price, cust, st):
     sl = {SECTORS[k]: sl.get(k, [None] * len(months)) for k in SECTORS}
     pr = {SECTORS[k]: pr.get(k, [None] * len(months)) for k in SECTORS}
     rev = {k: [round(a * b, 0) if a is not None and b is not None else None for a, b in zip(sl[k], pr[k])] for k in sl}
+    # session 10000 (chain 701): the twelve months end at the newest month of sales, not of prices. On 26 November 2026
+    # the prices reached September while the sales stopped at August (the sales refresh met EIA's outage), so the
+    # window ended on a month with no sales and every sector's twelve-month figure went blank. The end is the newest
+    # month with a sales figure in any of the page's sectors (the table's own newest month can be a sector the page omits)
+    end = max([i + 1 for k in sl for i, x in enumerate(sl[k]) if x is not None] or [len(months)])
     last12 = {}
     for k in sl:
-        a = [x for x in sl[k][-12:]]
-        r = [x for x in rev[k][-12:]]
+        a = [x for x in sl[k][end - 12:end]]
+        r = [x for x in rev[k][end - 12:end]]
         ok = all(x is not None for x in a) and all(x is not None for x in r)
         last12[k] = {"sales_mwh": round(sum(a), 1) if ok else None, "revenue_usd": round(sum(r), 0) if ok else None,
                      "price_usd_per_mwh": round(sum(r) / sum(a), 2) if ok and sum(a) else None}
@@ -172,7 +177,7 @@ def build_retail(sales, price, cust, st):
         "months": months, "sales_mwh": sl, "price_usd_per_mwh": pr, "revenue_usd": rev,
         "revenue_note": "Revenue is EIA's sales times EIA's average price for the same month and sector. EIA computes its average price as revenue over sales, so the product gives EIA's revenue to within the price's rounding (one tenth of a dollar a MWh).",
         "years": years, "annual_sales_mwh": annual_sales, "annual_revenue_usd": annual_rev,
-        "last12": {"from": months[-12], "to": months[-1], "by_sector": last12},
+        "last12": {"from": months[end - 12], "to": months[end - 1], "by_sector": last12},
         "customers": {"month": lastc, "by_sector": customers},
     }
 
