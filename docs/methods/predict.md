@@ -263,3 +263,14 @@ ERCOT prints a chart of its Mid-Term Load Forecast's monthly mean absolute perce
 | 2026-10 | 1.51 | 1.51 | 4.75 | 744 |
 
 What it says: from February 2026 the two agree to 0.02 point every month, so the operator series the ERW scores itself against is, in those months, the forecast ERCOT grades itself on. Before, the EIA-930 filing scores up to 0.73 point worse (October 2025: 2.45 against 1.72; January and February 2025, October to December 2025), which can come from the filing being a different vintage of the forecast or from a different demand basis; the backtest does not say which. Over the 25 months the chart averages 2.01 percent and the filings 2.10. The ERW's forecast is beside them for scale. A second place (CAISO: its market monitor's 2024 annual report prints no such figure; SPP: none found) is not yet read.
+
+## 16. A day forecast more than once (session 10000, chain 701)
+
+The ledger keeps the first forecast made for a place and target day and never rewrites it. A second run on the same day
+(three landings on 26 November 2026 rebuilt the place files at 12:00, 14:00 and 15:00 UTC, and from 14:05 most places
+chose `regression_recent`) made a newer forecast for the same day, and the page drew it while its ledger kept the first:
+696 place-hours for 27 November, 672 of them different (mean gap 1.69 percent; done-line request 577). From then on a
+place file's forecast for tomorrow is the ledger's once the ledger holds that day: its values, band, method and the hour
+it was made, with `tomorrow_from` saying so and naming the method chosen now. So the page and its ledger show one
+forecast for each day, the one made first, and a past day drawn from the ledger is the one a reader saw.
+

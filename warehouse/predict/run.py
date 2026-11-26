@@ -226,7 +226,33 @@ def history_rows(p, ledger, nd=None):
     return out
 
 
+def from_ledger(p, ledger, series="demand"):
+    """Session 10000 (chain 701, done-line request 577): one forecast for a target day in the ledger and the place file.
+    The ledger keeps the first making of a day and never rewrites it, while a second run on the same day (three landings
+    on 26 November) rebuilt the place files with a newer making, so the page drew one forecast for tomorrow and its
+    ledger kept another. When the ledger already holds this place's target day, the place file's tomorrow is the ledger's
+    making: its values, band, method and the hour it was made. Returns (p, made_utc, method) changed, or (p, None, None)."""
+    if ledger is None or ledger.empty or p.get("tomorrow") is None:
+        return p, None, None
+    lg = ledger[(ledger["series"] == series) & (ledger["place"] == p["place"]) & (ledger["target_day"] == day_str(p["target"]))]
+    if lg.empty:
+        return p, None, None
+    m = str(lg["method"].iloc[0])
+    tm = p["tomorrow"]
+    op = dict(zip(pd.to_datetime(tm["ts"], utc=True), tm["operator"])) if "operator" in tm.columns else {}
+    ts = pd.to_datetime(lg["ts_utc"], utc=True)
+    t2 = pd.DataFrame({"ts": ts.values, "hour": lg["local_hour"].astype(int).values,
+                       m: pd.to_numeric(lg["erw"], errors="coerce").values,
+                       m + "_lo": pd.to_numeric(lg["lo"], errors="coerce").values,
+                       m + "_hi": pd.to_numeric(lg["hi"], errors="coerce").values,
+                       "operator": [op.get(t) for t in ts]})
+    t2["ts"] = pd.to_datetime(t2["ts"], utc=True)
+    return dict(p, tomorrow=t2.reset_index(drop=True), choice=m), str(lg["made_utc"].iloc[0]), m
+
+
 def demand_series(p, made, ledger):
+    now_choice = p["choice"]
+    p, made_first, _ = from_ledger(p, ledger, "demand")
     hr = p["hr"]
     s = {"status": "shown", "held": None, "method": p["choice"], "fit_day": day_str(pd.Timestamp(made)),
          "target_day": day_str(p["target"]), "hub": None, "market": None, "unit": "MW", "method_note": NOTES["demand"],
@@ -241,6 +267,10 @@ def demand_series(p, made, ledger):
          "summary": {"last_30_days": score.summary(hr, ["erw", "operator", "yesterday", "week_ago"], days=30, also=SCORED),
                      "backtest": score.summary(hr, ["erw", "operator", "yesterday", "week_ago"], also=SCORED)},
          "method_mae_last_2_years": {m: num(v, 2) for m, v in p["maes"].items()}}
+    if made_first is not None:
+        s["made_utc"] = made_first
+        s["tomorrow_from"] = ("the ledger: the forecast first made for this day, kept as made (a later run the same day does "
+                              f"not replace it); the method chosen now is {now_choice}")
     tm = p["tomorrow"]
     if tm is None:
         s["tomorrow_held"] = p["tomorrow_held"]
@@ -317,6 +347,8 @@ def price_place(place, grid, pp, dem, ref, gas, made, evs):
 
 
 def price_shown(p, made, ledger):
+    now_choice = p["choice"]
+    p, made_first, _ = from_ledger(p, ledger, "price")   # session 10000 (done-line request 577)
     hr = p["hr"]
     summ = {}
     for key, days in (("last_30_days", 30), ("backtest", None)):
@@ -334,6 +366,10 @@ def price_shown(p, made, ledger):
          "history_columns": ["ts_utc", "local_day", "local_hour", "made_utc", "kind", "erw", "lo", "hi", "operator", "actual", "yesterday", "week_ago"],
          "history": history_rows(p, ledger), "summary": summ,
          "method_mae_last_2_years": {m: num(v, 2) for m, v in p["maes"].items()}}
+    if made_first is not None:
+        s["made_utc"] = made_first
+        s["tomorrow_from"] = ("the ledger: the forecast first made for this day, kept as made (a later run the same day does "
+                              f"not replace it); the method chosen now is {now_choice}")
     tm = p["tomorrow"]
     if tm is None:
         s["tomorrow_held"] = p["tomorrow_held"]
