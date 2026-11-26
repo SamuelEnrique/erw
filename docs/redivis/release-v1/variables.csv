@@ -7695,6 +7695,8 @@ ornl_npd_potential,capacity_factor_pct,column,
 ornl_npd_potential,coordinates_from,column,
 owid_ember_electricity_annual,electricity_demand,series variable,MWh
 owid_ember_electricity_annual,electricity_emissions,series variable,tCO2e
+predict_demand_forecasts,demand_forecast_mw,series variable,MW
+predict_price_forecasts,lmp_dam_forecast,series variable,USD/MWh
 price_congestion_hourly,congestion_dam,series variable,USD/MWh
 price_congestion_hourly,energy_dam,series variable,USD/MWh
 price_congestion_hourly,ghg_dam,series variable,USD/MWh

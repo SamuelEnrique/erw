@@ -1000,13 +1000,15 @@
   "census_cbp_construction_annual": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/impact"
    ]
   },
   "census_cbp_hosting_annual": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/impact"
    ]
   },
   "census_county_population": {
@@ -4432,6 +4434,14 @@
     "/policy"
    ]
   },
+  "predict_demand_forecasts": {
+   "status": "public",
+   "pages": []
+  },
+  "predict_price_forecasts": {
+   "status": "public",
+   "pages": []
+  },
   "price_board_latest": {
    "status": "license needed",
    "hold": "by grid",
@@ -4943,7 +4953,9 @@
   },
   "weather_forecast_issued_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "weather_obs_hourly": {
    "status": "public",
@@ -5029,7 +5041,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 541
+   "public": 542
   },
   "/data/faults": {
    "label": "Known faults in source data",
@@ -5112,8 +5124,8 @@
     "energy_projects",
     "impact_tax_rules"
    ],
-   "internal": 0,
-   "public": 6
+   "internal": 1,
+   "public": 8
   },
   "/cost-of-power/battery": {
    "label": "What a battery earns",
