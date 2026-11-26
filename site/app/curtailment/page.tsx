@@ -55,6 +55,10 @@ const ercot = ercotJson as unknown as ErcotFile;
 const zones = zoneJson as unknown as ZoneFile;  // session 149: which places have a published boundary (none yet: every place is a tile)
 const METHOD = "/data/methods/curtailment";
 const D = 86_400_000;
+// session 10210 (the curtailment audit, finding 6): California's hours are Pacific clock time, as CAISO's record keeps
+// them, while "Where free energy is" counts its hours in Pacific standard time; from March to November the two are an hour
+// apart (on standard time 2026's hour with the most is 14:00, not 15:00)
+const CLOCK_WORDS = "Pacific clock time, with daylight saving time from March to November, so an hour later than the standard time of the prices below in those months; each bar is the period's total in that hour of the day.";
 const exact = (v: number) => (Number.isInteger(v) ? count(v) : price(v));
 const iso = (t: number) => new Date(t).toISOString().replace(/\.\d{3}Z$/, "Z");
 const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
@@ -68,10 +72,6 @@ function shareCurtailed(grid: string, m: string, mwh: number, held: number, days
   const all = p.curtailed_solar_mwh + p.curtailed_wind_mwh;
   return <span data-share-days={m} className="cursor-help underline decoration-dotted" title={`Over the ${held} of ${days} days for which CAISO's wind and solar output is held; a day without it is left out of both sides of the share. Every day held of the month, from CAISO's record by the hour: ${whole(all)} MWh over ${p.days_held} of ${p.days_in_month} days`}>{whole(mwh)}</span>;
 }
-// session 10210 (the curtailment audit, finding 6): California's hours are Pacific clock time, as CAISO's record keeps
-// them, while "Where free energy is" counts its hours in Pacific standard time; from March to November the two are an hour
-// apart (on standard time 2026's hour with the most is 14:00, not 15:00)
-const CLOCK_WORDS = "Pacific clock time, with daylight saving time from March to November, so an hour later than the standard time of the prices below in those months; each bar is the period's total in that hour of the day.";
 const LOCAL = "Turned down to relieve a congested line somewhere on the grid", SYSTEM = "Turned down because the whole system had more supply than it could use or export";
 
 /** By day and by month, from the curtailment tables (what /curtailment showed), with the shares of shares.json. */
