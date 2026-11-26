@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
-import { DOCS, render, weeklyWeeks } from "@/lib/markdown";
+import { DOCS, renderRoundup, weeklyWeeks } from "@/lib/markdown";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "ERW's Roundup" };
@@ -22,7 +22,10 @@ export default function RoundupIndex() {
   return (
     <Brand>
     <div className="grid gap-8 lg:grid-cols-[1fr_14rem]">
-      <article className="prose-erw min-w-0" dangerouslySetInnerHTML={{ __html: render(DOCS.weeklies[newest], DOCS.weekly_source[newest]) }} />
+      {/* session 10235 (docs/reviews/digest-model-audit-2026-11-26.md, finding 1): drawn as /roundup/<week> draws it,
+          with renderRoundup (the hold of a held grid's cells, rows 94 and 108; the source trail; the fold). With render,
+          this page drew W45's NYISO 40.90 and ISO-NE 40.28 that /roundup/2026-W45 holds */}
+      <article className="prose-erw min-w-0" dangerouslySetInnerHTML={{ __html: renderRoundup(DOCS.weeklies[newest], DOCS.weekly_source[newest]) }} />
       <aside className="text-sm lg:border-l lg:border-rule lg:pl-4">
         <h2 className="mb-2 text-lg">Archive</h2>
         <ul>
