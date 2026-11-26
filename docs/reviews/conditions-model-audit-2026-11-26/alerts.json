@@ -1,0 +1,355 @@
+{
+ "caiso": {
+  "page_alerts": 1906,
+  "page_last": "2026-10-08",
+  "input_rows": 1906,
+  "input_last": "2026-10-08",
+  "page_equals_input_upto_input_last": false,
+  "diff": {
+   "in_page_not_input": 1,
+   "in_input_not_page": 1,
+   "examples_page": [
+    [
+     "2020-10-01",
+     "Flex Alert",
+     "2020-10-01 15:00",
+     "2020-10-01 22:00",
+     "https://www.caiso.com/documents/grid-emergencies-history-report-1998-to-present.pdf"
+    ]
+   ],
+   "examples_input": [
+    [
+     "2020-09-30",
+     "Flex Alert",
+     null,
+     null,
+     "https://www.caiso.com/documents/grid-emergencies-history-report-1998-to-present.pdf"
+    ]
+   ],
+   "same_as_multiset": false
+  },
+  "windows": {
+   "recent": {
+    "page_rows": 0,
+    "input_rows": 0,
+    "distinct_notices": 0,
+    "regions": {},
+    "kinds": {},
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "covid_2020": {
+    "page_rows": 0,
+    "input_rows": 0,
+    "distinct_notices": 0,
+    "regions": {},
+    "kinds": {},
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "caiso_heat_2020": {
+    "page_rows": 79,
+    "input_rows": 79,
+    "distinct_notices": 23,
+    "regions": {
+     "ISO": 79
+    },
+    "kinds": {
+     "alert": 6,
+     "flex_alert": 17,
+     "rmo": 44,
+     "stage2": 4,
+     "stage3": 2,
+     "warning": 5,
+     "load_interruption": 1
+    },
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 42
+   },
+   "uri_2021": {
+    "page_rows": 26,
+    "input_rows": 26,
+    "distinct_notices": 3,
+    "regions": {
+     "Southern CA": 26
+    },
+    "kinds": {
+     "rmo": 26
+    },
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 16
+   },
+   "caiso_heat_2022": {
+    "page_rows": 44,
+    "input_rows": 44,
+    "distinct_notices": 35,
+    "regions": {
+     "ISO": 40,
+     "Northern CA": 4
+    },
+    "kinds": {
+     "eea1": 6,
+     "eea_watch": 9,
+     "flex_alert": 10,
+     "rmo": 10,
+     "eea2": 4,
+     "transmission_emergency": 4,
+     "eea3": 1
+    },
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "elliott_2022": {
+    "page_rows": 4,
+    "input_rows": 4,
+    "distinct_notices": 1,
+    "regions": {
+     "Northern CA": 4
+    },
+    "kinds": {
+     "transmission_emergency": 4
+    },
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 2
+   },
+   "ercot_heat_2023": {
+    "page_rows": 6,
+    "input_rows": 6,
+    "distinct_notices": 6,
+    "regions": {
+     "ISO": 6
+    },
+    "kinds": {
+     "rmo": 6
+    },
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "cold_2025": {
+    "page_rows": 2,
+    "input_rows": 2,
+    "distinct_notices": 1,
+    "regions": {
+     "CAISO Grid": 2
+    },
+    "kinds": {
+     "rmo": 2
+    },
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "east_heat_2025": {
+    "page_rows": 0,
+    "input_rows": 0,
+    "distinct_notices": 0,
+    "regions": {},
+    "kinds": {},
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "cold_2026": {
+    "page_rows": 0,
+    "input_rows": 0,
+    "distinct_notices": 0,
+    "regions": {},
+    "kinds": {},
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   }
+  },
+  "kinds_all": {
+   "alert": 245,
+   "rmo": 766,
+   "stage1": 146,
+   "stage2": 118,
+   "warning": 320,
+   "flex_alert": 155,
+   "stage3": 41,
+   "transmission_emergency": 82,
+   "vlrp": 8,
+   "load_interruption": 1,
+   "eea1": 7,
+   "eea_watch": 12,
+   "eea2": 4,
+   "eea3": 1
+  },
+  "update_or_statement_all": 0,
+  "counts_no_all": 0,
+  "retrieved": [
+   ""
+  ]
+ },
+ "ercot": {
+  "page_alerts": 178,
+  "page_last": "2026-10-15",
+  "input_rows": 178,
+  "input_last": "2026-10-15",
+  "page_equals_input_upto_input_last": false,
+  "diff": {
+   "in_page_not_input": 0,
+   "in_input_not_page": 0,
+   "examples_page": [],
+   "examples_input": [],
+   "same_as_multiset": true
+  },
+  "windows": {
+   "recent": {
+    "page_rows": 0,
+    "input_rows": 0,
+    "distinct_notices": 0,
+    "regions": {},
+    "kinds": {},
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "covid_2020": {
+    "page_rows": 0,
+    "input_rows": 0,
+    "distinct_notices": 0,
+    "regions": {},
+    "kinds": {},
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "caiso_heat_2020": {
+    "page_rows": 0,
+    "input_rows": 0,
+    "distinct_notices": 0,
+    "regions": {},
+    "kinds": {},
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "uri_2021": {
+    "page_rows": 6,
+    "input_rows": 6,
+    "distinct_notices": 4,
+    "regions": {
+     "ERCOT": 6
+    },
+    "kinds": {
+     "statement": 1,
+     "conservation_appeal": 3,
+     "rotating_outages": 1,
+     "update": 1
+    },
+    "update_or_statement": 2,
+    "counts_no": 1,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "caiso_heat_2022": {
+    "page_rows": 0,
+    "input_rows": 0,
+    "distinct_notices": 0,
+    "regions": {},
+    "kinds": {},
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "elliott_2022": {
+    "page_rows": 5,
+    "input_rows": 5,
+    "distinct_notices": 1,
+    "regions": {
+     "ERCOT": 5
+    },
+    "kinds": {
+     "ocn_weather": 5
+    },
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "ercot_heat_2023": {
+    "page_rows": 23,
+    "input_rows": 23,
+    "distinct_notices": 15,
+    "regions": {
+     "ERCOT": 23
+    },
+    "kinds": {
+     "weather_watch": 10,
+     "voluntary_conservation": 3,
+     "conservation_appeal": 8,
+     "eea2": 1,
+     "update": 1
+    },
+    "update_or_statement": 1,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "cold_2025": {
+    "page_rows": 4,
+    "input_rows": 4,
+    "distinct_notices": 1,
+    "regions": {
+     "ERCOT": 4
+    },
+    "kinds": {
+     "weather_watch": 4
+    },
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "east_heat_2025": {
+    "page_rows": 0,
+    "input_rows": 0,
+    "distinct_notices": 0,
+    "regions": {},
+    "kinds": {},
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   },
+   "cold_2026": {
+    "page_rows": 4,
+    "input_rows": 4,
+    "distinct_notices": 1,
+    "regions": {
+     "ERCOT": 4
+    },
+    "kinds": {
+     "weather_watch": 4
+    },
+    "update_or_statement": 0,
+    "counts_no": 0,
+    "rows_same_date_kind_start_end_as_another": 0
+   }
+  },
+  "kinds_all": {
+   "rotating_outages": 5,
+   "update": 20,
+   "power_watch": 10,
+   "statement": 19,
+   "conservation_appeal": 43,
+   "eea1": 1,
+   "weather_watch": 44,
+   "ocn_weather": 11,
+   "voluntary_conservation": 4,
+   "eea2": 1,
+   "emergency_test": 2,
+   "advisory": 17,
+   "watch": 1
+  },
+  "update_or_statement_all": 39,
+  "counts_no_all": 58,
+  "retrieved": [
+   "2026-10-19"
+  ]
+ }
+}

@@ -1,0 +1,8 @@
+rows 1906 time frame printed, start empty: 470
+ by kind {'stage1': 145, 'stage2': 111, 'stage3': 41, 'rmo': 73, 'vlrp': 8, 'warning': 18, 'flex_alert': 48, 'transmission_emergency': 18, 'alert': 8}
+ by year {'1998': 12, '1999': 5, '2000': 92, '2001': 173, '2002': 3, '2003': 1, '2004': 25, '2005': 30, '2006': 47, '2007': 28, '2008': 13, '2009': 14, '2010': 9, '2012': 3, '2020': 3, '2021': 1, '2022': 11}
+ examples [('2020-08-14', 'stage3', '08/14/2020 at 18:36 through 08/14/2020 at 20:38'), ('2022-09-03', 'flex_alert', 'September 3 at 4:00 PM to September 3 at 9:00 PM'), ('2022-09-06', 'flex_alert', 'September 6 at 4:00 PM to September 6 at 9:00 PM'), ('2022-09-08', 'flex_alert', 'September 8 at 3:00 PM to September 8 at 10:00 PM'), ('2022-09-07', 'flex_alert', 'September 7 at 4:00 PM to September 7 at 9:00 PM'), ('2021-07-12', 'flex_alert', '2021-07-12 16:00:00 through 2021-07-12 21:00:00')]
+ since 2018-07-01 (the page's first day): 15 {'stage3': 2, 'flex_alert': 13}
+page file: alerts with no start 1347 of 1906 ; since 2018-07-01 14 {'Stage 3': 2, 'Flex Alert': 12}
+rows that repeat another of the same day, kind, region, start and end: 81 of 1906
+ since 2018-07-01: 81 of 320
