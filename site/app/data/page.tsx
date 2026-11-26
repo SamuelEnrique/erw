@@ -38,8 +38,12 @@ export default async function Data() {
     <Brand>
       <h1 className="mb-1 text-3xl">Data</h1>
       <p className="mb-6 max-w-3xl text-sm text-muted">
-        Every public table in the ERW. Each table is one of three shapes (series, entities, events), in UTC, with the source report
-        and retrieval time of every row. Internal tables, licensed for internal use only, are not listed.
+        The public tables in the site&apos;s live catalogue. Each table is one of three shapes (series, entities, events), in UTC, with the
+        source report and retrieval time in its header lines, and on each row where the table has the columns{" "}
+        <code className="font-mono">source</code> and <code className="font-mono">retrieved_at</code>. Internal tables, licensed for internal use
+        only, are not listed. Nor is a public table the live set holds back (<code className="font-mono">catalogue_hold</code> and{" "}
+        <code className="font-mono">review_hold</code> in <code className="font-mono">warehouse/supabase/live_set.yaml</code>):{" "}
+        <a href={`${site.repository}/blob/main/warehouse/metadata/coverage.csv`}>coverage.csv</a> lists every table of the warehouse.
       </p>
 
       <Section title="Coverage" id="coverage" aside={cat.ok ? <>{count(cat.data.length)} public tables</> : null}>
