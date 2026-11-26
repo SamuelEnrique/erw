@@ -1,0 +1,74 @@
+day-ahead hubs: Counter({'miso': 8, 'ercot': 6, 'caiso': 3, 'spp': 2}) real-time hubs: Counter({'miso': 8, 'ercot': 6, 'caiso': 3, 'spp': 2}) freq: {'caiso': 'PT15M', 'ercot': 'PT15M', 'miso': 'PT1H', 'spp': 'PT15M'}
+Henry Hub days: 7503 from 1997-01-07 to 2026-11-11
+iso_trader_daily spans: {'caiso': ('2026-08-26', '2026-10-21'), 'ercot': ('2026-08-26', '2026-10-21'), 'miso': ('2026-08-26', '2026-10-03'), 'spp': ('2026-08-26', '2026-10-21')}
+
+--- Part 1: iso_trader_daily restated (rounded half up to 4 decimals, compared)
+  da_mean_usd                           625 compared,    625 exact,    625 within 0.0001, largest gap 0 
+  da_offpeak_mean_usd                   625 compared,    625 exact,    625 within 0.0001, largest gap 0 
+  da_onpeak_mean_usd                    438 compared,    438 exact,    438 within 0.0001, largest gap 0 
+  da_rt_spread_max_usd                  495 compared,    495 exact,    495 within 0.0001, largest gap 0 
+  da_rt_spread_mean_usd                 495 compared,    495 exact,    495 within 0.0001, largest gap 0 
+  da_volatility_30d_usd                 283 compared,    283 exact,    283 within 0.0001, largest gap 0 
+  held da_mean_usd                      312 compared,    312 exact,    312 within 0.0001, largest gap 0 
+  held da_offpeak_mean_usd              312 compared,    312 exact,    312 within 0.0001, largest gap 0 
+  held da_onpeak_mean_usd               216 compared,    216 exact,    216 within 0.0001, largest gap 0 
+  held da_rt_spread_max_usd             296 compared,    296 exact,    296 within 0.0001, largest gap 0 
+  held da_rt_spread_mean_usd            296 compared,    296 exact,    296 within 0.0001, largest gap 0 
+  held da_volatility_30d_usd             72 compared,     72 exact,     72 within 0.0001, largest gap 0 
+  held hours_rt_over_da_50              296 compared,    296 exact,    296 within 0.0001, largest gap 0 
+  held implied_heat_rate                312 compared,    312 exact,    312 within 0.0001, largest gap 0 
+  held rt_mean_usd                      296 compared,    296 exact,    296 within 0.0001, largest gap 0 
+  hours_rt_over_da_50                   495 compared,    495 exact,    495 within 0.0001, largest gap 0 
+  implied_heat_rate                     592 compared,    583 exact,    583 within 0.0001, largest gap 0.3709 ('ercot', 'ercot:HB_SOUTH', 'implied_heat_rate', datetime.date(2026, 10, 15))
+  rt_mean_usd                           495 compared,    495 exact,    495 within 0.0001, largest gap 0 
+    heat rate caiso:TH_NP15_GEN-APND 2026-10-15: table 14.1038, restated 13.7619; gas today's file takes 2026-10-15 (3.3); the table's implies gas 3.220
+    heat rate caiso:TH_SP15_GEN-APND 2026-10-15: table 11.0321, restated 10.7647; gas today's file takes 2026-10-15 (3.3); the table's implies gas 3.220
+    heat rate caiso:TH_ZP26_GEN-APND 2026-10-15: table 11.4559, restated 11.1782; gas today's file takes 2026-10-15 (3.3); the table's implies gas 3.220
+    heat rate ercot:HB_BUSAVG 2026-10-15: table 13.2574, restated 12.9360; gas today's file takes 2026-10-15 (3.3); the table's implies gas 3.220
+    heat rate ercot:HB_HOUSTON 2026-10-15: table 14.0564, restated 13.7157; gas today's file takes 2026-10-15 (3.3); the table's implies gas 3.220
+    heat rate ercot:HB_HUBAVG 2026-10-15: table 13.6488, restated 13.3179; gas today's file takes 2026-10-15 (3.3); the table's implies gas 3.220
+    heat rate ercot:HB_NORTH 2026-10-15: table 12.2645, restated 11.9672; gas today's file takes 2026-10-15 (3.3); the table's implies gas 3.220
+    heat rate ercot:HB_SOUTH 2026-10-15: table 15.298, restated 14.9271; gas today's file takes 2026-10-15 (3.3); the table's implies gas 3.220
+    heat rate ercot:HB_WEST 2026-10-15: table 12.9757, restated 12.6611; gas today's file takes 2026-10-15 (3.3); the table's implies gas 3.220
+    absent from the table, restated today: caiso da_rt_spread_max_usd on ['2026-10-21']
+    absent from the table, restated today: caiso da_rt_spread_mean_usd on ['2026-10-21']
+    absent from the table, restated today: caiso hours_rt_over_da_50 on ['2026-10-21']
+    absent from the table, restated today: caiso implied_heat_rate on ['2026-10-19', '2026-10-20', '2026-10-21']
+    absent from the table, restated today: caiso rt_mean_usd on ['2026-10-21']
+    absent from the table, restated today: ercot da_rt_spread_max_usd on ['2026-10-21']
+    absent from the table, restated today: ercot da_rt_spread_mean_usd on ['2026-10-21']
+    absent from the table, restated today: ercot hours_rt_over_da_50 on ['2026-10-21']
+    absent from the table, restated today: ercot implied_heat_rate on ['2026-10-19', '2026-10-20', '2026-10-21']
+    absent from the table, restated today: ercot rt_mean_usd on ['2026-10-21']
+    absent from the table, restated today: spp da_rt_spread_max_usd on ['2026-09-24', '2026-09-25', '2026-09-26', '2026-09-27', '2026-09-28', '2026-09-29', '2026-09-30', '2026-10-01', '2026-10-02', '2026-10-03', '2026-10-04', '2026-10-05', '2026-10-06', '2026-10-08', '2026-10-09', '2026-10-11', '2026-10-13', '2026-10-16', '2026-10-17', '2026-10-18', '2026-10-20']
+    absent from the table, restated today: spp da_rt_spread_mean_usd on ['2026-09-24', '2026-09-25', '2026-09-26', '2026-09-27', '2026-09-28', '2026-09-29', '2026-09-30', '2026-10-01', '2026-10-02', '2026-10-03', '2026-10-04', '2026-10-05', '2026-10-06', '2026-10-08', '2026-10-09', '2026-10-11', '2026-10-13', '2026-10-16', '2026-10-17', '2026-10-18', '2026-10-20']
+    absent from the table, restated today: spp hours_rt_over_da_50 on ['2026-09-24', '2026-09-25', '2026-09-26', '2026-09-27', '2026-09-28', '2026-09-29', '2026-09-30', '2026-10-01', '2026-10-02', '2026-10-03', '2026-10-04', '2026-10-05', '2026-10-06', '2026-10-08', '2026-10-09', '2026-10-11', '2026-10-13', '2026-10-16', '2026-10-17', '2026-10-18', '2026-10-20']
+    absent from the table, restated today: spp implied_heat_rate on ['2026-10-19', '2026-10-20', '2026-10-21']
+    absent from the table, restated today: spp rt_mean_usd on ['2026-09-24', '2026-09-25', '2026-09-26', '2026-09-27', '2026-09-28', '2026-09-29', '2026-09-30', '2026-10-01', '2026-10-02', '2026-10-03', '2026-10-04', '2026-10-05', '2026-10-06', '2026-10-08', '2026-10-09', '2026-10-11', '2026-10-13', '2026-10-16', '2026-10-17', '2026-10-18', '2026-10-20']
+  restated inside the table's span, absent from the table: da_rt_spread_max_usd 51
+  restated inside the table's span, absent from the table: da_rt_spread_mean_usd 51
+  restated inside the table's span, absent from the table: hours_rt_over_da_50 51
+  restated inside the table's span, absent from the table: implied_heat_rate 33
+  restated inside the table's span, absent from the table: rt_mean_usd 51
+  SPP real-time metrics the method's rule makes from iso_rtm_hub_prices (spp_rtm) on disk: 64 rows; in the table: 0
+
+--- Part 2: clock-change days in the price tables (public grids)
+  caiso caiso:TH_NP15_GEN-APND 2026-11-01: 25 hours held, 25 in the local day; written: True
+  caiso caiso:TH_SP15_GEN-APND 2026-11-01: 25 hours held, 25 in the local day; written: True
+  caiso caiso:TH_ZP26_GEN-APND 2026-11-01: 25 hours held, 25 in the local day; written: True
+  ercot ercot:HB_BUSAVG 2026-11-01: 25 hours held, 25 in the local day; written: True
+  ercot ercot:HB_HOUSTON 2026-11-01: 25 hours held, 25 in the local day; written: True
+  ercot ercot:HB_HUBAVG 2026-11-01: 25 hours held, 25 in the local day; written: True
+  ercot ercot:HB_NORTH 2026-11-01: 25 hours held, 25 in the local day; written: True
+  ercot ercot:HB_SOUTH 2026-11-01: 25 hours held, 25 in the local day; written: True
+  ercot ercot:HB_WEST 2026-11-01: 25 hours held, 25 in the local day; written: True
+  spp spp:SPPNORTH_HUB 2026-11-01: 25 hours held, 25 in the local day; written: True
+  spp spp:SPPSOUTH_HUB 2026-11-01: 25 hours held, 25 in the local day; written: True
+
+--- Part 3: iso_rt_top_intervals restated (ERCOT, CAISO)
+  ercot: 74 days complete in interval times held by some hub, 74 complete for every hub; days that pass the code's rule but not the note's: []
+  ercot: the header's week 2026-10-13 to 2026-10-20; days complete in today's table within it: 7 (the code took 7, so on its run day 0 of them was not complete)
+  ercot: week 2026-10-13 to 2026-10-20 (7 days, 8 calendar days); the 10 restated against the snapshot: 10 of 10 the same value and interval
+  caiso: 74 days complete in interval times held by some hub, 74 complete for every hub; days that pass the code's rule but not the note's: []
+  caiso: the header's week 2026-10-13 to 2026-10-20; days complete in today's table within it: 7 (the code took 7, so on its run day 0 of them was not complete)
+  caiso: week 2026-10-13 to 2026-10-20 (7 days, 8 calendar days); the 10 restated against the snapshot: 10 of 10 the same value and interval
