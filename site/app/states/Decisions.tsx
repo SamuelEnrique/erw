@@ -13,7 +13,7 @@ export const STATES_DECISIONS: StatesDecision[] = [
     def: "The publishers' figures as published.",
     source: "site/data/states/, built by warehouse/derived/states_page.py from sixteen ERW tables (docs/methods/states_page.md)." },
   { key: "not-held", session: "session 8014",
-    text: "A figure a source does not print for a place is drawn as \"not held\" with the reason on hover. It is never drawn as zero; a zero is a zero the source printed.",
+    text: "A figure a source does not print for a place is drawn as \"not held\" with the reason on hover. It is never drawn as zero; a zero is a zero the source printed. A figure smaller than half the last digit shown prints as 0.0, 0.0% or $0.00 bn: Texas's transportation sales, 4,677 MWh in the twelve months, print as 0.0 TWh.",
     def: "\"not held\" with the reason on hover.",
     source: "The contract's rules, docs/state/page_files_states.md." },
   { key: "first-place", session: "session 8014",
