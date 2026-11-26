@@ -15,7 +15,7 @@
 
 ## Errors and how they were caught
 
-- **The regression's solver lost precision.** The replication written from the method note refitted sample days with plain least squares and disagreed on 22 of 232 sample hours, by up to 0.4 percent. The builder had solved each window from differences of running normal equations; it now solves each window's own rows. Every score figure (17,995 of them) had reproduced exactly before the fix, because the replication scored the stored forecasts; the refit is what caught it.
+- **A wrong diagnosis, corrected within the session.** The replication's refit disagreed with the stored forecasts on 22 of 232 sample hours (up to 0.4 percent). I first blamed the builder's solver (running normal equations) and changed it to solve each window's own rows; the rebuilt forecasts were identical, so that was not the cause. The cause: the places that disagreed are exactly those whose demand holds hours at or below zero, which the builder takes as not held when it takes a day's mean, a rule the method note did not state. The note now states it (section 3), the replication follows it, and all 232 refits and all 17,995 score figures agree. The solver change is kept: it changed nothing at the shown precision and is the plainer method. The draft of this report, pushed at 12:20 UTC, gave the wrong cause; it is corrected here (the note's section 10 had not been pushed with it).
 - A second empty heredoc to Python (the same mistake as in session 10600) hung on standard input; stopped, nothing changed. No heredoc of any kind is used after it.
 
 ## Decisions made without you
