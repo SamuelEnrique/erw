@@ -8,11 +8,12 @@ How a row reads: what was done, what was seen, what should be seen, and whose it
 
 | | Count | Where |
 |---|---:|---|
-| Pages and views read in part B's form | 14 of the list's 14 begun; see each section | below |
-| Faults fixed on a branch, to be seen in a build | 4 (G1, C1, C2, GW1) | `wip/c750-grid-reliability`, `wip/c750-conditions`, `wip/c750-grid-last-week`; rows 1, 3 and 4 of `docs/state/landing_request_portable_w2.md` |
-| Faults filed for another window | 4: two unlanded commits (L1, the desktop's second window, row 2 of the same file); CP1 and CP2 on `/cost-of-power` (the old laptop and window A); R1 on `/research` (the old laptop) | part D below |
+| Read | part A (5 rows); part B (all 14 of its list); part D (the five sellable tools, 28 more pages of the menu, the first minute); part C as it lands (the landing of 14:16 UTC and `/impact` with Datacenter so far) | each section below |
+| Faults fixed here, each on a branch with a test | 8 (G1, C1, C2, GW1, K1, K2, K3, K4) on five branches | rows 1, 3, 4, 5 and 6 of `docs/state/landing_request_portable_w2.md`. G1, C1 and C2 landed at 14:16 UTC and are seen on production; the rest are seen in a build by the first window and requested |
+| Faults filed for the window that owns the page | 9: L1 (two commits of the desktop's second window that read landed and were not on main: row 2, landed at 14:16 UTC and seen); CP1 and CP2 on `/cost-of-power` (the old laptop; window A); R1 on `/research` (the old laptop); I1 to I5 on `/impact` with Datacenter (window C) | part D and part C below |
 | Known to their owner, read again when repaired | 1 (the page files of 21 to 25 November, L2) | chain 701, part C |
-| For Samuel's ruling, the page left as it is | see the foot of this file | "For Samuel's ruling" |
+| For Samuel's ruling, the page left as it is | 10 lines | the foot of this file |
+| Not on main yet at 15:10 UTC | `/forecast`, `/equities` and the board's new group, the All grids tab's new rows | part C, when they land |
 
 ## Part A: the rows that waited for a browser
 
@@ -245,6 +246,8 @@ Whose: no window's tonight (its model was audited on 20 November; that audit's b
 
 **The hand, 24 of 24 at each width.** Every control has a name; the units switch, the grid and the strategy each carry into the address; after the back button the choices read what the address says; a held grid in the address (PJM) leaves the page on ERCOT with PJM's choice disabled and "license needed" beside it, and no figure of PJM is drawn; the fifteen boxes of the headline and chart pickers each change the page and change it back; the nine "About" marks each open a box inside the screen; both charts give a card under the mouse and a finger; the keyboard reaches the foot (85 stops at 1280 px, 35 at 390 px, where the assumptions are folded), every stop seen and marked. No sideways scroll after any step, with every fold open, at 390 px. Usable in 0.4 s. **No fault.**
 
+**The Price years list and the back button** (15:12 UTC, both widths, `runs/c750/battery_back.mjs`). The list writes its choice over the page's own place in the browser's history (`/cost-of-power/battery` becomes `/cost-of-power/battery?py=year_2024`, the history as long as before), as the code says it means to ("written in place so that a comparison can be shared as a link"): one step back leaves the tool for the page before it. On the generator's page the same list adds a step, and the back button puts the earlier years back within 2 s. Each works as written; the two pages differ. Line 11 under "For Samuel's ruling".
+
 Pictures: `docs/reviews/browser-read-2026-11-26/battery/battery-as-it-opens-1280.png`; `docs/reviews/browser-read-2026-11-26/battery/battery-caiso-day-ahead-1280.png` (its most telling choice: CAISO on the day-ahead schedule).
 
 ### What a generator earns (`/cost-of-power/seller`)
@@ -310,6 +313,8 @@ The pages of the menu that no window owns tonight, each walked at 1280 and 390 p
 |---|---|---|---|---|
 | K3 | `/prices/compare`: A set to SP15, the form's button, then the back button; the same with B | The page goes back to no A; the list still reads "caiso:TH_SP15_GEN-APND". 4 of 4 | The lists read what the page shows | no window's; **fixed** on `wip/c750-forms-back` (`9eb8fbcbc`) |
 | K4 | `/conditions`: a day typed (2024-07-24), Show, then the back button | The page draws the newest 35 days again; the Day box still reads the day. 4 of 4. (Its three lists were already right: they are the mended kind) | The Day box empty, as the page shows | no window's; **fixed** on the same branch. The mend, the form keeping no state, was tried on production's own pages first: 8 of 8 then read the page's value. Landing row 6, ready, to be seen |
+
+**A link that carries a choice, opened fresh, on the pages that write the address themselves** (15:10 UTC, both widths, `runs/c750/fresh_links.mjs`). A layer switched on in `/map?tab=resources` (the address takes `on=wind_speed_100m,wind_capacity_factor` with the zoom and centre), a grid picked in `/research`'s library (`?grid=ercot`) and a row opened in the board's workbench (`/board?s=ercot-hb-hubavg-da`: "ERCOT Hub average day-ahead, 46.31 USD/MWh on 25 Nov 2026"): each address opened fresh shows what the hand had chosen, 6 of 6. The policy monitor's state list was not found by the script and is not counted.
 
 `/industry` and `/states` read right after the back button. Two forms of the same shape could not be tried and are not changed: `/deals` (its list is held for a license, so no form is drawn) and `/severance/lease/real` (drawn only once a file is given).
 
@@ -405,6 +410,7 @@ Eight of eight agree, value and day. The four series the file holds back carry n
 5. **The tour's Digest stop** still quotes two headings the Digest page does not show ("Top of the industry", "ERW's Numbers Today"); the tour's check passes 101 of 103 for it. Standing since 20 November. Default: left.
 6. **`/conditions`, the alerts list.** On the branch every notice is a row (79 rows for CAISO's August 2020 heat wave). If the list should stay at 40, the page should say that it is cut and where it stops; one line either way.
 10. **The Grid tool's Network view, the address while a story plays.** The page tells its reader to copy the address to share the view. While a Watch story plays, the address is still the live week's; it takes the story once it is paused. Default: left. The choice: write the story into the address when it is pressed (and the hour when paused), or say "pause, then copy".
+11. **The Price years list and the back button, two pages two ways.** On the battery tool (and every setting of its box) a choice is written over the page's place in the history, so one step back leaves the tool; on the generator's page the same list adds a step, so one step back undoes the choice. Default: left, each as its code says. The choice: one way for the economics pages.
 9. **The All grids tab and the keyboard.** A reader with the keyboard alone passes more than 500 stops before the foot of `/cost-of-power?view=allgrids`: every row's marks are stops. Default: left.
 8. **`/research`, "hover reads them".** The six small example charts give no value under the mouse or a finger, by design, and the line above them says they do. Default: left (the old laptop audits Automated Analysis tonight; row R1 names it). The choice: take the words out, or give the small examples their values.
 7. **"not held" in a chart's table, with no reason.** A chart switched to its table prints "not held" for a missing value and gives no reason on hover (1,206 blanks on the 22 pages of B12 and B14). The tables the pages draw themselves do give one. Default: left; the shared chart table does not know why a value is missing.
