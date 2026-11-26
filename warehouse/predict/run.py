@@ -238,8 +238,8 @@ def demand_series(p, made, ledger):
          "operator_held": None,
          "history_columns": ["ts_utc", "local_day", "local_hour", "made_utc", "kind", "erw", "lo", "hi", "operator", "actual", "yesterday", "week_ago"],
          "history": history_rows(p, ledger),
-         "summary": {"last_30_days": score.summary(hr, ["erw", "operator", "yesterday", "week_ago"], days=30),
-                     "backtest": score.summary(hr, ["erw", "operator", "yesterday", "week_ago"])},
+         "summary": {"last_30_days": score.summary(hr, ["erw", "operator", "yesterday", "week_ago"], days=30, also=SCORED),
+                     "backtest": score.summary(hr, ["erw", "operator", "yesterday", "week_ago"], also=SCORED)},
          "method_mae_last_2_years": {m: num(v, 2) for m, v in p["maes"].items()}}
     tm = p["tomorrow"]
     if tm is None:
@@ -320,7 +320,7 @@ def price_shown(p, made, ledger):
     hr = p["hr"]
     summ = {}
     for key, days in (("last_30_days", 30), ("backtest", None)):
-        sm = score.summary(hr, ["erw", "yesterday", "week_ago"], days=days, mape_floor=price.MAPE_FLOOR)
+        sm = score.summary(hr, ["erw", "yesterday", "week_ago"], days=days, mape_floor=price.MAPE_FLOOR, also=PRICE_SCORED)
         sm["mae"]["operator"] = None
         sm["mape"]["operator"] = None
         summ[key] = sm

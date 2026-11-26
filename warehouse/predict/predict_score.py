@@ -84,12 +84,13 @@ def held_rows(place, series, methods, reason):
     return [[place, series, m, "all", "", None, None, None, reason] for m in methods]
 
 
-def summary(hr, methods, days=None, mape_floor=None):
-    """{first_day, last_day, hours, mae: {m}, mape: {m}} over the common hours (the last `days` days when given)."""
+def summary(hr, methods, days=None, mape_floor=None, also=()):
+    """{first_day, last_day, hours, mae: {m}, mape: {m}} over the common hours (the last `days` days when given). `also`:
+    more methods that must be held for an hour to count (the score file's set), reported or not."""
     x = hr
     if days is not None and len(hr):
         x = hr[hr["day"] > hr["day"].max() - pd.Timedelta(days=days)]
-    c = common(x, methods)
+    c = common(x, list(methods) + [m for m in also if m not in methods])
     out = {"first_day": c["day"].min().strftime("%Y-%m-%d") if len(c) else None,
            "last_day": c["day"].max().strftime("%Y-%m-%d") if len(c) else None,
            "hours": int(len(c)), "mae": {}, "mape": {}}
