@@ -1,0 +1,200 @@
+{
+ "1_wrong_join_out": {
+  "change_pct": -33.269625539746585,
+  "mw_total": 18854.0,
+  "planned_mw": 11905.0,
+  "planned_mw_base": 21305.0,
+  "row_in_table": true
+ },
+ "2_operator_else_developer": {
+  "no_operator_mw": 26124.0,
+  "no_operator_n": 13,
+  "no_operator_with_developer_mw": 20704.0,
+  "no_operator_with_developer_n": 9,
+  "top5_else_developer_mw": 22082.0,
+  "top5_else_developer_share_pct": 78.15530544347703,
+  "top5_operator_mw": 2080.0,
+  "top5_operator_share_pct": 7.361789481135414,
+  "top_else_developer_mw": 10400.0,
+  "top_operator_mw": 1000.0
+ },
+ "3_timeline_counted_only": {
+  "median_2026_all": 2.0,
+  "median_2026_counted": null,
+  "median_all": 2,
+  "median_counted": 3,
+  "rows_all": 9,
+  "rows_cancelled": 0,
+  "rows_counted": 3,
+  "rows_counted_without_wrong_join": 2,
+  "rows_no_us_state": 6
+ },
+ "4_stage": {
+  "firm_mw": 183.0,
+  "firm_share_pct": 0.6476959014652792,
+  "mw_by_stage": {
+   "no status": 6766.0,
+   "operating": 75.0,
+   "planned: announced": 21193.0,
+   "planned: applied": 112.0,
+   "under_construction": 108.0
+  },
+  "pjm_planned_building_largest_row_mw": 10400.0,
+  "pjm_planned_building_mw": 10400.0,
+  "top3_mw": 22800.0,
+  "top3_share_pct": 80.69653854321513
+ },
+ "5_basis": {
+  "added_mw_if_it": 9998.240000000002,
+  "added_pct_of_total": 35.38698945282084,
+  "basis_counted": {
+   "total": 1,
+   "unstated": 20
+  },
+  "grid_draw_if_it_at_1_56": 38252.240000000005,
+  "unstated_mw": 17854.0
+ },
+ "6_news_window": {
+  "before_2026_09": 57,
+  "by_month": {
+   "2025-01": 5,
+   "2025-02": 1,
+   "2025-03": 7,
+   "2025-04": 7,
+   "2025-10": 1,
+   "2025-11": 1,
+   "2025-12": 1,
+   "2026-01": 4,
+   "2026-02": 4,
+   "2026-03": 8,
+   "2026-04": 5,
+   "2026-05": 8,
+   "2026-06": 2,
+   "2026-07": 3,
+   "2026-09": 13,
+   "2026-10": 113,
+   "2026-11": 10
+  },
+  "mw_rows_first_since_2026_09": 51,
+  "mw_rows_with_story": 55,
+  "n": 193,
+  "since_2026_09": 136
+ },
+ "7_price_markets": {
+  "LZ_AEN": {
+   "da": [
+    39.00950570776256,
+    12,
+    12
+   ],
+   "rt": null,
+   "rt_complete_months_held": 0,
+   "rt_last_month": null
+  },
+  "LZ_CPS": {
+   "da": [
+    38.992267123287675,
+    12,
+    12
+   ],
+   "rt": null,
+   "rt_complete_months_held": 0,
+   "rt_last_month": null
+  },
+  "LZ_HOUSTON": {
+   "da": [
+    35.91157420091324,
+    12,
+    12
+   ],
+   "rt": [
+    34.01617694063927,
+    12,
+    12
+   ],
+   "rt_complete_months_held": 142,
+   "rt_last_month": "2026-11"
+  },
+  "LZ_LCRA": {
+   "da": [
+    38.6405993150685,
+    12,
+    12
+   ],
+   "rt": null,
+   "rt_complete_months_held": 0,
+   "rt_last_month": null
+  },
+  "LZ_NORTH": {
+   "da": [
+    35.697873287671236,
+    12,
+    12
+   ],
+   "rt": [
+    34.071372146118726,
+    12,
+    12
+   ],
+   "rt_complete_months_held": 142,
+   "rt_last_month": "2026-11"
+  },
+  "LZ_RAYBN": {
+   "da": [
+    35.97714269406393,
+    12,
+    12
+   ],
+   "rt": null,
+   "rt_complete_months_held": 0,
+   "rt_last_month": null
+  },
+  "LZ_SOUTH": {
+   "da": [
+    34.86725,
+    12,
+    12
+   ],
+   "rt": [
+    34.168505707762556,
+    12,
+    12
+   ],
+   "rt_complete_months_held": 142,
+   "rt_last_month": "2026-11"
+  },
+  "LZ_WEST": {
+   "da": [
+    37.205626712328765,
+    12,
+    12
+   ],
+   "rt": [
+    35.35145091324201,
+    12,
+    12
+   ],
+   "rt_complete_months_held": 142,
+   "rt_last_month": "2026-11"
+  }
+ },
+ "8_ercot": {
+  "approved": 8927.0,
+  "day": "2026-06-19",
+  "new_submissions_mw": 140000.0,
+  "share_nonsimultaneous_pct": 43.687689033269855,
+  "share_simultaneous_pct": 41.16724543519659,
+  "tracker_texas_mw": 457.0,
+  "tracker_texas_share_of_approved_pct": 5.1193009969754675
+ },
+ "9_chart_scope": {
+  "counted_planned_or_building": 54,
+  "of_them_with_first_story": 34,
+  "operator_rows_planned": 22
+ },
+ "base": {
+  "counted": 274,
+  "mw_total": 28254.0,
+  "n_with_mw": 21
+ }
+}

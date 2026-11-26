@@ -304,7 +304,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                 {x.grid === "ercot" && deliveryParts.length ? <DeliveryTable parts={deliveryParts} mw={x.mw} size={size} href={`${TABLES_CSV}${suffix}`} /> : null}
                 {/* session 213: one sentence of what the model cannot see; the rest is in the methods note */}
                 <p className="mt-2 max-w-3xl text-xs text-muted" data-income-note="1">
-                  Market energy at {x.region}&apos;s {market} price, for {size}: no delivery, transmission, capacity or ancillary charge is added to it (Texas&apos;s delivery charges stand in their own table above, never added), the load buys every hour at the hour&apos;s price with no hedge, and a flexible load follows a rule decided before each hour, not the year&apos;s prices.
+                  Market energy at {x.region}&apos;s {market} price, for {size}: no delivery, transmission, capacity or ancillary charge is added to it (Texas&apos;s delivery charges stand in their own table above, never added), the load buys every hour at the hour&apos;s price with no hedge, its own demand is taken not to move that price (at hundreds of megawatts and more it would: every dollar here is the figure for 1 MW times the size), and a flexible load follows a rule decided before each hour, not the year&apos;s prices.
                   {" "}<Link href={`${ALGORITHM}#cannot-see`}>What else the model cannot see</Link>.
                 </p>
                 <p className="mt-2 max-w-3xl text-xs text-muted" data-grid-links="1">

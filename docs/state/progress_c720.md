@@ -36,20 +36,65 @@ All eight were checked against main first, as the chain asks. Each head is an an
 
 ## Part C: the ERW forecast, `/forecast`
 
+Branch `wip/c720-forecast`, cut from origin/main. The contract `docs/state/page_files_predict.md` was on main at the start. The real files (`site/data/predict/`) are on no branch yet (read at about 11:35 UTC on 26 November): the page is built and tested against the contract's example files and a fixture of the contract's shape, and reads the real files with no change of code when they land.
+
 | Step | State | Session |
 |---|---|---|
+| 1. Tomorrow: the ERW forecast by hour with its band, the operator's forecast beside it, three figures, the hours as a table; a tab for price; a held price a blank with "license needed" | done on the branch (`site/app/forecast/view.tsx`, `site/lib/predict.ts`) | 10401 |
+| 2. How it has done: any past day beside what happened with the day's errors; the last 30 days and the backtest; the score by month, by hour of day, the other cuts; every place at once, in the index's order | done on the branch | 10401 |
+| 3. Two places side by side; the hour made and the method on the place's hover; "ERW forecast" on every chart | done on the branch | 10401 |
+| 4. Downloads: `/forecast/rows` and `/forecast/scores`, each with a Python and a Stata reader; every figure with its key into its file and its source on hover | done on the branch | 10401 |
+| 5a. Tests that pin what a reader sees: `site/scripts/test-forecast.mjs` (105 checks: no files, the contract's examples, a fixture) and `tests/test_session10401_forecast.py` (10 passed); the 90 test files that name a changed module: 1,202 passed, 2 failed (test 8430, which fails on main on this laptop; test 8902's flag rule, mended: the tour stop waits in a list of its own); lint clean | done | 10401 |
+| 5b. The page seen in a build at 1280 and 390 px | done: three builds (exit 0, 70 to 118 s, 2.6 to 3.7 GB free before each). With no files (as main is): the title and one blank; a visitor gets the in-review page. With the server pointed at the test's fixture (layout only, made-up values, this machine only): one place, two places, demand and price, no sideways scroll at 390 px, the chart under a mouse and a finger, the keyboard from top to bottom (46 stops, each with a ring), the back button after two choices, the six downloads. What the look changed: two places' scores became columns of one table (they were two cramped tables), the band is named in the chart's legend (its name stood on the line's), the metric follows the series, the choices stay in view | 10401 |
+| 5c. On window B's real files: the five cases, every figure beside the files, the keyboard, the back button | done before their landing, on a copy of the files from `origin/wip/c730-predict-v2` (33 files, built 11:49 UTC): `site/scripts/check-forecast-files.mjs` draws 120 pages (29 places, both series, both metrics, four pairs) and sets 60,474 figures beside the files, 0 differing, and 134 figures of a day's error computed again, 0 differing; the five cases taken start to finish in a build at 1280 px, two places side by side at 1280 and 390 px, the keyboard (67 stops, each with a ring) and the back button. What the real files changed in the page is in session 10401's report. To do once more on production after the files land | 10401 |
+| Landing requested | done: row 54 of `docs/state/landing_request_portable.md`; the head moved to `dc8f59d7f` at 12:50 UTC | 10401 |
+| A tour stop, held | done on the branch: `WAITING_STOPS` in `site/lib/tour.ts` (a new stop is `landed` exactly when its page exists, so a page that lands before its files cannot be held by that flag) | 10401 |
 
 ## Part D: energy equities
 
+Branch `wip/c720-equities`, stacked on `wip/c720-forecast` (it shares the download readers). The contract `docs/state/page_files_equities.md` and its six example files (every value null) were on main at the start; no real file is on main or on any branch yet (read 12:15 UTC).
+
 | Step | State | Session |
 |---|---|---|
+| 1. The group on `/board`: the contract's rows turned into the board's own rows, after the board's own groups (`withEquities`, `site/lib/equities.ts`); its table has the latest value, its date, the five moves and the trend; a held row is the board's own blank with its hover; a row opens its series on `/equities`. With the example files the group is one blank row | done on the branch | 10402 |
+| 2. `/equities`: a segment, an index or a company as a line over any window with an energy price laid over on its own axis; a segment's two weightings named plainly; a company's filed figures (the newest period side by side, every period behind a fold, each period a link to its filing); two side by side; every company in one table that filters and sorts; segments and indices | done on the branch | 10402 |
+| 3a. Downloads (`/equities/rows`, `/equities/filed`, `/equities/list`, each with Python and Stata readers) and tests: `site/scripts/test-equities.mjs` 93 of 93, `tests/test_session10402_equities.py` 10 passed; the 111 test files that name the board, the tour, the routes or the config: 5 older tests of the board's source failed at first (each pins a line of the board's code) and pass now with those lines kept as they were; test 8430 fails as on main | done | 10402 |
+| 3b. The build at 1280 and 390 px | done: five builds (exit 0). As main stands: the board's own 25 groups as they were and the new one last with one blank row; `/equities` its title and one blank. With the test's fixture (made-up values, this machine only): the group's rows, filter, held row and the way to `/equities` by a click and by the keyboard; `/equities` with a segment, two companies and an oil price, an index and a monthly price, the table filtered and sorted; no sideways scroll at 390 px; 49 stops of the keyboard; the back button; nine downloads | 10402 |
+| 3c. On window A's real files, every figure beside the files | done before their landing, on a copy of the files from `origin/wip/c701-desk-1` (built 12:14 UTC). **They hold no company, index or segment line yet** (SEC EDGAR refuses the ERW's contact string; no price source a license allows): 15 segments, 30 board rows not held, 12 energy prices of which 8 shown. The page was reworked for that state (it said "not built yet", which was wrong): each part says why it is held, and a new section draws the energy prices. `site/scripts/check-equities-files.mjs`: 25 pages, 1,092 figures, 0 differing. Seen in a build with those files at 1280 and 390 px. The five cases of an equity reader cannot be taken until a company's series exists | 10402 |
+| Data request 574 (what the built files carry beyond the contract's text: `rule_why`, the list's `held`, a `paused` status, a quarterly step) | requested of window A | 10402 |
+| Data requests 571 and 572 (the list's last close, moves and market value; the board rows' other cells) | requested of window A, `docs/state/data_requests_done_line.md` | 10401 |
+| Data request 573 (the board's older row named "Energy equities", which will stand beside the new group) | requested of window A | 10402 |
+| Landing requested | done: row 55 of `docs/state/landing_request_portable.md`; the head moved to `011838634` at 13:08 UTC (it holds row 54's head `dc8f59d7f`) | 10402 |
+| A tour stop, held | done on the branch (`WAITING_STOPS`) | 10402 |
 
 ## Part E
 
 | Step | State | Session |
 |---|---|---|
+| The phone's width: each new view at 390 px by a finger | done once for both pages on a build (the forecast on window B's real files, the equities pages on the test's fixture): the chart, the folds, the tabs, the sort heads, a company's name and the filter's box answer a finger; no sideways scroll. Gaps found and mended: the price tables 889 to 1,794 px wide (a long reason printed in every cell); the fold of the hours and the small links of the equities tables under 24 px. Left: the shared charts' Chart and Table switch, 22 px (a line for Samuel's ruling). To take once more through the five cases on production after the landings | 10401, 10402 |
+| Parts C and D seen on production after each landing of new files | waiting: both windows' files landed on main at 14:16 UTC (`f00acbd70`); the pages, rows 54 and 55, are requested, not landed (read 14:33 UTC; the desk's next gate holds their earlier heads). Until then: both pages and the board's group read in one build of everything that is to land, the files read from `site/data` as production will (no wider than the screen at 1280 and 390 px; the board's check 48 of 48; the file traces carry the 34 forecast files and the equities files) | 10404 |
+| The site's value check on both pages (`site/scripts/check-values.mjs`), in that build | done: it failed 70 figures of `/forecast` (a megawatt written whole) and 21 of `/equities` (a rise written with its sign), which would have failed the first full value check after the landing. A rule for each, on its own line, pinned in each page's test; then 1,797 of 1,797 pass. Rows 54 and 55 moved one commit each (`abdf999f2`, `b06045762`) | 10404 |
+| The back button after a choice, the keyboard alone, and the fields' names, on both pages and the problem set | done in a build of main with this window's three branches, at 1280 and 390 px: 28 of 28 fields of the two pages' forms read the page's value after a choice and the back button (the fault the second window found on three other forms is not on these: their lists set themselves to the page's value); every list, button, link and table has a name in the accessibility tree (`/forecast` 5 lists, `/equities` 2); the Tab key reaches every stop with a ring and none out of sight (85 to 96 stops on `/forecast`, 40 on `/equities`, 25 on the set); the same place in A and B draws A alone, and a mistyped place, day, score or price falls back to the page's own with no "undefined" (`runs/c720/see_back.out`, `see_ax.out`, `see_same.out`) | 10404 |
+| Every drawn figure against the files as they are on main | done at 14:43 UTC: `/forecast` 120 pages, 60,474 figures, 0 differing, 134 day errors computed again; `/equities` 25 pages, 1,092 figures, 0 differing; the board's group 30 rows, 0 differing | 10404 |
+| One problem set a page, held out of the dated edition: the forecast | done on `wip/c720-problem-forecast` (`9ebf17a24`), row 56: "A forecast's report card", a worked example and six questions from `site/data/predict/scores.json`; a waiting set (its page only: no index, no `data.csv`, no edition); built and seen at 1280 and 390 px; 475 checks | 10404 |
+| One problem set a page: the equities ("a segment beside an energy price") | waiting: no segment has a line (every segment's line is held, license needed), so there is no real figure to set beside an energy price. Not written with made-up values | 10404 |
+| `docs/reviews/browser-read-2026-11-26.md`: rows that name this window's pages | read at 14:24 UTC: none yet (one line of its plan names the pages for its part C, read as each lands) | 10404 |
+
+## The last session's steps
+
+| Step | State | Session |
+|---|---|---|
+| The note `docs/state/note_2026-11-26_portable_c720.md` | done, kept current | 10403 |
+| The resume file `queue/next/721-resume-chain-720.md` removed | done | 10403 |
+| `scripts/chain_queue.py next` | a dry run only: no file waits for this laptop, so part E goes on. Not run for real: it would take the whole laptop off duty and send "ready for review" while the second window works on it (session 10403's report) | 10403 |
 
 ## The standing step (rows of `docs/state/landing_request_portable_w2.md`)
 
 | Row | State | Session |
 |---|---|---|
+| 1, `wip/c750-grid-reliability` (`038ecbfcd`) | done: seen in a build at 390 and 1280 px (390 of 390 px; the table scrolls in its frame), marked requested | 10401 |
+| 2, the two commits of `wip/w2-c620-fixes` not on main (`923d4cb4f`) | done: seen in a build (the trend names its fuel, figures unchanged; the COVID page 390 of 390 px with every table shown), marked requested | 10401 |
+| 4, `wip/c750-grid-last-week` (`aad80aaba`) | done: seen in a build at 1280 and 390 px on four grids' pages ("Same day last week" holds a figure in each of the day's 24 rows), marked requested | 10402 |
+| 3, `wip/c750-conditions` (`569d15885`) | done: seen in a build at 1280 and 390 px (44 notices under a heading that counts 44; 79 rows at 390 px with the page 390 px wide; each operator's line says its clock once), marked requested | 10402 |
+| 5, `wip/c750-companies` (`d6dc93397`) | done: seen in one build with row 6 at 1280 and 390 px (after a choice, the form's button and the back button the fields read the page's value; the six fields named in the accessibility tree; production as the control), marked requested | 10404 |
+| 6, `wip/c750-forms-back` (`9eb8fbcbc`) | done: seen in the same build (`/prices/compare` and `/conditions`: 8 of 8 fields read the page's value after the back button with row 5, 0 of 8 on production), marked requested | 10404 |

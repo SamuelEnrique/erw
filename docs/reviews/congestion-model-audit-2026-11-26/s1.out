@@ -1,0 +1,88 @@
+built 2026-11-20T19:16:13Z market day-ahead tables ['constraints_binding_hourly', 'price_congestion_hourly', 'constraints_binding_monthly', 'price_congestion_monthly']
+op {'id': 'spp', 'name': 'SPP', 'status': 'shown'}
+op {'id': 'caiso', 'name': 'CAISO', 'status': 'shown'}
+op {'id': 'ercot', 'name': 'ERCOT', 'status': 'source needed', 'why': "ERCOT publishes its shadow prices only on paths its robots file disallows, or through an API whose key has not been made (the owner's ruling of 6 November 2026)"}
+op {'id': 'pjm', 'name': 'PJM', 'status': 'license needed', 'why': "PJM's terms forbid non-members to republish its data"}
+op {'id': 'nyiso', 'name': 'NYISO', 'status': 'license needed', 'why': "NYISO's terms reserve its data; written permission needed"}
+op {'id': 'isone', 'name': 'ISO-NE', 'status': 'license needed', 'why': "ISO-NE's terms ask written permission"}
+op {'id': 'miso', 'name': 'MISO', 'status': 'paused', 'why': "MISO's terms forbid automated access; the ERW paused it on 4 October 2026"}
+
+== caiso Pacific clock time (CAISO's operating day) first 2015-01-01T13:00:00Z last 2026-11-21T07:00:00Z
+  2015 days 363 constraints 472 hours 22734
+  2016 days 366 constraints 491 hours 21399
+  2017 days 364 constraints 482 hours 28207
+  2018 days 364 constraints 640 hours 29397
+  2019 days 365 constraints 644 hours 34895
+  2020 days 366 constraints 621 hours 33666
+  2021 days 365 constraints 681 hours 38166
+  2022 days 364 constraints 781 hours 43506
+  2023 days 365 constraints 636 hours 53677
+  2024 days 366 constraints 642 hours 49669
+  2025 days 365 constraints 721 hours 69868
+  2026 days 324 constraints 661 hours 64927
+  detail entries 240
+  top years ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', 'all']
+
+== spp Central clock time (SPP's operating day) first 2014-03-01T06:00:00Z last 2026-11-21T05:00:00Z
+  2014 days 306 constraints 501 hours 49355
+  2015 days 365 constraints 523 hours 48474
+  2016 days 366 constraints 831 hours 75226
+  2017 days 365 constraints 1063 hours 86208
+  2018 days 365 constraints 1232 hours 82492
+  2019 days 365 constraints 1507 hours 92088
+  2020 days 366 constraints 1496 hours 87751
+  2021 days 365 constraints 2103 hours 121576
+  2022 days 365 constraints 1997 hours 145268
+  2023 days 365 constraints 1582 hours 119900
+  2024 days 366 constraints 1956 hours 145327
+  2025 days 365 constraints 2087 hours 143018
+  2026 days 324 constraints 1880 hours 121437
+  detail entries 307
+  top years ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', 'all']
+place caiso:DLAP_PGAE-APND PG&E default load area ['2023', '2024', '2025', '2026'] 2023-08-10T07:00:00Z 2026-11-21T07:00:00Z months 40 2023-08 2026-11
+    2023 {'hours': 3457, 'lmp_mean': 59.12, 'congestion_mean': 2.22, 'congestion_share_pct': 3.8, 'hours_congestion_up': 2143, 'hours_congestion_down': 796, 'congestion_max': 33.15, 'congestion_min': -174.68}
+    2024 {'hours': 8784, 'lmp_mean': 42.99, 'congestion_mean': 4.25, 'congestion_share_pct': 9.9, 'hours_congestion_up': 5952, 'hours_congestion_down': 1523, 'congestion_max': 66.6, 'congestion_min': -129.03}
+    2025 {'hours': 8760, 'lmp_mean': 40.62, 'congestion_mean': 2.65, 'congestion_share_pct': 6.5, 'hours_congestion_up': 5675, 'hours_congestion_down': 2622, 'congestion_max': 38.14, 'congestion_min': -16.16}
+    2026 {'hours': 7776, 'lmp_mean': 35.15, 'congestion_mean': 1.34, 'congestion_share_pct': 3.8, 'hours_congestion_up': 4729, 'hours_congestion_down': 2721, 'congestion_max': 54.7, 'congestion_min': -45.87}
+place caiso:DLAP_SCE-APND SCE default load area ['2023', '2024', '2025', '2026'] 2023-08-10T07:00:00Z 2026-11-21T07:00:00Z months 40 2023-08 2026-11
+    2023 {'hours': 3457, 'lmp_mean': 54.0, 'congestion_mean': -2.02, 'congestion_share_pct': -3.7, 'hours_congestion_up': 718, 'hours_congestion_down': 2125, 'congestion_max': 118.39, 'congestion_min': -28.66}
+    2024 {'hours': 8784, 'lmp_mean': 34.02, 'congestion_mean': -3.68, 'congestion_share_pct': -10.8, 'hours_congestion_up': 1099, 'hours_congestion_down': 6327, 'congestion_max': 85.86, 'congestion_min': -71.74}
+    2025 {'hours': 8760, 'lmp_mean': 34.41, 'congestion_mean': -2.39, 'congestion_share_pct': -6.9, 'hours_congestion_up': 1748, 'hours_congestion_down': 6442, 'congestion_max': 11.84, 'congestion_min': -31.52}
+    2026 {'hours': 7776, 'lmp_mean': 31.85, 'congestion_mean': -1.43, 'congestion_share_pct': -4.5, 'hours_congestion_up': 1839, 'hours_congestion_down': 5636, 'congestion_max': 28.75, 'congestion_min': -41.3}
+place caiso:DLAP_SDGE-APND SDG&E default load area ['2023', '2024', '2025', '2026'] 2023-08-10T07:00:00Z 2026-11-21T07:00:00Z months 40 2023-08 2026-11
+    2023 {'hours': 3457, 'lmp_mean': 56.27, 'congestion_mean': -0.28, 'congestion_share_pct': -0.5, 'hours_congestion_up': 1052, 'hours_congestion_down': 1669, 'congestion_max': 122.19, 'congestion_min': -30.21}
+    2024 {'hours': 8784, 'lmp_mean': 36.21, 'congestion_mean': -1.78, 'congestion_share_pct': -4.9, 'hours_congestion_up': 2385, 'hours_congestion_down': 4893, 'congestion_max': 91.12, 'congestion_min': -71.41}
+    2025 {'hours': 8760, 'lmp_mean': 37.48, 'congestion_mean': 0.34, 'congestion_share_pct': 0.9, 'hours_congestion_up': 4397, 'hours_congestion_down': 3381, 'congestion_max': 45.92, 'congestion_min': -29.29}
+    2026 {'hours': 7776, 'lmp_mean': 36.08, 'congestion_mean': 2.24, 'congestion_share_pct': 6.2, 'hours_congestion_up': 5031, 'hours_congestion_down': 2288, 'congestion_max': 108.37, 'congestion_min': -34.19}
+place caiso:DLAP_VEA-APND VEA default load area ['2023', '2024', '2025', '2026'] 2023-08-10T07:00:00Z 2026-11-21T07:00:00Z months 40 2023-08 2026-11
+    2023 {'hours': 3457, 'lmp_mean': 52.29, 'congestion_mean': -2.25, 'congestion_share_pct': -4.3, 'hours_congestion_up': 591, 'hours_congestion_down': 2138, 'congestion_max': 360.41, 'congestion_min': -50.59}
+    2024 {'hours': 8784, 'lmp_mean': 32.26, 'congestion_mean': -4.35, 'congestion_share_pct': -13.5, 'hours_congestion_up': 1103, 'hours_congestion_down': 5994, 'congestion_max': 403.61, 'congestion_min': -71.02}
+    2025 {'hours': 8760, 'lmp_mean': 32.19, 'congestion_mean': -3.29, 'congestion_share_pct': -10.2, 'hours_congestion_up': 1054, 'hours_congestion_down': 6395, 'congestion_max': 60.54, 'congestion_min': -64.3}
+    2026 {'hours': 7776, 'lmp_mean': 29.81, 'congestion_mean': -2.29, 'congestion_share_pct': -7.7, 'hours_congestion_up': 1163, 'hours_congestion_down': 5602, 'congestion_max': 106.48, 'congestion_min': -53.64}
+place caiso:TH_NP15_GEN-APND NP15 trading hub ['2023', '2024', '2025', '2026'] 2023-08-10T07:00:00Z 2026-11-21T07:00:00Z months 40 2023-08 2026-11
+    2023 {'hours': 3457, 'lmp_mean': 57.3, 'congestion_mean': 1.93, 'congestion_share_pct': 3.4, 'hours_congestion_up': 1484, 'hours_congestion_down': 1491, 'congestion_max': 39.8, 'congestion_min': -172.18}
+    2024 {'hours': 8784, 'lmp_mean': 40.67, 'congestion_mean': 3.04, 'congestion_share_pct': 7.5, 'hours_congestion_up': 4035, 'hours_congestion_down': 3852, 'congestion_max': 74.51, 'congestion_min': -142.88}
+    2025 {'hours': 8760, 'lmp_mean': 38.23, 'congestion_mean': 1.38, 'congestion_share_pct': 3.6, 'hours_congestion_up': 2952, 'hours_congestion_down': 5476, 'congestion_max': 40.01, 'congestion_min': -21.87}
+    2026 {'hours': 7776, 'lmp_mean': 33.01, 'congestion_mean': 0.13, 'congestion_share_pct': 0.4, 'hours_congestion_up': 2644, 'hours_congestion_down': 5030, 'congestion_max': 52.35, 'congestion_min': -46.91}
+place caiso:TH_SP15_GEN-APND SP15 trading hub ['2023', '2024', '2025', '2026'] 2023-08-10T07:00:00Z 2026-11-21T07:00:00Z months 40 2023-08 2026-11
+    2023 {'hours': 3457, 'lmp_mean': 51.94, 'congestion_mean': -2.7, 'congestion_share_pct': -5.2, 'hours_congestion_up': 410, 'hours_congestion_down': 2354, 'congestion_max': 126.75, 'congestion_min': -28.49}
+    2024 {'hours': 8784, 'lmp_mean': 32.68, 'congestion_mean': -4.1, 'congestion_share_pct': -12.6, 'hours_congestion_up': 1051, 'hours_congestion_down': 6512, 'congestion_max': 70.77, 'congestion_min': -72.37}
+    2025 {'hours': 8760, 'lmp_mean': 32.22, 'congestion_mean': -3.62, 'congestion_share_pct': -11.2, 'hours_congestion_up': 628, 'hours_congestion_down': 7941, 'congestion_max': 11.63, 'congestion_min': -37.79}
+    2026 {'hours': 7776, 'lmp_mean': 29.14, 'congestion_mean': -3.09, 'congestion_share_pct': -10.6, 'hours_congestion_up': 674, 'hours_congestion_down': 7094, 'congestion_max': 15.96, 'congestion_min': -93.64}
+place caiso:TH_ZP26_GEN-APND ZP26 trading hub ['2023', '2024', '2025', '2026'] 2023-08-10T07:00:00Z 2026-11-21T07:00:00Z months 40 2023-08 2026-11
+    2023 {'hours': 3457, 'lmp_mean': 50.57, 'congestion_mean': -3.55, 'congestion_share_pct': -7.0, 'hours_congestion_up': 311, 'hours_congestion_down': 2144, 'congestion_max': 2.79, 'congestion_min': -172.42}
+    2024 {'hours': 8784, 'lmp_mean': 32.09, 'congestion_mean': -4.43, 'congestion_share_pct': -13.8, 'hours_congestion_up': 851, 'hours_congestion_down': 6213, 'congestion_max': 27.19, 'congestion_min': -177.68}
+    2025 {'hours': 8760, 'lmp_mean': 32.5, 'congestion_mean': -3.3, 'congestion_share_pct': -10.2, 'hours_congestion_up': 1031, 'hours_congestion_down': 6293, 'congestion_max': 25.94, 'congestion_min': -41.05}
+    2026 {'hours': 7776, 'lmp_mean': 28.99, 'congestion_mean': -3.16, 'congestion_share_pct': -10.9, 'hours_congestion_up': 679, 'hours_congestion_down': 5735, 'congestion_max': 7.84, 'congestion_min': -71.51}
+place spp:SPPNORTH_HUB SPP North hub ['2022', '2023', '2024', '2025', '2026'] 2022-01-01T06:00:00Z 2026-11-21T05:00:00Z months 59 2022-01 2026-11
+    2022 {'hours': 8760, 'lmp_mean': 40.73, 'congestion_mean': -7.45, 'congestion_share_pct': -18.3, 'hours_congestion_up': 1310, 'hours_congestion_down': 7427, 'congestion_max': 68.42, 'congestion_min': -108.66}
+    2023 {'hours': 8760, 'lmp_mean': 24.24, 'congestion_mean': -4.04, 'congestion_share_pct': -16.7, 'hours_congestion_up': 1626, 'hours_congestion_down': 7130, 'congestion_max': 60.49, 'congestion_min': -68.95}
+    2024 {'hours': 8784, 'lmp_mean': 21.26, 'congestion_mean': -6.01, 'congestion_share_pct': -28.3, 'hours_congestion_up': 1684, 'hours_congestion_down': 7067, 'congestion_max': 91.64, 'congestion_min': -190.68}
+    2025 {'hours': 8760, 'lmp_mean': 28.09, 'congestion_mean': -3.69, 'congestion_share_pct': -13.1, 'hours_congestion_up': 2680, 'hours_congestion_down': 6069, 'congestion_max': 175.09, 'congestion_min': -201.9}
+    2026 {'hours': 7776, 'lmp_mean': 34.74, 'congestion_mean': 2.22, 'congestion_share_pct': 6.4, 'hours_congestion_up': 4085, 'hours_congestion_down': 3663, 'congestion_max': 232.07, 'congestion_min': -107.84}
+place spp:SPPSOUTH_HUB SPP South hub ['2022', '2023', '2024', '2025', '2026'] 2022-01-01T06:00:00Z 2026-11-21T05:00:00Z months 59 2022-01 2026-11
+    2022 {'hours': 8760, 'lmp_mean': 54.68, 'congestion_mean': 4.63, 'congestion_share_pct': 8.5, 'hours_congestion_up': 5487, 'hours_congestion_down': 3247, 'congestion_max': 126.05, 'congestion_min': -27.67}
+    2023 {'hours': 8760, 'lmp_mean': 26.97, 'congestion_mean': -1.39, 'congestion_share_pct': -5.2, 'hours_congestion_up': 3060, 'hours_congestion_down': 5696, 'congestion_max': 69.9, 'congestion_min': -45.61}
+    2024 {'hours': 8784, 'lmp_mean': 30.51, 'congestion_mean': 3.07, 'congestion_share_pct': 10.1, 'hours_congestion_up': 4160, 'hours_congestion_down': 4591, 'congestion_max': 246.21, 'congestion_min': -45.4}
+    2025 {'hours': 8760, 'lmp_mean': 29.34, 'congestion_mean': -2.9, 'congestion_share_pct': -9.9, 'hours_congestion_up': 2962, 'hours_congestion_down': 5786, 'congestion_max': 86.65, 'congestion_min': -190.18}
+    2026 {'hours': 7776, 'lmp_mean': 28.71, 'congestion_mean': -3.1, 'congestion_share_pct': -10.8, 'hours_congestion_up': 2352, 'hours_congestion_down': 5395, 'congestion_max': 120.36, 'congestion_min': -90.11}

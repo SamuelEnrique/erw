@@ -1,0 +1,2205 @@
+{
+ "built": "2026-11-20T19:16:52Z",
+ "recent_days": 35,
+ "events": [
+  "covid_2020",
+  "caiso_heat_2020",
+  "uri_2021",
+  "caiso_heat_2022",
+  "elliott_2022",
+  "ercot_heat_2023",
+  "cold_2025",
+  "east_heat_2025",
+  "cold_2026"
+ ],
+ "default": {
+  "start": "2026-10-16",
+  "end": "2026-11-20",
+  "title": "the newest 35 days",
+  "days": 36,
+  "hours_drawn": 865,
+  "glance": [
+   {
+    "c": "demand_peak",
+    "words": "Highest peak demand",
+    "value": 65888.0,
+    "shown": "65,888",
+    "day": "2026-11-02"
+   }
+  ],
+  "alerts_heading": 0,
+  "alerts_rows_drawn": 0,
+  "alerts_left_out": 0,
+  "last_alert_drawn": null,
+  "last_alert_in_window": null
+ },
+ "opening": {
+  "caiso": {
+   "start": "2026-10-16",
+   "end": "2026-11-20",
+   "title": "the newest 35 days",
+   "days": 36,
+   "hours_drawn": 865,
+   "glance": [
+    {
+     "c": "demand_peak",
+     "words": "Highest peak demand",
+     "value": 34916.0,
+     "shown": "34,916",
+     "day": "2026-10-16"
+    },
+    {
+     "c": "out_max",
+     "words": "Most megawatts out of service in an hour",
+     "value": 29078.3,
+     "shown": "29,078",
+     "day": "2026-11-04"
+    },
+    {
+     "c": "cons_hours",
+     "words": "Most constraint-hours in a day",
+     "value": 313,
+     "shown": "313",
+     "day": "2026-10-16"
+    }
+   ],
+   "alerts_heading": 0,
+   "alerts_rows_drawn": 0,
+   "alerts_left_out": 0,
+   "last_alert_drawn": null,
+   "last_alert_in_window": null
+  },
+  "ercot": {
+   "start": "2026-10-16",
+   "end": "2026-11-20",
+   "title": "the newest 35 days",
+   "days": 36,
+   "hours_drawn": 865,
+   "glance": [
+    {
+     "c": "demand_peak",
+     "words": "Highest peak demand",
+     "value": 65888.0,
+     "shown": "65,888",
+     "day": "2026-11-02"
+    }
+   ],
+   "alerts_heading": 0,
+   "alerts_rows_drawn": 0,
+   "alerts_left_out": 0,
+   "last_alert_drawn": null,
+   "last_alert_in_window": null
+  },
+  "spp": {
+   "start": "2026-10-16",
+   "end": "2026-11-20",
+   "title": "the newest 35 days",
+   "days": 36,
+   "hours_drawn": 865,
+   "glance": [
+    {
+     "c": "demand_peak",
+     "words": "Highest peak demand",
+     "value": 36383.0,
+     "shown": "36,383",
+     "day": "2026-10-28"
+    },
+    {
+     "c": "out_max",
+     "words": "Most megawatts out of service in an hour",
+     "value": 30513.9,
+     "shown": "30,514",
+     "day": "2026-11-05"
+    },
+    {
+     "c": "cons_hours",
+     "words": "Most constraint-hours in a day",
+     "value": 740,
+     "shown": "740",
+     "day": "2026-11-20"
+    }
+   ],
+   "alerts_heading": null,
+   "alerts_rows_drawn": null,
+   "alerts_left_out": null,
+   "last_alert_drawn": null,
+   "last_alert_in_window": null
+  },
+  "miso": {
+   "start": "2026-10-16",
+   "end": "2026-11-20",
+   "title": "the newest 35 days",
+   "days": 36,
+   "hours_drawn": 864,
+   "glance": [
+    {
+     "c": "demand_peak",
+     "words": "Highest peak demand",
+     "value": 79593.0,
+     "shown": "79,593",
+     "day": "2026-11-17"
+    }
+   ],
+   "alerts_heading": null,
+   "alerts_rows_drawn": null,
+   "alerts_left_out": null,
+   "last_alert_drawn": null,
+   "last_alert_in_window": null
+  },
+  "pjm": {
+   "start": "2026-10-16",
+   "end": "2026-11-20",
+   "title": "the newest 35 days",
+   "days": 36,
+   "hours_drawn": 864,
+   "glance": [
+    {
+     "c": "demand_peak",
+     "words": "Highest peak demand",
+     "value": 106646.0,
+     "shown": "106,646",
+     "day": "2026-11-17"
+    }
+   ],
+   "alerts_heading": null,
+   "alerts_rows_drawn": null,
+   "alerts_left_out": null,
+   "last_alert_drawn": null,
+   "last_alert_in_window": null
+  },
+  "nyiso": {
+   "start": "2026-10-16",
+   "end": "2026-11-20",
+   "title": "the newest 35 days",
+   "days": 36,
+   "hours_drawn": 865,
+   "glance": [
+    {
+     "c": "demand_peak",
+     "words": "Highest peak demand",
+     "value": 18952.0,
+     "shown": "18,952",
+     "day": "2026-11-13"
+    }
+   ],
+   "alerts_heading": null,
+   "alerts_rows_drawn": null,
+   "alerts_left_out": null,
+   "last_alert_drawn": null,
+   "last_alert_in_window": null
+  },
+  "isone": {
+   "start": "2026-10-16",
+   "end": "2026-11-20",
+   "title": "the newest 35 days",
+   "days": 36,
+   "hours_drawn": 865,
+   "glance": [
+    {
+     "c": "demand_peak",
+     "words": "Highest peak demand",
+     "value": 15275.0,
+     "shown": "15,275",
+     "day": "2026-11-16"
+    }
+   ],
+   "alerts_heading": null,
+   "alerts_rows_drawn": null,
+   "alerts_left_out": null,
+   "last_alert_drawn": null,
+   "last_alert_in_window": null
+  }
+ },
+ "events_view": {
+  "caiso": {
+   "covid_2020": {
+    "start": "2020-03-01",
+    "end": "2020-05-31",
+    "title": "COVID-19",
+    "days": 92,
+    "hours_drawn": 2207,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 37667.0,
+      "shown": "37,667",
+      "day": "2020-05-27"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 233,
+      "shown": "233",
+      "day": "2020-04-28"
+     }
+    ],
+    "alerts_heading": 0,
+    "alerts_rows_drawn": 0,
+    "alerts_left_out": 0,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "caiso_heat_2020": {
+    "start": "2020-08-10",
+    "end": "2020-08-24",
+    "title": "the August 2020 heat wave, CAISO",
+    "days": 15,
+    "hours_drawn": 360,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 46643.0,
+      "shown": "46,643",
+      "day": "2020-08-18"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 116,
+      "shown": "116",
+      "day": "2020-08-17"
+     }
+    ],
+    "alerts_heading": 79,
+    "alerts_rows_drawn": 40,
+    "alerts_left_out": 39,
+    "last_alert_drawn": "2020-08-17",
+    "last_alert_in_window": "2020-08-24"
+   },
+   "uri_2021": {
+    "start": "2021-02-07",
+    "end": "2021-02-24",
+    "title": "Winter Storm Uri, February 2021",
+    "days": 18,
+    "hours_drawn": 432,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 27303.0,
+      "shown": "27,303",
+      "day": "2021-02-09"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 91,
+      "shown": "91",
+      "day": "2021-02-24"
+     }
+    ],
+    "alerts_heading": 26,
+    "alerts_rows_drawn": 26,
+    "alerts_left_out": 0,
+    "last_alert_drawn": "2021-02-20",
+    "last_alert_in_window": "2021-02-20"
+   },
+   "caiso_heat_2022": {
+    "start": "2022-08-31",
+    "end": "2022-09-09",
+    "title": "the September 2022 heat wave, CAISO",
+    "days": 10,
+    "hours_drawn": 240,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 51104.0,
+      "shown": "51,104",
+      "day": "2022-09-06"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 14099.8,
+      "shown": "14,100",
+      "day": "2022-09-09"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 226,
+      "shown": "226",
+      "day": "2022-09-08"
+     }
+    ],
+    "alerts_heading": 44,
+    "alerts_rows_drawn": 40,
+    "alerts_left_out": 4,
+    "last_alert_drawn": "2022-09-08",
+    "last_alert_in_window": "2022-09-09"
+   },
+   "elliott_2022": {
+    "start": "2022-12-19",
+    "end": "2022-12-29",
+    "title": "Winter Storm Elliott, six grids",
+    "days": 11,
+    "hours_drawn": 264,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 29610.0,
+      "shown": "29,610",
+      "day": "2022-12-19"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 13551.1,
+      "shown": "13,551",
+      "day": "2022-12-22"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 50,
+      "shown": "50",
+      "day": "2022-12-21"
+     }
+    ],
+    "alerts_heading": 4,
+    "alerts_rows_drawn": 4,
+    "alerts_left_out": 0,
+    "last_alert_drawn": "2022-12-21",
+    "last_alert_in_window": "2022-12-21"
+   },
+   "ercot_heat_2023": {
+    "start": "2023-08-01",
+    "end": "2023-09-10",
+    "title": "the summer 2023 heat, ERCOT",
+    "days": 41,
+    "hours_drawn": 984,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 44007.0,
+      "shown": "44,007",
+      "day": "2023-08-16"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 13516.7,
+      "shown": "13,517",
+      "day": "2023-08-08"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 297,
+      "shown": "297",
+      "day": "2023-08-05"
+     }
+    ],
+    "alerts_heading": 6,
+    "alerts_rows_drawn": 6,
+    "alerts_left_out": 0,
+    "last_alert_drawn": "2023-08-30",
+    "last_alert_in_window": "2023-08-30"
+   },
+   "cold_2025": {
+    "start": "2025-01-17",
+    "end": "2025-01-26",
+    "title": "the January 2025 cold, six grids",
+    "days": 10,
+    "hours_drawn": 240,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 28219.0,
+      "shown": "28,219",
+      "day": "2025-01-17"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 19582.6,
+      "shown": "19,583",
+      "day": "2025-01-24"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 160,
+      "shown": "160",
+      "day": "2025-01-17"
+     }
+    ],
+    "alerts_heading": 2,
+    "alerts_rows_drawn": 2,
+    "alerts_left_out": 0,
+    "last_alert_drawn": "2025-01-21",
+    "last_alert_in_window": "2025-01-21"
+   },
+   "east_heat_2025": {
+    "start": "2025-06-20",
+    "end": "2025-06-28",
+    "title": "the June 2025 heat, four eastern grids",
+    "days": 9,
+    "hours_drawn": 216,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 34504.0,
+      "shown": "34,504",
+      "day": "2025-06-28"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 17290.0,
+      "shown": "17,290",
+      "day": "2025-06-27"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 267,
+      "shown": "267",
+      "day": "2025-06-20"
+     }
+    ],
+    "alerts_heading": 0,
+    "alerts_rows_drawn": 0,
+    "alerts_left_out": 0,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "cold_2026": {
+    "start": "2026-01-23",
+    "end": "2026-02-02",
+    "title": "the late January 2026 cold, six grids",
+    "days": 11,
+    "hours_drawn": 264,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 28615.0,
+      "shown": "28,615",
+      "day": "2026-01-26"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 21858.8,
+      "shown": "21,859",
+      "day": "2026-01-25"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 169,
+      "shown": "169",
+      "day": "2026-01-27"
+     }
+    ],
+    "alerts_heading": 0,
+    "alerts_rows_drawn": 0,
+    "alerts_left_out": 0,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   }
+  },
+  "ercot": {
+   "covid_2020": {
+    "start": "2020-03-01",
+    "end": "2020-05-31",
+    "title": "COVID-19",
+    "days": 92,
+    "hours_drawn": 2207,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 64190.0,
+      "shown": "64,190",
+      "day": "2020-05-19"
+     },
+     {
+      "c": "adder_hours",
+      "words": "Most hours with the adder above zero in a day",
+      "value": 20,
+      "shown": "20",
+      "day": "2020-03-16"
+     }
+    ],
+    "alerts_heading": 0,
+    "alerts_rows_drawn": 0,
+    "alerts_left_out": 0,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "caiso_heat_2020": {
+    "start": "2020-08-10",
+    "end": "2020-08-24",
+    "title": "the August 2020 heat wave, CAISO",
+    "days": 15,
+    "hours_drawn": 360,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 74166.0,
+      "shown": "74,166",
+      "day": "2020-08-13"
+     },
+     {
+      "c": "adder_hours",
+      "words": "Most hours with the adder above zero in a day",
+      "value": 10,
+      "shown": "10",
+      "day": "2020-08-12"
+     }
+    ],
+    "alerts_heading": 0,
+    "alerts_rows_drawn": 0,
+    "alerts_left_out": 0,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "uri_2021": {
+    "start": "2021-02-07",
+    "end": "2021-02-24",
+    "title": "Winter Storm Uri, February 2021",
+    "days": 18,
+    "hours_drawn": 432,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 69215.0,
+      "shown": "69,215",
+      "day": "2021-02-14"
+     },
+     {
+      "c": "adder_hours",
+      "words": "Most hours with the adder above zero in a day",
+      "value": 24,
+      "shown": "24",
+      "day": "2021-02-16"
+     }
+    ],
+    "alerts_heading": 6,
+    "alerts_rows_drawn": 6,
+    "alerts_left_out": 0,
+    "last_alert_drawn": "2021-02-19",
+    "last_alert_in_window": "2021-02-19"
+   },
+   "caiso_heat_2022": {
+    "start": "2022-08-31",
+    "end": "2022-09-09",
+    "title": "the September 2022 heat wave, CAISO",
+    "days": 10,
+    "hours_drawn": 240,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 66988.0,
+      "shown": "66,988",
+      "day": "2022-09-07"
+     },
+     {
+      "c": "adder_hours",
+      "words": "Most hours with the adder above zero in a day",
+      "value": 15,
+      "shown": "15",
+      "day": "2022-09-06"
+     }
+    ],
+    "alerts_heading": 0,
+    "alerts_rows_drawn": 0,
+    "alerts_left_out": 0,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "elliott_2022": {
+    "start": "2022-12-19",
+    "end": "2022-12-29",
+    "title": "Winter Storm Elliott, six grids",
+    "days": 11,
+    "hours_drawn": 264,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 73976.0,
+      "shown": "73,976",
+      "day": "2022-12-23"
+     },
+     {
+      "c": "adder_hours",
+      "words": "Most hours with the adder above zero in a day",
+      "value": 12,
+      "shown": "12",
+      "day": "2022-12-23"
+     }
+    ],
+    "alerts_heading": 5,
+    "alerts_rows_drawn": 5,
+    "alerts_left_out": 0,
+    "last_alert_drawn": "2022-12-26",
+    "last_alert_in_window": "2022-12-26"
+   },
+   "ercot_heat_2023": {
+    "start": "2023-08-01",
+    "end": "2023-09-10",
+    "title": "the summer 2023 heat, ERCOT",
+    "days": 41,
+    "hours_drawn": 984,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 85432.0,
+      "shown": "85,432",
+      "day": "2023-08-10"
+     },
+     {
+      "c": "adder_hours",
+      "words": "Most hours with the adder above zero in a day",
+      "value": 12,
+      "shown": "12",
+      "day": "2023-08-25"
+     }
+    ],
+    "alerts_heading": 23,
+    "alerts_rows_drawn": 23,
+    "alerts_left_out": 0,
+    "last_alert_drawn": "2023-09-08",
+    "last_alert_in_window": "2023-09-08"
+   },
+   "cold_2025": {
+    "start": "2025-01-17",
+    "end": "2025-01-26",
+    "title": "the January 2025 cold, six grids",
+    "days": 10,
+    "hours_drawn": 240,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 77426.0,
+      "shown": "77,426",
+      "day": "2025-01-22"
+     }
+    ],
+    "alerts_heading": 4,
+    "alerts_rows_drawn": 4,
+    "alerts_left_out": 0,
+    "last_alert_drawn": "2025-01-23",
+    "last_alert_in_window": "2025-01-23"
+   },
+   "east_heat_2025": {
+    "start": "2025-06-20",
+    "end": "2025-06-28",
+    "title": "the June 2025 heat, four eastern grids",
+    "days": 9,
+    "hours_drawn": 216,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 77040.0,
+      "shown": "77,040",
+      "day": "2025-06-20"
+     }
+    ],
+    "alerts_heading": 0,
+    "alerts_rows_drawn": 0,
+    "alerts_left_out": 0,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "cold_2026": {
+    "start": "2026-01-23",
+    "end": "2026-02-02",
+    "title": "the late January 2026 cold, six grids",
+    "days": 11,
+    "hours_drawn": 264,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 75599.0,
+      "shown": "75,599",
+      "day": "2026-01-26"
+     }
+    ],
+    "alerts_heading": 4,
+    "alerts_rows_drawn": 4,
+    "alerts_left_out": 0,
+    "last_alert_drawn": "2026-01-27",
+    "last_alert_in_window": "2026-01-27"
+   }
+  },
+  "spp": {
+   "covid_2020": {
+    "start": "2020-03-01",
+    "end": "2020-05-31",
+    "title": "COVID-19",
+    "days": 92,
+    "hours_drawn": 2207,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 32928.0,
+      "shown": "32,928",
+      "day": "2020-05-31"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 21372.7,
+      "shown": "21,373",
+      "day": "2020-03-29"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 499,
+      "shown": "499",
+      "day": "2020-04-01"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "caiso_heat_2020": {
+    "start": "2020-08-10",
+    "end": "2020-08-24",
+    "title": "the August 2020 heat wave, CAISO",
+    "days": 15,
+    "hours_drawn": 360,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 48128.0,
+      "shown": "48,128",
+      "day": "2020-08-24"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 13360.6,
+      "shown": "13,361",
+      "day": "2020-08-21"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 290,
+      "shown": "290",
+      "day": "2020-08-12"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "uri_2021": {
+    "start": "2021-02-07",
+    "end": "2021-02-24",
+    "title": "Winter Storm Uri, February 2021",
+    "days": 18,
+    "hours_drawn": 432,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 43476.0,
+      "shown": "43,476",
+      "day": "2021-02-15"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 26192.9,
+      "shown": "26,193",
+      "day": "2021-02-18"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 382,
+      "shown": "382",
+      "day": "2021-02-22"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "caiso_heat_2022": {
+    "start": "2022-08-31",
+    "end": "2022-09-09",
+    "title": "the September 2022 heat wave, CAISO",
+    "days": 10,
+    "hours_drawn": 240,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 46055.0,
+      "shown": "46,055",
+      "day": "2022-08-31"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 11635.2,
+      "shown": "11,635",
+      "day": "2022-09-09"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 512,
+      "shown": "512",
+      "day": "2022-09-08"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "elliott_2022": {
+    "start": "2022-12-19",
+    "end": "2022-12-29",
+    "title": "Winter Storm Elliott, six grids",
+    "days": 11,
+    "hours_drawn": 264,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 47026.0,
+      "shown": "47,026",
+      "day": "2022-12-22"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 18321.9,
+      "shown": "18,322",
+      "day": "2022-12-23"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 600,
+      "shown": "600",
+      "day": "2022-12-22"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "ercot_heat_2023": {
+    "start": "2023-08-01",
+    "end": "2023-09-10",
+    "title": "the summer 2023 heat, ERCOT",
+    "days": 41,
+    "hours_drawn": 984,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 56010.0,
+      "shown": "56,010",
+      "day": "2023-08-21"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 11768.6,
+      "shown": "11,769",
+      "day": "2023-08-14"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 514,
+      "shown": "514",
+      "day": "2023-09-04"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "cold_2025": {
+    "start": "2025-01-17",
+    "end": "2025-01-26",
+    "title": "the January 2025 cold, six grids",
+    "days": 10,
+    "hours_drawn": 240,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 47017.0,
+      "shown": "47,017",
+      "day": "2025-01-21"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 16310.4,
+      "shown": "16,310",
+      "day": "2025-01-24"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 711,
+      "shown": "711",
+      "day": "2025-01-17"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "east_heat_2025": {
+    "start": "2025-06-20",
+    "end": "2025-06-28",
+    "title": "the June 2025 heat, four eastern grids",
+    "days": 9,
+    "hours_drawn": 216,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 50760.0,
+      "shown": "50,760",
+      "day": "2025-06-20"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 12649.4,
+      "shown": "12,649",
+      "day": "2025-06-25"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 818,
+      "shown": "818",
+      "day": "2025-06-20"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "cold_2026": {
+    "start": "2026-01-23",
+    "end": "2026-02-02",
+    "title": "the late January 2026 cold, six grids",
+    "days": 11,
+    "hours_drawn": 264,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 45624.0,
+      "shown": "45,624",
+      "day": "2026-01-26"
+     },
+     {
+      "c": "out_max",
+      "words": "Most megawatts out of service in an hour",
+      "value": 14329.0,
+      "shown": "14,329",
+      "day": "2026-01-24"
+     },
+     {
+      "c": "cons_hours",
+      "words": "Most constraint-hours in a day",
+      "value": 365,
+      "shown": "365",
+      "day": "2026-02-02"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   }
+  },
+  "miso": {
+   "covid_2020": {
+    "start": "2020-03-01",
+    "end": "2020-05-31",
+    "title": "COVID-19",
+    "days": 92,
+    "hours_drawn": 2207,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 88307.0,
+      "shown": "88,307",
+      "day": "2020-05-26"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "caiso_heat_2020": {
+    "start": "2020-08-10",
+    "end": "2020-08-24",
+    "title": "the August 2020 heat wave, CAISO",
+    "days": 15,
+    "hours_drawn": 360,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 112940.0,
+      "shown": "112,940",
+      "day": "2020-08-24"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "uri_2021": {
+    "start": "2021-02-07",
+    "end": "2021-02-24",
+    "title": "Winter Storm Uri, February 2021",
+    "days": 18,
+    "hours_drawn": 432,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 98962.0,
+      "shown": "98,962",
+      "day": "2021-02-15"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "caiso_heat_2022": {
+    "start": "2022-08-31",
+    "end": "2022-09-09",
+    "title": "the September 2022 heat wave, CAISO",
+    "days": 10,
+    "hours_drawn": 240,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 103546.0,
+      "shown": "103,546",
+      "day": "2022-09-01"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "elliott_2022": {
+    "start": "2022-12-19",
+    "end": "2022-12-29",
+    "title": "Winter Storm Elliott, six grids",
+    "days": 11,
+    "hours_drawn": 264,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 101533.0,
+      "shown": "101,533",
+      "day": "2022-12-23"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "ercot_heat_2023": {
+    "start": "2023-08-01",
+    "end": "2023-09-10",
+    "title": "the summer 2023 heat, ERCOT",
+    "days": 41,
+    "hours_drawn": 984,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 120781.0,
+      "shown": "120,781",
+      "day": "2023-08-23"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "cold_2025": {
+    "start": "2025-01-17",
+    "end": "2025-01-26",
+    "title": "the January 2025 cold, six grids",
+    "days": 10,
+    "hours_drawn": 240,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 104434.0,
+      "shown": "104,434",
+      "day": "2025-01-21"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "east_heat_2025": {
+    "start": "2025-06-20",
+    "end": "2025-06-28",
+    "title": "the June 2025 heat, four eastern grids",
+    "days": 9,
+    "hours_drawn": 216,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 116404.0,
+      "shown": "116,404",
+      "day": "2025-06-23"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "cold_2026": {
+    "start": "2026-01-23",
+    "end": "2026-02-02",
+    "title": "the late January 2026 cold, six grids",
+    "days": 11,
+    "hours_drawn": 264,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 101013.0,
+      "shown": "101,013",
+      "day": "2026-01-27"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   }
+  },
+  "pjm": {
+   "covid_2020": {
+    "start": "2020-03-01",
+    "end": "2020-05-31",
+    "title": "COVID-19",
+    "days": 92,
+    "hours_drawn": 2207,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 215682.0,
+      "shown": "215,682",
+      "day": "2020-04-09"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "caiso_heat_2020": {
+    "start": "2020-08-10",
+    "end": "2020-08-24",
+    "title": "the August 2020 heat wave, CAISO",
+    "days": 15,
+    "hours_drawn": 360,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 141498.0,
+      "shown": "141,498",
+      "day": "2020-08-10"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "uri_2021": {
+    "start": "2021-02-07",
+    "end": "2021-02-24",
+    "title": "Winter Storm Uri, February 2021",
+    "days": 18,
+    "hours_drawn": 432,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 117372.0,
+      "shown": "117,372",
+      "day": "2021-02-08"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "caiso_heat_2022": {
+    "start": "2022-08-31",
+    "end": "2022-09-09",
+    "title": "the September 2022 heat wave, CAISO",
+    "days": 10,
+    "hours_drawn": 240,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 127753.0,
+      "shown": "127,753",
+      "day": "2022-09-01"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "elliott_2022": {
+    "start": "2022-12-19",
+    "end": "2022-12-29",
+    "title": "Winter Storm Elliott, six grids",
+    "days": 11,
+    "hours_drawn": 264,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 135328.0,
+      "shown": "135,328",
+      "day": "2022-12-23"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "ercot_heat_2023": {
+    "start": "2023-08-01",
+    "end": "2023-09-10",
+    "title": "the summer 2023 heat, ERCOT",
+    "days": 41,
+    "hours_drawn": 984,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 146836.0,
+      "shown": "146,836",
+      "day": "2023-09-05"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "cold_2025": {
+    "start": "2025-01-17",
+    "end": "2025-01-26",
+    "title": "the January 2025 cold, six grids",
+    "days": 10,
+    "hours_drawn": 240,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 144420.0,
+      "shown": "144,420",
+      "day": "2025-01-22"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "east_heat_2025": {
+    "start": "2025-06-20",
+    "end": "2025-06-28",
+    "title": "the June 2025 heat, four eastern grids",
+    "days": 9,
+    "hours_drawn": 216,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 160560.0,
+      "shown": "160,560",
+      "day": "2025-06-23"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "cold_2026": {
+    "start": "2026-01-23",
+    "end": "2026-02-02",
+    "title": "the late January 2026 cold, six grids",
+    "days": 11,
+    "hours_drawn": 264,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 139410.0,
+      "shown": "139,410",
+      "day": "2026-01-29"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   }
+  },
+  "nyiso": {
+   "covid_2020": {
+    "start": "2020-03-01",
+    "end": "2020-05-31",
+    "title": "COVID-19",
+    "days": 92,
+    "hours_drawn": 2207,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 20124.0,
+      "shown": "20,124",
+      "day": "2020-05-29"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "caiso_heat_2020": {
+    "start": "2020-08-10",
+    "end": "2020-08-24",
+    "title": "the August 2020 heat wave, CAISO",
+    "days": 15,
+    "hours_drawn": 360,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 29685.0,
+      "shown": "29,685",
+      "day": "2020-08-10"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "uri_2021": {
+    "start": "2021-02-07",
+    "end": "2021-02-24",
+    "title": "Winter Storm Uri, February 2021",
+    "days": 18,
+    "hours_drawn": 432,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 21746.0,
+      "shown": "21,746",
+      "day": "2021-02-08"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "caiso_heat_2022": {
+    "start": "2022-08-31",
+    "end": "2022-09-09",
+    "title": "the September 2022 heat wave, CAISO",
+    "days": 10,
+    "hours_drawn": 240,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 23697.0,
+      "shown": "23,697",
+      "day": "2022-08-31"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "elliott_2022": {
+    "start": "2022-12-19",
+    "end": "2022-12-29",
+    "title": "Winter Storm Elliott, six grids",
+    "days": 11,
+    "hours_drawn": 264,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 22004.0,
+      "shown": "22,004",
+      "day": "2022-12-24"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "ercot_heat_2023": {
+    "start": "2023-08-01",
+    "end": "2023-09-10",
+    "title": "the summer 2023 heat, ERCOT",
+    "days": 41,
+    "hours_drawn": 984,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 30206.0,
+      "shown": "30,206",
+      "day": "2023-09-06"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "cold_2025": {
+    "start": "2025-01-17",
+    "end": "2025-01-26",
+    "title": "the January 2025 cold, six grids",
+    "days": 10,
+    "hours_drawn": 240,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 23521.0,
+      "shown": "23,521",
+      "day": "2025-01-22"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "east_heat_2025": {
+    "start": "2025-06-20",
+    "end": "2025-06-28",
+    "title": "the June 2025 heat, four eastern grids",
+    "days": 9,
+    "hours_drawn": 216,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 31857.0,
+      "shown": "31,857",
+      "day": "2025-06-24"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "cold_2026": {
+    "start": "2026-01-23",
+    "end": "2026-02-02",
+    "title": "the late January 2026 cold, six grids",
+    "days": 11,
+    "hours_drawn": 264,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 24177.0,
+      "shown": "24,177",
+      "day": "2026-01-30"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   }
+  },
+  "isone": {
+   "covid_2020": {
+    "start": "2020-03-01",
+    "end": "2020-05-31",
+    "title": "COVID-19",
+    "days": 92,
+    "hours_drawn": 2207,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 16272.0,
+      "shown": "16,272",
+      "day": "2020-05-29"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "caiso_heat_2020": {
+    "start": "2020-08-10",
+    "end": "2020-08-24",
+    "title": "the August 2020 heat wave, CAISO",
+    "days": 15,
+    "hours_drawn": 360,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 23970.0,
+      "shown": "23,970",
+      "day": "2020-08-11"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "uri_2021": {
+    "start": "2021-02-07",
+    "end": "2021-02-24",
+    "title": "Winter Storm Uri, February 2021",
+    "days": 18,
+    "hours_drawn": 432,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 17898.0,
+      "shown": "17,898",
+      "day": "2021-02-09"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "caiso_heat_2022": {
+    "start": "2022-08-31",
+    "end": "2022-09-09",
+    "title": "the September 2022 heat wave, CAISO",
+    "days": 10,
+    "hours_drawn": 240,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 18910.0,
+      "shown": "18,910",
+      "day": "2022-08-31"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "elliott_2022": {
+    "start": "2022-12-19",
+    "end": "2022-12-29",
+    "title": "Winter Storm Elliott, six grids",
+    "days": 11,
+    "hours_drawn": 264,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 17382.0,
+      "shown": "17,382",
+      "day": "2022-12-24"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "ercot_heat_2023": {
+    "start": "2023-08-01",
+    "end": "2023-09-10",
+    "title": "the summer 2023 heat, ERCOT",
+    "days": 41,
+    "hours_drawn": 984,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 23475.0,
+      "shown": "23,475",
+      "day": "2023-09-07"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "cold_2025": {
+    "start": "2025-01-17",
+    "end": "2025-01-26",
+    "title": "the January 2025 cold, six grids",
+    "days": 10,
+    "hours_drawn": 240,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 19582.0,
+      "shown": "19,582",
+      "day": "2025-01-21"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "east_heat_2025": {
+    "start": "2025-06-20",
+    "end": "2025-06-28",
+    "title": "the June 2025 heat, four eastern grids",
+    "days": 9,
+    "hours_drawn": 216,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 25898.0,
+      "shown": "25,898",
+      "day": "2025-06-24"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   },
+   "cold_2026": {
+    "start": "2026-01-23",
+    "end": "2026-02-02",
+    "title": "the late January 2026 cold, six grids",
+    "days": 11,
+    "hours_drawn": 264,
+    "glance": [
+     {
+      "c": "demand_peak",
+      "words": "Highest peak demand",
+      "value": 20279.0,
+      "shown": "20,279",
+      "day": "2026-01-25"
+     }
+    ],
+    "alerts_heading": null,
+    "alerts_rows_drawn": null,
+    "alerts_left_out": null,
+    "last_alert_drawn": null,
+    "last_alert_in_window": null
+   }
+  }
+ },
+ "status_table": {
+  "caiso": [
+   "shown",
+   "shown",
+   "shown",
+   "not published",
+   "shown",
+   "source needed"
+  ],
+  "ercot": [
+   "shown",
+   "source needed",
+   "source needed",
+   "shown",
+   "shown",
+   "source needed"
+  ],
+  "spp": [
+   "shown",
+   "shown",
+   "shown",
+   "not published",
+   "not read",
+   "source needed"
+  ],
+  "miso": [
+   "shown",
+   "paused",
+   "paused",
+   "paused",
+   "paused",
+   "source needed"
+  ],
+  "pjm": [
+   "shown",
+   "license needed",
+   "license needed",
+   "license needed",
+   "license needed",
+   "source needed"
+  ],
+  "nyiso": [
+   "shown",
+   "license needed",
+   "license needed",
+   "license needed",
+   "license needed",
+   "source needed"
+  ],
+  "isone": [
+   "shown",
+   "license needed",
+   "license needed",
+   "license needed",
+   "license needed",
+   "source needed"
+  ]
+ },
+ "index_matches_files": true,
+ "daily_restated": {
+  "caiso": {
+   "figures_checked": 2277,
+   "differ": 9,
+   "first_differ": [
+    {
+     "day": "2026-10-26",
+     "col": "out_mean",
+     "file": 20794.0,
+     "restated": 20793.9
+    },
+    {
+     "day": "2026-11-09",
+     "col": "out_mean",
+     "file": 23548.7,
+     "restated": 23548.6
+    },
+    {
+     "day": "2026-11-15",
+     "col": "out_mean",
+     "file": 20817.7,
+     "restated": 20817.6
+    },
+    {
+     "day": "2022-12-19",
+     "col": "out_mean",
+     "file": 11188.0,
+     "restated": 11188.1
+    },
+    {
+     "day": "2023-08-29",
+     "col": "out_mean",
+     "file": 10359.3,
+     "restated": 10359.4
+    },
+    {
+     "day": "2023-09-01",
+     "col": "out_mean",
+     "file": 10226.3,
+     "restated": 10226.2
+    },
+    {
+     "day": "2025-01-20",
+     "col": "out_mean",
+     "file": 16240.6,
+     "restated": 16240.5
+    },
+    {
+     "day": "2026-01-26",
+     "col": "out_mean",
+     "file": 19885.5,
+     "restated": 19885.6
+    }
+   ],
+   "hours_vs_local_day": {
+    "0": 253
+   }
+  },
+  "ercot": {
+   "figures_checked": 2277,
+   "differ": 143,
+   "first_differ": [
+    {
+     "day": "2020-03-02",
+     "col": "adder_hours",
+     "file": 11,
+     "restated": 6
+    },
+    {
+     "day": "2020-03-03",
+     "col": "adder_hours",
+     "file": 12,
+     "restated": 3
+    },
+    {
+     "day": "2020-03-04",
+     "col": "adder_hours",
+     "file": 2,
+     "restated": 0
+    },
+    {
+     "day": "2020-03-09",
+     "col": "adder_hours",
+     "file": 3,
+     "restated": 1
+    },
+    {
+     "day": "2020-03-10",
+     "col": "adder_hours",
+     "file": 1,
+     "restated": 0
+    },
+    {
+     "day": "2020-03-11",
+     "col": "adder_hours",
+     "file": 11,
+     "restated": 5
+    },
+    {
+     "day": "2020-03-12",
+     "col": "adder_hours",
+     "file": 12,
+     "restated": 4
+    },
+    {
+     "day": "2020-03-13",
+     "col": "adder_hours",
+     "file": 12,
+     "restated": 8
+    }
+   ],
+   "hours_vs_local_day": {
+    "0": 253
+   }
+  },
+  "spp": {
+   "figures_checked": 2277,
+   "differ": 65,
+   "first_differ": [
+    {
+     "day": "2026-10-16",
+     "col": "out_mean",
+     "file": 24690.3,
+     "restated": 24690.2
+    },
+    {
+     "day": "2026-10-17",
+     "col": "out_mean",
+     "file": 24203.5,
+     "restated": 24203.4
+    },
+    {
+     "day": "2026-10-20",
+     "col": "out_mean",
+     "file": 25887.8,
+     "restated": 25887.7
+    },
+    {
+     "day": "2026-10-21",
+     "col": "out_mean",
+     "file": 25445.7,
+     "restated": 25445.6
+    },
+    {
+     "day": "2026-11-19",
+     "col": "out_mean",
+     "file": 26828.1,
+     "restated": 26828.2
+    },
+    {
+     "day": "2020-03-02",
+     "col": "out_mean",
+     "file": 15876.0,
+     "restated": 15876.1
+    },
+    {
+     "day": "2020-03-05",
+     "col": "out_mean",
+     "file": 17406.1,
+     "restated": 17406.0
+    },
+    {
+     "day": "2020-03-08",
+     "col": "out_mean",
+     "file": 19429.5,
+     "restated": 19429.4
+    }
+   ],
+   "hours_vs_local_day": {
+    "0": 253
+   }
+  },
+  "miso": {
+   "figures_checked": 2268,
+   "differ": 0,
+   "first_differ": [],
+   "hours_vs_local_day": {
+    "0": 252,
+    "-1": 1
+   }
+  },
+  "pjm": {
+   "figures_checked": 2268,
+   "differ": 0,
+   "first_differ": [],
+   "hours_vs_local_day": {
+    "0": 252,
+    "-1": 1
+   }
+  },
+  "nyiso": {
+   "figures_checked": 2277,
+   "differ": 0,
+   "first_differ": [],
+   "hours_vs_local_day": {
+    "0": 253
+   }
+  },
+  "isone": {
+   "figures_checked": 2277,
+   "differ": 0,
+   "first_differ": [],
+   "hours_vs_local_day": {
+    "0": 253
+   }
+  }
+ },
+ "alerts_by_day": {
+  "caiso": {
+   "days": 3065,
+   "mismatch": [],
+   "n_mismatch": 0,
+   "alerts_on_days_not_in_daily": 1586
+  },
+  "ercot": {
+   "days": 3064,
+   "mismatch": [],
+   "n_mismatch": 0,
+   "alerts_on_days_not_in_daily": 60
+  }
+ },
+ "recent": {
+  "caiso": {
+   "start": "2026-10-16",
+   "end": "2026-11-20",
+   "days_in_window": 36,
+   "hours_rows": 865,
+   "first_hour": "2026-10-16T07:00:00Z",
+   "last_hour": "2026-11-21T07:00:00Z",
+   "last_day_rows": 24,
+   "last_day_demand_hours": 0,
+   "last_day_forecast_hours": 24,
+   "last_demand_hour": "2026-11-20T07:00:00Z",
+   "last_forecast_hour": "2026-11-21T07:00:00Z",
+   "first_demand_day": "2026-10-16"
+  },
+  "ercot": {
+   "start": "2026-10-16",
+   "end": "2026-11-20",
+   "days_in_window": 36,
+   "hours_rows": 865,
+   "first_hour": "2026-10-16T05:00:00Z",
+   "last_hour": "2026-11-21T05:00:00Z",
+   "last_day_rows": 24,
+   "last_day_demand_hours": 0,
+   "last_day_forecast_hours": 24,
+   "last_demand_hour": "2026-11-20T05:00:00Z",
+   "last_forecast_hour": "2026-11-21T05:00:00Z",
+   "first_demand_day": "2026-10-16"
+  },
+  "spp": {
+   "start": "2026-10-16",
+   "end": "2026-11-20",
+   "days_in_window": 36,
+   "hours_rows": 865,
+   "first_hour": "2026-10-16T05:00:00Z",
+   "last_hour": "2026-11-21T05:00:00Z",
+   "last_day_rows": 24,
+   "last_day_demand_hours": 0,
+   "last_day_forecast_hours": 24,
+   "last_demand_hour": "2026-11-20T05:00:00Z",
+   "last_forecast_hour": "2026-11-21T05:00:00Z",
+   "first_demand_day": "2026-10-16"
+  },
+  "miso": {
+   "start": "2026-10-16",
+   "end": "2026-11-20",
+   "days_in_window": 36,
+   "hours_rows": 864,
+   "first_hour": "2026-10-16T05:00:00Z",
+   "last_hour": "2026-11-21T04:00:00Z",
+   "last_day_rows": 23,
+   "last_day_demand_hours": 0,
+   "last_day_forecast_hours": 23,
+   "last_demand_hour": "2026-11-20T04:00:00Z",
+   "last_forecast_hour": "2026-11-21T04:00:00Z",
+   "first_demand_day": "2026-10-16"
+  },
+  "pjm": {
+   "start": "2026-10-16",
+   "end": "2026-11-20",
+   "days_in_window": 36,
+   "hours_rows": 864,
+   "first_hour": "2026-10-16T04:00:00Z",
+   "last_hour": "2026-11-21T04:00:00Z",
+   "last_day_rows": 24,
+   "last_day_demand_hours": 0,
+   "last_day_forecast_hours": 24,
+   "last_demand_hour": "2026-11-20T04:00:00Z",
+   "last_forecast_hour": "2026-11-21T04:00:00Z",
+   "first_demand_day": "2026-10-16"
+  },
+  "nyiso": {
+   "start": "2026-10-16",
+   "end": "2026-11-20",
+   "days_in_window": 36,
+   "hours_rows": 865,
+   "first_hour": "2026-10-16T04:00:00Z",
+   "last_hour": "2026-11-21T04:00:00Z",
+   "last_day_rows": 24,
+   "last_day_demand_hours": 0,
+   "last_day_forecast_hours": 24,
+   "last_demand_hour": "2026-11-20T04:00:00Z",
+   "last_forecast_hour": "2026-11-21T04:00:00Z",
+   "first_demand_day": "2026-10-16"
+  },
+  "isone": {
+   "start": "2026-10-16",
+   "end": "2026-11-20",
+   "days_in_window": 36,
+   "hours_rows": 865,
+   "first_hour": "2026-10-16T04:00:00Z",
+   "last_hour": "2026-11-21T04:00:00Z",
+   "last_day_rows": 24,
+   "last_day_demand_hours": 0,
+   "last_day_forecast_hours": 24,
+   "last_demand_hour": "2026-11-20T04:00:00Z",
+   "last_forecast_hour": "2026-11-21T04:00:00Z",
+   "first_demand_day": "2026-10-16"
+  }
+ }
+}

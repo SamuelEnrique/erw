@@ -17,6 +17,14 @@ import { FIELDS, GROUPS, STATE_LIST, clampTo, dropParam, queryWithProjects, reso
 import type { Planned } from "@/lib/forecast";
 import { csvOf, pythonOf, stataOf } from "@/lib/forecastfiles";
 import { StateChart } from "./StateChart";
+// chain 740: the datacenter, a fifth project type (lib/dcimpact.ts, lib/dcui.ts, ./Datacenter.tsx)
+import { dcKey, dcRun, dcStat, type DcInputs, type DcParams, type DcResult } from "@/lib/dcimpact";
+import { DC_NAMES, dcResolve, isDcIx, type DcProject } from "@/lib/dcui";
+import { dcCsv, dcPython, dcStata } from "@/lib/dcfiles";
+import { DcGroups, DcOtherStates, DcYears, dcDisplay } from "./Datacenter";
+
+/** A scenario: a plant (JEDI) or a datacenter */
+type Scn = { dc: false; x: Inputs; r: Result } | { dc: true; x: DcInputs; r: DcResult };
 
 type View = "a" | "b";
 const box = "w-full border border-rule bg-white px-2 py-1 text-sm";
@@ -38,31 +46,46 @@ function severanceOf(rules: Rules) {
   };
 }
 
-export function Forecast({ P, jedi, start, rules, planned }: { P: Params; jedi: Packed; start: Both; rules: unknown; planned: Planned[] }) {
+export function Forecast({ P, P2, dcList, jedi, start, rules, planned }: { P: Params; P2: DcParams; dcList: DcProject[]; jedi: Packed; start: Both; rules: unknown; planned: Planned[] }) {
   const ids = planned.map((p) => p.id);
+  const dcIds = dcList.map((p) => p.id);
   return (
-    <ScenarioState start={start as never} query={((s: Both) => queryWithProjects(s, ids)) as never} drop={dropParam}>
-      <Body P={P} jedi={jedi} rules={rules as Rules} planned={planned} />
+    <ScenarioState start={start as never} query={((s: Both) => queryWithProjects(s, ids, dcIds)) as never} drop={dropParam}>
+      <Body P={P} P2={P2} dcList={dcList} jedi={jedi} rules={rules as Rules} planned={planned} />
     </ScenarioState>
   );
 }
 
-function Body({ P, jedi, rules, planned }: { P: Params; jedi: Packed; rules: Rules; planned: Planned[] }) {
+function Body({ P, P2, dcList, jedi, rules, planned }: { P: Params; P2: DcParams; dcList: DcProject[]; jedi: Packed; rules: Rules; planned: Planned[] }) {
   const { s, update } = useScenarios<Values>();
   const sev = severanceOf(rules);
-  const x = { a: resolve(P, s.a), b: resolve(P, s.b) };
-  const r = { a: run(x.a, unpack(jedi, x.a.tech, x.a.state), P, sev), b: run(x.b, unpack(jedi, x.b.tech, x.b.state), P, sev) };
+  const scn = (v: Values): Scn => {
+    if (isDcIx(v.tech)) { const x = dcResolve(P2, v, stateOfIx(v.state)); return { dc: true, x, r: dcRun(x, P2) }; }
+    const x = resolve(P, v);
+    return { dc: false, x, r: run(x, unpack(jedi, x.tech, x.state), P, sev) };
+  };
+  const sc = { a: scn(s.a), b: scn(s.b) };
+  const cur = sc[s.view];
+  const plantNames = { a: sc.a.dc ? null : projectOf(planned, s.a, sc.a.x), b: sc.b.dc ? null : projectOf(planned, s.b, sc.b.x) };
+  const dcNames = { a: sc.a.dc ? dcProjectOf(dcList, s.a, sc.a.x) : null, b: sc.b.dc ? dcProjectOf(dcList, s.b, sc.b.x) : null };
   return (
     <div className="grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)]" data-forecast="1">
-      <aside><Panel P={P} s={s} update={update} planned={planned} /></aside>
+      <aside><Panel P={P} P2={P2} dcList={dcList} s={s} update={update} planned={planned} /></aside>
       <div className="min-w-0 space-y-8">
-        <Compare x={x} r={r} P={P} names={{ a: projectOf(planned, s.a, x.a), b: projectOf(planned, s.b, x.b) }} />
-        <Years x={x[s.view]} r={r[s.view]} view={s.view} />
-        <OtherStates P={P} jedi={jedi} x={x[s.view]} v={s[s.view]} view={s.view} sev={sev} />
-        <Downloads P={P} x={x} r={r} jedi={jedi} />
+        <Compare sc={sc} P={P} P2={P2} names={plantNames} dcNames={dcNames} />
+        {cur.dc ? <DcYears x={cur.x} r={cur.r} view={s.view} /> : <Years x={cur.x} r={cur.r} view={s.view} />}
+        {cur.dc ? <DcOtherStates P2={P2} v={s[s.view]} x={cur.x} view={s.view} states={STATE_LIST.map(([k]) => k)} />
+          : <OtherStates P={P} jedi={jedi} x={cur.x} v={s[s.view]} view={s.view} sev={sev} />}
+        {sc.a.dc || sc.b.dc ? <DcDownloads P2={P2} sc={sc} /> : <Downloads P={P} x={{ a: sc.a.x as Inputs, b: sc.b.x as Inputs }} r={{ a: sc.a.r as Result, b: sc.b.r as Result }} jedi={jedi} />}
       </div>
     </div>
   );
+}
+
+/** The scenario's announced datacenter, when one is picked and it is still of the scenario's state */
+function dcProjectOf(list: DcProject[], v: Values, x: DcInputs): DcProject | null {
+  const p = Number.isFinite(v.dcproj) ? list[v.dcproj] : undefined;
+  return p && p.state === x.state ? p : null;
 }
 
 // ---- the left box ----------------------------------------------------------------------------------------------------
@@ -72,12 +95,17 @@ function projectOf(planned: Planned[], v: Values, x: Inputs): Planned | null {
   return p && p.tech === x.tech && p.state === x.state ? p : null;
 }
 
-function Panel({ P, s, update, planned }: { P: Params; s: Both; update: (b: Both) => void; planned: Planned[] }) {
+function Panel({ P, P2, dcList, s, update, planned }: { P: Params; P2: DcParams; dcList: DcProject[]; s: Both; update: (b: Both) => void; planned: Planned[] }) {
   const v = s[s.view];
   const tech = techOfIx(v.tech), state = stateOfIx(v.state);
   const d = resolve(P, { tech: v.tech, state: v.state } as Values);  // the defaults for the technology and state in view
-  // a new technology or state leaves the planned project, which belongs to the old ones
-  const set = (k: string, val: number) => update({ ...s, [s.view]: { ...v, [k]: val, ...(k === "tech" || k === "state" ? { proj: NaN } : {}) } });
+  const allBlank: Values = Object.fromEntries([...FIELDS.map((f) => f.key as string), ...DC_NAMES, "proj"].map((k) => [k, NaN]));
+  // a new technology or state leaves the planned project, which belongs to the old ones; chain 740: a move between a
+  // plant and a datacenter starts the scenario from its defaults (their fields mean different things)
+  const set = (k: string, val: number) => {
+    if (k === "tech" && isDcIx(val) !== isDcIx(v.tech)) { update({ ...s, [s.view]: { ...allBlank, tech: val, state: v.state } }); return; }
+    update({ ...s, [s.view]: { ...v, [k]: val, ...(k === "tech" || k === "state" ? { proj: NaN, dcproj: NaN } : {}) } });
+  };
   const mine = planned.map((p, i) => ({ p, i })).filter(({ p }) => p.tech === tech && p.state === state);
   const pick = (i: number) => {
     if (!Number.isFinite(i)) { update({ ...s, [s.view]: { ...v, proj: NaN } }); return; }
@@ -94,7 +122,8 @@ function Panel({ P, s, update, planned }: { P: Params; s: Both; update: (b: Both
       Scenario {p.toUpperCase()}
     </button>
   );
-  const blank: Values = Object.fromEntries(FIELDS.map((f) => [f.key, NaN]));
+  const blank: Values = allBlank;
+  const dcView = isDcIx(v.tech);
   return (
     <div className="bg-paper px-4 py-4" data-assumptions={s.view}>
       <div className="mb-3 flex flex-wrap items-center gap-2">
@@ -105,7 +134,10 @@ function Panel({ P, s, update, planned }: { P: Params; s: Both; update: (b: Both
         <button type="button" data-reset-all="1" className="border border-accent bg-white px-3 py-1 text-accent"
           onClick={() => update({ ...s, [s.view]: { ...blank, tech: v.tech, state: v.state } })}>Reset all of {s.view.toUpperCase()}</button>
       </div>
-      {GROUPS.map((g) => {
+      {dcView ? (
+        <DcGroups P2={P2} v={v} state={state} dcList={dcList} set={set} update={(nv) => update({ ...s, [s.view]: nv })}
+          techState={<>{FIELDS.filter((f) => f.key === "tech" || f.key === "state").map((f) => <One key={`${s.view}-${f.key}`} f={f} P={P} tech={tech} state={state} v={v} d={d} set={set} />)}</>} />
+      ) : GROUPS.map((g) => {
         const fs = FIELDS.filter((f) => f.group === g.key && (!f.applies || f.applies(tech, state, P)));
         if (!fs.length) return null;
         const set_ = fs.filter((f) => f.key !== "tech" && f.key !== "state" && Number.isFinite(v[f.key])).length;
@@ -228,8 +260,63 @@ function scenarioWords(x: Inputs): string {
   return `${TECHS.find((t) => t.key === x.tech)?.label}, ${stateName(x.state)}, ${plain(x.mw, 1)} MW`;
 }
 
-function Compare({ x, r, names, P }: { x: Record<View, Inputs>; r: Record<View, Result>; names: Record<View, Planned | null>; P: Params }) {
+// ---- chain 740: the datacenter's cells of the A and B table ----------------------------------------------------------
+/** Each plant line's figure for a datacenter (null: the line does not apply to a datacenter, said in the cell's hover) */
+const DC_FIGURE: Record<string, string | null> = { cjobs: "c:jobs:total", ojobs: "o:jobs:total", cearn: "c:earnings:total", oearn: "o:earnings:total",
+  cout: null, oout: null, prop1: "y1:property", propl: "sum:property", sales: "sum:sales", income: "sum:income", sev: null, pvtax: "pv:taxes", pvearn: "pv:earnings" };
+/** The words added to a plant line's hover when a scenario is a datacenter */
+const DC_TIP: Record<string, string> = {
+  cjobs: "For a datacenter: the construction workers on site each construction year times the years (an announced peak held in every year, an upper reading), and in Virginia, Georgia and Minnesota the supply chain and induced ratios of the state's own published study (JLARC, 2024; the Carl Vinson Institute for Georgia's auditor and Minnesota's Legislative Budget Office, 2025); elsewhere on site only.",
+  ojobs: "For a datacenter: the permanent jobs on site, and in Virginia, Georgia and Minnesota the supply chain and induced ratios of the state's own published study (JLARC, 2024; the Carl Vinson Institute for Georgia's auditor and Minnesota's Legislative Budget Office, 2025); elsewhere on site only.",
+  cearn: "For a datacenter: the construction workers times Census CBP's payroll per job of nonresidential building and specialty trades in the state.",
+  oearn: "For a datacenter: the permanent jobs times Census CBP's payroll per job of NAICS 518210 in the state.",
+  cout: "Not computed for a datacenter: no public model gives its output.", oout: "Not computed for a datacenter.",
+  prop1: "For a datacenter: the building and the equipment at their cost, assessed by the state's rule where read, times the reader's rates.",
+  propl: "For a datacenter: every operating year added, the equipment bought again every refresh cycle.",
+  sales: "For a datacenter: paid, after the state's datacenter exemption where the project meets its thresholds; on the equipment (bought again every refresh cycle) and the building's taxable share where given.",
+  pvtax: "For a datacenter: property, sales and use paid, income and electricity taxes.",
+};
+type DcLine = { key: string; label: string; tip: string; figure: string; why: (r: DcResult) => string | null };
+const DC_LINES: DcLine[] = [
+  { key: "dcbefore", label: "Sales and use tax before the exemption", tip: "A datacenter's equipment purchases (and the building's taxable share where given) at the state and average local rate, before any exemption, over the life.", figure: "sum:salesbefore", why: () => null },
+  { key: "dcforgone", label: "Sales and use tax forgone by the exemption", tip: "The tax the state's datacenter exemption forgoes over the life, where the project meets the statute's thresholds: the statute's cost, stated as such.", figure: "sum:forgone",
+    why: (r) => (r.exemption.held ? null : r.exemption.note) },
+  { key: "dcpropb", label: "Property tax on the building, first operating year", tip: "The building and site at their cost, assessed by the state's rule where read, times the reader's rate, less any abatement.", figure: "y1:propb", why: (r) => (r.years.some((y) => y.propb !== null) ? null : "the building's rate is not given") },
+  { key: "dcprope", label: "Property tax on the equipment, first operating year", tip: "The equipment at its cost (bought again every refresh cycle), assessed by the state's rule where read, times the reader's rate, less any abatement.", figure: "y1:prope", why: (r) => (r.years.some((y) => y.prope !== null) ? null : "the equipment's rate is not given") },
+  { key: "dcelec", label: "Tax on the electricity bought, each year", tip: "By the state's statute where one is read (Virginia's consumption tax per kWh), on the MWh the reader gives.", figure: "y1:elec", why: (r) => (r.elec.held ? null : r.elec.note) },
+];
+function dcWords(x: DcInputs): string { return `Datacenter, ${stateName(x.state)}, ${plain(x.mw, 1)} MW`; }
+function dcWhy(r: DcResult, key: string): string | null {
+  if (key === "prop1" || key === "propl") return r.property.held ? null : r.property.note;
+  if (key === "cout" || key === "oout") return "not computed for a datacenter";
+  if (key === "sev") return "a datacenter burns no gas";
+  return null;
+}
+
+function Compare({ sc, names, dcNames, P, P2 }: { sc: Record<View, Scn>; names: Record<View, Planned | null>; dcNames: Record<View, DcProject | null>; P: Params; P2: DcParams }) {
   const views: View[] = ["a", "b"];
+  const anyDc = sc.a.dc || sc.b.dc;
+  // the plant table as it stood for two plants; a datacenter's cells by its own figures (chain 740)
+  const x = { a: sc.a.x, b: sc.b.x } as Record<View, Inputs>;
+  const r = { a: sc.a.r, b: sc.b.r } as Record<View, Result>;
+  const dcCellOf = (p: View, key: string, figure: string | null, cls: string) => {
+    const s = sc[p];
+    if (!s.dc) return null;
+    if (!s.r.ok) return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${key}`}><span className="cursor-help border-b border-dotted border-muted" title={s.r.why}>no figure</span></td>;
+    // session 10808: the tax forgone is a figure only where an exemption applies or the scenario turned it off; where no
+    // exemption is read it is not held, and where one is read but the project falls short (or it is an approval) it is none
+    if (key === "dcforgone" && !(s.r.exemption.eligible)) {
+      const word = s.r.exemption.held ? "none" : "not held";
+      return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${key}`}><span className="cursor-help border-b border-dotted border-muted" title={s.r.exemption.note}>{word}</span></td>;
+    }
+    const v = figure === null ? null : dcStat(s.r, figure);
+    if (v === null) {
+      const why = dcWhy(s.r, key) ?? DC_LINES.find((l) => l.key === key)?.why(s.r) ?? "not held";
+      return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${key}`}><span className="cursor-help border-b border-dotted border-muted" title={why}>{key === "sev" ? "none" : "not held"}</span></td>;
+    }
+    return <td key={p} className={cls} data-cell={`${p}|${key}`}><Num check={`${dcKey(s.x)}|${figure}`} raw={v}>{dcDisplay(figure!, v)}</Num></td>;
+  };
+  const dcPropTip = (p: View) => { const s = sc[p]; return s.dc ? `${p.toUpperCase()}: ${P2.rules.states[s.x.state]?.property?.tip ?? `${stateName(s.x.state)}: no rule for a datacenter's property is read; the reader's own rates, where typed.`}` : null; };
   return (
     <section data-compare="1">
       <h2 className="mb-2 text-lg font-semibold">A and B</h2>
@@ -242,8 +329,9 @@ function Compare({ x, r, names, P }: { x: Record<View, Inputs>; r: Record<View, 
               {views.map((p) => (
                 <th key={p} scope="col" className="px-3 py-1.5 text-right font-normal sm:table-cell" data-head={p}>
                   <span className="font-semibold">{p.toUpperCase()}</span>
-                  <span className="block text-xs opacity-90">{scenarioWords(x[p])}</span>
+                  <span className="block text-xs opacity-90">{sc[p].dc ? dcWords(sc[p].x as DcInputs) : scenarioWords(x[p])}</span>
                   {names[p] ? <span className="block text-xs opacity-90" data-project={names[p]!.id}>{names[p]!.name}, {names[p]!.county} County</span> : null}
+                  {dcNames[p] ? <span className="block text-xs opacity-90" data-project={dcNames[p]!.id}>{dcNames[p]!.name}{dcNames[p]!.where ? `, ${dcNames[p]!.where}` : ""}</span> : null}
                   <span className="block text-xs opacity-90">rate {plain(x[p].rate)}%, {x[p].start} to {x[p].start + x[p].build + x[p].life - 1}</span>
                 </th>
               ))}
@@ -252,10 +340,14 @@ function Compare({ x, r, names, P }: { x: Record<View, Inputs>; r: Record<View, 
           <tbody className="block sm:table-row-group">
             {LINES.map((l) => (
               <tr key={l.key} className="grid grid-cols-2 border-b border-rule align-top sm:table-row" data-row={l.key}>
-                <th scope="row" className="col-span-2 px-3 pb-0 pt-1.5 font-normal sm:table-cell sm:pb-1.5">{l.label}<Tip id={`l-${l.key}`} label={l.label}>{l.tipFor ? `${l.tip} ${l.tipFor(x, P)}` : l.tip}</Tip></th>
+                <th scope="row" className="col-span-2 px-3 pb-0 pt-1.5 font-normal sm:table-cell sm:pb-1.5">{l.label}<Tip id={`l-${l.key}`} label={l.label}>{
+                  !anyDc ? (l.tipFor ? `${l.tip} ${l.tipFor(x, P)}` : l.tip)
+                    : `${l.tip}${l.key === "prop1" ? ` ${views.map((p) => dcPropTip(p) ?? (l.tipFor ? l.tipFor({ a: x[p], b: x[p] }, P).split(" B: ")[0].replace(/^A: /, `${p.toUpperCase()}: `) : "")).join(" ")}` : ""}${DC_TIP[l.key] ? ` ${DC_TIP[l.key]}` : ""}`
+                }</Tip></th>
                 {views.map((p) => {
                   const res = r[p];
                   const cls = "px-3 py-1.5 text-right sm:table-cell";
+                  if (sc[p].dc) return dcCellOf(p, l.key, DC_FIGURE[l.key] ?? null, cls);
                   if (!res.ok) return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${l.key}`}><span className="cursor-help border-b border-dotted border-muted" title={res.why}>no figure</span></td>;
                   const v = stat(res, l.figure);
                   const why = l.why?.(res, x[p]) ?? null;
@@ -265,6 +357,16 @@ function Compare({ x, r, names, P }: { x: Record<View, Inputs>; r: Record<View, 
                 })}
               </tr>
             ))}
+            {anyDc ? DC_LINES.map((l) => (
+              <tr key={l.key} className="grid grid-cols-2 border-b border-rule align-top sm:table-row" data-row={l.key}>
+                <th scope="row" className="col-span-2 px-3 pb-0 pt-1.5 font-normal sm:table-cell sm:pb-1.5">{l.label}<Tip id={`l-${l.key}`} label={l.label}>{`${l.tip}${l.key === "dcforgone" ? ` ${views.map((p) => { const s = sc[p]; return s.dc ? `${p.toUpperCase()}: ${P2.rules.states[s.x.state]?.sales_exemption?.tip ?? `${stateName(s.x.state)}: no datacenter exemption is read.`}` : ""; }).join(" ")}` : ""}`}</Tip></th>
+                {views.map((p) => {
+                  const cls = "px-3 py-1.5 text-right sm:table-cell";
+                  if (sc[p].dc) return dcCellOf(p, l.key, l.figure, cls);
+                  return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${l.key}`}><span className="cursor-help border-b border-dotted border-muted" title="a datacenter's line: this scenario is a plant">none</span></td>;
+                })}
+              </tr>
+            )) : null}
           </tbody>
         </table>
       </div>
@@ -381,6 +483,28 @@ function save(name: string, text: string, type: string) {
   a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
+/** Chain 740: the run's files when a scenario is a datacenter (lib/dcfiles.ts); a plant scenario's rows as the plant CSV writes them */
+function DcDownloads({ P2, sc }: { P2: DcParams; sc: Record<View, Scn> }) {
+  const btn = "border border-accent bg-white px-3 py-1 text-sm text-accent";
+  const files = () => Object.fromEntries((["a", "b"] as View[]).map((p) => {
+    const s = sc[p];
+    if (s.dc) return [p, { dc: true as const, x: s.x, r: s.r }];
+    const header = csvOf({ a: s.x, b: s.x }, { a: s.r, b: s.r }).split("\n");
+    const cols = header.find((l) => l.startsWith("scenario,")) ?? "";
+    return [p, { dc: false as const, inputs: s.x, csvRows: [cols, ...header.filter((l) => l.startsWith("A,")).map((l) => `${p.toUpperCase()}${l.slice(1)}`)] }];
+  })) as Record<View, Parameters<typeof dcCsv>[0]["a"]>;
+  return (
+    <section data-downloads="1">
+      <h2 className="mb-2 text-lg font-semibold">This run<Tip id="downloads" label="the run's files">The CSV holds both scenarios year by year (a plant scenario in the plant&apos;s columns). The Python script and the Stata do-file recompute each datacenter scenario from the inputs and parameters they carry, and check their totals against the tool&apos;s; a plant scenario&apos;s scripts are the plant download&apos;s, offered when both scenarios are plants.</Tip></h2>
+      <div className="flex flex-wrap gap-2">
+        <button type="button" className={btn} data-download="csv" onClick={() => save("erw_local_impact_run.csv", dcCsv(files()), "text/csv")}>CSV</button>
+        <button type="button" className={btn} data-download="py" onClick={() => save("erw_local_impact_datacenter.py", dcPython(P2, files()), "text/x-python")}>Python</button>
+        <button type="button" className={btn} data-download="do" onClick={() => save("erw_local_impact_datacenter.do", dcStata(P2, files()), "text/plain")}>Stata</button>
+      </div>
+    </section>
+  );
+}
+
 function Downloads({ P, x, r, jedi }: { P: Params; x: Record<View, Inputs>; r: Record<View, Result>; jedi: Packed }) {
   const btn = "border border-accent bg-white px-3 py-1 text-sm text-accent";
   const rows = { a: unpack(jedi, x.a.tech, x.a.state), b: unpack(jedi, x.b.tech, x.b.state) };

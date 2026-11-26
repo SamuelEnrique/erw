@@ -124,7 +124,9 @@ export default async function Covid({ searchParams }: PageProps = {}) {
                 const deep = lowest(d.weeks, g.entity);
                 const deepAfter = lowest(d.weeks, g.entity, AFTER);
                 return (
-                  <div key={g.entity}>
+                  // session 9203 (chain 620): min-w-0, so a grid's block keeps to its column when its chart is switched to a
+                  // table (at 390 px the page was 392 px wide with CAISO's table showing)
+                  <div key={g.entity} className="min-w-0">
                     <h3 className="mb-1 text-base">{g.slug ? <Link href={`/grid?grid=${g.slug}`}>{g.name}</Link> : g.name}</h3>
                     <LineChart
                       lines={[

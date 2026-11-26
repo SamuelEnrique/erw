@@ -1,0 +1,43 @@
+none found | CAISO TH_SP15_GEN-APND (hub) | state CA | unread: City of Azusa; City of Burbank Water and Power - (CA); City of Glendale - (CA); City of Pasadena - (CA); City of Vernon - (CA) | none: Southern California Edison Co; Los Angeles Department of Water & Power
+state      | ERCOT HB_BUSAVG (hub) | state TX | unread: TXU Energy Retail Co, LLC | none: 
+own        | ERCOT HB_HOUSTON (hub) | state TX | unread: San Bernard Electric Coop, Inc | none: Entergy Texas Inc.
+state      | ERCOT HB_HUBAVG (hub) | state TX | unread: TXU Energy Retail Co, LLC | none: 
+state      | ERCOT HB_NORTH (hub) | state TX | unread: TXU Energy Retail Co, LLC | none: 
+state      | ERCOT HB_SOUTH (hub) | state TX | unread: TXU Energy Retail Co, LLC | none: 
+state      | ERCOT HB_WEST (hub) | state TX | unread: TXU Energy Retail Co, LLC | none: 
+own        | ERCOT LZ_AEN, Austin Energy load zone (load zone) | state TX | unread: Bluebonnet Electric Coop, Inc | none: Pedernales Electric Coop, Inc
+own        | ERCOT LZ_CPS, CPS Energy load zone (San Antonio) (load zone) | state TX | unread: Guadalupe Valley Elec Coop Inc; Bandera Electric Coop, Inc; Karnes Electric Coop Inc | none: Pedernales Electric Coop, Inc
+own        | ERCOT LZ_HOUSTON, Houston load zone (load zone) | state TX | unread: San Bernard Electric Coop, Inc | none: Entergy Texas Inc.
+state      | ERCOT LZ_LCRA, Lower Colorado River Authority load zone (load zone) | state TX | unread: TXU Energy Retail Co, LLC | none: 
+state      | ERCOT LZ_NORTH, North load zone (load zone) | state TX | unread: TXU Energy Retail Co, LLC | none: 
+state      | ERCOT LZ_RAYBN, Rayburn load zone (load zone) | state TX | unread: TXU Energy Retail Co, LLC | none: 
+state      | ERCOT LZ_SOUTH, South load zone (load zone) | state TX | unread: TXU Energy Retail Co, LLC | none: 
+state      | ERCOT LZ_WEST, West load zone (load zone) | state TX | unread: TXU Energy Retail Co, LLC | none: 
+own        | ISO-NE .H.INTERNAL_HUB (hub) | state MA | unread: Massachusetts Bay Trans Authority | none: 
+none read  | ISO-NE .Z.CONNECTICUT (load zone) | state CT | unread: Constellation NewEnergy, Inc | none: 
+none read  | ISO-NE .Z.MAINE (load zone) | state ME | unread: Direct Energy Business | none: 
+own        | ISO-NE .Z.NEMASSBOST (load zone) | state MA | unread: Massachusetts Bay Trans Authority | none: 
+none read  | ISO-NE .Z.NEWHAMPSHIRE (load zone) | state NH | unread: Direct Energy Business | none: 
+none read  | ISO-NE .Z.RHODEISLAND (load zone) | state RI | unread: Direct Energy Business | none: 
+none read  | ISO-NE .Z.SEMASS (load zone) | state MA | unread: Direct Energy Business | none: 
+none found | ISO-NE .Z.VERMONT (load zone) | state VT | unread:  | none: Green Mountain Power Corp
+none read  | ISO-NE .Z.WCMASS (load zone) | state MA | unread: Direct Energy Business | none: 
+none read  | MISO ILLINOIS.HUB (hub) | state IL | unread: Direct Energy Business | none: 
+none found | MISO INDIANA.HUB (hub) | state IN | unread:  | none: Duke Energy Indiana, LLC; AES Indiana
+none found | MISO MS.HUB (hub) | state MS | unread:  | none: Entergy Mississippi LLC
+none found | MISO TEXAS.HUB (hub) | state TX | unread:  | none: Entergy Texas Inc.
+own        | NYISO CAPITL (load zone) | state NY | unread: Village of Green Island - (NY) | none: 
+own        | NYISO CENTRL (load zone) | state NY | unread: Village of Skaneateles - (NY); Village of Solvay - (NY) | none: 
+own        | NYISO GENESE (load zone) | state NY | unread: Village of Churchville - (NY); Village of Fairport - (NY); Village of Spencerport - (NY) | none: 
+none read  | NYISO HUD VL (load zone) | state NY | unread: New York Power Authority | none: 
+own        | NYISO LONGIL (load zone) | state NY | unread: Fishers Island Utility Co Inc; Village of Greenport - (NY) | none: 
+none read  | NYISO MHK VL (load zone) | state NY | unread: New York Power Authority | none: 
+none read  | NYISO NORTH (load zone) | state NY | unread: New York Power Authority | none: 
+own        | NYISO WEST (load zone) | state NY | unread: Village of Akron - (NY); Village of Arcade - (NY); Village of Springville - (NY) | none: 
+none read  | PJM PJM, the grid (no hub or zone price held) | state null | unread:  | none: 
+none read  | SPP SPPNORTH_HUB (hub) | state KS | unread: Kansas Gas & Electric Co; Butler Rural El Coop Assn, Inc - (KS); City of Mount Hope - (KS); City of Mulvane - (KS); Sedgwick County El Coop Assn Inc; Sumner-Cowley Elec Coop, Inc | none: 
+rows 48: own rule 21, state rule only 10, none found 5, none read 12
+(node:14924) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/Shared/Documents/erw/site/lib/siting.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\Shared\Documents\erw\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

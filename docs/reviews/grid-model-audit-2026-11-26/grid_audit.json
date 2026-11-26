@@ -1,0 +1,386 @@
+{
+ "A_default_view_us48": {
+  "demand": {
+   "hour": "2026-11-12T23:00:00Z",
+   "mw": 491749.0,
+   "week_earlier_hour": "2026-11-05T23:00:00Z",
+   "week_earlier_mw": null
+  },
+  "generation": {
+   "hour": "2026-11-04T23:00:00Z",
+   "total_mw": 488990.0,
+   "fuels": {
+    "net_generation_natural_gas_mw": 212169.0,
+    "net_generation_nuclear_mw": 80272.0,
+    "net_generation_coal_mw": 71582.0,
+    "net_generation_wind_mw": 50164.0,
+    "net_generation_hydro_mw": 29850.0,
+    "net_generation_solar_mw": 19937.0,
+    "net_generation_battery_mw": 12325.0,
+    "net_generation_other_mw": 7110.0,
+    "net_generation_pumped_storage_mw": 3440.0,
+    "net_generation_oil_mw": 1237.0,
+    "net_generation_geothermal_mw": 1102.0,
+    "net_generation_solar_with_battery_mw": 505.0,
+    "net_generation_other_storage_mw": 0.0,
+    "net_generation_unknown_mw": 0.0,
+    "net_generation_wind_with_battery_mw": 0.0,
+    "net_generation_unknown_storage_mw": -587.0
+   },
+   "sum_of_fuels_mw": 489106.0
+  },
+  "carbon": {
+   "hour": "2026-11-02T23:00:00Z",
+   "of_generation": 305.3429,
+   "of_demand": 304.4106
+  },
+  "carbon_restated_api_denominators": {
+   "co2_generated_t": 151965.80672562134,
+   "co2_consumed_t": 152809.55350718595,
+   "api_net_generation_mw": 496070.0,
+   "api_demand_mw": 502100.0,
+   "of_generation": 306.3394,
+   "implied_workbook_net_generation_mwh": 497689.0,
+   "of_demand": 304.3409,
+   "implied_workbook_demand_mwh": 501985.0
+  },
+  "api_denominator_vs_table_hours": {
+   "hours": 336,
+   "mean_abs_diff": 0.7533,
+   "max_abs_diff": 4.3401,
+   "first": "2026-10-20T00:00:00Z",
+   "last": "2026-11-02T23:00:00Z"
+  },
+  "extract_restatement_sep2026": {
+   "hours": 768,
+   "generation_equal_to_4dp": 103,
+   "demand_equal_to_4dp": 41,
+   "max_abs_diff_generation": 6.7661,
+   "max_abs_diff_demand": 6.5967
+  }
+ },
+ "B_snapshot": {
+  "built": "2026-11-25T14:48:25Z",
+  "hours": [
+   "2026-11-17T00:00:00Z",
+   "2026-11-23T23:00:00Z"
+  ],
+  "complete_hour": "2026-11-22T23:00:00Z",
+  "complete_index": 143,
+  "pairs": 159,
+  "reporting_pairs": 159,
+  "lag_hours_vs_refresh": 64,
+  "isos": {
+   "CISO": {
+    "net_export_mw": -3474.0,
+    "ties": 11,
+    "max_flow_mw": 1388.0
+   },
+   "ERCO": {
+    "net_export_mw": -128.0,
+    "ties": 2,
+    "max_flow_mw": 74.0
+   },
+   "ISNE": {
+    "net_export_mw": -416.0,
+    "ties": 3,
+    "max_flow_mw": 918.0
+   },
+   "MISO": {
+    "net_export_mw": -1280.0,
+    "ties": 10,
+    "max_flow_mw": 1961.0
+   },
+   "NYIS": {
+    "net_export_mw": -1627.0,
+    "ties": 4,
+    "max_flow_mw": 2236.0
+   },
+   "PJM": {
+    "net_export_mw": 1033.0,
+    "ties": 7,
+    "max_flow_mw": 2236.0
+   },
+   "SWPP": {
+    "net_export_mw": -370.0,
+    "ties": 11,
+    "max_flow_mw": 890.0
+   }
+  },
+  "top_exporter": {
+   "id": "SRP",
+   "mw": 5558.0
+  },
+  "nodes": 70,
+  "newest_hour": {
+   "hour": "2026-11-23T23:00:00Z",
+   "pairs_reporting": 156
+  },
+  "sum_of_seven_net_export_mw": -6262.0,
+  "foreign_nodes_by_name": [
+   "AESO",
+   "BCHA",
+   "CEN",
+   "HQT",
+   "IESO",
+   "MHEB",
+   "NBSO",
+   "PNM",
+   "SPC"
+  ],
+  "nodes_with_demand": [
+   "CISO",
+   "ERCO",
+   "ISNE",
+   "MISO",
+   "NYIS",
+   "PJM",
+   "SWPP"
+  ]
+ },
+ "C_netting": {
+  "hours": [
+   "2026-09-13T00:00:00Z",
+   "2026-11-03T23:00:00Z"
+  ],
+  "reports": 342696,
+  "pair_hours": 186480,
+  "pair_hours_both": 156216,
+  "gap_both_reported": {
+   "mean_abs_mw": 86.12,
+   "median": 0.0,
+   "p95": 343.0,
+   "share_over_10mw_pct": 21.1,
+   "sign_disagrees_pct": 2.89
+  },
+  "per_iso": {
+   "CISO": {
+    "ties": 11,
+    "ties_read_from_neighbour": [
+     "AZPS",
+     "BANC",
+     "BPAT",
+     "CEN"
+    ],
+    "hours_compared": 1152,
+    "rule_minus_own_mean_abs_mw": 487.5,
+    "rule_minus_own_max_abs_mw": 1361.0,
+    "rule_minus_own_mean_mw": 421.4,
+    "rule_minus_mean2_mean_abs_mw": 246.1,
+    "sign_differs_rule_vs_own_hours": 11,
+    "mean_abs_net_rule_mw": 4239.7
+   },
+   "ERCO": {
+    "ties": 2,
+    "ties_read_from_neighbour": [
+     "CEN"
+    ],
+    "hours_compared": 1152,
+    "rule_minus_own_mean_abs_mw": 0.0,
+    "rule_minus_own_max_abs_mw": 0.0,
+    "rule_minus_own_mean_mw": 0.0,
+    "rule_minus_mean2_mean_abs_mw": 256.7,
+    "sign_differs_rule_vs_own_hours": 0,
+    "mean_abs_net_rule_mw": 255.4
+   },
+   "ISNE": {
+    "ties": 3,
+    "ties_read_from_neighbour": [
+     "HQT"
+    ],
+    "hours_compared": 1200,
+    "rule_minus_own_mean_abs_mw": 0.0,
+    "rule_minus_own_max_abs_mw": 0.0,
+    "rule_minus_own_mean_mw": 0.0,
+    "rule_minus_mean2_mean_abs_mw": 6.5,
+    "sign_differs_rule_vs_own_hours": 0,
+    "mean_abs_net_rule_mw": 648.2
+   },
+   "MISO": {
+    "ties": 10,
+    "ties_read_from_neighbour": [
+     "AECI",
+     "IESO",
+     "LGEE",
+     "MHEB"
+    ],
+    "hours_compared": 1176,
+    "rule_minus_own_mean_abs_mw": 6.6,
+    "rule_minus_own_max_abs_mw": 179.0,
+    "rule_minus_own_mean_mw": -3.1,
+    "rule_minus_mean2_mean_abs_mw": 2515.1,
+    "sign_differs_rule_vs_own_hours": 0,
+    "mean_abs_net_rule_mw": 2362.2
+   },
+   "NYIS": {
+    "ties": 4,
+    "ties_read_from_neighbour": [
+     "HQT",
+     "IESO",
+     "ISNE"
+    ],
+    "hours_compared": 1200,
+    "rule_minus_own_mean_abs_mw": 13.0,
+    "rule_minus_own_max_abs_mw": 262.0,
+    "rule_minus_own_mean_mw": -9.3,
+    "rule_minus_mean2_mean_abs_mw": 293.7,
+    "sign_differs_rule_vs_own_hours": 0,
+    "mean_abs_net_rule_mw": 2117.2
+   },
+   "PJM": {
+    "ties": 7,
+    "ties_read_from_neighbour": [
+     "CPLE",
+     "CPLW",
+     "DUK",
+     "LGEE",
+     "MISO",
+     "NYIS"
+    ],
+    "hours_compared": 648,
+    "rule_minus_own_mean_abs_mw": 973.5,
+    "rule_minus_own_max_abs_mw": 5353.0,
+    "rule_minus_own_mean_mw": 310.2,
+    "rule_minus_mean2_mean_abs_mw": 450.2,
+    "sign_differs_rule_vs_own_hours": 121,
+    "mean_abs_net_rule_mw": 2087.6
+   },
+   "SWPP": {
+    "ties": 11,
+    "ties_read_from_neighbour": [
+     "AECI",
+     "BHBA",
+     "EPE",
+     "ERCO",
+     "MISO",
+     "PNM",
+     "PSCO",
+     "SIKE",
+     "SPA",
+     "SPC"
+    ],
+    "hours_compared": 0,
+    "rule_minus_own_mean_abs_mw": NaN,
+    "rule_minus_own_max_abs_mw": NaN,
+    "rule_minus_own_mean_mw": NaN,
+    "rule_minus_mean2_mean_abs_mw": NaN,
+    "sign_differs_rule_vs_own_hours": 0,
+    "mean_abs_net_rule_mw": NaN
+   }
+  },
+  "us48_rows_partners": [
+   "CAN",
+   "MEX"
+  ],
+  "us48_vs_seven": {
+   "hours": 1200,
+   "us48_net_export_mean_mw": -2996.3,
+   "seven_sum_net_export_mean_mw": -5640.6,
+   "mean_abs_diff_mw": 3312.4,
+   "sign_differs_hours": 74
+  }
+ },
+ "D_seven_share": {
+  "hours": 1392,
+  "first": "2026-08-27T00:00:00Z",
+  "last": "2026-10-29T23:00:00Z",
+  "seven_share_of_us48_demand_pct_mean": 65.22,
+  "min": 60.88,
+  "max": 68.35
+ },
+ "E_marginal_imports": {
+  "us48": {
+   "hours": 8760,
+   "first": "2025-10-01T00:00:00Z",
+   "last": "2026-09-30T23:00:00Z",
+   "average_kg_per_mwh": 335.5,
+   "marginal_vs_generation_kg_per_mwh": 337.6,
+   "marginal_se_iid": 2.8,
+   "marginal_vs_demand_kg_per_mwh": 327.5,
+   "marginal_over_average": 1.006,
+   "co2_imported_total_kt": 9803.0,
+   "imported_co2_per_net_import_mwh_ceiling": 222.9,
+   "hours_with_imported_co2": 8747,
+   "consumed_identity_max_abs_t": 0.0,
+   "demand_vs_generation_intensity_mean": -1.7
+  },
+  "erco": {
+   "hours": 8712,
+   "first": "2025-10-01T00:00:00Z",
+   "last": "2026-09-30T23:00:00Z",
+   "average_kg_per_mwh": 305.2,
+   "marginal_vs_generation_kg_per_mwh": 142.7,
+   "marginal_se_iid": 6.5,
+   "marginal_vs_demand_kg_per_mwh": 163.9,
+   "marginal_over_average": 0.468,
+   "co2_imported_total_kt": 629.6,
+   "imported_co2_per_net_import_mwh_ceiling": 403.3,
+   "hours_with_imported_co2": 7012,
+   "consumed_identity_max_abs_t": 0.0,
+   "demand_vs_generation_intensity_mean": -0.5
+  },
+  "pjm": {
+   "hours": 8706,
+   "first": "2025-10-01T00:00:00Z",
+   "last": "2026-09-30T23:00:00Z",
+   "average_kg_per_mwh": 336.0,
+   "marginal_vs_generation_kg_per_mwh": 394.7,
+   "marginal_se_iid": 2.9,
+   "marginal_vs_demand_kg_per_mwh": 376.1,
+   "marginal_over_average": 1.175,
+   "co2_imported_total_kt": 6331.5,
+   "imported_co2_per_net_import_mwh_ceiling": 863.1,
+   "hours_with_imported_co2": 8666,
+   "consumed_identity_max_abs_t": 0.0,
+   "demand_vs_generation_intensity_mean": 3.7
+  },
+  "miso": {
+   "hours": 8746,
+   "first": "2025-10-01T00:00:00Z",
+   "last": "2026-09-30T23:00:00Z",
+   "average_kg_per_mwh": 432.7,
+   "marginal_vs_generation_kg_per_mwh": 427.6,
+   "marginal_se_iid": 5.4,
+   "marginal_vs_demand_kg_per_mwh": 505.2,
+   "marginal_over_average": 0.988,
+   "co2_imported_total_kt": 15857.1,
+   "imported_co2_per_net_import_mwh_ceiling": 970.6,
+   "hours_with_imported_co2": 8746,
+   "consumed_identity_max_abs_t": 0.0,
+   "demand_vs_generation_intensity_mean": 6.1
+  },
+  "swpp": {
+   "hours": 8736,
+   "first": "2025-10-01T00:00:00Z",
+   "last": "2026-09-30T23:00:00Z",
+   "average_kg_per_mwh": 413.1,
+   "marginal_vs_generation_kg_per_mwh": 581.0,
+   "marginal_se_iid": 7.3,
+   "marginal_vs_demand_kg_per_mwh": 618.2,
+   "marginal_over_average": 1.406,
+   "co2_imported_total_kt": 2328.3,
+   "imported_co2_per_net_import_mwh_ceiling": 625.8,
+   "hours_with_imported_co2": 5703,
+   "consumed_identity_max_abs_t": 0.0,
+   "demand_vs_generation_intensity_mean": -132.2
+  }
+ },
+ "G_staleness": {
+  "eia930_all_demand": {
+   "retrieved": "20261113T143554Z"
+  },
+  "eia930_all_generation": {
+   "retrieved": "20261105T230317Z"
+  },
+  "carbon_intensity_hourly": {
+   "retrieved": "20261105T230834Z"
+  },
+  "eia930_all_interchange": {
+   "retrieved": "20261105T230910Z"
+  },
+  "snapshot": {
+   "built": "2026-11-25T14:48:25Z",
+   "newest_hour": "2026-11-23T23:00:00Z"
+  }
+ }
+}

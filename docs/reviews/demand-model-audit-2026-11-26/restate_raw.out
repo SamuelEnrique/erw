@@ -1,0 +1,1564 @@
+column demand; base 2019; ytd month 9; neighbour test on; october from API: no
+values and peak hours: 22714 equal, 1399 differ, 108 on the page only, 23 restated only
+DIFF ERCO 2019 ytd_avg_demand_mw: page 44790.7 restated 45199.8
+DIFF ERCO 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF ERCO 2019 ytd_hours_used: page 7295 restated 6551
+DIFF ERCO 2020 ytd_avg_demand_growth_since_2019_pct: page -1.32 restated -1.65
+DIFF ERCO 2020 ytd_avg_demand_mw: page 44200.0 restated 44454.8
+DIFF ERCO 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF ERCO 2020 ytd_hours_used: page 7319 restated 6575
+DIFF ERCO 2021 ytd_avg_demand_growth_since_2019_pct: page 2.31 restated 1.87
+DIFF ERCO 2021 ytd_avg_demand_mw: page 45826.5 restated 46044.9
+DIFF ERCO 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF ERCO 2021 ytd_hours_used: page 7295 restated 6551
+DIFF ERCO 2022 ytd_avg_demand_growth_since_2019_pct: page 11.85 restated 12.53
+DIFF ERCO 2022 ytd_avg_demand_mw: page 50096.9 restated 50865.2
+DIFF ERCO 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF ERCO 2022 ytd_hours_used: page 7295 restated 6551
+DIFF ERCO 2023 ytd_avg_demand_growth_since_2019_pct: page 16.87 restated 16.93
+DIFF ERCO 2023 ytd_avg_demand_mw: page 52345.0 restated 52851.4
+DIFF ERCO 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF ERCO 2023 ytd_hours_used: page 7295 restated 6551
+DIFF ERCO 2024 ytd_avg_demand_growth_since_2019_pct: page 20.47 restated 19.62
+DIFF ERCO 2024 ytd_avg_demand_mw: page 53960.0 restated 54065.9
+DIFF ERCO 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF ERCO 2024 ytd_hours_used: page 7319 restated 6575
+RESTATED ONLY ERCO 2025 avg_demand_growth_since_2019_mw: 11926.8
+DIFF ERCO 2025 avg_demand_growth_since_2019_pct: page 27.22 restated 27.23
+DIFF ERCO 2025 avg_demand_growth_yoy_pct: page 5.57 restated 5.58
+DIFF ERCO 2025 avg_demand_mw: page 55717.2 restated 55724.4
+DIFF ERCO 2025 avg_demand_mw_h00: page 50915.4 restated 50925.5
+DIFF ERCO 2025 avg_demand_mw_h01: page 49137.3 restated 49144.8
+DIFF ERCO 2025 avg_demand_mw_h02: page 47990.9 restated 47996.5
+DIFF ERCO 2025 avg_demand_mw_h03: page 47351.1 restated 47355.6
+DIFF ERCO 2025 avg_demand_mw_h04: page 47442.5 restated 47445.9
+DIFF ERCO 2025 avg_demand_mw_h05: page 48476.7 restated 48478.9
+DIFF ERCO 2025 avg_demand_mw_h06: page 50237.9 restated 50235.6
+DIFF ERCO 2025 avg_demand_mw_h07: page 51259.4 restated 51255.2
+DIFF ERCO 2025 avg_demand_mw_h08: page 52535.3 restated 52530.6
+DIFF ERCO 2025 avg_demand_mw_h09: page 54252.3 restated 54248.3
+DIFF ERCO 2025 avg_demand_mw_h10: page 55982.8 restated 55982.5
+DIFF ERCO 2025 avg_demand_mw_h11: page 57645.0 restated 57649.4
+DIFF ERCO 2025 avg_demand_mw_h12: page 59244.8 restated 59254.3
+DIFF ERCO 2025 avg_demand_mw_h13: page 60722.3 restated 60736.0
+DIFF ERCO 2025 avg_demand_mw_h14: page 61789.7 restated 61807.9
+DIFF ERCO 2025 avg_demand_mw_h15: page 62595.6 restated 62617.0
+DIFF ERCO 2025 avg_demand_mw_h16: page 63228.5 restated 63251.0
+DIFF ERCO 2025 avg_demand_mw_h17: page 63429.7 restated 63448.5
+DIFF ERCO 2025 avg_demand_mw_h18: page 62922.7 restated 62936.8
+DIFF ERCO 2025 avg_demand_mw_h19: page 61614.7 restated 61625.7
+DIFF ERCO 2025 avg_demand_mw_h20: page 60296.9 restated 60305.3
+DIFF ERCO 2025 avg_demand_mw_h21: page 58679.8 restated 58686.4
+DIFF ERCO 2025 avg_demand_mw_h22: page 56131.7 restated 56136.5
+DIFF ERCO 2025 avg_demand_mw_h23: page 53326.6 restated 53329.1
+PAGE ONLY ERCO 2025 avg_demand_mw_m12: 50436.0
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h00: 47083.5
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h01: 46147.9
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h02: 45670.0
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h03: 45721.5
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h04: 46415.2
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h05: 48037.3
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h06: 50544.9
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h07: 51916.7
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h08: 52098.4
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h09: 52141.3
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h10: 51892.9
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h11: 51542.6
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h12: 51321.2
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h13: 51194.7
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h14: 51067.8
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h15: 51411.9
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h16: 52137.0
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h17: 53163.1
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h18: 53844.1
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h19: 53398.4
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h20: 52876.7
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h21: 52024.2
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h22: 50347.0
+PAGE ONLY ERCO 2025 avg_demand_mw_m12_h23: 48465.6
+DIFF ERCO 2025 growth_mw_h00: page 12055.4 restated 12065.5
+DIFF ERCO 2025 growth_mw_h01: page 11808.0 restated 11815.5
+DIFF ERCO 2025 growth_mw_h02: page 11578.2 restated 11583.8
+DIFF ERCO 2025 growth_mw_h03: page 11402.9 restated 11407.4
+DIFF ERCO 2025 growth_mw_h04: page 11235.1 restated 11238.5
+DIFF ERCO 2025 growth_mw_h05: page 10892.2 restated 10894.4
+DIFF ERCO 2025 growth_mw_h06: page 10418.4 restated 10416.1
+DIFF ERCO 2025 growth_mw_h07: page 10313.6 restated 10309.4
+DIFF ERCO 2025 growth_mw_h08: page 10636.4 restated 10631.7
+DIFF ERCO 2025 growth_mw_h09: page 10976.6 restated 10972.6
+DIFF ERCO 2025 growth_mw_h10: page 11250.6 restated 11250.3
+DIFF ERCO 2025 growth_mw_h11: page 11626.2 restated 11630.6
+DIFF ERCO 2025 growth_mw_h12: page 12151.6 restated 12161.1
+DIFF ERCO 2025 growth_mw_h13: page 12594.3 restated 12608.0
+DIFF ERCO 2025 growth_mw_h14: page 12932.1 restated 12950.3
+DIFF ERCO 2025 growth_mw_h15: page 13222.8 restated 13244.2
+DIFF ERCO 2025 growth_mw_h16: page 13428.2 restated 13450.7
+DIFF ERCO 2025 growth_mw_h17: page 13353.7 restated 13372.5
+DIFF ERCO 2025 growth_mw_h18: page 12999.6 restated 13013.7
+DIFF ERCO 2025 growth_mw_h19: page 12571.4 restated 12582.4
+DIFF ERCO 2025 growth_mw_h20: page 12151.7 restated 12160.1
+DIFF ERCO 2025 growth_mw_h21: page 12096.1 restated 12102.7
+DIFF ERCO 2025 growth_mw_h22: page 12182.1 restated 12186.9
+DIFF ERCO 2025 growth_mw_h23: page 12193.2 restated 12195.7
+PAGE ONLY ERCO 2025 growth_mw_m12: 11153.7
+PAGE ONLY ERCO 2025 growth_mw_m12_h00: 10932.2
+PAGE ONLY ERCO 2025 growth_mw_m12_h01: 10687.9
+PAGE ONLY ERCO 2025 growth_mw_m12_h02: 10446.9
+PAGE ONLY ERCO 2025 growth_mw_m12_h03: 10322.6
+PAGE ONLY ERCO 2025 growth_mw_m12_h04: 10152.3
+PAGE ONLY ERCO 2025 growth_mw_m12_h05: 9818.9
+PAGE ONLY ERCO 2025 growth_mw_m12_h06: 9503.7
+PAGE ONLY ERCO 2025 growth_mw_m12_h07: 9479.5
+PAGE ONLY ERCO 2025 growth_mw_m12_h08: 9747.3
+PAGE ONLY ERCO 2025 growth_mw_m12_h09: 10367.7
+PAGE ONLY ERCO 2025 growth_mw_m12_h10: 10877.8
+PAGE ONLY ERCO 2025 growth_mw_m12_h11: 11361.8
+PAGE ONLY ERCO 2025 growth_mw_m12_h12: 11949.1
+PAGE ONLY ERCO 2025 growth_mw_m12_h13: 12342.0
+PAGE ONLY ERCO 2025 growth_mw_m12_h14: 12628.0
+PAGE ONLY ERCO 2025 growth_mw_m12_h15: 13157.2
+PAGE ONLY ERCO 2025 growth_mw_m12_h16: 13577.3
+PAGE ONLY ERCO 2025 growth_mw_m12_h17: 12899.3
+PAGE ONLY ERCO 2025 growth_mw_m12_h18: 11882.2
+PAGE ONLY ERCO 2025 growth_mw_m12_h19: 11442.7
+PAGE ONLY ERCO 2025 growth_mw_m12_h20: 11162.3
+PAGE ONLY ERCO 2025 growth_mw_m12_h21: 11084.4
+PAGE ONLY ERCO 2025 growth_mw_m12_h22: 10993.4
+PAGE ONLY ERCO 2025 growth_mw_m12_h23: 10871.4
+DIFF ERCO 2025 growth_pct_h00: page 31.02 restated 31.05
+DIFF ERCO 2025 growth_pct_h01: page 31.63 restated 31.65
+DIFF ERCO 2025 growth_pct_h02: page 31.8 restated 31.81
+DIFF ERCO 2025 growth_pct_h03: page 31.72 restated 31.73
+DIFF ERCO 2025 growth_pct_h04: page 31.03 restated 31.04
+DIFF ERCO 2025 growth_pct_h05: page 28.98 restated 28.99
+DIFF ERCO 2025 growth_pct_h07: page 25.19 restated 25.18
+DIFF ERCO 2025 growth_pct_h08: page 25.39 restated 25.37
+DIFF ERCO 2025 growth_pct_h11: page 25.26 restated 25.27
+DIFF ERCO 2025 growth_pct_h12: page 25.8 restated 25.82
+DIFF ERCO 2025 growth_pct_h13: page 26.17 restated 26.2
+DIFF ERCO 2025 growth_pct_h14: page 26.47 restated 26.51
+DIFF ERCO 2025 growth_pct_h15: page 26.78 restated 26.82
+DIFF ERCO 2025 growth_pct_h16: page 26.96 restated 27.01
+DIFF ERCO 2025 growth_pct_h17: page 26.67 restated 26.7
+DIFF ERCO 2025 growth_pct_h18: page 26.04 restated 26.07
+DIFF ERCO 2025 growth_pct_h19: page 25.63 restated 25.66
+DIFF ERCO 2025 growth_pct_h20: page 25.24 restated 25.26
+DIFF ERCO 2025 growth_pct_h21: page 25.97 restated 25.98
+DIFF ERCO 2025 growth_pct_h22: page 27.72 restated 27.73
+DIFF ERCO 2025 growth_pct_h23: page 29.64 restated 29.65
+PAGE ONLY ERCO 2025 growth_pct_m12: 28.39
+PAGE ONLY ERCO 2025 growth_pct_m12_h00: 30.24
+PAGE ONLY ERCO 2025 growth_pct_m12_h01: 30.14
+PAGE ONLY ERCO 2025 growth_pct_m12_h02: 29.66
+PAGE ONLY ERCO 2025 growth_pct_m12_h03: 29.16
+PAGE ONLY ERCO 2025 growth_pct_m12_h04: 28.0
+PAGE ONLY ERCO 2025 growth_pct_m12_h05: 25.69
+PAGE ONLY ERCO 2025 growth_pct_m12_h06: 23.16
+PAGE ONLY ERCO 2025 growth_pct_m12_h07: 22.34
+PAGE ONLY ERCO 2025 growth_pct_m12_h08: 23.02
+PAGE ONLY ERCO 2025 growth_pct_m12_h09: 24.82
+PAGE ONLY ERCO 2025 growth_pct_m12_h10: 26.52
+PAGE ONLY ERCO 2025 growth_pct_m12_h11: 28.28
+PAGE ONLY ERCO 2025 growth_pct_m12_h12: 30.35
+PAGE ONLY ERCO 2025 growth_pct_m12_h13: 31.77
+PAGE ONLY ERCO 2025 growth_pct_m12_h14: 32.85
+PAGE ONLY ERCO 2025 growth_pct_m12_h15: 34.39
+PAGE ONLY ERCO 2025 growth_pct_m12_h16: 35.21
+PAGE ONLY ERCO 2025 growth_pct_m12_h17: 32.04
+PAGE ONLY ERCO 2025 growth_pct_m12_h18: 28.32
+PAGE ONLY ERCO 2025 growth_pct_m12_h19: 27.27
+PAGE ONLY ERCO 2025 growth_pct_m12_h20: 26.76
+PAGE ONLY ERCO 2025 growth_pct_m12_h21: 27.07
+PAGE ONLY ERCO 2025 growth_pct_m12_h22: 27.93
+PAGE ONLY ERCO 2025 growth_pct_m12_h23: 28.92
+DIFF ERCO 2025 hours_used: page 8736 restated 8712
+RESTATED ONLY ERCO 2025 peak_demand_growth_since_2019_mw: 9064.0
+DIFF ERCO 2025 ytd_avg_demand_growth_since_2019_pct: page 26.97 restated 26.28
+DIFF ERCO 2025 ytd_avg_demand_mw: page 56872.1 restated 57077.5
+DIFF ERCO 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF ERCO 2025 ytd_hours_used: page 7295 restated 6551
+PAGE ONLY ERCO 2026 avg_demand_mw_m10: 55880.7
+RESTATED ONLY ERCO 2026 ytd_avg_demand_growth_since_2019_mw: 14960.0
+DIFF ERCO 2026 ytd_avg_demand_growth_since_2019_pct: page 33.34 restated 33.1
+DIFF ERCO 2026 ytd_avg_demand_mw: page 59723.4 restated 60159.8
+DIFF ERCO 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF ERCO 2026 ytd_hours_used: page 7295 restated 6551
+SCREEN ERCO blank: page 48 restated 72
+SCREEN ERCO not_positive: page 0 restated 0
+SCREEN ERCO jumps: page 0 restated 0
+BAND ERCO: yearly medians 40514.0 to 57780.0; hours whose range test the band leaves open: 0; last used hour 2026-10-03T04:00:00Z
+DIFF CISO 2019 avg_demand_mw: page 24475.8 restated 24474.2
+DIFF CISO 2019 avg_demand_mw_h05: page 21651.1 restated 21648.6
+DIFF CISO 2019 avg_demand_mw_h08: page 23762.2 restated 23749.8
+DIFF CISO 2019 avg_demand_mw_h11: page 23868.2 restated 23869.7
+DIFF CISO 2019 avg_demand_mw_h12: page 24149.0 restated 24152.1
+DIFF CISO 2019 avg_demand_mw_h13: page 24659.0 restated 24642.7
+DIFF CISO 2019 avg_demand_mw_h17: page 28483.1 restated 28482.3
+DIFF CISO 2019 avg_demand_mw_h20: page 28445.4 restated 28429.4
+DIFF CISO 2019 avg_demand_mw_m02: page 22125.0 restated 22126.1
+DIFF CISO 2019 avg_demand_mw_m02_h05: page 21744.0 restated 21742.3
+DIFF CISO 2019 avg_demand_mw_m06: page 25984.5 restated 25989.6
+DIFF CISO 2019 avg_demand_mw_m06_h05: page 22253.0 restated 22249.7
+DIFF CISO 2019 avg_demand_mw_m07: page 29007.8 restated 29016.1
+DIFF CISO 2019 avg_demand_mw_m07_h12: page 29363.6 restated 29574.3
+DIFF CISO 2019 avg_demand_mw_m07_h17: page 35683.9 restated 35914.8
+DIFF CISO 2019 avg_demand_mw_m08: page 30221.8 restated 30224.0
+DIFF CISO 2019 avg_demand_mw_m08_h08: page 26919.8 restated 26874.5
+DIFF CISO 2019 avg_demand_mw_m08_h13: page 32551.1 restated 32618.2
+DIFF CISO 2019 avg_demand_mw_m09: page 28384.0 restated 28375.9
+DIFF CISO 2019 avg_demand_mw_m09_h20: page 33253.3 restated 33218.3
+DIFF CISO 2019 avg_demand_mw_m11: page 23186.8 restated 23186.6
+DIFF CISO 2019 avg_demand_mw_m11_h11: page 22649.5 restated 22626.1
+DIFF CISO 2019 hours_used: page 8725 restated 8716
+DIFF CISO 2019 ytd_avg_demand_mw: page 24641.9 restated 24742.2
+DIFF CISO 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF CISO 2019 ytd_hours_used: page 7267 restated 6515
+DIFF CISO 2020 avg_demand_mw: page 24816.6 restated 24815.3
+DIFF CISO 2020 avg_demand_mw_h09: page 23489.8 restated 23488.3
+DIFF CISO 2020 avg_demand_mw_h14: page 25702.6 restated 25681.4
+DIFF CISO 2020 avg_demand_mw_h19: page 29755.2 restated 29760.7
+DIFF CISO 2020 avg_demand_mw_m02: page 22749.0 restated 22741.8
+DIFF CISO 2020 avg_demand_mw_m02_h19: page 26822.7 restated 26789.5
+DIFF CISO 2020 avg_demand_mw_m03: page 21968.9 restated 21966.1
+DIFF CISO 2020 avg_demand_mw_m03_h09: page 22066.4 restated 21999.9
+DIFF CISO 2020 avg_demand_mw_m08: page 31147.8 restated 31144.8
+DIFF CISO 2020 avg_demand_mw_m08_h14: page 35983.5 restated 36068.6
+DIFF CISO 2020 hours_used: page 8783 restated 8780
+DIFF CISO 2020 ytd_avg_demand_growth_since_2019_pct: page 2.06 restated 1.43
+DIFF CISO 2020 ytd_avg_demand_mw: page 25149.2 restated 25096.3
+DIFF CISO 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF CISO 2020 ytd_hours_used: page 7318 restated 6572
+DIFF CISO 2021 avg_demand_mw: page 25021.2 restated 25020.0
+DIFF CISO 2021 avg_demand_mw_h01: page 22190.5 restated 22182.1
+DIFF CISO 2021 avg_demand_mw_h06: page 23478.7 restated 23470.9
+DIFF CISO 2021 avg_demand_mw_h08: page 24491.1 restated 24480.4
+DIFF CISO 2021 avg_demand_mw_h09: page 24257.1 restated 24256.4
+DIFF CISO 2021 avg_demand_mw_h22: page 26111.4 restated 26095.9
+DIFF CISO 2021 avg_demand_mw_m08: page 29958.1 restated 29976.4
+DIFF CISO 2021 avg_demand_mw_m08_h01: page 25495.5 restated 25503.3
+DIFF CISO 2021 avg_demand_mw_m08_h06: page 25366.3 restated 25335.2
+DIFF CISO 2021 avg_demand_mw_m08_h08: page 27248.8 restated 27210.2
+DIFF CISO 2021 avg_demand_mw_m08_h09: page 27754.8 restated 27862.3
+DIFF CISO 2021 avg_demand_mw_m08_h22: page 31124.2 restated 31103.4
+DIFF CISO 2021 hours_used: page 8760 restated 8755
+DIFF CISO 2021 ytd_avg_demand_growth_since_2019_pct: page 2.44 restated 2.72
+DIFF CISO 2021 ytd_avg_demand_mw: page 25242.9 restated 25415.1
+DIFF CISO 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF CISO 2021 ytd_hours_used: page 7295 restated 6546
+DIFF CISO 2022 avg_demand_growth_since_2019_pct: page 4.32 restated 4.33
+DIFF CISO 2022 avg_demand_growth_yoy_pct: page 2.04 restated 2.05
+DIFF CISO 2022 avg_demand_mw: page 25532.2 restated 25533.5
+DIFF CISO 2022 avg_demand_mw_h01: page 23448.7 restated 23454.8
+DIFF CISO 2022 avg_demand_mw_h10: page 24577.9 restated 24589.9
+DIFF CISO 2022 avg_demand_mw_m01: page 23339.7 restated 23342.6
+DIFF CISO 2022 avg_demand_mw_m01_h01: page 21051.8 restated 21046.9
+DIFF CISO 2022 avg_demand_mw_m05: page 23282.0 restated 23284.9
+DIFF CISO 2022 avg_demand_mw_m05_h10: page 21823.2 restated 21846.0
+DIFF CISO 2022 avg_demand_mw_m06: page 27843.7 restated 27849.6
+DIFF CISO 2022 avg_demand_mw_m06_h10: page 26068.3 restated 26152.0
+DIFF CISO 2022 hours_used: page 8760 restated 8757
+DIFF CISO 2022 ytd_avg_demand_growth_since_2019_pct: page 4.99 restated 4.95
+DIFF CISO 2022 ytd_avg_demand_mw: page 25870.6 restated 25967.4
+DIFF CISO 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF CISO 2022 ytd_hours_used: page 7295 restated 6548
+DIFF CISO 2023 avg_demand_growth_since_2019_pct: page 1.76 restated 1.77
+DIFF CISO 2023 avg_demand_mw: page 24905.8 restated 24906.7
+DIFF CISO 2023 avg_demand_mw_h10: page 24563.1 restated 24572.5
+DIFF CISO 2023 avg_demand_mw_h13: page 23565.1 restated 23572.8
+DIFF CISO 2023 avg_demand_mw_m10: page 24831.7 restated 24837.1
+DIFF CISO 2023 avg_demand_mw_m10_h13: page 23453.9 restated 23543.0
+DIFF CISO 2023 avg_demand_mw_m11: page 23427.8 restated 23431.0
+DIFF CISO 2023 avg_demand_mw_m11_h10: page 23013.6 restated 23078.4
+DIFF CISO 2023 hours_used: page 8760 restated 8758
+DIFF CISO 2023 ytd_avg_demand_growth_since_2019_pct: page 2.06 restated 1.79
+DIFF CISO 2023 ytd_avg_demand_mw: page 25150.0 restated 25186.1
+DIFF CISO 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF CISO 2023 ytd_hours_used: page 7295 restated 6551
+DIFF CISO 2024 avg_demand_growth_since_2019_pct: page 4.21 restated 4.24
+DIFF CISO 2024 avg_demand_growth_yoy_pct: page 2.41 restated 2.43
+DIFF CISO 2024 avg_demand_mw: page 25505.1 restated 25512.1
+DIFF CISO 2024 avg_demand_mw_h00: page 23840.8 restated 23847.7
+DIFF CISO 2024 avg_demand_mw_h01: page 22913.9 restated 22919.7
+DIFF CISO 2024 avg_demand_mw_h02: page 22235.5 restated 22240.1
+DIFF CISO 2024 avg_demand_mw_h03: page 21837.4 restated 21840.0
+DIFF CISO 2024 avg_demand_mw_h04: page 21827.2 restated 21826.8
+DIFF CISO 2024 avg_demand_mw_h05: page 22510.3 restated 22506.0
+DIFF CISO 2024 avg_demand_mw_h06: page 23768.2 restated 23762.6
+DIFF CISO 2024 avg_demand_mw_h07: page 25069.7 restated 25069.1
+DIFF CISO 2024 avg_demand_mw_h08: page 26112.2 restated 26118.4
+DIFF CISO 2024 avg_demand_mw_h09: page 26103.5 restated 26114.0
+DIFF CISO 2024 avg_demand_mw_h10: page 25749.2 restated 25762.4
+DIFF CISO 2024 avg_demand_mw_h11: page 25414.3 restated 25428.7
+DIFF CISO 2024 avg_demand_mw_h12: page 25217.2 restated 25231.2
+DIFF CISO 2024 avg_demand_mw_h13: page 25260.9 restated 25273.2
+DIFF CISO 2024 avg_demand_mw_h14: page 25502.4 restated 25512.3
+DIFF CISO 2024 avg_demand_mw_h15: page 25998.5 restated 26005.7
+DIFF CISO 2024 avg_demand_mw_h16: page 27160.0 restated 27165.2
+DIFF CISO 2024 avg_demand_mw_h17: page 28709.9 restated 28716.0
+DIFF CISO 2024 avg_demand_mw_h18: page 29421.0 restated 29429.4
+DIFF CISO 2024 avg_demand_mw_h19: page 29412.9 restated 29423.2
+DIFF CISO 2024 avg_demand_mw_h20: page 28871.0 restated 28881.6
+DIFF CISO 2024 avg_demand_mw_h21: page 27991.1 restated 28002.2
+DIFF CISO 2024 avg_demand_mw_h22: page 26374.8 restated 26384.7
+DIFF CISO 2024 avg_demand_mw_h23: page 24819.2 restated 24826.9
+DIFF CISO 2024 avg_demand_mw_m10: page 26342.8 restated 26348.6
+DIFF CISO 2024 avg_demand_mw_m10_h23: page 24654.5 restated 24742.0
+PAGE ONLY CISO 2024 avg_demand_mw_m11: 23955.5
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h00: 22252.9
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h01: 21572.5
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h02: 21091.9
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h03: 20849.8
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h04: 21004.9
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h05: 21958.3
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h06: 23408.7
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h07: 24493.2
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h08: 25335.3
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h09: 25150.5
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h10: 24752.1
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h11: 24485.6
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h12: 24177.0
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h13: 24126.4
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h14: 24286.6
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h15: 23983.1
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h16: 25365.9
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h17: 26852.7
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h18: 26666.0
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h19: 26122.3
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h20: 25550.1
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h21: 24899.1
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h22: 23806.2
+PAGE ONLY CISO 2024 avg_demand_mw_m11_h23: 22821.9
+DIFF CISO 2024 hours_used: page 8760 restated 8736
+DIFF CISO 2024 ytd_avg_demand_growth_since_2019_pct: page 4.5 restated 3.8
+DIFF CISO 2024 ytd_avg_demand_mw: page 25750.2 restated 25683.1
+DIFF CISO 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF CISO 2024 ytd_hours_used: page 7319 restated 6575
+RESTATED ONLY CISO 2025 avg_demand_growth_since_2019_mw: 1122.0
+DIFF CISO 2025 avg_demand_growth_since_2019_pct: page 4.45 restated 4.58
+DIFF CISO 2025 avg_demand_growth_yoy_pct: page 0.24 restated 0.33
+DIFF CISO 2025 avg_demand_mw: page 25565.1 restated 25596.2
+DIFF CISO 2025 avg_demand_mw_h00: page 23787.7 restated 23804.6
+DIFF CISO 2025 avg_demand_mw_h01: page 22855.0 restated 22870.5
+DIFF CISO 2025 avg_demand_mw_h02: page 22193.2 restated 22207.5
+DIFF CISO 2025 avg_demand_mw_h03: page 21788.6 restated 21800.6
+DIFF CISO 2025 avg_demand_mw_h04: page 21713.9 restated 21722.7
+DIFF CISO 2025 avg_demand_mw_h05: page 22405.9 restated 22414.8
+DIFF CISO 2025 avg_demand_mw_h06: page 23675.5 restated 23691.6
+DIFF CISO 2025 avg_demand_mw_h07: page 25177.3 restated 25206.7
+DIFF CISO 2025 avg_demand_mw_h08: page 26610.9 restated 26657.4
+DIFF CISO 2025 avg_demand_mw_h09: page 27042.9 restated 27101.6
+DIFF CISO 2025 avg_demand_mw_h10: page 26797.6 restated 26862.7
+DIFF CISO 2025 avg_demand_mw_h11: page 26508.2 restated 26575.3
+DIFF CISO 2025 avg_demand_mw_h12: page 26141.0 restated 26205.0
+DIFF CISO 2025 avg_demand_mw_h13: page 25945.2 restated 26001.2
+DIFF CISO 2025 avg_demand_mw_h14: page 25844.0 restated 25888.5
+DIFF CISO 2025 avg_demand_mw_h15: page 25912.2 restated 25943.1
+DIFF CISO 2025 avg_demand_mw_h16: page 26709.0 restated 26729.1
+DIFF CISO 2025 avg_demand_mw_h17: page 28066.3 restated 28084.8
+DIFF CISO 2025 avg_demand_mw_h18: page 28777.9 restated 28802.0
+DIFF CISO 2025 avg_demand_mw_h19: page 28780.5 restated 28808.0
+DIFF CISO 2025 avg_demand_mw_h20: page 28336.1 restated 28363.9
+DIFF CISO 2025 avg_demand_mw_h21: page 27630.7 restated 27660.2
+DIFF CISO 2025 avg_demand_mw_h22: page 26206.2 restated 26233.4
+DIFF CISO 2025 avg_demand_mw_h23: page 24657.0 restated 24674.2
+DIFF CISO 2025 avg_demand_mw_m03: page 22280.3 restated 22388.7
+DIFF CISO 2025 avg_demand_mw_m03_h00: page 21445.3 restated 21470.9
+DIFF CISO 2025 avg_demand_mw_m03_h01: page 20822.5 restated 20848.4
+DIFF CISO 2025 avg_demand_mw_m03_h02: page 20331.3 restated 20351.6
+DIFF CISO 2025 avg_demand_mw_m03_h03: page 20090.2 restated 20096.2
+DIFF CISO 2025 avg_demand_mw_m03_h04: page 20183.6 restated 20165.5
+DIFF CISO 2025 avg_demand_mw_m03_h05: page 21149.1 restated 21140.4
+DIFF CISO 2025 avg_demand_mw_m03_h06: page 22627.4 restated 22695.5
+DIFF CISO 2025 avg_demand_mw_m03_h07: page 23661.6 restated 23814.8
+DIFF CISO 2025 avg_demand_mw_m03_h08: page 23820.0 restated 24048.5
+DIFF CISO 2025 avg_demand_mw_m03_h09: page 23378.2 restated 23656.6
+DIFF CISO 2025 avg_demand_mw_m03_h10: page 22591.8 restated 22896.5
+DIFF CISO 2025 avg_demand_mw_m03_h11: page 22248.7 restated 22568.5
+DIFF CISO 2025 avg_demand_mw_m03_h12: page 21785.3 restated 22087.1
+DIFF CISO 2025 avg_demand_mw_m03_h13: page 21363.8 restated 21618.9
+DIFF CISO 2025 avg_demand_mw_m03_h14: page 21150.8 restated 21340.5
+DIFF CISO 2025 avg_demand_mw_m03_h15: page 21074.7 restated 21177.4
+DIFF CISO 2025 avg_demand_mw_m03_h16: page 21401.1 restated 21413.8
+DIFF CISO 2025 avg_demand_mw_m03_h17: page 22398.7 restated 22373.5
+DIFF CISO 2025 avg_demand_mw_m03_h18: page 23994.4 restated 24018.8
+DIFF CISO 2025 avg_demand_mw_m03_h19: page 25033.2 restated 25104.1
+DIFF CISO 2025 avg_demand_mw_m03_h20: page 24805.5 restated 24881.0
+DIFF CISO 2025 avg_demand_mw_m03_h21: page 24236.1 restated 24322.4
+DIFF CISO 2025 avg_demand_mw_m03_h22: page 23126.6 restated 23207.7
+DIFF CISO 2025 avg_demand_mw_m03_h23: page 21945.3 restated 21963.2
+DIFF CISO 2025 avg_demand_mw_m10: page 24930.7 restated 24935.1
+DIFF CISO 2025 avg_demand_mw_m10_h23: page 23311.7 restated 23366.4
+DIFF CISO 2025 avg_demand_mw_m11: page 23934.5 restated 24038.7
+DIFF CISO 2025 avg_demand_mw_m11_h00: page 21820.3 restated 21856.6
+DIFF CISO 2025 avg_demand_mw_m11_h01: page 21045.6 restated 21079.9
+DIFF CISO 2025 avg_demand_mw_m11_h02: page 20645.2 restated 20685.6
+DIFF CISO 2025 avg_demand_mw_m11_h03: page 20328.5 restated 20363.8
+DIFF CISO 2025 avg_demand_mw_m11_h04: page 20309.5 restated 20337.3
+DIFF CISO 2025 avg_demand_mw_m11_h05: page 21074.7 restated 21105.6
+DIFF CISO 2025 avg_demand_mw_m11_h06: page 22312.0 restated 22360.9
+DIFF CISO 2025 avg_demand_mw_m11_h07: page 23448.6 restated 23545.6
+DIFF CISO 2025 avg_demand_mw_m11_h08: page 25231.1 restated 25433.6
+DIFF CISO 2025 avg_demand_mw_m11_h09: page 25701.1 restated 25975.1
+DIFF CISO 2025 avg_demand_mw_m11_h10: page 25823.9 restated 26144.7
+DIFF CISO 2025 avg_demand_mw_m11_h11: page 25731.0 restated 26066.0
+DIFF CISO 2025 avg_demand_mw_m11_h12: page 25651.2 restated 25970.6
+DIFF CISO 2025 avg_demand_mw_m11_h13: page 25674.4 restated 25944.8
+DIFF CISO 2025 avg_demand_mw_m11_h14: page 25276.1 restated 25453.7
+DIFF CISO 2025 avg_demand_mw_m11_h15: page 24669.5 restated 24740.1
+DIFF CISO 2025 avg_demand_mw_m11_h16: page 25620.4 restated 25638.2
+DIFF CISO 2025 avg_demand_mw_m11_h17: page 26714.1 restated 26730.0
+DIFF CISO 2025 avg_demand_mw_m11_h18: page 26282.8 restated 26307.7
+DIFF CISO 2025 avg_demand_mw_m11_h19: page 25696.3 restated 25731.5
+DIFF CISO 2025 avg_demand_mw_m11_h20: page 25082.3 restated 25119.2
+DIFF CISO 2025 avg_demand_mw_m11_h21: page 24522.3 restated 24578.2
+DIFF CISO 2025 avg_demand_mw_m11_h22: page 23488.7 restated 23545.3
+DIFF CISO 2025 growth_mw_h00: page 1545.5 restated 1562.4
+DIFF CISO 2025 growth_mw_h01: page 1537.6 restated 1553.1
+DIFF CISO 2025 growth_mw_h02: page 1466.4 restated 1480.7
+DIFF CISO 2025 growth_mw_h03: page 1344.6 restated 1356.6
+DIFF CISO 2025 growth_mw_h04: page 1027.0 restated 1035.8
+DIFF CISO 2025 growth_mw_h05: page 754.8 restated 766.2
+DIFF CISO 2025 growth_mw_h06: page 673.7 restated 689.8
+DIFF CISO 2025 growth_mw_h07: page 1475.7 restated 1505.1
+DIFF CISO 2025 growth_mw_h08: page 2848.7 restated 2907.6
+DIFF CISO 2025 growth_mw_h09: page 3301.8 restated 3360.5
+DIFF CISO 2025 growth_mw_h10: page 3026.1 restated 3091.2
+DIFF CISO 2025 growth_mw_h11: page 2640.0 restated 2705.6
+DIFF CISO 2025 growth_mw_h12: page 1992.0 restated 2052.9
+DIFF CISO 2025 growth_mw_h13: page 1286.2 restated 1358.5
+DIFF CISO 2025 growth_mw_h14: page 502.3 restated 546.8
+DIFF CISO 2025 growth_mw_h15: page -299.4 restated -268.5
+DIFF CISO 2025 growth_mw_h16: page -565.4 restated -545.3
+DIFF CISO 2025 growth_mw_h17: page -416.8 restated -397.5
+DIFF CISO 2025 growth_mw_h18: page -180.5 restated -156.4
+DIFF CISO 2025 growth_mw_h19: page -135.3 restated -107.8
+DIFF CISO 2025 growth_mw_h20: page -109.3 restated -65.5
+DIFF CISO 2025 growth_mw_h21: page 362.5 restated 392.0
+DIFF CISO 2025 growth_mw_h22: page 841.1 restated 868.3
+DIFF CISO 2025 growth_mw_h23: page 1133.8 restated 1151.0
+DIFF CISO 2025 growth_mw_m02: page 1095.8 restated 1094.7
+DIFF CISO 2025 growth_mw_m02_h05: page -139.0 restated -137.3
+DIFF CISO 2025 growth_mw_m03: page 2743.9 restated 2852.3
+DIFF CISO 2025 growth_mw_m03_h00: page 2838.7 restated 2864.3
+DIFF CISO 2025 growth_mw_m03_h01: page 2670.8 restated 2696.7
+DIFF CISO 2025 growth_mw_m03_h02: page 2514.9 restated 2535.2
+DIFF CISO 2025 growth_mw_m03_h03: page 2380.7 restated 2386.7
+DIFF CISO 2025 growth_mw_m03_h04: page 2237.8 restated 2219.7
+DIFF CISO 2025 growth_mw_m03_h05: page 2497.7 restated 2489.0
+DIFF CISO 2025 growth_mw_m03_h06: page 2800.6 restated 2868.7
+DIFF CISO 2025 growth_mw_m03_h07: page 3544.2 restated 3697.4
+DIFF CISO 2025 growth_mw_m03_h08: page 3930.1 restated 4158.6
+DIFF CISO 2025 growth_mw_m03_h09: page 3798.6 restated 4077.0
+DIFF CISO 2025 growth_mw_m03_h10: page 3255.3 restated 3560.0
+DIFF CISO 2025 growth_mw_m03_h11: page 3143.5 restated 3463.3
+DIFF CISO 2025 growth_mw_m03_h12: page 2856.9 restated 3158.7
+DIFF CISO 2025 growth_mw_m03_h13: page 2413.0 restated 2668.1
+DIFF CISO 2025 growth_mw_m03_h14: page 2191.7 restated 2381.4
+DIFF CISO 2025 growth_mw_m03_h15: page 2028.6 restated 2131.3
+DIFF CISO 2025 growth_mw_m03_h16: page 1907.8 restated 1920.5
+DIFF CISO 2025 growth_mw_m03_h17: page 2018.7 restated 1993.5
+DIFF CISO 2025 growth_mw_m03_h18: page 2658.1 restated 2682.5
+DIFF CISO 2025 growth_mw_m03_h19: page 2896.2 restated 2967.1
+DIFF CISO 2025 growth_mw_m03_h20: page 2808.0 restated 2883.5
+DIFF CISO 2025 growth_mw_m03_h21: page 2905.9 restated 2992.2
+DIFF CISO 2025 growth_mw_m03_h22: page 2889.9 restated 2971.0
+DIFF CISO 2025 growth_mw_m03_h23: page 2658.2 restated 2676.1
+DIFF CISO 2025 growth_mw_m06: page 910.5 restated 905.4
+DIFF CISO 2025 growth_mw_m06_h05: page 643.1 restated 646.4
+DIFF CISO 2025 growth_mw_m07: page -583.2 restated -591.5
+DIFF CISO 2025 growth_mw_m07_h12: page -661.8 restated -872.5
+DIFF CISO 2025 growth_mw_m07_h17: page -3613.5 restated -3844.4
+DIFF CISO 2025 growth_mw_m08: page 802.7 restated 800.5
+DIFF CISO 2025 growth_mw_m08_h08: page 4254.1 restated 4299.4
+DIFF CISO 2025 growth_mw_m08_h13: page -814.9 restated -882.0
+DIFF CISO 2025 growth_mw_m09: page 1343.9 restated 1352.0
+DIFF CISO 2025 growth_mw_m09_h20: page -160.8 restated -125.8
+DIFF CISO 2025 growth_mw_m10: page 1186.0 restated 1190.4
+DIFF CISO 2025 growth_mw_m10_h23: page 848.8 restated 903.5
+DIFF CISO 2025 growth_mw_m11: page 747.7 restated 852.1
+DIFF CISO 2025 growth_mw_m11_h00: page 971.9 restated 1008.2
+DIFF CISO 2025 growth_mw_m11_h01: page 887.9 restated 922.2
+DIFF CISO 2025 growth_mw_m11_h02: page 878.9 restated 919.3
+DIFF CISO 2025 growth_mw_m11_h03: page 706.0 restated 741.3
+DIFF CISO 2025 growth_mw_m11_h04: page 332.3 restated 360.1
+DIFF CISO 2025 growth_mw_m11_h05: page 10.8 restated 41.7
+DIFF CISO 2025 growth_mw_m11_h06: page -258.8 restated -209.9
+DIFF CISO 2025 growth_mw_m11_h07: page 252.6 restated 349.6
+DIFF CISO 2025 growth_mw_m11_h08: page 2173.7 restated 2376.2
+DIFF CISO 2025 growth_mw_m11_h09: page 2898.4 restated 3172.4
+DIFF CISO 2025 growth_mw_m11_h10: page 3186.0 restated 3506.8
+DIFF CISO 2025 growth_mw_m11_h11: page 3081.5 restated 3439.9
+DIFF CISO 2025 growth_mw_m11_h12: page 2735.6 restated 3055.0
+DIFF CISO 2025 growth_mw_m11_h13: page 2267.4 restated 2537.8
+DIFF CISO 2025 growth_mw_m11_h14: page 1325.4 restated 1503.0
+DIFF CISO 2025 growth_mw_m11_h15: page -55.5 restated 15.1
+DIFF CISO 2025 growth_mw_m11_h16: page -258.1 restated -240.3
+DIFF CISO 2025 growth_mw_m11_h17: page -752.3 restated -736.4
+DIFF CISO 2025 growth_mw_m11_h18: page -1053.7 restated -1028.8
+DIFF CISO 2025 growth_mw_m11_h19: page -1005.9 restated -970.7
+DIFF CISO 2025 growth_mw_m11_h20: page -830.4 restated -793.5
+DIFF CISO 2025 growth_mw_m11_h21: page -316.0 restated -260.1
+DIFF CISO 2025 growth_mw_m11_h22: page 206.6 restated 263.2
+DIFF CISO 2025 growth_pct_h00: page 6.95 restated 7.02
+DIFF CISO 2025 growth_pct_h01: page 7.21 restated 7.29
+DIFF CISO 2025 growth_pct_h02: page 7.07 restated 7.14
+DIFF CISO 2025 growth_pct_h03: page 6.58 restated 6.64
+DIFF CISO 2025 growth_pct_h04: page 4.96 restated 5.01
+DIFF CISO 2025 growth_pct_h05: page 3.49 restated 3.54
+DIFF CISO 2025 growth_pct_h06: page 2.93 restated 3.0
+DIFF CISO 2025 growth_pct_h07: page 6.23 restated 6.35
+DIFF CISO 2025 growth_pct_h08: page 11.99 restated 12.24
+DIFF CISO 2025 growth_pct_h09: page 13.91 restated 14.15
+DIFF CISO 2025 growth_pct_h10: page 12.73 restated 13.0
+DIFF CISO 2025 growth_pct_h11: page 11.06 restated 11.33
+DIFF CISO 2025 growth_pct_h12: page 8.25 restated 8.5
+DIFF CISO 2025 growth_pct_h13: page 5.22 restated 5.51
+DIFF CISO 2025 growth_pct_h14: page 1.98 restated 2.16
+DIFF CISO 2025 growth_pct_h15: page -1.14 restated -1.02
+DIFF CISO 2025 growth_pct_h16: page -2.07 restated -2.0
+DIFF CISO 2025 growth_pct_h17: page -1.46 restated -1.4
+DIFF CISO 2025 growth_pct_h18: page -0.62 restated -0.54
+DIFF CISO 2025 growth_pct_h19: page -0.47 restated -0.37
+DIFF CISO 2025 growth_pct_h20: page -0.38 restated -0.23
+DIFF CISO 2025 growth_pct_h21: page 1.33 restated 1.44
+DIFF CISO 2025 growth_pct_h22: page 3.32 restated 3.42
+DIFF CISO 2025 growth_pct_h23: page 4.82 restated 4.89
+DIFF CISO 2025 growth_pct_m02_h05: page -0.64 restated -0.63
+DIFF CISO 2025 growth_pct_m03: page 14.05 restated 14.6
+DIFF CISO 2025 growth_pct_m03_h00: page 15.26 restated 15.39
+DIFF CISO 2025 growth_pct_m03_h01: page 14.71 restated 14.86
+DIFF CISO 2025 growth_pct_m03_h02: page 14.12 restated 14.23
+DIFF CISO 2025 growth_pct_m03_h03: page 13.44 restated 13.48
+DIFF CISO 2025 growth_pct_m03_h04: page 12.47 restated 12.37
+DIFF CISO 2025 growth_pct_m03_h05: page 13.39 restated 13.34
+DIFF CISO 2025 growth_pct_m03_h06: page 14.13 restated 14.47
+DIFF CISO 2025 growth_pct_m03_h07: page 17.62 restated 18.38
+DIFF CISO 2025 growth_pct_m03_h08: page 19.76 restated 20.91
+DIFF CISO 2025 growth_pct_m03_h09: page 19.4 restated 20.82
+DIFF CISO 2025 growth_pct_m03_h10: page 16.84 restated 18.41
+DIFF CISO 2025 growth_pct_m03_h11: page 16.45 restated 18.13
+DIFF CISO 2025 growth_pct_m03_h12: page 15.09 restated 16.69
+DIFF CISO 2025 growth_pct_m03_h13: page 12.73 restated 14.08
+DIFF CISO 2025 growth_pct_m03_h14: page 11.56 restated 12.56
+DIFF CISO 2025 growth_pct_m03_h15: page 10.65 restated 11.19
+DIFF CISO 2025 growth_pct_m03_h16: page 9.79 restated 9.85
+DIFF CISO 2025 growth_pct_m03_h17: page 9.91 restated 9.78
+DIFF CISO 2025 growth_pct_m03_h18: page 12.46 restated 12.57
+DIFF CISO 2025 growth_pct_m03_h19: page 13.08 restated 13.4
+DIFF CISO 2025 growth_pct_m03_h20: page 12.77 restated 13.11
+DIFF CISO 2025 growth_pct_m03_h21: page 13.62 restated 14.03
+DIFF CISO 2025 growth_pct_m03_h22: page 14.28 restated 14.68
+DIFF CISO 2025 growth_pct_m03_h23: page 13.78 restated 13.88
+DIFF CISO 2025 growth_pct_m06: page 3.5 restated 3.48
+DIFF CISO 2025 growth_pct_m06_h05: page 2.89 restated 2.91
+DIFF CISO 2025 growth_pct_m07: page -2.01 restated -2.04
+DIFF CISO 2025 growth_pct_m07_h12: page -2.25 restated -2.95
+DIFF CISO 2025 growth_pct_m07_h17: page -10.13 restated -10.7
+DIFF CISO 2025 growth_pct_m08: page 2.66 restated 2.65
+DIFF CISO 2025 growth_pct_m08_h08: page 15.8 restated 16.0
+DIFF CISO 2025 growth_pct_m08_h13: page -2.5 restated -2.7
+DIFF CISO 2025 growth_pct_m09: page 4.73 restated 4.76
+DIFF CISO 2025 growth_pct_m09_h20: page -0.48 restated -0.38
+DIFF CISO 2025 growth_pct_m10: page 4.99 restated 5.01
+DIFF CISO 2025 growth_pct_m10_h23: page 3.78 restated 4.02
+DIFF CISO 2025 growth_pct_m11: page 3.22 restated 3.67
+DIFF CISO 2025 growth_pct_m11_h00: page 4.66 restated 4.84
+DIFF CISO 2025 growth_pct_m11_h01: page 4.4 restated 4.57
+DIFF CISO 2025 growth_pct_m11_h02: page 4.45 restated 4.65
+DIFF CISO 2025 growth_pct_m11_h03: page 3.6 restated 3.78
+DIFF CISO 2025 growth_pct_m11_h04: page 1.66 restated 1.8
+DIFF CISO 2025 growth_pct_m11_h05: page 0.05 restated 0.2
+DIFF CISO 2025 growth_pct_m11_h06: page -1.15 restated -0.93
+DIFF CISO 2025 growth_pct_m11_h07: page 1.09 restated 1.51
+DIFF CISO 2025 growth_pct_m11_h08: page 9.43 restated 10.31
+DIFF CISO 2025 growth_pct_m11_h09: page 12.71 restated 13.91
+DIFF CISO 2025 growth_pct_m11_h10: page 14.07 restated 15.49
+DIFF CISO 2025 growth_pct_m11_h11: page 13.61 restated 15.2
+DIFF CISO 2025 growth_pct_m11_h12: page 11.94 restated 13.33
+DIFF CISO 2025 growth_pct_m11_h13: page 9.69 restated 10.84
+DIFF CISO 2025 growth_pct_m11_h14: page 5.53 restated 6.28
+DIFF CISO 2025 growth_pct_m11_h15: page -0.22 restated 0.06
+DIFF CISO 2025 growth_pct_m11_h16: page -1.0 restated -0.93
+DIFF CISO 2025 growth_pct_m11_h17: page -2.74 restated -2.68
+DIFF CISO 2025 growth_pct_m11_h18: page -3.85 restated -3.76
+DIFF CISO 2025 growth_pct_m11_h19: page -3.77 restated -3.64
+DIFF CISO 2025 growth_pct_m11_h20: page -3.2 restated -3.06
+DIFF CISO 2025 growth_pct_m11_h21: page -1.27 restated -1.05
+DIFF CISO 2025 growth_pct_m11_h22: page 0.89 restated 1.13
+DIFF CISO 2025 hours_used: page 8758 restated 8710
+RESTATED ONLY CISO 2025 peak_demand_growth_since_2019_mw: 11.0
+DIFF CISO 2025 ytd_avg_demand_growth_since_2019_pct: page 4.67 restated 4.75
+DIFF CISO 2025 ytd_avg_demand_mw: page 25793.5 restated 25916.7
+DIFF CISO 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF CISO 2025 ytd_hours_used: page 7294 restated 6526
+DIFF CISO 2026 avg_demand_mw_m01: page 24421.5 restated 24432.6
+DIFF CISO 2026 avg_demand_mw_m02: page 24031.5 restated 24038.8
+DIFF CISO 2026 avg_demand_mw_m03: page 24724.8 restated 24913.7
+PAGE ONLY CISO 2026 avg_demand_mw_m10: 28097.8
+RESTATED ONLY CISO 2026 ytd_avg_demand_growth_since_2019_mw: 2555.3
+DIFF CISO 2026 ytd_avg_demand_growth_since_2019_pct: page 10.98 restated 10.33
+DIFF CISO 2026 ytd_avg_demand_mw: page 27348.1 restated 27297.5
+DIFF CISO 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF CISO 2026 ytd_hours_used: page 7294 restated 6521
+SCREEN CISO blank: page 48 restated 172
+SCREEN CISO not_positive: page 0 restated 0
+SCREEN CISO jumps: page 38 restated 37
+BAND CISO: yearly medians 22443.0 to 26169.0; hours whose range test the band leaves open: 0; last used hour 2026-10-03T06:00:00Z
+DIFF PJM 2019 avg_demand_mw: page 91353.9 restated 91354.9
+DIFF PJM 2019 avg_demand_mw_h14: page 97773.3 restated 97775.0
+DIFF PJM 2019 avg_demand_mw_h23: page 86189.5 restated 86214.9
+DIFF PJM 2019 avg_demand_mw_m11: page 86921.4 restated 86935.3
+DIFF PJM 2019 avg_demand_mw_m11_h23: page 82660.9 restated 82859.2
+DIFF PJM 2019 avg_demand_mw_m12: page 91830.2 restated 91823.0
+DIFF PJM 2019 avg_demand_mw_m12_h14: page 90719.7 restated 90504.9
+DIFF PJM 2019 hours_used: page 8759 restated 8757
+DIFF PJM 2019 ytd_avg_demand_mw: page 91743.5 restated 93180.6
+DIFF PJM 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF PJM 2019 ytd_hours_used: page 7295 restated 6551
+DIFF PJM 2020 avg_demand_growth_since_2019_pct: page -4.01 restated -4.06
+DIFF PJM 2020 avg_demand_growth_yoy_pct: page -4.01 restated -4.06
+DIFF PJM 2020 avg_demand_mw: page 87690.5 restated 87645.7
+DIFF PJM 2020 avg_demand_mw_h00: page 79990.4 restated 79977.2
+DIFF PJM 2020 avg_demand_mw_h01: page 77482.4 restated 77459.2
+DIFF PJM 2020 avg_demand_mw_h02: page 76076.5 restated 76066.6
+DIFF PJM 2020 avg_demand_mw_h03: page 75390.8 restated 75361.1
+DIFF PJM 2020 avg_demand_mw_h04: page 75720.2 restated 75687.4
+DIFF PJM 2020 avg_demand_mw_h05: page 77561.4 restated 77527.6
+DIFF PJM 2020 avg_demand_mw_h06: page 81167.2 restated 81132.5
+DIFF PJM 2020 avg_demand_mw_h07: page 84721.0 restated 84681.7
+DIFF PJM 2020 avg_demand_mw_h08: page 87040.5 restated 86994.1
+DIFF PJM 2020 avg_demand_mw_h09: page 88721.6 restated 88668.5
+DIFF PJM 2020 avg_demand_mw_h10: page 90235.5 restated 90180.7
+DIFF PJM 2020 avg_demand_mw_h11: page 91605.4 restated 91478.1
+DIFF PJM 2020 avg_demand_mw_h12: page 92648.2 restated 92601.3
+DIFF PJM 2020 avg_demand_mw_h13: page 93525.8 restated 93486.0
+DIFF PJM 2020 avg_demand_mw_h14: page 93906.0 restated 93871.0
+DIFF PJM 2020 avg_demand_mw_h15: page 94335.4 restated 94306.3
+DIFF PJM 2020 avg_demand_mw_h16: page 95343.9 restated 95235.1
+DIFF PJM 2020 avg_demand_mw_h17: page 97414.2 restated 97280.7
+DIFF PJM 2020 avg_demand_mw_h18: page 97625.7 restated 97622.3
+DIFF PJM 2020 avg_demand_mw_h19: page 96524.0 restated 96513.6
+DIFF PJM 2020 avg_demand_mw_h20: page 94732.5 restated 94715.7
+DIFF PJM 2020 avg_demand_mw_h21: page 91751.1 restated 91736.8
+DIFF PJM 2020 avg_demand_mw_h22: page 87519.8 restated 87505.9
+DIFF PJM 2020 avg_demand_mw_h23: page 83576.3 restated 83563.2
+DIFF PJM 2020 avg_demand_mw_m03: page 81302.8 restated 81200.6
+DIFF PJM 2020 avg_demand_mw_m03_h01: page 73909.5 restated 73641.5
+DIFF PJM 2020 avg_demand_mw_m03_h03: page 73144.0 restated 72847.1
+DIFF PJM 2020 avg_demand_mw_m03_h04: page 74075.1 restated 73825.0
+DIFF PJM 2020 avg_demand_mw_m03_h05: page 76335.8 restated 76152.9
+DIFF PJM 2020 avg_demand_mw_m03_h06: page 81232.4 restated 81148.3
+DIFF PJM 2020 avg_demand_mw_m03_h07: page 84843.7 restated 84774.8
+DIFF PJM 2020 avg_demand_mw_m03_h08: page 85885.7 restated 85787.5
+DIFF PJM 2020 avg_demand_mw_m03_h09: page 85883.7 restated 85750.8
+DIFF PJM 2020 avg_demand_mw_m03_h10: page 85553.7 restated 85427.5
+DIFF PJM 2020 avg_demand_mw_m03_h11: page 84868.0 restated 84778.0
+DIFF PJM 2020 avg_demand_mw_m03_h12: page 84243.5 restated 84202.0
+DIFF PJM 2020 avg_demand_mw_m03_h13: page 83453.6 restated 83451.8
+DIFF PJM 2020 avg_demand_mw_m03_h14: page 82345.3 restated 82356.2
+DIFF PJM 2020 avg_demand_mw_m03_h15: page 81554.0 restated 81594.4
+DIFF PJM 2020 avg_demand_mw_m03_h16: page 81767.1 restated 81859.4
+DIFF PJM 2020 avg_demand_mw_m03_h17: page 83202.6 restated 83311.2
+DIFF PJM 2020 avg_demand_mw_m03_h18: page 84805.2 restated 84907.8
+DIFF PJM 2020 avg_demand_mw_m03_h19: page 86555.2 restated 86573.5
+DIFF PJM 2020 avg_demand_mw_m03_h20: page 86676.9 restated 86608.6
+DIFF PJM 2020 avg_demand_mw_m03_h21: page 84124.0 restated 83969.6
+DIFF PJM 2020 avg_demand_mw_m03_h22: page 80647.5 restated 80412.3
+DIFF PJM 2020 avg_demand_mw_m03_h23: page 77589.2 restated 77327.7
+DIFF PJM 2020 avg_demand_mw_m07: page 109941.3 restated 109884.8
+DIFF PJM 2020 avg_demand_mw_m07_h11: page 118193.6 restated 118173.7
+DIFF PJM 2020 avg_demand_mw_m07_h17: page 133733.7 restated 133428.6
+DIFF PJM 2020 avg_demand_mw_m08: page 101132.9 restated 101120.0
+DIFF PJM 2020 avg_demand_mw_m08_h00: page 89783.8 restated 89950.1
+DIFF PJM 2020 avg_demand_mw_m08_h01: page 85425.6 restated 85557.0
+DIFF PJM 2020 avg_demand_mw_m08_h02: page 82630.2 restated 82727.6
+DIFF PJM 2020 avg_demand_mw_m08_h03: page 80746.1 restated 80785.9
+DIFF PJM 2020 avg_demand_mw_m08_h04: page 80317.2 restated 80267.6
+DIFF PJM 2020 avg_demand_mw_m08_h05: page 81512.9 restated 81376.2
+DIFF PJM 2020 avg_demand_mw_m08_h06: page 83593.4 restated 83340.4
+DIFF PJM 2020 avg_demand_mw_m08_h07: page 86251.5 restated 85899.2
+DIFF PJM 2020 avg_demand_mw_m08_h08: page 90322.9 restated 89917.0
+DIFF PJM 2020 avg_demand_mw_m08_h09: page 95749.6 restated 95377.4
+DIFF PJM 2020 avg_demand_mw_m08_h10: page 101419.9 restated 101097.3
+DIFF PJM 2020 avg_demand_mw_m08_h11: page 106983.6 restated 106728.1
+DIFF PJM 2020 avg_demand_mw_m08_h12: page 111935.0 restated 111771.5
+DIFF PJM 2020 avg_demand_mw_m08_h13: page 115901.3 restated 115830.9
+DIFF PJM 2020 avg_demand_mw_m08_h14: page 118679.4 restated 118684.4
+DIFF PJM 2020 avg_demand_mw_m08_h15: page 120547.9 restated 120602.1
+DIFF PJM 2020 avg_demand_mw_m08_h16: page 121841.5 restated 121926.3
+DIFF PJM 2020 avg_demand_mw_m08_h17: page 122051.1 restated 122190.4
+DIFF PJM 2020 avg_demand_mw_m08_h18: page 119909.9 restated 120081.0
+DIFF PJM 2020 avg_demand_mw_m08_h19: page 115486.9 restated 115642.5
+DIFF PJM 2020 avg_demand_mw_m08_h20: page 111841.5 restated 112007.5
+DIFF PJM 2020 avg_demand_mw_m08_h21: page 107426.6 restated 107675.0
+DIFF PJM 2020 avg_demand_mw_m08_h22: page 101216.5 restated 101509.9
+DIFF PJM 2020 avg_demand_mw_m08_h23: page 95267.3 restated 95560.4
+DIFF PJM 2020 avg_demand_mw_m09: page 84690.6 restated 84631.5
+DIFF PJM 2020 avg_demand_mw_m09_h16: page 96758.2 restated 95710.8
+DIFF PJM 2020 hours_used: page 8779 restated 8730
+DIFF PJM 2020 ytd_avg_demand_growth_since_2019_pct: page -4.29 restated -4.47
+DIFF PJM 2020 ytd_avg_demand_mw: page 87806.0 restated 89010.8
+DIFF PJM 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF PJM 2020 ytd_hours_used: page 7314 restated 6521
+DIFF PJM 2021 avg_demand_growth_since_2019_pct: page -0.51 restated -0.5
+DIFF PJM 2021 avg_demand_growth_yoy_pct: page 3.64 restated 3.71
+DIFF PJM 2021 avg_demand_mw: page 90886.0 restated 90896.6
+DIFF PJM 2021 avg_demand_mw_h00: page 82769.5 restated 82811.0
+DIFF PJM 2021 avg_demand_mw_h01: page 80287.0 restated 80318.4
+DIFF PJM 2021 avg_demand_mw_h21: page 94831.4 restated 94870.0
+DIFF PJM 2021 avg_demand_mw_h22: page 90396.4 restated 90442.8
+DIFF PJM 2021 avg_demand_mw_h23: page 86269.9 restated 86314.2
+DIFF PJM 2021 avg_demand_mw_m10: page 80175.2 restated 80229.2
+DIFF PJM 2021 avg_demand_mw_m10_h00: page 72493.8 restated 72654.7
+DIFF PJM 2021 avg_demand_mw_m10_h01: page 70231.4 restated 70277.7
+DIFF PJM 2021 avg_demand_mw_m10_h21: page 83257.6 restated 83340.6
+DIFF PJM 2021 avg_demand_mw_m10_h22: page 79114.9 restated 79301.0
+DIFF PJM 2021 avg_demand_mw_m10_h23: page 75469.2 restated 75647.0
+DIFF PJM 2021 hours_used: page 8760 restated 8755
+DIFF PJM 2021 ytd_avg_demand_growth_since_2019_pct: page -0.17 restated -0.32
+DIFF PJM 2021 ytd_avg_demand_mw: page 91589.1 restated 92885.4
+DIFF PJM 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF PJM 2021 ytd_hours_used: page 7295 restated 6551
+DIFF PJM 2022 avg_demand_growth_since_2019_pct: page 1.25 restated 1.24
+DIFF PJM 2022 avg_demand_growth_yoy_pct: page 1.77 restated 1.75
+DIFF PJM 2022 avg_demand_mw: page 92495.5 restated 92484.8
+DIFF PJM 2022 avg_demand_mw_h01: page 82554.7 restated 82506.6
+DIFF PJM 2022 avg_demand_mw_h03: page 80460.0 restated 80455.4
+DIFF PJM 2022 avg_demand_mw_h04: page 80926.2 restated 80923.3
+DIFF PJM 2022 avg_demand_mw_h05: page 83118.5 restated 83121.0
+DIFF PJM 2022 avg_demand_mw_h06: page 87383.0 restated 87395.2
+DIFF PJM 2022 avg_demand_mw_h07: page 91091.6 restated 91106.1
+DIFF PJM 2022 avg_demand_mw_h08: page 92864.9 restated 92873.8
+DIFF PJM 2022 avg_demand_mw_h09: page 93578.1 restated 93577.0
+DIFF PJM 2022 avg_demand_mw_h10: page 94394.1 restated 94385.6
+DIFF PJM 2022 avg_demand_mw_h11: page 95379.3 restated 95366.6
+DIFF PJM 2022 avg_demand_mw_h12: page 96464.1 restated 96451.0
+DIFF PJM 2022 avg_demand_mw_h13: page 97460.8 restated 97450.0
+DIFF PJM 2022 avg_demand_mw_h14: page 98137.1 restated 98128.2
+DIFF PJM 2022 avg_demand_mw_h15: page 98884.1 restated 98876.2
+DIFF PJM 2022 avg_demand_mw_h16: page 100143.9 restated 100138.5
+DIFF PJM 2022 avg_demand_mw_h17: page 101902.3 restated 101899.8
+DIFF PJM 2022 avg_demand_mw_h18: page 102165.1 restated 102157.5
+DIFF PJM 2022 avg_demand_mw_h19: page 101085.3 restated 101063.2
+DIFF PJM 2022 avg_demand_mw_h20: page 99323.6 restated 99291.9
+DIFF PJM 2022 avg_demand_mw_h21: page 96291.0 restated 96253.4
+DIFF PJM 2022 avg_demand_mw_h22: page 91972.4 restated 91928.1
+DIFF PJM 2022 avg_demand_mw_h23: page 88234.1 restated 88248.8
+DIFF PJM 2022 avg_demand_mw_m03: page 86234.7 restated 85876.9
+DIFF PJM 2022 avg_demand_mw_m03_h01: page 79435.2 restated 78745.8
+DIFF PJM 2022 avg_demand_mw_m03_h03: page 78524.1 restated 78403.8
+DIFF PJM 2022 avg_demand_mw_m03_h04: page 79537.1 restated 79455.3
+DIFF PJM 2022 avg_demand_mw_m03_h05: page 82209.9 restated 82210.5
+DIFF PJM 2022 avg_demand_mw_m03_h06: page 87699.8 restated 87859.1
+DIFF PJM 2022 avg_demand_mw_m03_h07: page 91490.1 restated 91679.9
+DIFF PJM 2022 avg_demand_mw_m03_h08: page 91711.5 restated 91780.9
+DIFF PJM 2022 avg_demand_mw_m03_h09: page 90687.9 restated 90577.8
+DIFF PJM 2022 avg_demand_mw_m03_h10: page 89652.8 restated 89391.2
+DIFF PJM 2022 avg_demand_mw_m03_h11: page 88551.2 restated 88169.7
+DIFF PJM 2022 avg_demand_mw_m03_h12: page 87688.2 restated 87237.0
+DIFF PJM 2022 avg_demand_mw_m03_h13: page 87158.1 restated 86684.6
+DIFF PJM 2022 avg_demand_mw_m03_h14: page 86587.1 restated 86093.8
+DIFF PJM 2022 avg_demand_mw_m03_h15: page 86259.2 restated 85743.4
+DIFF PJM 2022 avg_demand_mw_m03_h16: page 86432.4 restated 85909.7
+DIFF PJM 2022 avg_demand_mw_m03_h17: page 87442.6 restated 86930.3
+DIFF PJM 2022 avg_demand_mw_m03_h18: page 89310.1 restated 88790.3
+DIFF PJM 2022 avg_demand_mw_m03_h19: page 91074.9 restated 90472.9
+DIFF PJM 2022 avg_demand_mw_m03_h20: page 91349.0 restated 90698.2
+DIFF PJM 2022 avg_demand_mw_m03_h21: page 89026.8 restated 88328.3
+DIFF PJM 2022 avg_demand_mw_m03_h22: page 85650.7 restated 84901.6
+DIFF PJM 2022 avg_demand_mw_m03_h23: page 82932.2 restated 82189.5
+DIFF PJM 2022 avg_demand_mw_m11: page 85435.9 restated 85463.0
+DIFF PJM 2022 avg_demand_mw_m11_h23: page 81665.3 restated 82208.9
+DIFF PJM 2022 hours_used: page 8760 restated 8737
+DIFF PJM 2022 ytd_avg_demand_growth_since_2019_pct: page 0.99 restated 1.16
+DIFF PJM 2022 ytd_avg_demand_mw: page 92654.9 restated 94257.2
+DIFF PJM 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF PJM 2022 ytd_hours_used: page 7295 restated 6529
+DIFF PJM 2023 avg_demand_growth_since_2019_pct: page -1.91 restated -1.88
+DIFF PJM 2023 avg_demand_growth_yoy_pct: page -3.12 restated -3.08
+DIFF PJM 2023 avg_demand_mw: page 89606.5 restated 89637.3
+DIFF PJM 2023 avg_demand_mw_h00: page 82349.1 restated 82370.6
+DIFF PJM 2023 avg_demand_mw_h01: page 80098.5 restated 80123.1
+DIFF PJM 2023 avg_demand_mw_h02: page 78684.5 restated 78694.5
+DIFF PJM 2023 avg_demand_mw_h03: page 78015.5 restated 78022.9
+DIFF PJM 2023 avg_demand_mw_h04: page 78431.2 restated 78435.3
+DIFF PJM 2023 avg_demand_mw_h05: page 80578.4 restated 80581.7
+DIFF PJM 2023 avg_demand_mw_h06: page 84758.3 restated 84763.8
+DIFF PJM 2023 avg_demand_mw_h07: page 88288.5 restated 88298.0
+DIFF PJM 2023 avg_demand_mw_h08: page 89940.7 restated 89956.9
+DIFF PJM 2023 avg_demand_mw_h09: page 90605.6 restated 90629.2
+DIFF PJM 2023 avg_demand_mw_h10: page 91307.4 restated 91338.3
+DIFF PJM 2023 avg_demand_mw_h11: page 92150.4 restated 92188.3
+DIFF PJM 2023 avg_demand_mw_h12: page 93181.9 restated 93224.7
+DIFF PJM 2023 avg_demand_mw_h13: page 94227.4 restated 94274.5
+DIFF PJM 2023 avg_demand_mw_h14: page 94971.7 restated 95022.7
+DIFF PJM 2023 avg_demand_mw_h15: page 95626.6 restated 95678.6
+DIFF PJM 2023 avg_demand_mw_h16: page 96944.9 restated 96996.9
+DIFF PJM 2023 avg_demand_mw_h17: page 98752.3 restated 98802.3
+DIFF PJM 2023 avg_demand_mw_h18: page 99007.4 restated 99056.0
+DIFF PJM 2023 avg_demand_mw_h19: page 97986.9 restated 98036.0
+DIFF PJM 2023 avg_demand_mw_h20: page 96370.3 restated 96419.9
+DIFF PJM 2023 avg_demand_mw_h21: page 93455.7 restated 93502.6
+DIFF PJM 2023 avg_demand_mw_h22: page 89251.3 restated 89291.8
+DIFF PJM 2023 avg_demand_mw_m11: page 86636.2 restated 86920.3
+DIFF PJM 2023 avg_demand_mw_m11_h00: page 80834.7 restated 81052.1
+DIFF PJM 2023 avg_demand_mw_m11_h01: page 79597.4 restated 79872.5
+DIFF PJM 2023 avg_demand_mw_m11_h02: page 79204.5 restated 79346.9
+DIFF PJM 2023 avg_demand_mw_m11_h03: page 79291.3 restated 79428.1
+DIFF PJM 2023 avg_demand_mw_m11_h04: page 80337.3 restated 80455.1
+DIFF PJM 2023 avg_demand_mw_m11_h05: page 83177.5 restated 83308.6
+DIFF PJM 2023 avg_demand_mw_m11_h06: page 88440.5 restated 88635.9
+DIFF PJM 2023 avg_demand_mw_m11_h07: page 91993.8 restated 92240.7
+DIFF PJM 2023 avg_demand_mw_m11_h08: page 91877.6 restated 92147.6
+DIFF PJM 2023 avg_demand_mw_m11_h09: page 90100.4 restated 90379.7
+DIFF PJM 2023 avg_demand_mw_m11_h10: page 88509.1 restated 88800.5
+DIFF PJM 2023 avg_demand_mw_m11_h11: page 87559.1 restated 87875.4
+DIFF PJM 2023 avg_demand_mw_m11_h12: page 86842.7 restated 87160.8
+DIFF PJM 2023 avg_demand_mw_m11_h13: page 86451.0 restated 86773.8
+DIFF PJM 2023 avg_demand_mw_m11_h14: page 86184.6 restated 86522.6
+DIFF PJM 2023 avg_demand_mw_m11_h15: page 86097.0 restated 86420.9
+DIFF PJM 2023 avg_demand_mw_m11_h16: page 87875.4 restated 88214.6
+DIFF PJM 2023 avg_demand_mw_m11_h17: page 91648.4 restated 92031.3
+DIFF PJM 2023 avg_demand_mw_m11_h18: page 92784.4 restated 93179.9
+DIFF PJM 2023 avg_demand_mw_m11_h19: page 92197.7 restated 92614.4
+DIFF PJM 2023 avg_demand_mw_m11_h20: page 90867.8 restated 91300.4
+DIFF PJM 2023 avg_demand_mw_m11_h21: page 88531.3 restated 88950.9
+DIFF PJM 2023 avg_demand_mw_m11_h22: page 85603.9 restated 85985.7
+DIFF PJM 2023 hours_used: page 8759 restated 8735
+DIFF PJM 2023 ytd_avg_demand_growth_since_2019_pct: page -2.22 restated -2.56
+DIFF PJM 2023 ytd_avg_demand_mw: page 89710.3 restated 90797.8
+DIFF PJM 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF PJM 2023 ytd_hours_used: page 7295 restated 6551
+DIFF PJM 2024 avg_demand_growth_since_2019_pct: page 1.57 restated 1.65
+DIFF PJM 2024 avg_demand_growth_yoy_pct: page 3.56 restated 3.6
+DIFF PJM 2024 avg_demand_mw: page 92792.2 restated 92863.6
+DIFF PJM 2024 avg_demand_mw_h00: page 85518.1 restated 85550.7
+DIFF PJM 2024 avg_demand_mw_h01: page 83107.0 restated 83192.3
+DIFF PJM 2024 avg_demand_mw_h02: page 81555.8 restated 81590.6
+DIFF PJM 2024 avg_demand_mw_h03: page 80726.4 restated 80773.2
+DIFF PJM 2024 avg_demand_mw_h04: page 81076.3 restated 81124.9
+DIFF PJM 2024 avg_demand_mw_h05: page 83091.7 restated 83145.5
+DIFF PJM 2024 avg_demand_mw_h06: page 87105.1 restated 87167.0
+DIFF PJM 2024 avg_demand_mw_h07: page 90705.3 restated 90772.4
+DIFF PJM 2024 avg_demand_mw_h08: page 92504.0 restated 92572.9
+DIFF PJM 2024 avg_demand_mw_h09: page 93330.0 restated 93397.7
+DIFF PJM 2024 avg_demand_mw_h10: page 94159.7 restated 94228.5
+DIFF PJM 2024 avg_demand_mw_h11: page 95172.0 restated 95246.8
+DIFF PJM 2024 avg_demand_mw_h12: page 96361.9 restated 96443.9
+DIFF PJM 2024 avg_demand_mw_h13: page 97605.9 restated 97695.6
+DIFF PJM 2024 avg_demand_mw_h14: page 98493.1 restated 98588.5
+DIFF PJM 2024 avg_demand_mw_h15: page 99425.7 restated 99524.6
+DIFF PJM 2024 avg_demand_mw_h16: page 100962.1 restated 101065.8
+DIFF PJM 2024 avg_demand_mw_h17: page 102791.3 restated 102899.5
+DIFF PJM 2024 avg_demand_mw_h18: page 103014.0 restated 103117.3
+DIFF PJM 2024 avg_demand_mw_h19: page 101925.4 restated 102021.5
+DIFF PJM 2024 avg_demand_mw_h20: page 100085.2 restated 100175.8
+DIFF PJM 2024 avg_demand_mw_h21: page 96985.1 restated 97069.1
+DIFF PJM 2024 avg_demand_mw_h22: page 92560.8 restated 92631.1
+DIFF PJM 2024 avg_demand_mw_h23: page 88742.4 restated 88757.6
+DIFF PJM 2024 avg_demand_mw_m03: page 84391.1 restated 84397.5
+DIFF PJM 2024 avg_demand_mw_m03_h01: page 78222.4 restated 78185.1
+DIFF PJM 2024 avg_demand_mw_m03_h03: page 77485.9 restated 77549.2
+DIFF PJM 2024 avg_demand_mw_m03_h04: page 78476.3 restated 78585.0
+DIFF PJM 2024 avg_demand_mw_m03_h05: page 81160.0 restated 81347.4
+DIFF PJM 2024 avg_demand_mw_m03_h06: page 86409.4 restated 86713.3
+DIFF PJM 2024 avg_demand_mw_m03_h07: page 90088.0 restated 90423.7
+DIFF PJM 2024 avg_demand_mw_m03_h08: page 90287.1 restated 90555.2
+DIFF PJM 2024 avg_demand_mw_m03_h09: page 89047.1 restated 89207.0
+DIFF PJM 2024 avg_demand_mw_m03_h10: page 87769.8 restated 87812.2
+DIFF PJM 2024 avg_demand_mw_m03_h11: page 86523.5 restated 86487.8
+DIFF PJM 2024 avg_demand_mw_m03_h12: page 85515.7 restated 85427.7
+DIFF PJM 2024 avg_demand_mw_m03_h13: page 84713.2 restated 84608.5
+DIFF PJM 2024 avg_demand_mw_m03_h14: page 84005.1 restated 83889.7
+DIFF PJM 2024 avg_demand_mw_m03_h15: page 83652.5 restated 83543.8
+DIFF PJM 2024 avg_demand_mw_m03_h16: page 84093.8 restated 84006.1
+DIFF PJM 2024 avg_demand_mw_m03_h17: page 85283.0 restated 85232.2
+DIFF PJM 2024 avg_demand_mw_m03_h18: page 86752.0 restated 86705.4
+DIFF PJM 2024 avg_demand_mw_m03_h19: page 88397.5 restated 88356.1
+DIFF PJM 2024 avg_demand_mw_m03_h20: page 88848.6 restated 88824.0
+DIFF PJM 2024 avg_demand_mw_m03_h21: page 86735.0 restated 86692.9
+DIFF PJM 2024 avg_demand_mw_m03_h22: page 83572.4 restated 83494.4
+DIFF PJM 2024 avg_demand_mw_m03_h23: page 80967.2 restated 80892.1
+DIFF PJM 2024 avg_demand_mw_m11: page 84170.9 restated 84497.9
+DIFF PJM 2024 avg_demand_mw_m11_h00: page 78059.0 restated 78211.8
+DIFF PJM 2024 avg_demand_mw_m11_h01: page 76294.1 restated 76764.2
+DIFF PJM 2024 avg_demand_mw_m11_h02: page 75635.4 restated 75868.8
+DIFF PJM 2024 avg_demand_mw_m11_h03: page 75430.8 restated 75657.9
+DIFF PJM 2024 avg_demand_mw_m11_h04: page 76202.0 restated 76441.1
+DIFF PJM 2024 avg_demand_mw_m11_h05: page 78269.0 restated 78517.5
+DIFF PJM 2024 avg_demand_mw_m11_h06: page 82716.6 restated 83004.8
+DIFF PJM 2024 avg_demand_mw_m11_h07: page 86140.9 restated 86457.7
+DIFF PJM 2024 avg_demand_mw_m11_h08: page 86874.8 restated 87192.0
+DIFF PJM 2024 avg_demand_mw_m11_h09: page 86735.9 restated 87045.4
+DIFF PJM 2024 avg_demand_mw_m11_h10: page 86568.9 restated 86906.5
+DIFF PJM 2024 avg_demand_mw_m11_h11: page 86030.4 restated 86403.6
+DIFF PJM 2024 avg_demand_mw_m11_h12: page 86158.3 restated 86552.6
+DIFF PJM 2024 avg_demand_mw_m11_h13: page 86213.6 restated 86610.3
+DIFF PJM 2024 avg_demand_mw_m11_h14: page 86147.6 restated 86539.4
+DIFF PJM 2024 avg_demand_mw_m11_h15: page 86311.7 restated 86669.6
+DIFF PJM 2024 avg_demand_mw_m11_h16: page 88042.6 restated 88408.7
+DIFF PJM 2024 avg_demand_mw_m11_h17: page 91242.5 restated 91650.7
+DIFF PJM 2024 avg_demand_mw_m11_h18: page 91587.6 restated 91978.3
+DIFF PJM 2024 avg_demand_mw_m11_h19: page 90496.2 restated 90884.7
+DIFF PJM 2024 avg_demand_mw_m11_h20: page 88808.9 restated 89194.5
+DIFF PJM 2024 avg_demand_mw_m11_h21: page 86239.8 restated 86614.0
+DIFF PJM 2024 avg_demand_mw_m11_h22: page 83143.2 restated 83471.3
+DIFF PJM 2024 hours_used: page 8782 restated 8736
+DIFF PJM 2024 ytd_avg_demand_growth_since_2019_pct: page 1.47 restated 1.52
+DIFF PJM 2024 ytd_avg_demand_mw: page 93095.8 restated 94598.7
+DIFF PJM 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF PJM 2024 ytd_hours_used: page 7319 restated 6553
+RESTATED ONLY PJM 2025 avg_demand_growth_since_2019_mw: 4946.1
+DIFF PJM 2025 avg_demand_growth_since_2019_pct: page 5.37 restated 5.41
+DIFF PJM 2025 avg_demand_growth_yoy_pct: page 3.73 restated 3.7
+DIFF PJM 2025 avg_demand_mw: page 96257.2 restated 96301.0
+DIFF PJM 2025 avg_demand_mw_h00: page 89120.7 restated 89151.4
+DIFF PJM 2025 avg_demand_mw_h01: page 86947.5 restated 87002.8
+DIFF PJM 2025 avg_demand_mw_h02: page 85476.6 restated 85501.4
+DIFF PJM 2025 avg_demand_mw_h03: page 84688.7 restated 84710.1
+DIFF PJM 2025 avg_demand_mw_h04: page 84970.9 restated 84991.9
+DIFF PJM 2025 avg_demand_mw_h05: page 86997.6 restated 87019.5
+DIFF PJM 2025 avg_demand_mw_h06: page 91015.3 restated 91039.5
+DIFF PJM 2025 avg_demand_mw_h07: page 94559.7 restated 94589.4
+DIFF PJM 2025 avg_demand_mw_h08: page 96281.7 restated 96317.4
+DIFF PJM 2025 avg_demand_mw_h09: page 97001.5 restated 97040.2
+DIFF PJM 2025 avg_demand_mw_h10: page 97762.2 restated 97806.2
+DIFF PJM 2025 avg_demand_mw_h11: page 98618.2 restated 98667.4
+DIFF PJM 2025 avg_demand_mw_h12: page 99613.9 restated 99669.0
+DIFF PJM 2025 avg_demand_mw_h13: page 100670.1 restated 100729.8
+DIFF PJM 2025 avg_demand_mw_h14: page 101383.0 restated 101445.1
+DIFF PJM 2025 avg_demand_mw_h15: page 102190.1 restated 102252.8
+DIFF PJM 2025 avg_demand_mw_h16: page 103655.0 restated 103717.3
+DIFF PJM 2025 avg_demand_mw_h17: page 105640.9 restated 105700.6
+DIFF PJM 2025 avg_demand_mw_h18: page 106020.6 restated 106078.8
+DIFF PJM 2025 avg_demand_mw_h19: page 105138.7 restated 105196.6
+DIFF PJM 2025 avg_demand_mw_h20: page 103531.5 restated 103589.6
+DIFF PJM 2025 avg_demand_mw_h21: page 100580.6 restated 100636.3
+DIFF PJM 2025 avg_demand_mw_h22: page 96140.3 restated 96190.3
+DIFF PJM 2025 avg_demand_mw_m11: page 89345.8 restated 89657.8
+DIFF PJM 2025 avg_demand_mw_m11_h00: page 83792.4 restated 83993.8
+DIFF PJM 2025 avg_demand_mw_m11_h01: page 82370.2 restated 82748.7
+DIFF PJM 2025 avg_demand_mw_m11_h02: page 81863.6 restated 82050.2
+DIFF PJM 2025 avg_demand_mw_m11_h03: page 81628.3 restated 81791.4
+DIFF PJM 2025 avg_demand_mw_m11_h04: page 82191.7 restated 82360.4
+DIFF PJM 2025 avg_demand_mw_m11_h05: page 84740.1 restated 84936.9
+DIFF PJM 2025 avg_demand_mw_m11_h06: page 89423.4 restated 89671.6
+DIFF PJM 2025 avg_demand_mw_m11_h07: page 92522.9 restated 92825.2
+DIFF PJM 2025 avg_demand_mw_m11_h08: page 92520.5 restated 92838.7
+DIFF PJM 2025 avg_demand_mw_m11_h09: page 91726.5 restated 92029.9
+DIFF PJM 2025 avg_demand_mw_m11_h10: page 91335.9 restated 91666.3
+DIFF PJM 2025 avg_demand_mw_m11_h11: page 90882.8 restated 91234.2
+DIFF PJM 2025 avg_demand_mw_m11_h12: page 90578.2 restated 90958.4
+DIFF PJM 2025 avg_demand_mw_m11_h13: page 90294.5 restated 90685.8
+DIFF PJM 2025 avg_demand_mw_m11_h14: page 89905.6 restated 90288.9
+DIFF PJM 2025 avg_demand_mw_m11_h15: page 89906.7 restated 90269.8
+DIFF PJM 2025 avg_demand_mw_m11_h16: page 91899.1 restated 92275.0
+DIFF PJM 2025 avg_demand_mw_m11_h17: page 95467.7 restated 95866.1
+DIFF PJM 2025 avg_demand_mw_m11_h18: page 96066.5 restated 96453.8
+DIFF PJM 2025 avg_demand_mw_m11_h19: page 95203.2 restated 95586.7
+DIFF PJM 2025 avg_demand_mw_m11_h20: page 93802.3 restated 94196.1
+DIFF PJM 2025 avg_demand_mw_m11_h21: page 91432.6 restated 91817.0
+DIFF PJM 2025 avg_demand_mw_m11_h22: page 88462.8 restated 88825.3
+DIFF PJM 2025 growth_mw_h00: page 6637.4 restated 6668.1
+DIFF PJM 2025 growth_mw_h01: page 6888.7 restated 6944.0
+DIFF PJM 2025 growth_mw_h02: page 6817.0 restated 6841.8
+DIFF PJM 2025 growth_mw_h03: page 6703.0 restated 6724.4
+DIFF PJM 2025 growth_mw_h04: page 6471.9 restated 6492.9
+DIFF PJM 2025 growth_mw_h05: page 6049.6 restated 6071.5
+DIFF PJM 2025 growth_mw_h06: page 5321.0 restated 5345.2
+DIFF PJM 2025 growth_mw_h07: page 5093.4 restated 5123.1
+DIFF PJM 2025 growth_mw_h08: page 4840.6 restated 4876.3
+DIFF PJM 2025 growth_mw_h09: page 4164.2 restated 4202.9
+DIFF PJM 2025 growth_mw_h10: page 3534.4 restated 3578.4
+DIFF PJM 2025 growth_mw_h11: page 3296.4 restated 3345.6
+DIFF PJM 2025 growth_mw_h12: page 3362.1 restated 3417.2
+DIFF PJM 2025 growth_mw_h13: page 3495.8 restated 3555.5
+DIFF PJM 2025 growth_mw_h14: page 3609.7 restated 3670.1
+DIFF PJM 2025 growth_mw_h15: page 3712.7 restated 3775.4
+DIFF PJM 2025 growth_mw_h16: page 3975.6 restated 4037.9
+DIFF PJM 2025 growth_mw_h17: page 4255.7 restated 4315.4
+DIFF PJM 2025 growth_mw_h18: page 4471.1 restated 4529.3
+DIFF PJM 2025 growth_mw_h19: page 4637.2 restated 4695.1
+DIFF PJM 2025 growth_mw_h20: page 4501.7 restated 4559.8
+DIFF PJM 2025 growth_mw_h21: page 4621.5 restated 4677.2
+DIFF PJM 2025 growth_mw_h22: page 5221.9 restated 5271.9
+DIFF PJM 2025 growth_mw_h23: page 5962.4 restated 5937.0
+DIFF PJM 2025 growth_mw_m11: page 2424.4 restated 2722.5
+DIFF PJM 2025 growth_mw_m11_h00: page 3527.4 restated 3728.8
+DIFF PJM 2025 growth_mw_m11_h01: page 3759.8 restated 4138.3
+DIFF PJM 2025 growth_mw_m11_h02: page 3510.1 restated 3696.7
+DIFF PJM 2025 growth_mw_m11_h03: page 3247.0 restated 3410.1
+DIFF PJM 2025 growth_mw_m11_h04: page 2736.5 restated 2905.2
+DIFF PJM 2025 growth_mw_m11_h05: page 2271.0 restated 2467.8
+DIFF PJM 2025 growth_mw_m11_h06: page 1060.6 restated 1308.8
+DIFF PJM 2025 growth_mw_m11_h07: page 644.6 restated 946.9
+DIFF PJM 2025 growth_mw_m11_h08: page 419.0 restated 737.2
+DIFF PJM 2025 growth_mw_m11_h09: page 618.4 restated 921.8
+DIFF PJM 2025 growth_mw_m11_h10: page 1296.7 restated 1627.1
+DIFF PJM 2025 growth_mw_m11_h11: page 2110.5 restated 2461.9
+DIFF PJM 2025 growth_mw_m11_h12: page 2992.8 restated 3373.0
+DIFF PJM 2025 growth_mw_m11_h13: page 3455.1 restated 3846.4
+DIFF PJM 2025 growth_mw_m11_h14: page 3508.5 restated 3891.8
+DIFF PJM 2025 growth_mw_m11_h15: page 3233.2 restated 3596.3
+DIFF PJM 2025 growth_mw_m11_h16: page 3121.8 restated 3497.7
+DIFF PJM 2025 growth_mw_m11_h17: page 2422.2 restated 2820.6
+DIFF PJM 2025 growth_mw_m11_h18: page 1916.0 restated 2303.3
+DIFF PJM 2025 growth_mw_m11_h19: page 1775.2 restated 2158.7
+DIFF PJM 2025 growth_mw_m11_h20: page 1824.5 restated 2218.3
+DIFF PJM 2025 growth_mw_m11_h21: page 2133.6 restated 2518.0
+DIFF PJM 2025 growth_mw_m11_h22: page 2702.8 restated 3065.3
+DIFF PJM 2025 growth_mw_m11_h23: page 3755.7 restated 3557.4
+DIFF PJM 2025 growth_mw_m12: page 13445.3 restated 13452.5
+DIFF PJM 2025 growth_mw_m12_h14: page 14180.1 restated 14394.9
+DIFF PJM 2025 growth_pct_h00: page 8.05 restated 8.08
+DIFF PJM 2025 growth_pct_h01: page 8.6 restated 8.67
+DIFF PJM 2025 growth_pct_h02: page 8.67 restated 8.7
+DIFF PJM 2025 growth_pct_h03: page 8.6 restated 8.62
+DIFF PJM 2025 growth_pct_h04: page 8.24 restated 8.27
+DIFF PJM 2025 growth_pct_h05: page 7.47 restated 7.5
+DIFF PJM 2025 growth_pct_h06: page 6.21 restated 6.24
+DIFF PJM 2025 growth_pct_h07: page 5.69 restated 5.73
+DIFF PJM 2025 growth_pct_h08: page 5.29 restated 5.33
+DIFF PJM 2025 growth_pct_h09: page 4.49 restated 4.53
+DIFF PJM 2025 growth_pct_h10: page 3.75 restated 3.8
+DIFF PJM 2025 growth_pct_h11: page 3.46 restated 3.51
+DIFF PJM 2025 growth_pct_h12: page 3.49 restated 3.55
+DIFF PJM 2025 growth_pct_h13: page 3.6 restated 3.66
+DIFF PJM 2025 growth_pct_h14: page 3.69 restated 3.75
+DIFF PJM 2025 growth_pct_h15: page 3.77 restated 3.83
+DIFF PJM 2025 growth_pct_h16: page 3.99 restated 4.05
+DIFF PJM 2025 growth_pct_h17: page 4.2 restated 4.26
+DIFF PJM 2025 growth_pct_h18: page 4.4 restated 4.46
+DIFF PJM 2025 growth_pct_h19: page 4.61 restated 4.67
+DIFF PJM 2025 growth_pct_h20: page 4.55 restated 4.6
+DIFF PJM 2025 growth_pct_h21: page 4.82 restated 4.87
+DIFF PJM 2025 growth_pct_h22: page 5.74 restated 5.8
+DIFF PJM 2025 growth_pct_h23: page 6.92 restated 6.89
+DIFF PJM 2025 growth_pct_m11: page 2.79 restated 3.13
+DIFF PJM 2025 growth_pct_m11_h00: page 4.39 restated 4.65
+DIFF PJM 2025 growth_pct_m11_h01: page 4.78 restated 5.26
+DIFF PJM 2025 growth_pct_m11_h02: page 4.48 restated 4.72
+DIFF PJM 2025 growth_pct_m11_h03: page 4.14 restated 4.35
+DIFF PJM 2025 growth_pct_m11_h04: page 3.44 restated 3.66
+DIFF PJM 2025 growth_pct_m11_h05: page 2.75 restated 2.99
+DIFF PJM 2025 growth_pct_m11_h06: page 1.2 restated 1.48
+DIFF PJM 2025 growth_pct_m11_h07: page 0.7 restated 1.03
+DIFF PJM 2025 growth_pct_m11_h08: page 0.45 restated 0.8
+DIFF PJM 2025 growth_pct_m11_h09: page 0.68 restated 1.01
+DIFF PJM 2025 growth_pct_m11_h10: page 1.44 restated 1.81
+DIFF PJM 2025 growth_pct_m11_h11: page 2.38 restated 2.77
+DIFF PJM 2025 growth_pct_m11_h12: page 3.42 restated 3.85
+DIFF PJM 2025 growth_pct_m11_h13: page 3.98 restated 4.43
+DIFF PJM 2025 growth_pct_m11_h14: page 4.06 restated 4.5
+DIFF PJM 2025 growth_pct_m11_h15: page 3.73 restated 4.15
+DIFF PJM 2025 growth_pct_m11_h16: page 3.52 restated 3.94
+DIFF PJM 2025 growth_pct_m11_h17: page 2.6 restated 3.03
+DIFF PJM 2025 growth_pct_m11_h18: page 2.04 restated 2.45
+DIFF PJM 2025 growth_pct_m11_h19: page 1.9 restated 2.31
+DIFF PJM 2025 growth_pct_m11_h20: page 1.98 restated 2.41
+DIFF PJM 2025 growth_pct_m11_h21: page 2.39 restated 2.82
+DIFF PJM 2025 growth_pct_m11_h22: page 3.15 restated 3.57
+DIFF PJM 2025 growth_pct_m11_h23: page 4.54 restated 4.29
+DIFF PJM 2025 growth_pct_m12: page 14.64 restated 14.65
+DIFF PJM 2025 growth_pct_m12_h14: page 15.63 restated 15.91
+DIFF PJM 2025 hours_used: page 8759 restated 8735
+RESTATED ONLY PJM 2025 peak_demand_growth_since_2019_mw: 8245.0
+DIFF PJM 2025 ytd_avg_demand_growth_since_2019_pct: page 4.66 restated 4.55
+DIFF PJM 2025 ytd_avg_demand_mw: page 96019.6 restated 97422.6
+DIFF PJM 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF PJM 2025 ytd_hours_used: page 7295 restated 6551
+DIFF PJM 2026 avg_demand_mw_m03: page 90368.7 restated 90531.7
+PAGE ONLY PJM 2026 avg_demand_mw_m10: 86463.2
+RESTATED ONLY PJM 2026 ytd_avg_demand_growth_since_2019_mw: 7741.1
+DIFF PJM 2026 ytd_avg_demand_growth_since_2019_pct: page 8.34 restated 8.31
+DIFF PJM 2026 ytd_avg_demand_mw: page 99399.2 restated 100921.7
+DIFF PJM 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF PJM 2026 ytd_hours_used: page 7295 restated 6529
+SCREEN PJM blank: page 28 restated 213
+SCREEN PJM not_positive: page 0 restated 0
+SCREEN PJM jumps: page 7 restated 16
+BAND PJM: yearly medians 84997.5 to 124751.0; hours whose range test the band leaves open: 0; last used hour 2026-10-03T03:00:00Z
+DIFF MISO 2019 avg_demand_mw: page 74147.0 restated 74149.0
+DIFF MISO 2019 avg_demand_mw_h22: page 72603.1 restated 72591.8
+DIFF MISO 2019 avg_demand_mw_h23: page 69127.3 restated 69132.6
+DIFF MISO 2019 avg_demand_mw_m05: page 68948.9 restated 68947.1
+DIFF MISO 2019 avg_demand_mw_m05_h23: page 64305.1 restated 64105.1
+DIFF MISO 2019 avg_demand_mw_m08: page 81999.9 restated 82038.8
+DIFF MISO 2019 avg_demand_mw_m08_h23: page 75484.2 restated 76029.1
+DIFF MISO 2019 avg_demand_mw_m11: page 70850.1 restated 70860.5
+DIFF MISO 2019 avg_demand_mw_m11_h22: page 68664.3 restated 68847.8
+DIFF MISO 2019 avg_demand_mw_m12: page 72169.1 restated 72149.9
+DIFF MISO 2019 avg_demand_mw_m12_h22: page 70874.4 restated 70294.6
+DIFF MISO 2019 hours_used: page 8760 restated 8754
+DIFF MISO 2019 ytd_avg_demand_mw: page 74674.5 restated 75502.6
+DIFF MISO 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF MISO 2019 ytd_hours_used: page 7295 restated 6548
+DIFF MISO 2020 ytd_avg_demand_growth_since_2019_pct: page -4.41 restated -4.54
+DIFF MISO 2020 ytd_avg_demand_mw: page 71378.4 restated 72074.0
+DIFF MISO 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF MISO 2020 ytd_hours_used: page 7319 restated 6575
+DIFF MISO 2021 avg_demand_growth_yoy_pct: page 3.19 restated 3.18
+DIFF MISO 2021 avg_demand_mw: page 73319.1 restated 73318.6
+DIFF MISO 2021 avg_demand_mw_h05: page 66005.3 restated 65976.0
+DIFF MISO 2021 avg_demand_mw_h20: page 77909.5 restated 77918.4
+DIFF MISO 2021 avg_demand_mw_m08: page 85692.4 restated 85704.5
+DIFF MISO 2021 avg_demand_mw_m08_h05: page 71007.7 restated 70819.0
+DIFF MISO 2021 avg_demand_mw_m12: page 70705.8 restated 70700.5
+DIFF MISO 2021 avg_demand_mw_m12_h20: page 73836.0 restated 73808.8
+DIFF MISO 2021 hours_used: page 8760 restated 8758
+DIFF MISO 2021 ytd_avg_demand_growth_since_2019_pct: page -0.82 restated -1.04
+DIFF MISO 2021 ytd_avg_demand_mw: page 74064.0 restated 74717.2
+DIFF MISO 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF MISO 2021 ytd_hours_used: page 7295 restated 6550
+DIFF MISO 2022 avg_demand_growth_since_2019_pct: page 0.56 restated 0.55
+DIFF MISO 2022 avg_demand_growth_yoy_pct: page 1.7 restated 1.69
+DIFF MISO 2022 avg_demand_mw: page 74565.7 restated 74559.9
+DIFF MISO 2022 avg_demand_mw_h14: page 79907.1 restated 79878.7
+DIFF MISO 2022 avg_demand_mw_h15: page 80334.4 restated 80304.0
+DIFF MISO 2022 avg_demand_mw_h16: page 81172.3 restated 81139.4
+DIFF MISO 2022 avg_demand_mw_m06: page 81672.9 restated 81631.5
+DIFF MISO 2022 avg_demand_mw_m06_h14: page 94120.1 restated 94253.8
+DIFF MISO 2022 avg_demand_mw_m06_h15: page 95368.7 restated 95506.4
+DIFF MISO 2022 avg_demand_mw_m06_h16: page 96117.5 restated 96220.3
+DIFF MISO 2022 hours_used: page 8760 restated 8757
+DIFF MISO 2022 ytd_avg_demand_growth_since_2019_pct: page 0.43 restated 0.85
+DIFF MISO 2022 ytd_avg_demand_mw: page 74999.2 restated 76147.5
+DIFF MISO 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF MISO 2022 ytd_hours_used: page 7295 restated 6548
+DIFF MISO 2023 avg_demand_growth_since_2019_pct: page -1.31 restated -1.32
+DIFF MISO 2023 avg_demand_growth_yoy_pct: page -1.87 restated -1.86
+DIFF MISO 2023 ytd_avg_demand_growth_since_2019_pct: page -0.95 restated -1.0
+DIFF MISO 2023 ytd_avg_demand_mw: page 73962.3 restated 74749.7
+DIFF MISO 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF MISO 2023 ytd_hours_used: page 7295 restated 6551
+DIFF MISO 2024 avg_demand_growth_since_2019_pct: page -0.73 restated -0.76
+DIFF MISO 2024 avg_demand_growth_yoy_pct: page 0.59 restated 0.56
+DIFF MISO 2024 avg_demand_mw: page 73602.6 restated 73585.0
+DIFF MISO 2024 avg_demand_mw_h00: page 67149.5 restated 67142.2
+DIFF MISO 2024 avg_demand_mw_h01: page 65506.9 restated 65501.2
+DIFF MISO 2024 avg_demand_mw_h02: page 64484.6 restated 64479.7
+DIFF MISO 2024 avg_demand_mw_h03: page 64064.9 restated 64060.0
+DIFF MISO 2024 avg_demand_mw_h04: page 64594.4 restated 64588.5
+DIFF MISO 2024 avg_demand_mw_h05: page 66583.7 restated 66577.8
+DIFF MISO 2024 avg_demand_mw_h06: page 69520.5 restated 69518.4
+DIFF MISO 2024 avg_demand_mw_h07: page 71693.2 restated 71688.6
+DIFF MISO 2024 avg_demand_mw_h08: page 73039.8 restated 73031.5
+DIFF MISO 2024 avg_demand_mw_h09: page 74249.9 restated 74237.8
+DIFF MISO 2024 avg_demand_mw_h10: page 75484.3 restated 75468.0
+DIFF MISO 2024 avg_demand_mw_h11: page 76607.0 restated 76586.7
+DIFF MISO 2024 avg_demand_mw_h12: page 77638.8 restated 77614.3
+DIFF MISO 2024 avg_demand_mw_h13: page 78505.1 restated 78476.6
+DIFF MISO 2024 avg_demand_mw_h14: page 79011.5 restated 78979.3
+DIFF MISO 2024 avg_demand_mw_h15: page 79565.2 restated 79530.4
+DIFF MISO 2024 avg_demand_mw_h16: page 80522.3 restated 80487.4
+DIFF MISO 2024 avg_demand_mw_h17: page 81344.3 restated 81311.5
+DIFF MISO 2024 avg_demand_mw_h18: page 81123.0 restated 81092.8
+DIFF MISO 2024 avg_demand_mw_h19: page 79985.3 restated 79959.0
+DIFF MISO 2024 avg_demand_mw_h20: page 78333.4 restated 78309.6
+DIFF MISO 2024 avg_demand_mw_h21: page 75655.4 restated 75633.4
+DIFF MISO 2024 avg_demand_mw_h22: page 72395.1 restated 72377.5
+DIFF MISO 2024 avg_demand_mw_h23: page 69401.8 restated 69384.8
+DIFF MISO 2024 avg_demand_mw_m07: page 84469.3 restated 84617.2
+DIFF MISO 2024 avg_demand_mw_m07_h00: page 75547.0 restated 75738.5
+DIFF MISO 2024 avg_demand_mw_m07_h01: page 72712.4 restated 72883.2
+DIFF MISO 2024 avg_demand_mw_m07_h02: page 70587.1 restated 70731.2
+DIFF MISO 2024 avg_demand_mw_m07_h03: page 69410.5 restated 69529.0
+DIFF MISO 2024 avg_demand_mw_m07_h04: page 69517.2 restated 69609.1
+DIFF MISO 2024 avg_demand_mw_m07_h05: page 70541.1 restated 70601.0
+DIFF MISO 2024 avg_demand_mw_m07_h06: page 71734.0 restated 71782.0
+DIFF MISO 2024 avg_demand_mw_m07_h07: page 74238.6 restated 74267.4
+DIFF MISO 2024 avg_demand_mw_m07_h08: page 77482.7 restated 77530.3
+DIFF MISO 2024 avg_demand_mw_m07_h09: page 81410.7 restated 81501.9
+DIFF MISO 2024 avg_demand_mw_m07_h10: page 85501.5 restated 85637.1
+DIFF MISO 2024 avg_demand_mw_m07_h11: page 89348.7 restated 89526.3
+DIFF MISO 2024 avg_demand_mw_m07_h12: page 92708.0 restated 92913.0
+DIFF MISO 2024 avg_demand_mw_m07_h13: page 95395.2 restated 95610.8
+DIFF MISO 2024 avg_demand_mw_m07_h14: page 97178.5 restated 97392.3
+DIFF MISO 2024 avg_demand_mw_m07_h15: page 98420.0 restated 98626.1
+DIFF MISO 2024 avg_demand_mw_m07_h16: page 99201.0 restated 99399.7
+DIFF MISO 2024 avg_demand_mw_m07_h17: page 99110.4 restated 99303.7
+DIFF MISO 2024 avg_demand_mw_m07_h18: page 97825.6 restated 98015.3
+DIFF MISO 2024 avg_demand_mw_m07_h19: page 95098.0 restated 95281.9
+DIFF MISO 2024 avg_demand_mw_m07_h20: page 92023.7 restated 92191.2
+DIFF MISO 2024 avg_demand_mw_m07_h21: page 88620.6 restated 88785.5
+DIFF MISO 2024 avg_demand_mw_m07_h22: page 84047.2 restated 84221.1
+DIFF MISO 2024 avg_demand_mw_m07_h23: page 79602.4 restated 79735.6
+DIFF MISO 2024 hours_used: page 8784 restated 8760
+DIFF MISO 2024 ytd_avg_demand_growth_since_2019_pct: page -0.76 restated -0.86
+DIFF MISO 2024 ytd_avg_demand_mw: page 74109.8 restated 74855.6
+DIFF MISO 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF MISO 2024 ytd_hours_used: page 7319 restated 6551
+RESTATED ONLY MISO 2025 avg_demand_growth_since_2019_mw: 1560.0
+DIFF MISO 2025 avg_demand_growth_since_2019_pct: page 2.2 restated 2.1
+DIFF MISO 2025 avg_demand_growth_yoy_pct: page 2.96 restated 2.89
+DIFF MISO 2025 avg_demand_mw: page 75780.0 restated 75709.0
+DIFF MISO 2025 avg_demand_mw_h01: page 67301.0 restated 67252.3
+DIFF MISO 2025 avg_demand_mw_h02: page 66251.6 restated 66207.3
+DIFF MISO 2025 avg_demand_mw_h03: page 65864.9 restated 65823.5
+DIFF MISO 2025 avg_demand_mw_h04: page 66477.7 restated 66436.7
+DIFF MISO 2025 avg_demand_mw_h05: page 68571.1 restated 68529.7
+DIFF MISO 2025 avg_demand_mw_h06: page 71660.5 restated 71618.5
+DIFF MISO 2025 avg_demand_mw_h07: page 73932.5 restated 73884.6
+DIFF MISO 2025 avg_demand_mw_h08: page 75352.9 restated 75295.5
+DIFF MISO 2025 avg_demand_mw_h09: page 76548.2 restated 76479.9
+DIFF MISO 2025 avg_demand_mw_h10: page 77730.2 restated 77650.2
+DIFF MISO 2025 avg_demand_mw_h11: page 78865.0 restated 78776.4
+DIFF MISO 2025 avg_demand_mw_h12: page 79886.4 restated 79788.8
+DIFF MISO 2025 avg_demand_mw_h13: page 80725.5 restated 80621.8
+DIFF MISO 2025 avg_demand_mw_h14: page 81196.3 restated 81090.0
+DIFF MISO 2025 avg_demand_mw_h15: page 81762.7 restated 81656.7
+DIFF MISO 2025 avg_demand_mw_h16: page 82764.3 restated 82661.1
+DIFF MISO 2025 avg_demand_mw_h17: page 83687.4 restated 83589.0
+DIFF MISO 2025 avg_demand_mw_h18: page 83476.2 restated 83382.5
+DIFF MISO 2025 avg_demand_mw_h19: page 82348.4 restated 82260.2
+DIFF MISO 2025 avg_demand_mw_h20: page 80759.5 restated 80677.2
+DIFF MISO 2025 avg_demand_mw_h21: page 78121.9 restated 78045.6
+DIFF MISO 2025 avg_demand_mw_h22: page 74782.2 restated 74713.0
+DIFF MISO 2025 avg_demand_mw_h23: page 71569.5 restated 71509.3
+DIFF MISO 2025 avg_demand_mw_m07: page 90515.1 restated 90124.6
+DIFF MISO 2025 avg_demand_mw_m07_h01: page 77078.1 restated 76812.1
+DIFF MISO 2025 avg_demand_mw_m07_h02: page 74592.9 restated 74334.7
+DIFF MISO 2025 avg_demand_mw_m07_h03: page 73206.2 restated 72947.8
+DIFF MISO 2025 avg_demand_mw_m07_h04: page 73106.5 restated 72828.9
+DIFF MISO 2025 avg_demand_mw_m07_h05: page 74236.9 restated 73923.6
+DIFF MISO 2025 avg_demand_mw_m07_h06: page 76161.5 restated 75801.7
+DIFF MISO 2025 avg_demand_mw_m07_h07: page 79529.5 restated 79134.9
+DIFF MISO 2025 avg_demand_mw_m07_h08: page 83671.7 restated 83253.4
+DIFF MISO 2025 avg_demand_mw_m07_h09: page 88156.0 restated 87713.9
+DIFF MISO 2025 avg_demand_mw_m07_h10: page 92731.7 restated 92261.5
+DIFF MISO 2025 avg_demand_mw_m07_h11: page 96839.2 restated 96363.4
+DIFF MISO 2025 avg_demand_mw_m07_h12: page 100362.4 restated 99860.6
+DIFF MISO 2025 avg_demand_mw_m07_h13: page 103109.1 restated 102596.6
+DIFF MISO 2025 avg_demand_mw_m07_h14: page 104762.5 restated 104258.0
+DIFF MISO 2025 avg_demand_mw_m07_h15: page 105854.9 restated 105371.9
+DIFF MISO 2025 avg_demand_mw_m07_h16: page 106510.5 restated 106050.0
+DIFF MISO 2025 avg_demand_mw_m07_h17: page 106370.1 restated 105931.2
+DIFF MISO 2025 avg_demand_mw_m07_h18: page 104940.0 restated 104519.0
+DIFF MISO 2025 avg_demand_mw_m07_h19: page 102036.8 restated 101623.6
+DIFF MISO 2025 avg_demand_mw_m07_h20: page 98706.3 restated 98305.1
+DIFF MISO 2025 avg_demand_mw_m07_h21: page 95045.2 restated 94683.2
+DIFF MISO 2025 avg_demand_mw_m07_h22: page 90032.1 restated 89701.1
+DIFF MISO 2025 avg_demand_mw_m07_h23: page 84762.9 restated 84473.0
+DIFF MISO 2025 growth_mw_h01: page 2453.6 restated 2404.9
+DIFF MISO 2025 growth_mw_h02: page 2412.3 restated 2368.0
+DIFF MISO 2025 growth_mw_h03: page 2324.7 restated 2283.3
+DIFF MISO 2025 growth_mw_h04: page 2091.4 restated 2050.4
+DIFF MISO 2025 growth_mw_h05: page 1633.7 restated 1592.3
+DIFF MISO 2025 growth_mw_h06: page 1089.0 restated 1047.0
+DIFF MISO 2025 growth_mw_h07: page 849.0 restated 801.1
+DIFF MISO 2025 growth_mw_h08: page 655.2 restated 597.8
+DIFF MISO 2025 growth_mw_h09: page 409.9 restated 341.6
+DIFF MISO 2025 growth_mw_h10: page 352.3 restated 272.3
+DIFF MISO 2025 growth_mw_h11: page 612.6 restated 524.0
+DIFF MISO 2025 growth_mw_h12: page 938.8 restated 841.2
+DIFF MISO 2025 growth_mw_h13: page 1178.4 restated 1074.7
+DIFF MISO 2025 growth_mw_h14: page 1441.2 restated 1334.9
+DIFF MISO 2025 growth_mw_h15: page 1757.0 restated 1651.0
+DIFF MISO 2025 growth_mw_h16: page 2061.2 restated 1958.0
+DIFF MISO 2025 growth_mw_h17: page 2206.5 restated 2108.1
+DIFF MISO 2025 growth_mw_h18: page 2162.9 restated 2069.2
+DIFF MISO 2025 growth_mw_h19: page 1974.3 restated 1886.1
+DIFF MISO 2025 growth_mw_h20: page 1709.3 restated 1627.0
+DIFF MISO 2025 growth_mw_h21: page 1758.9 restated 1682.6
+DIFF MISO 2025 growth_mw_h22: page 2179.1 restated 2121.2
+DIFF MISO 2025 growth_mw_h23: page 2442.2 restated 2376.7
+DIFF MISO 2025 growth_mw_m05: page -943.1 restated -941.3
+DIFF MISO 2025 growth_mw_m05_h23: page 235.0 restated 435.0
+DIFF MISO 2025 growth_mw_m07: page 4573.1 restated 4182.6
+DIFF MISO 2025 growth_mw_m07_h01: page 5284.8 restated 5018.8
+DIFF MISO 2025 growth_mw_m07_h02: page 5102.0 restated 4843.8
+DIFF MISO 2025 growth_mw_m07_h03: page 4975.3 restated 4716.9
+DIFF MISO 2025 growth_mw_m07_h04: page 4683.0 restated 4405.4
+DIFF MISO 2025 growth_mw_m07_h05: page 4346.4 restated 4033.1
+DIFF MISO 2025 growth_mw_m07_h06: page 3989.6 restated 3629.8
+DIFF MISO 2025 growth_mw_m07_h07: page 3640.3 restated 3245.7
+DIFF MISO 2025 growth_mw_m07_h08: page 3601.6 restated 3183.3
+DIFF MISO 2025 growth_mw_m07_h09: page 3523.4 restated 3081.3
+DIFF MISO 2025 growth_mw_m07_h10: page 3518.8 restated 3048.6
+DIFF MISO 2025 growth_mw_m07_h11: page 3680.3 restated 3204.5
+DIFF MISO 2025 growth_mw_m07_h12: page 3908.6 restated 3406.8
+DIFF MISO 2025 growth_mw_m07_h13: page 4011.1 restated 3498.6
+DIFF MISO 2025 growth_mw_m07_h14: page 4065.4 restated 3560.9
+DIFF MISO 2025 growth_mw_m07_h15: page 4164.9 restated 3681.9
+DIFF MISO 2025 growth_mw_m07_h16: page 4448.1 restated 3987.6
+DIFF MISO 2025 growth_mw_m07_h17: page 4957.0 restated 4518.1
+DIFF MISO 2025 growth_mw_m07_h18: page 5451.6 restated 5030.6
+DIFF MISO 2025 growth_mw_m07_h19: page 5808.5 restated 5395.3
+DIFF MISO 2025 growth_mw_m07_h20: page 5563.3 restated 5162.1
+DIFF MISO 2025 growth_mw_m07_h21: page 5028.6 restated 4666.6
+DIFF MISO 2025 growth_mw_m07_h22: page 5261.2 restated 4930.2
+DIFF MISO 2025 growth_mw_m07_h23: page 5311.9 restated 5022.0
+DIFF MISO 2025 growth_mw_m08: page 2195.8 restated 2156.9
+DIFF MISO 2025 growth_mw_m08_h23: page 2979.5 restated 2434.6
+DIFF MISO 2025 growth_mw_m11: page -1871.2 restated -1881.6
+DIFF MISO 2025 growth_mw_m11_h22: page -1159.5 restated -1343.0
+DIFF MISO 2025 growth_mw_m12: page 5389.6 restated 5408.8
+DIFF MISO 2025 growth_mw_m12_h22: page 5530.9 restated 6110.7
+DIFF MISO 2025 growth_pct_h01: page 3.78 restated 3.71
+DIFF MISO 2025 growth_pct_h02: page 3.78 restated 3.71
+DIFF MISO 2025 growth_pct_h03: page 3.66 restated 3.59
+DIFF MISO 2025 growth_pct_h04: page 3.25 restated 3.18
+DIFF MISO 2025 growth_pct_h05: page 2.44 restated 2.38
+DIFF MISO 2025 growth_pct_h06: page 1.54 restated 1.48
+DIFF MISO 2025 growth_pct_h07: page 1.16 restated 1.1
+DIFF MISO 2025 growth_pct_h08: page 0.88 restated 0.8
+DIFF MISO 2025 growth_pct_h09: page 0.54 restated 0.45
+DIFF MISO 2025 growth_pct_h10: page 0.46 restated 0.35
+DIFF MISO 2025 growth_pct_h11: page 0.78 restated 0.67
+DIFF MISO 2025 growth_pct_h12: page 1.19 restated 1.07
+DIFF MISO 2025 growth_pct_h13: page 1.48 restated 1.35
+DIFF MISO 2025 growth_pct_h14: page 1.81 restated 1.67
+DIFF MISO 2025 growth_pct_h15: page 2.2 restated 2.06
+DIFF MISO 2025 growth_pct_h16: page 2.55 restated 2.43
+DIFF MISO 2025 growth_pct_h17: page 2.71 restated 2.59
+DIFF MISO 2025 growth_pct_h18: page 2.66 restated 2.54
+DIFF MISO 2025 growth_pct_h19: page 2.46 restated 2.35
+DIFF MISO 2025 growth_pct_h20: page 2.16 restated 2.06
+DIFF MISO 2025 growth_pct_h21: page 2.3 restated 2.2
+DIFF MISO 2025 growth_pct_h22: page 3.0 restated 2.92
+DIFF MISO 2025 growth_pct_h23: page 3.53 restated 3.44
+DIFF MISO 2025 growth_pct_m05_h23: page 0.37 restated 0.68
+DIFF MISO 2025 growth_pct_m07: page 5.32 restated 4.87
+DIFF MISO 2025 growth_pct_m07_h01: page 7.36 restated 6.99
+DIFF MISO 2025 growth_pct_m07_h02: page 7.34 restated 6.97
+DIFF MISO 2025 growth_pct_m07_h03: page 7.29 restated 6.91
+DIFF MISO 2025 growth_pct_m07_h04: page 6.84 restated 6.44
+DIFF MISO 2025 growth_pct_m07_h05: page 6.22 restated 5.77
+DIFF MISO 2025 growth_pct_m07_h06: page 5.53 restated 5.03
+DIFF MISO 2025 growth_pct_m07_h07: page 4.8 restated 4.28
+DIFF MISO 2025 growth_pct_m07_h08: page 4.5 restated 3.98
+DIFF MISO 2025 growth_pct_m07_h09: page 4.16 restated 3.64
+DIFF MISO 2025 growth_pct_m07_h10: page 3.94 restated 3.42
+DIFF MISO 2025 growth_pct_m07_h11: page 3.95 restated 3.44
+DIFF MISO 2025 growth_pct_m07_h12: page 4.05 restated 3.53
+DIFF MISO 2025 growth_pct_m07_h13: page 4.05 restated 3.53
+DIFF MISO 2025 growth_pct_m07_h14: page 4.04 restated 3.54
+DIFF MISO 2025 growth_pct_m07_h15: page 4.1 restated 3.62
+DIFF MISO 2025 growth_pct_m07_h16: page 4.36 restated 3.91
+DIFF MISO 2025 growth_pct_m07_h17: page 4.89 restated 4.46
+DIFF MISO 2025 growth_pct_m07_h18: page 5.48 restated 5.06
+DIFF MISO 2025 growth_pct_m07_h19: page 6.04 restated 5.61
+DIFF MISO 2025 growth_pct_m07_h20: page 5.97 restated 5.54
+DIFF MISO 2025 growth_pct_m07_h21: page 5.59 restated 5.18
+DIFF MISO 2025 growth_pct_m07_h22: page 6.21 restated 5.82
+DIFF MISO 2025 growth_pct_m07_h23: page 6.69 restated 6.32
+DIFF MISO 2025 growth_pct_m08: page 2.68 restated 2.63
+DIFF MISO 2025 growth_pct_m08_h23: page 3.95 restated 3.2
+DIFF MISO 2025 growth_pct_m11: page -2.64 restated -2.66
+DIFF MISO 2025 growth_pct_m11_h22: page -1.69 restated -1.95
+DIFF MISO 2025 growth_pct_m12: page 7.47 restated 7.5
+DIFF MISO 2025 growth_pct_m12_h22: page 7.8 restated 8.69
+DIFF MISO 2025 hours_used: page 8760 restated 8737
+RESTATED ONLY MISO 2025 peak_demand_growth_since_2019_mw: 1506.0
+DIFF MISO 2025 peak_demand_growth_since_2019_pct: page 3.21 restated 1.29
+DIFF MISO 2025 peak_demand_mw: page 120343.0 restated 118106.0
+DIFF MISO 2025 ytd_avg_demand_growth_since_2019_pct: page 2.14 restated 1.93
+DIFF MISO 2025 ytd_avg_demand_mw: page 76270.8 restated 76960.4
+DIFF MISO 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF MISO 2025 ytd_hours_used: page 7295 restated 6528
+DIFF MISO 2025 ytd_peak_demand_growth_since_2019_pct: page 3.21 restated 1.29
+DIFF MISO 2025 ytd_peak_demand_mw: page 120343.0 restated 118106.0
+DIFF MISO 2025 at ytd_peak_demand_mw: page 2025-07-24T20:00:00Z restated 2025-07-29T21:00:00Z
+DIFF MISO 2025 at peak_demand_mw: page 2025-07-24T20:00:00Z restated 2025-07-29T21:00:00Z
+DIFF MISO 2026 avg_demand_mw_m01: page 81092.2 restated 81035.0
+DIFF MISO 2026 avg_demand_mw_m06: page 82074.4 restated 81935.6
+PAGE ONLY MISO 2026 avg_demand_mw_m10: 71220.0
+RESTATED ONLY MISO 2026 ytd_avg_demand_growth_since_2019_mw: 3595.2
+DIFF MISO 2026 ytd_avg_demand_growth_since_2019_pct: page 4.88 restated 4.76
+DIFF MISO 2026 ytd_avg_demand_mw: page 78318.2 restated 79097.8
+DIFF MISO 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF MISO 2026 ytd_hours_used: page 7295 restated 6537
+SCREEN MISO blank: page 24 restated 96
+SCREEN MISO not_positive: page 0 restated 0
+SCREEN MISO jumps: page 0 restated 0
+BAND MISO: yearly medians 69525.5 to 92985.0; hours whose range test the band leaves open: 0; last used hour 2026-10-03T04:00:00Z
+DIFF SWPP 2019 ytd_avg_demand_mw: page 31041.0 restated 31462.4
+DIFF SWPP 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF SWPP 2019 ytd_hours_used: page 7295 restated 6551
+DIFF SWPP 2020 ytd_avg_demand_growth_since_2019_pct: page -3.02 restated -3.34
+DIFF SWPP 2020 ytd_avg_demand_mw: page 30102.9 restated 30410.5
+DIFF SWPP 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF SWPP 2020 ytd_hours_used: page 7319 restated 6575
+DIFF SWPP 2021 ytd_avg_demand_growth_since_2019_pct: page -0.14 restated -0.13
+DIFF SWPP 2021 ytd_avg_demand_mw: page 30997.3 restated 31421.3
+DIFF SWPP 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF SWPP 2021 ytd_hours_used: page 7295 restated 6551
+DIFF SWPP 2022 ytd_avg_demand_growth_since_2019_pct: page 4.65 restated 5.05
+DIFF SWPP 2022 ytd_avg_demand_mw: page 32485.4 restated 33051.6
+DIFF SWPP 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF SWPP 2022 ytd_hours_used: page 7295 restated 6551
+DIFF SWPP 2023 avg_demand_mw: page 32032.6 restated 32032.3
+DIFF SWPP 2023 avg_demand_mw_h20: page 34278.3 restated 34278.0
+DIFF SWPP 2023 avg_demand_mw_m06: page 34323.5 restated 34323.4
+DIFF SWPP 2023 avg_demand_mw_m06_h20: page 38218.0 restated 38350.6
+DIFF SWPP 2023 hours_used: page 8760 restated 8759
+DIFF SWPP 2023 ytd_avg_demand_growth_since_2019_pct: page 4.34 restated 4.26
+DIFF SWPP 2023 ytd_avg_demand_mw: page 32389.1 restated 32801.2
+DIFF SWPP 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF SWPP 2023 ytd_hours_used: page 7295 restated 6550
+DIFF SWPP 2024 avg_demand_mw: page 33019.9 restated 33020.0
+DIFF SWPP 2024 avg_demand_mw_h00: page 30219.0 restated 30214.9
+DIFF SWPP 2024 avg_demand_mw_m07: page 39097.3 restated 39107.2
+DIFF SWPP 2024 avg_demand_mw_m07_h00: page 34837.5 restated 34942.0
+DIFF SWPP 2024 hours_used: page 8783 restated 8782
+DIFF SWPP 2024 ytd_avg_demand_growth_since_2019_pct: page 7.69 restated 7.32
+DIFF SWPP 2024 ytd_avg_demand_mw: page 33426.7 restated 33764.5
+DIFF SWPP 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF SWPP 2024 ytd_hours_used: page 7318 restated 6573
+RESTATED ONLY SWPP 2025 avg_demand_growth_since_2019_mw: 3426.9
+RESTATED ONLY SWPP 2025 peak_demand_growth_since_2019_mw: 3900.0
+DIFF SWPP 2025 ytd_avg_demand_growth_since_2019_pct: page 10.94 restated 10.42
+DIFF SWPP 2025 ytd_avg_demand_mw: page 34435.6 restated 34742.1
+DIFF SWPP 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF SWPP 2025 ytd_hours_used: page 7294 restated 6550
+DIFF SWPP 2026 avg_demand_mw_m01: page 35567.8 restated 35328.4
+PAGE ONLY SWPP 2026 avg_demand_mw_m10: 32135.3
+RESTATED ONLY SWPP 2026 ytd_avg_demand_growth_since_2019_mw: 5037.8
+DIFF SWPP 2026 ytd_avg_demand_growth_since_2019_pct: page 16.22 restated 16.01
+DIFF SWPP 2026 ytd_avg_demand_mw: page 36075.6 restated 36500.2
+DIFF SWPP 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF SWPP 2026 ytd_hours_used: page 7295 restated 6527
+SCREEN SWPP blank: page 24 restated 49
+SCREEN SWPP not_positive: page 0 restated 0
+SCREEN SWPP jumps: page 2 restated 3
+BAND SWPP: yearly medians 28680.0 to 38136.0; hours whose range test the band leaves open: 0; last used hour 2026-10-03T04:00:00Z
+DIFF NYIS 2019 ytd_avg_demand_mw: page 17898.1 restated 18144.7
+DIFF NYIS 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF NYIS 2019 ytd_hours_used: page 7294 restated 6550
+DIFF NYIS 2020 ytd_avg_demand_growth_since_2019_pct: page -3.85 restated -3.95
+DIFF NYIS 2020 ytd_avg_demand_mw: page 17209.6 restated 17428.7
+DIFF NYIS 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF NYIS 2020 ytd_hours_used: page 7319 restated 6575
+DIFF NYIS 2021 ytd_avg_demand_growth_since_2019_pct: page -2.19 restated -2.28
+DIFF NYIS 2021 ytd_avg_demand_mw: page 17507.0 restated 17731.6
+DIFF NYIS 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF NYIS 2021 ytd_hours_used: page 7295 restated 6551
+DIFF NYIS 2022 ytd_avg_demand_growth_since_2019_pct: page -1.82 restated -1.51
+DIFF NYIS 2022 ytd_avg_demand_mw: page 17571.9 restated 17870.2
+DIFF NYIS 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF NYIS 2022 ytd_hours_used: page 7295 restated 6551
+DIFF NYIS 2023 ytd_avg_demand_growth_since_2019_pct: page -5.84 restated -6.13
+DIFF NYIS 2023 ytd_avg_demand_mw: page 16853.4 restated 17032.6
+DIFF NYIS 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF NYIS 2023 ytd_hours_used: page 7295 restated 6551
+DIFF NYIS 2024 ytd_avg_demand_growth_since_2019_pct: page -3.64 restated -3.57
+DIFF NYIS 2024 ytd_avg_demand_mw: page 17247.4 restated 17497.8
+DIFF NYIS 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF NYIS 2024 ytd_hours_used: page 7316 restated 6574
+RESTATED ONLY NYIS 2025 avg_demand_growth_since_2019_mw: -485.3
+RESTATED ONLY NYIS 2025 peak_demand_growth_since_2019_mw: 1460.0
+DIFF NYIS 2025 ytd_avg_demand_growth_since_2019_pct: page -3.48 restated -3.34
+DIFF NYIS 2025 ytd_avg_demand_mw: page 17275.9 restated 17538.2
+DIFF NYIS 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF NYIS 2025 ytd_hours_used: page 7293 restated 6549
+PAGE ONLY NYIS 2026 avg_demand_mw_m10: 14731.6
+RESTATED ONLY NYIS 2026 ytd_avg_demand_growth_since_2019_mw: -612.0
+DIFF NYIS 2026 ytd_avg_demand_growth_since_2019_pct: page -3.64 restated -3.37
+DIFF NYIS 2026 ytd_avg_demand_mw: page 17246.8 restated 17532.7
+DIFF NYIS 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF NYIS 2026 ytd_hours_used: page 7289 restated 6545
+SCREEN NYIS blank: page 24 restated 24
+SCREEN NYIS not_positive: page 12 restated 12
+SCREEN NYIS jumps: page 0 restated 0
+BAND NYIS: yearly medians 16357.5 to 23475.0; hours whose range test the band leaves open: 0; last used hour 2026-10-03T03:00:00Z
+DIFF ISNE 2019 ytd_avg_demand_mw: page 13469.2 restated 13644.2
+DIFF ISNE 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF ISNE 2019 ytd_hours_used: page 7295 restated 6551
+DIFF ISNE 2020 ytd_avg_demand_growth_since_2019_pct: page -2.42 restated -2.58
+DIFF ISNE 2020 ytd_avg_demand_mw: page 13143.9 restated 13292.8
+DIFF ISNE 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF ISNE 2020 ytd_hours_used: page 7319 restated 6575
+DIFF ISNE 2021 ytd_avg_demand_growth_since_2019_pct: page -0.44 restated -0.39
+DIFF ISNE 2021 ytd_avg_demand_mw: page 13410.4 restated 13590.4
+DIFF ISNE 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF ISNE 2021 ytd_hours_used: page 7295 restated 6551
+DIFF ISNE 2022 ytd_avg_demand_growth_since_2019_pct: page -0.57 restated -0.23
+DIFF ISNE 2022 ytd_avg_demand_mw: page 13392.9 restated 13612.4
+DIFF ISNE 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF ISNE 2022 ytd_hours_used: page 7295 restated 6551
+DIFF ISNE 2023 ytd_avg_demand_growth_since_2019_pct: page -5.22 restated -5.28
+DIFF ISNE 2023 ytd_avg_demand_mw: page 12766.6 restated 12924.3
+DIFF ISNE 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF ISNE 2023 ytd_hours_used: page 7295 restated 6551
+DIFF ISNE 2024 ytd_avg_demand_growth_since_2019_pct: page -3.64 restated -3.48
+DIFF ISNE 2024 ytd_avg_demand_mw: page 12979.1 restated 13169.5
+DIFF ISNE 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF ISNE 2024 ytd_hours_used: page 7319 restated 6575
+RESTATED ONLY ISNE 2025 avg_demand_growth_since_2019_mw: -344.0
+DIFF ISNE 2025 avg_demand_growth_since_2019_pct: page -2.54 restated -2.55
+DIFF ISNE 2025 avg_demand_growth_yoy_pct: page 1.02 restated 1.01
+DIFF ISNE 2025 avg_demand_mw: page 13159.8 restated 13158.8
+DIFF ISNE 2025 avg_demand_mw_h08: page 13073.1 restated 13076.2
+DIFF ISNE 2025 avg_demand_mw_h17: page 15317.6 restated 15294.4
+DIFF ISNE 2025 avg_demand_mw_m02: page 14659.8 restated 14663.8
+DIFF ISNE 2025 avg_demand_mw_m02_h08: page 15137.4 restated 15255.9
+DIFF ISNE 2025 avg_demand_mw_m06: page 13383.8 restated 13369.3
+DIFF ISNE 2025 avg_demand_mw_m06_h17: page 15805.9 restated 15531.2
+DIFF ISNE 2025 growth_mw_h08: page -713.5 restated -710.4
+DIFF ISNE 2025 growth_mw_h17: page -220.2 restated -243.4
+DIFF ISNE 2025 growth_mw_m02: page 296.2 restated 300.2
+DIFF ISNE 2025 growth_mw_m02_h08: page -18.0 restated 100.5
+DIFF ISNE 2025 growth_mw_m06: page 543.6 restated 529.1
+DIFF ISNE 2025 growth_mw_m06_h17: page 932.8 restated 658.1
+DIFF ISNE 2025 growth_pct_h08: page -5.18 restated -5.15
+DIFF ISNE 2025 growth_pct_h17: page -1.42 restated -1.57
+DIFF ISNE 2025 growth_pct_m02: page 2.06 restated 2.09
+DIFF ISNE 2025 growth_pct_m02_h08: page -0.12 restated 0.66
+DIFF ISNE 2025 growth_pct_m06: page 4.23 restated 4.12
+DIFF ISNE 2025 growth_pct_m06_h17: page 6.27 restated 4.42
+DIFF ISNE 2025 hours_used: page 8760 restated 8758
+RESTATED ONLY ISNE 2025 peak_demand_growth_since_2019_mw: 1925.0
+DIFF ISNE 2025 ytd_avg_demand_growth_since_2019_pct: page -3.44 restated -3.38
+DIFF ISNE 2025 ytd_avg_demand_mw: page 13005.8 restated 13182.9
+DIFF ISNE 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF ISNE 2025 ytd_hours_used: page 7295 restated 6549
+DIFF ISNE 2026 avg_demand_mw_m09: page 12209.8 restated 12212.8
+PAGE ONLY ISNE 2026 avg_demand_mw_m10: 11391.9
+RESTATED ONLY ISNE 2026 ytd_avg_demand_growth_since_2019_mw: -117.9
+DIFF ISNE 2026 ytd_avg_demand_growth_since_2019_pct: page -1.2 restated -0.86
+DIFF ISNE 2026 ytd_avg_demand_mw: page 13308.1 restated 13526.3
+DIFF ISNE 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF ISNE 2026 ytd_hours_used: page 7295 restated 6550
+SCREEN ISNE blank: page 24 restated 27
+SCREEN ISNE not_positive: page 0 restated 0
+SCREEN ISNE jumps: page 0 restated 0
+BAND ISNE: yearly medians 12496.5 to 19561.0; hours whose range test the band leaves open: 6; last used hour 2026-10-03T03:00:00Z
+DIFF US48 2019 ytd_avg_demand_mw: page 463176.3 restated 468210.5
+DIFF US48 2019 ytd_hours_in_window: page 7295 restated 6551
+DIFF US48 2019 ytd_hours_used: page 7295 restated 6551
+DIFF US48 2020 ytd_avg_demand_growth_since_2019_pct: page -3.56 restated -3.7
+DIFF US48 2020 ytd_avg_demand_mw: page 446700.4 restated 450884.0
+DIFF US48 2020 ytd_hours_in_window: page 7319 restated 6575
+DIFF US48 2020 ytd_hours_used: page 7318 restated 6574
+DIFF US48 2021 ytd_avg_demand_growth_since_2019_pct: page 0.04 restated -0.0
+DIFF US48 2021 ytd_avg_demand_mw: page 463355.2 restated 468209.9
+DIFF US48 2021 ytd_hours_in_window: page 7295 restated 6551
+DIFF US48 2021 ytd_hours_used: page 7295 restated 6551
+DIFF US48 2022 ytd_avg_demand_growth_since_2019_pct: page 2.8 restated 3.27
+DIFF US48 2022 ytd_avg_demand_mw: page 476135.1 restated 483510.1
+DIFF US48 2022 ytd_hours_in_window: page 7295 restated 6551
+DIFF US48 2022 ytd_hours_used: page 7295 restated 6551
+DIFF US48 2023 ytd_avg_demand_growth_since_2019_pct: page 1.54 restated 1.53
+DIFF US48 2023 ytd_avg_demand_mw: page 470306.8 restated 475379.8
+DIFF US48 2023 ytd_hours_in_window: page 7295 restated 6551
+DIFF US48 2023 ytd_hours_used: page 7295 restated 6551
+DIFF US48 2024 ytd_avg_demand_growth_since_2019_pct: page 4.19 restated 4.15
+DIFF US48 2024 ytd_avg_demand_mw: page 482605.3 restated 487648.7
+DIFF US48 2024 ytd_hours_in_window: page 7319 restated 6575
+DIFF US48 2024 ytd_hours_used: page 7319 restated 6575
+RESTATED ONLY US48 2025 avg_demand_growth_since_2019_mw: 32220.3
+DIFF US48 2025 ytd_avg_demand_mw: page 494845.7 restated 500255.6
+DIFF US48 2025 ytd_hours_in_window: page 7295 restated 6551
+DIFF US48 2025 ytd_hours_used: page 7295 restated 6551
+DIFF US48 2026 avg_demand_mw_m08: page 592629.3 restated 592625.6
+DIFF US48 2026 avg_demand_mw_m09: page 541551.6 restated 541210.6
+PAGE ONLY US48 2026 avg_demand_mw_m10: 460894.6
+RESTATED ONLY US48 2026 ytd_avg_demand_growth_since_2019_mw: 47993.1
+DIFF US48 2026 ytd_avg_demand_growth_since_2019_pct: page 10.24 restated 10.25
+DIFF US48 2026 ytd_avg_demand_mw: page 510596.8 restated 516203.6
+DIFF US48 2026 ytd_hours_in_window: page 7295 restated 6551
+DIFF US48 2026 ytd_hours_used: page 7295 restated 6551
+SCREEN US48 blank: page 24 restated 24
+SCREEN US48 not_positive: page 0 restated 0
+SCREEN US48 jumps: page 1 restated 1
+BAND US48: yearly medians 431780.0 to 562686.0; hours whose range test the band leaves open: 0; last used hour 2026-10-03T03:00:00Z

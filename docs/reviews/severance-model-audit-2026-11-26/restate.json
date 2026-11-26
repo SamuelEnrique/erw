@@ -1,0 +1,1452 @@
+{
+ "price": {
+  "oil": {
+   "month": "2026-10",
+   "n": 22,
+   "mean": "102.0663636363636363636363636",
+   "value": "102.07"
+  },
+  "gas": {
+   "month": "2026-10",
+   "n": 22,
+   "mean": "2.987727272727272727272727273",
+   "value": "2.99"
+  }
+ },
+ "cases": {
+  "TX|oil|base": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "4695.22000",
+   "withTotal": "4695.22000",
+   "savings": "0.00000",
+   "lines": {
+    "tx_oil": "4695.22000"
+   },
+   "fees": {
+    "tx_oil_fee": "6.25000"
+   }
+  },
+  "TX|oil|opt=tx_eor": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "4695.22000",
+   "withTotal": "2347.61000",
+   "savings": "2347.61000",
+   "lines": {
+    "tx_oil": "4695.22000"
+   },
+   "fees": {
+    "tx_oil_fee": "6.25000"
+   }
+  },
+  "TX|oil|opt=tx_eor_co2": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "4695.22000",
+   "withTotal": "1173.805000",
+   "savings": "3521.415000",
+   "lines": {
+    "tx_oil": "4695.22000"
+   },
+   "fees": {
+    "tx_oil_fee": "6.25000"
+   }
+  },
+  "TX|oil|opt=tx_oil_inactive": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "4695.22000",
+   "withTotal": "0.00000",
+   "savings": "4695.22000",
+   "lines": {
+    "tx_oil": "4695.22000"
+   },
+   "fees": {
+    "tx_oil_fee": "6.25000"
+   }
+  },
+  "TX|oil|credit=tx_lp_oil": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "4695.22000",
+   "withTotal": "4695.22000",
+   "savings": "0.00000",
+   "lines": {
+    "tx_oil": "4695.22000"
+   },
+   "fees": {
+    "tx_oil_fee": "6.25000"
+   }
+  },
+  "TX|gas|base": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "224.25000",
+   "withTotal": "224.25000",
+   "savings": "0.00000",
+   "lines": {
+    "tx_gas": "224.25000"
+   },
+   "fees": {
+    "tx_gas_fee": "0.667000"
+   }
+  },
+  "TX|gas|opt=tx_hcg": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "224.25000",
+   "withTotal": "112.125000",
+   "savings": "112.125000",
+   "lines": {
+    "tx_gas": "224.25000"
+   },
+   "fees": {
+    "tx_gas_fee": "0.667000"
+   }
+  },
+  "TX|gas|opt=tx_lp_gas": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "224.25000",
+   "withTotal": "0.00000",
+   "savings": "224.25000",
+   "lines": {
+    "tx_gas": "224.25000"
+   },
+   "fees": {
+    "tx_gas_fee": "0.667000"
+   }
+  },
+  "TX|gas|opt=tx_flared": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "224.25000",
+   "withTotal": "0.00000",
+   "savings": "224.25000",
+   "lines": {
+    "tx_gas": "224.25000"
+   },
+   "fees": {
+    "tx_gas_fee": "0.667000"
+   }
+  },
+  "TX|gas|opt=tx_would_flare": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "224.25000",
+   "withTotal": "0.00000",
+   "savings": "224.25000",
+   "lines": {
+    "tx_gas": "224.25000"
+   },
+   "fees": {
+    "tx_gas_fee": "0.667000"
+   }
+  },
+  "TX|gas|opt=tx_restim": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "224.25000",
+   "withTotal": "0.00000",
+   "savings": "224.25000",
+   "lines": {
+    "tx_gas": "224.25000"
+   },
+   "fees": {
+    "tx_gas_fee": "0.667000"
+   }
+  },
+  "TX|gas|opt=tx_gas_inactive": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "224.25000",
+   "withTotal": "0.00000",
+   "savings": "224.25000",
+   "lines": {
+    "tx_gas": "224.25000"
+   },
+   "fees": {
+    "tx_gas_fee": "0.667000"
+   }
+  },
+  "TX|condensate|base": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "4695.22000",
+   "withTotal": "4695.22000",
+   "savings": "0.00000",
+   "lines": {
+    "tx_cond": "4695.22000"
+   },
+   "fees": {}
+  },
+  "LA|oil|base": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "12758.75000",
+   "withTotal": "12758.75000",
+   "savings": "0.00000",
+   "lines": {
+    "la_oil": "12758.75000"
+   },
+   "fees": {}
+  },
+  "LA|oil|variant=la_oil_pre2025": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "12758.75000",
+   "withTotal": "12758.75000",
+   "savings": "0.00000",
+   "lines": {
+    "la_oil": "12758.75000"
+   },
+   "fees": {}
+  },
+  "LA|oil|variant=la_oil_post2025": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "6634.55000",
+   "withTotal": "6634.55000",
+   "savings": "0.00000",
+   "lines": {
+    "la_oil": "6634.55000"
+   },
+   "fees": {}
+  },
+  "LA|oil|opt=la_incapable": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "12758.75000",
+   "withTotal": "6379.375000",
+   "savings": "6379.375000",
+   "lines": {
+    "la_oil": "12758.75000"
+   },
+   "fees": {}
+  },
+  "LA|oil|opt=la_stripper": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "12758.75000",
+   "withTotal": "3189.6875000",
+   "savings": "9569.0625000",
+   "lines": {
+    "la_oil": "12758.75000"
+   },
+   "fees": {}
+  },
+  "LA|oil|opt=la_oil_inactive": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "12758.75000",
+   "withTotal": "3189.6875000",
+   "savings": "9569.0625000",
+   "lines": {
+    "la_oil": "12758.75000"
+   },
+   "fees": {}
+  },
+  "LA|oil|opt=la_oil_orphan": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "12758.75000",
+   "withTotal": "1597.3955000",
+   "savings": "11161.3545000",
+   "lines": {
+    "la_oil": "12758.75000"
+   },
+   "fees": {}
+  },
+  "LA|oil|opt=la_oil_horizontal": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "12758.75000",
+   "withTotal": "2551.750000",
+   "savings": "10207.000000",
+   "lines": {
+    "la_oil": "12758.75000"
+   },
+   "fees": {}
+  },
+  "LA|oil|opt=la_oil_deep": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "12758.75000",
+   "withTotal": "0.00000",
+   "savings": "12758.75000",
+   "lines": {
+    "la_oil": "12758.75000"
+   },
+   "fees": {}
+  },
+  "LA|oil|opt=la_orphan_enh": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "12758.75000",
+   "withTotal": "0.00000",
+   "savings": "12758.75000",
+   "lines": {
+    "la_oil": "12758.75000"
+   },
+   "fees": {}
+  },
+  "LA|oil|transport2": {
+   "gross": "102070.00",
+   "taxable": "100070.00",
+   "baseTotal": "12508.75000",
+   "withTotal": "12508.75000",
+   "savings": "0.00000",
+   "lines": {
+    "la_oil": "12508.75000"
+   },
+   "fees": {}
+  },
+  "LA|gas|base": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "151.4000",
+   "withTotal": "151.4000",
+   "savings": "0.0000",
+   "lines": {
+    "la_gas": "151.4000"
+   },
+   "fees": {}
+  },
+  "LA|gas|opt=la_gas_lowpress": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "151.4000",
+   "withTotal": "30.0000",
+   "savings": "121.4000",
+   "lines": {
+    "la_gas": "151.4000"
+   },
+   "fees": {}
+  },
+  "LA|gas|opt=la_gas_incapable": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "151.4000",
+   "withTotal": "13.0000",
+   "savings": "138.4000",
+   "lines": {
+    "la_gas": "151.4000"
+   },
+   "fees": {}
+  },
+  "LA|gas|opt=la_gas_inactive": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "151.4000",
+   "withTotal": "37.85000",
+   "savings": "113.55000",
+   "lines": {
+    "la_gas": "151.4000"
+   },
+   "fees": {}
+  },
+  "LA|gas|opt=la_gas_orphan": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "151.4000",
+   "withTotal": "18.925000",
+   "savings": "132.475000",
+   "lines": {
+    "la_gas": "151.4000"
+   },
+   "fees": {}
+  },
+  "LA|gas|opt=la_gas_horizontal": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "151.4000",
+   "withTotal": "0.0000",
+   "savings": "151.4000",
+   "lines": {
+    "la_gas": "151.4000"
+   },
+   "fees": {}
+  },
+  "LA|gas|opt=la_gas_deep": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "151.4000",
+   "withTotal": "0.0000",
+   "savings": "151.4000",
+   "lines": {
+    "la_gas": "151.4000"
+   },
+   "fees": {}
+  },
+  "LA|condensate|base": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "12758.75000",
+   "withTotal": "12758.75000",
+   "savings": "0.00000",
+   "lines": {
+    "la_cond": "12758.75000"
+   },
+   "fees": {}
+  },
+  "LA|condensate|opt=la_cond_deep": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "12758.75000",
+   "withTotal": "0.00000",
+   "savings": "12758.75000",
+   "lines": {
+    "la_cond": "12758.75000"
+   },
+   "fees": {}
+  },
+  "LA|condensate|transport2": {
+   "gross": "102070.00",
+   "taxable": "100070.00",
+   "baseTotal": "12508.75000",
+   "withTotal": "12508.75000",
+   "savings": "0.00000",
+   "lines": {
+    "la_cond": "12508.75000"
+   },
+   "fees": {}
+  },
+  "NM|oil|base": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "7287.798000",
+   "withTotal": "7287.798000",
+   "savings": "0.000000",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "0.00"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=CHAVES, district 01, suffix 0510": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8351.67361000",
+   "withTotal": "8351.67361000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1063.87561000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=CHAVES, district 06, suffix 0520": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8470.48309000",
+   "withTotal": "8470.48309000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1182.68509000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=CHAVES, district 08, suffix 0530": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8574.39035000",
+   "withTotal": "8574.39035000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1286.59235000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=CHAVES, district 20, suffix 0540": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8335.44448000",
+   "withTotal": "8335.44448000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1047.64648000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=CHAVES, district 28, suffix 0550": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8013.00535000",
+   "withTotal": "8013.00535000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "725.20735000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=CHAVES, district 14, suffix 0560": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8268.18035000",
+   "withTotal": "8268.18035000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "980.38235000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=COLFAX, district 03, suffix 0710": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8509.98418000",
+   "withTotal": "8509.98418000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1222.18618000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=COLFAX, district 11, suffix 720": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8508.75934000",
+   "withTotal": "8508.75934000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1220.96134000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=EDDY, district 00C, suffix 1510": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8439.24967000",
+   "withTotal": "8439.24967000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1151.45167000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=EDDY CARLSBAD, district 00C, suffix 1511": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8756.99358000",
+   "withTotal": "8756.99358000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1469.19558000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=EDDY, district 10, suffix 1520": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8045.76982000",
+   "withTotal": "8045.76982000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "757.97182000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=EDDY, district 16, suffix 1530": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8260.5251000",
+   "withTotal": "8260.5251000",
+   "savings": "0E-7",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "972.7271000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=EDDY ARTESIA, district 16, suffix 1531": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8439.1476000",
+   "withTotal": "8439.1476000",
+   "savings": "0E-7",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1151.3496000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA, district 01, suffix 2510": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8955.82594000",
+   "withTotal": "8955.82594000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1668.02794000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA, district 08, suffix 2520": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8567.44959000",
+   "withTotal": "8567.44959000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1279.65159000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA EUNICE, district 08, suffix 2521": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8957.86734000",
+   "withTotal": "8957.86734000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1670.06934000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA, district 16, suffix 2530": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8764.85297000",
+   "withTotal": "8764.85297000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1477.05497000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA HOBBS, district 16, suffix 2531": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "9048.40343000",
+   "withTotal": "9048.40343000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1760.60543000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA, district 19, suffix 2540": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8414.44666000",
+   "withTotal": "8414.44666000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1126.64866000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA JAL, district 19, suffix 2541": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8804.86441000",
+   "withTotal": "8804.86441000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1517.06641000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=LEA, district 28, suffix 2550": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8728.0057000",
+   "withTotal": "8728.0057000",
+   "savings": "0E-7",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1440.2077000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=MCKINLEY, district 1, suffix 3110": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8870.49542000",
+   "withTotal": "8870.49542000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1582.69742000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=RIO ARRIBA, district 21, suffix 3910": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8552.95565000",
+   "withTotal": "8552.95565000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1265.15765000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=RIO ARRIBA, district 53, suffix 3920": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8552.95565000",
+   "withTotal": "8552.95565000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1265.15765000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=ROOSEVELT, district 02, suffix 4110": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8089.55785000",
+   "withTotal": "8089.55785000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "801.75985000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=ROOSEVELT, district 39, suffix 4120": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8369.22965000",
+   "withTotal": "8369.22965000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1081.43165000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=ROOSEVELT, district 05, suffix 4130": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8089.55785000",
+   "withTotal": "8089.55785000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "801.75985000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SANDOVAL, district 20, suffix 4310": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8647.26833000",
+   "withTotal": "8647.26833000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1359.47033000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SAN JUAN, district 02, suffix 4510": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8689.93359000",
+   "withTotal": "8689.93359000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1402.13559000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SAN JUAN AZTEC, district 02, suffix 4511": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "9040.74818000",
+   "withTotal": "9040.74818000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1752.95018000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SAN JUAN, district 05, suffix 4520": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8562.6523000",
+   "withTotal": "8562.6523000",
+   "savings": "0E-7",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1274.8543000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SAN JUAN FARMINGTON, district 05, suffix 4521": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8676.25621000",
+   "withTotal": "8676.25621000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1388.45821000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SAN JUAN, district 06, suffix 4530": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8676.25621000",
+   "withTotal": "8676.25621000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1388.45821000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SAN JUAN BLOOMFIELD, district 06, suffix 4531": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "9033.50121000",
+   "withTotal": "9033.50121000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1745.70321000"
+   },
+   "fees": {}
+  },
+  "NM|oil|district=SAN JUAN, district 22, suffix 4540": {
+   "gross": "102070.00",
+   "taxable": "102070.00",
+   "baseTotal": "8570.71583000",
+   "withTotal": "8570.71583000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev": "3827.625000",
+    "nm_school_oil": "3215.205000",
+    "nm_cons_oil": "244.968000",
+    "nm_adval": "1282.91783000"
+   },
+   "fees": {}
+  },
+  "NM|oil|jal_royalty12.5_truck1": {
+   "gross": "102070.00",
+   "taxable": "88311.250",
+   "baseTotal": "7617.993358750",
+   "withTotal": "7617.993358750",
+   "savings": "0E-9",
+   "lines": {
+    "nm_sev": "3311.6718750",
+    "nm_school_oil": "2781.8043750",
+    "nm_cons_oil": "211.9470000",
+    "nm_adval": "1312.570108750"
+   },
+   "fees": {}
+  },
+  "NM|gas|base": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "237.406000",
+   "withTotal": "237.406000",
+   "savings": "0.000000",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "0.00"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=CHAVES, district 01, suffix 0510": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "268.57077000",
+   "withTotal": "268.57077000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "31.16477000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=CHAVES, district 06, suffix 0520": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "272.05113000",
+   "withTotal": "272.05113000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "34.64513000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=CHAVES, district 08, suffix 0530": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "275.09495000",
+   "withTotal": "275.09495000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "37.68895000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=CHAVES, district 20, suffix 0540": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "268.09536000",
+   "withTotal": "268.09536000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "30.68936000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=CHAVES, district 28, suffix 0550": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "258.64995000",
+   "withTotal": "258.64995000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "21.24395000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=CHAVES, district 14, suffix 0560": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "266.12495000",
+   "withTotal": "266.12495000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "28.71895000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=COLFAX, district 03, suffix 0710": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "273.20826000",
+   "withTotal": "273.20826000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "35.80226000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=COLFAX, district 11, suffix 720": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "273.17238000",
+   "withTotal": "273.17238000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "35.76638000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=EDDY, district 00C, suffix 1510": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "271.13619000",
+   "withTotal": "271.13619000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "33.73019000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=EDDY CARLSBAD, district 00C, suffix 1511": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "280.44406000",
+   "withTotal": "280.44406000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "43.03806000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=EDDY, district 10, suffix 1520": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "259.60974000",
+   "withTotal": "259.60974000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "22.20374000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=EDDY, district 16, suffix 1530": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "265.9007000",
+   "withTotal": "265.9007000",
+   "savings": "0E-7",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "28.4947000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=EDDY ARTESIA, district 16, suffix 1531": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "271.1332000",
+   "withTotal": "271.1332000",
+   "savings": "0E-7",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "33.7272000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA, district 01, suffix 2510": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "286.26858000",
+   "withTotal": "286.26858000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "48.86258000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA, district 08, suffix 2520": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "274.89163000",
+   "withTotal": "274.89163000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "37.48563000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA EUNICE, district 08, suffix 2521": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "286.32838000",
+   "withTotal": "286.32838000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "48.92238000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA, district 16, suffix 2530": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "280.67429000",
+   "withTotal": "280.67429000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "43.26829000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA HOBBS, district 16, suffix 2531": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "288.98051000",
+   "withTotal": "288.98051000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "51.57451000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA, district 19, suffix 2540": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "270.40962000",
+   "withTotal": "270.40962000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "33.00362000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA JAL, district 19, suffix 2541": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "281.84637000",
+   "withTotal": "281.84637000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "44.44037000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=LEA, district 28, suffix 2550": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "279.5949000",
+   "withTotal": "279.5949000",
+   "savings": "0E-7",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "42.1889000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=MCKINLEY, district 1, suffix 3110": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "283.76894000",
+   "withTotal": "283.76894000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "46.36294000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=RIO ARRIBA, district 21, suffix 3910": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "274.46705000",
+   "withTotal": "274.46705000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "37.06105000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=RIO ARRIBA, district 53, suffix 3920": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "274.46705000",
+   "withTotal": "274.46705000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "37.06105000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=ROOSEVELT, district 02, suffix 4110": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "260.89245000",
+   "withTotal": "260.89245000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "23.48645000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=ROOSEVELT, district 39, suffix 4120": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "269.08505000",
+   "withTotal": "269.08505000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "31.67905000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=ROOSEVELT, district 05, suffix 4130": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "260.89245000",
+   "withTotal": "260.89245000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "23.48645000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SANDOVAL, district 20, suffix 4310": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "277.22981000",
+   "withTotal": "277.22981000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "39.82381000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SAN JUAN, district 02, suffix 4510": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "278.47963000",
+   "withTotal": "278.47963000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "41.07363000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SAN JUAN AZTEC, district 02, suffix 4511": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "288.75626000",
+   "withTotal": "288.75626000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "51.35026000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SAN JUAN, district 05, suffix 4520": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "274.7511000",
+   "withTotal": "274.7511000",
+   "savings": "0E-7",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "37.3451000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SAN JUAN FARMINGTON, district 05, suffix 4521": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "278.07897000",
+   "withTotal": "278.07897000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "40.67297000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SAN JUAN, district 06, suffix 4530": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "278.07897000",
+   "withTotal": "278.07897000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "40.67297000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SAN JUAN BLOOMFIELD, district 06, suffix 4531": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "288.54397000",
+   "withTotal": "288.54397000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "51.13797000"
+   },
+   "fees": {}
+  },
+  "NM|gas|district=SAN JUAN, district 22, suffix 4540": {
+   "gross": "2990.00",
+   "taxable": "2990.00",
+   "baseTotal": "274.98731000",
+   "withTotal": "274.98731000",
+   "savings": "0E-8",
+   "lines": {
+    "nm_sev_gas": "112.125000",
+    "nm_school_gas": "119.6000",
+    "nm_cons_gas": "5.681000",
+    "nm_adval_gas": "37.58131000"
+   },
+   "fees": {}
+  },
+  "NM|gas|jal_royalty12.5_truck1": {
+   "gross": "2990.00",
+   "taxable": "1616.250",
+   "baseTotal": "152.352573750",
+   "withTotal": "152.352573750",
+   "savings": "0E-9",
+   "lines": {
+    "nm_sev_gas": "60.6093750",
+    "nm_school_gas": "64.65000",
+    "nm_cons_gas": "3.0708750",
+    "nm_adval_gas": "24.022323750"
+   },
+   "fees": {}
+  }
+ }
+}

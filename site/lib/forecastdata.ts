@@ -13,7 +13,12 @@ import taxable from "@/data/forecast/jedi_taxable.json";
 import gas from "@/data/forecast/gas.json";
 import exemptions from "@/data/forecast/sales_exemptions.json";
 import severanceRules from "@/data/severance_rules.json";
+import announced from "@/data/forecast/datacenter_announced.json";
+import dcRules from "@/data/forecast/datacenter_rules.json";
+import wages from "@/data/forecast/datacenter_wages.json";
 import { type Params } from "./forecast";
+import type { DcParams } from "./dcimpact";
+import { dcProjects, type DcProject } from "./dcui";
 export { pack, unpack, PACK, groupPlanned, type Packed, type Planned } from "./forecast";
 
 export function params(): Params {
@@ -50,6 +55,28 @@ export function params(): Params {
     gas: { heat_rate_btu_per_kwh: gas.heat_rate_btu_per_kwh, capacity_factor: gas.capacity_factor, price_usd_per_mmbtu: gas.price_usd_per_mmbtu, btu_per_cf: gas.btu_per_cf },
     exemptions: { states: Object.fromEntries(Object.entries(exemptions.states).map(([s, v]) => [s, Object.fromEntries(Object.entries(v).map(([t, e]) => [t, { exempt_pct: e.exempt_pct, tip: (e as { tip?: string }).tip }]))])) } as Params["exemptions"],
   };
+}
+
+/** Chain 740: the datacenter's parameters (lib/dcimpact.ts), trimmed to what the model and the left box read: the
+ *  announced projects' defaults (not their quotes, which stay in the file and its warehouse request), the rules with
+ *  their hover words, CBP's wages; the sales, income and deflator tables are the plants' own. */
+export function dcParams(): DcParams {
+  const P = params();
+  const A = announced as unknown as { defaults: DcParams["announced"]["defaults"] };
+  const W = wages as unknown as { year: number; states: Record<string, { operations?: { per_job_usd: number }; construction?: { per_job_usd: number } }> };
+  return {
+    announced: { defaults: A.defaults, computed: (announced as unknown as { computed?: string }).computed },
+    rules: dcRules as unknown as DcParams["rules"],
+    wages: { year: W.year, states: Object.fromEntries(Object.entries(W.states).map(([s, v]) => [s, {
+      ...(v.operations ? { operations: { per_job_usd: v.operations.per_job_usd } } : {}),
+      ...(v.construction ? { construction: { per_job_usd: v.construction.per_job_usd } } : {}) }])) },
+    sales: P.sales, income: P.income as unknown as DcParams["income"], deflator: { index: P.deflator.index },
+  };
+}
+/** The announced datacenters the left box lists (datacenter_announced.json's rows) */
+export function dcProjectList(): DcProject[] {
+  const A = announced as unknown as { rows: Parameters<typeof dcProjects>[0] };
+  return dcProjects(A.rows, deflator.index as Record<string, number>);
 }
 
 /** The gas rules of the three states /severance holds (the only part of its rules the forecast reads) */

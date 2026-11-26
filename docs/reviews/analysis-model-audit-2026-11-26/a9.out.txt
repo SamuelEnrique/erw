@@ -1,0 +1,3 @@
+first year 2019: reg_multiple_coef -10.7562, reg_multiple_se 2.31573, reg_multiple_p 1.37818e-05, reg_multiple_r2 0.250054; regression months 92 (2019-01 to 2026-08); fleet first month 2019-01 87.3 MW
+first year 2017: reg_multiple_coef -10.7562, reg_multiple_se 2.31573, reg_multiple_p 1.37818e-05, reg_multiple_r2 0.250054; regression months 92 (2019-01 to 2026-08); fleet first month 2017-01 36.0 MW
+first year 2015: reg_multiple_coef -10.7562, reg_multiple_se 2.31573, reg_multiple_p 1.37818e-05, reg_multiple_r2 0.250054; regression months 92 (2019-01 to 2026-08); fleet first month 2015-01 36.0 MW

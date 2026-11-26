@@ -1,0 +1,4 @@
+2005 mw_active: exact 1288.4514966430664; the builder's round to 0.1 gives 1288.5; the page rounds that to 1289; the exact sum rounds to 1288
+2016 mw_entered: exact 213252.460717355917846; the builder's round to 0.1 gives 213252.5; the page rounds that to 213253; the exact sum rounds to 213252
+2022 mw_entered: exact 681952.4699208921961803; the builder's round to 0.1 gives 681952.5; the page rounds that to 681953; the exact sum rounds to 681952
+region-by-year MW sums (every technology): 889; with a fraction from .45 to .49, where rounding twice adds one MW: 22
