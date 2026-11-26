@@ -578,7 +578,7 @@ export const QUEUES_DECISIONS: Decision[] = [
     def: "Seven groups from the cleaned type, hybrids apart.",
     source: "The data file's cleaned type field (type_clean)." },
   { key: "mw", session: "session 95",
-    text: "A request's MW is the sum of its parts as filed (all parts of a hybrid together); a request with no positive capacity is counted and adds no MW.",
+    text: "A request's MW is the sum of its parts as filed (all parts of a hybrid together, where the file gives each part MW: in CAISO and for some of the West's requests; in every other grid a hybrid's second part has no MW in the file); a request with no positive capacity is counted and adds no MW.",
     def: "Every part's MW summed; none filled.",
     source: "The data file's capacity of each part." },
   { key: "status", session: "session 95",

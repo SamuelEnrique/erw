@@ -217,7 +217,7 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
 
               <ToolSection title="Active capacity, by the year it entered">
                 <ChartFrame title={`${name}: MW still active`} legend={[{ label: "Active at the end of " + file.last_year, color: COLOR.active }]}
-                  note={<>Each bar is the capacity of the requests that entered the queue that year and are still active. A request&apos;s capacity is what it asked to connect; for solar with storage, both parts. <N k="without_year">{whole(w.requests_without_year)}</N> of this view&apos;s <N k="total_requests">{whole(w.total_requests)}</N> requests have no year entered and are in no bar.</>}>
+                  note={<>Each bar is the capacity of the requests that entered the queue that year and are still active. A request&apos;s capacity is what it asked to connect, the sum of the parts the file gives MW for: a hybrid&apos;s second part has its own MW in CAISO and for some of the West&apos;s requests, and in no other grid, where a solar-with-storage request carries one figure. <N k="without_year">{whole(w.requests_without_year)}</N> of this view&apos;s <N k="total_requests">{whole(w.total_requests)}</N> requests have no year entered and are in no bar.</>}>
                   <ActiveChart view={view} name={name} />
                 </ChartFrame>
               </ToolSection>
@@ -242,7 +242,7 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
           )}
 
           <ToolSection title={`${grid.name}: storage, solar with storage, and the rest`} id="kinds"
-            note={<>Storage alone and solar with storage are kept apart from solar and from each other: a solar-with-storage request is one request at one point of interconnection, and its capacity is both parts together. Shares are of the requests that entered from {p0} to {p1}; &quot;not held&quot; means fewer than {file.min_share} such requests, or fewer than {file.min_median} dated ones.</>}>
+            note={<>Storage alone and solar with storage are kept apart from solar and from each other: a solar-with-storage request is one request at one point of interconnection, and its capacity is the sum of the parts the file gives MW for. Berkeley Lab&apos;s file gives the second part its own MW in CAISO and for some of the West&apos;s requests, and in no other grid, so CAISO&apos;s solar-with-storage MW count both parts where ERCOT&apos;s, PJM&apos;s and the rest count one figure: the grids&apos; MW of hybrids are not alike. Shares are of the requests that entered from {p0} to {p1}; &quot;not held&quot; means fewer than {file.min_share} such requests, or fewer than {file.min_median} dated ones.</>}>
             <ToolTable minWidth={760} caption={`${grid.name}: the queue by technology`}
               head={["Technology", "Active, MW", "Active requests", "Reached operation, percent", "Withdrawn, percent", "Median years to operation"]}
               rows={kinds.map(({ t, v }) => ({ key: t.slug, highlight: t.slug === tech.slug || (tech.slug === "all" && (t.slug === "battery" || t.slug === "solar_battery")), cells: v ? [
