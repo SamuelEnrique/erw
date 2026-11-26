@@ -31,7 +31,7 @@ Read and with no row: Mistral AI's note of July 2025, "Our contribution to a glo
 ## Limits
 
 - Twenty-three figures from nine publications: the first reading, not every figure ever printed. A later session adds rows by the same rule.
-- Several figures are one publisher's estimate of another's model (Patterson and others on GPT-3; Strubell and others on BERT and a neural architecture search); `x_basis` says so.
+- Several figures are one publisher's estimate of another's model (Patterson and others on GPT-3; Strubell and others on BERT and a neural architecture search). `x_basis` says "the paper's estimate" on each, and names no other maker; the subject names it for GPT-3 ("OpenAI's model") and for the search ("So et al."), and not for BERT, Google's model, which Strubell and others priced on 64 V100 GPUs (audit of 26 November 2026, finding 8).
 - Google's 2019 and 2020 fleet figures and Microsoft's of 2020 are what the papers cite from the companies' reports; Microsoft's own fact sheet of 2026 and Meta's data index were read on the companies' hosts. Google's environmental reports are served from `www.gstatic.com/gumdrop/`, which that host's robots file disallows, so they were not read; Meta's data index was read on its own site.
 
 ## Build
