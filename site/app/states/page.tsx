@@ -174,6 +174,11 @@ function Built({ f }: { f: StateFile }) {
   );
 }
 
+// session 10223 (the states audit, finding 1): EIA's state profile lists net interstate trade among the disposition, so
+// it is out less in: positive where a state sent more to other states than it took in. The files' note (built before
+// this) said the opposite; the page says it here until the files are rebuilt with the builder's corrected note.
+const TRADE_NOTE = "Net interstate trade is EIA's figure, a line of the disposition: positive where the state sent more electricity to other states than it took in from them, below zero where it took in more.";
+
 function Operates({ f }: { f: StateFile }) {
   const s = f.serving;
   if (!s.by_authority) return <Missing what="serving" reason={s.reason} />;
@@ -195,8 +200,8 @@ function Operates({ f }: { f: StateFile }) {
         <ToolTable
           caption={`${f.name}: where its electricity came from and went, the state profile`}
           head={["MWh a year", ...dy]}
-          rows={[["total_net_generation", "Net generation in the state"], ["full_service_providers", "Sold by full-service providers"], ["energy_only_providers", "Sold by energy-only providers"], ["net_interstate_trade", "Net interstate trade (in less out)"], ["estimated_losses", "Estimated losses"]].map(([k, label]) => ({ key: k, cells: [label,
-            ...dy.map((y) => <Fig key={y} v={atYear(d.years, d.values[k], y)} src={srcOf(d, d.note)} k={`dp-${f.state}-${k}-${y}`} fmt={whole} />)] }))}
+          rows={[["total_net_generation", "Net generation in the state"], ["full_service_providers", "Sold by full-service providers"], ["energy_only_providers", "Sold by energy-only providers"], ["net_interstate_trade", "Net interstate trade (out less in)"], ["estimated_losses", "Estimated losses"]].map(([k, label]) => ({ key: k, cells: [label,
+            ...dy.map((y) => <Fig key={y} v={atYear(d.years, d.values[k], y)} src={srcOf(d, TRADE_NOTE)} k={`dp-${f.state}-${k}-${y}`} fmt={whole} />)] }))}
         />
       ) : <Missing what="disposition" reason={d.reason} />}
     </>
