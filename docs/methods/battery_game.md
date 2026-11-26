@@ -77,7 +77,7 @@ The default spreads the low end of the capital cost over the energy Lazard assum
 
 | | Easy | Normal | Hard |
 |---|---|---|---|
-| Prices ahead | the whole day, drawn ahead of the now line as a dashed line (since v5; until then the next three hours as a band) | none | none |
+| Prices ahead | the whole day, drawn ahead of the now line as a dashed line (since v5; until then the next three hours as a band) | none, but the fleet call's notice names the day's dearest hour 15 minutes before it (session 10227, the play audit's finding 6: the modes line said "no forecast") | the same as Normal |
 | Backup reserve | not enforced | not enforced | enforced: discharge stops at it |
 | Degradation cost | not charged | not charged | charged per kWh discharged |
 | Settings | usable energy, power and efficiency apply | the same | all five apply |
