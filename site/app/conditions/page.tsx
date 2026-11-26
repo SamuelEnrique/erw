@@ -57,8 +57,12 @@ const GLANCE: { c: string; words: string; unit: string }[] = [
   { c: "demand_peak", words: "Highest peak demand", unit: "MW" },
   { c: "out_max", words: "Most megawatts out of service in an hour", unit: "MW" },
   { c: "cons_hours", words: "Most constraint-hours in a day", unit: "" },
-  { c: "adder_hours", words: "Most hours with the adder above zero in a day", unit: "" },
+  { c: "adder_hours", words: "Most hours with the adder above zero, however small, in a day", unit: "" },
 ];
+// Session 10219 (the conditions audit, finding 6): an hour counts when ERCOT's adder is above zero by any amount, and
+// most such hours were fractions of a cent (ercot_rtm_price_adders, rtorpa_mean, July 2018 to 4 December 2025: 5,799
+// of 10,492 hours above zero under 5 cents, the median 1.6 cents). Said on both adder charts.
+const ADDER_WORDS = "An hour counts when the adder's hourly mean is above zero, however small: of ERCOT's hours above zero from July 2018 to the adder's end, more than half were under 5 cents per MWh (the median 1.6 cents), and those draw as 0.0 on the hourly chart, whose values are kept to one decimal.";
 
 function Glance({ f, w, k }: { f: OperatorFile; w: { start: string; end: string }; k: string }) {
   const items = GLANCE.map((g) => {
@@ -141,7 +145,7 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
             </ChartFrame>
           ) : <NoneHeld title="Constraints binding" f={f} c="cons_hours" w={w} k={`${tag}-cons`} />) : <Blank s={st.constraints} name={STRIP_NAMES.constraints} k={`${tag}-cons`} />}
           {st.scarcity.status === "shown" ? (hAdder.length ? (
-            <ChartFrame title="Online reserve price adder, USD/MWh (hourly mean)" tip={<Hint words=" (source)" why={`${src("scarcity")}. ${st.scarcity.note ?? ""}`} />}>
+            <ChartFrame title="Online reserve price adder, USD/MWh (hourly mean)" tip={<Hint words=" (source)" why={`${src("scarcity")}. ${st.scarcity.note ?? ""}. ${ADDER_WORDS}`} />}>
               <LineChart lines={hAdder} unit="USD/MWh" ariaLabel={`${f.name} reserve price adder by hour`} />
             </ChartFrame>
           ) : <NoneHeld title="Online reserve price adder" f={f} c="adder_hours" w={w} k={`${tag}-scar`} />) : <Blank s={st.scarcity} name={STRIP_NAMES.scarcity} k={`${tag}-scar`} />}
@@ -163,7 +167,7 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
         </ChartFrame>
       ) : hourly.length ? null : <NoneHeld title="Constraints binding" f={f} c="cons_hours" w={w} k={`${tag}-cons-d`} />) : hourly.length ? null : <Blank s={st.constraints} name={STRIP_NAMES.constraints} k={`${tag}-cons-d`} />}
       {st.scarcity.status === "shown" ? (dAdder.length ? (
-        <ChartFrame title="Hours the adder was above zero, a day" tip={<Hint words=" (source)" why={`${src("scarcity")}. ${st.scarcity.note ?? ""}`} />}>
+        <ChartFrame title="Hours the adder was above zero, however small, a day" tip={<Hint words=" (source)" why={`${src("scarcity")}. ${st.scarcity.note ?? ""}. ${ADDER_WORDS}`} />}>
           <TimeChart series={dAdder} unit="hours" x="day" ariaLabel={`${f.name} scarcity hours by day`} />
         </ChartFrame>
       ) : hourly.length ? null : <NoneHeld title="Hours the adder was above zero" f={f} c="adder_hours" w={w} k={`${tag}-scar-d`} />) : hourly.length ? null : <Blank s={st.scarcity} name={STRIP_NAMES.scarcity} k={`${tag}-scar-d`} />}
