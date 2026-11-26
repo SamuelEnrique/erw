@@ -67,6 +67,17 @@ balancing authorities of the quarter and product chosen, most rows first, ties b
 its code trimmed and in capitals, and "not stated" for a row that files none (since session 7501: before, "PSCO" and
 "PSCo" were two entries, and "not stated" opened no row).
 
+**What an earlier quarter holds** (session 10226, `docs/reviews/contracts-model-audit-2026-11-26.md`, finding 1). Every
+quarter listed is read from the newest quarter's file, and a quarter's file holds the contracts in effect in that
+quarter: a contract that ended is filed in the quarter it ends and not after. So an earlier quarter lists only the
+contracts signed then and still in effect in the newest quarter. Of the 2,052 contracts of energy, capacity and tolling
+that 2025 Q3's own file holds as signed in 2025 Q3 (2,129 rows, 1,946 of them for a term under a year), 46 are in 2026
+Q2's file, which lists 273 rows for the quarter; of the 2,006 gone, 1,921 file a termination date before 1 April 2026.
+The other way, the newest quarter lacks the contracts its filers report a quarter late: 2026 Q1's own file holds 556
+contracts signed in it, and 2026 Q2's file 159 more (+28.6 percent; +3.2 percent for 2025 Q3, +5.9 percent for 2025
+Q4). The counts beside the quarters are not a series of signings, and the prices of an earlier quarter are those of its
+longer contracts. The lead and the hover on "Quarter signed" say so.
+
 **The sentence and the three headline cells**, for the rows of the quarter, product and authority chosen:
 
 - rows: their count;

@@ -10,17 +10,17 @@
 
 * the Python mirror beside it printed these lines on 19 October 2026:
 
-*   last twelve months, all streams, USD per kW: 81.40
+*   last twelve months, all streams, USD per kW: 80.40
 
 *   share from ancillary services, percent: 33
 
 *   annual debt payments, USD: 2,261,119
 
-*   debt coverage, last twelve months, times: 2.63
+*   debt coverage, last twelve months, times: 2.58
 
-*   scenario A, NPV at the hurdle rate, USD for 100 MW: -69,779,883
+*   scenario A, NPV at the hurdle rate, USD for 100 MW: -70,423,260
 
-*   scenario A, IRR, percent a year: -8.8
+*   scenario A, IRR, percent a year: -9.3
 
 *   scenario A, breakeven toll, USD per kW-month: 4.19
 
@@ -318,13 +318,13 @@ display "a bad month: " %tm month[s_rank] ", USD for 100 MW: " %15.0fc round(rev
 
 display "the page shows, for the months of the public file:"
 
-display "last twelve months, all streams, USD per kW: replication " %9.2f s_l12_total / 1000 ", the page 81.40, difference " %9.4f s_l12_total / 1000 - 81.40
+display "last twelve months, all streams, USD per kW: replication " %9.2f s_l12_total / 1000 ", the page 80.40, difference " %9.4f s_l12_total / 1000 - 80.40
 
 display "annual debt payments, USD: replication " %15.0fc s_debt_service ", the page 2,261,119, difference " %9.0f s_debt_service - 2261119
 
-display "scenario A, NPV at the hurdle rate, USD per kW: replication " %9.2f s_npv_kw ", the page -697.80, difference " %9.4f s_npv_kw - (-697.80)
+display "scenario A, NPV at the hurdle rate, USD per kW: replication " %9.2f s_npv_kw ", the page -704.23, difference " %9.4f s_npv_kw - (-704.23)
 
-display "scenario A, IRR, percent a year: replication " %9.1f s_irr ", the page -8.8, difference " %9.4f s_irr - (-8.8)
+display "scenario A, IRR, percent a year: replication " %9.1f s_irr ", the page -9.3, difference " %9.4f s_irr - (-9.3)
 
 display "months held of the 36: replication " s_n36 ", the page 36"
 

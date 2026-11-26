@@ -28,6 +28,15 @@ class TheModel(unittest.TestCase):
                            capture_output=True, text=True, timeout=180)
         self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-2000:])
 
+    def test_the_ui_node_tests_pass(self):
+        """Session 10821: window F's I4 (a figure not taken is said) and I5 (a project alone in the address sets its figures)."""
+        node = shutil.which("node")
+        if not node:
+            raise unittest.SkipTest("node is not on the path")
+        r = subprocess.run([node, "--no-warnings", "--import", "./scripts/tsx-register.mjs", "--test", "scripts/test-datacenter-ui.test.mjs"],
+                           cwd=SITE, capture_output=True, text=True, timeout=180)
+        self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-2000:])
+
     def test_the_model_imports_nothing(self):
         with open(os.path.join(SITE, "lib", "dcimpact.ts"), encoding="utf-8") as f:
             self.assertNotRegex(f.read(), r"(?m)^import ")
@@ -62,6 +71,45 @@ class TheRunFiles(unittest.TestCase):
             self.assertEqual(r.returncode, 0, r.stderr)
             self.assertNotIn("DIFFERS", r.stdout)
             self.assertGreaterEqual(r.stdout.count(" ok"), 18, r.stdout)
+
+    def test_downloaded_python_agrees_for_arkansas_and_georgia(self):
+        """Session 10813: the state's rate with construction covered (Arkansas) and an end year with a spending window (Georgia)."""
+        node = shutil.which("node")
+        if not node:
+            raise unittest.SkipTest("node is not on the path")
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            env = dict(os.environ, DC_FILES_PAIR="ar-ga")
+            r = subprocess.run([node, "--no-warnings", os.path.join(SITE, "scripts", "dc-files-check.mjs"), d], cwd=ROOT, capture_output=True, text=True, timeout=120, env=env)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            r = subprocess.run([sys.executable, os.path.join(d, "run.py")], capture_output=True, text=True, timeout=120)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertNotIn("DIFFERS", r.stdout)
+            # Arkansas: 4 equipment purchases of 1.364e9 and 40 percent of the 392e6 building, at the state's 6.5 percent
+            self.assertIn("A forgone: script 364832000.0", r.stdout)
+            # Georgia: the build's equipment only (through 2031), at 7.56 percent
+            self.assertIn("B forgone: script 103118400.0", r.stdout)
+
+    def test_downloaded_python_agrees_for_ohio_and_illinois_electricity(self):
+        """Session 10817: Ohio's elective self-assessing kWh schedule and Illinois' ten monthly blocks, 5,000,000 MWh a year for 20 years."""
+        node = shutil.which("node")
+        if not node:
+            raise unittest.SkipTest("node is not on the path")
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            env = dict(os.environ, DC_FILES_PAIR="oh-il")
+            r = subprocess.run([node, "--no-warnings", os.path.join(SITE, "scripts", "dc-files-check.mjs"), d], cwd=ROOT, capture_output=True, text=True, timeout=120, env=env)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            r = subprocess.run([sys.executable, os.path.join(d, "run.py")], capture_output=True, text=True, timeout=120)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertNotIn("DIFFERS", r.stdout)
+            self.assertIn("A elec: script 190580000.0", r.stdout)   # 9,529,000 a year
+            self.assertIn("B elec: script 203286212.7", r.stdout)   # 10,164,310.64 a year
+            # session 10821: the Stata download carries the electricity tax too (Stata is not on this machine: its lines are checked)
+            with open(os.path.join(d, "run.do"), encoding="utf-8") as f:
+                do = f.read()
+            self.assertIn("scalar elec_year = min(elec_year, max(0, min(kwh_year, 500000000) - 0) * 0.00257", do)
+            self.assertEqual(do.count('display "electricity tax over the operating years: "'), 2)
 
 
 class TheParameters(unittest.TestCase):

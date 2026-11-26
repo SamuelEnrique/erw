@@ -47,7 +47,7 @@ export default async function Impact({ searchParams }: { searchParams: Promise<R
         {!read.ok ? (
           <p className="border border-rule bg-paper px-3 py-2 text-sm" role="status">The table could not be read, so no number is shown: {read.reason}</p>
         ) : (
-          <Forecast P={P} P2={P2} dcList={dcList} jedi={pack(read.data)} start={withProjects(start, q, list.map((p) => p.id), dcList.map((p) => p.id))} rules={gasSeverance()} planned={list} />
+          <Forecast P={P} P2={P2} dcList={dcList} jedi={pack(read.data)} start={withProjects(start, q, list.map((p) => p.id), dcList.map((p) => p.id), dcList)} rules={gasSeverance()} planned={list} />
         )}
         <div className="mt-10">
           <TableDownloads tables={[TABLE]} />

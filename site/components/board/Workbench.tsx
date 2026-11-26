@@ -105,7 +105,7 @@ function Stat({ label, value, title }: { label: string; value: React.ReactNode; 
 const NOT = <span className="text-xs text-muted">not held yet</span>;
 
 export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: Bench; row: Row; set: (patch: Partial<Bench>) => void }) {
-  const over = bench.o ? file.rows.find((r) => r.id === bench.o && r.status === "ok") ?? null : null;
+  const over = bench.o ? file.rows.find((r) => r.id === bench.o && r.status === "ok" && !r.open) ?? null : null;
   const canHourly = !!row.hourly && (!over || !!over.hourly);
   const hourly = bench.r === "h" && canHourly;
   const sA = useFile<SeriesFile>(`/board/s/${row.id}.json`);
@@ -191,7 +191,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
     URL.revokeObjectURL(a.href);
   };
 
-  const groupsOf = file.groups.map((g) => ({ g, rows: file.rows.filter((r) => r.group === g.id && r.status === "ok" && r.id !== row.id) })).filter((x) => x.rows.length);
+  const groupsOf = file.groups.map((g) => ({ g, rows: file.rows.filter((r) => r.group === g.id && r.status === "ok" && !r.open && r.id !== row.id) })).filter((x) => x.rows.length);
   const n2 = (v: number | null | undefined, unit = "") => (v === null || v === undefined ? NOT : <>{fmt(v, unit)}</>);
   return (
     <div className="border border-accent bg-paper/40 p-3 text-sm" data-workbench={row.id}>
@@ -313,7 +313,8 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
                 <div className="grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-4">
                   {([["da_mean_usd", "Day-ahead, week"], ["da_onpeak_mean_usd", "On-peak DA, week"], ["da_offpeak_mean_usd", "Off-peak DA, week"], ["da_rt_spread_mean_usd", "RT minus DA, week"], ["implied_heat_rate", "Heat rate, week"]] as const).map(([k, label]) => {
                     const m = week.means[k];
-                    return <Stat key={k} label={label} title={m ? `the 7 days to ${dateWords(m.end)}; the change is on the 7 days before` : "A week's mean needs the measure on all 7 days."}
+                    // session 10206 (board audit, finding 3): the on-peak week is the latest 7 weekdays holding one, Monday to Friday in every grid
+                    return <Stat key={k} label={label} title={m ? (k === "da_onpeak_mean_usd" ? `the latest 7 weekdays with an on-peak mean (Monday to Friday in every grid, CAISO included), to ${dateWords(m.end)}; the change is on the 7 such weekdays before` : `the 7 days to ${dateWords(m.end)}; the change is on the 7 days before`) : "A week's mean needs the measure on all 7 days."}
                       value={m ? <>{m.v.toFixed(2)}{m.ch !== null ? <span className={`ml-1 text-xs ${m.ch > 0 ? "text-up" : m.ch < 0 ? "text-down" : "text-muted"}`}>{m.ch > 0 ? "+" : m.ch < 0 ? "−" : ""}{Math.abs(m.ch).toFixed(2)}</span> : null}</> : NOT} />;
                   })}
                   <Stat label="Largest RT minus DA" value={week.max_spread ? week.max_spread.v.toFixed(2) : NOT} title={week.max_spread ? `${dateWords(week.max_spread.start)} to ${dateWords(week.max_spread.end)}` : undefined} />

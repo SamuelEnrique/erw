@@ -248,7 +248,9 @@ export function EvGame({ states, us, built, start }: { states: StatePrices[]; us
           </table>
           <div className="mt-3 flex flex-wrap items-center gap-4 text-sm">
             <PrintButton label="Print for my parents" />
-            <span>Prices built into the game on {built.slice(0, 10)}. <Link href="/data/methods/ev_game">How it works</Link>.</span>
+            {/* session 11000: a link in a span is not read by the brand's rule for links in running text (app/tokens.css);
+                it was told from its sentence by its color alone (1.47 to 1, WCAG 1.4.1), so it carries its own underline */}
+            <span>Prices built into the game on {built.slice(0, 10)}. <Link href="/data/methods/ev_game" className="underline">How it works</Link>.</span>
           </div>
         </details>
       </section>

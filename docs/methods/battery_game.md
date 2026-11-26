@@ -57,6 +57,7 @@ Each setting has a default and a range. The player may change any of them, and t
 
 **The fixed rules:**
 - The battery starts half full.
+- **The starting charge is free, and what is left at the day's end counts for nothing (session 10227, the play audit's findings 2 and 3).** No price is charged for the starting half and none is paid for the charge held at the end, so the perfect battery sells all it can by the day's end (on Normal it ends every famous day empty) and selling the starting charge counts as earnings. Requiring the battery to end the day at least as full as it began would cut the perfect score of the calm spring day (2026-04-26) from USD 0.4406 to 0.3041 (31 percent), of Winter Storm Uri's day from 240.23 to 181.72 (24 percent), and of the newest ERCOT day held by the audit (2026-11-12) from 2.0882 to 1.7809 (15 percent). The page says the rule; the rule is unchanged.
 - Efficiency is split evenly: the square root of the round trip on the way in, and again on the way out.
 - Each 15-minute interval at full power moves kW x 0.25 kWh at the meter.
 
@@ -76,7 +77,7 @@ The default spreads the low end of the capital cost over the energy Lazard assum
 
 | | Easy | Normal | Hard |
 |---|---|---|---|
-| Prices ahead | the whole day, drawn ahead of the now line as a dashed line (since v5; until then the next three hours as a band) | none | none |
+| Prices ahead | the whole day, drawn ahead of the now line as a dashed line (since v5; until then the next three hours as a band) | none, but the fleet call's notice names the day's dearest hour 15 minutes before it (session 10227, the play audit's finding 6: the modes line said "no forecast") | the same as Normal |
 | Backup reserve | not enforced | not enforced | enforced: discharge stops at it |
 | Degradation cost | not charged | not charged | charged per kWh discharged |
 | Settings | usable energy, power and efficiency apply | the same | all five apply |
@@ -247,7 +248,7 @@ Kelsey's ask 4 (5 October 2026): at the end of every mode, one table of three ro
 
 ## What the game leaves out
 
-- **The customer's side:** retail electricity rates and time-of-use tariffs, transmission and distribution charges, and fixed fees. The battery buys and sells at the wholesale real-time price, which no household does.
+- **The customer's side:** retail electricity rates and time-of-use tariffs, transmission and distribution charges, and fixed fees. The battery buys and sells at the wholesale real-time price, which no household does. **What it is worth (session 10227, the play audit's finding 4; the page says it since):** bought at the state's average residential price of that month (EIA, `eia_retail_electricity_prices`; Texas USD 170.0 per MWh in April 2026) and sold at the real-time price, a battery free to run at any power, made to end the day at least half full, earns USD 0.00 on the calm spring day (2026-04-26), the solar-heavy day, the negative-price day and CAISO's cheapest midday, against the game's 0.44, 0.93, 0.79 and 0.83; on the newest ERCOT day the audit held (2026-11-12, at August's 159.1) 0.18 against 2.09. On the scarcity days it earns more (Uri's day 493.57, the heat day 63.00), because a fixed retail price is then far below the wholesale one, a case no retail plan would let a home sell into.
 - **Real program terms:** ERCOT's ADER pilot is the model, but the bonus, the notice, the hour and the reserve rule are the game's.
 - **Taxes and incentives:** the federal storage tax credit and any utility incentive.
 - **Physics the model skips:**
@@ -263,6 +264,7 @@ Unchanged from session 38:
 - **Public scores:** the level, an optional nickname, the score, the perfect-foresight score and the time.
 - **Session 50 adds** the preset and the difficulty.
 - **The research record of each play** (never shown): the actions, the score, and since session 50 the preset, the difficulty and the settings. No IP, no nickname.
+- **What could join the two (session 10227, the play audit's finding 1).** No column joins a research record to a public score, but a play that is also posted leaves two rows with the same level, the same score to four places, the same preset and times seconds apart (both tables stamp `ts` with the database's `now()`), so the two could be matched. The page says so, and it lists the preset and the settings among what is stored. It also says what the site's usage counts record on it (the page view and that a setting changed, under a code that changes daily, `docs/methods/usage_counts.md`) and that the hourly limit of game requests is counted under a daily code made from the address (`site/lib/guard.ts`), never the address.
 - **The schema:** migration `warehouse/supabase/migrations/014_game_v2.sql` (columns only); session 63's `018_game_v3_digest_sends.sql` lets a preset end `-v3`; session 66's `019_game_v4.sql` lets it end `-v4` with the add-ons before it; session 289's `033_game_v5.sql` lets it end `-v5`. The add-ons of a play are stored in its preset.
 
 ## The figures on the page and their keys

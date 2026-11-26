@@ -69,7 +69,7 @@ def hour_starts(d):
 def pairs(postings, forecast_col):
     """From the postings of one report, [(published UTC, frame)], each hour's actual (the newest posting that holds it)
     and its forecast from the newest posting published at least LEAD before the hour began. Returns two Series by UTC hour."""
-    actual, forecast = {}, {}
+    actual, forecast, issued = {}, {}, {}
     for published, d in sorted(postings, key=lambda p: p[0]):
         ts = hour_starts(d)
         gen = pd.to_numeric(d["SYSTEM_WIDE_GEN"], errors="coerce")
@@ -81,15 +81,23 @@ def pairs(postings, forecast_col):
                 actual[t] = float(g)                      # a later posting replaces an earlier one's value for the hour
             if pd.notna(f) and published <= t - LEAD:
                 forecast[t] = float(f)                    # the newest posting still a day ahead of the hour
-    return pd.Series(actual, dtype=float), pd.Series(forecast, dtype=float)
+                issued[t] = published
+    fs = pd.Series(forecast, dtype=float)
+    # session 10000 (chain 701, request 5 of docs/state/data_requests_predict.md): the forecast's own posting time (the
+    # listing's PublishDate), written in vintage, so a model can use the forecast without knowing anything early
+    fs.attrs["published"] = issued
+    return pd.Series(actual, dtype=float), fs
 
 
 def rows(what, actual, forecast, source, url, retrieved):
     out = []
+    published = forecast.attrs.get("published", {})
     for variable, s in ((f"{what}_actual_mw", actual), (f"{what}_forecast_24h_mw", forecast)):
         for t, v in s.items():
+            vin = published.get(t) if s is forecast else None
             out.append(dict(entity="ercot:SYSTEM", variable=variable, ts_utc=t.strftime("%Y-%m-%dT%H:%M:%SZ"), value=round(v, 4), unit="MW", freq="PT1H", geo="US-TX",
-                            market="", node="SYSTEM", source=source, source_url=url, retrieved_at=retrieved, vintage=""))
+                            market="", node="SYSTEM", source=source, source_url=url, retrieved_at=retrieved,
+                            vintage=vin.strftime("%Y-%m-%dT%H:%M:%SZ") if vin is not None else ""))
     return out
 
 
@@ -137,7 +145,9 @@ def main(argv=None):
         header = [
             "Energy Research Warehouse (ERW): ERCOT wind and solar, the forecast a day ahead and the actual output, hourly, system-wide (session 133)",
             "Shape: series (docs/datastandard.md v0). freq PT1H; ts_utc is the hour's start. wind_actual_mw and solar_actual_mw: ERCOT's SYSTEM_WIDE_GEN, from the newest posting that holds the hour. "
-            "wind_forecast_24h_mw and solar_forecast_24h_mw: ERCOT's short-term forecast (STWPF, STPPF) for the hour from the newest posting published at least 24 hours before the hour began. MW.",
+            "wind_forecast_24h_mw and solar_forecast_24h_mw: ERCOT's short-term forecast (STWPF, STPPF) for the hour from the newest posting published at least 24 hours before the hour began. MW. "
+            "vintage (from 26 November 2026, session 10000): that posting's publication time as ERCOT's listing gives it (PublishDate, UTC); "
+            "rows written before then leave it empty. Every posting is kept as issued under warehouse/raw.",
             "This run: " + "; ".join(notes) + ". ERCOT's public list keeps about a week of hourly postings; the table keeps every hour earlier runs wrote.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/ercot_wind_solar_forecast.py",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",

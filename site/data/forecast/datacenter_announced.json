@@ -9,10 +9,10 @@
    "name": "MW as stated",
    "unit": "MW (each row's own measure)",
    "how": "the MW each document states, whatever it measures (IT capacity, critical IT, critical grid capacity, power required)",
-   "n": 9,
+   "n": 10,
    "low": 3.0,
    "low_row": "al_aubix_auburn_2021",
-   "median": 1000.0,
+   "median": 1400.0,
    "high": 5000.0,
    "high_row": "la_meta_richland_2026",
    "rows": [
@@ -24,6 +24,7 @@
     "ky_paducah_2026",
     "wv_nscale_2026",
     "wv_starwood_mason_2026",
+    "in_amazon_northern_2025",
     "la_meta_richland_2026"
    ]
   },
@@ -31,15 +32,16 @@
    "name": "Investment per MW",
    "unit": "USD million (2025) per MW",
    "how": "investment over the MW the document states; rows whose investment includes power plants left out",
-   "n": 8,
+   "n": 9,
    "low": 3.0,
    "low_row": "va_cleanarc_caroline_2025",
-   "median": 11.0,
+   "median": 10.0,
    "high": 46.807678,
    "high_row": "al_aubix_auburn_2021",
    "rows": [
     "va_cleanarc_caroline_2025",
     "wv_starwood_mason_2026",
+    "in_amazon_northern_2025",
     "wv_penzance_berkeley_2026",
     "la_meta_richland_2026",
     "la_applied_digital_rapides_2026",
@@ -52,10 +54,10 @@
    "name": "Permanent jobs per MW",
    "unit": "jobs per MW",
    "how": "permanent or operational jobs over the MW stated; jobs of a kind not stated left out",
-   "n": 7,
+   "n": 8,
    "low": 0.05,
    "low_row": "va_cleanarc_caroline_2025",
-   "median": 0.306122,
+   "median": 0.314311,
    "high": 0.666667,
    "high_row": "la_applied_digital_rapides_2026",
    "rows": [
@@ -65,6 +67,7 @@
     "la_hut8_riverbend_2025",
     "wv_nscale_2026",
     "ky_paducah_2026",
+    "in_amazon_northern_2025",
     "la_applied_digital_rapides_2026"
    ]
   },
@@ -72,44 +75,58 @@
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 19,
+   "n": 33,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
    "median": 50.0,
    "high": 121.786859,
-   "high_row": "al_meta_montgomery_2024",
+   "high_row": "sc_meta_aiken_2024",
    "rows": [
     "la_hut8_riverbend_2025",
     "wv_nscale_2026",
+    "ms_avaio_rankin_2025",
+    "sc_cielo_cherokee_2025",
     "va_cleanarc_caroline_2025",
     "la_meta_richland_2026",
+    "ga_switch_douglas_2017",
+    "mo_metrobloks_clay_2026",
     "va_aws_2023",
     "in_meta_lebanon_2026",
     "wv_penzance_berkeley_2026",
+    "mo_amazon_montgomery_2026",
+    "ia_meta_davenport_2024",
     "la_amazon_caddo_bossier_2026",
     "la_meta_richland_2024",
     "nc_aws_richmond_2025",
+    "az_beale_pima_2025",
+    "ia_google_cedarrapids_2024",
     "la_applied_digital_rapides_2026",
     "pa_aws_2025",
     "ms_aws_madison_2026",
     "ms_aws_vicksburg_2025",
+    "nv_google_storey_2020",
+    "in_amazon_northern_2025",
     "in_aws_stjoseph_2024",
     "ms_aws_madison_2024",
+    "in_google_fortwayne_2024",
+    "sc_google_dorchester_2024",
     "ms_aws_clinton_2026",
     "al_facebook_huntsville_2018",
-    "al_meta_montgomery_2024"
+    "ga_facebook_stantonsprings_2018",
+    "al_meta_montgomery_2024",
+    "sc_meta_aiken_2024"
    ]
   },
   "construction_jobs_per_billion": {
    "name": "Construction jobs per billion dollars",
    "unit": "construction jobs (headcount as announced) per USD billion (2025)",
    "how": "construction jobs as announced over the investment; at peak or period not stated, as each row says",
-   "n": 9,
+   "n": 12,
    "low": 63.222543,
    "low_row": "wv_nscale_2026",
-   "median": 250.0,
-   "high": 1217.868592,
-   "high_row": "al_meta_montgomery_2024",
+   "median": 338.888889,
+   "high": 3406.856898,
+   "high_row": "nv_google_storey_2020",
    "rows": [
     "wv_nscale_2026",
     "la_hut8_riverbend_2025",
@@ -119,7 +136,10 @@
     "la_applied_digital_rapides_2026",
     "in_meta_lebanon_2026",
     "la_meta_richland_2024",
-    "al_meta_montgomery_2024"
+    "wi_microsoft_mountpleasant_2024",
+    "az_beale_pima_2025",
+    "al_meta_montgomery_2024",
+    "nv_google_storey_2020"
    ]
   }
  },
@@ -1049,6 +1069,697 @@
    "incentive": "",
    "years": "",
    "note": ""
+  },
+  {
+   "id": "in_amazon_northern_2025",
+   "name": "Amazon, data center campuses in Northern Indiana",
+   "company": "Amazon Web Services",
+   "state": "in",
+   "county": null,
+   "place": "Northern Indiana",
+   "doc": {
+    "title": "Amazon to invest $15 billion in Indiana for new data centers",
+    "publisher": "Amazon",
+    "date": "2025-11-24",
+    "url": "https://www.aboutamazon.com/news/company-news/amazon-15-billion-indiana-data-centers",
+    "request": 218
+   },
+   "mw": {
+    "value": 2400,
+    "measure": "data center capacity",
+    "says": "2.4 gigawatts",
+    "qualifier": "",
+    "quote": "The new project will add 2.4 gigawatts of data center capacity in the region."
+   },
+   "investment": {
+    "value": 15000000000,
+    "year": 2025,
+    "says": "$15 billion",
+    "qualifier": "",
+    "quote": "Amazon plans to invest an additional $15 billion in Northern Indiana to build data center campuses, creating 1,100 new high-skilled jobs"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 1100,
+    "measure": "new high-skilled jobs",
+    "says": "1,100 new high-skilled jobs",
+    "qualifier": "",
+    "quote": "Amazon plans to invest an additional $15 billion in Northern Indiana to build data center campuses, creating 1,100 new high-skilled jobs"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Separate from the St. Joseph County campus of 2024 (in_aws_stjoseph_2024). The release names the region, not the counties."
+  },
+  {
+   "id": "in_google_fortwayne_2024",
+   "name": "Google, Fort Wayne data center",
+   "company": "Google",
+   "state": "in",
+   "county": "Allen County",
+   "doc": {
+    "title": "Gov. Holcomb announces Google is building a $2B data center in Northeast Indiana",
+    "publisher": "State of Indiana",
+    "date": "2024-04-26",
+    "url": "https://events.in.gov/event/gov-holcomb-announces-google-is-building-a-2b-data-center-in-northeast-indiana",
+    "request": 222
+   },
+   "mw": null,
+   "investment": {
+    "value": 2000000000,
+    "year": 2024,
+    "says": "$2 billion",
+    "qualifier": "",
+    "quote": "to announce plans to establish a new $2 billion data center in Fort Wayne"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 200,
+    "measure": "new jobs",
+    "says": "200 new, competitive jobs",
+    "qualifier": "up to",
+    "quote": "The new facility is expected to create up to 200 new, competitive jobs"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Fort Wayne is in Allen County, named in the release."
+  },
+  {
+   "id": "ms_avaio_rankin_2025",
+   "name": "AVAIO Digital Taurus data center campus, Brandon",
+   "company": "AVAIO Digital",
+   "state": "ms",
+   "county": "Rankin County",
+   "doc": {
+    "title": "AVAIO Digital to locate $6 billion data center campus in Rankin County",
+    "publisher": "Office of Governor Tate Reeves",
+    "date": "2025-08-19",
+    "url": "https://governorreeves.ms.gov/avaio-digital-to-locate-6-billion-data-center-campus-in-rankin-county-campus-represents-the-third-largest-economic-development-project-in-state-history/",
+    "request": 219
+   },
+   "mw": null,
+   "investment": {
+    "value": 6000000000,
+    "year": 2025,
+    "says": "$6 billion",
+    "qualifier": "",
+    "quote": "has announced a new $6 billion data center campus at the East Metropolitan Center Business and Industrial Park in Brandon."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 60,
+    "measure": "direct, high-tech jobs",
+    "says": "60 direct, high-tech jobs",
+    "qualifier": "at least",
+    "quote": "These include at least 60 direct, high-tech jobs and hundreds of indirect jobs ranging from construction to other related industries."
+   },
+   "incentive": "The Mississippi Development Authority approved AVAIO Digital Taurus for the state's Data Center Enterprises tax exemption.",
+   "years": "AVAIO Digital expects construction of the data center complex to be complete during the first half of 2027.",
+   "note": ""
+  },
+  {
+   "id": "ms_compass_lauderdale_2025",
+   "name": "Compass Datacenters, Meridian campus",
+   "company": "Compass Datacenters",
+   "state": "ms",
+   "county": "Lauderdale County",
+   "doc": {
+    "title": "Compass Datacenters project generates $10 billion investment in Lauderdale County",
+    "publisher": "Office of Governor Tate Reeves",
+    "date": "2025-01-09",
+    "url": "https://governorreeves.ms.gov/compass-datacenters-project-generates-10-billion-investment-in-lauderdale-county/",
+    "request": 221
+   },
+   "mw": null,
+   "investment": {
+    "value": 10000000000,
+    "year": 2025,
+    "says": "$10 billion",
+    "qualifier": "",
+    "quote": "Upon occupancy, Compass Datacenters' campus will represent an investment of $10 billion, including future tenants' information technology equipment."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "MDA also will certify Compass Datacenters as a data center operator, which will provide the company with 10-year state income and franchise tax exemptions, as well as a sales and use tax exemption on construction materials, equipment and software and hardware replacements.",
+   "years": "",
+   "note": "Jobs stated as \"thousands of direct and indirect jobs\", not a figure."
+  },
+  {
+   "id": "sc_cielo_cherokee_2025",
+   "name": "Cielo Digital Infrastructure, Gaffney data center campus",
+   "company": "Cielo Digital Infrastructure",
+   "state": "sc",
+   "county": "Cherokee County",
+   "doc": {
+    "title": "Cielo Digital Infrastructure selects Cherokee County for first South Carolina development",
+    "publisher": "Office of the Governor of South Carolina",
+    "date": "2025-06",
+    "url": "https://governor.sc.gov/news/2025-06/cielo-digital-infrastructure-selects-cherokee-county-first-south-carolina-development",
+    "request": 226
+   },
+   "mw": null,
+   "investment": {
+    "value": 2100000000,
+    "year": 2025,
+    "says": "$2.1 billion",
+    "qualifier": "approximately",
+    "quote": "The company plans to invest approximately $2.1 billion in the data center. The investment is expected to create 30 new jobs."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 30,
+    "measure": "new jobs",
+    "says": "30 new jobs",
+    "qualifier": "",
+    "quote": "The company plans to invest approximately $2.1 billion in the data center. The investment is expected to create 30 new jobs."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Four facilities of about 400,000 square feet each with a substation. The release's month is in its address."
+  },
+  {
+   "id": "sc_google_dorchester_2024",
+   "name": "Google, two data center campuses in Dorchester County",
+   "company": "Google",
+   "state": "sc",
+   "county": "Dorchester County",
+   "doc": {
+    "title": "Google grows South Carolina footprint with new Dorchester County operations, expansion",
+    "publisher": "Office of the Governor of South Carolina",
+    "date": "2024-09",
+    "url": "https://governor.sc.gov/news/2024-09/google-grows-south-carolina-footprint-new-dorchester-county-operations-expansion",
+    "request": 228
+   },
+   "mw": null,
+   "investment": {
+    "value": 2000000000,
+    "year": 2024,
+    "says": "$2 billion",
+    "qualifier": "",
+    "quote": "represent a $2 billion investment and will create 200 new operational jobs."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 200,
+    "measure": "operational jobs",
+    "says": "200 new operational jobs",
+    "qualifier": "",
+    "quote": "represent a $2 billion investment and will create 200 new operational jobs."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "The Dorchester County part of a USD 3.3 billion announcement (USD 1.3 billion more in Berkeley County, no jobs stated for it). The release's month is in its address."
+  },
+  {
+   "id": "sc_meta_aiken_2024",
+   "name": "Meta, Aiken County data center (Sage Mill Industrial Park)",
+   "company": "Meta",
+   "state": "sc",
+   "county": "Aiken County",
+   "doc": {
+    "title": "Meta selects Aiken County for first South Carolina data center",
+    "publisher": "Office of the Governor of South Carolina",
+    "date": "2024-08",
+    "url": "https://governor.sc.gov/news/2024-08/meta-selects-aiken-county-first-south-carolina-data-center",
+    "request": 230
+   },
+   "mw": null,
+   "investment": {
+    "value": 800000000,
+    "year": 2024,
+    "says": "$800 million",
+    "qualifier": "",
+    "quote": "The $800 million investment will support 100 new operational jobs."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "operational jobs",
+    "says": "100 new operational jobs",
+    "qualifier": "",
+    "quote": "The $800 million investment will support 100 new operational jobs."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "A 715,000-square-foot data center. The release's month is in its address."
+  },
+  {
+   "id": "wi_microsoft_mountpleasant_2024",
+   "name": "Microsoft, Mount Pleasant datacenter campus",
+   "company": "Microsoft",
+   "state": "wi",
+   "county": "Racine County",
+   "doc": {
+    "title": "Gov. Evers, President Biden, Microsoft Officials to Celebrate Historic Investments in Mount Pleasant Datacenter, Global Co-Innovation Lab, and AI Solutions for Wisconsin Manufacturers",
+    "publisher": "Wisconsin Economic Development Corporation",
+    "date": "2024-05-08",
+    "url": "https://wedc.org/celebration-of-historic-investments-in-mount-pleasant-datacenter-global-co-innovation-lab-and-ai-solutions-for-wisconsin-manufacturers/",
+    "request": 235
+   },
+   "mw": null,
+   "investment": {
+    "value": 3300000000,
+    "year": 2024,
+    "says": "$3.3 billion",
+    "qualifier": "between now and the end of 2026",
+    "quote": "Microsoft officials confirmed that it will invest $3.3 billion between now and the end of 2026 in the Mount Pleasant datacenter."
+   },
+   "construction_jobs": {
+    "value": 2000,
+    "measure": "union construction jobs by the end of 2024",
+    "says": "2,000 union construction jobs",
+    "qualifier": "",
+    "quote": "The project is expected to bring 2,000 union construction jobs to the area by the end of this year"
+   },
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "between now and the end of 2026",
+   "note": "The page is dated May 8, 2024. Mount Pleasant is in Racine County (not named in the release). Permanent jobs are not stated as a figure. A second Mount Pleasant investment (USD 4 billion, September 2025) was not read from the state's own page."
+  },
+  {
+   "id": "ia_meta_davenport_2024",
+   "name": "Meta (Vemerald), Davenport data center",
+   "company": "Meta Platforms (Vemerald)",
+   "state": "ia",
+   "county": "Scott County",
+   "doc": {
+    "title": "IEDA Board approves assistance for established company, two startups in Iowa",
+    "publisher": "Iowa Economic Development Authority",
+    "date": "2024-05-17",
+    "url": "https://opportunityiowa.gov/press-release/2024-05-17/ieda-board-approves-assistance-established-company-two-startups-iowa",
+    "request": 236
+   },
+   "mw": null,
+   "investment": {
+    "value": 800000000,
+    "year": 2024,
+    "says": "$800 million",
+    "qualifier": "",
+    "quote": "The project represents a capital investment of $800 million and is expected to create 35 jobs incented at a qualifying wage of $28.76 per hour."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 35,
+    "measure": "jobs incented",
+    "says": "35 jobs",
+    "qualifier": "",
+    "quote": "The project represents a capital investment of $800 million and is expected to create 35 jobs incented at a qualifying wage of $28.76 per hour."
+   },
+   "incentive": "The board granted the City of Davenport the ability to utilize the High Quality Jobs (HQJ) program provision for value-added property tax exemption for this project.",
+   "years": "",
+   "note": "Davenport is in Scott County (not named in the release)."
+  },
+  {
+   "id": "ia_google_cedarrapids_2024",
+   "name": "Google, Cedar Rapids data center",
+   "company": "Google",
+   "state": "ia",
+   "county": "Linn County",
+   "doc": {
+    "title": "IEDA Board approves assistance for four established companies",
+    "publisher": "Iowa Economic Development Authority",
+    "date": "2024-03-22",
+    "url": "https://opportunityiowa.gov/press-release/2024-03-22/ieda-board-approves-assistance-four-established-companies",
+    "request": 237
+   },
+   "mw": null,
+   "investment": {
+    "value": 576000000,
+    "year": 2024,
+    "says": "$576 million",
+    "qualifier": "",
+    "quote": "The project represents a $576 million capital investment and is expected to create 31 jobs"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 31,
+    "measure": "jobs incented",
+    "says": "31 jobs",
+    "qualifier": "",
+    "quote": "The project represents a $576 million capital investment and is expected to create 31 jobs"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Cedar Rapids is in Linn County (not named in the release)."
+  },
+  {
+   "id": "az_beale_pima_2025",
+   "name": "Beale Infrastructure, Project Blue technology campus, Tucson",
+   "company": "Beale Infrastructure",
+   "state": "az",
+   "county": "Pima County",
+   "doc": {
+    "title": "Supervisors approve billion-dollar development deal with data center provider",
+    "publisher": "Pima County, Arizona",
+    "date": "2025-06-17",
+    "url": "https://content.govdelivery.com/accounts/AZPIMA/bulletins/3e58e79",
+    "request": 242
+   },
+   "mw": null,
+   "investment": {
+    "value": 3600000000,
+    "year": 2025,
+    "says": "$3.6 billion",
+    "qualifier": "estimated",
+    "quote": "Total investment estimated to be $3.6 billion consisting of $1.2 billion for construction and another $2.4 billion for equipment;"
+   },
+   "construction_jobs": {
+    "value": 3000,
+    "measure": "direct construction jobs during construction",
+    "says": "3,000 or more direct construction jobs",
+    "qualifier": "or more",
+    "quote": "3,000 or more direct construction jobs and more than 2,000 additional indirect jobs forecasted during construction;"
+   },
+   "permanent_jobs": {
+    "value": 180,
+    "measure": "permanent full-time jobs at build-out",
+    "says": "180 permanent full-time jobs",
+    "qualifier": "estimated",
+    "quote": "Estimated 180 permanent full-time jobs at build-out with average salaries of $64,000;"
+   },
+   "incentive": "",
+   "years": "It will have up to 2.25 million square feet of building space when completed, which is expected to be in 2029.",
+   "note": "The county's own bulletin. Its split, USD 1.2 billion construction and 2.4 billion equipment (two thirds), is beside JLARC's 68.2 percent equipment share (forecast.md 13.5)."
+  },
+  {
+   "id": "wi_microsoft_mountpleasant2_2025",
+   "name": "Microsoft, second Mount Pleasant datacenter",
+   "company": "Microsoft",
+   "state": "wi",
+   "county": "Racine County",
+   "doc": {
+    "title": "Press Release: Gov. Evers, Microsoft Officials Announce New $4 Billion Investment in Mount Pleasant Datacenter",
+    "publisher": "State of Wisconsin (Office of the Governor, by its bulletin service)",
+    "date": "2025-09-18",
+    "url": "https://content.govdelivery.com/accounts/WIGOV/bulletins/3f327b5",
+    "request": 262
+   },
+   "mw": null,
+   "investment": {
+    "value": 4000000000,
+    "year": 2025,
+    "says": "$4 billion",
+    "qualifier": "approximately, by the end of 2028",
+    "quote": "the company has also committed to building a second datacenter, which will be similar in size and scale and in the same area at a cost of approximately $4 billion by the end of 2028"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "by the end of 2028",
+   "note": "The first datacenter (wi_microsoft_mountpleasant_2024) employed \"more than 3,000 construction workers during peak operations\"; the second \"is expected to require a similar workforce\", not a figure. Mount Pleasant is in Racine County (not named in the release)."
+  },
+  {
+   "id": "mo_amazon_montgomery_2026",
+   "name": "Amazon, Montgomery City data center campus",
+   "company": "Amazon",
+   "state": "mo",
+   "county": "Montgomery County",
+   "doc": {
+    "title": "Amazon Investing $10 Billion in Montgomery County",
+    "publisher": "Missouri Department of Economic Development",
+    "date": "2026-06-15",
+    "url": "https://ded.mo.gov/press-room/amazon-investing-10-billion-montgomery-county",
+    "request": 268
+   },
+   "mw": null,
+   "investment": {
+    "value": 10000000000,
+    "year": 2026,
+    "says": "$10 billion",
+    "qualifier": "",
+    "quote": "Today, Amazon announced its plans to invest $10 billion to construct a new, state-of-the-art data center campus in Montgomery City."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 400,
+    "measure": "new direct jobs",
+    "says": "400 new direct jobs",
+    "qualifier": "",
+    "quote": "the project is expected to create 400 new direct jobs"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Construction jobs stated as \"thousands\", not a figure."
+  },
+  {
+   "id": "mo_metrobloks_clay_2026",
+   "name": "Metrobloks, Liberty data center campus",
+   "company": "Metrobloks",
+   "state": "mo",
+   "county": "Clay County",
+   "doc": {
+    "title": "Metrobloks announces plans for $1.4 billion data center in Liberty",
+    "publisher": "Missouri Department of Economic Development",
+    "date": "2026-03-24",
+    "url": "https://ded.mo.gov/press-room/metrobloks-announces-plans-14-billion-data-center-liberty",
+    "request": 269
+   },
+   "mw": null,
+   "investment": {
+    "value": 1400000000,
+    "year": 2026,
+    "says": "$1.4 billion",
+    "qualifier": "",
+    "quote": "announced today its plans to invest $1.4 billion in Liberty for a new, state-of-the-art, high-density data center campus."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 30,
+    "measure": "jobs",
+    "says": "30 jobs",
+    "qualifier": "at least",
+    "quote": "at least 30 jobs with an average annual wage of $95,649"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "568,800 square feet in three buildings; average annual wage USD 95,649 (not used: the tool's wage is CBP's)."
+  },
+  {
+   "id": "ga_facebook_stantonsprings_2018",
+   "name": "Facebook (Meta), Stanton Springs data center",
+   "company": "Facebook (Meta)",
+   "state": "ga",
+   "county": "Newton County",
+   "doc": {
+    "title": "Deal: Facebook to invest $750 million in Stanton Springs data center",
+    "publisher": "Office of the Governor of Georgia (Governor Nathan Deal)",
+    "date": "2018-03-07",
+    "url": "https://nathandeal.georgia.gov/press-releases/2018-03-07/deal-facebook-invest-750-million-stanton-springs-data-center",
+    "request": 275
+   },
+   "mw": null,
+   "investment": {
+    "value": 750000000,
+    "year": 2018,
+    "says": "$750 million",
+    "qualifier": "over the next five years",
+    "quote": "Facebook will create at least 100 full-time jobs and invest $750 million in a new data center in Stanton Springs over the next five years."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "full-time jobs",
+    "says": "100 full-time jobs",
+    "qualifier": "at least",
+    "quote": "Facebook will create at least 100 full-time jobs and invest $750 million in a new data center in Stanton Springs over the next five years."
+   },
+   "incentive": "",
+   "years": "over the next five years",
+   "note": "Stanton Springs is a park shared by Newton, Walton and Morgan counties; the release thanks Newton County as the company's new community. The 2018 dollars are deflated to 2025 by the GDP deflator."
+  },
+  {
+   "id": "nv_google_storey_2020",
+   "name": "Google, Tahoe Reno Industrial Center data center",
+   "company": "Google (Design, LLC)",
+   "state": "nv",
+   "county": "Storey County",
+   "doc": {
+    "title": "GOED approves Google and Lithium Nevada Corp. for abatements",
+    "publisher": "Nevada Governor's Office of Economic Development",
+    "date": "2020-09-16",
+    "url": "https://goed.nv.gov/newsroom/goed-approves-google-and-lithium-nevada-corp-for-abatements/",
+    "request": 277
+   },
+   "mw": null,
+   "investment": {
+    "value": 600000000,
+    "year": 2020,
+    "says": "$600 million",
+    "qualifier": "",
+    "quote": "Google plans to invest $600 million in a data center for Google products and services at the Tahoe Reno Industrial Center (TRIC) in Storey County that will employ at least 50 people at an average wage of $31.29 per hour."
+   },
+   "construction_jobs": {
+    "value": 2500,
+    "measure": "construction jobs (GOED's estimate)",
+    "says": "more than 2,500 construction jobs",
+    "qualifier": "more than",
+    "quote": "Additionally, GOED estimates this will create more than 2,500 construction jobs."
+   },
+   "permanent_jobs": {
+    "value": 50,
+    "measure": "people employed",
+    "says": "at least 50 people",
+    "qualifier": "at least",
+    "quote": "Google plans to invest $600 million in a data center for Google products and services at the Tahoe Reno Industrial Center (TRIC) in Storey County that will employ at least 50 people at an average wage of $31.29 per hour."
+   },
+   "incentive": "In return for the $25 million abatement that Google will receive",
+   "years": "",
+   "note": "Construction jobs are GOED's estimate, with no period; a count, not job-years."
+  },
+  {
+   "id": "nv_vantage_storey_2024",
+   "name": "Vantage Data Centers, Storey County data center",
+   "company": "Vantage Data Centers",
+   "state": "nv",
+   "county": "Storey County",
+   "doc": {
+    "title": "Data center plans to invest $254 million and generate $76 million in tax revenue",
+    "publisher": "Nevada Governor's Office of Economic Development",
+    "date": "2024-11-14",
+    "url": "https://goed.nv.gov/newsroom/data-center-plans-to-invest-254-million-and-generate-76-million-in-tax-revenue/",
+    "request": 279
+   },
+   "mw": null,
+   "investment": {
+    "value": 254000000,
+    "year": 2024,
+    "says": "$254 million",
+    "qualifier": "capital equipment",
+    "quote": "Additionally, the company will make a capital equipment investment of $254 million"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 10,
+    "measure": "jobs within five years",
+    "says": "approximately 10 jobs",
+    "qualifier": "approximately",
+    "quote": "The company is projected to create approximately 10 jobs within five years at an average hourly wage of $64."
+   },
+   "incentive": "The Nevada Governor's Office of Economic Development (GOED) has approved Vantage Data Centers to receive $19,274,000 in tax abatements.",
+   "years": "",
+   "investment_partial": "capital equipment only",
+   "note": "The investment is capital equipment only, as GOED states it: kept, but not used for a ratio or offered as the project's investment."
+  },
+  {
+   "id": "ok_google_pryor_2019",
+   "name": "Google, Pryor data center expansion (MidAmerica Industrial Park)",
+   "company": "Google",
+   "state": "ok",
+   "county": "Mayes County",
+   "doc": {
+    "title": "Google Investment in Pryor, Okla. Reaches $3 Billion",
+    "publisher": "Oklahoma Department of Commerce",
+    "date": "2019-06-24",
+    "url": "https://www.okcommerce.gov/google-investment-in-pryor-okla-reaches-3-billion/",
+    "request": 304
+   },
+   "mw": null,
+   "investment": {
+    "value": 600000000,
+    "year": 2019,
+    "says": "$600 million",
+    "qualifier": "expansion",
+    "quote": "to announce a $600 million expansion of its data center at the"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "",
+   "note": "An expansion: the release says the project \"is expected to increase staff at the facility to more than 500\", a total for the whole facility, not the expansion's new jobs, so no job figure is kept."
+  },
+  {
+   "id": "oh_aws_central_2023",
+   "name": "Amazon Web Services, data center campuses in Central Ohio",
+   "company": "Amazon Web Services",
+   "state": "oh",
+   "county": null,
+   "place": "Central Ohio",
+   "doc": {
+    "title": "Amazon Web Services to Invest $7.8 Billion in Ohio",
+    "publisher": "JobsOhio (with the Governor and the Department of Development)",
+    "date": "2023-06-26",
+    "url": "https://www.jobsohio.com/newsroom/news-press/amazon-web-services-plans-to-invest-an-estimated-7-8-billion-in-ohio",
+    "request": 349
+   },
+   "mw": null,
+   "investment": {
+    "value": 7800000000,
+    "year": 2023,
+    "says": "$7.8 billion",
+    "qualifier": "estimated, by the end of 2029",
+    "quote": "will invest an estimated $7.8 billion by the end of 2029 to expand its data center operations in Central Ohio"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "by the end of 2029",
+   "note": "Jobs stated as \"hundreds of new jobs\", not a figure; the sites were not chosen when announced (\"final site selections will be decided at a later date\")."
+  },
+  {
+   "id": "ut_creekstone_millard_2026",
+   "name": "Creekstone Energy, Creekstone Gigasite (power and AI data center campus), near Delta",
+   "company": "Creekstone Energy",
+   "state": "ut",
+   "county": "Millard County",
+   "doc": {
+    "title": "Creekstone Energy, LLC Commits $17 Billion to Millard County Data Center Project",
+    "publisher": "Utah Governor's Office of Economic Opportunity",
+    "date": "2026-04-09",
+    "url": "https://business.utah.gov/tax-credits/creekstone-energy-llc-commits-17-billion-to-millard-county-data-center-project/",
+    "request": 357
+   },
+   "mw": null,
+   "investment": {
+    "value": 17082408000,
+    "year": 2026,
+    "says": "$17,082,408,000",
+    "qualifier": "during the next 20 years",
+    "quote": "Creekstone Energy plans to add 106 new, high-paying jobs and invest $17,082,408,000 in Utah during the next 20 years."
+   },
+   "investment_includes_generation": true,
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 106,
+    "measure": "new, high-paying jobs",
+    "says": "106 new, high-paying jobs",
+    "qualifier": "",
+    "quote": "Creekstone Energy plans to add 106 new, high-paying jobs and invest $17,082,408,000 in Utah during the next 20 years."
+   },
+   "incentive": "a post-performance tax reduction for its expansion in Millard County. The corporate incentive is part of the state's Rural Economic Development Tax Increment Financing (REDTIF) program.",
+   "years": "during the next 20 years",
+   "note": "The campus \"will feature an integrated on-site natural gas power generation system, utility-scale solar energy, and purpose-built data processing facilities\": the investment includes generation, so it enters no ratio and is not offered as the datacenter's investment."
+  },
+  {
+   "id": "ga_switch_douglas_2017",
+   "name": "Switch, The Keep (Switch PRIME data center campus)",
+   "company": "Switch",
+   "state": "ga",
+   "county": "Douglas County",
+   "doc": {
+    "title": "Deal: Global technology company to invest $2.5 billion in Douglas County",
+    "publisher": "Office of the Governor of Georgia (Governor Nathan Deal)",
+    "date": "2017-05-25",
+    "url": "https://nathandeal.georgia.gov/press-releases/2017-05-25/deal-global-technology-company-invest-25-billion-douglas-county/",
+    "request": 358
+   },
+   "mw": null,
+   "investment": {
+    "value": 2500000000,
+    "year": 2017,
+    "says": "$2.5 billion",
+    "qualifier": "with its clients",
+    "quote": "will create 65 jobs, and along with its clients, invest $2.5 billion in a Switch PRIME data center in Douglas County."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 65,
+    "measure": "jobs",
+    "says": "65 jobs",
+    "qualifier": "",
+    "quote": "will create 65 jobs, and along with its clients, invest $2.5 billion in a Switch PRIME data center in Douglas County."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "The investment includes the clients' (tenants') equipment, as the release says. 2017 dollars are deflated to 2025 by the GDP deflator."
   }
  ]
 }

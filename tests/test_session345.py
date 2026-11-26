@@ -80,12 +80,13 @@ class TheTable(unittest.TestCase):
         self.d = pd.read_csv(OUT, comment="#", dtype={"x_state": str}, keep_default_na=False)
 
     def test_four_technologies_and_the_rows_by_rule(self):
-        self.assertEqual(sorted(self.d.x_technology.unique()), ["geothermal", "land_based_wind", "natural_gas", "utility_pv"])
+        # session 10000 (chain 701, window C's data request 8): coal and the CSP trough added, each at its own saved project
+        self.assertEqual(sorted(self.d.x_technology.unique()), ["biopower", "coal", "csp_trough", "geothermal", "land_based_wind", "natural_gas", "utility_pv"])
         n = self.d.groupby("x_technology").x_location.nunique().to_dict()
-        self.assertEqual(n, {"geothermal": 52, "land_based_wind": 52, "natural_gas": 50, "utility_pv": 52})
+        self.assertEqual(n, {"biopower": 52, "coal": 52, "csp_trough": 52, "geothermal": 52, "land_based_wind": 52, "natural_gas": 50, "utility_pv": 52})
         gas = set(self.d[self.d.x_technology == "natural_gas"].x_state)
         self.assertFalse({"DC", "HI"} & gas, "JEDI's own answer there is #DIV/0!: no row")
-        self.assertEqual(len(self.d), 206 * 27, "24 figures, the project's MW and two local shares a location")
+        self.assertEqual(len(self.d), 362 * 27, "24 figures, the project's MW and two local shares a location")
 
     def test_the_total_is_the_sum_of_its_three_lines(self):
         k = ["x_technology", "x_location", "x_phase", "variable"]
@@ -103,7 +104,8 @@ class TheTable(unittest.TestCase):
     def test_the_project_and_its_local_shares_are_rows(self):
         mw = self.d[self.d.variable == "project_mw"].groupby("x_technology").value.unique()
         self.assertEqual({k: list(v) for k, v in mw.items()}, {"geothermal": [12.226196], "land_based_wind": [300.0],
-                                                              "natural_gas": [500.0], "utility_pv": [100.0]})
+                                                              "natural_gas": [500.0], "utility_pv": [100.0],
+                                                              "coal": [600.0], "csp_trough": [100.0], "biopower": [50.0]})
         ls = self.d[self.d.variable == "local_share"]
         self.assertEqual(set(ls.x_phase), {"construction", "operations"})
         self.assertTrue((ls.value == ls.x_local_share.astype(float)).all())

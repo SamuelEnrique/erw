@@ -21,7 +21,20 @@ export type DcField = {
   name: string; input: keyof DcInputs; label: string; unit: string; min: number; max: number; whole: boolean; group: DcGroup;
   nullable?: boolean; options?: { value: number; label: string }[];
   source: (state: string, P: DcParams) => string;
+  /** session 10821 (window F's I1): the documents the default comes from, opened from its hover */
+  links?: (state: string, P: DcParams) => DcLink[];
 };
+export type DcLink = { href: string; text: string };
+/** a cited source of the rules file as a link (its title and address) */
+const cite = (P: DcParams, key: string | undefined): DcLink[] => {
+  const s = key ? (P.rules as unknown as { sources?: Record<string, { title: string; url: string }> }).sources?.[key] : undefined;
+  return s ? [{ href: s.url, text: s.title }] : [];
+};
+// the two tables' own addresses, as their files hold them (datacenter_wages.json and sales_tax.json, source_url)
+const CBP: DcLink = { href: "https://www2.census.gov/programs-surveys/cbp/datasets/2023/cbp23st.zip", text: "Census County Business Patterns 2023, state file" };
+const TF: DcLink = { href: "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/", text: "Tax Foundation, State and Local Sales Tax Rates, Midyear 2026" };
+const ruleCite = (P: DcParams, s: string, part: "sales_exemption" | "property" | "electricity") =>
+  cite(P, (P.rules.states[s]?.[part] as { cite?: string } | undefined)?.cite);
 const n = (v: number, d = 0) => v.toLocaleString("en-US", { maximumFractionDigits: d });
 const range = (P: DcParams, k: keyof DcParams["announced"]["defaults"], d = 3) => {
   const s = P.announced.defaults[k];
@@ -62,9 +75,9 @@ export const DC_FIELDS: DcField[] = [
   { name: "dcex", input: "dcex", label: "The state's datacenter exemption", unit: "", min: 0, max: 1, whole: true, group: "taxes",
     options: [{ value: 1, label: "Applied where the project qualifies" }, { value: 0, label: "Not applied" }],
     source: (s, P) => P.rules.states[s]?.sales_exemption?.tip ?? "No datacenter sales tax exemption of this state has been read: the sales tax is before exemptions." },
-  { name: "brate", input: "brate", label: "Property tax on the building", unit: "% of assessed value", min: 0, max: 20, whole: false, group: "taxes", nullable: true,
+  { name: "brate", input: "brate", label: "Property tax on the building", unit: "% of assessed value", min: 0, max: 60, whole: false, group: "taxes", nullable: true,
     source: (s, P) => P.rules.states[s]?.property?.tip ?? "No rule of this state for a datacenter's property has been read: a rate typed here is the reader's own, on the building's cost." },
-  { name: "erate", input: "erate", label: "Property tax on the equipment", unit: "% of assessed value", min: 0, max: 20, whole: false, group: "taxes", nullable: true,
+  { name: "erate", input: "erate", label: "Property tax on the equipment", unit: "% of assessed value", min: 0, max: 60, whole: false, group: "taxes", nullable: true,
     source: (s, P) => P.rules.states[s]?.property?.tip ?? "No rule of this state for a datacenter's property has been read: a rate typed here is the reader's own, on the equipment's cost." },
   { name: "eqv1", input: "eqv1", label: "Equipment's taxable value, first year", unit: "% of its cost", min: 0, max: 100, whole: false, group: "taxes",
     source: () => "Default 100: the equipment held at its cost, an upper bound (no state's schedule for datacenter equipment is read). A county's own schedule is typed here and below: Loudoun County's for computer equipment in a data center from 2026 is 60, 45, 30, 15 and 10 percent of original cost in its first five years (type 60, 15 and 10). The age restarts when the equipment is bought again." },
@@ -79,10 +92,25 @@ export const DC_FIELDS: DcField[] = [
   { name: "abateyears", input: "abateyears", label: "Abated for", unit: "operating years", min: 1, max: 60, whole: true, group: "taxes", nullable: true,
     source: () => "The agreement's years, from the first operating year. Not given: every year." },
   { name: "mwh", input: "mwh", label: "Electricity bought", unit: "MWh a year", min: 0, max: 200000000, whole: false, group: "taxes", nullable: true,
-    source: (s, P) => `${P.rules.states[s]?.electricity?.tip ?? "No statute of this state on a datacenter's electricity has been read."} No public document read gives a datacenter's load: not given until the reader types it (the MW times 8,760 times the share of the year at full load).` },
+    source: (s, P) => `${P.rules.states[s]?.electricity?.tip ?? "No tax per kWh of this state on a datacenter's electricity has been read (Virginia, Illinois and Ohio are)."} No public document read gives a datacenter's load: not given until the reader types it (the MW times 8,760 times the share of the year at full load).` },
   { name: "drate", input: "rate", label: "Discount rate, real", unit: "%", min: 0, max: 20, whole: false, group: "value",
     source: () => "OMB Circular A-94's base case for benefit-cost analysis, 7 percent real. Its Appendix C gives 2.0 percent for 30-year Treasury borrowing (2026), the rate for cost-effectiveness analysis." },
 ];
+// session 10821 (window F's I1): each default's documents, opened from its hover. The announced projects' documents open
+// from the list of projects; the discount rate links its Appendix C.
+const DC_LINKS: Record<string, (s: string, P: DcParams) => DcLink[]> = {
+  dbuild: (_s, P) => cite(P, (P.rules.build as { cite?: string }).cite),
+  bld: (_s, P) => cite(P, (P.rules.split as { cite?: string }).cite), eq: (_s, P) => cite(P, (P.rules.split as { cite?: string }).cite),
+  land: (_s, P) => cite(P, (P.rules.split as { cite?: string }).cite),
+  refresh: (_s, P) => cite(P, (P.rules.refresh as { cite?: string }).cite),
+  opwage: () => [CBP], conswage: () => [CBP], dsales: () => [TF],
+  dcex: (s, P) => ruleCite(P, s, "sales_exemption"),
+  brate: (s, P) => ruleCite(P, s, "property"), erate: (s, P) => ruleCite(P, s, "property"),
+  mwh: (s, P) => ruleCite(P, s, "electricity"),
+  // Appendix C, read 26 November 2026 (chain 740 request 352): the 2.0 percent the hover quotes; the 1992 circular's own address is not on the page read
+  drate: () => [{ href: "https://www.whitehouse.gov/wp-content/uploads/2026/03/CircularA-94Appendix-C.pdf", text: "OMB Circular A-94, Appendix C (March 2026)" }],
+};
+for (const f of DC_FIELDS) if (DC_LINKS[f.name]) f.links = DC_LINKS[f.name];
 export const DC_NAMES = DC_FIELDS.map((f) => f.name).concat(["dcproj"]);
 
 export function dcClamp(f: DcField, x: number): number {
@@ -101,20 +129,28 @@ export function dcResolve(P: DcParams, v: Record<string, number>, state: string)
 
 /** The announced projects the left box offers (datacenter_announced.json's rows, trimmed for the browser) */
 export type DcProject = { id: string; name: string; state: string; where: string; date: string; publisher: string; url: string;
-  mw: number | null; measure: string | null; invest: number | null; perm: number | null; cons: number | null; consMeasure: string | null };
+  mw: number | null; measure: string | null; invest: number | null; perm: number | null; cons: number | null; consMeasure: string | null;
+  /** session 10821 (window F's I4): a figure the document states that the pick does not take, and why (the row's note) */
+  skipped: string | null };
 type Fig = { value: number; measure?: string; year?: number } | null;
 export function dcProjects(rows: { id: string; name: string; state: string; county: string | null; place?: string; doc: { date: string; publisher: string; url: string };
-  mw: Fig; investment: Fig; permanent_jobs: Fig; construction_jobs: Fig; investment_includes_generation?: boolean }[], index: Record<string, number>): DcProject[] {
+  mw: Fig; investment: Fig; permanent_jobs: Fig; construction_jobs: Fig; investment_includes_generation?: boolean; investment_partial?: string;
+  note?: string }[], index: Record<string, number>): DcProject[] {
   return rows.map((r) => {
+    const notTaken: string[] = [];
+    if (r.investment && (r.investment_includes_generation || r.investment_partial)) notTaken.push("its investment");
+    if (r.permanent_jobs && String(r.permanent_jobs.measure).includes("kind not stated")) notTaken.push("its jobs figure");
+    const skipped = notTaken.length ? `The document's ${notTaken.join(" and ").replace(/its /g, "")} ${notTaken.length > 1 ? "are" : "is"} not taken, and keep${notTaken.length > 1 ? "" : "s"} the default: ${r.note ?? ""}`.trim() : null;
     const y = r.investment?.year ?? 2025;
     const k = index[String(y)] ? index["2025"] / index[String(y)] : 1;  // a 2026 announcement taken as 2025 dollars
     return {
       id: r.id, name: r.name, state: r.state, where: r.county ?? r.place ?? "", date: r.doc.date, publisher: r.doc.publisher, url: r.doc.url,
       mw: r.mw?.value ?? null, measure: r.mw?.measure ?? null,
       // the DOE Paducah figure includes power plants: not offered as the datacenter's investment
-      invest: r.investment && !r.investment_includes_generation ? Math.round((r.investment.value * k) / 1e4) / 100 : null,  // USD million, 2025
+      invest: r.investment && !r.investment_includes_generation && !r.investment_partial ? Math.round((r.investment.value * k) / 1e4) / 100 : null,  // USD million, 2025
       perm: r.permanent_jobs && !String(r.permanent_jobs.measure).includes("kind not stated") ? r.permanent_jobs.value : null,
       cons: r.construction_jobs?.value ?? null, consMeasure: r.construction_jobs?.measure ?? null,
+      skipped,
     };
   });
 }

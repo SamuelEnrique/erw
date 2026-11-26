@@ -11,11 +11,12 @@ import { Tip } from "@/components/tool/ToolPage";
 export type EventDecision = { key: string; text: string; session: string; def: string | Record<string, string>; source: string; events?: string[] };
 
 const WINDOW: Record<string, string> = {
-  uri_2021: "2021-02-07 to 2021-02-24, eighteen days: the week before the storm, the storm and the week after.",
+  // session 10225 (chain 710, the events audit, finding 7): who chose each window's edges, said where the line was bare
+  uri_2021: "2021-02-07 to 2021-02-24, eighteen days: the week before the storm, the storm and the week after, the ERW's own choice (session 36B).",
   covid_2020: "2020-03-01 to 2020-05-31, ninety-two days.",
-  caiso_heat_2020: "2020-08-10 to 2020-08-24.",
+  caiso_heat_2020: "2020-08-10 to 2020-08-24, the ERW's own choice (session 39), around the rotating outages of 14 and 15 August that the Root Cause Analysis names.",
   caiso_heat_2022: "2022-08-31 to 2022-09-09.",
-  elliott_2022: "2022-12-19 to 2022-12-29.",
+  elliott_2022: "2022-12-19 to 2022-12-29, the ERW's own choice (session 39), around the days FERC and NERC give for the storm, 21 to 26 December.",
   ercot_heat_2023: "2023-08-01 to 2023-09-10.",
   cold_2025: "2025-01-17 to 2025-01-26, chosen from EIA's hourly data: the days of the highest winter hours of September 2024 to August 2025.",
   east_heat_2025: "2025-06-20 to 2025-06-28, chosen from EIA's hourly data: the days of the highest hours of September 2024 to August 2025.",
@@ -24,8 +25,8 @@ const WINDOW: Record<string, string> = {
 
 export const EVENT_DECISIONS: EventDecision[] = [
   { key: "window", session: "sessions 36B to 308",
-    text: "Each event is a fixed window of local days, both ends included. Every \"highest\" and \"lowest\" of the page is taken inside it; a longer or shorter window could move the day and the figure picked, and moves every estimate.",
-    def: WINDOW, source: "docs/methods/events.md, each event's section; the dates the pages cite are the operators' and the government's accounts named in the framing." },
+    text: "Each event is a fixed window of local days, both ends included. Every \"highest\" and \"lowest\" of the page is taken inside it; a longer or shorter window could move the day and the figure picked, and moves every estimate. The edges are the ERW's own choice: no operator's or government's account names them. Three windows (the January 2025 cold, the June 2025 heat, the January 2026 cold) were chosen from EIA's data as the days of the highest hours, so their days were picked because demand was high: their estimates tend to be larger than for a window fixed before looking, and their intervals do not allow for the choice.",
+    def: WINDOW, source: "docs/methods/events.md, each event's section; the dates the pages cite are the operators' and the government's accounts named in the framing, while the windows' edges are the ERW's (docs/reviews/events-model-audit-2026-11-26.md, finding 7)." },
   { key: "baseline", session: "sessions 36B, 36C and 49",
     text: "An event day is set against the same days of earlier years: the same weekday 364 and 728 days earlier, so a Monday meets a Monday. A calendar-day baseline would set a Sunday against a Monday.",
     def: { uri_2021: "The same calendar days of 2019 and 2020 (the first event, before the weekday rule).", covid_2020: "The same weekday of 2019 and 2018 for the seven ISO grids; the Lower 48, 2019 alone (EIA's 2018 file does not hold it).", "": "The same weekday 364 and 728 days earlier, both years held." },

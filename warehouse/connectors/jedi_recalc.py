@@ -83,6 +83,42 @@ MODELS = {
               ("construction", "induced", 27, "     Induced"), ("construction", "total", 28, "   Total Impacts"),
               ("operations", "onsite", 31, "     Onsite Labor"), ("operations", "supply_chain", 32, "     Local Revenue and Supply Chain"),
               ("operations", "induced", 33, "     Induced"), ("operations", "total", 34, "     Total Impacts")]),
+    # Session 10000 (chain 701, window C's data request 8 of docs/state/data_requests_forecast.md): two more of the models
+    # NLR lists, each saved with its own default project. Not here: the conventional hydropower model, whose saved inputs
+    # computed from its constants give 13 of its 30 summary figures other than the saved ones (SummaryResults!D7, the
+    # local construction spending, 156.70 against 210.92 million dollars; tried 26 November 2026, before any setting
+    # is made), so step 1 below refuses it; and the transmission line model, whose project is a line of
+    # so many miles, so its figures are per mile, not per MW (the table's units). Biopower added the same day (a 50 MW direct
+    # combustion plant, its saved project reproduced); the marine and hydrokinetic model carries no list of locations (no
+    # pull-down on its Project Location), and the petroleum and biofuel refinery models are not power plants
+    "coal": dict(
+        file="01d-jedi-coal-model-rel-c12-23-16.xlsm", summary="SummaryResults", location="ProjectData!B13",
+        locations="name:Location", scale=1e6,
+        mw="SummaryResults!C4", mw_scale=1.0, mw_basis="nameplate MW", dollar_year="SummaryResults!C13",
+        local=dict(construction=("SummaryResults!C15", "SummaryResults!C14"), operations=("SummaryResults!C18", "SummaryResults!C17")),
+        rows=[("construction", "onsite", 27, "     Project Development and Onsite"), ("construction", "supply_chain", 30, "     Power Generation and Supply Chain"),
+              ("construction", "induced", 31, "     Induced"), ("construction", "total", 32, "     Total Impacts"),
+              ("operations", "onsite", 35, "     Onsite Labor"), ("operations", "supply_chain", 36, "     Local Revenue and Supply Chain"),
+              ("operations", "induced", 37, "     Induced"), ("operations", "total", 38, "     Total Impacts")]),
+    "csp_trough": dict(
+        file="01d-jedi-csp-trough-model-rel-csp12-23-16.xlsm", summary="SummaryResults", location="ProjectData!B14",
+        locations="name:Locations", scale=1e6,
+        mw="SummaryResults!C5", mw_scale=1.0, mw_basis="nameplate MW (a parabolic trough plant with 6 hours of thermal storage)",
+        dollar_year="SummaryResults!C10",
+        local=dict(construction=("SummaryResults!C12", "SummaryResults!C11"), operations=("SummaryResults!C16", "SummaryResults!C15")),
+        rows=[("construction", "onsite", 29, "     Project Development and Onsite"), ("construction", "supply_chain", 32, "     Equipment and Supply Chain"),
+              ("construction", "induced", 33, "     Induced"), ("construction", "total", 34, "     Total Impacts"),
+              ("operations", "onsite", 39, "     Onsite Labor"), ("operations", "supply_chain", 40, "     Local Revenue and Supply Chain"),
+              ("operations", "induced", 41, "     Induced"), ("operations", "total", 42, "     Total Impacts")]),
+    "biopower": dict(
+        file="01d-jedi-biopower-model-rel-b12-23-16.xlsm", summary="SummaryResults", location="ProjectData!B14",
+        locations="name:Location", scale=1e6,
+        mw="SummaryResults!C5", mw_scale=1.0, mw_basis="plant MW (a direct combustion plant)", dollar_year="SummaryResults!C24",
+        local=dict(construction=("SummaryResults!C27", "SummaryResults!C26"), operations=("SummaryResults!C30", "SummaryResults!C29")),
+        rows=[("construction", "onsite", 43, "       Total Project Development and Onsite"), ("construction", "supply_chain", 44, "     Equipment and Supply Chain"),
+              ("construction", "induced", 45, "     Induced"), ("construction", "total", 46, "     Total Impacts"),
+              ("operations", "onsite", 51, "     Onsite Labor"), ("operations", "supply_chain", 55, "       Total Local Revenue and Supply Chain"),
+              ("operations", "induced", 56, "     Induced"), ("operations", "total", 57, "     Total Impacts")]),
 }
 MEASURES = (("jobs", "B"), ("earnings", "C"), ("output", "D"))
 SKIP = {"MYCOUNTY", "MYREGION"}

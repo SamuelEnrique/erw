@@ -50,9 +50,12 @@ export async function build(): Promise<Built> {
 
   // ---------------------------------------------------------------- worked example: the Southeast's two reports
   const xo = own("SE"), xt = their("SE"), xr = calc("ratio", xo, xt, "times");
+  // session 10229 (the problems audit, finding 3): every ratio is asked in the order a student reads, "A was how many
+  // times B?" for A / B (ruling 7a of 14 October 2026, as the other sets ask). Until then three questions read "how many
+  // times B was A?", which read in order gives the inverse (the flow's growth 0.60 for a key of 1.66)
   const example: Question = {
     id: "tx", tables: [PAIR_TABLE],
-    q: `In ${mo}, how much power did Tennessee report receiving from the Southeast, how much did the Southeast report for the same flow, and how many times the Southeast's report was Tennessee's?`,
+    q: `In ${mo}, how much power did Tennessee report receiving from the Southeast, how much did the Southeast report for the same flow, and Tennessee's report was how many times the Southeast's?`,
     answer: [`${mo}: Tennessee's report `, xo, ", the Southeast's ", xt, ": Tennessee's is ", xr, " the Southeast's. ",
       Math.sign(xo.v) === Math.sign(xt.v) ? `Both have the same sign, so both say ${way(xo, "Tennessee", "the Southeast")}.` : "The two have opposite signs: the sides disagree on the direction."],
     line: [xo, " / ", xt, " = ", xr],
@@ -78,7 +81,7 @@ export async function build(): Promise<Built> {
     line: [...each.flatMap((x, j): Part[] => [j ? " + " : "", x.v]), adds ? " = " : "; the file's total: ", tot],
     steps: [[`Open the table Net imports by month and by neighbour for Tennessee, or site/data/regions/trade/ten.json at position ${i} (${t.months[i]}).`],
       ["Each neighbour's net_imports_mwh, Tennessee's own report: ", ...each.flatMap((x, j): Part[] => [`${j ? "; " : ""}${name(x.c)} `, x.v]), "."],
-      ["The file's own total, net_imports_mwh: ", tot, adds ? ", the sum of the four." : ", which the file writes for itself; a month a neighbour holds fewer than half its hours is left out of it."],
+      ["The file's own total, net_imports_mwh: ", tot, adds ? ", the sum of the neighbours' figures above." : ", which the file writes for itself; a month a neighbour holds fewer than half its hours is left out of it."],
       ["Above zero Tennessee imported; below zero it sent power out. The largest import: ", name(big.c), ", ", big.v, "."]],
     why: "A region's net imports are the sum of flows that run both ways at once: it can take power from one neighbour while it sends power to another.",
   };
@@ -87,7 +90,7 @@ export async function build(): Promise<Built> {
   const wo = own("MIDW"), wt = their("MIDW"), wg = gap("MIDW"), wr = calc("ratio", wo, wt, "times");
   const q2: Question = {
     id: "t2", tables: [PAIR_TABLE],
-    q: `In ${mo}, ${bigAbs === "MIDW" ? "Tennessee's largest flow, in size, was with the Midwest" : "take Tennessee's flow with the Midwest"}. What did Tennessee report, what did the Midwest report for the same flow, and how many times the Midwest's report was Tennessee's?`,
+    q: `In ${mo}, ${bigAbs === "MIDW" ? "Tennessee's largest flow, in size, was with the Midwest" : "take Tennessee's flow with the Midwest"}. What did Tennessee report, what did the Midwest report for the same flow, and Tennessee's report was how many times the Midwest's?`,
     answer: ["Tennessee ", wo, ", the Midwest ", wt, ": Tennessee's report is ", wr, " the Midwest's; the file's gap is ", wg, "."],
     line: [wo, " / ", wt, " = ", wr],
     steps: [["Under neighbors, MIDW: net_imports_mwh (Tennessee's report) ", wo, "; their_report_mwh (the Midwest's, turned to Tennessee's side) ", wt, "."],
@@ -143,7 +146,7 @@ export async function build(): Promise<Built> {
   const growth = moved ? `The two sides' levels differ, but each says the flow ${moved}${near ? " by about the same factor" : ", by different factors"}.` : "The two sides do not agree on whether the flow grew.";
   const q5: Question = {
     id: "t5", tables: [YEAR_TABLE],
-    q: `Power from the Midwest to Tennessee: by Tennessee's own report, how many times its ${y0} flow was its ${y1} flow? And by the Midwest's report?`,
+    q: `Power from the Midwest to Tennessee: by Tennessee's own report, its ${y1} flow was how many times its ${y0} flow? And by the Midwest's report?`,
     answer: [`By Tennessee's report `, rT, `; by the Midwest's `, rW, `. ${growth}`],
     line: [ta1, " / ", ta0, " = ", rT, "; ", wa1, " / ", wa0, " = ", rW],
     steps: [[`In region_pairs, the rows with a MIDW, b TEN, for ${y0} and ${y1}, the first and the latest years both sides reported in all twelve months.`],

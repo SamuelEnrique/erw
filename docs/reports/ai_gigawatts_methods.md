@@ -13,7 +13,7 @@ Energy Research Warehouse (ERW), session 62. A draft report, internal: `/reports
 
 **The unit.** A flat 1 GW: the same 1,000 MW in every hour of a year, 8,760 GWh. Real campuses are not perfectly flat, but they come close, and a flat load is the simplest one to compare across regions.
 
-**The year.** September 2025 to August 2026: the latest twelve complete months that every price input holds.
+**The year.** September 2025 to August 2026, the twelve months the builder fixes (`WINDOW` in `warehouse/derived/ai_power_regions.py`). They are not all complete months: each ISO's real-time files miss days, so the cost measures are over the hours each hub priced (`rt_hours_priced`: 8,160 to 8,746 of the year's 8,760 as built on 2 October 2026, ISO-NE the fewest) and the stress measures over the hours seen (`rt_hours_seen`). The builder asks only that every hub hold a row for each of the twelve months (session 10232: this line said "the latest twelve complete months", which the code does not ask).
 
 ## The measures
 
@@ -21,21 +21,27 @@ Energy Research Warehouse (ERW), session 62. A draft report, internal: `/reports
 |---|---|---|---|
 | Flat price, real time | `flat_rt_price_usd_mwh` | `cost_of_power_monthly` | the monthly `rt_simple_mean` (the mean of the hub's hourly real-time prices: what a flat load pays per MWh) weighted by `rt_hours`, over the year |
 | Flat price, day-ahead | `flat_da_price_usd_mwh` | the same | `da_simple_mean`, weighted by `da_hours` |
-| A flat 1 GW for a year | `flat_1gw_cost_usd` | the same | the real-time flat price times 8,760 MWh per MW times 1,000 MW: wholesale energy only |
+| A flat 1 GW for a year | `flat_1gw_cost_usd` | the same | the real-time flat price times 8,760 MWh per MW times 1,000 MW: wholesale energy only, a price over the hours priced carried to the whole year |
+| Hours priced | `rt_hours_priced` | the same | the sum of the twelve months' `rt_hours` |
 | Carbon intensity | `carbon_intensity_kg_mwh` | `carbon_intensity_daily` | the mean of the year's daily consumption-based intensity (the CO2 of the generation the region used, imports included, per MWh of demand), over the days held (`carbon_days`) |
 | A flat 1 GW's CO2 | `flat_1gw_co2_t` | the same | the intensity times 8,760 GWh |
 | Scarcity hours | `scarcity_hours_200`, `scarcity_hours_1000` | `iso_hub_prices_history`; ERCOT `ercot_all_hub_prices_history` | the year's hours whose real-time hub price (the mean of the hour's 15-minute prices; MISO's hourly price) was at least USD 200 and 1,000/MWh; `rt_hours_seen` counts the hours held |
 | Highest hour | `max_rt_hour_usd_mwh` | the same | the year's highest hourly real-time price |
 | Emergency days | `emergency_days` | `caiso_grid_emergencies` | CAISO only: days with an ISO-wide Flex Alert or grid emergency, 2018-07 to 2025-04, as the Flex Alert scorecard reads them; no other ISO's notices are held |
-| Largest event effect | `event_largest_effect_pct` | `event_study_estimates` | among the studied events (COVID-19 left out), the pooled effect on daily demand with the largest magnitude, as a percent of the event's counterfactual; temperature-controlled where held; `x_note` names the event |
+| Largest event effect | `event_largest_effect_pct` | `event_study_estimates` | among the studied events (COVID-19 left out), the pooled effect on daily demand with the largest magnitude, as a percent of the event's counterfactual; temperature-controlled where held, day of week and year alone where not, so the regions' figures are not all of one kind; `x_note` names the event. The events are those the table held when `ai_power_regions` was built (2 October 2026): an event studied since (`cold_2026`, added 19 October 2026) is not in it until the table is rebuilt |
 | Active queue, Berkeley Lab | `lbnl_active_mw`, `lbnl_active_requests` | `lbnl_interconnection_queue` | requests with status active at the end of 2025, the region as Berkeley Lab assigns it |
 | Time to connect | `lbnl_median_years_to_cod` | the same | the median of (online date less request date) over the requests that came online in 2018 to 2025 (`lbnl_cod_sample` of them) |
 | Completion rate | `lbnl_completion_pct` | the same | the share of the requests made in 2000 to 2019 (`lbnl_cohort_requests`) that came online |
 | Active queue, the ISO's own | `queue_active_mw` | `<iso>_interconnection_queue` | active MW in the ISO's queue as retrieved in late September 2026 (no PJM queue is held) |
-| Net import share | `net_import_share_pct` | `eia930_daily_interchange`; demand from the EIA-930 workbook extract | minus the sum of the region's daily interchange with every neighbor (EIA's sign: positive when it exports), over the year's demand |
-| Net import days | `net_import_days_pct` | the same | the share of the year's days on which the region's summed interchange was negative |
-| Peak-day import share | `peak_import_share_pct` | the same | the mean net import share on the year's ten highest-demand days |
-| Check on imports | `ng_check_import_share_pct` | the extract | (demand less net generation) over demand: EIA's own balance, which should agree with the pair sums |
+| Net import share, the headline | `net_import_share_pct` | the EIA-930 workbook extract | EIA's own balance: (demand less net generation) over demand, over the year's hours that hold both. For California it reads high from the join of December 2025 (`docs/methods/eia930_caiso_break.md`) |
+| Net import share, the pair sums | `pair_import_share_pct` | `eia930_daily_interchange`; demand from the extract | minus the sum of the region's daily interchange with every neighbor (EIA's sign: positive when it exports), over the demand of the same days, on complete days only: a day counts when every regular neighbor (one present on at least half the year's days) reported it and none of its pair-days was screened out |
+| Net import days | `net_import_days_pct` | the same | the share of the complete days on which the region's summed interchange was negative |
+| Peak-day import share | `peak_import_share_pct` | the same | the mean pair-sum import share on the region's ten highest-demand complete days |
+| Complete days | `interchange_days` | the same | the days the pair sums count (`interchange_days_reported`: the days with any report) |
+| Pair-days screened out | `screened_pair_days` | the same | pair-days further than ten median absolute deviations (at least 500 MWh) from the pair's own median over its history, left out as impossible |
+| Demand | `demand_mwh` | the extract | the year's demand over the hours that hold both demand and net generation |
+
+(Session 10232: the first row said the headline share was the pair sums and a last row named a check on imports that the builder does not write. The builder makes the headline EIA's balance and writes the pair sums as `pair_import_share_pct`, as the draft reads them.)
 
 ## The hubs and regions
 

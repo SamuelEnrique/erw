@@ -42,11 +42,17 @@ The page lists each of these by name with the reason and no number.
 
 In each grid's own local time, ending with the last calendar month that every hub of the history holds to its end:
 
-- **Twelve months** (`freq P1Y`, `ts_utc` the first day of the window): the hubs with a year of history. Eleven as
-  built: ERCOT's six, CAISO SP15 and NP15, ISO-NE Internal Hub, NYISO N.Y.C., SPP North.
-- **The last whole month** (`freq P1M`): every hub and zone held. Thirty-one as built.
+- **Twelve months** (`freq P1Y`, `ts_utc` the first day of the window): the hubs and zones with a year of history.
+  Eleven hubs when first built: ERCOT's six, CAISO SP15 and NP15, ISO-NE Internal Hub, NYISO N.Y.C., SPP North. Since
+  session 7052 ERCOT's eight load zones too (their history runs from 2015): on the site's copy of 17 November 2026,
+  seventeen rows shown (ERCOT's six hubs and eight load zones, CAISO SP15 and NP15, SPP North), ISO-NE's and NYISO's two
+  held by name.
+- **The last whole month** (`freq P1M`): every hub and zone held. Thirty-one when first built; on the copy of 17
+  November 2026, nineteen shown (CAISO 3, ERCOT 14, SPP 2) and ISO-NE's 9 and NYISO's 11 held by name.
 
-The zones are in the month and not in the year because the warehouse has pulled them only since late August 2026.
+The other zones (ISO-NE's and NYISO's) and the hubs added in late August 2026 (CAISO ZP26, SPP South) are in the month
+and not in the year because the warehouse has pulled them only since then. (Session 10218, the prices audit: the page
+and this note said ERCOT's load zones were not compared, and counted them as hubs.)
 
 ## The measures
 
@@ -54,7 +60,7 @@ For each market, `dam` (day-ahead) and `rtm` (real-time), over the hours held in
 
 | Variable | Unit | Meaning |
 |---|---|---|
-| `<m>_avg_price` | USD/MWh | the mean of the hourly prices |
+| `<m>_avg_price` | USD/MWh | the mean of the hourly prices, each hour once: what a flat load would pay. Not weighted by load; a load shaped like the grid's pays more (session 10218, the prices audit: over the twelve months to October 2026, weighting each day-ahead hour by ERCOT's or CAISO's own hourly load raises the average by 4.0 to 7.1 percent, `docs/reviews/prices-model-audit-2026-11-26.md`) |
 | `<m>_negative_hours_share_pct` | percent | the share of hours with a price below zero |
 | `<m>_above_200_hours_share_pct` | percent | the share of hours with a price above USD 200 per MWh |
 | `<m>_day_spread_top4_bottom4` | USD/MWh | on the average day (the mean price of each local hour of the day over the window), the mean of its four dearest hours less the mean of its four cheapest. The four need not be next to each other |
@@ -147,13 +153,17 @@ changed on the page, none of it in the table or its builder:
 - **The license hold.** `hub_price_comparison` is held for ISO-NE, MISO and NYISO from 21 October 2026
   (`site/data/license_status.json`). The page holds ISO-NE's and NYISO's rows on the server (`lib/pricecompare.ts`
   `hold`, with `licenseHeldRow`): each is named in the table and the chart, last, every cell "license needed", and the
-  sentence and the headline numbers are of the rows shown. MISO's hubs stay as before (held, not shown).
+  sentence and the headline numbers are of the rows shown. MISO's hubs stay as before (held, not shown). Since session
+  7050 the site's copy carries a held grid's rows by name only (`held_not_shown`), so on the copy of 17 November 2026
+  ISO-NE's and NYISO's rows are named in "Held, not shown" with MISO's, and not in the table or the chart (session
+  10218).
 - **A and B.** Two rows of the period side by side, every measure of both markets and the grid's carbon, B less A on
   the figures drawn (from the address, `a` and `b`, entities as the table writes them).
 - **Words.** The windows are in each grid's clock time, daylight saving included (the cost of power tool's year files
   are in standard time, so a month read on both can differ by a few cents at its two ends). The spread is the average
   day's, not the mean of each day's own spread, which is larger. ERCOT's Hub Average and Bus Average say what they
-  average. ERCOT's load zones are named as held and not compared.
+  average. ERCOT's load zones were named as held and not compared; since session 7052 they are compared, and since
+  session 10218 the page says so and counts hubs and zones apart.
 
 Asked of the data machine (the read's rows 2, 5, 9, 11 and 14): the site copy to carry a held grid's rows as names
 only; the windows' end month taken over the grids compared, not MISO's paused hub (which holds every window at

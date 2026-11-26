@@ -4,7 +4,7 @@
 import "server-only";
 import { HOURLY, LicenseNeeded, rest } from "@/lib/supabase";
 import { DOCS, type GridConfig } from "@/lib/markdown";
-import { daysAgo, series, storageUnits, type SeriesRow, type StorageUnit } from "@/lib/data";
+import { DEMAND_DAYS, daysAgo, series, storageUnits, type SeriesRow, type StorageUnit } from "@/lib/data";
 
 export const GRIDS: GridConfig[] = DOCS.grid_config;
 export const gridOf = (slug: string) => GRIDS.find((g) => g.slug === slug) ?? null;
@@ -112,7 +112,10 @@ export async function load(g: GridConfig): Promise<GridData> {
   };
   const newsSince = daysAgo(14);
   const [demand, gen, cycle, units, ci, monthly, prices, peak, q, dcs, n] = await Promise.all([
-    safe("demand", () => series("eia930_all_demand", { entity: g.entity, variable: "demand_mw", since: daysAgo(9) }), []),
+    // session 11000 (chain 750): DEMAND_DAYS, not 9. "Same day last week" is the local day seven days before the latest
+    // day EIA has published, and that day is behind the clock by as long as the loads are: on 26 November 2026 it was
+    // 24 November, and a read of nine days from the clock cut the first 5 to 8 hours of last week's line on every grid
+    safe("demand", () => series("eia930_all_demand", { entity: g.entity, variable: "demand_mw", since: daysAgo(DEMAND_DAYS) }), []),
     safe("gen", () => series("eia930_all_generation", { entity: g.entity, since: daysAgo(45) }), []), // covers the 30-day window whole: it ends with the latest complete day, which lags when the loads do (session 295: four days behind since 15 October 2026, and a 34-day read missed the window's first hours)
     safe("cycle", () => (g.storage_entity ? series("storage_daily_cycle", { entity: g.storage_entity, since: daysAgo(45) }) : Promise.resolve([])), []),
     safe("units", storageUnits, []),

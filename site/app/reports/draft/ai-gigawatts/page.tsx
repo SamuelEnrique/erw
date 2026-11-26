@@ -12,6 +12,8 @@ import { Section } from "@/components/Section";
 import { series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
+import { LICENSE_NEEDED, licenseHeldRow } from "@/lib/license";  // session 10232: the held regions are named, not "not held"
+import { caisoJoinDay } from "@/lib/caisoJoin";  // session 10232: the import sentences name the break's day as the banner does
 
 // Session 62: the flagship analysis, a draft, internal only. "Where the next gigawatts for AI can come from": one row of
 // measures per ISO region (ai_power_regions, warehouse/derived/ai_power_regions.py; methods in
@@ -100,6 +102,11 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
     days: get(g.id, "interchange_days"), screened: get(g.id, "screened_pair_days"),
     evName: (() => { const f = all.find((x) => x.entity === `iso:${g.id}` && x.variable.startsWith("event_largest_is_")); return f ? EVENTS[f.variable.slice(17)] ?? f.variable.slice(17) : ""; })(),
   }));
+  // session 10232 (docs/reviews/reports-model-audit-2026-11-26.md, finding 1): from 21 October 2026 ai_power_regions is
+  // held by grid (lib/license.ts), and the read leaves out ISO-NE's, MISO's and NYISO's rows; the page names them, as the
+  // shape-premium draft names its held hubs, and draws "license needed" where it drew "not held" for them
+  const HELD = REGIONS.filter((g) => licenseHeldRow(T, `iso:${g.id}`));
+  const isHeld = (id: string) => HELD.some((g) => g.id === id);
   if (!R.some((r) => r.rt)) {
     return <div className="max-w-3xl"><h1 className="mb-3 text-3xl">Draft: where the next gigawatts for AI can come from</h1><p className="text-sm text-muted">The table {T} could not be read.</p></div>;
   }
@@ -118,6 +125,22 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
   const rank = (list: Reg[], r: Reg) => (list.indexOf(r) >= 0 ? (list.indexOf(r) === list.length - 1 ? "last" : ORD[list.indexOf(r)]) : "not ranked");
   const tally = R.map((r) => ({ r, n: [cheap, clean, calm, fast, self].filter((l) => half(l, r)).length, of: [cheap, clean, calm, fast, self].filter((l) => l.includes(r)).length }))
     .sort((a, b) => b.n - a.n || a.r.name.localeCompare(b.r.name));
+  // session 10232 (docs/reviews/reports-model-audit-2026-11-26.md, finding 4): the sentences below follow the rows. A tie is
+  // named as a tie; the widest gap of the measures that can be set as a ratio is named, not asserted; the regions where
+  // day-ahead ran below real time are listed, and the sentence reads whole when there are none
+  const topTally = tally.filter((t) => t.n === tally[0].n);
+  const s1000 = by((r) => r.s1000, "desc");
+  const topS1000 = s1000.filter((r) => r.s1000!.v === s1000[0].s1000!.v);
+  const daLow = R.filter((r) => r.da && r.rt && r.da.v < r.rt.v);
+  const gaps: [string, number][] = [
+    ["cost", c1.cost!.v / c0.cost!.v], ["carbon", ci1.ci!.v / ci0.ci!.v],
+    ["hours at or above USD 200/MWh", calm[0].s200!.v > 0 ? calm.at(-1)!.s200!.v / calm[0].s200!.v : Infinity], ["years to connect", f1.yrs!.v / f0.yrs!.v],
+  ];
+  const widest = [...gaps].sort((a, b) => b[1] - a[1])[0][0];
+  // session 10232 (docs/reviews/reports-model-audit-2026-11-26.md, finding 5): the region whose balance and pair sums differ
+  // most, as section 6 names it; when it is California, the words say what the note at the top says of its balance
+  const joinDay = caisoJoinDay();   // the one date (lib/caisoJoin.ts), as the banner reads it
+  const gapReg = [...R].filter((r) => r.imp && r.pair).sort((a, b) => Math.abs(b.imp!.v - b.pair!.v) - Math.abs(a.imp!.v - a.pair!.v))[0];
 
   return (
     <Brand>
@@ -130,6 +153,13 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         load would pay for energy, how much carbon it would carry, how stressed the grid is, how long new supply takes to connect, and how much the
         region leans on its neighbors. Every number below is a row of the table {T}, read from Supabase with its check key.
       </p>
+      {HELD.length ? (
+        <p className="mb-4 text-sm text-muted" data-held-regions>
+          {HELD.map((g) => g.name).join(", ")}: {LICENSE_NEEDED} (held from 21 October 2026, lib/license.ts), every measure of theirs. Where the
+          words below say seven, the findings, the rankings and the tables hold the other {REGIONS.length - HELD.length}, and PJM has no cost or
+          price-stress measure, so cost is compared across {R.filter((r) => r.cost).length}.
+        </p>
+      ) : null}
 
       <Section title="Five findings">
         <ol className="max-w-3xl list-decimal space-y-2 pl-5 text-sm">
@@ -156,7 +186,7 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
           </li>
           <li>
             <strong>Some regions lean on their neighbors.</strong> Over the year, {imp1.name} imported a net <N x={imp1.imp} /> percent of its demand (EIA&apos;s own
-            balance) and was a net importer on <N x={imp1.impd} /> percent of its complete days. {imp0.name} is at the other end: <N x={imp0.imp} /> percent (a negative
+            balance{imp1.id === "caiso" ? <>, which reads high for California from {joinDay}, as the note at the top says; the pair sums give <N x={imp1.pair} /> percent</> : null}) and was a net importer on <N x={imp1.impd} /> percent of its complete days. {imp0.name} is at the other end: <N x={imp0.imp} /> percent (a negative
             share is a net exporter). A new gigawatt in an importing region adds to that reliance unless new supply comes with it.
           </li>
         </ol>
@@ -193,8 +223,8 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         <p className="mt-3 max-w-3xl text-sm">
           A flat load pays the plain average of the hub&apos;s hourly prices, because it buys the same MW in every hour. Over the year that average ran from{" "}
           <N x={c0.rt} /> USD/MWh in {c0.name} to <N x={c1.rt} /> USD/MWh in {c1.name}. The {c1.name} figure is {c1.id === "nyiso" ? "the New York City zone, the dearest part of NYISO; upstate zones are cheaper" : `at ${c1.hub}`}.
-          Day-ahead prices ran above real time in every region but {R.filter((r) => r.da && r.rt && r.da.v < r.rt.v).map((r) => r.name).join(", ") || "none"}: a buyer
-          who fixes the day before pays a small premium for certainty.
+          {daLow.length ? <>Day-ahead prices ran above real time in every region priced but {daLow.map((r) => r.name).join(", ")}: </> : <>Day-ahead prices ran above real time in every region priced: </>}a buyer
+          who fixed the day before paid more, on average, than one who took the real-time price.
         </p>
         <p className="mt-2 max-w-3xl text-sm">
           These are energy prices at a hub, not a delivered bill. Capacity charges (large in PJM, ISO-NE, NYISO and MISO), transmission, distribution,
@@ -212,9 +242,11 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         </div>
         <p className="mt-3 max-w-3xl text-sm">
           The intensity is consumption-based: the CO2 of the generation each region actually used, imports included, per MWh of its demand, averaged over the
-          year&apos;s days, from <N x={ci0.ci} /> kg/MWh in {ci0.name} to <N x={ci1.ci} /> kg/MWh in {ci1.name}, which still burns more coal and gas in its mix.
-          A new load is served at the margin, by whatever plant runs next, which is usually gas almost everywhere: the average is where a region starts,
-          not the CO2 of the next MWh. The gap between regions is still the largest of the five measures.
+          year&apos;s days, from <N x={ci0.ci} /> kg/MWh in {ci0.name} to <N x={ci1.ci} /> kg/MWh in {ci1.name} (the table holds each region&apos;s intensity, not its mix).
+          A new load is served at the margin, by whatever plant runs next, and the table does not hold that plant&apos;s CO2: the average is where a region starts,
+          not the CO2 of the next MWh. {widest === "carbon"
+            ? "Of the four measures that can be set as the worst region over the best (cost, carbon, hours at or above USD 200/MWh, years to connect), carbon's gap is the widest."
+            : `Of the four measures that can be set as the worst region over the best (cost, carbon, hours at or above USD 200/MWh, years to connect), the gap in ${widest} is wider than carbon's.`}
         </p>
       </Section>
 
@@ -223,7 +255,10 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
           <table className="text-sm">
             <thead><tr className="border-b border-ink text-left text-xs text-muted"><th className="py-1 pr-3">Region</th><th className="py-1 pr-3 text-right">Hours at or above USD 200/MWh</th><th className="py-1 pr-3 text-right">At or above 1,000</th><th className="py-1 pr-3 text-right">Highest hour, USD/MWh</th><th className="py-1 pr-3 text-right">Hours held</th><th className="py-1 pr-3 text-right">Largest studied event, percent of normal demand</th></tr></thead>
             <tbody>
-              {R.map((r) => (
+              {R.map((r) => isHeld(r.id) ? (
+                <tr key={r.id} className="border-b border-rule"><td className="py-1 pr-3">{r.name}</td>
+                  <td colSpan={5} className="py-1 pr-3 text-right text-muted">{LICENSE_NEEDED}</td></tr>
+              ) : (
                 <tr key={r.id} className="border-b border-rule"><td className="py-1 pr-3">{r.name}</td>
                   <td className="py-1 pr-3 text-right tabular-nums"><N x={r.s200} /></td><td className="py-1 pr-3 text-right tabular-nums"><N x={r.s1000} /></td>
                   <td className="py-1 pr-3 text-right tabular-nums"><N x={r.maxh} /></td><td className="py-1 pr-3 text-right tabular-nums"><N x={r.seen} /></td>
@@ -234,7 +269,7 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         </div>
         <p className="mt-3 max-w-3xl text-sm">
           Scarcity shows in the price. {calm[0].name} had the fewest hours at or above USD 200/MWh, <N x={calm[0].s200} />; {calm.at(-1)!.name} the most, <N x={calm.at(-1)!.s200} />.
-          Hours above USD 1,000 were rare everywhere: {by((r) => r.s1000, "desc")[0].name} had the most, <N x={by((r) => r.s1000, "desc")[0].s1000} />. A steady load in a
+          Hours above USD 1,000 were rare everywhere: {topS1000.map((r) => r.name).join(" and ")} had the most, <N x={topS1000[0].s1000} />{topS1000.length > 1 ? " each" : ""}. A steady load in a
           region with many dear hours either pays them or hedges them; it also adds to the demand in the hours that are already tight.
         </p>
         <p className="mt-2 max-w-3xl text-sm">
@@ -245,9 +280,10 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         </p>
         <p className="mt-2 max-w-3xl text-sm">
           Grid emergencies are held for CAISO only: <N x={R.find((r) => r.id === "caiso")!.emerg} /> days with an ISO-wide Flex Alert or emergency from July 2018 to
-          April 2025. The event studies add the scale of the worst weather the warehouse has measured: the largest effect on daily demand was{" "}
+          April 2025. The event studies, as they stood when the table was built (an event studied since is not in it), add the scale of the worst weather they had measured: the largest effect on daily demand was{" "}
           <N x={by((r) => r.ev, "desc")[0].ev} /> percent above normal, in {by((r) => r.ev, "desc")[0].name} during {by((r) => r.ev, "desc")[0].evName}, after
-          temperature is accounted for where the study holds it. A region that runs short in its extremes is where a new
+          temperature is accounted for where the study holds it, and day of week and year alone where it does not, so the regions&apos; figures are not all
+          alike. A region that runs short in its extremes is where a new
           flat load matters most, and where it should bring its own flexibility or supply.
         </p>
       </Section>
@@ -270,8 +306,8 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         <p className="mt-3 max-w-3xl text-sm">
           Berkeley Lab&apos;s Queued Up data hold every generation and storage request in the seven regions through 2025. {f0.name} turned requests into operating
           plants fastest, a median <N x={f0.yrs} /> years; {f1.name} slowest, <N x={f1.yrs} /> years. Most requests never get built: of the requests made from 2000 to
-          2019, {done[0].name} completed <N x={done[0].comp} /> percent and {done.at(-1)!.name} <N x={done.at(-1)!.comp} /> percent. ISO-NE has no median here: Berkeley Lab
-          gives no online dates for its completed requests.
+          2019, {done[0].name} completed <N x={done[0].comp} /> percent and {done.at(-1)!.name} <N x={done.at(-1)!.comp} /> percent.
+          {isHeld("isone") ? null : <> ISO-NE has no median here: Berkeley Lab gives no online dates for its completed requests.</>}
         </p>
         <p className="mt-2 max-w-3xl text-sm">
           The ISOs&apos; own queues, retrieved in September 2026, show the same order of size as Berkeley Lab&apos;s end-2025 counts, and differ where requests were added,
@@ -305,7 +341,7 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         </div>
         <p className="mt-3 max-w-3xl text-sm">
           The headline share is EIA&apos;s own balance for each region: demand less net generation, over demand, for the year&apos;s complete hours. {imp1.name} imported
-          the most, a net <N x={imp1.imp} /> percent of its demand; {imp0.name} exported the most, <N x={imp0.imp} /> percent. The other columns come from the
+          the most, a net <N x={imp1.imp} /> percent of its demand{imp1.id === "caiso" ? ` (a balance that reads high from ${joinDay}, when EIA's generation total for California fell below CAISO's own supply)` : ""}; {imp0.name} exported the most, <N x={imp0.imp} /> percent. The other columns come from the
           interchange EIA reports with each neighbor, summed per day, on complete days only: a day counts when every regular neighbor reported it.
           EIA&apos;s daily interchange is missing for some days of the year in every region (the complete-days column says how many remain), and a few pair-days
           are impossible (one day SPP and MISO reported more energy across their tie than SPP uses in a day); those are left out and counted.
@@ -315,7 +351,7 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
           stories: in {[...R].filter((r) => r.imp && r.pair).sort((a, b) => Math.abs(b.imp!.v - b.pair!.v) - Math.abs(a.imp!.v - a.pair!.v))[0].name} the balance says{" "}
           <N x={[...R].filter((r) => r.imp && r.pair).sort((a, b) => Math.abs(b.imp!.v - b.pair!.v) - Math.abs(a.imp!.v - a.pair!.v))[0].imp} /> percent and the pairs{" "}
           <N x={[...R].filter((r) => r.imp && r.pair).sort((a, b) => Math.abs(b.imp!.v - b.pair!.v) - Math.abs(a.imp!.v - a.pair!.v))[0].pair} /> percent, and the gap is EIA&apos;s
-          data, not this report&apos;s. The peak-day share uses the pair sums: on a region&apos;s ten highest-demand complete days, how much of its demand came from
+          data, not this report&apos;s{gapReg.id === "caiso" ? ` (in California, most of it is the break of ${joinDay} the note at the top names)` : ""}. The peak-day share uses the pair sums: on a region&apos;s ten highest-demand complete days, how much of its demand came from
           neighbors.
         </p>
       </Section>
@@ -324,17 +360,19 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         <p className="mb-2 max-w-3xl text-sm">
           No single number says where a gigawatt should go: a buyer who cares most about cost, carbon or speed would choose differently. The table counts, for
           each region, how many of the five measures (cost, carbon, scarcity hours, time to connect, imports) put it in the better half of the regions held.
-          It is not a score: the measures are not weighted, and a region missing a measure (PJM&apos;s cost and stress, ISO-NE&apos;s time to connect) is counted only on
-          what it has.
+          It is not a score: the measures are not weighted, and a region missing a measure (PJM&apos;s cost and stress{isHeld("isone") ? "" : ", ISO-NE's time to connect"}) is counted only on
+          what it has.{HELD.length ? <> {HELD.map((g) => g.name).join(", ")}: {LICENSE_NEEDED}, so not counted.</> : null}
         </p>
         <div className="overflow-x-auto">
           <table className="text-sm">
             <thead><tr className="border-b border-ink text-left text-xs text-muted"><th className="py-1 pr-3">Region</th><th className="py-1 pr-3 text-right">Better half on</th><th className="py-1 pr-3 text-right">Of measures held</th></tr></thead>
-            <tbody>{tally.map((t) => <tr key={t.r.id} className="border-b border-rule"><td className="py-1 pr-3">{t.r.name}</td><td className="py-1 pr-3 text-right tabular-nums">{t.n}</td><td className="py-1 pr-3 text-right tabular-nums">{t.of}</td></tr>)}</tbody>
+            <tbody>{tally.map((t) => <tr key={t.r.id} className="border-b border-rule"><td className="py-1 pr-3">{t.r.name}</td>{isHeld(t.r.id) ? <td colSpan={2} className="py-1 pr-3 text-right text-muted">{LICENSE_NEEDED}</td> : <><td className="py-1 pr-3 text-right tabular-nums">{t.n}</td><td className="py-1 pr-3 text-right tabular-nums">{t.of}</td></>}</tr>)}</tbody>
           </table>
         </div>
         <p className="mt-3 max-w-3xl text-sm">
-          {tally[0].r.name} is in the better half on {tally[0].n} of its {tally[0].of} measures, the most of any region. The tension is in the data: the cleanest
+          {topTally.length > 1
+            ? <>{topTally.map((t) => t.r.name).join(", ").replace(/, ([^,]*)$/, " and $1")} share the most: each is in the better half on {tally[0].n} of its measures. </>
+            : <>{tally[0].r.name} is in the better half on {tally[0].n} of its {tally[0].of} measures, the most of any region. </>}The tension is in the data: the cleanest
           region, {ci0.name}, is the {rank(fast, ci0)} of {fast.length} to connect new supply, and the fastest, {f0.name}, is the {rank(clean, f0)} of {clean.length} on
           carbon. A campus that wants all three brings its own: a contract for new clean supply where connection is fast, or flexibility that lets it avoid the tight
           hours where they are many.

@@ -65,8 +65,19 @@ class TheTable(unittest.TestCase):
         self.d = pd.read_csv(OUT, comment="#", keep_default_na=False)
 
     def test_the_counts(self):
-        self.assertEqual(len(self.d), 49)
-        self.assertEqual(self.d.status.value_counts().to_dict(), {"held": 42, "no_rule_held": 7})
+        # session 10000 (chain 701): the 49 rows of session 346, then one a rule of the forecast's property file (session
+        # 3938) and of its datacenter file (request 9 of docs/state/data_requests_forecast.md); this pinned 49 alone and
+        # failed on the data machine from session 3938 (130 rows), skipping elsewhere
+        import json
+        pr = json.load(open(os.path.join(ROOT, "site", "data", "forecast", "property_rules.json"), encoding="utf-8"))
+        n_prop = sum(len(s["rules"]) for s in pr["states"].values())
+        dcp = os.path.join(ROOT, "site", "data", "forecast", "datacenter_rules.json")
+        n_dc = 0
+        if (self.d.source == "forecast:datacenter_rules").any():
+            dc = json.load(open(dcp, encoding="utf-8"))
+            n_dc = sum(1 for s in dc["states"].values() for k in ("sales_exemption", "property", "electricity") if isinstance(s.get(k), dict))
+        self.assertEqual(len(self.d), 49 + n_prop + n_dc)
+        self.assertEqual(self.d.status.value_counts().to_dict(), {"held": 42 + n_prop + n_dc, "no_rule_held": 7})
         self.assertFalse(self.d.event_id.duplicated().any())
 
 

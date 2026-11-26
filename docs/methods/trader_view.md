@@ -16,7 +16,7 @@ Energy Research Warehouse (ERW), session 19. Tables: `ercot_trader_daily`, `cais
 | CAISO | `caiso_dam_hub_prices` (3 trading hubs) | `caiso_rtm_hub_prices` (15-minute means of 5-minute prices) | mean of the hour's four intervals | America/Los_Angeles |
 | NYISO | `nyiso_dam_zone_prices` (11 zones) | `nyiso_rtm_zone_prices` (15-minute means) | mean of the hour's four intervals | America/New_York |
 | MISO | `miso_dam_hub_prices` (8 hubs) | `miso_rtm_hub_prices` (hourly) | as published | EST (MISO's market time, no daylight saving) |
-| SPP | `spp_dam_hub_prices` (2 hubs) | none: the ERW has no SPP real-time table | | America/Chicago |
+| SPP | `spp_dam_hub_prices` (2 hubs) | not read: SPP's real-time prices are held (`spp_rtm_hub_prices`, 15-minute means of 5-minute prices, the rows of `iso_rtm_hub_prices` whose `market` is `spp_rtm`), but the code's `ISOS` map gives SPP no real-time table, so SPP has the day-ahead metrics only (session 10209, `docs/reviews/trader-model-audit-2026-11-26.md`, finding 1) | | America/Chicago |
 | ISO-NE | `isone_dam_zone_prices` (hub and 8 zones) | `isone_rtm_zone_prices_hourly` (ISO-NE's hourly real-time LMP) | as published | America/New_York |
 
 Henry Hub: `eia_fuel_spot_prices`, entity `eia:henry_hub` (EIA daily spot, USD/MMBtu, trading dates).
@@ -28,13 +28,13 @@ One row per hub (or zone), local operating day and metric. `ts_utc` is the opera
 | Variable | Unit | Definition |
 |---|---|---|
 | `da_mean_usd` | USD/MWh | mean of the day's day-ahead hourly prices. The day must have every hour: 24, or 23 or 25 on a daylight saving change day. With an hour missing, nothing is written for the hub and day |
-| `da_onpeak_mean_usd` | USD/MWh | mean over on-peak hours: the standard 5x16 block, hours starting 06:00 to 21:00 local (hours ending 7 to 22), on weekdays that are not NERC holidays. Not written on weekends and holidays |
+| `da_onpeak_mean_usd` | USD/MWh | mean over on-peak hours: the standard 5x16 block, hours starting 06:00 to 21:00 local (hours ending 7 to 22), on weekdays that are not NERC holidays, in every grid (CAISO's Saturdays included among the off-peak days, where the price board's on-peak group takes Monday to Saturday). Not written on weekends and holidays |
 | `da_offpeak_mean_usd` | USD/MWh | mean over every other hour of the day (the whole day on weekends and holidays) |
 | `rt_mean_usd` | USD/MWh | mean of the day's hourly real-time prices |
 | `da_rt_spread_mean_usd` | USD/MWh | mean over the day's hours of (real-time minus day-ahead) |
 | `da_rt_spread_max_usd` | USD/MWh | the largest hourly (real-time minus day-ahead) of the day |
 | `hours_rt_over_da_50` | count | hours in which real-time exceeded day-ahead by more than 50 USD/MWh |
-| `implied_heat_rate` | MMBtu/MWh | `da_mean_usd` / Henry Hub spot. The Henry Hub price is that of the operating day, or of the latest trading day up to 4 days before it (weekends and holidays have no trading) |
+| `implied_heat_rate` | MMBtu/MWh | `da_mean_usd` / Henry Hub spot. The Henry Hub price is the one EIA dates on the operating day, or on the latest trading day up to 4 days before it (weekends and holidays have no trading). EIA dates the daily spot by its trading day: gas traded that day for the next day's flow, while the day-ahead power of the operating day traded the day before; so on a weekday the gas was traded a day after the power, and the newest days, before EIA publishes their gas, take a price up to 4 days older (session 10209, `docs/reviews/trader-model-audit-2026-11-26.md`, finding 2) |
 | `da_volatility_30d_usd` | USD/MWh | sample standard deviation of the 30 day-over-day changes in `da_mean_usd` over the 31 days ending on the day. All 31 days are required |
 
 **Notes.**

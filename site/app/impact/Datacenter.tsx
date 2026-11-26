@@ -54,7 +54,7 @@ export function DcGroups({ P2, v, state, set, update, dcList, techState }: { P2:
                     {mine.map(({ p, i }) => <option key={p.id} value={i}>{p.name}{p.mw !== null ? `, ${plain(p.mw, 0)} MW` : ""}, {p.date.slice(0, 4)}</option>)}
                   </select>
                   <p className="mt-1 text-xs leading-snug text-muted" data-default="dcproj">
-                    {Number.isFinite(cur) ? <>{dcList[cur].where ? `${dcList[cur].where}. ` : ""}As {dcList[cur].publisher} stated it, {dcList[cur].date}: <a href={dcList[cur].url} rel="noopener" className="underline">the document</a>.</> : `${mine.length} announced in this state`}
+                    {Number.isFinite(cur) ? <>{dcList[cur].where ? `${dcList[cur].where}. ` : ""}As {dcList[cur].publisher} stated it, {dcList[cur].date}: <a href={dcList[cur].url} rel="noopener" className="underline">the document</a>.{dcList[cur].skipped ? <span className="block" data-skipped={dcList[cur].id}>{dcList[cur].skipped}</span> : null}</> : `${mine.length} announced in this state`}
                     <Tip id="f-dcproj" label="the announced project">Announced datacenters whose own documents (a state agency&apos;s or a company&apos;s release) state what they would bring, read by the ERW: each figure is the document&apos;s own. Picking one sets the MW, the investment (in 2025 dollars), the permanent jobs and the construction workers the document states; a figure it does not state keeps its default. A document&apos;s construction jobs are a headcount (at peak where it says so), held in every construction year here.</Tip>
                   </p>
                 </div>
@@ -78,7 +78,8 @@ function shownDc(f: DcField, d: DcInputs): string {
 
 function DcOne({ f, P2, state, v, d, set }: { f: DcField; P2: DcParams; state: string; v: Values; d: DcInputs; set: (k: string, val: number) => void }) {
   const isSet = Number.isFinite(v[f.name]);
-  const tip = <Tip id={`f-${f.name}`} label={f.label}>{f.source(state, P2)}</Tip>;
+  const links = f.links ? f.links(state, P2) : [];
+  const tip = <Tip id={`f-${f.name}`} label={f.label}>{f.source(state, P2)}{links.length ? <> Source: {links.map((l, i) => <span key={l.href}>{i ? "; " : ""}<a href={l.href} rel="noopener" className="underline" data-source-link={f.name}>{l.text}</a></span>)}.</> : null}</Tip>;
   let control: ReactNode;
   if (f.options) {
     const cur = isSet ? v[f.name] : (d[f.input] ? 1 : 0);
@@ -195,13 +196,13 @@ export function DcOtherStates({ P2, v, x, view, states }: { P2: DcParams; v: Val
   const rank = per.findIndex((p) => p.k === x.state) + 1;
   return (
     <section data-state-chart={view} data-dc="1">
-      <h2 className="mb-2 text-lg font-semibold">Scenario {view.toUpperCase()} in other states<Tip id="dc-states" label="other states">The same datacenter in each state: every input the scenario sets, and each state&apos;s own wages, sales and income tax rates and datacenter rules for the rest. {rank > 0 ? `${stateName(x.state)} is ${rank} of ${per.length} by these taxes' present value.` : ""} Property tax is left out: its rates are each locality&apos;s. An exemption counts only where the ERW holds the state&apos;s statute, so the bars are not like for like: the hover says which.</Tip></h2>
+      <h2 className="mb-2 text-lg font-semibold">Scenario {view.toUpperCase()} in other states<Tip id="dc-states" label="other states">The same datacenter in each state: every input the scenario sets, and each state&apos;s own wages, sales and income tax rates and datacenter rules for the rest. {rank > 0 ? `${stateName(x.state)} is ${rank} of ${per.length} by these taxes' present value.` : ""} Property tax is left out: its rates are each locality&apos;s. An exemption counts only where the ERW holds the state&apos;s rule, read from its statute or its agency&apos;s own description, so the bars are not like for like: the hover says which.</Tip></h2>
       <SeriesChart id={`dc-state-taxes-${view}`} title="Sales, income and electricity taxes, present value, in other states" unit="USD (2025)" kind="stacked" scale="linear"
         fmt={(n) => usdText(n).replace(/^USD /, "")}
         categories={shown.map((p) => ({ label: p.name, sub: p.k === x.state ? "yours" : undefined }))}
         series={[{ name: "Sales, income and electricity taxes, present value", color: "var(--color-accent)", values: shown.map((p) => p.taxes) }]}
         saysOnCard
-        says={(i) => `${shown[i].name}: ${usdText(shown[i].taxes)}${shown[i].rule ? `; a datacenter statute is held (forgone by its exemption, present value ${usdText(shown[i].forgone)})` : "; no datacenter statute held: sales tax before exemptions"}`}
+        says={(i) => `${shown[i].name}: ${usdText(shown[i].taxes)}${shown[i].rule ? `; a datacenter rule is applied (forgone by its exemption, present value ${usdText(shown[i].forgone)})` : "; no datacenter rule applied (none read, or held as words): sales tax before exemptions"}`}
         tip={<Tip id={`dc-state-taxes-${view}`} label="taxes in other states">The ten states with the most, the scenario&apos;s own and the five with the fewest.</Tip>} />
     </section>
   );

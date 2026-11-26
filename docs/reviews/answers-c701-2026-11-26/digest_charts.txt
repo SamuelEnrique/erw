@@ -1,0 +1,12 @@
+== 2026-10-22 (eia861m_utility_sales_monthly): 115 months held, 2017-01 to 2026-07
+   2026-07: 87865.529 | the record before it: 81361.103 in 2023-08
+   the record's fact: eia861m:4911:NE industrial_sales: 87,866 MWh in July 2026, the highest monthly value held since January 2017. The record until now was 81,361 MWh, in August 2023.
+   the record's numbers: {"sigma": 1573.0830779999994, "value": 87865.529, "margin": 6504.425999999992, "strength": 4.1348, "threshold": 81361.103, "old_record": 81361.103, "stood_points": 35, "history_years": 9.33, "margin_sigmas": 4.1348, "history_points": 113}
+== 2026-10-23 (eia_padd_rail_barge_movements_monthly): 259 months held, 1986-01 to 2026-07
+   2026-06: 251.0 | the record before it: 100.0 in 2004-07
+   the record's fact: eia_padd_movements:MGAMT1XP31 tanker_barge_receipts: 251.0 kbbl in June 2026, the highest monthly value held since January 1986. The record until now was 100.0 kbbl, in July 2004.
+   the record's numbers: {"sigma": 17.475670293834433, "value": 251.0, "margin": 151.0, "strength": 8.6406, "threshold": 100.0, "old_record": 100.0, "stood_points": 53, "history_years": 40.16, "margin_sigmas": 8.6406, "history_points": 257}
+== 2026-11-06 (onrr_revenue_monthly): 128 months held, 2010-08 to 2026-08
+   2026-08: -29834.4 | the record before it: -1720.17 in 2022-01
+   the record's fact: onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none revenue: USD -29,834 in August 2026, the lowest monthly value held since August 2010. The record until now was USD -1,720.2, in January 2022.
+   the record's numbers: {"sigma": 50.882832, "value": -29834.4, "margin": -28114.230000000003, "strength": 552.5288, "threshold": -1720.17, "old_record": -1720.17, "stood_points": 48, "history_years": 15.75, "margin_sigmas": 552.5288, "history_points": 127}

@@ -21,6 +21,9 @@ import {
 } from "@/lib/board";
 
 const METHOD = "/data/methods/price_board";
+/** Session 10402 (chain 720): the columns a lean group's table does not have (the 7-day, 30-day and 12-month means, the
+ *  30-day low to high, the one-year range). */
+const LEAN_LESS = 5;
 const PERCENT = (r: Row) => !r.formula && r.unit !== "USD/MWh" && r.unit !== "USD/MW-hour" && r.unit !== "percent";
 
 /** The aside the workbench is docked in: on the right from the xl width, above the tables below it. One string, so the
@@ -188,11 +191,14 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
     </th>
   );
   const cols = 8 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; 1611: the day's extremes; 1613: the 12-month mean
+  // session 10402 (chain 720): a lean group's row has the latest value, its date, the moves and the trend, and no other
+  // cell (five columns fewer); a row with a page of its own (`open`) says where its name's button goes
+  const lean = !!group.lean;
   if (row.status !== "ok") {
     return (
       <tr className="border-b border-rule/70" data-row={row.id} data-status={row.status} hidden={hidden} id={domId}>
         {name}
-        <td colSpan={cols} className="py-1 pr-2 text-left text-xs italic text-muted"><span title={row.note} className="cursor-help border-b border-dotted border-muted">{PLACEHOLDER[row.status]}</span></td>
+        <td colSpan={cols - (lean ? LEAN_LESS : 0)} className="py-1 pr-2 text-left text-xs italic text-muted"><span title={row.note} className="cursor-help border-b border-dotted border-muted">{PLACEHOLDER[row.status]}</span></td>
       </tr>
     );
   }
@@ -201,6 +207,7 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
   const age = closeAge(row, file.built);
   return (
     <tr className={`cursor-pointer border-b border-rule/70 hover:bg-paper ${open ? "bg-paper outline outline-1 -outline-offset-1 outline-accent" : ""}`} data-row={row.id}
+      {...(row.open ? { "data-row-href": row.open, title: "Opens this series on the energy equities page" } : {})}
       onClick={() => onOpen(row.id)}>
       {name}
       <td className="py-1 pr-3 text-right font-semibold" title={inputsWords(row) ?? undefined} {...(row.inputs ? { "data-inputs": row.id } : {})}><span data-n={`${row.id}|last`}>{fmt(last.v, row.unit)}</span><span className="ml-1 text-xs font-normal text-muted">{row.unit}</span></td>
@@ -210,6 +217,7 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
         {age?.stale ? <span className="ml-1 border border-accent px-0.5 text-xs text-accent">stale</span> : null}
       </td>
       {MOVES.map(([k]) => <td key={k} className="py-1 pr-3 text-right text-xs"><MoveCell row={row} k={k} built={file.built} /></td>)}
+      {lean ? <td className="py-0.5 pr-3 text-right" onClick={(e) => e.stopPropagation()}><Spark row={row} /></td> : <>
       <td className="py-1 pr-3 text-right text-xs">{row.avg7 ? <span title={`the mean of the ${row.avg7.n} values held in the 7 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg7`}>{fmt(row.avg7.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 7-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
       <td className="py-1 pr-3 text-right text-xs">{row.avg30 ? <span title={`the mean of the ${row.avg30.n} values held in the 30 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg30`}>{fmt(row.avg30.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 30-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
       <td className="whitespace-nowrap py-1 pr-3 text-right text-xs"><Avg365Cell row={row} built={file.built} /></td>
@@ -218,6 +226,7 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
       <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted">{row.lo30 !== undefined ? <span title="the lowest and highest value of the last 30 days">{fmt(row.lo30, row.unit)} to {fmt(row.hi30!, row.unit)}</span> : row.freq && row.freq !== "D" ? <span title={`A ${FREQ_WORDS[row.freq]} series has no 30-day low and high.`} data-lo30-step={row.id}>{FREQ_WORDS[row.freq]}</span> : <span title="The last 30 days' lowest and highest values are not held for this row.">not held yet</span>}</td>
       <td className="py-0.5 pr-3 text-right" onClick={(e) => e.stopPropagation()}><Spark row={row} /></td>
       <td className="py-1 pr-2 text-right"><RangeBar row={row} /></td>
+      </>}
       {group.curve ? <td className="py-1 pr-2 text-left"><Curve row={row} /></td> : null}
       {group.extremes ? <td className="whitespace-nowrap py-1 pr-2 text-right text-xs"><ExtCell row={row} built={file.built} /></td> : null}
     </tr>
@@ -235,6 +244,8 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
   const { shown, held } = heldLines(rows);
   const [named, setNamed] = useState<Record<string, boolean>>({});
   const cols = 8 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);   // session 1608: the moves are MOVES; 1611: the day's extremes; 1613: the 12-month mean
+  // session 10402 (chain 720): a lean group (the energy equities) has the latest value, its date, the moves and the trend
+  const span = cols - (group.lean ? LEAN_LESS : 0);
   return (
     <section id={group.id} className="scroll-mt-4" aria-label={group.title} data-group={group.id}>
       <GroupFold title={group.title} open={unfolded} onToggle={fold} meta={<>
@@ -256,19 +267,19 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
       {/* session 1883 (audit row 41): the box is the containing block of the held line's screen-reader words (an
           absolutely placed sr-only span), so they are clipped by it; they widened the page to 521 px at 390 */}
       <div className="relative overflow-x-auto">
-        <table className="w-full min-w-[1180px] border-collapse text-sm tabular-nums" data-dense="1">
+        <table className={`w-full ${group.lean ? "min-w-[820px]" : "min-w-[1180px]"} border-collapse text-sm tabular-nums`} data-dense="1" {...(group.lean ? { "data-lean": group.id } : {})}>
           <thead>
             <tr className="border-b border-rule text-xs text-muted">
-              <th className="py-1 pl-2 text-left font-normal">Price</th>
+              <th className="py-1 pl-2 text-left font-normal">{group.lean ? "Series" : "Price"}</th>
               <th className="pr-3 text-right font-normal">Latest</th>
               <th className="pr-3 text-right font-normal">Its date</th>
               {MOVES.map(([k, n]) => <th key={k} className="pr-3 text-right font-normal">{n}</th>)}
-              <th className="pr-3 text-right font-normal">7-day avg</th>
-              <th className="pr-3 text-right font-normal">30-day avg</th>
-              <th className="pr-3 text-right font-normal" title="The mean of the values held in the 365 days ending on the latest, and the latest less it (session 1613)">12-month avg</th>
-              <th className="pr-3 text-right font-normal">30-day low to high</th>
+              {group.lean ? null : <th className="pr-3 text-right font-normal">7-day avg</th>}
+              {group.lean ? null : <th className="pr-3 text-right font-normal">30-day avg</th>}
+              {group.lean ? null : <th className="pr-3 text-right font-normal" title="The mean of the values held in the 365 days ending on the latest, and the latest less it (session 1613)">12-month avg</th>}
+              {group.lean ? null : <th className="pr-3 text-right font-normal">30-day low to high</th>}
               <th className="pr-3 text-right font-normal" title="The last 90 days of a daily row, a year of a weekly one, three years of a monthly or quarterly one (session 1609)">Trend</th>
-              <th className="pr-2 text-right font-normal">One-year range</th>
+              {group.lean ? null : <th className="pr-2 text-right font-normal">One-year range</th>}
               {group.curve ? <th className="pr-2 text-left font-normal">Futures 1 to 4</th> : null}
               {group.extremes ? <th className="pr-2 text-right font-normal" title="The latest complete day's highest and lowest hour, each with the hour it began in the grid's local time (session 1611); under them the last 7 and 30 days' peak hour and the hours above 100, 250 and 1,000 USD/MWh (h>100/250/1000, session 1612)">Day&apos;s high / low</th> : null}
             </tr>
@@ -281,7 +292,7 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
                 <Fragment key={grid}>
                   <tr className="border-b border-rule/70" data-held-line={`${group.id}|${grid}`} data-held-count={hs.length}>
                     <th scope="row" className="whitespace-nowrap py-1 pl-2 pr-3 text-left font-normal text-muted">{grid}: {hs.length} {hs.length === 1 ? "row" : "rows"}</th>
-                    <td colSpan={cols} className="py-1 pr-2 text-left text-xs text-muted">
+                    <td colSpan={span} className="py-1 pr-2 text-left text-xs text-muted">
                       <span className="italic"><span title={heldNote(grid)} className="cursor-help border-b border-dotted border-muted">{PLACEHOLDER.license}</span><span className="sr-only">: {heldNote(grid)}</span></span>
                       <button type="button" aria-expanded={!!named[grid]} aria-controls={hs.map((r) => `${id}-${r.id}`).join(" ")} data-held-toggle={`${group.id}|${grid}`}
                         onClick={() => setNamed((n) => ({ ...n, [grid]: !n[grid] }))} className="ml-3 border border-rule bg-white px-1.5 py-px not-italic text-ink hover:border-accent">
@@ -303,16 +314,29 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
 
 const WEEK_COLS: [string, string][] = [["da_mean_usd", "Day-ahead"], ["da_onpeak_mean_usd", "On-peak DA"], ["da_offpeak_mean_usd", "Off-peak DA"], ["da_rt_spread_mean_usd", "RT minus DA"], ["implied_heat_rate", "Heat rate"]];
 const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+// session 10206 (docs/reviews/board-model-audit-2026-11-26.md, finding 3): the week's on-peak and off-peak take
+// trader_view.md's block, Monday to Friday in every grid (CAISO's Saturdays off-peak), not the on-peak group's CAISO
+// Monday to Saturday; the on-peak week is the latest 7 weekdays that hold one, so it can run over 9 calendar days
+const WEEK_HEAD_TITLES: Record<string, string> = {
+  da_onpeak_mean_usd: "The mean of the on-peak means of the latest 7 weekdays that hold one (hours ending 7 to 22 local, Monday to Friday, NERC holidays off), so the 7 can run over 9 calendar days. Monday to Friday in every grid, CAISO included, where the group \"Power, on-peak and off-peak\" takes Monday to Saturday.",
+  da_offpeak_mean_usd: "The mean of the off-peak means of the latest 7 days: every hour outside the on-peak block, the whole day on weekends and NERC holidays. CAISO's Saturdays are off-peak here and on-peak in the group \"Power, on-peak and off-peak\".",
+};
+const weekWords = (k: string, end: string, ch: boolean) => k === "da_onpeak_mean_usd"
+  ? `the latest 7 weekdays with an on-peak mean, to ${dateWords(end)}${ch ? "; the change is on the 7 such weekdays before" : ""}`
+  : `the 7 days to ${dateWords(end)}${ch ? "; the change is on the 7 days before" : ""}`;
 
 /** The week by hub, as the markets page had it: the week's means with their change on the week before, the largest
  *  real-time premium, the hours real time ran 50 above day-ahead, and 30-day volatility. */
 function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFile; grid: string; pick: (v: string) => void; onOpen: (id: string) => void; unfolded: boolean; fold: (open: boolean) => void }) {
   const grids = [...new Set(file.week.map((w) => w.grid))];
   const rows = file.week.filter((w) => grid === "all" || w.grid === grid);
+  // session 10209 (docs/reviews/trader-model-audit-2026-11-26.md, finding 1): SPP's real-time prices are held and drawn in
+  // the groups above, but trader_view.py does not read them, so SPP's real-time cells of the week say why they are empty
+  const sppRt = (w: WeekRow) => w.grid === "SPP" ? "SPP's real-time prices are held (the real-time rows of the groups above), but the week's real-time measures are not computed for SPP: the trader view does not read them." : null;
   const cell = (w: WeekRow, k: string) => {
     const m = w.means[k];
     if (!m) return <span className="text-xs text-muted" title="A week's mean needs the measure on all 7 days.">not held yet</span>;
-    return <span title={`the 7 days to ${dateWords(m.end)}${m.ch !== null ? "; the change is on the 7 days before" : ""}`}><span data-n={`week|${w.hub}|${k}`}>{two(m.v)}</span>{m.ch !== null ? <span className={`ml-1 text-xs ${m.ch > 0 ? "text-up" : m.ch < 0 ? "text-down" : "text-muted"}`}>{m.ch > 0 ? "+" : m.ch < 0 ? "−" : ""}{two(Math.abs(m.ch))}</span> : null}</span>;
+    return <span title={weekWords(k, m.end, m.ch !== null)}><span data-n={`week|${w.hub}|${k}`}>{two(m.v)}</span>{m.ch !== null ? <span className={`ml-1 text-xs ${m.ch > 0 ? "text-up" : m.ch < 0 ? "text-down" : "text-muted"}`}>{m.ch > 0 ? "+" : m.ch < 0 ? "−" : ""}{two(Math.abs(m.ch))}</span> : null}</span>;
   };
   return (
     <section id="week" className="scroll-mt-4" aria-label="The week, by hub" data-group="week">
@@ -331,10 +355,11 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
               <th className="pr-3 text-right font-normal">Day-ahead, latest</th>
               {/* session 7538 (the board read, row 8): "RT minus DA" is real time less day-ahead, the opposite sign of the group
                   "Day-ahead minus real time, by hub" above, whose 7-day avg is this figure with its sign turned */}
-              {WEEK_COLS.map(([k, n]) => <th key={k} className="pr-3 text-right font-normal" {...(k === "da_rt_spread_mean_usd" ? { title: "Real time less day-ahead: the mean of the week's 7 daily differences, the real-time daily mean less the day-ahead daily mean. The group \"Day-ahead minus real time, by hub\" takes the other order, so its 7-day avg is this figure with its sign turned.", "data-week-sign": "1" } : {})}>{n}, week</th>)}
+              {WEEK_COLS.map(([k, n]) => <th key={k} className="pr-3 text-right font-normal" {...(k === "da_rt_spread_mean_usd" ? { title: "Real time less day-ahead: the mean of the week's 7 daily differences, the real-time daily mean less the day-ahead daily mean. The group \"Day-ahead minus real time, by hub\" takes the other order, so its 7-day avg is this figure with its sign turned.", "data-week-sign": "1" } : WEEK_HEAD_TITLES[k] ? { title: WEEK_HEAD_TITLES[k], "data-week-peak": k } : {})}>{n}, week</th>)}
               <th className="pr-3 text-right font-normal">Largest RT minus DA</th>
-              <th className="pr-3 text-right font-normal">Hours RT over DA + 50</th>
-              <th className="pr-2 text-right font-normal">30-day volatility</th>
+              <th className="pr-3 text-right font-normal" data-week-head="hours50" title="The week's hours in which the hour's real-time price ran more than 50 USD/MWh above its day-ahead price. A 15-minute market's hour is the mean of its four 15-minute prices, so a 15-minute spike the hour's mean hides is not counted.">Hours RT over DA + 50</th>
+              {/* session 10209 (docs/reviews/trader-model-audit-2026-11-26.md, finding 4): what the two heads measure */}
+              <th className="pr-2 text-right font-normal" data-week-head="vol" title="The sample standard deviation of the 30 day-over-day changes in the day-ahead daily mean, over the 31 days to the date shown, in USD/MWh: not annualized and not a percent (prices can be zero or negative, so no log returns are taken). It needs all 31 days, so one missing day leaves the last one standing, marked stale, for the 31 days after.">30-day volatility</th>
             </tr>
           </thead>
           <tbody>
@@ -342,9 +367,9 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
               <tr key={w.hub} className="cursor-pointer border-b border-rule/70 hover:bg-paper" onClick={() => onOpen(`${w.hub}-da`)}>
                 <th scope="row" className="py-1 pl-2 pr-3 text-left font-normal"><button type="button" data-row-open={`${w.hub}-da`} className="text-left"><span title={`Code: ${w.code}`}>{w.label}</span></button></th>
                 <td className="pr-3 text-right">{w.last_da ? <span title={dateWords(w.last_da.t)}><span data-n={`week|${w.hub}|last`}>{two(w.last_da.v)}</span><span className="ml-1 text-xs text-muted">{shortDate(w.last_da.t)}</span></span> : <span className="text-xs text-muted">not held yet</span>}</td>
-                {WEEK_COLS.map(([k]) => <td key={k} className="pr-3 text-right">{cell(w, k)}</td>)}
-                <td className="pr-3 text-right">{w.max_spread ? <span title={`${dateWords(w.max_spread.start)} to ${dateWords(w.max_spread.end)}`}>{two(w.max_spread.v)}</span> : <span className="text-xs text-muted" title="Needs a real-time price on each of the week's 7 days.">not held yet</span>}</td>
-                <td className="pr-3 text-right">{w.hours50 ? <span title={`${dateWords(w.hours50.start)} to ${dateWords(w.hours50.end)}`}>{w.hours50.v.toLocaleString("en-US")}</span> : <span className="text-xs text-muted" title="Needs a real-time price on each of the week's 7 days.">not held yet</span>}</td>
+                {WEEK_COLS.map(([k]) => <td key={k} className="pr-3 text-right">{k === "da_rt_spread_mean_usd" && !w.means[k] && sppRt(w) ? <span className="text-xs text-muted" title={sppRt(w) ?? undefined} data-week-spp-rt="1">not computed</span> : cell(w, k)}</td>)}
+                <td className="pr-3 text-right">{w.max_spread ? <span title={`${dateWords(w.max_spread.start)} to ${dateWords(w.max_spread.end)}`}>{two(w.max_spread.v)}</span> : <span className="text-xs text-muted" title={sppRt(w) ?? "Needs a real-time price on each of the week's 7 days."}>{sppRt(w) ? "not computed" : "not held yet"}</span>}</td>
+                <td className="pr-3 text-right">{w.hours50 ? <span title={`${dateWords(w.hours50.start)} to ${dateWords(w.hours50.end)}`}>{w.hours50.v.toLocaleString("en-US")}</span> : <span className="text-xs text-muted" title={sppRt(w) ?? "Needs a real-time price on each of the week's 7 days."}>{sppRt(w) ? "not computed" : "not held yet"}</span>}</td>
                 {/* session 7538 (the board read, row 9): a volatility measured days before the build is marked stale, as a row is
                     (ERCOT's stopped on 6 November, two day-ahead days short, and read as current) */}
                 <td className="whitespace-nowrap pr-2 text-right">{w.vol ? <span title={`as of ${dateWords(w.vol.t)}${weekStale(w.vol.t, file.built) ? `: ${weekStale(w.vol.t, file.built)}` : ""}`}>{two(w.vol.v)}{weekStale(w.vol.t, file.built) ? <span className="ml-1 border border-accent px-0.5 text-xs text-accent" data-week-stale={`${w.hub}|vol`}>stale</span> : null}</span> : <span className="text-xs text-muted" title="Needs 31 days of day-ahead prices.">not held yet</span>}</td>
@@ -357,6 +382,8 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
           </tbody>
         </table>
       </div>
+      {/* session 10209 (docs/reviews/trader-model-audit-2026-11-26.md, finding 2): which gas the week's heat rate divides by */}
+      <p className="mt-1 text-xs text-muted" data-week-heat="1">Heat rate, week: each day&apos;s day-ahead mean over the Henry Hub spot price EIA dates on that day, or on the newest trading day up to 4 days before. EIA dates it by the trading day, gas traded that day for the next day&apos;s flow, while the day-ahead power traded the day before; and the newest days, before EIA publishes their gas, take a price up to 4 days older. Not any plant&apos;s heat rate, and not a regional gas hub&apos;s.</p>
       <h3 className="mb-1 mt-3 text-xs text-muted">The week&apos;s highest real-time intervals</h3>
       <ol className="grid gap-x-8 text-xs tabular-nums sm:grid-cols-2 xl:grid-cols-3">
         {file.spikes.filter((s) => grid === "all" || s.grid === grid).slice(0, 30).map((s) => (
@@ -417,8 +444,13 @@ function Headline({ file, market, setMarket, onOpen }: { file: BoardFile; market
     // label counts them and the hover names them and the grids not on the board
     const words = gridExtremesWords(ex, file.held ?? []);
     const of = `of ${ex.grids} ${ex.grids === 1 ? "grid" : "grids"}`;
-    cells.push({ k: "low", label: `Lowest ${of}, ${market === "da" ? "day-ahead" : "real time"}`, r: ex.low.row, v: ex.low.v, note: `${ex.low.row.label}, ${dateWords(ex.day)}`, tip: words });
-    cells.push({ k: "high", label: `Highest ${of}, ${market === "da" ? "day-ahead" : "real time"}`, r: ex.high.row, v: ex.high.v, note: `${ex.high.row.label}, ${dateWords(ex.day)}`, tip: words });
+    // session 10206 (docs/reviews/board-model-audit-2026-11-26.md, finding 4): the day compared is the newest every priced
+    // main hub holds, and is marked stale past a market's 3 days as the closes beside it are (weekStale, the same rule)
+    const st = weekStale(ex.day, file.built);
+    const day = `${dateWords(ex.day)}${st ? " (stale)" : ""}`;
+    const tip = st ? `${words} ${st}` : words;
+    cells.push({ k: "low", label: `Lowest ${of}, ${market === "da" ? "day-ahead" : "real time"}`, r: ex.low.row, v: ex.low.v, note: `${ex.low.row.label}, ${day}`, tip, stale: !!st });
+    cells.push({ k: "high", label: `Highest ${of}, ${market === "da" ? "day-ahead" : "real time"}`, r: ex.high.row, v: ex.high.v, note: `${ex.high.row.label}, ${day}`, tip, stale: !!st });
   }
   for (const [id, label] of [["eia-henry-hub-spot", "Henry Hub gas"], ["eia-wti-cushing-spot", "WTI crude"], ["eia-brent-spot", "Brent crude"], ["erw-brent-minus-wti", "Brent minus WTI"]] as const) {
     const r = row(id);
@@ -499,7 +531,10 @@ export function BoardView({ file, footer, under }: { file: BoardFile; footer?: R
   const jump = useRef(false);
   const [jumps, setJumps] = useState(0);
   const onOpen = useCallback((id: string) => {
-    if (!file.rows.some((r) => r.id === id && r.status === "ok")) return;
+    const hit = file.rows.find((r) => r.id === id && r.status === "ok");
+    if (!hit) return;
+    // session 10402 (chain 720): a row with a page of its own opens that page, not the workbench
+    if (hit.open) { window.location.assign(hit.open); return; }
     jump.current = true;
     setJumps((n) => n + 1);
     setBench({ s: id });

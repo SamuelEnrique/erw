@@ -19,7 +19,7 @@ export const AI_DECISIONS: AiDecision[] = [
     def: "Publisher, A to Z.",
     source: "ordered in site/lib/aienergy.ts." },
   { key: "no-pair", session: "session 8012",
-    text: "No two figures are set side by side for comparison, since no two publications measure the same thing in the same way.",
+    text: "No two figures are set side by side for comparison. Most publications measure different things; where two give a figure for the same thing, both rows stand, each with its subject, and neither is preferred: the neural architecture search that produced the Evolved Transformer has Strubell and others' estimate (2019, in kWh times PUE) and Google's authors' own figure (2022), under two measures.",
     def: "One table of every figure.",
     source: "The rule of the site's page standard, two cases side by side where a reader would compare, read against this table's rule of no comparison across publishers." },
   { key: "which-publications", session: "session 8012",

@@ -39,6 +39,9 @@ RULES = os.path.join(ROOT, "site", "data", "severance_rules.json")
 # forecast chains), into the warehouse's record beside the severance rules; the file is the record, nothing read again
 PROPERTY_FILE = os.path.join(ROOT, "site", "data", "forecast", "property_rules.json")
 PROPERTY_SOURCE = "forecast:property_rules"
+# session 10000 (chain 701, request 9 of docs/state/data_requests_forecast.md): the datacenter rules /impact applies
+DATACENTER_FILE = os.path.join(ROOT, "site", "data", "forecast", "datacenter_rules.json")
+DATACENTER_SOURCE = "forecast:datacenter_rules"
 QUOTE_KEYS = {"cite", "cite2", "cite3", "quote", "quote2", "quote3", "tip", "own_tip", "option_tip", "rate_tip", "id", "kind",
               "technologies", "basis", "not_modeled"}
 READ_ON = "2026-09-30"          # sessions 40 and 41 read the pages as text on this day (the file's own note)
@@ -169,6 +172,44 @@ def property_file_rows(pr):
     return out
 
 
+DC_KINDS = {"sales_exemption": ("datacenter_sales_exemption", "sales"), "property": ("datacenter_property_rule", "property"),
+             "electricity": ("datacenter_electricity_tax", "electricity")}
+DC_TEXT = {"cite", "quote", "tip"}
+
+
+def datacenter_rows(dc):
+    """Session 10000 (chain 701, request 9 of docs/state/data_requests_forecast.md): one row a state's datacenter rule as
+    /impact applies it (site/data/forecast/datacenter_rules.json, read by chain 740 on 26 November 2026), a row for each
+    of its sales tax exemption, its property tax treatment and its electricity tax where the file holds one: the rule's
+    figures as the file holds them (x_detail, JSON), its words (x_quote), what the tool does with it (x_what), its
+    source's title, address and day read. The file is the record; nothing is read again here."""
+    src = dc["sources"]
+    out = []
+    for st, s in dc["states"].items():
+        for kind, (etype, tax) in DC_KINDS.items():
+            r = s.get(kind)
+            if not isinstance(r, dict):
+                continue
+            cite = src.get(r.get("cite"), {})
+            read = cite.get("read", "")
+            detail = {k: v for k, v in r.items() if k not in DC_TEXT}
+            out.append(dict(
+                event_id=f"erw_tax:{st}:dc_{kind}", event_date=read if DATE.match(read) else "", event_type=etype,
+                parties=s["name"], entity_ids="", mw="", price="", currency="", status="held", source=DATACENTER_SOURCE,
+                source_url=cite.get("url", ""), x_state=st.upper(), x_tax=tax, x_product="datacenter", x_rule=r.get("cite", ""),
+                x_rule_name=cite.get("title", ""), x_kind=text(r.get("kind") or r.get("scope") or ""), x_basis="", x_rate="",
+                x_per_unit="", x_unit="", x_effective_text="", x_date_kind="the day the statute or agency page was read",
+                x_who="", x_what=text(r.get("tip")),
+                x_how_long=(f"{r['term_years']} years" if r.get("term_years") else f"purchases through {r['last_year']}" if r.get("last_year") else ""),
+                x_quote=text(r.get("quote")), x_quote2="", x_code_section=cite.get("title", ""), x_code_quote="", x_code_url="",
+                x_detail=json.dumps(detail, ensure_ascii=False, sort_keys=True) if detail else "", x_applies_to="datacenter",
+                x_note=(f"As site/data/forecast/datacenter_rules.json holds it (chain 740, read {read or 'on a day the file does not give'}"
+                        + (f", request {cite['request']} of runs/c740/probe/probe.csv on lab-desktop" if cite.get("request") else "") + ")")))
+    if not out:
+        raise RuntimeError("site/data/forecast/datacenter_rules.json holds no rule")
+    return out
+
+
 def main():
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -177,14 +218,18 @@ def main():
     try:
         d = json.load(open(RULES, encoding="utf-8"))
         pr = json.load(open(PROPERTY_FILE, encoding="utf-8"))
-        rows = severance_rows(d) + property_rows() + property_file_rows(pr)
+        dc = json.load(open(DATACENTER_FILE, encoding="utf-8"))
+        dcr = datacenter_rows(dc)
+        rows = severance_rows(d) + property_rows() + property_file_rows(pr) + dcr
         df = pd.DataFrame(rows)
         if df.event_id.duplicated().any():
             raise RuntimeError(f"an event_id is given twice: {df.event_id[df.event_id.duplicated()].tolist()[:3]}")
         cols = COLS + X_COLS
         # the forecast's property rules are one source (each row's own address in source_url), not listed address by address here
-        cites = sorted({(r["source"], r["parties"] or "the ERW", r["source_url"]) for r in rows if r["source"] != PROPERTY_SOURCE})
+        cites = sorted({(r["source"], r["parties"] or "the ERW", r["source_url"]) for r in rows
+                        if r["source"] not in (PROPERTY_SOURCE, DATACENTER_SOURCE)})
         cites.append((PROPERTY_SOURCE, "US state legislatures and tax agencies", "each row's source_url"))
+        cites.append((DATACENTER_SOURCE, "US state legislatures and tax agencies", "each row's source_url"))
         header = [
             "Energy Research Warehouse (ERW): the tax rules of the economic impact tool, one row per rule, each with its citation (session 346)",
             "Shape: events (docs/datastandard.md v0). event_id erw_tax:<state>:<rule>; event_date the effective date the citation gives, "
@@ -196,6 +241,10 @@ def main():
             f"Property tax, the forecast's rules (session 3938): site/data/forecast/property_rules.json version {pr['version']}, "
             f"{sum(len(s['rules']) for s in pr['states'].values())} rules of {len(pr['states'])} states and DC, each with its statute's or agency's "
             f"words and address (source {PROPERTY_SOURCE}, each row's source_url); no page was read again",
+            f"Datacenter rules (session 10000, chain 701): site/data/forecast/datacenter_rules.json, {len(dcr)} rules of {len(dc['states'])} "
+            "states (a sales tax exemption, a property tax treatment, an electricity tax: each a row where the file holds it), read by "
+            f"chain 740 on 26 November 2026, each with its words and address (source {DATACENTER_SOURCE}, each row's source_url); no page "
+            "was read again",
             "Sources: " + "; ".join(f"{s} ({p}) {u}" for s, p, u in cites),
             "License: public. State statutes and the agencies' own pages, as the /severance page cites them; their publishers' "
             "terms are not read (docs/licenses.md lists the table as not settled until they are)",
@@ -205,7 +254,11 @@ def main():
         ip.write_snapshot(df[cols], NAME, header, log, cols)
         regs = {}
         for s, p, u in cites:
-            if s == PROPERTY_SOURCE:
+            if s == DATACENTER_SOURCE:
+                regs[s] = dict(source=s, publisher="US state legislatures and tax agencies, as the forecast tool's datacenter rules cite them",
+                               report="The forecast tool's datacenter tax rules (site/data/forecast/datacenter_rules.json)",
+                               report_url=METHOD_URL, document_list="", license="public", tables=[NAME])
+            elif s == PROPERTY_SOURCE:
                 regs[s] = dict(source=s, publisher="US state legislatures and tax agencies, as the forecast tool's property rules cite them",
                                report="The forecast tool's property tax rules (site/data/forecast/property_rules.json)", report_url=METHOD_URL,
                                document_list="", license="public", tables=[NAME])

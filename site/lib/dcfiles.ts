@@ -14,7 +14,7 @@ const COLS = ["scenario", "year", "phase", "jobs_onsite", "jobs_supply_chain", "
 export const DC_HEAD = (what: string) => [
   `# Energy Research Warehouse (ERW): Local impact, a datacenter, ${what}`,
   "# Size, investment and jobs: the reader's, or the medians of announced projects' own documents (site/data/forecast/datacenter_announced.json); the spending split, refresh cycle and build time: JLARC, Data Centers in Virginia 2024; Virginia's supply chain and induced ratios: JLARC Appendix D (Weldon Cooper Center, IMPLAN).",
-  "# Wages: U.S. Census Bureau, County Business Patterns 2023. Sales and income tax tables: Tax Foundation, 2026 (CC BY-NC 4.0). Exemptions, property and electricity rules: each state's statute as quoted in the ERW's rules.",
+  "# Wages: U.S. Census Bureau, County Business Patterns 2023. Sales and income tax tables: Tax Foundation, 2026 (CC BY-NC 4.0). Exemptions, property and electricity rules: each state's statute or agency page, as quoted in the ERW's rules.",
   "# Every dollar is a 2025 dollar. Gross effects, not net of what would have happened otherwise.",
 ];
 export type Scenario = { dc: true; x: DcInputs; r: DcResult } | { dc: false; csvRows: string[]; inputs: unknown };
@@ -48,7 +48,7 @@ export function dcBundle(P: DcParams, x: DcInputs, r: DcResult) {
       state_rate_pct: (P.sales.states[x.state]?.state_rate ?? 0) * 100 } : null,
       property: rule.property && (rule.property.min_investment_usd === undefined || x.invest * 1e6 >= rule.property.min_investment_usd)
         ? { building_ratio: rule.property.building_ratio, equipment_ratio: rule.property.equipment_ratio } : null,
-      electricity: rule.electricity ? { blocks: rule.electricity.blocks } : null } : null,
+      electricity: rule.electricity ? { blocks: rule.electricity.blocks, elective: rule.electricity.elective ?? null } : null } : null,
     multipliers: m ? { construction: { direct: m.construction.direct, indirect: m.construction.indirect, induced: m.construction.induced },
       operations: { direct: m.operations.direct, indirect: m.operations.indirect, induced: m.operations.induced } } : null,
     income: st ? { none: !!st.none, brackets: st.brackets, standard_deduction: st.standard_deduction_single ?? 0, exemption: st.personal_exemption_single ?? 0, credit: st.personal_credit_single ?? 0 } : null,
@@ -133,6 +133,16 @@ def run(d):
                 tax += (min(month, hi) - lo) * blk["usd_per_kwh"]
             lo = hi
         elec = tax * 12
+        alt = elec_rule.get("elective")
+        if alt and x["mwh"] * 1000 >= alt["min_annual_kwh"]:
+            # a schedule a large buyer may elect instead, by the year's kWh: the lower tax is taken
+            year_kwh, lo, elected = x["mwh"] * 1000, 0.0, 0.0
+            for blk in alt["annual_blocks"]:
+                hi = blk["upto_kwh"] if blk["upto_kwh"] is not None else float("inf")
+                if year_kwh > lo:
+                    elected += (min(year_kwh, hi) - lo) * blk["usd_per_kwh"]
+                lo = hi
+            elec = min(elec, elected)
 
     tot = {"jobs": 0.0, "earnings": 0.0, "property": 0.0, "salesbefore": 0.0, "forgone": 0.0, "sales": 0.0, "income": 0.0, "elec": None, "pv_taxes": 0.0}
     pv_prop = 0.0
@@ -194,7 +204,7 @@ for name, d in DATA.items():
 
 export function dcStata(P: DcParams, sc: Record<View, Scenario>): string {
   const out: string[] = [...DC_HEAD("the tax arithmetic in Stata").map((l) => `* ${l.slice(2)}`),
-    "* Recomputes each datacenter scenario's sales tax (before the exemption, forgone, paid), property tax and income tax by year,",
+    "* Recomputes each datacenter scenario's sales tax (before the exemption, forgone, paid), property tax, income tax and electricity tax,",
     "* and displays each total beside the tool's. A plant scenario is replicated by the plant download.", "clear all", "set more off"];
   for (const p of VIEWS) {
     const s = sc[p];
@@ -236,6 +246,21 @@ export function dcStata(P: DcParams, sc: Record<View, Scenario>): string {
     }
     for (const [v, t] of [["salesbefore", s.r.sums.salesbefore], ["forgone", s.r.sums.forgone], ["sales", s.r.sums.sales], ["income", s.r.sums.income]] as const)
       out.push(`quietly summarize ${v}`, `display "${v}: " %18.2f r(sum) "   tool: " %18.2f ${t ?? 0}`);
+    // session 10821: the tax on the electricity bought, by the state's monthly blocks on a twelfth of the year's kWh, and
+    // where the state lets a large buyer elect another schedule by the year's kWh (Ohio), the lower of the two
+    const el = b.rule?.electricity ?? null;
+    if (el && x.mwh !== null) {
+      const blocks = (v: string, bl: { upto_kwh: number | null; usd_per_kwh: number }[]) => {
+        let lo = 0; const parts: string[] = [];
+        for (const k of bl) { parts.push(k.upto_kwh === null ? `max(0, ${v} - ${lo}) * ${k.usd_per_kwh}` : `max(0, min(${v}, ${k.upto_kwh}) - ${lo}) * ${k.usd_per_kwh}`); lo = k.upto_kwh ?? lo; }
+        return parts.join(" + ");
+      };
+      out.push(`scalar kwh_month = ${x.mwh} * 1000 / 12`, `scalar elec_year = 12 * (${blocks("kwh_month", el.blocks)})`);
+      const alt = (el as { elective?: { min_annual_kwh: number; annual_blocks: { upto_kwh: number | null; usd_per_kwh: number }[] } | null }).elective;
+      if (alt && x.mwh * 1000 >= alt.min_annual_kwh)
+        out.push(`scalar kwh_year = ${x.mwh} * 1000`, `scalar elec_year = min(elec_year, ${blocks("kwh_year", alt.annual_blocks)})`);
+      out.push(`display "electricity tax over the operating years: " %18.2f ${x.life} * elec_year "   tool: " %18.2f ${s.r.sums.elec ?? 0}`);
+    }
   }
   return out.join("\n") + "\n";
 }

@@ -34,7 +34,9 @@ function Select({ name, label, value, options, tip }: { name: string; label: str
   return (
     <label className="mb-3 flex flex-col text-xs text-muted">
       <span>{label}{tip}</span>
-      <select name={name} defaultValue={value} className="mt-1 border border-rule bg-white px-2 py-1 text-sm text-ink">
+      {/* session 11000 (chain 750): aria-label. A <label> names the first field inside it, and where a tip stands before
+          the list that is the tip's own button ("About The kind"): the list had no name for a screen reader. */}
+      <select name={name} defaultValue={value} aria-label={label} className="mt-1 border border-rule bg-white px-2 py-1 text-sm text-ink">
         {options.map((o) => <option key={o.value} value={o.value} disabled={o.disabled}>{o.label}</option>)}
       </select>
     </label>
@@ -64,8 +66,13 @@ export default async function Companies({ searchParams }: { searchParams: Promis
   const filtered = !!(q.q || q.kind || q.segment || q.state || q.grid || q.has);
   const dealsHeld = held.includes("energy_deals");
   const facHeld = held.includes("datacenter_facilities");
+  // session 10228 (companies audit, finding 1): policy_actions is held since 13 November 2026, so no agency is listed and
+  // every company's policy actions are 0; the lead, the column and the "Has" choice say so while it is held
+  const policyHeld = held.includes("policy_actions");
+  // session 10228 (companies audit, finding 5): a kind the index counts that the Kind choices (KIND_ORDER) do not offer
+  const kindsUnoffered = Object.keys(ix.kinds).filter((k) => !KIND_ORDER.includes(k));
   const heldWords = held.length
-    ? `Held for a license (the publishers ask for permission; warehouse/metadata/license_status.csv): ${held.map((t) => `${t} (${plural(ix.held_links[t] ?? 0, "row", "rows")})`).join(", ")}. Their rows add no company, no name and no figure here; ${plural(ix.held_only, "company", "companies")} named only in them ${ix.held_only === 1 ? "is" : "are"} not listed.`
+    ? `Held for a license (the publishers ask for permission; warehouse/metadata/license_status.csv): ${held.map((t) => `${t} (${plural(ix.held_links[t] ?? 0, "link", "links")})`).join(", ")}, a link being a company named in one of a table's rows (a row that names two companies is two links). Their rows add no company, no name and no figure here; ${plural(ix.held_only, "company", "companies")} named only in them ${ix.held_only === 1 ? "is" : "are"} not listed.`
     : "No input is held.";
   const sourceOf = (col: string) => `company_directory, ${col}: summed from the public rows of company_links (docs/methods/companies.md)`;
   const opt = (rec: Record<string, number>, order?: string[]) =>
@@ -73,9 +80,9 @@ export default async function Companies({ searchParams }: { searchParams: Promis
   // session 1878 (companies faults row 5): a name more than one listed row carries; its cells add the id
   const shared = sharedNames(all);
   // session 1878 (row 11): each column head a link to its order, the filters kept, page 1
-  const Head = ({ sort, label, right }: { sort: Sort; label: string; right?: boolean }) => (
+  const Head = ({ sort, label, right, tip }: { sort: Sort; label: string; right?: boolean; tip?: React.ReactNode }) => (
     <th scope="col" className={`px-3 py-1.5 font-normal${right ? " text-right" : ""}`} aria-sort={q.sort === sort ? (sort === "name" ? "ascending" : "descending") : undefined} data-sort-col={sort}>
-      <Link href={hrefOf("/companies", q, { sort, page: 1 })} title={`Order ${SORTS[sort].words}`} aria-current={q.sort === sort ? "true" : undefined}>{label}</Link>
+      <Link href={hrefOf("/companies", q, { sort, page: 1 })} title={`Order ${SORTS[sort].words}`} aria-current={q.sort === sort ? "true" : undefined}>{label}</Link>{tip}
     </th>
   );
   const csvHref = hrefOf("/companies/rows", { ...q, page: 1 });
@@ -85,18 +92,22 @@ export default async function Companies({ searchParams }: { searchParams: Promis
     <ToolPage>
       <ToolHeader
         title="Companies"
-        lead={<>Every company the warehouse names in a public row: EIA&apos;s operators, owners and utilities, ERCOT&apos;s interconnection queue, the NRC&apos;s licensees and the policy actions&apos; agencies.<Tip id="companies-what" label="What the directory is">Built from the tables held and nothing else: no figure is typed in and no model is asked. A company is one EIA utility id where it has one, else one name as the rows write it (docs/methods/companies.md). {heldWords}</Tip></>}
+        lead={<>Every company the warehouse names in a public row: {policyHeld ? <>EIA&apos;s operators, owners and utilities, ERCOT&apos;s interconnection queue and the NRC&apos;s licensees. The policy actions&apos; agencies are not listed while policy_actions is held for a license.</> : <>EIA&apos;s operators, owners and utilities, ERCOT&apos;s interconnection queue, the NRC&apos;s licensees and the policy actions&apos; agencies.</>}<Tip id="companies-what" label="What the directory is">Built from the warehouse&apos;s own tables and nothing else: no figure is typed in and no model is asked. A company is one EIA utility id where it has one, else one name as the rows write it (docs/methods/companies.md). {heldWords}</Tip></>}
       />
       <div className="grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)]">
         <aside className="min-w-0">
-          <form method="get" action="/companies">
+          {/* session 11000 (chain 750): autoComplete="off". A browser puts a form's last state back when a page of its
+              history is shown again; these fields take their value from the page once, so after a choice, Show and the
+              back button the page listed every company while the list still read the choice (Kind: OEM over 12,724
+              companies). With it off the browser keeps no state for the form, and the fields read what the page shows. */}
+          <form method="get" action="/companies" autoComplete="off">
             <InputPanel title="Choose" reset={{ href: "/companies", defaults: "every listed company, the largest footprint first." }}>
               <label className="mb-3 flex flex-col text-xs text-muted">
                 <span>Name<Tip id="companies-q" label="The search">Every word typed must be in the company&apos;s name or in another name its rows give it.</Tip></span>
-                <input type="search" name="q" defaultValue={q.q} maxLength={80} className="mt-1 border border-rule bg-white px-2 py-1 text-sm text-ink" />
+                <input type="search" name="q" defaultValue={q.q} maxLength={80} aria-label="Name" className="mt-1 border border-rule bg-white px-2 py-1 text-sm text-ink" />
               </label>
               <Select name="kind" label="Kind" value={q.kind} options={[{ value: "", label: "Every kind" }, ...opt(ix.kinds, KIND_ORDER)]}
-                tip={<Tip id="companies-kind" label="The kind">The first of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, other that the company&apos;s rows show: EIA-861&apos;s ownership, EIA-860&apos;s sector, a queue&apos;s interconnection customer, an NRC licensee, a policy action&apos;s agency; lab or hyperscaler and OEM from the reviewed aliases only.</Tip>} />
+                tip={<Tip id="companies-kind" label="The kind">The first of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, power marketer, other that the company&apos;s rows show: EIA-861&apos;s ownership (a retail or wholesale power marketer is a power marketer), EIA-860&apos;s sector, a queue&apos;s interconnection customer, an NRC licensee, a policy action&apos;s agency; lab or hyperscaler and OEM from the reviewed aliases only; other where no rule applies.{kindsUnoffered.length ? ` The choices here do not offer ${kindsUnoffered.join(", ")}: such a company shows its kind in the table.` : ""}</Tip>} />
               <Select name="segment" label="Segment" value={q.segment} options={[{ value: "", label: "Every segment" }, ...opt(ix.segments)]}
                 tip={<Tip id="companies-segment" label="The segment">The fuel or line with the most MW across the company&apos;s plants, plans and queue positions; a utility or a government body with none is its kind&apos;s line.</Tip>} />
               <Select name="state" label="State" value={q.state} options={[{ value: "", label: "Every state" }, ...Object.keys(ix.states).sort().map((k) => ({ value: k, label: stateLabel(k, ix.states[k]) }))]} />
@@ -106,10 +117,10 @@ export default async function Companies({ searchParams }: { searchParams: Promis
                 { value: "", label: "Anything" },
                 ...Object.entries(HAS_WORDS).map(([k, v]) => ({
                   value: k,
-                  label: (k === "deals" && dealsHeld) || (k === "facilities" && facHeld) ? `${v} (license needed)` : v,
+                  label: (k === "deals" && dealsHeld) || (k === "facilities" && facHeld) || (k === "policy" && policyHeld) ? `${v} (license needed)` : v,
                   disabled: (k === "deals" && dealsHeld) || (k === "facilities" && facHeld),
                 })),
-              ]} tip={dealsHeld || facHeld ? <Tip id="companies-has" label="Held filters">Deals and datacenter facilities are held for a license: which company has them is not shown until a permission is recorded.</Tip> : undefined} />
+              ]} tip={dealsHeld || facHeld || policyHeld ? <Tip id="companies-has" label="Held filters">Deals and datacenter facilities are held for a license: which company has them is not shown until a permission is recorded.{policyHeld ? " Policy actions are held too: no listed company has one while they are, so that choice finds none." : ""}</Tip> : undefined} />
               {q.sort !== "footprint" ? <input type="hidden" name="sort" value={q.sort} /> : null}
               <button type="submit" className="mt-1 border border-accent bg-accent px-3 py-1 text-sm text-white">Show</button>
             </InputPanel>
@@ -122,6 +133,8 @@ export default async function Companies({ searchParams }: { searchParams: Promis
           <p className="mb-3 text-sm" data-companies-count={kept.length}>
             <strong>{count(kept.length)}</strong> of {count(ix.n_listed)} companies{filtered ? " match" : ""}; page {page} of {pages}.
             <Tip id="companies-held" label="What is not listed">{heldWords}</Tip>
+            {/* session 10228 (companies audit, finding 4): a row is a company as the rows name it, not its group */}
+            <Tip id="companies-group" label="A company, not its group">Each row is a company as EIA, ERCOT and the NRC name it: an operating utility, a plant&apos;s operator, a project company. A parent&apos;s figures are not summed and a group&apos;s companies are rows of their own, so a holding company may list no MW while its operating companies list thousands; the footprint ranks those companies, not groups. A parent is named on a company&apos;s page only where a source states it, such as the NRC&apos;s parent field or the reviewed aliases.</Tip>
           </p>
           <div className="overflow-x-auto" role="region" aria-label="Companies" tabIndex={0}>
             <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth: 760 }}>
@@ -135,7 +148,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
                   <Head sort="operating" label="Operating MW" right />
                   <Head sort="planned" label="Planned MW" right />
                   <Head sort="queue" label="Queue MW" right />
-                  <Head sort="policy" label="Policy actions" right />
+                  <Head sort="policy" label="Policy actions" right tip={policyHeld ? <Tip id="companies-policy-held" label="Policy actions are held">policy_actions is held for a license (warehouse/metadata/license_status.csv): its rows add nothing here, so every company&apos;s count is 0 until a permission is recorded.</Tip> : undefined} />
                   <Head sort="footprint" label="Footprint MW" right />
                 </tr>
               </thead>
@@ -150,7 +163,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
                     <td className="px-3 py-1.5 text-right">{figureCell(r, "planned_mw", sourceOf("planned_mw: EIA-860M planned generators' nameplate"))}</td>
                     <td className="px-3 py-1.5 text-right">{figureCell(r, "queue_mw", sourceOf("queue_mw: ERCOT queue positions neither withdrawn nor completed"))}</td>
                     <td className="px-3 py-1.5 text-right">{r.n_policy_actions ? <Key id={r.id} col="n_policy_actions" raw={r.n_policy_actions} source={sourceOf("n_policy_actions: policy_actions rows")}>{count(r.n_policy_actions)}</Key> : <span className="text-muted">0</span>}</td>
-                    <td className="px-3 py-1.5 text-right">{figureCell(r, "footprint_mw", sourceOf("footprint_mw: operating, owned, planned and queue MW summed, a sort key"))}</td>
+                    <td className="px-3 py-1.5 text-right">{figureCell(r, "footprint_mw", sourceOf("footprint_mw: operating, owned, planned and queue MW summed, a sort key; a jointly owned generator the company also operates counts twice, whole in operating MW and for its share in owned MW"))}</td>
                   </tr>
                 ))}
               </tbody>
@@ -164,7 +177,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
               {page < pages ? <Link href={hrefOf("/companies", q, { page: page + 1 })} rel="next">Next {PAGE_SIZE}</Link> : null}
             </nav>
           ) : null}
-          <SourceLine tables={["company_directory", "company_aliases", "company_links"]} note={<>Built {ix.built.slice(0, 10)} from {ix.tables.length} tables held; the method is <Link href="/data/methods/companies">docs/methods/companies.md</Link>.</>} />
+          <SourceLine tables={["company_directory", "company_aliases", "company_links"]} note={<>Built {ix.built.slice(0, 10)} from the public rows of {ix.tables.length - held.length} of the {ix.tables.length} tables it reads ({held.length} held for a license add nothing), each input as the warehouse held it that day, so a figure is as of its input&apos;s own date and the dates differ (EIA-860M&apos;s monthly inventory, EIA-860 and EIA-861&apos;s annual files, the ERCOT queue and the NRC&apos;s list as last read); the method is <Link href="/data/methods/companies">docs/methods/companies.md</Link>.</>} />
         </div>
       </div>
     </ToolPage>

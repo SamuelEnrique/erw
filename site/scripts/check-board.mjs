@@ -22,6 +22,8 @@
 import fs from "node:fs";
 import { env, withBrowser, unlockPost } from "./browser.mjs";
 import * as b from "../lib/board.ts";
+import { withEquities } from "../lib/equities.ts";
+import { equitiesBoard } from "../lib/equitiesfiles.ts";
 import { gridName, licenseHeldGrids } from "../lib/license.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3132").replace(/\/$/, "");
@@ -29,7 +31,10 @@ let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
 // session 1116: the page holds the rows of the grids held for a license on the day (lib/board.ts, holdRows), on the server
 const rawFile = JSON.parse(fs.readFileSync(new URL("../data/board.json", import.meta.url), "utf-8"));
-const file = b.holdRows(rawFile, licenseHeldGrids().map(gridName));
+// session 10402 (chain 720): and the energy equities group after the board's own groups, as the page reads it
+// (lib/equities.ts withEquities on site/data/equities/board.json, or on ERW_EQUITIES_DIR where a local build was made
+// with one); with no equities file the board's file is as it was
+const file = b.holdRows(withEquities(rawFile, equitiesBoard()), licenseHeldGrids().map(gridName));
 // session 1616 (chain 165): the file's own checks (lib/board.ts, boardFileChecks), first; with --file, these alone, with
 // no served page (node --import ./scripts/alias-register.mjs scripts/check-board.mjs --file)
 for (const c of b.boardFileChecks(file)) check(c.ok, `the file: ${c.what}`);

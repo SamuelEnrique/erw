@@ -107,8 +107,10 @@ for (const q of [{}, { period: "year", market: "rtm", sort: "neg" }, { period: "
   ok(text(note).includes("its own last twelve whole months and in each grid's standard time (no daylight saving)") && note.includes('href="/cost-of-power?view=allgrids"'), "row 6: the A and B note names the cost of power page's twelve months and its time, with a link");
   ok(t.includes("in each grid's own clock time (daylight saving included)"), "row 7: the table's note says clock time, daylight saving included");
   ok(t.includes("It is not the mean of each day's own spread, which is larger, since the dearest and the cheapest hours move from day to day."), "row 8: the spread is the average day's, said beside the measure");
-  ok(!t.includes("Every public hub and zone price the warehouse holds") && t.includes("The hub and zone prices of five grids, side by side:"), "row 10: the lead no longer says \"every\"");
-  ok(t.includes("ERCOT's eight load zones. Their prices are held in the warehouse since 2015"), "row 10: ERCOT's load zones are named as not compared");
+  // session 10218 (the prices audit, finding 1): the lead names the grids shown, and ERCOT's load zones, compared since
+  // session 7052, are said to be compared (they were named as not compared)
+  ok(!t.includes("Every public hub and zone price the warehouse holds") && t.includes("The hub and zone prices of three grids, CAISO, ERCOT and SPP, side by side"), "row 10: the lead no longer says \"every\"");
+  ok(t.includes("ERCOT's eight load zones are compared here, in both periods") && !t.includes("they are not in this comparison"), "row 10: ERCOT's load zones are named as compared (session 10218)");
   ok(html.includes('data-name-words="ercot:HB_HUBAVG"') && html.includes('data-name-words="ercot:HB_BUSAVG"') && html.includes(`title="${P.NAME_WORDS["ercot:HB_HUBAVG"].replace(/'/g, "&#x27;")}"`), "row 12: the Hub Average and the Bus Average say what they average, on hover");
   for (const period of ["year", "month"]) for (const m of ["dam", "rtm"]) {
     const v = (e) => file[period].find((r) => r.entity === e)[`${m}_avg_price`];

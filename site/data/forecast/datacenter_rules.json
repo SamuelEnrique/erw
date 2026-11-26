@@ -12,24 +12,63 @@
   "mn_297a_68_42": {"title": "Minnesota Statutes 297A.68, subdivision 42, Data centers", "url": "https://www.revisor.mn.gov/statutes/cite/297A.68", "read": "2026-11-26", "request": 153},
   "sc_12_36_2120_79": {"title": "South Carolina Code 12-36-2120(79), datacenter equipment and electricity", "url": "https://www.scstatehouse.gov/code/t12c036.php", "read": "2026-11-26", "request": 155},
   "mo_144_810": {"title": "Revised Statutes of Missouri 144.810, Data storage centers, exemption from sales and use tax", "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.810", "read": "2026-11-26", "request": 156},
+  "nv_goed_dc": {"title": "Nevada Governor's Office of Economic Development, Nevada Data Center Tax Abatements (summary sheet, NRS 360.754)", "url": "https://goed.nv.gov/wp-content/uploads/2025/08/Data-Center-2026.pdf", "read": "2026-11-26", "request": 280},
   "nv_360_754": {"title": "Nevada Revised Statutes 360.754, Partial abatement of certain taxes imposed on new or expanded data center", "url": "https://www.leg.state.nv.us/NRS/NRS-360.html", "read": "2026-11-26", "request": 157},
   "nd_57_39_2_04_17": {"title": "North Dakota Century Code 57-39.2-04.17, exemption for enterprise information technology equipment and software used in a qualified data center", "url": "https://ndlegis.gov/cencode/t57c39-2.pdf", "read": "2026-11-26", "request": 160},
   "md_tg_11_239": {"title": "Maryland Code, Tax-General 11-239, Qualified data centers", "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-239&enactments=false", "read": "2026-11-26", "request": 161},
-  "fl_212_08_5_r": {"title": "Florida Statutes 2025, 212.08(5)(r), Data center property", "url": "https://www.flsenate.gov/Laws/Statutes/2025/212.08", "read": "2026-11-26", "request": 163},
+  "fl_212_08_5_r": {"title": "Florida Statutes 2026, 212.08(5)(r), Data center property (the same words as the 2025 statutes, request 163)", "url": "https://www.flsenate.gov/Laws/Statutes/2026/212.08", "read": "2026-11-26", "request": 360},
   "id_63_3622vv": {"title": "Idaho Code 63-3622VV, Data center equipment and facilities", "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH36/SECT63-3622VV/", "read": "2026-11-26", "request": 164},
   "az_41_1519": {"title": "Arizona Revised Statutes 41-1519, Computer data centers; certification (with 42-5061(B)(23), request 169)", "url": "https://www.azleg.gov/ars/41/01519.htm", "read": "2026-11-26", "request": 176},
   "nc_105_164_3": {"title": "North Carolina General Statutes 105-164.3(201), Qualifying datacenter (with 105-164.13(55a), request 167)", "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.3.html", "read": "2026-11-26", "request": 177},
   "wi_238_40": {"title": "Wisconsin Statutes 238.40, Qualified data centers (with 77.54(70), request 180)", "url": "https://docs.legis.wisconsin.gov/document/statutes/238.40", "read": "2026-11-26", "request": 179},
-  "ut_59_12_104": {"title": "Utah Code 59-12-104(84), Exemptions (version effective 1 January 2026)", "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S104_2026010120251206.html", "read": "2026-11-26", "request": 181},
+  "ut_59_12_104": {"title": "Utah Code 59-12-104(84), Exemptions (version effective 1 July 2026; the version effective 1 January 2026, request 181, has the same paragraph)", "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S104_2026050620260701.html", "read": "2026-11-26", "request": 251},
+  "ut_59_12_102": {"title": "Utah Code 59-12-102(111), Definitions: qualifying data center (version effective 1 July 2026)", "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html", "read": "2026-11-26", "request": 250},
   "mt_15_6_162": {"title": "Montana Code Annotated 15-6-162, Class seventeen property", "url": "https://mca.legmt.gov/bills/mca/title_0150/chapter_0060/part_0010/section_0620/0150-0060-0010-0620.html", "read": "2026-11-26", "request": 182},
   "ks_74_50_332": {"title": "Kansas Statutes 74-50,332, exemption for costs and services used for the construction and operation of a qualified data center (with 79-3606(xxxx), request 159)", "url": "https://www.ksrevisor.gov/statutes/chapters/ch74/074_050_0332.html", "read": "2026-11-26", "request": 191},
-  "ga_cvi_2025": {"title": "Carl Vinson Institute of Government for the Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption, full report (December 2025), Tables 3 and 4 (IMPLAN 2023)", "url": "https://open.ga.gov/openga/report/downloadFile?rid=33298", "read": "2026-11-26", "request": 199},
+  "ga_cvi_2025": {"title": "Carl Vinson Institute of Government for the Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption, full report (December 2025), Table 1 (the thresholds) and Tables 3 and 4 (IMPLAN 2023)", "url": "https://open.ga.gov/openga/report/downloadFile?rid=33298", "read": "2026-11-26", "request": 199},
   "mn_cvi_2025": {"title": "Carl Vinson Institute of Government for Minnesota's Legislative Budget Office, Tax Expenditure Evaluation: Minnesota Data Center Equipment Exemption (December 2025), Tables 3 and 4 (IMPLAN 2023)", "url": "https://www.lbo.mn.gov/terc/meetings/2026/2026_01_15/UGA_Data_Center_Evaluation_Report.pdf", "read": "2026-11-26", "request": 214},
   "ms_governor_xai": {"title": "Office of Governor Tate Reeves, Tech leader xAI investing more than $20 billion in Southaven (8 January 2026)", "url": "https://governorreeves.ms.gov/tech-leader-xai-investing-more-than-20-billion-in-southaven/", "read": "2026-11-26", "request": 89},
   "pa_dor_cdce": {"title": "Pennsylvania Department of Revenue, Computer Data Center Equipment Exemption Program guidelines (with the program's FAQ, request 206)", "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/incentivescreditsprograms/computerdatacenterequipprog/documents/computer_data_center_equip_exemption_program_guidelines.pdf", "read": "2026-11-26", "request": 205},
   "ky_dor_stf_2025": {"title": "Kentucky Department of Revenue, Sales Tax Facts, June 2025 (House Bill 775's thresholds for KRS 139.499, request 207)", "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202025%20-%20Jun.pdf", "read": "2026-11-26", "request": 208},
   "wa_jlarc_2026": {"title": "Washington Joint Legislative Audit and Review Committee, 2026 tax preference review: Data Centers in Urban Counties", "url": "https://leg.wa.gov/jlarc/taxReports/2026/data/b/report.html", "read": "2026-11-26", "request": 216},
   "in_iedc_dcste": {"title": "Indiana Economic Development Corporation, Data Center Sales Tax Exemption (Indiana Code 6-2.5-15)", "url": "https://iedc.in.gov/incentives/data-center-sales-tax-exemption", "read": "2026-11-26", "request": 106},
+  "al_dor_9b": {"title": "Alabama Department of Revenue, Chapter 9B Abatements (Code Title 40, Chapter 9B, the Tax Incentive Reform Act of 1992)", "url": "https://www.revenue.alabama.gov/tax-incentives/chapter-9b-abatements/", "read": "2026-11-26", "request": 301},
+  "ar_act548_2025": {"title": "Arkansas Act 548 of 2025 (HB 1444), amending Arkansas Code 26-52-456, Data centers, approved 10 April 2025", "url": "https://arkleg.state.ar.us/Home/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2FACT548.pdf", "read": "2026-11-26", "request": 259},
+  "ct_decd_dc": {"title": "Connecticut Department of Economic and Community Development, Office of Data Infrastructure Administration and Security: About (the Data Center Tax Incentive Program)", "url": "https://portal.ct.gov/DECD/Content/Business-Development/Data-Infrastructure-Administration-and-Security/Office-of-Data-Infrastructure-Administration-and-Security/About", "read": "2026-11-26", "request": 285},
+  "ma_eoed_qdc": {"title": "Massachusetts Executive Office of Economic Development, Massachusetts Qualified Data Center Sales and Use Tax Exemption (with its notice of the pause)", "url": "https://www.mass.gov/info-details/massachusetts-qualified-data-center-sales-and-use-tax-exemption", "read": "2026-11-26", "request": 289},
+  "mi_msf_edc": {"title": "Michigan Strategic Fund, Enterprise Data Center Sales and Use Tax Exemption Guidelines (MCL 205.54ee and 205.94cc)", "url": "https://www.michiganbusiness.org/globalassets/documents/data-center/enterprise-data-center-guidelines.pdf", "read": "2026-11-26", "request": 294},
+  "ne_governor_eo": {"title": "Office of the Governor of Nebraska, Gov. Pillen Signs Executive Order on Data Centers (21 July 2026)", "url": "https://governor.nebraska.gov/gov-pillen-signs-executive-order-data-centers", "read": "2026-11-26", "request": 297},
+  "oh_tax_kwh2b": {"title": "Ohio Department of Taxation, KWH 2B: Instructions for Completing Electric Distribution Company Tax Return (KWH 2) and Schedule of Self-Assessing Purchasers (KWH 2A)", "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/forms/excise/electric_distribution-kwh/KWH_KWH2B.pdf", "read": "2026-11-26", "request": 312},
+  "oh_tax_kwh3": {"title": "Ohio Department of Taxation, KWH 3: application to self-assess the kilowatt-hour tax (Revised Code 5727.81(C))", "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/forms/excise/electric_distribution-kwh/KWH_KWH3.pdf", "read": "2026-11-26", "request": 311},
+  "oh_tax_guide_2025": {"title": "Ohio Department of Taxation, Property Tax Guide (revised January 2025)", "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/documents/Ohio_Department_of_Taxation_Property_Tax_Guide.pdf", "read": "2026-11-26", "request": 318},
+  "oh_tax_tpp": {"title": "Ohio Department of Taxation, Property Tax: Tangible Personal Property (publication)", "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/publications/property_tax_tangible_personal_property.pdf", "read": "2026-11-26", "request": 316},
+  "oh_governor_pause": {"title": "Office of the Governor of Ohio, Governor DeWine Announces Pause of Data Center Tax Exemption (bulletin of 27 May 2026)", "url": "https://content.govdelivery.com/accounts/OHIOGOVERNOR/bulletins/419304d", "read": "2026-11-26", "request": 290},
+  "ok_iec_2026": {"title": "State of Oklahoma Incentive Evaluation Commission, Computer Services and Data Processing Tax Exemption, Draft Evaluation (PFM Group Consulting, 30 September 2026)", "url": "https://oklahoma.gov/content/dam/ok/en/omes/documents/computer-services-exemption-draft.pdf", "read": "2026-11-26", "request": 256},
+  "ok_commerce_dc": {"title": "Oklahoma Department of Commerce, Oklahoma Data Center Industry Tax Incentives", "url": "https://www.okcommerce.gov/wp-content/uploads/Data-Center-Industry-Tax-Incentives.pdf", "read": "2026-11-26", "request": 257},
+  "wy_39_15_105": {"title": "Wyoming Statutes Title 39: 39-15-105(a)(viii)(S), sales tax exemptions for a data processing services center (with the definition in 39-15-101(a)(xliv)); 39-11-101, taxable value by class", "url": "https://wyoleg.gov/statutes/compress/title39.pdf", "read": "2026-11-26", "request": 303},
+  "il_dor_excise": {"title": "Illinois Department of Revenue, Excise Tax Rates and Fees (the Electricity Excise Tax)", "url": "https://tax.illinois.gov/research/taxrates/excise.html", "read": "2026-11-26", "request": 307},
+  "il_dceo": {"title": "Illinois Department of Commerce and Economic Opportunity, Data Center Investment Tax Exemptions and Credits (with its 2025 Data Centers Annual Report, request 248)", "url": "https://dceo.illinois.gov/expandrelocate/incentives/datacenters.html", "read": "2026-11-26", "request": 247},
+  "wv_ratio_study_2025": {"title": "West Virginia State Tax Department, Assessment Ratio Study, Tax Year 2025", "url": "https://tax.wv.gov/Documents/PropertyTax/2025/AssessmentRatioStudy.Tax-Year.2025.pdf", "read": "2026-11-26", "request": 350},
+  "tn_cot_aggregate_2025": {"title": "Tennessee Comptroller of the Treasury, Division of Property Assessments, 2025 Tax Aggregate Report", "url": "https://comptroller.tn.gov/content/dam/cot/pa/documents/tax-aggregate-reports/2025TaxAggregateReport.pdf", "read": "2026-11-26", "request": 341},
+  "il_dor_qa318": {"title": "Illinois Department of Revenue, Questions and Answers 318: assessment levels", "url": "https://tax.illinois.gov/questionsandanswers/318.html", "read": "2026-11-26", "request": 339},
+  "ar_aacd_2025": {"title": "Arkansas Department of Finance and Administration, Assessment Coordination Division, Annual Report 2025", "url": "https://www.dfa.arkansas.gov/wp-content/uploads/AACD_AnnualReport_2025.pdf", "read": "2026-11-26", "request": 337},
+  "al_dor_adval": {"title": "Alabama Department of Revenue, Property (Ad Valorem) Tax", "url": "https://www.revenue.alabama.gov/tax-types/property-ad-valorem-tax/", "read": "2026-11-26", "request": 334},
+  "ms_dor_appraisal": {"title": "Mississippi Department of Revenue, Local Property Appraisal", "url": "https://www.dor.ms.gov/county-services/local-property-appraisal", "read": "2026-11-26", "request": 335},
+  "mo_137_115": {"title": "Missouri Revised Statutes 137.115, Real and personal property, assessment", "url": "https://revisor.mo.gov/main/OneSection.aspx?section=137.115", "read": "2026-11-26", "request": 330},
+  "mo_137_016": {"title": "Missouri Revised Statutes 137.016, Real property subclasses", "url": "https://revisor.mo.gov/main/OneSection.aspx?section=137.016", "read": "2026-11-26", "request": 333},
+  "nv_361_225": {"title": "Nevada Revised Statutes 361.225, Rate of assessment", "url": "https://www.leg.state.nv.us/NRS/NRS-361.html", "read": "2026-11-26", "request": 329},
+  "az_42_15001": {"title": "Arizona Revised Statutes 42-15001, Assessed valuation of class one property", "url": "https://www.azleg.gov/ars/42/15001.htm", "read": "2026-11-26", "request": 331},
+  "az_42_12001": {"title": "Arizona Revised Statutes 42-12001, Class one property", "url": "https://www.azleg.gov/ars/42/12001.htm", "read": "2026-11-26", "request": 332},
+  "sc_12_43_220": {"title": "South Carolina Code of Laws 12-43-220, Classifications and assessment ratios", "url": "https://www.scstatehouse.gov/code/t12c043.php", "read": "2026-11-26", "request": 328},
+  "ks_79_1439": {"title": "Kansas Statutes 79-1439, Assessment of real and personal property, rates", "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_014_0039.html", "read": "2026-11-26", "request": 326},
+  "ks_79_223": {"title": "Kansas Statutes 79-223, Exemption of certain commercial and industrial machinery and equipment", "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_002_0023.html", "read": "2026-11-26", "request": 325},
+  "nd_tax_exempt": {"title": "North Dakota Office of State Tax Commissioner, Property Generally Exempt from Taxation", "url": "https://www.tax.nd.gov/property-tax-exemptions-credits", "read": "2026-11-26", "request": 323},
+  "wi_act12_info": {"title": "Wisconsin Department of Revenue, 2023 Wisconsin Act 12 Information", "url": "https://www.revenue.wi.gov/Documents/2023-Act12-Information.pdf", "read": "2026-11-26", "request": 324},
+  "mn_272_02": {"title": "Minnesota Statutes 272.02, Exempt property, subdivision 9 (personal property; exceptions)", "url": "https://www.revisor.mn.gov/statutes/cite/272.02/pdf", "read": "2026-11-26", "request": 320},
+  "ia_427a_2": {"title": "Iowa Code 2026, 427A.2, Personal property not subject to property tax (the same words as the 2025 Code, request 319)", "url": "https://www.legis.iowa.gov/docs/code/2026/427A.2.pdf", "read": "2026-11-26", "request": 361},
+  "ga_dor_valuation": {"title": "Georgia Department of Revenue, Property Tax Valuation (O.C.G.A. 48-5-7)", "url": "https://dor.georgia.gov/property-tax-valuation", "read": "2026-11-26", "request": 314},
+  "nm_trd_general": {"title": "New Mexico Taxation and Revenue Department, Property Tax Division, State Assessed Property Bureau, General Instructions", "url": "https://www.tax.newmexico.gov/businesses/wp-content/uploads/sites/4/2020/12/GENERAL_INSTRUCTIONS.pdf", "read": "2026-11-26", "request": 315},
+  "ga_hb1291": {"title": "Georgia House Bill 1291 (2022), as passed and signed, amending Code Section 48-8-3(68.1)", "url": "https://gov.georgia.gov/document/2022-signed-legislation/hb-1291/download", "read": "2026-11-26", "request": 245},
   "ga_doaa_2025": {"title": "Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption (December 2025, revised January 2026), with the Department of Revenue's exemption page (request 187)", "url": "https://www.audits2.ga.gov/wp-content/uploads/2025/12/Data-Center-Tax-Exemption-Summary-Revised.pdf", "read": "2026-11-26", "request": 188}
  },
  "split": {
@@ -138,6 +177,9 @@
   },
   "mn": {
    "name": "Minnesota",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "mn_272_02",
+    "quote": "Except for the taxable personal property enumerated below,",
+    "tip": "Minnesota (Statutes 272.02, subdivision 9): all personal property is exempt except that enumerated (an electric generating, transmission or distribution system's, pipelines', railroad docks', leaseholds', manufactured homes' and flight property), so a datacenter's equipment owes no property tax. The building is taxed on its market value by class rates the ERW does not hold: the tool takes the building at its cost and the reader's effective rate, an upper bound."},
    "sales_exemption": {
     "cite": "mn_297a_68_42", "covers": ["equipment"], "min_investment_usd": 30000000, "min_jobs": 0, "term_years": 35, "start_before_year": 2042, "rate_part": "state",
     "quote": "where the total cost of construction or refurbishment, investment in enterprise information technology equipment, and computer software is at least $30,000,000 within a 48-month period",
@@ -146,6 +188,10 @@
   },
   "sc": {
    "name": "South Carolina",
+   "property": {"building_ratio": 0.06, "equipment_ratio": 0.105, "cite": "sc_12_43_220",
+    "quote": "(e) All other real property not herein provided for shall be taxed on an assessment equal to six percent of the fair market value of such property.",
+    "equipment": {"cite": "sc_12_43_220", "quote": "all other personal property must be taxed on an assessment of ten and one-half percent of fair market value of the property"},
+    "tip": "South Carolina (Code 12-43-220): real property not otherwise classed is assessed at 6 percent of fair market value (e), and other personal property at 10.5 percent (f). The tool assesses the building at 6 percent and the equipment at 10.5 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate. A fee in lieu of tax agreement with a county is an agreement, not a statute's rate: the abatement input is its place."},
    "sales_exemption": {
     "cite": "sc_12_36_2120_79", "covers": ["equipment"], "min_investment_usd": 50000000, "min_jobs": 25, "start_before_year": 2032, "last_year": 2041,
     "quote": "where a taxpayer invests at least fifty million dollars in real or personal property or both over a five year period",
@@ -154,6 +200,11 @@
   },
   "mo": {
    "name": "Missouri",
+   "property": {"building_ratio": 0.32, "equipment_ratio": 0.333333, "cite": "mo_137_115",
+    "quote": "(c)  For real property in subclass (3), thirty-two percent.",
+    "personal": {"cite": "mo_137_115", "quote": "the assessor shall annually assess all personal property at thirty-three and one-third percent of its true value in money"},
+    "subclass": {"cite": "mo_137_016", "quote": "all real property used directly or indirectly for any commercial, mining, industrial, manufacturing, trade, professional, business, or similar purpose"},
+    "tip": "Missouri (RSMo 137.115, with the subclasses of 137.016): real property used for commercial, industrial or business purposes (subclass 3) is assessed at 32 percent of true value, and personal property at 33 and one-third percent. The tool assesses the building at 32 percent and the equipment at one third of their cost (no depreciation table is read: an upper bound) and applies the reader's rate."},
    "sales_exemption": {
     "cite": "mo_144_810", "covers": ["equipment", "construction"], "min_investment_usd": 25000000, "min_jobs": 10, "term_years": 15,
     "quote": "The new facility project investment is at least twenty-five million dollars during a period of up to thirty-six consecutive months",
@@ -162,14 +213,21 @@
   },
   "nv": {
    "name": "Nevada",
+   "property": {"building_ratio": 0.35, "equipment_ratio": 0.35, "cite": "nv_361_225",
+    "quote": "property subject to taxation must be assessed at 35 percent of its taxable value.",
+    "tip": "Nevada (NRS 361.225): all property subject to taxation is assessed at 35 percent of its taxable value. The tool assesses the building and the equipment at 35 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate; an abatement the Office of Economic Development approves goes in the abatement input."},
    "sales_exemption": {
     "cite": "nv_360_754", "covers": [], "min_investment_usd": 25000000, "min_jobs": 10, "discretionary": true,
     "quote": "a cumulative capital investment of at least $25,000,000 in capital assets that will be used or located at the data center",
-    "tip": "Nevada (NRS 360.754): the Office of Economic Development may approve a partial abatement of the property and sales taxes on a new or expanded data center, for up to 10 years with 10 Nevada employees and \"a cumulative capital investment of at least $25,000,000\", or up to 20 years with 50 employees and $100,000,000, among other conditions. An approval, not a statute's rate: the tool applies none (the abatement input carries an approved property abatement)."
+    "terms": {"cite": "nv_goed_dc", "quote": "Sales and use tax abatement reducing the rate to 2% for 10 or 20 years - requires the Governor's Office of Economic Development Board to approve a reduction to 2% by a two-thirds vote"},
+    "tip": "Nevada (NRS 360.754): the Office of Economic Development may approve a partial abatement of the property and sales taxes on a new or expanded data center, for up to 10 years with 10 Nevada employees and \"a cumulative capital investment of at least $25,000,000\", or up to 20 years with 50 employees and $100,000,000, among other conditions. Its summary sheet (2025): 75 percent of the personal property tax, and the sales and use tax reduced to 2 percent, \"by a two-thirds vote\" of its Board, at wages of at least the statewide average. An approval, not a statute's rate: the tool applies none (the abatement input carries an approved property abatement; the sales tax rate input takes 2 for an approved reduction)."
    }
   },
   "nd": {
    "name": "North Dakota",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "nd_tax_exempt",
+    "quote": "North Dakota exempts all personal property from property taxation except that of certain oil and gas refineries and utilities.",
+    "tip": "North Dakota (the Office of State Tax Commissioner, citing Century Code 57-02-04 and 57-02-08): \"North Dakota exempts all personal property from property taxation except that of certain oil and gas refineries and utilities\", so a datacenter's equipment owes none. The building's assessment ratio is not read: the tool takes it at cost and the reader's rate, an upper bound."},
    "sales_exemption": {
     "cite": "nd_57_39_2_04_17", "covers": ["equipment"], "min_investment_usd": 0, "min_jobs": 0,
     "quote": "Gross receipts from sales of enterprise information technology equipment and computer software purchased for use by a qualifying business in a qualified data center are exempt from the tax imposed by this chapter.",
@@ -202,6 +260,10 @@
   },
   "az": {
    "name": "Arizona",
+   "property": {"building_ratio": 0.15, "equipment_ratio": 0.15, "cite": "az_42_15001",
+    "quote": "17. Fifteen percent beginning from and after December 31, 2026.",
+    "class": {"cite": "az_42_12001", "quote": "13. Personal property that is devoted to any other commercial or industrial use, other than property that is specifically included in another class described in this article, and that is valued at full cash value."},
+    "tip": "Arizona (A.R.S. 42-12001 and 42-15001): real and personal property devoted to commercial or industrial use is class one (subclasses 12 and 13), assessed at 15.5 percent of full cash value in 2026 and 15 percent from 2027. The tool assesses the building and the equipment at 15 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate."},
    "sales_exemption": {
     "cite": "az_41_1519", "covers": ["equipment"], "min_investment_usd": 50000000, "min_jobs": 0, "term_years": 11,
     "quote": "$50,000,000 of new investment, including costs of land, buildings, improvements, modular data centers and computer data center equipment, whether owned or leased or paid for pursuant to a right to use agreement, if the computer data center is located in a county with a population of more than eight hundred thousand persons.",
@@ -218,6 +280,9 @@
   },
   "wi": {
    "name": "Wisconsin",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "wi_act12_info",
+    "quote": "Exempts personal property from taxation beginning with assessments as of January 1, 2024",
+    "tip": "Wisconsin (2023 Wisconsin Act 12, as the Department of Revenue describes it): personal property, locally assessed and state-assessed manufacturing property alike, is exempt from taxation from the assessments of 1 January 2024, so a datacenter's equipment owes none. The building's assessment is not read: the tool takes it at cost and the reader's rate, an upper bound."},
    "sales_exemption": {
     "cite": "wi_238_40", "covers": ["equipment", "construction"], "min_investment_usd": 150000000, "min_jobs": 0,
     "quote": "For buildings located in a county having a population greater than 100,000, $150,000,000.",
@@ -227,9 +292,10 @@
   "ut": {
    "name": "Utah",
    "sales_exemption": {
-    "cite": "ut_59_12_104", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "cite": "ut_59_12_104", "covers": ["equipment"], "min_investment_usd": 0, "min_jobs": 0,
     "quote": "amounts paid or charged for a purchase or lease made by a qualifying data center or an occupant of a qualifying data center of machinery, equipment, or normal operating repair or replacement parts",
-    "tip": "Utah (Code 59-12-104(84)): machinery and equipment bought by a \"qualifying data center\" or its occupant for its operation, with an economic life of a year or more, are exempt. What makes a data center qualifying is defined in 59-12-102, not read by the ERW: the tool applies no exemption until it is."
+    "definition": {"cite": "ut_59_12_102", "quote": "consists of one or more buildings that total 150,000 or more square feet;"},
+    "tip": "Utah (Code 59-12-104(84), the version effective 1 July 2026, unchanged in this paragraph): machinery, equipment and repair or replacement parts bought by a \"qualifying data center\" or its occupant for its operation, with an economic life of a year or more, are exempt. A qualifying data center (59-12-102(111)) is a new operation constructed on or after 1 July 2016, in one or more buildings that total 150,000 square feet or more, owned or leased by its operator (or a company under common ownership) on land the operator owns or leases. The statute sets no investment, jobs or term: the tool applies the exemption to the equipment over the whole horizon. The floor area is not an input: a datacenter of less than 150,000 square feet does not qualify, and the reader turns the exemption off for it."
    }
   },
   "mt": {
@@ -242,18 +308,46 @@
   },
   "ks": {
    "name": "Kansas",
+   "property": {"building_ratio": 0.25, "equipment_ratio": 0, "cite": "ks_79_1439",
+    "quote": "real property used for commercial and industrial purposes and buildings and other improvements located upon land devoted to agricultural use at 25%;",
+    "equipment": {"cite": "ks_79_223", "quote": "Commercial and industrial machinery and equipment acquired by qualified purchase or lease made or entered into after June 30, 2006"},
+    "tip": "Kansas: real property used for commercial and industrial purposes is assessed at 25 percent (K.S.A. 79-1439), and commercial and industrial machinery and equipment bought after 30 June 2006 is exempt from all property taxes (K.S.A. 79-223). The tool assesses the building at 25 percent of its cost and the equipment at nothing, and applies the reader's rate."},
    "sales_exemption": {
     "cite": "ks_74_50_332", "covers": ["equipment", "construction"], "min_investment_usd": 250000000, "min_jobs": 20,
     "quote": "A qualified firm that makes an investment in eligible data center costs in a qualified data center of at least $250,000,000 in the aggregate by the fifth year of operations and creates and maintains at least 20 new jobs at the qualified data center within two calendar years after the commencement of operations shall receive a sales tax exemption",
     "tip": "Kansas (Statutes 74-50,332 and 79-3606(xxxx)): a qualified firm that invests \"at least $250,000,000\" in eligible data center costs by the fifth year of operations and creates \"at least 20 new jobs\" receives a sales tax exemption on eligible data center costs, data center equipment and construction purchases, under an agreement with the Secretary of Commerce. The tool applies it to the equipment and the building's taxable share; the exemption's duration (K.S.A. 74-50,333, not read) is not modeled, so it runs over the whole horizon here, an upper bound."
    }
   },
+  "wv": {
+   "name": "West Virginia",
+   "property": {"building_ratio": 0.6, "equipment_ratio": 0.6, "cite": "wv_ratio_study_2025",
+    "quote": "failing to assess all property at 60% of its true and actual value.",
+    "tip": "West Virginia (W. Va. Code 11-3-1(d), as the State Tax Commissioner's 2025 assessment ratio study states it): assessors assess all property at 60 percent of its true and actual value. The tool assesses the building and the equipment at 60 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate. The High Impact Intelligence Center program is named in the governor's release but its law is not read (the code's host does not answer), so no datacenter rule of West Virginia is applied."}
+  },
+  "tn": {
+   "name": "Tennessee",
+   "property": {"building_ratio": 0.4, "equipment_ratio": 0.3, "cite": "tn_cot_aggregate_2025",
+    "quote": "Real Property Assessment Industrial and Commercial 40%",
+    "personal": {"cite": "tn_cot_aggregate_2025", "quote": "Personal Property Assessment Industrial and Commercial 30%"},
+    "tip": "Tennessee (the Comptroller of the Treasury's 2025 Tax Aggregate Report): industrial and commercial real property is assessed at 40 percent of value and industrial and commercial personal property at 30 percent. The tool assesses the building at 40 percent and the equipment at 30 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate. No datacenter sales tax rule of Tennessee is read (www.tn.gov did not answer)."}
+  },
+  "nm": {
+   "name": "New Mexico",
+   "property": {"building_ratio": 0.333333, "equipment_ratio": 0.333333, "cite": "nm_trd_general",
+    "quote": "The tax ratio is thirty-three and one-third percent (33-1/3%).",
+    "tip": "New Mexico: taxable value is the property's value times the tax ratio, \"thirty-three and one-third percent\" (the Taxation and Revenue Department's general instructions, written for state-assessed property; the ratio is applied here to a datacenter's building and equipment as well). The tool takes one third of their cost (no depreciation table is read: an upper bound) and applies the reader's rate."}
+  },
   "ga": {
    "name": "Georgia",
+   "property": {"building_ratio": 0.4, "equipment_ratio": 0.4, "cite": "ga_dor_valuation",
+    "quote": "In Georgia property is required to be assessed at 40% of the fair market value unless otherwise specified by law.",
+    "tip": "Georgia (O.C.G.A. 48-5-7, as the Department of Revenue states it): property is assessed at 40 percent of fair market value by each county's Board of Tax Assessors. The tool assesses the building and the equipment at 40 percent of their cost (no depreciation table for a datacenter's equipment is read: at cost unless the reader types a schedule, an upper bound) and applies the reader's rate."},
    "sales_exemption": {
-    "cite": "ga_doaa_2025", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
-    "quote": "exempting a portion of construction materials and purchases of computer servers and related equipment from state and local sales and use taxes",
-    "tip": "Georgia (Code 48-8-3(68.1)): high-technology data center equipment, and a portion of construction materials, are exempt from state and local sales tax where the data center meets investment and New Quality Jobs thresholds that rise with the county's population (the Department of Revenue's page; the state auditor's evaluation, December 2025, revised January 2026, estimates USD 474.2 million of state revenue forgone in FY2025). Georgia's code is published through LexisNexis and its thresholds were not read: the tool applies no exemption."
+    "cite": "ga_cvi_2025", "covers": ["equipment"], "min_investment_usd": 250000000, "min_jobs": 25, "last_year": 2031, "invest_before_year": 2032,
+    "quote": "Over 50,000 20 25 $250M $250M",
+    "term": {"cite": "ga_hb1291", "quote": "(H) This paragraph shall stand repealed by operation of law on January 1, 2029 2032."},
+    "scope": {"cite": "ga_doaa_2025", "quote": "exempting a portion of construction materials and purchases of computer servers and related equipment from state and local sales and use taxes"},
+    "tip": "Georgia (Code 48-8-3(68.1) as House Bill 1291 of 2022 amended it, read from the act as signed; the state auditor's evaluation, Table 1): high-technology data center equipment is exempt from state and local sales and use tax for a data center that creates 25 new quality jobs and USD 250 million of aggregate expenditures over any seven consecutive years in a county of more than 50,000 people (10 jobs and USD 75 million in a county of 30,001 to 50,000; 5 jobs and USD 25 million below), for equipment bought through 31 December 2031 (the act repeals the paragraph on 1 January 2032; the auditor's evaluation says the exemption was extended to 2033, which the act read does not say). New quality jobs pay at least 110 percent of the county's average wage (the auditor's words), which the tool does not test. The tool applies it to the equipment only (the auditor also names \"a portion of construction materials\", whose share is not read), with the largest county's threshold (county populations are not held), through 2031. The auditor estimates USD 474.2 million of state revenue forgone in FY2025."
    }
   },
   "pa": {
@@ -280,6 +374,154 @@
     "tip": "Washington: the urban exemption (RCW 82.08.9861, as the Legislature's audit committee describes it in its 2026 review) exempts computer servers and power infrastructure of a data center in a county of 800,000 people or more (King, Pierce, Snohomish) with 20,000 square feet of server space and 1.5 MW of power; it \"allowed no new exemptions after fiscal year 2028\" and expires fully on 1 July 2038. The rural exemption (RCW 82.08.986) is not read: the Legislature's statute site disallows every automated read. The tool applies no exemption."
    }
   },
+  "al": {
+   "name": "Alabama",
+   "property": {"building_ratio": 0.2, "equipment_ratio": 0.2, "cite": "al_dor_adval",
+    "quote": "Class II: 20% All property not otherwise classified.",
+    "tip": "Alabama (the Department of Revenue's property tax page): property not otherwise classified (Class II) is assessed at 20 percent of its fair and reasonable market value. The tool assesses the building and the equipment at 20 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate; a local Chapter 9B abatement goes in the abatement input."},
+   "sales_exemption": {
+    "cite": "al_dor_9b", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "quote": "Act 2026-573 makes updates to the requirements for data processing centers granted an abatement under Chapter 9B on or after January 1, 2027.",
+    "terms": {"cite": "al_dor_9b", "quote": "cities, counties, and public industrial authorities may grant tax abatements for new and expanding qualifying projects"},
+    "tip": "Alabama (Code Title 40, Chapter 9B, as the Department of Revenue describes it): cities, counties and public industrial authorities \"may grant\" abatements of state sales and use taxes (all but a 0.75 percent state portion) and of property taxes. For a data processing center granted one before 1 January 2027: 10 years with up to $200 million invested in 10 years, 20 years above that and below $400 million, 30 years of property tax with more than $400 million in 20 years. Act 2026-573 changes the requirements for abatements granted from 1 January 2027, which the Department has not yet described. A local grant, not a statute's rate: the tool applies none (the abatement input carries a granted property abatement)."
+   }
+  },
+  "ar": {
+   "name": "Arkansas",
+   "property": {"building_ratio": 0.2, "equipment_ratio": 0.2, "cite": "ar_aacd_2025",
+    "quote": "Since at least 1955, County Assessors generally calculate taxes based on twenty percent of the current market value of the property",
+    "tip": "Arkansas (A.C.A. 26-26-303, as the Assessment Coordination Division's 2025 annual report states it): county assessors calculate taxes on twenty percent of current market value, times the district's millage, for real and personal property. The tool assesses the building and the equipment at 20 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate."},
+   "sales_exemption": {
+    "cite": "ar_act548_2025", "covers": ["equipment", "construction"], "min_investment_usd": 100000000, "min_jobs": 0, "rate_part": "state",
+    "quote": "($100,000,000) at the facility no later than five (5) years",
+    "scope": {"cite": "ar_act548_2025", "quote": "following are exempt from the gross receipts tax levied by this chapter and"},
+    "tip": "Arkansas (Code 26-52-456 as Act 548 of 2025 amended it, approved 10 April 2025, read from the act on arkleg.state.ar.us): data center equipment, eligible data center costs (land, buildings, site improvements, equipment, engineering and design), services and electricity of a qualified data center are exempt from the state's gross receipts and compensating use taxes. A qualified data center invests at least $100,000,000 at the facility within five years after construction begins, pays at least $1,000,000 a year of compensation in the state over its first two years of operation, is not a cryptocurrency miner, and has a positive cost-benefit analysis from the Arkansas Economic Development Commission (a qualified large data center: $2,000,000,000 within ten years and $3,000,000 of compensation). The act shows its changes as struck words: the $500,000,000 of the earlier law is struck, read from the lines drawn through it in the act's PDF. The tool applies it at the state's rate (the act names the state's taxes, not cities' and counties'), to the equipment and to the building's taxable share when typed, over the whole horizon (no term), with USD 100 million; the compensation and the Commission's analysis are not tested."
+   }
+  },
+  "ct": {
+   "name": "Connecticut",
+   "sales_exemption": {
+    "cite": "ct_decd_dc", "covers": ["equipment"], "min_investment_usd": 200000000, "min_jobs": 0, "term_years": 20,
+    "term_years_big": {"min_investment_usd": 400000000, "years": 30},
+    "quote": "or $200 million if it is located elsewhere;",
+    "term": {"cite": "ct_decd_dc", "quote": "Data centers must enter into tax incentive agreements with DECD, generally 20-year terms from the effective date;"},
+    "extension": {"cite": "ct_decd_dc", "quote": "Agreements may be extended to 30 years if the investment is at least $200 million and the data center is located in an enterprise zone or an opportunity zone or $400 million if it is located elsewhere"},
+    "tip": "Connecticut (the Data Center Tax Incentive Program as the Department of Economic and Community Development describes it; the statute not read): a data center with a tax incentive agreement is exempt from sales and use tax on certain goods and services it buys and from property tax on certain real property and equipment, for agreements \"generally 20-year terms\", extendable to 30 years. The investment must be made by the fifth year: at least $50 million in an enterprise zone or a federal opportunity zone, $200 million elsewhere ($200 million and $400 million for 30 years). The tool applies the sales tax exemption to the equipment with the larger thresholds (zones are not held), from the first construction year for 20 years, or 30 with USD 400 million; the property exemption is the agreement's, with a host municipality fee, so it is left to the abatement input. The statute's host (cga.ct.gov) failed its certificate check, so the department's page is the source."
+   }
+  },
+  "ma": {
+   "name": "Massachusetts",
+   "sales_exemption": {
+    "cite": "ma_eoed_qdc", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "quote": "EOED will not be accepting applications from entities seeking certification to claim the Qualified Data Center Tax Exemption until further notice.",
+    "terms": {"cite": "ma_eoed_qdc", "quote": "The applicant invests at least $50 million on \"qualified data center costs\" within 10 years of certification"},
+    "tip": "Massachusetts (General Laws c. 64H, s. 6(zz), and 400 CMR 9.00, as the Executive Office of Economic Development describes them): a certified qualified data center is exempt for 20 years on data center equipment, software, electricity and construction costs, with at least 100,000 square feet, 100 jobs in the state within five years and $50 million of qualified costs within ten years. Since the administration's framework of 25 June 2026, \"EOED will not be accepting applications from entities seeking certification to claim the Qualified Data Center Tax Exemption until further notice\": a project now cannot be certified, so the tool applies no exemption."
+   }
+  },
+  "mi": {
+   "name": "Michigan",
+   "sales_exemption": {
+    "cite": "mi_msf_edc", "covers": ["equipment", "construction"], "min_investment_usd": 250000000, "min_jobs": 30, "last_year": 2050, "start_before_year": 2030,
+    "quote": "Affiliates that will develop, own, and operate the facility, is not less than $250,000,000.00",
+    "jobs": {"cite": "mi_msf_edc", "quote": "maintain a minimum of 30 Qualified New Jobs"},
+    "term": {"cite": "mi_msf_edc", "quote": "The time frame for this exemption is April 22, 2025 through December 31, 2050"},
+    "certificates": {"cite": "mi_msf_edc", "quote": "No new Certificates may be issued by the MSF after December 31, 2029."},
+    "tip": "Michigan (MCL 205.54ee and 205.94cc, as Public Acts 207 and 181 of 2024 amended them; the Michigan Strategic Fund's guidelines): data center equipment, including certain construction materials affixed to the building, of a certified enterprise data center is exempt from the state's 6 percent sales and use tax, with at least $250,000,000 of capital investment and 30 qualified new jobs paid 150 percent or more of the Prosperity Region's median wage, for purchases from 22 April 2025 through 31 December 2050 (2065 on a brownfield or a former power plant site); the Fund issues no new certificate after 2029, and a certified facility may take no state or local property tax benefit. The tool applies it to the equipment and to the building's taxable share when typed, through 2050, to a project starting before 2030; the wage condition is not tested, and the abatement input should stay at 0 for it."
+   }
+  },
+  "ne": {
+   "name": "Nebraska",
+   "sales_exemption": {
+    "cite": "ne_governor_eo", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "quote": "signed an executive order ending access to tax incentives provided through the state's ImagiNE Nebraska Act for data centers",
+    "tip": "Nebraska: on 21 July 2026 the Governor \"signed an executive order ending access to tax incentives provided through the state's ImagiNE Nebraska Act for data centers\", prohibiting data center applications from being approved under the Act (the Governor's release). A project now cannot obtain them, so the tool applies no exemption."
+   }
+  },
+  "oh": {
+   "name": "Ohio",
+   "property": {"building_ratio": 0.35, "equipment_ratio": 0, "cite": "oh_tax_guide_2025",
+    "quote": "The taxable value is 35% of your property's appraised value.",
+    "equipment": {"cite": "oh_tax_tpp", "quote": "the vast majority of Ohio businesses no longer"},
+    "tip": "Ohio: real property's taxable value is 35 percent of its appraised value (the Department of Taxation's Property Tax Guide, January 2025); the tax on general businesses' tangible personal property (machinery and equipment) ended in 2009 (\"for the first time in 163 years, the vast majority of Ohio businesses no longer faced a tax on tangible personal property\", the Department's publication), continuing for telephone companies. The tool assesses the building at 35 percent of its cost and the equipment at nothing, and applies the reader's rate."},
+   "electricity": {
+    "cite": "oh_tax_kwh2b", "kind": "monthly_blocks",
+    "blocks": [
+     {"upto_kwh": 2000, "usd_per_kwh": 0.00465},
+     {"upto_kwh": 15000, "usd_per_kwh": 0.00419},
+     {"upto_kwh": null, "usd_per_kwh": 0.00363}
+    ],
+    "quote": "All kilowatt hours over 15,000 distributed to each customer is subject to a rate of $.00363.",
+    "elective": {
+     "cite": "oh_tax_kwh3", "min_annual_kwh": 45000000,
+     "annual_blocks": [
+      {"upto_kwh": 500000000, "usd_per_kwh": 0.00257},
+      {"upto_kwh": null, "usd_per_kwh": 0.001832}
+     ],
+     "quote": "per kilowatt hour for each kilowatt hour in excess of 500 million kilowatt hours, distributed to a meter or location during the registration year",
+     "threshold": {"cite": "oh_tax_kwh3", "quote": "must have consumed at least 45 million kilowatt hours of electricity in the previous"}
+    },
+    "tip": "Ohio's kilowatt-hour tax (the Department of Taxation's instructions for distributors' returns and its self-assessing purchaser application): on each customer's kWh in a 30-day billing period, $0.00465 on the first 2,000, $0.00419 on the next 13,000 and $0.00363 above 15,000; a commercial or industrial location using at least 45 million kWh a year may instead self-assess at $0.00257 a kWh on the first 500 million kWh of the year and $0.001832 above. The tool takes a twelfth of the year's MWh as each month's and, where the year reaches 45 million kWh, the lower of the two."
+   },
+   "sales_exemption": {
+    "cite": "oh_governor_pause", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "quote": "The Ohio Tax Credit Authority will stop accepting new data center tax exemption proposals after its currently scheduled meeting on Monday",
+    "tip": "Ohio: the Tax Credit Authority grants data centers sales and use tax exemptions case by case (the Governor's bulletin; the statute sits on codes.ohio.gov, which disallows every path to the ERW's reader). On 27 May 2026 the Governor directed the Authority \"to pause consideration of any new data center tax exemption requests\" while the General Assembly's Joint Data Center Committee studies data center growth; it \"will stop accepting new data center tax exemption proposals\" after its next meeting, and exemptions granted before stand. A project now cannot obtain one, so the tool applies no exemption."
+   }
+  },
+  "ok": {
+   "name": "Oklahoma",
+   "sales_exemption": {
+    "cite": "ok_iec_2026", "covers": ["equipment"], "min_investment_usd": 0, "min_jobs": 0, "rate_part": "state",
+    "quote": "Oklahoma imposes no minimum investment threshold, no job creation requirement, and no facility size requirement.",
+    "scope": {"cite": "ok_iec_2026", "quote": "exempts the purchase of machinery and equipment by persons and establishments primarily engaged in computer services and data processing from state sales and use taxes."},
+    "power": {"cite": "ok_commerce_dc", "quote": "are eligible for sales tax exemption on equipment and machinery purchases (computers, servers, etc), but not on electric power."},
+    "tip": "Oklahoma (the Computer Services and Data Processing Tax Exemption, as the Incentive Evaluation Commission's draft evaluation of 30 September 2026 and the Department of Commerce describe it): machinery and equipment bought by an establishment primarily engaged in computer services and data processing are exempt from state sales and use taxes, where it derives at least 80 percent of its annual gross revenue from out-of-state buyers (Industrial Group 7374; 50 percent for 7372 and 7373); electric power is not exempt for these. \"Oklahoma imposes no minimum investment threshold, no job creation requirement, and no facility size requirement\", and the exemption has no duration limit. The tool applies it to the equipment at the state's rate over the whole horizon; the out-of-state revenue share is not tested. The statute's own host (oscn.net) disallows automated readers, so the evaluation is the source."
+   }
+  },
+  "wy": {
+   "name": "Wyoming",
+   "property": {"building_ratio": 0.095, "equipment_ratio": 0.095, "cite": "wy_39_15_105",
+    "quote": "(C) All other property, real and personal, nine and one-half percent (9.5%).",
+    "industrial": {"cite": "wy_39_15_105", "quote": "(B) Property used for industrial purposes, eleven and one-half percent (11.5%);"},
+    "tip": "Wyoming (W.S. 39-11-101, title 39 on wyoleg.gov): taxable value is 11.5 percent of fair market value for property used for industrial purposes (manufacturing, processing materials, minerals, transforming property into new products) and 9.5 percent for all other property, real and personal. A datacenter is taken as other property: the building and the equipment at 9.5 percent of their cost (no depreciation table is read: an upper bound), times the reader's rate."},
+   "sales_exemption": {
+    "cite": "wy_39_15_105", "covers": ["equipment"], "min_investment_usd": 5000000, "min_jobs": 0, "rate_part": "state",
+    "quote": "of not less than five million dollars ($5,000,000.00)",
+    "purchases": {"cite": "wy_39_15_105", "quote": "of a data processing services center when the aggregate purchase of the qualifying equipment exceeds two million dollars ($2,000,000.00) in any calendar year;"},
+    "jobs": {"cite": "wy_39_15_105", "quote": "will create a number of jobs in Wyoming that is appropriate to the size and stage of development of the data processing services center as determined by the Wyoming business council"},
+    "tip": "Wyoming (W.S. 39-15-105(a)(viii)(S), read from the statutes on wyoleg.gov): a data processing services center's computer equipment and software are exempt in a calendar year when its qualifying purchases exceed $2,000,000, with an initial capital investment in the state of not less than $5,000,000; its uninterruptible power supplies, generators and cooling equipment likewise with $50,000,000; and the Wyoming Business Council must certify that it creates jobs \"appropriate to the size and stage of development\" of the center. The tool applies it to the equipment with USD 5 million, over the whole horizon (no term), at the state's 4 percent (the exemption sits in the state's excise tax article; whether county taxes follow was not read); the yearly USD 2 million and the jobs certification are not tested."
+   }
+  },
+  "il": {
+   "name": "Illinois",
+   "property": {"building_ratio": 0.333333, "equipment_ratio": 1, "cite": "il_dor_qa318",
+    "quote": "Most property is assessed at 33 1/3 percent of its fair market value.",
+    "cook": {"cite": "il_dor_qa318", "quote": "Assessment levels range from 10 percent of market value for residential property to 25 percent of market value for commercial property."},
+    "tip": "Illinois (the Department of Revenue's answer on assessment levels): most property is assessed at 33 1/3 percent of fair market value; Cook County assigns levels by class, 25 percent for commercial property. The tool assesses the building at one third of its cost (for Cook County, type the rate times 0.75 to give 25 percent). Whether a datacenter's equipment is taxed as property is not on the pages read: the tool applies the reader's rate to its cost, so leave the equipment's rate blank or 0 unless the county taxes it."},
+   "electricity": {
+    "cite": "il_dor_excise", "kind": "monthly_blocks",
+    "blocks": [
+     {"upto_kwh": 2000, "usd_per_kwh": 0.0033},
+     {"upto_kwh": 50000, "usd_per_kwh": 0.00319},
+     {"upto_kwh": 100000, "usd_per_kwh": 0.00303},
+     {"upto_kwh": 500000, "usd_per_kwh": 0.00297},
+     {"upto_kwh": 1000000, "usd_per_kwh": 0.00286},
+     {"upto_kwh": 3000000, "usd_per_kwh": 0.0027},
+     {"upto_kwh": 5000000, "usd_per_kwh": 0.00254},
+     {"upto_kwh": 10000000, "usd_per_kwh": 0.00233},
+     {"upto_kwh": 20000000, "usd_per_kwh": 0.00207},
+     {"upto_kwh": null, "usd_per_kwh": 0.00202}
+    ],
+    "quote": "$.00202 per kwh / in excess of 20 million kwhs",
+    "tip": "Illinois' electricity excise tax (the Department of Revenue's excise rates page): delivering suppliers collect from each purchaser monthly $0.0033 a kWh on the first 2,000, falling by blocks to $0.00207 on the next 10 million and $0.00202 above 20 million kWh. A non-residential purchaser may instead self-assess 5.1 percent of its purchase price, which needs a price the tool does not hold, so the blocks are applied. The tool takes a twelfth of the year's MWh as each month's; municipal and cooperative systems' own rate (5 percent of charges or $0.0032 a kWh, the lesser) is not applied."
+   },
+   "sales_exemption": {
+    "cite": "il_dceo", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "quote": "on June 5, 2026, DCEO will no longer process applications for the data center incentive program as of July 1, 2026.",
+    "terms": {"cite": "il_dceo", "quote": "New and existing data centers and their tenants collectively making a capital investment of at least $250 million over a 60-month period."},
+    "tip": "Illinois: the Data Center Investment program (the Department of Commerce and Economic Opportunity's page and its 2025 report to the General Assembly) exempted a certified data center from state and local sales and use taxes for up to 20 years, in five-year certificates, with \"a capital investment of at least $250 million over a 60-month period\" and 20 new jobs paid at least 120 percent of the county's median wage, under a memorandum of understanding with the Department. Per the Governor's directive of 5 June 2026 the Department \"will no longer process applications for the data center incentive program as of July 1, 2026\": a project announced now cannot be certified, so the tool applies no exemption. The statute's own host (ilga.gov) was not readable."
+   }
+  },
   "in": {
    "name": "Indiana",
    "sales_exemption": {
@@ -290,6 +532,10 @@
   },
   "ms": {
    "name": "Mississippi",
+   "property": {"building_ratio": 0.15, "equipment_ratio": 0.15, "cite": "ms_dor_appraisal",
+    "quote": "All other real property, except for real property included in Class I or IV 15%",
+    "personal": {"cite": "ms_dor_appraisal", "quote": "Personal property, except for motor vehicles and for personal property included in Class IV 15%"},
+    "tip": "Mississippi (the Department of Revenue's local property appraisal page): real property other than Class I or IV (Class II) and personal property other than motor vehicles and Class IV (Class III) are each assessed at 15 percent of true value. The tool assesses the building and the equipment at 15 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate; a county's fee in lieu goes in the abatement input."},
    "sales_exemption": {
     "cite": "ms_governor_xai", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
     "quote": "The Mississippi Development Authority has approved xAI for its Data Center Incentive, which provides a sales and use tax exemption for all computing and equipment software used by companies certified as data centers by the agency.",
@@ -298,6 +544,9 @@
   },
   "ia": {
    "name": "Iowa",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "ia_427a_2",
+    "quote": "Personal property shall not be listed or assessed for taxation and is not subject to the",
+    "tip": "Iowa (Code 427A.2, 2026): \"Personal property shall not be listed or assessed for taxation and is not subject to the property tax\", so a datacenter's equipment owes none. The building's assessment limitation for commercial property is not read: the tool takes the building at its cost and the reader's rate, an upper bound."},
    "sales_exemption": {
     "cite": "ia_dor_dc",
     "covers": ["equipment"],

@@ -86,6 +86,25 @@ name both. NLR's offshore wind model (an installer) and its distributed wind mod
 Each workbook's dollars are its own dollar year (`x_dollar_year`). The table converts nothing: a reader who adds the
 models together, or compares them, deflates them first.
 
+**Three more models, 26 November 2026** (session 10000, chain 701, window C's data request 8). The table holds seven since:
+
+| `x_technology` | NLR's model | Release (the About sheet) | File | Saved project | Per MW of | Dollar year | Multipliers (IMPLAN) |
+|---|---|---|---|---|---|---|---|
+| `coal` | JEDI Coal Model | C12.23.16 | `01d-jedi-coal-model-rel-c12-23-16.xlsm` | 600 MW in South Dakota, construction from 2014 over 55 months | nameplate MW (600) | 2011 | Year of Data 2014 |
+| `csp_trough` | JEDI Concentrating Solar Power Trough Model | CSP12.23.16 | `01d-jedi-csp-trough-model-rel-csp12-23-16.xlsm` | 100 MW parabolic trough plant with 6 hours of thermal storage in California, built 2011 | nameplate MW (100) | 2009 | Year of Data 2014 |
+| `biopower` | JEDI Biopower Model | B12.23.16 | `01d-jedi-biopower-model-rel-b12-23-16.xlsm` | 50 MW direct combustion plant (stoker boiler, corn stover) in California, construction from 2013 over 24 months | plant MW (50) | 2012 | Year of Data 2014 |
+
+Each was read as the four were (every formula cell emptied and computed again; the saved project reproduced, 30 of
+30 figures, before any location was set; every total the sum of its three lines at all 52 locations). The four held
+workbooks were asked for again the same day: each has the SHA-256 the table recorded on 20 October, and their 5,562
+rows came back the same keys and values (only `retrieved_at`, the day the file was kept, moved). Not read into the
+table: the conventional hydropower model (CH12.23.16), which computed from its constants with its saved inputs gives
+13 of its 30 summary figures other than the ones it saved (its local construction spending 156.70 against 210.92
+million dollars), so the recalculation refuses it before any location is set; and the transmission line model
+(TL12.23.16), whose project is a line of so many miles, so its figures are per mile, not per MW. Of NLR's biofuels models only biopower is a power plant, and it is in (added later that day); the marine and
+hydrokinetic workbook carries no list of locations on its Project Location, so it is not read for every state; the
+petroleum model and the biofuel refinery models are not power plants. The page offers the four types until window C adds the two.
+
 ### How the ERW read them: each workbook's own formulas, for every state
 
 A JEDI workbook is saved with one project in one state, and holds the results of that project only. A per-MW figure
@@ -186,6 +205,19 @@ apply until a statute is held.
 
 JEDI's own property-tax line is not used in its place: JEDI's wind workbook says it "does not currently have default
 data for taxes per MW", and a tax figure on this page comes from a statute or does not appear.
+
+### Datacenter rules in the table (26 November 2026)
+
+Since session 10000 (chain 701, request 9 of `docs/state/data_requests_forecast.md`) the table also holds the
+datacenter rules `/impact` applies, from `site/data/forecast/datacenter_rules.json` (read by chain 740 on 26 November
+2026, each value beside the words it comes from): one row a state's sales tax exemption (`event_type`
+`datacenter_sales_exemption`), its property tax treatment of a datacenter (`datacenter_property_rule`) and its tax on a
+datacenter's electricity (`datacenter_electricity_tax`), where the file holds one; 54 rows of 34 states on the day
+built. Each row keeps the rule's figures as the file holds them in `x_detail` (JSON: what it covers, the minimum
+investment, jobs and MW, the last exempt year, the term, the spending window, a rule held as words), its words in
+`x_quote`, what the tool does with it in `x_what`, its source's title, address and day read. Nothing is read again: the
+file is the record, and `warehouse/forecast/datacenter_rules_check.py --verify-reads` checks its quotes against the
+documents kept on lab-desktop.
 
 ### Terms
 

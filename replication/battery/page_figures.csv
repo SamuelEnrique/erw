@@ -1,18 +1,18 @@
 field,name,key,page,tolerance
-l12_kw_total,"last twelve months, all streams, USD per kW",bs|l12_kw:total,81.4,0.005
-l12_total_usd,"last twelve months, total, USD for 100 MW",bs|l12:total,8140219,0.5
-l12_energy_usd,"last twelve months, energy, USD for 100 MW",bs|l12:energy,5459858,0.5
-l12_ancillary_usd,"last twelve months, ancillary services, USD for 100 MW",bs|l12:ancillary,2680361,0.5
-l12_regup_usd,"last twelve months, Regulation Up, USD for 100 MW",bs|l12:regup,664224,0.5
-l12_regdn_usd,"last twelve months, Regulation Down, USD for 100 MW",bs|l12:regdn,998971,0.5
-l12_rrs_usd,"last twelve months, Responsive Reserve, USD for 100 MW",bs|l12:rrs,402471,0.5
-l12_ecrs_usd,"last twelve months, ECRS, USD for 100 MW",bs|l12:ecrs,194068,0.5
-l12_nspin_usd,"last twelve months, Non-Spin, USD for 100 MW",bs|l12:nspin,420627,0.5
+l12_kw_total,"last twelve months, all streams, USD per kW",bs|l12_kw:total,80.4,0.005
+l12_total_usd,"last twelve months, total, USD for 100 MW",bs|l12:total,8040161,0.5
+l12_energy_usd,"last twelve months, energy, USD for 100 MW",bs|l12:energy,5351033,0.5
+l12_ancillary_usd,"last twelve months, ancillary services, USD for 100 MW",bs|l12:ancillary,2689128,0.5
+l12_regup_usd,"last twelve months, Regulation Up, USD for 100 MW",bs|l12:regup,648994,0.5
+l12_regdn_usd,"last twelve months, Regulation Down, USD for 100 MW",bs|l12:regdn,998020,0.5
+l12_rrs_usd,"last twelve months, Responsive Reserve, USD for 100 MW",bs|l12:rrs,382598,0.5
+l12_ecrs_usd,"last twelve months, ECRS, USD for 100 MW",bs|l12:ecrs,200672,0.5
+l12_nspin_usd,"last twelve months, Non-Spin, USD for 100 MW",bs|l12:nspin,458845,0.5
 l12_share_ancillary,"share from ancillary services, percent",bs|l12_share:ancillary,33,0.5
 debt_service,"annual debt payments, USD",scenario A's debt payment,2261119,0.5
-cover,"debt coverage, last twelve months, times",bs|cover,2.63,0.005
-npv_kw,"scenario A, NPV at the hurdle rate, USD per kW",scenario A's NPV,-697.8,0.005
-irr,"scenario A, IRR, percent a year",scenario A's IRR,-8.8,0.05
+cover,"debt coverage, last twelve months, times",bs|cover,2.58,0.005
+npv_kw,"scenario A, NPV at the hurdle rate, USD per kW",scenario A's NPV,-704.23,0.005
+irr,"scenario A, IRR, percent a year",scenario A's IRR,-9.3,0.05
 toll,"scenario A, breakeven toll, USD per kW-month",scenario A's breakeven toll,4.19,0.005
 tail_years,"scenario A, merchant tail, years",scenario A's merchant tail,0,0
 p10_36_usd,"a bad month, USD for 100 MW",bs|p10_36,475477,0.5

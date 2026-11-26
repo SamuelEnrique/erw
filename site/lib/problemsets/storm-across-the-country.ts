@@ -93,7 +93,10 @@ export async function build(): Promise<Built> {
     steps: [["Pick Tennessee under A region hour by hour and read Generation by source at that hour; or regions, TEN, gen, each source at position ", `${tn.i}.`],
       ["Natural gas ", tg, ", coal ", tc, ", nuclear ", tu, ", hydro ", th, "; net_generation_mw ", tnet, "."],
       ["Share: ", tg, " / ", tnet, " x 100 = ", calc("pct", tg, tnet, "%"), "."], ["The baseline's natural gas that hour: ", tgb, "; ", tg, " / ", tgb, " = ", calc("ratio", tg, tgb, "times"), "."]],
-    why: "Nuclear plants run near their full output in most hours, so the extra demand of a storm hour falls to the plants that can be turned up, such as gas, coal and hydro.",
+    // session 10229 (the problems audit, finding 6): until then "... falls to the plants that can be turned up, such as gas,
+    // coal and hydro". In this hour the file has coal little above its baseline hour and far under its own highest hour
+    // of the window, and the imports carried about two fifths of the extra demand (question s5)
+    why: "Nuclear plants run near their full output in most hours, so the extra demand of a storm hour falls to the plants that can be turned up and to the neighbours: in this hour natural gas and hydro rose most above the baseline and imports carried much of the rest (the question on the flows into Tennessee), while coal ran little above its baseline hour and far below its own highest hour of the window.",
   };
 
   // ---------------------------------------------------------------- s4: what ran in Texas at its peak

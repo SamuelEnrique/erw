@@ -14,16 +14,16 @@ export function MonitorCalendar({ rows, today, last = "", built = "", hidden = 0
 }) {
   const c = calendarOf(rows, today, last);
   const lift = (n: number, words: string) => (
-    <a href={liftHref} data-monitor-lift={n} className={tip} title={`Steps on records scored below significance ${floor}; this lifts the floor, the other filters kept.`}
+    <a href={liftHref} data-monitor-lift={n} className={tip} title={`Steps on records scored below significance ${floor}, or not scored at all (the newest documents, and the grid operators' and FERC's large-load orders, which are never scored); this lifts the floor, the other filters kept.`}
       onClick={(e) => { if (onLift) { e.preventDefault(); onLift(); } }}>{words}</a>
   );
   return (
     <div className="mb-4 grid gap-4 md:grid-cols-2" data-monitor-calendar="1">
       <div>
         <h3 className="mb-1 text-sm">{c.stale ? "The file's last week" : "The past week"} <span className={`text-xs text-muted ${tip}`} data-monitor-week-to={c.weekTo}
-          title={c.stale ? `Records whose newest document is dated in the seven days to ${c.weekTo}, the file's newest document (data/policy/monitor.json, built ${built}); this page's day is ${c.today}.`
-            : "Records whose newest document is dated from seven days before this page's day to its day."}>{c.weekFrom} to {c.weekTo}</span></h3>
-        {c.week.length === 0 ? <p className="text-xs text-muted">No action in these seven days.</p> : (
+          title={c.stale ? `Records whose newest document is dated from ${c.weekFrom} to ${c.weekTo}, both days counted (eight calendar days, ending on the day of the file's newest document; data/policy/monitor.json, built ${built}); this page's day is ${c.today}.`
+            : "Records whose newest document is dated from seven days before this page's day to its day, both days counted (eight calendar days)."}>{c.weekFrom} to {c.weekTo}</span></h3>
+        {c.week.length === 0 ? <p className="text-xs text-muted">No action in these eight days.</p> : (
           <ul className="max-h-72 overflow-y-auto text-xs" data-monitor-week={c.week.length}>
             {c.week.slice(0, 60).map((r) => (
               <li key={r.id} className="border-b border-rule/60 py-1">
