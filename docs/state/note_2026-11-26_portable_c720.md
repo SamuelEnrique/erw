@@ -52,7 +52,7 @@ What is real and what is not:
 - Row 1, `/grid?grid=caiso` at a phone's width (it was 539 px wide, it is 390).
 - Row 2, the curtailment trend names the fuel it sums; the COVID page keeps to a phone's width.
 - Row 3, `/conditions`: the alerts table lists every notice its heading counts.
-- Row 4, the Grid tool's "same day last week" line: in hand.
+- Row 4, the Grid tool's chart "today so far and the same day last week": last week's line holds all 24 hours on four grids' pages.
 
 ## What waits for you (each left as it is; nothing was decided for you)
 

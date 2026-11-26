@@ -82,4 +82,5 @@ Branch `wip/c720-equities`, stacked on `wip/c720-forecast` (it shares the downlo
 |---|---|---|
 | 1, `wip/c750-grid-reliability` (`038ecbfcd`) | done: seen in a build at 390 and 1280 px (390 of 390 px; the table scrolls in its frame), marked requested | 10401 |
 | 2, the two commits of `wip/w2-c620-fixes` not on main (`923d4cb4f`) | done: seen in a build (the trend names its fuel, figures unchanged; the COVID page 390 of 390 px with every table shown), marked requested | 10401 |
+| 4, `wip/c750-grid-last-week` (`aad80aaba`) | done: seen in a build at 1280 and 390 px on four grids' pages ("Same day last week" holds a figure in each of the day's 24 rows), marked requested | 10402 |
 | 3, `wip/c750-conditions` (`569d15885`) | done: seen in a build at 1280 and 390 px (44 notices under a heading that counts 44; 79 rows at 390 px with the page 390 px wide; each operator's line says its clock once), marked requested | 10402 |
