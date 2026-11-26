@@ -516,12 +516,16 @@ hovers. Above the table, the calendar: the actions of the past week (from seven 
 counted: eight calendar days; audit of 26 November 2026, finding 4) and every dated step of the thirty days
 ahead (comment and intervention deadlines, effective dates and ends, hearings and sessions, environmental documents
 and decisions due), of the records the filters leave. Below it, the charts of every record of the file: records by
-month and body, records by sector and band of significance, and the MW and USD the records state as their own summed
-by month (only what is stated; a figure in another unit is shown in its row and never added). The filtered records
-download as CSV with every source, with a Python and a Stata reader of that CSV.
+month and body, records by sector and band of significance, and the figures stated by month. Since session 1876
+(policy faults row 28) that table adds nothing: for each month of a record's newest document and each unit, it counts the
+records stating a figure in that unit and shows the largest, with its record (a sum had added a terminal's cost
+estimate to a penalty). Sessions 3062 to 1876 drew the MW and USD summed by month; this paragraph said so until the
+audit of 26 November 2026 (finding 7). The filtered records download as CSV with every source, with a Python and a
+Stata reader of that CSV.
 
-**The tracer.** Each date, figure and sum the page shows carries a key (`policycal|<record>|<document>|<kind>|<date>`,
-`policyfig|<record>|<document>|<value>|<unit>`, `policysum|<unit>|<month>|<value>|<records>`, as `data-check`), which
+**The tracer.** Each date and figure the page shows carries a key (`policycal|<record>|<document>|<kind>|<date>`,
+`policyfig|<record>|<document>|<value>|<unit>`, as `data-check`; the `policysum|<unit>|<month>|<value>|<records>` key of
+session 3062 is no longer drawn, and the check of a sum stays for an older file's keys), which
 `site/scripts/policy-figures.mjs` prints as the page makes them and `scripts/check_policy.py` traces: a step to its
 document's row of `policy_actions` (the connector's own columns, or what `fields.derive` reads from the row's summary
 where the copy holds no text), a figure the same way, a sum to its records' figures, each traced, added. ok, FAIL, or
