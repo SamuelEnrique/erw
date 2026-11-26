@@ -438,7 +438,7 @@ export const SUPPLY_DECISIONS: Decision[] = [
 /** /storage, battery storage (docs/methods/storage.md); its three tabs share the block. */
 export const STORAGE_DECISIONS: Decision[] = [
   { key: "sign", session: "session 31",
-    text: "Battery output is net generation as published: positive while the batteries discharge to the grid, negative while they charge, so a day's charging is the part below zero taken as a positive amount.",
+    text: "Battery output is net generation as published: positive while the batteries discharge to the grid, negative while they charge, so a day's charging is the part below zero taken as a positive amount. ISO-NE's and SPP's series never go below zero, nor did ERCOT's before 15 December 2025: for them charging is not in the series, and a zero hour is not an idle battery.",
     def: "Positive discharging, negative charging.",
     source: "EIA-930's battery series (fuel type BAT) and CAISO's Today's Outlook, both signed this way." },
   { key: "hour-start", session: "session 31",
