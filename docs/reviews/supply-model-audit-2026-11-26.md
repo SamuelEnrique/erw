@@ -101,7 +101,53 @@ The page is drawn with its own default export (`draw_supply.mjs`: no build, no s
 | 4 | Minor | The Outlook's regional months are labelled "history only"; the newest are EIA's estimates and move each month | up to 3.94 percent between two monthly copies (Bakken gas, July 2026); Eagle Ford crude's printed change -11 kb/d against an 8.4 revision of July | `wip/audit-supply-5` | words, for landing |
 | 5 | Minor | The storage regions' names read as the electricity regions of the section below | "Midwest" in both, with other states | `wip/audit-supply-6` | words, for landing |
 
-BRANCH_DETAILS
+### 1. California's burn across a change of source
+
+- **Where.** `warehouse/derived/supply_page.py` `burn_rows` reads `mix_profile.hours_of("caiso")`, which is EIA-930's hours before `caiso_join.JOIN` (2025-12-16T08:00Z) and CAISO's own supply from it; `compare` sets the latest week against weeks 52 to 260 back with no regard to the join. The seven grids' total sums California's weeks. Page: the CAISO burn rows' "On last year", "Five-year average", "Against the average" and "Change against the five-year average change"; the total's.
+- **Why it is wrong.** The note says California is CAISO's own from 16 December 2025 and nothing about the comparisons. `eia930_caiso_break.md` found EIA's California "natural gas" about 73 GWh a day above CAISO's own before the break (geothermal and more). So a fall against 2024 and 2025 is partly a change of source.
+- **How much** (`measures.out`, `burn_cmp.out`). Over the weeks both hold, EIA's California gas burn over CAISO's own: 2021 +0.1 percent, 2022 +0.1, 2023 +0.8, 2024 +30.5, 2025 +47.3. Week ending 13 November 2026: the page's year before 1.88 Bcf/d (EIA, 14 November 2025), CAISO's own 1.44: -0.43 (-22.8 percent, "looser") printed, +0.01 (+0.8) like for like; the five-year average 1.89 printed (1.65 to 2.14), 1.73 on CAISO's own (1.29 to 2.14). The total of 30 October 2026: +0.69 Bcf/d (+3.49 percent) printed, +1.24 (+6.46) with CAISO's own in its base. The week of 13 to 19 December 2025 is three days of EIA's and four of CAISO's own: 1.19 against 0.99 on CAISO's own alone (one point of the line). CAISO's own weeks, restated by `caiso_own.py`, equal the file's in 41 of the 44 weeks after the join (the three others: the week of the join and two weeks this machine's copy of CAISO's file holds short).
+- **The tests.** `tests/test_audit_supply_1.py` (the words, on `wip/audit-supply-1`; the measure where this evidence is in the checkout); `tests/test_audit_supply_2.py` (the figure, on `wip/audit-supply-2`: -22.8 against +0.8, 1.89 against 1.73, +3.49 against +6.46, the week of the join).
+- **The fix on the branch.** Words only: each cell whose comparison crosses the join says on hover "California is EIA-930's hours before 16 December 2025 and CAISO's own supply by fuel from that day, so this comparison crosses a change of source. EIA's California natural gas ran about 30 percent above CAISO's own in 2024 and about 47 percent above it in 2025 (the weeks both hold), so the change against those years is lower than the gas burned alone would make it." (the total: "California's part of this total is ..."); the note gains the paragraph with the figures. Drawn and read (`b1_cmp.out`): the 188 figures, the 1,387 of the section and the visible text unchanged; seven hovers gain the words.
+- **For the owner.** California on CAISO's own supply throughout (its history from `caiso_fuel_supply_history`) moves California's gas burn on the year from -22.8 to +0.8 percent, its five-year average from 1.89 to 1.73 Bcf/d, and the seven grids' total on the year from +3.49 to +6.46 percent. Default: left as it is.
+
+### 2. A held row says a source is needed
+
+- **Where.** `site/lib/supply.ts` `holdRows` acts only on a row with status "ok"; since session 7051 `supply_page.py` `cleared_rows` writes NYISO's and ISO-NE's rows itself with status "licensed" and a note ending "Held, not shown" (NYISO) or "held, not shown" (ISO-NE); the page draws status "licensed" as "licensed source needed".
+- **Why it is wrong.** The ERW holds both tables and may not show them; "licensed source needed" is PJM's words, for a source it does not hold. The price board writes a held grid "license needed", and the read of 16 November fixed these two rows to it (row 1); the builder's change undid the words. `site/scripts/check-supply.mjs` expects "license needed" for a held grid; read against its code, it would fail on main for that reason (not run: it reads a built site).
+- **The fix on the branch.** A cleared row with status "licensed" whose note says it is held is drawn as "held" ("license needed"), its note on hover; PJM's row unchanged. Drawn and read (`b3_cmp.out`): the two rows' words change, nothing else. Test: `tests/test_audit_supply_3.py`.
+
+### 3. Normal for the season
+
+- **Where.** The headline "Tighter or looser than last week, last year and normal for the season"; the column "Five-year average" (no hover) and "Against the average", in every table; the note says "positioning has no season" and no more.
+- **Why it is wrong.** A five-year average is the season only for a series with a season and no trend. Production has grown (Permian marketed gas: 23.18 Bcf/d five-year average, 28.36 a year before, 30.93 now: "looser" against normal by +33.4 percent while +9.1 on the year; nine of twelve regional rows "looser"). New York's oil burned for power changed level within the five years (the same week of 2021 to 2025: 19.0, 27.2, 1.23, 0.07, 0.006 kb/d; yearly means 25.4 in 2022, 1.5 in 2024), so 0.00 reads -100 percent against 9.51. SPP's oil the same, smaller (about 1.2 in 2021 to 2023, 0.1 in 2025).
+- **The fix on the branch.** The head "Five-year average" of each table says on hover what it is and where it is not the season; the note gains the paragraph. Drawn and read (`b4_same.out`): the page is main's with that one hover on nine heads. Test: `tests/test_audit_supply_4.py`.
+
+### 4. "History only"
+
+- **Where.** The production rows' source line (`supply_page.py`: "EIA, Short-Term Energy Outlook, history only (eia_basin_production_monthly)"), on the hover of each row's name.
+- **Why it is wrong.** The connector keeps the Outlook's months to three before its run (`eia_supply.py`, `HISTORY_LAG = 3`) because the newest are EIA's estimates; they move with each Outlook. `revs.out`: between the table of 9 October and the file of 17 November, 5 to 7 months of 2026 moved in every region; Bakken gas July 2026 +3.94 percent, Haynesville crude March 2026 +2.42, Eagle Ford crude June 2026 +1.01; Eagle Ford crude's printed change on the month before, -11 kb/d, against a revision of +8.4 to July itself.
+- **The fix on the branch.** The builder's source words: "EIA, Short-Term Energy Outlook, without its forecast months: the newest months are EIA's estimates, revised each month (eia_basin_production_monthly)", which reach the page at the next build of the page file (drawn on a copy of the file with the new words, `b5_cmp.out`: twelve hovers change, the figures and the visible text not; the table to download is still found from the bracketed name). The note gains the revisions. Test: `tests/test_audit_supply_5.py`.
+
+### 5. Two kinds of region on one page
+
+- **Where.** "Natural gas in storage": East, Midwest, Mountain, Pacific, South Central (EIA's storage regions); "The whole country": EIA's thirteen electricity regions, among them a Midwest.
+- **The fix on the branch.** The storage table's heading says on hover that its regions are the storage report's groups of states, not the electricity regions below. Drawn and read (`b6_same.out`). Test: `tests/test_audit_supply_6.py`.
+
+## The branches
+
+Each from `origin/main`, pushed. Tests run on each: the branch's own test and every test file that reads a changed file (12 or 13 files; on the merged branch 19), all passing but `tests/test_session8430_supply_regions.py::ThePageDrawn::test_the_whole_country_section`, which fails the same way on a clean `origin/main` (not this audit's). Every words branch that changes the page rewrites the pin of session 8430 (`site/scripts/pins/supply-page-8430.json`, a hash of the drawn page at 103 addresses on the pin's own copy of the input files) from its own code; the pin holds "add, never change" and any words change outside the whole-country section moves it. On each branch no address's count of checked figures moved (`pin_*_diff.out`).
+
+| Branch | Head | Kind | Files | Test | Drawn and read |
+|---|---|---|---|---|---|
+| `wip/audit-supply-1` | `d29a45b4a` | words, for landing | `site/lib/supply.ts`, `site/app/supply/page.tsx`, `docs/methods/supply_and_trade.md`, the pin | `tests/test_audit_supply_1.py` | pass |
+| `wip/audit-supply-2` | `608da1374` | figure, not for landing | test only | `tests/test_audit_supply_2.py` | not drawn (no words) |
+| `wip/audit-supply-3` | `17ccae413` | words, for landing | `site/lib/supply.ts`, `docs/methods/supply_and_trade.md`, the pin | `tests/test_audit_supply_3.py` | pass |
+| `wip/audit-supply-4` | `ded60b390` | words, for landing | `site/app/supply/page.tsx`, `docs/methods/supply_and_trade.md`, the pin | `tests/test_audit_supply_4.py` | pass |
+| `wip/audit-supply-5` | `5ce84b8e9` | words, for landing | `warehouse/derived/supply_page.py`, `docs/methods/supply_and_trade.md` | `tests/test_audit_supply_5.py` | pass (on a copy of the file with the new words) |
+| `wip/audit-supply-6` | `b01b29897` | words, for landing | `site/app/supply/page.tsx`, `docs/methods/supply_and_trade.md`, the pin | `tests/test_audit_supply_6.py` | pass |
+| `wip/audit-supply-words` | `36f0bfae8` | words, for landing: 1, 3, 4, 5 and 6 merged | the same | the five | pass (`bw_cmp.out`) |
+
+The words branches conflict only in the pin (each rewrites it) and in two neighbouring constants of `site/app/supply/page.tsx` (4 and 6); `wip/audit-supply-words` is the five merged, the pin rewritten once from the merged code (103 of 103 addresses moved, no count of figures). Land that branch, or one branch alone.
 
 ## Data requests (rows for the data machine)
 
