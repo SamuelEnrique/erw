@@ -17,6 +17,7 @@ import { SiteLink } from "@/components/SiteLink";
 import { TimeChart, type TimeSeries } from "@/components/TimeChart";
 import { ChartFrame, HeadlineNumber, InputPanel, SourceLine, ToolHeader, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { dateWords, type Point } from "@/lib/board";
+import { scrollRegion } from "@/lib/cells";
 import {
   LIST_HEAD, MOVE_WORDS, NONE, STATEMENT, WINDOW_KEYS, blankWhy, blankWords, companiesOf, exact, filingsOf, hrefOf, isShown, levelWords, linesOf, millions, picksOf, pointsOf, pricePoints, queryOf,
   secUrl, segmentLabel, signedLevel, signedPct, windowLike, windowWords, windowed,
@@ -75,6 +76,34 @@ function movesCells(moves: EqMoves | undefined, file: string, path: string, name
   });
 }
 
+/** The changes as one close table, so that the five of them are in view in half the page's width (two side by side at
+ *  1280 px, and a phone): the look is ToolTable's, the cells stand closer, and a line that needs no name (a company's
+ *  close, an index's level) has no first column. */
+function MovesTable({ caption, rows }: { caption: string; rows: { key: string; name: string | null; cells: ReactNode[] }[] }) {
+  const named = rows.some((r) => r.name !== null);
+  return (
+    <div className="overflow-x-auto" {...scrollRegion(caption)} data-eq-moves={rows.length}>
+      <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth: named ? 380 : 300 }}>
+        <caption className="sr-only">{caption}</caption>
+        <thead>
+          <tr className="bg-accent text-white">
+            {named ? <th scope="col" className="px-2 py-1.5 font-normal">Change over</th> : null}
+            {MOVE_WORDS.map(([k, w]) => <th key={k} scope="col" className="px-2 py-1.5 text-right font-normal" title={named ? undefined : `The change over ${k === "ytd" ? "the year to date" : `a ${w.toLowerCase()}`}`}>{k === "ytd" ? <abbr title="Year to date" className="no-underline">YTD</abbr> : w}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={r.key} className="border-b border-rule">
+              {named ? <th scope="row" className="px-2 py-1.5 font-normal">{r.name}</th> : null}
+              {r.cells.map((c, i) => <td key={i} className="px-2 py-1.5 text-right">{c}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 /** One slot's line: its latest value, its changes, and the chart over the window with the energy price laid over. */
 function LinePanel({ slot, list, q, price, prices }: { slot: Slot; list: EqList; q: Query; price: EqPrice | null; prices: EqPrices | null }) {
   const s = slot.series;
@@ -121,10 +150,9 @@ function LinePanel({ slot, list, q, price, prices }: { slot: Slot; list: EqList;
             note={lastV ? `${dateWords(lastV.t)}${nDay ? `; ${nDay}` : ""}` : nDay ?? undefined} />
         ) : null}
       </div>
-      <ToolTable minWidth={400} caption={`${nameOf(slot)}: the change over a day, a week, a month, the year to date and a year`}
-        head={["Change over", ...MOVE_WORDS.map(([, w]) => w)]}
-        rows={[{ key: "m", cells: [s.kind === "segment" ? "Every company the same" : first.name, ...movesCells(s.moves, file, "moves", first.name, first.unit)] },
-          ...(s.kind === "segment" ? [{ key: "v", cells: ["Larger companies count more", ...movesCells(s.moves_value_weight, file, "moves_value_weight", "Weighted by market value", lines[1]?.unit ?? first.unit)] }] : [])]} />
+      <MovesTable caption={`${nameOf(slot)}: the change over a day, a week, a month, the year to date and a year`}
+        rows={[{ key: "m", name: s.kind === "segment" ? "Every company the same" : null, cells: movesCells(s.moves, file, "moves", first.name, first.unit) },
+          ...(s.kind === "segment" ? [{ key: "v", name: "Larger companies count more", cells: movesCells(s.moves_value_weight, file, "moves_value_weight", "Weighted by market value", lines[1]?.unit ?? first.unit) }] : [])]} />
       <div className="mt-4">
         <ChartFrame title={`${nameOf(slot)}: ${windowWords(q.win).toLowerCase() === "all" ? "every day held" : `the last ${windowWords(q.win).toLowerCase()}`}`} tip={<> <Hint words="source" why={src} />{priceHint}</>}>
           <TimeChart series={series} unit={first.unit} unit2={price && priceWin.length ? price.unit : ""} x="day" height={300}
@@ -209,7 +237,7 @@ function Companies({ list, q, first }: { list: EqList; q: Query; first: string |
         <button type="submit" className="border border-rule bg-white px-3 py-1 text-sm">Filter</button>
         <span className="text-sm" data-eq-count={`${rows.length}|${list.companies.length}`}>{rows.length.toLocaleString("en-US")} of {list.companies.length.toLocaleString("en-US")} companies</span>
       </form>
-      <ToolTable words minWidth={860} caption={`The listed energy companies${q.seg ? ` of ${segmentLabel(list, q.seg)}` : ""}: ${rows.length} of ${list.companies.length}`}
+      <ToolTable words minWidth={720} caption={`The listed energy companies${q.seg ? ` of ${segmentLabel(list, q.seg)}` : ""}: ${rows.length} of ${list.companies.length}`}
         head={[sortHead("name"), sortHead("ticker"), sortHead("exchange"), sortHead("segment"), "Industry", <span key="p">Share price: {sortHead("first")} to {sortHead("last")}</span>, "Filed figures"]}
         rows={rows.map((c) => ({ key: c.id, cells: [
           <SiteLink key="n" href={hrefOf(q, { a: c.id }, first, "#line")} title={`Draw ${c.ticker}${c.cik ? `; SEC number ${c.cik}` : ""}`}>{c.name ?? c.ticker}</SiteLink>,
