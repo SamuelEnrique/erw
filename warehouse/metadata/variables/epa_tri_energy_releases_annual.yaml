@@ -374,7 +374,9 @@ columns:
   source_name: 46. CARCINOGEN
   documented_by: connector epa_tri_energy.py
 - name: x_pbt
-  label: 'EPA''s PBT flag of the chemical: YES or NO'
+  label: 'EPA''s flag of a persistent, bioaccumulative and toxic (PBT) chemical (column 47 of the TRI basic data file):
+    YES the chemical is a PBT, NO it is not; a facility may not report a PBT''s quantities by range codes (EPA''s
+    Appendix B lists the PBT chemicals)'
   unit: none
   type: text
   values:
@@ -384,7 +386,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: 47. PBT
-  documented_by: connector epa_tri_energy.py
+  documented_by: source EPA, TRI Basic Data Files documentation, August 2024 (www.epa.gov/system/files/documents/2025-09/basic_data_files_documentation_august_2024.pdf; robots disallows not this path), read 2026-11-26
 - name: x_pfas
   label: 'Whether the chemical is a PFAS: YES or NO'
   unit: none
@@ -429,7 +431,4 @@ variables:
   rows: 128161
   first: '2015-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
-second_look:
-- 'x_pbt: the connector says only whether the chemical is ''a PBT''; the term is not expanded in the repository. Read again
-  on 20 November 2026 in the headings and values of the saved TRI basic data CSV under warehouse/raw/epa_tri_energy (column
-  47. PBT, YES or NO; column 43. CLASSIFICATION, TRI, PBT or Dioxin): not found.'
+second_look: null

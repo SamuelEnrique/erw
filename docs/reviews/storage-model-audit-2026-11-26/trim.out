@@ -1,0 +1,5 @@
+copied eia860m_operating_generators
+copied eia860m_planned_generators
+copied eia860m_retired_generators
+eia930_all_storage kept 41856 dropped 32928
+caiso_battery_storage kept 316476 dropped 59364

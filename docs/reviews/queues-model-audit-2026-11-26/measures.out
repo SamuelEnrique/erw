@@ -1,0 +1,108 @@
+== 1. each region's record
+CAISO {'requests': 2868, 'first_year': 1999, 'years_2000_2009': 542, 'years_2010_2020': 1368, 'first_year_with_20': 2004, 'withdrawn_share_2000_2009': 79.89, 'withdrawn_share_2010_2020': 77.41, 'operating_share_2000_2009': 16.79, 'max_q_date': '2023-04-17', 'max_on_date': '2025-11-15', 'max_wd_date': '2026-01-14', 'entered_oct_dec_2025': 0, 'entered_2025': 0, 'entered_2024': 0, 'withdrawn_after_2025': 2, 'withdrawn_no_date': 39, 'operating_no_on_date': 8, 'operating': 235}
+ERCOT {'requests': 3757, 'first_year': 2001, 'years_2000_2009': 354, 'years_2010_2020': 1199, 'first_year_with_20': 2004, 'withdrawn_share_2000_2009': 67.23, 'withdrawn_share_2010_2020': 46.46, 'operating_share_2000_2009': 32.2, 'max_q_date': '2025-12-23', 'max_on_date': '2025-12-31', 'max_wd_date': '2025-12-23', 'entered_oct_dec_2025': 58, 'entered_2025': 387, 'entered_2024': 491, 'withdrawn_after_2025': 0, 'withdrawn_no_date': 594, 'operating_no_on_date': 94, 'operating': 613}
+ISO-NE {'requests': 1282, 'first_year': 2000, 'years_2000_2009': 205, 'years_2010_2020': 622, 'first_year_with_20': 2006, 'withdrawn_share_2000_2009': 64.88, 'withdrawn_share_2010_2020': 72.19, 'operating_share_2000_2009': 35.12, 'max_q_date': '2025-01-14', 'max_on_date': 'None', 'max_wd_date': '2025-12-22', 'entered_oct_dec_2025': 0, 'entered_2025': 1, 'entered_2024': 112, 'withdrawn_after_2025': 0, 'withdrawn_no_date': 12, 'operating_no_on_date': 228, 'operating': 228}
+MISO {'requests': 5424, 'first_year': 1995, 'years_2000_2009': 1093, 'years_2010_2020': 1713, 'first_year_with_20': 2000, 'withdrawn_share_2000_2009': 72.74, 'withdrawn_share_2010_2020': 66.61, 'operating_share_2000_2009': 25.89, 'max_q_date': '2025-12-22', 'max_on_date': '2024-12-19', 'max_wd_date': '2026-01-13', 'entered_oct_dec_2025': 120, 'entered_2025': 452, 'entered_2024': 701, 'withdrawn_after_2025': 33, 'withdrawn_no_date': 202, 'operating_no_on_date': 18, 'operating': 515}
+NYISO {'requests': 1936, 'first_year': 1998, 'years_2000_2009': 342, 'years_2010_2020': 693, 'first_year_with_20': 1999, 'withdrawn_share_2000_2009': 67.25, 'withdrawn_share_2010_2020': 74.31, 'operating_share_2000_2009': 32.46, 'max_q_date': '2025-09-26', 'max_on_date': '2023-12-31', 'max_wd_date': '2023-12-31', 'entered_oct_dec_2025': 0, 'entered_2025': 16, 'entered_2024': 383, 'withdrawn_after_2025': 0, 'withdrawn_no_date': 786, 'operating_no_on_date': 132, 'operating': 215}
+PJM {'requests': 7666, 'first_year': 1997, 'years_2000_2009': 1236, 'years_2010_2020': 4353, 'first_year_with_20': 1999, 'withdrawn_share_2000_2009': 65.45, 'withdrawn_share_2010_2020': 71.74, 'operating_share_2000_2009': 34.55, 'max_q_date': '2025-07-01', 'max_on_date': '2025-12-30', 'max_wd_date': '2026-01-16', 'entered_oct_dec_2025': 0, 'entered_2025': 388, 'entered_2024': 2, 'withdrawn_after_2025': 11, 'withdrawn_no_date': 86, 'operating_no_on_date': 7, 'operating': 1192}
+SPP {'requests': 2837, 'first_year': 2000, 'years_2000_2009': 552, 'years_2010_2020': 1130, 'first_year_with_20': 2001, 'withdrawn_share_2000_2009': 81.7, 'withdrawn_share_2010_2020': 67.43, 'operating_share_2000_2009': 18.3, 'max_q_date': '2025-12-19', 'max_on_date': '2025-12-31', 'max_wd_date': '2026-01-07', 'entered_oct_dec_2025': 34, 'entered_2025': 367, 'entered_2024': 110, 'withdrawn_after_2025': 1, 'withdrawn_no_date': 503, 'operating_no_on_date': 11, 'operating': 299}
+West {'requests': 8097, 'first_year': 2000, 'years_2000_2009': 1591, 'years_2010_2020': 3283, 'first_year_with_20': 2000, 'withdrawn_share_2000_2009': 78.13, 'withdrawn_share_2010_2020': 71.03, 'operating_share_2000_2009': 18.23, 'max_q_date': '2025-12-20', 'max_on_date': '2025-06-01', 'max_wd_date': '2025-11-13', 'entered_oct_dec_2025': 22, 'entered_2025': 404, 'entered_2024': 429, 'withdrawn_after_2025': 0, 'withdrawn_no_date': 4636, 'operating_no_on_date': 786, 'operating': 963}
+Southeast {'requests': 4334, 'first_year': 1997, 'years_2000_2009': 323, 'years_2010_2020': 1749, 'first_year_with_20': 1998, 'withdrawn_share_2000_2009': 78.02, 'withdrawn_share_2010_2020': 75.36, 'operating_share_2000_2009': 19.2, 'max_q_date': '2025-12-24', 'max_on_date': '2025-12-15', 'max_wd_date': '2026-01-12', 'entered_oct_dec_2025': 27, 'entered_2025': 308, 'entered_2024': 375, 'withdrawn_after_2025': 6, 'withdrawn_no_date': 1781, 'operating_no_on_date': 216, 'operating': 529}
+withdrawn with a withdrawal date after 2025-12-31, every region: 53
+their MW: 13274.8
+their dates: ['2026-01-02', '2026-01-04', '2026-01-05', '2026-01-06', '2026-01-07', '2026-01-08', '2026-01-12', '2026-01-13', '2026-01-14', '2026-01-15', '2026-01-16']
+the past window's requests by region, 2000 to 2009 against 2010 to 2020: {'CAISO': (542, 1368), 'ERCOT': (354, 1199), 'ISO-NE': (205, 622), 'MISO': (1093, 1713), 'NYISO': (342, 693), 'PJM': (1236, 4353), 'SPP': (552, 1130), 'West': (1591, 3283), 'Southeast': (323, 1749)}
+share of the US past requests (2000 to 2020) that entered 2000 to 2009, by region: {'CAISO': 28.4, 'ERCOT': 22.8, 'ISO-NE': 24.8, 'MISO': 39.0, 'NYISO': 33.0, 'PJM': 22.1, 'SPP': 32.8, 'West': 32.6, 'Southeast': 15.6}
+== 2. hybrids
+active requests with two or more parts of positive MW: 383
+active MW, every part summed (the page): 1864963.3
+active MW, a hybrid at its largest part: 1749315.2
+difference, MW and percent: (115648.1, 6.2)
+solar with storage active: summed, largest part, percent less: (503794.2, 407011.5, 19.21)
+by region, active MW summed and at the largest part: {'CAISO': (190717, 129435), 'ERCOT': (408108, 408108), 'ISO-NE': (14623, 14623), 'MISO': (350213, 350213), 'NYISO': (27119, 27119), 'PJM': (130611, 130611), 'SPP': (151152, 151152), 'West': (448601, 394235), 'Southeast': (143820, 143820)}
+== 3. the same project twice
+active requests sharing a region, owner, project name and point of interconnection with another (groups, requests beyond the first, their MW): (43, 55, 4734.2)
+active requests with a project name (other than the queue id): 3185
+active requests sharing a region, owner, point of interconnection, type and MW with another (groups, requests beyond the first, their MW): (376, 565, 112963.6)
+== 4. time in queue
+built, every year: n, median, mean, quartiles: (3098, 3.58, 3.85, [1.96, 3.58, 5.19])
+withdrawn: n dated, median and mean years from request to withdrawal: (15367, 1.63, 2.15)
+active at the end of 2025: n dated, median and mean years already waited: (8438, 2.98, 3.56)
+active requests that have waited longer than the built ones' median (3.58 years): (3312, 39.3)
+with an interconnection agreement dated: n, median years from request to agreement: (4718, 2.24)
+past cohort 2000 to 2020: share of all 22,344 built within 3 years (dated ones only): 5.16
+past cohort 2000 to 2020: share of all 22,344 built within 5 years (dated ones only): 9.22
+past cohort 2000 to 2020: share of all 22,344 built within 10 years (dated ones only): 12.7
+== 5. the operation-year line and the file's start
+2000 {'n': 12, 'median': 0.69, 'longest_possible': 5.1, 'share_over_5': 0.0, 'median_of_waits_to_4': 0.69}
+2001 {'n': 25, 'median': 1.25, 'longest_possible': 6.1, 'share_over_5': 0.0, 'median_of_waits_to_4': 1.17}
+2002 {'n': 38, 'median': 2.26, 'longest_possible': 7.1, 'share_over_5': 5.3, 'median_of_waits_to_4': 2.06}
+2003 {'n': 51, 'median': 2.0, 'longest_possible': 8.1, 'share_over_5': 2.0, 'median_of_waits_to_4': 1.64}
+2004 {'n': 49, 'median': 2.35, 'longest_possible': 9.1, 'share_over_5': 10.2, 'median_of_waits_to_4': 1.84}
+2005 {'n': 64, 'median': 1.47, 'longest_possible': 10.1, 'share_over_5': 7.8, 'median_of_waits_to_4': 1.32}
+2006 {'n': 77, 'median': 1.87, 'longest_possible': 11.1, 'share_over_5': 5.2, 'median_of_waits_to_4': 1.63}
+2007 {'n': 98, 'median': 2.07, 'longest_possible': 12.1, 'share_over_5': 13.3, 'median_of_waits_to_4': 1.67}
+2008 {'n': 117, 'median': 1.79, 'longest_possible': 13.1, 'share_over_5': 9.4, 'median_of_waits_to_4': 1.59}
+2009 {'n': 96, 'median': 2.56, 'longest_possible': 14.1, 'share_over_5': 12.5, 'median_of_waits_to_4': 1.95}
+2010 {'n': 107, 'median': 2.78, 'longest_possible': 15.1, 'share_over_5': 16.8, 'median_of_waits_to_4': 2.67}
+2011 {'n': 121, 'median': 2.87, 'longest_possible': 16.1, 'share_over_5': 15.7, 'median_of_waits_to_4': 1.98}
+2012 {'n': 138, 'median': 2.61, 'longest_possible': 17.1, 'share_over_5': 23.9, 'median_of_waits_to_4': 1.94}
+2013 {'n': 99, 'median': 2.74, 'longest_possible': 18.1, 'share_over_5': 26.3, 'median_of_waits_to_4': 1.89}
+2014 {'n': 105, 'median': 3.93, 'longest_possible': 19.1, 'share_over_5': 28.6, 'median_of_waits_to_4': 2.05}
+2015 {'n': 158, 'median': 3.15, 'longest_possible': 20.1, 'share_over_5': 27.8, 'median_of_waits_to_4': 2.32}
+2016 {'n': 171, 'median': 3.5, 'longest_possible': 21.1, 'share_over_5': 35.7, 'median_of_waits_to_4': 2.07}
+2017 {'n': 132, 'median': 3.29, 'longest_possible': 22.1, 'share_over_5': 25.0, 'median_of_waits_to_4': 2.47}
+2018 {'n': 142, 'median': 3.58, 'longest_possible': 23.1, 'share_over_5': 26.8, 'median_of_waits_to_4': 2.59}
+2019 {'n': 145, 'median': 3.86, 'longest_possible': 24.1, 'share_over_5': 26.9, 'median_of_waits_to_4': 2.49}
+2020 {'n': 188, 'median': 3.74, 'longest_possible': 25.1, 'share_over_5': 15.4, 'median_of_waits_to_4': 2.89}
+2021 {'n': 183, 'median': 4.16, 'longest_possible': 26.1, 'share_over_5': 25.7, 'median_of_waits_to_4': 2.57}
+2022 {'n': 156, 'median': 4.83, 'longest_possible': 27.1, 'share_over_5': 44.9, 'median_of_waits_to_4': 2.94}
+2023 {'n': 205, 'median': 4.68, 'longest_possible': 28.1, 'share_over_5': 42.4, 'median_of_waits_to_4': 3.21}
+2024 {'n': 257, 'median': 5.11, 'longest_possible': 29.1, 'share_over_5': 51.4, 'median_of_waits_to_4': 2.66}
+2025 {'n': 163, 'median': 5.44, 'longest_possible': 30.1, 'share_over_5': 57.1, 'median_of_waits_to_4': 2.12}
+the file's oldest request date: 1995-11-08
+requests entered before 2000, by year: {1995: 1, 1997: 19, 1998: 68, 1999: 204}
+== 6. the US solar with storage, with and without ERCOT's
+US solar with storage, as the page: {'n': 1260, 'operating': 8.253968253968255, 'withdrawn': 62.61904761904762, 'open': 29.126984126984127, 'resolved_operating': 11.646136618141098, 'mw_operating': 8.723535863679206}
+US solar with storage, ERCOT's left out: {'n': 1194, 'operating': 7.872696817420436, 'withdrawn': 66.08040201005025, 'open': 26.046901172529314, 'resolved_operating': 10.645526613816534, 'mw_operating': 8.295030905765735}
+the page's file carries not_comparable for: ['ercot|solar_battery', 'us|solar_battery']
+== 7. the headline's 'The most entered in'
+views where the year of most active MW is not the year of most MW entered or of most requests entered (view, active, MW entered, requests entered): (54, 76)
+of which the default view: [('us|all', '2025', '2023', '2022')]
+first ten: [('caiso|all', '2021', '2023', '2023'), ('caiso|solar', '2023', '2008', '2010'), ('caiso|solar_battery', '2021', '2023', '2023'), ('caiso|battery', '2021', '2023', '2023'), ('caiso|wind', '2020', '2023', '2007'), ('caiso|gas', '2020', '2007', '2007'), ('ercot|all', '2025', '2024', '2024'), ('ercot|solar', '2025', '2019', '2019'), ('ercot|battery', '2024', '2024', '2023'), ('ercot|wind', '2025', '2007', '2007')]
+views where a bar hover reads '1 requests' (a year with one active request): 155
+== 8. one rule at a time, the default view
+base: past 2000 to 2020, shares: {'n': 22344, 'operating': 18.78, 'withdrawn': 70.89, 'open': 10.33, 'resolved_operating': 20.94, 'mw_operating': 12.83}
+past 2000 to 2018: {'n': 17446, 'operating': 21.5, 'withdrawn': 72.3, 'open': 6.2, 'resolved_operating': 22.92, 'mw_operating': 14.66}
+past 2000 to 2015: {'n': 11867, 'operating': 24.02, 'withdrawn': 73.62, 'open': 2.36, 'resolved_operating': 24.6, 'mw_operating': 15.64}
+past 2010 to 2020: {'n': 16109, 'operating': 16.42, 'withdrawn': 69.87, 'open': 13.71, 'resolved_operating': 19.03, 'mw_operating': 12.57}
+past 2005 to 2020: {'n': 20592, 'operating': 17.9, 'withdrawn': 70.99, 'open': 11.11, 'resolved_operating': 20.14, 'mw_operating': 12.59}
+base, of resolved requests only (operating over operating plus withdrawn): 20.94
+suspended counted as active: requests, MW: (9181, 2002167.4)
+negative capacities kept as filed (the page counts them as zero): total MW change: -336.7
+status at 2025-12-31: the withdrawn of 2026 counted as active (requests, MW): (8566, 1878238.1)
+median years, every year (page) against the mean: (3.58, 3.85)
+median years, operation years 2016 to 2025 only: 4.29
+views with a share at a floor of 20, a median at 5: (73, 56, 76)
+views with a share at a floor of 50, a median at 5: (65, 56, 76)
+views with a share at a floor of 20, a median at 10: (73, 51, 76)
+views with a share at a floor of 50, a median at 20: (65, 43, 76)
+== 9. ISO-NE
+ISO-NE operating: requests, with an operation date, with a request date: (228, 0, 228)
+== 10. /queues/places
+West and Southeast rows with a negative capacity (the places file sums them as filed): (1, -75.0)
+places owners: values restated, differing: (931, [('PacifiCorp', 'type Solar', 3591.0, 3591.1), ('PacifiCorp', 'year 2024', 3684.7, 3684.8), ('TEP', 'withdrawn mw', 23268.4, 23268.5), ('BHCT', 'withdrawn mw', 2870.4, 2870.3)])
+places: the two owners the page opens on, and the two largest by active MW restated: (['BPA', 'PacifiCorp'], [('BPA', 129877.5), ('PacifiCorp', 49018.6)])
+places states: restated, differing: (25, [])
+places: owners, states, states with no entry: (49, 25, 0)
+== 11. queue dates
+CAISO 1110 [('2023-04-17', 590), ('2021-04-15', 355), ('2020-04-15', 147)]
+ERCOT 2290 [('2024-03-22', 52), ('2024-12-19', 37), ('2023-06-28', 29)]
+ISO-NE 590 [('2020-04-09', 21), ('2022-06-08', 19), ('2021-10-27', 18)]
+MISO 2883 [('2022-09-15', 377), ('2022-09-14', 302), ('2024-04-18', 197)]
+NYISO 1011 [('2024-08-01', 71), ('2024-09-23', 31), ('2024-10-15', 21)]
+PJM 2834 [('2020-09-30', 218), ('2021-09-10', 218), ('2021-03-31', 148)]
+SPP 1232 [('2025-03-01', 290), ('2023-10-02', 235), ('2024-10-30', 77)]
+West 3424 [('2024-05-15', 91), ('2023-05-15', 89), ('2022-05-15', 69)]
+Southeast 2091 [('2023-01-06', 67), ('2023-06-01', 59), ('2023-12-31', 41)]
+rows whose q_year is not the year of q_date: 0

@@ -2799,7 +2799,7 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 | `x_storm_name` | The storm's name as the file writes it (UNNAMED for some) | none | text | for example ADOLPH, ADRIAN, AGATHA; 341 distinct | 0 |
 | `x_basin` | The basin: atlantic or pacific | none | text | atlantic, pacific | 0 |
 | `x_time_utc` | The fix's UTC time, HHMM (0000, 0600, 1200, 1800, or another hour for a record the file marks) | none | integer | 0 to 2330; 126 distinct | 0 |
-| `x_record` | The file's record identifier: L a landfall, I an intensity peak, P a minimum pressure, others as the file writes them | none | text | C, G, I, L, P, R, S, T, W | 27230: The fix carries no record identifier |
+| `x_record` | The file's record identifier: C closest approach to a coast, not followed by a landfall; G genesis; I an intensity peak in both pressure and wind; L a landfall (the center crossing a coastline); P a minimum in central pressure; R more detail on the intensity while it changes rapidly; S a change of status; T more detail on the track; W the maximum sustained wind speed | none | text | C, G, I, L, P, R, S, T, W | 27230: The fix carries no record identifier |
 | `x_landfall` | 1 where x_record is L (a landfall), else 0 | none | integer | 0, 1 | 0 |
 | `x_lat` | The fix's latitude, decimal degrees, north positive | degree | number | 0.4 to 70.7; 585 distinct | 0 |
 | `x_lon` | The fix's longitude, decimal degrees, east positive | degree | number | -180.0 to 179.9; 1923 distinct | 0 |
@@ -2807,8 +2807,6 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 | `x_min_pressure_mb` | The minimum central pressure | mb | integer | 872 to 1024; 129 distinct | 41: The file writes -999 (no pressure given) |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T20:09:44Z, 2026-10-23T20:09:46Z | 0 |
 | `vintage` | When the publisher published the document the value came from, in UTC. Here: The basin file's Last-Modified (UTC) | none | utc time | 2026-09-30T18:37:36Z, 2026-09-30T18:37:37Z | 0 |
-
-Waiting for a second look: x_record: the record identifiers C, G, R, S, T and W are not defined in the connector or the method note (L, I and P are). Read again on 20 November 2026 in the connector and the two saved HURDAT2 text files under warehouse/raw/nhc_hurdat2 (data lines only, no format description): not found..
 
 ### `nlr_atb_electricity_costs`
 
@@ -4190,16 +4188,14 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `tilt_deg` | The panels' tilt (the source's name: p_tilt) | degree | integer | 0 to 90; 54 distinct | 1323: USGS leaves it blank |
 | `battery` | batteries where the facility has them (the source's name: p_battery) | none | text | batteries | 6236: The facility has no battery listed |
 | `agrivoltaic` | non-agrivoltaic, or es, grazing, crop and their combinations, as USGS gives them (the source's name: p_agrivolt) | none | text | crop, crop,es, crop,grazing, crop,grazing,es, es, es,grazing, grazing, non-agrivoltaic | 0 |
-| `site_type` | The site type (greenfield, landfill, superfund and others, as USGS gives them) (the source's name: p_type) | none | text | AML, PCSC, RCRA, greenfield, landfill, landfill named, superfund | 0 |
+| `site_type` | USGS's general category of the facility's site (p_type): greenfield (land that may have been wildland, urbanized, cultivated or reclaimed); RCRA (a Resource Conservation and Recovery Act site, a facility that treats, stores or disposes of hazardous wastes and needs cleanup under RCRA's corrective action program); superfund; AML (abandoned hardrock mines and mineral processing sites listed in the Superfund Enterprise Management System); landfill (designated a landfill in EPA's RE-Powering Matrix); landfill named (the facility's name holds the word landfill, EPA does not list it as one); PCSC (a brownfield site that EPA's RE-Powering Matrix gives no specific designation; USGS does not expand the letters) (the source's name: p_type) | none | text | AML, PCSC, RCRA, greenfield, landfill, landfill named, superfund | 0 |
 | `system_type` | The system type: ground, rooftop, canopy, floating, or more than one (the source's name: p_sys_type) | none | text | canopy, canopy,ground, canopy,ground,rooftop, canopy,rooftop, floating, ground, ground,rooftop, rooftop | 0 |
 | `image_date` | The image's date, YYYY-MM-DD (the source's name: p_img_date) | none | date | 2009-04-17 to 2026-02-08; 1573 distinct | 1: USGS's date is no calendar date (one row: 20240231) |
 | `digitizing_confidence` | The digitizing confidence (1 to 4) (the source's name: p_dig_conf) | none | integer | 1, 2, 3, 4 | 0 |
-| `zscore` | USGS's z-score, as published (the source's name: p_zscore) | none | number | -1.04 to 58.18; 339 distinct | 0 |
+| `zscore` | USGS's z-score of the facility's DC capacity over its area (p_cap_dc / p_area): how many standard deviations the record lies from the mean of all records; a high or low value may mean an error in the capacity or the area (the source's name: p_zscore) | none | number | -1.04 to 58.18; 339 distinct | 0 |
 | `multi_polygon` | single or multi: whether the facility's outline is one polygon or several, as USGS gives it (the source's name: multi_poly) | none | text | multi, single | 0 |
 | `comments` | USGS's comments (community solar) (the source's name: p_comm) | none | text | community solar | 5510: USGS gives no comment |
 | `image_date_usgs` | The image date as USGS gives it (YYYYMMDD) (the source's name: p_img_date) | none | integer | 20090417 to 20260208; 1574 distinct | 0 |
-
-Waiting for a second look: zscore (USGS's p_zscore): what the z-score measures is not written in the connector, the method note or the header. Read again on 20 November 2026 in the saved USPVDB API response under warehouse/raw/uspvdb (records only, no field descriptions): not found.; site_type: the codes AML, PCSC and RCRA are not defined in the repository. Read again on 20 November 2026 in the saved USPVDB API response under warehouse/raw/uspvdb (records only, no field descriptions): not found..
 
 ### `uswtdb_wind_turbines`
 

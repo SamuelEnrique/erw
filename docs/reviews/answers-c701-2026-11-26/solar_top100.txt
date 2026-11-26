@@ -1,0 +1,9 @@
+source: warehouse\raw\eia930_emissions\20261123T182516Z\20261123T182552.914131Z_00004_ERCO.xlsx
+year | solar, 100 highest-demand hours, pct of capacity | solar, 100 highest-net-load hours (grid_stress_yearly's rule) | difference
+2019 | 68.884 | 71.103 | -2.219
+2020 | 75.836 | 73.844 | 1.992
+2021 | 74.727 | 71.434 | 3.293
+2022 | 79.858 | 57.59 | 22.268
+2023 | 90.87 | 48.655 | 42.215
+2024 | 88.656 | 33.139 | 55.517
+2025 | 85.446 | 5.022 | 80.424
