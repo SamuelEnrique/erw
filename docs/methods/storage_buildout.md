@@ -88,7 +88,7 @@ Every month, every entity:
 | `battery_operating_mwh_<bucket>` | MWh | the four duration buckets; they sum to `battery_operating_mwh` |
 | `solar_operating_mw` | MW | nameplate power of operating solar |
 | `battery_operating_mwh_per_mw` | MWh/MW | average duration in hours: MWh over the MW of the units that report energy |
-| `battery_mwh_per_solar_mw` | MWh/MW | battery MWh over solar MW: the hours the batteries could carry the solar fleet's nameplate |
+| `battery_mwh_per_solar_mw` | MWh/MW | battery MWh over solar MW: the batteries' energy in hours of the solar fleet's nameplate output, a ratio of energy only (session 10212: the batteries' MW is below the solar fleet's on every grid in the September 2026 inventory, so they could not carry that output at its rate) |
 | `battery_operating_mw_net_added_12m`, `battery_operating_mwh_net_added_12m` | MW, MWh | the month's value less the value twelve months before: additions net of retirements. From January 2016, the thirteenth month |
 
 The two ratios are rounded to four decimals and omitted, never written as zero, where their denominator is zero.
