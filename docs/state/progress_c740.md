@@ -81,3 +81,4 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Words-only states turned into rules where the law can be read | done | 10813 | Georgia (HB 1291 as signed, through 2031), Utah (59-12-102(111)); Illinois added as words (program paused 1 July 2026); Mississippi stays words |
 | Statutes re-read | done | 10813 | Utah's code showed a version effective 1 July 2026, read; paragraph unchanged |
 | A build and read of the newest head | waiting | 10813 | the build lock was held by window A's gate at 13:25 UTC |
+| Minnesota's announced projects (DEED's release on Meta in Rosemount) | waiting | 10815 | mn.gov's robots file sets Visit-time 0000-1200; read after 00:00 UTC |
