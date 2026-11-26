@@ -1,0 +1,172 @@
+{
+ "rows": [
+  {
+   "id": "ai_energy:strubell_2019_1",
+   "value": 1507,
+   "shown": "1,507",
+   "printed": "BERT V100x64 12,041.51 79 1507"
+  },
+  {
+   "id": "ai_energy:strubell_2019_2",
+   "value": 656347,
+   "shown": "656,347",
+   "printed": "NAS P100x8 1515.43 274,120 656,347"
+  },
+  {
+   "id": "ai_energy:patterson_2021_1",
+   "value": 86,
+   "shown": "86",
+   "printed": "The largest size has 11B parameters, and training used 86 MWh"
+  },
+  {
+   "id": "ai_energy:patterson_2021_2",
+   "value": 232,
+   "shown": "232",
+   "printed": "Training Meena used [...] 232 MWh"
+  },
+  {
+   "id": "ai_energy:patterson_2021_3",
+   "value": 24,
+   "shown": "24",
+   "printed": "Training GShard-600B used 24 MWh"
+  },
+  {
+   "id": "ai_energy:patterson_2021_4",
+   "value": 179,
+   "shown": "179",
+   "printed": "We estimated it used 179 MWh"
+  },
+  {
+   "id": "ai_energy:patterson_2021_5",
+   "value": 1287,
+   "shown": "1,287",
+   "printed": "its energy consumption is 1287 MWh"
+  },
+  {
+   "id": "ai_energy:patterson_2021_6",
+   "value": 12.2,
+   "shown": "12.2",
+   "printed": "% of Google 2019 total energy consumption (12.2 TWh"
+  },
+  {
+   "id": "ai_energy:patterson_2022_1",
+   "value": 15.4,
+   "shown": "15.4",
+   "printed": "the annual energy consumption in 2020 was 15.4 TWh for Google"
+  },
+  {
+   "id": "ai_energy:patterson_2022_2",
+   "value": 10.8,
+   "shown": "10.8",
+   "printed": "10.8 TWh for Microsoft"
+  },
+  {
+   "id": "ai_energy:patterson_2022_3",
+   "value": 7.5,
+   "shown": "7.5",
+   "printed": "The NAS producing Evolved Transformer used 7.5 MWh"
+  },
+  {
+   "id": "ai_energy:bloom_2022_1",
+   "value": 433196,
+   "shown": "433,196",
+   "printed": "Total energy used 433,196 kWh"
+  },
+  {
+   "id": "ai_energy:bloom_2022_2",
+   "value": 914,
+   "shown": "914",
+   "printed": "the instance used for the BLOOM model API consumed 914 kWh of electricity"
+  },
+  {
+   "id": "ai_energy:bloom_2022_3",
+   "value": 1163032,
+   "shown": "1,163,032",
+   "printed": "which represents an electrical consumption of 1,163,032 kWh"
+  },
+  {
+   "id": "ai_energy:luccioni_2024_1",
+   "value": 0.047,
+   "shown": "0.047",
+   "printed": "(0.047 vs. 2.9 kWh)"
+  },
+  {
+   "id": "ai_energy:luccioni_2024_2",
+   "value": 2.9,
+   "shown": "2.9",
+   "printed": "image generation, whose mean consumption is 2.9 kWh"
+  },
+  {
+   "id": "ai_energy:luccioni_2024_3",
+   "value": 0.0001,
+   "shown": "0.0001",
+   "printed": "to 1.0×10−4 kWh for the biggest one"
+  },
+  {
+   "id": "ai_energy:openai_2025_1",
+   "value": 0.34,
+   "shown": "0.34",
+   "printed": "the average query uses about 0.34 watt-hours"
+  },
+  {
+   "id": "ai_energy:google_2025_1",
+   "value": 0.24,
+   "shown": "0.24",
+   "printed": "we find the median Gemini Apps text prompt consumes 0.24 Wh of energy"
+  },
+  {
+   "id": "ai_energy:google_2025_2",
+   "value": 0.14,
+   "shown": "0.14",
+   "printed": "the primary energy draw originates from the active AI Accelerator power (0.14 Wh, 58% of total)"
+  },
+  {
+   "id": "ai_energy:google_2025_3",
+   "value": 0.1,
+   "shown": "0.1",
+   "printed": "the calculated energy consumption is only 0.10 Wh per prompt"
+  },
+  {
+   "id": "ai_energy:meta_2025_1",
+   "value": 18061781,
+   "shown": "18,061,781",
+   "printed": "Data centers total 6,966,000 9,117,122 11,167,416 14,975,435 18,061,781"
+  },
+  {
+   "id": "ai_energy:microsoft_2026_1",
+   "value": 37026353,
+   "shown": "37,026,353",
+   "printed": "Electricity 10,770,714 13,621,517 18,153,454 23,567,502 29,829,540 37,026,353"
+  }
+ ],
+ "probes": [
+  {
+   "value": 0.1,
+   "shown": "0.1"
+  },
+  {
+   "value": 0.0001,
+   "shown": "0.0001"
+  },
+  {
+   "value": 0.000001,
+   "shown": "0.000001"
+  },
+  {
+   "value": 9e-7,
+   "shown": "0"
+  },
+  {
+   "value": 3.4e-7,
+   "shown": "3.4e-7"
+  },
+  {
+   "value": 1e+21,
+   "shown": "1,000,000,000,000,000,000,000"
+  },
+  {
+   "value": 2.5e+21,
+   "shown": "2.5e+21"
+  }
+ ]
+}

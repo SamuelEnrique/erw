@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "C:\Users\Shared\Documents\erw\replication\congestion\replicate.py", line 110, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\Users\Shared\Documents\erw\replication\congestion\replicate.py", line 88, in main
+    s = pl["by_year"][y]
+        ~~~~~~~~~~~~~^^^
+KeyError: '2014'
