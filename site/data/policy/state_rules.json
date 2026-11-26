@@ -1,6 +1,6 @@
 {
- "built_at_utc": "2026-11-12T22:45:32Z",
- "as_of": "2026-11-12",
+ "built_at_utc": "2026-11-26T16:16:56Z",
+ "as_of": "2026-11-26",
  "tables": {
   "large_load_rules": 44,
   "large_load_rules_internal": 76
@@ -2996,7 +2996,7 @@
    ],
    "all_grids": false,
    "why_here": "A case of Virginia Electric and Power Company (Dominion Energy Virginia): a transmission owner of PJM, by the caption of FERC's order in EL26-67.",
-   "in_motion": true
+   "in_motion": false
   },
   {
    "id": "papuc:M-2025-3054271:order:b188a0e66b",
