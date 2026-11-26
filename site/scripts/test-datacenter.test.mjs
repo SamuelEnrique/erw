@@ -259,6 +259,9 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   // Illinois (session 10813): the program paused for new applications from 1 July 2026, held as words
   const il = D.dcRun(D.dcDefaults(P, "il", { invest: 2000, perm: 100 }), P);
   assert.equal(il.exemption.held, true); assert.equal(il.exemption.eligible, false); near(il.sums.forgone, 0);
+  // Massachusetts (session 10815): applications not accepted since the framework of 25 June 2026, held as words
+  const ma = D.dcRun(D.dcDefaults(P, "ma", { invest: 2000, perm: 200 }), P);
+  assert.equal(ma.exemption.held, true); assert.equal(ma.exemption.eligible, false); near(ma.sums.forgone, 0);
 });
 
 test("the equipment's taxable value by a county's schedule: Loudoun's 2026 (60, 45, 30, 15, 10 percent) reproduced", () => {
