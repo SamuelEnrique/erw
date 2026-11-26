@@ -301,7 +301,7 @@ export function ProjectMap({ file: f, statesGeo, serverSearch = "" }: { file: Ma
                   <Tip id={`map-totals-${group}`} label={`the totals of ${KIND_WORD[group].toLowerCase()}`}>
                     {sourceWords(f, SOURCE_KIND[group], SOURCE_RULE.chosen)} {group === KIND.datacenter ? "The MW is summed over the facilities that state one; the count under it says how many do." : group === KIND.queue ? `The MW is what each position asks to connect, not a load. ${ercotCompletedIsSigned(f)
                       ? "For ERCOT's positions, \"Completed\" is a signed interconnection agreement, built or not: ERCOT's report has no status column, and this copy of the queue predates the connector's reading of ERCOT's own milestones (session 7537; docs/methods/energy_projects.md)."
-                      : "For ERCOT's positions, \"Completed\" is a position ERCOT approved to synchronize, and a signed agreement alone is \"Active\": the connector reads ERCOT's own milestones since session 7022 (docs/methods/energy_projects.md)."}` :"The MW is nameplate capacity, summed over the units of the status."}
+                      : "For ERCOT's positions, \"Completed\" is a position ERCOT approved to synchronize, and a signed agreement alone is \"Active\": the connector reads ERCOT's own milestones since session 7022 (docs/methods/energy_projects.md)."}` : "The MW is nameplate capacity, summed over the units of the status. \"Operating\" is EIA's operating inventory: it also holds units on standby and units out of service, some not expected back within the next calendar year (EIA's codes SB, OA and OS; a unit's card names its code)."}
                   </Tip>
                 </h3>
                 <div className="grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3 xl:grid-cols-4">
@@ -435,7 +435,7 @@ function Key({ f, picked }: { f: MapFace; picked: number[] }) {
       <ul className="flex flex-wrap gap-x-4 gap-y-1">
         {kinds.has(KIND.operating) ? <li className="inline-flex items-center gap-1.5">{mark("dot")}operating unit</li> : null}
         {kinds.has(KIND.planned) ? <li className="inline-flex items-center gap-1.5">{mark("ring")}planned unit</li> : null}
-        {kinds.has(KIND.planned) ? <li className="inline-flex items-center gap-1.5">{mark("heavy")}planned, under construction</li> : null}
+        {kinds.has(KIND.planned) ? <li className="inline-flex items-center gap-1.5">{mark("heavy")}planned, under construction or built and not yet operating</li> : null}
         {kinds.has(KIND.queue) ? <li className="inline-flex items-center gap-1.5">{mark("triangle")}queue position, at its county&apos;s, city&apos;s or town&apos;s point</li> : null}
         {kinds.has(KIND.datacenter) ? <li className="inline-flex items-center gap-1.5">{mark("diamond")}datacenter</li> : null}
         <li className="text-muted">size: MW</li>
