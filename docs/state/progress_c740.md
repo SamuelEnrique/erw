@@ -87,3 +87,4 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Wages from warehouse tables (request 7 built) | done | 10818 | `datacenter_wages.py --tables`; figures identical |
 | Property ratios a datacenter shares with all property | done | 10818 | Georgia 40 percent, New Mexico one third, Ohio 35 percent building and no equipment tax |
 | Build and read of 988e06dc9 | done | 10818 | thirteen addresses, check-values 1,680 of 1,680; row 14 updated |
+| Equipment untaxed where the state says so | done | 10819 | Iowa, Minnesota, North Dakota, Wisconsin, Kansas (25 percent building), with Ohio |
