@@ -16,7 +16,7 @@
   "nv_360_754": {"title": "Nevada Revised Statutes 360.754, Partial abatement of certain taxes imposed on new or expanded data center", "url": "https://www.leg.state.nv.us/NRS/NRS-360.html", "read": "2026-11-26", "request": 157},
   "nd_57_39_2_04_17": {"title": "North Dakota Century Code 57-39.2-04.17, exemption for enterprise information technology equipment and software used in a qualified data center", "url": "https://ndlegis.gov/cencode/t57c39-2.pdf", "read": "2026-11-26", "request": 160},
   "md_tg_11_239": {"title": "Maryland Code, Tax-General 11-239, Qualified data centers", "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-239&enactments=false", "read": "2026-11-26", "request": 161},
-  "fl_212_08_5_r": {"title": "Florida Statutes 2025, 212.08(5)(r), Data center property", "url": "https://www.flsenate.gov/Laws/Statutes/2025/212.08", "read": "2026-11-26", "request": 163},
+  "fl_212_08_5_r": {"title": "Florida Statutes 2026, 212.08(5)(r), Data center property (the same words as the 2025 statutes, request 163)", "url": "https://www.flsenate.gov/Laws/Statutes/2026/212.08", "read": "2026-11-26", "request": 360},
   "id_63_3622vv": {"title": "Idaho Code 63-3622VV, Data center equipment and facilities", "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH36/SECT63-3622VV/", "read": "2026-11-26", "request": 164},
   "az_41_1519": {"title": "Arizona Revised Statutes 41-1519, Computer data centers; certification (with 42-5061(B)(23), request 169)", "url": "https://www.azleg.gov/ars/41/01519.htm", "read": "2026-11-26", "request": 176},
   "nc_105_164_3": {"title": "North Carolina General Statutes 105-164.3(201), Qualifying datacenter (with 105-164.13(55a), request 167)", "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.3.html", "read": "2026-11-26", "request": 177},
@@ -48,6 +48,9 @@
   "wy_39_15_105": {"title": "Wyoming Statutes Title 39: 39-15-105(a)(viii)(S), sales tax exemptions for a data processing services center (with the definition in 39-15-101(a)(xliv)); 39-11-101, taxable value by class", "url": "https://wyoleg.gov/statutes/compress/title39.pdf", "read": "2026-11-26", "request": 303},
   "il_dor_excise": {"title": "Illinois Department of Revenue, Excise Tax Rates and Fees (the Electricity Excise Tax)", "url": "https://tax.illinois.gov/research/taxrates/excise.html", "read": "2026-11-26", "request": 307},
   "il_dceo": {"title": "Illinois Department of Commerce and Economic Opportunity, Data Center Investment Tax Exemptions and Credits (with its 2025 Data Centers Annual Report, request 248)", "url": "https://dceo.illinois.gov/expandrelocate/incentives/datacenters.html", "read": "2026-11-26", "request": 247},
+  "wv_ratio_study_2025": {"title": "West Virginia State Tax Department, Assessment Ratio Study, Tax Year 2025", "url": "https://tax.wv.gov/Documents/PropertyTax/2025/AssessmentRatioStudy.Tax-Year.2025.pdf", "read": "2026-11-26", "request": 350},
+  "tn_cot_aggregate_2025": {"title": "Tennessee Comptroller of the Treasury, Division of Property Assessments, 2025 Tax Aggregate Report", "url": "https://comptroller.tn.gov/content/dam/cot/pa/documents/tax-aggregate-reports/2025TaxAggregateReport.pdf", "read": "2026-11-26", "request": 341},
+  "il_dor_qa318": {"title": "Illinois Department of Revenue, Questions and Answers 318: assessment levels", "url": "https://tax.illinois.gov/questionsandanswers/318.html", "read": "2026-11-26", "request": 339},
   "ar_aacd_2025": {"title": "Arkansas Department of Finance and Administration, Assessment Coordination Division, Annual Report 2025", "url": "https://www.dfa.arkansas.gov/wp-content/uploads/AACD_AnnualReport_2025.pdf", "read": "2026-11-26", "request": 337},
   "al_dor_adval": {"title": "Alabama Department of Revenue, Property (Ad Valorem) Tax", "url": "https://www.revenue.alabama.gov/tax-types/property-ad-valorem-tax/", "read": "2026-11-26", "request": 334},
   "ms_dor_appraisal": {"title": "Mississippi Department of Revenue, Local Property Appraisal", "url": "https://www.dor.ms.gov/county-services/local-property-appraisal", "read": "2026-11-26", "request": 335},
@@ -62,7 +65,7 @@
   "nd_tax_exempt": {"title": "North Dakota Office of State Tax Commissioner, Property Generally Exempt from Taxation", "url": "https://www.tax.nd.gov/property-tax-exemptions-credits", "read": "2026-11-26", "request": 323},
   "wi_act12_info": {"title": "Wisconsin Department of Revenue, 2023 Wisconsin Act 12 Information", "url": "https://www.revenue.wi.gov/Documents/2023-Act12-Information.pdf", "read": "2026-11-26", "request": 324},
   "mn_272_02": {"title": "Minnesota Statutes 272.02, Exempt property, subdivision 9 (personal property; exceptions)", "url": "https://www.revisor.mn.gov/statutes/cite/272.02/pdf", "read": "2026-11-26", "request": 320},
-  "ia_427a_2": {"title": "Iowa Code 2025, 427A.2, Personal property not subject to property tax", "url": "https://www.legis.iowa.gov/docs/code/2025/427A.2.pdf", "read": "2026-11-26", "request": 319},
+  "ia_427a_2": {"title": "Iowa Code 2026, 427A.2, Personal property not subject to property tax (the same words as the 2025 Code, request 319)", "url": "https://www.legis.iowa.gov/docs/code/2026/427A.2.pdf", "read": "2026-11-26", "request": 361},
   "ga_dor_valuation": {"title": "Georgia Department of Revenue, Property Tax Valuation (O.C.G.A. 48-5-7)", "url": "https://dor.georgia.gov/property-tax-valuation", "read": "2026-11-26", "request": 314},
   "nm_trd_general": {"title": "New Mexico Taxation and Revenue Department, Property Tax Division, State Assessed Property Bureau, General Instructions", "url": "https://www.tax.newmexico.gov/businesses/wp-content/uploads/sites/4/2020/12/GENERAL_INSTRUCTIONS.pdf", "read": "2026-11-26", "request": 315},
   "ga_hb1291": {"title": "Georgia House Bill 1291 (2022), as passed and signed, amending Code Section 48-8-3(68.1)", "url": "https://gov.georgia.gov/document/2022-signed-legislation/hb-1291/download", "read": "2026-11-26", "request": 245},
@@ -315,6 +318,19 @@
     "tip": "Kansas (Statutes 74-50,332 and 79-3606(xxxx)): a qualified firm that invests \"at least $250,000,000\" in eligible data center costs by the fifth year of operations and creates \"at least 20 new jobs\" receives a sales tax exemption on eligible data center costs, data center equipment and construction purchases, under an agreement with the Secretary of Commerce. The tool applies it to the equipment and the building's taxable share; the exemption's duration (K.S.A. 74-50,333, not read) is not modeled, so it runs over the whole horizon here, an upper bound."
    }
   },
+  "wv": {
+   "name": "West Virginia",
+   "property": {"building_ratio": 0.6, "equipment_ratio": 0.6, "cite": "wv_ratio_study_2025",
+    "quote": "failing to assess all property at 60% of its true and actual value.",
+    "tip": "West Virginia (W. Va. Code 11-3-1(d), as the State Tax Commissioner's 2025 assessment ratio study states it): assessors assess all property at 60 percent of its true and actual value. The tool assesses the building and the equipment at 60 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate. The High Impact Intelligence Center program is named in the governor's release but its law is not read (the code's host does not answer), so no datacenter rule of West Virginia is applied."}
+  },
+  "tn": {
+   "name": "Tennessee",
+   "property": {"building_ratio": 0.4, "equipment_ratio": 0.3, "cite": "tn_cot_aggregate_2025",
+    "quote": "Real Property Assessment Industrial and Commercial 40%",
+    "personal": {"cite": "tn_cot_aggregate_2025", "quote": "Personal Property Assessment Industrial and Commercial 30%"},
+    "tip": "Tennessee (the Comptroller of the Treasury's 2025 Tax Aggregate Report): industrial and commercial real property is assessed at 40 percent of value and industrial and commercial personal property at 30 percent. The tool assesses the building at 40 percent and the equipment at 30 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate. No datacenter sales tax rule of Tennessee is read (www.tn.gov did not answer)."}
+  },
   "nm": {
    "name": "New Mexico",
    "property": {"building_ratio": 0.333333, "equipment_ratio": 0.333333, "cite": "nm_trd_general",
@@ -478,6 +494,10 @@
   },
   "il": {
    "name": "Illinois",
+   "property": {"building_ratio": 0.333333, "equipment_ratio": 1, "cite": "il_dor_qa318",
+    "quote": "Most property is assessed at 33 1/3 percent of its fair market value.",
+    "cook": {"cite": "il_dor_qa318", "quote": "Assessment levels range from 10 percent of market value for residential property to 25 percent of market value for commercial property."},
+    "tip": "Illinois (the Department of Revenue's answer on assessment levels): most property is assessed at 33 1/3 percent of fair market value; Cook County assigns levels by class, 25 percent for commercial property. The tool assesses the building at one third of its cost (for Cook County, type the rate times 0.75 to give 25 percent). Whether a datacenter's equipment is taxed as property is not on the pages read: the tool applies the reader's rate to its cost, so leave the equipment's rate blank or 0 unless the county taxes it."},
    "electricity": {
     "cite": "il_dor_excise", "kind": "monthly_blocks",
     "blocks": [
@@ -526,7 +546,7 @@
    "name": "Iowa",
    "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "ia_427a_2",
     "quote": "Personal property shall not be listed or assessed for taxation and is not subject to the",
-    "tip": "Iowa (Code 427A.2, 2025): \"Personal property shall not be listed or assessed for taxation and is not subject to the property tax\", so a datacenter's equipment owes none. The building's assessment limitation for commercial property is not read: the tool takes the building at its cost and the reader's rate, an upper bound."},
+    "tip": "Iowa (Code 427A.2, 2026): \"Personal property shall not be listed or assessed for taxation and is not subject to the property tax\", so a datacenter's equipment owes none. The building's assessment limitation for commercial property is not read: the tool takes the building at its cost and the reader's rate, an upper bound."},
    "sales_exemption": {
     "cite": "ia_dor_dc",
     "covers": ["equipment"],

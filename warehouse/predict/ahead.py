@@ -45,23 +45,27 @@ def place_ahead(place, dem, op, ref, made):
             warnings.simplefilter("ignore", RuntimeWarning)
             res = demand.place_forecasts(s, tz, h=h)
         hr = demand.hourly(res, o)
-        c = hr.dropna(subset=["actual", "regression", "week_ago", "yesterday"])
+        meths = ("regression", "regression_recent", "week_ago", "yesterday")
+        c = hr.dropna(subset=["actual"] + list(meths))
         recent = c[c["day"] > c["day"].max() - pd.Timedelta(days=score.CHOICE_DAYS)]
-        mae = {m: score.metric(recent, m)[1] for m in ("regression", "week_ago", "yesterday")}
-        mape = {m: score.metric(recent, m)[2] for m in ("regression", "week_ago", "yesterday")}
+        mae = {m: score.metric(recent, m)[1] for m in meths}
+        mape = {m: score.metric(recent, m)[2] for m in meths}
         oc = recent.dropna(subset=["operator"]) if "operator" in recent else recent.iloc[0:0]
-        shown = mae["regression"] is not None and mae["week_ago"] is not None and mae["regression"] < mae["week_ago"]
+        # the method of the horizon: the lower error of the two regressions over the last two years (the place files' rule)
+        cands = [m for m in ("regression", "regression_recent") if mae[m] is not None]
+        method = min(cands, key=lambda m: mae[m]) if cands else "regression"
+        shown = mae[method] is not None and mae["week_ago"] is not None and mae[method] < mae["week_ago"]
         # the day this horizon forecasts from the demand held now: the last day held plus h
         target = res["M"].index.max()
-        row = {"horizon_days": h, "days_after_tomorrow": int((target - tomorrow).days), "target_day": run.day_str(target),
-               "shown": bool(shown), "held": None if shown else "not shown: over the last two years this horizon's regression did not beat the same hour a week ago",
+        row = {"horizon_days": h, "days_after_tomorrow": int((target - tomorrow).days), "target_day": run.day_str(target), "method": method,
+               "shown": bool(shown), "held": None if shown else "not shown: over the last two years this horizon's method did not beat the same hour a week ago",
                "last_2_years": {"hours": int(len(recent)), "mae": {k: run.num(v, 2) for k, v in mae.items()}, "mape": {k: run.num(v, 3) for k, v in mape.items()},
                                 "operator_day_ahead_mae_same_hours": run.num(score.metric(oc, "operator")[1], 2) if len(oc) else None},
-               "band_coverage_pct": score.coverage(hr, "regression"),
+               "band_coverage_pct": score.coverage(hr, method),
                "forecast_columns": ["ts_utc", "local_hour", "erw", "lo", "hi"], "forecast": None}
         if shown:
             tm = demand.tomorrow(res, tz, target)
-            row["forecast"] = [[run.iso(r["ts"]), int(r["hour"]), run.num(r["regression"]), run.num(r["regression_lo"]), run.num(r["regression_hi"])] for _, r in tm.iterrows()]
+            row["forecast"] = [[run.iso(r["ts"]), int(r["hour"]), run.num(r[method]), run.num(r[method + "_lo"]), run.num(r[method + "_hi"])] for _, r in tm.iterrows()]
         out.append(row)
     return {"place": place, "time": tz, "last_whole_day": run.day_str(last), "horizons": out}
 
@@ -85,7 +89,7 @@ def main(argv=None):
         docs.append(d)
         print(f"  {place}: " + ", ".join(f"h{r['horizon_days']} {'shown' if r['shown'] else 'not shown'} ({r['last_2_years']['mae']['regression']} against {r['last_2_years']['mae']['week_ago']})" for r in d["horizons"]), flush=True)
     doc = dict(run.head(built), method_notes=run.NOTES, made_utc=run.iso(made),
-               what="The demand forecast two to seven days ahead: horizon h is the number of days between the last whole day of demand read and the day forecast (the day-ahead forecast is h = 2, in each place's own file). Each horizon is the regression of the method note refit at that horizon, scored over the last two years against the same hour a week ago, and shown only where it beats it.",
+               what="The demand forecast two to seven days ahead: horizon h is the number of days between the last whole day of demand read and the day forecast (the day-ahead forecast is h = 2, in each place's own file). Each horizon uses the better of the two regressions of the method note (the regression and regression_recent, by mean absolute error over the last two years), refit at that horizon, scored against the same hour a week ago, and shown only where it beats it.",
                places=docs)
     run.write_json(os.path.join(a.site_dir, "ahead.json"), doc)
     print(f"{run.now_utc()} wrote ahead.json ({len(docs)} places)", flush=True)

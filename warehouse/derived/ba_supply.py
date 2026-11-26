@@ -222,7 +222,12 @@ def main(argv=None):
         ip.write_status("ba_supply", run_id, [dict(table=NAME, market="derived", status="skipped", detail="inputs missing: " + ", ".join(missing))])
         return 0
     if a.out_dir:
+        # session 10000 (chain 701, data request 57): set_out_dir moves the raw folder too, and the EIA-930 extracts the
+        # balance reads are under warehouse/raw, so a trial built every balance from nothing and wrote no share; the raw
+        # folder stays where the extracts are, as ercot_wind_solar_forecast.py's trial keeps it
+        raw_dir = ip.RAW_DIR
         ip.set_out_dir(a.out_dir)
+        ip.RAW_DIR = raw_dir
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     log = ip.Log(os.path.join(ip.LOG_DIR, f"ba_supply_{run_id}.log"))
     status = []

@@ -40,6 +40,19 @@ export type PlaceSeries = IndexSeries & {
   // of a method was made on
   horizon_days?: number | null; demand_horizon_days?: number | null; tomorrow_held?: string | null;
   method_mae_last_2_years?: Record<string, number | null>;
+  // session 10405: the contract's change of session 10601, the day's peak (demand only; below)
+  peak?: Peak | null;
+};
+/** Session 10405 (chain 720, part E): the day's peak, as the contract's change of session 10601 writes it in a place
+ *  file's `series.demand.peak`: the hour of the highest ERW forecast of the day forecast now, and how each method's
+ *  own highest hour of a day has compared with the day's highest hour of demand (the size of the miss, and how often
+ *  the hour was the same or one away), over the last two years and over the backtest. */
+export type PeakScore = { mae: number | null; mape: number | null; hour_exact_pct: number | null; hour_within_1_pct: number | null };
+export type PeakSpan = { days: number | null; first_day: string | null; last_day: string | null; methods: Record<string, PeakScore | undefined> };
+export type Peak = {
+  what?: string;
+  tomorrow?: { local_hour: number; ts_utc: string; erw: number | null; lo: number | null; hi: number | null } | null;
+  last_2_years?: PeakSpan | null; backtest?: PeakSpan | null;
 };
 export type PlaceFile = {
   example?: boolean; contract?: string; built: string | null; tier?: string; label?: string;
@@ -92,10 +105,12 @@ export function shortHeld(reason: string | null | undefined, dflt = "not held"):
 export const METHOD_WORDS: Record<string, string> = {
   erw: LABEL, operator: "Operator's forecast", yesterday: "Same hour yesterday", week_ago: "Same hour a week ago",
   regression: "Regression", flexible: "Flexible model", with_weather_known: "With the weather known",
+  // session 10405: the fourth candidate of the choice rule (the contract's change of session 10601)
+  regression_recent: "Regression with the recent days",
 };
 export const methodWords = (id: string) => METHOD_WORDS[id] ?? id.replace(/_/g, " ");
 /** A method's name at the head of a table's column, where its full name is on hover. The model's keeps its two words. */
-export const METHOD_SHORT: Record<string, string> = { erw: LABEL, operator: "Operator", yesterday: "Yesterday", week_ago: "Week ago", regression: "Regression", flexible: "Flexible" };
+export const METHOD_SHORT: Record<string, string> = { erw: LABEL, operator: "Operator", yesterday: "Yesterday", week_ago: "Week ago", regression: "Regression", flexible: "Flexible", regression_recent: "Regression, recent" };
 export const methodShort = (id: string) => METHOD_SHORT[id] ?? methodWords(id);
 /** The four methods the page sets side by side everywhere (the chain's list), then any other the score file names and
  *  scores for the series (a method with no row at all for a series has no column there: the flexible model of price
@@ -127,6 +142,18 @@ export function localWords(ts: string | null | undefined, tz: string): string {
   }
 }
 export const utcWords = (ts: string | null | undefined) => (ts ? `${ts.slice(0, 10)} ${ts.slice(11, 16)} UTC` : "");
+/** Session 10405 (the browser read of 26 November, row F2): the index's rule names the hour of the day a series'
+ *  forecast is made ("The demand forecast ... is made at 20:00 UTC the day before ...; the day-ahead price forecast at
+ *  14:00 UTC ..."), and a file records the hour its own forecast was made. Where the two hours differ (a build run
+ *  outside its daily hour), a hover that prints both says so in a sentence between them: the hour of the rule for the
+ *  series, the hour the file records, and which one the page gives. Null when they agree, or when the rule names no
+ *  hour for the series or the file no hour. The reason for a difference is not in the files, and none is given. */
+export function madeOffRule(madeUtc: string | null | undefined, rule: string | null | undefined, series: SeriesKey): string | null {
+  const made = /^\d{4}-\d{2}-\d{2}T(\d{2}:\d{2})/.exec(madeUtc ?? "")?.[1];
+  const said = new RegExp(`${series} forecast[^;.]*?\\b(\\d{1,2}:\\d{2}) UTC`, "i").exec(rule ?? "")?.[1]?.padStart(5, "0");
+  if (!made || !said || made === said) return null;
+  return `The file records this forecast as made at ${made} UTC, not at the rule's ${said} UTC: the hour given here is the file's.`;
+}
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const DOW = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 /** "Friday 27 Nov 2026" from "2026-11-27". */
@@ -349,9 +376,97 @@ export function scoresCsv(scores: ScoresFile, url: string): string {
     `# Backtest: demand ${scores.span?.demand?.first_day ?? "?"} to ${scores.span?.demand?.last_day ?? "?"}; price ${scores.span?.price?.first_day ?? "?"} to ${scores.span?.price?.last_day ?? "?"}`,
     `# mae: ${scores.metrics?.mae ?? "mean absolute error, in the series' unit"}. mape: ${scores.metrics?.mape ?? "mean absolute percent error, in percent"}${scores.mape_rule ? `. ${scores.mape_rule}` : ""}`,
     ...(scores.methods ?? []).map((m) => `# method ${m.id}: ${m.what}`),
+    // session 10405: the rows of the day's peak (the contract's change of session 10601) count days, not hours
+    ...((scores.rows ?? []).some((r) => r[scores.rows_columns.indexOf("series")] === "demand_peak") ? ["# series demand_peak: each method's highest hour of a day against the day's highest hour of demand; in these rows hours holds the count of days"] : []),
     `# From: ${url}`,
   ];
   const at = SCORES_HEAD.map((n) => scores.rows_columns.indexOf(n));
   const rows = scores.example === true ? [] : scores.rows.map((r) => at.map((i) => (i < 0 ? null : r[i])));
   return `${head.join("\n")}\n${lines(SCORES_HEAD, rows)}`;
+}
+
+// ---- Session 10405 (chain 720, part E): the day's peak, and the days after tomorrow ----------------------------------
+
+/** The two spans the peak is scored over, in the file's own names, with the page's words. */
+export const PEAK_SPANS: [keyof Pick<Peak, "last_2_years" | "backtest">, string][] = [["last_2_years", "The last two years"], ["backtest", "The backtest"]];
+/** How often a method's highest hour of a day was the day's highest hour of demand, and how often one hour away. */
+export const PEAK_HOURS: [keyof Pick<PeakScore, "hour_exact_pct" | "hour_within_1_pct">, string, string][] = [
+  ["hour_exact_pct", "its hour, exactly", "the share of days on which the method's highest hour was the hour of the day's highest demand, in percent of the days scored"],
+  ["hour_within_1_pct", "its hour, within one", "the share of days on which the method's highest hour was the hour of the day's highest demand or one hour from it, in percent of the days scored"],
+];
+/** A share of days, as the page writes it. */
+export const pctWords = (v: number) => fixed(v, 2);
+
+/** The file of the days after tomorrow (site/data/predict/ahead.json; the contract's change of session 10601): for each
+ *  place, the demand forecast at each horizon from three to seven days after the last whole day read. A horizon is
+ *  `shown` only where, over the last two years, its method beat the same hour a week ago; one that is not carries the
+ *  reason in `held` and no forecast. */
+export type AheadScore = Record<string, number | null>;
+export type AheadHorizon = {
+  horizon_days: number; days_after_tomorrow: number; target_day: string; shown: boolean; held: string | null; method?: string;
+  last_2_years?: { hours: number | null; mae: AheadScore; mape: AheadScore; operator_day_ahead_mae_same_hours?: number | null } | null;
+  band_coverage_pct?: number | null; forecast_columns: string[]; forecast: Cell[][] | null;
+};
+export type AheadPlace = { place: string; time: string; last_whole_day: string | null; horizons: AheadHorizon[] };
+export type AheadFile = {
+  example?: boolean; contract?: string; built: string | null; tier?: string; label?: string; method_notes?: Record<string, string>;
+  made_utc?: string | null; what?: string | null; places: AheadPlace[];
+};
+
+/** A place's entry in the file of the days ahead, with its position there (a figure's key names it), or null. */
+export function aheadOf(file: AheadFile | null, place: string): { pi: number; place: AheadPlace } | null {
+  if (!file || file.example === true) return null;
+  const pi = (file.places ?? []).findIndex((p) => p.place === place);
+  return pi < 0 ? null : { pi, place: file.places[pi] };
+}
+/** The horizon's method: the one the file names, the regression where it names none (its first build). */
+export const aheadMethod = (h: AheadHorizon): string => h.method ?? "regression";
+
+export type AheadDay = {
+  hi: number; h: AheadHorizon; method: string;
+  hours: { i: number; ts: string; hour: number; label: string; erw: number | null; lo: number | null; hi: number | null }[];
+  top: { v: number; i: number; hour: number; ts: string } | null; low: { v: number; i: number; hour: number; ts: string } | null;
+};
+/** The days after tomorrow of a place, the nearest first: every horizon the file holds that lies after the place's own
+ *  target day (the file's first horizon is that day itself when the place's series is a day behind: the place's own
+ *  file draws it, so it is not drawn twice), each with its hours when it is shown, and its highest and lowest hour. */
+export function aheadDays(place: AheadPlace, tomorrow: string | null | undefined): AheadDay[] {
+  return (place.horizons ?? []).map((h, hi) => ({ h, hi })).filter(({ h }) => (tomorrow ? h.target_day > tomorrow : h.days_after_tomorrow >= 1))
+    .sort((a, b) => a.h.target_day.localeCompare(b.h.target_day))
+    .map(({ h, hi }) => {
+      const at = (n: string) => (h.forecast_columns ?? []).indexOf(n);
+      const num = (r: Cell[], n: string) => { const v = r[at(n)]; return typeof v === "number" && Number.isFinite(v) ? v : null; };
+      const hours = h.shown && h.forecast ? h.forecast.map((r, i) => {
+        const hour = Number(r[at("local_hour")]);
+        return { i, ts: String(r[at("ts_utc")]), hour, label: hourWords(hour), erw: num(r, "erw"), lo: num(r, "lo"), hi: num(r, "hi") };
+      }) : [];
+      const held = hours.filter((x) => x.erw !== null);
+      const pick = (lowest: boolean) => (held.length ? held.reduce((a, b) => ((lowest ? (b.erw as number) < (a.erw as number) : (b.erw as number) > (a.erw as number)) ? b : a)) : null);
+      const as = (x: (typeof hours)[number] | null) => (x ? { v: x.erw as number, i: x.i, hour: x.hour, ts: x.ts } : null);
+      return { hi, h, method: aheadMethod(h), hours, top: as(pick(false)), low: as(pick(true)) };
+    });
+}
+
+export const AHEAD_HEAD = ["place", "target_day", "days_after_last_whole_day", "ts_utc", "local_hour", "method", "erw_forecast", "band_low", "band_high"];
+/** The days ahead as a CSV: every hour of every horizon shown, every place, with the provenance first. A horizon that
+ *  is not shown has no line, and the header counts them. */
+export function aheadCsv(file: AheadFile, url: string): string {
+  const rows: (Cell | undefined)[][] = [];
+  let hidden = 0;
+  for (const p of file.example === true ? [] : file.places ?? []) for (const h of p.horizons ?? []) {
+    if (!h.shown || !h.forecast) { hidden += 1; continue; }
+    const at = (n: string) => h.forecast_columns.indexOf(n);
+    for (const r of h.forecast) rows.push([p.place, h.target_day, h.horizon_days, r[at("ts_utc")], r[at("local_hour")], aheadMethod(h), r[at("erw")], r[at("lo")], r[at("hi")]]);
+  }
+  const head = [
+    "# Energy Research Warehouse (ERW): the ERW forecast of demand for the days ahead, hour by hour, every place (site/lib/predict.ts aheadCsv)",
+    "# ERW forecast: a model's output (tier derived), never a published or official figure. Demand in MW.",
+    `# Built: ${file.built ?? "not built"}; made ${file.made_utc ?? "not said"} (site/data/predict/ahead.json, written by warehouse/predict/ahead.py)`,
+    `# What: ${file.what ?? "the demand forecast at each horizon after the day-ahead one"}`,
+    "# days_after_last_whole_day: the days between the last whole day of demand read and the day forecast (the file's horizon_days). ts_utc is the start of an hour, UTC; local_hour is in the place's clock",
+    `# A horizon is in this file only where its method beat the same hour a week ago over the last two years; horizons left out: ${hidden}`,
+    "# Method: docs/methods/predict.md. Contract: docs/state/page_files_predict.md",
+    `# From: ${url}`,
+  ];
+  return `${head.join("\n")}\n${lines(AHEAD_HEAD, rows)}`;
 }

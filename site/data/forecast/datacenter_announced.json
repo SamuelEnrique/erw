@@ -75,10 +75,10 @@
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 32,
+   "n": 33,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
-   "median": 51.218004,
+   "median": 50.0,
    "high": 121.786859,
    "high_row": "sc_meta_aiken_2024",
    "rows": [
@@ -88,6 +88,7 @@
     "sc_cielo_cherokee_2025",
     "va_cleanarc_caroline_2025",
     "la_meta_richland_2026",
+    "ga_switch_douglas_2017",
     "mo_metrobloks_clay_2026",
     "va_aws_2023",
     "in_meta_lebanon_2026",
@@ -1664,6 +1665,101 @@
    "incentive": "",
    "years": "",
    "note": "An expansion: the release says the project \"is expected to increase staff at the facility to more than 500\", a total for the whole facility, not the expansion's new jobs, so no job figure is kept."
+  },
+  {
+   "id": "oh_aws_central_2023",
+   "name": "Amazon Web Services, data center campuses in Central Ohio",
+   "company": "Amazon Web Services",
+   "state": "oh",
+   "county": null,
+   "place": "Central Ohio",
+   "doc": {
+    "title": "Amazon Web Services to Invest $7.8 Billion in Ohio",
+    "publisher": "JobsOhio (with the Governor and the Department of Development)",
+    "date": "2023-06-26",
+    "url": "https://www.jobsohio.com/newsroom/news-press/amazon-web-services-plans-to-invest-an-estimated-7-8-billion-in-ohio",
+    "request": 349
+   },
+   "mw": null,
+   "investment": {
+    "value": 7800000000,
+    "year": 2023,
+    "says": "$7.8 billion",
+    "qualifier": "estimated, by the end of 2029",
+    "quote": "will invest an estimated $7.8 billion by the end of 2029 to expand its data center operations in Central Ohio"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "by the end of 2029",
+   "note": "Jobs stated as \"hundreds of new jobs\", not a figure; the sites were not chosen when announced (\"final site selections will be decided at a later date\")."
+  },
+  {
+   "id": "ut_creekstone_millard_2026",
+   "name": "Creekstone Energy, Creekstone Gigasite (power and AI data center campus), near Delta",
+   "company": "Creekstone Energy",
+   "state": "ut",
+   "county": "Millard County",
+   "doc": {
+    "title": "Creekstone Energy, LLC Commits $17 Billion to Millard County Data Center Project",
+    "publisher": "Utah Governor's Office of Economic Opportunity",
+    "date": "2026-04-09",
+    "url": "https://business.utah.gov/tax-credits/creekstone-energy-llc-commits-17-billion-to-millard-county-data-center-project/",
+    "request": 357
+   },
+   "mw": null,
+   "investment": {
+    "value": 17082408000,
+    "year": 2026,
+    "says": "$17,082,408,000",
+    "qualifier": "during the next 20 years",
+    "quote": "Creekstone Energy plans to add 106 new, high-paying jobs and invest $17,082,408,000 in Utah during the next 20 years."
+   },
+   "investment_includes_generation": true,
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 106,
+    "measure": "new, high-paying jobs",
+    "says": "106 new, high-paying jobs",
+    "qualifier": "",
+    "quote": "Creekstone Energy plans to add 106 new, high-paying jobs and invest $17,082,408,000 in Utah during the next 20 years."
+   },
+   "incentive": "a post-performance tax reduction for its expansion in Millard County. The corporate incentive is part of the state's Rural Economic Development Tax Increment Financing (REDTIF) program.",
+   "years": "during the next 20 years",
+   "note": "The campus \"will feature an integrated on-site natural gas power generation system, utility-scale solar energy, and purpose-built data processing facilities\": the investment includes generation, so it enters no ratio and is not offered as the datacenter's investment."
+  },
+  {
+   "id": "ga_switch_douglas_2017",
+   "name": "Switch, The Keep (Switch PRIME data center campus)",
+   "company": "Switch",
+   "state": "ga",
+   "county": "Douglas County",
+   "doc": {
+    "title": "Deal: Global technology company to invest $2.5 billion in Douglas County",
+    "publisher": "Office of the Governor of Georgia (Governor Nathan Deal)",
+    "date": "2017-05-25",
+    "url": "https://nathandeal.georgia.gov/press-releases/2017-05-25/deal-global-technology-company-invest-25-billion-douglas-county/",
+    "request": 358
+   },
+   "mw": null,
+   "investment": {
+    "value": 2500000000,
+    "year": 2017,
+    "says": "$2.5 billion",
+    "qualifier": "with its clients",
+    "quote": "will create 65 jobs, and along with its clients, invest $2.5 billion in a Switch PRIME data center in Douglas County."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 65,
+    "measure": "jobs",
+    "says": "65 jobs",
+    "qualifier": "",
+    "quote": "will create 65 jobs, and along with its clients, invest $2.5 billion in a Switch PRIME data center in Douglas County."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "The investment includes the clients' (tenants') equipment, as the release says. 2017 dollars are deflated to 2025 by the GDP deflator."
   }
  ]
 }

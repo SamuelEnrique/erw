@@ -888,7 +888,7 @@
     },
     {
      "id": "b3",
-     "q": "On the default PG&E (California) bill of /learn/bill (600 kWh), how many dollars are wholesale energy, and what share of the bill is that?",
+     "q": "On the default PG&E (California) bill of /learn/bill (600 kWh; taxes and local fees are not on it), how many dollars are wholesale energy, and what share of the bill is that? Value the kWh on the meter, with no losses added, at the load-weighted real-time price of the CAISO NP15 in the latest complete month, 2026-09.",
      "tables": [
       "cost_of_power_monthly"
      ],
@@ -900,7 +900,7 @@
       "Wholesale: 600 kWh x 44.85 USD/MWh / 1,000 (2026-09) = 26.91 USD.",
       "Share: 26.91 USD / 229.63 USD x 100 = 11.72 %."
      ],
-     "words": "On the default PG&E (California) bill of /learn/bill (600 kWh), how many dollars are wholesale energy, and what share of the bill is that? |  of  | :  | . | 600 kWh x  |  / 1,000 =  | ;  |  /  |  x 100 =  | The bill:  |  (the tariff lines on /learn/bill). | Wholesale: 600 kWh x  |  / 1,000 (2026-09) =  | . | Share:  |  /  |  x 100 =  | .",
+     "words": "On the default PG&E (California) bill of /learn/bill (600 kWh; taxes and local fees are not on it), how many dollars are wholesale energy, and what share of the bill is that? Value the kWh on the meter, with no losses added, at the load-weighted real-time price of the CAISO NP15 in the latest complete month, 2026-09. |  of  | :  | . | 600 kWh x  |  / 1,000 =  | ;  |  /  |  x 100 =  | The bill:  |  (the tariff lines on /learn/bill). | Wholesale: 600 kWh x  |  / 1,000 (2026-09) =  | . | Share:  |  /  |  x 100 =  | .",
      "figures": [
       {
        "where": "answer",
@@ -1018,7 +1018,7 @@
     },
     {
      "id": "b4",
-     "q": "On the default Oncor (Texas) bill of /learn/bill (600 kWh), how many dollars are wholesale energy, and what share of the bill is that?",
+     "q": "On the default Oncor (Texas) bill of /learn/bill (600 kWh; taxes and local fees are not on it), how many dollars are wholesale energy, and what share of the bill is that? Value the kWh on the meter, with no losses added, at the load-weighted real-time price of the ERCOT hub average in the latest complete month, 2026-09.",
      "tables": [
       "cost_of_power_monthly"
      ],
@@ -1030,7 +1030,7 @@
       "Wholesale: 600 kWh x 39.50 USD/MWh / 1,000 (2026-09) = 23.70 USD.",
       "Share: 23.70 USD / 95.27 USD x 100 = 24.88 %."
      ],
-     "words": "On the default Oncor (Texas) bill of /learn/bill (600 kWh), how many dollars are wholesale energy, and what share of the bill is that? |  of  | :  | . | 600 kWh x  |  / 1,000 =  | ;  |  /  |  x 100 =  | The bill:  |  (the tariff lines on /learn/bill). | Wholesale: 600 kWh x  |  / 1,000 (2026-09) =  | . | Share:  |  /  |  x 100 =  | .",
+     "words": "On the default Oncor (Texas) bill of /learn/bill (600 kWh; taxes and local fees are not on it), how many dollars are wholesale energy, and what share of the bill is that? Value the kWh on the meter, with no losses added, at the load-weighted real-time price of the ERCOT hub average in the latest complete month, 2026-09. |  of  | :  | . | 600 kWh x  |  / 1,000 =  | ;  |  /  |  x 100 =  | The bill:  |  (the tariff lines on /learn/bill). | Wholesale: 600 kWh x  |  / 1,000 (2026-09) =  | . | Share:  |  /  |  x 100 =  | .",
      "figures": [
       {
        "where": "answer",

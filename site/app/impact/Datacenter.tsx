@@ -54,7 +54,7 @@ export function DcGroups({ P2, v, state, set, update, dcList, techState }: { P2:
                     {mine.map(({ p, i }) => <option key={p.id} value={i}>{p.name}{p.mw !== null ? `, ${plain(p.mw, 0)} MW` : ""}, {p.date.slice(0, 4)}</option>)}
                   </select>
                   <p className="mt-1 text-xs leading-snug text-muted" data-default="dcproj">
-                    {Number.isFinite(cur) ? <>{dcList[cur].where ? `${dcList[cur].where}. ` : ""}As {dcList[cur].publisher} stated it, {dcList[cur].date}: <a href={dcList[cur].url} rel="noopener" className="underline">the document</a>.</> : `${mine.length} announced in this state`}
+                    {Number.isFinite(cur) ? <>{dcList[cur].where ? `${dcList[cur].where}. ` : ""}As {dcList[cur].publisher} stated it, {dcList[cur].date}: <a href={dcList[cur].url} rel="noopener" className="underline">the document</a>.{dcList[cur].skipped ? <span className="block" data-skipped={dcList[cur].id}>{dcList[cur].skipped}</span> : null}</> : `${mine.length} announced in this state`}
                     <Tip id="f-dcproj" label="the announced project">Announced datacenters whose own documents (a state agency&apos;s or a company&apos;s release) state what they would bring, read by the ERW: each figure is the document&apos;s own. Picking one sets the MW, the investment (in 2025 dollars), the permanent jobs and the construction workers the document states; a figure it does not state keeps its default. A document&apos;s construction jobs are a headcount (at peak where it says so), held in every construction year here.</Tip>
                   </p>
                 </div>
@@ -78,7 +78,8 @@ function shownDc(f: DcField, d: DcInputs): string {
 
 function DcOne({ f, P2, state, v, d, set }: { f: DcField; P2: DcParams; state: string; v: Values; d: DcInputs; set: (k: string, val: number) => void }) {
   const isSet = Number.isFinite(v[f.name]);
-  const tip = <Tip id={`f-${f.name}`} label={f.label}>{f.source(state, P2)}</Tip>;
+  const links = f.links ? f.links(state, P2) : [];
+  const tip = <Tip id={`f-${f.name}`} label={f.label}>{f.source(state, P2)}{links.length ? <> Source: {links.map((l, i) => <span key={l.href}>{i ? "; " : ""}<a href={l.href} rel="noopener" className="underline" data-source-link={f.name}>{l.text}</a></span>)}.</> : null}</Tip>;
   let control: ReactNode;
   if (f.options) {
     const cur = isSet ? v[f.name] : (d[f.input] ? 1 : 0);

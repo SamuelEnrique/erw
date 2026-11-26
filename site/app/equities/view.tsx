@@ -23,6 +23,8 @@ import {
   secUrl, segmentLabel, shortWhy, signedLevel, signedPct, windowLike, windowWords, windowed,
   type Choice, type EqCompany, type EqList, type EqMoves, type EqPrice, type EqPrices, type EqSeries, type Filing, type Query, type Sort,
 } from "@/lib/equities";
+// session 10405 (chain 720, part E): a company's last close, changes and market value, once the list carries them
+import { companiesPriced, wholeWords } from "@/lib/equities";
 import { equitiesList, equitiesPrices, equitiesSeries } from "@/lib/equitiesfiles";
 import { pfKey } from "@/lib/pagefile";
 
@@ -218,6 +220,26 @@ function FiledFigures({ slots, list }: { slots: Slot[]; list: EqList }) {
 /** Every company by segment: one table, filtered and sorted by the address. */
 function Companies({ list, q, first }: { list: EqList; q: Query; first: string | null }) {
   const rows = companiesOf(list, q);
+  // session 10405 (chain 720, part E): the last close, the five changes and the market value of each company, as the
+  // list carries them since the contract's dated line of 26 November (data request 571). The columns are drawn only
+  // when a company of the list holds one of them: a list with none is the table as it was. A figure's key names the
+  // company by its position in the file's own list, whatever the order the table is in.
+  const priced = companiesPriced(list.companies);
+  const LIST = "equities/index.json";
+  const pricedCells = (c: EqCompany): ReactNode[] => {
+    const i = list.companies.indexOf(c);
+    const heldWords = blankWords(c.price_status), heldWhy2 = blankWhy(c.price_status, c.price_why);
+    const none = (key: string, what: string) => (c.price_status === "shown" ? <NotHeld key={key} why={`${c.ticker}: the list holds no ${what}.`} /> : <NotHeld key={key} words={heldWords} why={heldWhy2} />);
+    return [
+      c.last_close ? <span key="lc" title={`${c.ticker}: the close of ${dateWords(c.last_close.t)}, USD a share`} className="cursor-help whitespace-nowrap"><Num check={pfKey(LIST, ["companies", i, "last_close", "v"])} raw={c.last_close.v}>{levelWords(c.last_close.v)}</Num></span> : none("lc", "last close"),
+      ...MOVE_WORDS.map(([k, words]) => {
+        const m = c.moves?.[k];
+        if (!m) return none(k, `change over ${words.toLowerCase()}`);
+        return <span key={k} title={`${c.ticker}, ${words.toLowerCase()}: ${signedLevel(m.ch)} USD against ${levelWords(m.v)} on ${dateWords(m.t)}`} className="cursor-help whitespace-nowrap"><Num check={pfKey(LIST, ["companies", i, "moves", k, m.pct !== null ? "pct" : "ch"])} raw={m.pct ?? m.ch}>{m.pct !== null ? signedPct(m.pct) : signedLevel(m.ch)}</Num></span>;
+      }),
+      c.market_value ? <span key="mv" title={`${c.ticker}: the close of ${dateWords(c.market_value.t)} times the shares it last filed, USD`} className="cursor-help whitespace-nowrap"><Num check={pfKey(LIST, ["companies", i, "market_value", "v"])} raw={c.market_value.v}>{wholeWords(c.market_value.v)}</Num></span> : none("mv", "market value"),
+    ];
+  };
   const sortHead = (s: Sort) => {
     const on = q.sort === s;
     return <SiteLink key={s} href={hrefOf(q, { sort: on && q.desc ? null : s, desc: on && !q.desc }, first, "#companies")} title={on ? (q.desc ? "Sorted Z to A: press for the list's own order" : "Sorted A to Z: press for Z to A") : `Sort by ${SORT_WORDS[s].toLowerCase()}`} data-eq-sort={s} className="inline-block py-1">{SORT_WORDS[s]}{on ? (q.desc ? " (Z to A)" : " (A to Z)") : ""}</SiteLink>;
@@ -237,8 +259,9 @@ function Companies({ list, q, first }: { list: EqList; q: Query; first: string |
         <button type="submit" className="border border-rule bg-white px-3 py-1 text-sm">Filter</button>
         <span className="text-sm" data-eq-count={`${rows.length}|${list.companies.length}`}>{rows.length.toLocaleString("en-US")} of {list.companies.length.toLocaleString("en-US")} companies</span>
       </form>
-      <ToolTable words minWidth={720} caption={`The listed energy companies${q.seg ? ` of ${segmentLabel(list, q.seg)}` : ""}: ${rows.length} of ${list.companies.length}`}
-        head={[sortHead("name"), sortHead("ticker"), sortHead("exchange"), sortHead("segment"), "Industry", <span key="p">Share price: {sortHead("first")} to {sortHead("last")}</span>, "Filed figures"]}
+      <ToolTable words minWidth={priced ? 1280 : 720} caption={`The listed energy companies${q.seg ? ` of ${segmentLabel(list, q.seg)}` : ""}: ${rows.length} of ${list.companies.length}`}
+        head={[sortHead("name"), sortHead("ticker"), sortHead("exchange"), sortHead("segment"), "Industry", <span key="p">Share price: {sortHead("first")} to {sortHead("last")}</span>, "Filed figures",
+          ...(priced ? [<span key="lc" data-eq-priced="1">Last close, USD</span>, ...MOVE_WORDS.map(([k, words]) => <span key={k}>{words}</span>), <span key="mv" className="cursor-help" title="The last close times the shares the company last filed, in USD.">Market value, USD</span>] : [])]}
         rows={rows.map((c) => ({ key: c.id, cells: [
           <SiteLink key="n" href={hrefOf(q, { a: c.id }, first, "#line")} title={`Draw ${c.ticker}${c.cik ? `; SEC number ${c.cik}` : ""}`}>{c.name ?? c.ticker}</SiteLink>,
           c.ticker, c.exchange ?? "",
@@ -246,6 +269,7 @@ function Companies({ list, q, first }: { list: EqList; q: Query; first: string |
           <span key="i" title={c.sic ? `SIC ${c.sic}` : undefined}>{c.sic_label ?? ""}</span>,
           c.price_status === "shown" ? `${c.first ?? "?"} to ${c.last ?? "?"}` : <NotHeld key="p" words={blankWords(c.price_status)} why={blankWhy(c.price_status, c.price_why)} />,
           c.fundamentals_status === "shown" ? "shown" : <NotHeld key="f" words={blankWords(c.fundamentals_status)} why={blankWhy(c.fundamentals_status, c.fundamentals_why)} />,
+          ...(priced ? pricedCells(c) : []),
         ] }))} />
     </ToolSection>
   );

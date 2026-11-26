@@ -9,7 +9,7 @@ import { TableDownloads } from "@/components/tool/TableDownloads";
 import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
 import { SUPPLY_DECISIONS } from "@/lib/decisions";
 import fileJson from "@/data/supply.json";
-import { HEADLINE, PLACEHOLDER, burnWeekWords, choiceOf, dateWords, easternNow, fmt, holdRows, latestTitle, nextRelease, hrefOf, pct, reading, releaseWords, rowsOf, shortDate, signed, surprises, toggled, unitTitle, withPlaceWords, withUnitWords, type Choice, type Group, type Row, type SupplyFile } from "@/lib/supply";
+import { HEADLINE, PLACEHOLDER, burnWeekWords, joinWords, choiceOf, dateWords, easternNow, fmt, holdRows, latestTitle, nextRelease, hrefOf, pct, reading, releaseWords, rowsOf, shortDate, signed, surprises, toggled, unitTitle, withPlaceWords, withUnitWords, type Choice, type Group, type Row, type SupplyFile } from "@/lib/supply";
 import { licenseGridTitle, licenseHeldGrids } from "@/lib/license";
 import { GRID_CHOICES, gridHref } from "@/lib/gridtool";
 
@@ -29,6 +29,9 @@ const file = holdRows(withPlaceWords(withUnitWords(fileJson as unknown as Supply
 const BURN_GRIDS = GRID_CHOICES.filter((g) => g.slug !== "us48");
 const LAST_YEAR = "The value 52 weeks before for a weekly series (364 days, the same weekday, or the nearest within 3 days), as EIA's storage report sets a week beside the same week a year before; the same month a year before for a monthly series. The price board's Year takes the newest value at least 365 days before, so for a weekly series its base can be a week older: the date of each base is on hover in both";
 const LAST_52 = "The last 52 values held: 52 weeks for a weekly series, 52 months (over four years) for a monthly one. A week or month not held is left out and the line closes over it, so a line can span more than 52 steps; each point's date is on hover";
+// session 10222 (the supply audit, finding 3): what the five-year average is, and where it is not the season
+const FIVE_YEARS = "The mean of the values 52, 104, 156, 208 and 260 weeks before (for a monthly series, the same month of the five years before), with their lowest and highest on hover; given only when all five are held. It stands for normal at this point of the year only for a series with a season and no trend. For production, which has grown, and for positioning, it measures the five years' trend, not the season; and where a series changed its level within the five years (New York's and SPP's oil burned for power fell to near zero from 2023), it stands for a level the series no longer has. Read the year before beside it";
+const STORAGE_REGIONS = "East, Midwest, Mountain, Pacific and South Central are the five storage regions of EIA's Weekly Natural Gas Storage Report, each a group of states. They are not the electricity regions of the section \"The whole country\" below, which are EIA's groups of balancing authorities: the Midwest there has other borders";
 const METHOD = "/data/methods/supply_and_trade";
 // session 333: the tables the file is built from, as its sources name them in brackets ("CFTC, ... (cftc_cot_positions)")
 const TABLES = [...new Set((file.sources as string[]).flatMap((s) => [...s.matchAll(/\(([a-z0-9]+(?:_[a-z0-9]+)+)\)/g)].map((m) => m[1])))];
@@ -43,10 +46,12 @@ function Tag({ r }: { r: "tighter" | "looser" | null }) {
 }
 
 /** One comparison: the difference with its sign, the percent where the series cannot be negative, and the reading. */
-function Against({ row, diff, percent, from, what }: { row: Row; diff: number | null | undefined; percent?: number | null; from?: { t: string; v: number }; what: string }) {
+function Against({ row, diff, percent, from, what, note }: { row: Row; diff: number | null | undefined; percent?: number | null; from?: { t: string; v: number }; what: string; note?: string | null }) {
   if (diff === null || diff === undefined) return <NH why={`The value this is measured against is not held (${what}).`} />;
+  // session 10222 (the supply audit, finding 1): a comparison across California's change of source says so on hover
+  const tail = note ? `. ${note}` : "";
   return (
-    <span className="whitespace-nowrap" title={from ? `against ${fmt(from.v, row.unit)} ${row.unit}, ${what}${from.t ? ` (${dateWords(from.t, row.freq)})` : ""}` : what}>
+    <span className="whitespace-nowrap" title={`${from ? `against ${fmt(from.v, row.unit)} ${row.unit}, ${what}${from.t ? ` (${dateWords(from.t, row.freq)})` : ""}` : what}${tail}`}>
       {signed(diff, row.unit, row.last!.v)}
       {percent !== null && percent !== undefined ? <span className="ml-1 text-[10px] text-muted">{pct(percent)}</span> : null}
       <Tag r={moved(diff, row) ? reading(row.sense, diff) : null} />
@@ -58,7 +63,8 @@ function Surprise({ row }: { row: Row }) {
   const c = row.change;
   if (!c) return <NH why="The value one step before the latest is not held." />;
   if (c.surprise === null || c.avg5 === null) return <NH why="The same change is not held for each of the five years before." />;
-  const title = `this ${row.freq === "M" ? "month" : "week"}'s change ${signed(c.v, row.unit, row.last!.v)} ${row.unit}; the five-year average change of the same ${row.freq === "M" ? "month" : "week"} ${signed(c.avg5, row.unit, row.last!.v)}; the five years' changes ran from ${signed(c.lo!, row.unit, row.last!.v)} to ${signed(c.hi!, row.unit, row.last!.v)}`;
+  const join = joinWords(row, null);
+  const title = `this ${row.freq === "M" ? "month" : "week"}'s change ${signed(c.v, row.unit, row.last!.v)} ${row.unit}; the five-year average change of the same ${row.freq === "M" ? "month" : "week"} ${signed(c.avg5, row.unit, row.last!.v)}; the five years' changes ran from ${signed(c.lo!, row.unit, row.last!.v)} to ${signed(c.hi!, row.unit, row.last!.v)}${join ? `. ${join}` : ""}`;
   return (
     <span className={`whitespace-nowrap ${c.outside ? "border border-accent bg-paper px-1 font-semibold" : ""}`} title={title} data-surprise={c.outside ? row.id : undefined}>
       {signed(c.surprise, row.unit, row.last!.v)}{c.outside ? <span className="ml-1 text-[10px] font-normal text-accent">outside range</span> : null}
@@ -71,7 +77,8 @@ function Table({ group, c }: { group: Group; c: Choice }) {
   const pos = group.id === "position";
   return (
     <section id={group.id} className="mb-7 scroll-mt-4" data-group={group.id}>
-      <h2 className="mb-1 border-b border-accent pb-0.5 font-serif text-lg text-accent">{group.title}</h2>
+      {/* session 10222 (the supply audit, finding 5): the storage regions are not the electricity regions of "The whole country" */}
+      <h2 className="mb-1 border-b border-accent pb-0.5 font-serif text-lg text-accent" title={group.id === "gasstor" ? STORAGE_REGIONS : undefined}>{group.title}</h2>
       {group.id === "burn" ? (
         <p className="mb-1 text-xs" data-grid-links="1">
           <span title="The Grid page's Mix view: each grid's generation by every source (gas, coal, nuclear, wind, solar, hydro, batteries), hour by hour and month by month, from the same EIA-930 hours as the rows below. Its Network view: what the grid takes from and sends to each neighbour, the last twelve months.">Each grid&apos;s generation by every source, and what it takes from and sends to each neighbour, on the Grid page:</span>{" "}
@@ -91,7 +98,7 @@ function Table({ group, c }: { group: Group; c: Choice }) {
               <th className="pr-3 text-right font-normal">Its date</th>
               <th className="pr-3 text-right font-normal" title="The latest less the value one step before: a week for a weekly series, a month for a monthly one">On the period before</th>
               <th className="pr-3 text-right font-normal" title={LAST_YEAR} data-head="year">On last year</th>
-              <th className="pr-3 text-right font-normal">Five-year average</th>
+              <th className="pr-3 text-right font-normal" title={FIVE_YEARS} data-head="avg5">Five-year average</th>
               <th className="pr-3 text-right font-normal">Against the average</th>
               <th className="pr-3 text-right font-normal" title="The period's change less the five-year average change of the same period">Change against the five-year average change</th>
               <th className="pr-3 text-right font-normal" title={LAST_52} data-head="last52">Last 52</th>
@@ -118,9 +125,9 @@ function Table({ group, c }: { group: Group; c: Choice }) {
                   <td className="whitespace-nowrap py-1 pr-3 text-right font-semibold"><span data-n={`${r.id}|last`} title={latestTitle(r)} data-latest-title={latestTitle(r) ? r.id : undefined}>{fmt(last.v, r.unit)}</span><span className="ml-1 cursor-help text-[10px] font-normal text-muted" title={unitTitle(r.unit)} data-unit={r.unit}>{r.unit}</span></td>
                   <td className="whitespace-nowrap py-1 pr-3 text-right text-[11px] text-muted" title={burnWeekWords(file, r) ?? (r.freq === "M" ? "a monthly series" : "a weekly series: the date its week ends")} data-week-behind={burnWeekWords(file, r) ? r.id : undefined}>{dateWords(last.t, r.freq)}</td>
                   <td className="py-1 pr-3 text-right text-xs"><Against row={r} diff={r.prev?.ch} from={r.prev ?? undefined} what={r.freq === "M" ? "the month before" : "the week before"} /></td>
-                  <td className="py-1 pr-3 text-right text-xs"><Against row={r} diff={r.year?.ch} percent={r.year?.pct} from={r.year ?? undefined} what="a year before" /></td>
-                  <td className="py-1 pr-3 text-right text-xs">{r.avg5 ? <span title={`the five years before ran from ${fmt(r.avg5.lo, r.unit, last.v)} to ${fmt(r.avg5.hi, r.unit, last.v)} ${r.unit} at this point of the year`} data-n={`${r.id}|avg5`}>{fmt(r.avg5.v, r.unit, last.v)}</span> : <NH why="One of the five years before does not hold this point of the year." />}</td>
-                  <td className={`py-1 pr-3 text-right text-xs ${r.avg5?.outside ? "font-semibold" : ""}`}>{r.avg5 ? <Against row={r} diff={r.avg5.ch} percent={r.avg5.pct} what={`the five-year average${r.avg5.outside ? "; the latest is outside the five years' range" : ""}`} /> : <NH why="One of the five years before does not hold this point of the year." />}</td>
+                  <td className="py-1 pr-3 text-right text-xs"><Against row={r} diff={r.year?.ch} percent={r.year?.pct} from={r.year ?? undefined} what="a year before" note={joinWords(r, r.year?.t)} /></td>
+                  <td className="py-1 pr-3 text-right text-xs">{r.avg5 ? <span title={`the five years before ran from ${fmt(r.avg5.lo, r.unit, last.v)} to ${fmt(r.avg5.hi, r.unit, last.v)} ${r.unit} at this point of the year${joinWords(r, null) ? `. ${joinWords(r, null)}` : ""}`} data-n={`${r.id}|avg5`}>{fmt(r.avg5.v, r.unit, last.v)}</span> : <NH why="One of the five years before does not hold this point of the year." />}</td>
+                  <td className={`py-1 pr-3 text-right text-xs ${r.avg5?.outside ? "font-semibold" : ""}`}>{r.avg5 ? <Against row={r} diff={r.avg5.ch} percent={r.avg5.pct} what={`the five-year average${r.avg5.outside ? "; the latest is outside the five years' range" : ""}`} note={joinWords(r, null)} /> : <NH why="One of the five years before does not hold this point of the year." />}</td>
                   <td className="py-1 pr-3 text-right text-xs"><Surprise row={r} /></td>
                   <td className="py-0.5 pr-3 text-right"><Trend row={r} /></td>
                   {pos ? <>

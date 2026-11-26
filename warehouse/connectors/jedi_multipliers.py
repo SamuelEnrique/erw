@@ -9,7 +9,7 @@ The chain prompt names the table jedi_multipliers; a series table's name has thr
 is nlr_jedi_multipliers (source nlr, the JEDI models, their multipliers), as battery_sourced_ranges was named in
 session 306.
 
-    python warehouse/connectors/jedi_multipliers.py --pull   # ask NLR for the six workbooks (six requests)
+    python warehouse/connectors/jedi_multipliers.py --pull   # ask NLR for the seven workbooks (seven requests)
     .venv-jedi\\Scripts\\python.exe -I warehouse/connectors/jedi_recalc.py   # JEDI's formulas for every location
     python warehouse/connectors/jedi_multipliers.py          # the table, from the workbooks and that step's files
 
@@ -89,6 +89,10 @@ MODELS = {
         file="01d-jedi-csp-trough-model-rel-csp12-23-16.xlsm", page="https://www.nlr.gov/analysis/jedi/csp",
         url="https://www.nlr.gov/docs/libraries/analysis/01d-jedi-csp-trough-model-rel-csp12-23-16.xlsm",
         model="JEDI Concentrating Solar Power Trough Model", version=("About JEDI", "A7"), unit_note="millions of dollars"),
+    "biopower": dict(
+        file="01d-jedi-biopower-model-rel-b12-23-16.xlsm", page="https://www.nlr.gov/analysis/jedi/biofuels",
+        url="https://www.nlr.gov/docs/libraries/analysis/01d-jedi-biopower-model-rel-b12-23-16.xlsm",
+        model="JEDI Biopower Model", version=("About JEDI", "A6"), unit_note="millions of dollars"),
 }
 NOT_HELD = {"battery_storage": "NLR publishes no JEDI model for battery storage: the thirteen models listed on "
                                "https://www.nlr.gov/analysis/jedi/models (read 20 October 2026) have none, so no row is written"}
@@ -107,7 +111,8 @@ STATES = {
     "WEST VIRGINIA": "WV", "WISCONSIN": "WI", "WYOMING": "WY", "UNITED STATES": "",
 }
 # a location as a model's own list spells it, where the spelling is not the state's name (x_location keeps JEDI's word)
-ALIASES = {"NORTH DAKOTO": "ND", "SOUTH DAKOTO": "SD"}  # the gas model's list
+ALIASES = {"NORTH DAKOTO": "ND", "SOUTH DAKOTO": "SD",  # the gas model's list
+           "MASSACHUSSETS": "MA"}  # the biopower model's list (session 10000)
 X_COLS = ["x_technology", "x_state", "x_location", "x_phase", "x_effect", "x_model", "x_version", "x_file", "x_sheet",
           "x_cells", "x_project_mw", "x_mw_basis", "x_dollar_year", "x_multiplier_data", "x_local_share",
           "x_local_share_cells", "x_settings", "x_method"]
@@ -221,7 +226,7 @@ def rows_for(tech, m, spec, rec, version, mult, sha, kept, log):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="JEDI's jobs, earnings and output per MW (session 345)")
-    ap.add_argument("--pull", action="store_true", help="ask NLR for the six workbooks first (six requests)")
+    ap.add_argument("--pull", action="store_true", help="ask NLR for the seven workbooks first (seven requests)")
     a = ap.parse_args(argv)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -276,7 +281,7 @@ def main(argv=None):
         ip.update_sources([dict(source=SOURCE, publisher=PUBLISHER,
                                 report="Jobs and Economic Development Impact (JEDI) models: land-based wind W9.14.18, "
                                        "photovoltaics PV05.20.21, natural gas NG4.17.17, geothermal GT12.23.16, coal C12.23.16, "
-                                       "concentrating solar power trough CSP12.23.16",
+                                       "concentrating solar power trough CSP12.23.16, biopower B12.23.16",
                                 report_url=PAGE, document_list=PAGE, license="public", tables=[NAME])])
         log(f"wrote {len(df)} rows")
         print(f"{NAME}: {len(df)} rows, {df['x_technology'].nunique()} technologies, {df['x_location'].nunique()} locations")

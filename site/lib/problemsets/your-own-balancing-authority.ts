@@ -155,10 +155,12 @@ export async function build(): Promise<Built> {
   const gd = calc("diff", ge, ga, "percentage points"), le = fig(E, ["large_loads", "count"], "rows"), la = fig(A, ["large_loads", "count"], "rows");
   const q7: Question = {
     id: "b7", tables: [DEMAND, LL],
-    q: `What was the ${nm}'s highest demand and when, how much did its demand grow from 2019 to ${a.size.growth_year}, and ERCOT's growth was how many points more? How many public large-load rows are placed in each?`,
+    // session 10229 (the problems audit, finding 6): the growth is of the year's average demand (docs/methods/
+    // authority_facts.md), not of the peak the question has just asked for, and the question says so
+    q: `What was the ${nm}'s highest demand and when, how much did its average demand grow from 2019 to ${a.size.growth_year}, and ERCOT's growth was how many points more? How many public large-load rows are placed in each?`,
     answer: ["Peak ", pk, ` at ${a.size.peak_local} local time (${a.size.tz}); growth since 2019 `, ga, ", ERCOT's ", ge, ": ", gd, " more. Public large-load rows: the TVA ", la, ", ERCOT ", le, "."],
     line: [ge, " - ", ga, " = ", gd],
-    steps: [["size, peak_mw and peak_local in tva.json: ", pk, `, ${a.size.peak_local}.`], ["size, growth_since_2019_pct: the TVA ", ga, ", ERCOT ", ge, "."],
+    steps: [["size, peak_mw and peak_local in tva.json: ", pk, `, ${a.size.peak_local}.`], ["size, growth_since_2019_pct, the newest whole year's average demand against 2019's: the TVA ", ga, ", ERCOT ", ge, "."],
       ["Subtract: ", ge, " - ", ga, " = ", gd, "."], ["large_loads, count in each file: ", la, " and ", le, "."]],
     why: "Demand growth since 2019 is where new load shows first; the large-load rows are the public announcements the ERW has read, not every request an authority has received.",
   };

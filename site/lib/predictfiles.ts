@@ -5,7 +5,7 @@
 // fixture is read only from a test's own folder, never from the site's.
 import fs from "node:fs";
 import path from "node:path";
-import type { IndexPlace, PlaceFile, PredictIndex, ScoresFile } from "@/lib/predict";
+import type { AheadFile, IndexPlace, PlaceFile, PredictIndex, ScoresFile } from "@/lib/predict";
 
 /** The folder of the page files. ERW_PREDICT_DIR stands in for it in a test, and only there. */
 export function predictDir(): string {
@@ -53,5 +53,7 @@ export function predictLedger(series: string | null): string | null {
 
 export const predictIndex = () => readPredict<PredictIndex>("index.json");
 export const predictScores = () => readPredict<ScoresFile>("scores.json");
+/** Session 10405: the days after tomorrow (the contract's change of session 10601), or null while it is not on the site. */
+export const predictAhead = () => readPredict<AheadFile>("ahead.json");
 /** A place's file, by the name the index gives it. */
 export const predictPlace = (p: Pick<IndexPlace, "file"> | null | undefined) => (p ? readPredict<PlaceFile>(p.file) : null);

@@ -1515,7 +1515,9 @@ async function main() {
       // hour of tomorrow or of a past day, and an error in MW (the summary's mae; the column mae, position 6, of the
       // scores' rows). A price and a percent keep two decimals and pass the rule above. Found by this check run on a
       // build of the page with window B's files: 70 of tomorrow's 72 figures failed on "54,040" against 54039.5
-      const predictWhole = /^pf\|predict\/(?:[^|]+\|series\/demand\/(?:tomorrow\/|history\/|summary\/[^/]+\/mae\/)|scores\.json\|rows\/\d+\/6$)/.test(check) && text === Math.round(Number(raw)).toLocaleString("en-US");
+      // session 10405: and the megawatts of the day's peak (its mae) and of the days after tomorrow (ahead.json: an
+      // hour of a horizon's forecast, a horizon's mae, the operator's day-ahead mae on the same hours)
+      const predictWhole = /^pf\|predict\/(?:[^|]+\|series\/demand\/(?:tomorrow\/|history\/|summary\/[^/]+\/mae\/|peak\/[^/]+\/methods\/[^/]+\/mae$)|scores\.json\|rows\/\d+\/6$|ahead\.json\|places\/\d+\/horizons\/\d+\/(?:forecast\/\d+\/\d+|last_2_years\/mae\/[^/]+|last_2_years\/operator_day_ahead_mae_same_hours)$)/.test(check) && text === Math.round(Number(raw)).toLocaleString("en-US");
       if (!pass && predictWhole && t !== undefined && t !== null && same) pass = true;
       // chain 720 (session 10404): /equities writes a change above zero with its sign (lib/equities.ts signedPct and
       // signedLevel: "+0.32%", "+1.25"), two decimals always. A fall and a zero pass the rule above. Found by this check

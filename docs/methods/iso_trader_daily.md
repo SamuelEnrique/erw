@@ -20,7 +20,7 @@ No publisher is asked: the table is the ERW's arithmetic on tables the warehouse
 | isone | `isone_dam_zone_prices` | `isone_rtm_zone_prices_hourly` | America/New_York | isone:da_lmp_hourly; isone:rt_lmp_hourly_final; isone:rt_lmp_hourly_prelim |
 | miso | `miso_dam_hub_prices` | `miso_rtm_hub_prices` | EST (no daylight saving) | miso:da_expost_lmp; miso:rt_lmp_final; miso:rt_lmp_prelim |
 | nyiso | `nyiso_dam_zone_prices` | `nyiso_rtm_zone_prices` | America/New_York | nyiso:damlbmp; nyiso:realtime |
-| spp | `spp_dam_hub_prices` | none | America/Chicago | spp:DA-LMP-SL |
+| spp | `spp_dam_hub_prices` | none read (SPP's real-time prices are held, `spp_rtm_hub_prices`, and not read: `trader_view.md`, finding 1 of the audit of 26 November 2026) | America/Chicago | spp:DA-LMP-SL |
 
 Every member also lists eia:natural-gas/pri/fut and eia:petroleum/pri/spt, the sources of `eia_fuel_spot_prices`. The `ercot_`, `caiso_`, `miso_` and `spp_` price tables are members of `iso_dam_hub_prices` and `iso_rtm_hub_prices`, which the consolidated header names in its "Derived from" line.
 
@@ -116,6 +116,6 @@ The header says "License: public. Every member declares it." Each member's flag 
 ## What it does not hold
 
 - PJM: the ERW holds no PJM energy price table (`trader_view.md`).
-- SPP's real-time metrics: the ERW has no SPP real-time table.
+- SPP's real-time metrics: SPP's real-time prices are held (`spp_rtm_hub_prices`, rows of `iso_rtm_hub_prices`), but `trader_view.py` does not read them (its `ISOS` map gives SPP none), so the four real-time metrics are not written for SPP (session 10209, `docs/reviews/trader-model-audit-2026-11-26.md`, finding 1).
 - MISO after 3 October 2026, while MISO is paused.
 - Days before 26 August 2026, the first day of the price tables it reads.

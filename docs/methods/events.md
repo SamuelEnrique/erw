@@ -17,6 +17,7 @@ Built in session 36B for the Historical Event Analyzer (`/events`). One derived 
 - **Window:** 2021-02-07 to 2021-02-24, eighteen days: the week before the storm, the storm, and the week after.
 - **Baseline:** the same calendar days of 2019 and 2020. For the comparison variables, the baseline of a day is the mean of those two years' values for the same calendar day.
 - **The date the page cites:** EIA writes that "ERCOT began implementing rotating outages at midnight on February 15" (https://www.eia.gov/todayinenergy/detail.php?id=46836).
+- **The price sat at the ceiling (session 10225, 26 November 2026).** On 16, 17 and 18 February the hub's daily mean real-time price was 8,970.14, 9,002.04 and 8,989.10 USD/MWh against highest 15-minute prices of 9,000.85, 9,051.55 and 9,006.13: within 0.6 percent, so the price hardly moved for three days. A price at the market's ceiling (ERCOT's offer cap, whose document the warehouse does not hold) is set by the ceiling, not by bids, so the page's price figures and the event study's price estimate (+2,293.84 USD/MWh a day) measure the ceiling as much as the scarcity. The page says so in words (`docs/reviews/events-model-audit-2026-11-26.md`, finding 8); the count of intervals near the ceiling is the ruling alternative `wip/alt-events-4`.
 
 ## The second event: COVID-19, spring 2020 (`covid_2020`)
 
@@ -68,6 +69,8 @@ Heat waves and cold snaps are stories about the peak hour.
   - The highest peak hour against the baseline was on 2020-08-18 (+23.50 percent, 46,643 MW), not on the outage days (+10.74 and +21.58 percent).
   - The same report says "August 17 through 19 were projected to have much higher supply shortfalls", and credits a statewide mitigation effort and consumer conservation for avoiding further outages.
   - Demand served on 14 and 15 August also leaves out the load that was shed.
+  - Session 10225 (26 November 2026): the comparison is of each day's highest hour of demand served, not of the hours the outages came in. CAISO's notices (`caiso_grid_emergencies`) put the Stage 3 emergencies at 18:36 to 20:38 on 14 August and 18:27 to 18:48 on 15 August, Pacific time, as solar output fell. Measured on the event's region file, California's demand less solar and wind at its highest hour was 54,390 MW on 14 August (18:00), 52,166 on the 15th, 51,456 on the 17th, 52,013 on the 18th and 50,210 on the 19th: by that measure the first outage day was the highest. California (the region) holds CAISO and four smaller authorities, so it is not CAISO's own figure. CAISO's gross highest hours were 46,024 MW on the 14th and 46,643 on the 18th, 619 MW apart. The page says so in words (`docs/reviews/events-model-audit-2026-11-26.md`, finding 3); adding a figure of net demand is the owner's ruling (finding 4).
+- **The carbon intensity has no hydro under it (session 10225, 26 November 2026).** EIA's file holds no hydro for CAISO from the hour starting 2019-10-01T21:00Z to the hour starting 2020-08-24T17:00Z, and its net generation leaves it out too (`impossible_hours.md`, "California's hydro gap"), so each of the window's 14 days of `intensity_generation` divides CO2 by a net generation without hydro: the window averages 281.32 kg CO2/MWh against 204.95 (2018) and 184.98 (2019) on the baseline days, which hold it. The event's region file shows the same gap from the other side: California's hydro averages 1,273 MW over the window against 4,461 MW in the baseline (4.2 against 15.8 percent of net generation). The ERW's rule leaves those days out and is held (`impossible_hours.HELD`); the page says so in words (`docs/reviews/events-model-audit-2026-11-26.md`, finding 5).
 - **Left out:** three CISO days, each missing one hour in EIA's data:
   - 2020-08-10, an event day;
   - 2019-08-13 and 2019-08-25, baseline days, so their comparisons for 2020-08-11 and 2020-08-23 are missing.
@@ -257,6 +260,8 @@ two equal values the earlier day is taken.
 
 ### Assumptions, with their defaults and sources
 
+**Who chose the windows (session 10225, 26 November 2026).** No account names a window's edges: the ERW chose them, around the days an account names (Uri, CAISO 2020, Elliott and the others before session 64) or, for the January 2025 cold, the June 2025 heat and the January 2026 cold, as the days of the highest hours in EIA's data. A window chosen around the highest days picks days because demand was high, so the estimate of their effect tends to be larger than for a window fixed before looking, and the interval does not allow for the choice; the decisions block says so. The edges are worth much: cut to the days its own account names, the pooled effect on daily demand served is Uri +269,649 MWh a day against the page's +155,795 (14 to 17 February, the storm part of the window), CAISO 2020 +135,437 against +83,812 (14 to 19 August, the Root Cause Analysis's days), PJM over Elliott +498,085 against +387,000 (21 to 26 December, FERC's), measured on `event_window_daily` (run 20261019T094329Z), the window's other days left out of the fit (`docs/reviews/events-model-audit-2026-11-26.md`).
+
 The decisions block below lists them, each as the pages draw it. The ones that move figures most: the window's dates;
 the baseline (the same weekday 364 and 728 days earlier; Uri the same calendar days of 2019 and 2020); demand served,
 not wanted; complete days only; and, for the estimates, the absence of a trend (growth since the baseline years counts
@@ -309,7 +314,7 @@ have no input, and every figure is fixed when the table is built or the page is 
 
 | # | Key | The choice | Default | Source |
 |---|---|---|---|---|
-| 1 | `window` | each event a fixed window of local days, both ends included | each event's dates (sections above) | each event's section |
+| 1 | `window` | each event a fixed window of local days, both ends included; the edges the ERW's own, and three windows chosen from the data around the highest hours (session 10225) | each event's dates (sections above) | each event's section |
 | 2 | `baseline` | the same weekday 364 and 728 days earlier | Uri the same calendar days of 2019 and 2020; COVID-19 2019 and 2018 (the Lower 48 2019) | "Baseline: weekday-aligned", "Session 49" |
 | 3 | `local-day` | the grid's own local day (MISO Eastern Standard Time all year) | each grid's zone | "The second event: COVID-19" |
 | 4 | `complete` | a day only when every interval is held; nothing filled | complete days only | "Complete days only" |

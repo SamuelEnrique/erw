@@ -85,7 +85,12 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
     <div data-waiting-set={waiting ? slug : undefined}>
       <p className="mb-1 text-xs text-muted"><Link href="/learn/problems">Problem sets</Link> / {meta.title}</p>
       <h1 className="mb-1 text-3xl">{meta.title}</h1>
-      <p className="mb-3 max-w-3xl text-sm">{meta.line} Every answer is computed from the warehouse&apos;s tables when the page is built, so the numbers move as the data updates.</p>
+      {/* session 10229 (the problems audit, findings 4 and 5): a set of the whole country reads committed page files, which
+          move when the data machine rebuilds them, not when the page is built; and every answer is computed from the
+          unrounded figures, which the page prints to two decimals (a legend on another page can print fewer) */}
+      <p className="mb-3 max-w-3xl text-sm" data-computed>{meta.line} {GUIDE[slug]?.files?.length
+        ? <>Every answer is computed from committed page files built from the warehouse&apos;s tables, so the numbers move when the data machine rebuilds a file.</>
+        : <>Every answer is computed from the warehouse&apos;s tables when the page is built, so the numbers move as the data updates.</>} Each answer is computed from the unrounded figures and printed as a whole number or to two decimals, so a student who works from the printed figures, or from a legend that prints fewer decimals, can differ in the last digit.</p>
       {/* session 3650: what a student should be able to do after the set, in one line (lib/problemkit.ts, GUIDE) */}
       {GUIDE[slug] ? <p className="mb-3 max-w-3xl text-sm" data-can><strong>After this set</strong> a student can {GUIDE[slug].can}.</p> : null}
       {WAITING_GUIDE[slug] ? <p className="mb-3 max-w-3xl text-sm" data-can><strong>After this set</strong> a student can {WAITING_GUIDE[slug].can}.</p> : null}

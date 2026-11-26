@@ -235,7 +235,7 @@ export function basisOf(col: string, table: string, links: Link[]): string {
   if (col === "n_policy_actions") return `a count of ${plural(distinct(of), "policy action", "policy actions")} over ${rows(of.length)}`;
   if (col === "plants_mw") return `the sum of ${rows(of.length)}, one an operating generator, at ${plural(distinct(of, (l) => l.detail), "plant", "plants")}`;
   if (col === "planned_mw") return `the sum of ${rows(of.length)}, one a planned generator, at ${plural(distinct(of, (l) => l.detail), "plant", "plants")}`;
-  if (col === "owned_mw") return `the sum of ${rows(of.length)} of ${plural(distinct(of), "jointly owned generator", "jointly owned generators")}, each its nameplate MW times the percent owned`;
+  if (col === "owned_mw") return `the sum of ${rows(of.length)} of ${plural(distinct(of), "jointly owned generator", "jointly owned generators")}, each its nameplate MW times the percent owned (a row whose generator EIA-860M's operating list does not hold adds no MW)`;
   if (col.startsWith("mw_")) {
     const fuel = col.slice(3);
     return `the sum of ${rows(of.filter((l) => (l.fuel || "other") === fuel).length)} of operating generators whose fuel is ${fuel}`;
@@ -294,7 +294,7 @@ export function indexCsv(rows: IndexRow[], ix: Pick<CompanyIndex, "built" | "col
     `# From ${url}, built ${ix.built} by warehouse/derived/companies_page.py; method docs/methods/companies.md.`,
     `# Filters: ${(["q", "kind", "segment", "state", "grid", "has"] as const).map((k) => `${k}=${q[k] || "(any)"}`).join(", ")}.`,
     `# Order: sort=${q.sort ?? "footprint"}, ${SORTS[q.sort ?? "footprint"].words}.`,
-    "# Every figure is from public rows alone; MW are nameplate (EIA-860M) or as the queue states them; footprint_mw is a sort key (plants, owned, planned and queue MW summed).",
+    "# Every figure is from public rows alone; MW are nameplate (EIA-860M) or as the queue states them; footprint_mw is a sort key (plants, owned, planned and queue MW summed; a jointly owned generator the company also operates counts twice, whole in plants_mw and for its share in owned_mw).",
     ix.held_tables.length
       ? `# Held (license needed): ${ix.held_tables.join(", ")}; ${plural(ix.held_only, "company", "companies")} named only in them ${ix.held_only === 1 ? "is" : "are"} not listed, and their rows add nothing here.`
       : "# No table is held.",
