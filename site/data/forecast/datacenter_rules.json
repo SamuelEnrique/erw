@@ -26,6 +26,7 @@
   "ga_cvi_2025": {"title": "Carl Vinson Institute of Government for the Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption, full report (December 2025), Tables 3 and 4 (IMPLAN 2023)", "url": "https://open.ga.gov/openga/report/downloadFile?rid=33298", "read": "2026-11-26", "request": 199},
   "ms_governor_xai": {"title": "Office of Governor Tate Reeves, Tech leader xAI investing more than $20 billion in Southaven (8 January 2026)", "url": "https://governorreeves.ms.gov/tech-leader-xai-investing-more-than-20-billion-in-southaven/", "read": "2026-11-26", "request": 89},
   "pa_dor_cdce": {"title": "Pennsylvania Department of Revenue, Computer Data Center Equipment Exemption Program guidelines (with the program's FAQ, request 206)", "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/incentivescreditsprograms/computerdatacenterequipprog/documents/computer_data_center_equip_exemption_program_guidelines.pdf", "read": "2026-11-26", "request": 205},
+  "ky_dor_stf_2025": {"title": "Kentucky Department of Revenue, Sales Tax Facts, June 2025 (House Bill 775's thresholds for KRS 139.499, request 207)", "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202025%20-%20Jun.pdf", "read": "2026-11-26", "request": 208},
   "ga_doaa_2025": {"title": "Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption (December 2025, revised January 2026), with the Department of Revenue's exemption page (request 187)", "url": "https://www.audits2.ga.gov/wp-content/uploads/2025/12/Data-Center-Tax-Exemption-Summary-Revised.pdf", "read": "2026-11-26", "request": 188}
  },
  "split": {
@@ -244,6 +245,14 @@
     "cite": "pa_dor_cdce", "covers": ["equipment"], "min_investment_usd": 100000000, "min_jobs": 45, "term_years": 26, "rate_part": "state",
     "quote": "At least $100,000,000 of new investment, on or after January 1, 2022, if the computer data center is located in a county with a population of more than 250,000 individuals and creates 45 new jobs.",
     "tip": "Pennsylvania (Act 84 of 2016 as amended by Act 25 of 2021, the Department of Revenue's program guidelines and FAQ): computer data center equipment is exempt from the state's 6 percent sales and use tax (not from Allegheny's or Philadelphia's local tax) for a certified data center that creates \"at least $100,000,000 of new investment\" and 45 new jobs by the fourth anniversary in a county of more than 250,000 people ($75,000,000 and 25 jobs in a smaller county) and pays at least $1,000,000 of annual compensation after it; certification lasts \"25 full calendar years following the year\" of the application. The tool applies it at the state's rate, from the first construction year through the 25th year after it, with the larger county's threshold (county populations are not held)."
+   }
+  },
+  "ky": {
+   "name": "Kentucky",
+   "sales_exemption": {
+    "cite": "ky_dor_stf_2025", "covers": ["equipment"], "min_investment_usd": 450000000, "min_jobs": 0,
+    "quote": "For counties with a population of 100,000 or more, the minimum capital investment is $450,000,000.",
+    "tip": "Kentucky (KRS 139.499, with KRS 154.20-220 as House Bill 775 amended it, effective 27 June 2025, the Department of Revenue's words): data center equipment of a qualified data center project approved by the Kentucky Economic Development Finance Authority is exempt, where the project invests at least $450,000,000 in a county of 100,000 people or more ($100,000,000 in a county of 50,000 to 100,000; $25,000,000 below 50,000); building materials and electricity are excluded. The tool applies it to the equipment with the largest county's threshold (county populations are not held); its term is the agreement's, not stated, so it runs over the whole horizon here, an upper bound."
    }
   },
   "ms": {

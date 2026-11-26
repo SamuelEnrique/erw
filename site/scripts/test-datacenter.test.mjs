@@ -246,6 +246,11 @@ test("Pennsylvania (Act 25 of 2021, the Department's guidelines): USD 100 millio
   assert.equal(D.dcRun(D.dcDefaults(P, "pa", { invest: 200, perm: 44 }), P).exemption.eligible, false);
 });
 
+test("Kentucky (KRS 139.499, HB 775): USD 450 million in a county of 100,000 or more", () => {
+  assert.equal(D.dcRun(D.dcDefaults(P, "ky", { invest: 450, perm: 10 }), P).exemption.eligible, true);
+  assert.equal(D.dcRun(D.dcDefaults(P, "ky", { invest: 449, perm: 10 }), P).exemption.eligible, false);
+});
+
 test("a check key carries every input and gives the figure back", () => {
   const x = { ...D.dcDefaults(P, "la"), brate: 9.5, matshare: null };
   const k = D.dcKey(x);
