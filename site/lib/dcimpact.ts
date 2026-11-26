@@ -289,6 +289,18 @@ export function dcRun(x: DcInputs, P: DcParams): DcResult {
   };
 }
 
+/** How a datacenter figure is written (the page and check-values both read it): jobs as lib/forecast.ts writes them
+ *  (one decimal under 100, whole from 100), MWh whole, every other figure in US dollars short */
+export function dcDisplay(figure: string, v: number): string {
+  const p = figure.split(":");
+  if (p[1] === "jobs" || p[2] === "jobs") return v.toLocaleString("en-US", { maximumFractionDigits: v < 100 ? 1 : 0 });
+  if (p[p.length - 1] === "mwh") return Math.round(v).toLocaleString("en-US");
+  const a = Math.abs(v);
+  if (a >= 1e9) return `USD ${(v / 1e9).toLocaleString("en-US", { maximumFractionDigits: 2 })} billion`;
+  if (a >= 1e6) return `USD ${(v / 1e6).toLocaleString("en-US", { maximumFractionDigits: 1 })} million`;
+  return `USD ${Math.round(v).toLocaleString("en-US")}`;
+}
+
 // ---- check keys ------------------------------------------------------------------------------------------------------
 export const DC_KEY_ORDER: (keyof DcInputs)[] = ["state", "mw", "invest", "start", "build", "life", "bld", "eq", "land", "refresh", "perm", "cons",
   "opwage", "conswage", "sales", "matshare", "dcex", "brate", "erate", "bldyears", "abate", "abateyears", "mwh", "rate"];

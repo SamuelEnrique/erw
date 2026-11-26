@@ -8,22 +8,15 @@ import { SeriesChart } from "@/components/tool/SeriesChart";
 import { Tip } from "@/components/tool/ToolPage";
 import { Num } from "@/components/Num";
 import { stateName } from "@/lib/impact";
-import { dcDefaults, dcKey, dcRun, dcStat, type DcInputs, type DcParams, type DcResult } from "@/lib/dcimpact";
+import { dcDefaults, dcDisplay, dcKey, dcRun, dcStat, type DcInputs, type DcParams, type DcResult } from "@/lib/dcimpact";
 import { DC_FIELDS, DC_GROUPS, dcClamp, dcResolve, type DcField, type DcProject } from "@/lib/dcui";
 import { jobsText, usdText } from "@/lib/forecast";
 
+export { dcDisplay };
 type View = "a" | "b";
 type Values = Record<string, number>;
 const box = "w-full border border-rule bg-white px-2 py-1 text-sm";
 const plain = (v: number, d = 2) => v.toLocaleString("en-US", { maximumFractionDigits: d });
-
-/** How a datacenter figure is written: jobs as jobs, MWh whole, every other figure in US dollars (as lib/forecast.ts) */
-export function dcDisplay(figure: string, v: number): string {
-  const p = figure.split(":");
-  if (p[1] === "jobs" || p[2] === "jobs") return jobsText(v);
-  if (p[p.length - 1] === "mwh" || p[p.length - 1] === "equipment" || p[p.length - 1] === "building") return p[p.length - 1] === "mwh" ? Math.round(v).toLocaleString("en-US") : usdText(v);
-  return usdText(v);
-}
 
 // ---- the left box ----------------------------------------------------------------------------------------------------
 export function DcGroups({ P2, v, state, set, update, dcList, techState }: { P2: DcParams; v: Values; state: string; set: (k: string, val: number) => void;
