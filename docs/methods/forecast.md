@@ -373,12 +373,12 @@ For one datacenter (the reader's, or an announced project picked from the left b
 
 | Input | Default | Source |
 |---|---|---|
-| MW | 1,000 | the median of the 9 MW the announced projects' documents state (3 to 5,000), each in its own measure |
-| Investment | MW times USD 11.0 million | the median of 8 announced projects' investment per MW, in 2025 dollars (3.0 to 46.8) |
-| Permanent jobs | MW times 0.306122 | the median of 7 projects' permanent jobs per MW (0.05 to 0.667); per billion dollars, 19 projects, median 50 (7.5 to 121.8), shown in the hover |
+| MW | 1,400 | the median of the 10 MW the announced projects' documents state (3 to 5,000), each in its own measure |
+| Investment | MW times USD 10.0 million | the median of 9 announced projects' investment per MW, in 2025 dollars (3.0 to 46.8) |
+| Permanent jobs | MW times 0.314311 | the median of 8 projects' permanent jobs per MW (0.05 to 0.667); per billion dollars, 22 projects, median 52.8 (7.5 to 121.8), shown in the hover |
 | Construction workers each year | investment times 250 a USD billion | the median of 9 projects' construction jobs per billion as announced (63 to 1,218): headcounts, at peak where the document says so |
 
-The medians above were computed on 26 November 2026 from 25 rows (session 10807, part F: Hut 8 River Bend, Amazon in Caddo and Bossier, Applied Digital's Delta Forge 1 added to the 22 of session 10801, whose medians were 1,800 MW, USD 8.33 million a MW, 0.208 jobs a MW and 325 construction jobs a billion). Each new row moves them; `datacenter_announced.json` carries the date it was computed.
+The medians above were computed on 26 November 2026 from 29 rows (session 10811 added Amazon's northern Indiana campuses, Google Fort Wayne, AVAIO Rankin and Compass Lauderdale; session 10807 Hut 8 River Bend, Amazon in Caddo and Bossier and Applied Digital's Delta Forge 1, to the 22 of session 10801, whose medians were 1,800 MW, USD 8.33 million a MW, 0.208 jobs a MW and 325 construction jobs a billion). Each new row moves them; `datacenter_announced.json` carries the date it was computed.
 | Spending split | building 19.6, equipment 68.2, land 6.1 percent (other 6.1) | JLARC Table D-1 |
 | Equipment bought again every | 5 years | JLARC, page 18 |
 | Construction | 2 years | JLARC, page 14: "12 to 18 months" a building |
