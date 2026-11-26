@@ -10,17 +10,17 @@
 
 * the Python mirror beside it printed these lines on 19 October 2026:
 
-*   last twelve months, all streams, USD per kW: 81.40
+*   last twelve months, all streams, USD per kW: 80.40
 
 *   share from ancillary services, percent: 33
 
 *   annual debt payments, USD: 2,261,119
 
-*   debt coverage, last twelve months, times: 2.63
+*   debt coverage, last twelve months, times: 2.58
 
-*   scenario A, NPV at the hurdle rate, USD for 100 MW: -69,779,883
+*   scenario A, NPV at the hurdle rate, USD for 100 MW: -70,423,260
 
-*   scenario A, IRR, percent a year: -8.8
+*   scenario A, IRR, percent a year: -9.3
 
 *   scenario A, breakeven toll, USD per kW-month: 4.19
 
