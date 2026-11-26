@@ -48,6 +48,8 @@
   "wy_39_15_105": {"title": "Wyoming Statutes Title 39, 39-15-105(a)(viii)(S), sales tax exemptions for a data processing services center (with the definition in 39-15-101(a)(xliv))", "url": "https://wyoleg.gov/statutes/compress/title39.pdf", "read": "2026-11-26", "request": 303},
   "il_dor_excise": {"title": "Illinois Department of Revenue, Excise Tax Rates and Fees (the Electricity Excise Tax)", "url": "https://tax.illinois.gov/research/taxrates/excise.html", "read": "2026-11-26", "request": 307},
   "il_dceo": {"title": "Illinois Department of Commerce and Economic Opportunity, Data Center Investment Tax Exemptions and Credits (with its 2025 Data Centers Annual Report, request 248)", "url": "https://dceo.illinois.gov/expandrelocate/incentives/datacenters.html", "read": "2026-11-26", "request": 247},
+  "nd_tax_exempt": {"title": "North Dakota Office of State Tax Commissioner, Property Generally Exempt from Taxation", "url": "https://www.tax.nd.gov/property-tax-exemptions-credits", "read": "2026-11-26", "request": 323},
+  "wi_act12_info": {"title": "Wisconsin Department of Revenue, 2023 Wisconsin Act 12 Information", "url": "https://www.revenue.wi.gov/Documents/2023-Act12-Information.pdf", "read": "2026-11-26", "request": 324},
   "mn_272_02": {"title": "Minnesota Statutes 272.02, Exempt property, subdivision 9 (personal property; exceptions)", "url": "https://www.revisor.mn.gov/statutes/cite/272.02/pdf", "read": "2026-11-26", "request": 320},
   "ia_427a_2": {"title": "Iowa Code 2025, 427A.2, Personal property not subject to property tax", "url": "https://www.legis.iowa.gov/docs/code/2025/427A.2.pdf", "read": "2026-11-26", "request": 319},
   "ga_dor_valuation": {"title": "Georgia Department of Revenue, Property Tax Valuation (O.C.G.A. 48-5-7)", "url": "https://dor.georgia.gov/property-tax-valuation", "read": "2026-11-26", "request": 314},
@@ -197,6 +199,9 @@
   },
   "nd": {
    "name": "North Dakota",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "nd_tax_exempt",
+    "quote": "North Dakota exempts all personal property from property taxation except that of certain oil and gas refineries and utilities.",
+    "tip": "North Dakota (the Office of State Tax Commissioner, citing Century Code 57-02-04 and 57-02-08): \"North Dakota exempts all personal property from property taxation except that of certain oil and gas refineries and utilities\", so a datacenter's equipment owes none. The building's assessment ratio is not read: the tool takes it at cost and the reader's rate, an upper bound."},
    "sales_exemption": {
     "cite": "nd_57_39_2_04_17", "covers": ["equipment"], "min_investment_usd": 0, "min_jobs": 0,
     "quote": "Gross receipts from sales of enterprise information technology equipment and computer software purchased for use by a qualifying business in a qualified data center are exempt from the tax imposed by this chapter.",
@@ -245,6 +250,9 @@
   },
   "wi": {
    "name": "Wisconsin",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "wi_act12_info",
+    "quote": "Exempts personal property from taxation beginning with assessments as of January 1, 2024",
+    "tip": "Wisconsin (2023 Wisconsin Act 12, as the Department of Revenue describes it): personal property, locally assessed and state-assessed manufacturing property alike, is exempt from taxation from the assessments of 1 January 2024, so a datacenter's equipment owes none. The building's assessment is not read: the tool takes it at cost and the reader's rate, an upper bound."},
    "sales_exemption": {
     "cite": "wi_238_40", "covers": ["equipment", "construction"], "min_investment_usd": 150000000, "min_jobs": 0,
     "quote": "For buildings located in a county having a population greater than 100,000, $150,000,000.",

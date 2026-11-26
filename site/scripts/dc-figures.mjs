@@ -56,6 +56,8 @@ export const CASES = [
   { id: "oh_property", state: "oh", set: { invest: 1000, perm: 50, brate: 6, erate: 6, mwh: 800000 } },
   { id: "ia_property", state: "ia", set: { invest: 1000, perm: 50, brate: 2, erate: 2 } },
   { id: "mn_property", state: "mn", set: { invest: 1000, perm: 50, brate: 1.8, erate: 1.8, life: 35 } },
+  { id: "nd_property", state: "nd", set: { invest: 1500, perm: 40, brate: 1.2, erate: 1.2 } },
+  { id: "wi_property", state: "wi", set: { invest: 3300, perm: 100, brate: 1.9, erate: 1.9, matshare: 40 } },
   { id: "mi_2050", state: "mi", set: { invest: 500, perm: 40, life: 30, matshare: 30 } },
   { id: "mt_class17", state: "mt", set: { invest: 100, perm: 5, brate: 60, erate: 60 } },
   { id: "mt_below", state: "mt", set: { invest: 40, perm: 5, brate: 1, erate: 1 } },
