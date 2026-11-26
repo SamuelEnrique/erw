@@ -1,0 +1,4 @@
+ercot:HB_HUBAVG: real time 2401 of 2881, UTC days with no row ['2026-11-06', '2026-11-07', '2026-11-08']; day-ahead 697 of 745, days with no row ['2026-11-08']; day-ahead rows after the render time 24
+ercot:HB_WEST: real time 2401 of 2881, UTC days with no row ['2026-11-06', '2026-11-07', '2026-11-08']; day-ahead 697 of 745, days with no row ['2026-11-08']; day-ahead rows after the render time 24
+caiso:TH_SP15_GEN-APND: real time 2401 of 2881, UTC days with no row ['2026-11-06', '2026-11-07', '2026-11-08']; day-ahead 697 of 745, days with no row ['2026-11-08']; day-ahead rows after the render time 24
+figures checked 32, equal 32
