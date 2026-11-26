@@ -100,7 +100,8 @@ export function Body({ rows, today, children }: { rows: Facility[]; today: strin
             value={<Num check="datacenters|mw_total" raw={totalMw}>{count(totalMw)}</Num>}
             unit="MW"
             note={<span data-mw-by-status="1">
-              Stated by <Num check="datacenters|n_with_mw" raw={withMw.length}>{count(withMw.length)}</Num> of the facilities counted; {noMw} state no MW. By status, as the table has it:{" "}
+              Stated by <Num check="datacenters|n_with_mw" raw={withMw.length}>{count(withMw.length)}</Num> of the facilities counted; {noMw} state no MW. A sum of any basis: IT load, a facility&apos;s
+              total, a tenant&apos;s share or a phase, and for most a figure whose basis the words do not say. By status, as the table has it:{" "}
               {byStatus.map(([k, v], i) => (
                 <span key={k || "blank"}>{i ? ", " : ""}{STATUS_WORDS(k)} <Num check={`datacenters|status_mw|${k}`} raw={v}>{count(v)}</Num> MW</span>
               ))}
