@@ -253,16 +253,22 @@ async function setB(): Promise<Built> {
     const tot: V = { v: b.total, k: `bill|${s}|total`, u: "USD" };
     const wh: V = { v: (b.kwh * price.value) / 1000, k: `bill|${s}|wholesale|${price.ts_utc}`, u: "USD" };
     const sh: V = { v: (wh.v / b.total) * 100, k: `bill|${s}|share|${price.ts_utc}`, u: "%" };
-    return { price: row(M, price, "USD/MWh"), tot, wh, sh, kwh: b.kwh, month: mm.slice(0, 7), partial: !fm.length };
+    return { price: row(M, price, "USD/MWh"), tot, wh, sh, kwh: b.kwh, month: mm.slice(0, 7), partial: !fm.length, hub: hubName(ent) };
   };
   const [ca, tx] = [await w("CA"), await w("TX")];
+  // session 10229 (the problems audit, finding 1): the question names the price its key uses, the kWh it is applied to
+  // and the bill it is set against. Until then it asked "how many dollars are wholesale energy" and left the student to
+  // guess the hub, the weighting and the month: at the month's simple mean PG&E's answer is 26.55 USD, not 26.91.
   const billQ = (id: string, s: "CA" | "TX", x: Awaited<ReturnType<typeof w>>, who: string): Question => ({
     id, tables: [M],
-    q: `On the default ${who} bill of /learn/bill (${x.kwh} kWh), how many dollars are wholesale energy, and what share of the bill is that?`,
+    q: `On the default ${who} bill of /learn/bill (${x.kwh} kWh; taxes and local fees are not on it), how many dollars are wholesale energy, and what share of the bill is that? Value the kWh on the meter, with no losses added, at the load-weighted real-time price of the ${x.hub} in ${x.partial ? "the latest month held" : "the latest complete month"}, ${x.month}.`,
     answer: [x.wh, " of ", x.tot, ": ", x.sh, "."],
     line: [`${x.kwh} kWh x `, x.price, " / 1,000 = ", x.wh, "; ", x.wh, " / ", x.tot, " x 100 = ", x.sh],
     steps: [[`The bill: `, x.tot, ` (the tariff lines on /learn/bill).`], [`Wholesale: ${x.kwh} kWh x `, x.price, ` / 1,000 (${x.month}${x.partial ? ", a partial month" : ""}) = `, x.wh, "."], ["Share: ", x.wh, " / ", x.tot, " x 100 = ", x.sh, "."]],
-    why: "Most of a home's bill pays for wires, programs and fixed charges, not the power itself; how much differs by state.",
+    // session 10229 (the problems audit, finding 2): until then "Most of a home's bill pays for wires, programs and fixed
+    // charges, not the power itself", which the default Oncor bill contradicts: its retailer's energy charge, the power
+    // as the home buys it, is more than half the bill. What is small is the wholesale energy inside it.
+    why: "The wholesale energy is the smaller part of a home's bill. The rest pays for the wires, programs and fixed charges, and for what the power costs the utility or the retailer above the wholesale price (its contracts and hedges, the grid's reserves, the energy lost on the wires, its margin): in Texas the retailer's energy charge alone is more than half the default bill. How much differs by state.",
   });
   const q3 = billQ("b3", "CA", ca, "PG&E (California)");
   const q4 = billQ("b4", "TX", tx, "Oncor (Texas)");

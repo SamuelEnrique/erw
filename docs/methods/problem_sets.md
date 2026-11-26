@@ -6,13 +6,15 @@ Energy Research Warehouse (ERW). Five sets of five questions for a class, writte
 
 - Every figure is computed on the server when the page is built, from the live set (Supabase) or a committed file the site reads (`site/data/bill_rules.json`, `site/data/severance_rules.json`, `site/data/merchant_snapshot.json`, the network snapshot). None is typed.
 - Each figure carries a check key; `site/scripts/check-values.mjs` recomputes it on its own and compares it with the page. A derived figure is `calc|<op>|<A>|<B>` (ratio, difference, percent) of two keys that are each recomputed.
-- The pages are rebuilt at most once an hour, so the numbers move as the tables update.
+- The pages are rebuilt at most once an hour, so the numbers move as the tables update. The sets of the whole country read committed page files instead, and move when the data machine rebuilds a file; each set's page says which (session 10229).
+- **Rounding (session 10229, the problems audit's finding 4).** Every answer is computed from the unrounded figures and printed as a whole number or to two decimals, and each set's page says so. A student who divides the printed figures can differ in the last digit (on 26 November 2026, 3 of the 40 derived figures of the sets of the whole country: the sun's legend 4.37 against 4.36, the capacity factor 1.74 against 1.75, the industrial losses 473.69 against 473.70); one who reads the resource map's legend, which prints one decimal, more often (the sun's ratio 4.31, the wind's gap 0.60 against 0.62). The two questions that send the student to the legend say so in their first step.
 
 ## Which month, which hubs, which days (session 288, Samuel's rulings of 14 October 2026)
 
 - **The latest complete month (ruling 5a).** A month of `cost_of_power_monthly` is complete for a hub when its `rt_hours` equals its `hours_in_month`: every hour held. Set B question 1, the bill questions B3 and B4, and since session 288 B2, B5 and D3 take the latest such month. B5 and D3 read `cost_of_power_hourly_profile`, which has no hour count of its own: they take the latest profile month that is complete for ERCOT's hub average in `cost_of_power_monthly`. Until session 288 these three took the latest month held, often one that had just begun.
 - **All hubs, named and counted (ruling 4).** Set B question 2 names every hub of `cost_of_power_monthly` with its grid (two are CAISO's: NP15 and SP15) and says how many there are. No month is complete at all seven: ISO-NE's internal hub misses hours in most months (720 of 744 hours in August 2026, 576 of 720 in September; whole only in November and December 2024, January and March 2026). So the question takes the latest month in which every hub holds at least 95 percent of its hours, and the worked solution names each hub that is short with its hours, each a checked number. On 14 October 2026 that is August 2026. Until session 288 it read "all six ISO hubs" and listed seven.
 - **The storm's days against as many normal days (ruling 6a).** Set E question 5 sets what the solar plant earned over the event window (18 days for Uri) against the mean baseline day of the same event (the same dates of earlier years) times the window's days. The keys are `mrs|<inputs>|<event>|days`, `|base_mean` and `|base_window`, recomputed from `lib/merchant.ts`'s `stress()`. Until session 288 the window was set against one normal week, seven days, which made the ratio about 2.6 times too large.
+- **What the bill questions value (session 10229, the problems audit's finding 1).** B3 and B4 name the price their key uses: the kWh on the meter, with no losses added, at the load-weighted real-time price of the bill's hub (the CAISO NP15 for PG&E, the ERCOT hub average for Oncor) in the latest complete month, against the bill as /learn/bill builds it, without taxes and local fees. Until then the question asked "how many dollars are wholesale energy" alone; at the month's simple mean, or with the losses counted, the answer differs in its units digit.
 - **The ratio questions (ruling 7a)** ask in the order a student reads: "ERCOT's peak was how many times CAISO's?" (A1, A3, C1, C5).
 
 ## Dated editions, the teacher's copy and the rows (session 293, Samuel's ruling 8a)
@@ -205,6 +207,9 @@ none, so its figures name no table.
   the live set by the data machine (`site/scripts/build-problem-edition.mjs`, which now writes a `pf|` figure as a row of
   its own with the page file as its source). Until then the index and each set's page link no edition for them, and the
   edition and teacher pages list no address for them; the live page carries every worked solution and why it matters.
+  Since the editions of 20 and 21 November 2026 (`site/data/problem_editions/2026-11-20.json` and `2026-11-21.json`,
+  built by the data machine) the sets of the whole country are in the dated editions too, and each set's page links the
+  newest (the problems audit of 26 November 2026, finding 5).
 - The industry page (`/industry`) is another branch's work and not on main; the set names the file's fields and links the
   method note only.
 

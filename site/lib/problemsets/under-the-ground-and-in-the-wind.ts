@@ -64,7 +64,7 @@ export async function build(): Promise<Built> {
     q: `Switch on the layer "${ghi.title}" (${ghi.value_label}). What are the lowest and the highest values of its legend, and the highest is how many times the lowest?`,
     answer: ["Lowest ", gl, ", highest ", gh, ": the sunniest cell receives ", calc("ratio", gh, gl, "times"), " the energy per square metre of the least sunny."],
     line: [gh, " / ", gl, " = ", calc("ratio", gh, gl, "times")],
-    steps: [[`On the resources tab of /map, switch on ${ghi.title}; the legend runs from its lowest to its highest value, in ${ghi.unit}, over every part of the layer (${parts("solar_ghi").join("; ")}), and prints one decimal. In site/data/resources/manifest.json the layer with id solar_ghi holds a legend for the contiguous states and one for each of its other extents: the map's legend runs from the lowest of their lows (${gLow.where}) to the highest of their highs (${gHigh.where}).`],
+    steps: [[`On the resources tab of /map, switch on ${ghi.title}; the legend runs from its lowest to its highest value, in ${ghi.unit}, over every part of the layer (${parts("solar_ghi").join("; ")}), and prints one decimal. In site/data/resources/manifest.json the layer with id solar_ghi holds a legend for the contiguous states and one for each of its other extents: the map's legend runs from the lowest of their lows (${gLow.where}) to the highest of their highs (${gHigh.where}). The answer divides the list's own values, which hold more decimals than the legend prints, so a ratio of the legend's rounded ends can differ in its last digit.`],
       ["Lowest ", gl, ", highest ", gh, "."], ["Divide: ", gh, " / ", gl, " = ", calc("ratio", gh, gl, "times"), "."]],
     why: `A layer's unit says what is counted: here energy from the sun falling on a square metre in an average day, from ${ghi.publisher}, not the output of any panel.`,
   };
@@ -76,7 +76,8 @@ export async function build(): Promise<Built> {
     q: `The layer "${wind.title}": what is the highest value of its legend, what is the highest value in the source's own cells (the list's source_stats, max), and how far apart are they? Why is the map's lower?`,
     answer: ["The legend's highest ", wl, ", the source's highest ", ws, ": the map's is lower by ", calc("diff", ws, wl, wind.unit ?? ""), ", because each map cell is the mean of the source's cells inside it."],
     line: [ws, " - ", wl, " = ", calc("diff", ws, wl, wind.unit ?? "")],
-    steps: [[`Switch on ${wind.title} and read the legend's top; or the layer wind_speed_100m, legend, max: `, wl, "."],
+    // session 10229 (the problems audit, finding 4): the legend prints one decimal; the key subtracts the list's value
+    steps: [[`Switch on ${wind.title} and read the legend's top; or the layer wind_speed_100m, legend, max: `, wl, ". The legend prints it to one decimal; the answer subtracts the list's own value, so a difference from the legend's rounded top can differ in its last digit."],
       [`The source's own grain is ${wind.source_resolution}; the list's source_stats, max, is the highest of its cells: `, ws, "."],
       ["Subtract: ", ws, " - ", wl, " = ", calc("diff", ws, wl, wind.unit ?? ""), ". The Method note says a coarser cell is the mean of the source's cells inside it, and a mean is never above the highest of what it averages."]],
     why: "A map has to average a fine source into larger cells, which lowers the peaks: the windiest spot is windier than any cell of the map shows.",
