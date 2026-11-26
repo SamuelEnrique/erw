@@ -16,7 +16,7 @@ Session 10221, 26 November 2026, chain 710 (part D), the old laptop. `/ai-energy
 - **Smaller, in words.** "2 of them peer-reviewed papers" counts a venue named on the page read, and the publisher kind puts a venue where a publisher belongs (finding 4); the newest date, July 9, 2026, is not the fact sheet's own (it prints none) and the headline does not say so (finding 5); the method note says each estimate of another maker's model says so in its basis, and Strubell's two rows do not (finding 8).
 - **Two choices for Samuel, each a test on its branch, default "left as it is":** the figure drops digits the publication printed (0.10 Wh shows as 0.1; 1.0x10-4 kWh as 0.0001; a value under 0.000001 would show as 0) (finding 6); the filter splits one measure by its parenthesis, 13 choices for 8 measures, so "energy of a fleet in a year" shows 3 of the 5 fleet rows (finding 7).
 - **What an expert's own number would hold:** AI's share of each fleet (none held); the average draw in MW a forecaster uses (Microsoft fiscal 2025: 4,227 MW; Meta 2024: 2,056 MW, worldwide); the series the quoted words already print (Microsoft 3.44 times its fiscal 2020, Meta 2.59 times its 2020); a training figure newer than BLOOM's of November 2022 (4.06 years old); any per-query figure from a maker other than OpenAI and Google.
-- **Five branches fix words and move no figure (1 to 5, and 8: six in all); two show a choice for ruling (6, 7).** Three data requests (the saved copies are on the data machine). Nothing needs the key.
+- **Six branches fix words and move no figure (1 to 5 and 8, merged as `wip/audit-ai-energy-words` for landing); two show a choice for ruling (6, 7).** Three data requests (the saved copies are on the data machine). Nothing needs the key.
 
 ## The ground: each file and what it does
 
@@ -59,7 +59,7 @@ Session 10221, 26 November 2026, chain 710 (part D), the old laptop. `/ai-energy
 | The decisions | 5 | 5, the same keys | 0 |
 
 - **96 of 96 items equal** (`restate.out`). Where `figure` writes a number and the restatement writes its shortest decimal, they agree on all 23 rows; the two places where neither writes the publication's own digits are finding 6.
-- **The build's two checks restated where this machine can:** each value is a number of its own printed words (23 of 23, `1.0x10-4` read as 0.0001); the page file equals `rows.csv` field for field (23 of 23). The words-in-the-saved-copy check needs the saved copies (data request 1 asks for nothing more than the replication's cross-check, already run on 19 November; it is not repeated).
+- **The build's two checks restated where this machine can:** each value is a number of its own printed words (23 of 23, `1.0x10-4` read as 0.0001); the page file equals `rows.csv` field for field (23 of 23). The words-in-the-saved-copy check needs the saved copies, on the data machine; the connector made it at the build of 19 November and refused nothing. It is not asked for again.
 - **What a visitor sees today:** the page is in review (`robots: noindex`, in no menu); it is reached from the tour (stop "Energy per AI query").
 
 ## One rule changed at a time
@@ -117,13 +117,119 @@ Each line changes one choice and keeps every other. The base is the page file of
 
 | # | Severity | Finding | Effect | Fix | Branch |
 |---|---|---|---|---|---|
-| 1 | Medium | The caption and the tour say the rows are AI's; 5 of 23 are a company's whole consumption (AI and all else, every country), the two largest numbers on the page among them | a fleet quoted as AI | words | `wip/audit-ai-energy-1` |
-| 2 | Medium | "No two publications measure the same thing": the search behind the Evolved Transformer is two publications' rows, 87.5 to 1, under two measures, never joined | the most quoted figure on the page stands without the publisher's own | words | `wip/audit-ai-energy-2` |
-| 3 | Low | The lead: "every figure", "a token" | 0 rows per token; 9 publications, a first reading | words | `wip/audit-ai-energy-3` |
-| 4 | Low | "2 of them peer-reviewed papers": a venue named on the page read; the publisher kind holds a venue | 2 of 9, perhaps 4 | words | `wip/audit-ai-energy-4` |
-| 5 | Low | The newest date is not the publication's own, unsaid in the headline | 2 of 9 dates are the ERW's reading | words | `wip/audit-ai-energy-5` |
-| 6 | Low | The figure drops printed digits; a value under 0.000001 would show as 0 | 2 of 23 rows' look | for ruling | `wip/audit-ai-energy-6` (test only) |
-| 7 | Low | The filter splits one measure by its parenthesis | 13 choices for 8 measures; 3 of 5 fleet rows | for ruling | `wip/audit-ai-energy-7` (test only) |
-| 8 | Low | The note says each estimate of another's model says so in its basis; Strubell's two do not | the note only | words | `wip/audit-ai-energy-8` |
+| 1 | Medium | The caption and the tour say the rows are AI's; 5 of 23 are a company's whole consumption (AI and all else, every country), the two largest numbers on the page among them | a fleet quoted as AI | words | `wip/audit-ai-energy-1` (`f1a90f3ec`) |
+| 2 | Medium | "No two publications measure the same thing": the search behind the Evolved Transformer is two publications' rows, 87.5 to 1, under two measures, never joined | the most quoted figure on the page stands without the publisher's own | words | `wip/audit-ai-energy-2` (`e9d8f1080`) |
+| 3 | Low | The lead: "every figure", "a token" | 0 rows per token; 9 publications, a first reading | words | `wip/audit-ai-energy-3` (`198c462f4`) |
+| 4 | Low | "2 of them peer-reviewed papers": a venue named on the page read; the publisher kind holds a venue | 2 of 9, perhaps 4 | words | `wip/audit-ai-energy-4` (`c35769b54`) |
+| 5 | Low | The newest date is not the publication's own, unsaid in the headline | 2 of 9 dates are the ERW's reading | words | `wip/audit-ai-energy-5` (`42e7fef63`) |
+| 6 | Low | The figure drops printed digits; a value under 0.000001 would show as 0 | 2 of 23 rows' look | for ruling | `wip/audit-ai-energy-6` (`643901d36`, test only) |
+| 7 | Low | The filter splits one measure by its parenthesis | 13 choices for 8 measures; 3 of 5 fleet rows | for ruling | `wip/audit-ai-energy-7` (`5ad31bf5f`, test only) |
+| 8 | Low | The note says each estimate of another's model says so in its basis; Strubell's two do not | the note only | words | `wip/audit-ai-energy-8` (`ad595f0cf`) |
 
-(The finding sections, the branches' heads and the drawn reads follow in the next version of this file.)
+The six words branches conflict in `page.tsx` (the lead and its hint, 2 and 3; the two headline notes, 4 and 5), so they are also merged, conflicts resolved by keeping every change: `wip/audit-ai-energy-words` (`a97ee059e`).
+
+## 1. The largest numbers on the page are not AI's (Medium)
+
+- **Where.** `site/app/ai-energy/page.tsx`, the table's caption ("Every published figure of the energy of AI, as printed") and the page's name; `site/lib/tour.ts`, the tour's line ("The energy a query to an AI model uses").
+- **Why it is wrong.** Five rows are a company's consumption in a year: Google's total energy, 12.2 TWh (2019) and 15.4 TWh (2020), as Google's papers cite Google's reports; Microsoft's, 10.8 TWh (2020, the same) and 37,026,353 MWh (fiscal 2025, "its datacenters and offices together"); Meta's data centers, 18,061,781 MWh (2024). Each holds AI work and everything else (search, mail, advertising, offices), and each company counts every country it runs in. No row gives AI's share. The two largest numbers on the page are of this kind. An expert sets Microsoft's 37.03 TWh beside the United States and finds it 2.51 percent of US commercial sales over the same twelve months; a journalist who reads "the energy of AI" above it reports that AI.
+- **The test.** `tests/test_audit_ai_energy_1.py`: five rows measure a fleet, none states AI's share or the United States, the largest is Microsoft's (passes on main); the words test fails on main.
+- **The fix on the branch, words only.** Above the table: "A fleet's figure is a company's whole consumption in a year, as the company reports it (its data centers, or its data centers and offices together): AI and every other use in it, wherever the company runs them, not the United States alone. No figure here gives AI's share of a fleet." The caption: "Every figure read, as printed: the energy of AI work, and of whole fleets that run AI among everything else". The tour: "Energy figures as each publisher printed them: an AI query, a training run, or a company's whole fleet with AI among the rest, with who measured it and how." No figure moves.
+- **For Samuel's ruling (words).** The page's name, "Energy per AI query, as published", fits 7 of its 23 rows. Default: the name as it is.
+- **Data request 3** asks the saved copies for each fleet's stated geography.
+
+## 2. One search, two publications, never joined (Medium)
+
+- **Where.** `site/app/ai-energy/Decisions.tsx`, `no-pair` ("since no two publications measure the same thing in the same way"); the lead's hint "what it measures" ("Each publication measures something different ... The figures are not comparable with one another"); the method note's decisions table.
+- **Why it is wrong.** Strubell and others (ACL 2019) estimated the neural architecture search that produced the Evolved Transformer at 656,347 kWh times PUE, on 8 P100 GPUs; the authors of the search's own company (Patterson and others, 2022) printed 7.5 MWh for it. Both rows name the search in their subject; the first is 87.5 times the second. Strubell's is a widely quoted figure of AI's energy; whether the 2022 paper's saved copy answers it in so many words is data request 2. On the page the two rows sit under two measures ("energy of a training run (kWh times PUE)" and "energy of a training run"), so a reader filtering either sees one of them; nothing says the other exists, and the decisions say it cannot.
+- **The test.** `tests/test_audit_ai_energy_2.py`: the two rows name the same search, in two publications, under two measures (passes on main); the words test fails on main, and holds that no ratio of the ERW's own is printed.
+- **The fix on the branch, words only.** The decision: "Most publications measure different things; where two give a figure for the same thing, both rows stand, each with its subject, and neither is preferred: the neural architecture search that produced the Evolved Transformer has Strubell and others' estimate (2019, in kWh times PUE) and Google's authors' own figure (2022), under two measures." The hint and the note's line say the same. The page computes no ratio, by its rule. No figure moves.
+- **Data request 2** asks whether the saved copy of the 2022 paper prints its own comparison with Strubell's estimate (a printed figure could then be a row by the table's rule).
+
+## 3. The lead promises what the rows do not hold (Low)
+
+- **Where.** `site/app/ai-energy/page.tsx`, the lead: "Every figure a model maker, a cloud operator or a peer-reviewed paper has printed for the energy of an AI query, a token, a training run or a fleet".
+- **Why it is wrong.** "Every figure" is nine publications read on 19 November, which the method note calls "the first reading, not every figure ever printed" (Google's own environmental reports were not read, their host's robots file disallowing it). "A token": no row is per token; the one per-token figure read ("From Words to Watts", about 3 to 4 joules a token) was left out because its arXiv page names no venue. The decisions' last line says which publications; the lead, read first, says every.
+- **The test.** `tests/test_audit_ai_energy_3.py`: no row measures a token and the note says a first reading (passes on main); the words test fails on main.
+- **The fix on the branch, words only.** "Each figure the publications read so far print for the energy of an AI query, a training run, a deployment or a fleet (a model maker's, a cloud operator's or a peer-reviewed paper's), not every figure ever printed, in the publication's own words, ...". No figure moves.
+- **Not changed here:** the table's one-line description in the codebook (`docs/redivis/codebook/tables.csv` and the files built from it: "per query, per token, ...") is window B's; a row for it is returned to the chain's main session.
+
+## 4. "2 of them peer-reviewed papers" (Low)
+
+- **Where.** `site/app/ai-energy/page.tsx`, the headline note; the publisher kind in the table.
+- **Why it matters.** The count reads rows whose publisher kind is "peer-reviewed paper", "yes" only where the page the session read names a venue (the method note's rule). A paper that appeared in a journal whose arXiv page does not say so counts as a preprint: by an expert's knowledge (not verified here, no web read) BLOOM's paper is the one in the Journal of Machine Learning Research (2023) and the 2022 Patterson paper the one in IEEE Computer (2022), which would make 4 of 9. And the publisher kind puts a venue where a publisher belongs: Hugging Face's FAccT paper is listed under "peer-reviewed paper", its BLOOM paper under "model maker".
+- **The test.** `tests/test_audit_ai_energy_4.py`: two titles by the rule, each naming its venue; the publisher kinds as said (passes on main); the words test fails on main.
+- **The fix on the branch, words only.** The note reads "2 of them peer-reviewed papers, counted only where the page the ERW read names the venue". The count does not move.
+- **Data request 1** asks the saved copies whether they print a venue.
+
+## 5. The newest date is the ERW's reading (Low)
+
+- **Where.** `site/app/ai-energy/page.tsx`, the headline "Newest: July 9, 2026" and its note.
+- **Why it matters.** Microsoft's fact sheet prints no date; the session took July 9, 2026 from the address of the post that launched the report. Meta's index is dated by Meta's news page. Each figure's hover says so in its basis; the headline, the one date a reader sees first, does not. By the dates the publications print themselves, the newest would be Google's paper of August 21, 2025.
+- **The test.** `tests/test_audit_ai_energy_5.py`: the newest row is Microsoft's, its basis says the fact sheet prints no date, and two publishers' dates are taken this way (passes on main); the words test fails on main.
+- **The fix on the branch, words only.** The note adds "A date is the one the publication prints, or, for a company report that prints none, the date of the post that launched it (the figure's hover says which)". No figure moves.
+
+## 6. The figure drops printed digits (Low, for ruling)
+
+- **Where.** `site/lib/aienergy.ts`, `figure` ("digits as given, grouped, never converted"); the decision `as-printed` ("the number its publication printed").
+- **Why it matters.** `figure` writes the float. Google's narrow-boundary figure, printed "0.10 Wh", shows as "0.1 Wh"; Luccioni and others' "1.0x10-4 kWh" shows as "0.0001 kWh". No value changes, but a reader comparing the figure with the quoted words beside it sees a different number of digits. And a value under 0.000001 in its unit (a per-token figure in kWh, if one is added) would show as "0"; 3.4e-7 shows as "3.4e-7".
+- **The test.** `tests/test_audit_ai_energy_6.py` on `wip/audit-ai-energy-6` (a test only, passes on main, through `tests/audit_ai_energy_6_figure.mjs`, the page's own `figure` under Node): the two rows, the other 21 equal to their printed digits, the small values.
+- **For Samuel's ruling.** Default "left as it is". The other choice: the figure written with the digits printed (the source row would carry them as text). Measured: 2 of 23 figures change how they look (0.1 to 0.10 Wh; 0.0001 to 1.0x10-4 kWh); no value moves; the zero for a small value goes.
+
+## 7. The filter splits one measure (Low, for ruling)
+
+- **Where.** `site/app/ai-energy/page.tsx`, "What is measured"; `measures` in `site/lib/aienergy.ts` (each `x_measures` once).
+- **Why it matters.** A qualifier in parentheses makes a measure of its own: 13 choices hold 8 measures. A forecaster who chooses "energy of a fleet in a year" sees 3 rows (Google's 2019 and 2020 and Microsoft's 2020, as Google's papers cite them) and not Meta's or Microsoft's own reports, which sit under two further choices; "energy of a training run" shows 7 of the 9 training rows, not Strubell and others' two. The browser read of 20 November took the fleet choice as answering the forecaster; it answers three fifths of him.
+- **The test.** `tests/test_audit_ai_energy_7.py` on `wip/audit-ai-energy-7` (a test only, passes on main, through `tests/audit_ai_energy_7_measures.mjs`).
+- **For Samuel's ruling.** Default "left as it is". The other choice: the filter groups on the words before the parenthesis, the qualifier kept in the row. Measured: 13 choices to 8; the fleet choice 3 rows to 5; the training choice 7 to 9.
+
+## 8. The method note says the basis names the other maker (Low)
+
+- **Where.** `docs/methods/ai_energy_published.md`, Limits: "Several figures are one publisher's estimate of another's model ...; `x_basis` says so."
+- **Why it is wrong.** The three rows' basis says "the paper's estimate" and names no other maker. The subject names it for GPT-3 ("OpenAI's model") and for the search ("So et al."); BERT's row ("BERT base on 64 V100 GPUs") names no maker, though BERT is Google's model, which Strubell and others priced on hardware it was not trained on.
+- **The test.** `tests/test_audit_ai_energy_8.py`: the basis and subjects as said (passes on main); the note's words fail on main.
+- **The fix on the branch, words only (the note).** The note says what the rows say. Making BERT's subject name Google would change the source row and the page file (the connector, on the data machine): not done; a row for the data machine.
+
+## The words branches drawn and read
+
+Each branch's page was drawn to HTML with the site's own code (`draw_ai.mjs`: `app/ai-energy/page.tsx` whole, as a visitor meets it, with every order and measure), and its new sentences read in the drawn text; the hint's words are drawn in the hover's `title`, where they were read. The tour's line was drawn by the site's own `scripts/test-tour-render.mjs` (exit 0 on branch 1 and on the merge). No em dash in any drawing.
+
+| Branch | Where the words are drawn | Read |
+|---|---|---|
+| `wip/audit-ai-energy-1` | above the table; the caption; the tour's stop | pass: "A fleet's figure is a company's whole consumption in a year, ... not the United States alone." follows "Every figure, as printed"; the caption reads "Every figure read, as printed: the energy of AI work, and of whole fleets that run AI among everything else"; the tour draws |
+| `wip/audit-ai-energy-2` | the decisions fold; the hint "what it measures" (its hover) | pass: "... where two give a figure for the same thing, both rows stand, each with its subject, and neither is preferred: the neural architecture search that produced the Evolved Transformer ..."; the hover ends "both rows stand, each with its subject." |
+| `wip/audit-ai-energy-3` | the lead | pass: "Each figure the publications read so far print for the energy of an AI query, a training run, a deployment or a fleet (...), not every figure ever printed, in the publication's own words, with its date and what it measures." |
+| `wip/audit-ai-energy-4` | the headline | pass: "Publications 9 2 of them peer-reviewed papers, counted only where the page the ERW read names the venue" |
+| `wip/audit-ai-energy-5` | the headline | pass: "... Data Fact Sheet. A date is the one the publication prints, or, for a company report that prints none, the date of the post that launched it (the figure's hover says which)" |
+| `wip/audit-ai-energy-8` | the method note (not drawn: a note) | read in the file |
+| `wip/audit-ai-energy-words` | every place above | pass: all six sentences drawn; the restatement run on the merged drawing gives 95 of 96 equal, the one difference the Newest note's new words: no figure moved |
+
+- Tests on the merge: the six words tests with every test file that reads the changed files (`test_session8012_ai_energy`, `8005_ai_energy_and_resources`, `9871`, `8902_tour`, `8905_tour_resources`, `9203_tour_stop8`, `9601_tour_headings`, `9601_back_button`, `292`, `53`): 68 passed. On origin/main the six words tests fail (6 failed) and the six behaviour tests pass (6 passed) (`on_main.out`). Branches 6 and 7: 18 passed each with the page's two test files.
+
+## The decisions block, line by line
+
+1. `as-printed`, the printed number and unit, no unit converted: **right** for the value and the unit; the digits drop twice (finding 6).
+2. `no-sum`, nothing averaged, summed or set against another: **right** (the tests hold it).
+3. `order`, publisher A to Z, never by size: **right**.
+4. `no-pair`: the rule is kept; its reason is false once (finding 2).
+5. `which-publications`, nine publications on 19 November 2026: **right**, and it is what the lead should say (finding 3).
+
+## Not covered, or left open
+
+- **The saved copies.** The words-in-the-copy check and the venue, share and geography questions need `warehouse/raw/ai_energy_published/`, on the data machine (data requests 1 to 3). The connector refused nothing on 19 November, and the replication's cross-check ran then.
+- **The publications not read.** Whether a figure was misread from its publication can only be checked against the publication; no web read here.
+- **The words cell's page.** The Altman row's page is "the post (one page)", drawn as "(p. the post (one page))" and in its hover "Page the post (one page) of the publication": awkward, not false. No branch.
+- **The page in a browser:** drawn to HTML; the browser read of 20 November covers widths and the keyboard.
+
+## Landing, rulings and data (returned to the chain's main session)
+
+- **For landing (words only):** `wip/audit-ai-energy-words` (`a97ee059e`), the merge of `wip/audit-ai-energy-1` (`f1a90f3ec`), `-2` (`e9d8f1080`), `-3` (`198c462f4`), `-4` (`c35769b54`), `-5` (`42e7fef63`) and `-8` (`ad595f0cf`), conflicts resolved by keeping every change. Each was drawn and read (pass). The page's figures do not move. Files: `site/app/ai-energy/page.tsx`, `site/app/ai-energy/Decisions.tsx`, `site/lib/tour.ts`, `docs/methods/ai_energy_published.md`, six test files.
+- **For Samuel's ruling, default "left as it is":**
+  - Finding 6, `wip/audit-ai-energy-6` (`643901d36`), not for landing: write each figure with the digits printed; 2 of 23 figures change how they look (0.1 to 0.10 Wh, 0.0001 to 1.0x10-4 kWh), no value moves.
+  - Finding 7, `wip/audit-ai-energy-7` (`5ad31bf5f`), not for landing: group the filter on the words before the parenthesis; 13 choices to 8, the fleet choice 3 rows to 5, the training choice 7 to 9.
+  - Finding 1, words, no branch: the page's name "Energy per AI query" fits 7 of 23 rows; default the name as it is.
+- **Data requests (the data machine, `warehouse/raw/ai_energy_published/20261119T1230Z/`, no request to any service):**
+  1. In `bloom_2022` and `patterson_2022`'s saved text, is a venue printed (the Journal of Machine Learning Research; IEEE Computer)? Return each line that names one, or "none". Feeds finding 4.
+  2. In `patterson_2022`'s saved text, the sentences that give machine learning's share of Google's energy use and that compare the search behind the Evolved Transformer with Strubell and others' estimate, each with its page. Feeds finding 2 and the expert's AI share.
+  3. In `microsoft_2026_fact_sheet` and `meta_2025_data_index`'s saved text, the words that state the geography of the electricity tables (global, worldwide, by country, United States). Feeds finding 1.
+- **For window B (the codebook):** the table's one-line description says "per query, per token, of a training run or of a fleet"; no row is per token (finding 3).
+- **Needs the key:** nothing.
