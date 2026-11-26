@@ -390,7 +390,11 @@ export function EquitiesView({ query }: { query: Raw }) {
   const options = picks.map((p) => ({ value: p.id, label: p.label }));
   const priceOptions = (real?.series ?? []).map((x) => ({ value: x.id, label: `${x.label} (${x.status === "shown" ? x.unit : blankWords(x.status)})` }));
   const tables = [...new Set([...(list.tables ?? []), ...(price?.table ? [price.table] : [])])];
-  const nothing = heldWhy(list, ["companies", "indices", "prices"]) || "The list holds no company, index or segment line, and does not say why.";
+  // session 10407 (the browser read of 26 November, row EQ1): the blank's face takes its words from the first reason
+  // the list holds of the prices, the companies and the indices, and its hover gave the reasons in another order, so
+  // the face read "license needed" over a hover that began "source needed". One order for both: the hover begins with
+  // the reason the face names, then gives the others.
+  const nothing = heldWhy(list, ["prices", "companies", "indices"]) || "The list holds no company, index or segment line, and does not say why.";
   return (
     <div data-equities="1" data-eq-state="files" data-eq-window={q.win} data-eq-picks={picks.length}>
       {header}

@@ -210,7 +210,9 @@ class CaptureTimesGenerationIsRevenue(unittest.TestCase):
 class TheFiles(unittest.TestCase):
     def test_the_hybrid_file_holds_the_two_open_grids_and_no_paused_one(self):
         self.assertEqual(sorted(FILE["grids"]), ["caiso", "ercot"])
-        self.assertEqual(sorted(FILE["years"]), ["caiso", "ercot", "isone", "nyiso", "spp"])
+        # session 10000 (chain 701, done-line request 576): NYISO and ISO-NE are held for a license, so their year files
+        # are no longer offered (they were served to any visitor)
+        self.assertEqual(sorted(FILE["years"]), ["caiso", "ercot", "spp"])
         self.assertNotIn("miso", json.dumps(FILE).lower())
         self.assertNotIn("pjm", json.dumps(FILE).lower())
         for grid, g in FILE["grids"].items():

@@ -42,7 +42,9 @@ export default function About() {
           summary and link, never its body. Titles and summaries are the outlets&apos; text, kept for scoring and linking; they are not republished.
         </p>
         <p>
-          <strong>Scoring.</strong> A model (the newest Sonnet-class Claude model the API lists) scores every story against a fixed rubric
+          {/* session 10238 (docs/reviews/small-pages-audit-2026-11-26.md, finding 3): warehouse/news/score.py, NEWS_SCORE_MODEL (session 206) */}
+          <strong>Scoring.</strong> A model (Claude Haiku 4.5, the one model fixed for scoring since 12 October 2026; the digest&apos;s other steps
+          use the newest Sonnet-class model the API lists) scores every story against a fixed rubric
           (<a href={`${site.repository}/blob/main/warehouse/news/rubric.md`}>warehouse/news/rubric.md</a>): significance from 0 to 10 across the whole
           energy industry, a sector, a region, and a one-line reason. Stories about the same event are grouped into one cluster, and clusters are ranked by
           their highest significance. The ranking decides the order; the score itself is not shown.
@@ -112,10 +114,13 @@ export default function About() {
           summary when it names one, and so do the stories, which come from the news index.
         </p>
         <p>
-          <strong>Schedule.</strong> The digest covers the 24 hours before it is written, Monday to Friday, by the daily run that starts at 14:00 UTC;
+          {/* session 10238, small pages audit finding 8: warehouse/news/brief.py window_start (WINDOW_CAP_HOURS = 96, session 2701); the v2 Roundup (session 2704) */}
+          <strong>Schedule.</strong> The digest covers the news since the previous issue was written, at most 96 hours back (about 24 hours on a
+          weekday after a weekday, the weekend in Monday&apos;s issue), Monday to Friday, by the daily run that starts at 14:00 UTC;
           there is no weekend issue. A day without a digest, before it is written or when none was, says so on its page and shows no other day&apos;s.
-          ERW&apos;s Roundup covers an ISO week (Monday to Sunday, UTC), opens with the weekend&apos;s top stories, and is written and sent on Sundays at
-          23:00 UTC (4 PM Pacific). It was called Energy Week, on Mondays, until session 23.
+          ERW&apos;s Roundup covers an ISO week (Monday to Sunday, UTC), opens with its opening number and the week in five numbers (the weekend&apos;s stories are under More), and is written and sent on Sundays at
+          23:00 UTC (4 PM Pacific in summer time; 3 PM from early November to mid-March, when the Pacific coast keeps standard time). It was
+          called Energy Week, on Mondays, until session 23.
         </p>
         <p>
           <strong>Chart of the day.</strong> Since 13 October 2026 each digest carries a chart drawn by code, with no model and no person choosing it: the

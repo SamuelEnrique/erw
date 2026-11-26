@@ -19,6 +19,8 @@ import { SiteLink } from "@/components/SiteLink";
 import { CategoryChart, type CatSeries } from "@/components/svgchart";
 import { ToolTabs } from "@/components/tool/Choose";
 import { ChartFrame, HeadlineNumber, InputPanel, SourceLine, ToolHeader, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+// session 10407 (the browser read of 26 November, row FC1): the mark that opens on a hover, a tap and the keyboard
+import { Tip } from "@/components/tool/ToolPage";
 import { scrollRegion } from "@/lib/cells";
 import { pfKey } from "@/lib/pagefile";
 import {
@@ -28,6 +30,8 @@ import {
 } from "@/lib/predict";
 // session 10405 (chain 720, part E): the day's peak and the days after tomorrow (the contract's changes of session 10601)
 import { PEAK_HOURS, PEAK_SPANS, aheadDays, aheadOf, madeOffRule, pctWords, type AheadFile } from "@/lib/predict";
+// session 10406 (chain 720, part E): the separate line "with the weather known" (not a forecast)
+import { WEATHER_LABEL, WEATHER_METHODS, WEATHER_SPANS } from "@/lib/predict";
 import { predictAhead, predictIndex, predictLedger, predictPlace, predictScores } from "@/lib/predictfiles";
 
 type Raw = Record<string, string | string[] | undefined>;
@@ -57,7 +61,11 @@ function sourceWords(slot: Slot, ser: PlaceSeries, s: SeriesKey, scores: ScoresF
 }
 
 /** The place's heading: its name, and on hover the hour the forecast was made and the method the place uses. */
-function PlaceHead({ slot, s, index }: { slot: Slot; s: SeriesKey; index: PredictIndex }) {
+/** `tip` (session 10407; the browser read's row FC1): the same words behind a mark that a finger and the keyboard open
+ *  too, beside the name. The name's own hover answers a mouse alone, so on a phone or with the keyboard a reader could
+ *  not learn when the forecast was made or how old the figures it rests on are. Given once a place, where tomorrow's
+ *  forecast is drawn; the value is the mark's id on the page. */
+function PlaceHead({ slot, s, index, tip }: { slot: Slot; s: SeriesKey; index: PredictIndex; tip?: string }) {
   const ser = slot.file?.series?.[s];
   const shown = isShown(slot.file, ser);
   const why = shown && ser
@@ -66,6 +74,7 @@ function PlaceHead({ slot, s, index }: { slot: Slot; s: SeriesKey; index: Predic
   return (
     <h3 className="mb-2 font-serif text-xl text-accent" data-fc-place={slot.mark}>
       <span className="cursor-help border-b border-dotted border-muted" title={why}>{placeWords(slot.place)}</span>
+      {tip ? <span className="font-sans" data-fc-made={slot.mark}><Tip id={tip} label={shown ? `when the ${LABEL} for ${placeWords(slot.place)} was made, from which figures and by which method` : `why nothing is drawn for ${placeWords(slot.place)}`}>{why}</Tip></span> : null}
       {s === "price" && shown && ser?.hub ? <span className="ml-2 font-sans text-sm text-ink" title={`The hub the price forecast is of, ${ser.market ?? "day-ahead"} market.`}>{ser.hub}, {ser.market ?? "day-ahead"}</span> : null}
     </h3>
   );
@@ -93,7 +102,7 @@ function Tomorrow({ slot, s, index, scores }: { slot: Slot; s: SeriesKey; index:
     const example = slot.file?.example === true || index.example === true;
     return (
       <div className="min-w-0" data-fc-tomorrow={slot.mark} data-fc-shown="0">
-        <PlaceHead slot={slot} s={s} index={index} />
+        <PlaceHead slot={slot} s={s} index={index} tip={`fc-made-${slot.mark}`} />
         <Blank what={`${LABEL} of ${SERIES_WORDS[s].toLowerCase()}, ${placeWords(slot.place)}`} words={blankWords(of?.status, example)} why={blankWhy(of, example)} k={`tomorrow|${k}`} />
       </div>
     );
@@ -103,7 +112,7 @@ function Tomorrow({ slot, s, index, scores }: { slot: Slot; s: SeriesKey; index:
     // a shown series whose target day holds no forecast (the contract's `tomorrow_held`): the blank says why
     return (
       <div className="min-w-0" data-fc-tomorrow={slot.mark} data-fc-shown="0">
-        <PlaceHead slot={slot} s={s} index={index} />
+        <PlaceHead slot={slot} s={s} index={index} tip={`fc-made-${slot.mark}`} />
         <Blank what={`${LABEL} of ${SERIES_WORDS[s].toLowerCase()}, ${placeWords(slot.place)}${ser.target_day ? `, ${dayWords(ser.target_day)}` : ""}`} words={shortHeld(ser.tomorrow_held)} why={ser.tomorrow_held ?? "The file holds no forecast for the day forecast now, and does not say why."} k={`tomorrow|${k}`} />
       </div>
     );
@@ -121,7 +130,7 @@ function Tomorrow({ slot, s, index, scores }: { slot: Slot; s: SeriesKey; index:
   const none = (why: string, words?: string) => <span className="font-sans text-base"><NotHeld words={words} why={why} /></span>;
   return (
     <div className="min-w-0" data-fc-tomorrow={slot.mark} data-fc-shown="1" data-fc-hours={hours.length}>
-      <PlaceHead slot={slot} s={s} index={index} />
+      <PlaceHead slot={slot} s={s} index={index} tip={`fc-made-${slot.mark}`} />
       <div className="mb-4 grid gap-4 sm:grid-cols-3">
         <HeadlineNumber label="Highest hour" unit={top ? unit : undefined}
           value={top ? fig(top.hour, "erw", top.v, "top", `The highest hour of the ${LABEL}, the hour beginning ${localWords(top.hour.ts, tz)}.`) : none("No hour of the forecast is held.")}
@@ -398,6 +407,27 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
           : <Num key={m} check={pfKey(file, ["series", "demand", "peak", span, "methods", m, field])} raw={v} source={`${methodWords(m)}, ${placeWords(x.slot.place)}, ${words.toLowerCase()} (${when}): ${what}. site/data/${file}.`}>{field === "mae" || field === "mape" ? scoreWords(v, field, unit) : pctWords(v)}</Num>;
       })];
   };
+  // session 10406 (chain 720, part E): the separate line "with the weather known" (a place file's
+  // series.demand.with_weather_known; the contract's change of session 10601). It reads the target day's own observed
+  // temperature, so it is not a forecast: it has a table of its own under those words, is in no chart and no other
+  // table, and is never called the ERW forecast. Beside it, the regression and the operator on the same hours.
+  const weathered = s === "demand" && info.some((x) => WEATHER_SPANS.some(([span]) => !!x.ser?.with_weather_known?.[span]));
+  const weatherWhat = info.map((x) => x.ser?.with_weather_known?.what).find(Boolean);
+  const weatherCells = (x: (typeof info)[number], span: (typeof WEATHER_SPANS)[number][0], words: string): ReactNode[] | null => {
+    const p = x.ser?.with_weather_known?.[span];
+    if (!x.ser || !p) return null;
+    const file = fileOf(x.slot);
+    const when = p.first_day && p.last_day ? `${p.first_day} to ${p.last_day}` : "days the file does not say";
+    return [p.hours !== null && p.hours !== undefined
+      ? <Num key="h" check={pfKey(file, ["series", "demand", "with_weather_known", span, "hours"])} raw={p.hours} source={`The hours scored, ${when}: the hours the region's temperature, what happened and all three lines are held.`}>{p.hours.toLocaleString("en-US")}</Num>
+      : <NotHeld key="h" why="No count of hours is in the file." />,
+      ...WEATHER_METHODS.map((m) => {
+        const v = p[metric]?.[m];
+        return v === null || v === undefined
+          ? <NotHeld key={m} why={`No score of ${methodWords(m).toLowerCase()} on these hours is in the file.`} />
+          : <Num key={m} check={pfKey(file, ["series", "demand", "with_weather_known", span, metric, m])} raw={v} source={`${m === "with_weather_known" ? `${WEATHER_LABEL} (not a forecast: it reads the day's own weather)` : methodWords(m)}, ${placeWords(x.slot.place)}, ${words.toLowerCase()} (${when}): ${METRIC_WORDS[metric].toLowerCase()}, ${mu}, on the hours the weather is held. site/data/${file}.`}>{scoreWords(v, metric, unit)}</Num>;
+      })];
+  };
   return (
     <div data-fc-record={slots.map((x) => x.mark).join("")}>
       <div className="mb-5" data-fc-summary="1">
@@ -427,6 +457,16 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
               ...PEAK_HOURS.map(([field, name, what]) => ({ key: `${span}|${field}`, name: <span className="cursor-help" title={`${what[0].toUpperCase()}${what.slice(1)}.`}>{words}: {name}, %</span>,
                 cells: info.map((x) => peakCells(x, span, field, words, what)) })),
             ])} />
+        </div>
+      ) : null}
+      {weathered ? (
+        <div className="mb-5" data-fc-weather="1">
+          <h4 className="mb-1 text-sm font-semibold"><span className="cursor-help" title={`Not a forecast, and never the ${LABEL}: ${weatherWhat ?? "the regression with the target day's own observed temperature added"}.${scores && (scores as { separate_lines?: Record<string, string> | null }).separate_lines?.with_weather_known ? ` The score file's words: ${(scores as { separate_lines?: Record<string, string> | null }).separate_lines!.with_weather_known}.` : ""}`}>{WEATHER_LABEL}</span> (not a forecast), beside the regression and the operator on the same hours, {mu}</h4>
+          <ScoreTable k="weather" first="Span" caption={`${names}with the weather known, which is not a forecast: ${METRIC_WORDS[metric].toLowerCase()} of the regression with the day's own observed temperature added, of the regression and of the operator's forecast, on the hours the weather is held, ${mu}`}
+            groups={info.map((x) => ({ key: x.slot.mark, name: placeWords(x.slot.place), held: x.held, heads: ["Hours", ...WEATHER_METHODS.map((m) => (m === "with_weather_known"
+              ? <span key={m} className="cursor-help" title={`${WEATHER_LABEL}: not a forecast. ${weatherWhat ?? ""}`}>{WEATHER_LABEL}</span>
+              : <MethodHead key={m} m={m} scores={scores} />))] }))}
+            rows={WEATHER_SPANS.map(([span, words]) => ({ key: span, name: words, cells: info.map((x) => weatherCells(x, span, words)) }))} />
         </div>
       ) : null}
       {table("month", "Month", (key) => monthWords(key), "By month", (key) => monthWords(key), "months")}

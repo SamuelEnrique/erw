@@ -474,6 +474,14 @@ def write_json(path, obj):
         json.dump(obj, f, ensure_ascii=False, separators=(",", ":"), default=str)
 
 
+def held_isos():
+    """The gallery's iso codes of the grids held for a license (license_status.held_grids), MISO aside (its pause)."""
+    sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
+    import license_status as lstat
+    code = {"NYISO": "nyiso", "ISO-NE": "isone", "PJM": "pjm", "ERCOT": "ercot", "CAISO": "caiso", "SPP": "spp"}
+    return {code[g] for g in lstat.held_grids() if g in code}
+
+
 def gallery(mods, log):
     index = []
     gdir = os.path.join(DOCS, "gallery")
@@ -483,6 +491,15 @@ def gallery(mods, log):
         combos, ok = {}, 0
         for params in param_grid(mod):
             k = key(params)
+            # session 10000 (chain 701, done-line request 576): a grid held for a license (NYISO, ISO-NE) gets no chart
+            # file: 142 of them were computed on 8 November and served to any visitor from public/analysis-files. The
+            # old file is removed. MISO is held too, but its pause keeps its pages as they are until a person lifts it
+            if str(params.get("iso", "")).lower() in held_isos():
+                old = os.path.join(gdir, mod.NAME, f"{k}.json")
+                if os.path.exists(old):
+                    os.remove(old)
+                combos[k] = {"params": params, "file": None, "reason": "held: its grid's terms ask for written permission (license needed)"}
+                continue
             try:
                 res = mod.compute(history=False, **params)
                 write_json(os.path.join(gdir, mod.NAME, f"{k}.json"), {

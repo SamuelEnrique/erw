@@ -215,7 +215,10 @@ def hub_prices_held():
     if os.path.exists(os.path.join(ip.OUT_DIR, pb.HISTORY + ".csv")):
         return ns.hub_prices()
     out = {}
+    held = ns.held_bas()   # session 10000 (done-line request 576): a held grid's hub price is not written
     for iso, ba in ns.HUB_BA.items():
+        if ba in held:
+            continue
         if iso == "ercot":
             table, market = pb.TABLES[(iso, "rtm")]
             out[ba] = cp.hourly(pb.read_table(table, market=market, node=pb.MAIN[iso]))
@@ -229,7 +232,10 @@ def keep_prices(new, old):
     """A hub's price on a day the new file lacks and the old one holds is kept from the old one. Returns the count kept."""
     at = {d: i for i, d in enumerate(old["days"])}
     kept = 0
+    held = ns.held_bas()
     for ba, was in old.get("hub_prices", {}).items():
+        if ba in held:
+            continue   # session 10000 (done-line request 576): a held grid's old prices are not carried into the new file
         arr = new["hub_prices"].setdefault(ba, [None] * len(new["days"]))
         for j, d in enumerate(new["days"]):
             i = at.get(d)

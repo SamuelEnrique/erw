@@ -581,6 +581,13 @@ summed over the years, `pair_days_rule`, `pair_days_confirmed_both_sides`, `pair
   price is held for the moment shown: in the replay, for CISO, ERCO, ISNE, MISO, NYIS, SWPP, and for most of them
   only from September 2024; ERCOT from 2019.
 - **PJM has no ring:** its prices are licensed and not shown.
+- **NYISO and ISO-NE have no ring: their prices are held for a license** (session 11000, 26 November 2026). Their
+  terms ask for written permission, which the ERW has not recorded (`warehouse/metadata/license_verdicts.csv`), and
+  their prices are held since 21 October 2026. The live week reads the live set, which holds them back; the files of a
+  past day and of the June 2025 story still carried them, and until this session the replay printed the day's price
+  and drew its ring. Now no view draws a ring or prints a figure of either: the panel reads "license needed" where
+  the price would stand, with the reason on hover (`HELD_PRICE` in `site/lib/networkV3.ts`). That the files themselves
+  still carry the prices is data request 576.
 - **MISO has no ring: it is paused.** MISO's own files are paused since 4 October 2026 while a person reviews its
   terms. Its flows, demand and carbon here are EIA's, which are not paused. So this page shows no figure of MISO's
   price, in the live week, the stories or the replay. (Since session 168 the panel reads "paused while terms are

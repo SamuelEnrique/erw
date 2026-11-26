@@ -60,7 +60,9 @@ that state). The sectors are the seven above and `energy` (any energy sector, `o
   100. `kind_<kind>` counts each kind.
 
 A cell with no story has no row. The page's "what rose" lists compare a week's Attention Index with the mean of the
-four weeks before (a week without a row counting as zero); the builder writes those differences into the page's
+four weeks before: the classified weeks among them (a classified week without a row counting as zero; a week the
+classifier has not reached is left out, so the first classified weeks are set against fewer than four, session 7001);
+the builder writes those differences into the page's
 file, so the page computes nothing.
 
 Why a share and not a count: the feeds grew about twenty-fold in the last week of September 2026 (from about 100

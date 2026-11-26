@@ -195,6 +195,64 @@ save("ahead.json", ahead);
   check(on.includes("The rule: The demand forecast") && !on.includes("The file records this forecast as made at"), "a forecast made at the rule's hour carries the word of a difference");
 }
 
+// ---- 8. The separate line "with the weather known" (session 10406): not a forecast, labelled, in a table of its own ----
+{
+  const t3 = load("region-tex.json");
+  check(!draw(FIX, { a: "region-tex" }).includes("data-fc-weather"), "with no such line in the file, the page draws its table");
+  const wspan = (first, last, hours, mae, mape) => ({ first_day: first, last_day: last, hours, mae: { with_weather_known: mae[0], regression: mae[1], operator: mae[2] }, mape: { with_weather_known: mape[0], regression: mape[1], operator: mape[2] } });
+  t3.series.demand.with_weather_known = { what: "the regression with the region's observed temperature added (region TEX, region_weather_hourly): it reads the day's own weather, so it is not a forecast", region: "TEX",
+    // the operator is the closest of the three over every hour, and has no score over the last two years: a blank
+    all: wspan("2019-07-31", "2026-11-06", 49000, [1800.4, 2900.6, 1100.5], [3.7, 5.8, 2.3]),
+    last_2_years: wspan("2024-11-25", "2026-11-06", 9900, [2200.5, 3000.2, null], [3.9, 5.2, null]) };
+  save("region-tex.json", t3);
+  const html = draw(FIX, { a: "region-tex" });
+  const block = between(html, 'data-fc-weather="1"', "data-fc-cut=");
+  check(block.length > 0 && html.indexOf('data-fc-weather="1"') > html.indexOf('data-fc-peak="1"') && html.indexOf('data-fc-weather="1"') < html.indexOf('data-fc-cut="month"'), "the line's table stands after the peak's, before the months");
+  check(text(block).replace(/\s+([:,)])/g, "$1").includes("With the weather known (not a forecast), beside the regression and the operator on the same hours, %"), `the line is not labelled in its heading: ${text(block).slice(0, 160)}`);
+  check(block.includes("Not a forecast, and never the ERW forecast: the regression with the region&#x27;s observed temperature added"), "the heading's hover does not say what the line is");
+  check(count(block, /<tr class="border-b/g) === 2, "the line's table: not two rows (the last two years, every hour its weather is held)");
+  check(fig(html, "region-tex.json", "series/demand/with_weather_known/all/hours", 49000, "49,000") && fig(html, "region-tex.json", "series/demand/with_weather_known/all/mape/with_weather_known", 3.7, "3.70"), "the line's hours and its error, keyed");
+  check(fig(html, "region-tex.json", "series/demand/with_weather_known/all/mape/regression", 5.8, "5.80") && fig(html, "region-tex.json", "series/demand/with_weather_known/all/mape/operator", 2.3, "2.30"), "the regression and the operator on the same hours, the operator where it is the closest drawn as any other");
+  check(!html.includes("with_weather_known/last_2_years/mape/operator") && count(block, /data-not-held="1"/g) === 1, "a score the file does not hold is a figure, or not one blank");
+  // the line is in no chart, in no other table, and is never called the ERW forecast
+  const rest = html.replace(block, "");
+  check(!rest.includes("With the weather known") && !rest.includes("with_weather_known"), "the line is drawn outside its own table");
+  check(!/ERW forecast[^<]{0,40}weather known|weather known[^<(]{0,12}ERW forecast/i.test(text(block).replace("never the ERW forecast", "")), "the line is called the ERW forecast");
+  const mw = draw(FIX, { a: "region-tex", m: "mae" });
+  check(fig(mw, "region-tex.json", "series/demand/with_weather_known/all/mae/with_weather_known", 1800.4, "1,800") && fig(mw, "region-tex.json", "series/demand/with_weather_known/last_2_years/mae/regression", 3000.2, "3,000"), "the line in MW: whole megawatts, keyed");
+  check(!draw(FIX, { a: "region-tex", s: "price" }).includes("data-fc-weather"), "price draws the line of demand");
+  const two = draw(FIX, { a: "region-tex", b: "ba-erco" });
+  check(between(two, 'data-fc-weather="1"', "data-fc-cut=").includes('data-fc-group="b"'), "two places: the line's table has both places' columns");
+  quiet(html, "the weather line");
+  const scores = load("scores.json");
+  const sc = scores.rows_columns.indexOf("series");
+  const withLine = { ...scores, separate_lines: { with_weather_known: "the regression with the region's observed temperature added: it reads the target day's own weather" }, rows: [...scores.rows, scores.rows[0].map((v, i) => (i === sc ? "demand_weather_known" : v))] };
+  check(!P.scoresCsv(scores, "https://example.invalid/x").includes("demand_weather_known") && P.scoresCsv(withLine, "https://example.invalid/x").includes("# series demand_weather_known: not a forecast. the regression with the region's observed temperature added"), "the report card's CSV says the line's rows are not a forecast's, only when it has one");
+}
+
+// ---- 9. The browser read of 26 November, rows FC1 and FC3 (session 10407) ---------------------------------------------
+{
+  // FC3: a file's reason that begins with its own status says the status once
+  const why = (status, held) => P.blankWhy({ status, held });
+  check(why("license needed", "license needed: PJM's prices need a paid data license") === "License needed: PJM's prices need a paid data license. Nothing of this series is shown.", `a held price's hover: ${why("license needed", "license needed: PJM's prices need a paid data license")}`);
+  check(why("license needed", "License needed: the terms ask for written permission.") === "License needed: the terms ask for written permission. Nothing of this series is shown.", "a reason with its own capital and full stop");
+  check(why("paused", "paused: MISO's terms forbid automated access") === "paused: MISO's terms forbid automated access" && why("not built", "not built: no organised day-ahead market") === "not built: no organised day-ahead market", "paused and not built: the status once");
+  check(why("too short", "fewer whole days of history than the method needs") === "too short: fewer whole days of history than the method needs" && why("paused", null) === "paused" && why("license needed", null).startsWith("License needed: the input is not public-licensed"), "a reason that names no status keeps its status before it; no reason, the status alone");
+  for (const [status, held] of [["license needed", "license needed: x"], ["paused", "paused: x"], ["not built", "not built: x"]]) check(!new RegExp(`${status}: ${status}`, "i").test(why(status, held)), `${status}: said twice`);
+  // FC1: the hour a forecast was made, behind a mark a finger and the keyboard open, once a place
+  const one = draw(FIX, { a: "region-tex" });
+  check(count(one, /data-tip="fc-made-a"/g) === 1 && count(one, /data-fc-made="a"/g) === 1 && !one.includes("fc-made-b"), "one place: not one mark for when its forecast was made");
+  const mark = between(one, 'data-fc-made="a"', "</h3>");
+  check(/<button type="button"[^>]*aria-label="About when the ERW forecast for Texas was made, from which figures and by which method"/.test(mark), "the mark is not a button with its name");
+  check(/role="tooltip" id="tip-fc-made-a"[^>]*>ERW forecast for [^<]*made 2026-11-26[^<]*\(2026-11-26 20:00 UTC\)[^<]*Method: Regression/.test(mark), `the mark's words do not give the hour the forecast was made and its method: ${text(mark).slice(0, 200)}`);
+  check(one.includes('title="ERW forecast for ') && one.indexOf('data-fc-made="a"') > one.indexOf('data-fc-place="a"'), "the name's own hover is gone, or the mark is not beside the name");
+  const two = draw(FIX, { a: "region-tex", b: "region-mida", s: "price" });
+  check(count(two, /data-tip="fc-made-a"/g) === 1 && count(two, /data-tip="fc-made-b"/g) === 1, "two places: not one mark each");
+  check(/aria-label="About why nothing is drawn for Mid-Atlantic"/.test(two) && /id="tip-fc-made-b"[^>]*>License needed: PJM/.test(two), "a held place's mark does not say why nothing is drawn, the status once");
+  check(new Set([...two.matchAll(/ id="(tip-[^"]+)"/g)].map((m) => m[1])).size === [...two.matchAll(/ id="(tip-[^"]+)"/g)].length, "two marks of the page share an id");
+  quiet(one, "the mark of when it was made");
+}
+
 fs.rmSync(FIX, { recursive: true, force: true });
 if (fails.length) { console.log(`FAIL ${fails.length} of ${n}:\n  ${fails.join("\n  ")}`); process.exitCode = 1; }
 else console.log(`ok: ${n} checks of /forecast's peak and days ahead (a fixture of the contract's shape)`);

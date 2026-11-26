@@ -18,7 +18,7 @@ export const RESOURCE_DECISIONS: ResourceDecision[] = [
     def: "The resource first; plants, the queue and datacenters off until switched on.",
     source: "The owner's idea of 7 October 2026. The overlays read eia860m_operating_generators, eia860m_planned_generators, energy_projects and datacenter_facilities, under the Projects tab's rules." },
   { key: "kinds-named", session: "sessions 159 and 8603",
-    text: "Every kind the list names has a switch. A kind with no layer among the files (coal, uranium, critical minerals, and the gross capacity factor of wind) is a greyed switch that says why. Nothing is drawn in its place.",
+    text: "Every kind the list names has a switch. A kind with no layer among the files (uranium, critical minerals, and the gross capacity factor of wind) is a greyed switch that says why. Nothing is drawn in its place. Coal has a layer since 19 November 2026, the coal fields.",
     def: "A greyed switch with its reason on hover.",
     source: "The owner's list as chain 504 gives it: sun, wind, geothermal heat, hydropower potential, oil and gas, coal, uranium, critical minerals. The gross capacity factor needs a key issued to a named person, and none is asked for (session 159)." },
   { key: "plain-line", session: "session 8603",
