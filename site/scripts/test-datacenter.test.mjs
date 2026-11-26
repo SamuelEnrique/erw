@@ -262,6 +262,9 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   // Massachusetts (session 10815): applications not accepted since the framework of 25 June 2026, held as words
   const ma = D.dcRun(D.dcDefaults(P, "ma", { invest: 2000, perm: 200 }), P);
   assert.equal(ma.exemption.held, true); assert.equal(ma.exemption.eligible, false); near(ma.sums.forgone, 0);
+  // Ohio (session 10815): the Tax Credit Authority takes no new requests since the Governor's directive of 27 May 2026, held as words
+  const oh = D.dcRun(D.dcDefaults(P, "oh", { invest: 2000, perm: 100 }), P);
+  assert.equal(oh.exemption.held, true); assert.equal(oh.exemption.eligible, false); near(oh.sums.forgone, 0);
 });
 
 test("the equipment's taxable value by a county's schedule: Loudoun's 2026 (60, 45, 30, 15, 10 percent) reproduced", () => {

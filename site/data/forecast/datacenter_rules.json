@@ -35,6 +35,7 @@
   "ar_act548_2025": {"title": "Arkansas Act 548 of 2025 (HB 1444), amending Arkansas Code 26-52-456, Data centers, approved 10 April 2025", "url": "https://arkleg.state.ar.us/Home/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2FACT548.pdf", "read": "2026-11-26", "request": 259},
   "ct_decd_dc": {"title": "Connecticut Department of Economic and Community Development, Office of Data Infrastructure Administration and Security: About (the Data Center Tax Incentive Program)", "url": "https://portal.ct.gov/DECD/Content/Business-Development/Data-Infrastructure-Administration-and-Security/Office-of-Data-Infrastructure-Administration-and-Security/About", "read": "2026-11-26", "request": 285},
   "ma_eoed_qdc": {"title": "Massachusetts Executive Office of Economic Development, Massachusetts Qualified Data Center Sales and Use Tax Exemption (with its notice of the pause)", "url": "https://www.mass.gov/info-details/massachusetts-qualified-data-center-sales-and-use-tax-exemption", "read": "2026-11-26", "request": 289},
+  "oh_governor_pause": {"title": "Office of the Governor of Ohio, Governor DeWine Announces Pause of Data Center Tax Exemption (bulletin of 27 May 2026)", "url": "https://content.govdelivery.com/accounts/OHIOGOVERNOR/bulletins/419304d", "read": "2026-11-26", "request": 290},
   "ok_iec_2026": {"title": "State of Oklahoma Incentive Evaluation Commission, Computer Services and Data Processing Tax Exemption, Draft Evaluation (PFM Group Consulting, 30 September 2026)", "url": "https://oklahoma.gov/content/dam/ok/en/omes/documents/computer-services-exemption-draft.pdf", "read": "2026-11-26", "request": 256},
   "ok_commerce_dc": {"title": "Oklahoma Department of Commerce, Oklahoma Data Center Industry Tax Incentives", "url": "https://www.okcommerce.gov/wp-content/uploads/Data-Center-Industry-Tax-Incentives.pdf", "read": "2026-11-26", "request": 257},
   "il_dceo": {"title": "Illinois Department of Commerce and Economic Opportunity, Data Center Investment Tax Exemptions and Credits (with its 2025 Data Centers Annual Report, request 248)", "url": "https://dceo.illinois.gov/expandrelocate/incentives/datacenters.html", "read": "2026-11-26", "request": 247},
@@ -320,6 +321,14 @@
     "quote": "EOED will not be accepting applications from entities seeking certification to claim the Qualified Data Center Tax Exemption until further notice.",
     "terms": {"cite": "ma_eoed_qdc", "quote": "The applicant invests at least $50 million on \"qualified data center costs\" within 10 years of certification"},
     "tip": "Massachusetts (General Laws c. 64H, s. 6(zz), and 400 CMR 9.00, as the Executive Office of Economic Development describes them): a certified qualified data center is exempt for 20 years on data center equipment, software, electricity and construction costs, with at least 100,000 square feet, 100 jobs in the state within five years and $50 million of qualified costs within ten years. Since the administration's framework of 25 June 2026, \"EOED will not be accepting applications from entities seeking certification to claim the Qualified Data Center Tax Exemption until further notice\": a project now cannot be certified, so the tool applies no exemption."
+   }
+  },
+  "oh": {
+   "name": "Ohio",
+   "sales_exemption": {
+    "cite": "oh_governor_pause", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "quote": "The Ohio Tax Credit Authority will stop accepting new data center tax exemption proposals after its currently scheduled meeting on Monday",
+    "tip": "Ohio: the Tax Credit Authority grants data centers sales and use tax exemptions case by case (the Governor's bulletin; the statute sits on codes.ohio.gov, which disallows every path to the ERW's reader). On 27 May 2026 the Governor directed the Authority \"to pause consideration of any new data center tax exemption requests\" while the General Assembly's Joint Data Center Committee studies data center growth; it \"will stop accepting new data center tax exemption proposals\" after its next meeting, and exemptions granted before stand. A project now cannot obtain one, so the tool applies no exemption."
    }
   },
   "ok": {
