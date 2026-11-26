@@ -1,0 +1,33 @@
+cost caiso: 12 months, 6 complete in real time, hours priced 8680
+cost ercot: 12 months, 11 complete in real time, hours priced 8712
+cost isone: 12 months, 2 complete in real time, hours priced 8160
+cost miso: 12 months, 10 complete in real time, hours priced 8746
+cost nyiso: 12 months, 4 complete in real time, hours priced 8496
+cost spp: 12 months, 11 complete in real time, hours priced 8736
+event caiso: caiso_heat_2020, 3.1548 percent, temperature-controlled True
+event ercot: cold_2026, 31.1488 percent, temperature-controlled False
+event isone: cold_2026, 19.3643 percent, temperature-controlled False
+event miso: cold_2026, 22.9619 percent, temperature-controlled False
+event nyiso: cold_2026, 17.3138 percent, temperature-controlled False
+event pjm: cold_2026, 28.9666 percent, temperature-controlled False
+event spp: cold_2026, 26.2943 percent, temperature-controlled False
+
+region, measure, table, re-done, difference
+  DIFFERS caiso flat_1gw_cost_usd: table 249062342.1633, re-done 249092970.8516, difference +30628.6883
+  DIFFERS caiso flat_da_price_usd_mwh: table 28.8243, re-done 28.8237, difference -0.0006
+  DIFFERS caiso flat_rt_price_usd_mwh: table 28.4318, re-done 28.4353, difference +0.0035
+  DIFFERS caiso rt_hours_priced: table 8681.0000, re-done 8680.0000, difference -1.0000
+  DIFFERS caiso rt_hours_seen: table 8728.0000, re-done 8760.0000, difference +32.0000
+  DIFFERS ercot event_largest_effect_pct: table 8.7776, re-done 31.1488, difference +22.3712
+  DIFFERS isone event_largest_effect_pct: table 1.1523, re-done 19.3643, difference +18.2120
+  DIFFERS isone rt_hours_seen: table 8156.0000, re-done 8160.0000, difference +4.0000
+  DIFFERS miso event_largest_effect_pct: table 7.2802, re-done 22.9619, difference +15.6817
+  DIFFERS miso rt_hours_seen: table 8755.0000, re-done 8760.0000, difference +5.0000
+  DIFFERS nyiso event_largest_effect_pct: table 1.3776, re-done 17.3138, difference +15.9362
+  DIFFERS nyiso rt_hours_seen: table 8492.0000, re-done 8496.0000, difference +4.0000
+  DIFFERS pjm event_largest_effect_pct: table 7.3434, re-done 28.9666, difference +21.6232
+  DIFFERS spp event_largest_effect_pct: table 6.1420, re-done 26.2943, difference +20.1523
+  DIFFERS spp rt_hours_seen: table 8755.0000, re-done 8760.0000, difference +5.0000
+
+134 measures agree to the table's four decimals (or to a unit for amounts over a million), 15 differ
+Flex Alert days by the scorecard's own function: 39 (table 39.0)

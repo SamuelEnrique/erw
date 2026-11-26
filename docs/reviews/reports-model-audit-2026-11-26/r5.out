@@ -1,0 +1,18 @@
+isone: 17 rows from EIA, Berkeley Lab (CC BY 4.0) or the event studies
+isone: 9 rows from grid operator's prices or queue
+miso: 18 rows from EIA, Berkeley Lab (CC BY 4.0) or the event studies
+miso: 9 rows from grid operator's prices or queue
+nyiso: 18 rows from EIA, Berkeley Lab (CC BY 4.0) or the event studies
+nyiso: 9 rows from grid operator's prices or queue
+total held rows: 80; of them not from a grid operator: 53
+  isone carbon_intensity_kg_mwh 235.38
+  miso carbon_intensity_kg_mwh 435.82
+  nyiso carbon_intensity_kg_mwh 262.83
+  miso net_import_share_pct -0.03
+  isone net_import_share_pct 4.92
+  nyiso net_import_share_pct 11.40
+  nyiso lbnl_completion_pct 22.66
+  miso lbnl_completion_pct 20.17
+  isone lbnl_completion_pct 29.48
+  nyiso lbnl_median_years_to_cod 5.03
+  miso lbnl_median_years_to_cod 4.21
