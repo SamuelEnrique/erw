@@ -35,6 +35,32 @@ class TheStackIsBuiltHereBeforeTheBatteryDownloads(unittest.TestCase):
         self.assertIn("keep = [k for k in ho.index if k not in hn.index or ho[k] > hn[k]]", s)
 
 
+class ACarriedLineTakesItsCountsFromItsRow(unittest.TestCase):
+    """C5: the package's test of erw.info() failed every day from 23 November: coverage.csv held the carried
+    ercot_all_hub_prices_history at 3,124,224 rows and docs/coverage.md at 3,125,376, each carried over apart."""
+
+    LINE = ("| `ercot_all_hub_prices_history` | ERCOT | ercot_dam;ercot_rtm | spp_dam, spp_rtm | 6: HB_BUSAVG | PT15M;PT1H | "
+            "2015-01-01 06:00:00 | 2026-11-21 05:00:00 | 3,125,376 | ercot:NP4-180-ER; ercot:NP4-190-CD | 2026-09-26 00:09:58 | "
+            "pass | public | power | no | source | [iso_dam_hub_prices](methods/iso_dam_hub_prices.md) |")
+    ROW = {"table": "ercot_all_hub_prices_history", "ts_min": "2015-01-01T06:00:00Z", "ts_max": "2026-11-19T05:45:00Z",
+           "n_rows": "3124224", "last_run": "2026-09-26T00:09:58Z"}
+
+    def test_the_rows_and_dates_follow_the_csv_row_and_nothing_else_moves(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("build_coverage", os.path.join(ROOT, "warehouse", "metadata", "build_coverage.py"))
+        bc = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(bc)
+        out = bc.align_carried(self.LINE, self.ROW)
+        self.assertIn("| 3,124,224 |", out)
+        self.assertIn("| 2026-11-19 05:45:00 |", out)
+        self.assertNotIn("3,125,376", out)
+        self.assertEqual(out.replace("3,124,224", "3,125,376").replace("2026-11-19 05:45:00", "2026-11-21 05:00:00"), self.LINE)
+
+    def test_the_package_test_compares_info_with_coverage_csv(self):
+        s = text("package", "tests", "test_erw.py")
+        self.assertIn('assert d["n_rows"] == int(erw.coverage()["n_rows"].astype("int64").sum())', s)
+
+
 class EveryLiveSetLoadFollowsItsCoverage(unittest.TestCase):
     def test_each_load_has_the_coverage_build_of_its_own_tables_just_before_it(self):
         lines = [ln.strip() for ln in text("warehouse", "run_data_machine_tables.sh").splitlines()]
