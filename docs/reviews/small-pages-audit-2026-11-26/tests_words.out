@@ -1,0 +1,66 @@
+........s........................................... [  7%]
+............................................................. [ 16%]
+................................s.....................s............s...................s... [ 29%]
+............ss...............................s...........................F............ [ 42%]
+.................................................... [ 49%]
+..................................... [ 55%]
+.................................................................sss.... [ 65%]
+........sssss........................................................... [ 75%]
+...................s.......ssssssssss.s.s..s....s....s.................. [ 86%]
+.......................s................................................ [ 96%]
+......................                                                   [100%]
+================================== FAILURES ===================================
+___________________ PureFunctions.test_the_node_tests_pass ____________________
+
+self = <test_session1880.PureFunctions testMethod=test_the_node_tests_pass>
+
+    def test_the_node_tests_pass(self):
+>       self.assertEqual(self.code, 0, self.out[-3000:] + self.err[-1000:])
+E       AssertionError: 1 != 0 : he cell, and the note counts it against the cell
+E       FAIL row 1: the week file carries no us flag yet (row 2, the data machine's)
+E       ok   row 1: with the us flag the list follows it (a story with us=1 and no state is in, one with us=0 and a state is out)
+E       ok   row 1: only the stories reporting opposition: the cell's 19
+E       FAIL row 3: the build's Monday is 2026-11-02
+E       ok   row 3: the week of 2026-11-16 is after the build's week, 2026-11-02 is not
+E       ok   row 3: the picker does not offer 2026-11-16 for data centers, every story; its last week is 2026-11-02
+E       ok   row 3: the charts' span ends at 2026-11-02 as before
+E       ok   row 3: the page opens on 2026-11-02
+E       ok   row 3: no cell of the file offers a week after the build's
+E       FAIL row 4: the week of 2026-11-02 holds the build (Sunday 2026-11-08 after 2026-11-06) and is partial
+E       ok   row 4: the week of 2026-10-26 is whole and fully judged: not partial
+E       ok   row 4: the week of 2026-10-05 is partly classified (2,798 of 3,110 judged), not the build's
+E       FAIL row 4: the picker says (to 2026-11-06), (partly classified) or nothing
+E       ok   row 4: a file built on the week's Sunday does not make the week partial
+E       FAIL row 4: of the five weeks drawn two are hatched, 2026-10-05 and 2026-11-02 (was the week of 2026-11-30, not drawn)
+E       ok   row 5: data centers, Virginia, has the weeks 2026-10-05 to 2026-10-26
+E       ok   row 5: from 2026-11-02 the week moves to the cell's latest, 2026-10-26
+E       ok   row 5: a week the cell has stays
+E       ok   row 5: a cell with no week keeps the week, offered and marked no story
+E       ok   row 5: the options are the cell's weeks when it has the chosen one
+E       ok   row 6: data centers, Virginia, 2026-11-02: one line
+E       ok   row 6: the line under All energy and under the United States
+E       ok   row 6: the file holds no cell for data centers, Virginia, 2026-11-02
+E       ok   row 8: 892 keys of the rising rows and the places read back their value from the file (0 wrong)
+E       FAIL row 8: the footer's 8,120, 254 and 6 weeks are keyed
+E       ok   row 8: a key of no row reads null
+E       ok   row 8: no place name holds the key's separator
+E       FAIL row 8: each source names the builder and its run
+E       FAIL row 8: a series figure's source: table, entity, variable, week, run
+E       ok   row 8: the existing series keys are unchanged
+E       ok   row 9: the table lists the 7 states with a data center story in the week of 2026-11-02
+E       ok   row 9: Wyoming: 3 stories, 0.48, 1 reporting opposition, 33.33, as the map's hover
+E       ok   row 9: largest Attention Index first
+E       ok   row 9: largest Friction Index first under that measure
+E       ok   row 11: 2026-10-05, All energy: Houston, TX once, 4 stories (1, 1 and 2 of three sectors)
+E       ok   row 11: no week lists a place twice under All energy
+E       ok   row 11: under one sector the rows are the sector's own
+E       ok   row 10: each place row of 2026-10-05 (all energy, data centers, oil and LNG) opens a list of its own stories and opposition count
+E       ok   row 10: Houston, TX opens its 4 stories
+E       ok   row 10: a state row opens the state's cell under All energy (Virginia, 2026-10-19: 9)
+E       
+E       33 of 44 passed
+
+tests\test_session1880.py:50: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_session1880.py::PureFunctions::test_the_node_tests_pass - A...
+1 failed, 655 passed, 33 skipped, 341 subtests passed in 83.66s (0:01:23)
