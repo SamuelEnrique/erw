@@ -23,6 +23,8 @@ import * as GROUND from "@/lib/problemsets/under-the-ground-and-in-the-wind";
 import * as WHERE from "@/lib/problemsets/where-energy-goes";
 // session 8905 (chain 590, part C): the fifth set of the whole country, an authority's own facts
 import * as AUTH from "@/lib/problemsets/your-own-balancing-authority";
+// session 10404 (chain 720, part E): a waiting set, the ERW forecast's report card (WAITING_SETS, below)
+import * as REPORT from "@/lib/problemsets/a-forecasts-report-card";
 
 export type V = { v: number; k: string; u?: string };
 export type Part = string | V;
@@ -643,7 +645,22 @@ export const SETS: Omit<ProblemSet, "questions" | "example">[] = [
 const COUNTRY: Record<string, { build: () => Promise<Built> }> = Object.fromEntries([TRADE, STORM, GROUND, WHERE, AUTH].map((m) => [m.META.slug, m]));
 for (const m of [TRADE, STORM, GROUND, WHERE, AUTH]) addGuide(m.META.slug, m.GUIDE_ENTRY);
 
+/** Session 10404 (chain 720, part E): the waiting sets. A waiting set has its page at /learn/problems/<slug> and is
+ *  built as the others are, but it is not in SETS: the index does not list it, it has no data.csv, and the dated
+ *  edition (scripts/build-problem-edition.mjs, which freezes SETS) never holds it. It waits for the owner: approving
+ *  one is moving its module from this list to the list of SETS above (and its decisions into Decisions.tsx). Its guide
+ *  is kept here, not in GUIDE, so the instructors' note names no set the index does not. */
+const WAITING_MODULES = [REPORT];
+export const WAITING_SETS: Omit<ProblemSet, "questions" | "example">[] = WAITING_MODULES.map((m) => m.META);
+export const WAITING_GUIDE: Record<string, (typeof REPORT)["GUIDE_ENTRY"]> = Object.fromEntries(WAITING_MODULES.map((m) => [m.META.slug, m.GUIDE_ENTRY]));
+export const WAITING_DECISIONS = WAITING_MODULES.flatMap((m) => m.DECISIONS);
+
 export async function problemSet(slug: string): Promise<ProblemSet | null> {
+  const waiting = WAITING_MODULES.find((m) => m.META.slug === slug);
+  if (waiting) {
+    const built = await waiting.build();
+    return { ...waiting.META, example: built.example, questions: inOrder(built.questions, waiting.GUIDE_ENTRY.order) };
+  }
   const meta = SETS.find((s) => s.slug === slug);
   if (!meta) return null;
   const built = COUNTRY[slug] ? await COUNTRY[slug].build()

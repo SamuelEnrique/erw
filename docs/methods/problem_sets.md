@@ -217,3 +217,40 @@ figures the site's code builds (`site/scripts/problem-sets-country-figures.mjs`)
 recomputed figure shown, each to a relative 1e-9. `replicate_country.do` reads the two CSVs (Stata reads no JSON) and
 recomputes each derived figure and each highest hour. Tests: `tests/test_session8901_problem_sets_country.py`,
 `site/scripts/test-problem-sets-country.mjs` and `site/scripts/test-pagefile.mjs`.
+
+## A waiting set (chain 720, session 10404, 26 November 2026)
+
+A waiting set is a problem set written and tested that the owner has not approved yet. It has its page at
+`/learn/problems/<slug>` and is built exactly as a listed set is. It is not in `SETS` (`site/lib/problems.ts`), so:
+
+- the index (`/learn/problems`) does not list it, and the instructors' note does not name it;
+- it has no `data.csv`;
+- no dated edition can hold it: `site/scripts/build-problem-edition.mjs` freezes `SETS` alone.
+
+The waiting sets are the list `WAITING_MODULES` of `site/lib/problems.ts`. Approving one is moving its module from that
+list to the modules of `SETS`, its choices into `site/app/learn/problems/Decisions.tsx` and this note's list of
+decisions, and its figures into the replication. Until then its choices are drawn on its own page only.
+
+### The ERW forecast's report card (`/learn/problems/a-forecasts-report-card`)
+
+- **What it reads:** `site/data/predict/scores.json`, the file `/forecast` draws its scores from (written by
+  `warehouse/predict/backtest.py`; contract `docs/state/page_files_predict.md`; method `docs/methods/predict.md`). A
+  worked example and six questions on Texas's demand, the last on California beside it.
+- **How a figure is found:** the file's rows are arrays in the order of its `rows_columns`. A question names a row by
+  its place, series, method, cut and key; the module finds the row's position by those five and writes the figure's
+  `pf|` key from the position and the column. No position is typed, so a rebuilt file moves the keys with the rows.
+- **What is asked:** the mean absolute percent error of the ERW forecast and of the operator's own over every hour
+  scored; the two in megawatts over the last two years; the two rules that need no model; the count of hours behind a
+  score; the hour of the day with the largest and the smallest error; the ten highest-demand days; and the same
+  difference for California.
+- **It takes no side.** The set states each score as the file holds it. For Texas the operator's forecast has the
+  smaller error in every question that sets the two side by side, and the set says so in figures. Its test refuses a
+  word that ranks or advises.
+- **The choices** (drawn on the set's page, each with its default and source): the place is Texas, the place
+  `/forecast` opens on, and the second is California, the first region in the file's order, neither chosen by its score;
+  the hours of the day are the largest and the smallest of the file's 24 rows, the first on a tie; two methods of a row
+  are scored on the same hours, as the file is built.
+- **Tests:** `site/scripts/test-problem-set-forecast.mjs` (every figure recomputed from the file by its key, and found
+  again by the row its question names; the page drawn) and `tests/test_session10404_problem_set_forecast.py`.
+- **Not done:** no replication in Python and Stata yet (the listed sets have one). It is written when the set is
+  approved.
