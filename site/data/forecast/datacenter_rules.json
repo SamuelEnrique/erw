@@ -48,6 +48,7 @@
   "wy_39_15_105": {"title": "Wyoming Statutes Title 39, 39-15-105(a)(viii)(S), sales tax exemptions for a data processing services center (with the definition in 39-15-101(a)(xliv))", "url": "https://wyoleg.gov/statutes/compress/title39.pdf", "read": "2026-11-26", "request": 303},
   "il_dor_excise": {"title": "Illinois Department of Revenue, Excise Tax Rates and Fees (the Electricity Excise Tax)", "url": "https://tax.illinois.gov/research/taxrates/excise.html", "read": "2026-11-26", "request": 307},
   "il_dceo": {"title": "Illinois Department of Commerce and Economic Opportunity, Data Center Investment Tax Exemptions and Credits (with its 2025 Data Centers Annual Report, request 248)", "url": "https://dceo.illinois.gov/expandrelocate/incentives/datacenters.html", "read": "2026-11-26", "request": 247},
+  "sc_12_43_220": {"title": "South Carolina Code of Laws 12-43-220, Classifications and assessment ratios", "url": "https://www.scstatehouse.gov/code/t12c043.php", "read": "2026-11-26", "request": 328},
   "ks_79_1439": {"title": "Kansas Statutes 79-1439, Assessment of real and personal property, rates", "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_014_0039.html", "read": "2026-11-26", "request": 326},
   "ks_79_223": {"title": "Kansas Statutes 79-223, Exemption of certain commercial and industrial machinery and equipment", "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_002_0023.html", "read": "2026-11-26", "request": 325},
   "nd_tax_exempt": {"title": "North Dakota Office of State Tax Commissioner, Property Generally Exempt from Taxation", "url": "https://www.tax.nd.gov/property-tax-exemptions-credits", "read": "2026-11-26", "request": 323},
@@ -176,6 +177,10 @@
   },
   "sc": {
    "name": "South Carolina",
+   "property": {"building_ratio": 0.06, "equipment_ratio": 0.105, "cite": "sc_12_43_220",
+    "quote": "(e) All other real property not herein provided for shall be taxed on an assessment equal to six percent of the fair market value of such property.",
+    "equipment": {"cite": "sc_12_43_220", "quote": "all other personal property must be taxed on an assessment of ten and one-half percent of fair market value of the property"},
+    "tip": "South Carolina (Code 12-43-220): real property not otherwise classed is assessed at 6 percent of fair market value (e), and other personal property at 10.5 percent (f). The tool assesses the building at 6 percent and the equipment at 10.5 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate. A fee in lieu of tax agreement with a county is an agreement, not a statute's rate: the abatement input is its place."},
    "sales_exemption": {
     "cite": "sc_12_36_2120_79", "covers": ["equipment"], "min_investment_usd": 50000000, "min_jobs": 25, "start_before_year": 2032, "last_year": 2041,
     "quote": "where a taxpayer invests at least fifty million dollars in real or personal property or both over a five year period",
