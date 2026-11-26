@@ -273,7 +273,14 @@ try {
     const page = draw(FIX2);
     const pt = text(page);
     check(page.includes('data-eq-state="files"') && page.includes('data-eq-picks="0"') && !pt.includes("not built yet"), "a real list with nothing to draw is not \"not built yet\"");
-    check(pt.includes("Companies, indices and segment lines: license needed") && /data-eq-blank="line\|none"/.test(page) && /title="source needed: the segment rule reads[^"]*\. license needed: no source found[^"]*"/.test(page), "the line's place says why, both reasons on hover, each once");
+    check(pt.includes("Companies, indices and segment lines: license needed") && /data-eq-blank="line\|none"/.test(page) && /title="license needed: no source found[^"]*\. source needed: the segment rule reads[^"]*"/.test(page), "the line's place says why, both reasons on hover, each once");
+  // session 10407 (the browser read's row EQ1): the line above pinned a hover that began "source needed" under a face
+  // that read "license needed". The face and the first words of its hover name the same status
+  {
+    const blank = /<div[^>]*title="([^"]*)"[^>]*data-eq-blank="line\|none"[^>]*>([^<]*)</.exec(page) ?? /<div[^>]*data-eq-blank="line\|none"[^>]*title="([^"]*)"[^>]*>([^<]*)</.exec(page);
+    const face = (blank?.[2] ?? "").split(":").pop().trim(), hover = blank?.[1] ?? "";
+    check(!!blank && face.length > 0 && hover.toLowerCase().startsWith(`${face.toLowerCase()}:`), `the line's blank: its face says "${face}" and its hover begins "${hover.slice(0, 40)}"`);
+  }
     check(page.includes('data-eq-price="wti"') && new RegExp(`data-n="eq\\|price\\|last">${E.levelWords(wti.at(-1)).replace(".", "\\.")}<`).test(page) && /aria-label="WTI crude oil, Cushing, spot, USD\/bbl"/.test(page), "the page opens on the first energy price the files show, as a line of its own");
     check(pt.includes("The listed energy companies: source needed") && pt.includes("Energy indices: license needed"), "the companies' and the indices' places say why");
     const segPart = page.slice(page.indexOf('id="segments"'), page.indexOf('id="downloads"'));
