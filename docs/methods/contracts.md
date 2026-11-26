@@ -275,6 +275,12 @@ together).
 - A price for the rows that give words: 104,929 rows are left unread, never estimated.
 - Any choice a reader can edit: the page counts and lists, and computes nothing a reader sets. Its decisions are the
   nineteen above.
+- An as-of date (session 10226, `docs/reviews/contracts-model-audit-2026-11-26.md`, finding 3). The table is pulled by
+  hand, one quarter's file at a time (`warehouse/connectors/ferc_eqr_contracts.py --quarter`): no schedule runs it
+  (`warehouse/run_daily.sh` and `.github/workflows/` name no EQR pull). The newest file on the code machine is 2026 Q2's,
+  retrieved on 4 October 2026 (FERC's file Last-Modified 3 October 2026). The page names the quarter filed for ("Filed
+  for 2026 Q2") and gives no retrieval date: the stored summary does not carry it. The live set's window moves with each
+  load, so the oldest quarter shrinks by itself, while the newest quarter stays until a person pulls the next file.
 
 ## 11. The replication, and the faults found
 
