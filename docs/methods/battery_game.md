@@ -57,6 +57,7 @@ Each setting has a default and a range. The player may change any of them, and t
 
 **The fixed rules:**
 - The battery starts half full.
+- **The starting charge is free, and what is left at the day's end counts for nothing (session 10227, the play audit's findings 2 and 3).** No price is charged for the starting half and none is paid for the charge held at the end, so the perfect battery sells all it can by the day's end (on Normal it ends every famous day empty) and selling the starting charge counts as earnings. Requiring the battery to end the day at least as full as it began would cut the perfect score of the calm spring day (2026-04-26) from USD 0.4406 to 0.3041 (31 percent), of Winter Storm Uri's day from 240.23 to 181.72 (24 percent), and of the newest ERCOT day held by the audit (2026-11-12) from 2.0882 to 1.7809 (15 percent). The page says the rule; the rule is unchanged.
 - Efficiency is split evenly: the square root of the round trip on the way in, and again on the way out.
 - Each 15-minute interval at full power moves kW x 0.25 kWh at the meter.
 
