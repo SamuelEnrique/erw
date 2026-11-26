@@ -33,7 +33,10 @@ const year = await draw({});
 const oct = profile.months["2026-10"];
 const months = Object.keys(profile.months).sort();
 // row 1: the batteries' share is the month's, said as the month's
-check(/percent of that month's curtailment fell in hours in which the batteries were already charging/.test(year), "row 1: the month named in the summary");
+// session 10210 (the curtailment audit, finding 4): "already charging" read as if the batteries could not have taken it;
+// the sentence now says what the hour is and that the two are system totals
+check(/percent of that month's curtailment fell in hours in which the batteries took in more than they gave back; both are totals for the whole system/.test(year), "row 1: the month named in the summary");
+check(months.filter((m) => m.startsWith("2026-")).length === 12 || /In 2026, January to [A-Z][a-z]+, California curtailed/.test(year), "audit finding 4: a year held in part is named with its months");
 check(!/percent of it fell in hours in which the batteries/.test(year), "row 1: no 'of it' after a year");
 // row 2: the batteries' count against the storage page's
 check(year.includes("each five-minute value below zero, added up. The storage page 's daily charging nets each hour first, so it is never higher."), "row 2: the two counts of charging");

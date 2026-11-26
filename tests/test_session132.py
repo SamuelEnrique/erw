@@ -386,7 +386,9 @@ class TheBoard(unittest.TestCase):
 
     def test_ancillary_services_for_the_four_grids_held(self):
         grids = {r["tags"]["grid"] for r in self.board["rows"] if r["group"] == "as" and r["status"] == "ok"}
-        self.assertEqual(grids, {"ERCOT", "CAISO", "NYISO", "SPP"})
+        # session 10000 (chain 701, data request 13): NYISO is held by its license (ls.held_grids()), and its rows with
+        # values had stayed only because page_keep kept a row only the held file has; such a row is now dropped
+        self.assertEqual(grids, {"ERCOT", "CAISO", "SPP"})
         self.assertEqual(self.rows["ercot-regup-mcpc-dam"]["label"], "ERCOT Regulation up")
         self.assertIn("REGUP", self.rows["ercot-regup-mcpc-dam"]["code"])     # the code on hover, the words on the face
 

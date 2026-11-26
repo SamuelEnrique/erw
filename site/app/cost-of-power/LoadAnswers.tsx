@@ -187,7 +187,7 @@ export function HowClean({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB })
       <ToolTable caption={`${f.gridName}'s carbon intensity of consumed electricity by year`} minWidth={520} head={["Year", "kg CO2 per MWh, the mean of its months", "Months held"]}
         rows={c.years.map((r) => ({ key: String(r.y), muted: r.months < 12, cells: [String(r.y), <N key="k" pre={f.pre} stat={`co2:year:${r.y}`} a={a} />, `${r.months} of 12`] }))} />
       <p className="mt-2 max-w-3xl text-xs text-muted" data-answer-note="clean">
-        The intensity is the ERW&apos;s from EIA-930&apos;s hourly CO2 estimates (carbon_intensity_monthly and carbon_intensity_hourly, the balancing authority&apos;s consumed electricity: generation plus imports less exports); the hours counted hour by hour are the ones the live set holds of the hourly table, named above. A year&apos;s figure is the mean of its months held{thisYear !== null ? <>; {year(thisYear)?.months ?? 0} months of {thisYear} are held</> : null}.
+        The intensity is the ERW&apos;s from EIA-930&apos;s hourly CO2 estimates (carbon_intensity_monthly and carbon_intensity_hourly, the balancing authority&apos;s consumed electricity: generation plus imports less exports); the hours counted hour by hour are the ones the live set holds of the hourly table, named above. Each figure is an average of what the grid&apos;s consumed electricity carried (location-based): not the emissions the load&apos;s own demand adds at the margin, and not a figure for any contract or certificate the load buys. A year&apos;s figure is the mean of its months held{thisYear !== null ? <>; {year(thisYear)?.months ?? 0} months of {thisYear} are held</> : null}.
       </p>
     </>
   );

@@ -233,8 +233,8 @@ function Clean({ g, d }: { g: GridConfig; d: GridData }) {
         <div className="text-sm">
           <div className="text-xs text-muted">The latest hour EIA has estimated ({local(last.ts_utc, g.tz)})</div>
           <div className="text-3xl tabular-nums"><N t={T} r={last} /></div>
-          <div className="mb-2 text-xs text-muted">kg of CO2 per MWh generated here</div>
-          <div className="tabular-nums"><N t={T} r={dem} /> <span className="text-xs text-muted">kg CO2 per MWh used here (imports counted)</span></div>
+          <div className="mb-2 text-xs text-muted">kg of CO2 per MWh generated here, an average over all the power made</div>
+          <div className="tabular-nums"><N t={T} r={dem} /> <span className="text-xs text-muted">kg CO2 per MWh used here (imports counted at EIA&apos;s estimate)</span></div>
         </div>
         <div className="min-w-0">
           <LineChart lines={[{ label: "Of generation", color: "accent", points: gen.filter((r) => Date.parse(r.ts_utc) > lt - 24 * H).map((r) => ({ t: Date.parse(r.ts_utc) / 1000, v: r.value })) }]}

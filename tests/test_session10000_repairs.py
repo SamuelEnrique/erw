@@ -89,6 +89,54 @@ class TheOffersWaitForTheAwardsTable(unittest.TestCase):
             case.tearDown()
 
 
+class TheBoardsWeekHoldsNoHeldGrid(unittest.TestCase):
+    """Data request 13 (the board audit): board.json carried 20 week lines and 20 spikes of NYISO and ISO-NE, grids the
+    license holds, into the public repository. build_week now writes none of a held grid. Made-up figures."""
+
+    def test_a_held_grid_has_no_week_line_and_no_spike(self):
+        import importlib.util
+        import pandas as pd
+        spec = importlib.util.spec_from_file_location("board_page_t", os.path.join(ROOT, "warehouse", "derived", "board_page.py"))
+        bp = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(bp)
+        days = [f"2026-11-{d:02d}T00:00:00Z" for d in range(10, 24)]
+        trader = pd.DataFrame([dict(entity=e, variable="da_mean_usd", ts_utc=d, value="30", market=m)
+                               for m, e in (("ercot", "ercot:HB_HUBAVG"), ("nyiso", "nyiso:N.Y.C.")) for d in days])
+        top = pd.DataFrame([dict(entity=e, market=m, ts_utc="2026-11-20T18:00:00Z", value="900", freq="PT5M")
+                            for m, e in (("ercot", "ercot:HB_HUBAVG"), ("nyiso", "nyiso:N.Y.C."), ("isone", "isone:.H.INTERNAL_HUB"))])
+        bp.here = lambda name: True
+        keep = (bp.pb.read_table, bp.ls.held_grids)   # shared modules: put back after, so no other test reads the fakes
+        bp.pb.read_table = lambda name, **kw: trader if name == "iso_trader_daily" else top
+        bp.ls.held_grids = lambda: {"NYISO", "ISO-NE", "MISO"}
+        try:
+            week, spikes = bp.build_week(lambda m: None)
+        finally:
+            bp.pb.read_table, bp.ls.held_grids = keep
+        self.assertEqual({w["grid"] for w in week}, {"ERCOT"})
+        self.assertEqual({s["grid"] for s in spikes}, {"ERCOT"})
+
+
+class TheBoardKeepsNoHeldGridsOldRow(unittest.TestCase):
+    """The same class: page_keep kept forever a row only the held file has, so 94 rows of NYISO and ISO-NE built before
+    the hold of 20 October 2026 stayed in board.json with their values (and their series files). Such a row is dropped."""
+
+    def test_a_held_grids_row_only_the_held_file_has_is_dropped(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("page_keep_t", os.path.join(ROOT, "warehouse", "derived", "page_keep.py"))
+        pk = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(pk)
+        pk.held_grid_names = lambda: {"NYISO", "ISO-NE", "MISO"}
+        groups = [{"id": "battery"}]
+        old = {"groups": groups, "sources": [], "rows": [
+            {"id": "nyiso-n-y-c-da-battery", "group": "battery", "status": "ok", "last": {"t": "2026-10-20", "v": 1}},
+            {"id": "spp-north-da-battery", "group": "battery", "status": "ok", "last": {"t": "2026-11-20", "v": 2}}]}
+        new = {"groups": groups, "sources": [], "rows": []}
+        rows, sources, kept, taken = pk.merge_rows(old, new, lambda i: 0, lambda i: 0, lambda m: None)
+        self.assertEqual([r["id"] for r in rows], ["spp-north-da-battery"])
+        self.assertEqual(pk.grid_of({"id": "isone-h-internal-hub-da-peak"}), "ISO-NE")
+        self.assertEqual(pk.grid_of({"id": "x", "tags": {"grid": "PJM"}}), "PJM")
+
+
 class EveryLiveSetLoadFollowsItsCoverage(unittest.TestCase):
     def test_each_load_has_the_coverage_build_of_its_own_tables_just_before_it(self):
         lines = [ln.strip() for ln in text("warehouse", "run_data_machine_tables.sh").splitlines()]

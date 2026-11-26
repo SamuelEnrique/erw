@@ -1,0 +1,36 @@
+default: 109 marked figures on main, 109 on the branch; identical: True; em dashes 0
+   +  Where power is cheap The hub and zone prices of three grids, CAISO, ERCOT and SPP, side by side : the average price, how often it falls below zero or climbs above USD 200, how far the dearest hours of the day stand above the cheapest, and how clean the grid behind it is.
+   + A load shaped like the grid's own, heavier in the dearer hours, pays more than this average.
+   + CAISO's and SPP's rows are hubs only, and a load there settles at its own load point, which is not held.
+   + Choose Period Twelve months to October 2026: 17 hubs and zones October 2026: 19 hubs and zones Market Day-ahead Real-time Sort by Average price Hours below zero Hours above USD 200 Spread, dearest four hours less cheapest four The grid's carbon intensity Lowest first: show highest first Twelve months of history are held for 17 hubs and zones (9 hubs and 8 of ERCOT's load zones, held since 2015);
+   + ERCOT's eight load zones are compared here, in both periods, beside its hubs;
+   + Over the twelve months to October 2026, CAISO, SP15 hub (south) had the lowest average day-ahead price of the 17 hubs and zones compared, USD 30.27 per MWh, and ERCOT, Austin Energy load zone the highest, USD 39.01 .
+   + The average is the simple mean of the hours held, each hour once, not weighted by the grid's load or by any buyer's.
+   + The average price counts every hour held once: what a flat load, the same every hour, would pay at the hub or zone.
+   + The price where a load settles outside ERCOT.
+   + the other hubs and zones are held since late August 2026, so they are in the month and not in the twelve months.
+   -  Where power is cheap The hub and zone prices of five grids, side by side: the average price, how often it falls below zero or climbs above USD 200, how far the dearest hours of the day stand above the cheapest, and how clean the grid behind it is.
+   - Choose Period Twelve months to October 2026: 17 hubs October 2026: 19 hubs and zones Market Day-ahead Real-time Sort by Average price Hours below zero Hours above USD 200 Spread, dearest four hours less cheapest four The grid's carbon intensity Lowest first: show highest first Twelve months of history are held for 17 hubs;
+   - ERCOT's eight load zones.
+   - Over the twelve months to October 2026, CAISO, SP15 hub (south) had the lowest average day-ahead price of the 17 hubs compared, USD 30.27 per MWh, and ERCOT, Austin Energy load zone the highest, USD 39.01 .
+   - Their prices are held in the warehouse since 2015 and priced on the cost of power page ;
+   - the zones and the other hubs are held since late August 2026, so they are in the month and not in the year.
+   - they are not in this comparison.
+ab: 142 marked figures on main, 142 on the branch; identical: True; em dashes 0
+   +  Where power is cheap The hub and zone prices of three grids, CAISO, ERCOT and SPP, side by side : the average price, how often it falls below zero or climbs above USD 200, how far the dearest hours of the day stand above the cheapest, and how clean the grid behind it is.
+   + A load shaped like the grid's own, heavier in the dearer hours, pays more than this average.
+   + CAISO's and SPP's rows are hubs only, and a load there settles at its own load point, which is not held.
+   + Choose Period Twelve months to October 2026: 17 hubs and zones October 2026: 19 hubs and zones Market Day-ahead Real-time Sort by Average price Hours below zero Hours above USD 200 Spread, dearest four hours less cheapest four The grid's carbon intensity Lowest first: show highest first Twelve months of history are held for 17 hubs and zones (9 hubs and 8 of ERCOT's load zones, held since 2015);
+   + ERCOT's eight load zones are compared here, in both periods, beside its hubs;
+   + Over the twelve months to October 2026, CAISO, SP15 hub (south) had the lowest average day-ahead price of the 17 hubs and zones compared, USD 30.27 per MWh, and ERCOT, Austin Energy load zone the highest, USD 39.01 .
+   + The average is the simple mean of the hours held, each hour once, not weighted by the grid's load or by any buyer's.
+   + The average price counts every hour held once: what a flat load, the same every hour, would pay at the hub or zone.
+   + The price where a load settles outside ERCOT.
+   + the other hubs and zones are held since late August 2026, so they are in the month and not in the twelve months.
+   -  Where power is cheap The hub and zone prices of five grids, side by side: the average price, how often it falls below zero or climbs above USD 200, how far the dearest hours of the day stand above the cheapest, and how clean the grid behind it is.
+   - Choose Period Twelve months to October 2026: 17 hubs October 2026: 19 hubs and zones Market Day-ahead Real-time Sort by Average price Hours below zero Hours above USD 200 Spread, dearest four hours less cheapest four The grid's carbon intensity Lowest first: show highest first Twelve months of history are held for 17 hubs;
+   - ERCOT's eight load zones.
+   - Over the twelve months to October 2026, CAISO, SP15 hub (south) had the lowest average day-ahead price of the 17 hubs compared, USD 30.27 per MWh, and ERCOT, Austin Energy load zone the highest, USD 39.01 .
+   - Their prices are held in the warehouse since 2015 and priced on the cost of power page ;
+   - the zones and the other hubs are held since late August 2026, so they are in the month and not in the year.
+   - they are not in this comparison.

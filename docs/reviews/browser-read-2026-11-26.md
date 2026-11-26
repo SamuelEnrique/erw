@@ -300,6 +300,15 @@ The pages of the menu that no window owns tonight, each walked at 1280 and 390 p
 | K1 | `/companies`, each field asked for the name a screen reader is given (`runs/c750/fields_named.mjs`, every page with a fixed address: 82 pages, 392 fields) | Five of the page's six fields have none: the Name box and the Kind, Segment, Grid and Has lists. Each stands in a label with an "i" mark before it, and a label names the first field inside it, which is the mark's own button ("About The search"). A screen reader says "search, edit text" and nothing more. No other page of the 82 has a field with no name | Each field named | no window's; **fixed** on `wip/c750-companies` (`d6dc93397`): each field carries its name; with a test |
 | K2 | `/companies`: Kind set to OEM, Show (2 of 12,724 companies), then the browser's back button; the same with State (`runs/c750/d_companies_probe.mjs`, 4 tries at each width) | The address and the table go back to all 12,724 companies; the list still reads "OEM" (or "CA"). 4 of 4 | The list reads what the page shows | no window's; **fixed** on the same branch: the form keeps no state (`autocomplete="off"`), which was tried on production's own page first: 4 of 4 then read the page's value. Chain 620's fix of 20 November mended the lists that submit themselves; this form submits with its button and was not among them. Landing row 5, ready, to be seen |
 
+**K2 is a class, so every form of its kind was tried.** The source was read for forms that submit with their button and hold a field that takes its value from the page once (`runs/c750/forms_scan.py`: 20 GET forms, 14 of them all mended lists or with no such field), and each of the others was tried in the browser at both widths: one field changed, the form's own button pressed, then the back button (`runs/c750/forms_back.mjs`).
+
+| # | Done | Seen | Should be seen | Whose, and state |
+|---|---|---|---|---|
+| K3 | `/prices/compare`: A set to SP15, the form's button, then the back button; the same with B | The page goes back to no A; the list still reads "caiso:TH_SP15_GEN-APND". 4 of 4 | The lists read what the page shows | no window's; **fixed** on `wip/c750-forms-back` (`9eb8fbcbc`) |
+| K4 | `/conditions`: a day typed (2024-07-24), Show, then the back button | The page draws the newest 35 days again; the Day box still reads the day. 4 of 4. (Its three lists were already right: they are the mended kind) | The Day box empty, as the page shows | no window's; **fixed** on the same branch. The mend, the form keeping no state, was tried on production's own pages first: 8 of 8 then read the page's value. Landing row 6, ready, to be seen |
+
+`/industry` and `/states` read right after the back button. Two forms of the same shape could not be tried and are not changed: `/deals` (its list is held for a license, so no form is drawn) and `/severance/lease/real` (drawn only once a file is given).
+
 ### The first minute, as production stands before tonight's landings
 
 Read 26 November 13:18 UTC with chain 620's own script (`runs/c750/d_first_minute.mjs`), as a stranger and as a reviewer, at 1280 and 390 px.
@@ -310,6 +319,35 @@ Read 26 November 13:18 UTC with chain 620's own script (`runs/c750/d_first_minut
 - **Tonight's pages are not in the menu, on `/in-review` or in the tour yet** (none has landed); this is read again when they are.
 
 Pictures: `docs/reviews/browser-read-2026-11-26/first-minute/` (`a-stranger-at-the-home-page-1280.png`, `the-home-page-internal-view-1280.png`, `the-menu-open-390.png`).
+
+## Part C: what landed tonight, as it landed
+
+### The landing of 14:16 UTC (`task/c701-desk-3`), read on production at 14:23 UTC
+
+Production showed the earlier build at 14:18 and 14:20 UTC and the new one from about 14:21:50 (`runs/c750/c_landed.mjs`, three reads). It brought `/impact` with Datacenter (window C), this window's rows 1, 2 and 3, and the old laptop's audit fixes of words.
+
+**This window's three rows, seen where a reader meets them, at 1280 and 390 px:**
+
+| Row | Before (14:18 UTC) | After (14:23 UTC) |
+|---|---|---|
+| 1, `/grid?grid=caiso` at 390 px | 539 of 390 px | 390 of 390 px; the reliability table 526 px wide inside its 358 px frame; its 226 empty cells still read "none" |
+| 3, `/conditions`, CAISO over the September 2022 heat wave | "(44)" over 40 rows, the last of 8 September | "(44)" over 44 rows, the last "2022-09-09 RMO 12:00 to 22:00" |
+| 3, the same over the August 2020 heat wave, beside SPP | "(79)" over 40 rows, the last of 17 August | "(79)" over 79 rows, the last of 24 August; the page 390 of 390 px with them |
+| 3, the line under an operator's name | "days and hours in America/Los_Angeles clock time for days and hours" | "America/Los_Angeles clock time for days and hours" |
+| 2, `/events/covid-2020` at 390 px with every table shown | 392 of 390 px | 390 of 390 px |
+| 2, `/curtailment/where-when`, the trend's table | "CAISO, the whole system: curtailment, GWh" over solar alone | "CAISO, the whole system: solar curtailed, GWh" |
+
+Picture: `docs/reviews/browser-read-2026-11-26/grid-caiso-reliability/reliability-390-after-the-landing.png` (CAISO's reliability section at 390 px after the landing).
+
+### `/impact` with Datacenter (window C's, chain 740: read, never edited)
+
+**The four plant types show the figures they showed before.** Every marked figure of sixteen addresses of `/impact` was saved while production still drew the earlier build, and again after it drew the new one (`runs/c750/c_impact_figs.mjs`). The deploy came in the middle of the first pass, so eleven addresses were truly read before (land-based wind in three states and as the page opens, utility solar in four, natural gas in three) and five after. On those eleven: 1,700 figures, each with the same key, the same raw value and the same words after as before; the page's sentences the same; the count of "not held" the same. None differs, none is gone. Geothermal was not caught before the deploy; its figures that earlier browser reads wrote down are on the page as they were (Nevada, 36 MW: property tax, first operating year USD 876,642; Nevada, 26.5 MW: taxes, present value USD 0 with its blanks). So are the opening page's (construction jobs 515, operating jobs 44.7, construction earnings USD 41 million, sales and use tax USD 19.9 million, earnings present value USD 83.6 million), Wyoming's wind (property tax over the life USD 36.2 million) and Minnesota's (689 job-years).
+
+**The Datacenter part, as far as it is read** (the read of its marks, its states and its announced projects was under way when the laptop's memory ran short at 14:28 UTC; it goes on below when it is back):
+
+- It opens on Texas, 1,000 MW and USD 11,000 million in 1.2 s: construction jobs 5,500, operating jobs 306, construction earnings USD 411.2 million, sales and use tax USD 2.46 billion, taxes at present value USD 1.45 billion.
+- **A part with no public source is blank with its reason,** each read on the screen: construction and operating output ("not computed for a datacenter"); property tax ("no property tax rate is held statewide: the reader's rates are not given"); the tax forgone by the exemption ("no datacenter sales tax exemption of this state has been read"); the tax on the electricity bought ("no statute on the electricity bought is read for this state"); severance reads "none" ("a datacenter burns no gas").
+- 53 "About" marks at each width, each opening a box inside the screen; no sideways scroll (1265 of 1265; 390 of 390); no error.
 
 ## For Samuel's ruling (each with the page left as it is)
 

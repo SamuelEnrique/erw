@@ -193,7 +193,9 @@ def main(argv=None):
            "curtailment_not_held": {
                "ercot": "ERCOT publishes no curtailment figure; the curtailment page's ERCOT figure is the ERW's arithmetic (output against the limits ERCOT publishes) and is not drawn here",
                "miso": "MISO is paused while its terms are reviewed", "pjm": "no curtailment figure of PJM is held", "nyiso": "no curtailment figure of NYISO is held",
-               "isone": "no curtailment figure of ISO-NE is held"},
+               # session 10210 (the curtailment audit, finding 5): ISO-NE's monthly undelivered energy is held, internal, on
+               # the owner's ruling of 7 October 2026 (isone_ddg_undelivered_monthly); it is not shown, not "not held"
+               "isone": "ISO-NE's monthly undelivered energy is held internal under its legal notice and not shown"},
            "prices": prices, "price_blank": blank, "ranked_negative": ranks(prices)}
     target = os.path.join(a.out_dir, "where_when.json") if a.out_dir else SITE_FILE
     os.makedirs(os.path.dirname(target), exist_ok=True)
