@@ -159,7 +159,9 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
             ) : null}
           </tbody>
         </table>
-        <p className="mt-1 text-xs text-muted">Min, mean and max of every interval in the window, USD/MWh, computed on this page from the rows charted above.</p>
+        {/* session 10218 (the prices audit, finding 6): the day-ahead read has no end, so it reaches the newest hour
+            published, which can be the next day's; its window then ends up to 36 hours after the real time's */}
+        <p className="mt-1 text-xs text-muted" data-window-said="1">Min, mean and max of every interval held from 30 days before the page was drawn, USD/MWh, computed on this page from the rows charted above. The day-ahead runs to the newest hour published, which can be tomorrow&apos;s, so its window can end with tomorrow&apos;s last hour, up to 36 hours after the real time&apos;s: the From and To columns give each.</p>
       </div>
     </Brand>
   );
