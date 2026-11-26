@@ -10,6 +10,7 @@
 - **One fault of mine, caught before commit to the landing:** the I2 line did not wrap and pushed the page to 501 px at 390; it wraps now (the read found it, a probe named the element).
 - **Tests:** `site/scripts/test-datacenter-ui.test.mjs` (I4, I5), run by `tests/test_session10802_datacenter.py`; 22 node tests; 10 Python tests; seventeen addresses read clean at both widths; check-values 1,680 of 1,680.
 - **The Stata download** now computes the electricity tax too (the monthly blocks, and Ohio's elective schedule), as the Python one does; its lines are checked by the Python test (Stata is not on this machine).
+- **Also:** Creekstone's Millard County campus (Utah's Office of Economic Opportunity, 9 April 2026: 106 jobs; its USD 17.1 billion includes on-site generation, so it gives no ratio; request 357): 45 rows. A test that the datacenter runs in every state, with defaults and with every input typed, every figure finite. The readers' document records window F's findings and their fixes.
 - **Instructions slip:** one command this session used a heredoc (against "no heredocs") and hung waiting on input; it was stopped, nothing ran.
 - **Needs the key:** nothing.
 - **Decisions made without you:** a project named alone in an address is read as a pick (its figures set), rather than showing the list on "None".
