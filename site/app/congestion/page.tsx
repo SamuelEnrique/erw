@@ -36,6 +36,9 @@ const opOf = (id: string) => F.operators.find((o) => o.id === id.split(":")[0]);
 // Session 9001, row H2: SPP's places are named "SPP North hub" in the file, so the operator is not written twice.
 const placeLabel = (op: string | undefined, name: string) => (op && !name.startsWith(`${op} `) ? `${op} ${name}` : name);
 const labelOf = (p: Place) => placeLabel(opOf(p.id)?.name, p.name);
+// Session 10220 (congestion audit, finding 1): each operator splits its price against its own reference (the energy part
+// is the same at every place of one operator in every hour), so a congestion part compares places of one operator only.
+const REFERENCE_WORDS ="Each operator splits its price against its own reference: the energy part is the same at every place of one operator, so a congestion part says how far congestion put a place above or below that operator's reference price, not what the place's price would have been with no congestion. Places of one operator compare with each other; SPP's and CAISO's places are ranked in one table here, but each is measured against its own operator's reference, so a rank across the two operators means nothing. For two places of one operator, the difference of their congestion parts, with the difference of their loss parts (in the file, not drawn), is their day-ahead price spread.";
 
 // Session 9001 (part H): a figure given its page-file key (lib/pagefile.ts) renders through Num, so check-values reads
 // it again from site/data/conditions/congestion.json on its own.
@@ -127,7 +130,7 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
       <div data-congestion="1">
       <ToolHeader
         title="Congestion"
-        lead={<>Where the wires were full: the transmission constraints that bound in each operator&apos;s day-ahead market, with the shadow price the operator published, and the part of each hub&apos;s and zone&apos;s price that came from congestion. Two places can stand side by side. {" "}
+        lead={<>Where the wires were full: the transmission constraints that bound in each operator&apos;s day-ahead market, with the shadow price the operator published, and the part of each hub&apos;s and zone&apos;s price that the operator puts down to congestion, measured against its own reference price. Two places can stand side by side. {" "}
           <Hint words="What it does not say" why="The page shows what the operators published. A constraint is named as the operator names it, with no guess at where it is on a map. It gives no advice and makes no estimate of its own." /></>}
         under={<p className="mt-2 text-xs text-muted" data-license-line="1">License: public. File built {F.built.slice(0, 10)}.</p>}
       />
@@ -184,6 +187,8 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
               <Fig key="d" v={y.hours_congestion_down} src={`Hours whose congestion part was below zero. ${s}`} k={`pd-${p.id}`} check={at("hours_congestion_down")} fmt={whole} />,
             ] };
           })} />
+        {/* Session 10220 (congestion audit, finding 1): what a congestion part is measured against. */}
+        <p className="mt-2 max-w-3xl text-xs text-muted" data-reference-line="1">{REFERENCE_WORDS}</p>
       </ToolSection>
 
       <ToolSection title="Two places side by side" id="side">
