@@ -44,8 +44,9 @@ class TheRule(unittest.TestCase):
     def test_both_rules_are_in_the_checker_and_join_the_text_test(self):
         self.assertEqual(len(rule_lines()), 2)
         with open(CV, encoding="utf-8") as f:
-            # session 4219 (chain 239): the forecast's own text rule joins after them
-            self.assertRegex(f.read(), r"\|\| chartOk \|\| dcWhole \|\| dcOne( \|\| forecastOk)?;")
+            # session 4219 (chain 239): the forecast's own text rule joins after them; session 10809 (chain 740): the
+            # datacenter's on /impact after that
+            self.assertRegex(f.read(), r"\|\| chartOk \|\| dcWhole \|\| dcOne( \|\| forecastOk)?( \|\| dcimpactOk)?;")
 
     def test_the_page_writes_as_the_rules_read(self):
         with open(PAGE, encoding="utf-8") as f:
