@@ -1157,7 +1157,29 @@ def carried_over(present):
     lost = [r["table"] for r in gone if r["table"] not in md]
     if lost:
         raise ValueError(f"cannot carry over {lost}: no line for them in {os.path.relpath(DOC, ROOT)}")
+    for r in gone:
+        md[r["table"]] = align_carried(md[r["table"]], r)
     return gone, md
+
+
+def align_carried(line, row):
+    """Session 10000 (chain 701, part C5): a carried table's line in docs/coverage.md takes its first and last interval,
+    rows and last run from its carried CSV row, the record every reader of coverage.csv uses. The two were carried
+    apart: from 23 November the CSV held ercot_all_hub_prices_history at 3,124,224 rows to 19 November and the line at
+    3,125,376 to 21 November, and the package's test of erw.info() failed every day. Other cells are left as they are."""
+    cells = re.split(r"(?<!\\)\|", line)
+    # cells[0] is the text before the first bar (empty), cells[1:] the columns in MD_COLS order, then what follows the last
+    at = {c: MD_COLS.index(c) + 1 for c in ("First interval (UTC)", "Last interval (UTC)", "Rows", "Last run (UTC)")}
+    if len(cells) < at["Last run (UTC)"] + 2:
+        return line
+    put = {"First interval (UTC)": str(row.get("ts_min", "")).replace("T", " ").rstrip("Z"),
+           "Last interval (UTC)": str(row.get("ts_max", "")).replace("T", " ").rstrip("Z"),
+           "Rows": f"{int(row['n_rows']):,}" if str(row.get("n_rows", "")).isdigit() else None,
+           "Last run (UTC)": str(row.get("last_run", "")).replace("T", " ").rstrip("Z")}
+    for col, v in put.items():
+        if v is not None and v != "":
+            cells[at[col]] = f" {v} "
+    return "|".join(cells)
 
 
 MD_COLS = ["Table", "ISO", "Market", "Variable", "Nodes", "Interval",

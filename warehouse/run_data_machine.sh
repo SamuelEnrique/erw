@@ -472,6 +472,16 @@ soft_step dm_analysis_figures "$PYTHON" replication/analysis/figures_of_the_page
 # the page files above: the generator's builders read the capture file as it now stands (put back above if its builder
 # or its test failed). The seller's model writes a table as well as the snapshot, so it gets its stores when it moved.
 echo "== the battery page's downloads (a file whose hours and months are as held is left as it is)"
+# Session 10000 (chain 701, part C2): first the stack itself, here where ERCOT's price history is held. The runner builds
+# it without that history, so a day its rolling table lacks is left out there: 15 October 2026 (iso_rtm_hub_prices holds
+# none of its hours; ercot_all_hub_prices_history holds all 96), and both downloads failed from 24 November against a
+# table whose October held 29 days to their 30. Built and stored here, the archive's copy is the one the runner restores,
+# and its keep_fuller keeps a month whose earlier rows held more days, so the page, the table and the files agree.
+was_bs="$(sha_of battery_stack_monthly)"
+was_bss="$(sha_of battery_stack_stress_daily)"
+soft_step dm_battery_stack "$PYTHON" warehouse/derived/battery_stack.py
+table_stores dm_battery_stack_stores battery_stack_monthly "$was_bs"
+table_stores dm_battery_stack_stores_stress battery_stack_stress_daily "$was_bss"
 soft_step dm_battery_dispatch_export "$PYTHON" warehouse/scheduled.py battery_dispatch_export
 soft_step dm_battery_scenario_steps "$PYTHON" warehouse/scheduled.py battery_scenario_steps
 echo "== the generator page's builders and its hourly CSV"

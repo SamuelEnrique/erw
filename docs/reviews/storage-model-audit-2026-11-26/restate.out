@@ -1,0 +1,11 @@
+106 agree, 0 differ, of 97 marked figures and 9 words-level figures
+restated, not on the page: series|storage_daily_cycle|eia930:US48|round_trip_ratio|2026-11-01T00:00:00Z ('0.933', '0.93')
+agree words: inventory month
+agree words: 24-hour window end
+agree words: no-charge grids named 'ISO-NE and SPP'
+agree words: spark ERCOT: span 2026-10-03 to 2026-11-01, 30 values, gaps []
+agree words: spark ISO-NE: span 2026-10-01 to 2026-11-01, 30 values, gaps [['2026-10-14', '2026-10-15']]
+agree words: spark MISO: span 2026-10-01 to 2026-11-01, 30 values, gaps [['2026-10-14', '2026-10-15']]
+agree words: spark SPP: span 2026-10-01 to 2026-11-01, 30 values, gaps [['2026-10-14', '2026-10-15']]
+agree words: spark US Lower 48: span 2026-10-03 to 2026-11-01, 30 values, gaps []
+agree words: spark CAISO: span 2026-10-05 to 2026-11-04, 30 values, gaps [['2026-11-01', '2026-11-01']]

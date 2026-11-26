@@ -227,6 +227,52 @@ Read on production on 26 November at 11:42 UTC (`runs/c750/b10.mjs`). Both fault
 
 Picture: `docs/reviews/browser-read-2026-11-26/events-covid-2020/covid-390-tables-showing.png` (390 px with the tables showing).
 
+## Part D: the sellable tools, at 1280 and 390 px
+
+Read on production on 26 November from 12:30 UTC, while none of tonight's pages had landed. Figures by the site's own `check-values` (each marked figure fetched in the internal view and set beside Supabase's public REST view; run in the foreground on each tool's own addresses); the hand by `runs/c750/d_battery.mjs` and `runs/c750/d_tool.mjs`.
+
+### What a battery earns (`/cost-of-power/battery`)
+
+Whose: no window's tonight (its model was audited on 20 November; that audit's branches are the old laptop's).
+
+**Five cases.** (1) *A developer:* what did a 100 MW, 4-hour battery in ERCOT earn over the last twelve months? The page's first sentence: USD 80.40 per kW (USD 8.04 million), 33 percent of it from ancillary services. (2) *A lender:* did it cover its debt, and what does a bad month look like? 2.58 times; the 10th-percentile month of the last 36 is USD 475,477 (December 2024). (3) *A CAISO developer:* 4 hours on the day-ahead schedule: choosing CAISO and then the schedule puts both in the address and the sentence reads USD 65.96 per kW, debt covered 1.94 times. (4) *An investor:* is it worth building, and how much does the capital cost matter? With the capital cost changed from 1,110 to 800 USD per kW the coverage goes from 2.58 to 3.58 and the address carries `ac=800`; the field's Reset puts every figure back. (5) *A reader on a phone:* a link carrying 2 hours opens on 2 hours (USD 57.90 per kW, 47 percent from ancillary services), every figure's key saying so. Each answered on the page.
+
+**Figures.** `check-values` on the tool's 13 addresses (both grids at 2, 4 and 8 hours under both strategies, the scenario and assumption addresses, the awards page) with the generator page's four: 988 of 988 match Supabase.
+
+**The hand, 24 of 24 at each width.** Every control has a name; the units switch, the grid and the strategy each carry into the address; after the back button the choices read what the address says; a held grid in the address (PJM) leaves the page on ERCOT with PJM's choice disabled and "license needed" beside it, and no figure of PJM is drawn; the fifteen boxes of the headline and chart pickers each change the page and change it back; the nine "About" marks each open a box inside the screen; both charts give a card under the mouse and a finger; the keyboard reaches the foot (85 stops at 1280 px, 35 at 390 px, where the assumptions are folded), every stop seen and marked. No sideways scroll after any step, with every fold open, at 390 px. Usable in 0.4 s. **No fault.**
+
+Pictures: `docs/reviews/browser-read-2026-11-26/battery/battery-as-it-opens-1280.png`; `docs/reviews/browser-read-2026-11-26/battery/battery-caiso-day-ahead-1280.png` (its most telling choice: CAISO on the day-ahead schedule).
+
+### What a generator earns (`/cost-of-power/seller`)
+
+Five views as five cases: a solar developer in ERCOT (opens: USD 59.85 per kW over October 2025 to September 2026, against a long-run USD 102.24 a year; the price it received was USD 23.27 per MWh), a battery selling energy alone (USD 58.53), a gas peaker (a margin over fuel of USD 48.15), a wind plant in SPP at the North hub (USD 83.59; "SPP holds one full year, 2025 ... There is no long-run average yet"), a solar plant in CAISO at SP15 (USD 28.45; 51.6 percent below the flat average price). Each first sentence answers its reader.
+
+- **Figures:** in the 988 of 988 above.
+- **The hand, 70 of 70 at 1280 px and 69 of 69 at 390 px:** no quiet fault as each opens or with every table shown and every fold open; every control named; both charts give a card; no mark's box past the screen; the keyboard to the foot (79 to 94 stops). Each view loads in 0.3 to 1.5 s. **No fault.**
+- Noted on 20 November and unchanged: this tool's last twelve months end in September 2026 and the battery tool's in October.
+
+Picture: `docs/reviews/browser-read-2026-11-26/generator/generator-as-it-opens-1280.png`.
+
+### Automated Analysis (`/research`, its cards, `/attention`)
+
+- **Figures:** `check-values` on `/research`, five cards, `/attention` and the Grid tool's addresses together: 1,377 of 1,377 match Supabase.
+- **The hand, 65 of 65 at each width** on `/research`, three cards and `/attention`: no quiet fault, every control named (242 buttons on `/research`), each card's charts answer the mouse and a finger with their figures ("2021-01 ERCOT: Worst-interval multiple (P99.9 / median): 19.37"), the keyboard reaches the foot (377 stops on `/research`). Each loads in under a second.
+- **Row R1, words that are not true, for the old laptop (window D, chain 710, whose audit of Automated Analysis runs tonight): the small example charts.** Done: the mouse passed over each of the six small example charts of `/research` at 60 places, and a finger at 390 px (`runs/c750/d_research_hover.mjs`, `d_research_titles.mjs`). Seen: no card and no value; each example holds one tooltip, its own name ("Example: Small multiples: ERCOT"). The line above them says "drawn small: real values, hover reads them" (and, for a template, "Hover reads the values."). Should be seen: either the values under the hand, or a line that does not promise them. The cause is plain in the code: the picker's small example is drawn with no card by design (`site/components/svgchart.tsx`, `small`: "no toggle, no card, no names"), and the sentence in `site/components/analysis/RequestFlow.tsx` was written as if it had one. The large charts of the same page do answer (18 of 18 places). Not edited here. Also line 8 under "For Samuel's ruling".
+
+Picture: `docs/reviews/browser-read-2026-11-26/automated-analysis/research-as-it-opens-1280.png`.
+
+### The Grid tool (`/grid`)
+
+Whose: no window's page tonight. The old laptop's audit of its figures (chain 710, part D) is written and on main (`docs/reviews/grid-model-audit-2026-11-26.md`, six findings on `wip/audit-grid-1` to `6`); none of them is the row below.
+
+- **Figures:** `check-values` on every address of the tool in its list (the eight grids in each view, the Network and Gravity shapes, the alerts page): in the 1,377 of 1,377 above. The thirteen regions: B7.
+- **The hand** (`runs/c750/d_tool.mjs`) on the Lower 48's Mix tab, ERCOT's Mix, Clean and Exchange tabs, PJM's Mix tab and the Network view: 81 of 81 at 1280 px, 80 of 81 at 390 px; the one miss was this read arriving while the page was still going back, and the back button was then tried 18 times on the tool's two lists at both widths, each time reading what the page shows (`runs/c750/d_grid_probe.mjs`). Every control named; each chart gives a card under the mouse and a finger but the Exchange tab's circles (whose figures are in the list beside them); the keyboard reaches the foot (65 to 138 stops). Loads in 0.5 to 2.7 s.
+- **Samuel's standing rulings, each looked for on the Network view at both widths, all there:** light mode only (a white page, no switch to dark); the free-floating 3D network; carbon intensity the color that opens ("Carbon intensity of generation: 158 to 355 kg CO2/MWh; grey: not held"); no name drawn on the network; the "Watch" stories (Live now, California's evening, Texas during Uri, The June 2025 heat); the side panel; the Batteries switch (off as it opens).
+- **Row GW1, a fault: "Same day last week" loses its first hours.** Done: on each of the seven grids' pages, the chart "hourly demand today so far and the same day last week" switched to its table (`runs/c750/d_grid_lastweek.mjs`, 13:02 UTC). Seen: last week's column reads "not held" for the day's first 5 hours on CAISO, 7 on ERCOT and SPP, 8 on PJM, MISO, NYISO and ISO-NE; it starts at 13:00 UTC on every grid. Should be seen: all 24 hours; the live set holds them (24 of 24 hours of 17 November for ERCOT, PJM, CAISO and the Lower 48, read through the public REST view, `runs/c750/live_days.py`). Cause: the page reads nine days of demand back from the clock (`site/lib/grid.ts`), while its "today" is the latest day EIA has published, 24 November, two days behind the clock; last week's day began before the read does. The cut grows by an hour every hour until the next load, and the line is whole only while the loads are less than a day behind. **Fixed** on `wip/c750-grid-last-week` (`aad80aaba`): the read reaches sixteen days (the lag plus eight are needed), for the page and for the Now view's "same hour a week earlier"; `tests/test_session11000_grid_last_week.py` works the rule through and fails on nine days. Landing row 4, ready, to be seen.
+- G1 (the reliability table at 390 px) is above, in B4.
+
+Pictures: `docs/reviews/browser-read-2026-11-26/grid-tool/grid-as-it-opens-1280.png` (the Lower 48, Mix); `docs/reviews/browser-read-2026-11-26/grid-tool/grid-network-1280.png` (the Network view's controls: the Watch stories, the day, the two switches).
+
 ## For Samuel's ruling (each with the page left as it is)
 
 1. **A reason on hover and a finger.** Why a strip or a cell is blank, why two figures differ, and what a colored cell holds are given as the browser's own tooltip. A mouse opens it; a finger at 390 px opens nothing. Seen on `/conditions` (the blank strips), `/congestion` (the hour-by-month cells, the operators not drawn), `/demand`, `/supply` and `/events` (blank cells and the figures' notes). The "i" marks and the chart cards do open on a tap. Default taken: nothing changed. The question: should a blank's reason open on a tap, as the "i" marks do?
@@ -235,4 +281,5 @@ Picture: `docs/reviews/browser-read-2026-11-26/events-covid-2020/covid-390-table
 4. **`/supply`, a year with a month left out.** The mix table is 1,325 px wide inside its frame (900 px otherwise), because "not held yet" does not wrap; on a phone two columns show at a time. The page itself keeps to 390 px. Default: left.
 5. **The tour's Digest stop** still quotes two headings the Digest page does not show ("Top of the industry", "ERW's Numbers Today"); the tour's check passes 101 of 103 for it. Standing since 20 November. Default: left.
 6. **`/conditions`, the alerts list.** On the branch every notice is a row (79 rows for CAISO's August 2020 heat wave). If the list should stay at 40, the page should say that it is cut and where it stops; one line either way.
+8. **`/research`, "hover reads them".** The six small example charts give no value under the mouse or a finger, by design, and the line above them says they do. Default: left (the old laptop audits Automated Analysis tonight; row R1 names it). The choice: take the words out, or give the small examples their values.
 7. **"not held" in a chart's table, with no reason.** A chart switched to its table prints "not held" for a missing value and gives no reason on hover (1,206 blanks on the 22 pages of B12 and B14). The tables the pages draw themselves do give one. Default: left; the shared chart table does not know why a value is missing.
