@@ -109,7 +109,9 @@ export function AskForm({ grid = null, initial = "", placeholder, examples = [] 
           <p className="mt-3 text-xs text-muted">
             {typeof res.seconds === "number" ? <span data-answered-in={res.seconds.toFixed(1)}>Answered in {res.seconds.toFixed(1)} seconds; </span> : null}
             {res.tool_calls} warehouse queries by {res.model}
-            {res.retried ? "; the first draft was sent back because a number could not be traced" : ""}
+            {/* session 10234 (the chat's audit, finding 5): a draft is sent back for a figure, a unit, a citation, an empty answer, a refusal
+                that states a figure or an answer cut short (lib/chat/ask.ts), not only for a number that could not be traced */}
+            {res.retried ? "; the first draft did not pass the checks and was sent back once" : ""}
             {res.cost_usd !== null ? `; model cost USD ${res.cost_usd.toFixed(4)}` : ""}.
           </p>
         </section>
