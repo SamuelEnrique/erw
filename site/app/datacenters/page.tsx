@@ -90,8 +90,9 @@ export default async function DatacentersPage({ searchParams }: { searchParams: 
       <p className="mb-8 max-w-3xl text-sm text-muted">
         A news facility is extracted from the stories&apos; titles and summaries by a model, and every value was checked against the text; an
         operator&apos;s site is read from its own page, with MW only where the page states it. Nothing is inferred, so a field no source states is
-        blank. A facility found by several stories, or by the news and an operator&apos;s list (same operator and place), is one row with every source
-        linked. Placed facilities are also on the <Link href="/map">project map</Link>. What a datacenter pays for wholesale energy in each ISO:
+        blank. Stories are one facility when they name the same operator or developer, the same site, or the same county or city in a state; a story
+        and an operator&apos;s list are one when they share an operator and a place. Each facility is one row with every source linked. One row was joined
+        from two stories on their state alone, before that rule, and stays as it is until the news table is rebuilt. Placed facilities are also on the <Link href="/map">project map</Link>. What a datacenter pays for wholesale energy in each ISO:
         the <Link href="/cost-of-power">cost of power</Link> calculator. <Link href="/data/methods/datacenter_facilities">Method</Link>.
       </p>
     </>

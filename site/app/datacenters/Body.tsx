@@ -156,6 +156,8 @@ export function Body({ rows, today, children }: { rows: Facility[]; today: strin
         <p className="mb-8 text-xs text-muted">
           Sums count only facilities in a named US state whose status is not withdrawn (cancelled), and whose story or operator page states MW, and a
           state or operator. A queue position&apos;s MW is the generation or storage it asks to connect, not the datacenter&apos;s load, so it is never summed.
+          One facility joined from two stories on their state alone, before the rule that now refuses such a join, is in every sum with the megawatts of
+          the later story until the news table is rebuilt (the tracker&apos;s method note, section 4).
         </p>
       </section>
       {children}
