@@ -114,7 +114,7 @@ export const GROUPS: Group[] = [
       { href: "/events", label: "Events", line: "What happened to a grid during a major event, day by day, against the same days of earlier years: Winter Storm Uri, COVID-19 in the seven ISO grids, the August 2020 heat in CAISO, Winter Storm Elliott and the summer 2023 heat in ERCOT.", tables: "event_window_daily", related: ["/grid"] },
       { href: "/policy", label: "Policy", line: "Energy rules, proposed rules and notices from the Federal Register and agency news, scored, with impact reads of the significant ones.", tables: "policy_actions, policy_reads", related: ["/digest", "/deals"] },
       // session 135: Thesis Builder as a tool of the site (in review, and internal: the page answers only the internal view). Session 146: moved here from Projects, which holds eight with "Where the resources are"
-      { href: "/thesis", label: "Thesis Builder", line: "Type a niche and get a sourced investment map of it: scope and definitions, trends, the company landscape, the deal funnel, the pipeline, capital, incumbents, risks and policy, every figure with its source.", tables: "thesis_runs (internal)", related: ["/deals", "/policy"] },
+      { href: "/thesis", label: "Thesis Builder", line: "Type a niche and get a sourced market report of it: scope and definitions, five trends each drawn with a real series, capital, incumbents, risks, policy and timing, every figure with its source; the company landscape, deal funnel and pipeline fill from a data provider's answer you paste from your own account. Internal.", tables: "thesis_runs (internal)", related: ["/deals", "/policy"] },
     ],
   },
   {
