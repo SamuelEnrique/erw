@@ -81,8 +81,9 @@ class ThePath(unittest.TestCase):
         self.assertIn('"/tour", "/tour/1", "/tour/7"', src("site", "scripts", "check-routes.mjs"))
 
     def test_the_menu_line(self):
-        # chain 507 (session 8902): twelve stops since the whole country's five joined the ruled seven
-        self.assertIn("Twelve stops for a first visit, about eight minutes", src("site", "lib", "pages.ts"))
+        # chain 507 (session 8902): twelve stops since the whole country's five joined the ruled seven. Session 10236 (the
+        # audit of the home page and the tour, finding 9): sixteen since four more landed; the line keeps no count
+        self.assertIn("A guided path for a first visit, one page a stop with Back and Next", src("site", "lib", "pages.ts"))
 
 
 if __name__ == "__main__":
