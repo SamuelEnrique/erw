@@ -193,8 +193,12 @@ test("Arizona through the tenth full year (41-1519), North Carolina USD 75 milli
   const wi = D.dcRun(D.dcDefaults(P, "wi", { invest: 200, perm: 5, matshare: 40, start: 2026, build: 2, life: 10 }), P);
   // no term: every purchase forgone: build and 2033 equipment (2 x 136.4e6) and the building's 40 percent of 39.2e6, at 5.72 percent.
   near(wi.sums.forgone, (2 * 136.4e6 + 39.2e6 * 0.4) * 0.0572, "WI");
-  const ut = D.dcRun(D.dcDefaults(P, "ut", { invest: 2000, perm: 100 }), P);
-  assert.equal(ut.exemption.held, true); assert.equal(ut.exemption.eligible, false);
+  // Utah (59-12-104(84) with 59-12-102(111), session 10813): no investment, jobs or term; equipment only, every purchase forgone
+  const ut = D.dcRun(D.dcDefaults(P, "ut", { invest: 2000, perm: 1, start: 2026, build: 2, life: 10 }), P);
+  assert.equal(ut.exemption.eligible, true);
+  const urate = D.dcDefaults(P, "ut").sales / 100;
+  near(ut.sums.forgone, 2 * 2e9 * 0.682 * urate, "UT: the build and 2033");
+  near(D.dcRun(D.dcDefaults(P, "ut", { invest: 2000, perm: 1, dcex: false }), P).sums.forgone, 0);
 });
 
 test("Montana's class seventeen: 0.9 percent of market value with USD 50 million, else no rule (the reader's rate on cost)", () => {
@@ -205,14 +209,26 @@ test("Montana's class seventeen: 0.9 percent of market value with USD 50 million
   near(D.dcStat(small, "y1:propb"), 40e6 * 0.196 * 0.01);
 });
 
-test("Kansas (74-50,332): USD 250 million and 20 jobs, equipment and building; Georgia held as words", () => {
+test("Kansas (74-50,332): USD 250 million and 20 jobs, equipment and building", () => {
   assert.equal(D.dcRun(D.dcDefaults(P, "ks", { invest: 250, perm: 20 }), P).exemption.eligible, true);
   assert.equal(D.dcRun(D.dcDefaults(P, "ks", { invest: 250, perm: 19 }), P).exemption.eligible, false);
-  const ga = D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 100 }), P);
-  assert.equal(ga.exemption.held, true); assert.equal(ga.exemption.eligible, false); near(ga.sums.forgone, 0);
 });
 
-test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and 4); Mississippi held as words", () => {
+test("Georgia (48-8-3(68.1) as HB 1291 amended it): USD 250 million and 25 jobs, equipment bought through 2031", () => {
+  const ga = D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 100, start: 2027, build: 2, life: 20, refresh: 5 }), P);
+  assert.equal(ga.exemption.held, true); assert.equal(ga.exemption.eligible, true);
+  // equipment 2e9 x 68.2% = 1.364e9 a purchase, at Georgia's state and local rate; bought in the build (2027-28) and in 2034, 2039, 2044:
+  // only the build is on or before 2031, so one purchase of four is forgone.
+  const rate = D.dcDefaults(P, "ga").sales; // percent, the Tax Foundation's state and average local rate
+  near(ga.sums.salesbefore, 4 * 1.364e9 * rate / 100, "GA before");
+  near(ga.sums.forgone, 1.364e9 * rate / 100, "GA forgone: the build only");
+  assert.equal(D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 24 }), P).exemption.eligible, false);
+  assert.equal(D.dcRun(D.dcDefaults(P, "ga", { invest: 249, perm: 100 }), P).exemption.eligible, false);
+  // a project starting in 2032 or later buys nothing in the exemption's period
+  near(D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 100, start: 2032 }), P).sums.forgone, 0);
+});
+
+test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and 4); Mississippi and Illinois held as words", () => {
   const r = D.dcRun(D.dcDefaults(P, "ga", { invest: 1000, perm: 100, cons: 500, build: 2 }), P);
   assert.equal(r.chain.held, true);
   // construction: 500 on site each year x (15,809 + 4,954 + 7,587) / 15,809, over two years
@@ -223,6 +239,48 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   near(D.dcStat(r, "o:earnings:total"), 100 * w * (262.314298 + 125.838075 + 104.443068) / 262.314298);
   const ms = D.dcRun(D.dcDefaults(P, "ms", { invest: 2000, perm: 100 }), P);
   assert.equal(ms.exemption.held, true); assert.equal(ms.exemption.eligible, false);
+  // Arkansas (26-52-456 as Act 548 of 2025 amended it, session 10813): USD 100 million; the state's rate only; no term
+  assert.equal(D.dcRun(D.dcDefaults(P, "ar", { invest: 99, perm: 5 }), P).exemption.eligible, false);
+  const ar = D.dcRun(D.dcDefaults(P, "ar", { invest: 2000, perm: 5, start: 2026, build: 2, life: 10 }), P);
+  assert.equal(ar.exemption.eligible, true);
+  // equipment 1.364e9 bought in the build and in 2033, at the state's 6.5 percent (0.065 in the sales table): 177,320,000
+  near(ar.sums.forgone, 2 * 1.364e9 * P.sales.states.ar.state_rate, "AR forgone at the state rate");
+  // Oklahoma (the Incentive Evaluation Commission's draft of 30 September 2026, session 10813): no threshold or term; the state's 4.5 percent
+  const ok = D.dcRun(D.dcDefaults(P, "ok", { invest: 10, perm: 1, start: 2026, build: 2, life: 10 }), P);
+  assert.equal(ok.exemption.eligible, true);
+  near(ok.sums.forgone, 2 * 10e6 * 0.682 * 0.045, "OK forgone: the build and 2033, 613,800");
+  // Connecticut (DECD's program page, session 10815): USD 200 million; 20 years, 30 with USD 400 million; 6.35 percent, no local tax
+  assert.equal(D.dcRun(D.dcDefaults(P, "ct", { invest: 199, perm: 5 }), P).exemption.eligible, false);
+  const ct = D.dcRun(D.dcDefaults(P, "ct", { invest: 300, perm: 5, start: 2026, build: 2, life: 30 }), P);
+  // purchases in the build (2026-27) and 2033, 2038, 2043 are before 2046; 2048 and 2053 are not: 4 of 6
+  near(ct.sums.forgone, 4 * 300e6 * 0.682 * 0.0635, "CT 20 years");
+  const ct30 = D.dcRun(D.dcDefaults(P, "ct", { invest: 400, perm: 5, start: 2026, build: 2, life: 30 }), P);
+  near(ct30.sums.forgone, 6 * 400e6 * 0.682 * 0.0635, "CT 30 years: every purchase before 2056");
+  // Illinois (session 10813): the program paused for new applications from 1 July 2026, held as words
+  const il = D.dcRun(D.dcDefaults(P, "il", { invest: 2000, perm: 100 }), P);
+  assert.equal(il.exemption.held, true); assert.equal(il.exemption.eligible, false); near(il.sums.forgone, 0);
+  // Massachusetts (session 10815): applications not accepted since the framework of 25 June 2026, held as words
+  const ma = D.dcRun(D.dcDefaults(P, "ma", { invest: 2000, perm: 200 }), P);
+  assert.equal(ma.exemption.held, true); assert.equal(ma.exemption.eligible, false); near(ma.sums.forgone, 0);
+  // Ohio (session 10815): the Tax Credit Authority takes no new requests since the Governor's directive of 27 May 2026, held as words
+  const oh = D.dcRun(D.dcDefaults(P, "oh", { invest: 2000, perm: 100 }), P);
+  assert.equal(oh.exemption.held, true); assert.equal(oh.exemption.eligible, false); near(oh.sums.forgone, 0);
+  // Nebraska (session 10815): ImagiNE incentives closed to data centers by the order of 21 July 2026, held as words
+  const ne = D.dcRun(D.dcDefaults(P, "ne", { invest: 2000, perm: 100 }), P);
+  assert.equal(ne.exemption.held, true); assert.equal(ne.exemption.eligible, false);
+  // Alabama (session 10816): local Chapter 9B abatements, granted case by case, held as words
+  const al = D.dcRun(D.dcDefaults(P, "al", { invest: 2000, perm: 100 }), P);
+  assert.equal(al.exemption.held, true); assert.equal(al.exemption.eligible, false);
+  // Wyoming (39-15-105(a)(viii)(S), session 10816): USD 5 million; the state's 4 percent; no term
+  assert.equal(D.dcRun(D.dcDefaults(P, "wy", { invest: 4, perm: 5 }), P).exemption.eligible, false);
+  const wy = D.dcRun(D.dcDefaults(P, "wy", { invest: 100, perm: 5, start: 2026, build: 2, life: 10 }), P);
+  near(wy.sums.forgone, 2 * 100e6 * 0.682 * 0.04, "WY: the build and 2033 at 4 percent");
+  // Michigan (the Strategic Fund's guidelines, session 10815): USD 250 million and 30 jobs, purchases through 2050, certificates before 2030
+  assert.equal(D.dcRun(D.dcDefaults(P, "mi", { invest: 300, perm: 29 }), P).exemption.eligible, false);
+  assert.equal(D.dcRun(D.dcDefaults(P, "mi", { invest: 300, perm: 30, start: 2030 }), P).exemption.eligible, false);
+  const mi = D.dcRun(D.dcDefaults(P, "mi", { invest: 300, perm: 30, start: 2026, build: 2, life: 30 }), P);
+  // the build and 2033, 2038, 2043, 2048 are through 2050; 2053 is not: 5 of 6 purchases, at 6 percent
+  near(mi.sums.forgone, 5 * 300e6 * 0.682 * 0.06, "MI through 2050");
 });
 
 test("the equipment's taxable value by a county's schedule: Loudoun's 2026 (60, 45, 30, 15, 10 percent) reproduced", () => {
