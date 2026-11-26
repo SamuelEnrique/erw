@@ -158,6 +158,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 8901 (chain 507, part C): the four sets of the whole country, every figure a pf| key into a committed page file
   "/learn/problems/who-trades-with-whom", "/learn/problems/storm-across-the-country", "/learn/problems/under-the-ground-and-in-the-wind",
   "/learn/problems/where-energy-goes",
+  // session 10404 (chain 720, part E): the waiting set of the ERW forecast's report card, every figure a pf| key into site/data/predict/scores.json
+  "/learn/problems/a-forecasts-report-card",
   // session 9001 (chain 601, part H): the congestion page's tables, every figure a pf| key into site/data/conditions/congestion.json
   "/congestion", "/congestion?op=caiso&year=all",
   // and grid conditions' window at a glance, every figure a pf| key into site/data/conditions/<operator>.json
