@@ -266,6 +266,15 @@ def board(args, log):
                 os.remove(os.path.join(s_old, rid + ".json"))
         if gone:
             log(f"  removed the series files of {len(gone)} dropped rows of held grids")
+        # session 10000 (chain 701, done-line request 576): an hourly file of a held grid was never removed (this step only
+        # copies new files in), so NYISO's and ISO-NE's hourly prices written before the hold of 20 October stayed under
+        # site/public/board/h, served to any visitor. Such a file leaves with its grid's hold. MISO is held too, but its
+        # pause (docs/methods/miso_pause.md) keeps its tables and pages as they are until a person lifts it: left
+        for name in sorted(f for f in os.listdir(h_old) if f.endswith(".json")):
+            grid = GRID_OF_PREFIX.get(name.split("-", 1)[0])
+            if grid in held and grid != "MISO":
+                os.remove(os.path.join(h_old, name))
+                log(f"  removed the hourly file {name}: {grid} is held for a license")
         hourly_kept = 0
         for name in sorted(f for f in os.listdir(h_new) if f.endswith(".json")):
             src, dst = os.path.join(h_new, name), os.path.join(h_old, name)

@@ -225,7 +225,18 @@ def main(argv=None):
 
     lic, _ = pc.licenses()
     tables = cz.readable(in_dir, lic, log)
-    grids = [g for g in cz.GRIDS if not ip.paused(g)]
+    # session 10000 (chain 701, done-line request 576): a grid held for a license (license_status.held_grids: NYISO and
+    # ISO-NE from 20 October 2026) is not offered: its year files of hourly prices were written on 20 November and served
+    # to any visitor from site/public/seller/prices. Its old files there are removed (the folder is this builder's output)
+    sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
+    import license_status as lstat  # noqa: E402
+    held_names = {cz.GRIDS[g]["name"] for g in cz.GRIDS} & set(lstat.held_grids())
+    held = {g for g in cz.GRIDS if cz.GRIDS[g]["name"] in held_names}
+    for old in sorted(os.listdir(price_dir)):
+        if old.endswith(".json") and old.split("_", 1)[0] in held:
+            os.remove(os.path.join(price_dir, old))
+            log(f"  removed {old}: {cz.GRIDS[old.split('_', 1)[0]]['name']} is held for a license")
+    grids = [g for g in cz.GRIDS if not ip.paused(g) and g not in held]
     entities = {f"{g}:{cz.GRIDS[g]['main']}": g for g in grids}
     x = read_day_ahead(in_dir, tables, list(entities), log)
     hourly = {}

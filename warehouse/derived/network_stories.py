@@ -52,12 +52,25 @@ def read(name, cols):
 HUB_BA = {"ercot": "ERCO", "caiso": "CISO", "nyiso": "NYIS", "miso": "MISO", "spp": "SWPP", "isone": "ISNE"}  # PJM: internal prices
 
 
+def held_bas():
+    """Session 10000 (chain 701, done-line request 576): the balancing authorities whose grid is held for a license
+    (license_status.held_grids: NYISO and ISO-NE from 20 October 2026). Their hub prices are not written: the Network
+    view's files served them to any visitor. MISO is held too, but its pause keeps its files as they are."""
+    sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
+    import license_status as lstat
+    ba_of = {"NYISO": "NYIS", "ISO-NE": "ISNE", "ERCOT": "ERCO", "CAISO": "CISO", "SPP": "SWPP"}
+    return {ba_of[g] for g in lstat.held_grids() if g in ba_of}
+
+
 def hub_prices(log=print):
     """{BA: hourly real-time price of its ISO's main hub, USD/MWh}, complete hours only, from the price tables the cost of
-    power reads (cost_of_power.prices_of); PJM's prices are internal and not read."""
+    power reads (cost_of_power.prices_of); PJM's prices are internal and not read, nor a held grid's (held_bas)."""
     import cost_of_power as cp
     out = {}
+    held = held_bas()
     for iso, ba in HUB_BA.items():
+        if ba in held:
+            continue
         df, _ = cp.prices_of(iso, "rtm", lambda m: None)
         out[ba] = cp.hourly(df)
     return out
