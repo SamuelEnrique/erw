@@ -1,0 +1,8 @@
+[erw] SUPABASE_URL or SUPABASE_ANON_KEY is not set on the server
+/states?: 203 figures, 9 not held, 81 none, 317 titles -> ../runs/c10223/b2_default.*
+[erw] SUPABASE_URL or SUPABASE_ANON_KEY is not set on the server
+/states?a=VA: 159 figures, 17 not held, 11 none, 211 titles -> ../runs/c10223/b2_a_VA.*
+(node:17876) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-b/site/lib/cells.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-b\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

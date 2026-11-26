@@ -320,6 +320,61 @@ Read 26 November 13:18 UTC with chain 620's own script (`runs/c750/d_first_minut
 
 Pictures: `docs/reviews/browser-read-2026-11-26/first-minute/` (`a-stranger-at-the-home-page-1280.png`, `the-home-page-internal-view-1280.png`, `the-menu-open-390.png`).
 
+## Part C: what landed tonight, as it landed
+
+### The landing of 14:16 UTC (`task/c701-desk-3`), read on production at 14:23 UTC
+
+Production showed the earlier build at 14:18 and 14:20 UTC and the new one from about 14:21:50 (`runs/c750/c_landed.mjs`, three reads). It brought `/impact` with Datacenter (window C), this window's rows 1, 2 and 3, and the old laptop's audit fixes of words.
+
+**This window's three rows, seen where a reader meets them, at 1280 and 390 px:**
+
+| Row | Before (14:18 UTC) | After (14:23 UTC) |
+|---|---|---|
+| 1, `/grid?grid=caiso` at 390 px | 539 of 390 px | 390 of 390 px; the reliability table 526 px wide inside its 358 px frame; its 226 empty cells still read "none" |
+| 3, `/conditions`, CAISO over the September 2022 heat wave | "(44)" over 40 rows, the last of 8 September | "(44)" over 44 rows, the last "2022-09-09 RMO 12:00 to 22:00" |
+| 3, the same over the August 2020 heat wave, beside SPP | "(79)" over 40 rows, the last of 17 August | "(79)" over 79 rows, the last of 24 August; the page 390 of 390 px with them |
+| 3, the line under an operator's name | "days and hours in America/Los_Angeles clock time for days and hours" | "America/Los_Angeles clock time for days and hours" |
+| 2, `/events/covid-2020` at 390 px with every table shown | 392 of 390 px | 390 of 390 px |
+| 2, `/curtailment/where-when`, the trend's table | "CAISO, the whole system: curtailment, GWh" over solar alone | "CAISO, the whole system: solar curtailed, GWh" |
+
+Picture: `docs/reviews/browser-read-2026-11-26/grid-caiso-reliability/reliability-390-after-the-landing.png` (CAISO's reliability section at 390 px after the landing).
+
+**The pages whose words the landing changed** (the old laptop's audit fixes on `/curtailment`, `/datacenters`, the queues, `/severance`, `/storage`, the Grid tool's tabs and `/cost-of-power`), after it: the site's own figure check on their 106 addresses, 6,680 of 6,680 match Supabase (14:41 UTC); eighteen of them at 1280 and 390 px as they open and with every table shown (`runs/c750/quiet_tables.mjs`): no quiet fault but CP1, which is filed and still there (`/cost-of-power?view=grids`, 1,677 px at 390 px with its hour-of-day table shown).
+
+### `/impact` with Datacenter (window C's, chain 740: read, never edited)
+
+**The four plant types show the figures they showed before.** Every marked figure of sixteen addresses of `/impact` was saved while production still drew the earlier build, and again after it drew the new one (`runs/c750/c_impact_figs.mjs`). The deploy came in the middle of the first pass, so eleven addresses were truly read before (land-based wind in three states and as the page opens, utility solar in four, natural gas in three) and five after. On those eleven: 1,700 figures, each with the same key, the same raw value and the same words after as before; the page's sentences the same; the count of "not held" the same. None differs, none is gone. Geothermal was not caught before the deploy; its figures that earlier browser reads wrote down are on the page as they were (Nevada, 36 MW: property tax, first operating year USD 876,642; Nevada, 26.5 MW: taxes, present value USD 0 with its blanks). So are the opening page's (construction jobs 515, operating jobs 44.7, construction earnings USD 41 million, sales and use tax USD 19.9 million, earnings present value USD 83.6 million), Wyoming's wind (property tax over the life USD 36.2 million) and Minnesota's (689 job-years).
+
+**The Datacenter part, read in full at 1280 and 390 px** (14:25 to 14:36 UTC; `runs/c750/c_impact_dc3.mjs` to `c_impact_dc6.mjs`, `c_impact_tracker.mjs`).
+
+*Five cases, written first, then taken on the page.*
+
+1. *A county commissioner in Texas:* what would a 1,000 MW datacenter bring? The page opens on it: 5,500 construction jobs, 306 permanent jobs, USD 411.2 million of construction earnings, USD 2.46 billion of sales and use tax over the life. Property tax is blank until the reader types the county's rates, and says so. Answered.
+2. *An economic developer in Virginia:* what does the state's exemption cost? Virginia chosen: sales and use tax before the exemption USD 1.73 billion, forgone by it USD 865.7 million, paid USD 865.7 million; jobs with the state's own study's ratios (9,250 construction, 1,037 operating). Answered.
+3. *A journalist checking an announcement:* Meta's expanded Richland Parish campus picked from Louisiana's list: 5,000 MW, USD 50,000 million, 1,000 permanent jobs and 7,500 construction workers, each the document's, and "the document" opens Louisiana Economic Development's release of 13 July 2026. Louisiana's exemption forgoes all USD 3.04 billion of the default's sales tax. Answered.
+4. *A skeptic:* what do the totals leave out? Each missing part is a blank with its reason; the total itself does not say (row I2).
+5. *A reader on a phone:* the page is 390 px wide as it opens, with a project picked and with every table shown and fold open; each chart gives a card under a finger; all 53 marks open inside the screen.
+
+*Figures.* All 25 announced projects of `site/data/forecast/datacenter_announced.json` picked in their ten states: each sets the megawatts, the permanent jobs and the construction workers its document states (a figure the document does not state keeps its default), and the investment in 2025 dollars (a 2024 announcement times 1.026, 2023 times 1.053, 2021 times 1.170, 2018 times 1.260; a 2025 or 2026 one as stated). Each names its document and links it: 25 of 25. The address the page writes after a pick, opened fresh, shows the same figures at both widths (three projects). Six states' A and B tables read row by row: Texas, Ohio and Wyoming (no exemption read: blank, with the reason), Virginia (half the sales tax forgone), Louisiana (all of it), Georgia (row I3).
+
+*A part with no public source is blank with its reason,* each read on the screen: construction and operating output ("not computed for a datacenter"); property tax ("no property tax rate is held statewide: the reader's rates are not given"); the tax forgone by the exemption ("no datacenter sales tax exemption of this state has been read"); the tax on the electricity bought ("no statute on the electricity bought is read for this state"); the building's taxable purchases ("No public document read gives it for a datacenter: not given, and the building's sales tax is left out until the reader types one"). Severance reads "none" ("a datacenter burns no gas"), which is a true none.
+
+*The hand and the quiet faults.* Each of the three charts answers the mouse and a finger (4 of 4 places); the keyboard reaches the foot in 93 stops, each seen and marked; no sideways scroll, no empty chart, no "undefined", one h1 and no skipped level; opens in 1.2 s. A choice replaces the address and adds no step for the back button, as the tool's four plant types do.
+
+*The same number in two places.* None of the 25 announced projects is named on the tracker's pages (`/datacenters`, its By grid view, the project map), so no megawatt stands in both places to be set side by side, and nothing contradicts. A reader cannot go from Meta's 5,000 MW here to a row of the tracker; the tracker's facilities from the news are held for a license.
+
+| # | Done | Seen | Should be seen | Whose |
+|---|---|---|---|---|
+| I1 | Each of the 29 assumptions' marks read one by one, a press elsewhere closing each | 17 name the document their default comes from, with its page and often its words (JLARC's "Data Centers in Virginia 2024", page 14 and Table D-1; Census County Business Patterns 2023; OMB Circular A-94; Louisiana's R.S. 47:305.73); 6 say the figure is a choice or the reader's own. None holds a link, and the page's five links that leave the site are to none of these | The chain's test for this page: every default opens its document. The announced projects' documents do open (25 of 25); JLARC's report, the Census table, the circular and the statute are named and cannot be opened from the page | window C |
+| I2 | Texas as it opens; the row "Taxes, present value" and its mark | USD 1.45 billion. Its mark says the total is "property, sales and use paid, income and electricity taxes". In this run property tax and the electricity tax are "not held" two and six rows away; nothing on the total's row or in its mark says they are not in it. (The chart of other states does say it of itself: "Property tax is left out") | The total saying what it leaves out in this run | window C |
+| I3 | Georgia chosen; the row "Sales and use tax forgone by the exemption" | "none", with the hover "the state's relief is held as words only, not applied: its hover says why (an approval, or a threshold not read)". On a phone, or without the hover, the page says Georgia's exemption forgoes nothing | "not held" with that reason, as the states with no statute read; "none" stays for severance, which is none | window C |
+| I4 | Brookfield's Paducah campus picked (Kentucky); Starwood's Mason County campus (West Virginia) | Paducah: the investment stays at the default, USD 19,800 million, beside a linked document that says "more than $100 billion". Starwood: permanent jobs stay at the default, 661.2, beside a document that says "approximately 1,500 jobs". The file's own notes give the reasons (the USD 100 billion holds 2 GW of gas and batteries; the 1,500 jobs are not said to be permanent or construction). The page says neither | One line by the list when a document's figure is not taken, with the note's reason | window C |
+| I5 | A hand-made address with the project alone: `/impact?tech=datacenter&state=la&dcproj=la_meta_richland_2026` | The list shows the campus picked and its document linked; the fields hold the default (1,000 MW, USD 11,000 million, 306.1 jobs) and the table 5,500 construction jobs, under the name of a 5,000 MW campus | The project's figures, or the list on "None" | window C; small: the address the page itself writes carries the figures and opens right |
+
+Also seen, and not this page's: the shared "About" mark does not close on Escape (known since the tooling pass of 20 October), and an open box covers the mark of the row under it, so the next mark answers only after a press elsewhere.
+
+Pictures: `docs/reviews/browser-read-2026-11-26/impact-datacenter/impact-datacenter-as-it-opens-1280.png` (Texas, 1,000 MW); `docs/reviews/browser-read-2026-11-26/impact-datacenter/impact-datacenter-an-announced-project-1280.png` (its most telling choice: an announced project picked in Louisiana); `docs/reviews/browser-read-2026-11-26/impact-datacenter/impact-datacenter-virginia-1280.png` (Virginia, the exemption's cost).
+
 ## For Samuel's ruling (each with the page left as it is)
 
 1. **A reason on hover and a finger.** Why a strip or a cell is blank, why two figures differ, and what a colored cell holds are given as the browser's own tooltip. A mouse opens it; a finger at 390 px opens nothing. Seen on `/conditions` (the blank strips), `/congestion` (the hour-by-month cells, the operators not drawn), `/demand`, `/supply` and `/events` (blank cells and the figures' notes). The "i" marks and the chart cards do open on a tap. Default taken: nothing changed. The question: should a blank's reason open on a tap, as the "i" marks do?

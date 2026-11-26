@@ -1,0 +1,217 @@
+{
+ "by_kind": {
+  "a training run": 9,
+  "a fleet in a year": 5,
+  "a deployment or a project's experiments": 2,
+  "per query, prompt or inference": 7
+ },
+ "per_token_rows": [],
+ "fleet_rows": [
+  {
+   "id": "ai_energy:patterson_2021_6",
+   "measures": "energy of a fleet in a year",
+   "subject": "Google's total energy consumption",
+   "period": "2019",
+   "TWh": 12.2,
+   "average MW": 1393,
+   "says United States": false,
+   "says AI's share": false
+  },
+  {
+   "id": "ai_energy:patterson_2022_1",
+   "measures": "energy of a fleet in a year",
+   "subject": "Google's annual energy consumption",
+   "period": "2020",
+   "TWh": 15.4,
+   "average MW": 1753,
+   "says United States": false,
+   "says AI's share": false
+  },
+  {
+   "id": "ai_energy:patterson_2022_2",
+   "measures": "energy of a fleet in a year",
+   "subject": "Microsoft's annual energy consumption",
+   "period": "2020",
+   "TWh": 10.8,
+   "average MW": 1230,
+   "says United States": false,
+   "says AI's share": false
+  },
+  {
+   "id": "ai_energy:meta_2025_1",
+   "measures": "energy of a fleet in a year (electricity consumed)",
+   "subject": "Meta's data centers",
+   "period": "2024 (the index reports the fiscal year 2024; the table runs 2020 to 2024)",
+   "TWh": 18.062,
+   "average MW": 2056,
+   "says United States": false,
+   "says AI's share": false
+  },
+  {
+   "id": "ai_energy:microsoft_2026_1",
+   "measures": "energy of a fleet in a year (electricity consumed within the organization)",
+   "subject": "Microsoft (its datacenters and offices together, as the fact sheet counts them)",
+   "period": "fiscal year 2025 (ended 30 June 2025; the table runs FY20 to FY25)",
+   "TWh": 37.026,
+   "average MW": 4227,
+   "says United States": false,
+   "says AI's share": false
+  }
+ ],
+ "measures_offered": 13,
+ "measures_grouped": 8,
+ "grouped_rows": {
+  "energy of a deployment": 1,
+  "energy of a fleet in a year": 5,
+  "energy of a training run": 9,
+  "energy of all the experiments of a project": 1,
+  "energy per 1,000 inferences": 2,
+  "energy per inference": 1,
+  "energy per prompt": 3,
+  "energy per query": 1
+ },
+ "fleet_filter_rows_as_worded": {
+  "energy of a fleet in a year": 3,
+  "energy of a fleet in a year (electricity consumed within the organization)": 1,
+  "energy of a fleet in a year (electricity consumed)": 1
+ },
+ "training_filter_rows_as_worded": {
+  "energy of a training run": 7,
+  "energy of a training run (kWh times PUE)": 2
+ },
+ "nas": {
+  "strubell subject": "neural architecture search for the Evolved Transformer (So et al.) on 8 P100 GPUs",
+  "strubell kWh (times PUE)": 656347.0,
+  "strubell measures": "energy of a training run (kWh times PUE)",
+  "patterson 2022 subject": "the neural architecture search that produced Evolved Transformer",
+  "patterson 2022 kWh": 7500.0,
+  "patterson measures": "energy of a training run",
+  "ratio": 87.51
+ },
+ "microsoft_2020": {
+  "patterson 2022 TWh (2020)": 10.8,
+  "fact sheet FY20 TWh (first number of its printed words)": 10.770714,
+  "gap percent": 0.27
+ },
+ "series_in_the_printed_words": {
+  "meta data centers 2020 to 2024 MWh": [
+   6966000.0,
+   9117122.0,
+   11167416.0,
+   14975435.0,
+   18061781.0
+  ],
+  "meta 2024 over 2020": 2.59,
+  "microsoft FY20 to FY25 MWh": [
+   10770714.0,
+   13621517.0,
+   18153454.0,
+   23567502.0,
+   29829540.0,
+   37026353.0
+  ],
+  "microsoft FY25 over FY20": 3.44
+ },
+ "value_in_printed_words": 23,
+ "digits_differ": [
+  {
+   "id": "ai_energy:luccioni_2024_3",
+   "printed": "1.0×10−4",
+   "shown": "0.0001",
+   "same digits": false
+  },
+  {
+   "id": "ai_energy:google_2025_3",
+   "printed": "0.10",
+   "shown": "0.1",
+   "same digits": false
+  }
+ ],
+ "figure_probes": [
+  {
+   "value": 0.1,
+   "shown": "0.1"
+  },
+  {
+   "value": 0.0001,
+   "shown": "0.0001"
+  },
+  {
+   "value": 1e-06,
+   "shown": "0.000001"
+  },
+  {
+   "value": 9e-07,
+   "shown": "0"
+  },
+  {
+   "value": 3.4e-07,
+   "shown": "3.4e-7"
+  },
+  {
+   "value": 1e+21,
+   "shown": "1,000,000,000,000,000,000,000"
+  },
+  {
+   "value": 2.5e+21,
+   "shown": "2.5e+21"
+  }
+ ],
+ "dates_not_printed_by_the_publication": [
+  "2025 Environmental Data Index (2025 Sustainability Report)",
+  "2026 Environmental Sustainability Report Data Fact Sheet"
+ ],
+ "newest_rests_on": "the fact sheet's Table 5, Energy consumption within the organization (MWh); the date is that of Microsoft's post accompanying the report, as its address on blogs.microsoft.com gives it (2026/07/09); the fact sheet prints no date of its own",
+ "training_rows_dates": [
+  "2019-06-05",
+  "2021-04-21",
+  "2022-04-11",
+  "2022-11-03"
+ ],
+ "newest_training_figure": {
+  "id": "ai_energy:bloom_2022_1",
+  "date": "2022-11-03",
+  "years before 2026-11-26": 4.06
+ },
+ "per_query_rows_dates": [
+  "2024-06-03",
+  "2025-06-10",
+  "2025-08-21"
+ ],
+ "peer_reviewed_by_rule": [
+  "Energy and Policy Considerations for Deep Learning in NLP",
+  "Power Hungry Processing: Watts Driving the Cost of AI Deployment?"
+ ],
+ "publisher_kind_values": [
+  "model maker",
+  "model maker and cloud operator",
+  "model maker and data center operator",
+  "peer-reviewed paper"
+ ],
+ "peer_paper_publishers": [
+  "Hugging Face and Carnegie Mellon University",
+  "University of Massachusetts Amherst"
+ ],
+ "estimates_of_another_model": [
+  {
+   "id": "ai_energy:strubell_2019_1",
+   "subject": "BERT base on 64 V100 GPUs",
+   "basis": "the paper's estimate (its Table 3, column kWh·PUE)",
+   "basis names another maker": false
+  },
+  {
+   "id": "ai_energy:strubell_2019_2",
+   "subject": "neural architecture search for the Evolved Transformer (So et al.) on 8 P100 GPUs",
+   "basis": "the paper's estimate (its Table 3, column kWh·PUE)",
+   "basis names another maker": false
+  },
+  {
+   "id": "ai_energy:patterson_2021_5",
+   "subject": "GPT-3 (175 billion parameters; OpenAI's model)",
+   "basis": "the paper's estimate (\"Its estimated carbon emissions due to training are 552 tCO2e and its energy consumption is 1287 MWh\")",
+   "basis names another maker": false
+  }
+ ],
+ "source_rows": 23,
+ "source_against_page_file": "equal"
+}

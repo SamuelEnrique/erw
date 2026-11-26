@@ -1,0 +1,137 @@
+== 1. Sources summed over fewer than twelve months in the last twelve months (DC, NE, AK, UT)
+  DC natural_gas: missing ['2026-04', '2026-05', '2026-06']; share printed 40.05; not itemized in those months [5927.5, 5514.4, 9280.0]; months held [12047.0, 11058.5, 6908.4, 7937.9, 8755.8, 9481.8, 10971.6, 11697.9, 12311.3]
+  DC oil_and_other: missing ['2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08']; share printed 0.08; not itemized in those months [833.9, 293.4, 16.2, 5927.5, 5514.4, 9280.0, 173.2, 34.0]; months held [35.2, 24.8, 45.2, 78.0]
+  DC: headline largest source natural_gas 40.05; total 227667.8
+  NE natural_gas: missing ['2026-02', '2026-03']; share printed 4.15; not itemized in those months [59667.3, 91332.1]; months held [196544.2, 85046.0, 80157.1, 70941.2, 49030.2, 108158.4, 103878.0, 153840.0, 444826.3, 385130.9]
+  NE not_itemized: missing ['2025-10']; share printed 0.83; not itemized in those months [None]; months held [2931.2, 69276.1, 75717.9, 14882.2, 59667.3, 91332.1, 5080.7, 6276.8, 4219.7, 2405.9, 4463.6]
+  NE: headline largest source coal 45.94; total 40376558.3
+  AK wind: missing ['2026-01', '2026-07', '2026-08']; share printed 1.32; not itemized in those months [141758.9, 7909.6, 7655.4]; months held [8491.0, 10014.0, 9811.0, 13794.0, 10096.3, 14470.4, 13211.0, 10633.0, 9704.2]
+  AK solar: missing ['2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08']; share printed 0.01; not itemized in those months [141758.9, 550.7, 727.4, 826.5, 914.8, 994.4, 7909.6, 7655.4]; months held [425.0, 241.0, 92.0, 87.0]
+  AK: headline largest source natural_gas 44.18; total 7613523.3
+  UT hydro: missing ['2026-08']; share printed 1.59; not itemized in those months [40094.5]; months held [51704.6, 27618.4, 12555.9, 30170.5, 78358.0, 64484.0, 79314.4, 58384.2, 82268.2, 89439.1, 49641.7]
+  UT not_itemized: missing ['2025-09', '2025-11', '2026-02', '2026-03', '2026-04', '2026-07']; share printed 0.66; not itemized in those months [None, None, None, None, None, None]; months held [8204.6, 95332.5, 1146.7, 55095.9, 58703.6, 40094.5]
+  UT: headline largest source natural_gas 38.73; total 39228380.3
+
+== 2. Double rounding: the file's rounded figure rounded again by the page
+  twelve-month prices (cents a kWh): 13 of 236 print a last digit other than revenue over sales rounded once
+    ('CA', 'commercial', 269.95, 269.9519, '26.99', '27.00')
+    ('DE', 'industrial', 108.65, 108.6458, '10.87', '10.86')
+    ('FL', 'commercial', 117.45, 117.4485, '11.75', '11.74')
+    ('GA', 'all', 123.85, 123.8546, '12.38', '12.39')
+    ('KY', 'residential', 139.45, 139.4544, '13.94', '13.95')
+    ('MO', 'industrial', 85.65, 85.6459, '8.57', '8.56')
+    ('MT', 'commercial', 126.75, 126.7485, '12.68', '12.67')
+    ('NY', 'all', 232.85, 232.8479, '23.29', '23.28')
+    ('RI', 'residential', 294.45, 294.447, '29.45', '29.44')
+    ('SC', 'industrial', 76.55, 76.5504, '7.65', '7.66')
+    ('TX', 'residential', 159.85, 159.8509, '15.98', '15.99')
+    ('VA', 'commercial', 109.75, 109.7538, '10.97', '10.98')
+    ('WA', 'residential', 141.95, 141.9527, '14.19', '14.20')
+  twelve-month shares: 13 of 423 print a last digit other than the share rounded once
+    ('AZ', 'not_itemized', 0.05, 0.0464, '0.1', '0.0')
+    ('AR', 'nuclear', 20.65, 20.6517, '20.6', '20.7')
+    ('AR', 'hydro', 4.85, 4.8526, '4.8', '4.9')
+    ('FL', 'not_itemized', 0.05, 0.0487, '0.1', '0.0')
+    ('IL', 'not_itemized', 0.05, 0.0497, '0.1', '0.0')
+    ('IN', 'hydro', 0.25, 0.2478, '0.3', '0.2')
+    ('IN', 'other_renewables', 0.15, 0.1531, '0.1', '0.2')
+    ('MI', 'solar', 3.35, 3.3475, '3.4', '3.3')
+    ('NJ', 'natural_gas', 49.15, 49.1542, '49.1', '49.2')
+    ('NY', 'other_renewables', 1.05, 1.0467, '1.1', '1.0')
+    ('OH', 'nuclear', 11.75, 11.7492, '11.8', '11.7')
+    ('OK', 'oil_and_other', -0.05, -0.0452, '-0.1', '-0.0')
+    ('WY', 'oil_and_other', 1.05, 1.0491, '1.1', '1.0')
+  shares of the people: 8 of 109 print a last digit other than the share rounded once
+    ('AR', 'SWPP', 28.65, 28.654, '28.6', '28.7')
+    ('ID', 'AVA', 18.15, 18.1547, '18.1', '18.2')
+    ('ID', 'PACE', 14.15, 14.1465, '14.2', '14.1')
+    ('MT', 'BPAT', 14.95, 14.9515, '14.9', '15.0')
+    ('SC', 'SCEG', 44.95, 44.9463, '45.0', '44.9')
+    ('TX', 'SWPP', 4.15, 4.1456, '4.2', '4.1')
+    ('VA', None, 2.55, 2.5529, '2.5', '2.6')
+    ('WY', 'WACM', 36.35, 36.3475, '36.4', '36.3')
+
+== 3. Pumped storage: which group it is in, in generation and in capacity
+  EIA-860M pumped storage, nameplate: 22,224.1 MW in 18 states, all in the group 'storage' (the page: 'Batteries and pumped storage'); the group 'hydro' (the page: 'Hydro (with pumped storage)') holds none
+   CA: pumped storage 3,703.6 MW of storage 20,211.2; hydro 10,026.0
+   VA: pumped storage 3,109.3 MW of storage 3,339.9; hydro 823.1
+   SC: pumped storage 3,041.2 MW of storage 3,129.2; hydro 1,348.6
+   MI: pumped storage 1,978.8 MW of storage 2,099.1; hydro 350.8
+   MA: pumped storage 1,834.0 MW of storage 2,576.2; hydro 272.6
+   TN: pumped storage 1,713.6 MW of storage 1,713.6; hydro 2,520.4
+  VA generation, oil and other (which holds EIA's HPS, pumped storage), last twelve months: -514,829.0 MWh; months below zero since 2015: 106
+  CA generation, oil and other (which holds EIA's HPS, pumped storage), last twelve months: -899,754.1 MWh; months below zero since 2015: 23
+  US generation, oil and other (which holds EIA's HPS, pumped storage), last twelve months: 30,750,255.6 MWh; months below zero since 2015: 0
+  whole years below zero: 138, by source: {'coal': 2, 'natural_gas': 1, 'solar': 1, 'other_renewables': 2, 'oil_and_other': 132}; lowest [('SC', 'oil_and_other', '2008', -992568.0), ('VA', 'oil_and_other', '2024', -906228.6), ('SC', 'oil_and_other', '2007', -896946.2)]
+
+== 4. A state spanning grids: people against generating capacity, by authority (EIA-860M plants' authority)
+  TX: people {'ERCO': 89.85, 'SWPP': 4.15, 'MISO': 3.23, 'EPE': 2.78}; capacity {'ERCO': 88.52, 'SWPP': 6.61, 'MISO': 3.7, 'EPE': 0.93, 'DOPD': 0.24}
+  IL: people {'PJM': 75.52, 'MISO': 24.48}; capacity {'PJM': 64.37, 'MISO': 34.85, 'GLHB': 0.78}
+  IN: people {'MISO': 89.57, 'PJM': 10.43}; capacity {'MISO': 70.69, 'PJM': 29.31}
+  LA: people {'MISO': 95.14, 'SWPP': 4.86}; capacity {'MISO': 96.43, 'SWPP': 3.57}
+  MN: people {'MISO': 99.94, None: 0.06}; capacity {'MISO': 99.61, 'SWPP': 0.37, 'PJM': 0.02}
+  NM: people {'PNM': 86.85, 'SWPP': 10.74, 'WACM': 1.87, 'EPE': 0.54}; capacity {'PNM': 42.53, 'CISO': 20.09, 'SWPP': 16.2, 'AZPS': 9.01, 'EPE': 7.37}
+  MO: people {'MISO': 61.06, 'SWPP': 33.87, 'AECI': 5.0, None: 0.07}; capacity {'MISO': 39.92, 'SWPP': 37.08, 'AECI': 20.15, 'SPA': 2.85}
+  KY: people {'LGEE': 74.06, 'PJM': 17.25, 'TVA': 8.02, 'MISO': 0.66}; capacity {'LGEE': 40.85, 'PJM': 27.27, 'TVA': 22.04, 'MISO': 9.84}
+
+== 5. What is coming: under construction against planned
+  TX: planned and under construction 92,698 MW, of which under construction 30,432 (32.8 percent)
+  CA: planned and under construction 20,264 MW, of which under construction 8,207 (40.5 percent)
+  VA: planned and under construction 7,365 MW, of which under construction 3,549 (48.2 percent)
+  US: planned and under construction 290,264 MW, of which under construction 97,944 (33.7 percent)
+  Texas by EIA's status: {'Planned for installation, but regulatory approvals not initiated': 39924, 'Regulatory approvals pending. Not under construction': 16240, 'Under construction, less than or equal to 50 percent complete': 13296, 'Construction complete, but not yet in commercial operation': 10220, 'Under construction, more than 50 percent complete': 6916, 'Regulatory approvals received. Not under construction': 6103}
+
+== 6. Capacity holds storage
+  TX: storage 19,399.6 of 207,230.2 MW (9.4 percent)
+  CA: storage 20,211.2 of 109,996.7 MW (18.4 percent)
+  AZ: storage 7,081.9 of 45,474.5 MW (15.6 percent)
+  US: storage 78,501.8 of 1,423,491.7 MW (5.5 percent)
+
+== 7. The United States against the sum of the states, and Puerto Rico
+  generation last twelve months: US 4,495,684,896.8, sum of 51 4,497,608,860.8
+  capacity: US 1,423,491.7, sum of 51 1,417,017.4
+  retail sales: US 4,122,912,131.8, sum of 51 4,122,912,131.4
+  EIA-860M operating generators in places with no file: ['PR']; Puerto Rico 6,474.3 MW nameplate, 3 planned rows
+  retail sales rows for PR: 0
+
+== 8. CO2 per MWh generated: EIA's rate against the file's tons over the profile's net generation
+  52 places; largest relative gaps: [('VT', '2024', 3.6, 3.5, 1.65), ('DC', '2024', 425.0, 427.4, -0.55), ('WA', '2024', 112.9, 113.4, -0.42), ('NH', '2024', 127.0, 127.4, -0.34), ('NV', '2024', 286.2, 287.0, -0.29), ('ID', '2024', 173.3, 173.8, -0.28)]; within 1 percent: 51
+
+== 9. Supply and disposition: generation + imports + net interstate trade against sales + losses + exports
+  TX 2024: supply 562,144,700, sales+losses+exports 519,346,040, rest (direct use and unaccounted) 42,798,660 (7.61 percent)
+  CA 2024: supply 167,049,907, sales+losses+exports 256,647,215, rest (direct use and unaccounted) -89,597,308 (-53.64 percent)
+  VA 2024: supply 57,501,563, sales+losses+exports 144,448,362, rest (direct use and unaccounted) -86,946,799 (-151.21 percent)
+  VT 2024: supply 11,122,302, sales+losses+exports 5,709,831, rest (direct use and unaccounted) 5,412,471 (48.66 percent)
+  WV 2024: supply 65,691,210, sales+losses+exports 34,529,895, rest (direct use and unaccounted) 31,161,315 (47.44 percent)
+  DC 2024: supply -10,463,257, sales+losses+exports 10,606,405, rest (direct use and unaccounted) -21,069,662 (201.37 percent)
+
+== 10. Total energy against the five fuels; electricity sold is made from them
+  TX 2024: total 14,536.9; five fuels 14,672.2; total less five -135.3; electricity sold 1,724.5
+  CA 2024: total 6,855.4; five fuels 6,962.7; total less five -107.3; electricity sold 838.4
+  VA 2024: total 2,471.2; five fuels 2,126.2; total less five 345.0; electricity sold 471.0
+  WV 2024: total 835.4; five fuels 997.9; total less five -162.5; electricity sold 112.6
+  US 2024: total 94,543.4; five fuels 96,575.4; total less five -2,032.0; electricity sold 13,564.0
+
+== 11. The all-sector price against the price at one sector mix (the United States' twelve months)
+  US weights {'residential': 0.3702, 'commercial': 0.3728, 'industrial': 0.2553, 'transportation': 0.0017}; places ranked 49
+  rank by all-sector price (1 = cheapest) against rank at the US mix, largest moves: [(9, 'WV', 14, 23), (7, 'NC', 21, 14), (6, 'WY', 4, 10), (6, 'MO', 19, 13), (6, 'IA', 5, 11), (5, 'WA', 17, 12), (5, 'OR', 13, 18), (5, 'NV', 10, 5)]
+   TX: all-sector 10.32 cents (rank 9), at the US mix 10.83 (rank 7); industrial share of sales 33.3 percent
+   CA: all-sector 27.89 cents (rank 48), at the US mix 27.51 (rank 48); industrial share of sales 17.4 percent
+   LA: all-sector 9.74 cents (rank 3), at the US mix 10.75 (rank 6); industrial share of sales 43.6 percent
+   WV: all-sector 11.45 cents (rank 14), at the US mix 12.23 (rank 23); industrial share of sales 43.0 percent
+   VA: all-sector 12.69 cents (rank 25), at the US mix 12.83 (rank 27); industrial share of sales 8.9 percent
+
+== 12. Figures under the last digit shown, printed as zero
+  42 figures print as 0.0 or $0.00 bn or 0.0% though the file holds a figure other than zero; e.g. [('AL', 'oil_and_other', 'share', 0.01), ('AL', 'not_itemized', 'share', 0.01), ('AK', 'solar', 'share', 0.01), ('AZ', 'transportation', 11143.3, 1278332.0), ('AR', 'transportation', 264.6, 36018.0), ('AR', 'not_itemized', 'share', 0.03)]
+
+== 13. The ten largest plants: a plant whose authority is another state's grid
+   W A Parish: ERCO, 4008.4 MW
+   South Texas Project: ERCO, 2708.6 MW
+   Comanche Peak: ERCO, 2430.0 MW
+   Martin Lake: ERCO, 2379.6 MW
+   Forney Energy Center: ERCO, 1894.2 MW
+   Limestone: ERCO, 1849.8 MW
+   Sabine: MISO, 1811.8 MW
+   Oak Grove (TX): ERCO, 1795.4 MW
+   Midlothian Energy Facility: ERCO, 1734.0 MW
+   Fayette Power Project: ERCO, 1690.0 MW
