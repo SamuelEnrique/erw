@@ -71,15 +71,25 @@ def run(x):
     # 13.1, the exemption: investment (spent in the build's whole years before the statute's year, where it names one)
     # and permanent jobs at least the statute's; then the years it runs
     eligible = False
-    if ex:
+    if ex and not ex.get("discretionary"):
         before = ex.get("invest_before_year")
         spent = total if before is None else total * max(0, min(x["build"], before - x["start"])) / x["build"]
-        eligible = spent >= ex["min_investment_usd"] and x["perm"] >= ex["min_jobs"]
+        eligible = (spent >= ex["min_investment_usd"] and x["perm"] >= ex["min_jobs"]
+                    and (ex.get("min_mw") is None or x["mw"] >= ex["min_mw"])
+                    and (ex.get("start_before_year") is None or x["start"] < ex["start_before_year"]))
+    # 13.3: Minnesota's exemption reaches the state's rate only
+    share = 1.0
+    if ex and ex.get("rate_part") == "state":
+        share = min(1.0, SALES["states"][st]["state_rate"] * 100 / (x["sales"] or 1))
 
     def runs_in(year):
         if ex.get("last_year") is not None and year > ex["last_year"]:
             return False
-        if ex.get("term_years") is not None and year >= x["start"] + ex["term_years"]:
+        term = ex.get("term_years")
+        big = ex.get("term_years_big")
+        if big and total >= big["min_investment_usd"]:
+            term = big["years"]
+        if term is not None and year >= x["start"] + term:
             return False
         return True
 
@@ -88,7 +98,7 @@ def run(x):
         on_equipment = equip * rate
         forgone = 0.0
         if eligible and x["dcex"] and runs_in(year):
-            forgone = (on_equipment if "equipment" in ex["covers"] else 0.0) + (on_building if "construction" in ex["covers"] else 0.0)
+            forgone = ((on_equipment if "equipment" in ex["covers"] else 0.0) + (on_building if "construction" in ex["covers"] else 0.0)) * share
         return on_equipment + on_building, forgone
 
     elec = None

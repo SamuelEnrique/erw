@@ -8,7 +8,15 @@
   "va_58_1_2900": {"title": "Code of Virginia 58.1-2900, Electric utility consumption tax", "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter29/section58.1-2900/", "read": "2026-11-26", "request": 101},
   "la_47_305_73": {"title": "Louisiana Revised Statutes 47:305.73, Exemptions; data center facility equipment", "url": "https://legis.la.gov/Legis/Law.aspx?d=1186787", "read": "2026-11-26", "request": 104},
   "la_const_7_18": {"title": "Louisiana Constitution, article VII, section 18", "url": "https://www.legis.la.gov/Legis/Law.aspx?d=206545", "read": "2026-11-13", "request": "161 of runs/w4/probe.csv (chain 239)"},
-  "ia_dor_dc": {"title": "Iowa Department of Revenue, Data Center Sales and Use Tax Incentives", "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/data-centers", "read": "2026-11-26", "request": 71}
+  "ia_dor_dc": {"title": "Iowa Department of Revenue, Data Center Sales and Use Tax Incentives", "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/data-centers", "read": "2026-11-26", "request": 71},
+  "mn_297a_68_42": {"title": "Minnesota Statutes 297A.68, subdivision 42, Data centers", "url": "https://www.revisor.mn.gov/statutes/cite/297A.68", "read": "2026-11-26", "request": 153},
+  "sc_12_36_2120_79": {"title": "South Carolina Code 12-36-2120(79), datacenter equipment and electricity", "url": "https://www.scstatehouse.gov/code/t12c036.php", "read": "2026-11-26", "request": 155},
+  "mo_144_810": {"title": "Revised Statutes of Missouri 144.810, Data storage centers, exemption from sales and use tax", "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.810", "read": "2026-11-26", "request": 156},
+  "nv_360_754": {"title": "Nevada Revised Statutes 360.754, Partial abatement of certain taxes imposed on new or expanded data center", "url": "https://www.leg.state.nv.us/NRS/NRS-360.html", "read": "2026-11-26", "request": 157},
+  "nd_57_39_2_04_17": {"title": "North Dakota Century Code 57-39.2-04.17, exemption for enterprise information technology equipment and software used in a qualified data center", "url": "https://ndlegis.gov/cencode/t57c39-2.pdf", "read": "2026-11-26", "request": 160},
+  "md_tg_11_239": {"title": "Maryland Code, Tax-General 11-239, Qualified data centers", "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-239&enactments=false", "read": "2026-11-26", "request": 161},
+  "fl_212_08_5_r": {"title": "Florida Statutes 2025, 212.08(5)(r), Data center property", "url": "https://www.flsenate.gov/Laws/Statutes/2025/212.08", "read": "2026-11-26", "request": 163},
+  "id_63_3622vv": {"title": "Idaho Code 63-3622VV, Data center equipment and facilities", "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH36/SECT63-3622VV/", "read": "2026-11-26", "request": 164}
  },
  "split": {
   "cite": "jlarc_598",
@@ -84,6 +92,70 @@
     "cite": "la_const_7_18",
     "quote": "",
     "tip": "Louisiana (Constitution article VII, section 18): land and improvements are assessed at 10 percent of fair market value and other property at 15 percent; the millages are each parish's and taxing district's (none held statewide). The tool assesses the building at 10 percent and the equipment at 15 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate. A payment in lieu agreed with a parish is not a statute: the abatement input is its place."
+   }
+  },
+  "mn": {
+   "name": "Minnesota",
+   "sales_exemption": {
+    "cite": "mn_297a_68_42", "covers": ["equipment"], "min_investment_usd": 30000000, "min_jobs": 0, "term_years": 35, "start_before_year": 2042, "rate_part": "state",
+    "quote": "where the total cost of construction or refurbishment, investment in enterprise information technology equipment, and computer software is at least $30,000,000 within a 48-month period",
+    "tip": "Minnesota (Statutes 297A.68, subd. 42): enterprise information technology equipment and software for a qualified data center (25,000 square feet and \"at least $30,000,000 within a 48-month period\" of construction, equipment and software; $250,000,000 for a large-scale one) are exempt, the tax collected \"as if the rate under section 297A.62, subdivision 1, applied, and then refunded\", for purchases \"within 35 years\" of the first, for centers certified \"before July 1, 2042\". The tool applies it at the state's rate only (local sales taxes are not named), for 35 years from the first construction year, when the investment meets USD 30 million; the square footage is not checked."
+   }
+  },
+  "sc": {
+   "name": "South Carolina",
+   "sales_exemption": {
+    "cite": "sc_12_36_2120_79", "covers": ["equipment"], "min_investment_usd": 50000000, "min_jobs": 25, "start_before_year": 2032, "last_year": 2041,
+    "quote": "where a taxpayer invests at least fifty million dollars in real or personal property or both over a five year period",
+    "tip": "South Carolina (Code 12-36-2120(79)): computers, computer equipment and software used within a certified datacenter, and its electricity, are exempt where a taxpayer \"invests at least fifty million dollars\" over five years (75 million for several) and \"creates and maintains at least twenty-five full-time jobs\" at 150 percent of per capita income; a datacenter certified \"prior to January 1, 2032\" keeps it \"for an additional ten year period\". The tool applies it to the equipment through 2041 for a project starting before 2032; the electricity part needs a price the tool does not hold; the wage test is not checked."
+   }
+  },
+  "mo": {
+   "name": "Missouri",
+   "sales_exemption": {
+    "cite": "mo_144_810", "covers": ["equipment", "construction"], "min_investment_usd": 25000000, "min_jobs": 10, "term_years": 15,
+    "quote": "The new facility project investment is at least twenty-five million dollars during a period of up to thirty-six consecutive months",
+    "tip": "Missouri (RSMo 144.810): a new data storage center investing \"at least twenty-five million dollars\" in 36 months with \"at least ten new jobs\" at 150 percent of the county average wage is exempt from 100 percent of state and local sales and use taxes on its utilities, \"machinery, equipment, and computers\" and construction materials, for up to fifteen years, \"limited to the net fiscal benefit of the state calculated over a ten-year period\". The tool applies it for 15 years to the equipment and the building's taxable share; the net fiscal benefit cap (the Department's REMI model) is not modeled, so the forgone tax is an upper bound."
+   }
+  },
+  "nv": {
+   "name": "Nevada",
+   "sales_exemption": {
+    "cite": "nv_360_754", "covers": [], "min_investment_usd": 25000000, "min_jobs": 10, "discretionary": true,
+    "quote": "a cumulative capital investment of at least $25,000,000 in capital assets that will be used or located at the data center",
+    "tip": "Nevada (NRS 360.754): the Office of Economic Development may approve a partial abatement of the property and sales taxes on a new or expanded data center, for up to 10 years with 10 Nevada employees and \"a cumulative capital investment of at least $25,000,000\", or up to 20 years with 50 employees and $100,000,000, among other conditions. An approval, not a statute's rate: the tool applies none (the abatement input carries an approved property abatement)."
+   }
+  },
+  "nd": {
+   "name": "North Dakota",
+   "sales_exemption": {
+    "cite": "nd_57_39_2_04_17", "covers": ["equipment"], "min_investment_usd": 0, "min_jobs": 0,
+    "quote": "Gross receipts from sales of enterprise information technology equipment and computer software purchased for use by a qualifying business in a qualified data center are exempt from the tax imposed by this chapter.",
+    "tip": "North Dakota (Century Code 57-39.2-04.17): enterprise information technology equipment and software in a qualified data center (15,000 square feet or more, built or refurbished after 2020, certified by the tax commissioner) are exempt, replacements included; no investment, jobs or end date is set. The tool applies it to the equipment; the square footage and the certification are not checked."
+   }
+  },
+  "md": {
+   "name": "Maryland",
+   "sales_exemption": {
+    "cite": "md_tg_11_239", "covers": ["equipment"], "min_investment_usd": 5000000, "min_jobs": 5, "term_years": 10, "term_years_big": {"min_investment_usd": 250000000, "years": 20},
+    "quote": "for a data center located in any other area of the State, invested at least $5,000,000 in qualified data center personal property and created at least five qualified positions",
+    "tip": "Maryland (Tax-General 11-239): qualified data center personal property (computer equipment, HVAC and cooling, electrical equipment) is exempt where the operator has \"invested at least $5,000,000\" in it and \"created at least five qualified positions\" ($2,000,000 in a Tier I area or opportunity zone); the certificate is renewed yearly for up to 10 years, or 20 with \"at least $250,000,000\". The tool applies it to the equipment for 10 years from the first construction year, 20 with USD 250 million; the Tier I threshold is not modeled."
+   }
+  },
+  "fl": {
+   "name": "Florida",
+   "sales_exemption": {
+    "cite": "fl_212_08_5_r", "covers": ["equipment", "construction"], "min_investment_usd": 150000000, "min_jobs": 0, "min_mw": 100,
+    "quote": "the data center's owners and tenants must make a cumulative capital investment of $150 million or more for the data center and the data center must have a critical IT load of 100 megawatts or higher",
+    "tip": "Florida (Statutes 212.08(5)(r)): data center property, \"construction materials, component parts, machinery, equipment, computers, servers\" and its electricity, is exempt where the owners and tenants make \"a cumulative capital investment of $150 million or more\" and the center has \"a critical IT load of 100 megawatts or higher\" within 5 years of the start of construction. The tool applies it to the equipment and the building's taxable share when the investment and the MW (read as critical IT load) meet the thresholds; the electricity part needs a price."
+   }
+  },
+  "id": {
+   "name": "Idaho",
+   "sales_exemption": {
+    "cite": "id_63_3622vv", "covers": ["equipment", "construction"], "min_investment_usd": 250000000, "min_jobs": 30,
+    "quote": "in amounts of at least two hundred fifty million dollars ($250,000,000) in the aggregate within the first five (5) years after commencement of construction and that it will create and maintain at least thirty (30) new jobs at the data center",
+    "tip": "Idaho (Code 63-3622VV): eligible server equipment and new data center facilities are exempt for a qualifying business entity that invests \"at least two hundred fifty million dollars\" within five years of the start of construction and creates \"at least thirty (30) new jobs\" paying the county's average weekly wage. The tool applies it to the equipment and the building's taxable share; the wage test is not checked."
    }
   },
   "ia": {

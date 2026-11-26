@@ -24,7 +24,17 @@ export type DcIncome = {
 export type DcRule = {
   name: string;
   sales_exemption?: { cite: string; covers: ("equipment" | "construction")[]; min_investment_usd: number; min_jobs: number;
-    last_year?: number; term_years?: number; invest_before_year?: number; tip: string };
+    last_year?: number; term_years?: number; invest_before_year?: number; tip: string;
+    /** session 10805: the statute exempts the state's rate only (Minnesota's refund at the 297A.62 rate) */
+    rate_part?: "state";
+    /** a least MW (Florida: a critical IT load of 100 MW) */
+    min_mw?: number;
+    /** the facility must be certified (here: its first construction year) before this year (South Carolina 2032, Minnesota 2042) */
+    start_before_year?: number;
+    /** a longer term for a larger investment (Maryland: 20 years with USD 250 million) */
+    term_years_big?: { min_investment_usd: number; years: number };
+    /** a discretionary abatement by application, held as words only (Nevada): never applied */
+    discretionary?: boolean };
   property?: { building_ratio: number; equipment_ratio: number; cite: string; tip: string };
   electricity?: { cite: string; kind: "monthly_blocks"; blocks: { upto_kwh: number | null; usd_per_kwh: number }[]; tip: string };
 };
@@ -164,20 +174,26 @@ export function dcChain(P: DcParams, state: string, phase: "construction" | "ope
 export function dcEligible(P: DcParams, x: DcInputs): { held: boolean; eligible: boolean; why: string } {
   const r = P.rules.states[x.state]?.sales_exemption;
   if (!r) return { held: false, eligible: false, why: "no datacenter sales tax exemption of this state has been read" };
+  if (r.discretionary) return { held: true, eligible: false, why: "the state's relief is an abatement its agency may approve, not applied here" };
   const usd = x.invest * 1e6;
   const spent = r.invest_before_year === undefined ? usd
     : usd * Math.max(0, Math.min(x.build, r.invest_before_year - x.start)) / x.build;
   const okInv = spent >= r.min_investment_usd, okJobs = x.perm >= r.min_jobs;
-  const why = okInv && okJobs ? "meets the statute's investment and jobs thresholds"
+  const okMw = r.min_mw === undefined || x.mw >= r.min_mw;
+  const okStart = r.start_before_year === undefined || x.start < r.start_before_year;
+  const why = okInv && okJobs && okMw && okStart ? "meets the statute's thresholds"
+    : !okStart ? `the statute certifies only before ${r.start_before_year}`
+    : !okMw ? `the MW are below the statute's ${r.min_mw}`
     : !okInv ? `the investment${r.invest_before_year !== undefined ? ` spent before ${r.invest_before_year}` : ""} is below the statute's USD ${(r.min_investment_usd / 1e6).toLocaleString("en-US")} million`
     : `the permanent jobs are below the statute's ${r.min_jobs}`;
-  return { held: true, eligible: okInv && okJobs, why };
+  return { held: true, eligible: okInv && okJobs && okMw && okStart, why };
 }
 function exemptYear(P: DcParams, x: DcInputs, year: number): boolean {
   const r = P.rules.states[x.state]?.sales_exemption;
   if (!r) return false;
   if (r.last_year !== undefined && year > r.last_year) return false;
-  if (r.term_years !== undefined && year >= x.start + r.term_years) return false;
+  const term = r.term_years_big && x.invest * 1e6 >= r.term_years_big.min_investment_usd ? r.term_years_big.years : r.term_years;
+  if (term !== undefined && year >= x.start + term) return false;
   return true;
 }
 /** A year's tax on the electricity bought, by the state's statute; null where none is held or no MWh is given */
@@ -227,12 +243,14 @@ export function dcRun(x: DcInputs, P: DcParams): DcResult {
   const st = P.income.states[x.state];
   const elec = dcElecTax(P, x);
   const years: DcYear[] = [];
+  // the share of the rate an exemption reaches: the whole rate, or the state's rate only (never above the scenario's rate)
+  const part = rule?.sales_exemption?.rate_part === "state" ? Math.min(1, (P.sales.states[x.state]?.state_rate ?? 0) * 100 / (x.sales || 1)) : 1;
   const tax = (equipment: number, building: number, year: number) => {
     const bTax = x.matshare === null ? 0 : building * (x.matshare / 100) * (x.sales / 100);
     const eTax = equipment * (x.sales / 100);
     const before = eTax + bTax;
     const applies = el.eligible && x.dcex && exemptYear(P, x, year);
-    const forgone = applies ? (covers.includes("equipment") ? eTax : 0) + (covers.includes("construction") ? bTax : 0) : 0;
+    const forgone = applies ? ((covers.includes("equipment") ? eTax : 0) + (covers.includes("construction") ? bTax : 0)) * part : 0;
     return { before, forgone, paid: before - forgone };
   };
   for (let i = 0; i < x.build; i++) {

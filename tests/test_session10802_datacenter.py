@@ -47,6 +47,23 @@ class TheReplication(unittest.TestCase):
         self.assertRegex(r.stdout, r"(\d+) of \1 figures agree")
 
 
+class TheRunFiles(unittest.TestCase):
+    """Session 10805: the Python script a reader downloads for two datacenter scenarios runs and agrees with the tool."""
+
+    def test_downloaded_python_agrees(self):
+        node = shutil.which("node")
+        if not node:
+            raise unittest.SkipTest("node is not on the path")
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            r = subprocess.run([node, "--no-warnings", os.path.join(SITE, "scripts", "dc-files-check.mjs"), d], cwd=ROOT, capture_output=True, text=True, timeout=120)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            r = subprocess.run([sys.executable, os.path.join(d, "run.py")], capture_output=True, text=True, timeout=120)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertNotIn("DIFFERS", r.stdout)
+            self.assertGreaterEqual(r.stdout.count(" ok"), 18, r.stdout)
+
+
 class TheParameters(unittest.TestCase):
     def test_files_name_sources_and_hold_no_dash(self):
         for name in FILES:

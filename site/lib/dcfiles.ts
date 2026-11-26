@@ -42,7 +42,10 @@ export function dcBundle(P: DcParams, x: DcInputs, r: DcResult) {
   return {
     inputs: x,
     rule: rule ? { sales_exemption: rule.sales_exemption ? { covers: rule.sales_exemption.covers, min_investment_usd: rule.sales_exemption.min_investment_usd, min_jobs: rule.sales_exemption.min_jobs,
-      last_year: rule.sales_exemption.last_year ?? null, term_years: rule.sales_exemption.term_years ?? null, invest_before_year: rule.sales_exemption.invest_before_year ?? null } : null,
+      last_year: rule.sales_exemption.last_year ?? null, term_years: rule.sales_exemption.term_years ?? null, invest_before_year: rule.sales_exemption.invest_before_year ?? null,
+      min_mw: rule.sales_exemption.min_mw ?? null, start_before_year: rule.sales_exemption.start_before_year ?? null, term_years_big: rule.sales_exemption.term_years_big ?? null,
+      discretionary: !!rule.sales_exemption.discretionary, rate_part: rule.sales_exemption.rate_part ?? null,
+      state_rate_pct: (P.sales.states[x.state]?.state_rate ?? 0) * 100 } : null,
       property: rule.property ? { building_ratio: rule.property.building_ratio, equipment_ratio: rule.property.equipment_ratio } : null,
       electricity: rule.electricity ? { blocks: rule.electricity.blocks } : null } : null,
     multipliers: m ? { construction: { direct: m.construction.direct, indirect: m.construction.indirect, induced: m.construction.induced },
@@ -94,15 +97,22 @@ def run(d):
                 earn[k] = earn["onsite"] * p[part]["earnings_musd"] / p["direct"]["earnings_musd"]
         return sum(jobs.values()), sum(earn.values())
 
-    eligible = False
-    if ex:
+    eligible, share = False, 1.0
+    if ex and not ex["discretionary"]:
         spent = usd if ex["invest_before_year"] is None else usd * max(0, min(x["build"], ex["invest_before_year"] - x["start"])) / x["build"]
-        eligible = spent >= ex["min_investment_usd"] and x["perm"] >= ex["min_jobs"]
+        eligible = (spent >= ex["min_investment_usd"] and x["perm"] >= ex["min_jobs"]
+                    and (ex["min_mw"] is None or x["mw"] >= ex["min_mw"])
+                    and (ex["start_before_year"] is None or x["start"] < ex["start_before_year"]))
+        if ex["rate_part"] == "state":
+            share = min(1.0, ex["state_rate_pct"] / (x["sales"] or 1))
 
     def in_term(year):
         if ex["last_year"] is not None and year > ex["last_year"]:
             return False
-        if ex["term_years"] is not None and year >= x["start"] + ex["term_years"]:
+        term = ex["term_years"]
+        if ex["term_years_big"] and usd >= ex["term_years_big"]["min_investment_usd"]:
+            term = ex["term_years_big"]["years"]
+        if term is not None and year >= x["start"] + term:
             return False
         return True
 
@@ -110,7 +120,7 @@ def run(d):
         b_tax = 0.0 if x["matshare"] is None else building * x["matshare"] / 100 * x["sales"] / 100
         e_tax = equipment * x["sales"] / 100
         applies = eligible and x["dcex"] and in_term(year)
-        forgone = ((e_tax if "equipment" in ex["covers"] else 0) + (b_tax if "construction" in ex["covers"] else 0)) if applies else 0.0
+        forgone = ((e_tax if "equipment" in ex["covers"] else 0) + (b_tax if "construction" in ex["covers"] else 0)) * share if applies else 0.0
         return e_tax + b_tax, forgone
 
     elec = None
@@ -189,7 +199,9 @@ export function dcStata(P: DcParams, sc: Record<View, Scenario>): string {
     const b = dcBundle(P, s.x, s.r), x = s.x, ex = b.rule?.sales_exemption ?? null, pr = b.rule?.property ?? null;
     const usd = x.invest * 1e6, bld = usd * x.bld / 100, eq = usd * x.eq / 100;
     const spent = !ex ? 0 : ex.invest_before_year === null ? usd : usd * Math.max(0, Math.min(x.build, ex.invest_before_year - x.start)) / x.build;
-    const eligible = !!ex && spent >= ex.min_investment_usd && x.perm >= ex.min_jobs && x.dcex;
+    const eligible = !!ex && !ex.discretionary && spent >= ex.min_investment_usd && x.perm >= ex.min_jobs && (ex.min_mw === null || x.mw >= ex.min_mw) && (ex.start_before_year === null || x.start < ex.start_before_year) && x.dcex;
+    const term = ex && ex.term_years_big && usd >= ex.term_years_big.min_investment_usd ? ex.term_years_big.years : ex?.term_years ?? null;
+    const share = ex && ex.rate_part === "state" ? Math.min(1, ex.state_rate_pct / (x.sales || 1)) : 1;
     const chainJ = (ph: "construction" | "operations") => b.multipliers ? (b.multipliers[ph].direct.jobs + b.multipliers[ph].indirect.jobs + b.multipliers[ph].induced.jobs) / b.multipliers[ph].direct.jobs : 1;
     const chainE = (ph: "construction" | "operations") => b.multipliers ? (b.multipliers[ph].direct.earnings_musd + b.multipliers[ph].indirect.earnings_musd + b.multipliers[ph].induced.earnings_musd) / b.multipliers[ph].direct.earnings_musd : 1;
     const inc = b.income;
@@ -199,8 +211,8 @@ export function dcStata(P: DcParams, sc: Record<View, Scenario>): string {
       `gen equipment = cond(build, eq / ${x.build}, cond(${x.refresh} > 0 & op > 0 & mod(op, ${x.refresh}) == 0, eq, 0))`,
       `gen building = cond(build, bld / ${x.build}, 0)`,
       `gen salesbefore = equipment * rate${x.matshare === null ? "" : ` + building * ${x.matshare / 100} * rate`}`,
-      `gen interm = ${!ex ? 0 : `(${ex.last_year === null ? 1 : `year <= ${ex.last_year}`}) & (${ex.term_years === null ? 1 : `year < ${x.start + ex.term_years}`})`}`,
-      `gen forgone = ${eligible ? `interm * (${ex!.covers.includes("equipment") ? "equipment * rate" : "0"}${ex!.covers.includes("construction") && x.matshare !== null ? ` + building * ${x.matshare / 100} * rate` : ""})` : "0"}`,
+      `gen interm = ${!ex ? 0 : `(${ex.last_year === null ? 1 : `year <= ${ex.last_year}`}) & (${term === null ? 1 : `year < ${x.start + term}`})`}`,
+      `gen forgone = ${eligible ? `${share} * interm * (${ex!.covers.includes("equipment") ? "equipment * rate" : "0"}${ex!.covers.includes("construction") && x.matshare !== null ? ` + building * ${x.matshare / 100} * rate` : ""})` : "0"}`,
       "gen sales = salesbefore - forgone",
       `gen jobs = cond(build, ${x.cons * chainJ("construction")}, ${x.perm * chainJ("operations")})`,
       `gen earnings = cond(build, ${x.cons * x.conswage * chainE("construction")}, ${x.perm * x.opwage * chainE("operations")})`,

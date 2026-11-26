@@ -142,6 +142,42 @@ test("property: the abatement and the building's straight line", () => {
   near(D.dcStat(r, `year:${2026 + 1 + 5}:property`), 1715000 + 27280000);
 });
 
+test("Minnesota (297A.68 subd. 42): the state's rate only, for 35 years from the first purchase, USD 30 million", () => {
+  const x = D.dcDefaults(P, "mn", { invest: 1000, perm: 50, start: 2026, build: 2, life: 40 });
+  const r = D.dcRun(x, P);
+  assert.equal(r.exemption.eligible, true);
+  // equipment 1e9 x 68.2% = 682e6, bought in the build and in 2033, 2038, ... 2063 (eight purchases) at 8.14 percent:
+  // 682e6 x 0.0814 = 55,514,800 each, 444,118,400 before the exemption.
+  near(r.sums.salesbefore, 8 * 682e6 * 0.0814, "MN before");
+  // exempt before 2061 (35 years from 2026): seven purchases, at the state's 6.88 percent: 7 x 682e6 x 0.0688 = 328,451,200.
+  near(r.sums.forgone, 7 * 682e6 * 0.0688, "MN forgone");
+  assert.equal(D.dcRun({ ...x, start: 2042 }, P).exemption.eligible, false);  // certified before 1 July 2042 only
+  assert.equal(D.dcRun({ ...x, invest: 29 }, P).exemption.eligible, false);   // below USD 30 million
+});
+
+test("Maryland (Tax-General 11-239): 10 years, 20 with USD 250 million; 5 positions", () => {
+  const big = D.dcRun(D.dcDefaults(P, "md", { invest: 300, perm: 5, start: 2026, build: 2, life: 20 }), P);
+  // equipment 300e6 x 68.2% = 204.6e6 at 6 percent = 12,276,000 a purchase; build, 2033, 2038, 2043 all before 2046: 49,104,000.
+  near(big.sums.forgone, 4 * 12276000, "MD 20 years");
+  const small = D.dcRun(D.dcDefaults(P, "md", { invest: 200, perm: 5, start: 2026, build: 2, life: 20 }), P);
+  // 200e6 x 68.2% = 136.4e6 at 6 percent = 8,184,000; before 2036 only the build and 2033: 16,368,000 of 32,736,000.
+  near(small.sums.forgone, 2 * 8184000, "MD 10 years"); near(small.sums.salesbefore, 4 * 8184000);
+  assert.equal(D.dcRun(D.dcDefaults(P, "md", { invest: 200, perm: 4 }), P).exemption.eligible, false);
+});
+
+test("Florida (212.08(5)(r)): USD 150 million and a critical IT load of 100 MW; South Carolina certified before 2032; Nevada's abatement never applied", () => {
+  assert.equal(D.dcRun(D.dcDefaults(P, "fl", { mw: 100, invest: 150, perm: 10 }), P).exemption.eligible, true);
+  assert.equal(D.dcRun(D.dcDefaults(P, "fl", { mw: 99, invest: 1500, perm: 10 }), P).exemption.eligible, false);
+  const sc = D.dcDefaults(P, "sc", { invest: 100, perm: 25, start: 2031, build: 2, life: 20 });
+  const s = D.dcRun(sc, P);
+  assert.equal(s.exemption.eligible, true);
+  // equipment 68.2e6 at 7.49 percent = 5,108,180 a purchase: build (2031-32), 2038, 2043 (> 2041: taxed), 2048: two exempt.
+  near(s.sums.forgone, 2 * 68.2e6 * 0.0749, "SC through 2041");
+  assert.equal(D.dcRun({ ...sc, start: 2032 }, P).exemption.eligible, false);
+  const nv = D.dcRun(D.dcDefaults(P, "nv", { invest: 5000, perm: 500 }), P);
+  assert.equal(nv.exemption.held, true); assert.equal(nv.exemption.eligible, false); near(nv.sums.forgone, 0);
+});
+
 test("a check key carries every input and gives the figure back", () => {
   const x = { ...D.dcDefaults(P, "la"), brate: 9.5, matshare: null };
   const k = D.dcKey(x);

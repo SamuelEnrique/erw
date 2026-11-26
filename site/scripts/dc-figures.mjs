@@ -20,6 +20,17 @@ export const CASES = [
   { id: "va_no_exemption_abated", state: "va", set: { mw: 300, invest: 2500, perm: 60, dcex: false, brate: 1.1, erate: 4.15, bldyears: 40, abate: 50, abateyears: 10, matshare: 40 } },
   { id: "ia_threshold", state: "ia", set: { mw: 50, invest: 199, perm: 20 } },
   { id: "la_late_build", state: "la", set: { invest: 5000, perm: 100, start: 2030, build: 2, life: 10 } },
+  // session 10805: the states of part E
+  { id: "mn_state_rate_35y", state: "mn", set: { invest: 1000, perm: 50, start: 2026, build: 2, life: 40 } },
+  { id: "md_20y", state: "md", set: { invest: 300, perm: 5, start: 2026, build: 2, life: 20 } },
+  { id: "md_10y", state: "md", set: { invest: 200, perm: 5, start: 2026, build: 2, life: 20 } },
+  { id: "fl_100mw", state: "fl", set: { mw: 100, invest: 150, perm: 10, matshare: 40 } },
+  { id: "fl_99mw", state: "fl", set: { mw: 99, invest: 1500, perm: 10 } },
+  { id: "sc_2031", state: "sc", set: { invest: 100, perm: 25, start: 2031, build: 2, life: 20 } },
+  { id: "nv_discretionary", state: "nv", set: { invest: 5000, perm: 500 } },
+  { id: "mo_15y_building", state: "mo", set: { invest: 400, perm: 10, matshare: 50, start: 2026, build: 3, life: 20 } },
+  { id: "id_threshold", state: "id", set: { invest: 250, perm: 30 } },
+  { id: "nd_no_threshold", state: "nd", set: { mw: 20, invest: 50, perm: 3 } },
 ];
 const STREAMS = ["jobs", "earnings", "property", "propb", "prope", "salesbefore", "forgone", "sales", "income", "elec"];
 const out = CASES.map((c) => {
