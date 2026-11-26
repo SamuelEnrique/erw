@@ -58,6 +58,7 @@ In plain words; the same twelve lines stand at the foot of the review.
 10. The Grid tool's Network view says "copy the address to share the view"; while a Watch story plays the address is still the live week's. It takes the story once paused.
 11. The Price years list: on the battery tool one step back leaves the tool; on the generator's page it undoes the choice. One way for both?
 12. `/digest` says "No Digest yet for Thursday 26 November ... the daily run starts at 14:00 UTC" while the Digest is paused (the newest is 12 November). A line saying it is paused, and since when?
+13. What a visitor sees at the home address today: the heading "/", "This tool is in review and will open when it is approved", and a list "Open now" whose one entry, Home, is itself marked "in review". The in-review page names a page from the menu's list and prints the address of any page not in it (18 of 75, `/forecast` and `/equities` among them). A name for the home page, at least?
 
 Line 1 grew by one page: `/queues`' three charts give a year's figure only as the browser's tooltip, so a phone reads none of them.
 
