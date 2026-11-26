@@ -2,6 +2,13 @@
 
 Energy Research Warehouse (ERW). Kept current; state at 18:33 UTC on 26 November 2026. Sessions 10400 to 10407. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10407_REPORT.md`.
 
+## One thing first: a held price is drawn on production
+
+- **Where:** the Grid tool's Network view with Prices on (`https://erw-flame.vercel.app/grid?grid=us48&view=network&net=day&t=2025-07-24&node=NYIS&prices=1`), in the internal view. The page is in review, so a visitor does not see it.
+- **What:** New York's hub price (47.50 USD/MWh on 24 July 2025; 65.11 on 20 November 2026) and New England's (47.59) are printed in the panel and drawn as a ring. Both grids' prices are held since 21 October ("license needed").
+- **Who found it and what is done:** the second window (its review's row H2). Its mend is row 10 of `docs/state/landing_request_portable_w2.md`; this window built it, saw both panels read "license needed" with no figure, read production once as the control, and marked the row requested for the desk's next gate at 18:38 UTC. The files that still carry the prices are the second window's data request 576.
+- **Not this window's page, and nothing of it was edited here.**
+
 ## Where things stand
 
 - **The two new pages, the board's new group and the forecast's problem set are on production since 17:13 UTC** (landing 3 of window A's desk, `693a4a3f5`: rows 54, 55 and 56). They are in review: you see them in the internal view, a visitor sees the in-review page.
