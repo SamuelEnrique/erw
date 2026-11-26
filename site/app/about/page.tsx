@@ -42,7 +42,9 @@ export default function About() {
           summary and link, never its body. Titles and summaries are the outlets&apos; text, kept for scoring and linking; they are not republished.
         </p>
         <p>
-          <strong>Scoring.</strong> A model (the newest Sonnet-class Claude model the API lists) scores every story against a fixed rubric
+          {/* session 10238 (docs/reviews/small-pages-audit-2026-11-26.md, finding 3): warehouse/news/score.py, NEWS_SCORE_MODEL (session 206) */}
+          <strong>Scoring.</strong> A model (Claude Haiku 4.5, the one model fixed for scoring since 12 October 2026; the digest&apos;s other steps
+          use the newest Sonnet-class model the API lists) scores every story against a fixed rubric
           (<a href={`${site.repository}/blob/main/warehouse/news/rubric.md`}>warehouse/news/rubric.md</a>): significance from 0 to 10 across the whole
           energy industry, a sector, a region, and a one-line reason. Stories about the same event are grouped into one cluster, and clusters are ranked by
           their highest significance. The ranking decides the order; the score itself is not shown.
