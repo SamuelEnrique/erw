@@ -53,7 +53,7 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Cross-check | done | 10804 | JLARC's exemption value reproduced (9.04 to 15.52 against "about $9 million to $15.5 million"); Huntsville and LED beside the model, differences stated |
 | Replication `replication/impact/datacenter/` | done | 10804, 10805 | `replicate.py` 4,460 of 4,460 figures of 18 cases; `replicate_datacenter.do` (not run: no Stata) |
 | Local build, seen at 1280 and 390 px, five readers' cases | done | 10808 | three builds under the lock (12:15 to 12:29 UTC); six addresses at both widths, no overflow, no console error; check-values 1,506 of 1,506; four faults fixed; `docs/reviews/impact-datacenter-readers-2026-11-26.md` |
-| Landing request | in progress | 10809 | selected tests (482 files) running under the lock; then row 14 of `docs/state/landing_request_desktop_w3.md` |
+| Landing request | requested | 10810 | row 14 of `docs/state/landing_request_desktop_w3.md`, head `34904f82b`, port 3740 (13:08 UTC) |
 
 ## Part E: more states
 
@@ -74,6 +74,7 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 |---|---|---|---|
 | More announced projects | done (first pass) | 10807 | 25 rows (Hut 8 River Bend, Amazon Caddo and Bossier, Applied Digital Delta Forge 1 added); defaults recomputed and dated |
 | JEDI plant types the page lacks | requested | 10807 | data request 8 for window A |
-| Georgia's published IMPLAN tables (a second multiplier) | in progress | 10809 | the evaluation read (request 199); to add to the rules after the test run |
-| An equipment value schedule (a county's, typed) | in progress | 10809 | the at-cost upper bound runs 3.1 times Loudoun's 2026 schedule over five years (requests 202, 204) |
+| Published IMPLAN ratios beyond Virginia | done | 10809, 10810 | Georgia (the state auditor's evaluation) and Minnesota (the Legislative Budget Office's), each its own state only |
+| An equipment value schedule (a county's, typed) | done | 10809 | three fields; Loudoun's 2026 schedule reproduces its USD 9.96 million |
 | Window F's browser read, rows naming `/impact` | none yet | 10808 | `docs/reviews/browser-read-2026-11-26.md`: `/impact` with Datacenter is part C, read as it lands |
+| More states, words or rules | done | 10809, 10810 | Pennsylvania and Kentucky by rule; Mississippi, Indiana and Washington as words (23 states in `datacenter_rules.json`) |

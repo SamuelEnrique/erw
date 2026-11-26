@@ -1,0 +1,34 @@
+ok   case 1: the page's sentence for ERCOT's standalone batteries, as it was
+ok   row 1: the technology's table has a row for each of the 10 grids that hold it
+ok   row 1: ERCOT and CAISO side by side in one table, the file's figures
+ok   every marked number on the page is the file's (194)
+ok   row 2: ERCOT's standalone batteries: 2025, 3.94 years over 37 dated requests, in words (no line from one point)
+ok   row 2: each of the 5 views with one operation year writes it in a sentence
+ok   row 3: one view of the file labels no withdrawn request at all though it counts a share (ercot|solar_battery)
+ok   row 3: ERCOT's 0.00 percent withdrawn carries the hover in the headline, the technology table and the grid table (3)
+ok   row 3: the 1,100 of the hover is the file's withdrawn ERCOT requests with a year entered
+ok   row 3: on PJM's page the hover is on ERCOT's row of the grid table only, not where the file holds withdrawn requests (PJM: 83.33)
+ok   row 4: the year 2018 in counts (41 entered, 1 reached operation, 28 withdrawn, 12 still active), not only in a bar's hover
+ok   row 4: a row for each of the 25 years the view holds
+ok   row 4: every count of the years table is the file's
+ok   row 5: the lead names the explorer and the map's Queues tab as another source
+ok   row 5: the explorer names this page in turn
+ok   case 4: NYISO 4,371 MW in 5 requests, ISO-NE 6,027 MW in 8 (Queued Up, public under CC BY 4.0)
+ok   row 9: ISO-NE's "not held" wait says why on hover (9 cells)
+ok   row 9: on NYISO's page only ISO-NE's row of the grid table carries the hover; NYISO's own "not held" keeps the floor's meaning
+ok   row 6: the fold says the file holds no load and names the two pages that hold the load side
+ok   row 7: one suspended request is "1 request"
+ok   row 8: "the United States' queues"
+ok   the All grids tab's count of plants online 2023 to 2025 is this page's, grid by grid (ercot 227/227, caiso 41/41, spp 30/30, pjm 169/169, southeast 102/102)
+ok   the All grids tab and this page read the same edition (2026 edition (through 2025))
+ok   the cost of power's model reads the same file through the same viewOf
+ok   the page's two tables are public (Queued Up, CC BY 4.0)
+ok   the operators' queue tables of NYISO, MISO and ISO-NE are held, as the read assumed
+ok   the page reads no live table and no operator's queue table (held for NYISO, MISO, ISO-NE)
+ok   the read names no row of a held operator's queue table
+ok   no em dash in the files this session wrote
+29 of 29 checks pass
+(node:10808) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-c/site/lib/queues.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-c\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
