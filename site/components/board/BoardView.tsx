@@ -333,8 +333,9 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
                   "Day-ahead minus real time, by hub" above, whose 7-day avg is this figure with its sign turned */}
               {WEEK_COLS.map(([k, n]) => <th key={k} className="pr-3 text-right font-normal" {...(k === "da_rt_spread_mean_usd" ? { title: "Real time less day-ahead: the mean of the week's 7 daily differences, the real-time daily mean less the day-ahead daily mean. The group \"Day-ahead minus real time, by hub\" takes the other order, so its 7-day avg is this figure with its sign turned.", "data-week-sign": "1" } : {})}>{n}, week</th>)}
               <th className="pr-3 text-right font-normal">Largest RT minus DA</th>
-              <th className="pr-3 text-right font-normal">Hours RT over DA + 50</th>
-              <th className="pr-2 text-right font-normal">30-day volatility</th>
+              <th className="pr-3 text-right font-normal" data-week-head="hours50" title="The week's hours in which the hour's real-time price ran more than 50 USD/MWh above its day-ahead price. A 15-minute market's hour is the mean of its four 15-minute prices, so a 15-minute spike the hour's mean hides is not counted.">Hours RT over DA + 50</th>
+              {/* session 10209 (docs/reviews/trader-model-audit-2026-11-26.md, finding 4): what the two heads measure */}
+              <th className="pr-2 text-right font-normal" data-week-head="vol" title="The sample standard deviation of the 30 day-over-day changes in the day-ahead daily mean, over the 31 days to the date shown, in USD/MWh: not annualized and not a percent (prices can be zero or negative, so no log returns are taken). It needs all 31 days, so one missing day leaves the last one standing, marked stale, for the 31 days after.">30-day volatility</th>
             </tr>
           </thead>
           <tbody>
