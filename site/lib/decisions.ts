@@ -254,8 +254,8 @@ export const DEAL_TRACKER_DECISIONS: Decision[] = [
     def: "No source beyond the scored news.",
     source: "docs/methods/energy_deals.md, \"What the extraction cannot see\"." },
   { key: "hold", session: "sessions 215 and 465", ruling: "the owner's ruling of 12 October 2026",
-    text: "From 21 October 2026 the deals are held whole for a license: every view draws the hold's sentence and the count of rows it covers, and nothing of a row.",
-    def: "Held whole; no row is shown.",
+    text: "From 21 October 2026 the deals are held whole for a license: every view of the deals draws the hold's sentence and the count of rows it covers, and nothing of a row. The companies tab reads energy_companies, which is not held: each party of a deal is a company row there, with the deals' types and technologies as tags, the place a deal states and the stories' links.",
+    def: "Held whole; no deal's row is shown. The companies seeded from the deals' parties are shown on the companies tab.",
     source: "warehouse/metadata/license_status.csv: the outlets' own pages ask for permission." },
 ];
 
