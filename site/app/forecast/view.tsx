@@ -26,7 +26,9 @@ import {
   localWords, methodShort, methodWhat, methodWords, methodsOf, metricDefault, metricOf, metricUnit, monthWords, orderedKeys, placeWords, queryOf, rowHours, scoreWords, scoresOf, shortHeld, tomorrowOf, utcWords, valueWords,
   type Hour, type IndexPlace, type Metric, type PlaceFile, type PlaceSeries, type PredictIndex, type Query, type Score, type ScoresFile, type SeriesKey,
 } from "@/lib/predict";
-import { predictIndex, predictLedger, predictPlace, predictScores } from "@/lib/predictfiles";
+// session 10405 (chain 720, part E): the day's peak and the days after tomorrow (the contract's changes of session 10601)
+import { PEAK_HOURS, PEAK_SPANS, aheadDays, aheadOf, pctWords, type AheadFile } from "@/lib/predict";
+import { predictAhead, predictIndex, predictLedger, predictPlace, predictScores } from "@/lib/predictfiles";
 
 type Raw = Record<string, string | string[] | undefined>;
 type Slot = { mark: "a" | "b"; place: IndexPlace; file: PlaceFile | null };
@@ -148,6 +150,85 @@ function Tomorrow({ slot, s, index, scores }: { slot: Slot; s: SeriesKey; index:
               h.operator !== null ? fig(h, "operator", h.operator, `h${h.i}|operator`, "The operator's own forecast.") : <NotHeld key="o" words={shortHeld(ser.operator_held)} why={opWhy} />] }))} />
         </div>
       </details>
+    </div>
+  );
+}
+
+/** "Sat 28 Nov" of a day, for a chart's axis. */
+const shortDay = (day: string) => { const [wd, dd, mon] = dayWords(day).split(" "); return wd && dd && mon ? `${wd.slice(0, 3)} ${dd} ${mon}` : day; };
+
+/** Session 10405 (chain 720, part E): the days after tomorrow for one place (site/data/predict/ahead.json): the ERW
+ *  forecast of demand by hour with its band over the days the file shows, and one row a day: its highest and lowest
+ *  hour, and how a forecast made that many days ahead has scored over the last two years, beside the same hour a week
+ *  ago and the operator's own day-ahead forecast on the same hours. The file shows a day only where the forecast beat
+ *  the week-ago hour; a day it does not show is a row that says so, with the file's reason on hover. Demand only. */
+function DaysAhead({ slot, ahead, metric, scores, part }: { slot: Slot; ahead: AheadFile; metric: Metric; scores: ScoresFile | null; part: "chart" | "table" }) {
+  const ser = slot.file?.series?.demand;
+  // two places: their charts stand side by side, and under them each place's table at the page's full width (seven
+  // columns do not fit half of it); the chart's part carries the block's marks, the table's part its own
+  if (!isShown(slot.file, ser) || !ser) return part === "chart" ? <div className="min-w-0" data-fc-ahead={slot.mark} data-fc-ahead-days="0" /> : null;
+  const entry = aheadOf(ahead, slot.place.place);
+  const title = `${placeWords(slot.place)}: the days after ${ser.target_day ? dayWords(ser.target_day) : "tomorrow"}`;
+  const days = entry ? aheadDays(entry.place, ser.target_day) : [];
+  if (!entry || !days.length) {
+    return part === "table" ? null : (
+      <div className="min-w-0" data-fc-ahead={slot.mark} data-fc-ahead-days="0">
+        <h4 className="mb-1 text-sm font-semibold">{title}</h4>
+        <p className="mb-4 text-sm"><NotHeld why={entry ? "The file of the days ahead holds no day after this place's day forecast now." : "The file of the days ahead (site/data/predict/ahead.json) holds no entry for this place."} /></p>
+      </div>
+    );
+  }
+  const unit = ser.unit, tz = slot.place.time, file = "predict/ahead.json";
+  const mu = metricUnit(metric, unit);
+  const shown = days.filter((d) => d.hours.length);
+  const hours = shown.flatMap((d) => d.hours.map((h) => ({ ...h, day: d.h.target_day })));
+  const key = (d: (typeof days)[number], ...rest: (string | number)[]) => pfKey(file, ["places", entry.pi, "horizons", d.hi, ...rest]);
+  const col = (d: (typeof days)[number], n: string) => d.h.forecast_columns.indexOf(n);
+  const made = `${LABEL}: a model's output (tier derived), not a published figure${ahead.made_utc ? `; made ${localWords(ahead.made_utc, tz)} (${utcWords(ahead.made_utc)})` : ""}. ${ahead.what ?? ""} site/data/${file}.`;
+  const band = hours.some((h) => h.lo !== null && h.hi !== null) ? { lo: hours.map((h) => h.lo), hi: hours.map((h) => h.hi), name: "" } : undefined;
+  const span = (d: (typeof days)[number]) => `${d.h.horizon_days} days after the last whole day of demand read${entry.place.last_whole_day ? ` (${entry.place.last_whole_day})` : ""}`;
+  const extremeCell = (d: (typeof days)[number], x: (typeof days)[number]["top"], what: string) => (x
+    ? <span key={what} className="whitespace-nowrap"><Num check={key(d, "forecast", x.i, col(d, "erw"))} raw={x.v} source={`The ${what} hour of the ${LABEL} for ${dayWords(d.h.target_day)}, the hour beginning ${localWords(x.ts, tz)}, made ${span(d)}. ${made}`}>{valueWords(x.v, unit)}</Num> <span className="text-xs">at {hourWords(x.hour)}</span></span>
+    : <NotHeld key={what} why="No hour of this day's forecast is held." />);
+  const scoreCell = (d: (typeof days)[number], m: string, words: string) => {
+    const v = d.h.last_2_years?.[metric]?.[m];
+    return v === null || v === undefined
+      ? <NotHeld key={m} why={`No score of ${words} at this horizon is in the file.`} />
+      : <Num key={m} check={key(d, "last_2_years", metric, m)} raw={v} source={`${words}, a forecast made ${span(d)}: ${METRIC_WORDS[metric].toLowerCase()}, ${mu}, over the last two years${typeof d.h.last_2_years?.hours === "number" ? ` (${d.h.last_2_years.hours.toLocaleString("en-US")} hours)` : ""}. site/data/${file}.`}>{scoreWords(v, metric, unit)}</Num>;
+  };
+  if (part === "chart") return (
+    <div className="min-w-0" data-fc-ahead={slot.mark} data-fc-ahead-days={days.length} data-fc-ahead-shown={shown.length}>
+      <h4 className="mb-1 text-sm font-semibold">{title}</h4>
+      {hours.length ? (
+        <ChartFrame title={`${LABEL} of demand: ${dayWords(shown[0].h.target_day)} to ${dayWords(shown[shown.length - 1].h.target_day)}`} legend={band ? [BAND] : undefined}
+          tip={<> <Hint words="source" why={made} />, <Hint words="which days are shown" why={ahead.what ?? "A day is shown only where, over the last two years, a forecast made that many days ahead beat the same hour a week ago."} /></>}>
+          <CategoryChart id={`fc-ahead-${slot.mark}`} x={hours.map((h) => (h.hour === 0 ? shortDay(h.day).split(" ").slice(0, 2).join(" ") : `${shortDay(h.day)} ${h.label}`))} series={[{ name: LABEL, color: "accent", kind: "line", values: hours.map((h) => h.erw) }]} unit={unit} zero={false} height={240} every={24} band={band}
+            notes={hours.map((h) => `Hour beginning ${localWords(h.ts, tz)}.${h.lo !== null && h.hi !== null ? ` Band: ${valueWords(h.lo, unit)} to ${valueWords(h.hi, unit)} ${unit}.` : ""}`)}
+            label={`${LABEL} of demand for ${placeWords(slot.place)} over the ${shown.length} days after ${ser.target_day ? dayWords(ser.target_day) : "tomorrow"}, by the hour of the place's clock (${tz})`} />
+        </ChartFrame>
+      ) : null}
+    </div>
+  );
+  return (
+    <div className="mb-5 min-w-0" data-fc-ahead-table={slot.mark}>
+      <ToolTable minWidth={600} caption={`${title}: the highest and lowest hour of the ${LABEL} for each day, and how a forecast made that many days ahead has scored over the last two years, ${mu}`}
+        head={[<span key="d" className="cursor-help" title={`${title}. Each day's errors are those of a forecast made that many days ahead, over the last two years.`}>{placeWords(slot.place)}, day</span>,
+          <span key="t" className="cursor-help" title={`The highest hour of the ${LABEL} for the day, in ${unit}, and the hour of the place's clock it begins.`}>Highest hour</span>,
+          <span key="l" className="cursor-help" title={`The lowest hour of the ${LABEL} for the day, in ${unit}, and the hour it begins.`}>Lowest hour</span>,
+          <span key="e" className="cursor-help" title={`${METRIC_WORDS[metric]} of a forecast made this many days ahead, over the last two years, ${mu}: the file's own method for the horizon.`}>Error, {mu}: {LABEL}</span>,
+          <span key="w" className="cursor-help" title={`${methodWords("week_ago")}${methodWhat(scores, "week_ago") ? `: ${methodWhat(scores, "week_ago")}` : ""}. ${METRIC_WORDS[metric]} on the same hours, ${mu}.`}>Error, {mu}: {methodShort("week_ago").toLowerCase()}</span>,
+          <span key="o" className="cursor-help" title={`The operator's own forecast made one day ahead: its mean absolute error on the same hours, in ${unit}. A forecast made one day ahead is set here beside one made several days ahead; the file holds no operator's forecast at these horizons, and no percent for this column.`}>Error, {unit}: operator, day-ahead</span>,
+          <span key="b" className="cursor-help" title="Of the past hours scored at this horizon, the share that fell inside the forecast's band, in percent.">In band, %</span>]}
+        rows={days.map((d) => {
+          const name = <span key="d" className="cursor-help whitespace-nowrap" title={`${dayWords(d.h.target_day)}: a forecast made ${span(d)}. Method: ${methodWords(d.method)}.`}>{shortDay(d.h.target_day)}</span>;
+          if (!d.h.shown || !d.hours.length) return { key: d.h.target_day, cells: [name], wide: <span className="cursor-help" title={d.h.held ?? "The file does not show this day, and does not say why."} data-fc-ahead-blank={d.h.target_day}>not shown</span> };
+          const op = d.h.last_2_years?.operator_day_ahead_mae_same_hours, cov = d.h.band_coverage_pct;
+          return { key: d.h.target_day, cells: [name, extremeCell(d, d.top, "highest"), extremeCell(d, d.low, "lowest"), scoreCell(d, d.method, LABEL), scoreCell(d, "week_ago", methodWords("week_ago")),
+            op === null || op === undefined ? <NotHeld key="o" why="The file holds no operator's forecast on these hours." />
+              : <Num key="o" check={key(d, "last_2_years", "operator_day_ahead_mae_same_hours")} raw={op} source={`The operator's own day-ahead forecast: its mean absolute error on the hours this horizon is scored on, ${unit}. site/data/${file}.`}>{valueWords(op, unit)}</Num>,
+            cov === null || cov === undefined ? <NotHeld key="b" why="No share is in the file for this horizon." />
+              : <Num key="b" check={key(d, "band_coverage_pct")} raw={cov} source={`Of the past hours scored at this horizon, the share inside the band, percent. site/data/${file}.`}>{pctWords(cov)}</Num>] };
+        })} />
     </div>
   );
 }
@@ -297,6 +378,26 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
   const other = OTHER_CUTS.flatMap((cut) => keysOf(cut).map((key) => ({ cut: cut as string, key, words: cut === "event" ? eventWords(key) : CUT_WORDS[cut] ?? cut })));
   const otherMethods = methodsIn(OTHER_CUTS);
   const parts: [string, string][] = [["last_30_days", "The last 30 days"], ["backtest", "The backtest"]];
+  // session 10405 (chain 720, part E): the day's peak (a place file's series.demand.peak; the contract's change of
+  // session 10601). One table in the form of the others: the size of each method's miss of the day's highest hour (the
+  // score chosen), and how often its highest hour was the day's, exactly and within one. Every method the same weight.
+  const peaked = s === "demand" && info.some((x) => PEAK_SPANS.some(([span]) => !!x.ser?.peak?.[span]));
+  const peakWhat = info.map((x) => x.ser?.peak?.what).find(Boolean);
+  const peakCells = (x: (typeof info)[number], span: (typeof PEAK_SPANS)[number][0], field: "mae" | "mape" | "hour_exact_pct" | "hour_within_1_pct", words: string, what: string): ReactNode[] | null => {
+    const p = x.ser?.peak?.[span];
+    if (!x.ser || !p) return null;
+    const file = fileOf(x.slot);
+    const when = p.first_day && p.last_day ? `${p.first_day} to ${p.last_day}` : "days the file does not say";
+    return [p.days !== null && p.days !== undefined
+      ? <Num key="d" check={pfKey(file, ["series", "demand", "peak", span, "days"])} raw={p.days} source={`The days scored, ${when}: the days whose every hour is held by every method.`}>{p.days.toLocaleString("en-US")}</Num>
+      : <NotHeld key="d" why="No count of days is in the file." />,
+      ...FOUR.map((m) => {
+        const v = p.methods?.[m]?.[field];
+        return v === null || v === undefined
+          ? <NotHeld key={m} words={m === "operator" ? shortHeld(x.ser!.operator_held) : "not held"} why={m === "operator" && x.ser!.operator_held ? `${OPERATOR}: ${x.ser!.operator_held}.` : "No score of the peak is in the file for this method and span."} />
+          : <Num key={m} check={pfKey(file, ["series", "demand", "peak", span, "methods", m, field])} raw={v} source={`${methodWords(m)}, ${placeWords(x.slot.place)}, ${words.toLowerCase()} (${when}): ${what}. site/data/${file}.`}>{field === "mae" || field === "mape" ? scoreWords(v, field, unit) : pctWords(v)}</Num>;
+      })];
+  };
   return (
     <div data-fc-record={slots.map((x) => x.mark).join("")}>
       <div className="mb-5" data-fc-summary="1">
@@ -315,6 +416,19 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
               })];
           }) }))} />
       </div>
+      {peaked ? (
+        <div className="mb-5" data-fc-peak="1">
+          <h4 className="mb-1 text-sm font-semibold"><span className={peakWhat ? "cursor-help" : undefined} title={peakWhat ? `The file's words: ${peakWhat}.` : undefined}>The day&apos;s peak</span>: the error of its size, {mu}, and how often its hour was the day&apos;s, % of days</h4>
+          <ScoreTable k="peak" first="Span" caption={`${names}the day's highest hour of demand: ${METRIC_WORDS[metric].toLowerCase()} of each method's own highest hour, ${mu}, and the share of days on which the hour was the same or one away, percent`}
+            groups={info.map((x) => ({ key: x.slot.mark, name: placeWords(x.slot.place), held: x.held, heads: ["Days", ...FOUR.map((m) => <MethodHead key={m} m={m} scores={scores} />)] }))}
+            rows={PEAK_SPANS.flatMap(([span, words]) => [
+              { key: `${span}|size`, name: <span className="cursor-help" title={`${METRIC_WORDS[metric]} of each method's highest hour of a day against the day's highest hour of demand, ${mu}.`}>{words}: error of its size, {mu}</span>,
+                cells: info.map((x) => peakCells(x, span, metric, words, `${METRIC_WORDS[metric].toLowerCase()} of the method's highest hour of a day against the day's highest hour of demand, ${mu}`)) },
+              ...PEAK_HOURS.map(([field, name, what]) => ({ key: `${span}|${field}`, name: <span className="cursor-help" title={`${what[0].toUpperCase()}${what.slice(1)}.`}>{words}: {name}, %</span>,
+                cells: info.map((x) => peakCells(x, span, field, words, what)) })),
+            ])} />
+        </div>
+      ) : null}
       {table("month", "Month", (key) => monthWords(key), "By month", (key) => monthWords(key), "months")}
       {table("hour", "Hour", (key) => <span title={`The hour from ${hourWords(key)} of the place's own clock`} className="cursor-help">{hourWords(key)}</span>, "By hour of day", (key) => `the hour from ${hourWords(key)}`, "hours")}
       {other.length ? (
@@ -360,6 +474,9 @@ const demandKey = (p: IndexPlace) => (p.kind === "ba" ? `ba-${p.eia930.toLowerCa
 export function ForecastView({ query }: { query: Raw }) {
   const index = predictIndex();
   const scores = predictScores();
+  // session 10405: the days after tomorrow; null while the file is not on the site, an example or a test's fixture
+  const aheadFile = predictAhead();
+  const ahead = aheadFile && aheadFile.example !== true && index?.example !== true ? aheadFile : null;
   const q: Query = queryOf(query, index);
   const metric = metricOf(q);
   const places = index?.places ?? [];
@@ -415,6 +532,13 @@ export function ForecastView({ query }: { query: Raw }) {
           <ToolTabs label="Forecast of" items={SERIES.map((x) => ({ key: x, label: SERIES_WORDS[x], href: hrefOf(q, { s: x, m: null, day: null }), on: q.s === x }))} />
           <ToolSection title="Tomorrow" id="tomorrow">
             <div className={two}>{slots.map((x) => <Tomorrow key={x.mark} slot={x} s={q.s} index={index} scores={scores} />)}</div>
+            {/* session 10405: the days after tomorrow, demand only, once the file of them is on the site */}
+            {q.s === "demand" && ahead ? (
+              <div data-fc-ahead-block="1">
+                <div className={two}>{slots.map((x) => <DaysAhead key={x.mark} slot={x} ahead={ahead} metric={metric} scores={scores} part="chart" />)}</div>
+                {slots.map((x) => <DaysAhead key={x.mark} slot={x} ahead={ahead} metric={metric} scores={scores} part="table" />)}
+              </div>
+            ) : null}
           </ToolSection>
           <ToolSection title="How it has done" id="record">
             <div className={two}>{slots.map((x) => <PastDay key={x.mark} slot={x} s={q.s} index={index} scores={scores} asked={q.day} />)}</div>
@@ -440,6 +564,12 @@ export function ForecastView({ query }: { query: Raw }) {
                   <a href={`/forecast/ledger?s=${q.s}`} download data-download="csv">CSV</a>,{" "}
                   <a href={`/forecast/ledger/python?s=${q.s}`} download data-download="python">Python</a>,{" "}
                   <a href={`/forecast/ledger/stata?s=${q.s}`} download data-download="stata">Stata</a></li>
+              ) : null}
+              {q.s === "demand" && ahead ? (
+                <li data-fc-download="ahead">The days after tomorrow, every place, hour by hour:{" "}
+                  <a href="/forecast/ahead" download data-download="csv">CSV</a>,{" "}
+                  <a href="/forecast/ahead/python" download data-download="python">Python</a>,{" "}
+                  <a href="/forecast/ahead/stata" download data-download="stata">Stata</a></li>
               ) : null}
               {q.s === "demand" ? slots.map((x) => (
                 <li key={`d${x.mark}`} data-fc-operator-record={x.place.place}><SiteLink href={`/demand?view=country&a=${demandKey(x.place)}#forecast`}>{placeWords(x.place)}: the operator&apos;s own forecast against demand, every year held</SiteLink></li>
