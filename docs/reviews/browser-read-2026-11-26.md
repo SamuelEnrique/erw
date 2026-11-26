@@ -92,6 +92,32 @@ Whose: built by the data machine (chain 601); no window's tonight. Read on produ
 
 Pictures: `docs/reviews/browser-read-2026-11-26/conditions/conditions-as-it-opens-1280.png` (ERCOT, the newest 35 days); `docs/reviews/browser-read-2026-11-26/conditions/conditions-caiso-september-2022-1280.png` (its most telling choice: CAISO over the September 2022 heat wave, three lines at a glance); `docs/reviews/browser-read-2026-11-26/conditions/conditions-two-operators-390.png` (ERCOT beside CAISO at 390 px).
 
+## B11: where the grid is congested (`/congestion`), read in full
+
+Whose: built by the data machine (chain 601); no window's tonight. Read on production on 26 November 11:55 to 12:00 UTC at 1280 and 390 px (`runs/c750/b11_congestion.mjs`). The file is the one built 20 November (L2).
+
+**Five cases, written first, then taken on the page.**
+
+1. *A developer siting a load in SPP:* which constraints bound most in 2026, and what did each cost? Opens the page. Answer: of 1,880 constraints over 324 days, the one that bound most hours is SOONER_SONR_SONR_PHSHFT_PS (6,942 hours, mean shadow price 4.77 USD/MWh), and the one whose shadow price summed highest is TMP128_29363, contingency 333 (2,637 hours, mean 125.19, summed 330,132). The two lists stand one under the other, each under its own heading. Answered.
+2. *A trader:* when does the constraint that cost second most bind? Presses its name in the list. Answer: OSAWEBCLESOO, contingency 33380: the hour-by-month table is darkest in October and November just after midnight (75 hours in October's hour 1), and the chart by month runs to October 2026. Answered at 1280 px under the mouse; at 390 px the table's cells are colors only (row N2).
+3. *A CAISO analyst:* California's constraints of 2025. Chooses CAISO and 2025. Answer: 721 constraints, 69,868 constraint-hours; most hours 24723_CONTROL (4,567); highest sum 39021_SC21ATP (553,893). Answered.
+4. *An investor:* SPP's two hubs side by side in 2025. Answer: the North hub's mean congestion part was -3.69 USD/MWh (13.1 percent off its price, 6,069 hours taking off), the South hub's -2.90 (9.9 percent); the monthly lines and the two hour-by-month tables stand together. Answered.
+5. *A student:* which SPP constraint has bound most since 2014? Chooses "Every year held". Answer: TEXAS_CO_TXPS_TXCO_PHSHFT_PS, 60,293 hours; by sum, OSAWEBCLESOO, 1,999,437. Answered.
+
+**Figures.** In seven views at each width: 1,715 marked figures (each against its key in `site/data/conditions/congestion.json` and against the words on the screen), 350 ranked rows (the file's own top lists in the file's order; 1,400 cells), 4,608 cells of the hour-by-month tables read through their hover words, and 1,218 monthly figures with every chart switched to its table. 166 of 166 checks agree at 1280 px and at 390 px.
+
+**The hand, at both widths (12 of 12).** Each chart gives a card inside the screen; a press on a constraint's name opens when it binds and the Constraint list reads the same; after the back button the list reads what the page draws; choosing CAISO and Show draws a CAISO constraint (the constraint list still holds SPP's names until Show is pressed, and the page then takes CAISO's first); a link carrying two places and their year opens on them; wrong values in the address break nothing; the decisions fold's eight marks open inside the screen; the keyboard reaches the foot in 90 stops, each seen and marked.
+
+**Quiet faults.** None: no sideways scroll (the hour-by-month tables, 760 px wide, scroll inside their 358 px frames at 390 px), no empty chart, no "undefined", no skipped heading. Usable in 1.2 s as it opens.
+
+| # | Done | Seen | Should be seen | Whose, and state |
+|---|---|---|---|---|
+| N1 | The two ranked lists | "Highest: 1080.08 USD/MWh" with no thousands comma, beside "Summed: 330,132" with one | One form in a table | a choice the gate's check pins (`check-values`: "USD/MWh to two decimals without a thousands comma"); for Samuel's ruling, the page left as it is |
+| N2 | An hour-by-month table at 390 px, a finger on a cell | Nothing: each of the 288 cells is a color whose figure is its hover (which is also what a screen reader is given). The line under the table gives only the darkest cell's figure | On a phone, some way to read a cell | site-wide (part A, point 1); for Samuel's ruling |
+| N3 | CAISO's lists | "HUMBOLDT_IMP_NG (contingency Base Case)": the base case is written as a contingency, where SPP's base case has no suffix | The same form for both, or CAISO's word kept as the operator's | a choice of words; for Samuel's ruling |
+
+Pictures: `docs/reviews/browser-read-2026-11-26/congestion/congestion-as-it-opens-1280.png` (SPP, 2026, the list of constraints that bound most); `docs/reviews/browser-read-2026-11-26/congestion/congestion-two-hubs-1280.png` (its most telling choice: SPP's two hubs side by side, the table of places above and the months below).
+
 ## B1: the policy week grid (`/policy?view=week`)
 
 Whose: no window's tonight. Read at 1280 and 390 px (`runs/c750/b_a11y.mjs`, `runs/c750/b_a11y2.mjs`).
