@@ -23,6 +23,7 @@ export function DcGroups({ P2, v, state, set, update, dcList, techState }: { P2:
   update: (nv: Values) => void; dcList: DcProject[]; techState: ReactNode }) {
   // the defaults in grey: an investment not set follows the MW, construction workers the investment (set or not)
   const mwSet = Number.isFinite(v.dmw) ? { mw: v.dmw } : {};
+  const dNone = dcDefaults(P2, state);  // the size's own default: the announced median, whatever is typed
   const dBase = dcDefaults(P2, state, mwSet);
   const d = dcDefaults(P2, state, { ...mwSet, ...(Number.isFinite(v.invest) ? { invest: v.invest } : {}) });
   const mine = dcList.map((p, i) => ({ p, i })).filter(({ p }) => p.state === state);
@@ -58,7 +59,7 @@ export function DcGroups({ P2, v, state, set, update, dcList, techState }: { P2:
                   </p>
                 </div>
               ) : null}
-              {fs.map((f) => <DcOne key={f.name} f={f} P2={P2} state={state} v={v} d={f.name === "invest" ? dBase : d} set={set} />)}
+              {fs.map((f) => <DcOne key={f.name} f={f} P2={P2} state={state} v={v} d={f.name === "dmw" ? dNone : f.name === "invest" ? dBase : d} set={set} />)}
             </div>
           </details>
         );
@@ -184,18 +185,21 @@ export function DcOtherStates({ P2, v, x, view, states }: { P2: DcParams; v: Val
   // the scenario's values as the reader set them, each state's own defaults for the rest (its wages, rates, exemption)
   const per = states.map((st) => {
     const res = dcRun(dcResolve(P2, { ...v, dcproj: NaN }, st), P2);
-    return { k: st, name: stateName(st), ok: res.ok, taxes: res.pv.taxes, forgone: res.pv.forgone ?? 0, rule: !!P2.rules.states[st] };
+    // session 10808: property tax is left out of the comparison: its rates are each locality's, so the scenario's typed
+    // rates would be laid on every state's cost (and Louisiana's 10 and 15 percent assessment lost elsewhere)
+    const taxes = (res.pv.sales ?? 0) + res.pv.income + (res.pv.elec ?? 0);
+    return { k: st, name: stateName(st), ok: res.ok, taxes, forgone: res.pv.forgone ?? 0, rule: !!P2.rules.states[st]?.sales_exemption && !P2.rules.states[st]?.sales_exemption?.discretionary };
   }).filter((p) => p.ok).sort((a, b) => b.taxes - a.taxes);
   if (per.length < 2) return null;
   const shown = per.filter((p, i) => i < 10 || i >= per.length - 5 || p.k === x.state);
   const rank = per.findIndex((p) => p.k === x.state) + 1;
   return (
     <section data-state-chart={view} data-dc="1">
-      <h2 className="mb-2 text-lg font-semibold">Scenario {view.toUpperCase()} in other states<Tip id="dc-states" label="other states">The same datacenter in each state: every input the scenario sets, and each state&apos;s own wages, sales and income tax rates and datacenter rules for the rest. {rank > 0 ? `${stateName(x.state)} is ${rank} of ${per.length} by the taxes' present value.` : ""} Property tax counts only where the reader typed rates, which then apply in every state, and an exemption only where the ERW holds the state&apos;s statute, so the bars are not like for like: the hover says which.</Tip></h2>
-      <SeriesChart id={`dc-state-taxes-${view}`} title="Taxes, present value, in other states" unit="USD (2025)" kind="stacked" scale="linear"
+      <h2 className="mb-2 text-lg font-semibold">Scenario {view.toUpperCase()} in other states<Tip id="dc-states" label="other states">The same datacenter in each state: every input the scenario sets, and each state&apos;s own wages, sales and income tax rates and datacenter rules for the rest. {rank > 0 ? `${stateName(x.state)} is ${rank} of ${per.length} by these taxes' present value.` : ""} Property tax is left out: its rates are each locality&apos;s. An exemption counts only where the ERW holds the state&apos;s statute, so the bars are not like for like: the hover says which.</Tip></h2>
+      <SeriesChart id={`dc-state-taxes-${view}`} title="Sales, income and electricity taxes, present value, in other states" unit="USD (2025)" kind="stacked" scale="linear"
         fmt={(n) => usdText(n).replace(/^USD /, "")}
         categories={shown.map((p) => ({ label: p.name, sub: p.k === x.state ? "yours" : undefined }))}
-        series={[{ name: "Taxes, present value", color: "var(--color-accent)", values: shown.map((p) => p.taxes) }]}
+        series={[{ name: "Sales, income and electricity taxes, present value", color: "var(--color-accent)", values: shown.map((p) => p.taxes) }]}
         saysOnCard
         says={(i) => `${shown[i].name}: ${usdText(shown[i].taxes)}${shown[i].rule ? `; a datacenter statute is held (forgone by its exemption, present value ${usdText(shown[i].forgone)})` : "; no datacenter statute held: sales tax before exemptions"}`}
         tip={<Tip id={`dc-state-taxes-${view}`} label="taxes in other states">The ten states with the most, the scenario&apos;s own and the five with the fewest.</Tip>} />

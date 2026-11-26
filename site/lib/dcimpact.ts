@@ -175,7 +175,7 @@ export function dcChain(P: DcParams, state: string, phase: "construction" | "ope
 export function dcEligible(P: DcParams, x: DcInputs): { held: boolean; eligible: boolean; why: string } {
   const r = P.rules.states[x.state]?.sales_exemption;
   if (!r) return { held: false, eligible: false, why: "no datacenter sales tax exemption of this state has been read" };
-  if (r.discretionary) return { held: true, eligible: false, why: "the state's relief is an abatement its agency may approve, not applied here" };
+  if (r.discretionary) return { held: true, eligible: false, why: "the state's relief is held as words only, not applied: its hover says why (an approval, or a threshold not read)" };
   const usd = x.invest * 1e6;
   const spent = r.invest_before_year === undefined ? usd
     : usd * Math.max(0, Math.min(x.build, r.invest_before_year - x.start)) / x.build;

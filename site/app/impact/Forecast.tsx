@@ -303,6 +303,12 @@ function Compare({ sc, names, dcNames, P, P2 }: { sc: Record<View, Scn>; names: 
     const s = sc[p];
     if (!s.dc) return null;
     if (!s.r.ok) return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${key}`}><span className="cursor-help border-b border-dotted border-muted" title={s.r.why}>no figure</span></td>;
+    // session 10808: the tax forgone is a figure only where an exemption applies or the scenario turned it off; where no
+    // exemption is read it is not held, and where one is read but the project falls short (or it is an approval) it is none
+    if (key === "dcforgone" && !(s.r.exemption.eligible)) {
+      const word = s.r.exemption.held ? "none" : "not held";
+      return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${key}`}><span className="cursor-help border-b border-dotted border-muted" title={s.r.exemption.note}>{word}</span></td>;
+    }
     const v = figure === null ? null : dcStat(s.r, figure);
     if (v === null) {
       const why = dcWhy(s.r, key) ?? DC_LINES.find((l) => l.key === key)?.why(s.r) ?? "not held";
