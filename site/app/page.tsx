@@ -127,10 +127,11 @@ async function groupNumbers() {
     const mw = (rows: typeof fleet.data) => Math.round(rows.reduce((a, u) => a + (u.capacity_mw ?? 0), 0) * 10) / 10;
     const op = fleet.data.filter((u) => u.status === "operating");
     out.Infrastructure = { value: <Num check="storage|mw|operating" raw={mw(op)}>{shown(mw(op))}</Num>, unit: "MW",
-      note: "Batteries operating in the US, nameplate power, from EIA's monthly generator inventory.", table: "storage_capacity" };
+      // session 10236 (audit finding 5): "operating" holds EIA's standby and out-of-service units (codes SB, OA, OS)
+      note: "Batteries EIA lists as operating in the US, a few standby and out-of-service units among them, nameplate power, from its monthly generator inventory.", table: "storage_capacity" };
     const tx = op.filter((u) => u.iso === "ERCOT");
     out.Games = { value: <Num check="storage|iso_mw|ERCOT|operating" raw={mw(tx)}>{shown(mw(tx))}</Num>, unit: "MW",
-      note: "Batteries operating in ERCOT, the real fleet the battery game sets beside your own.", table: "storage_capacity" };
+      note: "Batteries EIA lists as operating in ERCOT, standby and out-of-service units among them, the real fleet the battery game sets beside your own.", table: "storage_capacity" };
   }
   // Analysis: the findings in the library (site/data/findings/catalogue.json, checked by the value checker from the file)
   // session 10236 (audit finding 3): the catalogue holds analyses, seven findings (three in two versions) and the impact study
