@@ -1,0 +1,52 @@
+--- Part A: the week table of the board built 2026-10-21T15:19:17Z, from iso_trader_daily of the same run
+  30-day volatility                        11 compared,   11 agree
+  30-day volatility: its date              11 compared,   11 agree
+  Day-ahead, latest                        11 compared,   11 agree
+  Day-ahead, latest: its date              11 compared,   11 agree
+  da_mean_usd change on the 7 before       11 compared,   11 agree
+  da_mean_usd week mean                    11 compared,   11 agree
+  da_mean_usd week's end                   11 compared,   11 agree
+  da_offpeak_mean_usd change on the 7 before   11 compared,   11 agree
+  da_offpeak_mean_usd week mean            11 compared,   11 agree
+  da_offpeak_mean_usd week's end           11 compared,   11 agree
+  da_onpeak_mean_usd change on the 7 before   11 compared,   11 agree
+  da_onpeak_mean_usd week mean             11 compared,   11 agree
+  da_onpeak_mean_usd week's end            11 compared,   11 agree
+  da_rt_spread_mean_usd change on the 7 before    9 compared,    9 agree
+  da_rt_spread_mean_usd week mean          11 compared,   11 agree
+  da_rt_spread_mean_usd week's end          9 compared,    9 agree
+  hours50                                  11 compared,   11 agree
+  implied_heat_rate change on the 7 before   11 compared,   11 agree
+  implied_heat_rate week mean              11 compared,   11 agree
+  implied_heat_rate week's end             11 compared,   11 agree
+  max_spread                               11 compared,   11 agree
+  in all: 227 figures, 227 agree
+  the on-peak week's rule: hubs whose latest 7 on-peak days are not all held (the note: 'no data'; the code: a mean of those held): see the count above (none differ when every hub holds all 7)
+
+--- Part B: the board of 2026-11-25T15:23:51Z, three public hubs whose hourly files reach the week's end, from the page's own files
+  30-day volatility, to the cent            3 compared,    3 agree
+  Day-ahead, latest, to the cent            3 compared,    3 agree
+  da_mean_usd change, to the cent           3 compared,    3 agree
+  da_mean_usd week mean, to the cent        3 compared,    3 agree
+  da_mean_usd week's end                    3 compared,    3 agree
+  da_offpeak_mean_usd change, to the cent    3 compared,    3 agree
+  da_offpeak_mean_usd week mean, to the cent    3 compared,    3 agree
+  da_offpeak_mean_usd week's end            3 compared,    3 agree
+  da_onpeak_mean_usd change, to the cent    3 compared,    3 agree
+  da_onpeak_mean_usd week mean, to the cent    3 compared,    3 agree
+  da_onpeak_mean_usd week's end             3 compared,    3 agree
+  da_rt_spread_mean_usd change, to the cent    3 compared,    2 agree
+  da_rt_spread_mean_usd week mean, to the cent    3 compared,    2 agree
+  da_rt_spread_mean_usd week's end          3 compared,    2 agree
+  hours50                                   3 compared,    2 agree
+  implied_heat_rate change, to the cent     3 compared,    3 agree
+  implied_heat_rate week mean, to the cent    3 compared,    3 agree
+  implied_heat_rate week's end              3 compared,    3 agree
+  max_spread                                3 compared,    1 agree
+  in all: 57 figures, 51 agree
+    max_spread caiso-th-sp15-gen-apnd: mine 19.84 file 19.85
+    da_rt_spread_mean_usd week mean, to the cent spp-sppnorth-hub: mine -3.73 file None
+    da_rt_spread_mean_usd change, to the cent spp-sppnorth-hub: mine -2.63 file None
+    da_rt_spread_mean_usd week's end spp-sppnorth-hub: mine 0 file 1
+    max_spread spp-sppnorth-hub: mine 31.29 file None
+    hours50 spp-sppnorth-hub: mine 0 file None

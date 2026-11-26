@@ -1,0 +1,45 @@
+86 of 88 hub-market-months agree with worth.json (value to USD 1, per MWh and shares to 0.01, MWh to 0.1, hours exactly)
+2025-01 SP15 rt agree=True [] | hours curtailed 324 of 744; >=1 MWh 310, >=10 281, >=100 221; flat 26.43 | >=100 MWh 21.31 | all 42.0 | per MWh 3.92 | MWh in hours under 100: 3029 of 130267.0
+   battery per MW {'2': {'page': 61.83, 'intervals': 61.83, 'hourly': 62}, '4': {'page': 119.67, 'intervals': 119.67, 'hourly': 123.5}, '8': {'page': 210.33, 'intervals': 210.33, 'hourly': 238.19}}
+2025-02 SP15 rt agree=True [] | hours curtailed 309 of 672; >=1 MWh 303, >=10 278, >=100 234; flat 7.86 | >=100 MWh -3.38 | all 28.35 | per MWh -20.04 | MWh in hours under 100: 2092 of 502516.4
+   battery per MW {'2': {'page': 56.0, 'intervals': 56, 'hourly': 56}, '4': {'page': 112.0, 'intervals': 112, 'hourly': 112}, '8': {'page': 220.0, 'intervals': 220.0, 'hourly': 224.0}}
+2025-03 SP15 rt agree=True [] | hours curtailed 360 of 743; >=1 MWh 354, >=10 328, >=100 287; flat 4.81 | >=100 MWh -4.83 | all 24.81 | per MWh -27.88 | MWh in hours under 100: 1718 of 919019.5
+   battery per MW {'2': {'page': 62.0, 'intervals': 62, 'hourly': 62}, '4': {'page': 124.0, 'intervals': 124, 'hourly': 124}, '8': {'page': 243.58, 'intervals': 243.58, 'hourly': 246.56}}
+2025-04 SP15 rt agree=True [] | hours curtailed 469 of 720; >=1 MWh 462, >=10 430, >=100 359; flat 6.33 | >=100 MWh -1.55 | all 17.11 | per MWh -16.06 | MWh in hours under 100: 3477 of 738184.8
+   battery per MW {'2': {'page': 60.0, 'intervals': 60, 'hourly': 60}, '4': {'page': 120.0, 'intervals': 120, 'hourly': 120}, '8': {'page': 239.08, 'intervals': 239.08, 'hourly': 240}}
+2025-05 SP15 rt agree=True [] | hours curtailed 600 of 744; >=1 MWh 588, >=10 554, >=100 457; flat 18.06 | >=100 MWh 13.25 | all 22.18 | per MWh -8.34 | MWh in hours under 100: 5087 of 451683.0
+   battery per MW {'2': {'page': 62.0, 'intervals': 62, 'hourly': 62}, '4': {'page': 124.0, 'intervals': 124, 'hourly': 124}, '8': {'page': 248.0, 'intervals': 248, 'hourly': 248}}
+2025-06 SP15 rt agree=True [] | hours curtailed 458 of 720; >=1 MWh 436, >=10 395, >=100 335; flat 21.19 | >=100 MWh 16.14 | all 27.21 | per MWh 2.32 | MWh in hours under 100: 2888 of 255878.6
+   battery per MW {'2': {'page': 58.0, 'intervals': 58, 'hourly': 58}, '4': {'page': 116.0, 'intervals': 116, 'hourly': 116}, '8': {'page': 232.0, 'intervals': 232, 'hourly': 232}}
+2025-07 SP15 rt agree=True [] | hours curtailed 459 of 744; >=1 MWh 443, >=10 409, >=100 337; flat 27.67 | >=100 MWh 24.27 | all 33.17 | per MWh 19.31 | MWh in hours under 100: 3238 of 145458.4
+   battery per MW {'2': {'page': 62.0, 'intervals': 62, 'hourly': 62}, '4': {'page': 124.0, 'intervals': 124, 'hourly': 124}, '8': {'page': 248.0, 'intervals': 248, 'hourly': 248}}
+2025-08 SP15 rt agree=True [] | hours curtailed 458 of 744; >=1 MWh 443, >=10 393, >=100 332; flat 36.92 | >=100 MWh 33.14 | all 39.43 | per MWh 27.85 | MWh in hours under 100: 2658 of 130107.4
+   battery per MW {'2': {'page': 62.0, 'intervals': 62, 'hourly': 62}, '4': {'page': 124.0, 'intervals': 124, 'hourly': 124}, '8': {'page': 248.0, 'intervals': 248, 'hourly': 248}}
+2025-09 SP15 rt agree=True [] | hours curtailed 414 of 720; >=1 MWh 392, >=10 345, >=100 269; flat 30.25 | >=100 MWh 22.53 | all 35.97 | per MWh 15.22 | MWh in hours under 100: 3389 of 179634.2
+   battery per MW {'2': {'page': 60.0, 'intervals': 60, 'hourly': 60}, '4': {'page': 120.0, 'intervals': 120, 'hourly': 120}, '8': {'page': 237.23, 'intervals': 237.23, 'hourly': 240}}
+2025-10 SP15 rt agree=True [] | hours curtailed 350 of 744; >=1 MWh 337, >=10 304, >=100 256; flat 17.25 | >=100 MWh 9.06 | all 30.29 | per MWh -2.11 | MWh in hours under 100: 2193 of 256402.6
+   battery per MW {'2': {'page': 62.0, 'intervals': 62, 'hourly': 62}, '4': {'page': 124.0, 'intervals': 124, 'hourly': 124}, '8': {'page': 245.25, 'intervals': 245.25, 'hourly': 247.0}}
+2025-11 SP15 rt agree=True [] | hours curtailed 277 of 721; >=1 MWh 245, >=10 149, >=100 55; flat 31.68 | >=100 MWh 10.82 | all 40.03 | per MWh 7.55 | MWh in hours under 100: 3177 of 27190.4
+   battery per MW {'2': {'page': 56.34, 'intervals': 56.34, 'hourly': 60}, '4': {'page': 97.97, 'intervals': 97.97, 'hourly': 116.19}, '8': {'page': 160.56, 'intervals': 160.56, 'hourly': 196.71}}
+2025-12 SP15 rt agree=True [] | hours curtailed 390 of 744; >=1 MWh 347, >=10 242, >=100 46; flat 30.35 | >=100 MWh 9.68 | all 33.31 | per MWh 7.15 | MWh in hours under 100: 6721 of 29285.7
+   battery per MW {'2': {'page': 62.0, 'intervals': 62, 'hourly': 62}, '4': {'page': 121.2, 'intervals': 121.2, 'hourly': 123.21}, '8': {'page': 221.85, 'intervals': 221.85, 'hourly': 239.61}}
+2026-01 SP15 rt agree=True [] | hours curtailed 586 of 744; >=1 MWh 369, >=10 264, >=100 48; flat 29.88 | >=100 MWh 8.66 | all 33.16 | per MWh 9.87 | MWh in hours under 100: 6972 of 26572.9
+   battery per MW {'2': {'page': 62.0, 'intervals': 62, 'hourly': 62}, '4': {'page': 122.41, 'intervals': 122.41, 'hourly': 122.41}, '8': {'page': 232.55, 'intervals': 232.55, 'hourly': 232.55}}
+2026-02 SP15 rt agree=True [] | hours curtailed 363 of 672; >=1 MWh 275, >=10 235, >=100 171; flat 16.07 | >=100 MWh 3.05 | all 22.3 | per MWh -5.17 | MWh in hours under 100: 2850 of 242714.1
+   battery per MW {'2': {'page': 54.73, 'intervals': 54.73, 'hourly': 54.73}, '4': {'page': 108.6, 'intervals': 108.6, 'hourly': 108.6}, '8': {'page': 212.6, 'intervals': 212.6, 'hourly': 212.6}}
+2026-03 SP15 rt agree=True [] | hours curtailed 446 of 743; >=1 MWh 374, >=10 345, >=100 289; flat 14.81 | >=100 MWh 1.79 | all 21.0 | per MWh -8.8 | MWh in hours under 100: 2023 of 774414.9
+   battery per MW {'2': {'page': 62.0, 'intervals': 62, 'hourly': 62}, '4': {'page': 124.0, 'intervals': 124, 'hourly': 124}, '8': {'page': 248.0, 'intervals': 248, 'hourly': 248}}
+2026-04 SP15 rt agree=True [] | hours curtailed 502 of 720; >=1 MWh 449, >=10 421, >=100 369; flat 1.1 | >=100 MWh -5.4 | all 6.31 | per MWh -12.39 | MWh in hours under 100: 2306 of 1459998.0
+   battery per MW {'2': {'page': 60.0, 'intervals': 60, 'hourly': 60}, '4': {'page': 120.0, 'intervals': 120, 'hourly': 120}, '8': {'page': 240.0, 'intervals': 240, 'hourly': 240}}
+2026-05 SP15 rt agree=True [] | hours curtailed 595 of 744; >=1 MWh 439, >=10 414, >=100 378; flat 4.29 | >=100 MWh -5.67 | all 8.99 | per MWh -10.45 | MWh in hours under 100: 1600 of 1448984.5
+   battery per MW {'2': {'page': 62.0, 'intervals': 62, 'hourly': 62}, '4': {'page': 124.0, 'intervals': 124, 'hourly': 124}, '8': {'page': 248.0, 'intervals': 248, 'hourly': 248}}
+2026-06 SP15 rt agree=True [] | hours curtailed 679 of 720; >=1 MWh 552, >=10 430, >=100 362; flat 12.54 | >=100 MWh 2.33 | all 13.5 | per MWh -7.07 | MWh in hours under 100: 2723 of 600082.4
+   battery per MW {'2': {'page': 60.0, 'intervals': 60, 'hourly': 60}, '4': {'page': 120.0, 'intervals': 120, 'hourly': 120}, '8': {'page': 240.0, 'intervals': 240, 'hourly': 240}}
+2026-07 SP15 rt agree=True [] | hours curtailed 728 of 744; >=1 MWh 630, >=10 401, >=100 318; flat 39.2 | >=100 MWh 26.87 | all 39.43 | per MWh 23.63 | MWh in hours under 100: 3760 of 241070.9
+   battery per MW {'2': {'page': 62.0, 'intervals': 62, 'hourly': 62}, '4': {'page': 124.0, 'intervals': 124, 'hourly': 124}, '8': {'page': 248.0, 'intervals': 248, 'hourly': 248}}
+2026-08 SP15 rt agree=True [] | hours curtailed 717 of 744; >=1 MWh 573, >=10 379, >=100 290; flat 54.71 | >=100 MWh 37.8 | all 55.33 | per MWh 33.45 | MWh in hours under 100: 4314 of 154937.1
+   battery per MW {'2': {'page': 62.0, 'intervals': 62, 'hourly': 62}, '4': {'page': 124.0, 'intervals': 124, 'hourly': 124}, '8': {'page': 245.2, 'intervals': 245.2, 'hourly': 245.2}}
+2026-09 SP15 rt agree=True [] | hours curtailed 637 of 720; >=1 MWh 477, >=10 330, >=100 267; flat 37.02 | >=100 MWh 23.96 | all 38.31 | per MWh 17.52 | MWh in hours under 100: 2831 of 166629.5
+   battery per MW {'2': {'page': 60.0, 'intervals': 60, 'hourly': 60}, '4': {'page': 120.0, 'intervals': 120, 'hourly': 120}, '8': {'page': 240.0, 'intervals': 240, 'hourly': 240}}
+2026-10 SP15 rt agree=False ['value_usd', 'usd_per_mwh', 'mwh', 'hours_priced', 'hours_curtailed', 'neg', 'flat', 'all'] | hours curtailed 604 of 720; >=1 MWh 354, >=10 286, >=100 197; flat 41.66 | >=100 MWh 25.56 | all 43.94 | per MWh 17.96 | MWh in hours under 100: 4387 of 145902.0
+   battery per MW {'2': {'page': 62.0, 'intervals': 62, 'hourly': 62}, '4': {'page': 122.65, 'intervals': 122.65, 'hourly': 122.65}, '8': {'page': 242.65, 'intervals': 242.65, 'hourly': 242.65}}

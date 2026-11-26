@@ -179,7 +179,7 @@ columns:
   source_name: null
   documented_by: header
 - name: x_flag
-  label: 'Eurostat''s flag of the observation: i on every row (see Eurostat''s metadata)'
+  label: 'Eurostat''s flag of the observation: i value imputed by Eurostat or other receiving agencies (on every row)'
   unit: none
   type: text
   values:
@@ -188,7 +188,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: null
-  documented_by: header
+  documented_by: source Eurostat, code list OBS_FLAG (ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/ESTAT/OBS_FLAG; robots disallows not this path), read 2026-11-26
 - name: x_conf_status
   label: Eurostat's confidentiality status of the observation
   unit: none
@@ -206,7 +206,4 @@ variables:
   rows: 1253
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
-second_look:
-- 'x_flag: the meaning of Eurostat''s flag i is not written in the repository (the header says to see Eurostat''s metadata).
-  Read again on 20 November 2026 in the saved SDMX-CSV under warehouse/raw/eurostat_gas_import_origin and the flag labels
-  of five saved Eurostat JSON-stat files (they label b, C, e, m and p only): not found.'
+second_look: null
