@@ -155,6 +155,7 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
 - **The reader picks the district** from the table's list.
 - **The TRD calculation note** (`nm_trd_calc`) shows the same oil rates in a 2017 example, and says each tax is rounded to the cent separately. The calculator does not round per tax.
 - **The Oil and Gas Production Equipment Ad Valorem Tax** is annual (due November 30) and is not computed.
+- **A local levy in the total.** The ad valorem production tax is levied at the rate of the production unit's county district, so a New Mexico total with its district holds a local levy, and a Texas or Louisiana total holds none (no local tax of those states is read). Left out by default, it puts a New Mexico total 13.6 to 19.5 percent low against the median and the highest district. The calculator's lead says so (session 10207, `docs/reviews/severance-model-audit-2026-11-26.md`, finding 4).
 
 ## The calculator
 
