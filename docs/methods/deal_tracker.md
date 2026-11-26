@@ -104,7 +104,7 @@ Project finance, acquisitions, debt and equity raises with the kind of company t
 
 - A deal no scored story reports, and a deal only a filing or a press release describes.
 - A figure the title and summary do not state: most deals' size, almost every price, the tenor, the point of delivery.
-- The market: the counts by month follow the ERW's news coverage. No deal is dated May to September 2025; the stories of June to September 2025 are held and were not scored.
+- The market: the counts by month follow the ERW's news coverage. No deal is dated May to September 2025: of the 1,885 stories of those months held, 13 were scored (all of May). Fewer than half of the stories of October to December 2025 (790 of 1,935) and of June to August 2026 (863 of 1,819) were scored; from 23 September 2026 the news was scored daily, with several times the stories of an earlier month, and no story was scored after 12 November 2026 (as of 26 November 2026, the deals audit, `docs/reviews/deals-model-audit-2026-11-26.md`, finding 1). The first tab and the tracker's chart of deals by month say so.
 - Whether a deal closed, where no later story says so.
 
 ## 9. The replication and the cross-checks
