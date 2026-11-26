@@ -1,0 +1,101 @@
+/demand (ERCOT, average demand): 87 of 91 marked figures restated equal, 4 differ, 0 not restated
+
+= sum|avg0: page 43,798, restated 43,798
+= sum|avg1: page 55,717, restated 55,717
+= sum|avg_growth: page +27.22, restated +27.22
+= sum|peak0: page 74,533, restated 74,533
+= sum|peak1: page 83,597, restated 83,597
+= sum|peak_growth: page +12.16, restated +12.16
+= sum|ytd_growth: page +33.34, restated +33.34
+= sum|cell_most: page +42.55, restated +42.55
+= head|avg_growth: page +27.22, restated +27.22
+= head|avg0: page 43,798, restated 43,798
+= head|avg1: page 55,717, restated 55,717
+= head|peak_growth: page +12.16, restated +12.16
+= head|peak1: page 83,597, restated 83,597
+= head|peak0: page 74,533, restated 74,533
+= head|ytd_growth: page +33.34, restated +33.34
+= head|ytd1: page 59,723, restated 59,723
+= head|ytd0: page 44,791, restated 44,791
+= y|2019|avg: page 43,798, restated 43,798
+= y|2019|peak: page 74,533, restated 74,533
+= y|2019|hours: page 8,760, restated 8,760
+= y|2020|avg: page 43,377, restated 43,377
+= y|2020|avg_growth: page -0.96, restated -0.96
+= y|2020|yoy: page -0.96, restated -0.96
+= y|2020|peak: page 74,166, restated 74,166
+= y|2020|peak_growth: page -0.49, restated -0.49
+= y|2020|hours: page 8,784, restated 8,784
+= y|2021|avg: page 44,808, restated 44,808
+= y|2021|avg_growth: page +2.31, restated +2.31
+= y|2021|yoy: page +3.30, restated +3.30
+= y|2021|peak: page 73,476, restated 73,476
+= y|2021|peak_growth: page -1.42, restated -1.42
+= y|2021|hours: page 8,760, restated 8,760
+= y|2022|avg: page 49,156, restated 49,156
+= y|2022|avg_growth: page +12.23, restated +12.23
+= y|2022|yoy: page +9.70, restated +9.70
+= y|2022|peak: page 79,830, restated 79,830
+= y|2022|peak_growth: page +7.11, restated +7.11
+= y|2022|hours: page 8,760, restated 8,760
+= y|2023|avg: page 51,007, restated 51,007
+= y|2023|avg_growth: page +16.46, restated +16.46
+= y|2023|yoy: page +3.77, restated +3.77
+= y|2023|peak: page 85,432, restated 85,432
+= y|2023|peak_growth: page +14.62, restated +14.62
+= y|2023|hours: page 8,760, restated 8,760
+= y|2024|avg: page 52,780, restated 52,780
+= y|2024|avg_growth: page +20.51, restated +20.51
+= y|2024|yoy: page +3.48, restated +3.48
+= y|2024|peak: page 85,544, restated 85,544
+= y|2024|peak_growth: page +14.77, restated +14.77
+= y|2024|hours: page 8,784, restated 8,784
+= y|2025|avg: page 55,717, restated 55,717
+= y|2025|avg_growth: page +27.22, restated +27.22
+= y|2025|yoy: page +5.57, restated +5.57
+= y|2025|peak: page 83,597, restated 83,597
+= y|2025|peak_growth: page +12.16, restated +12.16
+= y|2025|hours: page 8,736, restated 8,736
+= ytd|avg: page 59,723, restated 59,723
+= ytd|avg_growth: page +33.34, restated +33.34
+= ytd|peak: page 91,075, restated 91,075
+= ytd|peak_growth: page +22.19, restated +22.19
+= ytd|hours: page 7,295, restated 7,295
+= screen|jumps: page 0, restated 0
+= screen|zero: page 0, restated 0
+X screen|blank: page 48, restated 72
+= cell|most|pct: page +42.55, restated +42.55
+= cell|most|mw: page 15,250, restated 15,250
+= cell|least|pct: page +14.29, restated +14.29
+= cell|least|mw: page 9,034, restated 9,034
+= rank|ERCO|avg: page +27.22, restated +27.22
+= rank|ERCO|peak: page +12.16, restated +12.16
+= rank|ERCO|ytd: page +33.34, restated +33.34
+= rank|SWPP|avg: page +11.14, restated +11.14
+= rank|SWPP|peak: page +7.72, restated +7.72
+= rank|SWPP|ytd: page +16.22, restated +16.22
+= rank|US48|avg: page +7.03, restated +7.03
+X rank|US48|ytd: page +10.24, restated +10.21
+= rank|PJM|avg: page +5.37, restated +5.37
+= rank|PJM|peak: page +5.41, restated +5.41
+X rank|PJM|ytd: page +8.34, restated +8.47
+= rank|CISO|avg: page +4.45, restated +4.45
+= rank|CISO|peak: page +0.03, restated +0.03
+X rank|CISO|ytd: page +10.98, restated +11.10
+= rank|MISO|avg: page +2.20, restated +2.20
+= rank|MISO|peak: page +3.21, restated +3.21
+= rank|MISO|ytd: page +4.88, restated +4.88
+= rank|ISNE|avg: page -2.54, restated -2.54
+= rank|ISNE|peak: page +8.03, restated +8.03
+= rank|ISNE|ytd: page -1.20, restated -1.20
+= rank|NYIS|avg: page -2.73, restated -2.73
+= rank|NYIS|peak: page +4.80, restated +4.80
+= rank|NYIS|ytd: page -3.64, restated -3.64
++ rank|CISO|ytd (from the file's months): restated +10.98 (not a marked figure of this view)
++ rank|PJM|ytd (from the file's months): restated +8.34 (not a marked figure of this view)
++ rank|US48|ytd (from the file's months): restated +10.24 (not a marked figure of this view)
+ranking order restated (average demand): ERCOT, SPP, Lower 48, PJM, CAISO, MISO, ISO-NE, NYISO
+ERCOT peak 2019: 12 August 2019, 16:00 local
+ERCOT peak 2025: 18 August 2025, 17:00 local
+cells held for ERCOT 2025: 288 of 288; largest January 02:00, smallest September 14:00
+the hover's All grids figure, ERCOT, November 2025 to October 2026 on the twelve before: +5.21 percent

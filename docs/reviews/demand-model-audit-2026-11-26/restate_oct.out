@@ -1,0 +1,74 @@
+column adjusted_demand; base 2019; ytd month 10; neighbour test on; october from API: yes
+values and peak hours: 24204 equal, 14 differ, 3 on the page only, 23 restated only
+RESTATED ONLY ERCO 2025 avg_demand_growth_since_2019_mw: 11919.6
+RESTATED ONLY ERCO 2025 peak_demand_growth_since_2019_mw: 9064.0
+PAGE ONLY ERCO 2026 avg_demand_mw_m10: 55880.7
+RESTATED ONLY ERCO 2026 ytd_avg_demand_growth_since_2019_mw: 14944.3
+DIFF ERCO 2026 ytd_avg_demand_growth_since_2019_pct: page 33.34 restated 33.36
+DIFF ERCO 2026 ytd_avg_demand_mw: page 59723.4 restated 59735.0
+DIFF ERCO 2026 ytd_hours_used: page 7295 restated 7247
+SCREEN ERCO blank: page 48 restated 72
+SCREEN ERCO not_positive: page 0 restated 0
+SCREEN ERCO jumps: page 0 restated 0
+BAND ERCO: yearly medians 40522.5 to 57415.0; hours whose range test the band leaves open: 0; last used hour 2026-11-01T05:00:00Z
+RESTATED ONLY CISO 2025 avg_demand_growth_since_2019_mw: 1089.3
+RESTATED ONLY CISO 2025 peak_demand_growth_since_2019_mw: 11.0
+PAGE ONLY CISO 2026 avg_demand_mw_m10: 28097.8
+RESTATED ONLY CISO 2026 ytd_avg_demand_growth_since_2019_mw: 2734.4
+DIFF CISO 2026 ytd_avg_demand_growth_since_2019_pct: page 10.98 restated 11.1
+DIFF CISO 2026 ytd_avg_demand_mw: page 27348.1 restated 27376.3
+DIFF CISO 2026 ytd_hours_used: page 7294 restated 7239
+SCREEN CISO blank: page 48 restated 78
+SCREEN CISO not_positive: page 0 restated 0
+SCREEN CISO jumps: page 38 restated 38
+BAND CISO: yearly medians 22443.0 to 26217.0; hours whose range test the band leaves open: 0; last used hour 2026-10-29T23:00:00Z
+RESTATED ONLY PJM 2025 avg_demand_growth_since_2019_mw: 4903.3
+RESTATED ONLY PJM 2025 peak_demand_growth_since_2019_mw: 8245.0
+PAGE ONLY PJM 2026 avg_demand_mw_m10: 86463.2
+RESTATED ONLY PJM 2026 ytd_avg_demand_growth_since_2019_mw: 7769.4
+DIFF PJM 2026 ytd_avg_demand_growth_since_2019_pct: page 8.34 restated 8.47
+DIFF PJM 2026 ytd_avg_demand_mw: page 99399.2 restated 99512.9
+DIFF PJM 2026 ytd_hours_used: page 7295 restated 7243
+SCREEN PJM blank: page 28 restated 57
+SCREEN PJM not_positive: page 0 restated 0
+SCREEN PJM jumps: page 7 restated 7
+BAND PJM: yearly medians 85023.0 to 124751.0; hours whose range test the band leaves open: 0; last used hour 2026-10-29T23:00:00Z
+RESTATED ONLY MISO 2025 avg_demand_growth_since_2019_mw: 1633.0
+RESTATED ONLY MISO 2025 peak_demand_growth_since_2019_mw: 3743.0
+RESTATED ONLY MISO 2026 ytd_avg_demand_growth_since_2019_mw: 3643.7
+SCREEN MISO blank: page 24 restated 0
+SCREEN MISO not_positive: page 0 restated 0
+SCREEN MISO jumps: page 0 restated 0
+BAND MISO: yearly medians 69525.5 to 92985.0; hours whose range test the band leaves open: 0; last used hour 2026-11-01T05:00:00Z
+RESTATED ONLY SWPP 2025 avg_demand_growth_since_2019_mw: 3426.9
+RESTATED ONLY SWPP 2025 peak_demand_growth_since_2019_mw: 3900.0
+RESTATED ONLY SWPP 2026 ytd_avg_demand_growth_since_2019_mw: 5034.6
+SCREEN SWPP blank: page 24 restated 0
+SCREEN SWPP not_positive: page 0 restated 0
+SCREEN SWPP jumps: page 2 restated 2
+BAND SWPP: yearly medians 28765.5 to 38136.0; hours whose range test the band leaves open: 0; last used hour 2026-11-01T05:00:00Z
+RESTATED ONLY NYIS 2025 avg_demand_growth_since_2019_mw: -485.3
+RESTATED ONLY NYIS 2025 peak_demand_growth_since_2019_mw: 1460.0
+RESTATED ONLY NYIS 2026 ytd_avg_demand_growth_since_2019_mw: -651.3
+SCREEN NYIS blank: page 24 restated 0
+SCREEN NYIS not_positive: page 12 restated 12
+SCREEN NYIS jumps: page 0 restated 0
+BAND NYIS: yearly medians 16357.5 to 23475.0; hours whose range test the band leaves open: 0; last used hour 2026-11-01T05:00:00Z
+RESTATED ONLY ISNE 2025 avg_demand_growth_since_2019_mw: -343.0
+RESTATED ONLY ISNE 2025 peak_demand_growth_since_2019_mw: 1925.0
+RESTATED ONLY ISNE 2026 ytd_avg_demand_growth_since_2019_mw: -161.1
+SCREEN ISNE blank: page 24 restated 0
+SCREEN ISNE not_positive: page 0 restated 0
+SCREEN ISNE jumps: page 0 restated 0
+BAND ISNE: yearly medians 12496.5 to 19561.0; hours whose range test the band leaves open: 6; last used hour 2026-11-01T05:00:00Z
+RESTATED ONLY US48 2025 avg_demand_growth_since_2019_mw: 32220.3
+DIFF US48 2026 avg_demand_mw_m08: page 592629.3 restated 592625.6
+DIFF US48 2026 avg_demand_mw_m09: page 541551.6 restated 541210.6
+DIFF US48 2026 avg_demand_mw_m10: page 460894.6 restated 460066.5
+RESTATED ONLY US48 2026 ytd_avg_demand_growth_since_2019_mw: 47302.0
+DIFF US48 2026 ytd_avg_demand_growth_since_2019_pct: page 10.24 restated 10.21
+DIFF US48 2026 ytd_avg_demand_mw: page 510596.8 restated 510478.3
+SCREEN US48 blank: page 24 restated 0
+SCREEN US48 not_positive: page 0 restated 0
+SCREEN US48 jumps: page 1 restated 1
+BAND US48: yearly medians 431780.0 to 562686.0; hours whose range test the band leaves open: 0; last used hour 2026-11-01T05:00:00Z

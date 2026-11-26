@@ -144,3 +144,45 @@ The ERW's peak is closer than the operator's in 5 of 29 places (CENT, NW, FPC, P
 `warehouse/predict/ahead.py` writes `site/data/predict/ahead.json`: the demand forecast for the days two to six after tomorrow. A forecast made at 20:00 UTC on day D reads the demand through day D-1, so its day D+j is j+1 days after the last day read: horizon h = j+1 (h = 2 is the day-ahead forecast of the place files; this file holds h = 3 to 7). Each horizon is the regression of section 3 refit at its own horizon (day A = T-h; the hour of T-7 is still known at h = 7), backtested walking forward exactly as the day-ahead one, and scored over the last two years against the same hour a week ago. A horizon is shown only where its mean absolute error is below the week-ago hour's; otherwise its forecast is written null with the reason (`tests/test_predict.py` holds the rule).
 
 Built at 12:10 UTC on 26 November 2026: **all 145 place-horizons beat the week-ago hour and are shown.** The error grows with the horizon and flattens after five days: TEX's mean absolute error is 3,013 MW the day ahead (h = 2), 3,461 at h = 3 and 4,087 at h = 7, against 4,517 for the week-ago hour; NE's is 1,057, 1,127 and 1,157 against 1,510. Every place and horizon, with the week-ago hour's error beside it and each horizon's band coverage, is in the file; `runs/c730/table_f.py` prints them as a table. No operator files a forecast further ahead than the next day, so there is no operator line here; the file gives the operator's day-ahead error on the same hours for scale only.
+
+## 13. With the weather known (session 10601)
+
+The chain allows one line that uses the weather as it turned out, labelled so and never the headline. `with_weather_known` is the regression of section 3 with three regressors added: the region's observed population-weighted temperature at the hour (`region_weather_hourly`), its square, and the day's mean temperature; an authority takes its EIA region's temperature. It reads the target day's own weather, so it is not a forecast: it measures how much of the regression's error a perfect weather forecast could remove. It is scored apart (`demand_weather_known` rows, and `series.demand.with_weather_known` in each file), on the hours where its weather, the regression, the operator and the actual are all held (the temperature table ends on 7 November 2026 and has gaps, hence the hour counts). It is never chosen and never shown as the ERW forecast (`tests/test_predict.py`).
+
+The last two years (built 26 November 2026 at 12:58 UTC; `runs/c730/table_w.py`):
+
+| Place | Region's weather | Hours | Regression MAPE % | With the weather known MAPE % | Operator MAPE % | Share of the regression's gap to the operator the weather closes % |
+|---|---|---:|---:|---:|---:|---:|
+| region-cal | CAL | 14,310 | 4.18 | 3.25 | 7.60 | the regression already beats the operator |
+| region-car | CAR | 5,446 | 7.41 | 3.37 | 2.16 | 77 |
+| region-cent | CENT | 10,186 | 5.27 | 3.81 | 7.86 | the regression already beats the operator |
+| region-fla | FLA | 9,911 | 6.29 | 3.31 | 5.48 | 369 |
+| region-mida | MIDA | 12,742 | 5.13 | 3.38 | 3.48 | 106 |
+| region-midw | MIDW | 9,600 | 4.40 | 2.73 | 2.02 | 70 |
+| region-ne | NE | 12,167 | 8.14 | 6.19 | 2.88 | 37 |
+| region-nw | NW | 10,925 | 2.68 | 2.07 | 5.07 | the regression already beats the operator |
+| region-ny | NY | 14,025 | 6.27 | 4.47 | 2.77 | 51 |
+| region-se | SE | 11,567 | 6.73 | 3.32 | 1.27 | 63 |
+| region-sw | SW | 16,356 | 5.04 | 3.85 | 4.52 | 228 |
+| region-ten | TEN | 12,600 | 7.54 | 3.66 | 2.35 | 75 |
+| region-tex | TEX | 9,935 | 5.26 | 3.90 | 2.06 | 43 |
+| ba-bpat | NW | 12,646 | 3.50 | 3.35 | 1.89 | 9 |
+| ba-ciso | CAL | 14,736 | 4.25 | 3.39 | 8.48 | the regression already beats the operator |
+| ba-cple | CAR | 5,759 | 9.47 | 5.05 | 4.16 | 83 |
+| ba-duk | CAR | 5,759 | 7.37 | 3.66 | 2.51 | 76 |
+| ba-erco | TEX | 9,935 | 5.26 | 3.90 | 2.06 | 43 |
+| ba-fpc | FLA | 10,372 | 8.25 | 4.56 | 23.96 | the regression already beats the operator |
+| ba-fpl | FLA | 10,435 | 6.00 | 3.58 | 3.24 | 88 |
+| ba-isne | NE | 12,167 | 8.14 | 6.19 | 2.88 | 37 |
+| ba-miso | MIDW | 9,600 | 4.16 | 2.64 | 2.46 | 90 |
+| ba-nyis | NY | 14,025 | 6.27 | 4.47 | 2.77 | 51 |
+| ba-pace | NW | 12,598 | 3.96 | 3.60 | 4.86 | the regression already beats the operator |
+| ba-pjm | MIDA | 12,742 | 5.13 | 3.38 | 3.48 | 106 |
+| ba-psco | NW | 12,666 | 6.83 | 6.49 | 12.99 | the regression already beats the operator |
+| ba-soco | SE | 11,567 | 6.73 | 3.32 | 1.27 | 63 |
+| ba-swpp | CENT | 11,448 | 5.22 | 3.83 | 8.11 | the regression already beats the operator |
+| ba-tva | TEN | 12,600 | 7.54 | 3.66 | 2.35 | 75 |
+
+with the weather known beats the operator in 12 of 29
+
+What it says: with the weather known the regression would close more than the whole gap to the operator in MIDA and PJM, FLA and SW, and 70 percent or more of it in CAR, MIDW, TEN, CPLE, DUK, FPL and MISO; it closes less than half in TEX (43 percent), NE (37) and BPAT (9), so there the operator's forecast holds something beyond the weather that this regression lacks. With the weather known, the line beats the operator in 12 places; the operator stays ahead in 17.
