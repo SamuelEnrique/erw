@@ -35,6 +35,24 @@ Energy Research Warehouse (ERW). Chain file: `queue/done/710-night-26-november-o
   - 4 word fixes requested (rows 72 to 75); 1 waits for a ruling.
 - In all: 19 word fixes requested, 1 waiting on another branch; 17 for Samuel's ruling, each with its measured effect; 10 data requests (rows 6 to 15 of `docs/state/data_requests_five_tools.md`).
 
+## Part D goes on: more audits in the same form (sessions 10209 onward)
+
+- Each found the arithmetic right. Each words fix is a requested row in `docs/state/landing_request_oldlaptop.md`; each figure fix is a test on its own branch, for Samuel's ruling; each measurement this machine cannot make is a row in `docs/state/data_requests_five_tools.md`.
+- The trader view (`docs/reviews/trader-model-audit-2026-11-26.md`): 6 findings; rows 89 to 93; SPP's real-time table is held but never read; heat rate against the next day's gas; off-peak week by days, not hours.
+- The curtailment tracker (`curtailment-model-audit-2026-11-26.md`): 7 findings; rows 85 to 88; held grids' hour counts printed; "What it is worth" is a hub price while 81 percent was local congestion.
+- The datacenter power tracker (`tracker-model-audit-2026-11-26.md`): 6 findings; rows 79 to 84; a third of the MW is one Utah row joined from two stories.
+- The storage page (`storage-model-audit-2026-11-26.md`): 7 findings; row 99; "US Lower 48" leaves out CAISO, NYISO and PJM.
+- The interconnection queues (`queues-model-audit-2026-11-26.md`): 6 findings; rows 94 to 98; CAISO's hybrids counted at both parts (32.1 percent above a like count).
+- The consumption page (`demand-model-audit-2026-11-26.md`): 7 findings; rows 100 to 104; from 2018, CAISO's and MISO's growth is negative.
+- The deal tracker (`deals-model-audit-2026-11-26.md`): 6 findings; rows 105 to 110; the held deals CSV and its evidence file are tracked in the public repository.
+- The project map (`map-model-audit-2026-11-26.md`): 6 findings; row 111; 50 datacenters with 25,158 MW have no point.
+- The policy monitor (`policy-model-audit-2026-11-26.md`): 8 findings; row 112; a held table shown in the monitor view; 15 large-load orders dropped on 20 November.
+- Congestion (`congestion-model-audit-2026-11-26.md`): 7 findings; row 113; SPP and CAISO places ranked in one list across different references.
+- Grid conditions (`conditions-model-audit-2026-11-26.md`): 11 findings; row 114; no screen for impossible hours (PJM peak 215,682 MW against 108,513).
+- The prices pages and map (`prices-model-audit-2026-11-26.md`): 6 findings; row 115; ERCOT load zones called hubs; SPP October "not held" though held.
+- AI's energy (`ai-energy-model-audit-2026-11-26.md`): 8 findings; row 116; 5 of 23 rows are a company's whole consumption.
+- The same held-rows-in-public question gathered in the weekend page's tier 1 first item.
+
 ## What waits for Samuel, in plain words
 
 - Whether to take held and paused grids' figures out of the public analysis files and the board file (tier 1, first item).
