@@ -72,7 +72,8 @@ export function withEquities(file: BoardFile, eq: EqBoardFile | null): BoardFile
 
 // ---- The list (file 1), a series (file 2), the energy prices (file 4) ------------------------------------------------
 
-export type EqSegment = { id: string; label: string; rule: string | null; n_companies: number | null };
+/** `rule_why` (in the files as built on 26 November 2026, not yet in the contract's text): why `rule` is null. */
+export type EqSegment = { id: string; label: string; rule: string | null; rule_why?: string | null; n_companies: number | null };
 export type EqCompany = {
   id: string; cik: string | null; name: string | null; ticker: string; exchange: string | null; sic: string | null; sic_label: string | null;
   segments: string[]; segments_note: string | null; directory_id: string | null;
@@ -83,6 +84,8 @@ export type EqIndexEntry = { id: string; name: string | null; publisher: string 
 export type EqList = {
   built: string; example?: boolean; method?: string; contract?: string; license?: string; tables?: string[]; last_day: string | null;
   segments: EqSegment[]; companies: EqCompany[]; indices: EqIndexEntry[]; segment_series: { id: string; segment: string; file: string }[];
+  /** as built on 26 November 2026: why the companies, the indices and the prices are not in the list, each in words */
+  held?: Record<string, string>;
 };
 export type EqSeries = {
   built: string; example?: boolean; method?: string; contract?: string; license?: string;
@@ -96,7 +99,12 @@ export type EqPrice = {
   id: string; label: string; unit: string; freq: string; table: string | null; entity: string | null; variable: string | null; source: string | null; license: string | null;
   status: string; why: string | null; first: string | null; last: string | null; last_value: { t: string; v: number } | null; moves?: EqMoves;
 };
-export type EqPrices = { built: string; example?: boolean; method?: string; contract?: string; series: EqPrice[]; daily: Record<string, [string, number | null][]> };
+export type EqPrices = { built: string; example?: boolean; method?: string; contract?: string; since?: string; series: EqPrice[]; daily: Record<string, [string, number | null][]> };
+/** A change the file writes for a step the series does not have: a monthly price's "day" and "week" are its month's
+ *  (the contract measures `d` from the previous value held), and a quarterly one's "month" is its quarter's. The page
+ *  says the series' step there instead of repeating the figure (the price board's own rule, lib/board.ts noMove). */
+export const noStep = (freq: string, k: MoveKey): boolean => (freq === "W" && k === "d") || (freq === "M" && (k === "d" || k === "w")) || (freq === "Q" && k !== "y" && k !== "ytd");
+export const FREQ_WORDS: Record<string, string> = { D: "daily", W: "weekly", M: "monthly", Q: "quarterly" };
 
 /** A series is drawn only when its file is not an example and its status is "shown". */
 export const isShown = (f: { example?: boolean; status?: string } | null | undefined): boolean => !!f && f.example !== true && f.status === "shown";
@@ -107,15 +115,26 @@ export function blankWords(status: string | null | undefined, example = false): 
     case "license needed": return "license needed";
     case "source needed": return "source needed";
     case "not filed": return "not filed";
+    case "paused": return "paused";
     default: return "not held";
   }
 }
+/** The words of a reason, short enough for a cell or a blank's face: what stands before its first colon ("source
+ *  needed" of "source needed: the segment rule reads ..."); the whole reason stays in the hover. */
+export function shortWhy(reason: string | null | undefined, dflt = "not held"): string {
+  const head = (reason ?? "").split(":")[0].trim();
+  return head && head.length <= 24 ? head : dflt;
+}
+/** The list's reasons, each once, as one hover. */
+export const heldWhy = (list: Pick<EqList, "held"> | null, keys: string[]): string =>
+  [...new Set(keys.map((k) => list?.held?.[k]).filter((x): x is string => !!x))].map((x) => (/[.!?]$/.test(x) ? x : `${x}.`)).join(" ");
 /** The hover of a blank: the file's own reason, else the status in a sentence. Never empty. */
 export function blankWhy(status: string | null | undefined, why: string | null | undefined, example = false): string {
   if (example) return "The file on the site is the contract's example: no figure has been written yet (docs/state/page_files_equities.md).";
   const w = (why ?? "").trim();
   if (status === "license needed") return w ? (/^license needed/i.test(w) ? w.replace(/^license needed/i, "License needed") : `License needed: ${w}`) : "License needed: the ERW holds this series and may not show it (docs/licenses.md).";
-  if (status === "source needed") return w ? `Source needed: ${w}` : "Source needed: no source has been found that the ERW may read for this series.";
+  if (status === "source needed") return w ? (/^source needed/i.test(w) ? w.replace(/^source needed/i, "Source needed") : `Source needed: ${w}`) : "Source needed: no source has been found that the ERW may read for this series.";
+  if (status === "paused") return w ? `Paused: ${w}` : "Paused: the publisher is paused (warehouse/metadata/paused_sources.csv).";
   return w || (status ? `${status}.` : "The file of this series is not on the site.");
 }
 

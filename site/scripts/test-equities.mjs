@@ -246,6 +246,55 @@ try {
     check(csvReader("py", "https://example.test/x", spec).includes("pd.read_csv"), `the ${name} Python reader loads the rows`);
   }
   check(E.blankWords("license needed") === "license needed" && E.blankWords("source needed") === "source needed" && E.blankWords("x", true) === "not built yet" && E.isShown({ example: true, status: "shown" }) === false, "the blank's words; an example file shows nothing");
+
+  // 3f. with a list to draw, the energy prices are a table (press one to lay it over), none drawn alone
+  const withList = draw(FIX);
+  check(withList.includes('data-eq-picks="6"') && withList.includes('data-eq-prices="3"') && !withList.includes("data-eq-price=") && text(withList).includes("Price (press one to lay it over)"), "with a list to draw: the energy prices as a table, each a link that lays it over");
+  check(/data-eq-no-step="henry_hub_month\|d"[^>]*>monthly</.test(withList) && /data-eq-price-held="pjm_west">license needed</.test(withList), "a monthly price has no change over a day of its own; a held price is a row that says why");
+  check(withList.includes('data-check="pf|equities/energy_prices.json|series/0/last_value/v"'), "an energy price's latest value carries its key into the file");
+
+  // ---- 4. The files as the data machine first built them (26 November 2026): the list real, and nothing of it to draw ----
+  // 15 segments in the real files; three here. No company, no index, no segment line: each with its reason. The energy
+  // prices are shown. The page must say why each part is held and draw what the files do hold, never "not built yet".
+  const FIX2 = fs.mkdtempSync(path.join(os.tmpdir(), "erw-c720-equities-held-"));
+  try {
+    const WHY_C = "source needed: the segment rule reads each company's SEC industry code (SIC), and SEC EDGAR refuses the ERW's contact string (docs/reviews/equities-sources-2026-11-26.md); no company is put in a segment by judgment";
+    const WHY_P = "license needed: no source found whose terms allow the ERW to keep daily share prices or index levels (docs/reviews/equities-sources-2026-11-26.md)";
+    const held = { ...head, license: "public", tables: list.tables, last_day: null, segments: SEGS.map((s) => ({ id: s.id, label: s.label, rule: null, rule_why: WHY_C, n_companies: null })), companies: [], indices: [], segment_series: [], held: { companies: WHY_C, indices: WHY_P, prices: WHY_P } };
+    const heldBoard = { ...head, group: boardFile.group, sources: [], rows: SEGS.flatMap((s) => ["equal", "value"].map((w) => ({ id: `equities-segment-${s.id}-${w}`, group: "equities", label: `${s.label} (${w === "equal" ? "equal weight" : "weighted by market value"})`, unit: "index, first day = 100", tags: { kind: "segment", weighting: w }, status: "not_held", note: `${WHY_C}; and ${WHY_P}`, file: null }))) };
+    const quarters = ["2026-02-01", "2026-05-01", "2026-08-01"];
+    const heldPrices = { ...head, since: days[0], series: [...prices.series,
+      { id: "cca_current", label: "California carbon allowance, quarterly auction settlement", unit: "USD/t CO2e", freq: "Q", table: "carb_auction_allowance_prices", entity: "carb:cca", variable: "settlement_price", source: "CARB (a test's fixture)", license: "public", status: "shown", why: null, first: quarters[0], last: quarters[2], last_value: { t: quarters[2], v: 32.48 }, moves: { d: { t: quarters[1], v: 28.81, ch: 3.67, pct: 12.74 }, w: { t: quarters[1], v: 28.81, ch: 3.67, pct: 12.74 }, m: { t: quarters[1], v: 28.81, ch: 3.67, pct: 12.74 }, ytd: null, y: null } },
+      { id: "miso_indiana", label: "MISO Indiana Hub, day-ahead", unit: "USD/MWh", freq: "D", table: null, entity: null, variable: null, source: null, license: "internal", status: "paused", why: "MISO's terms forbid automated access; held until a person has reviewed them", first: null, last: null, last_value: null, moves: { d: null, w: null, m: null, ytd: null, y: null } }],
+      daily: { ...prices.daily, cca_current: [[quarters[0], 27.94], [quarters[1], 28.81], [quarters[2], 32.48]] } };
+    fs.writeFileSync(path.join(FIX2, "index.json"), JSON.stringify(held));
+    fs.writeFileSync(path.join(FIX2, "board.json"), JSON.stringify(heldBoard));
+    fs.writeFileSync(path.join(FIX2, "energy_prices.json"), JSON.stringify(heldPrices));
+    const page = draw(FIX2);
+    const pt = text(page);
+    check(page.includes('data-eq-state="files"') && page.includes('data-eq-picks="0"') && !pt.includes("not built yet"), "a real list with nothing to draw is not \"not built yet\"");
+    check(pt.includes("Companies, indices and segment lines: license needed") && /data-eq-blank="line\|none"/.test(page) && /title="source needed: the segment rule reads[^"]*\. license needed: no source found[^"]*"/.test(page), "the line's place says why, both reasons on hover, each once");
+    check(page.includes('data-eq-price="wti"') && new RegExp(`data-n="eq\\|price\\|last">${E.levelWords(wti.at(-1)).replace(".", "\\.")}<`).test(page) && /aria-label="WTI crude oil, Cushing, spot, USD\/bbl"/.test(page), "the page opens on the first energy price the files show, as a line of its own");
+    check(pt.includes("The listed energy companies: source needed") && pt.includes("Energy indices: license needed"), "the companies' and the indices' places say why");
+    const segPart = page.slice(page.indexOf('id="segments"'), page.indexOf('id="downloads"'));
+    check(count(segPart, /data-not-held="1">source needed</g) === 3 && count(segPart, /data-not-held="1">license needed</g) === 3 && /title="No rule is applied yet\. source needed: the segment rule/.test(segPart), "every segment is listed: its companies source needed, its line license needed, why its rule is not applied on hover");
+    check(!/<select name="a"/.test(page) && !/<select name="b"/.test(page) && /<select name="p"[^>]*><option value="wti" selected="">/.test(page), "with nothing to choose from, the choices are the energy price and the window");
+    check(/data-eq-no-step="cca_current\|m"[^>]*>quarterly</.test(page) && /data-eq-no-step="cca_current\|d"/.test(page) && /data-eq-price-held="miso_indiana">paused</.test(page) && page.includes("Paused: MISO&#x27;s terms forbid automated access"), "a quarterly price has no change over a month of its own; a paused price says so with why");
+    const other = draw(FIX2, { p: "henry_hub_month", win: "6m" });
+    check(other.includes('data-eq-price="henry_hub_month"') && /data-eq-points="[5-7]"/.test(other), "another price chosen: its own line, one point a month of the window");
+    check(text(draw(FIX2, { p: "pjm_west" })).includes("PJM Western Hub, day-ahead: license needed"), "a held price chosen is a blank that says license needed");
+    check(!page.includes('href="/equities/list"') && page.includes('href="/board#equities"'), "no download of an empty list");
+    quiet(page, "the list real, nothing to draw");
+    folder(FIX2);
+    const hb = B.holdRows(E.withEquities(board, F.equitiesBoard()), []);
+    const hr = hb.rows.slice(board.rows.length);
+    check(hr.length === 6 && hr.every((r) => r.status === "not_held" && !r.last && !r.open && /source needed.*license needed/.test(r.note)), "the board: every held row with its name and its reasons, no figure, no page to open");
+    check(B.leadRow(hb, hb.groups.at(-1)) === null && B.rowsOf(hb, hb.groups.at(-1), { kind: "index" }).length === 0, "the board: a group with no value has no lead figure; its filter shows what there is");
+    check(E.noStep("M", "d") && E.noStep("M", "w") && !E.noStep("M", "m") && E.noStep("Q", "m") && !E.noStep("Q", "y") && !E.noStep("D", "d"), "which changes a series' step has");
+    check(E.shortWhy(WHY_C) === "source needed" && E.heldWhy(held, ["indices", "prices"]).split("license needed").length === 2, "a reason's first words; the same reason is said once");
+  } finally {
+    fs.rmSync(FIX2, { recursive: true, force: true });
+  }
 } finally {
   folder(null);
   if (!KEEP) fs.rmSync(FIX, { recursive: true, force: true });

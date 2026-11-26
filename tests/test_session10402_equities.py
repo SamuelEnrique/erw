@@ -32,6 +32,7 @@ NEW = [
     ("site", "app", "equities", "rows", "route.ts"), ("site", "app", "equities", "rows", "python", "route.ts"), ("site", "app", "equities", "rows", "stata", "route.ts"),
     ("site", "app", "equities", "filed", "route.ts"), ("site", "app", "equities", "filed", "python", "route.ts"), ("site", "app", "equities", "filed", "stata", "route.ts"),
     ("site", "app", "equities", "list", "route.ts"), ("site", "app", "equities", "list", "python", "route.ts"), ("site", "app", "equities", "list", "stata", "route.ts"),
+    ("site", "scripts", "check-equities-files.mjs"),
     ("site", "scripts", "test-equities.mjs"),
 ]
 
@@ -152,6 +153,22 @@ class TheSource(unittest.TestCase):
         for name in ("index.json", "energy_prices.json"):
             with open(os.path.join(d, name), encoding="utf-8") as f:
                 self.assertIs(json.load(f)["example"], True, name)
+
+    def test_a_real_list_with_nothing_to_draw_is_not_called_unbuilt(self):
+        # the files as the data machine first built them on 26 November 2026: 15 segments, no company, no index, no
+        # segment line (SEC EDGAR refuses the ERW's contact string; no price source a license allows), 8 energy prices
+        # shown. The page says why each part is held and draws the energy prices; "not built yet" is for an example
+        # file or no file, and for nothing else
+        view = src("site", "app", "equities", "view.tsx")
+        self.assertIn("if (!list || list.example === true) {", view)
+        self.assertNotIn("!picks.length) {", view)
+        self.assertEqual(view.count('words="not built yet"'), 1)
+        for k in ('k="line|none"', 'k="companies"', 'k="indices"'):
+            self.assertIn(k, view)
+        self.assertIn('<ToolSection title="Energy prices" id="prices">', view)
+        lib = src("site", "lib", "equities.ts")
+        # a monthly price's change over a day is its month's in the file: the page says the step, as the board does
+        self.assertIn('(freq === "M" && (k === "d" || k === "w"))', lib)
 
     def test_no_em_dash(self):
         for parts in NEW:

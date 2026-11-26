@@ -19,8 +19,8 @@ import { ChartFrame, HeadlineNumber, InputPanel, SourceLine, ToolHeader, ToolSec
 import { dateWords, type Point } from "@/lib/board";
 import { scrollRegion } from "@/lib/cells";
 import {
-  LIST_HEAD, MOVE_WORDS, NONE, STATEMENT, WINDOW_KEYS, blankWhy, blankWords, companiesOf, exact, filingsOf, hrefOf, isShown, levelWords, linesOf, millions, picksOf, pointsOf, pricePoints, queryOf,
-  secUrl, segmentLabel, signedLevel, signedPct, windowLike, windowWords, windowed,
+  FREQ_WORDS, LIST_HEAD, MOVE_WORDS, NONE, STATEMENT, WINDOW_KEYS, blankWhy, blankWords, companiesOf, exact, filingsOf, heldWhy, hrefOf, isShown, levelWords, linesOf, millions, noStep, picksOf, pointsOf, pricePoints, queryOf,
+  secUrl, segmentLabel, shortWhy, signedLevel, signedPct, windowLike, windowWords, windowed,
   type Choice, type EqCompany, type EqList, type EqMoves, type EqPrice, type EqPrices, type EqSeries, type Filing, type Query, type Sort,
 } from "@/lib/equities";
 import { equitiesList, equitiesPrices, equitiesSeries } from "@/lib/equitiesfiles";
@@ -251,9 +251,11 @@ function Companies({ list, q, first }: { list: EqList; q: Query; first: string |
   );
 }
 
-/** The segments and the indices, each a link that draws it. */
+/** The segments and the indices, each a link that draws it. A segment the list cannot yet fill says why (its rule's
+ *  reason, the list's reason for its line); with no index in the list the place of the indices says why. */
 function Segments({ list, q, first }: { list: EqList; q: Query; first: string | null }) {
   const picks = picksOf(list);
+  const lineWhy = heldWhy(list, ["prices", "companies"]) || "The list names no line for this segment.";
   return (
     <ToolSection title="Segments and indices" id="segments">
       <div className="grid gap-6 xl:grid-cols-2" data-eq-segments={list.segments.length}>
@@ -261,19 +263,66 @@ function Segments({ list, q, first }: { list: EqList; q: Query; first: string | 
           <ToolTable words minWidth={360} caption="The segments, each with the count of its companies and the rule that puts a company in it (on hover)" head={["Segment", "Companies", "Its line"]}
             rows={list.segments.map((s) => {
               const pick = picks.find((p) => p.kind === "segment" && (list.segment_series ?? []).some((x) => x.segment === s.id && x.file === p.file));
-              return { key: s.id, cells: [<span key="l" title={s.rule ?? undefined} className={s.rule ? "cursor-help" : undefined}>{s.label}</span>,
-                s.n_companies !== null ? <SiteLink key="n" href={hrefOf(q, { seg: s.id }, first, "#companies")} className="inline-block min-w-6 py-0.5 text-center" title={`The companies of ${s.label} in the table above`}>{s.n_companies.toLocaleString("en-US")}</SiteLink> : <NotHeld key="n" why="The list holds no count for this segment." />,
-                pick ? <SiteLink key="d" href={hrefOf(q, { a: pick.id }, first, "#line")} className="inline-block py-0.5">Draw it</SiteLink> : <NotHeld key="d" why="The list names no line for this segment." />] };
+              const rule = s.rule ?? s.rule_why ?? null;
+              return { key: s.id, cells: [<span key="l" title={rule ? (s.rule ? `The rule: ${rule}` : `No rule is applied yet. ${rule}`) : undefined} className={rule ? "cursor-help" : undefined}>{s.label}</span>,
+                s.n_companies !== null ? <SiteLink key="n" href={hrefOf(q, { seg: s.id }, first, "#companies")} className="inline-block min-w-6 py-0.5 text-center" title={`The companies of ${s.label} in the table above`}>{s.n_companies.toLocaleString("en-US")}</SiteLink>
+                  : <NotHeld key="n" words={shortWhy(s.rule_why ?? list.held?.companies)} why={s.rule_why ?? list.held?.companies ?? "The list holds no count for this segment."} />,
+                pick ? <SiteLink key="d" href={hrefOf(q, { a: pick.id }, first, "#line")} className="inline-block py-0.5">Draw it</SiteLink> : <NotHeld key="d" words={shortWhy(list.held?.prices ?? list.held?.companies)} why={lineWhy} />] };
             })} />
         </div>
         <div className="min-w-0">
-          <ToolTable words minWidth={360} caption="The energy indices and the published proxies that stand for them" head={["Index", "Publisher", "Days held"]}
-            rows={list.indices.map((x) => {
-              const pick = picks.find((p) => p.kind === "index" && p.file === x.file);
-              return { key: x.id, cells: [pick && x.status === "shown" ? <SiteLink key="n" href={hrefOf(q, { a: pick.id }, first, "#line")} title={x.kind === "proxy" && x.proxy_for ? `A published proxy for ${x.proxy_for}` : undefined}>{x.name ?? x.id}</SiteLink> : <span key="n">{x.name ?? x.id}</span>,
-                x.publisher ?? "", x.status === "shown" ? `${x.first ?? "?"} to ${x.last ?? "?"}` : <NotHeld key="d" words={blankWords(x.status)} why={blankWhy(x.status, x.why)} />] };
-            })} />
+          {list.indices.length ? (
+            <ToolTable words minWidth={360} caption="The energy indices and the published proxies that stand for them" head={["Index", "Publisher", "Days held"]}
+              rows={list.indices.map((x) => {
+                const pick = picks.find((p) => p.kind === "index" && p.file === x.file);
+                return { key: x.id, cells: [pick && x.status === "shown" ? <SiteLink key="n" href={hrefOf(q, { a: pick.id }, first, "#line")} title={x.kind === "proxy" && x.proxy_for ? `A published proxy for ${x.proxy_for}` : undefined}>{x.name ?? x.id}</SiteLink> : <span key="n">{x.name ?? x.id}</span>,
+                  x.publisher ?? "", x.status === "shown" ? `${x.first ?? "?"} to ${x.last ?? "?"}` : <NotHeld key="d" words={blankWords(x.status)} why={blankWhy(x.status, x.why)} />] };
+              })} />
+          ) : <Blank what="Energy indices" words={shortWhy(list.held?.indices)} why={list.held?.indices ?? "The list holds no index, and does not say why."} k="indices" />}
         </div>
+      </div>
+    </ToolSection>
+  );
+}
+
+/** The energy prices the files carry: each with its latest value and its changes, and, where nothing else can be drawn
+ *  over it, the chosen one as a line of its own. A held price is a row that says why. A change the series' step does
+ *  not have (a monthly price over a day) says the step instead of repeating the month's figure. */
+function Prices({ prices, q, first, drawn, alone }: { prices: EqPrices; q: Query; first: string | null; drawn: EqPrice | null; alone: boolean }) {
+  const file = "equities/energy_prices.json";
+  const all = drawn && isShown(drawn) ? pricePoints(prices, drawn.id) : [];
+  const win = windowed(all, q.win);
+  const at = drawn ? prices.series.indexOf(drawn) : -1;
+  return (
+    <ToolSection title="Energy prices" id="prices">
+      {alone && drawn ? (isShown(drawn) && win.length ? (
+        <div className="mb-4" data-eq-price={drawn.id} data-eq-points={win.length}>
+          <div className="mb-4 grid gap-4 sm:grid-cols-2">
+            <HeadlineNumber label={drawn.label} unit={drawn.last_value ? drawn.unit : undefined}
+              value={drawn.last_value ? <Num check={pfKey(file, ["series", at, "last_value", "v"])} raw={drawn.last_value.v} source={`${drawn.source ?? "The source is not named in the file"} (ERW table ${drawn.table ?? "not named"}).`}><span data-n="eq|price|last">{levelWords(drawn.last_value.v)}</span></Num> : <span className="font-sans text-base"><NotHeld why="The file holds no latest value." /></span>}
+              note={drawn.last_value ? dateWords(drawn.last_value.t, drawn.freq === "M" || drawn.freq === "Q" ? "M" : "D") : undefined} />
+          </div>
+          <ChartFrame title={`${drawn.label}: ${windowWords(q.win).toLowerCase() === "all" ? "every value held" : `the last ${windowWords(q.win).toLowerCase()}`}`} tip={<> <Hint words="source" why={`${drawn.source ?? "The source is not named in the file"} (ERW table ${drawn.table ?? "not named"}); a ${FREQ_WORDS[drawn.freq] ?? "daily"} price, each value on its own date, held ${drawn.first ?? "?"} to ${drawn.last ?? "?"}.`} /></>}>
+            <TimeChart series={[{ name: drawn.label, color: "accent", points: pts(win) }]} unit={drawn.unit} x={drawn.freq === "M" || drawn.freq === "Q" ? "month" : "day"} height={300} ariaLabel={`${drawn.label}, ${drawn.unit}`} />
+          </ChartFrame>
+        </div>
+      ) : <Blank what={drawn.label} words={isShown(drawn) ? "no value in this window" : blankWords(drawn.status, prices.example === true)} why={isShown(drawn) ? `${drawn.label} holds ${drawn.first ?? "?"} to ${drawn.last ?? "?"}.` : blankWhy(drawn.status, drawn.why, prices.example === true)} k={`price|${drawn.id}`} />) : null}
+      <div data-eq-prices={prices.series.length}>
+        <ToolTable minWidth={640} caption="The energy prices the files carry: the latest value of each and its change over a day, a week, a month, the year to date and a year, in percent"
+          head={[alone ? "Price" : "Price (press one to lay it over)", "Unit", "Latest", "Its date", ...MOVE_WORDS.map(([k, w]) => (k === "ytd" ? <abbr key={k} title="Year to date" className="no-underline">YTD</abbr> : w))]}
+          rows={prices.series.map((x, i) => {
+            const name = <SiteLink key="n" href={hrefOf(q, { p: x.id }, first, alone ? "#prices" : "#line")} title={x.source ? `${x.source}${x.table ? ` (ERW table ${x.table})` : ""}` : undefined}>{x.label}</SiteLink>;
+            if (!isShown(x) || !x.last_value) return { key: x.id, highlight: drawn?.id === x.id, cells: [name], wide: <span className="cursor-help" title={blankWhy(x.status, x.why, prices.example === true)} data-eq-price-held={x.id}>{blankWords(isShown(x) ? null : x.status, prices.example === true)}</span> };
+            return { key: x.id, highlight: drawn?.id === x.id, cells: [name, x.unit,
+              <Num key="v" check={pfKey(file, ["series", i, "last_value", "v"])} raw={x.last_value.v} source={`${x.source ?? ""}`}>{levelWords(x.last_value.v)}</Num>,
+              <span key="t" title={`A ${FREQ_WORDS[x.freq] ?? "daily"} price; held ${x.first ?? "?"} to ${x.last ?? "?"}`} className="cursor-help whitespace-nowrap">{dateWords(x.last_value.t, x.freq === "M" || x.freq === "Q" ? "M" : "D")}</span>,
+              ...MOVE_WORDS.map(([k, w]) => {
+                if (noStep(x.freq, k)) return <span key={k} className="cursor-help text-muted" title={`A ${FREQ_WORDS[x.freq]} price has no change over a ${w.toLowerCase()} of its own.`} data-eq-no-step={`${x.id}|${k}`}>{FREQ_WORDS[x.freq]}</span>;
+                const m = x.moves?.[k];
+                if (!m) return <NotHeld key={k} why={`${x.label}: the value this change is measured from is not held (${w.toLowerCase()}).`} />;
+                return <span key={k} title={`${signedLevel(m.ch)} ${x.unit} against ${levelWords(m.v)} on ${dateWords(m.t, x.freq === "M" || x.freq === "Q" ? "M" : "D")}`} className="cursor-help whitespace-nowrap"><Num check={pfKey(file, ["series", i, "moves", k, m.pct !== null ? "pct" : "ch"])} raw={m.pct ?? m.ch}>{m.pct !== null ? signedPct(m.pct) : signedLevel(m.ch)}</Num></span>;
+              })] };
+          })} />
       </div>
     </ToolSection>
   );
@@ -293,7 +342,7 @@ export function EquitiesView({ query }: { query: Raw }) {
     <ToolHeader title={TITLE} lead={lead}
       under={<p className="mt-2 text-xs text-muted" data-license-line="1">{list && list.example !== true ? `Files built ${list.built.slice(0, 10)}${list.last_day ? `; the newest trading day held is ${list.last_day}` : ""}.` : "No equities figure has been written yet."}</p>} />
   );
-  if (!list || !picks.length) {
+  if (!list || list.example === true) {
     return (
       <div data-equities="1" data-eq-state={list?.example === true ? "example" : "no-files"}>
         {header}
@@ -306,20 +355,26 @@ export function EquitiesView({ query }: { query: Raw }) {
     const pick = picks.find((p) => p.id === id);
     return pick ? { mark: i ? "b" : "a", pick, series: equitiesSeries(pick.file), company: pick.kind === "company" ? list.companies.find((c) => c.file === pick.file) ?? null : null } as Slot : null;
   }).filter((x): x is Slot => x !== null);
-  const price = q.p ? prices?.series.find((x) => x.id === q.p) ?? null : null;
+  const real = prices && prices.example !== true ? prices : null;
+  // with nothing of the list to draw, the page opens on the first energy price the files show, as a line of its own
+  const alone = !slots.length;
+  const price = real ? real.series.find((x) => x.id === (q.p ?? (alone ? real.series.find((s) => isShown(s))?.id : undefined))) ?? null : null;
   const options = picks.map((p) => ({ value: p.id, label: p.label }));
-  const priceOptions = (prices && prices.example !== true ? prices.series : []).map((x) => ({ value: x.id, label: `${x.label} (${x.status === "shown" ? x.unit : blankWords(x.status)})` }));
+  const priceOptions = (real?.series ?? []).map((x) => ({ value: x.id, label: `${x.label} (${x.status === "shown" ? x.unit : blankWords(x.status)})` }));
   const tables = [...new Set([...(list.tables ?? []), ...(price?.table ? [price.table] : [])])];
+  const nothing = heldWhy(list, ["companies", "indices", "prices"]) || "The list holds no company, index or segment line, and does not say why.";
   return (
-    <div data-equities="1" data-eq-state="files" data-eq-window={q.win}>
+    <div data-equities="1" data-eq-state="files" data-eq-window={q.win} data-eq-picks={picks.length}>
       {header}
       <div className="grid gap-6 lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)]">
         <div className="min-w-0 lg:sticky lg:top-2 lg:self-start">
-          <InputPanel title="Choices" reset={{ href: "/equities", defaults: `${picks[0].label.replace(/^[^:]+: /, "")} alone, no price laid over, the last year` }}>
+          <InputPanel title="Choices" reset={{ href: "/equities", defaults: alone ? "the first energy price the files show, the last year" : `${picks[0].label.replace(/^[^:]+: /, "")} alone, no price laid over, the last year` }}>
             <form method="get" action="/equities" className="flex flex-col gap-3 text-sm [&_label]:min-w-0 [&_label]:max-w-full [&_select]:w-full [&_select]:max-w-full" data-eq-form="1">
-              <AutoSubmitSelect name="a" value={slots[0].pick.id} options={options} label="A: a segment, an index or a company" />
-              <AutoSubmitSelect name="b" value={q.b ?? NONE} options={[{ value: NONE, label: "None" }, ...options.filter((o) => o.value !== slots[0].pick.id)]} label="B, side by side" />
-              <AutoSubmitSelect name="p" value={q.p ?? NONE} options={[{ value: NONE, label: "None" }, ...priceOptions]} label="Energy price laid over" />
+              {alone ? null : <AutoSubmitSelect name="a" value={slots[0].pick.id} options={options} label="A: a segment, an index or a company" />}
+              {alone ? null : <AutoSubmitSelect name="b" value={q.b ?? NONE} options={[{ value: NONE, label: "None" }, ...options.filter((o) => o.value !== slots[0].pick.id)]} label="B, side by side" />}
+              {alone
+                ? <AutoSubmitSelect name="p" value={price?.id ?? NONE} options={priceOptions.length ? priceOptions : [{ value: NONE, label: "None" }]} label="Energy price" />
+                : <AutoSubmitSelect name="p" value={q.p ?? NONE} options={[{ value: NONE, label: "None" }, ...priceOptions]} label="Energy price laid over" />}
               <AutoSubmitSelect name="win" value={q.win} options={WINDOW_KEYS.map((w) => ({ value: w, label: windowWords(w) }))} label="Window" />
               {q.seg ? <input type="hidden" name="seg" value={q.seg} /> : null}
               {q.q ? <input type="hidden" name="q" value={q.q} /> : null}
@@ -332,10 +387,17 @@ export function EquitiesView({ query }: { query: Raw }) {
         </div>
         <div className="min-w-0">
           <ToolSection title="The line" id="line">
-            <div className={slots.length > 1 ? "grid gap-6 xl:grid-cols-2" : ""}>{slots.map((x) => <LinePanel key={x.mark} slot={x} list={list} q={q} price={price} prices={prices} />)}</div>
+            {alone
+              ? <Blank what="Companies, indices and segment lines" words={shortWhy(list.held?.prices ?? list.held?.companies ?? list.held?.indices)} why={nothing} k="line|none" />
+              : <div className={slots.length > 1 ? "grid gap-6 xl:grid-cols-2" : ""}>{slots.map((x) => <LinePanel key={x.mark} slot={x} list={list} q={q} price={price} prices={prices} />)}</div>}
           </ToolSection>
           <FiledFigures slots={slots} list={list} />
-          <Companies list={list} q={q} first={first} />
+          {real ? <Prices prices={real} q={q} first={first} drawn={price} alone={alone} /> : null}
+          {list.companies.length ? <Companies list={list} q={q} first={first} /> : (
+            <ToolSection title="Every company" id="companies">
+              <Blank what="The listed energy companies" words={shortWhy(list.held?.companies)} why={list.held?.companies ?? "The list holds no company, and does not say why."} k="companies" />
+            </ToolSection>
+          )}
           <Segments list={list} q={q} first={first} />
           <ToolSection title="Downloads" id="downloads">
             <ul className="list-none space-y-1 p-0 text-sm" data-eq-downloads="1">
@@ -349,10 +411,12 @@ export function EquitiesView({ query }: { query: Raw }) {
                     <a href={`/equities/filed/python?id=${encodeURIComponent(x.pick.id)}`} download data-download="python">Python</a>,{" "}
                     <a href={`/equities/filed/stata?id=${encodeURIComponent(x.pick.id)}`} download data-download="stata">Stata</a></> : null}</li>
               ))}
-              <li data-eq-download="list">Every company, with its segment and what is held ({LIST_HEAD.length} columns):{" "}
-                <a href="/equities/list" download data-download="csv">CSV</a>,{" "}
-                <a href="/equities/list/python" download data-download="python">Python</a>,{" "}
-                <a href="/equities/list/stata" download data-download="stata">Stata</a></li>
+              {list.companies.length ? (
+                <li data-eq-download="list">Every company, with its segment and what is held ({LIST_HEAD.length} columns):{" "}
+                  <a href="/equities/list" download data-download="csv">CSV</a>,{" "}
+                  <a href="/equities/list/python" download data-download="python">Python</a>,{" "}
+                  <a href="/equities/list/stata" download data-download="stata">Stata</a></li>
+              ) : null}
               <li><SiteLink href="/board#equities" className="inline-block py-0.5">The price board&apos;s energy equities group</SiteLink></li>
             </ul>
           </ToolSection>
@@ -363,8 +427,10 @@ export function EquitiesView({ query }: { query: Raw }) {
   );
 }
 
-/** The tables the page's files were built from, for the page's table downloads. */
+/** The tables the page's files were built from, and the energy prices' own, for the page's table downloads. */
 export function tablesOf(): string[] {
   const list = equitiesList();
-  return list && list.example !== true ? list.tables ?? [] : [];
+  if (!list || list.example === true) return [];
+  const prices = equitiesPrices();
+  return [...new Set([...(list.tables ?? []), ...(prices && prices.example !== true ? prices.series.map((x) => x.table).filter((t): t is string => !!t) : [])])];
 }
