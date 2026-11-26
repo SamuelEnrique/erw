@@ -69,7 +69,10 @@ its code trimmed and in capitals, and "not stated" for a row that files none (si
 
 **The sentence and the three headline cells**, for the rows of the quarter, product and authority chosen:
 
-- rows: their count;
+- rows: their count. A row is one product of an agreement, and one price period of it where the filer files a row
+  for each year, month or peak period of its price: in the default view (2026 Q2; energy, capacity and tolling) 18 of
+  the 198 pairs of agreement and product hold 2 to 4 rows each, 47 of the 227 rows. The headline cell's note said "one
+  row per product of an agreement" until session 10226 (`docs/reviews/contracts-model-audit-2026-11-26.md`, finding 4);
 - agreements: the distinct pairs of seller name and service agreement identifier (not the contract of sections 5 to 7);
 - sellers, buyers: the distinct names as filed, an empty name not counted;
 - rows with a price as a number: `x_rate` not empty; "the other" rows are the rest, which give words or nothing;

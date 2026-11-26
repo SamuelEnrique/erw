@@ -135,7 +135,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
                   and <span data-n="buyers">{count(c.buyers)}</span> {some(c.buyers, "buyer")}. <span data-n="priced">{count(c.priced)}</span> of the rows {some(c.priced, "states", "state")} a price as a number.
                 </p>
                 <HeadlineRow>
-                  <HeadlineNumber label="Contract rows signed that quarter" value={count(c.rows)} note={<>{count(c.agreements)} {some(c.agreements, "agreement")}; one row per product of an agreement.{all.length >= 5000 ? " The quarter holds more than the 5,000 rows read." : ""}</>} />
+                  <HeadlineNumber label="Contract rows signed that quarter" value={count(c.rows)} note={<>{count(c.agreements)} {some(c.agreements, "agreement")}; one row per product of an agreement, and per price period where the filer files one.{all.length >= 5000 ? " The quarter holds more than the 5,000 rows read." : ""}</>} />
                   <HeadlineNumber label="Rows with a price as a number" value={count(c.priced)} note={<>The other {count(c.rows - c.priced)} {some(c.rows - c.priced, "gives", "give")} words: a market-based rate, a formula, or nothing.{zero > 0
                     ? <span data-zero={zero}> {count(zero)} of the {count(c.priced)} {some(zero, "files", "file")} the number 0.</span> : null}</>} />
                   <HeadlineNumber label="Between affiliates" value={count(c.affiliate)} note="Rows the seller marked as a contract with an affiliate." />

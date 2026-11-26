@@ -106,7 +106,7 @@ ok(!/data-quarter-not-listed/.test(open) && !/data-quarter-not-listed/.test(ciso
 // ---- row 5: one row, one agreement
 const one = await draw({ q: "2026-Q2", product: "energy", ba: "SWPP" });
 ok(/^Among the contracts filed with FERC, 1 row of energy delivered in SWPP was signed in 2026 Q2: 1 agreement between 1 seller and 1 buyer\. 1 of the rows states a price as a number\.$/.test(sentence(one)), "row 5: one row reads \"1 row ... was signed: 1 agreement between 1 seller and 1 buyer\"");
-ok(/1 agreement; one row per product of an agreement\./.test(text(one)) && /The other 0 give words/.test(text(one)), "row 5: the headline's notes count one agreement, and the other 0 give words");
+ok(/1 agreement; one row per product of an agreement, and per price period where the filer files one\./.test(text(one)) && /The other 0 give words/.test(text(one)), "row 5: the headline's notes count one agreement, and the other 0 give words");
 ok(/3 rows of capacity delivered in CISO were signed in 2026 Q2: 3 agreements between 3 sellers and 3 buyers\. 3 of the rows state a price/.test(sentence(ciso)), "row 5: three rows read as before");
 const pjm = await draw({ q: "2026-Q2", product: "energy", ba: "PJM" });
 ok(/The other 1 gives words/.test(text(pjm)) && /0 of the rows state a price/.test(sentence(pjm)), "row 5: \"The other 1 gives words\"");
