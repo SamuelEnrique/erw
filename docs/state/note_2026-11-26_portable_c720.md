@@ -1,13 +1,13 @@
 # Chain 720, the portable laptop's first window: the ERW forecast page and the energy equities pages (note for Samuel)
 
-Energy Research Warehouse (ERW). Kept current; state at 17:50 UTC on 26 November 2026. Sessions 10400 to 10405. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10405_REPORT.md`.
+Energy Research Warehouse (ERW). Kept current; state at 18:16 UTC on 26 November 2026. Sessions 10400 to 10406. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10406_REPORT.md`.
 
 ## Where things stand
 
 - **The two new pages, the board's new group and the forecast's problem set are on production since 17:13 UTC** (landing 3 of window A's desk, `693a4a3f5`: rows 54, 55 and 56). They are in review: you see them in the internal view, a visitor sees the in-review page.
 - **Read on production at 17:30 to 17:40 UTC:** both pages and the board at 1280 and 390 px, no sideways scroll; the site's value check, 1,950 of 1,950 figures of `/forecast`, `/equities` and the problem set equal to the files; all 18 download addresses answer, a reader's address carries only the checked value, an unknown place answers 404; the problem set draws its 6 questions and 83 figures and is not in the list of sets. Against main's files on this laptop: every drawn figure of `/forecast` (69,888, all 29 places) and of `/equities` (1,092), none differing.
 - **Not yet landed:** rows 57 (the peak and the days after tomorrow) and 58 (the equities fields no file carries yet), in the desk's gate 7.
-- **Window B's files were rebuilt at 14:05 UTC** and landed with the pages: Texas now uses the fourth method ("regression with the recent days"), every figure moved a little, and the line "with the weather known" is now filled for all 29 places. The page does not draw that line yet: it is being added (the next row).
+- **Window B's files were rebuilt at 14:05 UTC** and landed with the pages: Texas now uses the fourth method ("regression with the recent days"), every figure moved a little, and the line "with the weather known" is now filled for all 29 places. The page on production does not draw that line yet; it is requested as row 59 (18:15 UTC).
 - **Two new pages and one new group on the price board were built, tested, seen in a build and requested for landing** in sessions 10401 and 10402.
 - **The desk held both rows back once** (13:10 UTC): its whole suite failed three tests that keep lists of the site's files (the pages the value check reads, the files that read the disk, the routes that read the address), and the new pages were in none. That was this window's miss. Both rows were mended and requested again (13:31 and 13:42 UTC, heads `bf0430170` and `7d1ffc26b`).
 - **The other windows' files landed on main at 14:16 UTC.** The two pages have not yet: the desk's next gate holds them.
@@ -34,7 +34,8 @@ What to click, once the page and window B's files have landed:
 - At the foot, "Downloads": the place's hours, the report card and the ledger (every forecast as it was made, never rewritten), each as CSV with a reader in Python and in Stata.
 - **Once row 57 has landed,** under "Tomorrow", below the hours: **you should see** "Texas: the days after Friday 27 Nov 2026", a chart of four more days with the grey band, and a table of four rows. The first row today reads Sat 28 Nov, highest hour 52,812 at 18:00, lowest 45,567 at 03:00, the forecast's error 6.34 percent, the week-ago hour's 8.13, the operator's day-ahead error 1,178 MW, 80.70 percent in band.
 - **Once row 57 has landed,** under "How it has done", after the first table: **you should see** "The day's peak" with six rows. For Texas over the last two years, in the files built at 14:05 UTC: the ERW forecast missed the peak's size by 6.10 percent and the operator by 2.19; the ERW forecast had the peak's hour on 47.50 percent of days and the operator on 58.90.
-- Choose "Price" in the tab: **you should see** neither block. They are of demand.
+- **Once row 59 has landed,** under "The day's peak": **you should see** "With the weather known (not a forecast), beside the regression and the operator on the same hours", a table of two rows. For Texas over the last two years it reads 3.90 percent (with the weather known), 5.26 (the regression), 2.06 (the operator). The line reads the day's own weather, so it is not a forecast, and it is in no chart.
+- Choose "Price" in the tab: **you should see** none of the three blocks. They are of demand.
 
 What is real and what is not:
 
@@ -94,6 +95,8 @@ What is real and what is not:
 - **The board already had a row named "Energy equities"** (in its group "Capacity and equities") that says "licensed source needed". The new group of the same name stands beside it. Today: both left.
 - **Thirty blank rows in the board's new group** while nothing is held. Today: every row drawn, the group closed until pressed. The other way is one line with the count and the reason.
 - **What `/equities` opens on while no company is held.** Today: the first energy price the files show.
+- **Whether the line "with the weather known" belongs on `/forecast`.** Today (row 59): one table, labelled "not a forecast".
+- **The internal view allows 30 unlocks an hour for the whole laptop,** and two windows reading production in a browser reach it (the door was closed to both from 17:42 to 18:00 UTC). Today: left as it is.
 - **Whether the days after tomorrow belong on `/forecast`,** and where. Today (row 57): under "Tomorrow", demand only.
 - **Whether the peak's table should also be in "Every place".** Today: drawn for the place or the two places chosen.
 - **Whether the forecast's problem set joins the listed sets.** Today: it waits on its own page, in no list and no edition.
