@@ -220,7 +220,7 @@ function Companies({ list, q, first }: { list: EqList; q: Query; first: string |
   const rows = companiesOf(list, q);
   const sortHead = (s: Sort) => {
     const on = q.sort === s;
-    return <SiteLink key={s} href={hrefOf(q, { sort: on && q.desc ? null : s, desc: on && !q.desc }, first, "#companies")} title={on ? (q.desc ? "Sorted Z to A: press for the list's own order" : "Sorted A to Z: press for Z to A") : `Sort by ${SORT_WORDS[s].toLowerCase()}`} data-eq-sort={s}>{SORT_WORDS[s]}{on ? (q.desc ? " (Z to A)" : " (A to Z)") : ""}</SiteLink>;
+    return <SiteLink key={s} href={hrefOf(q, { sort: on && q.desc ? null : s, desc: on && !q.desc }, first, "#companies")} title={on ? (q.desc ? "Sorted Z to A: press for the list's own order" : "Sorted A to Z: press for Z to A") : `Sort by ${SORT_WORDS[s].toLowerCase()}`} data-eq-sort={s} className="inline-block py-1">{SORT_WORDS[s]}{on ? (q.desc ? " (Z to A)" : " (A to Z)") : ""}</SiteLink>;
   };
   return (
     <ToolSection title="Every company" id="companies">
@@ -262,8 +262,8 @@ function Segments({ list, q, first }: { list: EqList; q: Query; first: string | 
             rows={list.segments.map((s) => {
               const pick = picks.find((p) => p.kind === "segment" && (list.segment_series ?? []).some((x) => x.segment === s.id && x.file === p.file));
               return { key: s.id, cells: [<span key="l" title={s.rule ?? undefined} className={s.rule ? "cursor-help" : undefined}>{s.label}</span>,
-                s.n_companies !== null ? <SiteLink key="n" href={hrefOf(q, { seg: s.id }, first, "#companies")}>{s.n_companies.toLocaleString("en-US")}</SiteLink> : <NotHeld key="n" why="The list holds no count for this segment." />,
-                pick ? <SiteLink key="d" href={hrefOf(q, { a: pick.id }, first, "#line")}>Draw it</SiteLink> : <NotHeld key="d" why="The list names no line for this segment." />] };
+                s.n_companies !== null ? <SiteLink key="n" href={hrefOf(q, { seg: s.id }, first, "#companies")} className="inline-block min-w-6 py-0.5 text-center" title={`The companies of ${s.label} in the table above`}>{s.n_companies.toLocaleString("en-US")}</SiteLink> : <NotHeld key="n" why="The list holds no count for this segment." />,
+                pick ? <SiteLink key="d" href={hrefOf(q, { a: pick.id }, first, "#line")} className="inline-block py-0.5">Draw it</SiteLink> : <NotHeld key="d" why="The list names no line for this segment." />] };
             })} />
         </div>
         <div className="min-w-0">
@@ -353,7 +353,7 @@ export function EquitiesView({ query }: { query: Raw }) {
                 <a href="/equities/list" download data-download="csv">CSV</a>,{" "}
                 <a href="/equities/list/python" download data-download="python">Python</a>,{" "}
                 <a href="/equities/list/stata" download data-download="stata">Stata</a></li>
-              <li><SiteLink href="/board#equities">The price board&apos;s energy equities group</SiteLink></li>
+              <li><SiteLink href="/board#equities" className="inline-block py-0.5">The price board&apos;s energy equities group</SiteLink></li>
             </ul>
           </ToolSection>
           {tables.length ? <SourceLine tables={tables} note={list.method ? <>Method: <a href={`/data/methods/${list.method.replace(/^docs\/methods\//, "").replace(/\.md$/, "")}`}>the method note</a>.</> : undefined} /> : null}
