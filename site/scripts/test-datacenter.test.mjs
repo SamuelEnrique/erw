@@ -237,6 +237,15 @@ test("the equipment's taxable value by a county's schedule: Loudoun's 2026 (60, 
   near(D.dcStat(D.dcRun({ ...x, eqv1: 100, eqstep: 0, eqfloor: 0 }, P), "y1:prope"), 150e6 * 0.0415);
 });
 
+test("Pennsylvania (Act 25 of 2021, the Department's guidelines): USD 100 million and 45 jobs, 25 full years, the state's 6 percent only", () => {
+  const r = D.dcRun(D.dcDefaults(P, "pa", { invest: 200, perm: 45, start: 2026, build: 2, life: 30 }), P);
+  assert.equal(r.exemption.eligible, true);
+  // equipment 136.4e6 bought in the build (2026-27) and in 2033, 2038, 2043, 2048, 2053; exempt before 2052 (2026 + 26):
+  // five purchases at the state's 6 percent = 5 x 136.4e6 x 0.06 = 40,920,000
+  near(r.sums.forgone, 5 * 136.4e6 * 0.06, "PA");
+  assert.equal(D.dcRun(D.dcDefaults(P, "pa", { invest: 200, perm: 44 }), P).exemption.eligible, false);
+});
+
 test("a check key carries every input and gives the figure back", () => {
   const x = { ...D.dcDefaults(P, "la"), brate: 9.5, matshare: null };
   const k = D.dcKey(x);

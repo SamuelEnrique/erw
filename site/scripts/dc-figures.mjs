@@ -44,6 +44,7 @@ export const CASES = [
   { id: "ga_chain", state: "ga", set: { invest: 1000, perm: 100, cons: 500 } },
   { id: "va_loudoun_schedule", state: "va", set: { invest: 500, perm: 50, refresh: 4, life: 12, brate: 0.805, erate: 4.15, eqv1: 60, eqstep: 15, eqfloor: 10 } },
   { id: "ms_words", state: "ms", set: { invest: 2000, perm: 100 } },
+  { id: "pa_25y_state_rate", state: "pa", set: { invest: 200, perm: 45, start: 2026, build: 2, life: 30 } },
 ];
 const STREAMS = ["jobs", "earnings", "property", "propb", "prope", "salesbefore", "forgone", "sales", "income", "elec"];
 const out = CASES.map((c) => {
