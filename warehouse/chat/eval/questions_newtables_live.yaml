@@ -721,7 +721,7 @@ questions:
   refuse: true
   hold: false
   count: false
-  withheld: [10.0]
+  withheld: [14.0]
   withheld_text: []
   note: "a visitor's chat cannot read state_large_load_laws today (not in the live set): a refusal, no figure, never the table's own. When it can: state_large_load_laws: the count of rows whose status is in effect"
 - id: lw03
@@ -737,7 +737,7 @@ questions:
   refuse: true
   hold: false
   count: false
-  withheld: [6.0]
+  withheld: [2.0]
   withheld_text: []
   note: "a visitor's chat cannot read state_large_load_laws today (not in the live set): a refusal, no figure, never the table's own. When it can: state_large_load_laws: the count of rows whose status is enacted"
 - id: lw04
