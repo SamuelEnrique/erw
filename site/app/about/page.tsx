@@ -114,9 +114,11 @@ export default function About() {
           summary when it names one, and so do the stories, which come from the news index.
         </p>
         <p>
-          <strong>Schedule.</strong> The digest covers the 24 hours before it is written, Monday to Friday, by the daily run that starts at 14:00 UTC;
+          {/* session 10238, small pages audit finding 8: warehouse/news/brief.py window_start (WINDOW_CAP_HOURS = 96, session 2701); the v2 Roundup (session 2704) */}
+          <strong>Schedule.</strong> The digest covers the news since the previous issue was written, at most 96 hours back (about 24 hours on a
+          weekday after a weekday, the weekend in Monday&apos;s issue), Monday to Friday, by the daily run that starts at 14:00 UTC;
           there is no weekend issue. A day without a digest, before it is written or when none was, says so on its page and shows no other day&apos;s.
-          ERW&apos;s Roundup covers an ISO week (Monday to Sunday, UTC), opens with the weekend&apos;s top stories, and is written and sent on Sundays at
+          ERW&apos;s Roundup covers an ISO week (Monday to Sunday, UTC), opens with its opening number and the week in five numbers (the weekend&apos;s stories are under More), and is written and sent on Sundays at
           23:00 UTC (4 PM Pacific in summer time; 3 PM from early November to mid-March, when the Pacific coast keeps standard time). It was
           called Energy Week, on Mondays, until session 23.
         </p>
