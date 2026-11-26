@@ -122,12 +122,12 @@ Each line changes one choice and keeps every other. The base is the table of 25 
 
 | # | Severity | Finding | Effect | Fix | Branch |
 |---|---|---|---|---|---|
-| 1 | Medium | One known wrong join is 9,400 of the 28,254 MW stated and the page never says so; the scope words misstate the news join rule | 33.3 percent of the headline, Utah's bar, the planned chart's only early bar, one of three US timeline rows | words; the figure for ruling | `wip/audit-tracker-1` (SHA1); `wip/audit-tracker-7` (SHA7) |
-| 2 | Medium | "The news since 2025-01-01": no story of May to September 2025 was scored; 70.5 percent of first stories are of the last three months; the planned chart by quarter shows what was read | the chart's quarters are not comparable; not a figure moved | words | `wip/audit-tracker-2` (SHA2) |
-| 3 | Low | The headline megawatts do not say they add every basis; the method note says the page says so beside the sum | +35.4 percent if the unstated figures are IT load | words | `wip/audit-tracker-3` (SHA3) |
-| 4 | Low | The operator chart says "the operator, else the developer"; the code reads the operator alone | its largest bar 1,000 MW, where the words promise 10,400 | words | `wip/audit-tracker-4` (SHA4) |
-| 5 | Low | The timeline counts every facility held; 6 of its 9 rows state no US state; the note does not say | median 2 years, 3 on the counted rows | words | `wip/audit-tracker-5` (SHA5) |
-| 6 | Low | The view by grid's price range sets a real-time zone beside a day-ahead one, unsaid | the low end USD 34.02, or 34.87 in one market | words | `wip/audit-tracker-6` (SHA6) |
+| 1 | Medium | One known wrong join is 9,400 of the 28,254 MW stated and the page never says so; the scope words misstate the news join rule | 33.3 percent of the headline, Utah's bar, the planned chart's only early bar, one of three US timeline rows | words; the figure for ruling | `wip/audit-tracker-1` (`90b505b52`); `wip/audit-tracker-7` (`ebac9af65`) |
+| 2 | Medium | "The news since 2025-01-01": no story of May to September 2025 was scored; 70.5 percent of first stories are of the last three months; the planned chart by quarter shows what was read | the chart's quarters are not comparable; not a figure moved | words | `wip/audit-tracker-2` (`9afb8380d`) |
+| 3 | Low | The headline megawatts do not say they add every basis; the method note says the page says so beside the sum | +35.4 percent if the unstated figures are IT load | words | `wip/audit-tracker-3` (`9559aa905`) |
+| 4 | Low | The operator chart says "the operator, else the developer"; the code reads the operator alone | its largest bar 1,000 MW, where the words promise 10,400 | words | `wip/audit-tracker-4` (`5add2ae58`) |
+| 5 | Low | The timeline counts every facility held; 6 of its 9 rows state no US state; the note does not say | median 2 years, 3 on the counted rows | words | `wip/audit-tracker-5` (`302f7ccaa`) |
+| 6 | Low | The view by grid's price range sets a real-time zone beside a day-ahead one, unsaid | the low end USD 34.02, or 34.87 in one market | words | `wip/audit-tracker-6` (`cad2f31db`) |
 
 ## 1. One known wrong join is a third of the megawatts (Medium)
 
@@ -150,7 +150,7 @@ Each line changes one choice and keeps every other. The base is the table of 25 
 - **Where.** `site/app/datacenters/Body.tsx`, "Megawatts stated" and its note; the method note, section 4 ("A sum adds MW of every basis, and the page says so beside it").
 - **Why it is wrong.** Beside the rollups and the charts the page says a sum is "of any basis (IT load, total, a tenant's share, a phase)"; beside the headline sum, the one a reader quotes, it does not. Of the 21 counted rows that state MW, 20 state no basis and one is a facility's total. A forecaster reads a datacenter's MW as IT load and multiplies by an overhead ratio to get the grid's draw; at the cost page's own default ratio (1.56) the 17,854 MW of unstated basis would draw 9,998 MW more.
 - **The test.** `tests/test_audit_tracker_3.py` on `wip/audit-tracker-3`: the sum adds a total and an unstated row alike (passes on main); the words test fails on main.
-- **The fix on the branch, words only.** The note beside the headline adds "of any basis: IT load, a facility's total, a tenant's share or a phase, and for most a figure whose basis the words do not say". No figure moves.
+- **The fix on the branch, words only.** The note beside the headline adds "A sum of any basis: IT load, a facility's total, a tenant's share or a phase, and for most a figure whose basis the words do not say." No figure moves.
 
 ## 4. The operator chart names a rule the code does not use (Low)
 
@@ -171,11 +171,23 @@ Each line changes one choice and keeps every other. The base is the table of 25 
 - **Where.** `site/app/datacenters/GridsView.tsx`, the bullet "The price is the cheapest and the dearest load zone ... at the calculator's defaults, over its last twelve complete months. Energy only."; `zoneCosts` (the cost page's `regionCosts`).
 - **Why it matters.** The calculator's default buys in real time where twelve complete months of real-time prices are held, else day-ahead. No real-time price is held for four of ERCOT's eight zones (Austin Energy, CPS Energy, LCRA, Rayburn), so the range sets Houston's real-time USD 34.02 beside Austin Energy's day-ahead 39.01. Day-ahead ran above real time at every zone holding both (by 0.70 to 1.90 per MWh), so part of the spread is the market, not the place. In one market the low end is South's 34.87. The table under the power side shows each zone's market; the bullet of the view by grid does not.
 - **The test.** `tests/test_audit_tracker_6.py` on `wip/audit-tracker-6`: through `lib/datacenter.ts` on the page's files, the cheapest ERCOT zone is bought in real time and the dearest in day-ahead (passes on main); the words test fails on main.
-- **The fix on the branch, words only.** The bullet adds "each zone in its own market, real time where twelve complete months are held, else day-ahead, so the two ends can be in different markets". No figure moves.
+- **The fix on the branch, words only.** The bullet adds "Each zone is in its own market, real time where twelve complete months are held, else day-ahead, so the two ends can be in different markets; the power side of the facilities view names each zone's market." No figure moves.
 
 ## The words branches drawn and read
 
-DRAWN
+Each branch's page was drawn to HTML with the site's own code (`draw_tracker.mjs`: `page.tsx` whole, both views, as a visitor meets it under the hold, and `Body`, `Rollups`, `Timeline` and `DcCharts` with the table's rows as the page draws them once the hold allows), and its new sentences read in the drawn text. No em dash in any drawing.
+
+| Branch | Where the words are drawn | Read |
+|---|---|---|
+| `wip/audit-tracker-1` | the scope words (both under the hold and without it); the line under the bars | pass: "Stories are one facility when they name the same operator or developer, the same site, or the same county or city in a state; a story and an operator's list are one when they share an operator and a place." and "One row was joined from two stories on their state alone, before that rule, and stays as it is until the news table is rebuilt." between "blank." and "Placed facilities"; under the bars, "One facility joined from two stories on their state alone ... (the tracker's method note, section 4)." after "so it is never summed." |
+| `wip/audit-tracker-2` | the scope words; the planned chart's note | pass: the sentence follows "This is not a census of every facility."; the chart's note ends "(the scope, above the list)." |
+| `wip/audit-tracker-3` | the headline megawatts' note | pass: "A sum of any basis: ..." between "253 state no MW." and "By status, as the table has it:" |
+| `wip/audit-tracker-4` | the operator chart's note | pass: "The operator a source names, as every view by operator reads it; a facility whose sources name only a developer is not here (decision 9); the MW its counted facilities state." |
+| `wip/audit-tracker-5` | the timeline's note | pass: the sentence follows "A median needs three facilities with both." |
+| `wip/audit-tracker-6` | the view by grid, the bullet on the price | pass: the sentence follows "Energy only." |
+| the six merged (a local trial, not pushed) | both views and the facility components | pass: all nine new sentences drawn |
+
+- The six words branches merge together onto origin/main of 26 November (`c868c6418`) with no conflict. Their tests with every test file that reads the changed files (`test_session105`, `106`, `167`, `203`, `240`, `241c`, `329`, `421`, `467`, `468`, `497`, `500`, `1855`, `2201`, `2243_deals` to `2246_deals`, `7400_trackers`, `7402_trackers`, `land461_whole_mw`) pass on the merge: 175 passed, 5 skipped. On origin/main each branch's words test fails (6 failed) and each behaviour test passes (7 passed).
 
 ## The decisions block, line by line
 
@@ -203,4 +215,9 @@ DRAWN
 
 ## Landing, rulings and data (returned to the chain's main session)
 
-LANDING
+- **For landing (words only):** `wip/audit-tracker-1` (`90b505b52`), `-2` (`9afb8380d`), `-3` (`9559aa905`), `-4` (`5add2ae58`), `-5` (`302f7ccaa`), `-6` (`cad2f31db`). They merge together cleanly onto origin/main of 26 November; each was drawn and read (pass). The page's figures do not move.
+- **For Samuel's ruling, default "left as it is":**
+  - Finding 1, `wip/audit-tracker-7` (`ebac9af65`), not for landing: the one row joined on a state alone is left out of every sum until the news table is rebuilt; the megawatts stated 28,254 to 18,854 (-33.3 percent), planned 21,305 to 11,905, Utah's bar and the planned chart's 2025 bar gone. No visitor sees it today (the hold).
+  - Finding 5, no branch (the measure is in `measures.json`): the timeline counts only the facilities the sums count; 9 rows to 3, the median wait 2 years to 3.
+- **Data requests:** none. Every measure was made from the files on this machine.
+- **Needs the key:** `warehouse/datacenters/extract.py --reextract` (a model run) to split the old join; scoring the stories of May to September 2025 and the rest of October to December 2025 and June to August 2026, then the extractor, to make the news window even.
