@@ -1,0 +1,3 @@
+FOUND: ...The other three views read every row of the newest quarter's file, whenever it was signed., 10,956 file no number. "Market Based Rate" or a formula is what the filer wrote; the column below shows it as filed and never fills one in. Of the numbers filed, about half are 0, most of them outside energy, capacity and tolling.
+em dashes in the page: 0
+PASS

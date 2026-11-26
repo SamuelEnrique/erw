@@ -40,6 +40,7 @@ Session 10226, 26 November 2026, chain 710 (part D, in the form of part B), the 
 - **The page:** `draw_contracts.mjs` draws `app/contracts/page.tsx`, the default export, with the site's own code (`node --import ./scripts/tsx-register.mjs`, no build), the two reads answered from those files by a stand-in for fetch.
 - **The independent restatement:** `restate_contracts.py`, standard library, from the raw table and the note: the window, the quarters, the later rows, the default quarter, product group and authorities, the sentence, the headline cells, ERCOT's count, and each drawn row's date, years and days (a day past its month's end run into the next month, as the page's engine reads it). Printouts `restate_1005.out`, `restate_1126.out`.
 - **One rule at a time and the claims:** `measures_contracts.py` (both tables, every quarter's own file against the newest, late filers, the window, zeros, rows per agreement and product, units, ERCOT) and `measures2_contracts.py` (a number beside words; ERCOT's product types). Printouts `measures.out`, `measures2.out`.
+- **The drawings of the words branches:** `draw_contracts.mjs` on each branch, then `read_words.py` (the visible text around each new line, and the page's em dashes).
 - Counts only: no party's name, no party's figure and no row is in any printout or in this file. Copies of every script and printout: `docs/reviews/contracts-model-audit-2026-11-26/` (written to run from `runs/c10226/` of a worktree).
 
 ## The arithmetic re-done
@@ -100,7 +101,7 @@ Each line changes one choice and keeps every other. The window of the load of 5 
 |---|---|---|
 | Each quarter's signings as first filed, and the late filers of the next | the page reads one file | finding 1: 2025 Q3 273 of 2,129 power rows; +28.6 percent late for 2026 Q1 |
 | The price a contract settles at: index plus adder, or a formula | the filer's words are not parsed when a number is filed, nor read when no number is | finding 2: up to 178 numbers; 104,929 rows of words unread (eqr_terms) |
-| Prices by delivery period, in one unit per product (USD/MWh for energy, USD per kW-month for capacity) | units as filed, period not served (the read's rows 12 and 18) | the default: five capacity units on 56 numbers |
+| Prices by delivery period, in one unit per product (USD/MWh for energy, USD per kW-month for capacity) | units as filed, period not served (the read's rows 12 and 18) | the default: 56 capacity numbers in four units and one with none |
 | Volume: MWh delivered and the price paid | the transactions of the reports are not parsed (decision "contracts-only") | not sized: about 115 million rows a quarter |
 | Hub forwards, futures settlements, capacity auction clearing prices to set the filed price against | none held; exchange data are licensed (CME Group, ICE) | not sized |
 | Texas | outside FERC's jurisdiction | said |
@@ -115,6 +116,10 @@ Each line changes one choice and keeps every other. The window of the load of 5 
 | 4 | Low | "One row per product of an agreement" | 47 of 227 default rows in 18 pairs with more than one row | words | `wip/audit-contracts-4` |
 | 5 | Low | The limits box is silent on zeros | 4,119 of 8,033 numbers are 0; 3,914 of 18,989 rows file a number other than 0 | words | `wip/audit-contracts-5` |
 | 6 | Low | The fold names one reason a row is left out; the connector has two | 11 rows of 2026 Q2's file | words | `wip/audit-contracts-6` |
+
+- Ranked by severity, then by size. One High, one Medium, four Low.
+- Each branch alone ran its own test with every test file that reads the page or the note (`tests/test_session83.py`, `test_session7501_contracts.py`, `test_session241a.py`, `test_session304.py`, `test_session333.py`, `test_session90.py`): 79 to 80 passed, 4 skipped (tables this machine does not hold), on each. `site/scripts/test-contracts-read.mjs` (46 of 46) and `test-contracts-render.mjs` (40 of 40) ran on branches 2, 4 (read) and 5 (render) and on the six merged. The six merged onto origin/main: 90 passed, 4 skipped; both node tests pass; drawn, the page carries every new line and no em dash (`draw_trial.txt`), and the restatement still agrees in 40 of 40 figures and 1,135 of 1,135 cells (`restate_trial.out`): no figure moved.
+- Each words branch was drawn with the page's own code and its new words read once more: pass on all five branches that change the page (`draw_b1.txt`, `draw_b2.txt`, `draw_b4.txt`, `draw_b5.txt`, `draw_b6.txt`); branch 3 changes only the note.
 
 ## 1. The quarters listed are survivors, not signings (High; words, and a ruling)
 
@@ -176,6 +181,6 @@ Each line changes one choice and keeps every other. The window of the load of 5 
 
 ## Landing, rulings and data (returned to the chain's main session)
 
-- **For landing (words only):** filled in below once the branches are pushed.
+- **For landing (words only):** `wip/audit-contracts-1` (`d95b16176`), `wip/audit-contracts-2` (`4a5e262b1`), `wip/audit-contracts-3` (`e92b4e8ba`), `wip/audit-contracts-4` (`4328d943f`), `wip/audit-contracts-5` (`d587ca08c`), `wip/audit-contracts-6` (`862168ba2`). They merge together onto origin/main of 26 November with no conflict (no merged words branch was needed). Branches 1, 2, 4, 5 and 6 touch `site/app/contracts/page.tsx`; 4 also `site/scripts/test-contracts-read.mjs` (its check of the headline note's words); 3 only the note.
 - **For Samuel's ruling, default "left as it is":** finding 1, read each quarter of execution from the file filed for it (2025 Q3's power rows 273 to 2,129; every product 1,393 to 2,976; the default view unchanged); finding 2, draw the filer's description beside a number (up to 178 numbers in the window; no figure moves).
 - **Data requests:** (a) the data machine reads, counts only, the load day and first execution date of the live set's `ferc_eqr_contracts` and whether FERC's 2026 Q3 file has been pulled; (b) the stored summary to carry the file's retrieval time, so the page can give its as-of date (finding 3).
