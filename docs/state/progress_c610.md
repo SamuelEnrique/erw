@@ -21,3 +21,4 @@ Chain file: queue/done/610-night-20-november-oldlaptop-weekend-pack-security.md.
 - Session 9401: the held-back finding written as H9811 in `docs/security.md`; its test passes on `main`. done, 9401
 - Session 9401, part E: part B again for what landed after the ground; nothing new (`docs/security.md`, "Part B again"). done, 9401
 - Session 9401, the last session: the chain's note extended, resume file 612 removed, queue step run. done, 9401
+- Session 10200 (chain 710, step 3): chain 610 is closed; its part E is replaced by chain 710. No resume file of chain 610 is left in `queue/next/`. done, 10200
