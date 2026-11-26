@@ -103,7 +103,7 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
             : grid.slug === "us48" ? <>The Lower 48 is the sum of its grids: <Link href={gridHref(grid.slug, "gravity")}>the exchange of each</Link>.</>
               : <>No tie of {grid.label} reported in the hour starting {hourOf(xHour, tz)}, the newest hour every reporting pair holds (session 266: nothing stands in for it).</>} />
         <HeadlineNumber label="Carbon intensity" unit="kg CO2/MWh" value={cg ? <N t={CARBON} r={cg} /> : <span className="text-muted">not read</span>}
-          note={cg ? <>Of generation, hour starting {hourOf(cg.ts_utc, tz)}.{cd ? <> Of the power used here, imports counted: <N t={CARBON} r={cd} />.</> : null}</> : ci.ok ? "No hour in the last seven days." : ci.reason} />
+          note={cg ? <>Of generation, hour starting {hourOf(cg.ts_utc, tz)}: an average over all the power made, not what an added MWh would emit.{cd ? <> Of the power used here, imports counted at EIA&apos;s estimate: <N t={CARBON} r={cd} />.</> : null}</> : ci.ok ? "No hour in the last seven days." : ci.reason} />
       </HeadlineRow>
 
       <ToolSection title="The mix in that hour" id="now-mix">
