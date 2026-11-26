@@ -209,7 +209,11 @@ export default async function ConditionsPage({ searchParams }: { searchParams: P
         under={<p className="mt-2 text-xs text-muted" data-license-line="1">License: public. Files built {INDEX.built.slice(0, 10)}.</p>}
       />
 
-      <form method="get" action="/conditions#strips" className="mb-3 flex flex-wrap items-end gap-3 text-sm [&_label]:max-w-full [&_select]:max-w-full" data-conditions-form="1">
+      {/* session 11000 (chain 750): autoComplete="off". The Day box takes its value from the page once, and a browser
+          puts a form's last state back when a page of its history is shown again: after a day, Show and the back button
+          the page drew the newest 35 days while the box still read the day. With it off the browser keeps no state for
+          the form; the three lists above already set themselves to the page's value (components/AutoSubmit.tsx). */}
+      <form method="get" action="/conditions#strips" autoComplete="off" className="mb-3 flex flex-wrap items-end gap-3 text-sm [&_label]:max-w-full [&_select]:max-w-full" data-conditions-form="1">
         <AutoSubmitSelect name="a" value={a} options={opOptions} label="Operator" />
         <AutoSubmitSelect name="b" value={b} options={[{ value: NONE, label: "No second operator" }, ...opOptions.filter((o) => o.value !== a)]} label="Side by side with" />
         <AutoSubmitSelect name="event" value={event ?? NONE} options={[{ value: NONE, label: "No event" }, ...INDEX.events.map((e) => ({ value: e.id, label: `${e.title} (${e.start})` }))]} label="Event" />

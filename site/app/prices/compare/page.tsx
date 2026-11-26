@@ -99,7 +99,10 @@ function AandB({ file, c, shown, held, a, b }: { file: CompareFile; c: ReturnTyp
   const hours = (m: "dam" | "rtm") => (r: Row) => (m === "dam" ? r.dam_hours_held : r.rtm_hours_held);
   return (
     <ToolSection title="A and B, side by side" id="ab">
-      <form method="get" action="/prices/compare" className="mb-3 flex flex-wrap items-end gap-3 text-sm" data-ab-form="1">
+      {/* session 11000 (chain 750): autoComplete="off". A browser puts a form's last state back when a page of its
+          history is shown again, and these lists take their value from the page once: after a choice, Compare and the
+          back button the page showed no A while the list still read SP15. With it off the browser keeps no state. */}
+      <form method="get" action="/prices/compare" autoComplete="off" className="mb-3 flex flex-wrap items-end gap-3 text-sm" data-ab-form="1">
         <input type="hidden" name="period" value={c.period} /><input type="hidden" name="market" value={c.market} />
         <input type="hidden" name="sort" value={c.sort.slug} /><input type="hidden" name="dir" value={c.dir} />
         {(["a", "b"] as const).map((k) => (
