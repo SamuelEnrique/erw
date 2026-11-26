@@ -74,9 +74,13 @@ function Heat({ cells, label, src, fmt, k, note }: { cells: (number | null)[][];
   );
 }
 
+// Session 10220 (congestion audit, finding 2): SPP's files until November 2021 name no contingency, and from then the same
+// element is listed under BASE, so one element stood on two rows with one label; a row with no contingency now says so.
 function constraintLabel(c: Constraint) {
-  return c.contingency && c.contingency !== "BASE" ? `${c.name} (contingency ${c.contingency})` : c.name;
+  if (!c.contingency) return `${c.name} (no contingency named)`;
+  return c.contingency !== "BASE" ? `${c.name} (contingency ${c.contingency})` : c.name;
 }
+const ELEMENT_WORDS = "A constraint here is one element (a line, a transformer, a flowgate, a nomogram) under one contingency, as the operator lists it: an element bound under two contingencies is two constraints and two rows, and an hour it bound under both counts as two constraint-hours. SPP's files until November 2021 name no contingency, so an element SPP listed before and after then stands on two rows of every year held, one marked \"no contingency named\".";
 
 export default async function CongestionPage({ searchParams }: { searchParams: Promise<Query> }) {
   const q = await searchParams;
@@ -146,6 +150,7 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
         {O ? (
           <>
             <p className="mb-2 text-sm" data-held-line="1">{O.constraints_by_year[year] !== undefined ? <>{whole(O.constraints_by_year[year])} constraints bound in {whole(O.hours_by_year[year])} constraint-hours over {O.days_held[year]} days held in {year}.</> : <>Every year held: {years.join(", ")}.</>} {" "}
+              <Hint words="(what a constraint is)" why={ELEMENT_WORDS} /> {" "}
               <Hint words="(source)" why={`${src.constraints}. Hours in ${O.time}. ${F.sign_rule}`} /></p>
             {/* Session 9001, row H1: each list has a visible heading, so a reader can tell the two apart. */}
             <h3 className="mb-1 mt-4 font-serif text-base text-accent" data-list-heading="hours">Bound most: ranked by hours bound</h3>
