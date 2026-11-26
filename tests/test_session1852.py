@@ -43,7 +43,8 @@ class TheHeadlineSum(unittest.TestCase):
         v = src("site", "app", "deals", "v2", "view.tsx")
         self.assertNotIn("in all</>", v)
         self.assertNotIn("USD {usd(c.dollars)}", v)
-        self.assertIn("state a value in US dollars: a purchase price, a financing or a valuation, each as stated and not summed here", v)
+        # session 10215 (deals audit, finding 3): a contract's value, not a valuation, which decision 4 says is not kept
+        self.assertIn("state a value in US dollars: a purchase price, a financing or a contract&apos;s value, each as stated (a valuation is not kept) and not summed here", v)
 
 
 class TheAiView(unittest.TestCase):

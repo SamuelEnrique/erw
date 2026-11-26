@@ -1,0 +1,404 @@
+{
+ "group": "c701_unreached",
+ "rows": [
+  {
+   "utility": "The Narragansett Electric Company d/b/a Rhode Island Energy",
+   "state": "RI",
+   "iso_region": "ISO-NE",
+   "rule_name": "Extra-large electric load tariff ordered by the RI PUC in Report and Order No. 25873 (Docket Nos. 25-45-GE and 25-33-GE), to be filed by 31 December 2026",
+   "source_url": "https://ripuc.ri.gov/sites/g/files/xkgbur841/files/2026-11/RI%20Energy%2025-45-GE%20Ord25873%20Final%2011-20-26%20v2%20w-seal.pdf",
+   "source_title": "RI PUC Report and Order No. 25873, Docket No. 25-45-GE and Docket No. 25-33-GE (Rhode Island Energy base distribution rates and motion to reopen tariff advice, hold harmless), issued 20 November 2026",
+   "quoted_clause": {
+    "page": "140",
+    "section": "VIII.D Large Load Tariff",
+    "quote": "the Commission directs the Company to file, by December 31, 2026, an extra-large electric load tariff designed, at a minimum, to prevent such customers, including data centers, from adversely affecting grid reliability and resilience, shifting costs to existing customers, or causing undue rate shock."
+   },
+   "docket": {
+    "value": "RI PUC Docket No. 25-45-GE (consolidated with Docket No. 25-33-GE); Report and Order No. 25873",
+    "cites": [
+     {
+      "page": "1",
+      "section": "caption",
+      "quote": "DOCKET NO. 25-45-GE DOCKET NO. 25-33-GE"
+     },
+     {
+      "page": "144",
+      "section": "ordering clauses",
+      "quote": "(25873) ORDERED"
+     },
+     {
+      "url": "https://ripuc.ri.gov/Docket-25-45-GE",
+      "section": "RI PUC docket page",
+      "quote": "Docket No. 25-45-GE - The Narragansett Electric Co. d/b/a Rhode Island Energy - Application for Approval of a Change in Electric and Gas Base Distribution Rates (filed on November 26, 2025)",
+      "date_read": "2026-11-26"
+     }
+    ]
+   },
+   "status": {
+    "value": "ordered",
+    "date": "2026-11-20",
+    "cites": [
+     {
+      "url": "https://ripuc.ri.gov/Docket-25-45-GE",
+      "section": "RI PUC docket page, list of documents",
+      "quote": "PUC Report and Order No. 25873 (11/20/26)",
+      "date_read": "2026-11-26"
+     },
+     {
+      "page": "151",
+      "section": "ordering paragraph 52",
+      "quote": "The Narragansett Electric Company d/b/a Rhode Island Energy shall file an extra-large electric load tariff by December 31, 2026"
+     }
+    ],
+    "note": "The order directs a filing due by 31 December 2026; no large-load tariff filing was listed on the docket page read on 26 November 2026. The order's date is the one the docket page prints beside it (11/20/26); the order's signature page has no text layer."
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "20 MW minimum demand to define the class initially, unless the company files testimony supporting a different threshold",
+     "cites": [
+      {
+       "page": "140",
+       "section": "VIII.D Large Load Tariff",
+       "quote": "The Company shall initially define the class using a minimum demand of 20 MW or provide testimony supporting a different threshold."
+      },
+      {
+       "page": "151",
+       "section": "ordering paragraph 52",
+       "quote": "The Company should initially define the class minimum demand of 20 MW or provide testimony supporting a different threshold."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Report and Order No. 25873, Section VIII.D (pp. 138 to 140) and ordering paragraph 52 (p. 151): the order sets the tariff's aims (no harm to reliability and resilience, no cost shift, no undue rate shock) and the initial 20 MW threshold only; the tariff itself is due by 31 December 2026 and was not on the docket page read on 26 November 2026"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Report and Order No. 25873, pp. 138 to 140 and 151: no contract term set"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Report and Order No. 25873, pp. 138 to 140 and 151: no collateral set"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Report and Order No. 25873, pp. 138 to 140 and 151: no exit fee set (the order records testimony on the risk of stranded costs, p. 139, but orders no fee)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Report and Order No. 25873, pp. 138 to 140 (footnote 359 says the one 300 MW application is being studied and a Project Feasibility Report is being developed, with no study duration)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Report and Order No. 25873, pp. 138 to 140: testimony that transmission-connected large data centers may take years to bring load online, with no timeline set"
+    },
+    "queue_size": {
+     "value": "One transmission interconnection application, a prospective data center customer with anticipated demand of 300 MW, under study; additional inquiries for projects of 100 to 300 MW (as the order records the company's discovery response and hearing testimony)",
+     "cites": [
+      {
+       "page": "138",
+       "section": "VIII.D Large Load Tariff",
+       "quote": "The record indicates that the Company has received a 300-megawatt"
+      },
+      {
+       "page": "139",
+       "section": "VIII.D Large Load Tariff",
+       "quote": "data center application and additional inquiries for projects in the 100- to 300-megawatt range."
+      },
+      {
+       "page": "139",
+       "section": "footnote 359",
+       "quote": "The anticipated demand for this prospective customer is 300 MW. This application is currently being studied and a Project Feasibility Report is being developed."
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the RI PUC's own copy of its order and its docket page (ripuc.ri.gov, robots allow this reader)",
+   "erw_overlap": "none: window A's registries hold no Rhode Island Energy document; this dataset's earlier pass (northeast) found no Rhode Island rule because the order was issued after it",
+   "notes": "Existing practice as the order records it (p. 139): in discovery the company said it would put a large load interconnecting to the distribution system on the G-32 rate; a PPL witness testified that customers at or above approximately 10 MW have generally been evaluated for possible transmission-level interconnection, a threshold not applied rigidly, case by case. The witness list (p. 8) names Kimberly Gauntner of PPL Corporation on large load tariffs. Waits: the company's filing of the tariff, due by 31 December 2026, presumably in a new docket (not stated). Leads not used: Senate bills S-2427 and S-2776 of 2026 on large data center loads (rilegislature.gov, not read).",
+   "date_read": "2026-11-26",
+   "notes_slug": "rhode_island_energy_c701",
+   "row_id": "c701_unreached-01"
+  },
+  {
+   "utility": "Kansas Gas and Electric Company (Evergy Kansas South, Inc.)",
+   "state": "KS",
+   "iso_region": "SPP",
+   "rule_name": "Schedule LLPS (Large Load Power Service), Evergy Kansas Central Rate Area, issued by Evergy Kansas Central, Inc. and Evergy Kansas South, Inc. d.b.a. Evergy Kansas Central (KCC Docket 25-EKME-315-TAR; current sheets approved in Docket 27-EKCE-0151-TAR)",
+   "source_url": "https://www.evergy.com/-/media/documents/billing/kansas-central/commercial-and-industrial/ekc_large-load-power-service.pdf",
+   "source_title": "Evergy Kansas Central Schedule LLPS, Large Load Power Service, Sheets 1 to 12 of 12 (issued 2 September 2026, effective 1 November 2026), as posted on evergy.com",
+   "quoted_clause": {
+    "page": "1",
+    "section": "sheet heading and Applicability",
+    "quote": "EVERGY KANSAS CENTRAL, INC., & EVERGY KANSAS SOUTH, INC., d.b.a. EVERGY KANSAS CENTRAL ... EVERGY KANSAS CENTRAL RATE AREA ... (Territory to which schedule is applicable) ... LARGE LOAD POWER SERVICE ... Service under this schedule is required for,"
+   },
+   "docket": {
+    "value": "KCC Docket 25-EKME-315-TAR (the LLPS docket); the current sheets were approved in KCC Docket 27-EKCE-0151-TAR",
+    "cites": [
+     {
+      "url": "https://www.kcc.ks.gov/images/PDFs/presentations-and-legislative-testimony/2026_Senate%20Utilities%20Committee%20Update_15Jan.pdf",
+      "page": "8",
+      "section": "KCC Utilities Division slides to the Senate Utilities Committee, 15 January 2026",
+      "quote": "25-EKME-315-TAR ... Evergy's Large Load Power Service Tariff (LLPS) Docket.",
+      "date_read": "2026-11-26"
+     },
+     {
+      "page": "1",
+      "section": "sheet footer",
+      "quote": "27-EKCE-0151-TAR Approved ANJ Kansas Corporation Commission October 29, 2026"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-11-01",
+    "cites": [
+     {
+      "page": "1",
+      "section": "sheet footer",
+      "quote": "Effective November 1 Month Day 2026 Year"
+     },
+     {
+      "page": "1",
+      "section": "sheet heading",
+      "quote": "which was filed November 6, 2025"
+     },
+     {
+      "url": "https://www.kcc.ks.gov/images/PDFs/presentations-and-legislative-testimony/2026_Senate%20Utilities%20Committee%20Update_15Jan.pdf",
+      "page": "8",
+      "section": "KCC Utilities Division slides, 15 January 2026",
+      "quote": "D. Commission approved the Settlement on November 6, 2025.",
+      "date_read": "2026-11-26"
+     },
+     {
+      "url": "https://www.kcc.ks.gov/news-11-6-25",
+      "section": "KCC news release of 6 November 2025",
+      "quote": "Today, the Kansas Corporation Commission approved a unanimous settlement agreement creating a Large Load Power Service (LLPS) rate plan",
+      "date_read": "2026-11-26"
+     }
+    ],
+    "note": "The date is the effective date of the reissued sheets (issued 2 September 2026, approved by the KCC on 29 October 2026 in 27-EKCE-0151-TAR), which replace sheets filed 6 November 2025, the day the KCC approved the LLPS settlement. The sheets were read on evergy.com only (see license)."
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "75 MW: a new facility with a peak load forecast reasonably expected to reach a monthly maximum demand of 75 MW or more during the term, or an existing customer whose demand is reasonably expected to expand by 75 MW",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Applicability",
+       "quote": "reasonably expected to be equal to or in excess of a monthly maximum demand of seventy-five megawatts (75 MW) at any time during the Term"
+      },
+      {
+       "page": "1",
+       "section": "Applicability",
+       "quote": "Any existing Customers, who as of the effective date of Schedule LLPS, have a monthly maximum demand that is reasonably expected to expand by seventy-five megawatts (75 MW)."
+      },
+      {
+       "url": "https://www.kcc.ks.gov/news-11-6-25",
+       "section": "KCC news release of 6 November 2025",
+       "quote": "The new LLPS rates will apply to any new facility beginning service with a peak load forecast at 75 megawatts (75 MW) or more, or an existing customer expecting to expand by 75 MW.",
+       "date_read": "2026-11-26"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum Demand of 80 percent of the annual Contract Capacity, used for the Minimum Monthly Bill",
+     "cites": [
+      {
+       "page": "3",
+       "section": "Determination of Demands",
+       "quote": "Minimum Demand: Minimum Demand shall be 80% of the annual Contract Capacity."
+      },
+      {
+       "url": "https://www.kcc.ks.gov/news-11-6-25",
+       "section": "KCC news release of 6 November 2025",
+       "quote": "Customers on the plan will pay a minimum monthly bill based on 80% of their contract demand, regardless of actual usage.",
+       "date_read": "2026-11-26"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Minimum term of up to five years of optional transitional load ramp plus twelve years; automatic five-year extensions unless either party gives at least 36 months' notice",
+     "cites": [
+      {
+       "page": "2",
+       "section": "Term",
+       "quote": "Schedule LLPS Customers shall take service for a minimum term that includes up to five (5) years of an optional transitional load ramp period plus twelve (12) years."
+      },
+      {
+       "page": "2",
+       "section": "Term",
+       "quote": "the LLPS Service Agreement will automatically extend for periods of five years"
+      },
+      {
+       "url": "https://www.kcc.ks.gov/news-11-6-25",
+       "section": "KCC news release of 6 November 2025",
+       "quote": "The contract term will be a minimum of 12 years, plus an optional load ramp period of up to 5 years, which most customers are expected to use, for a total contract length of 17 years.",
+       "date_read": "2026-11-26"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Two years of Minimum Monthly Bills, provided when the LLPS Service Agreement is executed (guarantee, letter of credit or cash); exemptions of 60, 50, 40 or 25 percent for customers meeting credit rating and liquidity tests, the 60 percent discount capped at $175 million (50 percent at $150 million, 40 percent at $125 million, 25 percent at $75 million)",
+     "cites": [
+      {
+       "page": "7",
+       "section": "Collateral Requirements",
+       "quote": "The Company will require Schedule LLPS Customers to provide collateral in an amount equal to two (2) years of Minimum Monthly Bills, as calculated by the Company"
+      },
+      {
+       "page": "8",
+       "section": "Collateral Requirements",
+       "quote": "will be exempt from sixty (60) percent of the Collateral Requirement, with the sixty (60) percent discount not to exceed $175 million."
+      },
+      {
+       "page": "8",
+       "section": "Collateral Requirements",
+       "quote": "will be exempt from fifty (50) percent of the Collateral Requirement, with the fifty (50) percent discount not to exceed $150 million."
+      },
+      {
+       "page": "8",
+       "section": "Collateral Requirements",
+       "quote": "will be exempt from forty (40) percent of the Collateral Requirement, with the forty (40) percent discount not to exceed $125 million."
+      },
+      {
+       "page": "9",
+       "section": "Collateral Requirements",
+       "quote": "will be exempt from twenty-five (25) percent of the Collateral Requirement, with the twenty-five (25) percent discount not to exceed $75 million."
+      },
+      {
+       "page": "10",
+       "section": "Collateral Requirements",
+       "quote": "The Collateral Requirement must be provided at the time of executing the LLPS Service Agreement."
+      },
+      {
+       "url": "https://www.kcc.ks.gov/news-11-6-25",
+       "section": "KCC news release of 6 November 2025",
+       "quote": "They will also be required to provide collateral equal to two years of minimum monthly bills.",
+       "date_read": "2026-11-26"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "36 months' written notice to terminate or change schedule; Exit Fee equal to the nominal value of the Minimum Monthly Bill times the months remaining in the Term or Extension Term, or 12 months, whichever is greater; with less notice, an Early Termination Fee of the Exit Fee plus two times the Minimum Monthly Bill times the months short of 36",
+     "cites": [
+      {
+       "page": "6",
+       "section": "Termination or Change of Schedule",
+       "quote": "the Customer must provide written notice thirty-six (36) months prior to the requested date of termination or schedule change."
+      },
+      {
+       "page": "6",
+       "section": "Termination or Change of Schedule",
+       "quote": "the Customer will be subject to an Exit Fee equal to the nominal value of the Minimum Monthly Bill times the number of months remaining in the Term or Extension Term, or for twelve (12) months, whichever is greater"
+      },
+      {
+       "page": "6",
+       "section": "Termination or Change of Schedule",
+       "quote": "the Early Termination Fee shall be equal to the Exit Fee plus two (2) times the nominal value of the Minimum Monthly Bill times the number months less than the thirty-six (36)"
+      },
+      {
+       "url": "https://www.kcc.ks.gov/news-11-6-25",
+       "section": "KCC news release of 6 November 2025",
+       "quote": "If the contract is terminated early, an exit fee will apply that will require the customer to pay all minimum bills that would have been billed had the customer continued service.",
+       "date_read": "2026-11-26"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Schedule LLPS Sheets 1 to 12 (no study process or duration); KCC news release of 6 November 2025; KCC Utilities Division slides of 15 January 2026 pp. 8 to 17 (p. 9 points to Evergy's large load queue in Section 2.07B of its General Terms and Conditions, not read: evergy.com not read further)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Schedule LLPS Sheets 1 to 12: Sheet 11 says service shall not commence until the Company has sufficient capacity to meet the Contract Capacity requirements, with no time stated; the KCC news release and slides state no timeline"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "The sheets read state no queue figure. The queue Evergy states for its Kansas utilities together is held in the row ameren_evergy_spp-07 (Evergy Kansas Central and Evergy Kansas Metro Large Load Power Service (LLPS) rate plan, KCC Docket 25-EKME-315-TAR) of the group ameren_evergy_spp."
+    }
+   },
+   "license": "internal",
+   "license_basis": "The clause that answers the question (the sheets' issuing utility names Evergy Kansas South, Inc., and the rate area), the sheet terms and the current effective date were read only on evergy.com. Evergy's Terms and Conditions (https://www.evergy.com/terms-and-conditions, read 26 November 2026 after the sheet) bar any robot, bot, spider, scraper or other automatic device used to monitor or copy pages without Evergy's prior written permission, and allow a single copy for personal use. As with centerpointenergy.com in session 5300, the sheet was read before the terms, so the row is internal and evergy.com is not read further. Every field value except the issuer clause and the current status also carries a public KCC cite (kcc.ks.gov, no robots file).",
+   "erw_overlap": "none in window A's registries (they hold Evergy's Missouri LLPS only). This dataset's row ameren_evergy_spp-07 holds the same Kansas LLPS rule for Evergy Kansas Central and Evergy Kansas Metro with status approved (2025-11-06); this row adds that the sheets name Evergy Kansas South, Inc. among the issuing utilities, and that the sheets were reissued (27-EKCE-0151-TAR, approved 29 October 2026, effective 1 November 2026), a status change for that row to check against a public copy.",
+   "notes": "The question asked was whether the Kansas LLPS tariff applies to Kansas Gas and Electric Company's (Evergy Kansas South's) service area. As the sheets print it: the issuing utility is 'Evergy Kansas Central, Inc., & Evergy Kansas South, Inc., d.b.a. Evergy Kansas Central' and the territory is the 'Evergy Kansas Central Rate Area'; the sheets do not name Kansas Gas and Electric Company, and no document read states that Evergy Kansas South, Inc. is the former Kansas Gas and Electric Company (the brief's identification, not cited). The public KCC documents read (news release of 6 November 2025, slides of 15 January 2026) do not name Evergy Kansas South. Other sheet terms: capacity may be reduced after the first five years by the lower of 25 MW or 10 percent of Contract Capacity without charge (Sheet 4), larger reductions with 36 months' notice and a Capacity Reduction Fee (Sheet 5); collateral may be reduced at the Company's discretion after the customer has operated above 100 MW for five years (Sheet 10); a 25 percent credit on cash collateral up to $40 million in the first five years (Sheet 11). Rates on Sheet 3 (customer charge $386.67 a month, demand $22.985 summer and $20.817 winter per kW, energy $0.00872 per kWh, grid $0.248 substation and $0.156 transmission per kW) match those row ameren_evergy_spp-07 gives from the KCC report. Waits: a public copy of the reissued sheets (the KCC's docket system, kcc-connect.kcc.ks.gov, answered earlier readers with a bot check and was not tried) and a primary statement of the Evergy Kansas South and Kansas Gas and Electric identity (Evergy's FERC Form 1 for Evergy Kansas South sits on evergy.com, not read).",
+   "date_read": "2026-11-26",
+   "notes_slug": "kansas_gas_and_electric",
+   "row_id": "c701_unreached-02"
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Commonwealth Edison Company (ComEd)",
+   "url": "https://www.icc.illinois.gov/docket/P2025-0677/documents",
+   "reason": "blocked: the answer looks like a bot check (final address icc.illinois.gov); not retried with another agent, no other ICC page tried"
+  },
+  {
+   "utility": "Commonwealth Edison Company (ComEd)",
+   "url": "https://ferc.gov/news-events/news/commissioner-changs-concurrence-order-accepting-transmission-security-agreement-0",
+   "reason": "HTTP 403 (robots allow); the FERC concurrence on a ComEd Transmission Security Agreement, not read"
+  },
+  {
+   "utility": "Commonwealth Edison Company (ComEd)",
+   "url": "https://www.businesswire.com/news/home/20260106535249/en/ComEd-Announces-New-Agreements-Signed-to-Ensure-Large-Load-Customers-Pay-their-Fair-Share-to-Connect-with-and-Use-the-Grid",
+   "reason": "HTTP 403 (robots allow); ComEd's press release of 6 January 2026 on Transmission Security Agreements, not read"
+  },
+  {
+   "utility": "Commonwealth Edison Company (ComEd)",
+   "url": "https://www.comed.com/",
+   "reason": "not requested: the reader refuses comed.com (Exelon's terms bar automated access, session 5300); ComEd's tariff book there is unread"
+  },
+  {
+   "utility": "The United Illuminating Company",
+   "url": "https://www.uinet.com/terms-of-use",
+   "reason": "terms of use read: 'You may not use any data mining, robots, or similar data gathering and extraction tools in connection with the Site, except as needed for search engine indexing', and use is for personal, non-commercial purposes; uinet.com not read further (UI's Schedule of Rates and Riders and its LPT-TRA rate unread)"
+  },
+  {
+   "utility": "The United Illuminating Company",
+   "url": "https://www.dpuc.state.ct.us/dockcurr.nsf/XP_PURA_Notices.xsp",
+   "reason": "refused: robots.txt not readable (connection timed out); not read. PURA's dockets and decisions sit on this host (session 5300 found its robots file disallowing every agent)"
+  },
+  {
+   "utility": "Central Maine Power Company",
+   "url": "https://www.cmpco.com/termsofuse",
+   "reason": "terms of use read: 'You may not use any data mining, robots, or similar data gathering and extraction tools in connection with the Site, except as needed for search engine indexing'; cmpco.com not read further (CMP's full Terms and Conditions and rate book unread)"
+  },
+  {
+   "utility": "Central Maine Power Company; Versant Power",
+   "url": "https://mpuc-cms.maine.gov/CQM.Public.WebUI/MatterManagement/MatterFilingItem.aspx?FilingSeq=135046&CaseNumber=2026-00142",
+   "reason": "marked blocked by the reader (the page carries an Imperva _Incapsula_Resource script); not retried, and the attached comments of CMP (item 4, 26 June 2026) and Versant (item 8, 26 June 2026) in MPUC Docket 2026-00142 were not requested"
+  },
+  {
+   "utility": "Kansas Gas and Electric Company (Evergy Kansas South)",
+   "url": "https://www.evergy.com/terms-and-conditions",
+   "reason": "terms read after the LLPS sheet: 'You may not, without the prior written permission of Evergy, use any computer code, data mining software, robot, bot, spider, scraper or other automatic device ... to monitor or copy any of the Web pages, data or content found on or accessed through these Sites'; evergy.com not read further, and the reader's barred list should carry it (not edited here)"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "Commonwealth Edison Company (ComEd, IL)",
+   "searched": "Not read: no primary copy of ComEd's large-load rule could be read. The ICC e-docket for Docket 25-0677 answered with a bot check; comed.com is refused by the reader (Exelon's terms); FERC's page on a ComEd Transmission Security Agreement and ComEd's Business Wire release answered 403. Read: Exelon's presentations to PJM's Large Load Additions Subcommittee of 16 September 2025 and 29 September 2026 (pjm.com): forecast criteria only, no tariff terms. This is not a finding that ComEd has no rule: the leads say the ICC approved one.",
+   "notes": "Leads, not values (news and intervenors only): the ICC approved ComEd's revisions to its General Terms and Conditions and Rider DE in consolidated Dockets 25-0677 and 25-0679 on 19 March 2026, replacing a flat $1 million deposit with deposits scaled to the project, with a letter of credit where a deposit exceeds $2 million (Capitol News Illinois, Daily Herald, pv magazine), and opened a follow-on investigation of ratepayer protections. Queue, from Exelon's own deck to PJM (29 September 2026, p. 3, 'Included Requests (12 GW)* ComEd: 10.5 GW', of a 37 GW Exelon pipeline, with inclusion requiring a signed Transmission Security Agreement and a submitted letter of credit, p. 2): a forecast figure, recorded here as a lead because no row could be built.",
+   "notes_slug": "comed_c701"
+  },
+  {
+   "utility": "The United Illuminating Company (CT)",
+   "searched": "Not read: UI's tariff book is on uinet.com, whose terms bar robots (not read); PURA's docket host dpuc.state.ct.us refused (robots not readable). Read: the Energy and Technology Committee's Joint Favorable Report on 2026 H.B. 5469 (cga.ct.gov), which summarizes UI's testimony: 'UI notes that they have an existing tariff for large load customers (LPT-TRA)'; and the bill's history (cga.ct.gov): favorable report, tabled for the House calendar on 7 April 2026, no later action listed. UI's LPT-TRA rate was not read in any copy.",
+   "notes": "Lead: UI's own written testimony on H.B. 5469 (cga.ct.gov) was not found by search and not read; the committee's summary of it is another party's words.",
+   "notes_slug": "united_illuminating"
+  },
+  {
+   "utility": "Central Maine Power Company (ME)",
+   "searched": "Not read: CMP's full Terms and Conditions and rate schedules are on cmpco.com, whose terms bar robots (not read). Read: the MPUC's copy of CMP Terms and Conditions Section 18 only (maine.gov/mpuc, standard offer Appendix D, 16 pages: no large-load term; a partial copy, not the tariff book); the MPUC case page for Docket 2026-00142, Commission Initiated Informal Investigation Regarding Development of Large Data Centers (case start 27 May 2026), which lists CMP's comments of 26 June 2026 (not read: the filing page was marked blocked); DOER's letter to the MPUC of 20 May 2026 and the Data Center Advisory Council's energy pre-read (maine.gov/energy): no CMP tariff named.",
+   "notes": "Leads (another party): a public comment of 23 November 2026 in Docket 2026-00142 by the Maine Water Accountability Project says 'no Maine utility has a large load tariff, minimum term, exit fee, or financial assurance requirement today' and quotes CMP: 'There are no specific existing or planned mechanisms', with 10 inquiries to CMP and 6 to Versant. The MPUC scheduled a workshop by procedural order of 11 August 2026. CMP's own comments wait for a readable copy.",
+   "notes_slug": "central_maine_power"
+  },
+  {
+   "utility": "Versant Power (ME)",
+   "searched": "Versant Power Terms and Conditions of Service, the full 113-page book on versantpower.com (sections effective 15 August 2020 to 10 August 2026): no large-load rule; its Section 5-H, High Capacity Line Extensions (Docket 2022-00188, effective 31 August 2022), provides service to loads outside the standard policies 'under the terms of a proposal' that may include revenue guarantees, monthly charges and a contribution in aid of construction, with no size threshold. Versant's Bangor Hydro District rate book effective 1 January 2026 (42 pages; largest classes D-4 Primary Power Large and T-1 Transmission Power): no large-load schedule. Not read: the Maine Public District rate book, and Versant's comments of 26 June 2026 in MPUC Docket 2026-00142 (filing page marked blocked). versantpower.com allows personal, non-commercial use only, so anything read there is internal.",
+   "notes": "Versant filed a motion for protective order and initial comments in Docket 2026-00142 (Protective Order No. 1 issued 2 July 2026), per the MPUC case page.",
+   "notes_slug": "versant_power"
+  }
+ ]
+}

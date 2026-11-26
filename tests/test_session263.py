@@ -217,16 +217,18 @@ class TheReplication(unittest.TestCase):
 
     def test_the_mirror_rebuilds_the_default_case_on_the_committed_csv(self):
         n = self.n
-        self.assertEqual((n["l12_first"], n["l12_last"]), ("2025-10", "2026-09"))
-        self.assertEqual(f"{n['l12_kw_total']:.2f}", "81.40")
-        self.assertEqual(n["l12_total_usd"], 8140219)
+        # session 10000 (chain 701, C2b): the public file written again for the window the page shows (November 2025 to
+        # October 2026), finding 11 of docs/reviews/battery-model-audit-2026-11-20.md; the pins follow the mirror on it
+        self.assertEqual((n["l12_first"], n["l12_last"]), ("2025-11", "2026-10"))
+        self.assertEqual(f"{n['l12_kw_total']:.2f}", "80.40")
+        self.assertEqual(n["l12_total_usd"], 8040161)
         self.assertEqual(n["l12_share_ancillary"], 33)
         self.assertEqual(n["debt_service"], 2261119)
-        self.assertEqual(f"{n['cover']:.2f}", "2.63")
-        self.assertEqual(f"{n['a_coverage']:.2f}", "2.63")
-        self.assertEqual(f"{n['npv_kw']:.2f}", "-697.80")
-        self.assertEqual(n["npv_usd"], -69779883)
-        self.assertEqual(f"{n['irr']:.1f}", "-8.8")
+        self.assertEqual(f"{n['cover']:.2f}", "2.58")
+        self.assertEqual(f"{n['a_coverage']:.2f}", "2.58")
+        self.assertEqual(f"{n['npv_kw']:.2f}", "-704.23")
+        self.assertEqual(n["npv_usd"], -70423260)
+        self.assertEqual(f"{n['irr']:.1f}", "-9.3")
         self.assertEqual(f"{n['toll']:.2f}", "4.19")
         self.assertEqual((n["tail_years"], n["tail_usd"]), (0, 0))
         self.assertEqual((n["bad_month"], n["p10_36_usd"], n["n36"]), ("2024-12", 475477, 36))

@@ -65,7 +65,8 @@ async function DealsView() {
     <>
       <h1 className="mb-1 text-3xl">Energy deals</h1>
       <p className="mb-2 max-w-3xl">
-        Energy deals reported in the news since 2025-10-01, from the stories the ERW scores, each with its sources.
+        Energy deals reported in the news since January 2025, from the stories the ERW scores, each with its sources. The stories scored are
+        not even over that span: the tracker&apos;s chart of deals by month says which months are thin or empty, and why.
       </p>
       <p className="mb-5 max-w-3xl text-sm text-muted">
         Transactions: power purchase agreements, offtakes, acquisitions, financings, joint ventures, fuel supply,
@@ -103,6 +104,8 @@ function Body({ rows, month: current, companies }: { rows: Deal[]; month: string
   // session 49: at the start of a month with no deals yet, the previous month, labeled. Session 7404 (chain 303): the
   // arithmetic is lib/dealsview.ts monthBlock (unchanged), so Node can run what the page runs
   const { month, empty, deals: nDeals, mw, withMw, aiPct } = monthBlock(rows, current);
+  // session 10215 (deals audit, finding 1): the newest deal held, so a reader knows how far the month's cells reach
+  const newest = rows.reduce((a, d) => (d.date.slice(0, 10) > a ? d.date.slice(0, 10) : a), "");
   const cells = [
     { k: `Deals in ${month}`, v: <Num check={`deals|month_count|${month}`} raw={nDeals}>{count(nDeals)}</Num> },
     {
@@ -140,7 +143,9 @@ function Body({ rows, month: current, companies }: { rows: Deal[]; month: string
         ) : null}
         <p className="mt-1 text-xs text-muted">
           By the deal&apos;s date: the announced date where a story states it, else the first story&apos;s publish date (UTC). Deals are extracted only from
-          the stories the ERW has scored; a deal&apos;s date can be earlier than its story&apos;s.
+          the stories the ERW has scored; a deal&apos;s date can be earlier than its story&apos;s. The newest deal held is dated {newest}: the cells
+          count the deals dated in the month up to that day, and not every story of a month was scored (none after 12 November 2026, as of
+          26 November 2026).
         </p>
       </section>
       <DealsTable rows={rows} companies={companies} />

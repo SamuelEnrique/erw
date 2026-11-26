@@ -33,11 +33,13 @@ export type DcRule = {
     start_before_year?: number;
     /** a longer term for a larger investment (Maryland: 20 years with USD 250 million) */
     term_years_big?: { min_investment_usd: number; years: number };
-    /** a discretionary abatement by application, held as words only (Nevada): never applied */
+    /** held as words only, never applied: an approval (Nevada), a local grant (Alabama), a threshold not read, or a program closed to new projects (Illinois, Massachusetts, Ohio, Nebraska) */
     discretionary?: boolean };
   /** session 10806: a least investment for the rule to apply (Montana's class seventeen, USD 50 million); below it no rule is held */
   property?: { building_ratio: number; equipment_ratio: number; cite: string; tip: string; min_investment_usd?: number };
-  electricity?: { cite: string; kind: "monthly_blocks"; blocks: { upto_kwh: number | null; usd_per_kwh: number }[]; tip: string };
+  electricity?: { cite: string; kind: "monthly_blocks"; blocks: { upto_kwh: number | null; usd_per_kwh: number }[]; tip: string;
+    /** session 10817: a schedule a large buyer may elect instead (Ohio's self-assessing purchaser), by the year's kWh; the lower tax is taken */
+    elective?: { min_annual_kwh: number; annual_blocks: { upto_kwh: number | null; usd_per_kwh: number }[] } };
 };
 /** The parameter files the datacenter reads (site/data/forecast/): the page and check-values load them */
 export type DcParams = {
@@ -178,7 +180,7 @@ export function dcChain(P: DcParams, state: string, phase: "construction" | "ope
 export function dcEligible(P: DcParams, x: DcInputs): { held: boolean; eligible: boolean; why: string } {
   const r = P.rules.states[x.state]?.sales_exemption;
   if (!r) return { held: false, eligible: false, why: "no datacenter sales tax exemption of this state has been read" };
-  if (r.discretionary) return { held: true, eligible: false, why: "the state's relief is held as words only, not applied: its hover says why (an approval, or a threshold not read)" };
+  if (r.discretionary) return { held: true, eligible: false, why: "the state's relief is held as words only, not applied: its hover says why (an approval, a local grant, a threshold not read, or a program closed to new projects)" };
   const usd = x.invest * 1e6;
   const spent = r.invest_before_year === undefined ? usd
     : usd * Math.max(0, Math.min(x.build, r.invest_before_year - x.start)) / x.build;
@@ -211,7 +213,17 @@ export function dcElecTax(P: DcParams, x: DcInputs): number | null {
     if (month > lo) tax += (Math.min(month, hi) - lo) * b.usd_per_kwh;
     lo = hi;
   }
-  return tax * 12;
+  const standard = tax * 12;
+  const alt = e.elective;
+  if (!alt || x.mwh * 1000 < alt.min_annual_kwh) return standard;
+  const year = x.mwh * 1000;
+  let elected = 0, from = 0;
+  for (const b of alt.annual_blocks) {
+    const hi = b.upto_kwh ?? Infinity;
+    if (year > from) elected += (Math.min(year, hi) - from) * b.usd_per_kwh;
+    from = hi;
+  }
+  return Math.min(standard, elected);
 }
 
 // ---- the run ---------------------------------------------------------------------------------------------------------
@@ -310,7 +322,7 @@ export function dcRun(x: DcInputs, P: DcParams): DcResult {
     exemption: { held: el.held, eligible: el.eligible, applied: el.eligible && x.dcex, note: el.held ? (el.eligible ? (x.dcex ? "applied" : "not applied (the scenario's choice)") : el.why) : el.why },
     property: { held: x.brate !== null && x.erate !== null, note: propNote },
     sales: { held: true, note: x.matshare === null ? "on the equipment; the building's taxable share is not given" : "on the equipment and the building's taxable share" },
-    elec: { held: elec !== null, note: elec !== null ? "" : !rule?.electricity ? "no statute on the electricity bought is read for this state" : "the electricity bought is not given" },
+    elec: { held: elec !== null, note: elec !== null ? "" : !rule?.electricity ? "no tax per kWh on the electricity bought is read for this state" : "the electricity bought is not given" },
   };
 }
 

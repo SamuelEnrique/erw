@@ -104,7 +104,8 @@ def main(argv):
     for r in data["rows"]:
         inv = r.get("investment")
         inv25 = to_2025(inv["value"], inv["year"], index) if inv else None
-        gen = r.get("investment_includes_generation", False)
+        # an investment that is not the whole datacenter (power plants included, or equipment only) gives no ratio
+        gen = r.get("investment_includes_generation", False) or bool(r.get("investment_partial"))
         mw = r["mw"]["value"] if r.get("mw") else None
         perm = r.get("permanent_jobs")
         perm_ok = perm is not None and "kind not stated" not in perm["measure"]

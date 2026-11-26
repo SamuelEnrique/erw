@@ -12,7 +12,7 @@ import { baseStyle, token, useEChart } from "@/components/echarts";
 import { InputPanel, Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { STATES } from "@/lib/regions";
 import {
-  COLOR, COLOR_KEY, DATE_WORDS, EVERYTHING, KIND, PLACED_AT, SOURCE_RULE, cardOf, circleOf, clickState, dateOf, nearOf, nearest, one, optionsOf, parseChoice, queryOf, select, sizeOf,
+  COLOR, COLOR_KEY, DATE_WORDS, EVERYTHING, KIND, PLACED_AT, SOURCE_RULE, cardOf, circleOf, clickState, dateOf, ercotCompletedIsSigned, nearOf, nearest, one, optionsOf, parseChoice, queryOf, select, sizeOf,
   sourceOf, sourceWords, statusWords, tidy, toggle, totals, whole,
   type CardPart, type Choice, type Filter, type MapFace, type MapFile, type SourceKind,
 } from "@/lib/projectmap";
@@ -243,7 +243,7 @@ export function ProjectMap({ file: f, statesGeo, serverSearch = "" }: { file: Ma
           <div className="mt-3 text-xs uppercase tracking-wide text-muted">
             Near a point
             <Tip id="map-near" label="how the distance is measured">
-              Type a point as latitude, longitude in decimal degrees (for example 32.4487, -99.7331, the form a web map copies), or press &quot;Measure from this row&quot; on a row&apos;s card; then a distance in miles. Both are needed. The distance is the great-circle distance on a sphere of the Earth&apos;s mean radius, 3,958.8 miles, from each row&apos;s own point: EIA&apos;s coordinates for a unit, the county&apos;s or the town&apos;s point for a queue position, the city&apos;s point for a datacenter, not their sites. Both ends are counted in; a row with no point is left out. The list under the map gives every row within it, nearest first.
+              Type a point as latitude, longitude in decimal degrees (for example 32.4487, -99.7331, the form a web map copies), or press &quot;Measure from this row&quot; on a row&apos;s card; then a distance in miles. Both are needed. The distance is the great-circle distance on a sphere of the Earth&apos;s mean radius, 3,958.8 miles, from each row&apos;s own point, not its site: EIA&apos;s coordinates of the unit&apos;s plant for a unit, the county&apos;s, city&apos;s or town&apos;s point for a queue position, and for a datacenter the operator&apos;s own coordinates, its city&apos;s or town&apos;s point or its county&apos;s point (the list&apos;s &quot;Placed at&quot; says which). Both ends are counted in; a row with no point is left out. The list under the map gives every row within it, nearest first.
             </Tip>
           </div>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-sm">
@@ -258,7 +258,7 @@ export function ProjectMap({ file: f, statesGeo, serverSearch = "" }: { file: Ma
           <div className="mt-3 text-xs uppercase tracking-wide text-muted">
             Lines on the map
             <Tip id="map-lines" label="the line layers and what is not drawn">
-              Transmission lines of 230 kV and above are HIFLD&apos;s Electric Power Transmission Lines, and the HGL pipelines are EIA&apos;s layer of January 2020, both as Penn State&apos;s PASDA serves them; each is simplified for the web, and its hover names its table. EIA&apos;s layers of natural gas, crude oil and petroleum product pipelines, LNG terminals, refineries and underground gas storage are served from a host whose robots file refuses this reader, so they are not drawn; HIFLD&apos;s compressor stations and substations are not in a public service the ERW reads. The method note says each.
+              Transmission lines of 230 kV and above are HIFLD&apos;s Electric Power Transmission Lines, and the HGL pipelines are EIA&apos;s layer of January 2020, both as Penn State&apos;s PASDA serves them; each is simplified for the web, and its hover names its table. EIA&apos;s layers of natural gas, crude oil and petroleum product pipelines, LNG terminals, refineries and underground gas storage are served from a host whose robots file refuses this reader, so they are not drawn; HIFLD&apos;s compressor stations and substations are not in a public service the ERW reads. Every line HIFLD lists at 230 kV or more is drawn alike, whatever its status (in service, under construction, or a status HIFLD does not state) and whether HIFLD inferred its voltage; the date in a line&apos;s hover is the day the ERW read PASDA&apos;s copy, not the date of HIFLD&apos;s data, which the table keeps line by line. The method note says each.
             </Tip>
           </div>
           <ul className="mt-1 space-y-1 text-sm" data-map-lines="1">
@@ -299,7 +299,9 @@ export function ProjectMap({ file: f, statesGeo, serverSearch = "" }: { file: Ma
                 <h3 className="mb-2 text-xs uppercase tracking-wide text-muted">
                   {group === 0 ? "Generating units, by EIA's status" : group === KIND.queue ? "Queue positions, by status (MW requested)" : "Datacenters, by status (MW where stated)"}
                   <Tip id={`map-totals-${group}`} label={`the totals of ${KIND_WORD[group].toLowerCase()}`}>
-                    {sourceWords(f, SOURCE_KIND[group], SOURCE_RULE.chosen)} {group === KIND.datacenter ? "The MW is summed over the facilities that state one; the count under it says how many do." : group === KIND.queue ? "The MW is what each position asks to connect, not a load. For ERCOT's positions, \"Completed\" is a signed interconnection agreement, built or not: ERCOT's report has no status column (session 7537; docs/methods/energy_projects.md)." : "The MW is nameplate capacity, summed over the units of the status."}
+                    {sourceWords(f, SOURCE_KIND[group], SOURCE_RULE.chosen)} {group === KIND.datacenter ? "The MW is summed over the facilities that state one; the count under it says how many do." : group === KIND.queue ? `The MW is what each position asks to connect, not a load. ${ercotCompletedIsSigned(f)
+                      ? "For ERCOT's positions, \"Completed\" is a signed interconnection agreement, built or not: ERCOT's report has no status column, and this copy of the queue predates the connector's reading of ERCOT's own milestones (session 7537; docs/methods/energy_projects.md)."
+                      : "For ERCOT's positions, \"Completed\" is a position ERCOT approved to synchronize, and a signed agreement alone is \"Active\": the connector reads ERCOT's own milestones since session 7022 (docs/methods/energy_projects.md)."}` : "The MW is nameplate capacity, summed over the units of the status. \"Operating\" is EIA's operating inventory: it also holds units on standby and units out of service, some not expected back within the next calendar year (EIA's codes SB, OA and OS; a unit's card names its code)."}
                   </Tip>
                 </h3>
                 <div className="grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3 xl:grid-cols-4">
@@ -433,10 +435,10 @@ function Key({ f, picked }: { f: MapFace; picked: number[] }) {
       <ul className="flex flex-wrap gap-x-4 gap-y-1">
         {kinds.has(KIND.operating) ? <li className="inline-flex items-center gap-1.5">{mark("dot")}operating unit</li> : null}
         {kinds.has(KIND.planned) ? <li className="inline-flex items-center gap-1.5">{mark("ring")}planned unit</li> : null}
-        {kinds.has(KIND.planned) ? <li className="inline-flex items-center gap-1.5">{mark("heavy")}planned, under construction</li> : null}
-        {kinds.has(KIND.queue) ? <li className="inline-flex items-center gap-1.5">{mark("triangle")}queue position, at its county&apos;s point</li> : null}
+        {kinds.has(KIND.planned) ? <li className="inline-flex items-center gap-1.5">{mark("heavy")}planned, under construction or built and not yet operating</li> : null}
+        {kinds.has(KIND.queue) ? <li className="inline-flex items-center gap-1.5">{mark("triangle")}queue position, at its county&apos;s, city&apos;s or town&apos;s point</li> : null}
         {kinds.has(KIND.datacenter) ? <li className="inline-flex items-center gap-1.5">{mark("diamond")}datacenter</li> : null}
-        <li className="text-muted">size: MW</li>
+        <li className="text-muted">size: MW, above 25 MW (smaller rows and every datacenter at one size)</li>
       </ul>
       <ul className="mt-1 flex flex-wrap gap-x-4 gap-y-1">
         {COLOR_KEY.filter((c) => hues.has(c.color)).map((c) => (
@@ -513,7 +515,7 @@ export function NearList({ f, near, rows, open }: { f: MapFace; near: { la: numb
     <ToolSection title={`Within ${near.miles.toLocaleString("en-US")} miles of ${near.la}, ${near.lo}, nearest first`} id="near"
       note={<>
         <span data-map-near-count="1" data-source={sourceOf(f, "all", "the rows chosen within the distance, each row's own fields")}>{whole(rows.length)}</span> {rows.length === 1 ? "row" : "rows"} of what is chosen{rows.length > shown.length ? <>; the nearest <span data-map-near-shown="1">{whole(shown.length)}</span> are listed, and the totals above count them all</> : null}.
-        {atCounty ? <> <span data-map-near-county="1">{whole(atCounty)}</span> of the {whole(queue)} queue positions are measured from their county&apos;s or town&apos;s point, not their site: a position is listed when that point is within the distance, wherever its site lies in the county, and left out when it is not, however near its site.</> : null}
+        {atCounty ? <> <span data-map-near-county="1">{whole(atCounty)}</span> of the {whole(queue)} queue positions are measured from their county&apos;s, city&apos;s or town&apos;s point, not their site: a position is listed when that point is within the distance, wherever its site lies in the county, and left out when it is not, however near its site.</> : null}
         <Tip id="map-near-list" label="the figures of this list">{sourceWords(f, "all", "each row's own fields")} The miles are computed in your browser: the great-circle distance on a sphere of 3,958.8 miles from the point to the row&apos;s own point, rounded to a tenth of a mile. A unit&apos;s MW is its nameplate; a queue position&apos;s is what it asks to connect; a datacenter&apos;s is what a story or its operator states. The same project can be a planned unit and a queue position: the map does not match the two, and its totals keep each kind apart.</Tip>
       </>}>
       {shown.length ? (

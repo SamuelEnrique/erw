@@ -27,6 +27,9 @@ export type Row = {
   ext?: { t: string; tz: string; hi: Extreme; lo: Extreme; hours: number; w?: ExtWindow; m?: ExtWindow } | null;   // w, m: session 1612
   /** session 1601: a page that draws what the row summarizes (the node basis rows: the node view) */
   link?: { href: string; words: string };
+  /** session 10402 (chain 720): an address a click on the row opens in place of the workbench (the energy equities
+   *  rows open their analyzer, /equities: the workbench reads the board's own series files, and these rows have none) */
+  open?: string;
 };
 /** Session 1601: the hover of a row's name: its code, formula, interval and source, one a line. Pure. */
 export function nameTitle(row: Pick<Row, "code" | "formula" | "basis" | "source">, sources: string[]): string | undefined {
@@ -50,7 +53,9 @@ export function extremeWords(row: Pick<Row, "ext" | "unit">): string | null {
   return `On ${dateWords(e.t)}, of its ${e.hours} hours: the highest began at ${e.hi.local}, the lowest at ${e.lo.local} (local time, ${e.tz}); each hour as the row's interval says`;
 }
 export type Filter = { key: string; label: string; options: [string, string][]; default: string };
-export type Group = { id: string; title: string; filters: Filter[]; curve?: boolean; extra?: string; extremes?: boolean };   // extremes: session 1611
+// lean (session 10402, chain 720): a group whose file carries a row's latest value, its moves and its trend and no
+// other cell (the energy equities group, docs/state/page_files_equities.md): its table has those columns alone
+export type Group = { id: string; title: string; filters: Filter[]; curve?: boolean; extra?: string; extremes?: boolean; lean?: boolean };   // extremes: session 1611
 export type WeekRow = {
   hub: string; grid: string; label: string; code: string; last_da?: { t: string; v: number };
   means: Record<string, { v: number; ch: number | null; end: string }>;
@@ -506,7 +511,8 @@ const day = (v: string | null) => (v && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : "");
 /** The state an address asks for. A row that is not on the board is no row. Opening a power hub with nothing else said
  *  is the last seven days of real time against day-ahead, by the hour. */
 export function benchOf(q: URLSearchParams, file: BoardFile): Bench {
-  const has = (id: string | null) => (id && file.rows.some((r) => r.id === id && r.status === "ok") ? id : null);
+  // session 10402: a row that opens a page of its own (`open`) is no row of the workbench
+  const has = (id: string | null) => (id && file.rows.some((r) => r.id === id && r.status === "ok" && !r.open) ? id : null);
   const s = has(q.get("s"));
   const row = s ? file.rows.find((r) => r.id === s)! : null;
   const hub = !!row?.hourly && row.group === "power";

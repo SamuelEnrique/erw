@@ -31,6 +31,24 @@ def env(name):
     return ""
 
 
+def last_price_hour(path):
+    """The last hour_utc (as YYYY-MM-DDTHH:MM:SS) of the hourly price file beside the carbon file, or None without it."""
+    if not os.path.exists(path):
+        return None
+    last = None
+    with open(path, encoding="utf-8") as f:
+        head = None
+        for ln in f:
+            if ln.startswith("#"):
+                continue
+            cells = ln.rstrip("\n").split(",")
+            if head is None:
+                head = cells
+                continue
+            last = cells[head.index("hour_utc")]
+    return last[:19] if last else None
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ba", default="ERCO")
@@ -60,11 +78,17 @@ def main():
     hourly = rows("carbon_intensity_hourly", "intensity_demand")
     if not monthly or not hourly:
         sys.exit(f"the live set holds no rows for eia930:{a.ba}: monthly {len(monthly)}, hourly {len(hourly)}")
+    # Session 10000 (chain 701, part C2): the hours end where the prices of erw_2026_datacenter_hourly.csv end. The live
+    # set's intensity runs a few days past the page's last price hour, the do-file counts every hour of this file as
+    # priced, and the replication counted 10,159 hours against the mirror's 10,141 (test_session5074, from 25 November)
+    last = last_price_hour(os.path.join(os.path.dirname(a.out), "erw_2026_datacenter_hourly.csv"))
+    if last:
+        hourly = [r for r in hourly if r["ts_utc"][:19] <= last]
     now = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     head = [
         f"# Energy Research Warehouse (ERW): the carbon behind What a datacenter pays; the default case's grid (session 228)",
         f"# Balancing authority: eia930:{a.ba} (ERCOT). Variable intensity_demand: kg CO2 per MWh of consumed electricity (generation plus imports less exports), the ERW's from EIA-930's hourly CO2 estimates (docs/methods/emissions.md)",
-        f"# Rows: kind month, one per month held of carbon_intensity_monthly ({len(monthly)} rows, {monthly[0]['ts_utc'][:7]} to {monthly[-1]['ts_utc'][:7]}); kind hour, one per hour of carbon_intensity_hourly the live set holds ({len(hourly)} rows, {hourly[0]['ts_utc'][:13]} to {hourly[-1]['ts_utc'][:13]} UTC, its rolling window of 430 days (session 245; 35 until then)). ts_utc is the month's or the hour's start",
+        f"# Rows: kind month, one per month held of carbon_intensity_monthly ({len(monthly)} rows, {monthly[0]['ts_utc'][:7]} to {monthly[-1]['ts_utc'][:7]}); kind hour, one per hour of carbon_intensity_hourly the live set holds up to the last price hour of erw_2026_datacenter_hourly.csv ({len(hourly)} rows, {hourly[0]['ts_utc'][:13]} to {hourly[-1]['ts_utc'][:13]} UTC, its rolling window of 430 days (session 245; 35 until then)). ts_utc is the month's or the hour's start",
         "# A month or an hour not in the table is not a row: nothing is filled",
         f"# Source tables (ERW, the live set in Supabase, read with the public key at {now}): carbon_intensity_monthly, carbon_intensity_hourly (warehouse/derived/carbon_intensity.py on eia930_all_emissions)",
         "# The page's arithmetic (docs/methods/datacenter_pays_algorithm.md, 4.16): the load's carbon over the last twelve months is each month's energy times the month's intensity, over the months whose intensity is held; its own hours' intensity over the hourly window is the sum of weight x intensity over the sum of weights, over the hours the price and the intensity are both held",
