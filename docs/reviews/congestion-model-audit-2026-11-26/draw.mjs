@@ -58,6 +58,7 @@ const Page = (await imp("app/congestion/page.tsx")).default;
 const views = [
   ["default", {}], ["caiso", { op: "caiso" }], ["spp_all", { op: "spp", year: "all" }],
   ["two", { a: "spp:SPPNORTH_HUB", b: "caiso:TH_SP15_GEN-APND" }],
+  ["py2023", { op: "caiso", py: "2023" }],
 ];
 for (const [name, sp] of views) {
   try {
