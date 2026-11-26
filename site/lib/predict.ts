@@ -42,7 +42,19 @@ export type PlaceSeries = IndexSeries & {
   method_mae_last_2_years?: Record<string, number | null>;
   // session 10405: the contract's change of session 10601, the day's peak (demand only; below)
   peak?: Peak | null;
+  // session 10406: the contract's separate line "with the weather known" (demand only; below)
+  with_weather_known?: WeatherKnown | null;
 };
+/** Session 10406 (chain 720, part E): the separate line "with the weather known" (the contract's change of session
+ *  10601): the regression with the region's observed temperature of the target day itself added. It reads the day's
+ *  own weather, so it is not a forecast, is never the ERW forecast, and is in no chart of one; a page that shows it
+ *  labels it with those words. Scored apart, on the hours its weather is held, beside the regression and the
+ *  operator's forecast on the same hours: over every such hour and over the last two years. `null` for a place whose
+ *  region's temperature is not held. */
+export type WeatherKnown = { what?: string; region?: string; all?: SummaryPart | null; last_2_years?: SummaryPart | null };
+export const WEATHER_LABEL = "With the weather known";
+export const WEATHER_METHODS = ["with_weather_known", "regression", "operator"] as const;
+export const WEATHER_SPANS: [keyof Pick<WeatherKnown, "last_2_years" | "all">, string][] = [["last_2_years", "The last two years"], ["all", "Every hour its weather is held"]];
 /** Session 10405 (chain 720, part E): the day's peak, as the contract's change of session 10601 writes it in a place
  *  file's `series.demand.peak`: the hour of the highest ERW forecast of the day forecast now, and how each method's
  *  own highest hour of a day has compared with the day's highest hour of demand (the size of the miss, and how often
@@ -378,6 +390,8 @@ export function scoresCsv(scores: ScoresFile, url: string): string {
     ...(scores.methods ?? []).map((m) => `# method ${m.id}: ${m.what}`),
     // session 10405: the rows of the day's peak (the contract's change of session 10601) count days, not hours
     ...((scores.rows ?? []).some((r) => r[scores.rows_columns.indexOf("series")] === "demand_peak") ? ["# series demand_peak: each method's highest hour of a day against the day's highest hour of demand; in these rows hours holds the count of days"] : []),
+    // session 10406: the rows of the separate line are not a forecast's, and the file's own words say what they are
+    ...((scores.rows ?? []).some((r) => r[scores.rows_columns.indexOf("series")] === "demand_weather_known") ? [`# series demand_weather_known: not a forecast. ${(scores as { separate_lines?: Record<string, string> | null }).separate_lines?.with_weather_known ?? "the regression with the target day's own observed temperature added, scored apart on the hours its weather is held"}`] : []),
     `# From: ${url}`,
   ];
   const at = SCORES_HEAD.map((n) => scores.rows_columns.indexOf(n));

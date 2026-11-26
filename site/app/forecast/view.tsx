@@ -28,6 +28,8 @@ import {
 } from "@/lib/predict";
 // session 10405 (chain 720, part E): the day's peak and the days after tomorrow (the contract's changes of session 10601)
 import { PEAK_HOURS, PEAK_SPANS, aheadDays, aheadOf, madeOffRule, pctWords, type AheadFile } from "@/lib/predict";
+// session 10406 (chain 720, part E): the separate line "with the weather known" (not a forecast)
+import { WEATHER_LABEL, WEATHER_METHODS, WEATHER_SPANS } from "@/lib/predict";
 import { predictAhead, predictIndex, predictLedger, predictPlace, predictScores } from "@/lib/predictfiles";
 
 type Raw = Record<string, string | string[] | undefined>;
@@ -398,6 +400,27 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
           : <Num key={m} check={pfKey(file, ["series", "demand", "peak", span, "methods", m, field])} raw={v} source={`${methodWords(m)}, ${placeWords(x.slot.place)}, ${words.toLowerCase()} (${when}): ${what}. site/data/${file}.`}>{field === "mae" || field === "mape" ? scoreWords(v, field, unit) : pctWords(v)}</Num>;
       })];
   };
+  // session 10406 (chain 720, part E): the separate line "with the weather known" (a place file's
+  // series.demand.with_weather_known; the contract's change of session 10601). It reads the target day's own observed
+  // temperature, so it is not a forecast: it has a table of its own under those words, is in no chart and no other
+  // table, and is never called the ERW forecast. Beside it, the regression and the operator on the same hours.
+  const weathered = s === "demand" && info.some((x) => WEATHER_SPANS.some(([span]) => !!x.ser?.with_weather_known?.[span]));
+  const weatherWhat = info.map((x) => x.ser?.with_weather_known?.what).find(Boolean);
+  const weatherCells = (x: (typeof info)[number], span: (typeof WEATHER_SPANS)[number][0], words: string): ReactNode[] | null => {
+    const p = x.ser?.with_weather_known?.[span];
+    if (!x.ser || !p) return null;
+    const file = fileOf(x.slot);
+    const when = p.first_day && p.last_day ? `${p.first_day} to ${p.last_day}` : "days the file does not say";
+    return [p.hours !== null && p.hours !== undefined
+      ? <Num key="h" check={pfKey(file, ["series", "demand", "with_weather_known", span, "hours"])} raw={p.hours} source={`The hours scored, ${when}: the hours the region's temperature, what happened and all three lines are held.`}>{p.hours.toLocaleString("en-US")}</Num>
+      : <NotHeld key="h" why="No count of hours is in the file." />,
+      ...WEATHER_METHODS.map((m) => {
+        const v = p[metric]?.[m];
+        return v === null || v === undefined
+          ? <NotHeld key={m} why={`No score of ${methodWords(m).toLowerCase()} on these hours is in the file.`} />
+          : <Num key={m} check={pfKey(file, ["series", "demand", "with_weather_known", span, metric, m])} raw={v} source={`${m === "with_weather_known" ? `${WEATHER_LABEL} (not a forecast: it reads the day's own weather)` : methodWords(m)}, ${placeWords(x.slot.place)}, ${words.toLowerCase()} (${when}): ${METRIC_WORDS[metric].toLowerCase()}, ${mu}, on the hours the weather is held. site/data/${file}.`}>{scoreWords(v, metric, unit)}</Num>;
+      })];
+  };
   return (
     <div data-fc-record={slots.map((x) => x.mark).join("")}>
       <div className="mb-5" data-fc-summary="1">
@@ -427,6 +450,16 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
               ...PEAK_HOURS.map(([field, name, what]) => ({ key: `${span}|${field}`, name: <span className="cursor-help" title={`${what[0].toUpperCase()}${what.slice(1)}.`}>{words}: {name}, %</span>,
                 cells: info.map((x) => peakCells(x, span, field, words, what)) })),
             ])} />
+        </div>
+      ) : null}
+      {weathered ? (
+        <div className="mb-5" data-fc-weather="1">
+          <h4 className="mb-1 text-sm font-semibold"><span className="cursor-help" title={`Not a forecast, and never the ${LABEL}: ${weatherWhat ?? "the regression with the target day's own observed temperature added"}.${scores && (scores as { separate_lines?: Record<string, string> | null }).separate_lines?.with_weather_known ? ` The score file's words: ${(scores as { separate_lines?: Record<string, string> | null }).separate_lines!.with_weather_known}.` : ""}`}>{WEATHER_LABEL}</span> (not a forecast), beside the regression and the operator on the same hours, {mu}</h4>
+          <ScoreTable k="weather" first="Span" caption={`${names}with the weather known, which is not a forecast: ${METRIC_WORDS[metric].toLowerCase()} of the regression with the day's own observed temperature added, of the regression and of the operator's forecast, on the hours the weather is held, ${mu}`}
+            groups={info.map((x) => ({ key: x.slot.mark, name: placeWords(x.slot.place), held: x.held, heads: ["Hours", ...WEATHER_METHODS.map((m) => (m === "with_weather_known"
+              ? <span key={m} className="cursor-help" title={`${WEATHER_LABEL}: not a forecast. ${weatherWhat ?? ""}`}>{WEATHER_LABEL}</span>
+              : <MethodHead key={m} m={m} scores={scores} />))] }))}
+            rows={WEATHER_SPANS.map(([span, words]) => ({ key: span, name: words, cells: info.map((x) => weatherCells(x, span, words)) }))} />
         </div>
       ) : null}
       {table("month", "Month", (key) => monthWords(key), "By month", (key) => monthWords(key), "months")}
