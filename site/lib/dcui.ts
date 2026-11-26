@@ -79,7 +79,7 @@ export const DC_FIELDS: DcField[] = [
   { name: "abateyears", input: "abateyears", label: "Abated for", unit: "operating years", min: 1, max: 60, whole: true, group: "taxes", nullable: true,
     source: () => "The agreement's years, from the first operating year. Not given: every year." },
   { name: "mwh", input: "mwh", label: "Electricity bought", unit: "MWh a year", min: 0, max: 200000000, whole: false, group: "taxes", nullable: true,
-    source: (s, P) => `${P.rules.states[s]?.electricity?.tip ?? "No statute of this state on a datacenter's electricity has been read."} No public document read gives a datacenter's load: not given until the reader types it (the MW times 8,760 times the share of the year at full load).` },
+    source: (s, P) => `${P.rules.states[s]?.electricity?.tip ?? "No tax per kWh of this state on a datacenter's electricity has been read (Virginia and Illinois are)."} No public document read gives a datacenter's load: not given until the reader types it (the MW times 8,760 times the share of the year at full load).` },
   { name: "drate", input: "rate", label: "Discount rate, real", unit: "%", min: 0, max: 20, whole: false, group: "value",
     source: () => "OMB Circular A-94's base case for benefit-cost analysis, 7 percent real. Its Appendix C gives 2.0 percent for 30-year Treasury borrowing (2026), the rate for cost-effectiveness analysis." },
 ];

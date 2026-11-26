@@ -40,6 +40,7 @@ export const CASES = [
   { id: "ar_rule", state: "ar", set: { invest: 2000, perm: 20, matshare: 40 } },
   { id: "ok_rule", state: "ok", set: { invest: 500, perm: 20 } },
   { id: "il_words", state: "il", set: { invest: 2000, perm: 100 } },
+  { id: "il_elec", state: "il", set: { invest: 2000, perm: 100, mwh: 5000000 } },
   // session 10815: Connecticut (20 years, 30 with USD 400 million)
   { id: "ct_30", state: "ct", set: { invest: 500, perm: 10, life: 30 } },
   { id: "ma_words", state: "ma", set: { invest: 2000, perm: 200 } },

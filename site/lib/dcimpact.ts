@@ -310,7 +310,7 @@ export function dcRun(x: DcInputs, P: DcParams): DcResult {
     exemption: { held: el.held, eligible: el.eligible, applied: el.eligible && x.dcex, note: el.held ? (el.eligible ? (x.dcex ? "applied" : "not applied (the scenario's choice)") : el.why) : el.why },
     property: { held: x.brate !== null && x.erate !== null, note: propNote },
     sales: { held: true, note: x.matshare === null ? "on the equipment; the building's taxable share is not given" : "on the equipment and the building's taxable share" },
-    elec: { held: elec !== null, note: elec !== null ? "" : !rule?.electricity ? "no statute on the electricity bought is read for this state" : "the electricity bought is not given" },
+    elec: { held: elec !== null, note: elec !== null ? "" : !rule?.electricity ? "no tax per kWh on the electricity bought is read for this state" : "the electricity bought is not given" },
   };
 }
 

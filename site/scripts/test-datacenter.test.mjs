@@ -259,6 +259,11 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   // Illinois (session 10813): the program paused for new applications from 1 July 2026, held as words
   const il = D.dcRun(D.dcDefaults(P, "il", { invest: 2000, perm: 100 }), P);
   assert.equal(il.exemption.held, true); assert.equal(il.exemption.eligible, false); near(il.sums.forgone, 0);
+  // Illinois' electricity excise tax (session 10817): 5,000,000 MWh a year is 416,666,666.67 kWh a month; the nine lower blocks
+  // 6.6 + 153.12 + 151.5 + 1,188 + 1,430 + 5,400 + 5,080 + 11,650 + 20,700 = 45,759.22, and 396,666,666.67 x 0.00202 = 801,266.67:
+  // 847,025.89 a month, 10,164,310.64 a year
+  const ile = D.dcRun(D.dcDefaults(P, "il", { invest: 2000, perm: 100, mwh: 5000000 }), P);
+  near(D.dcStat(ile, "y1:elec"), 10164310.64, "IL electricity a year", 1e-9);
   // Massachusetts (session 10815): applications not accepted since the framework of 25 June 2026, held as words
   const ma = D.dcRun(D.dcDefaults(P, "ma", { invest: 2000, perm: 200 }), P);
   assert.equal(ma.exemption.held, true); assert.equal(ma.exemption.eligible, false); near(ma.sums.forgone, 0);

@@ -42,6 +42,7 @@
   "ok_iec_2026": {"title": "State of Oklahoma Incentive Evaluation Commission, Computer Services and Data Processing Tax Exemption, Draft Evaluation (PFM Group Consulting, 30 September 2026)", "url": "https://oklahoma.gov/content/dam/ok/en/omes/documents/computer-services-exemption-draft.pdf", "read": "2026-11-26", "request": 256},
   "ok_commerce_dc": {"title": "Oklahoma Department of Commerce, Oklahoma Data Center Industry Tax Incentives", "url": "https://www.okcommerce.gov/wp-content/uploads/Data-Center-Industry-Tax-Incentives.pdf", "read": "2026-11-26", "request": 257},
   "wy_39_15_105": {"title": "Wyoming Statutes Title 39, 39-15-105(a)(viii)(S), sales tax exemptions for a data processing services center (with the definition in 39-15-101(a)(xliv))", "url": "https://wyoleg.gov/statutes/compress/title39.pdf", "read": "2026-11-26", "request": 303},
+  "il_dor_excise": {"title": "Illinois Department of Revenue, Excise Tax Rates and Fees (the Electricity Excise Tax)", "url": "https://tax.illinois.gov/research/taxrates/excise.html", "read": "2026-11-26", "request": 307},
   "il_dceo": {"title": "Illinois Department of Commerce and Economic Opportunity, Data Center Investment Tax Exemptions and Credits (with its 2025 Data Centers Annual Report, request 248)", "url": "https://dceo.illinois.gov/expandrelocate/incentives/datacenters.html", "read": "2026-11-26", "request": 247},
   "ga_hb1291": {"title": "Georgia House Bill 1291 (2022), as passed and signed, amending Code Section 48-8-3(68.1)", "url": "https://gov.georgia.gov/document/2022-signed-legislation/hb-1291/download", "read": "2026-11-26", "request": 245},
   "ga_doaa_2025": {"title": "Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption (December 2025, revised January 2026), with the Department of Revenue's exemption page (request 187)", "url": "https://www.audits2.ga.gov/wp-content/uploads/2025/12/Data-Center-Tax-Exemption-Summary-Revised.pdf", "read": "2026-11-26", "request": 188}
@@ -385,6 +386,23 @@
   },
   "il": {
    "name": "Illinois",
+   "electricity": {
+    "cite": "il_dor_excise", "kind": "monthly_blocks",
+    "blocks": [
+     {"upto_kwh": 2000, "usd_per_kwh": 0.0033},
+     {"upto_kwh": 50000, "usd_per_kwh": 0.00319},
+     {"upto_kwh": 100000, "usd_per_kwh": 0.00303},
+     {"upto_kwh": 500000, "usd_per_kwh": 0.00297},
+     {"upto_kwh": 1000000, "usd_per_kwh": 0.00286},
+     {"upto_kwh": 3000000, "usd_per_kwh": 0.0027},
+     {"upto_kwh": 5000000, "usd_per_kwh": 0.00254},
+     {"upto_kwh": 10000000, "usd_per_kwh": 0.00233},
+     {"upto_kwh": 20000000, "usd_per_kwh": 0.00207},
+     {"upto_kwh": null, "usd_per_kwh": 0.00202}
+    ],
+    "quote": "$.00202 per kwh / in excess of 20 million kwhs",
+    "tip": "Illinois' electricity excise tax (the Department of Revenue's excise rates page): delivering suppliers collect from each purchaser monthly $0.0033 a kWh on the first 2,000, falling by blocks to $0.00207 on the next 10 million and $0.00202 above 20 million kWh. A non-residential purchaser may instead self-assess 5.1 percent of its purchase price, which needs a price the tool does not hold, so the blocks are applied. The tool takes a twelfth of the year's MWh as each month's; municipal and cooperative systems' own rate (5 percent of charges or $0.0032 a kWh, the lesser) is not applied."
+   },
    "sales_exemption": {
     "cite": "il_dceo", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
     "quote": "on June 5, 2026, DCEO will no longer process applications for the data center incentive program as of July 1, 2026.",
