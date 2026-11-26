@@ -71,4 +71,4 @@ The replication also reads the page for four choices of place (Texas alone, Cali
 | `monthly` | Monthly, said once, with the link to the Grid tool | monthly |
 | `opening-views` | Yearly generation from 2001; monthly charts from 2015; share chart on natural gas; price chart on homes | as listed |
 | `nominal` | Nominal dollars; cents a kWh on the page | nominal |
-| `places` | The fifty states, DC and the United States; Puerto Rico has no file | 52 places |
+| `places` | The fifty states, DC and the United States; Puerto Rico has no file. The United States' plants are EIA-860M's whole, Puerto Rico's 6,474 MW in them; its generation and sales leave Puerto Rico out (session 10223, the states audit, finding 7) | 52 places |
