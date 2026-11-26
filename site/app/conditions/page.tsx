@@ -96,6 +96,17 @@ function dailySeries(f: OperatorFile, rows: (string | number | null)[][], names:
   }).filter((s) => s.points.some((p) => p[1] !== null));
 }
 
+// Session 10219 (the conditions audit, finding 11): the operator line said "days and hours in <zone> clock time for days
+// and hours" (the file's own time line), where every hourly chart labels UTC instants (components/TimeChart.tsx); and the
+// newest window, counted from the build's UTC day, ends on a day that holds EIA's forecast but no demand yet. The line
+// now names the clock of each and, when the window's last days carry the forecast only, the last day of demand.
+function demandEnds(f: OperatorFile, daily: OperatorFile["daily"], end: string): string {
+  const i = col(f.daily_columns, "demand_peak");
+  let last: string | null = null;
+  for (const r of daily) if (r[i] !== null) last = r[0] as string;
+  return last && last < end ? ` EIA's demand is held to ${last}; the days after it carry the forecast only.` : "";
+}
+
 function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day?: string; tag: string }) {
   const w = windowOf(f, event, day);
   const daily = f.daily.filter((r) => r[0] >= w.start && r[0] <= w.end);
@@ -121,7 +132,7 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
     // the column, a grid item beside a second operator, never widens the page past a phone's screen
     <div className="min-w-0" data-operator={f.op} data-tag={tag}>
       <h3 className="mb-1 font-serif text-xl text-accent">{f.name}</h3>
-      <p className="mb-2 text-xs text-muted">{w.title}, {w.start} to {w.end}; days and hours in {f.time}. {hourly.length ? `Hour by hour (${hourly.length} hours), then day by day.` : "Day by day (no hourly figures are kept for this window: they are kept for the newest days and the nine events)."}</p>
+      <p className="mb-2 text-xs text-muted">{w.title}, {w.start} to {w.end}; days in {f.time.split(" ")[0]} clock time, the hourly charts in UTC.{demandEnds(f, daily, w.end)} {hourly.length ? `Hour by hour (${hourly.length} hours), then day by day.` : "Day by day (no hourly figures are kept for this window: they are kept for the newest days and the nine events)."}</p>
       <Glance f={f} w={w} k={tag} />
       {hourly.length ? (
         <>
