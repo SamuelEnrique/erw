@@ -36,7 +36,7 @@ All eight were checked against main first, as the chain asks. Each head is an an
 
 ## Part C: the ERW forecast, `/forecast`
 
-Branch `wip/c720-forecast`, cut from origin/main. The contract `docs/state/page_files_predict.md` was on main at the start. The real files (`site/data/predict/`) are on no branch yet (read at 13:10 UTC): the page is built and tested against the contract's example files and a fixture of the contract's shape, and reads the real files with no change of code when they land.
+Branch `wip/c720-forecast`, cut from origin/main. The contract `docs/state/page_files_predict.md` was on main at the start. The real files (`site/data/predict/`) are on no branch yet (read at about 11:35 UTC on 26 November): the page is built and tested against the contract's example files and a fixture of the contract's shape, and reads the real files with no change of code when they land.
 
 | Step | State | Session |
 |---|---|---|
