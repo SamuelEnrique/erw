@@ -158,8 +158,8 @@ export async function EmissionsParts({ focus = null, grid }: { focus?: string | 
               </tbody>
             </table>
             <p className="mt-1 text-xs text-muted">
-              Of generation: the CO2 EIA estimates for the power made in the ISO, over its net generation. Of demand: the CO2 of
-              the power used there, imports counted and exports taken out, over its demand; the two differ by trade. EIA
+              Of generation: the CO2 EIA estimates for the power made in the ISO (each fuel&apos;s generation in the hour times one emission factor for that fuel, so which plant ran does not enter), over its net generation. Of demand: the CO2 of
+              the power used there, imports counted at EIA&apos;s own estimate of their CO2 and exports taken out, over its demand; the two differ by trade. Both are averages over all the power of the hour, not the CO2 an added MWh of load would cause, which can be half the average or half as much again. EIA
               publishes generation a day or more late, so the latest hour is not the current one.
             </p>
           </div>
