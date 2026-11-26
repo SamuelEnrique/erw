@@ -52,8 +52,8 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | `forecast.md` section 13 with its decisions block | done | 10804 | pushed to main |
 | Cross-check | done | 10804 | JLARC's exemption value reproduced (9.04 to 15.52 against "about $9 million to $15.5 million"); Huntsville and LED beside the model, differences stated |
 | Replication `replication/impact/datacenter/` | done | 10804, 10805 | `replicate.py` 4,460 of 4,460 figures of 18 cases; `replicate_datacenter.do` (not run: no Stata) |
-| Local build, seen at 1280 and 390 px, five readers' cases | waiting | 10803 | the build lock was held by window B's suite, then by window A's gate `land-21574e2f` (from 11:47 UTC) |
-| Landing request | not started | | after the build and the reads |
+| Local build, seen at 1280 and 390 px, five readers' cases | done | 10808 | three builds under the lock (12:15 to 12:29 UTC); six addresses at both widths, no overflow, no console error; check-values 1,506 of 1,506; four faults fixed; `docs/reviews/impact-datacenter-readers-2026-11-26.md` |
+| Landing request | in progress | 10809 | selected tests (482 files) running under the lock; then row 14 of `docs/state/landing_request_desktop_w3.md` |
 
 ## Part E: more states
 
@@ -64,6 +64,16 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Washington | held: refused | 10805 | app.leg.wa.gov's robots file disallows every path (`Disallow: /`, behind a byte order mark my first reading missed; no page was read) |
 | New York | held: refused | 10805 | www.nysenate.gov answered HTTP 403 |
 | Texas | held: not readable | 10805 | statutes.capitol.texas.gov serves a script-built page; gov.texas.gov disallows ClaudeBot; comptroller.texas.gov disallows `/*/` |
-| Kansas, Arizona, North Carolina | to read | 10805 | each statute's thresholds sit in another section (K.S.A. 74-50,331; A.R.S. 41-1519; G.S. 105-164.3) |
-| Utah, Wisconsin | to read | 10805 | the pages read hold no section text (Utah's loads by script; Wisconsin's subsection not on the page read) |
-| Montana | to read | 10805 | archive.legmt.gov redirects to mca.legmt.gov, whose robots file is not read yet |
+| Kansas, Arizona, North Carolina | done | 10806 | K.S.A. 74-50,332; A.R.S. 41-1519; G.S. 105-164.3(201) |
+| Utah (words), Wisconsin (done), Georgia (words) | done | 10806 | Utah's threshold is in 59-12-102 (not read); Wisconsin 238.40; Georgia's code behind LexisNexis, the auditor's evaluation read |
+| Montana | done | 10806 | class seventeen property, 0.9 percent of market value |
+
+## Part F
+
+| Item | State | Session | Note |
+|---|---|---|---|
+| More announced projects | done (first pass) | 10807 | 25 rows (Hut 8 River Bend, Amazon Caddo and Bossier, Applied Digital Delta Forge 1 added); defaults recomputed and dated |
+| JEDI plant types the page lacks | requested | 10807 | data request 8 for window A |
+| Georgia's published IMPLAN tables (a second multiplier) | in progress | 10809 | the evaluation read (request 199); to add to the rules after the test run |
+| An equipment value schedule (a county's, typed) | in progress | 10809 | the at-cost upper bound runs 3.1 times Loudoun's 2026 schedule over five years (requests 202, 204) |
+| Window F's browser read, rows naming `/impact` | none yet | 10808 | `docs/reviews/browser-read-2026-11-26.md`: `/impact` with Datacenter is part C, read as it lands |

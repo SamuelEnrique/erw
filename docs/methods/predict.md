@@ -24,7 +24,7 @@ Each method gives, for every hour of day T, a forecast in MW, from the place's d
 
 - **(a) yesterday:** the demand of the same local hour on day A, the latest whole day held. For the day-ahead forecast that is two days before the target day, because day T-1 is not yet held when the forecast is made. The page's word "yesterday" means this.
 - **(b) week_ago:** the demand of the same local hour on day T-7.
-- **(c) regression:** for each local hour k (0 to 23), an ordinary least-squares regression of the log of the hour's demand on: a constant; the log of the same hour on day A; the log of day A's mean demand; the log of the same hour on day T-7; the log of the mean demand of the seven days ending on day A (at least five of them held); six dummies for T's day of the week (Sunday the base) and six for A's; dummies for a US federal holiday (or its observed day) on T, on A and on T-7, and for a "bridge" day (the day after Thanksgiving, 24 December, 26 to 31 December) on T, on A and on T-7; and two yearly waves of T's day of the year (the sine and cosine of 2 pi times the day over 365.25, and of 4 pi times it). 27 coefficients an hour. The regression is **refit for every target day T**, on the 730 days before it whose demand was held when T's forecast was made (target days up to A; an expanding window from the first day held until 730 are held; no fit with fewer than 300). The forecast is the exponential of the fitted value. A single missing hour inside a day (the 23-hour day of the spring clock change, or a lone gap) is taken as the mean of its two neighbours for the regressors only, never for a target or a score; the repeated autumn hour enters day A's figures as the mean of its two hours, and both of the target day's repeated hours get the hour's forecast. The coefficients are solved from the window's normal equations (`numpy.linalg.lstsq`), in a fixed order: the same tables give the same forecast to the last digit on the same machine (`tests/test_predict.py`).
+- **(c) regression:** for each local hour k (0 to 23), an ordinary least-squares regression of the log of the hour's demand on: a constant; the log of the same hour on day A; the log of day A's mean demand; the log of the same hour on day T-7; the log of the mean demand of the seven days ending on day A (at least five of them held); six dummies for T's day of the week (Sunday the base) and six for A's; dummies for a US federal holiday (or its observed day) on T, on A and on T-7, and for a "bridge" day (the day after Thanksgiving, 24 December, 26 to 31 December) on T, on A and on T-7; and two yearly waves of T's day of the year (the sine and cosine of 2 pi times the day over 365.25, and of 4 pi times it). 27 coefficients an hour. The regression is **refit for every target day T**, on the 730 days before it whose demand was held when T's forecast was made (target days up to A; an expanding window from the first day held until 730 are held; no fit with fewer than 300). The forecast is the exponential of the fitted value. A single missing hour inside a day (the 23-hour day of the spring clock change, or a lone gap) is taken as the mean of its two neighbours for the regressors only, never for a target or a score; an hour at or below zero (a filing fault EIA prints now and then) is taken as not held, so a day holding one has no mean and an hour of it is neither a regressor nor a target; the repeated autumn hour enters day A's figures as the mean of its two hours, and both of the target day's repeated hours get the hour's forecast. The coefficients are solved from the window's normal equations (`numpy.linalg.lstsq`), in a fixed order: the same tables give the same forecast to the last digit on the same machine (`tests/test_predict.py`).
 - **(d) a more flexible method:** not built tonight. It would be shown only if it beat (c) out of sample by at least 5 percent of (c)'s mean absolute error over the last two years, in most places, fit with a fixed seed. Without a dated weather forecast the inputs that would let a flexible method do better than (c) are missing; part F of chain 730 returns to it.
 
 ## 4. The backtest
@@ -92,3 +92,49 @@ What the table says, plainly:
 ## 9. Replication
 
 `python warehouse/predict/run.py` with `ERW_DATA_ROOT` naming a folder whose `warehouse/output` holds `eia930_ba_demand_hourly` and `eia930_forecast_error_hourly` rebuilds every file; `--now` sets the hour the forecast is taken as made. The regression for one place and one day is also a Stata do-file, `replication/predict/predict_demand.do`, with its README.
+
+## 10. Part F (session 10601)
+
+- **The replication, and a rule written down.** `replication/predict/replicate.py`, written from this note and not from the builder, recomputes every demand figure of `scores.json` from the public tables and the stored regression forecasts (17,995 of 17,995 equal), and refits the regression itself on four sample days and two hours of every place with ordinary least squares on the window's own rows (232 of 232 equal to the stored forecast's one decimal). Its first run disagreed on 22 sample hours, by up to 0.4 percent (NYIS on 20 November 2026 at 03:00: 13,396.9 MW stored, 13,445.3 MW refitted), in exactly the places whose demand holds hours at or below zero (NY 12 hours, TEN 360, FPL 48, CPLE, PSCO, FPC). The builder takes such an hour as not held when it takes a day's mean; this note did not say so, and the replication had counted it. The rule is now written in section 3, and the replication follows it. On the way, the builder's solver was changed from differences of running normal equations to a solve of each window's own rows (`numpy.linalg.lstsq`); it changed no score at the shown precision and is kept as the plainer method.
+- **The flexible method (d), tried and not built.** A gradient-boosted model (scikit-learn's `HistGradientBoostingRegressor`, `random_state` 0, no early stopping, 300 rounds at a rate of 0.05) on the regression's own regressors and the local hour, refit at the start of each month on the 730 days held then, over the last two years (`runs/c730/trial_flexible.py`): its mean absolute error was 16.0 percent worse than the regression's in TEX (3,494 against 3,012 MW), 11.3 percent worse in CISO and 9.3 percent worse in SE. The note's rule asks a 5 percent gain: (d) is not shown.
+- **Net demand** (demand less wind and solar) is not forecast: the wind and solar forecasts held carry no publication time (CAISO) or begin on 30 September 2026 (ERCOT), so a net demand forecast could not be shown to use only what was published before its hour (`docs/methods/predict_price.md`, section 2; data request 5).
+- **The band, honestly.** Each file prints `band_coverage_pct`, the share of the last two years' hours whose demand fell inside the band; the band aims at 80 percent.
+- **The cross-check** against an operator's own published forecast error: CAISO's market monitor's 2024 annual report prints none (`docs/state/progress_c730.md`).
+
+## 11. The peak (session 10601)
+
+For each place and day, the peak is the highest hourly demand and its local hour; a method's peak is the highest of its own hourly forecasts for the day, and the hour of it, scored on the days whose every hour every method holds. Each place file carries tomorrow's peak (`series.demand.peak.tomorrow`: the hour, the ERW forecast and its band there) and the record; `scores.json` has the `demand_peak` rows. The last two years (built 26 November 2026 at 12:27 UTC; `runs/c730/table_f.py` prints the table from the files):
+
+| Place | Days | ERW peak MAPE % | Operator peak MAPE % | Yesterday's peak MAPE % | ERW peak hour exact % | Operator peak hour exact % | ERW within 1 hour % | Operator within 1 hour % |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| region-cal | 702 | 4.96 | 2.37 | 7.34 | 45.7 | 29.5 | 71.5 | 72.4 |
+| region-car | 649 | 9.15 | 2.40 | 11.25 | 40.2 | 63.8 | 69.5 | 91.4 |
+| region-cent | 319 | 6.02 | 6.61 | 7.49 | 41.4 | 59.6 | 68.0 | 83.1 |
+| region-fla | 651 | 6.50 | 5.80 | 7.70 | 43.3 | 47.6 | 74.7 | 89.2 |
+| region-mida | 719 | 5.83 | 1.85 | 8.04 | 47.8 | 11.8 | 70.0 | 77.5 |
+| region-midw | 725 | 4.58 | 1.98 | 6.71 | 45.8 | 69.1 | 73.9 | 91.3 |
+| region-ne | 726 | 6.12 | 1.17 | 8.09 | 63.2 | 79.6 | 93.7 | 98.1 |
+| region-nw | 608 | 3.14 | 4.93 | 4.76 | 56.6 | 54.1 | 78.6 | 82.1 |
+| region-ny | 715 | 5.55 | 2.61 | 7.54 | 53.4 | 76.8 | 88.5 | 96.9 |
+| region-se | 724 | 8.11 | 1.18 | 10.04 | 39.5 | 92.0 | 71.0 | 98.9 |
+| region-sw | 697 | 5.75 | 3.48 | 6.70 | 53.7 | 47.2 | 85.4 | 89.4 |
+| region-ten | 726 | 8.50 | 2.58 | 10.22 | 34.2 | 57.9 | 65.8 | 88.4 |
+| region-tex | 722 | 6.30 | 2.19 | 6.73 | 44.2 | 59.0 | 73.8 | 88.6 |
+| ba-bpat | 726 | 4.39 | 1.78 | 6.50 | 48.3 | 65.4 | 80.7 | 89.5 |
+| ba-ciso | 722 | 4.82 | 2.55 | 7.33 | 42.7 | 25.6 | 66.2 | 64.0 |
+| ba-cple | 699 | 10.66 | 4.10 | 13.10 | 35.8 | 53.2 | 65.5 | 84.8 |
+| ba-duk | 719 | 9.68 | 3.27 | 12.04 | 38.7 | 58.1 | 69.4 | 89.2 |
+| ba-erco | 722 | 6.30 | 2.19 | 6.73 | 44.2 | 59.0 | 73.8 | 88.6 |
+| ba-fpc | 716 | 8.27 | 24.59 | 9.76 | 43.3 | 51.4 | 71.6 | 86.7 |
+| ba-fpl | 718 | 6.82 | 2.92 | 7.61 | 37.7 | 35.4 | 71.7 | 79.1 |
+| ba-isne | 726 | 6.12 | 1.17 | 8.09 | 63.2 | 79.6 | 93.7 | 98.1 |
+| ba-miso | 725 | 4.31 | 2.40 | 6.47 | 45.1 | 64.1 | 74.2 | 89.5 |
+| ba-nyis | 715 | 5.55 | 2.61 | 7.54 | 53.4 | 76.8 | 88.5 | 96.9 |
+| ba-pace | 721 | 4.40 | 3.79 | 5.57 | 29.4 | 30.2 | 59.2 | 58.3 |
+| ba-pjm | 719 | 5.83 | 1.85 | 8.04 | 47.8 | 11.8 | 70.0 | 77.5 |
+| ba-psco | 721 | 7.37 | 13.71 | 8.77 | 27.2 | 23.9 | 58.9 | 49.1 |
+| ba-soco | 724 | 8.11 | 1.18 | 10.04 | 39.5 | 92.0 | 71.0 | 98.9 |
+| ba-swpp | 702 | 6.30 | 8.71 | 7.34 | 44.4 | 57.5 | 69.9 | 80.1 |
+| ba-tva | 726 | 8.50 | 2.58 | 10.22 | 34.2 | 57.9 | 65.8 | 88.4 |
+
+The ERW's peak is closer than the operator's in 5 of 29 places (CENT, NW, FPC, PSCO, SWPP); it names the peak hour exactly more often than the operator in 8 (CAL, MIDA, NW, SW, CISO, FPL, PJM, PSCO), most strikingly in MIDA and PJM, where the operator names the hour on 11.8 percent of days and the ERW on 47.8 percent. The CENT row covers 319 days: the operator's region forecast is missing on many SPP days, and a day enters only when every method holds every hour.
