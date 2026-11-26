@@ -2,6 +2,8 @@
 
 Energy Research Warehouse (ERW). The chain's file: `queue/done/720-night-26-november-portable-forecast-equities-pages.md`. One line a step, a view or a row, with its state and session. States: `done` with the commit, `waiting` with what for, `ruling` with the default taken, `needs the key` with the cost, `not built` with the free memory read.
 
+**Stopped at 19:28 UTC on 26 November 2026 (session 10407), when Samuel took the laptop:** nothing was left uncommitted or unpushed; no build is served and the build lock is free. Rows 54 to 58 have landed and were read on production; rows 59, 60 and 61 are requested and not landed; the second window's rows 1 to 10 are seen and marked. Part E goes on from there: `queue/next/721-resume-chain-720.md`.
+
 ## The start
 
 | Step | State | Session |
