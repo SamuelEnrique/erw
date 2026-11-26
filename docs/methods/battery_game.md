@@ -263,6 +263,7 @@ Unchanged from session 38:
 - **Public scores:** the level, an optional nickname, the score, the perfect-foresight score and the time.
 - **Session 50 adds** the preset and the difficulty.
 - **The research record of each play** (never shown): the actions, the score, and since session 50 the preset, the difficulty and the settings. No IP, no nickname.
+- **What could join the two (session 10227, the play audit's finding 1).** No column joins a research record to a public score, but a play that is also posted leaves two rows with the same level, the same score to four places, the same preset and times seconds apart (both tables stamp `ts` with the database's `now()`), so the two could be matched. The page says so, and it lists the preset and the settings among what is stored. It also says what the site's usage counts record on it (the page view and that a setting changed, under a code that changes daily, `docs/methods/usage_counts.md`) and that the hourly limit of game requests is counted under a daily code made from the address (`site/lib/guard.ts`), never the address.
 - **The schema:** migration `warehouse/supabase/migrations/014_game_v2.sql` (columns only); session 63's `018_game_v3_digest_sends.sql` lets a preset end `-v3`; session 66's `019_game_v4.sql` lets it end `-v4` with the add-ons before it; session 289's `033_game_v5.sql` lets it end `-v5`. The add-ons of a play are stored in its preset.
 
 ## The figures on the page and their keys
