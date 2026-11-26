@@ -1,0 +1,35 @@
+2026-11-12|normal optimum 2.088214 best 2.088214 naive 1.5567 bad -1.1906 why_naive -
+2026-11-12|hard optimum 29.821843 best 29.821843 naive 26.5363 bad -5.5918 why_naive -
+2026-11-12|easy optimum 2.088214 best 2.088214 naive 1.5567 bad -1.1906 why_naive -
+2021-02-15|normal optimum 240.227397 best 240.227397 naive -8.8908 bad -7.0726 why_naive bankrupt
+2021-02-15|hard optimum 154.671768 best 154.671768 naive -8.8908 bad -5.8441 why_naive bankrupt
+2021-02-15|easy optimum 240.227397 best 240.227397 naive -8.8908 bad -7.0726 why_naive bankrupt
+2023-08-10|normal optimum 60.971012 best 60.971012 naive 17.2432 bad -5.6259 why_naive -
+2023-08-10|hard optimum 48.363457 best 48.363457 naive 5.3011 bad -6.1564 why_naive -
+2023-08-10|easy optimum 60.971012 best 60.971012 naive 17.2432 bad -5.6259 why_naive -
+2026-04-26|normal optimum 0.440601 best 0.440601 naive 0.0933 bad -0.1444 why_naive -
+2026-04-26|hard optimum 29.486070 best 29.486070 naive -0.8265 bad -0.5918 why_naive -
+2026-04-26|easy optimum 0.440601 best 0.440601 naive 0.0933 bad -0.1444 why_naive -
+2026-08-29|normal optimum 0.932816 best 0.932816 naive 0.3573 bad -0.4503 why_naive -
+2026-08-29|hard optimum 29.608717 best 29.608717 naive -0.9094 bad -0.7289 why_naive -
+2026-08-29|easy optimum 0.932816 best 0.932816 naive 0.3573 bad -0.4503 why_naive -
+2025-01-05|normal optimum 0.794891 best 0.794891 naive 0.5256 bad -0.4341 why_naive -
+2025-01-05|hard optimum 29.723608 best 29.723608 naive 26.2761 bad -5.2498 why_naive -
+2025-01-05|easy optimum 0.794891 best 0.794891 naive 0.5256 bad -0.4341 why_naive -
+2026-04-27|normal optimum 0.826653 best 0.826653 naive -0.0046 bad 0.0148 why_naive -
+2026-04-27|hard optimum 29.712830 best 29.712830 naive -1.1970 bad -1.1757 why_naive -
+2026-04-27|easy optimum 0.826653 best 0.826653 naive -0.0046 bad 0.0148 why_naive -
+2026-07-24|normal optimum 12.980595 best 12.980595 naive 7.2597 bad -5.6552 why_naive -
+2026-07-24|hard optimum 34.302215 best 34.302215 naive 0.7088 bad -4.0139 why_naive -
+2026-07-24|easy optimum 12.980595 best 12.980595 naive 7.2597 bad -5.6552 why_naive -
+2021-02-15|hard-solar optimum 232.945711 none 78.2739
+2023-08-10|hard-solar optimum 88.341610 none 34.3238
+2026-04-26|hard-solar optimum 33.326498 none 3.8404
+2026-08-29|hard-solar optimum 30.964075 none 1.3554
+2025-01-05|hard-solar optimum 29.728122 none 0.0045
+2026-04-27|hard-solar optimum 29.870017 none 0.2648
+2026-07-24|hard-solar optimum 38.044228 none 3.7420
+(node:29656) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c710-c/site/lib/battery.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c710-c\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

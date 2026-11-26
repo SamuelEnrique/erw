@@ -1,0 +1,482 @@
+{
+ "figures restated": 142,
+ "equal to the digit in order": 142,
+ "problems": [],
+ "words": {
+  "t-month": "October 2026",
+  "t4-year": 2019,
+  "t5-years": [
+   2019,
+   2025
+  ],
+  "t6-year": 2025,
+  "t7-month": "July 2018",
+  "sx-at": "2022-12-24 11:00 UTC",
+  "s1-at": "2022-12-24 01:00 UTC",
+  "s2-at": "2021-02-15 01:00 UTC",
+  "top-into-TEN": "MIDW-TEN",
+  "i-month": "July 2026",
+  "i-prev": "July 2025",
+  "first": "325",
+  "second": "324",
+  "i7-year": "2024",
+  "rank_is_us_total_order": true,
+  "b1-plant": "Browns Ferry",
+  "b3": [
+   2034,
+   "coal"
+  ],
+  "b4": [
+   2027,
+   "natural_gas"
+  ],
+  "b5-partner": "MISO",
+  "b7-years": [
+   2025,
+   2025
+  ],
+  "months": [
+   [
+    "2025-11",
+    "2026-10"
+   ],
+   [
+    "2025-11",
+    "2026-10"
+   ],
+   [
+    "2025-11",
+    "2026-10"
+   ]
+  ]
+ },
+ "map legend ends (lo, hi, printed lo, printed hi, decimals)": {
+  "solar_ghi": [
+   1.584,
+   6.912,
+   1.6,
+   6.9,
+   1
+  ],
+  "solar_dni": [
+   0.936,
+   9.0,
+   0.9,
+   9.0,
+   1
+  ],
+  "wind_speed_100m": [
+   1.591,
+   13.582,
+   1.6,
+   13.6,
+   1
+  ],
+  "wind_capacity_factor": [
+   0.0118,
+   0.5445,
+   0.01,
+   0.54,
+   2
+  ]
+ },
+ "rounding (slug, q, figure, key prints, from the printed inputs prints, equal)": [
+  [
+   "who-trades-with-whom",
+   "tx",
+   "SE ratio",
+   "1.00",
+   "1.00",
+   true
+  ],
+  [
+   "who-trades-with-whom",
+   "t2",
+   "MIDW ratio",
+   "1.04",
+   "1.04",
+   true
+  ],
+  [
+   "who-trades-with-whom",
+   "t3",
+   "MIDA diff",
+   "-224,071",
+   "-224,071",
+   true
+  ],
+  [
+   "who-trades-with-whom",
+   "t4",
+   "a less b",
+   "9,050,171",
+   "9,050,171",
+   true
+  ],
+  [
+   "who-trades-with-whom",
+   "t5",
+   "TEN growth",
+   "1.66",
+   "1.66",
+   true
+  ],
+  [
+   "who-trades-with-whom",
+   "t5",
+   "MIDW growth",
+   "1.67",
+   "1.67",
+   true
+  ],
+  [
+   "who-trades-with-whom",
+   "t7",
+   "share",
+   "54.70",
+   "54.70",
+   true
+  ],
+  [
+   "storm-across-the-country",
+   "sx",
+   "ratio",
+   "1.66",
+   "1.66",
+   true
+  ],
+  [
+   "storm-across-the-country",
+   "s1",
+   "ratio",
+   "1.68",
+   "1.68",
+   true
+  ],
+  [
+   "storm-across-the-country",
+   "s2",
+   "diff",
+   "28,754",
+   "28,754",
+   true
+  ],
+  [
+   "storm-across-the-country",
+   "s3",
+   "gas share",
+   "39.23",
+   "39.23",
+   true
+  ],
+  [
+   "storm-across-the-country",
+   "s3",
+   "gas vs b",
+   "2.00",
+   "2.00",
+   true
+  ],
+  [
+   "storm-across-the-country",
+   "s4",
+   "wind diff",
+   "-2,321",
+   "-2,321",
+   true
+  ],
+  [
+   "storm-across-the-country",
+   "s4",
+   "gas ratio",
+   "2.64",
+   "2.64",
+   true
+  ],
+  [
+   "storm-across-the-country",
+   "s6",
+   "ratio",
+   "4.86",
+   "4.86",
+   true
+  ],
+  [
+   "storm-across-the-country",
+   "s7",
+   "diff",
+   "8",
+   "8",
+   true
+  ],
+  [
+   "under-the-ground-and-in-the-wind",
+   "rx",
+   "ratio",
+   "4.36",
+   "4.37",
+   false
+  ],
+  [
+   "under-the-ground-and-in-the-wind",
+   "r1",
+   "diff",
+   "0.62",
+   "0.62",
+   true
+  ],
+  [
+   "under-the-ground-and-in-the-wind",
+   "r2",
+   "ratio",
+   "1.30",
+   "1.30",
+   true
+  ],
+  [
+   "under-the-ground-and-in-the-wind",
+   "r3",
+   "ratio",
+   "1.75",
+   "1.74",
+   false
+  ],
+  [
+   "under-the-ground-and-in-the-wind",
+   "r4",
+   "share",
+   "24.39",
+   "24.39",
+   true
+  ],
+  [
+   "under-the-ground-and-in-the-wind",
+   "r5",
+   "hours",
+   "3,869.99",
+   "3,869.99",
+   true
+  ],
+  [
+   "under-the-ground-and-in-the-wind",
+   "r6",
+   "share",
+   "55.10",
+   "55.10",
+   true
+  ],
+  [
+   "where-energy-goes",
+   "ix",
+   "share",
+   "65.02",
+   "65.02",
+   true
+  ],
+  [
+   "where-energy-goes",
+   "i1",
+   "diff",
+   "473.70",
+   "473.69",
+   false
+  ],
+  [
+   "where-energy-goes",
+   "i2",
+   "ratio",
+   "0.98",
+   "0.98",
+   true
+  ],
+  [
+   "where-energy-goes",
+   "i3",
+   "ratio",
+   "1.12",
+   "1.12",
+   true
+  ],
+  [
+   "where-energy-goes",
+   "i4",
+   "share",
+   "59.92",
+   "59.92",
+   true
+  ],
+  [
+   "where-energy-goes",
+   "i5",
+   "share",
+   "28.76",
+   "28.76",
+   true
+  ],
+  [
+   "where-energy-goes",
+   "i6",
+   "share",
+   "68.54",
+   "68.54",
+   true
+  ],
+  [
+   "where-energy-goes",
+   "i7",
+   "ratio",
+   "2.71",
+   "2.71",
+   true
+  ],
+  [
+   "your-own-balancing-authority",
+   "bx",
+   "share",
+   "19.77",
+   "19.77",
+   true
+  ],
+  [
+   "your-own-balancing-authority",
+   "b1",
+   "share",
+   "8.62",
+   "8.62",
+   true
+  ],
+  [
+   "your-own-balancing-authority",
+   "b2",
+   "cap share n",
+   "19.77",
+   "19.77",
+   true
+  ],
+  [
+   "your-own-balancing-authority",
+   "b2",
+   "cap share g",
+   "41.59",
+   "41.59",
+   true
+  ],
+  [
+   "your-own-balancing-authority",
+   "b3",
+   "share",
+   "24.86",
+   "24.86",
+   true
+  ],
+  [
+   "your-own-balancing-authority",
+   "b4",
+   "share",
+   "9.85",
+   "9.85",
+   true
+  ],
+  [
+   "your-own-balancing-authority",
+   "b5",
+   "share",
+   "99.66",
+   "99.66",
+   true
+  ],
+  [
+   "your-own-balancing-authority",
+   "b6",
+   "ratio",
+   "2.29",
+   "2.29",
+   true
+  ],
+  [
+   "your-own-balancing-authority",
+   "b7",
+   "points",
+   "20.07",
+   "20.07",
+   true
+  ]
+ ],
+ "bills": {
+  "CA": {
+   "by total rates": 229.62990000000005,
+   "by components": 229.6299,
+   "baseline kWh": 225.0,
+   "generation line": 69.45360000000001,
+   "pcia": -6.066,
+   "drawn": 229.6299,
+   "equal to the digit": true
+  },
+  "SCE": {
+   "total": 224.764782,
+   "baseline kWh": 360.0,
+   "drawn": 224.764782,
+   "equal to the digit": true
+  },
+  "SDGE": {
+   "total": 332.9090208,
+   "drawn": 332.9090208,
+   "equal to the digit": true
+  },
+  "TX": {
+   "total": 95.2732,
+   "energy": 54.42,
+   "delivery fixed": 4.0600000000000005,
+   "delivery per kWh rate": 0.061322,
+   "delivery": 40.8532,
+   "drawn": 95.27319999999999,
+   "equal to the digit": true
+  },
+  "TXC": {
+   "total": 95.2798,
+   "energy": 51.18,
+   "delivery fixed": 4.9,
+   "delivery per kWh rate": 0.065333,
+   "delivery": 44.0998,
+   "drawn": 95.27980000000001,
+   "equal to the digit": true
+  }
+ },
+ "texas default energy charge derived": 0.09071133333333335,
+ "b3 b4": {
+  "CA": {
+   "entity": "caiso:TH_NP15_GEN-APND",
+   "month": "2026-09",
+   "price": 44.8469,
+   "wholesale": 26.90814,
+   "share": 11.718047170686397,
+   "shown": [
+    "44.85",
+    "26.91",
+    "11.72"
+   ],
+   "simple mean that month": 44.2548,
+   "with 5 percent losses": [
+    "28.25",
+    "12.30"
+   ]
+  },
+  "TX": {
+   "entity": "ercot:HB_HUBAVG",
+   "month": "2026-09",
+   "price": 39.5037,
+   "wholesale": 23.70222,
+   "share": 24.878160909888614,
+   "shown": [
+    "39.50",
+    "23.70",
+    "24.88"
+   ],
+   "simple mean that month": 38.3874,
+   "with 5 percent losses": [
+    "24.89",
+    "26.12"
+   ]
+  }
+ }
+}

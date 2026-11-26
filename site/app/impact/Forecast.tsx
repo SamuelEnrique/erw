@@ -286,6 +286,13 @@ const DC_LINES: DcLine[] = [
   { key: "dcelec", label: "Tax on the electricity bought, each year", tip: "By the state's tax per kWh where one is read (Virginia's consumption tax, Illinois' electricity excise tax, Ohio's kilowatt-hour tax), on the MWh the reader gives.", figure: "y1:elec", why: (r) => (r.elec.held ? null : r.elec.note) },
 ];
 function dcWords(x: DcInputs): string { return `Datacenter, ${stateName(x.state)}, ${plain(x.mw, 1)} MW`; }
+/** Session 10821 (window F's I2): the taxes a datacenter's total leaves out in this run */
+function dcLeftOut(r: DcResult): string[] {
+  const out: string[] = [];
+  if (!r.years.some((y) => y.property !== null)) out.push("property");
+  if (!r.elec.held) out.push("electricity");
+  return out;
+}
 function dcWhy(r: DcResult, key: string): string | null {
   if (key === "prop1" || key === "propl") return r.property.held ? null : r.property.note;
   if (key === "cout" || key === "oout") return "not computed for a datacenter";
@@ -306,7 +313,10 @@ function Compare({ sc, names, dcNames, P, P2 }: { sc: Record<View, Scn>; names: 
     // session 10808: the tax forgone is a figure only where an exemption applies or the scenario turned it off; where no
     // exemption is read it is not held, and where one is read but the project falls short (or it is an approval) it is none
     if (key === "dcforgone" && !(s.r.exemption.eligible)) {
-      const word = s.r.exemption.held ? "none" : "not held";
+      // session 10821 (window F's I3): relief held as words only is not held, as a state with none read; "none" is kept
+      // for a rule the project falls short of
+      const words = !!P2.rules.states[s.x.state]?.sales_exemption?.discretionary;
+      const word = s.r.exemption.held && !words ? "none" : "not held";
       return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${key}`}><span className="cursor-help border-b border-dotted border-muted" title={s.r.exemption.note}>{word}</span></td>;
     }
     const v = figure === null ? null : dcStat(s.r, figure);
@@ -314,7 +324,9 @@ function Compare({ sc, names, dcNames, P, P2 }: { sc: Record<View, Scn>; names: 
       const why = dcWhy(s.r, key) ?? DC_LINES.find((l) => l.key === key)?.why(s.r) ?? "not held";
       return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${key}`}><span className="cursor-help border-b border-dotted border-muted" title={why}>{key === "sev" ? "none" : "not held"}</span></td>;
     }
-    return <td key={p} className={cls} data-cell={`${p}|${key}`}><Num check={`${dcKey(s.x)}|${figure}`} raw={v}>{dcDisplay(figure!, v)}</Num></td>;
+    const left = key === "pvtax" ? dcLeftOut(s.r) : [];
+    return <td key={p} className={cls} data-cell={`${p}|${key}`}><Num check={`${dcKey(s.x)}|${figure}`} raw={v}>{dcDisplay(figure!, v)}</Num>
+      {left.length ? <span className="block whitespace-normal text-xs italic text-muted" data-left-out={left.join(",")}>without {left.join(" or ")} tax</span> : null}</td>;
   };
   const dcPropTip = (p: View) => { const s = sc[p]; return s.dc ? `${p.toUpperCase()}: ${P2.rules.states[s.x.state]?.property?.tip ?? `${stateName(s.x.state)}: no rule for a datacenter's property is read; the reader's own rates, where typed.`}` : null; };
   return (
@@ -342,7 +354,7 @@ function Compare({ sc, names, dcNames, P, P2 }: { sc: Record<View, Scn>; names: 
               <tr key={l.key} className="grid grid-cols-2 border-b border-rule align-top sm:table-row" data-row={l.key}>
                 <th scope="row" className="col-span-2 px-3 pb-0 pt-1.5 font-normal sm:table-cell sm:pb-1.5">{l.label}<Tip id={`l-${l.key}`} label={l.label}>{
                   !anyDc ? (l.tipFor ? `${l.tip} ${l.tipFor(x, P)}` : l.tip)
-                    : `${l.tip}${l.key === "prop1" ? ` ${views.map((p) => dcPropTip(p) ?? (l.tipFor ? l.tipFor({ a: x[p], b: x[p] }, P).split(" B: ")[0].replace(/^A: /, `${p.toUpperCase()}: `) : "")).join(" ")}` : ""}${DC_TIP[l.key] ? ` ${DC_TIP[l.key]}` : ""}`
+                    : `${l.tip}${l.key === "prop1" ? ` ${views.map((p) => dcPropTip(p) ?? (l.tipFor ? l.tipFor({ a: x[p], b: x[p] }, P).split(" B: ")[0].replace(/^A: /, `${p.toUpperCase()}: `) : "")).join(" ")}` : ""}${DC_TIP[l.key] ? ` ${DC_TIP[l.key]}` : ""}${l.key === "pvtax" ? views.map((p) => { const s = sc[p]; if (!s.dc || !s.r.ok) return ""; const left = dcLeftOut(s.r); return left.length ? ` ${p.toUpperCase()} leaves out the ${left.join(" and ")} tax${left.length > 1 ? "es" : ""} (not held in this run).` : ""; }).join("") : ""}`
                 }</Tip></th>
                 {views.map((p) => {
                   const res = r[p];

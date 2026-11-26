@@ -48,6 +48,9 @@
   "wy_39_15_105": {"title": "Wyoming Statutes Title 39: 39-15-105(a)(viii)(S), sales tax exemptions for a data processing services center (with the definition in 39-15-101(a)(xliv)); 39-11-101, taxable value by class", "url": "https://wyoleg.gov/statutes/compress/title39.pdf", "read": "2026-11-26", "request": 303},
   "il_dor_excise": {"title": "Illinois Department of Revenue, Excise Tax Rates and Fees (the Electricity Excise Tax)", "url": "https://tax.illinois.gov/research/taxrates/excise.html", "read": "2026-11-26", "request": 307},
   "il_dceo": {"title": "Illinois Department of Commerce and Economic Opportunity, Data Center Investment Tax Exemptions and Credits (with its 2025 Data Centers Annual Report, request 248)", "url": "https://dceo.illinois.gov/expandrelocate/incentives/datacenters.html", "read": "2026-11-26", "request": 247},
+  "wv_ratio_study_2025": {"title": "West Virginia State Tax Department, Assessment Ratio Study, Tax Year 2025", "url": "https://tax.wv.gov/Documents/PropertyTax/2025/AssessmentRatioStudy.Tax-Year.2025.pdf", "read": "2026-11-26", "request": 350},
+  "tn_cot_aggregate_2025": {"title": "Tennessee Comptroller of the Treasury, Division of Property Assessments, 2025 Tax Aggregate Report", "url": "https://comptroller.tn.gov/content/dam/cot/pa/documents/tax-aggregate-reports/2025TaxAggregateReport.pdf", "read": "2026-11-26", "request": 341},
+  "il_dor_qa318": {"title": "Illinois Department of Revenue, Questions and Answers 318: assessment levels", "url": "https://tax.illinois.gov/questionsandanswers/318.html", "read": "2026-11-26", "request": 339},
   "ar_aacd_2025": {"title": "Arkansas Department of Finance and Administration, Assessment Coordination Division, Annual Report 2025", "url": "https://www.dfa.arkansas.gov/wp-content/uploads/AACD_AnnualReport_2025.pdf", "read": "2026-11-26", "request": 337},
   "al_dor_adval": {"title": "Alabama Department of Revenue, Property (Ad Valorem) Tax", "url": "https://www.revenue.alabama.gov/tax-types/property-ad-valorem-tax/", "read": "2026-11-26", "request": 334},
   "ms_dor_appraisal": {"title": "Mississippi Department of Revenue, Local Property Appraisal", "url": "https://www.dor.ms.gov/county-services/local-property-appraisal", "read": "2026-11-26", "request": 335},
@@ -315,6 +318,19 @@
     "tip": "Kansas (Statutes 74-50,332 and 79-3606(xxxx)): a qualified firm that invests \"at least $250,000,000\" in eligible data center costs by the fifth year of operations and creates \"at least 20 new jobs\" receives a sales tax exemption on eligible data center costs, data center equipment and construction purchases, under an agreement with the Secretary of Commerce. The tool applies it to the equipment and the building's taxable share; the exemption's duration (K.S.A. 74-50,333, not read) is not modeled, so it runs over the whole horizon here, an upper bound."
    }
   },
+  "wv": {
+   "name": "West Virginia",
+   "property": {"building_ratio": 0.6, "equipment_ratio": 0.6, "cite": "wv_ratio_study_2025",
+    "quote": "failing to assess all property at 60% of its true and actual value.",
+    "tip": "West Virginia (W. Va. Code 11-3-1(d), as the State Tax Commissioner's 2025 assessment ratio study states it): assessors assess all property at 60 percent of its true and actual value. The tool assesses the building and the equipment at 60 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate. The High Impact Intelligence Center program is named in the governor's release but its law is not read (the code's host does not answer), so no datacenter rule of West Virginia is applied."}
+  },
+  "tn": {
+   "name": "Tennessee",
+   "property": {"building_ratio": 0.4, "equipment_ratio": 0.3, "cite": "tn_cot_aggregate_2025",
+    "quote": "Real Property Assessment Industrial and Commercial 40%",
+    "personal": {"cite": "tn_cot_aggregate_2025", "quote": "Personal Property Assessment Industrial and Commercial 30%"},
+    "tip": "Tennessee (the Comptroller of the Treasury's 2025 Tax Aggregate Report): industrial and commercial real property is assessed at 40 percent of value and industrial and commercial personal property at 30 percent. The tool assesses the building at 40 percent and the equipment at 30 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate. No datacenter sales tax rule of Tennessee is read (www.tn.gov did not answer)."}
+  },
   "nm": {
    "name": "New Mexico",
    "property": {"building_ratio": 0.333333, "equipment_ratio": 0.333333, "cite": "nm_trd_general",
@@ -478,6 +494,10 @@
   },
   "il": {
    "name": "Illinois",
+   "property": {"building_ratio": 0.333333, "equipment_ratio": 1, "cite": "il_dor_qa318",
+    "quote": "Most property is assessed at 33 1/3 percent of its fair market value.",
+    "cook": {"cite": "il_dor_qa318", "quote": "Assessment levels range from 10 percent of market value for residential property to 25 percent of market value for commercial property."},
+    "tip": "Illinois (the Department of Revenue's answer on assessment levels): most property is assessed at 33 1/3 percent of fair market value; Cook County assigns levels by class, 25 percent for commercial property. The tool assesses the building at one third of its cost (for Cook County, type the rate times 0.75 to give 25 percent). Whether a datacenter's equipment is taxed as property is not on the pages read: the tool applies the reader's rate to its cost, so leave the equipment's rate blank or 0 unless the county taxes it."},
    "electricity": {
     "cite": "il_dor_excise", "kind": "monthly_blocks",
     "blocks": [
