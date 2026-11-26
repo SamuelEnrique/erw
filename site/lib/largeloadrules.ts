@@ -82,7 +82,7 @@ export const STATUS_TIP: Record<string, string> = {
 };
 export const LAW_STATUS_TIP: Record<string, string> = {
   "in effect": "Signed, and its effective date has passed.",
-  enacted: "Signed into law; its effective date is later, or the text read prints none.",
+  enacted: "Signed into law, as the ERW's read of the text marked it; the read did not mark it in effect. Where the text prints when it takes effect, the Effective column or the status's cite says so, and that day may already have passed.",
   passed: "Passed both chambers; the governor's signature was not read.",
   "passed one chamber": "Passed one chamber of the legislature.",
   introduced: "Introduced; not passed by either chamber.",
