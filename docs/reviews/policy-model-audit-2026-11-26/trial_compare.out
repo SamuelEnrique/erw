@@ -1,0 +1,16 @@
+documents 2057 -> 2072; records 1518 -> 1528
+records made by the changes alone: 10; records they join: 2
+  new doc:llchange:operators_federal-13 2026-11-05 PA PUC order issued sig None states ['PA'] title 'EDC Interim Resource Adequacy Service, Pre-Emergency and Emergency Response Prov'
+  new ferc:ER26-3691 2026-10-30 FERC order issued sig None states ['AR'] title 'SPP Provisional Load Process, Attachment AX (ER26-3691)'
+  new ferc:ER26-1323 2026-10-26 FERC order issued sig None states ['AR'] title 'SPP Conditional High Impact Large Load Service (CHILLS), ER26-1323'
+  new ferc:ER26-3591 2026-10-21 FERC notice issued sig None states ['AR'] title 'SPP CHILL policy, planned outages of supporting resources (ER26-3591)'
+  new doc:llchange:operators_federal-15 2026-10-21 PA PUC application filed sig None states ['PA'] title 'Pennsylvania PUC Large Load Customer Model Tariff (M-2025-3054271), as applied t'
+  new ferc:ER26-3515 2026-10-09 FERC order issued sig None states ['PA'] title 'PJM Tariff definition of Large Load and Large Load Registry (ER26-3515)'
+  new doc:llchange:operators_federal-03 2026-09-29 ERCOT application filed sig None states ['TX'] title 'NPRR1348, Telemetry Offsetting for Provisional Controllable Load Resources'
+  new doc:llchange:operators_federal-02 2026-09-03 ERCOT notice issued sig None states ['TX'] title 'ERCOT Batch Zero large load study (PGRR 145)'
+  new doc:llchange:operators_federal-11 2026-09-02 FERC application filed sig None states ['AR'] title 'SPP CHILL policy, commitment, deployment and curtailment (ER26-3685)'
+  new doc:llchange:operators_federal-01 2026-08-20 PUCT order issued sig None states ['TX'] title 'ERCOT Planning Guide, Section 9, Large Load Interconnection or Modification (Bat'
+  joined ferc:EL26-71 2026-10-28 CAISO n 2->3 sig 5 newest now "CAISO, Large Load Enhancements (response to FERC's Order to Show Cause"; status issued->issued; date 2026-08-07->2026-10-28
+  joined ferc:EL26-67 2026-10-09 FERC n 2->4 sig 3 newest now 'PJM show cause proceeding for large loads (FERC Docket EL26-67): the T'; status issued->issued; date 2026-08-07->2026-10-09
+shown as the view opens: 295 -> 295
+of the records the changes make or join, shown as the view opens: 1
