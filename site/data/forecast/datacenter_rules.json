@@ -38,6 +38,8 @@
   "ma_eoed_qdc": {"title": "Massachusetts Executive Office of Economic Development, Massachusetts Qualified Data Center Sales and Use Tax Exemption (with its notice of the pause)", "url": "https://www.mass.gov/info-details/massachusetts-qualified-data-center-sales-and-use-tax-exemption", "read": "2026-11-26", "request": 289},
   "mi_msf_edc": {"title": "Michigan Strategic Fund, Enterprise Data Center Sales and Use Tax Exemption Guidelines (MCL 205.54ee and 205.94cc)", "url": "https://www.michiganbusiness.org/globalassets/documents/data-center/enterprise-data-center-guidelines.pdf", "read": "2026-11-26", "request": 294},
   "ne_governor_eo": {"title": "Office of the Governor of Nebraska, Gov. Pillen Signs Executive Order on Data Centers (21 July 2026)", "url": "https://governor.nebraska.gov/gov-pillen-signs-executive-order-data-centers", "read": "2026-11-26", "request": 297},
+  "oh_tax_kwh2b": {"title": "Ohio Department of Taxation, KWH 2B: Instructions for Completing Electric Distribution Company Tax Return (KWH 2) and Schedule of Self-Assessing Purchasers (KWH 2A)", "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/forms/excise/electric_distribution-kwh/KWH_KWH2B.pdf", "read": "2026-11-26", "request": 312},
+  "oh_tax_kwh3": {"title": "Ohio Department of Taxation, KWH 3: application to self-assess the kilowatt-hour tax (Revised Code 5727.81(C))", "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/forms/excise/electric_distribution-kwh/KWH_KWH3.pdf", "read": "2026-11-26", "request": 311},
   "oh_governor_pause": {"title": "Office of the Governor of Ohio, Governor DeWine Announces Pause of Data Center Tax Exemption (bulletin of 27 May 2026)", "url": "https://content.govdelivery.com/accounts/OHIOGOVERNOR/bulletins/419304d", "read": "2026-11-26", "request": 290},
   "ok_iec_2026": {"title": "State of Oklahoma Incentive Evaluation Commission, Computer Services and Data Processing Tax Exemption, Draft Evaluation (PFM Group Consulting, 30 September 2026)", "url": "https://oklahoma.gov/content/dam/ok/en/omes/documents/computer-services-exemption-draft.pdf", "read": "2026-11-26", "request": 256},
   "ok_commerce_dc": {"title": "Oklahoma Department of Commerce, Oklahoma Data Center Industry Tax Incentives", "url": "https://www.okcommerce.gov/wp-content/uploads/Data-Center-Industry-Tax-Incentives.pdf", "read": "2026-11-26", "request": 257},
@@ -358,6 +360,25 @@
   },
   "oh": {
    "name": "Ohio",
+   "electricity": {
+    "cite": "oh_tax_kwh2b", "kind": "monthly_blocks",
+    "blocks": [
+     {"upto_kwh": 2000, "usd_per_kwh": 0.00465},
+     {"upto_kwh": 15000, "usd_per_kwh": 0.00419},
+     {"upto_kwh": null, "usd_per_kwh": 0.00363}
+    ],
+    "quote": "All kilowatt hours over 15,000 distributed to each customer is subject to a rate of $.00363.",
+    "elective": {
+     "cite": "oh_tax_kwh3", "min_annual_kwh": 45000000,
+     "annual_blocks": [
+      {"upto_kwh": 500000000, "usd_per_kwh": 0.00257},
+      {"upto_kwh": null, "usd_per_kwh": 0.001832}
+     ],
+     "quote": "per kilowatt hour for each kilowatt hour in excess of 500 million kilowatt hours, distributed to a meter or location during the registration year",
+     "threshold": {"cite": "oh_tax_kwh3", "quote": "must have consumed at least 45 million kilowatt hours of electricity in the previous"}
+    },
+    "tip": "Ohio's kilowatt-hour tax (the Department of Taxation's instructions for distributors' returns and its self-assessing purchaser application): on each customer's kWh in a 30-day billing period, $0.00465 on the first 2,000, $0.00419 on the next 13,000 and $0.00363 above 15,000; a commercial or industrial location using at least 45 million kWh a year may instead self-assess at $0.00257 a kWh on the first 500 million kWh of the year and $0.001832 above. The tool takes a twelfth of the year's MWh as each month's and, where the year reaches 45 million kWh, the lower of the two."
+   },
    "sales_exemption": {
     "cite": "oh_governor_pause", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
     "quote": "The Ohio Tax Credit Authority will stop accepting new data center tax exemption proposals after its currently scheduled meeting on Monday",

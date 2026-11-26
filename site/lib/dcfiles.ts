@@ -48,7 +48,7 @@ export function dcBundle(P: DcParams, x: DcInputs, r: DcResult) {
       state_rate_pct: (P.sales.states[x.state]?.state_rate ?? 0) * 100 } : null,
       property: rule.property && (rule.property.min_investment_usd === undefined || x.invest * 1e6 >= rule.property.min_investment_usd)
         ? { building_ratio: rule.property.building_ratio, equipment_ratio: rule.property.equipment_ratio } : null,
-      electricity: rule.electricity ? { blocks: rule.electricity.blocks } : null } : null,
+      electricity: rule.electricity ? { blocks: rule.electricity.blocks, elective: rule.electricity.elective ?? null } : null } : null,
     multipliers: m ? { construction: { direct: m.construction.direct, indirect: m.construction.indirect, induced: m.construction.induced },
       operations: { direct: m.operations.direct, indirect: m.operations.indirect, induced: m.operations.induced } } : null,
     income: st ? { none: !!st.none, brackets: st.brackets, standard_deduction: st.standard_deduction_single ?? 0, exemption: st.personal_exemption_single ?? 0, credit: st.personal_credit_single ?? 0 } : null,
@@ -133,6 +133,16 @@ def run(d):
                 tax += (min(month, hi) - lo) * blk["usd_per_kwh"]
             lo = hi
         elec = tax * 12
+        alt = elec_rule.get("elective")
+        if alt and x["mwh"] * 1000 >= alt["min_annual_kwh"]:
+            # a schedule a large buyer may elect instead, by the year's kWh: the lower tax is taken
+            year_kwh, lo, elected = x["mwh"] * 1000, 0.0, 0.0
+            for blk in alt["annual_blocks"]:
+                hi = blk["upto_kwh"] if blk["upto_kwh"] is not None else float("inf")
+                if year_kwh > lo:
+                    elected += (min(year_kwh, hi) - lo) * blk["usd_per_kwh"]
+                lo = hi
+            elec = min(elec, elected)
 
     tot = {"jobs": 0.0, "earnings": 0.0, "property": 0.0, "salesbefore": 0.0, "forgone": 0.0, "sales": 0.0, "income": 0.0, "elec": None, "pv_taxes": 0.0}
     pv_prop = 0.0

@@ -270,6 +270,11 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   // Ohio (session 10815): the Tax Credit Authority takes no new requests since the Governor's directive of 27 May 2026, held as words
   const oh = D.dcRun(D.dcDefaults(P, "oh", { invest: 2000, perm: 100 }), P);
   assert.equal(oh.exemption.held, true); assert.equal(oh.exemption.eligible, false); near(oh.sums.forgone, 0);
+  // Ohio's kWh tax (session 10817): 5,000,000 MWh a year; the monthly tiers give 12 x (9.30 + 54.47 + 416,651,666.67 x 0.00363) = 18,150,111.84,
+  // the self-assessing schedule 500,000,000 x 0.00257 + 4,500,000,000 x 0.001832 = 9,529,000: the lower is taken
+  near(D.dcStat(D.dcRun(D.dcDefaults(P, "oh", { invest: 2000, perm: 100, mwh: 5000000 }), P), "y1:elec"), 9529000, "OH elected", 1e-9);
+  // 40,000 MWh is below the 45 million kWh a self-assessing location needs: the tiers, 145,311.84
+  near(D.dcStat(D.dcRun(D.dcDefaults(P, "oh", { invest: 100, perm: 10, mwh: 40000 }), P), "y1:elec"), 145311.84, "OH tiers", 1e-9);
   // Nebraska (session 10815): ImagiNE incentives closed to data centers by the order of 21 July 2026, held as words
   const ne = D.dcRun(D.dcDefaults(P, "ne", { invest: 2000, perm: 100 }), P);
   assert.equal(ne.exemption.held, true); assert.equal(ne.exemption.eligible, false);

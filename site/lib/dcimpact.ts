@@ -37,7 +37,9 @@ export type DcRule = {
     discretionary?: boolean };
   /** session 10806: a least investment for the rule to apply (Montana's class seventeen, USD 50 million); below it no rule is held */
   property?: { building_ratio: number; equipment_ratio: number; cite: string; tip: string; min_investment_usd?: number };
-  electricity?: { cite: string; kind: "monthly_blocks"; blocks: { upto_kwh: number | null; usd_per_kwh: number }[]; tip: string };
+  electricity?: { cite: string; kind: "monthly_blocks"; blocks: { upto_kwh: number | null; usd_per_kwh: number }[]; tip: string;
+    /** session 10817: a schedule a large buyer may elect instead (Ohio's self-assessing purchaser), by the year's kWh; the lower tax is taken */
+    elective?: { min_annual_kwh: number; annual_blocks: { upto_kwh: number | null; usd_per_kwh: number }[] } };
 };
 /** The parameter files the datacenter reads (site/data/forecast/): the page and check-values load them */
 export type DcParams = {
@@ -211,7 +213,17 @@ export function dcElecTax(P: DcParams, x: DcInputs): number | null {
     if (month > lo) tax += (Math.min(month, hi) - lo) * b.usd_per_kwh;
     lo = hi;
   }
-  return tax * 12;
+  const standard = tax * 12;
+  const alt = e.elective;
+  if (!alt || x.mwh * 1000 < alt.min_annual_kwh) return standard;
+  const year = x.mwh * 1000;
+  let elected = 0, from = 0;
+  for (const b of alt.annual_blocks) {
+    const hi = b.upto_kwh ?? Infinity;
+    if (year > from) elected += (Math.min(year, hi) - from) * b.usd_per_kwh;
+    from = hi;
+  }
+  return Math.min(standard, elected);
 }
 
 // ---- the run ---------------------------------------------------------------------------------------------------------

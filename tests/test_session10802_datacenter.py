@@ -81,6 +81,22 @@ class TheRunFiles(unittest.TestCase):
             # Georgia: the build's equipment only (through 2031), at 7.56 percent
             self.assertIn("B forgone: script 103118400.0", r.stdout)
 
+    def test_downloaded_python_agrees_for_ohio_and_illinois_electricity(self):
+        """Session 10817: Ohio's elective self-assessing kWh schedule and Illinois' ten monthly blocks, 5,000,000 MWh a year for 20 years."""
+        node = shutil.which("node")
+        if not node:
+            raise unittest.SkipTest("node is not on the path")
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            env = dict(os.environ, DC_FILES_PAIR="oh-il")
+            r = subprocess.run([node, "--no-warnings", os.path.join(SITE, "scripts", "dc-files-check.mjs"), d], cwd=ROOT, capture_output=True, text=True, timeout=120, env=env)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            r = subprocess.run([sys.executable, os.path.join(d, "run.py")], capture_output=True, text=True, timeout=120)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertNotIn("DIFFERS", r.stdout)
+            self.assertIn("A elec: script 190580000.0", r.stdout)   # 9,529,000 a year
+            self.assertIn("B elec: script 203286212.7", r.stdout)   # 10,164,310.64 a year
+
 
 class TheParameters(unittest.TestCase):
     def test_files_name_sources_and_hold_no_dash(self):

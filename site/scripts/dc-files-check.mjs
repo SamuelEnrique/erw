@@ -15,7 +15,9 @@ const P = { announced: data("datacenter_announced.json"), rules: data("datacente
   sales: data("sales_tax.json"), income: data("income_tax.json"), deflator: data("deflator.json") };
 const one = (state, set) => { const x = D.dcDefaults(P, state, set); return { dc: true, x, r: D.dcRun(x, P) }; };
 // DC_FILES_PAIR=ar-ga (session 10813): the state's rate with construction covered (Arkansas) against an end year and a spending window (Georgia)
-const sc = process.env.DC_FILES_PAIR === "ar-ga"
+const sc = process.env.DC_FILES_PAIR === "oh-il"
+  ? { a: one("oh", { invest: 2000, perm: 100, mwh: 5000000 }), b: one("il", { invest: 2000, perm: 100, mwh: 5000000 }) }
+  : process.env.DC_FILES_PAIR === "ar-ga"
   ? { a: one("ar", { invest: 2000, perm: 20, matshare: 40 }), b: one("ga", { invest: 2000, perm: 100 }) }
   : { a: one("va", { mw: 1000, invest: 3000, perm: 50, mwh: 5000000, brate: 1, erate: 4 }), b: one("mn", { invest: 1000, perm: 50, life: 40, matshare: 30 }) };
 const dir = process.argv[2] ?? fs.mkdtempSync(path.join(os.tmpdir(), "erw-dc-"));
