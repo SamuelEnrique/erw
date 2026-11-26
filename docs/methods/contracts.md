@@ -79,7 +79,12 @@ its code trimmed and in capitals, and "not stated" for a row that files none (si
 filed. The term in years is shown when both dates are eight digits and the end is not before the start: the days
 between them over 365.25, to one decimal. A day past its month's end runs into the next month, as the page's engine
 reads it. An execution date after today carries "as filed" (the ruling of 18 October 2026, item 5); since session 7501
-the panel's note does the same for the last date held (2223-01-01).
+the panel's note does the same for the last date held (2223-01-01). The price cell draws the rate and its units when a
+number is filed and the description only when none is (`rateText`): of the 1,317 numbers of energy, capacity and
+tolling signed in the window of 5 October 2026, 1,110 stand beside a description, and 178 of those name an index, LMP,
+an adder, plus, a formula, an escalation, a heat rate or a percent (156 of the 178 numbers are not 0; in the default
+view 1 of 112). Such a number can be an adder or a formula's term, not the price paid; since session 10226 the fold
+says so (`docs/reviews/contracts-model-audit-2026-11-26.md`, finding 2).
 
 **The limits box**, on every view: of the rows held in the live set (18,989), those that file no number (10,956). Of
 these 10,907 file words and 49 file neither; the box said all 10,956 "give their price as words" until session 7501.
