@@ -1,0 +1,390 @@
+{
+ "storage|mw|operating": {
+  "raw": "56120.7",
+  "shown": "56,120.70"
+ },
+ "storage|n|operating": {
+  "raw": "1156",
+  "shown": "1,156"
+ },
+ "storage|mwh|operating": {
+  "raw": "154272.4",
+  "shown": "154,272.40"
+ },
+ "storage|n_mwh|operating": {
+  "raw": "1155",
+  "shown": "1,155"
+ },
+ "storage|mw|under_construction": {
+  "raw": "23298.6",
+  "shown": "23,298.60"
+ },
+ "storage|n|under_construction": {
+  "raw": "240",
+  "shown": "240"
+ },
+ "storage|mw|planned": {
+  "raw": "40936.2",
+  "shown": "40,936.20"
+ },
+ "storage|n|planned": {
+  "raw": "244",
+  "shown": "244"
+ },
+ "storage|mw|retired": {
+  "raw": "338.5",
+  "shown": "338.50"
+ },
+ "storage|n|retired": {
+  "raw": "8",
+  "shown": "8"
+ },
+ "storage|mwh|retired": {
+  "raw": "1236.1",
+  "shown": "1,236.10"
+ },
+ "storage|n_mwh|retired": {
+  "raw": "8",
+  "shown": "8"
+ },
+ "storage|iso_mw|CAISO|operating": {
+  "raw": "17265.5",
+  "shown": "17,265.50"
+ },
+ "storage|iso_mw|CAISO|under_construction": {
+  "raw": "4733.7",
+  "shown": "4,733.70"
+ },
+ "storage|iso_mw|CAISO|planned": {
+  "raw": "6144.1",
+  "shown": "6,144.10"
+ },
+ "storage|iso_mw|ERCOT|operating": {
+  "raw": "19194.6",
+  "shown": "19,194.60"
+ },
+ "storage|iso_mw|ERCOT|under_construction": {
+  "raw": "7899.5",
+  "shown": "7,899.50"
+ },
+ "storage|iso_mw|ERCOT|planned": {
+  "raw": "16259.3",
+  "shown": "16,259.30"
+ },
+ "storage|iso_mw|ISO-NE|operating": {
+  "raw": "1021.7",
+  "shown": "1,021.70"
+ },
+ "storage|iso_mw|ISO-NE|under_construction": {
+  "raw": "292.5",
+  "shown": "292.50"
+ },
+ "storage|iso_mw|ISO-NE|planned": {
+  "raw": "758",
+  "shown": "758"
+ },
+ "storage|iso_mw|MISO|operating": {
+  "raw": "1175.9",
+  "shown": "1,175.90"
+ },
+ "storage|iso_mw|MISO|under_construction": {
+  "raw": "2265.5",
+  "shown": "2,265.50"
+ },
+ "storage|iso_mw|MISO|planned": {
+  "raw": "1672.7",
+  "shown": "1,672.70"
+ },
+ "storage|iso_mw|NYISO|operating": {
+  "raw": "268.7",
+  "shown": "268.70"
+ },
+ "storage|iso_mw|NYISO|under_construction": {
+  "raw": "157.2",
+  "shown": "157.20"
+ },
+ "storage|iso_mw|NYISO|planned": {
+  "raw": "671.3",
+  "shown": "671.30"
+ },
+ "storage|iso_mw|PJM|operating": {
+  "raw": "665.9",
+  "shown": "665.90"
+ },
+ "storage|iso_mw|PJM|under_construction": {
+  "raw": "394.1",
+  "shown": "394.10"
+ },
+ "storage|iso_mw|PJM|planned": {
+  "raw": "431",
+  "shown": "431"
+ },
+ "storage|iso_mw|SPP|operating": {
+  "raw": "490.5",
+  "shown": "490.50"
+ },
+ "storage|iso_mw|SPP|under_construction": {
+  "raw": "281",
+  "shown": "281"
+ },
+ "storage|iso_mw|SPP|planned": {
+  "raw": "1403.5",
+  "shown": "1,403.50"
+ },
+ "storage|iso_mw|none|operating": {
+  "raw": "16037.9",
+  "shown": "16,037.90"
+ },
+ "storage|iso_mw|none|under_construction": {
+  "raw": "7275.1",
+  "shown": "7,275.10"
+ },
+ "storage|iso_mw|none|planned": {
+  "raw": "13596.3",
+  "shown": "13,596.30"
+ },
+ "storage|state_mw|TX|operating": {
+  "raw": "19394.6",
+  "shown": "19,394.60"
+ },
+ "storage|state_mw|TX|build": {
+  "raw": "25301.5",
+  "shown": "25,301.50"
+ },
+ "storage|state_mw|CA|operating": {
+  "raw": "16507.6",
+  "shown": "16,507.60"
+ },
+ "storage|state_mw|CA|build": {
+  "raw": "9935.9",
+  "shown": "9,935.90"
+ },
+ "storage|state_mw|AZ|operating": {
+  "raw": "6887.8",
+  "shown": "6,887.80"
+ },
+ "storage|state_mw|AZ|build": {
+  "raw": "6558",
+  "shown": "6,558"
+ },
+ "storage|state_mw|NV|operating": {
+  "raw": "2104",
+  "shown": "2,104"
+ },
+ "storage|state_mw|NV|build": {
+  "raw": "2919.5",
+  "shown": "2,919.50"
+ },
+ "storage|state_mw|NM|operating": {
+  "raw": "1360.2",
+  "shown": "1,360.20"
+ },
+ "storage|state_mw|NM|build": {
+  "raw": "928",
+  "shown": "928"
+ },
+ "storage|state_mw|FL|operating": {
+  "raw": "1202.2",
+  "shown": "1,202.20"
+ },
+ "storage|state_mw|FL|build": {
+  "raw": "245",
+  "shown": "245"
+ },
+ "storage|state_mw|UT|operating": {
+  "raw": "1071",
+  "shown": "1,071"
+ },
+ "storage|state_mw|UT|build": {
+  "raw": "706",
+  "shown": "706"
+ },
+ "storage|state_mw|GA|operating": {
+  "raw": "863.7",
+  "shown": "863.70"
+ },
+ "storage|state_mw|GA|build": {
+  "raw": "533.5",
+  "shown": "533.50"
+ },
+ "storage|state_mw|MA|operating": {
+  "raw": "742.2",
+  "shown": "742.20"
+ },
+ "storage|state_mw|MA|build": {
+  "raw": "674.5",
+  "shown": "674.50"
+ },
+ "storage|state_mw|CO|operating": {
+  "raw": "670.4",
+  "shown": "670.40"
+ },
+ "storage|state_mw|CO|build": {
+  "raw": "1948.5",
+  "shown": "1,948.50"
+ },
+ "storage|state_mw|ID|operating": {
+  "raw": "659",
+  "shown": "659"
+ },
+ "storage|state_mw|ID|build": {
+  "raw": "100",
+  "shown": "100"
+ },
+ "storage|state_mw|IN|operating": {
+  "raw": "587.3",
+  "shown": "587.30"
+ },
+ "storage|state_mw|IN|build": {
+  "raw": "20",
+  "shown": "20"
+ },
+ "storage|state_mw|OR|operating": {
+  "raw": "523",
+  "shown": "523"
+ },
+ "storage|state_mw|OR|build": {
+  "raw": "2940",
+  "shown": "2,940"
+ },
+ "storage|state_mw|HI|operating": {
+  "raw": "516.9",
+  "shown": "516.90"
+ },
+ "storage|state_mw|HI|build": {
+  "raw": "160.5",
+  "shown": "160.50"
+ },
+ "storage|state_mw|OK|operating": {
+  "raw": "432",
+  "shown": "432"
+ },
+ "storage|state_mw|OK|build": {
+  "raw": "651.2",
+  "shown": "651.20"
+ },
+ "storage|year_mw|2026": {
+  "raw": "9650",
+  "shown": "9,650"
+ },
+ "storage|year_mw|2027": {
+  "raw": "26847.5",
+  "shown": "26,847.50"
+ },
+ "storage|year_mw|2028": {
+  "raw": "15235.3",
+  "shown": "15,235.30"
+ },
+ "storage|year_mw|2029": {
+  "raw": "9100.9",
+  "shown": "9,100.90"
+ },
+ "storage|year_mw|2030": {
+  "raw": "2182.5",
+  "shown": "2,182.50"
+ },
+ "storage|year_mw|2031": {
+  "raw": "1218.6",
+  "shown": "1,218.60"
+ },
+ "series|storage_daily_cycle|eia930:US48|mwh_discharged|2026-11-01T00:00:00Z": {
+  "raw": "36538",
+  "shown": "36,538"
+ },
+ "series|storage_daily_cycle|eia930:US48|mwh_charged|2026-11-01T00:00:00Z": {
+  "raw": "39141",
+  "shown": "39,141"
+ },
+ "series|storage_daily_cycle|eia930:US48|peak_discharge_hour|2026-11-01T00:00:00Z": {
+  "raw": "19",
+  "shown": "19"
+ },
+ "series|storage_daily_cycle|eia930:US48|peak_charge_hour|2026-11-01T00:00:00Z": {
+  "raw": "12",
+  "shown": "12"
+ },
+ "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-01T00:00:00Z": {
+  "raw": "19559",
+  "shown": "19,559"
+ },
+ "series|storage_daily_cycle|eia930:ERCO|mwh_charged|2026-11-01T00:00:00Z": {
+  "raw": "36582",
+  "shown": "36,582"
+ },
+ "series|storage_daily_cycle|eia930:ERCO|round_trip_ratio|2026-11-01T00:00:00Z": {
+  "raw": "0.535",
+  "shown": "0.54"
+ },
+ "series|storage_daily_cycle|eia930:ERCO|peak_discharge_hour|2026-11-01T00:00:00Z": {
+  "raw": "17",
+  "shown": "17"
+ },
+ "series|storage_daily_cycle|eia930:ERCO|peak_charge_hour|2026-11-01T00:00:00Z": {
+  "raw": "11",
+  "shown": "11"
+ },
+ "series|storage_daily_cycle|eia930:ISNE|mwh_discharged|2026-11-01T00:00:00Z": {
+  "raw": "569",
+  "shown": "569"
+ },
+ "series|storage_daily_cycle|eia930:ISNE|mwh_charged|2026-11-01T00:00:00Z": {
+  "raw": "0",
+  "shown": "0"
+ },
+ "series|storage_daily_cycle|eia930:ISNE|peak_discharge_hour|2026-11-01T00:00:00Z": {
+  "raw": "17",
+  "shown": "17"
+ },
+ "series|storage_daily_cycle|eia930:MISO|mwh_discharged|2026-11-01T00:00:00Z": {
+  "raw": "1680",
+  "shown": "1,680"
+ },
+ "series|storage_daily_cycle|eia930:MISO|mwh_charged|2026-11-01T00:00:00Z": {
+  "raw": "2708",
+  "shown": "2,708"
+ },
+ "series|storage_daily_cycle|eia930:MISO|round_trip_ratio|2026-11-01T00:00:00Z": {
+  "raw": "0.62",
+  "shown": "0.62"
+ },
+ "series|storage_daily_cycle|eia930:MISO|peak_discharge_hour|2026-11-01T00:00:00Z": {
+  "raw": "18",
+  "shown": "18"
+ },
+ "series|storage_daily_cycle|eia930:MISO|peak_charge_hour|2026-11-01T00:00:00Z": {
+  "raw": "12",
+  "shown": "12"
+ },
+ "series|storage_daily_cycle|eia930:SWPP|mwh_discharged|2026-11-01T00:00:00Z": {
+  "raw": "12",
+  "shown": "12"
+ },
+ "series|storage_daily_cycle|eia930:SWPP|mwh_charged|2026-11-01T00:00:00Z": {
+  "raw": "0",
+  "shown": "0"
+ },
+ "series|storage_daily_cycle|eia930:SWPP|peak_discharge_hour|2026-11-01T00:00:00Z": {
+  "raw": "23",
+  "shown": "23"
+ },
+ "series|storage_daily_cycle|caiso:ISO|mwh_discharged|2026-11-04T00:00:00Z": {
+  "raw": "46989.667",
+  "shown": "46,989.67"
+ },
+ "series|storage_daily_cycle|caiso:ISO|mwh_charged|2026-11-04T00:00:00Z": {
+  "raw": "52946.583",
+  "shown": "52,946.58"
+ },
+ "series|storage_daily_cycle|caiso:ISO|round_trip_ratio|2026-11-04T00:00:00Z": {
+  "raw": "0.887",
+  "shown": "0.89"
+ },
+ "series|storage_daily_cycle|caiso:ISO|peak_discharge_hour|2026-11-04T00:00:00Z": {
+  "raw": "17",
+  "shown": "17"
+ },
+ "series|storage_daily_cycle|caiso:ISO|peak_charge_hour|2026-11-04T00:00:00Z": {
+  "raw": "13",
+  "shown": "13"
+ }
+}
