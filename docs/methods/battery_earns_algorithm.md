@@ -478,20 +478,22 @@ The review pack (`docs/reviews/packs/battery.md`) quotes figures the page does n
 
 | Figure | Value | How it is computed |
 |---|---|---|
-| ERCOT, 4 hours, day-ahead: share from ancillary services | 35 percent | `stat(rows, [], x, "l12_share:ancillary")` in `site/lib/batterystack.ts`: the last twelve months' ancillary revenue over their total, rounded |
-| the same: debt coverage | 2.26 times | `stat(..., "cover")`: `(total x MW - 22 x 1000 x MW) / 2,261,119` |
-| ERCOT, 4 hours, day-ahead: last twelve months | USD 73.00 per kW | `stat(..., "l12_kw:total")` |
-| CAISO, 4 hours, perfect foresight: last twelve months | USD 79.05 per kW | the same, entity `caiso:TH_SP15_GEN-APND` |
-| CAISO, 4 hours, day-ahead: last twelve months; ancillary share; coverage | USD 64.96 per kW; 51 percent; 1.90 times | the same three stats |
-| Scenario A with 50 percent contracted at USD 10 per kW-month: coverage; NPV | 3.48 times; USD -51.13 million for 100 MW | `resultOf()` in `site/lib/battery/finance.ts` with `cshare: 50, cprice: 10`, the default case's revenue (USD 81.40 per kW): coverage `(0.5 x 10 x 12 + 0.5 x 81.40 - 22) / 22.61`; NPV at 12 percent times 1000 x 100 |
-| Scenario A at a capital cost of USD 620 per kW: NPV; IRR | USD -23.12 million; 2.1 percent | `resultOf()` with `capex: 620` |
+| ERCOT, 4 hours, day-ahead: share from ancillary services | 36 percent | `stat(rows, [], x, "l12_share:ancillary")` in `site/lib/batterystack.ts`: the last twelve months' ancillary revenue over their total, rounded |
+| the same: debt coverage | 2.24 times | `stat(..., "cover")`: `(total x MW - 22 x 1000 x MW) / 2,261,119` |
+| ERCOT, 4 hours, day-ahead: last twelve months | USD 72.59 per kW | `stat(..., "l12_kw:total")` |
+| CAISO, 4 hours, perfect foresight: last twelve months | USD 80.12 per kW | the same, entity `caiso:TH_SP15_GEN-APND` |
+| CAISO, 4 hours, day-ahead: last twelve months; ancillary share; coverage | USD 65.96 per kW; 53 percent; 1.94 times | the same three stats |
+| Scenario A with 50 percent contracted at USD 10 per kW-month: coverage; NPV | 3.46 times; USD -51.46 million for 100 MW | `resultOf()` in `site/lib/battery/finance.ts` with `cshare: 50, cprice: 10`, the default case's revenue (USD 80.40 per kW): coverage `(0.5 x 10 x 12 + 0.5 x 80.40 - 22) / 22.61`; NPV at 12 percent times 1000 x 100 |
+| Scenario A at a capital cost of USD 620 per kW: NPV; IRR | USD -23.77 million; 1.8 percent | `resultOf()` with `capex: 620` |
 | The sensitivity chart's first two rows at the defaults | "Cycles a day, at most", then "Capital cost" | `sensitivity()` in `finance.ts`, sorted by the larger of the two moves; the revenue of each step as `Scenarios.tsx` builds it (the page's months with the step's totals) |
-| Cycles a day: the move down to 0.5; the move up to 1.5 | USD 11.14 million; USD 1.40 million | the bar's `down` and `up` NPV less its base, times 1000 x 100 |
-| Capital cost; degradation: the larger move | USD 9.52 million; USD 3.02 million | the bar's `size` |
-| Scenario B at 92 percent and 2 cycles: last twelve months | USD 88.24 per kW | the file of steps, efficiency 92 and 2 cycles, over the last twelve months |
-| 1.5 cycles: last twelve months | USD 83.57 per kW | the file of steps, efficiency 86 and 1.5 cycles |
+| Cycles a day: the move down to 0.5; the move up to 1.5 | USD 10.93 million; USD 1.37 million | the bar's `down` and `up` NPV less its base, times 1000 x 100 |
+| Capital cost; degradation: the larger move | USD 9.52 million; USD 2.98 million | the bar's `size` |
+| Scenario B at 92 percent and 2 cycles: last twelve months | USD 87.18 per kW | the file of steps, efficiency 92 and 2 cycles, over the last twelve months |
+| 1.5 cycles: last twelve months | USD 82.54 per kW | the file of steps, efficiency 86 and 1.5 cycles |
 
-The same script also holds the default case's headline (81.40, 8,140,219, 33, 475,477, 2,261,119, 2.63, 255.08, 614.58, 269.68, 57, -69.78 million, -8.8, 4.19), which `check-values.mjs` checks on the page. On 14 October 2026 it printed "all 32 figures are the pack's" and exited 0.
+The same script also holds the default case's headline (80.40, 8,040,161, 33, 475,477, 2,261,119, 2.58, 255.08, 613.27, 268.38, 57, -70.42 million, -9.3, 4.19; until 26 November 2026: 81.40, 8,140,219, 2.63, 614.58, 269.68, -69.78 million, -8.8), which `check-values.mjs` checks on the page. On 14 October 2026 it printed "all 32 figures are the pack's" and exited 0.
+
+Session 10000 (chain 701, 26 November 2026): the values above are those of the window November 2025 to October 2026 (check-battery-figures.mjs, run that day on battery_stack_monthly as the data machine built it); those of 14 October are in `docs/reviews/packs/battery.md`.
 
 ### 11.3 The node band (session 355, 20 October 2026)
 

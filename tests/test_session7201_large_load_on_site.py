@@ -130,7 +130,7 @@ class TheTab(unittest.TestCase):
         with open(os.path.join(SITE, "data", "siting", "large_load_rules.json"), encoding="utf-8") as fh:
             f = json.load(fh)
         fields = sum(1 for r in f["rules"] for c in r["fields"].values() if c["kind"] == "withheld" or (c["kind"] == "see" and c.get("held")))
-        self.assertEqual((len(f["held_rules"]) * 10 + fields, len(f["held_changes"]) * 4, len(f["held_laws"]) * 4), (228, 16, 4))
+        self.assertEqual((len(f["held_rules"]) * 10 + fields, len(f["held_changes"]) * 4, len(f["held_laws"]) * 4), (238, 16, 4))  # session 10000: one more held rule (Evergy Kansas South), ten cells
 
     def test_the_page_file_reaches_the_browser_through_one_module(self):
         users = []

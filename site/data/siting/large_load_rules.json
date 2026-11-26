@@ -4,11 +4,11 @@
 "utility_large_load_rule_changes",
 "state_large_load_laws"
 ],
-"built":"2026-11-26T13:40:43Z",
+"built":"2026-11-26T14:00:54Z",
 "retrieved":{
-"utility_large_load_rules":"20261126T133951Z",
-"utility_large_load_rule_changes":"20261126T133951Z",
-"state_large_load_laws":"20261126T133951Z"
+"utility_large_load_rules":"20261126T135954Z",
+"utility_large_load_rule_changes":"20261126T135954Z",
+"state_large_load_laws":"20261126T135954Z"
 },
 "method":"docs/methods/large_load_research.md",
 "fields":[
@@ -6190,24 +6190,6 @@
 ],
 "changes":[
 {
-"id":"c701_changes-01",
-"date":"2026-11-20",
-"date_printed":"2026-11-20",
-"date_kind":"stated date",
-"group":"c701_changes",
-"utility":"The Narragansett Electric Company d/b/a Rhode Island Energy",
-"state":"RI",
-"rule":"Extra-large electric load tariff ordered by the RI PUC in Report and Order No. 25873 (Docket Nos. 25-45-GE and 25-33-GE), to be filed by 31 December 2026",
-"affects":"c701_unreached-01",
-"docket":"RI PUC Docket No. 25-45-GE (consolidated with Docket No. 25-33-GE); Report and Order No. 25873",
-"kind":"order issued",
-"what":"The Rhode Island PUC's Report and Order No. 25873 orders Rhode Island Energy to file an extra-large electric load tariff by 31 December 2026, the class defined initially at a minimum demand of 20 MW.",
-"cite":"https://ripuc.ri.gov/Docket-25-45-GE (read 2026-11-26) RI PUC docket page, list of documents: \"PUC Report and Order No. 25873 (11/20/26)\" | p. 151, ordering paragraph 52: \"The Narragansett Electric Company d/b/a Rhode Island Energy shall file an extra-large electric load tariff by December 31, 2026\"",
-"url":"https://ripuc.ri.gov/sites/g/files/xkgbur841/files/2026-11/RI%20Energy%2025-45-GE%20Ord25873%20Final%2011-20-26%20v2%20w-seal.pdf",
-"title":"RI PUC Report and Order No. 25873, Docket No. 25-45-GE and Docket No. 25-33-GE (Rhode Island Energy base distribution rates and motion to reopen tariff advice, hold harmless), issued 20 November 2026",
-"read":"2026-11-26"
-},
-{
 "id":"west_changes-15",
 "date":"2026-11-13",
 "date_printed":"2026-09",
@@ -8767,7 +8749,7 @@
 "vetoed":1,
 "died":1
 },
-"changes":95,
+"changes":94,
 "held":{
 "rules":23,
 "changes":4,
