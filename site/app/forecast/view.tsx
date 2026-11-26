@@ -270,26 +270,32 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
   const names = slots.length > 1 ? "" : `${placeWords(slots[0].place)}: `;
   const groups = (ms: readonly string[]): Group[] => info.map((x) => ({ key: x.slot.mark, name: placeWords(x.slot.place), held: x.held, heads: ["Hours", ...ms.map((m) => <MethodHead key={m} m={m} scores={scores} />)] }));
   const hoursCell = (n: number | null) => (n !== null ? n.toLocaleString("en-US") : <NotHeld why="No count of hours is in the file for this row." />);
-  const cutCells = (x: (typeof info)[number], cut: string, key: string, words: string): ReactNode[] | null => {
+  // a table's columns are the methods the score file holds a row of in that table's cuts, for a place chosen: a method
+  // with no row there (the operator in a price's months and hours: no operator publishes a price forecast, which the
+  // table above says once) is not a column of blanks. A row the file holds with no number and a reason keeps its column.
+  const methodsIn = (cutNames: readonly string[]) => methods.filter((m) => info.some((x) => cutNames.some((cut) => { const g = x.cuts.get(cut); return !!g && g.keys.some((key) => g.cells.has(`${key}|${m}`)); })));
+  const cutCells = (x: (typeof info)[number], cut: string, key: string, words: string, ms: readonly string[]): ReactNode[] | null => {
     const g = x.cuts.get(cut);
     if (!x.ser || !g || !g.keys.includes(key)) return null;
-    return [hoursCell(rowHours(g.cells, key, methods)), ...methods.map((m) => <ScoreCell key={m} c={g.cells.get(`${key}|${m}`)} metric={metric} unit={unit} mcol={mcol} what={`${methodWords(m)}, ${placeWords(x.slot.place)}, ${words}`} />)];
+    return [hoursCell(rowHours(g.cells, key, ms)), ...ms.map((m) => <ScoreCell key={m} c={g.cells.get(`${key}|${m}`)} metric={metric} unit={unit} mcol={mcol} what={`${methodWords(m)}, ${placeWords(x.slot.place)}, ${words}`} />)];
   };
   const keysOf = (cut: string) => orderedKeys(cut, [...new Set(info.flatMap((x) => x.cuts.get(cut)?.keys ?? []))]);
   const table = (cut: string, first: string, name: (key: string) => ReactNode, title: string, words: (key: string) => string, each: string) => {
     const keys = keysOf(cut);
     if (!keys.length) return <p className="mb-5 text-sm" data-fc-cut-none={cut}><NotHeld words={`${title}: not held`} why={scores ? `The score file holds no row of the cut "${cut}" for ${slots.length > 1 ? "these places" : "this place"} and series.` : "The score file (site/data/predict/scores.json) is not on the site."} /></p>;
     const over = scores?.cuts?.[cut];
+    const ms = methodsIn([cut]);
     return (
       <div className="mb-5" data-fc-cut={cut}>
         <h4 className="mb-1 text-sm font-semibold"><span title={over ? `The score file's words on this cut: ${over}.` : undefined} className={over ? "cursor-help" : undefined}>{title}</span>, {mu} <span className="font-normal">({keys.length} {each})</span></h4>
-        <ScoreTable k={cut} nowrap tall={keys.length > 30} first={first} groups={groups(methods)} caption={`${names}${METRIC_WORDS[metric].toLowerCase()} of each method's forecast of ${SERIES_WORDS[s].toLowerCase()}, ${title.toLowerCase()}, ${mu}`}
-          rows={keys.map((key) => ({ key, name: name(key), cells: info.map((x) => cutCells(x, cut, key, words(key))) }))} />
+        <ScoreTable k={cut} nowrap tall={keys.length > 30} first={first} groups={groups(ms)} caption={`${names}${METRIC_WORDS[metric].toLowerCase()} of each method's forecast of ${SERIES_WORDS[s].toLowerCase()}, ${title.toLowerCase()}, ${mu}`}
+          rows={keys.map((key) => ({ key, name: name(key), cells: info.map((x) => cutCells(x, cut, key, words(key), ms)) }))} />
       </div>
     );
   };
   const eventWords = (key: string) => `Event: ${key.replace(/[_-]/g, " ")}`;
   const other = OTHER_CUTS.flatMap((cut) => keysOf(cut).map((key) => ({ cut: cut as string, key, words: cut === "event" ? eventWords(key) : CUT_WORDS[cut] ?? cut })));
+  const otherMethods = methodsIn(OTHER_CUTS);
   const parts: [string, string][] = [["last_30_days", "The last 30 days"], ["backtest", "The backtest"]];
   return (
     <div data-fc-record={slots.map((x) => x.mark).join("")}>
@@ -314,10 +320,10 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
       {other.length ? (
         <div className="mb-5" data-fc-cut="other">
           <h4 className="mb-1 text-sm font-semibold">Every hour, the last two years, the highest-demand days and the events, {mu}</h4>
-          <ScoreTable k="other" first="Hours scored" groups={groups(methods)} caption={`${names}${METRIC_WORDS[metric].toLowerCase()} of each method's forecast of ${SERIES_WORDS[s].toLowerCase()} over every hour scored, the ten highest-demand days, the price spikes and each event, ${mu}`}
+          <ScoreTable k="other" first="Hours scored" groups={groups(otherMethods)} caption={`${names}${METRIC_WORDS[metric].toLowerCase()} of each method's forecast of ${SERIES_WORDS[s].toLowerCase()} over every hour scored, the ten highest-demand days, the price spikes and each event, ${mu}`}
             rows={other.map(({ cut, key, words }) => ({ key: `${cut}|${key}`,
               name: cut === "event" && eventHref(key) ? <SiteLink href={eventHref(key)!} title={`${scores?.cuts?.event ?? "An event of /events"}. Opens the event's page.`}>{words}</SiteLink> : <span title={scores?.cuts?.[cut]} className={scores?.cuts?.[cut] ? "cursor-help" : undefined}>{words}</span>,
-              cells: info.map((x) => cutCells(x, cut, key, words.toLowerCase())) }))} />
+              cells: info.map((x) => cutCells(x, cut, key, words.toLowerCase(), otherMethods)) }))} />
         </div>
       ) : null}
     </div>

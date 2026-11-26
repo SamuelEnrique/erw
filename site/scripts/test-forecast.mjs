@@ -132,8 +132,9 @@ for (const p of ["region-tex", "region-mida", "ba-erco"]) {
   add(p, "demand", "last_2_years", "", 17420, d(880, 940, 2350, 3250, 880));
 }
 add("region-tex", "price", "all", "", 8700, { erw: [7.05, 20.1], operator: null, yesterday: [10.4, 29.9], week_ago: [13.6, 36.2], flexible: [7.05, 20.1] });
-add("region-tex", "price", "month", "2026-11", 600, { erw: [9.5, 31.0], operator: null, yesterday: [8.1, 25.5], week_ago: [11.2, 30.3], flexible: [9.5, 31.0] });
-add("region-tex", "price", "spike", "", 87, { erw: [310.4, 61.2], operator: null, yesterday: [402.9, 80.3], week_ago: [455.0, 88.8], flexible: [310.4, 61.2] });
+// as the real files are: one operator row a price place (over every hour, with its reason) and none in the other cuts
+add("region-tex", "price", "month", "2026-11", 600, { erw: [9.5, 31.0], yesterday: [8.1, 25.5], week_ago: [11.2, 30.3], flexible: [9.5, 31.0] });
+add("region-tex", "price", "spike", "", 87, { erw: [310.4, 61.2], yesterday: [402.9, 80.3], week_ago: [455.0, 88.8], flexible: [310.4, 61.2] });
 rows.push(["region-mida", "price", "erw", "all", "", null, null, null, "license needed"]);
 const scores = { ...head, method_notes: NOTES, span: { demand: { first_day: "2025-11-26", last_day: "2026-11-25" }, price: { first_day: "2025-11-26", last_day: "2026-11-25" } },
   methods: [{ id: "erw", what: "the method chosen for the place by the rule of the method note" }, { id: "operator", what: "the operator's own day-ahead forecast, as EIA-930 prints it" },
@@ -252,7 +253,12 @@ try {
   check(t.includes("The last two years") && /href="\/events\/uri-2021"[^>]*>Event: uri 2021</.test(html), "the two-year cut has its row; an event's row opens the event's page");
   check(html.includes('href="/forecast/ledger?s=demand"') && html.includes('href="/forecast/ledger/stata?s=demand"') && !two.includes("/forecast/ledger"), "the ledger is offered where its file is on the site (demand), and not where it is not (price)");
   check(!tt.includes("no operator publishes") && two.includes("not published: no operator publishes a forecast of its day-ahead price"), "a long reason is the cell's hover; the cell says its first words");
-  check(count(two, /data-not-held="1">not published</g) >= 6, "the operator's price cells say not published");
+  check(count(two, /data-not-held="1">not published</g) >= 4, "the operator's price cells say not published");
+  // a method the file scores for none of a table's rows is not a column of blanks there: the operator has a row (with
+  // its reason) over every hour scored and none by month
+  const pm = two.slice(two.indexOf('data-fc-cut="month"'), two.indexOf('data-fc-cut="other"'));
+  const po = two.slice(two.indexOf('data-fc-cut="other"'), two.indexOf("data-fc-all="));
+  check(!pm.includes(">Operator<") && pm.includes(">Yesterday<") && po.includes(">Operator<"), "price: the operator is no column by month, where the file has no row of it, and is one over every hour, where it has");
   const noTomorrow = draw(FIX, { a: "ba-erco" });
   check(noTomorrow.includes('data-fc-tomorrow="a" data-fc-shown="0"') && text(noTomorrow).includes("ERW forecast of demand, Electric Reliability Council of Texas, Inc. (ERCO), Friday 27 Nov 2026: no data") && noTomorrow.includes("the place&#x27;s demand for the last whole day is not in the warehouse yet"), "a target day with no forecast is a blank that says why");
   check(noTomorrow.includes('data-fc-day-of="2026-11-25"') && noTomorrow.includes('data-fc-cut="month"'), "a place with no forecast for tomorrow still has its past days and its record");
