@@ -6,6 +6,8 @@
 
 The AI layer never states a number it did not fetch. Every figure in an answer must be a figure a tool returned in that turn, at the precision the answer writes it or a coarser one (a result of 25.1834 may be written 25.18 or 25.2); every cited table must be one a tool read. A draft that fails is sent back once with what failed named; a second failure is refused.
 
+What the check proves, and what it does not (26 November 2026, session 10234, `docs/reviews/ask-model-audit-2026-11-26.md`, finding 3). A figure passes when its magnitude, at the precision written, lies within half a unit of any number in the turn's sources: every tool result, every tool argument (a threshold or a percentile the model chose included), the question, and in a conversation the earlier answers and their reads; on the site also the line that gives the day. The check does not ask which row, grid, day or sign a number belongs to. So a public grid's figure written as a held grid's, a day written as the UTC stamp's day where the local day differs, a difference written in the wrong direction, a number the question supplied, and a whole number that matches any count, hour or date of a result all pass. A figure that passes is traced to a source, not proved to be the right figure: the held-out set's h19 (`docs/reviews/ask-eval-2026-11-13.md`) stated a wrong sum that the check rightly passed, because the tool had returned it.
+
 ## The tools
 
 | Tool | What it returns |
