@@ -93,6 +93,10 @@ READS_THE_DISK = {
     "lib/countryfiles.ts": 'return process.env.ERW_REGIONS_DIR ?? path.join(process.cwd(), "data", "regions");',
     "lib/regionsdata.ts": 'return regionsFile("ba_boundaries.json");',
     "lib/datacenterdata.ts": "const g = INDEX.grids[grid];",
+    # session 10402 (chain 720): the equities page files under data/equities/. A series' file is the one the list names
+    # for an id the address names (the id is looked up in the list: lib/equities.ts picksOf, never used as a path), and a
+    # name that is not a plain .json file name, or one under series/, is refused, as is any "..".
+    "lib/equitiesfiles.ts": r'if (!/^(series\/)?[A-Za-z0-9][A-Za-z0-9._-]*\.json$/.test(rel) || rel.includes("..")) return null;',
     "lib/finder.ts": "const f = `${outDir()}/${SUMMARY}`;",
     "lib/findings.ts": "if (!/^[a-z0-9_.-]+$/i.test(cardId) || !fs.existsSync(f)) return null;",
     "lib/howsoondata.ts": None,

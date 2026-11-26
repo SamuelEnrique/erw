@@ -8,6 +8,6 @@ export const dynamic = "force-dynamic";
 export function GET(req: Request) {
   const s = seriesOf(req);
   if (!s) return notHere("No series of this id is on the site.");
-  const url = new URL(`/equities/rows${new URL(req.url).search}`, req.url).toString();
+  const url = new URL(`/equities/rows?id=${encodeURIComponent(s.id)}`, req.url).toString();
   return new Response(csvReader("do", url, rowsSpec(s)), { headers: attach(`erw_equities_${s.id}.do`) });
 }

@@ -8,6 +8,6 @@ export const dynamic = "force-dynamic";
 export function GET(req: Request) {
   const s = seriesOf(req);
   if (!s || s.kind !== "company") return notHere("No company of this id is on the site.");
-  const url = new URL(`/equities/filed${new URL(req.url).search}`, req.url).toString();
+  const url = new URL(`/equities/filed?id=${encodeURIComponent(s.id)}`, req.url).toString();
   return new Response(csvReader("do", url, filedSpec(s)), { headers: attach(`erw_equities_${s.id}_filed.do`) });
 }
