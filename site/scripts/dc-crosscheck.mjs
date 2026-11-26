@@ -54,5 +54,20 @@ for (const usd of [250, 325]) {
     model_for_louisiana: "not computed (no public multiplier held for Louisiana)" });
 }
 
+// 4. JLARC (page 17): "assuming a data center with $150 million in taxable computer equipment, counties could collect from
+// $10.8 million to $0.4 million over a five-year period (after accounting for different tax rates and depreciation
+// schedules)". Loudoun County (requests 202 and 204, read 26 November 2026): the general personal property rate that
+// applies to data center equipment, $4.15 per $100, and the 2026 schedule for computer equipment in a data center,
+// 60, 45, 30, 15 and 10 percent of original cost in its first five years. The model holds equipment at its cost.
+{
+  const eqShare = P.rules.split.equipment_pct / 100;
+  const x = D.dcDefaults(P, "va", { invest: 150 / eqShare, perm: 50, start: 2026, build: 1, life: 5, refresh: 0, brate: 0, erate: 4.15 });
+  const r = D.dcRun(x, P);
+  const model = r.years.filter((y) => y.phase === "operations").reduce((a, y) => a + (y.prope ?? 0), 0);
+  const loudoun = 150e6 * (0.60 + 0.45 + 0.30 + 0.15 + 0.10) * 0.0415;
+  out.push({ case: "jlarc_150m_equipment_5y_loudoun", published_range_musd: "10.8 to 0.4 (by county)", model_at_cost_musd: +(model / 1e6).toFixed(2),
+    loudoun_schedule_2026_musd: +(loudoun / 1e6).toFixed(2), model_over_loudoun: +(model / loudoun).toFixed(2) });
+}
+
 fs.writeFileSync(path.join(here, "..", "..", "docs", "reviews", "impact-datacenter-crosscheck-2026-11-26.json"), JSON.stringify({ computed: "2026-11-26", by: "site/scripts/dc-crosscheck.mjs", cases: out }, null, 1) + "\n");
 console.log(JSON.stringify(out, null, 1));
