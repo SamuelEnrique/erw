@@ -44,6 +44,8 @@ export const CASES = [
   { id: "ct_30", state: "ct", set: { invest: 500, perm: 10, life: 30 } },
   { id: "ma_words", state: "ma", set: { invest: 2000, perm: 200 } },
   { id: "oh_words", state: "oh", set: { invest: 2000, perm: 100 } },
+  { id: "ne_words", state: "ne", set: { invest: 2000, perm: 100 } },
+  { id: "mi_2050", state: "mi", set: { invest: 500, perm: 40, life: 30, matshare: 30 } },
   { id: "mt_class17", state: "mt", set: { invest: 100, perm: 5, brate: 60, erate: 60 } },
   { id: "mt_below", state: "mt", set: { invest: 40, perm: 5, brate: 1, erate: 1 } },
   { id: "ks_250m_building", state: "ks", set: { invest: 600, perm: 25, matshare: 35 } },

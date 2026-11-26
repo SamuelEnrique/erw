@@ -35,6 +35,8 @@
   "ar_act548_2025": {"title": "Arkansas Act 548 of 2025 (HB 1444), amending Arkansas Code 26-52-456, Data centers, approved 10 April 2025", "url": "https://arkleg.state.ar.us/Home/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2FACT548.pdf", "read": "2026-11-26", "request": 259},
   "ct_decd_dc": {"title": "Connecticut Department of Economic and Community Development, Office of Data Infrastructure Administration and Security: About (the Data Center Tax Incentive Program)", "url": "https://portal.ct.gov/DECD/Content/Business-Development/Data-Infrastructure-Administration-and-Security/Office-of-Data-Infrastructure-Administration-and-Security/About", "read": "2026-11-26", "request": 285},
   "ma_eoed_qdc": {"title": "Massachusetts Executive Office of Economic Development, Massachusetts Qualified Data Center Sales and Use Tax Exemption (with its notice of the pause)", "url": "https://www.mass.gov/info-details/massachusetts-qualified-data-center-sales-and-use-tax-exemption", "read": "2026-11-26", "request": 289},
+  "mi_msf_edc": {"title": "Michigan Strategic Fund, Enterprise Data Center Sales and Use Tax Exemption Guidelines (MCL 205.54ee and 205.94cc)", "url": "https://www.michiganbusiness.org/globalassets/documents/data-center/enterprise-data-center-guidelines.pdf", "read": "2026-11-26", "request": 294},
+  "ne_governor_eo": {"title": "Office of the Governor of Nebraska, Gov. Pillen Signs Executive Order on Data Centers (21 July 2026)", "url": "https://governor.nebraska.gov/gov-pillen-signs-executive-order-data-centers", "read": "2026-11-26", "request": 297},
   "oh_governor_pause": {"title": "Office of the Governor of Ohio, Governor DeWine Announces Pause of Data Center Tax Exemption (bulletin of 27 May 2026)", "url": "https://content.govdelivery.com/accounts/OHIOGOVERNOR/bulletins/419304d", "read": "2026-11-26", "request": 290},
   "ok_iec_2026": {"title": "State of Oklahoma Incentive Evaluation Commission, Computer Services and Data Processing Tax Exemption, Draft Evaluation (PFM Group Consulting, 30 September 2026)", "url": "https://oklahoma.gov/content/dam/ok/en/omes/documents/computer-services-exemption-draft.pdf", "read": "2026-11-26", "request": 256},
   "ok_commerce_dc": {"title": "Oklahoma Department of Commerce, Oklahoma Data Center Industry Tax Incentives", "url": "https://www.okcommerce.gov/wp-content/uploads/Data-Center-Industry-Tax-Incentives.pdf", "read": "2026-11-26", "request": 257},
@@ -321,6 +323,25 @@
     "quote": "EOED will not be accepting applications from entities seeking certification to claim the Qualified Data Center Tax Exemption until further notice.",
     "terms": {"cite": "ma_eoed_qdc", "quote": "The applicant invests at least $50 million on \"qualified data center costs\" within 10 years of certification"},
     "tip": "Massachusetts (General Laws c. 64H, s. 6(zz), and 400 CMR 9.00, as the Executive Office of Economic Development describes them): a certified qualified data center is exempt for 20 years on data center equipment, software, electricity and construction costs, with at least 100,000 square feet, 100 jobs in the state within five years and $50 million of qualified costs within ten years. Since the administration's framework of 25 June 2026, \"EOED will not be accepting applications from entities seeking certification to claim the Qualified Data Center Tax Exemption until further notice\": a project now cannot be certified, so the tool applies no exemption."
+   }
+  },
+  "mi": {
+   "name": "Michigan",
+   "sales_exemption": {
+    "cite": "mi_msf_edc", "covers": ["equipment", "construction"], "min_investment_usd": 250000000, "min_jobs": 30, "last_year": 2050, "start_before_year": 2030,
+    "quote": "Affiliates that will develop, own, and operate the facility, is not less than $250,000,000.00",
+    "jobs": {"cite": "mi_msf_edc", "quote": "maintain a minimum of 30 Qualified New Jobs"},
+    "term": {"cite": "mi_msf_edc", "quote": "The time frame for this exemption is April 22, 2025 through December 31, 2050"},
+    "certificates": {"cite": "mi_msf_edc", "quote": "No new Certificates may be issued by the MSF after December 31, 2029."},
+    "tip": "Michigan (MCL 205.54ee and 205.94cc, as Public Acts 207 and 181 of 2024 amended them; the Michigan Strategic Fund's guidelines): data center equipment, including certain construction materials affixed to the building, of a certified enterprise data center is exempt from the state's 6 percent sales and use tax, with at least $250,000,000 of capital investment and 30 qualified new jobs paid 150 percent or more of the Prosperity Region's median wage, for purchases from 22 April 2025 through 31 December 2050 (2065 on a brownfield or a former power plant site); the Fund issues no new certificate after 2029, and a certified facility may take no state or local property tax benefit. The tool applies it to the equipment and to the building's taxable share when typed, through 2050, to a project starting before 2030; the wage condition is not tested, and the abatement input should stay at 0 for it."
+   }
+  },
+  "ne": {
+   "name": "Nebraska",
+   "sales_exemption": {
+    "cite": "ne_governor_eo", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
+    "quote": "signed an executive order ending access to tax incentives provided through the state's ImagiNE Nebraska Act for data centers",
+    "tip": "Nebraska: on 21 July 2026 the Governor \"signed an executive order ending access to tax incentives provided through the state's ImagiNE Nebraska Act for data centers\", prohibiting data center applications from being approved under the Act (the Governor's release). A project now cannot obtain them, so the tool applies no exemption."
    }
   },
   "oh": {

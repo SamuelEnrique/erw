@@ -265,6 +265,15 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   // Ohio (session 10815): the Tax Credit Authority takes no new requests since the Governor's directive of 27 May 2026, held as words
   const oh = D.dcRun(D.dcDefaults(P, "oh", { invest: 2000, perm: 100 }), P);
   assert.equal(oh.exemption.held, true); assert.equal(oh.exemption.eligible, false); near(oh.sums.forgone, 0);
+  // Nebraska (session 10815): ImagiNE incentives closed to data centers by the order of 21 July 2026, held as words
+  const ne = D.dcRun(D.dcDefaults(P, "ne", { invest: 2000, perm: 100 }), P);
+  assert.equal(ne.exemption.held, true); assert.equal(ne.exemption.eligible, false);
+  // Michigan (the Strategic Fund's guidelines, session 10815): USD 250 million and 30 jobs, purchases through 2050, certificates before 2030
+  assert.equal(D.dcRun(D.dcDefaults(P, "mi", { invest: 300, perm: 29 }), P).exemption.eligible, false);
+  assert.equal(D.dcRun(D.dcDefaults(P, "mi", { invest: 300, perm: 30, start: 2030 }), P).exemption.eligible, false);
+  const mi = D.dcRun(D.dcDefaults(P, "mi", { invest: 300, perm: 30, start: 2026, build: 2, life: 30 }), P);
+  // the build and 2033, 2038, 2043, 2048 are through 2050; 2053 is not: 5 of 6 purchases, at 6 percent
+  near(mi.sums.forgone, 5 * 300e6 * 0.682 * 0.06, "MI through 2050");
 });
 
 test("the equipment's taxable value by a county's schedule: Loudoun's 2026 (60, 45, 30, 15, 10 percent) reproduced", () => {
