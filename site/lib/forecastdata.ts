@@ -65,7 +65,7 @@ export function dcParams(): DcParams {
   const A = announced as unknown as { defaults: DcParams["announced"]["defaults"] };
   const W = wages as unknown as { year: number; states: Record<string, { operations?: { per_job_usd: number }; construction?: { per_job_usd: number } }> };
   return {
-    announced: { defaults: A.defaults },
+    announced: { defaults: A.defaults, computed: (announced as unknown as { computed?: string }).computed },
     rules: dcRules as unknown as DcParams["rules"],
     wages: { year: W.year, states: Object.fromEntries(Object.entries(W.states).map(([s, v]) => [s, {
       ...(v.operations ? { operations: { per_job_usd: v.operations.per_job_usd } } : {}),

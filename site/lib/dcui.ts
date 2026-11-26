@@ -25,7 +25,7 @@ export type DcField = {
 const n = (v: number, d = 0) => v.toLocaleString("en-US", { maximumFractionDigits: d });
 const range = (P: DcParams, k: keyof DcParams["announced"]["defaults"], d = 3) => {
   const s = P.announced.defaults[k];
-  return `the median of ${s.n} announced projects (${n(s.low!, d)} to ${n(s.high!, d)})`;
+  return `the median of ${s.n} announced projects (${n(s.low!, d)} to ${n(s.high!, d)}${P.announced.computed ? `; computed ${P.announced.computed}` : ""})`;
 };
 
 export const DC_FIELDS: DcField[] = [
