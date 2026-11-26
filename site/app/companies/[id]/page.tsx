@@ -139,7 +139,7 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
         <aside className="min-w-0">
           <InputPanel title="This company">
             <dl>
-              <Fact label="Kind" tip={<Tip id="c-kind" label="How the kind was set">{`Set by: ${c.kind_basis}. The first of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, other that its rows show.`}</Tip>}>{c.kind}</Fact>
+              <Fact label="Kind" tip={<Tip id="c-kind" label="How the kind was set">{`Set by: ${c.kind_basis}. The first of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, power marketer, other that its rows show; other where no rule applies.`}</Tip>}>{c.kind}</Fact>
               {c.segment ? <Fact label="Segment" tip={<Tip id="c-seg" label="How the segment was set">{`By ${c.segment_basis || "kind"}: the fuel or line with the most MW across its plants, plans and queue positions.`}</Tip>}>{c.segment}</Fact> : null}
               {c.parent ? <Fact label="Parent" tip={<Tip id="c-parent" label="Where the parent is stated">{`Stated by ${c.parent_basis}. A parent is a second field, never in place of the name.`}</Tip>}>{c.parent_id ? <Link href={`/companies/${c.parent_id}`}>{c.parent}</Link> : c.parent}</Fact> : null}
               {c.eia_utility_id ? <Fact label="EIA utility id" tip={<Tip id="c-eia" label="The EIA id">Every row carrying this id in EIA-860, EIA-860M and EIA-861 is this company, whatever name the row gives it.</Tip>}><span className="font-mono">{c.eia_utility_id}</span></Fact> : null}
