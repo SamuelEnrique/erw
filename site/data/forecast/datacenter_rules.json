@@ -40,6 +40,8 @@
   "ne_governor_eo": {"title": "Office of the Governor of Nebraska, Gov. Pillen Signs Executive Order on Data Centers (21 July 2026)", "url": "https://governor.nebraska.gov/gov-pillen-signs-executive-order-data-centers", "read": "2026-11-26", "request": 297},
   "oh_tax_kwh2b": {"title": "Ohio Department of Taxation, KWH 2B: Instructions for Completing Electric Distribution Company Tax Return (KWH 2) and Schedule of Self-Assessing Purchasers (KWH 2A)", "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/forms/excise/electric_distribution-kwh/KWH_KWH2B.pdf", "read": "2026-11-26", "request": 312},
   "oh_tax_kwh3": {"title": "Ohio Department of Taxation, KWH 3: application to self-assess the kilowatt-hour tax (Revised Code 5727.81(C))", "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/forms/excise/electric_distribution-kwh/KWH_KWH3.pdf", "read": "2026-11-26", "request": 311},
+  "oh_tax_guide_2025": {"title": "Ohio Department of Taxation, Property Tax Guide (revised January 2025)", "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/documents/Ohio_Department_of_Taxation_Property_Tax_Guide.pdf", "read": "2026-11-26", "request": 318},
+  "oh_tax_tpp": {"title": "Ohio Department of Taxation, Property Tax: Tangible Personal Property (publication)", "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/publications/property_tax_tangible_personal_property.pdf", "read": "2026-11-26", "request": 316},
   "oh_governor_pause": {"title": "Office of the Governor of Ohio, Governor DeWine Announces Pause of Data Center Tax Exemption (bulletin of 27 May 2026)", "url": "https://content.govdelivery.com/accounts/OHIOGOVERNOR/bulletins/419304d", "read": "2026-11-26", "request": 290},
   "ok_iec_2026": {"title": "State of Oklahoma Incentive Evaluation Commission, Computer Services and Data Processing Tax Exemption, Draft Evaluation (PFM Group Consulting, 30 September 2026)", "url": "https://oklahoma.gov/content/dam/ok/en/omes/documents/computer-services-exemption-draft.pdf", "read": "2026-11-26", "request": 256},
   "ok_commerce_dc": {"title": "Oklahoma Department of Commerce, Oklahoma Data Center Industry Tax Incentives", "url": "https://www.okcommerce.gov/wp-content/uploads/Data-Center-Industry-Tax-Incentives.pdf", "read": "2026-11-26", "request": 257},
@@ -371,6 +373,10 @@
   },
   "oh": {
    "name": "Ohio",
+   "property": {"building_ratio": 0.35, "equipment_ratio": 0, "cite": "oh_tax_guide_2025",
+    "quote": "The taxable value is 35% of your property's appraised value.",
+    "equipment": {"cite": "oh_tax_tpp", "quote": "the vast majority of Ohio businesses no longer"},
+    "tip": "Ohio: real property's taxable value is 35 percent of its appraised value (the Department of Taxation's Property Tax Guide, January 2025); the tax on general businesses' tangible personal property (machinery and equipment) ended in 2009 (\"for the first time in 163 years, the vast majority of Ohio businesses no longer faced a tax on tangible personal property\", the Department's publication), continuing for telephone companies. The tool assesses the building at 35 percent of its cost and the equipment at nothing, and applies the reader's rate."},
    "electricity": {
     "cite": "oh_tax_kwh2b", "kind": "monthly_blocks",
     "blocks": [
