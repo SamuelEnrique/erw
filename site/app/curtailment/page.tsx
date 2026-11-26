@@ -68,6 +68,10 @@ function shareCurtailed(grid: string, m: string, mwh: number, held: number, days
   const all = p.curtailed_solar_mwh + p.curtailed_wind_mwh;
   return <span data-share-days={m} className="cursor-help underline decoration-dotted" title={`Over the ${held} of ${days} days for which CAISO's wind and solar output is held; a day without it is left out of both sides of the share. Every day held of the month, from CAISO's record by the hour: ${whole(all)} MWh over ${p.days_held} of ${p.days_in_month} days`}>{whole(mwh)}</span>;
 }
+// session 10210 (the curtailment audit, finding 6): California's hours are Pacific clock time, as CAISO's record keeps
+// them, while "Where free energy is" counts its hours in Pacific standard time; from March to November the two are an hour
+// apart (on standard time 2026's hour with the most is 14:00, not 15:00)
+const CLOCK_WORDS = "Pacific clock time, with daylight saving time from March to November, so an hour later than the standard time of the prices below in those months; each bar is the period's total in that hour of the day.";
 const LOCAL = "Turned down to relieve a congested line somewhere on the grid", SYSTEM = "Turned down because the whole system had more supply than it could use or export";
 
 /** By day and by month, from the curtailment tables (what /curtailment showed), with the shares of shares.json. */
@@ -154,7 +158,7 @@ function California({ c, period, r }: { c: Choice; period: string; r: Row }) {
   return (
     <>
       <ToolSection title="By hour of the day" id="hours">
-        <ChartFrame title={`California, ${label}, MWh`} legend={FUELS.map((f) => ({ label: f.label, color: f.color }))} note="Pacific time; each bar is the period's total in that hour of the day.">
+        <ChartFrame title={`California, ${label}, MWh`} legend={FUELS.map((f) => ({ label: f.label, color: f.color }))} note={CLOCK_WORDS}>
           <XY id="hours" x={s.map((_, h) => hourName(h))} unit="MWh" label={`California, ${label}: wind and solar curtailed by local hour of the day, MWh`}
             series={[{ name: "Solar", color: FUELS[0].color, stack: "a", values: s }, { name: "Wind", color: FUELS[1].color, stack: "a", values: w }]} />
         </ChartFrame>
@@ -187,7 +191,7 @@ function California({ c, period, r }: { c: Choice; period: string; r: Row }) {
               <HeadlineNumber label="Taken in by the batteries" value={<N k="batt|charging">{whole(br.battery_charging_mwh)}</N>} unit="MWh" note={<>Over the same days, at every hour: each five-minute value below zero, added up. <span data-storage-count="1">The <SiteLink href="/storage">storage page</SiteLink>&apos;s daily charging nets each hour first, so it is never higher.</span></>} />
               <HeadlineNumber label="Curtailed while they charged" value={br.curtailed_while_charging_share_pct !== undefined ? <N k="batt|while">{two(br.curtailed_while_charging_share_pct)}</N> : <Blank why="no hour of the month has both figures" />} unit="percent" note={<>Of the curtailed MWh, the share in hours in which the batteries took in more than they gave back.</>} />
             </HeadlineRow>
-            <ChartFrame title={`The average day of ${periodName(battMonth)}, MW`} legend={[{ label: "Wind and solar curtailed", color: "var(--color-fuel-solar)" }, { label: "Battery charging", color: "var(--color-fuel-storage)" }]} note="Pacific time.">
+            <ChartFrame title={`The average day of ${periodName(battMonth)}, MW`} legend={[{ label: "Wind and solar curtailed", color: "var(--color-fuel-solar)" }, { label: "Battery charging", color: "var(--color-fuel-storage)" }]} note="Pacific clock time, with daylight saving time.">
               <XY id="battery" x={battDay(br).map((p) => hourName(p.hour))} unit="MW" label={`California, ${periodName(battMonth)}: the average day's wind and solar curtailment and battery charging by local hour, MW`}
                 series={[{ name: "Wind and solar curtailed", color: "var(--color-fuel-solar)", kind: "area", values: battDay(br).map((p) => p.curtailed) }, { name: "Battery charging", color: "var(--color-fuel-storage)", kind: "line", values: battDay(br).map((p) => p.charging) }]} />
             </ChartFrame>
