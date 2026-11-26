@@ -78,3 +78,6 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | An equipment value schedule (a county's, typed) | done | 10809 | three fields; Loudoun's 2026 schedule reproduces its USD 9.96 million |
 | Window F's browser read, rows naming `/impact` | none yet | 10808 | `docs/reviews/browser-read-2026-11-26.md`: `/impact` with Datacenter is part C, read as it lands |
 | More states, words or rules | done | 10809, 10810 | Pennsylvania and Kentucky by rule; Mississippi, Indiana and Washington as words (23 states in `datacenter_rules.json`) |
+| Words-only states turned into rules where the law can be read | done | 10813 | Georgia (HB 1291 as signed, through 2031), Utah (59-12-102(111)); Illinois added as words (program paused 1 July 2026); Mississippi stays words |
+| Statutes re-read | done | 10813 | Utah's code showed a version effective 1 July 2026, read; paragraph unchanged |
+| A build and read of the newest head | waiting | 10813 | the build lock was held by window A's gate at 13:25 UTC |
