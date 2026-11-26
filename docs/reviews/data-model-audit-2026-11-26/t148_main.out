@@ -1,0 +1,55 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_ TheNodeTests.test_the_sessions_own_tests_pass_with_no_request_and_no_switch_set _
+
+self = <test_session148.TheNodeTests testMethod=test_the_sessions_own_tests_pass_with_no_request_and_no_switch_set>
+
+    def test_the_sessions_own_tests_pass_with_no_request_and_no_switch_set(self):
+        node = shutil.which("node")
+        if not node or not os.path.isdir(os.path.join(ROOT, "site", "node_modules")):
+            self.skipTest("node or the site's packages are not here")
+        # the switches of the session are taken out of the child's environment only: this process's is not changed
+        env = {k: v for k, v in os.environ.items() if k not in ("ASK_RULE_PLAN", "ASK_READER_EFFORT", "ASK_ROLLUP", "ERW_PAGES_TOGETHER", "NEXT_PHASE")}
+        r = subprocess.run([node, "--import", "./scripts/alias-register.mjs", "scripts/test-ask-speed.mjs"], cwd=os.path.join(ROOT, "site"), capture_output=True, text=True, timeout=300, env=env)
+>       self.assertEqual(r.returncode, 0, r.stdout[-1500:] + r.stderr[-1500:])
+E       AssertionError: 1 != 0 : ok   the stages sum to the whole, exactly, and what is not a named stage is other
+E       ok   the same stages on every answer of the first run of the session, summing to the whole
+E       _premium_annual, Supabase live set.'
+E             },
+E             isError: false
+E           },
+E           {
+E             out: {
+E               aggregation: 'mean',
+E               value_column: 'value',
+E               filters: {
+E                 entity: 'eia930:ERCO',
+E                 variable: 'intensity_generation',
+E                 start: '2026-09-01',
+E                 end: '2026-10-01'
+E               },
+E               rows_matched: 1,
+E               units: [ 'kgCO2/MWh' ],
+E               variables: [ 'intensity_generation' ],
+E               time_span: { first: '2026-09-01T00:00:00Z', last: '2026-09-01T00:00:00Z' },
+E               result: [ { value: 340.3496, n: 1 } ],
+E               table: 'carbon_intensity_monthly',
+E               data_version: 'Supabase live set (public site); table last run 2026-10-06T14:20:17Z',
+E               source_report: 'erw:carbon_intensity;erw:carbon_intensity_caiso',
+E               license: 'public',
+E               tier: 'derived',
+E               citation: "Energy Research Warehouse (ERW), derived. carbon_intensity: Carbon intensity per balancing authority (docs/methods/emissions.md). https://github.com/SamuelEnrique/erw/blob/main/docs/methods/emissions.md. Energy Research Warehouse (ERW), derived. carbon_intensity_caiso: California's carbon intensity of generation from the join of 16 December 2025 (docs/methods/eia930_caiso_break.md). https://github.com/SamuelEnrique/erw/blob/main/docs/methods/eia930_caiso_break.md. Retrieved 2026-10-06 via the ERW, table carbon_intensity_monthly, Supabase live set."
+E             },
+E             isError: false
+E           }
+E         ],
+E         operator: 'deepStrictEqual',
+E         diff: 'simple'
+E       }
+E       
+E       Node.js v24.19.0
+
+tests\test_session148.py:685: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_session148.py::TheNodeTests::test_the_sessions_own_tests_pass_with_no_request_and_no_switch_set
+1 failed in 2.03s

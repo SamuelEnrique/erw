@@ -1,0 +1,45 @@
+{
+ "retried": 122,
+ "without_a_record_of_why": 102,
+ "classes": [
+  [
+   "number",
+   17
+  ],
+  [
+   "no number: unit",
+   1
+  ],
+  [
+   "no number: other: a refusal that states a figure (1,502.00): rule 3 says a ref",
+   1
+  ],
+  [
+   "no number: other: a refusal that states a figure (2690, 2447): rule 3 says a r",
+   1
+  ]
+ ],
+ "examples": [
+  {
+   "run": "session 2221, Python loop",
+   "id": "b02",
+   "first_violations": [
+    "unit: 1 MW (the tools gave it in USD/MW)"
+   ]
+  },
+  {
+   "run": "session 6168, Python loop over the tables' files, the new tables' set",
+   "id": "fc19",
+   "first_violations": [
+    "a refusal that states a figure (1,502.00): rule 3 says a refusal states no numbers. Remove it, or, if a tool result holds what the question "
+   ]
+  },
+  {
+   "run": "session 6169, Python loop over the tables' files, the new tables' set",
+   "id": "lw09",
+   "first_violations": [
+    "a refusal that states a figure (2690, 2447): rule 3 says a refusal states no numbers. Remove it, or, if a tool result holds what the questio"
+   ]
+  }
+ ]
+}

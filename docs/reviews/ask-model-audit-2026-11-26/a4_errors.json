@@ -1,0 +1,71 @@
+{
+ "errors": 11,
+ "python_loop": [
+  {
+   "file": "eval_s3280_loop_trader_grades.json",
+   "id": "tr13",
+   "loop": "python",
+   "cost_usd": 0.0,
+   "tool_calls": null,
+   "trace_calls": 0,
+   "error": "None"
+  },
+  {
+   "file": "eval_s3280_loop_trader_grades.json",
+   "id": "tr14",
+   "loop": "python",
+   "cost_usd": 0.0,
+   "tool_calls": null,
+   "trace_calls": 0,
+   "error": "None"
+  },
+  {
+   "file": "eval_s3280_loop_trader_run.json",
+   "id": "tr13",
+   "loop": "python",
+   "cost_usd": 0.0,
+   "tool_calls": null,
+   "trace_calls": 0,
+   "error": "ValueError: could not convert string to float: ''"
+  },
+  {
+   "file": "eval_s3280_loop_trader_run.json",
+   "id": "tr14",
+   "loop": "python",
+   "cost_usd": 0.0,
+   "tool_calls": null,
+   "trace_calls": 0,
+   "error": "ValueError: could not convert string to float: ''"
+  }
+ ],
+ "site_loop_zero_cost": [
+  {
+   "file": "eval_s1122_grades.json",
+   "id": "k03",
+   "loop": "site",
+   "cost_usd": 0.0,
+   "tool_calls": null,
+   "trace_calls": 0,
+   "error": "None"
+  },
+  {
+   "file": "eval_s1122_grades_s2918.json",
+   "id": "k03",
+   "loop": "site",
+   "cost_usd": 0.0,
+   "tool_calls": null,
+   "trace_calls": 0,
+   "error": "None"
+  },
+  {
+   "file": "eval_s1122_run.json",
+   "id": "k03",
+   "loop": "site",
+   "cost_usd": 0.0,
+   "tool_calls": null,
+   "trace_calls": 0,
+   "error": "the question could not be answered: Cannot read properties of undefined (reading 'aggregation')"
+  }
+ ],
+ "site_loop_with_cost": 4
+}
