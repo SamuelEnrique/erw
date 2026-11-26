@@ -6,3 +6,4 @@ Session 10600, chain 730. Method: `docs/methods/predict.md`.
 - `python replication/predict/export.py --place region-tex --day 2026-11-20` writes the inputs of the Stata file for one place and one target day of the backtest, and the Python forecast for that day.
 - `replication/predict/predict_demand.do` rebuilds the regression for that place and day in Stata from those inputs and prints, hour by hour, its forecast beside the Python one. Not run on the machine that wrote it (no Stata there).
 - `replication/predict/replicate.py` (chain 730, part F) reproduces every figure of `site/data/predict/scores.json` from the public tables.
+- `replication/predict/crosscheck_ercot.py` sets ERCOT's own chart of its day-ahead (RUC) forecast's monthly error (read off the image to about 0.05 point) beside the backtest's monthly score of ERCOT's EIA-930 filing, and writes `crosscheck_ercot.csv` (method note, section 15).

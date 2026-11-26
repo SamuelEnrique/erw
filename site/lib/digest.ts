@@ -432,6 +432,18 @@ export function dedupeOpening(html: string): string {
 // the days of the archive
 // ---------------------------------------------------------------------------------------------------------------------
 
+/** Session 10235 (docs/reviews/digest-model-audit-2026-11-26.md, finding 2): whether an ISO week's (YYYY-Www) Roundup
+ *  was due, its Sunday 23:00 UTC passed. A weekend day of a week whose Roundup was due and is not in docs/roundup/ says
+ *  that no Roundup was written for it; "not written yet" stood on the weekend days of W46 and W47 on 26 November 2026,
+ *  days after each week's Sunday. false for a string that is not an ISO week. */
+export function roundupDue(week: string, now: Date = new Date()): boolean {
+  const m = /^(\d{4})-W(\d{2})$/.exec(week);
+  if (!m) return false;
+  const jan4 = new Date(Date.UTC(Number(m[1]), 0, 4));   // the ISO year's first week holds 4 January
+  const monday = jan4.getTime() - ((jan4.getUTCDay() + 6) % 7) * 86400000 + (Number(m[2]) - 1) * 7 * 86400000;
+  return now.getTime() >= monday + 6 * 86400000 + 23 * 3600000;
+}
+
 /** Is a YYYY-MM-DD date a Saturday or Sunday? */
 export function weekendDay(date: string): boolean {
   const d = new Date(`${date}T00:00:00Z`);
