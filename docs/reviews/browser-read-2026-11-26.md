@@ -375,6 +375,23 @@ Also seen, and not this page's: the shared "About" mark does not close on Escape
 
 Pictures: `docs/reviews/browser-read-2026-11-26/impact-datacenter/impact-datacenter-as-it-opens-1280.png` (Texas, 1,000 MW); `docs/reviews/browser-read-2026-11-26/impact-datacenter/impact-datacenter-an-announced-project-1280.png` (its most telling choice: an announced project picked in Louisiana); `docs/reviews/browser-read-2026-11-26/impact-datacenter/impact-datacenter-virginia-1280.png` (Virginia, the exemption's cost).
 
+### Before `/equities` lands: its energy prices against the price board
+
+The equities page files reached main at 12:51 UTC (`site/data/equities/`, built 12:14 UTC; the equity side held, eight energy prices shown); the page had not landed at 14:54 UTC. The same number in two places was read from the file and from the board as production drew it at 14:53 UTC (`runs/c750/c_board_capture.mjs`, `c_equities_vs_board.py`):
+
+| Series of the equities file | The file's latest | The price board |
+|---|---|---|
+| WTI crude oil, Cushing, spot | 89.53 on 17 November | 89.53 USD/bbl, 17 Nov |
+| Brent crude oil, Europe, spot | 92.94 on 17 November | 92.94 USD/bbl, 17 Nov |
+| Henry Hub natural gas, spot | 3.10 on 17 November | 3.10 USD/MMBtu, 17 Nov |
+| ERCOT Hub average, day-ahead, daily mean | 46.3104 on 25 November | 46.31 USD/MWh, 25 Nov |
+| CAISO SP15, day-ahead, daily mean | 38.8894 on 25 November | 38.89 USD/MWh, 25 Nov |
+| CAISO NP15, day-ahead, daily mean | 48.6138 on 25 November | 48.61, 25 Nov (the week's table) |
+| Uranium, monthly average | 72.8876 for October 2026 | 72.89 USD/lb, Oct 2026 |
+| California carbon allowance, current auction | 32.48 for August 2026 | 32.48 USD/t CO2e, Aug 2026 |
+
+Eight of eight agree, value and day. The four series the file holds back carry no value in it, each with its reason (PJM Western Hub, NYISO New York City and ISO-NE Mass Hub "license needed", MISO Indiana Hub "paused"); the board draws the same hubs blank ("licensed source needed", "license needed"). The board itself is recorded as it stood (25 groups, 276 rows, 12 tiles), to be set beside the board once the equities group lands.
+
 ## For Samuel's ruling (each with the page left as it is)
 
 1. **A reason on hover and a finger.** Why a strip or a cell is blank, why two figures differ, and what a colored cell holds are given as the browser's own tooltip. A mouse opens it; a finger at 390 px opens nothing. Seen on `/conditions` (the blank strips), `/congestion` (the hour-by-month cells, the operators not drawn), `/demand`, `/supply` and `/events` (blank cells and the figures' notes). The "i" marks and the chart cards do open on a tap. Default taken: nothing changed. The question: should a blank's reason open on a tap, as the "i" marks do?
