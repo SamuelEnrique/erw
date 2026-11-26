@@ -72,7 +72,7 @@ export default function Terms() {
           Each question asked on <Link href="/ask">Ask</Link> is logged without identity: the time, the question and whether it was answered. The
           requester&apos;s IP address is held in the server&apos;s memory only to enforce the limit of questions per hour, and is never logged or stored.
           To count the questions one address asks in a day, the database keeps a keyed code of the address for that day only: it cannot be
-          turned back into an address and is another value the next day.
+          turned back into an address without the server&apos;s secret, and is another value the next day.
           Questions are answered by a Claude model from Anthropic, which receives the question and the warehouse&apos;s data.
         </p>
       </Section>

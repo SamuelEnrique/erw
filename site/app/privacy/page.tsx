@@ -62,7 +62,7 @@ export default function Privacy() {
         <p className="text-sm">
           To keep one address from flooding the question tools, the sign-up form, the game and the downloads, the site counts requests per
           address. The address itself is held only in the server&apos;s memory for the hour of the limit. What the database holds is a keyed
-          code of the address for the current day, with a count: it cannot be turned back into an address, it is another value the next day,
+          code of the address for the current day, with a count: it cannot be turned back into an address without the server&apos;s secret, it is another value the next day,
           and it is deleted once it is a day old, the next time the site counts a request.
         </p>
       </Section>
