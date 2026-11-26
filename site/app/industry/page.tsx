@@ -33,8 +33,8 @@ const COLORS = ["accent", "series-1", "series-3", "series-5", "series-6", "serie
 const SRC = {
   monthly: `${F.sources.monthly}, as the ERW's table eia_sector_energy_consumption_monthly holds it.`,
   mecs: `${F.sources.industries}, as the ERW's table eia_mecs_manufacturing holds it. Figures are for ${F.industries.survey_year}.`,
-  seds: `${F.sources.states}, as the ERW's tables eia_seds_industrial_annual and eia_seds_state_energy hold it.`,
-  sales: `${F.sources.electricity_sales}, as the ERW's table eia_retail_sales_monthly holds it.`,
+  seds: `${F.sources.states}, as the ERW's tables eia_seds_industrial_annual and eia_seds_state_energy hold it. Electricity is the electricity sold to industrial customers; electricity a plant makes for itself is not in it, and the fuel burned to make it is counted with the other fuels.`,
+  sales: `${F.sources.electricity_sales}, as the ERW's table eia_retail_sales_monthly holds it. Sales only: electricity a plant makes for itself is not in it.`,
   aeo: `${F.sources.outlook}, AEO${F.outlook.release}, as the ERW's table eia_aeo_industrial holds it: EIA's own projections, not the ERW's.`,
 };
 const WITHHELD = `EIA withholds or does not estimate this cell (its codes *, D, NA or Q), so it has no figure here. ${F.industries.note}`;
@@ -48,6 +48,8 @@ function Fig({ v, src, k, digits }: { v: number | null; src: string; k: string; 
   if (v === null) return <span className="cursor-help text-muted" title={src.startsWith("EIA withholds") ? src : `Not held in the file. ${src}`} data-not-held={k}>not held</span>;
   return <span className="cursor-help" title={src} data-fig={k}>{digits ? digits(v) : tbtu(v)}</span>;
 }
+/** What the survey's "Net electricity" holds (audit of 26 November 2026, finding 2): it equals the Table 11.1 parts so. */
+const NET_ELEC = "Net electricity is the electricity bought and transferred in, plus what the plants made from renewables other than wood and other biomass, less what they sold or transferred offsite, at 3,412 Btu a kWh. Electricity a plant makes from its own fuel is not in it: that fuel is counted in its own column. An industry's electricity use is its net demand, in the Electricity table under Two industries side by side.";
 const whole = (v: number) => Math.round(v).toLocaleString("en-US");
 const usd = (v: number) => `$${v.toFixed(2)}`;
 const billions = (v: number) => `$${(v / 1e9).toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} bn`;
@@ -172,7 +174,7 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
           rows={ranked.map((r, i) => ({ key: r.naics, cells: [
             <span key="n" title={`NAICS ${r.naics}`} data-industry-rank={i + 1}>{i + 1}. {r.name}</span>,
             <Fig key="s" v={shareOfSum(F, r.naics, region)} src={`The industry's total as a percent of the sum of the three-digit industries' totals in the region; not held where EIA withholds a total there. ${SRC.mecs}`} k={`sh-${r.naics}`} digits={(v) => `${v.toFixed(1)}%`} />,
-            ...MECS_FUELS.map((f) => <Fig key={f.key} v={r.fuels[f.key] ?? null} src={(r.fuels[f.key] ?? null) === null ? WITHHELD : `${f.label}, ${F.industries.unit.split(" ")[0]}. ${SRC.mecs}`} k={`f-${r.naics}-${f.key}`} />),
+            ...MECS_FUELS.map((f) => <Fig key={f.key} v={r.fuels[f.key] ?? null} src={(r.fuels[f.key] ?? null) === null ? WITHHELD : `${f.label}, ${F.industries.unit.split(" ")[0]}. ${f.key === "net_electricity" ? `${NET_ELEC} ` : ""}${SRC.mecs}`} k={`f-${r.naics}-${f.key}`} />),
           ] }))}
         />
       </ToolSection>
@@ -187,8 +189,8 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
           caption={`Fuel consumption of ${name(ia)} and ${name(ib)}, ${F.industries.survey_year}, ${MECS_REGIONS.find((r) => r.key === region)?.label}`}
           head={[`Fuel (${MECS_REGIONS.find((r) => r.key === region)?.label}, ${F.industries.unit.split(" ")[0]})`, `A: ${name(ia)}`, `B: ${name(ib)}`]}
           rows={MECS_FUELS.map((f) => ({ key: f.key, highlight: f.key === "total", cells: [f.label,
-            <Fig key="a" v={fuelCell(ia, f.key)} src={fuelCell(ia, f.key) === null ? WITHHELD : SRC.mecs} k={`a-${f.key}`} />,
-            <Fig key="b" v={fuelCell(ib, f.key)} src={fuelCell(ib, f.key) === null ? WITHHELD : SRC.mecs} k={`b-${f.key}`} />] }))}
+            <Fig key="a" v={fuelCell(ia, f.key)} src={fuelCell(ia, f.key) === null ? WITHHELD : f.key === "net_electricity" ? `${NET_ELEC} ${SRC.mecs}` : SRC.mecs} k={`a-${f.key}`} />,
+            <Fig key="b" v={fuelCell(ib, f.key)} src={fuelCell(ib, f.key) === null ? WITHHELD : f.key === "net_electricity" ? `${NET_ELEC} ${SRC.mecs}` : SRC.mecs} k={`b-${f.key}`} />] }))}
         />
         <h3 className="mb-1 mt-5 font-serif text-base text-accent">Electricity, MWh</h3>
         <ToolTable
