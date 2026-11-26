@@ -4,7 +4,7 @@ Tables: `iso_rt_top_intervals`
 
 > **MISO is paused (4 October 2026).** MISO's terms forbid automated access to its site, so every pull of MISO's own servers is paused pending a review; MISO's hub prices stop at the last day pulled, and so does its trader view. What is held stays as it is. [`miso_pause.md`](miso_pause.md)
 
-Energy Research Warehouse (ERW), session 19. Tables: `ercot_trader_daily`, `caiso_trader_daily`, `nyiso_trader_daily`, `miso_trader_daily`, `spp_trader_daily`, `isone_trader_daily` (derived, series, public) and `iso_rt_top_intervals` (derived, series snapshot, public). Code: `warehouse/derived/trader_view.py`. The page that reads them: the site's `/markets` (platform tool 24).
+Energy Research Warehouse (ERW), session 19. Tables: `ercot_trader_daily`, `caiso_trader_daily`, `nyiso_trader_daily`, `miso_trader_daily`, `spp_trader_daily`, `isone_trader_daily` (derived, series, public) and `iso_rt_top_intervals` (derived, series snapshot, public). Code: `warehouse/derived/trader_view.py`. The page that reads them: the site's `/markets` (platform tool 24) until session 132; since then `/markets` redirects to the price board, `/board`, whose "The week, by hub" is this table's face (`docs/methods/price_board.md`).
 
 **PJM is absent.** The ERW has no PJM energy price table: PJM's Data Miner needs an API key, and its terms bar non-members from republishing. The trader view will add PJM when a licensed key exists.
 
@@ -46,7 +46,7 @@ One row per hub (or zone), local operating day and metric. `ts_utc` is the opera
 
 ## The top 10 real-time intervals (`iso_rt_top_intervals`)
 
-- **What it is:** for each ISO with a real-time table, the 10 highest real-time prices, over all its hubs, in the latest 7 local days with every interval of every hub. Ties go to the earlier interval.
+- **What it is:** for each ISO with a real-time table, the 10 highest real-time prices, over all its hubs, in the latest 7 local days with every interval of every hub. Ties go to the earlier interval. The 7 need not run in a row: a day not held whole is passed over, so the week can cover more calendar days (on the snapshot of 21 October 2026, 13 to 20 October for ERCOT and CAISO, 11 to 19 October for ISO-NE). And the code counts a day whole when every interval time is held by some hub, not by each hub; on the tables of 13 November 2026 no day differs (session 10209, `docs/reviews/trader-model-audit-2026-11-26.md`, finding 6).
 - **Rows:** `ts_utc` is the interval start and `freq` the real-time table's interval (PT15M or PT1H).
 - **Snapshot:** the table is replaced every run. The header names each ISO's week.
 
@@ -56,7 +56,7 @@ One row per hub (or zone), local operating day and metric. `ts_utc` is the opera
 - **The rule:** a row whose value is unchanged keeps the `retrieved_at` of the run that first wrote it. The Supabase loader compares every column, so it rewrites only new or revised days.
 - **CI:** the CI runner restores the trader tables from the Redivis draft (`warehouse/redivis/config.yaml`). That keeps days older than the price tables' windows, and gives the rule its previous copy.
 
-## On the page (`/markets`)
+## On the page (`/markets` until session 132; now the price board's "The week, by hub" at `/board`)
 
 - **Per ISO, a hub table:**
   - this week's mean (the latest 7 operating days in the table) of the day-ahead average, on-peak and off-peak averages, real-time minus day-ahead, and implied heat rate, each with the change on the 7 days before;
@@ -64,4 +64,4 @@ One row per hub (or zone), local operating day and metric. `ts_utc` is the opera
   - the latest 30-day volatility;
   - the latest day's day-ahead average, as the table holds it.
 - **The ISO's top 10 real-time intervals of the week.**
-- A week mean needs all 7 days of the metric; otherwise the cell says "no data".
+- A week mean needs all 7 days of the metric; otherwise the cell says "not held yet". The on-peak mean is the exception: `warehouse/derived/board_page.py` (`build_week`, `need = 1`) takes the mean of those of the grid's latest 7 on-peak days that the hub holds, one being enough (session 10209, finding 6; on the board of 21 October 2026 every public hub held all 7, so no figure shown differed: the audit restated all 11 with the rule of 7).
