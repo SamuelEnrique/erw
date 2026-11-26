@@ -1,0 +1,14 @@
+scan date 2025-10-02; settle 2 days; fresh window 10 days
+kind,rule,share_of_series_flagged,expected_flags_over_6797_series
+iid,record,0.0007,4.5
+iid,spike,0.0000,0.0
+iid,weekly,0.0000,0.0
+iid,any,0.0007,4.5
+ar,record,0.0030,20.4
+ar,spike,0.0027,18.1
+ar,weekly,0.0017,11.3
+ar,any,0.0043,29.5
+t3,record,0.0030,20.4
+t3,spike,0.0010,6.8
+t3,weekly,0.0017,11.3
+t3,any,0.0053,36.3
