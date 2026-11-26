@@ -97,7 +97,7 @@ export const DC_FIELDS: DcField[] = [
     source: () => "OMB Circular A-94's base case for benefit-cost analysis, 7 percent real. Its Appendix C gives 2.0 percent for 30-year Treasury borrowing (2026), the rate for cost-effectiveness analysis." },
 ];
 // session 10821 (window F's I1): each default's documents, opened from its hover. The announced projects' documents open
-// from the list of projects; the discount rate's (OMB Circular A-94) has no address in the ERW's files, so it has none here.
+// from the list of projects; the discount rate links its Appendix C.
 const DC_LINKS: Record<string, (s: string, P: DcParams) => DcLink[]> = {
   dbuild: (_s, P) => cite(P, (P.rules.build as { cite?: string }).cite),
   bld: (_s, P) => cite(P, (P.rules.split as { cite?: string }).cite), eq: (_s, P) => cite(P, (P.rules.split as { cite?: string }).cite),
@@ -107,6 +107,8 @@ const DC_LINKS: Record<string, (s: string, P: DcParams) => DcLink[]> = {
   dcex: (s, P) => ruleCite(P, s, "sales_exemption"),
   brate: (s, P) => ruleCite(P, s, "property"), erate: (s, P) => ruleCite(P, s, "property"),
   mwh: (s, P) => ruleCite(P, s, "electricity"),
+  // Appendix C, read 26 November 2026 (chain 740 request 352): the 2.0 percent the hover quotes; the 1992 circular's own address is not on the page read
+  drate: () => [{ href: "https://www.whitehouse.gov/wp-content/uploads/2026/03/CircularA-94Appendix-C.pdf", text: "OMB Circular A-94, Appendix C (March 2026)" }],
 };
 for (const f of DC_FIELDS) if (DC_LINKS[f.name]) f.links = DC_LINKS[f.name];
 export const DC_NAMES = DC_FIELDS.map((f) => f.name).concat(["dcproj"]);
