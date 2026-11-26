@@ -1,0 +1,18 @@
+== 34
+grid  hours_held  left_out  left_not above zero  left_apart from the hours around it  left_outside the grid's range  days  days_peak_moves
+ERCO       73585         0                    0                                    0                              0  3066                0
+CISO       73633        38                    0                                   38                              0  3068                1
+ PJM       73653         7                    0                                    7                              0  3069                6
+MISO       73656         0                    0                                    0                              0  3069                0
+NYIS       73657        12                   12                                    0                              0  3069                0
+ISNE       73657         0                    0                                    0                              0  3069                0
+SWPP       73633         2                    0                                    2                              0  3068                0
+the three days a grid whose peak moves most:
+grid        day  raw_peak  screened_peak
+CISO 2019-12-19   29637.0        29358.0
+ PJM 2020-04-09  215682.0        79156.0
+ PJM 2020-07-13  224345.0       128526.0
+ PJM 2020-07-28  192229.0       140908.0
+== 32
+caiso_dam from 2025-11-26 08:00:00+00:00 to 2026-11-26 07:00:00+00:00 | hours with a row 8760 | rows 69766 | distinct name-hours 69189 | hours where rows exceed distinct names 540 | largest excess in an hour 3 | days where the daily sum differs 160 of 365 | mean rows a day 191.1 against 189.6
+spp_dam from 2025-11-26 06:00:00+00:00 to 2026-11-26 05:00:00+00:00 | hours with a row 8759 | rows 135488 | distinct name-hours 135488 | hours where rows exceed distinct names 0 | largest excess in an hour 0 | days where the daily sum differs 0 of 365 | mean rows a day 371.2 against 371.2
