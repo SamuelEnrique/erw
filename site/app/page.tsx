@@ -142,7 +142,8 @@ const GROUP_LINES: Record<string, string> = {
   Economics: "What energy costs and earns: every price on one board, the cost of power, what a battery or a generator earns, and the tax on a barrel.",
   Grid: "The grid as it runs: one grid at a time, the network of balancing authorities and the power they trade, demand growth and curtailment.",
   Infrastructure: "What is built, where and by whom: the project map, the datacenter tracker, the battery fleet and the deals.",
-  Analysis: "Research on demand, a warehouse you can ask, the events, policy and the Thesis Builder, every answer from the tables.",
+  // session 10236 (audit finding 2): the Thesis Builder's reports rest on web pages and public series, not the tables
+  Analysis: "Research on demand, a warehouse you can ask, the events and policy, every answer from the tables; and the Thesis Builder, internal, whose market reports cite the web pages and public series they rest on.",
   Games: "The battery game and the EV game, the tour, a bill built line by line, and five problem sets for a class.",
 };
 const HOME_GROUPS = ["Economics", "Grid", "Infrastructure", "Analysis", "Games"];
