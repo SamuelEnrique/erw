@@ -264,6 +264,10 @@ ERCOT prints a chart of its Mid-Term Load Forecast's monthly mean absolute perce
 
 What it says: from February 2026 the two agree to 0.02 point every month, so the operator series the ERW scores itself against is, in those months, the forecast ERCOT grades itself on. Before, the EIA-930 filing scores up to 0.73 point worse (October 2025: 2.45 against 1.72; January and February 2025, October to December 2025), which can come from the filing being a different vintage of the forecast or from a different demand basis; the backtest does not say which. Over the 25 months the chart averages 2.01 percent and the filings 2.10. The ERW's forecast is beside them for scale. A second place (CAISO: its market monitor's 2024 annual report prints no such figure; SPP: none found) is not yet read.
 
+Session 10601, 19:00 UTC, after section 14: with `regression_recent` chosen in 28 places, the peak's record moved (the files of 16:27 UTC; `runs/c730/table_f.py`). The ERW's peak error falls in most places (TEX from 6.30 to 6.10 percent, SE from 8.11 to 7.80), but rises in CENT from 6.02 to 7.35, where it now trails the operator's 6.61: the method chosen on hourly error is not always the better one for the day's peak. The ERW's peak beats the operator's in 4 places (NW, FPC, PSCO, SWPP), not 5, and it still names the peak hour exactly more often in 8. The table above is the build of 12:27 UTC, kept as it was.
+
+Session 10601, 19:25 UTC: the peak now chooses its own method by the same rule on the peak's error (the candidate whose day peaks missed least over the last two years; `peak.method` in each file). `regression_recent` is the peak's method in 23 places and the regression in 6. CENT goes back to 6.02 percent against the operator's 6.61, and the ERW's peak again beats the operator's in 5 places (CENT, NW, FPC, PSCO, SWPP).
+
 ## 16. A day forecast more than once (session 10000, chain 701)
 
 The ledger keeps the first forecast made for a place and target day and never rewrites it. A second run on the same day
@@ -273,4 +277,3 @@ chose `regression_recent`) made a newer forecast for the same day, and the page 
 place file's forecast for tomorrow is the ledger's once the ledger holds that day: its values, band, method and the hour
 it was made, with `tomorrow_from` saying so and naming the method chosen now. So the page and its ledger show one
 forecast for each day, the one made first, and a past day drawn from the ledger is the one a reader saw.
-
