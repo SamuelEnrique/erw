@@ -39,7 +39,7 @@ function Blank({ what, words, why, k }: { what: string; words: string; why: stri
     </div>
   );
 }
-const NotHeld = ({ words = "not held", why }: { words?: string; why: string }) => <span className="cursor-help text-muted" title={why} data-not-held="1">{words}</span>;
+const NotHeld = ({ words = "not held", why }: { words?: string; why: string }) => <span className="cursor-help whitespace-nowrap text-muted" title={why} data-not-held="1">{words}</span>;
 const pts = (p: Point[]): [number, number | null][] => p.map((x) => [x.t, x.v]);
 const nameOf = (slot: Slot) => (slot.pick.kind === "company" ? `${slot.company?.ticker ?? slot.pick.id}, ${slot.company?.name ?? slot.series?.name ?? ""}`.replace(/, $/, "") : slot.pick.label.replace(/^[^:]+: /, ""));
 
@@ -311,7 +311,7 @@ function Prices({ prices, q, first, drawn, alone }: { prices: EqPrices; q: Query
         <ToolTable minWidth={640} caption="The energy prices the files carry: the latest value of each and its change over a day, a week, a month, the year to date and a year, in percent"
           head={[alone ? "Price" : "Price (press one to lay it over)", "Unit", "Latest", "Its date", ...MOVE_WORDS.map(([k, w]) => (k === "ytd" ? <abbr key={k} title="Year to date" className="no-underline">YTD</abbr> : w))]}
           rows={prices.series.map((x, i) => {
-            const name = <SiteLink key="n" href={hrefOf(q, { p: x.id }, first, alone ? "#prices" : "#line")} title={x.source ? `${x.source}${x.table ? ` (ERW table ${x.table})` : ""}` : undefined}>{x.label}</SiteLink>;
+            const name = <SiteLink key="n" href={hrefOf(q, { p: x.id }, first, alone ? "#prices" : "#line")} title={x.source ? `${x.source}${x.table ? ` (ERW table ${x.table})` : ""}` : undefined} className="inline-block min-w-[13rem] py-0.5">{x.label}</SiteLink>;
             if (!isShown(x) || !x.last_value) return { key: x.id, highlight: drawn?.id === x.id, cells: [name], wide: <span className="cursor-help" title={blankWhy(x.status, x.why, prices.example === true)} data-eq-price-held={x.id}>{blankWords(isShown(x) ? null : x.status, prices.example === true)}</span> };
             return { key: x.id, highlight: drawn?.id === x.id, cells: [name, x.unit,
               <Num key="v" check={pfKey(file, ["series", i, "last_value", "v"])} raw={x.last_value.v} source={`${x.source ?? ""}`}>{levelWords(x.last_value.v)}</Num>,
