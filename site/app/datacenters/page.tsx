@@ -86,6 +86,9 @@ export default async function DatacentersPage({ searchParams }: { searchParams: 
       <p className="mb-2 max-w-3xl text-sm">
         Scope: the news since 2025-01-01; the site lists of Amazon Web Services, Microsoft Azure, Google, Meta, Oracle, Digital Realty, Equinix, Vantage
         and Switch (QTS, CoreWeave and Crusoe publish none that can be read); and the six ISO queues. This is not a census of every facility.
+        The stories read are not even over that span (as of 26 November 2026): none published from May to September 2025 was scored, two in five of
+        October to December 2025 and about half of June to August 2026, and since September 2026 the daily feed holds up to eighteen times the stories of an
+        earlier month, so most facilities with a date were first reported in the last three months.
       </p>
       <p className="mb-8 max-w-3xl text-sm text-muted">
         A news facility is extracted from the stories&apos; titles and summaries by a model, and every value was checked against the text; an
