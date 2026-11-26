@@ -113,7 +113,8 @@ async function groupNumbers() {
     const v = BS.stat(stack.data, [], bx, "l12_kw:total");
     const l12 = BS.lastTwelve(BS.monthsOf(stack.data, bx.strat, bx.dur));
     if (v !== null && l12) out.Economics = { value: <><span className="font-sans text-sm text-muted">USD </span><Num check={`bs|${BS.inputsKey(bx)}|l12_kw:total`} raw={v}>{n2(v)}</Num></>, unit: "per kW",
-      note: `What a 100 MW, 4-hour battery in ERCOT earned, ${BS.monthName(l12[0].m)} to ${BS.monthName(l12[11].m)}.`, table: BS.TABLE };
+      // session 10236 (audit finding 4): the default strategy is perfect foresight, and a figure per kW does not depend on the size
+      note: `What the model's 4-hour battery in ERCOT would have earned with perfect foresight of prices, ${BS.monthName(l12[0].m)} to ${BS.monthName(l12[11].m)}, per kW of power.`, table: BS.TABLE };
   }
   // Grid: ERCOT's demand in the newest hour held
   if (demand.ok && demand.data) {
