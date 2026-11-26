@@ -98,6 +98,13 @@ site's copy and on the page for California.
 A weather adjustment; the larger balancing authorities outside the seven; who is using the power; demand served behind
 the meter (rooftop solar lowers the demand a grid sees at midday); a forecast.
 
+**The cell that grew most (session 10214).** The summary names the month-and-hour cell with the largest change from
+2019 to the last whole year: the largest of up to 288 cells, each one month of one year against the same month of
+2019. It moves with the weather. For ERCOT the cell that grew most is July at 02:00 to 2023 (+26.95 percent), October
+at 16:00 to 2024 (+35.13) and January at 02:00 to 2025 (+42.55); January 2025 was the coldest January held for ERCOT's
+five cities (568 heating degree days, against 472 in January 2019). The sentence says so since session 10214; the
+figure is unchanged.
+
 ## On the page
 
 Since session 152 demand growth is one page at one address, `/demand`, in review, with views kept in the address (two then; since session 239 a third, consumption, what `/consumption` showed, read from `eia_retail_sales_monthly` and `eia_sector_energy_consumption_monthly`):

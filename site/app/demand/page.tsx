@@ -106,7 +106,7 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
             From {first.year} to {last.year}, {area.name}&apos;s average demand went from <N k="sum|avg0">{whole(first.row.avg_demand_mw)}</N> MW to <N k="sum|avg1">{whole(last.row.avg_demand_mw)}</N> MW, a change of <N k="sum|avg_growth">{signed(last.row.avg_demand_growth_since_2019_pct)}</N> percent
             {last.row.peak_demand_mw !== undefined ? <>, and its highest hour from <N k="sum|peak0">{whole(first.row.peak_demand_mw)}</N> MW to <N k="sum|peak1">{whole(last.row.peak_demand_mw)}</N> MW (<N k="sum|peak_growth">{signed(last.row.peak_demand_growth_since_2019_pct)}</N> percent)</> : null}.{" "}
             {ytd ? <>January to {through} of {ytd.year} ran <N k="sum|ytd_growth">{signed(ytd.row.ytd_avg_demand_growth_since_2019_pct)}</N> percent against the same months of {file.base}.</> : null}{" "}
-            {ex ? <>The growth is largest in {monthName(ex.most.month)} at {hourName(ex.most.hour)} (<N k="sum|cell_most">{signed(ex.most.pct)}</N> percent).</> : null} Weather is not removed.
+            {ex ? <>Of the cells of month and hour, the one that grew most is {monthName(ex.most.month)} at {hourName(ex.most.hour)} (<N k="sum|cell_most">{signed(ex.most.pct)}</N> percent), one month of {file.last_year} against the same month of {file.base}: a cold or hot month can make it, and the cell that grows most moves from year to year.</> : null} Weather is not removed.
           </p>
           <HeadlineRow>
             <HeadlineNumber label={`Average demand, ${first.year} to ${last.year}`} value={<N k="head|avg_growth">{signed(last.row.avg_demand_growth_since_2019_pct)}</N>} unit="percent"
