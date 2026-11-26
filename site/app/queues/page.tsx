@@ -63,7 +63,7 @@ function ActiveChart({ view, name }: { view: View; name: string }) {
         return (
           <g key={d.year}>
             {v > 0 ? <rect x={L + i * bw + 1.5} y={y(v)} width={Math.max(1, bw - 3)} height={y(0) - y(v)} fill={COLOR.active} data-bar={d.year}>
-              <title>{`Entered ${d.year}: ${whole(v)} MW still active, in ${whole(d.row!.requests_active)} requests`}</title>
+              <title>{`Entered ${d.year}: ${whole(v)} MW still active, in ${whole(d.row!.requests_active)} ${d.row!.requests_active === 1 ? "request" : "requests"}`}</title>
             </rect> : null}
             {d.year % 5 === 0 ? <text x={L + (i + 0.5) * bw} y={H - 10} textAnchor="middle" fontSize="11" fill="var(--color-muted)">{d.year}</text> : null}
           </g>
@@ -206,7 +206,7 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
               </p>
               <HeadlineRow>
                 <HeadlineNumber label="Active capacity" value={<N k="head|active_mw">{whole(w.total_active_mw)}</N>} unit="MW"
-                  note={<><N k="head|active_requests">{whole(w.total_active_requests)}</N> {w.total_active_requests === 1 ? "request" : "requests"}. Suspended, and not counted here: <N k="head|suspended_requests">{whole(w.total_suspended_requests)}</N> {w.total_suspended_requests === 1 ? "request" : "requests"}, <N k="head|suspended_mw">{whole(w.total_suspended_mw)}</N> MW.{peak ? <> The most entered in {peak.year}.</> : null}</>} />
+                  note={<><N k="head|active_requests">{whole(w.total_active_requests)}</N> {w.total_active_requests === 1 ? "request" : "requests"}. Suspended, and not counted here: <N k="head|suspended_requests">{whole(w.total_suspended_requests)}</N> {w.total_suspended_requests === 1 ? "request" : "requests"}, <N k="head|suspended_mw">{whole(w.total_suspended_mw)}</N> MW.{peak ? <> More of it entered in {peak.year} than in any other year (by the MW still active; the year in which the most MW or the most requests entered can be another).</> : null}</>} />
                 <HeadlineNumber label={`Reached operation, of ${p0} to ${p1}`} value={share(w.past_operating_share_pct, "head|operating")} unit={w.past_operating_share_pct !== undefined ? "percent" : undefined}
                   note={w.past_operating_share_pct !== undefined ? <>Of <N k="head|past_requests">{whole(w.past_requests)}</N> requests. By capacity: {share(w.past_mw_operating_share_pct, "head|operating_mw")} percent of <N k="head|past_mw">{whole(w.past_mw)}</N> MW.</> : <>Fewer than {file.min_share} requests entered in those years: no share is given.</>} />
                 <HeadlineNumber label="Withdrawn" value={<Withdrawn v={view} k="head|withdrawn" grid={grid} tech={tech} />} unit={w.past_withdrawn_share_pct !== undefined ? "percent" : undefined}
