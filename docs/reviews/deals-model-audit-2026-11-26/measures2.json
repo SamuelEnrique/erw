@@ -1,0 +1,175 @@
+{
+ "ai_usd_by_status": {
+  "-": [
+   18,
+   1769425000000.0
+  ],
+  "announced": [
+   40,
+   430115000000.0
+  ],
+  "cancelled": [
+   0,
+   0
+  ],
+  "closed": [
+   24,
+   253198000000.0
+  ],
+  "rumored": [
+   10,
+   235350000000.0
+  ],
+  "signed": [
+   30,
+   371300000000.0
+  ]
+ },
+ "ai_usd_largest5": [
+  1250000000000.0,
+  200000000000.0,
+  200000000000.0,
+  110000000000.0,
+  100000000000.0
+ ],
+ "ai_usd_top5_share": 60.8,
+ "ai_usd_total": 3059388000000.0,
+ "ai_usd_without_rumored_cancelled": [
+  112,
+  2824038000000.0
+ ],
+ "doubtful": [
+  {
+   "ai": [
+    "false",
+    "false"
+   ],
+   "status": [
+    null,
+    "signed"
+   ],
+   "usd": [
+    96000000.0,
+    null
+   ]
+  },
+  {
+   "ai": [
+    "true",
+    "true"
+   ],
+   "status": [
+    null,
+    null
+   ],
+   "usd": [
+    15000000000.0,
+    200000000000.0
+   ]
+  },
+  {
+   "ai": [
+    "true",
+    "true"
+   ],
+   "status": [
+    "rumored",
+    "rumored"
+   ],
+   "usd": [
+    40000000000.0,
+    50000000000.0
+   ]
+  }
+ ],
+ "doubtful_ai_usd_smaller_sum": 55000000000.0,
+ "first_tab_folded_dups_by_month": {
+  "2026-01": 1,
+  "2026-05": 1,
+  "2026-08": 1,
+  "2026-10": 2
+ },
+ "medians_floor_10": {
+  "grid": {
+   "-": 509.0
+  },
+  "technology": {},
+  "type": {
+   "ppa": 348.0
+  },
+  "year": {
+   "2026": 423.0
+  }
+ },
+ "medians_floor_10_count": 3,
+ "medians_floor_3": {
+  "grid": {
+   "-": 509.0,
+   "ERCOT": 222.0
+  },
+  "technology": {
+   "-": 330.0,
+   "data center": 50.0,
+   "gas": 896.0,
+   "nuclear": 960.0,
+   "solar": 322.0
+  },
+  "type": {
+   "behind_the_meter": 450.0,
+   "m_and_a": 892.0,
+   "offtake": 50.0,
+   "other": 810.0,
+   "ppa": 348.0
+  },
+  "year": {
+   "2026": 423.0
+  }
+ },
+ "medians_floor_3_count": 13,
+ "medians_floor_5": {
+  "grid": {
+   "-": 509.0
+  },
+  "technology": {
+   "-": 330.0,
+   "data center": 50.0,
+   "gas": 896.0,
+   "nuclear": 960.0
+  },
+  "type": {
+   "other": 810.0,
+   "ppa": 348.0
+  },
+  "year": {
+   "2026": 423.0
+  }
+ },
+ "medians_floor_5_count": 8,
+ "newest": "2026-11-12",
+ "status_counts_all": {
+  "-": 97,
+  "announced": 138,
+  "cancelled": 10,
+  "closed": 85,
+  "rumored": 59,
+  "signed": 189
+ },
+ "sure_floor_0.6": {
+  "ai": 163,
+  "deals": 435,
+  "mw": 35197.0,
+  "nov_ai_pct": 13,
+  "nov_deals": 30,
+  "nov_mw": 2501.5,
+  "with_mw": 32
+ },
+ "sure_floor_0.7": {
+  "ai": 99,
+  "deals": 281,
+  "mw": 21705.0,
+  "nov_ai_pct": 17,
+  "nov_deals": 23,
+  "nov_mw": 2231.5,
+  "with_mw": 24
+ }
+}

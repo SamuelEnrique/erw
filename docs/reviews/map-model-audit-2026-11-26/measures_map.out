@@ -1,0 +1,67 @@
+== 1. Where each kind is placed (the file's precision code: 0 EIA's coordinates, 1 county point, 2 city or town point, 3 the operator's coordinates, 4 not placed)
+  Operating units: {0: 28712}
+  Planned units: {0: 2361}
+  Queue positions: {1: 3414, 2: 184, 4: 86}
+  Datacenters: {1: 28, 2: 120, 3: 80, 4: 50}
+  datacenters by source kind and precision: {('news', 1): 12, ('news', 2): 19, ('news', 4): 34, ('operator', 1): 13, ('operator', 2): 101, ('operator', 3): 80, ('operator', 4): 16, ('queue', 1): 3}
+  datacenter MW stated, by precision: {1: 112.0, 2: 2984.0, 4: 25158.0}
+== 2. EIA's operating codes inside 'Operating'
+  OP (Operating): 26,378 units, 1,396,923.1 MW
+  OS (Out of service and NOT expected to return to service in next calendar year): 538 units, 10,567.7 MW
+  OA (Out of service but expected to return to service in next calendar year): 219 units, 7,103.4 MW
+  SB (Standby/Backup: available for service but not normally used): 1,577 units, 8,897.5 MW
+  not OP: 2,334 units, 26,568.6 MW of 1,423,491.7
+== 3. The marks' size: diameter 2 + 0.2 * sqrt(MW), held between 3 and 18 px
+  Operating units: 19,947 of 28,712 under 25 MW (69.5 percent), drawn alike at the smallest size; 0 at or above 6,400 MW, drawn alike at the largest
+  Planned units: 891 of 2,361 under 25 MW (37.7 percent), drawn alike at the smallest size; 0 at or above 6,400 MW, drawn alike at the largest
+  Queue positions: 605 of 3,684 under 25 MW (16.4 percent), drawn alike at the smallest size; 0 at or above 6,400 MW, drawn alike at the largest
+== 4. EIA's points are plants' points
+  31,073 units at 16,022 distinct points; the most units at one point: 161
+== 5. How far a county's internal point stands from the plants in it (EIA's units with a county the gazetteer holds)
+  Operating units: 28,392 units; median 11.2 miles, 75th percentile 17.3, 90th 30.0, largest 2600; over 10 miles 57.0 percent, over 20 18.7 percent; MW-weighted median 11.8
+  Planned units: 2,354 units; median 12.5 miles, 75th percentile 17.2, 90th 29.5, largest 1537; over 10 miles 63.0 percent, over 20 18.0 percent; MW-weighted median 13.7
+  units over 100 miles from their own county's point: 154 (EIA's point or EIA's county is then wrong, or the county is very large); the first ten:
+    (2600, 'CT', 'Hartford', 'AmericoldCA - Plainville, CT', 37.4299, -121.9258)
+    (1537, 'AR', 'Lee', 'Big Creek Solar LLC', 34.8704, -117.9656)
+    (592, 'AK', 'Aleutians West', 'Unalaska Power Module', 53.864, -166.5126)
+    (591, 'AK', 'Aleutians West', 'Dutch Harbor', 53.8925, -166.5382)
+    (591, 'AK', 'Aleutians West', 'Dutch Harbor', 53.8925, -166.5382)
+    (591, 'AK', 'Aleutians West', 'Dutch Harbor', 53.8925, -166.5382)
+    (591, 'AK', 'Aleutians West', 'Dutch Harbor', 53.8925, -166.5382)
+    (591, 'AK', 'Aleutians West', 'Dutch Harbor', 53.8925, -166.5382)
+    (591, 'AK', 'Aleutians West', 'Dutch Harbor', 53.8925, -166.5382)
+    (591, 'AK', 'Aleutians West', 'Dutch Harbor', 53.8925, -166.5382)
+== 6. One rule changed: a planned unit drawn at its county's point instead of EIA's coordinates, for 'Near a point' at 30 miles
+  Abilene: within 30 miles by EIA's point 9, by the county's point 9; both 8, lost 1, gained 1
+  Amarillo: within 30 miles by EIA's point 163, by the county's point 162; both 162, lost 1, gained 0
+  New Albany: within 30 miles by EIA's point 6, by the county's point 4; both 4, lost 2, gained 0
+  Mason City: within 30 miles by EIA's point 0, by the county's point 0; both 0, lost 0, gained 0
+  Bakersfield: within 30 miles by EIA's point 7, by the county's point 36; both 7, lost 0, gained 29
+  every planned unit as a site, every other planned unit as a row: truly within 30 miles 46,980 pairs; by the county point 44,606; lost 5,172 (11.0 percent of the true), gained 2,798 (6.3 percent of those listed)
+== 7. Planned operation dates already past at the inventory's month (2026-09)
+  0 of 2,361 planned units (0.0 percent), 0.0 of 290,264.2 MW
+  by EIA status: {}
+== 8. Completed queue positions that bear the name of an operating unit in the same state (a plant drawn twice)
+  ercot: 58 of 577 completed positions (10.1 percent), 11,799.4 MW requested
+  isone: 83 of 364 completed positions (22.8 percent), 4,001.0 MW requested
+  caiso: 103 of 252 completed positions (40.9 percent), 16,998.9 MW requested
+  spp: 0 of 340 completed positions (0.0 percent), 0.0 MW requested
+  all: 244 of 1533, 32,799.3 MW
+== 9. Held tables reaching the drawing: ISO-NE's queue positions and the datacenters
+  ISO-NE: 414 positions, 21,901.8 MW requested; datacenters 278
+== 10. The line layers
+  transmission_230kv: 10,692 lines, 299,994.0 km; source: HIFLD Electric Power Transmission Lines (ORNL, NGA HSIP), 230 kV and above, served by Penn State PASDA; retrieved 2026-11-20T02:48:53Z; built 2026-11-20T03:09:06Z; license public; simplified at 0.005 degrees; fields ['id', 'kv', 'owner', 'from', 'to', 'km']; extra keys ['built', 'tables', 'method', 'license', 'source', 'source_url', 'retrieved_at', 'simplify_tolerance_deg', 'unit', 'lines', 'km']
+    voltage: {230: 7205, 232: 2, 236: 2, 238: 2, 240: 4, 245: 1, 250: 1, 273: 2, 275: 3, 287: 3, 345: 2600, 348: 4, 400: 1, 450: 2, 500: 813, 765: 46, 1000: 1}
+    owner not stated 1,846 (17.3 percent); an end HIFLD does not name 3,742 (35.0 percent)
+  hgl_pipelines: 133 lines, 57,715.0 km; source: U.S. Energy Information Administration, HGL Pipelines (updated January 2020), served by Penn State PASDA; retrieved 2026-11-20T02:49:04Z; built 2026-11-20T03:09:06Z; license public; simplified at 0.005 degrees; fields ['id', 'name', 'operator', 'km']; extra keys ['built', 'tables', 'method', 'license', 'source', 'source_url', 'retrieved_at', 'simplify_tolerance_deg', 'unit', 'lines', 'km']
+== 11. What a transmission planner would ask first: each planned unit's distance to the nearest line of 230 kV and above (the simplified web file)
+  planned units (lower 48): within 1 miles of a 230 kV line 763 of 2,329 (32.8 percent), 42.7 percent of their MW
+  planned units (lower 48): within 5 miles of a 230 kV line 1,417 of 2,329 (60.8 percent), 67.2 percent of their MW
+  planned units (lower 48): within 10 miles of a 230 kV line 1,929 of 2,329 (82.8 percent), 85.8 percent of their MW
+  planned units (lower 48): within 20 miles of a 230 kV line 2,185 of 2,329 (93.8 percent), 94.1 percent of their MW
+  planned units of 100 MW or more: median distance 1.5 miles; over 10 miles 13.8 percent
+  operating units (lower 48): within 1 miles of a 230 kV line 9,153 of 27,715 (33.0 percent), 69.2 percent of their MW
+  operating units (lower 48): within 5 miles of a 230 kV line 17,943 of 27,715 (64.7 percent), 84.3 percent of their MW
+  operating units (lower 48): within 10 miles of a 230 kV line 22,363 of 27,715 (80.7 percent), 90.9 percent of their MW
+  operating units (lower 48): within 20 miles of a 230 kV line 25,596 of 27,715 (92.4 percent), 96.6 percent of their MW
+  operating units of 100 MW or more: median distance 0.2 miles; over 10 miles 9.1 percent
