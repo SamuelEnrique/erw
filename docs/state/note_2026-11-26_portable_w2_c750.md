@@ -48,7 +48,9 @@ Also fixed: `/companies`, where five of six fields had no name for a screen read
 
 ## What waits for Samuel, with the page left as it is
 
-In plain words; the same thirteen lines stand at the foot of the review.
+In plain words; the same fourteen lines stand at the foot of the review. The last one first:
+
+14. NYISO's and ISO-NE's prices are held, and most pages blank them. What a generator earns still offers both grids and, for ISO-NE, prints the price a plant received and the flat average at the Internal hub; two findings cards print yearly statistics of both. Is a figure computed from a held grid's prices itself held? If yes, the two grids are disabled on the tool as MISO and PJM are and the cards' statistics blanked; if no, a written word saying a computed statistic may be shown.
 
 1. Should the reason a figure is blank open on a tap, as the "i" marks do? Today only a mouse can read it.
 2. `/congestion` prints "1080.08 USD/MWh" beside "330,132": a thousands comma in one column and none in the other. The gate's own check holds it that way.

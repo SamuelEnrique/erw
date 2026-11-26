@@ -10,6 +10,7 @@ Found at 17:52 UTC while reading what a visitor with no cookie is served; not ca
 - The plainest: `site/public/seller/prices/isone_2025.json` and `nyiso_2019.json` to `nyiso_2025.json`, each a year of hourly day-ahead prices (8,760 values), **built on 20 November, a month after those tables were marked license needed (21 October)**; and 36 hourly files under `site/public/board/h/` for NYISO and ISO-NE, written before the hold and never taken out. Both sets are in the public repository as well. The other 190 are the Automated Analysis gallery's files for those grids' hubs (computed 8 November; not in git, on production). And four files of the Network view (`site/public/network/daily_2024.json` to `daily_2026.json`, `story_east_heat_2025.json`) carry daily hub prices by balancing authority: the 2026 file, built 25 November, holds NYISO's and ISO-NE's through 23 November.
 - Production answers 200 to a request for one of each kind (asked by header only; no value was read, printed or copied here).
 - **One page draws a held price too.** The Grid tool's Network view, replaying a past day with its Prices switch on, printed the day's hub price for New York and for New England and drew a ring on each (seen at 18:02 UTC for 24 July 2025 and 20 November 2026); its live week is right, and MISO is blank in both. No window owns that view tonight, so this one is fixed here: `wip/c750-network-held-prices` (`4c3abc767`), landing row 10, with a test; not built on this laptop, so the first window's build is its first sight.
+- **One sellable tool prints figures computed from them, and that is yours to rule.** What a generator earns still offers NYISO and ISO-NE (MISO and PJM are disabled there); with ISO-NE chosen it prints the price a solar plant received and the flat average price at the Internal hub, draws two charts, and the browser fetches the hourly price file. Two findings cards print yearly statistics of both grids' prices. Not changed here: line 14 for your ruling asks whether a figure computed from held prices is itself held.
 - Filed as data request 576 for window A (`docs/state/data_requests_done_line.md`), with the lists. Not deleted here: a hold is a person's, the files are the data machine's, and a session deletes no file. What waits for you: whether the copies in git's history matter, and MISO's (its pause says its tables and pages stay as they are).
 
 ## What was done
@@ -73,7 +74,7 @@ Filed for the windows that own the page tonight (rows of the review): CP1, `/cos
 
 ## For Samuel's ruling
 
-Thirteen lines at the foot of `docs/reviews/browser-read-2026-11-26.md`, each with the page left as it is; the same thirteen in plain words in the note.
+Fourteen lines at the foot of `docs/reviews/browser-read-2026-11-26.md`, each with the page left as it is; the same fourteen in plain words in the note. Line 14 is the one to read first.
 
 ## Needs the key
 
