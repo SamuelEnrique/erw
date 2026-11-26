@@ -31,6 +31,7 @@ const LAST_YEAR = "The value 52 weeks before for a weekly series (364 days, the 
 const LAST_52 = "The last 52 values held: 52 weeks for a weekly series, 52 months (over four years) for a monthly one. A week or month not held is left out and the line closes over it, so a line can span more than 52 steps; each point's date is on hover";
 // session 10222 (the supply audit, finding 3): what the five-year average is, and where it is not the season
 const FIVE_YEARS = "The mean of the values 52, 104, 156, 208 and 260 weeks before (for a monthly series, the same month of the five years before), with their lowest and highest on hover; given only when all five are held. It stands for normal at this point of the year only for a series with a season and no trend. For production, which has grown, and for positioning, it measures the five years' trend, not the season; and where a series changed its level within the five years (New York's and SPP's oil burned for power fell to near zero from 2023), it stands for a level the series no longer has. Read the year before beside it";
+const STORAGE_REGIONS = "East, Midwest, Mountain, Pacific and South Central are the five storage regions of EIA's Weekly Natural Gas Storage Report, each a group of states. They are not the electricity regions of the section \"The whole country\" below, which are EIA's groups of balancing authorities: the Midwest there has other borders";
 const METHOD = "/data/methods/supply_and_trade";
 // session 333: the tables the file is built from, as its sources name them in brackets ("CFTC, ... (cftc_cot_positions)")
 const TABLES = [...new Set((file.sources as string[]).flatMap((s) => [...s.matchAll(/\(([a-z0-9]+(?:_[a-z0-9]+)+)\)/g)].map((m) => m[1])))];
@@ -76,7 +77,8 @@ function Table({ group, c }: { group: Group; c: Choice }) {
   const pos = group.id === "position";
   return (
     <section id={group.id} className="mb-7 scroll-mt-4" data-group={group.id}>
-      <h2 className="mb-1 border-b border-accent pb-0.5 font-serif text-lg text-accent">{group.title}</h2>
+      {/* session 10222 (the supply audit, finding 5): the storage regions are not the electricity regions of "The whole country" */}
+      <h2 className="mb-1 border-b border-accent pb-0.5 font-serif text-lg text-accent" title={group.id === "gasstor" ? STORAGE_REGIONS : undefined}>{group.title}</h2>
       {group.id === "burn" ? (
         <p className="mb-1 text-xs" data-grid-links="1">
           <span title="The Grid page's Mix view: each grid's generation by every source (gas, coal, nuclear, wind, solar, hydro, batteries), hour by hour and month by month, from the same EIA-930 hours as the rows below. Its Network view: what the grid takes from and sends to each neighbour, the last twelve months.">Each grid&apos;s generation by every source, and what it takes from and sends to each neighbour, on the Grid page:</span>{" "}
