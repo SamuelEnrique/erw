@@ -1,0 +1,105 @@
+== 1. The headline row: the Monthly Energy Review's sector against the survey's manufacturing fuel, 2022
+MER industrial total 2022 31,168.756 TBtu; end use 26,075.759; MECS all manufacturing fuel 15742.0; the 21 three-digit industries 15,740
+MECS fuel as percent of MER total 50.5; of MER end use 60.4
+Chemicals (325) fuel 3,976 TBtu as percent of the MER 2025 sector total 12.5
+
+== 2. MECS 'Net electricity' (Table 3.2) restated from Table 11.1 and 11.3, and against net demand
+industries with every component: 52; net electricity = (purchases + transfers in + renewable generation - sales offsite) at 3,412 Btu/kWh within 1 TBtu: 52
+  misses: []
+three-digit industries, US: net electricity (TBtu) as TWh, net demand TWh, onsite generation TWh, net electricity as percent of net demand
+   ('322', 'Paper', 49.8, 96.6, 47.3, 51.6)
+   ('324', 'Petroleum and Coal Products', 46.9, 69.5, 23.0, 67.4)
+   ('325', 'Chemicals', 150.1, 210.1, 60.4, 71.4)
+   ('321', 'Wood Products', 20.2, 22.4, 2.3, 90.3)
+   ('311', 'Food', 79.4, 86.8, 7.4, 91.5)
+   ('314', 'Textile Product Mills', 2.9, 3.2, 0.0, 92.9)
+   ('331', 'Primary Metals', 99.4, 104.4, 4.9, 95.2)
+   ('323', 'Printing and Related Support', 9.1, 9.5, 0.0, 95.3)
+all manufacturing: net demand 932,709,000 MWh; onsite generation 151,366,000 (16.2 percent); purchases 807,089,000; net electricity 2674.0 TBtu = 783.7 TWh
+  region us: onsite generation 16.2 percent of net demand (151.4 of 932.7 TWh)
+  region northeast: onsite generation 18.3 percent of net demand (18.1 of 99.4 TWh)
+  region midwest: onsite generation 6.3 percent of net demand (17.1 of 272.6 TWh)
+  region south: onsite generation 22.1 percent of net demand (99.9 of 452.6 TWh)
+  region west: onsite generation 15.0 percent of net demand (16.2 of 108.1 TWh)
+
+== 3. The largest industry by another measure (US, three-digit)
+by fuel total (the page): [('325', 'Chemicals', 3976.0), ('324', 'Petroleum and Coal Products', 3543.0), ('322', 'Paper', 2003.0), ('331', 'Primary Metals', 1449.0), ('311', 'Food', 1235.0), ('327', 'Nonmetallic Mineral Products', 1166.0)]
+by net demand for electricity, TWh: [('325', 'Chemicals', 210.1), ('331', 'Primary Metals', 104.4), ('322', 'Paper', 96.6), ('311', 'Food', 86.8), ('326', 'Plastics and Rubber Products', 71.4), ('324', 'Petroleum and Coal Products', 69.5)]
+by electricity purchases, TWh: [('325', 'Chemicals', 164.1), ('331', 'Primary Metals', 99.8), ('311', 'Food', 79.6), ('326', 'Plastics and Rubber Products', 70.4), ('327', 'Nonmetallic Mineral Products', 61.9), ('322', 'Paper', 54.4)]
+by fuel less 'Other' (byproduct and other fuels), TBtu: [('325', 'Chemicals', 3278.0), ('324', 'Petroleum and Coal Products', 1420.0), ('331', 'Primary Metals', 1275.0), ('311', 'Food', 1093.0), ('327', 'Nonmetallic Mineral Products', 849.0), ('322', 'Paper', 833.0)]
+
+== 4. The states' 'Average price' against the expenditures and the total printed beside it, 2024
+  US: expenditures / price = 19,991.7 TBtu; Total printed 31,356.6 (63.8 percent of it); expenditures / Total = $7.35/MMBtu against the printed $11.53; as percent of end use 75.9
+  TX: expenditures / price = 5,650.4 TBtu; Total printed 8,113.5 (69.6 percent of it); expenditures / Total = $6.34/MMBtu against the printed $9.11; as percent of end use 76.8
+  LA: expenditures / price = 2,154.8 TBtu; Total printed 2,997.2 (71.9 percent of it); expenditures / Total = $5.31/MMBtu against the printed $7.39; as percent of end use 76.6
+  CA: expenditures / price = 885.1 TBtu; Total printed 1,412.9 (62.6 percent of it); expenditures / Total = $14.7/MMBtu against the printed $23.47; as percent of end use 69.8
+  PA: expenditures / price = 790.6 TBtu; Total printed 1,398.6 (56.5 percent of it); expenditures / Total = $7.08/MMBtu against the printed $12.52; as percent of end use 69.7
+  IN: expenditures / price = 780.4 TBtu; Total printed 1,177.4 (66.3 percent of it); expenditures / Total = $6.99/MMBtu against the printed $10.54; as percent of end use 84.4
+  OH: expenditures / price = 701.4 TBtu; Total printed 1,127.0 (62.2 percent of it); expenditures / Total = $7.79/MMBtu against the printed $12.52; as percent of end use 81.6
+  HI: expenditures / price = 19.5 TBtu; Total printed 46.2 (42.1 percent of it); expenditures / Total = $29.24/MMBtu against the printed $69.49; as percent of end use 71.0
+  AK: expenditures / price = 97.8 TBtu; Total printed 449.0 (21.8 percent of it); expenditures / Total = $2.92/MMBtu against the printed $13.42; as percent of end use 22.1
+  WY: expenditures / price = 148.8 TBtu; Total printed 283.0 (52.6 percent of it); expenditures / Total = $5.98/MMBtu against the printed $11.37; as percent of end use 65.1
+  over 52 rows: the price's quantity is 21.8 to 93.5 percent of the Total printed; median 63.8
+
+== 5. What an industrial buyer asks: electricity and natural gas by state, 2024 (SEDS expenditures over consumption)
+  US: electricity $78.1/MWh; natural gas $3.64/MMBtu; the page's all-fuel price $11.53/MMBtu
+  TX: electricity $57.14/MWh; natural gas $1.55/MMBtu; the page's all-fuel price $9.11/MMBtu
+  LA: electricity $43.85/MWh; natural gas $2.57/MMBtu; the page's all-fuel price $7.39/MMBtu
+  CA: electricity $205.67/MWh; natural gas $8.25/MMBtu; the page's all-fuel price $23.47/MMBtu
+  PA: electricity $77.82/MWh; natural gas $3.95/MMBtu; the page's all-fuel price $12.52/MMBtu
+  OH: electricity $68.24/MWh; natural gas $6.33/MMBtu; the page's all-fuel price $12.52/MMBtu
+  IN: electricity $79.02/MWh; natural gas $5.0/MMBtu; the page's all-fuel price $10.54/MMBtu
+  HI: electricity $336.07/MWh; natural gas $31.51/MMBtu; the page's all-fuel price $69.49/MMBtu
+  cheapest electricity: [(43.85, 'LA'), (53.18, 'NM'), (54.13, 'OK'), (57.14, 'TX'), (58.98, 'MT')] dearest: [(179.49, 'AK'), (181.9, 'MA'), (197.04, 'RI'), (205.67, 'CA'), (336.07, 'HI')]
+
+== 6. The states ranked by another total, 2024 (top six)
+by total (the page): [('TX', 8113.5), ('LA', 2997.2), ('CA', 1412.9), ('PA', 1398.6), ('IN', 1177.4), ('OH', 1127.0)]
+by end use (losses out): [('TX', 7354.5), ('LA', 2812.9), ('CA', 1267.3), ('PA', 1133.7), ('IN', 924.6), ('OH', 859.2)]
+by total less HGL: [('TX', 5362.5), ('LA', 2394.7), ('CA', 1390.2), ('PA', 1286.0), ('IN', 1170.3), ('OH', 1113.8)]
+by electricity sold: [('TX', 601.0), ('OH', 172.9), ('PA', 166.6), ('CA', 150.2), ('IL', 145.7), ('IN', 145.0)]
+  TX: HGL 2,751.0 of total 8,113.5 (33.9 percent); petroleum 4,050.5; losses 758.9
+  LA: HGL 602.5 of total 2,997.2 (20.1 percent); petroleum 1,185.0; losses 184.3
+  US: HGL 3,740.0 of total 31,356.6 (11.9 percent); petroleum 8,748.4; losses 5,005.5
+  the table's parts drawn (natural gas, petroleum, electricity, losses, renewables, coal) summed against the total:
+    TX: parts 8,120.4; total 8,113.5; gap -6.9
+    LA: parts 2,998.9; total 2,997.2; gap -1.7
+    CA: parts 1,417.2; total 1,412.9; gap -4.3
+    US: parts 31,453.1; total 31,356.6; gap -96.4
+
+== 7. The monthly change: one month against twelve
+  total: 2026-07 on a year before -1.9 percent; twelve months to 2026-07 on the twelve before +0.4 percent
+  natural_gas: 2026-07 on a year before +1.8 percent; twelve months to 2026-07 on the twelve before +1.0 percent
+  petroleum: 2026-07 on a year before -6.6 percent; twelve months to 2026-07 on the twelve before +0.8 percent
+  electricity_retail_sales: 2026-07 on a year before -0.3 percent; twelve months to 2026-07 on the twelve before +0.3 percent
+  coal: 2026-07 on a year before -8.7 percent; twelve months to 2026-07 on the twelve before -6.0 percent
+
+== 8. Shares of what total
+  sum of the 21 three-digit totals 15,740; all manufacturing 15742.0; chemicals' share of the 21 25.26; of all manufacturing 25.26
+  region us: three-digit totals withheld 0 []; shares drawn all 21
+  region northeast: three-digit totals withheld 2 ['314', '316']; shares drawn none
+  region midwest: three-digit totals withheld 1 ['315']; shares drawn none
+  region south: three-digit totals withheld 4 ['312', '316', '332', '337']; shares drawn none
+  region west: three-digit totals withheld 2 ['315', '316']; shares drawn none
+
+== 9. The not-held cells of the default view (US, the 21 industries, ten fuels)
+   {'residual_fuel_oil': 9, 'hydrogen': 10, 'distillate_fuel_oil': 11, 'other': 11, 'coal': 3, 'hgl': 8, 'net_electricity': 1} total 53
+  cells printed 0: 44
+
+== 10. The outlook's iron and steel against the survey
+  AEO2026 iron and steel total energy use, 2025, Counterfactual Baseline 1110.1 TBtu; MECS 2022 331110 fuel total 1032.0; 331 1449.0
+  outlook history years in the file: []; first year 2025
+  bulk chemicals series: ['Bulk Chemical : Energy Use : Feedstock : Hydrogen Consumed as Feedstocks', 'Bulk Chemical : Energy Use : Feedstock : Liquefied Petroleum Gases', 'Bulk Chemical : Energy Use : Feedstock : Natural Gas', 'Bulk Chemical : Energy Use : Feedstock : Petrochemical Feedstocks', 'Bulk Chemical : Energy Use : Feedstock : Propylene', 'Bulk Chemical : Energy Use : Feedstock : Total Feedstocks', 'Bulk Chemical : Energy Use : Heat and Power : Distillate Fuel Oil', 'Bulk Chemical : Energy Use : Heat and Power : Natural Gas', 'Bulk Chemical : Energy Use : Heat and Power : Other Petroleum', 'Bulk Chemical : Energy Use : Heat and Power : Petroleum Coke', 'Bulk Chemical : Energy Use : Heat and Power : Petroleum Subtotal', 'Bulk Chemical : Energy Use : Heat and Power : Propane', 'Bulk Chemical : Energy Use : Heat and Power : Purchased Electricity', 'Bulk Chemical : Energy Use : Heat and Power : Renewables', 'Bulk Chemical : Energy Use : Heat and Power : Residual Fuel Oil', 'Bulk Chemical : Energy Use : Heat and Power : Steam Coal', 'Bulk Chemical : Energy Use : Heat and Power : Total', 'Bulk Chemical : Energy Use : Hydrogen : Feedstocks : Natural Gas', 'Bulk Chemical : Energy Use : Hydrogen : Feedstocks : Total Feedstocks', 'Bulk Chemical : Energy Use : Hydrogen : Heat and Power : Natural Gas', 'Bulk Chemical : Energy Use : Hydrogen : Heat and Power : Purchased Electricity', 'Bulk Chemical : Energy Use : Hydrogen : Heat and Power : Total Heat and Power', 'Bulk Chemical : Energy Use : Hydrogen : Total', 'Bulk Chemical : Total Energy Use']
+
+== 11. A state's change since 2019 on another base
+  TX total 2018 to 2024: +12.6 percent
+  TX total 2019 to 2024: +10.6 percent
+  TX total 2021 to 2024: +7.1 percent
+  LA total 2018 to 2024: -1.7 percent
+  LA total 2019 to 2024: -2.4 percent
+  LA total 2021 to 2024: -0.6 percent
+
+== 12. A region's shares on the survey's own all-manufacturing total, where one industry's total is withheld
+  northeast: all manufacturing 1274.0; held three-digit sum 1,271 (19 of 21; the withheld at most 3); top three on all manufacturing [('322', 'Paper', 205.0, 16.1), ('324', 'Petroleum and Coal Products', 201.0, 15.8), ('331', 'Primary Metals', 170.0, 13.3)]
+  midwest: all manufacturing 4213.0; held three-digit sum 4,212 (20 of 21; the withheld at most 1); top three on all manufacturing [('325', 'Chemicals', 931.0, 22.1), ('331', 'Primary Metals', 851.0, 20.2), ('324', 'Petroleum and Coal Products', 601.0, 14.3)]
+  south: all manufacturing 8306.0; held three-digit sum 7,884 (17 of 21; the withheld at most 422); top three on all manufacturing [('325', 'Chemicals', 2725.0, 32.8), ('324', 'Petroleum and Coal Products', 1917.0, 23.1), ('322', 'Paper', 1386.0, 16.7)]
+  west: all manufacturing 1948.0; held three-digit sum 1,949 (19 of 21; the withheld at most -1); top three on all manufacturing [('324', 'Petroleum and Coal Products', 825.0, 42.4), ('327', 'Nonmetallic Mineral Products', 281.0, 14.4), ('311', 'Food', 184.0, 9.4)]
