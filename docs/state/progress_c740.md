@@ -83,3 +83,5 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | A build and read of the newest head | done | 10813, 10816 | `3fb425592` built 14:00 UTC, eleven addresses at 1280 and 390 px, check-values 1,506 of 1,506; row 14 updated |
 | Minnesota's announced projects (DEED's release on Meta in Rosemount) | waiting | 10815 | mn.gov's robots file sets Visit-time 0000-1200; read after 00:00 UTC |
 | More states (part F) | done | 10813 to 10816 | by rule: Georgia, Utah, Arkansas, Oklahoma, Connecticut, Michigan (22 in all); words: Illinois, Massachusetts, Ohio, Nebraska (8 in all) |
+| Electricity taxes beyond Virginia | done | 10817, 10818 | Illinois (monthly blocks), Ohio (tiers or the self-assessing schedule, the lower) |
+| Wages from warehouse tables (request 7 built) | done | 10818 | `datacenter_wages.py --tables`; figures identical |
