@@ -9,8 +9,8 @@ How a row reads: what was done, what was seen, what should be seen, and whose it
 | | Count | Where |
 |---|---:|---|
 | Pages and views read in part B's form | 14 of the list's 14 begun; see each section | below |
-| Faults fixed on a branch, to be seen in a build | 3 (G1, C1, C2) | `wip/c750-grid-reliability`, `wip/c750-conditions`; rows 1 and 3 of `docs/state/landing_request_portable_w2.md` |
-| Faults filed for another window | 1 (two unlanded commits, L1) | row 2 of the same file |
+| Faults fixed on a branch, to be seen in a build | 4 (G1, C1, C2, GW1) | `wip/c750-grid-reliability`, `wip/c750-conditions`, `wip/c750-grid-last-week`; rows 1, 3 and 4 of `docs/state/landing_request_portable_w2.md` |
+| Faults filed for another window | 4: two unlanded commits (L1, the desktop's second window, row 2 of the same file); CP1 and CP2 on `/cost-of-power` (the old laptop and window A); R1 on `/research` (the old laptop) | part D below |
 | Known to their owner, read again when repaired | 1 (the page files of 21 to 25 November, L2) | chain 701, part C |
 | For Samuel's ruling, the page left as it is | see the foot of this file | "For Samuel's ruling" |
 
@@ -65,6 +65,9 @@ The pages no browser has seen come first: B1 to B5, then B6 to B10, then the res
 
 - **Twelve addresses of the list at both widths** (`runs/c750/survey.mjs`): every page loads in under 3.3 s but `/internal/findings` (4.7 s at 1280 px, 3.5 s at 390 px); no sideways scroll, no empty chart, no heading that skips a level, no error in the console as each opens. `/problems` is no address (the sets live under `/learn`; B8 reads them there).
 - **Every page with a fixed address (82) and the Grid tool's 63 views (eight grids and thirteen regions, three views each), at 390 px** (`runs/c750/all_routes.mjs`, 146 addresses, 11:35 UTC). With something wrong: `/grid?grid=caiso` (row G1 below); `/data/licenses` shows the word "undefined" inside an address (row D1 below: the publisher's own answer, settled on 20 November, not a fault); `/cost-of-power` took 5.3 s and `/internal/waits` 8.4 s to load. `/data/standard` prints "null" as a word of its own text ("No sentinel codes (-999, NA, null)"), which is right.
+
+- **The same sweep at 1280 px** (13:20 UTC, 145 addresses): clean; `/internal/waits` takes 7.9 s to load, as on 20 November.
+- **The 173 addresses of the site's own check list** (`check-values --list`: the views with choices in their address, where a page's other states live), each at 390 px as it opens and then with every chart switched to its table and every fold open (`runs/c750/quiet_tables.mjs`, 13:30 to 13:45 UTC): no empty chart, no "undefined", no skipped heading, no error. Sideways scroll on four addresses, all three faults of this file: `/grid?grid=caiso` and `/grid/caiso` (G1, fixed), `/events/covid-2020` (row 2 of the landing file) and `/cost-of-power?view=grids` (CP1, filed). Nothing else is wider than its screen.
 
 ## B4 and row G1: the Grid tool's reliability table (`/grid?grid=caiso#reliability`)
 
@@ -273,6 +276,32 @@ Whose: no window's page tonight. The old laptop's audit of its figures (chain 71
 
 Pictures: `docs/reviews/browser-read-2026-11-26/grid-tool/grid-as-it-opens-1280.png` (the Lower 48, Mix); `docs/reviews/browser-read-2026-11-26/grid-tool/grid-network-1280.png` (the Network view's controls: the Watch stories, the day, the two switches).
 
+### What a datacenter pays (`/cost-of-power`): read, never edited
+
+Whose: the old laptop audits it tonight (window D, chain 710, part B: `docs/reviews/datacenter-model-audit-2026-11-26.md`, branches `wip/audit-datacenter-*`), and window A (chain 701) is writing the All grids tab's files and its large-load rows. Its faults are rows here for those windows; no code of it is touched.
+
+- **Figures:** `check-values` on every address of the tool in its list (35, the views of the All grids tab among them): 2,777 of 2,777 match Supabase.
+- **The hand** (`runs/c750/d_tool.mjs`, five views): no quiet fault as each opens; every control named; each chart gives a card; no mark's box past the screen. The page as it opens answers its reader in one sentence ("A flat 100 MW load at LZ_NORTH in ERCOT, buying real time, paid USD 34.07 per MWh over the last twelve months, USD 29.85 million in all: USD 0.0691 per GPU-hour for power alone"). It takes 3.3 to 3.8 s to load as it opens and 2.8 to 4.3 s on the All grids tab: under five seconds, the slowest tool of the five.
+
+| # | Done | Seen | Should be seen | Whose |
+|---|---|---|---|---|
+| CP1 | `/cost-of-power?view=grids` at 390 px; a finger on the Table switch of "When is power cheap: real-time price by hour of day" (`runs/c750/d_cop_probe.mjs`) | The page becomes 1,677 px wide: the table has 25 columns (1,661 px), and the frame that should scroll it is itself 1,661 px wide, so the whole page scrolls sideways. Pressing Chart again does not bring it back; the page stays 1,677 px wide until it is opened again. The other two tables of the view keep to their 358 px frames | 390 px, the table scrolling inside its frame | window D (the old laptop's audit of this page). The frame grows with the table because the block around the chart is not held to its column (the same cause as `/events/covid-2020`, whose fix is `min-w-0` on the block) |
+| CP2 | `/cost-of-power?view=allgrids` (and with `rows=nodes`); the Profile list changed to "flexible" (the address takes `profile=flexible`, the page says "A flexible compute load of 100 MW ..."); then the browser's back button. Two tries a view at each width, read for five seconds after going back | The address goes back to `/cost-of-power?view=allgrids`. The page does not: the list still reads "flexible" and the sentence still says "A flexible compute load", under the datacenter's address. 8 of 8 tries | After the back button the page shows what its address says (the datacenter load), as the lists of chain 620's fix now do | window A (the All grids tab is its tonight) and window D. The page's own line says "The address holds what you are looking at: copy it to share the view"; after the back button a copied address opens another view than the one on the screen |
+| CP3 | The All grids tab, the keyboard alone from the top | 500 stops and the foot not reached: 436 of them are the "About" marks of the table's rows (467 on the nodes view) | Noted, not a fault of function: every stop is seen and marked | for Samuel's ruling (line 9) |
+
+Pictures: `docs/reviews/browser-read-2026-11-26/datacenter-pays/cost-of-power-as-it-opens-1280.png`; `docs/reviews/browser-read-2026-11-26/datacenter-pays/cost-of-power-grids-390-after-one-table.png` (CP1: 390 px after one tap on Table, the page pushed sideways).
+
+### The first minute, as production stands before tonight's landings
+
+Read 26 November 13:18 UTC with chain 620's own script (`runs/c750/d_first_minute.mjs`), as a stranger and as a reviewer, at 1280 and 390 px.
+
+- **A stranger** meets the in-review page at every address, by the owner's instruction of 8 October; `/internal/findings` answers "No page at this address" to one. Nothing of the site is shown.
+- **A reviewer:** the home page opens in 0.3 s; the menu's six groups hold 33 entries; the 54 distinct addresses of the menu, the home page, the foot and the tour were each asked for: 54 of 54 answer with their heading (`/ask` answers through its redirect to the Grid tool, as designed). Each group of the menu opens inside the screen at both widths. The keyboard's first stops are "Skip to content", the home link, the six groups, then the Digest, the Roundup and Email.
+- **Unchanged since 20 November, and already rows there (not reopened):** the in-review page's heading for the home address is "/" (row D8 of the read of 20 November, for Samuel's ruling); at 390 px an open group of the menu covers the groups under it, so the next needs a second press (row D9, noted).
+- **Tonight's pages are not in the menu, on `/in-review` or in the tour yet** (none has landed); this is read again when they are.
+
+Pictures: `docs/reviews/browser-read-2026-11-26/first-minute/` (`a-stranger-at-the-home-page-1280.png`, `the-home-page-internal-view-1280.png`, `the-menu-open-390.png`).
+
 ## For Samuel's ruling (each with the page left as it is)
 
 1. **A reason on hover and a finger.** Why a strip or a cell is blank, why two figures differ, and what a colored cell holds are given as the browser's own tooltip. A mouse opens it; a finger at 390 px opens nothing. Seen on `/conditions` (the blank strips), `/congestion` (the hour-by-month cells, the operators not drawn), `/demand`, `/supply` and `/events` (blank cells and the figures' notes). The "i" marks and the chart cards do open on a tap. Default taken: nothing changed. The question: should a blank's reason open on a tap, as the "i" marks do?
@@ -281,5 +310,6 @@ Pictures: `docs/reviews/browser-read-2026-11-26/grid-tool/grid-as-it-opens-1280.
 4. **`/supply`, a year with a month left out.** The mix table is 1,325 px wide inside its frame (900 px otherwise), because "not held yet" does not wrap; on a phone two columns show at a time. The page itself keeps to 390 px. Default: left.
 5. **The tour's Digest stop** still quotes two headings the Digest page does not show ("Top of the industry", "ERW's Numbers Today"); the tour's check passes 101 of 103 for it. Standing since 20 November. Default: left.
 6. **`/conditions`, the alerts list.** On the branch every notice is a row (79 rows for CAISO's August 2020 heat wave). If the list should stay at 40, the page should say that it is cut and where it stops; one line either way.
+9. **The All grids tab and the keyboard.** A reader with the keyboard alone passes more than 500 stops before the foot of `/cost-of-power?view=allgrids`: every row's marks are stops. Default: left.
 8. **`/research`, "hover reads them".** The six small example charts give no value under the mouse or a finger, by design, and the line above them says they do. Default: left (the old laptop audits Automated Analysis tonight; row R1 names it). The choice: take the words out, or give the small examples their values.
 7. **"not held" in a chart's table, with no reason.** A chart switched to its table prints "not held" for a missing value and gives no reason on hover (1,206 blanks on the 22 pages of B12 and B14). The tables the pages draw themselves do give one. Default: left; the shared chart table does not know why a value is missing.

@@ -1,0 +1,11 @@
+pass wip/audit-policy-1: Steps on records scored below significance 5, or not scored at all (the newest documents, and the grid operato
+pass wip/audit-policy-1: A record not scored (the newest documents, and the grid operators' and FERC's large-load orders, which are nev
+pass wip/audit-policy-2: Records whose newest document is dated from 2026-11-18 to 2026-11-25, both days counted (eight calendar days, 
+pass wip/audit-policy-2: the actions of the past week (from seven days before the day to the day, both counted: eight calendar days; au
+pass wip/audit-policy-3: The utilities' own large-load rules: 11 in TX (13 changes in the 90 days to 13 November 2026) , on What a data
+pass wip/audit-policy-3: the count of changes in the 90 days to 13 November 2026 (every change of utility_large_load_rule_changes , who
+pass wip/audit-policy-4: a rule is "effective" only when its effective date is on or before the document's own date, and a rule whose e
+pass wip/audit-policy-5: Since session 1876 (policy faults row 28) that table adds nothing: for each month of a record's newest documen
+pass wip/audit-policy-5: is no longer drawn, and the check of a sum stays for an older file's keys
+pass wip/audit-policy-6: Signed into law, as the ERW's read of the text marked it; the read did not mark it in effect. Where the text p
+10 of 10 drawn
