@@ -1,0 +1,4 @@
+FOUND: ...ody:has(.brand-a) > header, body:has(.brand-a) > footer { font-family: stand-in, system-ui, sans-serif; } Where power contracts are being struck Sellers of wholesale power file their contracts with the Federal Energy Regulatory Commission every quarter: who sells to whom, which product, for how long, at what price and delivered where. This lists the contracts by the quarter they were signed, all read from the newest quarter's filings: an earlier quarter shows only the contracts still in effect in the newest one, not every contract signed in it.
+FOUND: ...Every quarter is read from the newest quarter's filings, which hold the contracts in effect in it: a contract signed in an earlier quarter that has since ended, as most short strips have, is not here, and the newest quarter lacks the contracts its filers report a quarter late. The counts are not a series of signings.
+em dashes in the page: 0
+PASS

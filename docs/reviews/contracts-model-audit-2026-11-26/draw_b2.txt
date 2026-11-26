@@ -1,0 +1,3 @@
+FOUND: ...The units are the filer's: dollars per megawatt-hour ($/MWH), or per kilowatt or megawatt by the month, the day or the year ($/KW-MO, $/MW-DAY). One price filed in two units is not converted: 1 $/KW-MO and 1,000 $/MW-MO are the same price. A number filed with no unit says so. When a number is filed, the filer's description is not drawn beside it, and it can say that the number is an adder to an index or one term of a formula: the number is what was filed in the rate column, not always the price paid.
+em dashes in the page: 0
+PASS
