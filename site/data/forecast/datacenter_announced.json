@@ -75,10 +75,10 @@
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 25,
+   "n": 27,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
-   "median": 55.555556,
+   "median": 52.436009,
    "high": 121.786859,
    "high_row": "sc_meta_aiken_2024",
    "rows": [
@@ -91,9 +91,11 @@
     "va_aws_2023",
     "in_meta_lebanon_2026",
     "wv_penzance_berkeley_2026",
+    "ia_meta_davenport_2024",
     "la_amazon_caddo_bossier_2026",
     "la_meta_richland_2024",
     "nc_aws_richmond_2025",
+    "ia_google_cedarrapids_2024",
     "la_applied_digital_rapides_2026",
     "pa_aws_2025",
     "ms_aws_madison_2026",
@@ -113,10 +115,10 @@
    "name": "Construction jobs per billion dollars",
    "unit": "construction jobs (headcount as announced) per USD billion (2025)",
    "how": "construction jobs as announced over the investment; at peak or period not stated, as each row says",
-   "n": 9,
+   "n": 10,
    "low": 63.222543,
    "low_row": "wv_nscale_2026",
-   "median": 250.0,
+   "median": 263.888889,
    "high": 1217.868592,
    "high_row": "al_meta_montgomery_2024",
    "rows": [
@@ -128,6 +130,7 @@
     "la_applied_digital_rapides_2026",
     "in_meta_lebanon_2026",
     "la_meta_richland_2024",
+    "wi_microsoft_mountpleasant_2024",
     "al_meta_montgomery_2024"
    ]
   }
@@ -1290,6 +1293,105 @@
    "incentive": "",
    "years": "",
    "note": "A 715,000-square-foot data center. The release's month is in its address."
+  },
+  {
+   "id": "wi_microsoft_mountpleasant_2024",
+   "name": "Microsoft, Mount Pleasant datacenter campus",
+   "company": "Microsoft",
+   "state": "wi",
+   "county": "Racine County",
+   "doc": {
+    "title": "Gov. Evers, President Biden, Microsoft Officials to Celebrate Historic Investments in Mount Pleasant Datacenter, Global Co-Innovation Lab, and AI Solutions for Wisconsin Manufacturers",
+    "publisher": "Wisconsin Economic Development Corporation",
+    "date": "2024-05-08",
+    "url": "https://wedc.org/celebration-of-historic-investments-in-mount-pleasant-datacenter-global-co-innovation-lab-and-ai-solutions-for-wisconsin-manufacturers/",
+    "request": 235
+   },
+   "mw": null,
+   "investment": {
+    "value": 3300000000,
+    "year": 2024,
+    "says": "$3.3 billion",
+    "qualifier": "between now and the end of 2026",
+    "quote": "Microsoft officials confirmed that it will invest $3.3 billion between now and the end of 2026 in the Mount Pleasant datacenter."
+   },
+   "construction_jobs": {
+    "value": 2000,
+    "measure": "union construction jobs by the end of 2024",
+    "says": "2,000 union construction jobs",
+    "qualifier": "",
+    "quote": "The project is expected to bring 2,000 union construction jobs to the area by the end of this year"
+   },
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "between now and the end of 2026",
+   "note": "The page is dated May 8, 2024. Mount Pleasant is in Racine County (not named in the release). Permanent jobs are not stated as a figure. A second Mount Pleasant investment (USD 4 billion, September 2025) was not read from the state's own page."
+  },
+  {
+   "id": "ia_meta_davenport_2024",
+   "name": "Meta (Vemerald), Davenport data center",
+   "company": "Meta Platforms (Vemerald)",
+   "state": "ia",
+   "county": "Scott County",
+   "doc": {
+    "title": "IEDA Board approves assistance for established company, two startups in Iowa",
+    "publisher": "Iowa Economic Development Authority",
+    "date": "2024-05-17",
+    "url": "https://opportunityiowa.gov/press-release/2024-05-17/ieda-board-approves-assistance-established-company-two-startups-iowa",
+    "request": 236
+   },
+   "mw": null,
+   "investment": {
+    "value": 800000000,
+    "year": 2024,
+    "says": "$800 million",
+    "qualifier": "",
+    "quote": "The project represents a capital investment of $800 million and is expected to create 35 jobs incented at a qualifying wage of $28.76 per hour."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 35,
+    "measure": "jobs incented",
+    "says": "35 jobs",
+    "qualifier": "",
+    "quote": "The project represents a capital investment of $800 million and is expected to create 35 jobs incented at a qualifying wage of $28.76 per hour."
+   },
+   "incentive": "The board granted the City of Davenport the ability to utilize the High Quality Jobs (HQJ) program provision for value-added property tax exemption for this project.",
+   "years": "",
+   "note": "Davenport is in Scott County (not named in the release)."
+  },
+  {
+   "id": "ia_google_cedarrapids_2024",
+   "name": "Google, Cedar Rapids data center",
+   "company": "Google",
+   "state": "ia",
+   "county": "Linn County",
+   "doc": {
+    "title": "IEDA Board approves assistance for four established companies",
+    "publisher": "Iowa Economic Development Authority",
+    "date": "2024-03-22",
+    "url": "https://opportunityiowa.gov/press-release/2024-03-22/ieda-board-approves-assistance-four-established-companies",
+    "request": 237
+   },
+   "mw": null,
+   "investment": {
+    "value": 576000000,
+    "year": 2024,
+    "says": "$576 million",
+    "qualifier": "",
+    "quote": "The project represents a $576 million capital investment and is expected to create 31 jobs"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 31,
+    "measure": "jobs incented",
+    "says": "31 jobs",
+    "qualifier": "",
+    "quote": "The project represents a $576 million capital investment and is expected to create 31 jobs"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Cedar Rapids is in Linn County (not named in the release)."
   }
  ]
 }
