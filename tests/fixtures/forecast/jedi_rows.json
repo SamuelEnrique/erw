@@ -1,5 +1,5 @@
 {
-"about": "A fixture for the forecast tests (session 4203): the rows of nlr_jedi_multipliers for ten states (Kansas added in session 4223, Oregon in 4225, Wyoming in 4255, Florida in 4257, North Carolina, Michigan and Vermont in 4260, Nevada in 4262, Virginia in 4272) (jobs, earnings, output), as the live set gives them, copied from warehouse/output/nlr_jedi_multipliers.csv of 20 October 2026 (5,562 rows). Coal for Wyoming and Texas added in session 10822 (chain 740), from the table of 26 November. biopower for nd, ga added in session 10822 (chain 740).",
+"about": "A fixture for the forecast tests (session 4203): the rows of nlr_jedi_multipliers for ten states (Kansas added in session 4223, Oregon in 4225, Wyoming in 4255, Florida in 4257, North Carolina, Michigan and Vermont in 4260, Nevada in 4262, Virginia in 4272) (jobs, earnings, output), as the live set gives them, copied from warehouse/output/nlr_jedi_multipliers.csv of 20 October 2026 (5,562 rows). Coal for Wyoming and Texas added in session 10822 (chain 740), from the table of 26 November. biopower for nd, ga added in session 10822 (chain 740). csp_trough for nd, az added in session 10822 (chain 740).",
 "notice": "NLR's data terms (https://www.nlr.gov/disclaimer): the user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data; credit DOE/NLR/ALLIANCE; the Data are provided as is.",
 "rows": [
 {
@@ -12529,6 +12529,294 @@
 "variable": "output",
 "ts_utc": "2012-01-01T00:00:00Z",
 "value": 415853.178118
+},
+{
+"entity": "nlr_jedi:csp_trough:az:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 10.108123
+},
+{
+"entity": "nlr_jedi:csp_trough:az:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 1115559.140731
+},
+{
+"entity": "nlr_jedi:csp_trough:az:construction:onsite",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 1537603.796424
+},
+{
+"entity": "nlr_jedi:csp_trough:az:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 9.288651
+},
+{
+"entity": "nlr_jedi:csp_trough:az:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 472678.289804
+},
+{
+"entity": "nlr_jedi:csp_trough:az:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 1988380.614221
+},
+{
+"entity": "nlr_jedi:csp_trough:az:construction:induced",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 8.047068
+},
+{
+"entity": "nlr_jedi:csp_trough:az:construction:induced",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 358098.04092
+},
+{
+"entity": "nlr_jedi:csp_trough:az:construction:induced",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 1053729.431974
+},
+{
+"entity": "nlr_jedi:csp_trough:az:construction:total",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 27.443841
+},
+{
+"entity": "nlr_jedi:csp_trough:az:construction:total",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 1946335.471455
+},
+{
+"entity": "nlr_jedi:csp_trough:az:construction:total",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 4579713.84262
+},
+{
+"entity": "nlr_jedi:csp_trough:az:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 0.445746
+},
+{
+"entity": "nlr_jedi:csp_trough:az:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 27197.944186
+},
+{
+"entity": "nlr_jedi:csp_trough:az:operations:onsite",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 27197.944186
+},
+{
+"entity": "nlr_jedi:csp_trough:az:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 0.384083
+},
+{
+"entity": "nlr_jedi:csp_trough:az:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 19109.025784
+},
+{
+"entity": "nlr_jedi:csp_trough:az:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 66028.726649
+},
+{
+"entity": "nlr_jedi:csp_trough:az:operations:induced",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 0.222815
+},
+{
+"entity": "nlr_jedi:csp_trough:az:operations:induced",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 10089.875572
+},
+{
+"entity": "nlr_jedi:csp_trough:az:operations:induced",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 29690.78952
+},
+{
+"entity": "nlr_jedi:csp_trough:az:operations:total",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 1.052644
+},
+{
+"entity": "nlr_jedi:csp_trough:az:operations:total",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 56396.845542
+},
+{
+"entity": "nlr_jedi:csp_trough:az:operations:total",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 122917.460355
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 10.077593
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 1135873.148001
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:construction:onsite",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 1537603.796424
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 7.856006
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 405810.485366
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 1843502.898658
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:construction:induced",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 4.636721
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:construction:induced",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 209083.166652
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:construction:induced",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 615531.389659
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:construction:total",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 22.57032
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:construction:total",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 1750766.80002
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:construction:total",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 3996638.08474
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 0.445746
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 27197.944186
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:operations:onsite",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 27197.944186
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 0.319798
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 17612.771464
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 59736.143954
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:operations:induced",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 0.11863
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:operations:induced",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 5448.410775
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:operations:induced",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 16040.157076
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:operations:total",
+"variable": "jobs",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 0.884174
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:operations:total",
+"variable": "earnings",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 50259.126426
+},
+{
+"entity": "nlr_jedi:csp_trough:nd:operations:total",
+"variable": "output",
+"ts_utc": "2009-01-01T00:00:00Z",
+"value": 102974.245215
 }
 ]
 }

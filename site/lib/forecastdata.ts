@@ -13,6 +13,7 @@ import taxable from "@/data/forecast/jedi_taxable.json";
 import gas from "@/data/forecast/gas.json";
 import coal from "@/data/forecast/coal.json";
 import biopower from "@/data/forecast/biopower.json";
+import cspTrough from "@/data/forecast/csp_trough.json";
 import exemptions from "@/data/forecast/sales_exemptions.json";
 import severanceRules from "@/data/severance_rules.json";
 import announced from "@/data/forecast/datacenter_announced.json";
@@ -57,6 +58,7 @@ export function params(): Params {
     gas: { heat_rate_btu_per_kwh: gas.heat_rate_btu_per_kwh, capacity_factor: gas.capacity_factor, price_usd_per_mmbtu: gas.price_usd_per_mmbtu, btu_per_cf: gas.btu_per_cf },
     coal: { capacity_factor: coal.capacity_factor },
     biopower: { capacity_factor: biopower.capacity_factor },
+    csp_trough: { capacity_factor: cspTrough.capacity_factor },
     exemptions: { states: Object.fromEntries(Object.entries(exemptions.states).map(([s, v]) => [s, Object.fromEntries(Object.entries(v).map(([t, e]) => [t, { exempt_pct: e.exempt_pct, tip: (e as { tip?: string }).tip }]))])) } as Params["exemptions"],
   };
 }

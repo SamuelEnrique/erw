@@ -59,8 +59,8 @@ class TheFiles(unittest.TestCase):
     def test_seventeen_addresses_and_every_project_a_case(self):
         cases = self.pf["cases"]
         # session 10822: 17 and the two coal cases (Wyoming against Texas, Georgia against Iowa), the fifth technology's
-        self.assertEqual(len(cases), 20)
-        self.assertEqual([c["id"] for c in cases[-3:]], ["coal_wy_tx", "coal_ga_ia", "biopower_nd_ga"])
+        self.assertEqual(len(cases), 21)
+        self.assertEqual([c["id"] for c in cases[-4:]], ["coal_wy_tx", "coal_ga_ia", "biopower_nd_ga", "csp_trough_nd_az"])
         self.assertEqual(cases[0]["id"], "default")
         self.assertEqual(cases[0]["address"], "/impact")
         self.assertEqual(len(self.projects), 10)
