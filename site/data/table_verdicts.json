@@ -2055,6 +2055,14 @@
   "unsettled",
   "Public Utility Commission of Texas's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."
  ],
+ "predict_demand_forecasts": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "predict_price_forecasts": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "price_board_latest": [
   "unsettled",
   "ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21)."

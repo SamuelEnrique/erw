@@ -277,3 +277,20 @@ chose `regression_recent`) made a newer forecast for the same day, and the page 
 place file's forecast for tomorrow is the ledger's once the ledger holds that day: its values, band, method and the hour
 it was made, with `tomorrow_from` saying so and naming the method chosen now. So the page and its ledger show one
 forecast for each day, the one made first, and a past day drawn from the ledger is the one a reader saw.
+
+## 17. The ledgers as warehouse tables (session 10000, chain 701)
+
+Data requests 2 and 5 of `docs/state/data_requests_predict.md`: `warehouse/predict/predict_tables.py` writes the two
+ledgers as `predict_demand_forecasts` and `predict_price_forecasts`, a daily step of the data machine right after
+the forecast (`dm_predict_tables`, then each table's stores: the validator, its coverage row and the archive). One row
+a place and UTC hour of a target day, in the series shape: entity `eia930:<code>` of the place (region-tex is
+`eia930:TEX`, ba-erco is `eia930:ERCO`), variable `demand_forecast_mw` or `lmp_dam_forecast` (the price
+names its hub in `market` and `node`), and `vintage` the hour the forecast was made. The tables keep their
+revisions: the key is entity, variable, hour and vintage, so a second forecast of an hour already held would be a second
+row, never a replacement. Each table is the whole ledger, rewritten from it each run; the ledger itself only grows
+(section 16). First written 26 November 2026 at 23:35 UTC: 696 and 144 rows, one making (11:00 UTC) for 27 November.
+
+The backtests and the scores (`predict_demand_backtest`, `predict_scores`, `predict_price_backtest`) are not
+tables yet: as `run.py` writes them, the two regressions share every place, hour and making time (and in the price,
+places of one grid share a hub), so the validator refuses them as duplicate keys, and the scores file is not in a
+standard shape. Their shape is this method's choice to make first.

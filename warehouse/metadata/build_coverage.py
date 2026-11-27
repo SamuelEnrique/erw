@@ -102,6 +102,7 @@ TIER_RULES = [
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
     ("derived", r"^eia_annual_crosscheck_ba$"),  # session 323: ERW code over EIA-923's sums and EIA-930's hours
     ("derived", r"^eia930_demand_growth$"),
+    ("derived", r"^predict_(demand|price)_forecasts$"),  # session 10000 (chain 701): the ERW forecast's ledgers (a model's output)
     ("derived", r"^ba_boundaries$"),
     ("derived", r"^resource_layer_features$"),  # session 8006: the ERW's reduction of each resource layer, and the USGS coal fields
     ("derived", r"^(interchange_pair_daily|interchange_pair_monthly|ba_trade_partners|interchange_event_pairs)$"),  # session 8002: who trades with whom, sums and means of EIA-930's two reports  # session 8000: HIFLD's polygons keyed to EIA-930 codes, with the ERW's centroid and area
@@ -175,6 +176,7 @@ SECTOR_RULES = [
     (r"^eia_nuclear_outages_daily$", "power;uranium"),  # session 513: EIA's U.S. nuclear outages, a day
     (r"^ferc714_respondents$", "power"),  # session 514: FERC Form 714's respondents, from PUDL
     (r"^ferc714_(planning_area_forecasts|forecast_growth)$", "power"),  # session 3758: FERC-714 Part 3 Schedule 2 forecasts (PUDL) and their revisions
+    (r"^predict_(demand|price)_forecasts$", "power"),  # session 10000 (chain 701): the ERW forecast of demand and day-ahead hub prices
     (r"^eia_nuclear_outages_facility_daily$", "power;uranium"),  # session 516: EIA's nuclear outages by plant, a day
     (r"^eia_gas_prices_state_monthly$", "gas"),  # session 517: EIA's natural gas prices by state, a month
     (r"^eia_gas_consumption_state_monthly$", "gas"),  # session 518: EIA's natural gas consumption by state, a month
