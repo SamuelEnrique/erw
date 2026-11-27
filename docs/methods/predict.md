@@ -393,8 +393,9 @@ The full build, the last two years (ERW, yesterday): California 8.96, 12.36; Car
 25.22; Florida 6.79, 8.41; Mid-Atlantic 5.98, 8.94; Midwest 8.66, 12.52; New England 8.75, 12.26; Northwest 7.84,
 10.84; New York 6.67, 9.83; Southeast 6.87, 9.43; Southwest 9.25, 11.58; Tennessee 7.41, 9.74; Texas and ERCO 15.77,
 19.43. With the operator, Texas only, 1,368 hours from 30 September 2026: ERCOT 5.46, the ERW 17.06, yesterday 20.56.
-Where wind is a large share (Central, Texas) the ERW's net demand error is two to three times its demand error: its
-wind forecast, without the weather, carries most of it.
+Where wind is a large share the ERW's net demand error is several times its demand error (Central 20.76 against a
+demand MAPE of 5.03, Texas 15.77 against 4.91; the two measures differ in form, the first over the mean, the second hour
+by hour), and its wind forecast, made without the weather, misses by 35 to 40 percent of the mean output there.
 
 ## 21. The share of past hours inside each band (session 10602)
 
