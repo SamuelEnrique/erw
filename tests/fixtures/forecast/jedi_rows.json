@@ -1,5 +1,5 @@
 {
-"about": "A fixture for the forecast tests (session 4203): the rows of nlr_jedi_multipliers for ten states (Kansas added in session 4223, Oregon in 4225, Wyoming in 4255, Florida in 4257, North Carolina, Michigan and Vermont in 4260, Nevada in 4262, Virginia in 4272) (jobs, earnings, output), as the live set gives them, copied from warehouse/output/nlr_jedi_multipliers.csv of 20 October 2026 (5,562 rows). Coal for Wyoming and Texas added in session 10822 (chain 740), from the table of 26 November.",
+"about": "A fixture for the forecast tests (session 4203): the rows of nlr_jedi_multipliers for ten states (Kansas added in session 4223, Oregon in 4225, Wyoming in 4255, Florida in 4257, North Carolina, Michigan and Vermont in 4260, Nevada in 4262, Virginia in 4272) (jobs, earnings, output), as the live set gives them, copied from warehouse/output/nlr_jedi_multipliers.csv of 20 October 2026 (5,562 rows). Coal for Wyoming and Texas added in session 10822 (chain 740), from the table of 26 November. biopower for nd, ga added in session 10822 (chain 740).",
 "notice": "NLR's data terms (https://www.nlr.gov/disclaimer): the user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data; credit DOE/NLR/ALLIANCE; the Data are provided as is.",
 "rows": [
 {
@@ -12241,6 +12241,294 @@
 "variable": "output",
 "ts_utc": "2011-01-01T00:00:00Z",
 "value": 69008.442168
+},
+{
+"entity": "nlr_jedi:biopower:ga:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 3.281251
+},
+{
+"entity": "nlr_jedi:biopower:ga:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 300575.740095
+},
+{
+"entity": "nlr_jedi:biopower:ga:construction:onsite",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 373832.0
+},
+{
+"entity": "nlr_jedi:biopower:ga:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 1.177178
+},
+{
+"entity": "nlr_jedi:biopower:ga:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 54860.213047
+},
+{
+"entity": "nlr_jedi:biopower:ga:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 166709.608197
+},
+{
+"entity": "nlr_jedi:biopower:ga:construction:induced",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 1.052117
+},
+{
+"entity": "nlr_jedi:biopower:ga:construction:induced",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 49049.59581
+},
+{
+"entity": "nlr_jedi:biopower:ga:construction:induced",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 149459.49737
+},
+{
+"entity": "nlr_jedi:biopower:ga:construction:total",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 5.510547
+},
+{
+"entity": "nlr_jedi:biopower:ga:construction:total",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 404485.548952
+},
+{
+"entity": "nlr_jedi:biopower:ga:construction:total",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 690001.105567
+},
+{
+"entity": "nlr_jedi:biopower:ga:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 0.504263
+},
+{
+"entity": "nlr_jedi:biopower:ga:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 18884.118647
+},
+{
+"entity": "nlr_jedi:biopower:ga:operations:onsite",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 18884.118647
+},
+{
+"entity": "nlr_jedi:biopower:ga:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 1.725018
+},
+{
+"entity": "nlr_jedi:biopower:ga:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 122118.714771
+},
+{
+"entity": "nlr_jedi:biopower:ga:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 343780.171669
+},
+{
+"entity": "nlr_jedi:biopower:ga:operations:induced",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 0.764193
+},
+{
+"entity": "nlr_jedi:biopower:ga:operations:induced",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 38603.928691
+},
+{
+"entity": "nlr_jedi:biopower:ga:operations:induced",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 117571.471769
+},
+{
+"entity": "nlr_jedi:biopower:ga:operations:total",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 2.993474
+},
+{
+"entity": "nlr_jedi:biopower:ga:operations:total",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 179606.762109
+},
+{
+"entity": "nlr_jedi:biopower:ga:operations:total",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 480235.762084
+},
+{
+"entity": "nlr_jedi:biopower:nd:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 3.33355
+},
+{
+"entity": "nlr_jedi:biopower:nd:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 302144.297574
+},
+{
+"entity": "nlr_jedi:biopower:nd:construction:onsite",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 373832.0
+},
+{
+"entity": "nlr_jedi:biopower:nd:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 0.888486
+},
+{
+"entity": "nlr_jedi:biopower:nd:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 41904.177678
+},
+{
+"entity": "nlr_jedi:biopower:nd:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 123504.229884
+},
+{
+"entity": "nlr_jedi:biopower:nd:construction:induced",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 0.712007
+},
+{
+"entity": "nlr_jedi:biopower:nd:construction:induced",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 33126.990627
+},
+{
+"entity": "nlr_jedi:biopower:nd:construction:induced",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 97518.255203
+},
+{
+"entity": "nlr_jedi:biopower:nd:construction:total",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 4.934042
+},
+{
+"entity": "nlr_jedi:biopower:nd:construction:total",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 377175.465879
+},
+{
+"entity": "nlr_jedi:biopower:nd:construction:total",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 594854.485087
+},
+{
+"entity": "nlr_jedi:biopower:nd:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 0.504263
+},
+{
+"entity": "nlr_jedi:biopower:nd:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 20421.375804
+},
+{
+"entity": "nlr_jedi:biopower:nd:operations:onsite",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 20421.375804
+},
+{
+"entity": "nlr_jedi:biopower:nd:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 1.367001
+},
+{
+"entity": "nlr_jedi:biopower:nd:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 77537.361583
+},
+{
+"entity": "nlr_jedi:biopower:nd:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 348911.275765
+},
+{
+"entity": "nlr_jedi:biopower:nd:operations:induced",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 0.317779
+},
+{
+"entity": "nlr_jedi:biopower:nd:operations:induced",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 15809.520082
+},
+{
+"entity": "nlr_jedi:biopower:nd:operations:induced",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 46520.526549
+},
+{
+"entity": "nlr_jedi:biopower:nd:operations:total",
+"variable": "jobs",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 2.189044
+},
+{
+"entity": "nlr_jedi:biopower:nd:operations:total",
+"variable": "earnings",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 113768.257469
+},
+{
+"entity": "nlr_jedi:biopower:nd:operations:total",
+"variable": "output",
+"ts_utc": "2012-01-01T00:00:00Z",
+"value": 415853.178118
 }
 ]
 }

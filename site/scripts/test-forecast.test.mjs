@@ -13,7 +13,7 @@ const data = (n) => JSON.parse(fs.readFileSync(path.join(here, "..", "data", "fo
 const P = {
   jediCosts: data("jedi_costs.json"), eiaCapex: data("eia_capex.json"), deflator: data("deflator.json"), capacity: data("capacity_factors.json"),
   sales: data("sales_tax.json"), income: data("income_tax.json"), property: data("property_rules.json"), taxable: data("jedi_taxable.json"), gas: data("gas.json"),
-  exemptions: data("sales_exemptions.json"), coal: data("coal.json"),
+  exemptions: data("sales_exemptions.json"), coal: data("coal.json"), biopower: data("biopower.json"),
 };
 const ROWS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "tests", "fixtures", "forecast", "jedi_rows.json"), "utf8")).rows;
 const near = (a, b, rel = 1e-9, msg = "") => assert.ok(Math.abs(a - b) <= rel * Math.max(1, Math.abs(b)), `${msg} ${a} is not ${b}`);
@@ -229,6 +229,7 @@ test("the run's Python script recomputes every total of the tool", async () => {
     [{ ...F.defaults(P, "utility_pv", "ny"), own: 1.5, ownyears: 30 }, { ...F.defaults(P, "utility_pv", "dc"), own: 2, ownyears: 20 }],
     // session 10822: coal, the fifth type (its rows for Wyoming and Texas in the fixture)
     [{ ...F.defaults(P, "coal", "wy"), own: 1.2, ownyears: 30 }, { ...F.defaults(P, "coal", "tx") }],
+    [{ ...F.defaults(P, "biopower", "nd") }, { ...F.defaults(P, "biopower", "ga"), own: 1.2, ownyears: 30 }],
   ];
   const { execFileSync } = await import("node:child_process");
   const py = process.env.ERW_PYTHON || "python";
@@ -739,4 +740,19 @@ test("coal, the fifth plant type (session 10822): EIA's case 1 and JEDI's coal m
   assert.equal(P.jediCosts.technologies.coal.states.tx.cost_usd_per_mw, 3025000); assert.equal(P.jediCosts.technologies.coal.dollar_year, 2011);
   // the four other types keep their defaults
   assert.equal(F.defaults(P, "land_based_wind", "tx").mw, 200); assert.equal(F.defaults(P, "geothermal", "nv").mw, 50);
+});
+
+test("biopower, the sixth plant type (session 10822): EIA's AEO2020 case 13 and JEDI's biopower model", () => {
+  assert.ok(F.TECH_KEYS.includes("biopower"));
+  const e = P.eiaCapex.technologies.biopower;
+  assert.equal(e.case, 13); assert.equal(e.case_mw, 50); assert.equal(e.base_usd_per_kw, 4097); assert.equal(e.dollar_year, 2019);
+  const d = F.defaults(P, "biopower", "nd");
+  assert.equal(d.mw, 50); assert.equal(d.build, 3); assert.equal(d.life, 40);
+  near(d.capex, F.round(e.states.nd.usd_per_kw * F.to2025(P, 2019), 2), 1e-12, "North Dakota's EIA cost in 2025 dollars");
+  assert.equal(d.taxable, 49.764);  // 93,084,500 / 187,052,000, equipment over JEDI's default cost
+  assert.equal(d.cf, 0.8);  // JEDI's biopower default (biopower.json)
+  assert.equal(d.exempt, 100);  // North Dakota's power plant exemption: any other type of generating facility
+  // North Dakota's capacity tax and production tax on sources other than coal or wind reach biopower, not coal
+  const nd = P.property.states.nd.rules.filter((r) => r.id.startsWith("nd_other"));
+  assert.ok(nd.every((r) => r.technologies.includes("biopower") && !r.technologies.includes("coal")));
 });
