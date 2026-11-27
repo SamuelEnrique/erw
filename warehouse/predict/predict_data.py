@@ -110,27 +110,52 @@ def place_tz(place, ref):
 def demand_panel():
     """Wide frame, index the UTC hour (start), one column a place: the demand the demand pages show, MW."""
     def build():
-        import region_files as rp
         ref, _ = reference()
         ba = read("eia930_ba_demand_hourly", ["entity", "variable", "ts_utc", "value"], lambda d: d["variable"] == "demand_mw")
-        cols = {}
-        for r in REGIONS:
-            s, _members = rp.region_demand(r, ref, ba)
-            if len(s.dropna()):
-                cols[f"region-{r.lower()}"] = s
-        for e, g in ba.groupby("entity"):
-            code = e.split(":", 1)[1]
-            r = ref.get(code)
-            if r is None or not r["us"] or r["generation_only"]:
-                continue
-            s = pd.Series(g["value"].to_numpy(dtype=float), index=pd.DatetimeIndex(g["ts"])).sort_index()
-            s = s[~s.index.duplicated(keep="last")]
-            cols[f"ba-{code.lower()}"] = s
-        df = pd.DataFrame(cols)
-        df = df.reindex(pd.date_range(df.index.min(), df.index.max(), freq="h"))
-        df.index.name = "ts"
-        return df
+        return demand_frame(ba, ref)
     return cached("demand", ["eia930_ba_demand_hourly"], build)
+
+
+HISTORY = "eia930_all_history"
+
+
+def demand_panel_long():
+    """demand_panel reaching back to July 2015 (session 10603, method note section 25): the authorities' demand of
+    eia930_all_history (EIA's six-month files, every authority from July 2015 to June 2018; data request 9) before the
+    hourly table's own hours, which win wherever both hold an hour; regions summed by the same rule. Read only by
+    long_backtest.py: the backtest of run.py keeps demand_panel."""
+    def build():
+        ref, _ = reference()
+        cols = ["entity", "variable", "ts_utc", "value"]
+        ba = read("eia930_ba_demand_hourly", cols, lambda d: d["variable"] == "demand_mw").assign(order=1)
+        hi = read(HISTORY, cols, lambda d: d["variable"] == "demand_mw").assign(order=0)
+        d = pd.concat([hi, ba], ignore_index=True).sort_values(["entity", "ts", "order"])
+        d = d.drop_duplicates(subset=["entity", "ts"], keep="last").drop(columns="order")
+        return demand_frame(d, ref)
+    return cached("demand_long", ["eia930_ba_demand_hourly", HISTORY], build)
+
+
+def demand_frame(ba, ref):
+    """The places' demand from authority rows (entity eia930:<code>, variable demand_mw, ts): regions by the demand
+    pages' rule (region_files.region_demand), authorities their own."""
+    import region_files as rp
+    cols = {}
+    for r in REGIONS:
+        s, _members = rp.region_demand(r, ref, ba)
+        if len(s.dropna()):
+            cols[f"region-{r.lower()}"] = s
+    for e, g in ba.groupby("entity"):
+        code = e.split(":", 1)[1]
+        r = ref.get(code)
+        if r is None or not r["us"] or r["generation_only"]:
+            continue
+        s = pd.Series(g["value"].to_numpy(dtype=float), index=pd.DatetimeIndex(g["ts"])).sort_index()
+        s = s[~s.index.duplicated(keep="last")]
+        cols[f"ba-{code.lower()}"] = s
+    df = pd.DataFrame(cols)
+    df = df.reindex(pd.date_range(df.index.min(), df.index.max(), freq="h"))
+    df.index.name = "ts"
+    return df
 
 
 def operator_panel():
@@ -156,18 +181,21 @@ HUBS = {"ercot": "ercot:HB_NORTH", "spp": "spp:SPPNORTH_HUB", "caiso": "caiso:TH
 PRICE_TABLES = ["ercot_all_hub_prices_history", "iso_hub_prices_history_2018", "iso_hub_prices_history", "iso_dam_hub_prices"]
 
 
-def price_panel():
+def price_panel(hubs=None):
     """Wide frame, index the UTC hour (start), one column a grid of HUBS: the hub's day-ahead price, USD/MWh. The
-    tables are read oldest first and a later table's value for the same hour wins (the daily table over the history)."""
+    tables are read oldest first and a later table's value for the same hour wins (the daily table over the history).
+    `hubs` (session 10603): another {column: entity} map, for the real-time forecast's added hubs; by default HUBS."""
+    hubs = hubs or HUBS
+
     def build():
         frames = []
         for order, t in enumerate(PRICE_TABLES):
-            d = read(t, ["entity", "ts_utc", "value", "market"], lambda d: d["market"].astype(str).str.endswith("_dam") & d["entity"].isin(list(HUBS.values())))
+            d = read(t, ["entity", "ts_utc", "value", "market"], lambda d: d["market"].astype(str).str.endswith("_dam") & d["entity"].isin(list(hubs.values())))
             d["order"] = order
             frames.append(d[["entity", "ts", "value", "order"]])
         d = pd.concat(frames, ignore_index=True).sort_values(["entity", "ts", "order"])
         d = d.drop_duplicates(subset=["entity", "ts"], keep="last")
-        inv = {v: k for k, v in HUBS.items()}
+        inv = {v: k for k, v in hubs.items()}
         cols = {}
         for e, g in d.groupby("entity"):
             cols[inv[e]] = pd.Series(g["value"].to_numpy(dtype=float), index=pd.DatetimeIndex(g["ts"]))
@@ -175,7 +203,7 @@ def price_panel():
         df = df.reindex(pd.date_range(df.index.min(), df.index.max(), freq="h"))
         df.index.name = "ts"
         return df
-    return cached("price_" + "_".join(sorted(HUBS)), PRICE_TABLES, build)
+    return cached("price_" + "_".join(sorted(hubs)), PRICE_TABLES, build)
 
 
 def weather_panel():

@@ -1,4 +1,4 @@
-"""ERW forecast (predict): the real-time price a day ahead at the three public hubs (chain 730, part F, Samuel's order of
+"""ERW forecast (predict): the real-time price a day ahead at the public hubs (three, and four more since session 10603; chain 730, part F, Samuel's order of
 27 November 2026). Method note: docs/methods/predict_price.md, section 7.
 
 Reads only. Hubs (warehouse/metadata/license_verdicts.csv: "may be public"): ERCOT HB_NORTH, SPP North Hub, CAISO SP15.
@@ -40,23 +40,33 @@ BAND_MIN = 60
 MADE_HOUR = 22
 FIRST_TARGET = pd.Timestamp("2019-07-01")
 METHODS = ["yesterday", "regression"]
-HUB_TZ = {"ercot": "America/Chicago", "spp": "America/Chicago", "caiso": "America/Los_Angeles"}
+HUB_TZ = {"ercot": "America/Chicago", "spp": "America/Chicago", "caiso": "America/Los_Angeles",
+          "ercot-houston": "America/Chicago", "ercot-south": "America/Chicago", "ercot-west": "America/Chicago",
+          "caiso-np15": "America/Los_Angeles"}
+# more places (session 10603; predict_price.md section 9): every other hub of the same three grids whose real-time and
+# day-ahead prices the warehouse holds over at least two years (read 27 November 2026); SPP's South Hub and CAISO's
+# ZP26 hold day-ahead prices from 26 August 2026 only, and no real-time price, so they wait
+MORE_HUBS = {"ercot-houston": "ercot:HB_HOUSTON", "ercot-south": "ercot:HB_SOUTH", "ercot-west": "ercot:HB_WEST",
+             "caiso-np15": "caiso:TH_NP15_GEN-APND"}
+RT_HUBS = dict(data.HUBS, **MORE_HUBS)
 
 
-def rt_panel():
+def rt_panel(hubs=None):
     """Wide frame, index the UTC hour (start), one column a grid of HUBS: the real-time price, USD/MWh, the mean of the
-    hour's four fifteen-minute prices, held only when all four are."""
+    hour's four fifteen-minute prices, held only when all four are. `hubs`: another {column: entity} map (RT_HUBS)."""
+    hubs = hubs or data.HUBS
+
     def build():
         frames = []
         for order, t in enumerate(data.PRICE_TABLES):
             d = data.read(t, ["entity", "ts_utc", "value", "market"],
-                          lambda d: d["market"].astype(str).str.endswith("_rtm") & d["entity"].isin(list(data.HUBS.values())))
+                          lambda d: d["market"].astype(str).str.endswith("_rtm") & d["entity"].isin(list(hubs.values())))
             d["order"] = order
             frames.append(d[["entity", "ts", "value", "order"]])
         d = pd.concat(frames, ignore_index=True).sort_values(["entity", "ts", "order"])
         d = d.drop_duplicates(subset=["entity", "ts"], keep="last")
         d["hour"] = d["ts"].dt.floor("h")
-        inv = {v: k for k, v in data.HUBS.items()}
+        inv = {v: k for k, v in hubs.items()}
         cols = {}
         for e, g in d.groupby("entity"):
             a = g.groupby("hour")["value"].agg(["mean", "size"])
@@ -65,7 +75,7 @@ def rt_panel():
         df = df.reindex(pd.date_range(df.index.min(), df.index.max(), freq="h"))
         df.index.name = "ts"
         return df
-    return data.cached("rt_" + "_".join(sorted(data.HUBS)), data.PRICE_TABLES, build)
+    return data.cached("rt_" + "_".join(sorted(hubs)), data.PRICE_TABLES, build)
 
 
 def walk(X, Y, h=H, fit_days=FIT_DAYS, min_fit=MIN_FIT):

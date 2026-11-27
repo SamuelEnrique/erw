@@ -1181,6 +1181,649 @@
    "incentive": "",
    "years": "Construction will begin soon and is scheduled for completion in 2028.",
    "note": "Vantage's own release (dated 22 October 2025 in its dateline). Its headline gives the investment as \"$15B+\". The long-term jobs are Vantage's and Oracle's together; the indirect jobs are not taken. Port Washington is in Ozaukee County (not in the document)."
+  },
+  {
+   "id": "pa_coreweave_lancaster_2025",
+   "name": "CoreWeave, Lancaster data center (co-developed by Chirisa Technology Parks and Machine Investment Group)",
+   "company": "CoreWeave",
+   "state": "pa",
+   "county": "Lancaster",
+   "place": "Lancaster",
+   "doc": {
+    "title": "CoreWeave Announces Multi-Billion Dollar Commitment to AI Infrastructure in Pennsylvania",
+    "publisher": "CoreWeave (investor relations)",
+    "date": "2025-07-15",
+    "url": "https://investors.coreweave.com/news/news-details/2025/CoreWeave-Announces-Multi-Billion-Dollar-Commitment-to-AI-Infrastructure-in-Pennsylvania/default.aspx",
+    "request": 521
+   },
+   "mw": {
+    "value": 100,
+    "measure": "initial data center as stated (potential 300 MW)",
+    "says": "100 megawatt",
+    "qualifier": "",
+    "quote": "The initial 100 megawatt (MW) data center, with potential to expand to 300 MW"
+   },
+   "investment": null,
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 70,
+    "measure": "full-time technical and operational roles at launch",
+    "says": "approximately 70 full-time",
+    "qualifier": "approximately",
+    "quote": "with approximately 70 full-time technical and operational roles at launch, and scaling to approximately 175 over time."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "CoreWeave's own release. Its \"up to $6 billion\" is \"to equip\" the data center, CoreWeave being the tenant of a site its partners develop: equipment only, so it is not taken as the project's investment (as Nevada's capital equipment figure is not). Its approximately 600 jobs \"during the build phase\" need an investment to enter the median per billion, so they are not taken. The permanent jobs are those at launch for the initial 100 MW; the approximately 175 \"over time\" are not tied to a size."
+  },
+  {
+   "id": "la_amazon_nwla_2026_aug",
+   "name": "Amazon, northwest Louisiana data center campuses (Caddo and Bossier parishes and Shreveport), three campuses",
+   "company": "Amazon (developer and owner STACK Infrastructure)",
+   "state": "la",
+   "county": "Caddo and Bossier parishes",
+   "place": "Shreveport",
+   "doc": {
+    "title": "Amazon to invest $18 billion in Louisiana for new data centers (updated 18 August 2026)",
+    "publisher": "Amazon",
+    "date": "2026-08-18",
+    "url": "https://www.aboutamazon.com/news/company-news/amazon-data-center-louisiana-new-jobs",
+    "request": 524
+   },
+   "mw": null,
+   "investment": {
+    "value": 18000000000,
+    "year": 2026,
+    "says": "$18 billion",
+    "qualifier": "",
+    "quote": "Amazon today announced it is increasing its planned investment in northwest Louisiana to $18 billion"
+   },
+   "construction_jobs": {
+    "value": 2250,
+    "measure": "construction jobs (STACK's estimate)",
+    "says": "up to 2,250 construction jobs",
+    "qualifier": "up to",
+    "quote": "STACK anticipates the three planned campuses will support up to 2,250 construction jobs"
+   },
+   "permanent_jobs": {
+    "value": 750,
+    "measure": "full-time jobs at Amazon data centers",
+    "says": "up to 750 full-time jobs",
+    "qualifier": "up to",
+    "quote": "When fully built out, the three planned campuses are expected to create up to 750 full-time jobs at Amazon data centers"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "The same campuses as la_amazon_caddo_bossier_2026 (Louisiana Economic Development's release of 23 February 2026, USD 12 billion, two campuses) with a third added, from Amazon's own page as updated on 18 August 2026: both rows are kept and each enters the ranges, as Meta's Richland Parish rows are. The 2,500 additional positions \"in the broader community\" are not the data centers' own and are not taken."
+  },
+  {
+   "id": "oh_meta_newalbany_2026",
+   "to_date": true,
+   "name": "Meta, New Albany data center",
+   "company": "Meta",
+   "state": "oh",
+   "county": null,
+   "place": "New Albany",
+   "doc": {
+    "title": "Meta New Albany Data Center (info sheet)",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-09-03",
+    "url": "https://datacenters.atmeta.com/wp-content/uploads/2026/09/Meta_s-New-Albany-Data-Center.pdf",
+    "request": 526
+   },
+   "mw": null,
+   "investment": {
+    "value": 1500000000,
+    "year": 2026,
+    "says": "$1.5B+",
+    "qualifier": "more than",
+    "quote": "$1.5B+ 2017 300+ Data center investment in Broke ground on the New Operational jobs supported"
+   },
+   "construction_jobs": {
+    "value": 1200,
+    "measure": "skilled trade workers on site at peak construction",
+    "says": "1,200",
+    "qualifier": "",
+    "quote": "1,200 $7.8M+ 140+ Skilled trade workers on site"
+   },
+   "permanent_jobs": {
+    "value": 300,
+    "measure": "operational jobs",
+    "says": "300+",
+    "qualifier": "more than",
+    "quote": "$1.5B+ 2017 300+ Data center investment in Broke ground on the New Operational jobs supported"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's info sheet for the campus, its first in Ohio (its file dated 2026-09-03 by the server, the sheet itself undated). Its investment is \"Data center investment\" to date, since the campus broke ground in 2017, in the dollars of the years spent and taken as 2025 dollars; its jobs are operational jobs supported, and 1,200 skilled trade workers on site at peak construction. The sheet says the campus is \"delivering over 1 gigawatt of compute capacity to house our AI cluster Prometheus\": that capacity is not set as the row's MW, since the investment to date is not that gigawatt's cost and picking the row would pair them. The figures sit beside their labels in the sheet's layout, as the quotes show. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "tx_meta_fortworth_2026",
+   "to_date": true,
+   "name": "Meta, Fort Worth data center",
+   "company": "Meta",
+   "state": "tx",
+   "county": "Tarrant",
+   "place": "Fort Worth",
+   "doc": {
+    "title": "Meta Fort Worth Data Center (info sheet)",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-09-03",
+    "url": "https://datacenters.atmeta.com/wp-content/uploads/2026/09/Metas-Fort-Worth-Data-Center.pdf",
+    "request": 528
+   },
+   "mw": null,
+   "investment": {
+    "value": 1500000000,
+    "year": 2026,
+    "says": "$1.5B+",
+    "qualifier": "more than",
+    "quote": "$1.5B+ 2015 200+ Data center investment in Broke ground on the Fort Worth Operational jobs supported"
+   },
+   "construction_jobs": {
+    "value": 1200,
+    "measure": "skilled trade workers on site at peak construction",
+    "says": "1,200",
+    "qualifier": "",
+    "quote": "1,200 $5.2M+ 175+ Skilled trade workers on site"
+   },
+   "permanent_jobs": {
+    "value": 200,
+    "measure": "operational jobs",
+    "says": "200+",
+    "qualifier": "more than",
+    "quote": "$1.5B+ 2015 200+ Data center investment in Broke ground on the Fort Worth Operational jobs supported"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's info sheet for the campus, its first in Texas (its file dated 2026-09-03 by the server, the sheet itself undated). Its investment is \"Data center investment\" to date, since the campus broke ground in 2015, in the dollars of the years spent and taken as 2025 dollars; its jobs are operational jobs supported, and 1,200 skilled trade workers on site at peak construction. Tarrant County is the sheet's own (its school funding line). The figures sit beside their labels in the sheet's layout, as the quotes show. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "ia_meta_altoona_2026",
+   "to_date": true,
+   "name": "Meta, Altoona data center",
+   "company": "Meta",
+   "state": "ia",
+   "county": "Polk",
+   "place": "Altoona",
+   "doc": {
+    "title": "Meta Altoona Data Center (info sheet)",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-09-03",
+    "url": "https://datacenters.atmeta.com/wp-content/uploads/2026/09/Meta_s-Altoona-Data-Center.pdf",
+    "request": 530
+   },
+   "mw": null,
+   "investment": {
+    "value": 2500000000,
+    "year": 2026,
+    "says": "$2.5B+",
+    "qualifier": "more than",
+    "quote": "$2.5B+ 2013 400+ Data center investment in Iowa Broke ground on the Altoona Operational jobs supported"
+   },
+   "construction_jobs": {
+    "value": 1300,
+    "measure": "skilled trade workers on site at peak construction",
+    "says": "1,300",
+    "qualifier": "",
+    "quote": "1,300 $5.6M+ 300+ Skilled trade workers on site"
+   },
+   "permanent_jobs": {
+    "value": 400,
+    "measure": "operational jobs",
+    "says": "400+",
+    "qualifier": "more than",
+    "quote": "$2.5B+ 2013 400+ Data center investment in Iowa Broke ground on the Altoona Operational jobs supported"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's info sheet for the campus (its file dated 2026-09-03 by the server, the sheet itself undated). Its investment is labelled \"Data center investment in Iowa\", to date since the campus broke ground in 2013, in the dollars of the years spent and taken as 2025 dollars; the label may take in Meta's Davenport campus as well (ia_meta_davenport_2024). Its jobs are operational jobs supported, and 1,300 skilled trade workers on site at peak construction. Polk County is the sheet's own (its school funding line). The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "ga_meta_stantonsprings_2026",
+   "to_date": true,
+   "name": "Meta, Stanton Springs data center",
+   "company": "Meta",
+   "state": "ga",
+   "county": null,
+   "place": "Stanton Springs",
+   "doc": {
+    "title": "Meta Stanton Springs Data Center (info sheet)",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-09-03",
+    "url": "https://datacenters.atmeta.com/wp-content/uploads/2026/09/Meta_s-Stanton-Springs-Data-Center.pdf",
+    "request": 533
+   },
+   "mw": null,
+   "investment": {
+    "value": 2000000000,
+    "year": 2026,
+    "says": "$2B+",
+    "qualifier": "more than",
+    "quote": "$2B+ 2018 400 Data center investment in Georgia Broke ground on the Stanton Operational jobs supported Springs Data Center once completed"
+   },
+   "construction_jobs": {
+    "value": 1300,
+    "measure": "skilled trade workers on site at peak construction",
+    "says": "1,300",
+    "qualifier": "",
+    "quote": "1,300 $5.6M+ 170+ Skilled trade workers on site"
+   },
+   "permanent_jobs": {
+    "value": 400,
+    "measure": "operational jobs once completed",
+    "says": "400",
+    "qualifier": "",
+    "quote": "$2B+ 2018 400 Data center investment in Georgia Broke ground on the Stanton Operational jobs supported Springs Data Center once completed"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's info sheet for the campus (its file dated 2026-09-03 by the server, the sheet itself undated); the same campus as ga_facebook_stantonsprings_2018, a later document, both kept. Its investment is \"Data center investment in Georgia\" to date since the campus broke ground in 2018, in the dollars of the years spent and taken as 2025 dollars; its jobs are operational jobs \"once completed\", and 1,300 skilled trade workers on site at peak construction. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "tx_meta_temple_2026",
+   "to_date": true,
+   "name": "Meta, Temple data center",
+   "company": "Meta",
+   "state": "tx",
+   "county": null,
+   "place": "Temple",
+   "doc": {
+    "title": "United States - Meta Data Centers (the locations page, Temple's entry)",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-11-27",
+    "url": "https://datacenters.atmeta.com/us-locations/",
+    "request": 382
+   },
+   "mw": null,
+   "investment": {
+    "value": 1200000000,
+    "year": 2026,
+    "says": "$1.2 billion",
+    "qualifier": "",
+    "quote": "Temple $1.2 billion investment 2022 break ground 1,200 skilled trade workers on site at peak construction ~100 operational jobs supported once completed"
+   },
+   "construction_jobs": {
+    "value": 1200,
+    "measure": "skilled trade workers on site at peak construction",
+    "says": "1,200 skilled trade workers",
+    "qualifier": "",
+    "quote": "Temple $1.2 billion investment 2022 break ground 1,200 skilled trade workers on site at peak construction ~100 operational jobs supported once completed"
+   },
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "operational jobs once completed",
+    "says": "100 operational jobs",
+    "qualifier": "approximately",
+    "quote": "Temple $1.2 billion investment 2022 break ground 1,200 skilled trade workers on site at peak construction ~100 operational jobs supported once completed"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's US locations page, Temple's entry (the page is undated: its date here is the day it was read; no info sheet for Temple was found). Its investment is the campus's to date since it broke ground in 2022, taken as 2025 dollars; its jobs are operational jobs \"once completed\" (\"~100\"), and 1,200 skilled trade workers on site at peak construction. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "in_meta_jeffersonville_2026",
+   "to_date": true,
+   "name": "Meta, Jeffersonville data center",
+   "company": "Meta",
+   "state": "in",
+   "county": null,
+   "place": "Jeffersonville",
+   "doc": {
+    "title": "United States - Meta Data Centers (the locations page, Jeffersonville's entry)",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-11-27",
+    "url": "https://datacenters.atmeta.com/us-locations/",
+    "request": 382
+   },
+   "mw": null,
+   "investment": {
+    "value": 800000000,
+    "year": 2026,
+    "says": "$800 million",
+    "qualifier": "more than",
+    "quote": "Jeffersonville $800 million+ investment 2024 break ground 1,250 skilled trade workers on site at peak construction"
+   },
+   "construction_jobs": {
+    "value": 1250,
+    "measure": "skilled trade workers on site at peak construction",
+    "says": "1,250 skilled trade workers",
+    "qualifier": "",
+    "quote": "Jeffersonville $800 million+ investment 2024 break ground 1,250 skilled trade workers on site at peak construction"
+   },
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "operational jobs once completed",
+    "says": "100 operational jobs",
+    "qualifier": "approximately",
+    "quote": "100 operational jobs supported once completed Learn more Learn more about Jeffersonville"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's US locations page, Jeffersonville's entry (the page is undated: its date here is the day it was read; no info sheet for Jeffersonville was found). Its investment is the campus's to date since it broke ground in 2024, taken as 2025 dollars; its jobs are operational jobs \"once completed\" (\"~ 100\"), and 1,250 skilled trade workers on site at peak construction. Meta's second Indiana campus, beside Lebanon (in_meta_lebanon_2026). The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "va_vantage_stafford_2025",
+   "name": "Vantage Data Centers, VA4 campus (Stafford County)",
+   "company": "Vantage Data Centers",
+   "state": "va",
+   "county": "Stafford County",
+   "place": null,
+   "doc": {
+    "title": "Vantage Data Centers to Invest $2 Billion in Stafford County",
+    "publisher": "Virginia Economic Development Partnership",
+    "date": "2025-11-07",
+    "url": "https://www.vedp.org/press-release/2025-11/vantage-stafford",
+    "request": 537
+   },
+   "mw": null,
+   "investment": {
+    "value": 2000000000,
+    "year": 2025,
+    "says": "$2 billion",
+    "qualifier": "",
+    "quote": "Vantage Data Centers will invest $2 billion to construct a new, state-of-the-art data center campus in Stafford County."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 50,
+    "measure": "new jobs",
+    "says": "50 new jobs",
+    "qualifier": "",
+    "quote": "At full capacity, the project will create 50 new jobs in the Commonwealth."
+   },
+   "incentive": "Vantage is eligible for Data Center Sales and Use Tax exemptions on qualifying computer equipment and enabling software.",
+   "years": "",
+   "note": "The release's date is its page's (7 November 2025). Its 782MW is Vantage's statewide capacity with this campus (\"bringing the company's statewide capacity to 782MW\"), not VA4's, so no MW is taken; three data centers on 82 acres, about 929,000 square feet."
+  },
+  {
+   "id": "va_microsoft_mecklenburg_2015",
+   "name": "Microsoft, Mecklenburg County data center (fourth expansion)",
+   "company": "Microsoft",
+   "state": "va",
+   "county": "Mecklenburg County",
+   "place": null,
+   "doc": {
+    "title": "Governor McAuliffe Announces Fourth Microsoft Expansion in Mecklenburg County",
+    "publisher": "Virginia Economic Development Partnership",
+    "date": "2015-11-13",
+    "url": "https://www.vedp.org/press-release/2015-11/mecklenburg-microsoft-expansion",
+    "request": 539
+   },
+   "mw": null,
+   "investment": {
+    "value": 402400000,
+    "year": 2015,
+    "says": "$402.4 million",
+    "qualifier": "",
+    "quote": "Microsoft Corp. will invest $402.4 million to expand its data center site in Mecklenburg County"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 42,
+    "measure": "new jobs",
+    "says": "42 new jobs",
+    "qualifier": "",
+    "quote": "which will create 42 new jobs."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "An expansion of an existing campus, as VEDP announced it (its page dated 13 November 2015); the release counts more than USD 1.74 billion invested since 2010 with it."
+  },
+  {
+   "id": "va_microsoft_mecklenburg_2016",
+   "name": "Microsoft, Mecklenburg County data center (fifth expansion)",
+   "company": "Microsoft",
+   "state": "va",
+   "county": "Mecklenburg County",
+   "place": null,
+   "doc": {
+    "title": "Governor McAuliffe Announces 44 New Jobs and More than $251 Million Investment in Mecklenburg County",
+    "publisher": "Virginia Economic Development Partnership",
+    "date": "2016-11-09",
+    "url": "https://www.vedp.org/press-release/2016-11/mecklenburg-county-44-new-jobs-251-million-investment",
+    "request": 540
+   },
+   "mw": null,
+   "investment": {
+    "value": 251600000,
+    "year": 2016,
+    "says": "$251.6 million",
+    "qualifier": "",
+    "quote": "Microsoft Corporation will invest $251.6 million to expand its data center site in Mecklenburg County"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 44,
+    "measure": "new jobs",
+    "says": "44 new jobs",
+    "qualifier": "",
+    "quote": "which will create 44 new jobs."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "An expansion of an existing campus, as VEDP announced it (its page dated 9 November 2016); the release lists the earlier phases (2010, up to USD 499 million and 50 jobs; 2011, USD 150 million; 2013, USD 348 million; 2014, USD 346.7 million and 90 jobs), which are not rows here."
+  },
+  {
+   "id": "al_google_jackson_2015",
+   "name": "Google, Jackson County data center (Bridgeport)",
+   "company": "Google",
+   "state": "al",
+   "county": "Jackson County",
+   "place": null,
+   "doc": {
+    "title": "Google to build $600 million Alabama data center",
+    "publisher": "Alabama Department of Commerce (Made in Alabama)",
+    "date": "2015-06-24",
+    "url": "https://www.madeinalabama.com/2015/06/google-build-600-million-alabama-data-center/",
+    "request": 542
+   },
+   "mw": null,
+   "investment": {
+    "value": 600000000,
+    "year": 2015,
+    "says": "$600 million",
+    "qualifier": "",
+    "quote": "Google announced plans today to build a $600 million data center in northeast Alabama"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "jobs at the facility",
+    "says": "up to 100 jobs",
+    "qualifier": "up to",
+    "quote": "creating up to 100 jobs at a state-of-the-art facility designed for efficiency and powered by renewable energy."
+   },
+   "incentive": "the project is the first recruited under Alabama's specialized data center incentives, passed in 2012",
+   "years": "",
+   "note": "The Alabama Department of Commerce's own article (Made in Alabama, 24 June 2015). The site is the former Widows Creek coal plant at Bridgeport, as later articles say (not in this document)."
+  },
+  {
+   "id": "al_meta_huntsville_2022",
+   "to_date": true,
+   "name": "Meta, Huntsville data center campus (expansion to about 3.5 million square feet)",
+   "company": "Meta",
+   "state": "al",
+   "county": null,
+   "place": "Huntsville",
+   "doc": {
+    "title": "Huntsville, We're Growing!",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2022-06-09",
+    "url": "https://datacenters.atmeta.com/2022/06/huntsville-were-growing/",
+    "request": 543
+   },
+   "mw": null,
+   "investment": {
+    "value": 1500000000,
+    "year": 2022,
+    "says": "$1.5 billion",
+    "qualifier": "more than",
+    "quote": "This expansion raises our investment in Huntsville to more than $1.5 billion."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 300,
+    "measure": "operational jobs once completed",
+    "says": "300 operational jobs",
+    "qualifier": "more than",
+    "quote": "we anticipate the data center will support more than 300 operational jobs."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's own post on the campus's two new buildings (9 June 2022): the same campus as al_facebook_huntsville_2018, a later document, both kept. Its investment is the campus's total with the expansion (\"raises our investment in Huntsville to more than $1.5 billion\"), not the expansion's alone, so the row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "ok_meta_tulsa_announce_2026",
+   "name": "Meta, Tulsa AI data center (announcement)",
+   "company": "Meta",
+   "state": "ok",
+   "county": null,
+   "place": "Tulsa",
+   "doc": {
+    "title": "Hello, Tulsa!",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-04-21",
+    "url": "https://datacenters.atmeta.com/2026/04/hello-tulsa/",
+    "request": 544
+   },
+   "mw": null,
+   "investment": {
+    "value": 1000000000,
+    "year": 2026,
+    "says": "$1 billion",
+    "qualifier": "more than",
+    "quote": "Once completed, the Tulsa Data Center will represent an investment of more than $1 billion in the state of Oklahoma."
+   },
+   "construction_jobs": {
+    "value": 1000,
+    "measure": "construction workers at peak",
+    "says": "1,000 construction workers",
+    "qualifier": "more than",
+    "quote": "Meta anticipates that more than 1,000 construction workers will be onsite at the peak of construction"
+   },
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "jobs once operational",
+    "says": "approximately 100 jobs",
+    "qualifier": "approximately",
+    "quote": "the data center will support approximately 100 jobs once operational."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (21 April 2026): the same campus as ok_meta_tulsa_2026 (its info sheet, figures to date), an earlier document, both kept; this one is an announcement and enters the ranges. The USD 25 million or more in local roads and water is not taken."
+  },
+  {
+   "id": "in_meta_jeffersonville_announce_2024",
+   "name": "Meta, Jeffersonville data center (announcement)",
+   "company": "Meta",
+   "state": "in",
+   "county": null,
+   "place": "Jeffersonville",
+   "doc": {"title": "Hello, Jeffersonville!", "publisher": "Meta (Meta Data Centers)", "date": "2024-01-25", "url": "https://datacenters.atmeta.com/2024/01/hello-jeffersonville/", "request": 545},
+   "mw": null,
+   "investment": {"value": 800000000, "year": 2024, "says": "$800 million", "qualifier": "more than", "quote": "will represent an investment of more than $800 million and support approximately 100 jobs."},
+   "construction_jobs": {"value": 1250, "measure": "construction workers at peak", "says": "1,250 construction workers", "qualifier": "more than", "quote": "Meta anticipates that more than 1,250 construction workers will be onsite at the peak of construction."},
+   "permanent_jobs": {"value": 100, "measure": "jobs", "says": "approximately 100 jobs", "qualifier": "approximately", "quote": "will represent an investment of more than $800 million and support approximately 100 jobs."},
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (25 January 2024), beside its locations page entry (in_meta_jeffersonville_2026, figures to date); this one enters the ranges."
+  },
+  {
+   "id": "wi_meta_beaverdam_announce_2025",
+   "name": "Meta, Beaver Dam data center (announcement)",
+   "company": "Meta",
+   "state": "wi",
+   "county": null,
+   "place": "Beaver Dam",
+   "doc": {"title": "Hello, Beaver Dam!", "publisher": "Meta (Meta Data Centers)", "date": "2025-11-12", "url": "https://datacenters.atmeta.com/2025/11/hello-beaver-dam/", "request": 546},
+   "mw": null,
+   "investment": {"value": 1000000000, "year": 2025, "says": "$1 billion", "qualifier": "", "quote": "Once completed, the Beaver Dam Data Center will represent an investment of $1 billion dollars and support approximately 1,000 construction jobs and over 100 operational jobs in Beaver Dam."},
+   "construction_jobs": {"value": 1000, "measure": "construction jobs", "says": "approximately 1,000 construction jobs", "qualifier": "approximately", "quote": "Once completed, the Beaver Dam Data Center will represent an investment of $1 billion dollars and support approximately 1,000 construction jobs and over 100 operational jobs in Beaver Dam."},
+   "permanent_jobs": {"value": 100, "measure": "operational jobs", "says": "over 100 operational jobs", "qualifier": "over", "quote": "Once completed, the Beaver Dam Data Center will represent an investment of $1 billion dollars and support approximately 1,000 construction jobs and over 100 operational jobs in Beaver Dam."},
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (12 November 2025), beside its info sheet (wi_meta_beaverdam_2026, figures to date); this one enters the ranges."
+  },
+  {
+   "id": "tx_meta_temple_announce_2022",
+   "name": "Meta, Temple data center (announcement)",
+   "company": "Meta",
+   "state": "tx",
+   "county": null,
+   "place": "Temple",
+   "doc": {"title": "Hello, Temple!", "publisher": "Meta (Meta Data Centers)", "date": "2022-03-31", "url": "https://datacenters.atmeta.com/2022/03/hello-temple/", "request": 547},
+   "mw": null,
+   "investment": {"value": 800000000, "year": 2022, "says": "$800 million", "qualifier": "more than", "quote": "Once completed, the data center will represent an investment of more than $800 million and will support approximately 100 operational jobs."},
+   "construction_jobs": {"value": 1200, "measure": "construction workers at peak", "says": "1,200 construction workers", "qualifier": "over", "quote": "We also anticipate that over 1,200 construction workers will be on site at the peak of construction."},
+   "permanent_jobs": {"value": 100, "measure": "operational jobs", "says": "approximately 100 operational jobs", "qualifier": "approximately", "quote": "Once completed, the data center will represent an investment of more than $800 million and will support approximately 100 operational jobs."},
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (31 March 2022), beside its locations page entry (tx_meta_temple_2026, figures to date: USD 1.2 billion); this one enters the ranges."
+  },
+  {
+   "id": "id_meta_kuna_announce_2022",
+   "name": "Meta, Kuna data center (announcement)",
+   "company": "Meta",
+   "state": "id",
+   "county": null,
+   "place": "Kuna",
+   "doc": {"title": "Hello Kuna!", "publisher": "Meta (Meta Data Centers)", "date": "2022-02-16", "url": "https://datacenters.atmeta.com/2022/02/hello-kuna/", "request": 548},
+   "mw": null,
+   "investment": {"value": 800000000, "year": 2022, "says": "$800 million", "qualifier": "more than", "quote": "will represent an investment of more than $800 million and will support approximately 100 jobs."},
+   "construction_jobs": {"value": 1200, "measure": "construction workers at peak", "says": "1,200 construction workers", "qualifier": "over", "quote": "We anticipate that over 1,200 construction workers will be on site at the peak of construction."},
+   "permanent_jobs": {"value": 100, "measure": "jobs", "says": "approximately 100 jobs", "qualifier": "approximately", "quote": "will represent an investment of more than $800 million and will support approximately 100 jobs."},
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (16 February 2022), beside its info sheet (id_meta_kuna_2026, figures to date); this one enters the ranges."
+  },
+  {
+   "id": "az_meta_mesa_announce_2021",
+   "name": "Meta (then Facebook), Mesa data center (announcement)",
+   "company": "Meta",
+   "state": "az",
+   "county": null,
+   "place": "Mesa",
+   "doc": {"title": "Hello, Mesa!", "publisher": "Meta (Meta Data Centers)", "date": "2021-08-12", "url": "https://datacenters.atmeta.com/2021/08/facebook-is-joining-the-arizona-community/", "request": 549},
+   "mw": null,
+   "investment": {"value": 800000000, "year": 2021, "says": "$800 million", "qualifier": "more than", "quote": "Once completed, the data center will represent an investment of more than $800 million and will support approximately 100 jobs."},
+   "construction_jobs": {"value": 1500, "measure": "construction workers at peak", "says": "approximately 1,500 construction workers", "qualifier": "approximately", "quote": "We anticipate that approximately 1,500 construction workers will be on site at the peak of construction."},
+   "permanent_jobs": {"value": 100, "measure": "jobs", "says": "approximately 100 jobs", "qualifier": "approximately", "quote": "Once completed, the data center will represent an investment of more than $800 million and will support approximately 100 jobs."},
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus when it broke ground (12 August 2021), beside its info sheet (az_meta_mesa_2026, figures to date); this one enters the ranges."
+  },
+  {
+   "id": "tn_meta_gallatin_announce_2020",
+   "name": "Meta (then Facebook), Gallatin data center (announcement)",
+   "company": "Meta",
+   "state": "tn",
+   "county": null,
+   "place": "Gallatin",
+   "doc": {"title": "Hello, Gallatin!", "publisher": "Meta (Meta Data Centers)", "date": "2020-08-12", "url": "https://datacenters.atmeta.com/2020/08/hello-gallatin/", "request": 550},
+   "mw": null,
+   "investment": {"value": 800000000, "year": 2020, "says": "$800 million", "qualifier": "more than", "quote": "Once completed, this facility will represent an investment of more than $800 million and support approximately 100 jobs."},
+   "construction_jobs": {"value": 1100, "measure": "construction workers at peak", "says": "1,100 construction workers", "qualifier": "more than", "quote": "We anticipate that more than 1,100 construction workers will be onsite at the peak of construction."},
+   "permanent_jobs": {"value": 100, "measure": "jobs", "says": "approximately 100 jobs", "qualifier": "approximately", "quote": "Once completed, this facility will represent an investment of more than $800 million and support approximately 100 jobs."},
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (12 August 2020), beside its info sheet (tn_meta_gallatin_2026, figures to date); this one enters the ranges (decision 27)."
+  },
+  {
+   "id": "mo_meta_kansascity_announce_2022",
+   "name": "Meta, Kansas City data center (announcement)",
+   "company": "Meta",
+   "state": "mo",
+   "county": null,
+   "place": "Kansas City",
+   "doc": {"title": "Hello, Kansas City!", "publisher": "Meta (Meta Data Centers)", "date": "2022-03-24", "url": "https://datacenters.atmeta.com/2022/03/hello-kansas-city/", "request": 551},
+   "mw": null,
+   "investment": {"value": 800000000, "year": 2022, "says": "$800 million", "qualifier": "more than", "quote": "Upon completion, the data center will represent an investment of more than $800 million and will support approximately 100 jobs."},
+   "construction_jobs": {"value": 1300, "measure": "construction workers at peak", "says": "1,300 construction workers", "qualifier": "over", "quote": "we anticipate over 1,300 construction workers will be onsite at peak."},
+   "permanent_jobs": {"value": 100, "measure": "jobs", "says": "approximately 100 jobs", "qualifier": "approximately", "quote": "Upon completion, the data center will represent an investment of more than $800 million and will support approximately 100 jobs."},
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (24 March 2022), beside its info sheet (mo_meta_kansascity_2026, figures to date); this one enters the ranges (decision 27)."
   }
  ]
 }

@@ -84,7 +84,7 @@ function PriceBlock({ market, k, title, h, file, hi, rowsColumns, rows, rowsPlac
   const M = MARKET[market];
   const mark = (name: string, value: string | number) => ({ [`data-fc-${market}${name ? `-${name}` : ""}`]: value });
   if (h.status !== "shown") {
-    return <div className="min-w-0" {...mark("", k)} {...mark("hub", h.hub)}><h4 className="mb-1 text-sm font-semibold">{title}</h4><Blank what={`${LABEL} of ${M.what}, ${h.hub}`} words={h.status} why={h.tomorrow_held ?? `The file's status of this hub is "${h.status}".`} k={`${market}|${k}`} /></div>;
+    return <div className="min-w-0" {...mark("", k)} {...mark("hub", h.hub)}><h3 className="mb-1 text-sm font-semibold">{title}</h3><Blank what={`${LABEL} of ${M.what}, ${h.hub}`} words={h.status} why={h.tomorrow_held ?? `The file's status of this hub is "${h.status}".`} k={`${market}|${k}`} /></div>;
   }
   const key = (...rest: (string | number)[]) => pfKey(file, ["hubs", hi, ...rest]);
   const mu = metricUnit(metric, UNIT);
@@ -156,7 +156,7 @@ function PriceBlock({ market, k, title, h, file, hi, rowsColumns, rows, rowsPlac
   const What = `${M.what[0].toUpperCase()}${M.what.slice(1)}`;
   return (
     <div className="mb-8 min-w-0" {...mark("", k)} {...mark("hub", h.hub)} {...mark("hours", withErw.length)}>
-      <h4 className="mb-2 text-sm font-semibold"><span className="cursor-help" title={made}>{title}</span></h4>
+      <h3 className="mb-2 text-sm font-semibold"><span className="cursor-help" title={made}>{title}</span></h3>
       {top && low ? (
         <>
           <div className="mb-4 grid gap-4 sm:grid-cols-3">
@@ -246,7 +246,7 @@ export function MoreHubsSection({ slots, hubs, rt, scores, metric, asked, chosen
       <div data-fc-hubs={offered.length} data-fc-hub-drawn={drawn ?? "none"}>
         {groups.map((g) => (
           <div key={g.x.mark} className="mb-5" data-fc-hubs-of={g.x.mark}>
-            <h4 className="mb-1 text-sm font-semibold">{placeWords(g.x.place)}: the other hubs of {gridOfHub(g.own).toUpperCase()}, {mu}</h4>
+            <h3 className="mb-1 text-sm font-semibold">{placeWords(g.x.place)}: the other hubs of {gridOfHub(g.own).toUpperCase()}, {mu}</h3>
             <ToolTable minWidth={640} caption={`${placeWords(g.x.place)}: the other hubs of its grid, each with the highest and lowest hour of the ${LABEL} of its day-ahead price for the day forecast now and each market's error, ${mu}`}
               head={[<span key="h" className="cursor-help" title={`The hubs of the same grid as ${g.own}, the hub this place's own price forecast is of. Press one to draw it under this table.`}>Hub</span>,
                 <span key="t" className="cursor-help" title={`The highest hour of the ${LABEL} of the hub's day-ahead price for the day forecast now, ${UNIT}, and the hour of the hub's clock it begins.`}>Day-ahead, highest hour</span>,

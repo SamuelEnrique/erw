@@ -514,7 +514,7 @@ function AllPlaces({ index, scores, s, metric, chosen }: { index: PredictIndex; 
         head={[`Place (${mu})`, "Hours", ...methods.map((m) => <MethodHead key={m} m={m} scores={scores} />)]}
         rows={index.places.map((p) => {
           const ix = p.series?.[s];
-          const name = <SiteLink key="n" href={hrefOf({ a: p.place, b: null, s, day: null, m: null })}>{placeWords(p)}</SiteLink>;
+          const name = <SiteLink key="n" href={hrefOf({ a: p.place, b: null, s, day: null, m: null })} className="inline-block py-1 -my-1">{placeWords(p)}</SiteLink>;
           if (example || !ix || ix.status !== "shown") return { key: p.place, highlight: chosen.includes(p.place), cells: [name], wide: <span className="cursor-help" title={blankWhy(ix, example)} data-fc-all-blank={p.place}>{blankWords(ix?.status, example)}</span> };
           const g = scoresOf(scores, p.place, s).get("all");
           const hrs = g ? rowHours(g.cells, "", methods) : null;

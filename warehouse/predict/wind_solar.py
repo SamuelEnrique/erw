@@ -30,12 +30,30 @@ NOTE = "docs/methods/predict_wind_solar.md"
 MADE_HOUR = 20
 CHOICE_DAYS = 730
 HISTORY_DAYS = 35
-PLACES = [f"region-{r.lower()}" for r in data.REGIONS] + ["grid-caiso"]
+# session 10603 (more places; data request 10 done by window A): every authority among the forecast's 64 places whose
+# wind or solar output eia930_ba_wind_solar_hourly holds, except the six that are each a whole region (their region's
+# entry shows them) and CISO (grid-caiso, CAISO's own hubs, shows it); method note predict_wind_solar.md section 8
+BA_PLACES = [f"ba-{c.lower()}" for c in ["AECI", "AVA", "AZPS", "BANC", "BPAT", "CHPD", "CPLE", "CPLW", "DUK", "EPE", "FMPP", "FPC",
+                                         "FPL", "IID", "IPCO", "JEA", "LDWP", "LGEE", "MISO", "NEVP", "NWMT", "PACE", "PACW", "PNM",
+                                         "PSCO", "PSEI", "SC", "SCEG", "SEC", "SRP", "SWPP", "TAL", "TEC", "TEPC", "WALC"]]
+PLACES = [f"region-{r.lower()}" for r in data.REGIONS] + ["grid-caiso"] + BA_PLACES
 NAMES = {"grid-caiso": "CAISO, its three trading hubs (NP15, SP15, ZP26)"}
+# session 10603, data request 11 (a) of chain 720: the place files that show each entry (a region shows its own; ba-erco is
+# Texas; CAISO's own hubs are CISO's footprint, so ba-ciso shows grid-caiso); an authority that is a whole region is
+# shown by its region's entry; an authority added shows its own
+SHOWN_FOR = {"region-tex": ["region-tex", "ba-erco"], "grid-caiso": ["ba-ciso"], "region-ne": ["region-ne", "ba-isne"],
+             "region-ny": ["region-ny", "ba-nyis"], "region-mida": ["region-mida", "ba-pjm"], "region-se": ["region-se", "ba-soco"],
+             "region-ten": ["region-ten", "ba-tva"]}
+# session 10603, data request 12 of chain 720: the words of the cuts of this file's rows
+CUT_WORDS = {"all": "every hour of the backtest held by every method", "last_2_years": "the last 730 days of the backtest (the days the method is chosen on)",
+             "month": "key YYYY-MM", "hour": "key 0 to 23, the place's clock, over the last two years",
+             "with_operator": "the hours where the operator's forecast is also held", "with_operator_month": "the same, key YYYY-MM",
+             "with_operator_available": "CAISO only: the same hours scored against the output available (actual plus the curtailment CAISO reports)"}
 OPERATOR = {"region-tex": "ERCOT's short-term wind and solar forecasts (STWPF, STPPF), the newest posting published at least 24 hours before the hour (ercot_wind_solar_forecast, from 27 September 2026)",
             "grid-caiso": "CAISO's day-ahead market forecast of wind and solar (caiso_wind_solar_forecast, market run DAM, from June 2023), against CAISO's own actual output of the same hubs"}
 TARGET = {"grid-caiso": "CAISO's actual wind or solar output, its three trading hubs summed (caiso_wind_solar_forecast, market run ACTUAL)"}
 NOT_HELD = "not held: the warehouse holds no forecast of this region's wind or solar by its operator"
+NOT_HELD_BA = "not held: the warehouse holds no forecast of this authority's wind or solar by its operator"
 COLUMNS = ["place", "fuel", "method", "cut", "key", "hours", "mae_mw", "nmae_pct", "held"]
 LEDGER_COLS = ["fuel", "place", "target_day", "ts_utc", "local_hour", "made_utc", "inputs_through_utc", "horizon_days", "method", "erw", "lo", "hi"]
 METHOD_WORDS = {"erw": "the method the rule chose for the place and fuel (the lowest mean absolute error of the ERW's methods over the last two years)",
@@ -61,7 +79,12 @@ def place_tz(place):
     import region_files as rp
     if place == "grid-caiso":
         return "America/Los_Angeles"
-    return rp.REGION_TZ[place.split("-", 1)[1].upper()]
+    kind, code = place.split("-", 1)
+    if kind == "ba":
+        # the authority's own clock, as its place file counts its days (predict_data.place_tz)
+        ref, _ = data.reference()
+        return data.place_tz(place, ref)
+    return rp.REGION_TZ[code.upper()]
 
 
 def rows_for(place, fuel, x, methods, cut_list):
@@ -114,7 +137,10 @@ def one(place, fuel, df, made, curt=None):
     last = hr["day"].max()
     rec = hr[hr["day"] > last - pd.Timedelta(days=CHOICE_DAYS)].dropna(subset=["actual"] + ws.METHODS)
     maes = {m: ws.metric(rec, m)[1] for m in ws.METHODS}
-    choice = min((v, m) for m, v in maes.items() if v is not None)[1]
+    # session 10603: the choice on the unrounded error (on the MAE rounded to 0.1 MW, every method of a place with a few MW
+    # of output tied and the tie went to profile7 by name, the worse method; New York's solar was one); a true tie by name
+    raw = {m: float((rec[m] - rec["actual"]).abs().mean()) for m in ws.METHODS if len(rec)}
+    choice = min((v, m) for m, v in raw.items() if np.isfinite(v))[1]
     for suf in ("", "_lo", "_hi"):
         hr["erw" + suf] = hr[choice + suf]
     methods = ["erw"] + ws.METHODS
@@ -136,7 +162,7 @@ def one(place, fuel, df, made, curt=None):
             rows += rows_for(place, fuel, ca, methods + ["operator"], [("with_operator_available", "", np.ones(len(ca), dtype=bool))])
             with_op_avail = summary(ca, methods + ["operator"])
     else:
-        rows += [[place, fuel, "operator", "all", "", None, None, None, NOT_HELD]]
+        rows += [[place, fuel, "operator", "all", "", None, None, None, NOT_HELD_BA if place.startswith("ba-") else NOT_HELD]]
     inside = None
     r2 = c[c["day"] > c["day"].max() - pd.Timedelta(days=CHOICE_DAYS)].dropna(subset=["erw_lo", "erw_hi"])
     if len(r2):
@@ -151,6 +177,14 @@ def one(place, fuel, df, made, curt=None):
         opv = o.reindex(pd.DatetimeIndex(tm["ts"])).to_numpy() if o is not None else np.full(len(tm), np.nan)
         tomorrow = [[iso(t), int(k), num(v), num(lo), num(hi), num(ov)] for t, k, v, lo, hi, ov in
                     zip(tm["ts"], tm["hour"], tm[choice], tm[choice + "_lo"], tm[choice + "_hi"], opv)]
+        if all(r[2] is None for r in tomorrow):
+            # session 10603 (data request 11 (b) of chain 720): no row of nulls; the reason instead
+            gap = frame[(frame["day"] > target - pd.Timedelta(days=16)) & (frame["day"] <= lastday)]
+            days = pd.date_range(target - pd.Timedelta(days=15), lastday, freq="D")
+            short = [d.strftime("%Y-%m-%d") for d in days if int((gap["day"] == d).sum()) < len(demand.day_hours(tz, d))]
+            tomorrow = None
+            held = (f"no forecast: the method chosen ({choice}) reads every hour of the days before the target day, and the "
+                    f"output held is missing hours on {', '.join(short) if short else 'a day it reads'}")
     else:
         held = f"no forecast: the last whole day held ({lastday.date()}) is {h} days before the target day, and this forecast reads exactly two"
     hist = c[c["day"] > c["day"].max() - pd.Timedelta(days=HISTORY_DAYS)]
@@ -158,8 +192,8 @@ def one(place, fuel, df, made, curt=None):
                for r in hist.itertuples()]
     inputs_through = frame.loc[frame["day"] <= lastday, "ts"].max()
     block = {"status": "shown", "method": choice, "method_mae_last_2_years": {m: num(v) for m, v in maes.items()},
-             "target_series": TARGET.get(place, f"EIA-930's net generation from {fuel} for the region (eia930_region_fuel_hourly)"),
-             "operator": OPERATOR.get(place) if op_held else None, "operator_held": None if op_held else NOT_HELD,
+             "target_series": TARGET.get(place, f"EIA-930's net generation from {fuel} for the authority (eia930_ba_wind_solar_hourly)" if place.startswith("ba-") else f"EIA-930's net generation from {fuel} for the region (eia930_region_fuel_hourly)"),
+             "operator": OPERATOR.get(place) if op_held else None, "operator_held": None if op_held else (NOT_HELD_BA if place.startswith("ba-") else NOT_HELD),
              "made_utc": iso(made), "inputs_through_utc": iso(inputs_through), "target_day": target.strftime("%Y-%m-%d"), "horizon_days": h,
              "band": "the 10th and 90th percentile of the chosen method's own past errors (actual less forecast, MW) at the same local hour over 365 days, the low end not clipped, a plant's net output at night being a little below zero",
              "band_coverage_pct": inside,
@@ -217,12 +251,13 @@ def main(argv=None):
     built = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     t = pd.Timestamp(a.now or built)
     made = (t.tz_convert("UTC") if t.tzinfo else t.tz_localize("UTC")).floor("h")
-    df = ws.panels()
+    df = ws.all_panels()
     curt = ws.curtailment() if os.path.exists(data.table_path(ws.CURTAIL)) else None
     names = data.names()
     places, rows, ledger = [], [], []
     for place in a.places or PLACES:
-        entry = {"place": place, "name": NAMES.get(place) or names.get(place, place), "time": place_tz(place), "fuels": {}}
+        entry = {"place": place, "name": NAMES.get(place) or names.get(place, place), "time": place_tz(place),
+                 "shown_for": SHOWN_FOR.get(place, [place]), "fuels": {}}
         for fuel in ws.FUELS:
             got = one(place, fuel, df, made, curt)
             if got is None:
@@ -240,7 +275,7 @@ def main(argv=None):
            "made_rule": "made at 20:00 UTC the day before the target local day, from output through two days before it; no weather enters",
            "units": "MW; nmae_pct is the mean absolute error over the mean actual output of the same hours, in percent (a percent of each hour means nothing at night)",
            "methods": [{"id": m, "words": w} for m, w in METHOD_WORDS.items()],
-           "places": places, "rows_columns": COLUMNS, "rows": rows}
+           "cuts": CUT_WORDS, "places": places, "rows_columns": COLUMNS, "rows": rows}
     os.makedirs(a.site_dir, exist_ok=True)
     with open(os.path.join(a.site_dir, "wind_solar.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump(doc, f, separators=(",", ":"), allow_nan=False)
