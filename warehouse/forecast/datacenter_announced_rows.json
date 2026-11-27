@@ -1255,6 +1255,88 @@
    "incentive": "",
    "years": "",
    "note": "The same campuses as la_amazon_caddo_bossier_2026 (Louisiana Economic Development's release of 23 February 2026, USD 12 billion, two campuses) with a third added, from Amazon's own page as updated on 18 August 2026: both rows are kept and each enters the ranges, as Meta's Richland Parish rows are. The 2,500 additional positions \"in the broader community\" are not the data centers' own and are not taken."
+  },
+  {
+   "id": "oh_meta_newalbany_2026",
+   "to_date": true,
+   "name": "Meta, New Albany data center",
+   "company": "Meta",
+   "state": "oh",
+   "county": null,
+   "place": "New Albany",
+   "doc": {
+    "title": "Meta New Albany Data Center (info sheet)",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-09-03",
+    "url": "https://datacenters.atmeta.com/wp-content/uploads/2026/09/Meta_s-New-Albany-Data-Center.pdf",
+    "request": 526
+   },
+   "mw": null,
+   "investment": {
+    "value": 1500000000,
+    "year": 2026,
+    "says": "$1.5B+",
+    "qualifier": "more than",
+    "quote": "$1.5B+ 2017 300+ Data center investment in Broke ground on the New Operational jobs supported"
+   },
+   "construction_jobs": {
+    "value": 1200,
+    "measure": "skilled trade workers on site at peak construction",
+    "says": "1,200",
+    "qualifier": "",
+    "quote": "1,200 $7.8M+ 140+ Skilled trade workers on site"
+   },
+   "permanent_jobs": {
+    "value": 300,
+    "measure": "operational jobs",
+    "says": "300+",
+    "qualifier": "more than",
+    "quote": "$1.5B+ 2017 300+ Data center investment in Broke ground on the New Operational jobs supported"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's info sheet for the campus, its first in Ohio (its file dated 2026-09-03 by the server, the sheet itself undated). Its investment is \"Data center investment\" to date, since the campus broke ground in 2017, in the dollars of the years spent and taken as 2025 dollars; its jobs are operational jobs supported, and 1,200 skilled trade workers on site at peak construction. The sheet says the campus is \"delivering over 1 gigawatt of compute capacity to house our AI cluster Prometheus\": that capacity is not set as the row's MW, since the investment to date is not that gigawatt's cost and picking the row would pair them. The figures sit beside their labels in the sheet's layout, as the quotes show. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "tx_meta_fortworth_2026",
+   "to_date": true,
+   "name": "Meta, Fort Worth data center",
+   "company": "Meta",
+   "state": "tx",
+   "county": "Tarrant",
+   "place": "Fort Worth",
+   "doc": {
+    "title": "Meta Fort Worth Data Center (info sheet)",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-09-03",
+    "url": "https://datacenters.atmeta.com/wp-content/uploads/2026/09/Metas-Fort-Worth-Data-Center.pdf",
+    "request": 528
+   },
+   "mw": null,
+   "investment": {
+    "value": 1500000000,
+    "year": 2026,
+    "says": "$1.5B+",
+    "qualifier": "more than",
+    "quote": "$1.5B+ 2015 200+ Data center investment in Broke ground on the Fort Worth Operational jobs supported"
+   },
+   "construction_jobs": {
+    "value": 1200,
+    "measure": "skilled trade workers on site at peak construction",
+    "says": "1,200",
+    "qualifier": "",
+    "quote": "1,200 $5.2M+ 175+ Skilled trade workers on site"
+   },
+   "permanent_jobs": {
+    "value": 200,
+    "measure": "operational jobs",
+    "says": "200+",
+    "qualifier": "more than",
+    "quote": "$1.5B+ 2015 200+ Data center investment in Broke ground on the Fort Worth Operational jobs supported"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's info sheet for the campus, its first in Texas (its file dated 2026-09-03 by the server, the sheet itself undated). Its investment is \"Data center investment\" to date, since the campus broke ground in 2015, in the dollars of the years spent and taken as 2025 dollars; its jobs are operational jobs supported, and 1,200 skilled trade workers on site at peak construction. Tarrant County is the sheet's own (its school funding line). The figures sit beside their labels in the sheet's layout, as the quotes show. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
   }
  ]
 }
