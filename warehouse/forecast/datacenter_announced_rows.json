@@ -710,6 +710,21 @@
    "incentive": "",
    "years": "",
    "note": "The release names the city (Rosemount), not the county; it was read inside mn.gov's robots visit window (00:00 to 12:00 UTC)."
+  },
+  {
+   "id": "nd_applieddigital_ellendale_2025",
+   "name": "Applied Digital, Ellendale HPC campus",
+   "company": "Applied Digital",
+   "state": "nd",
+   "county": null, "place": "Ellendale",
+   "doc": {"title": "Armstrong inspects Applied Digital expansion, housing project in Ellendale, signs backup power supply bill", "publisher": "Office of the Governor of North Dakota", "date": "2025-03-19", "url": "https://www.governor.nd.gov/news/armstrong-inspects-applied-digital-expansion-housing-project-ellendale-signs-backup-power", "request": 371},
+   "mw": null,
+   "investment": {"value": 5000000000, "year": 2025, "says": "$5 billion", "qualifier": "combined", "quote": "will be followed by two additional 900,000-square-foot expansions, representing a combined investment of $5 billion and hundreds of new jobs."},
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "The current 380,000-square-foot HPC facility is expected to begin operations late this year",
+   "note": "The release gives \"hundreds of new jobs\", no number, so no jobs figure is taken. Whether the combined USD 5 billion includes the first 380,000-square-foot facility or only the two expansions the sentence leaves open; it is offered as the campus's investment. The governor's two other datacenter releases read (Williston, 2022, request 369; Bitzero, 2022, request 370) are crypto-mining sites, and Bitzero's investment is a range: neither is a row (decision 19 of forecast.md 13.4)."
   }
  ]
 }
