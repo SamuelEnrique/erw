@@ -2,7 +2,7 @@
 """Replication of the ERW forecast's report card (site/data/predict/scores.json), demand rows (chain 730, part F).
 
 Written from docs/methods/predict.md and the contract (docs/state/page_files_predict.md), not from warehouse/predict/:
-it imports nothing of the builder. Two checks:
+it imports nothing of the builder. Three checks:
 
  1. Every demand figure of scores.json (hours, mean absolute error, mean absolute percent error, for every place,
     method and cut) is recomputed from the public tables: the demand (eia930_ba_demand_hourly, a region summed by the
@@ -12,6 +12,9 @@ it imports nothing of the builder. Two checks:
  2. The regression itself is refitted here, from the note's words, on sample days of every place (ordinary least
     squares on the window's own rows, numpy.linalg.lstsq; the builder solves running normal equations), and set beside
     the stored forecast.
+
+ 3. (session 10603) The rows demand_peak of scores.json, the day's peak of the note's section 11, recomputed from the same
+    hours, with the peak's own choice.
 
 Prints N of N for each, names every difference, writes replication/predict/figures.csv. The regressions' figures are
 allowed the bound of the backtest table's rounding (0.1 MW a forecast: 0.05 MW in the MAE, 5 over the demand in the
@@ -255,6 +258,34 @@ def main():
         extra = set(shown) - {(m, cu, ke) for (cu, ke) in cuts for m in ("erw", "operator", "yesterday", "week_ago", "regression", "regression_recent")}
         for e in sorted(extra):
             figs.append((f"{p}.{e[0]}.{e[1]}.{e[2]}", shown[e]["hours"], None, False))
+        # the day's peak (method note section 11, session 10603): the days whose every hour held by the demand is held by
+        # every method; each method's peak the highest of its hourly forecasts; the peak's own choice, the candidate
+        # whose day peaks missed least over the last two years (its MAE to 0.1 MW, a tie by name); rows demand_peak
+        nx = x.groupby("day")["hour"].size()
+        nc = c.groupby("day")["hour"].size()
+        cp = c[c["day"].isin(nc.index[(nc == nx.reindex(nc.index)).to_numpy()])]
+        gp = cp.groupby("day")
+        pk = pd.DataFrame({"actual": gp["actual"].max()})
+        for m in ("erw", "operator", "yesterday", "week_ago", "regression", "regression_recent"):
+            pk[m] = gp[m].max()
+        pk = pk.reset_index()
+
+        def pscore(z, m):
+            e = (z[m] - z["actual"]).abs()
+            return len(z), round(float(e.mean()), 1), round(float((e / z["actual"]).mean() * 100), 3)
+        rp = pk[pk["day"] > pk["day"].max() - pd.Timedelta(days=730)]
+        pchoice = min((pscore(rp, m)[1], m) for m in ("yesterday", "week_ago", "regression", "regression_recent"))[1]
+        pk["erw"] = pk[pchoice]
+        pshown = {(r[2], r[3]): dict(zip(cols, r)) for r in sc["rows"] if r[0] == p and r[1] == "demand_peak"}
+        for cut, z in (("all", pk), ("last_2_years", pk[pk["day"] > pk["day"].max() - pd.Timedelta(days=730)])):
+            for m in ("erw", "operator", "yesterday", "week_ago", "regression", "regression_recent"):
+                n, mae, mape = pscore(z, m)
+                r = pshown.get((m, cut))
+                st = m in ("regression", "regression_recent") or (m == "erw" and pchoice in ("regression", "regression_recent"))
+                tol_mae = 0.051 + (0.05 if st else 0)
+                tol_mape = 0.0011 + (float((5.0 / z["actual"]).mean()) if st and n else 0)
+                ok = r is not None and r["hours"] == n and abs(r["mae"] - mae) <= tol_mae and abs(r["mape"] - mape) <= tol_mape
+                figs.append((f"{p}.peak.{m}.{cut}", None if r is None else (r["hours"], r["mae"], r["mape"]), (n, mae, mape), ok))
         # the regression refitted here on sample days
         for d in SAMPLE_DAYS:
             T = pd.Timestamp(d)

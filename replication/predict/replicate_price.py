@@ -101,6 +101,13 @@ def demand_regression(dem, tz, h=HD):
     f = rep.local(dem, tz)
     M = rep.mat(f)
     M = M.reindex(pd.date_range(M.index.min(), M.index.max() + pd.Timedelta(days=h), freq="D"))
+    X, ly = demand_X(M, h)
+    return M.index, np.exp(walk(X, ly, h)), M
+
+
+def demand_X(M, h):
+    """The rows of predict.md section 3's regression for every day of M and local hour, made with horizon h, and the
+    log demand: (X[day, hour, 27], ly[day, hour])."""
     days = M.index
     raw = M.to_numpy(float)
     fil = fill_lone(raw)
@@ -116,7 +123,7 @@ def demand_regression(dem, tz, h=HD):
     common += [hol, bri, lag(hol, h), lag(bri, h), lag(hol, 7), lag(bri, 7), np.sin(2 * np.pi * t), np.cos(2 * np.pi * t), np.sin(4 * np.pi * t), np.cos(4 * np.pi * t)]
     lA, l7 = lag(lf, h), lag(lf, 7)
     X = np.stack([np.stack([np.ones(len(days)), lA[:, k], common[0], l7[:, k]] + common[1:], axis=1) for k in range(24)], axis=1)
-    return days, np.exp(walk(X, ly, h)), M
+    return X, ly
 
 
 def price_place(price, tz, dem, dtz, gas):
