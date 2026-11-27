@@ -75,7 +75,8 @@
   "co_hb24b_1001": {"title": "Colorado House Bill 24B-1001 (Second Extraordinary Session, 2024), enrolled, amending C.R.S. 39-1-104(1.9)", "url": "https://content.leg.colorado.gov/sites/default/files/documents/2024B/bills/2024b_1001_enr.pdf", "read": "2026-11-27", "request": 428},
   "nj_handbook_ch6": {"title": "New Jersey Division of Taxation, Handbook for New Jersey Assessors, Chapter VI, Personal Property Assessment (sections 601 and 602)", "url": "https://www.nj.gov/treasury/taxation/pdf/lpt/nj_assessors_handbook_chap6.pdf", "read": "2026-11-27", "request": 436},
   "me_36_701a": {"title": "Maine Revised Statutes, Title 36, §701-A, Just value defined", "url": "https://legislature.maine.gov/statutes/36/title36sec701-A.html", "read": "2026-11-27", "request": 441},
-  "me_36_691": {"title": "Maine Revised Statutes, Title 36, §691, Definitions (the business equipment tax exemption, as PL 2025, c. 768 amended it; the page's data extracted 5 October 2026)", "url": "https://legislature.maine.gov/statutes/36/title36sec691.html", "read": "2026-11-27", "request": 440}
+  "me_36_691": {"title": "Maine Revised Statutes, Title 36, §691, Definitions (the business equipment tax exemption, as PL 2025, c. 768 amended it; the page's data extracted 5 October 2026)", "url": "https://legislature.maine.gov/statutes/36/title36sec691.html", "read": "2026-11-27", "request": 440},
+  "de_9_81": {"title": "Delaware Code, Title 9, Chapter 81, Subchapter I, §§ 8101 and 8103 (the page decoded from its kept bytes as Windows-1252)", "url": "https://delcode.delaware.gov/title9/c081/sc01/index.html", "read": "2026-11-27", "request": 443}
  },
  "split": {
   "cite": "jlarc_598",
@@ -589,6 +590,14 @@
     "quote": "In the assessment of property, assessors in determining just value",
     "personal": {"cite": "me_36_691", "quote": "Any property located in a data center or in the portion of a facility that constitutes a data center that begins operations on or after August 1, 2026"},
     "tip": "Maine (36 MRSA §701-A and §691): property is assessed at its just value, and the business equipment tax exemption leaves out of \"eligible business equipment\" \"Any property located in a data center or in the portion of a facility that constitutes a data center that begins operations on or after August 1, 2026\" (PL 2025, c. 768), so a new datacenter's equipment is taxed. The tool takes the building and the equipment at their cost (no depreciation table is read: an upper bound) and applies the reader's rate (each municipality's). Maine's reimbursement program for business equipment taxes paid (BETR) is not read. No sales tax rule is read for Maine."
+   }
+  },
+  "de": {
+   "name": "Delaware",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "de_9_81",
+    "quote": "All real property situated in this State shall be liable to taxation and assessment for public purposes by the county in which the property is located",
+    "personal": {"cite": "de_9_81", "quote": "No county or other political subdivision of the State shall levy, assess or collect any tax upon personal property, whether tangible or intangible."},
+    "tip": "Delaware (Code Title 9, §§ 8101 and 8103): \"All real property situated in this State shall be liable to taxation\" by its county, and \"No county or other political subdivision of the State shall levy, assess or collect any tax upon personal property, whether tangible or intangible\", so a datacenter's equipment owes none. The building is taken at its cost and the reader's effective rate (each county's and school district's), an upper bound. No sales tax rule is read for Delaware."
    }
   }
  }
