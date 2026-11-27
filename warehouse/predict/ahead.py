@@ -75,6 +75,7 @@ def main(argv=None):
     ap.add_argument("--site-dir", default=run.SITE)
     ap.add_argument("--places", nargs="*")
     ap.add_argument("--now")
+    ap.add_argument("--more", action="store_true", help="the 35 authorities added in session 10603 (run.MORE_BAS), written to ahead_more.json; method note section 28")
     a = ap.parse_args(argv)
     built = run.now_utc()
     t = pd.Timestamp(a.now or built)
@@ -82,7 +83,9 @@ def main(argv=None):
     dem = data.demand_panel()
     op = data.operator_panel()
     ref, _ = data.reference()
-    places = a.places or run.CORE_PLACES   # the 29 places; the 35 added in session 10603 are not yet run ahead (method note section 23)
+    more = [f"ba-{b.lower()}" for b in run.MORE_BAS]
+    places = a.places or (more if a.more else run.CORE_PLACES)   # the 29 places by default; --more: the 35 added in session 10603
+    name = "ahead_more.json" if a.more else "ahead.json"
     docs = []
     for place in places:
         d = place_ahead(place, dem, op, ref, made)
@@ -91,8 +94,8 @@ def main(argv=None):
     doc = dict(run.head(built), method_notes=run.NOTES, made_utc=run.iso(made),
                what="The demand forecast two to seven days ahead: horizon h is the number of days between the last whole day of demand read and the day forecast (the day-ahead forecast is h = 2, in each place's own file). Each horizon uses the better of the two regressions of the method note (the regression and regression_recent, by mean absolute error over the last two years), refit at that horizon, scored against the same hour a week ago, and shown only where it beats it.",
                places=docs)
-    run.write_json(os.path.join(a.site_dir, "ahead.json"), doc)
-    print(f"{run.now_utc()} wrote ahead.json ({len(docs)} places)", flush=True)
+    run.write_json(os.path.join(a.site_dir, name), doc)
+    print(f"{run.now_utc()} wrote {name} ({len(docs)} places)", flush=True)
 
 
 if __name__ == "__main__":
