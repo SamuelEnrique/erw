@@ -275,6 +275,7 @@ const impactRows = new Map(), impactAll = new Map();   // session 347: /impact's
 const forecastRows = new Map(); let forecastParams = null, forecastSev = null, forecastLib = null;   // session 4214: the forecast's rows, by technology and state, and its parameters
 let dcimpactParams = null, dcimpactLib = null;   // chain 740: the datacenter on /impact, its parameter files and its library
 const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
+const pfDocs = new Map();      // chain 720 (session 10410): a page file of site/data, parsed once a run (pf| keys)
 const dcllRows = new Map();
 const dcqRows = new Map();   // session 468: the view by grid of /datacenters, one grid's groups read once
 const newsRows = new Map();   // session 3823: a news table kept in git, by event_id, read once (the Digest's story rows)
@@ -369,7 +370,13 @@ async function truth(check) {
     const PF = await import("../lib/pagefile.ts");
     const k = PF.parsePf(check);
     if (!k) return undefined;
-    return PF.resolveNumber(JSON.parse(fs.readFileSync(path.join(here, "..", "data", ...k.file.split("/")), "utf-8")), k.path);
+    // chain 720 (session 10410): a page file is read and parsed once a run, not once a key. /forecast carries 2,350
+    // keyed figures, many into scores.json (1.8 MB) and wind_solar.json (2.7 MB): parsed again for every key, the check
+    // held its own event loop for about half a minute, and the server reset the connection of the next page of the
+    // batch, whose answer waited unread ("fetch failed", ECONNRESET, on /forecast's second address). The file on disk
+    // does not change during a run; the value at a path is read from the same parsed document
+    if (!pfDocs.has(k.file)) pfDocs.set(k.file, JSON.parse(fs.readFileSync(path.join(here, "..", "data", ...k.file.split("/")), "utf-8")));
+    return PF.resolveNumber(pfDocs.get(k.file), k.path);
   }
   // session 43: the bill explainer's default bills, recomputed here from data/bill_rules.json (California by the tariff's
   // total rates, not its unbundled lines; Texas by its charges), and the wholesale share from cost_of_power_monthly
@@ -1519,6 +1526,15 @@ async function main() {
       // hour of a horizon's forecast, a horizon's mae, the operator's day-ahead mae on the same hours)
       const predictWhole = /^pf\|predict\/(?:[^|]+\|series\/demand\/(?:tomorrow\/|history\/|summary\/[^/]+\/mae\/|with_weather_known\/[^/]+\/mae\/|peak\/[^/]+\/methods\/[^/]+\/mae$)|scores\.json\|rows\/\d+\/6$|ahead\.json\|places\/\d+\/horizons\/\d+\/(?:forecast\/\d+\/\d+|last_2_years\/mae\/[^/]+|last_2_years\/operator_day_ahead_mae_same_hours)$)/.test(check) && text === Math.round(Number(raw)).toLocaleString("en-US");
       if (!pass && predictWhole && t !== undefined && t !== null && same) pass = true;
+      // chain 720 (session 10409): the megawatts of what the forecast's files gained on 27 November 2026, written whole
+      // as the page writes a megawatt of demand: an hour of net demand and its error in MW, the error in MW on the months
+      // whose operator filing passes, an hour and an error of the separate line with the weather forecast, and in the
+      // wind and solar file an hour of a fuel's forecast (tomorrow or a past day) and its error in MW. A percent, a
+      // share of hours and a count keep the forms the rule above knows
+      // session 10410: and the error in MW of a row of the wind and solar file (its column mae_mw, position 6: the
+      // tables by month and by hour of day)
+      const predictLinesWhole = /^pf\|predict\/(?:[^|]+\|series\/demand\/(?:net_demand\/(?:tomorrow\/\d+\/\d+|[^/]+\/mae_mw\/[^/]+)|operator_filing\/sound_last_2_years\/mae\/[^/]+|with_weather_forecast\/(?:tomorrow\/\d+\/\d+|all\/mae\/[^/]+))|wind_solar\.json\|(?:places\/\d+\/fuels\/[^/]+\/(?:tomorrow\/\d+\/\d+|history\/\d+\/\d+|summary\/[^/]+\/mae_mw\/[^/]+)|rows\/\d+\/6))$/.test(check) && text === Math.round(Number(raw)).toLocaleString("en-US");
+      if (!pass && predictLinesWhole && t !== undefined && t !== null && same) pass = true;
       // chain 720 (session 10404): /equities writes a change above zero with its sign (lib/equities.ts signedPct and
       // signedLevel: "+0.32%", "+1.25"), two decimals always. A fall and a zero pass the rule above. Found by this check
       // run on a build of the page with window A's files: 21 of the 43 figures failed on "+0.32%" against 0.32
