@@ -1107,6 +1107,34 @@
    "incentive": "",
    "years": "construction expected to begin in early 2026",
    "note": "OpenAI's own announcement. It gives no investment for this campus (the USD 450 billion is Stargate's across its sites), so the row enters only the MW median; its construction jobs need an investment to enter the median per billion. Washtenaw County is Saline Township's county (not in the document). michigan.gov refuses this reader and the Michigan Economic Development Corporation's releases hold no data center project, so the company's page is the document."
+  },
+  {
+   "id": "tx_stargate_milam_2026",
+   "name": "OpenAI Stargate Milam County data center, built and operated by SB Energy",
+   "company": "OpenAI (SB Energy, a SoftBank Group company)",
+   "state": "tx",
+   "county": "Milam",
+   "place": null,
+   "doc": {
+    "title": "OpenAI and SoftBank Group partner with SB Energy",
+    "publisher": "OpenAI",
+    "date": "2026-01-09",
+    "url": "https://openai.com/index/stargate-sb-energy-partnership/",
+    "request": 516
+   },
+   "mw": {
+    "value": 1200,
+    "measure": "data center site as stated",
+    "says": "1.2 GW",
+    "qualifier": "",
+    "quote": "1.2 GW data center site in Milam County."
+   },
+   "investment": null,
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "",
+   "note": "OpenAI's own page. The USD 1 billion it names is equity in SB Energy (USD 500 million each from OpenAI and SoftBank Group), not this site's cost, so no investment is taken; its jobs are \"thousands of construction jobs\", no number. The site was first named in OpenAI's release of 23 September 2025 (request 517, five new Stargate sites), which gives only the sites' combined capacity. The row enters only the MW median."
   }
  ]
 }
