@@ -32,7 +32,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 DATA = os.path.join(ROOT, "site", "data", "forecast")
-TECHS = ["land_based_wind", "utility_pv", "natural_gas", "geothermal", "coal", "biopower"]  # coal and biopower: session 10822
+TECHS = ["land_based_wind", "utility_pv", "natural_gas", "geothermal", "coal", "biopower", "csp_trough"]  # coal, biopower, the CSP trough: session 10822
 EFFECTS = ["onsite", "supply_chain", "induced", "total"]
 MEASURES = ["jobs", "earnings", "output"]
 BASE_YEAR = 2025
@@ -76,6 +76,7 @@ class Params:
         self.gas = load("gas.json")
         self.coal = load("coal.json")  # session 10822
         self.biopower = load("biopower.json")  # session 10822
+        self.csp_trough = load("csp_trough.json")  # session 10822
         self.exempt = load("sales_exemptions.json")["states"]
         self.severance = load("severance_rules.json", os.path.join(ROOT, "site", "data"))["states"]
 
@@ -116,8 +117,8 @@ def defaults(P, tech, state):
         cost_2023 = e["base_usd_per_kw"]
     if tech == "natural_gas":
         cf = P.gas["capacity_factor"]
-    elif tech in ("coal", "biopower"):
-        cf = (P.coal if tech == "coal" else P.biopower)["capacity_factor"]
+    elif tech in ("coal", "biopower", "csp_trough"):
+        cf = {"coal": P.coal, "biopower": P.biopower, "csp_trough": P.csp_trough}[tech]["capacity_factor"]
     elif tech == "geothermal":
         cf = None
     else:

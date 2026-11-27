@@ -3,7 +3,7 @@
  "source": "U.S. Energy Information Administration (Sargent & Lundy), Capital Cost and Performance Characteristic Estimates for Utility Scale Electric Power Generating Technologies, SL-018001 Final Rev A (6 December 2023), released 10 January 2024 for AEO2025",
  "source_url": "https://www.eia.gov/analysis/studies/powerplants/capitalcost/pdf/capital_cost_AEO2025.pdf",
  "read": "2026-11-13, chain 239 session 4200 (runs/w4/probe.csv request 21)",
- "written_at": "2026-11-27T07:31:15Z",
+ "written_at": "2026-11-27T11:28:10Z",
  "written_by": "warehouse/forecast/eia_capex.py",
  "technologies": {
   "land_based_wind": {
@@ -2591,6 +2591,22 @@
      "usd_per_kw": 4082.0
     }
    },
+   "not_given": []
+  },
+  "csp_trough": {
+   "table": "NREL/TP-550-47605, Parabolic Trough Reference Plant for Cost Modeling with the Solar Advisor Model (SAM), total installed capital cost",
+   "base_usd_per_kw": 9861,
+   "case": "reference plant",
+   "construction_months": 12,
+   "construction_months_source": "JEDI's CSP trough model, which counts construction in one year (ProjectData, Year of Construction)",
+   "operating_life_years": 30,
+   "case_mw": 100,
+   "basis": "kW net (NREL's 103 MWe net plant with 6.3 hours of storage; JEDI's 100 MW with 6 hours)",
+   "dollar_year": 2009,
+   "study": "National Renewable Energy Laboratory (Turchi), Parabolic Trough Reference Plant for Cost Modeling with the Solar Advisor Model (SAM), NREL/TP-550-47605, July 2010",
+   "study_short": "NREL's parabolic trough reference plant (2010)",
+   "source_url": "https://docs.nlr.gov/docs/fy10osti/47605.pdf",
+   "states": {},
    "not_given": []
   },
   "biopower": {

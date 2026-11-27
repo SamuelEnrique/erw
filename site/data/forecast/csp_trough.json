@@ -1,0 +1,8 @@
+{
+ "about": "The CSP trough plant's output (docs/methods/forecast.md, section 14): JEDI's default capacity factor for its 100 MW parabolic trough plant with 6 hours of thermal storage, which sets the MWh a production or kWh tax falls on. Read by chain 740, session 10822, 27 November 2026, from the workbook window A kept on 26 November (warehouse/raw/nlr_jedi on the data machine).",
+ "capacity_factor": 0.417478,
+ "capacity_factor_source": {"value": 0.41747799908675803, "cells": "ProjectData!B20, Plant Capacity Factor, 0.417478 (the saved 100 MW project in California, 7.65 kWh/m2/day of direct normal resource)", "file": "01d-jedi-csp-trough-model-rel-csp12-23-16.xlsm"},
+ "notice": "NLR's data terms (https://www.nlr.gov/disclaimer): the user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data; credit DOE/NLR/ALLIANCE; the Data are provided as is.",
+ "written_at": "2026-11-27T11:40:00Z",
+ "written_by": "chain 740, session 10822 (by hand from the workbook's cell)"
+}

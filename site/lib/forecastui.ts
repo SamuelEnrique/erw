@@ -40,6 +40,13 @@ export const stateOfIx = (i: number): string => (STATE_LIST[i] ?? STATE_LIST[0])
 const n = (v: number, d = 0) => v.toLocaleString("en-US", { maximumFractionDigits: d });
 /** session 10822: the EIA study a technology's capital cost case comes from (biopower's from AEO2020, the rest AEO2025) */
 const aeo = (t: TechKey, P: Params) => ((P.eiaCapex.technologies[t] as unknown as { source_url?: string }).source_url ?? "").includes("AEO2020") ? "AEO2020" : "AEO2025";
+/** session 10822: the CSP trough's defaults are not EIA's (no EIA study holds a trough): NREL's reference plant and JEDI's model */
+const TROUGH = {
+  mw: "JEDI's trough plant, 100 MW with 6 hours of thermal storage, the size of NREL's parabolic trough reference plant (103 MW net with 6.3 hours; NREL/TP-550-47605, 2010). EIA's capital cost studies hold no trough.",
+  capex: "NREL's parabolic trough reference plant (NREL/TP-550-47605, 2010): USD 9,861 a kW net, overnight, in second-quarter 2009 dollars, converted to 2025 by the GDP price index; one national figure, no state adjustment. Excludes owner's costs, sales tax and financing.",
+  build: "JEDI's trough model counts its construction in one year: 1 year.",
+  life: "NREL's reference plant \"is designed with an expected life of 30 years\" (NREL/TP-550-47605, 2010).",
+};
 
 /** session 4218: the words of each exemption read from a statute (site/data/forecast/sales_exemptions.json quotes them) */
 const EXEMPT_WORDS: Record<string, string> = {
@@ -54,6 +61,7 @@ const EXEMPT_WORDS: Record<string, string> = {
   "nd:natural_gas": "North Dakota Century Code 57-39.2-04.2 exempts the production equipment and every other purchase for building a power plant, which includes any non-coal, non-wind generating facility of 100 kW or more selling its power: 100 percent.",
   "nd:geothermal": "North Dakota Century Code 57-39.2-04.2 exempts the production equipment and every other purchase for building a power plant, which includes any non-coal, non-wind generating facility of 100 kW or more selling its power: 100 percent.",
   "nd:biopower": "North Dakota Century Code 57-39.2-04.2 exempts the production equipment and every other purchase for building a power plant, which includes any non-coal, non-wind generating facility of 100 kW or more selling its power: 100 percent.",
+  "nd:csp_trough": "North Dakota Century Code 57-39.2-04.2 exempts the production equipment and every other purchase for building a power plant, which includes any non-coal, non-wind generating facility of 100 kW or more selling its power: 100 percent.",
   "nd:land_based_wind": "North Dakota Century Code 57-39.2-04.2 counts a wind facility only if it was completed before 1 January 2017: a new wind plant has no exemption (0).",
   "ia:utility_pv": "Iowa Code 423.3(90) exempts solar energy equipment, equipment primarily used to collect and convert solar radiation or carry it to a point of use: the modules and inverters, 67.2 percent of the tax on JEDI's materials and equipment. Racking and wiring are not named.",
 };
@@ -71,9 +79,10 @@ export const FIELDS: FieldDef[] = [
     options: () => STATE_LIST.map(([, name], i) => ({ value: i, label: name })),
     source: () => "JEDI's multipliers, the tax rules and the default costs are each the state's own." },
   { key: "mw", label: "Size", unit: "MW", min: 1, max: 10000, whole: false, group: "project",
-    source: (t, _s, P) => `EIA's case size for this technology, ${n(P.eiaCapex.technologies[t].case_mw)} MW (capital cost study for ${aeo(t, P)}, case ${(P.eiaCapex.technologies[t] as unknown as { case: number }).case}).${t === "utility_pv" ? " MW of AC." : ""}` },
+    source: (t, _s, P) => t === "csp_trough" ? TROUGH.mw : `EIA's case size for this technology, ${n(P.eiaCapex.technologies[t].case_mw)} MW (capital cost study for ${aeo(t, P)}, case ${(P.eiaCapex.technologies[t] as unknown as { case: number }).case}).${t === "utility_pv" ? " MW of AC." : ""}` },
   { key: "capex", label: "Capital cost", unit: "USD/kW, 2025", min: 100, max: 20000, whole: false, group: "project",
     source: (t, s, P) => {
+      if (t === "csp_trough") return TROUGH.capex;
       const d = capexDefault(P, t, s);
       const y = P.eiaCapex.technologies[t].dollar_year;
       return d.from === "state"
@@ -83,9 +92,9 @@ export const FIELDS: FieldDef[] = [
   { key: "start", label: "First construction year", unit: "", min: 2026, max: 2060, whole: true, group: "project",
     source: () => "The first full calendar year from today. Every dollar is a 2025 dollar whatever the year." },
   { key: "build", label: "Construction", unit: "years", min: 1, max: 10, whole: true, group: "project",
-    source: (t, _s, P) => `EIA's plant construction time for this technology, ${P.eiaCapex.technologies[t].construction_months} months, in whole years.` },
+    source: (t, _s, P) => t === "csp_trough" ? TROUGH.build : `EIA's plant construction time for this technology, ${P.eiaCapex.technologies[t].construction_months} months, in whole years.` },
   { key: "life", label: "Operation", unit: "years", min: 1, max: 60, whole: true, group: "project",
-    source: (t, _s, P) => `EIA's operating life for this technology, ${P.eiaCapex.technologies[t].operating_life_years} years (capital cost study for ${aeo(t, P)}).` },
+    source: (t, _s, P) => t === "csp_trough" ? TROUGH.life : `EIA's operating life for this technology, ${P.eiaCapex.technologies[t].operating_life_years} years (capital cost study for ${aeo(t, P)}).` },
   { key: "local", label: "Local content", unit: "% of JEDI's", min: 0, max: 200, whole: true, group: "spending",
     source: () => "JEDI's default share of each line of spending bought in the state. 100 is JEDI's own; a project's spending plan moves it." },
   { key: "om", label: "Operating spending", unit: "% of JEDI's", min: 0, max: 300, whole: true, group: "spending",
@@ -129,6 +138,7 @@ export const FIELDS: FieldDef[] = [
       if (t === "natural_gas") return "JEDI's default for its gas plant, 0.65. It sets the fuel the plant burns.";
       if (t === "coal") return `JEDI's default for its coal plant, ${P.coal?.capacity_factor ?? "not held"} (its workbook's ProjectData). It sets the MWh a production or kWh tax falls on; the coal burned is not modelled.`;
       if (t === "biopower") return `JEDI's default for its biopower plant, ${P.biopower?.capacity_factor ?? "not held"} (its workbook's ProjectData). It sets the MWh a production or kWh tax falls on; the biomass burned is not modelled.`;
+      if (t === "csp_trough") return `JEDI's default for its trough plant, ${P.csp_trough?.capacity_factor ?? "not held"} (its workbook's ProjectData, at 7.65 kWh a square metre a day of direct sun). It sets the MWh a production or kWh tax falls on.`;
       const d = cfDefault(P, t, s);
       const c = P.capacity[t as "land_based_wind" | "utility_pv"];
       return d.from === "state"
