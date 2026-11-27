@@ -31,6 +31,9 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 - Landing 3 (`693a4a3f5`, 17:13 UTC): `c701-L3-before` (16:36) and `c701-L3-after` (17:19), 0 differences (expected). Doc pushes to 17:27: `c701-p10-after`, 0 differences.
 - Gate 7 pushed 18:08 with `c701-L4-before`; its after snapshot: the progress file.
 - The progress pushes: pairs `c701-p4` to `c701-p8`, 0 differences each.
+- Landings 4 to 9 (`b80148122`, `4e6a7039c`, `66d07052c`, `fbb6012b6`, `052ebaa97`, `80d767b07`): pairs `c701-L4` to `c701-L9`, 0 differences each (expected: every page is in review).
+- The daily run's replayed commit (`26b00d06b`): `c701-dm-before` and `c701-dm-after`, 0 differences. The records of the tables written at 21:57: `c701-rec`, 0. The company pages: `c701-co`, 0. Request 57: `c701-r57`, 0.
+- **Not as the rule asks:** three doc pushes between 22:13 and 22:30 went without a before snapshot of their own; a snapshot after them (`c701-docs-2230`) against the last one before (`c701-co-after`) showed 0 differences. From 22:39 every doc push has its pair (`c701-doc2325-after`, `c701-doc0020-after`: 0).
 
 ## The desk in the afternoon
 
@@ -49,6 +52,13 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 - Window E's rows 54 and 55 (`/forecast`, `/equities`) were held back from gates 3 and 5 for two tests' lists; they returned on new heads and are in gate 6.
 - 19 of this window's old worktrees whose branches are in main were removed when drive C fell under 20 GB (their ignored files listed in `runs/c701/wt_ignored/`, any `runs/` content kept in `runs/wt_saved/`); drive C went from 19.5 to 46 GB free.
 
+- The daily run's unpushed commit was replayed on main by the code now on main: the held grids' seller files left out, the forecast files as main had them, the rest as the run wrote them (its original kept on `wip/dm-2026-11-26-unpushed`, the main checkout's old head on `backup-main-1fb1124f9`).
+- The states' twelve-month window ends at the newest month with sales, not of prices (the chart's months unchanged).
+- Request 57's eight tables were built in trial folders of hard links to the warehouse (writers rename temporary files, so the warehouse's files are never opened for writing); the screen's effect is reported, nothing loaded.
+- The forecast ledgers' tables follow data request 2's shape; for the price, where places share a hub, the entity is the place's EIA-930 code and the hub is in `market` and `node`. Each table is the whole ledger, rewritten from it each day; the daily step writes no Redivis draft (this session wrote the first by hand). The backtests and scores are not written as tables: the validator refuses them as they are.
+- Check-values floors (10 each, the file's rule) added for this chain's pages only: `/equities`, `/forecast` (two addresses) and the large-load row view.
+- The equities ground read again changes nothing: Nasdaq, S&P DJI and the NYSE are closed by their terms or robots files.
+
 ## For Samuel's ruling
 
 - The SEC refuses the ERW's contact string: give a contact address for the SEC's user agent and EDGAR opens part D (companies, share counts, statements). Default: not pulled.
@@ -63,3 +73,6 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 - Held grids' prices in git's history: NYISO's and ISO-NE's hourly prices written before the hold (the seller's year files, the board's hourly files, the network files' hub prices) stay in the public repository's history after gate 9 removes them from what the site serves. Default: left in the history (rewriting it is a person's act).
 - MISO's files under its pause: held for a license as well, but its pause keeps its tables and pages as they are, so its gallery charts (48) and network hub prices stay. Default: left until a person lifts or rules on the pause.
 - FERC's EQR for 2026 Q3 is posted (4,070 filings, 3.97 GB); the contracts table holds 2026 Q2 by session 83's approved pull. Default: not pulled until the owner says so (the table stays internal until a person reads FERC's license statement).
+- The forecast's backtests and scores as tables (`predict_demand_backtest`, `predict_scores`, `predict_price_backtest`): the two regressions share every place, hour and making time, and places of one grid share a hub, so the key needs the method (in the variable, say `demand_forecast_mw_regression`) or the place in the entity; the scores need a series shape. Default: left as files until the method chooses.
+- Nineteen addresses of other chains carry checked figures but no check-values floor: `/datacenters?view=grids`, `/attention`, `/data/licenses`, `/policy?view=monitor&state=MD`, `/play/ev`, six `/learn/problems/...` pages, the two `/congestion` addresses, three `/conditions` addresses, two digests (`/digest/2026-11-12`, `/digest/2026-11-06`), and `/policy?view=week` (0 figures). Default: left to their chains.
+- EIA's STEO route answered 504 six times from 15:40 to 23:56 UTC (even for three months), so the consumer price index (window D's row 41) waits. Default: tried again by the next session.

@@ -1,0 +1,255 @@
+# The codebook's metadata of table predict_demand_forecasts (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: predict_demand_forecasts
+family: ''
+shape: series
+row: One place's ERW forecast of demand for one UTC hour of a target day, as the forecast was made on its day (a model's output,
+  not a published figure).
+time: ts_utc is the forecast hour's start (UTC); vintage is the hour the forecast was made; x_target_day is the place's local
+  day.
+vintage_rule: 'Every making kept, one row per vintage: the key is (entity, variable, ts_utc, vintage). The table is the whole
+  ledger (site/data/predict/ledger_demand.csv), rewritten from it each run; a forecast once made is never replaced.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: PT1H
+source:
+- name: erw:predict the ERW's own forecast, from eia930_ba_demand_hourly (U.S. Energy Information Administration, Form EIA-930,
+    public)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/predict.md
+cite: ERW. Via the Energy Research Warehouse (ERW), table `predict_demand_forecasts`.
+method: docs/methods/predict.md
+header_title: 'the ERW forecast of the hourly demand of each EIA-930 region and large balancing authority, every forecast
+  as made on its day (tier derived: a model''s output, not a published or official figure). Session 10000 (chain 701).'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia930:<code> of the place; variable demand_forecast_mw (MW);
+  ts_utc the forecast hour''s start (UTC); x_lo and x_hi the forecast''s range; market and node the hub, for the price.'
+read:
+  date: '2026-11-27'
+  rows: 696
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 29
+    examples:
+    - eia930:BPAT
+    - eia930:CAL
+    - eia930:CAR
+    - eia930:CENT
+    - eia930:CISO
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 27
+    earliest: '2026-11-27T05:00:00Z'
+    latest: '2026-11-28T07:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 552
+    lowest: 3671.2
+    highest: 94014.9
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 696
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 696
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 696
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 696
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:predict: 696
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/predict.md: 696
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-26T23:35:24Z': 696
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-26T11:00:00Z': 696
+  missing_cells: 0
+- name: x_place
+  label: The forecast's place on the page (region-<code> an EIA-930 region, ba-<code> a balancing authority)
+  unit: none
+  type: text
+  values:
+    distinct: 29
+    examples:
+    - ba-bpat
+    - ba-ciso
+    - ba-cple
+    - ba-duk
+    - ba-erco
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+- name: x_method
+  label: The method that made the forecast (warehouse/predict/predict_demand.py; chosen by the backtest's rule)
+  unit: none
+  type: text
+  values:
+    list:
+      regression: 696
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+- name: x_horizon_days
+  label: Days from the last hour of demand the forecast read to the target day
+  unit: days
+  type: integer
+  values:
+    list:
+      '3': 624
+      '4': 72
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+- name: x_inputs_through_utc
+  label: The last hour of the place's demand the forecast read (UTC)
+  unit: none (an ISO 8601 UTC time)
+  type: utc time
+  values:
+    list:
+      '2026-11-24T05:00:00Z': 48
+      '2026-11-24T07:00:00Z': 24
+      '2026-11-25T04:00:00Z': 288
+      '2026-11-25T05:00:00Z': 192
+      '2026-11-25T06:00:00Z': 72
+      '2026-11-25T07:00:00Z': 72
+  missing_cells: 0
+  missing_meaning: blank when the ledger did not record it
+  source_name: null
+  documented_by: null
+- name: x_target_day
+  label: The place's local day the forecast is for
+  unit: none (a date)
+  type: date
+  values:
+    list:
+      '2026-11-27': 696
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+- name: x_local_hour
+  label: The hour of the place's local day, 0 to 23
+  unit: hour
+  type: integer
+  values:
+    list:
+      '0': 29
+      '1': 29
+      '2': 29
+      '3': 29
+      '4': 29
+      '5': 29
+      '6': 29
+      '7': 29
+      '8': 29
+      '9': 29
+      '10': 29
+      '11': 29
+      '12': 29
+      '13': 29
+      '14': 29
+      '15': 29
+      '16': 29
+      '17': 29
+      '18': 29
+      '19': 29
+      '20': 29
+      '21': 29
+      '22': 29
+      '23': 29
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+- name: x_lo
+  label: The low end of the forecast's range (the method's interval, docs/methods/predict.md)
+  unit: MW
+  type: number
+  values:
+    distinct: 551
+    lowest: 3201.6
+    highest: 87206.0
+  missing_cells: 0
+  missing_meaning: blank when the method gives no range
+  source_name: null
+  documented_by: null
+- name: x_hi
+  label: The high end of the forecast's range
+  unit: MW
+  type: number
+  values:
+    distinct: 551
+    lowest: 4162.8
+    highest: 108127.6
+  missing_cells: 0
+  missing_meaning: blank when the method gives no range
+  source_name: null
+  documented_by: null
+variables:
+- name: demand_forecast_mw
+  label: The ERW's forecast of the place's hourly demand, MW
+  unit: MW
+  rows: 696
+  first: '2026-11-27T05:00:00Z'
+  last: '2026-11-28T07:00:00Z'
+second_look: null

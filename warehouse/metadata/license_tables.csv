@@ -478,7 +478,7 @@ ieso_generation_fuel_hourly,"Independent Electricity System Operator (IESO), Ont
 ieso_ontario_demand_hourly,"Independent Electricity System Operator (IESO), Ontario",the source registry
 ilr_luxembourg_electricity,Institut Luxembourgeois de Regulation (ILR),the source registry
 imf_commodity_prices,IMF,the source registry
-impact_tax_rules,"Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts; US state legislatures and tax agencies, as the forecast tool's property rules cite them",the source registry
+impact_tax_rules,"Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts; US state legislatures and tax agencies, as the forecast tool's datacenter rules cite them; US state legislatures and tax agencies, as the forecast tool's property rules cite them",the source registry
 ine_es_dwellings_electricity_2021,"Instituto Nacional de Estadistica (INE), Spain",the source registry
 inseed_togo_electricity_annual,"Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo",the source registry
 instat_madagascar_electricity_monthly,"Institut National de la Statistique (INSTAT), Madagascar",the source registry
@@ -612,6 +612,8 @@ policy_actions,California Public Utilities Commission; NRC; Office of the Federa
 policy_reads,California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE),by hand: its header: read from policy_actions
 policy_reads_evidence,California Public Utilities Commission; NRC; Office of the Federal Register (NARA); Public Utility Commission of Texas; U.S. Department of Energy (DOE),by hand: its header: spans of the actions of policy_actions
 portwatch_chokepoint_transits,IMF PortWatch,the source registry
+predict_demand_forecasts,ERW,the source registry
+predict_price_forecasts,ERW,the source registry
 price_board_carbon,CARB; RGGI,"the source registry and the tables its header derives it from: carb_auction_allowance_prices, rggi_auction_allowance_prices"
 price_board_latest,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: iso_dam_hub_prices, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
 price_board_peak_offpeak,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, iso_dam_hub_prices, iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices, nyiso_rtm_zone_prices"
