@@ -126,7 +126,7 @@ def demand_X(M, h):
     return X, ly
 
 
-def price_place(price, tz, dem, dtz, gas):
+def price_place(price, tz, dem, dtz, gas, first=FIRST):
     """predict_price.md sections 2 to 4 for one hub read with one place's demand: the hourly frame of target days."""
     f = rep.local(price, tz)
     M = rep.mat(f)
@@ -152,7 +152,7 @@ def price_place(price, tz, dem, dtz, gas):
                   for k in range(24)], axis=1)
     P = walk(X, raw, HP)
     pos = pd.Series(np.arange(len(days)), index=days)
-    x = f[f["day"] >= FIRST].copy()
+    x = f[f["day"] >= first].copy()
     i = pos.reindex(x["day"]).to_numpy()
     k = x["hour"].to_numpy()
     x["yesterday"], x["week_ago"], x["regression"] = lag(raw, HP)[i, k], lag(raw, 7)[i, k], P[i, k]
