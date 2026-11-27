@@ -13,7 +13,9 @@ it imports nothing of the builder. Two checks:
     squares on the window's own rows, numpy.linalg.lstsq; the builder solves running normal equations), and set beside
     the stored forecast.
 
-Prints N of N for each, names every difference, writes replication/predict/figures.csv.
+Prints N of N for each, names every difference, writes replication/predict/figures.csv. The regressions' figures are
+allowed the bound of the backtest table's rounding (0.1 MW a forecast: 0.05 MW in the MAE, 5 over the demand in the
+MAPE), which shows only where the demand is a few dozen MW (session 10603); every other figure is held to the file's own.
 
     python replication/predict/replicate.py --tables DIR --backtest PATH [--file site/data/predict/scores.json]
 """
@@ -242,7 +244,13 @@ def main():
                     continue
                 n, mae, mape = score(c[msk], m)
                 r = shown.get((m, cut, key))
-                ok = r is not None and r["hours"] == n and abs(r["mae"] - mae) <= 0.011 and abs(r["mape"] - mape) <= 0.0011
+                # the regressions are read from the backtest table, which stores each forecast to 0.1 MW: their figures
+                # may differ by the bound of that rounding, 0.05 MW an hour (session 10603: it shows in the MAPE's third
+                # decimal only where the demand is a few dozen MW); every other method is held to the rounding of the file
+                st = m in ("regression", "regression_recent") or (m == "erw" and chosen in ("regression", "regression_recent"))
+                tol_mae = 0.011 + (0.05 if st else 0)
+                tol_mape = 0.0011 + (float((5.0 / c[msk]["actual"]).mean()) if st and n else 0)
+                ok = r is not None and r["hours"] == n and abs(r["mae"] - mae) <= tol_mae and abs(r["mape"] - mape) <= tol_mape
                 figs.append((f"{p}.{m}.{cut}.{key}", None if r is None else (r["hours"], r["mae"], r["mape"]), (n, mae, mape), ok))
         extra = set(shown) - {(m, cu, ke) for (cu, ke) in cuts for m in ("erw", "operator", "yesterday", "week_ago", "regression", "regression_recent")}
         for e in sorted(extra):

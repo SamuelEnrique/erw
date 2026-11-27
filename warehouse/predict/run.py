@@ -215,7 +215,7 @@ def net_demand_line(p, wsdf, made, wp):
     """The net demand block of one place and its score rows (series net_demand)."""
     place = p["place"]
     d = p["hr"][["ts", "day", "hour", "actual", "erw", "operator", "yesterday"]].copy()
-    tm = {}
+    tm, th = {}, {}
     for fuel in wsmod.FUELS:
         got = wsrun.one(wp, fuel, wsdf, made)
         if got is None:
@@ -225,13 +225,14 @@ def net_demand_line(p, wsdf, made, wp):
         for col in ("actual", "erw", "operator", "yesterday"):
             d[f"{fuel}_{col}"] = hw[col].reindex(pd.DatetimeIndex(d["ts"])).to_numpy()
         tm[fuel] = block.get("tomorrow")
+        th[fuel] = block.get("tomorrow_held")
     x = pd.DataFrame({"ts": d["ts"], "day": d["day"], "hour": d["hour"]})
     for col in ("actual", "erw", "operator", "yesterday"):
         x[col] = d[col] - d[f"wind_{col}"] - d[f"solar_{col}"]
     c = x.dropna(subset=["actual", "erw", "yesterday"]).reset_index(drop=True)
     rows = []
     out = {"what": NET_WHAT, "status": "shown", "wind_solar_place": wp, "last_2_years": None, "backtest": None, "with_operator": None,
-           "tomorrow_columns": ["ts_utc", "local_hour", "erw"], "tomorrow": None}
+           "tomorrow_columns": ["ts_utc", "local_hour", "erw"], "tomorrow": None, "tomorrow_held": None}
     for cut, days in (("all", None), ("last_2_years", score.CHOICE_DAYS)):
         g = c if days is None else c[c["day"] > c["day"].max() - pd.Timedelta(days=days)]
         sm = wsrun.summary(g, ["erw", "yesterday"])
@@ -258,6 +259,15 @@ def net_demand_line(p, wsdf, made, wp):
             if k in w and k in s and None not in (w[k], s[k]) and np.isfinite(r[c0]):
                 net.append([k, int(r["hour"]), num(r[c0] - w[k] - s[k])])
         out["tomorrow"] = net or None
+    # session 10603 (data request 11 (b) of chain 720): when no hour of tomorrow is given, the reason
+    if out["tomorrow"] is None:
+        if t is None:
+            out["tomorrow_held"] = "no forecast: the demand forecast for the target day is not held"
+        elif not (tm.get("wind") and tm.get("solar")):
+            fuel = "wind" if not tm.get("wind") else "solar"
+            out["tomorrow_held"] = f"no forecast: {wp}'s {fuel} forecast for the target day is not held ({th.get(fuel) or 'no reason given'})"
+        else:
+            out["tomorrow_held"] = "no forecast: no hour of the target day holds the demand, wind and solar forecasts together"
     return out, rows
 
 
@@ -472,6 +482,13 @@ FILING_WHAT = ("the operator's day-ahead forecast as filed on Form EIA-930, set 
 
 
 PRICE_SCORED = ["erw", "yesterday", "week_ago", "regression"]
+# session 10603 (data request 12 of chain 720): the cuts' words for the price rows, whose top10 and spike are the price's
+# own (scores.json's cuts name top10 by demand)
+PRICE_CUT_WORDS = {"all": "every hour of the backtest held by every method", "last_2_years": "the last 730 days of the backtest (the days the method is chosen on)",
+                   "month": "key YYYY-MM", "hour": "key 0 to 23, the place's clock, over the last two years",
+                   "top10": "the ten days of the backtest with the highest hourly price (by the day's highest hour)",
+                   "event": "key: the event's address on /events",
+                   "spike": "the hours whose price is above the hub's own 99th percentile over the backtest"}
 
 
 def price_place(place, grid, pp, dem, ref, gas, made, evs):
@@ -733,6 +750,7 @@ def main(argv=None):
                     "month": "key YYYY-MM", "hour": "key 0 to 23, the place's clock, over the last two years",
                     "top10": "the place's ten highest-demand days of the backtest (by the day's peak hour)", "event": "key: the event's address on /events",
                     "spike": "price only: the hours above the grid's 99th percentile"},
+              cuts_price=PRICE_CUT_WORDS,
               rows_columns=score.COLUMNS, rows=srows)
     write_json(os.path.join(a.site_dir, "scores.json"), sc)
     p, q = write_tables(a.out_dir, results, srows, built)

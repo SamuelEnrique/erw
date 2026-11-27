@@ -32,6 +32,14 @@ CHOICE_DAYS = 730
 HISTORY_DAYS = 35
 PLACES = [f"region-{r.lower()}" for r in data.REGIONS] + ["grid-caiso"]
 NAMES = {"grid-caiso": "CAISO, its three trading hubs (NP15, SP15, ZP26)"}
+# session 10603, data request 11 (a) of chain 720: the place files that show each entry (a region shows its own; ba-erco is
+# Texas; CAISO's own hubs are CISO's footprint, so ba-ciso shows grid-caiso)
+SHOWN_FOR = {"region-tex": ["region-tex", "ba-erco"], "grid-caiso": ["ba-ciso"]}
+# session 10603, data request 12 of chain 720: the words of the cuts of this file's rows
+CUT_WORDS = {"all": "every hour of the backtest held by every method", "last_2_years": "the last 730 days of the backtest (the days the method is chosen on)",
+             "month": "key YYYY-MM", "hour": "key 0 to 23, the place's clock, over the last two years",
+             "with_operator": "the hours where the operator's forecast is also held", "with_operator_month": "the same, key YYYY-MM",
+             "with_operator_available": "CAISO only: the same hours scored against the output available (actual plus the curtailment CAISO reports)"}
 OPERATOR = {"region-tex": "ERCOT's short-term wind and solar forecasts (STWPF, STPPF), the newest posting published at least 24 hours before the hour (ercot_wind_solar_forecast, from 27 September 2026)",
             "grid-caiso": "CAISO's day-ahead market forecast of wind and solar (caiso_wind_solar_forecast, market run DAM, from June 2023), against CAISO's own actual output of the same hubs"}
 TARGET = {"grid-caiso": "CAISO's actual wind or solar output, its three trading hubs summed (caiso_wind_solar_forecast, market run ACTUAL)"}
@@ -151,6 +159,14 @@ def one(place, fuel, df, made, curt=None):
         opv = o.reindex(pd.DatetimeIndex(tm["ts"])).to_numpy() if o is not None else np.full(len(tm), np.nan)
         tomorrow = [[iso(t), int(k), num(v), num(lo), num(hi), num(ov)] for t, k, v, lo, hi, ov in
                     zip(tm["ts"], tm["hour"], tm[choice], tm[choice + "_lo"], tm[choice + "_hi"], opv)]
+        if all(r[2] is None for r in tomorrow):
+            # session 10603 (data request 11 (b) of chain 720): no row of nulls; the reason instead
+            gap = frame[(frame["day"] > target - pd.Timedelta(days=16)) & (frame["day"] <= lastday)]
+            days = pd.date_range(target - pd.Timedelta(days=15), lastday, freq="D")
+            short = [d.strftime("%Y-%m-%d") for d in days if int((gap["day"] == d).sum()) < len(demand.day_hours(tz, d))]
+            tomorrow = None
+            held = (f"no forecast: the method chosen ({choice}) reads every hour of the days before the target day, and the "
+                    f"output held is missing hours on {', '.join(short) if short else 'a day it reads'}")
     else:
         held = f"no forecast: the last whole day held ({lastday.date()}) is {h} days before the target day, and this forecast reads exactly two"
     hist = c[c["day"] > c["day"].max() - pd.Timedelta(days=HISTORY_DAYS)]
@@ -222,7 +238,8 @@ def main(argv=None):
     names = data.names()
     places, rows, ledger = [], [], []
     for place in a.places or PLACES:
-        entry = {"place": place, "name": NAMES.get(place) or names.get(place, place), "time": place_tz(place), "fuels": {}}
+        entry = {"place": place, "name": NAMES.get(place) or names.get(place, place), "time": place_tz(place),
+                 "shown_for": SHOWN_FOR.get(place, [place]), "fuels": {}}
         for fuel in ws.FUELS:
             got = one(place, fuel, df, made, curt)
             if got is None:
@@ -240,7 +257,7 @@ def main(argv=None):
            "made_rule": "made at 20:00 UTC the day before the target local day, from output through two days before it; no weather enters",
            "units": "MW; nmae_pct is the mean absolute error over the mean actual output of the same hours, in percent (a percent of each hour means nothing at night)",
            "methods": [{"id": m, "words": w} for m, w in METHOD_WORDS.items()],
-           "places": places, "rows_columns": COLUMNS, "rows": rows}
+           "cuts": CUT_WORDS, "places": places, "rows_columns": COLUMNS, "rows": rows}
     os.makedirs(a.site_dir, exist_ok=True)
     with open(os.path.join(a.site_dir, "wind_solar.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump(doc, f, separators=(",", ":"), allow_nan=False)

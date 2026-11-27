@@ -30,6 +30,11 @@ SPIKE_Q = 0.99
 HISTORY_DAYS = 35
 SCORED = ["erw", "day_ahead", "yesterday", "regression"]
 LONG_FIRST = pd.Timestamp("2016-01-01")   # the longer backtest (session 10603; method note predict_price.md section 8)
+# session 10603 (data request 12 of chain 720): the words of the cuts of this file's rows
+CUT_WORDS = {"all": "every hour of the backtest held by every method and the day-ahead price", "last_2_years": "the last 730 days of the backtest (the days the method is chosen on)",
+             "month": "key YYYY-MM", "hour": "key 0 to 23, the hub's clock, over the last two years",
+             "top10": "the ten days of the backtest with the highest real-time price hour",
+             "spike": "the hours whose real-time price is above the hub's own 99th percentile over the backtest"}
 LONG_WHAT = ("the same walk-forward backtest from 1 January 2016, as far back as each hub's prices allow (ERCOT's are held from "
              "2015, SPP's from July 2018, CAISO's real-time prices from July 2023, so their first scored day is as in the backtest): each year scored on the "
              "hours every method and the day-ahead price hold; the method chosen now (last two years) is the ERW's in every year, "
@@ -159,7 +164,7 @@ def main(argv=None):
     doc = {"contract": CONTRACT, "built": built, "tier": "derived", "label": "ERW forecast", "method_note": NOTE + ", section 7",
            "made_rule": f"made at {rtm.MADE_HOUR}:00 UTC the day before the target local day, after the three day-ahead markets publish on their ordinary timelines, from real-time prices through two days before",
            "units": "USD/MWh; mape over the hours whose actual price is at least 5 USD/MWh in size", "methods": [{"id": m, "words": w} for m, w in WORDS.items()],
-           "hubs": hubs, "rows_columns": score.COLUMNS, "rows": rows}
+           "cuts": CUT_WORDS, "hubs": hubs, "rows_columns": score.COLUMNS, "rows": rows}
     os.makedirs(a.site_dir, exist_ok=True)
     with open(os.path.join(a.site_dir, "rt_price.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump(doc, f, separators=(",", ":"), allow_nan=False)

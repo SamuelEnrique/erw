@@ -84,7 +84,7 @@ def main(argv=None):
     doc = dict(run.head(built), what=WHAT, method_note=NOTE + ", section 10",
                made_rule=f"made at {price.PRICE_MADE_HOUR}:00 UTC the day before the target local day, before any grid publishes its day-ahead prices for the day, as in the place files",
                methods=[{"id": m, "what": w} for m, w in WORDS.items()],
-               hubs=hubs, rows_columns=run.score.COLUMNS, rows=rows)
+               cuts=run.PRICE_CUT_WORDS, hubs=hubs, rows_columns=run.score.COLUMNS, rows=rows)
     size = run.write_json(os.path.join(a.site_dir, "price_hubs.json"), doc)
     bt = run.write_price_table(a.out_dir, qs, built, "predict_price_hubs_backtest.csv")
     print(f"{run.now_utc()} wrote price_hubs.json ({len(hubs)} hubs, {len(rows)} score rows, {size:,} bytes), {bt}; ledger: {added} rows added", flush=True)
