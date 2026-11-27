@@ -137,7 +137,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 405: the interconnection explorer (the default, CAISO in positions; ERCOT in MW over a window; SPP; a held queue)
   "/explore/interconnection", "/explore/interconnection?queue=ercot&measure=mw&from=2018&to=2025", "/explore/interconnection?queue=spp",
   "/explore/interconnection?queue=nyiso",
-  "/impact", "/impact?tech=utility_pv&state=mn&bstate=sd", "/impact?tech=natural_gas&state=tx&instate=50&btech=geothermal&bstate=ca", "/impact?state=ia&iaval=1&levy=30&bstate=ne", "/impact?tech=utility_pv&state=or&iaval=1&btech=utility_pv&bstate=nd", "/impact?tech=utility_pv&state=mi&iaval=1&bstate=vt&bown=1.4&bownyears=25", "/impact?state=il&levy=80&bstate=wv", "/impact?tech=datacenter&state=va&dmw=1000&invest=3000&perm=50&mwh=5000000&bstate=la", "/impact?tech=datacenter&state=la&dmw=5000&invest=50000&perm=1000&cons=7500&dbuild=5&brate=10&erate=10&btech=land_based_wind", "/impact?tech=datacenter&state=ar&dmw=600&invest=6000&perm=500&matshare=40&bstate=mi&bdmw=1000&binvest=3000&bperm=40&bdlife=30", "/impact?tech=datacenter&state=wa&dmw=300&invest=3000&perm=50&brate=1&erate=1&bstate=nc&bdmw=300&binvest=3000&bperm=50&bbrate=0.8&berate=0.8", "/impact?tech=coal&state=ga&btech=coal&bstate=ia", "/impact?tech=biopower&state=nd&btech=biopower&bstate=ga&bown=1.2&bownyears=30",
+  "/impact", "/impact?tech=utility_pv&state=mn&bstate=sd", "/impact?tech=natural_gas&state=tx&instate=50&btech=geothermal&bstate=ca", "/impact?state=ia&iaval=1&levy=30&bstate=ne", "/impact?tech=utility_pv&state=or&iaval=1&btech=utility_pv&bstate=nd", "/impact?tech=utility_pv&state=mi&iaval=1&bstate=vt&bown=1.4&bownyears=25", "/impact?state=il&levy=80&bstate=wv", "/impact?tech=datacenter&state=va&dmw=1000&invest=3000&perm=50&mwh=5000000&bstate=la", "/impact?tech=datacenter&state=la&dmw=5000&invest=50000&perm=1000&cons=7500&dbuild=5&brate=10&erate=10&btech=land_based_wind", "/impact?tech=datacenter&state=ar&dmw=600&invest=6000&perm=500&matshare=40&bstate=mi&bdmw=1000&binvest=3000&bperm=40&bdlife=30", "/impact?tech=datacenter&state=wa&dmw=300&invest=3000&perm=50&brate=1&erate=1&bstate=nc&bdmw=300&binvest=3000&bperm=50&bbrate=0.8&berate=0.8", "/impact?tech=coal&state=ga&btech=coal&bstate=ia", "/impact?tech=biopower&state=nd&btech=biopower&bstate=ga&bown=1.2&bownyears=30", "/impact?tech=csp_trough&state=az&btech=csp_trough&bstate=nd",
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=spp&asset=wind",  // session 145: MISO is blank on the page, so the fourth view is SPP's wind
   // session 38: today's level's price range
   "/play/ev",  // session 3276: the EV game's four figures at the defaults (ev|US|...)
@@ -160,6 +160,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/learn/problems/where-energy-goes",
   // session 10404 (chain 720, part E): the waiting set of the ERW forecast's report card, every figure a pf| key into site/data/predict/scores.json
   "/learn/problems/a-forecasts-report-card",
+  // session 10412 (chain 720, part E): the waiting set of a producer beside the price of oil, every figure a pf| key into a company's filed periods (site/data/equities/series) or the energy prices (energy_prices.json)
+  "/learn/problems/a-producer-beside-the-price-of-oil",
   // session 9001 (chain 601, part H): the congestion page's tables, every figure a pf| key into site/data/conditions/congestion.json
   "/congestion", "/congestion?op=caiso&year=all",
   // and grid conditions' window at a glance, every figure a pf| key into site/data/conditions/<operator>.json
@@ -275,6 +277,7 @@ const impactRows = new Map(), impactAll = new Map();   // session 347: /impact's
 const forecastRows = new Map(); let forecastParams = null, forecastSev = null, forecastLib = null;   // session 4214: the forecast's rows, by technology and state, and its parameters
 let dcimpactParams = null, dcimpactLib = null;   // chain 740: the datacenter on /impact, its parameter files and its library
 const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
+const pfDocs = new Map();      // chain 720 (session 10410): a page file of site/data, parsed once a run (pf| keys)
 const dcllRows = new Map();
 const dcqRows = new Map();   // session 468: the view by grid of /datacenters, one grid's groups read once
 const newsRows = new Map();   // session 3823: a news table kept in git, by event_id, read once (the Digest's story rows)
@@ -369,7 +372,13 @@ async function truth(check) {
     const PF = await import("../lib/pagefile.ts");
     const k = PF.parsePf(check);
     if (!k) return undefined;
-    return PF.resolveNumber(JSON.parse(fs.readFileSync(path.join(here, "..", "data", ...k.file.split("/")), "utf-8")), k.path);
+    // chain 720 (session 10410): a page file is read and parsed once a run, not once a key. /forecast carries 2,350
+    // keyed figures, many into scores.json (1.8 MB) and wind_solar.json (2.7 MB): parsed again for every key, the check
+    // held its own event loop for about half a minute, and the server reset the connection of the next page of the
+    // batch, whose answer waited unread ("fetch failed", ECONNRESET, on /forecast's second address). The file on disk
+    // does not change during a run; the value at a path is read from the same parsed document
+    if (!pfDocs.has(k.file)) pfDocs.set(k.file, JSON.parse(fs.readFileSync(path.join(here, "..", "data", ...k.file.split("/")), "utf-8")));
+    return PF.resolveNumber(pfDocs.get(k.file), k.path);
   }
   // session 43: the bill explainer's default bills, recomputed here from data/bill_rules.json (California by the tariff's
   // total rates, not its unbundled lines; Texas by its charges), and the wholesale share from cost_of_power_monthly
@@ -579,7 +588,7 @@ async function truth(check) {
     if (!forecastParams) {
       const d = (n) => JSON.parse(fs.readFileSync(path.join(here, "..", "data", "forecast", n), "utf-8"));
       forecastParams = { jediCosts: d("jedi_costs.json"), eiaCapex: d("eia_capex.json"), deflator: d("deflator.json"), capacity: d("capacity_factors.json"), sales: d("sales_tax.json"),
-        income: d("income_tax.json"), property: d("property_rules.json"), taxable: d("jedi_taxable.json"), gas: d("gas.json"), coal: d("coal.json"), biopower: d("biopower.json"), exemptions: d("sales_exemptions.json") };
+        income: d("income_tax.json"), property: d("property_rules.json"), taxable: d("jedi_taxable.json"), gas: d("gas.json"), coal: d("coal.json"), biopower: d("biopower.json"), csp_trough: d("csp_trough.json"), exemptions: d("sales_exemptions.json") };
       const S = await import("../lib/severance.ts");
       const rules = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "severance_rules.json"), "utf-8"));
       forecastSev = (state, volume, price) => {
@@ -1519,6 +1528,15 @@ async function main() {
       // hour of a horizon's forecast, a horizon's mae, the operator's day-ahead mae on the same hours)
       const predictWhole = /^pf\|predict\/(?:[^|]+\|series\/demand\/(?:tomorrow\/|history\/|summary\/[^/]+\/mae\/|with_weather_known\/[^/]+\/mae\/|peak\/[^/]+\/methods\/[^/]+\/mae$)|scores\.json\|rows\/\d+\/6$|ahead\.json\|places\/\d+\/horizons\/\d+\/(?:forecast\/\d+\/\d+|last_2_years\/mae\/[^/]+|last_2_years\/operator_day_ahead_mae_same_hours)$)/.test(check) && text === Math.round(Number(raw)).toLocaleString("en-US");
       if (!pass && predictWhole && t !== undefined && t !== null && same) pass = true;
+      // chain 720 (session 10409): the megawatts of what the forecast's files gained on 27 November 2026, written whole
+      // as the page writes a megawatt of demand: an hour of net demand and its error in MW, the error in MW on the months
+      // whose operator filing passes, an hour and an error of the separate line with the weather forecast, and in the
+      // wind and solar file an hour of a fuel's forecast (tomorrow or a past day) and its error in MW. A percent, a
+      // share of hours and a count keep the forms the rule above knows
+      // session 10410: and the error in MW of a row of the wind and solar file (its column mae_mw, position 6: the
+      // tables by month and by hour of day)
+      const predictLinesWhole = /^pf\|predict\/(?:[^|]+\|series\/demand\/(?:net_demand\/(?:tomorrow\/\d+\/\d+|[^/]+\/mae_mw\/[^/]+)|operator_filing\/sound_last_2_years\/mae\/[^/]+|with_weather_forecast\/(?:tomorrow\/\d+\/\d+|all\/mae\/[^/]+))|wind_solar\.json\|(?:places\/\d+\/fuels\/[^/]+\/(?:tomorrow\/\d+\/\d+|history\/\d+\/\d+|summary\/[^/]+\/mae_mw\/[^/]+)|rows\/\d+\/6))$/.test(check) && text === Math.round(Number(raw)).toLocaleString("en-US");
+      if (!pass && predictLinesWhole && t !== undefined && t !== null && same) pass = true;
       // chain 720 (session 10404): /equities writes a change above zero with its sign (lib/equities.ts signedPct and
       // signedLevel: "+0.32%", "+1.25"), two decimals always. A fall and a zero pass the rule above. Found by this check
       // run on a build of the page with window A's files: 21 of the 43 figures failed on "+0.32%" against 0.32
@@ -1533,6 +1551,11 @@ async function main() {
       const equitiesFiled = qm !== null && text === (Number(raw) / 1e6).toLocaleString("en-US", qm[1] === "11"
         ? { minimumFractionDigits: 1, maximumFractionDigits: 1 } : { minimumFractionDigits: 0, maximumFractionDigits: 0 });
       if (!pass && equitiesFiled && t !== undefined && t !== null && same) pass = true;
+      // session 10414 (chain 720, part E): the table of every company writes the revenue of a company's newest filed
+      // period in millions too, whole, from the list's own field (index.json, companies/<i>/newest_filed/revenue/v)
+      const equitiesNewest = /^pf\|equities\/index\.json\|companies\/\d+\/newest_filed\/revenue\/v$/.test(check)
+        && text === (Number(raw) / 1e6).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      if (!pass && equitiesNewest && t !== undefined && t !== null && same) pass = true;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
       // that day's, and a date the page writes beside the figure must be the same date

@@ -29,7 +29,8 @@ def src(*p):
 class TheSetWaits(unittest.TestCase):
     def test_it_is_a_waiting_set_and_not_a_listed_one(self):
         text = src("site", "lib", "problems.ts")
-        self.assertIn("const WAITING_MODULES = [REPORT];", text)
+        # session 10412 added a second waiting set after it
+        self.assertRegex(text, r"const WAITING_MODULES = \[REPORT(, \w+)*\];")
         # the listed sets and their guide are as they were: the waiting module is in neither line
         self.assertIn("...[TRADE, STORM, GROUND, WHERE, AUTH].map((m) => m.META),", text)
         self.assertIn("for (const m of [TRADE, STORM, GROUND, WHERE, AUTH]) addGuide(m.META.slug, m.GUIDE_ENTRY);", text)

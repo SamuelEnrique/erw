@@ -102,7 +102,14 @@ const nextConfig: NextConfig = {
     "/equities": ["./data/equities/**/*.json"], "/equities/rows": ["./data/equities/**/*.json"], "/equities/rows/*": ["./data/equities/**/*.json"],
     "/equities/filed": ["./data/equities/**/*.json"], "/equities/filed/*": ["./data/equities/**/*.json"], "/equities/list": ["./data/equities/index.json"],
     // session 10405 (chain 720, part E): the days after tomorrow as a CSV reads one file of the forecast's folder
-    "/forecast/ahead": ["./data/predict/ahead.json"] },
+    "/forecast/ahead": ["./data/predict/ahead.json"],
+    // session 10410 (chain 720, part E): the downloads of the lines of 27 November read the forecast's folder: a
+    // place's file and the wind and solar file; the real-time price file. Their Python and Stata readers read the
+    // index or the real-time file for the name they write into the address
+    "/forecast/net": ["./data/predict/*.json"], "/forecast/net/*": ["./data/predict/index.json"],
+    "/forecast/realtime-price": ["./data/predict/rt_price.json"], "/forecast/realtime-price/*": ["./data/predict/rt_price.json"],
+    // session 10411 (chain 720, part E): the day-ahead price at one more hub as a CSV, and its readers, read one file
+    "/forecast/hub-price": ["./data/predict/price_hubs.json"], "/forecast/hub-price/*": ["./data/predict/price_hubs.json"] },
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
   async redirects() {
     return [

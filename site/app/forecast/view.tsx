@@ -33,6 +33,18 @@ import { PEAK_HOURS, PEAK_SPANS, aheadDays, aheadOf, madeOffRule, pctWords, type
 // session 10406 (chain 720, part E): the separate line "with the weather known" (not a forecast)
 import { WEATHER_LABEL, WEATHER_METHODS, WEATHER_SPANS } from "@/lib/predict";
 import { predictAhead, predictIndex, predictLedger, predictPlace, predictScores } from "@/lib/predictfiles";
+// session 10409 (chain 720, part E): the views of what the files gained on 27 November 2026 (app/forecast/lines.tsx)
+import { predictRtPrice, predictWindSolar } from "@/lib/predictfiles";
+import { plainMethods } from "@/lib/predict";
+import { RealTimeSection } from "./realtime";
+import { BandCheck, FilingCheck, NetDemand, WeatherForecastLine, WindSolarDay } from "./lines";
+// session 10410: wind and solar by month and hour, and the downloads of the new lines
+import { WindSolarCuts } from "./lines";
+import { rtOf } from "./realtime";
+// session 10411 (the contract's lines of session 10603): the place a wind and solar entry is shown for
+import { PRICE_CUT_WORDS, windSolarFor } from "@/lib/predictlines";
+import { predictPriceHubs } from "@/lib/predictfiles";
+import { MoreHubsSection } from "./realtime";
 
 type Raw = Record<string, string | string[] | undefined>;
 type Slot = { mark: "a" | "b"; place: IndexPlace; file: PlaceFile | null };
@@ -69,7 +81,7 @@ function PlaceHead({ slot, s, index, tip }: { slot: Slot; s: SeriesKey; index: P
   const ser = slot.file?.series?.[s];
   const shown = isShown(slot.file, ser);
   const why = shown && ser
-    ? `${LABEL} for ${dayWords(ser.target_day)}: made ${localWords(ser.made_utc, slot.place.time) || "at an hour the file does not say"} (${utcWords(ser.made_utc)}), from the place's own figures through ${localWords(ser.inputs_through_utc, slot.place.time) || "an hour the file does not say"}${typeof ser.horizon_days === "number" ? `, ${ser.horizon_days} days before the day forecast (2 is the day-ahead forecast as the method note defines it; more when the warehouse's series is behind)` : ""}. Method: ${methodWords(ser.method ?? "not said")}, last fit ${ser.fit_day ?? "on a day the file does not say"}.${index.made_rule ? ` The rule: ${index.made_rule}${madeOffRule(ser.made_utc, index.made_rule, s) ? ` ${madeOffRule(ser.made_utc, index.made_rule, s)}` : ""}` : ""}${index.choice_rule ? ` ${index.choice_rule}` : ""}`
+    ? `${LABEL} for ${dayWords(ser.target_day)}: made ${localWords(ser.made_utc, slot.place.time) || "at an hour the file does not say"} (${utcWords(ser.made_utc)}), from the place's own figures through ${localWords(ser.inputs_through_utc, slot.place.time) || "an hour the file does not say"}${typeof ser.horizon_days === "number" ? `, ${ser.horizon_days} days before the day forecast (2 is the day-ahead forecast as the method note defines it; more when the warehouse's series is behind)` : ""}. Method: ${methodWords(ser.method ?? "not said")}, last fit ${ser.fit_day ?? "on a day the file does not say"}.${index.made_rule ? ` The rule: ${index.made_rule}${madeOffRule(ser.made_utc, index.made_rule, s) ? ` ${madeOffRule(ser.made_utc, index.made_rule, s)}` : ""}` : ""}${index.choice_rule ? ` ${index.choice_rule}` : ""}${ser.tomorrow_from ? ` Kept as first made: ${plainMethods(ser.tomorrow_from)}.` : ""}`
     : blankWhy(ser ?? slot.place.series?.[s], slot.file?.example === true || index.example === true);
   return (
     <h3 className="mb-2 font-serif text-xl text-accent" data-fc-place={slot.mark}>
@@ -373,7 +385,7 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
   const table = (cut: string, first: string, name: (key: string) => ReactNode, title: string, words: (key: string) => string, each: string) => {
     const keys = keysOf(cut);
     if (!keys.length) return <p className="mb-5 text-sm" data-fc-cut-none={cut}><NotHeld words={`${title}: not held`} why={scores ? `The score file holds no row of the cut "${cut}" for ${slots.length > 1 ? "these places" : "this place"} and series.` : "The score file (site/data/predict/scores.json) is not on the site."} /></p>;
-    const over = scores?.cuts?.[cut];
+    const over = cutWhy(cut);
     const ms = methodsIn([cut]);
     return (
       <div className="mb-5" data-fc-cut={cut}>
@@ -384,7 +396,12 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
     );
   };
   const eventWords = (key: string) => `Event: ${key.replace(/[_-]/g, " ")}`;
-  const other = OTHER_CUTS.flatMap((cut) => keysOf(cut).map((key) => ({ cut: cut as string, key, words: cut === "event" ? eventWords(key) : CUT_WORDS[cut] ?? cut })));
+  // session 10411 (the contract's line of session 10603, in answer to this window's request 12): for a price the ten days
+  // are those of the highest price hour, not of the highest demand. A price row's cut is named so, and its hover is the
+  // score file's `cuts_price` where the file carries it; `cuts` names the cut by demand, so it is not quoted for a price
+  const cutWords = (cut: string) => (s === "price" ? PRICE_CUT_WORDS[cut] : undefined) ?? CUT_WORDS[cut] ?? cut;
+  const cutWhy = (cut: string): string | undefined => (s === "price" ? scores?.cuts_price?.[cut] ?? (cut === "top10" || cut === "spike" ? undefined : scores?.cuts?.[cut]) : scores?.cuts?.[cut]);
+  const other = OTHER_CUTS.flatMap((cut) => keysOf(cut).map((key) => ({ cut: cut as string, key, words: cut === "event" ? eventWords(key) : cutWords(cut) })));
   const otherMethods = methodsIn(OTHER_CUTS);
   const parts: [string, string][] = [["last_30_days", "The last 30 days"], ["backtest", "The backtest"]];
   // session 10405 (chain 720, part E): the day's peak (a place file's series.demand.peak; the contract's change of
@@ -473,10 +490,10 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
       {table("hour", "Hour", (key) => <span title={`The hour from ${hourWords(key)} of the place's own clock`} className="cursor-help">{hourWords(key)}</span>, "By hour of day", (key) => `the hour from ${hourWords(key)}`, "hours")}
       {other.length ? (
         <div className="mb-5" data-fc-cut="other">
-          <h4 className="mb-1 text-sm font-semibold">Every hour, the last two years, the highest-demand days and the events, {mu}</h4>
-          <ScoreTable k="other" first="Hours scored" groups={groups(otherMethods)} caption={`${names}${METRIC_WORDS[metric].toLowerCase()} of each method's forecast of ${SERIES_WORDS[s].toLowerCase()} over every hour scored, the ten highest-demand days, the price spikes and each event, ${mu}`}
+          <h4 className="mb-1 text-sm font-semibold">{s === "price" ? "Every hour, the last two years, the days of the highest prices, the spikes and the events" : "Every hour, the last two years, the highest-demand days and the events"}, {mu}</h4>
+          <ScoreTable k="other" first="Hours scored" groups={groups(otherMethods)} caption={`${names}${METRIC_WORDS[metric].toLowerCase()} of each method's forecast of ${SERIES_WORDS[s].toLowerCase()} over every hour scored, ${s === "price" ? "the ten days with the highest price hour" : "the ten highest-demand days"}, the price spikes and each event, ${mu}`}
             rows={other.map(({ cut, key, words }) => ({ key: `${cut}|${key}`,
-              name: cut === "event" && eventHref(key) ? <SiteLink href={eventHref(key)!} title={`${scores?.cuts?.event ?? "An event of /events"}. Opens the event's page.`}>{words}</SiteLink> : <span title={scores?.cuts?.[cut]} className={scores?.cuts?.[cut] ? "cursor-help" : undefined}>{words}</span>,
+              name: cut === "event" && eventHref(key) ? <SiteLink href={eventHref(key)!} title={`${scores?.cuts?.event ?? "An event of /events"}. Opens the event's page.`}>{words}</SiteLink> : <span title={cutWhy(cut)} className={cutWhy(cut) ? "cursor-help" : undefined}>{words}</span>,
               cells: info.map((x) => cutCells(x, cut, key, words.toLowerCase(), otherMethods)) }))} />
         </div>
       ) : null}
@@ -497,7 +514,7 @@ function AllPlaces({ index, scores, s, metric, chosen }: { index: PredictIndex; 
         head={[`Place (${mu})`, "Hours", ...methods.map((m) => <MethodHead key={m} m={m} scores={scores} />)]}
         rows={index.places.map((p) => {
           const ix = p.series?.[s];
-          const name = <SiteLink key="n" href={hrefOf({ a: p.place, b: null, s, day: null, m: null })}>{placeWords(p)}</SiteLink>;
+          const name = <SiteLink key="n" href={hrefOf({ a: p.place, b: null, s, day: null, m: null })} className="inline-block py-1 -my-1">{placeWords(p)}</SiteLink>;
           if (example || !ix || ix.status !== "shown") return { key: p.place, highlight: chosen.includes(p.place), cells: [name], wide: <span className="cursor-help" title={blankWhy(ix, example)} data-fc-all-blank={p.place}>{blankWords(ix?.status, example)}</span> };
           const g = scoresOf(scores, p.place, s).get("all");
           const hrs = g ? rowHours(g.cells, "", methods) : null;
@@ -517,6 +534,14 @@ export function ForecastView({ query }: { query: Raw }) {
   // session 10405: the days after tomorrow; null while the file is not on the site, an example or a test's fixture
   const aheadFile = predictAhead();
   const ahead = aheadFile && aheadFile.example !== true && index?.example !== true ? aheadFile : null;
+  // session 10409: the wind and solar file; null while it is not on the site, an example or a test's fixture
+  const windSolarFile = predictWindSolar();
+  const windSolar = windSolarFile && windSolarFile.example !== true && index?.example !== true ? windSolarFile : null;
+  const rtFile = predictRtPrice();
+  const rtPrice = rtFile && rtFile.example !== true && index?.example !== true ? rtFile : null;
+  // session 10411: the day-ahead price at more hubs; null while the file is not on the site, an example or a fixture
+  const hubsFile = predictPriceHubs();
+  const priceHubs = hubsFile && hubsFile.example !== true && index?.example !== true ? hubsFile : null;
   const q: Query = queryOf(query, index);
   const metric = metricOf(q);
   const places = index?.places ?? [];
@@ -564,6 +589,8 @@ export function ForecastView({ query }: { query: Raw }) {
               <AutoSubmitSelect name="s" value={q.s} options={SERIES.map((x) => ({ value: x, label: SERIES_WORDS[x] }))} label="Forecast of" />
               <AutoSubmitSelect name="day" value={q.day ?? ""} options={[{ value: "", label: "The newest day held" }, ...(q.day && !days.includes(q.day) ? [{ value: q.day, label: `${q.day} (not held)` }] : []), ...days.map((d) => ({ value: d, label: dayWords(d) }))]} label="Past day" />
               <AutoSubmitSelect name="m" value={q.m ?? ""} options={[{ value: "", label: metricLabel(dflt) }, { value: alt, label: metricLabel(alt) }]} label="Score shown" />
+              {/* session 10411: the hub drawn under "More hubs" stays drawn through another choice of the form */}
+              {q.hub ? <input type="hidden" name="hub" value={q.hub} /> : null}
               <button type="submit" className="self-start border border-rule bg-white px-3 py-1 text-sm">Show</button>
             </form>
           </InputPanel>
@@ -579,11 +606,32 @@ export function ForecastView({ query }: { query: Raw }) {
                 {slots.map((x) => <DaysAhead key={x.mark} slot={x} ahead={ahead} metric={metric} scores={scores} part="table" />)}
               </div>
             ) : null}
+            {/* session 10409: wind, solar and what is left of demand after them, demand only */}
+            {q.s === "demand" ? (
+              <div data-fc-net-block="1">
+                <div className={two}>{slots.map((x) => <NetDemand key={x.mark} slot={x} ws={windSolar} metric={metric} part="chart" />)}</div>
+                {slots.map((x) => <NetDemand key={x.mark} slot={x} ws={windSolar} metric={metric} part="table" />)}
+              </div>
+            ) : null}
           </ToolSection>
           <ToolSection title="How it has done" id="record">
             <div className={two}>{slots.map((x) => <PastDay key={x.mark} slot={x} s={q.s} index={index} scores={scores} asked={q.day} />)}</div>
+            {q.s === "demand" ? <div className={two} data-fc-wsday-block="1">{slots.map((x) => <WindSolarDay key={x.mark} slot={x} ws={windSolar} asked={q.day} />)}</div> : null}
             <div className="mt-6"><ReportCard slots={slots} s={q.s} index={index} scores={scores} metric={metric} /></div>
+            {/* session 10409: the check of the operator's filing, the separate line with the weather forecast (demand
+                only), and the band's record (either series); each after the report card, which stands as it was. With
+                two places each place's tables keep the page's full width, one place under the other (six and seven
+                columns do not fit half of it) */}
+            {/* session 10410: wind and solar by month and by hour of day, from the wind and solar file's rows, behind folds */}
+            {q.s === "demand" ? <div data-fc-ws-cuts-block="1">{slots.map((x) => <WindSolarCuts key={x.mark} slot={x} ws={windSolar} metric={metric} />)}</div> : null}
+            {q.s === "demand" ? <div data-fc-filing-block="1">{slots.map((x) => <FilingCheck key={x.mark} slot={x} scores={scores} metric={metric} />)}</div> : null}
+            {q.s === "demand" ? <div data-fc-wwf-block="1">{slots.map((x) => <WeatherForecastLine key={x.mark} slot={x} scores={scores} metric={metric} />)}</div> : null}
+            <div data-fc-band-block="1">{slots.map((x) => <BandCheck key={x.mark} slot={x} s={q.s} ws={windSolar} rt={rtPrice} />)}</div>
           </ToolSection>
+          {/* session 10409: the real-time price, with price, for a place whose hub the real-time file holds */}
+          {q.s === "price" ? <RealTimeSection slots={slots} rt={rtPrice} scores={scores} metric={metric} asked={q.day} /> : null}
+          {/* session 10411: the other hubs of each place's grid, and the one a reader chose drawn whole */}
+          {q.s === "price" ? <MoreHubsSection slots={slots} hubs={priceHubs} rt={rtPrice} scores={scores} metric={metric} asked={q.day} chosen={q.hub ?? null} hrefOf={(hub) => hrefOf(q, { hub }, "#hubs")} /> : null}
           <ToolSection title="Every place" id="places">
             <AllPlaces index={index} scores={scores} s={q.s} metric={metric} chosen={slots.map((x) => x.place.place)} />
           </ToolSection>
@@ -611,6 +659,19 @@ export function ForecastView({ query }: { query: Raw }) {
                   <a href="/forecast/ahead/python" download data-download="python">Python</a>,{" "}
                   <a href="/forecast/ahead/stata" download data-download="stata">Stata</a></li>
               ) : null}
+              {/* session 10410: the lines of 27 November, where the place holds them */}
+              {q.s === "demand" ? slots.filter((x) => isShown(x.file, x.file?.series?.demand) && (!!x.file?.series?.demand?.net_demand || !!windSolarFor(windSolar, x.place.place))).map((x) => (
+                <li key={`n${x.mark}`} data-fc-download="net">{placeWords(x.place)}, net demand, wind and solar, hour by hour (the day forecast now and every past day of wind and solar held):{" "}
+                  <a href={`/forecast/net?place=${x.place.place}`} download data-download="csv">CSV</a>,{" "}
+                  <a href={`/forecast/net/python?place=${x.place.place}`} download data-download="python">Python</a>,{" "}
+                  <a href={`/forecast/net/stata?place=${x.place.place}`} download data-download="stata">Stata</a></li>
+              )) : null}
+              {q.s === "price" ? [...new Map(slots.map((x) => rtOf(x, rtPrice)).filter((e): e is NonNullable<typeof e> => !!e).map((e) => [e.hub.hub, e.hub])).values()].map((hub) => (
+                <li key={`r${hub.hub}`} data-fc-download="realtime">The real-time price at {hub.hub}, hour by hour (the day forecast now and every past day held, beside the day-ahead price):{" "}
+                  <a href={`/forecast/realtime-price?hub=${encodeURIComponent(hub.hub)}`} download data-download="csv">CSV</a>,{" "}
+                  <a href={`/forecast/realtime-price/python?hub=${encodeURIComponent(hub.hub)}`} download data-download="python">Python</a>,{" "}
+                  <a href={`/forecast/realtime-price/stata?hub=${encodeURIComponent(hub.hub)}`} download data-download="stata">Stata</a></li>
+              )) : null}
               {q.s === "demand" ? slots.map((x) => (
                 <li key={`d${x.mark}`} data-fc-operator-record={x.place.place}><SiteLink href={`/demand?view=country&a=${demandKey(x.place)}#forecast`}>{placeWords(x.place)}: the operator&apos;s own forecast against demand, every year held</SiteLink></li>
               )) : null}

@@ -1,8 +1,8 @@
 # Chain 720, the portable laptop's first window: the ERW forecast page and the energy equities pages (note for Samuel)
 
-Energy Research Warehouse (ERW). Kept current; state at 12:17 UTC on 27 November 2026. Sessions 10400 to 10413. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10409_REPORT.md`.
+Energy Research Warehouse (ERW). Kept current; state at 13:09 UTC on 27 November 2026. Sessions 10400 to 10414. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10409_REPORT.md`.
 
-## 27 November: what changed since you took the laptop (sessions 10408 to 10413)
+## 27 November: what changed since you took the laptop (sessions 10408 to 10414)
 
 You asked for two things first. Both are done and requested for landing. The equities row has landed; the forecast rows wait for the desk.
 
@@ -63,6 +63,16 @@ You asked for two things first. Both are done and requested for landing. The equ
 - **Three links were too small for a finger and are mended:** a company's name in the table of every company and a filing's link on `/equities`, a place's name in the table of every place on `/forecast`. Each keeps its row's height; only the place a finger lands grew.
 - **To check on your phone once the rows have landed:** open `https://erw-flame.vercel.app/equities`, scroll to "Every company" and press a company's name. It should be easy to hit, and the company is drawn.
 - **Left for your ruling:** the Chart and Table switch of every chart (22 px tall), the small links of the source line at a page's foot, and "Show answer" on a problem set's page (20 px). All three are shared parts of the site.
+
+**The table of every company now says what each filed last (row 67, `wip/c720-equities-newest`, session 10414).** The desk met my three requests of this morning at 11:53 UTC: the list of companies carries each company's newest filed period, and twelve of the eighteen utilities that stopped at March now reach September. Production already shows the longer histories. Once row 67 has landed, at `https://erw-flame.vercel.app/equities`:
+
+- Scroll to "Every company". **You should see**, where the last column said "shown", a column headed "Newest period filed, with its revenue in USD million". For NextEra: "2026-09-30, 10-Q" (a link to the filing) and under it "Revenue 8,090, 3 months".
+- Press the words "Newest period filed" in the head. **You should see** the companies whose newest period is the latest first, and the head reads "Newest period filed (newest first)". Press again for oldest first: Recon Technology, whose last filing is for September 2016.
+- Type "exxon" in the filter and press Filter, then press the company. **You should see** "(note)" beside its period in the table, and under its figures: "A note on what XOM filed: the filed history under this SEC number starts with the period to 2026-06-30: a new registrant, and any predecessor's filings under another SEC number are not read".
+- **What is real:** every figure, from the SEC's filings as the desk's files hold them.
+- **What to keep in mind:** a company whose newest filing is its annual report shows a year's revenue, and the months stand beside every figure. The table does not sort by revenue for that reason.
+- **A finding I passed to the desk** (its request 581): in 266 of 10,688 places a company's quarter does not agree with its own six or nine months. Fifteen are in 2026. The page draws what the file holds.
+- **The new views were read for accessibility:** no control without a name, no AA violation; one skipped heading level on `/forecast` found and mended on this row.
 
 ## One thing first: a held price is drawn on production
 
@@ -183,11 +193,17 @@ What is real and what is not:
 - **Whether "More hubs" belongs on `/forecast` or on a page of its own** (27 November). Today: a section of the price view, closed until a hub is chosen.
 - **Whether the equities problem set joins the listed sets,** and whether it may call Expand Energy "a producer of mostly natural gas", which is my description and in no ERW file. Today: it waits on its own page.
 - **The small links of the source line at a page's foot and "Show answer" on a problem set's page** are under 24 px tall, like the charts' switch. Today: left; all are shared parts of the site.
+- **Whether the table of every company should show a year's revenue beside a quarter's** (27 November, row 67). Today: each company's newest filing as it is, with its months beside the figure; the table does not sort by revenue.
+- **Whether the site's muted text and table heads should meet the enhanced contrast (AAA, 7 to 1).** Today: 5.63 to 1, which meets AA. A colour of every page.
+- **Hover text is about four tenths of both pages' markup** (434 KB of 1,021 KB on `/forecast` with demand; 498 KB of 1,211 KB on `/equities` with two companies): every figure carries its source on hover, as the site's rule asks, and on `/equities` each filed figure's hover repeats its filing's whole address. Whether a figure's hover may be shorter where its row already links the filing. Today: left as it is.
+- **An address with the table's anchor twice.** Opened at `/equities#companies`, the third press of a sort head leaves `/equities#companies#companies` in the address bar. The link is right; the framework writes it so. Today: left.
 
 ## What waits on others
 
 - **Window A's desk:** landing row 62 (equities on the SEC's figures, requested 09:25 UTC on 27 November) and row 63 (the forecast's new views and their downloads, requested 10:50 UTC, built and seen). Rows 54 to 61 have landed.
 - **Window A's desk, as of 12:15 UTC on 27 November:** row 62 has landed (11:03 UTC). Rows 63 and 64 (the forecast's new views; more hubs), 65 (the equities problem set) and 66 (three links on a phone) are requested, each built and seen. Row 66 holds 63 and 64: one landing takes the three.
+- **Window A's desk, as of 12:45 UTC on 27 November:** rows 63 to 67 are requested, each built and seen. Row 67 (the newest period filed) holds 63, 64 and 66: one landing takes the four. Row 65 (the equities problem set) is apart. Its requests 578 to 580 are met; request 581 is new (a company's quarter that does not agree with its own six or nine months, 266 places, fifteen in 2026).
+- **Window B, as of 12:45 UTC:** its row 9 is requested (12:35 UTC) with its files rebuilt. The page's figures agree with them: 259,718 on 268 pages, none differing.
 - **Window B:** its landing row 9 (35 more places, the hubs' files). Until it lands, production's `/forecast` lists 29 places and shows no section "More hubs". And its request 15: which place shows a hub.
 - **Window A:** data requests 578 to 580 (27 November): the list's newest filed period; eighteen utilities' missing quarters, Exxon's short history, one stale filer; the board's own check on two held rows.
 - **Window B:** its requests 11 and 12 (27 November): CAISO's wind and solar lines that no place names, and net demand empty with no reason in four regions; the words of the real-time price's cuts.

@@ -523,3 +523,197 @@ ERW in nine or ten of the eleven years at each (sections 8 and 9 of `predict_pri
 longer until request 9 is answered; then `predict_data.py` would read `eia930_all_history` before the hourly extracts
 begin, and the walk would start on 1 July 2016, with the operator's filed forecast scored from the same day. Nothing in
 the backtests already published changes.
+
+## 25. The longer backtest, from 2016 (session 10603)
+
+Section 24 said the demand backtest could not start before 1 July 2019 until older demand was held. Window A answered
+data request 9 the same day (landing 20, `f073726a2`): `eia930_all_history` now holds every authority's demand from
+EIA's six-month files, July 2015 to June 2018, with its filed forecast. `warehouse/predict/long_backtest.py` walks the
+same forecast from 1 July 2016 on that demand (`predict_data.demand_panel_long`: the history's hours before the hourly
+table's, the hourly table winning an hour both hold; regions summed by the demand pages' rule) and writes
+`site/data/predict/long_backtest.json`: for each of the 64 places, every year from 2016 scored on the hours every ERW
+method holds, and the whole span.
+
+What stays as it was: the place files' backtest, its cuts and the choice. The longer window changes the regressions'
+fits of 2019 and 2020 (they now see up to 730 days before them where they saw only what was held since July 2018), so
+the longer walk is a file of its own rather than a change to the published one. The ERW's method in every year is the
+one chosen now on the last two years, and the longer walk leaves that choice unchanged at every place (the test holds
+it). The operator is set beside the ERW only on the hours its screened filing holds (`eia930_forecast_error_hourly`,
+from July 2018): the history's filed forecasts are not screened for filing errors and are not used.
+
+A caution on the early years: the history's demand is EIA's published series as filed, before the warehouse's own
+screens. Some early years carry filing errors that inflate the error: PACW's 2017 (145 percent MAPE), the Southeast's
+and HST's 2017 (14.6 and 13.7), and CISO's span (6.7 over the span, 3.6 and 3.9 in 2017 and 2025). They are shown as
+they come.
+
+From the build of 27 November 2026 (`runs/c730/table_long_all.py`), MAPE in percent:
+
+| Place | First day | Hours | MAPE % 2016 to 2026: ERW, regression, yesterday | ERW 2017 | ERW 2025 | Years the ERW beats the operator (of those it holds) |
+|---|---|---:|---|---:|---:|---|
+| region-cal | 2016-07-01 | 89,660 | 3.954, 4.028, 7.552 | 3.701 | 3.725 | 4 of 9: 2023, 2024, 2025, 2026 |
+| region-car | 2016-07-01 | 86,646 | 6.84, 7.345, 9.91 | 7.091 | 7.229 | 0 of 9 |
+| region-cent | 2016-07-01 | 90,605 | 4.726, 4.964, 6.972 | 4.485 | 5.271 | 2 of 9: 2025, 2026 |
+| region-fla | 2016-09-23 | 81,973 | 6.151, 6.281, 7.957 | 6.621 | 5.679 | 4 of 9: 2018, 2019, 2021, 2026 |
+| region-mida | 2016-10-23 | 84,567 | 4.904, 5.276, 8.167 | 4.987 | 4.726 | 0 of 9 |
+| region-midw | 2016-07-01 | 90,930 | 3.886, 4.187, 7.111 | 3.958 | 3.857 | 0 of 9 |
+| region-ne | 2016-07-01 | 91,181 | 6.551, 6.915, 9.806 | 5.948 | 7.821 | 0 of 9 |
+| region-nw | 2016-09-05 | 72,909 | 2.649, 2.816, 4.824 | 2.586 | 2.681 | 8 of 8: 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026 |
+| region-ny | 2016-07-01 | 90,971 | 4.965, 5.332, 8.162 | 4.753 | 5.577 | 0 of 9 |
+| region-se | 2016-07-01 | 89,015 | 6.986, 7.314, 9.501 | 14.614 | 6.168 | 0 of 9 |
+| region-sw | 2016-07-15 | 87,878 | 4.553, 4.696, 5.966 | 4.149 | 4.389 | 3 of 9: 2018, 2021, 2025 |
+| region-ten | 2016-07-01 | 90,136 | 7.171, 7.312, 9.764 | 7.559 | 6.719 | 0 of 9 |
+| region-tex | 2016-07-01 | 90,821 | 5.619, 6.002, 7.687 | 5.969 | 5.063 | 0 of 9 |
+| ba-bpat | 2016-07-01 | 91,181 | 3.65, 3.888, 5.769 | 3.912 | 3.347 | 0 of 9 |
+| ba-ciso | 2016-07-01 | 91,033 | 6.743, 6.779, 10.372 | 3.596 | 3.873 | 4 of 9: 2023, 2024, 2025, 2026 |
+| ba-cple | 2016-07-01 | 91,098 | 9.148, 9.62, 12.432 | 9.192 | 9.485 | 0 of 9 |
+| ba-duk | 2016-07-01 | 91,125 | 6.933, 7.399, 10.478 | 7.019 | 7.065 | 0 of 9 |
+| ba-erco | 2016-07-01 | 90,821 | 5.619, 6.002, 7.687 | 5.969 | 5.063 | 0 of 9 |
+| ba-fpc | 2016-07-01 | 90,641 | 7.576, 7.896, 9.791 | 7.646 | 7.245 | 9 of 9: 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 |
+| ba-fpl | 2016-07-01 | 90,848 | 7.134, 7.172, 8.704 | 6.823 | 5.836 | 0 of 9 |
+| ba-isne | 2016-07-01 | 91,181 | 6.551, 6.915, 9.806 | 5.948 | 7.821 | 0 of 9 |
+| ba-miso | 2016-07-01 | 91,157 | 3.714, 3.998, 6.99 | 3.783 | 3.676 | 0 of 9 |
+| ba-nyis | 2016-07-01 | 90,971 | 4.965, 5.332, 8.162 | 4.753 | 5.577 | 0 of 9 |
+| ba-pace | 2016-07-01 | 91,148 | 3.907, 3.97, 5.82 | 3.595 | 3.536 | 9 of 9: 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 |
+| ba-pjm | 2016-07-01 | 91,041 | 4.924, 5.315, 8.243 | 5.243 | 4.726 | 0 of 9 |
+| ba-psco | 2016-07-01 | 91,128 | 8.44, 8.44, 10.061 | 4.056 | 6.395 | 2 of 9: 2025, 2026 |
+| ba-soco | 2016-07-01 | 89,126 | 6.116, 6.511, 8.857 | 6.438 | 6.168 | 0 of 9 |
+| ba-swpp | 2016-07-01 | 91,061 | 4.731, 4.969, 6.968 | 4.484 | 5.28 | 2 of 9: 2025, 2026 |
+| ba-tva | 2016-07-01 | 90,136 | 7.171, 7.312, 9.764 | 7.559 | 6.719 | 0 of 9 |
+| ba-aeci | 2016-07-01 | 91,181 | 9.433, 9.828, 11.675 | 9.787 | 9.938 | 0 of 9 |
+| ba-ava | 2016-07-01 | 91,181 | 4.433, 4.709, 6.819 | 4.484 | 4.54 | 1 of 9: 2018 |
+| ba-azps | 2016-07-01 | 91,143 | 5.624, 5.803, 7.204 | 5.16 | 6.186 | 2 of 9: 2025, 2026 |
+| ba-banc | 2016-07-01 | 90,210 | 5.502, 5.793, 8.302 | 4.921 | 5.565 | 0 of 9 |
+| ba-chpd | 2016-07-01 | 91,181 | 5.996, 6.491, 7.886 | 6.051 | 5.673 | 4 of 9: 2018, 2019, 2020, 2021 |
+| ba-cplw | 2016-07-01 | 91,125 | 8.135, 8.5, 10.982 | 7.79 | 8.377 | 0 of 9 |
+| ba-dopd | 2016-07-01 | 91,181 | 5.296, 5.629, 7.052 | 6.28 | 4.223 | 6 of 9: 2018, 2019, 2020, 2023, 2024, 2025 |
+| ba-epe | 2016-07-01 | 90,748 | 5.434, 5.525, 8.744 | 5.151 | 5.929 | 0 of 9 |
+| ba-fmpp | 2016-07-01 | 90,809 | 6.756, 6.865, 8.948 | 6.849 | 6.089 | 1 of 9: 2026 |
+| ba-gcpd | 2016-07-01 | 91,181 | 3.127, 3.367, 4.649 | 3.338 | 2.593 | 0 of 9 |
+| ba-gvl | 2016-08-23 | 86,919 | 8.49, 8.76, 10.863 | 8.189 | 7.608 | 4 of 9: 2023, 2024, 2025, 2026 |
+| ba-hst | 2016-07-01 | 91,034 | 8.493, 8.831, 10.517 | 13.729 | 7.681 | 2 of 9: 2020, 2021 |
+| ba-iid | 2016-07-01 | 88,539 | 10.745, 10.915, 13.65 | 7.42 | 7.191 | 0 of 9 |
+| ba-ipco | 2016-07-01 | 91,153 | 4.827, 5.076, 6.926 | 6.027 | 4.59 | 4 of 9: 2018, 2019, 2025, 2026 |
+| ba-jea | 2016-07-01 | 91,097 | 7.821, 8.109, 10.639 | 8.416 | 7.625 | 0 of 9 |
+| ba-ldwp | 2016-07-01 | 90,364 | 8.848, 8.848, 11.567 | 4.678 | 8.927 | 9 of 9: 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 |
+| ba-lgee | 2016-07-01 | 90,873 | 7.365, 7.674, 11.254 | 7.355 | 7.315 | 4 of 9: 2023, 2024, 2025, 2026 |
+| ba-nevp | 2016-07-01 | 90,714 | 4.317, 4.492, 5.711 | 4.193 | 4.329 | 6 of 9: 2018, 2022, 2023, 2024, 2025, 2026 |
+| ba-nwmt | 2016-07-01 | 90,917 | 4.139, 4.23, 5.496 | 3.47 | 4.577 | 1 of 9: 2018 |
+| ba-pacw | 2016-07-01 | 91,181 | 18.197, 18.513, 21.236 | 144.746 | 5.67 | 2 of 9: 2018, 2025 |
+| ba-pge | 2016-07-01 | 91,181 | 4.529, 4.786, 7.663 | 4.616 | 4.186 | 0 of 9 |
+| ba-pnm | 2016-07-01 | 91,032 | 3.78, 3.836, 5.153 | 3.179 | 4.037 | 6 of 9: 2021, 2022, 2023, 2024, 2025, 2026 |
+| ba-psei | 2016-07-01 | 76,830 | 5.014, 5.165, 7.263 | 4.788 | 4.453 | 8 of 8: 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026 |
+| ba-sc | 2016-07-01 | 87,784 | 7.647, 8.061, 9.619 | 8.154 | 7.204 | 2 of 9: 2019, 2020 |
+| ba-sceg | 2016-07-01 | 90,045 | 8.574, 8.943, 11.003 | 7.529 | 18.754 | 0 of 9 |
+| ba-scl | 2016-07-01 | 90,965 | 4.354, 4.428, 7.44 | 4.452 | 4.081 | 2 of 9: 2021, 2022 |
+| ba-sec | 2016-07-01 | 74,287 | 32.326, 32.554, 36.77 | 33.946 | 14.337 | 4 of 9: 2018, 2019, 2020, 2026 |
+| ba-spa | 2016-07-01 | 90,415 | 17.764, 17.764, 23.739 | 11.13 | 30.786 | 9 of 9: 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 |
+| ba-srp | 2016-07-01 | 89,901 | 6.179, 6.311, 7.765 | 5.438 | 5.775 | 1 of 9: 2026 |
+| ba-tal | 2016-07-01 | 91,181 | 8.335, 8.655, 11.512 | 8.178 | 8.01 | 0 of 9 |
+| ba-tec | 2016-07-01 | 90,983 | 7.237, 7.499, 9.478 | 6.981 | 6.901 | 0 of 9 |
+| ba-tepc | 2016-07-05 | 88,920 | 8.537, 8.792, 9.815 | 4.859 | 5.517 | 6 of 9: 2018, 2019, 2020, 2021, 2022, 2023 |
+| ba-tidc | 2016-07-01 | 88,399 | 4.872, 5.204, 10.909 | 4.536 | 5.154 | 0 of 9 |
+| ba-tpwr | 2016-07-01 | 91,181 | 4.817, 5.116, 7.842 | 4.251 | 4.931 | 0 of 9 |
+| ba-walc | 2016-07-01 | 91,200 | 7.26, 7.377, 7.822 | 5.965 | 8.54 | 9 of 9: 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 |
+
+What the longer record says, plainly:
+
+- **The ERW's error is steady across ten years.** Texas sits between 4.8 and 6.2 percent every year from 2016; the
+  Midwest near 3.9; the Northwest near 2.6. The method chosen now (`regression_recent` almost everywhere) is at least as
+  good as the plain regression and better than yesterday's hour over the whole span at every place.
+- **The operator wins year after year where its filing is sound.** In 19 of the 29 large places the ERW beats the
+  operator in no year it holds. Where it does, most are the filing breaks of section 18: FPC in every year, CAL and CISO
+  from 2023, SWPP, CENT and PSCO in 2025 and 2026. The ERW is ahead outright in the Northwest (all eight years) and
+  PACE (all nine), and in Florida and the Southwest in some years. Among the 35 authorities the ERW is ahead in more
+  years, often where
+  their filings fail the check (LDWP and SPA in every year).
+- **A longer record does not change the verdict of the last two years;** it shows it was not a run of luck either way.
+
+Replication (`replication/predict/replicate_long.py`, from this section's words; it builds the longer demand itself from
+the two tables): its count on the 64 places is in the progress file and landing row 10.
+
+## 26. Net demand for more places (session 10603)
+
+Section 20 gave net demand to the 13 regions and ERCO, the places whose wind and solar the warehouse then held. With the
+authorities' wind and solar held (data request 10; `predict_wind_solar.md` section 8), every place with a wind and solar
+entry now carries it, by `run.net_place`: the five other authorities that are each a whole region read their region's
+entry, as ERCO reads Texas's (ISNE, NYIS, PJM, SOCO, TVA, with the region's figures); CISO reads CAISO's own hubs
+(`grid-caiso`), whose forecasts CAISO publishes, so CISO's net demand has an operator line; each of the 35 authorities of
+the wind and solar file reads its own. 55 places in all; the other nine stay `null`.
+
+**A fuel an authority never reports is taken as zero.** EIA-930 carries a wind column only for an authority that
+reports wind (a utility with no wind plant files none). For net demand such a fuel counts as zero output, on every
+hour, for the actual and every method, and the block names it in `fuels_taken_as_zero` (18 authorities, wind in 16 of
+them, solar in AECI and CHPD). The wind and solar file itself keeps such a fuel `not held`: a forecast of nothing is not
+shown as a forecast.
+
+From rebuild 18 (made as at 18:00 UTC on 26 November; `runs/c730/table_net.py`), the last two years, the error over the
+mean net demand of the same hours:
+
+| Place | Wind and solar read | Hours | Error over mean net demand %: ERW, yesterday | Fuels taken as zero | With the operator: ERW, operator |
+|---|---|---:|---|---|---|
+| region-cal | region-cal | 16,897 | 8.96, 12.36 | - | - |
+| region-car | region-car | 16,300 | 8.26, 11.12 | - | - |
+| region-cent | region-cent | 17,160 | 20.76, 25.22 | - | - |
+| region-fla | region-fla | 16,349 | 6.79, 8.41 | - | - |
+| region-mida | region-mida | 17,208 | 5.98, 8.94 | - | - |
+| region-midw | region-midw | 17,174 | 8.66, 12.52 | - | - |
+| region-ne | region-ne | 17,477 | 8.75, 12.26 | - | - |
+| region-nw | region-nw | 14,376 | 7.84, 10.84 | - | - |
+| region-ny | region-ny | 17,291 | 6.67, 9.83 | - | - |
+| region-se | region-se | 16,413 | 6.87, 9.43 | - | - |
+| region-sw | region-sw | 17,045 | 9.25, 11.58 | - | - |
+| region-ten | region-ten | 17,516 | 7.41, 9.74 | - | - |
+| region-tex | region-tex | 17,172 | 15.77, 19.43 | - | 17.06, 5.46 (1,368 h) |
+| ba-bpat | ba-bpat | 17,518 | 11.52, 14.93 | - | - |
+| ba-ciso | grid-caiso | 17,263 | 9.27, 12.5 | - | 9.21, 14.09 (26,754 h) |
+| ba-cple | ba-cple | 17,454 | 11.85, 15.09 | wind | - |
+| ba-duk | ba-duk | 17,454 | 8.1, 11.08 | wind | - |
+| ba-erco | region-tex | 17,172 | 15.77, 19.43 | - | 17.06, 5.46 (1,368 h) |
+| ba-fpc | ba-fpc | 17,454 | 8.7, 10.64 | wind | - |
+| ba-fpl | ba-fpl | 17,518 | 7.09, 8.42 | wind | - |
+| ba-isne | region-ne | 17,477 | 8.75, 12.26 | - | - |
+| ba-miso | ba-miso | 17,518 | 9.02, 13.01 | - | - |
+| ba-nyis | region-ny | 17,291 | 6.67, 9.83 | - | - |
+| ba-pace | ba-pace | 17,517 | 23.43, 29.12 | - | - |
+| ba-pjm | region-mida | 17,208 | 5.98, 8.94 | - | - |
+| ba-psco | ba-psco | 17,518 | 27.66, 34.81 | - | - |
+| ba-soco | region-se | 16,413 | 6.87, 9.43 | - | - |
+| ba-swpp | ba-swpp | 17,518 | 20.79, 25.25 | - | - |
+| ba-tva | region-ten | 17,516 | 7.41, 9.74 | - | - |
+| ba-aeci | ba-aeci | 17,518 | 13.84, 16.87 | solar | - |
+| ba-ava | ba-ava | 17,518 | 6.78, 9.64 | - | - |
+| ba-azps | ba-azps | 17,520 | 10.31, 12.63 | - | - |
+| ba-banc | ba-banc | 17,518 | 7.05, 9.62 | wind | - |
+| ba-chpd | ba-chpd | 17,487 | 5.82, 7.82 | solar | - |
+| ba-cplw | ba-cplw | 17,462 | 9.43, 12.32 | wind | - |
+| ba-epe | ba-epe | 17,520 | 8.86, 12.0 | wind | - |
+| ba-fmpp | ba-fmpp | 17,416 | 6.73, 8.55 | wind | - |
+| ba-iid | ba-iid | 16,454 | 24.0, 28.07 | wind | - |
+| ba-ipco | ba-ipco | 17,518 | 10.88, 14.83 | - | - |
+| ba-jea | ba-jea | 17,518 | 8.11, 10.53 | wind | - |
+| ba-ldwp | ba-ldwp | 16,732 | 11.41, 12.86 | - | - |
+| ba-lgee | ba-lgee | 17,437 | 8.01, 11.2 | wind | - |
+| ba-nevp | ba-nevp | 17,047 | 8.77, 11.07 | - | - |
+| ba-nwmt | ba-nwmt | 17,518 | 38.13, 46.83 | - | - |
+| ba-pacw | ba-pacw | 17,518 | 12.44, 16.96 | - | - |
+| ba-pnm | ba-pnm | 17,520 | 84.58, 104.0 | - | - |
+| ba-psei | ba-psei | 17,518 | 6.39, 9.62 | - | - |
+| ba-sc | ba-sc | 17,518 | 8.13, 9.78 | wind | - |
+| ba-sceg | ba-sceg | 16,406 | 8.91, 11.0 | wind | - |
+| ba-sec | ba-sec | 17,380 | 13.93, 16.38 | wind | - |
+| ba-srp | ba-srp | 17,519 | 10.5, 12.74 | - | - |
+| ba-tal | ba-tal | 17,518 | 8.82, 11.38 | wind | - |
+| ba-tec | ba-tec | 17,518 | 8.66, 10.8 | wind | - |
+| ba-tepc | ba-tepc | 17,520 | 8.91, 10.82 | - | - |
+| ba-walc | ba-walc | 17,088 | 16.57, 19.2 | - | - |
+
+What it says: the ERW's net demand beats yesterday's net demand at every place, by a tenth (LDWP) to a third. Where wind is a
+large share of demand the error over the mean net demand is large because the mean is small (PNM 84.6 percent, NWMT
+38.1, PSCO 27.7, PACE 23.4, the Central region 20.8): a percent of a small remainder. CISO is the one new place with an
+operator line, and there the ERW is ahead (9.21 against 14.09 percent over 26,754 hours), but only because CISO's demand
+forecast as filed on EIA-930 sits at 89 to 94 percent of its demand (section 18): the comparison inherits that filing
+break. Texas, the other place with an operator line, stays as section 20 found it (ERCOT's 5.46 against the ERW's
+17.06).
+
+Replication (`replication/predict/replicate_net.py`, which now builds each place's wind and solar entry by the same rules,
+zero fuels included): its count is in the progress file and landing row 10.

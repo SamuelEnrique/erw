@@ -27,6 +27,10 @@ session takes the next item: longer backtests and more places. Branch `wip/c730-
 - **Replications:** the day-ahead price, which had none, 3,936 of 3,936; the real-time price 3,020 of 3,020; demand on
   the 64 places 48,384 figures (47,967 exactly; the 417 others in the seven smallest authorities, within the backtest
   table's 0.1 MW rounding, which the script now allows on the regressions only) and 1,024 of 1,024 refits.
+- **Every part of the forecast now has a replication** (after landing row 9 was requested): the day's peak, in
+  `replicate.py` (49,152 of 49,152 figures with the peak's 768); the weather-known line, `replicate_wk.py` (384 of 384);
+  the forecast two to seven days ahead, `replicate_ahead.py` (checked on a file built from today's tables); net demand
+  62 of 62 and the weather forecast line 84 of 84 on the final files.
 
 ## Decisions made without you
 
@@ -50,6 +54,17 @@ session takes the next item: longer backtests and more places. Branch `wip/c730-
   July 2018.
 - **The day-ahead price at the added hubs reads its grid's demand** (ERCO for ERCOT's hubs, CISO for NP15), as the
   grid's first hub does in the place files.
+- **Window A answered data requests 9 and 10 within hours** (landing 20). The longer demand backtest (from 2016) is a
+  file of its own, `long_backtest.json`, not a change to the place files: the longer window changes the fits of 2019 and
+  2020, and the published backtest stays as it was. The operator is set beside it only where its screened filing is
+  held (from July 2018); the history's filed forecasts are not screened and are not used.
+- **Wind and solar by authority for the 35 authorities among the 64 places that the new table holds,** leaving out the six
+  that are whole regions (their region's entry names them) and CISO (CAISO's own hubs show it).
+- **For net demand, a fuel an authority reports on no hour of EIA-930 is taken as zero** (a utility with no wind plant
+  files no wind column), and the file names such fuels (`fuels_taken_as_zero`). The wind and solar file itself keeps
+  such a fuel `not held`.
+- **The wind and solar choice mended, which changes two entries on main** (New York's solar, Tennessee's wind). It was a
+  fault (a rule applied to rounded numbers), so it is mended rather than kept; the note and the contract say so.
 
 ## Errors and how they were met
 

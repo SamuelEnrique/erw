@@ -290,15 +290,18 @@ REGION_TABLES="eia930_region_hourly eia930_ba_demand_hourly eia930_ba_supply_hou
 PAIR_SOURCE_TABLES="eia930_region_pair_hourly eia930_ba_interchange_hourly_$((y - 1)) eia930_ba_interchange_hourly_${y}"
 PAIR_TABLES="interchange_pair_daily interchange_pair_monthly ba_trade_partners interchange_event_pairs"
 declare -A was_t
-for t in $REGION_TABLES $PAIR_SOURCE_TABLES eia930_region_fuel_hourly $PAIR_TABLES; do was_t[$t]="$(sha_of "$t")"; done
+for t in $REGION_TABLES $PAIR_SOURCE_TABLES eia930_region_fuel_hourly eia930_ba_wind_solar_hourly $PAIR_TABLES; do was_t[$t]="$(sha_of "$t")"; done
 if grep -q "^dm_regions_download ok" "$status"; then
   soft_step dm_regions_tables "$PYTHON" warehouse/connectors/eia930_region_hourly.py --from-raw
   soft_step dm_regions_fuel "$PYTHON" warehouse/connectors/eia930_region_fuel_hourly.py --files "EIA930_BALANCE_${half_before}.csv" "EIA930_BALANCE_${half_now}.csv"
+  # session 10000 (chain 701, predict data request 10): wind and solar by balancing authority, rebuilt whole from the saved
+  # files (a few minutes; no request)
+  soft_step dm_ba_wind_solar "$PYTHON" warehouse/connectors/eia930_ba_wind_solar_hourly.py
 fi
 if grep -q "^dm_interchange_download ok" "$status"; then
   soft_step dm_interchange_tables "$PYTHON" warehouse/connectors/eia930_ba_interchange_hourly.py --from-raw
 fi
-for t in $REGION_TABLES $PAIR_SOURCE_TABLES eia930_region_fuel_hourly; do
+for t in $REGION_TABLES $PAIR_SOURCE_TABLES eia930_region_fuel_hourly eia930_ba_wind_solar_hourly; do
   if [ "$(sha_of "$t")" != "${was_t[$t]}" ]; then soft_step "dm_stores_$t" "$PYTHON" warehouse/table_stores.py "$t" --no-redivis; fi
 done
 soft_step dm_region_files "$PYTHON" warehouse/derived/region_files.py
@@ -313,10 +316,20 @@ soft_step dm_authority_facts "$PYTHON" warehouse/derived/authority_facts.py
 # Session 8012 (chain 505, part D1): the day-ahead demand forecast beside the demand that came (two tables and
 # site/data/regions/forecast/), from the six-month files saved above and eia930_ba_demand_hourly
 soft_step dm_forecast_error "$PYTHON" warehouse/derived/forecast_error.py
+# Session 10000 (chain 701, predict data request 14): EIA-930 demand by sub-region, the last 90 whole days
+# (eia930_subba_demand_hourly; EIA's API, 82 sub-regions), refreshed daily as the authority tables are; its stores when it
+# moved. On 26 and 27 November 2026 EIA's API answered 504: the step fails then and the table keeps its rows
+was_subba="$(sha_of eia930_subba_demand_hourly)"
+soft_step dm_subba "$PYTHON" warehouse/connectors/eia930_subba.py
+if [ "$(sha_of eia930_subba_demand_hourly)" != "$was_subba" ]; then soft_step dm_stores_subba "$PYTHON" warehouse/table_stores.py eia930_subba_demand_hourly --no-redivis; fi
 # Session 10000 (chain 701, data request 1 of docs/state/data_requests_predict.md, chain 730): the ERW's own demand
 # forecast, made once a day from the tables as they stand after the EIA-930 refresh; it appends tomorrow's forecast to
 # site/data/predict/ledger_demand.csv (never rewriting a row) and rewrites the page files there. No network, no model
 soft_step dm_predict "$PYTHON" warehouse/predict/run.py
+# Session 10000 (chain 701, predict data request 13): run.py forecasts 64 places since landing row 9 of window2 (about 70
+# minutes alone; kept whole, so index.json and scores.json list all 64: the desk's choice), and right after it the hub
+# prices' forecast (site/data/predict/price_hubs.json, and a row of ledger_price_hubs.csv a day; about 9 minutes). No network
+soft_step dm_predict_price_hubs "$PYTHON" warehouse/predict/price_hubs.py
 # Session 10000 (chain 701, data requests 2 and 5 of docs/state/data_requests_predict.md): the two ledgers as the tables
 # predict_demand_forecasts and predict_price_forecasts (warehouse/predict/predict_tables.py: every forecast as made, keyed
 # by the hour it was made), then each table's stores (the validator, its coverage row, the archive; no Redivis draft

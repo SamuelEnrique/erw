@@ -13,7 +13,7 @@ const data = (n) => JSON.parse(fs.readFileSync(path.join(here, "..", "data", "fo
 const P = {
   jediCosts: data("jedi_costs.json"), eiaCapex: data("eia_capex.json"), deflator: data("deflator.json"), capacity: data("capacity_factors.json"),
   sales: data("sales_tax.json"), income: data("income_tax.json"), property: data("property_rules.json"), taxable: data("jedi_taxable.json"), gas: data("gas.json"),
-  exemptions: data("sales_exemptions.json"), coal: data("coal.json"), biopower: data("biopower.json"),
+  exemptions: data("sales_exemptions.json"), coal: data("coal.json"), biopower: data("biopower.json"), csp_trough: data("csp_trough.json"),
 };
 const ROWS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "tests", "fixtures", "forecast", "jedi_rows.json"), "utf8")).rows;
 const near = (a, b, rel = 1e-9, msg = "") => assert.ok(Math.abs(a - b) <= rel * Math.max(1, Math.abs(b)), `${msg} ${a} is not ${b}`);
@@ -230,6 +230,7 @@ test("the run's Python script recomputes every total of the tool", async () => {
     // session 10822: coal, the fifth type (its rows for Wyoming and Texas in the fixture)
     [{ ...F.defaults(P, "coal", "wy"), own: 1.2, ownyears: 30 }, { ...F.defaults(P, "coal", "tx") }],
     [{ ...F.defaults(P, "biopower", "nd") }, { ...F.defaults(P, "biopower", "ga"), own: 1.2, ownyears: 30 }],
+    [{ ...F.defaults(P, "csp_trough", "nd") }, { ...F.defaults(P, "csp_trough", "az"), own: 1, ownyears: 30 }],
   ];
   const { execFileSync } = await import("node:child_process");
   const py = process.env.ERW_PYTHON || "python";
@@ -755,4 +756,16 @@ test("biopower, the sixth plant type (session 10822): EIA's AEO2020 case 13 and 
   // North Dakota's capacity tax and production tax on sources other than coal or wind reach biopower, not coal
   const nd = P.property.states.nd.rules.filter((r) => r.id.startsWith("nd_other"));
   assert.ok(nd.every((r) => r.technologies.includes("biopower") && !r.technologies.includes("coal")));
+});
+
+test("the CSP trough, the seventh plant type (session 10822): NREL's reference plant and JEDI's trough model", () => {
+  assert.ok(F.TECH_KEYS.includes("csp_trough"));
+  const e = P.eiaCapex.technologies.csp_trough;
+  assert.equal(e.base_usd_per_kw, 9861); assert.equal(e.dollar_year, 2009); assert.deepEqual(e.states, {});
+  const d = F.defaults(P, "csp_trough", "az");
+  assert.equal(d.mw, 100); assert.equal(d.build, 1); assert.equal(d.life, 30);
+  near(d.capex, F.round(9861 * F.to2025(P, 2009), 2), 1e-12, "one national figure in 2025 dollars");
+  assert.equal(d.taxable, 72.832);  // its own sales tax line: 34,250,861.26 / 0.075 / 627,029,650.00
+  assert.equal(d.cf, 0.4175);  // csp_trough.json's 0.417478, rounded to four places as every default capacity factor is
+  assert.equal(F.defaults(P, "csp_trough", "nd").exempt, 100);
 });

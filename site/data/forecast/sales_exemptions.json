@@ -301,6 +301,13 @@
     "subdivision": "57-39.2-04.2(1)(c)(3), (2) and (3)",
     "quote": "c. \"Power plant\" means: [...] (2) A wind-powered electrical generating facility, on which construction is completed before January 1, 2017, [...] (3) Any other type of electrical power generating facility excluding the types of power plants identified in paragraphs 1 and 2 which has a capacity of one hundred kilowatts or more and produces electricity for resale or for consumption in a business activity. [...] 2. Sales of production or environmental upgrade equipment that is delivered on or after January 1, 2007, and used exclusively in power plants [...] are exempt from the tax imposed by this chapter. 3. Sales of tangible personal property, other than production or environmental upgrade equipment, which is used in the construction of new power plants [...] are exempt from the tax imposed by this chapter.",
     "not_modeled": "The certificate the operator must receive from the commissioner before the purchase (or a refund after it)."
+   },
+   "csp_trough": {
+    "exempt_pct": 100,
+    "cite": "nd_57_39_2_04_2",
+    "subdivision": "57-39.2-04.2(1)(c)(3), (2) and (3)",
+    "quote": "c. \"Power plant\" means: [...] (2) A wind-powered electrical generating facility, on which construction is completed before January 1, 2017, [...] (3) Any other type of electrical power generating facility excluding the types of power plants identified in paragraphs 1 and 2 which has a capacity of one hundred kilowatts or more and produces electricity for resale or for consumption in a business activity. [...] 2. Sales of production or environmental upgrade equipment that is delivered on or after January 1, 2007, and used exclusively in power plants [...] are exempt from the tax imposed by this chapter. 3. Sales of tangible personal property, other than production or environmental upgrade equipment, which is used in the construction of new power plants [...] are exempt from the tax imposed by this chapter.",
+    "not_modeled": "The certificate the operator must receive from the commissioner before the purchase (or a refund after it)."
    }
   },
   "co": {

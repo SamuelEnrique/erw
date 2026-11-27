@@ -93,7 +93,15 @@ export type EqCompany = {
   // session 10405 (chain 720, part E): a company's last close, its changes and its market value (the contract's dated
   // line of 26 November, data request 571), each null where its price or share count is held; no company carries them yet
   last_close?: { t: string; v: number } | null; moves?: EqMoves | null; market_value?: { t: string; v: number } | null;
+  // session 10414 (chain 720, part E): the newest period the company filed, as the list carries it since the contract's
+  // dated line of 27 November (data requests 578 and 579); null when nothing is filed, absent in an older list
+  newest_filed?: NewestFiled | null;
 };
+/** Session 10414: the newest period a company filed, by the page's own rule (newestOf): a sum over a period is the
+ *  shortest period to that end with its length in months, debt and shares are at the end; the later filing where a
+ *  period was filed twice. */
+export type FiledSum = { months: number | null; v: number };
+export type NewestFiled = { period_end: string; form: string | null; filed: string | null; url: string | null; revenue: FiledSum | null; net_income: FiledSum | null; capex: FiledSum | null; debt: number | null; shares_outstanding: number | null };
 /** Session 10405: whether any company of a list carries a close, a change or a market value (the table has the columns
  *  only then: a list with none of them is the table as it was). */
 export const companiesPriced = (rows: EqCompany[]): boolean => rows.some((c) => !!c.last_close || !!c.market_value || (!!c.moves && Object.values(c.moves).some(Boolean)));
@@ -315,7 +323,8 @@ export const signedLevel = (v: number) => `${v > 0 ? "+" : v < 0 ? "-" : ""}${fi
 
 // ---- The table of every company -------------------------------------------------------------------------------------
 
-export const SORTS = ["name", "ticker", "segment", "exchange", "first", "last"] as const;
+/** `filed` (session 10414): by the end of the newest period filed, then the day it was filed; a company with none last. */
+export const SORTS = ["name", "ticker", "segment", "exchange", "first", "last", "filed"] as const;
 export type Sort = (typeof SORTS)[number];
 /** `filed` (session 10408): only the companies whose filed figures are shown. */
 export type Filter = { seg: string | null; q: string; shown: boolean; filed?: boolean; sort: Sort | null; desc: boolean };
@@ -327,9 +336,13 @@ export function companiesOf(list: EqList | null, f: Filter): EqCompany[] {
   let rows = list.companies.filter((c) => (!f.seg || c.segments.includes(f.seg)) && (!f.shown || c.price_status === "shown") && (!f.filed || c.fundamentals_status === "shown")
     && (!q || `${c.name ?? ""} ${c.ticker} ${c.sic_label ?? ""} ${c.cik ?? ""}`.toLowerCase().includes(q)));
   if (f.sort) {
-    const key = (c: EqCompany): string => (f.sort === "name" ? c.name ?? c.ticker : f.sort === "ticker" ? c.ticker : f.sort === "segment" ? segmentLabel(list, c.segments[0] ?? "") : f.sort === "exchange" ? c.exchange ?? "" : f.sort === "first" ? c.first ?? "" : c.last ?? "");
+    const key = (c: EqCompany): string => (f.sort === "name" ? c.name ?? c.ticker : f.sort === "ticker" ? c.ticker : f.sort === "segment" ? segmentLabel(list, c.segments[0] ?? "") : f.sort === "exchange" ? c.exchange ?? "" : f.sort === "first" ? c.first ?? "" : f.sort === "filed" ? `${c.newest_filed?.period_end ?? ""} ${c.newest_filed?.filed ?? ""}` : c.last ?? "");
+    // session 10414: by the newest period filed, a company with none is last in either direction, in the list's order
+    const last = f.sort === "filed" ? rows.filter((c) => !c.newest_filed) : [];
+    if (f.sort === "filed") rows = rows.filter((c) => c.newest_filed);
     rows = [...rows].sort((a, b) => key(a).localeCompare(key(b), "en", { sensitivity: "base" }) || a.ticker.localeCompare(b.ticker));
     if (f.desc) rows.reverse();
+    rows = [...rows, ...last];
   }
   return rows;
 }
@@ -418,16 +431,24 @@ export function filedCsv(s: EqSeries, url: string): string {
   const rows = s.example === true ? [] : (s.quarterly ?? []).filter((r) => r[cols.indexOf("period_end")] !== null);
   return `${head.join("\n")}\n${lines(cols, rows)}`;
 }
-export const LIST_HEAD = ["ticker", "name", "cik", "exchange", "sic", "sic_label", "segments", "price_status", "price_why", "fundamentals_status", "fundamentals_why", "first_day", "last_day"];
+/** Session 10414: the newest filed period's columns of the list's CSV: the period's end, its form, the day filed and
+ *  the filing's address, then each sum with the months it covers, and debt and shares at the period's end. In USD and
+ *  in shares, as filed (the page draws millions). Empty where the company filed none, or the list is an older one. */
+export const LIST_FILED_FIGURES = ["newest_revenue", "newest_revenue_months", "newest_net_income", "newest_net_income_months", "newest_capex", "newest_capex_months", "newest_debt", "newest_shares_outstanding"];
+export const LIST_HEAD = ["ticker", "name", "cik", "exchange", "sic", "sic_label", "segments", "price_status", "price_why", "fundamentals_status", "fundamentals_why", "first_day", "last_day",
+  "newest_period_end", "newest_form", "newest_filed_day", "newest_filing", ...LIST_FILED_FIGURES];
 /** The list of companies as a CSV: every company the list holds, whatever the page's filter, with the provenance first. */
 export function listCsv(list: EqList, url: string): string {
   const head = [
     "# Energy Research Warehouse (ERW): the listed energy companies by segment, as /equities lists them (site/lib/equities.ts listCsv)",
     `# Built: ${list.built} (site/data/equities/index.json, written by warehouse/derived/equity_pages.py from ${(list.tables ?? []).join(", ") || "the ERW's tables"}); method: ${list.method ?? "docs/methods/equities.md"}`,
     `# License of the list: ${list.license ?? "not said"}. first_day and last_day are the first and last trading day of the prices shown; empty where the price is held`,
+    "# newest_*: the newest period the company filed with the SEC (a 10-Q or a 10-K): its end, form, the day filed and the filing's address; revenue, net income and capital spending in USD as filed, each with the months its period covers; debt in USD and shares outstanding at the period's end. Empty where the company filed none",
     ...(list.segments ?? []).map((s) => `# Segment ${s.id}: ${s.label}${s.rule ? `: ${s.rule}` : ""}`),
     `# From: ${url}`,
   ];
-  const rows = list.example === true ? [] : list.companies.map((c) => [c.ticker, c.name, c.cik, c.exchange, c.sic, c.sic_label, c.segments.join(" "), c.price_status, c.price_why, c.fundamentals_status, c.fundamentals_why, c.first, c.last]);
+  const rows = list.example === true ? [] : list.companies.map((c) => [c.ticker, c.name, c.cik, c.exchange, c.sic, c.sic_label, c.segments.join(" "), c.price_status, c.price_why, c.fundamentals_status, c.fundamentals_why, c.first, c.last,
+    c.newest_filed?.period_end, c.newest_filed?.form, c.newest_filed?.filed, c.newest_filed?.url, c.newest_filed?.revenue?.v, c.newest_filed?.revenue?.months, c.newest_filed?.net_income?.v, c.newest_filed?.net_income?.months,
+    c.newest_filed?.capex?.v, c.newest_filed?.capex?.months, c.newest_filed?.debt, c.newest_filed?.shares_outstanding]);
   return `${head.join("\n")}\n${lines(LIST_HEAD, rows)}`;
 }
