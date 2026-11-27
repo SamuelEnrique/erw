@@ -1,10 +1,10 @@
 # Chain 720, the portable laptop's first window: the ERW forecast page and the energy equities pages (note for Samuel)
 
-Energy Research Warehouse (ERW). Kept current; state at 10:00 UTC on 27 November 2026. Sessions 10400 to 10409. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10409_REPORT.md`.
+Energy Research Warehouse (ERW). Kept current; state at 11:36 UTC on 27 November 2026. Sessions 10400 to 10411. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10409_REPORT.md`.
 
-## 27 November: what changed since you took the laptop (sessions 10408 and 10409)
+## 27 November: what changed since you took the laptop (sessions 10408 to 10411)
 
-You asked for two things first. Both are done on branches and requested for landing; neither is on production yet.
+You asked for two things first. Both are done and requested for landing. The equities row has landed; the forecast rows wait for the desk.
 
 - **Rows 59, 60 and 61 landed on 26 November** (the line "with the weather known", the small "i" mark, the two hovers). Everything under sections 1 to 4 below that says "once row 59 has landed" is on production now.
 
@@ -36,6 +36,18 @@ You asked for two things first. Both are done on branches and requested for land
 - **What is real:** every figure, from window B's files, each with its key into its file. Checked: 122,962 figures on 120 pages (all 29 places), none differing.
 - **The page is heavier:** about 1.0 MB of markup for one place, where it was 0.5 MB.
 - **Not drawn, and asked of window B** (its requests 11 and 12): CAISO's own wind and solar lines, which no place's file names; net demand for tomorrow in four regions, where the file is empty and gives no reason.
+
+**Row 62 has landed** (27 November, 11:03 UTC). `/equities` on production now draws the filed figures as written above; read at 11:18 UTC at both widths, value check 153 of 153.
+
+**The forecast's later outputs (row 64, `wip/c720-forecast-hubs`, session 10411).** The second window's note of 10:45 UTC named more: 35 more places, four more hubs, the real-time backtest by year, and its answers to my requests 11 and 12. Its files are on its branch, not on main (its row 9). The page is ready for them; production shows them once both rows have landed. What to click then, at `https://erw-flame.vercel.app/forecast?s=price`:
+
+- Scroll past "Real-time price" to **"More hubs"**. **You should see** a table of three hubs for Texas (ercot:HB_HOUSTON, HB_SOUTH, HB_WEST), each with the highest and lowest hour of its day-ahead forecast and three errors.
+- Press **ercot:HB_HOUSTON**. **You should see**, under the table, "ercot:HB_HOUSTON: the day-ahead price" with a chart for tomorrow, a past day and a report card, then "ercot:HB_HOUSTON: the real-time price", and at its foot a table **"The real-time price year by year, the backtest from 2016-01-01"**, one row a year from 2016 to 2026.
+- Press "Close ercot:HB_HOUSTON". The table of hubs stays; the hub is put away.
+- In the list of places you should see 64 places, where there were 29. Choose "California Independent System Operator (CISO)" with demand: under "Tomorrow" you should see a block "California Independent System Operator (CISO): wind and solar", which no page drew before. On the branch's files of 27 November its box for tomorrow is dashed and says "no forecast"; put the mouse on it for the file's reason (the newest whole day of output held is four days old).
+- **What is real:** every figure, from the second window's files, each with its key. Checked on a copy of its branch's files: 259,718 figures on 268 pages, none differing.
+- **What I decided for you, and asked the second window to settle** (its request 15): neither file says which place shows a hub, so a hub is listed under each place whose own hub is on the same grid.
+- **For your ruling:** whether "More hubs" belongs on `/forecast` or on a page of its own.
 
 ## One thing first: a held price is drawn on production
 
