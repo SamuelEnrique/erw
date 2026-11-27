@@ -56,9 +56,15 @@ def num(s):
 
 
 CASES = {"land_based_wind": 13, "utility_pv": 16, "natural_gas": 5, "geothermal": 11, "coal": 1}
+# session 10822: biopower from the study for AEO2020 (its only biomass case without carbon capture; the AEO2025 study's
+# case 8 captures 95 percent): a 50 MW bubbling fluidized bed plant on wood, as JEDI's is a 50 MW direct combustion
+# (stoker) plant. Read only when that report's text is given as a second argument; 2019 dollars.
+SOURCE_URL_2020 = "https://www.eia.gov/analysis/studies/powerplants/capitalcost/pdf/capital_cost_AEO2020.pdf"
+TABLES_2020 = {"biopower": ("1 13", "Dedicated Biomass Plant", 4097, 50, "kW net (50 MW bubbling fluidized bed on wood)")}
+CASES_2020 = {"biopower": 13}
 
 
-def case_facts(lines, n):
+def case_facts(lines, n, loose=False):
     """The case's own Plant Construction Time (months) and Operating Life (years), from its cost table: the case's
     section begins at its second "CASE n." heading (the first is the table of contents) and ends at the next case's."""
     heads = [i for i, l in enumerate(lines) if re.match(rf"^\s*CASE {n}\.\s", l)]
@@ -77,20 +83,31 @@ def case_facts(lines, n):
         m = re.match(r"^\s*Net Plant Heat Rate, Higher Heating Value \(HHV\) Basis\s+Btu/kWh\s+([\d,]+)\s*$", l)
         if m and "heat_rate_btu_per_kwh_hhv" not in got:
             got["heat_rate_btu_per_kwh_hhv"] = int(m.group(1).replace(",", ""))
+    if loose:
+        # session 10822, the AEO2020 report: its text puts the units on other lines ("Plant Construction Time ... 36
+        # 22,266,000"), so the first number after the label is taken, only where the strict form found none
+        for l in lines[start:end]:
+            m = re.match(r"^\s*Plant Construction Time\s+(\d+)\s", l)
+            if m and "construction_months" not in got:
+                got["construction_months"] = int(m.group(1))
+            m = re.match(r"^\s*Operating Life\s+(\d+)\s", l)
+            if m and "operating_life_years" not in got:
+                got["operating_life_years"] = int(m.group(1))
     need = {"construction_months", "operating_life_years"}
     return got if need <= set(got) else None
 
 
-def read(text):
+def read(text, tables=None, cases=None, dollar_year=2023, extra=None, loose=False):
     lines = text.splitlines()
     out, problems = {}, []
-    for tech, (table, words, base, mw, basis) in TABLES.items():
+    tables, cases = tables or TABLES, cases or CASES
+    for tech, (table, words, base, mw, basis) in tables.items():
         start = next((i for i, l in enumerate(lines) if re.search(rf"Table {re.escape(table)} -- Location Adjustment for {re.escape(words)}\s*$", l)), None)
         if start is None:
             problems.append(f"{tech}: Table {table} ({words}) not found")
             continue
         rows, i = [], start + 1
-        while i < len(lines) and not re.search(r"Table 1-\d+ -- Location Adjustment", lines[i]):
+        while i < len(lines) and not re.search(r"Table 1[- ]\d+ -- Location Adjustment", lines[i]):
             m = ROW.match(lines[i].strip())
             if m:
                 rows.append(m)
@@ -109,23 +126,30 @@ def read(text):
         na = sorted({STATES[m.group(1)] for l in lines[start + 1:i] for m in [NA.match(l.strip())] if m})
         if len(states) + len(na) < 45 or (tech != "geothermal" and len(states) < 45):
             problems.append(f"{tech}: {len(states)} states with a cost and {len(na)} N/A read from Table {table}")
-        facts = case_facts(lines, CASES[tech])
+        facts = case_facts(lines, cases[tech], loose)
         if not facts:
-            problems.append(f"{tech}: case {CASES[tech]}'s construction time and operating life not found")
+            problems.append(f"{tech}: case {cases[tech]}'s construction time and operating life not found")
             facts = {}
         out[tech] = {"table": f"Appendix A, Table {table}, Location Adjustment for {words}", "base_usd_per_kw": base,
-                     "case": CASES[tech], **facts,
-                     "case_mw": mw, "basis": basis, "dollar_year": 2023, "states": dict(sorted(states.items())),
+                     "case": cases[tech], **facts,
+                     "case_mw": mw, "basis": basis, "dollar_year": dollar_year, **(extra or {}), "states": dict(sorted(states.items())),
                      "not_given": [s for s in na if s not in states]}
     return out, problems
 
 
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
-    if len(argv) != 1 or not os.path.exists(argv[0]):
-        print("usage: eia_capex.py <pdftotext -layout output of the report>", file=sys.stderr)
+    if len(argv) not in (1, 2) or not all(os.path.exists(a) for a in argv):
+        print("usage: eia_capex.py <pdftotext -layout output of the AEO2025 report> [<that of the AEO2020 report>]", file=sys.stderr)
         return 2
     data, problems = read(open(argv[0], encoding="utf-8", errors="replace").read())
+    if len(argv) == 2:  # session 10822: biopower from the AEO2020 study, its source named on its own entry
+        extra = {"study": "U.S. Energy Information Administration (Sargent & Lundy), Capital Cost and Performance Characteristic "
+                          "Estimates for Utility Scale Electric Power Generating Technologies, prepared for AEO2020 (February 2020), "
+                          "case 13", "source_url": SOURCE_URL_2020}
+        d2, p2 = read(open(argv[1], encoding="utf-8", errors="replace").read(), TABLES_2020, CASES_2020, 2019, extra, loose=True)
+        data.update(d2)
+        problems += p2
     if problems:
         for p in problems[:20]:
             print("eia_capex:", p, file=sys.stderr)
