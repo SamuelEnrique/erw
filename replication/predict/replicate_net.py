@@ -98,7 +98,7 @@ def main():
     e = rw.read(os.path.join(a.tables, "ercot_wind_solar_forecast.csv"), ["entity", "variable", "ts_utc", "value"])
     # session 10603 (section 26): the authorities' wind and solar, CAISO's hubs for CISO, each authority's clock
     wbt = rw.read(os.path.join(a.tables, "eia930_ba_wind_solar_hourly.csv"), ["entity", "variable", "ts_utc", "value"])
-    c = rw.read(os.path.join(a.tables, "caiso_wind_solar_forecast.csv"), ["entity", "variable", "ts_utc", "value"])
+    cai = rw.read(os.path.join(a.tables, "caiso_wind_solar_forecast.csv"), ["entity", "variable", "ts_utc", "value"])
     tzs = {p: tz[p] for p in places}
     figs = []
     for p in places:
@@ -106,7 +106,7 @@ def main():
         d = demand_erw(p, dem, tz, ops, bt)
         parts = {}
         for fuel in ("wind", "solar"):
-            g = ws_erw(wsp, fuel, rf, e, (wbt, c, tzs))
+            g = ws_erw(wsp, fuel, rf, e, (wbt, cai, tzs))
             if g is None:
                 # a fuel the authority reports on no hour: zero output, no operator forecast
                 g = pd.DataFrame({"actual": 0.0, "erw": 0.0, "yesterday": 0.0, "operator": np.nan}, index=d.index)
