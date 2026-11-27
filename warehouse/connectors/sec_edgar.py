@@ -120,6 +120,9 @@ CONCEPTS = {  # the line, its unit, duration (True) or instant, and the us-gaap 
     "long_term_debt_usd": ("USD", False, ["LongTermDebt", "LongTermDebtNoncurrent", "LongTermDebtAndCapitalLeaseObligations",
                                           "LongTermDebtAndFinanceLeaseObligations"]),
     "shares_outstanding": ("shares", False, ["CommonStockSharesOutstanding"]),  # XBRL unit shares; written as count
+    # session 10000 (chain 701, part F, a reader's case): 72 of 243 companies file no balance-sheet count (Southern among
+    # them) but every 10-Q and 10-K gives one on its cover, at the cover's own date (after the period's end): a line of its own
+    "shares_outstanding_cover": ("shares", False, ["dei:EntityCommonStockSharesOutstanding"]),
 }
 UNIVERSE_COLS = ["entity_id", "entity_type", "name", "geo", "source", "source_url", "retrieved_at", "vintage", "cik",
                  "ticker", "tickers", "exchange", "sic", "sic_label", "segments", "segments_note", "directory_id",
@@ -301,11 +304,12 @@ def months_between(start, end):
 
 def fundamentals_rows(cik, ticker, facts, retrieved, only_accns=None):
     """The table's rows of one company's companyfacts: per line, period and filing, the first concept held."""
-    g = (facts.get("facts") or {}).get("us-gaap") or {}
     picked = {}
     for var, (unit, duration, concepts) in CONCEPTS.items():
         for concept in concepts:
-            for f in ((g.get(concept) or {}).get("units") or {}).get(unit, []):
+            ns, name = concept.split(":", 1) if ":" in concept else ("us-gaap", concept)
+            g = (facts.get("facts") or {}).get(ns) or {}
+            for f in ((g.get(name) or {}).get("units") or {}).get(unit, []):
                 if f.get("form") not in FORMS or f.get("val") is None or not f.get("end") or not f.get("filed"):
                     continue
                 if only_accns is not None and f.get("accn") not in only_accns:   # a co-registrant's file: this company's filings only
@@ -338,7 +342,7 @@ def fundamentals_rows(cik, ticker, facts, retrieved, only_accns=None):
                      "source_url": FILING_URL.format(cik=int(cik), acc=acc, accn=accn), "retrieved_at": retrieved,
                      "vintage": f"{f['filed']}T00:00:00Z", "x_period_start": f.get("start", ""), "x_months": m or "",
                      "x_fy": f.get("fy") or "", "x_fp": f.get("fp") or "", "x_form": f["form"], "x_accession": accn,
-                     "x_concept": f"us-gaap:{concept}", "x_ticker": ticker})
+                     "x_concept": concept if ":" in concept else f"us-gaap:{concept}", "x_ticker": ticker})
     df = pd.DataFrame(rows, columns=FUND_COLS)
     # two filings of one day for one period (a filing and its amendment): the later accession is kept
     return df.sort_values(["entity", "variable", "ts_utc", "vintage", "x_accession"]).drop_duplicates(
@@ -395,7 +399,8 @@ def header_fundamentals(t, run_id, n_co):
         "capital spending, long-term debt and shares outstanding, as filed (session 10000, chain 701, part D)",
         "Shape: series (docs/datastandard.md v0). entity sec:<CIK>; ts_utc the period's end; durations named by their "
         "months (revenue_3m_usd, net_income_12m_usd, capex_9m_usd: a 10-Q's cash flow is year to date), instants at the "
-        "period's end (long_term_debt_usd, shares_outstanding in unit count: shares); x_concept the us-gaap concept read; source_url the filing.",
+        "period's end (long_term_debt_usd, shares_outstanding in unit count: shares); shares_outstanding_cover the count on "
+        "the filing's cover (dei:EntityCommonStockSharesOutstanding), ts_utc the cover's own date; x_concept the concept read; source_url the filing.",
         "Revisions: kept, one row per vintage. Key: entity, variable, ts_utc, vintage. vintage is the filing date: every "
         "filing that reported a period is a row (a later 10-K repeats a year's quarters); a fact whose period ends after its "
         "filing date is left out (a tagging error).",

@@ -238,6 +238,34 @@ class PeriodsThatDoNotAddUp(TheNewestFiled):
         self.assertEqual(EP.months_back("2026-03-31", 3), "2025-12-31")
 
 
+class TheCoversShareCount(unittest.TestCase):
+    """Part F, a reader's case: the count on a filing's cover (dei:EntityCommonStockSharesOutstanding) is a line of its
+    own at the cover's date, and the page files' period rows are not keyed by it."""
+
+    def facts(self):
+        return {"facts": {
+            "us-gaap": {"Revenues": {"units": {"USD": [fact("2026-01-01", "2026-03-31", 8397, "s-1", "2026-04-30", fp="Q1")]}}},
+            "dei": {"EntityCommonStockSharesOutstanding": {"units": {"shares": [
+                fact(None, "2026-03-31", 1127301098, "s-1", "2026-04-30", fp="Q1"),
+                fact(None, "2026-01-31", 1119391291, "s-0", "2026-02-19", form="10-K", fp="FY")]}}}}}
+
+    def test_the_cover_count_at_its_own_date(self):
+        t = SE.fundamentals_rows("0000092122", "SO", self.facts(), "2026-11-27T00:00:00Z")
+        c = t[t.variable == "shares_outstanding_cover"].sort_values("ts_utc")
+        self.assertEqual(c["value"].tolist(), ["1119391291", "1127301098"])
+        self.assertEqual(c["unit"].unique().tolist(), ["count"])
+        self.assertEqual(c["x_concept"].unique().tolist(), ["dei:EntityCommonStockSharesOutstanding"])
+        self.assertEqual(c["x_months"].tolist(), ["", ""])
+        self.assertNotIn("shares_outstanding", set(t.variable))   # no balance-sheet count: none made up
+
+    def test_the_page_rows_ignore_it(self):
+        t = SE.fundamentals_rows("0000092122", "SO", self.facts(), "2026-11-27T00:00:00Z").astype(str)
+        t = t.replace({"nan": ""})
+        q, _ = EP.quarterly(t)
+        ix = {c: i for i, c in enumerate(EP.QCOLS)}
+        self.assertEqual([(r[ix["period_end"]], r[ix["revenue"]]) for r in q], [("2026-03-31", 8397)])
+
+
 class TheBoardsHeldRows(unittest.TestCase):
     def test_a_held_row_carries_no_heat_rate(self):
         with open(os.path.join(ROOT, "warehouse", "derived", "board_page.py"), encoding="utf-8") as f:

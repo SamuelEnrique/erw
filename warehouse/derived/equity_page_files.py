@@ -229,7 +229,7 @@ def quarterly(f):
     newest period end in that filing), one row a period length, newest first; the instants of that end on each."""
     if f is None or f.empty:
         return [], {}
-    f = f.copy()
+    f = f[f["variable"] != "shares_outstanding_cover"].copy()   # the cover's date is not the period's: not a row here
     own = f.groupby("x_accession")["ts_utc"].transform("max")
     f = f[f["ts_utc"] == own]
     f["line"] = f["variable"].str.replace(r"_\d+m_usd$", "", regex=True)
