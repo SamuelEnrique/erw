@@ -31,6 +31,8 @@ TABLES = {
     "utility_pv": ("1-16", "Solar PV w/ Single Axis Tracking", 1502, 150, "kW AC (150 MWAC)"),
     "natural_gas": ("1-5", "Combined-Cycle 2x2x1", 868, 1227, "kW net"),
     "geothermal": ("1-11", "Geothermal", 3963, 50, "kW net (binary cycle, 50 MW net)"),
+    # session 10822 (chain 740): JEDI's coal model, 600 MW; EIA has no solar thermal case and its only biomass case captures carbon
+    "coal": ("1-1", "Ultra-Supercritical Coal w/o Carbon Capture - Greenfield", 4103, 650, "kW net (ultra-supercritical, no carbon capture)"),
 }
 STATES = {
     "Alabama": "al", "Alaska": "ak", "Arizona": "az", "Arkansas": "ar", "California": "ca", "Colorado": "co", "Connecticut": "ct",
@@ -53,7 +55,7 @@ def num(s):
     return -float(s.strip("()")) if s.startswith("(") else float(s)
 
 
-CASES = {"land_based_wind": 13, "utility_pv": 16, "natural_gas": 5, "geothermal": 11}
+CASES = {"land_based_wind": 13, "utility_pv": 16, "natural_gas": 5, "geothermal": 11, "coal": 1}
 
 
 def case_facts(lines, n):
