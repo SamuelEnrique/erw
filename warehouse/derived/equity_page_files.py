@@ -309,6 +309,47 @@ def shown_why(q, built):
     if oldest >= two_years:
         return (f"the filed history under this SEC number starts with the period to {oldest}: a new registrant, and any "
                 "predecessor's filings under another SEC number are not read (docs/methods/equities.md)")
+    bad = not_adding_up(q)
+    if bad:
+        return (f"the filed periods do not add up for the period to {bad}: a year to date less the one before is not the quarter "
+                "filed (a change of concept between filings, a restatement inside a filing, or a successor's period); each "
+                "row is as filed (docs/methods/equities.md)")
+    return None
+
+
+def months_back(end, m):
+    """The month end m months before a period end (YYYY-MM-DD)."""
+    import calendar
+    y, mo = int(end[:4]), int(end[5:7]) - m
+    while mo < 1:
+        y, mo = y - 1, mo + 12
+    return f"{y:04d}-{mo:02d}-{calendar.monthrange(y, mo)[1]:02d}"
+
+
+def not_adding_up(q, quarters=4, tol=0.01):
+    """Done-line request 581: the newest period end, among the company's newest four quarter ends, where a filed year to
+    date less the year to date of the quarter before differs from the quarter filed by more than tol (revenue or net
+    income, the later filing where a period was filed twice); None when they agree or cannot be compared."""
+    ix = {c: i for i, c in enumerate(QCOLS)}
+    best = {}
+    for r in q:
+        if r[ix["months"]] is None:
+            continue
+        k = (r[ix["period_end"]], r[ix["months"]])
+        if k not in best or later(r, best[k]):
+            best[k] = r
+    ends = sorted({e for e, m in best if m == 3}, reverse=True)[:quarters]
+    for end in ends:
+        for m in (6, 9, 12):
+            ytd, prev, qtr = best.get((end, m)), best.get((months_back(end, 3), m - 3)), best.get((end, 3))
+            if not (ytd and prev and qtr):
+                continue
+            for col in ("revenue", "net_income"):
+                a, b, c = ytd[ix[col]], prev[ix[col]], qtr[ix[col]]
+                if a is None or b is None or c is None:
+                    continue
+                if abs((a - b) - c) > tol * max(abs(c), 1):
+                    return end
     return None
 
 
