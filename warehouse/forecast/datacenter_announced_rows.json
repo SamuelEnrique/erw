@@ -1135,6 +1135,52 @@
    "incentive": "",
    "years": "",
    "note": "OpenAI's own page. The USD 1 billion it names is equity in SB Energy (USD 500 million each from OpenAI and SoftBank Group), not this site's cost, so no investment is taken; its jobs are \"thousands of construction jobs\", no number. The site was first named in OpenAI's release of 23 September 2025 (request 517, five new Stargate sites), which gives only the sites' combined capacity. The row enters only the MW median."
+  },
+  {
+   "id": "wi_vantage_portwashington_2025",
+   "name": "Vantage Data Centers, Lighthouse campus (Port Washington), OpenAI and Oracle's Stargate site in Wisconsin",
+   "company": "Vantage Data Centers (with OpenAI and Oracle)",
+   "state": "wi",
+   "county": "Ozaukee",
+   "place": "Port Washington",
+   "doc": {
+    "title": "OpenAI, Oracle and Vantage Data Centers Announce Stargate Data Center Site in Wisconsin",
+    "publisher": "Vantage Data Centers",
+    "date": "2025-10-22",
+    "url": "https://vantage-dc.com/news/openai-oracle-and-vantage-data-centers-announce-stargate-data-center-site-in-wisconsin/",
+    "request": 518
+   },
+   "mw": {
+    "value": 1000,
+    "measure": "AI capacity as stated",
+    "says": "close to a gigawatt",
+    "qualifier": "close to",
+    "quote": "The campus will feature four cutting-edge data centers providing close to a gigawatt of AI capacity."
+   },
+   "investment": {
+    "value": 15000000000,
+    "year": 2025,
+    "says": "$15B",
+    "qualifier": "or more",
+    "quote": "$15B+ investment in Port Washington represents the future of sustainable digital infrastructure"
+   },
+   "construction_jobs": {
+    "value": 4000,
+    "measure": "construction jobs",
+    "says": "more than 4,000 skilled construction jobs",
+    "qualifier": "more than",
+    "quote": "The project expects to create more than 4,000 skilled construction jobs, most of which will be union jobs."
+   },
+   "permanent_jobs": {
+    "value": 1000,
+    "measure": "long-term jobs (Vantage and Oracle)",
+    "says": "more than 1,000 long-term jobs",
+    "qualifier": "more than",
+    "quote": "Once complete, Vantage and Oracle will create more than 1,000 long-term jobs and thousands more indirect jobs."
+   },
+   "incentive": "",
+   "years": "Construction will begin soon and is scheduled for completion in 2028.",
+   "note": "Vantage's own release (dated 22 October 2025 in its dateline). Its headline gives the investment as \"$15B+\". The long-term jobs are Vantage's and Oracle's together; the indirect jobs are not taken. Port Washington is in Ozaukee County (not in the document)."
   }
  ]
 }

@@ -9,10 +9,10 @@
    "name": "MW as stated",
    "unit": "MW (each row's own measure)",
    "how": "the MW each document states, whatever it measures (IT capacity, critical IT, critical grid capacity, power required)",
-   "n": 15,
+   "n": 16,
    "low": 3.0,
    "low_row": "al_aubix_auburn_2021",
-   "median": 1200.0,
+   "median": 1100.0,
    "high": 5000.0,
    "high_row": "la_meta_richland_2026",
    "rows": [
@@ -23,6 +23,7 @@
     "va_cleanarc_caroline_2025",
     "tx_meta_elpaso_2026",
     "mi_stargate_saline_2025",
+    "wi_vantage_portwashington_2025",
     "tx_crusoe_abilene_2025",
     "tx_stargate_milam_2026",
     "tx_vantage_frontier_2025",
@@ -37,10 +38,10 @@
    "name": "Investment per MW",
    "unit": "USD million (2025) per MW",
    "how": "investment over the MW the document states; rows whose investment includes power plants left out",
-   "n": 12,
+   "n": 13,
    "low": 3.0,
    "low_row": "va_cleanarc_caroline_2025",
-   "median": 11.0,
+   "median": 12.0,
    "high": 46.807678,
    "high_row": "al_aubix_auburn_2021",
    "rows": [
@@ -52,6 +53,7 @@
     "tx_meta_elpaso_2026",
     "la_applied_digital_rapides_2026",
     "tx_crusoe_abilene_2025",
+    "wi_vantage_portwashington_2025",
     "tx_vantage_frontier_2025",
     "wv_nscale_2026",
     "la_hut8_riverbend_2025",
@@ -62,12 +64,12 @@
    "name": "Permanent jobs per MW",
    "unit": "jobs per MW",
    "how": "permanent or operational jobs over the MW stated; jobs of a kind not stated left out",
-   "n": 9,
+   "n": 10,
    "low": 0.05,
    "low_row": "va_cleanarc_caroline_2025",
-   "median": 0.306122,
-   "high": 0.666667,
-   "high_row": "la_applied_digital_rapides_2026",
+   "median": 0.314311,
+   "high": 1.0,
+   "high_row": "wi_vantage_portwashington_2025",
    "rows": [
     "va_cleanarc_caroline_2025",
     "la_meta_richland_2026",
@@ -77,17 +79,18 @@
     "wv_nscale_2026",
     "ky_paducah_2026",
     "in_amazon_northern_2025",
-    "la_applied_digital_rapides_2026"
+    "la_applied_digital_rapides_2026",
+    "wi_vantage_portwashington_2025"
    ]
   },
   "permanent_jobs_per_billion": {
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 37,
+   "n": 38,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
-   "median": 50.0,
+   "median": 51.218004,
    "high": 121.786859,
    "high_row": "wy_meta_cheyenne_2024",
    "rows": [
@@ -115,6 +118,7 @@
     "pa_aws_2025",
     "ms_aws_madison_2026",
     "ms_aws_vicksburg_2025",
+    "wi_vantage_portwashington_2025",
     "nv_google_storey_2020",
     "in_amazon_northern_2025",
     "in_aws_stjoseph_2024",
@@ -134,7 +138,7 @@
    "name": "Construction jobs per billion dollars",
    "unit": "construction jobs (headcount as announced) per USD billion (2025)",
    "how": "construction jobs as announced over the investment; at peak or period not stated, as each row says",
-   "n": 15,
+   "n": 16,
    "low": 63.222543,
    "low_row": "wv_nscale_2026",
    "median": 400.0,
@@ -146,6 +150,7 @@
     "la_amazon_caddo_bossier_2026",
     "la_meta_richland_2026",
     "wv_penzance_berkeley_2026",
+    "wi_vantage_portwashington_2025",
     "la_applied_digital_rapides_2026",
     "in_meta_lebanon_2026",
     "tx_meta_elpaso_2026",
@@ -2702,6 +2707,52 @@
    "incentive": "",
    "years": "",
    "note": "OpenAI's own page. The USD 1 billion it names is equity in SB Energy (USD 500 million each from OpenAI and SoftBank Group), not this site's cost, so no investment is taken; its jobs are \"thousands of construction jobs\", no number. The site was first named in OpenAI's release of 23 September 2025 (request 517, five new Stargate sites), which gives only the sites' combined capacity. The row enters only the MW median."
+  },
+  {
+   "id": "wi_vantage_portwashington_2025",
+   "name": "Vantage Data Centers, Lighthouse campus (Port Washington), OpenAI and Oracle's Stargate site in Wisconsin",
+   "company": "Vantage Data Centers (with OpenAI and Oracle)",
+   "state": "wi",
+   "county": "Ozaukee",
+   "place": "Port Washington",
+   "doc": {
+    "title": "OpenAI, Oracle and Vantage Data Centers Announce Stargate Data Center Site in Wisconsin",
+    "publisher": "Vantage Data Centers",
+    "date": "2025-10-22",
+    "url": "https://vantage-dc.com/news/openai-oracle-and-vantage-data-centers-announce-stargate-data-center-site-in-wisconsin/",
+    "request": 518
+   },
+   "mw": {
+    "value": 1000,
+    "measure": "AI capacity as stated",
+    "says": "close to a gigawatt",
+    "qualifier": "close to",
+    "quote": "The campus will feature four cutting-edge data centers providing close to a gigawatt of AI capacity."
+   },
+   "investment": {
+    "value": 15000000000,
+    "year": 2025,
+    "says": "$15B",
+    "qualifier": "or more",
+    "quote": "$15B+ investment in Port Washington represents the future of sustainable digital infrastructure"
+   },
+   "construction_jobs": {
+    "value": 4000,
+    "measure": "construction jobs",
+    "says": "more than 4,000 skilled construction jobs",
+    "qualifier": "more than",
+    "quote": "The project expects to create more than 4,000 skilled construction jobs, most of which will be union jobs."
+   },
+   "permanent_jobs": {
+    "value": 1000,
+    "measure": "long-term jobs (Vantage and Oracle)",
+    "says": "more than 1,000 long-term jobs",
+    "qualifier": "more than",
+    "quote": "Once complete, Vantage and Oracle will create more than 1,000 long-term jobs and thousands more indirect jobs."
+   },
+   "incentive": "",
+   "years": "Construction will begin soon and is scheduled for completion in 2028.",
+   "note": "Vantage's own release (dated 22 October 2025 in its dateline). Its headline gives the investment as \"$15B+\". The long-term jobs are Vantage's and Oracle's together; the indirect jobs are not taken. Port Washington is in Ozaukee County (not in the document)."
   }
  ]
 }
