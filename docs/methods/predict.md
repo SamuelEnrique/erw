@@ -403,3 +403,26 @@ The band is meant to hold eight hours in ten. Every series of every file (demand
 price, wind, solar) now carries `band_coverage`: over the last two years, the share of hours inside the band, below its
 low end and above its high end, the share inside by local hour, and by month. `band_coverage_pct` (unchanged) is its
 `inside_pct`.
+
+## 22. The cross-check's second place: NYISO (session 10602)
+
+NYISO's market monitor, Potomac Economics, prints the day-ahead peak load forecast's error by quarter in its quarterly
+report (Third Quarter of 2025, slide 26, "Load Forecast and Actual Load"; potomaceconomics.com, robots read first,
+fetched once on 27 November 2026): the mean of each day's forecast peak less its real-time peak, and the mean absolute
+value. `replication/predict/crosscheck_nyiso.py` computes the same from the operator's forecast as filed on EIA-930 for
+NYIS and NYIS's demand, each local day's highest hour, on the days both hold every hour:
+
+| Quarter | Potomac: mean, mean absolute (MW) | The EIA-930 filing, backtest: mean, mean absolute (MW) | Days |
+|---|---|---|---:|
+| 2024 Q3 | -180, 479 | -504, 645 | 92 |
+| 2025 Q2 | -124, 375 | -436, 520 | 91 |
+| 2025 Q3 | -124, 448 | -363, 535 | 91 |
+
+The two agree in sign and order: both forecasts fall short of the peak, by a few hundred megawatts. But the filing as
+the backtest reads it falls short by 240 to 320 MW more, and misses by 145 to 170 MW more on average. Either NYISO's
+filing on EIA-930 is not quite the forecast its monitor scores, or EIA-930's demand is not quite NYISO's real-time load
+(the monitor's actual); this note cannot tell which. Either way the operator's error in New York, as the files score
+it, is somewhat larger than its monitor's figure: the comparison flatters the ERW a little there, and the operator still
+wins (2.74 against 5.70 percent over the last two years). With ERCOT (section 15), where the filing agrees with ERCOT's
+own chart to 0.02 point from February 2026, this is the second place checked. The vendor's SPP figure (section 18) is
+not a monitor's and is not counted.
