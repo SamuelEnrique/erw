@@ -72,7 +72,8 @@
   "ga_doaa_2025": {"title": "Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption (December 2025, revised January 2026), with the Department of Revenue's exemption page (request 187)", "url": "https://www.audits2.ga.gov/wp-content/uploads/2025/12/Data-Center-Tax-Exemption-Summary-Revised.pdf", "read": "2026-11-26", "request": 188},
   "nh_75_1": {"title": "New Hampshire RSA 75:1, How Appraised (with RSA 72:6, Real Estate, request 422, and 72:7, Buildings, Etc., request 426)", "url": "https://gc.nh.gov/rsa/html/V/75/75-1.htm", "read": "2026-11-27", "request": 423},
   "nh_72_toc": {"title": "New Hampshire RSA Chapter 72, Persons and Property Liable to Taxation, table of sections", "url": "https://gc.nh.gov/rsa/html/NHTOC/NHTOC-V-72.htm", "read": "2026-11-27", "request": 425},
-  "co_hb24b_1001": {"title": "Colorado House Bill 24B-1001 (Second Extraordinary Session, 2024), enrolled, amending C.R.S. 39-1-104(1.9)", "url": "https://content.leg.colorado.gov/sites/default/files/documents/2024B/bills/2024b_1001_enr.pdf", "read": "2026-11-27", "request": 428}
+  "co_hb24b_1001": {"title": "Colorado House Bill 24B-1001 (Second Extraordinary Session, 2024), enrolled, amending C.R.S. 39-1-104(1.9)", "url": "https://content.leg.colorado.gov/sites/default/files/documents/2024B/bills/2024b_1001_enr.pdf", "read": "2026-11-27", "request": 428},
+  "nj_handbook_ch6": {"title": "New Jersey Division of Taxation, Handbook for New Jersey Assessors, Chapter VI, Personal Property Assessment (sections 601 and 602)", "url": "https://www.nj.gov/treasury/taxation/pdf/lpt/nj_assessors_handbook_chap6.pdf", "read": "2026-11-27", "request": 436}
  },
  "split": {
   "cite": "jlarc_598",
@@ -571,6 +572,13 @@
    "property": {"building_ratio": 0.25, "equipment_ratio": 0.25, "cite": "co_hb24b_1001",
     "quote": "FOR PROPERTY TAX YEARS COMMENCING ON OR AFTER JANUARY 1, 2027, THE VALUATION FOR ASSESSMENT FOR PERSONAL PROPERTY AND NONRESIDENTIAL REAL PROPERTY IS TWENTY-FIVE PERCENT OF THE ACTUAL VALUE THEREOF.",
     "tip": "Colorado (C.R.S. 39-1-104(1.9), as House Bill 24B-1001 enacted it in 2024): personal property and nonresidential real property are assessed at 27 percent of actual value for 2025, 26 percent for 2026 (25 for improved commercial property), and \"FOR PROPERTY TAX YEARS COMMENCING ON OR AFTER JANUARY 1, 2027\" at 25 percent. The tool assesses the building and the equipment at 25 percent of their cost in every operating year (no depreciation table is read: an upper bound) and applies the reader's rate. A later change to these percentages is not read. No sales tax rule is read for Colorado."
+   }
+  },
+  "nj": {
+   "name": "New Jersey",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "nj_handbook_ch6",
+    "quote": "Acquisitions of machinery and equipment by businesses after January 1, 1977 are not required to be reported",
+    "tip": "New Jersey (the Division of Taxation's Handbook for New Jersey Assessors, chapter VI, sections 601.1 and 602.14): the only personal property the assessor lists is a local exchange telephone company's machinery and equipment, and machinery and equipment businesses acquired after 1 January 1977 \"are not required to be reported, and are thereby effectively eliminated\" from the business personal property tax, so a datacenter's equipment owes none. The building is taken at its cost and the reader's effective rate (each municipality's), an upper bound. No sales tax rule is read for New Jersey."
    }
   }
  }
