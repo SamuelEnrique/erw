@@ -50,6 +50,25 @@ class TheLedgerAsATable(unittest.TestCase):
         self.assertEqual(set(t["variable"]), {"demand_forecast_mw"})
         self.assertEqual(list(t.columns), self.m.COLS)
 
+    def test_a_row_without_a_figure_is_left_out_and_counted(self):
+        # 27 November 2026: run.py wrote 24 rows with no figure for ba-spa; the table had been refused whole
+        d = pd.concat([self.d, ledger("demand", [
+            ["ba-spa", "2026-11-28", "2026-11-28T06:00:00Z", "0", "2026-11-27T19:00:00Z", "2026-11-27T05:00:00Z", "2", "regression", "", "", ""]])],
+            ignore_index=True)
+        t = self.m.table(d, "demand", "2026-11-27T23:00:00Z")
+        self.assertEqual(len(t), 3)
+        self.assertNotIn("eia930:SPA", set(t["entity"]))
+        words = self.m.figureless(d, "demand")
+        self.assertEqual(words, "1 (ba-spa made 2026-11-27T19:00:00Z: 1)")
+        self.assertTrue(any("left out: 1 (ba-spa" in h for h in self.m.header("demand", t, "20261127T230000Z", words)))
+        self.assertEqual(self.m.figureless(self.d, "demand"), "none")
+
+    def test_a_row_without_its_hour_is_still_refused(self):
+        d = self.d.copy()
+        d.loc[0, "made_utc"] = ""
+        with self.assertRaises(ValueError):
+            self.m.table(d, "demand", "2026-11-27T23:00:00Z")
+
     def test_the_header_says_revisions_are_kept(self):
         # the validator keys a table by vintage only when its header says so (erw_validate.REVISIONS_KEPT)
         t = self.m.table(self.d, "demand", "2026-11-26T23:00:00Z")
