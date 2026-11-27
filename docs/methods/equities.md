@@ -17,3 +17,62 @@ Each series' `moves`, as the board computes its own rows': `d` the previous day 
 ## The rules that wait for the SEC
 
 When EDGAR can be read, the universe is every company whose SEC industry code is an energy code, one segment by the code (integrated oil and gas 2911 with exploration; exploration and production 1311 and 1381; midstream 4922 to 4924 and 4610; refining 2911 without upstream; oilfield services 1389 and 3533; coal 1220 and 1221; regulated utilities 4911, 4931, 4932, 4939 with a rate base; independent power 4911 without; nuclear and uranium 1094 and the owners of reactors; solar 3674 makers of cells; wind 3511; storage, hydrogen and grid equipment by code 3690, 2810 and 3612 to 3613), a company that fits two codes in both and named in `segments_note`. This list is the draft of the written rule, to be fixed in this note before any company is placed; matched to `company_directory` by SEC number or exact legal name only.
+
+## The universe (the written rule, fixed on 27 November 2026)
+
+The owner's ruling of 26 November 2026 gave the SEC a contact address; it is kept in the data machine's `.env` as
+`SEC_USER_AGENT` (the form of the SEC's "Accessing EDGAR Data" page: a name and a contact address) and never written in
+the repository. Read first, with that string: www.sec.gov's robots file (it allows `/files/` and `/Archives/edgar/`
+and disallows `/cgi-bin`, which nothing here asks), data.sec.gov's (none: HTTP 404), the access page ("Current max
+request rate: 10 requests/second"; "Download only what you need") and the privacy and security policy: "Information
+presented on sec.gov is considered public information and may be copied or further distributed by users of the web site
+without the SEC's permission. Please consider appropriate citation to the SEC as the source." So the two tables are
+public, and every row and file names the SEC. The connector, `warehouse/connectors/sec_edgar.py`, waits a quarter of a
+second between two requests.
+
+`equity_universe`: every company in the SEC's list of tickers (`company_tickers_exchange.json`) listed on an
+exchange (NYSE, Nasdaq, Cboe, TXSE; an over-the-counter name is not listed) whose SEC industry code is one of these. Its
+segments are its code's; no company is placed or moved by judgment.
+
+| Segment | SEC industry codes |
+|---|---|
+| Exploration and production | 1311 |
+| Integrated oil and gas, and Refining | 2911 (the code does not separate the two: in both) |
+| Oilfield services | 1381, 1382, 1389, 3533 |
+| Midstream and pipelines | 4610, 4922; 4923 and 4924 also in regulated utilities |
+| Regulated electric and gas utilities | 4931, 4932, 4939; 4911 also in independent power; 4923, 4924 also in midstream |
+| Independent power producers | 4991; 4911 also in regulated utilities |
+| Coal | 1220, 1221, 1222 |
+| Grid and electrical equipment | 3612, 3613 |
+
+The draft of 26 November named codes that, read against the companies filing under them, are not the segment: 3690 holds
+Energizer and a flight simulator maker beside the battery makers, 2810 the titanium pigment makers beside the industrial
+gases, 3511 every turbine, 3674 every semiconductor maker beside the solar ones. So LNG, nuclear and uranium, solar, wind,
+storage, and hydrogen and fuel cells hold no company: no code is any of them alone, and each says so in its `rule_why`.
+Cheniere and the other LNG exporters file under 4924 with the local gas distributors, so they are in midstream and in
+regulated utilities, with the note. A named list for the six would be judgment: for the owner's ruling.
+
+The SIC of each listed company is read from its submissions file: once from the SEC's nightly bulk file of all of them
+(1.6 GB, one request on 27 November 2026), kept in `warehouse/raw/sec_edgar/sic_cache.csv`; afterwards only a listed
+company new to the cache is asked for. `directory_id` is the `company_directory` row of the same legal name, case,
+commas and periods aside (the directory holds no SEC number): 18 of 307 on 27 November.
+
+## The statements
+
+`equity_fundamentals_quarterly`: each universe company's XBRL company facts, as filed, every filing kept (vintage the
+filing date). Five lines: revenue, net income and capital spending (durations of 3, 6, 9 or 12 months as the filing
+reports them, the months in the variable's name: a 10-Q's cash flow is year to date), long-term debt and shares
+outstanding (instants at the period's end; shares in unit `count`). For each line, period and filing the first concept
+of its list that the filing holds is read and named in `x_concept` (revenue: `Revenues`, then
+`RevenueFromContractWithCustomerExcludingAssessedTax` and four more; the lists are in the connector). Only us-gaap facts
+of 10-Q and 10-K filings and their amendments are read: a foreign filer's 20-F or 40-F (often IFRS) is not, and 64 of the
+307 companies have no rows (the page says so for each). A fact whose period ends after its filing date is a tagging error
+and is left out (one on 27 November). First written on 27 November 2026: 146,456 rows of 243 companies, periods from 2007.
+Afterwards a company's facts are asked again only when EDGAR's daily form index shows it filed a 10-Q, 10-K or an
+amendment since the last run.
+
+The page files: `index.json` lists the 307 companies with their segments and SIC; each company's series file holds its
+prices as null with the license reason (no source a license allows: the owner's ruling keeps them blank) and its
+`quarterly` rows, each filing's own period (the newest period end in that filing, one row a period length), newest
+first. The section "The rules that wait for the SEC" above is the draft this section replaces.
+
