@@ -122,3 +122,4 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Maryland, Kentucky, Washington, Michigan, Idaho property | done | 10822 | requests 481 to 485; Florida's site serves a cookie challenge (480), not got around; 136 quotes |
 | Connecticut's property | held | 10822 | OPM's statutes page answered 404 (request 486); cga.ct.gov fails its certificate check |
 | AWS's state fact sheets | one row | 10822 | Oregon (request 488): USD 54.8 billion in eastern Oregon data centers 2012 to 2025, a to_date row (68 rows); Virginia and Ohio (489, 490) give no datacenter investment |
+| Build and read of the newest head | waiting | 10822 | the background lock wait was stopped by Claude Code for low memory at about 04:27 UTC (not restarted, as its note asks); the lock held by window A's gate since 04:09; checked by hand in the foreground |
