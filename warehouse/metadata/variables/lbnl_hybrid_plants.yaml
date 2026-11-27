@@ -123,7 +123,9 @@ columns:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
 - name: x_region
-  label: LBNL's region of the plant
+  label: 'LBNL''s region of the plant: the ISO whose footprint holds it (CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP)
+    or a larger area outside the ISOs (West (non-ISO), Southeast (non-ISO), Hawaii, Alaska), the regions LBNL''s deck
+    draws its capacity by (2026 edition, slide 22; one row reads ME, which the deck does not name)'
   unit: none
   type: text
   values:
@@ -131,7 +133,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: Region
-  documented_by: connector lbnl_hybrid_plants.py
+  documented_by: connector lbnl_hybrid_plants.py; source LBNL, Hybrid Power Plants, Status of Operating and Proposed Plants, 2026 edition, slide deck (eta-publications.lbl.gov/sites/default/files/2026-09/hybrid_plant_tracking_2026.pdf; robots read first), read 2026-11-27
 - name: x_final_type
   label: LBNL's final type of the hybrid (PV+Storage, Wind+Storage, Fossil+PV and the others)
   unit: none
@@ -243,7 +245,9 @@ columns:
   source_name: Generator 1 Online Date
   documented_by: connector lbnl_hybrid_plants.py; method lbnl_hybrid_plants.md
 - name: x_coupling
-  label: The plant's coupling, as LBNL writes it
+  label: 'The plant''s coupling, as LBNL writes it: AC (AC-coupled, the batteries in a centralized battery yard), DC
+    (DC-coupled, the batteries distributed through the plant close to the inverters); LBNL also writes DC Tight,
+    unknown and missing, which its deck does not define (2026 edition, slide 34)'
   unit: none
   type: text
   values:
@@ -251,7 +255,7 @@ columns:
   missing_cells: 552
   missing_meaning: LBNL left it blank
   source_name: Coupling
-  documented_by: connector lbnl_hybrid_plants.py
+  documented_by: connector lbnl_hybrid_plants.py; source LBNL, Hybrid Power Plants, Status of Operating and Proposed Plants, 2026 edition, slide deck (eta-publications.lbl.gov/sites/default/files/2026-09/hybrid_plant_tracking_2026.pdf; robots read first), read 2026-11-27
 - name: x_storage_technology
   label: The storage's (first) technology, as LBNL writes it
   unit: none
@@ -273,7 +277,10 @@ columns:
   source_name: Total Number of Uses for Battery
   documented_by: connector lbnl_hybrid_plants.py
 - name: x_use_arbitrage
-  label: LBNL's mark for arbitrage as a use of the battery
+  label: 'LBNL''s mark for arbitrage as a use of the battery, from EIA-860''s storage use cases as LBNL''s data draw
+    them (a project can report more than one): Y the use is reported, N it is not; PR, which LBNL does not spell out,
+    sits beside its deck''s note that EIA-860 reports a primary use case from its 2023 Early Release (LBNL, Hybrid
+    Power Plants: Status of Operating and Proposed Plants, 2026 edition, slide 11)'
   unit: none
   type: text
   values:
@@ -281,9 +288,12 @@ columns:
   missing_cells: 583
   missing_meaning: LBNL left it blank (not marked)
   source_name: Arbitrage
-  documented_by: connector lbnl_hybrid_plants.py
+  documented_by: connector lbnl_hybrid_plants.py; source LBNL, Hybrid Power Plants, Status of Operating and Proposed Plants, 2026 edition, slide deck (eta-publications.lbl.gov/sites/default/files/2026-09/hybrid_plant_tracking_2026.pdf; robots read first), read 2026-11-27
 - name: x_use_frequency_regulation
-  label: LBNL's mark for frequency regulation as a use of the battery
+  label: 'LBNL''s mark for frequency regulation as a use of the battery, from EIA-860''s storage use cases as LBNL''s
+    data draw them (a project can report more than one): Y the use is reported, N it is not; PR, which LBNL does not
+    spell out, sits beside its deck''s note that EIA-860 reports a primary use case from its 2023 Early Release (LBNL,
+    Hybrid Power Plants: Status of Operating and Proposed Plants, 2026 edition, slide 11)'
   unit: none
   type: text
   values:
@@ -291,9 +301,12 @@ columns:
   missing_cells: 623
   missing_meaning: LBNL left it blank (not marked)
   source_name: Frequency Regulation
-  documented_by: connector lbnl_hybrid_plants.py
+  documented_by: connector lbnl_hybrid_plants.py; source LBNL, Hybrid Power Plants, Status of Operating and Proposed Plants, 2026 edition, slide deck (eta-publications.lbl.gov/sites/default/files/2026-09/hybrid_plant_tracking_2026.pdf; robots read first), read 2026-11-27
 - name: x_use_load_following
-  label: LBNL's mark for load following as a use of the battery
+  label: 'LBNL''s mark for load following as a use of the battery, from EIA-860''s storage use cases as LBNL''s data
+    draw them (a project can report more than one): Y the use is reported, N it is not; PR, which LBNL does not spell
+    out, sits beside its deck''s note that EIA-860 reports a primary use case from its 2023 Early Release (LBNL, Hybrid
+    Power Plants: Status of Operating and Proposed Plants, 2026 edition, slide 11)'
   unit: none
   type: text
   values:
@@ -301,9 +314,12 @@ columns:
   missing_cells: 965
   missing_meaning: LBNL left it blank (not marked)
   source_name: Load Following
-  documented_by: connector lbnl_hybrid_plants.py
+  documented_by: connector lbnl_hybrid_plants.py; source LBNL, Hybrid Power Plants, Status of Operating and Proposed Plants, 2026 edition, slide deck (eta-publications.lbl.gov/sites/default/files/2026-09/hybrid_plant_tracking_2026.pdf; robots read first), read 2026-11-27
 - name: x_use_ramping_spinning_reserve
-  label: LBNL's mark for ramping or spinning reserve as a use of the battery
+  label: 'LBNL''s mark for ramping or spinning reserve as a use of the battery, from EIA-860''s storage use cases as
+    LBNL''s data draw them (a project can report more than one): Y the use is reported, N it is not; PR, which LBNL
+    does not spell out, sits beside its deck''s note that EIA-860 reports a primary use case from its 2023 Early
+    Release (LBNL, Hybrid Power Plants: Status of Operating and Proposed Plants, 2026 edition, slide 11)'
   unit: none
   type: text
   values:
@@ -311,9 +327,12 @@ columns:
   missing_cells: 822
   missing_meaning: LBNL left it blank (not marked)
   source_name: Ramping / Spinning Reserve
-  documented_by: connector lbnl_hybrid_plants.py
+  documented_by: connector lbnl_hybrid_plants.py; source LBNL, Hybrid Power Plants, Status of Operating and Proposed Plants, 2026 edition, slide deck (eta-publications.lbl.gov/sites/default/files/2026-09/hybrid_plant_tracking_2026.pdf; robots read first), read 2026-11-27
 - name: x_use_renewable_firming
-  label: LBNL's mark for firming co-located renewables as a use of the battery
+  label: 'LBNL''s mark for firming co-located renewables as a use of the battery, from EIA-860''s storage use cases as
+    LBNL''s data draw them (a project can report more than one): Y the use is reported, N it is not; PR, which LBNL
+    does not spell out, sits beside its deck''s note that EIA-860 reports a primary use case from its 2023 Early
+    Release (LBNL, Hybrid Power Plants: Status of Operating and Proposed Plants, 2026 edition, slide 11)'
   unit: none
   type: text
   values:
@@ -321,9 +340,12 @@ columns:
   missing_cells: 961
   missing_meaning: LBNL left it blank (not marked)
   source_name: Co-Located Renewable Firming
-  documented_by: connector lbnl_hybrid_plants.py
+  documented_by: connector lbnl_hybrid_plants.py; source LBNL, Hybrid Power Plants, Status of Operating and Proposed Plants, 2026 edition, slide deck (eta-publications.lbl.gov/sites/default/files/2026-09/hybrid_plant_tracking_2026.pdf; robots read first), read 2026-11-27
 - name: x_use_td_deferral
-  label: LBNL's mark for transmission and distribution deferral as a use of the battery
+  label: 'LBNL''s mark for transmission and distribution deferral as a use of the battery, from EIA-860''s storage use
+    cases as LBNL''s data draw them (a project can report more than one): Y the use is reported, N it is not; PR, which
+    LBNL does not spell out, sits beside its deck''s note that EIA-860 reports a primary use case from its 2023 Early
+    Release (LBNL, Hybrid Power Plants: Status of Operating and Proposed Plants, 2026 edition, slide 11)'
   unit: none
   type: text
   values:
@@ -331,9 +353,12 @@ columns:
   missing_cells: 1017
   missing_meaning: LBNL left it blank (not marked)
   source_name: Transmission and Distribution Deferral
-  documented_by: connector lbnl_hybrid_plants.py
+  documented_by: connector lbnl_hybrid_plants.py; source LBNL, Hybrid Power Plants, Status of Operating and Proposed Plants, 2026 edition, slide deck (eta-publications.lbl.gov/sites/default/files/2026-09/hybrid_plant_tracking_2026.pdf; robots read first), read 2026-11-27
 - name: x_use_peak_shaving
-  label: LBNL's mark for system peak shaving as a use of the battery
+  label: 'LBNL''s mark for system peak shaving as a use of the battery, from EIA-860''s storage use cases as LBNL''s
+    data draw them (a project can report more than one): Y the use is reported, N it is not; PR, which LBNL does not
+    spell out, sits beside its deck''s note that EIA-860 reports a primary use case from its 2023 Early Release (LBNL,
+    Hybrid Power Plants: Status of Operating and Proposed Plants, 2026 edition, slide 11)'
   unit: none
   type: text
   values:
@@ -341,9 +366,12 @@ columns:
   missing_cells: 741
   missing_meaning: LBNL left it blank (not marked)
   source_name: System Peak Shaving
-  documented_by: connector lbnl_hybrid_plants.py
+  documented_by: connector lbnl_hybrid_plants.py; source LBNL, Hybrid Power Plants, Status of Operating and Proposed Plants, 2026 edition, slide deck (eta-publications.lbl.gov/sites/default/files/2026-09/hybrid_plant_tracking_2026.pdf; robots read first), read 2026-11-27
 - name: x_use_load_management
-  label: LBNL's mark for load management as a use of the battery
+  label: 'LBNL''s mark for load management as a use of the battery, from EIA-860''s storage use cases as LBNL''s data
+    draw them (a project can report more than one): Y the use is reported, N it is not; PR, which LBNL does not spell
+    out, sits beside its deck''s note that EIA-860 reports a primary use case from its 2023 Early Release (LBNL, Hybrid
+    Power Plants: Status of Operating and Proposed Plants, 2026 edition, slide 11)'
   unit: none
   type: text
   values:
@@ -351,9 +379,12 @@ columns:
   missing_cells: 916
   missing_meaning: LBNL left it blank (not marked)
   source_name: Load Management
-  documented_by: connector lbnl_hybrid_plants.py
+  documented_by: connector lbnl_hybrid_plants.py; source LBNL, Hybrid Power Plants, Status of Operating and Proposed Plants, 2026 edition, slide deck (eta-publications.lbl.gov/sites/default/files/2026-09/hybrid_plant_tracking_2026.pdf; robots read first), read 2026-11-27
 - name: x_use_voltage_support
-  label: LBNL's mark for voltage or reactive power support as a use of the battery
+  label: 'LBNL''s mark for voltage or reactive power support as a use of the battery, from EIA-860''s storage use cases
+    as LBNL''s data draw them (a project can report more than one): Y the use is reported, N it is not; PR, which LBNL
+    does not spell out, sits beside its deck''s note that EIA-860 reports a primary use case from its 2023 Early
+    Release (LBNL, Hybrid Power Plants: Status of Operating and Proposed Plants, 2026 edition, slide 11)'
   unit: none
   type: text
   values:
@@ -361,9 +392,12 @@ columns:
   missing_cells: 884
   missing_meaning: LBNL left it blank (not marked)
   source_name: Voltage or Reactive Power Support
-  documented_by: connector lbnl_hybrid_plants.py
+  documented_by: connector lbnl_hybrid_plants.py; source LBNL, Hybrid Power Plants, Status of Operating and Proposed Plants, 2026 edition, slide deck (eta-publications.lbl.gov/sites/default/files/2026-09/hybrid_plant_tracking_2026.pdf; robots read first), read 2026-11-27
 - name: x_use_backup_power
-  label: LBNL's mark for backup power as a use of the battery
+  label: 'LBNL''s mark for backup power as a use of the battery, from EIA-860''s storage use cases as LBNL''s data draw
+    them (a project can report more than one): Y the use is reported, N it is not; PR, which LBNL does not spell out,
+    sits beside its deck''s note that EIA-860 reports a primary use case from its 2023 Early Release (LBNL, Hybrid
+    Power Plants: Status of Operating and Proposed Plants, 2026 edition, slide 11)'
   unit: none
   type: text
   values:
@@ -371,9 +405,12 @@ columns:
   missing_cells: 1003
   missing_meaning: LBNL left it blank (not marked)
   source_name: Backup Power
-  documented_by: connector lbnl_hybrid_plants.py
+  documented_by: connector lbnl_hybrid_plants.py; source LBNL, Hybrid Power Plants, Status of Operating and Proposed Plants, 2026 edition, slide deck (eta-publications.lbl.gov/sites/default/files/2026-09/hybrid_plant_tracking_2026.pdf; robots read first), read 2026-11-27
 - name: x_use_excess_wind_solar
-  label: LBNL's mark for storing excess wind and solar generation as a use of the battery
+  label: 'LBNL''s mark for storing excess wind and solar generation as a use of the battery, from EIA-860''s storage
+    use cases as LBNL''s data draw them (a project can report more than one): Y the use is reported, N it is not; PR,
+    which LBNL does not spell out, sits beside its deck''s note that EIA-860 reports a primary use case from its 2023
+    Early Release (LBNL, Hybrid Power Plants: Status of Operating and Proposed Plants, 2026 edition, slide 11)'
   unit: none
   type: text
   values:
@@ -381,8 +418,9 @@ columns:
   missing_cells: 690
   missing_meaning: LBNL left it blank (not marked)
   source_name: Excess Wind and Solar Generation
-  documented_by: connector lbnl_hybrid_plants.py
+  documented_by: connector lbnl_hybrid_plants.py; source LBNL, Hybrid Power Plants, Status of Operating and Proposed Plants, 2026 edition, slide deck (eta-publications.lbl.gov/sites/default/files/2026-09/hybrid_plant_tracking_2026.pdf; robots read first), read 2026-11-27
 second_look:
-- 'x_region, x_coupling and the x_use_* columns: read again on 20 November 2026 in the saved workbook (lbnl_hybrid_data_file_thru2025.xlsx):
-  sheet 01. Operating Plants names them Region, Coupling and one column a use case (Arbitrage, Frequency Regulation and the
-  others), and sheet 05. Operational Data + Methods gives the sources; no sheet defines the codes they hold'
+- 'x_region, x_coupling and the x_use_* columns, after LBNL''s 2026 slide deck (read 27 November 2026; their labels now
+  carry what it says): left open are x_coupling''s DC Tight (beside AC and DC, which the deck defines), the x_use_* code
+  PR (read as the primary use case, which LBNL does not spell out) and x_region''s one row ME. Read before on 20 November
+  2026 in the saved workbook (lbnl_hybrid_data_file_thru2025.xlsx): no sheet defines the codes'

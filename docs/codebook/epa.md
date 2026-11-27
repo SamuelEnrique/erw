@@ -4,7 +4,7 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 
 **What the family holds.** 8 public tables (2 entities, 6 series; tiers: 8 source); 8 documented in full.
 
-- [`epa_ghg_inventory_annual`](#epa_ghg_inventory_annual): One line of EPA's national greenhouse gas Inventory (1990 to 2022 edition) for one economic sector, or the nation, in one year, from Chapter 2 Table 2-10, 2-11 or 2-12.
+- [`epa_ghg_inventory_annual`](#epa_ghg_inventory_annual): One line of EPA's national greenhouse gas Inventory (1990 to 2022 edition) for one economic sector, or the nation, in one year, from Chapter 2 Table 2-10, 2-11 or 2-12. Its tCO2e are weighted by the 100-year global warming potentials of the IPCC's Fifth Assessment Report (AR5) across the whole series, 1990 to 2022 (CO2 1, CH4 28, N2O 265, HFCs up to 12,400, PFCs up to 11,100, SF6 23,500, NF3 16,100), as the edition's Executive Summary, Table ES-1, states (www.epa.gov, robots read first; read 27 November 2026); the GHGRP tables use AR4's weights, so the two are not on one scale.
 - [`epa_ghgrp_facility_emissions`](#epa_ghgrp_facility_emissions): One reporting facility's (or, for transmission pipelines and gas distribution companies, one facility-state's) total reported greenhouse gas emissions in one segment of EPA's GHGRP data summary in one year, 2015 to 2023.
 - [`epa_ghgrp_power_co2`](#epa_ghgrp_power_co2): One power plant's (a GHGRP facility reporting under subpart D, electricity generation) reported CO2 of one kind in one reporting year, 2010 to 2023.
 - [`epa_lmop_landfill_projects`](#epa_lmop_landfill_projects): One landfill and one landfill gas energy project at it (or the landfill alone, with a project id of its own) in EPA's LMOP database as of September 2024.
@@ -15,7 +15,7 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 
 ### `epa_ghg_inventory_annual`
 
-One line of EPA's national greenhouse gas Inventory (1990 to 2022 edition) for one economic sector, or the nation, in one year, from Chapter 2 Table 2-10, 2-11 or 2-12.
+One line of EPA's national greenhouse gas Inventory (1990 to 2022 edition) for one economic sector, or the nation, in one year, from Chapter 2 Table 2-10, 2-11 or 2-12. Its tCO2e are weighted by the 100-year global warming potentials of the IPCC's Fifth Assessment Report (AR5) across the whole series, 1990 to 2022 (CO2 1, CH4 28, N2O 265, HFCs up to 12,400, PFCs up to 11,100, SF6 23,500, NF3 16,100), as the edition's Executive Summary, Table ES-1, states (www.epa.gov, robots read first; read 27 November 2026); the GHGRP tables use AR4's weights, so the two are not on one scale.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 5016.
 
@@ -134,8 +134,6 @@ Variables (85):
 | `power:sf6:electrical_equipment` | The electric power industry's SF6 from electrical equipment (Table 2-11) | tCO2e | 33 | 1990-01-01T00:00:00Z | 2022-01-01T00:00:00Z |
 | `power:total` | The electric power industry's emissions, all gases (Table 2-11; equals its direct:total) | tCO2e | 33 | 1990-01-01T00:00:00Z | 2022-01-01T00:00:00Z |
 | `total_gross_emissions_sources` | The nation's gross emissions from all sources (Table 2-10) | tCO2e | 33 | 1990-01-01T00:00:00Z | 2022-01-01T00:00:00Z |
-
-Waiting for a second look: The global warming potentials behind tCO2e: the header says the Inventory's tables do not name them, and nothing says they match the GHGRP tables' AR4 weights. Read again on 20 November 2026 in the notes and source lines of the 15 CSV tables of the saved Trends zip under warehouse/raw/epa_ghg_inventory (Table 2-14 says only gross total GWP-weighted values): not found..
 
 ### `epa_ghgrp_facility_emissions`
 
@@ -373,7 +371,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `x_nox_rate_mode1` | The unit's mode 1 NOx rate (the source's name: Mode 1 NOx Rate (lbs/mmBtu)) | lb/MMBtu | number | 0.0 to 4.79601; 3530 distinct | 11300: EPA's cell is blank |
 | `x_ccs` | Y when EPA marks the unit with carbon capture and storage (CCS) (the source's name: CCS) | none | text | Y | 38028: EPA's cell is blank |
 | `x_c2g` | EPA's coal to gas mark of the unit (C2G, C2G (RFO), C2G/Retire) (the source's name: C2G) | none | text | C2G, C2G (RFO), C2G/Retire | 38001: EPA's cell is blank |
-| `x_bart` | Yes when EPA marks the unit a BART affected unit (the source's name: BART Affected Unit) | none | text | Yes | 37950: EPA's cell is blank |
+| `x_bart` | Yes when EPA marks the unit a BART affected unit (NEEDS's BART Affected Unit): BART is Best Available Retrofit Technology, the emission limits for visibility-impairing pollutants that the Regional Haze Regulations and Guidelines for BART Determinations require of certain source types, generating units among them, placed in operation between 1962 and 1977, set by state plans (or federal plans) or met by an approved alternative (EPA Platform v6 documentation, chapter 3) (the source's name: BART Affected Unit) | none | text | Yes | 37950: EPA's cell is blank |
 | `x_owner` | The unit's owner as EPA writes it (the source's name: Owner Name) | none | text | for example 0HAM WHAM8 Solar, LLC, 1000 Mile Solar, LLC, 126 Grove Solar LLC; more than 5000 distinct | 1: EPA's cell is blank (one unit) |
 | `x_owner_percent` | The owner's share of the unit (the source's name: Owner Percent) | pct | number | 20.0 to 100.0; 152 distinct | 1: EPA's cell is blank (one unit) |
 | `x_holding_company` | The owner's holding company as EPA writes it (the source's name: Holding Company) | none | text | for example 0HAM WHAM8 Solar, LLC, 1000 Mile Solar, LLC, 126 Grove Solar LLC; more than 5000 distinct | 1: EPA's cell is blank (one unit) |
@@ -381,7 +379,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `x_regulatory_status` | Whether the unit is Regulated or Non-regulated (the source's name: Regulatory Status) | none | text | Non-regulated, Regulated | 228: EPA's cell is blank |
 | `x_drop_reason` | EPA's reason for dropping the unit from NEEDS (the source's name: Reasons for Dropping the Unit from NEEDS) | none | text | Dropped - Lack of model plants, Dropped - Planned unit whose status does not meet NEEDS criteria, Dropped - Plant is identified as onsite because it is a net buyer of electricity in 2021, Dropped - Project has been canceled or postponed, Dropped - Retired/Planned Retirement by 06/2028, Dropped - Units whose status are "OS" or "RE" for the past 3 consecutive years, Dropped - in Alaska or in Hawaii or Puerto Rico | 26537: Not on the dropped_capacity sheet |
 
-Waiting for a second look: x_firing, x_bottom, x_scrubber: EPA's words (wall, tangential, cyclone, FBC, stoker/SPR, cell, dry, wet, Reagent Injection and the others) are kept; the workbook's Key to Emission Control sheet does not cover these columns. Read again on 20 November 2026 in the saved NEEDS workbook under warehouse/raw/epa_needs (sheet Key to Emission Control and the NEEDS_Active headings): not found.; x_bart: the connector names it BART only; the term is not expanded in the repository. Read again on 20 November 2026 in the saved NEEDS workbook (sheet Key to Emission Control and the NEEDS_Active headings, BART Affected Unit): not found.; x_ct_ic: only 'IC Engine' appears; what an empty cell means beside it is not said. Read again on 20 November 2026 in the saved NEEDS workbook (sheet Key to Emission Control and the NEEDS_Active headings): not found..
+Waiting for a second look: x_firing, x_bottom, x_scrubber: EPA's words (wall, tangential, cyclone, FBC, stoker/SPR, cell, dry, wet, Reagent Injection and the others) are kept; the workbook's Key to Emission Control sheet does not cover these columns. Read again on 20 November 2026 in the saved NEEDS workbook under warehouse/raw/epa_needs (sheet Key to Emission Control and the NEEDS_Active headings): not found.; x_ct_ic: only 'IC Engine' appears; what an empty cell means beside it is not said. Read again on 20 November 2026 in the saved NEEDS workbook (sheet Key to Emission Control and the NEEDS_Active headings): not found..
 
 ### `epa_rfs_fuel_annual`
 
