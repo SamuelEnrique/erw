@@ -222,7 +222,9 @@ columns:
   source_name: Mode
   documented_by: connector ntd_transit_energy.py; method ntd_transit_energy_annual.md; data
 - name: x_tos
-  label: 'The type of service: DO directly operated, PT purchased transportation, and the FTA''s other codes'
+  label: 'The type of service: DO directly operated, PT purchased transportation, TX taxi (the dataset''s own
+    description on data.transportation.gov names the Demand Response Taxi, DR/TX, mode and type of service
+    combination), and TN, a code of the FTA''s not expanded in any document read'
   unit: none
   type: text
   values:
@@ -234,7 +236,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: TOS
-  documented_by: connector ntd_transit_energy.py; method ntd_transit_energy_annual.md
+  documented_by: connector ntd_transit_energy.py; method ntd_transit_energy_annual.md; the dataset's description (data.transportation.gov, view 8ehq-7his, read 27 November 2026)
 - name: x_uza
   label: The urbanized area
   unit: none
@@ -341,6 +343,7 @@ variables:
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 second_look:
-- 'x_tos: the type-of-service codes TN and TX are not defined in the connector or the method note (DO and PT are). Read again
-  on 20 November 2026 in the headings of the saved NTD CSV under warehouse/raw/ntd_transit_energy (TOS as a heading only):
-  not found.'
+- 'x_tos: the type-of-service code TN is not defined in the connector, the method note or the dataset''s own metadata (TX is:
+  taxi, settled 27 November 2026 from the description of view 8ehq-7his on data.transportation.gov, robots read first, fetched
+  once, 101,799 bytes, whose TOS column names only DO and PT). The FTA''s own site (www.transit.dot.gov) refused its robots
+  file to this reader (Access Denied): its glossary was not read.'

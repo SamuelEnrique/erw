@@ -2,7 +2,7 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 104 public tables (9 entities, 7 events, 88 series; tiers: 4 derived, 100 source); 104 documented in full.
+**What the family holds.** 105 public tables (9 entities, 7 events, 89 series; tiers: 4 derived, 101 source); 105 documented in full.
 
 - [`abs_suriname_electricity_annual`](#abs_suriname_electricity_annual): One year's value of one Suriname electricity measure (EBS's demand by category, net generation, net consumption or capacity, or a Staatsolie plant's generation), from the statistics office's Environment Statistics Publication.
 - [`aedg_alaska_generation_monthly`](#aedg_alaska_generation_monthly): One Alaska service area's electricity generation from one fuel in one month, from the Alaska Energy Data Gateway.
@@ -46,6 +46,7 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`energinet_dk_production_hourly`](#energinet_dk_production_hourly): One Danish price area's (DK1 or DK2) value of one production, consumption or exchange measure in one hour, from Energinet's settlement data.
 - [`epe_brazil_consumption_monthly`](#epe_brazil_consumption_monthly): One Brazilian state's electricity consumption or consumers in one market class (captive or free) and sector in one month, from EPE's Statistical Yearbook raw data.
 - [`epra_kenya_electricity_annual`](#epra_kenya_electricity_annual): One fiscal year's value of one Kenyan generation capacity (by grid kind and technology) or electricity consumption (by customer category) measure, from EPRA's Energy and Petroleum Statistics Reports.
+- [`equity_fundamentals_quarterly`](#equity_fundamentals_quarterly): One statement line of one company for one period as one filing reported it (a later filing that repeats the period is a row of its own).
 - [`fbos_fiji_electricity_annual`](#fbos_fiji_electricity_annual): Energy Fiji Limited's units produced or sold (in total or to one consumer class) in one year, from the Fiji Bureau of Statistics.
 - [`fema_disaster_declarations`](#fema_disaster_declarations): One FEMA disaster declaration for one designated area (a county, a tribal area or a statewide area), declared on or after 2015-01-01, from OpenFEMA.
 - [`fhwa_motor_fuel_monthly`](#fhwa_motor_fuel_monthly): The gallons of gasoline or of special fuels one state reports taxed in one month, from FHWA's Monthly Motor Fuel source data.
@@ -1905,6 +1906,58 @@ Variables (43):
 | `consumption_street_lighting` | Electricity consumption by street lighting in the fiscal year | MWh | 3 | 2023-07-01T00:00:00Z | 2025-07-01T00:00:00Z |
 | `consumption_total` | Electricity consumption, all categories, in the fiscal year | MWh | 3 | 2023-07-01T00:00:00Z | 2025-07-01T00:00:00Z |
 
+### `equity_fundamentals_quarterly`
+
+One statement line of one company for one period as one filing reported it (a later filing that repeats the period is a row of its own).
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`, `vintage`. License: public; tier: source. Rows read on 2026-11-27: 146456.
+
+- **Time:** ts_utc is the period's end; x_period_start its start for a duration; vintage the filing date.
+- **Revisions:** Every filing kept, one row per vintage: the key is (entity, variable, ts_utc, vintage). A snapshot rebuilt each run from the companies' XBRL facts.
+- **Source:** sec:edgar U.S. Securities and Exchange Commission (SEC), EDGAR: data.sec.gov/api/xbrl/companyfacts (https://www.sec.gov/search-filings/edgar-application-programming-interfaces)
+- **Method note:** [`docs/methods/equities.md`](../methods/equities.md)
+- **Cite as:** U.S. Securities and Exchange Commission (SEC), EDGAR. Via the Energy Research Warehouse (ERW), table `equity_fundamentals_quarterly`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example sec:0000003570, sec:0000004904, sec:0000007323; 243 distinct | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2007-09-30T00:00:00Z to 2026-09-30T00:00:00Z; 287 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | -16998000000.0 to 513773072000000.0; more than 5000 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | USD, count | 0 |
+| `freq` | How long the interval of the row is | none | text | P12M, P3M, P6M, P9M | 32176 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | sec:edgar | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | for example https://www.sec.gov/Archives/edgar/data/1001614/000100161411000033/0001001614-11-000033-index.htm, https://www.sec.gov/Archives/edgar/data/1001614/000100161411000040/0001001614-11-000040-index.htm, https://www.sec.gov/Archives/edgar/data/1001614/000100161412000009/0001001614-12-000009-index.htm; more than 5000 distinct | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-27T02:35:12Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2009-05-07T00:00:00Z to 2026-11-23T00:00:00Z; 1900 distinct | 0 |
+| `x_period_start` | The first day of the period of a duration line (revenue, net income, capex) | none (a date) | date | 2006-10-01 to 2026-07-01; 263 distinct | 32176: blank for an instant (debt, shares outstanding) |
+| `x_months` | The months the duration covers as filed: 3, 6, 9 or 12 (a 10-Q's cash flow is often year to date) | month | integer | 3, 6, 9, 12 | 32176: blank for an instant |
+| `x_fy` | The fiscal year the filing gives the fact | year | integer | 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027 | 0 |
+| `x_fp` | The fiscal period the filing gives the fact (Q1, Q2, Q3, FY) | none | text | FY, Q1, Q2, Q3, Q4 | 0 |
+| `x_form` | The form of the filing (10-Q, 10-K or an amendment) | none | text | 10-K, 10-K/A, 10-Q, 10-Q/A | 0 |
+| `x_accession` | The filing's accession number on EDGAR | none | text | for example 0000003570-11-000066, 0000003570-11-000087, 0000003570-12-000023; more than 5000 distinct | 0 |
+| `x_concept` | The us-gaap concept read for the line (the first of the line's list the filing holds) | none | text | us-gaap:CommonStockSharesOutstanding, us-gaap:ElectricUtilityRevenue, us-gaap:LongTermDebt, us-gaap:LongTermDebtAndCapitalLeaseObligations, us-gaap:LongTermDebtNoncurrent, us-gaap:NetIncomeLoss, us-gaap:NetIncomeLossAvailableToCommonStockholdersBasic, us-gaap:PaymentsToAcquireOilAndGasProperty, us-gaap:PaymentsToAcquireOilAndGasPropertyAndEquipment, us-gaap:PaymentsToAcquireProductiveAssets, us-gaap:PaymentsToAcquirePropertyPlantAndEquipment, us-gaap:ProfitLoss, us-gaap:RegulatedAndUnregulatedOperatingRevenue, us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax, us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax, us-gaap:Revenues, us-gaap:SalesRevenueGoodsNet, us-gaap:SalesRevenueNet | 0 |
+| `x_ticker` | The company's ticker in equity_universe | none | text | for example ACDC, AEE, AEP; 243 distinct | 0 |
+
+Variables (14):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `capex_12m_usd` |  | USD | 6862 | 2007-09-30T00:00:00Z | 2026-09-30T00:00:00Z |
+| `capex_3m_usd` |  | USD | 5619 | 2008-03-31T00:00:00Z | 2026-09-30T00:00:00Z |
+| `capex_6m_usd` |  | USD | 4834 | 2008-06-30T00:00:00Z | 2026-09-30T00:00:00Z |
+| `capex_9m_usd` |  | USD | 4921 | 2008-06-30T00:00:00Z | 2026-09-30T00:00:00Z |
+| `long_term_debt_usd` |  | USD | 18410 | 2008-06-30T00:00:00Z | 2026-09-30T00:00:00Z |
+| `net_income_12m_usd` |  | USD | 7978 | 2007-09-30T00:00:00Z | 2026-09-30T00:00:00Z |
+| `net_income_3m_usd` |  | USD | 30663 | 2008-03-31T00:00:00Z | 2026-09-30T00:00:00Z |
+| `net_income_6m_usd` |  | USD | 5809 | 2008-06-30T00:00:00Z | 2026-09-30T00:00:00Z |
+| `net_income_9m_usd` |  | USD | 5826 | 2008-06-30T00:00:00Z | 2026-09-30T00:00:00Z |
+| `revenue_12m_usd` |  | USD | 7379 | 2007-09-30T00:00:00Z | 2026-09-30T00:00:00Z |
+| `revenue_3m_usd` |  | USD | 23700 | 2008-03-31T00:00:00Z | 2026-09-30T00:00:00Z |
+| `revenue_6m_usd` |  | USD | 5329 | 2008-06-30T00:00:00Z | 2026-09-30T00:00:00Z |
+| `revenue_9m_usd` |  | USD | 5360 | 2008-06-30T00:00:00Z | 2026-09-30T00:00:00Z |
+| `shares_outstanding` |  | count | 13766 | 2007-09-30T00:00:00Z | 2026-09-30T00:00:00Z |
+
 ### `fbos_fiji_electricity_annual`
 
 Energy Fiji Limited's units produced or sold (in total or to one consumer class) in one year, from the Fiji Bureau of Statistics.
@@ -2893,7 +2946,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 | `x_agency` | The agency's name in the report year (it can differ between years) (the source's name: Agency) | none | text | for example Academy Lines, Inc., Academy Lines, Inc., dba: Academy, Access Services; 696 distinct | 0 |
 | `x_city` | The agency's city (the source's name: City) | none | text | for example Akron, Albany, Albuquerque; 425 distinct | 16: The FTA gives no city (four agencies) |
 | `x_mode` | The FTA's mode code (MB, DR, CB, VP and others; the mode's name is in node) (the source's name: Mode) | none | text | AR, CB, CC, CR, DR, FB, HR, IP, LR, MB, MG, PB, RB, SR, TB, TR, VP, YR | 0 |
-| `x_tos` | The type of service: DO directly operated, PT purchased transportation, and the FTA's other codes (the source's name: TOS) | none | text | DO, PT, TN, TX | 0 |
+| `x_tos` | The type of service: DO directly operated, PT purchased transportation, TX taxi (the dataset's own description on data.transportation.gov names the Demand Response Taxi, DR/TX, mode and type of service combination), and TN, a code of the FTA's not expanded in any document read (the source's name: TOS) | none | text | DO, PT, TN, TX | 0 |
 | `x_uza` | The urbanized area (the source's name: UZA Name) | none | text | for example Akron, OH, Albany, GA, Albany--Schenectady, NY; 302 distinct | 0 |
 | `x_mode_voms` | Vehicles operated in maximum service in the mode (the source's name: Mode VOMS) | count | integer | 0 to 5489; 466 distinct | 7: The FTA leaves it blank |
 | `x_reporter_type` | The agency's reporter type: Full Reporter or Reduced Reporter (the source's name: Reporter Type) | none | text | Full Reporter, Reduced Reporter | 0 |
@@ -2913,7 +2966,7 @@ Variables (9):
 | `lpg_gal_equivalent` | Liquefied petroleum gas used, gallon equivalents as the FTA reports them | gal | 222 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `other_fuel` | Other fuel used in the year | gal | 36 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
-Waiting for a second look: x_tos: the type-of-service codes TN and TX are not defined in the connector or the method note (DO and PT are). Read again on 20 November 2026 in the headings of the saved NTD CSV under warehouse/raw/ntd_transit_energy (TOS as a heading only): not found..
+Waiting for a second look: x_tos: the type-of-service code TN is not defined in the connector, the method note or the dataset's own metadata (TX is: taxi, settled 27 November 2026 from the description of view 8ehq-7his on data.transportation.gov, robots read first, fetched once, 101,799 bytes, whose TOS column names only DO and PT). The FTA's own site (www.transit.dot.gov) refused its robots file to this reader (Access Denied): its glossary was not read..
 
 ### `nve_norway_reservoirs_weekly`
 
