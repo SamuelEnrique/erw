@@ -90,7 +90,9 @@
   "pa_53_8811": {"title": "Pennsylvania Consolidated Statutes, Title 53, section 8811, Subjects of taxation enumerated (Consolidated County Assessment Law)", "url": "https://www.palegis.us/statutes/consolidated/view-statute?txtType=PDF&ttl=53&div=0&chpt=088&sctn=011&subsctn=000", "read": "2026-11-27", "request": 479},
   "md_tp_6_101": {"title": "Maryland Code, Tax-Property 6-101, Property subject to assessment and tax", "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtp&section=6-101&enactments=false", "read": "2026-11-27", "request": 481},
   "ky_132_190": {"title": "Kentucky Revised Statutes 132.190, Property subject to taxation, situs", "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=49389", "read": "2026-11-27", "request": 482},
-  "wa_rcw_84_36_005": {"title": "Revised Code of Washington 84.36.005, Property subject to taxation (the Legislature's law files)", "url": "https://lawfilesext.leg.wa.gov/Law/RCW/RCW%20%2084%20%20TITLE/RCW%20%2084%20.%2036%20%20CHAPTER/RCW%20%2084%20.%2036%20.005.htm", "read": "2026-11-27", "request": 483}
+  "wa_rcw_84_36_005": {"title": "Revised Code of Washington 84.36.005, Property subject to taxation (the Legislature's law files)", "url": "https://lawfilesext.leg.wa.gov/Law/RCW/RCW%20%2084%20%20TITLE/RCW%20%2084%20.%2036%20%20CHAPTER/RCW%20%2084%20.%2036%20.005.htm", "read": "2026-11-27", "request": 483},
+  "mi_211_1": {"title": "Michigan Compiled Laws 211.1, Property subject to taxation", "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-211-1", "read": "2026-11-27", "request": 484},
+  "id_63_203": {"title": "Idaho Code 63-203, Property subject to taxation", "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH2/SECT63-203/", "read": "2026-11-27", "request": 485}
  },
  "split": {
   "cite": "jlarc_598",
@@ -277,6 +279,10 @@
   },
   "id": {
    "name": "Idaho",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "id_63_203",
+    "quote": "All property within the jurisdiction of this state, not expressly exempted, is subject to appraisal, assessment and property taxation.",
+    "tip": "Idaho (Code 63-203): \"All property within the jurisdiction of this state, not expressly exempted, is subject to appraisal, assessment and property taxation\"; no exemption of a datacenter's equipment is read (the business personal property exemptions of chapter 6 are not). The tool takes the building and the equipment at their cost (an upper bound) and applies the reader's rate."
+   },
    "sales_exemption": {
     "cite": "id_63_3622vv", "covers": ["equipment", "construction"], "min_investment_usd": 250000000, "min_jobs": 30,
     "quote": "in amounts of at least two hundred fifty million dollars ($250,000,000) in the aggregate within the first five (5) years after commencement of construction and that it will create and maintain at least thirty (30) new jobs at the data center",
@@ -470,6 +476,10 @@
   },
   "mi": {
    "name": "Michigan",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "mi_211_1",
+    "quote": "That all property, real and personal, within the jurisdiction of this state, not expressly exempted, shall be subject to taxation.",
+    "tip": "Michigan (MCL 211.1): \"all property, real and personal, within the jurisdiction of this state, not expressly exempted, shall be subject to taxation\"; no exemption of a datacenter's equipment is read (Michigan's exemptions for manufacturing and small business personal property are not). The tool takes the building and the equipment at their cost (Michigan's assessment ratio and taxable value are not read: an upper bound) and applies the reader's rate."
+   },
    "sales_exemption": {
     "cite": "mi_msf_edc", "covers": ["equipment", "construction"], "min_investment_usd": 250000000, "min_jobs": 30, "last_year": 2050, "start_before_year": 2030,
     "quote": "Affiliates that will develop, own, and operate the facility, is not less than $250,000,000.00",
