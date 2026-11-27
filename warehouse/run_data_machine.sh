@@ -324,6 +324,10 @@ soft_step dm_predict "$PYTHON" warehouse/predict/run.py
 soft_step dm_predict_tables "$PYTHON" warehouse/predict/predict_tables.py
 soft_step dm_predict_tables_stores_demand "$PYTHON" warehouse/table_stores.py predict_demand_forecasts --no-redivis
 soft_step dm_predict_tables_stores_price "$PYTHON" warehouse/table_stores.py predict_price_forecasts --no-redivis
+# Session 10000 (chain 701, data request 8 (a) of docs/state/data_requests_predict.md, chain 730): wind and solar by region
+# against ERCOT's and CAISO's own forecasts (site/data/predict/wind_solar.json, and a row of ledger_wind_solar.csv a day),
+# right after the day's forecast; about a minute. No network, no model
+soft_step dm_predict_wind_solar "$PYTHON" warehouse/predict/wind_solar.py
 # Session 10000 (chain 701, data request 6 of docs/state/data_requests_predict.md, chain 730): the demand forecast two to
 # seven days ahead (site/data/predict/ahead.json), each horizon refit and scored against the same hour a week ago; about
 # 25 minutes and 1 GB of memory, right after the day's forecast. No network, no model
@@ -616,6 +620,12 @@ group dm_test_states "dm_states_page" "tests.test_session8014_states tests.test_
 group dm_test_conditions "dm_congestion_page dm_conditions_page" "tests.test_session9000_congestion tests.test_session9000_conditions" -- site/data/conditions
 group dm_test_where_when "dm_where_when" "tests.test_session8014_where_when" -- site/data/curtailment/where_when.json
 group dm_test_storage_places "dm_storage_places dm_queue_places" "tests.test_session8014_storage_places" -- site/data/storage/places.json site/data/queue_places.json
+
+# Session 10000 (chain 701, data request 8 (b), chain 730): the real-time hub price beside the day-ahead price
+# (site/data/predict/rt_price.json, and ledger_rt_price.csv), the run's last step so it runs as late as the run goes
+# (about 20:30 to 21:30 UTC). The request asks for 22:00 or later, when tomorrow's day-ahead prices are held; on a day they
+# are not held yet the script writes its file without tomorrow's forecast and says so, as the request allows. No network
+soft_step dm_predict_rt_price "$PYTHON" warehouse/predict/rt_price.py
 
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------
 echo "== status"
