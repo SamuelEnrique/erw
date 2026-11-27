@@ -73,7 +73,7 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Item | State | Session | Note |
 |---|---|---|---|
 | More announced projects | done (first pass) | 10807 | 25 rows (Hut 8 River Bend, Amazon Caddo and Bossier, Applied Digital Delta Forge 1 added); defaults recomputed and dated |
-| JEDI plant types the page lacks | waiting | 10807, 10820 | data request 8: window A builds the coal and CSP trough models in its gate 6 (the table of 8,370 rows waits for the data lock); the page's types follow once the table is written |
+| JEDI plant types the page lacks | coal done on the branch; CSP and biopower held | 10807, 10820, 10822 | data request 8 done (window A, 21:57 UTC 26 November); coal offered from EIA's case 1 and JEDI's coal model (replication 524 of 524); CSP and biopower need a capital cost and a life no published study read gives (forecast.md section 14); coal's figures appear when the live set loads the rows |
 | Published IMPLAN ratios beyond Virginia | done | 10809, 10810 | Georgia (the state auditor's evaluation) and Minnesota (the Legislative Budget Office's), each its own state only |
 | An equipment value schedule (a county's, typed) | done | 10809 | three fields; Loudoun's 2026 schedule reproduces its USD 9.96 million |
 | Window F's browser read, rows naming `/impact` | read, five findings fixed | 10808, 10821 | `docs/reviews/browser-read-2026-11-26.md`: `/impact` with Datacenter is part C, read as it lands |
@@ -81,7 +81,7 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Words-only states turned into rules where the law can be read | done | 10813 | Georgia (HB 1291 as signed, through 2031), Utah (59-12-102(111)); Illinois added as words (program paused 1 July 2026); Mississippi stays words |
 | Statutes re-read | done | 10813, 10821 | Utah's code (a July 2026 version, paragraph unchanged); Florida's 212.08 and Iowa's 427A.2 in their 2026 editions (unchanged) |
 | A build and read of the newest head | done | 10813, 10816 | `3fb425592` built 14:00 UTC, eleven addresses at 1280 and 390 px, check-values 1,506 of 1,506; row 14 updated |
-| Minnesota's announced projects (DEED's release on Meta in Rosemount) | waiting | 10815 | mn.gov's robots file sets Visit-time 0000-1200; read after 00:00 UTC |
+| Minnesota's announced projects (DEED's release on Meta in Rosemount) | done | 10815, 10822 | read 02:09 UTC 27 November inside mn.gov's visit window (request 362): USD 800 million, about 100 operational jobs, at least 1,000 at peak; DEED's 2025 expansion list (363) names no datacenter; 47 rows, construction median 400.0 a billion |
 | More states (part F) | done | 10813 to 10816 | by rule: Georgia, Utah, Arkansas, Oklahoma, Connecticut, Michigan (22 in all); words: Illinois, Massachusetts, Ohio, Nebraska (8 in all) |
 | Electricity taxes beyond Virginia | done | 10817, 10818 | Illinois (monthly blocks), Ohio (tiers or the self-assessing schedule, the lower) |
 | Wages from warehouse tables (request 7 built) | done | 10818 | `datacenter_wages.py --tables`; figures identical |
@@ -93,4 +93,20 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Data requests 6, 7, 9 | answered | 10820 | 6 landed (22 rows, grows when row 14 lands), 7 landed and read by the tool, 9 built on `wip/c701-tax` |
 | Row 14 landed (first head) | done | 10821 | `34904f82b` at 14:16 (landing 2); newer head `6352fb2e4` requested |
 | Window F's findings I1 to I5 | done | 10821 | fixed on the branch, tested, read at both widths |
-| Landing row 15 (the newer head) | requested | 10821 | `617bd736d` or later (checked 16:18 UTC: not yet on main; window F's file has no new `/impact` lines); row 14 landed at `34904f82b` |
+| Landing row 15 (the newer head) | landed (18:36 UTC) | 10821, 10822 | `617bd736d` or later (checked 16:18 UTC: not yet on main; window F's file has no new `/impact` lines); row 14 landed at `34904f82b` |
+| Window F's finding I6 (the opening scenario moved, unexplained) | done on the branch | 10822 | a line above the fields: the defaults are medians of the projects read, each count and the date; test in `test-datacenter-ui.test.mjs` |
+| Row 15 | landed | 10822 | `617bd736d` in `b80148122` (18:36 UTC 26 November, task/c701-tax); the newer head goes as row 16 |
+| North Dakota's announced campuses | done | 10822 | the governor's releases (requests 369 to 371): Applied Digital Ellendale a row (USD 5 billion combined); Williston and Bitzero crypto-mining, not rows (decision 19); 48 rows |
+| Tennessee's sales exemption | held: refused | 10822 | www.tn.gov resets every connection (request 364), publications.tnsosfiles.com answers 403 to its robots file (366); no commercial code host taken |
+| Wyoming's announced project | done | 10822 | Meta in Cheyenne (Cheyenne LEADS, request 375): USD 800 million, about 100 operational jobs, over 1,000 at peak; 49 rows, construction median 443.6 a billion |
+| New Mexico's Project Jupiter | held: no document | 10822 | STACK's own PDF answered 404 (request 90); Dona Ana County's bond ordinance not found on an official host |
+| Texas's first announced project | done | 10822 | Meta in El Paso (Meta's own page, request 380; the October 2025 release, 381, for the first phase): 1 GW, more than USD 10 billion, over 300 jobs, over 4,000 at peak; 50 rows; the default size moves from 1,400 to 1,000 MW |
+| Arkansas's announced project | not a row | 10822 | Google's USD 4 billion (its blog, request 379) covers the data center, cloud and AI infrastructure and local programs: no figure is the data center's alone; AEDC's release gives no figure |
+| Meta's campus info sheets | done | 10822 | thirteen campuses, each Meta's only one in its state (requests 384 to 408): offered in the picker, in no median (`to_date`, decision 20); first rows for Illinois, Tennessee, Idaho, New Mexico, Oregon, Nebraska; 63 rows; the parser reads "$1.5B+" |
+| New Hampshire's property | done | 10822 | RSA 72:6, 72:7, 75:1 and chapter 72's list (requests 422 to 426): building at market value, equipment untaxed (decision 21); 37 states |
+| California's rules | held: refused | 10822 | leginfo.legislature.ca.gov answers 403 to its robots file (request 420) |
+| Colorado's property | done | 10822 | C.R.S. 39-1-104(1.9) as HB24B-1001 enacted it (request 428): 25 percent from 2027; 38 states |
+| Chart axis labels cut ("00 million") | done on the branch | 10822 | found in tonight's read with El Paso picked; SeriesChart's margin widens only for a label of more than ten characters |
+| Build and read of c3b81a67f | done | 10822 | 21 addresses at both widths clean, check-values 1,680 of 1,680; landing row 16 requested 02:46 UTC |
+| New Jersey's property | done | 10822 | the assessors' handbook, chapter VI (request 436): equipment untaxed; 39 states |
+| More announced rows | done | 10822 | U.S. Bank Chaska (Minnesota, 2016), AWS Butts and Douglas (Georgia, 2025), AWS Fayette (Ohio, 2024): 66 rows, 53 of them announcements |

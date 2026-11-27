@@ -1,0 +1,65 @@
+C:\Users\Shared\Documents\erw\scripts\sync.py:308: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  cov = cov[cov["table"].str.contains(a.tables, regex=True)]
+tables in coverage: 72; current: 10; missing: 0; behind: 11; ahead: 1; diverged: 0; not on Redivis: 50; unread: 0
+  behind: caiso_interconnection_queue: here 2,278 rows to 2026-11-05 23:21:54; Redivis 2,278 rows to 2026-11-23 15:04:23
+  behind: datacenter_facilities: here 458 rows to 2026-11-25 15:12:13; Redivis 458 rows to 2026-11-26 15:11:38
+  behind: datacenter_projects: here 193 rows to 2026-11-12 22:09:20; Redivis 195 rows to 2026-11-13 15:10:50
+  behind: deal_counterparties: here 532 rows to 2026-11-13 15:10:45; Redivis 527 rows to 2026-11-26 15:11:34
+  behind: eia860m_operating_generators: here 28,780 rows to 2026-11-25 15:07:17; Redivis 28,780 rows to 2026-11-26 15:08:16
+  behind: eia860m_planned_generators: here 2,328 rows to 2026-11-25 15:07:17; Redivis 2,328 rows to 2026-11-26 15:08:16
+  behind: eia860m_retired_generators: here 265 rows to 2026-11-25 15:07:17; Redivis 265 rows to 2026-11-26 15:08:16
+  behind: energy_companies: here 562 rows to 2026-11-25 15:12:06; Redivis 562 rows to 2026-11-26 15:11:33
+  behind: ercot_interconnection_queue: here 1,736 rows to 2026-11-05 23:21:53; Redivis 1,736 rows to 2026-11-23 15:04:22
+  behind: isone_interconnection_queue: here 1,751 rows to 2026-11-05 23:22:50; Redivis 1,751 rows to 2026-11-23 15:05:19
+  behind: storage_capacity: here 1,658 rows to 2026-11-25 15:07:37; Redivis 1,658 rows to 2026-11-26 15:08:32
+  AHEAD, not overwritten: ferc_eqr_party_mw: here 812 rows to 2026-11-16 16:46:07; Redivis 812 rows to 2026-10-05 16:59:01 (upload it, or it is lost with this machine)
+  not on Redivis: aneel_siga_plants
+  not on Redivis: ba_boundaries
+  not on Redivis: blm_ca_renewable_rows
+  not on Redivis: boem_offshore_platforms
+  not on Redivis: boem_renewable_leases
+  not on Redivis: company_aliases
+  not on Redivis: company_directory
+  not on Redivis: desnz_uk_power_stations
+  not on Redivis: doe_lng_export_applications
+  not on Redivis: egrid_power_plants
+  not on Redivis: eia860_boilers
+  not on Redivis: eia860_cooling_systems
+  not on Redivis: eia860_emission_controls
+  not on Redivis: eia860_generator_owners
+  not on Redivis: eia860_multifuel_generators
+  not on Redivis: eia860_plants_annual
+  not on Redivis: eia860_solar_generators
+  not on Redivis: eia860_storage_generators
+  not on Redivis: eia860_wind_generators
+  not on Redivis: eia861_utility_data
+  not on Redivis: eia_biofuel_plants
+  not on Redivis: eia_county_region
+  not on Redivis: eia_hgl_pipelines
+  not on Redivis: eia_lng_liquefaction_projects
+  not on Redivis: eia_uranium_facilities
+  not on Redivis: epa_lmop_landfill_projects
+  not on Redivis: epa_needs_units
+  not on Redivis: ercot_cdr_units
+  not on Redivis: ercot_node_places
+  not on Redivis: ercot_node_planned_generation
+  not on Redivis: ercot_node_transmission
+  not on Redivis: ercot_node_wires_utilities
+  not on Redivis: ferc714_respondents
+  not on Redivis: hifld_transmission_lines
+  not on Redivis: interconnection_agreements_signed
+  not on Redivis: interconnection_durations
+  not on Redivis: lbnl_hybrid_plants
+  not on Redivis: lbnl_solar_projects
+  not on Redivis: msha_coal_mines
+  not on Redivis: nrc_advanced_reactor_preapplicants
+  not on Redivis: nrc_power_reactors
+  not on Redivis: ornl_eha_hydropower_plants
+  not on Redivis: ornl_eha_hydropower_units
+  not on Redivis: ornl_hydropower_pipeline
+  not on Redivis: ornl_npd_potential
+  not on Redivis: resource_layer_features
+  not on Redivis: usace_nid_dams
+  not on Redivis: uspvdb_solar_facilities
+  not on Redivis: uswtdb_wind_turbines
+  not on Redivis: utility_service_territories
