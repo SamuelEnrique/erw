@@ -120,3 +120,4 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Nebraska, North Carolina, Pennsylvania property | done | 10822 | 77-201 (475); G.S. 105-274, 105-283 (477, 478); 53 Pa.C.S. 8811 (479, decision 23); 130 quotes; property rules now in every state with a rule but CT, FL, ID, IN, KY, MA, MD, MI, OK, UT, WA |
 | Full suite on e07989aaf | done | 10822 | 11,107 passed, 15 failed, 346 skipped (20 min, under the lock); 12 of the 15 fail the same way on the clean main of 26 November (fail_now.txt), the other 3 (sessions 137, 143, 161, the /ask panel) on today's clean origin/main in a throwaway worktree |
 | Maryland, Kentucky, Washington, Michigan, Idaho property | done | 10822 | requests 481 to 485; Florida's site serves a cookie challenge (480), not got around; 136 quotes |
+| Connecticut's property | held | 10822 | OPM's statutes page answered 404 (request 486); cga.ct.gov fails its certificate check |
