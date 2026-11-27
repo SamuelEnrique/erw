@@ -458,8 +458,8 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-04T21:33:39Z to 2026-11-15T15:54:05Z; 269 distinct | 0 |
 | `vintage` | When the publisher published the document the value came from, in UTC. Here: ERCOT's publication time of the day's zip; its Central date is the operating day plus 60 days | none | utc time | 2026-02-04T22:53:33Z to 2026-10-30T12:41:46Z; 269 distinct | 0 |
 | `x_qse` | The scheduling entity (QSE) of the resource, ERCOT's code (the source's name: QSE) | none | text | for example QAETE1, QAETEL, QAMA1; 120 distinct | 0 |
-| `x_dme` | not documented by the source (the source's name: DME) | none | text | for example Y2WPER, YAETEL, YAGPC2; 185 distinct | 1895: ERCOT's cell is blank |
-| `x_resource_status` | ERCOT's status of the resource for the hour, as printed (ON, OUT, ONTEST, ONOS) (the source's name: Resource Status) | none | text | ON, ONOS, ONTEST, OUT | 0 |
+| `x_dme` | The Decision Making Entity (DME) controlling the resource, as ERCOT codes it: the entity that the resource's owner declares to ERCOT (Managed Capacity Declaration) as having control over how the resource is offered or scheduled (ERCOT Nodal Protocols, Section 3.6.2, Decision Making Entity for a Resource) (the source's name: DME) | none | text | for example Y2WPER, YAETEL, YAGPC2; 185 distinct | 1895: ERCOT's cell is blank |
+| `x_resource_status` | ERCOT's Resource Status of the energy storage resource for the hour, as printed (ERCOT Nodal Protocols, Section 3.9.1, the statuses for ESRs): ON (On-Line Resource with Energy Bid/Offer Curve), ONOS (On-Line Resource with Output Schedule), ONTEST (On-Line blocked from SCED for operations testing; an ESR may then be shown on Outage in the Outage Scheduler), OUT (Off-Line and unavailable, or not connected to the ERCOT System and operating in a Private Microgrid Island) (the source's name: Resource Status) | none | text | ON, ONOS, ONTEST, OUT | 0 |
 | `x_lsl_mw` | The resource's Low Sustained Limit for the hour (negative: charging) (the source's name: LSL) | MW | number | -240.0 to 156.0; 376 distinct | 0 |
 | `x_energy_award_mw` | The day-ahead energy award (negative is a purchase, charging) (the source's name: Awarded Quantity) | MW | number | -240.0 to 216.0; 2982 distinct | 1046971: No award (a blank award stays blank, not zero) |
 | `x_energy_price_usd_per_mwh` | The day-ahead energy price at the resource's own settlement point (the source's name: Energy Settlement Point Price) | USD/MWh | number | -205.72 to 22618.19; more than 5000 distinct | 0 |
@@ -481,8 +481,6 @@ Variables (1):
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
 | `hsl_mw` | The resource's High Sustained Limit (HSL) for the hour, the most it can sustain, MW, as ERCOT prints it | MW | 2042277 | 2025-12-06T06:00:00Z | 2026-09-01T04:00:00Z |
-
-Waiting for a second look: x_dme: the meaning of ERCOT's DME column is not written in the header, the connector or the method note. Read again on 20 November 2026: no file of the repository spells it out; ERCOT's own report definitions were not found at a stable address in one try, and no address was guessed further. Read again on 20 November 2026 in the members of a saved 60-day DAM disclosure zip under warehouse/raw/ercot_60d_dam (CSV files only, no readme) and docs/methods/ercot_disclosure_scoping.md: not found.; x_resource_status: ERCOT's codes ON, OUT, ONTEST and ONOS are kept as printed and not spelled out in the repository's documents. Read again on 20 November 2026 in the members of a saved 60-day DAM disclosure zip (CSV files only, no readme), docs/methods/ercot_disclosure_scoping.md and docs/methods/ercot_dam_esr_awards.md: not found..
 
 ### `ercot_grid_notices`
 

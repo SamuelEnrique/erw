@@ -169,7 +169,9 @@ columns:
   source_name: QSE
   documented_by: header; connector ercot_dam_esr.py; method ercot_dam_esr_awards.md
 - name: x_dme
-  label: not documented by the source
+  label: 'The Decision Making Entity (DME) controlling the resource, as ERCOT codes it: the entity that the resource''s
+    owner declares to ERCOT (Managed Capacity Declaration) as having control over how the resource is offered or
+    scheduled (ERCOT Nodal Protocols, Section 3.6.2, Decision Making Entity for a Resource)'
   unit: none
   type: text
   values:
@@ -183,9 +185,13 @@ columns:
   missing_cells: 1895
   missing_meaning: ERCOT's cell is blank
   source_name: DME
-  documented_by: connector ercot_dam_esr.py; method ercot_dam_esr_awards.md
+  documented_by: source ERCOT Nodal Protocols, Section 3, August 1, 2026 (www.ercot.com/files/docs/2025/09/01/03-080126_Nodal.docx; robots read first, /files/docs allowed), read 2026-11-27
 - name: x_resource_status
-  label: ERCOT's status of the resource for the hour, as printed (ON, OUT, ONTEST, ONOS)
+  label: 'ERCOT''s Resource Status of the energy storage resource for the hour, as printed (ERCOT Nodal Protocols,
+    Section 3.9.1, the statuses for ESRs): ON (On-Line Resource with Energy Bid/Offer Curve), ONOS (On-Line Resource
+    with Output Schedule), ONTEST (On-Line blocked from SCED for operations testing; an ESR may then be shown on Outage
+    in the Outage Scheduler), OUT (Off-Line and unavailable, or not connected to the ERCOT System and operating in a
+    Private Microgrid Island)'
   unit: none
   type: text
   values:
@@ -197,7 +203,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: Resource Status
-  documented_by: connector ercot_dam_esr.py; method ercot_dam_esr_awards.md
+  documented_by: source ERCOT Nodal Protocols, Section 3, August 1, 2026 (www.ercot.com/files/docs/2025/09/01/03-080126_Nodal.docx; robots read first, /files/docs allowed), read 2026-11-27
 - name: x_lsl_mw
   label: 'The resource''s Low Sustained Limit for the hour (negative: charging)'
   unit: MW
@@ -384,11 +390,4 @@ variables:
   rows: 2042277
   first: '2025-12-06T06:00:00Z'
   last: '2026-09-01T04:00:00Z'
-second_look:
-- 'x_dme: the meaning of ERCOT''s DME column is not written in the header, the connector or the method note. Read again on
-  20 November 2026: no file of the repository spells it out; ERCOT''s own report definitions were not found at a stable address
-  in one try, and no address was guessed further. Read again on 20 November 2026 in the members of a saved 60-day DAM disclosure
-  zip under warehouse/raw/ercot_60d_dam (CSV files only, no readme) and docs/methods/ercot_disclosure_scoping.md: not found.'
-- 'x_resource_status: ERCOT''s codes ON, OUT, ONTEST and ONOS are kept as printed and not spelled out in the repository''s
-  documents. Read again on 20 November 2026 in the members of a saved 60-day DAM disclosure zip (CSV files only, no readme),
-  docs/methods/ercot_disclosure_scoping.md and docs/methods/ercot_dam_esr_awards.md: not found.'
+second_look: null
