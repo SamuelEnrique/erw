@@ -180,7 +180,7 @@ function Filed({ f, col, slot, colAt }: { f: Filing; col: string; slot: Slot; co
 }
 const periodWords = (f: Filing) => `${f.months !== null ? `${f.months} months to ` : ""}${f.period_end}`;
 const FilingLink = ({ f, children }: { f: Filing; children: ReactNode }) => (secUrl(f.url)
-  ? <a href={secUrl(f.url)!} title={`The filing on the SEC's site${f.accession ? `, accession ${f.accession}` : ""}: ${f.url}`} rel="noopener">{children}</a>
+  ? <a href={secUrl(f.url)!} className="inline-block py-1.5 -my-1.5" title={`The filing on the SEC's site${f.accession ? `, accession ${f.accession}` : ""}: ${f.url}`} rel="noopener">{children}</a>
   : <span title={f.accession ? `Accession ${f.accession}` : undefined}>{children}</span>);
 const endMs = (f: Filing) => Date.parse(`${f.period_end}T00:00:00Z`);
 
@@ -310,7 +310,7 @@ function Companies({ list, q, first }: { list: EqList; q: Query; first: string |
         head={[sortHead("name"), sortHead("ticker"), sortHead("exchange"), sortHead("segment"), "Industry", <span key="p">Share price: {sortHead("first")} to {sortHead("last")}</span>, "Filed figures",
           ...(priced ? [<span key="lc" data-eq-priced="1">Last close, USD</span>, ...MOVE_WORDS.map(([k, words]) => <span key={k}>{words}</span>), <span key="mv" className="cursor-help" title="The last close times the shares the company last filed, in USD.">Market value, USD</span>] : [])]}
         rows={rows.map((c) => ({ key: c.id, cells: [
-          <SiteLink key="n" href={hrefOf(q, { a: c.id }, first, "#line")} title={`Draw ${c.ticker}${c.cik ? `; SEC number ${c.cik}` : ""}`}>{c.name ?? c.ticker}</SiteLink>,
+          <SiteLink key="n" href={hrefOf(q, { a: c.id }, first, "#line")} className="inline-block py-1 -my-1" title={`Draw ${c.ticker}${c.cik ? `; SEC number ${c.cik}` : ""}`}>{c.name ?? c.ticker}</SiteLink>,
           c.ticker, c.exchange ?? "",
           <span key="s" title={[...c.segments.map((id) => { const g = list.segments.find((x) => x.id === id); return g?.rule ? `${g.label}: ${g.rule}` : g?.label ?? id; }), c.segments_note ?? ""].filter(Boolean).join(" ")} className="cursor-help">{c.segments.map((id) => segmentLabel(list, id)).join(", ")}</span>,
           <span key="i" title={c.sic ? `SIC ${c.sic}` : undefined}>{c.sic_label ?? ""}</span>,
