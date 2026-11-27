@@ -1525,6 +1525,14 @@ async function main() {
       const equitiesSigned = /^pf\|equities\/[^|]+\|(?:.*\/)?moves(?:_value_weight)?\/[a-z]+\/(?:pct|ch)$/.test(check) && Number(raw) > 0
         && text === `+${Number(raw).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}${check.endsWith("/pct") ? "%" : ""}`;
       if (!pass && equitiesSigned && t !== undefined && t !== null && same) pass = true;
+      // session 10000 (chain 701, part D): /equities writes a filed statement line in millions (lib/equities.ts millions:
+      // revenue, net income, capital spending and debt whole, positions 7 to 10 of a company's quarterly rows; shares
+      // outstanding to one decimal, position 11), the exact figure in the hover. Found by gate 18's run on the first real
+      // company files: 110 cells failed on "1,459" against 1458800000
+      const qm = /^pf\|equities\/series\/[^|]+\.json\|quarterly\/\d+\/(7|8|9|10|11)$/.exec(check);
+      const equitiesFiled = qm !== null && text === (Number(raw) / 1e6).toLocaleString("en-US", qm[1] === "11"
+        ? { minimumFractionDigits: 1, maximumFractionDigits: 1 } : { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      if (!pass && equitiesFiled && t !== undefined && t !== null && same) pass = true;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
       // that day's, and a date the page writes beside the figure must be the same date

@@ -1,0 +1,352 @@
+# The codebook's metadata of table equity_fundamentals_quarterly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: equity_fundamentals_quarterly
+family: ''
+shape: series
+row: One statement line of one company for one period as one filing reported it (a later filing that repeats the period is
+  a row of its own).
+time: ts_utc is the period's end; x_period_start its start for a duration; vintage the filing date.
+vintage_rule: 'Every filing kept, one row per vintage: the key is (entity, variable, ts_utc, vintage). A snapshot rebuilt
+  each run from the companies'' XBRL facts.'
+keys:
+- entity
+- variable
+- ts_utc
+- vintage
+license: public
+tier: source
+interval: ;P12M;P3M;P6M;P9M
+source:
+- name: 'sec:edgar U.S. Securities and Exchange Commission (SEC), EDGAR: data.sec.gov/api/xbrl/companyfacts'
+  url: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+cite: U.S. Securities and Exchange Commission (SEC), EDGAR. Via the Energy Research Warehouse (ERW), table `equity_fundamentals_quarterly`.
+method: docs/methods/equities.md
+header_title: 'the universe''s filed statements from SEC EDGAR''s XBRL facts: revenue, net income, capital spending, long-term
+  debt and shares outstanding, as filed (session 10000, chain 701, part D)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity sec:<CIK>; ts_utc the period''s end; durations named by their
+  months (revenue_3m_usd, net_income_12m_usd, capex_9m_usd: a 10-Q''s cash flow is year to date), instants at the period''s
+  end (long_term_debt_usd, shares_outstanding in unit count: shares); x_concept the us-gaap concept read; source_url the filing.'
+read:
+  date: '2026-11-27'
+  rows: 146456
+  key_duplicates: 80763
+  key_duplicates_with_vintage: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 243
+    examples:
+    - sec:0000003570
+    - sec:0000004904
+    - sec:0000007323
+    - sec:0000010048
+    - sec:0000019745
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 287
+    earliest: '2007-09-30T00:00:00Z'
+    latest: '2026-09-30T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -16998000000.0
+    highest: 513773072000000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD: 132690
+      count: 13766
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P12M: 22219
+      P3M: 59982
+      P6M: 15972
+      P9M: 16107
+  missing_cells: 32176
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      sec:edgar: 146456
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - https://www.sec.gov/Archives/edgar/data/1001614/000100161411000033/0001001614-11-000033-index.htm
+    - https://www.sec.gov/Archives/edgar/data/1001614/000100161411000040/0001001614-11-000040-index.htm
+    - https://www.sec.gov/Archives/edgar/data/1001614/000100161412000009/0001001614-12-000009-index.htm
+    - https://www.sec.gov/Archives/edgar/data/1001614/000100161412000016/0001001614-12-000016-index.htm
+    - https://www.sec.gov/Archives/edgar/data/1001614/000100161412000023/0001001614-12-000023-index.htm
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-27T02:35:12Z': 146456
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    distinct: 1900
+    earliest: '2009-05-07T00:00:00Z'
+    latest: '2026-11-23T00:00:00Z'
+  missing_cells: 0
+- name: x_period_start
+  label: The first day of the period of a duration line (revenue, net income, capex)
+  unit: none (a date)
+  type: date
+  values:
+    distinct: 263
+    earliest: '2006-10-01'
+    latest: '2026-07-01'
+  missing_cells: 32176
+  missing_meaning: blank for an instant (debt, shares outstanding)
+  source_name: null
+  documented_by: null
+- name: x_months
+  label: 'The months the duration covers as filed: 3, 6, 9 or 12 (a 10-Q''s cash flow is often year to date)'
+  unit: month
+  type: integer
+  values:
+    list:
+      '3': 59982
+      '6': 15972
+      '9': 16107
+      '12': 22219
+  missing_cells: 32176
+  missing_meaning: blank for an instant
+  source_name: null
+  documented_by: null
+- name: x_fy
+  label: The fiscal year the filing gives the fact
+  unit: year
+  type: integer
+  values:
+    list:
+      '2009': 1558
+      '2010': 3519
+      '2011': 5941
+      '2012': 7122
+      '2013': 7556
+      '2014': 7773
+      '2015': 8233
+      '2016': 8260
+      '2017': 8908
+      '2018': 9821
+      '2019': 10710
+      '2020': 9929
+      '2021': 9131
+      '2022': 9550
+      '2023': 9718
+      '2024': 10033
+      '2025': 10803
+      '2026': 7824
+      '2027': 67
+  missing_cells: 0
+  missing_meaning: blank when the filing gives none
+  source_name: null
+  documented_by: null
+- name: x_fp
+  label: The fiscal period the filing gives the fact (Q1, Q2, Q3, FY)
+  unit: none
+  type: text
+  values:
+    list:
+      FY: 47136
+      Q1: 23088
+      Q2: 37067
+      Q3: 39017
+      Q4: 148
+  missing_cells: 0
+  missing_meaning: blank when the filing gives none
+  source_name: null
+  documented_by: null
+- name: x_form
+  label: The form of the filing (10-Q, 10-K or an amendment)
+  unit: none
+  type: text
+  values:
+    list:
+      10-K: 46109
+      10-K/A: 1065
+      10-Q: 98085
+      10-Q/A: 1197
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+- name: x_accession
+  label: The filing's accession number on EDGAR
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0000003570-11-000066
+    - 0000003570-11-000087
+    - 0000003570-12-000023
+    - 0000003570-12-000037
+    - 0000003570-12-000104
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+- name: x_concept
+  label: The us-gaap concept read for the line (the first of the line's list the filing holds)
+  unit: none
+  type: text
+  values:
+    list:
+      us-gaap:CommonStockSharesOutstanding: 13766
+      us-gaap:ElectricUtilityRevenue: 494
+      us-gaap:LongTermDebt: 8205
+      us-gaap:LongTermDebtAndCapitalLeaseObligations: 3393
+      us-gaap:LongTermDebtNoncurrent: 6812
+      us-gaap:NetIncomeLoss: 41532
+      us-gaap:NetIncomeLossAvailableToCommonStockholdersBasic: 1112
+      us-gaap:PaymentsToAcquireOilAndGasProperty: 1355
+      us-gaap:PaymentsToAcquireOilAndGasPropertyAndEquipment: 1371
+      us-gaap:PaymentsToAcquireProductiveAssets: 4464
+      us-gaap:PaymentsToAcquirePropertyPlantAndEquipment: 15046
+      us-gaap:ProfitLoss: 7632
+      us-gaap:RegulatedAndUnregulatedOperatingRevenue: 1583
+      us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax: 6834
+      us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax: 1899
+      us-gaap:Revenues: 25847
+      us-gaap:SalesRevenueGoodsNet: 166
+      us-gaap:SalesRevenueNet: 4945
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+- name: x_ticker
+  label: The company's ticker in equity_universe
+  unit: none
+  type: text
+  values:
+    distinct: 243
+    examples:
+    - ACDC
+    - AEE
+    - AEP
+    - AES
+    - AESI
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+variables:
+- name: capex_12m_usd
+  label: null
+  unit: USD
+  rows: 6862
+  first: '2007-09-30T00:00:00Z'
+  last: '2026-09-30T00:00:00Z'
+- name: capex_3m_usd
+  label: null
+  unit: USD
+  rows: 5619
+  first: '2008-03-31T00:00:00Z'
+  last: '2026-09-30T00:00:00Z'
+- name: capex_6m_usd
+  label: null
+  unit: USD
+  rows: 4834
+  first: '2008-06-30T00:00:00Z'
+  last: '2026-09-30T00:00:00Z'
+- name: capex_9m_usd
+  label: null
+  unit: USD
+  rows: 4921
+  first: '2008-06-30T00:00:00Z'
+  last: '2026-09-30T00:00:00Z'
+- name: long_term_debt_usd
+  label: null
+  unit: USD
+  rows: 18410
+  first: '2008-06-30T00:00:00Z'
+  last: '2026-09-30T00:00:00Z'
+- name: net_income_12m_usd
+  label: null
+  unit: USD
+  rows: 7978
+  first: '2007-09-30T00:00:00Z'
+  last: '2026-09-30T00:00:00Z'
+- name: net_income_3m_usd
+  label: null
+  unit: USD
+  rows: 30663
+  first: '2008-03-31T00:00:00Z'
+  last: '2026-09-30T00:00:00Z'
+- name: net_income_6m_usd
+  label: null
+  unit: USD
+  rows: 5809
+  first: '2008-06-30T00:00:00Z'
+  last: '2026-09-30T00:00:00Z'
+- name: net_income_9m_usd
+  label: null
+  unit: USD
+  rows: 5826
+  first: '2008-06-30T00:00:00Z'
+  last: '2026-09-30T00:00:00Z'
+- name: revenue_12m_usd
+  label: null
+  unit: USD
+  rows: 7379
+  first: '2007-09-30T00:00:00Z'
+  last: '2026-09-30T00:00:00Z'
+- name: revenue_3m_usd
+  label: null
+  unit: USD
+  rows: 23700
+  first: '2008-03-31T00:00:00Z'
+  last: '2026-09-30T00:00:00Z'
+- name: revenue_6m_usd
+  label: null
+  unit: USD
+  rows: 5329
+  first: '2008-06-30T00:00:00Z'
+  last: '2026-09-30T00:00:00Z'
+- name: revenue_9m_usd
+  label: null
+  unit: USD
+  rows: 5360
+  first: '2008-06-30T00:00:00Z'
+  last: '2026-09-30T00:00:00Z'
+- name: shares_outstanding
+  label: null
+  unit: count
+  rows: 13766
+  first: '2007-09-30T00:00:00Z'
+  last: '2026-09-30T00:00:00Z'
+second_look: null

@@ -1,0 +1,17 @@
+SWPP 2025-01 to 2025-12: EIA's file (forecast over reported demand) [np.float64(98.8), np.float64(98.8), np.float64(100.2), np.float64(99.1), np.float64(108.0), np.float64(109.7), np.float64(109.2), np.float64(107.8), np.float64(109.3), np.float64(109.8), np.float64(110.8), np.float64(111.8)]
+   warehouse [98.8, 98.8, 100.2, 99.1, 108.0, 109.5, 109.2, 107.8, 109.3, 109.8, 110.8, 111.8]
+FPC 2019-01 to 2019-06: EIA's file (forecast over reported demand) [np.float64(76.4), np.float64(77.4), np.float64(77.6), np.float64(79.4), np.float64(78.9), np.float64(79.1)]
+   warehouse [76.4, 77.4, 77.6, 79.4, 78.9, 79.1]
+FPC 2026-01 to 2026-11: EIA's file (forecast over reported demand) [np.float64(71.1), np.float64(63.7), np.float64(76.6), np.float64(77.3), np.float64(76.5), np.float64(76.9), np.float64(77.3), np.float64(77.5), np.float64(75.6), np.float64(75.3), np.float64(76.1)]
+   warehouse [71.1, 68.1, 76.6, 77.3, 76.5, 76.9, 77.3, 77.5, 75.6, 75.3, 76.1]
+PSCO 2025-10 to 2026-11: EIA's file (forecast over reported demand) [np.float64(91.8), np.float64(90.2), np.float64(92.4), np.float64(87.2), np.float64(85.4), np.float64(83.9), np.float64(83.3), np.float64(75.8), np.float64(74.0), np.float64(70.8), np.float64(73.9), np.float64(74.5), np.float64(75.8), np.float64(77.2)]
+   warehouse [91.8, 90.3, 92.4, 87.6, 85.4, 84.0, 83.1, 75.8, 74.0, 70.8, 73.9, 74.5, 75.8, 77.3]
+FMPP 2026-01 to 2026-08: EIA's file (forecast over reported demand) [np.float64(100.0), np.float64(70.9), np.float64(69.5), np.float64(71.1), np.float64(71.3), np.float64(72.2), np.float64(71.4), np.float64(91.1)]
+   warehouse [99.9, 71.0, 69.5, 71.1, 71.3, 72.2, 71.4, 91.1]
+SRP 2026-01 to 2026-11: EIA's file (forecast over reported demand) [np.float64(99.4), np.float64(96.6), np.float64(103.0), np.float64(114.9), np.float64(123.5), np.float64(105.2), np.float64(105.8), np.float64(107.7), np.float64(110.8), np.float64(119.9), np.float64(113.8)]
+   warehouse [99.4, 96.6, 103.0, 114.9, 123.5, 105.2, 105.8, 107.7, 110.8, 119.9, 113.8]
+CISO 2026-01 to 2026-11: EIA's file (forecast over reported demand) [np.float64(91.7), np.float64(91.4), np.float64(90.8), np.float64(88.9), np.float64(89.3), np.float64(90.1), np.float64(92.4), np.float64(92.3), np.float64(92.3), np.float64(93.2), np.float64(90.4)]
+   warehouse [91.8, 91.4, 91.1, 88.9, 89.3, 90.1, 92.4, 92.3, 92.3, 93.4, 90.5]
+PJM (all): MAPE against the same hour 3.52 percent, against the hour after 2.51 percent, 73392 hours
+PJM (2026): MAPE against the same hour 3.53 percent, against the hour after 2.61 percent, 7852 hours
+written docs/reviews/answers-c701-2026-11-26/predict_row7_eia930_forecast_levels.csv

@@ -34,6 +34,7 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 - Landings 4 to 9 (`b80148122`, `4e6a7039c`, `66d07052c`, `fbb6012b6`, `052ebaa97`, `80d767b07`): pairs `c701-L4` to `c701-L9`, 0 differences each (expected: every page is in review).
 - The daily run's replayed commit (`26b00d06b`): `c701-dm-before` and `c701-dm-after`, 0 differences. The records of the tables written at 21:57: `c701-rec`, 0. The company pages: `c701-co`, 0. Request 57: `c701-r57`, 0.
 - **Not as the rule asks:** three doc pushes between 22:13 and 22:30 went without a before snapshot of their own; a snapshot after them (`c701-docs-2230`) against the last one before (`c701-co-after`) showed 0 differences. From 22:39 every doc push has its pair (`c701-doc2325-after`, `c701-doc0020-after`: 0).
+- **Not as it should be:** at 06:44 UTC on 27 November a doc commit (`3085d3947`) carried conflict markers in `landing_request_desktop_w3.md` for about a minute: my command went on after its first merge of main failed (chain 740 had marked the same row landed). Fixed in `dac6a9a58` (their row kept); the doc commands now stop when that merge fails. Snapshots across both pushes: 0 differences.
 
 ## The desk in the afternoon
 
@@ -70,7 +71,7 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 
 ## For Samuel's ruling
 
-- The SEC refuses the ERW's contact string: give a contact address for the SEC's user agent and EDGAR opens part D (companies, share counts, statements). Default: not pulled.
+- The SEC refuses the ERW's contact string: give a contact address for the SEC's user agent and EDGAR opens part D (companies, share counts, statements). Default: not pulled. **Ruled by Samuel on 26 November** (the address given, kept in .env): done on 27 November, part D's public half (the universe, the statements, the page files).
 - No free source of daily share prices or index levels may be kept (Stooq, Nasdaq, Tiingo, Alpha Vantage, State Street). Default: prices blank with "license needed".
 - The signature pack of 14 November quotes figures each refresh moves, so every refresh of the datacenter files is put back (they stand at 12 November). Default: left as it is; the battery section was written again for the new window.
 - The hourly network's allowed staleness (3 hours) against a daily run of about 3 hours during which it skips. Default: left as it is.

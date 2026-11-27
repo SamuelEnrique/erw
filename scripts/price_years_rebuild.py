@@ -69,6 +69,9 @@ def env(name):
     return None
 
 
+LOAD_HELD = 75  # warehouse/supabase/load.py GATE_SKIP
+
+
 def run(cmd, label):
     """One step, its own exit code read (never piped); the command printed with the repository-relative paths."""
     shown = " ".join(os.path.relpath(c, ROOT) if os.path.isabs(c) and c.startswith(ROOT) else c for c in cmd)
@@ -209,7 +212,14 @@ def apply(py, snapshot_dir):
             ([py, os.path.join(ROOT, "warehouse", "supabase", "load.py"), "--only", f"^{TABLE}$"], "the load"),
         ]
         for cmd, label in steps:
-            if run(cmd, label) != 0:
+            code = run(cmd, label)
+            # session 10000 (chain 701): the loader's exit 75 is "held" (load.py GATE_SKIP): the table loaded and something
+            # else was held (since 26 November the stale source of the IEA). The read back below still fails unless every
+            # default window equals the file's and every row was retrieved by this run, so a held load goes on to it
+            if code == LOAD_HELD and label == "the load":
+                print("the load ended held (exit 75): its held lines are above; the read back decides")
+                continue
+            if code != 0:
                 failed = label
                 break
     finally:

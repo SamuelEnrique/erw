@@ -204,7 +204,7 @@ def main():
         c2 = recent.dropna(subset=["actual", "yesterday", "week_ago", "regression", "regression_recent", "operator"])
         for m in ("yesterday", "week_ago", "regression", "regression_recent"):
             maes[m] = score(c2, m)[1]
-        chosen = min(maes, key=maes.get)
+        chosen = min((v, m) for m, v in maes.items())[1]
         x["erw"] = x[chosen]
         c = x.dropna(subset=["actual", "erw", "operator", "yesterday", "week_ago", "regression", "regression_recent"]).reset_index(drop=True)
         last = c["day"].max()
@@ -221,9 +221,25 @@ def main():
             msk = ((c["day"] >= s0) & (c["day"] <= s1)).to_numpy()
             if msk.any():
                 cuts[("event", eid)] = msk
+        # the operator's filing check (method note section 18): a month whose filed forecast sums more than 5 percent
+        # from the demand over the hours both hold is flagged; the cuts operator_sound(_last_2_years) take the rest
+        if p in ops:
+            y = x[(x["actual"] > 0) & x["operator"].notna()]
+            g = y.groupby(y["day"].dt.strftime("%Y-%m"))[["operator", "actual"]].sum()
+            sound = set(g.index[((g["operator"] / g["actual"] * 100) - 100).abs() <= 5.0])
+            ok_m = mo.isin(sorted(sound)).to_numpy()
+            cuts[("operator_sound", "")] = ok_m
+            cuts[("operator_sound_last_2_years", "")] = ok_m & rec.to_numpy()
         shown = {(r["method"], r["cut"], r["key"]): r for r in rows if r["place"] == p}
         for (cut, key), msk in cuts.items():
             for m in ("erw", "operator", "yesterday", "week_ago", "regression", "regression_recent"):
+                if not msk.any():
+                    # a cut with no hours (no sound month in the last two years): the file's row is present, empty
+                    n, mae, mape = 0, None, None
+                    r = shown.get((m, cut, key))
+                    ok = r is not None and r["hours"] == 0 and r["mae"] is None
+                    figs.append((f"{p}.{m}.{cut}.{key}", None if r is None else (r["hours"], r["mae"], r["mape"]), (n, mae, mape), ok))
+                    continue
                 n, mae, mape = score(c[msk], m)
                 r = shown.get((m, cut, key))
                 ok = r is not None and r["hours"] == n and abs(r["mae"] - mae) <= 0.011 and abs(r["mape"] - mape) <= 0.0011

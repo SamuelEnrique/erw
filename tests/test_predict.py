@@ -114,6 +114,155 @@ class PriceNothingKnownEarly(unittest.TestCase):
         self.assertTrue(np.isfinite(base["P"]["regression"][i]).all())
 
 
+class WeatherForecastNothingKnownEarly(unittest.TestCase):
+    """Method note section 19: a forecast hour enters target day D only from an issue no later than 20:00 UTC on D-1;
+    of those, the latest; and the observed weather of day D and after never moves the forecast for D."""
+
+    def rows(self, tz, day, vintages_values):
+        hours = demand.day_hours(tz, day)["ts"]
+        out = []
+        for vt, val in vintages_values:
+            for t in hours:
+                out.append({"airport": "KXXX", "ts": t, "vintage": pd.Timestamp(vt, tz="UTC"), "value": val})
+        return pd.DataFrame(out)
+
+    def test_late_issue_never_used(self):
+        import predict_weather as pw
+        tz = "America/Chicago"
+        day = pd.Timestamp("2026-11-10")
+        days = pd.date_range("2026-11-08", "2026-11-12", freq="D")
+        r = self.rows(tz, day, [("2026-11-09T12:00:00", 40.0), ("2026-11-09T19:59:00", 50.0), ("2026-11-09T20:01:00", 99.0)])
+        F, V = pw.forecast_matrix(r, "KXXX", tz, days)
+        i = list(days).index(day)
+        self.assertTrue(np.all(F[i] == 50.0))
+        self.assertEqual(pd.Timestamp(V[i]), pd.Timestamp("2026-11-09T19:59:00"))
+        r2 = self.rows(tz, day, [("2026-11-09T20:30:00", 99.0)])
+        F2, _ = pw.forecast_matrix(r2, "KXXX", tz, days)
+        self.assertTrue(np.isnan(F2[i]).all())
+
+    def test_observed_weather_of_the_day_moves_nothing(self):
+        tz = "America/Chicago"
+        s = synthetic(800, tz, seed=5)
+        M = demand.place_forecasts(s, tz, h=2)["M"]
+        idx = pd.date_range(s.index.min(), s.index.max() + pd.Timedelta(days=3), freq="h")
+        rng = np.random.default_rng(2)
+        temp = pd.Series(60 + 20 * np.sin(np.arange(len(idx)) * 2 * np.pi / 24) + rng.normal(0, 3, len(idx)), index=idx)
+        F = np.full((len(M), 24), np.nan)
+        i = len(M) - 30
+        F[i] = 55.0 + np.arange(24) * 0.5
+        a, _ = demand.regression_weather_forecast(M, temp, F, tz, 2)
+        T = M.index[i]
+        cut = (T - pd.Timedelta(days=1)).tz_localize(tz).tz_convert("UTC")      # the first hour after day A = T - 2
+        t2 = temp.copy()
+        t2[t2.index >= cut] += 25.0
+        b, _ = demand.regression_weather_forecast(M, t2, F, tz, 2)
+        np.testing.assert_allclose(a[i], b[i], rtol=1e-9)
+        self.assertTrue(np.isfinite(a[i]).all())
+
+
+class WindSolarNothingKnownEarly(unittest.TestCase):
+    """predict_wind_solar.md: the forecast for day T and its band read only output through day T - 2."""
+
+    def test_output_after_the_cut_moves_nothing(self):
+        import predict_ws as ws
+        tz = "America/Chicago"
+        s = synthetic(700, tz, seed=9).clip(lower=0) / 3.0
+        base = ws.place_forecasts(s, tz)
+        M = base["M"]
+        i = len(M) - ws.H - 30
+        T = M.index[i]
+        cut = (T - pd.Timedelta(days=ws.H - 1)).tz_localize(tz).tz_convert("UTC")
+        s2 = s.copy()
+        s2[s2.index >= cut] = s2[s2.index >= cut] * 2.0 + 500.0
+        moved = ws.place_forecasts(s2, tz)
+        for m in ws.METHODS:
+            for arr in ("P", "lo", "hi"):
+                np.testing.assert_allclose(base[arr][m][i], moved[arr][m][i], rtol=1e-9, equal_nan=True, err_msg=f"{m} {arr}")
+        self.assertTrue(np.isfinite(base["P"]["regression"][i]).all())
+        self.assertTrue((base["P"]["regression"][i] >= 0).all())
+
+    def test_ledger_never_overwritten(self):
+        import wind_solar
+        with tempfile.TemporaryDirectory() as d:
+            row = {"fuel": "wind", "place": "region-tex", "target_day": "2026-11-28", "ts_utc": "2026-11-28T06:00:00Z", "local_hour": 0,
+                   "made_utc": "2026-11-27T20:00:00Z", "inputs_through_utc": "2026-11-26T05:00:00Z", "horizon_days": 2, "method": "regression",
+                   "erw": 100.0, "lo": 50.0, "hi": 150.0}
+            self.assertEqual(wind_solar.append_ledger(d, [row]), 1)
+            before = open(os.path.join(d, "ledger_wind_solar.csv"), encoding="utf-8").read()
+            self.assertEqual(wind_solar.append_ledger(d, [dict(row, erw=999.0)]), 0)
+            self.assertEqual(open(os.path.join(d, "ledger_wind_solar.csv"), encoding="utf-8").read(), before)
+
+
+class RealTimePriceNothingKnownEarly(unittest.TestCase):
+    """predict_price.md section 7: the forecast for day T reads real-time prices through T - 2 and day-ahead prices
+    through day T; a later real-time price or a day-ahead price of a later day moves nothing."""
+
+    def test_after_the_cuts_nothing_moves(self):
+        import predict_rt as rtm
+        tz = "America/Chicago"
+        d = synthetic(900, tz, seed=4)
+        rng = np.random.default_rng(8)
+        da = pd.Series(30 + 0.001 * (d.to_numpy() - 30000) + rng.normal(0, 3, len(d)), index=d.index)
+        rt = da + rng.normal(0, 6, len(d))
+        base = rtm.place_forecasts(rt, da, tz)
+        M = base["M"]
+        i = len(M) - rtm.H - 30
+        T = M.index[i]
+        rt_cut = (T - pd.Timedelta(days=rtm.H - 1)).tz_localize(tz).tz_convert("UTC")
+        da_cut = (T + pd.Timedelta(days=1)).tz_localize(tz).tz_convert("UTC")
+        rt2, da2 = rt.copy(), da.copy()
+        rt2[rt2.index >= rt_cut] += 400.0
+        da2[da2.index >= da_cut] += 400.0
+        moved = rtm.place_forecasts(rt2, da2, tz)
+        for m in rtm.METHODS + ["day_ahead"]:
+            for arr in ("P", "lo", "hi"):
+                np.testing.assert_allclose(base[arr][m][i], moved[arr][m][i], rtol=1e-9, equal_nan=True, err_msg=f"{m} {arr}")
+        self.assertTrue(np.isfinite(base["P"]["regression"][i]).all())
+
+
+@unittest.skipUnless(os.path.exists(os.path.join(SITE, "rt_price.json")), "rt_price.json is not built here")
+class TheRealTimeFile(unittest.TestCase):
+    def test_every_hub_has_its_scores_beside_the_day_ahead_price(self):
+        doc = load("rt_price.json")
+        self.assertEqual(doc["label"], "ERW forecast")
+        cols = doc["rows_columns"]
+        rows = {(r[0], r[1], r[2], r[3], r[4]): dict(zip(cols, r)) for r in doc["rows"]}
+        for h in doc["hubs"]:
+            for m in ("erw", "day_ahead", "yesterday", "regression"):
+                r = rows[(f"hub-{h['grid']}", "rt_price", m, "all", "")]
+                self.assertEqual(r["hours"], h["summary"]["backtest"]["hours"])
+                self.assertAlmostEqual(r["mae"], h["summary"]["backtest"]["mae"][m], places=2)
+            self.assertNotEqual(h["method"], "day_ahead")
+
+
+@unittest.skipUnless(os.path.exists(os.path.join(SITE, "wind_solar.json")), "wind_solar.json is not built here")
+class TheWindSolarFile(unittest.TestCase):
+    def test_every_place_and_fuel_has_its_scores_and_the_operator_where_held(self):
+        doc = load("wind_solar.json")
+        self.assertEqual(doc["tier"], "derived")
+        self.assertEqual(doc["label"], "ERW forecast")
+        cols = doc["rows_columns"]
+        rows = [dict(zip(cols, r)) for r in doc["rows"]]
+        for p in doc["places"]:
+            for fuel, b in p["fuels"].items():
+                if b["status"] != "shown":
+                    continue
+                got = {r["method"] for r in rows if r["place"] == p["place"] and r["fuel"] == fuel and r["cut"] == "all" and r["mae_mw"] is not None}
+                self.assertEqual(got, {"erw", "yesterday", "profile7", "regression"}, (p["place"], fuel))
+                maes = {k: v for k, v in b["method_mae_last_2_years"].items() if v is not None}
+                self.assertEqual(maes[b["method"]], min(maes.values()), (p["place"], fuel))   # a tie (no output) may go either way
+                if b["operator"]:
+                    w = b["summary"]["with_operator"]
+                    want = [r for r in rows if r["place"] == p["place"] and r["fuel"] == fuel and r["cut"] == "with_operator" and r["method"] == "operator"]
+                    self.assertEqual(want[0]["hours"], w["hours"])
+                    self.assertAlmostEqual(want[0]["mae_mw"], w["mae_mw"]["operator"], places=1)
+                else:
+                    op = [r for r in rows if r["place"] == p["place"] and r["fuel"] == fuel and r["method"] == "operator"]
+                    self.assertTrue(op and all(r["mae_mw"] is None and r["held"] for r in op))
+                if b["tomorrow"]:
+                    self.assertEqual(b["horizon_days"], 2)
+
+
 class Ledger(unittest.TestCase):
     def test_never_overwritten(self):
         import importlib.util
@@ -236,6 +385,85 @@ class TheFiles(unittest.TestCase):
             d = self.places[p["place"]]["series"]["demand"]
             self.assertNotEqual(d["method"], "with_weather_known")
             self.assertNotIn("with_weather_known", d["history_columns"] + d["tomorrow_columns"])
+
+    def test_the_operator_filing_check_follows_its_rule(self):
+        """Method note section 18: a month is flagged exactly when its filed forecast is more than 5 percent from the
+        demand; the sound months' summary is the score file's cut operator_sound_last_2_years; the check never moves
+        the choice of method (the file's method is still the lowest error of method_mae_last_2_years)."""
+        cols = self.scores["rows_columns"]
+        rows = {(r[0], r[1], r[2], r[3], r[4]): dict(zip(cols, r)) for r in self.scores["rows"]}
+        for p in self.index["places"]:
+            d = self.places[p["place"]]["series"]["demand"]
+            fc = d.get("operator_filing")
+            self.assertIsNotNone(fc, p["place"])
+            for month, hours, pct, flagged in fc["months"]:
+                # the flag is set on the exact ratio and the file prints it to one decimal: a month within 0.05 of the
+                # line may read 95.0 and be flagged
+                if abs(abs(pct - 100) - fc["tolerance_pct"]) > 0.05:
+                    self.assertEqual(flagged, abs(pct - 100) > fc["tolerance_pct"], (p["place"], month))
+                self.assertGreater(hours, 0)
+            self.assertEqual(fc["months_flagged"], sum(1 for m in fc["months"] if m[3]))
+            sm = fc["sound_last_2_years"]
+            for m in ("erw", "operator"):
+                want = rows.get((p["place"], "demand", m, "operator_sound_last_2_years", ""))
+                self.assertIsNotNone(want, (p["place"], m))
+                self.assertEqual(sm["hours"], want["hours"], (p["place"], m))
+                if want["hours"]:
+                    self.assertAlmostEqual(sm["mae"][m], want["mae"], places=2, msg=(p["place"], m))
+            maes = {k: v for k, v in d["method_mae_last_2_years"].items() if v is not None}
+            # when tomorrow is the ledger's first making (contract, 21:45 UTC on 26 November), `method` is that
+            # making's and `tomorrow_from` names the method chosen now
+            chosen = d["tomorrow_from"].rsplit("the method chosen now is ", 1)[1].strip(" .") if d.get("tomorrow_from") else d["method"]
+            self.assertEqual(maes[chosen], min(maes.values()), p["place"])
+
+    def test_the_share_inside_each_band(self):
+        """The share of past hours inside each band (Samuel's order of 27 November 2026): the detail agrees with the
+        headline share, and inside, below and above make the whole."""
+        docs = [(p["place"], name, self.places[p["place"]]["series"][name]) for p in self.index["places"] for name in ("demand", "price")]
+        if os.path.exists(os.path.join(SITE, "rt_price.json")):
+            docs += [(h["grid"], "rt_price", h) for h in load("rt_price.json")["hubs"]]
+        if os.path.exists(os.path.join(SITE, "wind_solar.json")):
+            docs += [(p["place"], f, b) for p in load("wind_solar.json")["places"] for f, b in p["fuels"].items()]
+        for place, name, s in docs:
+            if s.get("status") != "shown":
+                continue
+            bc = s["band_coverage"]
+            self.assertIsNotNone(bc, (place, name))
+            self.assertAlmostEqual(bc["inside_pct"], s["band_coverage_pct"], delta=0.11, msg=(place, name))
+            self.assertAlmostEqual(bc["inside_pct"] + bc["below_pct"] + bc["above_pct"], 100.0, delta=0.21, msg=(place, name))
+            self.assertEqual(len(bc["by_local_hour_inside_pct"]), 24)
+            self.assertEqual(sum(m[1] for m in bc["by_month"]), bc["hours"])
+
+    def test_net_demand_agrees_with_the_report_card(self):
+        """Method note section 20: every region and ERCO carries net demand; its summary is the score file's rows."""
+        cols = self.scores["rows_columns"]
+        rows = {(r[0], r[1], r[2], r[3], r[4]): dict(zip(cols, r)) for r in self.scores["rows"]}
+        for p in self.index["places"]:
+            nd = self.places[p["place"]]["series"]["demand"].get("net_demand")
+            if not (p["place"].startswith("region-") or p["place"] == "ba-erco"):
+                self.assertIsNone(nd, p["place"])
+                continue
+            self.assertIsNotNone(nd, p["place"])
+            if nd["status"] != "shown":
+                continue
+            sm = nd["last_2_years"]
+            for m in ("erw", "yesterday"):
+                want = rows[(p["place"], "net_demand", m, "last_2_years", "")]
+                self.assertEqual(want["hours"], sm["hours"])
+                self.assertAlmostEqual(want["mae"], sm["mae_mw"][m], places=1)
+            if nd["with_operator"] is None:
+                self.assertTrue(rows[(p["place"], "net_demand", "operator", "all", "")]["held"])
+
+    def test_the_weather_forecast_line_is_never_the_forecast(self):
+        for p in self.index["places"]:
+            d = self.places[p["place"]]["series"]["demand"]
+            w = d.get("with_weather_forecast")
+            self.assertNotEqual(d["method"], "with_weather_forecast")
+            if w is None:
+                continue
+            self.assertEqual(w["status"], "scored" if w["days"] >= w["min_days"] else "too_few_days")
+            if w["tomorrow"]:
+                self.assertLessEqual(w["tomorrow_issue_utc"], d["made_utc"][:10] + "T20:00:00Z")
 
     def test_every_shown_price_has_its_score(self):
         cols = self.scores["rows_columns"]

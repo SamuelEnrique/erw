@@ -1,0 +1,337 @@
+# The codebook's metadata of table equity_universe (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: equity_universe
+family: ''
+shape: entities
+row: One exchange-listed US company whose SEC industry code (SIC) is an energy code of the written rule (docs/methods/equities.md).
+time: retrieved_at is when the SEC's list of tickers was read; vintage is that day (YYYYMMDD).
+vintage_rule: A snapshot, replaced whole by each run (a company that leaves the list or an exchange leaves the table).
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: 'sec:edgar U.S. Securities and Exchange Commission (SEC), EDGAR: company_tickers_exchange.json and each company''s
+    submissions file'
+  url: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+cite: U.S. Securities and Exchange Commission (SEC), EDGAR. Via the Energy Research Warehouse (ERW), table `equity_universe`.
+method: docs/methods/equities.md
+header_title: the exchange-listed US energy companies, by the SEC's industry code (session 10000, chain 701, part D)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id sec:<the SEC''s ten-digit CIK>; one row a company; segments
+  by the written rule of docs/methods/equities.md (a code that names two segments puts its companies in both, segments_note
+  says why); directory_id the company_directory row of the same exact legal name, else blank.'
+read:
+  date: '2026-11-27'
+  rows: 307
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 307
+    examples:
+    - sec:0000003570
+    - sec:0000004904
+    - sec:0000007323
+    - sec:0000010048
+    - sec:0000019745
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      company: 307
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 307
+    examples:
+    - ABUNDIA GLOBAL IMPACT GROUP, INC.
+    - AES CORP
+    - ALGONQUIN POWER & UTILITIES CORP.
+    - ALLIANCE RESOURCE PARTNERS LP
+    - ALLIANT ENERGY CORP
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+    - US-CO
+  missing_cells: 64
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      sec:edgar: 307
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 307
+    examples:
+    - https://data.sec.gov/submissions/CIK0000003570.json
+    - https://data.sec.gov/submissions/CIK0000004904.json
+    - https://data.sec.gov/submissions/CIK0000007323.json
+    - https://data.sec.gov/submissions/CIK0000010048.json
+    - https://data.sec.gov/submissions/CIK0000019745.json
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-27T02:35:05Z': 307
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: integer
+  values:
+    list:
+      '20261127': 307
+  missing_cells: 0
+- name: cik
+  label: The SEC's ten-digit Central Index Key
+  unit: none
+  type: integer
+  values:
+    distinct: 307
+    lowest: 3570
+    highest: 2155396
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+- name: ticker
+  label: The first ticker the SEC's list gives the company (its main listing)
+  unit: none
+  type: text
+  values:
+    distinct: 307
+    examples:
+    - ACDC
+    - AEE
+    - AEP
+    - AES
+    - AESI
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+- name: tickers
+  label: Every ticker the SEC's list gives the company, separated by ;
+  unit: none
+  type: text
+  values:
+    distinct: 307
+    examples:
+    - ACDC
+    - AEE
+    - AEP
+    - AES
+    - AESI
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+- name: exchange
+  label: The exchange of the listing (NYSE, Nasdaq, CBOE or TXSE)
+  unit: none
+  type: text
+  values:
+    list:
+      NYSE: 234
+      Nasdaq: 69
+      TXSE: 4
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+- name: sic
+  label: The SEC's four-digit Standard Industrial Classification code of the company
+  unit: none
+  type: integer
+  values:
+    list:
+      '1220': 4
+      '1221': 5
+      '1311': 87
+      '1381': 12
+      '1382': 2
+      '1389': 20
+      '2911': 18
+      '3533': 18
+      '3613': 2
+      '4610': 8
+      '4911': 63
+      '4922': 18
+      '4923': 8
+      '4924': 15
+      '4931': 21
+      '4932': 5
+      '4991': 1
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+- name: sic_label
+  label: The SEC's words for the code
+  unit: none
+  type: text
+  values:
+    list:
+      Bituminous Coal & Lignite Surface Mining: 5
+      Cogeneration Services & Small Power Producers: 1
+      Crude Petroleum & Natural Gas: 87
+      Drilling Oil & Gas Wells: 12
+      Electric & Other Services Combined: 21
+      Electric Services: 63
+      Gas & Other Services Combined: 5
+      Natural Gas Distribution: 15
+      Natural Gas Transmisison & Distribution: 8
+      Natural Gas Transmission: 18
+      Oil & Gas Field Exploration Services: 2
+      Oil & Gas Field Machinery & Equipment: 18
+      Oil & Gas Field Services, NEC: 20
+      Petroleum Refining: 18
+      Pipe Lines (No Natural Gas): 8
+      Silver Ores: 4
+      Switchgear & Switchboard Apparatus: 2
+  missing_cells: 0
+  missing_meaning: blank when the SEC gives none
+  source_name: null
+  documented_by: null
+- name: segments
+  label: The segments the written rule puts the company in, separated by ;
+  unit: none
+  type: text
+  values:
+    list:
+      coal: 9
+      exploration_production: 87
+      grid_equipment: 2
+      independent_power: 1
+      integrated_oil_gas;refining: 18
+      midstream_pipelines: 26
+      midstream_pipelines;regulated_utilities: 23
+      oilfield_services: 52
+      regulated_utilities: 26
+      regulated_utilities;independent_power: 63
+  missing_cells: 0
+  missing_meaning: never blank
+  source_name: null
+  documented_by: null
+- name: segments_note
+  label: Why a company is in two segments (its code names both)
+  unit: none
+  type: text
+  values:
+    list:
+      'SIC 2911 (petroleum refining) does not separate integrated companies from refiners: in both': 18
+      'SIC 4911 (electric services) does not separate regulated utilities from independent producers: in both': 63
+      'SIC 4923 (gas transmission and distribution) is pipelines and local distribution together: in both': 8
+      ? 'SIC 4924 (natural gas distribution) holds local gas distributors and the LNG exporters alike; the code does not separate
+        them: in both'
+      : 15
+  missing_cells: 203
+  missing_meaning: blank when in one segment
+  source_name: null
+  documented_by: null
+- name: directory_id
+  label: The company_directory row of the same legal name (case, commas and periods aside)
+  unit: none
+  type: text
+  values:
+    list:
+      company:eia-11241: 1
+      company:eia-12685: 1
+      company:eia-13478: 1
+      company:eia-14328: 1
+      company:eia-17609: 1
+      company:eia-18642: 1
+      company:eia-20169: 1
+      company:eia-5248: 1
+      company:eia-54766: 1
+      company:eia-5504: 1
+      company:eia-55937: 1
+      company:eia-57139: 1
+      company:eia-61939: 1
+      company:eia-67641: 1
+      company:eia-7140: 1
+      company:eia-814: 1
+      company:nextera: 1
+      company:sempra: 1
+  missing_cells: 289
+  missing_meaning: blank when no directory row has that exact name
+  source_name: null
+  documented_by: null
+- name: state_of_incorporation
+  label: The state or country of incorporation as the SEC writes it
+  unit: none
+  type: text
+  values:
+    distinct: 54
+    examples:
+    - A0
+    - A1
+    - A4
+    - A6
+    - AZ
+  missing_cells: 42
+  missing_meaning: blank when the SEC gives none
+  source_name: null
+  documented_by: null
+- name: fiscal_year_end
+  label: The fiscal year's last month and day (MMDD)
+  unit: none
+  type: integer
+  values:
+    list:
+      '0103': 1
+      '0331': 4
+      '0430': 1
+      '0630': 4
+      0930: 12
+      '1031': 1
+      '1226': 1
+      '1231': 280
+  missing_cells: 3
+  missing_meaning: blank when the SEC gives none
+  source_name: null
+  documented_by: null
+- name: filer_category
+  label: The SEC's filer category (large accelerated filer and so on)
+  unit: none
+  type: text
+  values:
+    list:
+      <br>Emerging growth company: 18
+      Accelerated filer: 27
+      Accelerated filer<br>Emerging growth company: 4
+      Accelerated filer<br>Smaller reporting company: 8
+      Accelerated filer<br>Smaller reporting company<br>Emerging growth company: 1
+      Large Accelerated: 1
+      Large accelerated filer: 183
+      Non-accelerated filer: 8
+      Non-accelerated filer<br>Emerging growth company: 7
+      Non-accelerated filer<br>Smaller reporting company: 25
+      Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company: 5
+  missing_cells: 20
+  missing_meaning: blank when the SEC gives none
+  source_name: null
+  documented_by: null
+second_look: null
