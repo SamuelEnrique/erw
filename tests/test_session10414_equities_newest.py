@@ -7,7 +7,8 @@ period's end), and `fundamentals_why` may hold a note while the figures are show
 stopped). The page reads both:
 
 - the table's "Filed figures" column, which said only "shown", is the newest period filed (its end and form, opening
-  the filing) and the revenue of that period in USD million with its months, each revenue keyed into the list;
+  the filing) with the revenue of that period in USD million and its months on the cell's second line, each revenue
+  keyed into the list (one column, as before: a column of its own made the table wider than its frame at 1280 px);
 - the table sorts by the newest period, newest first on the first press;
 - a note is marked on the company's row and written under its figures when the company is drawn;
 - the list's download carries the newest period's twelve columns after the thirteen it had.
@@ -62,7 +63,15 @@ class TheListsField(unittest.TestCase):
         view = src("site", "app", "equities", "view.tsx")
         self.assertIn("const withNewest = list.companies.some((c) => c.newest_filed !== undefined);", view)
         self.assertIn('if (!withNewest) return ["shown"];', view)
-        self.assertIn('] : ["Filed figures"]),', view)
+        self.assertIn('...(withNewest ? [sortHead("filed")] : ["Filed figures"]),', view)
+
+    def test_the_table_keeps_its_columns(self):
+        """Seen in a build at 1280 px: a column of its own for the revenue made the table wider than its frame, and the
+        figure had to be scrolled to. The revenue is the second line of the period's cell."""
+        view = src("site", "app", "equities", "view.tsx")
+        self.assertIn("minWidth={(priced ? 1280 : 720) + (withNewest ? 60 : 0)}", view)
+        self.assertNotIn("Revenue of that period", view)
+        self.assertIn('<span className="block">{revenue}</span>', view)
 
 
 class TheCells(unittest.TestCase):
@@ -77,8 +86,8 @@ class TheCells(unittest.TestCase):
 
     def test_the_months_are_said_beside_the_figure(self):
         view = src("site", "app", "equities", "view.tsx")
-        self.assertIn('{r.months !== null ? <span className="text-muted"> ({r.months} months)</span> : null}', view)
-        self.assertIn("Two companies' figures compare only where the months are the same.", view)
+        self.assertIn('<span className="text-muted"> USD million{r.months !== null ? `, ${r.months} months` : ""}</span>', view)
+        self.assertIn("Two companies' revenues compare only where the months are the same.", view)
 
     def test_a_note_is_said_in_the_files_words(self):
         view = src("site", "app", "equities", "view.tsx")

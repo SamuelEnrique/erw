@@ -295,26 +295,25 @@ function Companies({ list, q, first }: { list: EqList; q: Query; first: string |
   // as it was. A company whose filings carry a note while shown (a new registrant, a filer that stopped) says so.
   const withNewest = list.companies.some((c) => c.newest_filed !== undefined);
   const filedCells = (c: EqCompany): ReactNode[] => {
-    if (c.fundamentals_status !== "shown") {
-      const blank = (key: string) => <NotHeld key={key} words={blankWords(c.fundamentals_status)} why={blankWhy(c.fundamentals_status, c.fundamentals_why)} />;
-      return withNewest ? [blank("f"), blank("fr")] : [blank("f")];
-    }
+    if (c.fundamentals_status !== "shown") return [<NotHeld key="f" words={blankWords(c.fundamentals_status)} why={blankWhy(c.fundamentals_status, c.fundamentals_why)} />];
     if (!withNewest) return ["shown"];
     const n = c.newest_filed, i = list.companies.indexOf(c);
-    if (!n) return [<NotHeld key="f" words="none filed" why={`${c.ticker}: the list holds no newest period for this company.`} />, <NotHeld key="fr" words="none filed" why={`${c.ticker}: the list holds no newest period for this company.`} />];
+    if (!n) return [<NotHeld key="f" words="none filed" why={`${c.ticker}: the list holds no newest period for this company.`} />];
     const words = `${n.period_end}${n.form ? `, ${n.form}` : ""}`;
     const note = c.fundamentals_why ? <span className="cursor-help text-muted" title={`A note on what ${c.ticker} filed: ${c.fundamentals_why}`} data-eq-filed-note-mark={c.id}> (note)</span> : null;
-    const period = (
-      <span key="f" className="whitespace-nowrap" data-eq-newest-of={c.id}>
-        {secUrl(n.url) ? <a href={secUrl(n.url)!} className="inline-block py-1 -my-1" rel="noopener" title={`The filing on the SEC's site${n.filed ? `, filed ${n.filed}` : ""}: ${n.url}`}>{words}</a> : <span title={n.filed ? `Filed ${n.filed}` : undefined}>{words}</span>}{note}
-      </span>
-    );
     const r = n.revenue;
     const span = r && r.months !== null ? `${r.months} months to ${n.period_end}` : `the period to ${n.period_end}`;
+    // seen in a build at 1280 px: a column of its own for the revenue made the table wider than its frame, and the
+    // figure had to be scrolled to. It is the cell's second line, with its unit and its months in words
     const revenue = r
-      ? <span key="fr" className="cursor-help whitespace-nowrap" title={`${c.ticker}: revenue filed for ${span}, ${exact(r.v)} USD${n.form ? `, on ${n.form}` : ""}${n.filed ? `, filed ${n.filed}` : ""}`}><Num check={pfKey(LIST, ["companies", i, "newest_filed", "revenue", "v"])} raw={r.v}>{millions(r.v)}</Num>{r.months !== null ? <span className="text-muted"> ({r.months} months)</span> : null}</span>
-      : <NotHeld key="fr" words="not filed" why={`${c.ticker}: its newest filing (${words}) gives no revenue under the concept the ERW reads.`} />;
-    return [period, revenue];
+      ? <span className="cursor-help whitespace-nowrap" title={`${c.ticker}: revenue filed for ${span}, ${exact(r.v)} USD${n.form ? `, on ${n.form}` : ""}${n.filed ? `, filed ${n.filed}` : ""}. Two companies' revenues compare only where the months are the same.`}><span className="text-muted">Revenue </span><Num check={pfKey(LIST, ["companies", i, "newest_filed", "revenue", "v"])} raw={r.v}>{millions(r.v)}</Num><span className="text-muted"> USD million{r.months !== null ? `, ${r.months} months` : ""}</span></span>
+      : <NotHeld words="revenue not filed" why={`${c.ticker}: its newest filing (${words}) gives no revenue under the concept the ERW reads.`} />;
+    return [
+      <span key="f" className="block" data-eq-newest-of={c.id}>
+        <span className="block whitespace-nowrap">{secUrl(n.url) ? <a href={secUrl(n.url)!} className="inline-block py-1 -my-1" rel="noopener" title={`The filing on the SEC's site${n.filed ? `, filed ${n.filed}` : ""}: ${n.url}`}>{words}</a> : <span title={n.filed ? `Filed ${n.filed}` : undefined}>{words}</span>}{note}</span>
+        <span className="block">{revenue}</span>
+      </span>,
+    ];
   };
   const sortHead = (s: Sort) => {
     const on = q.sort === s;
@@ -344,9 +343,9 @@ function Companies({ list, q, first }: { list: EqList; q: Query; first: string |
         <button type="submit" className="border border-rule bg-white px-3 py-1 text-sm">Filter</button>
         <span className="text-sm" data-eq-count={`${rows.length}|${list.companies.length}`}>{rows.length.toLocaleString("en-US")} of {list.companies.length.toLocaleString("en-US")} companies</span>
       </form>
-      <ToolTable words minWidth={(priced ? 1280 : 720) + (withNewest ? 240 : 0)} caption={`The listed energy companies${q.seg ? ` of ${segmentLabel(list, q.seg)}` : ""}: ${rows.length} of ${list.companies.length}`}
+      <ToolTable words minWidth={(priced ? 1280 : 720) + (withNewest ? 60 : 0)} caption={`The listed energy companies${q.seg ? ` of ${segmentLabel(list, q.seg)}` : ""}: ${rows.length} of ${list.companies.length}${withNewest ? "; each with the newest period it filed and that period's revenue in USD million, with the months the period covers" : ""}`}
         head={[sortHead("name"), sortHead("ticker"), sortHead("exchange"), sortHead("segment"), "Industry", <span key="p">Share price: {sortHead("first")} to {sortHead("last")}</span>,
-          ...(withNewest ? [sortHead("filed"), <span key="fr" className="cursor-help" title="The revenue of the newest period the company filed, in USD million, with the months the period covers: three for a quarter, twelve for a year. Two companies' figures compare only where the months are the same.">Revenue of that period, USD million</span>] : ["Filed figures"]),
+          ...(withNewest ? [sortHead("filed")] : ["Filed figures"]),
           ...(priced ? [<span key="lc" data-eq-priced="1">Last close, USD</span>, ...MOVE_WORDS.map(([k, words]) => <span key={k}>{words}</span>), <span key="mv" className="cursor-help" title="The last close times the shares the company last filed, in USD.">Market value, USD</span>] : [])]}
         rows={rows.map((c) => ({ key: c.id, cells: [
           <SiteLink key="n" href={hrefOf(q, { a: c.id }, first, "#line")} className="inline-block py-1 -my-1" title={`Draw ${c.ticker}${c.cik ? `; SEC number ${c.cik}` : ""}`}>{c.name ?? c.ticker}</SiteLink>,

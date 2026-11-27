@@ -44,7 +44,7 @@ class TheFieldsAreAdditions(unittest.TestCase):
         # (session 10414: the seventh, "Filed figures", is the newest period filed and its revenue where the list
         # carries them, and "Filed figures" as it was in a list that does not)
         self.assertIn('head={[sortHead("name"), sortHead("ticker"), sortHead("exchange"), sortHead("segment"), "Industry", <span key="p">Share price: {sortHead("first")} to {sortHead("last")}</span>,', view)
-        self.assertIn('] : ["Filed figures"]),', view)
+        self.assertIn(': ["Filed figures"]),', view)
 
     def test_a_figures_key_names_the_companys_place_in_the_file(self):
         view = src("site", "app", "equities", "view.tsx")
