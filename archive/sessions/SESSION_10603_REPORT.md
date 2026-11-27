@@ -65,6 +65,11 @@ session takes the next item: longer backtests and more places. Branch `wip/c730-
   such a fuel `not held`.
 - **The wind and solar choice mended, which changes two entries on main** (New York's solar, Tennessee's wind). It was a
   fault (a rule applied to rounded numbers), so it is mended rather than kept; the note and the contract say so.
+- **The backtest tables' shape chosen (data requests 3 and 5, which window A left to this method):** the method in the
+  demand backtest's variable, the price backtest keyed by place with the hub in `x_hub`; both pass the validator. The
+  scores stay a file, since the backtest table and the demand rebuild every score (data request 17).
+- **The two-to-seven-day forecast for the 35 authorities goes in a file of its own** (`ahead_more.json`, a weekly step),
+  so that window A's daily `ahead.json` stays at 29 places and its run does not double.
 
 ## Errors and how they were met
 
