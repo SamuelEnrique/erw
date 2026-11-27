@@ -125,7 +125,9 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
   // last column of /impact's states, ran 5 px past the right edge at 390 px); one that fits is drawn as before
   const widest = Math.max(1, ...lines.flat().map((s) => textWidth(s)));
   const every = kind === "line" && n > 12 ? Math.ceil(n / 10) : Math.max(1, Math.ceil(widest / bw));
-  const labelled = (i: number) => i % every === 0 || (every > 1 && i === n - 1 && (n - 1) % every >= every / 2);
+  // the last column is labelled too when the last thinned label leaves room for it (session 10822: the rule of half a step
+  // put 2048 beside 2047 at 390 px, one column apart, wider than the column)
+  const labelled = (i: number) => i % every === 0 || (every > 1 && i === n - 1 && ((n - 1) % every) * bw >= widest + 4);
   const subs = every === 1 && categories.some((c) => c.sub && textWidth(c.sub, 10) <= bw - 2);
   const subOf = (c: ChartCategory) => (subs && c.sub && textWidth(c.sub, 10) <= bw - 2 ? c.sub : null);
   // session 10822: a figure above a bar may run into its neighbours' columns (the header's quarter rule), so a figure is

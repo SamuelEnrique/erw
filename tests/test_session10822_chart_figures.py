@@ -30,6 +30,11 @@ class FiguresGiveWay(unittest.TestCase):
         self.assertIn("(broken && totals[i] > hi ? TOP : y(capped(Math.max(up, useLog ? lo : 0)))) - 6", self.src)
         self.assertIn("y={(over ? TOP : y(capped(Math.max(up, useLog ? lo : 0)))) - 6}", self.src)
 
+    def test_the_last_column_is_labelled_only_with_room(self):
+        # half a step put 2048 beside 2047 at 390 px on /impact; the gap is now measured against the widest label
+        self.assertIn("((n - 1) % every) * bw >= widest + 4", self.src)
+        self.assertNotIn("(n - 1) % every >= every / 2", self.src)
+
     def test_no_em_dash(self):
         with open(__file__, encoding="utf-8") as f:
             self.assertNotIn(chr(0x2014), f.read())
