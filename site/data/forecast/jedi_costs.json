@@ -2,7 +2,7 @@
  "about": "JEDI's default construction cost per MW of its default project, by technology and location: each workbook's own formula result with Project Location set to that location (warehouse/connectors/jedi_recalc.py), the denominator of nlr_jedi_multipliers' construction local share. Dollars of each model's own dollar year. Every location's 24 figures were checked against nlr_jedi_multipliers before this file was written.",
  "source": "National Laboratory of the Rockies (NLR, formerly NREL), JEDI models, https://www.nlr.gov/analysis/jedi/models",
  "notice": "NLR's data terms (https://www.nlr.gov/disclaimer): the user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data; credit DOE/NLR/ALLIANCE; the Data are provided as is.",
- "written_at": "2026-11-13T10:23:29Z",
+ "written_at": "2026-11-27T02:48:30Z",
  "written_by": "warehouse/forecast/jedi_costs.py",
  "technologies": {
   "land_based_wind": {
@@ -10,7 +10,7 @@
    "sha256": "e6e434c470909d31b7e4ee351f3df5519ea2099a4892389d6a9035a5a030b113",
    "dollar_year": 2017,
    "mw_basis": "nameplate MW",
-   "evaluated_at": "2026-11-13T10:14:29Z",
+   "evaluated_at": "2026-11-26T14:13:33Z",
    "states": {
     "ak": {
      "location": "ALASKA",
@@ -383,7 +383,7 @@
    "sha256": "686e9e33f5b53347518c918c1389621deda748bc9210ddcf5a93c5150ec82465",
    "dollar_year": 2010,
    "mw_basis": "DC nameplate MW",
-   "evaluated_at": "2026-11-13T10:14:57Z",
+   "evaluated_at": "2026-11-26T14:13:33Z",
    "states": {
     "ak": {
      "location": "ALASKA",
@@ -756,7 +756,7 @@
    "sha256": "80d5d7ea4dd6e97190b8f4070fac9ab9fe24db0d92030fd9f4cca7a21b686427",
    "dollar_year": 2010,
    "mw_basis": "nameplate MW",
-   "evaluated_at": "2026-11-13T10:14:05Z",
+   "evaluated_at": "2026-11-26T14:13:33Z",
    "states": {
     "ak": {
      "location": "ALASKA",
@@ -1115,7 +1115,7 @@
    "sha256": "09b00b96c6795035816cda80f9b37999721c201dc49a898fcb3cac528799374d",
    "dollar_year": 2010,
    "mw_basis": "nameplate MW (the model's 10 MW net output)",
-   "evaluated_at": "2026-11-13T10:15:06Z",
+   "evaluated_at": "2026-11-26T14:13:33Z",
    "states": {
     "ak": {
      "location": "ALASKA",
@@ -1480,6 +1480,1125 @@
      "project_mw": 12.226196,
      "cost_usd_per_mw": 3756566.12,
      "cells": "Summary Results!D7"
+    }
+   }
+  },
+  "coal": {
+   "file": "01d-jedi-coal-model-rel-c12-23-16.xlsm",
+   "sha256": "b6429185c44cdb6680c6c69c8125f6d609fc8ef9a5f2d083d03e960d9655887e",
+   "dollar_year": 2011,
+   "mw_basis": "nameplate MW",
+   "evaluated_at": "2026-11-26T14:14:46Z",
+   "states": {
+    "ak": {
+     "location": "ALASKA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "al": {
+     "location": "ALABAMA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "ar": {
+     "location": "ARKANSAS",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "az": {
+     "location": "ARIZONA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "ca": {
+     "location": "CALIFORNIA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "co": {
+     "location": "COLORADO",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "ct": {
+     "location": "CONNECTICUT",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "dc": {
+     "location": "DISTRICT OF COLUMBIA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "de": {
+     "location": "DELAWARE",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "fl": {
+     "location": "FLORIDA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "ga": {
+     "location": "GEORGIA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "hi": {
+     "location": "HAWAII",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "ia": {
+     "location": "IOWA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "id": {
+     "location": "IDAHO",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "il": {
+     "location": "ILLINOIS",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "in": {
+     "location": "INDIANA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "ks": {
+     "location": "KANSAS",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "ky": {
+     "location": "KENTUCKY",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "la": {
+     "location": "LOUISIANA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "ma": {
+     "location": "MASSACHUSETTS",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "md": {
+     "location": "MARYLAND",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "me": {
+     "location": "MAINE",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "mi": {
+     "location": "MICHIGAN",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "mn": {
+     "location": "MINNESOTA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "mo": {
+     "location": "MISSOURI",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "ms": {
+     "location": "MISSISSIPPI",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "mt": {
+     "location": "MONTANA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "nc": {
+     "location": "NORTH CAROLINA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "nd": {
+     "location": "NORTH DAKOTO",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "ne": {
+     "location": "NEBRASKA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "nh": {
+     "location": "NEW HAMPSHIRE",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "nj": {
+     "location": "NEW JERSEY",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "nm": {
+     "location": "NEW MEXICO",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "nv": {
+     "location": "NEVADA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "ny": {
+     "location": "NEW YORK",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "oh": {
+     "location": "OHIO",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "ok": {
+     "location": "OKLAHOMA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "or": {
+     "location": "OREGON",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "pa": {
+     "location": "PENNSYLVANIA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "ri": {
+     "location": "RHODE ISLAND",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "sc": {
+     "location": "SOUTH CAROLINA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "sd": {
+     "location": "SOUTH DAKOTA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "tn": {
+     "location": "TENNESSEE",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "tx": {
+     "location": "TEXAS",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "us": {
+     "location": "UNITED STATES",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "ut": {
+     "location": "UTAH",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "va": {
+     "location": "VIRGINIA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "vt": {
+     "location": "VERMONT",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "wa": {
+     "location": "WASHINGTON",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "wi": {
+     "location": "WISCONSIN",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "wv": {
+     "location": "WEST VIRGINIA",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    },
+    "wy": {
+     "location": "WYOMING",
+     "cost_usd": 1815000000.0,
+     "project_mw": 600.0,
+     "cost_usd_per_mw": 3025000.0,
+     "cells": "SummaryResults!C14"
+    }
+   }
+  },
+  "csp_trough": {
+   "file": "01d-jedi-csp-trough-model-rel-csp12-23-16.xlsm",
+   "sha256": "127a1f126574121a40a48ba8c101126e5188050362c89fd00ce5e705f28afda1",
+   "dollar_year": 2009,
+   "mw_basis": "nameplate MW (a parabolic trough plant with 6 hours of thermal storage)",
+   "evaluated_at": "2026-11-26T14:14:46Z",
+   "states": {
+    "ak": {
+     "location": "ALASKA",
+     "cost_usd": 627029650.0,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6270296.5,
+     "cells": "SummaryResults!C11"
+    },
+    "al": {
+     "location": "ALABAMA",
+     "cost_usd": 645296776.01,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6452967.76,
+     "cells": "SummaryResults!C11"
+    },
+    "ar": {
+     "location": "ARKANSAS",
+     "cost_usd": 656713729.77,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6567137.3,
+     "cells": "SummaryResults!C11"
+    },
+    "az": {
+     "location": "ARIZONA",
+     "cost_usd": 652603626.41,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6526036.26,
+     "cells": "SummaryResults!C11"
+    },
+    "ca": {
+     "location": "CALIFORNIA",
+     "cost_usd": 661280511.27,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6612805.11,
+     "cells": "SummaryResults!C11"
+    },
+    "co": {
+     "location": "COLORADO",
+     "cost_usd": 640273316.36,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6402733.16,
+     "cells": "SummaryResults!C11"
+    },
+    "ct": {
+     "location": "CONNECTICUT",
+     "cost_usd": 656028712.54,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6560287.13,
+     "cells": "SummaryResults!C11"
+    },
+    "dc": {
+     "location": "DISTRICT OF COLUMBIA",
+     "cost_usd": 653288643.64,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6532886.44,
+     "cells": "SummaryResults!C11"
+    },
+    "de": {
+     "location": "DELAWARE",
+     "cost_usd": 627029650.0,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6270296.5,
+     "cells": "SummaryResults!C11"
+    },
+    "fl": {
+     "location": "FLORIDA",
+     "cost_usd": 654430339.02,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6544303.39,
+     "cells": "SummaryResults!C11"
+    },
+    "ga": {
+     "location": "GEORGIA",
+     "cost_usd": 645296776.01,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6452967.76,
+     "cells": "SummaryResults!C11"
+    },
+    "hi": {
+     "location": "HAWAII",
+     "cost_usd": 645296776.01,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6452967.76,
+     "cells": "SummaryResults!C11"
+    },
+    "ia": {
+     "location": "IOWA",
+     "cost_usd": 654430339.02,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6544303.39,
+     "cells": "SummaryResults!C11"
+    },
+    "id": {
+     "location": "IDAHO",
+     "cost_usd": 654430339.02,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6544303.39,
+     "cells": "SummaryResults!C11"
+    },
+    "il": {
+     "location": "ILLINOIS",
+     "cost_usd": 655572034.39,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6555720.34,
+     "cells": "SummaryResults!C11"
+    },
+    "in": {
+     "location": "INDIANA",
+     "cost_usd": 658997120.52,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6589971.21,
+     "cells": "SummaryResults!C11"
+    },
+    "ks": {
+     "location": "KANSAS",
+     "cost_usd": 656713729.77,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6567137.3,
+     "cells": "SummaryResults!C11"
+    },
+    "ky": {
+     "location": "KENTUCKY",
+     "cost_usd": 654430339.02,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6544303.39,
+     "cells": "SummaryResults!C11"
+    },
+    "la": {
+     "location": "LOUISIANA",
+     "cost_usd": 649863557.51,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6498635.58,
+     "cells": "SummaryResults!C11"
+    },
+    "ma": {
+     "location": "MASSACHUSETTS",
+     "cost_usd": 655572034.39,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6555720.34,
+     "cells": "SummaryResults!C11"
+    },
+    "md": {
+     "location": "MARYLAND",
+     "cost_usd": 654430339.02,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6544303.39,
+     "cells": "SummaryResults!C11"
+    },
+    "me": {
+     "location": "MAINE",
+     "cost_usd": 652146948.26,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6521469.48,
+     "cells": "SummaryResults!C11"
+    },
+    "mi": {
+     "location": "MICHIGAN",
+     "cost_usd": 654430339.02,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6544303.39,
+     "cells": "SummaryResults!C11"
+    },
+    "mn": {
+     "location": "MINNESOTA",
+     "cost_usd": 658426272.83,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6584262.73,
+     "cells": "SummaryResults!C11"
+    },
+    "mo": {
+     "location": "MISSOURI",
+     "cost_usd": 646324301.85,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6463243.02,
+     "cells": "SummaryResults!C11"
+    },
+    "ms": {
+     "location": "MISSISSIPPI",
+     "cost_usd": 658997120.52,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6589971.21,
+     "cells": "SummaryResults!C11"
+    },
+    "mt": {
+     "location": "MONTANA",
+     "cost_usd": 627029650.0,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6270296.5,
+     "cells": "SummaryResults!C11"
+    },
+    "nc": {
+     "location": "NORTH CAROLINA",
+     "cost_usd": 648721862.14,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6487218.62,
+     "cells": "SummaryResults!C11"
+    },
+    "nd": {
+     "location": "NORTH DAKOTA",
+     "cost_usd": 649863557.51,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6498635.58,
+     "cells": "SummaryResults!C11"
+    },
+    "ne": {
+     "location": "NEBRASKA",
+     "cost_usd": 652146948.26,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6521469.48,
+     "cells": "SummaryResults!C11"
+    },
+    "nh": {
+     "location": "NEW HAMPSHIRE",
+     "cost_usd": 627029650.0,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6270296.5,
+     "cells": "SummaryResults!C11"
+    },
+    "nj": {
+     "location": "NEW JERSEY",
+     "cost_usd": 658997120.52,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6589971.21,
+     "cells": "SummaryResults!C11"
+    },
+    "nm": {
+     "location": "NEW MEXICO",
+     "cost_usd": 650434405.2,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6504344.05,
+     "cells": "SummaryResults!C11"
+    },
+    "nv": {
+     "location": "NEVADA",
+     "cost_usd": 658312103.29,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6583121.03,
+     "cells": "SummaryResults!C11"
+    },
+    "ny": {
+     "location": "NEW YORK",
+     "cost_usd": 645296776.01,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6452967.76,
+     "cells": "SummaryResults!C11"
+    },
+    "oh": {
+     "location": "OHIO",
+     "cost_usd": 653288643.64,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6532886.44,
+     "cells": "SummaryResults!C11"
+    },
+    "ok": {
+     "location": "OKLAHOMA",
+     "cost_usd": 647580166.76,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6475801.67,
+     "cells": "SummaryResults!C11"
+    },
+    "or": {
+     "location": "OREGON",
+     "cost_usd": 627029650.0,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6270296.5,
+     "cells": "SummaryResults!C11"
+    },
+    "pa": {
+     "location": "PENNSYLVANIA",
+     "cost_usd": 654430339.02,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6544303.39,
+     "cells": "SummaryResults!C11"
+    },
+    "ri": {
+     "location": "RHODE ISLAND",
+     "cost_usd": 658997120.52,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6589971.21,
+     "cells": "SummaryResults!C11"
+    },
+    "sc": {
+     "location": "SOUTH CAROLINA",
+     "cost_usd": 654430339.02,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6544303.39,
+     "cells": "SummaryResults!C11"
+    },
+    "sd": {
+     "location": "SOUTH DAKOTA",
+     "cost_usd": 647580166.76,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6475801.67,
+     "cells": "SummaryResults!C11"
+    },
+    "tn": {
+     "location": "TENNESSEE",
+     "cost_usd": 658997120.52,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6589971.21,
+     "cells": "SummaryResults!C11"
+    },
+    "tx": {
+     "location": "TEXAS",
+     "cost_usd": 655572034.39,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6555720.34,
+     "cells": "SummaryResults!C11"
+    },
+    "us": {
+     "location": "UNITED STATES",
+     "cost_usd": 648493523.06,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6484935.23,
+     "cells": "SummaryResults!C11"
+    },
+    "ut": {
+     "location": "UTAH",
+     "cost_usd": 654430339.02,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6544303.39,
+     "cells": "SummaryResults!C11"
+    },
+    "va": {
+     "location": "VIRGINIA",
+     "cost_usd": 656713729.77,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6567137.3,
+     "cells": "SummaryResults!C11"
+    },
+    "vt": {
+     "location": "VERMONT",
+     "cost_usd": 646666810.46,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6466668.1,
+     "cells": "SummaryResults!C11"
+    },
+    "wa": {
+     "location": "WASHINGTON",
+     "cost_usd": 654430339.02,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6544303.39,
+     "cells": "SummaryResults!C11"
+    },
+    "wi": {
+     "location": "WISCONSIN",
+     "cost_usd": 645296776.01,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6452967.76,
+     "cells": "SummaryResults!C11"
+    },
+    "wv": {
+     "location": "WEST VIRGINIA",
+     "cost_usd": 649863557.51,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6498635.58,
+     "cells": "SummaryResults!C11"
+    },
+    "wy": {
+     "location": "WYOMING",
+     "cost_usd": 650548574.74,
+     "project_mw": 100.0,
+     "cost_usd_per_mw": 6505485.75,
+     "cells": "SummaryResults!C11"
+    }
+   }
+  },
+  "biopower": {
+   "file": "01d-jedi-biopower-model-rel-b12-23-16.xlsm",
+   "sha256": "da46209822957e6e85f6c7170345d6eb169810464125530a7c7b77758a159fb5",
+   "dollar_year": 2012,
+   "mw_basis": "plant MW (a direct combustion plant)",
+   "evaluated_at": "2026-11-26T17:23:04Z",
+   "states": {
+    "ak": {
+     "location": "ALASKA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "al": {
+     "location": "ALABAMA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "ar": {
+     "location": "ARKANSAS",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "az": {
+     "location": "ARIZONA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "ca": {
+     "location": "CALIFORNIA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "co": {
+     "location": "COLORADO",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "ct": {
+     "location": "CONNECTICUT",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "dc": {
+     "location": "DISTRICT OF COLUMBIA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "de": {
+     "location": "DELAWARE",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "fl": {
+     "location": "FLORIDA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "ga": {
+     "location": "GEORGIA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "hi": {
+     "location": "HAWAII",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "ia": {
+     "location": "IOWA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "id": {
+     "location": "IDAHO",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "il": {
+     "location": "ILLINOIS",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "in": {
+     "location": "INDIANA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "ks": {
+     "location": "KANSAS",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "ky": {
+     "location": "KENTUCKY",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "la": {
+     "location": "LOUISIANA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "ma": {
+     "location": "MASSACHUSSETS",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "md": {
+     "location": "MARYLAND",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "me": {
+     "location": "MAINE",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "mi": {
+     "location": "MICHIGAN",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "mn": {
+     "location": "MINNESOTA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "mo": {
+     "location": "MISSOURI",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "ms": {
+     "location": "MISSISSIPPI",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "mt": {
+     "location": "MONTANA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "nc": {
+     "location": "NORTH CAROLINA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "nd": {
+     "location": "NORTH DAKOTA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "ne": {
+     "location": "NEBRASKA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "nh": {
+     "location": "NEW HAMPSHIRE",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "nj": {
+     "location": "NEW JERSEY",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "nm": {
+     "location": "NEW MEXICO",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "nv": {
+     "location": "NEVADA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "ny": {
+     "location": "NEW YORK",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "oh": {
+     "location": "OHIO",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "ok": {
+     "location": "OKLAHOMA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "or": {
+     "location": "OREGON",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "pa": {
+     "location": "PENNSYLVANIA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "ri": {
+     "location": "RHODE ISLAND",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "sc": {
+     "location": "SOUTH CAROLINA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "sd": {
+     "location": "SOUTH DAKOTA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "tn": {
+     "location": "TENNESSEE",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "tx": {
+     "location": "TEXAS",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "us": {
+     "location": "UNITED STATES",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "ut": {
+     "location": "UTAH",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "va": {
+     "location": "VIRGINIA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "vt": {
+     "location": "VERMONT",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "wa": {
+     "location": "WASHINGTON",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "wi": {
+     "location": "WISCONSIN",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "wv": {
+     "location": "WEST VIRGINIA",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
+    },
+    "wy": {
+     "location": "WYOMING",
+     "cost_usd": 187052000,
+     "project_mw": 50.0,
+     "cost_usd_per_mw": 3741040.0,
+     "cells": "SummaryResults!C26"
     }
    }
   }

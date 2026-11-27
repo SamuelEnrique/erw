@@ -67,11 +67,59 @@ def cuts(hr, events, top_n=10, choice_days=CHOICE_DAYS, spike_q=None):
     return out
 
 
-def rows(place, series, hr, methods, events, mape_floor=None, spike_q=None):
-    """The score rows of one place and series: hr holds `actual`, each method's column and `erw`."""
+FILING_TOLERANCE_PCT = 5.0
+FILING_SHIFTS = (-1, 0, 1)
+
+
+def filing_check(hr, days=CHOICE_DAYS):
+    """The operator's day-ahead forecast as filed on Form EIA-930, tested against the demand it forecasts (chain 730,
+    part F; method note section 18). For each month of the place's local days: the hours where both are held and the
+    demand is above zero, and the filed forecast's sum as a percent of the demand's sum over those hours; a month whose
+    percent is more than FILING_TOLERANCE_PCT from 100 is flagged (a level that far off in a whole month is a footprint
+    or filing break, not a forecaster's error). And the filed forecast's MAPE over the last `days` days with its hours
+    moved by k (k = -1, 0, 1: k = 1 compares the forecast stamped an hour earlier with each hour's demand).
+    Judges the comparator only: no forecast of the ERW reads it, and the choice of method does not."""
+    x = hr[(hr["actual"] > 0) & hr["operator"].notna()]
+    if not len(x):
+        return None
+    mo = x["day"].dt.strftime("%Y-%m")
+    months = []
+    for m, g in x.groupby(mo):
+        ratio = float(g["operator"].sum() / g["actual"].sum() * 100)
+        months.append([m, int(len(g)), round(ratio, 1), bool(abs(ratio - 100) > FILING_TOLERANCE_PCT)])
+    last = hr["day"].max()
+    r = hr[hr["day"] > last - pd.Timedelta(days=days)]
+    a = pd.Series(r["actual"].to_numpy(float), index=pd.DatetimeIndex(r["ts"]))
+    o = pd.Series(hr["operator"].to_numpy(float), index=pd.DatetimeIndex(hr["ts"]))
+    shift = {}
+    for k in FILING_SHIFTS:
+        f = o.shift(k, freq="h").reindex(a.index)
+        ok = (a > 0) & f.notna()
+        shift[str(k)] = round(float(((f[ok] - a[ok]).abs() / a[ok]).mean() * 100), 3) if ok.any() else None
+    held = {k: v for k, v in shift.items() if v is not None}
+    best = int(min(held, key=held.get)) if held else None
+    return {"tolerance_pct": FILING_TOLERANCE_PCT, "months_columns": ["month", "hours", "operator_pct_of_demand", "flagged"],
+            "months": months, "months_flagged": sum(1 for m in months if m[3]), "months_held": len(months),
+            "shift_mape_last_2_years": shift, "best_shift_hours": best}
+
+
+def sound_months(check):
+    """The months of a filing check that are not flagged (an empty set when there is no check)."""
+    return set() if not check else {m[0] for m in check["months"] if not m[3]}
+
+
+def rows(place, series, hr, methods, events, mape_floor=None, spike_q=None, sound=None):
+    """The score rows of one place and series: hr holds `actual`, each method's column and `erw`. `sound`: the months
+    whose operator filing passes the filing check; given, two more cuts are scored on their hours, operator_sound
+    (all of them) and operator_sound_last_2_years (those of the last two years)."""
     c = common(hr, methods).reset_index(drop=True)
     out = []
-    for cut, key, mask in cuts(c, events, spike_q=spike_q):
+    cs = cuts(c, events, spike_q=spike_q)
+    if sound is not None:
+        ok = c["day"].dt.strftime("%Y-%m").isin(sorted(sound)).to_numpy()
+        recent = (c["day"] > c["day"].max() - pd.Timedelta(days=CHOICE_DAYS)).to_numpy()
+        cs += [("operator_sound", "", ok), ("operator_sound_last_2_years", "", ok & recent)]
+    for cut, key, mask in cs:
         x = c[mask]
         for m in methods:
             n, mae, mape = metric(x, m, mape_floor)
@@ -109,6 +157,27 @@ def coverage(hr, m, days=CHOICE_DAYS):
         return None
     inside = (x["actual"] >= x[m + "_lo"]) & (x["actual"] <= x[m + "_hi"])
     return round(float(inside.mean() * 100), 1)
+
+
+def coverage_detail(hr, m, days=CHOICE_DAYS):
+    """The share of past hours inside method m's band, in detail (chain 730, part F, the last item of Samuel's order of
+    27 November 2026): over the last `days` days, the share inside, below the low end and above the high end (percent);
+    the share inside by the place's local hour; and by month (every month of those days). The band's nominal share is
+    80 percent, 10 below and 10 above."""
+    last = hr["day"].max()
+    x = hr[(hr["day"] > last - pd.Timedelta(days=days))].dropna(subset=["actual", m + "_lo", m + "_hi"])
+    if not len(x):
+        return None
+    below = x["actual"] < x[m + "_lo"]
+    above = x["actual"] > x[m + "_hi"]
+    inside = ~below & ~above
+    by_hour = inside.groupby(x["hour"]).mean().reindex(range(24))
+    by_month = inside.groupby(x["day"].dt.strftime("%Y-%m")).agg(["mean", "size"])
+    return {"nominal_pct": 80.0, "hours": int(len(x)), "inside_pct": round(float(inside.mean() * 100), 1),
+            "below_pct": round(float(below.mean() * 100), 1), "above_pct": round(float(above.mean() * 100), 1),
+            "by_local_hour_inside_pct": [None if not np.isfinite(v) else round(float(v * 100), 1) for v in by_hour.to_numpy()],
+            "by_month_columns": ["month", "hours", "inside_pct"],
+            "by_month": [[k, int(r["size"]), round(float(r["mean"] * 100), 1)] for k, r in by_month.iterrows()]}
 
 
 def peaks(hr, methods):

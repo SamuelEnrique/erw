@@ -3807,138 +3807,138 @@ project_68068-geothermal,a,c:output:total,264800426.5445328,USD 264.8 million,50
 project_68068-geothermal,b,c:output:total,153953736.36310047,USD 154 million,50000
 project_68068-geothermal,a,o:output:total,31586736.464254946,USD 31.6 million,50000
 project_68068-geothermal,b,o:output:total,18364381.665264502,USD 18.4 million,50000
-project_68068-geothermal,a,sum:income,28444385.60641345,USD 28.4 million,50000
-project_68068-geothermal,b,sum:income,16537433.492100859,USD 16.5 million,50000
-project_68068-geothermal,a,pv:taxes,11562590.789565636,USD 11.6 million,50000
-project_68068-geothermal,b,pv:taxes,6722436.505561418,USD 6.7 million,50000
+project_68068-geothermal,a,sum:income,23445142.0338534,USD 23.4 million,50000
+project_68068-geothermal,b,sum:income,13630896.531310102,USD 13.6 million,50000
+project_68068-geothermal,a,pv:taxes,9267568.100617165,USD 9.3 million,50000
+project_68068-geothermal,b,pv:taxes,5388120.988730911,USD 5.4 million,50000
 project_68068-geothermal,a,pv:earnings,262235408.46519968,USD 262.2 million,50000
 project_68068-geothermal,b,pv:earnings,152462446.78209278,USD 152.5 million,50000
 project_68068-geothermal,a,year:2026:jobs,609.4496984997184,609,0.5
 project_68068-geothermal,a,year:2026:earnings,46890974.65927889,USD 46.9 million,50000
-project_68068-geothermal,a,year:2026:income,2060449.9581485032,USD 2.1 million,50000
+project_68068-geothermal,a,year:2026:income,1497919.9635871828,USD 1.5 million,50000
 project_68068-geothermal,a,year:2027:jobs,609.4496984997184,609,0.5
 project_68068-geothermal,a,year:2027:earnings,46890974.65927889,USD 46.9 million,50000
-project_68068-geothermal,a,year:2027:income,2060449.9581485032,USD 2.1 million,50000
+project_68068-geothermal,a,year:2027:income,1497919.9635871828,USD 1.5 million,50000
 project_68068-geothermal,a,year:2028:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2028:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2028:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2028:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2029:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2029:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2029:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2029:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2030:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2030:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2030:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2030:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2031:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2031:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2031:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2031:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2032:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2032:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2032:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2032:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2033:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2033:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2033:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2033:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2034:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2034:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2034:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2034:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2035:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2035:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2035:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2035:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2036:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2036:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2036:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2036:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2037:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2037:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2037:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2037:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2038:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2038:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2038:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2038:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2039:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2039:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2039:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2039:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2040:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2040:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2040:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2040:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2041:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2041:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2041:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2041:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2042:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2042:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2042:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2042:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2043:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2043:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2043:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2043:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2044:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2044:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2044:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2044:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2045:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2045:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2045:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2045:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2046:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2046:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2046:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2046:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2047:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2047:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2047:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2047:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2048:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2048:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2048:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2048:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2049:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2049:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2049:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2049:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2050:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2050:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2050:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2050:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2051:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2051:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2051:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2051:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2052:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2052:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2052:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2052:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2053:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2053:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2053:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2053:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2054:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2054:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2054:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2054:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2055:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2055:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2055:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2055:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2056:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2056:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2056:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2056:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2057:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2057:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2057:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2057:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2058:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2058:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2058:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2058:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2059:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2059:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2059:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2059:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2060:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2060:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2060:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2060:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2061:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2061:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2061:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2061:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2062:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2062:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2062:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2062:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2063:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2063:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2063:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2063:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2064:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2064:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2064:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2064:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2065:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2065:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2065:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2065:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2066:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2066:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2066:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2066:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,year:2067:jobs,104.933072,105,0.5
 project_68068-geothermal,a,year:2067:earnings,13766244.948741026,USD 13.8 million,50000
-project_68068-geothermal,a,year:2067:income,608087.1422529117,"USD 608,087",0.5
+project_68068-geothermal,a,year:2067:income,511232.55266697565,"USD 511,233",0.5
 project_68068-geothermal,a,cell:prop1,,not held (no rule held for this state and technology),
 project_68068-geothermal,b,cell:prop1,,not held (no rule held for this state and technology),
 project_68068-geothermal,a,cell:propl,,not held (no rule held for this state and technology),
@@ -4015,7 +4015,7 @@ project_68068-geothermal,a,states:taxes:7:ri,12955014.400368972,USD 13 million,5
 project_68068-geothermal,a,states:taxes:8:mn,12726689.191652263,USD 12.7 million,50000
 project_68068-geothermal,a,states:taxes:9:hi,12483825.775699884,USD 12.5 million,50000
 project_68068-geothermal,a,states:taxes:10:dc,12257410.09941782,USD 12.3 million,50000
-project_68068-geothermal,a,states:taxes:11:ut,11562590.789565636,USD 11.6 million,50000
+project_68068-geothermal,a,states:taxes:11:ut,9267568.100617165,USD 9.3 million,50000
 project_68068-geothermal,a,states:taxes:12:nh,0,USD 0,0.5
 project_68068-geothermal,a,states:taxes:13:tn,0,USD 0,0.5
 project_68068-geothermal,a,states:taxes:14:sd,0,USD 0,0.5
@@ -4025,130 +4025,130 @@ project_68068-geothermal,a,states:rank,5,5,0
 project_68068-geothermal,a,states:count,51,51,0
 project_68068-geothermal,b,year:2027:jobs,354.3312200579758,354,0.5
 project_68068-geothermal,b,year:2027:earnings,27262194.569348194,USD 27.3 million,50000
-project_68068-geothermal,b,year:2027:income,1197936.0221793624,USD 1.2 million,50000
+project_68068-geothermal,b,year:2027:income,870883.69975999,"USD 870,884",0.5
 project_68068-geothermal,b,year:2028:jobs,354.3312200579758,354,0.5
 project_68068-geothermal,b,year:2028:earnings,27262194.569348194,USD 27.3 million,50000
-project_68068-geothermal,b,year:2028:income,1197936.0221793624,USD 1.2 million,50000
+project_68068-geothermal,b,year:2028:income,870883.69975999,"USD 870,884",0.5
 project_68068-geothermal,b,year:2029:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2029:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2029:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2029:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2030:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2030:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2030:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2030:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2031:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2031:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2031:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2031:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2032:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2032:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2032:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2032:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2033:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2033:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2033:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2033:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2034:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2034:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2034:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2034:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2035:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2035:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2035:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2035:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2036:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2036:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2036:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2036:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2037:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2037:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2037:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2037:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2038:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2038:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2038:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2038:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2039:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2039:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2039:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2039:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2040:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2040:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2040:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2040:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2041:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2041:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2041:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2041:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2042:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2042:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2042:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2042:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2043:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2043:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2043:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2043:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2044:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2044:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2044:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2044:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2045:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2045:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2045:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2045:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2046:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2046:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2046:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2046:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2047:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2047:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2047:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2047:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2048:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2048:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2048:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2048:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2049:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2049:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2049:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2049:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2050:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2050:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2050:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2050:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2051:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2051:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2051:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2051:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2052:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2052:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2052:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2052:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2053:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2053:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2053:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2053:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2054:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2054:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2054:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2054:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2055:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2055:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2055:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2055:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2056:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2056:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2056:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2056:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2057:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2057:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2057:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2057:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2058:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2058:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2058:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2058:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2059:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2059:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2059:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2059:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2060:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2060:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2060:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2060:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2061:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2061:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2061:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2061:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2062:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2062:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2062:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2062:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2063:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2063:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2063:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2063:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2064:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2064:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2064:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2064:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2065:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2065:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2065:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2065:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2066:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2066:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2066:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2066:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2067:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2067:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2067:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2067:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,year:2068:jobs,61.0076,61,0.05
 project_68068-geothermal,b,year:2068:earnings,8003630.784151758,USD 8 million,50000
-project_68068-geothermal,b,year:2068:income,353539.03619355324,"USD 353,539",0.5
+project_68068-geothermal,b,year:2068:income,297228.22829475324,"USD 297,228",0.5
 project_68068-geothermal,b,default:mw,50,50,0.5
 project_68068-geothermal,b,default:capex,4171.82,"4,172",0.5
 project_68068-geothermal,b,default:start,2027,2027,
@@ -4217,7 +4217,7 @@ project_68068-geothermal,b,states:taxes:7:ri,7531985.116493593,USD 7.5 million,5
 project_68068-geothermal,b,states:taxes:8:mn,7399237.90212341,USD 7.4 million,50000
 project_68068-geothermal,b,states:taxes:9:hi,7258038.241685978,USD 7.3 million,50000
 project_68068-geothermal,b,states:taxes:10:dc,7126401.220591756,USD 7.1 million,50000
-project_68068-geothermal,b,states:taxes:11:ut,6722436.505561418,USD 6.7 million,50000
+project_68068-geothermal,b,states:taxes:11:ut,5388120.988730911,USD 5.4 million,50000
 project_68068-geothermal,b,states:taxes:12:nh,0,USD 0,0.5
 project_68068-geothermal,b,states:taxes:13:tn,0,USD 0,0.5
 project_68068-geothermal,b,states:taxes:14:sd,0,USD 0,0.5
@@ -7145,10 +7145,10 @@ address_mi_vt_pv,b,states:taxes:2:al,45090181.795687266,USD 45.1 million,50000
 address_mi_vt_pv,b,states:taxes:3:la,44200674.01698981,USD 44.2 million,50000
 address_mi_vt_pv,b,states:taxes:4:ar,43941113.20573402,USD 43.9 million,50000
 address_mi_vt_pv,b,states:taxes:5:ok,43265244.75502099,USD 43.3 million,50000
-address_mi_vt_pv,b,states:taxes:6:ut,42332201.26574398,USD 42.3 million,50000
-address_mi_vt_pv,b,states:taxes:7:vt,41328404.98856353,USD 41.3 million,50000
-address_mi_vt_pv,b,states:taxes:8:me,41288935.09323124,USD 41.3 million,50000
-address_mi_vt_pv,b,states:taxes:9:va,40703935.25352084,USD 40.7 million,50000
+address_mi_vt_pv,b,states:taxes:6:vt,41328404.98856353,USD 41.3 million,50000
+address_mi_vt_pv,b,states:taxes:7:me,41288935.09323124,USD 41.3 million,50000
+address_mi_vt_pv,b,states:taxes:8:va,40703935.25352084,USD 40.7 million,50000
+address_mi_vt_pv,b,states:taxes:9:ut,40675629.919985086,USD 40.7 million,50000
 address_mi_vt_pv,b,states:taxes:10:nv,40418480.53799662,USD 40.4 million,50000
 address_mi_vt_pv,b,states:taxes:11:ny,9390052.885176107,USD 9.4 million,50000
 address_mi_vt_pv,b,states:taxes:12:sc,7270219.92282223,USD 7.3 million,50000
@@ -7592,3 +7592,1138 @@ address_il_wv_wind,b,states:taxes:15:ia,1836614.7987752089,USD 1.8 million,50000
 address_il_wv_wind,b,states:taxes:16:nh,0,USD 0,0.5
 address_il_wv_wind,b,states:rank,47,47,0
 address_il_wv_wind,b,states:count,51,51,0
+coal_wy_tx,a,c:jobs:total,5702.877168657725,"5,703",0.5
+coal_wy_tx,b,c:jobs:total,6397.143317020222,"6,397",0.5
+coal_wy_tx,a,o:jobs:total,262.1463,262,0.5
+coal_wy_tx,b,o:jobs:total,335.9798,336,0.5
+coal_wy_tx,a,c:earnings:total,609493952.722606,USD 609.5 million,50000
+coal_wy_tx,b,c:earnings:total,698651389.4985678,USD 698.7 million,50000
+coal_wy_tx,a,o:earnings:total,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,b,o:earnings:total,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,a,c:output:total,1190291631.5862088,USD 1.19 billion,5000000
+coal_wy_tx,b,c:output:total,1446083879.7892623,USD 1.45 billion,5000000
+coal_wy_tx,a,o:output:total,63215434.83772515,USD 63.2 million,50000
+coal_wy_tx,b,o:output:total,81201259.41546538,USD 81.2 million,50000
+coal_wy_tx,a,y1:property,33517302,USD 33.5 million,50000
+coal_wy_tx,a,sum:property,519518181,USD 519.5 million,50000
+coal_wy_tx,a,sum:sales,68679946.5689337,USD 68.7 million,50000
+coal_wy_tx,b,sum:sales,94630492.36211999,USD 94.6 million,50000
+coal_wy_tx,a,sum:income,0,USD 0,0.5
+coal_wy_tx,b,sum:income,0,USD 0,0.5
+coal_wy_tx,a,pv:taxes,309513782.14737904,USD 309.5 million,50000
+coal_wy_tx,b,pv:taxes,88574713.91824017,USD 88.6 million,50000
+coal_wy_tx,a,pv:earnings,851064205.7880049,USD 851.1 million,50000
+coal_wy_tx,b,pv:earnings,1039192257.2877771,USD 1.04 billion,5000000
+coal_wy_tx,a,year:2027:jobs,1900.9590562192416,"1,901",0.5
+coal_wy_tx,a,year:2027:earnings,203164650.9075353,USD 203.2 million,50000
+coal_wy_tx,a,year:2027:sales,22893315.522977896,USD 22.9 million,50000
+coal_wy_tx,a,year:2027:income,0,USD 0,0.5
+coal_wy_tx,a,year:2028:jobs,1900.9590562192416,"1,901",0.5
+coal_wy_tx,a,year:2028:earnings,203164650.9075353,USD 203.2 million,50000
+coal_wy_tx,a,year:2028:sales,22893315.522977896,USD 22.9 million,50000
+coal_wy_tx,a,year:2028:income,0,USD 0,0.5
+coal_wy_tx,a,year:2029:jobs,1900.9590562192416,"1,901",0.5
+coal_wy_tx,a,year:2029:earnings,203164650.9075353,USD 203.2 million,50000
+coal_wy_tx,a,year:2029:sales,22893315.522977896,USD 22.9 million,50000
+coal_wy_tx,a,year:2029:income,0,USD 0,0.5
+coal_wy_tx,a,year:2030:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2030:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2030:value,2793108500,USD 2.79 billion,5000000
+coal_wy_tx,a,year:2030:property,33517302,USD 33.5 million,50000
+coal_wy_tx,a,year:2030:income,0,USD 0,0.5
+coal_wy_tx,a,year:2031:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2031:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2031:value,2700004883.3333335,USD 2.7 billion,5000000
+coal_wy_tx,a,year:2031:property,32400058.6,USD 32.4 million,50000
+coal_wy_tx,a,year:2031:income,0,USD 0,0.5
+coal_wy_tx,a,year:2032:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2032:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2032:value,2606901266.6666665,USD 2.61 billion,5000000
+coal_wy_tx,a,year:2032:property,31282815.2,USD 31.3 million,50000
+coal_wy_tx,a,year:2032:income,0,USD 0,0.5
+coal_wy_tx,a,year:2033:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2033:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2033:value,2513797650,USD 2.51 billion,5000000
+coal_wy_tx,a,year:2033:property,30165571.8,USD 30.2 million,50000
+coal_wy_tx,a,year:2033:income,0,USD 0,0.5
+coal_wy_tx,a,year:2034:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2034:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2034:value,2420694033.3333335,USD 2.42 billion,5000000
+coal_wy_tx,a,year:2034:property,29048328.400000002,USD 29 million,50000
+coal_wy_tx,a,year:2034:income,0,USD 0,0.5
+coal_wy_tx,a,year:2035:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2035:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2035:value,2327590416.666667,USD 2.33 billion,5000000
+coal_wy_tx,a,year:2035:property,27931085.000000004,USD 27.9 million,50000
+coal_wy_tx,a,year:2035:income,0,USD 0,0.5
+coal_wy_tx,a,year:2036:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2036:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2036:value,2234486800,USD 2.23 billion,5000000
+coal_wy_tx,a,year:2036:property,26813841.6,USD 26.8 million,50000
+coal_wy_tx,a,year:2036:income,0,USD 0,0.5
+coal_wy_tx,a,year:2037:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2037:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2037:value,2141383183.3333333,USD 2.14 billion,5000000
+coal_wy_tx,a,year:2037:property,25696598.2,USD 25.7 million,50000
+coal_wy_tx,a,year:2037:income,0,USD 0,0.5
+coal_wy_tx,a,year:2038:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2038:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2038:value,2048279566.6666667,USD 2.05 billion,5000000
+coal_wy_tx,a,year:2038:property,24579354.8,USD 24.6 million,50000
+coal_wy_tx,a,year:2038:income,0,USD 0,0.5
+coal_wy_tx,a,year:2039:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2039:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2039:value,1955175949.9999998,USD 1.96 billion,5000000
+coal_wy_tx,a,year:2039:property,23462111.4,USD 23.5 million,50000
+coal_wy_tx,a,year:2039:income,0,USD 0,0.5
+coal_wy_tx,a,year:2040:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2040:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2040:value,1862072333.3333335,USD 1.86 billion,5000000
+coal_wy_tx,a,year:2040:property,22344868.000000004,USD 22.3 million,50000
+coal_wy_tx,a,year:2040:income,0,USD 0,0.5
+coal_wy_tx,a,year:2041:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2041:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2041:value,1768968716.6666665,USD 1.77 billion,5000000
+coal_wy_tx,a,year:2041:property,21227624.599999998,USD 21.2 million,50000
+coal_wy_tx,a,year:2041:income,0,USD 0,0.5
+coal_wy_tx,a,year:2042:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2042:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2042:value,1675865100,USD 1.68 billion,5000000
+coal_wy_tx,a,year:2042:property,20110381.2,USD 20.1 million,50000
+coal_wy_tx,a,year:2042:income,0,USD 0,0.5
+coal_wy_tx,a,year:2043:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2043:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2043:value,1582761483.3333333,USD 1.58 billion,5000000
+coal_wy_tx,a,year:2043:property,18993137.8,USD 19 million,50000
+coal_wy_tx,a,year:2043:income,0,USD 0,0.5
+coal_wy_tx,a,year:2044:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2044:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2044:value,1489657866.6666667,USD 1.49 billion,5000000
+coal_wy_tx,a,year:2044:property,17875894.400000002,USD 17.9 million,50000
+coal_wy_tx,a,year:2044:income,0,USD 0,0.5
+coal_wy_tx,a,year:2045:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2045:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2045:value,1396554250,USD 1.4 billion,5000000
+coal_wy_tx,a,year:2045:property,16758651,USD 16.8 million,50000
+coal_wy_tx,a,year:2045:income,0,USD 0,0.5
+coal_wy_tx,a,year:2046:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2046:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2046:value,1303450633.3333333,USD 1.3 billion,5000000
+coal_wy_tx,a,year:2046:property,15641407.6,USD 15.6 million,50000
+coal_wy_tx,a,year:2046:income,0,USD 0,0.5
+coal_wy_tx,a,year:2047:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2047:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2047:value,1210347016.6666667,USD 1.21 billion,5000000
+coal_wy_tx,a,year:2047:property,14524164.200000001,USD 14.5 million,50000
+coal_wy_tx,a,year:2047:income,0,USD 0,0.5
+coal_wy_tx,a,year:2048:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2048:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2048:value,1117243400,USD 1.12 billion,5000000
+coal_wy_tx,a,year:2048:property,13406920.8,USD 13.4 million,50000
+coal_wy_tx,a,year:2048:income,0,USD 0,0.5
+coal_wy_tx,a,year:2049:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2049:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2049:value,1024139783.3333334,USD 1.02 billion,5000000
+coal_wy_tx,a,year:2049:property,12289677.4,USD 12.3 million,50000
+coal_wy_tx,a,year:2049:income,0,USD 0,0.5
+coal_wy_tx,a,year:2050:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2050:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2050:value,931036166.6666667,USD 931 million,50000
+coal_wy_tx,a,year:2050:property,11172434.000000002,USD 11.2 million,50000
+coal_wy_tx,a,year:2050:income,0,USD 0,0.5
+coal_wy_tx,a,year:2051:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2051:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2051:value,837932550.0000001,USD 837.9 million,50000
+coal_wy_tx,a,year:2051:property,10055190.600000001,USD 10.1 million,50000
+coal_wy_tx,a,year:2051:income,0,USD 0,0.5
+coal_wy_tx,a,year:2052:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2052:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2052:value,744828933.3333335,USD 744.8 million,50000
+coal_wy_tx,a,year:2052:property,8937947.200000003,USD 8.9 million,50000
+coal_wy_tx,a,year:2052:income,0,USD 0,0.5
+coal_wy_tx,a,year:2053:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2053:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2053:value,651725316.6666665,USD 651.7 million,50000
+coal_wy_tx,a,year:2053:property,7820703.799999998,USD 7.8 million,50000
+coal_wy_tx,a,year:2053:income,0,USD 0,0.5
+coal_wy_tx,a,year:2054:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2054:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2054:value,558621699.9999999,USD 558.6 million,50000
+coal_wy_tx,a,year:2054:property,6703460.3999999985,USD 6.7 million,50000
+coal_wy_tx,a,year:2054:income,0,USD 0,0.5
+coal_wy_tx,a,year:2055:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2055:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2055:value,465518083.33333325,USD 465.5 million,50000
+coal_wy_tx,a,year:2055:property,5586216.999999999,USD 5.6 million,50000
+coal_wy_tx,a,year:2055:income,0,USD 0,0.5
+coal_wy_tx,a,year:2056:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2056:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2056:value,372414466.66666657,USD 372.4 million,50000
+coal_wy_tx,a,year:2056:property,4468973.599999999,USD 4.5 million,50000
+coal_wy_tx,a,year:2056:income,0,USD 0,0.5
+coal_wy_tx,a,year:2057:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2057:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2057:value,279310849.99999994,USD 279.3 million,50000
+coal_wy_tx,a,year:2057:property,3351730.1999999993,USD 3.4 million,50000
+coal_wy_tx,a,year:2057:income,0,USD 0,0.5
+coal_wy_tx,a,year:2058:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2058:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2058:value,186207233.33333328,USD 186.2 million,50000
+coal_wy_tx,a,year:2058:property,2234486.7999999993,USD 2.2 million,50000
+coal_wy_tx,a,year:2058:income,0,USD 0,0.5
+coal_wy_tx,a,year:2059:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2059:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2059:value,93103616.66666664,USD 93.1 million,50000
+coal_wy_tx,a,year:2059:property,1117243.3999999997,USD 1.1 million,50000
+coal_wy_tx,a,year:2059:income,0,USD 0,0.5
+coal_wy_tx,a,year:2060:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2060:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2060:value,0,USD 0,0.5
+coal_wy_tx,a,year:2060:property,0,USD 0,0.5
+coal_wy_tx,a,year:2060:income,0,USD 0,0.5
+coal_wy_tx,a,year:2061:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2061:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2061:value,0,USD 0,0.5
+coal_wy_tx,a,year:2061:property,0,USD 0,0.5
+coal_wy_tx,a,year:2061:income,0,USD 0,0.5
+coal_wy_tx,a,year:2062:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2062:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2062:value,0,USD 0,0.5
+coal_wy_tx,a,year:2062:property,0,USD 0,0.5
+coal_wy_tx,a,year:2062:income,0,USD 0,0.5
+coal_wy_tx,a,year:2063:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2063:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2063:value,0,USD 0,0.5
+coal_wy_tx,a,year:2063:property,0,USD 0,0.5
+coal_wy_tx,a,year:2063:income,0,USD 0,0.5
+coal_wy_tx,a,year:2064:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2064:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2064:value,0,USD 0,0.5
+coal_wy_tx,a,year:2064:property,0,USD 0,0.5
+coal_wy_tx,a,year:2064:income,0,USD 0,0.5
+coal_wy_tx,a,year:2065:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2065:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2065:value,0,USD 0,0.5
+coal_wy_tx,a,year:2065:property,0,USD 0,0.5
+coal_wy_tx,a,year:2065:income,0,USD 0,0.5
+coal_wy_tx,a,year:2066:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2066:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2066:value,0,USD 0,0.5
+coal_wy_tx,a,year:2066:property,0,USD 0,0.5
+coal_wy_tx,a,year:2066:income,0,USD 0,0.5
+coal_wy_tx,a,year:2067:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2067:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2067:value,0,USD 0,0.5
+coal_wy_tx,a,year:2067:property,0,USD 0,0.5
+coal_wy_tx,a,year:2067:income,0,USD 0,0.5
+coal_wy_tx,a,year:2068:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2068:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2068:value,0,USD 0,0.5
+coal_wy_tx,a,year:2068:property,0,USD 0,0.5
+coal_wy_tx,a,year:2068:income,0,USD 0,0.5
+coal_wy_tx,a,year:2069:jobs,262.1463,262,0.5
+coal_wy_tx,a,year:2069:earnings,24095138.649943706,USD 24.1 million,50000
+coal_wy_tx,a,year:2069:value,0,USD 0,0.5
+coal_wy_tx,a,year:2069:property,0,USD 0,0.5
+coal_wy_tx,a,year:2069:income,0,USD 0,0.5
+coal_wy_tx,b,cell:prop1,,not held (no rule held for this state and technology),
+coal_wy_tx,b,cell:propl,,not held (no rule held for this state and technology),
+coal_wy_tx,a,cell:sev,,"none (the coal the plant burns is not modelled, and no coal severance rule is held)",
+coal_wy_tx,b,cell:sev,,"none (the coal the plant burns is not modelled, and no coal severance rule is held)",
+coal_wy_tx,a,default:mw,650,650,0.5
+coal_wy_tx,a,default:capex,4297.09,"4,297",0.5
+coal_wy_tx,a,default:start,2027,2027,
+coal_wy_tx,a,default:build,3,3,0.5
+coal_wy_tx,a,default:life,40,40,0.5
+coal_wy_tx,a,default:local,100,100,0.5
+coal_wy_tx,a,default:om,100,100,0.5
+coal_wy_tx,a,default:sales,5.39,5.39,0.005
+coal_wy_tx,a,default:taxable,45.6198,45.62,0.005
+coal_wy_tx,a,default:exempt,0,0,0.5
+coal_wy_tx,a,default:own,,not given,
+coal_wy_tx,a,default:ownyears,,not given,
+coal_wy_tx,a,default:cf,0.85,0.85,0.005
+coal_wy_tx,a,default:rate,7,7,0.5
+coal_wy_tx,a,states:jobs:1:il:onsite,4889.907315092938,"4,889.9",0.05
+coal_wy_tx,a,states:jobs:1:il:supply_chain,2261.465688478313,"2,261.5",0.05
+coal_wy_tx,a,states:jobs:1:il:induced,2472.8422985940847,"2,472.8",0.05
+coal_wy_tx,a,states:jobs:2:ca:onsite,4883.080783303042,"4,883.1",0.05
+coal_wy_tx,a,states:jobs:2:ca:supply_chain,2345.89459980276,"2,345.9",0.05
+coal_wy_tx,a,states:jobs:2:ca:induced,2322.3536349574288,"2,322.4",0.05
+coal_wy_tx,a,states:jobs:3:pa:onsite,4745.814120862352,"4,745.8",0.05
+coal_wy_tx,a,states:jobs:3:pa:supply_chain,2213.877842807979,"2,213.9",0.05
+coal_wy_tx,a,states:jobs:3:pa:induced,2323.844052179265,"2,323.8",0.05
+coal_wy_tx,a,states:jobs:4:ma:onsite,4884.3177418411,"4,884.3",0.05
+coal_wy_tx,a,states:jobs:4:ma:supply_chain,2109.3455762943004,"2,109.3",0.05
+coal_wy_tx,a,states:jobs:4:ma:induced,2263.199154204141,"2,263.2",0.05
+coal_wy_tx,a,states:jobs:5:or:onsite,4804.202332953067,"4,804.2",0.05
+coal_wy_tx,a,states:jobs:5:or:supply_chain,2236.45983553947,"2,236.5",0.05
+coal_wy_tx,a,states:jobs:5:or:induced,2156.1741425559453,"2,156.2",0.05
+coal_wy_tx,a,states:jobs:6:nj:onsite,4466.276351340915,"4,466.3",0.05
+coal_wy_tx,a,states:jobs:6:nj:supply_chain,1904.0833628649464,"1,904.1",0.05
+coal_wy_tx,a,states:jobs:6:nj:induced,2156.2954676054214,"2,156.3",0.05
+coal_wy_tx,a,states:jobs:7:nh:onsite,4396.093371369618,"4,396.1",0.05
+coal_wy_tx,a,states:jobs:7:nh:supply_chain,2078.175603512887,"2,078.2",0.05
+coal_wy_tx,a,states:jobs:7:nh:induced,2042.1424119455335,"2,042.1",0.05
+coal_wy_tx,a,states:jobs:8:ny:onsite,4830.540836516951,"4,830.5",0.05
+coal_wy_tx,a,states:jobs:8:ny:supply_chain,1877.347970516915,"1,877.3",0.05
+coal_wy_tx,a,states:jobs:8:ny:induced,1789.5811016325067,"1,789.6",0.05
+coal_wy_tx,a,states:jobs:9:de:onsite,4882.937740370777,"4,882.9",0.05
+coal_wy_tx,a,states:jobs:9:de:supply_chain,1889.1152196849957,"1,889.1",0.05
+coal_wy_tx,a,states:jobs:9:de:induced,1682.9534997674045,"1,683.0",0.05
+coal_wy_tx,a,states:jobs:10:mo:onsite,4350.571606900895,"4,350.6",0.05
+coal_wy_tx,a,states:jobs:10:mo:supply_chain,2110.859939172609,"2,110.9",0.05
+coal_wy_tx,a,states:jobs:10:mo:induced,1947.216720922546,"1,947.2",0.05
+coal_wy_tx,a,states:jobs:11:nv:onsite,4433.808994822475,"4,433.8",0.05
+coal_wy_tx,a,states:jobs:11:nv:supply_chain,876.9340088269314,876.9,0.05
+coal_wy_tx,a,states:jobs:11:nv:induced,1072.890893184296,"1,072.9",0.05
+coal_wy_tx,a,states:jobs:12:hi:onsite,3575.0153020876187,"3,575.0",0.05
+coal_wy_tx,a,states:jobs:12:hi:supply_chain,1368.5354023873465,"1,368.5",0.05
+coal_wy_tx,a,states:jobs:12:hi:induced,1417.9563754013095,"1,418.0",0.05
+coal_wy_tx,a,states:jobs:13:wy:onsite,3786.4663336376457,"3,786.5",0.05
+coal_wy_tx,a,states:jobs:13:wy:supply_chain,1156.8871030508112,"1,156.9",0.05
+coal_wy_tx,a,states:jobs:13:wy:induced,759.5237319692675,759.5,0.05
+coal_wy_tx,a,states:jobs:14:ak:onsite,3329.7885999450195,"3,329.8",0.05
+coal_wy_tx,a,states:jobs:14:ak:supply_chain,1172.1593755395768,"1,172.2",0.05
+coal_wy_tx,a,states:jobs:14:ak:induced,1122.2919107778398,"1,122.3",0.05
+coal_wy_tx,a,states:jobs:15:dc:onsite,3756.064011689404,"3,756.1",0.05
+coal_wy_tx,a,states:jobs:15:dc:supply_chain,867.7115208715173,867.7,0.05
+coal_wy_tx,a,states:jobs:15:dc:induced,458.2054930252226,458.2,0.05
+coal_wy_tx,a,states:taxes:1:ny,564977466.404868,USD 565 million,50000
+coal_wy_tx,a,states:taxes:2:ca,561302507.977625,USD 561.3 million,50000
+coal_wy_tx,a,states:taxes:3:il,547182730.3746494,USD 547.2 million,50000
+coal_wy_tx,a,states:taxes:4:ma,507744949.8574301,USD 507.7 million,50000
+coal_wy_tx,a,states:taxes:5:nj,485933914.12896,USD 485.9 million,50000
+coal_wy_tx,a,states:taxes:6:ct,464663253.712766,USD 464.7 million,50000
+coal_wy_tx,a,states:taxes:7:mn,453056450.3895832,USD 453.1 million,50000
+coal_wy_tx,a,states:taxes:8:ri,444007388.3833611,USD 444 million,50000
+coal_wy_tx,a,states:taxes:9:pa,440105278.2458811,USD 440.1 million,50000
+coal_wy_tx,a,states:taxes:10:mo,424353008.55452466,USD 424.4 million,50000
+coal_wy_tx,a,states:taxes:11:wy,309513782.14737904,USD 309.5 million,50000
+coal_wy_tx,a,states:taxes:12:ak,268308982.2121422,USD 268.3 million,50000
+coal_wy_tx,a,states:taxes:13:md,247160512.8265188,USD 247.2 million,50000
+coal_wy_tx,a,states:taxes:14:sc,114865040.4013806,USD 114.9 million,50000
+coal_wy_tx,a,states:taxes:15:oh,105621747.83185765,USD 105.6 million,50000
+coal_wy_tx,a,states:taxes:16:mt,49426596.448830366,USD 49.4 million,50000
+coal_wy_tx,a,states:rank,49,49,0
+coal_wy_tx,a,states:count,51,51,0
+coal_wy_tx,b,year:2027:jobs,2132.381105673407,"2,132",0.5
+coal_wy_tx,b,year:2027:earnings,232883796.4995226,USD 232.9 million,50000
+coal_wy_tx,b,year:2027:sales,31543497.454039995,USD 31.5 million,50000
+coal_wy_tx,b,year:2027:income,0,USD 0,0.5
+coal_wy_tx,b,year:2028:jobs,2132.381105673407,"2,132",0.5
+coal_wy_tx,b,year:2028:earnings,232883796.4995226,USD 232.9 million,50000
+coal_wy_tx,b,year:2028:sales,31543497.454039995,USD 31.5 million,50000
+coal_wy_tx,b,year:2028:income,0,USD 0,0.5
+coal_wy_tx,b,year:2029:jobs,2132.381105673407,"2,132",0.5
+coal_wy_tx,b,year:2029:earnings,232883796.4995226,USD 232.9 million,50000
+coal_wy_tx,b,year:2029:sales,31543497.454039995,USD 31.5 million,50000
+coal_wy_tx,b,year:2029:income,0,USD 0,0.5
+coal_wy_tx,b,year:2030:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2030:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2030:income,0,USD 0,0.5
+coal_wy_tx,b,year:2031:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2031:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2031:income,0,USD 0,0.5
+coal_wy_tx,b,year:2032:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2032:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2032:income,0,USD 0,0.5
+coal_wy_tx,b,year:2033:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2033:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2033:income,0,USD 0,0.5
+coal_wy_tx,b,year:2034:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2034:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2034:income,0,USD 0,0.5
+coal_wy_tx,b,year:2035:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2035:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2035:income,0,USD 0,0.5
+coal_wy_tx,b,year:2036:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2036:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2036:income,0,USD 0,0.5
+coal_wy_tx,b,year:2037:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2037:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2037:income,0,USD 0,0.5
+coal_wy_tx,b,year:2038:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2038:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2038:income,0,USD 0,0.5
+coal_wy_tx,b,year:2039:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2039:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2039:income,0,USD 0,0.5
+coal_wy_tx,b,year:2040:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2040:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2040:income,0,USD 0,0.5
+coal_wy_tx,b,year:2041:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2041:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2041:income,0,USD 0,0.5
+coal_wy_tx,b,year:2042:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2042:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2042:income,0,USD 0,0.5
+coal_wy_tx,b,year:2043:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2043:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2043:income,0,USD 0,0.5
+coal_wy_tx,b,year:2044:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2044:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2044:income,0,USD 0,0.5
+coal_wy_tx,b,year:2045:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2045:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2045:income,0,USD 0,0.5
+coal_wy_tx,b,year:2046:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2046:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2046:income,0,USD 0,0.5
+coal_wy_tx,b,year:2047:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2047:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2047:income,0,USD 0,0.5
+coal_wy_tx,b,year:2048:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2048:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2048:income,0,USD 0,0.5
+coal_wy_tx,b,year:2049:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2049:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2049:income,0,USD 0,0.5
+coal_wy_tx,b,year:2050:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2050:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2050:income,0,USD 0,0.5
+coal_wy_tx,b,year:2051:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2051:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2051:income,0,USD 0,0.5
+coal_wy_tx,b,year:2052:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2052:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2052:income,0,USD 0,0.5
+coal_wy_tx,b,year:2053:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2053:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2053:income,0,USD 0,0.5
+coal_wy_tx,b,year:2054:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2054:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2054:income,0,USD 0,0.5
+coal_wy_tx,b,year:2055:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2055:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2055:income,0,USD 0,0.5
+coal_wy_tx,b,year:2056:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2056:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2056:income,0,USD 0,0.5
+coal_wy_tx,b,year:2057:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2057:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2057:income,0,USD 0,0.5
+coal_wy_tx,b,year:2058:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2058:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2058:income,0,USD 0,0.5
+coal_wy_tx,b,year:2059:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2059:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2059:income,0,USD 0,0.5
+coal_wy_tx,b,year:2060:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2060:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2060:income,0,USD 0,0.5
+coal_wy_tx,b,year:2061:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2061:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2061:income,0,USD 0,0.5
+coal_wy_tx,b,year:2062:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2062:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2062:income,0,USD 0,0.5
+coal_wy_tx,b,year:2063:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2063:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2063:income,0,USD 0,0.5
+coal_wy_tx,b,year:2064:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2064:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2064:income,0,USD 0,0.5
+coal_wy_tx,b,year:2065:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2065:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2065:income,0,USD 0,0.5
+coal_wy_tx,b,year:2066:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2066:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2066:income,0,USD 0,0.5
+coal_wy_tx,b,year:2067:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2067:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2067:income,0,USD 0,0.5
+coal_wy_tx,b,year:2068:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2068:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2068:income,0,USD 0,0.5
+coal_wy_tx,b,year:2069:jobs,335.9798,336,0.5
+coal_wy_tx,b,year:2069:earnings,33084513.261480138,USD 33.1 million,50000
+coal_wy_tx,b,year:2069:income,0,USD 0,0.5
+coal_wy_tx,b,default:mw,650,650,0.5
+coal_wy_tx,b,default:capex,3891.8,"3,892",0.5
+coal_wy_tx,b,default:start,2027,2027,
+coal_wy_tx,b,default:build,3,3,0.5
+coal_wy_tx,b,default:life,40,40,0.5
+coal_wy_tx,b,default:local,100,100,0.5
+coal_wy_tx,b,default:om,100,100,0.5
+coal_wy_tx,b,default:sales,8.2,8.2,0.05
+coal_wy_tx,b,default:taxable,45.6198,45.62,0.005
+coal_wy_tx,b,default:exempt,0,0,0.5
+coal_wy_tx,b,default:own,,not given,
+coal_wy_tx,b,default:ownyears,,not given,
+coal_wy_tx,b,default:cf,0.85,0.85,0.005
+coal_wy_tx,b,default:rate,7,7,0.5
+coal_wy_tx,b,states:jobs:1:il:onsite,4889.907315092938,"4,889.9",0.05
+coal_wy_tx,b,states:jobs:1:il:supply_chain,2261.465688478313,"2,261.5",0.05
+coal_wy_tx,b,states:jobs:1:il:induced,2472.8422985940847,"2,472.8",0.05
+coal_wy_tx,b,states:jobs:2:ca:onsite,4883.080783303042,"4,883.1",0.05
+coal_wy_tx,b,states:jobs:2:ca:supply_chain,2345.89459980276,"2,345.9",0.05
+coal_wy_tx,b,states:jobs:2:ca:induced,2322.3536349574288,"2,322.4",0.05
+coal_wy_tx,b,states:jobs:3:pa:onsite,4745.814120862352,"4,745.8",0.05
+coal_wy_tx,b,states:jobs:3:pa:supply_chain,2213.877842807979,"2,213.9",0.05
+coal_wy_tx,b,states:jobs:3:pa:induced,2323.844052179265,"2,323.8",0.05
+coal_wy_tx,b,states:jobs:4:ma:onsite,4884.3177418411,"4,884.3",0.05
+coal_wy_tx,b,states:jobs:4:ma:supply_chain,2109.3455762943004,"2,109.3",0.05
+coal_wy_tx,b,states:jobs:4:ma:induced,2263.199154204141,"2,263.2",0.05
+coal_wy_tx,b,states:jobs:5:or:onsite,4804.202332953067,"4,804.2",0.05
+coal_wy_tx,b,states:jobs:5:or:supply_chain,2236.45983553947,"2,236.5",0.05
+coal_wy_tx,b,states:jobs:5:or:induced,2156.1741425559453,"2,156.2",0.05
+coal_wy_tx,b,states:jobs:6:nj:onsite,4466.276351340915,"4,466.3",0.05
+coal_wy_tx,b,states:jobs:6:nj:supply_chain,1904.0833628649464,"1,904.1",0.05
+coal_wy_tx,b,states:jobs:6:nj:induced,2156.2954676054214,"2,156.3",0.05
+coal_wy_tx,b,states:jobs:7:nh:onsite,4396.093371369618,"4,396.1",0.05
+coal_wy_tx,b,states:jobs:7:nh:supply_chain,2078.175603512887,"2,078.2",0.05
+coal_wy_tx,b,states:jobs:7:nh:induced,2042.1424119455335,"2,042.1",0.05
+coal_wy_tx,b,states:jobs:8:ny:onsite,4830.540836516951,"4,830.5",0.05
+coal_wy_tx,b,states:jobs:8:ny:supply_chain,1877.347970516915,"1,877.3",0.05
+coal_wy_tx,b,states:jobs:8:ny:induced,1789.5811016325067,"1,789.6",0.05
+coal_wy_tx,b,states:jobs:9:de:onsite,4882.937740370777,"4,882.9",0.05
+coal_wy_tx,b,states:jobs:9:de:supply_chain,1889.1152196849957,"1,889.1",0.05
+coal_wy_tx,b,states:jobs:9:de:induced,1682.9534997674045,"1,683.0",0.05
+coal_wy_tx,b,states:jobs:10:mo:onsite,4350.571606900895,"4,350.6",0.05
+coal_wy_tx,b,states:jobs:10:mo:supply_chain,2110.859939172609,"2,110.9",0.05
+coal_wy_tx,b,states:jobs:10:mo:induced,1947.216720922546,"1,947.2",0.05
+coal_wy_tx,b,states:jobs:11:tx:onsite,3303.4875923235695,"3,303.5",0.05
+coal_wy_tx,b,states:jobs:11:tx:supply_chain,1559.7907832561223,"1,559.8",0.05
+coal_wy_tx,b,states:jobs:11:tx:induced,1533.8649414405297,"1,533.9",0.05
+coal_wy_tx,b,states:jobs:12:nv:onsite,4433.808994822475,"4,433.8",0.05
+coal_wy_tx,b,states:jobs:12:nv:supply_chain,876.9340088269314,876.9,0.05
+coal_wy_tx,b,states:jobs:12:nv:induced,1072.890893184296,"1,072.9",0.05
+coal_wy_tx,b,states:jobs:13:hi:onsite,3575.0153020876187,"3,575.0",0.05
+coal_wy_tx,b,states:jobs:13:hi:supply_chain,1368.5354023873465,"1,368.5",0.05
+coal_wy_tx,b,states:jobs:13:hi:induced,1417.9563754013095,"1,418.0",0.05
+coal_wy_tx,b,states:jobs:14:wy:onsite,3786.4663336376457,"3,786.5",0.05
+coal_wy_tx,b,states:jobs:14:wy:supply_chain,1156.8871030508112,"1,156.9",0.05
+coal_wy_tx,b,states:jobs:14:wy:induced,759.5237319692675,759.5,0.05
+coal_wy_tx,b,states:jobs:15:ak:onsite,3329.7885999450195,"3,329.8",0.05
+coal_wy_tx,b,states:jobs:15:ak:supply_chain,1172.1593755395768,"1,172.2",0.05
+coal_wy_tx,b,states:jobs:15:ak:induced,1122.2919107778398,"1,122.3",0.05
+coal_wy_tx,b,states:jobs:16:dc:onsite,3756.064011689404,"3,756.1",0.05
+coal_wy_tx,b,states:jobs:16:dc:supply_chain,867.7115208715173,867.7,0.05
+coal_wy_tx,b,states:jobs:16:dc:induced,458.2054930252226,458.2,0.05
+coal_wy_tx,b,states:taxes:1:ga,316369888.130247,USD 316.4 million,50000
+coal_wy_tx,b,states:taxes:2:ca,224722712.70477664,USD 224.7 million,50000
+coal_wy_tx,b,states:taxes:3:ny,215607455.15074,USD 215.6 million,50000
+coal_wy_tx,b,states:taxes:4:il,212621451.69674078,USD 212.6 million,50000
+coal_wy_tx,b,states:taxes:5:mn,174665517.8732588,USD 174.7 million,50000
+coal_wy_tx,b,states:taxes:6:ma,171802040.22776878,USD 171.8 million,50000
+coal_wy_tx,b,states:taxes:7:nj,164408817.1242785,USD 164.4 million,50000
+coal_wy_tx,b,states:taxes:8:al,153886130.5620022,USD 153.9 million,50000
+coal_wy_tx,b,states:taxes:9:mo,152901047.8442139,USD 152.9 million,50000
+coal_wy_tx,b,states:taxes:10:ct,151909601.45341152,USD 151.9 million,50000
+coal_wy_tx,b,states:taxes:11:tx,88574713.91824017,USD 88.6 million,50000
+coal_wy_tx,b,states:taxes:12:wy,64284845.903416574,USD 64.3 million,50000
+coal_wy_tx,b,states:taxes:13:de,63865166.18210074,USD 63.9 million,50000
+coal_wy_tx,b,states:taxes:14:mt,49426596.448830366,USD 49.4 million,50000
+coal_wy_tx,b,states:taxes:15:ak,21818259.08906991,USD 21.8 million,50000
+coal_wy_tx,b,states:taxes:16:nh,0,USD 0,0.5
+coal_wy_tx,b,states:rank,46,46,0
+coal_wy_tx,b,states:count,51,51,0
+coal_ga_ia,a,c:jobs:total,7612.1243940524555,"7,612",0.5
+coal_ga_ia,b,c:jobs:total,7327.779393735604,"7,328",0.5
+coal_ga_ia,a,o:jobs:total,331.74635,332,0.5
+coal_ga_ia,b,o:jobs:total,314.6494,315,0.5
+coal_ga_ia,a,c:earnings:total,748607498.4604263,USD 748.6 million,50000
+coal_ga_ia,b,c:earnings:total,707119603.593144,USD 707.1 million,50000
+coal_ga_ia,a,o:earnings:total,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,b,o:earnings:total,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,a,c:output:total,1578716742.7601576,USD 1.58 billion,5000000
+coal_ga_ia,b,c:output:total,1413999110.6645353,USD 1.41 billion,5000000
+coal_ga_ia,a,o:output:total,76702955.43235536,USD 76.7 million,50000
+coal_ga_ia,b,o:output:total,69259572.72104964,USD 69.3 million,50000
+coal_ga_ia,a,y1:property,26903513.04368,USD 26.9 million,50000
+coal_ga_ia,b,y1:property,2903940,USD 2.9 million,50000
+coal_ga_ia,a,sum:property,388543367.3255687,USD 388.5 million,50000
+coal_ga_ia,b,sum:property,116157600,USD 116.2 million,50000
+coal_ga_ia,a,sum:sales,98808128.6492664,USD 98.8 million,50000
+coal_ga_ia,b,sum:sales,90520633.6399326,USD 90.5 million,50000
+coal_ga_ia,a,sum:income,81321318.82483388,USD 81.3 million,50000
+coal_ga_ia,b,sum:income,55314982.70152631,USD 55.3 million,50000
+coal_ga_ia,a,pv:taxes,316369888.130247,USD 316.4 million,50000
+coal_ga_ia,b,pv:taxes,148893885.74958494,USD 148.9 million,50000
+coal_ga_ia,a,pv:earnings,1048377052.3146296,USD 1.05 billion,5000000
+coal_ga_ia,b,pv:earnings,979211326.6015655,USD 979.2 million,50000
+coal_ga_ia,a,year:2027:jobs,2537.374798017485,"2,537",0.5
+coal_ga_ia,a,year:2027:earnings,249535832.8201421,USD 249.5 million,50000
+coal_ga_ia,a,year:2027:sales,32936042.8830888,USD 32.9 million,50000
+coal_ga_ia,a,year:2027:income,10552613.021409003,USD 10.6 million,50000
+coal_ga_ia,a,year:2028:jobs,2537.374798017485,"2,537",0.5
+coal_ga_ia,a,year:2028:earnings,249535832.8201421,USD 249.5 million,50000
+coal_ga_ia,a,year:2028:sales,32936042.8830888,USD 32.9 million,50000
+coal_ga_ia,a,year:2028:income,10552613.021409003,USD 10.6 million,50000
+coal_ga_ia,a,year:2029:jobs,2537.374798017485,"2,537",0.5
+coal_ga_ia,a,year:2029:earnings,249535832.8201421,USD 249.5 million,50000
+coal_ga_ia,a,year:2029:sales,32936042.8830888,USD 32.9 million,50000
+coal_ga_ia,a,year:2029:income,10552613.021409003,USD 10.6 million,50000
+coal_ga_ia,a,year:2030:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2030:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2030:value,1088682140,USD 1.09 billion,5000000
+coal_ga_ia,a,year:2030:property,26903513.04368,USD 26.9 million,50000
+coal_ga_ia,a,year:2030:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2031:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2031:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2031:value,1031383080,USD 1.03 billion,5000000
+coal_ga_ia,a,year:2031:property,25487538.672960002,USD 25.5 million,50000
+coal_ga_ia,a,year:2031:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2032:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2032:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2032:value,1019923268,USD 1.02 billion,5000000
+coal_ga_ia,a,year:2032:property,25204343.798816003,USD 25.2 million,50000
+coal_ga_ia,a,year:2032:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2033:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2033:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2033:value,997003644,USD 997 million,50000
+coal_ga_ia,a,year:2033:property,24637954.050528,USD 24.6 million,50000
+coal_ga_ia,a,year:2033:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2034:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2034:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2034:value,985543832,USD 985.5 million,50000
+coal_ga_ia,a,year:2034:property,24354759.176384002,USD 24.4 million,50000
+coal_ga_ia,a,year:2034:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2035:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2035:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2035:value,962624208,USD 962.6 million,50000
+coal_ga_ia,a,year:2035:property,23788369.428096,USD 23.8 million,50000
+coal_ga_ia,a,year:2035:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2036:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2036:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2036:value,951164396,USD 951.2 million,50000
+coal_ga_ia,a,year:2036:property,23505174.553952,USD 23.5 million,50000
+coal_ga_ia,a,year:2036:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2037:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2037:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2037:value,870945712,USD 870.9 million,50000
+coal_ga_ia,a,year:2037:property,21522810.434944,USD 21.5 million,50000
+coal_ga_ia,a,year:2037:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2038:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2038:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2038:value,767807404,USD 767.8 million,50000
+coal_ga_ia,a,year:2038:property,18974056.567648,USD 19 million,50000
+coal_ga_ia,a,year:2038:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2039:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2039:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2039:value,676128908,USD 676.1 million,50000
+coal_ga_ia,a,year:2039:property,16708497.574496001,USD 16.7 million,50000
+coal_ga_ia,a,year:2039:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2040:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2040:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2040:value,584450412,USD 584.5 million,50000
+coal_ga_ia,a,year:2040:property,14442938.581344001,USD 14.4 million,50000
+coal_ga_ia,a,year:2040:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2041:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2041:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2041:value,492771916,USD 492.8 million,50000
+coal_ga_ia,a,year:2041:property,12177379.588192001,USD 12.2 million,50000
+coal_ga_ia,a,year:2041:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2042:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2042:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2042:value,412553232,USD 412.6 million,50000
+coal_ga_ia,a,year:2042:property,10195015.469184,USD 10.2 million,50000
+coal_ga_ia,a,year:2042:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2043:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2043:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2043:value,320874736.00000006,USD 320.9 million,50000
+coal_ga_ia,a,year:2043:property,7929456.476032002,USD 7.9 million,50000
+coal_ga_ia,a,year:2043:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2044:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2044:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2044:value,263575676,USD 263.6 million,50000
+coal_ga_ia,a,year:2044:property,6513482.105312,USD 6.5 million,50000
+coal_ga_ia,a,year:2044:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2045:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2045:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2045:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2045:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2045:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2046:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2046:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2046:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2046:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2046:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2047:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2047:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2047:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2047:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2047:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2048:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2048:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2048:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2048:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2048:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2049:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2049:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2049:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2049:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2049:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2050:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2050:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2050:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2050:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2050:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2051:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2051:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2051:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2051:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2051:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2052:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2052:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2052:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2052:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2052:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2053:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2053:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2053:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2053:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2053:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2054:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2054:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2054:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2054:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2054:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2055:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2055:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2055:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2055:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2055:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2056:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2056:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2056:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2056:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2056:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2057:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2057:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2057:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2057:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2057:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2058:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2058:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2058:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2058:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2058:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2059:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2059:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2059:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2059:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2059:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2060:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2060:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2060:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2060:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2060:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2061:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2061:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2061:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2061:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2061:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2062:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2062:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2062:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2062:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2062:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2063:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2063:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2063:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2063:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2063:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2064:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2064:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2064:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2064:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2064:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2065:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2065:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2065:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2065:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2065:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2066:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2066:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2066:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2066:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2066:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2067:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2067:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2067:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2067:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2067:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2068:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2068:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2068:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2068:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2068:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,year:2069:jobs,331.74635,332,0.5
+coal_ga_ia,a,year:2069:earnings,29857698.136075526,USD 29.9 million,50000
+coal_ga_ia,a,year:2069:value,171897180,USD 171.9 million,50000
+coal_ga_ia,a,year:2069:property,4247923.11216,USD 4.2 million,50000
+coal_ga_ia,a,year:2069:income,1241586.9940151689,USD 1.2 million,50000
+coal_ga_ia,a,cell:sev,,"none (the coal the plant burns is not modelled, and no coal severance rule is held)",
+coal_ga_ia,b,cell:sev,,"none (the coal the plant burns is not modelled, and no coal severance rule is held)",
+coal_ga_ia,a,default:mw,650,650,0.5
+coal_ga_ia,a,default:capex,4407.62,"4,408",0.5
+coal_ga_ia,a,default:start,2027,2027,
+coal_ga_ia,a,default:build,3,3,0.5
+coal_ga_ia,a,default:life,40,40,0.5
+coal_ga_ia,a,default:local,100,100,0.5
+coal_ga_ia,a,default:om,100,100,0.5
+coal_ga_ia,a,default:sales,7.56,7.56,0.005
+coal_ga_ia,a,default:taxable,45.6198,45.62,0.005
+coal_ga_ia,a,default:exempt,0,0,0.5
+coal_ga_ia,a,default:levy,24.712,24.71,0.005
+coal_ga_ia,a,default:cf,0.85,0.85,0.005
+coal_ga_ia,a,default:rate,7,7,0.5
+coal_ga_ia,a,states:jobs:1:il:onsite,4889.907315092938,"4,889.9",0.05
+coal_ga_ia,a,states:jobs:1:il:supply_chain,2261.465688478313,"2,261.5",0.05
+coal_ga_ia,a,states:jobs:1:il:induced,2472.8422985940847,"2,472.8",0.05
+coal_ga_ia,a,states:jobs:2:ca:onsite,4883.080783303042,"4,883.1",0.05
+coal_ga_ia,a,states:jobs:2:ca:supply_chain,2345.89459980276,"2,345.9",0.05
+coal_ga_ia,a,states:jobs:2:ca:induced,2322.3536349574288,"2,322.4",0.05
+coal_ga_ia,a,states:jobs:3:pa:onsite,4745.814120862352,"4,745.8",0.05
+coal_ga_ia,a,states:jobs:3:pa:supply_chain,2213.877842807979,"2,213.9",0.05
+coal_ga_ia,a,states:jobs:3:pa:induced,2323.844052179265,"2,323.8",0.05
+coal_ga_ia,a,states:jobs:4:ma:onsite,4884.3177418411,"4,884.3",0.05
+coal_ga_ia,a,states:jobs:4:ma:supply_chain,2109.3455762943004,"2,109.3",0.05
+coal_ga_ia,a,states:jobs:4:ma:induced,2263.199154204141,"2,263.2",0.05
+coal_ga_ia,a,states:jobs:5:or:onsite,4804.202332953067,"4,804.2",0.05
+coal_ga_ia,a,states:jobs:5:or:supply_chain,2236.45983553947,"2,236.5",0.05
+coal_ga_ia,a,states:jobs:5:or:induced,2156.1741425559453,"2,156.2",0.05
+coal_ga_ia,a,states:jobs:6:nj:onsite,4466.276351340915,"4,466.3",0.05
+coal_ga_ia,a,states:jobs:6:nj:supply_chain,1904.0833628649464,"1,904.1",0.05
+coal_ga_ia,a,states:jobs:6:nj:induced,2156.2954676054214,"2,156.3",0.05
+coal_ga_ia,a,states:jobs:7:nh:onsite,4396.093371369618,"4,396.1",0.05
+coal_ga_ia,a,states:jobs:7:nh:supply_chain,2078.175603512887,"2,078.2",0.05
+coal_ga_ia,a,states:jobs:7:nh:induced,2042.1424119455335,"2,042.1",0.05
+coal_ga_ia,a,states:jobs:8:ny:onsite,4830.540836516951,"4,830.5",0.05
+coal_ga_ia,a,states:jobs:8:ny:supply_chain,1877.347970516915,"1,877.3",0.05
+coal_ga_ia,a,states:jobs:8:ny:induced,1789.5811016325067,"1,789.6",0.05
+coal_ga_ia,a,states:jobs:9:de:onsite,4882.937740370777,"4,882.9",0.05
+coal_ga_ia,a,states:jobs:9:de:supply_chain,1889.1152196849957,"1,889.1",0.05
+coal_ga_ia,a,states:jobs:9:de:induced,1682.9534997674045,"1,683.0",0.05
+coal_ga_ia,a,states:jobs:10:mo:onsite,4350.571606900895,"4,350.6",0.05
+coal_ga_ia,a,states:jobs:10:mo:supply_chain,2110.859939172609,"2,110.9",0.05
+coal_ga_ia,a,states:jobs:10:mo:induced,1947.216720922546,"1,947.2",0.05
+coal_ga_ia,a,states:jobs:11:ga:onsite,3924.50670574707,"3,924.5",0.05
+coal_ga_ia,a,states:jobs:11:ga:supply_chain,1950.9048890747442,"1,950.9",0.05
+coal_ga_ia,a,states:jobs:11:ga:induced,1736.712799230641,"1,736.7",0.05
+coal_ga_ia,a,states:jobs:12:nv:onsite,4433.808994822475,"4,433.8",0.05
+coal_ga_ia,a,states:jobs:12:nv:supply_chain,876.9340088269314,876.9,0.05
+coal_ga_ia,a,states:jobs:12:nv:induced,1072.890893184296,"1,072.9",0.05
+coal_ga_ia,a,states:jobs:13:hi:onsite,3575.0153020876187,"3,575.0",0.05
+coal_ga_ia,a,states:jobs:13:hi:supply_chain,1368.5354023873465,"1,368.5",0.05
+coal_ga_ia,a,states:jobs:13:hi:induced,1417.9563754013095,"1,418.0",0.05
+coal_ga_ia,a,states:jobs:14:wy:onsite,3786.4663336376457,"3,786.5",0.05
+coal_ga_ia,a,states:jobs:14:wy:supply_chain,1156.8871030508112,"1,156.9",0.05
+coal_ga_ia,a,states:jobs:14:wy:induced,759.5237319692675,759.5,0.05
+coal_ga_ia,a,states:jobs:15:ak:onsite,3329.7885999450195,"3,329.8",0.05
+coal_ga_ia,a,states:jobs:15:ak:supply_chain,1172.1593755395768,"1,172.2",0.05
+coal_ga_ia,a,states:jobs:15:ak:induced,1122.2919107778398,"1,122.3",0.05
+coal_ga_ia,a,states:jobs:16:dc:onsite,3756.064011689404,"3,756.1",0.05
+coal_ga_ia,a,states:jobs:16:dc:supply_chain,867.7115208715173,867.7,0.05
+coal_ga_ia,a,states:jobs:16:dc:induced,458.2054930252226,458.2,0.05
+coal_ga_ia,a,states:taxes:1:ga,316369888.130247,USD 316.4 million,50000
+coal_ga_ia,a,states:taxes:2:ca,224722712.70477664,USD 224.7 million,50000
+coal_ga_ia,a,states:taxes:3:ny,215607455.15074,USD 215.6 million,50000
+coal_ga_ia,a,states:taxes:4:il,212621451.69674078,USD 212.6 million,50000
+coal_ga_ia,a,states:taxes:5:mn,174665517.8732588,USD 174.7 million,50000
+coal_ga_ia,a,states:taxes:6:ma,171802040.22776878,USD 171.8 million,50000
+coal_ga_ia,a,states:taxes:7:nj,164408817.1242785,USD 164.4 million,50000
+coal_ga_ia,a,states:taxes:8:al,153886130.5620022,USD 153.9 million,50000
+coal_ga_ia,a,states:taxes:9:mo,152901047.8442139,USD 152.9 million,50000
+coal_ga_ia,a,states:taxes:10:ct,151909601.45341152,USD 151.9 million,50000
+coal_ga_ia,a,states:taxes:11:wy,64284845.903416574,USD 64.3 million,50000
+coal_ga_ia,a,states:taxes:12:de,63865166.18210074,USD 63.9 million,50000
+coal_ga_ia,a,states:taxes:13:mt,49426596.448830366,USD 49.4 million,50000
+coal_ga_ia,a,states:taxes:14:ak,21818259.08906991,USD 21.8 million,50000
+coal_ga_ia,a,states:taxes:15:nh,0,USD 0,0.5
+coal_ga_ia,a,states:rank,24,24,0
+coal_ga_ia,a,states:count,51,51,0
+coal_ga_ia,b,year:2027:jobs,2442.593131245201,"2,443",0.5
+coal_ga_ia,b,year:2027:earnings,235706534.531048,USD 235.7 million,50000
+coal_ga_ia,b,year:2027:sales,30173544.5466442,USD 30.2 million,50000
+coal_ga_ia,b,year:2027:income,7364766.109234202,USD 7.4 million,50000
+coal_ga_ia,b,year:2028:jobs,2442.593131245201,"2,443",0.5
+coal_ga_ia,b,year:2028:earnings,235706534.531048,USD 235.7 million,50000
+coal_ga_ia,b,year:2028:sales,30173544.5466442,USD 30.2 million,50000
+coal_ga_ia,b,year:2028:income,7364766.109234202,USD 7.4 million,50000
+coal_ga_ia,b,year:2029:jobs,2442.593131245201,"2,443",0.5
+coal_ga_ia,b,year:2029:earnings,235706534.531048,USD 235.7 million,50000
+coal_ga_ia,b,year:2029:sales,30173544.5466442,USD 30.2 million,50000
+coal_ga_ia,b,year:2029:income,7364766.109234202,USD 7.4 million,50000
+coal_ga_ia,b,year:2030:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2030:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2030:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2030:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2030:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2031:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2031:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2031:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2031:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2031:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2032:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2032:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2032:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2032:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2032:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2033:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2033:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2033:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2033:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2033:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2034:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2034:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2034:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2034:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2034:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2035:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2035:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2035:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2035:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2035:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2036:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2036:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2036:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2036:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2036:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2037:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2037:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2037:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2037:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2037:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2038:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2038:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2038:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2038:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2038:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2039:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2039:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2039:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2039:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2039:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2040:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2040:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2040:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2040:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2040:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2041:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2041:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2041:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2041:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2041:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2042:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2042:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2042:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2042:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2042:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2043:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2043:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2043:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2043:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2043:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2044:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2044:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2044:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2044:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2044:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2045:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2045:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2045:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2045:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2045:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2046:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2046:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2046:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2046:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2046:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2047:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2047:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2047:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2047:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2047:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2048:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2048:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2048:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2048:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2048:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2049:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2049:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2049:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2049:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2049:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2050:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2050:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2050:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2050:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2050:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2051:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2051:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2051:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2051:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2051:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2052:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2052:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2052:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2052:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2052:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2053:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2053:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2053:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2053:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2053:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2054:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2054:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2054:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2054:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2054:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2055:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2055:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2055:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2055:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2055:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2056:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2056:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2056:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2056:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2056:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2057:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2057:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2057:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2057:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2057:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2058:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2058:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2058:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2058:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2058:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2059:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2059:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2059:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2059:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2059:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2060:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2060:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2060:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2060:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2060:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2061:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2061:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2061:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2061:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2061:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2062:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2062:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2062:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2062:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2062:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2063:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2063:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2063:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2063:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2063:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2064:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2064:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2064:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2064:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2064:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2065:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2065:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2065:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2065:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2065:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2066:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2066:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2066:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2066:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2066:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2067:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2067:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2067:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2067:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2067:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2068:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2068:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2068:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2068:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2068:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,year:2069:jobs,314.6494,315,0.5
+coal_ga_ia,b,year:2069:earnings,27252778.638568252,USD 27.3 million,50000
+coal_ga_ia,b,year:2069:mwh,4839900,"4,839,900",0.5
+coal_ga_ia,b,year:2069:property,2903940,USD 2.9 million,50000
+coal_ga_ia,b,year:2069:income,830517.1093455936,"USD 830,517",0.5
+coal_ga_ia,b,default:mw,650,650,0.5
+coal_ga_ia,b,default:capex,4398.67,"4,399",0.5
+coal_ga_ia,b,default:start,2027,2027,
+coal_ga_ia,b,default:build,3,3,0.5
+coal_ga_ia,b,default:life,40,40,0.5
+coal_ga_ia,b,default:local,100,100,0.5
+coal_ga_ia,b,default:om,100,100,0.5
+coal_ga_ia,b,default:sales,6.94,6.94,0.005
+coal_ga_ia,b,default:taxable,45.6198,45.62,0.005
+coal_ga_ia,b,default:exempt,0,0,0.5
+coal_ga_ia,b,default:own,,not given,
+coal_ga_ia,b,default:ownyears,,not given,
+coal_ga_ia,b,default:cf,0.85,0.85,0.005
+coal_ga_ia,b,default:rate,7,7,0.5
+coal_ga_ia,b,states:jobs:1:il:onsite,4889.907315092938,"4,889.9",0.05
+coal_ga_ia,b,states:jobs:1:il:supply_chain,2261.465688478313,"2,261.5",0.05
+coal_ga_ia,b,states:jobs:1:il:induced,2472.8422985940847,"2,472.8",0.05
+coal_ga_ia,b,states:jobs:2:ca:onsite,4883.080783303042,"4,883.1",0.05
+coal_ga_ia,b,states:jobs:2:ca:supply_chain,2345.89459980276,"2,345.9",0.05
+coal_ga_ia,b,states:jobs:2:ca:induced,2322.3536349574288,"2,322.4",0.05
+coal_ga_ia,b,states:jobs:3:pa:onsite,4745.814120862352,"4,745.8",0.05
+coal_ga_ia,b,states:jobs:3:pa:supply_chain,2213.877842807979,"2,213.9",0.05
+coal_ga_ia,b,states:jobs:3:pa:induced,2323.844052179265,"2,323.8",0.05
+coal_ga_ia,b,states:jobs:4:ma:onsite,4884.3177418411,"4,884.3",0.05
+coal_ga_ia,b,states:jobs:4:ma:supply_chain,2109.3455762943004,"2,109.3",0.05
+coal_ga_ia,b,states:jobs:4:ma:induced,2263.199154204141,"2,263.2",0.05
+coal_ga_ia,b,states:jobs:5:or:onsite,4804.202332953067,"4,804.2",0.05
+coal_ga_ia,b,states:jobs:5:or:supply_chain,2236.45983553947,"2,236.5",0.05
+coal_ga_ia,b,states:jobs:5:or:induced,2156.1741425559453,"2,156.2",0.05
+coal_ga_ia,b,states:jobs:6:nj:onsite,4466.276351340915,"4,466.3",0.05
+coal_ga_ia,b,states:jobs:6:nj:supply_chain,1904.0833628649464,"1,904.1",0.05
+coal_ga_ia,b,states:jobs:6:nj:induced,2156.2954676054214,"2,156.3",0.05
+coal_ga_ia,b,states:jobs:7:nh:onsite,4396.093371369618,"4,396.1",0.05
+coal_ga_ia,b,states:jobs:7:nh:supply_chain,2078.175603512887,"2,078.2",0.05
+coal_ga_ia,b,states:jobs:7:nh:induced,2042.1424119455335,"2,042.1",0.05
+coal_ga_ia,b,states:jobs:8:ny:onsite,4830.540836516951,"4,830.5",0.05
+coal_ga_ia,b,states:jobs:8:ny:supply_chain,1877.347970516915,"1,877.3",0.05
+coal_ga_ia,b,states:jobs:8:ny:induced,1789.5811016325067,"1,789.6",0.05
+coal_ga_ia,b,states:jobs:9:de:onsite,4882.937740370777,"4,882.9",0.05
+coal_ga_ia,b,states:jobs:9:de:supply_chain,1889.1152196849957,"1,889.1",0.05
+coal_ga_ia,b,states:jobs:9:de:induced,1682.9534997674045,"1,683.0",0.05
+coal_ga_ia,b,states:jobs:10:mo:onsite,4350.571606900895,"4,350.6",0.05
+coal_ga_ia,b,states:jobs:10:mo:supply_chain,2110.859939172609,"2,110.9",0.05
+coal_ga_ia,b,states:jobs:10:mo:induced,1947.216720922546,"1,947.2",0.05
+coal_ga_ia,b,states:jobs:11:ia:onsite,4149.517961320475,"4,149.5",0.05
+coal_ga_ia,b,states:jobs:11:ia:supply_chain,1730.2863449472068,"1,730.3",0.05
+coal_ga_ia,b,states:jobs:11:ia:induced,1447.9750874679223,"1,448.0",0.05
+coal_ga_ia,b,states:jobs:12:nv:onsite,4433.808994822475,"4,433.8",0.05
+coal_ga_ia,b,states:jobs:12:nv:supply_chain,876.9340088269314,876.9,0.05
+coal_ga_ia,b,states:jobs:12:nv:induced,1072.890893184296,"1,072.9",0.05
+coal_ga_ia,b,states:jobs:13:hi:onsite,3575.0153020876187,"3,575.0",0.05
+coal_ga_ia,b,states:jobs:13:hi:supply_chain,1368.5354023873465,"1,368.5",0.05
+coal_ga_ia,b,states:jobs:13:hi:induced,1417.9563754013095,"1,418.0",0.05
+coal_ga_ia,b,states:jobs:14:wy:onsite,3786.4663336376457,"3,786.5",0.05
+coal_ga_ia,b,states:jobs:14:wy:supply_chain,1156.8871030508112,"1,156.9",0.05
+coal_ga_ia,b,states:jobs:14:wy:induced,759.5237319692675,759.5,0.05
+coal_ga_ia,b,states:jobs:15:ak:onsite,3329.7885999450195,"3,329.8",0.05
+coal_ga_ia,b,states:jobs:15:ak:supply_chain,1172.1593755395768,"1,172.2",0.05
+coal_ga_ia,b,states:jobs:15:ak:induced,1122.2919107778398,"1,122.3",0.05
+coal_ga_ia,b,states:jobs:16:dc:onsite,3756.064011689404,"3,756.1",0.05
+coal_ga_ia,b,states:jobs:16:dc:supply_chain,867.7115208715173,867.7,0.05
+coal_ga_ia,b,states:jobs:16:dc:induced,458.2054930252226,458.2,0.05
+coal_ga_ia,b,states:taxes:1:ga,316369888.130247,USD 316.4 million,50000
+coal_ga_ia,b,states:taxes:2:ca,224722712.70477664,USD 224.7 million,50000
+coal_ga_ia,b,states:taxes:3:ny,215607455.15074,USD 215.6 million,50000
+coal_ga_ia,b,states:taxes:4:il,212621451.69674078,USD 212.6 million,50000
+coal_ga_ia,b,states:taxes:5:mn,174665517.8732588,USD 174.7 million,50000
+coal_ga_ia,b,states:taxes:6:ma,171802040.22776878,USD 171.8 million,50000
+coal_ga_ia,b,states:taxes:7:nj,164408817.1242785,USD 164.4 million,50000
+coal_ga_ia,b,states:taxes:8:al,153886130.5620022,USD 153.9 million,50000
+coal_ga_ia,b,states:taxes:9:mo,152901047.8442139,USD 152.9 million,50000
+coal_ga_ia,b,states:taxes:10:ct,151909601.45341152,USD 151.9 million,50000
+coal_ga_ia,b,states:taxes:11:ia,148893885.74958494,USD 148.9 million,50000
+coal_ga_ia,b,states:taxes:12:wy,64284845.903416574,USD 64.3 million,50000
+coal_ga_ia,b,states:taxes:13:de,63865166.18210074,USD 63.9 million,50000
+coal_ga_ia,b,states:taxes:14:mt,49426596.448830366,USD 49.4 million,50000
+coal_ga_ia,b,states:taxes:15:ak,21818259.08906991,USD 21.8 million,50000
+coal_ga_ia,b,states:taxes:16:nh,0,USD 0,0.5
+coal_ga_ia,b,states:rank,29,29,0
+coal_ga_ia,b,states:count,51,51,0

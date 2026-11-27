@@ -1,5 +1,5 @@
 {
- "about": "The share of construction spending that bears sales and use tax, by technology: JEDI's own taxable base, its \"Sales Tax (Materials & Equipment Purchases)\" line, at JEDI's default project. Where the workbook computes that tax, the share is the tax over (JEDI's rate times JEDI's cost before sales tax); where it does not, the materials and equipment share of JEDI's default cost. EIA's capital costs exclude sales tax (the report's words: \"Equipment and material costs are intended to be the delivered costs inclusive of purchase price, duties, and freight, (but excluding any sales tax)\"), so the tool adds the tax on this share of the reader's capital cost (docs/methods/forecast.md, section 5). Read from the saved workbooks (runs/w4/probe.csv requests 5 to 8) by chain 239, session 4201, 13 November 2026.",
+ "about": "The share of construction spending that bears sales and use tax, by technology: JEDI's own taxable base, its \"Sales Tax (Materials & Equipment Purchases)\" line, at JEDI's default project. Where the workbook computes that tax, the share is the tax over (JEDI's rate times JEDI's cost before sales tax); where it does not, the materials and equipment share of JEDI's default cost. EIA's capital costs exclude sales tax (the report's words: \"Equipment and material costs are intended to be the delivered costs inclusive of purchase price, duties, and freight, (but excluding any sales tax)\"), so the tool adds the tax on this share of the reader's capital cost (docs/methods/forecast.md, section 5). Read from the saved workbooks (runs/w4/probe.csv requests 5 to 8) by chain 239, session 4201, 13 November 2026. Coal, CSP trough and biopower read by chain 740, session 10822, 27 November 2026, from the workbooks window A kept on 26 November (warehouse/raw/nlr_jedi on the data machine).",
  "source": "National Laboratory of the Rockies (NLR, formerly NREL), JEDI models, https://www.nlr.gov/analysis/jedi/models",
  "notice": "NLR's data terms (https://www.nlr.gov/disclaimer): the user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data; credit DOE/NLR/ALLIANCE; the Data are provided as is.",
  "technologies": {
@@ -25,6 +25,26 @@
   "geothermal": {
    "taxable_share": null,
    "note": "JEDI's geothermal model has no sales tax line (searched for \"sales tax\" and \"taxable\" in every sheet): no taxable share is held, and the tool shows no sales tax figure for geothermal unless the reader types a share."
+  },
+  "coal": {
+   "taxable_share": 0.456198,
+   "arithmetic": "828,000,000 / (1,257,000,000 + 558,000,000) = 0.456198",
+   "cells": "ProjectData!B38 (Facility and Equipment Subtotal, 828,000,000); ProjectData!B43 (Construction Subtotal, 1,257,000,000) and B53 (Other Subtotal, 558,000,000), JEDI's default project cost, 1,815,000,000 (the saved 600 MW project in South Dakota)",
+   "file": "01d-jedi-coal-model-rel-c12-23-16.xlsm",
+   "note": "JEDI's coal model has no sales tax line (searched for \"sales tax\" in every sheet): the share is its facility and equipment purchases over its default project cost, the rule session 4201 used where a workbook computes no tax."
+  },
+  "csp_trough": {
+   "taxable_share": 0.72832,
+   "arithmetic": "34,250,861.26 / 0.075 / 627,029,650.00 = 0.728320",
+   "cells": "ProjectData!B64 (Sales Tax (Materials & Equipment Purchases), 34,250,861.26); ProjectData!B63 (Subtotal, 627,029,650.00, the cost before sales tax); ProjectData!B104 (Local Sales Tax Rate, 0.075, the saved project in California)",
+   "file": "01d-jedi-csp-trough-model-rel-csp12-23-16.xlsm"
+  },
+  "biopower": {
+   "taxable_share": 0.49764,
+   "arithmetic": "93,084,500 / (119,223,000 + 67,829,000) = 0.497640",
+   "cells": "ProjectData!B49 (Equipment Subtotal, 93,084,500); ProjectData!B53 (Construction Subtotal, 119,223,000) and B59 (Other Subtotal, 67,829,000), JEDI's default project cost, 187,052,000 (the saved 50 MW project in California)",
+   "file": "01d-jedi-biopower-model-rel-b12-23-16.xlsm",
+   "note": "JEDI's biopower model has no sales tax line (searched for \"sales tax\" in every sheet): the share is its equipment purchases over its default project cost, the rule session 4201 used where a workbook computes no tax."
   }
  }
 }

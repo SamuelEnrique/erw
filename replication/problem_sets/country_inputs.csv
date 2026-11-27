@@ -1059,12 +1059,12 @@ where-energy-goes,i6,us,,3976.0,site/data/industry.json,industries/industries/32
 where-energy-goes,i7,tx,,8113.456,site/data/industry.json,states_annual/states/TX/consumption_tbtu/total/34
 where-energy-goes,i7,la,,2997.206,site/data/industry.json,states_annual/states/LA/consumption_tbtu/total/34
 your-own-balancing-authority,bx,nuclear,,8834.8,site/data/regions/authority/tva.json,owns/capacity_mw/nuclear
-your-own-balancing-authority,bx,total,,44697.4,site/data/regions/authority/tva.json,owns/total_mw
+your-own-balancing-authority,bx,total,,44702.2,site/data/regions/authority/tva.json,owns/total_mw
 your-own-balancing-authority,b1,plant,,3854.0,site/data/regions/authority/tva.json,owns/largest_plants/0/mw
-your-own-balancing-authority,b1,total,,44697.4,site/data/regions/authority/tva.json,owns/total_mw
+your-own-balancing-authority,b1,total,,44702.2,site/data/regions/authority/tva.json,owns/total_mw
 your-own-balancing-authority,b2,cap_nuclear,,8834.8,site/data/regions/authority/tva.json,owns/capacity_mw/nuclear
 your-own-balancing-authority,b2,cap_gas,,18591.8,site/data/regions/authority/tva.json,owns/capacity_mw/natural_gas
-your-own-balancing-authority,b2,total,,44697.4,site/data/regions/authority/tva.json,owns/total_mw
+your-own-balancing-authority,b2,total,,44702.2,site/data/regions/authority/tva.json,owns/total_mw
 your-own-balancing-authority,b2,gen_nuclear,,40.6,site/data/regions/authority/tva.json,burns/share_pct/nuclear
 your-own-balancing-authority,b2,gen_gas,,33.22,site/data/regions/authority/tva.json,burns/share_pct/natural_gas
 your-own-balancing-authority,b3,retire,,1900.0,site/data/regions/authority/tva.json,coming/retirements/6/mw

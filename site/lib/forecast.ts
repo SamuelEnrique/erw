@@ -9,11 +9,11 @@
 // it read, and scripts/check-values.mjs passes its own read of both, so a figure's check key recomputes here exactly.
 // Severance is a callback (the page wires lib/severance.ts's compute), so this file needs no path of its own.
 
-export type TechKey = "land_based_wind" | "utility_pv" | "natural_gas" | "geothermal";
+export type TechKey = "land_based_wind" | "utility_pv" | "natural_gas" | "geothermal" | "coal";
 export type Effect = "onsite" | "supply_chain" | "induced" | "total";
 export type Measure = "jobs" | "earnings" | "output";
 export type Phase = "construction" | "operations";
-export const TECH_KEYS: TechKey[] = ["land_based_wind", "utility_pv", "natural_gas", "geothermal"];
+export const TECH_KEYS: TechKey[] = ["land_based_wind", "utility_pv", "natural_gas", "geothermal", "coal"];
 export const EFFECTS: Effect[] = ["onsite", "supply_chain", "induced", "total"];
 export const MEASURES: Measure[] = ["jobs", "earnings", "output"];
 export const BASE_YEAR = 2025;
@@ -34,6 +34,8 @@ export type Params = {
   property: { states: Record<string, { name: string; rules: PropertyRule[]; in_lieu?: { quote: string } }> };
   taxable: { technologies: Record<TechKey, { taxable_share: number | null }> };
   gas: { heat_rate_btu_per_kwh: number; capacity_factor: number; price_usd_per_mmbtu: number | null; btu_per_cf: number };
+  /** session 10822: the coal plant's capacity factor (coal.json, JEDI's coal model); absent in older callers */
+  coal?: { capacity_factor: number };
   /** session 4218: sales tax exemptions read from statutes (sales_exemptions.json); absent in older callers */
   exemptions?: { states: Record<string, Partial<Record<TechKey, { exempt_pct: number; tip?: string }>>> };
 };
@@ -159,6 +161,7 @@ export function capexDefault(P: Params, tech: TechKey, state: string): { usdPerK
 }
 export function cfDefault(P: Params, tech: TechKey, state: string): { value: number; from: "state" | "us" | "jedi" } {
   if (tech === "natural_gas") return { value: P.gas.capacity_factor, from: "jedi" };
+  if (tech === "coal") return P.coal ? { value: P.coal.capacity_factor, from: "jedi" } : { value: NaN, from: "us" };  // session 10822: JEDI's coal default, for the production taxes
   if (tech === "geothermal") return { value: NaN, from: "us" };  // no production tax applies to it: not used
   const c = P.capacity[tech];
   return c.states[state] ? { value: c.states[state].median, from: "state" } : { value: c.us.median, from: "us" };
@@ -311,7 +314,7 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
       sevYear = sev(x.state, mcf * (x.instate / 100), x.gasprice * (P.gas.btu_per_cf / 1000));
       sevNote = sevYear === null ? "no severance rule held for this state" : "";
     } else sevNote = x.instate > 0 ? "no severance rule held for this state" : "no in-state fuel given";
-  } else sevNote = "a wind, solar or geothermal plant burns no gas";
+  } else sevNote = x.tech === "coal" ? "the coal the plant burns is not modelled, and no coal severance rule is held" : "a wind, solar or geothermal plant burns no gas";
   const st = P.income.states[x.state];
   const years: Year[] = [];
   let propRule: string | null = null, propHeld = false, propGap = false;
