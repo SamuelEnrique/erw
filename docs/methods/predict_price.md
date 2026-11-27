@@ -213,3 +213,43 @@ Hub, the demand regression made with demand through T-3 refitted for every targe
 for every target day, the simple methods, the choice and every cut, for the six places of the place files (their price
 rows in `scores.json`, which had no replication of their own before) and the four hubs of this section. Its count is in
 the progress file and the landing row.
+
+## 11. The day-ahead price over a longer backtest (session 10603)
+
+Section 8 said the day-ahead price's backtest could not start earlier, because it reads the place's demand forecast
+and the warehouse's demand began in July 2018. Window A's landing 20 (data request 9) added every authority's demand
+from July 2015 (`eia930_all_history`). `warehouse/predict/long_price.py` walks the day-ahead price forecast from 1 July
+2016 on that longer demand (`predict_data.demand_panel_long`) for the six places of the place files and the four hubs of
+section 10, with the same methods, fits, hour of making and horizons, and writes `site/data/predict/long_price.json`:
+every calendar year scored on the hours every method holds, and the whole span. The first scored day is where the
+regression first has its 300 days: 1 March 2017 at ERCOT's hubs; 6 May 2019 at SPP's (its prices begin in July 2018;
+the published backtest starts in March 2020 because its demand regression started a year later); May 2024 at CAISO's,
+as before. The place files and `price_hubs.json` are unchanged; the method in every year is the one chosen now.
+
+From the build of 27 November 2026 (`runs/c730/table_long_price.py`), mean absolute error, USD/MWh:
+
+| Place (hub) | Chosen | First day | Hours | MAE USD/MWh over the span: ERW, yesterday, week ago, regression | Years the regression beats yesterday's price |
+|---|---|---|---:|---|---|
+| region-tex (HB_NORTH) | yesterday | 2017-03-01 | 85,107 | 19.82, 19.82, 42.82, 39.7 | 1 of 10: 2017 |
+| ba-erco (HB_NORTH) | yesterday | 2017-03-01 | 85,107 | 19.82, 19.82, 42.82, 39.7 | 1 of 10: 2017 |
+| region-cent (SPPNORTH_HUB) | regression | 2019-05-06 | 55,274 | 29.76, 17.05, 27.14, 29.76 | 5 of 8: 2019, 2020, 2024, 2025, 2026 |
+| ba-swpp (SPPNORTH_HUB) | regression | 2019-05-06 | 55,514 | 29.77, 17.05, 27.11, 29.77 | 5 of 8: 2019, 2020, 2024, 2025, 2026 |
+| region-cal (TH_SP15_GEN-APND) | regression | 2024-05-10 | 22,244 | 6.31, 6.48, 11.03, 6.31 | 2 of 3: 2025, 2026 |
+| ba-ciso (TH_SP15_GEN-APND) | regression | 2024-05-08 | 22,340 | 6.3, 6.47, 11.0, 6.3 | 2 of 3: 2025, 2026 |
+| hub-ercot-houston (HB_HOUSTON) | yesterday | 2017-03-01 | 85,107 | 19.38, 19.38, 42.6, 39.5 | 1 of 10: 2017 |
+| hub-ercot-south (HB_SOUTH) | yesterday | 2017-03-01 | 85,107 | 19.28, 19.28, 42.28, 39.0 | 1 of 10: 2017 |
+| hub-ercot-west (HB_WEST) | yesterday | 2017-03-01 | 85,107 | 23.12, 23.12, 46.78, 41.09 | 1 of 10: 2017 |
+| hub-caiso-np15 (TH_NP15_GEN-APND) | regression | 2024-05-08 | 22,340 | 5.41, 5.82, 9.54, 5.41 | 2 of 3: 2025, 2026 |
+
+What the longer record says: at ERCOT the regression has beaten yesterday's price in one year of ten (2017, when
+prices were low and calm); in 2021, the year of Winter Storm Uri, it missed by 197.5 USD/MWh against yesterday's 62.2,
+in 2022 by more than twice yesterday's error and in 2023 by a quarter more. So the ERW forecast shown at ERCOT,
+yesterday's price, is the
+right one by this record too. At SPP the regression wins five years of eight, but its three losses (2021 to 2023) are
+large enough that over the whole span yesterday's price is far ahead (17.05 against 29.76); the rule, which looks only at
+the last two years, chooses the regression there. That is the rule working as written, not a fault: it is said here so
+that a reader of the last two years knows what the longer record shows.
+
+Replication (`replication/predict/replicate_long_price.py`, from this section's words, with the longer demand of
+`replicate_long.py` and the price walk of `replicate_price.py`): its count is in the progress file and the next landing
+row.
