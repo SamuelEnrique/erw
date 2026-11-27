@@ -317,6 +317,13 @@ soft_step dm_forecast_error "$PYTHON" warehouse/derived/forecast_error.py
 # forecast, made once a day from the tables as they stand after the EIA-930 refresh; it appends tomorrow's forecast to
 # site/data/predict/ledger_demand.csv (never rewriting a row) and rewrites the page files there. No network, no model
 soft_step dm_predict "$PYTHON" warehouse/predict/run.py
+# Session 10000 (chain 701, data requests 2 and 5 of docs/state/data_requests_predict.md): the two ledgers as the tables
+# predict_demand_forecasts and predict_price_forecasts (warehouse/predict/predict_tables.py: every forecast as made, keyed
+# by the hour it was made), then each table's stores (the validator, its coverage row, the archive; no Redivis draft
+# while its storage is full). No network, no model
+soft_step dm_predict_tables "$PYTHON" warehouse/predict/predict_tables.py
+soft_step dm_predict_tables_stores_demand "$PYTHON" warehouse/table_stores.py predict_demand_forecasts --no-redivis
+soft_step dm_predict_tables_stores_price "$PYTHON" warehouse/table_stores.py predict_price_forecasts --no-redivis
 # Session 10000 (chain 701, data request 6 of docs/state/data_requests_predict.md, chain 730): the demand forecast two to
 # seven days ahead (site/data/predict/ahead.json), each horizon refit and scored against the same hour a week ago; about
 # 25 minutes and 1 GB of memory, right after the day's forecast. No network, no model

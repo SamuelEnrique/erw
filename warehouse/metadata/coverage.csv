@@ -612,6 +612,8 @@ policy_actions,none,,5,event,2025-10-01T00:00:00Z,2026-11-25T00:00:00Z,2127,5 ou
 policy_reads,none,,1,event,2025-10-01T00:00:00Z,2026-11-12T00:00:00Z,412,1 outlets,2026-11-12T22:08:25Z,pass,public,news,no,model_extracted
 policy_reads_evidence,none,,1,event,2025-10-01T00:00:00Z,2026-11-12T00:00:00Z,3592,1 outlets,2026-11-12T22:08:25Z,pass,internal,news,no,model_extracted
 portwatch_chokepoint_transits,none,,3,P1D,2019-01-01T00:00:00Z,2026-11-22T00:00:00Z,121086,imf:portwatch-daily-chokepoints,2026-11-25T15:04:36Z,pass,internal,oil;lng,no,source
+predict_demand_forecasts,predict,,29,PT1H,2026-11-27T05:00:00Z,2026-11-28T07:00:00Z,696,erw:predict,2026-11-26T23:35:24Z,pass,public,power,no,derived
+predict_price_forecasts,predict,caiso;ercot;spp,3,PT1H,2026-11-27T06:00:00Z,2026-11-28T07:00:00Z,144,erw:predict,2026-11-26T23:35:24Z,pass,public,power,no,derived
 price_board_carbon,none,,4,P3M,2026-05-01T00:00:00Z,2026-09-09T00:00:00Z,15,erw:price_board,2026-11-25T15:12:38Z,pass,internal,carbon,yes,derived
 price_board_latest,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;caiso_rtm;ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,39,P1D;PT15M;PT1H,2026-09-03T00:00:00Z,2026-11-26T07:00:00Z,3113,erw:price_board,2026-11-25T15:12:38Z,pass,public,power,yes,derived
 price_board_peak_offpeak,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;caiso_rtm;ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,6,P1D;P1Y,2015-01-01T00:00:00Z,2026-11-25T00:00:00Z,5436,erw:price_board,2026-11-25T15:12:38Z,pass,public,power,yes,derived
