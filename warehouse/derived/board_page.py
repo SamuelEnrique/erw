@@ -1181,7 +1181,9 @@ def build_spreads(b, daily, fuels, us_coal):
     for r in b.rows:
         if r["group"] == "spark" and r["id"].endswith(("-spark", "-dark")):
             r["basis"] = heat_basis("dark" if r["id"].endswith("-dark") else "spark", ref)
-            if ref:
+            # session 10000 (chain 701, done-line request 580): a held row carries no figure, the fleet's heat rate either
+            # (the board's own check counts heat_ref among a row's figures: nyiso-spark and isone-spark failed it)
+            if ref and r.get("status") == "ok":
                 r["heat_ref"] = ref["coal" if r["id"].endswith("-dark") else "natural_gas"]
     for (entity, kind), d in sorted(daily.items()):
         iso, node = entity.split(":", 1)
