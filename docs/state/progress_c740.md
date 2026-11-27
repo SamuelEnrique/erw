@@ -108,3 +108,5 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Colorado's property | done | 10822 | C.R.S. 39-1-104(1.9) as HB24B-1001 enacted it (request 428): 25 percent from 2027; 38 states |
 | Chart axis labels cut ("00 million") | done on the branch | 10822 | found in tonight's read with El Paso picked; SeriesChart's margin widens only for a label of more than ten characters |
 | Build and read of c3b81a67f | done | 10822 | 21 addresses at both widths clean, check-values 1,680 of 1,680; landing row 16 requested 02:46 UTC |
+| New Jersey's property | done | 10822 | the assessors' handbook, chapter VI (request 436): equipment untaxed; 39 states |
+| More announced rows | done | 10822 | U.S. Bank Chaska (Minnesota, 2016), AWS Butts and Douglas (Georgia, 2025), AWS Fayette (Ohio, 2024): 66 rows, 53 of them announcements |
