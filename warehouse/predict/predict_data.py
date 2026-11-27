@@ -110,27 +110,52 @@ def place_tz(place, ref):
 def demand_panel():
     """Wide frame, index the UTC hour (start), one column a place: the demand the demand pages show, MW."""
     def build():
-        import region_files as rp
         ref, _ = reference()
         ba = read("eia930_ba_demand_hourly", ["entity", "variable", "ts_utc", "value"], lambda d: d["variable"] == "demand_mw")
-        cols = {}
-        for r in REGIONS:
-            s, _members = rp.region_demand(r, ref, ba)
-            if len(s.dropna()):
-                cols[f"region-{r.lower()}"] = s
-        for e, g in ba.groupby("entity"):
-            code = e.split(":", 1)[1]
-            r = ref.get(code)
-            if r is None or not r["us"] or r["generation_only"]:
-                continue
-            s = pd.Series(g["value"].to_numpy(dtype=float), index=pd.DatetimeIndex(g["ts"])).sort_index()
-            s = s[~s.index.duplicated(keep="last")]
-            cols[f"ba-{code.lower()}"] = s
-        df = pd.DataFrame(cols)
-        df = df.reindex(pd.date_range(df.index.min(), df.index.max(), freq="h"))
-        df.index.name = "ts"
-        return df
+        return demand_frame(ba, ref)
     return cached("demand", ["eia930_ba_demand_hourly"], build)
+
+
+HISTORY = "eia930_all_history"
+
+
+def demand_panel_long():
+    """demand_panel reaching back to July 2015 (session 10603, method note section 25): the authorities' demand of
+    eia930_all_history (EIA's six-month files, every authority from July 2015 to June 2018; data request 9) before the
+    hourly table's own hours, which win wherever both hold an hour; regions summed by the same rule. Read only by
+    long_backtest.py: the backtest of run.py keeps demand_panel."""
+    def build():
+        ref, _ = reference()
+        cols = ["entity", "variable", "ts_utc", "value"]
+        ba = read("eia930_ba_demand_hourly", cols, lambda d: d["variable"] == "demand_mw").assign(order=1)
+        hi = read(HISTORY, cols, lambda d: d["variable"] == "demand_mw").assign(order=0)
+        d = pd.concat([hi, ba], ignore_index=True).sort_values(["entity", "ts", "order"])
+        d = d.drop_duplicates(subset=["entity", "ts"], keep="last").drop(columns="order")
+        return demand_frame(d, ref)
+    return cached("demand_long", ["eia930_ba_demand_hourly", HISTORY], build)
+
+
+def demand_frame(ba, ref):
+    """The places' demand from authority rows (entity eia930:<code>, variable demand_mw, ts): regions by the demand
+    pages' rule (region_files.region_demand), authorities their own."""
+    import region_files as rp
+    cols = {}
+    for r in REGIONS:
+        s, _members = rp.region_demand(r, ref, ba)
+        if len(s.dropna()):
+            cols[f"region-{r.lower()}"] = s
+    for e, g in ba.groupby("entity"):
+        code = e.split(":", 1)[1]
+        r = ref.get(code)
+        if r is None or not r["us"] or r["generation_only"]:
+            continue
+        s = pd.Series(g["value"].to_numpy(dtype=float), index=pd.DatetimeIndex(g["ts"])).sort_index()
+        s = s[~s.index.duplicated(keep="last")]
+        cols[f"ba-{code.lower()}"] = s
+    df = pd.DataFrame(cols)
+    df = df.reindex(pd.date_range(df.index.min(), df.index.max(), freq="h"))
+    df.index.name = "ts"
+    return df
 
 
 def operator_panel():
