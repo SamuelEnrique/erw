@@ -101,7 +101,10 @@ const fleet = bm.filter(([, r]) => r.fleet);
 ok(fleet.length > 0 && fleet.every(([, r]) => W.durations_hours.every((d) => r.fleet.absorb_fleet_mwh[d] <= r.fleet.curtailed_mwh_battery_days + 0.5 && r.fleet.absorb_fleet_pct_of_curtailed[d] <= 100.001)),
   `the fleet: in each of ${fleet.length} months a fleet-sized battery takes in no more than was curtailed`);
 ok(fleet.every(([, r]) => r.fleet.fleet_charged_in_curtailed_hours_mwh <= r.fleet.fleet_charged_mwh + 0.5), "what the fleet charged in the curtailed hours never passes what it charged in all hours");
-ok(W.grids.spp.missing && !W.grids.spp.hubs && Object.keys(W.grids.ercot.months ?? {}).length === 0 && typeof W.grids.ercot.months_missing === "string", "SPP has no worth (held by day) and ERCOT no month (about nine days held), each with its reason");
+// session 10000 (chain 701): ERCOT held about nine days when this was written (7 October 2026), so it asserted no month;
+// from November its October is whole, the assertion failed each day and the day's files were put back. The rule kept:
+// ERCOT shows whole months only, each a calendar month, with the reason for the rest
+ok(W.grids.spp.missing && !W.grids.spp.hubs && Object.keys(W.grids.ercot.months ?? {}).every((m) => /^\d{4}-\d{2}$/.test(m)) && typeof W.grids.ercot.months_missing === "string", "SPP has no worth (held by day) and ERCOT whole months only, each with its reason");
 ok(L.batteryFill(120, 4, 30) === 100 && L.ratio(1, 0) === null && L.ratio(3, 2) === 150 && L.flatLoad({ price_all_hours_mean: 30, price_curtailed_hours_mean: 10 }).less === 20, "batteryFill, ratio and flatLoad compute as stated");
 ok(Object.keys(L.FACE).length === 7 && L.FACE.ercot.whose === "estimate" && L.FACE.caiso.whose === "operator", "the face has one line a grid: the operator's figure, or the ERW's estimate");
 
