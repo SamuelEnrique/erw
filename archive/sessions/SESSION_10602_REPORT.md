@@ -27,7 +27,12 @@ spend: USD 0. No warehouse table written, no data lock taken. Kept current while
 
 - **Branch `wip/c730-predict-v3`** (from main at `a3a8f855f`): `bc159f6cb` the filing check and the weather line;
   `4021394fc` wind and solar; `7d06c97c9` net demand; `6aeebb458` the real-time price, `replicate_ws.py`, tests;
-  `ce04cc9c9` the bands in detail; `762642bf6` the method note's sections renumbered; `cf46553c7` `replicate_rt.py`.
+  `ce04cc9c9` the bands in detail; `762642bf6` the method note's sections renumbered; `cf46553c7` `replicate_rt.py`;
+  `79123bd12` `replicate_net.py`; `93d16500b` `replicate_wx.py`; `65a598935` the sound months' summary counted as the
+  score file counts it, tests and replications taught ties; `8e9164668` the rebuilt files (28 tests pass); `2adf4e687`
+  main merged in. Replications on the files: 21,930 of 21,930 and 464 of 464 (demand), 12,760 of 12,760 (wind and
+  solar), 1,120 of 1,120 (real-time price), 62 of 62 (net demand), 84 of 84 (the weather line).
+- **Branch `wip/c730-codebook-labels-2` at `0e4327697`** (landing row 8): the method pages' codebook file.
 - **Main:** `b1df27af9` the progress lines and data request 7; `33304a18d` the method notes (`predict.md` 18 to 21,
   `predict_price.md` 7, `predict_wind_solar.md`); `49cfffdc0` the contract's dated lines and data request 8.
 

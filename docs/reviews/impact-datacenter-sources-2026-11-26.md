@@ -98,9 +98,10 @@ Read, each after its robots file (requests 362 to 457 of `runs/c740/probe/probe.
 
 - mn.gov (DEED's release on Meta in Rosemount, read at 02:09 UTC inside its robots Visit-time of 00:00 to 12:00) and www.leg.mn.gov (the Legislative Reference Library's copy of the governor's 2016 release on U.S. Bank in Chaska).
 - www.governor.nd.gov, cheyenneleads.org (crawl delay 10), governor.nebraska.gov.
-- Company pages: datacenters.atmeta.com and about.fb.com (Meta's El Paso pages and thirteen campus info sheets), blog.google and datacenters.google (Google's Arkansas post and state pages), www.aboutamazon.com (crawl delay 10; AWS in Georgia and Fayette County, Ohio). www.google.com's robots file names ClaudeBot in a group that disallows only search and similar paths, not `/about/datacenters/`, which redirects to datacenters.google.
+- Company pages: www.crusoe.ai (its release on the 1.2 GW Abilene campus, request 460), datacenters.atmeta.com and about.fb.com (Meta's El Paso pages and thirteen campus info sheets), blog.google and datacenters.google (Google's Arkansas post and state pages), www.aboutamazon.com (crawl delay 10; AWS in Georgia and Fayette County, Ohio). www.google.com's robots file names ClaudeBot in a group that disallows only search and similar paths, not `/about/datacenters/`, which redirects to datacenters.google.
 - Statutes: gc.nh.gov (crawl delay 11), content.leg.colorado.gov, www.nj.gov, legislature.maine.gov, delcode.delaware.gov and webserver.rilegislature.gov (neither has a robots file: nothing disallowed), sdlegislature.gov (its `/api/Statutes/` pages), www.oregonlegislature.gov.
 - www.eia.gov (the capital cost study for AEO2025, for coal's case 1).
+- lawfilesext.leg.wa.gov (RCW 82.08.986, request 463): the Legislature's law files host has no robots file; its other statute host, app.leg.wa.gov, disallows every path and was not asked.
 
 Refused or not readable, honoured:
 
@@ -113,5 +114,7 @@ Refused or not readable, honoured:
 | govdocs.nebraska.gov | its robots file disallows `Claude` by name: nothing asked |
 | legislature.vermont.gov | every section address answered the same 6,586-byte page, its text built by script (454 to 457) |
 | law.justia.com | allowed by its robots file, but not used: a commercial copy of the codes whose terms were not read |
+| www.capitol.tn.gov, wapp.capitol.tn.gov | their robots files allow named search engines and disallow every other agent (464, 465): Tennessee's exemption stays unread |
+| capitol.texas.gov | its robots file disallows `/TLODOCS/` (the bill texts) and `/BillLookup/` (461): Texas's data center exemption (Tax Code 151.359) stays unread, its statute site serving one script page at every path and the Comptroller disallowing `/*/` |
 
 One kept text was wrong: delcode.delaware.gov's subchapter page (443) was kept from a mistaken character set; it was decoded again from the kept bytes as Windows-1252 (the first text kept beside it as `.txt.orig`).
