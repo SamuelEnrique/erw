@@ -89,7 +89,7 @@ export const FIELDS: FieldDef[] = [
   { key: "sales", label: "Sales tax rate", unit: "%", min: 0, max: 15, whole: false, group: "taxes",
     source: () => "The state's rate plus its population-weighted average local rate, midyear 2026. Tax Foundation (CC BY-NC 4.0)." },
   { key: "taxable", label: "Taxable share of spending", unit: "%", min: 0, max: 100, whole: false, group: "taxes", nullable: true,
-    source: (t) => t === "geothermal" ? "JEDI's geothermal model holds no sales tax line: no share is held." : "JEDI's own base for sales tax, its materials and equipment purchases, as a share of its cost before tax." },
+    source: (t) => t === "geothermal" ? "JEDI's geothermal model holds no sales tax line: no share is held." : t === "coal" ? "JEDI's coal model computes no sales tax: its facility and equipment purchases, as a share of its default cost (828 of 1,815 million dollars)." : "JEDI's own base for sales tax, its materials and equipment purchases, as a share of its cost before tax." },
   { key: "exempt", label: "Sales tax exemption", unit: "% of the tax", min: 0, max: 100, whole: false, group: "taxes",
     source: (t, s, P) => (P.exemptions?.states[s]?.[t]?.tip ?? EXEMPT_WORDS[`${s}:${t}`] ?? (P.exemptions?.states[s]?.[t] ? "The state's statute exempts these purchases." : "No exemption of this state for this technology has been read: 0, so the sales tax is before exemptions.")) },
   { key: "iaval", label: "Local option by ordinance or agreement", unit: "", min: 0, max: 1, whole: true, group: "taxes",
