@@ -2843,8 +2843,8 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 | `x_scale` | The ATB's scale: Utility, Commercial or Residential (the source's name: scale) | none | text | Commercial, Residential, Utility | 0 |
 | `x_scenario` | The ATB's scenario: Advanced, Moderate or Conservative (the source's name: scenario) | none | text | Advanced, Conservative, Moderate | 0 |
 | `x_display_name` | The ATB's display name of the technology case (the source's name: display_name) | none | text | for example Biopower - Dedicated, CSP - Class 2, CSP - Class 3; 183 distinct | 0 |
-| `x_default` | The ATB's default field, as published (1 or 0) (the source's name: default) | none | integer | 0, 1 | 0 |
-| `x_maturity` | The ATB's maturity field, as published (Y or N) (the source's name: maturity) | none | text | N, Y | 0 |
+| `x_default` | The ATB's default field, as published (1 or 0): whether the row's technology is the default technology or a subgroup technology (openEDI's ATB documentation; 1 read as the default, 0 as a subgroup) (the source's name: default) | none | integer | 0, 1 | 0 |
+| `x_maturity` | The ATB's maturity field, as published (Y or N): whether the technology is mature or nascent (openEDI's ATB documentation; Y read as mature, N as nascent) (the source's name: maturity) | none | text | N, Y | 0 |
 | `x_case` | The ATB's cost case: R&D (no tax credits), the default view | none | text | R&D | 0 |
 | `x_crp_years` | The cost recovery period, years (30, the default view) | year | integer | 30 | 0 |
 | `x_dollar_year` | The dollar year of the costs (2023) | none | integer | 2023 | 0 |
@@ -2861,8 +2861,6 @@ Variables (7):
 | `lcoe` | Levelized cost of energy, USD per MWh (R&D case, 30-year cost recovery period) | USD/MWh | 14496 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
 | `occ` | Overnight capital cost, USD per kW | USD/kW | 19844 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
 | `variable_om` | Variable operation and maintenance cost, USD per MWh | USD/MWh | 5399 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
-
-Waiting for a second look: x_default (the ATB's default field, 1 or 0) and x_maturity (the ATB's maturity field, Y or N): what each marks is not written in the connector, the method note or the header. Read again on 20 November 2026 in the saved ATB 2025 workbook under warehouse/raw/nlr_atb (sheets Preface and Contents and Financial Definitions): not found..
 
 ### `ntd_transit_energy_annual`
 

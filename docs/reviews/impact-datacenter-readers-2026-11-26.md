@@ -47,3 +47,13 @@ No fault found in these three. The Illinois equipment line is a reader's choice 
 | I5 | An address naming the project alone opened with the defaults | It takes the project's figures, as a pick does; a figure the address gives is kept |
 
 Seventeen addresses read at 1280 and 390 px on the build of 15:42 UTC: no sideways scroll (after the I2 line was made to wrap), no console error.
+
+## Session 10822: I6 and the night's reads (builds of 02:31 to 03:44 UTC, `c3b81a67f` to `e07989aaf`)
+
+| Row | What a reader met | What was done |
+|---|---|---|
+| I6 | The opening scenario moved between two landings (1,000 to 1,400 MW and back) and nothing said why | A line above the fields: the defaults are medians over the announced projects read, the count behind each and the date, and how many rows of the list are a campus's figures to date in no median |
+| A chart's axis | With Meta's El Paso campus picked, the taxes chart's axis read "00 million" (500 and 600 million cut by the chart's fixed 60 px margin) | `SeriesChart` widens its margin only for a tick label of more than ten characters; seen whole after the fix ("600 million", "1.5 billion") |
+| Coal | Coal offered no figure on a build whose live set holds none of its rows | Expected until the data machine loads them; the page says why ("JEDI's onsite jobs is not held for this state"); landing row 16 asks the desk to land after that load |
+
+The last read, on `e07989aaf`'s build: 27 addresses (the earlier 19, El Paso and Crusoe picked in Texas, Prineville in Oregon, New Hampshire, Colorado, Maine, AWS in Georgia, and three of coal) at 1280 and 390 px, no sideways scroll, no console error; check-values 1,680 of 1,680 on every `/impact` address.
