@@ -1419,6 +1419,47 @@
    "incentive": "",
    "years": "",
    "note": "Meta's info sheet for the campus (its file dated 2026-09-03 by the server, the sheet itself undated); the same campus as ga_facebook_stantonsprings_2018, a later document, both kept. Its investment is \"Data center investment in Georgia\" to date since the campus broke ground in 2018, in the dollars of the years spent and taken as 2025 dollars; its jobs are operational jobs \"once completed\", and 1,300 skilled trade workers on site at peak construction. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "tx_meta_temple_2026",
+   "to_date": true,
+   "name": "Meta, Temple data center",
+   "company": "Meta",
+   "state": "tx",
+   "county": null,
+   "place": "Temple",
+   "doc": {
+    "title": "United States - Meta Data Centers (the locations page, Temple's entry)",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-11-27",
+    "url": "https://datacenters.atmeta.com/us-locations/",
+    "request": 382
+   },
+   "mw": null,
+   "investment": {
+    "value": 1200000000,
+    "year": 2026,
+    "says": "$1.2 billion",
+    "qualifier": "",
+    "quote": "Temple $1.2 billion investment 2022 break ground 1,200 skilled trade workers on site at peak construction ~100 operational jobs supported once completed"
+   },
+   "construction_jobs": {
+    "value": 1200,
+    "measure": "skilled trade workers on site at peak construction",
+    "says": "1,200 skilled trade workers",
+    "qualifier": "",
+    "quote": "Temple $1.2 billion investment 2022 break ground 1,200 skilled trade workers on site at peak construction ~100 operational jobs supported once completed"
+   },
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "operational jobs once completed",
+    "says": "100 operational jobs",
+    "qualifier": "approximately",
+    "quote": "Temple $1.2 billion investment 2022 break ground 1,200 skilled trade workers on site at peak construction ~100 operational jobs supported once completed"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's US locations page, Temple's entry (the page is undated: its date here is the day it was read; no info sheet for Temple was found). Its investment is the campus's to date since it broke ground in 2022, taken as 2025 dollars; its jobs are operational jobs \"once completed\" (\"~100\"), and 1,200 skilled trade workers on site at peak construction. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
   }
  ]
 }
