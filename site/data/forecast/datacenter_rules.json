@@ -81,7 +81,8 @@
   "sd_10_4_1": {"title": "South Dakota Codified Laws 10-4-1, Property generally subject to taxation", "url": "https://sdlegislature.gov/api/Statutes/10-4-1.html", "read": "2026-11-27", "request": 446},
   "sd_10_4_6_1": {"title": "South Dakota Codified Laws 10-4-6.1, Exemption from taxation of personal property not centrally assessed", "url": "https://sdlegislature.gov/api/Statutes/10-4-6.1.html", "read": "2026-11-27", "request": 445},
   "or_307_030": {"title": "Oregon Revised Statutes 307.030, Property subject to assessment generally (chapter 307, 2025 edition page)", "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors307.html", "read": "2026-11-27", "request": 449},
-  "ri_44_3_1": {"title": "Rhode Island General Laws 44-3-1, Real and personal property subject to taxation", "url": "https://webserver.rilegislature.gov/Statutes/TITLE44/44-3/44-3-1.htm", "read": "2026-11-27", "request": 452}
+  "ri_44_3_1": {"title": "Rhode Island General Laws 44-3-1, Real and personal property subject to taxation", "url": "https://webserver.rilegislature.gov/Statutes/TITLE44/44-3/44-3-1.htm", "read": "2026-11-27", "request": 452},
+  "ny_orpts_exempt_2024": {"title": "New York Office of Real Property Tax Services, Exemptions from Real Property Taxation in New York State: 2024 County, City, and Town Assessment Rolls", "url": "https://www.tax.ny.gov/research/property/reports/exempt/24exrpt.htm", "read": "2026-11-27", "request": 467}
  },
  "split": {
   "cite": "jlarc_598",
@@ -631,6 +632,13 @@
    "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "ri_44_3_1",
     "quote": "All real property in the state, and all personal property belonging to the inhabitants of the state, whether individuals, partnerships or corporations, and all tangible personal property located in the state belonging to nonresidents, are liable to taxation unless otherwise specially provided.",
     "tip": "Rhode Island (General Laws 44-3-1): \"All real property in the state, and all personal property belonging to the inhabitants of the state, whether individuals, partnerships or corporations, and all tangible personal property located in the state belonging to nonresidents, are liable to taxation unless otherwise specially provided\", so the building and the equipment are both taxed. The exemptions of 44-3-3 and the cities' and towns' own tangible property rates are not read: the tool takes both at their cost (an upper bound) and applies the reader's rate. No sales tax rule is read for Rhode Island."
+   }
+  },
+  "ny": {
+   "name": "New York",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "ny_orpts_exempt_2024",
+    "quote": "All real property in New York is subject to taxation unless specific legal provisions grant it exempt status, whereas personal property is not subject to taxation.",
+    "tip": "New York (the Office of Real Property Tax Services' 2024 exemptions report): \"All real property in New York is subject to taxation unless specific legal provisions grant it exempt status, whereas personal property is not subject to taxation\", so a datacenter's equipment owes none. The building is taken at its cost and the reader's effective rate (each locality's, on its own share of value), an upper bound. New York's statute site answered HTTP 403, so no sales tax rule is read; the tool applies none."
    }
   }
  }
