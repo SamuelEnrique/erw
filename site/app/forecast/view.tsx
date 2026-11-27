@@ -36,8 +36,7 @@ import { predictAhead, predictIndex, predictLedger, predictPlace, predictScores 
 // session 10409 (chain 720, part E): the views of what the files gained on 27 November 2026 (app/forecast/lines.tsx)
 import { predictRtPrice, predictWindSolar } from "@/lib/predictfiles";
 import { plainMethods } from "@/lib/predict";
-import { RT_LABEL } from "@/lib/predictlines";
-import { RealTime, rtOf } from "./realtime";
+import { RealTimeSection } from "./realtime";
 import { BandCheck, FilingCheck, NetDemand, WeatherForecastLine, WindSolarDay } from "./lines";
 
 type Raw = Record<string, string | string[] | undefined>;
@@ -611,11 +610,7 @@ export function ForecastView({ query }: { query: Raw }) {
             <div data-fc-band-block="1">{slots.map((x) => <BandCheck key={x.mark} slot={x} s={q.s} ws={windSolar} rt={rtPrice} />)}</div>
           </ToolSection>
           {/* session 10409: the real-time price, with price, for a place whose hub the real-time file holds */}
-          {q.s === "price" && slots.some((x) => rtOf(x, rtPrice)) ? (
-            <ToolSection title={RT_LABEL} id="realtime">
-              {slots.map((x) => <RealTime key={x.mark} slot={x} rt={rtPrice} scores={scores} metric={metric} asked={q.day} />)}
-            </ToolSection>
-          ) : null}
+          {q.s === "price" ? <RealTimeSection slots={slots} rt={rtPrice} scores={scores} metric={metric} asked={q.day} /> : null}
           <ToolSection title="Every place" id="places">
             <AllPlaces index={index} scores={scores} s={q.s} metric={metric} chosen={slots.map((x) => x.place.place)} />
           </ToolSection>

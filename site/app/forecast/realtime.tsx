@@ -9,10 +9,10 @@ import type { ReactNode } from "react";
 import { Hint } from "@/components/demand/Hint";
 import { Num } from "@/components/Num";
 import { CategoryChart, type CatSeries } from "@/components/svgchart";
-import { ChartFrame, HeadlineNumber, ToolTable } from "@/components/tool/ToolPage";
+import { ChartFrame, HeadlineNumber, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { pfKey } from "@/lib/pagefile";
 import { CUT_WORDS, LABEL, METRIC_WORDS, dayWords, hourWords, isShown, localWords, methodShort, methodWords, metricUnit, monthWords, orderedKeys, placeWords, scoreWords, shortHeld, utcWords, valueWords, type Metric, type ScoresFile, type SummaryPart } from "@/lib/predict";
-import { LINE_METHOD_SHORT, LINE_METHOD_WORDS, RT_METHODS, RT_SPANS, lineDays, lineDefaultDay, lineHours, lineScores, rtHubOf, wordsOfMethod, type LineHour, type LineScore, type RtPriceFile } from "@/lib/predictlines";
+import { LINE_METHOD_SHORT, LINE_METHOD_WORDS, RT_LABEL, RT_METHODS, RT_SPANS, lineDays, lineDefaultDay, lineHours, lineScores, rtHubOf, wordsOfMethod, type LineHour, type LineScore, type RtPriceFile } from "@/lib/predictlines";
 import type { Slot } from "./lines";
 
 const RT_FILE = "predict/rt_price.json";
@@ -38,6 +38,18 @@ const bandOf = (hours: LineHour[]) => (hours.some((h) => h.lo !== null && h.hi !
 export function rtOf(slot: Slot, rt: RtPriceFile | null) {
   const ser = slot.file?.series?.price;
   return isShown(slot.file, ser) && ser ? rtHubOf(rt, ser.hub) : null;
+}
+
+/** The page's section of the real-time price: one block a place whose hub the file holds, one place under the other
+ *  (the tables keep the page's width). No place with such a hub: no section. The page's own four sections stand as
+ *  they were; this one is placed after them by view.tsx, with price only. */
+export function RealTimeSection({ slots, rt, scores, metric, asked }: { slots: Slot[]; rt: RtPriceFile | null; scores: ScoresFile | null; metric: Metric; asked: string | null }) {
+  if (!slots.some((x) => rtOf(x, rt))) return null;
+  return (
+    <ToolSection title={RT_LABEL} id="realtime">
+      {slots.map((x) => <RealTime key={x.mark} slot={x} rt={rt} scores={scores} metric={metric} asked={asked} />)}
+    </ToolSection>
+  );
 }
 
 /** The real-time price for one place: tomorrow, a past day, and the report card. */

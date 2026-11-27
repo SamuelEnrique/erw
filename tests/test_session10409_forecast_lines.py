@@ -105,7 +105,7 @@ class TheViewsAreAdditions(unittest.TestCase):
         for call in ('<NetDemand key={x.mark} slot={x} ws={windSolar} metric={metric} part="chart" />', '<NetDemand key={x.mark} slot={x} ws={windSolar} metric={metric} part="table" />',
                      "<WindSolarDay key={x.mark} slot={x} ws={windSolar} asked={q.day} />",
                      "<FilingCheck key={x.mark} slot={x} scores={scores} metric={metric} />", "<WeatherForecastLine key={x.mark} slot={x} scores={scores} metric={metric} />",
-                     "<BandCheck key={x.mark} slot={x} s={q.s} ws={windSolar} />"):
+                     "<BandCheck key={x.mark} slot={x} s={q.s} ws={windSolar} rt={rtPrice} />"):
             self.assertIn(call, view)
         # what the page drew before stands in the order it had
         order = [view.index(s) for s in ('<ToolSection title="Tomorrow" id="tomorrow">', "<Tomorrow key={x.mark}", 'data-fc-ahead-block="1"', '<ToolSection title="How it has done" id="record">',
@@ -142,8 +142,13 @@ class TheRealTimePrice(unittest.TestCase):
 
     def test_the_section_is_prices_and_only_where_a_hub_is_held(self):
         view = src("site", "app", "forecast", "view.tsx")
-        self.assertIn('{q.s === "price" && slots.some((x) => rtOf(x, rtPrice)) ? (', view)
-        self.assertIn('<ToolSection title={RT_LABEL} id="realtime">', view)
+        self.assertIn('{q.s === "price" ? <RealTimeSection slots={slots} rt={rtPrice} scores={scores} metric={metric} asked={q.day} /> : null}', view)
+        rt = src("site", "app", "forecast", "realtime.tsx")
+        self.assertIn("if (!slots.some((x) => rtOf(x, rt))) return null;", rt)
+        self.assertIn('<ToolSection title={RT_LABEL} id="realtime">', rt)
+        # the page's own four sections stand as they were, in view.tsx; the new one is after them
+        self.assertLess(view.index('<ToolSection title="How it has done" id="record">'), view.index("<RealTimeSection"))
+        self.assertLess(view.index("<RealTimeSection"), view.index('<ToolSection title="Every place" id="places">'))
         files = src("site", "lib", "predictfiles.ts")
         self.assertIn('export const predictRtPrice = () => readPredict<RtPriceFile>("rt_price.json");', files)
         self.assertNotIn("node:fs", src("site", "app", "forecast", "realtime.tsx"))
