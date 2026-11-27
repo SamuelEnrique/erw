@@ -4,6 +4,21 @@ Energy Research Warehouse (ERW). The chain's file: `queue/done/720-night-26-nove
 
 **Stopped at 19:28 UTC on 26 November 2026 (session 10407), when Samuel took the laptop:** nothing was left uncommitted or unpushed; no build is served and the build lock is free. Rows 54 to 58 have landed and were read on production; rows 59, 60 and 61 are requested and not landed; the second window's rows 1 to 10 are seen and marked. Part E goes on from there: `queue/next/721-resume-chain-720.md`.
 
+**Resumed at 08:39 UTC on 27 November 2026 (session 10408), on Samuel's word.** He named two things that come first, then part E: the equities pages seen on the real equities files (the SEC's company figures, his ruling of 26 November), and a view on `/forecast` for each new output of the forecast. This laptop has one window tonight: the second window is not running, so the standing step has no new row. The section "The resume of 27 November" below holds each step.
+
+## The resume of 27 November 2026
+
+| Step | State | Session |
+|---|---|---|
+| Main put at origin/main (a fast-forward of 349 commits, nothing of its own, nothing discarded); the precheck (6 of 6; a first run from the documents folder failed on the day's spend, which that folder cannot read: it has no `.env`); no freeze; free memory 1,141 MB of 15,974 MB | done | 10408 |
+| The resume file `721` taken by name (`83f0dcf0f`); the same text put back as `queue/next/722-resume-chain-720.md`, alone (`c3232ba1f`) | done | 10408 |
+| Rows 59, 60 and 61 against main | done: all three have landed (each head is an ancestor of origin/main; row 61 at `66d07052c`, 26 November 20:42 UTC) | 10408 |
+| **Equities, 1: the pages seen on the real files.** The files of 27 November 03:23 UTC: 307 companies, 18,555 filed periods (243 companies with filed figures, 64 "source needed"), every share price, index and segment line held | done on production as landed (`runs/c720/see_equities_sec_production.out`, one browser run): `/equities` and the board's group at 1280 and 390 px, six addresses a width, no sideways scroll, no "undefined"; every share price a blank that says "license needed"; the board's group 30 rows, none with a figure. What the read found: with a company chosen the page draws no chart at all (the energy price was drawn only where nothing was chosen, or over a share price's line) | 10408 |
+| **Equities, 2: what the real files call for,** on `wip/c720-equities-sec` (`6b1956766`), row 62 | done, landing requested: the chosen filed figure over every period filed (as filed, nothing worked out), the newest period one column a length of period, the energy price a chart of its own while the share price is held, a filter for filed figures, a segment no SEC code fills. 76 new checks; every drawn figure against main's files, 2,329 pages, 1,179,547 figures, 0 differing; built (exit 0, 2,141 MB free before) and seen at 1280 and 390 px; the value check 153 of 153 | 10408 |
+| Data requests 578, 579 and 580 (window A): the list's newest filed period, so the table of every company can show and sort by what was filed; eighteen utilities whose filed periods stop at 31 March 2026, XOM's four periods, RCON's last filing of 2016; the board's own check failing on two held rows that carry `heat_ref` | requested, `docs/state/data_requests_done_line.md` | 10408 |
+| The problem set of the equities page ("a segment beside an energy price") | waiting still: no segment has a line (every one is held). Not written with made-up values | 10408 |
+| **The forecast, a view for each new output** (the contract's dated lines of 27 November: `operator_filing`, `with_weather_forecast`, `net_demand`, `band_coverage`, `wind_solar.json`, `rt_price.json`, the cuts `operator_sound`; `tomorrow_from` of 26 November) | begun: the files read (29 places; net demand in 14, the weather forecast line in 14, all "too few days"; the filing flagged in 16 places; three hubs of the real-time price), the views written, not yet on a branch | 10409 |
+
 ## The start
 
 | Step | State | Session |
