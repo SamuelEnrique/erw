@@ -1,6 +1,6 @@
 {
  "version": "2026-11-13",
- "note": "The forecast tool's property tax rules for a generating project, each read from the state's own statute page on 13 November 2026 by chain 239 (lab-desktop window 4), with the statute's words quoted. A state not here has no rule held: the tool shows no property tax figure there unless the reader types one. Land under a project is not modeled anywhere (docs/methods/forecast.md, section 4). Request numbers are the rows of runs/w4/probe.csv on lab-desktop (the request log of chain 239). Session 10822 (chain 740): coal added to the rules whose words reach every generating plant, and to the general notes.",
+ "note": "The forecast tool's property tax rules for a generating project, each read from the state's own statute page on 13 November 2026 by chain 239 (lab-desktop window 4), with the statute's words quoted. A state not here has no rule held: the tool shows no property tax figure there unless the reader types one. Land under a project is not modeled anywhere (docs/methods/forecast.md, section 4). Request numbers are the rows of runs/w4/probe.csv on lab-desktop (the request log of chain 239). Session 10822 (chain 740): coal added to the rules whose words reach every generating plant, and to the general notes. Session 10822: biopower added to the same rules as coal, and to North Dakota's taxes on sources other than coal or wind.",
  "sources": {
   "mn_272_029": {
    "title": "Minnesota Statutes 2026, section 272.029, Wind energy production tax",
@@ -750,7 +750,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "production",
      "usd_per_mwh": 0.6,
@@ -799,7 +800,8 @@
      "technologies": [
       "utility_pv",
       "natural_gas",
-      "geothermal"
+      "geothermal",
+      "biopower"
      ],
      "kind": "capacity",
      "usd_per_mw_year": 500,
@@ -814,7 +816,8 @@
      "technologies": [
       "utility_pv",
       "natural_gas",
-      "geothermal"
+      "geothermal",
+      "biopower"
      ],
      "kind": "production",
      "usd_per_mwh": 1.0,
@@ -1076,7 +1079,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "own_exempt",
      "exempt_share": 0.5,
@@ -1287,7 +1291,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "production",
      "usd_per_mwh": 0.2,
@@ -1667,7 +1672,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "valuation",
      "assessment_ratio": 0.4,
@@ -1889,7 +1895,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "valuation",
      "assessment_ratio": 0.105,
@@ -1910,7 +1917,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "production",
      "usd_per_mwh": 0.5,
@@ -1980,7 +1988,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "valuation",
      "assessment_ratio": 0.07,
@@ -2049,7 +2058,8 @@
      "technologies": [
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "ny_rptl_487",
@@ -2105,7 +2115,8 @@
       "land_based_wind",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "dc_fp31_2026",
@@ -2123,7 +2134,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "al_dor_assessment",
@@ -2141,7 +2153,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "ak_lrs_21_028",
@@ -2159,7 +2172,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "ar_none",
@@ -2211,7 +2225,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "de_9_8306",
@@ -2263,7 +2278,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "in_none",
@@ -2281,7 +2297,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "la_const_7_18",
@@ -2299,7 +2316,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "ma_59_38",
@@ -2317,7 +2335,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "me_36_691",
@@ -2335,7 +2354,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "mo_stc_2024",
@@ -2353,7 +2373,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "ms_dor_faq",
@@ -2371,7 +2392,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "nh_83f",
@@ -2389,7 +2411,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "nj_assessors_ch2",
@@ -2407,7 +2430,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "ok_none",
@@ -2425,7 +2449,8 @@
       "utility_pv",
       "natural_gas",
       "geothermal",
-      "coal"
+      "coal",
+      "biopower"
      ],
      "kind": "note",
      "cite": "ut_centrally_assessed",

@@ -38,6 +38,8 @@ export const techOfIx = (i: number): TechKey => (TECHS[i] ?? TECHS[0]).key;
 export const techNameOfIx = (i: number): string => (i === DC_IX ? "datacenter" : techOfIx(i));
 export const stateOfIx = (i: number): string => (STATE_LIST[i] ?? STATE_LIST[0])[0];
 const n = (v: number, d = 0) => v.toLocaleString("en-US", { maximumFractionDigits: d });
+/** session 10822: the EIA study a technology's capital cost case comes from (biopower's from AEO2020, the rest AEO2025) */
+const aeo = (t: TechKey, P: Params) => ((P.eiaCapex.technologies[t] as unknown as { source_url?: string }).source_url ?? "").includes("AEO2020") ? "AEO2020" : "AEO2025";
 
 /** session 4218: the words of each exemption read from a statute (site/data/forecast/sales_exemptions.json quotes them) */
 const EXEMPT_WORDS: Record<string, string> = {
@@ -51,6 +53,7 @@ const EXEMPT_WORDS: Record<string, string> = {
   "nd:utility_pv": "North Dakota Century Code 57-39.2-04.2 exempts the production equipment and every other purchase for building a power plant, which includes any non-coal, non-wind generating facility of 100 kW or more selling its power: 100 percent.",
   "nd:natural_gas": "North Dakota Century Code 57-39.2-04.2 exempts the production equipment and every other purchase for building a power plant, which includes any non-coal, non-wind generating facility of 100 kW or more selling its power: 100 percent.",
   "nd:geothermal": "North Dakota Century Code 57-39.2-04.2 exempts the production equipment and every other purchase for building a power plant, which includes any non-coal, non-wind generating facility of 100 kW or more selling its power: 100 percent.",
+  "nd:biopower": "North Dakota Century Code 57-39.2-04.2 exempts the production equipment and every other purchase for building a power plant, which includes any non-coal, non-wind generating facility of 100 kW or more selling its power: 100 percent.",
   "nd:land_based_wind": "North Dakota Century Code 57-39.2-04.2 counts a wind facility only if it was completed before 1 January 2017: a new wind plant has no exemption (0).",
   "ia:utility_pv": "Iowa Code 423.3(90) exempts solar energy equipment, equipment primarily used to collect and convert solar radiation or carry it to a point of use: the modules and inverters, 67.2 percent of the tax on JEDI's materials and equipment. Racking and wiring are not named.",
 };
@@ -68,20 +71,21 @@ export const FIELDS: FieldDef[] = [
     options: () => STATE_LIST.map(([, name], i) => ({ value: i, label: name })),
     source: () => "JEDI's multipliers, the tax rules and the default costs are each the state's own." },
   { key: "mw", label: "Size", unit: "MW", min: 1, max: 10000, whole: false, group: "project",
-    source: (t, _s, P) => `EIA's case size for this technology, ${n(P.eiaCapex.technologies[t].case_mw)} MW (capital cost study for AEO2025, case ${(P.eiaCapex.technologies[t] as unknown as { case: number }).case}).${t === "utility_pv" ? " MW of AC." : ""}` },
+    source: (t, _s, P) => `EIA's case size for this technology, ${n(P.eiaCapex.technologies[t].case_mw)} MW (capital cost study for ${aeo(t, P)}, case ${(P.eiaCapex.technologies[t] as unknown as { case: number }).case}).${t === "utility_pv" ? " MW of AC." : ""}` },
   { key: "capex", label: "Capital cost", unit: "USD/kW, 2025", min: 100, max: 20000, whole: false, group: "project",
     source: (t, s, P) => {
       const d = capexDefault(P, t, s);
+      const y = P.eiaCapex.technologies[t].dollar_year;
       return d.from === "state"
-        ? `EIA's overnight cost in this state (${d.cities.join(", ")}${d.cities.length > 1 ? ": their mean" : ""}), 2023 dollars converted to 2025 by the GDP price index. Capital cost study for AEO2025, Appendix A. Excludes sales tax and financing.`
-        : "EIA gives no figure for this technology in this state: its base case, 2023 dollars converted to 2025 by the GDP price index. Capital cost study for AEO2025.";
+        ? `EIA's overnight cost in this state (${d.cities.join(", ")}${d.cities.length > 1 ? ": their mean" : ""}), ${y} dollars converted to 2025 by the GDP price index. Capital cost study for ${aeo(t, P)}, Appendix A. Excludes sales tax and financing.`
+        : `EIA gives no figure for this technology in this state: its base case, ${y} dollars converted to 2025 by the GDP price index. Capital cost study for ${aeo(t, P)}.`;
     } },
   { key: "start", label: "First construction year", unit: "", min: 2026, max: 2060, whole: true, group: "project",
     source: () => "The first full calendar year from today. Every dollar is a 2025 dollar whatever the year." },
   { key: "build", label: "Construction", unit: "years", min: 1, max: 10, whole: true, group: "project",
     source: (t, _s, P) => `EIA's plant construction time for this technology, ${P.eiaCapex.technologies[t].construction_months} months, in whole years.` },
   { key: "life", label: "Operation", unit: "years", min: 1, max: 60, whole: true, group: "project",
-    source: (t, _s, P) => `EIA's operating life for this technology, ${P.eiaCapex.technologies[t].operating_life_years} years (capital cost study for AEO2025).` },
+    source: (t, _s, P) => `EIA's operating life for this technology, ${P.eiaCapex.technologies[t].operating_life_years} years (capital cost study for ${aeo(t, P)}).` },
   { key: "local", label: "Local content", unit: "% of JEDI's", min: 0, max: 200, whole: true, group: "spending",
     source: () => "JEDI's default share of each line of spending bought in the state. 100 is JEDI's own; a project's spending plan moves it." },
   { key: "om", label: "Operating spending", unit: "% of JEDI's", min: 0, max: 300, whole: true, group: "spending",
@@ -89,7 +93,7 @@ export const FIELDS: FieldDef[] = [
   { key: "sales", label: "Sales tax rate", unit: "%", min: 0, max: 15, whole: false, group: "taxes",
     source: () => "The state's rate plus its population-weighted average local rate, midyear 2026. Tax Foundation (CC BY-NC 4.0)." },
   { key: "taxable", label: "Taxable share of spending", unit: "%", min: 0, max: 100, whole: false, group: "taxes", nullable: true,
-    source: (t) => t === "geothermal" ? "JEDI's geothermal model holds no sales tax line: no share is held." : t === "coal" ? "JEDI's coal model computes no sales tax: its facility and equipment purchases, as a share of its default cost (828 of 1,815 million dollars)." : "JEDI's own base for sales tax, its materials and equipment purchases, as a share of its cost before tax." },
+    source: (t) => t === "geothermal" ? "JEDI's geothermal model holds no sales tax line: no share is held." : t === "coal" ? "JEDI's coal model computes no sales tax: its facility and equipment purchases, as a share of its default cost (828 of 1,815 million dollars)." : t === "biopower" ? "JEDI's biopower model computes no sales tax: its equipment purchases, as a share of its default cost (93.1 of 187.1 million dollars)." : "JEDI's own base for sales tax, its materials and equipment purchases, as a share of its cost before tax." },
   { key: "exempt", label: "Sales tax exemption", unit: "% of the tax", min: 0, max: 100, whole: false, group: "taxes",
     source: (t, s, P) => (P.exemptions?.states[s]?.[t]?.tip ?? EXEMPT_WORDS[`${s}:${t}`] ?? (P.exemptions?.states[s]?.[t] ? "The state's statute exempts these purchases." : "No exemption of this state for this technology has been read: 0, so the sales tax is before exemptions.")) },
   { key: "iaval", label: "Local option by ordinance or agreement", unit: "", min: 0, max: 1, whole: true, group: "taxes",
@@ -124,6 +128,7 @@ export const FIELDS: FieldDef[] = [
     source: (t, s, P) => {
       if (t === "natural_gas") return "JEDI's default for its gas plant, 0.65. It sets the fuel the plant burns.";
       if (t === "coal") return `JEDI's default for its coal plant, ${P.coal?.capacity_factor ?? "not held"} (its workbook's ProjectData). It sets the MWh a production or kWh tax falls on; the coal burned is not modelled.`;
+      if (t === "biopower") return `JEDI's default for its biopower plant, ${P.biopower?.capacity_factor ?? "not held"} (its workbook's ProjectData). It sets the MWh a production or kWh tax falls on; the biomass burned is not modelled.`;
       const d = cfDefault(P, t, s);
       const c = P.capacity[t as "land_based_wind" | "utility_pv"];
       return d.from === "state"
