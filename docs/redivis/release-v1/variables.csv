@@ -2411,6 +2411,7 @@ eia930_all_generation,net_generation_unknown_mw,series variable,MW
 eia930_all_generation,net_generation_unknown_storage_mw,series variable,MW
 eia930_all_generation,net_generation_wind_mw,series variable,MW
 eia930_all_generation,net_generation_wind_with_battery_mw,series variable,MW
+eia930_all_history,demand_forecast_mw,series variable,MW
 eia930_all_history,demand_mw,series variable,MW
 eia930_all_history,net_generation_mw,series variable,MW
 eia930_all_interchange,interchange_mw,series variable,MW
