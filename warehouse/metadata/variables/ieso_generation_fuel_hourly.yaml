@@ -157,7 +157,10 @@ columns:
       '2026-10-23T11:50:49Z': 49575
   missing_cells: 0
 - name: x_quality
-  label: The report's OutputQuality for the value, as published (codes not defined in the repository)
+  label: 'The report''s OutputQuality for the value, as published: 0 when no generator behind it had a telemetry issue;
+    below 0 when the value contains data from generators with telemetry issues (the IESO''s help file for the report
+    says such values are shown in red, and its stylesheet colours a value red exactly when OutputQuality is below 0).
+    What each negative number, -1 to -30, counts is not stated'
   unit: none
   type: integer
   values:
@@ -176,7 +179,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: OutputQuality
-  documented_by: header; connector ieso_genfuel.py; method ieso_generation_fuel_hourly.md
+  documented_by: header; connector ieso_genfuel.py; method ieso_generation_fuel_hourly.md; the IESO's help file GenOutputbyFuelHourly_h1.pdf and stylesheet GenOutputbyFuelHourly_HTML_t1-1.xsl (reports-public.ieso.ca/docrefs/, read 27 November 2026)
 variables:
 - name: control_actions
   label: The IESO's CONTROL ACTIONS line in the hour
@@ -227,6 +230,8 @@ variables:
   first: '2020-01-01T05:00:00Z'
   last: '2026-10-23T04:00:00Z'
 second_look:
-- 'x_quality (the report''s OutputQuality): the codes 0 and -1 to -30 are not defined in the repository (the IESO''s schema
-  was not read). Read again on 20 November 2026 in the connector, the method note and the saved XML reports under warehouse/raw/ieso_genfuel
-  (they point to the IESO''s schema and stylesheet by address only, neither saved): not found.'
+- 'x_quality (the report''s OutputQuality): what each negative value, -1 to -30, counts is not stated. Its sign is settled
+  (27 November 2026) from the IESO''s help file GenOutputbyFuelHourly_h1.pdf and its stylesheet GenOutputbyFuelHourly_HTML_t1-1.xsl
+  (reports-public.ieso.ca, which has no robots file; fetched once each, 54,665 and 12,816 bytes): below 0 marks a value
+  with data from generators with telemetry issues. The schema the reports name (docrefs/schema/GenOutputbyFuelHourly_r1.xsd)
+  did not answer (no response in 60 s).'

@@ -2393,7 +2393,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 | `source_url` | The address of the exact document the row was read from | none | text | https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2020.xml, https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2021.xml, https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2022.xml, https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2023.xml, https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2024.xml, https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2025.xml, https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2026.xml | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T01:57:52Z, 2026-10-24T01:58:04Z, 2026-10-24T01:58:15Z, 2026-10-24T01:58:25Z, 2026-10-24T01:58:36Z, 2026-10-24T01:58:47Z, 2026-10-24T01:58:57Z | 0 |
 | `vintage` | When the publisher published the document the value came from, in UTC. Here: The year's file's CreatedAt (UTC) | none | utc time | 2021-01-01T11:50:49Z, 2022-01-01T11:50:44Z, 2023-01-01T11:50:41Z, 2024-01-01T11:50:48Z, 2025-01-01T11:50:47Z, 2026-01-01T11:50:43Z, 2026-10-23T11:50:49Z | 0 |
-| `x_quality` | The report's OutputQuality for the value, as published (codes not defined in the repository) (the source's name: OutputQuality) | none | integer | -1, -12, -2, -3, -30, -4, -5, -6, -7, -8, 0 | 0 |
+| `x_quality` | The report's OutputQuality for the value, as published: 0 when no generator behind it had a telemetry issue; below 0 when the value contains data from generators with telemetry issues (the IESO's help file for the report says such values are shown in red, and its stylesheet colours a value red exactly when OutputQuality is below 0). What each negative number, -1 to -30, counts is not stated (the source's name: OutputQuality) | none | integer | -1, -12, -2, -3, -30, -4, -5, -6, -7, -8, 0 | 0 |
 
 Variables (8):
 
@@ -2408,7 +2408,7 @@ Variables (8):
 | `generation_solar` | Solar generation in the hour | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
 | `generation_wind` | Wind generation in the hour | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
 
-Waiting for a second look: x_quality (the report's OutputQuality): the codes 0 and -1 to -30 are not defined in the repository (the IESO's schema was not read). Read again on 20 November 2026 in the connector, the method note and the saved XML reports under warehouse/raw/ieso_genfuel (they point to the IESO's schema and stylesheet by address only, neither saved): not found..
+Waiting for a second look: x_quality (the report's OutputQuality): what each negative value, -1 to -30, counts is not stated. Its sign is settled (27 November 2026) from the IESO's help file GenOutputbyFuelHourly_h1.pdf and its stylesheet GenOutputbyFuelHourly_HTML_t1-1.xsl (reports-public.ieso.ca, which has no robots file; fetched once each, 54,665 and 12,816 bytes): below 0 marks a value with data from generators with telemetry issues. The schema the reports name (docrefs/schema/GenOutputbyFuelHourly_r1.xsd) did not answer (no response in 60 s)..
 
 ### `ieso_ontario_demand_hourly`
 
