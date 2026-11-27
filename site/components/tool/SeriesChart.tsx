@@ -56,7 +56,7 @@ type Props = {
   saysOnCard?: boolean;
 };
 
-const PLOT = 228, L = 60, R = 12, TOP = 34, LINE = 12;
+const PLOT = 228, L0 = 60, R = 12, TOP = 34, LINE = 12;
 /** The axis step: 1, 2, 2.5 or 5 times a power of ten, the smallest that draws at most five steps over the span. */
 export const nice = (span: number): number => {
   if (!(span > 0)) return 1;
@@ -112,6 +112,9 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
   const ticks: number[] = [];
   if (useLog) { for (let p = Math.floor(ly(lo)); p <= Math.ceil(ly(hi)); p++) ticks.push(10 ** p); }
   else { const step = nice(hi - lo); for (let t = Math.ceil(lo / step) * step; t <= hi; t += step) ticks.push(Math.round(t * 1e6) / 1e6); }
+  // the left margin (session 10822): 60 px, widened only for a tick label of more than ten characters at 5.4 px each, which
+  // the fixed margin cut ("500 million" read "00 million" on /impact); every chart whose labels fit draws as before
+  const L = Math.max(L0, Math.ceil(Math.max(0, ...ticks.map((t) => fmt(t).length)) * 5.4 + 6));
   const bw = (W - L - R) / Math.max(1, n);
   const cx = (i: number) => L + i * bw + bw / 2;
   const capped = (v: number) => Math.min(v, useLog ? hi : hi);
