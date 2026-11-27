@@ -25,3 +25,27 @@ Each holds the record's span, the measures over the whole record, by local hour 
 ## Build
 
 `python warehouse/derived/forecast_error.py` (about two and a half minutes); `--site-dir` writes the page files elsewhere for a trial, `--no-tables` writes the page files only.
+
+## Levels that are EIA's own (checked on 27 November 2026)
+
+Chain 730 found filed forecasts far from the demand of the same hours in some places (predict data request 7). Read again
+from EIA's own six-month BALANCE files, independently of this table's code (`docs/reviews/answers-c701-2026-11-26/predict_row7.py`,
+monthly sums of the files' "Demand Forecast (MW)" over "Demand (MW)" on the hours that hold both), EIA's files show the
+same level as this table in every case, within half a percentage point (the table leaves out screened hours; FPC's
+February 2026 is 63.7 percent in the file and 68.1 here for that reason). So these levels are the forecasts as EIA
+publishes them, not a fault of the reading:
+
+- SWPP: 99 to 100 percent of demand to April 2025, then 108 to 112 percent from May 2025 (and the Central region with it).
+- FPC: about 76 percent in every month since 2019.
+- PSCO: about 90 percent to late 2025, falling to 71 to 77 percent from May 2026.
+- FMPP: about 71 percent from February to July 2026.
+- SRP: 115 to 124 percent in April, May, October and November 2026.
+- CISO: 89 to 93 percent throughout (and the California region with it).
+- PJM: at the right level, but its forecast matches the demand of the hour after its stamp in EIA's file too: a mean
+  absolute error of 2.5 percent against the next hour and 3.5 against the same hour, July 2018 to November 2026.
+
+A forecast's miss in these places is the filing's level as much as the forecast's skill, and a page that scores a forecast
+against the operator's (the ERW forecast, `docs/methods/predict.md` section 18) says so. Whether such a month is screened
+(`x_screened`, for example a month whose forecast is more than 5 percent from the demand) is this table's owner's choice;
+nothing is screened for it yet. The monthly ratios: `docs/reviews/answers-c701-2026-11-26/predict_row7_eia930_forecast_levels.csv`.
+
