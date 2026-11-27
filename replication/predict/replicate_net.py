@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Replication of the ERW forecast's net demand rows (site/data/predict/scores.json, series net_demand), chain 730,
-part F. Written from docs/methods/predict.md section 20 and predict_wind_solar.md; it imports nothing of the builder,
-only the other two replication scripts (replicate.py for the demand, replicate_ws.py for wind and solar). For each
+part F. Written from docs/methods/predict.md sections 20 and 26 and predict_wind_solar.md; it imports nothing of the builder,
+only the other two replication scripts (replicate.py for the demand, replicate_ws.py for wind and solar). For each place
+with net demand (since session 10603 every place with a wind and solar entry: twins read their region's, CISO CAISO's
+hubs, each authority its own, a fuel it never reports taken as zero), and before it for each
 region and ERCO: the demand forecast chosen by the note's rule (the regression's forecasts as stored in the backtest
 table, the simple methods rebuilt), less the wind and solar forecasts chosen by theirs (rebuilt and refitted here),
 against EIA-930's demand less EIA-930's wind and solar; yesterday likewise, net; the operator's where its three
@@ -46,16 +48,36 @@ def demand_erw(p, dem, tz, ops, bt):
     return x.set_index("ts")
 
 
-def ws_erw(wsp, fuel, rf, e):
+TWIN = {"ba-erco": "region-tex", "ba-isne": "region-ne", "ba-nyis": "region-ny", "ba-pjm": "region-mida",
+        "ba-soco": "region-se", "ba-tva": "region-ten", "ba-ciso": "grid-caiso"}   # session 10603, predict.md section 26
+
+
+def ws_erw(wsp, fuel, rf, e, src):
+    """The wind or solar forecast chosen by its rule for the entry wsp (a region, grid-caiso or an authority), or None
+    where the authority reports none of the fuel (section 26: taken as zero). src: the authority table, CAISO's table,
+    and the authorities' clocks."""
+    bt, c, tzs = src
     code = wsp.split("-")[1].upper()
-    act = rw.one_series(rf[(rf["entity"] == f"eia930:{code}") & (rf["variable"] == f"net_generation_{fuel}_mw")])
-    g = rw.methods(rw.local(act, rw.TZ[wsp]), rw.TZ[wsp])
-    op = rw.one_series(e[(e["entity"] == "ercot:SYSTEM") & (e["variable"] == f"{fuel}_forecast_24h_mw")]) if wsp == "region-tex" else None
+    op = None
+    if wsp == "grid-caiso":
+        act = rw.hub_sum(c, f"{fuel}_actual_mw", 3 if fuel == "solar" else 2)
+        op = rw.hub_sum(c, f"{fuel}_forecast_dam_mw", 3 if fuel == "solar" else 2)
+        tz = rw.TZ[wsp]
+    elif wsp.startswith("ba-"):
+        act = rw.one_series(bt[(bt["entity"] == f"eia930:{code}") & (bt["variable"] == f"net_generation_{fuel}_mw")])
+        tz = tzs[wsp]
+    else:
+        act = rw.one_series(rf[(rf["entity"] == f"eia930:{code}") & (rf["variable"] == f"net_generation_{fuel}_mw")])
+        op = rw.one_series(e[(e["entity"] == "ercot:SYSTEM") & (e["variable"] == f"{fuel}_forecast_24h_mw")]) if wsp == "region-tex" else None
+        tz = rw.TZ[wsp]
+    if act is None or not len(act.dropna()):
+        return None
+    g = rw.methods(rw.local(act, tz), tz)
     g["operator"] = op.reindex(pd.DatetimeIndex(g["ts"])).to_numpy() if op is not None else np.nan
     last = g["day"].max()
     rec = g[g["day"] > last - pd.Timedelta(days=CHOICE)].dropna(subset=["actual", "yesterday", "profile7", "regression"])
-    maes = {m: rw.score(rec, m)[1] for m in ("yesterday", "profile7", "regression")}
-    g["erw"] = g[min((v, m) for m, v in maes.items())[1]]
+    raw = {m: float((rec[m] - rec["actual"]).abs().mean()) for m in ("yesterday", "profile7", "regression")}
+    g["erw"] = g[min((v, m) for m, v in raw.items())[1]]   # the unrounded error (predict_wind_solar.md section 8)
     return g.set_index("ts")
 
 
@@ -74,12 +96,22 @@ def main():
     bt = rd.read(a.backtest, ["ts_utc", "value", "x_place", "x_method"])
     rf = rw.read(os.path.join(a.tables, "eia930_region_fuel_hourly.csv"), ["entity", "variable", "ts_utc", "value"])
     e = rw.read(os.path.join(a.tables, "ercot_wind_solar_forecast.csv"), ["entity", "variable", "ts_utc", "value"])
+    # session 10603 (section 26): the authorities' wind and solar, CAISO's hubs for CISO, each authority's clock
+    wbt = rw.read(os.path.join(a.tables, "eia930_ba_wind_solar_hourly.csv"), ["entity", "variable", "ts_utc", "value"])
+    c = rw.read(os.path.join(a.tables, "caiso_wind_solar_forecast.csv"), ["entity", "variable", "ts_utc", "value"])
+    tzs = {p: tz[p] for p in places}
     figs = []
     for p in places:
-        wsp = "region-tex" if p == "ba-erco" else p
+        wsp = TWIN.get(p, p)
         d = demand_erw(p, dem, tz, ops, bt)
-        w = ws_erw(wsp, "wind", rf, e)
-        s = ws_erw(wsp, "solar", rf, e)
+        parts = {}
+        for fuel in ("wind", "solar"):
+            g = ws_erw(wsp, fuel, rf, e, (wbt, c, tzs))
+            if g is None:
+                # a fuel the authority reports on no hour: zero output, no operator forecast
+                g = pd.DataFrame({"actual": 0.0, "erw": 0.0, "yesterday": 0.0, "operator": np.nan}, index=d.index)
+            parts[fuel] = g
+        w, s = parts["wind"], parts["solar"]
         x = pd.DataFrame({"day": d["day"], "hour": d["hour"]})
         for col in ("actual", "erw", "operator", "yesterday"):
             x[col] = d[col] - w[col].reindex(d.index) - s[col].reindex(d.index)
