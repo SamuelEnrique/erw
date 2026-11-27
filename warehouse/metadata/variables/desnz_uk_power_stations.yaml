@@ -181,8 +181,9 @@ columns:
   source_name: Technology
   documented_by: method desnz_uk_power_stations.md; connector desnz_dukes_power_stations.py; data
 - name: type
-  label: DESNZ's type of the station within its technology, as printed (CCGT, Single cycle, Onshore, Offshore, PV, AGR, PWR
-    and the others)
+  label: 'DESNZ''s type of the station within its technology, as printed (CCGT, Single cycle, Onshore, Offshore, PV and
+    the others); for nuclear, AGR an advanced gas-cooled reactor and PWR a pressurised water reactor, as the
+    government''s table of past and present UK nuclear reactors expands them'
   unit: none
   type: text
   values:
@@ -202,7 +203,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: Type
-  documented_by: method desnz_uk_power_stations.md; connector desnz_dukes_power_stations.py; data
+  documented_by: method desnz_uk_power_stations.md; connector desnz_dukes_power_stations.py; data; the government's Table of past and present UK nuclear reactors (assets.publishing.service.gov.uk, read 27 November 2026)
 - name: chp
   label: 'Whether the station is combined heat and power (CHP): Yes or No'
   unit: none
@@ -381,8 +382,10 @@ columns:
   documented_by: connector desnz_dukes_power_stations.py
 second_look:
 - 'grid_connection_type: the meaning of HV and LV is not written in the connector, the method note or the header. Read again
-  on 20 November 2026 in DUKES 5.11 as saved (sheets Cover Sheet, Notes and 5.11 Full list): not found.'
+  on 20 November 2026 in DUKES 5.11 as saved (sheets Cover Sheet, Notes and 5.11 Full list): not found. Read again on
+  27 November 2026 in DESNZ''s Electricity statistics methodology note (assets.publishing.service.gov.uk, fetched once,
+  463,498 bytes), section 4.10.4: Table 5.12 separates capacity by connection to the transmission (higher voltage) or
+  distribution (lower voltage) networks, from the grid connection the monthly survey records; HV and LV very likely
+  name those two, but no document read pairs the letters with them, so the label does not say it.'
 - 'os_reference: what the sheet''s OS Reference holds is not documented; its values mix grid references and postcode-like
   strings. Read again on 20 November 2026 in DUKES 5.11 as saved (sheets Cover Sheet, Notes and 5.11 Full list): not found.'
-- 'type: the codes AGR and PWR are printed by the sheet without a definition in the repository. Read again on 20 November
-  2026 in DUKES 5.11 as saved (sheets Cover Sheet, Notes and 5.11 Full list): not found.'
