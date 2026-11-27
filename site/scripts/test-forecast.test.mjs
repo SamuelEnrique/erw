@@ -227,6 +227,8 @@ test("the run's Python script recomputes every total of the tool", async () => {
     [{ ...F.defaults(P, "land_based_wind", "il"), levy: 80 }, { ...F.defaults(P, "natural_gas", "wv") }],
     [{ ...F.defaults(P, "land_based_wind", "wv") }, { ...F.defaults(P, "utility_pv", "il"), levy: 75, life: 30 }],
     [{ ...F.defaults(P, "utility_pv", "ny"), own: 1.5, ownyears: 30 }, { ...F.defaults(P, "utility_pv", "dc"), own: 2, ownyears: 20 }],
+    // session 10822: coal, the fifth type (its rows for Wyoming and Texas in the fixture)
+    [{ ...F.defaults(P, "coal", "wy"), own: 1.2, ownyears: 30 }, { ...F.defaults(P, "coal", "tx") }],
   ];
   const { execFileSync } = await import("node:child_process");
   const py = process.env.ERW_PYTHON || "python";
