@@ -77,8 +77,13 @@ def table(ledger, series, retrieved):
         raise ValueError(f"the {series} ledger holds {len(ledger) - len(x)} rows of another series")
     if x.empty:
         raise ValueError(f"the {series} ledger holds no forecast")
-    if (x[["ts_utc", "made_utc", "erw"]] == "").any().any():
-        raise ValueError(f"the {series} ledger has a row without its hour, its making time or its figure")
+    if (x[["ts_utc", "made_utc"]] == "").any().any():
+        raise ValueError(f"the {series} ledger has a row without its hour or its making time")
+    # 27 November 2026: run.py wrote a day of rows with no figure for one new place (ba-spa, made 19:00 UTC), and the whole
+    # table was refused. A row without a figure is no forecast: it is left out, and header() says how many and where
+    x = x[x["erw"] != ""]
+    if x.empty:
+        raise ValueError(f"the {series} ledger holds no forecast with a figure")
     out = pd.DataFrame({
         "entity": x["place"].map(entity), "variable": t["variable"], "ts_utc": x["ts_utc"], "value": x["erw"],
         "unit": t["unit"], "freq": "PT1H", "market": "", "node": "", "source": SOURCE,
@@ -99,7 +104,16 @@ def table(ledger, series, retrieved):
     return out.sort_values(["entity", "ts_utc", "vintage"]).reset_index(drop=True)
 
 
-def header(series, t, run_id):
+def figureless(ledger, series):
+    """The words for the ledger's rows of a series that hold no figure (left out of the table), or 'none'."""
+    x = ledger[(ledger["series"] == series) & (ledger["erw"] == "")]
+    if x.empty:
+        return "none"
+    groups = x.groupby(["place", "made_utc"]).size()
+    return f"{len(x)} (" + "; ".join(f"{p} made {m}: {n}" for (p, m), n in groups.items()) + ")"
+
+
+def header(series, t, run_id, left_out="none"):
     m = TABLES[series]
     return [
         f"Energy Research Warehouse (ERW): the ERW forecast of the {m['what']}, every forecast as made on its day "
@@ -110,7 +124,7 @@ def header(series, t, run_id):
         "Revisions: kept, one row per vintage. Key: entity, variable, ts_utc, vintage. vintage is the hour the forecast "
         "was made (the ledger's made_utc); a forecast once made is never replaced.",
         f"Forecasts: target days {t['x_target_day'].min()} to {t['x_target_day'].max()}; {t['entity'].nunique()} places; "
-        f"{t['vintage'].nunique()} makings; {len(t)} rows.",
+        f"{t['vintage'].nunique()} makings; {len(t)} rows. Ledger rows without a figure, left out: {left_out}.",
         f"Retrieved: {run_id} (UTC) by warehouse/predict/predict_tables.py, from site/data/predict/ledger_{series}.csv "
         "(written by warehouse/predict/run.py)",
         f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
@@ -140,7 +154,7 @@ def main(argv=None):
             p = os.path.join(args.ledger_dir, f"ledger_{series}.csv")
             ledger = pd.read_csv(p, skiprows=ip.header_rows(p), dtype=str, keep_default_na=False)
             t = table(ledger, series, retrieved)
-            ip.write_snapshot(t, m["name"], header(series, t, run_id), log, cols=COLS)
+            ip.write_snapshot(t, m["name"], header(series, t, run_id, figureless(ledger, series)), log, cols=COLS)
             written.append(m["name"])
             results.append(dict(table=m["name"], market="all", status="ok",
                                 detail=f"{len(t)} rows, target days {t['x_target_day'].min()} to {t['x_target_day'].max()}"))
