@@ -131,11 +131,13 @@ export function dcResolve(P: DcParams, v: Record<string, number>, state: string)
 export type DcProject = { id: string; name: string; state: string; where: string; date: string; publisher: string; url: string;
   mw: number | null; measure: string | null; invest: number | null; perm: number | null; cons: number | null; consMeasure: string | null;
   /** session 10821 (window F's I4): a figure the document states that the pick does not take, and why (the row's note) */
-  skipped: string | null };
+  skipped: string | null;
+  /** session 10822: a campus's figures to date (Meta's info sheets), offered here and in no median */
+  toDate?: boolean };
 type Fig = { value: number; measure?: string; year?: number } | null;
 export function dcProjects(rows: { id: string; name: string; state: string; county: string | null; place?: string; doc: { date: string; publisher: string; url: string };
   mw: Fig; investment: Fig; permanent_jobs: Fig; construction_jobs: Fig; investment_includes_generation?: boolean; investment_partial?: string;
-  note?: string }[], index: Record<string, number>): DcProject[] {
+  note?: string; to_date?: boolean }[], index: Record<string, number>): DcProject[] {
   return rows.map((r) => {
     const notTaken: string[] = [];
     if (r.investment && (r.investment_includes_generation || r.investment_partial)) notTaken.push("its investment");
@@ -150,7 +152,7 @@ export function dcProjects(rows: { id: string; name: string; state: string; coun
       invest: r.investment && !r.investment_includes_generation && !r.investment_partial ? Math.round((r.investment.value * k) / 1e4) / 100 : null,  // USD million, 2025
       perm: r.permanent_jobs && !String(r.permanent_jobs.measure).includes("kind not stated") ? r.permanent_jobs.value : null,
       cons: r.construction_jobs?.value ?? null, consMeasure: r.construction_jobs?.measure ?? null,
-      skipped,
+      skipped, ...(r.to_date ? { toDate: true } : {}),
     };
   });
 }
