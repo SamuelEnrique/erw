@@ -405,17 +405,17 @@ Summary of the 46 states in `site/data/forecast/datacenter_rules.json` as of ses
 | Delaware | none read | building 100%, equipment 0% | none read |
 | Florida | USD 150 million; 100 MW; equipment+construction | none read | none read |
 | Georgia | USD 250 million; 25 jobs; through 2031; equipment | building 40%, equipment 40% | none read |
-| Idaho | USD 250 million; 30 jobs; equipment+construction | none read | none read |
+| Idaho | USD 250 million; 30 jobs; equipment+construction | building 100%, equipment 100% | none read |
 | Illinois | words only | building 33.33%, equipment 100% | 10 monthly blocks |
 | Indiana | words only | none read | none read |
 | Iowa | USD 200 million; equipment | building 100%, equipment 0% | none read |
 | Kansas | USD 250 million; 20 jobs; equipment+construction | building 25%, equipment 0% | none read |
-| Kentucky | USD 450 million; equipment | none read | none read |
+| Kentucky | USD 450 million; equipment | building 100%, equipment 100% | none read |
 | Louisiana | USD 200 million; 50 jobs; 20 years; equipment+construction | building 10%, equipment 15% | none read |
 | Maine | none read | building 100%, equipment 100% | none read |
-| Maryland | USD 5 million; 5 jobs; 10 years; equipment | none read | none read |
+| Maryland | USD 5 million; 5 jobs; 10 years; equipment | building 100%, equipment 100% | none read |
 | Massachusetts | words only | none read | none read |
-| Michigan | USD 250 million; 30 jobs; through 2050; equipment+construction | none read | none read |
+| Michigan | USD 250 million; 30 jobs; through 2050; equipment+construction | building 100%, equipment 100% | none read |
 | Minnesota | USD 30 million; 35 years; state rate; equipment | building 100%, equipment 0% | none read |
 | Mississippi | words only | building 15%, equipment 15% | none read |
 | Missouri | USD 25 million; 10 jobs; 15 years; equipment+construction | building 32%, equipment 33.33% | none read |
@@ -438,7 +438,7 @@ Summary of the 46 states in `site/data/forecast/datacenter_rules.json` as of ses
 | Tennessee | none read | building 40%, equipment 30% | none read |
 | Utah | equipment | none read | none read |
 | Virginia | USD 150 million; 50 jobs; through 2034; equipment | building 100%, equipment 100% | 3 monthly blocks |
-| Washington | 35 jobs; through 2047; state rate; equipment | none read | none read |
+| Washington | 35 jobs; through 2047; state rate; equipment | building 100%, equipment 100% | none read |
 | West Virginia | none read | building 60%, equipment 60% | none read |
 | Wisconsin | USD 150 million; equipment+construction | building 100%, equipment 0% | none read |
 | Wyoming | USD 5 million; state rate; equipment | building 9.5%, equipment 9.5% | none read |
@@ -476,6 +476,7 @@ Summary of the 46 states in `site/data/forecast/datacenter_rules.json` as of ses
 - **Session 10822, Washington's rural exemption**: RCW 82.08.986 read from the Legislature's law files (lawfilesext.leg.wa.gov, request 463), applied by decision 22; Washington leaves the words-only states (8 now) for the applied ones (24).
 - **Session 10822, New York's and California's property**: New York's Office of Real Property Tax Services (its 2024 exemptions report, request 467): "All real property in New York is subject to taxation unless specific legal provisions grant it exempt status, whereas personal property is not subject to taxation": equipment untaxed. California: Proposition 13's 1 percent of full cash value (the Board of Equalization's Publication 306, request 469; www.boe.ca.gov has no robots file); building and equipment both at cost, an upper bound, how business equipment is assessed not quoted. Neither state's sales tax rule is read (their statute sites answer HTTP 403). Left without a rule: Texas, Vermont, Hawaii and Alaska.
 - **Session 10822, Nebraska, North Carolina and Pennsylvania's property**: Nebraska values real property at actual value and tangible personal property at net book value (77-201, request 475): both at cost, an upper bound. North Carolina taxes "All property, real and personal" at true value (G.S. 105-274 and 105-283, requests 477 and 478): both at cost. Pennsylvania's subjects of assessment are real estate, and machinery and equipment of an industrial establishment are not part of it (53 Pa.C.S. 8811, request 479): the building at cost, the equipment untaxed (decision 23).
+- **Session 10822, Maryland, Kentucky, Washington, Michigan and Idaho's property**: each taxes all property not exempted (Tax-Property 6-101, request 481; KRS 132.190, 482; RCW 84.36.005, 483; MCL 211.1, 484; Idaho Code 63-203, 485): building and equipment at cost, upper bounds. Florida's statute site now answers a script cookie challenge (request 480), not got around: its property stays unread. Without a property rule among the states with a rule: Connecticut, Florida, Indiana, Massachusetts (a business corporation's machinery has its own clause, by owner), Oklahoma and Utah.
 - **Refused or not readable, honoured**: Washington's app.leg.wa.gov (disallows every path; its law files host, which has no robots file, was read in session 10822), New York's statute site (HTTP 403; its property read from the Tax Department in session 10822), Texas (a script-built statute site; the governor's site disallows ClaudeBot; the Comptroller's `/*/`), Ohio's statute host (codes.ohio.gov disallows every path; its pause read from the Governor's bulletin, session 10815), Illinois's statute host (its certificate fails and it answered 403 before; session 10813 read the program from the Department of Commerce and Economic Opportunity instead, below). West Virginia waits: its code host does not answer.
 - **Every other state**: sales tax before exemptions, income tax, the reader's property rates; no exemption, electricity tax or multiplier.
 
