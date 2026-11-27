@@ -119,6 +119,15 @@ class TheStatements(unittest.TestCase):
         self.assertEqual(concepts["revenue"], "us-gaap:Revenues")
 
 
+class AUtilitysRevenue(unittest.TestCase):
+    def test_the_total_before_the_contracts_part(self):
+        # the cross-check of 27 November 2026: for NextEra and Duke the contracts concept is a part of operating revenue
+        order = SE.CONCEPTS["revenue_usd"][2]
+        self.assertLess(order.index("RegulatedAndUnregulatedOperatingRevenue"),
+                        order.index("RevenueFromContractWithCustomerExcludingAssessedTax"))
+        self.assertEqual(order[0], "Revenues")
+
+
 class TheDailySteps(unittest.TestCase):
     def test_the_universe_and_statements_before_the_pages(self):
         with open(os.path.join(ROOT, "warehouse", "run_data_machine.sh"), encoding="utf-8") as f:

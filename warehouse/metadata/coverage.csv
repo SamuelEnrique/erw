@@ -341,8 +341,7 @@ epa_rfs_rins_monthly,epa,,5,P1M,2010-07-01T00:00:00Z,2026-09-01T00:00:00Z,1632,e
 epa_tri_energy_releases_annual,epa,,2624,P1Y,2015-01-01T00:00:00Z,2023-01-01T00:00:00Z,384483,epa:tri_basic,2026-10-23T23:30:41Z,pass,public,power;oil;gas;coal,no,source
 epe_brazil_consumption_monthly,epe,,354,P1M,2011-01-01T00:00:00Z,2025-12-01T00:00:00Z,105032,epe:anuario_dados_brutos,2026-10-24T11:56:20Z,pass,public,power,no,source
 epra_kenya_electricity_annual,epra,,1,P1Y,2023-07-01T00:00:00Z,2025-07-01T00:00:00Z,129,epra:energy_petroleum_statistics_report,2026-10-24T07:39:47Z,pass,public,power,no,source
-equity_fundamentals_quarterly,equity,,243,;P12M;P3M;P6M;P9M,2007-09-30T00:00:00Z,2026-09-30T00:00:00Z,146456,sec:edgar,2026-11-27T02:35:12Z,pass,public,power;gas;oil;coal,no,source
-equity_universe,equity,,307,snapshot,2026-11-27T02:35:05Z,2026-11-27T02:35:05Z,307,sec:edgar,2026-11-27T02:35:05Z,pass,public,power;gas;oil;coal,no,source
+equity_fundamentals_quarterly,equity,,243,;P12M;P3M;P6M;P9M,2007-09-30T00:00:00Z,2026-09-30T00:00:00Z,146456,sec:edgar,2026-11-27T03:23:04Z,pass,public,power;gas;oil;coal,no,source
 erb_zambia_electricity_annual,erb,,59,P1Y,2013-01-01T00:00:00Z,2025-01-01T00:00:00Z,515,erb_zm:statistical_bulletin,2026-10-24T11:54:46Z,pass,internal,power,no,source
 erc_mongolia_electricity_annual,erc,,6,P1Y,2015-01-01T00:00:00Z,2020-01-01T00:00:00Z,210,erc_mn:statistics_on_energy_performance,2026-10-24T10:59:20Z,pass,internal,power,no,source
 ercot_4cp_intervals,ERCOT,ercot_4cp,1,PT15M,2018-06-27T21:45:00Z,2025-09-04T22:15:00Z,28,ercot:NP9-83-M,2026-10-20T10:23:19Z,pass,public,power,no,source

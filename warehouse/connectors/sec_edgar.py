@@ -105,9 +105,13 @@ NO_CODE = {
                            "3620 fuel cells with all electrical apparatus",
 }
 CONCEPTS = {  # the line, its unit, duration (True) or instant, and the us-gaap concepts in the order they are read
-    "revenue_usd": ("USD", True, ["Revenues", "RevenueFromContractWithCustomerExcludingAssessedTax",
+    # a utility's total operating revenue (RegulatedAndUnregulatedOperatingRevenue) before revenue from contracts with
+    # customers, which for a utility is a part of it (the cross-check of 27 November: NextEra 6,100 and Duke 8,995 were
+    # that part, not the income statement's total)
+    "revenue_usd": ("USD", True, ["Revenues", "RegulatedAndUnregulatedOperatingRevenue",
+                                  "RevenueFromContractWithCustomerExcludingAssessedTax",
                                   "RevenueFromContractWithCustomerIncludingAssessedTax", "SalesRevenueNet",
-                                  "RegulatedAndUnregulatedOperatingRevenue", "ElectricUtilityRevenue", "SalesRevenueGoodsNet"]),
+                                  "ElectricUtilityRevenue", "SalesRevenueGoodsNet"]),
     "net_income_usd": ("USD", True, ["NetIncomeLoss", "ProfitLoss", "NetIncomeLossAvailableToCommonStockholdersBasic"]),
     "capex_usd": ("USD", True, ["PaymentsToAcquirePropertyPlantAndEquipment", "PaymentsToAcquireProductiveAssets",
                                 "PaymentsToAcquireOilAndGasPropertyAndEquipment", "PaymentsToAcquireOilAndGasProperty"]),

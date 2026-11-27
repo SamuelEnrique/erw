@@ -775,13 +775,13 @@ docs/guide.md, the reader's guide.
 
 ## 10. Every table: the catalogue (generated)
 
-Generated: 2026-11-27T03:07:38Z by scripts/build_llms.py from warehouse/metadata/coverage.csv (newest last_run: 2026-11-27T02:35:12Z), warehouse/metadata/sources.csv, the package's license record (erw/data/tables.csv), the Redivis release records (docs/redivis/) and site/lib/pages.ts. Not edited by hand. The chat's briefing leaves this section out; its list_tables tool reads the same record.
+Generated: 2026-11-27T03:23:21Z by scripts/build_llms.py from warehouse/metadata/coverage.csv (newest last_run: 2026-11-27T03:23:04Z), warehouse/metadata/sources.csv, the package's license record (erw/data/tables.csv), the Redivis release records (docs/redivis/) and site/lib/pages.ts. Not edited by hand. The chat's briefing leaves this section out; its list_tables tool reads the same record.
 
-712 tables: 537 public, 175 held. Spans and rows move daily: erw.coverage() gives today's.
+711 tables: 535 public, 176 held. Spans and rows move daily: erw.coverage() gives today's.
 
 Each public line: table: description. Unit. Period (UTC days of the first and last interval). Granularity. License (verdict; publishers). Method note (path in the repository; "none yet" where no note names the table). Download: the site's /api/download for a table the live set holds (its window in brackets; the full history on Redivis), else the table in the Redivis dataset `datapages.erw` (Stanford, https://stanford.redivis.com/datasets/b9wm-3hb080mtm; an unreleased draft until a person releases a version, read with the dataset's access), else none yet. A description cut short ends in [...]; the full title is the table's provenance header.
 
-### 10.1 Public tables (537)
+### 10.1 Public tables (535)
 
 - `abs_suriname_electricity_annual`: One year's value of one Suriname electricity measure (EBS's demand by category, net generation, net consumption or capacity, or a Staatsolie plant's generation), from the statistics office's Environment Statistics [...]. Unit: MW, MWh. Period: 2019-01-01 to 2023-01-01. Granularity: yearly. License: public (Algemeen Bureau voor de Statistiek in Suriname (ABS)). Method: docs/methods/abs_suriname_electricity_annual.md. Download: Redivis datapages.erw, table abs_suriname_electricity_annual.
 - `aedg_alaska_generation_monthly`: One Alaska service area's electricity generation from one fuel in one month, from the Alaska Energy Data Gateway. Unit: MWh. Period: 2001-01-01 to 2021-12-01. Granularity: monthly. License: public (Alaska Energy Data Gateway (ACEP, University of Alaska Fairbanks)). Method: docs/methods/aedg_alaska_generation_monthly.md. Download: Redivis datapages.erw, table aedg_alaska_generation_monthly.
@@ -1082,8 +1082,6 @@ Each public line: table: description. Unit. Period (UTC days of the first and la
 - `epa_tri_energy_releases_annual`: One Toxics Release Inventory form (one facility's report of one chemical, a document control number) of the five energy industries in one reporting year, 2015 to 2023, with one of its three release totals. Unit: g, lb. Period: 2015-01-01 to 2023-01-01. Granularity: yearly. License: public (U.S. Environmental Protection Agency (EPA)). Method: docs/methods/epa_tri_energy_releases_annual.md. Download: Redivis datapages.erw, table epa_tri_energy_releases_annual.
 - `epe_brazil_consumption_monthly`: One Brazilian state's electricity consumption or consumers in one market class (captive or free) and sector in one month, from EPE's Statistical Yearbook raw data. Unit: count, MWh. Period: 2011-01-01 to 2025-12-01. Granularity: monthly. License: public (Empresa de Pesquisa Energetica (EPE)). Method: docs/methods/epe_brazil_consumption_monthly.md. Download: Redivis datapages.erw, table epe_brazil_consumption_monthly.
 - `epra_kenya_electricity_annual`: One fiscal year's value of one Kenyan generation capacity (by grid kind and technology) or electricity consumption (by customer category) measure, from EPRA's Energy and Petroleum Statistics Reports. Unit: MW, MWh. Period: 2023-07-01 to 2025-07-01. Granularity: yearly. License: public (Energy and Petroleum Regulatory Authority, Kenya (EPRA)). Method: docs/methods/epra_kenya_electricity_annual.md. Download: Redivis datapages.erw, table epra_kenya_electricity_annual.
-- `equity_fundamentals_quarterly`: One statement line of one company for one period as one filing reported it (a later filing that repeats the period is a row of its own). Unit: USD, count. Period: 2007-09-30 to 2026-09-30. Granularity: ;P12M;P3M;P6M;P9M. License: public (U.S. Securities and Exchange Commission (SEC), EDGAR). Method: none yet. Download: none yet (not in the live set, not yet uploaded to Redivis).
-- `equity_universe`: One exchange-listed US company whose SEC industry code (SIC) is an energy code of the written rule (docs/methods/equities.md). Unit: not recorded in the release records (read the table's unit column). Period: 2026-11-27 to 2026-11-27. Granularity: a snapshot (entities). License: public (U.S. Securities and Exchange Commission (SEC), EDGAR). Method: none yet. Download: none yet (not in the live set, not yet uploaded to Redivis).
 - `ercot_4cp_intervals`: One of ERCOT's four coincident peaks of a year (the 15-minute interval of the system's highest load in each summer month, June to September) with ERCOT's load in it. Unit: MW. Period: 2018-06-27 to 2025-09-04. Granularity: 15-minute. License: public (Electric Reliability Council of Texas (ERCOT)). Method: docs/methods/ercot_4cp_intervals.md. Download: Redivis datapages.erw, table ercot_4cp_intervals.
 - `ercot_all_hub_prices_history`: ERCOT's settlement point price at one of its six trading hubs for one interval of one operating year from 2015, day-ahead (hourly) or real-time (15-minute). Unit: USD/MWh. Period: 2015-01-01 to 2026-11-27. Granularity: PT15M;PT1H. License: public (ERCOT). Method: docs/methods/iso_dam_hub_prices.md. Download: Redivis datapages.erw, table ercot_all_hub_prices_history.
 - `ercot_as_prices`: ERCOT's day-ahead market clearing price for capacity (MCPC) of one ancillary service for one delivery hour. Unit: USD/MW-hour. Period: 2018-01-01 to 2026-10-31. Granularity: hourly. License: public (Electric Reliability Council of Texas (ERCOT)). Method: docs/methods/ercot_as_prices.md. Download: https://erw-flame.vercel.app/api/download?table=ercot_as_prices (whole).
@@ -1321,7 +1319,7 @@ Each public line: table: description. Unit. Period (UTC days of the first and la
 - `weather_obs_hourly`: One airport's mean observed temperature or wind speed in one hour, from the National Weather Service API. Unit: degF, mph. Period: 2026-09-21 to 2026-11-25. Granularity: hourly. License: public (National Weather Service (NWS, NOAA)). Method: docs/methods/weather_obs_hourly.md. Download: https://erw-flame.vercel.app/api/download?table=weather_obs_hourly (whole).
 - `wfigs_wildfires`: One wildfire of 1,000 acres or more discovered from 2015, from NIFC's WFIGS Incident Locations. Unit: degree, acre. Period: 2015-01-18 to 2026-10-21. Granularity: events, one row each. License: public (National Interagency Fire Center (NIFC)). Method: docs/methods/wfigs_wildfires.md. Download: Redivis datapages.erw, table wfigs_wildfires.
 
-### 10.2 Held tables (175): license needed, no figures
+### 10.2 Held tables (176): license needed, no figures
 
 Not served by the site, the live set or Redivis; erw.license(t) gives the reason in one sentence.
 
@@ -1368,6 +1366,7 @@ Not served by the site, the live set or Redivis; erw.license(t) gives the reason
 - `energy_projects`: license needed (unsettled)
 - `energycom_ghana_electricity_annual`: license needed (internal)
 - `ens_denmark_electricity_monthly`: license needed (internal)
+- `equity_fundamentals_quarterly`: license needed (unsettled)
 - `erb_zambia_electricity_annual`: license needed (internal)
 - `erc_mongolia_electricity_annual`: license needed (internal)
 - `ercot_node_prices_hourly`: license needed (internal)
