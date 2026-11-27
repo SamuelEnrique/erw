@@ -9,10 +9,10 @@
    "name": "MW as stated",
    "unit": "MW (each row's own measure)",
    "how": "the MW each document states, whatever it measures (IT capacity, critical IT, critical grid capacity, power required)",
-   "n": 12,
+   "n": 13,
    "low": 3.0,
    "low_row": "al_aubix_auburn_2021",
-   "median": 1100.0,
+   "median": 1200.0,
    "high": 5000.0,
    "high_row": "la_meta_richland_2026",
    "rows": [
@@ -23,6 +23,7 @@
     "va_cleanarc_caroline_2025",
     "tx_meta_elpaso_2026",
     "tx_crusoe_abilene_2025",
+    "tx_vantage_frontier_2025",
     "ky_paducah_2026",
     "wv_nscale_2026",
     "wv_starwood_mason_2026",
@@ -34,10 +35,10 @@
    "name": "Investment per MW",
    "unit": "USD million (2025) per MW",
    "how": "investment over the MW the document states; rows whose investment includes power plants left out",
-   "n": 11,
+   "n": 12,
    "low": 3.0,
    "low_row": "va_cleanarc_caroline_2025",
-   "median": 10.0,
+   "median": 11.0,
    "high": 46.807678,
    "high_row": "al_aubix_auburn_2021",
    "rows": [
@@ -49,6 +50,7 @@
     "tx_meta_elpaso_2026",
     "la_applied_digital_rapides_2026",
     "tx_crusoe_abilene_2025",
+    "tx_vantage_frontier_2025",
     "wv_nscale_2026",
     "la_hut8_riverbend_2025",
     "al_aubix_auburn_2021"
@@ -2602,6 +2604,40 @@
    "incentive": "",
    "years": "",
    "note": "AWS's own fact sheet (its file dated 14 July 2026 by the server): data center infrastructure invested in eastern Oregon from 2012 to 2025, many campuses together, in the dollars of the years spent and taken as 2025 dollars. Its jobs are Amazon's employees across the state (\"14,000+ full- and part-time\") or jobs supported, neither the data centers' own, so none is taken. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "tx_vantage_frontier_2025",
+   "name": "Vantage Data Centers, Frontier campus (Shackelford County)",
+   "company": "Vantage Data Centers",
+   "state": "tx",
+   "county": "Shackelford",
+   "place": null,
+   "doc": {
+    "title": "Vantage Data Centers Unveils Plans for \"Frontier,\" a $25B Mega-campus in Texas to Meet Unprecedented AI Demand",
+    "publisher": "Vantage Data Centers",
+    "date": "2025-08-19",
+    "url": "https://vantage-dc.com/news/vantage-data-centers-unveils-plans-for-frontier-a-25b-mega-campus-in-texas-to-meet-unprecedented-ai-demand/",
+    "request": 513
+   },
+   "mw": {
+    "value": 1400,
+    "measure": "campus capacity as stated",
+    "says": "1.4GW",
+    "qualifier": "",
+    "quote": "today announced its largest investment to date of over $25 billion to develop a mega-scale 1.4GW data center campus in Shackelford County, Texas."
+   },
+   "investment": {
+    "value": 25000000000,
+    "year": 2025,
+    "says": "$25 billion",
+    "qualifier": "over",
+    "quote": "today announced its largest investment to date of over $25 billion to develop a mega-scale 1.4GW data center campus in Shackelford County, Texas."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "Construction on the campus has already begun, with the first building scheduled for delivery in the second half of 2026.",
+   "note": "Vantage's own release. Its jobs are one figure for construction and operations together (\"more than 5,000 individuals across construction and ongoing operations\"), so neither is taken. Ten data centers on 1,200 acres. Texas's agencies refuse this reader, so the company's page is the document."
   }
  ]
 }
