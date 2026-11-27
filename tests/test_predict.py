@@ -277,7 +277,8 @@ class TheLongerBacktest(unittest.TestCase):
         self.assertEqual([p["place"] for p in doc["places"]], run.PLACES)
         for p in doc["places"]:
             pf = load(p["place"] + ".json")["series"]["demand"]
-            if not pf.get("tomorrow_from"):
+            same_days = p["all"]["last_day"] == pf["summary"]["backtest"]["last_day"]
+            if same_days and not pf.get("tomorrow_from"):
                 self.assertEqual(p["method"], pf["method"], p["place"])
             ys = p["by_year"]
             self.assertEqual(sum(y["hours"] for y in ys), p["all"]["hours"], p["place"])
@@ -285,7 +286,9 @@ class TheLongerBacktest(unittest.TestCase):
                 w = sum(y["mae"][m] * y["hours"] for y in ys) / p["all"]["hours"]
                 self.assertAlmostEqual(w, p["all"]["mae"][m], delta=0.01 * len(ys), msg=(p["place"], m))
             self.assertLessEqual(p["all"]["first_day"], pf["summary"]["backtest"]["first_day"])
-            self.assertEqual(p["all"]["last_day"], pf["summary"]["backtest"]["last_day"], p["place"])
+            # a weekly file beside daily ones: its last day within a week of the place file's (session 10603)
+            gap = abs((dt.date.fromisoformat(p["all"]["last_day"]) - dt.date.fromisoformat(pf["summary"]["backtest"]["last_day"])).days)
+            self.assertLessEqual(gap, 7, p["place"])
 
 
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "long_price.json")), "long_price.json is not built here")
@@ -304,7 +307,8 @@ class TheLongerPriceBacktest(unittest.TestCase):
                 self.assertAlmostEqual(w, p["all"]["mae"][m], delta=0.01 * len(ys), msg=(p["place"], m))
             pub = hubs.get(p["place"]) or load(p["place"] + ".json")["series"]["price"]
             self.assertLessEqual(p["all"]["first_day"], pub["summary"]["backtest"]["first_day"], p["place"])
-            self.assertEqual(p["all"]["last_day"], pub["summary"]["backtest"]["last_day"], p["place"])
+            gap = abs((dt.date.fromisoformat(p["all"]["last_day"]) - dt.date.fromisoformat(pub["summary"]["backtest"]["last_day"])).days)
+            self.assertLessEqual(gap, 7, p["place"])   # a weekly file beside daily ones
 
 
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "price_hubs.json")), "price_hubs.json is not built here")
