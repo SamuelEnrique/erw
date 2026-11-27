@@ -98,3 +98,5 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Row 15 | landed | 10822 | `617bd736d` in `b80148122` (18:36 UTC 26 November, task/c701-tax); the newer head goes as row 16 |
 | North Dakota's announced campuses | done | 10822 | the governor's releases (requests 369 to 371): Applied Digital Ellendale a row (USD 5 billion combined); Williston and Bitzero crypto-mining, not rows (decision 19); 48 rows |
 | Tennessee's sales exemption | held: refused | 10822 | www.tn.gov resets every connection (request 364), publications.tnsosfiles.com answers 403 to its robots file (366); no commercial code host taken |
+| Wyoming's announced project | done | 10822 | Meta in Cheyenne (Cheyenne LEADS, request 375): USD 800 million, about 100 operational jobs, over 1,000 at peak; 49 rows, construction median 443.6 a billion |
+| New Mexico's Project Jupiter | held: no document | 10822 | STACK's own PDF answered 404 (request 90); Dona Ana County's bond ordinance not found on an official host |
