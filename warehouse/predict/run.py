@@ -435,8 +435,9 @@ def operator_filing(p):
     fc = p.get("filing")
     if not fc:
         return None
-    hr = p["hr"]
-    recent = hr[hr["day"] > hr["day"].max() - pd.Timedelta(days=score.CHOICE_DAYS)]
+    # the last two years counted as the score file's cut counts them: from the last day every scored method holds
+    c = score.common(p["hr"], SCORED)
+    recent = c[c["day"] > c["day"].max() - pd.Timedelta(days=score.CHOICE_DAYS)]
     ok = recent[recent["day"].dt.strftime("%Y-%m").isin(sorted(score.sound_months(fc)))]
     out = {"what": FILING_WHAT}
     out.update(fc)

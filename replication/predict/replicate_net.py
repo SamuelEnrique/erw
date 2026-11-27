@@ -42,7 +42,7 @@ def demand_erw(p, dem, tz, ops, bt):
     last = x["day"].max()
     rec = x[x["day"] > last - pd.Timedelta(days=CHOICE)].dropna(subset=["actual", "yesterday", "week_ago", "regression", "regression_recent", "operator"])
     maes = {m: rd.score(rec, m)[1] for m in ("yesterday", "week_ago", "regression", "regression_recent")}
-    x["erw"] = x[min(maes, key=maes.get)]
+    x["erw"] = x[min((v, m) for m, v in maes.items())[1]]
     return x.set_index("ts")
 
 
@@ -55,7 +55,7 @@ def ws_erw(wsp, fuel, rf, e):
     last = g["day"].max()
     rec = g[g["day"] > last - pd.Timedelta(days=CHOICE)].dropna(subset=["actual", "yesterday", "profile7", "regression"])
     maes = {m: rw.score(rec, m)[1] for m in ("yesterday", "profile7", "regression")}
-    g["erw"] = g[min(maes, key=maes.get)]
+    g["erw"] = g[min((v, m) for m, v in maes.items())[1]]
     return g.set_index("ts")
 
 

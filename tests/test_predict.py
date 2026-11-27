@@ -250,7 +250,7 @@ class TheWindSolarFile(unittest.TestCase):
                 got = {r["method"] for r in rows if r["place"] == p["place"] and r["fuel"] == fuel and r["cut"] == "all" and r["mae_mw"] is not None}
                 self.assertEqual(got, {"erw", "yesterday", "profile7", "regression"}, (p["place"], fuel))
                 maes = {k: v for k, v in b["method_mae_last_2_years"].items() if v is not None}
-                self.assertEqual(b["method"], min(maes, key=maes.get))
+                self.assertEqual(maes[b["method"]], min(maes.values()), (p["place"], fuel))   # a tie (no output) may go either way
                 if b["operator"]:
                     w = b["summary"]["with_operator"]
                     want = [r for r in rows if r["place"] == p["place"] and r["fuel"] == fuel and r["cut"] == "with_operator" and r["method"] == "operator"]
@@ -408,7 +408,10 @@ class TheFiles(unittest.TestCase):
                 if want["hours"]:
                     self.assertAlmostEqual(sm["mae"][m], want["mae"], places=2, msg=(p["place"], m))
             maes = {k: v for k, v in d["method_mae_last_2_years"].items() if v is not None}
-            self.assertEqual(d["method"], min(maes, key=maes.get), p["place"])
+            # when tomorrow is the ledger's first making (contract, 21:45 UTC on 26 November), `method` is that
+            # making's and `tomorrow_from` names the method chosen now
+            chosen = d["tomorrow_from"].rsplit("the method chosen now is ", 1)[1].strip(" .") if d.get("tomorrow_from") else d["method"]
+            self.assertEqual(maes[chosen], min(maes.values()), p["place"])
 
     def test_the_share_inside_each_band(self):
         """The share of past hours inside each band (Samuel's order of 27 November 2026): the detail agrees with the

@@ -162,7 +162,7 @@ def main():
             last = g["day"].max()
             rec = g[g["day"] > last - pd.Timedelta(days=CHOICE)].dropna(subset=["actual", "yesterday", "profile7", "regression"])
             maes = {m: score(rec, m)[1] for m in ("yesterday", "profile7", "regression")}
-            g["erw"] = g[min(maes, key=maes.get)]
+            g["erw"] = g[min((v, m) for m, v in maes.items())[1]]
             ms = ["erw", "yesterday", "profile7", "regression"]
             cc = g.dropna(subset=["actual"] + ms).reset_index(drop=True)
             r2 = cc["day"] > cc["day"].max() - pd.Timedelta(days=CHOICE)

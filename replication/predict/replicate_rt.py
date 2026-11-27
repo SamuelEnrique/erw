@@ -130,7 +130,7 @@ def main():
         last = x["day"].max()
         rec = x[x["day"] > last - pd.Timedelta(days=CHOICE)].dropna(subset=["actual", "yesterday", "regression", "day_ahead"])
         maes = {m: score(rec, m)[1] for m in ("yesterday", "regression")}
-        x["erw"] = x[min(maes, key=maes.get)]
+        x["erw"] = x[min((v, m) for m, v in maes.items())[1]]
         ms = ["erw", "day_ahead", "yesterday", "regression"]
         c = x.dropna(subset=["actual"] + ms).reset_index(drop=True)
         r2 = (c["day"] > c["day"].max() - pd.Timedelta(days=CHOICE)).to_numpy()
