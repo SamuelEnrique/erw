@@ -1792,6 +1792,38 @@
    "incentive": "",
    "years": "",
    "note": "Meta's announcement of the campus when it broke ground (12 August 2021), beside its info sheet (az_meta_mesa_2026, figures to date); this one enters the ranges."
+  },
+  {
+   "id": "tn_meta_gallatin_announce_2020",
+   "name": "Meta (then Facebook), Gallatin data center (announcement)",
+   "company": "Meta",
+   "state": "tn",
+   "county": null,
+   "place": "Gallatin",
+   "doc": {"title": "Hello, Gallatin!", "publisher": "Meta (Meta Data Centers)", "date": "2020-08-12", "url": "https://datacenters.atmeta.com/2020/08/hello-gallatin/", "request": 550},
+   "mw": null,
+   "investment": {"value": 800000000, "year": 2020, "says": "$800 million", "qualifier": "more than", "quote": "Once completed, this facility will represent an investment of more than $800 million and support approximately 100 jobs."},
+   "construction_jobs": {"value": 1100, "measure": "construction workers at peak", "says": "1,100 construction workers", "qualifier": "more than", "quote": "We anticipate that more than 1,100 construction workers will be onsite at the peak of construction."},
+   "permanent_jobs": {"value": 100, "measure": "jobs", "says": "approximately 100 jobs", "qualifier": "approximately", "quote": "Once completed, this facility will represent an investment of more than $800 million and support approximately 100 jobs."},
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (12 August 2020), beside its info sheet (tn_meta_gallatin_2026, figures to date); this one enters the ranges (decision 27)."
+  },
+  {
+   "id": "mo_meta_kansascity_announce_2022",
+   "name": "Meta, Kansas City data center (announcement)",
+   "company": "Meta",
+   "state": "mo",
+   "county": null,
+   "place": "Kansas City",
+   "doc": {"title": "Hello, Kansas City!", "publisher": "Meta (Meta Data Centers)", "date": "2022-03-24", "url": "https://datacenters.atmeta.com/2022/03/hello-kansas-city/", "request": 551},
+   "mw": null,
+   "investment": {"value": 800000000, "year": 2022, "says": "$800 million", "qualifier": "more than", "quote": "Upon completion, the data center will represent an investment of more than $800 million and will support approximately 100 jobs."},
+   "construction_jobs": {"value": 1300, "measure": "construction workers at peak", "says": "1,300 construction workers", "qualifier": "over", "quote": "we anticipate over 1,300 construction workers will be onsite at peak."},
+   "permanent_jobs": {"value": 100, "measure": "jobs", "says": "approximately 100 jobs", "qualifier": "approximately", "quote": "Upon completion, the data center will represent an investment of more than $800 million and will support approximately 100 jobs."},
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (24 March 2022), beside its info sheet (mo_meta_kansascity_2026, figures to date); this one enters the ranges (decision 27)."
   }
  ]
 }
