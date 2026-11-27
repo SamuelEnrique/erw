@@ -78,10 +78,10 @@
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 36,
+   "n": 37,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
-   "median": 51.218004,
+   "median": 50.0,
    "high": 121.786859,
    "high_row": "wy_meta_cheyenne_2024",
    "rows": [
@@ -103,6 +103,7 @@
     "la_meta_richland_2024",
     "nc_aws_richmond_2025",
     "az_beale_pima_2025",
+    "ga_aws_butts_douglas_2025",
     "ia_google_cedarrapids_2024",
     "la_applied_digital_rapides_2026",
     "pa_aws_2025",
@@ -2477,6 +2478,39 @@
    "incentive": "The Minnesota Department of Employment and Economic Development (DEED) is supporting the project with a grant of $287,000 from the Job Creation Fund.",
    "years": "",
    "note": "The release gives no jobs figure (\"more good jobs for Minnesotans\"), so none is taken. 2016 dollars are deflated to 2025 by the GDP deflator. Read inside mn.gov's robots visit window, though from the Legislative Reference Library's host."
+  },
+  {
+   "id": "ga_aws_butts_douglas_2025",
+   "name": "AWS, Butts and Douglas counties data centers",
+   "company": "Amazon Web Services",
+   "state": "ga",
+   "county": "Butts and Douglas counties",
+   "doc": {
+    "title": "AWS plans to invest at least $11 billion in Georgia to expand infrastructure to support AI and cloud technologies",
+    "publisher": "Amazon (About Amazon)",
+    "date": "2025-01-07",
+    "url": "https://www.aboutamazon.com/news/aws/aws-investment-georgia-ai-cloud-infrastructure",
+    "request": 433
+   },
+   "mw": null,
+   "investment": {
+    "value": 11000000000,
+    "year": 2025,
+    "says": "$11 billion",
+    "qualifier": "an estimated",
+    "quote": "Amazon Web Services (AWS) has announced plans to invest an estimated $11 billion to expand its infrastructure in Georgia to support cloud computing and AI technologies"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 550,
+    "measure": "new high-skilled jobs",
+    "says": "550 new high-skilled jobs",
+    "qualifier": "at least",
+    "quote": "This landmark investment is expected to create at least 550 new high-skilled jobs."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "One investment for campuses in two counties, as the Amazon northern Indiana row; the release counts construction as \"thousands of local construction jobs\", no number, so none is taken. Georgia's own agencies refuse this reader (georgia.org), so the company's page is the document."
   }
  ]
 }
