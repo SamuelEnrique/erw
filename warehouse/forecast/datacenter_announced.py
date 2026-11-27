@@ -28,6 +28,7 @@ if not os.path.isdir(READS):  # a worktree beside the window's folder: the reads
 UNITS = {"billion": 1e9, "million": 1e6, "gigawatts": 1000.0, "gigawatt": 1000.0, "gw": 1000.0,
          "megawatts": 1.0, "megawatt": 1.0, "mw": 1.0,
          "b": 1e9, "m": 1e6}  # session 10822: Meta's info sheets write "$1.5B+" and "$2.6M+"
+WORDS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5}  # a number written as a word, only before a unit
 
 
 def plain(s):
@@ -39,6 +40,9 @@ def plain(s):
 def parse_says(says):
     """The number a phrase states: '$10 billion' 1e10, '5 gigawatts' 5000 (MW), '7,500 construction jobs' 7500."""
     m = re.search(r"\$?\s*([0-9][0-9,]*(?:\.[0-9]+)?)\s*([A-Za-z]+)?", says)
+    w = re.search(r"\b(one|two|three|four|five)\s+([A-Za-z]+)", says, re.I)  # session 10822: OpenAI writes "one gigawatt"
+    if not m and w and w.group(2).lower() in UNITS:
+        return WORDS[w.group(1).lower()] * UNITS[w.group(2).lower()]
     if not m:
         raise ValueError(f"no number in {says!r}")
     n = float(m.group(1).replace(",", ""))

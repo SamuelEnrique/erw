@@ -144,6 +144,9 @@ class TheParameters(unittest.TestCase):
         self.assertEqual(A.parse_says("$2.6M+"), 2.6e6)
         self.assertEqual(A.parse_says("1,200"), 1200)
         self.assertEqual(A.parse_says("5 gigawatts"), 5000)
+        self.assertEqual(A.parse_says("More than one gigawatt"), 1000)  # OpenAI's Michigan campus (session 10822)
+        with self.assertRaises(ValueError):
+            A.parse_says("one of the largest")  # a word number counts only before a unit
         with open(os.path.join(DATA, "datacenter_announced.json"), encoding="utf-8") as f:
             d = json.load(f)
         to_date = {r["id"] for r in d["rows"] if r.get("to_date")}

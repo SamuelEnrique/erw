@@ -9,10 +9,10 @@
    "name": "MW as stated",
    "unit": "MW (each row's own measure)",
    "how": "the MW each document states, whatever it measures (IT capacity, critical IT, critical grid capacity, power required)",
-   "n": 13,
+   "n": 14,
    "low": 3.0,
    "low_row": "al_aubix_auburn_2021",
-   "median": 1200.0,
+   "median": 1100.0,
    "high": 5000.0,
    "high_row": "la_meta_richland_2026",
    "rows": [
@@ -22,6 +22,7 @@
     "wv_penzance_berkeley_2026",
     "va_cleanarc_caroline_2025",
     "tx_meta_elpaso_2026",
+    "mi_stargate_saline_2025",
     "tx_crusoe_abilene_2025",
     "tx_vantage_frontier_2025",
     "ky_paducah_2026",
@@ -2638,6 +2639,40 @@
    "incentive": "",
    "years": "Construction on the campus has already begun, with the first building scheduled for delivery in the second half of 2026.",
    "note": "Vantage's own release. Its jobs are one figure for construction and operations together (\"more than 5,000 individuals across construction and ongoing operations\"), so neither is taken. Ten data centers on 1,200 acres. Texas's agencies refuse this reader, so the company's page is the document."
+  },
+  {
+   "id": "mi_stargate_saline_2025",
+   "name": "OpenAI Stargate Michigan campus (Saline Township), developed by Related Digital",
+   "company": "OpenAI and Oracle (developer Related Digital)",
+   "state": "mi",
+   "county": "Washtenaw",
+   "place": "Saline Township",
+   "doc": {
+    "title": "Expanding Stargate to Michigan",
+    "publisher": "OpenAI",
+    "date": "2025-10-30",
+    "url": "https://openai.com/index/expanding-stargate-to-michigan/",
+    "request": 515
+   },
+   "mw": {
+    "value": 1000,
+    "measure": "campus capacity as stated",
+    "says": "More than one gigawatt",
+    "qualifier": "more than",
+    "quote": "More than one gigawatt campus to help build America"
+   },
+   "investment": null,
+   "construction_jobs": {
+    "value": 2500,
+    "measure": "union construction jobs",
+    "says": "more than 2,500 union construction jobs",
+    "qualifier": "more than",
+    "quote": "and will create more than 2,500 union construction jobs."
+   },
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "construction expected to begin in early 2026",
+   "note": "OpenAI's own announcement. It gives no investment for this campus (the USD 450 billion is Stargate's across its sites), so the row enters only the MW median; its construction jobs need an investment to enter the median per billion. Washtenaw County is Saline Township's county (not in the document). michigan.gov refuses this reader and the Michigan Economic Development Corporation's releases hold no data center project, so the company's page is the document."
   }
  ]
 }
