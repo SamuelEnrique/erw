@@ -106,3 +106,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 19:40 UTC (session 10603): `ahead_more.json` 18 of 35; `long_backtest.json` with the peak 29 of 64; rows 10 and 11 still requested.
 - 19:59 UTC (session 10603): `ahead_more.json` 23 of 35; `long_backtest.json` with the peak 43 of 64.
 - 20:18 UTC (session 10603): `long_backtest.json` with the peak 56 of 64; `ahead_more.json` 27 of 35.
+- 20:34 UTC (session 10603): the longer backtest's rebuild with the peak failed at its end (exit 1: a day of the Tennessee region's early files peaks at zero, a filing error, and the peak's percent error was infinite, which JSON refuses). Mended on `wip/c730-predict-v6` (a day peaking at zero or below is left out of the peak, as a filing error), the replication likewise; the rebuild restarted at 20:33 UTC. `ahead_more.json` 29 of 35.
