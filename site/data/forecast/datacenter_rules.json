@@ -73,7 +73,9 @@
   "nh_75_1": {"title": "New Hampshire RSA 75:1, How Appraised (with RSA 72:6, Real Estate, request 422, and 72:7, Buildings, Etc., request 426)", "url": "https://gc.nh.gov/rsa/html/V/75/75-1.htm", "read": "2026-11-27", "request": 423},
   "nh_72_toc": {"title": "New Hampshire RSA Chapter 72, Persons and Property Liable to Taxation, table of sections", "url": "https://gc.nh.gov/rsa/html/NHTOC/NHTOC-V-72.htm", "read": "2026-11-27", "request": 425},
   "co_hb24b_1001": {"title": "Colorado House Bill 24B-1001 (Second Extraordinary Session, 2024), enrolled, amending C.R.S. 39-1-104(1.9)", "url": "https://content.leg.colorado.gov/sites/default/files/documents/2024B/bills/2024b_1001_enr.pdf", "read": "2026-11-27", "request": 428},
-  "nj_handbook_ch6": {"title": "New Jersey Division of Taxation, Handbook for New Jersey Assessors, Chapter VI, Personal Property Assessment (sections 601 and 602)", "url": "https://www.nj.gov/treasury/taxation/pdf/lpt/nj_assessors_handbook_chap6.pdf", "read": "2026-11-27", "request": 436}
+  "nj_handbook_ch6": {"title": "New Jersey Division of Taxation, Handbook for New Jersey Assessors, Chapter VI, Personal Property Assessment (sections 601 and 602)", "url": "https://www.nj.gov/treasury/taxation/pdf/lpt/nj_assessors_handbook_chap6.pdf", "read": "2026-11-27", "request": 436},
+  "me_36_701a": {"title": "Maine Revised Statutes, Title 36, §701-A, Just value defined", "url": "https://legislature.maine.gov/statutes/36/title36sec701-A.html", "read": "2026-11-27", "request": 441},
+  "me_36_691": {"title": "Maine Revised Statutes, Title 36, §691, Definitions (the business equipment tax exemption, as PL 2025, c. 768 amended it; the page's data extracted 5 October 2026)", "url": "https://legislature.maine.gov/statutes/36/title36sec691.html", "read": "2026-11-27", "request": 440}
  },
  "split": {
   "cite": "jlarc_598",
@@ -579,6 +581,14 @@
    "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "nj_handbook_ch6",
     "quote": "Acquisitions of machinery and equipment by businesses after January 1, 1977 are not required to be reported",
     "tip": "New Jersey (the Division of Taxation's Handbook for New Jersey Assessors, chapter VI, sections 601.1 and 602.14): the only personal property the assessor lists is a local exchange telephone company's machinery and equipment, and machinery and equipment businesses acquired after 1 January 1977 \"are not required to be reported, and are thereby effectively eliminated\" from the business personal property tax, so a datacenter's equipment owes none. The building is taken at its cost and the reader's effective rate (each municipality's), an upper bound. No sales tax rule is read for New Jersey."
+   }
+  },
+  "me": {
+   "name": "Maine",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "me_36_701a",
+    "quote": "In the assessment of property, assessors in determining just value",
+    "personal": {"cite": "me_36_691", "quote": "Any property located in a data center or in the portion of a facility that constitutes a data center that begins operations on or after August 1, 2026"},
+    "tip": "Maine (36 MRSA §701-A and §691): property is assessed at its just value, and the business equipment tax exemption leaves out of \"eligible business equipment\" \"Any property located in a data center or in the portion of a facility that constitutes a data center that begins operations on or after August 1, 2026\" (PL 2025, c. 768), so a new datacenter's equipment is taxed. The tool takes the building and the equipment at their cost (no depreciation table is read: an upper bound) and applies the reader's rate (each municipality's). Maine's reimbursement program for business equipment taxes paid (BETR) is not read. No sales tax rule is read for Maine."
    }
   }
  }
