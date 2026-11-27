@@ -77,3 +77,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 11:37 UTC (session 10603): the whole suite on `wip/c730-predict-v4` at `62eeabb4a` (11:09 to 11:37 UTC, under the build lock): 10,904 passed, 596 skipped, 1 failed, the one expected: `test_every_cut_has_its_words_and_net_demand_says_why` reads rebuild 16's files, written before `cuts_price` and net demand's `tomorrow_held` existed; rebuild 17 writes them, and `tests/test_predict.py` runs again on its files.
 - 11:47 UTC (session 10603): rebuild 17 at 45 of 64 places.
 - 12:07 UTC (session 10603): rebuild 17 at 60 of 64 places, then the price places.
+- 12:26 UTC (session 10603): rebuild 17 has forecast every place and price; writing net demand and the files.
