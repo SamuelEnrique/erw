@@ -262,6 +262,32 @@ class TheRealTimeFile(unittest.TestCase):
             self.assertEqual([y["year"] for y in lb["by_year"]], sorted(y["year"] for y in lb["by_year"]))
 
 
+@unittest.skipUnless(os.path.exists(os.path.join(SITE, "long_backtest.json")), "long_backtest.json is not built here")
+class TheLongerBacktest(unittest.TestCase):
+    def test_years_add_up_and_the_method_is_the_place_files(self):
+        """Session 10603: every place of the run; the years partition the span's hours; its MAE is their hour-weighted
+        mean; the method is the place file's (unless the file draws tomorrow from the ledger); it starts no later than
+        the place file's backtest and ends where it ends."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("predict_run_long", os.path.join(ROOT, "warehouse", "predict", "run.py"))
+        run = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(run)
+        doc = load("long_backtest.json")
+        self.assertEqual(doc["label"], "ERW forecast")
+        self.assertEqual([p["place"] for p in doc["places"]], run.PLACES)
+        for p in doc["places"]:
+            pf = load(p["place"] + ".json")["series"]["demand"]
+            if not pf.get("tomorrow_from"):
+                self.assertEqual(p["method"], pf["method"], p["place"])
+            ys = p["by_year"]
+            self.assertEqual(sum(y["hours"] for y in ys), p["all"]["hours"], p["place"])
+            for m in ("erw", "yesterday", "week_ago", "regression", "regression_recent"):
+                w = sum(y["mae"][m] * y["hours"] for y in ys) / p["all"]["hours"]
+                self.assertAlmostEqual(w, p["all"]["mae"][m], delta=0.01 * len(ys), msg=(p["place"], m))
+            self.assertLessEqual(p["all"]["first_day"], pf["summary"]["backtest"]["first_day"])
+            self.assertEqual(p["all"]["last_day"], pf["summary"]["backtest"]["last_day"], p["place"])
+
+
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "price_hubs.json")), "price_hubs.json is not built here")
 class ThePriceHubsFile(unittest.TestCase):
     def test_every_hub_has_its_scores_and_the_rule_chose(self):
