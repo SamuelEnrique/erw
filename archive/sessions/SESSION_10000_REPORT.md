@@ -59,6 +59,9 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 - Check-values floors (10 each, the file's rule) added for this chain's pages only: `/equities`, `/forecast` (two addresses) and the large-load row view.
 - The equities ground read again changes nothing: Nasdaq, S&P DJI and the NYSE are closed by their terms or robots files.
 
+- Tonight's failed steps were each read and the four with a cause in this repository repaired on branches through the gate: `health.py`'s echo (the live set's load died on an en dash), the free energy test (asserted no ERCOT month), `sync.py`'s rule for tables with no time column (compared by rows alone), and the stale 860M planned table restored from the archive by hand. The signature pack's test and EIA's 504s were left.
+- `sync.py`: a table with no time column is compared by `retrieved_at` and the later retrieval decides; checked report-only on the 72 such tables first (11 behind, 1 ahead, none diverged).
+
 ## For Samuel's ruling
 
 - The SEC refuses the ERW's contact string: give a contact address for the SEC's user agent and EDGAR opens part D (companies, share counts, statements). Default: not pulled.
@@ -76,3 +79,5 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 - The forecast's backtests and scores as tables (`predict_demand_backtest`, `predict_scores`, `predict_price_backtest`): the two regressions share every place, hour and making time, and places of one grid share a hub, so the key needs the method (in the variable, say `demand_forecast_mw_regression`) or the place in the entity; the scores need a series shape. Default: left as files until the method chooses.
 - Nineteen addresses of other chains carry checked figures but no check-values floor: `/datacenters?view=grids`, `/attention`, `/data/licenses`, `/policy?view=monitor&state=MD`, `/play/ev`, six `/learn/problems/...` pages, the two `/congestion` addresses, three `/conditions` addresses, two digests (`/digest/2026-11-12`, `/digest/2026-11-06`), and `/policy?view=week` (0 figures). Default: left to their chains.
 - EIA's STEO route answered 504 six times from 15:40 to 23:56 UTC (even for three months), so the consumer price index (window D's row 41) waits. Default: tried again by the next session.
+- The news tables on the data machine: each evening `dm_sync` restores `news_stories`, `energy_deals`, `datacenter_projects` and their evidence from the archive (newer than git's copy), and the run's commit step then stashes them back to git's copy, because these tables are tracked and the commit does not take them (26 November: "set aside in a stash before the pull"). The machine's copies stay at git's. Default: left; the owner of the news tables decides whether the data machine commits them or sync skips them.
+- `attention_index_weekly`: the archive's copy (1,775 rows to 9 November) is behind Redivis's draft (1,785 rows to 30 November), so the restore from the archive leaves it behind every evening. Default: left for the archive's owner.
