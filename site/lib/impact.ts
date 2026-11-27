@@ -31,7 +31,7 @@ export const EFFECT_TIPS: Record<Effect, string> = {
   total: "The three added. The table checks that JEDI's own total is their sum in every state.",
 };
 
-export type TechKey = "land_based_wind" | "utility_pv" | "natural_gas" | "geothermal" | "coal" | "biopower";
+export type TechKey = "land_based_wind" | "utility_pv" | "natural_gas" | "geothermal" | "coal" | "biopower" | "csp_trough";
 export type Tech = {
   key: TechKey; label: string; model: string; version: string; file: string; url: string; page: string; sheet: string;
   /** the summary row of each phase and effect (jobs, earnings and output are its columns B, C and D) */
@@ -63,6 +63,9 @@ export const TECHS: Tech[] = [
   { key: "biopower", label: "Biopower", model: "JEDI Biopower Model", version: "B12.23.16", file: "01d-jedi-biopower-model-rel-b12-23-16.xlsm",
     url: `${NLR}01d-jedi-biopower-model-rel-b12-23-16.xlsm`, page: "https://www.nlr.gov/analysis/jedi/models", sheet: "SummaryResults",
     rows: { construction: { onsite: 43, supply_chain: 44, induced: 45, total: 46 }, operations: { onsite: 51, supply_chain: 55, induced: 56, total: 57 } }, basis: "plant MW (the model's plant is a 50 MW direct combustion plant)" },
+  { key: "csp_trough", label: "Concentrating solar (trough)", model: "JEDI Concentrating Solar Power Trough Model", version: "CSP12.23.16", file: "01d-jedi-csp-trough-model-rel-csp12-23-16.xlsm",
+    url: `${NLR}01d-jedi-csp-trough-model-rel-csp12-23-16.xlsm`, page: "https://www.nlr.gov/analysis/jedi/csp", sheet: "SummaryResults",
+    rows: { construction: { onsite: 29, supply_chain: 32, induced: 33, total: 34 }, operations: { onsite: 39, supply_chain: 40, induced: 41, total: 42 } }, basis: "nameplate MW (the model's plant is 100 MW with 6 hours of thermal storage)" },
 ];
 /** The technology the reader may ask for that JEDI has no model of: named, never filled. */
 export const NOT_MODELED = { key: "battery_storage", label: "Battery storage", why: "NLR publishes no JEDI model for battery storage (the thirteen models on https://www.nlr.gov/analysis/jedi/models, read 20 October 2026, have none), so this page shows no figure for it." };

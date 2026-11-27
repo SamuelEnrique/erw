@@ -82,7 +82,9 @@ check(/for \(const meta of SETS\)/.test(read("scripts", "build-problem-edition.m
 check(read("app", "learn", "problems", "[slug]", "data.csv", "route.ts").includes("const meta = SETS.find((s) => s.slug === slug);"), "the data.csv route no longer reads SETS alone");
 for (const f of fs.readdirSync(path.join(site, "data", "problem_editions"))) check(!read("data", "problem_editions", f).includes(SLUG), `the dated edition file ${f} names the waiting set`);
 check(!read("lib", "release.ts").includes(SLUG), "lib/release.ts names the set: it opens nothing");
-check(WAITING_DECISIONS.length === 3 && WAITING_DECISIONS.every((d) => d.sets.length === 1 && d.sets[0] === SLUG && d.text && d.def && d.source && d.session), "the set's three decisions, each whole");
+// session 10412: a second waiting set has its own decisions in the list; this set's are the three that name it
+const MINE = WAITING_DECISIONS.filter((d) => d.sets.includes(SLUG));
+check(MINE.length === 3 && MINE.every((d) => d.sets.length === 1 && d.text && d.def && d.source && d.session) && WAITING_DECISIONS.every((d) => d.sets.length === 1), "the set's three decisions, each whole, and no waiting decision of two sets");
 
 // ---------------------------------------------------------------- the set, built as its page builds it
 const set = await problemSet(SLUG);
@@ -142,7 +144,8 @@ check(q3 && set.example.q.includes(`${file.span.demand.first_day} to ${file.span
 const html = renderToStaticMarkup(await Live({ params: Promise.resolve({ slug: SLUG }) }));
 check(html.includes(`data-waiting-set="${SLUG}"`), "the page is marked as a waiting set's");
 check(html.includes(`data-decisions="${SLUG}"`) && html.includes('data-decision-count="3"'), "the decisions block with the set's three");
-for (const d of WAITING_DECISIONS) check(html.includes(`data-decision="${d.key}"`), `the decision ${d.key} not drawn`);
+for (const d of MINE) check(html.includes(`data-decision="${d.key}"`), `the decision ${d.key} not drawn`);
+for (const d of WAITING_DECISIONS.filter((x) => !MINE.includes(x))) check(!html.includes(`data-decision="${d.key}"`), `another waiting set's decision ${d.key} drawn`);
 check(html.includes("data-page-files") && html.includes("site/data/predict/scores.json"), "the page file named");
 check(!html.includes("data-editions"), "a link to an edition, which does not hold it");
 check(html.includes("data-example") && html.includes("Worked solution") && html.includes("Why it matters"), "the worked example, the solutions and why it matters");

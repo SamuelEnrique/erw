@@ -1039,6 +1039,148 @@
    "incentive": "",
    "years": "",
    "note": "AWS's own fact sheet (its file dated 14 July 2026 by the server): data center infrastructure invested in eastern Oregon from 2012 to 2025, many campuses together, in the dollars of the years spent and taken as 2025 dollars. Its jobs are Amazon's employees across the state (\"14,000+ full- and part-time\") or jobs supported, neither the data centers' own, so none is taken. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "tx_vantage_frontier_2025",
+   "name": "Vantage Data Centers, Frontier campus (Shackelford County)",
+   "company": "Vantage Data Centers",
+   "state": "tx",
+   "county": "Shackelford",
+   "place": null,
+   "doc": {
+    "title": "Vantage Data Centers Unveils Plans for \"Frontier,\" a $25B Mega-campus in Texas to Meet Unprecedented AI Demand",
+    "publisher": "Vantage Data Centers",
+    "date": "2025-08-19",
+    "url": "https://vantage-dc.com/news/vantage-data-centers-unveils-plans-for-frontier-a-25b-mega-campus-in-texas-to-meet-unprecedented-ai-demand/",
+    "request": 513
+   },
+   "mw": {
+    "value": 1400,
+    "measure": "campus capacity as stated",
+    "says": "1.4GW",
+    "qualifier": "",
+    "quote": "today announced its largest investment to date of over $25 billion to develop a mega-scale 1.4GW data center campus in Shackelford County, Texas."
+   },
+   "investment": {
+    "value": 25000000000,
+    "year": 2025,
+    "says": "$25 billion",
+    "qualifier": "over",
+    "quote": "today announced its largest investment to date of over $25 billion to develop a mega-scale 1.4GW data center campus in Shackelford County, Texas."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "Construction on the campus has already begun, with the first building scheduled for delivery in the second half of 2026.",
+   "note": "Vantage's own release. Its jobs are one figure for construction and operations together (\"more than 5,000 individuals across construction and ongoing operations\"), so neither is taken. Ten data centers on 1,200 acres. Texas's agencies refuse this reader, so the company's page is the document."
+  },
+  {
+   "id": "mi_stargate_saline_2025",
+   "name": "OpenAI Stargate Michigan campus (Saline Township), developed by Related Digital",
+   "company": "OpenAI and Oracle (developer Related Digital)",
+   "state": "mi",
+   "county": "Washtenaw",
+   "place": "Saline Township",
+   "doc": {
+    "title": "Expanding Stargate to Michigan",
+    "publisher": "OpenAI",
+    "date": "2025-10-30",
+    "url": "https://openai.com/index/expanding-stargate-to-michigan/",
+    "request": 515
+   },
+   "mw": {
+    "value": 1000,
+    "measure": "campus capacity as stated",
+    "says": "More than one gigawatt",
+    "qualifier": "more than",
+    "quote": "More than one gigawatt campus to help build America"
+   },
+   "investment": null,
+   "construction_jobs": {
+    "value": 2500,
+    "measure": "union construction jobs",
+    "says": "more than 2,500 union construction jobs",
+    "qualifier": "more than",
+    "quote": "and will create more than 2,500 union construction jobs."
+   },
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "construction expected to begin in early 2026",
+   "note": "OpenAI's own announcement. It gives no investment for this campus (the USD 450 billion is Stargate's across its sites), so the row enters only the MW median; its construction jobs need an investment to enter the median per billion. Washtenaw County is Saline Township's county (not in the document). michigan.gov refuses this reader and the Michigan Economic Development Corporation's releases hold no data center project, so the company's page is the document."
+  },
+  {
+   "id": "tx_stargate_milam_2026",
+   "name": "OpenAI Stargate Milam County data center, built and operated by SB Energy",
+   "company": "OpenAI (SB Energy, a SoftBank Group company)",
+   "state": "tx",
+   "county": "Milam",
+   "place": null,
+   "doc": {
+    "title": "OpenAI and SoftBank Group partner with SB Energy",
+    "publisher": "OpenAI",
+    "date": "2026-01-09",
+    "url": "https://openai.com/index/stargate-sb-energy-partnership/",
+    "request": 516
+   },
+   "mw": {
+    "value": 1200,
+    "measure": "data center site as stated",
+    "says": "1.2 GW",
+    "qualifier": "",
+    "quote": "1.2 GW data center site in Milam County."
+   },
+   "investment": null,
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "",
+   "note": "OpenAI's own page. The USD 1 billion it names is equity in SB Energy (USD 500 million each from OpenAI and SoftBank Group), not this site's cost, so no investment is taken; its jobs are \"thousands of construction jobs\", no number. The site was first named in OpenAI's release of 23 September 2025 (request 517, five new Stargate sites), which gives only the sites' combined capacity. The row enters only the MW median."
+  },
+  {
+   "id": "wi_vantage_portwashington_2025",
+   "name": "Vantage Data Centers, Lighthouse campus (Port Washington), OpenAI and Oracle's Stargate site in Wisconsin",
+   "company": "Vantage Data Centers (with OpenAI and Oracle)",
+   "state": "wi",
+   "county": "Ozaukee",
+   "place": "Port Washington",
+   "doc": {
+    "title": "OpenAI, Oracle and Vantage Data Centers Announce Stargate Data Center Site in Wisconsin",
+    "publisher": "Vantage Data Centers",
+    "date": "2025-10-22",
+    "url": "https://vantage-dc.com/news/openai-oracle-and-vantage-data-centers-announce-stargate-data-center-site-in-wisconsin/",
+    "request": 518
+   },
+   "mw": {
+    "value": 1000,
+    "measure": "AI capacity as stated",
+    "says": "close to a gigawatt",
+    "qualifier": "close to",
+    "quote": "The campus will feature four cutting-edge data centers providing close to a gigawatt of AI capacity."
+   },
+   "investment": {
+    "value": 15000000000,
+    "year": 2025,
+    "says": "$15B",
+    "qualifier": "or more",
+    "quote": "$15B+ investment in Port Washington represents the future of sustainable digital infrastructure"
+   },
+   "construction_jobs": {
+    "value": 4000,
+    "measure": "construction jobs",
+    "says": "more than 4,000 skilled construction jobs",
+    "qualifier": "more than",
+    "quote": "The project expects to create more than 4,000 skilled construction jobs, most of which will be union jobs."
+   },
+   "permanent_jobs": {
+    "value": 1000,
+    "measure": "long-term jobs (Vantage and Oracle)",
+    "says": "more than 1,000 long-term jobs",
+    "qualifier": "more than",
+    "quote": "Once complete, Vantage and Oracle will create more than 1,000 long-term jobs and thousands more indirect jobs."
+   },
+   "incentive": "",
+   "years": "Construction will begin soon and is scheduled for completion in 2028.",
+   "note": "Vantage's own release (dated 22 October 2025 in its dateline). Its headline gives the investment as \"$15B+\". The long-term jobs are Vantage's and Oracle's together; the indirect jobs are not taken. Port Washington is in Ozaukee County (not in the document)."
   }
  ]
 }

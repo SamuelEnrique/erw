@@ -1890,6 +1890,12 @@
     "/data"
    ]
   },
+  "eia930_ba_wind_solar_hourly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
   "eia930_daily_demand": {
    "status": "public",
    "pages": [
@@ -5051,7 +5057,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 545
+   "public": 546
   },
   "/data/faults": {
    "label": "Known faults in source data",

@@ -104,6 +104,7 @@ function main() {
   cases.push({ id: "coal_wy_tx", what: "coal in Wyoming with the reader's 1.2 percent property tax over 30 years, B in Texas", query: { tech: "coal", state: "wy", own: "1.2", ownyears: "30", btech: "coal", bstate: "tx" } });
   cases.push({ id: "coal_ga_ia", what: "coal in Georgia (its 40 percent valuation), B in Iowa (its replacement generation tax on the MWh)", query: { tech: "coal", state: "ga", btech: "coal", bstate: "ia" } });
   cases.push({ id: "biopower_nd_ga", what: "biopower in North Dakota (its power plant exemption, capacity and production taxes), B in Georgia at the reader's 1.2 percent over 30 years", query: { tech: "biopower", state: "nd", btech: "biopower", bstate: "ga", bown: "1.2", bownyears: "30" } });
+  cases.push({ id: "csp_trough_nd_az", what: "the CSP trough in North Dakota (its power plant exemption, capacity and production taxes), B in Arizona at the reader's 1 percent over 30 years", query: { tech: "csp_trough", state: "nd", btech: "csp_trough", bstate: "az", bown: "1", bownyears: "30" } });
 
   const figures = [];
   const seen = new Set();

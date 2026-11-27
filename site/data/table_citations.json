@@ -161,6 +161,7 @@
  "eia930_ba_interchange_hourly_2025": "U.S. Energy Information Administration (EIA). EIA-930 six-month files (Hourly Electric Grid Monitor).",
  "eia930_ba_interchange_hourly_2026": "U.S. Energy Information Administration (EIA). EIA-930 six-month files (Hourly Electric Grid Monitor).",
  "eia930_ba_supply_hourly": "U.S. Energy Information Administration (EIA). EIA-930 six-month files (Hourly Electric Grid Monitor).",
+ "eia930_ba_wind_solar_hourly": "U.S. Energy Information Administration (EIA). EIA-930 six-month files (Hourly Electric Grid Monitor).",
  "eia930_daily_demand": "U.S. Energy Information Administration. Form EIA-930, daily demand by balancing authority (electricity/rto/daily-region-data, type D).",
  "eia930_daily_interchange": "U.S. Energy Information Administration. Form EIA-930, daily interchange (electricity/rto/daily-interchange-data).",
  "eia930_daily_total_interchange": "U.S. Energy Information Administration; U.S. Energy Information Administration (EIA). EIA-930 six-month files (Hourly Electric Grid Monitor); Form EIA-930, daily total interchange by balancing authority (electricity/rto/daily-region-data, type TI).",

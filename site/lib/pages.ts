@@ -50,7 +50,7 @@ export const GROUPS: Group[] = [
       { href: "/severance", label: "Severance tax", line: "State production taxes on a month of oil, gas or condensate in Texas, Louisiana and New Mexico: the base rate, the reduced rates and exemptions, and the savings, each rule cited; and, on the Lease tab, the same calculator for every well and month of a lease file, computed in the browser: nothing is sent.", tables: "site/data/severance_rules.json; eia_fuel_spot_prices (default prices)", related: ["/prices", "/cost-of-power"] },
       // session 347: the economic impact tool (tool 17), its own line (in review). Session 4213 (chain 239): the forecast,
       // "Local impact" (the name a ruling for Samuel with that default), in the same place
-      { href: "/impact", label: "Local impact", line: "Jobs, earnings and state and local taxes of a wind, solar, gas, geothermal, coal or biomass plant or a datacenter, year by year from its construction to the end of its operation, with their present value: two scenarios side by side.", tables: "nlr_jedi_multipliers, impact_tax_rules", related: ["/severance", "/cost-of-power/seller"] },
+      { href: "/impact", label: "Local impact", line: "Jobs, earnings and state and local taxes of a wind, solar (photovoltaic or concentrating), gas, geothermal, coal or biomass plant or a datacenter, year by year from its construction to the end of its operation, with their present value: two scenarios side by side.", tables: "nlr_jedi_multipliers, impact_tax_rules", related: ["/severance", "/cost-of-power/seller"] },
     ],
     sub: {
       label: "Infrastructure Economics",

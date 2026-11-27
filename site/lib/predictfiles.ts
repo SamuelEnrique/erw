@@ -6,6 +6,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { AheadFile, IndexPlace, PlaceFile, PredictIndex, ScoresFile } from "@/lib/predict";
+import type { PriceHubsFile, RtPriceFile, WindSolarFile } from "@/lib/predictlines";
 
 /** The folder of the page files. ERW_PREDICT_DIR stands in for it in a test, and only there. */
 export function predictDir(): string {
@@ -55,5 +56,12 @@ export const predictIndex = () => readPredict<PredictIndex>("index.json");
 export const predictScores = () => readPredict<ScoresFile>("scores.json");
 /** Session 10405: the days after tomorrow (the contract's change of session 10601), or null while it is not on the site. */
 export const predictAhead = () => readPredict<AheadFile>("ahead.json");
+/** Session 10409: the ERW forecast of wind and solar output (the contract's dated lines of 27 November 2026), or null
+ *  while it is not on the site. */
+export const predictWindSolar = () => readPredict<WindSolarFile>("wind_solar.json");
+/** Session 10409: the ERW forecast of the real-time price at the hubs (the same dated lines), or null. */
+export const predictRtPrice = () => readPredict<RtPriceFile>("rt_price.json");
+/** Session 10411: the ERW forecast of the day-ahead price at more hubs (the contract's line of session 10603), or null. */
+export const predictPriceHubs = () => readPredict<PriceHubsFile>("price_hubs.json");
 /** A place's file, by the name the index gives it. */
 export const predictPlace = (p: Pick<IndexPlace, "file"> | null | undefined) => (p ? readPredict<PlaceFile>(p.file) : null);

@@ -62,6 +62,32 @@ CASES = {"land_based_wind": 13, "utility_pv": 16, "natural_gas": 5, "geothermal"
 SOURCE_URL_2020 = "https://www.eia.gov/analysis/studies/powerplants/capitalcost/pdf/capital_cost_AEO2020.pdf"
 TABLES_2020 = {"biopower": ("1 13", "Dedicated Biomass Plant", 4097, 50, "kW net (50 MW bubbling fluidized bed on wood)")}
 CASES_2020 = {"biopower": 13}
+# session 10822: the CSP trough. EIA's studies have no trough (AEO2020's case 23 is a power tower), so its cost and
+# life are NREL's parabolic trough reference plant (NREL/TP-550-47605, July 2010): a 103 MWe net plant with 6.3 hours
+# of storage, the size and storage of JEDI's 100 MW, 6-hour trough; one national figure, no location adjustment.
+# Read only when that report's text is given as a third argument; 2Q2009 dollars. JEDI's CSP model counts its
+# construction in one year ("Year of Construction"), the construction time taken here.
+SOURCE_URL_TROUGH = "https://docs.nlr.gov/docs/fy10osti/47605.pdf"
+
+
+def read_trough(text):
+    flat = re.sub(r"\s+", " ", text)
+    problems = []
+    m = re.search(r"Daggett is \$1\.016 Billion \(\$([\d,]+)/kW net\)", flat)
+    life = re.search(r"designed with an expected life of (\d+) years", flat)
+    basis = re.search(r"All costs are presented as overnight 2nd Quarter (\d{4})", flat)
+    if not (m and life and basis):
+        return {}, ["csp_trough: the reference plant's cost, life or dollar year not found in the NREL report"]
+    return {"csp_trough": {
+        "table": "NREL/TP-550-47605, Parabolic Trough Reference Plant for Cost Modeling with the Solar Advisor Model (SAM), total installed capital cost",
+        "base_usd_per_kw": int(m.group(1).replace(",", "")), "case": "reference plant",
+        "construction_months": 12, "construction_months_source": "JEDI's CSP trough model, which counts construction in one year (ProjectData, Year of Construction)",
+        "operating_life_years": int(life.group(1)), "case_mw": 100,
+        "basis": "kW net (NREL's 103 MWe net plant with 6.3 hours of storage; JEDI's 100 MW with 6 hours)",
+        "dollar_year": int(basis.group(1)),
+        "study": "National Renewable Energy Laboratory (Turchi), Parabolic Trough Reference Plant for Cost Modeling with the Solar Advisor Model (SAM), NREL/TP-550-47605, July 2010",
+        "study_short": "NREL's parabolic trough reference plant (2010)",
+        "source_url": SOURCE_URL_TROUGH, "states": {}, "not_given": []}}, problems
 
 
 def case_facts(lines, n, loose=False):
@@ -139,11 +165,15 @@ def read(text, tables=None, cases=None, dollar_year=2023, extra=None, loose=Fals
 
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
-    if len(argv) not in (1, 2) or not all(os.path.exists(a) for a in argv):
-        print("usage: eia_capex.py <pdftotext -layout output of the AEO2025 report> [<that of the AEO2020 report>]", file=sys.stderr)
+    if len(argv) not in (1, 2, 3) or not all(os.path.exists(a) for a in argv):
+        print("usage: eia_capex.py <pdftotext -layout output of the AEO2025 report> [<that of the AEO2020 report> [<that of NREL/TP-550-47605>]]", file=sys.stderr)
         return 2
     data, problems = read(open(argv[0], encoding="utf-8", errors="replace").read())
-    if len(argv) == 2:  # session 10822: biopower from the AEO2020 study, its source named on its own entry
+    if len(argv) == 3:  # session 10822: the CSP trough from NREL's reference plant
+        d3, p3 = read_trough(open(argv[2], encoding="utf-8", errors="replace").read())
+        data.update(d3)
+        problems += p3
+    if len(argv) >= 2:  # session 10822: biopower from the AEO2020 study, its source named on its own entry
         extra = {"study": "U.S. Energy Information Administration (Sargent & Lundy), Capital Cost and Performance Characteristic "
                           "Estimates for Utility Scale Electric Power Generating Technologies, prepared for AEO2020 (February 2020), "
                           "case 13", "source_url": SOURCE_URL_2020}
