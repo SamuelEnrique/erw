@@ -97,3 +97,52 @@ The market's own day-ahead price is the better forecast of the real-time price a
 better at SPP. On ERCOT's spike hours the ERW's regression is twice as far off as the day-ahead price: it carries the
 latest real-time spread into the next day. Replication (`replication/predict/replicate_rt.py`): 1,120 of 1,120 figures
 equal.
+
+## 8. The real-time price over a longer backtest (session 10603)
+
+Samuel's order of 27 November 2026 ("longer backtests and more places"). The day-ahead price forecast of sections 1 to 4
+reads the place's demand, which the warehouse holds from 1 July 2018 only, so its backtest cannot start earlier than it
+does. The real-time forecast of section 7 reads only the hub's own prices, and ERCOT's are held from January 2015
+(`ercot_all_hub_prices_history`): its walk can run from 1 January 2016, the first day after the regression's 300 days.
+SPP's prices are held from July 2018 and CAISO's real-time prices from 2023, so their longer backtest starts where the
+backtest of section 7 does.
+
+`rt_price.json` gains, for each hub, `long_backtest`: the same walk forward from 1 January 2016 (nothing known early: the
+walk is the one of section 7, only scored from an earlier day), scored over the whole span (`all`) and by the calendar
+year of the target day (`by_year`), on the hours every method and the day-ahead price hold, with the share of hours
+inside the band. The ERW's method in every year is the one chosen now on the last two years: the earlier years test
+that choice, they do not make it. Nothing above changes: the backtest of section 7, its cuts and the choice are as
+they were (the file equals the one on main once `built` and `long_backtest` are set aside).
+
+From the build of 27 November 2026 (made as at 22:00 UTC on 26 November; `runs/c730/table_long_rt.py`), mean absolute
+error, USD/MWh:
+
+| Hub | Year | Hours | ERW (regression) | Day-ahead price | Yesterday |
+|---|---:|---:|---:|---:|---:|
+| ERCOT HB_NORTH | 2016 | 8,783 | 6.25 | 5.83 | 7.96 |
+| ERCOT HB_NORTH | 2017 | 8,759 | 5.58 | 5.51 | 8.58 |
+| ERCOT HB_NORTH | 2018 | 8,759 | 12.80 | 13.90 | 17.07 |
+| ERCOT HB_NORTH | 2019 | 8,759 | 29.84 | 25.00 | 29.07 |
+| ERCOT HB_NORTH | 2020 | 8,783 | 11.17 | 8.72 | 12.24 |
+| ERCOT HB_NORTH | 2021 | 8,759 | 130.79 | 46.84 | 118.80 |
+| ERCOT HB_NORTH | 2022 | 8,759 | 35.05 | 29.75 | 42.97 |
+| ERCOT HB_NORTH | 2023 | 8,759 | 39.81 | 33.76 | 48.70 |
+| ERCOT HB_NORTH | 2024 | 8,783 | 14.87 | 12.25 | 19.78 |
+| ERCOT HB_NORTH | 2025 | 8,759 | 11.58 | 11.15 | 19.73 |
+| ERCOT HB_NORTH | 2026 | 7,799 | 13.51 | 13.00 | 20.34 |
+| ERCOT HB_NORTH | 2016 to 2026 | 95,461 | 28.43 | 18.75 | 31.48 |
+| SPP North Hub | 2019 to 2026 | 55,397 | 20.27 | 19.12 | 26.88 |
+| CAISO SP15 | 2024 to 2026 | 22,317 | 8.23 | 8.16 | 13.59 |
+
+The losses are the finding. At ERCOT the market's day-ahead price beats the ERW in ten of the eleven years; the ERW is
+ahead only in 2018. In 2021 (Winter Storm Uri, February) the ERW's error is nearly three times the day-ahead price's:
+the regression carries the last real-time spread into the next day, and in a scarcity week that spread is thousands of
+dollars. In 2019 the yesterday method beats the ERW as well. SPP's years are scored by the file (2023 and 2024 hold
+fewer hours: the price tables have gaps there); over its whole span the day-ahead price is ahead, while over the last
+two years the ERW is (section 7). The share of hours inside the band over the whole span: ERCOT 77.5, SPP 76.6, CAISO
+78.2 percent, against a nominal 80.
+
+Replication (`replication/predict/replicate_rt.py`, from this section's words): 1,220 of 1,220 figures equal (the
+1,120 of section 7 and 100 of the longer backtest). A test (`test_the_longer_backtest_adds_up_and_changes_nothing_above`)
+holds that the years add up to the span, that its MAE is their hour-weighted mean, that it ends where the backtest
+ends, and that the method is the one chosen now.
