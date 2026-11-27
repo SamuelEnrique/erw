@@ -89,7 +89,7 @@
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 39,
+   "n": 40,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
    "median": 50.0,
@@ -104,6 +104,7 @@
     "la_meta_richland_2026",
     "ga_switch_douglas_2017",
     "mo_metrobloks_clay_2026",
+    "va_vantage_stafford_2025",
     "va_aws_2023",
     "in_meta_lebanon_2026",
     "tx_meta_elpaso_2026",
@@ -3077,6 +3078,40 @@
    "incentive": "",
    "years": "",
    "note": "Meta's US locations page, Jeffersonville's entry (the page is undated: its date here is the day it was read; no info sheet for Jeffersonville was found). Its investment is the campus's to date since it broke ground in 2024, taken as 2025 dollars; its jobs are operational jobs \"once completed\" (\"~ 100\"), and 1,250 skilled trade workers on site at peak construction. Meta's second Indiana campus, beside Lebanon (in_meta_lebanon_2026). The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "va_vantage_stafford_2025",
+   "name": "Vantage Data Centers, VA4 campus (Stafford County)",
+   "company": "Vantage Data Centers",
+   "state": "va",
+   "county": "Stafford County",
+   "place": null,
+   "doc": {
+    "title": "Vantage Data Centers to Invest $2 Billion in Stafford County",
+    "publisher": "Virginia Economic Development Partnership",
+    "date": "2025-11-07",
+    "url": "https://www.vedp.org/press-release/2025-11/vantage-stafford",
+    "request": 537
+   },
+   "mw": null,
+   "investment": {
+    "value": 2000000000,
+    "year": 2025,
+    "says": "$2 billion",
+    "qualifier": "",
+    "quote": "Vantage Data Centers will invest $2 billion to construct a new, state-of-the-art data center campus in Stafford County."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 50,
+    "measure": "new jobs",
+    "says": "50 new jobs",
+    "qualifier": "",
+    "quote": "At full capacity, the project will create 50 new jobs in the Commonwealth."
+   },
+   "incentive": "Vantage is eligible for Data Center Sales and Use Tax exemptions on qualifying computer equipment and enabling software.",
+   "years": "",
+   "note": "The release's date is its page's (7 November 2025). Its 782MW is Vantage's statewide capacity with this campus (\"bringing the company's statewide capacity to 782MW\"), not VA4's, so no MW is taken; three data centers on 82 acres, about 929,000 square feet."
   }
  ]
 }
