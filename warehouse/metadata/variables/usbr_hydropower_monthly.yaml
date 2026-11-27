@@ -140,7 +140,9 @@ columns:
       '2025-11-12T17:25:40Z': 31702
   missing_cells: 0
 - name: x_region
-  label: Reclamation's region of the facility, as the workbook's annual sheet codes it (MB, CGB, CPN, LCB, UCB)
+  label: 'Reclamation''s region of the facility, as the workbook''s annual sheet codes it, in Reclamation''s own region
+    key: MB Missouri Basin, CGB California-Great Basin, CPN Columbia-Pacific Northwest, LCB Lower Colorado Basin, UCB
+    Upper Colorado Basin'
   unit: none
   type: text
   values:
@@ -153,7 +155,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: null
-  documented_by: header; method usbr_hydropower_monthly.md; connector usbr_power.py
+  documented_by: header; method usbr_hydropower_monthly.md; connector usbr_power.py; Reclamation's FY 2026 Project and Program Authorities list, region key (www.usbr.gov/budget/2026/, read 27 November 2026)
 variables:
 - name: auxiliary_use
   label: The electricity the plant used itself in the month (plant auxiliary use), MWh
@@ -179,7 +181,4 @@ variables:
   rows: 7918
   first: '2013-10-01T00:00:00Z'
   last: '2025-10-01T00:00:00Z'
-second_look:
-- 'x_region: the codes MB, CGB, CPN, LCB and UCB are not expanded in the header, the method note or the connector. Read again
-  on 20 November 2026 in the saved Plant_Data_11_2025.xlsx (sheets Monthly Generation and Annual Plant Generation) and data
-  page under warehouse/raw/usbr_power: not found.'
+second_look: null

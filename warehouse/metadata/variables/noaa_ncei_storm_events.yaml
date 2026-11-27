@@ -333,7 +333,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: CZ_TYPE
-  documented_by: connector noaa_storm_events.py; method noaa_ncei_storm_events.md
+  documented_by: connector noaa_storm_events.py; method noaa_ncei_storm_events.md; NCEI Storm-Data-Bulk-csv-Format.pdf (read 27 November 2026)
 - name: x_cz_fips
   label: NCEI's number of the county or forecast zone within the state
   unit: none
@@ -613,6 +613,11 @@ columns:
   documented_by: connector noaa_storm_events.py
 second_look:
 - 'x_cz_type: two rows hold 5, as published; NCEI''s meaning of it is not documented. Read again on 20 November 2026 in the
-  list of saved files under warehouse/raw/noaa_storm_events (details CSV files only): not found.'
+  list of saved files under warehouse/raw/noaa_storm_events (details CSV files only): not found. Read again on 27 November
+  2026 in NCEI''s Storm-Data-Bulk-csv-Format.pdf (www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/, robots read first,
+  /pub allowed; fetched once, 341,218 bytes): it defines C (county or parish), Z (NWS public forecast zone) and M (marine)
+  only; 5 is not among them.'
 - 'x_data_source: CSV in every row; NCEI''s meaning of the code is not documented. Read again on 20 November 2026 in the list
-  of saved files under warehouse/raw/noaa_storm_events (details CSV files only): not found.'
+  of saved files under warehouse/raw/noaa_storm_events (details CSV files only): not found. Read again on 27 November 2026
+  in NCEI''s Storm-Data-Bulk-csv-Format.pdf (fetched once, 341,218 bytes): the field is not in its list of the details
+  file''s fields.'

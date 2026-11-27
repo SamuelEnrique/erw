@@ -72,7 +72,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.usbr.gov/power/data/Plant_Data_11_2025.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T15:16:02Z | 0 |
 | `vintage` | When the publisher published the document the value came from, in UTC. Here: One value, the workbook's time | none | utc time | 2025-11-12T17:25:40Z | 0 |
-| `x_region` | Reclamation's region of the facility, as the workbook's annual sheet codes it (MB, CGB, CPN, LCB, UCB) | none | text | CGB, CPN, LCB, MB, UCB | 0 |
+| `x_region` | Reclamation's region of the facility, as the workbook's annual sheet codes it, in Reclamation's own region key: MB Missouri Basin, CGB California-Great Basin, CPN Columbia-Pacific Northwest, LCB Lower Colorado Basin, UCB Upper Colorado Basin | none | text | CGB, CPN, LCB, MB, UCB | 0 |
 
 Variables (4):
 
@@ -82,8 +82,6 @@ Variables (4):
 | `gross_generation` | The electricity the plant generated in the month, before its own use, MWh (Reclamation's kWh over 1,000) | MWh | 7933 | 2013-10-01T00:00:00Z | 2025-10-01T00:00:00Z |
 | `installed_capacity` | The plant's installed capacity in the month, MW (Reclamation's kW over 1,000) | MW | 7933 | 2013-10-01T00:00:00Z | 2025-10-01T00:00:00Z |
 | `net_generation` | Gross generation less auxiliary use in the month, MWh; below zero when the plant used more than it made | MWh | 7918 | 2013-10-01T00:00:00Z | 2025-10-01T00:00:00Z |
-
-Waiting for a second look: x_region: the codes MB, CGB, CPN, LCB and UCB are not expanded in the header, the method note or the connector. Read again on 20 November 2026 in the saved Plant_Data_11_2025.xlsx (sheets Monthly Generation and Annual Plant Generation) and data page under warehouse/raw/usbr_power: not found..
 
 ### `usbr_mead_powell_daily`
 
