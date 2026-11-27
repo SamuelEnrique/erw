@@ -128,6 +128,20 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
   const labelled = (i: number) => i % every === 0 || (every > 1 && i === n - 1 && (n - 1) % every >= every / 2);
   const subs = every === 1 && categories.some((c) => c.sub && textWidth(c.sub, 10) <= bw - 2);
   const subOf = (c: ChartCategory) => (subs && c.sub && textWidth(c.sub, 10) <= bw - 2 ? c.sub : null);
+  // session 10822: a figure above a bar may run into its neighbours' columns (the header's quarter rule), so a figure is
+  // written only where the one before it, if written, is not at the same height: two equal construction years on /impact
+  // wrote "10,00010,000". The hover and the table keep every value.
+  const figureY = categories.map((_c, i) => {
+    const up = series.reduce((a, s) => a + Math.max(0, s.values[i] ?? 0), 0);
+    return (broken && totals[i] > hi ? TOP : y(capped(Math.max(up, useLog ? lo : 0)))) - 6;
+  });
+  const figureShown: boolean[] = [];
+  categories.forEach((_c, i) => {
+    const tw = textWidth(fmt(totals[i]));
+    const prev = i > 0 && figureShown[i - 1] ? textWidth(fmt(totals[i - 1])) : 0;
+    const meets = prev > 0 && Math.abs(figureY[i] - figureY[i - 1]) < LINE && (tw + prev) / 2 > bw - 2;
+    figureShown.push(tw <= bw * 1.5 && !meets);  // a figure too wide to write is not a neighbour to give way to
+  });
   const anyPartial = categories.some((c) => c.partial);
   const depth = Math.max(1, ...lines.map((l) => l.length));
   const BOT = 20 + depth * LINE + (subs ? LINE : 0) + (anyPartial ? LINE + 2 : 0);
@@ -235,7 +249,7 @@ export function SeriesChart({ id, title, unit, categories, series, kind, scale, 
                   return <rect key={sg.k} x={x0} width={w} y={top} height={Math.max(0.5, bottom - top)} fill={c.partial ? `url(#${id}-hatch-${sg.k})` : series[sg.k].color} stroke={c.partial ? series[sg.k].color : "none"} strokeWidth={c.partial ? 0.75 : 0} />;
                 })}
                 {over ? <path d={`M${x0 - 3},${TOP + 14} l${w / 4 + 1.5},-5 l${w / 4},5 l${w / 4},-5 l${w / 4 + 1.5},5`} fill="none" stroke="var(--color-surface)" strokeWidth="3" /> : null}
-                {textWidth(figure) <= bw * 1.5 ? <text x={cx(i)} y={(over ? TOP : y(capped(Math.max(up, useLog ? lo : 0)))) - 6} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{figure}</text> : null}
+                {textWidth(figure) <= bw * 1.5 && figureShown[i] ? <text x={cx(i)} y={(over ? TOP : y(capped(Math.max(up, useLog ? lo : 0)))) - 6} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{figure}</text> : null}
                 {labelled(i) ? lines[i].map((s, j) => <text key={j} x={Math.max(Math.min(cx(i), W - 1 - s.length * 3.4), s.length * 3.4 + 1)} y={baseY + 16 + j * LINE} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{s}</text>) : null}
                 {sub ? <text x={cx(i)} y={baseY + 16 + depth * LINE} textAnchor="middle" fontSize="10" fill="var(--color-muted)">{sub}</text> : null}
                 <title>{says ? says(i) : `${c.label}${c.sub ? ` (${c.sub})` : ""}: ${series.map((s) => `${s.name} ${s.values[i] === null ? "not held" : fmt(s.values[i]!)}`).join(", ")} ${unit}`}</title>
