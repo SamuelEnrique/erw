@@ -51,6 +51,41 @@ for (const win of ["1y", "all"]) {
   for (const p of prices?.series ?? []) page({ p: p.id, win });
   picks.forEach((x, i) => page({ a: x.id, ...(picks[i + 1] ? { b: picks[i + 1].id } : {}), ...(prices?.series[0] ? { p: prices.series[0].id } : {}), win }));
 }
+// session 10408 (the SEC's company figures, in the files since 27 November 2026): each company with the other filed
+// figures and lengths of period chosen, beside the next company, so that the figure above each chart and the newest
+// period's columns are set beside the file too; and the figure's line computed here again from the file's own rows
+let lines = 0, points = 0;
+const companies = picks.filter((x) => x.kind === "company");
+const again = (rows, cols, col, per) => {
+  // the rule in words (lib/equities.ts figureLine), written a second time: a sum is taken from the rows of exactly
+  // that length; a figure at a period's end from every row ("3") or the annual reports' rows ("12"); one value a
+  // period end, the later filing's
+  const at = (n) => cols.indexOf(n), atEnd = col === "debt" || col === "shares_outstanding";
+  const best = new Map();
+  for (const r of rows) {
+    const v = r[at(col)], end = r[at("period_end")];
+    if (typeof v !== "number" || typeof end !== "string") continue;
+    if (atEnd ? per === "12" && !String(r[at("form")] ?? "").startsWith("10-K") : r[at("months")] !== Number(per)) continue;
+    const had = best.get(end);
+    if (!had || String(r[at("filed")] ?? "") > had.filed) best.set(end, { filed: String(r[at("filed")] ?? ""), v });
+  }
+  return [...best.keys()].sort().map((end) => `${end}=${best.get(end).v}`).join(" ");
+};
+companies.forEach((x, i) => {
+  const s = doc(x.file);
+  const filings = E.filingsOf(s);
+  for (const [fig, per] of [["net_income", "12"], ["capex", "12"], ["debt", "3"], ["shares_outstanding", "12"], ["revenue", "3"], ["revenue", "12"], ["net_income", "3"], ["capex", "3"], ["debt", "12"], ["shares_outstanding", "3"]]) {
+    const line = E.figureLine(filings, fig, per);
+    lines++; points += line.length;
+    if (line.map((p) => `${p.f.period_end}=${p.v}`).join(" ") !== again(s.quarterly ?? [], s.quarterly_columns ?? [], fig, per)) wrong.push(`${x.id} ${fig} by ${per} months: the line differs from the file's rows read again`);
+    if (i % 4 === 0 || fig === "net_income" || fig === "debt") {
+      const html = page({ a: x.id, ...(companies[i + 1] ? { b: companies[i + 1].id } : {}), fig, per });
+      const n = /data-eq-figure="a" data-eq-points="(\d+)"/.exec(html)?.[1];
+      if (list.companies.find((c) => c.id === x.id)?.fundamentals_status === "shown" && Number(n) !== line.length) wrong.push(`${x.id} ${fig} by ${per} months: the page draws ${n} periods, the file holds ${line.length}`);
+    }
+  }
+});
+console.log(`the filed figures: ${companies.length} companies, ${lines} lines of one figure over the periods filed (${points} points), each computed twice from the file's rows`);
 const state = /data-eq-state="([^"]+)"/.exec(opens)?.[1];
 console.log(`the list: ${list.segments.length} segments, ${list.companies.length} companies, ${list.indices.length} indices, ${(list.segment_series ?? []).length} segment lines; ${picks.length} things to draw; ${prices ? `${prices.series.length} energy prices, ${prices.series.filter((s) => s.status === "shown").length} shown` : "no energy prices file"}`);
 console.log(`the page as it opens: state ${state}; ${/data-eq-price="([^"]+)"/.exec(opens)?.[1] ? `the energy price ${/data-eq-price="([^"]+)"/.exec(opens)[1]} drawn alone` : `${(opens.match(/data-eq-line=/g) ?? []).length} line(s)`}; blanks: ${[...opens.matchAll(/data-eq-blank="[^"]*"[^>]*>([^<]*)</g)].map((m) => m[1].trim()).join(" | ") || "none"}`);

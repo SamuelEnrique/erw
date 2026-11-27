@@ -426,3 +426,100 @@ it, is somewhat larger than its monitor's figure: the comparison flatters the ER
 wins (2.74 against 5.70 percent over the last two years). With ERCOT (section 15), where the filing agrees with ERCOT's
 own chart to 0.02 point from February 2026, this is the second place checked. The vendor's SPP figure (section 18) is
 not a monitor's and is not counted.
+
+## 23. More places: every authority with two years of demand (session 10603)
+
+Samuel's order of 27 November 2026 ("more places"). The 29 places of section 1 are EIA's thirteen regions and the
+sixteen authorities of at least 5,000 MW. The forecast now also covers every other balancing authority whose EIA-930
+demand runs to the latest day the warehouse holds and covers at least two years (read on 27 November 2026 in
+`eia930_ba_demand_hourly`; `run.MORE_BAS`): 35 more, from SPA (about 22 MW) to NEVP (about 5,100 MW). Left out, and why:
+SWPW and BHBA (filing only since April 2026), WACM and WAUW (no demand after 1 April 2026), and AEC, NSB and OVEC (their
+filings end in 2021, 2020 and 2018). Each authority added has its own file, of the same shape as the 29 and built by the
+same code: the same methods, backtest, choice, band, scores, operator filing check (section 18), peak and history. Its
+price is held (no organised market whose hub prices are public), and it has no net demand or weather forecast line.
+The forecast two to seven days ahead (`ahead.json`, section 12) keeps its 29 places: adding 35 would double a daily step
+of about half an hour.
+
+Nothing of the 29 changes: their files equal those on main but for `built`; `scores.json` and `index.json` only gain
+rows and places (24,911 rows before, 52,030 after, none of the first changed).
+
+From the build of 27 November 2026 (rebuild 16, made as at 18:00 UTC on 26 November; `runs/c730/table_more.py`), the last
+two years. The mean MW is the ERW's MAE over its MAPE; "sound months" are those whose filing passes the check of section
+18 (a dash where no month of the two years passes):
+
+| Place | Mean MW (2 years) | Chosen | Hours | MAPE %: ERW, operator, yesterday | Months flagged / held | Sound months, MAPE %: ERW, operator | Band inside % |
+|---|---:|---|---:|---|---|---|---:|
+| AECI | 2,663 | regression_recent | 17,516 | 10.26, 1.985, 12.27 | 0 / 89 | 10.258, 1.985 | 78.9 |
+| AVA | 1,499 | regression_recent | 17,492 | 4.34, 1.698, 6.74 | 0 / 89 | 4.339, 1.698 | 80.0 |
+| AZPS | 4,580 | regression_recent | 17,519 | 6.36, 9.518, 7.87 | 10 / 89 | 6.64, 7.804 | 76.8 |
+| BANC | 2,200 | regression_recent | 17,376 | 5.75, 2.437, 8.26 | 0 / 89 | 5.751, 2.437 | 79.2 |
+| CHPD | 232 | regression_recent | 17,516 | 5.47, 2.964, 7.50 | 25 / 89 | 5.474, 2.964 | 79.7 |
+| CPLW | 585 | regression_recent | 16,812 | 8.54, 4.25, 11.39 | 2 / 89 | 8.495, 4.216 | 79.2 |
+| DOPD | 286 | regression_recent | 17,515 | 4.12, 5.428, 6.04 | 39 / 89 | 4.187, 4.311 | 79.5 |
+| EPE | 1,134 | regression_recent | 17,472 | 6.01, 3.219, 8.66 | 0 / 89 | 6.012, 3.219 | 78.4 |
+| FMPP | 2,209 | regression_recent | 16,936 | 6.43, 11.173, 8.39 | 9 / 89 | 6.365, 3.907 | 78.7 |
+| GCPD | 765 | regression_recent | 17,477 | 2.66, 2.196, 4.31 | 1 / 89 | 2.661, 2.196 | 79.4 |
+| GVL | 254 | regression_recent | 16,293 | 8.13, 10.992, 10.22 | 52 / 89 | - | 78.4 |
+| HST | 73 | regression_recent | 17,395 | 7.81, 6.604, 9.78 | 13 / 89 | 7.813, 6.604 | 80.0 |
+| IID | 489 | regression_recent | 16,206 | 7.40, 3.432, 10.14 | 0 / 89 | 7.397, 3.432 | 77.8 |
+| IPCO | 2,274 | regression_recent | 17,516 | 4.55, 5.095, 6.78 | 4 / 89 | 4.493, 4.587 | 80.0 |
+| JEA | 1,635 | regression_recent | 17,515 | 7.85, 4.629, 10.51 | 4 / 87 | 7.853, 4.629 | 78.9 |
+| LDWP | 2,958 | regression | 17,291 | 8.57, 10.143, 10.19 | 63 / 89 | 8.883, 9.231 | 75.4 |
+| LGEE | 4,584 | regression_recent | 17,419 | 7.56, 7.876, 11.09 | 66 / 89 | - | 78.7 |
+| NEVP | 5,129 | regression_recent | 16,783 | 4.57, 7.771, 5.95 | 35 / 89 | 4.287, 5.608 | 78.6 |
+| NWMT | 1,361 | regression_recent | 17,513 | 4.30, 2.197, 5.61 | 3 / 89 | 4.304, 2.197 | 78.3 |
+| PACW | 2,312 | regression_recent | 17,516 | 4.87, 6.991, 7.72 | 7 / 89 | 4.04, 3.049 | 80.1 |
+| PGE | 2,796 | regression_recent | 17,516 | 4.15, 1.497, 7.04 | 0 / 89 | 4.147, 1.497 | 81.1 |
+| PNM | 1,735 | regression_recent | 17,496 | 4.09, 6.237, 5.35 | 55 / 89 | 4.289, 5.03 | 78.6 |
+| PSEI | 2,871 | regression_recent | 16,562 | 4.45, 36.516, 7.13 | 78 / 79 | - | 79.2 |
+| SC | 3,361 | regression_recent | 17,387 | 7.54, 3.694, 9.34 | 15 / 89 | 7.538, 3.694 | 78.1 |
+| SCEG | 2,950 | regression_recent | 16,068 | 8.02, 4.861, 10.25 | 3 / 89 | 8.21, 4.74 | 77.5 |
+| SCL | 1,092 | regression_recent | 17,515 | 4.20, 3.299, 7.24 | 6 / 89 | 4.195, 3.299 | 78.8 |
+| SEC | 248 | regression_recent | 17,212 | 13.36, 12.405, 16.27 | 61 / 88 | 11.823, 6.972 | 77.5 |
+| SPA | 22 | regression | 13,794 | 23.69, 54.577, 32.19 | 70 / 89 | 23.573, 27.08 | 79.0 |
+| SRP | 3,898 | regression_recent | 17,519 | 9.20, 8.69, 11.31 | 9 / 89 | 5.613, 4.093 | 71.2 |
+| TAL | 342 | regression_recent | 17,514 | 8.33, 4.164, 11.08 | 0 / 89 | 8.333, 4.164 | 78.6 |
+| TEC | 2,586 | regression_recent | 17,514 | 7.14, 4.168, 9.14 | 4 / 89 | 7.145, 4.168 | 79.3 |
+| TEPC | 1,743 | regression_recent | 17,496 | 5.50, 2.72, 6.61 | 37 / 88 | 5.5, 2.72 | 79.4 |
+| TIDC | 350 | regression_recent | 16,967 | 5.21, 3.09, 10.41 | 1 / 89 | 5.211, 3.09 | 79.0 |
+| TPWR | 528 | regression_recent | 17,516 | 4.96, 2.224, 8.12 | 1 / 89 | 4.965, 2.224 | 79.5 |
+| WALC | 916 | regression_recent | 17,441 | 10.26, 14.833, 11.01 | 15 / 89 | 10.176, 14.609 | 72.2 |
+
+What the table says, plainly:
+
+- **The operator wins in most of the small authorities too.** Over the last two years the ERW's MAPE is below the filed
+  forecast's in 13 of the 35; on the sound months, in 8 of the 32 that have any (AZPS, DOPD, IPCO, LDWP, NEVP, PNM, SPA,
+  WALC), and in most of these by less than a point and a half. Where the operator has a forecast it trusts, it is two to
+  five times closer (PGE 1.50 against 4.15 percent, AECI 1.99 against 10.26).
+- **Many small authorities' filings fail the check.** PSEI's filed forecast fails it in 78 of its 79 months (36.5 percent
+  MAPE over the two years: not a forecast of PSEI's demand as filed), SPA in 70 of 89, LGEE 66, LDWP 63, SEC 61, PNM 55, GVL
+  52. For PSEI, LGEE and GVL no month of the last two years passes, so there is no sound comparison at all. Data request 7
+  (EIA's own files for the seven breaks of section 18) covers the 29 places; these are named here, not asked again.
+- **The method:** `regression_recent` is chosen in 33 of the 35, the plain regression in LDWP and SPA.
+- **The band** holds 71 (SRP, WALC 72) to 81 percent (PGE) of the hours against the nominal 80: SRP's and WALC's summers
+  swing more than a year of errors at the hour shows.
+- **The smallest are the noisiest:** SPA's demand (about 22 MW) is missed by 24 percent, SEC's by 13; a percent of a small
+  number moves with every pump and plant.
+
+Replication: `replication/predict/replicate.py` covers the 64 places as it covered the 29 (its count is in the progress
+file and landing row 9). A test (`test_the_places_added_follow_their_rule`) holds that every place of the run has its
+file, that none added is one of the 29, and that each added runs to the last day the 29 reach and scores two years.
+
+## 24. Longer backtests (session 10603)
+
+Samuel's order of 27 November 2026 ("longer backtests"). What the warehouse's data allow, series by series:
+
+| Series | Its backtest begins | What bounds it | Longer now? |
+|---|---|---|---|
+| Demand (every place) | 1 July 2019 | EIA-930 demand held from 1 July 2018 (`eia930_ba_demand_hourly`); the regression needs 300 days of its own rows | No: at most two months earlier with the data held. Data request 9 asks for EIA's six-month files from July 2015, which would start it on 1 July 2016 |
+| Day-ahead price | March 2020 (ERCOT, SPP), May 2024 (CAISO) | it reads the demand forecast, so it inherits the demand's start; CAISO's hub prices are held from July 2023 | No, until request 9 |
+| Real-time price | July 2019 to 2024 by hub | ERCOT's hub prices are held from January 2015, SPP's from July 2018, CAISO's real-time prices from July 2023 | Yes, at ERCOT: from 1 January 2016 (`predict_price.md` section 8) |
+| Wind and solar | 1 July 2019 | EIA-930 output by region held from July 2018 | At most eight months earlier; not built |
+| Net demand | as demand | demand, wind and solar | No |
+| With the weather forecast as issued | late September 2026 | the NWS forecasts as issued are kept from then | No: it grows a day a day (13 to 21 days a place on 27 November; 30 are needed to score it) |
+
+So the one longer backtest built is the real-time price at ERCOT's four hubs, from 2016: the day-ahead price beats the
+ERW in nine or ten of the eleven years at each (sections 8 and 9 of `predict_price.md`). The demand backtest cannot be
+longer until request 9 is answered; then `predict_data.py` would read `eia930_all_history` before the hourly extracts
+begin, and the walk would start on 1 July 2016, with the operator's filed forecast scored from the same day. Nothing in
+the backtests already published changes.

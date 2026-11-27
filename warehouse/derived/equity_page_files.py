@@ -256,6 +256,62 @@ def quarterly(f):
     return out, concepts
 
 
+def later(a, b):
+    """True when quarterly row a was filed after b (the filing day, then the accession), as lib/equities.ts later()."""
+    i_f, i_a = QCOLS.index("filed"), QCOLS.index("accession")
+    return b is None or (a[i_f] or "", a[i_a] or "") > (b[i_f] or "", b[i_a] or "")
+
+
+def newest_filed(q):
+    """Done-line request 578: the newest period end a company filed and its figures, by the page's own rule
+    (site/lib/equities.ts newestOf): each statement line the figure for the shortest period to that end (a 10-Q's 3
+    months where filed, else its year to date, months saying which), debt and shares at that end; where a period was
+    filed twice, the later filing's figure. None when nothing is filed."""
+    if not q:
+        return None
+    ix = {c: i for i, c in enumerate(QCOLS)}
+    end = max(r[ix["period_end"]] for r in q)
+    rows = [r for r in q if r[ix["period_end"]] == end]
+    head = None
+    for r in rows:
+        if later(r, head):
+            head = r
+    out = {"period_end": end, "form": head[ix["form"]], "filed": head[ix["filed"]], "url": head[ix["url"]]}
+    for col in ("revenue", "net_income", "capex"):
+        best = None
+        for r in rows:
+            if r[ix[col]] is None or r[ix["months"]] is None:
+                continue
+            if best is None or r[ix["months"]] < best[ix["months"]] or (r[ix["months"]] == best[ix["months"]] and later(r, best)):
+                best = r
+        out[col] = {"months": best[ix["months"]], "v": best[ix[col]]} if best else None
+    for col in ("debt", "shares_outstanding"):
+        best = None
+        for r in rows:
+            if r[ix[col]] is not None and later(r, best):
+                best = r
+        out[col] = best[ix[col]] if best else None
+    return out
+
+
+def shown_why(q, built):
+    """Done-line request 579 (2) and (3): a note while the statements are shown, by two written rules: the newest filing
+    is more than two years old (a filer that stopped), or the filed history under this SEC number starts within two
+    years (a new registrant: a predecessor's filings under another number are not read)."""
+    if not q:
+        return None
+    ix = {c: i for i, c in enumerate(QCOLS)}
+    newest, oldest = max(r[ix["period_end"]] for r in q), min(r[ix["period_end"]] for r in q)
+    two_years = (dt.date.fromisoformat(built[:10]) - dt.timedelta(days=730)).isoformat()
+    if newest < two_years:
+        return (f"the newest 10-Q or 10-K on EDGAR is for the period to {newest}: the company has filed neither since "
+                "(docs/methods/equities.md)")
+    if oldest >= two_years:
+        return (f"the filed history under this SEC number starts with the period to {oldest}: a new registrant, and any "
+                "predecessor's filings under another SEC number are not read (docs/methods/equities.md)")
+    return None
+
+
 def company_files(built, universe, fund):
     """index.json's companies and one series file a company (prices null with their reason, the statements as filed)."""
     companies, files = [], {}
@@ -269,7 +325,8 @@ def company_files(built, universe, fund):
                           "sic": r["sic"], "sic_label": r["sic_label"], "segments": r["segments"].split(";"),
                           "segments_note": r["segments_note"] or None, "directory_id": r["directory_id"] or None,
                           "price_status": "license needed", "price_why": PRICE_WHY,
-                          "fundamentals_status": "shown" if q else "source needed", "fundamentals_why": None if q else FUND_WHY,
+                          "fundamentals_status": "shown" if q else "source needed",
+                          "fundamentals_why": shown_why(q, built) if q else FUND_WHY, "newest_filed": newest_filed(q),
                           "first": None, "last": None, "file": fpath})
         files[fpath] = {"built": built, "example": False, "method": METHOD, "contract": CONTRACT, "license": "public",
                         "id": tk, "kind": "company", "name": r["name"], "cik": r["cik"], "ticker": r["ticker"],
@@ -282,7 +339,7 @@ def company_files(built, universe, fund):
                         "last": None, "last_value_weight": None,
                         "moves": {"d": None, "w": None, "m": None, "ytd": None, "y": None},
                         "quarterly_columns": QCOLS, "quarterly": q, "concepts": concepts,
-                        "fundamentals_why": None if q else FUND_WHY}
+                        "fundamentals_why": shown_why(q, built) if q else FUND_WHY}
     return companies, files
 
 
