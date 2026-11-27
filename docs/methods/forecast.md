@@ -504,3 +504,21 @@ Summary of the 37 states in `site/data/forecast/datacenter_rules.json` as of ses
 ### 13.6 Check keys
 
 A datacenter figure's key is `datacenter|<every input of its scenario, in DC_KEY_ORDER>|<figure>` (`site/lib/dcimpact.ts`, `dcKey`, `dcParseKey`, `dcStat`); `site/scripts/check-values.mjs` recomputes it with `dcRun` from its own read of the parameter files, and compares the text with `dcDisplay`. Figures: `c:<jobs|earnings>:<effect>`, `o:...`, `sum:<stream>`, `pv:<stream>`, `pv:taxes`, `y1:<stream>`, `year:<yyyy>:<stream>`; streams `jobs, earnings, property, propb, prope, salesbefore, forgone, sales, income, elec`, and in a year `equipment`, `building`, `value`, `mwh`. Addresses added: `/impact?tech=datacenter&state=va&dmw=1000&invest=3000&perm=50&mwh=5000000&bstate=la` and `/impact?tech=datacenter&state=la&dmw=5000&invest=50000&perm=1000&cons=7500&dbuild=5&brate=10&erate=10&btech=land_based_wind`, and since session 10816 `/impact?tech=datacenter&state=ar&dmw=600&invest=6000&perm=500&matshare=40&bstate=mi&bdmw=1000&binvest=3000&bperm=40&bdlife=30` (a state's part of the rate with construction covered, against an end year: 174 values on the build of `3fb425592`).
+
+## 14. Coal, the fifth plant type (chain 740, lab-desktop window 3, session 10822, 27 November 2026)
+
+Window A read three more of NLR's JEDI models into `nlr_jedi_multipliers` on 26 November (data request 8; `economic_impact.md`): coal (C12.23.16, a 600 MW plant), the concentrating solar power trough (CSP12.23.16, 100 MW with 6 hours of storage) and biopower (B12.23.16, a 50 MW direct combustion plant). `/impact` offers coal from this session; its figures appear once the live set holds the rows (the data machine's next load).
+
+| Input | Coal's default | Source |
+|---|---|---|
+| MW | 650 | EIA's case 1, ultra-supercritical coal without carbon capture, 650 MW net (capital cost study for AEO2025) |
+| Capital cost | EIA's case 1 in the state (Appendix A, Table 1-1: base USD 4,103 a kW, 2023 dollars), to 2025 dollars | `warehouse/forecast/eia_capex.py`, `eia_capex.json` |
+| Construction, operation | 3 years (36 months), 40 years | EIA's case 1 table |
+| JEDI's default cost a MW, by state | the workbook's own formula result at each location (Texas USD 3,025,000 a MW, 2011 dollars) | `warehouse/forecast/jedi_costs.py` on window A's evaluation files, `jedi_costs.json` (the four other types' costs unchanged) |
+| Taxable share of spending | 45.6198 percent: facility and equipment, 828,000,000, over JEDI's default cost, 1,815,000,000 (ProjectData B38, B43, B53) | `jedi_taxable.json`; the workbook computes no sales tax, so session 4201's rule for such a model |
+| Capacity factor, fuel, severance | not used: no production tax applies to a coal plant in the rules held, the coal it burns is not modelled, and no coal severance rule is held | the page says so in the severance cell |
+| Property tax, sales tax exemption | none held for coal: the reader's own effective rate, and 0 exemption (North Dakota's power plant exemption, 57-39.2-04.2, names non-coal facilities only) | sections 4 and 5 |
+
+**Not offered: CSP trough and biopower.** Each needs a capital cost in the state, a construction time and an operating life the way the other types take them from EIA's study. That study has no solar thermal case, and its only biomass case (case 8) is a woody biomass plant with 95 percent carbon capture, not JEDI's direct combustion plant; JEDI's workbooks give neither an operating life. JEDI's own default cost and taxable share are written for both (`jedi_costs.json`; `jedi_taxable.json`: CSP 72.832 percent from its sales tax line, 34,250,861.26 / 0.075 / 627,029,650.00; biopower 49.764 percent, equipment over cost), so either can be offered once a capital cost and a life are read from a published study.
+
+**Replication.** `replication/impact/replicate.py` takes coal; the page's coal case (`coal_wy_tx`: Wyoming at the reader's 1.2 percent over 30 years, B in Texas) agrees on 524 of 524 figures, and the whole file on 8,117 of 8,117 (the 7,593 of the seventeen earlier cases unchanged). Two scripts that draw the page (`site/scripts/impact-figures.mjs`, `site/scripts/test-impact-read.mjs`) now pass the datacenter's props as the page does: they had stopped drawing when the datacenter came, which only a machine holding the table noticed.

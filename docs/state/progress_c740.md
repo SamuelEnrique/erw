@@ -73,7 +73,7 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Item | State | Session | Note |
 |---|---|---|---|
 | More announced projects | done (first pass) | 10807 | 25 rows (Hut 8 River Bend, Amazon Caddo and Bossier, Applied Digital Delta Forge 1 added); defaults recomputed and dated |
-| JEDI plant types the page lacks | waiting | 10807, 10820 | data request 8: window A builds the coal and CSP trough models in its gate 6 (the table of 8,370 rows waits for the data lock); the page's types follow once the table is written |
+| JEDI plant types the page lacks | coal done on the branch; CSP and biopower held | 10807, 10820, 10822 | data request 8 done (window A, 21:57 UTC 26 November); coal offered from EIA's case 1 and JEDI's coal model (replication 524 of 524); CSP and biopower need a capital cost and a life no published study read gives (forecast.md section 14); coal's figures appear when the live set loads the rows |
 | Published IMPLAN ratios beyond Virginia | done | 10809, 10810 | Georgia (the state auditor's evaluation) and Minnesota (the Legislative Budget Office's), each its own state only |
 | An equipment value schedule (a county's, typed) | done | 10809 | three fields; Loudoun's 2026 schedule reproduces its USD 9.96 million |
 | Window F's browser read, rows naming `/impact` | read, five findings fixed | 10808, 10821 | `docs/reviews/browser-read-2026-11-26.md`: `/impact` with Datacenter is part C, read as it lands |
