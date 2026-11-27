@@ -27,6 +27,10 @@ session takes the next item: longer backtests and more places. Branch `wip/c730-
 - **Replications:** the day-ahead price, which had none, 3,936 of 3,936; the real-time price 3,020 of 3,020; demand on
   the 64 places 48,384 figures (47,967 exactly; the 417 others in the seven smallest authorities, within the backtest
   table's 0.1 MW rounding, which the script now allows on the regressions only) and 1,024 of 1,024 refits.
+- **Every part of the forecast now has a replication** (after landing row 9 was requested): the day's peak, in
+  `replicate.py` (49,152 of 49,152 figures with the peak's 768); the weather-known line, `replicate_wk.py` (384 of 384);
+  the forecast two to seven days ahead, `replicate_ahead.py` (checked on a file built from today's tables); net demand
+  62 of 62 and the weather forecast line 84 of 84 on the final files.
 
 ## Decisions made without you
 

@@ -10,6 +10,8 @@
 // The word "forecast" in the code belongs to the Economic impact tool (lib/forecast*.ts, data/forecast, app/impact):
 // nothing of it is imported here. This build's name in every path is "predict"; on the page it is "ERW forecast".
 
+import type { BandCoverage, NetDemand, OperatorFiling, WeatherForecast } from "@/lib/predictlines";
+
 export type SeriesKey = "demand" | "price";
 export const SERIES: SeriesKey[] = ["demand", "price"];
 export const SERIES_WORDS: Record<SeriesKey, string> = { demand: "Demand", price: "Price" };
@@ -44,6 +46,12 @@ export type PlaceSeries = IndexSeries & {
   peak?: Peak | null;
   // session 10406: the contract's separate line "with the weather known" (demand only; below)
   with_weather_known?: WeatherKnown | null;
+  // session 10409: the contract's dated lines of 27 November 2026 (lib/predictlines.ts): the operator's filing checked
+  // by month, the separate line with the weather forecast and net demand (demand only), and the band's record (every
+  // shown series); and its line of 26 November: `tomorrow_from`, present only when the ledger already held the target
+  // day, so that the forecast drawn is the one first made for it
+  operator_filing?: OperatorFiling | null; with_weather_forecast?: WeatherForecast | null; net_demand?: NetDemand | null; band_coverage?: BandCoverage | null;
+  tomorrow_from?: string | null;
 };
 /** Session 10406 (chain 720, part E): the separate line "with the weather known" (the contract's change of session
  *  10601): the regression with the region's observed temperature of the target day itself added. It reads the day's
@@ -76,6 +84,9 @@ export type ScoresFile = {
   span: Record<SeriesKey, { first_day: string | null; last_day: string | null }>;
   methods: { id: string; what: string }[]; metrics: Record<string, string>; mape_rule: string | null;
   cuts: Record<string, string>; rows_columns: string[]; rows: Cell[][];
+  /** session 10411 (the contract's line of session 10603): the words of the cuts of the price rows, whose `top10` is
+   *  the ten days with the highest price hour and whose `spike` is the price's own; `cuts` names them by demand */
+  cuts_price?: Record<string, string> | null;
 };
 
 // ---- What a reader is shown, and what is blank ----------------------------------------------------------------------
@@ -125,6 +136,9 @@ export const METHOD_WORDS: Record<string, string> = {
   regression_recent: "Regression with the recent days",
 };
 export const methodWords = (id: string) => METHOD_WORDS[id] ?? id.replace(/_/g, " ");
+/** Session 10409: a sentence of a file that names a method by its id ("the method chosen now is regression_recent"),
+ *  with the id put in the page's words; anything that is not a method's id is left as the file wrote it. */
+export const plainMethods = (words: string) => words.replace(/\b[a-z]+(?:_[a-z0-9]+)+\b/g, (id) => (METHOD_WORDS[id] ? METHOD_WORDS[id].toLowerCase() : id));
 /** A method's name at the head of a table's column, where its full name is on hover. The model's keeps its two words. */
 export const METHOD_SHORT: Record<string, string> = { erw: LABEL, operator: "Operator", yesterday: "Yesterday", week_ago: "Week ago", regression: "Regression", flexible: "Flexible", regression_recent: "Regression, recent" };
 export const methodShort = (id: string) => METHOD_SHORT[id] ?? methodWords(id);
@@ -285,9 +299,12 @@ export function scoresOf(scores: ScoresFile | null, place: string, series: Serie
 }
 /** The cuts that are one row each (or one row an event), in the order the page lists them under the month and hour
  *  tables. `last_2_years` came with the contract's change of 26 November: the 730 days a place's method is chosen on. */
-export const OTHER_CUTS = ["all", "last_2_years", "top10", "spike", "event"] as const;
+export const OTHER_CUTS = ["all", "last_2_years", "operator_sound", "operator_sound_last_2_years", "top10", "spike", "event"] as const;
 export const CUT_WORDS: Record<string, string> = {
   all: "Every hour scored", last_2_years: "The last two years", top10: "The ten highest-demand days", spike: "Price spikes (hours above the grid's 99th percentile)",
+  // session 10409: the cuts of 27 November 2026 (the score file's `cuts_added`): the hours of the months whose operator
+  // filing passes its check, over the backtest and over the last two years
+  operator_sound: "The months whose operator filing passes its check", operator_sound_last_2_years: "The last two years, the months whose filing passes",
 };
 /** An event's key is its address on /events ("uri-2021"); only such a key is made a link. */
 export const eventHref = (key: string): string | null => (/^[a-z0-9][a-z0-9-]*$/.test(key) ? `/events/${key}` : null);
@@ -316,7 +333,10 @@ export const metricUnit = (metric: Metric, unit: string) => (metric === "mape" ?
 
 // ---- The address ---------------------------------------------------------------------------------------------------
 
-export type Query = { a: string | null; b: string | null; s: SeriesKey; day: string | null; m: Metric | null };
+/** `hub` (session 10411): one more hub of a place's grid, drawn whole under "More hubs", with price only. The address
+ *  gives a name of a hub's form; whether the files list it for a place chosen is the page's to check. */
+export type Query = { a: string | null; b: string | null; s: SeriesKey; day: string | null; m: Metric | null; hub?: string | null };
+export const HUB_FORM = /^[a-z0-9-]{1,24}:[A-Za-z0-9_.-]{1,48}$/;
 type Raw = Record<string, string | string[] | undefined>;
 const one = (q: Raw, k: string) => (typeof q[k] === "string" ? (q[k] as string) : undefined);
 export const NONE = "none";
@@ -334,7 +354,9 @@ export function queryOf(q: Raw, index: PredictIndex | null): Query {
   // the metric gets that series' own (the form sends the metric with every choice)
   const asked = one(q, "m") === "mae" ? "mae" : one(q, "m") === "mape" ? "mape" : null;
   const m = asked && asked !== metricDefault(s) ? asked : null;
-  return { a, b, s, day, m };
+  const hubRaw = one(q, "hub");
+  const hub = s === "price" && hubRaw && HUB_FORM.test(hubRaw) ? hubRaw : null;
+  return { a, b, s, day, m, hub };
 }
 /** The metric a series opens on: percent error for demand, error in USD/MWh for price (a percent of a price near zero
  *  is not defined: the score file's `mape_rule`). */
@@ -349,6 +371,7 @@ export function hrefOf(q: Query, patch: Partial<Query> = {}, hash = ""): string 
   if (x.s !== "demand") p.set("s", x.s);
   if (x.day) p.set("day", x.day);
   if (x.m) p.set("m", x.m);
+  if (x.hub && x.s === "price") p.set("hub", x.hub);
   const s = p.toString();
   return `/forecast${s ? `?${s}` : ""}${hash}`;
 }

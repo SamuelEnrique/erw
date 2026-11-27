@@ -9,11 +9,11 @@
 // it read, and scripts/check-values.mjs passes its own read of both, so a figure's check key recomputes here exactly.
 // Severance is a callback (the page wires lib/severance.ts's compute), so this file needs no path of its own.
 
-export type TechKey = "land_based_wind" | "utility_pv" | "natural_gas" | "geothermal" | "coal" | "biopower";
+export type TechKey = "land_based_wind" | "utility_pv" | "natural_gas" | "geothermal" | "coal" | "biopower" | "csp_trough";
 export type Effect = "onsite" | "supply_chain" | "induced" | "total";
 export type Measure = "jobs" | "earnings" | "output";
 export type Phase = "construction" | "operations";
-export const TECH_KEYS: TechKey[] = ["land_based_wind", "utility_pv", "natural_gas", "geothermal", "coal", "biopower"];
+export const TECH_KEYS: TechKey[] = ["land_based_wind", "utility_pv", "natural_gas", "geothermal", "coal", "biopower", "csp_trough"];
 export const EFFECTS: Effect[] = ["onsite", "supply_chain", "induced", "total"];
 export const MEASURES: Measure[] = ["jobs", "earnings", "output"];
 export const BASE_YEAR = 2025;
@@ -38,6 +38,8 @@ export type Params = {
   coal?: { capacity_factor: number };
   /** session 10822: the biopower plant's capacity factor (biopower.json, JEDI's biopower model); absent in older callers */
   biopower?: { capacity_factor: number };
+  /** session 10822: the CSP trough's capacity factor (csp_trough.json, JEDI's CSP trough model); absent in older callers */
+  csp_trough?: { capacity_factor: number };
   /** session 4218: sales tax exemptions read from statutes (sales_exemptions.json); absent in older callers */
   exemptions?: { states: Record<string, Partial<Record<TechKey, { exempt_pct: number; tip?: string }>>> };
 };
@@ -165,6 +167,7 @@ export function cfDefault(P: Params, tech: TechKey, state: string): { value: num
   if (tech === "natural_gas") return { value: P.gas.capacity_factor, from: "jedi" };
   if (tech === "coal") return P.coal ? { value: P.coal.capacity_factor, from: "jedi" } : { value: NaN, from: "us" };  // session 10822: JEDI's coal default, for the production taxes
   if (tech === "biopower") return P.biopower ? { value: P.biopower.capacity_factor, from: "jedi" } : { value: NaN, from: "us" };  // session 10822: JEDI's biopower default
+  if (tech === "csp_trough") return P.csp_trough ? { value: P.csp_trough.capacity_factor, from: "jedi" } : { value: NaN, from: "us" };  // session 10822: JEDI's trough default
   if (tech === "geothermal") return { value: NaN, from: "us" };  // no production tax applies to it: not used
   const c = P.capacity[tech];
   return c.states[state] ? { value: c.states[state].median, from: "state" } : { value: c.us.median, from: "us" };

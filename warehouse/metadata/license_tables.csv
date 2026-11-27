@@ -181,6 +181,7 @@ eia930_ba_interchange_hourly_2024,EIA,the source registry
 eia930_ba_interchange_hourly_2025,EIA,the source registry
 eia930_ba_interchange_hourly_2026,EIA,the source registry
 eia930_ba_supply_hourly,EIA,the source registry
+eia930_ba_wind_solar_hourly,EIA,the source registry
 eia930_daily_demand,EIA,the source registry
 eia930_daily_interchange,EIA,the source registry
 eia930_daily_total_interchange,EIA,the source registry

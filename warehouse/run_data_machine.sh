@@ -290,15 +290,18 @@ REGION_TABLES="eia930_region_hourly eia930_ba_demand_hourly eia930_ba_supply_hou
 PAIR_SOURCE_TABLES="eia930_region_pair_hourly eia930_ba_interchange_hourly_$((y - 1)) eia930_ba_interchange_hourly_${y}"
 PAIR_TABLES="interchange_pair_daily interchange_pair_monthly ba_trade_partners interchange_event_pairs"
 declare -A was_t
-for t in $REGION_TABLES $PAIR_SOURCE_TABLES eia930_region_fuel_hourly $PAIR_TABLES; do was_t[$t]="$(sha_of "$t")"; done
+for t in $REGION_TABLES $PAIR_SOURCE_TABLES eia930_region_fuel_hourly eia930_ba_wind_solar_hourly $PAIR_TABLES; do was_t[$t]="$(sha_of "$t")"; done
 if grep -q "^dm_regions_download ok" "$status"; then
   soft_step dm_regions_tables "$PYTHON" warehouse/connectors/eia930_region_hourly.py --from-raw
   soft_step dm_regions_fuel "$PYTHON" warehouse/connectors/eia930_region_fuel_hourly.py --files "EIA930_BALANCE_${half_before}.csv" "EIA930_BALANCE_${half_now}.csv"
+  # session 10000 (chain 701, predict data request 10): wind and solar by balancing authority, rebuilt whole from the saved
+  # files (a few minutes; no request)
+  soft_step dm_ba_wind_solar "$PYTHON" warehouse/connectors/eia930_ba_wind_solar_hourly.py
 fi
 if grep -q "^dm_interchange_download ok" "$status"; then
   soft_step dm_interchange_tables "$PYTHON" warehouse/connectors/eia930_ba_interchange_hourly.py --from-raw
 fi
-for t in $REGION_TABLES $PAIR_SOURCE_TABLES eia930_region_fuel_hourly; do
+for t in $REGION_TABLES $PAIR_SOURCE_TABLES eia930_region_fuel_hourly eia930_ba_wind_solar_hourly; do
   if [ "$(sha_of "$t")" != "${was_t[$t]}" ]; then soft_step "dm_stores_$t" "$PYTHON" warehouse/table_stores.py "$t" --no-redivis; fi
 done
 soft_step dm_region_files "$PYTHON" warehouse/derived/region_files.py

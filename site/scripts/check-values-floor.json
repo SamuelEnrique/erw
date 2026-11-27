@@ -182,6 +182,7 @@
     "/impact?tech=datacenter&state=ar&dmw=600&invest=6000&perm=500&matshare=40&bstate=mi&bdmw=1000&binvest=3000&bperm=40&bdlife=30": 10,
     "/impact?tech=datacenter&state=wa&dmw=300&invest=3000&perm=50&brate=1&erate=1&bstate=nc&bdmw=300&binvest=3000&bperm=50&bbrate=0.8&berate=0.8": 10,
     "/impact?tech=coal&state=ga&btech=coal&bstate=ia": 10,
-    "/impact?tech=biopower&state=nd&btech=biopower&bstate=ga&bown=1.2&bownyears=30": 10
+    "/impact?tech=biopower&state=nd&btech=biopower&bstate=ga&bown=1.2&bownyears=30": 10,
+    "/impact?tech=csp_trough&state=az&btech=csp_trough&bstate=nd": 10
   }
 }

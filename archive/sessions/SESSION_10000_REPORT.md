@@ -69,6 +69,12 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 - The license record holds one page a publisher (test 205): the SEC's privacy and security policy (read 2062, the deciding sentence); the access page is named in the verdict's note.
 - A fact whose period ends after its filing date is left out as a tagging error (one: a May 10-Q reporting a year to 31 December 2026).
 
+- Predict row 9 said reaching EIA-930 back to 2015 "may be Samuel's word": his order of 27 November for longer backtests (relayed by chain 730) was taken as that word, the files being public, allowed by EIA's robots file and small (five of about 31 MB). `eia930_all_history` now holds July 2015 to June 2018 for 66 authorities with the forecast.
+- `eia930_ba_wind_solar_hourly` (predict row 10) is a table of its own, held out of the live catalogue and release v1 like the other EIA-930 hour tables, and not on Redivis (about 1.2 GB); `eia930_all_history`'s Redivis draft is behind for the same reason (about 1 GB). Uploads that long would outlast the foreground limit, and a background upload is what my notes warn against.
+- Joint filings (done-line 579): a co-registrant's file is read only when it names the same entity, after the first run credited Southern Company's figures to a Georgia Power security; six utilities therefore still stop at March 2026.
+- The live set took `nlr_jedi_multipliers` and `impact_tax_rules` by hand: no step loads a table written by hand here.
+- Several landings combined rows of other windows into one gate; a gate taking an older commit was stopped and restarted with the newest heads (gates 19, 20 and 25), each time its own processes only, its build lock released.
+
 ## For Samuel's ruling
 
 - The SEC refuses the ERW's contact string: give a contact address for the SEC's user agent and EDGAR opens part D (companies, share counts, statements). Default: not pulled. **Ruled by Samuel on 26 November** (the address given, kept in .env): done on 27 November, part D's public half (the universe, the statements, the page files).
@@ -92,3 +98,5 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 - The same run's Redivis upload refused `price_board_peak_offpeak`: 5,427 rows would shrink it below the 5,436 last uploaded. MISO's rows leave the rolling window each day since its pause (387 rows here), so on a day the other grids add fewer, the table shrinks. Default: the guard stands; `--allow-shrink price_board_peak_offpeak` is a person's call.
 - The six equity segments no SEC industry code holds alone (LNG, nuclear and uranium, solar, wind, storage, hydrogen and fuel cells) are empty: filling them needs a named list of companies, which is judgment. Default: empty, each with its reason.
 - Share prices and index levels stay blank (no paid or licensed source, as ruled); so the segment lines, the market values and the board's equities rows stay held.
+- Two large EIA-930 tables are not on Redivis: `eia930_ba_wind_solar_hourly` (new) and the rewritten `eia930_all_history` (its draft holds the old 60,000 rows). Default: held out of release v1 like the other EIA-930 hour tables; an upload of `eia930_all_history` by a session that can run it in the foreground.
+- EIA's API answered HTTP 504 from 26 November (STEO, the sub-regions, total interchange, nuclear outages): the consumer price index (window D's row 41), the sub-region demand of 2026 (predict row 14) and the daily refresh of those tables wait. Default: tried again by the next session; the sub-region step is in the daily run from the next landing.
