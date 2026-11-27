@@ -111,3 +111,4 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | New Jersey's property | done | 10822 | the assessors' handbook, chapter VI (request 436): equipment untaxed; 39 states |
 | More announced rows | done | 10822 | U.S. Bank Chaska (Minnesota, 2016), AWS Butts and Douglas (Georgia, 2025), AWS Fayette (Ohio, 2024): 66 rows, 53 of them announcements |
 | Maine, Delaware, South Dakota, Oregon property | done | 10822 | requests 440 to 449: Maine taxes a new datacenter's equipment (PL 2025, c. 768), Delaware and South Dakota none, Oregon both; 43 states |
+| Rhode Island's property; Vermont | done; held | 10822 | 44-3-1 (request 452): both taxed; Vermont's statute pages are script-built (requests 454 to 457 answered one shell); 44 states |
