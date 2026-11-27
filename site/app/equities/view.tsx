@@ -34,7 +34,7 @@ type Raw = Record<string, string | string[] | undefined>;
 type Slot = { mark: "a" | "b"; pick: Choice; series: EqSeries | null; company: EqCompany | null };
 const TITLE = "Energy equities";
 const fileOf = (slot: Slot) => `equities/${slot.pick.file}`;
-const SORT_WORDS: Record<Sort, string> = { name: "Company", ticker: "Ticker", segment: "Segment", exchange: "Exchange", first: "First day", last: "Last day" };
+const SORT_WORDS: Record<Sort, string> = { name: "Company", ticker: "Ticker", segment: "Segment", exchange: "Exchange", first: "First day", last: "Last day", filed: "Newest period filed" };
 
 function Blank({ what, words, why, k }: { what: string; words: string; why: string; k: string }) {
   return (
@@ -235,6 +235,11 @@ function FiledFigures({ slots, list, q }: { slots: Slot[]; list: EqList; q: Quer
             );
           })}
         </div>
+        {/* session 10414: a note the list carries on a company's filings while they are shown (a new registrant whose
+            history starts late, a filer that stopped): said in the file's own words, under the company's figures */}
+        {info.filter((x) => !x.held && x.slot.company?.fundamentals_status === "shown" && x.slot.company.fundamentals_why).map((x) => (
+          <p key={x.slot.mark} className="mb-3 max-w-3xl text-sm" data-eq-filed-note={x.slot.pick.id}>A note on what {x.slot.company!.ticker} filed: {x.slot.company!.fundamentals_why}.</p>
+        ))}
         <ToolTable minWidth={Math.max(420, 180 + cols.length * 150)} caption="The newest period each company filed, in USD million (shares in millions): one column for each length of period its newest filing reports"
           head={["Newest period filed", ...cols.map(({ x, col }) => <span key={`${x.slot.mark}${col?.months ?? ""}`} data-eq-newest={`${x.slot.mark}|${col ? col.months ?? "end" : "held"}`}>{x.slot.pick.id}{col ? <>, <FilingLink f={col.head}>{periodWords(col.head)}</FilingLink></> : null}</span>)]}
           rows={[
@@ -284,8 +289,41 @@ function Companies({ list, q, first }: { list: EqList; q: Query; first: string |
       c.market_value ? <span key="mv" title={`${c.ticker}: the close of ${dateWords(c.market_value.t)} times the shares it last filed, USD`} className="cursor-help whitespace-nowrap"><Num check={pfKey(LIST, ["companies", i, "market_value", "v"])} raw={c.market_value.v}>{wholeWords(c.market_value.v)}</Num></span> : none("mv", "market value"),
     ];
   };
+  // session 10414 (chain 720, part E): the newest period each company filed, as the list carries it since the contract's
+  // dated line of 27 November (data requests 578 and 579): the period's end and form, opening the filing, and its
+  // revenue in USD million with the months it covers. A list none of whose companies carries the field is the table
+  // as it was. A company whose filings carry a note while shown (a new registrant, a filer that stopped) says so.
+  const withNewest = list.companies.some((c) => c.newest_filed !== undefined);
+  const filedCells = (c: EqCompany): ReactNode[] => {
+    if (c.fundamentals_status !== "shown") {
+      const blank = (key: string) => <NotHeld key={key} words={blankWords(c.fundamentals_status)} why={blankWhy(c.fundamentals_status, c.fundamentals_why)} />;
+      return withNewest ? [blank("f"), blank("fr")] : [blank("f")];
+    }
+    if (!withNewest) return ["shown"];
+    const n = c.newest_filed, i = list.companies.indexOf(c);
+    if (!n) return [<NotHeld key="f" words="none filed" why={`${c.ticker}: the list holds no newest period for this company.`} />, <NotHeld key="fr" words="none filed" why={`${c.ticker}: the list holds no newest period for this company.`} />];
+    const words = `${n.period_end}${n.form ? `, ${n.form}` : ""}`;
+    const note = c.fundamentals_why ? <span className="cursor-help text-muted" title={`A note on what ${c.ticker} filed: ${c.fundamentals_why}`} data-eq-filed-note-mark={c.id}> (note)</span> : null;
+    const period = (
+      <span key="f" className="whitespace-nowrap" data-eq-newest-of={c.id}>
+        {secUrl(n.url) ? <a href={secUrl(n.url)!} className="inline-block py-1 -my-1" rel="noopener" title={`The filing on the SEC's site${n.filed ? `, filed ${n.filed}` : ""}: ${n.url}`}>{words}</a> : <span title={n.filed ? `Filed ${n.filed}` : undefined}>{words}</span>}{note}
+      </span>
+    );
+    const r = n.revenue;
+    const span = r && r.months !== null ? `${r.months} months to ${n.period_end}` : `the period to ${n.period_end}`;
+    const revenue = r
+      ? <span key="fr" className="cursor-help whitespace-nowrap" title={`${c.ticker}: revenue filed for ${span}, ${exact(r.v)} USD${n.form ? `, on ${n.form}` : ""}${n.filed ? `, filed ${n.filed}` : ""}`}><Num check={pfKey(LIST, ["companies", i, "newest_filed", "revenue", "v"])} raw={r.v}>{millions(r.v)}</Num>{r.months !== null ? <span className="text-muted"> ({r.months} months)</span> : null}</span>
+      : <NotHeld key="fr" words="not filed" why={`${c.ticker}: its newest filing (${words}) gives no revenue under the concept the ERW reads.`} />;
+    return [period, revenue];
+  };
   const sortHead = (s: Sort) => {
     const on = q.sort === s;
+    // session 10414: a period's sort opens newest first (then oldest first, then the list's own order) and says so in
+    // days' words; every other sort is as it was (A to Z, then Z to A, then the list's own order)
+    if (s === "filed") {
+      const next = !on ? { sort: s, desc: true } : q.desc ? { sort: s, desc: false } : { sort: null, desc: false };
+      return <SiteLink key={s} href={hrefOf(q, next, first, "#companies")} title={on ? (q.desc ? "Sorted newest first: press for oldest first" : "Sorted oldest first: press for the list's own order") : "Sort by the newest period filed, newest first"} data-eq-sort={s} className="inline-block py-1">{SORT_WORDS[s]}{on ? (q.desc ? " (newest first)" : " (oldest first)") : ""}</SiteLink>;
+    }
     return <SiteLink key={s} href={hrefOf(q, { sort: on && q.desc ? null : s, desc: on && !q.desc }, first, "#companies")} title={on ? (q.desc ? "Sorted Z to A: press for the list's own order" : "Sorted A to Z: press for Z to A") : `Sort by ${SORT_WORDS[s].toLowerCase()}`} data-eq-sort={s} className="inline-block py-1">{SORT_WORDS[s]}{on ? (q.desc ? " (Z to A)" : " (A to Z)") : ""}</SiteLink>;
   };
   return (
@@ -306,8 +344,9 @@ function Companies({ list, q, first }: { list: EqList; q: Query; first: string |
         <button type="submit" className="border border-rule bg-white px-3 py-1 text-sm">Filter</button>
         <span className="text-sm" data-eq-count={`${rows.length}|${list.companies.length}`}>{rows.length.toLocaleString("en-US")} of {list.companies.length.toLocaleString("en-US")} companies</span>
       </form>
-      <ToolTable words minWidth={priced ? 1280 : 720} caption={`The listed energy companies${q.seg ? ` of ${segmentLabel(list, q.seg)}` : ""}: ${rows.length} of ${list.companies.length}`}
-        head={[sortHead("name"), sortHead("ticker"), sortHead("exchange"), sortHead("segment"), "Industry", <span key="p">Share price: {sortHead("first")} to {sortHead("last")}</span>, "Filed figures",
+      <ToolTable words minWidth={(priced ? 1280 : 720) + (withNewest ? 240 : 0)} caption={`The listed energy companies${q.seg ? ` of ${segmentLabel(list, q.seg)}` : ""}: ${rows.length} of ${list.companies.length}`}
+        head={[sortHead("name"), sortHead("ticker"), sortHead("exchange"), sortHead("segment"), "Industry", <span key="p">Share price: {sortHead("first")} to {sortHead("last")}</span>,
+          ...(withNewest ? [sortHead("filed"), <span key="fr" className="cursor-help" title="The revenue of the newest period the company filed, in USD million, with the months the period covers: three for a quarter, twelve for a year. Two companies' figures compare only where the months are the same.">Revenue of that period, USD million</span>] : ["Filed figures"]),
           ...(priced ? [<span key="lc" data-eq-priced="1">Last close, USD</span>, ...MOVE_WORDS.map(([k, words]) => <span key={k}>{words}</span>), <span key="mv" className="cursor-help" title="The last close times the shares the company last filed, in USD.">Market value, USD</span>] : [])]}
         rows={rows.map((c) => ({ key: c.id, cells: [
           <SiteLink key="n" href={hrefOf(q, { a: c.id }, first, "#line")} className="inline-block py-1 -my-1" title={`Draw ${c.ticker}${c.cik ? `; SEC number ${c.cik}` : ""}`}>{c.name ?? c.ticker}</SiteLink>,
@@ -315,7 +354,7 @@ function Companies({ list, q, first }: { list: EqList; q: Query; first: string |
           <span key="s" title={[...c.segments.map((id) => { const g = list.segments.find((x) => x.id === id); return g?.rule ? `${g.label}: ${g.rule}` : g?.label ?? id; }), c.segments_note ?? ""].filter(Boolean).join(" ")} className="cursor-help">{c.segments.map((id) => segmentLabel(list, id)).join(", ")}</span>,
           <span key="i" title={c.sic ? `SIC ${c.sic}` : undefined}>{c.sic_label ?? ""}</span>,
           c.price_status === "shown" ? `${c.first ?? "?"} to ${c.last ?? "?"}` : <NotHeld key="p" words={blankWords(c.price_status)} why={blankWhy(c.price_status, c.price_why)} />,
-          c.fundamentals_status === "shown" ? "shown" : <NotHeld key="f" words={blankWords(c.fundamentals_status)} why={blankWhy(c.fundamentals_status, c.fundamentals_why)} />,
+          ...filedCells(c),
           ...(priced ? pricedCells(c) : []),
         ] }))} />
     </ToolSection>

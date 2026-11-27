@@ -1549,6 +1549,11 @@ async function main() {
       const equitiesFiled = qm !== null && text === (Number(raw) / 1e6).toLocaleString("en-US", qm[1] === "11"
         ? { minimumFractionDigits: 1, maximumFractionDigits: 1 } : { minimumFractionDigits: 0, maximumFractionDigits: 0 });
       if (!pass && equitiesFiled && t !== undefined && t !== null && same) pass = true;
+      // session 10414 (chain 720, part E): the table of every company writes the revenue of a company's newest filed
+      // period in millions too, whole, from the list's own field (index.json, companies/<i>/newest_filed/revenue/v)
+      const equitiesNewest = /^pf\|equities\/index\.json\|companies\/\d+\/newest_filed\/revenue\/v$/.test(check)
+        && text === (Number(raw) / 1e6).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      if (!pass && equitiesNewest && t !== undefined && t !== null && same) pass = true;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
       // that day's, and a date the page writes beside the figure must be the same date

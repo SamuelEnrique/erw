@@ -41,7 +41,10 @@ class TheFieldsAreAdditions(unittest.TestCase):
         self.assertIn("const priced = companiesPriced(list.companies);", view)
         self.assertIn("...(priced ? pricedCells(c) : []),", view)
         # the seven columns the table had are in their places
-        self.assertIn('head={[sortHead("name"), sortHead("ticker"), sortHead("exchange"), sortHead("segment"), "Industry", <span key="p">Share price: {sortHead("first")} to {sortHead("last")}</span>, "Filed figures",', view)
+        # (session 10414: the seventh, "Filed figures", is the newest period filed and its revenue where the list
+        # carries them, and "Filed figures" as it was in a list that does not)
+        self.assertIn('head={[sortHead("name"), sortHead("ticker"), sortHead("exchange"), sortHead("segment"), "Industry", <span key="p">Share price: {sortHead("first")} to {sortHead("last")}</span>,', view)
+        self.assertIn('] : ["Filed figures"]),', view)
 
     def test_a_figures_key_names_the_companys_place_in_the_file(self):
         view = src("site", "app", "equities", "view.tsx")
