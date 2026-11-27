@@ -76,3 +76,33 @@ prices as null with the license reason (no source a license allows: the owner's 
 `quarterly` rows, each filing's own period (the newest period end in that filing, one row a period length), newest
 first. The section "The rules that wait for the SEC" above is the draft this section replaces.
 
+## Joint filings (27 November 2026, done-line request 579)
+
+Many utilities file one 10-Q for a parent and its subsidiaries, and the SEC keeps the facts of such a filing in one of the
+filers' company-facts files: NextEra Energy's June and September 2026 10-Qs sit in Florida Power & Light's file (CIK
+37634), which the SEC names NEXTERA ENERGY, INC. So eighteen utilities seemed to stop at March 2026. The rule: a company's
+own 10-Q or 10-K (marked XBRL in its submissions), for a period after the newest its own facts hold, that its facts lack,
+is read from a co-registrant's file (the filers named in the filing's EDGAR header, or in the day's form index) only when
+that file names the same entity as the company's own (equal but for case, commas, periods and Company, Corporation,
+Incorporated, Limited against their abbreviations), and only that filing's facts are taken, credited to the company.
+A parent's file, which holds the parent's consolidated figures, is never read for a subsidiary. On 27 November: 30 filings
+joined; twelve of the eighteen now reach September 2026 (NextEra, Duke, AEP, Exelon, FirstEnergy and others); Dominion,
+DTE, Entergy, PPL, Southern and GFUZ still stop at March 2026, because their later filings sit in a co-registrant's file
+under that co-registrant's own name. A header the SEC does not serve (404) and a filer with no company-facts file are kept
+as such and not asked again.
+
+## Two notes while statements are shown (done-line request 579)
+
+`fundamentals_why` carries a note, the status staying `shown`, by two written rules: the newest filing is more than
+two years old (RCON's ends in September 2016: "the company has filed neither since"), or the filed history under the
+company's SEC number starts within two years (ExxonMobil's new holding company, from June 2026: "a new registrant, and any
+predecessor's filings under another SEC number are not read"). Joining a predecessor's number is not done: nothing in the
+SEC's files names it.
+
+## The newest filing in the list (done-line request 578)
+
+Each company of `index.json` carries `newest_filed`: its newest period end and, for it, each statement line's figure
+for the shortest period to that end (a 10-Q's 3 months where filed, else its year to date, `months` saying which),
+debt and shares outstanding at that end, the later filing's figure where a period was filed twice: the page's own rule
+(`site/lib/equities.ts` `newestOf`). Null when nothing is filed.
+
