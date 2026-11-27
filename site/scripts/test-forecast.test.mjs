@@ -721,3 +721,20 @@ test("session 6005: West Virginia's solar, gas and geothermal plants by the Tax 
   near(prop("geothermal", 35), 150e6 * 0.20 * 0.6 * 0.0192, 1e-9, "20 percent, the table's last figure");
   assert.deepEqual(P.property.states.wv.rules.find((r) => r.id === "wv_property").schedule_pct.slice(0, 5), [98, 97, 95, 93, 91]);
 });
+
+test("coal, the fifth plant type (session 10822): EIA's case 1 and JEDI's coal model give its defaults", () => {
+  assert.ok(F.TECH_KEYS.includes("coal"));
+  const e = P.eiaCapex.technologies.coal;
+  assert.equal(e.case, 1); assert.equal(e.case_mw, 650); assert.equal(e.base_usd_per_kw, 4103); assert.equal(e.dollar_year, 2023);
+  const d = F.defaults(P, "coal", "wy");
+  assert.equal(d.mw, 650);
+  assert.equal(d.build, Math.ceil(e.construction_months / 12)); assert.equal(d.build, 3);
+  assert.equal(d.life, 40);
+  near(d.capex, F.round(e.states.wy.usd_per_kw * F.to2025(P, 2023), 2), 1e-12, "Wyoming's EIA cost in 2025 dollars");
+  assert.equal(d.taxable, 45.6198);  // 828,000,000 / 1,815,000,000, the workbook's facility and equipment over its default cost
+  assert.ok(Number.isNaN(d.cf), "no capacity factor: no production tax, no fuel modelled");
+  // JEDI's default cost a MW at Texas, the workbook's own: 1,815,000,000 / 600 MW, 2011 dollars
+  assert.equal(P.jediCosts.technologies.coal.states.tx.cost_usd_per_mw, 3025000); assert.equal(P.jediCosts.technologies.coal.dollar_year, 2011);
+  // the four other types keep their defaults
+  assert.equal(F.defaults(P, "land_based_wind", "tx").mw, 200); assert.equal(F.defaults(P, "geothermal", "nv").mw, 50);
+});
