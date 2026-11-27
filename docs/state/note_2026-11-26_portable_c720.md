@@ -2,6 +2,38 @@
 
 Energy Research Warehouse (ERW). Kept current; state at 18:54 UTC on 26 November 2026. Sessions 10400 to 10407. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10407_REPORT.md`.
 
+## 27 November: what changed since you took the laptop (sessions 10408 and 10409)
+
+You asked for two things first. Both are done on branches and requested for landing; neither is on production yet.
+
+- **Rows 59, 60 and 61 landed on 26 November** (the line "with the weather known", the small "i" mark, the two hovers). Everything under sections 1 to 4 below that says "once row 59 has landed" is on production now.
+
+**Equities on the SEC's company figures (row 62, `wip/c720-equities-sec`).**
+
+- **What production shows today** (read at 09:13 UTC on the real files): 307 companies, every share price a dashed box that says "license needed", each company's newest filing in a table. And no chart at all once a company is chosen, which is what this row mends.
+- **What to click once row 62 has landed.** Open `https://erw-flame.vercel.app/equities?a=NEE&b=DUK`.
+  - **You should see** two dashed boxes, "Share price, NEE, NEXTERA ENERGY INC: license needed" and the same for Duke.
+  - Under "Filed figures": two figures, "Revenue, 3 months to 2026-03-31", 6,701 and 9,178 USD million, each with its filing's link, and under each a line of revenue by quarter since 2009.
+  - Put the mouse on a line. **You should see** the quarter and its revenue.
+  - Under "Choices" at the left, change "Filed figure" to "Debt" and "Its periods" to "12 months". **You should see** each company's debt at the end of each year reported.
+  - Under the charts: "Newest period filed", one column a company and a length of period. For a company whose newest filing is for June or September you should see two columns, the 3 months and the year to date.
+  - Under "Energy prices": WTI crude oil as a line of its own, as before the companies came.
+  - In the table "Every company": tick "Filed figures shown" and press Filter. **You should see** 243 of 307 companies.
+- **What is real:** every filed figure, from the SEC's own filings, each with its filing's address. Checked against the files: 1,179,547 figures on 2,329 pages, none differing.
+- **What is blank, and why:** every share price, index and segment line ("license needed": no source's terms let the ERW keep daily prices). 64 companies' filed figures ("source needed": foreign filers and some partnerships).
+- **Three things I asked the data machine about** (requests 578 to 580): eighteen large utilities (Duke, NextEra, Southern, AEP and others) show nothing after the quarter to March 2026, while 206 companies reach September; Exxon shows two quarters only, because its SEC number is a new holding company's; one company's last filing is from 2016. The page draws what the files hold.
+
+**The forecast's new outputs (row 63, `wip/c720-forecast-lines`).** What to click once it has landed, at `https://erw-flame.vercel.app/forecast`:
+
+- Under "Tomorrow", below the days after tomorrow: **"Texas: wind, solar and net demand"**. Four figures (in the files of 27 November: lowest net demand 22,342 MW at 14:00, highest 42,817 MW at 17:00, highest wind hour 16,297 MW, highest solar hour 24,395 MW), a chart of four lines (demand, net demand, wind, solar), a table of how each has scored, and the hours behind a fold.
+- Under "How it has done", below the past day: **wind and solar on that day**, the forecast as a line and what happened as a dashed line of the same color.
+- Below the report card: **"the operator's filed forecast, checked by month"**. For Texas: "In 1 of 89 months the forecast filed on Form EIA-930 is more than 5 percent from the demand it forecasts over the whole month. In those months the filed forecast is not the operator's own forecast." Then the scores on every month beside the months that pass, and every month behind a fold. Choose Duke Energy Florida (FPC) to see a place where all 89 months are flagged.
+- Below it: **"with the weather forecast (a separate line, not the ERW forecast), KDFW: 17 of the 30 days needed, too few days to judge"**, one row of scores, and its hours for tomorrow behind a fold. It is in no chart.
+- Below it: **"the band, and how often what happened fell inside it"**. For Texas: demand 80.30 percent inside, 9.40 below, 10.30 above; a chart by hour of the day; each month behind a fold.
+- Press the "Price" tab and scroll past "How it has done": **"Real-time price"**. For Texas, at ercot:HB_NORTH: a dashed box that says "no forecast yet" for tomorrow (the file's own words: the day-ahead price for the day was not held when the forecast was made), a past day with the forecast, the day-ahead price and what happened, and the report card (over the last two years the ERW forecast missed by 12.33 USD/MWh, the day-ahead price by 11.83).
+- **What is real:** every figure, from window B's files, each with its key into its file. Checked: 104,171 figures on 120 pages (all 29 places), none differing.
+- **Not drawn, and asked of window B** (its requests 11 and 12): CAISO's own wind and solar lines, which no place's file names; net demand for tomorrow in four regions, where the file is empty and gives no reason.
+
 ## One thing first: a held price is drawn on production
 
 - **Where:** the Grid tool's Network view with Prices on (`https://erw-flame.vercel.app/grid?grid=us48&view=network&net=day&t=2025-07-24&node=NYIS&prices=1`), in the internal view. The page is in review, so a visitor does not see it.
