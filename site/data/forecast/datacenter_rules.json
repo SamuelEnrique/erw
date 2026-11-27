@@ -78,7 +78,8 @@
   "me_36_691": {"title": "Maine Revised Statutes, Title 36, §691, Definitions (the business equipment tax exemption, as PL 2025, c. 768 amended it; the page's data extracted 5 October 2026)", "url": "https://legislature.maine.gov/statutes/36/title36sec691.html", "read": "2026-11-27", "request": 440},
   "de_9_81": {"title": "Delaware Code, Title 9, Chapter 81, Subchapter I, §§ 8101 and 8103 (the page decoded from its kept bytes as Windows-1252)", "url": "https://delcode.delaware.gov/title9/c081/sc01/index.html", "read": "2026-11-27", "request": 443},
   "sd_10_4_1": {"title": "South Dakota Codified Laws 10-4-1, Property generally subject to taxation", "url": "https://sdlegislature.gov/api/Statutes/10-4-1.html", "read": "2026-11-27", "request": 446},
-  "sd_10_4_6_1": {"title": "South Dakota Codified Laws 10-4-6.1, Exemption from taxation of personal property not centrally assessed", "url": "https://sdlegislature.gov/api/Statutes/10-4-6.1.html", "read": "2026-11-27", "request": 445}
+  "sd_10_4_6_1": {"title": "South Dakota Codified Laws 10-4-6.1, Exemption from taxation of personal property not centrally assessed", "url": "https://sdlegislature.gov/api/Statutes/10-4-6.1.html", "read": "2026-11-27", "request": 445},
+  "or_307_030": {"title": "Oregon Revised Statutes 307.030, Property subject to assessment generally (chapter 307, 2025 edition page)", "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors307.html", "read": "2026-11-27", "request": 449}
  },
  "split": {
   "cite": "jlarc_598",
@@ -608,6 +609,13 @@
     "quote": "All real property in this state and the property of corporations existing or hereafter created",
     "personal": {"cite": "sd_10_4_6_1", "quote": "Personal property, as defined in this chapter, which is not centrally assessed is hereby classified for ad valorem tax purposes and is exempt from ad valorem taxation."},
     "tip": "South Dakota (Codified Laws 10-4-1 and 10-4-6.1): real property is subject to taxation, and \"Personal property, as defined in this chapter, which is not centrally assessed is hereby classified for ad valorem tax purposes and is exempt from ad valorem taxation\". The tool takes a datacenter's equipment as not centrally assessed (the list of what is centrally assessed is not read), so it owes none. The building is taken at its cost and the reader's effective rate, an upper bound: the share of value South Dakota taxes is not read. No sales tax rule is read for South Dakota."
+   }
+  },
+  "or": {
+   "name": "Oregon",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "or_307_030",
+    "quote": "All real property within this state and all tangible personal property situated within this state, except as otherwise provided by law, shall be subject to assessment and taxation in equal and ratable proportion.",
+    "tip": "Oregon (ORS 307.030): \"All real property within this state and all tangible personal property situated within this state, except as otherwise provided by law, shall be subject to assessment and taxation in equal and ratable proportion\", so the building and the equipment are both taxed. The tool takes them at their cost (Oregon's assessed value, which can be below market value, and any depreciation are not read: an upper bound) and applies the reader's rate; an abatement a county or enterprise zone approves goes in the abatement input, since none is applied by statute here. No sales tax rule is read for Oregon."
    }
   }
  }
