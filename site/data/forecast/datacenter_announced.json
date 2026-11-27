@@ -2511,6 +2511,33 @@
    "incentive": "",
    "years": "",
    "note": "One investment for campuses in two counties, as the Amazon northern Indiana row; the release counts construction as \"thousands of local construction jobs\", no number, so none is taken. Georgia's own agencies refuse this reader (georgia.org), so the company's page is the document."
+  },
+  {
+   "id": "oh_aws_fayette_2024",
+   "name": "AWS, Fayette County data centers",
+   "company": "Amazon Web Services",
+   "state": "oh",
+   "county": "Fayette County",
+   "doc": {
+    "title": "AWS plans $10 billion infrastructure investment in Ohio, advancing the future of AI (updated 24 December 2024)",
+    "publisher": "Amazon (About Amazon)",
+    "date": "2024-12-24",
+    "url": "https://www.aboutamazon.com/news/aws/aws-continues-to-invest-in-ohio",
+    "request": 434
+   },
+   "mw": null,
+   "investment": {
+    "value": 5000000000,
+    "year": 2024,
+    "says": "$5 billion",
+    "qualifier": "an estimated",
+    "quote": "The first of the new sites is located in Fayette County, where AWS plans to invest an estimated $5 billion to establish new data centers."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "",
+   "note": "The first of up to eight new sites in AWS's USD 10 billion Ohio plan through 2030 (the page's own update of its 2023 announcement, whose USD 7.8 billion for central Ohio is its own row). Jobs are given as \"hundreds\", no number, so none is taken."
   }
  ]
 }
