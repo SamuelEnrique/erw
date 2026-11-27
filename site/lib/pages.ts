@@ -114,7 +114,7 @@ export const GROUPS: Group[] = [
       { href: "/events", label: "Events", line: "What happened to a grid during a major event, day by day, against the same days of earlier years: Winter Storm Uri, COVID-19 in the seven ISO grids, the August 2020 heat in CAISO, Winter Storm Elliott and the summer 2023 heat in ERCOT.", tables: "event_window_daily", related: ["/grid"] },
       { href: "/policy", label: "Policy", line: "Energy rules, proposed rules and notices from the Federal Register and agency news, scored, with impact reads of the significant ones.", tables: "policy_actions, policy_reads", related: ["/digest", "/deals"] },
       // session 135: Thesis Builder as a tool of the site (in review, and internal: the page answers only the internal view). Session 146: moved here from Projects, which holds eight with "Where the resources are"
-      { href: "/thesis", label: "Thesis Builder", line: "Type a niche and get a sourced investment map of it: scope and definitions, trends, the company landscape, the deal funnel, the pipeline, capital, incumbents, risks and policy, every figure with its source.", tables: "thesis_runs (internal)", related: ["/deals", "/policy"] },
+      { href: "/thesis", label: "Thesis Builder", line: "Type a niche and get a sourced market report of it: scope and definitions, five trends each drawn with a real series, capital, incumbents, risks, policy and timing, every figure with its source; the company landscape, deal funnel and pipeline fill from a data provider's answer you paste from your own account. Internal.", tables: "thesis_runs (internal)", related: ["/deals", "/policy"] },
     ],
   },
   {
@@ -128,7 +128,7 @@ export const GROUPS: Group[] = [
       { href: "/play/battery", label: "Home battery game", line: "Run a home battery through a real day of ERCOT prices: charge cheap, sell dear, answer the fleet call, and see what perfect foresight would have earned.", tables: "iso_rtm_hub_prices, ercot_all_hub_prices_history", related: ["/storage", "/grid"] },
       // session 53: the guided tour, first
       // session 292 (ruling 11a): a guided path of seven stops
-      { href: "/tour", label: "The tour", line: "Twelve stops for a first visit, about eight minutes, one page each with Back and Next: the three tools, the grid, research, the price board and the digest, then the whole country: its regions, a storm across it, demand, trade and the resource map.", tables: "" },
+      { href: "/tour", label: "The tour", line: "A guided path for a first visit, one page a stop with Back and Next: the three tools, the grid, research, the price board and the digest, then the whole country: its regions, a storm across it, demand, trade, the resource map, where energy goes, the energy of AI, every state and grid conditions.", tables: "" },
       // session 43: the bill explainer (in Economics from session 203 to session 288)
       { href: "/learn/bill", label: "What is on a bill", line: "Five real electricity bills built line by line from the tariffs (PG&E, SCE and SDG&E in California; Oncor and CenterPoint in Texas), and how much of each is the wholesale price of energy.", tables: "site/data/bill_rules.json; cost_of_power_monthly", related: ["/learn/problems/prices-and-your-bill", "/cost-of-power"] },
       // session 44: the problem sets; session 288: one entry, the index of the five

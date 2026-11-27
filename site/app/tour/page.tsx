@@ -18,7 +18,7 @@ export default function Tour() {
       <h1 className="mb-1 text-3xl">The tour</h1>
       <p className="mb-5 max-w-3xl text-base">
         {STOPS.length} stops through the Energy Research Warehouse for a first visit, about {MINUTES} minutes in all: the three tools, the grid, research,
-        the price board and the daily digest{STOPS.length > RULED_STOPS.length ? ", then the whole country: its regions, a storm across it, demand, trade and the resource map" : ""}. Each stop says what to look at and opens the page.
+        the price board and the daily digest{STOPS.length > RULED_STOPS.length ? ", then the whole country: its regions, a storm across it, demand, trade, the resource map, where energy goes, the energy of AI, every state and grid conditions" : ""}. Each stop says what to look at and opens the page.
       </p>
       <TourBar at={0} />
       <ol className="mb-6 max-w-3xl">
@@ -36,7 +36,7 @@ export default function Tour() {
         <Link href={stopPath(1)} className="inline-block border border-accent bg-accent px-4 py-2 no-underline"><span className="text-white">Start the tour</span></Link>
       </div>
       <p className="max-w-3xl text-sm text-muted">
-        After the tour: the <Link href="/">home page</Link> lists every tool by who it is for, and <Link href="/data">data and methods</Link> says how every
+        After the tour: the <Link href="/">home page</Link> shows the five groups of tools, and <Link href="/data">data and methods</Link> says how every
         number is built.
       </p>
     </div>

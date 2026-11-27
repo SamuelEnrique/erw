@@ -154,7 +154,8 @@ class Reader(unittest.TestCase):
         note = src("docs", "methods", "thesis.md")
         for words in ("20 points", "10 points", "points", "prompt", "query plan", "DOE OR ARPA-E", "three agentic passes", "max_uses", "Sonnet", "USD"):
             self.assertNotIn(words, note, words)
-        for words in ("A number is written only if it appears in a fetched source", "PitchBook pending", "labeled \"PitchBook\"", "not published"):
+        # session 10236 (the home page audit, finding 13): the note says what the literal-number check does with a sentence
+        for words in ("Every number is checked against the fetched sources its row cites", "PitchBook pending", "labeled \"PitchBook\"", "not published"):
             self.assertIn(words, note, words)
         self.assertNotIn(chr(0x2014), note)
 

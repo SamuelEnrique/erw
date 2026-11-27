@@ -113,7 +113,8 @@ async function groupNumbers() {
     const v = BS.stat(stack.data, [], bx, "l12_kw:total");
     const l12 = BS.lastTwelve(BS.monthsOf(stack.data, bx.strat, bx.dur));
     if (v !== null && l12) out.Economics = { value: <><span className="font-sans text-sm text-muted">USD </span><Num check={`bs|${BS.inputsKey(bx)}|l12_kw:total`} raw={v}>{n2(v)}</Num></>, unit: "per kW",
-      note: `What a 100 MW, 4-hour battery in ERCOT earned, ${BS.monthName(l12[0].m)} to ${BS.monthName(l12[11].m)}.`, table: BS.TABLE };
+      // session 10236 (audit finding 4): the default strategy is perfect foresight, and a figure per kW does not depend on the size
+      note: `What the model's 4-hour battery in ERCOT would have earned with perfect foresight of prices, ${BS.monthName(l12[0].m)} to ${BS.monthName(l12[11].m)}, per kW of power.`, table: BS.TABLE };
   }
   // Grid: ERCOT's demand in the newest hour held
   if (demand.ok && demand.data) {
@@ -126,14 +127,16 @@ async function groupNumbers() {
     const mw = (rows: typeof fleet.data) => Math.round(rows.reduce((a, u) => a + (u.capacity_mw ?? 0), 0) * 10) / 10;
     const op = fleet.data.filter((u) => u.status === "operating");
     out.Infrastructure = { value: <Num check="storage|mw|operating" raw={mw(op)}>{shown(mw(op))}</Num>, unit: "MW",
-      note: "Batteries operating in the US, nameplate power, from EIA's monthly generator inventory.", table: "storage_capacity" };
+      // session 10236 (audit finding 5): "operating" holds EIA's standby and out-of-service units (codes SB, OA, OS)
+      note: "Batteries EIA lists as operating in the US, a few standby and out-of-service units among them, nameplate power, from its monthly generator inventory.", table: "storage_capacity" };
     const tx = op.filter((u) => u.iso === "ERCOT");
     out.Games = { value: <Num check="storage|iso_mw|ERCOT|operating" raw={mw(tx)}>{shown(mw(tx))}</Num>, unit: "MW",
-      note: "Batteries operating in ERCOT, the real fleet the battery game sets beside your own.", table: "storage_capacity" };
+      note: "Batteries EIA lists as operating in ERCOT, standby and out-of-service units among them, the real fleet the battery game sets beside your own.", table: "storage_capacity" };
   }
   // Analysis: the findings in the library (site/data/findings/catalogue.json, checked by the value checker from the file)
-  out.Analysis = { value: <Num check="findings|count" raw={findings.length}>{n0(findings.length)}</Num>, unit: "findings",
-    note: "In the research library today, each run with the inputs you choose.", table: "findings catalogue" };
+  // session 10236 (audit finding 3): the catalogue holds analyses, seven findings (three in two versions) and the impact study
+  out.Analysis = { value: <Num check="findings|count" raw={findings.length}>{n0(findings.length)}</Num>, unit: "analyses",
+    note: "Analyses you can run in the research library, each with the inputs you choose: seven findings, three of them in two versions, and the impact study.", table: "findings catalogue" };
   return out;
 }
 
@@ -142,7 +145,8 @@ const GROUP_LINES: Record<string, string> = {
   Economics: "What energy costs and earns: every price on one board, the cost of power, what a battery or a generator earns, and the tax on a barrel.",
   Grid: "The grid as it runs: one grid at a time, the network of balancing authorities and the power they trade, demand growth and curtailment.",
   Infrastructure: "What is built, where and by whom: the project map, the datacenter tracker, the battery fleet and the deals.",
-  Analysis: "Research on demand, a warehouse you can ask, the events, policy and the Thesis Builder, every answer from the tables.",
+  // session 10236 (audit finding 2): the Thesis Builder's reports rest on web pages and public series, not the tables
+  Analysis: "Research on demand, a warehouse you can ask, the events and policy, every answer from the tables; and the Thesis Builder, internal, whose market reports cite the web pages and public series they rest on.",
   Games: "The battery game and the EV game, the tour, a bill built line by line, and five problem sets for a class.",
 };
 const HOME_GROUPS = ["Economics", "Grid", "Infrastructure", "Analysis", "Games"];
@@ -173,7 +177,8 @@ function Groups({ N }: { N: Awaited<ReturnType<typeof groupNumbers>> }) {
 /** The latest Digest: its title, its opening line and its first five stories (docs/digest/latest.md). */
 function Digest() {
   const items = topItems(DOCS.latest, 5);
-  const title = digestTitle(DOCS.latest).replace(/^(?:ERW's )?Energy Digest,\s*/, "");
+  // session 10236: the issues since 12 November are titled "ERW Daily Digest, <date>"; the link names the date alone, as before
+  const title = digestTitle(DOCS.latest).replace(/^(?:(?:ERW's )?Energy|ERW Daily) Digest,\s*/, "");
   const opening = DOCS.latest.split("\n").map((s) => s.trim()).find((s) => s && !s.startsWith("#")) ?? "";
   return (
     <ToolSection title="ERW's Energy Digest" id="digest" note={<>The weekday brief of energy news, scored and ranked. <Link href="/digest">The full Digest of {title} and the archive</Link>; <Link href="/roundup">ERW&apos;s Roundup</Link> on Sundays.</>}>
@@ -205,7 +210,7 @@ export default async function Home() {
           <Groups N={N} />
           <Digest />
           <SourceLine tables={[...new Set(["latest_prices", markets.fuels.table, ...(chartTable ? [chartTable] : []), ...HOME_GROUPS.map((g) => N[g]?.table).filter((t): t is string => !!t && !t.includes(" "))])]}
-            note={<>Every number on this page is read from the ERW&apos;s tables and checked against them; the findings are counted from the library&apos;s own catalogue. <Link href="/data">Data and methods</Link>.</>} />
+            note={<>Every figure of the strip and the five groups is read from the ERW&apos;s tables and checked against them, and today&apos;s chart from its table; the analyses are counted from the library&apos;s own catalogue; the Digest&apos;s stories are the news as each source reported it. <Link href="/data">Data and methods</Link>.</>} />
         </div>
       </ToolPage>
     </Brand>
