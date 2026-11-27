@@ -43,6 +43,7 @@ import gzip
 import io
 import json
 import os
+import re
 import sys
 import time
 import traceback
@@ -331,26 +332,27 @@ def fundamentals_rows(cik, ticker, facts, retrieved):
 
 
 def filers_since(client, since, today, log):
-    """CIKs that filed a 10-Q, 10-K or an amendment on EDGAR's daily form indexes after `since` up to `today`."""
-    out, day = set(), since + dt.timedelta(days=1)
+    """(CIKs that filed a 10-Q, 10-K or an amendment on EDGAR's daily form indexes after `since` up to `today`, the last
+    day read). A day's index is published in its evening, and a holiday has none: the last day read is the last day whose
+    index answered, so a day not yet published is asked again by the next run, and a holiday before an answered day is
+    passed."""
+    out, day, last_read = set(), since + dt.timedelta(days=1), since
     while day <= today:
         if day.weekday() < 5:
             url = INDEX_URL.format(y=day.year, q=(day.month - 1) // 3 + 1, d=day.strftime("%Y%m%d"))
             r = client.get(url)
             if r.status_code == 200:
+                last_read = day
                 for ln in r.text.splitlines():
                     form = ln[:12].strip()
-                    if form in FORMS:
-                        parts = ln.split()
-                        for p in reversed(parts):
-                            if p.isdigit() and len(p) <= 10:
-                                out.add(cik10(p))
-                                break
+                    m = re.search(r"edgar/data/(\d+)/", ln)   # the file name holds the CIK (the line's date is digits too)
+                    if form in FORMS and m:
+                        out.add(cik10(m.group(1)))
             elif r.status_code != 404 and r.status_code != 403:
                 raise RuntimeError(f"EDGAR's form index for {day}: HTTP {r.status_code}")
         day += dt.timedelta(days=1)
-    log(f"  daily form indexes after {since}: {len(out)} filers of a 10-Q or 10-K")
-    return out
+    log(f"  daily form indexes after {since}: {len(out)} filers of a 10-Q or 10-K; read through {last_read}")
+    return out, last_read
 
 
 def header_universe(t, run_id, tickers_rec):
@@ -428,10 +430,10 @@ def run_fundamentals(client, log, run_id, retrieved, limit=None):
     os.makedirs(fdir, exist_ok=True)
     state_p = os.path.join(fdir, "last_index_day.txt")
     today = dt.datetime.now(dt.timezone.utc).date()
-    refresh = set()
+    refresh, read_through = set(), None
     if os.path.exists(state_p):
         since = dt.date.fromisoformat(open(state_p, encoding="utf-8").read().strip())
-        refresh = filers_since(client, since, today, log)
+        refresh, read_through = filers_since(client, since, today, log)
     frames, asked, failed = [], 0, []
     for cik, ticker in zip(u["cik"], u["ticker"]):
         cp = os.path.join(fdir, f"CIK{cik}.json.gz")
@@ -458,7 +460,7 @@ def run_fundamentals(client, log, run_id, retrieved, limit=None):
     log(f"  companies {len(u)}; facts asked {asked}; with facts {t['entity'].nunique()}; rows {len(t)}")
     if not limit:
         ip.write_snapshot(t, FUNDAMENTALS, header_fundamentals(t, run_id, t["entity"].nunique()), log, cols=FUND_COLS)
-        open(state_p, "w", encoding="utf-8").write(today.isoformat())
+        open(state_p, "w", encoding="utf-8").write((read_through or today - dt.timedelta(days=1)).isoformat())
     else:
         print(f"a trial of {limit} companies: {len(t)} rows, not written")
     return t

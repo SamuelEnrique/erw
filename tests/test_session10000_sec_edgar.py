@@ -119,6 +119,36 @@ class TheStatements(unittest.TestCase):
         self.assertEqual(concepts["revenue"], "us-gaap:Revenues")
 
 
+class TheDailyIndexes(unittest.TestCase):
+    """The last index day read is the last day whose index answered: a holiday before it is passed, a day not yet
+    published after it is asked again by the next run."""
+
+    def client(self, answers):
+        class R:
+            def __init__(self, code, text=""):
+                self.status_code, self.text = code, text
+
+        class C:
+            def get(_, url):
+                d = url.rsplit(".", 2)[-2]
+                code, text = answers.get(d, (404, ""))
+                return R(code, text)
+        return C()
+
+    def test_a_holiday_is_passed_and_an_unpublished_day_kept(self):
+        import datetime as dt
+        line = "10-Q        SOME ENERGY CO                                                1234567     20261125    edgar/data/1234567/x.txt"
+        answers = {"20261125": (200, line), "20261126": (404, ""), "20261127": (200, ""), "20261130": (404, "")}
+        out, last = SE.filers_since(self.client(answers), dt.date(2026, 11, 24), dt.date(2026, 11, 30), lambda m: None)
+        self.assertEqual(out, {"0001234567"})
+        self.assertEqual(last, dt.date(2026, 11, 27))   # Thanksgiving (26th) passed; the 30th not yet published
+
+    def test_nothing_published_keeps_the_day(self):
+        import datetime as dt
+        out, last = SE.filers_since(self.client({}), dt.date(2026, 11, 26), dt.date(2026, 11, 27), lambda m: None)
+        self.assertEqual((out, last), (set(), dt.date(2026, 11, 26)))
+
+
 class AUtilitysRevenue(unittest.TestCase):
     def test_the_total_before_the_contracts_part(self):
         # the cross-check of 27 November 2026: for NextEra and Duke the contracts concept is a part of operating revenue
