@@ -4,9 +4,9 @@
 # 44 have an answer in the table (kind figure: a number, a count or a word); 12 ask of something the table has no row or
 # column for (outside: "not in the warehouse", the missing thing named, no figure); 2 of a cell that says the documents read do
 # not state the thing (unstated: the answer says so and gives no figure).
-# Every expected answer was computed before any model call from the table's own file on this machine, as restored from the archive, on 2026-11-26 by
+# Every expected answer was computed before any model call from the table's own file on this machine, as restored from the archive, on 2026-11-27 by
 # scripts/ask_eval/newtables_questions.py, which writes this file; each note names the table, the row or filter and the column.
-# The tables' runs: utility_large_load_rules 20261126T215755Z; utility_large_load_rule_changes 20261126T215755Z; state_large_load_laws 20261126T215755Z; forecast_tool_parameters 20261114T133323Z; deal_counterparties 20261113T151045Z; iso_reserve_margin_reports 20261112T165529Z.
+# The tables' runs: utility_large_load_rules 20261126T215755Z; utility_large_load_rule_changes 20261126T215755Z; state_large_load_laws 20261126T215755Z; forecast_tool_parameters 20261114T133323Z; deal_counterparties 20261127T152647Z; iso_reserve_margin_reports 20261112T165529Z.
 # tolerance: 0.01 under 1,000, 0.5 from 1,000. A text entry with "|" is met by any one of its parts; count: true asks the figure apart from a clock time.
 today: '2026-11-14'
 questions:
@@ -772,7 +772,7 @@ questions:
   grid: none
   via: general
   question: "How many companies does the warehouse's deal counterparties table hold?"
-  expected: [532.0]
+  expected: [527.0]
   tolerance: 0.01
   text: []
   tables: ["deal_counterparties"]
