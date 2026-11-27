@@ -211,7 +211,7 @@ def weather_regressors(T):
 
 
 def regression_weather_forecast(M, temp, F, tz, h, fit_days=FIT_DAYS, min_fit=MIN_FIT_DAYS):
-    """The regression with the weather (method note section 17), fitted as `regression_weather_known` is, on the
+    """The regression with the weather (method note section 19), fitted as `regression_weather_known` is, on the
     airport's observed temperature of the days held when the forecast is made (rows j <= i - h), and applied to day i
     with the temperature FORECAST for it, as issued no later than the hour the forecast is made (F, from
     predict_weather.forecast_matrix, aligned to M's days). Computed only on the days F holds. Returns (P_forecast,

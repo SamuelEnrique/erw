@@ -221,7 +221,7 @@ def main():
             msk = ((c["day"] >= s0) & (c["day"] <= s1)).to_numpy()
             if msk.any():
                 cuts[("event", eid)] = msk
-        # the operator's filing check (method note section 16): a month whose filed forecast sums more than 5 percent
+        # the operator's filing check (method note section 18): a month whose filed forecast sums more than 5 percent
         # from the demand over the hours both hold is flagged; the cuts operator_sound(_last_2_years) take the rest
         if p in ops:
             y = x[(x["actual"] > 0) & x["operator"].notna()]

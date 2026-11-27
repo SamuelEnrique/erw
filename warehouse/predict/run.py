@@ -148,7 +148,7 @@ def append_ledger(site, rows, series="demand"):
 
 
 WX_MIN_DAYS = 30
-WX_WHAT = ("the regression with the weather (method note section 17), fitted on the airport's observed temperature of "
+WX_WHAT = ("the regression with the weather (method note section 19), fitted on the airport's observed temperature of "
            "the days held when the forecast is made and applied with the National Weather Service's hourly forecast for "
            "the airport, as issued no later than 20:00 UTC the day before the target day (weather_forecast_issued_hourly, "
            "and the rows of weather_forecast_hourly whose issue was that early). A separate line, never the ERW forecast: "
@@ -158,7 +158,7 @@ WX_WHAT = ("the regression with the weather (method note section 17), fitted on 
 
 
 def weather_forecast_line(place, res, hr, tz, wxf, target):
-    """The separate line "with the weather forecast" of one place (method note section 17): (file block, score rows)."""
+    """The separate line "with the weather forecast" of one place (method note section 19): (file block, score rows)."""
     rows_f, obs = wxf
     airport = wxmod.PLACE_AIRPORT[place]
     M = res["M"]
@@ -188,7 +188,7 @@ def weather_forecast_line(place, res, hr, tz, wxf, target):
     return out, srows
 
 
-NET_WHAT = ("net demand: the demand less the output of wind and solar (method note section 18). The ERW's is its demand "
+NET_WHAT = ("net demand: the demand less the output of wind and solar (method note section 20). The ERW's is its demand "
             "forecast less its wind and solar forecasts (warehouse/predict/wind_solar.py), all made at 20:00 UTC the day before "
             "from data through two days before; yesterday is the same hour of the latest whole day read, net; the operator's, "
             "where all three of its forecasts are held (Texas, from 27 September 2026), its demand forecast as filed on "
@@ -276,7 +276,7 @@ def demand_place(place, dem, op, ref, made, evs, wx=None, wxf=None):
     for suf in ("", "_lo", "_hi"):
         hr["erw" + suf] = hr[choice + suf]
     hr["made_utc"] = pd.to_datetime(hr["day"] - pd.Timedelta(days=1)).dt.tz_localize("UTC") + pd.Timedelta(hours=DEMAND_MADE_HOUR)
-    # part F: the operator's filing checked against the demand it forecasts (method note section 16); judges the
+    # part F: the operator's filing checked against the demand it forecasts (method note section 18); judges the
     # comparator only, never the choice above
     filing = score.filing_check(hr) if o is not None else None
     rows = score.rows(place, "demand", hr, SCORED, evs, sound=score.sound_months(filing) if filing else None)
@@ -431,7 +431,7 @@ def demand_series(p, made, ledger):
 
 
 def operator_filing(p):
-    """The filing check of the operator's forecast (method note section 16) and the scores on the sound months."""
+    """The filing check of the operator's forecast (method note section 18) and the scores on the sound months."""
     fc = p.get("filing")
     if not fc:
         return None
@@ -674,7 +674,7 @@ def main(argv=None):
     ledger = read_ledger(a.site_dir)
     ledger_p = read_ledger(a.site_dir, "price")
     print(f"  ledger: {added} demand rows and {added_p} price rows added", flush=True)
-    # part F: net demand (method note section 18), for the regions and ERCO, from the wind and solar forecast
+    # part F: net demand (method note section 20), for the regions and ERCO, from the wind and solar forecast
     netd = {}
     if os.path.exists(data.table_path(wsmod.REGION_FUEL)):
         wsdf = wsmod.panels()
@@ -714,9 +714,9 @@ def main(argv=None):
                               "last_day": day_str(max(q["hr"]["day"].max() for q in prices.values())) if prices else None}},
               methods=[{"id": m, "what": METHOD_WORDS[m]} for m in SCORED],
               separate_lines={"with_weather_known": "the regression with the region's observed temperature added: it reads the target day's own weather, so it is not a forecast and never the ERW forecast; scored apart (series demand_weather_known, cuts all and last_2_years) on the hours its weather is held, beside the regression and the operator on the same hours"},
-              separate_lines_added={"with_weather_forecast": "series demand_weather_forecast (session 10602): the regression with the airport's observed temperature in the fit and the NWS forecast as issued by 20:00 UTC the day before in the forecast; scored only on the days such a forecast is held, never the ERW forecast (method note section 17)",
-                                    "net_demand": "series net_demand (session 10602): the demand less wind and solar; for this series the column mape holds the mean absolute error over the mean net demand of the same hours, in percent (method note section 18)"},
-              cuts_added={"operator_sound": "demand: the hours of the months whose operator filing passes the filing check (the filed forecast within 5 percent of the demand over the month; method note section 16)",
+              separate_lines_added={"with_weather_forecast": "series demand_weather_forecast (session 10602): the regression with the airport's observed temperature in the fit and the NWS forecast as issued by 20:00 UTC the day before in the forecast; scored only on the days such a forecast is held, never the ERW forecast (method note section 19)",
+                                    "net_demand": "series net_demand (session 10602): the demand less wind and solar; for this series the column mape holds the mean absolute error over the mean net demand of the same hours, in percent (method note section 20)"},
+              cuts_added={"operator_sound": "demand: the hours of the months whose operator filing passes the filing check (the filed forecast within 5 percent of the demand over the month; method note section 18)",
                           "operator_sound_last_2_years": "the same, over the last 730 days",
                           "with_operator": "net demand: the hours where the operator's demand, wind and solar forecasts are all held"},
               metrics={"mae": "mean absolute error, in the series' unit", "mape": "mean absolute percent error, in percent"},

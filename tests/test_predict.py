@@ -115,7 +115,7 @@ class PriceNothingKnownEarly(unittest.TestCase):
 
 
 class WeatherForecastNothingKnownEarly(unittest.TestCase):
-    """Method note section 17: a forecast hour enters target day D only from an issue no later than 20:00 UTC on D-1;
+    """Method note section 19: a forecast hour enters target day D only from an issue no later than 20:00 UTC on D-1;
     of those, the latest; and the observed weather of day D and after never moves the forecast for D."""
 
     def rows(self, tz, day, vintages_values):
@@ -387,7 +387,7 @@ class TheFiles(unittest.TestCase):
             self.assertNotIn("with_weather_known", d["history_columns"] + d["tomorrow_columns"])
 
     def test_the_operator_filing_check_follows_its_rule(self):
-        """Method note section 16: a month is flagged exactly when its filed forecast is more than 5 percent from the
+        """Method note section 18: a month is flagged exactly when its filed forecast is more than 5 percent from the
         demand; the sound months' summary is the score file's cut operator_sound_last_2_years; the check never moves
         the choice of method (the file's method is still the lowest error of method_mae_last_2_years)."""
         cols = self.scores["rows_columns"]
@@ -429,7 +429,7 @@ class TheFiles(unittest.TestCase):
             self.assertEqual(sum(m[1] for m in bc["by_month"]), bc["hours"])
 
     def test_net_demand_agrees_with_the_report_card(self):
-        """Method note section 18: every region and ERCO carries net demand; its summary is the score file's rows."""
+        """Method note section 20: every region and ERCO carries net demand; its summary is the score file's rows."""
         cols = self.scores["rows_columns"]
         rows = {(r[0], r[1], r[2], r[3], r[4]): dict(zip(cols, r)) for r in self.scores["rows"]}
         for p in self.index["places"]:

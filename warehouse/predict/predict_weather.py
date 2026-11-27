@@ -1,6 +1,6 @@
 """ERW forecast (predict): the weather forecast as it was issued, and the airport's observed weather (chain 730, part F,
 Samuel's order of 27 November 2026: "the demand model with the dated weather forecast window A now keeps, wherever
-enough days are held"). Method note: docs/methods/predict.md, section 17.
+enough days are held"). Method note: docs/methods/predict.md, section 19.
 
 Reads only. The National Weather Service's hourly forecast at one airport per ISO (warehouse/connectors/weather_nws.py):
   - weather_forecast_issued_hourly: every issue kept, from 26 November 2026 (data request 4 of chain 730);

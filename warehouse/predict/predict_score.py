@@ -73,7 +73,7 @@ FILING_SHIFTS = (-1, 0, 1)
 
 def filing_check(hr, days=CHOICE_DAYS):
     """The operator's day-ahead forecast as filed on Form EIA-930, tested against the demand it forecasts (chain 730,
-    part F; method note section 16). For each month of the place's local days: the hours where both are held and the
+    part F; method note section 18). For each month of the place's local days: the hours where both are held and the
     demand is above zero, and the filed forecast's sum as a percent of the demand's sum over those hours; a month whose
     percent is more than FILING_TOLERANCE_PCT from 100 is flagged (a level that far off in a whole month is a footprint
     or filing break, not a forecaster's error). And the filed forecast's MAPE over the last `days` days with its hours
