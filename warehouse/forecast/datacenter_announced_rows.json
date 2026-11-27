@@ -1337,6 +1337,88 @@
    "incentive": "",
    "years": "",
    "note": "Meta's info sheet for the campus, its first in Texas (its file dated 2026-09-03 by the server, the sheet itself undated). Its investment is \"Data center investment\" to date, since the campus broke ground in 2015, in the dollars of the years spent and taken as 2025 dollars; its jobs are operational jobs supported, and 1,200 skilled trade workers on site at peak construction. Tarrant County is the sheet's own (its school funding line). The figures sit beside their labels in the sheet's layout, as the quotes show. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "ia_meta_altoona_2026",
+   "to_date": true,
+   "name": "Meta, Altoona data center",
+   "company": "Meta",
+   "state": "ia",
+   "county": "Polk",
+   "place": "Altoona",
+   "doc": {
+    "title": "Meta Altoona Data Center (info sheet)",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-09-03",
+    "url": "https://datacenters.atmeta.com/wp-content/uploads/2026/09/Meta_s-Altoona-Data-Center.pdf",
+    "request": 530
+   },
+   "mw": null,
+   "investment": {
+    "value": 2500000000,
+    "year": 2026,
+    "says": "$2.5B+",
+    "qualifier": "more than",
+    "quote": "$2.5B+ 2013 400+ Data center investment in Iowa Broke ground on the Altoona Operational jobs supported"
+   },
+   "construction_jobs": {
+    "value": 1300,
+    "measure": "skilled trade workers on site at peak construction",
+    "says": "1,300",
+    "qualifier": "",
+    "quote": "1,300 $5.6M+ 300+ Skilled trade workers on site"
+   },
+   "permanent_jobs": {
+    "value": 400,
+    "measure": "operational jobs",
+    "says": "400+",
+    "qualifier": "more than",
+    "quote": "$2.5B+ 2013 400+ Data center investment in Iowa Broke ground on the Altoona Operational jobs supported"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's info sheet for the campus (its file dated 2026-09-03 by the server, the sheet itself undated). Its investment is labelled \"Data center investment in Iowa\", to date since the campus broke ground in 2013, in the dollars of the years spent and taken as 2025 dollars; the label may take in Meta's Davenport campus as well (ia_meta_davenport_2024). Its jobs are operational jobs supported, and 1,300 skilled trade workers on site at peak construction. Polk County is the sheet's own (its school funding line). The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "ga_meta_stantonsprings_2026",
+   "to_date": true,
+   "name": "Meta, Stanton Springs data center",
+   "company": "Meta",
+   "state": "ga",
+   "county": null,
+   "place": "Stanton Springs",
+   "doc": {
+    "title": "Meta Stanton Springs Data Center (info sheet)",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-09-03",
+    "url": "https://datacenters.atmeta.com/wp-content/uploads/2026/09/Meta_s-Stanton-Springs-Data-Center.pdf",
+    "request": 533
+   },
+   "mw": null,
+   "investment": {
+    "value": 2000000000,
+    "year": 2026,
+    "says": "$2B+",
+    "qualifier": "more than",
+    "quote": "$2B+ 2018 400 Data center investment in Georgia Broke ground on the Stanton Operational jobs supported Springs Data Center once completed"
+   },
+   "construction_jobs": {
+    "value": 1300,
+    "measure": "skilled trade workers on site at peak construction",
+    "says": "1,300",
+    "qualifier": "",
+    "quote": "1,300 $5.6M+ 170+ Skilled trade workers on site"
+   },
+   "permanent_jobs": {
+    "value": 400,
+    "measure": "operational jobs once completed",
+    "says": "400",
+    "qualifier": "",
+    "quote": "$2B+ 2018 400 Data center investment in Georgia Broke ground on the Stanton Operational jobs supported Springs Data Center once completed"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's info sheet for the campus (its file dated 2026-09-03 by the server, the sheet itself undated); the same campus as ga_facebook_stantonsprings_2018, a later document, both kept. Its investment is \"Data center investment in Georgia\" to date since the campus broke ground in 2018, in the dollars of the years spent and taken as 2025 dollars; its jobs are operational jobs \"once completed\", and 1,300 skilled trade workers on site at peak construction. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
   }
  ]
 }
