@@ -85,4 +85,15 @@ real-time less day-ahead price at the hour two days before, and its mean over th
 target day on the 730 days before it (at least 300). The choice, the band (additive, in USD/MWh) and the scores (MAPE
 over hours of at least 5 USD/MWh in size, the spike cut above the hub's 99th percentile) are as above.
 
-The scores are added below from the first full build.
+The scores, from the first full build (27 November 2026; `runs/c730/table_ws.py`), the last two years:
+
+| Hub | Method | MAE USD/MWh: ERW, day-ahead price, yesterday | MAPE %: ERW, day-ahead price | Spike hours (above the 99th percentile): hours, ERW, day-ahead price MAE | Band inside % |
+|---|---|---|---|---|---:|
+| ERCOT HB_NORTH | regression | 12.33, 11.83, 19.72 | 33.88, 30.85 | 649: 1,969.9, 989.0 | 77.5 |
+| SPP North Hub | regression | 17.63, 17.92, 29.85 | 57.53, 59.43 | 541: 393.0, 431.0 | 77.1 |
+| CAISO SP15 | regression | 8.17, 7.83, 13.74 | 29.91, 28.28 | 224: 95.0, 93.0 | 77.5 |
+
+The market's own day-ahead price is the better forecast of the real-time price at ERCOT and CAISO; the ERW's is a little
+better at SPP. On ERCOT's spike hours the ERW's regression is twice as far off as the day-ahead price: it carries the
+latest real-time spread into the next day. Replication (`replication/predict/replicate_rt.py`): 1,120 of 1,120 figures
+equal.
