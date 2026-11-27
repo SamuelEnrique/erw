@@ -177,3 +177,39 @@ most of the difference made in 2021. The method chosen is the regression at ever
 Replication (`replication/predict/replicate_rt.py`, from sections 7 to 9): 3,020 of 3,020 figures equal, every hub,
 method and cut and the longer backtest's years. A test (`test_the_hubs_added_come_after_the_three`) holds the order and
 the entities.
+
+## 10. The day-ahead price at more hubs (session 10603)
+
+Samuel's order of 27 November 2026 ("more places"). The place files carry the day-ahead price at one hub a grid (section
+1). The same four hubs as section 9 (ERCOT Houston, South and West; CAISO NP15) now have the day-ahead forecast too, in a
+file of their own, `site/data/predict/price_hubs.json` (code `warehouse/predict/price_hubs.py`, which calls the place
+files' own functions: the same methods, the same hour of making, 14:00 UTC the day before, the same choice, band and
+scores, the same `series.price` shape a place file has, with `place` `hub-<grid>`, `grid`, `demand_place` and `time`
+added). Each hub reads its grid's demand forecast, as the grid's first hub does: ERCO's for ERCOT's hubs, CISO's for NP15.
+Every forecast as made is appended to `ledger_price_hubs.csv`, never rewritten; the regression's backtest is written as a
+file (`predict_price_hubs_backtest.csv`, in the run's `--out-dir`, not a warehouse table). Nothing in the place files
+changes.
+
+From the build of 27 November 2026 (made as at 18:00 UTC on 26 November, the place files' hour; `runs/c730/table_ph.py`),
+the last two years, with the grid's first hub (from the place files) above each:
+
+| Hub (demand read) | Chosen | Hours | MAE USD/MWh: ERW, yesterday, week ago, regression | ERW MAPE % | Spike hours: n, MAE of ERW, yesterday, regression | Band inside % |
+|---|---|---:|---|---:|---|---:|
+| ERCOT HB_NORTH (ERCO; place file) | yesterday | 17,348 | 13.06, 13.06, 17.32, 16.22 | 33.5 | 589: 1,026, 1,026, 1,477 | 77.9 |
+| ERCOT HB_HOUSTON (ERCO) | yesterday | 17,348 | 11.47, 11.47, 15.66, 14.49 | 28.6 | 588: 1,013, 1,013, 1,474 | 78.4 |
+| ERCOT HB_SOUTH (ERCO) | yesterday | 17,348 | 11.78, 11.78, 15.81, 14.86 | 30.8 | 589: 1,006, 1,006, 1,466 | 78.4 |
+| ERCOT HB_WEST (ERCO) | yesterday | 17,348 | 17.81, 17.81, 22.85, 19.32 | 59.5 | 589: 1,031, 1,031, 1,449 | 78.7 |
+| CAISO SP15 (CISO; place file) | regression | 17,516 | 5.89, 6.20, 10.39, 5.89 | 23.3 | 224: 40.9, 46.4, 40.9 | 78.7 |
+| CAISO NP15 (CISO) | regression | 17,516 | 5.07, 5.60, 8.73, 5.07 | 17.7 | 224: 38.8, 41.4, 38.8 | 79.6 |
+
+What it says: at every ERCOT hub the ERW's regression loses to yesterday's price, as at North, so the ERW forecast shown
+there is yesterday's price; at West, where prices swing with wind and congestion, the regression comes nearest
+(19.32 against 17.81) but still loses. At NP15, as at SP15, the regression wins by about a tenth. No method sees a spike
+coming: on ERCOT's spike hours every method misses by about 1,000 USD/MWh, and the regression by more.
+
+Replication (`replication/predict/replicate_price.py`, session 10603): the day-ahead price rebuilt end to end from the
+public tables and the notes' words, imported from nothing of the builder: the hub's prices, the place's demand, Henry
+Hub, the demand regression made with demand through T-3 refitted for every target day, the price regression refitted
+for every target day, the simple methods, the choice and every cut, for the six places of the place files (their price
+rows in `scores.json`, which had no replication of their own before) and the four hubs of this section. Its count is in
+the progress file and the landing row.
