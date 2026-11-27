@@ -113,7 +113,8 @@ def peaks(x, methods):
     for m in methods:
         pk[m] = g[m].max()
         pk[m + "_hour"] = c.loc[g[m].idxmax(), "hour"].to_numpy()
-    return pk.reset_index()
+    pk = pk.reset_index()
+    return pk[pk["actual"] > 0].reset_index(drop=True)   # a day peaking at zero or below is a filing error, not a peak
 
 
 def peak_summary(pk, methods):

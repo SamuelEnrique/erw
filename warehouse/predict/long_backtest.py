@@ -69,8 +69,11 @@ def peak_long(hr, has_op):
     """The day's peak over the longer walk (section 25, session 10603): the peak's own choice as the place file makes it
     (the candidate whose day peaks missed least over the last two years, on the days the operator also holds), then each
     year scored on the days every ERW method holds every hour, and the operator beside it on the days it holds."""
+    # a day whose highest hour is zero or below is a filing error in the early files, not a peak (region-ten, 2016 to 2018)
     pk = score.peaks(hr, METHODS)
+    pk = pk[pk["actual"] > 0].reset_index(drop=True) if len(pk) else pk
     pko = score.peaks(hr, METHODS + ["operator"]) if has_op else None
+    pko = pko[pko["actual"] > 0].reset_index(drop=True) if pko is not None and len(pko) else pko
     base = pko if pko is not None and len(pko) else pk
     if not len(base):
         return None
