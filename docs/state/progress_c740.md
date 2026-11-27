@@ -105,3 +105,6 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Meta's campus info sheets | done | 10822 | thirteen campuses, each Meta's only one in its state (requests 384 to 408): offered in the picker, in no median (`to_date`, decision 20); first rows for Illinois, Tennessee, Idaho, New Mexico, Oregon, Nebraska; 63 rows; the parser reads "$1.5B+" |
 | New Hampshire's property | done | 10822 | RSA 72:6, 72:7, 75:1 and chapter 72's list (requests 422 to 426): building at market value, equipment untaxed (decision 21); 37 states |
 | California's rules | held: refused | 10822 | leginfo.legislature.ca.gov answers 403 to its robots file (request 420) |
+| Colorado's property | done | 10822 | C.R.S. 39-1-104(1.9) as HB24B-1001 enacted it (request 428): 25 percent from 2027; 38 states |
+| Chart axis labels cut ("00 million") | done on the branch | 10822 | found in tonight's read with El Paso picked; SeriesChart's margin widens only for a label of more than ten characters |
+| Build and read of c3b81a67f | done | 10822 | 21 addresses at both widths clean, check-values 1,680 of 1,680; landing row 16 requested 02:46 UTC |
