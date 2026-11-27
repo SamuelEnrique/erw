@@ -88,3 +88,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 15:42 UTC (session 10603): the long backtest's build at 57 of 64 places; `replicate_ahead.py` equal on every place so far (35 of 35 figures each).
 - 16:05 UTC (session 10603): `long_backtest.json` built (64 places from 1 July 2016, every method equal to its place file's; `predict.md` section 25); `replicate_long.py` on it 6 places in, all equal; rebuild 18 (net demand for the authorities) at 45 of 64; `replicate_ahead.py` 7 of 29 places, all equal.
 - 16:24 UTC (session 10603): rebuild 18 at 56 of 64; `replicate_long.py` 18 places and `replicate_ahead.py` 12, every figure equal so far.
+- 16:43 UTC (session 10603): rebuild 18 on its price places.
