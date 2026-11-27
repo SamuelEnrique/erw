@@ -242,6 +242,8 @@ class TheRealTimeFile(unittest.TestCase):
         self.assertEqual([h["grid"] for h in doc["hubs"]], list(rtm.RT_HUBS))
         self.assertEqual([h["grid"] for h in doc["hubs"]][:3], ["ercot", "spp", "caiso"])
         self.assertEqual({h["grid"]: h["hub"] for h in doc["hubs"]}, rtm.RT_HUBS)
+        cuts = {r[3] for r in doc["rows"]}
+        self.assertFalse(cuts - set(doc["cuts"]), cuts - set(doc["cuts"]))
 
     def test_the_longer_backtest_adds_up_and_changes_nothing_above(self):
         """Session 10603: the years partition the longer backtest's hours, its MAE is their hour-weighted mean, it ends
@@ -270,6 +272,7 @@ class ThePriceHubsFile(unittest.TestCase):
         self.assertEqual(doc["tier"], "derived")
         self.assertEqual(doc["label"], "ERW forecast")
         self.assertEqual([h["grid"] for h in doc["hubs"]], list(rtm.MORE_HUBS))
+        self.assertFalse({r[3] for r in doc["rows"]} - set(doc["cuts"]))
         cols = doc["rows_columns"]
         rows = {(r[0], r[2], r[3], r[4]): dict(zip(cols, r)) for r in doc["rows"]}
         for h in doc["hubs"]:
@@ -313,6 +316,25 @@ class TheWindSolarFile(unittest.TestCase):
                     self.assertTrue(op and all(r["mae_mw"] is None and r["held"] for r in op))
                 if b["tomorrow"]:
                     self.assertEqual(b["horizon_days"], 2)
+
+    def test_a_day_not_forecast_says_why_and_every_entry_has_its_page(self):
+        """Session 10603 (chain 720's requests 11 and 12): no tomorrow of nulls only, a reason where there is no tomorrow,
+        every entry shown for a place file that exists, and every cut of the rows has its words."""
+        doc = load("wind_solar.json")
+        index = {p["place"] for p in load("index.json")["places"]} if os.path.exists(os.path.join(SITE, "index.json")) else None
+        cuts = {r[3] for r in doc["rows"]}
+        self.assertFalse(cuts - set(doc["cuts"]), cuts - set(doc["cuts"]))
+        for p in doc["places"]:
+            self.assertTrue(p["shown_for"])
+            if index is not None:
+                self.assertFalse(set(p["shown_for"]) - index, p["place"])
+            for fuel, b in p["fuels"].items():
+                if b["status"] != "shown":
+                    continue
+                if b["tomorrow"] is None:
+                    self.assertTrue(b["tomorrow_held"], (p["place"], fuel))
+                else:
+                    self.assertTrue(any(r[2] is not None for r in b["tomorrow"]), (p["place"], fuel))
 
 
 class Ledger(unittest.TestCase):
@@ -546,6 +568,21 @@ class TheFiles(unittest.TestCase):
             op = [r for r in rows if r["place"] == p["place"] and r["series"] == "price" and r["method"] == "operator"]
             self.assertTrue(op and all(r["mae"] is None and r["held"] for r in op), p["place"])
             self.assertTrue(any(r["cut"] == "spike" for r in rows if r["place"] == p["place"] and r["series"] == "price"), p["place"])
+
+    def test_every_cut_has_its_words_and_net_demand_says_why(self):
+        """Session 10603 (chain 720's requests 11 and 12): the price rows' cuts are named in cuts_price, the others in cuts;
+        a net demand with no hour for tomorrow says why."""
+        cols = self.scores["rows_columns"]
+        rows = [dict(zip(cols, r)) for r in self.scores["rows"]]
+        price = {r["cut"] for r in rows if r["series"] == "price"}
+        rest = {r["cut"] for r in rows if r["series"] != "price"}
+        self.assertFalse(price - set(self.scores["cuts_price"]), price - set(self.scores["cuts_price"]))
+        known = set(self.scores["cuts"]) | set(self.scores.get("cuts_added", {}))
+        self.assertFalse(rest - known, rest - known)
+        for place, doc in self.places.items():
+            n = doc["series"]["demand"].get("net_demand")
+            if n and n.get("status") == "shown" and not n.get("tomorrow"):
+                self.assertTrue(n.get("tomorrow_held"), place)
 
     def test_a_held_series_holds_no_number(self):
         cols = self.scores["rows_columns"]
