@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Replication of the ERW forecast of the real-time hub price (site/data/predict/rt_price.json), chain 730, part F.
-Written from docs/methods/predict_price.md, section 7, not from warehouse/predict/: it imports nothing of the builder.
+Written from docs/methods/predict_price.md, sections 7, 8 (the longer backtest) and 9 (more hubs), session 10603, not from warehouse/predict/: it imports nothing of the builder.
 Every figure of the file's score rows (hours, mean absolute error, MAPE over hours of at least 5 USD/MWh, for every
 hub, method and cut) is recomputed from the public price tables, the regression refitted for every target day.
     python replication/predict/replicate_rt.py --tables DIR [--file site/data/predict/rt_price.json]
@@ -17,10 +17,14 @@ import pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 FIRST = pd.Timestamp("2019-07-01")
+LONG = pd.Timestamp("2016-01-01")   # section 8: the longer backtest
 H, FIT, MIN_FIT, CHOICE, FLOOR, SPIKE = 2, 730, 300, 730, 5.0, 0.99
 TABLES = ["ercot_all_hub_prices_history", "iso_hub_prices_history_2018", "iso_hub_prices_history", "iso_dam_hub_prices"]
 HUBS = {"ercot": ("ercot:HB_NORTH", "America/Chicago"), "spp": ("spp:SPPNORTH_HUB", "America/Chicago"),
-        "caiso": ("caiso:TH_SP15_GEN-APND", "America/Los_Angeles")}
+        "caiso": ("caiso:TH_SP15_GEN-APND", "America/Los_Angeles"),
+        # section 9, more places: the other hubs of the three grids whose real-time and day-ahead prices are held two years
+        "ercot-houston": ("ercot:HB_HOUSTON", "America/Chicago"), "ercot-south": ("ercot:HB_SOUTH", "America/Chicago"),
+        "ercot-west": ("ercot:HB_WEST", "America/Chicago"), "caiso-np15": ("caiso:TH_NP15_GEN-APND", "America/Los_Angeles")}
 
 
 def read(path):
@@ -63,7 +67,7 @@ def by_day(s, tz):
     return f
 
 
-def build(rt, da, tz):
+def build(rt, da, tz, first=FIRST):
     f = by_day(rt, tz)
     for day in sorted(f["day"].unique())[::-1][:10]:
         day = pd.Timestamp(day)
@@ -99,7 +103,7 @@ def build(rt, da, tz):
                 continue
             P[i, k] = float(X[i, k] @ np.linalg.lstsq(X[j0:j1, k][v], R[j0:j1, k][v], rcond=None)[0])
     pos = pd.Series(np.arange(n), index=M.index)
-    x = f[f["day"] >= FIRST].rename(columns={"v": "actual"}).copy()
+    x = f[f["day"] >= first].rename(columns={"v": "actual"}).copy()
     i = pos.reindex(x["day"]).to_numpy()
     k = x["hour"].to_numpy()
     x["yesterday"], x["regression"], x["day_ahead"] = back(R, H)[i, k], P[i, k], D[i, k]
@@ -126,7 +130,8 @@ def main():
     pr = prices(a.tables)
     figs = []
     for grid, (ent, tz) in HUBS.items():
-        x = build(*pr[grid], tz)
+        xl = build(*pr[grid], tz, first=LONG)
+        x = xl[xl["day"] >= FIRST].reset_index(drop=True)
         last = x["day"].max()
         rec = x[x["day"] > last - pd.Timedelta(days=CHOICE)].dropna(subset=["actual", "yesterday", "regression", "day_ahead"])
         maes = {m: score(rec, m)[1] for m in ("yesterday", "regression")}
@@ -151,6 +156,22 @@ def main():
                 ok = r is not None and r["hours"] == n and (mae is None or abs(r["mae"] - mae) <= 0.011) and \
                     ((mape is None and r["mape"] is None) or (mape is not None and r["mape"] is not None and abs(r["mape"] - mape) <= 0.0011))
                 figs.append((f"{place}.{m}.{cut}.{key}", None if r is None else (r["hours"], r["mae"], r["mape"]), (n, mae, mape), ok))
+        # section 8: the longer backtest, the method chosen now in every year; each year and the whole span
+        xl["erw"] = xl[min((v, m) for m, v in maes.items())[1]]
+        cl = xl.dropna(subset=["actual"] + ms).reset_index(drop=True)
+        lb = next(h for h in doc["hubs"] if h["grid"] == grid)["long_backtest"]
+        shown_l = {str(y["year"]): y for y in lb["by_year"]}
+        shown_l["all"] = lb["all"]
+        parts = {str(y): (cl["day"].dt.year == y).to_numpy() for y in sorted(cl["day"].dt.year.unique())}
+        parts["all"] = np.ones(len(cl), bool)
+        for key, msk in parts.items():
+            for m in ms:
+                n, mae, mape = score(cl[msk], m)
+                r = shown_l.get(key)
+                got = None if r is None else (r["hours"], r["mae"][m], r["mape"][m])
+                ok = got is not None and got[0] == n and (mae is None or abs(got[1] - mae) <= 0.011) and \
+                    ((mape is None and got[2] is None) or (mape is not None and got[2] is not None and abs(got[2] - mape) <= 0.0011))
+                figs.append((f"{place}.{m}.long.{key}", got, (n, mae, mape), ok))
         print(f"{place}: {sum(1 for f_ in figs if f_[0].startswith(place) and f_[3])} of {sum(1 for f_ in figs if f_[0].startswith(place))} figures equal", flush=True)
     with open(os.path.join(HERE, "figures_rt.csv"), "w", encoding="utf-8", newline="\n") as fh:
         w = csv.writer(fh, lineterminator="\n")

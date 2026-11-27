@@ -50,7 +50,14 @@ TIER = "derived"
 HISTORY_DAYS = 35
 DEMAND_MADE_HOUR = 20      # UTC, on day T-1 (the ground, section 3)
 LARGE_BAS = ["BPAT", "CISO", "CPLE", "DUK", "ERCO", "FPC", "FPL", "ISNE", "MISO", "NYIS", "PACE", "PJM", "PSCO", "SOCO", "SWPP", "TVA"]
-PLACES = [f"region-{r.lower()}" for r in data.REGIONS] + [f"ba-{b.lower()}" for b in LARGE_BAS]
+# more places (session 10603, Samuel's order of 27 November): every other balancing authority whose EIA-930 demand runs
+# to the latest day held and covers at least two years (read 27 November 2026 in eia930_ba_demand_hourly); method note
+# section 23 names the seven left out and why
+MORE_BAS = ["AECI", "AVA", "AZPS", "BANC", "CHPD", "CPLW", "DOPD", "EPE", "FMPP", "GCPD", "GVL", "HST", "IID", "IPCO", "JEA",
+            "LDWP", "LGEE", "NEVP", "NWMT", "PACW", "PGE", "PNM", "PSEI", "SC", "SCEG", "SCL", "SEC", "SPA", "SRP", "TAL",
+            "TEC", "TEPC", "TIDC", "TPWR", "WALC"]
+CORE_PLACES = [f"region-{r.lower()}" for r in data.REGIONS] + [f"ba-{b.lower()}" for b in LARGE_BAS]   # the 29 places of session 10600
+PLACES = CORE_PLACES + [f"ba-{b.lower()}" for b in MORE_BAS]
 SCORED = ["erw", "operator", "yesterday", "week_ago", "regression", "regression_recent"]
 METHOD_WORDS = {
     "erw": "the method chosen for the place by the rule of the method note (the lowest mean absolute error of the ERW's methods over the last two years of the backtest)",
@@ -197,20 +204,39 @@ NET_WHAT = ("net demand: the demand less the output of wind and solar (method no
             "means nothing). No band: the three bands are not combined")
 
 
+TWIN_REGION = {"ba-erco": "region-tex", "ba-isne": "region-ne", "ba-nyis": "region-ny", "ba-pjm": "region-mida",
+               "ba-soco": "region-se", "ba-tva": "region-ten"}
+
+
 def net_place(place):
-    """The wind and solar place whose footprint is the place's own: a region itself, and ERCO (Texas is ERCOT alone)."""
+    """The wind and solar place whose footprint is the place's own: a region itself, and ERCO (Texas is ERCOT alone).
+    Session 10603 (data request 10 done): an authority that is a whole region takes its region's; CISO takes CAISO's
+    own hubs; each authority of wind_solar.BA_PLACES its own."""
     if place.startswith("region-"):
         return place
-    return "region-tex" if place == "ba-erco" else None
+    if place in TWIN_REGION:
+        return TWIN_REGION[place]
+    if place == "ba-ciso":
+        return "grid-caiso"
+    return place if place in wsrun.BA_PLACES else None
 
 
 def net_demand_line(p, wsdf, made, wp):
     """The net demand block of one place and its score rows (series net_demand)."""
     place = p["place"]
     d = p["hr"][["ts", "day", "hour", "actual", "erw", "operator", "yesterday"]].copy()
-    tm = {}
+    tm, th, zero = {}, {}, []
     for fuel in wsmod.FUELS:
         got = wsrun.one(wp, fuel, wsdf, made)
+        if got is None and wp.startswith("ba-"):
+            # session 10603: an authority that reports no output of the fuel on any hour of EIA-930 is taken to have none
+            # (a utility with no wind plant files no wind column); the block says so
+            zero.append(fuel)
+            for col in ("actual", "erw", "yesterday"):
+                d[f"{fuel}_{col}"] = 0.0
+            d[f"{fuel}_operator"] = np.nan
+            tm[fuel], th[fuel] = "zero", None
+            continue
         if got is None:
             return {"what": NET_WHAT, "status": "not held", "held": f"not held: no {fuel} output is held for {wp}"}, []
         block, _, _, hw = got
@@ -218,13 +244,15 @@ def net_demand_line(p, wsdf, made, wp):
         for col in ("actual", "erw", "operator", "yesterday"):
             d[f"{fuel}_{col}"] = hw[col].reindex(pd.DatetimeIndex(d["ts"])).to_numpy()
         tm[fuel] = block.get("tomorrow")
+        th[fuel] = block.get("tomorrow_held")
     x = pd.DataFrame({"ts": d["ts"], "day": d["day"], "hour": d["hour"]})
     for col in ("actual", "erw", "operator", "yesterday"):
         x[col] = d[col] - d[f"wind_{col}"] - d[f"solar_{col}"]
     c = x.dropna(subset=["actual", "erw", "yesterday"]).reset_index(drop=True)
     rows = []
     out = {"what": NET_WHAT, "status": "shown", "wind_solar_place": wp, "last_2_years": None, "backtest": None, "with_operator": None,
-           "tomorrow_columns": ["ts_utc", "local_hour", "erw"], "tomorrow": None}
+           "tomorrow_columns": ["ts_utc", "local_hour", "erw"], "tomorrow": None, "tomorrow_held": None,
+           "fuels_taken_as_zero": zero or None}
     for cut, days in (("all", None), ("last_2_years", score.CHOICE_DAYS)):
         g = c if days is None else c[c["day"] > c["day"].max() - pd.Timedelta(days=days)]
         sm = wsrun.summary(g, ["erw", "yesterday"])
@@ -242,8 +270,8 @@ def net_demand_line(p, wsdf, made, wp):
                      "not held: the warehouse holds no wind and solar forecast of this place's operator"])
     t = p.get("tomorrow")
     if t is not None and tm.get("wind") and tm.get("solar"):
-        w = {r[0]: r[2] for r in tm["wind"]}
-        s = {r[0]: r[2] for r in tm["solar"]}
+        w = {iso(x): 0.0 for x in t["ts"]} if tm["wind"] == "zero" else {r[0]: r[2] for r in tm["wind"]}
+        s = {iso(x): 0.0 for x in t["ts"]} if tm["solar"] == "zero" else {r[0]: r[2] for r in tm["solar"]}
         c0 = p["choice"]
         net = []
         for _, r in t.iterrows():
@@ -251,6 +279,15 @@ def net_demand_line(p, wsdf, made, wp):
             if k in w and k in s and None not in (w[k], s[k]) and np.isfinite(r[c0]):
                 net.append([k, int(r["hour"]), num(r[c0] - w[k] - s[k])])
         out["tomorrow"] = net or None
+    # session 10603 (data request 11 (b) of chain 720): when no hour of tomorrow is given, the reason
+    if out["tomorrow"] is None:
+        if t is None:
+            out["tomorrow_held"] = "no forecast: the demand forecast for the target day is not held"
+        elif not (tm.get("wind") and tm.get("solar")):
+            fuel = "wind" if not tm.get("wind") else "solar"
+            out["tomorrow_held"] = f"no forecast: {wp}'s {fuel} forecast for the target day is not held ({th.get(fuel) or 'no reason given'})"
+        else:
+            out["tomorrow_held"] = "no forecast: no hour of the target day holds the demand, wind and solar forecasts together"
     return out, rows
 
 
@@ -465,6 +502,13 @@ FILING_WHAT = ("the operator's day-ahead forecast as filed on Form EIA-930, set 
 
 
 PRICE_SCORED = ["erw", "yesterday", "week_ago", "regression"]
+# session 10603 (data request 12 of chain 720): the cuts' words for the price rows, whose top10 and spike are the price's
+# own (scores.json's cuts name top10 by demand)
+PRICE_CUT_WORDS = {"all": "every hour of the backtest held by every method", "last_2_years": "the last 730 days of the backtest (the days the method is chosen on)",
+                   "month": "key YYYY-MM", "hour": "key 0 to 23, the place's clock, over the last two years",
+                   "top10": "the ten days of the backtest with the highest hourly price (by the day's highest hour)",
+                   "event": "key: the event's address on /events",
+                   "spike": "the hours whose price is above the hub's own 99th percentile over the backtest"}
 
 
 def price_place(place, grid, pp, dem, ref, gas, made, evs):
@@ -513,7 +557,7 @@ def price_shown(p, made, ledger):
         sm["mape"]["operator"] = None
         summ[key] = sm
     s = {"status": "shown", "held": None, "method": p["choice"], "fit_day": day_str(pd.Timestamp(made)), "target_day": day_str(p["target"]),
-         "hub": data.HUBS[p["grid"]], "market": "day-ahead", "unit": "USD/MWh", "method_note": NOTES["price"],
+         "hub": p.get("hub") or data.HUBS[p["grid"]], "market": "day-ahead", "unit": "USD/MWh", "method_note": NOTES["price"],
          "made_utc": iso(pd.Timestamp(made)), "inputs_through_utc": iso(p["inputs_through"]), "horizon_days": p["h"], "demand_horizon_days": p["hd"],
          "band": "the 10th and 90th percentile of the chosen method's own out-of-sample errors (actual less forecast, USD/MWh) at the same local hour, over the 365 days of target days held when the forecast is made",
          "band_coverage_pct": score.coverage(hr, "erw"),
@@ -596,10 +640,10 @@ def write_tables(out, results, score_rows, built):
     return p, q
 
 
-def write_price_table(out, prices, built):
+def write_price_table(out, prices, built, name="predict_price_backtest.csv"):
     """The price regression's backtest, one row a place and hour (data request 5), in the series shape."""
     os.makedirs(out, exist_ok=True)
-    p = os.path.join(out, "predict_price_backtest.csv")
+    p = os.path.join(out, name)
     with open(p, "w", encoding="utf-8", newline="\n") as f:
         f.write("# Energy Research Warehouse (ERW): the ERW forecast of day-ahead hub prices, the walk-forward backtest of the regression (tier derived: a model's output, not a published figure)\n")
         f.write("# Shape: series (docs/datastandard.md v0). entity the hub; variable lmp_dam_forecast; ts_utc the hour's start (UTC); x_place the place whose demand forecast it reads; x_made_utc the hour the forecast is taken as made (14:00 UTC the day before); x_lo, x_hi the band. Method: docs/methods/predict_price.md.\n")
@@ -609,7 +653,7 @@ def write_price_table(out, prices, built):
         f.write("entity,variable,ts_utc,value,unit,freq,source,x_place,x_method,x_made_utc,x_lo,x_hi,x_kind\n")
         for place, q in prices.items():
             hr = q["hr"].dropna(subset=["regression"])
-            ent = data.HUBS[q["grid"]]
+            ent = q.get("hub") or data.HUBS[q["grid"]]
             for ts, v, lo, hi, made in zip(hr["ts"], hr["regression"], hr["regression_lo"], hr["regression_hi"], hr["made_utc"]):
                 f.write(f"{ent},lmp_dam_forecast,{iso(ts)},{v:.2f},USD/MWh,PT1H,erw:predict,{place},regression,{iso(made)},"
                         f"{'' if not np.isfinite(lo) else f'{lo:.2f}'},{'' if not np.isfinite(hi) else f'{hi:.2f}'},backtest\n")
@@ -678,7 +722,7 @@ def main(argv=None):
     # part F: net demand (method note section 20), for the regions and ERCO, from the wind and solar forecast
     netd = {}
     if os.path.exists(data.table_path(wsmod.REGION_FUEL)):
-        wsdf = wsmod.panels()
+        wsdf = wsmod.all_panels()
         for p in results:
             wp = net_place(p["place"])
             if wp is None:
@@ -726,6 +770,7 @@ def main(argv=None):
                     "month": "key YYYY-MM", "hour": "key 0 to 23, the place's clock, over the last two years",
                     "top10": "the place's ten highest-demand days of the backtest (by the day's peak hour)", "event": "key: the event's address on /events",
                     "spike": "price only: the hours above the grid's 99th percentile"},
+              cuts_price=PRICE_CUT_WORDS,
               rows_columns=score.COLUMNS, rows=srows)
     write_json(os.path.join(a.site_dir, "scores.json"), sc)
     p, q = write_tables(a.out_dir, results, srows, built)

@@ -200,6 +200,10 @@ try {
   // every place at once, in the index's own order, the held one as any other row
   const all = html.slice(html.indexOf("data-fc-all="));
   check(html.includes('data-fc-all="3"') && all.indexOf("Mid-Atlantic") < all.indexOf(">Texas<") && all.indexOf(">Texas<") < all.indexOf("Electric Reliability Council of Texas, Inc. (ERCO)"), "every place: the index's own order, not sorted by score");
+  // session 10413 (read at 390 px by a finger): a place's name in the table was 18 px tall; it has padding and a negative
+  // margin of the same size now, so the row keeps its height and only the place a finger lands grows
+  const names = [...all.slice(0, all.indexOf('id="downloads"') > 0 ? all.indexOf('id="downloads"') : all.length).matchAll(/<a [^>]*href="\/forecast[^"]*"[^>]*>/g)].map((m) => m[0]);
+  check(names.length >= 3 && names.every((a) => a.includes('class="inline-block py-1 -my-1"')), `every place's name in the table has a finger's height (${names.length} names)`);
   // the downloads and the method notes
   check(html.includes('href="/forecast/rows?place=region-tex"') && html.includes('href="/forecast/rows/python?place=region-tex"') && html.includes('href="/forecast/rows/stata?place=region-tex"'), "downloads: the place's hours as CSV, Python and Stata");
   check(html.includes('href="/forecast/scores"') && html.includes('href="/forecast/scores/python"') && html.includes('href="/forecast/scores/stata"'), "downloads: the report card as CSV, Python and Stata");

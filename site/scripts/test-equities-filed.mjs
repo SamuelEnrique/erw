@@ -193,6 +193,88 @@ const vals = (line) => line.map((p) => p.v / M).join(" ");
   check(E.FIGURES.join(" ") === "revenue net_income capex debt shares_outstanding" && E.PERIOD_KEYS.join(" ") === "3 12", "the figures and lengths offered");
 }
 
+// ---- 8. A finger's height (session 10413: read on production at 390 px by a finger) -----------------------------------------
+{
+  // a company's name in the table was 18 px tall and a filing's link under a figure 15 px: each has padding now, and a
+  // negative margin of the same size, so the row and the line keep their height and only the place a finger lands grows
+  const html = draw(FIX, { a: "DUK" });
+  const table = html.slice(html.indexOf('id="companies"'));
+  const names = [...table.matchAll(/<a [^>]*title="Draw [^"]*"[^>]*>/g)].map((m) => m[0]);
+  check(names.length > 0 && names.every((a) => a.includes('class="inline-block py-1 -my-1"')), `every company's name in the table has a finger's height (${names.length} names)`);
+  const filings = [...html.matchAll(/<a [^>]*title="The filing on the SEC&#x27;s site[^"]*"[^>]*>/g)].map((m) => m[0]);
+  check(filings.length > 0 && filings.every((a) => a.includes('class="inline-block py-1.5 -my-1.5"')), `every filing's link has a finger's height (${filings.length} links)`);
+}
+
+// ---- 9. The newest period filed, in the table of every company (session 10414: the list's newest_filed) -------------------
+{
+  const before = load("index.json");
+  // a list none of whose companies carries the field is the table as it was
+  const old = draw(FIX, { a: "DUK" });
+  const oldTable = old.slice(old.indexOf('id="companies"'));
+  check(!before.companies.some((c) => "newest_filed" in c) && oldTable.includes(">Filed figures<") && !oldTable.includes('data-eq-sort="filed"') && !oldTable.includes("data-eq-newest-of="), "a list with no newest period: the column says only that the figures are shown");
+  const at = (id) => before.companies.findIndex((c) => c.id === id);
+  const NOTE = "the filed history under this SEC number starts with the period to 2026-06-30: a new registrant (docs/methods/equities.md)";
+  const filedOf = {
+    DUK: { period_end: "2026-09-30", form: "10-Q", filed: "2026-11-05", url: sec(0)[1], revenue: { months: 3, v: 850 * M }, net_income: { months: 3, v: 140 * M }, capex: { months: 9, v: 990 * M }, debt: 7900 * M, shares_outstanding: 77.8 * M },
+    NEE: { period_end: "2025-12-31", form: "10-K", filed: "2026-02-13", url: "https://www.sec.gov/Archives/edgar/data/753308/000075330826000010/index.htm", revenue: { months: 12, v: 27412 * M }, net_income: { months: 12, v: 6835 * M }, capex: null, debt: 89556 * M, shares_outstanding: 2085 * M },
+    XOM: { period_end: "2026-06-30", form: "10-Q", filed: "2026-08-01", url: "http://not-the-sec.example/x", revenue: null, net_income: { months: 3, v: 7000 * M }, capex: null, debt: null, shares_outstanding: null },
+  };
+  check(["DUK", "NEE", "XOM"].every((id) => at(id) >= 0), "the base fixture lists DUK, NEE and XOM");
+  // one more company whose figures are shown and whose newest period the list does not give
+  // (the base fixture's companies are the three above: a fourth is added after them, so no position of theirs moves)
+  const spare = { ...before.companies[at("DUK")], id: "ZFX", ticker: "ZFX", name: "Zeta Fixture Corp", cik: "0000000001", file: "series/ZFX.json", fundamentals_status: "shown", fundamentals_why: null };
+  const list2 = { ...before, companies: [...before.companies.map((c) => ({ ...c, ...(filedOf[c.id] ? { fundamentals_status: "shown", fundamentals_why: c.id === "XOM" ? NOTE : null } : {}), newest_filed: filedOf[c.id] ?? null })), { ...spare, newest_filed: null }] };
+  save("index.json", list2);
+  const none = list2.companies.find((c) => c.id === "ZFX");
+  const html = draw(FIX, { a: "DUK" });
+  const table = html.slice(html.indexOf('id="companies"'), html.indexOf('id="segments"'));
+  quiet(html, "the newest period in the table");
+  check(table.includes('data-eq-sort="filed"') && table.includes(">Newest period filed<") && text(table).includes("Newest period filed , with its revenue in USD million") && !table.includes("Revenue of that period") && !table.includes(">Filed figures<") && (table.slice(0, table.indexOf("</thead>")).match(/<th /g) ?? []).length === 7 && (oldTable.slice(0, oldTable.indexOf("</thead>")).match(/<th /g) ?? []).length === 7, "the table keeps its seven columns (seen in a build: an eighth made it wider than its frame): the newest period filed, a head that sorts, and its revenue");
+  check(/href="\/equities\?[^"]*sort=filed&amp;dir=desc[^"]*#companies"[^>]*title="Sort by the newest period filed, newest first"/.test(table), "the head's first press sorts newest first");
+  const rowOf = (id) => { const i = table.indexOf(`data-eq-newest-of="${id}"`); return i < 0 ? "" : table.slice(i, table.indexOf("</tr>", i)); };
+  const dukRow = rowOf("DUK");
+  check(dukRow.includes(`<a href="${sec(0)[1]}" class="inline-block py-1 -my-1" rel="noopener"`) && dukRow.includes(">2026-09-30, 10-Q</a>") && dukRow.includes("filed 2026-11-05"), "a company's newest period: its end and form, opening the filing, with a finger's height");
+  check(dukRow.includes(`data-check="pf|equities/index.json|companies/${at("DUK")}/newest_filed/revenue/v" data-raw="850000000"`) && />850<\/span>/.test(dukRow) && text(dukRow).includes("Revenue 850 , 3 months") && dukRow.includes("850,000,000 USD"), "its revenue in USD million, keyed into the list, with the months it covers and the exact figure on hover");
+  const neeRow = rowOf("NEE");
+  check(/>27,412<\/span>/.test(neeRow) && text(neeRow).includes("Revenue 27,412 , 12 months") && neeRow.includes(">2025-12-31, 10-K</a>"), "a company whose newest filing is a year's: twelve months, said beside the figure");
+  const xomRow = rowOf("XOM");
+  check(xomRow.includes(">2026-06-30, 10-Q</span>") && !xomRow.includes("not-the-sec.example") && />revenue not filed</.test(xomRow) && xomRow.includes("gives no revenue under the concept the ERW reads"), "an address that is not the SEC's is no link; a newest filing with no revenue says so");
+  check(xomRow.includes('data-eq-filed-note-mark="XOM"') && xomRow.includes("A note on what XOM filed: the filed history under this SEC number starts") && !dukRow.includes("data-eq-filed-note-mark"), "a note the list carries while the figures are shown is marked on the company's row, and only there");
+  check(!!none && />none filed</.test(table) && table.includes(`${none.ticker}: the list holds no newest period for this company.`), "a company shown with no newest period says none filed");
+  const heldRow = list2.companies.find((c) => c.fundamentals_status !== "shown");
+  check(!heldRow || table.includes(`>${E.blankWords(heldRow.fundamentals_status)}<`), "a company whose filed figures are held is a blank with its reason");
+  // the sort: newest first, then oldest first (a company with none first), then the list's own order
+  const order = (desc) => E.companiesOf(list2, { seg: null, q: "", shown: false, sort: "filed", desc }).map((c) => c.id);
+  const newestFirst = order(true), oldestFirst = order(false);
+  check(newestFirst.slice(0, 3).join(" ") === "DUK XOM NEE" && newestFirst[newestFirst.length - 1] === "ZFX" && newestFirst.length === list2.companies.length, "newest first: the period ends in order, a company with none last");
+  check(oldestFirst.slice(0, 3).join(" ") === "NEE XOM DUK" && oldestFirst[oldestFirst.length - 1] === "ZFX", "oldest first: the reverse, a company with none still last");
+  const sorted = draw(FIX, { a: "DUK", sort: "filed", dir: "desc" });
+  const st = sorted.slice(sorted.indexOf('id="companies"'), sorted.indexOf('id="segments"'));
+  check(st.indexOf('data-eq-newest-of="DUK"') < st.indexOf('data-eq-newest-of="XOM"') && st.indexOf('data-eq-newest-of="XOM"') < st.indexOf('data-eq-newest-of="NEE"') && st.includes("Newest period filed (newest first)") && /title="Sorted newest first: press for oldest first"/.test(st), "the page in that order, and its head says which");
+  const asc = draw(FIX, { a: "DUK", sort: "filed" });
+  const at2 = asc.slice(asc.indexOf('id="companies"'), asc.indexOf('id="segments"'));
+  const head = at2.slice(at2.indexOf('data-eq-sort="filed"') - 400, at2.indexOf('data-eq-sort="filed"') + 200);
+  check(at2.includes("Newest period filed (oldest first)") && /title="Sorted oldest first: press for the list&#x27;s own order"/.test(at2) && !/sort=filed/.test(head.slice(head.lastIndexOf("<a "))), "oldest first, and the next press is the list's own order");
+  check(E.queryOf({ sort: "filed", dir: "desc" }, list2).sort === "filed" && E.queryOf({ sort: "revenue" }, list2).sort === null, "the address takes the new sort and no other new word");
+  // the note under a company's own figures, in the file's words
+  const withNote = { ...list2, companies: list2.companies.map((c) => (c.id === "DUK" ? { ...c, fundamentals_why: NOTE } : c)) };
+  save("index.json", withNote);
+  const noted = draw(FIX, { a: "DUK" });
+  check(noted.includes('data-eq-filed-note="DUK"') && text(noted).includes(`A note on what DUK filed: ${NOTE}.`) && !html.includes('data-eq-filed-note="DUK"'), "a company drawn whose filings carry a note: the note under its figures; none where the list has none");
+  // the list's download: the newest period's columns after the columns it had
+  const csv = E.listCsv(list2, "https://example.test/equities/list");
+  const lines9 = csv.split("\n").filter((l) => l && !l.startsWith("#"));
+  check(lines9[0] === E.LIST_HEAD.join(",") && E.LIST_HEAD.slice(0, 13).join(",") === "ticker,name,cik,exchange,sic,sic_label,segments,price_status,price_why,fundamentals_status,fundamentals_why,first_day,last_day" && E.LIST_HEAD.length === 25, "the list's CSV keeps its thirteen columns and gains twelve");
+  const dukLine = lines9.find((l) => l.startsWith("DUK,"));
+  check(!!dukLine && dukLine.endsWith(`,2026-09-30,10-Q,2026-11-05,${sec(0)[1]},850000000,3,140000000,3,990000000,9,7900000000,77800000`), "a company's line carries its newest period as filed, in USD and shares");
+  const noneLine = lines9.find((l) => l.startsWith(`${none?.ticker},`));
+  check(!!noneLine && noneLine.endsWith(",,,,,,,,,,,,"), "a company with no newest period: twelve empty cells");
+  check(/^# newest_\*: the newest period the company filed with the SEC/m.test(csv), "the CSV's head says what the new columns are");
+  const { LIST_SPEC } = await import("../app/equities/reader.ts");
+  check([...LIST_SPEC.text, ...LIST_SPEC.figures].length === E.LIST_HEAD.length && E.LIST_HEAD.every((c) => LIST_SPEC.text.includes(c) || LIST_SPEC.figures.includes(c)) && LIST_SPEC.figures.join(",") === E.LIST_FILED_FIGURES.join(","), "the readers know every column: the sums, their months, debt and shares as figures");
+  save("index.json", before);
+}
+
 if (!KEEP) fs.rmSync(FIX, { recursive: true, force: true });
 if (fails.length) { for (const f of fails) console.log(`FAIL ${f}`); console.log(`${fails.length} of ${n} checks failed`); process.exit(1); }
 console.log(`ok: ${n} checks of /equities on the filed figures (one figure over the periods filed, the newest period's columns, a held price beside public filings)`);

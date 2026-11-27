@@ -482,6 +482,12 @@ quiet(page, "demand");
   const html = draw(FIX, { s: "price", hub: "ercot:HB_HOUSTON" });
   const w = text(html);
   quiet(html, "a hub drawn");
+  // session 10414 (read in the accessibility tree of a build): a price block's title was a fourth-level heading right
+  // under the section's second-level one, in "Real-time price" and in "More hubs". No level is skipped now
+  for (const [name, page] of [["price, a hub drawn", html], ["price", list], ["demand", draw(FIX, {})]]) {
+    const levels = [...page.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
+    check(levels.length > 3 && levels.every((l, i) => i === 0 || l <= levels[i - 1] + 1), `${name}: a heading level is skipped (${levels.join("")})`);
+  }
   check(html.includes('data-fc-hub-drawn="ercot:HB_HOUSTON"') && html.includes('data-fc-dah="hub" data-fc-dah-hub="ercot:HB_HOUSTON" data-fc-dah-hours="24"') && w.includes("ercot:HB_HOUSTON: the day-ahead price"), "the hub chosen: its day-ahead price drawn whole");
   check(fig(html, HUBS, "hubs/0/tomorrow/18/2", 68, "68.00") && /data-n="fc\|hub\|dah\|top"/.test(html) && /aria-label="ERW forecast of the day-ahead price at ercot:HB_HOUSTON for Friday 27 Nov 2026, by the hour/.test(html), "its day forecast now, with keys into the hubs file, and a chart that says what it draws");
   const dah = html.slice(html.indexOf('data-fc-dah="hub"'), html.indexOf('data-fc-rt="hub"'));

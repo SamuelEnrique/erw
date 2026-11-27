@@ -9,6 +9,7 @@
 4. The ledger is never overwritten: a second run for the same place and day adds nothing and changes nothing.
 5. Every file says what it is: tier derived, "ERW forecast".
 """
+import datetime as dt
 import json
 import os
 import sys
@@ -234,6 +235,60 @@ class TheRealTimeFile(unittest.TestCase):
                 self.assertAlmostEqual(r["mae"], h["summary"]["backtest"]["mae"][m], places=2)
             self.assertNotEqual(h["method"], "day_ahead")
 
+    def test_the_hubs_added_come_after_the_three(self):
+        """Session 10603: the file's hubs are the three of section 7 first, then the four added, each with its entity."""
+        import predict_rt as rtm
+        doc = load("rt_price.json")
+        self.assertEqual([h["grid"] for h in doc["hubs"]], list(rtm.RT_HUBS))
+        self.assertEqual([h["grid"] for h in doc["hubs"]][:3], ["ercot", "spp", "caiso"])
+        self.assertEqual({h["grid"]: h["hub"] for h in doc["hubs"]}, rtm.RT_HUBS)
+        cuts = {r[3] for r in doc["rows"]}
+        self.assertFalse(cuts - set(doc["cuts"]), cuts - set(doc["cuts"]))
+
+    def test_the_longer_backtest_adds_up_and_changes_nothing_above(self):
+        """Session 10603: the years partition the longer backtest's hours, its MAE is their hour-weighted mean, it ends
+        where the backtest ends, and it starts no later; the method is the one chosen now."""
+        doc = load("rt_price.json")
+        for h in doc["hubs"]:
+            lb = h["long_backtest"]
+            self.assertEqual(lb["method"], h["method"])
+            self.assertEqual(sum(y["hours"] for y in lb["by_year"]), lb["all"]["hours"])
+            self.assertEqual(lb["all"]["last_day"], h["summary"]["backtest"]["last_day"])
+            self.assertLessEqual(lb["all"]["first_day"], h["summary"]["backtest"]["first_day"])
+            self.assertGreaterEqual(lb["all"]["hours"], h["summary"]["backtest"]["hours"])
+            for m in ("erw", "day_ahead", "yesterday", "regression"):
+                w = sum(y["mae"][m] * y["hours"] for y in lb["by_year"]) / lb["all"]["hours"]
+                self.assertAlmostEqual(w, lb["all"]["mae"][m], delta=0.01 * len(lb["by_year"]), msg=(h["grid"], m))
+            self.assertEqual([y["year"] for y in lb["by_year"]], sorted(y["year"] for y in lb["by_year"]))
+
+
+@unittest.skipUnless(os.path.exists(os.path.join(SITE, "price_hubs.json")), "price_hubs.json is not built here")
+class ThePriceHubsFile(unittest.TestCase):
+    def test_every_hub_has_its_scores_and_the_rule_chose(self):
+        """Session 10603: each hub's series agrees with its score rows, the method is the lowest error of the last two
+        years, the band holds its forecast, and the hubs are those of predict_rt.MORE_HUBS with their grid's demand."""
+        import predict_rt as rtm
+        doc = load("price_hubs.json")
+        self.assertEqual(doc["tier"], "derived")
+        self.assertEqual(doc["label"], "ERW forecast")
+        self.assertEqual([h["grid"] for h in doc["hubs"]], list(rtm.MORE_HUBS))
+        self.assertFalse({r[3] for r in doc["rows"]} - set(doc["cuts"]))
+        cols = doc["rows_columns"]
+        rows = {(r[0], r[2], r[3], r[4]): dict(zip(cols, r)) for r in doc["rows"]}
+        for h in doc["hubs"]:
+            self.assertEqual(h["hub"], rtm.MORE_HUBS[h["grid"]])
+            self.assertEqual(h["demand_place"], "ba-ciso" if h["grid"].startswith("caiso") else "ba-erco")
+            maes = h["method_mae_last_2_years"]
+            self.assertEqual(maes[h["method"]], min(maes.values()), h["grid"])
+            for m in ("erw", "yesterday", "week_ago"):
+                r = rows[(h["place"], m, "all", "")]
+                self.assertEqual(r["hours"], h["summary"]["backtest"]["hours"], (h["grid"], m))
+                self.assertAlmostEqual(r["mae"], h["summary"]["backtest"]["mae"][m], places=2)
+            self.assertAlmostEqual(rows[(h["place"], "erw", "last_2_years", "")]["mae"], maes[h["method"]], places=2)
+            for t in h["tomorrow"] or []:
+                self.assertLessEqual(t[3], t[4])
+            self.assertTrue(0 <= h["band_coverage_pct"] <= 100)
+
 
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "wind_solar.json")), "wind_solar.json is not built here")
 class TheWindSolarFile(unittest.TestCase):
@@ -261,6 +316,25 @@ class TheWindSolarFile(unittest.TestCase):
                     self.assertTrue(op and all(r["mae_mw"] is None and r["held"] for r in op))
                 if b["tomorrow"]:
                     self.assertEqual(b["horizon_days"], 2)
+
+    def test_a_day_not_forecast_says_why_and_every_entry_has_its_page(self):
+        """Session 10603 (chain 720's requests 11 and 12): no tomorrow of nulls only, a reason where there is no tomorrow,
+        every entry shown for a place file that exists, and every cut of the rows has its words."""
+        doc = load("wind_solar.json")
+        index = {p["place"] for p in load("index.json")["places"]} if os.path.exists(os.path.join(SITE, "index.json")) else None
+        cuts = {r[3] for r in doc["rows"]}
+        self.assertFalse(cuts - set(doc["cuts"]), cuts - set(doc["cuts"]))
+        for p in doc["places"]:
+            self.assertTrue(p["shown_for"])
+            if index is not None:
+                self.assertFalse(set(p["shown_for"]) - index, p["place"])
+            for fuel, b in p["fuels"].items():
+                if b["status"] != "shown":
+                    continue
+                if b["tomorrow"] is None:
+                    self.assertTrue(b["tomorrow_held"], (p["place"], fuel))
+                else:
+                    self.assertTrue(any(r[2] is not None for r in b["tomorrow"]), (p["place"], fuel))
 
 
 class Ledger(unittest.TestCase):
@@ -325,6 +399,24 @@ class TheFiles(unittest.TestCase):
             self.assertEqual(got, methods, p["place"])
             s = self.places[p["place"]]["series"]["demand"]
             self.assertIsNotNone(s["summary"]["backtest"]["mae"]["erw"], p["place"])
+
+    def test_the_places_added_follow_their_rule(self):
+        """Session 10603: every place of the run has its file; each authority added runs to the last day the 29 places
+        reach (within a day) and its backtest scores at least two years; none is one of the 29."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("predict_run_places", os.path.join(ROOT, "warehouse", "predict", "run.py"))
+        run = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(run)
+        self.assertEqual(set(self.places), set(run.PLACES))
+        added = [f"ba-{b.lower()}" for b in run.MORE_BAS]
+        self.assertFalse(set(added) & set(run.CORE_PLACES))
+        last = max(self.places[p]["series"]["demand"]["summary"]["backtest"]["last_day"] for p in run.CORE_PLACES)
+        for p in added:
+            b = self.places[p]["series"]["demand"]["summary"]["backtest"]
+            gap = (dt.date.fromisoformat(last) - dt.date.fromisoformat(b["last_day"])).days
+            self.assertLessEqual(gap, 1, p)
+            span = (dt.date.fromisoformat(b["last_day"]) - dt.date.fromisoformat(b["first_day"])).days
+            self.assertGreaterEqual(span, 730, p)
 
     def test_each_file_agrees_with_the_report_card(self):
         """The check of each file's figures: a place file's summary of the backtest is the score file's row 'all' for
@@ -476,6 +568,21 @@ class TheFiles(unittest.TestCase):
             op = [r for r in rows if r["place"] == p["place"] and r["series"] == "price" and r["method"] == "operator"]
             self.assertTrue(op and all(r["mae"] is None and r["held"] for r in op), p["place"])
             self.assertTrue(any(r["cut"] == "spike" for r in rows if r["place"] == p["place"] and r["series"] == "price"), p["place"])
+
+    def test_every_cut_has_its_words_and_net_demand_says_why(self):
+        """Session 10603 (chain 720's requests 11 and 12): the price rows' cuts are named in cuts_price, the others in cuts;
+        a net demand with no hour for tomorrow says why."""
+        cols = self.scores["rows_columns"]
+        rows = [dict(zip(cols, r)) for r in self.scores["rows"]]
+        price = {r["cut"] for r in rows if r["series"] == "price"}
+        rest = {r["cut"] for r in rows if r["series"] != "price"}
+        self.assertFalse(price - set(self.scores["cuts_price"]), price - set(self.scores["cuts_price"]))
+        known = set(self.scores["cuts"]) | set(self.scores.get("cuts_added", {}))
+        self.assertFalse(rest - known, rest - known)
+        for place, doc in self.places.items():
+            n = doc["series"]["demand"].get("net_demand")
+            if n and n.get("status") == "shown" and not n.get("tomorrow"):
+                self.assertTrue(n.get("tomorrow_held"), place)
 
     def test_a_held_series_holds_no_number(self):
         cols = self.scores["rows_columns"]

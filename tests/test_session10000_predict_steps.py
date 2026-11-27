@@ -25,6 +25,13 @@ class TheTwoSteps(unittest.TestCase):
         self.assertNotIn("soft_step ", s[rt + 10:s.index("# ---- 4. the commit")])   # nothing runs after it
         self.assertIn('soft_step dm_predict_rt_price "$PYTHON" warehouse/predict/rt_price.py', s)
 
+    def test_the_hub_prices_right_after_the_forecast(self):
+        # predict data request 13: price_hubs.py right after run.py
+        s = self.s
+        self.assertLess(s.index("soft_step dm_predict "), s.index("soft_step dm_predict_price_hubs "))
+        self.assertLess(s.index("soft_step dm_predict_price_hubs "), s.index("soft_step dm_predict_tables "))
+        self.assertIn('soft_step dm_predict_price_hubs "$PYTHON" warehouse/predict/price_hubs.py', s)
+
     def test_their_files_are_committed(self):
         self.assertIn("PAGE_PATHS+=(site/data/predict)", self.s)
         for f in ("wind_solar.py", "rt_price.py"):

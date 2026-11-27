@@ -82,7 +82,7 @@ def main(argv=None):
     dem = data.demand_panel()
     op = data.operator_panel()
     ref, _ = data.reference()
-    places = a.places or run.PLACES
+    places = a.places or run.CORE_PLACES   # the 29 places; the 35 added in session 10603 are not yet run ahead (method note section 23)
     docs = []
     for place in places:
         d = place_ahead(place, dem, op, ref, made)

@@ -80,6 +80,38 @@ def panels():
     return data.cached("ws", [REGION_FUEL, CAISO, ERCOT], build)
 
 
+BA_FUEL = "eia930_ba_wind_solar_hourly"
+
+
+def ba_panels():
+    """The authorities' wind and solar output (session 10603; eia930_ba_wind_solar_hourly, data request 10, July 2018 on):
+    columns ba-<code>|<fuel>|actual, UTC hourly, MW. Kept apart from panels(), whose regions and CAISO it leaves as
+    they are."""
+    def build():
+        r = data.read(BA_FUEL, ["entity", "variable", "ts_utc", "value"])
+        r["col"] = "ba-" + r["entity"].str.split(":", n=1).str[1].str.lower() + "|" + r["variable"].str.split("_").str[2] + "|actual"
+        cols = {}
+        for col, g in r.groupby("col"):
+            s = g.set_index("ts")["value"].astype(float)
+            cols[col] = s[~s.index.duplicated(keep="last")]
+        df = pd.DataFrame(cols).sort_index()
+        df = df.reindex(pd.date_range(df.index.min(), df.index.max(), freq="h"))
+        df.index.name = "ts"
+        return df
+    return data.cached("ws_ba", [BA_FUEL], build)
+
+
+def all_panels():
+    """panels() with ba_panels() beside it where the authority table is held."""
+    df = panels()
+    if os.path.exists(data.table_path(BA_FUEL)):
+        b = ba_panels()
+        df = pd.concat([df, b], axis=1)
+        df = df.reindex(pd.date_range(df.index.min(), df.index.max(), freq="h"))
+        df.index.name = "ts"
+    return df
+
+
 def series_of(df, place, fuel):
     a = df.get(f"{place}|{fuel}|actual")
     o = df.get(f"{place}|{fuel}|operator")
