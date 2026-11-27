@@ -32,6 +32,19 @@ class TheTwoSteps(unittest.TestCase):
         self.assertLess(s.index("soft_step dm_predict_price_hubs "), s.index("soft_step dm_predict_tables "))
         self.assertIn('soft_step dm_predict_price_hubs "$PYTHON" warehouse/predict/price_hubs.py', s)
 
+    def test_the_longer_backtest_on_sundays(self):
+        # the second predict data request 15: long_backtest.py once a week, after the forecasts two to seven days ahead
+        s = self.s
+        self.assertIn('if [ "$(date -u +%u)" = "7" ]; then soft_step dm_predict_long_backtest "$PYTHON" '
+                      'warehouse/predict/long_backtest.py; fi', s)
+        self.assertLess(s.index("soft_step dm_predict_ahead "), s.index("soft_step dm_predict_long_backtest "))
+        self.assertTrue(os.path.exists(os.path.join(ROOT, "warehouse", "predict", "long_backtest.py")))
+        # predict data request 16: long_price.py beside it
+        self.assertIn('if [ "$(date -u +%u)" = "7" ]; then soft_step dm_predict_long_price "$PYTHON" '
+                      'warehouse/predict/long_price.py; fi', s)
+        self.assertLess(s.index("soft_step dm_predict_long_backtest "), s.index("soft_step dm_predict_long_price "))
+        self.assertTrue(os.path.exists(os.path.join(ROOT, "warehouse", "predict", "long_price.py")))
+
     def test_their_files_are_committed(self):
         self.assertIn("PAGE_PATHS+=(site/data/predict)", self.s)
         for f in ("wind_solar.py", "rt_price.py"):

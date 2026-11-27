@@ -53,11 +53,16 @@ SHARE = re.compile(r"^[A-Z]{2}EPSHR_US$")
 OTHER = {"NGHHUUS"}
 UNITS = {"cents per kilowatthour": ("USD/kWh", 0.01), "cents per kilowatt hour": ("USD/kWh", 0.01), "cents/kwh": ("USD/kWh", 0.01), "dollars per million btu": ("USD/MMBtu", 1.0),
          "$/mmbtu": ("USD/MMBtu", 1.0), "fraction": ("ratio", 1.0), "percent": ("ratio", 0.01), "percentage": ("ratio", 0.01), "%": ("ratio", 0.01),
-         "index, 2017 = 100": ("index", 1.0)}
+         "index, 2017 = 100": ("index", 1.0), "index, 1982-1984=1.00": ("index", 1.0)}
 # session 3938 (chain 267; request 1 of docs/state/data_requests_forecast.md): the GDP implicit price deflator, annual, from
 # 2009, which the forecast tool needs to put JEDI's dollars of 2010 and 2017 in the reader's year. EIA carries BEA's NIPA
 # Table 1.1.9 line in the STEO (BEA's own files are closed to this reader: its robots file and its key)
 ANNUAL, ANNUAL_FIRST = ["GDPDIUS"], "2009"
+# session 10000 (chain 701; row 41 of docs/state/data_requests_five_tools.md): the consumer price index for all urban
+# consumers (CPI-U, BLS's, as EIA's STEO carries it; index 1982-1984 = 1.00), monthly from the route's first month, so a
+# price of 2015 and a latest price can be put in one month's dollars. BLS's own files are closed to this reader (its
+# usage policy and api.bls.gov's robots file), FRED's tables are retired. One request more a run
+MONTHLY_LONG, MONTHLY_LONG_FIRST = ["CICPIUS"], "1990-01"
 KEY = ["entity", "variable", "ts_utc", "vintage"]
 X_COLS = ["x_kind", "x_units_published"]
 
@@ -163,6 +168,12 @@ def main(argv=None):
                                 "start": ANNUAL_FIRST, "length": 5000})
         resp = r.json()["response"]
         frames.append(rows_annual(resp["data"], release, ip.redact(r.url), retrieved))
+        r = get(API + "data/", {"api_key": key, "frequency": "monthly", "data[]": "value", "facets[seriesId][]": MONTHLY_LONG,
+                                "start": MONTHLY_LONG_FIRST, "length": 5000})
+        resp = r.json()["response"]
+        if int(resp["total"]) > len(resp["data"]):
+            raise RuntimeError(f"{MONTHLY_LONG}: {resp['total']} rows, {len(resp['data'])} on the page")
+        frames.append(rows(resp["data"], release, ip.redact(r.url), retrieved))
         s = pd.concat(frames, ignore_index=True)
         if s.duplicated(KEY).any():
             raise RuntimeError("a row on two pages")
@@ -170,7 +181,7 @@ def main(argv=None):
         header = [
             f"Energy Research Warehouse (ERW): EIA Short-Term Energy Outlook of {release.isoformat()}, retail electricity prices, Henry Hub and the generation mix, monthly (session 491)",
             "Shape: series (docs/datastandard.md v0), each release kept: the key is (entity, variable, ts_utc, vintage), vintage the release's date (docs/datastandard.md rule 5). entity eia_steo:<seriesId>; variable value; ts_utc the month's first day; freq P1M; x_kind forecast or history.",
-            f"FORECASTS from {release.year}-{release.month:02d} on, EIA's; earlier months are EIA's history. Units: cents/kWh as USD/kWh (nominal), USD/MMBtu, shares as ratios. Series {len(series)}; months from {args.start}; and, annual from {ANNUAL_FIRST} (freq P1Y, a year from the release's own on forecast), {', '.join(ANNUAL)} (the GDP implicit price deflator, index 2017 = 100, session 3938). Nothing is filled.",
+            f"FORECASTS from {release.year}-{release.month:02d} on, EIA's; earlier months are EIA's history. Units: cents/kWh as USD/kWh (nominal), USD/MMBtu, shares as ratios. Series {len(series)}; months from {args.start}; and, annual from {ANNUAL_FIRST} (freq P1Y, a year from the release's own on forecast), {', '.join(ANNUAL)} (the GDP implicit price deflator, index 2017 = 100, session 3938); and, monthly from {MONTHLY_LONG_FIRST}, {', '.join(MONTHLY_LONG)} (CPI-U, index 1982-1984 = 1.00, session 10000). Nothing is filled.",
             # session 3938: decision 77's words, so the validator keys the table by vintage too; without them the second
             # release on 10 November 2026 was refused as 10,176 duplicate (entity, variable, ts_utc) keys
             "Revisions: kept, one row per vintage (each STEO release's own figures; vintage the release's date).",

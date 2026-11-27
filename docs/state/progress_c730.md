@@ -101,3 +101,8 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - Part F, codebook, read and not settled (session 10603): E-Control's Statistikbroschuere 2025 (robots read first; fetched once, 4,398,054 bytes) has a glossary on page 75, but the extractable text holds neither it nor Arbeitsvermoegen; the read is written into `econtrol_austria_electricity_monthly`'s second look (an internal table: its codebook page is not public).
 - 18:12 UTC (session 10603): next item, more places further ahead: `ahead.py --more` writes the 35 authorities two to seven days ahead to a file of their own, `ahead_more.json` (the daily `ahead.json` keeps its 29, as decided this morning, so window A's daily run does not double); building on `wip/c730-predict-v5`.
 - 18:43 UTC (session 10603): `ahead_more.json` building (6 of 35 authorities); data request 17 written (the backtest tables' shape chosen, both passing the validator); rows 10 and 11 still requested.
+- 19:01 UTC (session 10603): the day's peak by year added to the longer backtest on `wip/c730-predict-v6` (`long_backtest.json`'s `peak`; its replication 96 of 96 groups on a two-place trial; the 64-place rebuild started 18:56 UTC). `ahead_more.json` at 8 of 35 authorities.
+- 19:11 UTC (session 10603): builds running (`ahead_more.json` 12 of 35; `long_backtest.json` with the peak 9 of 64); rows 10 and 11 still requested.
+- 19:40 UTC (session 10603): `ahead_more.json` 18 of 35; `long_backtest.json` with the peak 29 of 64; rows 10 and 11 still requested.
+- 19:59 UTC (session 10603): `ahead_more.json` 23 of 35; `long_backtest.json` with the peak 43 of 64.
+- 20:18 UTC (session 10603): `long_backtest.json` with the peak 56 of 64; `ahead_more.json` 27 of 35.
