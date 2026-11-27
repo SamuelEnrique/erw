@@ -1,6 +1,38 @@
 # Chain 720, the portable laptop's first window: the ERW forecast page and the energy equities pages (note for Samuel)
 
-Energy Research Warehouse (ERW). Kept current; state at 18:54 UTC on 26 November 2026. Sessions 10400 to 10407. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10407_REPORT.md`.
+Energy Research Warehouse (ERW). Kept current; state at 10:00 UTC on 27 November 2026. Sessions 10400 to 10409. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10409_REPORT.md`.
+
+## 27 November: what changed since you took the laptop (sessions 10408 and 10409)
+
+You asked for two things first. Both are done on branches and requested for landing; neither is on production yet.
+
+- **Rows 59, 60 and 61 landed on 26 November** (the line "with the weather known", the small "i" mark, the two hovers). Everything under sections 1 to 4 below that says "once row 59 has landed" is on production now.
+
+**Equities on the SEC's company figures (row 62, `wip/c720-equities-sec`).**
+
+- **What production shows today** (read at 09:13 UTC on the real files): 307 companies, every share price a dashed box that says "license needed", each company's newest filing in a table. And no chart at all once a company is chosen, which is what this row mends.
+- **What to click once row 62 has landed.** Open `https://erw-flame.vercel.app/equities?a=NEE&b=DUK`.
+  - **You should see** two dashed boxes, "Share price, NEE, NEXTERA ENERGY INC: license needed" and the same for Duke.
+  - Under "Filed figures": two figures, "Revenue, 3 months to 2026-03-31", 6,701 and 9,178 USD million, each with its filing's link, and under each a line of revenue by quarter since 2009.
+  - Put the mouse on a line. **You should see** the quarter and its revenue.
+  - Under "Choices" at the left, change "Filed figure" to "Debt" and "Its periods" to "12 months". **You should see** each company's debt at the end of each year reported.
+  - Under the charts: "Newest period filed", one column a company and a length of period. For a company whose newest filing is for June or September you should see two columns, the 3 months and the year to date.
+  - Under "Energy prices": WTI crude oil as a line of its own, as before the companies came.
+  - In the table "Every company": tick "Filed figures shown" and press Filter. **You should see** 243 of 307 companies.
+- **What is real:** every filed figure, from the SEC's own filings, each with its filing's address. Checked against the files: 1,179,547 figures on 2,329 pages, none differing.
+- **What is blank, and why:** every share price, index and segment line ("license needed": no source's terms let the ERW keep daily prices). 64 companies' filed figures ("source needed": foreign filers and some partnerships).
+- **Three things I asked the data machine about** (requests 578 to 580): eighteen large utilities (Duke, NextEra, Southern, AEP and others) show nothing after the quarter to March 2026, while 206 companies reach September; Exxon shows two quarters only, because its SEC number is a new holding company's; one company's last filing is from 2016. The page draws what the files hold.
+
+**The forecast's new outputs (row 63, `wip/c720-forecast-lines`).** What to click once it has landed, at `https://erw-flame.vercel.app/forecast`:
+
+- Under "Tomorrow", below the days after tomorrow: **"Texas: wind, solar and net demand"**. Four figures (in the files of 27 November: lowest net demand 22,342 MW at 14:00, highest 42,817 MW at 17:00, highest wind hour 16,297 MW, highest solar hour 24,395 MW), a chart of four lines (demand, net demand, wind, solar), a table of how each has scored, and the hours behind a fold.
+- Under "How it has done", below the past day: **wind and solar on that day**, the forecast as a line and what happened as a dashed line of the same color.
+- Below the report card: **"the operator's filed forecast, checked by month"**. For Texas: "In 1 of 89 months the forecast filed on Form EIA-930 is more than 5 percent from the demand it forecasts over the whole month. In those months the filed forecast is not the operator's own forecast." Then the scores on every month beside the months that pass, and every month behind a fold. Choose Duke Energy Florida (FPC) to see a place where all 89 months are flagged.
+- Below it: **"with the weather forecast (a separate line, not the ERW forecast), KDFW: 17 of the 30 days needed, too few days to judge"**, one row of scores, and its hours for tomorrow behind a fold. It is in no chart.
+- Below it: **"the band, and how often what happened fell inside it"**. For Texas: demand 80.30 percent inside, 9.40 below, 10.30 above; a chart by hour of the day; each month behind a fold.
+- Press the "Price" tab and scroll past "How it has done": **"Real-time price"**. For Texas, at ercot:HB_NORTH: a dashed box that says "no forecast yet" for tomorrow (the file's own words: the day-ahead price for the day was not held when the forecast was made), a past day with the forecast, the day-ahead price and what happened, and the report card (over the last two years the ERW forecast missed by 12.33 USD/MWh, the day-ahead price by 11.83).
+- **What is real:** every figure, from window B's files, each with its key into its file. Checked: 104,171 figures on 120 pages (all 29 places), none differing.
+- **Not drawn, and asked of window B** (its requests 11 and 12): CAISO's own wind and solar lines, which no place's file names; net demand for tomorrow in four regions, where the file is empty and gives no reason.
 
 ## One thing first: a held price is drawn on production
 
@@ -57,12 +89,13 @@ What is real and what is not:
 ## 2. Energy equities on the price board: `https://erw-flame.vercel.app/board#equities`
 
 - Open the address. **You should see** the board as it was, and a new group at its foot, "Energy equities". Press its title to open it.
-- **With window A's files as they stand today you should see 30 rows that each say "not held yet".** Put the mouse on one: the reason is there (SEC EDGAR refuses the ERW's contact string, so no company is put in a segment; no price source has terms that let the ERW keep daily share prices).
+- **With window A's files as they stand (27 November) you should see 30 rows that each say "not held yet".** Put the mouse on one: the reason is there (no price source has terms that let the ERW keep daily share prices or index levels; for seven segments, also that no SEC industry code holds the segment alone). Read on production at 09:13 UTC on 27 November: 30 rows, none with a figure.
 - Once a row holds a value: its latest value, its date, its change over a day, a week, a month, a year and the year to date, and a small trend line. Pressing the row opens `/equities` on that series.
 
 ## 3. Energy equities, the page: `https://erw-flame.vercel.app/equities`
 
-- Open the address. **With today's files you should see** a dashed box under "The line" that says "Companies, indices and segment lines: license needed", then "Energy prices": WTI crude oil as a line over the last year (89.53 USD per barrel on 17 November), and a table of 12 energy prices with each one's latest value, its date under it, and its changes. Uranium says "monthly" under Day and Week; four power prices say "license needed" or "paused".
+- **Since 27 November the files hold 307 companies** (your ruling on the SEC's data): the page as landed, and what row 62 adds, are at the head of this note. The lines below describe the page as it was on 26 November, while no company was in the files; the energy prices and the segments read the same today.
+- Open the address. **On 26 November's files you saw** a dashed box under "The line" that says "Companies, indices and segment lines: license needed", then "Energy prices": WTI crude oil as a line over the last year (89.53 USD per barrel on 17 November), and a table of 12 energy prices with each one's latest value, its date under it, and its changes. Uranium says "monthly" under Day and Week; four power prices say "license needed" or "paused".
 - Press another price in the table, for example "Henry Hub natural gas, spot". **You should see** its line in place of WTI's.
 - Under "Choices", change "Window" to "5 years". **You should see** the line over five years.
 - Scroll to "Segments and indices". **You should see** the 15 segments, each saying "source needed" for its companies and "license needed" for its line, with the reason on hover.
@@ -113,10 +146,16 @@ What is real and what is not:
 - **Whether the forecast's problem set joins the listed sets.** Today: it waits on its own page, in no list and no edition.
 - **Whether a problem set that shows the ERW forecast scoring worse than the operator's in Texas is wanted as it is.** Today: written as the file holds it.
 - **The Chart and Table switch of the site's charts is 22 px tall** on every page (24 is the least for a finger). Today: left.
+- **Which company `/equities` opens on** (27 November). Today: the list's first by ticker, ProFrac Holding (ACDC). A large, familiar company would say more at a glance.
+- **Whether a quarter that was only filed inside a year's total may be worked out** (the year less its nine months). Today: not; the page shows only what was filed, so most companies have no point for their fourth quarter.
+- **Where the forecast's new blocks sit.** Today: net demand under "Tomorrow"; the operator's filing, the weather forecast line and the band after the report card; the real-time price as a section of its own under "Price".
+- **Whether the page should say, of the operator's filing, anything where no month is flagged.** Today: no sentence; the months are in a fold that says "none flagged".
 
 ## What waits on others
 
-- **Window A's desk:** landing rows 57 to 61 (each at its newest head; 54 to 56 landed at 17:13 UTC).
+- **Window A's desk:** landing row 62 (equities on the SEC's figures, requested 09:25 UTC on 27 November) and row 63 (the forecast's new views; requested once its newest head is seen in a build, which waits for 2 GB of free memory on this laptop). Rows 54 to 61 have landed.
+- **Window A:** data requests 578 to 580 (27 November): the list's newest filed period; eighteen utilities' missing quarters, Exxon's short history, one stale filer; the board's own check on two held rows.
+- **Window B:** its requests 11 and 12 (27 November): CAISO's wind and solar lines that no place names, and net demand empty with no reason in four regions; the words of the real-time price's cuts.
 - **Window B:** nothing asked. Its files of 14:05 UTC hold the fourth method (on production its name reads "regression recent" until row 57 lands with its words) and the line "with the weather known" for all 29 places, which the page does not draw yet.
 - **Window A:** data requests 571 to 574 in `docs/state/data_requests_done_line.md` (the list's last close and changes; the board rows' other cells; the board's older row; what the built files carry beyond the contract's text). And the two rulings its own work waits on: the SEC's contact string and a price source.
 - **Window B:** nothing asked. Its contract and files were enough.
