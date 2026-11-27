@@ -89,10 +89,10 @@
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 44,
+   "n": 49,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
-   "median": 53.995782,
+   "median": 63.636364,
    "high": 133.236026,
    "high_row": "va_microsoft_mecklenburg_2016",
    "rows": [
@@ -132,12 +132,17 @@
     "sc_google_dorchester_2024",
     "ms_aws_clinton_2026",
     "ok_meta_tulsa_announce_2026",
+    "wi_meta_beaverdam_announce_2025",
     "al_facebook_huntsville_2018",
     "ga_facebook_stantonsprings_2018",
+    "az_meta_mesa_announce_2021",
+    "tx_meta_temple_announce_2022",
+    "id_meta_kuna_announce_2022",
     "al_meta_montgomery_2024",
     "sc_meta_aiken_2024",
     "mn_meta_rosemount_2024",
     "wy_meta_cheyenne_2024",
+    "in_meta_jeffersonville_announce_2024",
     "al_google_jackson_2015",
     "va_microsoft_mecklenburg_2016"
    ]
@@ -146,10 +151,10 @@
    "name": "Construction jobs per billion dollars",
    "unit": "construction jobs (headcount as announced) per USD billion (2025)",
    "how": "construction jobs as announced over the investment; at peak or period not stated, as each row says",
-   "n": 18,
+   "n": 23,
    "low": 63.222543,
    "low_row": "wv_nscale_2026",
-   "median": 400.0,
+   "median": 590.481742,
    "high": 3406.856898,
    "high_row": "nv_google_storey_2020",
    "rows": [
@@ -167,9 +172,14 @@
     "wi_microsoft_mountpleasant_2024",
     "az_beale_pima_2025",
     "ok_meta_tulsa_announce_2026",
+    "wi_meta_beaverdam_announce_2025",
     "al_meta_montgomery_2024",
     "mn_meta_rosemount_2024",
     "wy_meta_cheyenne_2024",
+    "tx_meta_temple_announce_2022",
+    "id_meta_kuna_announce_2022",
+    "in_meta_jeffersonville_announce_2024",
+    "az_meta_mesa_announce_2021",
     "nv_google_storey_2020"
    ]
   }
@@ -3294,6 +3304,206 @@
    "incentive": "",
    "years": "",
    "note": "Meta's announcement of the campus (21 April 2026): the same campus as ok_meta_tulsa_2026 (its info sheet, figures to date), an earlier document, both kept; this one is an announcement and enters the ranges. The USD 25 million or more in local roads and water is not taken."
+  },
+  {
+   "id": "in_meta_jeffersonville_announce_2024",
+   "name": "Meta, Jeffersonville data center (announcement)",
+   "company": "Meta",
+   "state": "in",
+   "county": null,
+   "place": "Jeffersonville",
+   "doc": {
+    "title": "Hello, Jeffersonville!",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2024-01-25",
+    "url": "https://datacenters.atmeta.com/2024/01/hello-jeffersonville/",
+    "request": 545
+   },
+   "mw": null,
+   "investment": {
+    "value": 800000000,
+    "year": 2024,
+    "says": "$800 million",
+    "qualifier": "more than",
+    "quote": "will represent an investment of more than $800 million and support approximately 100 jobs."
+   },
+   "construction_jobs": {
+    "value": 1250,
+    "measure": "construction workers at peak",
+    "says": "1,250 construction workers",
+    "qualifier": "more than",
+    "quote": "Meta anticipates that more than 1,250 construction workers will be onsite at the peak of construction."
+   },
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "jobs",
+    "says": "approximately 100 jobs",
+    "qualifier": "approximately",
+    "quote": "will represent an investment of more than $800 million and support approximately 100 jobs."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (25 January 2024), beside its locations page entry (in_meta_jeffersonville_2026, figures to date); this one enters the ranges."
+  },
+  {
+   "id": "wi_meta_beaverdam_announce_2025",
+   "name": "Meta, Beaver Dam data center (announcement)",
+   "company": "Meta",
+   "state": "wi",
+   "county": null,
+   "place": "Beaver Dam",
+   "doc": {
+    "title": "Hello, Beaver Dam!",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2025-11-12",
+    "url": "https://datacenters.atmeta.com/2025/11/hello-beaver-dam/",
+    "request": 546
+   },
+   "mw": null,
+   "investment": {
+    "value": 1000000000,
+    "year": 2025,
+    "says": "$1 billion",
+    "qualifier": "",
+    "quote": "Once completed, the Beaver Dam Data Center will represent an investment of $1 billion dollars and support approximately 1,000 construction jobs and over 100 operational jobs in Beaver Dam."
+   },
+   "construction_jobs": {
+    "value": 1000,
+    "measure": "construction jobs",
+    "says": "approximately 1,000 construction jobs",
+    "qualifier": "approximately",
+    "quote": "Once completed, the Beaver Dam Data Center will represent an investment of $1 billion dollars and support approximately 1,000 construction jobs and over 100 operational jobs in Beaver Dam."
+   },
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "operational jobs",
+    "says": "over 100 operational jobs",
+    "qualifier": "over",
+    "quote": "Once completed, the Beaver Dam Data Center will represent an investment of $1 billion dollars and support approximately 1,000 construction jobs and over 100 operational jobs in Beaver Dam."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (12 November 2025), beside its info sheet (wi_meta_beaverdam_2026, figures to date); this one enters the ranges."
+  },
+  {
+   "id": "tx_meta_temple_announce_2022",
+   "name": "Meta, Temple data center (announcement)",
+   "company": "Meta",
+   "state": "tx",
+   "county": null,
+   "place": "Temple",
+   "doc": {
+    "title": "Hello, Temple!",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2022-03-31",
+    "url": "https://datacenters.atmeta.com/2022/03/hello-temple/",
+    "request": 547
+   },
+   "mw": null,
+   "investment": {
+    "value": 800000000,
+    "year": 2022,
+    "says": "$800 million",
+    "qualifier": "more than",
+    "quote": "Once completed, the data center will represent an investment of more than $800 million and will support approximately 100 operational jobs."
+   },
+   "construction_jobs": {
+    "value": 1200,
+    "measure": "construction workers at peak",
+    "says": "1,200 construction workers",
+    "qualifier": "over",
+    "quote": "We also anticipate that over 1,200 construction workers will be on site at the peak of construction."
+   },
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "operational jobs",
+    "says": "approximately 100 operational jobs",
+    "qualifier": "approximately",
+    "quote": "Once completed, the data center will represent an investment of more than $800 million and will support approximately 100 operational jobs."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (31 March 2022), beside its locations page entry (tx_meta_temple_2026, figures to date: USD 1.2 billion); this one enters the ranges."
+  },
+  {
+   "id": "id_meta_kuna_announce_2022",
+   "name": "Meta, Kuna data center (announcement)",
+   "company": "Meta",
+   "state": "id",
+   "county": null,
+   "place": "Kuna",
+   "doc": {
+    "title": "Hello Kuna!",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2022-02-16",
+    "url": "https://datacenters.atmeta.com/2022/02/hello-kuna/",
+    "request": 548
+   },
+   "mw": null,
+   "investment": {
+    "value": 800000000,
+    "year": 2022,
+    "says": "$800 million",
+    "qualifier": "more than",
+    "quote": "will represent an investment of more than $800 million and will support approximately 100 jobs."
+   },
+   "construction_jobs": {
+    "value": 1200,
+    "measure": "construction workers at peak",
+    "says": "1,200 construction workers",
+    "qualifier": "over",
+    "quote": "We anticipate that over 1,200 construction workers will be on site at the peak of construction."
+   },
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "jobs",
+    "says": "approximately 100 jobs",
+    "qualifier": "approximately",
+    "quote": "will represent an investment of more than $800 million and will support approximately 100 jobs."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (16 February 2022), beside its info sheet (id_meta_kuna_2026, figures to date); this one enters the ranges."
+  },
+  {
+   "id": "az_meta_mesa_announce_2021",
+   "name": "Meta (then Facebook), Mesa data center (announcement)",
+   "company": "Meta",
+   "state": "az",
+   "county": null,
+   "place": "Mesa",
+   "doc": {
+    "title": "Hello, Mesa!",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2021-08-12",
+    "url": "https://datacenters.atmeta.com/2021/08/facebook-is-joining-the-arizona-community/",
+    "request": 549
+   },
+   "mw": null,
+   "investment": {
+    "value": 800000000,
+    "year": 2021,
+    "says": "$800 million",
+    "qualifier": "more than",
+    "quote": "Once completed, the data center will represent an investment of more than $800 million and will support approximately 100 jobs."
+   },
+   "construction_jobs": {
+    "value": 1500,
+    "measure": "construction workers at peak",
+    "says": "approximately 1,500 construction workers",
+    "qualifier": "approximately",
+    "quote": "We anticipate that approximately 1,500 construction workers will be on site at the peak of construction."
+   },
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "jobs",
+    "says": "approximately 100 jobs",
+    "qualifier": "approximately",
+    "quote": "Once completed, the data center will represent an investment of more than $800 million and will support approximately 100 jobs."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus when it broke ground (12 August 2021), beside its info sheet (az_meta_mesa_2026, figures to date); this one enters the ranges."
   }
  ]
 }
