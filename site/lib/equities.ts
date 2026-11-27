@@ -244,6 +244,61 @@ export function filingsOf(s: EqSeries): Filing[] {
     shares_outstanding: num(r, "shares_outstanding"), accession: str(r, "accession"), url: str(r, "url"),
   })).filter((f) => f.period_end !== null);
 }
+// Session 10408 (chain 720, part E; the SEC's company figures are in the files since 27 November 2026): one filed
+// figure over the periods a company filed, and the newest period's rows side by side. Nothing is computed: a point is
+// a figure as filed, for the period its filing reports, and a period not filed on its own (often the fourth quarter,
+// which a 10-K reports inside its 12 months) has no point.
+export type FigureKey = "revenue" | "net_income" | "capex" | "debt" | "shares_outstanding";
+export const FIGURES = STATEMENT.map((x) => x[0]) as FigureKey[];
+export const FIGURE_DEFAULT: FigureKey = "revenue";
+/** Debt and shares are a filing's figures at its period's end; the others are sums over the period. */
+export const AT_PERIOD_END: readonly FigureKey[] = ["debt", "shares_outstanding"];
+export const PERIOD_KEYS = ["3", "12"] as const;
+export type PeriodKey = (typeof PERIOD_KEYS)[number];
+export const PERIOD_DEFAULT: PeriodKey = "3";
+export const PERIOD_WORDS: Record<PeriodKey, string> = { "3": "3 months", "12": "12 months" };
+export const figureWords = (col: FigureKey) => STATEMENT.find((x) => x[0] === col)?.[1] ?? col;
+export const figureUnit = (col: FigureKey) => (col === "shares_outstanding" ? "million shares" : "USD million");
+export type FiledPoint = { f: Filing; v: number };
+const later = (a: Filing, b: Filing | undefined) => !b || (a.filed ?? "") > (b.filed ?? "");
+/** One figure over the periods filed, oldest first, one point a period end. A sum over a period (revenue, net income,
+ *  capital spending): the rows whose period is `per` months long. A figure at a period's end (debt, shares): every
+ *  period end for "3", the period ends of the annual reports (10-K) for "12". Where one period was filed more than
+ *  once (an amended form), the figure of the filing made last that holds one. */
+export function figureLine(fs: Filing[], col: FigureKey, per: PeriodKey): FiledPoint[] {
+  const atEnd = AT_PERIOD_END.includes(col), months = Number(per);
+  const best = new Map<string, FiledPoint>();
+  for (const f of fs) {
+    const v = f[col];
+    if (v === null || f.period_end === null) continue;
+    if (atEnd ? per === "12" && !/^10-K/.test(f.form ?? "") : f.months !== months) continue;
+    if (later(f, best.get(f.period_end)?.f)) best.set(f.period_end, { f, v });
+  }
+  return [...best.values()].sort((a, b) => (a.f.period_end as string).localeCompare(b.f.period_end as string));
+}
+export type NewestColumn = { months: number | null; head: Filing; cells: Record<FigureKey, FiledPoint | null> };
+/** The newest period end a company filed, one column for each length of period its filing reports to that day (a
+ *  10-Q for September: the 3 months and the 9 months), shortest first. In a column, a sum is the figure filed for
+ *  exactly that period; debt and shares are the figures at the period's end. An amended filing's figure stands in
+ *  place of the first filing's where it holds one. No period filed: no column. */
+export function newestOf(fs: Filing[]): NewestColumn[] {
+  const end = fs[0]?.period_end ?? null;
+  if (end === null) return [];
+  const rows = fs.filter((f) => f.period_end === end);
+  const lengths = [...new Set(rows.map((f) => f.months).filter((m): m is number => m !== null))].sort((a, b) => a - b);
+  const pick = (among: Filing[], col: FigureKey): FiledPoint | null => {
+    let best: FiledPoint | null = null;
+    for (const f of among) { const v = f[col]; if (v !== null && later(f, best?.f)) best = { f, v }; }
+    return best;
+  };
+  const column = (months: number | null): NewestColumn => {
+    const own = rows.filter((f) => f.months === months);
+    let head = own[0] ?? rows[0];
+    for (const f of own) if (later(f, head)) head = f;
+    return { months, head, cells: Object.fromEntries(FIGURES.map((col) => [col, pick(AT_PERIOD_END.includes(col) ? rows : own, col)])) as Record<FigureKey, FiledPoint | null> };
+  };
+  return lengths.length ? lengths.map(column) : [column(null)];
+}
 /** Only an address of the SEC's own site is made a link. */
 export const secUrl = (url: string | null | undefined): string | null => (url && /^https:\/\/www\.sec\.gov\//.test(url) ? url : null);
 
@@ -262,13 +317,14 @@ export const signedLevel = (v: number) => `${v > 0 ? "+" : v < 0 ? "-" : ""}${fi
 
 export const SORTS = ["name", "ticker", "segment", "exchange", "first", "last"] as const;
 export type Sort = (typeof SORTS)[number];
-export type Filter = { seg: string | null; q: string; shown: boolean; sort: Sort | null; desc: boolean };
+/** `filed` (session 10408): only the companies whose filed figures are shown. */
+export type Filter = { seg: string | null; q: string; shown: boolean; filed?: boolean; sort: Sort | null; desc: boolean };
 /** The companies a filter lets through, in the list's own order unless a column is chosen to sort by. A company in two
  *  segments is one row. */
 export function companiesOf(list: EqList | null, f: Filter): EqCompany[] {
   if (!list || list.example === true) return [];
   const q = f.q.trim().toLowerCase();
-  let rows = list.companies.filter((c) => (!f.seg || c.segments.includes(f.seg)) && (!f.shown || c.price_status === "shown")
+  let rows = list.companies.filter((c) => (!f.seg || c.segments.includes(f.seg)) && (!f.shown || c.price_status === "shown") && (!f.filed || c.fundamentals_status === "shown")
     && (!q || `${c.name ?? ""} ${c.ticker} ${c.sic_label ?? ""} ${c.cik ?? ""}`.toLowerCase().includes(q)));
   if (f.sort) {
     const key = (c: EqCompany): string => (f.sort === "name" ? c.name ?? c.ticker : f.sort === "ticker" ? c.ticker : f.sort === "segment" ? segmentLabel(list, c.segments[0] ?? "") : f.sort === "exchange" ? c.exchange ?? "" : f.sort === "first" ? c.first ?? "" : c.last ?? "");
@@ -280,7 +336,8 @@ export function companiesOf(list: EqList | null, f: Filter): EqCompany[] {
 
 // ---- The address ---------------------------------------------------------------------------------------------------
 
-export type Query = { a: string | null; b: string | null; p: string | null; win: string } & Filter;
+/** `fig` and `per` (session 10408): the filed figure drawn over the periods filed, and the length of its periods. */
+export type Query = { a: string | null; b: string | null; p: string | null; win: string; fig: FigureKey; per: PeriodKey } & Filter;
 type Raw = Record<string, string | string[] | undefined>;
 const one = (q: Raw, k: string) => (typeof q[k] === "string" ? (q[k] as string) : undefined);
 export const NONE = "none";
@@ -300,7 +357,10 @@ export function queryOf(q: Raw, list: EqList | null, prices: EqPrices | null): Q
   const seg = segRaw && list?.segments.some((s) => s.id === segRaw) ? segRaw : null;
   const sortRaw = one(q, "sort");
   const sort = (SORTS as readonly string[]).includes(sortRaw ?? "") ? (sortRaw as Sort) : null;
-  return { a, b, p, win, seg, q: (one(q, "q") ?? "").slice(0, 60), shown: one(q, "shown") === "1", sort, desc: one(q, "dir") === "desc" };
+  const figRaw = one(q, "fig"), perRaw = one(q, "per");
+  const fig = (FIGURES as readonly string[]).includes(figRaw ?? "") ? (figRaw as FigureKey) : FIGURE_DEFAULT;
+  const per = (PERIOD_KEYS as readonly string[]).includes(perRaw ?? "") ? (perRaw as PeriodKey) : PERIOD_DEFAULT;
+  return { a, b, p, win, fig, per, seg, q: (one(q, "q") ?? "").slice(0, 60), shown: one(q, "shown") === "1", filed: one(q, "filed") === "1", sort, desc: one(q, "dir") === "desc" };
 }
 /** The page's address for a state, leaving out what is the default. `first` is the id A opens on. */
 export function hrefOf(q: Query, patch: Partial<Query> = {}, first: string | null = null, hash = ""): string {
@@ -310,9 +370,12 @@ export function hrefOf(q: Query, patch: Partial<Query> = {}, first: string | nul
   if (x.b) p.set("b", x.b);
   if (x.p) p.set("p", x.p);
   if (x.win !== WINDOW_DEFAULT) p.set("win", x.win);
+  if (x.fig && x.fig !== FIGURE_DEFAULT) p.set("fig", x.fig);
+  if (x.per && x.per !== PERIOD_DEFAULT) p.set("per", x.per);
   if (x.seg) p.set("seg", x.seg);
   if (x.q) p.set("q", x.q);
   if (x.shown) p.set("shown", "1");
+  if (x.filed) p.set("filed", "1");
   if (x.sort) p.set("sort", x.sort);
   if (x.sort && x.desc) p.set("dir", "desc");
   const s = p.toString();

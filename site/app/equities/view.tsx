@@ -25,6 +25,8 @@ import {
 } from "@/lib/equities";
 // session 10405 (chain 720, part E): a company's last close, changes and market value, once the list carries them
 import { companiesPriced, wholeWords } from "@/lib/equities";
+// session 10408 (chain 720, part E): the SEC's filed figures over the periods filed, and the newest period's columns
+import { AT_PERIOD_END, FIGURES, FIGURE_DEFAULT, PERIOD_DEFAULT, PERIOD_KEYS, PERIOD_WORDS, figureLine, figureUnit, figureWords, newestOf, type FigureKey } from "@/lib/equities";
 import { equitiesList, equitiesPrices, equitiesSeries } from "@/lib/equitiesfiles";
 import { pfKey } from "@/lib/pagefile";
 
@@ -180,27 +182,68 @@ const periodWords = (f: Filing) => `${f.months !== null ? `${f.months} months to
 const FilingLink = ({ f, children }: { f: Filing; children: ReactNode }) => (secUrl(f.url)
   ? <a href={secUrl(f.url)!} title={`The filing on the SEC's site${f.accession ? `, accession ${f.accession}` : ""}: ${f.url}`} rel="noopener">{children}</a>
   : <span title={f.accession ? `Accession ${f.accession}` : undefined}>{children}</span>);
+const endMs = (f: Filing) => Date.parse(`${f.period_end}T00:00:00Z`);
 
-/** The companies chosen: their newest filing side by side, then every period each filed behind a fold. */
-function FiledFigures({ slots, list }: { slots: Slot[]; list: EqList }) {
+/** The companies chosen: the chosen figure of each over every period it filed (session 10408, on the SEC's figures),
+ *  the newest period each filed side by side, then every period behind a fold. A company's share price may be held
+ *  while its filed figures are public: this section is drawn either way. */
+function FiledFigures({ slots, list, q }: { slots: Slot[]; list: EqList; q: Query }) {
   const cos = slots.filter((x) => x.pick.kind === "company");
   if (!cos.length) return null;
   const info = cos.map((slot) => {
     const s = slot.series, c = slot.company;
     const status = c?.fundamentals_status ?? "not held";
     const fs = s && s.example !== true && status === "shown" ? filingsOf(s) : [];
-    return { slot, fs, held: fs.length ? null : { words: s ? blankWords(status === "shown" ? null : status, list.example === true || s.example === true) : "not held", why: s ? blankWhy(status === "shown" ? null : status, c?.fundamentals_why ?? (status === "shown" ? "The file holds no filed period." : null), list.example === true || s.example === true) : `The file of this company (site/data/${fileOf(slot)}) is not on the site.` }, at: (n: string) => (s?.quarterly_columns ?? []).indexOf(n) };
+    return { slot, fs, newest: newestOf(fs), line: figureLine(fs, q.fig, q.per),
+      held: fs.length ? null : { words: s ? blankWords(status === "shown" ? null : status, list.example === true || s.example === true) : "not held", why: s ? blankWhy(status === "shown" ? null : status, c?.fundamentals_why ?? (status === "shown" ? "The file holds no filed period." : null), list.example === true || s.example === true) : `The file of this company (site/data/${fileOf(slot)}) is not on the site.` }, at: (n: string) => (s?.quarterly_columns ?? []).indexOf(n) };
   });
+  const words = figureWords(q.fig), unit = figureUnit(q.fig), atEnd = AT_PERIOD_END.includes(q.fig);
+  const span = atEnd ? (q.per === "12" ? "at the end of each year reported" : "at the end of each period filed") : `${PERIOD_WORDS[q.per]} to each period end`;
+  // the newest period's columns: one for each length of period a company's newest filing reports
+  const cols = info.flatMap((x) => (x.held ? [{ x, col: null }] : x.newest.map((col) => ({ x, col }))));
   return (
     <ToolSection title="Filed figures" id="filed">
       <div data-eq-filed={cos.length}>
-        <ToolTable minWidth={420} caption="The newest period each company filed, in USD million (shares in millions)"
-          head={["Newest period filed", ...info.map((x) => nameOf(x.slot))]}
+        <div className={info.length > 1 ? "mb-4 grid gap-6 xl:grid-cols-2" : "mb-4"}>
+          {info.map((x) => {
+            const k = x.slot.mark, name = nameOf(x.slot);
+            if (x.held) return <div key={k} className="min-w-0" data-eq-figure={k} data-eq-points="0"><Blank what={`${words}, ${name}`} words={x.held.words} why={x.held.why} k={`figure|${k}`} /></div>;
+            if (x.line.length < 2) {
+              return (
+                <div key={k} className="min-w-0" data-eq-figure={k} data-eq-points={x.line.length}>
+                  <Blank what={`${words}, ${span}, ${name}`} words={x.line.length ? "one period filed" : "not filed"} k={`figure|${k}`}
+                    why={x.line.length ? `${name} filed ${words.toLowerCase()} ${span} once, for ${periodWords(x.line[0].f)}: one figure is no line. It is in the table of every period filed, below.` : `${name} filed no ${words.toLowerCase()} ${span}. A figure is drawn for the period its filing reports, never worked out from two filings.`} />
+                </div>
+              );
+            }
+            const last = x.line[x.line.length - 1];
+            const concept = x.slot.series?.concepts?.[q.fig];
+            const src = `${x.slot.series?.source ? `Source: ${x.slot.series.source}. ` : ""}${words}${concept ? ` (${concept})` : ""}, ${span}, as ${name} filed it with the SEC: ${x.line.length} periods, ${x.line[0].f.period_end} to ${last.f.period_end}. A period not filed on its own has no point (a fourth quarter is most often filed inside the year's 12 months); a period filed twice shows the later filing's figure. Each period's filing opens from the table of every period filed, below.`;
+            return (
+              <div key={k} className="min-w-0" data-eq-figure={k} data-eq-points={x.line.length}>
+                <div className="mb-3">
+                  <HeadlineNumber label={`${words}, ${atEnd ? `at ${last.f.period_end}` : periodWords(last.f)}`} unit={unit}
+                    value={<span data-n={`eq|${k}|figure`}><Filed f={last.f} col={q.fig} slot={x.slot} colAt={x.at(q.fig)} /></span>}
+                    note={<FilingLink f={last.f}>{`${last.f.form ?? "Filed"}, ${last.f.filed ?? "day not said"}`}</FilingLink>} />
+                </div>
+                <ChartFrame title={`${name}: ${words.toLowerCase()}, ${span}`} tip={<> <Hint words="source" why={src} /></>}>
+                  <TimeChart series={[{ name: words, color: k === "a" ? "accent" : "series-3", points: x.line.map((p) => [endMs(p.f), p.v / 1e6]) }]} unit={unit} x="month" height={260}
+                    ariaLabel={`${name}: ${words.toLowerCase()}, ${span}, ${unit}, ${x.line.length} periods from ${x.line[0].f.period_end} to ${last.f.period_end}, as filed with the SEC`} />
+                </ChartFrame>
+              </div>
+            );
+          })}
+        </div>
+        <ToolTable minWidth={Math.max(420, 180 + cols.length * 150)} caption="The newest period each company filed, in USD million (shares in millions): one column for each length of period its newest filing reports"
+          head={["Newest period filed", ...cols.map(({ x, col }) => <span key={`${x.slot.mark}${col?.months ?? ""}`} data-eq-newest={`${x.slot.mark}|${col ? col.months ?? "end" : "held"}`}>{x.slot.pick.id}{col ? <>, <FilingLink f={col.head}>{periodWords(col.head)}</FilingLink></> : null}</span>)]}
           rows={[
-            { key: "period", cells: ["Period", ...info.map((x) => (x.held ? <NotHeld key={x.slot.mark} words={x.held.words} why={x.held.why} /> : <FilingLink key={x.slot.mark} f={x.fs[0]}>{periodWords(x.fs[0])}</FilingLink>))] },
-            { key: "form", cells: ["Form, day filed", ...info.map((x) => (x.held ? <NotHeld key={x.slot.mark} words={x.held.words} why={x.held.why} /> : `${x.fs[0].form ?? "not said"}, ${x.fs[0].filed ?? "not said"}`))] },
-            ...STATEMENT.map(([col, words, unit]) => ({ key: col, cells: [<span key="w" title={unit} className="cursor-help">{words}</span>,
-              ...info.map((x) => (x.held ? <NotHeld key={x.slot.mark} words={x.held.words} why={x.held.why} /> : <span key={x.slot.mark} data-n={`eq|${x.slot.mark}|filed|${col}`}><Filed f={x.fs[0]} col={col} slot={x.slot} colAt={x.at(col)} /></span>))] })),
+            { key: "form", cells: ["Form, day filed", ...cols.map(({ x, col }) => (col ? `${col.head.form ?? "not said"}, ${col.head.filed ?? "not said"}` : <NotHeld key={x.slot.mark} words={x.held!.words} why={x.held!.why} />))] },
+            ...STATEMENT.map(([c, w, u]) => ({ key: c, cells: [<span key="w" title={`${u}${AT_PERIOD_END.includes(c as FigureKey) ? "; the figure at the period's end" : "; the sum over the period"}`} className="cursor-help">{w}</span>,
+              ...cols.map(({ x, col }, i) => {
+                if (!col) return <NotHeld key={i} words={x.held!.words} why={x.held!.why} />;
+                const cell = col.cells[c as FigureKey];
+                return <span key={i} data-n={`eq|${x.slot.mark}|filed|${c}${col === x.newest[0] ? "" : `|${col.months}`}`}><Filed f={cell?.f ?? { ...col.head, [c]: null }} col={c} slot={x.slot} colAt={x.at(c)} /></span>;
+              })] })),
           ]} />
         {info.filter((x) => !x.held).map((x) => (
           <details key={x.slot.mark} className="mt-3 border-b border-rule py-2" data-eq-periods={x.slot.mark}>
@@ -251,11 +294,14 @@ function Companies({ list, q, first }: { list: EqList; q: Query; first: string |
         {q.b ? <input type="hidden" name="b" value={q.b} /> : null}
         {q.p ? <input type="hidden" name="p" value={q.p} /> : null}
         {q.win !== "1y" ? <input type="hidden" name="win" value={q.win} /> : null}
+        {q.fig !== FIGURE_DEFAULT ? <input type="hidden" name="fig" value={q.fig} /> : null}
+        {q.per !== PERIOD_DEFAULT ? <input type="hidden" name="per" value={q.per} /> : null}
         {q.sort ? <input type="hidden" name="sort" value={q.sort} /> : null}
         {q.sort && q.desc ? <input type="hidden" name="dir" value="desc" /> : null}
         <AutoSubmitSelect name="seg" value={q.seg ?? ""} options={[{ value: "", label: "Every segment" }, ...list.segments.map((s) => ({ value: s.id, label: s.label }))]} label="Segment" />
         <label className="flex flex-col text-xs text-muted">Name, ticker or industry holds<input type="search" name="q" defaultValue={q.q} maxLength={60} className="mt-1 border border-rule bg-panel px-2 py-1 text-sm text-ink" /></label>
         <label className="flex items-center gap-2 text-sm text-ink"><input type="checkbox" name="shown" value="1" defaultChecked={q.shown} />Share price shown</label>
+        <label className="flex items-center gap-2 text-sm text-ink"><input type="checkbox" name="filed" value="1" defaultChecked={q.filed === true} />Filed figures shown</label>
         <button type="submit" className="border border-rule bg-white px-3 py-1 text-sm">Filter</button>
         <span className="text-sm" data-eq-count={`${rows.length}|${list.companies.length}`}>{rows.length.toLocaleString("en-US")} of {list.companies.length.toLocaleString("en-US")} companies</span>
       </form>
@@ -289,7 +335,10 @@ function Segments({ list, q, first }: { list: EqList; q: Query; first: string | 
               const pick = picks.find((p) => p.kind === "segment" && (list.segment_series ?? []).some((x) => x.segment === s.id && x.file === p.file));
               const rule = s.rule ?? s.rule_why ?? null;
               return { key: s.id, cells: [<span key="l" title={rule ? (s.rule ? `The rule: ${rule}` : `No rule is applied yet. ${rule}`) : undefined} className={rule ? "cursor-help" : undefined}>{s.label}</span>,
-                s.n_companies !== null ? <SiteLink key="n" href={hrefOf(q, { seg: s.id }, first, "#companies")} className="inline-block min-w-6 py-0.5 text-center" title={`The companies of ${s.label} in the table above`}>{s.n_companies.toLocaleString("en-US")}</SiteLink>
+                // session 10408: a segment no SEC industry code holds alone has no rule and so no company (the files of
+                // 27 November): its count is the file's nought with the file's reason on hover, and opens no empty table
+                s.n_companies === 0 && !s.rule && s.rule_why ? <span key="n" className="inline-block min-w-6 cursor-help py-0.5 text-center" title={`No company is placed in ${s.label}: ${s.rule_why}`} data-eq-no-rule={s.id}>0</span>
+                : s.n_companies !== null ? <SiteLink key="n" href={hrefOf(q, { seg: s.id }, first, "#companies")} className="inline-block min-w-6 py-0.5 text-center" title={`The companies of ${s.label} in the table above`}>{s.n_companies.toLocaleString("en-US")}</SiteLink>
                   : <NotHeld key="n" words={shortWhy(s.rule_why ?? list.held?.companies)} why={s.rule_why ?? list.held?.companies ?? "The list holds no count for this segment."} />,
                 pick ? <SiteLink key="d" href={hrefOf(q, { a: pick.id }, first, "#line")} className="inline-block py-0.5">Draw it</SiteLink> : <NotHeld key="d" words={shortWhy(list.held?.prices ?? list.held?.companies)} why={lineWhy} />] };
             })} />
@@ -386,7 +435,15 @@ export function EquitiesView({ query }: { query: Raw }) {
   const real = prices && prices.example !== true ? prices : null;
   // with nothing of the list to draw, the page opens on the first energy price the files show, as a line of its own
   const alone = !slots.length;
-  const price = real ? real.series.find((x) => x.id === (q.p ?? (alone ? real.series.find((s) => isShown(s))?.id : undefined))) ?? null : null;
+  // session 10408: and so it does when what is chosen has no line to lay a price over (a company whose share price is
+  // held, which is every company of the files of 27 November): the energy price keeps its own chart, under the
+  // company's blank and its filed figures, as it had before the companies were in the files
+  const priceAlone = alone || !slots.some((x) => isShown(x.series));
+  const anyCompany = slots.some((x) => x.pick.kind === "company");
+  // what the page opens on, for the words beside "Reset to the defaults": the list's first thing, with a price laid
+  // over only if that thing has a line, and a filed figure only if it is a company
+  const opens = picks[0] ? { name: picks[0].label.replace(/^[^:]+: /, ""), line: slots[0]?.pick.id === picks[0].id ? isShown(slots[0].series) : isShown(equitiesSeries(picks[0].file)), company: picks[0].kind === "company" } : null;
+  const price = real ? real.series.find((x) => x.id === (q.p ?? (priceAlone ? real.series.find((s) => isShown(s))?.id : undefined))) ?? null : null;
   const options = picks.map((p) => ({ value: p.id, label: p.label }));
   const priceOptions = (real?.series ?? []).map((x) => ({ value: x.id, label: `${x.label} (${x.status === "shown" ? x.unit : blankWords(x.status)})` }));
   const tables = [...new Set([...(list.tables ?? []), ...(price?.table ? [price.table] : [])])];
@@ -400,14 +457,17 @@ export function EquitiesView({ query }: { query: Raw }) {
       {header}
       <div className="grid gap-6 lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)]">
         <div className="min-w-0 lg:sticky lg:top-2 lg:self-start">
-          <InputPanel title="Choices" reset={{ href: "/equities", defaults: alone ? "the first energy price the files show, the last year" : `${picks[0].label.replace(/^[^:]+: /, "")} alone, no price laid over, the last year` }}>
+          <InputPanel title="Choices" reset={{ href: "/equities", defaults: !opens ? "the first energy price the files show, the last year" : `${opens.name} alone, ${opens.line ? "no price laid over" : "the first energy price the files show"}, the last year${opens.company ? `, ${figureWords(FIGURE_DEFAULT).toLowerCase()} by ${PERIOD_WORDS[PERIOD_DEFAULT]}` : ""}` }}>
             <form method="get" action="/equities" className="flex flex-col gap-3 text-sm [&_label]:min-w-0 [&_label]:max-w-full [&_select]:w-full [&_select]:max-w-full" data-eq-form="1">
               {alone ? null : <AutoSubmitSelect name="a" value={slots[0].pick.id} options={options} label="A: a segment, an index or a company" />}
               {alone ? null : <AutoSubmitSelect name="b" value={q.b ?? NONE} options={[{ value: NONE, label: "None" }, ...options.filter((o) => o.value !== slots[0].pick.id)]} label="B, side by side" />}
-              {alone
+              {priceAlone
                 ? <AutoSubmitSelect name="p" value={price?.id ?? NONE} options={priceOptions.length ? priceOptions : [{ value: NONE, label: "None" }]} label="Energy price" />
                 : <AutoSubmitSelect name="p" value={q.p ?? NONE} options={[{ value: NONE, label: "None" }, ...priceOptions]} label="Energy price laid over" />}
-              <AutoSubmitSelect name="win" value={q.win} options={WINDOW_KEYS.map((w) => ({ value: w, label: windowWords(w) }))} label="Window" />
+              <AutoSubmitSelect name="win" value={q.win} options={WINDOW_KEYS.map((w) => ({ value: w, label: windowWords(w) }))} label={anyCompany && priceAlone ? "Window of the price" : "Window"} />
+              {anyCompany ? <AutoSubmitSelect name="fig" value={q.fig} options={FIGURES.map((f) => ({ value: f, label: figureWords(f) }))} label="Filed figure" /> : q.fig !== FIGURE_DEFAULT ? <input type="hidden" name="fig" value={q.fig} /> : null}
+              {anyCompany ? <AutoSubmitSelect name="per" value={q.per} options={PERIOD_KEYS.map((p) => ({ value: p, label: PERIOD_WORDS[p] }))} label="Its periods" /> : q.per !== PERIOD_DEFAULT ? <input type="hidden" name="per" value={q.per} /> : null}
+              {q.filed ? <input type="hidden" name="filed" value="1" /> : null}
               {q.seg ? <input type="hidden" name="seg" value={q.seg} /> : null}
               {q.q ? <input type="hidden" name="q" value={q.q} /> : null}
               {q.shown ? <input type="hidden" name="shown" value="1" /> : null}
@@ -423,8 +483,8 @@ export function EquitiesView({ query }: { query: Raw }) {
               ? <Blank what="Companies, indices and segment lines" words={shortWhy(list.held?.prices ?? list.held?.companies ?? list.held?.indices)} why={nothing} k="line|none" />
               : <div className={slots.length > 1 ? "grid gap-6 xl:grid-cols-2" : ""}>{slots.map((x) => <LinePanel key={x.mark} slot={x} list={list} q={q} price={price} prices={prices} />)}</div>}
           </ToolSection>
-          <FiledFigures slots={slots} list={list} />
-          {real ? <Prices prices={real} q={q} first={first} drawn={price} alone={alone} /> : null}
+          <FiledFigures slots={slots} list={list} q={q} />
+          {real ? <Prices prices={real} q={q} first={first} drawn={price} alone={priceAlone} /> : null}
           {list.companies.length ? <Companies list={list} q={q} first={first} /> : (
             <ToolSection title="Every company" id="companies">
               <Blank what="The listed energy companies" words={shortWhy(list.held?.companies)} why={list.held?.companies ?? "The list holds no company, and does not say why."} k="companies" />
