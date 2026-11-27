@@ -41,6 +41,8 @@ import { BandCheck, FilingCheck, NetDemand, WeatherForecastLine, WindSolarDay } 
 // session 10410: wind and solar by month and hour, and the downloads of the new lines
 import { WindSolarCuts } from "./lines";
 import { rtOf } from "./realtime";
+// session 10411 (the contract's lines of session 10603): the place a wind and solar entry is shown for
+import { windSolarFor } from "@/lib/predictlines";
 
 type Raw = Record<string, string | string[] | undefined>;
 type Slot = { mark: "a" | "b"; place: IndexPlace; file: PlaceFile | null };
@@ -644,7 +646,7 @@ export function ForecastView({ query }: { query: Raw }) {
                   <a href="/forecast/ahead/stata" download data-download="stata">Stata</a></li>
               ) : null}
               {/* session 10410: the lines of 27 November, where the place holds them */}
-              {q.s === "demand" ? slots.filter((x) => isShown(x.file, x.file?.series?.demand) && !!x.file?.series?.demand?.net_demand).map((x) => (
+              {q.s === "demand" ? slots.filter((x) => isShown(x.file, x.file?.series?.demand) && (!!x.file?.series?.demand?.net_demand || !!windSolarFor(windSolar, x.place.place))).map((x) => (
                 <li key={`n${x.mark}`} data-fc-download="net">{placeWords(x.place)}, net demand, wind and solar, hour by hour (the day forecast now and every past day of wind and solar held):{" "}
                   <a href={`/forecast/net?place=${x.place.place}`} download data-download="csv">CSV</a>,{" "}
                   <a href={`/forecast/net/python?place=${x.place.place}`} download data-download="python">Python</a>,{" "}

@@ -73,7 +73,7 @@ READS_THE_ADDRESS = {
     "app/forecast/ledger/stata/route.ts": ['const s = new URL(req.url).searchParams.get("s") === "price" ? "price" : "demand";'],
     # session 10410 (chain 720): the downloads of the forecast's lines of 27 November. A place is one the index lists and
     # a hub one the real-time file lists, or the answer is 404; a reader's address is built again from the listed name
-    "app/forecast/net/route.ts": ['const place = index?.places.find((p) => p.place === u.searchParams.get("place"));', "if (!place || !file || file.example === true || !isShown(file, demand) || !demand?.net_demand) return new Response("],
+    "app/forecast/net/route.ts": ['const place = index?.places.find((p) => p.place === u.searchParams.get("place"));', "if (!place || !file || file.example === true || !isShown(file, demand) || !(demand?.net_demand || windSolarFor(wind, place.place))) return new Response("],
     "app/forecast/net/python/route.ts": ['const place = predictIndex()?.places.find((p) => p.place === new URL(req.url).searchParams.get("place"));', "const url = new URL(`/forecast/net?place=${place.place}`, req.url).toString();"],
     "app/forecast/net/stata/route.ts": ['const place = predictIndex()?.places.find((p) => p.place === new URL(req.url).searchParams.get("place"));', "const url = new URL(`/forecast/net?place=${place.place}`, req.url).toString();"],
     "app/forecast/realtime-price/route.ts": ['const hub = file && file.example !== true ? file.hubs.find((h) => h.hub === u.searchParams.get("hub")) : undefined;', "if (!file || !hub) return new Response("],

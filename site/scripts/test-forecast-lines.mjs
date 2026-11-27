@@ -226,7 +226,20 @@ quiet(page, "demand");
   for (const f of Object.values(wsHeld.places[1].fuels)) { f.tomorrow = []; f.tomorrow_held = "no forecast yet: the output of two days before is not held when the forecast is made"; }
   save(WS, wsHeld);
   const html = draw(FIX, {});
-  check(html.includes('data-fc-net="a" data-fc-net-hours="0"') && /data-fc-blank="net\|a"[^>]*>ERW forecast of net demand, Texas, Friday 27 Nov 2026: not held</.test(html) && html.includes("no forecast yet: the output of two days before is not held"), "no net demand for the day: a blank with the file's reason");
+  check(html.includes('data-fc-net="a" data-fc-net-hours="0"') && /data-fc-blank="net\|a"[^>]*>ERW forecast of net demand, Texas, Friday 27 Nov 2026: no forecast yet</.test(html) && html.includes("no forecast yet: the output of two days before is not held"), "no net demand for the day: a blank whose face is the reason's first words and whose hover is the file's reason");
+  // session 10411: net demand's own reason (the contract's `tomorrow_held` of session 10603) comes before the fuels'
+  const own = load(TEX);
+  own.series.demand.net_demand = { ...dem.net_demand, tomorrow: [], tomorrow_held: "the wind forecast is not held: no forecast: the method chosen reads every hour of the days 18 to 20 November" };
+  save(TEX, own);
+  const ownHtml = draw(FIX, {});
+  check(/title="the wind forecast is not held: no forecast: the method chosen reads every hour of the days 18 to 20 November"[^>]*data-fc-blank="net\|a"[^>]*>ERW forecast of net demand, Texas, Friday 27 Nov 2026: not held</.test(ownHtml) && !ownHtml.includes("no forecast yet: the output of two days before"), "net demand's own reason for the day is the hover, before the wind and solar forecast's");
+  // and a fuel whose day is not forecast carries `tomorrow: null`, not rows of nulls: the same blank
+  for (const f of Object.values(wsHeld.places[1].fuels)) f.tomorrow = null;
+  save(WS, wsHeld);
+  check(draw(FIX, {}).includes('data-fc-net="a" data-fc-net-hours="0"'), "a fuel with no rows at all for the day (tomorrow: null) is a day not forecast");
+  save(TEX, empty);
+  for (const f of Object.values(wsHeld.places[1].fuels)) f.tomorrow = [];
+  save(WS, wsHeld);
   check(html.includes('data-fc-line-scores="a"') && fig(html, TEX, "series/demand/net_demand/last_2_years/nmae_pct/erw", 15.77), "and its scores are drawn still");
   quiet(html, "no net demand for the day");
   // no wind and solar file: net demand alone
@@ -239,6 +252,31 @@ quiet(page, "demand");
   // an example wind and solar file shows nothing
   save(WS, { ...ws, example: true });
   check(!draw(FIX, {}).includes("wind_solar.json|"), "an example wind and solar file: nothing of it is shown");
+  save(WS, ws);
+}
+
+// ---- 8b. The place a wind and solar entry is shown for (session 10411; the contract's `shown_for`) ------------------------
+{
+  check(L.windSolarFor(ws, "region-tex")?.pi === 1 && L.windSolarFor(ws, "ba-erco") === null && L.windSolarFor(ws, "ba-erco", "region-tex")?.pi === 1, "a file with no shown_for: the entry of the place's own id, or the one its net demand names");
+  const listed = JSON.parse(JSON.stringify(ws));
+  listed.places[0].shown_for = ["region-cal"];
+  listed.places[1].shown_for = ["region-tex", "ba-erco"];
+  check(L.windSolarFor(listed, "ba-erco")?.pi === 1 && L.windSolarFor(listed, "region-tex")?.pi === 1 && L.windSolarFor(listed, "region-mida") === null && L.windSolarFor(listed, "region-mida", "region-tex") === null, "a file with shown_for: the entry that names the place, and no other");
+  check(L.windSolarFor({ ...listed, example: true }, "ba-erco") === null && L.windSolarFor(null, "ba-erco") === null, "an example file, or none: no entry");
+  // a place with no net demand of its own (the fixture's ERCOT authority) is shown the entry that names it
+  save(WS, listed);
+  const erco = draw(FIX, { a: "ba-erco" });
+  const words = text(erco);
+  quiet(erco, "a place shown another's entry");
+  check(erco.includes('data-fc-net="a" data-fc-net-hours="24" data-fc-net-of="region-tex"') && /ERCO\): wind and solar/.test(words) && !/ERCO\): wind, solar and net demand/.test(words), "a place with no net demand of its own: wind and solar, drawn from the entry that names it");
+  check(!words.includes("Lowest net demand") && words.includes("Highest wind hour") && fig(erco, WS, "places/1/fuels/wind/tomorrow/0/2", 6000.5, "6,001") && !erco.includes("net_demand/"), "its figures are the wind's and the solar's; nothing of a net demand it does not hold");
+  check(/aria-label="ERW forecast of demand and of wind and solar output for Electric Reliability Council of Texas, Inc\. \(ERCO\)/.test(erco) && erco.includes("the file&#x27;s entry region-tex, Texas, which it names for this place"), "the chart says what it draws, and the hover which entry of the file it is");
+  check(erco.includes('data-fc-line-scores="a"') && fig(erco, WS, "places/1/fuels/wind/summary/last_2_years/nmae_pct/erw", 40.46, "40.46") && erco.includes('data-fc-wsday="a" data-fc-wsday-of="2026-11-25"') && erco.includes('data-fc-band-rows="2"') && fig(erco, WS, "places/1/fuels/solar/band_coverage/inside_pct", 75.7, "75.70"), "and its scores, its past day and the wind and solar bands (the fixture's authority has no band record of its own demand)");
+  check(erco.includes('data-fc-download="net"') && erco.includes('href="/forecast/net?place=ba-erco"'), "the download is offered for it");
+  const got = (await import("../app/forecast/net/route.ts")).GET(new Request("https://example.test/forecast/net?place=ba-erco"));
+  const body = await got.text();
+  check(got.status === 200 && /^# net_demand: no line\. The place's file holds no net demand$/m.test(body) && body.split("\n").filter((l) => l.startsWith("ba-erco,wind,tomorrow,")).length === 24, "its CSV: the wind and solar rows, and the header says it holds no net demand");
+  check(draw(FIX, { a: "region-mida" }).includes('data-fc-net="a" data-fc-net-hours="none"'), "a place no entry names and with no net demand draws nothing of it");
   save(WS, ws);
 }
 

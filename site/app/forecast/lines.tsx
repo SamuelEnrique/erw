@@ -18,12 +18,12 @@ import { CategoryChart, type CatSeries } from "@/components/svgchart";
 import { ChartFrame, HeadlineNumber, ToolTable } from "@/components/tool/ToolPage";
 import { pfKey } from "@/lib/pagefile";
 import {
-  FOUR, LABEL, METRIC_WORDS, SERIES_WORDS, dayWords, hourWords, isShown, localWords, methodShort, methodWhat, methodWords, metricUnit, monthWords, orderedKeys, placeWords, scoreWords, scoresOf, tomorrowOf, utcWords, valueWords,
+  FOUR, LABEL, METRIC_WORDS, SERIES_WORDS, dayWords, hourWords, isShown, localWords, methodShort, methodWhat, methodWords, metricUnit, monthWords, orderedKeys, placeWords, scoreWords, scoresOf, shortHeld, tomorrowOf, utcWords, valueWords,
   type IndexPlace, type Metric, type PlaceFile, type ScoresFile, type SeriesKey, type SummaryPart,
 } from "@/lib/predict";
 import {
   BAND_SHARES, FUELS, FUEL_METHODS, FUEL_WORDS, LINE_METHOD_SHORT, LINE_METHOD_WORDS, MW_SPANS, WEATHER_FORECAST_LABEL, WEATHER_FORECAST_METHODS, WEATHER_FORECAST_WORDS,
-  bandMonths, filingMonths, filingShift, fuelShown, hourValues, lineDays, lineDefaultDay, lineHours, lineScores, mwMetricOf, rtHubOf, shareWords, tooFewDays, windSolarOf, wordsOfMethod,
+  bandMonths, filingMonths, filingShift, fuelShown, hourValues, lineDays, lineDefaultDay, lineHours, lineScores, mwMetricOf, rtHubOf, shareWords, tooFewDays, windSolarFor, wordsOfMethod,
   type BandCoverage, type FuelKey, type FuelSeries, type LineHour, type MwPart, type RtPriceFile, type WindSolarFile,
 } from "@/lib/predictlines";
 
@@ -58,26 +58,37 @@ const demandOf = (slot: Slot) => { const ser = slot.file?.series?.demand; return
  *  page's full width (seven columns do not fit half of it), as the days after tomorrow are laid out. */
 export function NetDemand({ slot, ws, metric, part }: { slot: Slot; ws: WindSolarFile | null; metric: Metric; part: "chart" | "table" }) {
   const ser = demandOf(slot);
-  const net = ser?.net_demand;
-  if (!ser || !net) return part === "chart" ? <div className="min-w-0" data-fc-net={slot.mark} data-fc-net-hours="none" /> : null;
+  const net = ser?.net_demand ?? null;
+  // session 10411 (the contract's line of session 10603): the wind and solar entry is the one whose `shown_for` names
+  // the place (grid-caiso for ba-ciso), so a place with no net demand of its own can show its wind and solar; a file
+  // with no `shown_for` is joined as it was, by the name the place's net demand gives
+  const entry = ser ? windSolarFor(ws, slot.place.place, net?.wind_solar_place) : null;
+  if (!ser || (!net && !entry)) return part === "chart" ? <div className="min-w-0" data-fc-net={slot.mark} data-fc-net-hours="none" /> : null;
   const file = fileOf(slot), tz = slot.place.time, unit = ser.unit, k = slot.mark;
-  const entry = windSolarOf(ws, net.wind_solar_place ?? slot.place.place);
   const fuels = FUELS.map((fuel) => ({ fuel, f: entry?.place.fuels?.[fuel] ?? null })).map((x) => ({ ...x, shown: fuelShown(x.f), hours: fuelShown(x.f) ? lineHours(x.f.tomorrow_columns, x.f.tomorrow, "operator") : [] }));
-  const nets = hourValues(net.tomorrow_columns, net.tomorrow, "erw");
-  const title = `${placeWords(slot.place)}: wind, solar and net demand`;
-  const what = net.what ?? "Net demand: the demand less the output of wind and solar.";
-  if (net.status !== "shown" || !nets.some((x) => x.v !== null)) {
-    const why = net.status !== "shown" ? `Net demand: ${net.status ?? "not held"}.` : fuels.map((x) => x.f?.tomorrow_held).find(Boolean) ?? "The file holds no net demand for the day forecast now, and does not say why.";
+  const netShown = !!net && net.status === "shown";
+  const netHours = net && netShown ? hourValues(net.tomorrow_columns, net.tomorrow, "erw").filter((x) => x.v !== null) : [];
+  // the hours drawn: net demand's where the file holds them, else the hours a wind or a solar forecast holds
+  const fuelHours = fuels.map((x) => x.hours.filter((h) => h.erw !== null)).find((hs) => hs.length) ?? [];
+  const nets: { i: number; ts: string; hour: number; v: number | null }[] = netHours.length ? netHours : fuelHours.map((h) => ({ i: -1, ts: h.ts, hour: h.hour, v: null }));
+  const lineNames = net ? "wind, solar and net demand" : "wind and solar";
+  const title = `${placeWords(slot.place)}: ${lineNames}`;
+  const what = net?.what ?? "Net demand: the demand less the output of wind and solar.";
+  // why net demand holds no hour of the day forecast now: its status, else the file's own reason (session 10603's
+  // `tomorrow_held`), else the wind or solar forecast's
+  const netWhy = net && !netShown ? `Net demand: ${net.status ?? "not held"}.` : net?.tomorrow_held ?? fuels.map((x) => x.f?.tomorrow_held).find(Boolean) ?? null;
+  if (!nets.length) {
+    const why = netWhy ?? `The file holds no ${net ? "net demand" : "wind or solar forecast"} for the day forecast now, and does not say why.`;
     if (part === "table") return <div className="min-w-0" data-fc-net-table={k}><LineScores slot={slot} ws={ws} metric={metric} /></div>;
     return (
       <div className="min-w-0" data-fc-net={k} data-fc-net-hours="0">
         <h4 className="mb-1 text-sm font-semibold">{title}</h4>
-        <Blank what={`${LABEL} of net demand, ${placeWords(slot.place)}${ser.target_day ? `, ${dayWords(ser.target_day)}` : ""}`} words={net.status !== "shown" ? net.status ?? "not held" : "not held"} why={why} k={`net|${k}`} />
+        <Blank what={`${LABEL} of ${net ? "net demand" : "wind and solar output"}, ${placeWords(slot.place)}${ser.target_day ? `, ${dayWords(ser.target_day)}` : ""}`} words={net && !netShown ? net.status ?? "not held" : shortHeld(netWhy)} why={why} k={`net|${k}`} />
       </div>
     );
   }
   const demand = tomorrowOf(ser);
-  const netCol = (net.tomorrow_columns ?? []).indexOf("erw");
+  const netCol = (net?.tomorrow_columns ?? []).indexOf("erw");
   const byTs = <T extends { ts: string }>(rows: T[]) => new Map(rows.map((r) => [r.ts, r]));
   const dem = byTs(demand), fuelAt = fuels.map((x) => byTs(x.hours));
   const made = `${LABEL}: a model's output (tier derived), not a published figure. ${what}`;
@@ -90,13 +101,13 @@ export function NetDemand({ slot, ws, metric, part }: { slot: Slot; ws: WindSola
       : <Num check={fuelKey(x.fuel, "tomorrow", h.i, at)} raw={v} source={`${src}${h.lo !== null && h.hi !== null && col === "erw" ? ` Band: ${valueWords(h.lo, unit)} to ${valueWords(h.hi, unit)} ${unit}.` : ""} ${col === "erw" ? `${LABEL}: a model's output, not a published figure; ${x.f?.target_series ?? ""}.` : x.f?.operator ?? ""} site/data/${WS_FILE}.`}><span data-n={`fc|${k}|${x.fuel}|${key}`}>{valueWords(v, unit)}</span></Num>;
   };
   const held = nets.filter((x) => x.v !== null);
-  const low = held.reduce((a, b) => ((b.v as number) < (a.v as number) ? b : a)), high = held.reduce((a, b) => ((b.v as number) > (a.v as number) ? b : a));
+  const low = held.length ? held.reduce((a, b) => ((b.v as number) < (a.v as number) ? b : a)) : null, high = held.length ? held.reduce((a, b) => ((b.v as number) > (a.v as number) ? b : a)) : null;
   const top = fuels.map((x) => { const hs = x.hours.filter((h) => h.erw !== null); return hs.length ? hs.reduce((a, b) => ((b.erw as number) > (a.erw as number) ? b : a)) : null; });
   const series: CatSeries[] = [
     // the lines' names are short, so that on a phone the plot keeps its width (each name stands at its line's right
     // end; with "ERW forecast: net demand" the names took half of 390 px): the chart's title says whose forecasts they are
     { name: "Demand", color: "accent", kind: "line", values: nets.map((x) => dem.get(x.ts)?.erw ?? null) },
-    { name: "Net demand", color: "ink", kind: "line", values: nets.map((x) => x.v) },
+    ...(held.length ? [{ name: "Net demand", color: "ink", kind: "line" as const, values: nets.map((x) => x.v) }] : []),
     ...fuels.flatMap((x, i): CatSeries[] => (x.hours.length ? [{ name: FUEL_WORDS[x.fuel], color: FUEL_COLOR[x.fuel], kind: "line", values: nets.map((n) => fuelAt[i].get(n.ts)?.erw ?? null) }] : [])),
   ];
   const anyOp = fuels.some((x) => x.hours.some((h) => h.other !== null));
@@ -106,10 +117,10 @@ export function NetDemand({ slot, ws, metric, part }: { slot: Slot; ws: WindSola
     <div className="min-w-0" data-fc-net-table={k}>
       <LineScores slot={slot} ws={ws} metric={metric} />
       <details className="mb-6 border-b border-rule py-2" data-fc-net-fold={k}>
-        <summary className="cursor-pointer py-1 text-sm">{placeWords(slot.place)}, hour by hour, {dayWords(ser.target_day)}: demand, wind, solar, net demand</summary>
+        <summary className="cursor-pointer py-1 text-sm">{placeWords(slot.place)}, hour by hour, {dayWords(ser.target_day)}: demand, wind, solar{net ? ", net demand" : ""}</summary>
         <div className="pt-2">
-          <ToolTable minWidth={anyOp ? 620 : 460} caption={`${LABEL} of demand, of wind and solar output and of net demand for ${placeWords(slot.place)}, ${dayWords(ser.target_day)}, hour by hour, ${unit}`}
-            head={["Hour", "Demand", ...fuels.flatMap((x) => [FUEL_WORDS[x.fuel], ...(anyOp ? [`${FUEL_WORDS[x.fuel]}, operator`] : [])]), "Net demand"]}
+          <ToolTable minWidth={anyOp ? 620 : 460} caption={`${LABEL} of demand${net ? ", of wind and solar output and of net demand" : " and of wind and solar output"} for ${placeWords(slot.place)}, ${dayWords(ser.target_day)}, hour by hour, ${unit}`}
+            head={["Hour", "Demand", ...fuels.flatMap((x) => [FUEL_WORDS[x.fuel], ...(anyOp ? [`${FUEL_WORDS[x.fuel]}, operator`] : [])]), ...(net ? ["Net demand"] : [])]}
             rows={nets.map((x) => {
               const d = dem.get(x.ts);
               return { key: x.ts, cells: [<span key="h" title={`The hour beginning ${localWords(x.ts, tz)} (${utcWords(x.ts)})`} className="cursor-help">{hourWords(x.hour)}</span>,
@@ -119,28 +130,32 @@ export function NetDemand({ slot, ws, metric, part }: { slot: Slot; ws: WindSola
                   const blank = (key: string) => <NotHeld key={key} why={f.f ? f.f.tomorrow_held ?? `No forecast of ${f.fuel} output is held for this hour.` : `The wind and solar file holds no ${f.fuel} line for this place.`} />;
                   return [h ? <span key={f.fuel}>{fuelNum(f, h, "erw", `h${h.i}`, "")}</span> : blank(f.fuel), ...(anyOp ? [h ? <span key={`${f.fuel}o`}>{fuelNum(f, h, "operator", `h${h.i}|operator`, "The operator's own forecast.")}</span> : blank(`${f.fuel}o`)] : [])];
                 }),
-                x.v !== null ? <span key="n">{netNum(x, `h${x.i}`, "")}</span> : <NotHeld key="n" why="No net demand is held for this hour." />] };
+                ...(net ? [x.v !== null ? <span key="n">{netNum(x, `h${x.i}`, "")}</span> : <NotHeld key="n" words={shortHeld(netWhy)} why={netWhy ?? "No net demand is held for this hour."} />] : [])] };
             })} />
         </div>
       </details>
     </div>
   );
   return (
-    <div className="min-w-0" data-fc-net={k} data-fc-net-hours={held.length}>
+    <div className="min-w-0" data-fc-net={k} data-fc-net-hours={nets.length} data-fc-net-of={entry?.place.place ?? "none"}>
       <h4 className="mb-2 text-sm font-semibold">{title}</h4>
       <div className="mb-4 grid gap-4 sm:grid-cols-2">
-        <HeadlineNumber label="Lowest net demand" unit={unit} value={netNum(low, "low", `The lowest hour of the ${LABEL} of net demand, the hour beginning ${localWords(low.ts, tz)}.`)} note={`${LABEL}, ${hourWords(low.hour)}`} />
-        <HeadlineNumber label="Highest net demand" unit={unit} value={netNum(high, "high", `The highest hour of the ${LABEL} of net demand, the hour beginning ${localWords(high.ts, tz)}.`)} note={`${LABEL}, ${hourWords(high.hour)}`} />
+        {net ? (
+          <>
+            <HeadlineNumber label="Lowest net demand" unit={low ? unit : undefined} value={low ? netNum(low, "low", `The lowest hour of the ${LABEL} of net demand, the hour beginning ${localWords(low.ts, tz)}.`) : <span className="font-sans text-base"><NotHeld words={shortHeld(netWhy)} why={netWhy ?? "The file holds no net demand for the day forecast now, and does not say why."} /></span>} note={low ? `${LABEL}, ${hourWords(low.hour)}` : undefined} />
+            <HeadlineNumber label="Highest net demand" unit={high ? unit : undefined} value={high ? netNum(high, "high", `The highest hour of the ${LABEL} of net demand, the hour beginning ${localWords(high.ts, tz)}.`) : <span className="font-sans text-base"><NotHeld words={shortHeld(netWhy)} why={netWhy ?? "The file holds no net demand for the day forecast now, and does not say why."} /></span>} note={high ? `${LABEL}, ${hourWords(high.hour)}` : undefined} />
+          </>
+        ) : null}
         {fuels.map((x, i) => (
           <HeadlineNumber key={x.fuel} label={`Highest ${x.fuel} hour`} unit={top[i] ? unit : undefined}
             value={top[i] ? fuelNum(x, top[i] as LineHour, "erw", "top", `The highest hour of the ${LABEL} of ${x.fuel} output, the hour beginning ${localWords((top[i] as LineHour).ts, tz)}.`) : none(x.f ? x.f.tomorrow_held ?? `The file holds no forecast of ${x.fuel} output for the day forecast now.` : `The wind and solar file (site/data/${WS_FILE}) holds no ${x.fuel} line for this place.`)}
             note={top[i] ? `${LABEL}, ${hourWords((top[i] as LineHour).hour)}` : undefined} />
         ))}
       </div>
-      <ChartFrame title={`${LABEL} of demand, wind, solar and net demand: ${dayWords(ser.target_day)}`}
-        tip={<> <Hint words="source" why={`${made} Wind and solar: ${fuels.map((x) => (x.f ? `${x.fuel}, ${x.f.target_series ?? "the place's output"}, method ${lineWords(x.f.method ?? "not said")}` : `${x.fuel}, not held`)).join("; ")}; ${ws?.made_rule ?? ""}. site/data/${file} and site/data/${WS_FILE}.`} />, <Hint words="net demand" why={what} /></>}>
+      <ChartFrame title={`${LABEL} of demand, ${net ? "wind, solar and net demand" : "wind and solar"}: ${dayWords(ser.target_day)}`}
+        tip={<> <Hint words="source" why={`${made} Wind and solar${entry && entry.place.place !== slot.place.place ? ` (the file's entry ${entry.place.place}${entry.place.name ? `, ${entry.place.name}` : ""}, which it names for this place)` : ""}: ${fuels.map((x) => (x.f ? `${x.fuel}, ${x.f.target_series ?? "the place's output"}, method ${lineWords(x.f.method ?? "not said")}` : `${x.fuel}, not held`)).join("; ")}; ${ws?.made_rule ?? ""}. site/data/${file} and site/data/${WS_FILE}.`} />{net ? <>, <Hint words={held.length ? "net demand" : `net demand: ${shortHeld(netWhy)}`} why={held.length ? what : netWhy ?? what} /></> : null}</>}>
         <CategoryChart id={`fc-net-${k}`} x={nets.map((x) => hourWords(x.hour))} series={series} unit={unit} height={280} every={6} notes={notes}
-          label={`${LABEL} of demand, of wind and solar output and of net demand for ${placeWords(slot.place)}, ${dayWords(ser.target_day)}, by the hour of the place's clock (${tz})`} />
+          label={`${LABEL} of demand${net ? ", of wind and solar output and of net demand" : " and of wind and solar output"} for ${placeWords(slot.place)}, ${dayWords(ser.target_day)}, by the hour of the place's clock (${tz})`} />
       </ChartFrame>
     </div>
   );
@@ -151,12 +166,12 @@ export function NetDemand({ slot, ws, metric, part }: { slot: Slot; ws: WindSola
  *  scored, in percent, or the error in MW. */
 function LineScores({ slot, ws, metric }: { slot: Slot; ws: WindSolarFile | null; metric: Metric }) {
   const ser = demandOf(slot);
-  const net = ser?.net_demand;
-  if (!ser || !net) return null;
+  const net = ser?.net_demand ?? null;
+  const entry = ser ? windSolarFor(ws, slot.place.place, net?.wind_solar_place) : null;
+  if (!ser || (!net && !entry)) return null;
   const file = fileOf(slot), unit = ser.unit;
   const mw = mwMetricOf(metric);
   const mu = mw === "nmae_pct" ? "% of the mean" : unit;
-  const entry = windSolarOf(ws, net.wind_solar_place ?? slot.place.place);
   const words = mw === "nmae_pct" ? "the mean absolute error over the mean of the same hours, in percent (a percent of each hour means nothing where an hour is near zero)" : `the mean absolute error, ${unit}`;
   const cell = (p: MwPart, m: string, key: string, who: string, span: string) => {
     const v = p[mw]?.[m];
@@ -164,7 +179,7 @@ function LineScores({ slot, ws, metric }: { slot: Slot; ws: WindSolarFile | null
       : <Num key={m} check={key} raw={v} source={`${lineWords(m)}, ${who}, ${placeWords(slot.place)}, ${span.toLowerCase()} (${spanWords(p)}): ${words}. Every method of this row is scored on the same hours.`}>{mw === "nmae_pct" ? shareWords(v) : valueWords(v, unit)}</Num>;
   };
   const lines: { name: string; who: string; parts: (span: string) => MwPart | null | undefined; key: (span: string, ...rest: string[]) => string }[] = [
-    { name: "Net demand", who: "net demand", parts: (span) => net[span as "backtest"], key: (span, ...rest) => pfKey(file, ["series", "demand", "net_demand", span, ...rest]) },
+    ...(net ? [{ name: "Net demand", who: "net demand", parts: (span: string) => net[span as "backtest"], key: (span: string, ...rest: string[]) => pfKey(file, ["series", "demand", "net_demand", span, ...rest]) }] : []),
     ...FUELS.flatMap((fuel) => { const f = entry?.place.fuels?.[fuel]; return fuelShown(f) ? [{ name: FUEL_WORDS[fuel], who: `${fuel} output`, parts: (span: string) => f.summary?.[span], key: (span: string, ...rest: string[]) => pfKey(WS_FILE, ["places", entry?.pi ?? 0, "fuels", fuel, "summary", span, ...rest]) }] : []; }),
   ];
   const rows = lines.flatMap((l) => MW_SPANS.flatMap(([span, spanName]) => {
@@ -177,7 +192,7 @@ function LineScores({ slot, ws, metric }: { slot: Slot; ws: WindSolarFile | null
   if (!rows.length) return null;
   return (
     <div className="mb-4 mt-4" data-fc-line-scores={slot.mark}>
-      <ToolTable minWidth={560} caption={`${placeWords(slot.place)}: how the ${LABEL} of net demand, of wind and of solar output has scored beside the operator's forecast and two plain rules, ${mu}`}
+      <ToolTable minWidth={560} caption={`${placeWords(slot.place)}: how the ${LABEL} ${net ? "of net demand, of wind and of solar output" : "of wind and of solar output"} has scored beside the operator's forecast and two plain rules, ${mu}`}
         head={[<span key="l" className="cursor-help" title={`${words[0].toUpperCase()}${words.slice(1)}.`}>{placeWords(slot.place)}: error, {mu}</span>, "Hours", ...FUEL_METHODS.map((m) => <Head key={m} m={m} what={wordsOfMethod(ws?.methods, m)} />)]}
         rows={rows} />
     </div>
@@ -190,8 +205,7 @@ function LineScores({ slot, ws, metric }: { slot: Slot; ws: WindSolarFile | null
  *  the one asked for where the wind and solar file holds it, else the newest day it holds. */
 export function WindSolarDay({ slot, ws, asked }: { slot: Slot; ws: WindSolarFile | null; asked: string | null }) {
   const ser = demandOf(slot);
-  const net = ser?.net_demand;
-  const entry = ser && net ? windSolarOf(ws, net.wind_solar_place ?? slot.place.place) : null;
+  const entry = ser ? windSolarFor(ws, slot.place.place, ser.net_demand?.wind_solar_place) : null;
   if (!ser || !entry) return <div className="min-w-0" data-fc-wsday={slot.mark} data-fc-wsday-of="none" />;
   const tz = slot.place.time, unit = ser.unit, k = slot.mark;
   const fuels = FUELS.map((fuel) => ({ fuel, f: entry.place.fuels?.[fuel] ?? null })).filter((x): x is { fuel: FuelKey; f: FuelSeries } => fuelShown(x.f)).map((x) => ({ ...x, hours: lineHours(x.f.history_columns, x.f.history, "operator") }));
@@ -342,8 +356,7 @@ export function WeatherForecastLine({ slot, scores, metric }: { slot: Slot; scor
  *  the months in the calendar's order and the hours in the clock's, each table behind a fold. */
 export function WindSolarCuts({ slot, ws, metric }: { slot: Slot; ws: WindSolarFile | null; metric: Metric }) {
   const ser = demandOf(slot);
-  const net = ser?.net_demand;
-  const entry = ser && net ? windSolarOf(ws, net.wind_solar_place ?? slot.place.place) : null;
+  const entry = ser ? windSolarFor(ws, slot.place.place, ser.net_demand?.wind_solar_place) : null;
   if (!ser || !entry || !ws) return null;
   const mw = mwMetricOf(metric), unit = ser.unit;
   const mu = mw === "nmae_pct" ? "% of the mean" : unit;
@@ -398,7 +411,7 @@ export function BandCheck({ slot, s, ws, rt = null }: { slot: Slot; s: SeriesKey
   const file = fileOf(slot), k = slot.mark;
   const rows: BandRow[] = [];
   if (ser.band_coverage) rows.push({ name: `${LABEL} of ${SERIES_WORDS[s].toLowerCase()}`, short: SERIES_WORDS[s], rule: ser.band, b: ser.band_coverage, key: (...rest) => pfKey(file, ["series", s, "band_coverage", ...rest]), color: "accent" });
-  const entry = s === "demand" && ser.net_demand ? windSolarOf(ws, ser.net_demand.wind_solar_place ?? slot.place.place) : null;
+  const entry = s === "demand" ? windSolarFor(ws, slot.place.place, ser.net_demand?.wind_solar_place) : null;
   if (entry) for (const fuel of FUELS) {
     const f = entry.place.fuels?.[fuel];
     if (fuelShown(f) && f.band_coverage) rows.push({ name: `${LABEL} of ${fuel}`, short: FUEL_WORDS[fuel], rule: f.band, b: f.band_coverage, key: (...rest) => pfKey(WS_FILE, ["places", entry.pi, "fuels", fuel, "band_coverage", ...rest]), color: FUEL_COLOR[fuel] });
