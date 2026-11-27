@@ -78,3 +78,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 11:47 UTC (session 10603): rebuild 17 at 45 of 64 places.
 - 12:07 UTC (session 10603): rebuild 17 at 60 of 64 places, then the price places.
 - 12:26 UTC (session 10603): rebuild 17 has forecast every place and price; writing net demand and the files.
+- Landing row 9 requested (12:35 UTC, session 10603): `wip/c730-predict-v4` at `73398ce79` (main merged in): the 35 places, the real-time price's longer backtest and four hubs, `price_hubs.json`, and window E's requests 11 and 12; 34 of 34 tests on the head; replications 48,384 of 48,384 with 1,024 of 1,024 refits, 12,760 of 12,760, 3,020 of 3,020, 3,936 of 3,936; the whole suite 10,904 passed with the one expected failure of rebuild 16's files. The item "longer backtests and more places" of Samuel's order is done as far as the warehouse's data allow (data requests 9, 10 and 14 ask for the rest).
