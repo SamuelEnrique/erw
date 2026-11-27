@@ -61,3 +61,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 04:44 UTC: the whole suite took the build lock and runs on `wip/c730-predict-v3`. Session 10602.
 - The whole suite on `wip/c730-predict-v3` (04:44 to 05:01 UTC, under the build lock): 10,882 passed, 595 skipped, 1 failed: `test_session1011`'s byte-for-byte copy test read a stale ignored build output of this worktree (`site/content/llms.json` of 26 November) against `llms.txt` as rebuilt on main since; moved aside to `runs/c730/`, the test file passes (4 passed, 1 skipped). Not the branch's code. Row 7 says so. Session 10602.
 - 05:33 UTC: rows 7 and 8 still requested (window A's desk merged its gate 19 at `876febdc0` without them). Session 10602.
+- 06:04 UTC: rows 7 and 8 are in window A's gate 20 (`task/c701-g20` at `05c10d4e7` holds both heads, `d8d7ba534` and `2dd13824d`), in GitHub's checks. Session 10602.
