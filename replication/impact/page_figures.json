@@ -323,6 +323,24 @@
     "a": "forecast|biopower|nd|50|5148.41|2027|3|40|100|100|7|0.8|1|7.09|49.764|100|0|-|-|-|6266|0|3.5267|-",
     "b": "forecast|biopower|ga|50|4990.97|2027|3|40|100|100|7|0.8|1|7.56|49.764|0|0|24.712|1.2|30|6266|0|3.5267|-"
    }
+  },
+  {
+   "id": "csp_trough_nd_az",
+   "what": "the CSP trough in North Dakota (its power plant exemption, capacity and production taxes), B in Arizona at the reader's 1 percent over 30 years",
+   "address": "/impact?tech=csp_trough&state=nd&btech=csp_trough&bstate=az&bown=1&bownyears=30",
+   "query": {
+    "tech": "csp_trough",
+    "state": "nd",
+    "btech": "csp_trough",
+    "bstate": "az",
+    "bown": "1",
+    "bownyears": "30"
+   },
+   "project": null,
+   "inputs_key": {
+    "a": "forecast|csp_trough|nd|100|14353.83|2027|1|30|100|100|7|0.4175|1|7.09|72.832|100|0|-|-|-|6266|0|3.5267|-",
+    "b": "forecast|csp_trough|az|100|14353.83|2027|1|30|100|100|7|0.4175|1|8.54|72.832|0|0|-|1|30|6266|0|3.5267|-"
+   }
   }
  ],
  "figures": [
@@ -74992,6 +75010,3910 @@
   },
   {
    "case": "biopower_nd_ga",
+   "scenario": "b",
+   "figure": "states:count",
+   "page": 51,
+   "shown": "51",
+   "tolerance": 0
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "c:jobs:total",
+   "page": 3424.8104358734217,
+   "shown": "3,425",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "c:jobs:total",
+   "page": 4146.83177533103,
+   "shown": "4,147",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "o:jobs:total",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "o:jobs:total",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "c:earnings:total",
+   "page": 386699772.710306,
+   "shown": "USD 386.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "c:earnings:total",
+   "page": 428090917.1692975,
+   "shown": "USD 428.1 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "o:earnings:total",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "o:earnings:total",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "c:output:total",
+   "page": 882755509.732453,
+   "shown": "USD 882.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "c:output:total",
+   "page": 1007294954.0371424,
+   "shown": "USD 1.01 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "o:output:total",
+   "page": 14989094.92669162,
+   "shown": "USD 15 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "o:output:total",
+   "page": 17892061.04460543,
+   "shown": "USD 17.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "y1:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "y1:property",
+   "page": 14353830,
+   "shown": "USD 14.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "sum:property",
+   "page": 12471900,
+   "shown": "USD 12.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "sum:property",
+   "page": 222484365,
+   "shown": "USD 222.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "sum:sales",
+   "page": 0,
+   "shown": "USD 0",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "sum:sales",
+   "page": 89278709.71622398,
+   "shown": "USD 89.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "sum:income",
+   "page": 4167734.653688056,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "sum:income",
+   "page": 15334314.398539254,
+   "shown": "USD 15.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "pv:taxes",
+   "page": 8775565.322005736,
+   "shown": "USD 8.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "pv:taxes",
+   "page": 221626335.7805393,
+   "shown": "USD 221.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "pv:earnings",
+   "page": 477481816.17101306,
+   "shown": "USD 477.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "pv:earnings",
+   "page": 529959398.5202198,
+   "shown": "USD 530 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2027:jobs",
+   "page": 3424.8104358734217,
+   "shown": "3,425",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2027:earnings",
+   "page": 386699772.710306,
+   "shown": "USD 386.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2027:sales",
+   "page": 0,
+   "shown": "USD 0",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2027:income",
+   "page": 3228081.456868706,
+   "shown": "USD 3.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2028:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2028:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2028:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2028:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2028:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2029:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2029:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2029:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2029:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2029:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2030:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2030:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2030:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2030:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2030:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2031:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2031:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2031:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2031:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2031:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2032:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2032:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2032:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2032:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2032:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2033:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2033:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2033:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2033:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2033:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2034:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2034:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2034:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2034:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2034:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2035:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2035:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2035:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2035:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2035:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2036:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2036:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2036:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2036:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2036:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2037:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2037:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2037:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2037:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2037:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2038:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2038:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2038:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2038:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2038:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2039:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2039:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2039:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2039:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2039:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2040:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2040:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2040:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2040:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2040:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2041:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2041:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2041:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2041:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2041:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2042:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2042:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2042:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2042:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2042:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2043:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2043:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2043:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2043:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2043:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2044:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2044:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2044:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2044:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2044:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2045:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2045:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2045:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2045:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2045:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2046:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2046:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2046:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2046:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2046:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2047:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2047:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2047:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2047:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2047:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2048:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2048:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2048:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2048:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2048:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2049:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2049:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2049:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2049:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2049:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2050:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2050:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2050:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2050:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2050:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2051:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2051:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2051:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2051:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2051:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2052:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2052:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2052:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2052:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2052:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2053:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2053:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2053:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2053:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2053:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2054:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2054:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2054:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2054:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2054:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2055:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2055:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2055:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2055:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2055:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2056:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2056:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2056:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2056:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2056:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2057:jobs",
+   "page": 88.4174,
+   "shown": "88.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2057:earnings",
+   "page": 7315798.385887778,
+   "shown": "USD 7.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2057:mwh",
+   "page": 365730,
+   "shown": "365,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2057:property",
+   "page": 415730,
+   "shown": "USD 415,730",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "year:2057:income",
+   "page": 31321.773227311667,
+   "shown": "USD 31,322",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "cell:sev",
+   "page": null,
+   "shown": "none (a wind, solar or geothermal plant burns no gas)",
+   "tolerance": null
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "cell:sev",
+   "page": null,
+   "shown": "none (a wind, solar or geothermal plant burns no gas)",
+   "tolerance": null
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "default:mw",
+   "page": 100,
+   "shown": "100",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "default:capex",
+   "page": 14353.83,
+   "shown": "14,354",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "default:start",
+   "page": 2027,
+   "shown": "2027",
+   "tolerance": null
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "default:build",
+   "page": 1,
+   "shown": "1",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "default:life",
+   "page": 30,
+   "shown": "30",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "default:local",
+   "page": 100,
+   "shown": "100",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "default:om",
+   "page": 100,
+   "shown": "100",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "default:sales",
+   "page": 7.09,
+   "shown": "7.09",
+   "tolerance": 0.005
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "default:taxable",
+   "page": 72.832,
+   "shown": "72.83",
+   "tolerance": 0.005
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "default:exempt",
+   "page": 100,
+   "shown": "100",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "default:cf",
+   "page": 0.4175,
+   "shown": "0.4175",
+   "tolerance": 0.00005
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "default:rate",
+   "page": 7,
+   "shown": "7",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:1:fl:onsite",
+   "page": 1592.7192325339972,
+   "shown": "1,592.7",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:1:fl:supply_chain",
+   "page": 1541.5899617222633,
+   "shown": "1,541.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:1:fl:induced",
+   "page": 1280.170126603059,
+   "shown": "1,280.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:2:me:onsite",
+   "page": 1707.5552053595295,
+   "shown": "1,707.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:2:me:supply_chain",
+   "page": 1495.4661032987772,
+   "shown": "1,495.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:2:me:induced",
+   "page": 1113.552575855359,
+   "shown": "1,113.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:3:vt:onsite",
+   "page": 1734.7392981770013,
+   "shown": "1,734.7",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:3:vt:supply_chain",
+   "page": 1457.2907420376414,
+   "shown": "1,457.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:3:vt:induced",
+   "page": 1000.3979803886075,
+   "shown": "1,000.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:4:id:onsite",
+   "page": 1741.9432856481399,
+   "shown": "1,741.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:4:id:supply_chain",
+   "page": 1489.8939808607154,
+   "shown": "1,489.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:4:id:induced",
+   "page": 954.9588708141025,
+   "shown": "955.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:5:ut:onsite",
+   "page": 1558.9170348539285,
+   "shown": "1,558.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:5:ut:supply_chain",
+   "page": 1437.7251640150366,
+   "shown": "1,437.7",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:5:ut:induced",
+   "page": 1186.2644179765011,
+   "shown": "1,186.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:6:oh:onsite",
+   "page": 1588.345073367813,
+   "shown": "1,588.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:6:oh:supply_chain",
+   "page": 1392.9580087307888,
+   "shown": "1,393.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:6:oh:induced",
+   "page": 1197.632529251735,
+   "shown": "1,197.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:7:tn:onsite",
+   "page": 1586.5579071106984,
+   "shown": "1,586.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:7:tn:supply_chain",
+   "page": 1367.0452286364102,
+   "shown": "1,367.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:7:tn:induced",
+   "page": 1208.6274796404346,
+   "shown": "1,208.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:8:az:onsite",
+   "page": 1527.3622101714707,
+   "shown": "1,527.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:8:az:supply_chain",
+   "page": 1403.5379784032543,
+   "shown": "1,403.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:8:az:induced",
+   "page": 1215.9317378587612,
+   "shown": "1,215.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:9:mi:onsite",
+   "page": 1594.9804975479715,
+   "shown": "1,595.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:9:mi:supply_chain",
+   "page": 1374.1103411060878,
+   "shown": "1,374.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:9:mi:induced",
+   "page": 1174.0000651223409,
+   "shown": "1,174.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:10:nc:onsite",
+   "page": 1634.985978052996,
+   "shown": "1,635.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:10:nc:supply_chain",
+   "page": 1385.6354001583038,
+   "shown": "1,385.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:10:nc:induced",
+   "page": 1076.576018093302,
+   "shown": "1,076.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:11:nd:onsite",
+   "page": 1529.1695321504058,
+   "shown": "1,529.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:11:nd:supply_chain",
+   "page": 1192.06689728299,
+   "shown": "1,192.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:11:nd:induced",
+   "page": 703.574006440026,
+   "shown": "703.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:12:ny:onsite",
+   "page": 1374.062867076913,
+   "shown": "1,374.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:12:ny:supply_chain",
+   "page": 1131.0750036639931,
+   "shown": "1,131.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:12:ny:induced",
+   "page": 775.4116892818655,
+   "shown": "775.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:13:nv:onsite",
+   "page": 1496.8041359153517,
+   "shown": "1,496.8",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:13:nv:supply_chain",
+   "page": 895.1653086361708,
+   "shown": "895.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:13:nv:induced",
+   "page": 620.9025520997541,
+   "shown": "620.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:14:ak:onsite",
+   "page": 1374.643470523608,
+   "shown": "1,374.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:14:ak:supply_chain",
+   "page": 1032.3103938828572,
+   "shown": "1,032.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:14:ak:induced",
+   "page": 596.2638641703247,
+   "shown": "596.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:15:wy:onsite",
+   "page": 1511.3827474190266,
+   "shown": "1,511.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:15:wy:supply_chain",
+   "page": 974.4092505055303,
+   "shown": "974.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:15:wy:induced",
+   "page": 477.8845150378241,
+   "shown": "477.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:16:dc:onsite",
+   "page": 1372.657246314812,
+   "shown": "1,372.7",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:16:dc:supply_chain",
+   "page": 575.2163943540717,
+   "shown": "575.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:jobs:16:dc:induced",
+   "page": 226.89511825144726,
+   "shown": "226.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:1:ga",
+   "page": 201909531.1755476,
+   "shown": "USD 201.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:2:ca",
+   "page": 125696698.6469682,
+   "shown": "USD 125.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:3:al",
+   "page": 121228210.63124889,
+   "shown": "USD 121.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:4:il",
+   "page": 120559416.71161127,
+   "shown": "USD 120.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:5:la",
+   "page": 118149286.986244,
+   "shown": "USD 118.1 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:6:ny",
+   "page": 116493832.23947361,
+   "shown": "USD 116.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:7:ar",
+   "page": 115891121.1223467,
+   "shown": "USD 115.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:8:mn",
+   "page": 115294772.53245911,
+   "shown": "USD 115.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:9:ok",
+   "page": 114383551.42798923,
+   "shown": "USD 114.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:10:ks",
+   "page": 114192667.62407781,
+   "shown": "USD 114.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:11:de",
+   "page": 27319359.47330134,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:12:mt",
+   "page": 20250437.36119437,
+   "shown": "USD 20.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:13:ak",
+   "page": 19026610.267392,
+   "shown": "USD 19 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:14:nd",
+   "page": 8775565.322005736,
+   "shown": "USD 8.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:taxes:15:nh",
+   "page": 0,
+   "shown": "USD 0",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:rank",
+   "page": 45,
+   "shown": "45",
+   "tolerance": 0
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "a",
+   "figure": "states:count",
+   "page": 51,
+   "shown": "51",
+   "tolerance": 0
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2027:jobs",
+   "page": 4146.83177533103,
+   "shown": "4,147",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2027:earnings",
+   "page": 428090917.1692975,
+   "shown": "USD 428.1 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2027:sales",
+   "page": 89278709.71622398,
+   "shown": "USD 89.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2027:income",
+   "page": 9836621.796132086,
+   "shown": "USD 9.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2028:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2028:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2028:value",
+   "page": 1435383000,
+   "shown": "USD 1.44 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2028:property",
+   "page": 14353830,
+   "shown": "USD 14.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2028:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2029:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2029:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2029:value",
+   "page": 1387536900,
+   "shown": "USD 1.39 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2029:property",
+   "page": 13875369,
+   "shown": "USD 13.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2029:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2030:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2030:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2030:value",
+   "page": 1339690800,
+   "shown": "USD 1.34 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2030:property",
+   "page": 13396908,
+   "shown": "USD 13.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2030:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2031:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2031:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2031:value",
+   "page": 1291844700,
+   "shown": "USD 1.29 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2031:property",
+   "page": 12918447,
+   "shown": "USD 12.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2031:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2032:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2032:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2032:value",
+   "page": 1243998600,
+   "shown": "USD 1.24 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2032:property",
+   "page": 12439986,
+   "shown": "USD 12.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2032:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2033:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2033:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2033:value",
+   "page": 1196152500,
+   "shown": "USD 1.2 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2033:property",
+   "page": 11961525,
+   "shown": "USD 12 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2033:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2034:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2034:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2034:value",
+   "page": 1148306400,
+   "shown": "USD 1.15 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2034:property",
+   "page": 11483064,
+   "shown": "USD 11.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2034:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2035:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2035:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2035:value",
+   "page": 1100460300,
+   "shown": "USD 1.1 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2035:property",
+   "page": 11004603,
+   "shown": "USD 11 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2035:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2036:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2036:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2036:value",
+   "page": 1052614200.0000001,
+   "shown": "USD 1.05 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2036:property",
+   "page": 10526142.000000002,
+   "shown": "USD 10.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2036:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2037:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2037:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2037:value",
+   "page": 1004768099.9999999,
+   "shown": "USD 1 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2037:property",
+   "page": 10047680.999999998,
+   "shown": "USD 10 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2037:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2038:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2038:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2038:value",
+   "page": 956922000.0000001,
+   "shown": "USD 956.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2038:property",
+   "page": 9569220.000000002,
+   "shown": "USD 9.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2038:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2039:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2039:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2039:value",
+   "page": 909075900,
+   "shown": "USD 909.1 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2039:property",
+   "page": 9090759,
+   "shown": "USD 9.1 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2039:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2040:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2040:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2040:value",
+   "page": 861229800,
+   "shown": "USD 861.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2040:property",
+   "page": 8612298,
+   "shown": "USD 8.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2040:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2041:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2041:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2041:value",
+   "page": 813383700,
+   "shown": "USD 813.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2041:property",
+   "page": 8133837,
+   "shown": "USD 8.1 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2041:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2042:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2042:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2042:value",
+   "page": 765537600,
+   "shown": "USD 765.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2042:property",
+   "page": 7655376,
+   "shown": "USD 7.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2042:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2043:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2043:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2043:value",
+   "page": 717691500,
+   "shown": "USD 717.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2043:property",
+   "page": 7176915,
+   "shown": "USD 7.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2043:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2044:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2044:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2044:value",
+   "page": 669845400,
+   "shown": "USD 669.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2044:property",
+   "page": 6698454,
+   "shown": "USD 6.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2044:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2045:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2045:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2045:value",
+   "page": 621999300,
+   "shown": "USD 622 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2045:property",
+   "page": 6219993,
+   "shown": "USD 6.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2045:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2046:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2046:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2046:value",
+   "page": 574153200,
+   "shown": "USD 574.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2046:property",
+   "page": 5741532,
+   "shown": "USD 5.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2046:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2047:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2047:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2047:value",
+   "page": 526307100.00000006,
+   "shown": "USD 526.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2047:property",
+   "page": 5263071.000000001,
+   "shown": "USD 5.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2047:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2048:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2048:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2048:value",
+   "page": 478461000.00000006,
+   "shown": "USD 478.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2048:property",
+   "page": 4784610.000000001,
+   "shown": "USD 4.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2048:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2049:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2049:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2049:value",
+   "page": 430614900.00000006,
+   "shown": "USD 430.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2049:property",
+   "page": 4306149.000000001,
+   "shown": "USD 4.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2049:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2050:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2050:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2050:value",
+   "page": 382768800.00000006,
+   "shown": "USD 382.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2050:property",
+   "page": 3827688.0000000005,
+   "shown": "USD 3.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2050:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2051:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2051:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2051:value",
+   "page": 334922699.99999994,
+   "shown": "USD 334.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2051:property",
+   "page": 3349226.9999999995,
+   "shown": "USD 3.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2051:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2052:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2052:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2052:value",
+   "page": 287076599.99999994,
+   "shown": "USD 287.1 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2052:property",
+   "page": 2870765.9999999995,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2052:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2053:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2053:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2053:value",
+   "page": 239230499.99999994,
+   "shown": "USD 239.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2053:property",
+   "page": 2392304.9999999995,
+   "shown": "USD 2.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2053:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2054:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2054:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2054:value",
+   "page": 191384399.99999997,
+   "shown": "USD 191.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2054:property",
+   "page": 1913843.9999999998,
+   "shown": "USD 1.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2054:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2055:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2055:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2055:value",
+   "page": 143538299.99999997,
+   "shown": "USD 143.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2055:property",
+   "page": 1435382.9999999998,
+   "shown": "USD 1.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2055:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2056:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2056:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2056:value",
+   "page": 95692199.99999999,
+   "shown": "USD 95.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2056:property",
+   "page": 956921.9999999999,
+   "shown": "USD 956,922",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2056:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2057:jobs",
+   "page": 105.2644,
+   "shown": "105",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2057:earnings",
+   "page": 8209214.543209537,
+   "shown": "USD 8.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2057:value",
+   "page": 47846099.99999999,
+   "shown": "USD 47.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2057:property",
+   "page": 478460.99999999994,
+   "shown": "USD 478,461",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "year:2057:income",
+   "page": 183256.42008023843,
+   "shown": "USD 183,256",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "default:mw",
+   "page": 100,
+   "shown": "100",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "default:capex",
+   "page": 14353.83,
+   "shown": "14,354",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "default:start",
+   "page": 2027,
+   "shown": "2027",
+   "tolerance": null
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "default:build",
+   "page": 1,
+   "shown": "1",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "default:life",
+   "page": 30,
+   "shown": "30",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "default:local",
+   "page": 100,
+   "shown": "100",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "default:om",
+   "page": 100,
+   "shown": "100",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "default:sales",
+   "page": 8.54,
+   "shown": "8.54",
+   "tolerance": 0.005
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "default:taxable",
+   "page": 72.832,
+   "shown": "72.83",
+   "tolerance": 0.005
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "default:exempt",
+   "page": 0,
+   "shown": "0",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "default:own",
+   "page": null,
+   "shown": "not given",
+   "tolerance": null
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "default:ownyears",
+   "page": null,
+   "shown": "not given",
+   "tolerance": null
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "default:cf",
+   "page": 0.4175,
+   "shown": "0.4175",
+   "tolerance": 0.00005
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "default:rate",
+   "page": 7,
+   "shown": "7",
+   "tolerance": 0.5
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:1:fl:onsite",
+   "page": 1592.7192325339972,
+   "shown": "1,592.7",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:1:fl:supply_chain",
+   "page": 1541.5899617222633,
+   "shown": "1,541.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:1:fl:induced",
+   "page": 1280.170126603059,
+   "shown": "1,280.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:2:me:onsite",
+   "page": 1707.5552053595295,
+   "shown": "1,707.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:2:me:supply_chain",
+   "page": 1495.4661032987772,
+   "shown": "1,495.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:2:me:induced",
+   "page": 1113.552575855359,
+   "shown": "1,113.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:3:vt:onsite",
+   "page": 1734.7392981770013,
+   "shown": "1,734.7",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:3:vt:supply_chain",
+   "page": 1457.2907420376414,
+   "shown": "1,457.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:3:vt:induced",
+   "page": 1000.3979803886075,
+   "shown": "1,000.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:4:id:onsite",
+   "page": 1741.9432856481399,
+   "shown": "1,741.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:4:id:supply_chain",
+   "page": 1489.8939808607154,
+   "shown": "1,489.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:4:id:induced",
+   "page": 954.9588708141025,
+   "shown": "955.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:5:ut:onsite",
+   "page": 1558.9170348539285,
+   "shown": "1,558.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:5:ut:supply_chain",
+   "page": 1437.7251640150366,
+   "shown": "1,437.7",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:5:ut:induced",
+   "page": 1186.2644179765011,
+   "shown": "1,186.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:6:oh:onsite",
+   "page": 1588.345073367813,
+   "shown": "1,588.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:6:oh:supply_chain",
+   "page": 1392.9580087307888,
+   "shown": "1,393.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:6:oh:induced",
+   "page": 1197.632529251735,
+   "shown": "1,197.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:7:tn:onsite",
+   "page": 1586.5579071106984,
+   "shown": "1,586.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:7:tn:supply_chain",
+   "page": 1367.0452286364102,
+   "shown": "1,367.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:7:tn:induced",
+   "page": 1208.6274796404346,
+   "shown": "1,208.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:8:az:onsite",
+   "page": 1527.3622101714707,
+   "shown": "1,527.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:8:az:supply_chain",
+   "page": 1403.5379784032543,
+   "shown": "1,403.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:8:az:induced",
+   "page": 1215.9317378587612,
+   "shown": "1,215.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:9:mi:onsite",
+   "page": 1594.9804975479715,
+   "shown": "1,595.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:9:mi:supply_chain",
+   "page": 1374.1103411060878,
+   "shown": "1,374.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:9:mi:induced",
+   "page": 1174.0000651223409,
+   "shown": "1,174.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:10:nc:onsite",
+   "page": 1634.985978052996,
+   "shown": "1,635.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:10:nc:supply_chain",
+   "page": 1385.6354001583038,
+   "shown": "1,385.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:10:nc:induced",
+   "page": 1076.576018093302,
+   "shown": "1,076.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:11:ny:onsite",
+   "page": 1374.062867076913,
+   "shown": "1,374.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:11:ny:supply_chain",
+   "page": 1131.0750036639931,
+   "shown": "1,131.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:11:ny:induced",
+   "page": 775.4116892818655,
+   "shown": "775.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:12:nv:onsite",
+   "page": 1496.8041359153517,
+   "shown": "1,496.8",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:12:nv:supply_chain",
+   "page": 895.1653086361708,
+   "shown": "895.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:12:nv:induced",
+   "page": 620.9025520997541,
+   "shown": "620.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:13:ak:onsite",
+   "page": 1374.643470523608,
+   "shown": "1,374.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:13:ak:supply_chain",
+   "page": 1032.3103938828572,
+   "shown": "1,032.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:13:ak:induced",
+   "page": 596.2638641703247,
+   "shown": "596.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:14:wy:onsite",
+   "page": 1511.3827474190266,
+   "shown": "1,511.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:14:wy:supply_chain",
+   "page": 974.4092505055303,
+   "shown": "974.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:14:wy:induced",
+   "page": 477.8845150378241,
+   "shown": "477.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:15:dc:onsite",
+   "page": 1372.657246314812,
+   "shown": "1,372.7",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:15:dc:supply_chain",
+   "page": 575.2163943540717,
+   "shown": "575.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:jobs:15:dc:induced",
+   "page": 226.89511825144726,
+   "shown": "226.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:1:ca",
+   "page": 245933666.4512339,
+   "shown": "USD 245.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:2:al",
+   "page": 241465178.4355146,
+   "shown": "USD 241.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:3:il",
+   "page": 240796384.51587698,
+   "shown": "USD 240.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:4:la",
+   "page": 238386254.7905097,
+   "shown": "USD 238.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:5:ny",
+   "page": 236730800.04373932,
+   "shown": "USD 236.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:6:ar",
+   "page": 236128088.9266124,
+   "shown": "USD 236.1 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:7:mn",
+   "page": 235531740.33672482,
+   "shown": "USD 235.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:8:ok",
+   "page": 234620519.23225492,
+   "shown": "USD 234.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:9:ks",
+   "page": 234429635.42834353,
+   "shown": "USD 234.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:10:mo",
+   "page": 227933645.26860672,
+   "shown": "USD 227.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:11:az",
+   "page": 221626335.7805393,
+   "shown": "USD 221.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:12:nh",
+   "page": 120236967.80426571,
+   "shown": "USD 120.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:13:sc",
+   "page": 94258034.3516741,
+   "shown": "USD 94.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:14:oh",
+   "page": 86656469.56647111,
+   "shown": "USD 86.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:15:mt",
+   "page": 20250437.36119437,
+   "shown": "USD 20.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:taxes:16:nd",
+   "page": 8775565.322005736,
+   "shown": "USD 8.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "csp_trough_nd_az",
+   "scenario": "b",
+   "figure": "states:rank",
+   "page": 8,
+   "shown": "8",
+   "tolerance": 0
+  },
+  {
+   "case": "csp_trough_nd_az",
    "scenario": "b",
    "figure": "states:count",
    "page": 51,

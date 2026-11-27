@@ -9333,3 +9333,491 @@ biopower_nd_ga,b,states:taxes:15:mt,4809310.04814383,USD 4.8 million,50000
 biopower_nd_ga,b,states:taxes:16:nd,4737828.603016088,USD 4.7 million,50000
 biopower_nd_ga,b,states:rank,28,28,0
 biopower_nd_ga,b,states:count,51,51,0
+csp_trough_nd_az,a,c:jobs:total,3424.8104358734217,"3,425",0.5
+csp_trough_nd_az,b,c:jobs:total,4146.83177533103,"4,147",0.5
+csp_trough_nd_az,a,o:jobs:total,88.4174,88.4,0.05
+csp_trough_nd_az,b,o:jobs:total,105.2644,105,0.5
+csp_trough_nd_az,a,c:earnings:total,386699772.710306,USD 386.7 million,50000
+csp_trough_nd_az,b,c:earnings:total,428090917.1692975,USD 428.1 million,50000
+csp_trough_nd_az,a,o:earnings:total,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,b,o:earnings:total,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,a,c:output:total,882755509.732453,USD 882.8 million,50000
+csp_trough_nd_az,b,c:output:total,1007294954.0371424,USD 1.01 billion,5000000
+csp_trough_nd_az,a,o:output:total,14989094.92669162,USD 15 million,50000
+csp_trough_nd_az,b,o:output:total,17892061.04460543,USD 17.9 million,50000
+csp_trough_nd_az,a,y1:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,b,y1:property,14353830,USD 14.4 million,50000
+csp_trough_nd_az,a,sum:property,12471900,USD 12.5 million,50000
+csp_trough_nd_az,b,sum:property,222484365,USD 222.5 million,50000
+csp_trough_nd_az,a,sum:sales,0,USD 0,0.5
+csp_trough_nd_az,b,sum:sales,89278709.71622398,USD 89.3 million,50000
+csp_trough_nd_az,a,sum:income,4167734.653688056,USD 4.2 million,50000
+csp_trough_nd_az,b,sum:income,15334314.398539254,USD 15.3 million,50000
+csp_trough_nd_az,a,pv:taxes,8775565.322005736,USD 8.8 million,50000
+csp_trough_nd_az,b,pv:taxes,221626335.7805393,USD 221.6 million,50000
+csp_trough_nd_az,a,pv:earnings,477481816.17101306,USD 477.5 million,50000
+csp_trough_nd_az,b,pv:earnings,529959398.5202198,USD 530 million,50000
+csp_trough_nd_az,a,year:2027:jobs,3424.8104358734217,"3,425",0.5
+csp_trough_nd_az,a,year:2027:earnings,386699772.710306,USD 386.7 million,50000
+csp_trough_nd_az,a,year:2027:sales,0,USD 0,0.5
+csp_trough_nd_az,a,year:2027:income,3228081.456868706,USD 3.2 million,50000
+csp_trough_nd_az,a,year:2028:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2028:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2028:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2028:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2028:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2029:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2029:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2029:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2029:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2029:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2030:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2030:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2030:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2030:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2030:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2031:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2031:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2031:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2031:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2031:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2032:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2032:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2032:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2032:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2032:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2033:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2033:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2033:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2033:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2033:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2034:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2034:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2034:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2034:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2034:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2035:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2035:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2035:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2035:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2035:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2036:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2036:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2036:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2036:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2036:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2037:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2037:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2037:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2037:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2037:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2038:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2038:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2038:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2038:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2038:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2039:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2039:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2039:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2039:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2039:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2040:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2040:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2040:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2040:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2040:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2041:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2041:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2041:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2041:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2041:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2042:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2042:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2042:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2042:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2042:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2043:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2043:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2043:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2043:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2043:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2044:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2044:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2044:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2044:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2044:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2045:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2045:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2045:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2045:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2045:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2046:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2046:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2046:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2046:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2046:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2047:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2047:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2047:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2047:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2047:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2048:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2048:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2048:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2048:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2048:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2049:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2049:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2049:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2049:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2049:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2050:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2050:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2050:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2050:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2050:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2051:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2051:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2051:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2051:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2051:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2052:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2052:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2052:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2052:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2052:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2053:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2053:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2053:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2053:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2053:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2054:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2054:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2054:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2054:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2054:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2055:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2055:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2055:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2055:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2055:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2056:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2056:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2056:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2056:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2056:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,year:2057:jobs,88.4174,88.4,0.05
+csp_trough_nd_az,a,year:2057:earnings,7315798.385887778,USD 7.3 million,50000
+csp_trough_nd_az,a,year:2057:mwh,365730,"365,730",0.5
+csp_trough_nd_az,a,year:2057:property,415730,"USD 415,730",0.5
+csp_trough_nd_az,a,year:2057:income,31321.773227311667,"USD 31,322",0.5
+csp_trough_nd_az,a,cell:sev,,"none (a wind, solar or geothermal plant burns no gas)",
+csp_trough_nd_az,b,cell:sev,,"none (a wind, solar or geothermal plant burns no gas)",
+csp_trough_nd_az,a,default:mw,100,100,0.5
+csp_trough_nd_az,a,default:capex,14353.83,"14,354",0.5
+csp_trough_nd_az,a,default:start,2027,2027,
+csp_trough_nd_az,a,default:build,1,1,0.5
+csp_trough_nd_az,a,default:life,30,30,0.5
+csp_trough_nd_az,a,default:local,100,100,0.5
+csp_trough_nd_az,a,default:om,100,100,0.5
+csp_trough_nd_az,a,default:sales,7.09,7.09,0.005
+csp_trough_nd_az,a,default:taxable,72.832,72.83,0.005
+csp_trough_nd_az,a,default:exempt,100,100,0.5
+csp_trough_nd_az,a,default:cf,0.4175,0.4175,0.00005
+csp_trough_nd_az,a,default:rate,7,7,0.5
+csp_trough_nd_az,a,states:jobs:1:fl:onsite,1592.7192325339972,"1,592.7",0.05
+csp_trough_nd_az,a,states:jobs:1:fl:supply_chain,1541.5899617222633,"1,541.6",0.05
+csp_trough_nd_az,a,states:jobs:1:fl:induced,1280.170126603059,"1,280.2",0.05
+csp_trough_nd_az,a,states:jobs:2:me:onsite,1707.5552053595295,"1,707.6",0.05
+csp_trough_nd_az,a,states:jobs:2:me:supply_chain,1495.4661032987772,"1,495.5",0.05
+csp_trough_nd_az,a,states:jobs:2:me:induced,1113.552575855359,"1,113.6",0.05
+csp_trough_nd_az,a,states:jobs:3:vt:onsite,1734.7392981770013,"1,734.7",0.05
+csp_trough_nd_az,a,states:jobs:3:vt:supply_chain,1457.2907420376414,"1,457.3",0.05
+csp_trough_nd_az,a,states:jobs:3:vt:induced,1000.3979803886075,"1,000.4",0.05
+csp_trough_nd_az,a,states:jobs:4:id:onsite,1741.9432856481399,"1,741.9",0.05
+csp_trough_nd_az,a,states:jobs:4:id:supply_chain,1489.8939808607154,"1,489.9",0.05
+csp_trough_nd_az,a,states:jobs:4:id:induced,954.9588708141025,955.0,0.05
+csp_trough_nd_az,a,states:jobs:5:ut:onsite,1558.9170348539285,"1,558.9",0.05
+csp_trough_nd_az,a,states:jobs:5:ut:supply_chain,1437.7251640150366,"1,437.7",0.05
+csp_trough_nd_az,a,states:jobs:5:ut:induced,1186.2644179765011,"1,186.3",0.05
+csp_trough_nd_az,a,states:jobs:6:oh:onsite,1588.345073367813,"1,588.3",0.05
+csp_trough_nd_az,a,states:jobs:6:oh:supply_chain,1392.9580087307888,"1,393.0",0.05
+csp_trough_nd_az,a,states:jobs:6:oh:induced,1197.632529251735,"1,197.6",0.05
+csp_trough_nd_az,a,states:jobs:7:tn:onsite,1586.5579071106984,"1,586.6",0.05
+csp_trough_nd_az,a,states:jobs:7:tn:supply_chain,1367.0452286364102,"1,367.0",0.05
+csp_trough_nd_az,a,states:jobs:7:tn:induced,1208.6274796404346,"1,208.6",0.05
+csp_trough_nd_az,a,states:jobs:8:az:onsite,1527.3622101714707,"1,527.4",0.05
+csp_trough_nd_az,a,states:jobs:8:az:supply_chain,1403.5379784032543,"1,403.5",0.05
+csp_trough_nd_az,a,states:jobs:8:az:induced,1215.9317378587612,"1,215.9",0.05
+csp_trough_nd_az,a,states:jobs:9:mi:onsite,1594.9804975479715,"1,595.0",0.05
+csp_trough_nd_az,a,states:jobs:9:mi:supply_chain,1374.1103411060878,"1,374.1",0.05
+csp_trough_nd_az,a,states:jobs:9:mi:induced,1174.0000651223409,"1,174.0",0.05
+csp_trough_nd_az,a,states:jobs:10:nc:onsite,1634.985978052996,"1,635.0",0.05
+csp_trough_nd_az,a,states:jobs:10:nc:supply_chain,1385.6354001583038,"1,385.6",0.05
+csp_trough_nd_az,a,states:jobs:10:nc:induced,1076.576018093302,"1,076.6",0.05
+csp_trough_nd_az,a,states:jobs:11:nd:onsite,1529.1695321504058,"1,529.2",0.05
+csp_trough_nd_az,a,states:jobs:11:nd:supply_chain,1192.06689728299,"1,192.1",0.05
+csp_trough_nd_az,a,states:jobs:11:nd:induced,703.574006440026,703.6,0.05
+csp_trough_nd_az,a,states:jobs:12:ny:onsite,1374.062867076913,"1,374.1",0.05
+csp_trough_nd_az,a,states:jobs:12:ny:supply_chain,1131.0750036639931,"1,131.1",0.05
+csp_trough_nd_az,a,states:jobs:12:ny:induced,775.4116892818655,775.4,0.05
+csp_trough_nd_az,a,states:jobs:13:nv:onsite,1496.8041359153517,"1,496.8",0.05
+csp_trough_nd_az,a,states:jobs:13:nv:supply_chain,895.1653086361708,895.2,0.05
+csp_trough_nd_az,a,states:jobs:13:nv:induced,620.9025520997541,620.9,0.05
+csp_trough_nd_az,a,states:jobs:14:ak:onsite,1374.643470523608,"1,374.6",0.05
+csp_trough_nd_az,a,states:jobs:14:ak:supply_chain,1032.3103938828572,"1,032.3",0.05
+csp_trough_nd_az,a,states:jobs:14:ak:induced,596.2638641703247,596.3,0.05
+csp_trough_nd_az,a,states:jobs:15:wy:onsite,1511.3827474190266,"1,511.4",0.05
+csp_trough_nd_az,a,states:jobs:15:wy:supply_chain,974.4092505055303,974.4,0.05
+csp_trough_nd_az,a,states:jobs:15:wy:induced,477.8845150378241,477.9,0.05
+csp_trough_nd_az,a,states:jobs:16:dc:onsite,1372.657246314812,"1,372.7",0.05
+csp_trough_nd_az,a,states:jobs:16:dc:supply_chain,575.2163943540717,575.2,0.05
+csp_trough_nd_az,a,states:jobs:16:dc:induced,226.89511825144726,226.9,0.05
+csp_trough_nd_az,a,states:taxes:1:ga,201909531.1755476,USD 201.9 million,50000
+csp_trough_nd_az,a,states:taxes:2:ca,125696698.6469682,USD 125.7 million,50000
+csp_trough_nd_az,a,states:taxes:3:al,121228210.63124889,USD 121.2 million,50000
+csp_trough_nd_az,a,states:taxes:4:il,120559416.71161127,USD 120.6 million,50000
+csp_trough_nd_az,a,states:taxes:5:la,118149286.986244,USD 118.1 million,50000
+csp_trough_nd_az,a,states:taxes:6:ny,116493832.23947361,USD 116.5 million,50000
+csp_trough_nd_az,a,states:taxes:7:ar,115891121.1223467,USD 115.9 million,50000
+csp_trough_nd_az,a,states:taxes:8:mn,115294772.53245911,USD 115.3 million,50000
+csp_trough_nd_az,a,states:taxes:9:ok,114383551.42798923,USD 114.4 million,50000
+csp_trough_nd_az,a,states:taxes:10:ks,114192667.62407781,USD 114.2 million,50000
+csp_trough_nd_az,a,states:taxes:11:de,27319359.47330134,USD 27.3 million,50000
+csp_trough_nd_az,a,states:taxes:12:mt,20250437.36119437,USD 20.3 million,50000
+csp_trough_nd_az,a,states:taxes:13:ak,19026610.267392,USD 19 million,50000
+csp_trough_nd_az,a,states:taxes:14:nd,8775565.322005736,USD 8.8 million,50000
+csp_trough_nd_az,a,states:taxes:15:nh,0,USD 0,0.5
+csp_trough_nd_az,a,states:rank,45,45,0
+csp_trough_nd_az,a,states:count,51,51,0
+csp_trough_nd_az,b,year:2027:jobs,4146.83177533103,"4,147",0.5
+csp_trough_nd_az,b,year:2027:earnings,428090917.1692975,USD 428.1 million,50000
+csp_trough_nd_az,b,year:2027:sales,89278709.71622398,USD 89.3 million,50000
+csp_trough_nd_az,b,year:2027:income,9836621.796132086,USD 9.8 million,50000
+csp_trough_nd_az,b,year:2028:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2028:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2028:value,1435383000,USD 1.44 billion,5000000
+csp_trough_nd_az,b,year:2028:property,14353830,USD 14.4 million,50000
+csp_trough_nd_az,b,year:2028:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2029:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2029:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2029:value,1387536900,USD 1.39 billion,5000000
+csp_trough_nd_az,b,year:2029:property,13875369,USD 13.9 million,50000
+csp_trough_nd_az,b,year:2029:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2030:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2030:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2030:value,1339690800,USD 1.34 billion,5000000
+csp_trough_nd_az,b,year:2030:property,13396908,USD 13.4 million,50000
+csp_trough_nd_az,b,year:2030:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2031:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2031:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2031:value,1291844700,USD 1.29 billion,5000000
+csp_trough_nd_az,b,year:2031:property,12918447,USD 12.9 million,50000
+csp_trough_nd_az,b,year:2031:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2032:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2032:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2032:value,1243998600,USD 1.24 billion,5000000
+csp_trough_nd_az,b,year:2032:property,12439986,USD 12.4 million,50000
+csp_trough_nd_az,b,year:2032:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2033:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2033:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2033:value,1196152500,USD 1.2 billion,5000000
+csp_trough_nd_az,b,year:2033:property,11961525,USD 12 million,50000
+csp_trough_nd_az,b,year:2033:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2034:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2034:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2034:value,1148306400,USD 1.15 billion,5000000
+csp_trough_nd_az,b,year:2034:property,11483064,USD 11.5 million,50000
+csp_trough_nd_az,b,year:2034:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2035:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2035:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2035:value,1100460300,USD 1.1 billion,5000000
+csp_trough_nd_az,b,year:2035:property,11004603,USD 11 million,50000
+csp_trough_nd_az,b,year:2035:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2036:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2036:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2036:value,1052614200.0000001,USD 1.05 billion,5000000
+csp_trough_nd_az,b,year:2036:property,10526142.000000002,USD 10.5 million,50000
+csp_trough_nd_az,b,year:2036:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2037:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2037:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2037:value,1004768099.9999999,USD 1 billion,5000000
+csp_trough_nd_az,b,year:2037:property,10047680.999999998,USD 10 million,50000
+csp_trough_nd_az,b,year:2037:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2038:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2038:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2038:value,956922000.0000001,USD 956.9 million,50000
+csp_trough_nd_az,b,year:2038:property,9569220.000000002,USD 9.6 million,50000
+csp_trough_nd_az,b,year:2038:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2039:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2039:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2039:value,909075900,USD 909.1 million,50000
+csp_trough_nd_az,b,year:2039:property,9090759,USD 9.1 million,50000
+csp_trough_nd_az,b,year:2039:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2040:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2040:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2040:value,861229800,USD 861.2 million,50000
+csp_trough_nd_az,b,year:2040:property,8612298,USD 8.6 million,50000
+csp_trough_nd_az,b,year:2040:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2041:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2041:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2041:value,813383700,USD 813.4 million,50000
+csp_trough_nd_az,b,year:2041:property,8133837,USD 8.1 million,50000
+csp_trough_nd_az,b,year:2041:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2042:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2042:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2042:value,765537600,USD 765.5 million,50000
+csp_trough_nd_az,b,year:2042:property,7655376,USD 7.7 million,50000
+csp_trough_nd_az,b,year:2042:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2043:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2043:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2043:value,717691500,USD 717.7 million,50000
+csp_trough_nd_az,b,year:2043:property,7176915,USD 7.2 million,50000
+csp_trough_nd_az,b,year:2043:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2044:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2044:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2044:value,669845400,USD 669.8 million,50000
+csp_trough_nd_az,b,year:2044:property,6698454,USD 6.7 million,50000
+csp_trough_nd_az,b,year:2044:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2045:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2045:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2045:value,621999300,USD 622 million,50000
+csp_trough_nd_az,b,year:2045:property,6219993,USD 6.2 million,50000
+csp_trough_nd_az,b,year:2045:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2046:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2046:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2046:value,574153200,USD 574.2 million,50000
+csp_trough_nd_az,b,year:2046:property,5741532,USD 5.7 million,50000
+csp_trough_nd_az,b,year:2046:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2047:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2047:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2047:value,526307100.00000006,USD 526.3 million,50000
+csp_trough_nd_az,b,year:2047:property,5263071.000000001,USD 5.3 million,50000
+csp_trough_nd_az,b,year:2047:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2048:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2048:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2048:value,478461000.00000006,USD 478.5 million,50000
+csp_trough_nd_az,b,year:2048:property,4784610.000000001,USD 4.8 million,50000
+csp_trough_nd_az,b,year:2048:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2049:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2049:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2049:value,430614900.00000006,USD 430.6 million,50000
+csp_trough_nd_az,b,year:2049:property,4306149.000000001,USD 4.3 million,50000
+csp_trough_nd_az,b,year:2049:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2050:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2050:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2050:value,382768800.00000006,USD 382.8 million,50000
+csp_trough_nd_az,b,year:2050:property,3827688.0000000005,USD 3.8 million,50000
+csp_trough_nd_az,b,year:2050:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2051:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2051:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2051:value,334922699.99999994,USD 334.9 million,50000
+csp_trough_nd_az,b,year:2051:property,3349226.9999999995,USD 3.3 million,50000
+csp_trough_nd_az,b,year:2051:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2052:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2052:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2052:value,287076599.99999994,USD 287.1 million,50000
+csp_trough_nd_az,b,year:2052:property,2870765.9999999995,USD 2.9 million,50000
+csp_trough_nd_az,b,year:2052:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2053:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2053:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2053:value,239230499.99999994,USD 239.2 million,50000
+csp_trough_nd_az,b,year:2053:property,2392304.9999999995,USD 2.4 million,50000
+csp_trough_nd_az,b,year:2053:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2054:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2054:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2054:value,191384399.99999997,USD 191.4 million,50000
+csp_trough_nd_az,b,year:2054:property,1913843.9999999998,USD 1.9 million,50000
+csp_trough_nd_az,b,year:2054:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2055:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2055:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2055:value,143538299.99999997,USD 143.5 million,50000
+csp_trough_nd_az,b,year:2055:property,1435382.9999999998,USD 1.4 million,50000
+csp_trough_nd_az,b,year:2055:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2056:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2056:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2056:value,95692199.99999999,USD 95.7 million,50000
+csp_trough_nd_az,b,year:2056:property,956921.9999999999,"USD 956,922",0.5
+csp_trough_nd_az,b,year:2056:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,year:2057:jobs,105.2644,105,0.5
+csp_trough_nd_az,b,year:2057:earnings,8209214.543209537,USD 8.2 million,50000
+csp_trough_nd_az,b,year:2057:value,47846099.99999999,USD 47.8 million,50000
+csp_trough_nd_az,b,year:2057:property,478460.99999999994,"USD 478,461",0.5
+csp_trough_nd_az,b,year:2057:income,183256.42008023843,"USD 183,256",0.5
+csp_trough_nd_az,b,default:mw,100,100,0.5
+csp_trough_nd_az,b,default:capex,14353.83,"14,354",0.5
+csp_trough_nd_az,b,default:start,2027,2027,
+csp_trough_nd_az,b,default:build,1,1,0.5
+csp_trough_nd_az,b,default:life,30,30,0.5
+csp_trough_nd_az,b,default:local,100,100,0.5
+csp_trough_nd_az,b,default:om,100,100,0.5
+csp_trough_nd_az,b,default:sales,8.54,8.54,0.005
+csp_trough_nd_az,b,default:taxable,72.832,72.83,0.005
+csp_trough_nd_az,b,default:exempt,0,0,0.5
+csp_trough_nd_az,b,default:own,,not given,
+csp_trough_nd_az,b,default:ownyears,,not given,
+csp_trough_nd_az,b,default:cf,0.4175,0.4175,0.00005
+csp_trough_nd_az,b,default:rate,7,7,0.5
+csp_trough_nd_az,b,states:jobs:1:fl:onsite,1592.7192325339972,"1,592.7",0.05
+csp_trough_nd_az,b,states:jobs:1:fl:supply_chain,1541.5899617222633,"1,541.6",0.05
+csp_trough_nd_az,b,states:jobs:1:fl:induced,1280.170126603059,"1,280.2",0.05
+csp_trough_nd_az,b,states:jobs:2:me:onsite,1707.5552053595295,"1,707.6",0.05
+csp_trough_nd_az,b,states:jobs:2:me:supply_chain,1495.4661032987772,"1,495.5",0.05
+csp_trough_nd_az,b,states:jobs:2:me:induced,1113.552575855359,"1,113.6",0.05
+csp_trough_nd_az,b,states:jobs:3:vt:onsite,1734.7392981770013,"1,734.7",0.05
+csp_trough_nd_az,b,states:jobs:3:vt:supply_chain,1457.2907420376414,"1,457.3",0.05
+csp_trough_nd_az,b,states:jobs:3:vt:induced,1000.3979803886075,"1,000.4",0.05
+csp_trough_nd_az,b,states:jobs:4:id:onsite,1741.9432856481399,"1,741.9",0.05
+csp_trough_nd_az,b,states:jobs:4:id:supply_chain,1489.8939808607154,"1,489.9",0.05
+csp_trough_nd_az,b,states:jobs:4:id:induced,954.9588708141025,955.0,0.05
+csp_trough_nd_az,b,states:jobs:5:ut:onsite,1558.9170348539285,"1,558.9",0.05
+csp_trough_nd_az,b,states:jobs:5:ut:supply_chain,1437.7251640150366,"1,437.7",0.05
+csp_trough_nd_az,b,states:jobs:5:ut:induced,1186.2644179765011,"1,186.3",0.05
+csp_trough_nd_az,b,states:jobs:6:oh:onsite,1588.345073367813,"1,588.3",0.05
+csp_trough_nd_az,b,states:jobs:6:oh:supply_chain,1392.9580087307888,"1,393.0",0.05
+csp_trough_nd_az,b,states:jobs:6:oh:induced,1197.632529251735,"1,197.6",0.05
+csp_trough_nd_az,b,states:jobs:7:tn:onsite,1586.5579071106984,"1,586.6",0.05
+csp_trough_nd_az,b,states:jobs:7:tn:supply_chain,1367.0452286364102,"1,367.0",0.05
+csp_trough_nd_az,b,states:jobs:7:tn:induced,1208.6274796404346,"1,208.6",0.05
+csp_trough_nd_az,b,states:jobs:8:az:onsite,1527.3622101714707,"1,527.4",0.05
+csp_trough_nd_az,b,states:jobs:8:az:supply_chain,1403.5379784032543,"1,403.5",0.05
+csp_trough_nd_az,b,states:jobs:8:az:induced,1215.9317378587612,"1,215.9",0.05
+csp_trough_nd_az,b,states:jobs:9:mi:onsite,1594.9804975479715,"1,595.0",0.05
+csp_trough_nd_az,b,states:jobs:9:mi:supply_chain,1374.1103411060878,"1,374.1",0.05
+csp_trough_nd_az,b,states:jobs:9:mi:induced,1174.0000651223409,"1,174.0",0.05
+csp_trough_nd_az,b,states:jobs:10:nc:onsite,1634.985978052996,"1,635.0",0.05
+csp_trough_nd_az,b,states:jobs:10:nc:supply_chain,1385.6354001583038,"1,385.6",0.05
+csp_trough_nd_az,b,states:jobs:10:nc:induced,1076.576018093302,"1,076.6",0.05
+csp_trough_nd_az,b,states:jobs:11:ny:onsite,1374.062867076913,"1,374.1",0.05
+csp_trough_nd_az,b,states:jobs:11:ny:supply_chain,1131.0750036639931,"1,131.1",0.05
+csp_trough_nd_az,b,states:jobs:11:ny:induced,775.4116892818655,775.4,0.05
+csp_trough_nd_az,b,states:jobs:12:nv:onsite,1496.8041359153517,"1,496.8",0.05
+csp_trough_nd_az,b,states:jobs:12:nv:supply_chain,895.1653086361708,895.2,0.05
+csp_trough_nd_az,b,states:jobs:12:nv:induced,620.9025520997541,620.9,0.05
+csp_trough_nd_az,b,states:jobs:13:ak:onsite,1374.643470523608,"1,374.6",0.05
+csp_trough_nd_az,b,states:jobs:13:ak:supply_chain,1032.3103938828572,"1,032.3",0.05
+csp_trough_nd_az,b,states:jobs:13:ak:induced,596.2638641703247,596.3,0.05
+csp_trough_nd_az,b,states:jobs:14:wy:onsite,1511.3827474190266,"1,511.4",0.05
+csp_trough_nd_az,b,states:jobs:14:wy:supply_chain,974.4092505055303,974.4,0.05
+csp_trough_nd_az,b,states:jobs:14:wy:induced,477.8845150378241,477.9,0.05
+csp_trough_nd_az,b,states:jobs:15:dc:onsite,1372.657246314812,"1,372.7",0.05
+csp_trough_nd_az,b,states:jobs:15:dc:supply_chain,575.2163943540717,575.2,0.05
+csp_trough_nd_az,b,states:jobs:15:dc:induced,226.89511825144726,226.9,0.05
+csp_trough_nd_az,b,states:taxes:1:ca,245933666.4512339,USD 245.9 million,50000
+csp_trough_nd_az,b,states:taxes:2:al,241465178.4355146,USD 241.5 million,50000
+csp_trough_nd_az,b,states:taxes:3:il,240796384.51587698,USD 240.8 million,50000
+csp_trough_nd_az,b,states:taxes:4:la,238386254.7905097,USD 238.4 million,50000
+csp_trough_nd_az,b,states:taxes:5:ny,236730800.04373932,USD 236.7 million,50000
+csp_trough_nd_az,b,states:taxes:6:ar,236128088.9266124,USD 236.1 million,50000
+csp_trough_nd_az,b,states:taxes:7:mn,235531740.33672482,USD 235.5 million,50000
+csp_trough_nd_az,b,states:taxes:8:ok,234620519.23225492,USD 234.6 million,50000
+csp_trough_nd_az,b,states:taxes:9:ks,234429635.42834353,USD 234.4 million,50000
+csp_trough_nd_az,b,states:taxes:10:mo,227933645.26860672,USD 227.9 million,50000
+csp_trough_nd_az,b,states:taxes:11:az,221626335.7805393,USD 221.6 million,50000
+csp_trough_nd_az,b,states:taxes:12:nh,120236967.80426571,USD 120.2 million,50000
+csp_trough_nd_az,b,states:taxes:13:sc,94258034.3516741,USD 94.3 million,50000
+csp_trough_nd_az,b,states:taxes:14:oh,86656469.56647111,USD 86.7 million,50000
+csp_trough_nd_az,b,states:taxes:15:mt,20250437.36119437,USD 20.3 million,50000
+csp_trough_nd_az,b,states:taxes:16:nd,8775565.322005736,USD 8.8 million,50000
+csp_trough_nd_az,b,states:rank,8,8,0
+csp_trough_nd_az,b,states:count,51,51,0

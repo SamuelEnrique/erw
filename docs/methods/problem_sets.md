@@ -259,3 +259,34 @@ decisions, and its figures into the replication. Until then its choices are draw
   again by the row its question names; the page drawn) and `tests/test_session10404_problem_set_forecast.py`.
 - **Not done:** no replication in Python and Stata yet (the listed sets have one). It is written when the set is
   approved.
+### A producer beside the price of oil (`/learn/problems/a-producer-beside-the-price-of-oil`)
+Chain 720, session 10412, 27 November 2026. The second waiting set.
+- **Why a company and not a segment.** The chain asked for a set of the equities page on a segment beside an energy
+  price. A segment's line is built from share prices, and every share price is held ("license needed"), so no segment
+  has a line. What the equities files hold since 27 November 2026 is what each company filed with the SEC, which is
+  public. The set reads that, and no share price, index or segment line.
+- **What it reads:** `site/data/equities/series/EOG.json` and `EXE.json` (a company's filed periods, the rows of
+  `quarterly`) and `site/data/equities/energy_prices.json` (the spot price of WTI crude oil and of Henry Hub natural
+  gas, by day), the files `/equities` draws (written by the data machine's `warehouse/derived/equity_page_files.py`;
+  contract `docs/state/page_files_equities.md`; method `docs/methods/equities.md`).
+- **How a figure is found:** a filed period is a row in the order of the file's `quarterly_columns`. A question names
+  a row by its period's end, its length in months and the column; the module finds the row's position by those and
+  writes the figure's `pf|` key from the position and the column. Where a period was filed twice the later filing's
+  row is read, the page's own rule (`site/lib/equities.ts`, `figureLine`). A price is the row of the day named. No
+  position is typed, so a rebuilt file moves the keys with the rows.
+- **What is asked:** a quarter's revenue as a percent of the quarter before (the worked example); the price of oil on
+  the same two days; net income as a share of revenue; capital spending over the nine months, which a quarterly report
+  gives for the year to date only; debt at two days a year apart, a figure at a day and not a sum over a period; the
+  same quarter a year apart beside the price; and a second producer, of mostly natural gas, beside the price of gas.
+- **It takes no side and gives no advice.** The set states what was filed and what a fuel cost. It says in its own
+  words that a price on one day does not explain a quarter's revenue. Its test refuses a word that ranks, advises or
+  speaks of a share's price or return.
+- **The choices** (drawn on the set's page, each with its default and source): the producer is the company of the
+  segment "Exploration and production" with the largest revenue filed for the three months to 30 September 2026,
+  among those whose file holds every period the set reads (EOG; the test finds it again from the list of companies),
+  and the second is a producer of mostly natural gas (EXE), a choice and not a rule; a price is read on the last day of
+  the period a filing reports; the later filing's figure where a period was filed twice.
+- **Tests:** `site/scripts/test-problem-set-producer.mjs` (every figure recomputed from the files by its key, and
+  found again by the period its question names; the producer found again by the rule; the page drawn) and
+  `tests/test_session10412_problem_set_producer.py`.
+- **Not done:** no replication in Python and Stata yet. It is written when the set is approved.

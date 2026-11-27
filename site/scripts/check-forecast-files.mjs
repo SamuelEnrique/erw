@@ -72,6 +72,30 @@ for (const [a, b, s] of [["region-tex", "region-cal", "demand"], ["region-tex", 
   const junk = text(html).match(/.{0,50}(\bundefined\b|\bNaN\b|\bnull\b).{0,50}/);
   if (junk) bad.push(`${a}+${b} ${s}: ${junk[0]}`);
 }
+// session 10411 (the contract's lines of session 10603): each other hub of a place's grid, drawn whole under "More
+// hubs" (its day-ahead price from price_hubs.json, its real-time price from rt_price.json), with both scores. The hubs
+// are found here from the files themselves: the ids of both files that name the same grid as the place's own hub
+let hubPages = 0;
+const hubSeen = new Set();
+const exists = (name) => fs.existsSync(path.join(dir, name));
+const moreFiles = [exists("price_hubs.json") ? read("price_hubs.json") : null, exists("rt_price.json") ? read("rt_price.json") : null];
+for (const p of index.places) {
+  const own = p.series?.price?.status === "shown" ? p.series.price.hub : null;
+  if (!own) continue;
+  const grid = String(own).split(":")[0];
+  const ids = [...new Set(moreFiles.flatMap((f) => (f && f.example !== true ? f.hubs.map((x) => x.hub) : [])).filter((id) => id !== own && String(id).split(":")[0] === grid))];
+  for (const hub of ids) for (const m of ["mae", "mape"]) {
+    if (hubSeen.has(`${hub}|${m}`)) continue;   // a hub is drawn once a score, whichever place of its grid offers it
+    hubSeen.add(`${hub}|${m}`);
+    const html = renderToStaticMarkup(h(ForecastView, { query: { a: p.place, s: "price", m, hub } }));
+    pages++; hubPages++;
+    if (!html.includes(`data-fc-hub-drawn="${hub}"`)) wrong.push(`${p.place} price, hub ${hub}: the hub is offered by the files and is not drawn`);
+    for (const mt of html.matchAll(/data-check="pf\|predict\/([^|"]+)\|([^"]+)" data-raw="([^"]*)"/g)) { figures++; const v = at(mt[1], mt[2]); if (typeof v !== "number" || String(v) !== mt[3]) wrong.push(`${p.place} price, hub ${hub}: ${mt[1]} ${mt[2]} page ${mt[3]} file ${v}`); }
+    const junk = text(html).match(/.{0,50}(\bundefined\b|\bNaN\b|\bnull\b|\[object Object\]).{0,50}/);
+    if (junk) bad.push(`${p.place} price, hub ${hub}: ${junk[0]}`);
+  }
+}
+if (hubPages) console.log(`more hubs drawn whole: ${hubSeen.size / 2} hubs, ${hubPages} pages`);
 console.log(`pages drawn: ${pages} (${index.places.length} places, two series, two metrics, and four pairs)`);
 console.log(`figures with a key into a file: ${figures}; differing from the file: ${wrong.length}`);
 console.log(`a day's errors computed again: ${dayChecks}`);
