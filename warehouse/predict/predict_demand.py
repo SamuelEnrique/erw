@@ -203,6 +203,47 @@ def regression_weather_known(M, temp, tz, h):
     return np.exp(L)
 
 
+def weather_regressors(T):
+    """The weather's three regressors of a day-by-hour temperature matrix (degrees F): T/100, its square, and the day's
+    mean over 100 beside every hour (NaN for a day not whole)."""
+    tmean = np.mean(T, axis=1)
+    return np.stack([T / 100.0, (T / 100.0) ** 2, np.repeat((tmean / 100.0)[:, None], 24, axis=1)], axis=2)
+
+
+def regression_weather_forecast(M, temp, F, tz, h, fit_days=FIT_DAYS, min_fit=MIN_FIT_DAYS):
+    """The regression with the weather (method note section 17), fitted as `regression_weather_known` is, on the
+    airport's observed temperature of the days held when the forecast is made (rows j <= i - h), and applied to day i
+    with the temperature FORECAST for it, as issued no later than the hour the forecast is made (F, from
+    predict_weather.forecast_matrix, aligned to M's days). Computed only on the days F holds. Returns (P_forecast,
+    P_observed): the second applies the same coefficients to the airport's observed temperature of day i (the line
+    "with the airport's weather known", not a forecast), so the cost of the weather forecast's own error is seen."""
+    X, Y = features(M, h)
+    f = local_frame(temp.dropna(), tz)
+    T = matrix(f).reindex(M.index).to_numpy(dtype=float)
+    lone = np.isnan(T[:, 1:23]) & np.isfinite(T[:, 0:22]) & np.isfinite(T[:, 2:24])
+    T[:, 1:23] = np.where(lone, (T[:, 0:22] + T[:, 2:24]) / 2.0, T[:, 1:23])
+    Xo = np.concatenate([X, weather_regressors(T)], axis=2)
+    Xf = np.concatenate([X, weather_regressors(F)], axis=2)
+    valid = np.isfinite(Xo).all(axis=2) & np.isfinite(Y)
+    n = len(M)
+    Pf = np.full((n, 24), np.nan)
+    Po = np.full((n, 24), np.nan)
+    for i in np.flatnonzero(np.isfinite(F).all(axis=1)):
+        hi = i - h + 1
+        if hi <= 0:
+            continue
+        lo = max(0, hi - fit_days)
+        for k in range(24):
+            v = valid[lo:hi, k]
+            if v.sum() < min_fit or not np.isfinite(Xf[i, k]).all():
+                continue
+            beta = np.linalg.lstsq(Xo[lo:hi, k][v], Y[lo:hi, k][v], rcond=None)[0]
+            Pf[i, k] = float(np.exp(Xf[i, k] @ beta))
+            if np.isfinite(Xo[i, k]).all():
+                Po[i, k] = float(np.exp(Xo[i, k] @ beta))
+    return Pf, Po
+
+
 def simple(M, h):
     """The two simple methods: P_yesterday[i, k] = M[i-h, k], P_week_ago[i, k] = M[i-7, k] (the raw hours)."""
     raw = M.to_numpy(dtype=float)

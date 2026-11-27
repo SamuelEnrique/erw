@@ -36,6 +36,7 @@ import predict_data as data  # noqa: E402
 import predict_demand as demand  # noqa: E402
 import predict_price as price  # noqa: E402
 import predict_score as score  # noqa: E402
+import predict_weather as wxmod  # noqa: E402
 
 ROOT = data.ROOT
 SITE = os.path.join(ROOT, "site", "data", "predict")
@@ -144,7 +145,48 @@ def append_ledger(site, rows, series="demand"):
     return len(new)
 
 
-def demand_place(place, dem, op, ref, made, evs, wx=None):
+WX_MIN_DAYS = 30
+WX_WHAT = ("the regression with the weather (method note section 17), fitted on the airport's observed temperature of "
+           "the days held when the forecast is made and applied with the National Weather Service's hourly forecast for "
+           "the airport, as issued no later than 20:00 UTC the day before the target day (weather_forecast_issued_hourly, "
+           "and the rows of weather_forecast_hourly whose issue was that early). A separate line, never the ERW forecast: "
+           "it is scored only on the days such a forecast is held, which began in late September 2026, and below "
+           "30 days the status says too few days to judge. with_airport_weather_known applies the same coefficients to "
+           "the airport's observed temperature (not a forecast), so the cost of the weather forecast's own error is seen")
+
+
+def weather_forecast_line(place, res, hr, tz, wxf, target):
+    """The separate line "with the weather forecast" of one place (method note section 17): (file block, score rows)."""
+    rows_f, obs = wxf
+    airport = wxmod.PLACE_AIRPORT[place]
+    M = res["M"]
+    F, V = wxmod.forecast_matrix(rows_f, airport, tz, M.index, made_hour=DEMAND_MADE_HOUR)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+        Pf, Po = demand.regression_weather_forecast(M, obs[airport], F, tz, res["h"])
+    pos = pd.Series(np.arange(len(M)), index=M.index)
+    i = pos.reindex(hr["day"]).to_numpy()
+    k = hr["hour"].to_numpy()
+    x = hr[["ts", "day", "hour", "actual", "erw", "operator", "regression", "regression_recent"]].copy()
+    x["with_weather_forecast"] = Pf[i, k]
+    x["with_airport_weather_known"] = Po[i, k]
+    wm = ["with_weather_forecast", "with_airport_weather_known", "erw", "operator", "regression", "regression_recent"]
+    c = score.common(x, wm)
+    days = int(c["day"].nunique())
+    sm = score.summary(x, wm)
+    out = {"what": WX_WHAT, "airport": airport, "min_days": WX_MIN_DAYS, "days": days,
+           "status": "scored" if days >= WX_MIN_DAYS else "too_few_days", "all": sm, "tomorrow": None, "tomorrow_issue_utc": None}
+    srows = [[place, "demand_weather_forecast", m, "all", "", sm["hours"], sm["mae"][m], sm["mape"][m], None] for m in wm]
+    j = len(M) - 1
+    if pd.Timestamp(target) == M.index.max() and np.isfinite(Pf[j]).all():
+        dh = demand.day_hours(tz, target)
+        out["tomorrow"] = [[iso(t), int(hh), num(Pf[j, hh])] for t, hh in zip(dh["ts"], dh["hour"])]
+        out["tomorrow_columns"] = ["ts_utc", "local_hour", "with_weather_forecast"]
+        out["tomorrow_issue_utc"] = iso(pd.Timestamp(V[j]).tz_localize("UTC"))
+    return out, srows
+
+
+def demand_place(place, dem, op, ref, made, evs, wx=None, wxf=None):
     """Everything about one place's demand: the backtest frame, the choice, score rows, tomorrow, the file's series."""
     tz = data.place_tz(place, ref)
     s = dem[place]
@@ -166,7 +208,10 @@ def demand_place(place, dem, op, ref, made, evs, wx=None):
     for suf in ("", "_lo", "_hi"):
         hr["erw" + suf] = hr[choice + suf]
     hr["made_utc"] = pd.to_datetime(hr["day"] - pd.Timedelta(days=1)).dt.tz_localize("UTC") + pd.Timedelta(hours=DEMAND_MADE_HOUR)
-    rows = score.rows(place, "demand", hr, SCORED, evs)
+    # part F: the operator's filing checked against the demand it forecasts (method note section 16); judges the
+    # comparator only, never the choice above
+    filing = score.filing_check(hr) if o is not None else None
+    rows = score.rows(place, "demand", hr, SCORED, evs, sound=score.sound_months(filing) if filing else None)
     pk = score.peaks(hr, SCORED)
     # the peak's own choice, by the same rule on the peak's error (part F: "scored the same way"): the candidate whose
     # day peaks missed least over the last two years; "erw" in the peak's record is that method's peak
@@ -193,6 +238,10 @@ def demand_place(place, dem, op, ref, made, evs, wx=None):
     frame = res["frame"]
     last = demand.last_whole_day(frame, tz)
     target = (pd.Timestamp(made).tz_convert(tz).tz_localize(None).normalize() + pd.Timedelta(days=1))
+    wfl = None
+    if wxf is not None and place in wxmod.PLACE_AIRPORT:
+        wfl, wrows = weather_forecast_line(place, res, hr, tz, wxf, target)
+        rows += wrows
     h = int((target - last).days)
     inputs_through = frame.loc[frame["day"] <= last, "ts"].max()
     tm, tm_held = None, None
@@ -211,7 +260,8 @@ def demand_place(place, dem, op, ref, made, evs, wx=None):
     else:
         tm_held = f"no data: the last whole day held ({day_str(last)}) is {h} days before the target day; the forecast reads at most 7"
     return {"place": place, "tz": tz, "hr": hr, "choice": choice, "maes": maes, "rows": rows, "tomorrow": tm, "tomorrow_held": tm_held,
-            "target": target, "h": h, "inputs_through": inputs_through, "last_whole_day": last, "res": res, "peaks": pk, "weather": weather, "peak_choice": peak_choice}
+            "target": target, "h": h, "inputs_through": inputs_through, "last_whole_day": last, "res": res, "peaks": pk, "weather": weather, "peak_choice": peak_choice,
+            "filing": filing, "weather_forecast": wfl}
 
 
 def history_rows(p, ledger, nd=None):
@@ -306,7 +356,23 @@ def demand_series(p, made, ledger):
         peak["backtest"] = score.peak_summary(pk, meths)
     s["peak"] = peak
     s["with_weather_known"] = p.get("weather")
+    s["operator_filing"] = operator_filing(p)
+    s["with_weather_forecast"] = p.get("weather_forecast")
     return s
+
+
+def operator_filing(p):
+    """The filing check of the operator's forecast (method note section 16) and the scores on the sound months."""
+    fc = p.get("filing")
+    if not fc:
+        return None
+    hr = p["hr"]
+    recent = hr[hr["day"] > hr["day"].max() - pd.Timedelta(days=score.CHOICE_DAYS)]
+    ok = recent[recent["day"].dt.strftime("%Y-%m").isin(sorted(score.sound_months(fc)))]
+    out = {"what": FILING_WHAT}
+    out.update(fc)
+    out["sound_last_2_years"] = score.summary(ok, ["erw", "operator", "yesterday", "week_ago"], also=SCORED)
+    return out
 
 
 def peak_rows(place, pk):
@@ -318,6 +384,14 @@ def peak_rows(place, pk):
             v = sm["methods"][m]
             out.append([place, "demand_peak", m, cut, "", sm["days"], v["mae"] if v else None, v["mape"] if v else None, None])
     return out
+
+
+FILING_WHAT = ("the operator's day-ahead forecast as filed on Form EIA-930, set against the demand it forecasts: by month, the "
+               "filed forecast's sum as a percent of the demand's over the hours both hold; a month more than 5 percent from 100 "
+               "is flagged, a level that far off for a whole month being a break in the filing (a footprint or a definition), "
+               "not a forecaster's error. shift_mape_last_2_years: the filed forecast's error with its hours moved by -1, 0 and "
+               "1 (1: the forecast stamped an hour earlier set against each hour's demand). sound_last_2_years: the scores of "
+               "the last two years on the unflagged months only. The ERW forecast reads none of this: it judges the comparator")
 
 
 PRICE_SCORED = ["erw", "yesterday", "week_ago", "regression"]
@@ -489,12 +563,15 @@ def main(argv=None):
     names = data.names()
     evs = events()
     wx = data.weather_panel()
+    wxf = None
+    if all(os.path.exists(data.table_path(t)) for t in (wxmod.ISSUED, wxmod.LATEST, wxmod.NOAA, wxmod.NWS_OBS)):
+        wxf = (wxmod.issued_rows(), wxmod.observed())
     ledger = read_ledger(a.site_dir)
     results, srows, new_ledger = [], [], []
     for place in places:
         if place not in dem.columns:
             raise SystemExit(f"{place}: no demand held")
-        p = demand_place(place, dem, op, ref, made, evs, wx)
+        p = demand_place(place, dem, op, ref, made, evs, wx, wxf)
         results.append(p)
         srows += p["rows"]
         if p["tomorrow"] is not None:

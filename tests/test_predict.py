@@ -114,6 +114,52 @@ class PriceNothingKnownEarly(unittest.TestCase):
         self.assertTrue(np.isfinite(base["P"]["regression"][i]).all())
 
 
+class WeatherForecastNothingKnownEarly(unittest.TestCase):
+    """Method note section 17: a forecast hour enters target day D only from an issue no later than 20:00 UTC on D-1;
+    of those, the latest; and the observed weather of day D and after never moves the forecast for D."""
+
+    def rows(self, tz, day, vintages_values):
+        hours = demand.day_hours(tz, day)["ts"]
+        out = []
+        for vt, val in vintages_values:
+            for t in hours:
+                out.append({"airport": "KXXX", "ts": t, "vintage": pd.Timestamp(vt, tz="UTC"), "value": val})
+        return pd.DataFrame(out)
+
+    def test_late_issue_never_used(self):
+        import predict_weather as pw
+        tz = "America/Chicago"
+        day = pd.Timestamp("2026-11-10")
+        days = pd.date_range("2026-11-08", "2026-11-12", freq="D")
+        r = self.rows(tz, day, [("2026-11-09T12:00:00", 40.0), ("2026-11-09T19:59:00", 50.0), ("2026-11-09T20:01:00", 99.0)])
+        F, V = pw.forecast_matrix(r, "KXXX", tz, days)
+        i = list(days).index(day)
+        self.assertTrue(np.all(F[i] == 50.0))
+        self.assertEqual(pd.Timestamp(V[i]), pd.Timestamp("2026-11-09T19:59:00"))
+        r2 = self.rows(tz, day, [("2026-11-09T20:30:00", 99.0)])
+        F2, _ = pw.forecast_matrix(r2, "KXXX", tz, days)
+        self.assertTrue(np.isnan(F2[i]).all())
+
+    def test_observed_weather_of_the_day_moves_nothing(self):
+        tz = "America/Chicago"
+        s = synthetic(800, tz, seed=5)
+        M = demand.place_forecasts(s, tz, h=2)["M"]
+        idx = pd.date_range(s.index.min(), s.index.max() + pd.Timedelta(days=3), freq="h")
+        rng = np.random.default_rng(2)
+        temp = pd.Series(60 + 20 * np.sin(np.arange(len(idx)) * 2 * np.pi / 24) + rng.normal(0, 3, len(idx)), index=idx)
+        F = np.full((len(M), 24), np.nan)
+        i = len(M) - 30
+        F[i] = 55.0 + np.arange(24) * 0.5
+        a, _ = demand.regression_weather_forecast(M, temp, F, tz, 2)
+        T = M.index[i]
+        cut = (T - pd.Timedelta(days=1)).tz_localize(tz).tz_convert("UTC")      # the first hour after day A = T - 2
+        t2 = temp.copy()
+        t2[t2.index >= cut] += 25.0
+        b, _ = demand.regression_weather_forecast(M, t2, F, tz, 2)
+        np.testing.assert_allclose(a[i], b[i], rtol=1e-9)
+        self.assertTrue(np.isfinite(a[i]).all())
+
+
 class Ledger(unittest.TestCase):
     def test_never_overwritten(self):
         import importlib.util
@@ -236,6 +282,30 @@ class TheFiles(unittest.TestCase):
             d = self.places[p["place"]]["series"]["demand"]
             self.assertNotEqual(d["method"], "with_weather_known")
             self.assertNotIn("with_weather_known", d["history_columns"] + d["tomorrow_columns"])
+
+    def test_the_operator_filing_check_follows_its_rule(self):
+        """Method note section 16: a month is flagged exactly when its filed forecast is more than 5 percent from the
+        demand; the sound months' summary is the score file's cut operator_sound_last_2_years; the check never moves
+        the choice of method (the file's method is still the lowest error of method_mae_last_2_years)."""
+        cols = self.scores["rows_columns"]
+        rows = {(r[0], r[1], r[2], r[3], r[4]): dict(zip(cols, r)) for r in self.scores["rows"]}
+        for p in self.index["places"]:
+            d = self.places[p["place"]]["series"]["demand"]
+            fc = d.get("operator_filing")
+            self.assertIsNotNone(fc, p["place"])
+            for month, hours, pct, flagged in fc["months"]:
+                self.assertEqual(flagged, abs(pct - 100) > fc["tolerance_pct"], (p["place"], month))
+                self.assertGreater(hours, 0)
+            self.assertEqual(fc["months_flagged"], sum(1 for m in fc["months"] if m[3]))
+            sm = fc["sound_last_2_years"]
+            for m in ("erw", "operator"):
+                want = rows.get((p["place"], "demand", m, "operator_sound_last_2_years", ""))
+                self.assertIsNotNone(want, (p["place"], m))
+                self.assertEqual(sm["hours"], want["hours"], (p["place"], m))
+                if want["hours"]:
+                    self.assertAlmostEqual(sm["mae"][m], want["mae"], places=2, msg=(p["place"], m))
+            maes = {k: v for k, v in d["method_mae_last_2_years"].items() if v is not None}
+            self.assertEqual(d["method"], min(maes, key=maes.get), p["place"])
 
     def test_every_shown_price_has_its_score(self):
         cols = self.scores["rows_columns"]

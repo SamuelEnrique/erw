@@ -221,6 +221,15 @@ def main():
             msk = ((c["day"] >= s0) & (c["day"] <= s1)).to_numpy()
             if msk.any():
                 cuts[("event", eid)] = msk
+        # the operator's filing check (method note section 16): a month whose filed forecast sums more than 5 percent
+        # from the demand over the hours both hold is flagged; the cuts operator_sound(_last_2_years) take the rest
+        if p in ops:
+            y = x[(x["actual"] > 0) & x["operator"].notna()]
+            g = y.groupby(y["day"].dt.strftime("%Y-%m"))[["operator", "actual"]].sum()
+            sound = set(g.index[((g["operator"] / g["actual"] * 100) - 100).abs() <= 5.0])
+            ok_m = mo.isin(sorted(sound)).to_numpy()
+            cuts[("operator_sound", "")] = ok_m
+            cuts[("operator_sound_last_2_years", "")] = ok_m & rec.to_numpy()
         shown = {(r["method"], r["cut"], r["key"]): r for r in rows if r["place"] == p}
         for (cut, key), msk in cuts.items():
             for m in ("erw", "operator", "yesterday", "week_ago", "regression", "regression_recent"):
