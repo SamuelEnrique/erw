@@ -1181,6 +1181,40 @@
    "incentive": "",
    "years": "Construction will begin soon and is scheduled for completion in 2028.",
    "note": "Vantage's own release (dated 22 October 2025 in its dateline). Its headline gives the investment as \"$15B+\". The long-term jobs are Vantage's and Oracle's together; the indirect jobs are not taken. Port Washington is in Ozaukee County (not in the document)."
+  },
+  {
+   "id": "pa_coreweave_lancaster_2025",
+   "name": "CoreWeave, Lancaster data center (co-developed by Chirisa Technology Parks and Machine Investment Group)",
+   "company": "CoreWeave",
+   "state": "pa",
+   "county": "Lancaster",
+   "place": "Lancaster",
+   "doc": {
+    "title": "CoreWeave Announces Multi-Billion Dollar Commitment to AI Infrastructure in Pennsylvania",
+    "publisher": "CoreWeave (investor relations)",
+    "date": "2025-07-15",
+    "url": "https://investors.coreweave.com/news/news-details/2025/CoreWeave-Announces-Multi-Billion-Dollar-Commitment-to-AI-Infrastructure-in-Pennsylvania/default.aspx",
+    "request": 521
+   },
+   "mw": {
+    "value": 100,
+    "measure": "initial data center as stated (potential 300 MW)",
+    "says": "100 megawatt",
+    "qualifier": "",
+    "quote": "The initial 100 megawatt (MW) data center, with potential to expand to 300 MW"
+   },
+   "investment": null,
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 70,
+    "measure": "full-time technical and operational roles at launch",
+    "says": "approximately 70 full-time",
+    "qualifier": "approximately",
+    "quote": "with approximately 70 full-time technical and operational roles at launch, and scaling to approximately 175 over time."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "CoreWeave's own release. Its \"up to $6 billion\" is \"to equip\" the data center, CoreWeave being the tenant of a site its partners develop: equipment only, so it is not taken as the project's investment (as Nevada's capital equipment figure is not). Its approximately 600 jobs \"during the build phase\" need an investment to enter the median per billion, so they are not taken. The permanent jobs are those at launch for the initial 100 MW; the approximately 175 \"over time\" are not tied to a size."
   }
  ]
 }

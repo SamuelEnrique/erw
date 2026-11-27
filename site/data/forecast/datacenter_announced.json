@@ -9,14 +9,15 @@
    "name": "MW as stated",
    "unit": "MW (each row's own measure)",
    "how": "the MW each document states, whatever it measures (IT capacity, critical IT, critical grid capacity, power required)",
-   "n": 16,
+   "n": 17,
    "low": 3.0,
    "low_row": "al_aubix_auburn_2021",
-   "median": 1100.0,
+   "median": 1000.0,
    "high": 5000.0,
    "high_row": "la_meta_richland_2026",
    "rows": [
     "al_aubix_auburn_2021",
+    "pa_coreweave_lancaster_2025",
     "la_hut8_riverbend_2025",
     "la_applied_digital_rapides_2026",
     "wv_penzance_berkeley_2026",
@@ -64,10 +65,10 @@
    "name": "Permanent jobs per MW",
    "unit": "jobs per MW",
    "how": "permanent or operational jobs over the MW stated; jobs of a kind not stated left out",
-   "n": 10,
+   "n": 11,
    "low": 0.05,
    "low_row": "va_cleanarc_caroline_2025",
-   "median": 0.314311,
+   "median": 0.3225,
    "high": 1.0,
    "high_row": "wi_vantage_portwashington_2025",
    "rows": [
@@ -80,6 +81,7 @@
     "ky_paducah_2026",
     "in_amazon_northern_2025",
     "la_applied_digital_rapides_2026",
+    "pa_coreweave_lancaster_2025",
     "wi_vantage_portwashington_2025"
    ]
   },
@@ -2753,6 +2755,40 @@
    "incentive": "",
    "years": "Construction will begin soon and is scheduled for completion in 2028.",
    "note": "Vantage's own release (dated 22 October 2025 in its dateline). Its headline gives the investment as \"$15B+\". The long-term jobs are Vantage's and Oracle's together; the indirect jobs are not taken. Port Washington is in Ozaukee County (not in the document)."
+  },
+  {
+   "id": "pa_coreweave_lancaster_2025",
+   "name": "CoreWeave, Lancaster data center (co-developed by Chirisa Technology Parks and Machine Investment Group)",
+   "company": "CoreWeave",
+   "state": "pa",
+   "county": "Lancaster",
+   "place": "Lancaster",
+   "doc": {
+    "title": "CoreWeave Announces Multi-Billion Dollar Commitment to AI Infrastructure in Pennsylvania",
+    "publisher": "CoreWeave (investor relations)",
+    "date": "2025-07-15",
+    "url": "https://investors.coreweave.com/news/news-details/2025/CoreWeave-Announces-Multi-Billion-Dollar-Commitment-to-AI-Infrastructure-in-Pennsylvania/default.aspx",
+    "request": 521
+   },
+   "mw": {
+    "value": 100,
+    "measure": "initial data center as stated (potential 300 MW)",
+    "says": "100 megawatt",
+    "qualifier": "",
+    "quote": "The initial 100 megawatt (MW) data center, with potential to expand to 300 MW"
+   },
+   "investment": null,
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 70,
+    "measure": "full-time technical and operational roles at launch",
+    "says": "approximately 70 full-time",
+    "qualifier": "approximately",
+    "quote": "with approximately 70 full-time technical and operational roles at launch, and scaling to approximately 175 over time."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "CoreWeave's own release. Its \"up to $6 billion\" is \"to equip\" the data center, CoreWeave being the tenant of a site its partners develop: equipment only, so it is not taken as the project's investment (as Nevada's capital equipment figure is not). Its approximately 600 jobs \"during the build phase\" need an investment to enter the median per billion, so they are not taken. The permanent jobs are those at launch for the initial 100 MW; the approximately 175 \"over time\" are not tied to a size."
   }
  ]
 }
