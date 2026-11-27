@@ -116,3 +116,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 22:34 UTC (session 10603): `long_backtest.json` with the peak built (64 places, on the tables as refreshed at 19:20 UTC) and committed on `wip/c730-predict-v6`; `predict.md` section 29; its replication 8 of 64 places and the `ahead_more` replication 16 of 35, every figure equal so far. The longer backtests' tests now allow a weekly file beside daily ones (last days within a week).
 - 22:53 UTC (session 10603): replications running, every figure equal so far (the longer backtest with the peak 18 of 64; `ahead_more` 19 of 35).
 - 23:13 UTC (session 10603): replications 30 of 64 and 22 of 35, every figure equal.
+- 23:32 UTC (session 10603): replications 43 of 64 and 26 of 35, every figure equal.
