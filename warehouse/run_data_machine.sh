@@ -326,6 +326,10 @@ if [ "$(sha_of eia930_subba_demand_hourly)" != "$was_subba" ]; then soft_step dm
 # forecast, made once a day from the tables as they stand after the EIA-930 refresh; it appends tomorrow's forecast to
 # site/data/predict/ledger_demand.csv (never rewriting a row) and rewrites the page files there. No network, no model
 soft_step dm_predict "$PYTHON" warehouse/predict/run.py
+# Session 10000 (chain 701, predict data request 13): run.py forecasts 64 places since landing row 9 of window2 (about 70
+# minutes alone; kept whole, so index.json and scores.json list all 64: the desk's choice), and right after it the hub
+# prices' forecast (site/data/predict/price_hubs.json, and a row of ledger_price_hubs.csv a day; about 9 minutes). No network
+soft_step dm_predict_price_hubs "$PYTHON" warehouse/predict/price_hubs.py
 # Session 10000 (chain 701, data requests 2 and 5 of docs/state/data_requests_predict.md): the two ledgers as the tables
 # predict_demand_forecasts and predict_price_forecasts (warehouse/predict/predict_tables.py: every forecast as made, keyed
 # by the hour it was made), then each table's stores (the validator, its coverage row, the archive; no Redivis draft
