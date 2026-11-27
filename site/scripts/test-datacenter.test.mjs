@@ -258,6 +258,13 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   const ct = D.dcRun(D.dcDefaults(P, "ct", { invest: 300, perm: 5, start: 2026, build: 2, life: 30 }), P);
   // purchases in the build (2026-27) and 2033, 2038, 2043 are before 2046; 2048 and 2053 are not: 4 of 6
   near(ct.sums.forgone, 4 * 300e6 * 0.682 * 0.0635, "CT 20 years");
+  // Washington (RCW 82.08.986 through 2026 c 266, session 10822): 35 jobs; construction begun before 2035; purchases through 2047; the state's rate
+  assert.equal(D.dcRun(D.dcDefaults(P, "wa", { invest: 2000, perm: 30, start: 2026 }), P).exemption.eligible, false);
+  assert.equal(D.dcRun(D.dcDefaults(P, "wa", { invest: 2000, perm: 50, start: 2035 }), P).exemption.eligible, false);
+  const wa = D.dcRun(D.dcDefaults(P, "wa", { invest: 2000, perm: 50, start: 2026, build: 2, life: 30 }), P);
+  assert.equal(wa.exemption.eligible, true);
+  // purchases in the build (2026-27) and 2033, 2038, 2043 are through 2047; 2048 and 2053 are not: 4 of 6
+  near(wa.sums.forgone, 4 * 2000e6 * 0.682 * P.sales.states.wa.state_rate, "WA through 2047 at the state rate");
   const ct30 = D.dcRun(D.dcDefaults(P, "ct", { invest: 400, perm: 5, start: 2026, build: 2, life: 30 }), P);
   near(ct30.sums.forgone, 6 * 400e6 * 0.682 * 0.0635, "CT 30 years: every purchase before 2056");
   // Illinois (session 10813): the program paused for new applications from 1 July 2026, held as words
@@ -278,7 +285,8 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   const ohp = D.dcRun(D.dcDefaults(P, "oh", { invest: 1000, perm: 50, brate: 6, erate: 6 }), P);
   near(D.dcStat(ohp, "y1:propb"), 4116000, "OH building"); near(D.dcStat(ohp, "y1:prope"), 0, "OH equipment");
   // Iowa (427A.2), Minnesota (272.02 subd. 9), North Dakota (the Tax Commissioner) and Wisconsin (2023 Act 12) tax no personal property: equipment 0; the building at cost x the reader's 2 percent: 1e9 x 19.6% x 2% = 3,920,000
-  for (const st of ["ia", "mn", "nd", "wi"]) {
+  // New Hampshire (RSA 72:6, 72:7, 75:1; chapter 72 names no tax on equipment, session 10822): the same
+  for (const st of ["ia", "mn", "nd", "wi", "nh", "nj", "de", "sd", "ny", "pa"]) {  // Delaware: Title 9, 8103; South Dakota: 10-4-6.1; New York: ORPTS; Pennsylvania: 53 Pa.C.S. 8811  // New Jersey: its assessors' handbook, chapter VI (session 10822)
     const r = D.dcRun(D.dcDefaults(P, st, { invest: 1000, perm: 50, brate: 2, erate: 2 }), P);
     near(D.dcStat(r, "y1:propb"), 3920000, st + " building"); near(D.dcStat(r, "y1:prope"), 0, st + " equipment");
   }
@@ -290,8 +298,8 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   near(D.dcStat(scp, "y1:propb"), 196e6 * 0.06 * 0.30, "SC building 3,528,000"); near(D.dcStat(scp, "y1:prope"), 682e6 * 0.105 * 0.30, "SC equipment 21,483,000");
   // Wyoming (39-11-101): all other property at 9.5 percent; 1e9 at the reader's 7 percent: building 196e6 x 9.5% x 7% = 1,303,400
   near(D.dcStat(D.dcRun(D.dcDefaults(P, "wy", { invest: 1000, perm: 50, brate: 7, erate: 7 }), P), "y1:propb"), 1303400, "WY building");
-  // Arizona 15 percent (42-15001, class one), Missouri 32 and 33.3 percent (137.115), Nevada 35 percent (361.225), Alabama 20 percent (Class II), Mississippi 15 percent (Classes II and III); USD 1 billion at the reader's 10 percent
-  for (const [st, b, e] of [["az", 0.15, 0.15], ["mo", 0.32, 0.333333], ["nv", 0.35, 0.35], ["al", 0.2, 0.2], ["ms", 0.15, 0.15], ["ar", 0.2, 0.2], ["il", 0.333333, 1], ["tn", 0.4, 0.3], ["wv", 0.6, 0.6]]) {
+  // Arizona 15 percent (42-15001, class one), Missouri 32 and 33.3 percent (137.115), Nevada 35 percent (361.225), Alabama 20 percent (Class II), Mississippi 15 percent (Classes II and III); USD 1 billion at the reader's 10 percent; Colorado 25 percent from 2027 (39-1-104(1.9)(c), session 10822)
+  for (const [st, b, e] of [["az", 0.15, 0.15], ["mo", 0.32, 0.333333], ["nv", 0.35, 0.35], ["al", 0.2, 0.2], ["ms", 0.15, 0.15], ["ar", 0.2, 0.2], ["il", 0.333333, 1], ["tn", 0.4, 0.3], ["wv", 0.6, 0.6], ["co", 0.25, 0.25], ["me", 1, 1], ["or", 1, 1], ["ri", 1, 1], ["ca", 1, 1], ["ne", 1, 1], ["nc", 1, 1], ["md", 1, 1], ["ky", 1, 1], ["wa", 1, 1], ["mi", 1, 1], ["id", 1, 1]]) {  // Maine: just value, a data center left out of the equipment exemption from August 2026 (session 10822)
     const r = D.dcRun(D.dcDefaults(P, st, { invest: 1000, perm: 50, brate: 10, erate: 10 }), P);
     near(D.dcStat(r, "y1:propb"), 196e6 * b * 0.10, st + " building"); near(D.dcStat(r, "y1:prope"), 682e6 * e * 0.10, st + " equipment");
   }

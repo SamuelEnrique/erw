@@ -28,13 +28,14 @@ if (!jediFile || !fs.existsSync(jediFile)) {
   const rows = lines.slice(1).map((l) => l.split(",")).filter((c) => ["jobs", "earnings", "output"].includes(c[at("variable")]))
     .map((c) => ({ entity: c[at("entity")], variable: c[at("variable")], ts_utc: c[at("ts_utc")], value: Number(c[at("value")]) }));
   const P = D.params();
+  const P2 = D.dcParams(), dcList = D.dcProjectList();
   const jedi = F.pack(rows);
   const rules = D.gasSeverance();
   /** the keyed numbers of the drawn page for an address: figure name -> { raw, text }, for the scenario in view */
   const draw = (qs, view) => {
     const q = Object.fromEntries(new URLSearchParams(qs));
-    const start = U.withProjects(U.parse({ ...q, ...(view === "b" ? { view: "b" } : {}) }), q, []);
-    const html = renderToStaticMarkup(h(Forecast, { P, jedi, start, rules, planned: [] }));
+    const start = U.withProjects(U.parse({ ...q, ...(view === "b" ? { view: "b" } : {}) }), q, [], dcList.map((p) => p.id), dcList);
+    const html = renderToStaticMarkup(h(Forecast, { P, P2, dcList, jedi, start, rules, planned: [] }));  // session 10822: the datacenter's props, as the page passes them
     const key = F.inputsKey(U.resolve(P, start[view]));
     const out = {};
     for (const m of html.matchAll(/<span data-check="([^"]+)" data-raw="([^"]+)"[^>]*>([\s\S]*?)<\/span>/g)) {

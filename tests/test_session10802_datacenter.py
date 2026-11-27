@@ -136,6 +136,21 @@ class TheParameters(unittest.TestCase):
                 if r.get(k):
                     self.assertIn(r[k]["says"], r[k]["quote"], f"{r['id']} {k}")
 
+    def test_info_sheet_amounts_and_rows_to_date(self):
+        """Session 10822: "$1.5B+" parses; a row marked to_date is listed and enters no median."""
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "forecast"))
+        import datacenter_announced as A
+        self.assertEqual(A.parse_says("$1.5B+"), 1.5e9)
+        self.assertEqual(A.parse_says("$2.6M+"), 2.6e6)
+        self.assertEqual(A.parse_says("1,200"), 1200)
+        self.assertEqual(A.parse_says("5 gigawatts"), 5000)
+        with open(os.path.join(DATA, "datacenter_announced.json"), encoding="utf-8") as f:
+            d = json.load(f)
+        to_date = {r["id"] for r in d["rows"] if r.get("to_date")}
+        self.assertGreaterEqual(len(to_date), 6)
+        for k, s in d["defaults"].items():
+            self.assertFalse(to_date & set(s.get("rows", [])), k)
+
 
 if __name__ == "__main__":
     unittest.main()

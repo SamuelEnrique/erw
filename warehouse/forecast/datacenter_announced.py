@@ -8,6 +8,7 @@ Checks, before anything is written (the script stops on the first failure):
   - each figure's `says` is inside its `quote`, and `says` parses to `value` (billion, million, gigawatts, megawatts);
   - with --verify-reads, each quote is inside the text kept of its request (runs/c740/reads/NNN_*.txt, lab-desktop),
     after curly quotes and spaces are made plain.
+A row marked `to_date` (a campus's figures so far, Meta's info sheets: session 10822) is kept and offered, and enters no median.
 
 Dollars: each investment is put in 2025 dollars by the tool's deflator (site/data/forecast/deflator.json); a year the
 index does not hold (2026) is taken as 2025 dollars, as the cross-check takes an unstated dollar year.
@@ -25,7 +26,8 @@ if not os.path.isdir(READS):  # a worktree beside the window's folder: the reads
     READS = os.path.join(os.path.dirname(ROOT), "erw-w3", "runs", "c740", "reads")
 
 UNITS = {"billion": 1e9, "million": 1e6, "gigawatts": 1000.0, "gigawatt": 1000.0, "gw": 1000.0,
-         "megawatts": 1.0, "megawatt": 1.0, "mw": 1.0}
+         "megawatts": 1.0, "megawatt": 1.0, "mw": 1.0,
+         "b": 1e9, "m": 1e6}  # session 10822: Meta's info sheets write "$1.5B+" and "$2.6M+"
 
 
 def plain(s):
@@ -102,6 +104,8 @@ def main(argv):
 
     inv_mw, perm_mw, perm_bn, cons_bn, mws = [], [], [], [], []
     for r in data["rows"]:
+        if r.get("to_date"):
+            continue  # session 10822: a campus's figures to date (Meta's info sheets), offered in the picker, in no median
         inv = r.get("investment")
         inv25 = to_2025(inv["value"], inv["year"], index) if inv else None
         # an investment that is not the whole datacenter (power plants included, or equipment only) gives no ratio

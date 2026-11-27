@@ -40,3 +40,22 @@ test("I5: the project alone in the address sets its figures; a figure the addres
   assert.equal(s3.b.dmw, cl.mw);
   assert.ok(Number.isNaN(s3.a.dmw));
 });
+
+test("I6: the page says its defaults are medians of the projects read, with each count and the date", () => {
+  for (const k of ["mw_stated", "investment_per_mw", "permanent_jobs_per_mw", "construction_jobs_per_billion"]) {
+    assert.ok(Number.isInteger(A.defaults[k].n) && A.defaults[k].n > 0, k);
+  }
+  assert.match(A.computed, /^\d{4}-\d{2}-\d{2}$/);
+  const src = fs.readFileSync(new URL("../app/impact/Datacenter.tsx", import.meta.url), "utf8");
+  const note = src.slice(src.indexOf('data-defaults-note="dc"'), src.indexOf("They move when another project is read."));
+  assert.ok(note.length > 0);
+  for (const k of ["mw_stated", "investment_per_mw", "permanent_jobs_per_mw", "construction_jobs_per_billion"]) {
+    assert.ok(note.includes(`P2.announced.defaults.${k}.n`), k);
+  }
+  assert.ok(note.includes("dcList.length") && note.includes("P2.announced.computed"));
+  // session 10822: the campuses to date are counted and said to enter no median; the picker's rows carry the flag
+  assert.ok(note.includes("p.toDate") && note.includes("which enter no median"));
+  const td = list.filter((p) => p.toDate).map((p) => p.id);
+  assert.equal(td.length, A.rows.filter((r) => r.to_date).length);
+  assert.ok(td.includes("or_meta_prineville_2026") && !td.includes("tx_meta_elpaso_2026"));
+});

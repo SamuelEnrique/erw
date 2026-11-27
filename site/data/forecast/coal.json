@@ -1,0 +1,8 @@
+{
+ "about": "The coal plant's output (docs/methods/forecast.md, section 14): JEDI's default capacity factor for its coal plant, which sets the MWh a production or kWh tax falls on. The coal the plant burns is not modelled and no coal severance rule is held. Read by chain 740, session 10822, 27 November 2026, from the workbook window A kept on 26 November (warehouse/raw/nlr_jedi on the data machine).",
+ "capacity_factor": 0.85,
+ "capacity_factor_source": {"value": 0.85, "cells": "ProjectData!B17, Capacity Factor (Percentage), 0.85 (the saved 600 MW project in South Dakota)", "file": "01d-jedi-coal-model-rel-c12-23-16.xlsm"},
+ "notice": "NLR's data terms (https://www.nlr.gov/disclaimer): the user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data; credit DOE/NLR/ALLIANCE; the Data are provided as is.",
+ "written_at": "2026-11-27T03:35:00Z",
+ "written_by": "chain 740, session 10822 (by hand from the workbook's cell)"
+}
