@@ -1535,6 +1535,74 @@
    "incentive": "Vantage is eligible for Data Center Sales and Use Tax exemptions on qualifying computer equipment and enabling software.",
    "years": "",
    "note": "The release's date is its page's (7 November 2025). Its 782MW is Vantage's statewide capacity with this campus (\"bringing the company's statewide capacity to 782MW\"), not VA4's, so no MW is taken; three data centers on 82 acres, about 929,000 square feet."
+  },
+  {
+   "id": "va_microsoft_mecklenburg_2015",
+   "name": "Microsoft, Mecklenburg County data center (fourth expansion)",
+   "company": "Microsoft",
+   "state": "va",
+   "county": "Mecklenburg County",
+   "place": null,
+   "doc": {
+    "title": "Governor McAuliffe Announces Fourth Microsoft Expansion in Mecklenburg County",
+    "publisher": "Virginia Economic Development Partnership",
+    "date": "2015-11-13",
+    "url": "https://www.vedp.org/press-release/2015-11/mecklenburg-microsoft-expansion",
+    "request": 539
+   },
+   "mw": null,
+   "investment": {
+    "value": 402400000,
+    "year": 2015,
+    "says": "$402.4 million",
+    "qualifier": "",
+    "quote": "Microsoft Corp. will invest $402.4 million to expand its data center site in Mecklenburg County"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 42,
+    "measure": "new jobs",
+    "says": "42 new jobs",
+    "qualifier": "",
+    "quote": "which will create 42 new jobs."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "An expansion of an existing campus, as VEDP announced it (its page dated 13 November 2015); the release counts more than USD 1.74 billion invested since 2010 with it."
+  },
+  {
+   "id": "va_microsoft_mecklenburg_2016",
+   "name": "Microsoft, Mecklenburg County data center (fifth expansion)",
+   "company": "Microsoft",
+   "state": "va",
+   "county": "Mecklenburg County",
+   "place": null,
+   "doc": {
+    "title": "Governor McAuliffe Announces 44 New Jobs and More than $251 Million Investment in Mecklenburg County",
+    "publisher": "Virginia Economic Development Partnership",
+    "date": "2016-11-09",
+    "url": "https://www.vedp.org/press-release/2016-11/mecklenburg-county-44-new-jobs-251-million-investment",
+    "request": 540
+   },
+   "mw": null,
+   "investment": {
+    "value": 251600000,
+    "year": 2016,
+    "says": "$251.6 million",
+    "qualifier": "",
+    "quote": "Microsoft Corporation will invest $251.6 million to expand its data center site in Mecklenburg County"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 44,
+    "measure": "new jobs",
+    "says": "44 new jobs",
+    "qualifier": "",
+    "quote": "which will create 44 new jobs."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "An expansion of an existing campus, as VEDP announced it (its page dated 9 November 2016); the release lists the earlier phases (2010, up to USD 499 million and 50 jobs; 2011, USD 150 million; 2013, USD 348 million; 2014, USD 346.7 million and 90 jobs), which are not rows here."
   }
  ]
 }
