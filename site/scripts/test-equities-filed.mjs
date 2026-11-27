@@ -193,6 +193,18 @@ const vals = (line) => line.map((p) => p.v / M).join(" ");
   check(E.FIGURES.join(" ") === "revenue net_income capex debt shares_outstanding" && E.PERIOD_KEYS.join(" ") === "3 12", "the figures and lengths offered");
 }
 
+// ---- 8. A finger's height (session 10413: read on production at 390 px by a finger) -----------------------------------------
+{
+  // a company's name in the table was 18 px tall and a filing's link under a figure 15 px: each has padding now, and a
+  // negative margin of the same size, so the row and the line keep their height and only the place a finger lands grows
+  const html = draw(FIX, { a: "DUK" });
+  const table = html.slice(html.indexOf('id="companies"'));
+  const names = [...table.matchAll(/<a [^>]*title="Draw [^"]*"[^>]*>/g)].map((m) => m[0]);
+  check(names.length > 0 && names.every((a) => a.includes('class="inline-block py-1 -my-1"')), `every company's name in the table has a finger's height (${names.length} names)`);
+  const filings = [...html.matchAll(/<a [^>]*title="The filing on the SEC&#x27;s site[^"]*"[^>]*>/g)].map((m) => m[0]);
+  check(filings.length > 0 && filings.every((a) => a.includes('class="inline-block py-1.5 -my-1.5"')), `every filing's link has a finger's height (${filings.length} links)`);
+}
+
 if (!KEEP) fs.rmSync(FIX, { recursive: true, force: true });
 if (fails.length) { for (const f of fails) console.log(`FAIL ${f}`); console.log(`${fails.length} of ${n} checks failed`); process.exit(1); }
 console.log(`ok: ${n} checks of /equities on the filed figures (one figure over the periods filed, the newest period's columns, a held price beside public filings)`);
