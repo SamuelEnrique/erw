@@ -313,6 +313,12 @@ soft_step dm_authority_facts "$PYTHON" warehouse/derived/authority_facts.py
 # Session 8012 (chain 505, part D1): the day-ahead demand forecast beside the demand that came (two tables and
 # site/data/regions/forecast/), from the six-month files saved above and eia930_ba_demand_hourly
 soft_step dm_forecast_error "$PYTHON" warehouse/derived/forecast_error.py
+# Session 10000 (chain 701, predict data request 14): EIA-930 demand by sub-region, the last 90 whole days
+# (eia930_subba_demand_hourly; EIA's API, 82 sub-regions), refreshed daily as the authority tables are; its stores when it
+# moved. On 26 and 27 November 2026 EIA's API answered 504: the step fails then and the table keeps its rows
+was_subba="$(sha_of eia930_subba_demand_hourly)"
+soft_step dm_subba "$PYTHON" warehouse/connectors/eia930_subba.py
+if [ "$(sha_of eia930_subba_demand_hourly)" != "$was_subba" ]; then soft_step dm_stores_subba "$PYTHON" warehouse/table_stores.py eia930_subba_demand_hourly --no-redivis; fi
 # Session 10000 (chain 701, data request 1 of docs/state/data_requests_predict.md, chain 730): the ERW's own demand
 # forecast, made once a day from the tables as they stand after the EIA-930 refresh; it appends tomorrow's forecast to
 # site/data/predict/ledger_demand.csv (never rewriting a row) and rewrites the page files there. No network, no model
