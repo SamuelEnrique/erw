@@ -112,3 +112,5 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | More announced rows | done | 10822 | U.S. Bank Chaska (Minnesota, 2016), AWS Butts and Douglas (Georgia, 2025), AWS Fayette (Ohio, 2024): 66 rows, 53 of them announcements |
 | Maine, Delaware, South Dakota, Oregon property | done | 10822 | requests 440 to 449: Maine taxes a new datacenter's equipment (PL 2025, c. 768), Delaware and South Dakota none, Oregon both; 43 states |
 | Rhode Island's property; Vermont | done; held | 10822 | 44-3-1 (request 452): both taxed; Vermont's statute pages are script-built (requests 454 to 457 answered one shell); 44 states |
+| Crusoe's Abilene campus (Texas) | done | 10822 | Crusoe's release (request 460): 1.2 GW, USD 15 billion; 67 rows; the default size 1,100 MW. Crusoe's Wyoming campus not a row (MW only, the site since sold to Google) |
+| Coal's capacity factor and rules | done on the branch | 10822 | coal.json (JEDI's 0.85); 23 plant property rules take coal (Iowa, Maryland, Montana, Georgia, South Carolina, Ohio and the general notes); replication 8,728 of 8,728; row 16 at 9841c6c1b |
