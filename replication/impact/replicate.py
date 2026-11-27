@@ -32,7 +32,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 DATA = os.path.join(ROOT, "site", "data", "forecast")
-TECHS = ["land_based_wind", "utility_pv", "natural_gas", "geothermal"]
+TECHS = ["land_based_wind", "utility_pv", "natural_gas", "geothermal", "coal"]  # coal: session 10822
 EFFECTS = ["onsite", "supply_chain", "induced", "total"]
 MEASURES = ["jobs", "earnings", "output"]
 BASE_YEAR = 2025
@@ -114,7 +114,7 @@ def defaults(P, tech, state):
         cost_2023 = e["base_usd_per_kw"]
     if tech == "natural_gas":
         cf = P.gas["capacity_factor"]
-    elif tech == "geothermal":
+    elif tech in ("geothermal", "coal"):
         cf = None
     else:
         c = P.capacity[tech]
@@ -456,7 +456,7 @@ def default_figures(P, tech, state):
         shown.append("levy")
     if not held:
         shown += ["own", "ownyears"]
-    if tech != "geothermal":
+    if tech not in ("geothermal", "coal"):
         shown.append("cf")
     if tech == "utility_pv":
         shown.append("ilr")

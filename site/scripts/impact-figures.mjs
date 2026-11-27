@@ -74,6 +74,7 @@ function defaultTolerance(shown) {
 function main() {
   const rows = readRows(jediFile);
   const P = D.params();
+  const P2 = D.dcParams(), dcList = D.dcProjectList();  // session 10822: the datacenter's props, as the page passes them
   const jedi = F.pack(rows);
   const rules = D.gasSeverance();
   const sev = (state, volume, price) => {
@@ -99,6 +100,8 @@ function main() {
     ["mi_vt_pv", "tech=utility_pv&state=mi&iaval=1&bstate=vt&bown=1.4&bownyears=25"], ["il_wv_wind", "state=il&levy=80&bstate=wv"],
   ];
   for (const [id, qs] of listed) cases.push({ id: `address_${id}`, what: `an address check-values reads: /impact?${qs}`, query: Object.fromEntries(new URLSearchParams(qs)) });
+  // session 10822: coal (not yet in the live set, so not a check-values address): Wyoming at the reader's 1.2 percent over 30 years, B in Texas
+  cases.push({ id: "coal_wy_tx", what: "coal in Wyoming with the reader's 1.2 percent property tax over 30 years, B in Texas", query: { tech: "coal", state: "wy", own: "1.2", ownyears: "30", btech: "coal", bstate: "tx" } });
 
   const figures = [];
   const seen = new Set();
@@ -114,8 +117,8 @@ function main() {
     c.address = address;
     c.inputs = {};
     for (const view of ["a", "b"]) {
-      const start = U.withProjects(U.parse({ ...c.query, ...(view === "b" ? { view: "b" } : {}) }), {}, []);
-      const html = renderToStaticMarkup(h(Forecast, { P, jedi, start, rules, planned: [] }));
+      const start = U.withProjects(U.parse({ ...c.query, ...(view === "b" ? { view: "b" } : {}) }), {}, [], dcList.map((p) => p.id), dcList);
+      const html = renderToStaticMarkup(h(Forecast, { P, P2, dcList, jedi, start, rules, planned: [] }));
       const x = U.resolve(P, start[view]);
       c.inputs[view] = x;
       const key = F.inputsKey(x);
