@@ -717,3 +717,15 @@ break. Texas, the other place with an operator line, stays as section 20 found i
 
 Replication (`replication/predict/replicate_net.py`, which now builds each place's wind and solar entry by the same rules,
 zero fuels included): its count is in the progress file and landing row 10.
+
+## 27. The filing breaks are EIA's own (data request 7 answered, session 10603)
+
+Section 18 asked window A whether the seven breaks in the operator's filed forecast were EIA's published levels or a
+fault of the warehouse's reading (data request 7). Window A read EIA's own six-month BALANCE files independently of the
+table's code (`docs/reviews/answers-c701-2026-11-26/predict_row7.py` and its output) and found the same levels in all
+seven cases, within half a point: SWPP 108 to 112 percent of the demand from May 2025, FPC about 76, PSCO 71 to 77 from
+May 2026, FMPP about 71 from February to July 2026, SRP 115 to 124 in four months of 2026, CISO 89 to 93; and PJM's
+filed forecast matches the next hour's demand in EIA's file too (MAPE 2.5 against 3.5 percent). So the levels are EIA's
+as published (`docs/methods/forecast_error.md`, "Levels that are EIA's own"), and nothing is screened: that is the
+table owner's choice. The forecast's files keep doing what section 18 set out: the headline compares with the filing as
+published, and the sound months are scored beside it.

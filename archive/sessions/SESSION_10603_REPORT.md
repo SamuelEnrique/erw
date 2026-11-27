@@ -94,6 +94,14 @@ Nothing is taken for you.
 ## Commits
 
 - **Branch `wip/c730-predict-v4`:** `15f0e9271` the 35 places and the real-time longer backtest; `3927d1c5f` the four
-  real-time hubs; `fb294cadd` the day-ahead price at four hubs and `replicate_price.py`.
-- **Main:** `bb2dc07d6` progress; `daeb525ad`, `9a0ed65ce`, `bbd5efab1` `predict_price.md` sections 8 to 10; `7ad8766fc`
-  and `b55b220d7` data requests 9 and 10.
+  real-time hubs; `fb294cadd` the day-ahead price at four hubs and `replicate_price.py`; `c581529a1` window E's rows 11
+  and 12; `73398ce79` landing row 9's head; `1b5e4f3fe` the longer demand backtest; `8296de867` wind and solar by
+  authority and net demand for more places; `0958ad6a1` the choice mended; `3d51149bd` landing row 10's head;
+  `e5bef3243` the code of the day-ahead price's longer backtest.
+- **Branch `wip/c730-predict-v5`:** `052331bea` `long_price.json`; `29011cd18` landing row 11's head.
+- **Landings:** row 9 landed through window A's gate 28 (`f3b0f7224`, 16:59 UTC), which took `wip/c730-predict-v4` as
+  it stood at 14:50 UTC (through `0958ad6a1`). Rows 10 and 11 requested at 17:37 and 18:03 UTC.
+- **Main:** `bb2dc07d6` progress; `daeb525ad`, `9a0ed65ce`, `bbd5efab1`, `0e0024310` `predict_price.md` sections 8 to
+  11; `3600c1318`, `2b5395cd0`, `112ea6c8d` `predict.md` sections 23 to 26; `3bcab92ac` and `5f206ffa6`
+  `predict_wind_solar.md` sections 7 and 8; data requests 9, 10, 13 to 16; the contract's dated lines; the codebook
+  (NTD, NCEI, BOEM, USBR, IESO).

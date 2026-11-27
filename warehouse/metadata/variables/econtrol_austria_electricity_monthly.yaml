@@ -267,6 +267,10 @@ variables:
   first: '2010-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 second_look:
-- arbeitsvermogen (E-Control's Arbeitsvermoegen) is named in the method note only beside the storage plants' energy content,
-  with no meaning written; left unlabelled.
+- 'arbeitsvermogen (E-Control''s Arbeitsvermoegen) is named in the method note only beside the storage plants'' energy content,
+  with no meaning written; left unlabelled. Read again on 27 November 2026: Austria''s E-EnLD-VO 2017, section 1, defines
+  Arbeitsvermoegen for hydro plants (found by web search, the official legal database refused this reader); E-Control''s
+  own Statistikbroschuere 2025 (www.e-control.at/documents, robots read first, fetched once, 4,398,054 bytes) lists a
+  glossary on page 75, but the text this window can extract holds neither the glossary nor the word. Not settled from
+  the publisher''s own words.'
 - 'x_category (E-Control''s KAT): the connector calls it the category, but what its codes mean is not written.'
