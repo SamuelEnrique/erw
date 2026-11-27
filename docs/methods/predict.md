@@ -729,3 +729,62 @@ filed forecast matches the next hour's demand in EIA's file too (MAPE 2.5 agains
 as published (`docs/methods/forecast_error.md`, "Levels that are EIA's own"), and nothing is screened: that is the
 table owner's choice. The forecast's files keep doing what section 18 set out: the headline compares with the filing as
 published, and the sound months are scored beside it.
+
+## 28. Further ahead for the 35 authorities, and the backtest tables' shape (session 10603)
+
+**Further ahead.** Section 12's forecast two to seven days ahead (`ahead.json`) keeps its 29 places, which window A's
+daily run rebuilds (about half an hour). The 35 authorities of section 23 have it in a file of their own,
+`site/data/predict/ahead_more.json`, written by `python warehouse/predict/ahead.py --more`: the same horizons, methods,
+rule and shape, meant for a weekly step (data request 18). Built as at 18:00 UTC on 26 November: every one of the 175
+place-horizons beats the same hour a week ago and is shown; the error grows from three days to seven by 3 percent
+(SPA) to 21 percent (WALC) of itself. The last two years, `runs/c730/table_ahead.py`:
+
+| Authority | h3 method | MAPE % h3 | MAPE % h7 | Week-ago hour MAPE % | Shown |
+|---|---|---:|---:|---:|---|
+| AECI | regression_recent | 11.95 | 13.635 | 17.944 | 5 of 5 |
+| AVA | regression_recent | 5.079 | 5.72 | 7.145 | 5 of 5 |
+| AZPS | regression_recent | 7.257 | 8.035 | 9.783 | 5 of 5 |
+| BANC | regression_recent | 6.498 | 7.208 | 9.195 | 5 of 5 |
+| CHPD | regression_recent | 6.427 | 7.117 | 9.425 | 5 of 5 |
+| CPLW | regression_recent | 10.106 | 11.317 | 14.863 | 5 of 5 |
+| DOPD | regression_recent | 4.926 | 5.676 | 7.081 | 5 of 5 |
+| EPE | regression_recent | 6.632 | 7.268 | 9.514 | 5 of 5 |
+| FMPP | regression_recent | 7.394 | 7.911 | 10.642 | 5 of 5 |
+| GCPD | regression_recent | 3.147 | 3.742 | 4.579 | 5 of 5 |
+| GVL | regression_recent | 9.067 | 9.73 | 13.463 | 5 of 5 |
+| HST | regression_recent | 8.789 | 9.345 | 12.443 | 5 of 5 |
+| IID | regression_recent | 8.927 | 9.646 | 13.215 | 5 of 5 |
+| IPCO | regression_recent | 5.314 | 5.986 | 7.826 | 5 of 5 |
+| JEA | regression_recent | 8.789 | 9.581 | 13.02 | 5 of 5 |
+| LDWP | regression | 22.462 | 24.832 | 27.608 | 5 of 5 |
+| LGEE | regression | 8.653 | 9.478 | 13.262 | 5 of 5 |
+| NEVP | regression_recent | 5.603 | 6.489 | 8.134 | 5 of 5 |
+| NWMT | regression_recent | 4.97 | 5.66 | 6.645 | 5 of 5 |
+| PACW | regression_recent | 5.678 | 6.705 | 7.818 | 5 of 5 |
+| PGE | regression_recent | 4.612 | 5.017 | 6.533 | 5 of 5 |
+| PNM | regression_recent | 4.499 | 5.144 | 6.352 | 5 of 5 |
+| PSEI | regression_recent | 5.206 | 5.661 | 7.324 | 5 of 5 |
+| SC | regression | 8.459 | 9.11 | 12.149 | 5 of 5 |
+| SCEG | regression_recent | 15.428 | 16.049 | 19.802 | 5 of 5 |
+| SCL | regression_recent | 4.743 | 5.14 | 6.809 | 5 of 5 |
+| SEC | regression_recent | 15.499 | 17.001 | 21.654 | 5 of 5 |
+| SPA | regression | 31.463 | 32.475 | 42.382 | 5 of 5 |
+| SRP | regression_recent | 10.101 | 10.525 | 13.615 | 5 of 5 |
+| TAL | regression_recent | 9.371 | 10.177 | 13.827 | 5 of 5 |
+| TEC | regression_recent | 7.994 | 8.615 | 11.663 | 5 of 5 |
+| TEPC | regression_recent | 6.305 | 6.881 | 9.247 | 5 of 5 |
+| TIDC | regression_recent | 5.928 | 6.369 | 8.149 | 5 of 5 |
+| TPWR | regression_recent | 5.738 | 6.39 | 8.121 | 5 of 5 |
+| WALC | regression_recent | 11.928 | 14.428 | 15.546 | 5 of 5 |
+
+Replication: `replication/predict/replicate_ahead.py` reads `ahead_more.json` as it reads `ahead.json`; its count is in
+the progress file and the next landing row.
+
+**The backtest tables' shape (data requests 3 and 5, left to this method).** `run.py --out-dir` writes
+`predict_demand_backtest` with the method in the variable (`demand_forecast_regression_mw`,
+`demand_forecast_regression_recent_mw`), and `predict_price_backtest` (and `price_hubs.py`'s
+`predict_price_hubs_backtest`) keyed by place, the place's EIA-930 entity or the hub for a hub of section 10's file,
+with the hub in `x_hub`, so neither repeats an (entity, variable, ts_utc) key; both pass the validator (a two-place
+trial: 259,300 and 117,646 rows, 0 errors, 0 warnings). `predict_scores` stays a file: every score is a summary the
+backtest table and the demand rebuild (`replicate.py`), and no standard shape holds a cut and its key without
+contortion (data request 17).

@@ -229,7 +229,7 @@ def quarterly(f):
     newest period end in that filing), one row a period length, newest first; the instants of that end on each."""
     if f is None or f.empty:
         return [], {}
-    f = f.copy()
+    f = f[f["variable"] != "shares_outstanding_cover"].copy()   # the cover's date is not the period's: not a row here
     own = f.groupby("x_accession")["ts_utc"].transform("max")
     f = f[f["ts_utc"] == own]
     f["line"] = f["variable"].str.replace(r"_\d+m_usd$", "", regex=True)
@@ -294,7 +294,7 @@ def newest_filed(q):
     return out
 
 
-def shown_why(q, built):
+def shown_why(q, built, first_filed=None):
     """Done-line request 579 (2) and (3): a note while the statements are shown, by two written rules: the newest filing
     is more than two years old (a filer that stopped), or the filed history under this SEC number starts within two
     years (a new registrant: a predecessor's filings under another number are not read)."""
@@ -307,6 +307,16 @@ def shown_why(q, built):
         return (f"the newest 10-Q or 10-K on EDGAR is for the period to {newest}: the company has filed neither since "
                 "(docs/methods/equities.md)")
     if oldest >= two_years:
+        # part F, a reader's case: a subsidiary of a joint filing (Consumers Energy, Pacific Gas and Electric, Entergy
+        # Arkansas) has filed its own 10-Qs and 10-Ks for years, yet its own XBRL facts start lately: not a new registrant
+        if first_filed and first_filed < two_years:
+            return (f"the company has filed 10-Qs and 10-Ks under this SEC number since the period to {first_filed}, but its "
+                    f"own XBRL facts start with the period to {oldest}: the earlier statements were filed jointly, tagged "
+                    "under the parent's SEC number, which is not read for it (docs/methods/equities.md)")
+        if first_filed is None:
+            return (f"the filed statements under this SEC number start with the period to {oldest}: a new registrant, or a "
+                    "company whose earlier statements were tagged under a parent's SEC number; neither is read "
+                    "(docs/methods/equities.md)")
         return (f"the filed history under this SEC number starts with the period to {oldest}: a new registrant, and any "
                 "predecessor's filings under another SEC number are not read (docs/methods/equities.md)")
     bad = not_adding_up(q)
@@ -353,21 +363,41 @@ def not_adding_up(q, quarters=4, tol=0.01):
     return None
 
 
-def company_files(built, universe, fund):
-    """index.json's companies and one series file a company (prices null with their reason, the statements as filed)."""
+def first_filed_periods(ciks, raw=None):
+    """{cik: the earliest report date of the company's own 10-Q and 10-K filings marked XBRL}, from the SEC's bulk
+    submissions file the connector keeps (warehouse/raw/sec_edgar/submissions_<day>.zip; no request), read by the
+    connector's own rule (sec_edgar.own_filings); None when that file is not on this machine."""
+    import zipfile
+    raw = raw or os.path.join(ROOT, "warehouse", "raw", "sec_edgar")
+    zips = sorted(f for f in os.listdir(raw) if f.startswith("submissions_") and f.endswith(".zip")) if os.path.isdir(raw) else []
+    if not zips:
+        return None
+    import sec_edgar
+    out = {}
+    with zipfile.ZipFile(os.path.join(raw, zips[-1])) as zf:
+        for cik in ciks:
+            dates = [d for d in sec_edgar.own_filings(cik, zf).values() if d]
+            out[cik] = min(dates) if dates else ""
+    return out
+
+
+def company_files(built, universe, fund, first=None):
+    """index.json's companies and one series file a company (prices null with their reason, the statements as filed).
+    first: {cik: first own 10-Q or 10-K period} (first_filed_periods), for the note of a company whose facts start lately."""
     companies, files = [], {}
     by_cik = {k: g for k, g in fund.groupby("entity")} if fund is not None and len(fund) else {}
     held_cols = {c: PRICE_WHY for c in ("close", "adj_close", "volume", "market_value")}
     for _, r in universe.sort_values("ticker").iterrows():
         tk = r["ticker"].upper()
         q, concepts = quarterly(by_cik.get(r["entity_id"]))
+        ff = None if first is None else first.get(r["cik"], "")
         fpath = f"series/{tk}.json"
         companies.append({"id": tk, "cik": r["cik"], "name": r["name"], "ticker": r["ticker"], "exchange": r["exchange"],
                           "sic": r["sic"], "sic_label": r["sic_label"], "segments": r["segments"].split(";"),
                           "segments_note": r["segments_note"] or None, "directory_id": r["directory_id"] or None,
                           "price_status": "license needed", "price_why": PRICE_WHY,
                           "fundamentals_status": "shown" if q else "source needed",
-                          "fundamentals_why": shown_why(q, built) if q else FUND_WHY, "newest_filed": newest_filed(q),
+                          "fundamentals_why": shown_why(q, built, ff) if q else FUND_WHY, "newest_filed": newest_filed(q),
                           "first": None, "last": None, "file": fpath})
         files[fpath] = {"built": built, "example": False, "method": METHOD, "contract": CONTRACT, "license": "public",
                         "id": tk, "kind": "company", "name": r["name"], "cik": r["cik"], "ticker": r["ticker"],
@@ -380,7 +410,7 @@ def company_files(built, universe, fund):
                         "last": None, "last_value_weight": None,
                         "moves": {"d": None, "w": None, "m": None, "ytd": None, "y": None},
                         "quarterly_columns": QCOLS, "quarterly": q, "concepts": concepts,
-                        "fundamentals_why": shown_why(q, built) if q else FUND_WHY}
+                        "fundamentals_why": shown_why(q, built, ff) if q else FUND_WHY}
     return companies, files
 
 
@@ -388,7 +418,8 @@ def build(built):
     tables = ["equity_universe", "equity_prices_daily", "equity_fundamentals_quarterly", "equity_index_daily"]
     universe = table_or_none("equity_universe")
     fund = table_or_none("equity_fundamentals_quarterly")
-    companies, cfiles = company_files(built, universe, fund) if universe is not None else ([], {})
+    first = first_filed_periods(list(universe["cik"])) if universe is not None else None
+    companies, cfiles = company_files(built, universe, fund, first) if universe is not None else ([], {})
     n = {i: sum(1 for c in companies if i in c["segments"]) for i, _ in SEGMENTS}
     segs = []
     for i, l in SEGMENTS:
