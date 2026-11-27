@@ -238,6 +238,31 @@ class PeriodsThatDoNotAddUp(TheNewestFiled):
         self.assertEqual(EP.months_back("2026-03-31", 3), "2025-12-31")
 
 
+class AJointFilersLateFacts(TheNewestFiled):
+    """Part F, a reader's case: Consumers Energy has filed its own 10-Qs since 2010, but its XBRL facts start in 2026:
+    not a new registrant."""
+
+    def q(self):
+        return [self.row("2026-07-01", "2026-09-30", 3, "2026-10-30", "c1", rev=2000)]
+
+    def test_a_joint_filer(self):
+        w = EP.shown_why(self.q(), "2026-11-27T00:00:00Z", first_filed="2010-06-30")
+        self.assertIn("since the period to 2010-06-30", w)
+        self.assertNotIn("a new registrant", w)
+
+    def test_a_new_registrant(self):
+        self.assertIn("a new registrant, and any predecessor",
+                      EP.shown_why(self.q(), "2026-11-27T00:00:00Z", first_filed="2026-06-30"))
+        self.assertIn("a new registrant, and any predecessor", EP.shown_why(self.q(), "2026-11-27T00:00:00Z", first_filed=""))
+
+    def test_no_bulk_file_says_both(self):
+        w = EP.shown_why(self.q(), "2026-11-27T00:00:00Z")
+        self.assertIn("a new registrant, or a company whose earlier statements", w)
+
+    def test_no_bulk_file_no_periods(self):
+        self.assertIsNone(EP.first_filed_periods(["0000000001"], raw=os.path.join(ROOT, "no_such_folder")))
+
+
 class TheCoversShareCount(unittest.TestCase):
     """Part F, a reader's case: the count on a filing's cover (dei:EntityCommonStockSharesOutstanding) is a line of its
     own at the cover's date, and the page files' period rows are not keyed by it."""
