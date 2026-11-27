@@ -26,6 +26,11 @@ shown yet, so the last ten whole years and this one: a dated line of the contrac
 
     python warehouse/derived/equity_page_files.py [--out DIR]
 
+Since 27 November 2026 (the owner's ruling gave the SEC a contact address): the segments carry the written rule and
+their counts, and the companies and their filed statements come from equity_universe and
+equity_fundamentals_quarterly (warehouse/connectors/sec_edgar.py), one series file a company under series/; share
+prices and index levels stay held (no source a license allows).
+
 Method: docs/methods/equities.md.
 """
 

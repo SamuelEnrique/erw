@@ -1,6 +1,6 @@
 {
  "from": "2026-10-21",
- "written": "2026-11-26",
+ "written": "2026-11-27",
  "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
@@ -2906,6 +2906,18 @@
     "/data"
    ]
   },
+  "equity_fundamentals_quarterly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "equity_universe": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
   "ercot_4cp_intervals": {
    "status": "public",
    "pages": [
@@ -4436,11 +4448,15 @@
   },
   "predict_demand_forecasts": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "predict_price_forecasts": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "price_board_latest": {
    "status": "license needed",
@@ -5041,7 +5057,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 542
+   "public": 546
   },
   "/data/faults": {
    "label": "Known faults in source data",
