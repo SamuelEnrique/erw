@@ -323,7 +323,7 @@ export const signedLevel = (v: number) => `${v > 0 ? "+" : v < 0 ? "-" : ""}${fi
 
 // ---- The table of every company -------------------------------------------------------------------------------------
 
-/** `filed` (session 10414): by the end of the newest period filed, then the day it was filed; a company with none first. */
+/** `filed` (session 10414): by the end of the newest period filed, then the day it was filed; a company with none last. */
 export const SORTS = ["name", "ticker", "segment", "exchange", "first", "last", "filed"] as const;
 export type Sort = (typeof SORTS)[number];
 /** `filed` (session 10408): only the companies whose filed figures are shown. */
@@ -337,8 +337,12 @@ export function companiesOf(list: EqList | null, f: Filter): EqCompany[] {
     && (!q || `${c.name ?? ""} ${c.ticker} ${c.sic_label ?? ""} ${c.cik ?? ""}`.toLowerCase().includes(q)));
   if (f.sort) {
     const key = (c: EqCompany): string => (f.sort === "name" ? c.name ?? c.ticker : f.sort === "ticker" ? c.ticker : f.sort === "segment" ? segmentLabel(list, c.segments[0] ?? "") : f.sort === "exchange" ? c.exchange ?? "" : f.sort === "first" ? c.first ?? "" : f.sort === "filed" ? `${c.newest_filed?.period_end ?? ""} ${c.newest_filed?.filed ?? ""}` : c.last ?? "");
+    // session 10414: by the newest period filed, a company with none is last in either direction, in the list's order
+    const last = f.sort === "filed" ? rows.filter((c) => !c.newest_filed) : [];
+    if (f.sort === "filed") rows = rows.filter((c) => c.newest_filed);
     rows = [...rows].sort((a, b) => key(a).localeCompare(key(b), "en", { sensitivity: "base" }) || a.ticker.localeCompare(b.ticker));
     if (f.desc) rows.reverse();
+    rows = [...rows, ...last];
   }
   return rows;
 }

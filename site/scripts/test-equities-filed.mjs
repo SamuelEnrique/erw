@@ -246,8 +246,8 @@ const vals = (line) => line.map((p) => p.v / M).join(" ");
   // the sort: newest first, then oldest first (a company with none first), then the list's own order
   const order = (desc) => E.companiesOf(list2, { seg: null, q: "", shown: false, sort: "filed", desc }).map((c) => c.id);
   const newestFirst = order(true), oldestFirst = order(false);
-  check(newestFirst.indexOf("DUK") < newestFirst.indexOf("XOM") && newestFirst.indexOf("XOM") < newestFirst.indexOf("NEE") && newestFirst.indexOf("NEE") === 2, "newest first: the period ends in order, the companies with none last");
-  check(oldestFirst.indexOf("NEE") < oldestFirst.indexOf("XOM") && oldestFirst.indexOf("XOM") < oldestFirst.indexOf("DUK") && oldestFirst.indexOf("DUK") === oldestFirst.length - 1, "oldest first: the reverse");
+  check(newestFirst.slice(0, 3).join(" ") === "DUK XOM NEE" && newestFirst[newestFirst.length - 1] === "ZFX" && newestFirst.length === list2.companies.length, "newest first: the period ends in order, a company with none last");
+  check(oldestFirst.slice(0, 3).join(" ") === "NEE XOM DUK" && oldestFirst[oldestFirst.length - 1] === "ZFX", "oldest first: the reverse, a company with none still last");
   const sorted = draw(FIX, { a: "DUK", sort: "filed", dir: "desc" });
   const st = sorted.slice(sorted.indexOf('id="companies"'), sorted.indexOf('id="segments"'));
   check(st.indexOf('data-eq-newest-of="DUK"') < st.indexOf('data-eq-newest-of="XOM"') && st.indexOf('data-eq-newest-of="XOM"') < st.indexOf('data-eq-newest-of="NEE"') && st.includes("Newest period filed (newest first)") && /title="Sorted newest first: press for oldest first"/.test(st), "the page in that order, and its head says which");

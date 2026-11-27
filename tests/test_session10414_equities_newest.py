@@ -54,6 +54,9 @@ class TheListsField(unittest.TestCase):
         lib = src("site", "lib", "equities.ts")
         self.assertIn('export const SORTS = ["name", "ticker", "segment", "exchange", "first", "last", "filed"] as const;', lib)
         self.assertIn('f.sort === "filed" ? `${c.newest_filed?.period_end ?? ""} ${c.newest_filed?.filed ?? ""}`', lib)
+        # a company with no newest period is last in either direction
+        self.assertIn('const last = f.sort === "filed" ? rows.filter((c) => !c.newest_filed) : [];', lib)
+        self.assertIn("rows = [...rows, ...last];", lib)
 
     def test_a_list_without_the_field_is_the_table_as_it_was(self):
         view = src("site", "app", "equities", "view.tsx")
