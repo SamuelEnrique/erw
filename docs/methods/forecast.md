@@ -407,7 +407,7 @@ Summary of the 46 states in `site/data/forecast/datacenter_rules.json` as of ses
 | Georgia | USD 250 million; 25 jobs; through 2031; equipment | building 40%, equipment 40% | none read |
 | Idaho | USD 250 million; 30 jobs; equipment+construction | building 100%, equipment 100% | none read |
 | Illinois | words only | building 33.33%, equipment 100% | 10 monthly blocks |
-| Indiana | words only | none read | none read |
+| Indiana | words only | building 100%, equipment 100% (DLGF's 2025 memo: exempt only below USD 2 million a county; session 10822) | none read |
 | Iowa | USD 200 million; equipment | building 100%, equipment 0% | none read |
 | Kansas | USD 250 million; 20 jobs; equipment+construction | building 25%, equipment 0% | none read |
 | Kentucky | USD 450 million; equipment | building 100%, equipment 100% | none read |
