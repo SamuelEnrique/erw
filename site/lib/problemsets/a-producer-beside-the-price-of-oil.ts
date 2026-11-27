@@ -28,9 +28,10 @@ type PricesFile = { series: { id: string; label: string; unit: string }[]; daily
 
 /** The producer the set asks about, and the second of its last question. Chosen by size, not by how an answer comes out: among
  *  the companies of the segment "Exploration and production" whose file holds every period the set reads, the one with
- *  the largest revenue filed for the three months to 30 September 2026; and, for the last question, the largest of them
- *  whose production is mostly natural gas by its own name of business (Expand Energy). The first is checked against
- *  the files by the set's test; the second is a choice, written in the set's decisions. */
+ *  the largest revenue filed for the three months to 30 September 2026; and, for the last question, a producer of
+ *  mostly natural gas among the segment's five largest by that revenue (Expand Energy). The first is checked against
+ *  the files by the set's test; the second is a choice, written in the set's decisions, and "mostly natural gas" is
+ *  the set's own description of the company, in no ERW file. */
 export const TICKER = "EOG", SECOND = "EXE";
 /** The segment of the list of companies (site/data/equities/index.json) the rule reads. */
 export const SEGMENT = "exploration_production";
