@@ -172,7 +172,7 @@ def one(place, fuel, df, made, curt=None):
             ledger.append({"fuel": fuel, "place": place, "target_day": target.strftime("%Y-%m-%d"), "ts_utc": t, "local_hour": k,
                            "made_utc": iso(made), "inputs_through_utc": iso(inputs_through), "horizon_days": h, "method": choice,
                            "erw": v, "lo": lo, "hi": hi})
-    return block, rows, ledger
+    return block, rows, ledger, hr
 
 
 def read_ledger(site):
@@ -227,7 +227,7 @@ def main(argv=None):
                 entry["fuels"][fuel] = {"status": "not held", "held": f"not held: no {fuel} output is held for this place"}
                 rows.append([place, fuel, "erw", "all", "", None, None, None, entry["fuels"][fuel]["held"]])
                 continue
-            block, r, lg = got
+            block, r, lg, _ = got
             entry["fuels"][fuel] = block
             rows += r
             ledger += lg

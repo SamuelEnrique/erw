@@ -37,6 +37,8 @@ import predict_demand as demand  # noqa: E402
 import predict_price as price  # noqa: E402
 import predict_score as score  # noqa: E402
 import predict_weather as wxmod  # noqa: E402
+import predict_ws as wsmod  # noqa: E402
+import wind_solar as wsrun  # noqa: E402
 
 ROOT = data.ROOT
 SITE = os.path.join(ROOT, "site", "data", "predict")
@@ -184,6 +186,72 @@ def weather_forecast_line(place, res, hr, tz, wxf, target):
         out["tomorrow_columns"] = ["ts_utc", "local_hour", "with_weather_forecast"]
         out["tomorrow_issue_utc"] = iso(pd.Timestamp(V[j]).tz_localize("UTC"))
     return out, srows
+
+
+NET_WHAT = ("net demand: the demand less the output of wind and solar (method note section 18). The ERW's is its demand "
+            "forecast less its wind and solar forecasts (warehouse/predict/wind_solar.py), all made at 20:00 UTC the day before "
+            "from data through two days before; yesterday is the same hour of the latest whole day read, net; the operator's, "
+            "where all three of its forecasts are held (Texas, from 27 September 2026), its demand forecast as filed on "
+            "EIA-930 less ERCOT's wind and solar forecasts published at least 24 hours ahead. nmae_pct: the mean absolute "
+            "error over the mean net demand of the same hours (a percent of an hour's net demand, which can be near zero, "
+            "means nothing). No band: the three bands are not combined")
+
+
+def net_place(place):
+    """The wind and solar place whose footprint is the place's own: a region itself, and ERCO (Texas is ERCOT alone)."""
+    if place.startswith("region-"):
+        return place
+    return "region-tex" if place == "ba-erco" else None
+
+
+def net_demand_line(p, wsdf, made, wp):
+    """The net demand block of one place and its score rows (series net_demand)."""
+    place = p["place"]
+    d = p["hr"][["ts", "day", "hour", "actual", "erw", "operator", "yesterday"]].copy()
+    tm = {}
+    for fuel in wsmod.FUELS:
+        got = wsrun.one(wp, fuel, wsdf, made)
+        if got is None:
+            return {"what": NET_WHAT, "status": "not held", "held": f"not held: no {fuel} output is held for {wp}"}, []
+        block, _, _, hw = got
+        hw = hw[["ts", "actual", "erw", "operator", "yesterday"]].set_index("ts")
+        for col in ("actual", "erw", "operator", "yesterday"):
+            d[f"{fuel}_{col}"] = hw[col].reindex(pd.DatetimeIndex(d["ts"])).to_numpy()
+        tm[fuel] = block.get("tomorrow")
+    x = pd.DataFrame({"ts": d["ts"], "day": d["day"], "hour": d["hour"]})
+    for col in ("actual", "erw", "operator", "yesterday"):
+        x[col] = d[col] - d[f"wind_{col}"] - d[f"solar_{col}"]
+    c = x.dropna(subset=["actual", "erw", "yesterday"]).reset_index(drop=True)
+    rows = []
+    out = {"what": NET_WHAT, "status": "shown", "wind_solar_place": wp, "last_2_years": None, "backtest": None, "with_operator": None,
+           "tomorrow_columns": ["ts_utc", "local_hour", "erw"], "tomorrow": None}
+    for cut, days in (("all", None), ("last_2_years", score.CHOICE_DAYS)):
+        g = c if days is None else c[c["day"] > c["day"].max() - pd.Timedelta(days=days)]
+        sm = wsrun.summary(g, ["erw", "yesterday"])
+        out["backtest" if cut == "all" else cut] = sm
+        for m in ("erw", "yesterday"):
+            rows.append([place, "net_demand", m, cut, "", sm["hours"], sm["mae_mw"][m], sm["nmae_pct"][m], None])
+    co = x.dropna(subset=["actual", "erw", "yesterday", "operator"])
+    if len(co):
+        sm = wsrun.summary(co, ["erw", "yesterday", "operator"])
+        out["with_operator"] = sm
+        for m in ("erw", "yesterday", "operator"):
+            rows.append([place, "net_demand", m, "with_operator", "", sm["hours"], sm["mae_mw"][m], sm["nmae_pct"][m], None])
+    else:
+        rows.append([place, "net_demand", "operator", "all", "", None, None, None,
+                     "not held: the warehouse holds no wind and solar forecast of this place's operator"])
+    t = p.get("tomorrow")
+    if t is not None and tm.get("wind") and tm.get("solar"):
+        w = {r[0]: r[2] for r in tm["wind"]}
+        s = {r[0]: r[2] for r in tm["solar"]}
+        c0 = p["choice"]
+        net = []
+        for _, r in t.iterrows():
+            k = iso(r["ts"])
+            if k in w and k in s and None not in (w[k], s[k]) and np.isfinite(r[c0]):
+                net.append([k, int(r["hour"]), num(r[c0] - w[k] - s[k])])
+        out["tomorrow"] = net or None
+    return out, rows
 
 
 def demand_place(place, dem, op, ref, made, evs, wx=None, wxf=None):
@@ -604,11 +672,23 @@ def main(argv=None):
     ledger = read_ledger(a.site_dir)
     ledger_p = read_ledger(a.site_dir, "price")
     print(f"  ledger: {added} demand rows and {added_p} price rows added", flush=True)
+    # part F: net demand (method note section 18), for the regions and ERCO, from the wind and solar forecast
+    netd = {}
+    if os.path.exists(data.table_path(wsmod.REGION_FUEL)):
+        wsdf = wsmod.panels()
+        for p in results:
+            wp = net_place(p["place"])
+            if wp is None:
+                continue
+            line, nrows = net_demand_line(p, wsdf, made, wp)
+            netd[p["place"]] = line
+            srows += nrows
     index_places = []
     for p in results:
         place = p["place"]
         kind, code = place.split("-", 1)
         ds = demand_series(p, made, ledger)
+        ds["net_demand"] = netd.get(place)
         ps = price_shown(prices[place], made, ledger_p) if place in prices else price_series(place)
         tables = ["eia930_ba_demand_hourly", "eia930_forecast_error_hourly"]
         if place in prices:
@@ -632,6 +712,11 @@ def main(argv=None):
                               "last_day": day_str(max(q["hr"]["day"].max() for q in prices.values())) if prices else None}},
               methods=[{"id": m, "what": METHOD_WORDS[m]} for m in SCORED],
               separate_lines={"with_weather_known": "the regression with the region's observed temperature added: it reads the target day's own weather, so it is not a forecast and never the ERW forecast; scored apart (series demand_weather_known, cuts all and last_2_years) on the hours its weather is held, beside the regression and the operator on the same hours"},
+              separate_lines_added={"with_weather_forecast": "series demand_weather_forecast (session 10602): the regression with the airport's observed temperature in the fit and the NWS forecast as issued by 20:00 UTC the day before in the forecast; scored only on the days such a forecast is held, never the ERW forecast (method note section 17)",
+                                    "net_demand": "series net_demand (session 10602): the demand less wind and solar; for this series the column mape holds the mean absolute error over the mean net demand of the same hours, in percent (method note section 18)"},
+              cuts_added={"operator_sound": "demand: the hours of the months whose operator filing passes the filing check (the filed forecast within 5 percent of the demand over the month; method note section 16)",
+                          "operator_sound_last_2_years": "the same, over the last 730 days",
+                          "with_operator": "net demand: the hours where the operator's demand, wind and solar forecasts are all held"},
               metrics={"mae": "mean absolute error, in the series' unit", "mape": "mean absolute percent error, in percent"},
               mape_rule="Demand: every hour scored (demand is always above zero). Price: only hours whose actual price is at least 5 USD/MWh in size; a percent of a price near zero means nothing, and the cell is null when no hour qualifies.",
               cuts={"all": "every hour of the backtest held by every method", "last_2_years": "the last 730 days of the backtest (the days the method is chosen on)",
