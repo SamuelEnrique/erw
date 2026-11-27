@@ -25,6 +25,8 @@ import * as WHERE from "@/lib/problemsets/where-energy-goes";
 import * as AUTH from "@/lib/problemsets/your-own-balancing-authority";
 // session 10404 (chain 720, part E): a waiting set, the ERW forecast's report card (WAITING_SETS, below)
 import * as REPORT from "@/lib/problemsets/a-forecasts-report-card";
+// session 10412 (chain 720, part E): a second waiting set, a producer's filed figures beside the price of its fuel
+import * as PRODUCER from "@/lib/problemsets/a-producer-beside-the-price-of-oil";
 
 export type V = { v: number; k: string; u?: string };
 export type Part = string | V;
@@ -656,7 +658,7 @@ for (const m of [TRADE, STORM, GROUND, WHERE, AUTH]) addGuide(m.META.slug, m.GUI
  *  edition (scripts/build-problem-edition.mjs, which freezes SETS) never holds it. It waits for the owner: approving
  *  one is moving its module from this list to the list of SETS above (and its decisions into Decisions.tsx). Its guide
  *  is kept here, not in GUIDE, so the instructors' note names no set the index does not. */
-const WAITING_MODULES = [REPORT];
+const WAITING_MODULES = [REPORT, PRODUCER];
 export const WAITING_SETS: Omit<ProblemSet, "questions" | "example">[] = WAITING_MODULES.map((m) => m.META);
 export const WAITING_GUIDE: Record<string, (typeof REPORT)["GUIDE_ENTRY"]> = Object.fromEntries(WAITING_MODULES.map((m) => [m.META.slug, m.GUIDE_ENTRY]));
 export const WAITING_DECISIONS = WAITING_MODULES.flatMap((m) => m.DECISIONS);
