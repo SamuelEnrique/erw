@@ -62,3 +62,27 @@ The price is `series.price` of each place's file, with `hub`, `market` (`day-ahe
 ## 6. Tried and not built (session 10601)
 
 A price regression with more of the latest days' shape (the same hour two days before, and the latest day's highest and lowest hourly prices; `runs/c730/trial_price2.py`), over the last two years: ERCOT 17.51 USD/MWh against the regression's 16.25 and yesterday's price 13.07 (worse: the latest day's highest price carries a spike into the next day); SPP 14.22 against 14.64; CAISO 5.82 against 5.91. Gains of 3 and 1.5 percent where it helps and a loss where the ERW already trails yesterday's price: it is not added as a candidate.
+
+## 7. The real-time price (session 10602)
+
+Samuel's order of 27 November 2026. Code: `warehouse/predict/predict_rt.py` and `warehouse/predict/rt_price.py`
+(the daily run, `site/data/predict/rt_price.json` and `ledger_rt_price.csv`, never rewritten). The same three hubs
+(ERCOT HB_NORTH, SPP North Hub, CAISO SP15; ISO-NE's, NYISO's, PJM's and MISO's stay held as above). The real-time
+price of an hour is the mean of its four fifteen-minute prices (markets `*_rtm` of the price tables), held only when
+all four are.
+
+**When it is made.** At 22:00 UTC the day before the target local day: after the three day-ahead markets publish
+their prices for the day on their ordinary timelines (ERCOT about 19:30 UTC, SPP about 19:00 to 20:00, CAISO about
+20:00 to 21:00), with real-time prices read through two days before (h = 2). A day a market published late is not
+detected: the timeline is the market's own. A test holds that a later real-time price, or a day-ahead price of a later
+day, moves nothing. The warehouse's daily run (14:00 UTC) does not yet hold the next day's day-ahead prices, so the
+run must follow the evening price refresh; until then the file says, for tomorrow, that the day-ahead price is not held.
+
+**The methods.** `day_ahead`: the hub's day-ahead price for the hour, the market's own forecast of the real-time price,
+the comparator as the operator's forecast is for demand, never an ERW method. `yesterday`: the real-time price of the
+same hour two days before. `regression`: least squares by local hour on the day-ahead price for the hour, the
+real-time less day-ahead price at the hour two days before, and its mean over the seven days to then; refit for every
+target day on the 730 days before it (at least 300). The choice, the band (additive, in USD/MWh) and the scores (MAPE
+over hours of at least 5 USD/MWh in size, the spike cut above the hub's 99th percentile) are as above.
+
+The scores are added below from the first full build.

@@ -26,7 +26,7 @@ a force or a rebase). On another branch, it fetches and reports.
 
 The tables (session 72): coverage.csv only lists them (and their licenses). Each local table is compared with Redivis's
 own copy, the draft of its dataset (or the last released version when no draft is open), by row count and by its newest
-timestamp (ts_utc, else event_date or date). Until session 72 the comparison was with coverage.csv's n_rows, which the
+timestamp (ts_utc, else event_date or date, else retrieved_at: session 10000). Until session 72 the comparison was with coverage.csv's n_rows, which the
 same machine may have rebuilt from its own files, so a stale machine looked current (session 67: this laptop's
 eia930_all_interchange and news_scores_shadow). Each table is then:
 
@@ -92,7 +92,11 @@ def local_rows(path):
     return max(n, 0)
 
 
-TIME_COLUMNS = ("ts_utc", "event_date", "date")
+# session 10000 (chain 701): a table with none of the three (an entities snapshot such as eia860m_planned_generators)
+# is compared by retrieved_at, which Redivis's statistics hold (its text vintage has none). By rows alone a newer vintage
+# with fewer rows read as "ahead": GitHub's October 860M planned table (2,328 rows) never replaced this machine's
+# September one (2,361) from 25 November, and the project map stopped on the two tables' different months
+TIME_COLUMNS = ("ts_utc", "event_date", "date", "retrieved_at")
 
 
 def norm_ts(v):
@@ -125,9 +129,11 @@ def local_state(path):
     return n, col, newest
 
 
-def classify(local, cloud):
+def classify(local, cloud, by_retrieval=False):
     """'missing', 'current', 'behind', 'ahead' or 'diverged': this machine's (rows, newest) against Redivis's.
-    local None: missing here. A newest of None (a table with no time column) compares by rows alone."""
+    local None: missing here. A newest of None (a table with no time column) compares by rows alone. by_retrieval: the
+    newest is retrieved_at (a table with no time column, session 10000): the later retrieval decides, rows only when the
+    two are the same (a newer snapshot may hold fewer rows)."""
     if local is None:
         return "missing"
     (ln, lt), (cn, ct) = local, cloud
@@ -136,6 +142,8 @@ def classify(local, cloud):
         lt, ct = lt[:k], ct[:k]
     t = 0 if lt == ct or lt is None or ct is None else (1 if lt > ct else -1)
     r = (ln > cn) - (ln < cn)
+    if by_retrieval and t != 0:
+        return "ahead" if t > 0 else "behind"
     if t == 0 and r == 0:
         return "current"
     if t >= 0 and r >= 0:
@@ -315,7 +323,7 @@ def main(argv=None, cloud_reader=None, restorer=None):
         if cloud[t] is None:
             groups["not on Redivis"].append(t)
             continue
-        groups[classify(local.get(t), cloud[t])].append(t)
+        groups[classify(local.get(t), cloud[t], by_retrieval=cols.get(t) == "retrieved_at")].append(t)
     log(f"tables in coverage: {len(cov)}; " + "; ".join(f"{k}: {len(v)}" for k, v in groups.items()) + f"; unread: {len(unread)}")
     fmt = lambda x: "none" if x is None else f"{x[0]:,} rows to {x[1] or 'no timestamp'}"  # noqa: E731
     for k in ("behind", "diverged"):

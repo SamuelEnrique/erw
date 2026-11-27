@@ -294,3 +294,78 @@ The backtests and the scores (`predict_demand_backtest`, `predict_scores`, `pred
 tables yet: as `run.py` writes them, the two regressions share every place, hour and making time (and in the price,
 places of one grid share a hub), so the validator refuses them as duplicate keys, and the scores file is not in a
 standard shape. Their shape is this method's choice to make first.
+
+## 18. The operator's forecast as filed: a check of the comparator (session 10602)
+
+The operator column is the day-ahead forecast each authority files on Form EIA-930, as `eia930_forecast_error_hourly`
+holds it. In several places it is not the operator's own forecast. Sought as the cross-check's second place, a vendor's
+figure (Enverus, found by web search, not fetched) puts SPP's own day-ahead error at 2.16 percent in January 2025 and
+2.20 in September 2025; the filing scores 1.98 and 9.53 in those months. Read month by month (`runs/c730/opbias.py`,
+the filed forecast's sum as a percent of the demand's over the hours both hold), the filing breaks in level:
+
+| Place | The filed forecast as a percent of the demand | Its MAPE |
+|---|---|---|
+| SWPP and CENT | 99 to 100 until April 2025; 104 to 116 from May 2025 | 1.5 to 2.8; then 5.2 to 15.8 |
+| FPC | 68 to 78 in every month read | 21 to 30 |
+| PSCO | 90 to 95 to December 2025; 84 to 88 from January to April 2026; 71 to 77 from May 2026 | 5 to 10; then 12 to 29 |
+| FMPP | 93 to 102; 70 to 72 from February to July 2026; 110 in November 2026 | 3 to 5 (9 in October 2025); then 28 to 30 |
+| SRP | 96 to 99 to February 2026; 103 to 124 from March 2026 | 3 to 5; then 8 to 30 |
+| CISO and CAL | 89 to 98, lower over the years | 6 to 11 |
+| PJM and MIDA | 97 to 99 | 2.9 to 4.4 as stamped |
+
+(The months read are July 2024 to November 2026; the full monthly record of every place is in its file.)
+
+PJM's level is right, but its filing matches the demand of the hour after its stamp best: over the last two years
+its MAPE is 3.47 as stamped and 2.54 moved one hour later (`runs/c730/opshift.py`, both periods alike). No other
+place is mended by a shift. A level that far from the demand for a whole month is a break in the filing (a footprint or
+a definition), not a forecaster's error. Data request 7 of `docs/state/data_requests_predict.md` asks window A to read
+EIA's own files for each.
+
+What the files carry (add, never change): each place's demand series has `operator_filing`, the month-by-month check
+(a month is flagged when the filed forecast is more than 5 percent from 100), the filed forecast's error over the last
+two years with its hours moved by -1, 0 and 1, and `sound_last_2_years`, the scores on the unflagged months only.
+`scores.json` has the cuts `operator_sound` and `operator_sound_last_2_years` for every method. The check judges the
+comparator only: no forecast of the ERW reads it, and the choice of method is unchanged (a test holds both). A month
+can also be flagged for a true divergence, not a filing: Texas in February 2021 (Winter Storm Uri, load shed) is.
+
+## 19. With the weather forecast as issued (session 10602)
+
+Samuel's order of 27 November 2026: the demand model with the dated weather forecast window A keeps, wherever enough
+days are held. `warehouse/predict/predict_weather.py` reads the National Weather Service's hourly temperature forecast
+at one airport per ISO (KDFW, KLAX, KLGA, KBOS, KPHL, KIND, KOKC; 14 places: each ISO's region and its authority):
+every issue kept in `weather_forecast_issued_hourly` (from 26 November 2026, data request 4), and the rows of the
+latest-only `weather_forecast_hourly` whose issue (`vintage`, NWS's updateTime) came before the hour the demand
+forecast is made. Nothing known early: a forecast hour enters target day D only from an issue no later than 20:00 UTC
+on D-1, and of those the latest (a test holds it).
+
+The model is the regression of section 13 with the airport's temperature: fitted on the airport's observed temperature
+(`noaa_station_weather_hourly`, NOAA ISD-Lite and LCD v2, 2019 on; after its last hour `weather_obs_hourly`) over the
+days held when the forecast is made, then applied to day D with the temperature forecast for it. Beside it,
+`with_airport_weather_known` applies the same coefficients to the airport's observed temperature of day D (not a
+forecast), so the cost of the weather forecast's own error is seen.
+
+Days held: the forecast as issued reaches back only to late September 2026, and only on days the latest-only table
+kept an early enough issue. 13 to 21 target days are scored in each place: too few to judge, and the files say so
+(`with_weather_forecast.status` is `too_few_days` below 30 days). A separate line, never the ERW forecast, as the
+line "with the weather known" is. On those days, in the trial of 27 November (`runs/c730/wx_trial.py`), it was below
+`regression_recent` in 6 of the 7 airports' regions and above it in the Mid-Atlantic (PJM, PHL); in Texas, on 17 days,
+the operator was at 1.18 percent, the line at 3.81 and the ERW forecast at 5.33.
+
+## 20. Net demand (session 10602)
+
+Net demand is the demand less the output of wind and solar. For the 13 regions and ERCO (Texas is ERCOT alone), each
+place's demand series has `net_demand`: the ERW's is its demand forecast less its wind and solar forecasts
+(`docs/methods/predict_wind_solar.md`), all made at 20:00 UTC the day before from data through two days before; the
+actual is EIA-930's demand less EIA-930's wind and solar output of the region. Yesterday is the same hour of the latest
+whole day read, net. The operator's net demand needs all three of its forecasts: only Texas holds them, from
+27 September 2026 (the filed demand forecast less ERCOT's wind and solar forecasts published at least 24 hours ahead).
+The error is given in MW and as the mean absolute error over the mean net demand of the same hours (`scores.json`
+series `net_demand`, column `mape`): a percent of an hour's net demand, which can be near zero, means nothing. No band:
+the three bands are not combined.
+
+## 21. The share of past hours inside each band (session 10602)
+
+The band is meant to hold eight hours in ten. Every series of every file (demand, the day-ahead and the real-time
+price, wind, solar) now carries `band_coverage`: over the last two years, the share of hours inside the band, below its
+low end and above its high end, the share inside by local hour, and by month. `band_coverage_pct` (unchanged) is its
+`inside_pct`.

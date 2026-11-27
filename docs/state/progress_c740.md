@@ -73,7 +73,7 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Item | State | Session | Note |
 |---|---|---|---|
 | More announced projects | done (first pass) | 10807 | 25 rows (Hut 8 River Bend, Amazon Caddo and Bossier, Applied Digital Delta Forge 1 added); defaults recomputed and dated |
-| JEDI plant types the page lacks | waiting | 10807, 10820 | data request 8: window A builds the coal and CSP trough models in its gate 6 (the table of 8,370 rows waits for the data lock); the page's types follow once the table is written |
+| JEDI plant types the page lacks | coal done on the branch; CSP and biopower held | 10807, 10820, 10822 | data request 8 done (window A, 21:57 UTC 26 November); coal offered from EIA's case 1 and JEDI's coal model (replication 524 of 524); CSP and biopower need a capital cost and a life no published study read gives (forecast.md section 14); coal's figures appear when the live set loads the rows |
 | Published IMPLAN ratios beyond Virginia | done | 10809, 10810 | Georgia (the state auditor's evaluation) and Minnesota (the Legislative Budget Office's), each its own state only |
 | An equipment value schedule (a county's, typed) | done | 10809 | three fields; Loudoun's 2026 schedule reproduces its USD 9.96 million |
 | Window F's browser read, rows naming `/impact` | read, five findings fixed | 10808, 10821 | `docs/reviews/browser-read-2026-11-26.md`: `/impact` with Datacenter is part C, read as it lands |
@@ -102,3 +102,9 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | New Mexico's Project Jupiter | held: no document | 10822 | STACK's own PDF answered 404 (request 90); Dona Ana County's bond ordinance not found on an official host |
 | Texas's first announced project | done | 10822 | Meta in El Paso (Meta's own page, request 380; the October 2025 release, 381, for the first phase): 1 GW, more than USD 10 billion, over 300 jobs, over 4,000 at peak; 50 rows; the default size moves from 1,400 to 1,000 MW |
 | Arkansas's announced project | not a row | 10822 | Google's USD 4 billion (its blog, request 379) covers the data center, cloud and AI infrastructure and local programs: no figure is the data center's alone; AEDC's release gives no figure |
+| Meta's campus info sheets | done | 10822 | thirteen campuses, each Meta's only one in its state (requests 384 to 408): offered in the picker, in no median (`to_date`, decision 20); first rows for Illinois, Tennessee, Idaho, New Mexico, Oregon, Nebraska; 63 rows; the parser reads "$1.5B+" |
+| New Hampshire's property | done | 10822 | RSA 72:6, 72:7, 75:1 and chapter 72's list (requests 422 to 426): building at market value, equipment untaxed (decision 21); 37 states |
+| California's rules | held: refused | 10822 | leginfo.legislature.ca.gov answers 403 to its robots file (request 420) |
+| Colorado's property | done | 10822 | C.R.S. 39-1-104(1.9) as HB24B-1001 enacted it (request 428): 25 percent from 2027; 38 states |
+| Chart axis labels cut ("00 million") | done on the branch | 10822 | found in tonight's read with El Paso picked; SeriesChart's margin widens only for a label of more than ten characters |
+| Build and read of c3b81a67f | done | 10822 | 21 addresses at both widths clean, check-values 1,680 of 1,680; landing row 16 requested 02:46 UTC |
