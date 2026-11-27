@@ -620,7 +620,7 @@ price_board_peak_offpeak,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;caiso_rtm;e
 price_board_spreads,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;ercot_dam;isone_dam;miso_dam;nyiso_dam;spp_dam,6,P1D,2025-09-29T00:00:00Z,2026-11-21T00:00:00Z,2898,erw:price_board,2026-11-25T15:12:38Z,pass,public,power;gas;oil,yes,derived
 price_congestion_hourly,price,caiso_dam;spp_dam,9,PT1H,2014-03-01T06:00:00Z,2026-11-27T07:00:00Z,1905803,caiso:PRC_LMP;spp:DA-LMP-SL,2026-11-26T20:28:49Z,pass,public,power,no,source
 price_congestion_monthly,price,caiso_dam;spp_dam,9,P1M,2014-03-01T00:00:00Z,2026-11-01T00:00:00Z,3796,erw:price_congestion_monthly,2026-11-26T20:31:27Z,pass,public,power,yes,derived
-price_years_by_window,CAISO;ERCOT;SPP,caiso;ercot;spp,19,P106M;P10M;P12M;P142M;P25M;P26M;P36M;P39M;P40M;P4M;P5M;P6M;P84M;P94M;P9M,2015-01-01T00:00:00Z,2026-01-01T00:00:00Z,2754,erw:price_years,2026-11-14T10:07:37Z,pass,public,power,yes,derived
+price_years_by_window,CAISO;ERCOT;SPP,caiso;ercot;spp,19,P106M;P10M;P12M;P142M;P25M;P26M;P36M;P39M;P40M;P4M;P5M;P6M;P84M;P94M;P9M,2015-01-01T00:00:00Z,2026-01-01T00:00:00Z,2754,erw:price_years,2026-11-27T02:03:30Z,pass,public,power,yes,derived
 pse_poland_balance_15min,pse,,1,PT15M,2024-06-13T21:45:00Z,2026-10-23T21:45:00Z,909219,pse:his-wlk-cal,2026-10-24T03:42:09Z,pass,internal,power,no,source
 ree_spain_balance_monthly,ree,,1,P1M,2020-01-01T00:00:00Z,2026-09-01T00:00:00Z,1890,ree:redata_balance_electrico,2026-10-24T04:09:31Z,pass,public,power,no,source
 region_weather_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,13,PT1H,2018-07-01T00:00:00Z,2026-11-07T14:00:00Z,879553,erw:region_weather_hourly,2026-11-18T02:45:59Z,pass,public,power,no,derived
