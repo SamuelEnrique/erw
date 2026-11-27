@@ -13,11 +13,20 @@ session takes the next item: longer backtests and more places. Branch `wip/c730-
 - **35 more places for demand:** every other balancing authority whose EIA-930 demand runs to the latest day and covers
   two years (AECI to WALC; method note `predict.md` section 23), each with the same file as the 29 places.
 - **The real-time price over a longer backtest:** ERCOT from 2016, scored year by year (`predict_price.md` section 8).
-  The market's day-ahead price beats the ERW in ten of eleven years.
+  The market's day-ahead price beats the ERW in ten of eleven years at North (nine or ten at the other ERCOT hubs).
 - **The real-time price at four more hubs:** ERCOT Houston, South and West, CAISO NP15 (section 9). The day-ahead price
   is ahead at all four.
 - **The day-ahead price at the same four hubs** (`price_hubs.json`, section 10): yesterday's price beats the ERW's
   regression at every ERCOT hub; the regression wins at NP15.
+- **In the 35 new places the operator mostly wins:** the ERW is ahead of the filed forecast in 13 of 35 over two years,
+  in 8 of the 32 with sound months. Many small authorities' filings fail the check (PSEI 78 of 79 months).
+- **Window E's two rows mended** (chain 720's requests 11 and 12 in `data_requests_predict.md`): no rows of nulls for a
+  day not forecast (the reason instead: EIA-930's gap of 18 to 20 November in the Carolinas and the Southwest), net
+  demand's `tomorrow_held`, `shown_for` naming the place that shows CAISO's wind and solar, and words for every cut,
+  with `cuts_price` for the price rows of `scores.json` (its `cuts` call `top10` the highest-demand days).
+- **Replications:** the day-ahead price, which had none, 3,936 of 3,936; the real-time price 3,020 of 3,020; demand on
+  the 64 places 48,384 figures (47,967 exactly; the 417 others in the seven smallest authorities, within the backtest
+  table's 0.1 MW rounding, which the script now allows on the regressions only) and 1,024 of 1,024 refits.
 
 ## Decisions made without you
 
@@ -49,6 +58,14 @@ session takes the next item: longer backtests and more places. Branch `wip/c730-
 - **A claim of session 10602 corrected:** the progress file said "every series of the forecast now has its
   replication", but the day-ahead price (the place files' `series.price`) had none: `replicate.py` checks the demand rows
   only. `replication/predict/replicate_price.py` now rebuilds the day-ahead price end to end.
+- **Faults of mine found by window E** (chain 720's requests 11 and 12, filed against this window's files): 24 rows of
+  nulls where a day could not be forecast, with no reason, and cut words borrowed from demand for price rows. Mended on
+  the branch, with tests; rebuild 17 carries them.
+- **The demand replication at first differed on 417 figures** of the seven smallest authorities, in the MAPE's third
+  decimal: the regressions are read from the backtest table at 0.1 MW. The script now allows that rounding's bound on
+  the regressions only and says so; the simple methods and the operator stay exact.
+- **A row 1 figure out of date:** data request 1 says `run.py` takes about five minutes; the 29 places took 32 minutes in
+  rebuild 15, and the 64 are about 70 alone. Data request 13 says so for window A.
 
 ## For Samuel's ruling
 

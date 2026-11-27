@@ -31,7 +31,10 @@ You asked for two things first. Both are done on branches and requested for land
 - Below it: **"with the weather forecast (a separate line, not the ERW forecast), KDFW: 17 of the 30 days needed, too few days to judge"**, one row of scores, and its hours for tomorrow behind a fold. It is in no chart.
 - Below it: **"the band, and how often what happened fell inside it"**. For Texas: demand 80.30 percent inside, 9.40 below, 10.30 above; a chart by hour of the day; each month behind a fold.
 - Press the "Price" tab and scroll past "How it has done": **"Real-time price"**. For Texas, at ercot:HB_NORTH: a dashed box that says "no forecast yet" for tomorrow (the file's own words: the day-ahead price for the day was not held when the forecast was made), a past day with the forecast, the day-ahead price and what happened, and the report card (over the last two years the ERW forecast missed by 12.33 USD/MWh, the day-ahead price by 11.83).
-- **What is real:** every figure, from window B's files, each with its key into its file. Checked: 104,171 figures on 120 pages (all 29 places), none differing.
+- At the foot, "Downloads": two more lines. With demand, the place's net demand, wind and solar, hour by hour; with price, the real-time price at the place's hub. Each as CSV with a reader in Python and in Stata.
+- Under "How it has done", below the report card: four folds, "ERW forecast of wind, month by month" and "by hour of day", and the same for solar.
+- **What is real:** every figure, from window B's files, each with its key into its file. Checked: 122,962 figures on 120 pages (all 29 places), none differing.
+- **The page is heavier:** about 1.0 MB of markup for one place, where it was 0.5 MB.
 - **Not drawn, and asked of window B** (its requests 11 and 12): CAISO's own wind and solar lines, which no place's file names; net demand for tomorrow in four regions, where the file is empty and gives no reason.
 
 ## One thing first: a held price is drawn on production
@@ -153,7 +156,7 @@ What is real and what is not:
 
 ## What waits on others
 
-- **Window A's desk:** landing row 62 (equities on the SEC's figures, requested 09:25 UTC on 27 November) and row 63 (the forecast's new views; requested once its newest head is seen in a build, which waits for 2 GB of free memory on this laptop). Rows 54 to 61 have landed.
+- **Window A's desk:** landing row 62 (equities on the SEC's figures, requested 09:25 UTC on 27 November) and row 63 (the forecast's new views and their downloads, requested 10:50 UTC, built and seen). Rows 54 to 61 have landed.
 - **Window A:** data requests 578 to 580 (27 November): the list's newest filed period; eighteen utilities' missing quarters, Exxon's short history, one stale filer; the board's own check on two held rows.
 - **Window B:** its requests 11 and 12 (27 November): CAISO's wind and solar lines that no place names, and net demand empty with no reason in four regions; the words of the real-time price's cuts.
 - **Window B:** nothing asked. Its files of 14:05 UTC hold the fourth method (on production its name reads "regression recent" until row 57 lands with its words) and the line "with the weather known" for all 29 places, which the page does not draw yet.

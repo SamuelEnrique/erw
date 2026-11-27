@@ -104,3 +104,16 @@ last_2_years, month, hour, with_operator, with_operator_month and with_operator_
 `site/data/predict/ledger_wind_solar.csv`: every forecast as made, one row a fuel, place and UTC hour, never
 rewritten. When the latest whole day held is not two days before the target day (CAISO's actual is often four days
 behind), no forecast is made for that day and the file says why.
+
+## 7. A day not forecast, and where each entry is shown (session 10603)
+
+Window E's reading of the file (chain 720, requests 11 and 12 of `docs/state/data_requests_predict.md`) found two
+faults of this window's. (a) The seven-day profile and the regression read every hour of the days before the target
+day. On 27 November the Carolinas' and the Southwest's output had a gap (EIA-930's 18 to 20 November), so the method
+chosen could not forecast the day, and the file wrote 24 rows of nulls with no reason. It now writes `tomorrow: null`
+and `tomorrow_held`, which names the days whose output is missing; net demand (`predict.md` section 20) says likewise in
+its own `tomorrow_held`. No method is switched in to fill the day: the method stays the one the rule chose, and a day it
+cannot forecast is said to be so. (b) Each entry gains `shown_for`, the place files that show it: a region shows its
+own entry, `ba-erco` shows Texas's, and `ba-ciso` shows `grid-caiso` (CAISO's own three hubs, CISO's footprint), which
+no place file named before. The file also gains `cuts`, the words of the cuts its rows use. Nothing else in the file
+changes (it equals the one on main once `built`, `shown_for`, `cuts` and the four mended days are set aside).

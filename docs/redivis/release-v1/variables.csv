@@ -2429,6 +2429,8 @@ eia930_ba_interchange_hourly_2025,interchange_mw,series variable,MW
 eia930_ba_interchange_hourly_2026,interchange_mw,series variable,MW
 eia930_ba_supply_hourly,net_generation_mw,series variable,MW
 eia930_ba_supply_hourly,total_interchange_mw,series variable,MW
+eia930_ba_wind_solar_hourly,net_generation_solar_mw,series variable,MW
+eia930_ba_wind_solar_hourly,net_generation_wind_mw,series variable,MW
 eia930_daily_demand,demand_mwh,series variable,MWh
 eia930_daily_interchange,interchange_mwh,series variable,MWh
 eia930_daily_total_interchange,total_interchange_mwh,series variable,MWh
