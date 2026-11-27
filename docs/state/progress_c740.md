@@ -93,6 +93,8 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Data requests 6, 7, 9 | answered | 10820 | 6 landed (22 rows, grows when row 14 lands), 7 landed and read by the tool, 9 built on `wip/c701-tax` |
 | Row 14 landed (first head) | done | 10821 | `34904f82b` at 14:16 (landing 2); newer head `6352fb2e4` requested |
 | Window F's findings I1 to I5 | done | 10821 | fixed on the branch, tested, read at both widths |
-| Landing row 15 (the newer head) | requested | 10821 | `617bd736d` or later (checked 16:18 UTC: not yet on main; window F's file has no new `/impact` lines); row 14 landed at `34904f82b` |
+| Landing row 15 (the newer head) | landed (18:36 UTC) | 10821, 10822 | `617bd736d` or later (checked 16:18 UTC: not yet on main; window F's file has no new `/impact` lines); row 14 landed at `34904f82b` |
 | Window F's finding I6 (the opening scenario moved, unexplained) | done on the branch | 10822 | a line above the fields: the defaults are medians of the projects read, each count and the date; test in `test-datacenter-ui.test.mjs` |
 | Row 15 | landed | 10822 | `617bd736d` in `b80148122` (18:36 UTC 26 November, task/c701-tax); the newer head goes as row 16 |
+| North Dakota's announced campuses | done | 10822 | the governor's releases (requests 369 to 371): Applied Digital Ellendale a row (USD 5 billion combined); Williston and Bitzero crypto-mining, not rows (decision 19); 48 rows |
+| Tennessee's sales exemption | held: refused | 10822 | www.tn.gov resets every connection (request 364), publications.tnsosfiles.com answers 403 to its robots file (366); no commercial code host taken |
