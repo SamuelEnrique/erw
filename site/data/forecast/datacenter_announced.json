@@ -89,10 +89,10 @@
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 38,
+   "n": 39,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
-   "median": 51.218004,
+   "median": 50.0,
    "high": 121.786859,
    "high_row": "wy_meta_cheyenne_2024",
    "rows": [
@@ -109,6 +109,7 @@
     "tx_meta_elpaso_2026",
     "wv_penzance_berkeley_2026",
     "mo_amazon_montgomery_2026",
+    "la_amazon_nwla_2026_aug",
     "ia_meta_davenport_2024",
     "la_amazon_caddo_bossier_2026",
     "la_meta_richland_2024",
@@ -140,7 +141,7 @@
    "name": "Construction jobs per billion dollars",
    "unit": "construction jobs (headcount as announced) per USD billion (2025)",
    "how": "construction jobs as announced over the investment; at peak or period not stated, as each row says",
-   "n": 16,
+   "n": 17,
    "low": 63.222543,
    "low_row": "wv_nscale_2026",
    "median": 400.0,
@@ -150,6 +151,7 @@
     "wv_nscale_2026",
     "la_hut8_riverbend_2025",
     "la_amazon_caddo_bossier_2026",
+    "la_amazon_nwla_2026_aug",
     "la_meta_richland_2026",
     "wv_penzance_berkeley_2026",
     "wi_vantage_portwashington_2025",
@@ -2789,6 +2791,46 @@
    "incentive": "",
    "years": "",
    "note": "CoreWeave's own release. Its \"up to $6 billion\" is \"to equip\" the data center, CoreWeave being the tenant of a site its partners develop: equipment only, so it is not taken as the project's investment (as Nevada's capital equipment figure is not). Its approximately 600 jobs \"during the build phase\" need an investment to enter the median per billion, so they are not taken. The permanent jobs are those at launch for the initial 100 MW; the approximately 175 \"over time\" are not tied to a size."
+  },
+  {
+   "id": "la_amazon_nwla_2026_aug",
+   "name": "Amazon, northwest Louisiana data center campuses (Caddo and Bossier parishes and Shreveport), three campuses",
+   "company": "Amazon (developer and owner STACK Infrastructure)",
+   "state": "la",
+   "county": "Caddo and Bossier parishes",
+   "place": "Shreveport",
+   "doc": {
+    "title": "Amazon to invest $18 billion in Louisiana for new data centers (updated 18 August 2026)",
+    "publisher": "Amazon",
+    "date": "2026-08-18",
+    "url": "https://www.aboutamazon.com/news/company-news/amazon-data-center-louisiana-new-jobs",
+    "request": 524
+   },
+   "mw": null,
+   "investment": {
+    "value": 18000000000,
+    "year": 2026,
+    "says": "$18 billion",
+    "qualifier": "",
+    "quote": "Amazon today announced it is increasing its planned investment in northwest Louisiana to $18 billion"
+   },
+   "construction_jobs": {
+    "value": 2250,
+    "measure": "construction jobs (STACK's estimate)",
+    "says": "up to 2,250 construction jobs",
+    "qualifier": "up to",
+    "quote": "STACK anticipates the three planned campuses will support up to 2,250 construction jobs"
+   },
+   "permanent_jobs": {
+    "value": 750,
+    "measure": "full-time jobs at Amazon data centers",
+    "says": "up to 750 full-time jobs",
+    "qualifier": "up to",
+    "quote": "When fully built out, the three planned campuses are expected to create up to 750 full-time jobs at Amazon data centers"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "The same campuses as la_amazon_caddo_bossier_2026 (Louisiana Economic Development's release of 23 February 2026, USD 12 billion, two campuses) with a third added, from Amazon's own page as updated on 18 August 2026: both rows are kept and each enters the ranges, as Meta's Richland Parish rows are. The 2,500 additional positions \"in the broader community\" are not the data centers' own and are not taken."
   }
  ]
 }
