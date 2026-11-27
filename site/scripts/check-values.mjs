@@ -1519,6 +1519,13 @@ async function main() {
       // hour of a horizon's forecast, a horizon's mae, the operator's day-ahead mae on the same hours)
       const predictWhole = /^pf\|predict\/(?:[^|]+\|series\/demand\/(?:tomorrow\/|history\/|summary\/[^/]+\/mae\/|with_weather_known\/[^/]+\/mae\/|peak\/[^/]+\/methods\/[^/]+\/mae$)|scores\.json\|rows\/\d+\/6$|ahead\.json\|places\/\d+\/horizons\/\d+\/(?:forecast\/\d+\/\d+|last_2_years\/mae\/[^/]+|last_2_years\/operator_day_ahead_mae_same_hours)$)/.test(check) && text === Math.round(Number(raw)).toLocaleString("en-US");
       if (!pass && predictWhole && t !== undefined && t !== null && same) pass = true;
+      // chain 720 (session 10409): the megawatts of what the forecast's files gained on 27 November 2026, written whole
+      // as the page writes a megawatt of demand: an hour of net demand and its error in MW, the error in MW on the months
+      // whose operator filing passes, an hour and an error of the separate line with the weather forecast, and in the
+      // wind and solar file an hour of a fuel's forecast (tomorrow or a past day) and its error in MW. A percent, a
+      // share of hours and a count keep the forms the rule above knows
+      const predictLinesWhole = /^pf\|predict\/(?:[^|]+\|series\/demand\/(?:net_demand\/(?:tomorrow\/\d+\/\d+|[^/]+\/mae_mw\/[^/]+)|operator_filing\/sound_last_2_years\/mae\/[^/]+|with_weather_forecast\/(?:tomorrow\/\d+\/\d+|all\/mae\/[^/]+))|wind_solar\.json\|places\/\d+\/fuels\/[^/]+\/(?:tomorrow\/\d+\/\d+|history\/\d+\/\d+|summary\/[^/]+\/mae_mw\/[^/]+))$/.test(check) && text === Math.round(Number(raw)).toLocaleString("en-US");
+      if (!pass && predictLinesWhole && t !== undefined && t !== null && same) pass = true;
       // chain 720 (session 10404): /equities writes a change above zero with its sign (lib/equities.ts signedPct and
       // signedLevel: "+0.32%", "+1.25"), two decimals always. A fall and a zero pass the rule above. Found by this check
       // run on a build of the page with window A's files: 21 of the 43 figures failed on "+0.32%" against 0.32

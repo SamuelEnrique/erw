@@ -1,0 +1,241 @@
+// Energy Research Warehouse (ERW) site, session 10409 (chain 720, part E): what the forecast's page files gained on
+// 27 November 2026, on /forecast (the contract's dated lines of that day: in a place file's series.demand,
+// operator_filing, with_weather_forecast and net_demand; in every shown series, band_coverage; the file
+// wind_solar.json), drawn to HTML with the site's own code, without a build.
+//   node --import ./scripts/events-page-register.mjs scripts/test-forecast-lines.mjs [--keep <folder>]
+// The fixture is the one scripts/test-forecast.mjs writes (its --keep), with those fields added to Texas and a file of
+// wind and solar: made-up values, each file marked as a test's fixture, which the site's own folder never reads.
+// Held here: a page with none of them is the page as it was; net demand, wind and solar are drawn for the day forecast
+// now and scored, every method the same weight, the operator's where it is the closer one included; a past day of wind
+// and solar beside what happened; the operator's filing says, where months are flagged, that the filed forecast is not
+// the operator's own in those months, and sets the months that pass beside every month; the line with the weather
+// forecast is a separate line, never called the ERW forecast, in no chart, and says too few days to judge below the
+// file's own minimum; the band's record by line, by hour and by month; every figure carries its key into its file;
+// price draws its own band and none of demand's views. No network. Exit 0 when every check holds, 1 otherwise.
+import { execFileSync } from "node:child_process";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { createElement as h } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+
+const SITE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const { ForecastView } = await import("../app/forecast/view.tsx");
+const L = await import("../lib/predictlines.ts");
+
+const fails = [];
+let n = 0;
+const check = (ok, what) => { n++; if (!ok) fails.push(what); };
+const draw = (dir, query = {}) => { process.env.ERW_PREDICT_DIR = dir; return renderToStaticMarkup(h(ForecastView, { query })); };
+const text = (html) => html.replace(/<title>[^<]*<\/title>/g, " ").replace(/<[^>]+>/g, " ").replace(/&#x27;/g, "'").replace(/&amp;/g, "&").replace(/\s+/g, " ");
+const dash = String.fromCharCode(0x2014);
+const count = (html, re) => (html.match(re) ?? []).length;
+const quiet = (html, where) => {
+  const t = text(html);
+  check(!/\bundefined\b|\bNaN\b|\bnull\b|\[object Object\]/.test(t), `${where}: "undefined", "NaN" or "null" on the page`);
+  check(!html.includes(dash), `${where}: an em dash`);
+  check(!/outperform|signal|should buy|should sell|so what|\bbetter\b|\bbeats?\b|\bwins?\b/i.test(t.replace(/shown only where it beats it/g, "")), `${where}: a word of advice or a view`);
+};
+const esc = (s) => String(s).replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
+/** A figure of the page: its key into its file, its raw value and, when given, the words it is written in. */
+const fig = (html, file, keyPath, raw, shown) => new RegExp(`data-check="pf\\|predict/${esc(file)}\\|${esc(keyPath)}" data-raw="${esc(raw)}"[^>]*>(<span[^>]*>)?${shown === undefined ? "" : `${esc(shown)}<`}`).test(html);
+
+const KEEP = process.argv.includes("--keep") ? process.argv[process.argv.indexOf("--keep") + 1] : null;
+if (KEEP) fs.mkdirSync(KEEP, { recursive: true });
+const FIX = KEEP ?? fs.mkdtempSync(path.join(os.tmpdir(), "erw-c720-lines-"));
+execFileSync(process.execPath, ["--import", "./scripts/events-page-register.mjs", "scripts/test-forecast.mjs", "--keep", FIX], { cwd: SITE, stdio: "pipe" });
+const FIXTURE = "scripts/test-forecast-lines.mjs: made-up values, a test's fixture";
+const load = (name) => JSON.parse(fs.readFileSync(path.join(FIX, name), "utf8"));
+const save = (name, v) => fs.writeFileSync(path.join(FIX, name), JSON.stringify(v));
+
+// ---- 1. As the files stood before 27 November: none of the views ------------------------------------------------------
+const before = draw(FIX, {});
+{
+  check(before.includes('data-fc-state="files"') && before.includes('data-fc-tomorrow="a" data-fc-shown="1"'), "the base fixture is not the one this test builds on");
+  check(before.includes('data-fc-net="a" data-fc-net-hours="none"') && before.includes('data-fc-filing="a" data-fc-filing-months="none"') && before.includes('data-fc-wwf="a" data-fc-wwf-days="none"') && before.includes('data-fc-band="a" data-fc-band-rows="0"'), "a place whose file holds none of the new fields: each view's place is empty");
+  check(!/net demand|filed forecast|weather forecast|Inside the band/i.test(text(before)), "a page with none of the new fields says nothing of them");
+  check(!before.includes("wind_solar.json") && !before.includes("data-fc-blank=\"net|"), "no figure and no blank of a view the files do not hold");
+}
+
+// ---- The fixture --------------------------------------------------------------------------------------------------------
+const tex = load("region-tex.json");
+const dem = tex.series.demand;
+const TS = dem.tomorrow.map((r) => r[0]);
+const demandAt = (hr) => dem.tomorrow[hr][2];
+const windAt = (hr) => 6000.5 - 100 * hr;                                   // highest at 00:00: 6,000.5
+const solarAt = (hr) => (hr >= 8 && hr <= 16 ? 2000 + 500 * (4 - Math.abs(12 - hr)) : 0);   // highest at 12:00: 4,000
+const netAt = (hr) => demandAt(hr) - windAt(hr) - solarAt(hr);
+const span2 = { first_day: "2024-11-26", last_day: "2026-11-25" }, spanAll = { first_day: "2019-07-01", last_day: "2026-11-25" }, spanOp = { first_day: "2026-09-30", last_day: "2026-11-25" };
+const mw = (span, hours, mae, pct) => ({ ...span, hours, mae_mw: mae, nmae_pct: pct });
+const band = (inside, below, above, hours) => ({ nominal_pct: 80.0, hours, inside_pct: inside, below_pct: below, above_pct: above, by_local_hour_inside_pct: Array.from({ length: 24 }, (_, hr) => Number((inside - 2 + hr / 6).toFixed(1))),
+  by_month_columns: ["month", "hours", "inside_pct"], by_month: [["2026-09", 720, 90.7], ["2026-10", 744, 82.4], ["2026-11", 601, 68.5]] });
+dem.tomorrow_from = "the ledger: the forecast first made for this day, kept as made (a later run the same day does not replace it); the method chosen now is regression_recent";
+dem.operator_filing = { what: "the operator's day-ahead forecast as filed on Form EIA-930, set against the demand it forecasts", tolerance_pct: 5.0,
+  months_columns: ["month", "hours", "operator_pct_of_demand", "flagged"], months: [["2026-08", 744, 100.4, false], ["2026-09", 720, 93.8, true], ["2026-10", 744, 99.25, false]],
+  months_flagged: 1, months_held: 3, shift_mape_last_2_years: { "-1": 3.61, 0: 2.09, 1: 1.75 }, best_shift_hours: 1,
+  // on the months that pass the ERW forecast is the closer of the two, on every month the operator's is: both are drawn the same
+  sound_last_2_years: { ...span2, hours: 16800, mae: { erw: 880.4, operator: 990.6, yesterday: 2300.5, week_ago: 3200.5 }, mape: { erw: 1.76, operator: 1.98, yesterday: 4.6, week_ago: 6.4 } } };
+dem.with_weather_forecast = { what: "the regression with the weather, fitted on the airport's observed temperature and applied with the National Weather Service's hourly forecast for the airport", airport: "KDFW", min_days: 30, days: 17, status: "too_few_days",
+  all: { first_day: "2026-10-16", last_day: "2026-11-19", hours: 409, mae: { with_weather_forecast: 1933.03, with_airport_weather_known: 1947.68, erw: 2713.99, operator: 605.33, regression: 2941.88, regression_recent: null },
+    mape: { with_weather_forecast: 3.809, with_airport_weather_known: 3.838, erw: 5.327, operator: 1.181, regression: 5.783, regression_recent: null } },
+  tomorrow_columns: ["ts_utc", "local_hour", "with_weather_forecast"], tomorrow: TS.map((ts, hr) => [ts, hr, demandAt(hr) + 250.5]), tomorrow_issue_utc: "2026-11-26T11:21:09Z" };
+dem.net_demand = { what: "net demand: the demand less the output of wind and solar", status: "shown", wind_solar_place: "region-tex",
+  last_2_years: mw(span2, 17172, { erw: 5539.7, yesterday: 6824.8 }, { erw: 15.77, yesterday: 19.43 }), backtest: mw(spanAll, 64568, { erw: 5138.2, yesterday: 6434.4 }, { erw: 14.94, yesterday: 18.71 }),
+  with_operator: mw(spanOp, 1368, { erw: 5979.6, yesterday: 7205.5, operator: 1914.0 }, { erw: 17.06, yesterday: 20.56, operator: 5.46 }),
+  tomorrow_columns: ["ts_utc", "local_hour", "erw"], tomorrow: TS.map((ts, hr) => [ts, hr, netAt(hr)]) };
+dem.band_coverage = band(80.3, 9.4, 10.3, 17400);
+tex.series.price.band_coverage = band(77.9, 11.3, 10.9, 17446);
+const HIST = dem.history.slice(0, 48).map((r) => [r[0], r[1], r[2]]);   // two past days: ts, local day, local hour
+const fuel = (at, opAt, method, pct) => ({ status: "shown", method, method_mae_last_2_years: { yesterday: 6550.6, profile7: 5689.0, regression: 5382.3 }, target_series: "EIA-930's net generation for the region (a test's fixture)",
+  operator: opAt ? "ERCOT's short-term wind and solar forecasts (a test's fixture)" : null, operator_held: opAt ? null : "not held: the warehouse holds no forecast of this region's wind or solar by its operator",
+  made_utc: "2026-11-26T18:00:00Z", inputs_through_utc: "2026-11-26T05:00:00Z", target_day: "2026-11-27", horizon_days: 2, band: "the 10th and 90th percentile of the chosen method's own past errors at the same local hour over 365 days",
+  band_coverage_pct: pct, band_coverage: band(pct, 10.9, Number((89.1 - pct).toFixed(1)), 16923),
+  tomorrow_columns: ["ts_utc", "local_hour", "erw", "lo", "hi", "operator"], tomorrow: TS.map((ts, hr) => [ts, hr, at(hr), at(hr) - 400, at(hr) + 400, opAt ? opAt(hr) : null]), tomorrow_held: null,
+  summary: { last_2_years: mw(span2, 17186, { erw: 5382.3, yesterday: 6550.6, profile7: 5689.0, regression: 5382.3 }, { erw: 40.46, yesterday: 49.24, profile7: 42.76, regression: 40.46 }),
+    backtest: mw(spanAll, 64587, { erw: 4890.6, yesterday: 6015.3, profile7: 5165.4, regression: 4890.6 }, { erw: 41.26, yesterday: 50.75, profile7: 43.58, regression: 41.26 }),
+    with_operator: opAt ? mw(spanOp, 1368, { erw: 5833.0, yesterday: 6398.2, profile7: 6248.8, regression: 5833.0, operator: 1457.7 }, { erw: 52.99, yesterday: 58.13, profile7: 56.77, regression: 52.99, operator: 13.24 }) : null, with_operator_available: null },
+  history_columns: ["ts_utc", "local_day", "local_hour", "erw", "lo", "hi", "operator", "actual", "yesterday"], history: HIST.map(([ts, day, hr]) => [ts, day, hr, at(hr), at(hr) - 400, at(hr) + 400, opAt ? opAt(hr) : null, at(hr) + 150, at(hr) - 90]) });
+const ws = { fixture: FIXTURE, contract: "docs/state/page_files_predict.md", built: "2026-11-27T03:28:48Z", tier: "derived", label: "ERW forecast", method_note: "docs/methods/predict_wind_solar.md",
+  made_rule: "made at 20:00 UTC the day before the target local day, from output through two days before it; no weather enters", units: "MW",
+  methods: [{ id: "erw", words: "the method the rule chose for the place and fuel" }, { id: "operator", words: "the operator's own forecast, where the warehouse holds it" }, { id: "yesterday", words: "the same local hour of the latest whole day read" }, { id: "profile7", words: "the mean of the same local hour over the seven latest whole days read" }],
+  // Texas is the second place, so a figure's key must name its position in the file
+  places: [{ place: "region-cal", name: "California", time: "America/Los_Angeles", fuels: {} }, { place: "region-tex", name: "Texas", time: "America/Chicago", fuels: { wind: fuel(windAt, (hr) => windAt(hr) + 120, "regression", 79.8), solar: fuel(solarAt, null, "profile7", 75.7) } }],
+  rows_columns: ["place", "fuel", "method", "cut", "key", "hours", "mae_mw", "nmae_pct", "held"], rows: [["region-tex", "wind", "erw", "all", "", 64587, 4890.6, 41.26, null]] };
+save("region-tex.json", tex);
+save("wind_solar.json", ws);
+const TEX = "region-tex.json", WS = "wind_solar.json";
+
+// ---- 2. The library ------------------------------------------------------------------------------------------------------
+{
+  const months = L.filingMonths(dem.operator_filing);
+  check(months.length === 3 && months[1].flagged === true && months[1].pct === 93.8 && months[1].i === 1 && months[0].flagged === false, "filingMonths: the months by the file's column names, each with its place");
+  check(L.filingShift(dem.operator_filing) === 1 && L.filingShift({ best_shift_hours: 0 }) === null && L.filingShift(null) === null, "filingShift: a shift of nought is none");
+  check(L.tooFewDays(dem.with_weather_forecast) === true && L.tooFewDays({ status: "scored", days: 40, min_days: 30 }) === false && L.tooFewDays({ days: 12, min_days: 30 }) === true && L.tooFewDays(null) === false, "tooFewDays: the file's status, or fewer days than its own minimum");
+  check(L.windSolarOf(ws, "region-tex")?.pi === 1 && L.windSolarOf(ws, "ba-none") === null && L.windSolarOf({ ...ws, example: true }, "region-tex") === null && L.windSolarOf(null, "region-tex") === null, "windSolarOf: a place by its id with its position; an example file shows nothing");
+  const hours = L.lineHours(ws.places[1].fuels.wind.tomorrow_columns, ws.places[1].fuels.wind.tomorrow, "operator");
+  check(hours.length === 24 && hours[0].erw === 6000.5 && hours[0].other === 6120.5 && hours[3].lo === windAt(3) - 400 && hours[23].i === 23, "lineHours: a line's hours by the file's column names, the line beside it included");
+  const past = L.lineHours(ws.places[1].fuels.wind.history_columns, ws.places[1].fuels.wind.history, "operator");
+  check(L.lineDays(past).join(" ") === "2026-11-25 2026-11-24" && L.lineDefaultDay(past) === "2026-11-25" && L.lineDefaultDay([]) === null, "lineDays and lineDefaultDay: the days a line holds, the newest with a forecast and what happened");
+  check(L.bandMonths(dem.band_coverage).map((m) => `${m.month}=${m.inside}`).join(" ") === "2026-09=90.7 2026-10=82.4 2026-11=68.5", "bandMonths: the months in the file's own order");
+  check(L.mwMetricOf("mape") === "nmae_pct" && L.mwMetricOf("mae") === "mae_mw", "the page's two scores, said for the megawatt lines");
+  const cuts = L.lineScores(ws.rows_columns, ws.rows, { place: "region-tex", fuel: "wind" }, ["mae_mw", "nmae_pct"]);
+  check(cuts.get("all")?.cells.get("|erw")?.values.mae_mw === 4890.6 && cuts.get("all")?.cells.get("|erw")?.i === 0 && L.lineScores(ws.rows_columns, ws.rows, { place: "region-tex", grid: "x" }, ["mae_mw"]).size === 0, "lineScores: a file's rows by cut, key and method; a column the file does not name matches nothing");
+}
+
+// ---- 3. Tomorrow: wind, solar and net demand ----------------------------------------------------------------------------
+const page = draw(FIX, {});
+const t = text(page);
+quiet(page, "demand");
+{
+  check(page.includes('data-fc-net="a" data-fc-net-hours="24"') && t.includes("Texas: wind, solar and net demand"), "the block of net demand, 24 hours");
+  check(fig(page, TEX, "series/demand/net_demand/tomorrow/0/2", netAt(0), "34,000") && /data-n="fc\|a\|net\|low"/.test(page) && t.includes("Lowest net demand"), "the lowest hour of net demand is the file's, written whole, with its key");
+  check(fig(page, TEX, "series/demand/net_demand/tomorrow/17/2", netAt(17)) && /data-n="fc\|a\|net\|high"/.test(page), "the highest hour of net demand is the file's");
+  check(fig(page, WS, "places/1/fuels/wind/tomorrow/0/2", 6000.5, "6,001") && fig(page, WS, "places/1/fuels/solar/tomorrow/12/2", 4000, "4,000") && t.includes("Highest wind hour") && t.includes("Highest solar hour"), "the highest hour of wind and of solar, each with its key into the wind and solar file by the place's position there");
+  check(/aria-label="ERW forecast of demand, of wind and solar output and of net demand for Texas, Friday 27 Nov 2026/.test(page), "the chart's name says what it draws");
+  for (const name of ["ERW forecast: demand", "ERW forecast: net demand", "ERW forecast: wind", "ERW forecast: solar"]) check(page.includes(name), `the chart's line "${name}" carries the words ERW forecast`);
+  // the scores: every method the file scores, the operator's lower error drawn as any other
+  check(page.includes('data-fc-line-scores="a"') && fig(page, TEX, "series/demand/net_demand/last_2_years/nmae_pct/erw", 15.77, "15.77") && fig(page, TEX, "series/demand/net_demand/with_operator/nmae_pct/operator", 5.46, "5.46"), "net demand's scores, the operator's where it is scored");
+  check(fig(page, WS, "places/1/fuels/wind/summary/with_operator/nmae_pct/operator", 13.24, "13.24") && fig(page, WS, "places/1/fuels/wind/summary/last_2_years/nmae_pct/profile7", 42.76, "42.76") && fig(page, WS, "places/1/fuels/wind/summary/backtest/hours", 64587, "64,587"), "wind's scores and hours, from the wind and solar file");
+  check(!page.includes("places/1/fuels/solar/summary/with_operator") && /not scored/.test(t), "a line the operator's forecast is not held for has no row of it, and its cell says not scored");
+  const mae = draw(FIX, { m: "mae" });
+  check(fig(mae, TEX, "series/demand/net_demand/last_2_years/mae_mw/erw", 5539.7, "5,540") && fig(mae, WS, "places/1/fuels/solar/summary/backtest/mae_mw/yesterday", 6015.3, "6,015"), "the score in MW when the page's score is the error in MW, written whole");
+  check(page.includes('data-fc-net-fold="a"') && fig(page, WS, "places/1/fuels/wind/tomorrow/5/5", windAt(5) + 120) && t.includes("Wind, operator") && fig(page, TEX, "series/demand/net_demand/tomorrow/5/2", netAt(5)), "hour by hour: demand, wind with the operator's forecast, solar, net demand");
+}
+
+// ---- 4. How it has done: wind and solar on a past day --------------------------------------------------------------------
+{
+  check(page.includes('data-fc-wsday="a" data-fc-wsday-of="2026-11-25"') && /aria-label="ERW forecast of wind and solar output for Texas on Wednesday 25 Nov 2026, beside what happened/.test(page), "wind and solar on the newest past day held, beside what happened");
+  check(page.includes("What happened: wind") && page.includes("What happened: solar"), "what happened is a line of its own for each");
+  const d24 = draw(FIX, { day: "2026-11-24" });
+  check(d24.includes('data-fc-wsday-of="2026-11-24"'), "the day asked for, where the wind and solar file holds it");
+  const odd = draw(FIX, { day: "2026-01-01" });
+  check(odd.includes('data-fc-wsday-of="2026-11-25"') && odd.includes("2026-01-01 is not among them"), "a day the file does not hold: the newest day held, and the hover says so");
+  quiet(odd, "a day not held");
+}
+
+// ---- 5. The operator's filing ---------------------------------------------------------------------------------------------
+{
+  check(page.includes('data-fc-filing="a" data-fc-filing-months="3" data-fc-filing-flagged="1"'), "the block of the filing check");
+  check(/In <span data-check="pf\|predict\/region-tex\.json\|series\/demand\/operator_filing\/months_flagged" data-raw="1"[^>]*>1<\/span> of 3 months the forecast filed on Form EIA-930 is more than 5 percent from the demand it forecasts over the whole month\. In those months the filed forecast is not the operator&#x27;s own forecast\./.test(page), "where months are flagged the page says the filed forecast is not the operator's own in those months");
+  check(fig(page, TEX, "series/demand/operator_filing/sound_last_2_years/mape/erw", 1.76, "1.76") && fig(page, TEX, "series/demand/operator_filing/sound_last_2_years/mape/operator", 1.98, "1.98") && fig(page, TEX, "series/demand/operator_filing/sound_last_2_years/hours", 16800, "16,800"), "the months that pass: every method's score, the ERW's lower one drawn as any other");
+  check(/Every month<\/th>[\s\S]{0,400}data-check="pf\|predict\/scores\.json\|rows\/\d+\/\d+"/.test(page), "beside them, the last two years on every month, from the score file");
+  check(page.includes('data-fc-filing-fold="a"') && t.includes("The filing month by month: 3 months, 1 flagged") && fig(page, TEX, "series/demand/operator_filing/months/1/2", 93.8, "93.80") && count(page, /data-fc-filing-month="flagged"/g) === 1 && count(page, /data-fc-filing-month="passes"/g) === 2, "every month behind a fold, the flagged one marked");
+  check(t.includes("its hours fit best moved by 1") && page.includes("3.61%, 2.09%, 1.75%"), "a filing whose hours fit best moved: said beside the heading, the three errors on hover");
+  // no month flagged: the sentence and the two rows are not drawn, the fold is
+  const none = load(TEX);
+  none.series.demand.operator_filing = { ...dem.operator_filing, months: dem.operator_filing.months.map((m) => [m[0], m[1], 100.2, false]), months_flagged: 0, best_shift_hours: 0 };
+  save(TEX, none);
+  const clean = draw(FIX, {});
+  check(clean.includes('data-fc-filing-flagged="0"') && !clean.includes("data-fc-filing-says") && text(clean).includes("3 months, none flagged") && !text(clean).includes("fit best moved"), "no month flagged: no sentence, the months in their fold");
+  save(TEX, tex);
+}
+
+// ---- 6. The separate line with the weather forecast -----------------------------------------------------------------------
+{
+  check(page.includes('data-fc-wwf="a" data-fc-wwf-days="17" data-fc-wwf-few="1"') && t.includes("with the weather forecast (a separate line, not the ERW forecast), KDFW: 17 of the 30 days needed, too few days to judge"), "the line's heading: separate, not the ERW forecast, too few days to judge");
+  check(fig(page, TEX, "series/demand/with_weather_forecast/all/mape/with_weather_forecast", 3.809, "3.81") && fig(page, TEX, "series/demand/with_weather_forecast/all/mape/operator", 1.181, "1.18") && fig(page, TEX, "series/demand/with_weather_forecast/all/hours", 409, "409"), "its scores beside the methods on the same hours");
+  check(t.includes("With the airport's weather known") && !/regression_recent|with_weather_forecast|with_airport_weather_known|nmae_pct|mae_mw/.test(t), "the same line on the airport's observed weather is named plainly; a file's own id is never printed on the page's face");
+  check(page.includes('data-fc-wwf-fold="a"') && fig(page, TEX, "series/demand/with_weather_forecast/tomorrow/17/2", demandAt(17) + 250.5), "its hours for the day forecast now, behind a fold");
+  // never in a chart, never called the ERW forecast's line
+  const charts = [...page.matchAll(/<svg[^>]*>/g)].map((m) => /aria-label="([^"]*)"/.exec(m[0])?.[1]).filter((a) => a && /ERW forecast/.test(a));
+  check(charts.length >= 5 && charts.every((a) => !/weather forecast/i.test(a)) && !page.includes("ERW forecast: with the weather"), "the separate line is in no chart of the ERW forecast");
+  const scored = load(TEX);
+  scored.series.demand.with_weather_forecast = { ...dem.with_weather_forecast, days: 41, status: "scored" };
+  save(TEX, scored);
+  const s2 = draw(FIX, {});
+  check(s2.includes('data-fc-wwf-few="0"') && text(s2).includes("41 of the 30 days needed,") && !text(s2).includes("too few days to judge"), "with the days the file asks for, the heading no longer says too few");
+  save(TEX, tex);
+}
+
+// ---- 7. The band ----------------------------------------------------------------------------------------------------------
+{
+  check(page.includes('data-fc-band="a" data-fc-band-rows="3"') && t.includes("the band, and how often what happened fell inside it (a band made to hold 80 percent of hours)"), "the band's record: demand, wind and solar");
+  check(fig(page, TEX, "series/demand/band_coverage/inside_pct", 80.3, "80.30") && fig(page, TEX, "series/demand/band_coverage/below_pct", 9.4, "9.40") && fig(page, TEX, "series/demand/band_coverage/above_pct", 10.3, "10.30") && fig(page, TEX, "series/demand/band_coverage/hours", 17400, "17,400"), "the shares inside, below and above, and the hours");
+  check(fig(page, WS, "places/1/fuels/wind/band_coverage/inside_pct", 79.8, "79.80") && fig(page, WS, "places/1/fuels/solar/band_coverage/inside_pct", 75.7, "75.70"), "the wind and solar bands, from their file");
+  check(/aria-label="Texas: the share of past hours on which what happened fell inside the band of the ERW forecast, by the hour of the place's clock, in percent"/.test(page.replace(/&#x27;/g, "'")), "the share inside by the hour of the day, as a chart");
+  check(page.includes('data-fc-band-fold="a|0"') && fig(page, TEX, "series/demand/band_coverage/by_month/2/2", 68.5, "68.50") && fig(page, TEX, "series/demand/band_coverage/by_month/2/1", 601, "601"), "month by month behind a fold, a month below the band's own share drawn as any other");
+  const price = draw(FIX, { s: "price" });
+  quiet(price, "price");
+  check(price.includes('data-fc-band="a" data-fc-band-rows="1"') && fig(price, TEX, "series/price/band_coverage/inside_pct", 77.9, "77.90") && !price.includes("fuels/wind"), "price: its own band, and no line of wind or solar");
+  check(!price.includes('data-fc-net="a" data-fc-net-hours="24"') && !price.includes("data-fc-filing=") && !price.includes("data-fc-wwf="), "price draws none of demand's views");
+}
+
+// ---- 8. What a file does not hold -----------------------------------------------------------------------------------------
+{
+  // no forecast of net demand for the day: a blank with the file's reason, and the scores still
+  const empty = load(TEX);
+  empty.series.demand.net_demand = { ...dem.net_demand, tomorrow: [] };
+  save(TEX, empty);
+  const wsHeld = JSON.parse(JSON.stringify(ws));
+  for (const f of Object.values(wsHeld.places[1].fuels)) { f.tomorrow = []; f.tomorrow_held = "no forecast yet: the output of two days before is not held when the forecast is made"; }
+  save(WS, wsHeld);
+  const html = draw(FIX, {});
+  check(html.includes('data-fc-net="a" data-fc-net-hours="0"') && /data-fc-blank="net\|a"[^>]*>ERW forecast of net demand, Texas, Friday 27 Nov 2026: not held</.test(html) && html.includes("no forecast yet: the output of two days before is not held"), "no net demand for the day: a blank with the file's reason");
+  check(html.includes('data-fc-line-scores="a"') && fig(html, TEX, "series/demand/net_demand/last_2_years/nmae_pct/erw", 15.77), "and its scores are drawn still");
+  quiet(html, "no net demand for the day");
+  // no wind and solar file: net demand alone
+  fs.rmSync(path.join(FIX, WS));
+  save(TEX, tex);
+  const alone = draw(FIX, {});
+  check(alone.includes('data-fc-net="a" data-fc-net-hours="24"') && !alone.includes("wind_solar.json|") && alone.includes('data-fc-wsday="a" data-fc-wsday-of="none"') && alone.includes('data-fc-band-rows="1"'), "no wind and solar file: net demand is drawn alone, and no figure of the file");
+  check(text(alone).includes("Highest wind hour") && /The wind and solar file \(site\/data\/predict\/wind_solar\.json\) holds no wind line for this place/.test(alone), "the wind and solar figures are blanks that say why");
+  quiet(alone, "no wind and solar file");
+  // an example wind and solar file shows nothing
+  save(WS, { ...ws, example: true });
+  check(!draw(FIX, {}).includes("wind_solar.json|"), "an example wind and solar file: nothing of it is shown");
+  save(WS, ws);
+}
+
+// ---- 9. Two places, and the hover of a forecast kept as first made --------------------------------------------------------
+{
+  const two = draw(FIX, { b: "region-mida" });
+  check(two.includes('data-fc-net="a" data-fc-net-hours="24"') && two.includes('data-fc-net="b" data-fc-net-hours="none"') && two.includes('data-fc-band="b" data-fc-band-rows="0"'), "two places: each view once a place, a place with none of it empty");
+  quiet(two, "two places");
+  check(page.includes("Kept as first made: the ledger: the forecast first made for this day, kept as made") && page.includes("the method chosen now is regression with the recent days."), "a forecast the ledger already held: the place's hover says it is kept as first made, the method in the page's words");
+  check(!before.includes("Kept as first made"), "a forecast made fresh says nothing of the ledger");
+}
+
+if (!KEEP) fs.rmSync(FIX, { recursive: true, force: true });
+if (fails.length) { for (const f of fails) console.log(`FAIL ${f}`); console.log(`${fails.length} of ${n} checks failed`); process.exit(1); }
+console.log(`ok: ${n} checks of the forecast's lines of 27 November (net demand, wind and solar, the operator's filing, the weather forecast line, the band)`);

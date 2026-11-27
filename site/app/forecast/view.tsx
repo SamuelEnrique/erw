@@ -33,6 +33,10 @@ import { PEAK_HOURS, PEAK_SPANS, aheadDays, aheadOf, madeOffRule, pctWords, type
 // session 10406 (chain 720, part E): the separate line "with the weather known" (not a forecast)
 import { WEATHER_LABEL, WEATHER_METHODS, WEATHER_SPANS } from "@/lib/predict";
 import { predictAhead, predictIndex, predictLedger, predictPlace, predictScores } from "@/lib/predictfiles";
+// session 10409 (chain 720, part E): the views of what the files gained on 27 November 2026 (app/forecast/lines.tsx)
+import { predictWindSolar } from "@/lib/predictfiles";
+import { plainMethods } from "@/lib/predict";
+import { BandCheck, FilingCheck, NetDemand, WeatherForecastLine, WindSolarDay } from "./lines";
 
 type Raw = Record<string, string | string[] | undefined>;
 type Slot = { mark: "a" | "b"; place: IndexPlace; file: PlaceFile | null };
@@ -69,7 +73,7 @@ function PlaceHead({ slot, s, index, tip }: { slot: Slot; s: SeriesKey; index: P
   const ser = slot.file?.series?.[s];
   const shown = isShown(slot.file, ser);
   const why = shown && ser
-    ? `${LABEL} for ${dayWords(ser.target_day)}: made ${localWords(ser.made_utc, slot.place.time) || "at an hour the file does not say"} (${utcWords(ser.made_utc)}), from the place's own figures through ${localWords(ser.inputs_through_utc, slot.place.time) || "an hour the file does not say"}${typeof ser.horizon_days === "number" ? `, ${ser.horizon_days} days before the day forecast (2 is the day-ahead forecast as the method note defines it; more when the warehouse's series is behind)` : ""}. Method: ${methodWords(ser.method ?? "not said")}, last fit ${ser.fit_day ?? "on a day the file does not say"}.${index.made_rule ? ` The rule: ${index.made_rule}${madeOffRule(ser.made_utc, index.made_rule, s) ? ` ${madeOffRule(ser.made_utc, index.made_rule, s)}` : ""}` : ""}${index.choice_rule ? ` ${index.choice_rule}` : ""}`
+    ? `${LABEL} for ${dayWords(ser.target_day)}: made ${localWords(ser.made_utc, slot.place.time) || "at an hour the file does not say"} (${utcWords(ser.made_utc)}), from the place's own figures through ${localWords(ser.inputs_through_utc, slot.place.time) || "an hour the file does not say"}${typeof ser.horizon_days === "number" ? `, ${ser.horizon_days} days before the day forecast (2 is the day-ahead forecast as the method note defines it; more when the warehouse's series is behind)` : ""}. Method: ${methodWords(ser.method ?? "not said")}, last fit ${ser.fit_day ?? "on a day the file does not say"}.${index.made_rule ? ` The rule: ${index.made_rule}${madeOffRule(ser.made_utc, index.made_rule, s) ? ` ${madeOffRule(ser.made_utc, index.made_rule, s)}` : ""}` : ""}${index.choice_rule ? ` ${index.choice_rule}` : ""}${ser.tomorrow_from ? ` Kept as first made: ${plainMethods(ser.tomorrow_from)}.` : ""}`
     : blankWhy(ser ?? slot.place.series?.[s], slot.file?.example === true || index.example === true);
   return (
     <h3 className="mb-2 font-serif text-xl text-accent" data-fc-place={slot.mark}>
@@ -517,6 +521,9 @@ export function ForecastView({ query }: { query: Raw }) {
   // session 10405: the days after tomorrow; null while the file is not on the site, an example or a test's fixture
   const aheadFile = predictAhead();
   const ahead = aheadFile && aheadFile.example !== true && index?.example !== true ? aheadFile : null;
+  // session 10409: the wind and solar file; null while it is not on the site, an example or a test's fixture
+  const windSolarFile = predictWindSolar();
+  const windSolar = windSolarFile && windSolarFile.example !== true && index?.example !== true ? windSolarFile : null;
   const q: Query = queryOf(query, index);
   const metric = metricOf(q);
   const places = index?.places ?? [];
@@ -579,10 +586,18 @@ export function ForecastView({ query }: { query: Raw }) {
                 {slots.map((x) => <DaysAhead key={x.mark} slot={x} ahead={ahead} metric={metric} scores={scores} part="table" />)}
               </div>
             ) : null}
+            {/* session 10409: wind, solar and what is left of demand after them, demand only */}
+            {q.s === "demand" ? <div className={two} data-fc-net-block="1">{slots.map((x) => <NetDemand key={x.mark} slot={x} ws={windSolar} metric={metric} />)}</div> : null}
           </ToolSection>
           <ToolSection title="How it has done" id="record">
             <div className={two}>{slots.map((x) => <PastDay key={x.mark} slot={x} s={q.s} index={index} scores={scores} asked={q.day} />)}</div>
+            {q.s === "demand" ? <div className={two} data-fc-wsday-block="1">{slots.map((x) => <WindSolarDay key={x.mark} slot={x} ws={windSolar} asked={q.day} />)}</div> : null}
             <div className="mt-6"><ReportCard slots={slots} s={q.s} index={index} scores={scores} metric={metric} /></div>
+            {/* session 10409: the check of the operator's filing, the separate line with the weather forecast (demand
+                only), and the band's record (either series); each after the report card, which stands as it was */}
+            {q.s === "demand" ? <div className={two} data-fc-filing-block="1">{slots.map((x) => <FilingCheck key={x.mark} slot={x} scores={scores} metric={metric} />)}</div> : null}
+            {q.s === "demand" ? <div className={two} data-fc-wwf-block="1">{slots.map((x) => <WeatherForecastLine key={x.mark} slot={x} scores={scores} metric={metric} />)}</div> : null}
+            <div className={two} data-fc-band-block="1">{slots.map((x) => <BandCheck key={x.mark} slot={x} s={q.s} ws={windSolar} />)}</div>
           </ToolSection>
           <ToolSection title="Every place" id="places">
             <AllPlaces index={index} scores={scores} s={q.s} metric={metric} chosen={slots.map((x) => x.place.place)} />

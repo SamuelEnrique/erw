@@ -10,6 +10,8 @@
 // The word "forecast" in the code belongs to the Economic impact tool (lib/forecast*.ts, data/forecast, app/impact):
 // nothing of it is imported here. This build's name in every path is "predict"; on the page it is "ERW forecast".
 
+import type { BandCoverage, NetDemand, OperatorFiling, WeatherForecast } from "@/lib/predictlines";
+
 export type SeriesKey = "demand" | "price";
 export const SERIES: SeriesKey[] = ["demand", "price"];
 export const SERIES_WORDS: Record<SeriesKey, string> = { demand: "Demand", price: "Price" };
@@ -44,6 +46,12 @@ export type PlaceSeries = IndexSeries & {
   peak?: Peak | null;
   // session 10406: the contract's separate line "with the weather known" (demand only; below)
   with_weather_known?: WeatherKnown | null;
+  // session 10409: the contract's dated lines of 27 November 2026 (lib/predictlines.ts): the operator's filing checked
+  // by month, the separate line with the weather forecast and net demand (demand only), and the band's record (every
+  // shown series); and its line of 26 November: `tomorrow_from`, present only when the ledger already held the target
+  // day, so that the forecast drawn is the one first made for it
+  operator_filing?: OperatorFiling | null; with_weather_forecast?: WeatherForecast | null; net_demand?: NetDemand | null; band_coverage?: BandCoverage | null;
+  tomorrow_from?: string | null;
 };
 /** Session 10406 (chain 720, part E): the separate line "with the weather known" (the contract's change of session
  *  10601): the regression with the region's observed temperature of the target day itself added. It reads the day's
@@ -125,6 +133,9 @@ export const METHOD_WORDS: Record<string, string> = {
   regression_recent: "Regression with the recent days",
 };
 export const methodWords = (id: string) => METHOD_WORDS[id] ?? id.replace(/_/g, " ");
+/** Session 10409: a sentence of a file that names a method by its id ("the method chosen now is regression_recent"),
+ *  with the id put in the page's words; anything that is not a method's id is left as the file wrote it. */
+export const plainMethods = (words: string) => words.replace(/\b[a-z]+(?:_[a-z0-9]+)+\b/g, (id) => (METHOD_WORDS[id] ? METHOD_WORDS[id].toLowerCase() : id));
 /** A method's name at the head of a table's column, where its full name is on hover. The model's keeps its two words. */
 export const METHOD_SHORT: Record<string, string> = { erw: LABEL, operator: "Operator", yesterday: "Yesterday", week_ago: "Week ago", regression: "Regression", flexible: "Flexible", regression_recent: "Regression, recent" };
 export const methodShort = (id: string) => METHOD_SHORT[id] ?? methodWords(id);
@@ -285,9 +296,12 @@ export function scoresOf(scores: ScoresFile | null, place: string, series: Serie
 }
 /** The cuts that are one row each (or one row an event), in the order the page lists them under the month and hour
  *  tables. `last_2_years` came with the contract's change of 26 November: the 730 days a place's method is chosen on. */
-export const OTHER_CUTS = ["all", "last_2_years", "top10", "spike", "event"] as const;
+export const OTHER_CUTS = ["all", "last_2_years", "operator_sound", "operator_sound_last_2_years", "top10", "spike", "event"] as const;
 export const CUT_WORDS: Record<string, string> = {
   all: "Every hour scored", last_2_years: "The last two years", top10: "The ten highest-demand days", spike: "Price spikes (hours above the grid's 99th percentile)",
+  // session 10409: the cuts of 27 November 2026 (the score file's `cuts_added`): the hours of the months whose operator
+  // filing passes its check, over the backtest and over the last two years
+  operator_sound: "The months whose operator filing passes its check", operator_sound_last_2_years: "The last two years, the months whose filing passes",
 };
 /** An event's key is its address on /events ("uri-2021"); only such a key is made a link. */
 export const eventHref = (key: string): string | null => (/^[a-z0-9][a-z0-9-]*$/.test(key) ? `/events/${key}` : null);
