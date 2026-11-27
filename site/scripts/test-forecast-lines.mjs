@@ -498,6 +498,22 @@ quiet(page, "demand");
   check(fig(html, RT, "rows/" + (rtNow.rows.length) + "/6", 3958.65, "3,958.65") && html.includes("The file&#x27;s words on this cut: the ten days of the backtest with the highest real-time price hour."), "the real-time cuts carry the real-time file's own words");
   check(html.includes('data-fc-hub-download="ercot:HB_HOUSTON"') && html.includes('href="/forecast/realtime-price?hub=ercot%3AHB_HOUSTON"') && html.includes(">Close ercot:HB_HOUSTON<") && html.includes('href="/forecast?s=price#hubs"'), "the hub's download, and a way to close it");
   check(/<input type="hidden" name="hub" value="ercot:HB_HOUSTON"/.test(html), "the hub stays drawn through another choice of the form");
+  // the hub's day-ahead forecast as a download, the route asked as a browser asks it
+  check(html.includes('data-fc-hub-download-dah="ercot:HB_HOUSTON"') && html.includes('href="/forecast/hub-price?hub=ercot%3AHB_HOUSTON"') && html.includes('href="/forecast/hub-price/stata?hub=ercot%3AHB_HOUSTON"'), "the hub's day-ahead forecast is offered as a CSV with its readers");
+  {
+    process.env.ERW_PREDICT_DIR = FIX;
+    const ask = async (file, address) => { const res = (await import(file)).GET(new Request(address)); return { status: res.status, type: res.headers.get("Content-Type") ?? "", name: res.headers.get("Content-Disposition") ?? "", robots: res.headers.get("X-Robots-Tag"), text: await res.text() }; };
+    const h1 = await ask("../app/forecast/hub-price/route.ts", "https://example.test/forecast/hub-price?hub=ercot%3AHB_HOUSTON");
+    const rowsOf = h1.text.split("\n").filter((l) => l && !l.startsWith("#"));
+    check(h1.status === 200 && h1.type.startsWith("text/csv") && h1.robots === "noindex" && h1.name.includes("erw_forecast_day_ahead_price_ercot-houston.csv") && rowsOf[0] === L.HUB_HEAD.join(",") && rowsOf.length === 1 + 24 + price.history.length, "/forecast/hub-price: the hub's CSV, the day forecast now and every past hour held");
+    check(rowsOf.includes(`ercot:HB_HOUSTON,tomorrow,${price.tomorrow[18][0]},2026-11-27,18,${price.made_utc},live,68,62,74,,,`) && /^# From: https:\/\/example\.test\/forecast\/hub-price\?hub=ercot%3AHB_HOUSTON$/m.test(h1.text) && /No operator publishes a forecast of its day-ahead price/.test(h1.text), "a row of the day forecast now with its band; the provenance first");
+    check((await ask("../app/forecast/hub-price/route.ts", "https://example.test/forecast/hub-price?hub=ercot%3AHB_NORTH")).status === 404 && (await ask("../app/forecast/hub-price/route.ts", "https://example.test/forecast/hub-price")).status === 404, "a hub the hubs file does not list, or none: 404");
+    const h2 = await ask("../app/forecast/hub-price/python/route.ts", "https://example.test/forecast/hub-price/python?hub=ercot%3AHB_HOUSTON&z=9");
+    const h3 = await ask("../app/forecast/hub-price/stata/route.ts", "https://example.test/forecast/hub-price/stata?hub=ercot%3AHB_HOUSTON");
+    check(h2.status === 200 && h2.text.includes('URL = "https://example.test/forecast/hub-price?hub=ercot%3AHB_HOUSTON"') && !h2.text.includes("z=9") && h3.status === 200 && h3.name.includes("ercot-houston.do"), "its two readers carry the hub's address and nothing else of the request");
+    const { HUB_READER } = await import("../app/forecast/hub-price/reader.ts");
+    check([...HUB_READER.text, ...HUB_READER.figures].every((c) => L.HUB_HEAD.includes(c)) && [...HUB_READER.text, ...HUB_READER.figures].length === L.HUB_HEAD.length && HUB_READER.show.every((c) => L.HUB_HEAD.includes(c)), "the reader names every column of the CSV and no other");
+  }
   const pct = draw(FIX, { s: "price", hub: "ercot:HB_HOUSTON", m: "mape" });
   check(fig(pct, HUBS, "hubs/0/summary/backtest/mape/week_ago", 125.6, "125.60") && fig(pct, RT, "hubs/2/long_backtest/by_year/1/mape/day_ahead", 27.5, "27.50") && pct.includes("hub=ercot%3AHB_HOUSTON"), "the percent error when the page's score is that");
   // a hub the files do not list for the place, and a hub with demand

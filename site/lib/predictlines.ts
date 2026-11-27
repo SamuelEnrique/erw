@@ -301,6 +301,31 @@ export function netCsv(place: { place: string; name: string }, demand: { target_
   return `${head.join("\n")}\n${csvLines(NET_HEAD, rows)}`;
 }
 
+export const HUB_HEAD = ["hub", "part", "ts_utc", "local_day", "local_hour", "made_utc", "kind", "erw_forecast", "band_low", "band_high", "actual", "same_hour_yesterday", "same_hour_week_ago"];
+/** Session 10411: one more hub's day-ahead price forecast as a CSV (price_hubs.json), with the provenance first: the
+ *  day forecast now and every past hour the file holds, by the file's own column names. A day with no forecast has no
+ *  row, and the header says why. */
+export function hubCsv(hub: PriceHub, file: PriceHubsFile, url: string): string {
+  const head = [
+    `# Energy Research Warehouse (ERW): the ERW forecast of the day-ahead price at ${hub.hub}, hour by hour (site/lib/predictlines.ts hubCsv)`,
+    "# ERW forecast: a model's output (tier derived), never a published or official figure. No operator publishes a forecast of its day-ahead price. USD/MWh.",
+    `# Built: ${file.built ?? "not built"} (site/data/predict/price_hubs.json); made ${hub.made_utc ?? "not said"}; method ${hub.method ?? "not said"}; band: ${hub.band ?? "not said"}`,
+    `# Rule: ${file.made_rule ?? "not said"}. Method: ${file.method_note ?? "docs/methods/predict_price.md"}. Contract: docs/state/page_files_predict.md`,
+    `# part: tomorrow (the day forecast now) or history (a past day, with what happened). ts_utc is the start of an hour, UTC; local_day and local_hour are in the hub's clock (${hub.time}). kind: live (made on the day) or backtest`,
+    ...(hub.tomorrow_held ? [`# tomorrow: no row. ${hub.tomorrow_held}`] : []),
+    ...(hub.status !== "shown" ? [`# No row: the file's status of this hub is ${hub.status}${hub.held ? ` (${hub.held})` : ""}`] : []),
+    `# From: ${url}`,
+  ];
+  const rows: (Cell | undefined)[][] = [];
+  if (hub.status === "shown") {
+    const t = hub.tomorrow_columns ?? [], hc = hub.history_columns ?? [];
+    const at = (cols: string[], r: Cell[], n: string): Cell | undefined => (cols.indexOf(n) < 0 ? null : r[cols.indexOf(n)]);
+    for (const r of hub.tomorrow ?? []) if (typeof at(t, r, "ts_utc") === "string") rows.push([hub.hub, "tomorrow", at(t, r, "ts_utc"), hub.target_day ?? null, at(t, r, "local_hour"), hub.made_utc ?? null, "live", at(t, r, "erw"), at(t, r, "lo"), at(t, r, "hi"), null, null, null]);
+    for (const r of hub.history ?? []) if (typeof at(hc, r, "ts_utc") === "string") rows.push([hub.hub, "history", at(hc, r, "ts_utc"), at(hc, r, "local_day"), at(hc, r, "local_hour"), at(hc, r, "made_utc"), at(hc, r, "kind"), at(hc, r, "erw"), at(hc, r, "lo"), at(hc, r, "hi"), at(hc, r, "actual"), at(hc, r, "yesterday"), at(hc, r, "week_ago")]);
+  }
+  return `${head.join("\n")}\n${csvLines(HUB_HEAD, rows)}`;
+}
+
 export const RT_HEAD = ["hub", "part", "ts_utc", "local_day", "local_hour", "erw_forecast", "band_low", "band_high", "day_ahead_price", "actual", "same_hour_two_days_before"];
 /** A hub's real-time price forecast as a CSV, with the provenance first: the day forecast now and every past hour the
  *  file holds, beside the hub's day-ahead price. A day with no forecast has no row, and the header says why. */

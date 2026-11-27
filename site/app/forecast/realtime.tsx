@@ -277,7 +277,11 @@ export function MoreHubsSection({ slots, hubs, rt, scores, metric, asked, chosen
           <div data-fc-hub={drawn}>
             <p className="mb-3 text-sm"><SiteLink href={hrefOf(null)} className="inline-block py-0.5">Close {drawn}</SiteLink></p>
             {da && hubs ? <PriceBlock market="dah" k="hub" title={`${drawn}: the day-ahead price`} h={da.hub} file={HUBS_FILE} hi={da.hi} rowsColumns={hubs.rows_columns} rows={hubs.rows} rowsPlace={da.hub.place} rowsSeries="price"
-              methods={hubs.methods} madeRule={hubs.made_rule} methodNote={hubs.method_note} cuts={hubs.cuts ?? scores?.cuts_price ?? null} metric={metric} asked={asked} tz={tz} /> : null}
+              methods={hubs.methods} madeRule={hubs.made_rule} methodNote={hubs.method_note} cuts={hubs.cuts ?? scores?.cuts_price ?? null} metric={metric} asked={asked} tz={tz}
+              foot={<p className="text-sm" data-fc-hub-download-dah={drawn}>The day-ahead price forecast at {drawn}, hour by hour:{" "}
+                <a href={`/forecast/hub-price?hub=${encodeURIComponent(drawn)}`} download data-download="csv">CSV</a>,{" "}
+                <a href={`/forecast/hub-price/python?hub=${encodeURIComponent(drawn)}`} download data-download="python">Python</a>,{" "}
+                <a href={`/forecast/hub-price/stata?hub=${encodeURIComponent(drawn)}`} download data-download="stata">Stata</a></p>} /> : null}
             {live && rt ? <PriceBlock market="rt" k="hub" title={`${drawn}: the real-time price`} h={live.hub} file={RT_FILE} hi={live.hi} rowsColumns={rt.rows_columns} rows={rt.rows} rowsPlace={`hub-${live.hub.grid}`} rowsSeries="rt_price"
               methods={rt.methods} madeRule={rt.made_rule} methodNote={rt.method_note} cuts={rt.cuts ?? null} metric={metric} asked={asked} tz={tz}
               foot={<p className="text-sm" data-fc-hub-download={drawn}>The real-time price at {drawn}, hour by hour:{" "}

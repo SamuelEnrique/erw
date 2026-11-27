@@ -79,6 +79,10 @@ READS_THE_ADDRESS = {
     "app/forecast/realtime-price/route.ts": ['const hub = file && file.example !== true ? file.hubs.find((h) => h.hub === u.searchParams.get("hub")) : undefined;', "if (!file || !hub) return new Response("],
     "app/forecast/realtime-price/python/route.ts": ['const hub = predictRtPrice()?.hubs.find((h) => h.hub === new URL(req.url).searchParams.get("hub"));', "const url = new URL(`/forecast/realtime-price?hub=${encodeURIComponent(hub.hub)}`, req.url).toString();"],
     "app/forecast/realtime-price/stata/route.ts": ['const hub = predictRtPrice()?.hubs.find((h) => h.hub === new URL(req.url).searchParams.get("hub"));', "const url = new URL(`/forecast/realtime-price?hub=${encodeURIComponent(hub.hub)}`, req.url).toString();"],
+    # session 10411 (chain 720): the day-ahead price at one more hub. A hub is one the hubs file lists, or the answer is 404
+    "app/forecast/hub-price/route.ts": ['const hub = file && file.example !== true ? file.hubs.find((h) => h.hub === u.searchParams.get("hub")) : undefined;', "if (!file || !hub) return new Response("],
+    "app/forecast/hub-price/python/route.ts": ['const hub = predictPriceHubs()?.hubs.find((h) => h.hub === new URL(req.url).searchParams.get("hub"));', "const url = new URL(`/forecast/hub-price?hub=${encodeURIComponent(hub.hub)}`, req.url).toString();"],
+    "app/forecast/hub-price/stata/route.ts": ['const hub = predictPriceHubs()?.hubs.find((h) => h.hub === new URL(req.url).searchParams.get("hub"));', "const url = new URL(`/forecast/hub-price?hub=${encodeURIComponent(hub.hub)}`, req.url).toString();"],
     "app/internal/findings/file/route.ts": ["if (!ID.test(id) || !FILE_NAME.test(name) || !name.startsWith(id) || !type) return hidden();"],
     "app/internal/unlock/route.ts": "the old link's token, or nothing once the link is retired (rows 3 and 4); the form's door reads the body, capped at 2,000 characters",
     "app/severance/finder/download/route.ts": "the internal token, or nothing once the link is retired (rows 3 and 4)",

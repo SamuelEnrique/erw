@@ -91,6 +91,30 @@ class MoreHubs(unittest.TestCase):
         self.assertNotIn("node:fs", src("site", "app", "forecast", "realtime.tsx"))
 
 
+class TheHubsDownload(unittest.TestCase):
+    """A hub's day-ahead forecast as a CSV with a Python and a Stata reader, as the page's other views have."""
+
+    def test_the_route_takes_only_a_hub_the_file_lists(self):
+        route = src("site", "app", "forecast", "hub-price", "route.ts")
+        self.assertIn('const hub = file && file.example !== true ? file.hubs.find((h) => h.hub === u.searchParams.get("hub")) : undefined;', route)
+        self.assertIn("if (!file || !hub) return new Response(", route)
+        for kind in ("python", "stata"):
+            text = src("site", "app", "forecast", "hub-price", kind, "route.ts")
+            self.assertIn("const url = new URL(`/forecast/hub-price?hub=${encodeURIComponent(hub.hub)}`, req.url).toString();", text)
+            self.assertNotIn("node:fs", text)
+
+    def test_the_routes_are_in_the_sites_lists(self):
+        listed = src("tests", "test_session5160.py")
+        for sub in ("", "python/", "stata/"):
+            self.assertIn(f'"app/forecast/hub-price/{sub}route.ts"', listed)
+        self.assertIn('"/forecast/hub-price": ["./data/predict/price_hubs.json"], "/forecast/hub-price/*": ["./data/predict/price_hubs.json"] },', src("site", "next.config.ts"))
+
+    def test_a_day_with_no_forecast_has_no_row_and_the_header_says_why(self):
+        lib = src("site", "lib", "predictlines.ts")
+        self.assertIn("export function hubCsv(hub: PriceHub, file: PriceHubsFile, url: string): string {", lib)
+        self.assertIn("...(hub.tomorrow_held ? [`# tomorrow: no row. ${hub.tomorrow_held}`] : []),", lib)
+
+
 class TheBacktestByYear(unittest.TestCase):
     def test_each_year_and_the_whole_span_carry_their_keys(self):
         rt = src("site", "app", "forecast", "realtime.tsx")

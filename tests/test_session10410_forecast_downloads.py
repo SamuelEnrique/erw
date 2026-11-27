@@ -63,7 +63,7 @@ class TheRoutes(unittest.TestCase):
         # the build carries the files each route reads: a place's file and the wind and solar file; the real-time file
         config = src("site", "next.config.ts")
         self.assertIn('"/forecast/net": ["./data/predict/*.json"], "/forecast/net/*": ["./data/predict/index.json"],', config)
-        self.assertIn('"/forecast/realtime-price": ["./data/predict/rt_price.json"], "/forecast/realtime-price/*": ["./data/predict/rt_price.json"] },', config)
+        self.assertIn('"/forecast/realtime-price": ["./data/predict/rt_price.json"], "/forecast/realtime-price/*": ["./data/predict/rt_price.json"]', config)
 
     def test_no_route_reads_the_disk_itself(self):
         for name in ROUTES:
