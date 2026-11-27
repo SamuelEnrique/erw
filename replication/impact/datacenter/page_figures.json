@@ -17782,7 +17782,7 @@
     "state": "ms"
    },
    "ok": true,
-   "eligible": false,
+   "eligible": true,
    "chain": false,
    "years": [
     {
@@ -17794,8 +17794,8 @@
      "propb": null,
      "prope": null,
      "salesbefore": 240746000,
-     "forgone": 0,
-     "sales": 240746000,
+     "forgone": 238700000.00000003,
+     "sales": 2045999.9999999702,
      "income": 7713280,
      "elec": null
     },
@@ -17808,8 +17808,8 @@
      "propb": null,
      "prope": null,
      "salesbefore": 240746000,
-     "forgone": 0,
-     "sales": 240746000,
+     "forgone": 238700000.00000003,
+     "sales": 2045999.9999999702,
      "income": 7713280,
      "elec": null
     },
@@ -17892,8 +17892,8 @@
      "propb": 0,
      "prope": 0,
      "salesbefore": 481492000,
-     "forgone": 0,
-     "sales": 481492000,
+     "forgone": 477400000.00000006,
+     "sales": 4091999.9999999404,
      "income": 939900,
      "elec": null
     },
@@ -17962,8 +17962,8 @@
      "propb": 35280000,
      "prope": 122760000,
      "salesbefore": 481492000,
-     "forgone": 0,
-     "sales": 481492000,
+     "forgone": 477400000.00000006,
+     "sales": 4091999.9999999404,
      "income": 939900,
      "elec": null
     },
@@ -18032,8 +18032,8 @@
      "propb": 35280000,
      "prope": 122760000,
      "salesbefore": 481492000,
-     "forgone": 0,
-     "sales": 481492000,
+     "forgone": 477400000.00000006,
+     "sales": 4091999.9999999404,
      "income": 939900,
      "elec": null
     },
@@ -18101,8 +18101,8 @@
     "propb": 352800000,
     "prope": 1227600000,
     "salesbefore": 1925968000,
-    "forgone": 0,
-    "sales": 1925968000,
+    "forgone": 1909600000.0000002,
+    "sales": 16367999.999999762,
     "income": 34224560,
     "elec": null
    },
@@ -18112,11 +18112,11 @@
     "propb": 117724173.6614092,
     "prope": 409632073.65857685,
     "salesbefore": 1131807523.0938234,
-    "forgone": 0,
-    "sales": 1131807523.0938234,
+    "forgone": 1122188762.2743297,
+    "sales": 9618760.819494113,
     "income": 24227853.82183237,
     "elec": null,
-    "taxes": 1683391624.235642
+    "taxes": 561202861.9613127
    }
   },
   {
@@ -22607,7 +22607,7 @@
     "state": "ms"
    },
    "ok": true,
-   "eligible": false,
+   "eligible": true,
    "chain": false,
    "years": [
     {
@@ -22619,8 +22619,8 @@
      "propb": null,
      "prope": null,
      "salesbefore": 48149200,
-     "forgone": 0,
-     "sales": 48149200,
+     "forgone": 47740000.00000001,
+     "sales": 409199.99999999255,
      "income": 1542656,
      "elec": null
     },
@@ -22633,8 +22633,8 @@
      "propb": null,
      "prope": null,
      "salesbefore": 48149200,
-     "forgone": 0,
-     "sales": 48149200,
+     "forgone": 47740000.00000001,
+     "sales": 409199.99999999255,
      "income": 1542656,
      "elec": null
     },
@@ -22717,8 +22717,8 @@
      "propb": null,
      "prope": null,
      "salesbefore": 96298400,
-     "forgone": 0,
-     "sales": 96298400,
+     "forgone": 95480000.00000001,
+     "sales": 818399.9999999851,
      "income": 187980,
      "elec": null
     },
@@ -22787,8 +22787,8 @@
      "propb": null,
      "prope": null,
      "salesbefore": 96298400,
-     "forgone": 0,
-     "sales": 96298400,
+     "forgone": 95480000.00000001,
+     "sales": 818399.9999999851,
      "income": 187980,
      "elec": null
     },
@@ -22857,8 +22857,8 @@
      "propb": null,
      "prope": null,
      "salesbefore": 96298400,
-     "forgone": 0,
-     "sales": 96298400,
+     "forgone": 95480000.00000001,
+     "sales": 818399.9999999851,
      "income": 187980,
      "elec": null
     },
@@ -22926,8 +22926,8 @@
     "propb": null,
     "prope": null,
     "salesbefore": 385193600,
-    "forgone": 0,
-    "sales": 385193600,
+    "forgone": 381920000.00000006,
+    "sales": 3273599.9999999404,
     "income": 6844912,
     "elec": null
    },
@@ -22937,11 +22937,11 @@
     "propb": null,
     "prope": null,
     "salesbefore": 226361504.61876473,
-    "forgone": 0,
-    "sales": 226361504.61876473,
+    "forgone": 224437752.4548659,
+    "sales": 1923752.1638988152,
     "income": 4845570.764366476,
     "elec": null,
-    "taxes": 231207075.3831312
+    "taxes": 6769322.928265291
    }
   },
   {

@@ -232,7 +232,7 @@ test("Georgia (48-8-3(68.1) as HB 1291 amended it): USD 250 million and 25 jobs,
   near(D.dcStat(D.dcRun(D.dcDefaults(P, "nm", { invest: 2000, perm: 100, brate: 1, erate: 1 }), P), "y1:prope"), 2e9 * 0.682 * 0.333333 * 0.01, "NM equipment");
 });
 
-test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and 4); Mississippi and Illinois held as words", () => {
+test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and 4); Mississippi applied (session 10822), Illinois held as words", () => {
   const r = D.dcRun(D.dcDefaults(P, "ga", { invest: 1000, perm: 100, cons: 500, build: 2 }), P);
   assert.equal(r.chain.held, true);
   // construction: 500 on site each year x (15,809 + 4,954 + 7,587) / 15,809, over two years
@@ -241,8 +241,12 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   near(D.dcStat(r, "o:jobs:total"), 100 * 5471 / 1873);
   const w = D.dcDefaults(P, "ga").opwage;
   near(D.dcStat(r, "o:earnings:total"), 100 * w * (262.314298 + 125.838075 + 104.443068) / 262.314298);
+  // Mississippi (the Development Authority's sheet, session 10822): USD 20 million and 20 jobs; equipment and construction; the state's 7 percent
+  assert.equal(D.dcRun(D.dcDefaults(P, "ms", { invest: 2000, perm: 19 }), P).exemption.eligible, false);
+  assert.equal(D.dcRun(D.dcDefaults(P, "ms", { invest: 19, perm: 100 }), P).exemption.eligible, false);
   const ms = D.dcRun(D.dcDefaults(P, "ms", { invest: 2000, perm: 100 }), P);
-  assert.equal(ms.exemption.held, true); assert.equal(ms.exemption.eligible, false);
+  assert.equal(ms.exemption.eligible, true);
+  assert.ok(ms.sums.forgone > 0);
   // Arkansas (26-52-456 as Act 548 of 2025 amended it, session 10813): USD 100 million; the state's rate only; no term
   assert.equal(D.dcRun(D.dcDefaults(P, "ar", { invest: 99, perm: 5 }), P).exemption.eligible, false);
   const ar = D.dcRun(D.dcDefaults(P, "ar", { invest: 2000, perm: 5, start: 2026, build: 2, life: 10 }), P);
