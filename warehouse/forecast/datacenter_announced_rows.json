@@ -1672,6 +1672,46 @@
    "incentive": "",
    "years": "",
    "note": "Meta's own post on the campus's two new buildings (9 June 2022): the same campus as al_facebook_huntsville_2018, a later document, both kept. Its investment is the campus's total with the expansion (\"raises our investment in Huntsville to more than $1.5 billion\"), not the expansion's alone, so the row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "ok_meta_tulsa_announce_2026",
+   "name": "Meta, Tulsa AI data center (announcement)",
+   "company": "Meta",
+   "state": "ok",
+   "county": null,
+   "place": "Tulsa",
+   "doc": {
+    "title": "Hello, Tulsa!",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-04-21",
+    "url": "https://datacenters.atmeta.com/2026/04/hello-tulsa/",
+    "request": 544
+   },
+   "mw": null,
+   "investment": {
+    "value": 1000000000,
+    "year": 2026,
+    "says": "$1 billion",
+    "qualifier": "more than",
+    "quote": "Once completed, the Tulsa Data Center will represent an investment of more than $1 billion in the state of Oklahoma."
+   },
+   "construction_jobs": {
+    "value": 1000,
+    "measure": "construction workers at peak",
+    "says": "1,000 construction workers",
+    "qualifier": "more than",
+    "quote": "Meta anticipates that more than 1,000 construction workers will be onsite at the peak of construction"
+   },
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "jobs once operational",
+    "says": "approximately 100 jobs",
+    "qualifier": "approximately",
+    "quote": "the data center will support approximately 100 jobs once operational."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (21 April 2026): the same campus as ok_meta_tulsa_2026 (its info sheet, figures to date), an earlier document, both kept; this one is an announcement and enters the ranges. The USD 25 million or more in local roads and water is not taken."
   }
  ]
 }

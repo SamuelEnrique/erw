@@ -89,10 +89,10 @@
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 43,
+   "n": 44,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
-   "median": 52.436009,
+   "median": 53.995782,
    "high": 133.236026,
    "high_row": "va_microsoft_mecklenburg_2016",
    "rows": [
@@ -131,6 +131,7 @@
     "in_google_fortwayne_2024",
     "sc_google_dorchester_2024",
     "ms_aws_clinton_2026",
+    "ok_meta_tulsa_announce_2026",
     "al_facebook_huntsville_2018",
     "ga_facebook_stantonsprings_2018",
     "al_meta_montgomery_2024",
@@ -145,7 +146,7 @@
    "name": "Construction jobs per billion dollars",
    "unit": "construction jobs (headcount as announced) per USD billion (2025)",
    "how": "construction jobs as announced over the investment; at peak or period not stated, as each row says",
-   "n": 17,
+   "n": 18,
    "low": 63.222543,
    "low_row": "wv_nscale_2026",
    "median": 400.0,
@@ -165,6 +166,7 @@
     "la_meta_richland_2024",
     "wi_microsoft_mountpleasant_2024",
     "az_beale_pima_2025",
+    "ok_meta_tulsa_announce_2026",
     "al_meta_montgomery_2024",
     "mn_meta_rosemount_2024",
     "wy_meta_cheyenne_2024",
@@ -3252,6 +3254,46 @@
    "incentive": "",
    "years": "",
    "note": "Meta's own post on the campus's two new buildings (9 June 2022): the same campus as al_facebook_huntsville_2018, a later document, both kept. Its investment is the campus's total with the expansion (\"raises our investment in Huntsville to more than $1.5 billion\"), not the expansion's alone, so the row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "ok_meta_tulsa_announce_2026",
+   "name": "Meta, Tulsa AI data center (announcement)",
+   "company": "Meta",
+   "state": "ok",
+   "county": null,
+   "place": "Tulsa",
+   "doc": {
+    "title": "Hello, Tulsa!",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-04-21",
+    "url": "https://datacenters.atmeta.com/2026/04/hello-tulsa/",
+    "request": 544
+   },
+   "mw": null,
+   "investment": {
+    "value": 1000000000,
+    "year": 2026,
+    "says": "$1 billion",
+    "qualifier": "more than",
+    "quote": "Once completed, the Tulsa Data Center will represent an investment of more than $1 billion in the state of Oklahoma."
+   },
+   "construction_jobs": {
+    "value": 1000,
+    "measure": "construction workers at peak",
+    "says": "1,000 construction workers",
+    "qualifier": "more than",
+    "quote": "Meta anticipates that more than 1,000 construction workers will be onsite at the peak of construction"
+   },
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "jobs once operational",
+    "says": "approximately 100 jobs",
+    "qualifier": "approximately",
+    "quote": "the data center will support approximately 100 jobs once operational."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's announcement of the campus (21 April 2026): the same campus as ok_meta_tulsa_2026 (its info sheet, figures to date), an earlier document, both kept; this one is an announcement and enters the ranges. The USD 25 million or more in local roads and water is not taken."
   }
  ]
 }
