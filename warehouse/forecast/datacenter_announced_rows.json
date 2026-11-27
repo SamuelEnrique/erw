@@ -740,6 +740,21 @@
    "incentive": "",
    "years": "",
    "note": "The release names the city (Cheyenne), not the county. Its figures are the same as Meta's Rosemount release four months before (USD 800 million, 715,000 square feet, about 100 operational jobs, 1,000 at peak): two documents, two campuses, each its own row."
+  },
+  {
+   "id": "tx_meta_elpaso_2026",
+   "name": "Meta, El Paso data center",
+   "company": "Meta",
+   "state": "tx",
+   "county": null, "place": "El Paso",
+   "doc": {"title": "Big things are happening, El Paso!", "publisher": "Meta (Meta Data Centers)", "date": "2026-03-26", "url": "https://datacenters.atmeta.com/2026/03/big-things-are-happening-el-paso/", "request": 380},
+   "mw": {"value": 1000, "measure": "campus size as stated (the page gives no measure)", "says": "1 gigawatt", "qualifier": "", "quote": "El Paso Data Center will grow to 1 gigawatt."},
+   "investment": {"value": 10000000000, "year": 2026, "says": "$10 billion", "qualifier": "more than", "quote": "We are increasing our investment in El Paso to more than $10 billion and will now support more than 300 jobs at the data center once completed."},
+   "construction_jobs": {"value": 4000, "measure": "workers at peak", "says": "4,000 construction workers", "qualifier": "over", "quote": "Our construction needs will also grow and we now anticipate that over 4,000 construction workers will be onsite at the peak of construction."},
+   "permanent_jobs": {"value": 300, "measure": "jobs at the data center", "says": "300 jobs", "qualifier": "more than", "quote": "We are increasing our investment in El Paso to more than $10 billion and will now support more than 300 jobs at the data center once completed."},
+   "incentive": "",
+   "years": "",
+   "note": "Meta's own page, the second of two: its groundbreaking release of October 2025 (about.fb.com, request 381) gave the first phase as more than USD 1.5 billion, about 100 operational jobs and over 1,800 at peak, on a campus that \"can scale to 1GW\"; the March 2026 page raises the whole campus to these figures. Texas's agencies refuse this reader (gov.texas.gov disallows ClaudeBot by name), so the company's page is the document."
   }
  ]
 }

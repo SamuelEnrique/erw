@@ -9,10 +9,10 @@
    "name": "MW as stated",
    "unit": "MW (each row's own measure)",
    "how": "the MW each document states, whatever it measures (IT capacity, critical IT, critical grid capacity, power required)",
-   "n": 10,
+   "n": 11,
    "low": 3.0,
    "low_row": "al_aubix_auburn_2021",
-   "median": 1400.0,
+   "median": 1000.0,
    "high": 5000.0,
    "high_row": "la_meta_richland_2026",
    "rows": [
@@ -21,6 +21,7 @@
     "la_applied_digital_rapides_2026",
     "wv_penzance_berkeley_2026",
     "va_cleanarc_caroline_2025",
+    "tx_meta_elpaso_2026",
     "ky_paducah_2026",
     "wv_nscale_2026",
     "wv_starwood_mason_2026",
@@ -32,7 +33,7 @@
    "name": "Investment per MW",
    "unit": "USD million (2025) per MW",
    "how": "investment over the MW the document states; rows whose investment includes power plants left out",
-   "n": 9,
+   "n": 10,
    "low": 3.0,
    "low_row": "va_cleanarc_caroline_2025",
    "median": 10.0,
@@ -44,6 +45,7 @@
     "in_amazon_northern_2025",
     "wv_penzance_berkeley_2026",
     "la_meta_richland_2026",
+    "tx_meta_elpaso_2026",
     "la_applied_digital_rapides_2026",
     "wv_nscale_2026",
     "la_hut8_riverbend_2025",
@@ -54,16 +56,17 @@
    "name": "Permanent jobs per MW",
    "unit": "jobs per MW",
    "how": "permanent or operational jobs over the MW stated; jobs of a kind not stated left out",
-   "n": 8,
+   "n": 9,
    "low": 0.05,
    "low_row": "va_cleanarc_caroline_2025",
-   "median": 0.314311,
+   "median": 0.306122,
    "high": 0.666667,
    "high_row": "la_applied_digital_rapides_2026",
    "rows": [
     "va_cleanarc_caroline_2025",
     "la_meta_richland_2026",
     "wv_penzance_berkeley_2026",
+    "tx_meta_elpaso_2026",
     "la_hut8_riverbend_2025",
     "wv_nscale_2026",
     "ky_paducah_2026",
@@ -75,10 +78,10 @@
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 35,
+   "n": 36,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
-   "median": 52.436009,
+   "median": 51.218004,
    "high": 121.786859,
    "high_row": "wy_meta_cheyenne_2024",
    "rows": [
@@ -92,6 +95,7 @@
     "mo_metrobloks_clay_2026",
     "va_aws_2023",
     "in_meta_lebanon_2026",
+    "tx_meta_elpaso_2026",
     "wv_penzance_berkeley_2026",
     "mo_amazon_montgomery_2026",
     "ia_meta_davenport_2024",
@@ -123,10 +127,10 @@
    "name": "Construction jobs per billion dollars",
    "unit": "construction jobs (headcount as announced) per USD billion (2025)",
    "how": "construction jobs as announced over the investment; at peak or period not stated, as each row says",
-   "n": 14,
+   "n": 15,
    "low": 63.222543,
    "low_row": "wv_nscale_2026",
-   "median": 443.573718,
+   "median": 400.0,
    "high": 3406.856898,
    "high_row": "nv_google_storey_2020",
    "rows": [
@@ -137,6 +141,7 @@
     "wv_penzance_berkeley_2026",
     "la_applied_digital_rapides_2026",
     "in_meta_lebanon_2026",
+    "tx_meta_elpaso_2026",
     "la_meta_richland_2024",
     "wi_microsoft_mountpleasant_2024",
     "az_beale_pima_2025",
@@ -1872,6 +1877,52 @@
    "incentive": "",
    "years": "",
    "note": "The release names the city (Cheyenne), not the county. Its figures are the same as Meta's Rosemount release four months before (USD 800 million, 715,000 square feet, about 100 operational jobs, 1,000 at peak): two documents, two campuses, each its own row."
+  },
+  {
+   "id": "tx_meta_elpaso_2026",
+   "name": "Meta, El Paso data center",
+   "company": "Meta",
+   "state": "tx",
+   "county": null,
+   "place": "El Paso",
+   "doc": {
+    "title": "Big things are happening, El Paso!",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-03-26",
+    "url": "https://datacenters.atmeta.com/2026/03/big-things-are-happening-el-paso/",
+    "request": 380
+   },
+   "mw": {
+    "value": 1000,
+    "measure": "campus size as stated (the page gives no measure)",
+    "says": "1 gigawatt",
+    "qualifier": "",
+    "quote": "El Paso Data Center will grow to 1 gigawatt."
+   },
+   "investment": {
+    "value": 10000000000,
+    "year": 2026,
+    "says": "$10 billion",
+    "qualifier": "more than",
+    "quote": "We are increasing our investment in El Paso to more than $10 billion and will now support more than 300 jobs at the data center once completed."
+   },
+   "construction_jobs": {
+    "value": 4000,
+    "measure": "workers at peak",
+    "says": "4,000 construction workers",
+    "qualifier": "over",
+    "quote": "Our construction needs will also grow and we now anticipate that over 4,000 construction workers will be onsite at the peak of construction."
+   },
+   "permanent_jobs": {
+    "value": 300,
+    "measure": "jobs at the data center",
+    "says": "300 jobs",
+    "qualifier": "more than",
+    "quote": "We are increasing our investment in El Paso to more than $10 billion and will now support more than 300 jobs at the data center once completed."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's own page, the second of two: its groundbreaking release of October 2025 (about.fb.com, request 381) gave the first phase as more than USD 1.5 billion, about 100 operational jobs and over 1,800 at peak, on a campus that \"can scale to 1GW\"; the March 2026 page raises the whole campus to these figures. Texas's agencies refuse this reader (gov.texas.gov disallows ClaudeBot by name), so the company's page is the document."
   }
  ]
 }
