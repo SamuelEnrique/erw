@@ -204,11 +204,11 @@ Variables (35):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `active_mw_parts_battery` | Over the active requests, the MW of every battery part (a hybrid's battery beside a battery alone); the unit column says count, the method says MW | count | 10 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `active_mw_parts_gas` | Over the active requests, the MW of every gas part; the unit column says count, the method says MW | count | 10 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `active_mw_parts_other_storage` | Over the active requests, the MW of every other storage part; the unit column says count, the method says MW | count | 10 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `active_mw_parts_solar` | Over the active requests, the MW of every solar part; the unit column says count, the method says MW | count | 10 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `active_mw_parts_wind` | Over the active requests, the MW of every wind part (onshore and offshore); the unit column says count, the method says MW | count | 10 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `active_mw_parts_battery` | Over the active requests, the MW of every battery part (a hybrid's battery beside a battery alone) | MW | 10 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `active_mw_parts_gas` | Over the active requests, the MW of every gas part | MW | 10 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `active_mw_parts_other_storage` | Over the active requests, the MW of every other storage part | MW | 10 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `active_mw_parts_solar` | Over the active requests, the MW of every solar part | MW | 10 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `active_mw_parts_wind` | Over the active requests, the MW of every wind part (onshore and offshore) | MW | 10 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `median_years_to_operation` | The median over those of the days from request date to operation date, over 365.25 (written when at least five) | year | 56 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `mw_active` | The MW of requests entered in the year whose status is active | MW | 1499 | 1995-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `mw_entered` | The MW of requests that entered in the year (all parts of a hybrid) | MW | 1499 | 1995-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
@@ -239,6 +239,4 @@ Variables (35):
 | `total_suspended_mw` | The MW of requests whose status is suspended | MW | 76 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `total_suspended_requests` | Requests whose status is suspended (not in the active figures), count | count | 76 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `years_to_operation_n` | Of those, the requests with both a request and an operation date in order, count | count | 76 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-
-Waiting for a second look: active_mw_parts_battery, _solar, _wind, _gas and _other_storage carry unit count in the table, while the method note (session 7051) and the builder say they are MW: the unit column looks wrong. Read again on 20 November 2026 in docs/methods/interconnection_queue_summary.md: not found..
 

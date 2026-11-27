@@ -294,3 +294,112 @@ The backtests and the scores (`predict_demand_backtest`, `predict_scores`, `pred
 tables yet: as `run.py` writes them, the two regressions share every place, hour and making time (and in the price,
 places of one grid share a hub), so the validator refuses them as duplicate keys, and the scores file is not in a
 standard shape. Their shape is this method's choice to make first.
+
+## 18. The operator's forecast as filed: a check of the comparator (session 10602)
+
+The operator column is the day-ahead forecast each authority files on Form EIA-930, as `eia930_forecast_error_hourly`
+holds it. In several places it is not the operator's own forecast. Sought as the cross-check's second place, a vendor's
+figure (Enverus, found by web search, not fetched) puts SPP's own day-ahead error at 2.16 percent in January 2025 and
+2.20 in September 2025; the filing scores 1.98 and 9.53 in those months. Read month by month (`runs/c730/opbias.py`,
+the filed forecast's sum as a percent of the demand's over the hours both hold), the filing breaks in level:
+
+| Place | The filed forecast as a percent of the demand | Its MAPE |
+|---|---|---|
+| SWPP and CENT | 99 to 100 until April 2025; 104 to 116 from May 2025 | 1.5 to 2.8; then 5.2 to 15.8 |
+| FPC | 68 to 78 in every month read | 21 to 30 |
+| PSCO | 90 to 95 to December 2025; 84 to 88 from January to April 2026; 71 to 77 from May 2026 | 5 to 10; then 12 to 29 |
+| FMPP | 93 to 102; 70 to 72 from February to July 2026; 110 in November 2026 | 3 to 5 (9 in October 2025); then 28 to 30 |
+| SRP | 96 to 99 to February 2026; 103 to 124 from March 2026 | 3 to 5; then 8 to 30 |
+| CISO and CAL | 89 to 98, lower over the years | 6 to 11 |
+| PJM and MIDA | 97 to 99 | 2.9 to 4.4 as stamped |
+
+(The months read are July 2024 to November 2026; the full monthly record of every place is in its file.)
+
+PJM's level is right, but its filing matches the demand of the hour after its stamp best: over the last two years
+its MAPE is 3.47 as stamped and 2.54 moved one hour later (`runs/c730/opshift.py`, both periods alike). No other
+place is mended by a shift. A level that far from the demand for a whole month is a break in the filing (a footprint or
+a definition), not a forecaster's error. Data request 7 of `docs/state/data_requests_predict.md` asks window A to read
+EIA's own files for each.
+
+What the files carry (add, never change): each place's demand series has `operator_filing`, the month-by-month check
+(a month is flagged when the filed forecast is more than 5 percent from 100), the filed forecast's error over the last
+two years with its hours moved by -1, 0 and 1, and `sound_last_2_years`, the scores on the unflagged months only.
+`scores.json` has the cuts `operator_sound` and `operator_sound_last_2_years` for every method. The check judges the
+comparator only: no forecast of the ERW reads it, and the choice of method is unchanged (a test holds both). A month
+can also be flagged for a true divergence, not a filing: Texas in February 2021 (Winter Storm Uri, load shed) is.
+
+From the first full build (27 November 2026, `runs/c730/table_g.py`): over the last two years the ERW's MAPE is below
+the operator's in 8 of 29 places; on the sound months only, in 4 (California 2.98 against 6.74 on 1,536 hours, the
+Northwest 2.65 against 3.77, PACE 3.71 against 4.00, PSCO 4.09 against 5.31 on 740 hours). The Central region and SWPP
+turn: on their sound months the operator is at 2.58 and 2.67, the ERW at 4.61 and 4.57. CISO and FPC have no sound month
+in the last two years (their rows are present and empty), and the Florida region has 53 of its 87 months flagged.
+Replication: `replicate.py` recomputes the two cuts from the check's rule (21,930 of 21,930 score figures equal).
+
+## 19. With the weather forecast as issued (session 10602)
+
+Samuel's order of 27 November 2026: the demand model with the dated weather forecast window A keeps, wherever enough
+days are held. `warehouse/predict/predict_weather.py` reads the National Weather Service's hourly temperature forecast
+at one airport per ISO (KDFW, KLAX, KLGA, KBOS, KPHL, KIND, KOKC; 14 places: each ISO's region and its authority):
+every issue kept in `weather_forecast_issued_hourly` (from 26 November 2026, data request 4), and the rows of the
+latest-only `weather_forecast_hourly` whose issue (`vintage`, NWS's updateTime) came before the hour the demand
+forecast is made. Nothing known early: a forecast hour enters target day D only from an issue no later than 20:00 UTC
+on D-1, and of those the latest (a test holds it).
+
+The model is the regression of section 13 with the airport's temperature: fitted on the airport's observed temperature
+(`noaa_station_weather_hourly`, NOAA ISD-Lite and LCD v2, 2019 on; after its last hour `weather_obs_hourly`) over the
+days held when the forecast is made, then applied to day D with the temperature forecast for it. Beside it,
+`with_airport_weather_known` applies the same coefficients to the airport's observed temperature of day D (not a
+forecast), so the cost of the weather forecast's own error is seen.
+
+Days held: the forecast as issued reaches back only to late September 2026, and only on days the latest-only table
+kept an early enough issue. 13 to 20 target days are scored in each place in the full build (13 to 21 in the trial):
+too few to judge, and the files say so
+(`with_weather_forecast.status` is `too_few_days` below 30 days). A separate line, never the ERW forecast, as the
+line "with the weather known" is. On those days, in the trial of 27 November (`runs/c730/wx_trial.py`), it was below
+`regression_recent` in 6 of the 7 airports' regions and above it in the Mid-Atlantic (PJM, PHL); in Texas, on 17 days,
+the operator was at 1.18 percent, the line at 3.81 and the ERW forecast at 5.33.
+
+The full build (MAPE % on each place's own days: the line, with the airport's weather known, the ERW forecast, the
+operator):
+
+| Place (airport, days) | Line | Weather known | ERW | Operator |
+|---|---:|---:|---:|---:|
+| California (KLAX, 17) | 3.70 | 4.88 | 4.37 | 7.64 |
+| Central (KOKC, 18) | 2.49 | 2.40 | 3.73 | 7.85 |
+| Mid-Atlantic (KPHL, 13) | 3.13 | 3.23 | 2.66 | 2.78 |
+| Midwest (KIND, 16) | 2.59 | 2.68 | 2.93 | 2.30 |
+| New England (KBOS, 16) | 4.96 | 4.91 | 5.33 | 3.39 |
+| New York (KLGA, 20) | 3.55 | 3.60 | 3.84 | 2.70 |
+| Texas (KDFW, 17) | 3.81 | 3.84 | 5.33 | 1.18 |
+
+(Each authority beside its region reads the same airport: CISO 4.23, 5.18, 4.83, 8.64; SWPP 2.45, 2.33, 3.57, 8.02;
+MISO 2.52, 2.56, 2.74, 2.83; ERCO, ISNE, NYIS and PJM as their regions.) The forecast as issued does about as well as
+the airport's weather known, a sign that a day-ahead temperature forecast is close to the day's weather at one airport;
+where the operator's filing is sound (Texas, New York, New England) the operator stays ahead.
+
+## 20. Net demand (session 10602)
+
+Net demand is the demand less the output of wind and solar. For the 13 regions and ERCO (Texas is ERCOT alone), each
+place's demand series has `net_demand`: the ERW's is its demand forecast less its wind and solar forecasts
+(`docs/methods/predict_wind_solar.md`), all made at 20:00 UTC the day before from data through two days before; the
+actual is EIA-930's demand less EIA-930's wind and solar output of the region. Yesterday is the same hour of the latest
+whole day read, net. The operator's net demand needs all three of its forecasts: only Texas holds them, from
+27 September 2026 (the filed demand forecast less ERCOT's wind and solar forecasts published at least 24 hours ahead).
+The error is given in MW and as the mean absolute error over the mean net demand of the same hours (`scores.json`
+series `net_demand`, column `mape`): a percent of an hour's net demand, which can be near zero, means nothing. No band:
+the three bands are not combined.
+
+The full build, the last two years (ERW, yesterday): California 8.96, 12.36; Carolinas 8.26, 11.12; Central 20.76,
+25.22; Florida 6.79, 8.41; Mid-Atlantic 5.98, 8.94; Midwest 8.66, 12.52; New England 8.75, 12.26; Northwest 7.84,
+10.84; New York 6.67, 9.83; Southeast 6.87, 9.43; Southwest 9.25, 11.58; Tennessee 7.41, 9.74; Texas and ERCO 15.77,
+19.43. With the operator, Texas only, 1,368 hours from 30 September 2026: ERCOT 5.46, the ERW 17.06, yesterday 20.56.
+Where wind is a large share the ERW's net demand error is several times its demand error (Central 20.76 against a
+demand MAPE of 5.03, Texas 15.77 against 4.91; the two measures differ in form, the first over the mean, the second hour
+by hour), and its wind forecast, made without the weather, misses by 35 to 40 percent of the mean output there.
+
+## 21. The share of past hours inside each band (session 10602)
+
+The band is meant to hold eight hours in ten. Every series of every file (demand, the day-ahead and the real-time
+price, wind, solar) now carries `band_coverage`: over the last two years, the share of hours inside the band, below its
+low end and above its high end, the share inside by local hour, and by month. `band_coverage_pct` (unchanged) is its
+`inside_pct`.

@@ -143,34 +143,32 @@ columns:
   missing_cells: 17296
 variables:
 - name: active_mw_parts_battery
-  label: Over the active requests, the MW of every battery part (a hybrid's battery beside a battery alone); the unit column
-    says count, the method says MW
-  unit: count
+  label: Over the active requests, the MW of every battery part (a hybrid's battery beside a battery alone)
+  unit: MW
   rows: 10
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: active_mw_parts_gas
-  label: Over the active requests, the MW of every gas part; the unit column says count, the method says MW
-  unit: count
+  label: Over the active requests, the MW of every gas part
+  unit: MW
   rows: 10
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: active_mw_parts_other_storage
-  label: Over the active requests, the MW of every other storage part; the unit column says count, the method says MW
-  unit: count
+  label: Over the active requests, the MW of every other storage part
+  unit: MW
   rows: 10
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: active_mw_parts_solar
-  label: Over the active requests, the MW of every solar part; the unit column says count, the method says MW
-  unit: count
+  label: Over the active requests, the MW of every solar part
+  unit: MW
   rows: 10
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: active_mw_parts_wind
-  label: Over the active requests, the MW of every wind part (onshore and offshore); the unit column says count, the method
-    says MW
-  unit: count
+  label: Over the active requests, the MW of every wind part (onshore and offshore)
+  unit: MW
   rows: 10
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
@@ -354,7 +352,4 @@ variables:
   rows: 76
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
-second_look:
-- 'active_mw_parts_battery, _solar, _wind, _gas and _other_storage carry unit count in the table, while the method note (session
-  7051) and the builder say they are MW: the unit column looks wrong. Read again on 20 November 2026 in docs/methods/interconnection_queue_summary.md:
-  not found.'
+second_look: null

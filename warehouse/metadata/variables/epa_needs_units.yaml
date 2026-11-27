@@ -561,7 +561,11 @@ columns:
   source_name: C2G
   documented_by: connector epa_needs.py; data
 - name: x_bart
-  label: Yes when EPA marks the unit a BART affected unit
+  label: 'Yes when EPA marks the unit a BART affected unit (NEEDS''s BART Affected Unit): BART is Best Available
+    Retrofit Technology, the emission limits for visibility-impairing pollutants that the Regional Haze Regulations and
+    Guidelines for BART Determinations require of certain source types, generating units among them, placed in
+    operation between 1962 and 1977, set by state plans (or federal plans) or met by an approved alternative (EPA
+    Platform v6 documentation, chapter 3)'
   unit: none
   type: text
   values:
@@ -570,7 +574,7 @@ columns:
   missing_cells: 37950
   missing_meaning: EPA's cell is blank
   source_name: BART Affected Unit
-  documented_by: connector epa_needs.py; data
+  documented_by: connector epa_needs.py; data; source EPA, Documentation for EPA's Power Sector Modeling Platform v6 (all chapters, June 2018; www.epa.gov, robots read first), chapter 3, read 2026-11-27
 - name: x_owner
   label: The unit's owner as EPA writes it
   unit: none
@@ -661,7 +665,5 @@ second_look:
   and the others) are kept; the workbook''s Key to Emission Control sheet does not cover these columns. Read again on 20 November
   2026 in the saved NEEDS workbook under warehouse/raw/epa_needs (sheet Key to Emission Control and the NEEDS_Active headings):
   not found.'
-- 'x_bart: the connector names it BART only; the term is not expanded in the repository. Read again on 20 November 2026 in
-  the saved NEEDS workbook (sheet Key to Emission Control and the NEEDS_Active headings, BART Affected Unit): not found.'
 - 'x_ct_ic: only ''IC Engine'' appears; what an empty cell means beside it is not said. Read again on 20 November 2026 in
   the saved NEEDS workbook (sheet Key to Emission Control and the NEEDS_Active headings): not found.'
