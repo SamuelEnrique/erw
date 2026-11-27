@@ -2449,6 +2449,34 @@
    "incentive": "",
    "years": "",
    "note": "Meta's info sheet for the campus, Meta's only one in the state (its file dated 2026-09-03 by the server, the sheet itself undated). Its investment is \"Data center investment\" to date, since the campus broke ground in 2017, in the dollars of the years spent and taken as 2025 dollars; its jobs are operational jobs supported; its construction figure is the skilled trade workers on site at peak construction. The figures sit beside their labels in the sheet's layout, as the quotes show. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "mn_usbank_chaska_2016",
+   "name": "U.S. Bank, Chaska data center",
+   "company": "U.S. Bank (with Stream Data Centers)",
+   "state": "mn",
+   "county": null,
+   "place": "Chaska",
+   "doc": {
+    "title": "U.S. Bank Selects Chaska for New Data Center (the Governor's release, as the Legislative Reference Library archived the newsroom)",
+    "publisher": "Office of the Governor of Minnesota",
+    "date": "2016-12-20",
+    "url": "https://www.leg.mn.gov/docs/2018/other/181224/governor/newsroom/index4f84.htm",
+    "request": 432
+   },
+   "mw": null,
+   "investment": {
+    "value": 250000000,
+    "year": 2016,
+    "says": "$250 million",
+    "qualifier": "",
+    "quote": "U.S. Bank announced plans today to build a $250 million data center in Chaska in partnership with Dallas-based Stream Data Centers."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "The Minnesota Department of Employment and Economic Development (DEED) is supporting the project with a grant of $287,000 from the Job Creation Fund.",
+   "years": "",
+   "note": "The release gives no jobs figure (\"more good jobs for Minnesotans\"), so none is taken. 2016 dollars are deflated to 2025 by the GDP deflator. Read inside mn.gov's robots visit window, though from the Legislative Reference Library's host."
   }
  ]
 }
