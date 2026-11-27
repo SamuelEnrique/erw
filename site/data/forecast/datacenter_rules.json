@@ -83,7 +83,8 @@
   "or_307_030": {"title": "Oregon Revised Statutes 307.030, Property subject to assessment generally (chapter 307, 2025 edition page)", "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors307.html", "read": "2026-11-27", "request": 449},
   "ri_44_3_1": {"title": "Rhode Island General Laws 44-3-1, Real and personal property subject to taxation", "url": "https://webserver.rilegislature.gov/Statutes/TITLE44/44-3/44-3-1.htm", "read": "2026-11-27", "request": 452},
   "ny_orpts_exempt_2024": {"title": "New York Office of Real Property Tax Services, Exemptions from Real Property Taxation in New York State: 2024 County, City, and Town Assessment Rolls", "url": "https://www.tax.ny.gov/research/property/reports/exempt/24exrpt.htm", "read": "2026-11-27", "request": 467},
-  "ca_boe_pub306": {"title": "California State Board of Equalization, Annual Report 2024-25 (Publication 306)", "url": "https://www.boe.ca.gov/legdiv/2024-2025/pub306.pdf", "read": "2026-11-27", "request": 469}
+  "ca_boe_pub306": {"title": "California State Board of Equalization, Annual Report 2024-25 (Publication 306)", "url": "https://www.boe.ca.gov/legdiv/2024-2025/pub306.pdf", "read": "2026-11-27", "request": 469},
+  "ne_77_201": {"title": "Nebraska Revised Statutes 77-201, Property taxable; valuation; classes", "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-201", "read": "2026-11-27", "request": 475}
  },
  "split": {
   "cite": "jlarc_598",
@@ -451,6 +452,10 @@
   },
   "ne": {
    "name": "Nebraska",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "ne_77_201",
+    "quote": "all real property in this state, not expressly exempt therefrom, shall be subject to taxation and shall be valued at its actual value.",
+    "tip": "Nebraska (Revised Statutes 77-201): real property \"shall be valued at its actual value\", and tangible personal property is taxed at its net book value. The tool takes the building and the equipment at their cost (the net book value's depreciation is not read: an upper bound) and applies the reader's rate."
+   },
    "sales_exemption": {
     "cite": "ne_governor_eo", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
     "quote": "signed an executive order ending access to tax incentives provided through the state's ImagiNE Nebraska Act for data centers",
