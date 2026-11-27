@@ -3036,6 +3036,47 @@
    "incentive": "",
    "years": "",
    "note": "Meta's US locations page, Temple's entry (the page is undated: its date here is the day it was read; no info sheet for Temple was found). Its investment is the campus's to date since it broke ground in 2022, taken as 2025 dollars; its jobs are operational jobs \"once completed\" (\"~100\"), and 1,200 skilled trade workers on site at peak construction. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
+  },
+  {
+   "id": "in_meta_jeffersonville_2026",
+   "to_date": true,
+   "name": "Meta, Jeffersonville data center",
+   "company": "Meta",
+   "state": "in",
+   "county": null,
+   "place": "Jeffersonville",
+   "doc": {
+    "title": "United States - Meta Data Centers (the locations page, Jeffersonville's entry)",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2026-11-27",
+    "url": "https://datacenters.atmeta.com/us-locations/",
+    "request": 382
+   },
+   "mw": null,
+   "investment": {
+    "value": 800000000,
+    "year": 2026,
+    "says": "$800 million",
+    "qualifier": "more than",
+    "quote": "Jeffersonville $800 million+ investment 2024 break ground 1,250 skilled trade workers on site at peak construction"
+   },
+   "construction_jobs": {
+    "value": 1250,
+    "measure": "skilled trade workers on site at peak construction",
+    "says": "1,250 skilled trade workers",
+    "qualifier": "",
+    "quote": "Jeffersonville $800 million+ investment 2024 break ground 1,250 skilled trade workers on site at peak construction"
+   },
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "operational jobs once completed",
+    "says": "100 operational jobs",
+    "qualifier": "approximately",
+    "quote": "100 operational jobs supported once completed Learn more Learn more about Jeffersonville"
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's US locations page, Jeffersonville's entry (the page is undated: its date here is the day it was read; no info sheet for Jeffersonville was found). Its investment is the campus's to date since it broke ground in 2024, taken as 2025 dollars; its jobs are operational jobs \"once completed\" (\"~ 100\"), and 1,250 skilled trade workers on site at peak construction. Meta's second Indiana campus, beside Lebanon (in_meta_lebanon_2026). The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
   }
  ]
 }
