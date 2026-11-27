@@ -34,8 +34,10 @@ import { PEAK_HOURS, PEAK_SPANS, aheadDays, aheadOf, madeOffRule, pctWords, type
 import { WEATHER_LABEL, WEATHER_METHODS, WEATHER_SPANS } from "@/lib/predict";
 import { predictAhead, predictIndex, predictLedger, predictPlace, predictScores } from "@/lib/predictfiles";
 // session 10409 (chain 720, part E): the views of what the files gained on 27 November 2026 (app/forecast/lines.tsx)
-import { predictWindSolar } from "@/lib/predictfiles";
+import { predictRtPrice, predictWindSolar } from "@/lib/predictfiles";
 import { plainMethods } from "@/lib/predict";
+import { RT_LABEL } from "@/lib/predictlines";
+import { RealTime, rtOf } from "./realtime";
 import { BandCheck, FilingCheck, NetDemand, WeatherForecastLine, WindSolarDay } from "./lines";
 
 type Raw = Record<string, string | string[] | undefined>;
@@ -524,6 +526,8 @@ export function ForecastView({ query }: { query: Raw }) {
   // session 10409: the wind and solar file; null while it is not on the site, an example or a test's fixture
   const windSolarFile = predictWindSolar();
   const windSolar = windSolarFile && windSolarFile.example !== true && index?.example !== true ? windSolarFile : null;
+  const rtFile = predictRtPrice();
+  const rtPrice = rtFile && rtFile.example !== true && index?.example !== true ? rtFile : null;
   const q: Query = queryOf(query, index);
   const metric = metricOf(q);
   const places = index?.places ?? [];
@@ -604,8 +608,14 @@ export function ForecastView({ query }: { query: Raw }) {
                 columns do not fit half of it) */}
             {q.s === "demand" ? <div data-fc-filing-block="1">{slots.map((x) => <FilingCheck key={x.mark} slot={x} scores={scores} metric={metric} />)}</div> : null}
             {q.s === "demand" ? <div data-fc-wwf-block="1">{slots.map((x) => <WeatherForecastLine key={x.mark} slot={x} scores={scores} metric={metric} />)}</div> : null}
-            <div data-fc-band-block="1">{slots.map((x) => <BandCheck key={x.mark} slot={x} s={q.s} ws={windSolar} />)}</div>
+            <div data-fc-band-block="1">{slots.map((x) => <BandCheck key={x.mark} slot={x} s={q.s} ws={windSolar} rt={rtPrice} />)}</div>
           </ToolSection>
+          {/* session 10409: the real-time price, with price, for a place whose hub the real-time file holds */}
+          {q.s === "price" && slots.some((x) => rtOf(x, rtPrice)) ? (
+            <ToolSection title={RT_LABEL} id="realtime">
+              {slots.map((x) => <RealTime key={x.mark} slot={x} rt={rtPrice} scores={scores} metric={metric} asked={q.day} />)}
+            </ToolSection>
+          ) : null}
           <ToolSection title="Every place" id="places">
             <AllPlaces index={index} scores={scores} s={q.s} metric={metric} chosen={slots.map((x) => x.place.place)} />
           </ToolSection>

@@ -1,7 +1,7 @@
 // Energy Research Warehouse (ERW) site, session 10409 (chain 720, part E): what the forecast's page files gained on
 // 27 November 2026, on /forecast (the contract's dated lines of that day: in a place file's series.demand,
-// operator_filing, with_weather_forecast and net_demand; in every shown series, band_coverage; the file
-// wind_solar.json), drawn to HTML with the site's own code, without a build.
+// operator_filing, with_weather_forecast and net_demand; in every shown series, band_coverage; the files
+// wind_solar.json and rt_price.json), drawn to HTML with the site's own code, without a build.
 //   node --import ./scripts/events-page-register.mjs scripts/test-forecast-lines.mjs [--keep <folder>]
 // The fixture is the one scripts/test-forecast.mjs writes (its --keep), with those fields added to Texas and a file of
 // wind and solar: made-up values, each file marked as a test's fixture, which the site's own folder never reads.
@@ -11,7 +11,9 @@
 // the operator's own in those months, and sets the months that pass beside every month; the line with the weather
 // forecast is a separate line, never called the ERW forecast, in no chart, and says too few days to judge below the
 // file's own minimum; the band's record by line, by hour and by month; every figure carries its key into its file;
-// price draws its own band and none of demand's views. No network. Exit 0 when every check holds, 1 otherwise.
+// price draws its own band and none of demand's views, and the real-time price at its hub beside the hub's day-ahead
+// price (the comparator, never an ERW method), a day with no forecast being a blank with the file's reason. No network.
+// Exit 0 when every check holds, 1 otherwise.
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
@@ -241,6 +243,71 @@ quiet(page, "demand");
   check(!before.includes("Kept as first made"), "a forecast made fresh says nothing of the ledger");
 }
 
+// ---- 10. The real-time price (rt_price.json) -------------------------------------------------------------------------------
+{
+  const RT = "rt_price.json";
+  const noFile = draw(FIX, { s: "price" });
+  check(!noFile.includes('id="realtime"') && !noFile.includes("data-fc-rt="), "no real-time file: the page has no section of it");
+  const price = tex.series.price;
+  const PTS = price.tomorrow.map((r) => r[0]);
+  const PH = price.history.slice(0, 48).map((r) => [r[0], r[1], r[2]]);
+  const rtAt = (hr) => 22.5 + 2 * hr;                 // lowest at 00:00: 22.50; highest at 23:00: 68.50
+  const daAt = (hr) => rtAt(hr) + 1.25;
+  const sum = (hours, mae, mape) => ({ hours, mae: { erw: mae[0], day_ahead: mae[1], yesterday: mae[2], regression: mae[3] }, mape: { erw: mape[0], day_ahead: mape[1], yesterday: mape[2], regression: mape[3] } });
+  const hubOf = (tomorrow, held) => ({ hub: "ercot:HB_NORTH", grid: "ercot", time: "America/Chicago", status: "shown", method: "regression", method_mae_last_2_years: { yesterday: 19.72, regression: 12.33 },
+    made_utc: "2026-11-26T22:00:00Z", inputs_through_utc: "2026-11-26T05:00:00Z", target_day: "2026-11-27", horizon_days: 2, band: "the 10th and 90th percentile of the chosen method's own past errors at the same local hour over 365 days",
+    band_coverage_pct: 77.5, band_coverage: band(77.5, 9.9, 12.6, 17422), tomorrow_columns: ["ts_utc", "local_hour", "erw", "lo", "hi", "day_ahead"], tomorrow, tomorrow_held: held,
+    // over the last two years the day-ahead price is the closer of the two, over the backtest too: drawn as any other
+    summary: { last_2_years: { ...span2, ...sum(17422, [12.33, 11.83, 19.72, 12.33], [33.883, 30.845, 60.868, 33.883]) }, backtest: { ...spanAll, ...sum(64818, [37.94, 23.67, 40.94, 37.94], [63.819, 40.667, 94.845, 63.819]) } },
+    history_columns: ["ts_utc", "local_day", "local_hour", "erw", "lo", "hi", "day_ahead", "actual", "yesterday"], history: PH.map(([ts, day, hr]) => [ts, day, hr, rtAt(hr), rtAt(hr) - 8, rtAt(hr) + 8, daAt(hr), rtAt(hr) + 3, rtAt(hr) - 2]) });
+  const row = (m, cut, key, hours, mae, mape) => ["hub-ercot", "rt_price", m, cut, key, hours, mae, mape, null];
+  const rtFile = (hub) => ({ fixture: FIXTURE, contract: "docs/state/page_files_predict.md", built: "2026-11-27T03:29:56Z", tier: "derived", label: "ERW forecast", method_note: "docs/methods/predict_price.md, section 7",
+    made_rule: "made at 22:00 UTC the day before the target local day, after the day-ahead markets publish", units: "USD/MWh",
+    methods: [{ id: "erw", words: "the ERW method the rule chose for the hub" }, { id: "day_ahead", words: "the hub's day-ahead price for the hour: the market's own forecast of the real-time price; the comparator, never an ERW method" }, { id: "yesterday", words: "the real-time price of the same local hour two days before" }, { id: "regression", words: "least squares by local hour on the day-ahead price" }],
+    // the hub is the second of the file, so a figure's key must name its position there
+    hubs: [{ hub: "spp:SPPNORTH_HUB", grid: "spp", time: "America/Chicago", status: "shown", method: "regression", tomorrow_columns: [], tomorrow: [], tomorrow_held: "no forecast yet", summary: {}, history_columns: [], history: [] }, hub],
+    rows_columns: ["place", "series", "method", "cut", "key", "hours", "mae", "mape", "held"],
+    rows: [["hub-spp", "rt_price", "erw", "all", "", 100, 1.5, 2.5, null], row("erw", "spike", "", 649, 1969.9, 92.504), row("day_ahead", "spike", "", 649, 988.97, 77.717),
+      row("erw", "month", "2026-11", 505, 9.5, 31.2), row("day_ahead", "month", "2026-11", 505, 8.25, 27.4), row("erw", "month", "2026-10", 744, 7.1, 22.5), row("day_ahead", "month", "2026-10", 744, 7.6, 24.1),
+      row("erw", "hour", "17", 730, 21.4, 40.1), row("day_ahead", "hour", "17", 730, 18.2, 35.6), row("erw", "hour", "3", 730, 5.2, null)] });
+  const rt = rtFile(hubOf(PTS.map((ts, hr) => [ts, hr, rtAt(hr), rtAt(hr) - 8, rtAt(hr) + 8, daAt(hr)]), null));
+  save(RT, rt);
+  check(L.rtHubOf(rt, "ercot:HB_NORTH")?.hi === 1 && L.rtHubOf(rt, "pjm:WEST") === null && L.rtHubOf({ ...rt, example: true }, "ercot:HB_NORTH") === null && L.rtHubOf(rt, null) === null, "rtHubOf: a hub by its id with its position; an example file shows nothing");
+  const html = draw(FIX, { s: "price" });
+  const words = text(html);
+  quiet(html, "the real-time price");
+  check(html.includes('id="realtime"') && html.includes('data-fc-rt="a" data-fc-rt-hub="ercot:HB_NORTH" data-fc-rt-hours="24"') && words.includes("Texas: the real-time price at ercot:HB_NORTH"), "price: a section of the real-time price at the hub the place's day-ahead forecast is of");
+  check(fig(html, RT, "hubs/1/tomorrow/23/2", 68.5, "68.50") && fig(html, RT, "hubs/1/tomorrow/23/5", 69.75, "69.75") && fig(html, RT, "hubs/1/tomorrow/0/2", 22.5, "22.50") && words.includes("Day-ahead price, same hour"), "its highest hour, the day-ahead price for the same hour and its lowest hour, each with its key by the hub's position");
+  check(/aria-label="ERW forecast of the real-time price at ercot:HB_NORTH for Friday 27 Nov 2026, with the hub&#x27;s day-ahead price/.test(html) && html.includes("never an ERW method"), "the chart says what it draws; the day-ahead price is named the comparator, never an ERW method");
+  check(html.includes('data-fc-rt-day="a" data-fc-rt-day-of="2026-11-25"') && /aria-label="ERW forecast of the real-time price at ercot:HB_NORTH on Wednesday 25 Nov 2026, beside the hub&#x27;s day-ahead price and what happened/.test(html), "a past day beside the day-ahead price and what happened");
+  check(draw(FIX, { s: "price", day: "2026-11-24" }).includes('data-fc-rt-day-of="2026-11-24"') && draw(FIX, { s: "price", day: "2026-01-01" }).includes('data-fc-rt-day-of="2026-11-25"'), "the day asked for where the file holds it, else the newest day held");
+  check(fig(html, RT, "hubs/1/summary/last_2_years/mae/erw", 12.33, "12.33") && fig(html, RT, "hubs/1/summary/last_2_years/mae/day_ahead", 11.83, "11.83") && fig(html, RT, "hubs/1/summary/backtest/hours", 64818, "64,818"), "the report card: the day-ahead price's lower error drawn as any other");
+  check(fig(html, RT, "rows/1/6", 1969.9, "1,969.90") && fig(html, RT, "rows/2/6", 988.97, "988.97") && words.includes("Price spikes"), "the price spikes, from the file's rows, each with its row's key");
+  check(html.includes('data-fc-rt-cut="a|month"') && fig(html, RT, "rows/5/6", 7.1, "7.10") && fig(html, RT, "rows/4/6", 8.25, "8.25") && /Oct 2026[\s\S]*Nov 2026/.test(html.slice(html.indexOf('data-fc-rt-cut="a|month"'))), "by month, the calendar's order, a month the ERW forecast lost drawn as one it won");
+  check(html.includes('data-fc-rt-cut="a|hour"') && /03:00[\s\S]*17:00/.test(html.slice(html.indexOf('data-fc-rt-cut="a|hour"'))) && fig(html, RT, "rows/7/6", 21.4, "21.40"), "by hour of day, the clock's order");
+  const pct = draw(FIX, { s: "price", m: "mape" });
+  check(fig(pct, RT, "hubs/1/summary/last_2_years/mape/day_ahead", 30.845, "30.85") && /a percent error is not defined where the price is near zero/.test(pct), "the percent error when the page's score is that; a row with none says why");
+  check(html.includes('data-fc-band="a" data-fc-band-rows="2"') && fig(html, RT, "hubs/1/band_coverage/inside_pct", 77.5, "77.50") && words.includes("ERW forecast of the real-time price"), "the band's record has a row of the real-time price");
+  // no forecast for the day: a blank with the file's reason; the past day and the report card are drawn still
+  save(RT, rtFile(hubOf([], "no forecast yet: the day-ahead price for the target day is not held when the forecast is made")));
+  const held = draw(FIX, { s: "price" });
+  check(held.includes('data-fc-rt-hours="0"') && /data-fc-blank="rt\|a"[^>]*>ERW forecast of the real-time price, ercot:HB_NORTH, Friday 27 Nov 2026: no forecast yet</.test(held) && held.includes("the day-ahead price for the target day is not held when the forecast is made"), "no forecast for the day: a blank that says so, with the file's reason");
+  check(held.includes('data-fc-rt-day-of="2026-11-25"') && fig(held, RT, "hubs/1/summary/last_2_years/mae/erw", 12.33), "and the past day and the report card are drawn still");
+  quiet(held, "no real-time forecast for the day");
+  save(RT, rt);
+  // demand draws none of it; a place whose price is held has no real-time section
+  const dem2 = draw(FIX, {});
+  check(!dem2.includes('id="realtime"') && !dem2.includes("rt_price.json|"), "demand draws nothing of the real-time price");
+  const mida = draw(FIX, { a: "region-mida", s: "price" });
+  check(!mida.includes('id="realtime"') && !mida.includes("rt_price.json|") && mida.includes("license needed"), "a place whose price is held: no real-time section, and no figure of it");
+  const pair = draw(FIX, { a: "region-mida", b: "region-tex", s: "price" });
+  check(pair.includes('data-fc-rt="a" data-fc-rt-hub="none"') && pair.includes('data-fc-rt="b" data-fc-rt-hub="ercot:HB_NORTH"'), "two places, one with a hub: the section draws the one");
+  quiet(pair, "two places, price");
+  save(RT, { ...rt, example: true });
+  check(!draw(FIX, { s: "price" }).includes("rt_price.json|"), "an example real-time file: nothing of it is shown");
+  save(RT, rt);
+}
+
 if (!KEEP) fs.rmSync(FIX, { recursive: true, force: true });
 if (fails.length) { for (const f of fails) console.log(`FAIL ${f}`); console.log(`${fails.length} of ${n} checks failed`); process.exit(1); }
-console.log(`ok: ${n} checks of the forecast's lines of 27 November (net demand, wind and solar, the operator's filing, the weather forecast line, the band)`);
+console.log(`ok: ${n} checks of the forecast's lines of 27 November (net demand, wind and solar, the operator's filing, the weather forecast line, the band, the real-time price)`);

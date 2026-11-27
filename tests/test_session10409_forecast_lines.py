@@ -3,9 +3,9 @@
 The desktop's second window (chain 730, sessions 10602 and 10603) added to the contract (docs/state/page_files_predict.md,
 the dated lines of 27 November): in each place file's demand series, the operator's filing checked by month
 (`operator_filing`), a separate line with the weather forecast (`with_weather_forecast`) and net demand (`net_demand`);
-in every shown series, the band's record (`band_coverage`); and the file `wind_solar.json`. The page gives each a view
-(site/app/forecast/lines.tsx, placed by view.tsx; the shapes and pure functions in site/lib/predictlines.ts). The Node
-test draws each from a fixture.
+in every shown series, the band's record (`band_coverage`); and the files `wind_solar.json` and `rt_price.json`. The
+page gives each a view (site/app/forecast/lines.tsx and realtime.tsx, placed by view.tsx; the shapes and pure functions
+in site/lib/predictlines.ts). The Node test draws each from a fixture.
 
     python -m pytest tests/test_session10409_forecast_lines.py
 """
@@ -119,9 +119,39 @@ class TheViewsAreAdditions(unittest.TestCase):
         self.assertNotIn("node:fs", src("site", "app", "forecast", "lines.tsx"))
 
 
+class TheRealTimePrice(unittest.TestCase):
+    """rt_price.json: the ERW forecast of the real-time price at a hub, beside the hub's day-ahead price."""
+
+    def test_the_day_ahead_price_is_the_comparator_never_a_method_of_the_models(self):
+        lib = src("site", "lib", "predictlines.ts")
+        self.assertIn('export const RT_METHODS = ["erw", "day_ahead", "yesterday", "regression"] as const;', lib)
+        self.assertIn('day_ahead: "Day-ahead price"', lib)
+        rt = src("site", "app", "forecast", "realtime.tsx")
+        self.assertIn('const DAY_AHEAD = "Day-ahead price";', rt)
+        self.assertNotIn("ERW forecast: day", rt)
+
+    def test_every_figure_is_keyed_by_the_hubs_place_in_the_file(self):
+        rt = src("site", "app", "forecast", "realtime.tsx")
+        self.assertIn('const key = (...rest: (string | number)[]) => pfKey(RT_FILE, ["hubs", entry.hi, ...rest]);', rt)
+        self.assertIn('pfKey(RT_FILE, ["rows", c.i, mcol])', rt)
+
+    def test_a_day_with_no_forecast_is_a_blank_with_the_files_reason(self):
+        rt = src("site", "app", "forecast", "realtime.tsx")
+        self.assertIn("words={shortHeld(h.tomorrow_held)}", rt)
+        self.assertIn('why={h.tomorrow_held ?? "The file holds no forecast for the day forecast now, and does not say why."}', rt)
+
+    def test_the_section_is_prices_and_only_where_a_hub_is_held(self):
+        view = src("site", "app", "forecast", "view.tsx")
+        self.assertIn('{q.s === "price" && slots.some((x) => rtOf(x, rtPrice)) ? (', view)
+        self.assertIn('<ToolSection title={RT_LABEL} id="realtime">', view)
+        files = src("site", "lib", "predictfiles.ts")
+        self.assertIn('export const predictRtPrice = () => readPredict<RtPriceFile>("rt_price.json");', files)
+        self.assertNotIn("node:fs", src("site", "app", "forecast", "realtime.tsx"))
+
+
 class Words(unittest.TestCase):
     def test_no_em_dash(self):
-        for parts in (("site", "app", "forecast", "lines.tsx"), ("site", "lib", "predictlines.ts"), ("site", "scripts", "test-forecast-lines.mjs")):
+        for parts in (("site", "app", "forecast", "lines.tsx"), ("site", "app", "forecast", "realtime.tsx"), ("site", "lib", "predictlines.ts"), ("site", "scripts", "test-forecast-lines.mjs")):
             self.assertNotIn(EM, src(*parts), parts[-1])
         self.assertNotIn(EM, src("tests", "test_session10409_forecast_lines.py").replace("chr(0x2014)", ""))
 

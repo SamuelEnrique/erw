@@ -23,8 +23,8 @@ import {
 } from "@/lib/predict";
 import {
   BAND_SHARES, FUELS, FUEL_METHODS, FUEL_WORDS, LINE_METHOD_SHORT, LINE_METHOD_WORDS, MW_SPANS, WEATHER_FORECAST_LABEL, WEATHER_FORECAST_METHODS, WEATHER_FORECAST_WORDS,
-  bandMonths, filingMonths, filingShift, fuelShown, hourValues, lineDays, lineDefaultDay, lineHours, mwMetricOf, shareWords, tooFewDays, windSolarOf, wordsOfMethod,
-  type BandCoverage, type FuelKey, type FuelSeries, type LineHour, type MwPart, type WindSolarFile,
+  bandMonths, filingMonths, filingShift, fuelShown, hourValues, lineDays, lineDefaultDay, lineHours, mwMetricOf, rtHubOf, shareWords, tooFewDays, windSolarOf, wordsOfMethod,
+  type BandCoverage, type FuelKey, type FuelSeries, type LineHour, type MwPart, type RtPriceFile, type WindSolarFile,
 } from "@/lib/predictlines";
 
 export type Slot = { mark: "a" | "b"; place: IndexPlace; file: PlaceFile | null };
@@ -338,7 +338,7 @@ type BandRow = { name: string; short: string; rule: string | null | undefined; b
 /** How often what happened fell inside the band, below it and above it: one row a line of the place (the series
  *  chosen; with demand, the wind and solar lines its net demand names), the share inside by the hour of the day as a
  *  chart, and by month in a fold. */
-export function BandCheck({ slot, s, ws }: { slot: Slot; s: SeriesKey; ws: WindSolarFile | null }) {
+export function BandCheck({ slot, s, ws, rt = null }: { slot: Slot; s: SeriesKey; ws: WindSolarFile | null; rt?: RtPriceFile | null }) {
   const ser = slot.file?.series?.[s];
   if (!isShown(slot.file, ser) || !ser) return <div className="min-w-0" data-fc-band={slot.mark} data-fc-band-rows="0" />;
   const file = fileOf(slot), k = slot.mark;
@@ -349,6 +349,9 @@ export function BandCheck({ slot, s, ws }: { slot: Slot; s: SeriesKey; ws: WindS
     const f = entry.place.fuels?.[fuel];
     if (fuelShown(f) && f.band_coverage) rows.push({ name: `${LABEL} of ${fuel}`, short: FUEL_WORDS[fuel], rule: f.band, b: f.band_coverage, key: (...rest) => pfKey(WS_FILE, ["places", entry.pi, "fuels", fuel, "band_coverage", ...rest]), color: FUEL_COLOR[fuel] });
   }
+  // with price: the band of the real-time price's forecast at the hub the place's day-ahead forecast is of
+  const hub = s === "price" ? rtHubOf(rt, ser.hub) : null;
+  if (hub && hub.hub.status === "shown" && hub.hub.band_coverage) rows.push({ name: `${LABEL} of the real-time price`, short: "Real-time price", rule: hub.hub.band, b: hub.hub.band_coverage, key: (...rest) => pfKey("predict/rt_price.json", ["hubs", hub.hi, "band_coverage", ...rest]), color: "series-3" });
   if (!rows.length) return <div className="min-w-0" data-fc-band={k} data-fc-band-rows="0" />;
   const nominal = rows.map((r) => r.b.nominal_pct).find((v): v is number => typeof v === "number") ?? null;
   const byHour = rows.filter((r) => (r.b.by_local_hour_inside_pct ?? []).length === 24);
