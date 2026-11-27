@@ -235,6 +235,14 @@ class TheRealTimeFile(unittest.TestCase):
                 self.assertAlmostEqual(r["mae"], h["summary"]["backtest"]["mae"][m], places=2)
             self.assertNotEqual(h["method"], "day_ahead")
 
+    def test_the_hubs_added_come_after_the_three(self):
+        """Session 10603: the file's hubs are the three of section 7 first, then the four added, each with its entity."""
+        import predict_rt as rtm
+        doc = load("rt_price.json")
+        self.assertEqual([h["grid"] for h in doc["hubs"]], list(rtm.RT_HUBS))
+        self.assertEqual([h["grid"] for h in doc["hubs"]][:3], ["ercot", "spp", "caiso"])
+        self.assertEqual({h["grid"]: h["hub"] for h in doc["hubs"]}, rtm.RT_HUBS)
+
     def test_the_longer_backtest_adds_up_and_changes_nothing_above(self):
         """Session 10603: the years partition the longer backtest's hours, its MAE is their hour-weighted mean, it ends
         where the backtest ends, and it starts no later; the method is the one chosen now."""

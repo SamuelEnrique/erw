@@ -31,7 +31,7 @@ HISTORY_DAYS = 35
 SCORED = ["erw", "day_ahead", "yesterday", "regression"]
 LONG_FIRST = pd.Timestamp("2016-01-01")   # the longer backtest (session 10603; method note predict_price.md section 8)
 LONG_WHAT = ("the same walk-forward backtest from 1 January 2016, as far back as each hub's prices allow (ERCOT's are held from "
-             "2015, SPP's and CAISO's from July 2018, so their first scored day is as in the backtest): each year scored on the "
+             "2015, SPP's from July 2018, CAISO's real-time prices from July 2023, so their first scored day is as in the backtest): each year scored on the "
              "hours every method and the day-ahead price hold; the method chosen now (last two years) is the ERW's in every year, "
              "so the earlier years test the rule, they do not choose; the backtest and its cuts above are unchanged")
 LEDGER_COLS = ["hub", "target_day", "ts_utc", "local_hour", "made_utc", "inputs_through_utc", "horizon_days", "method", "erw", "lo", "hi", "day_ahead"]
@@ -94,7 +94,7 @@ def one(grid, rt, da, made):
         held = f"no forecast: the last whole day of real-time prices held ({last.date()}) is {h} days before the target day; this forecast reads exactly two"
     c = score.common(hr, SCORED)
     hist = c[c["day"] > c["day"].max() - pd.Timedelta(days=HISTORY_DAYS)]
-    block = {"hub": data.HUBS[grid], "grid": grid, "time": tz, "status": "shown", "method": choice,
+    block = {"hub": rtm.RT_HUBS[grid], "grid": grid, "time": tz, "status": "shown", "method": choice,
              "method_mae_last_2_years": {m: num(v) for m, v in maes.items()}, "made_utc": iso(made),
              "inputs_through_utc": iso(frame.loc[frame["day"] <= last, "ts"].max()), "target_day": target.strftime("%Y-%m-%d"), "horizon_days": h,
              "band": "the 10th and 90th percentile of the chosen method's own past errors (actual less forecast, USD/MWh) at the same local hour over 365 days",
@@ -110,7 +110,7 @@ def one(grid, rt, da, made):
     ledger = []
     if tomorrow:
         for t, k, v, lo, hi, d in tomorrow:
-            ledger.append({"hub": data.HUBS[grid], "target_day": block["target_day"], "ts_utc": t, "local_hour": k, "made_utc": iso(made),
+            ledger.append({"hub": rtm.RT_HUBS[grid], "target_day": block["target_day"], "ts_utc": t, "local_hour": k, "made_utc": iso(made),
                            "inputs_through_utc": block["inputs_through_utc"], "horizon_days": h, "method": choice, "erw": v, "lo": lo, "hi": hi, "day_ahead": d})
     return block, rows, ledger
 
@@ -146,10 +146,10 @@ def main(argv=None):
     built = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     t = pd.Timestamp(a.now or built)
     made = (t.tz_convert("UTC") if t.tzinfo else t.tz_localize("UTC")).floor("h")
-    rt = rtm.rt_panel()
-    da = data.price_panel()
+    rt = rtm.rt_panel(rtm.RT_HUBS)
+    da = data.price_panel(rtm.RT_HUBS)
     hubs, rows, ledger = [], [], []
-    for grid in ("ercot", "spp", "caiso"):
+    for grid in list(rtm.RT_HUBS):
         block, r, lg = one(grid, rt, da, made)
         hubs.append(block)
         rows += r

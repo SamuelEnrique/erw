@@ -156,18 +156,21 @@ HUBS = {"ercot": "ercot:HB_NORTH", "spp": "spp:SPPNORTH_HUB", "caiso": "caiso:TH
 PRICE_TABLES = ["ercot_all_hub_prices_history", "iso_hub_prices_history_2018", "iso_hub_prices_history", "iso_dam_hub_prices"]
 
 
-def price_panel():
+def price_panel(hubs=None):
     """Wide frame, index the UTC hour (start), one column a grid of HUBS: the hub's day-ahead price, USD/MWh. The
-    tables are read oldest first and a later table's value for the same hour wins (the daily table over the history)."""
+    tables are read oldest first and a later table's value for the same hour wins (the daily table over the history).
+    `hubs` (session 10603): another {column: entity} map, for the real-time forecast's added hubs; by default HUBS."""
+    hubs = hubs or HUBS
+
     def build():
         frames = []
         for order, t in enumerate(PRICE_TABLES):
-            d = read(t, ["entity", "ts_utc", "value", "market"], lambda d: d["market"].astype(str).str.endswith("_dam") & d["entity"].isin(list(HUBS.values())))
+            d = read(t, ["entity", "ts_utc", "value", "market"], lambda d: d["market"].astype(str).str.endswith("_dam") & d["entity"].isin(list(hubs.values())))
             d["order"] = order
             frames.append(d[["entity", "ts", "value", "order"]])
         d = pd.concat(frames, ignore_index=True).sort_values(["entity", "ts", "order"])
         d = d.drop_duplicates(subset=["entity", "ts"], keep="last")
-        inv = {v: k for k, v in HUBS.items()}
+        inv = {v: k for k, v in hubs.items()}
         cols = {}
         for e, g in d.groupby("entity"):
             cols[inv[e]] = pd.Series(g["value"].to_numpy(dtype=float), index=pd.DatetimeIndex(g["ts"]))
@@ -175,7 +178,7 @@ def price_panel():
         df = df.reindex(pd.date_range(df.index.min(), df.index.max(), freq="h"))
         df.index.name = "ts"
         return df
-    return cached("price_" + "_".join(sorted(HUBS)), PRICE_TABLES, build)
+    return cached("price_" + "_".join(sorted(hubs)), PRICE_TABLES, build)
 
 
 def weather_panel():
