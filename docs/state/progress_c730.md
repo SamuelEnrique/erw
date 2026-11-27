@@ -103,3 +103,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 18:43 UTC (session 10603): `ahead_more.json` building (6 of 35 authorities); data request 17 written (the backtest tables' shape chosen, both passing the validator); rows 10 and 11 still requested.
 - 19:01 UTC (session 10603): the day's peak by year added to the longer backtest on `wip/c730-predict-v6` (`long_backtest.json`'s `peak`; its replication 96 of 96 groups on a two-place trial; the 64-place rebuild started 18:56 UTC). `ahead_more.json` at 8 of 35 authorities.
 - 19:11 UTC (session 10603): builds running (`ahead_more.json` 12 of 35; `long_backtest.json` with the peak 9 of 64); rows 10 and 11 still requested.
+- 19:40 UTC (session 10603): `ahead_more.json` 18 of 35; `long_backtest.json` with the peak 29 of 64; rows 10 and 11 still requested.
