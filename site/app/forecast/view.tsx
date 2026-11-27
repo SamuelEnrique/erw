@@ -587,17 +587,24 @@ export function ForecastView({ query }: { query: Raw }) {
               </div>
             ) : null}
             {/* session 10409: wind, solar and what is left of demand after them, demand only */}
-            {q.s === "demand" ? <div className={two} data-fc-net-block="1">{slots.map((x) => <NetDemand key={x.mark} slot={x} ws={windSolar} metric={metric} />)}</div> : null}
+            {q.s === "demand" ? (
+              <div data-fc-net-block="1">
+                <div className={two}>{slots.map((x) => <NetDemand key={x.mark} slot={x} ws={windSolar} metric={metric} part="chart" />)}</div>
+                {slots.map((x) => <NetDemand key={x.mark} slot={x} ws={windSolar} metric={metric} part="table" />)}
+              </div>
+            ) : null}
           </ToolSection>
           <ToolSection title="How it has done" id="record">
             <div className={two}>{slots.map((x) => <PastDay key={x.mark} slot={x} s={q.s} index={index} scores={scores} asked={q.day} />)}</div>
             {q.s === "demand" ? <div className={two} data-fc-wsday-block="1">{slots.map((x) => <WindSolarDay key={x.mark} slot={x} ws={windSolar} asked={q.day} />)}</div> : null}
             <div className="mt-6"><ReportCard slots={slots} s={q.s} index={index} scores={scores} metric={metric} /></div>
             {/* session 10409: the check of the operator's filing, the separate line with the weather forecast (demand
-                only), and the band's record (either series); each after the report card, which stands as it was */}
-            {q.s === "demand" ? <div className={two} data-fc-filing-block="1">{slots.map((x) => <FilingCheck key={x.mark} slot={x} scores={scores} metric={metric} />)}</div> : null}
-            {q.s === "demand" ? <div className={two} data-fc-wwf-block="1">{slots.map((x) => <WeatherForecastLine key={x.mark} slot={x} scores={scores} metric={metric} />)}</div> : null}
-            <div className={two} data-fc-band-block="1">{slots.map((x) => <BandCheck key={x.mark} slot={x} s={q.s} ws={windSolar} />)}</div>
+                only), and the band's record (either series); each after the report card, which stands as it was. With
+                two places each place's tables keep the page's full width, one place under the other (six and seven
+                columns do not fit half of it) */}
+            {q.s === "demand" ? <div data-fc-filing-block="1">{slots.map((x) => <FilingCheck key={x.mark} slot={x} scores={scores} metric={metric} />)}</div> : null}
+            {q.s === "demand" ? <div data-fc-wwf-block="1">{slots.map((x) => <WeatherForecastLine key={x.mark} slot={x} scores={scores} metric={metric} />)}</div> : null}
+            <div data-fc-band-block="1">{slots.map((x) => <BandCheck key={x.mark} slot={x} s={q.s} ws={windSolar} />)}</div>
           </ToolSection>
           <ToolSection title="Every place" id="places">
             <AllPlaces index={index} scores={scores} s={q.s} metric={metric} chosen={slots.map((x) => x.place.place)} />

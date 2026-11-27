@@ -69,7 +69,7 @@ export type NetDemand = {
 export type MwMetric = "nmae_pct" | "mae_mw";
 /** The page's two scores, said for these lines: the percent is of the mean of the hours scored. */
 export const mwMetricOf = (metric: "mape" | "mae"): MwMetric => (metric === "mape" ? "nmae_pct" : "mae_mw");
-export const MW_SPANS: [string, string][] = [["last_2_years", "The last two years"], ["backtest", "The backtest"], ["with_operator", "The hours the operator's forecasts are held"]];
+export const MW_SPANS: [string, string][] = [["last_2_years", "the last two years"], ["backtest", "the backtest"], ["with_operator", "the hours the operator also forecast"]];
 
 // ---- The band: how often what happened fell inside it (section 21) --------------------------------------------------
 

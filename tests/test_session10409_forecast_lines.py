@@ -102,7 +102,8 @@ class EveryFigureCarriesItsKey(unittest.TestCase):
 class TheViewsAreAdditions(unittest.TestCase):
     def test_the_page_places_each_view_and_moves_nothing(self):
         view = src("site", "app", "forecast", "view.tsx")
-        for call in ("<NetDemand key={x.mark} slot={x} ws={windSolar} metric={metric} />", "<WindSolarDay key={x.mark} slot={x} ws={windSolar} asked={q.day} />",
+        for call in ('<NetDemand key={x.mark} slot={x} ws={windSolar} metric={metric} part="chart" />', '<NetDemand key={x.mark} slot={x} ws={windSolar} metric={metric} part="table" />',
+                     "<WindSolarDay key={x.mark} slot={x} ws={windSolar} asked={q.day} />",
                      "<FilingCheck key={x.mark} slot={x} scores={scores} metric={metric} />", "<WeatherForecastLine key={x.mark} slot={x} scores={scores} metric={metric} />",
                      "<BandCheck key={x.mark} slot={x} s={q.s} ws={windSolar} />"):
             self.assertIn(call, view)

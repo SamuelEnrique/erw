@@ -133,7 +133,12 @@ quiet(page, "demand");
   check(fig(page, TEX, "series/demand/net_demand/tomorrow/17/2", netAt(17)) && /data-n="fc\|a\|net\|high"/.test(page), "the highest hour of net demand is the file's");
   check(fig(page, WS, "places/1/fuels/wind/tomorrow/0/2", 6000.5, "6,001") && fig(page, WS, "places/1/fuels/solar/tomorrow/12/2", 4000, "4,000") && t.includes("Highest wind hour") && t.includes("Highest solar hour"), "the highest hour of wind and of solar, each with its key into the wind and solar file by the place's position there");
   check(/aria-label="ERW forecast of demand, of wind and solar output and of net demand for Texas, Friday 27 Nov 2026/.test(page), "the chart's name says what it draws");
-  for (const name of ["ERW forecast: demand", "ERW forecast: net demand", "ERW forecast: wind", "ERW forecast: solar"]) check(page.includes(name), `the chart's line "${name}" carries the words ERW forecast`);
+  // the chart's title carries the words ERW forecast; its lines' names are short, so a phone's plot keeps its width
+  check(t.includes("ERW forecast of demand, wind, solar and net demand: Friday 27 Nov 2026"), "the chart's title carries the words ERW forecast");
+  const net = page.slice(page.indexOf('data-fc-net="a"'), page.indexOf("data-fc-net-table="));
+  for (const name of ["Demand", "Net demand", "Wind", "Solar"]) check(new RegExp(`>${name}<`).test(net), `the chart's line "${name}"`);
+  check(!/ERW forecast: (demand|net demand|wind|solar)/.test(page), "no line's name repeats the title's words at the plot's edge");
+  check(page.indexOf("data-fc-net-table=\"a\"") > page.indexOf('data-fc-net="a"') && page.includes('data-fc-net-block="1"'), "the tables stand under the charts, at the page's width");
   // the scores: every method the file scores, the operator's lower error drawn as any other
   check(page.includes('data-fc-line-scores="a"') && fig(page, TEX, "series/demand/net_demand/last_2_years/nmae_pct/erw", 15.77, "15.77") && fig(page, TEX, "series/demand/net_demand/with_operator/nmae_pct/operator", 5.46, "5.46"), "net demand's scores, the operator's where it is scored");
   check(fig(page, WS, "places/1/fuels/wind/summary/with_operator/nmae_pct/operator", 13.24, "13.24") && fig(page, WS, "places/1/fuels/wind/summary/last_2_years/nmae_pct/profile7", 42.76, "42.76") && fig(page, WS, "places/1/fuels/wind/summary/backtest/hours", 64587, "64,587"), "wind's scores and hours, from the wind and solar file");
@@ -146,7 +151,7 @@ quiet(page, "demand");
 // ---- 4. How it has done: wind and solar on a past day --------------------------------------------------------------------
 {
   check(page.includes('data-fc-wsday="a" data-fc-wsday-of="2026-11-25"') && /aria-label="ERW forecast of wind and solar output for Texas on Wednesday 25 Nov 2026, beside what happened/.test(page), "wind and solar on the newest past day held, beside what happened");
-  check(page.includes("What happened: wind") && page.includes("What happened: solar"), "what happened is a line of its own for each");
+  check(page.includes("Wind, actual") && page.includes("Solar, actual") && page.includes("What happened is drawn dashed"), "what happened is a line of its own for each, and the hover says which");
   const d24 = draw(FIX, { day: "2026-11-24" });
   check(d24.includes('data-fc-wsday-of="2026-11-24"'), "the day asked for, where the wind and solar file holds it");
   const odd = draw(FIX, { day: "2026-01-01" });
