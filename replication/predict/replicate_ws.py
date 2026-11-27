@@ -144,6 +144,19 @@ def main():
     c = read(os.path.join(a.tables, "caiso_wind_solar_forecast.csv"), ["entity", "variable", "ts_utc", "value"])
     e = read(os.path.join(a.tables, "ercot_wind_solar_forecast.csv"), ["entity", "variable", "ts_utc", "value"])
     cu = curtailed(a.tables)
+    # session 10603 (method note section 8): the authorities' output, eia930_ba_wind_solar_hourly, on each authority's clock
+    bt, tzs = None, dict(TZ)
+    if any(p["place"].startswith("ba-") for p in doc["places"]):
+        bt = read(os.path.join(a.tables, "eia930_ba_wind_solar_hourly.csv"), ["entity", "variable", "ts_utc", "value"])
+        sys.path.append(os.path.join(ROOT, "warehouse", "connectors"))
+        sys.path.append(os.path.join(ROOT, "warehouse", "derived"))
+        import region_files as rfiles
+        rfiles.ROOT = os.path.abspath(os.path.join(a.tables, "..", ".."))
+        ref, _ = rfiles.reference()
+        for p in doc["places"]:
+            if p["place"].startswith("ba-"):
+                code = p["place"].split("-")[1].upper()
+                tzs[p["place"]] = rfiles.BA_TZ.get(code) or (ref[code]["tz"] if code in ref and ref[code]["tz"] else "America/New_York")
     figs = []
     for p in doc["places"]:
         place = p["place"]
@@ -153,11 +166,15 @@ def main():
             if place == "grid-caiso":
                 act = hub_sum(c, f"{fuel}_actual_mw", 3 if fuel == "solar" else 2)
                 op = hub_sum(c, f"{fuel}_forecast_dam_mw", 3 if fuel == "solar" else 2)
+            elif place.startswith("ba-"):
+                code = place.split("-")[1].upper()
+                act = one_series(bt[(bt["entity"] == f"eia930:{code}") & (bt["variable"] == f"net_generation_{fuel}_mw")])
+                op = None
             else:
                 code = place.split("-")[1].upper()
                 act = one_series(rf[(rf["entity"] == f"eia930:{code}") & (rf["variable"] == f"net_generation_{fuel}_mw")])
                 op = one_series(e[(e["entity"] == "ercot:SYSTEM") & (e["variable"] == f"{fuel}_forecast_24h_mw")]) if place == "region-tex" else None
-            g = methods(local(act, TZ[place]), TZ[place])
+            g = methods(local(act, tzs[place]), tzs[place])
             g["operator"] = op.reindex(pd.DatetimeIndex(g["ts"])).to_numpy() if op is not None else np.nan
             last = g["day"].max()
             rec = g[g["day"] > last - pd.Timedelta(days=CHOICE)].dropna(subset=["actual", "yesterday", "profile7", "regression"])

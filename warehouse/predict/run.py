@@ -204,20 +204,39 @@ NET_WHAT = ("net demand: the demand less the output of wind and solar (method no
             "means nothing). No band: the three bands are not combined")
 
 
+TWIN_REGION = {"ba-erco": "region-tex", "ba-isne": "region-ne", "ba-nyis": "region-ny", "ba-pjm": "region-mida",
+               "ba-soco": "region-se", "ba-tva": "region-ten"}
+
+
 def net_place(place):
-    """The wind and solar place whose footprint is the place's own: a region itself, and ERCO (Texas is ERCOT alone)."""
+    """The wind and solar place whose footprint is the place's own: a region itself, and ERCO (Texas is ERCOT alone).
+    Session 10603 (data request 10 done): an authority that is a whole region takes its region's; CISO takes CAISO's
+    own hubs; each authority of wind_solar.BA_PLACES its own."""
     if place.startswith("region-"):
         return place
-    return "region-tex" if place == "ba-erco" else None
+    if place in TWIN_REGION:
+        return TWIN_REGION[place]
+    if place == "ba-ciso":
+        return "grid-caiso"
+    return place if place in wsrun.BA_PLACES else None
 
 
 def net_demand_line(p, wsdf, made, wp):
     """The net demand block of one place and its score rows (series net_demand)."""
     place = p["place"]
     d = p["hr"][["ts", "day", "hour", "actual", "erw", "operator", "yesterday"]].copy()
-    tm, th = {}, {}
+    tm, th, zero = {}, {}, []
     for fuel in wsmod.FUELS:
         got = wsrun.one(wp, fuel, wsdf, made)
+        if got is None and wp.startswith("ba-"):
+            # session 10603: an authority that reports no output of the fuel on any hour of EIA-930 is taken to have none
+            # (a utility with no wind plant files no wind column); the block says so
+            zero.append(fuel)
+            for col in ("actual", "erw", "yesterday"):
+                d[f"{fuel}_{col}"] = 0.0
+            d[f"{fuel}_operator"] = np.nan
+            tm[fuel], th[fuel] = "zero", None
+            continue
         if got is None:
             return {"what": NET_WHAT, "status": "not held", "held": f"not held: no {fuel} output is held for {wp}"}, []
         block, _, _, hw = got
@@ -232,7 +251,8 @@ def net_demand_line(p, wsdf, made, wp):
     c = x.dropna(subset=["actual", "erw", "yesterday"]).reset_index(drop=True)
     rows = []
     out = {"what": NET_WHAT, "status": "shown", "wind_solar_place": wp, "last_2_years": None, "backtest": None, "with_operator": None,
-           "tomorrow_columns": ["ts_utc", "local_hour", "erw"], "tomorrow": None, "tomorrow_held": None}
+           "tomorrow_columns": ["ts_utc", "local_hour", "erw"], "tomorrow": None, "tomorrow_held": None,
+           "fuels_taken_as_zero": zero or None}
     for cut, days in (("all", None), ("last_2_years", score.CHOICE_DAYS)):
         g = c if days is None else c[c["day"] > c["day"].max() - pd.Timedelta(days=days)]
         sm = wsrun.summary(g, ["erw", "yesterday"])
@@ -250,8 +270,8 @@ def net_demand_line(p, wsdf, made, wp):
                      "not held: the warehouse holds no wind and solar forecast of this place's operator"])
     t = p.get("tomorrow")
     if t is not None and tm.get("wind") and tm.get("solar"):
-        w = {r[0]: r[2] for r in tm["wind"]}
-        s = {r[0]: r[2] for r in tm["solar"]}
+        w = {iso(x): 0.0 for x in t["ts"]} if tm["wind"] == "zero" else {r[0]: r[2] for r in tm["wind"]}
+        s = {iso(x): 0.0 for x in t["ts"]} if tm["solar"] == "zero" else {r[0]: r[2] for r in tm["solar"]}
         c0 = p["choice"]
         net = []
         for _, r in t.iterrows():
@@ -702,7 +722,7 @@ def main(argv=None):
     # part F: net demand (method note section 20), for the regions and ERCO, from the wind and solar forecast
     netd = {}
     if os.path.exists(data.table_path(wsmod.REGION_FUEL)):
-        wsdf = wsmod.panels()
+        wsdf = wsmod.all_panels()
         for p in results:
             wp = net_place(p["place"])
             if wp is None:

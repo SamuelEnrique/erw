@@ -30,11 +30,20 @@ NOTE = "docs/methods/predict_wind_solar.md"
 MADE_HOUR = 20
 CHOICE_DAYS = 730
 HISTORY_DAYS = 35
-PLACES = [f"region-{r.lower()}" for r in data.REGIONS] + ["grid-caiso"]
+# session 10603 (more places; data request 10 done by window A): every authority among the forecast's 64 places whose
+# wind or solar output eia930_ba_wind_solar_hourly holds, except the six that are each a whole region (their region's
+# entry shows them) and CISO (grid-caiso, CAISO's own hubs, shows it); method note predict_wind_solar.md section 8
+BA_PLACES = [f"ba-{c.lower()}" for c in ["AECI", "AVA", "AZPS", "BANC", "BPAT", "CHPD", "CPLE", "CPLW", "DUK", "EPE", "FMPP", "FPC",
+                                         "FPL", "IID", "IPCO", "JEA", "LDWP", "LGEE", "MISO", "NEVP", "NWMT", "PACE", "PACW", "PNM",
+                                         "PSCO", "PSEI", "SC", "SCEG", "SEC", "SRP", "SWPP", "TAL", "TEC", "TEPC", "WALC"]]
+PLACES = [f"region-{r.lower()}" for r in data.REGIONS] + ["grid-caiso"] + BA_PLACES
 NAMES = {"grid-caiso": "CAISO, its three trading hubs (NP15, SP15, ZP26)"}
 # session 10603, data request 11 (a) of chain 720: the place files that show each entry (a region shows its own; ba-erco is
-# Texas; CAISO's own hubs are CISO's footprint, so ba-ciso shows grid-caiso)
-SHOWN_FOR = {"region-tex": ["region-tex", "ba-erco"], "grid-caiso": ["ba-ciso"]}
+# Texas; CAISO's own hubs are CISO's footprint, so ba-ciso shows grid-caiso); an authority that is a whole region is
+# shown by its region's entry; an authority added shows its own
+SHOWN_FOR = {"region-tex": ["region-tex", "ba-erco"], "grid-caiso": ["ba-ciso"], "region-ne": ["region-ne", "ba-isne"],
+             "region-ny": ["region-ny", "ba-nyis"], "region-mida": ["region-mida", "ba-pjm"], "region-se": ["region-se", "ba-soco"],
+             "region-ten": ["region-ten", "ba-tva"]}
 # session 10603, data request 12 of chain 720: the words of the cuts of this file's rows
 CUT_WORDS = {"all": "every hour of the backtest held by every method", "last_2_years": "the last 730 days of the backtest (the days the method is chosen on)",
              "month": "key YYYY-MM", "hour": "key 0 to 23, the place's clock, over the last two years",
@@ -44,6 +53,7 @@ OPERATOR = {"region-tex": "ERCOT's short-term wind and solar forecasts (STWPF, S
             "grid-caiso": "CAISO's day-ahead market forecast of wind and solar (caiso_wind_solar_forecast, market run DAM, from June 2023), against CAISO's own actual output of the same hubs"}
 TARGET = {"grid-caiso": "CAISO's actual wind or solar output, its three trading hubs summed (caiso_wind_solar_forecast, market run ACTUAL)"}
 NOT_HELD = "not held: the warehouse holds no forecast of this region's wind or solar by its operator"
+NOT_HELD_BA = "not held: the warehouse holds no forecast of this authority's wind or solar by its operator"
 COLUMNS = ["place", "fuel", "method", "cut", "key", "hours", "mae_mw", "nmae_pct", "held"]
 LEDGER_COLS = ["fuel", "place", "target_day", "ts_utc", "local_hour", "made_utc", "inputs_through_utc", "horizon_days", "method", "erw", "lo", "hi"]
 METHOD_WORDS = {"erw": "the method the rule chose for the place and fuel (the lowest mean absolute error of the ERW's methods over the last two years)",
@@ -69,7 +79,12 @@ def place_tz(place):
     import region_files as rp
     if place == "grid-caiso":
         return "America/Los_Angeles"
-    return rp.REGION_TZ[place.split("-", 1)[1].upper()]
+    kind, code = place.split("-", 1)
+    if kind == "ba":
+        # the authority's own clock, as its place file counts its days (predict_data.place_tz)
+        ref, _ = data.reference()
+        return data.place_tz(place, ref)
+    return rp.REGION_TZ[code.upper()]
 
 
 def rows_for(place, fuel, x, methods, cut_list):
@@ -144,7 +159,7 @@ def one(place, fuel, df, made, curt=None):
             rows += rows_for(place, fuel, ca, methods + ["operator"], [("with_operator_available", "", np.ones(len(ca), dtype=bool))])
             with_op_avail = summary(ca, methods + ["operator"])
     else:
-        rows += [[place, fuel, "operator", "all", "", None, None, None, NOT_HELD]]
+        rows += [[place, fuel, "operator", "all", "", None, None, None, NOT_HELD_BA if place.startswith("ba-") else NOT_HELD]]
     inside = None
     r2 = c[c["day"] > c["day"].max() - pd.Timedelta(days=CHOICE_DAYS)].dropna(subset=["erw_lo", "erw_hi"])
     if len(r2):
@@ -174,8 +189,8 @@ def one(place, fuel, df, made, curt=None):
                for r in hist.itertuples()]
     inputs_through = frame.loc[frame["day"] <= lastday, "ts"].max()
     block = {"status": "shown", "method": choice, "method_mae_last_2_years": {m: num(v) for m, v in maes.items()},
-             "target_series": TARGET.get(place, f"EIA-930's net generation from {fuel} for the region (eia930_region_fuel_hourly)"),
-             "operator": OPERATOR.get(place) if op_held else None, "operator_held": None if op_held else NOT_HELD,
+             "target_series": TARGET.get(place, f"EIA-930's net generation from {fuel} for the authority (eia930_ba_wind_solar_hourly)" if place.startswith("ba-") else f"EIA-930's net generation from {fuel} for the region (eia930_region_fuel_hourly)"),
+             "operator": OPERATOR.get(place) if op_held else None, "operator_held": None if op_held else (NOT_HELD_BA if place.startswith("ba-") else NOT_HELD),
              "made_utc": iso(made), "inputs_through_utc": iso(inputs_through), "target_day": target.strftime("%Y-%m-%d"), "horizon_days": h,
              "band": "the 10th and 90th percentile of the chosen method's own past errors (actual less forecast, MW) at the same local hour over 365 days, the low end not clipped, a plant's net output at night being a little below zero",
              "band_coverage_pct": inside,
@@ -233,7 +248,7 @@ def main(argv=None):
     built = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     t = pd.Timestamp(a.now or built)
     made = (t.tz_convert("UTC") if t.tzinfo else t.tz_localize("UTC")).floor("h")
-    df = ws.panels()
+    df = ws.all_panels()
     curt = ws.curtailment() if os.path.exists(data.table_path(ws.CURTAIL)) else None
     names = data.names()
     places, rows, ledger = [], [], []
