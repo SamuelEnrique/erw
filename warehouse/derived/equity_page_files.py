@@ -56,6 +56,37 @@ SEGMENTS = [("integrated_oil_gas", "Integrated oil and gas"), ("exploration_prod
             ("independent_power", "Independent power producers"), ("nuclear_uranium", "Nuclear and uranium"), ("solar", "Solar"),
             ("wind", "Wind"), ("storage", "Storage"), ("hydrogen_fuel_cells", "Hydrogen and fuel cells"),
             ("grid_equipment", "Grid and electrical equipment")]
+# session 10000 (chain 701), after the owner's ruling of 26 November 2026 gave the SEC a contact address: the written rule
+# (warehouse/connectors/sec_edgar.py SIC_SEGMENTS and NO_CODE, docs/methods/equities.md "The universe") in words
+SEG_RULE = {
+    "integrated_oil_gas": "SEC industry code 2911 (petroleum refining), which does not separate integrated companies from refiners: in both",
+    "exploration_production": "SEC industry code 1311 (crude petroleum and natural gas)",
+    "midstream_pipelines": "SEC industry codes 4610 (pipelines), 4922 (gas transmission), 4923 and 4924 (gas transmission and distribution; "
+                           "gas distribution and the LNG exporters: in both segments)",
+    "refining": "SEC industry code 2911 (petroleum refining), which does not separate refiners from integrated companies: in both",
+    "oilfield_services": "SEC industry codes 1381, 1382 and 1389 (drilling, exploration and field services) and 3533 (field machinery)",
+    "coal": "SEC industry codes 1220, 1221 and 1222 (coal mining)",
+    "regulated_utilities": "SEC industry codes 4911 (electric services, also in independent power), 4923, 4924 (also in midstream), "
+                           "4931, 4932 and 4939 (combined utilities)",
+    "independent_power": "SEC industry codes 4911 (electric services, also in regulated utilities) and 4991 (cogeneration and small power)",
+    "grid_equipment": "SEC industry codes 3612 (transformers) and 3613 (switchgear)",
+}
+NO_CODE = {
+    "lng": "no SEC industry code is LNG alone: the exporters file under 4924 with the local gas distributors",
+    "nuclear_uranium": "no SEC industry code is nuclear or uranium alone: uranium miners file under 1090 or 1400 with other ores, reactor owners under 4911",
+    "solar": "no SEC industry code is solar alone: makers of cells and inverters file under 3674 with all semiconductors",
+    "wind": "no SEC industry code is wind alone: turbine makers file under 3510, 3511 or 3600 with all engines and electrical equipment",
+    "storage": "no SEC industry code is storage alone: 3690 holds batteries with consumer batteries and unrelated equipment",
+    "hydrogen_fuel_cells": "no SEC industry code is hydrogen or fuel cells alone: 2810 holds the industrial gases with pigments, 3620 fuel cells with all electrical apparatus",
+}
+FUND_WHY = ("no us-gaap 10-Q or 10-K facts on EDGAR: a foreign filer's 20-F or 40-F (often IFRS) is not read, and some "
+            "partnerships file other concepts (docs/methods/equities.md)")
+SEC_SOURCE = ("U.S. Securities and Exchange Commission, EDGAR: each company's submissions and XBRL company facts, "
+              "https://www.sec.gov/search-filings/edgar-application-programming-interfaces")
+QCOLS = ["period_start", "period_end", "months", "fy", "fp", "form", "filed", "revenue", "net_income", "capex", "debt",
+         "shares_outstanding", "accession", "url"]
+LINE = {"revenue": "revenue", "net_income": "net_income", "capex": "capex", "long_term_debt_usd": "debt",
+        "shares_outstanding": "shares_outstanding"}
 HELD_GRIDS = [("pjm_western_hub_da", "PJM Western Hub, day-ahead", "license needed",
                "PJM's terms allow republication to members only (docs/licenses.md); held until a permission is recorded"),
               ("nyiso_zone_j_da", "NYISO New York City, day-ahead", "license needed",
@@ -174,18 +205,103 @@ def energy_series():
     return series, daily
 
 
+def table_or_none(table):
+    path = os.path.join(ip.OUT_DIR, table + ".csv")
+    if not os.path.exists(path):
+        return None
+    return pd.read_csv(path, skiprows=ip.header_rows(path), dtype=str, keep_default_na=False)
+
+
+def num(v):
+    if v in ("", None):
+        return None
+    f = float(v)
+    return int(f) if f.is_integer() else f
+
+
+def quarterly(f):
+    """A company's rows of equity_fundamentals_quarterly as the contract's quarterly rows: each filing's own period (the
+    newest period end in that filing), one row a period length, newest first; the instants of that end on each."""
+    if f is None or f.empty:
+        return [], {}
+    f = f.copy()
+    own = f.groupby("x_accession")["ts_utc"].transform("max")
+    f = f[f["ts_utc"] == own]
+    f["line"] = f["variable"].str.replace(r"_\d+m_usd$", "", regex=True)
+    out, concepts = [], {}
+    for line, g in f.sort_values("vintage").groupby("line"):
+        concepts[LINE.get(line, line)] = g["x_concept"].iloc[-1]
+    for (acc, end), g in f.groupby(["x_accession", "ts_utc"]):
+        inst = {LINE[r["line"]]: num(r["value"]) for _, r in g[g["x_months"] == ""].iterrows() if r["line"] in LINE}
+        dur = g[g["x_months"] != ""]
+        first = g.iloc[0]
+        base = {"period_end": end[:10], "fy": num(first["x_fy"]), "fp": first["x_fp"] or None, "form": first["x_form"],
+                "filed": first["vintage"][:10], "accession": acc, "url": first["source_url"]}
+        groups = list(dur.groupby(["x_months", "x_period_start"])) or [((None, None), None)]
+        for (m, start), d in groups:
+            row = {**base, "period_start": start, "months": num(m) if m else None,
+                   "revenue": None, "net_income": None, "capex": None, "debt": inst.get("debt"),
+                   "shares_outstanding": inst.get("shares_outstanding")}
+            if d is not None:
+                for _, r in d.iterrows():
+                    if r["line"] in LINE:
+                        row[LINE[r["line"]]] = num(r["value"])
+            out.append([row[c] for c in QCOLS])
+    out.sort(key=lambda r: (r[1], r[6] or "", r[2] or 0), reverse=True)
+    return out, concepts
+
+
+def company_files(built, universe, fund):
+    """index.json's companies and one series file a company (prices null with their reason, the statements as filed)."""
+    companies, files = [], {}
+    by_cik = {k: g for k, g in fund.groupby("entity")} if fund is not None and len(fund) else {}
+    held_cols = {c: PRICE_WHY for c in ("close", "adj_close", "volume", "market_value")}
+    for _, r in universe.sort_values("ticker").iterrows():
+        tk = r["ticker"].upper()
+        q, concepts = quarterly(by_cik.get(r["entity_id"]))
+        fpath = f"series/{tk}.json"
+        companies.append({"id": tk, "cik": r["cik"], "name": r["name"], "ticker": r["ticker"], "exchange": r["exchange"],
+                          "sic": r["sic"], "sic_label": r["sic_label"], "segments": r["segments"].split(";"),
+                          "segments_note": r["segments_note"] or None, "directory_id": r["directory_id"] or None,
+                          "price_status": "license needed", "price_why": PRICE_WHY,
+                          "fundamentals_status": "shown" if q else "source needed", "fundamentals_why": None if q else FUND_WHY,
+                          "first": None, "last": None, "file": fpath})
+        files[fpath] = {"built": built, "example": False, "method": METHOD, "contract": CONTRACT, "license": "public",
+                        "id": tk, "kind": "company", "name": r["name"], "cik": r["cik"], "ticker": r["ticker"],
+                        "exchange": r["exchange"], "segments": r["segments"].split(";"), "status": "license needed",
+                        "why": PRICE_WHY, "source": SEC_SOURCE,
+                        "units": {"close": "USD/share", "adj_close": "USD/share", "volume": "shares", "market_value": "USD",
+                                  "revenue": "USD", "net_income": "USD", "capex": "USD", "debt": "USD",
+                                  "shares_outstanding": "shares"},
+                        "held": held_cols, "daily_columns": ["day", "close", "adj_close", "volume", "market_value"], "daily": [],
+                        "last": None, "last_value_weight": None,
+                        "moves": {"d": None, "w": None, "m": None, "ytd": None, "y": None},
+                        "quarterly_columns": QCOLS, "quarterly": q, "concepts": concepts,
+                        "fundamentals_why": None if q else FUND_WHY}
+    return companies, files
+
+
 def build(built):
     tables = ["equity_universe", "equity_prices_daily", "equity_fundamentals_quarterly", "equity_index_daily"]
+    universe = table_or_none("equity_universe")
+    fund = table_or_none("equity_fundamentals_quarterly")
+    companies, cfiles = company_files(built, universe, fund) if universe is not None else ([], {})
+    n = {i: sum(1 for c in companies if i in c["segments"]) for i, _ in SEGMENTS}
+    segs = []
+    for i, l in SEGMENTS:
+        if universe is None:
+            segs.append({"id": i, "label": l, "rule": None, "rule_why": SEC_WHY, "n_companies": None})
+        else:
+            segs.append({"id": i, "label": l, "rule": SEG_RULE.get(i), "rule_why": NO_CODE.get(i), "n_companies": n[i]})
     index = {"built": built, "example": False, "method": METHOD, "contract": CONTRACT, "license": "public", "tables": tables,
-             "last_day": None,
-             "segments": [{"id": i, "label": l, "rule": None, "rule_why": SEC_WHY, "n_companies": None} for i, l in SEGMENTS],
-             "companies": [], "indices": [], "segment_series": [],
-             "held": {"companies": SEC_WHY, "indices": PRICE_WHY, "prices": PRICE_WHY}}
+             "last_day": None, "segments": segs, "companies": companies, "indices": [], "segment_series": [],
+             "held": {"companies": SEC_WHY if universe is None else None, "indices": PRICE_WHY, "prices": PRICE_WHY}}
     rows = []
     for i, l in SEGMENTS:
         for w, wl in (("equal", "equal weight"), ("value", "weighted by market value")):
+            note = f"{SEC_WHY}; and {PRICE_WHY}" if universe is None else (PRICE_WHY if i in SEG_RULE else f"{NO_CODE[i]}; and {PRICE_WHY}")
             rows.append({"id": f"equities-segment-{i}-{w}", "group": "equities", "label": f"{l} ({wl})", "unit": "index, first day = 100",
-                         "tags": {"kind": "segment", "weighting": w}, "status": "not_held", "note": f"{SEC_WHY}; and {PRICE_WHY}",
+                         "tags": {"kind": "segment", "weighting": w}, "status": "not_held", "note": note,
                          "file": None})
     board = {"built": built, "example": False, "method": METHOD, "contract": CONTRACT,
              "group": {"id": "equities", "title": "Energy equities",
@@ -194,7 +310,7 @@ def build(built):
              "sources": [], "rows": rows}
     series, daily = energy_series()
     prices = {"built": built, "example": False, "method": METHOD, "contract": CONTRACT, "since": SINCE, "series": series, "daily": daily}
-    return {"index.json": index, "board.json": board, "energy_prices.json": prices}
+    return {"index.json": index, "board.json": board, "energy_prices.json": prices, **cfiles}
 
 
 def main(argv=None):
@@ -206,12 +322,15 @@ def main(argv=None):
     os.makedirs(a.out, exist_ok=True)
     for name, obj in files.items():
         path = os.path.join(a.out, name)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path + ".tmp", "w", encoding="utf-8", newline="\n") as f:
             json.dump(obj, f, ensure_ascii=False, separators=(",", ":"))
         os.replace(path + ".tmp", path)
     p = files["energy_prices.json"]
     shown = [s for s in p["series"] if s["status"] == "shown"]
-    print(f"equity pages: {len(files['index.json']['segments'])} segments, 0 companies, 0 indices (held), "
+    co = files["index.json"]["companies"]
+    print(f"equity pages: {len(files['index.json']['segments'])} segments, {len(co)} companies "
+          f"({sum(1 for c in co if c['fundamentals_status'] == 'shown')} with statements), 0 indices (held), "
           f"{len(files['board.json']['rows'])} board rows held; energy prices {len(shown)} shown, "
           f"{len(p['series']) - len(shown)} held; built {built}")
     for s in shown:
