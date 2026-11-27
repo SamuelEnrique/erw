@@ -22,8 +22,8 @@ class ThePlantsCapacityFactors(unittest.TestCase):
             if not os.path.exists(os.path.join(folder, plant + ".json")):
                 self.skipTest(f"{plant}.json is not on this checkout")
         d = load().build()[0]
-        got = {e: (float(v), s, det) for e, v, s, det in zip(d["entity"], d["value"], d["source"], d["x_detail"])
-               if d.loc[d["entity"] == e, "variable"].iloc[0] == "capacity_factor"}
+        cf = d[d["variable"] == "capacity_factor"]
+        got = {e: (float(v), s, det) for e, v, s, det in zip(cf["entity"], cf["value"], cf["source"], cf["x_detail"])}
         self.assertEqual(got["forecast:coal:coal:us"][:2], (0.85, "nlr:jedi_models"))
         self.assertEqual(got["forecast:biopower:biopower:us"][:2], (0.8, "nlr:jedi_models"))
         self.assertIn("ProjectData!B17", got["forecast:coal:coal:us"][2])
