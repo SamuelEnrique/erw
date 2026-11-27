@@ -75,12 +75,12 @@
    "name": "Permanent jobs per billion dollars",
    "unit": "jobs per USD billion (2025)",
    "how": "permanent or operational jobs over the investment",
-   "n": 34,
+   "n": 35,
    "low": 7.5,
    "low_row": "la_hut8_riverbend_2025",
-   "median": 51.218004,
+   "median": 52.436009,
    "high": 121.786859,
-   "high_row": "mn_meta_rosemount_2024",
+   "high_row": "wy_meta_cheyenne_2024",
    "rows": [
     "la_hut8_riverbend_2025",
     "wv_nscale_2026",
@@ -115,17 +115,18 @@
     "ga_facebook_stantonsprings_2018",
     "al_meta_montgomery_2024",
     "sc_meta_aiken_2024",
-    "mn_meta_rosemount_2024"
+    "mn_meta_rosemount_2024",
+    "wy_meta_cheyenne_2024"
    ]
   },
   "construction_jobs_per_billion": {
    "name": "Construction jobs per billion dollars",
    "unit": "construction jobs (headcount as announced) per USD billion (2025)",
    "how": "construction jobs as announced over the investment; at peak or period not stated, as each row says",
-   "n": 13,
+   "n": 14,
    "low": 63.222543,
    "low_row": "wv_nscale_2026",
-   "median": 400.0,
+   "median": 443.573718,
    "high": 3406.856898,
    "high_row": "nv_google_storey_2020",
    "rows": [
@@ -141,6 +142,7 @@
     "az_beale_pima_2025",
     "al_meta_montgomery_2024",
     "mn_meta_rosemount_2024",
+    "wy_meta_cheyenne_2024",
     "nv_google_storey_2020"
    ]
   }
@@ -1830,6 +1832,46 @@
    "incentive": "",
    "years": "The current 380,000-square-foot HPC facility is expected to begin operations late this year",
    "note": "The release gives \"hundreds of new jobs\", no number, so no jobs figure is taken. Whether the combined USD 5 billion includes the first 380,000-square-foot facility or only the two expansions the sentence leaves open; it is offered as the campus's investment. The governor's two other datacenter releases read (Williston, 2022, request 369; Bitzero, 2022, request 370) are crypto-mining sites, and Bitzero's investment is a range: neither is a row (decision 19 of forecast.md 13.4)."
+  },
+  {
+   "id": "wy_meta_cheyenne_2024",
+   "name": "Meta, Cheyenne data center",
+   "company": "Meta",
+   "state": "wy",
+   "county": null,
+   "place": "Cheyenne",
+   "doc": {
+    "title": "Meta announces New Data Center, a Major Investment, in Cheyenne, Wyoming",
+    "publisher": "Cheyenne LEADS (the Cheyenne and Laramie County economic development corporation)",
+    "date": "2024-07-02",
+    "url": "https://cheyenneleads.org/meta-announces-new-data-center-a-major-investment-in-cheyenne-wyoming/",
+    "request": 375
+   },
+   "mw": null,
+   "investment": {
+    "value": 800000000,
+    "year": 2024,
+    "says": "$800 million",
+    "qualifier": "",
+    "quote": "Today it was announced that Meta will build an $800 million, 715,000-square-foot data center in Cheyenne, Wyoming."
+   },
+   "construction_jobs": {
+    "value": 1000,
+    "measure": "workers at peak",
+    "says": "1,000 skilled trade jobs",
+    "qualifier": "over",
+    "quote": "The state-of-the-art facility will support approximately 100 operational jobs and over 1,000 skilled trade jobs at peak construction."
+   },
+   "permanent_jobs": {
+    "value": 100,
+    "measure": "operational jobs",
+    "says": "100 operational jobs",
+    "qualifier": "approximately",
+    "quote": "The state-of-the-art facility will support approximately 100 operational jobs and over 1,000 skilled trade jobs at peak construction."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "The release names the city (Cheyenne), not the county. Its figures are the same as Meta's Rosemount release four months before (USD 800 million, 715,000 square feet, about 100 operational jobs, 1,000 at peak): two documents, two campuses, each its own row."
   }
  ]
 }
