@@ -13,7 +13,8 @@ companies would otherwise grow), and only the place a finger lands grows. Measur
 name 48 px (it wraps on a phone), a filing's link 30 px.
 
 Left as they are, for the owner or the part's own window: the Chart and Table switch of the site's shared charts
-(22 px, on every page with a chart), the "i" mark (16 px), the links of the shared source line.
+(22 px, on every page with a chart) and the links of the shared source line (links in a line of text). The "i" mark is
+no gap: drawn 16 px wide, its own code gives it a 24 px place to tap (site/components/tool/ToolPage.tsx, Tip).
 
     python -m pytest tests/test_session10413_phone_gaps.py
 """
