@@ -23,6 +23,7 @@
   "wi_238_40": {"title": "Wisconsin Statutes 238.40, Qualified data centers (with 77.54(70), request 180)", "url": "https://docs.legis.wisconsin.gov/document/statutes/238.40", "read": "2026-11-26", "request": 179},
   "ut_59_12_104": {"title": "Utah Code 59-12-104(84), Exemptions (version effective 1 July 2026; the version effective 1 January 2026, request 181, has the same paragraph)", "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S104_2026050620260701.html", "read": "2026-11-26", "request": 251},
   "ut_59_12_102": {"title": "Utah Code 59-12-102(111), Definitions: qualifying data center (version effective 1 July 2026)", "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html", "read": "2026-11-26", "request": 250},
+  "ut_59_2_103": {"title": "Utah Code 59-2-103, Rate of assessment of property (version effective 1 July 2025)", "url": "https://le.utah.gov/xcode/Title59/Chapter2/C59-2-S103_2025070120250507.html", "read": "2026-11-27", "request": 499},
   "mt_15_6_162": {"title": "Montana Code Annotated 15-6-162, Class seventeen property", "url": "https://mca.legmt.gov/bills/mca/title_0150/chapter_0060/part_0010/section_0620/0150-0060-0010-0620.html", "read": "2026-11-26", "request": 182},
   "ks_74_50_332": {"title": "Kansas Statutes 74-50,332, exemption for costs and services used for the construction and operation of a qualified data center (with 79-3606(xxxx), request 159)", "url": "https://www.ksrevisor.gov/statutes/chapters/ch74/074_050_0332.html", "read": "2026-11-26", "request": 191},
   "ga_cvi_2025": {"title": "Carl Vinson Institute of Government for the Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption, full report (December 2025), Table 1 (the thresholds) and Tables 3 and 4 (IMPLAN 2023)", "url": "https://open.ga.gov/openga/report/downloadFile?rid=33298", "read": "2026-11-26", "request": 199},
@@ -328,6 +329,13 @@
   },
   "ut": {
    "name": "Utah",
+   "property": {
+    "building_ratio": 1,
+    "equipment_ratio": 1,
+    "cite": "ut_59_2_103",
+    "quote": "All tangible taxable property located within the state shall be assessed and taxed at a uniform and equal rate on the basis of its fair market value, as valued on January 1, unless otherwise provided by law.",
+    "tip": "Utah (Code 59-2-103(2)): \"All tangible taxable property located within the state shall be assessed and taxed at a uniform and equal rate on the basis of its fair market value\", so the building and the equipment are both taxed at their value; the residential exemption of 59-2-103(3) does not reach a datacenter. The small personal property exemptions of 59-2-1115 are not read: the tool takes both at their cost (an upper bound) and applies the reader's rate."
+   },
    "sales_exemption": {
     "cite": "ut_59_12_104", "covers": ["equipment"], "min_investment_usd": 0, "min_jobs": 0,
     "quote": "amounts paid or charged for a purchase or lease made by a qualifying data center or an occupant of a qualifying data center of machinery, equipment, or normal operating repair or replacement parts",
