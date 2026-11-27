@@ -278,7 +278,8 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   const ohp = D.dcRun(D.dcDefaults(P, "oh", { invest: 1000, perm: 50, brate: 6, erate: 6 }), P);
   near(D.dcStat(ohp, "y1:propb"), 4116000, "OH building"); near(D.dcStat(ohp, "y1:prope"), 0, "OH equipment");
   // Iowa (427A.2), Minnesota (272.02 subd. 9), North Dakota (the Tax Commissioner) and Wisconsin (2023 Act 12) tax no personal property: equipment 0; the building at cost x the reader's 2 percent: 1e9 x 19.6% x 2% = 3,920,000
-  for (const st of ["ia", "mn", "nd", "wi"]) {
+  // New Hampshire (RSA 72:6, 72:7, 75:1; chapter 72 names no tax on equipment, session 10822): the same
+  for (const st of ["ia", "mn", "nd", "wi", "nh"]) {
     const r = D.dcRun(D.dcDefaults(P, st, { invest: 1000, perm: 50, brate: 2, erate: 2 }), P);
     near(D.dcStat(r, "y1:propb"), 3920000, st + " building"); near(D.dcStat(r, "y1:prope"), 0, st + " equipment");
   }

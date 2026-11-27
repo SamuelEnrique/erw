@@ -69,7 +69,9 @@
   "ga_dor_valuation": {"title": "Georgia Department of Revenue, Property Tax Valuation (O.C.G.A. 48-5-7)", "url": "https://dor.georgia.gov/property-tax-valuation", "read": "2026-11-26", "request": 314},
   "nm_trd_general": {"title": "New Mexico Taxation and Revenue Department, Property Tax Division, State Assessed Property Bureau, General Instructions", "url": "https://www.tax.newmexico.gov/businesses/wp-content/uploads/sites/4/2020/12/GENERAL_INSTRUCTIONS.pdf", "read": "2026-11-26", "request": 315},
   "ga_hb1291": {"title": "Georgia House Bill 1291 (2022), as passed and signed, amending Code Section 48-8-3(68.1)", "url": "https://gov.georgia.gov/document/2022-signed-legislation/hb-1291/download", "read": "2026-11-26", "request": 245},
-  "ga_doaa_2025": {"title": "Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption (December 2025, revised January 2026), with the Department of Revenue's exemption page (request 187)", "url": "https://www.audits2.ga.gov/wp-content/uploads/2025/12/Data-Center-Tax-Exemption-Summary-Revised.pdf", "read": "2026-11-26", "request": 188}
+  "ga_doaa_2025": {"title": "Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption (December 2025, revised January 2026), with the Department of Revenue's exemption page (request 187)", "url": "https://www.audits2.ga.gov/wp-content/uploads/2025/12/Data-Center-Tax-Exemption-Summary-Revised.pdf", "read": "2026-11-26", "request": 188},
+  "nh_75_1": {"title": "New Hampshire RSA 75:1, How Appraised (with RSA 72:6, Real Estate, request 422, and 72:7, Buildings, Etc., request 426)", "url": "https://gc.nh.gov/rsa/html/V/75/75-1.htm", "read": "2026-11-27", "request": 423},
+  "nh_72_toc": {"title": "New Hampshire RSA Chapter 72, Persons and Property Liable to Taxation, table of sections", "url": "https://gc.nh.gov/rsa/html/NHTOC/NHTOC-V-72.htm", "read": "2026-11-27", "request": 425}
  },
  "split": {
   "cite": "jlarc_598",
@@ -553,6 +555,14 @@
     "min_investment_usd": 200000000, "min_jobs": 0,
     "quote": "An eligible data center business must make a minimum investment in an Iowa physical location of $200 million within the first six years of operation in Iowa and meet other requirements described below.",
     "tip": "Iowa (Code 423.3(95), as the Department of Revenue states it): with \"a minimum investment in an Iowa physical location of $200 million within the first six years\", qualifying computers and equipment are exempt permanently, and backup fuel and electricity for the first 10 years (in a city above 30,000) or 15 years, for property operating from 6 June 2025. The tool applies the equipment exemption when the investment meets the threshold; the electricity part needs a price the tool does not hold. Iowa's property tax on a datacenter is not read."
+   }
+  },
+  "nh": {
+   "name": "New Hampshire",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "nh_75_1",
+    "quote": "and all other taxable property at its market value.",
+    "personal": {"cite": "nh_72_toc", "quote": "PERSONS AND PROPERTY LIABLE TO TAXATION"},
+    "tip": "New Hampshire (RSA 72:6, 72:7 and 75:1): \"All real estate, whether improved or unimproved, shall be taxed\", buildings \"are taxable as real estate\", and the selectmen appraise \"all other taxable property at its market value\". Chapter 72, \"Persons and Property Liable to Taxation\", names real estate, buildings, electric plants and pipe lines, and telecommunications poles and conduits; no section of it taxes a datacenter's computers, so the tool leaves the equipment untaxed (read from the chapter's list, not from a sentence that says so). The building is taken at its cost and the reader's rate (each town's), an upper bound. No sales tax rule is read for New Hampshire."
    }
   }
  }
