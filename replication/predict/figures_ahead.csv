@@ -1,0 +1,1016 @@
+key,file,recomputed,equal
+region-cal.h3.hours,17396,17396,True
+region-cal.h3.regression,"(1654.85, 4.891)","(1654.85, 4.891)",True
+region-cal.h3.regression_recent,"(1645.9, 4.858)","(1645.9, 4.858)",True
+region-cal.h3.week_ago,"(2342.18, 6.99)","(2342.18, 6.99)",True
+region-cal.h3.yesterday,"(2676.21, 8.286)","(2676.21, 8.286)",True
+region-cal.h3.method,regression_recent,regression_recent,True
+region-cal.h3.shown,True,True,True
+region-cal.h4.hours,17396,17396,True
+region-cal.h4.regression,"(1801.26, 5.295)","(1801.26, 5.295)",True
+region-cal.h4.regression_recent,"(1786.86, 5.257)","(1786.86, 5.257)",True
+region-cal.h4.week_ago,"(2343.16, 6.993)","(2343.16, 6.993)",True
+region-cal.h4.yesterday,"(2836.3, 8.726)","(2836.3, 8.726)",True
+region-cal.h4.method,regression_recent,regression_recent,True
+region-cal.h4.shown,True,True,True
+region-cal.h5.hours,17396,17396,True
+region-cal.h5.regression,"(1891.59, 5.55)","(1891.59, 5.55)",True
+region-cal.h5.regression_recent,"(1864.3, 5.484)","(1864.3, 5.484)",True
+region-cal.h5.week_ago,"(2344.15, 6.996)","(2344.15, 6.996)",True
+region-cal.h5.yesterday,"(2870.99, 8.79)","(2870.99, 8.79)",True
+region-cal.h5.method,regression_recent,regression_recent,True
+region-cal.h5.shown,True,True,True
+region-cal.h6.hours,17420,17420,True
+region-cal.h6.regression,"(1931.4, 5.658)","(1931.4, 5.658)",True
+region-cal.h6.regression_recent,"(1894.84, 5.574)","(1894.84, 5.574)",True
+region-cal.h6.week_ago,"(2342.13, 6.99)","(2342.13, 6.99)",True
+region-cal.h6.yesterday,"(2617.61, 7.925)","(2617.61, 7.925)",True
+region-cal.h6.method,regression_recent,regression_recent,True
+region-cal.h6.shown,True,True,True
+region-cal.h7.hours,17422,17422,True
+region-cal.h7.regression,"(1945.82, 5.697)","(1945.82, 5.697)",True
+region-cal.h7.regression_recent,"(1912.4, 5.624)","(1912.4, 5.624)",True
+region-cal.h7.week_ago,"(2341.81, 6.989)","(2341.81, 6.989)",True
+region-cal.h7.yesterday,"(2341.81, 6.989)","(2341.81, 6.989)",True
+region-cal.h7.method,regression_recent,regression_recent,True
+region-cal.h7.shown,True,True,True
+region-car.h3.hours,16404,16404,True
+region-car.h3.regression,"(2432.72, 8.774)","(2432.72, 8.774)",True
+region-car.h3.regression_recent,"(2431.01, 8.756)","(2431.01, 8.756)",True
+region-car.h3.week_ago,"(3485.16, 12.945)","(3485.16, 12.945)",True
+region-car.h3.yesterday,"(3134.34, 11.66)","(3134.34, 11.66)",True
+region-car.h3.method,regression_recent,regression_recent,True
+region-car.h3.shown,True,True,True
+region-car.h4.hours,16476,16476,True
+region-car.h4.regression,"(2540.31, 9.122)","(2540.31, 9.122)",True
+region-car.h4.regression_recent,"(2559.82, 9.188)","(2559.82, 9.188)",True
+region-car.h4.week_ago,"(3479.94, 12.932)","(3479.94, 12.932)",True
+region-car.h4.yesterday,"(3362.56, 12.519)","(3362.56, 12.519)",True
+region-car.h4.method,regression,regression,True
+region-car.h4.shown,True,True,True
+region-car.h5.hours,16524,16524,True
+region-car.h5.regression,"(2609.28, 9.359)","(2609.28, 9.359)",True
+region-car.h5.regression_recent,"(2625.27, 9.412)","(2625.27, 9.412)",True
+region-car.h5.week_ago,"(3489.05, 12.974)","(3489.05, 12.974)",True
+region-car.h5.yesterday,"(3573.27, 13.323)","(3573.27, 13.323)",True
+region-car.h5.method,regression,regression,True
+region-car.h5.shown,True,True,True
+region-car.h6.hours,16574,16574,True
+region-car.h6.regression,"(2661.48, 9.531)","(2661.48, 9.531)",True
+region-car.h6.regression_recent,"(2679.75, 9.594)","(2679.75, 9.594)",True
+region-car.h6.week_ago,"(3505.57, 13.028)","(3505.57, 13.028)",True
+region-car.h6.yesterday,"(3591.24, 13.367)","(3591.24, 13.367)",True
+region-car.h6.method,regression,regression,True
+region-car.h6.shown,True,True,True
+region-car.h7.hours,16576,16576,True
+region-car.h7.regression,"(2681.84, 9.601)","(2681.84, 9.601)",True
+region-car.h7.regression_recent,"(2700.39, 9.668)","(2700.39, 9.668)",True
+region-car.h7.week_ago,"(3519.16, 13.083)","(3519.16, 13.083)",True
+region-car.h7.yesterday,"(3519.16, 13.083)","(3519.16, 13.083)",True
+region-car.h7.method,regression,regression,True
+region-car.h7.shown,True,True,True
+region-cent.h3.hours,17516,17516,True
+region-cent.h3.regression,"(2113.43, 5.921)","(2113.43, 5.921)",True
+region-cent.h3.regression_recent,"(2095.58, 5.879)","(2095.58, 5.879)",True
+region-cent.h3.week_ago,"(2991.48, 8.555)","(2991.48, 8.555)",True
+region-cent.h3.yesterday,"(2577.35, 7.437)","(2577.35, 7.437)",True
+region-cent.h3.method,regression_recent,regression_recent,True
+region-cent.h3.shown,True,True,True
+region-cent.h4.hours,17516,17516,True
+region-cent.h4.regression,"(2269.17, 6.321)","(2269.17, 6.321)",True
+region-cent.h4.regression_recent,"(2272.09, 6.341)","(2272.09, 6.341)",True
+region-cent.h4.week_ago,"(2991.43, 8.555)","(2991.43, 8.555)",True
+region-cent.h4.yesterday,"(2779.82, 7.994)","(2779.82, 7.994)",True
+region-cent.h4.method,regression,regression,True
+region-cent.h4.shown,True,True,True
+region-cent.h5.hours,17516,17516,True
+region-cent.h5.regression,"(2384.63, 6.626)","(2384.63, 6.626)",True
+region-cent.h5.regression_recent,"(2377.28, 6.614)","(2377.28, 6.614)",True
+region-cent.h5.week_ago,"(2991.84, 8.556)","(2991.84, 8.556)",True
+region-cent.h5.yesterday,"(2936.88, 8.421)","(2936.88, 8.421)",True
+region-cent.h5.method,regression_recent,regression_recent,True
+region-cent.h5.shown,True,True,True
+region-cent.h6.hours,17516,17516,True
+region-cent.h6.regression,"(2456.28, 6.82)","(2456.28, 6.82)",True
+region-cent.h6.regression_recent,"(2455.02, 6.819)","(2455.02, 6.819)",True
+region-cent.h6.week_ago,"(2991.85, 8.556)","(2991.85, 8.556)",True
+region-cent.h6.yesterday,"(2976.52, 8.524)","(2976.52, 8.524)",True
+region-cent.h6.method,regression_recent,regression_recent,True
+region-cent.h6.shown,True,True,True
+region-cent.h7.hours,17518,17518,True
+region-cent.h7.regression,"(2495.99, 6.926)","(2495.99, 6.926)",True
+region-cent.h7.regression_recent,"(2500.83, 6.941)","(2500.83, 6.941)",True
+region-cent.h7.week_ago,"(2991.68, 8.556)","(2991.68, 8.556)",True
+region-cent.h7.yesterday,"(2991.68, 8.556)","(2991.68, 8.556)",True
+region-cent.h7.method,regression,regression,True
+region-cent.h7.shown,True,True,True
+region-fla.h3.hours,16404,16404,True
+region-fla.h3.regression,"(2096.04, 6.777)","(2096.04, 6.777)",True
+region-fla.h3.regression_recent,"(2096.11, 6.785)","(2096.11, 6.785)",True
+region-fla.h3.week_ago,"(3089.72, 10.274)","(3089.72, 10.274)",True
+region-fla.h3.yesterday,"(2665.14, 8.848)","(2665.14, 8.848)",True
+region-fla.h3.method,regression,regression,True
+region-fla.h3.shown,True,True,True
+region-fla.h4.hours,16397,16397,True
+region-fla.h4.regression,"(2197.11, 7.103)","(2197.11, 7.103)",True
+region-fla.h4.regression_recent,"(2208.35, 7.155)","(2208.35, 7.155)",True
+region-fla.h4.week_ago,"(3095.2, 10.29)","(3095.2, 10.29)",True
+region-fla.h4.yesterday,"(2865.73, 9.501)","(2865.73, 9.501)",True
+region-fla.h4.method,regression,regression,True
+region-fla.h4.shown,True,True,True
+region-fla.h5.hours,16397,16397,True
+region-fla.h5.regression,"(2244.97, 7.262)","(2244.97, 7.262)",True
+region-fla.h5.regression_recent,"(2259.77, 7.327)","(2259.77, 7.327)",True
+region-fla.h5.week_ago,"(3088.94, 10.27)","(3088.94, 10.27)",True
+region-fla.h5.yesterday,"(2973.61, 9.866)","(2973.61, 9.866)",True
+region-fla.h5.method,regression,regression,True
+region-fla.h5.shown,True,True,True
+region-fla.h6.hours,16401,16401,True
+region-fla.h6.regression,"(2272.24, 7.359)","(2272.24, 7.359)",True
+region-fla.h6.regression_recent,"(2285.03, 7.412)","(2285.03, 7.412)",True
+region-fla.h6.week_ago,"(3090.8, 10.275)","(3090.8, 10.275)",True
+region-fla.h6.yesterday,"(3058.5, 10.177)","(3058.5, 10.177)",True
+region-fla.h6.method,regression,regression,True
+region-fla.h6.shown,True,True,True
+region-fla.h7.hours,16406,16406,True
+region-fla.h7.regression,"(2278.92, 7.38)","(2278.92, 7.38)",True
+region-fla.h7.regression_recent,"(2287.68, 7.422)","(2287.68, 7.422)",True
+region-fla.h7.week_ago,"(3096.09, 10.29)","(3096.09, 10.29)",True
+region-fla.h7.yesterday,"(3096.09, 10.29)","(3096.09, 10.29)",True
+region-fla.h7.method,regression,regression,True
+region-fla.h7.shown,True,True,True
+region-mida.h3.hours,17460,17460,True
+region-mida.h3.regression,"(6175.76, 6.018)","(6175.76, 6.018)",True
+region-mida.h3.regression_recent,"(6013.45, 5.867)","(6013.45, 5.867)",True
+region-mida.h3.week_ago,"(8702.56, 8.646)","(8702.56, 8.646)",True
+region-mida.h3.yesterday,"(8518.61, 8.633)","(8518.61, 8.633)",True
+region-mida.h3.method,regression_recent,regression_recent,True
+region-mida.h3.shown,True,True,True
+region-mida.h4.hours,17460,17460,True
+region-mida.h4.regression,"(6584.56, 6.401)","(6584.56, 6.401)",True
+region-mida.h4.regression_recent,"(6491.7, 6.325)","(6491.7, 6.325)",True
+region-mida.h4.week_ago,"(8701.96, 8.645)","(8701.96, 8.645)",True
+region-mida.h4.yesterday,"(9074.68, 9.193)","(9074.68, 9.193)",True
+region-mida.h4.method,regression_recent,regression_recent,True
+region-mida.h4.shown,True,True,True
+region-mida.h5.hours,17460,17460,True
+region-mida.h5.regression,"(6788.06, 6.583)","(6788.06, 6.583)",True
+region-mida.h5.regression_recent,"(6726.38, 6.534)","(6726.38, 6.534)",True
+region-mida.h5.week_ago,"(8699.91, 8.643)","(8699.91, 8.643)",True
+region-mida.h5.yesterday,"(9466.76, 9.559)","(9466.76, 9.559)",True
+region-mida.h5.method,regression_recent,regression_recent,True
+region-mida.h5.shown,True,True,True
+region-mida.h6.hours,17462,17462,True
+region-mida.h6.regression,"(6915.6, 6.693)","(6915.6, 6.693)",True
+region-mida.h6.regression_recent,"(6879.4, 6.667)","(6879.4, 6.667)",True
+region-mida.h6.week_ago,"(8700.34, 8.643)","(8700.34, 8.643)",True
+region-mida.h6.yesterday,"(9071.19, 9.092)","(9071.19, 9.092)",True
+region-mida.h6.method,regression_recent,regression_recent,True
+region-mida.h6.shown,True,True,True
+region-mida.h7.hours,17464,17464,True
+region-mida.h7.regression,"(6978.83, 6.748)","(6978.83, 6.748)",True
+region-mida.h7.regression_recent,"(6953.14, 6.731)","(6953.14, 6.731)",True
+region-mida.h7.week_ago,"(8695.86, 8.638)","(8695.86, 8.638)",True
+region-mida.h7.yesterday,"(8695.86, 8.638)","(8695.86, 8.638)",True
+region-mida.h7.method,regression_recent,regression_recent,True
+region-mida.h7.shown,True,True,True
+region-midw.h3.hours,17516,17516,True
+region-midw.h3.regression,"(4287.94, 4.911)","(4287.94, 4.911)",True
+region-midw.h3.regression_recent,"(4195.31, 4.807)","(4195.31, 4.807)",True
+region-midw.h3.week_ago,"(6659.04, 7.781)","(6659.04, 7.781)",True
+region-midw.h3.yesterday,"(6460.15, 7.688)","(6460.15, 7.688)",True
+region-midw.h3.method,regression_recent,regression_recent,True
+region-midw.h3.shown,True,True,True
+region-midw.h4.hours,17516,17516,True
+region-midw.h4.regression,"(4660.24, 5.319)","(4660.24, 5.319)",True
+region-midw.h4.regression_recent,"(4614.92, 5.267)","(4614.92, 5.267)",True
+region-midw.h4.week_ago,"(6658.36, 7.78)","(6658.36, 7.78)",True
+region-midw.h4.yesterday,"(6933.26, 8.238)","(6933.26, 8.238)",True
+region-midw.h4.method,regression_recent,regression_recent,True
+region-midw.h4.shown,True,True,True
+region-midw.h5.hours,17516,17516,True
+region-midw.h5.regression,"(4886.95, 5.567)","(4886.95, 5.567)",True
+region-midw.h5.regression_recent,"(4878.74, 5.558)","(4878.74, 5.558)",True
+region-midw.h5.week_ago,"(6658.51, 7.78)","(6658.51, 7.78)",True
+region-midw.h5.yesterday,"(7161.63, 8.504)","(7161.63, 8.504)",True
+region-midw.h5.method,regression_recent,regression_recent,True
+region-midw.h5.shown,True,True,True
+region-midw.h6.hours,17516,17516,True
+region-midw.h6.regression,"(5027.93, 5.718)","(5027.93, 5.718)",True
+region-midw.h6.regression_recent,"(5017.06, 5.707)","(5017.06, 5.707)",True
+region-midw.h6.week_ago,"(6658.7, 7.78)","(6658.7, 7.78)",True
+region-midw.h6.yesterday,"(6878.27, 8.113)","(6878.27, 8.113)",True
+region-midw.h6.method,regression_recent,regression_recent,True
+region-midw.h6.shown,True,True,True
+region-midw.h7.hours,17518,17518,True
+region-midw.h7.regression,"(5100.84, 5.792)","(5100.84, 5.792)",True
+region-midw.h7.regression_recent,"(5113.71, 5.812)","(5113.71, 5.812)",True
+region-midw.h7.week_ago,"(6658.55, 7.78)","(6658.55, 7.78)",True
+region-midw.h7.yesterday,"(6658.55, 7.78)","(6658.55, 7.78)",True
+region-midw.h7.method,regression,regression,True
+region-midw.h7.shown,True,True,True
+region-ne.h3.hours,17516,17516,True
+region-ne.h3.regression,"(1127.13, 8.454)","(1127.13, 8.454)",True
+region-ne.h3.regression_recent,"(1105.5, 8.326)","(1105.5, 8.326)",True
+region-ne.h3.week_ago,"(1510.61, 11.392)","(1510.61, 11.392)",True
+region-ne.h3.yesterday,"(1558.79, 11.834)","(1558.79, 11.834)",True
+region-ne.h3.method,regression_recent,regression_recent,True
+region-ne.h3.shown,True,True,True
+region-ne.h4.hours,17516,17516,True
+region-ne.h4.regression,"(1143.97, 8.568)","(1143.97, 8.568)",True
+region-ne.h4.regression_recent,"(1133.12, 8.517)","(1133.12, 8.517)",True
+region-ne.h4.week_ago,"(1510.67, 11.393)","(1510.67, 11.393)",True
+region-ne.h4.yesterday,"(1613.72, 12.256)","(1613.72, 12.256)",True
+region-ne.h4.method,regression_recent,regression_recent,True
+region-ne.h4.shown,True,True,True
+region-ne.h5.hours,17516,17516,True
+region-ne.h5.regression,"(1150.68, 8.612)","(1150.68, 8.612)",True
+region-ne.h5.regression_recent,"(1141.23, 8.561)","(1141.23, 8.561)",True
+region-ne.h5.week_ago,"(1510.73, 11.394)","(1510.73, 11.394)",True
+region-ne.h5.yesterday,"(1615.71, 12.309)","(1615.71, 12.309)",True
+region-ne.h5.method,regression_recent,regression_recent,True
+region-ne.h5.shown,True,True,True
+region-ne.h6.hours,17516,17516,True
+region-ne.h6.regression,"(1156.12, 8.645)","(1156.12, 8.645)",True
+region-ne.h6.regression_recent,"(1147.21, 8.593)","(1147.21, 8.593)",True
+region-ne.h6.week_ago,"(1510.68, 11.393)","(1510.68, 11.393)",True
+region-ne.h6.yesterday,"(1551.07, 11.763)","(1551.07, 11.763)",True
+region-ne.h6.method,regression_recent,regression_recent,True
+region-ne.h6.shown,True,True,True
+region-ne.h7.hours,17518,17518,True
+region-ne.h7.regression,"(1156.71, 8.642)","(1156.71, 8.642)",True
+region-ne.h7.regression_recent,"(1150.34, 8.611)","(1150.34, 8.611)",True
+region-ne.h7.week_ago,"(1510.63, 11.393)","(1510.63, 11.393)",True
+region-ne.h7.yesterday,"(1510.63, 11.393)","(1510.63, 11.393)",True
+region-ne.h7.method,regression_recent,regression_recent,True
+region-ne.h7.shown,True,True,True
+region-nw.h3.hours,15305,15305,True
+region-nw.h3.regression,"(1437.3, 3.225)","(1437.3, 3.225)",True
+region-nw.h3.regression_recent,"(1427.05, 3.214)","(1427.05, 3.214)",True
+region-nw.h3.week_ago,"(2119.79, 4.808)","(2119.79, 4.808)",True
+region-nw.h3.yesterday,"(2230.65, 5.086)","(2230.65, 5.086)",True
+region-nw.h3.method,regression_recent,regression_recent,True
+region-nw.h3.shown,True,True,True
+region-nw.h4.hours,15306,15306,True
+region-nw.h4.regression,"(1565.07, 3.509)","(1565.07, 3.509)",True
+region-nw.h4.regression_recent,"(1560.46, 3.505)","(1560.46, 3.505)",True
+region-nw.h4.week_ago,"(2116.55, 4.799)","(2116.55, 4.799)",True
+region-nw.h4.yesterday,"(2376.67, 5.41)","(2376.67, 5.41)",True
+region-nw.h4.method,regression_recent,regression_recent,True
+region-nw.h4.shown,True,True,True
+region-nw.h5.hours,15306,15306,True
+region-nw.h5.regression,"(1630.11, 3.654)","(1630.11, 3.654)",True
+region-nw.h5.regression_recent,"(1632.0, 3.665)","(1632.0, 3.665)",True
+region-nw.h5.week_ago,"(2114.05, 4.792)","(2114.05, 4.792)",True
+region-nw.h5.yesterday,"(2443.76, 5.569)","(2443.76, 5.569)",True
+region-nw.h5.method,regression,regression,True
+region-nw.h5.shown,True,True,True
+region-nw.h6.hours,15332,15332,True
+region-nw.h6.regression,"(1657.45, 3.714)","(1657.45, 3.714)",True
+region-nw.h6.regression_recent,"(1658.24, 3.722)","(1658.24, 3.722)",True
+region-nw.h6.week_ago,"(2110.21, 4.783)","(2110.21, 4.783)",True
+region-nw.h6.yesterday,"(2275.75, 5.178)","(2275.75, 5.178)",True
+region-nw.h6.method,regression,regression,True
+region-nw.h6.shown,True,True,True
+region-nw.h7.hours,15357,15357,True
+region-nw.h7.regression,"(1674.03, 3.746)","(1674.03, 3.746)",True
+region-nw.h7.regression_recent,"(1672.8, 3.752)","(1672.8, 3.752)",True
+region-nw.h7.week_ago,"(2104.94, 4.771)","(2104.94, 4.771)",True
+region-nw.h7.yesterday,"(2104.94, 4.771)","(2104.94, 4.771)",True
+region-nw.h7.method,regression_recent,regression_recent,True
+region-nw.h7.shown,True,True,True
+region-ny.h3.hours,17444,17444,True
+region-ny.h3.regression,"(1193.29, 6.731)","(1193.29, 6.731)",True
+region-ny.h3.regression_recent,"(1171.4, 6.621)","(1171.4, 6.621)",True
+region-ny.h3.week_ago,"(1618.04, 9.087)","(1618.04, 9.087)",True
+region-ny.h3.yesterday,"(1661.78, 9.456)","(1661.78, 9.456)",True
+region-ny.h3.method,regression_recent,regression_recent,True
+region-ny.h3.shown,True,True,True
+region-ny.h4.hours,17444,17444,True
+region-ny.h4.regression,"(1231.85, 6.946)","(1231.85, 6.946)",True
+region-ny.h4.regression_recent,"(1220.76, 6.903)","(1220.76, 6.903)",True
+region-ny.h4.week_ago,"(1616.05, 9.076)","(1616.05, 9.076)",True
+region-ny.h4.yesterday,"(1726.52, 9.821)","(1726.52, 9.821)",True
+region-ny.h4.method,regression_recent,regression_recent,True
+region-ny.h4.shown,True,True,True
+region-ny.h5.hours,17444,17444,True
+region-ny.h5.regression,"(1246.63, 7.032)","(1246.63, 7.032)",True
+region-ny.h5.regression_recent,"(1236.61, 6.99)","(1236.61, 6.99)",True
+region-ny.h5.week_ago,"(1612.77, 9.059)","(1612.77, 9.059)",True
+region-ny.h5.yesterday,"(1755.9, 10.0)","(1755.9, 10.0)",True
+region-ny.h5.method,regression_recent,regression_recent,True
+region-ny.h5.shown,True,True,True
+region-ny.h6.hours,17452,17452,True
+region-ny.h6.regression,"(1251.34, 7.048)","(1251.34, 7.048)",True
+region-ny.h6.regression_recent,"(1243.08, 7.01)","(1243.08, 7.01)",True
+region-ny.h6.week_ago,"(1610.32, 9.044)","(1610.32, 9.044)",True
+region-ny.h6.yesterday,"(1674.86, 9.488)","(1674.86, 9.488)",True
+region-ny.h6.method,regression_recent,regression_recent,True
+region-ny.h6.shown,True,True,True
+region-ny.h7.hours,17454,17454,True
+region-ny.h7.regression,"(1257.1, 7.078)","(1257.1, 7.078)",True
+region-ny.h7.regression_recent,"(1248.3, 7.037)","(1248.3, 7.037)",True
+region-ny.h7.week_ago,"(1612.83, 9.059)","(1612.83, 9.059)",True
+region-ny.h7.yesterday,"(1612.83, 9.059)","(1612.83, 9.059)",True
+region-ny.h7.method,regression_recent,regression_recent,True
+region-ny.h7.shown,True,True,True
+region-se.h3.hours,17516,17516,True
+region-se.h3.regression,"(2174.63, 7.549)","(2174.63, 7.549)",True
+region-se.h3.regression_recent,"(2166.38, 7.518)","(2166.38, 7.518)",True
+region-se.h3.week_ago,"(3133.17, 11.155)","(3133.17, 11.155)",True
+region-se.h3.yesterday,"(2883.64, 10.345)","(2883.64, 10.345)",True
+region-se.h3.method,regression_recent,regression_recent,True
+region-se.h3.shown,True,True,True
+region-se.h4.hours,17516,17516,True
+region-se.h4.regression,"(2294.44, 7.939)","(2294.44, 7.939)",True
+region-se.h4.regression_recent,"(2306.61, 7.992)","(2306.61, 7.992)",True
+region-se.h4.week_ago,"(3132.86, 11.153)","(3132.86, 11.153)",True
+region-se.h4.yesterday,"(3071.14, 11.017)","(3071.14, 11.017)",True
+region-se.h4.method,regression,regression,True
+region-se.h4.shown,True,True,True
+region-se.h5.hours,17516,17516,True
+region-se.h5.regression,"(2359.46, 8.156)","(2359.46, 8.156)",True
+region-se.h5.regression_recent,"(2370.19, 8.203)","(2370.19, 8.203)",True
+region-se.h5.week_ago,"(3132.7, 11.152)","(3132.7, 11.152)",True
+region-se.h5.yesterday,"(3151.79, 11.319)","(3151.79, 11.319)",True
+region-se.h5.method,regression,regression,True
+region-se.h5.shown,True,True,True
+region-se.h6.hours,17516,17516,True
+region-se.h6.regression,"(2396.57, 8.275)","(2396.57, 8.275)",True
+region-se.h6.regression_recent,"(2407.97, 8.327)","(2407.97, 8.327)",True
+region-se.h6.week_ago,"(3133.12, 11.154)","(3133.12, 11.154)",True
+region-se.h6.yesterday,"(3139.94, 11.223)","(3139.94, 11.223)",True
+region-se.h6.method,regression,regression,True
+region-se.h6.shown,True,True,True
+region-se.h7.hours,17518,17518,True
+region-se.h7.regression,"(2417.35, 8.339)","(2417.35, 8.339)",True
+region-se.h7.regression_recent,"(2426.51, 8.385)","(2426.51, 8.385)",True
+region-se.h7.week_ago,"(3132.89, 11.154)","(3132.89, 11.154)",True
+region-se.h7.yesterday,"(3132.89, 11.154)","(3132.89, 11.154)",True
+region-se.h7.method,regression,regression,True
+region-se.h7.shown,True,True,True
+region-sw.h3.hours,17520,17520,True
+region-sw.h3.regression,"(850.94, 5.82)","(850.94, 5.82)",True
+region-sw.h3.regression_recent,"(834.16, 5.705)","(834.16, 5.705)",True
+region-sw.h3.week_ago,"(1215.96, 8.24)","(1215.96, 8.24)",True
+region-sw.h3.yesterday,"(1059.41, 7.377)","(1059.41, 7.377)",True
+region-sw.h3.method,regression_recent,regression_recent,True
+region-sw.h3.shown,True,True,True
+region-sw.h4.hours,17520,17520,True
+region-sw.h4.regression,"(911.89, 6.204)","(911.89, 6.204)",True
+region-sw.h4.regression_recent,"(895.55, 6.087)","(895.55, 6.087)",True
+region-sw.h4.week_ago,"(1215.96, 8.24)","(1215.96, 8.24)",True
+region-sw.h4.yesterday,"(1171.42, 8.081)","(1171.42, 8.081)",True
+region-sw.h4.method,regression_recent,regression_recent,True
+region-sw.h4.shown,True,True,True
+region-sw.h5.hours,17520,17520,True
+region-sw.h5.regression,"(937.16, 6.36)","(937.16, 6.36)",True
+region-sw.h5.regression_recent,"(923.88, 6.26)","(923.88, 6.26)",True
+region-sw.h5.week_ago,"(1215.96, 8.24)","(1215.96, 8.24)",True
+region-sw.h5.yesterday,"(1238.39, 8.481)","(1238.39, 8.481)",True
+region-sw.h5.method,regression_recent,regression_recent,True
+region-sw.h5.shown,True,True,True
+region-sw.h6.hours,17520,17520,True
+region-sw.h6.regression,"(942.77, 6.392)","(942.77, 6.392)",True
+region-sw.h6.regression_recent,"(929.06, 6.284)","(929.06, 6.284)",True
+region-sw.h6.week_ago,"(1215.96, 8.24)","(1215.96, 8.24)",True
+region-sw.h6.yesterday,"(1244.55, 8.48)","(1244.55, 8.48)",True
+region-sw.h6.method,regression_recent,regression_recent,True
+region-sw.h6.shown,True,True,True
+region-sw.h7.hours,17520,17520,True
+region-sw.h7.regression,"(943.18, 6.392)","(943.18, 6.392)",True
+region-sw.h7.regression_recent,"(928.72, 6.282)","(928.72, 6.282)",True
+region-sw.h7.week_ago,"(1215.96, 8.24)","(1215.96, 8.24)",True
+region-sw.h7.yesterday,"(1215.96, 8.24)","(1215.96, 8.24)",True
+region-sw.h7.method,regression_recent,regression_recent,True
+region-sw.h7.shown,True,True,True
+region-ten.h3.hours,17516,17516,True
+region-ten.h3.regression,"(1700.98, 8.26)","(1700.98, 8.26)",True
+region-ten.h3.regression_recent,"(1698.86, 8.231)","(1698.86, 8.231)",True
+region-ten.h3.week_ago,"(2476.75, 12.464)","(2476.75, 12.464)",True
+region-ten.h3.yesterday,"(2155.16, 10.912)","(2155.16, 10.912)",True
+region-ten.h3.method,regression_recent,regression_recent,True
+region-ten.h3.shown,True,True,True
+region-ten.h4.hours,17516,17516,True
+region-ten.h4.regression,"(1809.59, 8.765)","(1809.59, 8.765)",True
+region-ten.h4.regression_recent,"(1813.53, 8.781)","(1813.53, 8.781)",True
+region-ten.h4.week_ago,"(2476.45, 12.462)","(2476.45, 12.462)",True
+region-ten.h4.yesterday,"(2307.73, 11.691)","(2307.73, 11.691)",True
+region-ten.h4.method,regression,regression,True
+region-ten.h4.shown,True,True,True
+region-ten.h5.hours,17516,17516,True
+region-ten.h5.regression,"(1867.96, 9.033)","(1867.96, 9.033)",True
+region-ten.h5.regression_recent,"(1872.72, 9.05)","(1872.72, 9.05)",True
+region-ten.h5.week_ago,"(2476.22, 12.461)","(2476.22, 12.461)",True
+region-ten.h5.yesterday,"(2416.23, 12.261)","(2416.23, 12.261)",True
+region-ten.h5.method,regression,regression,True
+region-ten.h5.shown,True,True,True
+region-ten.h6.hours,17516,17516,True
+region-ten.h6.regression,"(1896.42, 9.151)","(1896.42, 9.151)",True
+region-ten.h6.regression_recent,"(1902.74, 9.18)","(1902.74, 9.18)",True
+region-ten.h6.week_ago,"(2476.67, 12.464)","(2476.67, 12.464)",True
+region-ten.h6.yesterday,"(2442.68, 12.359)","(2442.68, 12.359)",True
+region-ten.h6.method,regression,regression,True
+region-ten.h6.shown,True,True,True
+region-ten.h7.hours,17518,17518,True
+region-ten.h7.regression,"(1911.83, 9.206)","(1911.83, 9.206)",True
+region-ten.h7.regression_recent,"(1918.36, 9.24)","(1918.36, 9.24)",True
+region-ten.h7.week_ago,"(2476.5, 12.463)","(2476.5, 12.463)",True
+region-ten.h7.yesterday,"(2476.5, 12.463)","(2476.5, 12.463)",True
+region-ten.h7.method,regression,regression,True
+region-ten.h7.shown,True,True,True
+region-tex.h3.hours,17396,17396,True
+region-tex.h3.regression,"(3467.66, 5.958)","(3467.66, 5.958)",True
+region-tex.h3.regression_recent,"(3420.48, 5.886)","(3420.48, 5.886)",True
+region-tex.h3.week_ago,"(4526.84, 8.14)","(4526.84, 8.14)",True
+region-tex.h3.yesterday,"(4005.3, 7.17)","(4005.3, 7.17)",True
+region-tex.h3.method,regression_recent,regression_recent,True
+region-tex.h3.shown,True,True,True
+region-tex.h4.hours,17396,17396,True
+region-tex.h4.regression,"(3719.69, 6.357)","(3719.69, 6.357)",True
+region-tex.h4.regression_recent,"(3702.73, 6.335)","(3702.73, 6.335)",True
+region-tex.h4.week_ago,"(4527.08, 8.14)","(4527.08, 8.14)",True
+region-tex.h4.yesterday,"(4261.43, 7.637)","(4261.43, 7.637)",True
+region-tex.h4.method,regression_recent,regression_recent,True
+region-tex.h4.shown,True,True,True
+region-tex.h5.hours,17396,17396,True
+region-tex.h5.regression,"(3893.95, 6.641)","(3893.95, 6.641)",True
+region-tex.h5.regression_recent,"(3888.56, 6.636)","(3888.56, 6.636)",True
+region-tex.h5.week_ago,"(4524.66, 8.135)","(4524.66, 8.135)",True
+region-tex.h5.yesterday,"(4518.57, 8.114)","(4518.57, 8.114)",True
+region-tex.h5.method,regression_recent,regression_recent,True
+region-tex.h5.shown,True,True,True
+region-tex.h6.hours,17420,17420,True
+region-tex.h6.regression,"(4010.85, 6.829)","(4010.85, 6.829)",True
+region-tex.h6.regression_recent,"(4009.61, 6.828)","(4009.61, 6.828)",True
+region-tex.h6.week_ago,"(4523.15, 8.133)","(4523.15, 8.133)",True
+region-tex.h6.yesterday,"(4536.75, 8.16)","(4536.75, 8.16)",True
+region-tex.h6.method,regression_recent,regression_recent,True
+region-tex.h6.shown,True,True,True
+region-tex.h7.hours,17422,17422,True
+region-tex.h7.regression,"(4099.32, 6.962)","(4099.32, 6.962)",True
+region-tex.h7.regression_recent,"(4091.36, 6.953)","(4091.36, 6.953)",True
+region-tex.h7.week_ago,"(4526.01, 8.139)","(4526.01, 8.139)",True
+region-tex.h7.yesterday,"(4526.01, 8.139)","(4526.01, 8.139)",True
+region-tex.h7.method,regression_recent,regression_recent,True
+region-tex.h7.shown,True,True,True
+ba-bpat.h3.hours,17516,17516,True
+ba-bpat.h3.regression,"(306.71, 4.169)","(306.71, 4.169)",True
+ba-bpat.h3.regression_recent,"(291.56, 3.975)","(291.56, 3.975)",True
+ba-bpat.h3.week_ago,"(420.6, 5.773)","(420.6, 5.773)",True
+ba-bpat.h3.yesterday,"(446.6, 6.212)","(446.6, 6.212)",True
+ba-bpat.h3.method,regression_recent,regression_recent,True
+ba-bpat.h3.shown,True,True,True
+ba-bpat.h4.hours,17516,17516,True
+ba-bpat.h4.regression,"(333.87, 4.52)","(333.87, 4.52)",True
+ba-bpat.h4.regression_recent,"(320.18, 4.345)","(320.18, 4.345)",True
+ba-bpat.h4.week_ago,"(420.66, 5.774)","(420.66, 5.774)",True
+ba-bpat.h4.yesterday,"(471.26, 6.545)","(471.26, 6.545)",True
+ba-bpat.h4.method,regression_recent,regression_recent,True
+ba-bpat.h4.shown,True,True,True
+ba-bpat.h5.hours,17516,17516,True
+ba-bpat.h5.regression,"(353.24, 4.773)","(353.24, 4.773)",True
+ba-bpat.h5.regression_recent,"(339.85, 4.594)","(339.85, 4.594)",True
+ba-bpat.h5.week_ago,"(420.64, 5.774)","(420.64, 5.774)",True
+ba-bpat.h5.yesterday,"(475.78, 6.598)","(475.78, 6.598)",True
+ba-bpat.h5.method,regression_recent,regression_recent,True
+ba-bpat.h5.shown,True,True,True
+ba-bpat.h6.hours,17516,17516,True
+ba-bpat.h6.regression,"(366.41, 4.952)","(366.41, 4.952)",True
+ba-bpat.h6.regression_recent,"(353.9, 4.781)","(353.9, 4.781)",True
+ba-bpat.h6.week_ago,"(420.61, 5.773)","(420.61, 5.773)",True
+ba-bpat.h6.yesterday,"(445.25, 6.146)","(445.25, 6.146)",True
+ba-bpat.h6.method,regression_recent,regression_recent,True
+ba-bpat.h6.shown,True,True,True
+ba-bpat.h7.hours,17518,17518,True
+ba-bpat.h7.regression,"(376.47, 5.088)","(376.47, 5.088)",True
+ba-bpat.h7.regression_recent,"(364.63, 4.925)","(364.63, 4.925)",True
+ba-bpat.h7.week_ago,"(420.63, 5.774)","(420.63, 5.774)",True
+ba-bpat.h7.yesterday,"(420.63, 5.774)","(420.63, 5.774)",True
+ba-bpat.h7.method,regression_recent,regression_recent,True
+ba-bpat.h7.shown,True,True,True
+ba-ciso.h3.hours,17516,17516,True
+ba-ciso.h3.regression,"(1358.13, 4.916)","(1358.13, 4.916)",True
+ba-ciso.h3.regression_recent,"(1342.33, 4.866)","(1342.33, 4.866)",True
+ba-ciso.h3.week_ago,"(1865.89, 6.817)","(1865.89, 6.817)",True
+ba-ciso.h3.yesterday,"(2205.72, 8.346)","(2205.72, 8.346)",True
+ba-ciso.h3.method,regression_recent,regression_recent,True
+ba-ciso.h3.shown,True,True,True
+ba-ciso.h4.hours,17516,17516,True
+ba-ciso.h4.regression,"(1476.37, 5.314)","(1476.37, 5.314)",True
+ba-ciso.h4.regression_recent,"(1454.45, 5.252)","(1454.45, 5.252)",True
+ba-ciso.h4.week_ago,"(1865.9, 6.817)","(1865.9, 6.817)",True
+ba-ciso.h4.yesterday,"(2322.9, 8.737)","(2322.9, 8.737)",True
+ba-ciso.h4.method,regression_recent,regression_recent,True
+ba-ciso.h4.shown,True,True,True
+ba-ciso.h5.hours,17516,17516,True
+ba-ciso.h5.regression,"(1551.45, 5.574)","(1551.45, 5.574)",True
+ba-ciso.h5.regression_recent,"(1515.84, 5.471)","(1515.84, 5.471)",True
+ba-ciso.h5.week_ago,"(1865.88, 6.817)","(1865.88, 6.817)",True
+ba-ciso.h5.yesterday,"(2331.05, 8.728)","(2331.05, 8.728)",True
+ba-ciso.h5.method,regression_recent,regression_recent,True
+ba-ciso.h5.shown,True,True,True
+ba-ciso.h6.hours,17516,17516,True
+ba-ciso.h6.regression,"(1584.51, 5.683)","(1584.51, 5.683)",True
+ba-ciso.h6.regression_recent,"(1535.44, 5.539)","(1535.44, 5.539)",True
+ba-ciso.h6.week_ago,"(1865.72, 6.816)","(1865.72, 6.816)",True
+ba-ciso.h6.yesterday,"(2103.77, 7.792)","(2103.77, 7.792)",True
+ba-ciso.h6.method,regression_recent,regression_recent,True
+ba-ciso.h6.shown,True,True,True
+ba-ciso.h7.hours,17518,17518,True
+ba-ciso.h7.regression,"(1598.17, 5.727)","(1598.17, 5.727)",True
+ba-ciso.h7.regression_recent,"(1546.53, 5.578)","(1546.53, 5.578)",True
+ba-ciso.h7.week_ago,"(1865.71, 6.816)","(1865.71, 6.816)",True
+ba-ciso.h7.yesterday,"(1865.71, 6.816)","(1865.71, 6.816)",True
+ba-ciso.h7.method,regression_recent,regression_recent,True
+ba-ciso.h7.shown,True,True,True
+ba-cple.h3.hours,17460,17460,True
+ba-cple.h3.regression,"(836.87, 10.952)","(836.87, 10.952)",True
+ba-cple.h3.regression_recent,"(839.19, 10.986)","(839.19, 10.986)",True
+ba-cple.h3.week_ago,"(1163.74, 15.908)","(1163.74, 15.908)",True
+ba-cple.h3.yesterday,"(1035.81, 14.166)","(1035.81, 14.166)",True
+ba-cple.h3.method,regression,regression,True
+ba-cple.h3.shown,True,True,True
+ba-cple.h4.hours,17460,17460,True
+ba-cple.h4.regression,"(871.88, 11.36)","(871.88, 11.36)",True
+ba-cple.h4.regression_recent,"(877.18, 11.437)","(877.18, 11.437)",True
+ba-cple.h4.week_ago,"(1163.97, 15.912)","(1163.97, 15.912)",True
+ba-cple.h4.yesterday,"(1108.29, 15.154)","(1108.29, 15.154)",True
+ba-cple.h4.method,regression,regression,True
+ba-cple.h4.shown,True,True,True
+ba-cple.h5.hours,17460,17460,True
+ba-cple.h5.regression,"(890.5, 11.581)","(890.5, 11.581)",True
+ba-cple.h5.regression_recent,"(893.24, 11.617)","(893.24, 11.617)",True
+ba-cple.h5.week_ago,"(1163.83, 15.908)","(1163.83, 15.908)",True
+ba-cple.h5.yesterday,"(1167.64, 16.008)","(1167.64, 16.008)",True
+ba-cple.h5.method,regression,regression,True
+ba-cple.h5.shown,True,True,True
+ba-cple.h6.hours,17462,17462,True
+ba-cple.h6.regression,"(901.9, 11.705)","(901.9, 11.705)",True
+ba-cple.h6.regression_recent,"(905.84, 11.754)","(905.84, 11.754)",True
+ba-cple.h6.week_ago,"(1163.61, 15.902)","(1163.61, 15.902)",True
+ba-cple.h6.yesterday,"(1181.38, 16.191)","(1181.38, 16.191)",True
+ba-cple.h6.method,regression,regression,True
+ba-cple.h6.shown,True,True,True
+ba-cple.h7.hours,17464,17464,True
+ba-cple.h7.regression,"(907.19, 11.754)","(907.19, 11.754)",True
+ba-cple.h7.regression_recent,"(911.61, 11.816)","(911.61, 11.816)",True
+ba-cple.h7.week_ago,"(1162.97, 15.892)","(1162.97, 15.892)",True
+ba-cple.h7.yesterday,"(1162.97, 15.892)","(1162.97, 15.892)",True
+ba-cple.h7.method,regression,regression,True
+ba-cple.h7.shown,True,True,True
+ba-duk.h3.hours,17460,17460,True
+ba-duk.h3.regression,"(1171.42, 8.859)","(1171.42, 8.859)",True
+ba-duk.h3.regression_recent,"(1162.07, 8.776)","(1162.07, 8.776)",True
+ba-duk.h3.week_ago,"(1658.48, 12.887)","(1658.48, 12.887)",True
+ba-duk.h3.yesterday,"(1541.31, 12.097)","(1541.31, 12.097)",True
+ba-duk.h3.method,regression_recent,regression_recent,True
+ba-duk.h3.shown,True,True,True
+ba-duk.h4.hours,17460,17460,True
+ba-duk.h4.regression,"(1228.01, 9.26)","(1228.01, 9.26)",True
+ba-duk.h4.regression_recent,"(1230.53, 9.278)","(1230.53, 9.278)",True
+ba-duk.h4.week_ago,"(1658.75, 12.89)","(1658.75, 12.89)",True
+ba-duk.h4.yesterday,"(1640.75, 12.887)","(1640.75, 12.887)",True
+ba-duk.h4.method,regression,regression,True
+ba-duk.h4.shown,True,True,True
+ba-duk.h5.hours,17460,17460,True
+ba-duk.h5.regression,"(1255.53, 9.453)","(1255.53, 9.453)",True
+ba-duk.h5.regression_recent,"(1261.0, 9.495)","(1261.0, 9.495)",True
+ba-duk.h5.week_ago,"(1659.11, 12.892)","(1659.11, 12.892)",True
+ba-duk.h5.yesterday,"(1721.54, 13.521)","(1721.54, 13.521)",True
+ba-duk.h5.method,regression,regression,True
+ba-duk.h5.shown,True,True,True
+ba-duk.h6.hours,17462,17462,True
+ba-duk.h6.regression,"(1272.77, 9.566)","(1272.77, 9.566)",True
+ba-duk.h6.regression_recent,"(1280.5, 9.627)","(1280.5, 9.627)",True
+ba-duk.h6.week_ago,"(1658.05, 12.88)","(1658.05, 12.88)",True
+ba-duk.h6.yesterday,"(1702.86, 13.288)","(1702.86, 13.288)",True
+ba-duk.h6.method,regression,regression,True
+ba-duk.h6.shown,True,True,True
+ba-duk.h7.hours,17464,17464,True
+ba-duk.h7.regression,"(1278.11, 9.594)","(1278.11, 9.594)",True
+ba-duk.h7.regression_recent,"(1284.99, 9.652)","(1284.99, 9.652)",True
+ba-duk.h7.week_ago,"(1657.3, 12.873)","(1657.3, 12.873)",True
+ba-duk.h7.yesterday,"(1657.3, 12.873)","(1657.3, 12.873)",True
+ba-duk.h7.method,regression,regression,True
+ba-duk.h7.shown,True,True,True
+ba-erco.h3.hours,17396,17396,True
+ba-erco.h3.regression,"(3467.66, 5.958)","(3467.66, 5.958)",True
+ba-erco.h3.regression_recent,"(3420.48, 5.886)","(3420.48, 5.886)",True
+ba-erco.h3.week_ago,"(4526.84, 8.14)","(4526.84, 8.14)",True
+ba-erco.h3.yesterday,"(4005.3, 7.17)","(4005.3, 7.17)",True
+ba-erco.h3.method,regression_recent,regression_recent,True
+ba-erco.h3.shown,True,True,True
+ba-erco.h4.hours,17396,17396,True
+ba-erco.h4.regression,"(3719.69, 6.357)","(3719.69, 6.357)",True
+ba-erco.h4.regression_recent,"(3702.73, 6.335)","(3702.73, 6.335)",True
+ba-erco.h4.week_ago,"(4527.08, 8.14)","(4527.08, 8.14)",True
+ba-erco.h4.yesterday,"(4261.43, 7.637)","(4261.43, 7.637)",True
+ba-erco.h4.method,regression_recent,regression_recent,True
+ba-erco.h4.shown,True,True,True
+ba-erco.h5.hours,17396,17396,True
+ba-erco.h5.regression,"(3893.95, 6.641)","(3893.95, 6.641)",True
+ba-erco.h5.regression_recent,"(3888.56, 6.636)","(3888.56, 6.636)",True
+ba-erco.h5.week_ago,"(4524.66, 8.135)","(4524.66, 8.135)",True
+ba-erco.h5.yesterday,"(4518.57, 8.114)","(4518.57, 8.114)",True
+ba-erco.h5.method,regression_recent,regression_recent,True
+ba-erco.h5.shown,True,True,True
+ba-erco.h6.hours,17420,17420,True
+ba-erco.h6.regression,"(4010.85, 6.829)","(4010.85, 6.829)",True
+ba-erco.h6.regression_recent,"(4009.61, 6.828)","(4009.61, 6.828)",True
+ba-erco.h6.week_ago,"(4523.15, 8.133)","(4523.15, 8.133)",True
+ba-erco.h6.yesterday,"(4536.75, 8.16)","(4536.75, 8.16)",True
+ba-erco.h6.method,regression_recent,regression_recent,True
+ba-erco.h6.shown,True,True,True
+ba-erco.h7.hours,17422,17422,True
+ba-erco.h7.regression,"(4099.32, 6.962)","(4099.32, 6.962)",True
+ba-erco.h7.regression_recent,"(4091.36, 6.953)","(4091.36, 6.953)",True
+ba-erco.h7.week_ago,"(4526.01, 8.139)","(4526.01, 8.139)",True
+ba-erco.h7.yesterday,"(4526.01, 8.139)","(4526.01, 8.139)",True
+ba-erco.h7.method,regression_recent,regression_recent,True
+ba-erco.h7.shown,True,True,True
+ba-fpc.h3.hours,17460,17460,True
+ba-fpc.h3.regression,"(587.19, 8.657)","(587.19, 8.657)",True
+ba-fpc.h3.regression_recent,"(585.0, 8.63)","(585.0, 8.63)",True
+ba-fpc.h3.week_ago,"(849.36, 12.9)","(849.36, 12.9)",True
+ba-fpc.h3.yesterday,"(723.34, 10.962)","(723.34, 10.962)",True
+ba-fpc.h3.method,regression_recent,regression_recent,True
+ba-fpc.h3.shown,True,True,True
+ba-fpc.h4.hours,17460,17460,True
+ba-fpc.h4.regression,"(611.86, 9.025)","(611.86, 9.025)",True
+ba-fpc.h4.regression_recent,"(613.04, 9.063)","(613.04, 9.063)",True
+ba-fpc.h4.week_ago,"(849.52, 12.901)","(849.52, 12.901)",True
+ba-fpc.h4.yesterday,"(772.8, 11.713)","(772.8, 11.713)",True
+ba-fpc.h4.method,regression,regression,True
+ba-fpc.h4.shown,True,True,True
+ba-fpc.h5.hours,17460,17460,True
+ba-fpc.h5.regression,"(625.89, 9.239)","(625.89, 9.239)",True
+ba-fpc.h5.regression_recent,"(628.35, 9.296)","(628.35, 9.296)",True
+ba-fpc.h5.week_ago,"(848.58, 12.888)","(848.58, 12.888)",True
+ba-fpc.h5.yesterday,"(801.28, 12.142)","(801.28, 12.142)",True
+ba-fpc.h5.method,regression,regression,True
+ba-fpc.h5.shown,True,True,True
+ba-fpc.h6.hours,17462,17462,True
+ba-fpc.h6.regression,"(635.37, 9.39)","(635.37, 9.39)",True
+ba-fpc.h6.regression_recent,"(637.36, 9.435)","(637.36, 9.435)",True
+ba-fpc.h6.week_ago,"(847.97, 12.879)","(847.97, 12.879)",True
+ba-fpc.h6.yesterday,"(835.26, 12.665)","(835.26, 12.665)",True
+ba-fpc.h6.method,regression,regression,True
+ba-fpc.h6.shown,True,True,True
+ba-fpc.h7.hours,17464,17464,True
+ba-fpc.h7.regression,"(638.62, 9.44)","(638.62, 9.44)",True
+ba-fpc.h7.regression_recent,"(640.35, 9.48)","(640.35, 9.48)",True
+ba-fpc.h7.week_ago,"(847.24, 12.862)","(847.24, 12.862)",True
+ba-fpc.h7.yesterday,"(847.24, 12.862)","(847.24, 12.862)",True
+ba-fpc.h7.method,regression,regression,True
+ba-fpc.h7.shown,True,True,True
+ba-fpl.h3.hours,17516,17516,True
+ba-fpl.h3.regression,"(1113.52, 6.749)","(1113.52, 6.749)",True
+ba-fpl.h3.regression_recent,"(1121.96, 6.797)","(1121.96, 6.797)",True
+ba-fpl.h3.week_ago,"(1603.06, 9.943)","(1603.06, 9.943)",True
+ba-fpl.h3.yesterday,"(1384.0, 8.586)","(1384.0, 8.586)",True
+ba-fpl.h3.method,regression,regression,True
+ba-fpl.h3.shown,True,True,True
+ba-fpl.h4.hours,17516,17516,True
+ba-fpl.h4.regression,"(1162.01, 7.034)","(1162.01, 7.034)",True
+ba-fpl.h4.regression_recent,"(1172.8, 7.104)","(1172.8, 7.104)",True
+ba-fpl.h4.week_ago,"(1603.1, 9.944)","(1603.1, 9.944)",True
+ba-fpl.h4.yesterday,"(1489.8, 9.197)","(1489.8, 9.197)",True
+ba-fpl.h4.method,regression,regression,True
+ba-fpl.h4.shown,True,True,True
+ba-fpl.h5.hours,17516,17516,True
+ba-fpl.h5.regression,"(1181.5, 7.153)","(1181.5, 7.153)",True
+ba-fpl.h5.regression_recent,"(1193.72, 7.232)","(1193.72, 7.232)",True
+ba-fpl.h5.week_ago,"(1603.16, 9.944)","(1603.16, 9.944)",True
+ba-fpl.h5.yesterday,"(1549.74, 9.595)","(1549.74, 9.595)",True
+ba-fpl.h5.method,regression,regression,True
+ba-fpl.h5.shown,True,True,True
+ba-fpl.h6.hours,17516,17516,True
+ba-fpl.h6.regression,"(1197.54, 7.253)","(1197.54, 7.253)",True
+ba-fpl.h6.regression_recent,"(1210.29, 7.334)","(1210.29, 7.334)",True
+ba-fpl.h6.week_ago,"(1603.1, 9.943)","(1603.1, 9.943)",True
+ba-fpl.h6.yesterday,"(1587.98, 9.847)","(1587.98, 9.847)",True
+ba-fpl.h6.method,regression,regression,True
+ba-fpl.h6.shown,True,True,True
+ba-fpl.h7.hours,17518,17518,True
+ba-fpl.h7.regression,"(1195.81, 7.244)","(1195.81, 7.244)",True
+ba-fpl.h7.regression_recent,"(1203.88, 7.303)","(1203.88, 7.303)",True
+ba-fpl.h7.week_ago,"(1603.01, 9.943)","(1603.01, 9.943)",True
+ba-fpl.h7.yesterday,"(1603.01, 9.943)","(1603.01, 9.943)",True
+ba-fpl.h7.method,regression,regression,True
+ba-fpl.h7.shown,True,True,True
+ba-isne.h3.hours,17516,17516,True
+ba-isne.h3.regression,"(1127.13, 8.454)","(1127.13, 8.454)",True
+ba-isne.h3.regression_recent,"(1105.5, 8.326)","(1105.5, 8.326)",True
+ba-isne.h3.week_ago,"(1510.61, 11.392)","(1510.61, 11.392)",True
+ba-isne.h3.yesterday,"(1558.79, 11.834)","(1558.79, 11.834)",True
+ba-isne.h3.method,regression_recent,regression_recent,True
+ba-isne.h3.shown,True,True,True
+ba-isne.h4.hours,17516,17516,True
+ba-isne.h4.regression,"(1143.97, 8.568)","(1143.97, 8.568)",True
+ba-isne.h4.regression_recent,"(1133.12, 8.517)","(1133.12, 8.517)",True
+ba-isne.h4.week_ago,"(1510.67, 11.393)","(1510.67, 11.393)",True
+ba-isne.h4.yesterday,"(1613.72, 12.256)","(1613.72, 12.256)",True
+ba-isne.h4.method,regression_recent,regression_recent,True
+ba-isne.h4.shown,True,True,True
+ba-isne.h5.hours,17516,17516,True
+ba-isne.h5.regression,"(1150.68, 8.612)","(1150.68, 8.612)",True
+ba-isne.h5.regression_recent,"(1141.23, 8.561)","(1141.23, 8.561)",True
+ba-isne.h5.week_ago,"(1510.73, 11.394)","(1510.73, 11.394)",True
+ba-isne.h5.yesterday,"(1615.71, 12.309)","(1615.71, 12.309)",True
+ba-isne.h5.method,regression_recent,regression_recent,True
+ba-isne.h5.shown,True,True,True
+ba-isne.h6.hours,17516,17516,True
+ba-isne.h6.regression,"(1156.12, 8.645)","(1156.12, 8.645)",True
+ba-isne.h6.regression_recent,"(1147.21, 8.593)","(1147.21, 8.593)",True
+ba-isne.h6.week_ago,"(1510.68, 11.393)","(1510.68, 11.393)",True
+ba-isne.h6.yesterday,"(1551.07, 11.763)","(1551.07, 11.763)",True
+ba-isne.h6.method,regression_recent,regression_recent,True
+ba-isne.h6.shown,True,True,True
+ba-isne.h7.hours,17518,17518,True
+ba-isne.h7.regression,"(1156.71, 8.642)","(1156.71, 8.642)",True
+ba-isne.h7.regression_recent,"(1150.34, 8.611)","(1150.34, 8.611)",True
+ba-isne.h7.week_ago,"(1510.63, 11.393)","(1510.63, 11.393)",True
+ba-isne.h7.yesterday,"(1510.63, 11.393)","(1510.63, 11.393)",True
+ba-isne.h7.method,regression_recent,regression_recent,True
+ba-isne.h7.shown,True,True,True
+ba-miso.h3.hours,17516,17516,True
+ba-miso.h3.regression,"(3723.71, 4.655)","(3723.71, 4.655)",True
+ba-miso.h3.regression_recent,"(3636.03, 4.548)","(3636.03, 4.548)",True
+ba-miso.h3.week_ago,"(5774.01, 7.352)","(5774.01, 7.352)",True
+ba-miso.h3.yesterday,"(5761.11, 7.478)","(5761.11, 7.478)",True
+ba-miso.h3.method,regression_recent,regression_recent,True
+ba-miso.h3.shown,True,True,True
+ba-miso.h4.hours,17516,17516,True
+ba-miso.h4.regression,"(4057.29, 5.055)","(4057.29, 5.055)",True
+ba-miso.h4.regression_recent,"(4013.74, 5.002)","(4013.74, 5.002)",True
+ba-miso.h4.week_ago,"(5773.49, 7.351)","(5773.49, 7.351)",True
+ba-miso.h4.yesterday,"(6159.25, 7.982)","(6159.25, 7.982)",True
+ba-miso.h4.method,regression_recent,regression_recent,True
+ba-miso.h4.shown,True,True,True
+ba-miso.h5.hours,17516,17516,True
+ba-miso.h5.regression,"(4263.2, 5.301)","(4263.2, 5.301)",True
+ba-miso.h5.regression_recent,"(4253.87, 5.291)","(4253.87, 5.291)",True
+ba-miso.h5.week_ago,"(5773.61, 7.351)","(5773.61, 7.351)",True
+ba-miso.h5.yesterday,"(6311.13, 8.176)","(6311.13, 8.176)",True
+ba-miso.h5.method,regression_recent,regression_recent,True
+ba-miso.h5.shown,True,True,True
+ba-miso.h6.hours,17516,17516,True
+ba-miso.h6.regression,"(4394.49, 5.455)","(4394.49, 5.455)",True
+ba-miso.h6.regression_recent,"(4381.31, 5.441)","(4381.31, 5.441)",True
+ba-miso.h6.week_ago,"(5773.73, 7.352)","(5773.73, 7.352)",True
+ba-miso.h6.yesterday,"(6003.06, 7.721)","(6003.06, 7.721)",True
+ba-miso.h6.method,regression_recent,regression_recent,True
+ba-miso.h6.shown,True,True,True
+ba-miso.h7.hours,17518,17518,True
+ba-miso.h7.regression,"(4463.76, 5.534)","(4463.76, 5.534)",True
+ba-miso.h7.regression_recent,"(4470.52, 5.547)","(4470.52, 5.547)",True
+ba-miso.h7.week_ago,"(5773.56, 7.352)","(5773.56, 7.352)",True
+ba-miso.h7.yesterday,"(5773.56, 7.352)","(5773.56, 7.352)",True
+ba-miso.h7.method,regression,regression,True
+ba-miso.h7.shown,True,True,True
+ba-nyis.h3.hours,17444,17444,True
+ba-nyis.h3.regression,"(1193.29, 6.731)","(1193.29, 6.731)",True
+ba-nyis.h3.regression_recent,"(1171.4, 6.621)","(1171.4, 6.621)",True
+ba-nyis.h3.week_ago,"(1618.04, 9.087)","(1618.04, 9.087)",True
+ba-nyis.h3.yesterday,"(1661.78, 9.456)","(1661.78, 9.456)",True
+ba-nyis.h3.method,regression_recent,regression_recent,True
+ba-nyis.h3.shown,True,True,True
+ba-nyis.h4.hours,17444,17444,True
+ba-nyis.h4.regression,"(1231.85, 6.946)","(1231.85, 6.946)",True
+ba-nyis.h4.regression_recent,"(1220.76, 6.903)","(1220.76, 6.903)",True
+ba-nyis.h4.week_ago,"(1616.05, 9.076)","(1616.05, 9.076)",True
+ba-nyis.h4.yesterday,"(1726.52, 9.821)","(1726.52, 9.821)",True
+ba-nyis.h4.method,regression_recent,regression_recent,True
+ba-nyis.h4.shown,True,True,True
+ba-nyis.h5.hours,17444,17444,True
+ba-nyis.h5.regression,"(1246.63, 7.032)","(1246.63, 7.032)",True
+ba-nyis.h5.regression_recent,"(1236.61, 6.99)","(1236.61, 6.99)",True
+ba-nyis.h5.week_ago,"(1612.77, 9.059)","(1612.77, 9.059)",True
+ba-nyis.h5.yesterday,"(1755.9, 10.0)","(1755.9, 10.0)",True
+ba-nyis.h5.method,regression_recent,regression_recent,True
+ba-nyis.h5.shown,True,True,True
+ba-nyis.h6.hours,17452,17452,True
+ba-nyis.h6.regression,"(1251.34, 7.048)","(1251.34, 7.048)",True
+ba-nyis.h6.regression_recent,"(1243.08, 7.01)","(1243.08, 7.01)",True
+ba-nyis.h6.week_ago,"(1610.32, 9.044)","(1610.32, 9.044)",True
+ba-nyis.h6.yesterday,"(1674.86, 9.488)","(1674.86, 9.488)",True
+ba-nyis.h6.method,regression_recent,regression_recent,True
+ba-nyis.h6.shown,True,True,True
+ba-nyis.h7.hours,17454,17454,True
+ba-nyis.h7.regression,"(1257.1, 7.078)","(1257.1, 7.078)",True
+ba-nyis.h7.regression_recent,"(1248.3, 7.037)","(1248.3, 7.037)",True
+ba-nyis.h7.week_ago,"(1612.83, 9.059)","(1612.83, 9.059)",True
+ba-nyis.h7.yesterday,"(1612.83, 9.059)","(1612.83, 9.059)",True
+ba-nyis.h7.method,regression_recent,regression_recent,True
+ba-nyis.h7.shown,True,True,True
+ba-pace.h3.hours,17516,17516,True
+ba-pace.h3.regression,"(274.61, 4.373)","(274.61, 4.373)",True
+ba-pace.h3.regression_recent,"(271.47, 4.327)","(271.47, 4.327)",True
+ba-pace.h3.week_ago,"(376.85, 6.078)","(376.85, 6.078)",True
+ba-pace.h3.yesterday,"(386.4, 6.26)","(386.4, 6.26)",True
+ba-pace.h3.method,regression_recent,regression_recent,True
+ba-pace.h3.shown,True,True,True
+ba-pace.h4.hours,17516,17516,True
+ba-pace.h4.regression,"(286.97, 4.561)","(286.97, 4.561)",True
+ba-pace.h4.regression_recent,"(283.3, 4.509)","(283.3, 4.509)",True
+ba-pace.h4.week_ago,"(376.85, 6.078)","(376.85, 6.078)",True
+ba-pace.h4.yesterday,"(410.03, 6.614)","(410.03, 6.614)",True
+ba-pace.h4.method,regression_recent,regression_recent,True
+ba-pace.h4.shown,True,True,True
+ba-pace.h5.hours,17516,17516,True
+ba-pace.h5.regression,"(292.43, 4.647)","(292.43, 4.647)",True
+ba-pace.h5.regression_recent,"(287.92, 4.583)","(287.92, 4.583)",True
+ba-pace.h5.week_ago,"(376.83, 6.077)","(376.83, 6.077)",True
+ba-pace.h5.yesterday,"(422.09, 6.819)","(422.09, 6.819)",True
+ba-pace.h5.method,regression_recent,regression_recent,True
+ba-pace.h5.shown,True,True,True
+ba-pace.h6.hours,17516,17516,True
+ba-pace.h6.regression,"(292.08, 4.64)","(292.08, 4.64)",True
+ba-pace.h6.regression_recent,"(288.54, 4.591)","(288.54, 4.591)",True
+ba-pace.h6.week_ago,"(376.81, 6.077)","(376.81, 6.077)",True
+ba-pace.h6.yesterday,"(400.37, 6.469)","(400.37, 6.469)",True
+ba-pace.h6.method,regression_recent,regression_recent,True
+ba-pace.h6.shown,True,True,True
+ba-pace.h7.hours,17518,17518,True
+ba-pace.h7.regression,"(290.69, 4.62)","(290.69, 4.62)",True
+ba-pace.h7.regression_recent,"(288.45, 4.588)","(288.45, 4.588)",True
+ba-pace.h7.week_ago,"(376.83, 6.078)","(376.83, 6.078)",True
+ba-pace.h7.yesterday,"(376.83, 6.078)","(376.83, 6.078)",True
+ba-pace.h7.method,regression_recent,regression_recent,True
+ba-pace.h7.shown,True,True,True
+ba-pjm.h3.hours,17460,17460,True
+ba-pjm.h3.regression,"(6175.76, 6.018)","(6175.76, 6.018)",True
+ba-pjm.h3.regression_recent,"(6013.45, 5.867)","(6013.45, 5.867)",True
+ba-pjm.h3.week_ago,"(8702.56, 8.646)","(8702.56, 8.646)",True
+ba-pjm.h3.yesterday,"(8518.61, 8.633)","(8518.61, 8.633)",True
+ba-pjm.h3.method,regression_recent,regression_recent,True
+ba-pjm.h3.shown,True,True,True
+ba-pjm.h4.hours,17460,17460,True
+ba-pjm.h4.regression,"(6584.56, 6.401)","(6584.56, 6.401)",True
+ba-pjm.h4.regression_recent,"(6491.7, 6.325)","(6491.7, 6.325)",True
+ba-pjm.h4.week_ago,"(8701.96, 8.645)","(8701.96, 8.645)",True
+ba-pjm.h4.yesterday,"(9074.68, 9.193)","(9074.68, 9.193)",True
+ba-pjm.h4.method,regression_recent,regression_recent,True
+ba-pjm.h4.shown,True,True,True
+ba-pjm.h5.hours,17460,17460,True
+ba-pjm.h5.regression,"(6788.06, 6.583)","(6788.06, 6.583)",True
+ba-pjm.h5.regression_recent,"(6726.38, 6.534)","(6726.38, 6.534)",True
+ba-pjm.h5.week_ago,"(8699.91, 8.643)","(8699.91, 8.643)",True
+ba-pjm.h5.yesterday,"(9466.76, 9.559)","(9466.76, 9.559)",True
+ba-pjm.h5.method,regression_recent,regression_recent,True
+ba-pjm.h5.shown,True,True,True
+ba-pjm.h6.hours,17462,17462,True
+ba-pjm.h6.regression,"(6915.6, 6.693)","(6915.6, 6.693)",True
+ba-pjm.h6.regression_recent,"(6879.4, 6.667)","(6879.4, 6.667)",True
+ba-pjm.h6.week_ago,"(8700.34, 8.643)","(8700.34, 8.643)",True
+ba-pjm.h6.yesterday,"(9071.19, 9.092)","(9071.19, 9.092)",True
+ba-pjm.h6.method,regression_recent,regression_recent,True
+ba-pjm.h6.shown,True,True,True
+ba-pjm.h7.hours,17464,17464,True
+ba-pjm.h7.regression,"(6978.83, 6.748)","(6978.83, 6.748)",True
+ba-pjm.h7.regression_recent,"(6953.14, 6.731)","(6953.14, 6.731)",True
+ba-pjm.h7.week_ago,"(8695.86, 8.638)","(8695.86, 8.638)",True
+ba-pjm.h7.yesterday,"(8695.86, 8.638)","(8695.86, 8.638)",True
+ba-pjm.h7.method,regression_recent,regression_recent,True
+ba-pjm.h7.shown,True,True,True
+ba-psco.h3.hours,17516,17516,True
+ba-psco.h3.regression,"(390.15, 7.25)","(390.15, 7.25)",True
+ba-psco.h3.regression_recent,"(391.64, 7.279)","(391.64, 7.279)",True
+ba-psco.h3.week_ago,"(479.89, 9.114)","(479.89, 9.114)",True
+ba-psco.h3.yesterday,"(494.53, 9.397)","(494.53, 9.397)",True
+ba-psco.h3.method,regression,regression,True
+ba-psco.h3.shown,True,True,True
+ba-psco.h4.hours,17516,17516,True
+ba-psco.h4.regression,"(398.58, 7.398)","(398.58, 7.398)",True
+ba-psco.h4.regression_recent,"(398.2, 7.397)","(398.2, 7.397)",True
+ba-psco.h4.week_ago,"(479.94, 9.115)","(479.94, 9.115)",True
+ba-psco.h4.yesterday,"(505.98, 9.605)","(505.98, 9.605)",True
+ba-psco.h4.method,regression_recent,regression_recent,True
+ba-psco.h4.shown,True,True,True
+ba-psco.h5.hours,17516,17516,True
+ba-psco.h5.regression,"(397.19, 7.351)","(397.19, 7.351)",True
+ba-psco.h5.regression_recent,"(397.78, 7.37)","(397.78, 7.37)",True
+ba-psco.h5.week_ago,"(479.9, 9.114)","(479.9, 9.114)",True
+ba-psco.h5.yesterday,"(502.87, 9.56)","(502.87, 9.56)",True
+ba-psco.h5.method,regression,regression,True
+ba-psco.h5.shown,True,True,True
+ba-psco.h6.hours,17516,17516,True
+ba-psco.h6.regression,"(403.77, 7.459)","(403.77, 7.459)",True
+ba-psco.h6.regression_recent,"(404.97, 7.488)","(404.97, 7.488)",True
+ba-psco.h6.week_ago,"(479.91, 9.115)","(479.91, 9.115)",True
+ba-psco.h6.yesterday,"(486.18, 9.266)","(486.18, 9.266)",True
+ba-psco.h6.method,regression,regression,True
+ba-psco.h6.shown,True,True,True
+ba-psco.h7.hours,17518,17518,True
+ba-psco.h7.regression,"(409.65, 7.557)","(409.65, 7.557)",True
+ba-psco.h7.regression_recent,"(410.97, 7.585)","(410.97, 7.585)",True
+ba-psco.h7.week_ago,"(479.91, 9.115)","(479.91, 9.115)",True
+ba-psco.h7.yesterday,"(479.91, 9.115)","(479.91, 9.115)",True
+ba-psco.h7.method,regression,regression,True
+ba-psco.h7.shown,True,True,True
+ba-soco.h3.hours,17516,17516,True
+ba-soco.h3.regression,"(2174.63, 7.549)","(2174.63, 7.549)",True
+ba-soco.h3.regression_recent,"(2166.38, 7.518)","(2166.38, 7.518)",True
+ba-soco.h3.week_ago,"(3133.17, 11.155)","(3133.17, 11.155)",True
+ba-soco.h3.yesterday,"(2883.64, 10.345)","(2883.64, 10.345)",True
+ba-soco.h3.method,regression_recent,regression_recent,True
+ba-soco.h3.shown,True,True,True
+ba-soco.h4.hours,17516,17516,True
+ba-soco.h4.regression,"(2294.44, 7.939)","(2294.44, 7.939)",True
+ba-soco.h4.regression_recent,"(2306.61, 7.992)","(2306.61, 7.992)",True
+ba-soco.h4.week_ago,"(3132.86, 11.153)","(3132.86, 11.153)",True
+ba-soco.h4.yesterday,"(3071.14, 11.017)","(3071.14, 11.017)",True
+ba-soco.h4.method,regression,regression,True
+ba-soco.h4.shown,True,True,True
+ba-soco.h5.hours,17516,17516,True
+ba-soco.h5.regression,"(2359.46, 8.156)","(2359.46, 8.156)",True
+ba-soco.h5.regression_recent,"(2370.19, 8.203)","(2370.19, 8.203)",True
+ba-soco.h5.week_ago,"(3132.7, 11.152)","(3132.7, 11.152)",True
+ba-soco.h5.yesterday,"(3151.79, 11.319)","(3151.79, 11.319)",True
+ba-soco.h5.method,regression,regression,True
+ba-soco.h5.shown,True,True,True
+ba-soco.h6.hours,17516,17516,True
+ba-soco.h6.regression,"(2396.57, 8.275)","(2396.57, 8.275)",True
+ba-soco.h6.regression_recent,"(2407.97, 8.327)","(2407.97, 8.327)",True
+ba-soco.h6.week_ago,"(3133.12, 11.154)","(3133.12, 11.154)",True
+ba-soco.h6.yesterday,"(3139.94, 11.223)","(3139.94, 11.223)",True
+ba-soco.h6.method,regression,regression,True
+ba-soco.h6.shown,True,True,True
+ba-soco.h7.hours,17518,17518,True
+ba-soco.h7.regression,"(2417.35, 8.339)","(2417.35, 8.339)",True
+ba-soco.h7.regression_recent,"(2426.51, 8.385)","(2426.51, 8.385)",True
+ba-soco.h7.week_ago,"(3132.89, 11.154)","(3132.89, 11.154)",True
+ba-soco.h7.yesterday,"(3132.89, 11.154)","(3132.89, 11.154)",True
+ba-soco.h7.method,regression,regression,True
+ba-soco.h7.shown,True,True,True
+ba-swpp.h3.hours,17516,17516,True
+ba-swpp.h3.regression,"(2113.07, 5.926)","(2113.07, 5.926)",True
+ba-swpp.h3.regression_recent,"(2095.23, 5.884)","(2095.23, 5.884)",True
+ba-swpp.h3.week_ago,"(2989.2, 8.556)","(2989.2, 8.556)",True
+ba-swpp.h3.yesterday,"(2575.63, 7.44)","(2575.63, 7.44)",True
+ba-swpp.h3.method,regression_recent,regression_recent,True
+ba-swpp.h3.shown,True,True,True
+ba-swpp.h4.hours,17516,17516,True
+ba-swpp.h4.regression,"(2268.95, 6.327)","(2268.95, 6.327)",True
+ba-swpp.h4.regression_recent,"(2272.03, 6.347)","(2272.03, 6.347)",True
+ba-swpp.h4.week_ago,"(2989.15, 8.556)","(2989.15, 8.556)",True
+ba-swpp.h4.yesterday,"(2777.91, 7.996)","(2777.91, 7.996)",True
+ba-swpp.h4.method,regression,regression,True
+ba-swpp.h4.shown,True,True,True
+ba-swpp.h5.hours,17516,17516,True
+ba-swpp.h5.regression,"(2384.37, 6.632)","(2384.37, 6.632)",True
+ba-swpp.h5.regression_recent,"(2376.85, 6.619)","(2376.85, 6.619)",True
+ba-swpp.h5.week_ago,"(2989.56, 8.557)","(2989.56, 8.557)",True
+ba-swpp.h5.yesterday,"(2934.79, 8.423)","(2934.79, 8.423)",True
+ba-swpp.h5.method,regression_recent,regression_recent,True
+ba-swpp.h5.shown,True,True,True
+ba-swpp.h6.hours,17516,17516,True
+ba-swpp.h6.regression,"(2456.18, 6.826)","(2456.18, 6.826)",True
+ba-swpp.h6.regression_recent,"(2454.79, 6.825)","(2454.79, 6.825)",True
+ba-swpp.h6.week_ago,"(2989.57, 8.557)","(2989.57, 8.557)",True
+ba-swpp.h6.yesterday,"(2974.25, 8.525)","(2974.25, 8.525)",True
+ba-swpp.h6.method,regression_recent,regression_recent,True
+ba-swpp.h6.shown,True,True,True
+ba-swpp.h7.hours,17518,17518,True
+ba-swpp.h7.regression,"(2496.05, 6.932)","(2496.05, 6.932)",True
+ba-swpp.h7.regression_recent,"(2500.82, 6.948)","(2500.82, 6.948)",True
+ba-swpp.h7.week_ago,"(2989.39, 8.557)","(2989.39, 8.557)",True
+ba-swpp.h7.yesterday,"(2989.39, 8.557)","(2989.39, 8.557)",True
+ba-swpp.h7.method,regression,regression,True
+ba-swpp.h7.shown,True,True,True
+ba-tva.h3.hours,17516,17516,True
+ba-tva.h3.regression,"(1700.98, 8.26)","(1700.98, 8.26)",True
+ba-tva.h3.regression_recent,"(1698.86, 8.231)","(1698.86, 8.231)",True
+ba-tva.h3.week_ago,"(2476.75, 12.464)","(2476.75, 12.464)",True
+ba-tva.h3.yesterday,"(2155.16, 10.912)","(2155.16, 10.912)",True
+ba-tva.h3.method,regression_recent,regression_recent,True
+ba-tva.h3.shown,True,True,True
+ba-tva.h4.hours,17516,17516,True
+ba-tva.h4.regression,"(1809.59, 8.765)","(1809.59, 8.765)",True
+ba-tva.h4.regression_recent,"(1813.53, 8.781)","(1813.53, 8.781)",True
+ba-tva.h4.week_ago,"(2476.45, 12.462)","(2476.45, 12.462)",True
+ba-tva.h4.yesterday,"(2307.73, 11.691)","(2307.73, 11.691)",True
+ba-tva.h4.method,regression,regression,True
+ba-tva.h4.shown,True,True,True
+ba-tva.h5.hours,17516,17516,True
+ba-tva.h5.regression,"(1867.96, 9.033)","(1867.96, 9.033)",True
+ba-tva.h5.regression_recent,"(1872.72, 9.05)","(1872.72, 9.05)",True
+ba-tva.h5.week_ago,"(2476.22, 12.461)","(2476.22, 12.461)",True
+ba-tva.h5.yesterday,"(2416.23, 12.261)","(2416.23, 12.261)",True
+ba-tva.h5.method,regression,regression,True
+ba-tva.h5.shown,True,True,True
+ba-tva.h6.hours,17516,17516,True
+ba-tva.h6.regression,"(1896.42, 9.151)","(1896.42, 9.151)",True
+ba-tva.h6.regression_recent,"(1902.74, 9.18)","(1902.74, 9.18)",True
+ba-tva.h6.week_ago,"(2476.67, 12.464)","(2476.67, 12.464)",True
+ba-tva.h6.yesterday,"(2442.68, 12.359)","(2442.68, 12.359)",True
+ba-tva.h6.method,regression,regression,True
+ba-tva.h6.shown,True,True,True
+ba-tva.h7.hours,17518,17518,True
+ba-tva.h7.regression,"(1911.83, 9.206)","(1911.83, 9.206)",True
+ba-tva.h7.regression_recent,"(1918.36, 9.24)","(1918.36, 9.24)",True
+ba-tva.h7.week_ago,"(2476.5, 12.463)","(2476.5, 12.463)",True
+ba-tva.h7.yesterday,"(2476.5, 12.463)","(2476.5, 12.463)",True
+ba-tva.h7.method,regression,regression,True
+ba-tva.h7.shown,True,True,True
