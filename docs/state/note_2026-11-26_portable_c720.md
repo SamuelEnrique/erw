@@ -1,8 +1,8 @@
 # Chain 720, the portable laptop's first window: the ERW forecast page and the energy equities pages (note for Samuel)
 
-Energy Research Warehouse (ERW). Kept current; state at 11:36 UTC on 27 November 2026. Sessions 10400 to 10411. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10409_REPORT.md`.
+Energy Research Warehouse (ERW). Kept current; state at 11:57 UTC on 27 November 2026. Sessions 10400 to 10412. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10409_REPORT.md`.
 
-## 27 November: what changed since you took the laptop (sessions 10408 to 10411)
+## 27 November: what changed since you took the laptop (sessions 10408 to 10412)
 
 You asked for two things first. Both are done and requested for landing. The equities row has landed; the forecast rows wait for the desk.
 
@@ -48,6 +48,14 @@ You asked for two things first. Both are done and requested for landing. The equ
 - **What is real:** every figure, from the second window's files, each with its key. Checked on a copy of its branch's files: 259,718 figures on 268 pages, none differing.
 - **What I decided for you, and asked the second window to settle** (its request 15): neither file says which place shows a hub, so a hub is listed under each place whose own hub is on the same grid.
 - **For your ruling:** whether "More hubs" belongs on `/forecast` or on a page of its own.
+
+**A second problem set waits for you (row 65, `wip/c720-equities-set`, session 10412).** "A producer beside the price of oil": what EOG filed with the SEC for a quarter (revenue, net income, capital spending, debt) beside the price of WTI on the same days, and Expand Energy beside Henry Hub. Once the row has landed, open `https://erw-flame.vercel.app/learn/problems/a-producer-beside-the-price-of-oil`.
+
+- **You should see** a worked example and six questions. Press "Show answer" under question 1: "On 30 September 2026 97.18 USD/bbl, on 30 June 2026 70.56 USD/bbl: the later is 137.73 % of the earlier. The company's revenue: 99.18 %."
+- **You should not see it** on `https://erw-flame.vercel.app/learn/problems`: it is in no index and no dated edition until you approve it, like the forecast's set of 26 November.
+- **What is real:** all 98 figures, from the equities files (the SEC's filings and the public spot prices), each with its key.
+- **It uses no share price.** You asked for a segment beside an energy price; no segment has a line while share prices are held, so the set is a company's filed figures beside a price.
+- **For your ruling:** whether to approve it; and whether "a producer of mostly natural gas" may describe Expand Energy, which is my description and in no ERW file.
 
 ## One thing first: a held price is drawn on production
 
