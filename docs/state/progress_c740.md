@@ -81,7 +81,7 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Words-only states turned into rules where the law can be read | done | 10813 | Georgia (HB 1291 as signed, through 2031), Utah (59-12-102(111)); Illinois added as words (program paused 1 July 2026); Mississippi stays words |
 | Statutes re-read | done | 10813, 10821 | Utah's code (a July 2026 version, paragraph unchanged); Florida's 212.08 and Iowa's 427A.2 in their 2026 editions (unchanged) |
 | A build and read of the newest head | done | 10813, 10816 | `3fb425592` built 14:00 UTC, eleven addresses at 1280 and 390 px, check-values 1,506 of 1,506; row 14 updated |
-| Minnesota's announced projects (DEED's release on Meta in Rosemount) | waiting | 10815 | mn.gov's robots file sets Visit-time 0000-1200; read after 00:00 UTC |
+| Minnesota's announced projects (DEED's release on Meta in Rosemount) | done | 10815, 10822 | read 02:09 UTC 27 November inside mn.gov's visit window (request 362): USD 800 million, about 100 operational jobs, at least 1,000 at peak; DEED's 2025 expansion list (363) names no datacenter; 47 rows, construction median 400.0 a billion |
 | More states (part F) | done | 10813 to 10816 | by rule: Georgia, Utah, Arkansas, Oklahoma, Connecticut, Michigan (22 in all); words: Illinois, Massachusetts, Ohio, Nebraska (8 in all) |
 | Electricity taxes beyond Virginia | done | 10817, 10818 | Illinois (monthly blocks), Ohio (tiers or the self-assessing schedule, the lower) |
 | Wages from warehouse tables (request 7 built) | done | 10818 | `datacenter_wages.py --tables`; figures identical |
@@ -94,3 +94,5 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Row 14 landed (first head) | done | 10821 | `34904f82b` at 14:16 (landing 2); newer head `6352fb2e4` requested |
 | Window F's findings I1 to I5 | done | 10821 | fixed on the branch, tested, read at both widths |
 | Landing row 15 (the newer head) | requested | 10821 | `617bd736d` or later (checked 16:18 UTC: not yet on main; window F's file has no new `/impact` lines); row 14 landed at `34904f82b` |
+| Window F's finding I6 (the opening scenario moved, unexplained) | done on the branch | 10822 | a line above the fields: the defaults are medians of the projects read, each count and the date; test in `test-datacenter-ui.test.mjs` |
+| Row 15 | landed | 10822 | `617bd736d` in `b80148122` (18:36 UTC 26 November, task/c701-tax); the newer head goes as row 16 |
