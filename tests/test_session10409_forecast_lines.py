@@ -132,8 +132,10 @@ class TheRealTimePrice(unittest.TestCase):
 
     def test_every_figure_is_keyed_by_the_hubs_place_in_the_file(self):
         rt = src("site", "app", "forecast", "realtime.tsx")
-        self.assertIn('const key = (...rest: (string | number)[]) => pfKey(RT_FILE, ["hubs", entry.hi, ...rest]);', rt)
-        self.assertIn('pfKey(RT_FILE, ["rows", c.i, mcol])', rt)
+        # session 10411: one block draws either market, so the file is the block's own (RT_FILE for the real-time price)
+        self.assertIn('const key = (...rest: (string | number)[]) => pfKey(file, ["hubs", hi, ...rest]);', rt)
+        self.assertIn('pfKey(file, ["rows", c.i, mcol])', rt)
+        self.assertIn('h={h} file={RT_FILE} hi={entry.hi}', rt)
 
     def test_a_day_with_no_forecast_is_a_blank_with_the_files_reason(self):
         rt = src("site", "app", "forecast", "realtime.tsx")

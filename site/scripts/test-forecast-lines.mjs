@@ -427,6 +427,107 @@ quiet(page, "demand");
   save(WS, wsNow);
 }
 
+// ---- 13. More hubs, the backtest by year, the files' own words for their cuts (session 10411) -------------------------------
+{
+  const P = await import("../lib/predict.ts");
+  const RT = "rt_price.json", HUBS = "price_hubs.json";
+  const rtNow = load(RT);                       // its hubs: one of SPP, then Texas's own, ercot:HB_NORTH
+  const price = tex.series.price;
+  const noHubs = draw(FIX, { s: "price" });
+  check(!noHubs.includes('id="hubs"') && !noHubs.includes("data-fc-hubs="), "no other hub of the grid in either file: no section of more hubs");
+  // one more hub of Texas's grid in the real-time file, with the backtest by year
+  const hou = JSON.parse(JSON.stringify(rtNow.hubs[1]));
+  hou.hub = "ercot:HB_HOUSTON"; hou.grid = "ercot-houston";
+  const yr = (year, mae, mape) => ({ year, first_day: `${year}-01-01`, last_day: `${year}-12-31`, hours: 8760, mae: { erw: mae[0], day_ahead: mae[1], yesterday: mae[2], regression: mae[0] }, mape: { erw: mape[0], day_ahead: mape[1], yesterday: mape[2], regression: mape[0] } });
+  hou.long_backtest = { what: "the same walk-forward backtest from 1 January 2016, as far back as the hub's prices allow", first_target: "2016-01-01", method: "regression", band_coverage_pct: 77.6,
+    all: { first_day: "2016-01-01", last_day: "2026-11-25", hours: 95461, mae: { erw: 29.85, day_ahead: 19.94, yesterday: 32.51, regression: 29.85 }, mape: { erw: 51.4, day_ahead: 35.0, yesterday: 76.1, regression: 51.4 } },
+    // in 2017 the ERW forecast was the closer of the two, in 2016 the day-ahead price: both drawn the same
+    by_year: [yr(2016, [8.33, 7.88, 10.71], [24.4, 20.3, 30.8]), yr(2017, [10.92, 11.02, 15.29], [26.1, 27.5, 33.3])] };
+  const rt2 = { ...rtNow, cuts: { top10: "the ten days of the backtest with the highest real-time price hour", spike: "the hours whose real-time price is above the hub's own 99th percentile over the backtest", month: "key YYYY-MM" }, hubs: [...rtNow.hubs, hou],
+    rows: [...rtNow.rows, ["hub-ercot-houston", "rt_price", "erw", "top10", "", 240, 3958.65, 700.1, null], ["hub-ercot-houston", "rt_price", "day_ahead", "top10", "", 240, 1390.2, 900.5, null]] };
+  // the day-ahead hubs file: the same hub, a place file's series.price block with its place, grid and time first
+  const sum = (hours, mae, mape) => ({ first_day: "2020-03-05", last_day: "2026-11-26", hours, mae: { erw: mae[0], yesterday: mae[1], week_ago: mae[2], operator: null }, mape: { erw: mape[0], yesterday: mape[1], week_ago: mape[2], operator: null } });
+  const block = { place: "hub-ercot-houston", grid: "ercot-houston", demand_place: "ba-erco", time: "America/Chicago", ...price, hub: "ercot:HB_HOUSTON", method: "yesterday",
+    tomorrow: price.tomorrow.map((r) => [r[0], r[1], r[2] + 3, r[3] + 3, r[4] + 3, null]), summary: { last_30_days: sum(601, [11.11, 11.11, 13.55], [35.3, 35.3, 40.8]), backtest: sum(58809, [23.51, 23.51, 54.8], [31.8, 31.8, 125.6]) } };
+  const hrow = (m, cut, key, hours, mae, mape) => ["hub-ercot-houston", "price", m, cut, key, hours, mae, mape, null];
+  const hubsFile = { fixture: FIXTURE, contract: "docs/state/page_files_predict.md", built: "2026-11-27T08:40:00Z", tier: "derived", label: "ERW forecast", what: "the ERW forecast of the day-ahead price at more hubs of the three public grids",
+    method_note: "docs/methods/predict_price.md", made_rule: "made at 18:00 UTC the day before the target day", methods: [{ id: "erw", what: "the ERW method the rule chose for the hub" }, { id: "yesterday", what: "the hub's day-ahead price at the same local hour of the day before" }],
+    hubs: [block], rows_columns: ["place", "series", "method", "cut", "key", "hours", "mae", "mape", "held"],
+    rows: [hrow("erw", "top10", "", 240, 1469.87, 300.5), hrow("week_ago", "top10", "", 240, 4114.53, 900.2), hrow("erw", "event", "uri-2021", 432, 1080.92, 250.1), hrow("erw", "month", "2026-11", 601, 11.11, 35.3), hrow("erw", "month", "2026-10", 744, 9.5, 30.1), hrow("week_ago", "month", "2026-10", 744, 8.9, 28.4)],
+    cuts: { top10: "the ten days with the highest price hour" } };
+  save(RT, rt2);
+  save(HUBS, hubsFile);
+
+  // the library
+  check(L.gridOfHub("ercot:HB_HOUSTON") === "ercot" && L.gridOfHub(null) === "" && L.moreHubs("ercot:HB_NORTH", hubsFile, rt2).join(" ") === "ercot:HB_HOUSTON", "moreHubs: the other hubs of the grid of a place's own hub, each once, the own hub and another grid's left out");
+  check(L.moreHubs("ercot:HB_NORTH", null, null).length === 0 && L.moreHubs(null, hubsFile, rt2).length === 0 && L.moreHubs("ercot:HB_NORTH", { ...hubsFile, example: true }, null).length === 0, "no file, no own hub or an example file: no hub");
+  check(L.priceHubOf(hubsFile, "ercot:HB_HOUSTON")?.hi === 0 && L.priceHubOf(hubsFile, "ercot:HB_NORTH") === null && L.rtHubOf(rt2, "ercot:HB_HOUSTON")?.hi === 2, "a hub's entry in each file, with its position");
+  // the address
+  const idx = load("index.json");
+  const q = P.queryOf({ s: "price", hub: "ercot:HB_HOUSTON" }, idx);
+  check(q.hub === "ercot:HB_HOUSTON" && P.hrefOf(q) === "/forecast?s=price&hub=ercot%3AHB_HOUSTON" && P.hrefOf(q, { hub: null }) === "/forecast?s=price", "a hub is in the address with price");
+  check(P.queryOf({ hub: "ercot:HB_HOUSTON" }, idx).hub === null && P.queryOf({ s: "price", hub: "<script>" }, idx).hub === null && P.queryOf({ s: "price", hub: ["a:b", "c:d"] }, idx).hub === null && P.hrefOf({ ...q, s: "demand" }) === "/forecast", "with demand, in no hub's form, or given twice: no hub");
+
+  // the list, with no hub drawn
+  const list = draw(FIX, { s: "price" });
+  const lw = text(list);
+  quiet(list, "more hubs, the list");
+  check(list.includes('id="hubs"') && list.includes('data-fc-hubs="1" data-fc-hub-drawn="none"') && lw.includes("Texas: the other hubs of ERCOT, USD/MWh") && !list.includes("data-fc-dah="), "price: a section of the other hubs of the place's grid, one row a hub, none drawn until chosen");
+  check(fig(list, HUBS, "hubs/0/tomorrow/18/2", 68, "68.00") && fig(list, HUBS, "hubs/0/tomorrow/0/2", 23, "23.00") && lw.includes("at 18:00"), "a hub's row: the highest and the lowest hour of its day-ahead forecast, each with its key into the hubs file");
+  check(fig(list, HUBS, "hubs/0/summary/backtest/mae/erw", 23.51, "23.51") && fig(list, RT, "hubs/2/summary/last_2_years/mae/erw", 12.33, "12.33") && fig(list, RT, "hubs/2/summary/last_2_years/mae/day_ahead", 11.83, "11.83"), "and each market's error: the day-ahead forecast's over its backtest, the real-time forecast's and the day-ahead price's over two years");
+  check(list.includes('href="/forecast?s=price&amp;hub=ercot%3AHB_HOUSTON#hubs"'), "the hub's name draws it");
+  check(list.includes('data-fc-rt="a" data-fc-rt-hub="ercot:HB_NORTH"') && !list.includes('data-fc-rt="hub"'), "the place's own hub keeps its real-time block; no other hub's is drawn");
+
+  // one hub drawn whole
+  const html = draw(FIX, { s: "price", hub: "ercot:HB_HOUSTON" });
+  const w = text(html);
+  quiet(html, "a hub drawn");
+  check(html.includes('data-fc-hub-drawn="ercot:HB_HOUSTON"') && html.includes('data-fc-dah="hub" data-fc-dah-hub="ercot:HB_HOUSTON" data-fc-dah-hours="24"') && w.includes("ercot:HB_HOUSTON: the day-ahead price"), "the hub chosen: its day-ahead price drawn whole");
+  check(fig(html, HUBS, "hubs/0/tomorrow/18/2", 68, "68.00") && /data-n="fc\|hub\|dah\|top"/.test(html) && /aria-label="ERW forecast of the day-ahead price at ercot:HB_HOUSTON for Friday 27 Nov 2026, by the hour/.test(html), "its day forecast now, with keys into the hubs file, and a chart that says what it draws");
+  const dah = html.slice(html.indexOf('data-fc-dah="hub"'), html.indexOf('data-fc-rt="hub"'));
+  check(dah.length > 1000 && !text(dah).includes("Day-ahead price, same hour") && !dah.includes("with the hub&#x27;s day-ahead price") && text(html.slice(html.indexOf('data-fc-rt="hub"'))).includes("Day-ahead price, same hour"), "the day-ahead block has no line of another market beside it; the real-time block has the day-ahead price");
+  check(fig(html, HUBS, "hubs/0/summary/last_30_days/mae/week_ago", 13.55, "13.55") && fig(html, HUBS, "hubs/0/summary/backtest/hours", 58809, "58,809") && html.includes('data-fc-dah-summary="hub"'), "its report card: the last 30 days and the backtest, every method the same");
+  check(fig(html, HUBS, "rows/0/6", 1469.87, "1,469.87") && fig(html, HUBS, "rows/1/6", 4114.53, "4,114.53") && w.includes("The ten days with the highest price hour") && html.includes("The file&#x27;s words on this cut: the ten days with the highest price hour."), "a cut is named for a price, and the file's own words of it are its hover");
+  check(html.includes('href="/events/uri-2021"') && fig(html, HUBS, "rows/2/6", 1080.92, "1,080.92"), "an event's row opens the event's page");
+  check(html.includes('data-fc-dah-cut="hub|month"') && /Oct 2026[\s\S]*Nov 2026/.test(html.slice(html.indexOf('data-fc-dah-cut="hub|month"'))) && fig(html, HUBS, "rows/5/6", 8.9, "8.90"), "by month, the calendar's order, a month a plain rule was closer drawn as any other");
+  check(html.includes('data-fc-rt="hub" data-fc-rt-hub="ercot:HB_HOUSTON"') && w.includes("ercot:HB_HOUSTON: the real-time price") && html.includes('data-fc-rt="a" data-fc-rt-hub="ercot:HB_NORTH"'), "then its real-time price; the place's own hub keeps its block");
+  check(html.includes('data-fc-rt-years="hub"') && fig(html, RT, "hubs/2/long_backtest/all/hours", 95461, "95,461") && fig(html, RT, "hubs/2/long_backtest/by_year/0/mae/day_ahead", 7.88, "7.88") && fig(html, RT, "hubs/2/long_backtest/by_year/1/mae/erw", 10.92, "10.92") && fig(html, RT, "hubs/2/long_backtest/band_coverage_pct", 77.6, "77.60"), "the backtest from 2016: the whole span, each year, and the share inside the band, each with its key");
+  const years = html.slice(html.indexOf('data-fc-rt-years="hub"'));
+  check(/>2016<[\s\S]*>2017</.test(years) && w.includes("The real-time price year by year, the backtest from 2016-01-01") && html.includes("The file&#x27;s words: the same walk-forward backtest from 1 January 2016"), "the years in order, under words that say what the table is, the file's own on hover");
+  check(!html.includes('data-fc-rt-years="a"'), "a hub whose entry holds no backtest by year draws no table of it");
+  check(fig(html, RT, "rows/" + (rtNow.rows.length) + "/6", 3958.65, "3,958.65") && html.includes("The file&#x27;s words on this cut: the ten days of the backtest with the highest real-time price hour."), "the real-time cuts carry the real-time file's own words");
+  check(html.includes('data-fc-hub-download="ercot:HB_HOUSTON"') && html.includes('href="/forecast/realtime-price?hub=ercot%3AHB_HOUSTON"') && html.includes(">Close ercot:HB_HOUSTON<") && html.includes('href="/forecast?s=price#hubs"'), "the hub's download, and a way to close it");
+  check(/<input type="hidden" name="hub" value="ercot:HB_HOUSTON"/.test(html), "the hub stays drawn through another choice of the form");
+  const pct = draw(FIX, { s: "price", hub: "ercot:HB_HOUSTON", m: "mape" });
+  check(fig(pct, HUBS, "hubs/0/summary/backtest/mape/week_ago", 125.6, "125.60") && fig(pct, RT, "hubs/2/long_backtest/by_year/1/mape/day_ahead", 27.5, "27.50") && pct.includes("hub=ercot%3AHB_HOUSTON"), "the percent error when the page's score is that");
+  // a hub the files do not list for the place, and a hub with demand
+  for (const hub of ["spp:SPPNORTH_HUB", "ercot:HB_NORTH", "ercot:HB_NOWHERE"]) check(draw(FIX, { s: "price", hub }).includes('data-fc-hub-drawn="none"'), `the hub ${hub} is not one of the other hubs of the place's grid: none is drawn`);
+  check(!draw(FIX, { hub: "ercot:HB_HOUSTON" }).includes('id="hubs"'), "demand draws no hub");
+  check(!draw(FIX, { a: "region-mida", s: "price", hub: "ercot:HB_HOUSTON" }).includes('id="hubs"'), "a place whose price is held has no hub to offer");
+  // two places of one grid share the list
+  const pair = draw(FIX, { a: "region-tex", b: "ba-erco", s: "price" });
+  check((pair.match(/data-fc-hubs-of=/g) ?? []).length <= 1 || !pair.includes('data-fc-hubs-of="b"'), "two places of one grid: the grid's hubs are listed once");
+  // the place's own price rows: a price's ten days are named by the price, with the score file's cuts_price on hover
+  const scores = load("scores.json");
+  scores.rows.push(["region-tex", "price", "erw", "top10", "", 240, 55.5, 60.2, null], ["region-tex", "price", "yesterday", "top10", "", 240, 61.5, 70.2, null]);
+  scores.cuts_price = { top10: "the ten days with the highest price hour (the price rows' own cut)" };
+  save("scores.json", scores);
+  const own = draw(FIX, { s: "price" });
+  const card = own.slice(own.indexOf('data-fc-cut="other"'), own.indexOf('id="realtime"'));
+  check(text(card).includes("The ten days with the highest price hour") && !text(card).includes("The ten highest-demand days") && card.includes("the ten days with the highest price hour (the price rows&#x27; own cut)") && !card.includes("ten highest-demand days of the backtest"), "the place's own price rows: the ten days are the price's, and the hover is the score file's words for its price rows");
+  const demandCard = draw(FIX, {});
+  check(text(demandCard).includes("The ten highest-demand days") && demandCard.includes("ten highest-demand days of the backtest"), "demand keeps its own words");
+  delete scores.cuts_price;
+  save("scores.json", scores);
+  const older = draw(FIX, { s: "price" });
+  check(!older.slice(older.indexOf('data-fc-cut="other"'), older.indexOf('id="realtime"')).includes("ten highest-demand days of the backtest"), "a score file with no words for its price rows: the demand's words are not quoted for a price");
+  // an example hubs file shows nothing
+  save(HUBS, { ...hubsFile, example: true });
+  save(RT, rtNow);
+  check(!draw(FIX, { s: "price", hub: "ercot:HB_HOUSTON" }).includes('id="hubs"'), "an example hubs file, and no other hub in the real-time file: no section");
+  fs.rmSync(path.join(FIX, HUBS));
+}
+
 if (!KEEP) fs.rmSync(FIX, { recursive: true, force: true });
 if (fails.length) { for (const f of fails) console.log(`FAIL ${f}`); console.log(`${fails.length} of ${n} checks failed`); process.exit(1); }
 console.log(`ok: ${n} checks of the forecast's lines of 27 November (net demand, wind and solar, the operator's filing, the weather forecast line, the band, the real-time price)`);

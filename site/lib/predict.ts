@@ -84,6 +84,9 @@ export type ScoresFile = {
   span: Record<SeriesKey, { first_day: string | null; last_day: string | null }>;
   methods: { id: string; what: string }[]; metrics: Record<string, string>; mape_rule: string | null;
   cuts: Record<string, string>; rows_columns: string[]; rows: Cell[][];
+  /** session 10411 (the contract's line of session 10603): the words of the cuts of the price rows, whose `top10` is
+   *  the ten days with the highest price hour and whose `spike` is the price's own; `cuts` names them by demand */
+  cuts_price?: Record<string, string> | null;
 };
 
 // ---- What a reader is shown, and what is blank ----------------------------------------------------------------------
@@ -330,7 +333,10 @@ export const metricUnit = (metric: Metric, unit: string) => (metric === "mape" ?
 
 // ---- The address ---------------------------------------------------------------------------------------------------
 
-export type Query = { a: string | null; b: string | null; s: SeriesKey; day: string | null; m: Metric | null };
+/** `hub` (session 10411): one more hub of a place's grid, drawn whole under "More hubs", with price only. The address
+ *  gives a name of a hub's form; whether the files list it for a place chosen is the page's to check. */
+export type Query = { a: string | null; b: string | null; s: SeriesKey; day: string | null; m: Metric | null; hub?: string | null };
+export const HUB_FORM = /^[a-z0-9-]{1,24}:[A-Za-z0-9_.-]{1,48}$/;
 type Raw = Record<string, string | string[] | undefined>;
 const one = (q: Raw, k: string) => (typeof q[k] === "string" ? (q[k] as string) : undefined);
 export const NONE = "none";
@@ -348,7 +354,9 @@ export function queryOf(q: Raw, index: PredictIndex | null): Query {
   // the metric gets that series' own (the form sends the metric with every choice)
   const asked = one(q, "m") === "mae" ? "mae" : one(q, "m") === "mape" ? "mape" : null;
   const m = asked && asked !== metricDefault(s) ? asked : null;
-  return { a, b, s, day, m };
+  const hubRaw = one(q, "hub");
+  const hub = s === "price" && hubRaw && HUB_FORM.test(hubRaw) ? hubRaw : null;
+  return { a, b, s, day, m, hub };
 }
 /** The metric a series opens on: percent error for demand, error in USD/MWh for price (a percent of a price near zero
  *  is not defined: the score file's `mape_rule`). */
@@ -363,6 +371,7 @@ export function hrefOf(q: Query, patch: Partial<Query> = {}, hash = ""): string 
   if (x.s !== "demand") p.set("s", x.s);
   if (x.day) p.set("day", x.day);
   if (x.m) p.set("m", x.m);
+  if (x.hub && x.s === "price") p.set("hub", x.hub);
   const s = p.toString();
   return `/forecast${s ? `?${s}` : ""}${hash}`;
 }
