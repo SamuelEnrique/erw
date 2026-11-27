@@ -91,3 +91,27 @@ State income tax: the tool's own (`income_tax.json`), unchanged.
 - Part B: `site/data/forecast/datacenter_announced.json`, one row a named project and document, with the defaults (permanent jobs per MW and per billion dollars, construction jobs per billion dollars, investment per MW), each with its count, lowest and highest.
 - Part C: a fifth technology, `datacenter`, in `site/lib/forecast.ts`, with its own inputs (MW and what they measure, investment, the spending split, permanent jobs, construction jobs, equipment refresh years, the electricity bought) and the taxes above; supply chain and induced only for Virginia from JLARC's ratios, blank elsewhere with the reason.
 - Parts D and E as the chain file sets them.
+
+## 5. Hosts read and refused on 27 November (session 10822)
+
+Read, each after its robots file (requests 362 to 457 of `runs/c740/probe/probe.csv` on lab-desktop):
+
+- mn.gov (DEED's release on Meta in Rosemount, read at 02:09 UTC inside its robots Visit-time of 00:00 to 12:00) and www.leg.mn.gov (the Legislative Reference Library's copy of the governor's 2016 release on U.S. Bank in Chaska).
+- www.governor.nd.gov, cheyenneleads.org (crawl delay 10), governor.nebraska.gov.
+- Company pages: datacenters.atmeta.com and about.fb.com (Meta's El Paso pages and thirteen campus info sheets), blog.google and datacenters.google (Google's Arkansas post and state pages), www.aboutamazon.com (crawl delay 10; AWS in Georgia and Fayette County, Ohio). www.google.com's robots file names ClaudeBot in a group that disallows only search and similar paths, not `/about/datacenters/`, which redirects to datacenters.google.
+- Statutes: gc.nh.gov (crawl delay 11), content.leg.colorado.gov, www.nj.gov, legislature.maine.gov, delcode.delaware.gov and webserver.rilegislature.gov (neither has a robots file: nothing disallowed), sdlegislature.gov (its `/api/Statutes/` pages), www.oregonlegislature.gov.
+- www.eia.gov (the capital cost study for AEO2025, for coal's case 1).
+
+Refused or not readable, honoured:
+
+| Host | What it answered |
+|---|---|
+| www.tn.gov | the connection reset, again (request 364) |
+| publications.tnsosfiles.com | HTTP 403 to its robots file (366): nothing asked |
+| leginfo.legislature.ca.gov | HTTP 403 to its robots file (420): nothing asked |
+| www.revenue.nh.gov | HTTP 403 to its robots file (424): nothing asked |
+| govdocs.nebraska.gov | its robots file disallows `Claude` by name: nothing asked |
+| legislature.vermont.gov | every section address answered the same 6,586-byte page, its text built by script (454 to 457) |
+| law.justia.com | allowed by its robots file, but not used: a commercial copy of the codes whose terms were not read |
+
+One kept text was wrong: delcode.delaware.gov's subchapter page (443) was kept from a mistaken character set; it was decoded again from the kept bytes as Windows-1252 (the first text kept beside it as `.txt.orig`).
