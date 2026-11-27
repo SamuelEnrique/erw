@@ -2303,7 +2303,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `x_voltage_kv` | The line's voltage as HIFLD prints it (the source's name: VOLTAGE) | kV | integer | 1000, 230, 232, 236, 238, 240, 245, 250, 273, 275, 287, 345, 348, 400, 450, 500, 765 | 0 |
 | `x_volt_class` | HIFLD's voltage class: a kV range (220-287, 345, 500, 735 AND ABOVE) or DC (the source's name: VOLT_CLASS) | none | text | 220-287, 345, 500, 735 AND ABOVE, DC | 0 |
 | `x_type` | HIFLD's line type: AC or DC, overhead or underground, as printed (the source's name: TYPE) | none | text | AC; OVERHEAD, AC; UNDERGROUND, DC; OVERHEAD, OVERHEAD | 2: HIFLD prints NOT AVAILABLE or nothing |
-| `x_inferred` | not documented by the source (the source's name: INFERRED) | none | text | N, Y | 0 |
+| `x_inferred` | HIFLD's INFERRED: whether the line's VOLTAGE and/or VOLT_CLASS were inferred (Y) or not (N); an inferred voltage was populated from an indirect source, by identifying substation bus connectivity from imagery, analysing the substation and transmission structures by algorithm, and/or applying expert or regional knowledge of transmission infrastructure (the dataset's ISO 19139 metadata, Oak Ridge National Laboratory, publication date 2024-09-30) (the source's name: INFERRED) | none | text | N, Y | 0 |
 | `x_status` | HIFLD's status word as printed (IN SERVICE, INACTIVE, UNDER CONSTRUCTION) (the source's name: STATUS) | none | text | IN SERVICE, INACTIVE, UNDER CONSTRUCTION | 2367: HIFLD prints NOT AVAILABLE or nothing |
 | `x_sub_1` | The substation HIFLD names at one end of the line (the source's name: SUB_1) | none | text | for example 11TH AVENUE, 137TH AVENUE, 230-KV WEST; 4622 distinct | 415: HIFLD prints NOT AVAILABLE or nothing |
 | `x_sub_2` | The substation HIFLD names at the other end of the line (the source's name: SUB_2) | none | text | for example 11TH AVENUE, 3 MILE KNOLL, 40TH STREET; 3955 distinct | 2355: HIFLD prints NOT AVAILABLE or nothing |
@@ -2312,8 +2312,6 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `x_source_date` | HIFLD's source date of the line (the source's name: SOURCEDATE) | none | date | 1996-01-01 to 2024-09-26; 752 distinct | 0 |
 | `x_val_date` | HIFLD's validation date of the line (the source's name: VAL_DATE) | none | date | 2014-06-06 to 2024-08-02; 635 distinct | 0 |
 | `x_raw_sha256` | The SHA-256 of the raw GeoJSON file the row was read from | none | text | ba039a3a2b7259dc6b474d2ffcf408f3bd3f628dfd7cab5ef5e7cf513094de10 | 0 |
-
-Waiting for a second look: x_inferred (HIFLD's INFERRED, Y or N): what it marks is not written in the connector, the method note or the header. Read again on 20 November 2026: PASDA's layer 178 (HIFLD_FEMA MapServer, f=json) gives the field only its name as alias and a layer description that is empty; still not documented by the source. Read again on 20 November 2026 in the saved GeoJSON, object id and request files under warehouse/raw/hifld_lines (features only): not found..
 
 ### `ieso_generation_fuel_hourly`
 
