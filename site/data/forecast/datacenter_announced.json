@@ -2574,6 +2574,34 @@
    "incentive": "",
    "years": "Construction of the second phase, consisting of the six additional buildings and a total of 1.2 gigawatts, began in March 2025 and is expected to be energized in mid-2026",
    "note": "The USD 15 billion is the joint venture's to fund the campus, taken as its investment. The release gives jobs as \"thousands of jobs to the local community\", no number, so none is taken. Texas's agencies refuse this reader, so the company's page is the document."
+  },
+  {
+   "id": "or_aws_eastern_2025",
+   "to_date": true,
+   "name": "AWS, eastern Oregon data centers (Morrow and Umatilla counties)",
+   "company": "Amazon Web Services",
+   "state": "or",
+   "county": "Eastern Oregon",
+   "doc": {
+    "title": "AWS fact sheet: Oregon",
+    "publisher": "Amazon (AWS sustainability fact sheets)",
+    "date": "2026-07-14",
+    "url": "https://sustainability.aboutamazon.com/aws-sustainability-fact-sheets/aws-fact-sheet-oregon.pdf",
+    "request": 488
+   },
+   "mw": null,
+   "investment": {
+    "value": 54800000000,
+    "year": 2025,
+    "says": "$54.8 billion",
+    "qualifier": "",
+    "quote": "$54.8 billion invested in data center infrastructure in Eastern Oregon between 2012-2025"
+   },
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "",
+   "note": "AWS's own fact sheet (its file dated 14 July 2026 by the server): data center infrastructure invested in eastern Oregon from 2012 to 2025, many campuses together, in the dollars of the years spent and taken as 2025 dollars. Its jobs are Amazon's employees across the state (\"14,000+ full- and part-time\") or jobs supported, neither the data centers' own, so none is taken. The row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
   }
  ]
 }
