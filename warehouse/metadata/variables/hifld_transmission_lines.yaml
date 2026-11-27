@@ -226,7 +226,11 @@ columns:
   source_name: TYPE
   documented_by: connector hifld_lines.py; data
 - name: x_inferred
-  label: not documented by the source
+  label: 'HIFLD''s INFERRED: whether the line''s VOLTAGE and/or VOLT_CLASS were inferred (Y) or not (N); an inferred
+    voltage was populated from an indirect source, by identifying substation bus connectivity from imagery, analysing
+    the substation and transmission structures by algorithm, and/or applying expert or regional knowledge of
+    transmission infrastructure (the dataset''s ISO 19139 metadata, Oak Ridge National Laboratory, publication date
+    2024-09-30)'
   unit: none
   type: text
   values:
@@ -236,7 +240,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: INFERRED
-  documented_by: connector hifld_lines.py; data
+  documented_by: connector hifld_lines.py; data; source PASDA, Transmission Lines ISO 19139 metadata (www.datacommons.psu.edu/metadata/Transmission Lines-metadata.html; the host has no robots file), read 2026-11-27
 - name: x_status
   label: HIFLD's status word as printed (IN SERVICE, INACTIVE, UNDER CONSTRUCTION)
   unit: none
@@ -345,8 +349,4 @@ columns:
   missing_meaning: never empty
   source_name: null
   documented_by: header; connector hifld_lines.py
-second_look:
-- 'x_inferred (HIFLD''s INFERRED, Y or N): what it marks is not written in the connector, the method note or the header. Read
-  again on 20 November 2026: PASDA''s layer 178 (HIFLD_FEMA MapServer, f=json) gives the field only its name as alias and
-  a layer description that is empty; still not documented by the source. Read again on 20 November 2026 in the saved GeoJSON,
-  object id and request files under warehouse/raw/hifld_lines (features only): not found.'
+second_look: null

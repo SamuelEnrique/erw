@@ -4,11 +4,11 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 
 ## The counts
 
-- Public tables with a metadata file: 589; documented in full (what a row is, and every column's label and unit): 589.
-- Columns: 10557; documented: 10557 (a shared column is documented once, below).
-- Variables of the series tables (values of `variable`): 6955; labelled: 6955.
-- Entries that read "not documented by the source": 3.
-- Column names that two or more tables label differently (names that may mean two things): 305.
+- Public tables with a metadata file: 593; documented in full (what a row is, and every column's label and unit): 593.
+- Columns: 10627; documented: 10627 (a shared column is documented once, below).
+- Variables of the series tables (values of `variable`): 6974; labelled: 6957.
+- Entries that read "not documented by the source": 1.
+- Column names that two or more tables label differently (names that may mean two things): 312.
 
 ## The families
 
@@ -20,7 +20,7 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 | [boem](boem.md) | 3 | 3 |
 | [caiso](caiso.md) | 15 | 15 |
 | [carbon](carbon.md) | 3 | 3 |
-| [census](census.md) | 6 | 6 |
+| [census](census.md) | 7 | 7 |
 | [cer](cer.md) | 3 | 3 |
 | [company](company.md) | 3 | 3 |
 | [cost](cost.md) | 3 | 3 |
@@ -52,7 +52,7 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 | [nyiso](nyiso.md) | 7 | 7 |
 | [onrr](onrr.md) | 3 | 3 |
 | [ornl](ornl.md) | 5 | 5 |
-| [other_sources](other_sources.md) | 101 | 101 |
+| [other_sources](other_sources.md) | 104 | 104 |
 | [policy](policy.md) | 3 | 3 |
 | [price](price.md) | 4 | 4 |
 | [spp](spp.md) | 5 | 5 |

@@ -6,7 +6,10 @@ table: epa_ghg_inventory_annual
 family: epa
 shape: series
 row: One line of EPA's national greenhouse gas Inventory (1990 to 2022 edition) for one economic sector, or the nation, in
-  one year, from Chapter 2 Table 2-10, 2-11 or 2-12.
+  one year, from Chapter 2 Table 2-10, 2-11 or 2-12. Its tCO2e are weighted by the 100-year global warming potentials of
+  the IPCC's Fifth Assessment Report (AR5) across the whole series, 1990 to 2022 (CO2 1, CH4 28, N2O 265, HFCs up to 12,400,
+  PFCs up to 11,100, SF6 23,500, NF3 16,100), as the edition's Executive Summary, Table ES-1, states (www.epa.gov, robots
+  read first; read 27 November 2026); the GHGRP tables use AR4's weights, so the two are not on one scale.
 time: ts_utc is 1 January of the year (UTC), naming the calendar year; freq P1Y.
 vintage_rule: Rewritten whole by each run (a snapshot of one edition); vintage is the zip's Last-Modified time. No job runs
   the connector.
@@ -717,8 +720,4 @@ variables:
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
-second_look:
-- 'The global warming potentials behind tCO2e: the header says the Inventory''s tables do not name them, and nothing says
-  they match the GHGRP tables'' AR4 weights. Read again on 20 November 2026 in the notes and source lines of the 15 CSV tables
-  of the saved Trends zip under warehouse/raw/epa_ghg_inventory (Table 2-14 says only gross total GWP-weighted values): not
-  found.'
+second_look: null

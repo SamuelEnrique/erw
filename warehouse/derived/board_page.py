@@ -140,7 +140,8 @@ FORMULAS = {
     "crack_ny": "(2 x New York Harbor conventional gasoline + 1 x New York Harbor ultra-low sulfur diesel) x 42 / 3 - Brent: three barrels of crude as two of gasoline and one of diesel, per barrel, before any cost",
     "brent_wti": "Brent spot - WTI spot at Cushing, on trading days EIA publishes both",
     "da_rt": "day-ahead daily mean - real-time daily mean, same day and hub",
-    "battery": "the day's highest hourly price - its lowest hourly price at the hub, on complete operating days",
+    # session 10000 (chain 701, window D's data request 14): the board audit's finding 5, its ready text
+    "battery": "the day's highest hourly price - its lowest hourly price at the hub, on complete operating days, in either order, one hour each way and before losses: the top-bottom spread, not what a battery earns",
     "peak_less_off": "the day's on-peak mean - its off-peak mean (on-peak: hours ending 7 to 22 local, Monday to Friday, in CAISO Monday to Saturday; NERC holidays are off-peak)",
 }
 
