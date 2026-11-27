@@ -404,8 +404,18 @@ soft_step dm_curtailment_worth "$PYTHON" warehouse/derived/curtailment_worth.py
 # page_keep.py takes a row of either build only where it is no older and no shorter than the held one: so the runner's
 # rows of the fuels and the other grids stand, and ERCOT's are refreshed here (the runner's are a rolling window).
 soft_step dm_board_page "$PYTHON" warehouse/derived/page_keep.py board
+# Session 10000 (chain 701, part D, the owner's ruling of 26 November 2026 gave the SEC a contact address): the listed
+# energy companies and their filed statements from SEC EDGAR (warehouse/connectors/sec_edgar.py; the contact string from
+# .env, four requests a second at most): the tickers file and a submissions file for each company new to it, then the XBRL
+# facts of each company that filed a 10-Q or 10-K since the last run (EDGAR's daily form indexes); each table's stores
+# (the validator, its coverage row, the archive; no Redivis draft from the daily step)
+soft_step dm_sec_universe "$PYTHON" warehouse/connectors/sec_edgar.py universe
+soft_step dm_sec_universe_stores "$PYTHON" warehouse/table_stores.py equity_universe --no-redivis
+soft_step dm_sec_fundamentals "$PYTHON" warehouse/connectors/sec_edgar.py fundamentals
+soft_step dm_sec_fundamentals_stores "$PYTHON" warehouse/table_stores.py equity_fundamentals_quarterly --no-redivis
 # Session 10000 (chain 701, part D4): the equities page files (docs/state/page_files_equities.md), from the warehouse's own
-# tables; the equity side is held until a source a license allows is read (docs/reviews/equities-sources-2026-11-26.md)
+# tables: the segments, the companies and their statements from the SEC tables above; share prices and index levels stay
+# held until a source a license allows is read (docs/reviews/equities-sources-2026-11-26.md)
 soft_step dm_equity_pages "$PYTHON" warehouse/derived/equity_page_files.py
 # Session 349: the project map's copy (site/data/map.json, and map_v2.json for /resources), rebuilt each day from the
 # energy_projects this machine holds after the sync, so the queue positions placed by a city or a town (session 349)
