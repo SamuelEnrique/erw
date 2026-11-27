@@ -135,3 +135,4 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Row 16 watch | waiting | 10822 | checked 06:36 UTC: GitHub run 45948880574 (code branch, task/c701-g20) in progress since 05:57 |
 | Row 16 | landed | 10822 | in 89418bdef (06:38 UTC, task/c701-g20), the branch's newest head 9752e6809 with it: nothing of the branch waits |
 | Row 16 on production | read | 10822 | deployed by 06:45 UTC; eight addresses (Texas, El Paso, Washington against North Carolina, Mississippi, Prineville, coal, the page as it opens, gas against geothermal) at 1280 and 390 px clean; check-values against production 1,882 of 1,882; coal offers no figure until the live set holds its rows |
+| Coal's live rows and window F | waiting | 10822 | checked 07:08 UTC: no coal rows in the live set yet; no new /impact lines in window F's file |
