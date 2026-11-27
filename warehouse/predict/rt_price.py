@@ -29,6 +29,11 @@ MAPE_FLOOR = 5.0
 SPIKE_Q = 0.99
 HISTORY_DAYS = 35
 SCORED = ["erw", "day_ahead", "yesterday", "regression"]
+LONG_FIRST = pd.Timestamp("2016-01-01")   # the longer backtest (session 10603; method note predict_price.md section 8)
+LONG_WHAT = ("the same walk-forward backtest from 1 January 2016, as far back as each hub's prices allow (ERCOT's are held from "
+             "2015, SPP's and CAISO's from July 2018, so their first scored day is as in the backtest): each year scored on the "
+             "hours every method and the day-ahead price hold; the method chosen now (last two years) is the ERW's in every year, "
+             "so the earlier years test the rule, they do not choose; the backtest and its cuts above are unchanged")
 LEDGER_COLS = ["hub", "target_day", "ts_utc", "local_hour", "made_utc", "inputs_through_utc", "horizon_days", "method", "erw", "lo", "hi", "day_ahead"]
 WORDS = {"erw": "the ERW method the rule chose for the hub (the lowest mean absolute error of yesterday and the regression over the last two years, on the hours the day-ahead price also holds)",
          "day_ahead": "the hub's day-ahead price for the hour: the market's own forecast of the real-time price, published before the forecast is made; the comparator, never an ERW method",
@@ -46,6 +51,21 @@ def num(x, nd=2):
     except (TypeError, ValueError):
         return None
     return round(x, nd) if np.isfinite(x) else None
+
+
+def long_backtest(res, choice, first=LONG_FIRST):
+    """The longer backtest (section 8): the whole span from `first`, and each calendar year of the target day."""
+    hl = demand.hourly(res, None, first=first)
+    for suf in ("", "_lo", "_hi"):
+        hl["erw" + suf] = hl[choice + suf]
+    c = score.common(hl, SCORED)
+    years = []
+    for y in sorted(c["day"].dt.year.unique()):
+        s = score.summary(hl[hl["day"].dt.year == y], SCORED, mape_floor=MAPE_FLOOR)
+        years.append(dict(year=int(y), **s))
+    return {"what": LONG_WHAT, "first_target": first.strftime("%Y-%m-%d"), "method": choice,
+            "all": score.summary(hl, SCORED, mape_floor=MAPE_FLOOR), "band_coverage_pct": score.coverage(hl, "erw", days=100000),
+            "by_year": years}
 
 
 def one(grid, rt, da, made):
@@ -80,6 +100,7 @@ def one(grid, rt, da, made):
              "band": "the 10th and 90th percentile of the chosen method's own past errors (actual less forecast, USD/MWh) at the same local hour over 365 days",
              "band_coverage_pct": score.coverage(hr, "erw"),
              "band_coverage": score.coverage_detail(hr, "erw"),
+             "long_backtest": long_backtest(res, choice),
              "tomorrow_columns": ["ts_utc", "local_hour", "erw", "lo", "hi", "day_ahead"], "tomorrow": tomorrow, "tomorrow_held": held,
              "summary": {"last_2_years": score.summary(hr, SCORED, days=score.CHOICE_DAYS, mape_floor=MAPE_FLOOR),
                          "backtest": score.summary(hr, SCORED, mape_floor=MAPE_FLOOR)},

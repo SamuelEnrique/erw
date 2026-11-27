@@ -9,6 +9,7 @@
 4. The ledger is never overwritten: a second run for the same place and day adds nothing and changes nothing.
 5. Every file says what it is: tier derived, "ERW forecast".
 """
+import datetime as dt
 import json
 import os
 import sys
@@ -234,6 +235,22 @@ class TheRealTimeFile(unittest.TestCase):
                 self.assertAlmostEqual(r["mae"], h["summary"]["backtest"]["mae"][m], places=2)
             self.assertNotEqual(h["method"], "day_ahead")
 
+    def test_the_longer_backtest_adds_up_and_changes_nothing_above(self):
+        """Session 10603: the years partition the longer backtest's hours, its MAE is their hour-weighted mean, it ends
+        where the backtest ends, and it starts no later; the method is the one chosen now."""
+        doc = load("rt_price.json")
+        for h in doc["hubs"]:
+            lb = h["long_backtest"]
+            self.assertEqual(lb["method"], h["method"])
+            self.assertEqual(sum(y["hours"] for y in lb["by_year"]), lb["all"]["hours"])
+            self.assertEqual(lb["all"]["last_day"], h["summary"]["backtest"]["last_day"])
+            self.assertLessEqual(lb["all"]["first_day"], h["summary"]["backtest"]["first_day"])
+            self.assertGreaterEqual(lb["all"]["hours"], h["summary"]["backtest"]["hours"])
+            for m in ("erw", "day_ahead", "yesterday", "regression"):
+                w = sum(y["mae"][m] * y["hours"] for y in lb["by_year"]) / lb["all"]["hours"]
+                self.assertAlmostEqual(w, lb["all"]["mae"][m], delta=0.01 * len(lb["by_year"]), msg=(h["grid"], m))
+            self.assertEqual([y["year"] for y in lb["by_year"]], sorted(y["year"] for y in lb["by_year"]))
+
 
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "wind_solar.json")), "wind_solar.json is not built here")
 class TheWindSolarFile(unittest.TestCase):
@@ -325,6 +342,24 @@ class TheFiles(unittest.TestCase):
             self.assertEqual(got, methods, p["place"])
             s = self.places[p["place"]]["series"]["demand"]
             self.assertIsNotNone(s["summary"]["backtest"]["mae"]["erw"], p["place"])
+
+    def test_the_places_added_follow_their_rule(self):
+        """Session 10603: every place of the run has its file; each authority added runs to the last day the 29 places
+        reach (within a day) and its backtest scores at least two years; none is one of the 29."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("predict_run_places", os.path.join(ROOT, "warehouse", "predict", "run.py"))
+        run = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(run)
+        self.assertEqual(set(self.places), set(run.PLACES))
+        added = [f"ba-{b.lower()}" for b in run.MORE_BAS]
+        self.assertFalse(set(added) & set(run.CORE_PLACES))
+        last = max(self.places[p]["series"]["demand"]["summary"]["backtest"]["last_day"] for p in run.CORE_PLACES)
+        for p in added:
+            b = self.places[p]["series"]["demand"]["summary"]["backtest"]
+            gap = (dt.date.fromisoformat(last) - dt.date.fromisoformat(b["last_day"])).days
+            self.assertLessEqual(gap, 1, p)
+            span = (dt.date.fromisoformat(b["last_day"]) - dt.date.fromisoformat(b["first_day"])).days
+            self.assertGreaterEqual(span, 730, p)
 
     def test_each_file_agrees_with_the_report_card(self):
         """The check of each file's figures: a place file's summary of the backtest is the score file's row 'all' for

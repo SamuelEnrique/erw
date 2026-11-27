@@ -50,7 +50,14 @@ TIER = "derived"
 HISTORY_DAYS = 35
 DEMAND_MADE_HOUR = 20      # UTC, on day T-1 (the ground, section 3)
 LARGE_BAS = ["BPAT", "CISO", "CPLE", "DUK", "ERCO", "FPC", "FPL", "ISNE", "MISO", "NYIS", "PACE", "PJM", "PSCO", "SOCO", "SWPP", "TVA"]
-PLACES = [f"region-{r.lower()}" for r in data.REGIONS] + [f"ba-{b.lower()}" for b in LARGE_BAS]
+# more places (session 10603, Samuel's order of 27 November): every other balancing authority whose EIA-930 demand runs
+# to the latest day held and covers at least two years (read 27 November 2026 in eia930_ba_demand_hourly); method note
+# section 23 names the seven left out and why
+MORE_BAS = ["AECI", "AVA", "AZPS", "BANC", "CHPD", "CPLW", "DOPD", "EPE", "FMPP", "GCPD", "GVL", "HST", "IID", "IPCO", "JEA",
+            "LDWP", "LGEE", "NEVP", "NWMT", "PACW", "PGE", "PNM", "PSEI", "SC", "SCEG", "SCL", "SEC", "SPA", "SRP", "TAL",
+            "TEC", "TEPC", "TIDC", "TPWR", "WALC"]
+CORE_PLACES = [f"region-{r.lower()}" for r in data.REGIONS] + [f"ba-{b.lower()}" for b in LARGE_BAS]   # the 29 places of session 10600
+PLACES = CORE_PLACES + [f"ba-{b.lower()}" for b in MORE_BAS]
 SCORED = ["erw", "operator", "yesterday", "week_ago", "regression", "regression_recent"]
 METHOD_WORDS = {
     "erw": "the method chosen for the place by the rule of the method note (the lowest mean absolute error of the ERW's methods over the last two years of the backtest)",
