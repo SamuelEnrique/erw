@@ -18,12 +18,12 @@ import { CategoryChart, type CatSeries } from "@/components/svgchart";
 import { ChartFrame, HeadlineNumber, ToolTable } from "@/components/tool/ToolPage";
 import { pfKey } from "@/lib/pagefile";
 import {
-  FOUR, LABEL, METRIC_WORDS, SERIES_WORDS, dayWords, hourWords, isShown, localWords, methodShort, methodWhat, methodWords, metricUnit, monthWords, placeWords, scoreWords, scoresOf, tomorrowOf, utcWords, valueWords,
+  FOUR, LABEL, METRIC_WORDS, SERIES_WORDS, dayWords, hourWords, isShown, localWords, methodShort, methodWhat, methodWords, metricUnit, monthWords, orderedKeys, placeWords, scoreWords, scoresOf, tomorrowOf, utcWords, valueWords,
   type IndexPlace, type Metric, type PlaceFile, type ScoresFile, type SeriesKey, type SummaryPart,
 } from "@/lib/predict";
 import {
   BAND_SHARES, FUELS, FUEL_METHODS, FUEL_WORDS, LINE_METHOD_SHORT, LINE_METHOD_WORDS, MW_SPANS, WEATHER_FORECAST_LABEL, WEATHER_FORECAST_METHODS, WEATHER_FORECAST_WORDS,
-  bandMonths, filingMonths, filingShift, fuelShown, hourValues, lineDays, lineDefaultDay, lineHours, mwMetricOf, rtHubOf, shareWords, tooFewDays, windSolarOf, wordsOfMethod,
+  bandMonths, filingMonths, filingShift, fuelShown, hourValues, lineDays, lineDefaultDay, lineHours, lineScores, mwMetricOf, rtHubOf, shareWords, tooFewDays, windSolarOf, wordsOfMethod,
   type BandCoverage, type FuelKey, type FuelSeries, type LineHour, type MwPart, type RtPriceFile, type WindSolarFile,
 } from "@/lib/predictlines";
 
@@ -333,6 +333,53 @@ export function WeatherForecastLine({ slot, scores, metric }: { slot: Slot; scor
       ) : null}
     </div>
   );
+}
+
+// ---- Wind and solar by month and by hour of day (session 10410) ----------------------------------------------------
+
+/** For one place: how the ERW forecast of wind and of solar output has scored month by month and by the hour of the
+ *  day, beside the plain rules the file scores on the same hours: the file's own rows, every method the same weight,
+ *  the months in the calendar's order and the hours in the clock's, each table behind a fold. */
+export function WindSolarCuts({ slot, ws, metric }: { slot: Slot; ws: WindSolarFile | null; metric: Metric }) {
+  const ser = demandOf(slot);
+  const net = ser?.net_demand;
+  const entry = ser && net ? windSolarOf(ws, net.wind_solar_place ?? slot.place.place) : null;
+  if (!ser || !entry || !ws) return null;
+  const mw = mwMetricOf(metric), unit = ser.unit;
+  const mu = mw === "nmae_pct" ? "% of the mean" : unit;
+  const col = (ws.rows_columns ?? []).indexOf(mw);
+  const tables = FUELS.flatMap((fuel) => {
+    if (!fuelShown(entry.place.fuels?.[fuel])) return [];
+    const cuts = lineScores(ws.rows_columns, ws.rows, { place: entry.place.place, fuel }, ["mae_mw", "nmae_pct"]);
+    return ([["month", "month by month", "Month", "months"], ["hour", "by hour of day", "Hour", "hours"]] as const).flatMap(([cut, words, first, each]) => {
+      const g = cuts.get(cut);
+      const keys = orderedKeys(cut, g?.keys ?? []);
+      if (!g || !keys.length) return [];
+      // a method with no row in the cut (the operator's forecast is scored on its own hours, not by month here) has no column
+      const methods = FUEL_METHODS.filter((m) => keys.some((key) => g.cells.has(`${key}|${m}`)));
+      const name = (key: string) => (cut === "month" ? monthWords(key) : hourWords(key));
+      return [(
+        <details key={`${fuel}|${cut}`} className="border-b border-rule py-2" data-fc-ws-cut={`${slot.mark}|${fuel}|${cut}`}>
+          <summary className="cursor-pointer py-1 text-sm">{placeWords(slot.place)}: {LABEL} of {fuel}, {words}, {mu} ({keys.length} {each})</summary>
+          <div className="max-h-[24rem] overflow-y-auto pt-2">
+            <ToolTable minWidth={420} caption={`${placeWords(slot.place)}: how the ${LABEL} of ${fuel} output has scored ${words}, beside the plain rules on the same hours, ${mu}`}
+              head={[first, "Hours", ...methods.map((m) => <Head key={m} m={m} what={wordsOfMethod(ws.methods, m)} />)]}
+              rows={keys.map((key) => {
+                const hrs = methods.map((m) => g.cells.get(`${key}|${m}`)?.hours ?? null).filter((x): x is number => x !== null);
+                return { key, cells: [<span key="k" className="whitespace-nowrap">{name(key)}</span>, hrs.length ? Math.max(...hrs).toLocaleString("en-US") : <NotHeld key="h" why="No count of hours is in the file for this row." />,
+                  ...methods.map((m) => {
+                    const c = g.cells.get(`${key}|${m}`), v = c ? c.values[mw] : null;
+                    return !c || v === null || v === undefined ? <NotHeld key={m} why={c?.held ?? `${lineWords(m)}: no score of ${fuel} output is in the file for ${name(key)}${mw === "nmae_pct" ? " (the error over the mean output is not defined where the mean is nought)" : ""}.`} />
+                      : <Num key={m} check={pfKey(WS_FILE, ["rows", c.i, col])} raw={v} source={`${lineWords(m)}, ${fuel} output, ${placeWords(slot.place)}, ${name(key)}: ${mw === "nmae_pct" ? "the mean absolute error over the mean output of the same hours, in percent" : `the mean absolute error, ${unit}`}${c.hours !== null ? `, over ${c.hours.toLocaleString("en-US")} hours` : ""}. site/data/${WS_FILE}, row ${c.i}.`}>{mw === "nmae_pct" ? shareWords(v) : valueWords(v, unit)}</Num>;
+                  })] };
+              })} />
+          </div>
+        </details>
+      )];
+    });
+  });
+  if (!tables.length) return null;
+  return <div className="mb-5 min-w-0" data-fc-ws-cuts={slot.mark}>{tables}</div>;
 }
 
 // ---- The band --------------------------------------------------------------------------------------------------------

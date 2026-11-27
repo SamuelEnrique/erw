@@ -38,6 +38,9 @@ import { predictRtPrice, predictWindSolar } from "@/lib/predictfiles";
 import { plainMethods } from "@/lib/predict";
 import { RealTimeSection } from "./realtime";
 import { BandCheck, FilingCheck, NetDemand, WeatherForecastLine, WindSolarDay } from "./lines";
+// session 10410: wind and solar by month and hour, and the downloads of the new lines
+import { WindSolarCuts } from "./lines";
+import { rtOf } from "./realtime";
 
 type Raw = Record<string, string | string[] | undefined>;
 type Slot = { mark: "a" | "b"; place: IndexPlace; file: PlaceFile | null };
@@ -605,6 +608,8 @@ export function ForecastView({ query }: { query: Raw }) {
                 only), and the band's record (either series); each after the report card, which stands as it was. With
                 two places each place's tables keep the page's full width, one place under the other (six and seven
                 columns do not fit half of it) */}
+            {/* session 10410: wind and solar by month and by hour of day, from the wind and solar file's rows, behind folds */}
+            {q.s === "demand" ? <div data-fc-ws-cuts-block="1">{slots.map((x) => <WindSolarCuts key={x.mark} slot={x} ws={windSolar} metric={metric} />)}</div> : null}
             {q.s === "demand" ? <div data-fc-filing-block="1">{slots.map((x) => <FilingCheck key={x.mark} slot={x} scores={scores} metric={metric} />)}</div> : null}
             {q.s === "demand" ? <div data-fc-wwf-block="1">{slots.map((x) => <WeatherForecastLine key={x.mark} slot={x} scores={scores} metric={metric} />)}</div> : null}
             <div data-fc-band-block="1">{slots.map((x) => <BandCheck key={x.mark} slot={x} s={q.s} ws={windSolar} rt={rtPrice} />)}</div>
@@ -638,6 +643,19 @@ export function ForecastView({ query }: { query: Raw }) {
                   <a href="/forecast/ahead/python" download data-download="python">Python</a>,{" "}
                   <a href="/forecast/ahead/stata" download data-download="stata">Stata</a></li>
               ) : null}
+              {/* session 10410: the lines of 27 November, where the place holds them */}
+              {q.s === "demand" ? slots.filter((x) => isShown(x.file, x.file?.series?.demand) && !!x.file?.series?.demand?.net_demand).map((x) => (
+                <li key={`n${x.mark}`} data-fc-download="net">{placeWords(x.place)}, net demand, wind and solar, hour by hour (the day forecast now and every past day of wind and solar held):{" "}
+                  <a href={`/forecast/net?place=${x.place.place}`} download data-download="csv">CSV</a>,{" "}
+                  <a href={`/forecast/net/python?place=${x.place.place}`} download data-download="python">Python</a>,{" "}
+                  <a href={`/forecast/net/stata?place=${x.place.place}`} download data-download="stata">Stata</a></li>
+              )) : null}
+              {q.s === "price" ? [...new Map(slots.map((x) => rtOf(x, rtPrice)).filter((e): e is NonNullable<typeof e> => !!e).map((e) => [e.hub.hub, e.hub])).values()].map((hub) => (
+                <li key={`r${hub.hub}`} data-fc-download="realtime">The real-time price at {hub.hub}, hour by hour (the day forecast now and every past day held, beside the day-ahead price):{" "}
+                  <a href={`/forecast/realtime-price?hub=${encodeURIComponent(hub.hub)}`} download data-download="csv">CSV</a>,{" "}
+                  <a href={`/forecast/realtime-price/python?hub=${encodeURIComponent(hub.hub)}`} download data-download="python">Python</a>,{" "}
+                  <a href={`/forecast/realtime-price/stata?hub=${encodeURIComponent(hub.hub)}`} download data-download="stata">Stata</a></li>
+              )) : null}
               {q.s === "demand" ? slots.map((x) => (
                 <li key={`d${x.mark}`} data-fc-operator-record={x.place.place}><SiteLink href={`/demand?view=country&a=${demandKey(x.place)}#forecast`}>{placeWords(x.place)}: the operator&apos;s own forecast against demand, every year held</SiteLink></li>
               )) : null}

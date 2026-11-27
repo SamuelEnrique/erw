@@ -316,6 +316,79 @@ quiet(page, "demand");
   save(RT, rt);
 }
 
+// ---- 11. Downloads of the new lines (session 10410) ------------------------------------------------------------------------
+{
+  const { csvReader } = await import("../lib/csvreader.ts");
+  const { NET_READER } = await import("../app/forecast/net/reader.ts");
+  const { RT_READER } = await import("../app/forecast/realtime-price/reader.ts");
+  const data = (csv) => csv.split("\n").filter((l) => l && !l.startsWith("#"));
+  const texNow = load(TEX), wsNow = load(WS), rtNow = load("rt_price.json");
+  const ncsv = L.netCsv({ place: "region-tex", name: "Texas" }, texNow.series.demand, wsNow, "https://example.test/forecast/net?place=region-tex");
+  const nrows = data(ncsv);
+  check(nrows[0] === L.NET_HEAD.join(",") && nrows.length === 1 + 24 + 2 * (24 + 48), "the net demand CSV: its head, 24 hours of net demand, and for wind and for solar the day forecast now and two past days");
+  check(nrows.includes(`region-tex,net_demand,tomorrow,${TS[0]},2026-11-27,0,${netAt(0)},,,,,`) && nrows.includes(`region-tex,wind,tomorrow,${TS[5]},2026-11-27,5,${windAt(5)},${windAt(5) - 400},${windAt(5) + 400},${windAt(5) + 120},,`), "a row of net demand has no band; a row of wind has its band and the operator's forecast");
+  check(nrows.some((l) => l.startsWith("region-tex,solar,history,") && l.endsWith(`,${solarAt(12)},${solarAt(12) - 400},${solarAt(12) + 400},,${solarAt(12) + 150},${solarAt(12) - 90}`)), "a past hour of solar: the forecast, its band, no operator's forecast, what happened and the same hour of the day read");
+  check(/^# ERW forecast: a model's output \(tier derived\), never a published or official figure/m.test(ncsv) && /^# From: https:\/\/example\.test\/forecast\/net\?place=region-tex$/m.test(ncsv) && /^# wind: .*method regression/m.test(ncsv), "the provenance first: what it is, each line's method, the address");
+  const none = L.netCsv({ place: "region-tex", name: "Texas" }, texNow.series.demand, null, "u");
+  check(data(none).length === 1 + 24 && /^# wind: no line\. The wind and solar file holds no such line for this place$/m.test(none), "no wind and solar file: net demand's rows, and the header says why the others have none");
+  const rcsv = L.rtCsv(rtNow.hubs[1], rtNow, "https://example.test/forecast/realtime-price?hub=ercot%3AHB_NORTH");
+  const rrows = data(rcsv);
+  check(rrows[0] === L.RT_HEAD.join(",") && rrows.length === 1 + 24 + 48 && rrows.includes(`ercot:HB_NORTH,tomorrow,${texNow.series.price.tomorrow[23][0]},2026-11-27,23,68.5,60.5,76.5,69.75,,`), "the real-time price CSV: the day forecast now and two past days, beside the day-ahead price");
+  check(/day_ahead_price is the hub's day-ahead price, the market's own forecast of the real-time price: the comparator, never an ERW method/.test(rcsv), "the header names the day-ahead price as the comparator");
+  const heldHub = { ...rtNow.hubs[1], tomorrow: [], tomorrow_held: "no forecast yet: the day-ahead price for the target day is not held when the forecast is made" };
+  const hcsv = L.rtCsv(heldHub, rtNow, "u");
+  check(data(hcsv).length === 1 + 48 && /^# tomorrow: no row\. no forecast yet: the day-ahead price for the target day is not held/m.test(hcsv), "a day with no forecast: no row of it, and the header says why");
+  for (const [name, spec, cols] of [["net", NET_READER, L.NET_HEAD], ["real-time", RT_READER, L.RT_HEAD]]) {
+    check([...spec.text, ...spec.figures].every((c) => cols.includes(c)) && spec.show.every((c) => cols.includes(c)) && cols.includes(spec.count), `${name}: the reader names only columns the CSV has`);
+    check([...spec.text, ...spec.figures].length === cols.length, `${name}: every column is read as text or as a figure`);
+    const py = csvReader("py", "https://example.test/x", spec), doFile = csvReader("do", "https://example.test/x", spec);
+    check(py.includes('URL = "https://example.test/x"') && doFile.includes("https://example.test/x") && !py.includes(dash) && !doFile.includes(dash), `${name}: the Python and the Stata reader carry the address`);
+  }
+  // the routes themselves, asked as a reader's browser asks them
+  process.env.ERW_PREDICT_DIR = FIX;
+  const route = async (file, address) => { const res = (await import(file)).GET(new Request(address)); return { status: res.status, type: res.headers.get("Content-Type") ?? "", robots: res.headers.get("X-Robots-Tag"), name: res.headers.get("Content-Disposition") ?? "", text: await res.text() }; };
+  const n1 = await route("../app/forecast/net/route.ts", "https://example.test/forecast/net?place=region-tex");
+  check(n1.status === 200 && n1.type.startsWith("text/csv") && n1.robots === "noindex" && n1.name.includes("erw_forecast_net_demand_region-tex.csv") && data(n1.text).length === nrows.length, "/forecast/net: a place's CSV, named, not indexed");
+  check((await route("../app/forecast/net/route.ts", "https://example.test/forecast/net?place=region-zz")).status === 404 && (await route("../app/forecast/net/route.ts", "https://example.test/forecast/net?place=region-mida")).status === 404 && (await route("../app/forecast/net/route.ts", "https://example.test/forecast/net")).status === 404, "/forecast/net: a place the index does not list, one with no net demand, or none: 404");
+  const n2 = await route("../app/forecast/net/python/route.ts", "https://example.test/forecast/net/python?place=region-tex&x=%3Cscript%3E");
+  check(n2.status === 200 && n2.text.includes('URL = "https://example.test/forecast/net?place=region-tex"') && !n2.text.includes("script") && n2.name.includes("region-tex.py"), "the Python reader's address is built again from the listed place: nothing else of the request is passed on");
+  const n3 = await route("../app/forecast/net/stata/route.ts", "https://example.test/forecast/net/stata?place=region-tex");
+  check(n3.status === 200 && n3.text.includes("https://example.test/forecast/net?place=region-tex") && n3.name.includes("region-tex.do") && (await route("../app/forecast/net/stata/route.ts", "https://example.test/forecast/net/stata?place=nowhere")).status === 404, "the Stata reader, and 404 for a place not listed");
+  const r1 = await route("../app/forecast/realtime-price/route.ts", "https://example.test/forecast/realtime-price?hub=ercot%3AHB_NORTH");
+  check(r1.status === 200 && r1.type.startsWith("text/csv") && r1.robots === "noindex" && r1.name.includes("erw_forecast_real_time_price_ercot.csv") && data(r1.text).length === rrows.length && /^# From: https:\/\/example\.test\/forecast\/realtime-price\?hub=ercot%3AHB_NORTH$/m.test(r1.text), "/forecast/realtime-price: a hub's CSV, its address written from the listed hub");
+  check((await route("../app/forecast/realtime-price/route.ts", "https://example.test/forecast/realtime-price?hub=pjm%3AWEST")).status === 404 && (await route("../app/forecast/realtime-price/route.ts", "https://example.test/forecast/realtime-price")).status === 404, "/forecast/realtime-price: a hub the file does not list, or none: 404");
+  const r2 = await route("../app/forecast/realtime-price/python/route.ts", "https://example.test/forecast/realtime-price/python?hub=ercot%3AHB_NORTH&y=1");
+  const r3 = await route("../app/forecast/realtime-price/stata/route.ts", "https://example.test/forecast/realtime-price/stata?hub=ercot%3AHB_NORTH");
+  check(r2.status === 200 && r2.text.includes('URL = "https://example.test/forecast/realtime-price?hub=ercot%3AHB_NORTH"') && !r2.text.includes("y=1") && r3.status === 200 && r3.text.includes("hub=ercot%3AHB_NORTH") && r3.name.includes("ercot.do"), "its two readers carry the hub's address and nothing else of the request");
+  // the page offers them where the place holds the lines
+  const d = draw(FIX, {});
+  check(d.includes('data-fc-download="net"') && d.includes('href="/forecast/net?place=region-tex"') && d.includes('href="/forecast/net/python?place=region-tex"') && d.includes('href="/forecast/net/stata?place=region-tex"'), "demand: the download of net demand, wind and solar, with its readers");
+  const p = draw(FIX, { s: "price" });
+  check(p.includes('data-fc-download="realtime"') && p.includes('href="/forecast/realtime-price?hub=ercot%3AHB_NORTH"') && p.includes('href="/forecast/realtime-price/stata?hub=ercot%3AHB_NORTH"') && !p.includes('data-fc-download="net"'), "price: the download of the real-time price at the place's hub, with its readers");
+  check(!draw(FIX, { a: "region-mida" }).includes('data-fc-download="net"') && !draw(FIX, { a: "region-mida", s: "price" }).includes('data-fc-download="realtime"'), "a place that holds neither is offered neither");
+  check(count(draw(FIX, { a: "region-tex", b: "ba-erco", s: "price" }), /data-fc-download="realtime"/g) <= 1, "two places of one hub: its download is offered once");
+
+  // ---- 12. Wind and solar by month and by hour of day, behind folds ----------------------------------------------------
+  check(!d.includes("data-fc-ws-cut="), "a wind and solar file with no row by month or hour: no fold of them");
+  const wsCuts = JSON.parse(JSON.stringify(wsNow));
+  const wrow = (fuel, m, cut, key, hours, mae, pct) => ["region-tex", fuel, m, cut, key, hours, mae, pct, null];
+  // rows 1 to 7 of the file: in October the same hour of the day read was the closer of the two, on purpose
+  wsCuts.rows = [...wsCuts.rows, wrow("wind", "erw", "month", "2026-11", 601, 5210.4, 48.2), wrow("wind", "yesterday", "month", "2026-11", 601, 6105.5, 56.5), wrow("wind", "erw", "month", "2026-10", 744, 4800.6, 39.9), wrow("wind", "yesterday", "month", "2026-10", 744, 4700.2, 39.1),
+    wrow("solar", "erw", "hour", "12", 730, 2100.5, 18.4), wrow("solar", "profile7", "hour", "12", 730, 2050.5, 17.9), wrow("solar", "erw", "hour", "3", 730, 0.4, null)];
+  save(WS, wsCuts);
+  const cut = draw(FIX, {});
+  quiet(cut, "wind and solar by month and hour");
+  check(cut.includes('data-fc-ws-cuts="a"') && cut.includes('data-fc-ws-cut="a|wind|month"') && cut.includes('data-fc-ws-cut="a|solar|hour"') && !cut.includes('data-fc-ws-cut="a|wind|hour"') && !cut.includes('data-fc-ws-cut="a|solar|month"'), "a fold for each fuel and cut the file holds rows of, and none for one it does not");
+  check(fig(cut, WS, "rows/3/7", 39.9, "39.90") && fig(cut, WS, "rows/4/7", 39.1, "39.10") && fig(cut, WS, "rows/1/7", 48.2, "48.20") && /Oct 2026[\s\S]*Nov 2026/.test(cut.slice(cut.indexOf('data-fc-ws-cut="a|wind|month"'), cut.indexOf('data-fc-ws-cut="a|solar|hour"'))), "wind by month: the calendar's order, a month the plain rule was closer drawn as any other, each figure with its row's key");
+  check(text(cut).includes("Texas: ERW forecast of wind, month by month, % of the mean (2 months)") && text(cut).includes("Texas: ERW forecast of solar, by hour of day, % of the mean (2 hours)"), "each fold says the place, the fuel, the cut, the score and the count");
+  const solar = cut.slice(cut.indexOf('data-fc-ws-cut="a|solar|hour"'));
+  check(/03:00[\s\S]*12:00/.test(solar) && fig(cut, WS, "rows/6/7", 17.9, "17.90") && /the error over the mean output is not defined where the mean is nought/.test(solar) && !/Operator/.test(solar.slice(0, solar.indexOf("</details>"))), "solar by hour: the clock's order; a row with no percent says why; a method with no row in the cut has no column");
+  const cutMae = draw(FIX, { m: "mae" });
+  check(fig(cutMae, WS, "rows/1/6", 5210.4, "5,210") && fig(cutMae, WS, "rows/7/6", 0.4, "0") && text(cutMae).includes("Texas: ERW forecast of wind, month by month, MW (2 months)"), "the error in MW when the page's score is that, written whole");
+  check(!draw(FIX, { s: "price" }).includes("data-fc-ws-cut="), "price draws none of them");
+  save(WS, wsNow);
+}
+
 if (!KEEP) fs.rmSync(FIX, { recursive: true, force: true });
 if (fails.length) { for (const f of fails) console.log(`FAIL ${f}`); console.log(`${fails.length} of ${n} checks failed`); process.exit(1); }
 console.log(`ok: ${n} checks of the forecast's lines of 27 November (net demand, wind and solar, the operator's filing, the weather forecast line, the band, the real-time price)`);

@@ -71,6 +71,14 @@ READS_THE_ADDRESS = {
     "app/forecast/ledger/route.ts": ['const s = new URL(req.url).searchParams.get("s") === "price" ? "price" : "demand";'],
     "app/forecast/ledger/python/route.ts": ['const s = new URL(req.url).searchParams.get("s") === "price" ? "price" : "demand";'],
     "app/forecast/ledger/stata/route.ts": ['const s = new URL(req.url).searchParams.get("s") === "price" ? "price" : "demand";'],
+    # session 10410 (chain 720): the downloads of the forecast's lines of 27 November. A place is one the index lists and
+    # a hub one the real-time file lists, or the answer is 404; a reader's address is built again from the listed name
+    "app/forecast/net/route.ts": ['const place = index?.places.find((p) => p.place === u.searchParams.get("place"));', "if (!place || !file || file.example === true || !isShown(file, demand) || !demand?.net_demand) return new Response("],
+    "app/forecast/net/python/route.ts": ['const place = predictIndex()?.places.find((p) => p.place === new URL(req.url).searchParams.get("place"));', "const url = new URL(`/forecast/net?place=${place.place}`, req.url).toString();"],
+    "app/forecast/net/stata/route.ts": ['const place = predictIndex()?.places.find((p) => p.place === new URL(req.url).searchParams.get("place"));', "const url = new URL(`/forecast/net?place=${place.place}`, req.url).toString();"],
+    "app/forecast/realtime-price/route.ts": ['const hub = file && file.example !== true ? file.hubs.find((h) => h.hub === u.searchParams.get("hub")) : undefined;', "if (!file || !hub) return new Response("],
+    "app/forecast/realtime-price/python/route.ts": ['const hub = predictRtPrice()?.hubs.find((h) => h.hub === new URL(req.url).searchParams.get("hub"));', "const url = new URL(`/forecast/realtime-price?hub=${encodeURIComponent(hub.hub)}`, req.url).toString();"],
+    "app/forecast/realtime-price/stata/route.ts": ['const hub = predictRtPrice()?.hubs.find((h) => h.hub === new URL(req.url).searchParams.get("hub"));', "const url = new URL(`/forecast/realtime-price?hub=${encodeURIComponent(hub.hub)}`, req.url).toString();"],
     "app/internal/findings/file/route.ts": ["if (!ID.test(id) || !FILE_NAME.test(name) || !name.startsWith(id) || !type) return hidden();"],
     "app/internal/unlock/route.ts": "the old link's token, or nothing once the link is retired (rows 3 and 4); the form's door reads the body, capped at 2,000 characters",
     "app/severance/finder/download/route.ts": "the internal token, or nothing once the link is retired (rows 3 and 4)",

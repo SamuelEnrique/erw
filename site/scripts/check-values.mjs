@@ -1524,7 +1524,9 @@ async function main() {
       // whose operator filing passes, an hour and an error of the separate line with the weather forecast, and in the
       // wind and solar file an hour of a fuel's forecast (tomorrow or a past day) and its error in MW. A percent, a
       // share of hours and a count keep the forms the rule above knows
-      const predictLinesWhole = /^pf\|predict\/(?:[^|]+\|series\/demand\/(?:net_demand\/(?:tomorrow\/\d+\/\d+|[^/]+\/mae_mw\/[^/]+)|operator_filing\/sound_last_2_years\/mae\/[^/]+|with_weather_forecast\/(?:tomorrow\/\d+\/\d+|all\/mae\/[^/]+))|wind_solar\.json\|places\/\d+\/fuels\/[^/]+\/(?:tomorrow\/\d+\/\d+|history\/\d+\/\d+|summary\/[^/]+\/mae_mw\/[^/]+))$/.test(check) && text === Math.round(Number(raw)).toLocaleString("en-US");
+      // session 10410: and the error in MW of a row of the wind and solar file (its column mae_mw, position 6: the
+      // tables by month and by hour of day)
+      const predictLinesWhole = /^pf\|predict\/(?:[^|]+\|series\/demand\/(?:net_demand\/(?:tomorrow\/\d+\/\d+|[^/]+\/mae_mw\/[^/]+)|operator_filing\/sound_last_2_years\/mae\/[^/]+|with_weather_forecast\/(?:tomorrow\/\d+\/\d+|all\/mae\/[^/]+))|wind_solar\.json\|(?:places\/\d+\/fuels\/[^/]+\/(?:tomorrow\/\d+\/\d+|history\/\d+\/\d+|summary\/[^/]+\/mae_mw\/[^/]+)|rows\/\d+\/6))$/.test(check) && text === Math.round(Number(raw)).toLocaleString("en-US");
       if (!pass && predictLinesWhole && t !== undefined && t !== null && same) pass = true;
       // chain 720 (session 10404): /equities writes a change above zero with its sign (lib/equities.ts signedPct and
       // signedLevel: "+0.32%", "+1.25"), two decimals always. A fall and a zero pass the rule above. Found by this check

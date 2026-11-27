@@ -197,3 +197,60 @@ export function lineScores(columns: string[] | undefined, rows: Cell[][] | undef
 
 /** A share in percent, as the page writes it: the file's own digits kept to two decimals. */
 export const shareWords = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+// ---- Downloads (session 10410): the lines of 27 November as CSVs -----------------------------------------------------
+
+const csvCell = (c: Cell | undefined) => (c === null || c === undefined ? "" : /[",\n]/.test(String(c)) ? `"${String(c).replace(/"/g, '""')}"` : String(c));
+const csvLines = (head: string[], rows: (Cell | undefined)[][]) => [head, ...rows].map((r) => r.map(csvCell).join(",")).join("\n") + "\n";
+
+export const NET_HEAD = ["place", "line", "part", "ts_utc", "local_day", "local_hour", "erw_forecast", "band_low", "band_high", "operator_forecast", "actual", "same_hour_yesterday"];
+/** A place's net demand, wind and solar as a CSV, with the provenance first: net demand for the day forecast now (it
+ *  has no band: the three bands are not combined), and wind and solar for that day and every past hour the wind and
+ *  solar file holds. A line that is not shown has no row, and the header says why. */
+export function netCsv(place: { place: string; name: string }, demand: { target_day?: string | null; net_demand?: NetDemand | null } | null | undefined, file: WindSolarFile | null, url: string): string {
+  const net = demand?.net_demand ?? null;
+  const entry = windSolarOf(file, net?.wind_solar_place ?? place.place);
+  const head = [
+    `# Energy Research Warehouse (ERW): the ERW forecast of net demand, wind and solar for ${place.name}, hour by hour (site/lib/predictlines.ts netCsv)`,
+    "# ERW forecast: a model's output (tier derived), never a published or official figure. operator_forecast is the operator's own, where the warehouse holds it. MW.",
+    `# Built: ${file?.built ?? "not built"} (site/data/predict/wind_solar.json) and the place's own file (site/data/predict/${place.place}.json)`,
+    `# Net demand: ${net?.what ?? "the demand less the output of wind and solar"}`,
+    `# Method: ${file?.method_note ?? "docs/methods/predict_wind_solar.md"} and docs/methods/predict.md. Contract: docs/state/page_files_predict.md`,
+    "# part: tomorrow (the day forecast now) or history (a past day, with what happened). ts_utc is the start of an hour, UTC; local_day and local_hour are in the place's clock",
+    `# From: ${url}`,
+  ];
+  const rows: (Cell | undefined)[][] = [];
+  if (!net || net.status !== "shown") head.push(`# net_demand: no line. ${net ? `The file's status: ${net.status ?? "not said"}` : "The place's file holds no net demand"}`);
+  else for (const h of hourValues(net.tomorrow_columns, net.tomorrow, "erw")) rows.push([place.place, "net_demand", "tomorrow", h.ts, demand?.target_day ?? null, h.hour, h.v, null, null, null, null, null]);
+  for (const fuel of FUELS) {
+    const f = entry?.place.fuels?.[fuel];
+    const status = f?.status;
+    if (!fuelShown(f)) { head.push(`# ${fuel}: no line. ${status ? `The file's status: ${status}` : "The wind and solar file holds no such line for this place"}`); continue; }
+    head.push(`# ${fuel}: ${f.target_series ?? "the place's output"}; method ${f.method ?? "not said"}; made ${f.made_utc ?? "not said"}; band: ${f.band ?? "not said"}${f.operator ? `; operator_forecast: ${f.operator}` : ""}`);
+    for (const h of lineHours(f.tomorrow_columns, f.tomorrow, "operator")) rows.push([place.place, fuel, "tomorrow", h.ts, f.target_day ?? null, h.hour, h.erw, h.lo, h.hi, h.other, null, null]);
+    for (const h of lineHours(f.history_columns, f.history, "operator")) rows.push([place.place, fuel, "history", h.ts, h.day, h.hour, h.erw, h.lo, h.hi, h.other, h.actual, h.yesterday]);
+  }
+  return `${head.join("\n")}\n${csvLines(NET_HEAD, rows)}`;
+}
+
+export const RT_HEAD = ["hub", "part", "ts_utc", "local_day", "local_hour", "erw_forecast", "band_low", "band_high", "day_ahead_price", "actual", "same_hour_two_days_before"];
+/** A hub's real-time price forecast as a CSV, with the provenance first: the day forecast now and every past hour the
+ *  file holds, beside the hub's day-ahead price. A day with no forecast has no row, and the header says why. */
+export function rtCsv(hub: RtHub, file: RtPriceFile, url: string): string {
+  const head = [
+    `# Energy Research Warehouse (ERW): the ERW forecast of the real-time price at ${hub.hub}, hour by hour (site/lib/predictlines.ts rtCsv)`,
+    "# ERW forecast: a model's output (tier derived), never a published or official figure. day_ahead_price is the hub's day-ahead price, the market's own forecast of the real-time price: the comparator, never an ERW method. USD/MWh.",
+    `# Built: ${file.built ?? "not built"} (site/data/predict/rt_price.json); made ${hub.made_utc ?? "not said"}; method ${hub.method ?? "not said"}; band: ${hub.band ?? "not said"}`,
+    `# Rule: ${file.made_rule ?? "not said"}. Method: ${file.method_note ?? "docs/methods/predict_price.md"}. Contract: docs/state/page_files_predict.md`,
+    `# part: tomorrow (the day forecast now) or history (a past day, with what happened). ts_utc is the start of an hour, UTC; local_day and local_hour are in the hub's clock (${hub.time})`,
+    "# same_hour_two_days_before: the real-time price of the same local hour of the latest whole day read (the file's column yesterday)",
+    ...(hub.tomorrow_held ? [`# tomorrow: no row. ${hub.tomorrow_held}`] : []),
+    `# From: ${url}`,
+  ];
+  const rows: (Cell | undefined)[][] = [];
+  if (hub.status === "shown") {
+    for (const h of lineHours(hub.tomorrow_columns, hub.tomorrow, "day_ahead")) rows.push([hub.hub, "tomorrow", h.ts, hub.target_day ?? null, h.hour, h.erw, h.lo, h.hi, h.other, null, null]);
+    for (const h of lineHours(hub.history_columns, hub.history, "day_ahead")) rows.push([hub.hub, "history", h.ts, h.day, h.hour, h.erw, h.lo, h.hi, h.other, h.actual, h.yesterday]);
+  }
+  return `${head.join("\n")}\n${csvLines(RT_HEAD, rows)}`;
+}
