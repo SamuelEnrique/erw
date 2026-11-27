@@ -3217,6 +3217,41 @@
    "incentive": "the project is the first recruited under Alabama's specialized data center incentives, passed in 2012",
    "years": "",
    "note": "The Alabama Department of Commerce's own article (Made in Alabama, 24 June 2015). The site is the former Widows Creek coal plant at Bridgeport, as later articles say (not in this document)."
+  },
+  {
+   "id": "al_meta_huntsville_2022",
+   "to_date": true,
+   "name": "Meta, Huntsville data center campus (expansion to about 3.5 million square feet)",
+   "company": "Meta",
+   "state": "al",
+   "county": null,
+   "place": "Huntsville",
+   "doc": {
+    "title": "Huntsville, We're Growing!",
+    "publisher": "Meta (Meta Data Centers)",
+    "date": "2022-06-09",
+    "url": "https://datacenters.atmeta.com/2022/06/huntsville-were-growing/",
+    "request": 543
+   },
+   "mw": null,
+   "investment": {
+    "value": 1500000000,
+    "year": 2022,
+    "says": "$1.5 billion",
+    "qualifier": "more than",
+    "quote": "This expansion raises our investment in Huntsville to more than $1.5 billion."
+   },
+   "construction_jobs": null,
+   "permanent_jobs": {
+    "value": 300,
+    "measure": "operational jobs once completed",
+    "says": "300 operational jobs",
+    "qualifier": "more than",
+    "quote": "we anticipate the data center will support more than 300 operational jobs."
+   },
+   "incentive": "",
+   "years": "",
+   "note": "Meta's own post on the campus's two new buildings (9 June 2022): the same campus as al_facebook_huntsville_2018, a later document, both kept. Its investment is the campus's total with the expansion (\"raises our investment in Huntsville to more than $1.5 billion\"), not the expansion's alone, so the row is offered in the picker and enters no median (`to_date`, decision 20 of forecast.md 13.4)."
   }
  ]
 }
