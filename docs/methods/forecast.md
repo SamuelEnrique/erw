@@ -401,13 +401,13 @@ Summary of the 46 states in `site/data/forecast/datacenter_rules.json` as of ses
 | Arkansas | USD 100 million; state rate; equipment+construction | building 20%, equipment 20% | none read |
 | California | none read | building 100%, equipment 100% | none read |
 | Colorado | none read | building 25%, equipment 25% | none read |
-| Connecticut | USD 200 million; 20 years; equipment | none read | none read |
+| Connecticut | USD 200 million; 20 years; equipment | building 70%, equipment 70% (12-62a(b), session 10822) | none read |
 | Delaware | none read | building 100%, equipment 0% | none read |
 | Florida | USD 150 million; 100 MW; equipment+construction | none read | none read |
 | Georgia | USD 250 million; 25 jobs; through 2031; equipment | building 40%, equipment 40% | none read |
 | Idaho | USD 250 million; 30 jobs; equipment+construction | building 100%, equipment 100% | none read |
 | Illinois | words only | building 33.33%, equipment 100% | 10 monthly blocks |
-| Indiana | words only | none read | none read |
+| Indiana | words only | building 100%, equipment 100% (DLGF's 2025 memo: exempt only below USD 2 million a county; session 10822) | none read |
 | Iowa | USD 200 million; equipment | building 100%, equipment 0% | none read |
 | Kansas | USD 250 million; 20 jobs; equipment+construction | building 25%, equipment 0% | none read |
 | Kentucky | USD 450 million; equipment | building 100%, equipment 100% | none read |
