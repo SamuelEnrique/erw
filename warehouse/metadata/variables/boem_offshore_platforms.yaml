@@ -240,8 +240,10 @@ columns:
   source_name: District Code
   documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_structure_type
-  label: 'BOEM''s structure type code: FIXED fixed, CAIS caisson, WP well protector, and SEMI, SPAR, TLP, MTLP, MOPU, CT,
-    FPSO, SSTMP as BOEM codes them'
+  label: 'BOEM''s structure type code, as BOEM''s field definitions pair them: FIXED fixed leg platform, CAIS caisson,
+    WP well protector, SEMI semi submersible (column stabilized unit) floating production system, SPAR SPAR platform (a
+    floating production system), TLP tension leg platform, MTLP mini tension leg platform, MOPU mobile production unit,
+    CT compliant tower, FPSO floating production, storage and offloading, SSTMP subsea templates'
   unit: none
   type: text
   values:
@@ -260,7 +262,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: Structure Type Code
-  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
+  documented_by: connector boem_platforms.py; BOEM Data Center, Platform Structures field definitions (www.data.boem.gov/Main/HtmlPage.aspx?page=platformStructuresFields, read 27 November 2026)
 - name: x_install_date
   label: The date the structure was installed
   unit: none
@@ -478,10 +480,9 @@ columns:
   source_name: Abandon Flag
   documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 second_look:
-- 'x_structure_type: SEMI, SPAR, TLP, MTLP, MOPU, CT, FPSO and SSTMP are kept as BOEM codes them; the method note does not
-  expand them. Read again on 20 November 2026 in BOEM''s saved Field Definitions pages for platform structures, locations
-  and masters (the code lists are behind links not saved), the three fixed-width zips (data only) and BSEE''s incident workbooks''
-  Metadata sheet: not found.'
 - 'x_authority_status: its codes (ACT, EXP, EXPIR, NO-ISS, PRIMRY, PROD, RELINQ, RELQ, SOP, TERMIN, UNIT, Approved) are not
   expanded in the method note or the connector. Read again on 20 November 2026 in BOEM''s saved Field Definitions page for
-  platform structures (Authority Status: the status applied against a structure, values behind a link not saved): not found.'
+  platform structures (Authority Status: the status applied against a structure, values behind a link not saved): not found.
+  Read again on 27 November 2026 on BOEM''s live pages (www.data.boem.gov, whose robots file names only other readers):
+  the Platform Structures layout defines Authority Status as the status applied against a structure, with no link and no
+  values, and the field definitions page (platformStructuresFields) lists value pairs for Structure Type Code only.'
