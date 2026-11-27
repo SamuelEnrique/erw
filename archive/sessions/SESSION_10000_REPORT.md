@@ -70,7 +70,7 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 
 ## For Samuel's ruling
 
-- The SEC refuses the ERW's contact string: give a contact address for the SEC's user agent and EDGAR opens part D (companies, share counts, statements). Default: not pulled.
+- The SEC refuses the ERW's contact string: give a contact address for the SEC's user agent and EDGAR opens part D (companies, share counts, statements). Default: not pulled. **Ruled by Samuel on 26 November** (the address given, kept in .env): done on 27 November, part D's public half (the universe, the statements, the page files).
 - No free source of daily share prices or index levels may be kept (Stooq, Nasdaq, Tiingo, Alpha Vantage, State Street). Default: prices blank with "license needed".
 - The signature pack of 14 November quotes figures each refresh moves, so every refresh of the datacenter files is put back (they stand at 12 November). Default: left as it is; the battery section was written again for the new window.
 - The hourly network's allowed staleness (3 hours) against a daily run of about 3 hours during which it skips. Default: left as it is.
