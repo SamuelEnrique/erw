@@ -146,3 +146,34 @@ Replication (`replication/predict/replicate_rt.py`, from this section's words): 
 1,120 of section 7 and 100 of the longer backtest). A test (`test_the_longer_backtest_adds_up_and_changes_nothing_above`)
 holds that the years add up to the span, that its MAE is their hour-weighted mean, that it ends where the backtest
 ends, and that the method is the one chosen now.
+
+## 9. The real-time price at more hubs (session 10603)
+
+Samuel's order of 27 November 2026 ("more places"). The real-time forecast of section 7 reads one hub a grid. The
+price tables hold, over at least two years and in both markets, four more hubs of the same three grids: ERCOT's
+Houston, South and West hubs (`HB_HOUSTON`, `HB_SOUTH`, `HB_WEST`, from January 2015, `ercot_all_hub_prices_history`)
+and CAISO's NP15 (`TH_NP15_GEN-APND`, from July 2023, `iso_hub_prices_history`). Each is added to `rt_price.json` after
+the three hubs of section 7, with the same methods, choice, band, scores and longer backtest (`grid` `ercot-houston`,
+`ercot-south`, `ercot-west`, `caiso-np15`; score rows under `hub-<grid>`). Left out, and why: SPP's South Hub and
+CAISO's ZP26 hold day-ahead prices from 26 August 2026 only and no real-time price; ERCOT's `HB_HUBAVG` and `HB_BUSAVG`
+are averages of the hubs already scored; ERCOT's Panhandle hub is not held. The three hubs of section 7 are unchanged
+(their blocks and their 1,120 score rows equal those on main, the longer backtest aside). The forecast is made at the
+same hour, 22:00 UTC, after the grids' day-ahead markets publish.
+
+From the build of 27 November 2026 (made as at 22:00 UTC on 26 November), the last two years:
+
+| Hub | Hours | MAE USD/MWh: ERW, day-ahead price, yesterday | MAPE %: ERW, day-ahead price | Band inside % | Longer backtest: years, ERW ahead of the day-ahead price in |
+|---|---:|---|---|---:|---|
+| ERCOT HB_HOUSTON | 17,422 | 10.92, 10.68, 16.81 | 27.87, 26.27 | 77.4 | 2016 to 2026: 2017, 2018 |
+| ERCOT HB_SOUTH | 17,422 | 11.03, 10.47, 17.65 | 30.35, 27.72 | 77.8 | 2016 to 2026: 2017, 2018 |
+| ERCOT HB_WEST | 17,422 | 13.97, 12.63, 24.43 | 40.67, 34.48 | 79.0 | 2016 to 2026: 2018 |
+| CAISO NP15 | 17,470 | 8.27, 8.04, 13.20 | 27.36, 26.38 | 78.6 | 2024 to 2026: 2024 |
+
+The day-ahead price is the better forecast at all four, as at ERCOT North and CAISO SP15; the gap is widest at ERCOT
+West, where the real-time price swings most. Over 2016 to 2026 the day-ahead price's error at the three ERCOT hubs is
+about two thirds of the ERW's (Houston 19.94 against 29.85, South 18.44 against 28.42, West 19.80 against 29.18),
+most of the difference made in 2021. The method chosen is the regression at every hub.
+
+Replication (`replication/predict/replicate_rt.py`, from sections 7 to 9): 3,020 of 3,020 figures equal, every hub,
+method and cut and the longer backtest's years. A test (`test_the_hubs_added_come_after_the_three`) holds the order and
+the entities.
