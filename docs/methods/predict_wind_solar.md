@@ -117,3 +117,88 @@ cannot forecast is said to be so. (b) Each entry gains `shown_for`, the place fi
 own entry, `ba-erco` shows Texas's, and `ba-ciso` shows `grid-caiso` (CAISO's own three hubs, CISO's footprint), which
 no place file named before. The file also gains `cuts`, the words of the cuts its rows use. Nothing else in the file
 changes (it equals the one on main once `built`, `shown_for`, `cuts` and the four mended days are set aside).
+
+## 8. More places: the authorities, and a choice mended (session 10603)
+
+Samuel's order of 27 November 2026 ("more places"). Window A's landing 20 wrote `eia930_ba_wind_solar_hourly` (data
+request 10): each authority's net generation from wind and from solar, July 2018 on. `wind_solar.json` now carries 35
+more entries, one for every authority among the demand forecast's 64 places that the table holds (`BA_PLACES`), with
+the same methods, choice, band and scores as the regions, on each authority's own clock. Left out: the six
+authorities that are each a whole region (ERCO, ISNE, NYIS, PJM, SOCO, TVA), which their region's entry shows (its
+`shown_for` names them), and CISO, which `grid-caiso` shows. A fuel an authority reports on no hour of EIA-930 (a
+utility with no wind plant) is `not held` in this file; for net demand it is taken as zero (`predict.md` section 26).
+No operator's forecast of an authority's wind or solar is held. The 14 entries of before are unchanged but for the
+choice mended below; the file grows from 2.7 to 7.6 MB.
+
+**A choice mended.** The rule picks the method with the lowest mean absolute error over the last two years. It compared
+the errors after rounding them to 0.1 MW, so where a place's output is a few MW every method rounded to the same figure
+and the tie went to `profile7` by name, the worse method. It now compares the unrounded errors (a true tie still goes
+by name); the printed errors stay rounded. Two entries already on main change: New York's solar (`profile7` to
+`yesterday`, 97.6 to 83.3 percent of the mean output) and Tennessee's wind (a few MW at most; `profile7` to
+`yesterday`). Five authorities added would have taken the worse method too (AVA, CPLW, PSEI, SEC and WALC solar).
+
+From the build of 27 November 2026 (made as at 18:00 UTC on 26 November), the last two years, the error over the mean
+output of the same hours (percent), each fuel the authority reports:
+
+| Authority | Fuel | Method | ERW, yesterday, profile7 | Band inside % |
+|---|---|---|---|---:|
+| AECI | wind | regression | 58.86, 73.44, 59.29 | 78.0 |
+| AVA | wind | regression | 81.3, 96.68, 82.86 | 80.6 |
+| AVA | solar | regression | 37.35, 41.74, 37.47 | 86.2 |
+| AZPS | wind | regression | 55.72, 68.14, 59.48 | 73.0 |
+| AZPS | solar | regression | 19.31, 22.25, 19.97 | 74.5 |
+| BANC | solar | regression | 21.09, 23.1, 21.34 | 76.8 |
+| BPAT | wind | profile7 | 89.63, 106.66, 89.63 | 79.2 |
+| BPAT | solar | regression | 27.15, 31.04, 27.95 | 74.6 |
+| CHPD | wind | regression | 104.76, 120.99, 105.32 | 80.8 |
+| CPLE | solar | regression | 31.29, 37.19, 32.49 | 78.3 |
+| CPLW | solar | yesterday | 34.55, 34.55, 41.98 | 92.7 |
+| DUK | solar | regression | 32.26, 39.28, 33.34 | 82.7 |
+| EPE | solar | regression | 22.67, 27.16, 23.18 | 64.6 |
+| FMPP | solar | regression | 29.4, 34.3, 30.2 | 77.6 |
+| FPC | solar | regression | 24.07, 28.04, 25.07 | 82.8 |
+| FPL | solar | regression | 17.69, 20.68, 18.71 | 77.6 |
+| IID | solar | regression | 21.37, 24.25, 21.77 | 73.4 |
+| IPCO | wind | regression | 65.63, 83.41, 67.08 | 81.2 |
+| IPCO | solar | regression | 26.36, 30.93, 27.71 | 81.8 |
+| JEA | solar | regression | 36.95, 40.8, 38.31 | 79.6 |
+| LDWP | wind | regression | 54.53, 66.55, 57.67 | 73.2 |
+| LDWP | solar | regression | 16.72, 19.55, 17.71 | 66.9 |
+| LGEE | solar | regression | 38.49, 40.6, 38.64 | 79.2 |
+| MISO | wind | regression | 40.71, 50.11, 41.21 | 78.2 |
+| MISO | solar | regression | 22.56, 26.63, 23.61 | 71.0 |
+| NEVP | wind | regression | 91.56, 106.29, 97.39 | 78.9 |
+| NEVP | solar | regression | 16.72, 19.12, 17.91 | 76.9 |
+| NWMT | wind | regression | 53.13, 66.17, 54.15 | 77.4 |
+| NWMT | solar | regression | 33.82, 40.24, 34.67 | 84.9 |
+| PACE | wind | profile7 | 46.44, 57.84, 46.44 | 74.1 |
+| PACE | solar | regression | 20.74, 23.9, 22.3 | 74.8 |
+| PACW | wind | regression | 92.12, 108.97, 93.01 | 75.2 |
+| PACW | solar | regression | 24.7, 28.05, 25.53 | 82.6 |
+| PNM | wind | regression | 53.41, 64.82, 54.2 | 80.7 |
+| PNM | solar | regression | 19.46, 22.99, 20.36 | 80.5 |
+| PSCO | wind | regression | 43.97, 56.99, 45.74 | 79.5 |
+| PSCO | solar | profile7 | 30.11, 36.67, 30.11 | 76.8 |
+| PSEI | wind | regression | 73.14, 90.04, 73.97 | 80.4 |
+| PSEI | solar | regression | 33.67, 37.06, 33.69 | 84.8 |
+| SC | solar | regression | 33.94, 38.62, 35.46 | 80.7 |
+| SCEG | solar | regression | 32.41, 38.03, 34.17 | 78.4 |
+| SEC | solar | yesterday | 44.71, 44.71, 51.66 | 95.4 |
+| SRP | wind | regression | 69.88, 83.82, 72.84 | 75.2 |
+| SRP | solar | regression | 26.49, 32.64, 27.91 | 74.7 |
+| SWPP | wind | regression | 35.11, 41.48, 36.29 | 77.5 |
+| SWPP | solar | yesterday | 29.48, 29.48, 31.67 | 75.2 |
+| TAL | solar | regression | 36.7, 42.53, 38.14 | 87.6 |
+| TEC | solar | regression | 27.23, 32.45, 28.42 | 76.1 |
+| TEPC | wind | regression | 49.27, 60.94, 51.07 | 80.9 |
+| TEPC | solar | regression | 18.89, 22.25, 19.96 | 83.0 |
+| WALC | wind | regression | 79.44, 95.41, 83.15 | 80.0 |
+| WALC | solar | regression | 30.55, 34.88, 30.63 | 79.5 |
+
+What it says: as for the regions, the ERW reads no weather, so its wind forecast misses by half to all of the mean
+output (MISO 40.7, SWPP 35.1, BPAT 89.6, NEVP 91.6 percent) and its solar forecast by a fifth to a third; the
+regression beats yesterday's output in nearly every case, and the seven-day profile is as good where output is small
+and regular. No operator's forecast is held to set beside these.
+
+Replication (`replication/predict/replicate_ws.py`, which now reads the authority table on each authority's clock and
+chooses on the unrounded error): its count on the 49 places is in the progress file and landing row 10.
