@@ -436,7 +436,7 @@ Summary of the 46 states in `site/data/forecast/datacenter_rules.json` as of ses
 | South Carolina | USD 50 million; 25 jobs; through 2041; equipment | building 6%, equipment 10.5% | none read |
 | South Dakota | none read | building 100%, equipment 0% | none read |
 | Tennessee | none read | building 40%, equipment 30% | none read |
-| Utah | equipment | none read | none read |
+| Utah | equipment | building 100%, equipment 100% (59-2-103(2), session 10822) | none read |
 | Virginia | USD 150 million; 50 jobs; through 2034; equipment | building 100%, equipment 100% | 3 monthly blocks |
 | Washington | 35 jobs; through 2047; state rate; equipment | building 100%, equipment 100% | none read |
 | West Virginia | none read | building 60%, equipment 60% | none read |
