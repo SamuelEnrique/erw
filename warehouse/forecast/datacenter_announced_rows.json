@@ -695,6 +695,21 @@
    "incentive": "",
    "years": "",
    "note": "The investment includes the clients' (tenants') equipment, as the release says. 2017 dollars are deflated to 2025 by the GDP deflator."
+  },
+  {
+   "id": "mn_meta_rosemount_2024",
+   "name": "Meta, Rosemount data center",
+   "company": "Meta",
+   "state": "mn",
+   "county": null, "place": "Rosemount",
+   "doc": {"title": "Governor Walz Announces Meta Will Build New Data Center in Rosemount", "publisher": "Minnesota Department of Employment and Economic Development", "date": "2024-03-14", "url": "https://mn.gov/deed/newscenter/press-releases/?id=1045-614051", "request": 362},
+   "mw": null,
+   "investment": {"value": 800000000, "year": 2024, "says": "$800 million", "qualifier": "", "quote": "Governor Tim Walz today announced that Meta will build an $800 million, 715,000-square-foot data center in Rosemount"},
+   "construction_jobs": {"value": 1000, "measure": "workers at peak", "says": "1,000 skilled trade jobs", "qualifier": "at least", "quote": "supporting approximately 100 operational jobs and at least 1,000 skilled trade jobs at peak construction."},
+   "permanent_jobs": {"value": 100, "measure": "operational jobs", "says": "100 operational jobs", "qualifier": "approximately", "quote": "supporting approximately 100 operational jobs and at least 1,000 skilled trade jobs at peak construction."},
+   "incentive": "",
+   "years": "",
+   "note": "The release names the city (Rosemount), not the county; it was read inside mn.gov's robots visit window (00:00 to 12:00 UTC)."
   }
  ]
 }
