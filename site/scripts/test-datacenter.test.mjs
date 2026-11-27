@@ -258,6 +258,13 @@ test("Georgia's published IMPLAN ratios (the Carl Vinson Institute, Tables 3 and
   const ct = D.dcRun(D.dcDefaults(P, "ct", { invest: 300, perm: 5, start: 2026, build: 2, life: 30 }), P);
   // purchases in the build (2026-27) and 2033, 2038, 2043 are before 2046; 2048 and 2053 are not: 4 of 6
   near(ct.sums.forgone, 4 * 300e6 * 0.682 * 0.0635, "CT 20 years");
+  // Washington (RCW 82.08.986 through 2026 c 266, session 10822): 35 jobs; construction begun before 2035; purchases through 2047; the state's rate
+  assert.equal(D.dcRun(D.dcDefaults(P, "wa", { invest: 2000, perm: 30, start: 2026 }), P).exemption.eligible, false);
+  assert.equal(D.dcRun(D.dcDefaults(P, "wa", { invest: 2000, perm: 50, start: 2035 }), P).exemption.eligible, false);
+  const wa = D.dcRun(D.dcDefaults(P, "wa", { invest: 2000, perm: 50, start: 2026, build: 2, life: 30 }), P);
+  assert.equal(wa.exemption.eligible, true);
+  // purchases in the build (2026-27) and 2033, 2038, 2043 are through 2047; 2048 and 2053 are not: 4 of 6
+  near(wa.sums.forgone, 4 * 2000e6 * 0.682 * P.sales.states.wa.state_rate, "WA through 2047 at the state rate");
   const ct30 = D.dcRun(D.dcDefaults(P, "ct", { invest: 400, perm: 5, start: 2026, build: 2, life: 30 }), P);
   near(ct30.sums.forgone, 6 * 400e6 * 0.682 * 0.0635, "CT 30 years: every purchase before 2056");
   // Illinois (session 10813): the program paused for new applications from 1 July 2026, held as words
