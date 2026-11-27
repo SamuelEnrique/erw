@@ -520,7 +520,7 @@ def price_shown(p, made, ledger):
         sm["mape"]["operator"] = None
         summ[key] = sm
     s = {"status": "shown", "held": None, "method": p["choice"], "fit_day": day_str(pd.Timestamp(made)), "target_day": day_str(p["target"]),
-         "hub": data.HUBS[p["grid"]], "market": "day-ahead", "unit": "USD/MWh", "method_note": NOTES["price"],
+         "hub": p.get("hub") or data.HUBS[p["grid"]], "market": "day-ahead", "unit": "USD/MWh", "method_note": NOTES["price"],
          "made_utc": iso(pd.Timestamp(made)), "inputs_through_utc": iso(p["inputs_through"]), "horizon_days": p["h"], "demand_horizon_days": p["hd"],
          "band": "the 10th and 90th percentile of the chosen method's own out-of-sample errors (actual less forecast, USD/MWh) at the same local hour, over the 365 days of target days held when the forecast is made",
          "band_coverage_pct": score.coverage(hr, "erw"),
@@ -603,10 +603,10 @@ def write_tables(out, results, score_rows, built):
     return p, q
 
 
-def write_price_table(out, prices, built):
+def write_price_table(out, prices, built, name="predict_price_backtest.csv"):
     """The price regression's backtest, one row a place and hour (data request 5), in the series shape."""
     os.makedirs(out, exist_ok=True)
-    p = os.path.join(out, "predict_price_backtest.csv")
+    p = os.path.join(out, name)
     with open(p, "w", encoding="utf-8", newline="\n") as f:
         f.write("# Energy Research Warehouse (ERW): the ERW forecast of day-ahead hub prices, the walk-forward backtest of the regression (tier derived: a model's output, not a published figure)\n")
         f.write("# Shape: series (docs/datastandard.md v0). entity the hub; variable lmp_dam_forecast; ts_utc the hour's start (UTC); x_place the place whose demand forecast it reads; x_made_utc the hour the forecast is taken as made (14:00 UTC the day before); x_lo, x_hi the band. Method: docs/methods/predict_price.md.\n")
@@ -616,7 +616,7 @@ def write_price_table(out, prices, built):
         f.write("entity,variable,ts_utc,value,unit,freq,source,x_place,x_method,x_made_utc,x_lo,x_hi,x_kind\n")
         for place, q in prices.items():
             hr = q["hr"].dropna(subset=["regression"])
-            ent = data.HUBS[q["grid"]]
+            ent = q.get("hub") or data.HUBS[q["grid"]]
             for ts, v, lo, hi, made in zip(hr["ts"], hr["regression"], hr["regression_lo"], hr["regression_hi"], hr["made_utc"]):
                 f.write(f"{ent},lmp_dam_forecast,{iso(ts)},{v:.2f},USD/MWh,PT1H,erw:predict,{place},regression,{iso(made)},"
                         f"{'' if not np.isfinite(lo) else f'{lo:.2f}'},{'' if not np.isfinite(hi) else f'{hi:.2f}'},backtest\n")
