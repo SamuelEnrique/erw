@@ -48,6 +48,7 @@ import sys
 import time
 import traceback
 import zipfile
+from collections import defaultdict
 
 import pandas as pd
 import requests
@@ -249,6 +250,17 @@ def norm_name(s):
     return " ".join(str(s).upper().replace(",", " ").replace(".", " ").split())
 
 
+ABBREVIATIONS = {"COMPANY": "CO", "CORPORATION": "CORP", "INCORPORATED": "INC", "LIMITED": "LTD"}
+
+
+def same_entity(a, b):
+    """Two names the SEC gives one entity in two companyfacts files: equal but for case, commas, periods and the
+    standard legal abbreviations (Company and Co, Corporation and Corp, Incorporated and Inc, Limited and Ltd)."""
+    def n(s):
+        return " ".join(ABBREVIATIONS.get(w, w) for w in norm_name(s).split())
+    return bool(a) and n(a) == n(b)
+
+
 def directory_ids():
     p = os.path.join(ip.OUT_DIR, "company_directory.csv")
     if not os.path.exists(p):
@@ -287,7 +299,7 @@ def months_between(start, end):
     return m if m in (3, 6, 9, 12) and abs(d - m * 30.44) <= 12 else None
 
 
-def fundamentals_rows(cik, ticker, facts, retrieved):
+def fundamentals_rows(cik, ticker, facts, retrieved, only_accns=None):
     """The table's rows of one company's companyfacts: per line, period and filing, the first concept held."""
     g = (facts.get("facts") or {}).get("us-gaap") or {}
     picked = {}
@@ -295,6 +307,8 @@ def fundamentals_rows(cik, ticker, facts, retrieved):
         for concept in concepts:
             for f in ((g.get(concept) or {}).get("units") or {}).get(unit, []):
                 if f.get("form") not in FORMS or f.get("val") is None or not f.get("end") or not f.get("filed"):
+                    continue
+                if only_accns is not None and f.get("accn") not in only_accns:   # a co-registrant's file: this company's filings only
                     continue
                 if f["end"] > f["filed"]:  # a period that ends after its filing cannot be as filed: a tagging error, left out
                     continue
@@ -337,6 +351,7 @@ def filers_since(client, since, today, log):
     index answered, so a day not yet published is asked again by the next run, and a holiday before an answered day is
     passed."""
     out, day, last_read = set(), since + dt.timedelta(days=1), since
+    by_accn = defaultdict(set)   # a joint filing is listed once under each of its filers
     while day <= today:
         if day.weekday() < 5:
             url = INDEX_URL.format(y=day.year, q=(day.month - 1) // 3 + 1, d=day.strftime("%Y%m%d"))
@@ -345,14 +360,15 @@ def filers_since(client, since, today, log):
                 last_read = day
                 for ln in r.text.splitlines():
                     form = ln[:12].strip()
-                    m = re.search(r"edgar/data/(\d+)/", ln)   # the file name holds the CIK (the line's date is digits too)
+                    m = re.search(r"edgar/data/(\d+)/([\d-]+)\.txt", ln)   # the file name holds the CIK and the accession
                     if form in FORMS and m:
                         out.add(cik10(m.group(1)))
+                        by_accn[m.group(2)].add(cik10(m.group(1)))
             elif r.status_code != 404 and r.status_code != 403:
                 raise RuntimeError(f"EDGAR's form index for {day}: HTTP {r.status_code}")
         day += dt.timedelta(days=1)
     log(f"  daily form indexes after {since}: {len(out)} filers of a 10-Q or 10-K; read through {last_read}")
-    return out, last_read
+    return out, last_read, by_accn
 
 
 def header_universe(t, run_id, tickers_rec):
@@ -419,6 +435,73 @@ def run_universe(client, log, run_id, retrieved):
     return t
 
 
+HEADER_URL = "https://www.sec.gov/Archives/edgar/data/{cik}/{acc}/{accn}-index-headers.html"
+
+
+def own_filings(cik, zf):
+    """{accession: report date} of the company's 10-Q and 10-K filings marked XBRL, from its submissions in the SEC's
+    bulk file (no request); empty when the bulk file or the company is not there."""
+    if zf is None or f"CIK{cik}.json" not in zf.namelist():
+        return {}
+    r = json.loads(zf.read(f"CIK{cik}.json")).get("filings", {}).get("recent", {})
+    out = {}
+    for i, form in enumerate(r.get("form", [])):
+        if form in FORMS and (r.get("isXBRL") or [0] * (i + 1))[i]:
+            out[r["accessionNumber"][i]] = r.get("reportDate", [""] * (i + 1))[i]
+    return out
+
+
+def coregistrants(client, cik, accn, by_accn, log):
+    """The other filers of a joint filing: from the day's form index when it listed the filing, else from the filing's
+    EDGAR header (CENTRAL INDEX KEY lines; read once, kept in warehouse/raw/sec_edgar/headers/)."""
+    if accn in by_accn:
+        return sorted(by_accn[accn] - {cik})
+    hdir = os.path.join(RAW, "headers")
+    os.makedirs(hdir, exist_ok=True)
+    hp = os.path.join(hdir, f"{accn}.txt")
+    if not os.path.exists(hp):
+        r = client.get(HEADER_URL.format(cik=int(cik), acc=accn.replace("-", ""), accn=accn))
+        if r.status_code != 200:
+            log(f"  {cik} {accn}: header HTTP {r.status_code}; its co-registrants not read")
+            if r.status_code == 404:   # kept, so the next run does not ask again
+                open(hp, "w", encoding="utf-8").write(f"HTTP 404 {now_iso()}")
+            return []
+        open(hp, "w", encoding="utf-8").write(r.text)
+    keys = re.findall(r"CENTRAL INDEX KEY:\s*(\d+)", open(hp, encoding="utf-8").read())
+    return sorted({cik10(k) for k in keys} - {cik})
+
+
+def facts_of(client, cik, fdir, fresh, log):
+    """A company's companyfacts from the raw folder, asked again when `fresh` or not held; None when it has none."""
+    cp = os.path.join(fdir, f"CIK{cik}.json.gz")
+    none = os.path.join(fdir, f"CIK{cik}.none")   # the SEC answered 404: asked again only when fresh
+    if os.path.exists(none) and not fresh:
+        return None
+    if not os.path.exists(cp) or fresh:
+        r = client.get(FACTS_URL.format(cik=cik))
+        if r.status_code == 404:  # no XBRL facts (a filer of 20-F or 40-F only, or none yet)
+            open(none, "w", encoding="utf-8").write(now_iso())
+            return None
+        if r.status_code != 200:
+            raise RuntimeError(f"{cik} HTTP {r.status_code}")
+        with gzip.open(cp + ".tmp", "wb") as f:
+            f.write(r.content)
+        os.replace(cp + ".tmp", cp)
+    with gzip.open(cp, "rb") as f:
+        return json.load(io.TextIOWrapper(f, encoding="utf-8"))
+
+
+def accns_and_newest(facts):
+    """The accessions a companyfacts file holds us-gaap facts of, and the newest period end among them."""
+    acc, newest = set(), ""
+    for c in ((facts or {}).get("facts") or {}).get("us-gaap", {}).values():
+        for u in c.get("units", {}).values():
+            for f in u:
+                acc.add(f.get("accn"))
+                newest = max(newest, f.get("end") or "")
+    return acc, newest
+
+
 def run_fundamentals(client, log, run_id, retrieved, limit=None):
     p = os.path.join(ip.OUT_DIR, UNIVERSE + ".csv")
     if not os.path.exists(p):
@@ -430,31 +513,60 @@ def run_fundamentals(client, log, run_id, retrieved, limit=None):
     os.makedirs(fdir, exist_ok=True)
     state_p = os.path.join(fdir, "last_index_day.txt")
     today = dt.datetime.now(dt.timezone.utc).date()
-    refresh, read_through = set(), None
+    refresh, read_through, by_accn = set(), None, {}
     if os.path.exists(state_p):
         since = dt.date.fromisoformat(open(state_p, encoding="utf-8").read().strip())
-        refresh, read_through = filers_since(client, since, today, log)
-    frames, asked, failed = [], 0, []
+        refresh, read_through, by_accn = filers_since(client, since, today, log)
+    zips = sorted(f for f in os.listdir(RAW) if f.startswith("submissions_") and f.endswith(".zip")) if os.path.isdir(RAW) else []
+    zf = zipfile.ZipFile(os.path.join(RAW, zips[-1])) if zips else None
+    frames, asked, failed, joined = [], 0, [], []
+    co_fresh = set()   # co-registrants' files asked again this run (once each)
     for cik, ticker in zip(u["cik"], u["ticker"]):
-        cp = os.path.join(fdir, f"CIK{cik}.json.gz")
-        if not os.path.exists(cp) or cik in refresh:
-            r = client.get(FACTS_URL.format(cik=cik))
-            asked += 1
-            if r.status_code == 404:  # no XBRL facts (a filer of 20-F or 40-F only, or none yet)
-                continue
-            if r.status_code != 200:
-                failed.append(f"{cik} HTTP {r.status_code}")
-                continue
-            with gzip.open(cp + ".tmp", "wb") as f:
-                f.write(r.content)
-            os.replace(cp + ".tmp", cp)
-        with gzip.open(cp, "rb") as f:
-            facts = json.load(io.TextIOWrapper(f, encoding="utf-8"))
+        try:
+            n0 = client.n
+            facts = facts_of(client, cik, fdir, cik in refresh, log)
+            asked += client.n - n0
+        except RuntimeError as e:
+            failed.append(str(e))
+            continue
+        if facts is None:
+            continue
         frames.append(fundamentals_rows(cik, ticker, facts, retrieved))
+        # docs/methods/equities.md, "Joint filings" (done-line request 579): a 10-Q or 10-K of the company's own, for a
+        # period after the newest its own facts hold, that its facts lack, is read from the co-registrant's file where the
+        # SEC keeps it (NextEra's June and September 2026 10-Qs sit in Florida Power & Light's), that filing's facts only
+        have, newest = accns_and_newest(facts)
+        own = own_filings(cik, zf)
+        own.update({a: "" for a, ciks in by_accn.items() if cik in ciks})
+        missing = sorted(a for a, rep in own.items() if a not in have and (rep == "" or rep > newest))
+        for accn in missing:
+            for other in coregistrants(client, cik, accn, by_accn, log):
+                try:
+                    n0 = client.n
+                    of = facts_of(client, other, fdir, other in refresh and other not in co_fresh, log)
+                    co_fresh.add(other)
+                    asked += client.n - n0
+                except RuntimeError as e:
+                    log(f"  {cik} {accn}: co-registrant {other}: {e}")
+                    continue
+                if of is None or accn not in accns_and_newest(of)[0]:
+                    continue
+                # the co-registrant's file must name this company as its entity (Florida Power & Light's file is named
+                # NEXTERA ENERGY, INC.): a parent's file holds the parent's consolidated figures, never a subsidiary's
+                if not same_entity(of.get("entityName", ""), facts.get("entityName", "")):
+                    continue
+                rows = fundamentals_rows(cik, ticker, of, retrieved, only_accns={accn})
+                if len(rows):
+                    frames.append(rows)
+                    joined.append(f"{ticker} {accn} from {other}")
+                    break
+    if joined:
+        log(f"  joint filings read from a co-registrant's file: {len(joined)} ({'; '.join(joined[:8])})")
     if failed:
         raise RuntimeError(f"{len(failed)} companies' facts could not be read ({'; '.join(failed[:5])}); nothing written")
     frames = [f for f in frames if len(f)]
     t = pd.concat(frames, ignore_index=True) if frames else pd.DataFrame(columns=FUND_COLS)
+    t = t.drop_duplicates(["entity", "variable", "ts_utc", "vintage"], keep="first")   # a company's own row before a joined one
     if len(t) > CEILING:
         raise RuntimeError(f"{len(t)} rows would pass the ceiling of {CEILING}; nothing written")
     log(f"  companies {len(u)}; facts asked {asked}; with facts {t['entity'].nunique()}; rows {len(t)}")
