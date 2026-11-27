@@ -22,11 +22,11 @@ and each stream's sum and present value at the reader's discount rate (section 8
 |---|---|---|
 | Technology | land-based wind | the page's own default, as `/impact`'s |
 | State | Texas | as `/impact`'s |
-| MW | 200 for wind, 150 for PV, 1,227 for gas, 50 for geothermal | EIA's case size (capital cost study for AEO2025, cases 13, 16, 5, 11). PV MW are AC |
+| MW | 200 for wind, 150 for PV, 1,227 for gas, 50 for geothermal, 650 for coal (session 10822) | EIA's case size (capital cost study for AEO2025, cases 13, 16, 5, 11, 1). PV MW are AC |
 | Capital cost (USD/kW, 2025 dollars) | EIA's overnight cost for the technology in the state, 2023 dollars times index(2025) / index(2023); a state with several cities is their plain mean; a state EIA does not give takes EIA's base case | `site/data/forecast/eia_capex.json` (Appendix A, tables 1-13, 1-16, 1-5, 1-11) and `deflator.json` |
 | First construction year | 2027 | the first full calendar year after today (13 November 2026); a choice, no source |
-| Construction years | ceil(EIA's plant construction time / 12): wind 1 (9 months), PV 1 (12), gas 2 (24), geothermal 2 (18) | EIA's case tables, "Plant Construction Time" |
-| Operating years | EIA's operating life: wind 25, PV 35, gas 40, geothermal 40 | EIA's case tables, "Operating Life" |
+| Construction years | ceil(EIA's plant construction time / 12): wind 1 (9 months), PV 1 (12), gas 2 (24), geothermal 2 (18), coal 3 (36) | EIA's case tables, "Plant Construction Time" |
+| Operating years | EIA's operating life: wind 25, PV 35, gas 40, geothermal 40, coal 40 | EIA's case tables, "Operating Life" |
 | Local content | 100 percent of JEDI's default shares | as `/impact`'s (`economic_impact.md`, section 1) |
 | Operating spending | 100 percent of JEDI's default O&M | JEDI's own; section 9 shows JEDI's PV operating jobs at 3.5 times a 2018 study's, so the reader may scale it |
 | Discount rate (real) | 7 percent | OMB Circular A-94 (December 2025 text), section 8.b(1): constant-dollar benefit-cost analyses "should report net present value and other outcomes determined using a real discount rate of 7 percent". Its tip names the alternative: Appendix C (6 March 2026), the real 30-year Treasury rate of 2.0 percent, for cost-effectiveness analysis |
