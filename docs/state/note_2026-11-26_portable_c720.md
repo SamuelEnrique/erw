@@ -1,6 +1,6 @@
 # Chain 720, the portable laptop's first window: the ERW forecast page and the energy equities pages (note for Samuel)
 
-Energy Research Warehouse (ERW). Kept current; state at 18:54 UTC on 26 November 2026. Sessions 10400 to 10407. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10407_REPORT.md`.
+Energy Research Warehouse (ERW). Kept current; state at 10:00 UTC on 27 November 2026. Sessions 10400 to 10409. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10409_REPORT.md`.
 
 ## 27 November: what changed since you took the laptop (sessions 10408 and 10409)
 
@@ -89,12 +89,13 @@ What is real and what is not:
 ## 2. Energy equities on the price board: `https://erw-flame.vercel.app/board#equities`
 
 - Open the address. **You should see** the board as it was, and a new group at its foot, "Energy equities". Press its title to open it.
-- **With window A's files as they stand today you should see 30 rows that each say "not held yet".** Put the mouse on one: the reason is there (SEC EDGAR refuses the ERW's contact string, so no company is put in a segment; no price source has terms that let the ERW keep daily share prices).
+- **With window A's files as they stand (27 November) you should see 30 rows that each say "not held yet".** Put the mouse on one: the reason is there (no price source has terms that let the ERW keep daily share prices or index levels; for seven segments, also that no SEC industry code holds the segment alone). Read on production at 09:13 UTC on 27 November: 30 rows, none with a figure.
 - Once a row holds a value: its latest value, its date, its change over a day, a week, a month, a year and the year to date, and a small trend line. Pressing the row opens `/equities` on that series.
 
 ## 3. Energy equities, the page: `https://erw-flame.vercel.app/equities`
 
-- Open the address. **With today's files you should see** a dashed box under "The line" that says "Companies, indices and segment lines: license needed", then "Energy prices": WTI crude oil as a line over the last year (89.53 USD per barrel on 17 November), and a table of 12 energy prices with each one's latest value, its date under it, and its changes. Uranium says "monthly" under Day and Week; four power prices say "license needed" or "paused".
+- **Since 27 November the files hold 307 companies** (your ruling on the SEC's data): the page as landed, and what row 62 adds, are at the head of this note. The lines below describe the page as it was on 26 November, while no company was in the files; the energy prices and the segments read the same today.
+- Open the address. **On 26 November's files you saw** a dashed box under "The line" that says "Companies, indices and segment lines: license needed", then "Energy prices": WTI crude oil as a line over the last year (89.53 USD per barrel on 17 November), and a table of 12 energy prices with each one's latest value, its date under it, and its changes. Uranium says "monthly" under Day and Week; four power prices say "license needed" or "paused".
 - Press another price in the table, for example "Henry Hub natural gas, spot". **You should see** its line in place of WTI's.
 - Under "Choices", change "Window" to "5 years". **You should see** the line over five years.
 - Scroll to "Segments and indices". **You should see** the 15 segments, each saying "source needed" for its companies and "license needed" for its line, with the reason on hover.
@@ -145,10 +146,16 @@ What is real and what is not:
 - **Whether the forecast's problem set joins the listed sets.** Today: it waits on its own page, in no list and no edition.
 - **Whether a problem set that shows the ERW forecast scoring worse than the operator's in Texas is wanted as it is.** Today: written as the file holds it.
 - **The Chart and Table switch of the site's charts is 22 px tall** on every page (24 is the least for a finger). Today: left.
+- **Which company `/equities` opens on** (27 November). Today: the list's first by ticker, ProFrac Holding (ACDC). A large, familiar company would say more at a glance.
+- **Whether a quarter that was only filed inside a year's total may be worked out** (the year less its nine months). Today: not; the page shows only what was filed, so most companies have no point for their fourth quarter.
+- **Where the forecast's new blocks sit.** Today: net demand under "Tomorrow"; the operator's filing, the weather forecast line and the band after the report card; the real-time price as a section of its own under "Price".
+- **Whether the page should say, of the operator's filing, anything where no month is flagged.** Today: no sentence; the months are in a fold that says "none flagged".
 
 ## What waits on others
 
-- **Window A's desk:** landing rows 57 to 61 (each at its newest head; 54 to 56 landed at 17:13 UTC).
+- **Window A's desk:** landing row 62 (equities on the SEC's figures, requested 09:25 UTC on 27 November) and row 63 (the forecast's new views; requested once its newest head is seen in a build, which waits for 2 GB of free memory on this laptop). Rows 54 to 61 have landed.
+- **Window A:** data requests 578 to 580 (27 November): the list's newest filed period; eighteen utilities' missing quarters, Exxon's short history, one stale filer; the board's own check on two held rows.
+- **Window B:** its requests 11 and 12 (27 November): CAISO's wind and solar lines that no place names, and net demand empty with no reason in four regions; the words of the real-time price's cuts.
 - **Window B:** nothing asked. Its files of 14:05 UTC hold the fourth method (on production its name reads "regression recent" until row 57 lands with its words) and the line "with the weather known" for all 29 places, which the page does not draw yet.
 - **Window A:** data requests 571 to 574 in `docs/state/data_requests_done_line.md` (the list's last close and changes; the board rows' other cells; the board's older row; what the built files carry beyond the contract's text). And the two rulings its own work waits on: the SEC's contact string and a price source.
 - **Window B:** nothing asked. Its contract and files were enough.
