@@ -498,6 +498,9 @@ quiet(page, "demand");
   check(fig(html, RT, "rows/" + (rtNow.rows.length) + "/6", 3958.65, "3,958.65") && html.includes("The file&#x27;s words on this cut: the ten days of the backtest with the highest real-time price hour."), "the real-time cuts carry the real-time file's own words");
   check(html.includes('data-fc-hub-download="ercot:HB_HOUSTON"') && html.includes('href="/forecast/realtime-price?hub=ercot%3AHB_HOUSTON"') && html.includes(">Close ercot:HB_HOUSTON<") && html.includes('href="/forecast?s=price#hubs"'), "the hub's download, and a way to close it");
   check(/<input type="hidden" name="hub" value="ercot:HB_HOUSTON"/.test(html), "the hub stays drawn through another choice of the form");
+  // seen at 390 px in a build: the links under a hub drawn were 18 px tall, under the 24 a finger needs
+  const under = html.slice(html.indexOf('data-fc-hub="ercot:HB_HOUSTON"'));
+  check(count(under, /<a [^>]*download=""[^>]*class="inline-block py-1"|<a [^>]*class="inline-block py-1"[^>]*download=""/g) === 6 && /class="[^"]*inline-block py-1[^"]*"[^>]*>Close ercot:HB_HOUSTON</.test(under), "the links under a hub drawn are tall enough for a finger");
   // the hub's day-ahead forecast as a download, the route asked as a browser asks it
   check(html.includes('data-fc-hub-download-dah="ercot:HB_HOUSTON"') && html.includes('href="/forecast/hub-price?hub=ercot%3AHB_HOUSTON"') && html.includes('href="/forecast/hub-price/stata?hub=ercot%3AHB_HOUSTON"'), "the hub's day-ahead forecast is offered as a CSV with its readers");
   {
