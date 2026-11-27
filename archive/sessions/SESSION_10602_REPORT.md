@@ -69,6 +69,12 @@ spend: USD 0. No warehouse table written, no data lock taken. Kept current while
   after checking its command line; no other process touched. Rebuild 14 was stopped once more, a minute in, when window
   A's sections 16 and 17 in the method note were found: my sections became 18 to 21 and the code's references were
   renumbered before the files were written.
+- **The tests found a fault of mine after the first full build:** the place files' sound-month summary counted its two
+  years from the backtest's last day while the score file's cut counts from the last common day (region-car 15,466
+  against 15,490 hours). `run.py` now counts as the score file does; the place files were rebuilt (rebuild 15).
+- **The whole suite** (10,882 passed, 595 skipped) failed one test that read a stale ignored build output of the
+  worktree (`site/content/llms.json` of 26 November) against `llms.txt` as rebuilt on main since: moved aside, the test
+  file passes. Not the branch's code.
 - **The wind and solar band first held 43 percent of CAISO's solar hours:** the band's low end was clipped at zero
   while net output at night is a little below it. The clip is gone; 76 percent.
 
