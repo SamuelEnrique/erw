@@ -553,12 +553,17 @@ class TheFiles(unittest.TestCase):
             self.assertEqual(sum(m[1] for m in bc["by_month"]), bc["hours"])
 
     def test_net_demand_agrees_with_the_report_card(self):
-        """Method note section 20: every region and ERCO carries net demand; its summary is the score file's rows."""
+        """Method note section 20: every region and ERCO carries net demand, and since session 10603 (section 26) every
+        place run.net_place gives a wind and solar entry; its summary is the score file's rows."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("predict_run_net", os.path.join(ROOT, "warehouse", "predict", "run.py"))
+        run = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(run)
         cols = self.scores["rows_columns"]
         rows = {(r[0], r[1], r[2], r[3], r[4]): dict(zip(cols, r)) for r in self.scores["rows"]}
         for p in self.index["places"]:
             nd = self.places[p["place"]]["series"]["demand"].get("net_demand")
-            if not (p["place"].startswith("region-") or p["place"] == "ba-erco"):
+            if run.net_place(p["place"]) is None:
                 self.assertIsNone(nd, p["place"])
                 continue
             self.assertIsNotNone(nd, p["place"])
