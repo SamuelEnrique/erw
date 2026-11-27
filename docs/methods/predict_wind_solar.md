@@ -57,7 +57,42 @@ daily rows cover with no interval is zero): the cut `with_operator_available`, e
 
 ## 5. The scores
 
-Filled in from the files after the first full build (section 6).
+From the first full build (27 November 2026, made as at 18:00 UTC on 26 November; `runs/c730/table_ws.py`), the error
+over the mean output of the same hours, in percent; the operators' first:
+
+| Place | Fuel | With the operator: hours, ERW, operator | Against the output available: ERW, operator |
+|---|---|---|---|
+| Texas (ERCOT) | wind | 1,368, 52.99, 13.24 | |
+| Texas (ERCOT) | solar | 1,368, 30.69, 8.26 | |
+| CAISO's hubs | wind | 26,997, 50.12, 14.77 | 50.08, 14.00 |
+| CAISO's hubs | solar | 26,998, 13.19, 14.11 | 16.46, 6.60 |
+
+Where the operators' forecasts are held they are far ahead: they use the weather, the ERW's does not. CAISO's solar
+looks beaten against the actual only because the actual is net of curtailment; against the output available CAISO is
+at 6.6 and the ERW at 16.5.
+
+The last two years, every place (ERW, yesterday, profile7; method chosen; the share of hours inside the band):
+
+| Place | Wind | Solar |
+|---|---|---|
+| California | 40.76, 49.27, 41.76 (regression; 78.7) | 13.30, 14.89, 13.85 (regression; 75.6) |
+| Carolinas | no output (all methods 0 MW) | 28.34, 33.54, 29.55 (regression; 76.5) |
+| Central | 35.11, 41.45, 36.17 (regression; 77.3) | 30.03, 30.03, 31.57 (yesterday; 75.0) |
+| Florida | no output | 18.02, 21.05, 18.95 (regression; 78.0) |
+| Mid-Atlantic | 47.70, 58.05, 48.57 (regression; 80.2) | 27.13, 33.38, 28.55 (regression; 74.4) |
+| Midwest | 40.35, 49.45, 40.83 (regression; 78.2) | 22.72, 26.90, 23.79 (regression; 71.0) |
+| New England | 48.43, 63.35, 49.99 (regression; 71.4) | 37.33, 46.34, 37.93 (regression; 76.7) |
+| Northwest | 33.41, 43.52, 34.87 (regression; 78.8) | 14.38, 16.30, 15.87 (regression; 75.7) |
+| New York | 56.99, 71.99, 58.03 (regression; 79.7) | 97.62, 83.34, 97.62 (profile7; 99.8): EIA-930's New York solar is a few MW, and no method forecasts it usefully |
+| Southeast | no output | 28.70, 32.88, 29.73 (regression; 77.9) |
+| Southwest | 42.90, 52.42, 44.76 (regression; 77.9) | 15.47, 18.50, 16.61 (regression; 73.5) |
+| Tennessee | no output (a few MW at most) | 34.09, 38.93, 34.61 (regression; 73.4) |
+| Texas | 40.46, 49.24, 42.76 (regression; 79.8) | 21.28, 24.55, 22.08 (regression; 75.7) |
+| CAISO's hubs | 48.09, 57.97, 48.98 (regression; 79.7) | 13.81, 15.51, 14.40 (regression; 76.2) |
+
+Replication (`replication/predict/replicate_ws.py`): 12,760 of 12,760 figures equal. A tie between methods (a region
+with no output) is broken by name, as the builder breaks it: an earlier run of the replication broke it by order and
+differed on 44 figures of Tennessee's wind and New York's solar.
 
 ## 6. The files and the ledger
 
