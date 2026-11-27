@@ -260,6 +260,33 @@ class TheRealTimeFile(unittest.TestCase):
             self.assertEqual([y["year"] for y in lb["by_year"]], sorted(y["year"] for y in lb["by_year"]))
 
 
+@unittest.skipUnless(os.path.exists(os.path.join(SITE, "price_hubs.json")), "price_hubs.json is not built here")
+class ThePriceHubsFile(unittest.TestCase):
+    def test_every_hub_has_its_scores_and_the_rule_chose(self):
+        """Session 10603: each hub's series agrees with its score rows, the method is the lowest error of the last two
+        years, the band holds its forecast, and the hubs are those of predict_rt.MORE_HUBS with their grid's demand."""
+        import predict_rt as rtm
+        doc = load("price_hubs.json")
+        self.assertEqual(doc["tier"], "derived")
+        self.assertEqual(doc["label"], "ERW forecast")
+        self.assertEqual([h["grid"] for h in doc["hubs"]], list(rtm.MORE_HUBS))
+        cols = doc["rows_columns"]
+        rows = {(r[0], r[2], r[3], r[4]): dict(zip(cols, r)) for r in doc["rows"]}
+        for h in doc["hubs"]:
+            self.assertEqual(h["hub"], rtm.MORE_HUBS[h["grid"]])
+            self.assertEqual(h["demand_place"], "ba-ciso" if h["grid"].startswith("caiso") else "ba-erco")
+            maes = h["method_mae_last_2_years"]
+            self.assertEqual(maes[h["method"]], min(maes.values()), h["grid"])
+            for m in ("erw", "yesterday", "week_ago"):
+                r = rows[(h["place"], m, "all", "")]
+                self.assertEqual(r["hours"], h["summary"]["backtest"]["hours"], (h["grid"], m))
+                self.assertAlmostEqual(r["mae"], h["summary"]["backtest"]["mae"][m], places=2)
+            self.assertAlmostEqual(rows[(h["place"], "erw", "last_2_years", "")]["mae"], maes[h["method"]], places=2)
+            for t in h["tomorrow"] or []:
+                self.assertLessEqual(t[3], t[4])
+            self.assertTrue(0 <= h["band_coverage_pct"] <= 100)
+
+
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "wind_solar.json")), "wind_solar.json is not built here")
 class TheWindSolarFile(unittest.TestCase):
     def test_every_place_and_fuel_has_its_scores_and_the_operator_where_held(self):
