@@ -495,7 +495,14 @@ class TheFiles(unittest.TestCase):
 
     @unittest.skipUnless(os.path.exists(os.path.join(SITE, "ahead.json")), "ahead.json is not built here")
     def test_further_ahead_shown_only_where_it_beats_the_week_ago_hour(self):
-        doc = load("ahead.json")
+        docs = [load("ahead.json")]
+        if os.path.exists(os.path.join(SITE, "ahead_more.json")):
+            # session 10603: the 35 authorities in a file of their own, under the same rule
+            docs.append(load("ahead_more.json"))
+        for doc in docs:
+            self.check_ahead(doc)
+
+    def check_ahead(self, doc):
         self.assertEqual(doc["tier"], "derived")
         for p in doc["places"]:
             for h in p["horizons"]:
