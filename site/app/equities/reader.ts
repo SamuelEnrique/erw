@@ -1,7 +1,7 @@
 // Session 10402 (chain 720, part D): what /equities' download routes share: the series an address names, and what the
 // Python and Stata readers need to know of each CSV's columns (lib/csvreader.ts).
 import type { ReaderSpec } from "@/lib/csvreader";
-import { LIST_HEAD, picksOf, type EqSeries } from "@/lib/equities";
+import { LIST_FILED_FIGURES, LIST_HEAD, picksOf, type EqSeries } from "@/lib/equities";
 import { equitiesList, equitiesSeries } from "@/lib/equitiesfiles";
 
 const plain = { "Content-Type": "text/plain; charset=utf-8", "X-Robots-Tag": "noindex" };
@@ -27,7 +27,9 @@ export function filedSpec(s: EqSeries): ReaderSpec {
     show: ["period_end", "months", "form", "filed", "revenue", "net_income"].filter((c) => cols.includes(c)), count: cols.includes("form") ? "form" : undefined, name: "filed" };
 }
 export const LIST_SPEC: ReaderSpec = {
-  what: "the listed energy companies by segment, as /equities lists them", by: "site/lib/equities.ts listCsv", text: LIST_HEAD, figures: [],
+  what: "the listed energy companies by segment, as /equities lists them", by: "site/lib/equities.ts listCsv",
+  // session 10414: the newest filed period's sums, months, debt and shares are figures; every other column is text
+  text: LIST_HEAD.filter((c) => !LIST_FILED_FIGURES.includes(c)), figures: LIST_FILED_FIGURES,
   show: ["ticker", "name", "exchange", "segments", "price_status", "fundamentals_status"], count: "price_status", name: "companies",
 };
 
