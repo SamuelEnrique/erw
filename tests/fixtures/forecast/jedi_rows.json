@@ -1,5 +1,5 @@
 {
-"about": "A fixture for the forecast tests (session 4203): the rows of nlr_jedi_multipliers for ten states (Kansas added in session 4223, Oregon in 4225, Wyoming in 4255, Florida in 4257, North Carolina, Michigan and Vermont in 4260, Nevada in 4262, Virginia in 4272) (jobs, earnings, output), as the live set gives them, copied from warehouse/output/nlr_jedi_multipliers.csv of 20 October 2026 (5,562 rows).",
+"about": "A fixture for the forecast tests (session 4203): the rows of nlr_jedi_multipliers for ten states (Kansas added in session 4223, Oregon in 4225, Wyoming in 4255, Florida in 4257, North Carolina, Michigan and Vermont in 4260, Nevada in 4262, Virginia in 4272) (jobs, earnings, output), as the live set gives them, copied from warehouse/output/nlr_jedi_multipliers.csv of 20 October 2026 (5,562 rows). Coal for Wyoming and Texas added in session 10822 (chain 740), from the table of 26 November.",
 "notice": "NLR's data terms (https://www.nlr.gov/disclaimer): the user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data; credit DOE/NLR/ALLIANCE; the Data are provided as is.",
 "rows": [
 {
@@ -11953,6 +11953,294 @@
 "variable": "jobs",
 "ts_utc": "2010-01-01T00:00:00Z",
 "value": 0.085207
+},
+{
+"entity": "nlr_jedi:coal:tx:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 5.567263
+},
+{
+"entity": "nlr_jedi:coal:tx:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 568521.876604
+},
+{
+"entity": "nlr_jedi:coal:tx:construction:onsite",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 902936.56221
+},
+{
+"entity": "nlr_jedi:coal:tx:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 2.628666
+},
+{
+"entity": "nlr_jedi:coal:tx:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 138664.732597
+},
+{
+"entity": "nlr_jedi:coal:tx:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 443071.974291
+},
+{
+"entity": "nlr_jedi:coal:tx:construction:induced",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 2.584974
+},
+{
+"entity": "nlr_jedi:coal:tx:construction:induced",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 128266.415594
+},
+{
+"entity": "nlr_jedi:coal:tx:construction:induced",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 383230.350928
+},
+{
+"entity": "nlr_jedi:coal:tx:construction:total",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 10.780903
+},
+{
+"entity": "nlr_jedi:coal:tx:construction:total",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 835453.024795
+},
+{
+"entity": "nlr_jedi:coal:tx:construction:total",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 1729238.887429
+},
+{
+"entity": "nlr_jedi:coal:tx:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 0.143496
+},
+{
+"entity": "nlr_jedi:coal:tx:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 12817.620152
+},
+{
+"entity": "nlr_jedi:coal:tx:operations:onsite",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 12817.620152
+},
+{
+"entity": "nlr_jedi:coal:tx:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 0.247134
+},
+{
+"entity": "nlr_jedi:coal:tx:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 16923.145276
+},
+{
+"entity": "nlr_jedi:coal:tx:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 56774.357685
+},
+{
+"entity": "nlr_jedi:coal:tx:operations:induced",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 0.126263
+},
+{
+"entity": "nlr_jedi:coal:tx:operations:induced",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 6375.583782
+},
+{
+"entity": "nlr_jedi:coal:tx:operations:induced",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 19050.494191
+},
+{
+"entity": "nlr_jedi:coal:tx:operations:total",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 0.516892
+},
+{
+"entity": "nlr_jedi:coal:tx:operations:total",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 36116.34921
+},
+{
+"entity": "nlr_jedi:coal:tx:operations:total",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 88642.472028
+},
+{
+"entity": "nlr_jedi:coal:wy:construction:onsite",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 5.779353
+},
+{
+"entity": "nlr_jedi:coal:wy:construction:onsite",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 545287.62641
+},
+{
+"entity": "nlr_jedi:coal:wy:construction:onsite",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 902936.56221
+},
+{
+"entity": "nlr_jedi:coal:wy:construction:supply_chain",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 1.765778
+},
+{
+"entity": "nlr_jedi:coal:wy:construction:supply_chain",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 70315.811436
+},
+{
+"entity": "nlr_jedi:coal:wy:construction:supply_chain",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 237710.381991
+},
+{
+"entity": "nlr_jedi:coal:wy:construction:induced",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 1.159275
+},
+{
+"entity": "nlr_jedi:coal:wy:construction:induced",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 44492.36831
+},
+{
+"entity": "nlr_jedi:coal:wy:construction:induced",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 148465.951179
+},
+{
+"entity": "nlr_jedi:coal:wy:construction:total",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 8.704406
+},
+{
+"entity": "nlr_jedi:coal:wy:construction:total",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 660095.806155
+},
+{
+"entity": "nlr_jedi:coal:wy:construction:total",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 1289112.895381
+},
+{
+"entity": "nlr_jedi:coal:wy:operations:onsite",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 0.143496
+},
+{
+"entity": "nlr_jedi:coal:wy:operations:onsite",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 12817.620152
+},
+{
+"entity": "nlr_jedi:coal:wy:operations:onsite",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 12817.620152
+},
+{
+"entity": "nlr_jedi:coal:wy:operations:supply_chain",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 0.2073
+},
+{
+"entity": "nlr_jedi:coal:wy:operations:supply_chain",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 11424.279324
+},
+{
+"entity": "nlr_jedi:coal:wy:operations:supply_chain",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 49311.889147
+},
+{
+"entity": "nlr_jedi:coal:wy:operations:induced",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 0.052506
+},
+{
+"entity": "nlr_jedi:coal:wy:operations:induced",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 2061.29667
+},
+{
+"entity": "nlr_jedi:coal:wy:operations:induced",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 6878.932869
+},
+{
+"entity": "nlr_jedi:coal:wy:operations:total",
+"variable": "jobs",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 0.403302
+},
+{
+"entity": "nlr_jedi:coal:wy:operations:total",
+"variable": "earnings",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 26303.196147
+},
+{
+"entity": "nlr_jedi:coal:wy:operations:total",
+"variable": "output",
+"ts_utc": "2011-01-01T00:00:00Z",
+"value": 69008.442168
 }
 ]
 }

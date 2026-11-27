@@ -3,7 +3,7 @@
  "source": "U.S. Energy Information Administration (Sargent & Lundy), Capital Cost and Performance Characteristic Estimates for Utility Scale Electric Power Generating Technologies, SL-018001 Final Rev A (6 December 2023), released 10 January 2024 for AEO2025",
  "source_url": "https://www.eia.gov/analysis/studies/powerplants/capitalcost/pdf/capital_cost_AEO2025.pdf",
  "read": "2026-11-13, chain 239 session 4200 (runs/w4/probe.csv request 21)",
- "written_at": "2026-11-13T10:45:00Z",
+ "written_at": "2026-11-27T02:50:41Z",
  "written_by": "warehouse/forecast/eia_capex.py",
  "technologies": {
   "land_based_wind": {
@@ -1980,6 +1980,618 @@
     "wv",
     "wy"
    ]
+  },
+  "coal": {
+   "table": "Appendix A, Table 1-1, Location Adjustment for Ultra-Supercritical Coal w/o Carbon Capture - Greenfield",
+   "base_usd_per_kw": 4103,
+   "case": 1,
+   "construction_months": 36,
+   "operating_life_years": 40,
+   "case_mw": 650,
+   "basis": "kW net (ultra-supercritical, no carbon capture)",
+   "dollar_year": 2023,
+   "states": {
+    "al": {
+     "state": "Alabama",
+     "cities": [
+      {
+       "city": "Huntsville",
+       "location_variation": 0.97,
+       "usd_per_kw": 3971.0
+      }
+     ],
+     "usd_per_kw": 3971.0
+    },
+    "ar": {
+     "state": "Arkansas",
+     "cities": [
+      {
+       "city": "Little Rock",
+       "location_variation": 0.97,
+       "usd_per_kw": 3966.0
+      }
+     ],
+     "usd_per_kw": 3966.0
+    },
+    "az": {
+     "state": "Arizona",
+     "cities": [
+      {
+       "city": "Phoenix",
+       "location_variation": 1.09,
+       "usd_per_kw": 4486.0
+      }
+     ],
+     "usd_per_kw": 4486.0
+    },
+    "ca": {
+     "state": "California",
+     "cities": [
+      {
+       "city": "Bakersfield",
+       "location_variation": 1.31,
+       "usd_per_kw": 5365.0
+      },
+      {
+       "city": "Los Angeles",
+       "location_variation": 1.33,
+       "usd_per_kw": 5469.0
+      },
+      {
+       "city": "Modesto",
+       "location_variation": 1.35,
+       "usd_per_kw": 5521.0
+      },
+      {
+       "city": "Sacramento",
+       "location_variation": 1.37,
+       "usd_per_kw": 5604.0
+      },
+      {
+       "city": "San Francisco",
+       "location_variation": 1.48,
+       "usd_per_kw": 6054.0
+      }
+     ],
+     "usd_per_kw": 5602.6
+    },
+    "co": {
+     "state": "Colorado",
+     "cities": [
+      {
+       "city": "Denver",
+       "location_variation": 1.03,
+       "usd_per_kw": 4244.0
+      }
+     ],
+     "usd_per_kw": 4244.0
+    },
+    "ct": {
+     "state": "Connecticut",
+     "cities": [
+      {
+       "city": "Hartford",
+       "location_variation": 1.27,
+       "usd_per_kw": 5206.0
+      }
+     ],
+     "usd_per_kw": 5206.0
+    },
+    "dc": {
+     "state": "District of Columbia",
+     "cities": [
+      {
+       "city": "Washington",
+       "location_variation": 1.09,
+       "usd_per_kw": 4484.0
+      }
+     ],
+     "usd_per_kw": 4484.0
+    },
+    "de": {
+     "state": "Delaware",
+     "cities": [
+      {
+       "city": "Dover",
+       "location_variation": 1.24,
+       "usd_per_kw": 5094.0
+      }
+     ],
+     "usd_per_kw": 5094.0
+    },
+    "fl": {
+     "state": "Florida",
+     "cities": [
+      {
+       "city": "Tallahassee",
+       "location_variation": 0.94,
+       "usd_per_kw": 3848.0
+      },
+      {
+       "city": "Tampa",
+       "location_variation": 0.96,
+       "usd_per_kw": 3919.0
+      }
+     ],
+     "usd_per_kw": 3883.5
+    },
+    "ga": {
+     "state": "Georgia",
+     "cities": [
+      {
+       "city": "Atlanta",
+       "location_variation": 1.02,
+       "usd_per_kw": 4187.0
+      }
+     ],
+     "usd_per_kw": 4187.0
+    },
+    "ia": {
+     "state": "Iowa",
+     "cities": [
+      {
+       "city": "Davenport",
+       "location_variation": 1.05,
+       "usd_per_kw": 4306.0
+      },
+      {
+       "city": "Waterloo",
+       "location_variation": 0.99,
+       "usd_per_kw": 4051.0
+      }
+     ],
+     "usd_per_kw": 4178.5
+    },
+    "id": {
+     "state": "Idaho",
+     "cities": [
+      {
+       "city": "Boise",
+       "location_variation": 1.03,
+       "usd_per_kw": 4217.0
+      }
+     ],
+     "usd_per_kw": 4217.0
+    },
+    "il": {
+     "state": "Illinois",
+     "cities": [
+      {
+       "city": "Chicago",
+       "location_variation": 1.36,
+       "usd_per_kw": 5569.0
+      }
+     ],
+     "usd_per_kw": 5569.0
+    },
+    "in": {
+     "state": "Indiana",
+     "cities": [
+      {
+       "city": "Indianapolis",
+       "location_variation": 1.01,
+       "usd_per_kw": 4128.0
+      }
+     ],
+     "usd_per_kw": 4128.0
+    },
+    "ks": {
+     "state": "Kansas",
+     "cities": [
+      {
+       "city": "Wichita",
+       "location_variation": 0.99,
+       "usd_per_kw": 4044.0
+      }
+     ],
+     "usd_per_kw": 4044.0
+    },
+    "ky": {
+     "state": "Kentucky",
+     "cities": [
+      {
+       "city": "Louisville",
+       "location_variation": 1.01,
+       "usd_per_kw": 4135.0
+      }
+     ],
+     "usd_per_kw": 4135.0
+    },
+    "la": {
+     "state": "Louisiana",
+     "cities": [
+      {
+       "city": "New Orleans",
+       "location_variation": 1.0,
+       "usd_per_kw": 4107.0
+      }
+     ],
+     "usd_per_kw": 4107.0
+    },
+    "ma": {
+     "state": "Massachusetts",
+     "cities": [
+      {
+       "city": "Boston",
+       "location_variation": 1.36,
+       "usd_per_kw": 5592.0
+      }
+     ],
+     "usd_per_kw": 5592.0
+    },
+    "md": {
+     "state": "Maryland",
+     "cities": [
+      {
+       "city": "Baltimore",
+       "location_variation": 1.03,
+       "usd_per_kw": 4214.0
+      }
+     ],
+     "usd_per_kw": 4214.0
+    },
+    "me": {
+     "state": "Maine",
+     "cities": [
+      {
+       "city": "Portland",
+       "location_variation": 1.03,
+       "usd_per_kw": 4240.0
+      }
+     ],
+     "usd_per_kw": 4240.0
+    },
+    "mi": {
+     "state": "Michigan",
+     "cities": [
+      {
+       "city": "Detroit",
+       "location_variation": 1.11,
+       "usd_per_kw": 4564.0
+      },
+      {
+       "city": "Grand Rapids",
+       "location_variation": 1.02,
+       "usd_per_kw": 4165.0
+      }
+     ],
+     "usd_per_kw": 4364.5
+    },
+    "mn": {
+     "state": "Minnesota",
+     "cities": [
+      {
+       "city": "Saint Paul",
+       "location_variation": 1.13,
+       "usd_per_kw": 4634.0
+      }
+     ],
+     "usd_per_kw": 4634.0
+    },
+    "mo": {
+     "state": "Missouri",
+     "cities": [
+      {
+       "city": "St. Louis",
+       "location_variation": 1.13,
+       "usd_per_kw": 4628.0
+      },
+      {
+       "city": "Kansas City",
+       "location_variation": 1.07,
+       "usd_per_kw": 4409.0
+      }
+     ],
+     "usd_per_kw": 4518.5
+    },
+    "ms": {
+     "state": "Mississippi",
+     "cities": [
+      {
+       "city": "Biloxi",
+       "location_variation": 0.95,
+       "usd_per_kw": 3894.0
+      }
+     ],
+     "usd_per_kw": 3894.0
+    },
+    "mt": {
+     "state": "Montana",
+     "cities": [
+      {
+       "city": "Great Falls",
+       "location_variation": 0.98,
+       "usd_per_kw": 4027.0
+      }
+     ],
+     "usd_per_kw": 4027.0
+    },
+    "nc": {
+     "state": "North Carolina",
+     "cities": [
+      {
+       "city": "Charlotte",
+       "location_variation": 0.98,
+       "usd_per_kw": 4032.0
+      }
+     ],
+     "usd_per_kw": 4032.0
+    },
+    "nd": {
+     "state": "North Dakota",
+     "cities": [
+      {
+       "city": "Bismarck",
+       "location_variation": 1.04,
+       "usd_per_kw": 4286.0
+      }
+     ],
+     "usd_per_kw": 4286.0
+    },
+    "ne": {
+     "state": "Nebraska",
+     "cities": [
+      {
+       "city": "Omaha",
+       "location_variation": 0.99,
+       "usd_per_kw": 4047.0
+      }
+     ],
+     "usd_per_kw": 4047.0
+    },
+    "nh": {
+     "state": "New Hampshire",
+     "cities": [
+      {
+       "city": "Manchester",
+       "location_variation": 1.11,
+       "usd_per_kw": 4569.0
+      }
+     ],
+     "usd_per_kw": 4569.0
+    },
+    "nj": {
+     "state": "New Jersey",
+     "cities": [
+      {
+       "city": "Newark",
+       "location_variation": 1.3,
+       "usd_per_kw": 5352.0
+      }
+     ],
+     "usd_per_kw": 5352.0
+    },
+    "nm": {
+     "state": "New Mexico",
+     "cities": [
+      {
+       "city": "Albuquerque",
+       "location_variation": 1.03,
+       "usd_per_kw": 4244.0
+      }
+     ],
+     "usd_per_kw": 4244.0
+    },
+    "nv": {
+     "state": "Nevada",
+     "cities": [
+      {
+       "city": "Las Vegas",
+       "location_variation": 1.17,
+       "usd_per_kw": 4784.0
+      }
+     ],
+     "usd_per_kw": 4784.0
+    },
+    "ny": {
+     "state": "New York",
+     "cities": [
+      {
+       "city": "New York",
+       "location_variation": 1.7,
+       "usd_per_kw": 6955.0
+      },
+      {
+       "city": "Syracuse",
+       "location_variation": 1.14,
+       "usd_per_kw": 4676.0
+      }
+     ],
+     "usd_per_kw": 5815.5
+    },
+    "oh": {
+     "state": "Ohio",
+     "cities": [
+      {
+       "city": "Cincinnati",
+       "location_variation": 0.98,
+       "usd_per_kw": 4006.0
+      }
+     ],
+     "usd_per_kw": 4006.0
+    },
+    "ok": {
+     "state": "Oklahoma",
+     "cities": [
+      {
+       "city": "Oklahoma City",
+       "location_variation": 0.95,
+       "usd_per_kw": 3886.0
+      }
+     ],
+     "usd_per_kw": 3886.0
+    },
+    "or": {
+     "state": "Oregon",
+     "cities": [
+      {
+       "city": "Portland",
+       "location_variation": 1.21,
+       "usd_per_kw": 4969.0
+      }
+     ],
+     "usd_per_kw": 4969.0
+    },
+    "pa": {
+     "state": "Pennsylvania",
+     "cities": [
+      {
+       "city": "Philadelphia",
+       "location_variation": 1.35,
+       "usd_per_kw": 5525.0
+      },
+      {
+       "city": "Scranton",
+       "location_variation": 1.13,
+       "usd_per_kw": 4641.0
+      }
+     ],
+     "usd_per_kw": 5083.0
+    },
+    "ri": {
+     "state": "Rhode Island",
+     "cities": [
+      {
+       "city": "Providence",
+       "location_variation": 1.23,
+       "usd_per_kw": 5030.0
+      }
+     ],
+     "usd_per_kw": 5030.0
+    },
+    "sc": {
+     "state": "South Carolina",
+     "cities": [
+      {
+       "city": "Charleston",
+       "location_variation": 0.95,
+       "usd_per_kw": 3896.0
+      }
+     ],
+     "usd_per_kw": 3896.0
+    },
+    "sd": {
+     "state": "South Dakota",
+     "cities": [
+      {
+       "city": "Rapid City",
+       "location_variation": 1.0,
+       "usd_per_kw": 4097.0
+      }
+     ],
+     "usd_per_kw": 4097.0
+    },
+    "tn": {
+     "state": "Tennessee",
+     "cities": [
+      {
+       "city": "Nashville",
+       "location_variation": 0.99,
+       "usd_per_kw": 4049.0
+      }
+     ],
+     "usd_per_kw": 4049.0
+    },
+    "tx": {
+     "state": "Texas",
+     "cities": [
+      {
+       "city": "Houston",
+       "location_variation": 0.9,
+       "usd_per_kw": 3697.0
+      }
+     ],
+     "usd_per_kw": 3697.0
+    },
+    "ut": {
+     "state": "Utah",
+     "cities": [
+      {
+       "city": "Salt Lake City",
+       "location_variation": 0.99,
+       "usd_per_kw": 4073.0
+      }
+     ],
+     "usd_per_kw": 4073.0
+    },
+    "va": {
+     "state": "Virginia",
+     "cities": [
+      {
+       "city": "Alexandria",
+       "location_variation": 1.07,
+       "usd_per_kw": 4407.0
+      },
+      {
+       "city": "Roanoke",
+       "location_variation": 1.04,
+       "usd_per_kw": 4264.0
+      }
+     ],
+     "usd_per_kw": 4335.5
+    },
+    "vt": {
+     "state": "Vermont",
+     "cities": [
+      {
+       "city": "Burlington",
+       "location_variation": 1.08,
+       "usd_per_kw": 4418.0
+      }
+     ],
+     "usd_per_kw": 4418.0
+    },
+    "wa": {
+     "state": "Washington",
+     "cities": [
+      {
+       "city": "Seattle",
+       "location_variation": 1.21,
+       "usd_per_kw": 4946.0
+      },
+      {
+       "city": "Spokane",
+       "location_variation": 1.07,
+       "usd_per_kw": 4387.0
+      }
+     ],
+     "usd_per_kw": 4666.5
+    },
+    "wi": {
+     "state": "Wisconsin",
+     "cities": [
+      {
+       "city": "Green Bay",
+       "location_variation": 1.1,
+       "usd_per_kw": 4511.0
+      }
+     ],
+     "usd_per_kw": 4511.0
+    },
+    "wv": {
+     "state": "West Virginia",
+     "cities": [
+      {
+       "city": "Charleston",
+       "location_variation": 1.02,
+       "usd_per_kw": 4203.0
+      }
+     ],
+     "usd_per_kw": 4203.0
+    },
+    "wy": {
+     "state": "Wyoming",
+     "cities": [
+      {
+       "city": "Cheyenne",
+       "location_variation": 1.0,
+       "usd_per_kw": 4082.0
+      }
+     ],
+     "usd_per_kw": 4082.0
+    }
+   },
+   "not_given": []
   }
  }
 }

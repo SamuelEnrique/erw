@@ -31,7 +31,7 @@ export const EFFECT_TIPS: Record<Effect, string> = {
   total: "The three added. The table checks that JEDI's own total is their sum in every state.",
 };
 
-export type TechKey = "land_based_wind" | "utility_pv" | "natural_gas" | "geothermal";
+export type TechKey = "land_based_wind" | "utility_pv" | "natural_gas" | "geothermal" | "coal";
 export type Tech = {
   key: TechKey; label: string; model: string; version: string; file: string; url: string; page: string; sheet: string;
   /** the summary row of each phase and effect (jobs, earnings and output are its columns B, C and D) */
@@ -56,6 +56,10 @@ export const TECHS: Tech[] = [
   { key: "geothermal", label: "Geothermal", model: "JEDI Geothermal Model", version: "GT12.23.16", file: "01d-jedi-geothermal-model-rel-gt12-23-16.xlsm",
     url: `${NLR}01d-jedi-geothermal-model-rel-gt12-23-16.xlsm`, page: "https://www.nlr.gov/analysis/jedi/geothermal", sheet: "Summary Results",
     rows: { construction: { onsite: 23, supply_chain: 26, induced: 27, total: 28 }, operations: { onsite: 31, supply_chain: 32, induced: 33, total: 34 } }, basis: "nameplate MW (the model's plant is 10 MW net)" },
+  // session 10822 (chain 740): read into nlr_jedi_multipliers by window A on 26 November (data request 8)
+  { key: "coal", label: "Coal", model: "JEDI Coal Model", version: "C12.23.16", file: "01d-jedi-coal-model-rel-c12-23-16.xlsm",
+    url: `${NLR}01d-jedi-coal-model-rel-c12-23-16.xlsm`, page: "https://www.nlr.gov/analysis/jedi/coal", sheet: "SummaryResults",
+    rows: { construction: { onsite: 27, supply_chain: 30, induced: 31, total: 32 }, operations: { onsite: 35, supply_chain: 36, induced: 37, total: 38 } }, basis: "nameplate MW (the model's plant is 600 MW)" },
 ];
 /** The technology the reader may ask for that JEDI has no model of: named, never filled. */
 export const NOT_MODELED = { key: "battery_storage", label: "Battery storage", why: "NLR publishes no JEDI model for battery storage (the thirteen models on https://www.nlr.gov/analysis/jedi/models, read 20 October 2026, have none), so this page shows no figure for it." };

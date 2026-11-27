@@ -31,6 +31,7 @@
   "pa_dor_cdce": {"title": "Pennsylvania Department of Revenue, Computer Data Center Equipment Exemption Program guidelines (with the program's FAQ, request 206)", "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/incentivescreditsprograms/computerdatacenterequipprog/documents/computer_data_center_equip_exemption_program_guidelines.pdf", "read": "2026-11-26", "request": 205},
   "ky_dor_stf_2025": {"title": "Kentucky Department of Revenue, Sales Tax Facts, June 2025 (House Bill 775's thresholds for KRS 139.499, request 207)", "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202025%20-%20Jun.pdf", "read": "2026-11-26", "request": 208},
   "wa_jlarc_2026": {"title": "Washington Joint Legislative Audit and Review Committee, 2026 tax preference review: Data Centers in Urban Counties", "url": "https://leg.wa.gov/jlarc/taxReports/2026/data/b/report.html", "read": "2026-11-26", "request": 216},
+  "wa_rcw_82_08_986": {"title": "Revised Code of Washington 82.08.986, Exemptions, eligible server equipment, eligible power infrastructure (as amended through 2026 c 266; the Legislature's law files)", "url": "https://lawfilesext.leg.wa.gov/Law/RCW/RCW%20%2082%20%20TITLE/RCW%20%2082%20.%2008%20%20CHAPTER/RCW%20%2082%20.%2008%20.986.htm", "read": "2026-11-27", "request": 463},
   "in_iedc_dcste": {"title": "Indiana Economic Development Corporation, Data Center Sales Tax Exemption (Indiana Code 6-2.5-15)", "url": "https://iedc.in.gov/incentives/data-center-sales-tax-exemption", "read": "2026-11-26", "request": 106},
   "al_dor_9b": {"title": "Alabama Department of Revenue, Chapter 9B Abatements (Code Title 40, Chapter 9B, the Tax Incentive Reform Act of 1992)", "url": "https://www.revenue.alabama.gov/tax-incentives/chapter-9b-abatements/", "read": "2026-11-26", "request": 301},
   "ar_act548_2025": {"title": "Arkansas Act 548 of 2025 (HB 1444), amending Arkansas Code 26-52-456, Data centers, approved 10 April 2025", "url": "https://arkleg.state.ar.us/Home/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2FACT548.pdf", "read": "2026-11-26", "request": 259},
@@ -69,7 +70,30 @@
   "ga_dor_valuation": {"title": "Georgia Department of Revenue, Property Tax Valuation (O.C.G.A. 48-5-7)", "url": "https://dor.georgia.gov/property-tax-valuation", "read": "2026-11-26", "request": 314},
   "nm_trd_general": {"title": "New Mexico Taxation and Revenue Department, Property Tax Division, State Assessed Property Bureau, General Instructions", "url": "https://www.tax.newmexico.gov/businesses/wp-content/uploads/sites/4/2020/12/GENERAL_INSTRUCTIONS.pdf", "read": "2026-11-26", "request": 315},
   "ga_hb1291": {"title": "Georgia House Bill 1291 (2022), as passed and signed, amending Code Section 48-8-3(68.1)", "url": "https://gov.georgia.gov/document/2022-signed-legislation/hb-1291/download", "read": "2026-11-26", "request": 245},
-  "ga_doaa_2025": {"title": "Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption (December 2025, revised January 2026), with the Department of Revenue's exemption page (request 187)", "url": "https://www.audits2.ga.gov/wp-content/uploads/2025/12/Data-Center-Tax-Exemption-Summary-Revised.pdf", "read": "2026-11-26", "request": 188}
+  "ga_doaa_2025": {"title": "Georgia Department of Audits and Accounts, Tax Incentive Evaluation: Georgia Data Center Sales & Use Tax Exemption (December 2025, revised January 2026), with the Department of Revenue's exemption page (request 187)", "url": "https://www.audits2.ga.gov/wp-content/uploads/2025/12/Data-Center-Tax-Exemption-Summary-Revised.pdf", "read": "2026-11-26", "request": 188},
+  "nh_75_1": {"title": "New Hampshire RSA 75:1, How Appraised (with RSA 72:6, Real Estate, request 422, and 72:7, Buildings, Etc., request 426)", "url": "https://gc.nh.gov/rsa/html/V/75/75-1.htm", "read": "2026-11-27", "request": 423},
+  "nh_72_toc": {"title": "New Hampshire RSA Chapter 72, Persons and Property Liable to Taxation, table of sections", "url": "https://gc.nh.gov/rsa/html/NHTOC/NHTOC-V-72.htm", "read": "2026-11-27", "request": 425},
+  "co_hb24b_1001": {"title": "Colorado House Bill 24B-1001 (Second Extraordinary Session, 2024), enrolled, amending C.R.S. 39-1-104(1.9)", "url": "https://content.leg.colorado.gov/sites/default/files/documents/2024B/bills/2024b_1001_enr.pdf", "read": "2026-11-27", "request": 428},
+  "nj_handbook_ch6": {"title": "New Jersey Division of Taxation, Handbook for New Jersey Assessors, Chapter VI, Personal Property Assessment (sections 601 and 602)", "url": "https://www.nj.gov/treasury/taxation/pdf/lpt/nj_assessors_handbook_chap6.pdf", "read": "2026-11-27", "request": 436},
+  "me_36_701a": {"title": "Maine Revised Statutes, Title 36, §701-A, Just value defined", "url": "https://legislature.maine.gov/statutes/36/title36sec701-A.html", "read": "2026-11-27", "request": 441},
+  "me_36_691": {"title": "Maine Revised Statutes, Title 36, §691, Definitions (the business equipment tax exemption, as PL 2025, c. 768 amended it; the page's data extracted 5 October 2026)", "url": "https://legislature.maine.gov/statutes/36/title36sec691.html", "read": "2026-11-27", "request": 440},
+  "de_9_81": {"title": "Delaware Code, Title 9, Chapter 81, Subchapter I, §§ 8101 and 8103 (the page decoded from its kept bytes as Windows-1252)", "url": "https://delcode.delaware.gov/title9/c081/sc01/index.html", "read": "2026-11-27", "request": 443},
+  "sd_10_4_1": {"title": "South Dakota Codified Laws 10-4-1, Property generally subject to taxation", "url": "https://sdlegislature.gov/api/Statutes/10-4-1.html", "read": "2026-11-27", "request": 446},
+  "sd_10_4_6_1": {"title": "South Dakota Codified Laws 10-4-6.1, Exemption from taxation of personal property not centrally assessed", "url": "https://sdlegislature.gov/api/Statutes/10-4-6.1.html", "read": "2026-11-27", "request": 445},
+  "or_307_030": {"title": "Oregon Revised Statutes 307.030, Property subject to assessment generally (chapter 307, 2025 edition page)", "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors307.html", "read": "2026-11-27", "request": 449},
+  "ri_44_3_1": {"title": "Rhode Island General Laws 44-3-1, Real and personal property subject to taxation", "url": "https://webserver.rilegislature.gov/Statutes/TITLE44/44-3/44-3-1.htm", "read": "2026-11-27", "request": 452},
+  "ny_orpts_exempt_2024": {"title": "New York Office of Real Property Tax Services, Exemptions from Real Property Taxation in New York State: 2024 County, City, and Town Assessment Rolls", "url": "https://www.tax.ny.gov/research/property/reports/exempt/24exrpt.htm", "read": "2026-11-27", "request": 467},
+  "ca_boe_pub306": {"title": "California State Board of Equalization, Annual Report 2024-25 (Publication 306)", "url": "https://www.boe.ca.gov/legdiv/2024-2025/pub306.pdf", "read": "2026-11-27", "request": 469},
+  "ne_77_201": {"title": "Nebraska Revised Statutes 77-201, Property taxable; valuation; classes", "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-201", "read": "2026-11-27", "request": 475},
+  "nc_105_274": {"title": "North Carolina General Statutes 105-274, Property subject to taxation", "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-274.html", "read": "2026-11-27", "request": 477},
+  "nc_105_283": {"title": "North Carolina General Statutes 105-283, Uniform appraisal standards", "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-283.html", "read": "2026-11-27", "request": 478},
+  "pa_53_8811": {"title": "Pennsylvania Consolidated Statutes, Title 53, section 8811, Subjects of taxation enumerated (Consolidated County Assessment Law)", "url": "https://www.palegis.us/statutes/consolidated/view-statute?txtType=PDF&ttl=53&div=0&chpt=088&sctn=011&subsctn=000", "read": "2026-11-27", "request": 479},
+  "md_tp_6_101": {"title": "Maryland Code, Tax-Property 6-101, Property subject to assessment and tax", "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtp&section=6-101&enactments=false", "read": "2026-11-27", "request": 481},
+  "ky_132_190": {"title": "Kentucky Revised Statutes 132.190, Property subject to taxation, situs", "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=49389", "read": "2026-11-27", "request": 482},
+  "wa_rcw_84_36_005": {"title": "Revised Code of Washington 84.36.005, Property subject to taxation (the Legislature's law files)", "url": "https://lawfilesext.leg.wa.gov/Law/RCW/RCW%20%2084%20%20TITLE/RCW%20%2084%20.%2036%20%20CHAPTER/RCW%20%2084%20.%2036%20.005.htm", "read": "2026-11-27", "request": 483},
+  "mi_211_1": {"title": "Michigan Compiled Laws 211.1, Property subject to taxation", "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-211-1", "read": "2026-11-27", "request": 484},
+  "id_63_203": {"title": "Idaho Code 63-203, Property subject to taxation", "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH2/SECT63-203/", "read": "2026-11-27", "request": 485},
+  "ms_mda_dc_sheet": {"title": "Mississippi Development Authority, Sales and Use Tax Exemption for Data Center Enterprises (October 2019)", "url": "https://mississippi.org/wp-content/uploads/sales-and-use-tax-exemption-data-centers-1.pdf", "read": "2026-11-27", "request": 493}
  },
  "split": {
   "cite": "jlarc_598",
@@ -236,6 +260,10 @@
   },
   "md": {
    "name": "Maryland",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "md_tp_6_101",
+    "quote": "Except as otherwise provided in this article, all property located in this State is subject to assessment and property tax and is taxable to the owner of the property.",
+    "tip": "Maryland (Tax-Property 6-101): \"all property located in this State is subject to assessment and property tax\", intangible personal property excepted, so the building and the equipment are both taxed. The tool takes them at their cost (no depreciation is read: an upper bound) and applies the reader's rate (each county's and city's)."
+   },
    "sales_exemption": {
     "cite": "md_tg_11_239", "covers": ["equipment"], "min_investment_usd": 5000000, "min_jobs": 5, "term_years": 10, "term_years_big": {"min_investment_usd": 250000000, "years": 20},
     "quote": "for a data center located in any other area of the State, invested at least $5,000,000 in qualified data center personal property and created at least five qualified positions",
@@ -252,6 +280,10 @@
   },
   "id": {
    "name": "Idaho",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "id_63_203",
+    "quote": "All property within the jurisdiction of this state, not expressly exempted, is subject to appraisal, assessment and property taxation.",
+    "tip": "Idaho (Code 63-203): \"All property within the jurisdiction of this state, not expressly exempted, is subject to appraisal, assessment and property taxation\"; no exemption of a datacenter's equipment is read (the business personal property exemptions of chapter 6 are not). The tool takes the building and the equipment at their cost (an upper bound) and applies the reader's rate."
+   },
    "sales_exemption": {
     "cite": "id_63_3622vv", "covers": ["equipment", "construction"], "min_investment_usd": 250000000, "min_jobs": 30,
     "quote": "in amounts of at least two hundred fifty million dollars ($250,000,000) in the aggregate within the first five (5) years after commencement of construction and that it will create and maintain at least thirty (30) new jobs at the data center",
@@ -272,6 +304,11 @@
   },
   "nc": {
    "name": "North Carolina",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "nc_105_274",
+    "quote": "All property, real and personal, within the jurisdiction of the State shall be subject to taxation unless it is:",
+    "value": {"cite": "nc_105_283", "quote": "All property, real and personal, shall as far as practicable be appraised or valued at its true value in money."},
+    "tip": "North Carolina (G.S. 105-274 and 105-283): \"All property, real and personal, within the jurisdiction of the State shall be subject to taxation\" unless excluded or exempted, and is valued \"at its true value in money\". The tool takes the building and the equipment at their cost (no depreciation schedule is read: an upper bound) and applies the reader's rate (each county's and city's)."
+   },
    "sales_exemption": {
     "cite": "nc_105_164_3", "covers": ["equipment"], "min_investment_usd": 75000000, "min_jobs": 0,
     "quote": "at least seventy-five million dollars ($75,000,000) in private funds has been or will be invested by one or more owners, users, or tenants of the datacenter within five years",
@@ -352,6 +389,11 @@
   },
   "pa": {
    "name": "Pennsylvania",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "pa_53_8811",
+    "quote": "buildings permanently attached to land or connected with water, gas, electric or sewage facilities;",
+    "personal": {"cite": "pa_53_8811", "quote": "Machinery, tools, appliances and other equipment contained in any mill, mine, manufactory or industrial establishment shall not be considered or included as a part of the real estate"},
+    "tip": "Pennsylvania (53 Pa.C.S. 8811, the Consolidated County Assessment Law): the subjects of assessment are real estate, \"buildings permanently attached to land\" among them, and \"Machinery, tools, appliances and other equipment contained in any mill, mine, manufactory or industrial establishment shall not be considered or included as a part of the real estate\". A datacenter's servers are not among the real estate the section lists, so the tool leaves the equipment untaxed (read from the list; whether a datacenter is an industrial establishment is not read). The building is taken at its cost and the reader's rate, an upper bound: counties assess at a ratio of value up to 100 percent."
+   },
    "sales_exemption": {
     "cite": "pa_dor_cdce", "covers": ["equipment"], "min_investment_usd": 100000000, "min_jobs": 45, "term_years": 26, "rate_part": "state",
     "quote": "At least $100,000,000 of new investment, on or after January 1, 2022, if the computer data center is located in a county with a population of more than 250,000 individuals and creates 45 new jobs.",
@@ -360,6 +402,11 @@
   },
   "ky": {
    "name": "Kentucky",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "ky_132_190",
+    "quote": "All property shall be subject to taxation, unless it is exempted by the Constitution or in the case of personal property unless it is exempted by the Constitution or by statute.",
+    "value": {"cite": "ky_132_190", "quote": "Property shall be assessed for taxation at its fair cash value"},
+    "tip": "Kentucky (KRS 132.190): \"All property shall be subject to taxation\" unless the Constitution or, for personal property, a statute exempts it, and is assessed \"at its fair cash value\". No exemption of a datacenter's equipment is read, so the tool takes the building and the equipment at their cost (no depreciation is read: an upper bound) and applies the reader's rate (state and local)."
+   },
    "sales_exemption": {
     "cite": "ky_dor_stf_2025", "covers": ["equipment"], "min_investment_usd": 450000000, "min_jobs": 0,
     "quote": "For counties with a population of 100,000 or more, the minimum capital investment is $450,000,000.",
@@ -368,10 +415,20 @@
   },
   "wa": {
    "name": "Washington",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "wa_rcw_84_36_005",
+    "quote": "All property now existing, or that is hereafter created or brought into this state, shall be subject to assessment and taxation for state, county, and other taxing district purposes",
+    "tip": "Washington (RCW 84.36.005): \"All property now existing, or that is hereafter created or brought into this state, shall be subject to assessment and taxation\", except what the law exempts; no exemption of a datacenter's equipment is read. The tool takes the building and the equipment at their cost (no depreciation is read: an upper bound) and applies the reader's rate."
+   },
    "sales_exemption": {
-    "cite": "wa_jlarc_2026", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
-    "quote": "Be in a county with a population of 800,000 or more. This means it must be in King, Pierce, or Snohomish County.",
-    "tip": "Washington: the urban exemption (RCW 82.08.9861, as the Legislature's audit committee describes it in its 2026 review) exempts computer servers and power infrastructure of a data center in a county of 800,000 people or more (King, Pierce, Snohomish) with 20,000 square feet of server space and 1.5 MW of power; it \"allowed no new exemptions after fiscal year 2028\" and expires fully on 1 July 2038. The rural exemption (RCW 82.08.986) is not read: the Legislature's statute site disallows every automated read. The tool applies no exemption."
+    "cite": "wa_rcw_82_08_986", "covers": ["equipment"], "min_investment_usd": 0, "min_jobs": 35, "rate_part": "state",
+    "start_before_year": 2035, "last_year": 2047,
+    "quote": "An exemption from the tax imposed by RCW 82.08.020 is provided for sales to qualifying businesses and to qualifying tenants of eligible server equipment",
+    "jobs": {"cite": "wa_rcw_82_08_986", "quote": "Thirty-five family wage employment positions; or, if lower"},
+    "start": {"cite": "wa_rcw_82_08_986", "quote": "After June 30, 2015, and before July 1, 2035."},
+    "term": {"cite": "wa_rcw_82_08_986", "quote": "The exemptions provided in this section expire July 1, 2048."},
+    "rural": {"cite": "wa_rcw_82_08_986", "quote": "Located in a rural county as defined in RCW 82.14.370 at the time an application for an exemption under this section is received"},
+    "urban": {"cite": "wa_jlarc_2026", "quote": "Be in a county with a population of 800,000 or more. This means it must be in King, Pierce, or Snohomish County."},
+    "tip": "Washington (RCW 82.08.986, as 2026 c 266 left it, read from the Legislature's law files): the state's retail sales tax (RCW 82.08.020) is not charged on eligible server equipment and power infrastructure bought for a data center \"Located in a rural county as defined in RCW 82.14.370\", with at least 20,000 square feet of working servers in a facility of 100,000, whose construction begins \"before July 1, 2035\", and that adds \"Thirty-five family wage employment positions; or, if lower\" three for each 20,000 square feet of servers; the exemption ends on 1 July 2048. The tool applies it when the permanent jobs reach 35, the first construction year is before 2035, and to purchases through 2047, at the state's part of the rate (whether local sales taxes follow is not read); it cannot see the county or the floor space, so a reader in King, Pierce or Snohomish County, or with a smaller building, turns it off. The urban exemption for those three counties (RCW 82.08.9861) allows no new exemptions after fiscal year 2028 (the Legislature's audit committee, 2026). The Legislature's other statute site (app.leg.wa.gov) disallows every automated read; this text was read from lawfilesext.leg.wa.gov, which has no robots file."
    }
   },
   "al": {
@@ -420,6 +477,10 @@
   },
   "mi": {
    "name": "Michigan",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "mi_211_1",
+    "quote": "That all property, real and personal, within the jurisdiction of this state, not expressly exempted, shall be subject to taxation.",
+    "tip": "Michigan (MCL 211.1): \"all property, real and personal, within the jurisdiction of this state, not expressly exempted, shall be subject to taxation\"; no exemption of a datacenter's equipment is read (Michigan's exemptions for manufacturing and small business personal property are not). The tool takes the building and the equipment at their cost (Michigan's assessment ratio and taxable value are not read: an upper bound) and applies the reader's rate."
+   },
    "sales_exemption": {
     "cite": "mi_msf_edc", "covers": ["equipment", "construction"], "min_investment_usd": 250000000, "min_jobs": 30, "last_year": 2050, "start_before_year": 2030,
     "quote": "Affiliates that will develop, own, and operate the facility, is not less than $250,000,000.00",
@@ -431,6 +492,10 @@
   },
   "ne": {
    "name": "Nebraska",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "ne_77_201",
+    "quote": "all real property in this state, not expressly exempt therefrom, shall be subject to taxation and shall be valued at its actual value.",
+    "tip": "Nebraska (Revised Statutes 77-201): real property \"shall be valued at its actual value\", and tangible personal property is taxed at its net book value. The tool takes the building and the equipment at their cost (the net book value's depreciation is not read: an upper bound) and applies the reader's rate."
+   },
    "sales_exemption": {
     "cite": "ne_governor_eo", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
     "quote": "signed an executive order ending access to tax incentives provided through the state's ImagiNE Nebraska Act for data centers",
@@ -537,9 +602,10 @@
     "personal": {"cite": "ms_dor_appraisal", "quote": "Personal property, except for motor vehicles and for personal property included in Class IV 15%"},
     "tip": "Mississippi (the Department of Revenue's local property appraisal page): real property other than Class I or IV (Class II) and personal property other than motor vehicles and Class IV (Class III) are each assessed at 15 percent of true value. The tool assesses the building and the equipment at 15 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate; a county's fee in lieu goes in the abatement input."},
    "sales_exemption": {
-    "cite": "ms_governor_xai", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
-    "quote": "The Mississippi Development Authority has approved xAI for its Data Center Incentive, which provides a sales and use tax exemption for all computing and equipment software used by companies certified as data centers by the agency.",
-    "tip": "Mississippi: the Mississippi Development Authority's Data Center Incentive \"provides a sales and use tax exemption for all computing and equipment software used by companies certified as data centers by the agency\" (the governor's release on xAI, 8 January 2026). The statute's thresholds (Code 57-113-21) are not read from an official text: the tool applies no exemption. Counties and cities also agree fees in lieu of property tax (the abatement input)."
+    "cite": "ms_mda_dc_sheet", "covers": ["equipment", "construction"], "min_investment_usd": 20000000, "min_jobs": 20, "rate_part": "state",
+    "quote": "Businesses must invest at least $20 million and must create at least 20 new jobs paying 125 percent of the average state wage to qualify for this program.",
+    "current": {"cite": "ms_governor_xai", "quote": "The Mississippi Development Authority has approved xAI for its Data Center Incentive, which provides a sales and use tax exemption for all computing and equipment software used by companies certified as data centers by the agency."},
+    "tip": "Mississippi (the Mississippi Development Authority's sheet on the exemption, October 2019): a state sales and use tax exemption for \"all computing equipment and software\" of a business the Authority certifies as a data center, new and replacement equipment alike, and for the building materials and equipment of the data center's initial construction or expansion; \"Businesses must invest at least $20 million and must create at least 20 new jobs paying 125 percent of the average state wage\". The governor's release on xAI (8 January 2026) names the same Data Center Incentive. The tool applies it at USD 20 million and 20 jobs (the wage condition is the reader's to judge) to the equipment, every purchase, and to the construction, at the state's part of the rate; the statute's text (Code 57-113-21) is not read from an official site. Counties and cities also agree fees in lieu of property tax (the abatement input)."
    }
   },
   "ia": {
@@ -553,6 +619,80 @@
     "min_investment_usd": 200000000, "min_jobs": 0,
     "quote": "An eligible data center business must make a minimum investment in an Iowa physical location of $200 million within the first six years of operation in Iowa and meet other requirements described below.",
     "tip": "Iowa (Code 423.3(95), as the Department of Revenue states it): with \"a minimum investment in an Iowa physical location of $200 million within the first six years\", qualifying computers and equipment are exempt permanently, and backup fuel and electricity for the first 10 years (in a city above 30,000) or 15 years, for property operating from 6 June 2025. The tool applies the equipment exemption when the investment meets the threshold; the electricity part needs a price the tool does not hold. Iowa's property tax on a datacenter is not read."
+   }
+  },
+  "nh": {
+   "name": "New Hampshire",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "nh_75_1",
+    "quote": "and all other taxable property at its market value.",
+    "personal": {"cite": "nh_72_toc", "quote": "PERSONS AND PROPERTY LIABLE TO TAXATION"},
+    "tip": "New Hampshire (RSA 72:6, 72:7 and 75:1): \"All real estate, whether improved or unimproved, shall be taxed\", buildings \"are taxable as real estate\", and the selectmen appraise \"all other taxable property at its market value\". Chapter 72, \"Persons and Property Liable to Taxation\", names real estate, buildings, electric plants and pipe lines, and telecommunications poles and conduits; no section of it taxes a datacenter's computers, so the tool leaves the equipment untaxed (read from the chapter's list, not from a sentence that says so). The building is taken at its cost and the reader's rate (each town's), an upper bound. No sales tax rule is read for New Hampshire."
+   }
+  },
+  "co": {
+   "name": "Colorado",
+   "property": {"building_ratio": 0.25, "equipment_ratio": 0.25, "cite": "co_hb24b_1001",
+    "quote": "FOR PROPERTY TAX YEARS COMMENCING ON OR AFTER JANUARY 1, 2027, THE VALUATION FOR ASSESSMENT FOR PERSONAL PROPERTY AND NONRESIDENTIAL REAL PROPERTY IS TWENTY-FIVE PERCENT OF THE ACTUAL VALUE THEREOF.",
+    "tip": "Colorado (C.R.S. 39-1-104(1.9), as House Bill 24B-1001 enacted it in 2024): personal property and nonresidential real property are assessed at 27 percent of actual value for 2025, 26 percent for 2026 (25 for improved commercial property), and \"FOR PROPERTY TAX YEARS COMMENCING ON OR AFTER JANUARY 1, 2027\" at 25 percent. The tool assesses the building and the equipment at 25 percent of their cost in every operating year (no depreciation table is read: an upper bound) and applies the reader's rate. A later change to these percentages is not read. No sales tax rule is read for Colorado."
+   }
+  },
+  "nj": {
+   "name": "New Jersey",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "nj_handbook_ch6",
+    "quote": "Acquisitions of machinery and equipment by businesses after January 1, 1977 are not required to be reported",
+    "tip": "New Jersey (the Division of Taxation's Handbook for New Jersey Assessors, chapter VI, sections 601.1 and 602.14): the only personal property the assessor lists is a local exchange telephone company's machinery and equipment, and machinery and equipment businesses acquired after 1 January 1977 \"are not required to be reported, and are thereby effectively eliminated\" from the business personal property tax, so a datacenter's equipment owes none. The building is taken at its cost and the reader's effective rate (each municipality's), an upper bound. No sales tax rule is read for New Jersey."
+   }
+  },
+  "me": {
+   "name": "Maine",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "me_36_701a",
+    "quote": "In the assessment of property, assessors in determining just value",
+    "personal": {"cite": "me_36_691", "quote": "Any property located in a data center or in the portion of a facility that constitutes a data center that begins operations on or after August 1, 2026"},
+    "tip": "Maine (36 MRSA §701-A and §691): property is assessed at its just value, and the business equipment tax exemption leaves out of \"eligible business equipment\" \"Any property located in a data center or in the portion of a facility that constitutes a data center that begins operations on or after August 1, 2026\" (PL 2025, c. 768), so a new datacenter's equipment is taxed. The tool takes the building and the equipment at their cost (no depreciation table is read: an upper bound) and applies the reader's rate (each municipality's). Maine's reimbursement program for business equipment taxes paid (BETR) is not read. No sales tax rule is read for Maine."
+   }
+  },
+  "de": {
+   "name": "Delaware",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "de_9_81",
+    "quote": "All real property situated in this State shall be liable to taxation and assessment for public purposes by the county in which the property is located",
+    "personal": {"cite": "de_9_81", "quote": "No county or other political subdivision of the State shall levy, assess or collect any tax upon personal property, whether tangible or intangible."},
+    "tip": "Delaware (Code Title 9, §§ 8101 and 8103): \"All real property situated in this State shall be liable to taxation\" by its county, and \"No county or other political subdivision of the State shall levy, assess or collect any tax upon personal property, whether tangible or intangible\", so a datacenter's equipment owes none. The building is taken at its cost and the reader's effective rate (each county's and school district's), an upper bound. No sales tax rule is read for Delaware."
+   }
+  },
+  "sd": {
+   "name": "South Dakota",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "sd_10_4_1",
+    "quote": "All real property in this state and the property of corporations existing or hereafter created",
+    "personal": {"cite": "sd_10_4_6_1", "quote": "Personal property, as defined in this chapter, which is not centrally assessed is hereby classified for ad valorem tax purposes and is exempt from ad valorem taxation."},
+    "tip": "South Dakota (Codified Laws 10-4-1 and 10-4-6.1): real property is subject to taxation, and \"Personal property, as defined in this chapter, which is not centrally assessed is hereby classified for ad valorem tax purposes and is exempt from ad valorem taxation\". The tool takes a datacenter's equipment as not centrally assessed (the list of what is centrally assessed is not read), so it owes none. The building is taken at its cost and the reader's effective rate, an upper bound: the share of value South Dakota taxes is not read. No sales tax rule is read for South Dakota."
+   }
+  },
+  "or": {
+   "name": "Oregon",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "or_307_030",
+    "quote": "All real property within this state and all tangible personal property situated within this state, except as otherwise provided by law, shall be subject to assessment and taxation in equal and ratable proportion.",
+    "tip": "Oregon (ORS 307.030): \"All real property within this state and all tangible personal property situated within this state, except as otherwise provided by law, shall be subject to assessment and taxation in equal and ratable proportion\", so the building and the equipment are both taxed. The tool takes them at their cost (Oregon's assessed value, which can be below market value, and any depreciation are not read: an upper bound) and applies the reader's rate; an abatement a county or enterprise zone approves goes in the abatement input, since none is applied by statute here. No sales tax rule is read for Oregon."
+   }
+  },
+  "ri": {
+   "name": "Rhode Island",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "ri_44_3_1",
+    "quote": "All real property in the state, and all personal property belonging to the inhabitants of the state, whether individuals, partnerships or corporations, and all tangible personal property located in the state belonging to nonresidents, are liable to taxation unless otherwise specially provided.",
+    "tip": "Rhode Island (General Laws 44-3-1): \"All real property in the state, and all personal property belonging to the inhabitants of the state, whether individuals, partnerships or corporations, and all tangible personal property located in the state belonging to nonresidents, are liable to taxation unless otherwise specially provided\", so the building and the equipment are both taxed. The exemptions of 44-3-3 and the cities' and towns' own tangible property rates are not read: the tool takes both at their cost (an upper bound) and applies the reader's rate. No sales tax rule is read for Rhode Island."
+   }
+  },
+  "ny": {
+   "name": "New York",
+   "property": {"building_ratio": 1, "equipment_ratio": 0, "cite": "ny_orpts_exempt_2024",
+    "quote": "All real property in New York is subject to taxation unless specific legal provisions grant it exempt status, whereas personal property is not subject to taxation.",
+    "tip": "New York (the Office of Real Property Tax Services' 2024 exemptions report): \"All real property in New York is subject to taxation unless specific legal provisions grant it exempt status, whereas personal property is not subject to taxation\", so a datacenter's equipment owes none. The building is taken at its cost and the reader's effective rate (each locality's, on its own share of value), an upper bound. New York's statute site answered HTTP 403, so no sales tax rule is read; the tool applies none."
+   }
+  },
+  "ca": {
+   "name": "California",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "ca_boe_pub306",
+    "quote": "Proposition 13, passed by California voters in 1978, imposed a property tax rate of one percent of the property's full cash value, with limited exceptions.",
+    "tip": "California (the Board of Equalization's Publication 306, 2024-25): \"Proposition 13, passed by California voters in 1978, imposed a property tax rate of one percent of the property's full cash value, with limited exceptions\", plus the rates of locally voter-approved debt. The tool takes the building and the equipment at their cost (no depreciation is read: an upper bound; how business equipment is assessed is not quoted here) and applies the reader's rate, about 1 percent plus the county's debt rates. The Legislature's code site answers HTTP 403 to its robots file, so no sales tax rule is read; the tool applies none."
    }
   }
  }

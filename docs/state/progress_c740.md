@@ -128,3 +128,9 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Mississippi's exemption | done | 10822 | the Development Authority's sheet (request 493): USD 20 million, 20 jobs, equipment and construction, the state's rate (decision 24); 25 applied, 7 words |
 | Build and read of 1a90adbc1 | done | 10822 | 29 addresses at both widths clean (Mississippi with its exemption added); check-values 1,882 of 1,882; row 16 moved to it |
 | A review of the branch's code diff | done | 10822 | ten site files, 31 lines added: coal's branches, the chart margin (60 px when no tick), toDate, the menu and lead words; no fault found; no planned coal generator exists in EIA-860M's list (0 in the live set), so the planned list needs no coal mapping |
+| Row 16 watch | waiting | 10822 | checked 05:32 UTC: still requested; window F's file has no new /impact lines |
+| Row 16 in window A's gate | seen | 10822 | wip/c701-g20 (05:27 UTC) contains 1a90adbc1; the lock held by c701-gate from 05:29; the branch's later commits (9816b41a7 the menu line, 9752e6809 the note's words) wait for row 17 once row 16 lands |
+| Row 16 watch | waiting | 10822 | checked 05:53 UTC: gate 20 still running, row 16 requested |
+| Row 16 watch | waiting | 10822 | checked 06:15 UTC: task/c701-g20 pushed (GitHub's checks merge it on a pass); the build lock free |
+| Row 16 watch | waiting | 10822 | checked 06:36 UTC: GitHub run 45948880574 (code branch, task/c701-g20) in progress since 05:57 |
+| Row 16 | landed | 10822 | in 89418bdef (06:38 UTC, task/c701-g20), the branch's newest head 9752e6809 with it: nothing of the branch waits |

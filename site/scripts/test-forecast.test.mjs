@@ -13,7 +13,7 @@ const data = (n) => JSON.parse(fs.readFileSync(path.join(here, "..", "data", "fo
 const P = {
   jediCosts: data("jedi_costs.json"), eiaCapex: data("eia_capex.json"), deflator: data("deflator.json"), capacity: data("capacity_factors.json"),
   sales: data("sales_tax.json"), income: data("income_tax.json"), property: data("property_rules.json"), taxable: data("jedi_taxable.json"), gas: data("gas.json"),
-  exemptions: data("sales_exemptions.json"),
+  exemptions: data("sales_exemptions.json"), coal: data("coal.json"),
 };
 const ROWS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "tests", "fixtures", "forecast", "jedi_rows.json"), "utf8")).rows;
 const near = (a, b, rel = 1e-9, msg = "") => assert.ok(Math.abs(a - b) <= rel * Math.max(1, Math.abs(b)), `${msg} ${a} is not ${b}`);
@@ -227,6 +227,8 @@ test("the run's Python script recomputes every total of the tool", async () => {
     [{ ...F.defaults(P, "land_based_wind", "il"), levy: 80 }, { ...F.defaults(P, "natural_gas", "wv") }],
     [{ ...F.defaults(P, "land_based_wind", "wv") }, { ...F.defaults(P, "utility_pv", "il"), levy: 75, life: 30 }],
     [{ ...F.defaults(P, "utility_pv", "ny"), own: 1.5, ownyears: 30 }, { ...F.defaults(P, "utility_pv", "dc"), own: 2, ownyears: 20 }],
+    // session 10822: coal, the fifth type (its rows for Wyoming and Texas in the fixture)
+    [{ ...F.defaults(P, "coal", "wy"), own: 1.2, ownyears: 30 }, { ...F.defaults(P, "coal", "tx") }],
   ];
   const { execFileSync } = await import("node:child_process");
   const py = process.env.ERW_PYTHON || "python";
@@ -720,4 +722,21 @@ test("session 6005: West Virginia's solar, gas and geothermal plants by the Tax 
   near(prop("geothermal", 30), 150e6 * 0.21 * 0.6 * 0.0192, 1e-9);
   near(prop("geothermal", 35), 150e6 * 0.20 * 0.6 * 0.0192, 1e-9, "20 percent, the table's last figure");
   assert.deepEqual(P.property.states.wv.rules.find((r) => r.id === "wv_property").schedule_pct.slice(0, 5), [98, 97, 95, 93, 91]);
+});
+
+test("coal, the fifth plant type (session 10822): EIA's case 1 and JEDI's coal model give its defaults", () => {
+  assert.ok(F.TECH_KEYS.includes("coal"));
+  const e = P.eiaCapex.technologies.coal;
+  assert.equal(e.case, 1); assert.equal(e.case_mw, 650); assert.equal(e.base_usd_per_kw, 4103); assert.equal(e.dollar_year, 2023);
+  const d = F.defaults(P, "coal", "wy");
+  assert.equal(d.mw, 650);
+  assert.equal(d.build, Math.ceil(e.construction_months / 12)); assert.equal(d.build, 3);
+  assert.equal(d.life, 40);
+  near(d.capex, F.round(e.states.wy.usd_per_kw * F.to2025(P, 2023), 2), 1e-12, "Wyoming's EIA cost in 2025 dollars");
+  assert.equal(d.taxable, 45.6198);  // 828,000,000 / 1,815,000,000, the workbook's facility and equipment over its default cost
+  assert.equal(d.cf, 0.85);  // JEDI's coal default (coal.json), for the production taxes
+  // JEDI's default cost a MW at Texas, the workbook's own: 1,815,000,000 / 600 MW, 2011 dollars
+  assert.equal(P.jediCosts.technologies.coal.states.tx.cost_usd_per_mw, 3025000); assert.equal(P.jediCosts.technologies.coal.dollar_year, 2011);
+  // the four other types keep their defaults
+  assert.equal(F.defaults(P, "land_based_wind", "tx").mw, 200); assert.equal(F.defaults(P, "geothermal", "nv").mw, 50);
 });
