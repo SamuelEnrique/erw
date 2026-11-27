@@ -1,0 +1,68 @@
+# source: Wikipedia (CC BY-SA 4.0), MediaWiki API plain-text extract
+# title: The Geysers
+# url: https://en.wikipedia.org/wiki/The_Geysers
+# revision: 1385961384
+# note: em dashes in the source are stored as hyphens
+# retrieved_at: 20261127T165153Z
+
+The Geysers is the world's largest developed geothermal field, containing a complex of 18 geothermal power plants, drawing steam from more than 350 wells, located in the Mayacamas Mountains approximately 72 miles (116 km) north of San Francisco, California. Geysers produced about 20% of California's renewable energy in 2019. The Geysers is owned by Constellation Energy, the largest nuclear and geothermal energy producer in the United States.
+
+
+== History ==
+
+For about 12,000 years, Native Americans built steam baths and thermal pools at The Geysers and used the steam and hot water for healing purposes, as well as spiritual and ceremonial practices, and cooking. The thermal pools were used as a medicinal treatment for rheumatism and arthritis. The heated mud was used to soothe skin rashes and other aches and pains, using the fumaroles as a natural energy source.
+When European Americans first arrived, six local native tribes inhabited the area around The Geysers. These tribes included three bands of Pomo people, two bands of Wappo people, and the Lake Miwok people. The Wappo also collected sulfur which they called te'ke and a Wappo village, named tekena'ntsonoma (teke sulphur + nan well containing water + tso ground + no'ma village) was located about 12 miles (19 km) southeast of Cloverdale and on the present-day Sulphur Creek.
+The Geysers were first seen by European Americans and named in 1847 during John Fremont's survey of the Sierra Mountains and the Great Basin by William Bell Elliot who called the area "The Geysers," although the geothermal features he discovered were not technically geysers, but fumaroles.
+Between 1848 and 1854, Archibald C. Godwin developed The Geysers into a spa named The Geysers Resort Hotel, which attracted tourists including Ulysses S. Grant, Theodore Roosevelt and Mark Twain. The resort declined in popularity in the mid 1880s, and rebranded itself to appeal to lower-income people. In 1938, the main building was destroyed in a landslide although the bar/restaurant, small cabins and the swimming pool stayed open, despite another fire in March 1957, until about 1979. In 1960, Pacific Gas and Electric began operation of their 11-megawatt geothermal electric plant at the Geysers. Unocal Corporation dismantled the remains of the resort in 1980.
+The Geysers Geothermal Power Development project was designated as a California Historic Civil Engineering Landmark by the San Francisco Section of the American Society of Civil Engineers in 1976.
+Five of The Geysers facilities were damaged in the Valley Fire of September 2015, suffering "severe" damage to their cooling towers. The main power houses were not damaged. The Kincade Fire started at John Kincade Road and Burned Mountain Road in The Geysers, at 9:27 PM on October 23, 2019.
+
+
+== Geothermal power stations ==
+
+The Geysers is the world's largest geothermal field spanning an area of around 30 square miles (78 km2) in Sonoma, Lake and Mendocino counties in California, centered in the area of Geyser Canyon and Cobb Mountain. Power from The Geysers provides electricity to Sonoma, Lake, Mendocino, Marin, and Napa counties. It is estimated that the development meets 60% of the power demand for the coastal region between the Golden Gate Bridge and the Oregon state line. Unlike most geothermal resources, The Geysers is a dry steam field which mainly produces superheated steam.
+Steam used at The Geysers is produced from a greywacke sandstone reservoir, capped by a heterogeneous mix of low permeability rocks and underlain by a silicic intrusion. Gravitational and seismic studies suggest that the source of heat for the steam reservoir is a large magma chamber over 4 miles (6.4 km) beneath the surface, and greater than 8 miles (13 km) in diameter.
+The first geothermal wells drilled in Geyser Canyon were the first in the Western Hemisphere. The first power plant at The Geysers was privately developed by the owner of The Geysers Resort and opened in 1921, producing 250 kilowatts of power to light the resort. In 1960, Pacific Gas and Electric (PG&E) began operation of their 11-megawatt plant at the Geysers. The original turbine lasted for more than 30 years and produced 11 MW net power.
+By 1999, the steam to power extraction had begun to deplete The Geysers steam field and production began to drop. However, since October 16, 1997, The Geysers steam field has been recharged by injection of treated sewage effluent, producing approximately 77 megawatts of capacity in 2004. The effluent is piped up to 50 miles (80 km) from its source at the Lake County Sanitation waste water treatment plants and added to the Geysers steam field via geothermal injection.
+The injection of wastewater to The Geysers protects local waterways and Clear Lake by diverting effluent which used to be put into surface waters, and has produced electricity without releasing greenhouse gases into the atmosphere. The Southeast Geysers Effluent Pipeline, completed in 1997, delivers approximately 9 million gallons per day of secondary treated wastewater through a 40-mile pipeline from Lake County communities. The Santa Rosa Geysers Recharge Project, completed in 2003, adds another 11 million gallons per day of tertiary treated effluent through a 42-mile pipeline. These projects provide approximately 20 million gallons of reclaimed water daily for injection into The Geysers reservoir, effectively converting wastewater into renewable electricity. The environmental benefits extend beyond energy production, as the projects have significantly reduced river discharges, with 65 percent of treated effluent from Santa Rosa, Rohnert Park, Cotati, and Sebastopol being consumed by the steam fields rather than discharged into the Russian River.
+As of 2025, Calpine owned 13 units, most of which were acquired from PG&E and Unocal Geothermal in 1999. NCPA Units 1-4 are jointly owned by the Northern California Power Agency (NCPA) and Silicon Valley Power. Bottle Rock is wholly owned by Bottle Rock Power, a joint-venture between U.S. Renewables Group and Riverstone Holdings.
+In addition, Ormat owns the plans for a new 30 MW geothermal power station at the vacant Calpine 15 site that were acquired through a merger with U.S. Geothermal in 2018. The plans were previously developed by Ram Power before being sold to U.S. Geothermal in 2014.
+
+
+== Seismicity ==
+For the past several decades, small earthquakes (less than 2.0) are regularly recorded in the area. It has been estimated that 99% of all seismic activity at and surrounding The Geysers is around 3.0 or smaller. In fact, "the frequency of seismic events greater than 3.0 have been trending downward since 1990". Due to the remote location it is very infrequent for humans to feel the effect of this tectonic shake. Typically seismic activity in this area is measured using seismometers that can pick up on micro seismicity down to extremely minute levels. This has been demonstrated to be caused by the water injection process used to produce the geothermal electricity at the power plant.
+According to the Lawrence Berkeley National Laboratory Earth Sciences division, seismicity was very low prior to the use of the Geyser steam field for geothermal energy, although this may have been the result of low seismic coverage of the area. Before 1969, there were no earthquakes above magnitude 2 recorded by the United States Geological Survey (USGS) in an approximately 70 square miles (180 km2) area around the Geysers. Studies have shown that injecting water into the Geysers field produces earthquakes from magnitude 0.5 to 3.0, although a 4.6 occurred in 1973 and magnitude four events increased thereafter. Even with increasing injection rates over time, the rate of magnitude 3 earthquakes has remained relatively unchanged since the 1980s, although the absolute number of earthquakes has increased significantly. A magnitude 4.5 earthquake struck near the Geysers on January 12, 2014, and a magnitude 5.0 on December 14, 2016. A magnitude 3.8 earthquake, with a hypocenter 600 meters directly under the field, struck in the early hours of March 3, 2022. Despite the increases in the number of earthquakes and the fears of local residents, it is unlikely that a large earthquake will occur at the Geysers since there is no fault or fracture nearby.
+
+
+== Geochemistry ==
+In 2005, abatement equipment was installed at two plants to reduce the amount of mercury released via waste vapor even though the amount released was below the legal limit for such releases. The Geysers Air Monitoring Programs has shown limited releases of arsenic, but again below a significant level.
+
+
+== Production ==
+Power plants at the Geysers are of the dry steam power plant type, where the steam directly powers the generator. In general, the Geysers has 1517 MW of active installed capacity with an average production factor of 63% (835 MW).
+A California Energy Commission-funded demonstration tested GreenFire Energy's Advanced Geothermal System (AGS), a closed-loop system, in an existing geothermal well at The Geysers. According to the project's 2026 final report, the system achieved peak heat extraction of approximately 9 megawatts thermal (MWt), equivalent to an estimated gross electrical output of about 1.1 megawatts (MWe) when paired with an Organic Rankine Cycle system. No power-generation unit was installed as part of the demonstration.
+Of nearly two dozen active plants in the Geysers in 2014, Calpine operated 19 plants in 2004 but only 15 in 2013. Two other plants are owned jointly by the Northern California Power Agency and the City of Santa Clara
+In July 2009, AltaRock Energy planned to drill more than 2 miles (3.2 km) down to create an "enhanced geothermal" project which was abandoned when federal agencies asked for review.
+
+
+== Geology ==
+
+The Geysers is located on the northeast limb of the Mayacamas anticline, bounded by the Collayomi Fault on the northeast and the Mercuryville Fault on the southwest. The central and eastern Franciscan belts form the core of this anticline. Within this belt is a rock unit forming the reservoir rock, consisting of a sheared and fractured graywacke.
+A large Bouguer Gravity anomaly combined with slower seismic velocities,  located below the Clear Lake Volcanic Field, suggests a magma body is heating the geothermal area.
+
+
+== See also ==
+
+List of geothermal power stations in the United States
+List of power stations in California
+
+
+== References ==
+
+
+== External links ==
+
+Jeremy Shere (November 26, 2013). Renewable: The World-Changing Power of Alternative Energy. St. Martin's Press. pp. 151–. ISBN 978-1-250-03822-7.
+"EGS: Interactive, Real-Time Map of Earthquakes at The Geysers". Induced Seismicity. Lawrence Berkeley National Laboratory, Earth Sciences Division. Retrieved February 9, 2014.
+A Geysers Album: History of The Geysers Geothermal field (Report). California Department of Conservation. Division of Oil, Gas, and Geothermal Resources. 1992.
+U.S. Geological Survey Professional Paper. U.S. Government Printing Office. 1996. pp. 3–.

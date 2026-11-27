@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-11-25T17:10Z",
+ "written": "2026-11-27T18:03Z",
  "green_days": 0,
- "counted_to": "2026-11-24",
+ "counted_to": "2026-11-26",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -4624,6 +4624,248 @@
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 71 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-11-26": {
+   "rows": 758,
+   "failed": 26,
+   "missing": [],
+   "short": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    },
+    "daily prices": {
+     "ok": 17,
+     "skipped": 10,
+     "retried": 1,
+     "failed": 8,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 7,
+     "skipped": 5,
+     "retried": 1,
+     "failed": 12,
+     "runs": 25
+    },
+    "latest prices": {
+     "ok": 97,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 0,
+     "runs": 98
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 109,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 6,
+     "runs": 116
+    },
+    "local:lab-desktop": {
+     "ok": 2,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 2
+    },
+    "local:portable-laptop": {
+     "ok": 3,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 3
+    },
+    "local:samueloldlaptop": {
+     "ok": 2,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 2
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-26T05:11",
+     "workflow": "hourly network",
+     "step": "network snapshot",
+     "reason": "<P>https&#58;&#47;&#47;errors&#46;edges"
+    },
+    {
+     "at": "2026-11-26T07:12",
+     "workflow": "hourly network",
+     "step": "network snapshot",
+     "reason": "<P>https&#58;&#47;&#47;errors&#46;edgesu"
+    },
+    {
+     "at": "2026-11-26T08:13",
+     "workflow": "hourly network",
+     "step": "network snapshot",
+     "reason": "<P>https&#58;&#47;&#47;errors&#46;edges"
+    },
+    {
+     "at": "2026-11-26T11:13",
+     "workflow": "hourly network",
+     "step": "network snapshot",
+     "reason": "<P>https&#58;&#47;&#47;errors&#46;edges"
+    },
+    {
+     "at": "2026-11-26T12:13",
+     "workflow": "hourly network",
+     "step": "network snapshot",
+     "reason": "<P>https&#58;&#47;&#47;errors&#46;edges"
+    },
+    {
+     "at": "2026-11-26T13:13",
+     "workflow": "hourly network",
+     "step": "network snapshot",
+     "reason": "<P>https&#58;&#47;&#47;errors&#46;edges"
+    },
+    {
+     "at": "2026-11-26T14:36",
+     "workflow": "daily prices",
+     "step": "eia930",
+     "reason": "eia930 FAILED: RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error</TITLE></HEAD><BODY>\\nAn"
+    },
+    {
+     "at": "2026-11-26T14:41",
+     "workflow": "daily prices",
+     "step": "eia930_storage",
+     "reason": "eia930_all_storage: eia930_storage eia930_all_storage FAILED: RuntimeError: EIA electricity/rto/fuel-type-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/fuel-type-data HTTP 5"
+    },
+    {
+     "at": "2026-11-26T14:49",
+     "workflow": "daily prices",
+     "step": "eia930_interchange",
+     "reason": "eia930_all_interchange: eia930_interchange eia930_all_interchange FAILED: RuntimeError: EIA electricity/rto/interchange-data count failed after 4 attempts: RuntimeError('EIA electricity/rto/interchang"
+    },
+    {
+     "at": "2026-11-26T15:38",
+     "workflow": "daily prices",
+     "step": "eia930_daily_interchange",
+     "reason": "eia930_daily_interchange FAILED: RuntimeError: EIA daily interchange 2026-11-21 offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/daily-interchange-data HTTP 504: <HTML><HEAD><TITLE>"
+    },
+    {
+     "at": "2026-11-26T15:49",
+     "workflow": "daily prices",
+     "step": "eia930_daily_demand",
+     "reason": "eia930_daily_demand FAILED: RuntimeError: EIA daily demand 2026-11-21 offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/daily-region-data HTTP 504: <HTML><HEAD><TITLE>Error</TITLE></"
+    },
+    {
+     "at": "2026-11-26T16:58",
+     "workflow": "daily prices",
+     "step": "redivis_upload",
+     "reason": "FAIL price_board_peak_offpeak: RuntimeError: refused: 5,427 rows would shrink the rolling-window table below the 5,436 rows last uploaded (2026-11-25T16:14:48Z); if that is intended, --allow-shrink pr"
+    },
+    {
+     "at": "2026-11-26T17:10",
+     "workflow": "daily prices",
+     "step": "commit",
+     "reason": "push to main refused: 11 failing tests: test_session1008.OneLine.test_the_site_s_verdicts_are_the_record_s, test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_"
+    },
+    {
+     "at": "2026-11-26T17:23",
+     "workflow": "daily prices",
+     "step": "health summary commit",
+     "reason": "push to main refused: 11 failing tests: test_session1008.OneLine.test_the_site_s_verdicts_are_the_record_s, test_session1139.TheFiguresAreTheFunctions.test_every_row_is_stats_of_its_own_history, test_"
+    },
+    {
+     "at": "2026-11-26T18:07",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_eia930_total_interchange",
+     "reason": "eia930_daily_total_interchange FAILED: RuntimeError: EIA daily total interchange count failed after 4 attempts: RuntimeError('EIA electricity/rto/daily-region-data HTTP 504: <HTML><HEAD><TITLE>Error</"
+    },
+    {
+     "at": "2026-11-26T18:13",
+     "workflow": "hourly network",
+     "step": "network snapshot",
+     "reason": "<P>https&#58;&#47;&#47;errors&#46;edgesu"
+    },
+    {
+     "at": "2026-11-26T18:32",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_nuclear_outages_gen",
+     "reason": "eia_nuclear_outages_generator FAILED, no output file written: RuntimeError: HTTP 504 twice for https://api.eia.gov/v2/nuclear-outages/generator-nuclear-outages/data/?api_key=REDACTED&frequency=daily&d"
+    },
+    {
+     "at": "2026-11-26T19:13",
+     "workflow": "hourly network",
+     "step": "network snapshot",
+     "reason": "<P>https&#58;&#47;&#47;errors&#46;edgesu"
+    },
+    {
+     "at": "2026-11-26T20:13",
+     "workflow": "hourly network",
+     "step": "network snapshot",
+     "reason": "<P>https&#58;&#47;&#47;errors&#46;edgesu"
+    },
+    {
+     "at": "2026-11-26T20:51",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_project_map",
+     "reason": "ValueError: the two tables are of different months: ['2026-09', '2026-10']"
+    },
+    {
+     "at": "2026-11-26T21:13",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_freeenergy",
+     "reason": "site/scripts/test-freeenergy.mjs exit 1"
+    },
+    {
+     "at": "2026-11-26T21:13",
+     "workflow": "hourly network",
+     "step": "network snapshot",
+     "reason": "<P>https&#58;&#47;&#47;errors&#46;edgesu"
+    },
+    {
+     "at": "2026-11-26T21:29",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_replication",
+     "reason": "its tests exited 1 (tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720 tests.test_session3701 tests.test_session5074.Datacenter tests.test_session5074"
+    },
+    {
+     "at": "2026-11-26T21:30",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_commit",
+     "reason": "git pull --rebase exit 1: committed here, not pushed"
+    },
+    {
+     "at": "2026-11-26T22:13",
+     "workflow": "hourly network",
+     "step": "network snapshot",
+     "reason": "network_hourly FAILED: RuntimeError: EIA electricity/rto/region-data offset 0: HTTP 504: <html>"
+    },
+    {
+     "at": "2026-11-26T23:13",
+     "workflow": "hourly network",
+     "step": "network snapshot",
+     "reason": "<P>https&#58;&#47;&#47;errors&#46;edges"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-26T15:16",
+     "workflow": "daily prices",
+     "step": "ercot_as_prices",
+     "reason": "ercot_as_prices SKIPPED: stale at source (no request: ruling 2 of 6 November 2026 (docs/state/rulings_2026-11-06.md): ERCOT's /misapp and /misdownload paths, which its robots file disallows, are not a"
+    },
+    {
+     "at": "2026-11-26T15:22",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-21, 66 days old (limit 28)"
+    },
+    {
+     "at": "2026-11-26T17:56",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 73 days old (limit 28)"
     }
    ]
   }
