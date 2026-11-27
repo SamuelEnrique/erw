@@ -113,5 +113,7 @@ Refused or not readable, honoured:
 | govdocs.nebraska.gov | its robots file disallows `Claude` by name: nothing asked |
 | legislature.vermont.gov | every section address answered the same 6,586-byte page, its text built by script (454 to 457) |
 | law.justia.com | allowed by its robots file, but not used: a commercial copy of the codes whose terms were not read |
+| capitol.texas.gov | its robots file disallows `/TLODOCS/` (the bill texts) and `/BillLookup/` (461): Texas's data center exemption (Tax Code 151.359) stays unread, its statute site serving one script page at every path and the Comptroller disallowing `/*/` |
+| www.crusoe.ai | read (458, 460): its release on the 1.2 GW Abilene campus |
 
 One kept text was wrong: delcode.delaware.gov's subchapter page (443) was kept from a mistaken character set; it was decoded again from the kept bytes as Windows-1252 (the first text kept beside it as `.txt.orig`).
