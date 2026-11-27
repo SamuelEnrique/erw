@@ -397,7 +397,10 @@ class TheFiles(unittest.TestCase):
             fc = d.get("operator_filing")
             self.assertIsNotNone(fc, p["place"])
             for month, hours, pct, flagged in fc["months"]:
-                self.assertEqual(flagged, abs(pct - 100) > fc["tolerance_pct"], (p["place"], month))
+                # the flag is set on the exact ratio and the file prints it to one decimal: a month within 0.05 of the
+                # line may read 95.0 and be flagged
+                if abs(abs(pct - 100) - fc["tolerance_pct"]) > 0.05:
+                    self.assertEqual(flagged, abs(pct - 100) > fc["tolerance_pct"], (p["place"], month))
                 self.assertGreater(hours, 0)
             self.assertEqual(fc["months_flagged"], sum(1 for m in fc["months"] if m[3]))
             sm = fc["sound_last_2_years"]
