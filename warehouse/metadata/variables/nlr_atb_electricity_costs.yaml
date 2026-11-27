@@ -264,7 +264,8 @@ columns:
   source_name: display_name
   documented_by: connector nlr_atb_costs.py; method nlr_atb_electricity_costs.md
 - name: x_default
-  label: The ATB's default field, as published (1 or 0)
+  label: 'The ATB''s default field, as published (1 or 0): whether the row''s technology is the default technology or a
+    subgroup technology (openEDI''s ATB documentation; 1 read as the default, 0 as a subgroup)'
   unit: none
   type: integer
   values:
@@ -274,9 +275,10 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: default
-  documented_by: connector nlr_atb_costs.py; data
+  documented_by: source openEDI documentation of the ATB (raw.githubusercontent.com/openEDI/documentation/main/ATB.md, the data's own host, no robots file), read 2026-11-27
 - name: x_maturity
-  label: The ATB's maturity field, as published (Y or N)
+  label: 'The ATB''s maturity field, as published (Y or N): whether the technology is mature or nascent (openEDI''s ATB
+    documentation; Y read as mature, N as nascent)'
   unit: none
   type: text
   values:
@@ -286,7 +288,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: maturity
-  documented_by: connector nlr_atb_costs.py; data
+  documented_by: source openEDI documentation of the ATB (raw.githubusercontent.com/openEDI/documentation/main/ATB.md, the data's own host, no robots file), read 2026-11-27
 - name: x_case
   label: 'The ATB''s cost case: R&D (no tax credits), the default view'
   unit: none
@@ -374,7 +376,4 @@ variables:
   rows: 5399
   first: '2023-01-01T00:00:00Z'
   last: '2060-01-01T00:00:00Z'
-second_look:
-- 'x_default (the ATB''s default field, 1 or 0) and x_maturity (the ATB''s maturity field, Y or N): what each marks is not
-  written in the connector, the method note or the header. Read again on 20 November 2026 in the saved ATB 2025 workbook under
-  warehouse/raw/nlr_atb (sheets Preface and Contents and Financial Definitions): not found.'
+second_look: null
