@@ -240,14 +240,27 @@ def reason_of(lines, failed):
     return lines[-1][:400] if lines else ""
 
 
+def echo(line, out=None):
+    """Write a child's line to this process's output; a character its encoding lacks becomes a replacement."""
+    out = out or sys.stdout
+    try:
+        out.write(line)
+    except UnicodeEncodeError:
+        enc = getattr(out, "encoding", None) or "utf-8"
+        out.write(line.encode(enc, "replace").decode(enc))
+
+
 def attempt(cmd):
     """Run once, streaming the output and keeping its last lines. (exit code, last lines, seconds)."""
     t0 = time.time()
+    # session 10000 (chain 701): the child writes UTF-8 (PYTHONIOENCODING), as this reads it; and a line this console's
+    # encoding cannot hold is echoed with a replacement, never fatal. On 22 and 26 November 2026 a child's cp1252 byte
+    # became U+FFFD here, the echo to a cp1252 console raised, and the live set's load died partway (its pipe closed)
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace",
-                         env={**os.environ, "ERW_SKIP_EXIT": str(SKIP)}, cwd=ROOT)
+                         env={**os.environ, "ERW_SKIP_EXIT": str(SKIP), "PYTHONIOENCODING": "utf-8"}, cwd=ROOT)
     tail = []
     for line in p.stdout:
-        sys.stdout.write(line)
+        echo(line)
         tail = (tail + [line.rstrip("\n")])[-60:]
     sys.stdout.flush()
     return p.wait(), tail, time.time() - t0
