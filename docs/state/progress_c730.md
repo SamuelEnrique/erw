@@ -117,3 +117,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 22:53 UTC (session 10603): replications running, every figure equal so far (the longer backtest with the peak 18 of 64; `ahead_more` 19 of 35).
 - 23:13 UTC (session 10603): replications 30 of 64 and 22 of 35, every figure equal.
 - 23:32 UTC (session 10603): replications 43 of 64 and 26 of 35, every figure equal.
+- 23:51 UTC (session 10603): replications 57 of 64 and 30 of 35, every figure equal.
