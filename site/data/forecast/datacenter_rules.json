@@ -92,7 +92,8 @@
   "ky_132_190": {"title": "Kentucky Revised Statutes 132.190, Property subject to taxation, situs", "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=49389", "read": "2026-11-27", "request": 482},
   "wa_rcw_84_36_005": {"title": "Revised Code of Washington 84.36.005, Property subject to taxation (the Legislature's law files)", "url": "https://lawfilesext.leg.wa.gov/Law/RCW/RCW%20%2084%20%20TITLE/RCW%20%2084%20.%2036%20%20CHAPTER/RCW%20%2084%20.%2036%20.005.htm", "read": "2026-11-27", "request": 483},
   "mi_211_1": {"title": "Michigan Compiled Laws 211.1, Property subject to taxation", "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-211-1", "read": "2026-11-27", "request": 484},
-  "id_63_203": {"title": "Idaho Code 63-203, Property subject to taxation", "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH2/SECT63-203/", "read": "2026-11-27", "request": 485}
+  "id_63_203": {"title": "Idaho Code 63-203, Property subject to taxation", "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH2/SECT63-203/", "read": "2026-11-27", "request": 485},
+  "ms_mda_dc_sheet": {"title": "Mississippi Development Authority, Sales and Use Tax Exemption for Data Center Enterprises (October 2019)", "url": "https://mississippi.org/wp-content/uploads/sales-and-use-tax-exemption-data-centers-1.pdf", "read": "2026-11-27", "request": 493}
  },
  "split": {
   "cite": "jlarc_598",
@@ -601,9 +602,10 @@
     "personal": {"cite": "ms_dor_appraisal", "quote": "Personal property, except for motor vehicles and for personal property included in Class IV 15%"},
     "tip": "Mississippi (the Department of Revenue's local property appraisal page): real property other than Class I or IV (Class II) and personal property other than motor vehicles and Class IV (Class III) are each assessed at 15 percent of true value. The tool assesses the building and the equipment at 15 percent of their cost (no depreciation table is read: an upper bound) and applies the reader's rate; a county's fee in lieu goes in the abatement input."},
    "sales_exemption": {
-    "cite": "ms_governor_xai", "covers": [], "min_investment_usd": 0, "min_jobs": 0, "discretionary": true,
-    "quote": "The Mississippi Development Authority has approved xAI for its Data Center Incentive, which provides a sales and use tax exemption for all computing and equipment software used by companies certified as data centers by the agency.",
-    "tip": "Mississippi: the Mississippi Development Authority's Data Center Incentive \"provides a sales and use tax exemption for all computing and equipment software used by companies certified as data centers by the agency\" (the governor's release on xAI, 8 January 2026). The statute's thresholds (Code 57-113-21) are not read from an official text: the tool applies no exemption. Counties and cities also agree fees in lieu of property tax (the abatement input)."
+    "cite": "ms_mda_dc_sheet", "covers": ["equipment", "construction"], "min_investment_usd": 20000000, "min_jobs": 20, "rate_part": "state",
+    "quote": "Businesses must invest at least $20 million and must create at least 20 new jobs paying 125 percent of the average state wage to qualify for this program.",
+    "current": {"cite": "ms_governor_xai", "quote": "The Mississippi Development Authority has approved xAI for its Data Center Incentive, which provides a sales and use tax exemption for all computing and equipment software used by companies certified as data centers by the agency."},
+    "tip": "Mississippi (the Mississippi Development Authority's sheet on the exemption, October 2019): a state sales and use tax exemption for \"all computing equipment and software\" of a business the Authority certifies as a data center, new and replacement equipment alike, and for the building materials and equipment of the data center's initial construction or expansion; \"Businesses must invest at least $20 million and must create at least 20 new jobs paying 125 percent of the average state wage\". The governor's release on xAI (8 January 2026) names the same Data Center Incentive. The tool applies it at USD 20 million and 20 jobs (the wage condition is the reader's to judge) to the equipment, every purchase, and to the construction, at the state's part of the rate; the statute's text (Code 57-113-21) is not read from an official site. Counties and cities also agree fees in lieu of property tax (the abatement input)."
    }
   },
   "ia": {
