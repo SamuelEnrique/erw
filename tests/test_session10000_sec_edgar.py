@@ -214,6 +214,30 @@ class TheNewestFiled(unittest.TestCase):
         self.assertIsNone(EP.shown_why(both, "2026-11-27T00:00:00Z"))
 
 
+class PeriodsThatDoNotAddUp(TheNewestFiled):
+    """Done-line request 581: a note when a year to date less the one before is not the quarter filed."""
+
+    def test_hornbeck_offshore_as_filed(self):
+        q = [self.row("2026-01-01", "2026-03-31", 3, "2026-05-01", "q1", rev=287946000),
+             self.row("2026-04-01", "2026-06-30", 3, "2026-08-01", "q2", rev=304016000),
+             self.row("2026-01-01", "2026-06-30", 6, "2026-08-01", "q2", rev=570726000),
+             self.row("2026-07-01", "2026-09-30", 3, "2026-11-01", "q3", rev=293341000),
+             self.row("2026-01-01", "2026-09-30", 9, "2026-11-01", "q3", rev=649316000)]
+        self.assertEqual(EP.not_adding_up(q), "2026-09-30")
+        self.assertIn("do not add up", EP.shown_why(q + [self.row("2020-01-01", "2020-03-31", 3, "2020-05-01", "o", rev=1)],
+                                                    "2026-11-27T00:00:00Z"))
+
+    def test_periods_that_add_up(self):
+        q = [self.row("2026-01-01", "2026-03-31", 3, "2026-05-01", "q1", rev=100, ni=10),
+             self.row("2026-04-01", "2026-06-30", 3, "2026-08-01", "q2", rev=110, ni=11),
+             self.row("2026-01-01", "2026-06-30", 6, "2026-08-01", "q2", rev=210, ni=21),
+             self.row("2026-07-01", "2026-09-30", 3, "2026-11-01", "q3", rev=120, ni=12),
+             self.row("2026-01-01", "2026-09-30", 9, "2026-11-01", "q3", rev=330, ni=33)]
+        self.assertIsNone(EP.not_adding_up(q))
+        self.assertEqual(EP.months_back("2026-09-30", 3), "2026-06-30")
+        self.assertEqual(EP.months_back("2026-03-31", 3), "2025-12-31")
+
+
 class TheBoardsHeldRows(unittest.TestCase):
     def test_a_held_row_carries_no_heat_rate(self):
         with open(os.path.join(ROOT, "warehouse", "derived", "board_page.py"), encoding="utf-8") as f:

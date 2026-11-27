@@ -630,3 +630,90 @@ What the longer record says, plainly:
 
 Replication (`replication/predict/replicate_long.py`, from this section's words; it builds the longer demand itself from
 the two tables): its count on the 64 places is in the progress file and landing row 10.
+
+## 26. Net demand for more places (session 10603)
+
+Section 20 gave net demand to the 13 regions and ERCO, the places whose wind and solar the warehouse then held. With the
+authorities' wind and solar held (data request 10; `predict_wind_solar.md` section 8), every place with a wind and solar
+entry now carries it, by `run.net_place`: the five other authorities that are each a whole region read their region's
+entry, as ERCO reads Texas's (ISNE, NYIS, PJM, SOCO, TVA, with the region's figures); CISO reads CAISO's own hubs
+(`grid-caiso`), whose forecasts CAISO publishes, so CISO's net demand has an operator line; each of the 35 authorities of
+the wind and solar file reads its own. 55 places in all; the other nine stay `null`.
+
+**A fuel an authority never reports is taken as zero.** EIA-930 carries a wind column only for an authority that
+reports wind (a utility with no wind plant files none). For net demand such a fuel counts as zero output, on every
+hour, for the actual and every method, and the block names it in `fuels_taken_as_zero` (18 authorities, wind in 16 of
+them, solar in AECI and CHPD). The wind and solar file itself keeps such a fuel `not held`: a forecast of nothing is not
+shown as a forecast.
+
+From rebuild 18 (made as at 18:00 UTC on 26 November; `runs/c730/table_net.py`), the last two years, the error over the
+mean net demand of the same hours:
+
+| Place | Wind and solar read | Hours | Error over mean net demand %: ERW, yesterday | Fuels taken as zero | With the operator: ERW, operator |
+|---|---|---:|---|---|---|
+| region-cal | region-cal | 16,897 | 8.96, 12.36 | - | - |
+| region-car | region-car | 16,300 | 8.26, 11.12 | - | - |
+| region-cent | region-cent | 17,160 | 20.76, 25.22 | - | - |
+| region-fla | region-fla | 16,349 | 6.79, 8.41 | - | - |
+| region-mida | region-mida | 17,208 | 5.98, 8.94 | - | - |
+| region-midw | region-midw | 17,174 | 8.66, 12.52 | - | - |
+| region-ne | region-ne | 17,477 | 8.75, 12.26 | - | - |
+| region-nw | region-nw | 14,376 | 7.84, 10.84 | - | - |
+| region-ny | region-ny | 17,291 | 6.67, 9.83 | - | - |
+| region-se | region-se | 16,413 | 6.87, 9.43 | - | - |
+| region-sw | region-sw | 17,045 | 9.25, 11.58 | - | - |
+| region-ten | region-ten | 17,516 | 7.41, 9.74 | - | - |
+| region-tex | region-tex | 17,172 | 15.77, 19.43 | - | 17.06, 5.46 (1,368 h) |
+| ba-bpat | ba-bpat | 17,518 | 11.52, 14.93 | - | - |
+| ba-ciso | grid-caiso | 17,263 | 9.27, 12.5 | - | 9.21, 14.09 (26,754 h) |
+| ba-cple | ba-cple | 17,454 | 11.85, 15.09 | wind | - |
+| ba-duk | ba-duk | 17,454 | 8.1, 11.08 | wind | - |
+| ba-erco | region-tex | 17,172 | 15.77, 19.43 | - | 17.06, 5.46 (1,368 h) |
+| ba-fpc | ba-fpc | 17,454 | 8.7, 10.64 | wind | - |
+| ba-fpl | ba-fpl | 17,518 | 7.09, 8.42 | wind | - |
+| ba-isne | region-ne | 17,477 | 8.75, 12.26 | - | - |
+| ba-miso | ba-miso | 17,518 | 9.02, 13.01 | - | - |
+| ba-nyis | region-ny | 17,291 | 6.67, 9.83 | - | - |
+| ba-pace | ba-pace | 17,517 | 23.43, 29.12 | - | - |
+| ba-pjm | region-mida | 17,208 | 5.98, 8.94 | - | - |
+| ba-psco | ba-psco | 17,518 | 27.66, 34.81 | - | - |
+| ba-soco | region-se | 16,413 | 6.87, 9.43 | - | - |
+| ba-swpp | ba-swpp | 17,518 | 20.79, 25.25 | - | - |
+| ba-tva | region-ten | 17,516 | 7.41, 9.74 | - | - |
+| ba-aeci | ba-aeci | 17,518 | 13.84, 16.87 | solar | - |
+| ba-ava | ba-ava | 17,518 | 6.78, 9.64 | - | - |
+| ba-azps | ba-azps | 17,520 | 10.31, 12.63 | - | - |
+| ba-banc | ba-banc | 17,518 | 7.05, 9.62 | wind | - |
+| ba-chpd | ba-chpd | 17,487 | 5.82, 7.82 | solar | - |
+| ba-cplw | ba-cplw | 17,462 | 9.43, 12.32 | wind | - |
+| ba-epe | ba-epe | 17,520 | 8.86, 12.0 | wind | - |
+| ba-fmpp | ba-fmpp | 17,416 | 6.73, 8.55 | wind | - |
+| ba-iid | ba-iid | 16,454 | 24.0, 28.07 | wind | - |
+| ba-ipco | ba-ipco | 17,518 | 10.88, 14.83 | - | - |
+| ba-jea | ba-jea | 17,518 | 8.11, 10.53 | wind | - |
+| ba-ldwp | ba-ldwp | 16,732 | 11.41, 12.86 | - | - |
+| ba-lgee | ba-lgee | 17,437 | 8.01, 11.2 | wind | - |
+| ba-nevp | ba-nevp | 17,047 | 8.77, 11.07 | - | - |
+| ba-nwmt | ba-nwmt | 17,518 | 38.13, 46.83 | - | - |
+| ba-pacw | ba-pacw | 17,518 | 12.44, 16.96 | - | - |
+| ba-pnm | ba-pnm | 17,520 | 84.58, 104.0 | - | - |
+| ba-psei | ba-psei | 17,518 | 6.39, 9.62 | - | - |
+| ba-sc | ba-sc | 17,518 | 8.13, 9.78 | wind | - |
+| ba-sceg | ba-sceg | 16,406 | 8.91, 11.0 | wind | - |
+| ba-sec | ba-sec | 17,380 | 13.93, 16.38 | wind | - |
+| ba-srp | ba-srp | 17,519 | 10.5, 12.74 | - | - |
+| ba-tal | ba-tal | 17,518 | 8.82, 11.38 | wind | - |
+| ba-tec | ba-tec | 17,518 | 8.66, 10.8 | wind | - |
+| ba-tepc | ba-tepc | 17,520 | 8.91, 10.82 | - | - |
+| ba-walc | ba-walc | 17,088 | 16.57, 19.2 | - | - |
+
+What it says: the ERW's net demand beats yesterday's net demand at every place, by a tenth (LDWP) to a third. Where wind is a
+large share of demand the error over the mean net demand is large because the mean is small (PNM 84.6 percent, NWMT
+38.1, PSCO 27.7, PACE 23.4, the Central region 20.8): a percent of a small remainder. CISO is the one new place with an
+operator line, and there the ERW is ahead (9.21 against 14.09 percent over 26,754 hours), but only because CISO's demand
+forecast as filed on EIA-930 sits at 89 to 94 percent of its demand (section 18): the comparison inherits that filing
+break. Texas, the other place with an operator line, stays as section 20 found it (ERCOT's 5.46 against the ERW's
+17.06).
+
+Replication (`replication/predict/replicate_net.py`, which now builds each place's wind and solar entry by the same rules,
+zero fuels included): its count is in the progress file and landing row 10.
