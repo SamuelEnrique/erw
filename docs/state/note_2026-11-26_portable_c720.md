@@ -1,8 +1,8 @@
 # Chain 720, the portable laptop's first window: the ERW forecast page and the energy equities pages (note for Samuel)
 
-Energy Research Warehouse (ERW). Kept current; state at 11:57 UTC on 27 November 2026. Sessions 10400 to 10412. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10409_REPORT.md`.
+Energy Research Warehouse (ERW). Kept current; state at 12:17 UTC on 27 November 2026. Sessions 10400 to 10413. Progress, step by step: `docs/state/progress_c720.md`. Reports: `archive/sessions/SESSION_10400_REPORT.md` to `SESSION_10409_REPORT.md`.
 
-## 27 November: what changed since you took the laptop (sessions 10408 to 10412)
+## 27 November: what changed since you took the laptop (sessions 10408 to 10413)
 
 You asked for two things first. Both are done and requested for landing. The equities row has landed; the forecast rows wait for the desk.
 
@@ -56,6 +56,13 @@ You asked for two things first. Both are done and requested for landing. The equ
 - **What is real:** all 98 figures, from the equities files (the SEC's filings and the public spot prices), each with its key.
 - **It uses no share price.** You asked for a segment beside an energy price; no segment has a line while share prices are held, so the set is a company's filed figures beside a price.
 - **For your ruling:** whether to approve it; and whether "a producer of mostly natural gas" may describe Expand Energy, which is my description and in no ERW file.
+
+**The new views on a phone (row 66, `wip/c720-phone-gaps`, session 10413).** Each view above was taken through its page's cases at 390 px with a finger only.
+
+- **What works:** no page is wider than the screen; every chart answers a tap with a card; every fold opens; a hub's name draws the hub and "Close" puts it away; the forms and the downloads answer.
+- **Three links were too small for a finger and are mended:** a company's name in the table of every company and a filing's link on `/equities`, a place's name in the table of every place on `/forecast`. Each keeps its row's height; only the place a finger lands grew.
+- **To check on your phone once the rows have landed:** open `https://erw-flame.vercel.app/equities`, scroll to "Every company" and press a company's name. It should be easy to hit, and the company is drawn.
+- **Left for your ruling:** the Chart and Table switch of every chart (22 px tall), the small links of the source line at a page's foot, and "Show answer" on a problem set's page (20 px). All three are shared parts of the site.
 
 ## One thing first: a held price is drawn on production
 
@@ -173,10 +180,15 @@ What is real and what is not:
 - **Whether a quarter that was only filed inside a year's total may be worked out** (the year less its nine months). Today: not; the page shows only what was filed, so most companies have no point for their fourth quarter.
 - **Where the forecast's new blocks sit.** Today: net demand under "Tomorrow"; the operator's filing, the weather forecast line and the band after the report card; the real-time price as a section of its own under "Price".
 - **Whether the page should say, of the operator's filing, anything where no month is flagged.** Today: no sentence; the months are in a fold that says "none flagged".
+- **Whether "More hubs" belongs on `/forecast` or on a page of its own** (27 November). Today: a section of the price view, closed until a hub is chosen.
+- **Whether the equities problem set joins the listed sets,** and whether it may call Expand Energy "a producer of mostly natural gas", which is my description and in no ERW file. Today: it waits on its own page.
+- **The small links of the source line at a page's foot and "Show answer" on a problem set's page** are under 24 px tall, like the charts' switch. Today: left; all are shared parts of the site.
 
 ## What waits on others
 
 - **Window A's desk:** landing row 62 (equities on the SEC's figures, requested 09:25 UTC on 27 November) and row 63 (the forecast's new views and their downloads, requested 10:50 UTC, built and seen). Rows 54 to 61 have landed.
+- **Window A's desk, as of 12:15 UTC on 27 November:** row 62 has landed (11:03 UTC). Rows 63 and 64 (the forecast's new views; more hubs), 65 (the equities problem set) and 66 (three links on a phone) are requested, each built and seen. Row 66 holds 63 and 64: one landing takes the three.
+- **Window B:** its landing row 9 (35 more places, the hubs' files). Until it lands, production's `/forecast` lists 29 places and shows no section "More hubs". And its request 15: which place shows a hub.
 - **Window A:** data requests 578 to 580 (27 November): the list's newest filed period; eighteen utilities' missing quarters, Exxon's short history, one stale filer; the board's own check on two held rows.
 - **Window B:** its requests 11 and 12 (27 November): CAISO's wind and solar lines that no place names, and net demand empty with no reason in four regions; the words of the real-time price's cuts.
 - **Window B:** nothing asked. Its files of 14:05 UTC hold the fourth method (on production its name reads "regression recent" until row 57 lands with its words) and the line "with the weather known" for all 29 places, which the page does not draw yet.
