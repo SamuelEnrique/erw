@@ -1890,6 +1890,10 @@
     "/data"
    ]
   },
+  "eia930_ba_wind_solar_hourly": {
+   "status": "public",
+   "pages": []
+  },
   "eia930_daily_demand": {
    "status": "public",
    "pages": [
