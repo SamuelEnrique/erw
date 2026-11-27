@@ -275,6 +275,7 @@ const impactRows = new Map(), impactAll = new Map();   // session 347: /impact's
 const forecastRows = new Map(); let forecastParams = null, forecastSev = null, forecastLib = null;   // session 4214: the forecast's rows, by technology and state, and its parameters
 let dcimpactParams = null, dcimpactLib = null;   // chain 740: the datacenter on /impact, its parameter files and its library
 const dcAnswers = new Map();   // session 228: the answers of one address of /cost-of-power, read once
+const pfDocs = new Map();      // chain 720 (session 10410): a page file of site/data, parsed once a run (pf| keys)
 const dcllRows = new Map();
 const dcqRows = new Map();   // session 468: the view by grid of /datacenters, one grid's groups read once
 const newsRows = new Map();   // session 3823: a news table kept in git, by event_id, read once (the Digest's story rows)
@@ -369,7 +370,13 @@ async function truth(check) {
     const PF = await import("../lib/pagefile.ts");
     const k = PF.parsePf(check);
     if (!k) return undefined;
-    return PF.resolveNumber(JSON.parse(fs.readFileSync(path.join(here, "..", "data", ...k.file.split("/")), "utf-8")), k.path);
+    // chain 720 (session 10410): a page file is read and parsed once a run, not once a key. /forecast carries 2,350
+    // keyed figures, many into scores.json (1.8 MB) and wind_solar.json (2.7 MB): parsed again for every key, the check
+    // held its own event loop for about half a minute, and the server reset the connection of the next page of the
+    // batch, whose answer waited unread ("fetch failed", ECONNRESET, on /forecast's second address). The file on disk
+    // does not change during a run; the value at a path is read from the same parsed document
+    if (!pfDocs.has(k.file)) pfDocs.set(k.file, JSON.parse(fs.readFileSync(path.join(here, "..", "data", ...k.file.split("/")), "utf-8")));
+    return PF.resolveNumber(pfDocs.get(k.file), k.path);
   }
   // session 43: the bill explainer's default bills, recomputed here from data/bill_rules.json (California by the tariff's
   // total rates, not its unbundled lines; Texas by its charges), and the wholesale share from cost_of_power_monthly

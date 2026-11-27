@@ -100,6 +100,24 @@ class WindAndSolarByMonthAndHour(unittest.TestCase):
         self.assertNotRegex("pf|predict/rt_price.json|rows/412/6", rule)
 
 
+class TheValueCheckParsesAPageFileOnce(unittest.TestCase):
+    """Found in a build of this session: with 2,350 keyed figures on /forecast the check parsed scores.json and
+    wind_solar.json again for every key, held its own event loop about half a minute, and the server reset the
+    connection of the batch's next page (ECONNRESET, "fetch failed" on /forecast's second address)."""
+
+    def test_a_page_file_is_parsed_once_a_run(self):
+        text = src("site", "scripts", "check-values.mjs")
+        self.assertIn("const pfDocs = new Map();", text)
+        self.assertIn("if (!pfDocs.has(k.file)) pfDocs.set(k.file, JSON.parse(fs.readFileSync(path.join(here, \"..\", \"data\", ...k.file.split(\"/\")), \"utf-8\")));", text)
+        self.assertIn("return PF.resolveNumber(pfDocs.get(k.file), k.path);", text)
+        # the file is not parsed inside the call that resolves one key any more
+        self.assertNotIn("return PF.resolveNumber(JSON.parse(fs.readFileSync(", text)
+
+    def test_the_value_check_reads_both_addresses_of_the_page(self):
+        text = src("site", "scripts", "check-values.mjs")
+        self.assertIn('"/forecast", "/forecast?a=region-cal&b=region-tex&s=price&m=mape",', text)
+
+
 class Words(unittest.TestCase):
     def test_no_em_dash(self):
         for name in ROUTES:

@@ -370,7 +370,10 @@ export function WindSolarCuts({ slot, ws, metric }: { slot: Slot; ws: WindSolarF
                   ...methods.map((m) => {
                     const c = g.cells.get(`${key}|${m}`), v = c ? c.values[mw] : null;
                     return !c || v === null || v === undefined ? <NotHeld key={m} why={c?.held ?? `${lineWords(m)}: no score of ${fuel} output is in the file for ${name(key)}${mw === "nmae_pct" ? " (the error over the mean output is not defined where the mean is nought)" : ""}.`} />
-                      : <Num key={m} check={pfKey(WS_FILE, ["rows", c.i, col])} raw={v} source={`${lineWords(m)}, ${fuel} output, ${placeWords(slot.place)}, ${name(key)}: ${mw === "nmae_pct" ? "the mean absolute error over the mean output of the same hours, in percent" : `the mean absolute error, ${unit}`}${c.hours !== null ? `, over ${c.hours.toLocaleString("en-US")} hours` : ""}. site/data/${WS_FILE}, row ${c.i}.`}>{mw === "nmae_pct" ? shareWords(v) : valueWords(v, unit)}</Num>;
+                      // a short source in each cell (678 cells a place: the long sentence made the folds 270 KB of the
+                      // page): the method, the row's key, its hours and its row in the file; the fold's own line says
+                      // the place, the fuel and the score, and the head of each column what the method is
+                      : <Num key={m} check={pfKey(WS_FILE, ["rows", c.i, col])} raw={v} source={`${lineWords(m)}, ${name(key)}${c.hours !== null ? `, ${c.hours.toLocaleString("en-US")} hours` : ""}: ${WS_FILE}, row ${c.i}`}>{mw === "nmae_pct" ? shareWords(v) : valueWords(v, unit)}</Num>;
                   })] };
               })} />
           </div>
