@@ -34,6 +34,7 @@ Chain: `queue/done/701-night-26-november-desktop-repairs-equities-large-load.md`
 - Landings 4 to 9 (`b80148122`, `4e6a7039c`, `66d07052c`, `fbb6012b6`, `052ebaa97`, `80d767b07`): pairs `c701-L4` to `c701-L9`, 0 differences each (expected: every page is in review).
 - The daily run's replayed commit (`26b00d06b`): `c701-dm-before` and `c701-dm-after`, 0 differences. The records of the tables written at 21:57: `c701-rec`, 0. The company pages: `c701-co`, 0. Request 57: `c701-r57`, 0.
 - **Not as the rule asks:** three doc pushes between 22:13 and 22:30 went without a before snapshot of their own; a snapshot after them (`c701-docs-2230`) against the last one before (`c701-co-after`) showed 0 differences. From 22:39 every doc push has its pair (`c701-doc2325-after`, `c701-doc0020-after`: 0).
+- **Not as it should be:** at 06:44 UTC on 27 November a doc commit (`3085d3947`) carried conflict markers in `landing_request_desktop_w3.md` for about a minute: my command went on after its first merge of main failed (chain 740 had marked the same row landed). Fixed in `dac6a9a58` (their row kept); the doc commands now stop when that merge fails. Snapshots across both pushes: 0 differences.
 
 ## The desk in the afternoon
 
