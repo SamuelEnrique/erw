@@ -288,6 +288,25 @@ class TheLongerBacktest(unittest.TestCase):
             self.assertEqual(p["all"]["last_day"], pf["summary"]["backtest"]["last_day"], p["place"])
 
 
+@unittest.skipUnless(os.path.exists(os.path.join(SITE, "long_price.json")), "long_price.json is not built here")
+class TheLongerPriceBacktest(unittest.TestCase):
+    def test_years_add_up_and_it_ends_where_the_backtest_ends(self):
+        """Session 10603: the ten price places; the years partition the span's hours and their MAE is its hour-weighted
+        mean; it starts no later than the published backtest of the same place and ends where it ends."""
+        doc = load("long_price.json")
+        hubs = {h["place"]: h for h in load("price_hubs.json")["hubs"]} if os.path.exists(os.path.join(SITE, "price_hubs.json")) else {}
+        self.assertEqual(len(doc["places"]), 10)
+        for p in doc["places"]:
+            ys = p["by_year"]
+            self.assertEqual(sum(y["hours"] for y in ys), p["all"]["hours"], p["place"])
+            for m in ("erw", "yesterday", "week_ago", "regression"):
+                w = sum(y["mae"][m] * y["hours"] for y in ys) / p["all"]["hours"]
+                self.assertAlmostEqual(w, p["all"]["mae"][m], delta=0.01 * len(ys), msg=(p["place"], m))
+            pub = hubs.get(p["place"]) or load(p["place"] + ".json")["series"]["price"]
+            self.assertLessEqual(p["all"]["first_day"], pub["summary"]["backtest"]["first_day"], p["place"])
+            self.assertEqual(p["all"]["last_day"], pub["summary"]["backtest"]["last_day"], p["place"])
+
+
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "price_hubs.json")), "price_hubs.json is not built here")
 class ThePriceHubsFile(unittest.TestCase):
     def test_every_hub_has_its_scores_and_the_rule_chose(self):
