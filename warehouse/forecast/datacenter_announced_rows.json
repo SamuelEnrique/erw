@@ -1008,6 +1008,21 @@
    "incentive": "",
    "years": "",
    "note": "The first of up to eight new sites in AWS's USD 10 billion Ohio plan through 2030 (the page's own update of its 2023 announcement, whose USD 7.8 billion for central Ohio is its own row). Jobs are given as \"hundreds\", no number, so none is taken."
+  },
+  {
+   "id": "tx_crusoe_abilene_2025",
+   "name": "Crusoe, Abilene AI data center campus",
+   "company": "Crusoe (with Blue Owl Capital and Primary Digital Infrastructure)",
+   "state": "tx",
+   "county": null, "place": "Abilene",
+   "doc": {"title": "Crusoe, Blue Owl Capital and Primary Digital Infrastructure Enter Joint Venture", "publisher": "Crusoe", "date": "2025-05-21", "url": "https://www.crusoe.ai/resources/newsroom/crusoe-blue-owl-capital-and-primary-digital-infrastructure-enter-joint-venture", "request": 460},
+   "mw": {"value": 1200, "measure": "campus power capacity as stated", "says": "1.2 gigawatt", "qualifier": "", "quote": "announced today the second phase of a $15 billion joint-venture to fund the 1.2 gigawatt AI data center in Abilene, Texas."},
+   "investment": {"value": 15000000000, "year": 2025, "says": "$15 billion", "qualifier": "", "quote": "announced today the second phase of a $15 billion joint-venture to fund the 1.2 gigawatt AI data center in Abilene, Texas."},
+   "construction_jobs": null,
+   "permanent_jobs": null,
+   "incentive": "",
+   "years": "Construction of the second phase, consisting of the six additional buildings and a total of 1.2 gigawatts, began in March 2025 and is expected to be energized in mid-2026",
+   "note": "The USD 15 billion is the joint venture's to fund the campus, taken as its investment. The release gives jobs as \"thousands of jobs to the local community\", no number, so none is taken. Texas's agencies refuse this reader, so the company's page is the document."
   }
  ]
 }

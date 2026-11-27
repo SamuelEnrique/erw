@@ -4,8 +4,8 @@
   {
    "id": "default_va",
    "inputs": {
-    "mw": 1000,
-    "invest": 10000,
+    "mw": 1100,
+    "invest": 11000,
     "start": 2027,
     "build": 2,
     "life": 20,
@@ -13,8 +13,8 @@
     "eq": 68.2,
     "land": 6.1,
     "refresh": 5,
-    "perm": 306.1,
-    "cons": 4000,
+    "perm": 336.7,
+    "cons": 4400,
     "opwage": 152609,
     "conswage": 74336,
     "sales": 5.77,
@@ -39,342 +39,342 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 6727.086300199374,
-     "earnings": 481113961.76226103,
+     "jobs": 7399.794930219311,
+     "earnings": 529225357.9384871,
      "property": null,
      "propb": null,
      "prope": null,
-     "salesbefore": 196756999.99999997,
-     "forgone": 196756999.99999997,
+     "salesbefore": 216432699.99999997,
+     "forgone": 216432699.99999997,
      "sales": 0,
-     "income": 22187531.8443377,
+     "income": 24406285.02877147,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 6727.086300199374,
-     "earnings": 481113961.76226103,
+     "jobs": 7399.794930219311,
+     "earnings": 529225357.9384871,
      "property": null,
      "propb": null,
      "prope": null,
-     "salesbefore": 196756999.99999997,
-     "forgone": 196756999.99999997,
+     "salesbefore": 216432699.99999997,
+     "forgone": 216432699.99999997,
      "sales": 0,
-     "income": 22187531.8443377,
+     "income": 24406285.02877147,
      "elec": null
     },
     {
      "year": 2029,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2030,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2031,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2032,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2033,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2034,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
-     "salesbefore": 393513999.99999994,
-     "forgone": 393513999.99999994,
+     "salesbefore": 432865399.99999994,
+     "forgone": 432865399.99999994,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2035,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2036,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2037,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2038,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2039,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
-     "salesbefore": 393513999.99999994,
+     "salesbefore": 432865399.99999994,
      "forgone": 0,
-     "sales": 393513999.99999994,
-     "income": 6766661.093959665,
+     "sales": 432865399.99999994,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2040,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2041,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2042,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2043,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2044,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
-     "salesbefore": 393513999.99999994,
+     "salesbefore": 432865399.99999994,
      "forgone": 0,
-     "sales": 393513999.99999994,
-     "income": 6766661.093959665,
+     "sales": 432865399.99999994,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2045,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2046,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2047,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     },
     {
      "year": 2048,
      "phase": "operations",
-     "jobs": 1037.226114795335,
-     "earnings": 132366380.41764429,
+     "jobs": 1140.9148410702037,
+     "earnings": 145598694.17386743,
      "property": null,
      "propb": null,
      "prope": null,
      "salesbefore": 0,
      "forgone": 0,
      "sales": 0,
-     "income": 6766661.093959665,
+     "income": 7443106.142882125,
      "elec": null
     }
    ],
    "sums": {
-    "jobs": 34198.69489630546,
-    "earnings": 3609555531.87741,
+    "jobs": 37617.8866818427,
+    "earnings": 3970424599.3543205,
     "property": null,
     "propb": null,
     "prope": null,
-    "salesbefore": 1574055999.9999998,
-    "forgone": 787027999.9999999,
-    "sales": 787027999.9999999,
-    "income": 179708285.56786862,
+    "salesbefore": 1731461599.9999998,
+    "forgone": 865730799.9999999,
+    "sales": 865730799.9999999,
+    "income": 197674692.91518554,
     "elec": null
    },
    "pv": {
-    "earnings": 2241305813.6633782,
+    "earnings": 2465393580.503897,
     "property": null,
     "propb": null,
     "prope": null,
-    "salesbefore": 925004165.474697,
-    "forgone": 625702788.6569448,
-    "sales": 299301376.8177523,
-    "income": 109919901.81473616,
+    "salesbefore": 1017504582.0221667,
+    "forgone": 688273067.5226393,
+    "sales": 329231514.4995275,
+    "income": 120909703.28798035,
     "elec": null,
-    "taxes": 409221278.6324885
+    "taxes": 450141217.7875079
    }
   },
   {
    "id": "default_tx",
    "inputs": {
-    "mw": 1000,
-    "invest": 10000,
+    "mw": 1100,
+    "invest": 11000,
     "start": 2027,
     "build": 2,
     "life": 20,
@@ -382,8 +382,8 @@
     "eq": 68.2,
     "land": 6.1,
     "refresh": 5,
-    "perm": 306.1,
-    "cons": 4000,
+    "perm": 336.7,
+    "cons": 4400,
     "opwage": 130137,
     "conswage": 74765,
     "sales": 8.2,
@@ -408,36 +408,36 @@
     {
      "year": 2027,
      "phase": "construction",
-     "jobs": 4000,
-     "earnings": 299060000,
+     "jobs": 4400,
+     "earnings": 328966000,
      "property": null,
      "propb": null,
      "prope": null,
-     "salesbefore": 279619999.99999994,
+     "salesbefore": 307581999.99999994,
      "forgone": 0,
-     "sales": 279619999.99999994,
+     "sales": 307581999.99999994,
      "income": 0,
      "elec": null
     },
     {
      "year": 2028,
      "phase": "construction",
-     "jobs": 4000,
-     "earnings": 299060000,
+     "jobs": 4400,
+     "earnings": 328966000,
      "property": null,
      "propb": null,
      "prope": null,
-     "salesbefore": 279619999.99999994,
+     "salesbefore": 307581999.99999994,
      "forgone": 0,
-     "sales": 279619999.99999994,
+     "sales": 307581999.99999994,
      "income": 0,
      "elec": null
     },
     {
      "year": 2029,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -450,8 +450,8 @@
     {
      "year": 2030,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -464,8 +464,8 @@
     {
      "year": 2031,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -478,8 +478,8 @@
     {
      "year": 2032,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -492,8 +492,8 @@
     {
      "year": 2033,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -506,22 +506,22 @@
     {
      "year": 2034,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
-     "salesbefore": 559239999.9999999,
+     "salesbefore": 615163999.9999999,
      "forgone": 0,
-     "sales": 559239999.9999999,
+     "sales": 615163999.9999999,
      "income": 0,
      "elec": null
     },
     {
      "year": 2035,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -534,8 +534,8 @@
     {
      "year": 2036,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -548,8 +548,8 @@
     {
      "year": 2037,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -562,8 +562,8 @@
     {
      "year": 2038,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -576,22 +576,22 @@
     {
      "year": 2039,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
-     "salesbefore": 559239999.9999999,
+     "salesbefore": 615163999.9999999,
      "forgone": 0,
-     "sales": 559239999.9999999,
+     "sales": 615163999.9999999,
      "income": 0,
      "elec": null
     },
     {
      "year": 2040,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -604,8 +604,8 @@
     {
      "year": 2041,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -618,8 +618,8 @@
     {
      "year": 2042,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -632,8 +632,8 @@
     {
      "year": 2043,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -646,22 +646,22 @@
     {
      "year": 2044,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
-     "salesbefore": 559239999.9999999,
+     "salesbefore": 615163999.9999999,
      "forgone": 0,
-     "sales": 559239999.9999999,
+     "sales": 615163999.9999999,
      "income": 0,
      "elec": null
     },
     {
      "year": 2045,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -674,8 +674,8 @@
     {
      "year": 2046,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -688,8 +688,8 @@
     {
      "year": 2047,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -702,8 +702,8 @@
     {
      "year": 2048,
      "phase": "operations",
-     "jobs": 306.1,
-     "earnings": 39834935.7,
+     "jobs": 336.7,
+     "earnings": 43817127.9,
      "property": null,
      "propb": null,
      "prope": null,
@@ -715,28 +715,28 @@
     }
    ],
    "sums": {
-    "jobs": 14122.000000000007,
-    "earnings": 1394818714.000001,
+    "jobs": 15534.000000000015,
+    "earnings": 1534274558.0000007,
     "property": null,
     "propb": null,
     "prope": null,
-    "salesbefore": 2236959999.9999995,
+    "salesbefore": 2460655999.9999995,
     "forgone": 0,
-    "sales": 2236959999.9999995,
+    "sales": 2460655999.9999995,
     "income": 0,
     "elec": null
    },
    "pv": {
-    "earnings": 972958949.7897384,
+    "earnings": 1070241959.9721526,
     "property": null,
     "propb": null,
     "prope": null,
-    "salesbefore": 1314563978.6642141,
+    "salesbefore": 1446020376.5306356,
     "forgone": 0,
-    "sales": 1314563978.6642141,
+    "sales": 1446020376.5306356,
     "income": 0,
     "elec": null,
-    "taxes": 1314563978.6642141
+    "taxes": 1446020376.5306356
    }
   },
   {
@@ -2629,7 +2629,7 @@
   {
    "id": "la_late_build",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 5000,
     "start": 2030,
     "build": 2,
@@ -2858,7 +2858,7 @@
   {
    "id": "mn_state_rate_35y",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 1000,
     "start": 2026,
     "build": 2,
@@ -3507,7 +3507,7 @@
   {
    "id": "md_20y",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 300,
     "start": 2026,
     "build": 2,
@@ -3876,7 +3876,7 @@
   {
    "id": "md_10y",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 200,
     "start": 2026,
     "build": 2,
@@ -4983,7 +4983,7 @@
   {
    "id": "sc_2031",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 100,
     "start": 2031,
     "build": 2,
@@ -5352,7 +5352,7 @@
   {
    "id": "nv_discretionary",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 5000,
     "start": 2027,
     "build": 2,
@@ -5721,7 +5721,7 @@
   {
    "id": "mo_15y_building",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 400,
     "start": 2026,
     "build": 3,
@@ -6104,7 +6104,7 @@
   {
    "id": "id_threshold",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 250,
     "start": 2027,
     "build": 2,
@@ -6842,7 +6842,7 @@
   {
    "id": "az_tenth_year",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 100,
     "start": 2026,
     "build": 2,
@@ -7211,7 +7211,7 @@
   {
    "id": "nc_75m",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 75,
     "start": 2027,
     "build": 2,
@@ -7580,7 +7580,7 @@
   {
    "id": "wi_building",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 200,
     "start": 2026,
     "build": 2,
@@ -7809,7 +7809,7 @@
   {
    "id": "ut_rule",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
@@ -8178,7 +8178,7 @@
   {
    "id": "ar_rule",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
@@ -8547,7 +8547,7 @@
   {
    "id": "ok_rule",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 500,
     "start": 2027,
     "build": 2,
@@ -8916,7 +8916,7 @@
   {
    "id": "il_words",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
@@ -9285,7 +9285,7 @@
   {
    "id": "il_elec",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
@@ -9654,7 +9654,7 @@
   {
    "id": "ct_30",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 500,
     "start": 2027,
     "build": 2,
@@ -10163,7 +10163,7 @@
   {
    "id": "ma_words",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
@@ -10532,7 +10532,7 @@
   {
    "id": "oh_words",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
@@ -10901,7 +10901,7 @@
   {
    "id": "oh_elec_elected",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
@@ -11270,7 +11270,7 @@
   {
    "id": "oh_elec_tiers",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 100,
     "start": 2027,
     "build": 2,
@@ -11639,7 +11639,7 @@
   {
    "id": "ne_words",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
@@ -12008,7 +12008,7 @@
   {
    "id": "al_words",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
@@ -12377,7 +12377,7 @@
   {
    "id": "wy_rule",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 800,
     "start": 2027,
     "build": 2,
@@ -12746,7 +12746,7 @@
   {
    "id": "ga_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
@@ -13115,7 +13115,7 @@
   {
    "id": "nm_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 1500,
     "start": 2027,
     "build": 2,
@@ -13484,7 +13484,7 @@
   {
    "id": "oh_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 1000,
     "start": 2027,
     "build": 2,
@@ -13853,7 +13853,7 @@
   {
    "id": "ia_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 1000,
     "start": 2027,
     "build": 2,
@@ -14222,7 +14222,7 @@
   {
    "id": "mn_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 1000,
     "start": 2027,
     "build": 2,
@@ -14801,7 +14801,7 @@
   {
    "id": "nd_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 1500,
     "start": 2027,
     "build": 2,
@@ -15170,7 +15170,7 @@
   {
    "id": "ks_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 800,
     "start": 2027,
     "build": 2,
@@ -15539,7 +15539,7 @@
   {
    "id": "sc_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
@@ -15908,7 +15908,7 @@
   {
    "id": "wy_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 1000,
     "start": 2027,
     "build": 2,
@@ -16277,7 +16277,7 @@
   {
    "id": "az_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 3600,
     "start": 2027,
     "build": 2,
@@ -16646,7 +16646,7 @@
   {
    "id": "mo_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 1400,
     "start": 2027,
     "build": 2,
@@ -17015,7 +17015,7 @@
   {
    "id": "nv_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 600,
     "start": 2027,
     "build": 2,
@@ -17384,7 +17384,7 @@
   {
    "id": "al_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 800,
     "start": 2027,
     "build": 2,
@@ -17753,7 +17753,7 @@
   {
    "id": "ms_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 10000,
     "start": 2027,
     "build": 2,
@@ -18122,7 +18122,7 @@
   {
    "id": "ar_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 6000,
     "start": 2027,
     "build": 2,
@@ -18491,7 +18491,7 @@
   {
    "id": "il_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 500,
     "start": 2027,
     "build": 2,
@@ -18860,7 +18860,7 @@
   {
    "id": "tn_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
@@ -19598,7 +19598,7 @@
   {
    "id": "wi_property",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 3300,
     "start": 2027,
     "build": 2,
@@ -19967,7 +19967,7 @@
   {
    "id": "mi_2050",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 500,
     "start": 2027,
     "build": 2,
@@ -20476,7 +20476,7 @@
   {
    "id": "mt_class17",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 100,
     "start": 2027,
     "build": 2,
@@ -20845,7 +20845,7 @@
   {
    "id": "mt_below",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 40,
     "start": 2027,
     "build": 2,
@@ -21214,7 +21214,7 @@
   {
    "id": "ks_250m_building",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 600,
     "start": 2027,
     "build": 2,
@@ -21583,7 +21583,7 @@
   {
    "id": "ga_rule",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
@@ -21952,7 +21952,7 @@
   {
    "id": "ga_chain",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 1000,
     "start": 2027,
     "build": 2,
@@ -22321,7 +22321,7 @@
   {
    "id": "va_loudoun_schedule",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 500,
     "start": 2027,
     "build": 2,
@@ -22578,7 +22578,7 @@
   {
    "id": "ms_words",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
@@ -22947,7 +22947,7 @@
   {
    "id": "pa_25y_state_rate",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 200,
     "start": 2026,
     "build": 2,
@@ -23456,7 +23456,7 @@
   {
    "id": "mn_chain",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 1000,
     "start": 2027,
     "build": 2,
@@ -23825,7 +23825,7 @@
   {
    "id": "ky_450m",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 600,
     "start": 2027,
     "build": 2,
@@ -24194,7 +24194,7 @@
   {
    "id": "in_words",
    "inputs": {
-    "mw": 1000,
+    "mw": 1100,
     "invest": 2000,
     "start": 2027,
     "build": 2,
