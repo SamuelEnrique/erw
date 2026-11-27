@@ -345,6 +345,10 @@ soft_step dm_predict_wind_solar "$PYTHON" warehouse/predict/wind_solar.py
 # seven days ahead (site/data/predict/ahead.json), each horizon refit and scored against the same hour a week ago; about
 # 25 minutes and 1 GB of memory, right after the day's forecast. No network, no model
 soft_step dm_predict_ahead "$PYTHON" warehouse/predict/ahead.py
+# Session 10000 (chain 701, the second data request 15 of docs/state/data_requests_predict.md, chain 730): the demand
+# forecast's longer backtest from 1 July 2016 (site/data/predict/long_backtest.json, 64 places, by year; about 70
+# minutes alone), once a week, on Sundays (UTC): a year's score moves only as new days come in. No ledger, no network
+if [ "$(date -u +%u)" = "7" ]; then soft_step dm_predict_long_backtest "$PYTHON" warehouse/predict/long_backtest.py; fi
 # Session 8013 (chain 505, part D2): the operators' wind and solar forecasts beside the output (site/data/regions/
 # renewables_forecast.json), from caiso_wind_solar_forecast and ercot_wind_solar_forecast; no table of its own
 soft_step dm_renewable_forecast_error "$PYTHON" warehouse/derived/renewable_forecast_error.py
