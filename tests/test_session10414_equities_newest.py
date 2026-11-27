@@ -63,7 +63,7 @@ class TheListsField(unittest.TestCase):
         view = src("site", "app", "equities", "view.tsx")
         self.assertIn("const withNewest = list.companies.some((c) => c.newest_filed !== undefined);", view)
         self.assertIn('if (!withNewest) return ["shown"];', view)
-        self.assertIn('...(withNewest ? [sortHead("filed")] : ["Filed figures"]),', view)
+        self.assertIn(': ["Filed figures"]),', view)
 
     def test_the_table_keeps_its_columns(self):
         """Seen in a build at 1280 px: a column of its own for the revenue made the table wider than its frame, and the
@@ -86,7 +86,8 @@ class TheCells(unittest.TestCase):
 
     def test_the_months_are_said_beside_the_figure(self):
         view = src("site", "app", "equities", "view.tsx")
-        self.assertIn('<span className="text-muted"> USD million{r.months !== null ? `, ${r.months} months` : ""}</span>', view)
+        self.assertIn('{r.months !== null ? <span className="text-muted">, {r.months} months</span> : null}', view)
+        self.assertIn('[<span key="fh">{sortHead("filed")}, with its revenue in USD million</span>]', view)
         self.assertIn("Two companies' revenues compare only where the months are the same.", view)
 
     def test_a_note_is_said_in_the_files_words(self):
