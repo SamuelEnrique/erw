@@ -261,7 +261,11 @@ export function FilingCheck({ slot, scores, metric }: { slot: Slot; scores: Scor
             head={[`The last two years, ${mu}`, "Hours", ...FOUR.map((m) => <Head key={m} m={m} what={methodWhat(scores, m)} />)]}
             rows={[
               { key: "every", cells: ["Every month", everyHours ? everyHours.toLocaleString("en-US") : <NotHeld key="h" why="No count of hours is in the score file." />, ...FOUR.map(every)] },
-              ...(sound ? [{ key: "sound", cells: [<span key="n" className="cursor-help" title={`The months whose filed forecast is within ${tol ?? 5} percent of the demand it forecasts.`}>The months that pass</span>, count(sound.hours, pfKey(file, [...path, "sound_last_2_years", "hours"]), `The hours scored on the months that pass, ${spanWords(sound)}.`), ...FOUR.map((m) => passing(sound, m))] }] : []),
+              // a place none of whose months of the last two years passes (Duke Energy Florida on 27 November: 89 of
+              // 89 flagged) has no score there: one row that says so, in place of a nought and four blanks
+              ...(sound ? [sound.hours === 0
+                ? { key: "sound", cells: [<span key="n">The months that pass</span>], wide: <span data-fc-filing-none-pass={k}>no month of the last two years passes the check</span> }
+                : { key: "sound", cells: [<span key="n" className="cursor-help" title={`The months whose filed forecast is within ${tol ?? 5} percent of the demand it forecasts.`}>The months that pass</span>, count(sound.hours, pfKey(file, [...path, "sound_last_2_years", "hours"]), `The hours scored on the months that pass, ${spanWords(sound)}.`), ...FOUR.map((m) => passing(sound, m))] }] : []),
             ]} />
         </>
       ) : null}

@@ -169,6 +169,14 @@ quiet(page, "demand");
   check(/Every month<\/th>[\s\S]{0,400}data-check="pf\|predict\/scores\.json\|rows\/\d+\/\d+"/.test(page), "beside them, the last two years on every month, from the score file");
   check(page.includes('data-fc-filing-fold="a"') && t.includes("The filing month by month: 3 months, 1 flagged") && fig(page, TEX, "series/demand/operator_filing/months/1/2", 93.8, "93.80") && count(page, /data-fc-filing-month="flagged"/g) === 1 && count(page, /data-fc-filing-month="passes"/g) === 2, "every month behind a fold, the flagged one marked");
   check(t.includes("its hours fit best moved by 1") && page.includes("3.61%, 2.09%, 1.75%"), "a filing whose hours fit best moved: said beside the heading, the three errors on hover");
+  // every month flagged: no hour passes, and the row says so in place of a nought and four blanks
+  const all = load(TEX);
+  all.series.demand.operator_filing = { ...dem.operator_filing, months: dem.operator_filing.months.map((m) => [m[0], m[1], 76.2, true]), months_flagged: 3,
+    sound_last_2_years: { first_day: null, last_day: null, hours: 0, mae: { erw: null, operator: null, yesterday: null, week_ago: null }, mape: { erw: null, operator: null, yesterday: null, week_ago: null } } };
+  save(TEX, all);
+  const flaggedAll = draw(FIX, {});
+  check(/data-fc-filing-none-pass="a"[^>]*>no month of the last two years passes the check</.test(flaggedAll) && flaggedAll.includes('data-fc-filing-flagged="3"') && !flaggedAll.includes("operator_filing/sound_last_2_years/hours"), "every month flagged: the row of the months that pass says none does");
+  quiet(flaggedAll, "every month flagged");
   // no month flagged: the sentence and the two rows are not drawn, the fold is
   const none = load(TEX);
   none.series.demand.operator_filing = { ...dem.operator_filing, months: dem.operator_filing.months.map((m) => [m[0], m[1], 100.2, false]), months_flagged: 0, best_shift_hours: 0 };

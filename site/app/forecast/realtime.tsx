@@ -121,7 +121,7 @@ export function RealTime({ slot, rt, scores, metric, asked }: { slot: Slot; rt: 
     );
   };
   return (
-    <div className="min-w-0" data-fc-rt={k} data-fc-rt-hub={h.hub} data-fc-rt-hours={withErw.length}>
+    <div className="mb-8 min-w-0" data-fc-rt={k} data-fc-rt-hub={h.hub} data-fc-rt-hours={withErw.length}>
       <h4 className="mb-2 text-sm font-semibold"><span className="cursor-help" title={made}>{title}</span></h4>
       {top && low ? (
         <>
