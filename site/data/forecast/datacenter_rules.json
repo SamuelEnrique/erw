@@ -84,7 +84,9 @@
   "ri_44_3_1": {"title": "Rhode Island General Laws 44-3-1, Real and personal property subject to taxation", "url": "https://webserver.rilegislature.gov/Statutes/TITLE44/44-3/44-3-1.htm", "read": "2026-11-27", "request": 452},
   "ny_orpts_exempt_2024": {"title": "New York Office of Real Property Tax Services, Exemptions from Real Property Taxation in New York State: 2024 County, City, and Town Assessment Rolls", "url": "https://www.tax.ny.gov/research/property/reports/exempt/24exrpt.htm", "read": "2026-11-27", "request": 467},
   "ca_boe_pub306": {"title": "California State Board of Equalization, Annual Report 2024-25 (Publication 306)", "url": "https://www.boe.ca.gov/legdiv/2024-2025/pub306.pdf", "read": "2026-11-27", "request": 469},
-  "ne_77_201": {"title": "Nebraska Revised Statutes 77-201, Property taxable; valuation; classes", "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-201", "read": "2026-11-27", "request": 475}
+  "ne_77_201": {"title": "Nebraska Revised Statutes 77-201, Property taxable; valuation; classes", "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-201", "read": "2026-11-27", "request": 475},
+  "nc_105_274": {"title": "North Carolina General Statutes 105-274, Property subject to taxation", "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-274.html", "read": "2026-11-27", "request": 477},
+  "nc_105_283": {"title": "North Carolina General Statutes 105-283, Uniform appraisal standards", "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-283.html", "read": "2026-11-27", "request": 478}
  },
  "split": {
   "cite": "jlarc_598",
@@ -287,6 +289,11 @@
   },
   "nc": {
    "name": "North Carolina",
+   "property": {"building_ratio": 1, "equipment_ratio": 1, "cite": "nc_105_274",
+    "quote": "All property, real and personal, within the jurisdiction of the State shall be subject to taxation unless it is:",
+    "value": {"cite": "nc_105_283", "quote": "All property, real and personal, shall as far as practicable be appraised or valued at its true value in money."},
+    "tip": "North Carolina (G.S. 105-274 and 105-283): \"All property, real and personal, within the jurisdiction of the State shall be subject to taxation\" unless excluded or exempted, and is valued \"at its true value in money\". The tool takes the building and the equipment at their cost (no depreciation schedule is read: an upper bound) and applies the reader's rate (each county's and city's)."
+   },
    "sales_exemption": {
     "cite": "nc_105_164_3", "covers": ["equipment"], "min_investment_usd": 75000000, "min_jobs": 0,
     "quote": "at least seventy-five million dollars ($75,000,000) in private funds has been or will be invested by one or more owners, users, or tenants of the datacenter within five years",
