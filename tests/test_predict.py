@@ -262,6 +262,51 @@ class TheRealTimeFile(unittest.TestCase):
             self.assertEqual([y["year"] for y in lb["by_year"]], sorted(y["year"] for y in lb["by_year"]))
 
 
+@unittest.skipUnless(os.path.exists(os.path.join(SITE, "long_backtest.json")), "long_backtest.json is not built here")
+class TheLongerBacktest(unittest.TestCase):
+    def test_years_add_up_and_the_method_is_the_place_files(self):
+        """Session 10603: every place of the run; the years partition the span's hours; its MAE is their hour-weighted
+        mean; the method is the place file's (unless the file draws tomorrow from the ledger); it starts no later than
+        the place file's backtest and ends where it ends."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("predict_run_long", os.path.join(ROOT, "warehouse", "predict", "run.py"))
+        run = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(run)
+        doc = load("long_backtest.json")
+        self.assertEqual(doc["label"], "ERW forecast")
+        self.assertEqual([p["place"] for p in doc["places"]], run.PLACES)
+        for p in doc["places"]:
+            pf = load(p["place"] + ".json")["series"]["demand"]
+            if not pf.get("tomorrow_from"):
+                self.assertEqual(p["method"], pf["method"], p["place"])
+            ys = p["by_year"]
+            self.assertEqual(sum(y["hours"] for y in ys), p["all"]["hours"], p["place"])
+            for m in ("erw", "yesterday", "week_ago", "regression", "regression_recent"):
+                w = sum(y["mae"][m] * y["hours"] for y in ys) / p["all"]["hours"]
+                self.assertAlmostEqual(w, p["all"]["mae"][m], delta=0.01 * len(ys), msg=(p["place"], m))
+            self.assertLessEqual(p["all"]["first_day"], pf["summary"]["backtest"]["first_day"])
+            self.assertEqual(p["all"]["last_day"], pf["summary"]["backtest"]["last_day"], p["place"])
+
+
+@unittest.skipUnless(os.path.exists(os.path.join(SITE, "long_price.json")), "long_price.json is not built here")
+class TheLongerPriceBacktest(unittest.TestCase):
+    def test_years_add_up_and_it_ends_where_the_backtest_ends(self):
+        """Session 10603: the ten price places; the years partition the span's hours and their MAE is its hour-weighted
+        mean; it starts no later than the published backtest of the same place and ends where it ends."""
+        doc = load("long_price.json")
+        hubs = {h["place"]: h for h in load("price_hubs.json")["hubs"]} if os.path.exists(os.path.join(SITE, "price_hubs.json")) else {}
+        self.assertEqual(len(doc["places"]), 10)
+        for p in doc["places"]:
+            ys = p["by_year"]
+            self.assertEqual(sum(y["hours"] for y in ys), p["all"]["hours"], p["place"])
+            for m in ("erw", "yesterday", "week_ago", "regression"):
+                w = sum(y["mae"][m] * y["hours"] for y in ys) / p["all"]["hours"]
+                self.assertAlmostEqual(w, p["all"]["mae"][m], delta=0.01 * len(ys), msg=(p["place"], m))
+            pub = hubs.get(p["place"]) or load(p["place"] + ".json")["series"]["price"]
+            self.assertLessEqual(p["all"]["first_day"], pub["summary"]["backtest"]["first_day"], p["place"])
+            self.assertEqual(p["all"]["last_day"], pub["summary"]["backtest"]["last_day"], p["place"])
+
+
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "price_hubs.json")), "price_hubs.json is not built here")
 class ThePriceHubsFile(unittest.TestCase):
     def test_every_hub_has_its_scores_and_the_rule_chose(self):
@@ -527,12 +572,17 @@ class TheFiles(unittest.TestCase):
             self.assertEqual(sum(m[1] for m in bc["by_month"]), bc["hours"])
 
     def test_net_demand_agrees_with_the_report_card(self):
-        """Method note section 20: every region and ERCO carries net demand; its summary is the score file's rows."""
+        """Method note section 20: every region and ERCO carries net demand, and since session 10603 (section 26) every
+        place run.net_place gives a wind and solar entry; its summary is the score file's rows."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("predict_run_net", os.path.join(ROOT, "warehouse", "predict", "run.py"))
+        run = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(run)
         cols = self.scores["rows_columns"]
         rows = {(r[0], r[1], r[2], r[3], r[4]): dict(zip(cols, r)) for r in self.scores["rows"]}
         for p in self.index["places"]:
             nd = self.places[p["place"]]["series"]["demand"].get("net_demand")
-            if not (p["place"].startswith("region-") or p["place"] == "ba-erco"):
+            if run.net_place(p["place"]) is None:
                 self.assertIsNone(nd, p["place"])
                 continue
             self.assertIsNotNone(nd, p["place"])

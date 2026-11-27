@@ -881,7 +881,7 @@ questions:
   refuse: true
   hold: false
   count: false
-  withheld: [532.0]
+  withheld: [527.0]
   withheld_text: []
   note: "a visitor's chat cannot read deal_counterparties today (not in the live set): a refusal, no figure, never the table's own. When it can: deal_counterparties: the count of rows"
 - id: rs01
