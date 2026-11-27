@@ -54,6 +54,17 @@ session takes the next item: longer backtests and more places. Branch `wip/c730-
   July 2018.
 - **The day-ahead price at the added hubs reads its grid's demand** (ERCO for ERCOT's hubs, CISO for NP15), as the
   grid's first hub does in the place files.
+- **Window A answered data requests 9 and 10 within hours** (landing 20). The longer demand backtest (from 2016) is a
+  file of its own, `long_backtest.json`, not a change to the place files: the longer window changes the fits of 2019 and
+  2020, and the published backtest stays as it was. The operator is set beside it only where its screened filing is
+  held (from July 2018); the history's filed forecasts are not screened and are not used.
+- **Wind and solar by authority for the 35 authorities among the 64 places that the new table holds,** leaving out the six
+  that are whole regions (their region's entry names them) and CISO (CAISO's own hubs show it).
+- **For net demand, a fuel an authority reports on no hour of EIA-930 is taken as zero** (a utility with no wind plant
+  files no wind column), and the file names such fuels (`fuels_taken_as_zero`). The wind and solar file itself keeps
+  such a fuel `not held`.
+- **The wind and solar choice mended, which changes two entries on main** (New York's solar, Tennessee's wind). It was a
+  fault (a rule applied to rounded numbers), so it is mended rather than kept; the note and the contract say so.
 
 ## Errors and how they were met
 
