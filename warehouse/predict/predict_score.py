@@ -159,6 +159,27 @@ def coverage(hr, m, days=CHOICE_DAYS):
     return round(float(inside.mean() * 100), 1)
 
 
+def coverage_detail(hr, m, days=CHOICE_DAYS):
+    """The share of past hours inside method m's band, in detail (chain 730, part F, the last item of Samuel's order of
+    27 November 2026): over the last `days` days, the share inside, below the low end and above the high end (percent);
+    the share inside by the place's local hour; and by month (every month of those days). The band's nominal share is
+    80 percent, 10 below and 10 above."""
+    last = hr["day"].max()
+    x = hr[(hr["day"] > last - pd.Timedelta(days=days))].dropna(subset=["actual", m + "_lo", m + "_hi"])
+    if not len(x):
+        return None
+    below = x["actual"] < x[m + "_lo"]
+    above = x["actual"] > x[m + "_hi"]
+    inside = ~below & ~above
+    by_hour = inside.groupby(x["hour"]).mean().reindex(range(24))
+    by_month = inside.groupby(x["day"].dt.strftime("%Y-%m")).agg(["mean", "size"])
+    return {"nominal_pct": 80.0, "hours": int(len(x)), "inside_pct": round(float(inside.mean() * 100), 1),
+            "below_pct": round(float(below.mean() * 100), 1), "above_pct": round(float(above.mean() * 100), 1),
+            "by_local_hour_inside_pct": [None if not np.isfinite(v) else round(float(v * 100), 1) for v in by_hour.to_numpy()],
+            "by_month_columns": ["month", "hours", "inside_pct"],
+            "by_month": [[k, int(r["size"]), round(float(r["mean"] * 100), 1)] for k, r in by_month.iterrows()]}
+
+
 def peaks(hr, methods):
     """One row a local day whose every hour is held by the actual and every method: the day's actual peak (MW and
     local hour) and each method's forecast peak (the highest of its hourly forecasts, and the hour of it)."""

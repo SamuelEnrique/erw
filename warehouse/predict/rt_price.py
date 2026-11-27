@@ -79,6 +79,7 @@ def one(grid, rt, da, made):
              "inputs_through_utc": iso(frame.loc[frame["day"] <= last, "ts"].max()), "target_day": target.strftime("%Y-%m-%d"), "horizon_days": h,
              "band": "the 10th and 90th percentile of the chosen method's own past errors (actual less forecast, USD/MWh) at the same local hour over 365 days",
              "band_coverage_pct": score.coverage(hr, "erw"),
+             "band_coverage": score.coverage_detail(hr, "erw"),
              "tomorrow_columns": ["ts_utc", "local_hour", "erw", "lo", "hi", "day_ahead"], "tomorrow": tomorrow, "tomorrow_held": held,
              "summary": {"last_2_years": score.summary(hr, SCORED, days=score.CHOICE_DAYS, mape_floor=MAPE_FLOOR),
                          "backtest": score.summary(hr, SCORED, mape_floor=MAPE_FLOOR)},

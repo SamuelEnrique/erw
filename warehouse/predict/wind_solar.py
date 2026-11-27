@@ -21,6 +21,7 @@ sys.path.append(HERE)
 sys.path.append(os.path.join(HERE, "..", "derived"))
 import predict_data as data  # noqa: E402
 import predict_demand as demand  # noqa: E402
+import predict_score as score  # noqa: E402
 import predict_ws as ws  # noqa: E402
 
 SITE = os.path.join(data.ROOT, "site", "data", "predict")
@@ -162,6 +163,7 @@ def one(place, fuel, df, made, curt=None):
              "made_utc": iso(made), "inputs_through_utc": iso(inputs_through), "target_day": target.strftime("%Y-%m-%d"), "horizon_days": h,
              "band": "the 10th and 90th percentile of the chosen method's own past errors (actual less forecast, MW) at the same local hour over 365 days, the low end not clipped, a plant's net output at night being a little below zero",
              "band_coverage_pct": inside,
+             "band_coverage": score.coverage_detail(hr[hr["day"] <= c["day"].max()].dropna(subset=["actual"] + methods), "erw"),
              "tomorrow_columns": ["ts_utc", "local_hour", "erw", "lo", "hi", "operator"], "tomorrow": tomorrow, "tomorrow_held": held,
              "summary": {"last_2_years": summary(c, methods, days=CHOICE_DAYS), "backtest": summary(c, methods), "with_operator": with_op, "with_operator_available": with_op_avail},
              "history_columns": ["ts_utc", "local_day", "local_hour", "erw", "lo", "hi", "operator", "actual", "yesterday"],

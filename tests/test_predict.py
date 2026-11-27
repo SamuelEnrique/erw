@@ -410,6 +410,24 @@ class TheFiles(unittest.TestCase):
             maes = {k: v for k, v in d["method_mae_last_2_years"].items() if v is not None}
             self.assertEqual(d["method"], min(maes, key=maes.get), p["place"])
 
+    def test_the_share_inside_each_band(self):
+        """The share of past hours inside each band (Samuel's order of 27 November 2026): the detail agrees with the
+        headline share, and inside, below and above make the whole."""
+        docs = [(p["place"], name, self.places[p["place"]]["series"][name]) for p in self.index["places"] for name in ("demand", "price")]
+        if os.path.exists(os.path.join(SITE, "rt_price.json")):
+            docs += [(h["grid"], "rt_price", h) for h in load("rt_price.json")["hubs"]]
+        if os.path.exists(os.path.join(SITE, "wind_solar.json")):
+            docs += [(p["place"], f, b) for p in load("wind_solar.json")["places"] for f, b in p["fuels"].items()]
+        for place, name, s in docs:
+            if s.get("status") != "shown":
+                continue
+            bc = s["band_coverage"]
+            self.assertIsNotNone(bc, (place, name))
+            self.assertAlmostEqual(bc["inside_pct"], s["band_coverage_pct"], delta=0.11, msg=(place, name))
+            self.assertAlmostEqual(bc["inside_pct"] + bc["below_pct"] + bc["above_pct"], 100.0, delta=0.21, msg=(place, name))
+            self.assertEqual(len(bc["by_local_hour_inside_pct"]), 24)
+            self.assertEqual(sum(m[1] for m in bc["by_month"]), bc["hours"])
+
     def test_net_demand_agrees_with_the_report_card(self):
         """Method note section 18: every region and ERCO carries net demand; its summary is the score file's rows."""
         cols = self.scores["rows_columns"]
