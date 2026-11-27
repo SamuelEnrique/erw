@@ -2912,12 +2912,6 @@
     "/data"
    ]
   },
-  "equity_universe": {
-   "status": "public",
-   "pages": [
-    "/data"
-   ]
-  },
   "ercot_4cp_intervals": {
    "status": "public",
    "pages": [
@@ -5057,7 +5051,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 546
+   "public": 545
   },
   "/data/faults": {
    "label": "Known faults in source data",
