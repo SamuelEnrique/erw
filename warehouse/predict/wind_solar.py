@@ -137,7 +137,10 @@ def one(place, fuel, df, made, curt=None):
     last = hr["day"].max()
     rec = hr[hr["day"] > last - pd.Timedelta(days=CHOICE_DAYS)].dropna(subset=["actual"] + ws.METHODS)
     maes = {m: ws.metric(rec, m)[1] for m in ws.METHODS}
-    choice = min((v, m) for m, v in maes.items() if v is not None)[1]
+    # session 10603: the choice on the unrounded error (on the MAE rounded to 0.1 MW, every method of a place with a few MW
+    # of output tied and the tie went to profile7 by name, the worse method; New York's solar was one); a true tie by name
+    raw = {m: float((rec[m] - rec["actual"]).abs().mean()) for m in ws.METHODS if len(rec)}
+    choice = min((v, m) for m, v in raw.items() if np.isfinite(v))[1]
     for suf in ("", "_lo", "_hi"):
         hr["erw" + suf] = hr[choice + suf]
     methods = ["erw"] + ws.METHODS
