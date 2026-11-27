@@ -1,6 +1,6 @@
 {
- "about": "Announced datacenters: what a named project's own government or company document said it would bring, one row a project and a document, every figure with the document's own words. Transcribed by hand by chain 740 (lab-desktop window 3) from documents read on 26 November 2026; no model API. `request` is the row of runs/c740/probe/probe.csv on lab-desktop (bodies kept under runs/c740/reads/, not in git). `says` is the phrase that states the figure, inside `quote`; warehouse/forecast/datacenter_announced.py checks both against the kept text and parses `says` to `value`. A figure the document does not state is null, never filled.",
- "read": "2026-11-26",
+ "about": "Announced datacenters: what a named project's own government or company document said it would bring, one row a project and a document, every figure with the document's own words. Transcribed by hand by chain 740 (lab-desktop window 3) from documents read on 26 and 27 November 2026; no model API. `request` is the row of runs/c740/probe/probe.csv on lab-desktop (bodies kept under runs/c740/reads/, not in git). `says` is the phrase that states the figure, inside `quote`; warehouse/forecast/datacenter_announced.py checks both against the kept text and parses `says` to `value`. A figure the document does not state is null, never filled.",
+ "read": "2026-11-27",
  "rows": [
   {
    "id": "la_meta_richland_2024",

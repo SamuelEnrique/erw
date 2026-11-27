@@ -2,7 +2,7 @@
  "about": "Announced datacenters and the defaults /impact offers a datacenter from them (docs/methods/forecast.md, the datacenter sections). Each row is one named project and one public document, every figure with the document's words. The defaults are medians over the rows that state both figures, each with its count, lowest and highest; a reader changes any of them. The MW of the rows measure different things (IT capacity, critical IT, critical grid capacity, power required), kept in each row; construction jobs are headcounts as announced (at peak where the document says so), never job-years.",
  "source": "warehouse/forecast/datacenter_announced_rows.json, transcribed by chain 740 (lab-desktop window 3) from the documents named in each row, read 2026-11-26 (runs/c740/probe/probe.csv requests on lab-desktop)",
  "built_by": "warehouse/forecast/datacenter_announced.py",
- "computed": "2026-11-26",
+ "computed": "2026-11-27",
  "dollars": "2025 dollars by the GDP implicit price deflator of deflator.json; a 2026 announcement is taken as 2025 dollars",
  "defaults": {
   "mw_stated": {
