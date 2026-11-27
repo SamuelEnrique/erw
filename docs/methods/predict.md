@@ -707,7 +707,7 @@ mean net demand of the same hours:
 | ba-tepc | ba-tepc | 17,520 | 8.91, 10.82 | - | - |
 | ba-walc | ba-walc | 17,088 | 16.57, 19.2 | - | - |
 
-What it says: the ERW's net demand beats yesterday's net demand at every place, by a fifth to a third. Where wind is a
+What it says: the ERW's net demand beats yesterday's net demand at every place, by a tenth (LDWP) to a third. Where wind is a
 large share of demand the error over the mean net demand is large because the mean is small (PNM 84.6 percent, NWMT
 38.1, PSCO 27.7, PACE 23.4, the Central region 20.8): a percent of a small remainder. CISO is the one new place with an
 operator line, and there the ERW is ahead (9.21 against 14.09 percent over 26,754 hours), but only because CISO's demand
