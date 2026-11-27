@@ -13,7 +13,7 @@ const data = (n) => JSON.parse(fs.readFileSync(path.join(here, "..", "data", "fo
 const P = {
   jediCosts: data("jedi_costs.json"), eiaCapex: data("eia_capex.json"), deflator: data("deflator.json"), capacity: data("capacity_factors.json"),
   sales: data("sales_tax.json"), income: data("income_tax.json"), property: data("property_rules.json"), taxable: data("jedi_taxable.json"), gas: data("gas.json"),
-  exemptions: data("sales_exemptions.json"),
+  exemptions: data("sales_exemptions.json"), coal: data("coal.json"),
 };
 const ROWS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "tests", "fixtures", "forecast", "jedi_rows.json"), "utf8")).rows;
 const near = (a, b, rel = 1e-9, msg = "") => assert.ok(Math.abs(a - b) <= rel * Math.max(1, Math.abs(b)), `${msg} ${a} is not ${b}`);
@@ -734,7 +734,7 @@ test("coal, the fifth plant type (session 10822): EIA's case 1 and JEDI's coal m
   assert.equal(d.life, 40);
   near(d.capex, F.round(e.states.wy.usd_per_kw * F.to2025(P, 2023), 2), 1e-12, "Wyoming's EIA cost in 2025 dollars");
   assert.equal(d.taxable, 45.6198);  // 828,000,000 / 1,815,000,000, the workbook's facility and equipment over its default cost
-  assert.ok(Number.isNaN(d.cf), "no capacity factor: no production tax, no fuel modelled");
+  assert.equal(d.cf, 0.85);  // JEDI's coal default (coal.json), for the production taxes
   // JEDI's default cost a MW at Texas, the workbook's own: 1,815,000,000 / 600 MW, 2011 dollars
   assert.equal(P.jediCosts.technologies.coal.states.tx.cost_usd_per_mw, 3025000); assert.equal(P.jediCosts.technologies.coal.dollar_year, 2011);
   // the four other types keep their defaults

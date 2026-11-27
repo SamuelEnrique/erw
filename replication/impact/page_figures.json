@@ -286,8 +286,24 @@
    },
    "project": null,
    "inputs_key": {
-    "a": "forecast|coal|wy|650|4297.09|2027|3|40|100|100|7|NaN|1|5.39|45.6198|0|0|-|1.2|30|6266|0|3.5267|-",
-    "b": "forecast|coal|tx|650|3891.8|2027|3|40|100|100|7|NaN|1|8.2|45.6198|0|0|-|-|-|6266|0|3.5267|-"
+    "a": "forecast|coal|wy|650|4297.09|2027|3|40|100|100|7|0.85|1|5.39|45.6198|0|0|-|1.2|30|6266|0|3.5267|-",
+    "b": "forecast|coal|tx|650|3891.8|2027|3|40|100|100|7|0.85|1|8.2|45.6198|0|0|-|-|-|6266|0|3.5267|-"
+   }
+  },
+  {
+   "id": "coal_ga_ia",
+   "what": "coal in Georgia (its 40 percent valuation), B in Iowa (its replacement generation tax on the MWh)",
+   "address": "/impact?tech=coal&state=ga&btech=coal&bstate=ia",
+   "query": {
+    "tech": "coal",
+    "state": "ga",
+    "btech": "coal",
+    "bstate": "ia"
+   },
+   "project": null,
+   "inputs_key": {
+    "a": "forecast|coal|ga|650|4407.62|2027|3|40|100|100|7|0.85|1|7.56|45.6198|0|0|24.712|-|-|6266|0|3.5267|-",
+    "b": "forecast|coal|ia|650|4398.67|2027|3|40|100|100|7|0.85|1|6.94|45.6198|0|0|-|-|-|6266|0|3.5267|-"
    }
   }
  ],
@@ -63039,6 +63055,14 @@
   {
    "case": "coal_wy_tx",
    "scenario": "a",
+   "figure": "default:cf",
+   "page": 0.85,
+   "shown": "0.85",
+   "tolerance": 0.005
+  },
+  {
+   "case": "coal_wy_tx",
+   "scenario": "a",
    "figure": "default:rate",
    "page": 7,
    "shown": "7",
@@ -63487,15 +63511,7 @@
   {
    "case": "coal_wy_tx",
    "scenario": "a",
-   "figure": "states:taxes:11:tx",
-   "page": 310674314.8282172,
-   "shown": "USD 310.7 million",
-   "tolerance": 50000
-  },
-  {
-   "case": "coal_wy_tx",
-   "scenario": "a",
-   "figure": "states:taxes:12:wy",
+   "figure": "states:taxes:11:wy",
    "page": 309513782.14737904,
    "shown": "USD 309.5 million",
    "tolerance": 50000
@@ -63503,25 +63519,41 @@
   {
    "case": "coal_wy_tx",
    "scenario": "a",
-   "figure": "states:taxes:13:mt",
-   "page": 280079684.2617595,
-   "shown": "USD 280.1 million",
-   "tolerance": 50000
-  },
-  {
-   "case": "coal_wy_tx",
-   "scenario": "a",
-   "figure": "states:taxes:14:nh",
-   "page": 274485727.8063523,
-   "shown": "USD 274.5 million",
-   "tolerance": 50000
-  },
-  {
-   "case": "coal_wy_tx",
-   "scenario": "a",
-   "figure": "states:taxes:15:ak",
+   "figure": "states:taxes:12:ak",
    "page": 268308982.2121422,
    "shown": "USD 268.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_wy_tx",
+   "scenario": "a",
+   "figure": "states:taxes:13:md",
+   "page": 247160512.8265188,
+   "shown": "USD 247.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_wy_tx",
+   "scenario": "a",
+   "figure": "states:taxes:14:sc",
+   "page": 114865040.4013806,
+   "shown": "USD 114.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_wy_tx",
+   "scenario": "a",
+   "figure": "states:taxes:15:oh",
+   "page": 105621747.83185765,
+   "shown": "USD 105.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_wy_tx",
+   "scenario": "a",
+   "figure": "states:taxes:16:mt",
+   "page": 49426596.448830366,
+   "shown": "USD 49.4 million",
    "tolerance": 50000
   },
   {
@@ -64695,6 +64727,14 @@
   {
    "case": "coal_wy_tx",
    "scenario": "b",
+   "figure": "default:cf",
+   "page": 0.85,
+   "shown": "0.85",
+   "tolerance": 0.005
+  },
+  {
+   "case": "coal_wy_tx",
+   "scenario": "b",
    "figure": "default:rate",
    "page": 7,
    "shown": "7",
@@ -65087,7 +65127,15 @@
   {
    "case": "coal_wy_tx",
    "scenario": "b",
-   "figure": "states:taxes:1:ca",
+   "figure": "states:taxes:1:ga",
+   "page": 316369888.130247,
+   "shown": "USD 316.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_wy_tx",
+   "scenario": "b",
+   "figure": "states:taxes:2:ca",
    "page": 224722712.70477664,
    "shown": "USD 224.7 million",
    "tolerance": 50000
@@ -65095,7 +65143,7 @@
   {
    "case": "coal_wy_tx",
    "scenario": "b",
-   "figure": "states:taxes:2:ny",
+   "figure": "states:taxes:3:ny",
    "page": 215607455.15074,
    "shown": "USD 215.6 million",
    "tolerance": 50000
@@ -65103,7 +65151,7 @@
   {
    "case": "coal_wy_tx",
    "scenario": "b",
-   "figure": "states:taxes:3:il",
+   "figure": "states:taxes:4:il",
    "page": 212621451.69674078,
    "shown": "USD 212.6 million",
    "tolerance": 50000
@@ -65111,7 +65159,7 @@
   {
    "case": "coal_wy_tx",
    "scenario": "b",
-   "figure": "states:taxes:4:mn",
+   "figure": "states:taxes:5:mn",
    "page": 174665517.8732588,
    "shown": "USD 174.7 million",
    "tolerance": 50000
@@ -65119,7 +65167,7 @@
   {
    "case": "coal_wy_tx",
    "scenario": "b",
-   "figure": "states:taxes:5:ma",
+   "figure": "states:taxes:6:ma",
    "page": 171802040.22776878,
    "shown": "USD 171.8 million",
    "tolerance": 50000
@@ -65127,7 +65175,7 @@
   {
    "case": "coal_wy_tx",
    "scenario": "b",
-   "figure": "states:taxes:6:nj",
+   "figure": "states:taxes:7:nj",
    "page": 164408817.1242785,
    "shown": "USD 164.4 million",
    "tolerance": 50000
@@ -65135,7 +65183,7 @@
   {
    "case": "coal_wy_tx",
    "scenario": "b",
-   "figure": "states:taxes:7:al",
+   "figure": "states:taxes:8:al",
    "page": 153886130.5620022,
    "shown": "USD 153.9 million",
    "tolerance": 50000
@@ -65143,7 +65191,7 @@
   {
    "case": "coal_wy_tx",
    "scenario": "b",
-   "figure": "states:taxes:8:mo",
+   "figure": "states:taxes:9:mo",
    "page": 152901047.8442139,
    "shown": "USD 152.9 million",
    "tolerance": 50000
@@ -65151,17 +65199,9 @@
   {
    "case": "coal_wy_tx",
    "scenario": "b",
-   "figure": "states:taxes:9:ct",
+   "figure": "states:taxes:10:ct",
    "page": 151909601.45341152,
    "shown": "USD 151.9 million",
-   "tolerance": 50000
-  },
-  {
-   "case": "coal_wy_tx",
-   "scenario": "b",
-   "figure": "states:taxes:10:ks",
-   "page": 148965255.76946938,
-   "shown": "USD 149 million",
    "tolerance": 50000
   },
   {
@@ -65192,8 +65232,8 @@
    "case": "coal_wy_tx",
    "scenario": "b",
    "figure": "states:taxes:14:mt",
-   "page": 38155020.30637507,
-   "shown": "USD 38.2 million",
+   "page": 49426596.448830366,
+   "shown": "USD 49.4 million",
    "tolerance": 50000
   },
   {
@@ -65222,6 +65262,4870 @@
   },
   {
    "case": "coal_wy_tx",
+   "scenario": "b",
+   "figure": "states:count",
+   "page": 51,
+   "shown": "51",
+   "tolerance": 0
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "c:jobs:total",
+   "page": 7612.1243940524555,
+   "shown": "7,612",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "c:jobs:total",
+   "page": 7327.779393735604,
+   "shown": "7,328",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "o:jobs:total",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "o:jobs:total",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "c:earnings:total",
+   "page": 748607498.4604263,
+   "shown": "USD 748.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "c:earnings:total",
+   "page": 707119603.593144,
+   "shown": "USD 707.1 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "o:earnings:total",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "o:earnings:total",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "c:output:total",
+   "page": 1578716742.7601576,
+   "shown": "USD 1.58 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "c:output:total",
+   "page": 1413999110.6645353,
+   "shown": "USD 1.41 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "o:output:total",
+   "page": 76702955.43235536,
+   "shown": "USD 76.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "o:output:total",
+   "page": 69259572.72104964,
+   "shown": "USD 69.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "y1:property",
+   "page": 26903513.04368,
+   "shown": "USD 26.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "y1:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "sum:property",
+   "page": 388543367.3255687,
+   "shown": "USD 388.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "sum:property",
+   "page": 116157600,
+   "shown": "USD 116.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "sum:sales",
+   "page": 98808128.6492664,
+   "shown": "USD 98.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "sum:sales",
+   "page": 90520633.6399326,
+   "shown": "USD 90.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "sum:income",
+   "page": 81321318.82483388,
+   "shown": "USD 81.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "sum:income",
+   "page": 55314982.70152631,
+   "shown": "USD 55.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "pv:taxes",
+   "page": 316369888.130247,
+   "shown": "USD 316.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "pv:taxes",
+   "page": 148893885.74958494,
+   "shown": "USD 148.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "pv:earnings",
+   "page": 1048377052.3146296,
+   "shown": "USD 1.05 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "pv:earnings",
+   "page": 979211326.6015655,
+   "shown": "USD 979.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2027:jobs",
+   "page": 2537.374798017485,
+   "shown": "2,537",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2027:earnings",
+   "page": 249535832.8201421,
+   "shown": "USD 249.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2027:sales",
+   "page": 32936042.8830888,
+   "shown": "USD 32.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2027:income",
+   "page": 10552613.021409003,
+   "shown": "USD 10.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2028:jobs",
+   "page": 2537.374798017485,
+   "shown": "2,537",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2028:earnings",
+   "page": 249535832.8201421,
+   "shown": "USD 249.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2028:sales",
+   "page": 32936042.8830888,
+   "shown": "USD 32.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2028:income",
+   "page": 10552613.021409003,
+   "shown": "USD 10.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2029:jobs",
+   "page": 2537.374798017485,
+   "shown": "2,537",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2029:earnings",
+   "page": 249535832.8201421,
+   "shown": "USD 249.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2029:sales",
+   "page": 32936042.8830888,
+   "shown": "USD 32.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2029:income",
+   "page": 10552613.021409003,
+   "shown": "USD 10.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2030:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2030:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2030:value",
+   "page": 1088682140,
+   "shown": "USD 1.09 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2030:property",
+   "page": 26903513.04368,
+   "shown": "USD 26.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2030:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2031:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2031:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2031:value",
+   "page": 1031383080,
+   "shown": "USD 1.03 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2031:property",
+   "page": 25487538.672960002,
+   "shown": "USD 25.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2031:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2032:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2032:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2032:value",
+   "page": 1019923268,
+   "shown": "USD 1.02 billion",
+   "tolerance": 5000000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2032:property",
+   "page": 25204343.798816003,
+   "shown": "USD 25.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2032:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2033:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2033:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2033:value",
+   "page": 997003644,
+   "shown": "USD 997 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2033:property",
+   "page": 24637954.050528,
+   "shown": "USD 24.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2033:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2034:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2034:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2034:value",
+   "page": 985543832,
+   "shown": "USD 985.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2034:property",
+   "page": 24354759.176384002,
+   "shown": "USD 24.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2034:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2035:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2035:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2035:value",
+   "page": 962624208,
+   "shown": "USD 962.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2035:property",
+   "page": 23788369.428096,
+   "shown": "USD 23.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2035:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2036:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2036:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2036:value",
+   "page": 951164396,
+   "shown": "USD 951.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2036:property",
+   "page": 23505174.553952,
+   "shown": "USD 23.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2036:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2037:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2037:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2037:value",
+   "page": 870945712,
+   "shown": "USD 870.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2037:property",
+   "page": 21522810.434944,
+   "shown": "USD 21.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2037:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2038:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2038:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2038:value",
+   "page": 767807404,
+   "shown": "USD 767.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2038:property",
+   "page": 18974056.567648,
+   "shown": "USD 19 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2038:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2039:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2039:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2039:value",
+   "page": 676128908,
+   "shown": "USD 676.1 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2039:property",
+   "page": 16708497.574496001,
+   "shown": "USD 16.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2039:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2040:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2040:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2040:value",
+   "page": 584450412,
+   "shown": "USD 584.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2040:property",
+   "page": 14442938.581344001,
+   "shown": "USD 14.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2040:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2041:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2041:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2041:value",
+   "page": 492771916,
+   "shown": "USD 492.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2041:property",
+   "page": 12177379.588192001,
+   "shown": "USD 12.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2041:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2042:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2042:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2042:value",
+   "page": 412553232,
+   "shown": "USD 412.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2042:property",
+   "page": 10195015.469184,
+   "shown": "USD 10.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2042:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2043:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2043:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2043:value",
+   "page": 320874736.00000006,
+   "shown": "USD 320.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2043:property",
+   "page": 7929456.476032002,
+   "shown": "USD 7.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2043:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2044:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2044:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2044:value",
+   "page": 263575676,
+   "shown": "USD 263.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2044:property",
+   "page": 6513482.105312,
+   "shown": "USD 6.5 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2044:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2045:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2045:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2045:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2045:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2045:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2046:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2046:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2046:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2046:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2046:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2047:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2047:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2047:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2047:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2047:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2048:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2048:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2048:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2048:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2048:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2049:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2049:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2049:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2049:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2049:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2050:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2050:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2050:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2050:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2050:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2051:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2051:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2051:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2051:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2051:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2052:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2052:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2052:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2052:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2052:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2053:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2053:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2053:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2053:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2053:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2054:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2054:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2054:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2054:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2054:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2055:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2055:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2055:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2055:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2055:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2056:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2056:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2056:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2056:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2056:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2057:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2057:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2057:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2057:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2057:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2058:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2058:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2058:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2058:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2058:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2059:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2059:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2059:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2059:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2059:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2060:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2060:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2060:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2060:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2060:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2061:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2061:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2061:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2061:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2061:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2062:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2062:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2062:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2062:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2062:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2063:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2063:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2063:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2063:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2063:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2064:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2064:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2064:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2064:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2064:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2065:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2065:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2065:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2065:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2065:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2066:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2066:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2066:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2066:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2066:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2067:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2067:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2067:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2067:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2067:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2068:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2068:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2068:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2068:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2068:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2069:jobs",
+   "page": 331.74635,
+   "shown": "332",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2069:earnings",
+   "page": 29857698.136075526,
+   "shown": "USD 29.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2069:value",
+   "page": 171897180,
+   "shown": "USD 171.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2069:property",
+   "page": 4247923.11216,
+   "shown": "USD 4.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "year:2069:income",
+   "page": 1241586.9940151689,
+   "shown": "USD 1.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "cell:sev",
+   "page": null,
+   "shown": "none (the coal the plant burns is not modelled, and no coal severance rule is held)",
+   "tolerance": null
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "cell:sev",
+   "page": null,
+   "shown": "none (the coal the plant burns is not modelled, and no coal severance rule is held)",
+   "tolerance": null
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "default:mw",
+   "page": 650,
+   "shown": "650",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "default:capex",
+   "page": 4407.62,
+   "shown": "4,408",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "default:start",
+   "page": 2027,
+   "shown": "2027",
+   "tolerance": null
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "default:build",
+   "page": 3,
+   "shown": "3",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "default:life",
+   "page": 40,
+   "shown": "40",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "default:local",
+   "page": 100,
+   "shown": "100",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "default:om",
+   "page": 100,
+   "shown": "100",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "default:sales",
+   "page": 7.56,
+   "shown": "7.56",
+   "tolerance": 0.005
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "default:taxable",
+   "page": 45.6198,
+   "shown": "45.62",
+   "tolerance": 0.005
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "default:exempt",
+   "page": 0,
+   "shown": "0",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "default:levy",
+   "page": 24.712,
+   "shown": "24.71",
+   "tolerance": 0.005
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "default:cf",
+   "page": 0.85,
+   "shown": "0.85",
+   "tolerance": 0.005
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "default:rate",
+   "page": 7,
+   "shown": "7",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:1:il:onsite",
+   "page": 4889.907315092938,
+   "shown": "4,889.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:1:il:supply_chain",
+   "page": 2261.465688478313,
+   "shown": "2,261.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:1:il:induced",
+   "page": 2472.8422985940847,
+   "shown": "2,472.8",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:2:ca:onsite",
+   "page": 4883.080783303042,
+   "shown": "4,883.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:2:ca:supply_chain",
+   "page": 2345.89459980276,
+   "shown": "2,345.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:2:ca:induced",
+   "page": 2322.3536349574288,
+   "shown": "2,322.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:3:pa:onsite",
+   "page": 4745.814120862352,
+   "shown": "4,745.8",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:3:pa:supply_chain",
+   "page": 2213.877842807979,
+   "shown": "2,213.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:3:pa:induced",
+   "page": 2323.844052179265,
+   "shown": "2,323.8",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:4:ma:onsite",
+   "page": 4884.3177418411,
+   "shown": "4,884.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:4:ma:supply_chain",
+   "page": 2109.3455762943004,
+   "shown": "2,109.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:4:ma:induced",
+   "page": 2263.199154204141,
+   "shown": "2,263.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:5:or:onsite",
+   "page": 4804.202332953067,
+   "shown": "4,804.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:5:or:supply_chain",
+   "page": 2236.45983553947,
+   "shown": "2,236.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:5:or:induced",
+   "page": 2156.1741425559453,
+   "shown": "2,156.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:6:nj:onsite",
+   "page": 4466.276351340915,
+   "shown": "4,466.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:6:nj:supply_chain",
+   "page": 1904.0833628649464,
+   "shown": "1,904.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:6:nj:induced",
+   "page": 2156.2954676054214,
+   "shown": "2,156.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:7:nh:onsite",
+   "page": 4396.093371369618,
+   "shown": "4,396.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:7:nh:supply_chain",
+   "page": 2078.175603512887,
+   "shown": "2,078.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:7:nh:induced",
+   "page": 2042.1424119455335,
+   "shown": "2,042.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:8:ny:onsite",
+   "page": 4830.540836516951,
+   "shown": "4,830.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:8:ny:supply_chain",
+   "page": 1877.347970516915,
+   "shown": "1,877.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:8:ny:induced",
+   "page": 1789.5811016325067,
+   "shown": "1,789.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:9:de:onsite",
+   "page": 4882.937740370777,
+   "shown": "4,882.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:9:de:supply_chain",
+   "page": 1889.1152196849957,
+   "shown": "1,889.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:9:de:induced",
+   "page": 1682.9534997674045,
+   "shown": "1,683.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:10:mo:onsite",
+   "page": 4350.571606900895,
+   "shown": "4,350.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:10:mo:supply_chain",
+   "page": 2110.859939172609,
+   "shown": "2,110.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:10:mo:induced",
+   "page": 1947.216720922546,
+   "shown": "1,947.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:11:ga:onsite",
+   "page": 3924.50670574707,
+   "shown": "3,924.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:11:ga:supply_chain",
+   "page": 1950.9048890747442,
+   "shown": "1,950.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:11:ga:induced",
+   "page": 1736.712799230641,
+   "shown": "1,736.7",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:12:nv:onsite",
+   "page": 4433.808994822475,
+   "shown": "4,433.8",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:12:nv:supply_chain",
+   "page": 876.9340088269314,
+   "shown": "876.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:12:nv:induced",
+   "page": 1072.890893184296,
+   "shown": "1,072.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:13:hi:onsite",
+   "page": 3575.0153020876187,
+   "shown": "3,575.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:13:hi:supply_chain",
+   "page": 1368.5354023873465,
+   "shown": "1,368.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:13:hi:induced",
+   "page": 1417.9563754013095,
+   "shown": "1,418.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:14:wy:onsite",
+   "page": 3786.4663336376457,
+   "shown": "3,786.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:14:wy:supply_chain",
+   "page": 1156.8871030508112,
+   "shown": "1,156.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:14:wy:induced",
+   "page": 759.5237319692675,
+   "shown": "759.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:15:ak:onsite",
+   "page": 3329.7885999450195,
+   "shown": "3,329.8",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:15:ak:supply_chain",
+   "page": 1172.1593755395768,
+   "shown": "1,172.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:15:ak:induced",
+   "page": 1122.2919107778398,
+   "shown": "1,122.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:16:dc:onsite",
+   "page": 3756.064011689404,
+   "shown": "3,756.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:16:dc:supply_chain",
+   "page": 867.7115208715173,
+   "shown": "867.7",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:jobs:16:dc:induced",
+   "page": 458.2054930252226,
+   "shown": "458.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:1:ga",
+   "page": 316369888.130247,
+   "shown": "USD 316.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:2:ca",
+   "page": 224722712.70477664,
+   "shown": "USD 224.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:3:ny",
+   "page": 215607455.15074,
+   "shown": "USD 215.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:4:il",
+   "page": 212621451.69674078,
+   "shown": "USD 212.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:5:mn",
+   "page": 174665517.8732588,
+   "shown": "USD 174.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:6:ma",
+   "page": 171802040.22776878,
+   "shown": "USD 171.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:7:nj",
+   "page": 164408817.1242785,
+   "shown": "USD 164.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:8:al",
+   "page": 153886130.5620022,
+   "shown": "USD 153.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:9:mo",
+   "page": 152901047.8442139,
+   "shown": "USD 152.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:10:ct",
+   "page": 151909601.45341152,
+   "shown": "USD 151.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:11:wy",
+   "page": 64284845.903416574,
+   "shown": "USD 64.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:12:de",
+   "page": 63865166.18210074,
+   "shown": "USD 63.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:13:mt",
+   "page": 49426596.448830366,
+   "shown": "USD 49.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:14:ak",
+   "page": 21818259.08906991,
+   "shown": "USD 21.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:taxes:15:nh",
+   "page": 0,
+   "shown": "USD 0",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:rank",
+   "page": 24,
+   "shown": "24",
+   "tolerance": 0
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "a",
+   "figure": "states:count",
+   "page": 51,
+   "shown": "51",
+   "tolerance": 0
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2027:jobs",
+   "page": 2442.593131245201,
+   "shown": "2,443",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2027:earnings",
+   "page": 235706534.531048,
+   "shown": "USD 235.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2027:sales",
+   "page": 30173544.5466442,
+   "shown": "USD 30.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2027:income",
+   "page": 7364766.109234202,
+   "shown": "USD 7.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2028:jobs",
+   "page": 2442.593131245201,
+   "shown": "2,443",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2028:earnings",
+   "page": 235706534.531048,
+   "shown": "USD 235.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2028:sales",
+   "page": 30173544.5466442,
+   "shown": "USD 30.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2028:income",
+   "page": 7364766.109234202,
+   "shown": "USD 7.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2029:jobs",
+   "page": 2442.593131245201,
+   "shown": "2,443",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2029:earnings",
+   "page": 235706534.531048,
+   "shown": "USD 235.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2029:sales",
+   "page": 30173544.5466442,
+   "shown": "USD 30.2 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2029:income",
+   "page": 7364766.109234202,
+   "shown": "USD 7.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2030:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2030:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2030:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2030:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2030:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2031:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2031:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2031:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2031:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2031:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2032:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2032:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2032:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2032:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2032:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2033:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2033:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2033:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2033:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2033:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2034:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2034:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2034:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2034:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2034:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2035:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2035:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2035:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2035:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2035:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2036:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2036:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2036:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2036:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2036:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2037:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2037:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2037:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2037:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2037:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2038:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2038:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2038:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2038:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2038:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2039:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2039:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2039:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2039:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2039:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2040:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2040:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2040:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2040:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2040:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2041:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2041:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2041:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2041:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2041:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2042:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2042:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2042:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2042:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2042:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2043:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2043:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2043:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2043:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2043:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2044:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2044:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2044:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2044:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2044:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2045:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2045:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2045:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2045:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2045:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2046:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2046:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2046:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2046:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2046:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2047:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2047:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2047:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2047:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2047:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2048:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2048:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2048:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2048:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2048:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2049:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2049:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2049:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2049:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2049:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2050:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2050:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2050:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2050:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2050:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2051:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2051:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2051:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2051:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2051:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2052:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2052:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2052:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2052:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2052:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2053:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2053:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2053:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2053:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2053:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2054:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2054:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2054:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2054:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2054:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2055:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2055:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2055:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2055:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2055:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2056:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2056:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2056:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2056:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2056:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2057:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2057:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2057:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2057:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2057:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2058:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2058:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2058:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2058:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2058:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2059:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2059:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2059:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2059:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2059:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2060:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2060:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2060:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2060:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2060:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2061:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2061:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2061:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2061:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2061:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2062:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2062:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2062:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2062:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2062:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2063:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2063:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2063:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2063:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2063:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2064:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2064:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2064:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2064:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2064:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2065:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2065:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2065:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2065:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2065:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2066:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2066:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2066:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2066:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2066:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2067:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2067:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2067:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2067:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2067:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2068:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2068:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2068:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2068:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2068:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2069:jobs",
+   "page": 314.6494,
+   "shown": "315",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2069:earnings",
+   "page": 27252778.638568252,
+   "shown": "USD 27.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2069:mwh",
+   "page": 4839900,
+   "shown": "4,839,900",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2069:property",
+   "page": 2903940,
+   "shown": "USD 2.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "year:2069:income",
+   "page": 830517.1093455936,
+   "shown": "USD 830,517",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "default:mw",
+   "page": 650,
+   "shown": "650",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "default:capex",
+   "page": 4398.67,
+   "shown": "4,399",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "default:start",
+   "page": 2027,
+   "shown": "2027",
+   "tolerance": null
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "default:build",
+   "page": 3,
+   "shown": "3",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "default:life",
+   "page": 40,
+   "shown": "40",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "default:local",
+   "page": 100,
+   "shown": "100",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "default:om",
+   "page": 100,
+   "shown": "100",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "default:sales",
+   "page": 6.94,
+   "shown": "6.94",
+   "tolerance": 0.005
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "default:taxable",
+   "page": 45.6198,
+   "shown": "45.62",
+   "tolerance": 0.005
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "default:exempt",
+   "page": 0,
+   "shown": "0",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "default:own",
+   "page": null,
+   "shown": "not given",
+   "tolerance": null
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "default:ownyears",
+   "page": null,
+   "shown": "not given",
+   "tolerance": null
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "default:cf",
+   "page": 0.85,
+   "shown": "0.85",
+   "tolerance": 0.005
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "default:rate",
+   "page": 7,
+   "shown": "7",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:1:il:onsite",
+   "page": 4889.907315092938,
+   "shown": "4,889.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:1:il:supply_chain",
+   "page": 2261.465688478313,
+   "shown": "2,261.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:1:il:induced",
+   "page": 2472.8422985940847,
+   "shown": "2,472.8",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:2:ca:onsite",
+   "page": 4883.080783303042,
+   "shown": "4,883.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:2:ca:supply_chain",
+   "page": 2345.89459980276,
+   "shown": "2,345.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:2:ca:induced",
+   "page": 2322.3536349574288,
+   "shown": "2,322.4",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:3:pa:onsite",
+   "page": 4745.814120862352,
+   "shown": "4,745.8",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:3:pa:supply_chain",
+   "page": 2213.877842807979,
+   "shown": "2,213.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:3:pa:induced",
+   "page": 2323.844052179265,
+   "shown": "2,323.8",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:4:ma:onsite",
+   "page": 4884.3177418411,
+   "shown": "4,884.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:4:ma:supply_chain",
+   "page": 2109.3455762943004,
+   "shown": "2,109.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:4:ma:induced",
+   "page": 2263.199154204141,
+   "shown": "2,263.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:5:or:onsite",
+   "page": 4804.202332953067,
+   "shown": "4,804.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:5:or:supply_chain",
+   "page": 2236.45983553947,
+   "shown": "2,236.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:5:or:induced",
+   "page": 2156.1741425559453,
+   "shown": "2,156.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:6:nj:onsite",
+   "page": 4466.276351340915,
+   "shown": "4,466.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:6:nj:supply_chain",
+   "page": 1904.0833628649464,
+   "shown": "1,904.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:6:nj:induced",
+   "page": 2156.2954676054214,
+   "shown": "2,156.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:7:nh:onsite",
+   "page": 4396.093371369618,
+   "shown": "4,396.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:7:nh:supply_chain",
+   "page": 2078.175603512887,
+   "shown": "2,078.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:7:nh:induced",
+   "page": 2042.1424119455335,
+   "shown": "2,042.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:8:ny:onsite",
+   "page": 4830.540836516951,
+   "shown": "4,830.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:8:ny:supply_chain",
+   "page": 1877.347970516915,
+   "shown": "1,877.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:8:ny:induced",
+   "page": 1789.5811016325067,
+   "shown": "1,789.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:9:de:onsite",
+   "page": 4882.937740370777,
+   "shown": "4,882.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:9:de:supply_chain",
+   "page": 1889.1152196849957,
+   "shown": "1,889.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:9:de:induced",
+   "page": 1682.9534997674045,
+   "shown": "1,683.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:10:mo:onsite",
+   "page": 4350.571606900895,
+   "shown": "4,350.6",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:10:mo:supply_chain",
+   "page": 2110.859939172609,
+   "shown": "2,110.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:10:mo:induced",
+   "page": 1947.216720922546,
+   "shown": "1,947.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:11:ia:onsite",
+   "page": 4149.517961320475,
+   "shown": "4,149.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:11:ia:supply_chain",
+   "page": 1730.2863449472068,
+   "shown": "1,730.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:11:ia:induced",
+   "page": 1447.9750874679223,
+   "shown": "1,448.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:12:nv:onsite",
+   "page": 4433.808994822475,
+   "shown": "4,433.8",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:12:nv:supply_chain",
+   "page": 876.9340088269314,
+   "shown": "876.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:12:nv:induced",
+   "page": 1072.890893184296,
+   "shown": "1,072.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:13:hi:onsite",
+   "page": 3575.0153020876187,
+   "shown": "3,575.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:13:hi:supply_chain",
+   "page": 1368.5354023873465,
+   "shown": "1,368.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:13:hi:induced",
+   "page": 1417.9563754013095,
+   "shown": "1,418.0",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:14:wy:onsite",
+   "page": 3786.4663336376457,
+   "shown": "3,786.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:14:wy:supply_chain",
+   "page": 1156.8871030508112,
+   "shown": "1,156.9",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:14:wy:induced",
+   "page": 759.5237319692675,
+   "shown": "759.5",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:15:ak:onsite",
+   "page": 3329.7885999450195,
+   "shown": "3,329.8",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:15:ak:supply_chain",
+   "page": 1172.1593755395768,
+   "shown": "1,172.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:15:ak:induced",
+   "page": 1122.2919107778398,
+   "shown": "1,122.3",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:16:dc:onsite",
+   "page": 3756.064011689404,
+   "shown": "3,756.1",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:16:dc:supply_chain",
+   "page": 867.7115208715173,
+   "shown": "867.7",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:jobs:16:dc:induced",
+   "page": 458.2054930252226,
+   "shown": "458.2",
+   "tolerance": 0.05
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:1:ga",
+   "page": 316369888.130247,
+   "shown": "USD 316.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:2:ca",
+   "page": 224722712.70477664,
+   "shown": "USD 224.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:3:ny",
+   "page": 215607455.15074,
+   "shown": "USD 215.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:4:il",
+   "page": 212621451.69674078,
+   "shown": "USD 212.6 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:5:mn",
+   "page": 174665517.8732588,
+   "shown": "USD 174.7 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:6:ma",
+   "page": 171802040.22776878,
+   "shown": "USD 171.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:7:nj",
+   "page": 164408817.1242785,
+   "shown": "USD 164.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:8:al",
+   "page": 153886130.5620022,
+   "shown": "USD 153.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:9:mo",
+   "page": 152901047.8442139,
+   "shown": "USD 152.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:10:ct",
+   "page": 151909601.45341152,
+   "shown": "USD 151.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:11:ia",
+   "page": 148893885.74958494,
+   "shown": "USD 148.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:12:wy",
+   "page": 64284845.903416574,
+   "shown": "USD 64.3 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:13:de",
+   "page": 63865166.18210074,
+   "shown": "USD 63.9 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:14:mt",
+   "page": 49426596.448830366,
+   "shown": "USD 49.4 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:15:ak",
+   "page": 21818259.08906991,
+   "shown": "USD 21.8 million",
+   "tolerance": 50000
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:taxes:16:nh",
+   "page": 0,
+   "shown": "USD 0",
+   "tolerance": 0.5
+  },
+  {
+   "case": "coal_ga_ia",
+   "scenario": "b",
+   "figure": "states:rank",
+   "page": 29,
+   "shown": "29",
+   "tolerance": 0
+  },
+  {
+   "case": "coal_ga_ia",
    "scenario": "b",
    "figure": "states:count",
    "page": 51,

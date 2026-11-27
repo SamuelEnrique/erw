@@ -102,6 +102,7 @@ function main() {
   for (const [id, qs] of listed) cases.push({ id: `address_${id}`, what: `an address check-values reads: /impact?${qs}`, query: Object.fromEntries(new URLSearchParams(qs)) });
   // session 10822: coal (not yet in the live set, so not a check-values address): Wyoming at the reader's 1.2 percent over 30 years, B in Texas
   cases.push({ id: "coal_wy_tx", what: "coal in Wyoming with the reader's 1.2 percent property tax over 30 years, B in Texas", query: { tech: "coal", state: "wy", own: "1.2", ownyears: "30", btech: "coal", bstate: "tx" } });
+  cases.push({ id: "coal_ga_ia", what: "coal in Georgia (its 40 percent valuation), B in Iowa (its replacement generation tax on the MWh)", query: { tech: "coal", state: "ga", btech: "coal", bstate: "ia" } });
 
   const figures = [];
   const seen = new Set();

@@ -120,9 +120,10 @@ export const FIELDS: FieldDef[] = [
   { key: "ownyears", label: "Taxable value falls to 0 over", unit: "years", min: 1, max: 60, whole: true, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
     source: () => "The reader's own: the years over which the taxable value falls in a straight line." },
   { key: "cf", label: "Capacity factor", unit: "ratio", min: 0.01, max: 1, whole: false, group: "output",
-    applies: (t) => t !== "geothermal" && t !== "coal",
+    applies: (t) => t !== "geothermal",
     source: (t, s, P) => {
       if (t === "natural_gas") return "JEDI's default for its gas plant, 0.65. It sets the fuel the plant burns.";
+      if (t === "coal") return `JEDI's default for its coal plant, ${P.coal?.capacity_factor ?? "not held"} (its workbook's ProjectData). It sets the MWh a production or kWh tax falls on; the coal burned is not modelled.`;
       const d = cfDefault(P, t, s);
       const c = P.capacity[t as "land_based_wind" | "utility_pv"];
       return d.from === "state"

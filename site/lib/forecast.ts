@@ -34,6 +34,8 @@ export type Params = {
   property: { states: Record<string, { name: string; rules: PropertyRule[]; in_lieu?: { quote: string } }> };
   taxable: { technologies: Record<TechKey, { taxable_share: number | null }> };
   gas: { heat_rate_btu_per_kwh: number; capacity_factor: number; price_usd_per_mmbtu: number | null; btu_per_cf: number };
+  /** session 10822: the coal plant's capacity factor (coal.json, JEDI's coal model); absent in older callers */
+  coal?: { capacity_factor: number };
   /** session 4218: sales tax exemptions read from statutes (sales_exemptions.json); absent in older callers */
   exemptions?: { states: Record<string, Partial<Record<TechKey, { exempt_pct: number; tip?: string }>>> };
 };
@@ -159,7 +161,8 @@ export function capexDefault(P: Params, tech: TechKey, state: string): { usdPerK
 }
 export function cfDefault(P: Params, tech: TechKey, state: string): { value: number; from: "state" | "us" | "jedi" } {
   if (tech === "natural_gas") return { value: P.gas.capacity_factor, from: "jedi" };
-  if (tech === "geothermal" || tech === "coal") return { value: NaN, from: "us" };  // no production tax applies to it: not used (coal: session 10822)
+  if (tech === "coal") return P.coal ? { value: P.coal.capacity_factor, from: "jedi" } : { value: NaN, from: "us" };  // session 10822: JEDI's coal default, for the production taxes
+  if (tech === "geothermal") return { value: NaN, from: "us" };  // no production tax applies to it: not used
   const c = P.capacity[tech];
   return c.states[state] ? { value: c.states[state].median, from: "state" } : { value: c.us.median, from: "us" };
 }

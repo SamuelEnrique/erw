@@ -74,6 +74,7 @@ class Params:
         self.property = load("property_rules.json")["states"]
         self.taxable = load("jedi_taxable.json")["technologies"]
         self.gas = load("gas.json")
+        self.coal = load("coal.json")  # session 10822
         self.exempt = load("sales_exemptions.json")["states"]
         self.severance = load("severance_rules.json", os.path.join(ROOT, "site", "data"))["states"]
 
@@ -114,7 +115,9 @@ def defaults(P, tech, state):
         cost_2023 = e["base_usd_per_kw"]
     if tech == "natural_gas":
         cf = P.gas["capacity_factor"]
-    elif tech in ("geothermal", "coal"):
+    elif tech == "coal":
+        cf = P.coal["capacity_factor"]
+    elif tech == "geothermal":
         cf = None
     else:
         c = P.capacity[tech]
@@ -456,7 +459,7 @@ def default_figures(P, tech, state):
         shown.append("levy")
     if not held:
         shown += ["own", "ownyears"]
-    if tech not in ("geothermal", "coal"):
+    if tech != "geothermal":
         shown.append("cf")
     if tech == "utility_pv":
         shown.append("ilr")
