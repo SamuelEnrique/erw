@@ -132,3 +132,4 @@ Chain file: `queue/done/740-night-26-november-desktop-window3-impact-datacenters
 | Row 16 in window A's gate | seen | 10822 | wip/c701-g20 (05:27 UTC) contains 1a90adbc1; the lock held by c701-gate from 05:29; the branch's later commits (9816b41a7 the menu line, 9752e6809 the note's words) wait for row 17 once row 16 lands |
 | Row 16 watch | waiting | 10822 | checked 05:53 UTC: gate 20 still running, row 16 requested |
 | Row 16 watch | waiting | 10822 | checked 06:15 UTC: task/c701-g20 pushed (GitHub's checks merge it on a pass); the build lock free |
+| Row 16 watch | waiting | 10822 | checked 06:36 UTC: GitHub run 45948880574 (code branch, task/c701-g20) in progress since 05:57 |
