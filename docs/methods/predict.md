@@ -788,3 +788,55 @@ with the hub in `x_hub`, so neither repeats an (entity, variable, ts_utc) key; b
 trial: 259,300 and 117,646 rows, 0 errors, 0 warnings). `predict_scores` stays a file: every score is a summary the
 backtest table and the demand rebuild (`replicate.py`), and no standard shape holds a cut and its key without
 contortion (data request 17).
+
+## 29. The day's peak over the longer backtest (session 10603)
+
+`long_backtest.json` now carries, for each place, the day's peak of section 11 over the longer walk (`peak`): the peak's
+own choice as the place file makes it (the candidate whose day peaks missed least over the last two years, on the days
+the operator also holds), then each year from 2016 scored on the days every ERW method holds every hour, and the
+operator beside it on the days its screened filing holds (from July 2018). A day whose highest hour is zero or below is
+left out: one such day in the Tennessee region's early files is a filing error, and its percent error would be
+infinite. Built on the tables as window A's daily run refreshed them at 19:20 UTC on 27 November (through 26 November);
+the place files of row 10 read the day before, which the files' tests allow (a weekly file beside daily ones, their
+last days within a week). The 29 places, `runs/c730/table_long_peak.py`:
+
+| Place | Peak method | Days | Peak MAPE % over the span: ERW, yesterday | ERW names the hour exactly % | Years the ERW's peak beats the operator's |
+|---|---|---:|---|---:|---|
+| region-cal | regression | 3,713 | 4.751, 7.272 | 60.2 | 0 of 9 |
+| region-car | regression_recent | 3,575 | 8.222, 10.952 | 45.1 | 0 of 9 |
+| region-cent | regression | 3,757 | 5.856, 7.543 | 47.4 | 2 of 9: 2025, 2026 |
+| region-fla | regression | 3,384 | 7.086, 8.313 | 42.7 | 1 of 9: 2021 |
+| region-mida | regression_recent | 3,489 | 5.752, 8.587 | 47.6 | 0 of 9 |
+| region-midw | regression_recent | 3,768 | 4.412, 7.056 | 47.9 | 0 of 9 |
+| region-ne | regression_recent | 3,781 | 5.993, 8.305 | 61.6 | 0 of 9 |
+| region-nw | regression_recent | 3,005 | 3.101, 5.006 | 58.4 | 6 of 8: 2019, 2021, 2023, 2024, 2025, 2026 |
+| region-ny | regression_recent | 3,753 | 5.324, 7.811 | 62.5 | 0 of 9 |
+| region-se | regression_recent | 3,689 | 7.623, 9.722 | 40.7 | 0 of 9 |
+| region-sw | regression_recent | 3,655 | 5.423, 6.429 | 59.8 | 2 of 9: 2018, 2021 |
+| region-ten | regression_recent | 3,735 | 8.046, 10.196 | 35.8 | 0 of 9 |
+| region-tex | regression_recent | 3,766 | 6.866, 8.105 | 48.0 | 0 of 9 |
+| ba-bpat | regression_recent | 3,781 | 4.224, 6.555 | 50.2 | 0 of 9 |
+| ba-ciso | regression | 3,772 | 4.558, 7.109 | 60.2 | 0 of 9 |
+| ba-cple | regression_recent | 3,769 | 10.149, 12.903 | 37.7 | 0 of 9 |
+| ba-duk | regression_recent | 3,773 | 8.446, 11.467 | 43.7 | 0 of 9 |
+| ba-erco | regression_recent | 3,766 | 6.866, 8.105 | 48.0 | 0 of 9 |
+| ba-fpc | regression_recent | 3,705 | 8.866, 10.567 | 41.1 | 9 of 9: 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 |
+| ba-fpl | regression | 3,763 | 7.333, 8.312 | 38.1 | 0 of 9 |
+| ba-isne | regression_recent | 3,781 | 5.993, 8.305 | 61.6 | 0 of 9 |
+| ba-miso | regression_recent | 3,780 | 4.218, 6.91 | 47.1 | 0 of 9 |
+| ba-nyis | regression_recent | 3,753 | 5.324, 7.811 | 62.5 | 0 of 9 |
+| ba-pace | regression_recent | 3,777 | 4.654, 6.312 | 32.2 | 5 of 9: 2018, 2020, 2021, 2022, 2023 |
+| ba-pjm | regression_recent | 3,761 | 5.763, 8.63 | 48.3 | 0 of 9 |
+| ba-psco | regression_recent | 3,775 | 9.433, 8.502 | 44.8 | 1 of 9: 2026 |
+| ba-soco | regression_recent | 3,692 | 7.412, 9.702 | 41.5 | 0 of 9 |
+| ba-swpp | regression | 3,776 | 5.863, 7.542 | 47.5 | 2 of 9: 2025, 2026 |
+| ba-tva | regression_recent | 3,735 | 8.046, 10.196 | 35.8 | 0 of 9 |
+
+What it says: as for the hours, the operator's peak is ahead year after year where its filing is sound (in 21 of the 29
+places the ERW's peak beats it in no year); the exceptions are again the filing breaks of section 18 (FPC in every year,
+SWPP and CENT in 2025 and 2026) and the Northwest and PACE, where the ERW's peak is ahead in most years. The ERW names the
+peak's hour exactly on a third to three fifths of days (32 percent at PACE to 63 at New York). Its peak beats yesterday's
+peak over the span at every place but PSCO (9.43 against 8.50 percent); Florida, the Southwest and PSCO win a year or two.
+
+Replication (`replicate_long.py`, which now rebuilds the peak by the same words): its count is in the progress file and
+landing row 12.
