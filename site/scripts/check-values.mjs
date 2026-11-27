@@ -160,6 +160,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/learn/problems/where-energy-goes",
   // session 10404 (chain 720, part E): the waiting set of the ERW forecast's report card, every figure a pf| key into site/data/predict/scores.json
   "/learn/problems/a-forecasts-report-card",
+  // session 10412 (chain 720, part E): the waiting set of a producer beside the price of oil, every figure a pf| key into a company's filed periods (site/data/equities/series) or the energy prices (energy_prices.json)
+  "/learn/problems/a-producer-beside-the-price-of-oil",
   // session 9001 (chain 601, part H): the congestion page's tables, every figure a pf| key into site/data/conditions/congestion.json
   "/congestion", "/congestion?op=caiso&year=all",
   // and grid conditions' window at a glance, every figure a pf| key into site/data/conditions/<operator>.json
