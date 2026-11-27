@@ -26,7 +26,7 @@ import {
 // session 10405 (chain 720, part E): a company's last close, changes and market value, once the list carries them
 import { companiesPriced, wholeWords } from "@/lib/equities";
 // session 10408 (chain 720, part E): the SEC's filed figures over the periods filed, and the newest period's columns
-import { AT_PERIOD_END, FIGURES, FIGURE_DEFAULT, PERIOD_DEFAULT, PERIOD_KEYS, PERIOD_WORDS, figureLine, figureUnit, figureWords, newestOf, type FigureKey } from "@/lib/equities";
+import { AT_PERIOD_END, FIGURES, FIGURE_DEFAULT, PERIOD_DEFAULT, PERIOD_KEYS, PERIOD_WORDS, figureLine, figureUnit, figureWords, newestOf, type FigureKey, type NewestColumn } from "@/lib/equities";
 import { equitiesList, equitiesPrices, equitiesSeries } from "@/lib/equitiesfiles";
 import { pfKey } from "@/lib/pagefile";
 
@@ -200,7 +200,8 @@ function FiledFigures({ slots, list, q }: { slots: Slot[]; list: EqList; q: Quer
   const words = figureWords(q.fig), unit = figureUnit(q.fig), atEnd = AT_PERIOD_END.includes(q.fig);
   const span = atEnd ? (q.per === "12" ? "at the end of each year reported" : "at the end of each period filed") : `${PERIOD_WORDS[q.per]} to each period end`;
   // the newest period's columns: one for each length of period a company's newest filing reports
-  const cols = info.flatMap((x) => (x.held ? [{ x, col: null }] : x.newest.map((col) => ({ x, col }))));
+  type NewestCell = { x: (typeof info)[number]; col: NewestColumn | null };
+  const cols: NewestCell[] = info.flatMap((x): NewestCell[] => (x.held ? [{ x, col: null }] : x.newest.map((col) => ({ x, col }))));
   return (
     <ToolSection title="Filed figures" id="filed">
       <div data-eq-filed={cos.length}>
