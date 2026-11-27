@@ -69,6 +69,24 @@ spend: USD 0. No warehouse table written, no data lock taken. Kept current while
 
 ## For Samuel's ruling
 
-Nothing is taken for you. Two things you may want to see: whether the page should lead with the sound months' scores
-where the operator's filing breaks (the files carry both; the headline is unchanged), and whether the 5 percent
-tolerance of the filing check is the right line.
+Nothing is taken for you. Three things you may want to see:
+
+- whether the page should lead with the sound months' scores where the operator's filing breaks (the files carry both;
+  the headline is unchanged);
+- whether the 5 percent tolerance of the filing check is the right line;
+- ruling 2 of 6 November (ERCOT's `/misapp` and `/misdownload` paths, which ERCOT's robots file disallows: the existing
+  pulls are a legacy you will review, and no chain adds to them). Two of tonight's lines read tables those legacy pulls
+  fill: the Texas operator comparison of the wind and solar forecast (`ercot_wind_solar_forecast`) and ERCOT's real-time
+  price line (`ercot_all_hub_prices_history`). This window makes no request there and asks for none; if the pulls end,
+  those two lines stop where the tables stop, and the files will say so by their dates.
+
+## The codebook (part F)
+
+Seven tables' open second looks settled at the publishers' own documents, robots read first: both FERC EQR tables
+(four columns each, the EQR Data Dictionary 3.5), the GHG Inventory's weights (AR5, Table ES-1), NEEDS's BART (EPA's
+platform v6 documentation), ERCOT's DME and ESR statuses (Nodal Protocols section 3), HIFLD's INFERRED (PASDA's ISO 19139
+metadata); LBNL's hybrid plants' regions, coupling and use cases written from its 2026 deck, the second look narrowed to
+what stays open. Hosts that could not be read, each recorded so no one repeats it blind: the IESO's reports site (a
+sign-in form even for robots.txt), the NRC (403 to robots.txt), eCFR (a challenge page), ANEEL (no connection), and
+DUKES 2026 chapter 5 (fetched, no extractable text for the codes). `docs/codebook/` redrawn, which also brought in four
+new public tables of other windows as their metadata stands.
