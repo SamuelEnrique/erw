@@ -2,7 +2,7 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 101 public tables (9 entities, 7 events, 85 series; tiers: 2 derived, 99 source); 101 documented in full.
+**What the family holds.** 104 public tables (9 entities, 7 events, 88 series; tiers: 4 derived, 100 source); 104 documented in full.
 
 - [`abs_suriname_electricity_annual`](#abs_suriname_electricity_annual): One year's value of one Suriname electricity measure (EBS's demand by category, net generation, net consumption or capacity, or a Staatsolie plant's generation), from the statistics office's Environment Statistics Publication.
 - [`aedg_alaska_generation_monthly`](#aedg_alaska_generation_monthly): One Alaska service area's electricity generation from one fuel in one month, from the Alaska Energy Data Gateway.
@@ -74,6 +74,8 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`nve_norway_reservoirs_weekly`](#nve_norway_reservoirs_weekly): One Norwegian area's (the country, a price area or a water region) hydropower reservoir filling, stored energy or capacity in one week, from NVE's reservoir statistics.
 - [`ons_brazil_balance_hourly`](#ons_brazil_balance_hourly): One Brazilian subsystem's (or the national interconnected system's) generation by source, load or net interchange in one hour, from ONS's energy balance.
 - [`owid_ember_electricity_annual`](#owid_ember_electricity_annual): One country's or region's electricity demand or power sector greenhouse gas emissions in one year, the Ember columns of Our World in Data's energy dataset.
+- [`predict_demand_forecasts`](#predict_demand_forecasts): One place's ERW forecast of demand for one UTC hour of a target day, as the forecast was made on its day (a model's output, not a published figure).
+- [`predict_price_forecasts`](#predict_price_forecasts): One place's ERW forecast of its grid hub's day-ahead price for one UTC hour of a target day, as the forecast was made on its day (a model's output, not a published figure).
 - [`price_congestion_hourly`](#price_congestion_hourly): One part of the day-ahead price at one hub or load zone for one hour, as SPP or CAISO splits it.
 - [`price_congestion_monthly`](#price_congestion_monthly): One hub or load zone in one month, the means of its day-ahead price parts; derived from price_congestion_hourly.
 - [`ree_spain_balance_monthly`](#ree_spain_balance_monthly): One month's value of one series of Spain's electrical energy balance (generation by technology, storage, exchanges, demand at busbars), from Red Electrica's REData.
@@ -103,6 +105,7 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`uswtdb_wind_turbines`](#uswtdb_wind_turbines): One utility-scale land-based or offshore wind turbine in the USGS U.S. Wind Turbine Database.
 - [`wapa_energy_sales_annual`](#wapa_energy_sales_annual): One WAPA project's (or WAPA's total) energy sold or power rate in one federal fiscal year, from WAPA's Rates and Sales Data.
 - [`weather_forecast_hourly`](#weather_forecast_hourly): One airport's forecast temperature or wind speed for one hour, from the National Weather Service's hourly forecast.
+- [`weather_forecast_issued_hourly`](#weather_forecast_issued_hourly): One NWS hourly forecast value (temperature or wind) for one airport and one forecast hour, as one issue gave it; the variable names the lead in days (the hour's UTC date less the issue's).
 - [`weather_obs_hourly`](#weather_obs_hourly): One airport's mean observed temperature or wind speed in one hour, from the National Weather Service API.
 - [`wfigs_wildfires`](#wfigs_wildfires): One wildfire of 1,000 acres or more discovered from 2015, from NIFC's WFIGS Incident Locations.
 
@@ -3030,6 +3033,88 @@ Variables (2):
 | `electricity_demand` | Electricity demand in the year (Ember via Our World in Data; TWh times 1,000,000) | MWh | 6378 | 1990-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `electricity_emissions` | The power sector's greenhouse gas emissions in the year, CO2 equivalent (million tonnes times 1,000,000) | tCO2e | 6028 | 2000-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
+### `predict_demand_forecasts`
+
+One place's ERW forecast of demand for one UTC hour of a target day, as the forecast was made on its day (a model's output, not a published figure).
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: derived. Rows read on 2026-11-27: 696.
+
+- **Time:** ts_utc is the forecast hour's start (UTC); vintage is the hour the forecast was made; x_target_day is the place's local day.
+- **Revisions:** Every making kept, one row per vintage: the key is (entity, variable, ts_utc, vintage). The table is the whole ledger (site/data/predict/ledger_demand.csv), rewritten from it each run; a forecast once made is never replaced.
+- **Source:** erw:predict the ERW's own forecast, from eia930_ba_demand_hourly (U.S. Energy Information Administration, Form EIA-930, public) (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/predict.md)
+- **Method note:** [`docs/methods/predict.md`](../methods/predict.md)
+- **Cite as:** ERW. Via the Energy Research Warehouse (ERW), table `predict_demand_forecasts`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia930:BPAT, eia930:CAL, eia930:CAR; 29 distinct | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-11-27T05:00:00Z to 2026-11-28T07:00:00Z; 27 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | 3671.2 to 94014.9; 552 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | MW | 0 |
+| `freq` | How long the interval of the row is | none | text | PT1H | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 696 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 696 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:predict | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | https://github.com/SamuelEnrique/erw/blob/main/docs/methods/predict.md | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-26T23:35:24Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-11-26T11:00:00Z | 0 |
+| `x_place` | The forecast's place on the page (region-<code> an EIA-930 region, ba-<code> a balancing authority) | none | text | for example ba-bpat, ba-ciso, ba-cple; 29 distinct | 0 |
+| `x_method` | The method that made the forecast (warehouse/predict/predict_demand.py; chosen by the backtest's rule) | none | text | regression | 0 |
+| `x_horizon_days` | Days from the last hour of demand the forecast read to the target day | days | integer | 3, 4 | 0 |
+| `x_inputs_through_utc` | The last hour of the place's demand the forecast read (UTC) | none (an ISO 8601 UTC time) | utc time | 2026-11-24T05:00:00Z, 2026-11-24T07:00:00Z, 2026-11-25T04:00:00Z, 2026-11-25T05:00:00Z, 2026-11-25T06:00:00Z, 2026-11-25T07:00:00Z | 0 |
+| `x_target_day` | The place's local day the forecast is for | none (a date) | date | 2026-11-27 | 0 |
+| `x_local_hour` | The hour of the place's local day, 0 to 23 | hour | integer | 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 | 0 |
+| `x_lo` | The low end of the forecast's range (the method's interval, docs/methods/predict.md) | MW | number | 3201.6 to 87206.0; 551 distinct | 0 |
+| `x_hi` | The high end of the forecast's range | MW | number | 4162.8 to 108127.6; 551 distinct | 0 |
+
+Variables (1):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `demand_forecast_mw` | The ERW's forecast of the place's hourly demand, MW | MW | 696 | 2026-11-27T05:00:00Z | 2026-11-28T07:00:00Z |
+
+### `predict_price_forecasts`
+
+One place's ERW forecast of its grid hub's day-ahead price for one UTC hour of a target day, as the forecast was made on its day (a model's output, not a published figure).
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: derived. Rows read on 2026-11-27: 144.
+
+- **Time:** ts_utc is the forecast hour's start (UTC); vintage is the hour the forecast was made; x_target_day is the place's local day.
+- **Revisions:** Every making kept, one row per vintage: the key is (entity, variable, ts_utc, vintage). The table is the whole ledger (site/data/predict/ledger_price.csv), rewritten from it each run; a forecast once made is never replaced.
+- **Source:** erw:predict the ERW's own forecast, from the hubs' day-ahead prices (ERCOT, SPP, CAISO, public), eia930_ba_demand_hourly and eia_fuel_spot_prices (public) (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/predict_price.md)
+- **Method note:** [`docs/methods/predict_price.md`](../methods/predict_price.md)
+- **Cite as:** ERW. Via the Energy Research Warehouse (ERW), table `predict_price_forecasts`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | eia930:CAL, eia930:CENT, eia930:CISO, eia930:ERCO, eia930:SWPP, eia930:TEX | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-11-27T06:00:00Z to 2026-11-28T07:00:00Z; 26 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | 14.69 to 70.21; 108 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | USD/MWh | 0 |
+| `freq` | How long the interval of the row is | none | text | PT1H | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | caiso, ercot, spp | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | HB_NORTH, SPPNORTH_HUB, TH_SP15_GEN-APND | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:predict | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | https://github.com/SamuelEnrique/erw/blob/main/docs/methods/predict_price.md | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-26T23:35:24Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-11-26T11:00:00Z | 0 |
+| `x_place` | The forecast's place on the page (region-<code> an EIA-930 region, ba-<code> a balancing authority); market and node name its grid's hub | none | text | ba-ciso, ba-erco, ba-swpp, region-cal, region-cent, region-tex | 0 |
+| `x_method` | The method that made the forecast (warehouse/predict/predict_price.py; chosen by the backtest's rule) | none | text | regression, yesterday | 0 |
+| `x_horizon_days` | Days from the last hour of prices the forecast read to the target day | days | integer | 2 | 0 |
+| `x_inputs_through_utc` | The last hour of the hub's day-ahead price the forecast read (UTC) | none (an ISO 8601 UTC time) | utc time | 2026-11-26T05:00:00Z, 2026-11-26T07:00:00Z | 0 |
+| `x_target_day` | The place's local day the forecast is for | none (a date) | date | 2026-11-27 | 0 |
+| `x_local_hour` | The hour of the place's local day, 0 to 23 | hour | integer | 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 | 0 |
+| `x_lo` | The low end of the forecast's range (docs/methods/predict_price.md) | USD/MWh | number | -2.01 to 48.12; 108 distinct | 0 |
+| `x_hi` | The high end of the forecast's range | USD/MWh | number | 27.57 to 99.47; 115 distinct | 0 |
+
+Variables (1):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `lmp_dam_forecast` | The ERW's forecast of the hub's hourly day-ahead price, USD/MWh | USD/MWh | 144 | 2026-11-27T06:00:00Z | 2026-11-28T07:00:00Z |
+
 ### `price_congestion_hourly`
 
 One part of the day-ahead price at one hub or load zone for one hour, as SPP or CAISO splits it.
@@ -4321,6 +4406,52 @@ Variables (2):
 |---|---|---|---|---|---|
 | `temperature_f` | Forecast temperature for the hour | degF | 9269 | 2026-09-28T09:00:00Z | 2026-11-23T01:00:00Z |
 | `wind_speed_mph` | Forecast wind speed for the hour | mph | 9269 | 2026-09-28T09:00:00Z | 2026-11-23T01:00:00Z |
+
+### `weather_forecast_issued_hourly`
+
+One NWS hourly forecast value (temperature or wind) for one airport and one forecast hour, as one issue gave it; the variable names the lead in days (the hour's UTC date less the issue's).
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-26: 2184.
+
+- **Time:** ts_utc is the forecast hour's start (UTC, freq PT1H); vintage is the issue's updateTime.
+- **Revisions:** Appended run to run and never replaced across leads: a later issue writes another variable (another lead); of two issues read on one UTC day for the same lead, the later is kept.
+- **Source:** nws:forecast_hourly National Weather Service API, https://api.weather.gov/points/<lat,lon> then its forecastHourly (units=si) (https://api.weather.gov/points/<lat,lon>)
+- **Cite as:** National Weather Service (NWS, NOAA). Hourly gridpoint forecast (api.weather.gov). Via the Energy Research Warehouse (ERW), table `weather_forecast_issued_hourly`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | nws:KBOS, nws:KDFW, nws:KIND, nws:KLAX, nws:KLGA, nws:KOKC, nws:KPHL | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-11-26T12:00:00Z to 2026-12-02T23:00:00Z; 156 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 82.4; 72 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | degF, mph | 0 |
+| `freq` | How long the interval of the row is | none | text | PT1H | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-CA, US-IN, US-MA, US-NY, US-OK, US-PA, US-TX | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 2184 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | nws:forecast_hourly | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | https://api.weather.gov/gridpoints/BOX/73,101/forecast/hourly?units=si, https://api.weather.gov/gridpoints/FWD/81,109/forecast/hourly?units=si, https://api.weather.gov/gridpoints/IND/54,67/forecast/hourly?units=si, https://api.weather.gov/gridpoints/LOX/149,41/forecast/hourly?units=si, https://api.weather.gov/gridpoints/OKX/37,46/forecast/hourly?units=si, https://api.weather.gov/gridpoints/OUN/94,90/forecast/hourly?units=si, https://api.weather.gov/gridpoints/PHI/48,75/forecast/hourly?units=si | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-26T12:04:36Z, 2026-11-26T12:04:37Z, 2026-11-26T12:04:39Z, 2026-11-26T12:04:41Z, 2026-11-26T12:04:43Z, 2026-11-26T12:04:45Z, 2026-11-26T12:04:47Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-11-26T06:26:58Z, 2026-11-26T09:07:45Z, 2026-11-26T09:14:54Z, 2026-11-26T09:37:47Z, 2026-11-26T11:11:43Z, 2026-11-26T11:21:09Z, 2026-11-26T11:45:22Z | 0 |
+
+Variables (14):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `temperature_f_lead0d` |  | degF | 84 | 2026-11-26T12:00:00Z | 2026-11-26T23:00:00Z |
+| `temperature_f_lead1d` |  | degF | 168 | 2026-11-27T00:00:00Z | 2026-11-27T23:00:00Z |
+| `temperature_f_lead2d` |  | degF | 168 | 2026-11-28T00:00:00Z | 2026-11-28T23:00:00Z |
+| `temperature_f_lead3d` |  | degF | 168 | 2026-11-29T00:00:00Z | 2026-11-29T23:00:00Z |
+| `temperature_f_lead4d` |  | degF | 168 | 2026-11-30T00:00:00Z | 2026-11-30T23:00:00Z |
+| `temperature_f_lead5d` |  | degF | 168 | 2026-12-01T00:00:00Z | 2026-12-01T23:00:00Z |
+| `temperature_f_lead6d` |  | degF | 168 | 2026-12-02T00:00:00Z | 2026-12-02T23:00:00Z |
+| `wind_speed_mph_lead0d` |  | mph | 84 | 2026-11-26T12:00:00Z | 2026-11-26T23:00:00Z |
+| `wind_speed_mph_lead1d` |  | mph | 168 | 2026-11-27T00:00:00Z | 2026-11-27T23:00:00Z |
+| `wind_speed_mph_lead2d` |  | mph | 168 | 2026-11-28T00:00:00Z | 2026-11-28T23:00:00Z |
+| `wind_speed_mph_lead3d` |  | mph | 168 | 2026-11-29T00:00:00Z | 2026-11-29T23:00:00Z |
+| `wind_speed_mph_lead4d` |  | mph | 168 | 2026-11-30T00:00:00Z | 2026-11-30T23:00:00Z |
+| `wind_speed_mph_lead5d` |  | mph | 168 | 2026-12-01T00:00:00Z | 2026-12-01T23:00:00Z |
+| `wind_speed_mph_lead6d` |  | mph | 168 | 2026-12-02T00:00:00Z | 2026-12-02T23:00:00Z |
 
 ### `weather_obs_hourly`
 

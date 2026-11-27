@@ -2,10 +2,11 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 6 public tables (6 series; tiers: 6 source); 6 documented in full.
+**What the family holds.** 7 public tables (7 series; tiers: 7 source); 7 documented in full.
 
 - [`census_bps_state_annual`](#census_bps_state_annual): One state's (or DC's) count or value of new housing authorized by building permits for one structure type in one year, the Census Bureau's estimates.
 - [`census_c30_construction_monthly`](#census_c30_construction_monthly): The value of construction put in place in one month for one owner (private, public, state and local, federal) and type of construction, US.
+- [`census_cbp_construction_annual`](#census_cbp_construction_annual): One state's establishments, employment or annual payroll in NAICS 2362 (nonresidential building construction) or NAICS 238 (specialty trade contractors) in one year, County Business Patterns, all legal forms.
 - [`census_cbp_hosting_annual`](#census_cbp_hosting_annual): One state's establishments, employment or annual payroll in NAICS 518210 (data processing, hosting and related services) in one year, County Business Patterns.
 - [`census_county_population`](#census_county_population): One county's population, the 2020 census count or the Census Bureau's estimate of 1 July of one year.
 - [`census_metro_population`](#census_metro_population): One metropolitan statistical area's population, whole or its part in one state, at the 2020 estimates base or the estimate of 1 July 2025.
@@ -94,6 +95,46 @@ Variables (2):
 |---|---|---|---|---|---|
 | `value_put_in_place` | Value of construction put in place in the month, not seasonally adjusted, USD (millions times 1,000,000) | USD | 41380 | 1993-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
 | `value_put_in_place_saar` | Value of construction put in place, seasonally adjusted annual rate, USD (millions times 1,000,000) | USD | 41380 | 1993-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+
+### `census_cbp_construction_annual`
+
+One state's establishments, employment or annual payroll in NAICS 2362 (nonresidential building construction) or NAICS 238 (specialty trade contractors) in one year, County Business Patterns, all legal forms.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-26: 3672.
+
+- **Time:** ts_utc is 1 January of the reference year at 00:00:00Z (freq P1Y).
+- **Revisions:** A snapshot, replaced whole by each run; vintage is each year's file's Last-Modified time.
+- **Source:** census:cbp_state_construction U.S. Census Bureau, County Business Patterns, state files (https://www2.census.gov/programs-surveys/cbp/datasets/)
+- **Method note:** [`docs/methods/census_cbp_construction_annual.md`](../methods/census_cbp_construction_annual.md)
+- **Cite as:** Census Bureau. County Business Patterns: state files, NAICS 2362 and 238 (the construction trades). Via the Energy Research Warehouse (ERW), table `census_cbp_construction_annual`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example census_cbp_2362:ak, census_cbp_2362:al, census_cbp_2362:ar; 102 distinct | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2012-01-01T00:00:00Z, 2013-01-01T00:00:00Z, 2014-01-01T00:00:00Z, 2015-01-01T00:00:00Z, 2016-01-01T00:00:00Z, 2017-01-01T00:00:00Z, 2018-01-01T00:00:00Z, 2019-01-01T00:00:00Z, 2020-01-01T00:00:00Z, 2021-01-01T00:00:00Z, 2022-01-01T00:00:00Z, 2023-01-01T00:00:00Z | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | 76.0 to 45772683000.0; 3458 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | USD, count | 0 |
+| `freq` | How long the interval of the row is | none | text | P1Y | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AK, US-AL, US-AR; 51 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 3672 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example AK, AL, AR; 51 distinct | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | census:cbp_state_construction | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | https://www2.census.gov/programs-surveys/cbp/datasets/2012/cbp12st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2013/cbp13st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2014/cbp14st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2015/cbp15st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2016/cbp16st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2017/cbp17st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2018/cbp18st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2019/cbp19st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2020/cbp20st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2021/cbp21st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2022/cbp22st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2023/cbp23st.zip | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T00:23:53Z, 2026-10-24T00:24:51Z, 2026-10-24T00:24:56Z, 2026-10-24T00:25:00Z, 2026-10-24T00:25:05Z, 2026-10-24T00:25:09Z, 2026-10-24T00:25:14Z, 2026-10-24T00:25:18Z, 2026-10-24T00:25:22Z, 2026-10-24T00:25:26Z, 2026-10-24T00:25:30Z, 2026-10-24T00:25:35Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2017-05-09T20:25:03Z, 2017-05-19T11:34:13Z, 2018-04-19T18:27:42Z, 2018-09-12T13:55:44Z, 2018-09-13T13:14:51Z, 2019-11-26T18:58:28Z, 2020-06-25T11:01:49Z, 2021-04-22T10:53:32Z, 2022-04-28T10:35:51Z, 2023-04-27T11:41:44Z, 2024-06-27T11:29:29Z, 2025-06-26T12:00:29Z | 0 |
+| `x_naics` | The NAICS code of the row: 2362 (nonresidential building construction) or 238 (specialty trade contractors) | none | integer | 238, 2362 | 0 |
+| `x_emp_noise` | The Bureau's noise flag for employment: G low, H moderate, J high noise, N not available; D and S mark a figure the Bureau withholds, kept as a zero | none | text | G, H | 0 |
+| `x_ap_noise` | The Bureau's noise flag for annual payroll: G low, H moderate, J high noise, N not available; D marks a figure the Bureau withholds | none | text | G, H | 0 |
+| `x_naics_vintage` | The NAICS edition the year's file uses: 2017 (2012 to 2021) or 2022 (2022 on) | year | integer | 2017, 2022 | 0 |
+
+Variables (3):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `annual_payroll` |  | USD | 1224 | 2012-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
+| `employment` |  | count | 1224 | 2012-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
+| `establishments` |  | count | 1224 | 2012-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
 
 ### `census_cbp_hosting_annual`
 

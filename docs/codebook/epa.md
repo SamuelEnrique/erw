@@ -4,7 +4,7 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 
 **What the family holds.** 8 public tables (2 entities, 6 series; tiers: 8 source); 8 documented in full.
 
-- [`epa_ghg_inventory_annual`](#epa_ghg_inventory_annual): One line of EPA's national greenhouse gas Inventory (1990 to 2022 edition) for one economic sector, or the nation, in one year, from Chapter 2 Table 2-10, 2-11 or 2-12.
+- [`epa_ghg_inventory_annual`](#epa_ghg_inventory_annual): One line of EPA's national greenhouse gas Inventory (1990 to 2022 edition) for one economic sector, or the nation, in one year, from Chapter 2 Table 2-10, 2-11 or 2-12. Its tCO2e are weighted by the 100-year global warming potentials of the IPCC's Fifth Assessment Report (AR5) across the whole series, 1990 to 2022 (CO2 1, CH4 28, N2O 265, HFCs up to 12,400, PFCs up to 11,100, SF6 23,500, NF3 16,100), as the edition's Executive Summary, Table ES-1, states (www.epa.gov, robots read first; read 27 November 2026); the GHGRP tables use AR4's weights, so the two are not on one scale.
 - [`epa_ghgrp_facility_emissions`](#epa_ghgrp_facility_emissions): One reporting facility's (or, for transmission pipelines and gas distribution companies, one facility-state's) total reported greenhouse gas emissions in one segment of EPA's GHGRP data summary in one year, 2015 to 2023.
 - [`epa_ghgrp_power_co2`](#epa_ghgrp_power_co2): One power plant's (a GHGRP facility reporting under subpart D, electricity generation) reported CO2 of one kind in one reporting year, 2010 to 2023.
 - [`epa_lmop_landfill_projects`](#epa_lmop_landfill_projects): One landfill and one landfill gas energy project at it (or the landfill alone, with a project id of its own) in EPA's LMOP database as of September 2024.
@@ -15,7 +15,7 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 
 ### `epa_ghg_inventory_annual`
 
-One line of EPA's national greenhouse gas Inventory (1990 to 2022 edition) for one economic sector, or the nation, in one year, from Chapter 2 Table 2-10, 2-11 or 2-12.
+One line of EPA's national greenhouse gas Inventory (1990 to 2022 edition) for one economic sector, or the nation, in one year, from Chapter 2 Table 2-10, 2-11 or 2-12. Its tCO2e are weighted by the 100-year global warming potentials of the IPCC's Fifth Assessment Report (AR5) across the whole series, 1990 to 2022 (CO2 1, CH4 28, N2O 265, HFCs up to 12,400, PFCs up to 11,100, SF6 23,500, NF3 16,100), as the edition's Executive Summary, Table ES-1, states (www.epa.gov, robots read first; read 27 November 2026); the GHGRP tables use AR4's weights, so the two are not on one scale.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 5016.
 
@@ -134,8 +134,6 @@ Variables (85):
 | `power:sf6:electrical_equipment` | The electric power industry's SF6 from electrical equipment (Table 2-11) | tCO2e | 33 | 1990-01-01T00:00:00Z | 2022-01-01T00:00:00Z |
 | `power:total` | The electric power industry's emissions, all gases (Table 2-11; equals its direct:total) | tCO2e | 33 | 1990-01-01T00:00:00Z | 2022-01-01T00:00:00Z |
 | `total_gross_emissions_sources` | The nation's gross emissions from all sources (Table 2-10) | tCO2e | 33 | 1990-01-01T00:00:00Z | 2022-01-01T00:00:00Z |
-
-Waiting for a second look: The global warming potentials behind tCO2e: the header says the Inventory's tables do not name them, and nothing says they match the GHGRP tables' AR4 weights. Read again on 20 November 2026 in the notes and source lines of the 15 CSV tables of the saved Trends zip under warehouse/raw/epa_ghg_inventory (Table 2-14 says only gross total GWP-weighted values): not found..
 
 ### `epa_ghgrp_facility_emissions`
 
