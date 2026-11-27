@@ -228,8 +228,11 @@ columns:
   source_name: term_name
   documented_by: source FERC contract file (session 81 report)
 - name: x_increment_name
-  label: FERC's increment field of the product, as filed (one of the product fields the tags read); its codes not documented
-    by the source
+  label: 'FERC''s increment of the product, as filed (EQR Data Dictionary field 28): the period the contract''s terms
+    are set for, if the contract notes one; 5 five-minute (more than 0 and up to 5 minutes), 15 fifteen-minute (more
+    than 5 and up to 15 minutes), H hourly (more than 15 minutes and up to 6 hours), D daily (more than 6 and up to 60
+    hours), W weekly (more than 60 and up to 168 hours), M monthly (more than 168 hours, less than a year), Y yearly (a
+    year or more), N/A not applicable (the contract specifies no increment)'
   unit: none
   type: text
   values:
@@ -237,9 +240,12 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: increment_name
-  documented_by: source FERC contract file (session 81 report); method contracts.md
+  documented_by: source FERC, Electric Quarterly Report Data Dictionary, Version 3.5, issued 23 November 2020 (www.ferc.gov/sites/default/files/2020-11/Data_Dictionary_V3_5_Clean.pdf; robots read first, /sites/ allowed), read 2026-11-27
 - name: x_increment_peaking_name
-  label: FERC's increment peaking field of the product, as filed; its codes not documented by the source
+  label: 'FERC''s increment peaking of the product, as filed (EQR Data Dictionary field 29): FP full period (the
+    product may be sold in the hours designated on-peak and off-peak at the point of delivery), OP off-peak (only in
+    the hours designated off-peak), P peak (only in the hours designated on-peak), N/A not applicable (used only when
+    the increment peaking names do not apply)'
   unit: none
   type: text
   values:
@@ -247,7 +253,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: increment_peaking_name
-  documented_by: source FERC contract file (session 81 report)
+  documented_by: source FERC, Electric Quarterly Report Data Dictionary, Version 3.5, issued 23 November 2020 (www.ferc.gov/sites/default/files/2020-11/Data_Dictionary_V3_5_Clean.pdf; robots read first, /sites/ allowed), read 2026-11-27
 - name: x_product_type_name
   label: The product type, as FERC codes it (MB market-based, CB cost-based, T transmission)
   unit: none
@@ -380,7 +386,8 @@ columns:
   source_name: point_of_delivery_specific_location
   documented_by: method contracts.md
 - name: x_begin_date
-  label: not documented by the source
+  label: 'The first date and time for the sale of the product at the rate specified, YYYYMMDDHHMM, as filed (EQR Data
+    Dictionary field 43); filed only if the contract specifies it, else empty'
   unit: none
   type: integer
   values:
@@ -388,9 +395,10 @@ columns:
   missing_cells: 412728
   missing_meaning: Empty as filed
   source_name: begin_date
-  documented_by: connector ferc_eqr_contracts.py
+  documented_by: source FERC, Electric Quarterly Report Data Dictionary, Version 3.5, issued 23 November 2020 (www.ferc.gov/sites/default/files/2020-11/Data_Dictionary_V3_5_Clean.pdf; robots read first, /sites/ allowed), read 2026-11-27
 - name: x_end_date
-  label: not documented by the source
+  label: 'The last date and time for the sale of the product at the rate specified, YYYYMMDDHHMM, as filed (EQR Data
+    Dictionary field 44); filed only if the contract specifies it, else empty'
   unit: none
   type: integer
   values:
@@ -398,7 +406,7 @@ columns:
   missing_cells: 422814
   missing_meaning: Empty as filed
   source_name: end_date
-  documented_by: connector ferc_eqr_contracts.py
+  documented_by: source FERC, Electric Quarterly Report Data Dictionary, Version 3.5, issued 23 November 2020 (www.ferc.gov/sites/default/files/2020-11/Data_Dictionary_V3_5_Clean.pdf; robots read first, /sites/ allowed), read 2026-11-27
 - name: x_company_id
   label: FERC's company identifier of the filer, from the filing's identification file
   unit: none
@@ -429,7 +437,4 @@ columns:
   missing_meaning: never empty
   source_name: null
   documented_by: header; method eqr_terms.md; connector ferc_eqr_contracts.py
-second_look:
-- 'x_increment_name and x_increment_peaking_name: FERC''s codes for these product fields are not documented in the repository
-  (FERC''s data dictionary answered HTTP 403)'
-- 'x_begin_date and x_end_date: FERC''s meaning of these two fields is not documented in the repository'
+second_look: null
