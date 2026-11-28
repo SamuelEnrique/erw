@@ -1,0 +1,58 @@
+
+CMS (CMS ENERGY CORP, cik 0000811156) and CMS-PB (CONSUMERS ENERGY CO, cik 0000201533): 111 and 2 periods, 2 in both, 2 of them from the same filing (accession)
+  revenue            both filed   2, the very same figure   2 (newest 2026-09-30)
+  net_income         both filed   2, the very same figure   2 (newest 2026-09-30)
+  capex              both filed   1, the very same figure   1 (newest 2026-09-30)
+  debt               both filed   2, the very same figure   2 (newest 2026-09-30)
+  shares_outstanding both filed   2, the very same figure   2 (newest 2026-09-30)
+  2026-09-30 3 months: revenue 2183000000 against 2183000000; net income 123000000 against 123000000; accessions 0000811156-26-000032 0000811156-26-000032
+  concepts: CMS us-gaap:Revenues; CMS-PB us-gaap:Revenues
+
+EIX (EDISON INTERNATIONAL, cik 0000827052) and SCE-PG (SOUTHERN CALIFORNIA EDISON Co, cik 0000092103): 115 and 28 periods, 26 in both, 2 of them from the same filing (accession)
+  revenue            both filed   4, the very same figure   4 (newest 2026-09-30)
+  net_income         both filed  26, the very same figure   4 (newest 2026-09-30)
+  capex              both filed  16, the very same figure   2 (newest 2026-09-30)
+  debt               both filed  26, the very same figure   4 (newest 2026-09-30)
+  shares_outstanding both filed  26, the very same figure   4 (newest 2026-09-30)
+  2026-09-30 3 months: revenue 4886000000 against 4886000000; net income 724000000 against 724000000; accessions 0000827052-26-000073 0000827052-26-000073
+  concepts: EIX us-gaap:Revenues; SCE-PG us-gaap:Revenues
+
+PCG (PG&E Corp, cik 0001004980) and PCG-PE (PACIFIC GAS & ELECTRIC Co, cik 0000075488): 106 and 2 periods, 2 in both, 2 of them from the same filing (accession)
+  revenue            both filed   2, the very same figure   2 (newest 2026-09-30)
+  net_income         both filed   2, the very same figure   2 (newest 2026-09-30)
+  capex              both filed   1, the very same figure   1 (newest 2026-09-30)
+  debt               both filed   2, the very same figure   2 (newest 2026-09-30)
+  shares_outstanding both filed   2, the very same figure   2 (newest 2026-09-30)
+  2026-09-30 3 months: revenue 6188000000 against 6188000000; net income 776000000 against 776000000; accessions 0001004980-26-000055 0001004980-26-000055
+  concepts: PCG us-gaap:Revenues; PCG-PE us-gaap:Revenues
+
+ETR (ENTERGY CORP /DE/, cik 0000065984) and ETI-P (ENTERGY TEXAS, INC., cik 0001427437): 113 and 0 periods, 0 in both, 0 of them from the same filing (accession)
+  revenue            both filed   0, the very same figure   0
+  net_income         both filed   0, the very same figure   0
+  capex              both filed   0, the very same figure   0
+  debt               both filed   0, the very same figure   0
+  shares_outstanding both filed   0, the very same figure   0
+  concepts: ETR us-gaap:Revenues; ETI-P None
+
+PAGP (PLAINS GP HOLDINGS LP, cik 0001581990) and PAA (PLAINS ALL AMERICAN PIPELINE LP, cik 0001070423): 87 and 118 periods, 87 in both, 0 of them from the same filing (accession)
+  revenue            both filed  87, the very same figure  87 (newest 2026-09-30)
+  net_income         both filed  87, the very same figure   0
+  capex              both filed  52, the very same figure  52 (newest 2026-09-30)
+  debt               both filed  87, the very same figure  63 (newest 2026-09-30)
+  shares_outstanding both filed   0, the very same figure   0
+  2025-12-31 3 months: revenue 10565000000 against 10565000000; net income 62000000 against 342000000; accessions 0001581990-26-000012 0001070423-26-000014
+  2026-03-31 3 months: revenue 12470000000 against 12470000000; net income 20000000 against 152000000; accessions 0001581990-26-000017 0001070423-26-000019
+  2026-06-30 3 months: revenue 17693000000 against 17693000000; net income 389000000 against 1830000000; accessions 0001581990-26-000025 0001070423-26-000031
+  2026-09-30 3 months: revenue 15173000000 against 15173000000; net income 68000000 against 363000000; accessions 0001581990-26-000057 0001070423-26-000058
+  concepts: PAGP us-gaap:Revenues; PAA us-gaap:Revenues
+
+SUNC (SunocoCorp LLC, cik 0002089661) and SUN (Sunoco LP, cik 0001552275): 6 and 92 periods, 6 in both, 0 of them from the same filing (accession)
+  revenue            both filed   6, the very same figure   6 (newest 2026-09-30)
+  net_income         both filed   6, the very same figure   0
+  capex              both filed   0, the very same figure   0
+  debt               both filed   6, the very same figure   6 (newest 2026-09-30)
+  shares_outstanding both filed   0, the very same figure   0
+  2026-03-31 3 months: revenue 10690000000 against 10690000000; net income 110000000 against 644000000; accessions 0002089661-26-000033 0001552275-26-000047
+  2026-06-30 3 months: revenue 14259000000 against 14259000000; net income 39000000 against 283000000; accessions 0002089661-26-000049 0001552275-26-000061
+  2026-09-30 3 months: revenue 18029000000 against 18029000000; net income 81000000 against 499000000; accessions 0002089661-26-000080 0001552275-26-000096
+  concepts: SUNC us-gaap:Revenues; SUN us-gaap:Revenues
