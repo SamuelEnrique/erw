@@ -42,7 +42,7 @@ class TheFoldSaysSo(unittest.TestCase):
         self.assertIn('<li data-grid-dates="1">One date for every grid.', page)
         self.assertIn("NYISO&apos;s newest operation date is 31 December 2023 and MISO&apos;s 19 December 2024, so a later year has no point for "
                       "them because the file dates none, not because none was built.", page)
-        self.assertIn("53 requests (13,275 MW) carry a withdrawal date of 2 to 16 January 2026 and count as withdrawn, not active.", page)
+        self.assertIn("53 requests (13,275 MW) carry a withdrawal date of 2 to 16 January 2026; they count as active, their status at the end of 2025.", page)   # session 11408 (wip/ready-queues-year-end)
         note = src("docs", "methods", "interconnection_queue_summary.md")
         self.assertIn("- One date for every grid (session 10213", note)
         self.assertIn("it would be up to 8,566 at that date (1,864,963 MW, up to 1,878,238)", note)

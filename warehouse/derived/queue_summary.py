@@ -108,6 +108,12 @@ def prepared(d):
     positive), the year entered, and the years from request to operation where both dates are held and in order."""
     x = pd.DataFrame({"region": d["region"], "status": d["status"].where(d["status"].isin(STATUSES), "unknown"),
                       "tech": d["type_clean"].map(tech_of), "year": pd.to_numeric(d["q_year"], errors="coerce")})
+    # session 11408 (the queues audit's finding 5, the other choice): statuses as at the end of the edition's last year; a
+    # request withdrawn after it (the 2026 edition holds withdrawals of 2 to 16 January 2026) counts as active
+    if "wd_date" in d:
+        end = pd.Timestamp(f"{int(pd.to_numeric(d['q_year'], errors='coerce').max())}-12-31")
+        late = (x["status"] == "withdrawn") & (pd.to_datetime(d["wd_date"], errors="coerce") > end)
+        x.loc[late, "status"] = "active"
     mw = pd.to_numeric(d["capacity_mw"], errors="coerce")
     x["mw"] = mw.where(mw > 0, 0.0)
     q, on = pd.to_datetime(d["q_date"], errors="coerce"), pd.to_datetime(d["on_date"], errors="coerce")

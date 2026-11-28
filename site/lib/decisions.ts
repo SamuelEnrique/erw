@@ -582,7 +582,7 @@ export const QUEUES_DECISIONS: Decision[] = [
     def: "Every part's MW summed; none filled.",
     source: "The data file's capacity of each part." },
   { key: "status", session: "session 95",
-    text: "Status is Berkeley Lab's: active, suspended, operational and withdrawn; a request of unknown status is counted as entered and in no status, and suspended requests are not in the active figures.",
+    text: "Status is Berkeley Lab's: active, suspended, operational and withdrawn; a request of unknown status is counted as entered and in no status, and suspended requests are not in the active figures; a status is as at the end of the edition's last year, so a request withdrawn after it counts as active.",
     def: "Berkeley Lab's four statuses; unknown counted as entered only.",
     source: "The data file's queue status field." },
   { key: "past-window", session: "session 95",
