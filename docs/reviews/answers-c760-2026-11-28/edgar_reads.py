@@ -134,6 +134,45 @@ def capex():
             print("  no capital spending line with a figure found near any 'investing activities'")
 
 
+# Data request 65: the joint 10-Qs (parent's company number, accession, the subsidiary's name as its statements title it)
+JOINT = {"CMS-PB": ("811156", "0000811156-26-000032", "Consumers"),
+         "SCE-PG": ("827052", "0000827052-26-000073", "- SCE"),
+         "PCG-PE": ("1004980", "0001004980-26-000055", ", UTILITY")}
+
+
+def joint():
+    """Each joint filing's statement pages (FilingSummary.xml): the subsidiary's income statement and balance sheet,
+    and the lines naming revenue, net income and long-term debt, printed with their figures."""
+    lines_of = re.compile(r"(total operating revenues?|operating revenues?|net income[^$\d(]{0,60}|long-term debt[^$\d(]{0,40})"
+                          r"\s*\$?\s*(\(?[\d,]+\)?)\s*\$?\s*(\(?[\d,]+\)?)?", re.I)
+    for tk, (cik, acc, sub) in JOINT.items():
+        base = f"https://www.sec.gov/Archives/edgar/data/{cik}/{acc.replace('-', '')}/"
+        fs = get(base + "FilingSummary.xml")
+        reports = re.findall(r"<ShortName>([^<]+)</ShortName>.*?<HtmlFileName>([^<]+)</HtmlFileName>", fs, re.S)
+        print(f"{tk} {acc}: {len(reports)} report pages")
+        picked, seen_parent = [], set()
+        for name, fname in reports:
+            nm = html.unescape(name)
+            if not re.search(r"statements? of income|statements? of operations|balance sheets?", nm, re.I) or re.search(
+                    r"comprehensive|parenthetical|details|tables|policies", nm, re.I):
+                continue
+            kind = "income" if re.search(r"income|operations", nm, re.I) else "balance"
+            if sub.lower() in nm.lower():
+                picked.append(("subsidiary", nm, fname))
+            elif kind not in seen_parent:
+                seen_parent.add(kind)
+                picked.append(("parent", nm, fname))
+        for who, nm, fname in picked:
+            page = get(base + fname)
+            text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", page)))
+            k = text.find("Months Ended")
+            k = k if k >= 0 else max(0, text.find(nm[:20]))
+            print(f"  [{who}] {nm} ({fname}):")
+            print(f"    {text[k:k + 900]}")
+            for m in lines_of.finditer(text):
+                print(f"    line: {m.group(0)[:160]}")
+
+
 def window():
     """The raw text after each 'investing activities' that is followed by figures, for the filings named."""
     for tk in sys.argv[2:]:
@@ -147,4 +186,4 @@ def window():
 
 
 if __name__ == "__main__":
-    {"sample": sample, "capex": capex, "window": window}[sys.argv[1]]()
+    {"sample": sample, "capex": capex, "window": window, "joint": joint}[sys.argv[1]]()
