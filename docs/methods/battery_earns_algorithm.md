@@ -531,7 +531,7 @@ Session 5001, 13 November 2026 (chain 233). The page lists, at its foot, every m
 12. Capital cost and fixed O&M default to the midpoints of Lazard's Levelized Cost of Storage at 2 and 4 hours, and at 8 hours to NREL's Annual Technology Baseline 2025, whose fixed O&M pays for augmentation. (sessions 67 and 296)
 13. Debt is 20 percent of the capital at 8 percent over 20 years, level payments: Lazard's storage financing, editable. (session 208; the owner's ruling of 12 October 2026)
 14. The NPV is to equity, after the debt payments, discounted at 12 percent, Lazard's cost of equity. (session 208; the owner's ruling of 12 October 2026)
-15. Revenue falls by 2.6 percent a year for degradation (Lazard's storage cases), as a yearly cut to revenue by default; capacity fade with augmentation is the other method a scenario may choose. (sessions 196 and 297)
+15. Revenue falls by 1.1 percent a year for degradation, what the model itself loses when the battery's energy fades by Lazard's 2.6 percent (year 2 earns 98.90 percent of year 1), as a yearly cut to revenue by default; capacity fade with augmentation is the other method a scenario may choose. (sessions 196 and 297)
 16. The investment tax credit and the stress repeats are scenario assumptions, 0 by default. (session 297)
 17. ERCOT and CAISO are open; NYISO and SPP are built and held in review until their licenses are answered; PJM, ISO-NE and MISO are not built, their prices needing a license. (sessions 86 and 89)
 

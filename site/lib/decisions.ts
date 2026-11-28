@@ -138,7 +138,7 @@ export const BATTERY_DECISIONS: Decision[] = [
   { key: "hurdle", session: "session 208", ruling: "the owner's ruling of 12 October 2026",
     text: "The NPV is to equity, after the debt payments, discounted at 12 percent, Lazard's cost of equity." },
   { key: "degradation", session: "sessions 196 and 297",
-    text: "Revenue falls by 2.6 percent a year for degradation (Lazard's storage cases), as a yearly cut to revenue by default; capacity fade with augmentation is the other method a scenario may choose." },
+    text: "Revenue falls by 1.1 percent a year for degradation, what the model itself loses when the battery's energy fades by Lazard's 2.6 percent (year 2 earns 98.90 percent of year 1), as a yearly cut to revenue by default; capacity fade with augmentation is the other method a scenario may choose." },
   { key: "credits", session: "session 297",
     text: "The investment tax credit and the stress repeats are scenario assumptions, 0 by default." },
   { key: "grids", session: "sessions 86 and 89",

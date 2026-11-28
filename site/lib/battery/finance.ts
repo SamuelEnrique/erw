@@ -53,6 +53,13 @@ export const SHARE = 20;
  * Storage Use Cases, Illustrative Operational Parameters") give "Battery Degradation (per annum)" of 2.6% for the
  * utility-scale standalone battery of 100 MW, at 2 and at 4 hours. Until then it was 0, with no source. */
 export const DEG = 2.6;
+/** Session 11408 (readied for the owner's ruling on the battery audit of 20 November, finding 4,
+ * docs/reviews/battery-model-audit-2026-11-20.md): the revenue cut's default is what the model itself loses when the
+ * battery's energy fades by Lazard's 2.6 percent a year. battery_stack.solve_day on every day of the last twelve months,
+ * 1 MW kept and the hours faded by 2.6 percent: year 2 earns 98.90 percent of year 1 (98.91 on the audit's window), so 1.1 percent a year (power does
+ * not fade, and a third of the revenue is reserves paid on power). The fade method keeps Lazard's 2.6 (DEG) for the
+ * capacity, and the sourced range keeps 0 to 2.6. */
+export const REVENUE_DEG = 1.1;
 export const SPECS: Record<Key, Spec> = {
   capex: { key: "capex", letter: "c", label: "Capital cost", unit: "USD per kW", min: 0, max: 10000, whole: false, swing: 100, swingWords: "USD 100 per kW",
     short: (v) => `capex ${n(v)} USD/kW`, words: (v) => `capex USD ${n(v)} per kW`, plain: n, source: `${LAZARD} (LCOS v10.0)` },
@@ -69,7 +76,7 @@ export const SPECS: Record<Key, Spec> = {
   cycles: { key: "cycles", letter: "y", label: "Cycles a day, at most", unit: "full cycles", min: 0, max: 10, whole: false, swing: 0.5, swingWords: "one step, 0.5 cycles",
     short: (v) => `${n(v)} ${v === 1 ? "cycle" : "cycles"} a day`, words: (v) => `cycles a day ${n(v)}`, plain: n, source: "The model's rule: at most one full cycle a day. The other steps are the reader's, not a source's" },
   deg: { key: "deg", letter: "d", label: "Degradation", unit: "percent a year", min: 0, max: 20, whole: false, swing: 1, swingWords: "1 point",
-    short: (v) => `degradation ${n(v)}% a year`, words: (v) => `degradation ${n(v)} percent a year`, plain: n, source: `${LAZARD} (LCOS v10.0): battery degradation of 2.6 percent a year in its utility-scale cases of 2 and 4 hours. The model itself has no capacity fade: here the rate is a yearly cut to revenue` },
+    short: (v) => `degradation ${n(v)}% a year`, words: (v) => `degradation ${n(v)} percent a year`, plain: n, source: `${LAZARD} (LCOS v10.0): battery degradation of 2.6 percent a year in its utility-scale cases of 2 and 4 hours. The default (session 11408) is 1.1 percent a year: re-solved by the model with its energy faded by 2.6 percent a year, a battery earns 98.90 percent of year 1 in year 2, since power does not fade and a third of the revenue is reserves paid on power. Here the rate is a yearly cut to revenue` },
   life: { key: "life", letter: "l", label: "Project life", unit: "years", min: 1, max: 40, whole: true, swing: 5, swingWords: "5 years",
     short: (v) => `life ${n(v)} years`, words: (v) => `project life ${n(v)} years`, plain: n, source: `${LAZARD}: 20 years for storage` },
   hurdle: { key: "hurdle", letter: "h", label: "Hurdle rate", unit: "percent a year", min: 0, max: 40, whole: false, swing: 1, swingWords: "1 point",
@@ -100,7 +107,7 @@ export const ONLY_DEFAULT: Steps = { rte: [MODEL.rte], cycles: [MODEL.cycles] };
 /** The defaults for a duration: its Lazard capital cost and fixed O&M (lib/batterystack.ts, COSTS), and the rest. */
 export function defaultsOf(costs: { capex: number; fom: number }): Assumptions {
   // session 297: no credit, the revenue cut, Lazard's fade, no augmentation at the ATB's energy cost, no stress repeat
-  return { capex: costs.capex, share: SHARE, rate: 8, term: 20, fom: costs.fom, rte: MODEL.rte, cycles: MODEL.cycles, deg: DEG, life: 20, hurdle: HURDLE,
+  return { capex: costs.capex, share: SHARE, rate: 8, term: 20, fom: costs.fom, rte: MODEL.rte, cycles: MODEL.cycles, deg: REVENUE_DEG, life: 20, hurdle: HURDLE,
     itc: 0, method: 0, fade: DEG, aug: 0, augcost: 241, stress: 0, cshare: 0, cprice: 0 };
 }
 
