@@ -205,24 +205,11 @@ save("ahead.json", ahead);
     all: wspan("2019-07-31", "2026-11-06", 49000, [1800.4, 2900.6, 1100.5], [3.7, 5.8, 2.3]),
     last_2_years: wspan("2024-11-25", "2026-11-06", 9900, [2200.5, 3000.2, null], [3.9, 5.2, null]) };
   save("region-tex.json", t3);
+  // ready branch wip/ready-forecast-no-weather-known (session 11408): the line is in the file and the page draws none of it
   const html = draw(FIX, { a: "region-tex" });
-  const block = between(html, 'data-fc-weather="1"', "data-fc-cut=");
-  check(block.length > 0 && html.indexOf('data-fc-weather="1"') > html.indexOf('data-fc-peak="1"') && html.indexOf('data-fc-weather="1"') < html.indexOf('data-fc-cut="month"'), "the line's table stands after the peak's, before the months");
-  check(text(block).replace(/\s+([:,)])/g, "$1").includes("With the weather known (not a forecast), beside the regression and the operator on the same hours, %"), `the line is not labelled in its heading: ${text(block).slice(0, 160)}`);
-  check(block.includes("Not a forecast, and never the ERW forecast: the regression with the region&#x27;s observed temperature added"), "the heading's hover does not say what the line is");
-  check(count(block, /<tr class="border-b/g) === 2, "the line's table: not two rows (the last two years, every hour its weather is held)");
-  check(fig(html, "region-tex.json", "series/demand/with_weather_known/all/hours", 49000, "49,000") && fig(html, "region-tex.json", "series/demand/with_weather_known/all/mape/with_weather_known", 3.7, "3.70"), "the line's hours and its error, keyed");
-  check(fig(html, "region-tex.json", "series/demand/with_weather_known/all/mape/regression", 5.8, "5.80") && fig(html, "region-tex.json", "series/demand/with_weather_known/all/mape/operator", 2.3, "2.30"), "the regression and the operator on the same hours, the operator where it is the closest drawn as any other");
-  check(!html.includes("with_weather_known/last_2_years/mape/operator") && count(block, /data-not-held="1"/g) === 1, "a score the file does not hold is a figure, or not one blank");
-  // the line is in no chart, in no other table, and is never called the ERW forecast
-  const rest = html.replace(block, "");
-  check(!rest.includes("With the weather known") && !rest.includes("with_weather_known"), "the line is drawn outside its own table");
-  check(!/ERW forecast[^<]{0,40}weather known|weather known[^<(]{0,12}ERW forecast/i.test(text(block).replace("never the ERW forecast", "")), "the line is called the ERW forecast");
-  const mw = draw(FIX, { a: "region-tex", m: "mae" });
-  check(fig(mw, "region-tex.json", "series/demand/with_weather_known/all/mae/with_weather_known", 1800.4, "1,800") && fig(mw, "region-tex.json", "series/demand/with_weather_known/last_2_years/mae/regression", 3000.2, "3,000"), "the line in MW: whole megawatts, keyed");
-  check(!draw(FIX, { a: "region-tex", s: "price" }).includes("data-fc-weather"), "price draws the line of demand");
-  const two = draw(FIX, { a: "region-tex", b: "ba-erco" });
-  check(between(two, 'data-fc-weather="1"', "data-fc-cut=").includes('data-fc-group="b"'), "two places: the line's table has both places' columns");
+  check(!html.includes("data-fc-weather") && !html.includes("with_weather_known") && !html.includes("With the weather known"), "the line is drawn");
+  check(!draw(FIX, { a: "region-tex", m: "mae" }).includes("with_weather_known"), "the line is drawn in MW");
+  check(!draw(FIX, { a: "region-tex", b: "ba-erco" }).includes("data-fc-weather"), "two places: the line is drawn");
   quiet(html, "the weather line");
   const scores = load("scores.json");
   const sc = scores.rows_columns.indexOf("series");

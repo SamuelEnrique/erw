@@ -476,7 +476,7 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
             ])} />
         </div>
       ) : null}
-      {weathered ? (
+      {WEATHER_KNOWN_SHOWN && weathered ? (
         <div className="mb-5" data-fc-weather="1">
           <h4 className="mb-1 text-sm font-semibold"><span className="cursor-help" title={`Not a forecast, and never the ${LABEL}: ${weatherWhat ?? "the regression with the target day's own observed temperature added"}.${scores && (scores as { separate_lines?: Record<string, string> | null }).separate_lines?.with_weather_known ? ` The score file's words: ${(scores as { separate_lines?: Record<string, string> | null }).separate_lines!.with_weather_known}.` : ""}`}>{WEATHER_LABEL}</span> (not a forecast), beside the regression and the operator on the same hours, {mu}</h4>
           <ScoreTable k="weather" first="Span" caption={`${names}with the weather known, which is not a forecast: ${METRIC_WORDS[metric].toLowerCase()} of the regression with the day's own observed temperature added, of the regression and of the operator's forecast, on the hours the weather is held, ${mu}`}
@@ -502,6 +502,10 @@ function ReportCard({ slots, s, index, scores, metric }: { slots: Slot[]; s: Ser
 }
 
 /** Every place at once: one row a place in the index's own order, every method, over every hour scored. */
+/** Ready branch of session 11408 (weekend page of 28 November 2026, part 3.5, the other choice): the separate line "with
+ *  the weather known" (not a forecast) is not drawn in the report card; the place files still carry it, one switch away. */
+const WEATHER_KNOWN_SHOWN = false;
+
 function AllPlaces({ index, scores, s, metric, chosen }: { index: PredictIndex; scores: ScoresFile | null; s: SeriesKey; metric: Metric; chosen: string[] }) {
   const methods = methodsOf(scores, s);
   const mcol = scores ? scores.rows_columns.indexOf(metric) : -1;

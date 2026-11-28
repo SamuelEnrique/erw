@@ -187,6 +187,8 @@ with the weather known beats the operator in 12 of 29
 
 What it says: with the weather known the regression would close more than the whole gap to the operator in MIDA and PJM, FLA and SW, and 70 percent or more of it in CAR, MIDW, TEN, CPLE, DUK, FPL and MISO; it closes less than half in TEX (43 percent), NE (37) and BPAT (9), so there the operator's forecast holds something beyond the weather that this regression lacks. With the weather known, the line beats the operator in 12 places; the operator stays ahead in 17.
 
+**On the page (ready branch of session 11408, not the default).** `/forecast` does not draw the line "with the weather known" (`WEATHER_KNOWN_SHOWN` in `site/app/forecast/view.tsx`): the place files still carry it, and the report card's download still holds its rows, marked as not a forecast.
+
 ## 14. A fourth candidate: regression_recent (session 10601)
 
 The regression of section 3 with three more regressors, all from days held when the forecast is made: the log of the last hour (23:00 local) of day A, the most recent demand read; the log of the same hour on day A-1; the log of the same hour on day T-14. Fitted and refit exactly as the regression (30 coefficients an hour). It was tried first on six places (`runs/c730/trial_reg2.py`): it lowered the mean absolute error of the last two years by 1.6 to 8.4 percent in all six. It was then added as a candidate of the choice rule, which picks it in 28 of 29 places (PSCO keeps the regression). Nothing else changed. `replication/predict/replicate.py` refits it from these words too.
