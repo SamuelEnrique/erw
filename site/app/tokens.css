@@ -403,6 +403,21 @@ body:has(.brand-a) > footer :focus-visible {
     position: sticky;
     left: 0;
   }
+  /* chain 780 (session 11600; the read of 28 November, row CH4): the bar chart's drawing stands inside its hover's box
+     since session 2201 (components/tool/BarsHover.tsx), no longer the figure's own child, so the three rules above
+     passed it by and on a phone it was shrunk to the screen again, its figures under 6 px. The same three for it: the
+     box keeps the readable width (the drawing fills it, and the hover card is placed by the box's width), the figure
+     scrolls it sideways, the title and the note stay in place */
+  .brand-a figure:not([data-chart-width]):has(> [data-bars-hover] > svg[role="img"]) {
+    overflow-x: auto;
+  }
+  .brand-a figure:not([data-chart-width]) > [data-bars-hover]:has(> svg[role="img"]) {
+    min-width: 600px;
+  }
+  .brand-a figure:not([data-chart-width]):has(> [data-bars-hover] > svg[role="img"]) > :not([data-bars-hover]) {
+    position: sticky;
+    left: 0;
+  }
 }
 .brand-a svg[role="img"] text {
   font-family: var(--font-sans);
