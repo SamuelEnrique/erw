@@ -235,7 +235,8 @@ def build(e, log, retrieved):
     # table, so the rule is applied only when a person has approved the numbers it moves (impossible_hours.HELD)
     x = impossible_hours.screen_extract(em.read_extract(ex)[["ts_utc", "demand_mwh", "net_generation_mwh"]], NAME)
     # and California's net generation of the hydro gap (2019-10-01 to 2020-08-24) is a blank: its day then has no net
-    # generation and no intensity. The spring of 2020 and the heat of August 2020 lie inside the gap. HELD with the rule
+    # generation and no intensity. The spring of 2020 and the heat of August 2020 lie inside the gap. Session 11407:
+    # approved for this table on its own (impossible_hours.HYDRO_GAP_APPROVED), the rest of the rule still HELD
     x = impossible_hours.without_hydro_gap(x, e["ba"], NAME)
     x["day"] = local_days(x["ts_utc"], e["tz"])
     x = x[x["day"].map(in_win)]
@@ -396,7 +397,7 @@ def build_covid(e, log, retrieved):
         url, lm, got = em.extract_meta(ex)
         used.append(f"{ba}: {os.path.relpath(ex, ROOT)} (EIA workbook {url}, Last-Modified {lm}, downloaded {got})")
         x = impossible_hours.screen_extract(em.read_extract(ex)[["ts_utc", "demand_mwh", "net_generation_mwh"]], NAME)   # session 118, HELD
-        x = impossible_hours.without_hydro_gap(x, ba, NAME)   # session 118, HELD: California's hours without hydro
+        x = impossible_hours.without_hydro_gap(x, ba, NAME)   # session 118: California's hours without hydro (session 11407: approved for this table, HYDRO_GAP_APPROVED)
         # session 49: the hours before the extract begins (2018-06-30), from EIA's six-month files (eia930_all_history)
         hist = history_hours(resp, x["ts_utc"].min())
         if len(hist):

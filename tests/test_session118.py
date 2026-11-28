@@ -235,7 +235,9 @@ class TheHydroGap(unittest.TestCase):
         self.assertTrue((pd.to_numeric(y["net_generation_mwh"][~gap]) == pd.to_numeric(x["net_generation_mwh"][~gap])).all())
         self.assertTrue(y["demand_mwh"].equals(x["demand_mwh"]))               # demand does not rest on generation by source
         self.assertIs(ih.without_hydro_gap(x, "pjm", None), x)                 # another grid: as it came
-        self.assertIs(ih.without_hydro_gap(x, "ciso", "event_window_daily"), x)   # held, outside a trial build: as it came
+        # held, outside a trial build: as it came (session 11407, wip/ready-events-hydro-gap: event_window_daily has the
+        # hydro gap approved on its own, HYDRO_GAP_APPROVED, so another held table stands for the case)
+        self.assertIs(ih.without_hydro_gap(x, "ciso", "ba_supply_monthly"), x)
         s = src("warehouse", "derived", "event_window.py")
         self.assertEqual(s.count("impossible_hours.without_hydro_gap("), 2)
 

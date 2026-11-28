@@ -23,8 +23,10 @@ class TheIntensityHasNoHydroUnderIt(unittest.TestCase):
     def test_the_page_says_it(self):
         s = src("site", "app", "events", "caiso-heat-2020", "page.tsx")
         self.assertIn('<span data-hydro-gap="1">{HYDRO_GAP_WORDS}</span>', s)
-        for w in ["The carbon intensity on this page is too high in the event's window", "hold no hydro from October 2019 to the morning of 24 August 2020",
-                  "it is held until a person approves it"]:
+        # session 11407 (wip/ready-events-hydro-gap): with the hydro-gap rule approved for the table, the words say the
+        # window's intensity is left out, not that it is too high
+        for w in ["No carbon intensity of CAISO is drawn for the event's window", "hold no hydro from October 2019 to the morning of 24 August 2020",
+                  "The warehouse's own rule for those hours leaves them out, approved for this table"]:
             self.assertIn(w, s)
 
     def test_the_note_says_it(self):

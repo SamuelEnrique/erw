@@ -23,7 +23,10 @@ const OUTAGE_HOURS_WORDS = "Read it with care: the comparison is each day's high
 // this window divides CO2 by a net generation without hydro. The window's carbon intensity averages 281.32 kg/MWh
 // against 204.95 (2018) and 184.98 (2019) on the baseline days, which hold hydro. The ERW's rule leaves those hours out
 // and is held (docs/methods/impossible_hours.md); the page says so. Words only; no figure moves.
-const HYDRO_GAP_WORDS = "The carbon intensity on this page is too high in the event's window: EIA's figures for CAISO hold no hydro from October 2019 to the morning of 24 August 2020, and its net generation leaves the hydro out too, so every day of the window divides the CO2 by a net generation without it, while the baseline days of 2018 and 2019 hold it. The warehouse's own rule for those hours leaves them out; it is held until a person approves it.";
+// Session 11407 (chain 770 part C, finding 6, readied for the owner's ruling): the hydro-gap rule is approved for
+// event_window_daily on its own (impossible_hours.HYDRO_GAP_APPROVED), so the table holds no carbon intensity of CAISO
+// on the window's 14 days, and the page says why.
+const HYDRO_GAP_WORDS = "No carbon intensity of CAISO is drawn for the event's window: EIA's figures for CAISO hold no hydro from October 2019 to the morning of 24 August 2020, and its net generation leaves the hydro out too, so each day of the window would divide the CO2 by a net generation without it, while the baseline days of 2018 and 2019 hold it. The warehouse's own rule for those hours leaves them out, approved for this table, so the highest carbon intensity below is not held and the carbon chart has no line.";
 
 export default function CaisoHeat2020({ searchParams }: PageProps = {}) {
   return (

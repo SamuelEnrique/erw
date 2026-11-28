@@ -111,7 +111,10 @@ its own constant, `impossible_hours.CISO_NO_HYDRO`, measured on the workbook ret
 - the carbon builder leaves the hours out of both intensities, in the held build;
 - the supply, regions and event window builders take California's net generation of those hours as blank
   (`impossible_hours.without_hydro_gap`), in their held builds: demand less a net generation with no hydro in it is
-  not what California imported;
+  not what California imported; session 11407 (readied for the owner's ruling, the events audit's finding 6): a table
+  in `impossible_hours.HYDRO_GAP_APPROVED` has the hydro-gap rule in every build while the rest of the rule stays held,
+  and `event_window_daily` is the one such table (CAISO's intensity of generation on the 14 days of the August 2020
+  window and the 92 of the COVID-19 window goes, nothing else moves);
 - the pages that read the carbon tables leave the months out and say so (below).
 
 ## Every table that reads these values
@@ -132,7 +135,7 @@ approves it by taking the table's line out of `HELD`; its next build then applie
 | `ba_supply_monthly` | demand and net generation by day; daily interchange | A, B and the hydro gap (held); C applied since session 62 | **Held** |
 | `ai_power_regions` | demand and net generation by year; daily interchange; the two tables above | A, B and the hydro gap (held); C applied | **Held** |
 | `caiso_reliability_daily` | California's demand | A, B | **Held** |
-| `event_window_daily` | demand and net generation by day | A, B and the hydro gap | **Held** |
+| `event_window_daily` | demand and net generation by day | A, B and the hydro gap | **Held**; the hydro gap applied (session 11407, `HYDRO_GAP_APPROVED`) |
 | `flex_alert_effects`, `flex_alert_model` | California's demand | A, B, in place of a screen of its own (below 30 percent of the median hour, or 20 percent from both neighbours) | Applied (session 118): built both ways from the same inputs, the two tables are the same in every value, so nothing was held |
 | `grid_network_nodes`, the live `/network` page's hourly file | the newest hour of demand, hourly interchange | none: one hour has no hours after it, and rule C is for days | Not applied; said on `/data/faults` |
 | `eia930_all_demand`, `eia930_all_generation`, `eia930_all_emissions`, `eia930_daily_interchange` | the source tables | none | They hold EIA's values as published and always will |

@@ -80,6 +80,15 @@ HELD = {
 # included), and EIA's total leaves it out too. The hours before and after hold it (1,278 MW and 1,898 MW).
 CISO_NO_HYDRO = ("2019-10-01T21:00:00Z", "2020-08-24T17:00:00Z")
 
+# Session 11407 (chain 770 part C, the events audit's finding 6, readied for the owner's ruling): held tables whose
+# hydro-gap rule alone is approved. Their builders blank California's net generation in the gap's hours in every
+# build, while the rest of the rule (screen_extract) stays held with the table in HELD. For event_window_daily this
+# takes CAISO's carbon intensity on every day of the August 2020 window (14 of 14; the page's highest, 305.93 kg/MWh on
+# 2020-08-18, goes) and on the COVID-19 window's days inside the gap (docs/reviews/events-model-audit-2026-11-26.md).
+HYDRO_GAP_APPROVED = {
+    "event_window_daily": "the events pages' carbon intensity of CAISO in 2020 divides CO2 by a net generation with no hydro",
+}
+
 
 def in_hydro_gap(ts_utc):
     """True for the hours of California's hydro gap. ts_utc: hour starts as ISO strings (a Series) or UTC timestamps."""
@@ -94,8 +103,8 @@ def without_hydro_gap(x, ba, table=None, col="net_generation_mwh"):
     """An extract with California's net generation blank in the hours of the hydro gap: EIA's total leaves hydro out
     there, so the hour's generation, and any CO2 divided by it, is short. Another balancing authority's extract comes
     back as it came, and so does a held table's outside a trial build. Demand is not touched: it does not rest on
-    generation by source."""
-    if str(ba).lower() != "ciso" or (table is not None and not applies(table)):
+    generation by source. A table in HYDRO_GAP_APPROVED (session 11407) has this rule in every build."""
+    if str(ba).lower() != "ciso" or (table is not None and table not in HYDRO_GAP_APPROVED and not applies(table)):
         return x
     out = x.copy()
     out.loc[in_hydro_gap(out["ts_utc"]), col] = np.nan
