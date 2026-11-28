@@ -64,7 +64,7 @@ class TheResearchReplication(unittest.TestCase):
         self.assertEqual(p.returncode, 0, p.stdout[-2000:] + p.stderr[-2000:])
         m = re.search(r"^(\d+) figures compared with the cards' JSON, (\d+) different$", p.stdout, re.M)
         self.assertIsNotNone(m, p.stdout[-500:])
-        self.assertGreaterEqual(int(m.group(1)), 300)
+        self.assertGreaterEqual(int(m.group(1)), 280)   # session 11405: 282, the held grids' figures and the refused impact study out (363 before)
         self.assertEqual(int(m.group(2)), 0)
         self.assertNotIn("DIFFERENT", p.stdout)
 
@@ -76,8 +76,7 @@ class TheResearchReplication(unittest.TestCase):
             self.assertIn(f"== {card} (", p.stdout)
         # session 534: three of its figures, each set against the card's own JSON beside it, not against the figures of the
         # day this was written (the data machine recomputes the cards: 21 October 2026, c8aa37ff)
-        for card, key in (("batteries_lunch_grids", "ercot_reg_multiple_coef"), ("batteries_curtailment", "charging_solar_month_coef"),
-                          ("impact_study", "reg_did")):
+        for card, key in (("batteries_lunch_grids", "ercot_reg_multiple_coef"), ("batteries_curtailment", "charging_solar_month_coef")):   # session 11405: impact_study refused, no figure
             m = re.search(r"^" + re.escape(f"{card}.{key} = ") + r"(\S+)$", p.stdout, re.M)
             self.assertIsNotNone(m, f"{card}.{key}")
             with open(os.path.join(CARDS_JSON, card + ".json"), encoding="utf-8") as f:

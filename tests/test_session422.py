@@ -47,8 +47,8 @@ MIRRORS = {
 PACK_OF = {"battery": "battery", "seller": "generator", "datacenter": "datacenter"}
 
 # check-analysis.mjs's ten failures in the build of 21 October, 15:22 UTC (runs/chain_021/s422/analysis.out)
-FAILED = [("batteries_lunch_grids", 1), ("batteries_lunch_grids", 2), ("gas_sets_price", 1), ("impact_study", 1),
-          ("peak_hour_grids", 1), ("peak_hour_grids", 2)]
+FAILED = [("batteries_lunch_grids", 1), ("batteries_lunch_grids", 2), ("gas_sets_price", 1),
+          ("peak_hour_grids", 1), ("peak_hour_grids", 2)]   # session 11405: the impact study's card is the refusal now, no callout
 
 
 def read(p):
@@ -128,7 +128,8 @@ class TheMirrors(unittest.TestCase):
         r = run_mirror("findings", "erw_2026_research_replication.py", ["--json", "../../data/findings"])
         self.assertEqual(r.returncode, 0, r.stderr[-800:])
         # session 582: 363 since the mirror rebuilds a tenth card, peak_hour_moved (59 figures more than 304)
-        self.assertIn("363 figures compared with the cards' JSON, 0 different", r.stdout)
+        # session 11405 (wip/ready-held-out): 282, NYISO's and ISO-NE's figures and the refused impact study out
+        self.assertIn("282 figures compared with the cards' JSON, 0 different", r.stdout)
 
 
 class TheAnalysisFailures(unittest.TestCase):

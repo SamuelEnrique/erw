@@ -55,10 +55,11 @@ HUB_BA = {"ercot": "ERCO", "caiso": "CISO", "nyiso": "NYIS", "miso": "MISO", "sp
 def held_bas():
     """Session 10000 (chain 701, done-line request 576): the balancing authorities whose grid is held for a license
     (license_status.held_grids: NYISO and ISO-NE from 20 October 2026). Their hub prices are not written: the Network
-    view's files served them to any visitor. MISO is held too, but its pause keeps its files as they are."""
+    view's files served them to any visitor. Session 11405 (wip/ready-held-out, on Samuel's ruling only): MISO, held
+    and paused, is taken out the same way."""
     sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
     import license_status as lstat
-    ba_of = {"NYISO": "NYIS", "ISO-NE": "ISNE", "ERCOT": "ERCO", "CAISO": "CISO", "SPP": "SWPP"}
+    ba_of = {"NYISO": "NYIS", "ISO-NE": "ISNE", "MISO": "MISO", "ERCOT": "ERCO", "CAISO": "CISO", "SPP": "SWPP"}
     return {ba_of[g] for g in lstat.held_grids() if g in ba_of}
 
 

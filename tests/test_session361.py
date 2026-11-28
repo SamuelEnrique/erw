@@ -122,17 +122,19 @@ class TestCards(unittest.TestCase):
 
     def test_round_and_newey_west(self):
         for cid in LIBRARY:
+            if self.card(cid).get("refusal"):
+                continue   # session 11405: the impact study's default card is the refusal (a held grid's control), no statistics
             s = self.card(cid)["statistics"]
             self.assertEqual(s["round"]["claims_tested"], self.card(LIBRARY[0])["statistics"]["round"]["claims_tested"], cid)  # one round
             self.assertGreater(s["round"]["claims_tested"], 0, cid)
-        for cid, n in (("batteries_lunch", 3), ("batteries_lunch_grids", 15), ("batteries_curtailment", 4)):
+        for cid, n in (("batteries_lunch", 3), ("batteries_lunch_grids", 9), ("batteries_curtailment", 4)):   # session 11405: 9, NYISO's and ISO-NE's rows out (15 before)
             c = self.card(cid)
             rows = c["statistics"]["newey_west"]["rows"]
             self.assertEqual(len(rows), n)
             for r in rows:
                 self.assertAlmostEqual(r["se_hc1"] / c["numbers"][r["numbers_key"] + "_se"], 1.0, places=9)
                 self.assertGreater(r["se_nw"], 0)
-        self.assertNotIn("newey_west", self.card("impact_study")["statistics"])
+        self.assertNotIn("newey_west", self.card("impact_study").get("statistics", {}))   # session 11405: the refusal has none
 
 
 class TestDailyRun(unittest.TestCase):

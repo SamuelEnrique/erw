@@ -72,8 +72,11 @@ class TheSpecs(unittest.TestCase):
             if fam not in seen:
                 seen.add(fam)
                 top.append(i)
-        self.assertEqual(top[:4], ["batteries_curtailment_hourly", "batteries_curtailment", "batteries_lunch", "impact_study"])
-        self.assertLessEqual(set(top[:4]), set(self.s))
+        # session 11405 (wip/ready-held-out): the impact study's default card is the refusal (its control is a held
+        # grid's price), so it has no estimate and is not ranked; the three before it stand
+        self.assertEqual(top[:3], ["batteries_curtailment_hourly", "batteries_curtailment", "batteries_lunch"])
+        self.assertNotIn("impact_study", top)
+        self.assertLessEqual(set(top[:3]), set(self.s))
 
     def test_every_number_is_the_charts(self):
         with open(os.path.join(ROOT, "docs", "analysis", "2026-W41", "chart_of_the_week.json"), encoding="utf-8") as f:

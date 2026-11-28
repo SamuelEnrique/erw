@@ -475,10 +475,11 @@ def write_json(path, obj):
 
 
 def held_isos():
-    """The gallery's iso codes of the grids held for a license (license_status.held_grids), MISO aside (its pause)."""
+    """The gallery's iso codes of the grids held for a license (license_status.held_grids). Session 11405
+    (wip/ready-held-out, on Samuel's ruling only): MISO, held and paused, is no longer set aside."""
     sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
     import license_status as lstat
-    code = {"NYISO": "nyiso", "ISO-NE": "isone", "PJM": "pjm", "ERCOT": "ercot", "CAISO": "caiso", "SPP": "spp"}
+    code = {"NYISO": "nyiso", "ISO-NE": "isone", "MISO": "miso", "PJM": "pjm", "ERCOT": "ercot", "CAISO": "caiso", "SPP": "spp"}
     return {code[g] for g in lstat.held_grids() if g in code}
 
 

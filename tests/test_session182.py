@@ -29,6 +29,9 @@ CARDS182 = os.path.join(ROOT, "site", "data", "findings")
 DOWN182 = os.path.join(ROOT, "site", "public", "findings")
 EM182 = chr(0x2014)
 GRIDS182 = ["ercot", "caiso", "nyiso", "isone", "spp"]
+# session 11405 (wip/ready-held-out): NYISO and ISO-NE are held for a license; their figures are out of the cards and downloads
+HELD182 = ["nyiso", "isone"]
+KEPT182 = [g for g in GRIDS182 if g not in HELD182]
 NEW182 = ["batteries_lunch_grids", "peak_hour_grids", "batteries_curtailment_hourly"]
 FILES182 = [f"warehouse/analysis/findings/{n}.py" for n in NEW182] + [
     "warehouse/analysis/findings/batteries_curtailment.py", "tests/test_session182.py", "site/components/analysis/MultiChart.tsx",
@@ -139,14 +142,14 @@ class Registered182(unittest.TestCase):
 class EveryNumberIsReproduced182(unittest.TestCase):
     def test_lunch_grids(self):
         c, n = recomputed182("batteries_lunch_grids")
-        self.assertGreater(len(c["numbers"]), 200)
+        self.assertGreater(len(c["numbers"]), 130)   # session 11405: the held grids' numbers are out (243 before)
         for k, v in c["numbers"].items():
             self.assertIn(k, n, k)
             self.assertTrue(close182(n[k], v), f"{k}: recomputed {n[k]!r}, card {v!r}")
 
     def test_peak_grids(self):
         c, n = recomputed182("peak_hour_grids")
-        self.assertGreater(len(c["numbers"]), 150)
+        self.assertGreater(len(c["numbers"]), 130)   # session 11405: the held grids' numbers are out (231 before)
         for k, v in c["numbers"].items():
             self.assertIn(k, n, k)
             self.assertTrue(close182(n[k], v), f"{k}: recomputed {n[k]!r}, card {v!r}")
@@ -155,8 +158,8 @@ class EveryNumberIsReproduced182(unittest.TestCase):
         c = card182("batteries_lunch_grids")
         n = c["numbers"]
         self.assertEqual(len(c["effect_table"]["columns"]), 6)
-        self.assertEqual(len(c["effect_table"]["rows"]), 5)
-        for g, r in zip(GRIDS182, c["effect_table"]["rows"]):
+        self.assertEqual(len(c["effect_table"]["rows"]), len(KEPT182))
+        for g, r in zip(KEPT182, c["effect_table"]["rows"]):
             self.assertEqual(r["coef_per_gw"], n[f"{g}_reg_multiple_coef"], g)
             self.assertEqual(r["se"], n[f"{g}_reg_multiple_se"], g)
             self.assertEqual(r["p"], n[f"{g}_reg_multiple_p"], g)
@@ -272,29 +275,37 @@ class TheWordsHoldOnlyCardNumbers182(unittest.TestCase):
         self.assertIn("does not separate", card182("peak_hour_grids")["why"])
 
     def test_the_headline_bends_to_the_data(self):
+        # session 11405 (wip/ready-held-out): the committed cards are withheld (findings_common.withhold): the verdict
+        # was written from every grid's numbers and a sentence naming a held grid is out of the subtitle, so the
+        # subtitle is the verdict with that sentence left out; the verdict's rule is tested on the numbers kept
+        common = mod182("findings_common")
         lunch = mod182("batteries_lunch_grids")
         c = card182("batteries_lunch_grids")
         n = dict(c["numbers"])
-        self.assertEqual(c["subtitle"], lunch.verdict(n))
+        self.assertIn(common.HELD_NOTE, c["footnote"])
         self.assertEqual(n["grids_reg_negative_sig"], ["ercot"], "the card as committed: only ERCOT's coefficient is negative and clear of zero")
+        self.assertNotRegex(c["subtitle"], r"NYISO|ISO-NE|New York|New England")
         n["grids_reg_negative_sig"], n["grids_multiple_fell"] = [], []
+        for g in HELD182:   # the rule reads every grid's fleet; a held grid's is out of the card, so it is set to none here
+            n.setdefault(f"{g}_fleet_last_mw", 0)
         self.assertEqual(lunch.verdict(n), "No grid shows spikes shrinking with its fleet")
         peak = mod182("peak_hour_grids")
         c = card182("peak_hour_grids")
         n = dict(c["numbers"])
-        self.assertEqual(c["subtitle"], peak.verdict(n))
+        self.assertNotRegex(c["subtitle"], r"NYISO|ISO-NE|New York|New England")
         n["grids_evening_up_10"], n["grids_evening_down_10"] = [], []
         self.assertEqual(peak.verdict(n), "The dearest hour barely moved on any grid with two full years of prices")
 
 
 class TheGridsAndThePlaceholders182(unittest.TestCase):
     def test_five_grids_and_two_placeholders_never_data(self):
-        want = [{"grid": "miso", "words": "MISO", "text": "paused while terms are reviewed"}, {"grid": "pjm", "words": "PJM", "text": "licensed source needed"}]
+        want = [{"grid": "miso", "words": "MISO", "text": "paused while terms are reviewed"}, {"grid": "pjm", "words": "PJM", "text": "licensed source needed"},
+                {"grid": "isone", "words": "ISO-NE", "text": "license needed"}, {"grid": "nyiso", "words": "NYISO", "text": "license needed"}]   # session 11405
         for name in ("batteries_lunch_grids", "peak_hour_grids"):
             c = card182(name)
             self.assertEqual(c["placeholders"], want, name)
-            self.assertEqual([p["grid"] for p in c["chart"]["panels"]], GRIDS182, name)
-            self.assertEqual(sorted({r["grid"] for r in rows182(name)}), sorted(GRIDS182), f"{name}: no MISO or PJM row in the download")
+            self.assertEqual([p["grid"] for p in c["chart"]["panels"]], KEPT182, name)
+            self.assertEqual(sorted({r["grid"] for r in rows182(name)}), sorted(KEPT182), f"{name}: no MISO or PJM row in the download")
             self.assertFalse([k for k in c["numbers"] if k.startswith(("miso", "pjm"))], name)
         paused = src182("warehouse", "metadata", "paused_sources.csv")
         self.assertTrue(paused.splitlines()[1].startswith("miso,"), "MISO is paused: the card requests nothing of it")
@@ -311,9 +322,9 @@ class TheGridsAndThePlaceholders182(unittest.TestCase):
             # session 534: where its prices start is what the panel's own title says ("from 2023-07"), not the months held
             # on 10 October 2026: CAISO's prices reach back to 2023-07 since the data machine's run of 21 October 2026
             self.assertTrue(p["title"].endswith(f"from {p['first']}"), p["title"])
-        self.assertEqual(sorted(first), sorted(["ercot", "caiso", "nyiso", "isone", "spp"]))
-        self.assertEqual((first["ercot"], first["nyiso"]), ("2019-01", "2019-01"))
-        for grid in ("caiso", "isone", "spp"):
+        self.assertEqual(sorted(first), sorted(KEPT182))   # session 11405: NYISO's and ISO-NE's panels are out
+        self.assertEqual(first["ercot"], "2019-01")
+        for grid in ("caiso", "spp"):
             self.assertLessEqual(first[grid], "2024-09", grid)   # held from September 2024 or earlier
         months = first
         c = card182("peak_hour_grids")
@@ -336,8 +347,10 @@ class TheGridsAndThePlaceholders182(unittest.TestCase):
     def test_the_fleet_is_said_exactly(self):
         f = card182("batteries_lunch_grids")["footnote"]
         for bit in ("prime mover BA", "balancing authority code (ERCO, CISO, NYIS, ISNE, SWPP)", "nameplate MW", "first operating month", "HC1",
-                    "HB_HUBAVG", "TH_SP15_GEN-APND", "N.Y.C.", ".H.INTERNAL_HUB", "SPPNORTH_HUB", "hourly", "15-minute", "eia930_daily_demand"):
+                    "HB_HUBAVG", "TH_SP15_GEN-APND", "SPPNORTH_HUB", "15-minute", "eia930_daily_demand"):
             self.assertIn(bit, f, bit)
+        for bit in ("N.Y.C. (hourly", ".H.INTERNAL_HUB (15"):   # session 11405: the held grids' data lines are out
+            self.assertNotIn(bit, f, bit)
         f = card182("peak_hour_grids")["footnote"]
         for bit in ("daylight saving", "Solar Photovoltaic", "ERCO, CISO, NYIS, ISNE, SWPP", "plants under 1 MW", "first hour on a tie"):
             self.assertIn(bit, f, bit)

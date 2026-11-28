@@ -38,7 +38,7 @@ import re
 import numpy as np
 import pandas as pd
 
-from findings_common import METHOD_URL, NoData, callout, do_destring, do_file, do_sentinels, fmt, now_iso, read_table
+from findings_common import METHOD_URL, NoData, callout, do_destring, do_file, do_sentinels, fmt, held_grid_codes, now_iso, read_table
 
 NAME = "impact_study"
 TITLE = "IMPACT OF AN EVENT ON A SERIES"
@@ -208,6 +208,16 @@ def compute(params, in_dir=None):
         meta["refusal"] = (f"The series is in {s['unit']} and the control in {c['unit']}: a difference between them is not a quantity. "
                            "Pick a control in the same unit.")
         return [], meta
+    # session 11405 (wip/ready-held-out, on Samuel's ruling only): a price series of a grid held for a license
+    # (findings_common.held_grid_codes: NYISO, ISO-NE, MISO) is not read. The default control, NYISO New York City,
+    # put 56 of NYISO's daily prices in the public download and a difference computed from them on the card.
+    # EIA's own rows (eia930:...) are not a grid's prices and are not held here
+    held = held_grid_codes()
+    for role, spec in (("series", s), ("control", c)):
+        if spec["entity"].split(":", 1)[0] in held:
+            meta["refusal"] = (f"The {role}, {spec['words']}, is a price of a grid held for a license: its publisher's terms ask for "
+                               "written permission, and none is recorded (license needed). Pick another.")
+            return [], meta
     ys, cs = daily(s, in_dir), daily(c, in_dir)
     meta.update({"series_first": min(ys), "series_last": max(ys), "control_first": min(cs), "control_last": max(cs), "series_days_held": len(ys), "control_days_held": len(cs)})
     d0 = dt.date.fromisoformat(date)

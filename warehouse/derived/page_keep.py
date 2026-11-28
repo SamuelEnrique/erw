@@ -272,7 +272,7 @@ def board(args, log):
         # pause (docs/methods/miso_pause.md) keeps its tables and pages as they are until a person lifts it: left
         for name in sorted(f for f in os.listdir(h_old) if f.endswith(".json")):
             grid = GRID_OF_PREFIX.get(name.split("-", 1)[0])
-            if grid in held and grid != "MISO":
+            if grid in held:   # session 11405 (wip/ready-held-out, Samuel's ruling): MISO's leave too
                 os.remove(os.path.join(h_old, name))
                 log(f"  removed the hourly file {name}: {grid} is held for a license")
         hourly_kept = 0

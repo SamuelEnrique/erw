@@ -83,6 +83,18 @@ def coerce(mod, params):
     return out
 
 
+def recompute_of(mod, params):
+    """The finding's numbers from a list of rows (its numbers_from_rows, the numbers alone), or None."""
+    f = getattr(mod, "numbers_from_rows", None)
+    if f is None:
+        return None
+
+    def numbers(rows):
+        got = f(rows, params)
+        return got[0] if isinstance(got, tuple) else got
+    return numbers
+
+
 def run(name, params, in_dir=None, card_dir=None, download_dir=None, log=print):
     mod = load(name)
     params = coerce(mod, params or {})
@@ -91,6 +103,8 @@ def run(name, params, in_dir=None, card_dir=None, download_dir=None, log=print):
     with common.record_reads() as reads:               # session 258: the source line names only the tables read
         rows, meta = mod.compute(params, in_dir)
     card = mod.card(rows, params, meta)
+    # session 11405 (wip/ready-held-out): no figure of a held grid; the numbers made again from the rows kept
+    card, rows = common.withhold(card, rows, recompute=recompute_of(mod, params))
     card, left_out = common.only_tables_read(card, reads)
     if left_out:
         log(f"  not named, no row of it was used: {', '.join(left_out)}")

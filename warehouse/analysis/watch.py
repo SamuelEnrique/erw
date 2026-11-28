@@ -127,6 +127,21 @@ WATCH = [
                "net_generation_solar_mwh", "net_generation_wind_mwh"], optional=["net_generation_not_itemized_mwh"],
          by="month", how="last", compare="year", unit="percent", label="natural gas's share of US net generation"),
 ]
+
+
+def held_grids():
+    """Session 11405 (wip/ready-held-out, on Samuel's ruling only): the grids whose price lines are not run, because a line's
+    headline and source line reach docs/analysis/<week>/results.json and the site's public copy of it. The grids held
+    for a license (license_status.held_grids: NYISO, ISO-NE, MISO) and the owner's hold of 12 October 2026
+    (findings/daily_chart.HELD: NYISO, SPP), as the entity's prefix names them."""
+    sys.path.insert(0, os.path.join(os.path.dirname(HERE), "metadata"))
+    import license_status as lstat
+    code = {"NYISO": "nyiso", "ISO-NE": "isone", "MISO": "miso", "PJM": "pjm", "ERCOT": "ercot", "CAISO": "caiso", "SPP": "spp"}
+    return {code[g] for g in lstat.held_grids() if g in code} | {"nyiso", "spp"}
+
+
+HELD_WATCH = [s for s in WATCH if s["entity"].split(":", 1)[0] in held_grids() and "price" in s["table"]]   # watch_nyiso_reg, watch_spp_regup
+WATCH = [s for s in WATCH if s not in HELD_WATCH]
 SHOWN = {"week": 104, "month": 60}   # how many periods the chart draws
 
 # Public tables no template and no line reads, each with the reason, for docs/analysis/tables.json. A table that is
@@ -148,6 +163,8 @@ NOT_WATCHED = {
         "iso_rt_top_intervals", "price_board_latest", "price_board_spreads", "weather_forecast_hourly", "weather_obs_hourly"],
     "EIA's daily sums, which can hold a faulty hour or an impossible day (the faults register): not watched until they are screened": [
         "eia930_daily_demand", "eia930_daily_interchange", "eia930_daily_total_interchange", "eia930_all_emissions"],
+    "a held grid's table: its line is not run while the hold stands (held_grids, session 11405)": [
+        "nyiso_as_prices", "spp_as_prices"],
 }
 PERIOD_WORD = {"week": "week", "month": "month"}
 
