@@ -19,12 +19,12 @@ export const EXPECTED = [
   ["2023-08-10", "highest price, USD per MWh", 3842.89, 2],
   ["2023-08-10", "lowest price, Central clock", "08:45", null],
   ["2023-08-10", "highest price, Central clock", "15:30", null],
-  ["2023-08-10", "perfect battery, Easy, USD", 60.97, 2],
-  ["2023-08-10", "perfect battery, Normal, USD", 60.97, 2],
-  ["2023-08-10", "perfect battery, Hard, USD", 48.36, 2],
-  ["2023-08-10", "perfect battery, Hard with rooftop solar, USD", 88.34, 2],
+  ["2023-08-10", "perfect battery, Easy, USD", 60.73, 2],   // session 11407 (v6): 60.97 until v5
+  ["2023-08-10", "perfect battery, Normal, USD", 60.73, 2],
+  ["2023-08-10", "perfect battery, Hard, USD", 48.33, 2],   // 48.36 until v5
+  ["2023-08-10", "perfect battery, Hard with rooftop solar, USD", 88.23, 2],   // 88.34 until v5
   ["2023-08-10", "no battery, Hard with rooftop solar (the roof alone), USD", 34.32, 2],
-  ["2026-04-26", "perfect battery, Normal, USD", 0.44, 2],
+  ["2026-04-26", "perfect battery, Normal, USD", 0.30, 2],   // 0.44 until v5
 ];
 
 const clock = new Intl.DateTimeFormat("en-GB", { timeZone: "America/Chicago", hour: "2-digit", minute: "2-digit", hour12: false });

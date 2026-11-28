@@ -56,7 +56,7 @@ class OnePage(unittest.TestCase):
         self.assertIn("window.history.replaceState(null, \"\", `${window.location.pathname}${d === \"easy\" ? \"\" : `?mode=${d}`}`)", self.game)
 
     def test_below_the_play_area_the_rules_share_card_and_leaderboard(self):
-        self.assertLess(self.page.index('<Section title="Play">'), self.page.index("<Section title=\"The game's rules (version 5)\">"))
+        self.assertLess(self.page.index('<Section title="Play">'), self.page.index("<Section title=\"The game's rules (version 6)\">"))
         self.assertIn("<ShareCard level={level}", self.game)
         lb = self.game.index("<h3 className=\"mb-1 text-base\">Leaderboard,")
         self.assertNotIn("hidden", self.game[lb - 80:lb])
@@ -108,12 +108,12 @@ console.log(JSON.stringify({ v: b.RULES_VERSION, reserve: b.DEFAULT_SETTINGS.res
 
     def test_v5_and_the_reserve(self):
         r = self.r
-        self.assertEqual(r["v"], "v5")
+        self.assertEqual(r["v"], "v6")                                             # session 11407: v6 (tests/test_ready_play_battery_full.py)
         self.assertEqual(r["reserve"], 0.25)
         self.assertAlmostEqual(r["reserveKwh"], 3.375)
         self.assertAlmostEqual(r["need"], 3.162277660168379)
         self.assertGreaterEqual(r["reserveKwh"], r["need"])                           # ruling 1a: the reserve carries the house
-        self.assertEqual((r["easy"], r["hard"]), ("easy:13.5-5-90-v5", "hard:13.5-5-90-r25-d0.11-v5"))
+        self.assertEqual((r["easy"], r["hard"]), ("easy:13.5-5-90-v6", "hard:13.5-5-90-r25-d0.11-v6"))
         self.assertEqual(r["v4"]["version"], "v4")                                     # a v4 board with an add-on stays readable
         self.assertEqual(r["v4"]["addons"], ["solar"])
         self.assertEqual(r["label4"], "Normal, the default battery (v4 rules)")

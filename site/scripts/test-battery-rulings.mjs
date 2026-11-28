@@ -54,11 +54,16 @@ test("ruling 3: the perfect battery on a hand-worked day, and the end table's th
   // 0.185 (2 kWh x 92.5). The rivals by hand: selling at 30 + 92.5 = 122.5 instead of 50 + 92.5 ends hour 1 at 525,
   // not 545; idling at -10 and charging at 30 ends it at 505; keeping 1 kWh past hour 1 (holding at 50) ends the day at
   // 10 + 392.5 - 10 + 140 = 532.5.
+  // Session 11407 (game v6): the battery ends the day as full as it began (1 kWh). Selling at 40 would leave it empty,
+  // and the 1 kWh would be bought back at the day's dearest sale price, 392.5, so the perfect play holds at 40 instead:
+  // 655 - 40 = 615, USD 0.615: cash 0.430, the bonus 0.185, and it ends with 1 kWh.
   const o = optimum(p, r);
-  near(o.score, 0.655);
+  near(o.score, 0.615);
   const s = simulate(p, o.actions, r);
-  near(s.score, 0.655); near(s.cash, 0.47); near(s.bonus, 0.185);
-  assert.deepEqual(s.soc, [1, 2, 2, 1, 0, 1, 2, 1, 0]);
+  near(s.score, 0.615); near(s.cash, 0.43); near(s.bonus, 0.185); near(s.refill, 0);
+  assert.deepEqual(s.soc, [1, 2, 2, 1, 0, 1, 2, 1, 1]);
+  // the v5 plan, selling at 40 too, now pays the refill: 0.655 - 0.3925 = 0.2625
+  near(simulate(p, [1, 0, -1, -1, 1, 1, -1, -1], r).score, 0.655 - 0.3925);
   // brute force over all 3^8 plays agrees
   let best = -Infinity;
   for (let c = 0; c < 3 ** 8; c++) {
@@ -66,10 +71,10 @@ test("ruling 3: the perfect battery on a hand-worked day, and the end table's th
     for (let i = 0; i < 8; i++) { a.push([1, 0, -1][k % 3]); k = Math.floor(k / 3); }
     best = Math.max(best, simulate(p, a, r).score);
   }
-  near(best, 0.655);
-  // the end table: bought 3 kWh at an average of 20 / 3, sold 4 kWh at 122.5; no battery earns nothing
+  near(best, 0.615);
+  // the end table: bought 3 kWh at an average of 20 / 3, sold 3 kWh at 150 (v6; 4 at 122.5 until v5); no battery earns nothing
   const t = tally(p, o.actions, r);
-  near(t.boughtKwh, 3); near(t.soldKwh, 4); near(t.buyPrice, 20 / 3); near(t.sellPrice, 122.5);
+  near(t.boughtKwh, 3); near(t.soldKwh, 3); near(t.buyPrice, 20 / 3); near(t.sellPrice, 150);
   assert.equal(noBattery(p, r), 0);
   assert.ok(game.includes('[["You", mine, mine.score], ["The perfect battery", perfect, perfect.score], ["No battery", null, none]]'), "three rows");
   const done = game.slice(game.indexOf('{phase === "done" && result ? ('));

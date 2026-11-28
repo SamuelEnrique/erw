@@ -9,6 +9,7 @@ Energy Research Warehouse (ERW).
 - **Session 66:** v4: lights out costs money, the spiked price is labeled on the number, the end screen's three lines, and Hard's add-ons with rooftop solar.
 - **Session 70:** v4, before its release: the lights-out charge at Texas's value of lost load and for the whole outage; the roof curtailed at negative prices.
 - **Session 289:** v5: one page with three modes (Easy first), the backup reserve at 25 percent, Easy's whole-day forecast, the day at a glance before each play, Hard's notice naming the emergency, the fleet of 10,000 homes beside the one battery.
+- **Session 11407:** v6: the battery ends the day as full as it began; what is missing when a play ends is bought back at the day's dearest price (the play audit's finding 3).
 
 The page is `/play/battery`. The rules live in `site/lib/battery.ts`, and the server's rescoring in `site/lib/game.ts` and `site/app/api/play/`.
 
@@ -57,7 +58,7 @@ Each setting has a default and a range. The player may change any of them, and t
 
 **The fixed rules:**
 - The battery starts half full.
-- **The starting charge is free, and what is left at the day's end counts for nothing (session 10227, the play audit's findings 2 and 3).** No price is charged for the starting half and none is paid for the charge held at the end, so the perfect battery sells all it can by the day's end (on Normal it ends every famous day empty) and selling the starting charge counts as earnings. Requiring the battery to end the day at least as full as it began would cut the perfect score of the calm spring day (2026-04-26) from USD 0.4406 to 0.3041 (31 percent), of Winter Storm Uri's day from 240.23 to 181.72 (24 percent), and of the newest ERCOT day held by the audit (2026-11-12) from 2.0882 to 1.7809 (15 percent). The page says the rule; the rule is unchanged.
+- **The battery ends the day as full as it began (version 6, session 11407, the play audit's finding 3; until v5 the starting charge was free and what was left at the end counted for nothing).** See "Version 6" below. Until v5 the perfect battery sold all it could by the day's end (on Normal it ended every famous day empty) and selling the starting charge counted as earnings.
 - Efficiency is split evenly: the square root of the round trip on the way in, and again on the way out.
 - Each 15-minute interval at full power moves kW x 0.25 kWh at the meter.
 
@@ -174,6 +175,17 @@ Samuel's rulings of 14 October 2026 (the review pack of `docs/reviews/games-2026
 - **The leaderboard.** A v5 preset ends `-v5` (`easy:13.5-5-90-v5`, `hard:13.5-5-90-r25-d0.11-v5`). Boards from before stay readable and are labelled "(v4 rules)", "(v3 rules)" or "(v2 rules)". Migration `033_game_v5.sql` allows the suffix (written in session 289, applied by a person before the v5 site is deployed; until then the database refuses a v5 play and the page says it was not stored).
 - **Browser storage:** the settings are remembered under a new key (`erw.battery.settings.v5`), so a reserve saved under v4 does not override the new default; the mode is not remembered (the address carries it).
 
+## Version 6 (session 11407): the battery ends the day as full as it began
+
+The play audit of 26 November 2026 (`docs/reviews/play-model-audit-2026-11-26.md`, finding 3) found that every score included the starting half charge sold: it was free, and the charge left at the end counted for nothing. `RULES_VERSION = "v6"`.
+
+- **The rule (`refillOf` in `site/lib/battery.ts`).** When a play ends, whatever charge is missing below its target is bought back at the meter (the round trip's loss on the way in included) and taken off the score. The target is the starting charge (half full), less what the house needs from the battery in Hard's outage, which no play can sell; on Easy and Normal it is the starting charge.
+- **The price of the refill:** the day's dearest price a kWh could have been sold for: the highest traded price (on Hard the emergency's), plus the fleet bonus in the fleet call's hour, outage intervals left out, never below zero. At that price, selling a kWh of the starting charge and buying it back never earns anything, so the perfect battery always ends at least at its target.
+- **When it applies:** whenever the play ends: a whole day, or early (out of money, or lights out, where the battery ends empty). Mid-game the page shows the play so far with nothing refilled. The refill lands in the play's last interval of the per-interval earnings (the hour lost the most reads them).
+- **The perfect battery** carries the same rule; the brute force of `site/scripts/test-battery.mjs` still equals it on every toy day and preset. On Normal its scores equal the audit's independent programme with the battery made to end at least half full, to the sixth decimal.
+- **What it moved (the perfect battery, Normal, USD):** the newest ERCOT day the audit held (2026-11-12) 2.0882 to 1.7809 (-14.7 percent); Uri (2021-02-15) 240.2274 to 181.7193 (-24.4); heat (2023-08-10) 60.9710 to 60.7340 (-0.4); calm (2026-04-26) 0.4406 to 0.3041 (-31.0); solar (2026-08-29) 0.9328 to 0.7328 (-21.4); negative (2025-01-05) 0.7949 to 0.6723 (-15.4); CAISO noon (2026-04-27) 0.8267 to 0.7775 (-5.9); CAISO ramp (2026-07-24) 12.9806 to 12.3609 (-4.8). Hard: Uri 154.6718 to 133.7133, heat 48.3635 to 48.3283, the default day 29.8218 to 29.7677. The demo note's figures follow (60.73, 48.33, 88.23, 30 cents).
+- **The leaderboard.** A v6 preset ends `-v6`; v5 boards stay readable, labelled "(v5 rules)". Migration `040_game_v6.sql` allows the suffix (written in session 11407, applied by a person before the v6 site is deployed; until then the database refuses a v6 play and the page says it was not stored). Its rollback is `rollbacks/040_game_v6.sql`.
+
 ## The end table (session 290)
 
 Kelsey's ask 4 (5 October 2026): at the end of every mode, one table of three rows. It replaces session 66's three lines.
@@ -186,7 +198,7 @@ Kelsey's ask 4 (5 October 2026): at the end of every mode, one table of three ro
 
 - **How the rows are counted** (`tally` in `site/lib/battery.ts`): it replays `simulate`'s own path (the state of charge before each interval) through `step` at the prices traded, up to the play's end, outage intervals left out. Sold kWh times their average price, less bought kWh times theirs, over 1,000, is the play's cash: `site/scripts/test-battery.mjs` checks it in 66 plays (toy days and the famous days, three modes, the perfect plan and a plain rule).
 - **Averages are weighted by kWh** and in USD per MWh. On Hard they include the emergency hour's prices, a game rule; the note under the table says so.
-- **One sentence under it** says why the battery earns what it does, from the perfect battery's row: it bought at one average and sold at another, the spread between them is its business, less the round trip's loss (and on Hard the wear). The battery starts half full, so a row can sell more than it bought.
+- **One sentence under it** says why the battery earns what it does, from the perfect battery's row: it bought at one average and sold at another, the spread between them is its business, less the round trip's loss (and on Hard the wear). The battery starts half full and, since v6, must end the day as full as it began, so the perfect battery sells no more than it bought; a play that ends emptier pays the refill (the "In detail" line names it).
 - **The perfect battery is the game's own optimum, not the battery tool's.** The tool (`/cost-of-power/battery`, `docs/methods/battery_stack.md`) co-optimizes energy and ancillary services on hourly prices for a grid battery; the game's battery trades energy only, on 15-minute prices, with the game's money, reserve, wear and emergency. Both are perfect foresight; only the game's is exact under the game's rules.
 - **Elsewhere:** the hour lost the most is a line under the table on Normal and Hard; the share card carries the three rows' earnings; the replay's legend gives the two batteries' earnings beside their lines.
 
@@ -199,7 +211,7 @@ Kelsey's ask 4 (5 October 2026): at the end of every mode, one table of three ro
 ## The perfect-foresight optimum
 
 - **The DP:** dynamic programming over every state of charge the three actions can reach, each state its exact value. Two paths that meet at one state keep the better.
-- **The objective:** market cash, less the degradation cost, plus the fleet bonus. The reserve is enforced inside `step`, so no path crosses it.
+- **The objective:** market cash, less the degradation cost, plus the fleet bonus, less (since v6) the refill of a play's end (`refillOf`), which depends on the end charge alone, so the DP takes it at the last layer and at every early end. The reserve is enforced inside `step`, so no path crosses it.
 - **The test** (`site/scripts/test-battery.mjs`):
   - On 12-interval toy days, every one of the 3^12 action sequences is simulated, and the best must equal the DP's score.
   - It runs under eight presets: Hard with the default battery, Hard with a small battery whose reserve binds early, Easy with a large battery, Normal, (session 66) the two Hard presets again with rooftop solar on a toy shape, and (session 70) the roof with sun in the negative-price intervals, and the largest inverter (11.5 kW) without a reserve.

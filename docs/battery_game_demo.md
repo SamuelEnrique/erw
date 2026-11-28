@@ -11,8 +11,8 @@ The game is in review. On the machine you will show it from, open the internal v
 
 1. The page opens on **Easy**. Pick **A summer scarcity day, 2023-08-10** and press **Start**: five seconds show the day's lowest, average and highest price (**Start now** skips them).
 2. Name what is on the screen: the price now; the day so far (solid) and the rest of it shown ahead (dashed, Easy only); the battery's charge; the money ($5 to start; below $0 the game ends) and what a fleet of 10,000 such homes would earn.
-3. Play it: the battery starts half full. Charge in the morning (the price is lowest, 24.90 USD/MWh, at 08:45). From about 13:00 hold Sell: the price climbs to 3,842.89 USD/MWh at 15:30.
-4. **Read the end screen's three lines aloud.** They are the point: what you earned; what the perfect battery earned on the same day with the same rules, **$60.97**; and the one hour you lost the most against it, with what it did then and at what price.
+3. Play it: the battery starts and must end half full. Charge in the morning (the price is lowest, 24.90 USD/MWh, at 08:45). From about 13:00 hold Sell: the price climbs to 3,842.89 USD/MWh at 15:30.
+4. **Read the end screen's three lines aloud.** They are the point: what you earned; what the perfect battery earned on the same day with the same rules, **$60.73**; and the one hour you lost the most against it, with what it did then and at what price.
 
 ## Minute 2 to 5: Hard, and the grid emergency
 
@@ -22,9 +22,9 @@ The game is in review. On the machine you will show it from, open the internal v
    - a **grid emergency**: in the day's dearest hour the price climbs toward the $5,000 cap, and the number carries the label "game rule, not a real price" with the real price beside it;
    - then **the grid goes down for two hours**: the buttons go grey and the house runs on the battery. If it runs dry the lights go out, the round ends, and the house is charged for the whole outage.
 3. Play it: the emergency is the hour from 15:00, the outage 16:00 to 18:00. Fifteen minutes before, the banner names both and gives the numbers: the house needs 3.16 kWh from the battery, and the reserve line is at 3.38 kWh, enough by itself. Hold Sell into the climb: the battery stops at the reserve, and the lights stay on through the outage.
-4. The perfect battery earns **$48.36** on Hard: less than on Normal, because it keeps charge for the house. The money is in the emergency, and so is the risk.
+4. The perfect battery earns **$48.33** on Hard: less than on Normal, because it keeps charge for the house. The money is in the emergency, and so is the risk.
 
-**With a sixth minute:** on Hard, switch on **Rooftop solar**. A 5 kW roof follows the real shape of Texas's solar fleet that day; in the outage the house takes the roof's power first. The perfect battery earns **$88.34**; doing nothing at all earns $34.32, the roof alone.
+**With a sixth minute:** on Hard, switch on **Rooftop solar**. A 5 kW roof follows the real shape of Texas's solar fleet that day; in the outage the house takes the roof's power first. The perfect battery earns **$88.23**; doing nothing at all earns $34.32, the roof alone.
 
 ## What the room asks
 
@@ -37,6 +37,6 @@ The game is in review. On the machine you will show it from, open the internal v
 
 - **"In review" instead of the game:** the internal view is not open in this browser. Open the unlock address again.
 - **Blank or stuck:** reload. The prices are part of the page; the network is needed only to load it and to store the score.
-- **A quieter day:** "A calm spring day" (2026-04-26). The perfect battery earns 44 cents on Normal: most days there is little to arbitrage.
+- **A quieter day:** "A calm spring day" (2026-04-26). The perfect battery earns 30 cents on Normal: most days there is little to arbitrage.
 
 Checked on production at a phone's width and a laptop's, 4 October 2026 (`site/scripts/check-battery-game.mjs`; session 111's report). Version 5 (session 289): figures from the game's own model.

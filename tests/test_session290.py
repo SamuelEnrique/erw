@@ -68,7 +68,7 @@ console.log(JSON.stringify(out));"""], cwd=SITE, capture_output=True, text=True,
             self.assertAlmostEqual((t["sellPrice"] * t["soldKwh"] - t["buyPrice"] * t["boughtKwh"]) / 1000, t["cash"], places=9)
             self.assertEqual(t["none"], 0)
             self.assertGreater(t["sellPrice"], t["buyPrice"])
-        self.assertAlmostEqual(o["hard"]["score"], 48.36345717559472, places=6)   # the demo guide's figure (tests/test_session111.py)
+        self.assertAlmostEqual(o["hard"]["score"], 48.328257, places=5)   # the demo guide's figure (tests/test_session111.py); session 11407 (v6): 48.36 until v5
         self.assertAlmostEqual(o["solar"], 34.32379413373751, places=6)            # the roof alone
 
     def test_the_battery_test_checks_it(self):

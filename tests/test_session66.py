@@ -171,7 +171,7 @@ class Node(unittest.TestCase):
     def test_the_servers_scorer_agrees_with_the_library(self):
         r = subprocess.run(["node", "--import", "./scripts/alias-register.mjs", "scripts/check-scorer.mjs"], cwd=SITE, capture_output=True, text=True, timeout=300)
         self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-2000:])
-        self.assertIn("the server's scorer and lib/battery.ts agree under v5", r.stdout)   # session 289: v5
+        self.assertIn("the server's scorer and lib/battery.ts agree under v6", r.stdout)   # session 289: v5; session 11407: v6
         self.assertNotIn("FAIL", r.stdout)
         for label in ("easy, the perfect plan", "normal, the perfect plan", "hard, the perfect plan", "hard, custom battery, the perfect plan", "toy hard with rooftop solar, the perfect plan",
                       "the server's score carries the lights-out charge"):
@@ -196,14 +196,14 @@ class Node(unittest.TestCase):
 class Words(unittest.TestCase):
     def test_the_library(self):
         b = src("site", "lib", "battery.ts")
-        self.assertIn('export const RULES_VERSION = "v5";', b)   # session 289: v5 (tests/test_session289.py)
+        self.assertIn('export const RULES_VERSION = "v6";', b)   # session 289: v5; session 11407: v6 (tests/test_session289.py)
         self.assertIn('export const SPIKE_LABEL = "game rule, not a real price";', b)
         self.assertIn("export const SOLAR = { kw: 5 };", b)
         self.assertIn('throw new Error("rooftop solar: no solar shape for this day")', b)
 
     def test_the_page_says_the_rules(self):
         page = src("site", "app", "play", "battery", "page.tsx")
-        self.assertIn("The game's rules (version 5)", page)   # session 289
+        self.assertIn("The game's rules (version 6)", page)   # session 289; session 11407: version 6
         self.assertIn("Lights out costs money (a game rule)", page)
         self.assertIn("a home without power in a grid emergency is the outcome the battery exists to prevent", page)
         self.assertNotIn("LIGHTS_OUT.multiple", page)  # session 70: priced at Texas's value of lost load (tests/test_session70.py)

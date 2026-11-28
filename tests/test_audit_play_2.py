@@ -68,10 +68,12 @@ class StartingChargeIsFree(unittest.TestCase):
         self.assertGreater(1 - held / free, 0.29)          # "nearly a third"
 
     def test_the_page_and_the_note_say_so(self):
+        # session 11407 (v6, tests/test_ready_play_battery_full.py): the rule changed, the battery now ends the day as full
+        # as it began; the page and the note say the new rule, and the note what it was until v5
         page = flat(read("site/app/play/battery/page.tsx"))
-        self.assertIn("The battery starts half full at no cost, and whatever is left in it when the day ends counts for nothing", page)
-        self.assertIn("on Normal, on the calm spring day, it is nearly a third of the perfect battery&apos;s score", page)
-        self.assertIn("The starting charge is free, and what is left at the day's end counts for nothing (session 10227", read("docs/methods/battery_game.md"))
+        self.assertIn("The battery starts half full and must end the day as full as it began", page)
+        self.assertIn("so selling the starting charge never pays", page)
+        self.assertIn("until v5 the starting charge was free and what was left at the end counted for nothing", read("docs/methods/battery_game.md"))
 
     def test_no_em_dash(self):
         for p in ("site/app/play/battery/page.tsx", "docs/methods/battery_game.md", "tests/test_audit_play_2.py"):

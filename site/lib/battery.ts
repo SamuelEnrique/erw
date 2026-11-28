@@ -38,6 +38,14 @@
 // by following the screen); (2) Easy shows the whole day's real prices ahead of time as its forecast, not the next three
 // hours (Kelsey: "Easy is truly easy"); (3) presets end "-v5", so v5 plays are ranked only against v5 plays. The scorer
 // and the optimum are unchanged.
+//
+// Session 11407 (game v6, the play audit's finding 3, docs/reviews/play-model-audit-2026-11-26.md): the battery ends the
+// day as full as it began. Until v5 the starting half charge was free and whatever was left at the end counted for
+// nothing, so every score included the starting charge sold. Since v6, a play buys back at its end whatever charge is
+// missing below the starting charge (less the house's need in Hard's outage) (refillOf), at the day's dearest price a
+// kWh could have been sold for, the fleet bonus included, so that selling the starting charge never pays; the optimum
+// carries the same rule. A play that ends early (bankrupt, lights out) is charged it too, on the charge it ends with.
+// Presets end "-v6". docs/methods/battery_game.md, "Version 6".
 
 export type Settings = { kwh: number; kw: number; rte: number; reserve: number; deg: number };
 export type Difficulty = "easy" | "normal" | "hard";
@@ -70,7 +78,7 @@ export const START_MONEY = 5;
  * hours) after the spike hour, the grid down: no buying or selling, and the house draws 1.5 kW from the battery (an
  * assumption: a home's evening load with air conditioning; the reserve is for exactly this). */
 export const EMERGENCY = { cap: 5000, ramp: [0.25, 0.5, 0.75, 0.9], outageIntervals: 8, houseKw: 1.5 };
-export const RULES_VERSION = "v5";
+export const RULES_VERSION = "v6";
 /** Session 66: lights out costs money (a game rule). Session 70: the round still ends, and if the lights go out at any
  * point of the outage the house is charged for the unserved energy of the whole outage (EMERGENCY.houseKw for every
  * interval of it, less what a rooftop array makes in each) at Texas's value of lost load.
@@ -209,15 +217,15 @@ export function presetOf(s: Settings, d: Difficulty, addons: AddonKey[] = []): s
   return `${d === "hard" ? `${base}-r${Math.round(s.reserve * 100)}-d${s.deg}` : base}${on}-${RULES_VERSION}`;
 }
 export const DEFAULT_PRESET = presetOf(DEFAULT_SETTINGS, "normal");
-export type RulesVersion = "v2" | "v3" | "v4" | "v5";
-const PRESET = /^(easy|normal|hard):(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)-(\d+)(?:-r(\d+)-d(\d+(?:\.\d+)?))?((?:-[a-z]+)*)(?:-(v3|v4|v5))?$/;
+export type RulesVersion = "v2" | "v3" | "v4" | "v5" | "v6";
+const PRESET = /^(easy|normal|hard):(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)-(\d+)(?:-r(\d+)-d(\d+(?:\.\d+)?))?((?:-[a-z]+)*)(?:-(v3|v4|v5|v6))?$/;
 
 /** Session 55: a preset back to its settings and difficulty, or null when it is not a preset presetOf writes: an
  * unknown difficulty, a setting outside its range or off its step, the reserve and degradation on a level other than
  * Hard (or missing on Hard), or any other spelling of the same rules. The read route of the leaderboard refuses the rest.
  * Session 66: a v4 preset ends "-v4" and may name add-ons before it; boards from before stay readable, never written:
  * a v3 preset ends "-v3", a v2 one has no version, and neither has add-ons. Session 289: a v5 preset ends "-v5"; a v4
- * one stays readable, with its add-ons. */
+ * one stays readable, with its add-ons. Session 11407: a v6 preset ends "-v6"; a v5 one stays readable, with its add-ons. */
 export function parsePreset(raw: unknown): { settings: Settings; difficulty: Difficulty; addons: AddonKey[]; version: RulesVersion } | null {
   if (typeof raw !== "string" || raw.length > 64) return null;
   const m = PRESET.exec(raw);
@@ -226,7 +234,7 @@ export function parsePreset(raw: unknown): { settings: Settings; difficulty: Dif
   const version = (m[8] ?? "v2") as RulesVersion;
   if ((difficulty === "hard") !== (m[5] !== undefined)) return null;
   const addons = m[7] ? m[7].slice(1).split("-") : [];
-  if (!validAddons(addons, difficulty) || (addons.length > 0 && version !== RULES_VERSION && version !== "v4")) return null;
+  if (!validAddons(addons, difficulty) || (addons.length > 0 && version !== RULES_VERSION && version !== "v5" && version !== "v4")) return null;
   const settings: Settings = {
     kwh: Number(m[2]), kw: Number(m[3]), rte: Number(m[4]) / 100,
     reserve: m[5] !== undefined ? Number(m[5]) / 100 : DEFAULT_SETTINGS.reserve, deg: m[6] !== undefined ? Number(m[6]) : DEFAULT_SETTINGS.deg,
@@ -285,7 +293,33 @@ export type Result = {
    * output up to the end (kWh); each interval's change of the score (they sum to it; zero after an early end). */
   penalty: number; unservedKwh: number; solar: number; solarKwh: number; gain: number[];
   curtailedKwh: number;  // session 70: the roof's output switched off at negative prices, kWh
+  /** session 11407 (v6): what the day's end bought back to bring the battery to its starting charge (USD, part of the
+   * score, taken off it) and the kWh bought at the meter; charged whenever the play ends, a whole day or early; zero mid-game. */
+  refill: number; refillKwh: number;
 };
+
+/** Session 11407 (v6, the play audit's finding 3): the battery ends the day as full as it began. The charge missing
+ * below the target is bought back at the meter (losses included) at the day's dearest price a kWh could have been sold
+ * for: the highest traded price, plus the fleet bonus in the fleet call's hour, outage intervals left out, and never
+ * below zero. Bought at that price, ending the day emptier than it began never earns more than ending it full. The
+ * target is the starting charge, less what the house needs from the battery in Hard's outage (Result.outageNeedKwh),
+ * which no play can sell: the same for every play of the day, so the optimum stays exact. */
+export function refillOf(soc: number, prices: number[], r: Rules, solar?: number[] | null): { kwh: number; usd: number; price: number; target: number } {
+  const em = emergencyOf(prices, r);
+  const P = em.prices;
+  const vpp = vppHour(P);
+  const bonusPrice = Math.max(0, vpp.price);
+  let price = 0, need = 0;
+  const sun = em.outage ? solarKwh(prices, r, solar) : [];
+  for (let i = 0; i < P.length; i++) {
+    if (em.outage && i >= em.outage.first && i <= em.outage.last) { need += Math.max(0, (r.houseKw * r.minutes) / 60 - sun[i]) / r.eta; continue; }
+    price = Math.max(price, P[i] + (i >= vpp.first && i <= vpp.last ? bonusPrice : 0));
+  }
+  const target = Math.max(0, r.start - need);
+  const short = target - soc;
+  const kwh = short > 1e-9 ? short / r.eta : 0;  // a rounding hair below the target is not a shortfall
+  return { kwh, usd: (kwh * price) / 1000, price, target };
+}
 
 /** A whole day's play: the score is cash, less the degradation cost, plus the VPP bonus, in USD. Session 63: the money
  * (START_MONEY plus the score so far) ends the game in the interval it falls below $0 ("bankrupt"); on Hard the
@@ -341,11 +375,14 @@ export function simulate(prices: number[], actions: Action[], r: Rules = V1, sol
     if (r.money0 + cash - wear + sold + (vppKwh * bonusPrice) / 1000 < 0) { end = i; why = "bankrupt"; break; }
   }
   const bonus = (vppKwh * bonusPrice) / 1000;
-  const score = cash - wear + bonus + sold - penalty;
+  // session 11407 (v6): a play ends as full as it began, whenever it ends; the refill lands on its last interval
+  const fill = end !== null || stop === P.length ? refillOf(soc, prices, r, solar) : { kwh: 0, usd: 0 };
+  if (fill.usd > 0) gain[end ?? P.length - 1] -= fill.usd;
+  const score = cash - wear + bonus + sold - penalty - fill.usd;
   let outageNeedKwh = 0;
   if (em.outage) for (let j = em.outage.first; j <= em.outage.last; j++) outageNeedKwh += Math.max(0, need - sun[j]) / r.eta;
   return { cash, wear, bonus, score, soc: path, vppKwh, money: r.money0 + score, end, why, outageStartKwh, outageNeedKwh, prices: P,
-    penalty, unservedKwh, solar: sold, solarKwh: made, gain, curtailedKwh };
+    penalty, unservedKwh, solar: sold, solarKwh: made, gain, curtailedKwh, refill: fill.usd, refillKwh: fill.kwh };
 }
 
 /** Session 290 (Kelsey's ask 4 of 5 October 2026: one table at the end of every mode): what a play bought and sold. It
@@ -398,7 +435,12 @@ export function optimum(prices: number[], r: Rules = V1, solar?: number[] | null
   layer.set(Math.round(r.start * 1e9), { soc: r.start, value: 0, prev: null, a: 0 });
   // session 63: a play that ends early (bankrupt, lights out) is a terminal node; the best of them competes at the end
   let ended: { node: Node; at: number } | null = null;
-  const endAt = (node: Node, at: number) => { if (!ended || node.value > ended.node.value) ended = { node, at }; };
+  // session 11407 (v6): an early end is charged the refill on the charge it ends with, as in simulate()
+  const endAt = (node0: Node, at: number) => {
+    const fill = refillOf(node0.soc, prices, r, solar).usd;
+    const node = fill > 0 ? { ...node0, value: node0.value - fill } : node0;
+    if (!ended || node.value > ended.node.value) ended = { node, at };
+  };
   for (let i = 0; i < P.length; i++) {
     const next = new Map<number, Node>();
     const inVpp = i >= vpp.first && i <= vpp.last;
@@ -423,8 +465,13 @@ export function optimum(prices: number[], r: Rules = V1, solar?: number[] | null
     }
     layer = next;
   }
+  // session 11407 (v6): a whole day ends as full as it began, the shortfall bought back as simulate() charges it
   let best: Node | null = null;
-  for (const n of layer.values()) if (!best || n.value > best.value) best = n;
+  for (const n0 of layer.values()) {
+    const fill = refillOf(n0.soc, prices, r, solar).usd;
+    const n = fill > 0 ? { ...n0, value: n0.value - fill } : n0;
+    if (!best || n.value > best.value) best = n;
+  }
   let stop = P.length;
   const e = ended as { node: Node; at: number } | null;
   if (e && (!best || e.node.value > best.value)) { best = e.node; stop = e.at + 1; }
