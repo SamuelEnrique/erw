@@ -1,0 +1,10 @@
+rows stating construction jobs: 45
+    8000 ky_paducah_2026 invest 100000000000 | construction jobs, period not stated | to_date False
+    7500 la_meta_richland_2026 invest 50000000000 | workers at peak | to_date False
+    5000 la_meta_richland_2024 invest 10000000000 | workers at peak | to_date False
+    4375 wv_nscale_2026 invest 69200000000 | construction jobs, period not stated | to_date False
+    4000 wi_vantage_portwashington_2025 invest 15000000000 | construction jobs | to_date False
+    4000 tx_meta_elpaso_2026 invest 10000000000 | workers at peak | to_date False
+    4000 in_meta_lebanon_2026 invest 10000000000 | workers at peak | to_date False
+    3000 az_beale_pima_2025 invest 3600000000 | direct construction jobs during construction | to_date False
+default campus: invest 12,000 million, workers a year 10000.0

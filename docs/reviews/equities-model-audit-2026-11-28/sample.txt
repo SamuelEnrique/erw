@@ -1,0 +1,144 @@
+243 companies with filed figures; seed 11403; sample of 12: PROP, WMB, SLB, EE, PR, AVA, DEC, DK, PSX, XEL, RRC, DINO
+
+AVA AVISTA CORP (SIC 4931, regulated_utilities); newest 2026-09-30, 10-Q filed 2026-11-04
+  filing: https://www.sec.gov/Archives/edgar/data/104918/000119312526445765/0001193125-26-445765-index.htm
+  concepts: {'capex': 'us-gaap:PaymentsToAcquirePropertyPlantAndEquipment', 'debt': 'us-gaap:LongTermDebtNoncurrent', 'net_income': 'us-gaap:NetIncomeLoss', 'revenue': 'us-gaap:Revenues', 'shares_outstanding': 'us-gaap:CommonStockSharesOutstanding'}
+  revenue: 421,000,000 USD over 3 months to 2026-09-30 (accession 0001193125-26-445765)
+  net_income: 49,000,000 USD over 3 months to 2026-09-30 (accession 0001193125-26-445765)
+  capex: 511,000,000 USD over 9 months to 2026-09-30 (accession 0001193125-26-445765)
+  debt: not filed at 2026-09-30
+  shares_outstanding: 83,756,000 at 2026-09-30
+  revenue: 9 months less the 6 months to 2026-06-30 = 421,000,000; 3 months filed 421,000,000: agree
+  net_income: 9 months less the 6 months to 2026-06-30 = 49,000,000; 3 months filed 49,000,000: agree
+
+DEC Diversified Energy Co (SIC 1311, exploration_production); newest 2026-09-30, 10-Q filed 2026-11-04
+  filing: https://www.sec.gov/Archives/edgar/data/1922446/000192244626000108/0001922446-26-000108-index.htm
+  concepts: {'capex': 'us-gaap:PaymentsToAcquirePropertyPlantAndEquipment', 'debt': 'us-gaap:LongTermDebt', 'net_income': 'us-gaap:NetIncomeLoss', 'revenue': 'us-gaap:Revenues', 'shares_outstanding': 'us-gaap:CommonStockSharesOutstanding'}
+  revenue: 108,512,000 USD over 3 months to 2026-09-30 (accession 0001922446-26-000108)
+  net_income: -202,440,000 USD over 3 months to 2026-09-30 (accession 0001922446-26-000108)
+  capex: 137,674,000 USD over 9 months to 2026-09-30 (accession 0001922446-26-000108)
+  debt: 2,997,872,000 at 2026-09-30
+  shares_outstanding: 70,719,000 at 2026-09-30
+  revenue: 9 months less the 6 months to 2026-06-30 = 108,512,000; 3 months filed 108,512,000: agree
+  net_income: 9 months less the 6 months to 2026-06-30 = -202,440,000; 3 months filed -202,440,000: agree
+
+DINO HF Sinclair Corp (SIC 4610, midstream_pipelines); newest 2026-09-30, 10-Q filed 2026-10-28
+  filing: https://www.sec.gov/Archives/edgar/data/1915657/000191565726000074/0001915657-26-000074-index.htm
+  concepts: {'capex': 'us-gaap:PaymentsToAcquirePropertyPlantAndEquipment', 'debt': 'us-gaap:LongTermDebt', 'net_income': 'us-gaap:NetIncomeLoss', 'revenue': 'us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax', 'shares_outstanding': 'us-gaap:CommonStockSharesOutstanding'}
+  revenue: 10,857,000,000 USD over 3 months to 2026-09-30 (accession 0001915657-26-000074)
+  net_income: 2,015,000,000 USD over 3 months to 2026-09-30 (accession 0001915657-26-000074)
+  capex: 357,000,000 USD over 9 months to 2026-09-30 (accession 0001915657-26-000074)
+  debt: 2,774,000,000 at 2026-09-30
+  shares_outstanding: not filed at 2026-09-30
+  revenue: 9 months less the 6 months to 2026-06-30 = 10,857,000,000; 3 months filed 10,857,000,000: agree
+  net_income: 9 months less the 6 months to 2026-06-30 = 2,015,000,000; 3 months filed 2,015,000,000: agree
+
+DK Delek US Holdings, Inc. (SIC 2911, integrated_oil_gas;refining); newest 2026-09-30, 10-Q filed 2026-11-06
+  filing: https://www.sec.gov/Archives/edgar/data/1694426/000162828026071515/0001628280-26-071515-index.htm
+  concepts: {'capex': 'us-gaap:PaymentsToAcquirePropertyPlantAndEquipment', 'debt': 'us-gaap:LongTermDebt', 'net_income': 'us-gaap:NetIncomeLoss', 'revenue': 'us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax', 'shares_outstanding': 'us-gaap:CommonStockSharesOutstanding'}
+  revenue: 4,392,100,000 USD over 3 months to 2026-09-30 (accession 0001628280-26-071515)
+  net_income: 1,133,800,000 USD over 3 months to 2026-09-30 (accession 0001628280-26-071515)
+  capex: 472,800,000 USD over 9 months to 2026-09-30 (accession 0001628280-26-071515)
+  debt: 3,389,800,000 at 2026-09-30
+  shares_outstanding: not filed at 2026-09-30
+  revenue: 9 months less the 6 months to 2026-06-30 = 4,392,100,000; 3 months filed 4,392,100,000: agree
+  net_income: 9 months less the 6 months to 2026-06-30 = 1,133,800,000; 3 months filed 1,133,800,000: agree
+
+EE Excelerate Energy, Inc. (SIC 4924, midstream_pipelines;regulated_utilities); newest 2026-09-30, 10-Q filed 2026-11-05
+  filing: https://www.sec.gov/Archives/edgar/data/1888447/000119312526450137/0001193125-26-450137-index.htm
+  concepts: {'debt': 'us-gaap:LongTermDebt', 'net_income': 'us-gaap:NetIncomeLossAvailableToCommonStockholdersBasic', 'revenue': 'us-gaap:Revenues'}
+  revenue: 297,210,000 USD over 3 months to 2026-09-30 (accession 0001193125-26-450137)
+  net_income: 14,234,000 USD over 3 months to 2026-09-30 (accession 0001193125-26-450137)
+  capex: not filed for the period to 2026-09-30
+  debt: 921,749,000 at 2026-09-30
+  shares_outstanding: not filed at 2026-09-30
+  revenue: 9 months less the 6 months to 2026-06-30 = 297,210,000; 3 months filed 297,210,000: agree
+  net_income: 9 months less the 6 months to 2026-06-30 = 14,234,000; 3 months filed 14,234,000: agree
+
+PR Permian Resources Corp (SIC 1311, exploration_production); newest 2026-09-30, 10-Q filed 2026-11-05
+  filing: https://www.sec.gov/Archives/edgar/data/1658566/000165856626000124/0001658566-26-000124-index.htm
+  concepts: {'capex': 'us-gaap:PaymentsToAcquireOilAndGasProperty', 'debt': 'us-gaap:LongTermDebtNoncurrent', 'net_income': 'us-gaap:NetIncomeLoss', 'revenue': 'us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax', 'shares_outstanding': 'us-gaap:CommonStockSharesOutstanding'}
+  revenue: 1,957,710,000 USD over 3 months to 2026-09-30 (accession 0001658566-26-000124)
+  net_income: 420,161,000 USD over 3 months to 2026-09-30 (accession 0001658566-26-000124)
+  capex: 1,199,326,000 USD over 9 months to 2026-09-30 (accession 0001658566-26-000124)
+  debt: 2,653,322,000 at 2026-09-30
+  shares_outstanding: not filed at 2026-09-30
+  revenue: 9 months less the 6 months to 2026-06-30 = 1,957,710,000; 3 months filed 1,957,710,000: agree
+  net_income: 9 months less the 6 months to 2026-06-30 = 420,161,000; 3 months filed 420,161,000: agree
+
+PROP Prairie Operating Co. (SIC 1311, exploration_production); newest 2026-09-30, 10-Q filed 2026-11-12
+  filing: https://www.sec.gov/Archives/edgar/data/1162896/000116289626000011/0001162896-26-000011-index.htm
+  concepts: {'capex': 'us-gaap:PaymentsToAcquireOilAndGasProperty', 'debt': 'us-gaap:LongTermDebt', 'net_income': 'us-gaap:NetIncomeLoss', 'revenue': 'us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax', 'shares_outstanding': 'us-gaap:CommonStockSharesOutstanding'}
+  revenue: 129,502,000 USD over 3 months to 2026-09-30 (accession 0001162896-26-000011)
+  net_income: -48,934,000 USD over 3 months to 2026-09-30 (accession 0001162896-26-000011)
+  capex: 0 USD over 9 months to 2026-09-30 (accession 0001162896-26-000011)
+  debt: not filed at 2026-09-30
+  shares_outstanding: 118,681,858 at 2026-09-30
+  revenue: 9 months less the 6 months to 2026-06-30 = 129,502,000; 3 months filed 129,502,000: agree
+  net_income: 9 months less the 6 months to 2026-06-30 = -48,934,000; 3 months filed -48,934,000: agree
+
+PSX Phillips 66 (SIC 2911, integrated_oil_gas;refining); newest 2026-09-30, 10-Q filed 2026-10-28
+  filing: https://www.sec.gov/Archives/edgar/data/1534701/000153470126000037/0001534701-26-000037-index.htm
+  concepts: {'debt': 'us-gaap:LongTermDebtAndCapitalLeaseObligations', 'net_income': 'us-gaap:NetIncomeLoss', 'revenue': 'us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax'}
+  revenue: 50,540,000,000 USD over 3 months to 2026-09-30 (accession 0001534701-26-000037)
+  net_income: 5,616,000,000 USD over 3 months to 2026-09-30 (accession 0001534701-26-000037)
+  capex: not filed for the period to 2026-09-30
+  debt: 17,485,000,000 at 2026-09-30
+  shares_outstanding: not filed at 2026-09-30
+  revenue: 9 months less the 6 months to 2026-06-30 = 50,540,000,000; 3 months filed 50,540,000,000: agree
+  net_income: 9 months less the 6 months to 2026-06-30 = 5,616,000,000; 3 months filed 5,616,000,000: agree
+
+RRC RANGE RESOURCES CORP (SIC 1311, exploration_production); newest 2026-09-30, 10-Q filed 2026-10-27
+  filing: https://www.sec.gov/Archives/edgar/data/315852/000119312526434351/0001193125-26-434351-index.htm
+  concepts: {'capex': 'us-gaap:PaymentsToAcquireOilAndGasPropertyAndEquipment', 'debt': 'us-gaap:LongTermDebt', 'net_income': 'us-gaap:NetIncomeLoss', 'revenue': 'us-gaap:Revenues', 'shares_outstanding': 'us-gaap:CommonStockSharesOutstanding'}
+  revenue: 842,826,000 USD over 3 months to 2026-09-30 (accession 0001193125-26-434351)
+  net_income: 175,323,000 USD over 3 months to 2026-09-30 (accession 0001193125-26-434351)
+  capex: 506,436,000 USD over 9 months to 2026-09-30 (accession 0001193125-26-434351)
+  debt: 780,918,000 at 2026-09-30
+  shares_outstanding: not filed at 2026-09-30
+  revenue: 9 months less the 6 months to 2026-06-30 = 842,826,000; 3 months filed 842,826,000: agree
+  net_income: 9 months less the 6 months to 2026-06-30 = 175,323,000; 3 months filed 175,323,000: agree
+
+SLB SLB LIMITED/NV (SIC 1389, oilfield_services); newest 2026-09-30, 10-Q filed 2026-10-28
+  filing: https://www.sec.gov/Archives/edgar/data/87347/000119312526435577/0001193125-26-435577-index.htm
+  concepts: {'capex': 'us-gaap:PaymentsToAcquirePropertyPlantAndEquipment', 'debt': 'us-gaap:LongTermDebtNoncurrent', 'net_income': 'us-gaap:NetIncomeLoss', 'revenue': 'us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax', 'shares_outstanding': 'us-gaap:CommonStockSharesOutstanding'}
+  revenue: 9,449,000,000 USD over 3 months to 2026-09-30 (accession 0001193125-26-435577)
+  net_income: 735,000,000 USD over 3 months to 2026-09-30 (accession 0001193125-26-435577)
+  capex: 1,287,000,000 USD over 9 months to 2026-09-30 (accession 0001193125-26-435577)
+  debt: 11,147,000,000 at 2026-09-30
+  shares_outstanding: 1,476,000,000 at 2026-09-30
+  revenue: 9 months less the 6 months to 2026-06-30 = 9,449,000,000; 3 months filed 9,449,000,000: agree
+  net_income: 9 months less the 6 months to 2026-06-30 = 735,000,000; 3 months filed 735,000,000: agree
+
+WMB WILLIAMS COMPANIES, INC. (SIC 4922, midstream_pipelines); newest 2026-09-30, 10-Q filed 2026-11-02
+  filing: https://www.sec.gov/Archives/edgar/data/107263/000010726326000036/0000107263-26-000036-index.htm
+  concepts: {'capex': 'us-gaap:PaymentsToAcquirePropertyPlantAndEquipment', 'debt': 'us-gaap:LongTermDebtAndCapitalLeaseObligations', 'net_income': 'us-gaap:NetIncomeLoss', 'revenue': 'us-gaap:Revenues'}
+  revenue: 3,223,000,000 USD over 3 months to 2026-09-30 (accession 0000107263-26-000036)
+  net_income: 700,000,000 USD over 3 months to 2026-09-30 (accession 0000107263-26-000036)
+  capex: 5,682,000,000 USD over 9 months to 2026-09-30 (accession 0000107263-26-000036)
+  debt: 31,732,000,000 at 2026-09-30
+  shares_outstanding: not filed at 2026-09-30
+  revenue: 9 months less the 6 months to 2026-06-30 = 3,223,000,000; 3 months filed 3,223,000,000: agree
+  net_income: 9 months less the 6 months to 2026-06-30 = 700,000,000; 3 months filed 700,000,000: agree
+
+XEL XCEL ENERGY INC (SIC 4931, regulated_utilities); newest 2026-09-30, 10-Q filed 2026-10-29
+  filing: https://www.sec.gov/Archives/edgar/data/72903/000007290326000181/0000072903-26-000181-index.htm
+  concepts: {'capex': 'us-gaap:PaymentsToAcquireProductiveAssets', 'debt': 'us-gaap:LongTermDebt', 'net_income': 'us-gaap:NetIncomeLoss', 'revenue': 'us-gaap:RegulatedAndUnregulatedOperatingRevenue', 'shares_outstanding': 'us-gaap:CommonStockSharesOutstanding'}
+  revenue: 4,172,000,000 USD over 3 months to 2026-09-30 (accession 0000072903-26-000181)
+  net_income: 960,000,000 USD over 3 months to 2026-09-30 (accession 0000072903-26-000181)
+  capex: 9,255,000,000 USD over 9 months to 2026-09-30 (accession 0000072903-26-000181)
+  debt: 37,538,000,000 at 2026-09-30
+  shares_outstanding: 635,114,662 at 2026-09-30
+  revenue: 9 months less the 6 months to 2026-06-30 = 4,172,000,000; 3 months filed 4,172,000,000: agree
+  net_income: 9 months less the 6 months to 2026-06-30 = 960,000,000; 3 months filed 960,000,000: agree
+
+The filings chain 701 read (equities_crosscheck.txt), against the series files now:
+  CVX 2026-09-30 revenue: the filing printed 67,798 (table 67,798,000,000, Revenues); series file now 67,798,000,000
+  DUK 2026-03-31 revenue: the filing printed 9,178 (table 9,178,000,000, RegulatedAndUnregulatedOperatingRevenue); series file now 9,178,000,000
+  DUK 2026-03-31 shares_outstanding: the filing printed 778 (table 778,000,000, CommonStockSharesOutstanding); series file now 778,000,000
+  KMI 2026-09-30 revenue: the filing printed 4,531 (table 4,531,000,000, Revenues); series file now 4,531,000,000
+  KMI 2026-09-30 shares_outstanding: the filing printed 2,227,712,648 (table 2,227,712,648, CommonStockSharesOutstanding); series file now 2,227,712,648
+  NEE 2026-03-31 revenue: the filing printed 6,701 (table 6,701,000,000, RegulatedAndUnregulatedOperatingRevenue); series file now 6,701,000,000
+  NEE 2026-03-31 shares_outstanding: the filing printed 2,085 (table 2,085,000,000, CommonStockSharesOutstanding); series file now 2,085,000,000
+  SLB 2026-09-30 revenue: the filing printed 9,449 (table 9,449,000,000, RevenueFromContractWithCustomerExcludingAssessedTax); series file now 9,449,000,000
+  SLB 2026-09-30 shares_outstanding: the filing printed 1,476 (table 1,476,000,000, CommonStockSharesOutstanding); series file now 1,476,000,000

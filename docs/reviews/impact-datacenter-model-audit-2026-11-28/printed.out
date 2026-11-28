@@ -1,0 +1,488 @@
+== default_tx ok True exemption {'held': False, 'eligible': False, 'applied': False, 'note': 'no datacenter sales tax exemption of this state has been read'} chain False
+inputs {'mw': 1000, 'invest': 12000, 'start': 2027, 'build': 2, 'life': 20, 'bld': 19.6, 'eq': 68.2, 'land': 6.1, 'refresh': 5, 'perm': 322.5, 'cons': 10000, 'opwage': 130137, 'conswage': 74765, 'sales': 8.2, 'matshare': None, 'dcex': True, 'brate': None, 'erate': None, 'bldyears': None, 'abate': 0, 'abateyears': None, 'mwh': None, 'rate': 7, 'eqv1': 100, 'eqstep': 0, 'eqfloor': 0, 'state': 'tx'}
+  c:jobs:onsite      20000                        20,000
+  c:jobs:total       20000                        20,000
+  c:earnings:total   1495300000                   USD 1.5 billion
+  o:jobs:onsite      322.5                        323
+  o:jobs:total       322.5                        323
+  o:earnings:total   41969182.5                   USD 42 million
+  y1:property        None                         None
+  sum:property       None                         None
+  sum:sales          2684351999.9999995           USD 2.68 billion
+  sum:income         0                            USD 0
+  pv:taxes           1577476774.397057            USD 1.58 billion
+  pv:earnings        1861923006.8015587           USD 1.86 billion
+  sum:salesbefore    2684351999.9999995           USD 2.68 billion
+  sum:forgone        0                            USD 0
+  y1:propb           None                         None
+  y1:prope           None                         None
+  y1:elec            None                         None
+  pv:sales           1577476774.397057            USD 1.58 billion
+  pv:income          0                            USD 0
+  pv:property        None                         None
+  pv:elec            None                         None
+  pv:forgone         0                            USD 0
+  sum:jobs           26450                        26,450
+  sum:earnings       2334683650                   USD 2.33 billion
+   {'year': 2027, 'jobs': 10000, 'earnings': 747650000, 'equipment': 4092000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 335544000.0, 'forgone': 0, 'sales': 335544000.0, 'income': 0, 'elec': None}
+   {'year': 2028, 'jobs': 10000, 'earnings': 747650000, 'equipment': 4092000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 335544000.0, 'forgone': 0, 'sales': 335544000.0, 'income': 0, 'elec': None}
+   {'year': 2029, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2030, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2031, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2032, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2033, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2034, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 8184000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 671088000.0, 'forgone': 0, 'sales': 671088000.0, 'income': 0, 'elec': None}
+   {'year': 2035, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2036, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2037, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2038, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2039, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 8184000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 671088000.0, 'forgone': 0, 'sales': 671088000.0, 'income': 0, 'elec': None}
+   {'year': 2040, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2041, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2042, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2043, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2044, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 8184000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 671088000.0, 'forgone': 0, 'sales': 671088000.0, 'income': 0, 'elec': None}
+   {'year': 2045, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2046, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2047, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+   {'year': 2048, 'jobs': 322.5, 'earnings': 41969182.5, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 0, 'elec': None}
+== default_va ok True exemption {'held': True, 'eligible': True, 'applied': True, 'note': 'applied'} chain True
+inputs {'mw': 1000, 'invest': 12000, 'start': 2027, 'build': 2, 'life': 20, 'bld': 19.6, 'eq': 68.2, 'land': 6.1, 'refresh': 5, 'perm': 322.5, 'cons': 10000, 'opwage': 152609, 'conswage': 74336, 'sales': 5.77, 'matshare': None, 'dcex': True, 'brate': None, 'erate': None, 'bldyears': None, 'abate': 0, 'abateyears': None, 'mwh': None, 'rate': 7, 'eqv1': 100, 'eqstep': 0, 'eqfloor': 0, 'state': 'va'}
+  c:jobs:onsite      20000                        20,000
+  c:jobs:total       33635.43150099686            33,635
+  c:earnings:total   2405569808.811305            USD 2.41 billion
+  o:jobs:onsite      322.5                        323
+  o:jobs:total       1092.7978504459181           1,093
+  o:earnings:total   139458208.70529327           USD 139.5 million
+  y1:property        None                         None
+  sum:property       None                         None
+  sum:sales          944433599.9999999            USD 944.4 million
+  sum:income         253521664.6318155            USD 253.5 million
+  pv:taxes           537056349.862919             USD 537.1 million
+  pv:earnings        3707651403.549292            USD 3.71 billion
+  sum:salesbefore    1888867199.9999998           USD 1.89 billion
+  sum:forgone        944433599.9999999            USD 944.4 million
+  y1:propb           None                         None
+  y1:prope           None                         None
+  y1:elec            None                         None
+  pv:sales           359161652.1813028            USD 359.2 million
+  pv:income          177894697.68161622           USD 177.9 million
+  pv:property        None                         None
+  pv:elec            None                         None
+  pv:forgone         750843346.3883338            USD 750.8 million
+  sum:jobs           55491.3885099152             55,491
+  sum:earnings       5194733982.9171715           USD 5.19 billion
+   {'year': 2027, 'jobs': 16817.72, 'earnings': 1202784904.41, 'equipment': 4092000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 236108400.0, 'forgone': 236108400.0, 'sales': 0, 'income': 55468829.61, 'elec': None}
+   {'year': 2028, 'jobs': 16817.72, 'earnings': 1202784904.41, 'equipment': 4092000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 236108400.0, 'forgone': 236108400.0, 'sales': 0, 'income': 55468829.61, 'elec': None}
+   {'year': 2029, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2030, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2031, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2032, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2033, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2034, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 8184000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 472216800.0, 'forgone': 472216800.0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2035, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2036, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2037, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2038, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2039, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 8184000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 472216800.0, 'forgone': 0, 'sales': 472216800.0, 'income': 7129200.27, 'elec': None}
+   {'year': 2040, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2041, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2042, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2043, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2044, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 8184000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 472216800.0, 'forgone': 0, 'sales': 472216800.0, 'income': 7129200.27, 'elec': None}
+   {'year': 2045, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2046, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2047, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2048, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+== ms_aws_madison_2024 ok True exemption {'held': True, 'eligible': True, 'applied': True, 'note': 'applied'} chain False
+inputs {'mw': 1000, 'invest': 10263.83, 'start': 2027, 'build': 2, 'life': 20, 'bld': 19.6, 'eq': 68.2, 'land': 6.1, 'refresh': 5, 'perm': 1000, 'cons': 8553.2, 'opwage': 65295, 'conswage': 66508, 'sales': 7.06, 'matshare': None, 'dcex': True, 'brate': None, 'erate': None, 'bldyears': None, 'abate': 0, 'abateyears': None, 'mwh': None, 'rate': 7, 'eqv1': 100, 'eqstep': 0, 'eqfloor': 0, 'state': 'ms'}
+  c:jobs:onsite      17106.4                      17,106
+  c:jobs:total       17106.4                      17,106
+  c:earnings:total   1137712451.2                 USD 1.14 billion
+  o:jobs:onsite      1000                         1,000
+  o:jobs:total       1000                         1,000
+  o:earnings:total   65295000                     USD 65.3 million
+  y1:property        None                         None
+  sum:property       None                         None
+  sum:sales          16799836.94399953            USD 16.8 million
+  sum:income         70582613.248                 USD 70.6 million
+  pv:taxes           60391946.315541685           USD 60.4 million
+  pv:earnings        1746979950.6102593           USD 1.75 billion
+  sum:salesbefore    1976780813.744               USD 1.98 billion
+  sum:forgone        1959980976.8000004           USD 1.96 billion
+  y1:propb           None                         None
+  y1:prope           None                         None
+  y1:elec            None                         None
+  pv:sales           9872532.586194692            USD 9.9 million
+  pv:income          50519413.72934699            USD 50.5 million
+  pv:property        None                         None
+  pv:elec            None                         None
+  pv:forgone         1151795468.3894134           USD 1.15 billion
+  sum:jobs           37106.4                      37,106
+  sum:earnings       2443612451.2                 USD 2.44 billion
+   {'year': 2027, 'jobs': 8553.2, 'earnings': 568856225.6, 'equipment': 3499966030, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 247097601.72, 'forgone': 244997622.1, 'sales': 2099979.62, 'income': 16493306.62, 'elec': None}
+   {'year': 2028, 'jobs': 8553.2, 'earnings': 568856225.6, 'equipment': 3499966030, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 247097601.72, 'forgone': 244997622.1, 'sales': 2099979.62, 'income': 16493306.62, 'elec': None}
+   {'year': 2029, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2030, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2031, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2032, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2033, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2034, 'jobs': 1000, 'earnings': 65295000, 'equipment': 6999932060, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 494195203.44, 'forgone': 489995244.2, 'sales': 4199959.24, 'income': 1879800, 'elec': None}
+   {'year': 2035, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2036, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2037, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2038, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2039, 'jobs': 1000, 'earnings': 65295000, 'equipment': 6999932060, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 494195203.44, 'forgone': 489995244.2, 'sales': 4199959.24, 'income': 1879800, 'elec': None}
+   {'year': 2040, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2041, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2042, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2043, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2044, 'jobs': 1000, 'earnings': 65295000, 'equipment': 6999932060, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 494195203.44, 'forgone': 489995244.2, 'sales': 4199959.24, 'income': 1879800, 'elec': None}
+   {'year': 2045, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2046, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2047, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2048, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+== va_google_2025 ok True exemption {'held': True, 'eligible': True, 'applied': True, 'note': 'applied'} chain True
+inputs {'mw': 1000, 'invest': 9000, 'start': 2027, 'build': 2, 'life': 20, 'bld': 19.6, 'eq': 68.2, 'land': 6.1, 'refresh': 5, 'perm': 322.5, 'cons': 7500, 'opwage': 152609, 'conswage': 74336, 'sales': 5.77, 'matshare': None, 'dcex': True, 'brate': None, 'erate': None, 'bldyears': None, 'abate': 0, 'abateyears': None, 'mwh': None, 'rate': 7, 'eqv1': 100, 'eqstep': 0, 'eqfloor': 0, 'state': 'va'}
+  c:jobs:onsite      15000                        15,000
+  c:jobs:total       25226.57362574765            25,227
+  c:earnings:total   1804177356.6084788           USD 1.8 billion
+  o:jobs:onsite      322.5                        323
+  o:jobs:total       1092.7978504459181           1,093
+  o:earnings:total   139458208.70529327           USD 139.5 million
+  y1:property        None                         None
+  sum:property       None                         None
+  sum:sales          708325199.9999999            USD 708.3 million
+  sum:income         225787249.8263933            USD 225.8 million
+  pv:taxes           420438722.4964607            USD 420.4 million
+  pv:earnings        3125930667.072727            USD 3.13 billion
+  sum:salesbefore    1416650399.9999998           USD 1.42 billion
+  sum:forgone        708325199.9999999            USD 708.3 million
+  y1:propb           None                         None
+  y1:prope           None                         None
+  y1:elec            None                         None
+  pv:sales           269371239.135977             USD 269.4 million
+  pv:income          151067483.36048362           USD 151.1 million
+  pv:property        None                         None
+  pv:elec            None                         None
+  pv:forgone         563132509.7912503            USD 563.1 million
+  sum:jobs           47082.53063466599            47,083
+  sum:earnings       4593341530.714344            USD 4.59 billion
+   {'year': 2027, 'jobs': 12613.29, 'earnings': 902088678.3, 'equipment': 3069000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 177081300.0, 'forgone': 177081300.0, 'sales': 0, 'income': 41601622.21, 'elec': None}
+   {'year': 2028, 'jobs': 12613.29, 'earnings': 902088678.3, 'equipment': 3069000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 177081300.0, 'forgone': 177081300.0, 'sales': 0, 'income': 41601622.21, 'elec': None}
+   {'year': 2029, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2030, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2031, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2032, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2033, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2034, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 6138000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 354162600.0, 'forgone': 354162600.0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2035, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2036, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2037, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2038, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2039, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 6138000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 354162600.0, 'forgone': 0, 'sales': 354162600.0, 'income': 7129200.27, 'elec': None}
+   {'year': 2040, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2041, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2042, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2043, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2044, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 6138000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 354162600.0, 'forgone': 0, 'sales': 354162600.0, 'income': 7129200.27, 'elec': None}
+   {'year': 2045, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2046, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2047, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+   {'year': 2048, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': None}
+== az_beale_pima_2025 ok True exemption {'held': True, 'eligible': True, 'applied': True, 'note': 'applied'} chain False
+inputs {'mw': 1000, 'invest': 3600, 'start': 2027, 'build': 2, 'life': 20, 'bld': 19.6, 'eq': 68.2, 'land': 6.1, 'refresh': 5, 'perm': 180, 'cons': 3000, 'opwage': 98701, 'conswage': 73547, 'sales': 8.54, 'matshare': None, 'dcex': True, 'brate': None, 'erate': None, 'bldyears': None, 'abate': 0, 'abateyears': None, 'mwh': None, 'rate': 7, 'eqv1': 100, 'eqstep': 0, 'eqfloor': 0, 'state': 'az'}
+  c:jobs:onsite      6000                         6,000
+  c:jobs:total       6000                         6,000
+  c:earnings:total   441282000                    USD 441.3 million
+  o:jobs:onsite      180                          180
+  o:jobs:total       180                          180
+  o:earnings:total   17766180                     USD 17.8 million
+  y1:property        None                         None
+  sum:property       None                         None
+  sum:sales          419348159.99999994           USD 419.3 million
+  sum:income         17911140                     USD 17.9 million
+  pv:taxes           172960423.75635603           USD 173 million
+  pv:earnings        602749564.4938357            USD 602.7 million
+  sum:salesbefore    838696319.9999999            USD 838.7 million
+  sum:forgone        419348159.99999994           USD 419.3 million
+  y1:propb           None                         None
+  y1:prope           None                         None
+  y1:elec            None                         None
+  pv:sales           159475243.1349216            USD 159.5 million
+  pv:income          13485180.621434426           USD 13.5 million
+  pv:property        None                         None
+  pv:elec            None                         None
+  pv:forgone         333390061.2559638            USD 333.4 million
+  sum:jobs           9600                         9,600
+  sum:earnings       796605600                    USD 796.6 million
+   {'year': 2027, 'jobs': 3000, 'earnings': 220641000, 'equipment': 1227600000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 104837040.0, 'forgone': 104837040.0, 'sales': 0, 'income': 4889775.0, 'elec': None}
+   {'year': 2028, 'jobs': 3000, 'earnings': 220641000, 'equipment': 1227600000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 104837040.0, 'forgone': 104837040.0, 'sales': 0, 'income': 4889775.0, 'elec': None}
+   {'year': 2029, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2030, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2031, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2032, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2033, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2034, 'jobs': 180, 'earnings': 17766180, 'equipment': 2455200000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 209674080.0, 'forgone': 209674080.0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2035, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2036, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2037, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2038, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2039, 'jobs': 180, 'earnings': 17766180, 'equipment': 2455200000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 209674080.0, 'forgone': 0, 'sales': 209674080.0, 'income': 406579.5, 'elec': None}
+   {'year': 2040, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2041, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2042, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2043, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2044, 'jobs': 180, 'earnings': 17766180, 'equipment': 2455200000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 209674080.0, 'forgone': 0, 'sales': 209674080.0, 'income': 406579.5, 'elec': None}
+   {'year': 2045, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2046, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2047, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2048, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+== ms_aws_madison_2024_typed ok True exemption {'held': True, 'eligible': True, 'applied': True, 'note': 'applied'} chain False
+inputs {'mw': 1000, 'invest': 10263.83, 'start': 2027, 'build': 2, 'life': 20, 'bld': 19.6, 'eq': 68.2, 'land': 6.1, 'refresh': 5, 'perm': 1000, 'cons': 8553.2, 'opwage': 65295, 'conswage': 66508, 'sales': 7.06, 'matshare': 40, 'dcex': True, 'brate': 10.5, 'erate': 10.5, 'bldyears': None, 'abate': 50, 'abateyears': 10, 'mwh': None, 'rate': 7, 'eqv1': 100, 'eqstep': 0, 'eqfloor': 0, 'state': 'ms'}
+  c:jobs:onsite      17106.4                      17,106
+  c:jobs:total       17106.4                      17,106
+  c:earnings:total   1137712451.2                 USD 1.14 billion
+  o:jobs:onsite      1000                         1,000
+  o:jobs:total       1000                         1,000
+  o:earnings:total   65295000                     USD 65.3 million
+  y1:property        70966686.5775                USD 71 million
+  sum:property       2129000597.3249998           USD 2.13 billion
+  sum:sales          17282647.507199585           USD 17.3 million
+  sum:income         70582613.248                 USD 70.6 million
+  pv:taxes           1000301830.5999005           USD 1 billion
+  pv:earnings        1746979950.6102593           USD 1.75 billion
+  sum:salesbefore    2033591523.3472              USD 2.03 billion
+  sum:forgone        2016308875.8400002           USD 2.02 billion
+  y1:propb           15842221.604999999           USD 15.8 million
+  y1:prope           55124464.9725                USD 55.1 million
+  y1:elec            None                         None
+  pv:sales           10339550.280505028           USD 10.3 million
+  pv:income          50519413.72934699            USD 50.5 million
+  pv:property        939442866.5900484            USD 939.4 million
+  pv:elec            None                         None
+  pv:forgone         1206280866.058946            USD 1.21 billion
+  sum:jobs           37106.4                      37,106
+  sum:earnings       2443612451.2                 USD 2.44 billion
+   {'year': 2027, 'jobs': 8553.2, 'earnings': 568856225.6, 'equipment': 3499966030, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 275502956.52, 'forgone': 273161571.62, 'sales': 2341384.9, 'income': 16493306.62, 'elec': None}
+   {'year': 2028, 'jobs': 8553.2, 'earnings': 568856225.6, 'equipment': 3499966030, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 275502956.52, 'forgone': 273161571.62, 'sales': 2341384.9, 'income': 16493306.62, 'elec': None}
+   {'year': 2029, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 70966686.58, 'propb': 15842221.6, 'prope': 55124464.97, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2030, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 70966686.58, 'propb': 15842221.6, 'prope': 55124464.97, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2031, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 70966686.58, 'propb': 15842221.6, 'prope': 55124464.97, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2032, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 70966686.58, 'propb': 15842221.6, 'prope': 55124464.97, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2033, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 70966686.58, 'propb': 15842221.6, 'prope': 55124464.97, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2034, 'jobs': 1000, 'earnings': 65295000, 'equipment': 6999932060, 'property': 70966686.58, 'propb': 15842221.6, 'prope': 55124464.97, 'salesbefore': 494195203.44, 'forgone': 489995244.2, 'sales': 4199959.24, 'income': 1879800, 'elec': None}
+   {'year': 2035, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 70966686.58, 'propb': 15842221.6, 'prope': 55124464.97, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2036, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 70966686.58, 'propb': 15842221.6, 'prope': 55124464.97, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2037, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 70966686.58, 'propb': 15842221.6, 'prope': 55124464.97, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2038, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 70966686.58, 'propb': 15842221.6, 'prope': 55124464.97, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2039, 'jobs': 1000, 'earnings': 65295000, 'equipment': 6999932060, 'property': 141933373.16, 'propb': 31684443.21, 'prope': 110248929.94, 'salesbefore': 494195203.44, 'forgone': 489995244.2, 'sales': 4199959.24, 'income': 1879800, 'elec': None}
+   {'year': 2040, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 141933373.16, 'propb': 31684443.21, 'prope': 110248929.94, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2041, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 141933373.16, 'propb': 31684443.21, 'prope': 110248929.94, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2042, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 141933373.16, 'propb': 31684443.21, 'prope': 110248929.94, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2043, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 141933373.16, 'propb': 31684443.21, 'prope': 110248929.94, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2044, 'jobs': 1000, 'earnings': 65295000, 'equipment': 6999932060, 'property': 141933373.16, 'propb': 31684443.21, 'prope': 110248929.94, 'salesbefore': 494195203.44, 'forgone': 489995244.2, 'sales': 4199959.24, 'income': 1879800, 'elec': None}
+   {'year': 2045, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 141933373.16, 'propb': 31684443.21, 'prope': 110248929.94, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2046, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 141933373.16, 'propb': 31684443.21, 'prope': 110248929.94, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2047, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 141933373.16, 'propb': 31684443.21, 'prope': 110248929.94, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+   {'year': 2048, 'jobs': 1000, 'earnings': 65295000, 'equipment': 0, 'property': 141933373.16, 'propb': 31684443.21, 'prope': 110248929.94, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 1879800, 'elec': None}
+== va_google_2025_typed ok True exemption {'held': True, 'eligible': True, 'applied': True, 'note': 'applied'} chain True
+inputs {'mw': 1000, 'invest': 9000, 'start': 2027, 'build': 2, 'life': 20, 'bld': 19.6, 'eq': 68.2, 'land': 6.1, 'refresh': 5, 'perm': 322.5, 'cons': 7500, 'opwage': 152609, 'conswage': 74336, 'sales': 5.77, 'matshare': 40, 'dcex': True, 'brate': 0.875, 'erate': 4.15, 'bldyears': None, 'abate': 0, 'abateyears': None, 'mwh': 2628000, 'rate': 7, 'eqv1': 60, 'eqstep': 15, 'eqfloor': 10, 'state': 'va'}
+  c:jobs:onsite      15000                        15,000
+  c:jobs:total       25226.57362574765            25,227
+  c:earnings:total   1804177356.6084788           USD 1.8 billion
+  o:jobs:onsite      322.5                        323
+  o:jobs:total       1092.7978504459181           1,093
+  o:earnings:total   139458208.70529327           USD 139.5 million
+  y1:property        168271200                    USD 168.3 million
+  sum:property       1938952800                   USD 1.94 billion
+  sum:sales          749038319.9999999            USD 749 million
+  sum:income         225787249.8263933            USD 225.8 million
+  pv:taxes           1486967447.4080675           USD 1.49 billion
+  pv:earnings        3125930667.072727            USD 3.13 billion
+  sum:salesbefore    1457363519.9999998           USD 1.46 billion
+  sum:forgone        708325199.9999999            USD 708.3 million
+  y1:propb           15435000.000000002           USD 15.4 million
+  y1:prope           152836200                    USD 152.8 million
+  y1:elec            2299641.3                    USD 2.3 million
+  pv:sales           308752621.56588364           USD 308.8 million
+  pv:income          151067483.36048362           USD 151.1 million
+  pv:property        1004378713.7977961           USD 1 billion
+  pv:elec            22768628.683904              USD 22.8 million
+  pv:forgone         563132509.7912503            USD 563.1 million
+  sum:jobs           47082.53063466599            47,083
+  sum:earnings       4593341530.714344            USD 4.59 billion
+   {'year': 2027, 'jobs': 12613.29, 'earnings': 902088678.3, 'equipment': 3069000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 197437860.0, 'forgone': 177081300.0, 'sales': 20356560, 'income': 41601622.21, 'elec': None}
+   {'year': 2028, 'jobs': 12613.29, 'earnings': 902088678.3, 'equipment': 3069000000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 197437860.0, 'forgone': 177081300.0, 'sales': 20356560, 'income': 41601622.21, 'elec': None}
+   {'year': 2029, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 168271200, 'propb': 15435000.0, 'prope': 152836200, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2030, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 130062150, 'propb': 15435000.0, 'prope': 114627150, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2031, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 91853100, 'propb': 15435000.0, 'prope': 76418100, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2032, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 53644050, 'propb': 15435000.0, 'prope': 38209050, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2033, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 40907700, 'propb': 15435000.0, 'prope': 25472700, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2034, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 6138000000, 'property': 168271200, 'propb': 15435000.0, 'prope': 152836200, 'salesbefore': 354162600.0, 'forgone': 354162600.0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2035, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 130062150, 'propb': 15435000.0, 'prope': 114627150, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2036, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 91853100, 'propb': 15435000.0, 'prope': 76418100, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2037, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 53644050, 'propb': 15435000.0, 'prope': 38209050, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2038, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 40907700, 'propb': 15435000.0, 'prope': 25472700, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2039, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 6138000000, 'property': 168271200, 'propb': 15435000.0, 'prope': 152836200, 'salesbefore': 354162600.0, 'forgone': 0, 'sales': 354162600.0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2040, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 130062150, 'propb': 15435000.0, 'prope': 114627150, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2041, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 91853100, 'propb': 15435000.0, 'prope': 76418100, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2042, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 53644050, 'propb': 15435000.0, 'prope': 38209050, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2043, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 40907700, 'propb': 15435000.0, 'prope': 25472700, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2044, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 6138000000, 'property': 168271200, 'propb': 15435000.0, 'prope': 152836200, 'salesbefore': 354162600.0, 'forgone': 0, 'sales': 354162600.0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2045, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 130062150, 'propb': 15435000.0, 'prope': 114627150, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2046, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 91853100, 'propb': 15435000.0, 'prope': 76418100, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2047, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 53644050, 'propb': 15435000.0, 'prope': 38209050, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+   {'year': 2048, 'jobs': 1092.8, 'earnings': 139458208.71, 'equipment': 0, 'property': 40907700, 'propb': 15435000.0, 'prope': 25472700, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 7129200.27, 'elec': 2299641.3}
+== az_beale_pima_2025_typed ok True exemption {'held': True, 'eligible': True, 'applied': True, 'note': 'applied'} chain False
+inputs {'mw': 1000, 'invest': 3600, 'start': 2027, 'build': 2, 'life': 20, 'bld': 19.6, 'eq': 68.2, 'land': 6.1, 'refresh': 5, 'perm': 180, 'cons': 3000, 'opwage': 98701, 'conswage': 73547, 'sales': 8.54, 'matshare': 40, 'dcex': True, 'brate': 12, 'erate': 12, 'bldyears': None, 'abate': 0, 'abateyears': None, 'mwh': None, 'rate': 7, 'eqv1': 100, 'eqstep': 0, 'eqfloor': 0, 'state': 'az'}
+  c:jobs:onsite      6000                         6,000
+  c:jobs:total       6000                         6,000
+  c:earnings:total   441282000                    USD 441.3 million
+  o:jobs:onsite      180                          180
+  o:jobs:total       180                          180
+  o:earnings:total   17766180                     USD 17.8 million
+  y1:property        56894400                     USD 56.9 million
+  sum:property       1137888000                   USD 1.14 billion
+  sum:sales          443451455.99999994           USD 443.5 million
+  sum:income         17911140                     USD 17.9 million
+  pv:taxes           759583783.9900892            USD 759.6 million
+  pv:earnings        602749564.4938357            USD 602.7 million
+  sum:salesbefore    862799615.9999999            USD 862.8 million
+  sum:forgone        419348159.99999994           USD 419.3 million
+  y1:propb           12700800                     USD 12.7 million
+  y1:prope           44193600                     USD 44.2 million
+  y1:elec            None                         None
+  pv:sales           182790113.56482816           USD 182.8 million
+  pv:income          13485180.621434426           USD 13.5 million
+  pv:property        563308489.8038266            USD 563.3 million
+  pv:elec            None                         None
+  pv:forgone         333390061.2559638            USD 333.4 million
+  sum:jobs           9600                         9,600
+  sum:earnings       796605600                    USD 796.6 million
+   {'year': 2027, 'jobs': 3000, 'earnings': 220641000, 'equipment': 1227600000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 116888688.0, 'forgone': 104837040.0, 'sales': 12051648, 'income': 4889775.0, 'elec': None}
+   {'year': 2028, 'jobs': 3000, 'earnings': 220641000, 'equipment': 1227600000, 'property': None, 'propb': None, 'prope': None, 'salesbefore': 116888688.0, 'forgone': 104837040.0, 'sales': 12051648, 'income': 4889775.0, 'elec': None}
+   {'year': 2029, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2030, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2031, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2032, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2033, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2034, 'jobs': 180, 'earnings': 17766180, 'equipment': 2455200000, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 209674080.0, 'forgone': 209674080.0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2035, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2036, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2037, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2038, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2039, 'jobs': 180, 'earnings': 17766180, 'equipment': 2455200000, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 209674080.0, 'forgone': 0, 'sales': 209674080.0, 'income': 406579.5, 'elec': None}
+   {'year': 2040, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2041, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2042, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2043, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2044, 'jobs': 180, 'earnings': 17766180, 'equipment': 2455200000, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 209674080.0, 'forgone': 0, 'sales': 209674080.0, 'income': 406579.5, 'elec': None}
+   {'year': 2045, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2046, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2047, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+   {'year': 2048, 'jobs': 180, 'earnings': 17766180, 'equipment': 0, 'property': 56894400, 'propb': 12700800, 'prope': 44193600, 'salesbefore': 0, 'forgone': 0, 'sales': 0, 'income': 406579.5, 'elec': None}
+other states for tx count 51
+   1 al 1894839098.73 forgone 0.00
+   2 ca 1863962421.93 forgone 0.00
+   3 tn 1848725829.51 forgone 0.00
+   4 il 1834746433.49 forgone 0.00
+   5 ny 1768856849.99 forgone 0.00
+   6 co 1589702806.27 forgone 0.00
+   7 nv 1585171783.05 forgone 0.00
+   8 tx 1577476774.40 forgone 0.00
+   9 nm 1524968946.97 forgone 0.00
+  10 oh 1437174999.69 forgone 0.00
+  11 ri 1404970045.62 forgone 0.00
+  12 ne 1401941753.92 forgone 0.00
+  13 in 1399526093.77 forgone 0.00
+  14 nj 1359048596.69 forgone 0.00
+  15 ma 1320570108.40 forgone 0.00
+  16 wv 1314851019.60 forgone 0.00
+  17 vt 1313885610.65 forgone 0.00
+  18 dc 1254310365.91 forgone 0.00
+  19 sd 1175412572.14 forgone 0.00
+  20 me 1142809010.36 forgone 0.00
+  21 hi 989011434.87 forgone 0.00
+  22 ga 986115937.19 forgone 598472209.35
+  23 ok 932603657.33 forgone 865688473.75
+  24 ar 628981015.78 forgone 1250438906.53
+  25 wa 590591914.32 forgone 1250438906.53
+  26 az 570328732.09 forgone 1111300204.19
+  27 va 537056349.86 forgone 750843346.39
+  28 mn 414832729.87 forgone 1323541488.76
+  29 ak 350122893.83 forgone 0.00
+  30 mo 288017372.22 forgone 1406644191.92
+  31 wy 267401550.78 forgone 769500865.56
+  32 sc 240913091.37 forgone 1246836094.37
+  33 or 154747918.65 forgone 0.00
+  34 pa 125269643.29 forgone 1154251298.34
+  35 de 101040189.65 forgone 0.00
+  36 ct 84412262.28 forgone 1221582624.08
+  37 md 84224365.57 forgone 1154251298.34
+  38 ks 80299321.39 forgone 1675588134.76
+  39 mi 78488319.82 forgone 1154251298.34
+  40 wi 72172682.20 forgone 1100386237.75
+  41 mt 63540061.47 forgone 0.00
+  42 id 58164941.60 forgone 1160022554.83
+  43 nc 56769747.57 forgone 1365864036.37
+  44 ut 56215639.22 forgone 1427424105.61
+  45 ms 54849701.32 forgone 1346626514.73
+  46 ia 53171946.31 forgone 1335084001.75
+  47 ky 51898199.39 forgone 1154251298.34
+  48 la 38659307.10 forgone 1948760942.03
+  49 nd 9153625.20 forgone 1363940284.20
+  50 fl 0.00 forgone 1342779010.40
+  51 nh 0.00 forgone 0.00
+other states for va count 51
+   1 al 1894839098.73 forgone 0.00
+   2 ca 1863962421.93 forgone 0.00
+   3 tn 1848725829.51 forgone 0.00
+   4 il 1834746433.49 forgone 0.00
+   5 ny 1768856849.99 forgone 0.00
+   6 co 1589702806.27 forgone 0.00
+   7 nv 1585171783.05 forgone 0.00
+   8 tx 1577476774.40 forgone 0.00
+   9 nm 1524968946.97 forgone 0.00
+  10 oh 1437174999.69 forgone 0.00
+  11 ri 1404970045.62 forgone 0.00
+  12 ne 1401941753.92 forgone 0.00
+  13 in 1399526093.77 forgone 0.00
+  14 nj 1359048596.69 forgone 0.00
+  15 ma 1320570108.40 forgone 0.00
+  16 wv 1314851019.60 forgone 0.00
+  17 vt 1313885610.65 forgone 0.00
+  18 dc 1254310365.91 forgone 0.00
+  19 sd 1175412572.14 forgone 0.00
+  20 me 1142809010.36 forgone 0.00
+  21 hi 989011434.87 forgone 0.00
+  22 ga 986115937.19 forgone 598472209.35
+  23 ok 932603657.33 forgone 865688473.75
+  24 ar 628981015.78 forgone 1250438906.53
+  25 wa 590591914.32 forgone 1250438906.53
+  26 az 570328732.09 forgone 1111300204.19
+  27 va 537056349.86 forgone 750843346.39
+  28 mn 414832729.87 forgone 1323541488.76
+  29 ak 350122893.83 forgone 0.00
+  30 mo 288017372.22 forgone 1406644191.92
+  31 wy 267401550.78 forgone 769500865.56
+  32 sc 240913091.37 forgone 1246836094.37
+  33 or 154747918.65 forgone 0.00
+  34 pa 125269643.29 forgone 1154251298.34
+  35 de 101040189.65 forgone 0.00
+  36 ct 84412262.28 forgone 1221582624.08
+  37 md 84224365.57 forgone 1154251298.34
+  38 ks 80299321.39 forgone 1675588134.76
+  39 mi 78488319.82 forgone 1154251298.34
+  40 wi 72172682.20 forgone 1100386237.75
+  41 mt 63540061.47 forgone 0.00
+  42 id 58164941.60 forgone 1160022554.83
+  43 nc 56769747.57 forgone 1365864036.37
+  44 ut 56215639.22 forgone 1427424105.61
+  45 ms 54849701.32 forgone 1346626514.73
+  46 ia 53171946.31 forgone 1335084001.75
+  47 ky 51898199.39 forgone 1154251298.34
+  48 la 38659307.10 forgone 1948760942.03
+  49 nd 9153625.20 forgone 1363940284.20
+  50 fl 0.00 forgone 1342779010.40
+  51 nh 0.00 forgone 0.00

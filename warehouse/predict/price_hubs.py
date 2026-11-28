@@ -16,6 +16,7 @@ import argparse
 import os
 import sys
 
+import numpy as np
 import pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -48,6 +49,8 @@ def one(hub, pp, dem, ref, gas, made, evs, ledger):
     if q["tomorrow"] is not None:
         c = q["choice"]
         for _, r in q["tomorrow"].iterrows():
+            if not np.isfinite(float(r[c])):
+                continue   # an hour without a figure is not a forecast (session 10603)
             new.append({"series": "price", "place": place, "target_day": run.day_str(q["target"]), "ts_utc": run.iso(r["ts"]),
                         "local_hour": int(r["hour"]), "made_utc": run.iso(made), "inputs_through_utc": run.iso(q["inputs_through"]),
                         "horizon_days": q["h"], "method": c, "erw": run.num(r[c], 2), "lo": run.num(r[c + "_lo"], 2), "hi": run.num(r[c + "_hi"], 2)})
