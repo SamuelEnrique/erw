@@ -28,6 +28,12 @@ if not os.path.isdir(READS):  # a worktree beside the window's folder: the reads
 UNITS = {"billion": 1e9, "million": 1e6, "gigawatts": 1000.0, "gigawatt": 1000.0, "gw": 1000.0,
          "megawatts": 1.0, "megawatt": 1.0, "mw": 1.0,
          "b": 1e9, "m": 1e6}  # session 10822: Meta's info sheets write "$1.5B+" and "$2.6M+"
+# Decision 27 (docs/methods/forecast.md 13.4): Meta's seven announcement posts on its own data center site, each beside
+# the same campus's figures to date (requests 545 to 551, session 10822), are offered in the picker and enter no median.
+# With them the construction workers default was 833.3 a USD billion, from campuses of USD 0.8 to 1 billion.
+META_POSTS = ("in_meta_jeffersonville_announce_2024", "wi_meta_beaverdam_announce_2025", "tx_meta_temple_announce_2022",
+              "id_meta_kuna_announce_2022", "mo_meta_kansascity_announce_2022", "az_meta_mesa_announce_2021",
+              "tn_meta_gallatin_announce_2020")
 WORDS = {"a": 1, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5}  # a number written as a word, only before a unit
 
 
@@ -107,9 +113,14 @@ def main(argv):
             raise SystemExit(f"{r['id']}.incentive: not found in the kept text")
 
     inv_mw, perm_mw, perm_bn, cons_bn, mws = [], [], [], [], []
+    missing = [i for i in META_POSTS if i not in seen]
+    if missing:
+        raise SystemExit(f"META_POSTS names rows not in the file: {missing}")
     for r in data["rows"]:
         if r.get("to_date"):
             continue  # session 10822: a campus's figures to date (Meta's info sheets), offered in the picker, in no median
+        if r["id"] in META_POSTS:
+            continue  # decision 27 (session 11405, readied for Samuel's ruling): offered in the picker, in no median
         inv = r.get("investment")
         inv25 = to_2025(inv["value"], inv["year"], index) if inv else None
         # an investment that is not the whole datacenter (power plants included, or equipment only) gives no ratio
@@ -147,6 +158,7 @@ def main(argv):
             "construction_jobs_per_billion": stat("Construction jobs per billion dollars", "construction jobs (headcount as announced) per USD billion (2025)", cons_bn,
                                                   "construction jobs as announced over the investment; at peak or period not stated, as each row says"),
         },
+        "left_out": {"rows": list(META_POSTS), "why": "Meta's announcement posts on its own data center site, each beside the same campus's figures to date: offered in the picker, in no median (docs/methods/forecast.md, decision 27)"},
         "rows": data["rows"],
     }
     if "--check" in argv:
