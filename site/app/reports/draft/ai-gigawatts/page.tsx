@@ -55,19 +55,23 @@ const Usd = ({ x }: { x?: V }) => (x ? <span data-format="usd"><Num check={x.k} 
 /** Horizontal bars, one measure per region; the best region in green, the rest cardinal. */
 function Bars({ items, unit, best, fmt }: { items: { label: string; v: number }[]; unit: string; best: "low" | "high"; fmt?: (v: number) => string }) {
   const W = 640, row = 28, L = 80, R = 110, H = items.length * row + 24;
-  const max = Math.max(...items.map((i) => Math.abs(i.v)), 1e-9);
-  const x = (v: number) => L + (Math.max(0, v) / max) * (W - L - R);
+  // wip/ready-reports-exporters (the reports audit of 26 November, finding 9, for Samuel's ruling): a value below zero is
+  // drawn below zero, left of the axis, so a net exporter's bar reads as what the table says (PJM -3.00, not "0.0")
+  const lo = Math.min(0, ...items.map((i) => i.v)), hi = Math.max(0, ...items.map((i) => i.v));
+  const span = Math.max(hi - lo, 1e-9);
+  const x = (v: number) => L + ((v - lo) / span) * (W - L - R);
+  const z = x(0);
   const bestV = best === "low" ? Math.min(...items.map((i) => i.v)) : Math.max(...items.map((i) => i.v));
   const f = fmt ?? shown;
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full max-w-2xl" role="img" aria-label={`${unit} by region; the table holds the values`}>
-      <line x1={L} x2={L} y1={4} y2={H - 20} stroke="var(--color-muted)" strokeWidth={1} />
+      <line x1={z} x2={z} y1={4} y2={H - 20} stroke="var(--color-muted)" strokeWidth={1} />
       {items.map((it, i) => (
         <g key={it.label}>
           <title>{`${it.label}: ${f(it.v)} ${unit}`}</title>
           <text x={L - 8} y={i * row + 22} textAnchor="end" fontSize={12} fill="var(--color-ink)">{it.label}</text>
-          <rect x={L} y={i * row + 10} width={Math.max(1, x(it.v) - L)} height={15} rx={2} fill={it.v === bestV ? "var(--color-down)" : "var(--color-accent)"} />
-          <text x={x(it.v) + 6} y={i * row + 22} fontSize={12} fill="var(--color-muted)">{f(it.v)}</text>
+          <rect x={Math.min(z, x(it.v))} y={i * row + 10} width={Math.max(1, Math.abs(x(it.v) - z))} height={15} rx={2} fill={it.v === bestV ? "var(--color-down)" : "var(--color-accent)"} />
+          <text x={Math.max(z, x(it.v)) + 6} y={i * row + 22} fontSize={12} fill="var(--color-muted)">{f(it.v)}</text>
         </g>
       ))}
       <text x={W - R} y={H - 4} textAnchor="end" fontSize={11} fill="var(--color-muted)">{unit}</text>
@@ -324,7 +328,7 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
       </Section>
 
       <Section title="6. Imports: how much a region leans on its neighbors" aside={`${T}; eia930_daily_interchange`}>
-        <Bars items={[...self].reverse().map((r) => ({ label: r.name, v: Math.max(0, r.imp!.v) }))} unit="percent of demand imported, net (exporters at 0)" best="low" fmt={(v) => v.toFixed(1)} />
+        <Bars items={[...self].reverse().map((r) => ({ label: r.name, v: r.imp!.v }))} unit="percent of demand imported, net (an exporter below zero)" best="low" fmt={(v) => v.toFixed(1)} />
         <div className="mt-3 overflow-x-auto">
           <table className="text-sm">
             <thead><tr className="border-b border-ink text-left text-xs text-muted"><th className="py-1 pr-3">Region</th><th className="py-1 pr-3 text-right">Net imports, percent of demand (EIA&apos;s balance)</th><th className="py-1 pr-3 text-right">Pair sums, percent</th><th className="py-1 pr-3 text-right">Days a net importer, percent</th><th className="py-1 pr-3 text-right">Ten peak days, percent imported</th><th className="py-1 pr-3 text-right">Complete days</th><th className="py-1 pr-3 text-right">Pair-days screened out</th><th className="py-1 pr-3 text-right">Demand, MWh</th></tr></thead>
