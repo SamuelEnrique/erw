@@ -56,3 +56,7 @@ Against FERC Form 714's planning-area demand of the same year (`ferc714_area_dem
 - The rolling table's window asked ran to the end of 21 October 2026; its latest hour is 2026-10-21T06:00:00Z.
 - No year before 2022 and no generation, interchange or forecast: demand only.
 - No sum to the parent balancing authority. EIA-930 demand by balancing authority is in `eia930_all_demand`; the connector does not compare the sub-regions with it.
+
+## The year 2026 (28 November 2026)
+
+`eia930_subba_demand_hourly_2026` holds the hours of 2026 from 1 January, as the year tables of 2019 to 2025 hold theirs, written by `eia930_subba.py --year 2026` (predict data request 14, session 10000, chain 701): 678,568 rows of 89 sub-regions, to 27 November 07:00 UTC on its first writing. Its first run reached the connector's ceiling of 89 requests and wrote nothing, as the rule of session 612 says; the second read the saved pages and asked 56 more. It is rewritten whole by each run of its year until the year ends; the 90-day table is refreshed daily by the data machine (dm_subba).
