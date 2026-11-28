@@ -36,14 +36,20 @@ HISTORY_DAYS = 35
 BA_PLACES = [f"ba-{c.lower()}" for c in ["AECI", "AVA", "AZPS", "BANC", "BPAT", "CHPD", "CPLE", "CPLW", "DUK", "EPE", "FMPP", "FPC",
                                          "FPL", "IID", "IPCO", "JEA", "LDWP", "LGEE", "MISO", "NEVP", "NWMT", "PACE", "PACW", "PNM",
                                          "PSCO", "PSEI", "SC", "SCEG", "SEC", "SRP", "SWPP", "TAL", "TEC", "TEPC", "WALC"]]
-PLACES = [f"region-{r.lower()}" for r in data.REGIONS] + ["grid-caiso"] + BA_PLACES
+# session 10603 (28 November, "more places"; method note section 9): the generation-only authorities (EIA's reference,
+# generation_only) that are active and whose wind or solar output the table holds over the last two years. They have no
+# demand, so no place file of their own and no net demand: each is shown on its region's place file (all three NW).
+# Left out: BHBA and SWPW (from April 2026 only), WACM, WWA and TVA's wind (their output ends before today).
+GEN_ONLY_PLACES = ["ba-avrn", "ba-grid", "ba-gwa"]
+PLACES = [f"region-{r.lower()}" for r in data.REGIONS] + ["grid-caiso"] + BA_PLACES + GEN_ONLY_PLACES
 NAMES = {"grid-caiso": "CAISO, its three trading hubs (NP15, SP15, ZP26)"}
 # session 10603, data request 11 (a) of chain 720: the place files that show each entry (a region shows its own; ba-erco is
 # Texas; CAISO's own hubs are CISO's footprint, so ba-ciso shows grid-caiso); an authority that is a whole region is
 # shown by its region's entry; an authority added shows its own
 SHOWN_FOR = {"region-tex": ["region-tex", "ba-erco"], "grid-caiso": ["ba-ciso"], "region-ne": ["region-ne", "ba-isne"],
              "region-ny": ["region-ny", "ba-nyis"], "region-mida": ["region-mida", "ba-pjm"], "region-se": ["region-se", "ba-soco"],
-             "region-ten": ["region-ten", "ba-tva"]}
+             "region-ten": ["region-ten", "ba-tva"],
+             "ba-avrn": ["region-nw"], "ba-grid": ["region-nw"], "ba-gwa": ["region-nw"]}
 # session 10603, data request 12 of chain 720: the words of the cuts of this file's rows
 CUT_WORDS = {"all": "every hour of the backtest held by every method", "last_2_years": "the last 730 days of the backtest (the days the method is chosen on)",
              "month": "key YYYY-MM", "hour": "key 0 to 23, the place's clock, over the last two years",
@@ -260,6 +266,9 @@ def main(argv=None):
     for place in a.places or PLACES:
         entry = {"place": place, "name": NAMES.get(place) or names.get(place, place), "time": place_tz(place),
                  "shown_for": SHOWN_FOR.get(place, [place]), "fuels": {}}
+        if place in GEN_ONLY_PLACES:
+            entry["generation_only"] = ("a generation-only authority (EIA's reference): it serves no demand of its own, so it has no place "
+                                        "file and no net demand; shown on its region's place file beside the region's own entry")
         for fuel in ws.FUELS:
             got = one(place, fuel, df, made, curt)
             if got is None:
