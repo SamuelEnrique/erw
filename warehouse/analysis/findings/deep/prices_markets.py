@@ -63,13 +63,21 @@ def _min_hours(g):
     return r.loc[i, ["day", "year", "lhour"]]
 
 
+def circular_hour(hours):
+    """The circular mean of clock hours on a 24-hour clock, in [0, 24)."""
+    a = 2 * np.pi * np.asarray(hours, dtype=float) / 24
+    return float((np.arctan2(np.sin(a).mean(), np.cos(a).mean()) * 24 / (2 * np.pi)) % 24)
+
+
 def cheapest_hour(in_dir=None):
-    """The mean local clock hour (0 to 23) at which the day's lowest real-time price fell."""
+    """The circular mean of the local clock hour (0 to 24) at which the day's lowest real-time price fell: each hour a point
+    on a 24-hour clock, so that 23:00 and 01:00 average to midnight, not noon (wip/ready-analysis-circular, the audit of
+    26 November, finding 4)."""
     rows, tables = [], {}
     for region, words, node, g, tbl in prices.nodes(in_dir):
         m = _min_hours(g)
         for y, s in m.groupby("year"):
-            rows.append(hm._row(region, words, y, float(s["lhour"].mean()), len(s)))
+            rows.append(hm._row(region, words, y, circular_hour(s["lhour"]), len(s)))
         tables[region] = [tbl]
     return {"rows": rows, "tables": tables}
 
@@ -177,7 +185,8 @@ PY_MEASURE = {
     "da_above_rt_share": None,
     "cheapest_hour": ("h = h.sort_values('hour')\nh = h[h.groupby('day')['rt'].transform('size') >= 20]\n"
                       "m = h.loc[h.groupby('day')['rt'].idxmin()]\n"
-                      "for y, s in m.groupby('year'):\n    out[y] = (float(s['lhour'].mean()), len(s))\n"),
+                      "for y, s in m.groupby('year'):\n    a = 2 * np.pi * s['lhour'] / 24\n"
+                      "    out[y] = (float((np.arctan2(np.sin(a).mean(), np.cos(a).mean()) * 24 / (2 * np.pi)) % 24), len(s))\n"),
     "winter_top_share": ("for y, s in h.groupby('year'):\n    k = int(np.ceil(0.01 * len(s)))\n"
                          "    top = s.sort_values(['rt', 'hour'], ascending=[False, True]).head(k)\n"
                          "    out[y] = (100 * top['day'].str[5:7].isin(['12', '01', '02']).mean(), len(s))\n"),
@@ -338,7 +347,8 @@ def reproduce_do(name, region):
             lines = [f"* ERW findings hunt (chain 164): reproduce candidate {name} for {region} from the ERW's public tables."] + prices._do_hourly(table, [node])
             if name == "cheapest_hour":
                 lines += ["bysort day: generate long hours = _N", "keep if hours >= 20", "bysort day (rt hour_utc): keep if _n == 1",
-                          "collapse (mean) measure = lhour (count) n = lhour, by(year)"]
+                          "generate double s = sin(2 * _pi * lhour / 24)", "generate double c = cos(2 * _pi * lhour / 24)",
+                          "collapse (mean) s c (count) n = lhour, by(year)", "generate double measure = mod(atan2(s, c) * 24 / (2 * _pi), 24)"]
             elif name == "winter_top_share":
                 lines += ["generate byte winter = inlist(month(day), 12, 1, 2)", "generate double neg_rt = -rt", "bysort year (neg_rt hour_utc): generate long rank = _n",
                           "by year: generate long n = _N", "by year: egen double top_winter = mean(cond(rank <= ceil(0.01 * n), winter, .))",
@@ -387,9 +397,9 @@ CANDIDATES = [
       "A count of hours, not of dollars: it says how often the day-ahead price was the higher, not by how much.",
       reproduce("da_above_rt_share"), consequence=2),
     C("cheapest_hour", FAMILY, cheapest_hour, "hours after local midnight", 1, 330, 0.5, "THE CHEAPEST HOUR OF THE DAY",
-      "the mean local clock hour (0 to 23) at which the day's lowest real-time price fell",
-      lambda w: f"the mean local hour of the day's cheapest real-time hour at {w}",
-      "A mean of clock hours: a year with cheap hours split between night and midday averages to an hour in between that may itself be rarely the cheapest.",
+      "the circular mean of the local clock hour (on a 24-hour clock, so 23:00 and 01:00 average to midnight) at which the day's lowest real-time price fell",
+      lambda w: f"the circular mean local hour of the day's cheapest real-time hour at {w}",
+      "A circular mean of clock hours: a year with cheap hours split between night and midday averages to an hour in between that may itself be rarely the cheapest.",
       reproduce("cheapest_hour"), consequence=3),
     C("winter_top_share", FAMILY, winter_top_share, "percent of the dearest hours", 1, 8000, 5.0, "WINTER'S SHARE OF THE DEAREST HOURS",
       "the share of the year's dearest one percent of real-time hours that fell in December, January or February",
