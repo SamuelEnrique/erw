@@ -283,6 +283,22 @@ def register_sources(ctx):
         update_sources(entries)
 
 
+_MARKUP = re.compile(r"<\s*(?:!doctype|html|head|body|title|h1|p|div)\b", re.I)
+
+
+def plain_reason(text):
+    """A run's reason in plain words (done-line request 587, session 11200): where a publisher answered with an HTML
+    error page and the page's body was caught in the exception's words, the markup from its first tag on is replaced
+    by a short note; the body stays in the run's own log. Any other text is returned as it is."""
+    if not isinstance(text, str):
+        return text
+    m = _MARKUP.search(text)
+    if not m:
+        return text
+    head = text[:m.start()].rstrip(" :('\"")
+    return f"{head} (the publisher answered with an HTML error page; its body is in the run's log)"
+
+
 def write_status(connector, run_id, results):
     """Record this run's per-table outcome for warehouse/metadata/run_status.py to append."""
     import json
@@ -290,7 +306,7 @@ def write_status(connector, run_id, results):
     runner = "github" if os.environ.get("GITHUB_ACTIONS") == "true" else "local"
     with open(os.path.join(STATUS_DIR, f"{connector}.json"), "w", encoding="utf-8") as f:
         json.dump({"connector": connector, "run_id": run_id, "runner": runner,
-                   "results": [{k: redact(v) if isinstance(v, str) else v for k, v in r.items()}
+                   "results": [{k: plain_reason(redact(v)) if isinstance(v, str) else v for k, v in r.items()}
                                for r in results]}, f, indent=1)
 
 SERIES_COLS = ["entity", "variable", "ts_utc", "value", "unit", "freq", "geo",
