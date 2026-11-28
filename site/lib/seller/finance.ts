@@ -211,7 +211,15 @@ export const debtService = (a: Assumptions) => a.capex * (a.share / 100) * crf(a
 export const debtUsd = (a: Assumptions, mw: number) => Math.round(a.capex * 1000 * (a.share / 100) * crf(a.rate / 100, debtYears(a)) * mw);
 /** Market revenue in year t (1 is the first), USD per kW: the last twelve months' revenue, falling by the degradation
  * rate each year after the first. */
-export const revenueInYear = (a: Assumptions, revKw: number, t: number) => revKw * (1 - a.deg / 100) ** (t - 1);
+export const revenueInYear = (a: Assumptions, revKw: number, t: number) => revKw * (1 - a.deg / 100) ** (t - 1) * esc(t);
+/** Session 11408 (readied for the owner's ruling on the generator audit of 20 November, finding 2,
+ * docs/reviews/generator-model-audit-2026-11-20.md): one kind of dollar. The debt payment is fixed in money and the 12
+ * percent hurdle is a money rate, so market revenue and fixed O&M rise with inflation from year 1's dollars: money flows
+ * throughout. Inflation 2 percent a year, the low end of the audit's 2 to 2.5 (its assumption, not a source's). A
+ * contract's price and the credits are money terms and do not rise. */
+export const INFLATION = 2;
+/** The factor that takes year 1's dollars to year t's: (1 + inflation)^(t - 1). */
+export const esc = (t: number) => (1 + INFLATION / 100) ** (t - 1);
 /** Session 212: the contract's income a year, USD per kW of nameplate: for an energy contract the contracted share of
  * the last twelve months' energy at the contract price; for a toll the contracted share of the capacity at the price,
  * twelve months. 0 with no contract (an older set of assumptions, without the two keys, is read as none). */
@@ -242,7 +250,7 @@ export function flows(a: Assumptions, revKw: number, c: Contract = NO_CONTRACT):
   const ds = debtService(a), dy = debtYears(a);
   const credits = (a.itc ?? 0) > 0 || (a.ptc ?? 0) > 0;
   const out = [-a.capex * (1 - a.share / 100)];
-  for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t, c) - a.fom - (t <= dy ? ds : 0) + (credits ? creditInYear(a, t, c) : 0));
+  for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t, c) - a.fom * esc(t) - (t <= dy ? ds : 0) + (credits ? creditInYear(a, t, c) : 0));
   return out;
 }
 /** Net present value of yearly cash flows at `ratePct` percent: the sum of flow t over (1 + rate)^t. */
