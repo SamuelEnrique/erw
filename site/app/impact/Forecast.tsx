@@ -274,7 +274,7 @@ const DC_TIP: Record<string, string> = {
   prop1: "For a datacenter: the building and the equipment at their cost, assessed by the state's rule where read, times the reader's rates.",
   propl: "For a datacenter: every operating year added, the equipment bought again every refresh cycle.",
   sales: "For a datacenter: paid, after the state's datacenter exemption where the project meets its thresholds; on the equipment (bought again every refresh cycle) and the building's taxable share where given.",
-  pvtax: "For a datacenter: property, sales and use paid, income and electricity taxes.",
+  pvtax: "For a datacenter: property, sales and use paid, income and electricity taxes, state and local together: the property tax is the locality's, the income tax the state's, and the sales tax both (the state's rate and the average local rate). It is tax revenue, not a net fiscal effect: no cost of the public services the project uses is netted.",
 };
 type DcLine = { key: string; label: string; tip: string; figure: string; why: (r: DcResult) => string | null };
 const DC_LINES: DcLine[] = [
