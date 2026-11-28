@@ -802,7 +802,9 @@ def build_mix_carbon(place, P, S, fuel, carbon):
                    "share_pct": cell(rnd(v / tot * 100, 2), "pct", P.label, src)}
                   for var, v in f.groupby("variable").v.sum().sort_values(ascending=False).items()] if tot else []
     if not sec["mix"]:
-        sec["mix_held"] = "not held: no net generation by source held for this place"
+        sec["mix_held"] = ("not held: the warehouse's table of net generation by source (eia930_region_fuel_hourly) holds "
+                           "EIA's 13 regions only" if place["kind"] != "region" else
+                           "not held: no net generation by source held for this region in the period")
     ca = carbon[carbon.ba == code]
     c = ca[P.inside(ca.ts_utc)]
     if c.empty:
