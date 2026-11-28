@@ -351,7 +351,7 @@ class TheBoard(unittest.TestCase):
     def test_greyed_rows_name_the_source_that_would_supply_them(self):
         names = " | ".join(r["label"] for r in self.board["rows"] if r["status"] == "licensed")
         for want in ("Waha", "SoCal Citygate", "Algonquin", "Chicago", "TTF", "JKM", "PJM", "Uranium, daily", "Lithium, daily", "Renewable energy credits",
-                     "European carbon", "Energy equities", "futures", "Coal spot price"):
+                     "European carbon", "futures", "Coal spot price"):   # ready branch of session 11408: the older "Energy equities" row retired
             self.assertIn(want, names)
         # session 3202: session 1601 split the one "Capacity prices (PJM, NYISO, ISO-NE, MISO)" placeholder into one row an
         # auction ("PJM capacity price, Base Residual Auction", ...); the committed board.json holds the old row until the

@@ -313,7 +313,7 @@ Opens beside the tables when a row is clicked, and at full width with Expand. It
 | Uranium and lithium, daily | licensed | UxC or TradeTech; Fastmarkets or Benchmark Mineral Intelligence |
 | Renewable energy credits | licensed | S&P Global Commodity Insights or ICE |
 | European carbon (EUA) | licensed | ICE Endex |
-| Energy equities | licensed | an exchange data vendor |
+| Energy equities | the older row retired (session 11408): the "Energy equities" group after the board's own groups stands in its place, its rows held for a license (`docs/methods/equities.md`) | an exchange data vendor |
 | California and RGGI allowance auctions | held internal while the publishers' terms are reviewed (session 7) | already held; a ruling on the terms |
 
 ## Terms of the sources session 132 added, quoted

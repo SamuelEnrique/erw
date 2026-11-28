@@ -16,7 +16,8 @@ This script runs a builder into a temporary folder and then takes the new build 
      row's trend).
   2. Otherwise the held row is kept exactly as it was, with its own date on it, and counted as "kept".
   3. A row the new build blanks as "paused" or "licensed" is always taken: a pause is never undone by a kept row.
-  4. A row only the held file has is kept (session 10000: unless its grid is one the license holds, which is dropped);
+  4. A row only the held file has is kept (session 10000: unless its grid is one the license holds, which is dropped;
+     session 11408: or it is in RETIRED, a row a builder retired on purpose);
      a row only the new build has is taken.
   5. The board's hourly files follow the same rule: taken when they reach at least as far back and as far forward.
   6. Session 3889: the board's rows computed from Henry Hub with a look-back (the spark spreads and implied heat rates)
@@ -45,6 +46,8 @@ SITE = os.path.join(ROOT, "site")
 BLANKED_ON_PURPOSE = {"paused", "licensed"}
 SHORTER = 0.98
 HELD_LAG_DAYS = 2  # session 478: a held row this many days behind its group's newest is marked held
+# ready branch of session 11408: rows a builder retired on purpose, dropped although only the held file has them (rule 4)
+RETIRED = {"equities": "the board's older \"Energy equities\" row, retired for the Energy equities group (weekend page of 28 November 2026)"}
 
 
 def load(path):
@@ -194,13 +197,16 @@ def merge_rows(old_body, new_body, points_old, points_new, log, together=None):
     held_grids = held_grid_names()
     dropped = []
     for r in old_rows:
+        if r["id"] not in new_by and r["id"] in RETIRED:
+            dropped.append(r["id"])
+            continue
         if r["id"] not in new_by and r.get("group") in order:
             if grid_of(r) in held_grids and r.get("status") == "ok":  # session 10000: a held grid's row with a value is not kept
                 dropped.append(r["id"])
                 continue
             out.append(r); kept.append((r["id"], "only the held file has it"))
     if dropped:
-        log(f"  dropped {len(dropped)} rows only the held file has, of grids the license holds ({', '.join(sorted(held_grids))}): "
+        log(f"  dropped {len(dropped)} rows only the held file has, retired (RETIRED) or of grids the license holds ({', '.join(sorted(held_grids))}): "
             f"{', '.join(dropped[:6])}{' and more' if len(dropped) > 6 else ''}")
     out.sort(key=lambda r: order[r["group"]])                      # stable: rows keep their order inside a group
     mark_held(out, dict(kept))

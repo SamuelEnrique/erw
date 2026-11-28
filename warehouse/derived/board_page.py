@@ -782,7 +782,9 @@ def build_fuels(b, log):
     # session 1601: one row an auction, the publisher and the hold named (CAPACITY)
     for key, label, grid, status, unit, note in CAPACITY:
         b.grey("other", key, label, status, note, unit=unit, tags=dict(grid=grid))
-    b.grey("other", "equities", "Energy equities", "licensed", "Source that would supply them: an exchange data vendor (for example Nasdaq Data Link or LSEG).", unit="USD")
+    # ready branch of session 11408 (weekend page of 28 November 2026, part 3.5): the older "Energy equities" row is
+    # retired; the "Energy equities" group (site/data/equities/board.json) stands in its place. page_keep.py RETIRED drops
+    # the row the held file still holds
     return fuels, us_coal
 
 
