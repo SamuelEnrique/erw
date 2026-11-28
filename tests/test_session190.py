@@ -134,8 +134,8 @@ class TheNote(unittest.TestCase):
         self.assertIn(f"{usd:,.2f} / {hours:,} = {usd / hours:.4f}", self.note)
         self.assertIn(f"USD {usd * 100:,.0f}", self.note)
         # the per GPU-hour arithmetic and the GPU count, as the note works them
-        self.assertIn(f"{usd / hours:.4f} x 1.3 x 1.56 / 1,000 = {usd / hours * 1.3 * 1.56 / 1000:.6f}", self.note)
-        self.assertIn(f"100,000 / 2.028 = {100000 / 2.028:,.0f}", self.note)
+        self.assertIn(f"{usd / hours:.4f} x 1.275 x 1.56 / 1,000 = {usd / hours * 1.275 * 1.56 / 1000:.6f}", self.note)   # wip/ready-datacenter-gpu
+        self.assertIn(f"100,000 / 1.989 = {100000 / 1.989:,.0f}", self.note)
 
     def test_the_frozen_inputs_are_the_notes_and_small(self):
         n = self.note

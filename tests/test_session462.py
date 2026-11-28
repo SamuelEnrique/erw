@@ -110,7 +110,7 @@ class NothingMoved(unittest.TestCase):
     def test_the_defaults_are_as_they_were(self):
         self.assertIn("export const LIFE = 20, HURDLE = 9.6;", src("site", "lib", "datacenter", "finance.ts"))
         dc = src("site", "lib", "datacenter.ts")
-        self.assertIn("gpu: { value: 1.3,", dc)
+        self.assertIn("gpu: { value: 1.275,", dc)   # wip/ready-datacenter-gpu
         self.assertIn("pue: { value: 1.56,", dc)
         self.assertIn("export const NEAR = 0.95;", dc)
         self.assertIn("export const PRIOR_DAYS = 30;", dc)

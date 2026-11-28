@@ -444,7 +444,7 @@ class ThePage(unittest.TestCase):
     def test_each_default_states_its_source_and_the_uncited_say_so(self):
         # the two cited defaults are the page's own, with their sources
         dc = src("site", "lib", "datacenter.ts")
-        self.assertIn('gpu: { value: 1.3, unit: "kW per GPU", source: "NVIDIA DGX H100 system', dc)
+        self.assertIn('gpu: { value: 1.275, unit: "kW per GPU", source: "NVIDIA DGX H100 system', dc)
         self.assertIn('pue: { value: 1.56, unit: "facility power over IT power", source: "Uptime Institute, Global Data Center Survey 2024', dc)
         # session 195: the two are scenario A's, and their defaults are the page's cited ones
         self.assertIn("load: { run: flex ? FLEX : FLAT, gpu: DEFAULTS.gpu, pue: DEFAULTS.pue }, gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source", self.page)

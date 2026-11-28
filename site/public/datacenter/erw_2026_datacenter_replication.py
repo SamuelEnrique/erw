@@ -28,7 +28,7 @@ RECODED = ["rt_usd_mwh", "da_usd_mwh", "hub_rt_usd_mwh"]
 PRICES = {"rt": "rt_usd_mwh", "da": "da_usd_mwh", "hub": "hub_rt_usd_mwh"}
 NEAR = 0.95                  # the do-file: hours held >= 0.95 * hours_due
 # The reader's inputs at their defaults (the do-file's scalars)
-MW, GPU_KW, PUE = 100, 1.3, 1.56
+MW, GPU_KW, PUE = 100, 1.275, 1.56
 
 
 def destring(v):

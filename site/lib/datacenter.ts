@@ -42,7 +42,7 @@ export type Inputs = { view: View; grid: string; region: string; mw: number; run
 
 /** The two stated defaults a reader can change, each with its source (shown on hover). */
 export const ASSUMED = {
-  gpu: { value: 1.3, unit: "kW per GPU", source: "NVIDIA DGX H100 system: 8 H100 GPUs and a maximum system power of 10.2 kW, so about 1.3 kW per GPU with its share of the server (NVIDIA DGX H100 datasheet). A GPU alone is rated up to 700 W." },
+  gpu: { value: 1.275, unit: "kW per GPU", source: "NVIDIA DGX H100 system: 8 H100 GPUs and a maximum system power of 10.2 kW, so 1.275 kW per GPU with its share of the server (NVIDIA DGX H100 datasheet). A GPU alone is rated up to 700 W." },
   pue: { value: 1.56, unit: "facility power over IT power", source: "Uptime Institute, Global Data Center Survey 2024: the industry's average power usage effectiveness, 1.56. Large operators report lower: Google reports 1.09 for its fleet over twelve months." },
 } as const;
 export const DEFAULTS = { mw: 100, n: 100, pct: 5, shift: 20, gpu: ASSUMED.gpu.value, pue: ASSUMED.pue.value };

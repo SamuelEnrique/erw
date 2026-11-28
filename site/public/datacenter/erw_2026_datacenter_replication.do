@@ -54,7 +54,7 @@ replace hub_rt_usd_mwh = . if hub_rt_usd_mwh == -99999
 
 scalar s_mw = 100
 
-scalar s_gpu_kw = 1.3
+scalar s_gpu_kw = 1.275
 
 scalar s_pue = 1.56
 
