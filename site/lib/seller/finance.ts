@@ -215,8 +215,13 @@ export const revenueInYear = (a: Assumptions, revKw: number, t: number) => revKw
 /** Session 212: the contract's income a year, USD per kW of nameplate: for an energy contract the contracted share of
  * the last twelve months' energy at the contract price; for a toll the contracted share of the capacity at the price,
  * twelve months. 0 with no contract (an older set of assumptions, without the two keys, is read as none). */
-export const contractYear = (a: Assumptions, c: Contract = NO_CONTRACT) =>
-  ((a.cshare ?? 0) / 100) * (a.cprice ?? 0) * (c.kind === "energy" ? c.energyKw : 12);
+export const contractYear = (a: Assumptions, c: Contract = NO_CONTRACT, t = 1) =>
+  ((a.cshare ?? 0) / 100) * (a.cprice ?? 0) * (c.kind === "energy" ? c.energyKw * volumeFactor(a, c, t) : 12);
+/** Session 11408 (readied for the owner's ruling on the generator audit's finding 4): an energy contract of the shape
+ * "generated" buys the plant's output, so in year t it is paid on the energy the plant then makes, the last twelve
+ * months' energy falling by the degradation rate; a block (a fixed volume) and a toll do not fall. 1 in year 1. */
+export const volumeFactor = (a: Assumptions, c: Contract = NO_CONTRACT, t = 1) =>
+  c.kind === "energy" && c.shape !== "block" ? (1 - a.deg / 100) ** (t - 1) : 1;
 /** The uncontracted share of the plant, a fraction: 1 with no contract. */
 export const merchantShare = (a: Assumptions) => 1 - (a.cshare ?? 0) / 100;
 /** Session 353: what the market pays a plant under contract in a year of the contract, USD per kW, on that year's market
@@ -229,7 +234,7 @@ export const contractedMarket = (a: Assumptions, rev: number, c: Contract = NO_C
  * for a block, contractedMarket); after them the whole plant in the market. At a contract share of 0 this is the market
  * revenue in every year. */
 export const incomeInYear = (a: Assumptions, revKw: number, t: number, c: Contract = NO_CONTRACT) =>
-  t <= contractYears(a) ? contractYear(a, c) + contractedMarket(a, revenueInYear(a, revKw, t), c) : revenueInYear(a, revKw, t);
+  t <= contractYears(a) ? contractYear(a, c, t) + contractedMarket(a, revenueInYear(a, revKw, t), c) : revenueInYear(a, revKw, t);
 /** Session 353: the tax credits in year t, USD per kW: the investment tax credit, a percent of the capital cost, in year
  * 1; the production tax credit on the year's energy (the last twelve months' energy, falling by the degradation rate)
  * in the first PTC_YEARS years. 0 with neither (an older set of assumptions, without the keys, is read as none). */
@@ -317,7 +322,7 @@ export function breakevenPpa(a: Assumptions, revKw: number, c: Contract = NO_CON
   const at0 = npv(a.hurdle, flows({ ...a, cshare: share, cprice: 0 }, revKw, c));
   const r = a.hurdle / 100, dy = contractYears(a);  // session 264: the PPA term's years
   let perDollar = 0;
-  for (let t = 1; t <= dy; t++) perDollar += ((share / 100) * unit) / (1 + r) ** t;
+  for (let t = 1; t <= dy; t++) perDollar += ((share / 100) * unit * volumeFactor(a, c, t)) / (1 + r) ** t;  // session 11408
   return perDollar > 0 ? -at0 / perDollar : null;
 }
 /** Session 235, "Make B a PPA": the scenario with the whole plant under contract at its breakeven PPA price, rounded up
