@@ -261,7 +261,9 @@ class TheSiteFiles(unittest.TestCase):
                     self.assertEqual(sum(map(sum, loc["heat"]["under5"])), loc["year"]["under5"])            # an hour is in one cell and no other
                     self.assertEqual(sum(map(sum, loc["heat"]["negative"])), loc["year"]["negative"])
         self.assertGreater(n, 30)
-        self.assertEqual({k: v["words"] for k, v in f["blank"].items()}, {"miso": "paused while terms are reviewed", "pjm": "licensed source needed"})
+        # session 11405 (wip/ready-held-out): ISO-NE and NYISO, held for a license, are named too
+        self.assertEqual({k: v["words"] for k, v in f["blank"].items()}, {"miso": "paused while terms are reviewed", "pjm": "licensed source needed",
+                                                                         "isone": "license needed", "nyiso": "license needed"})
 
 
 class ThePage(unittest.TestCase):

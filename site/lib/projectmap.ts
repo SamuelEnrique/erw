@@ -303,8 +303,9 @@ export type CardRow = { key: string; label: string; value: string; table?: boole
 // leaves blank while its terms are reviewed (session 145), and PJM, whose prices need a license. Its gas asset is a
 // peaker: a natural gas unit is linked only when its own technology names a combustion turbine or a peaker.
 export const GENERATOR_HELD: Record<string, string[]> = {
-  ercot: ["solar", "wind", "battery", "peaker"], caiso: ["solar", "wind", "battery", "peaker"], isone: ["solar", "wind", "battery", "peaker"],
-  nyiso: ["wind", "battery", "peaker"], spp: ["solar", "wind", "battery", "peaker"],
+  // session 11405 (weekend page, decision 1, wip/ready-held-out): less ISO-NE and NYISO too, held for a license
+  ercot: ["solar", "wind", "battery", "peaker"], caiso: ["solar", "wind", "battery", "peaker"],
+  spp: ["solar", "wind", "battery", "peaker"],
 };
 const ASSET_WORDS: Record<string, string> = { solar: "solar", wind: "wind", battery: "battery", peaker: "gas peaker" };
 export function generatorLink(grid: string, tech: string, text: string): { href: string | null; words: string } {

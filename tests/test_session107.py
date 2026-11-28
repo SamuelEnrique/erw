@@ -83,7 +83,8 @@ class TheSpans(unittest.TestCase):
     def setUpClass(cls):
         cls.snap = json.loads(src("site", "data", "merchant_snapshot.json"))
         cls.got = node("const b = await import('./lib/seller2.ts'); const fs = (await import('node:fs')).default; const snap = JSON.parse(fs.readFileSync('data/merchant_snapshot.json', 'utf8'));"
-                       "const out = {}; for (const g of b.GRIDS) for (const a of b.ASSETS) { const c = { grid: g.id, asset: a.id }; const ms = b.monthsOf(snap, c); const s = b.spans(ms);"
+                       # session 11405 (wip/ready-held-out): a grid the snapshot no longer holds (ISO-NE, NYISO: held for a license) is skipped
+                       "const out = {}; for (const g of b.GRIDS) if (snap.isos[g.id]) for (const a of b.ASSETS) { const c = { grid: g.id, asset: a.id }; const ms = b.monthsOf(snap, c); const s = b.spans(ms);"
                        " out[g.id + '|' + a.id] = { s, sentence: b.sentence(c, s), held: ms.filter((r) => r.held).length, years: b.years(ms) }; } console.log(JSON.stringify(out));")
 
     def test_every_view_equals_the_snapshot_added_up_by_hand(self):
@@ -117,8 +118,10 @@ class TheSpans(unittest.TestCase):
         self.assertIn("a margin over fuel of USD", self.got["ercot|peaker"]["sentence"])
 
     def test_new_york_has_no_solar_and_says_so(self):
-        self.assertEqual(self.got["nyiso|solar"]["held"], 0)
-        self.assertIsNone(self.got["nyiso|solar"]["sentence"])
+        # session 11405 (wip/ready-held-out): NYISO is held for a license and leaves the site's snapshot; while it was
+        # there, its solar held no month (EIA-930 itemizes none)
+        self.assertNotIn("nyiso", self.snap["isos"])
+        self.assertNotIn("nyiso|solar", self.got)
         page = src("site", "app", "_retired", "seller-v2", "page.tsx")
         self.assertIn("so no number is shown", page)
 

@@ -124,7 +124,8 @@ for (const [iso, cg] of Object.entries(cap.grids)) {
 check(out.worstFlat < 0.006, `a month's flat price is the mean of the hub's hourly prices (largest difference USD ${out.worstFlat.toFixed(4)} per MWh)`);
 check(out.flatMonths >= 1000 && out.worstHubFlat < 0.006, `a hub's month has the capture file's flat price for that hub and market wherever the two use the same hours (${out.flatMonths} months, largest difference USD ${out.worstHubFlat.toFixed(4)} per MWh)`);
 check(out.worstPeaker < 0.002, `the default peaker's month is the peaker computed from the hourly arrays (largest relative difference ${out.worstPeaker.toExponential(2)})`);
-check(out.hubs >= 30 && out.compared >= 12 && out.moved >= 12, `hubs with a model ${out.hubs}; set beside the capture file ${out.compared}; where revenue and debt coverage move with the hub ${out.moved}`);
+// session 11405 (wip/ready-held-out): 16 hubs since ISO-NE's and NYISO's left (held for a license): ERCOT 13, CAISO 2, SPP 1
+check(out.hubs >= 16 && out.compared >= 12 && out.moved >= 12, `hubs with a model ${out.hubs}; set beside the capture file ${out.compared}; where revenue and debt coverage move with the hub ${out.moved}`);
 // ERCOT's West hub by name: the page's example
 {
   const iso = "ercot", e = index.grids[iso]?.hubs.HB_WEST;

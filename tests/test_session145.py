@@ -149,8 +149,9 @@ class TheCapturePrice(unittest.TestCase):
         self.assertEqual(self.cp.BLANK["miso"]["words"], "paused while terms are reviewed")
         self.assertEqual(self.cp.BLANK["pjm"]["words"], "licensed source needed")
         f = json.loads(src("site", "data", "seller", "capture.json"))
-        self.assertEqual(sorted(f["grids"]), ["caiso", "ercot", "isone", "nyiso", "spp"])
-        self.assertEqual(f["blank"], {"miso": {"name": "MISO", "words": "paused while terms are reviewed"}, "pjm": {"name": "PJM", "words": "licensed source needed"}})
+        self.assertEqual(sorted(f["grids"]), ["caiso", "ercot", "spp"])   # session 11405: ISO-NE and NYISO held for a license
+        self.assertEqual(f["blank"], {"miso": {"name": "MISO", "words": "paused while terms are reviewed"}, "pjm": {"name": "PJM", "words": "licensed source needed"},
+                                      "nyiso": {"name": "NYISO", "words": "license needed"}, "isone": {"name": "ISO-NE", "words": "license needed"}})
         text = json.dumps(f["grids"])
         self.assertNotRegex(text, r"(?i)miso:|INDIANA|\.HUB\"")
         self.assertIn("paused(", src("warehouse", "derived", "capture_price.py"))   # the pause list is asked before a grid is read
@@ -213,7 +214,7 @@ class TheFile(unittest.TestCase):
             import capture_price as cp
         except ImportError as e:
             raise unittest.SkipTest(f"the builder's libraries are not on this machine: {e}")
-        for grid, side in (("ercot", "rt"), ("caiso", "rt"), ("spp", "rt"), ("isone", "da")):
+        for grid, side in (("ercot", "rt"), ("caiso", "rt"), ("spp", "rt")):   # session 11405: ISO-NE held for a license
             G = self.f["grids"][grid]
             h = next(x for x in G["hubs"] if x["id"] == G["main"])
             for fuel in ("solar", "wind"):
@@ -221,8 +222,8 @@ class TheFile(unittest.TestCase):
                 self.assertIsNotNone(t, (grid, side, fuel))
                 f = cp.figure([h[side][fuel][m] for m in t])
                 self.assertTrue(0 < f["price"] < 500 and 0 < f["flat"] < 500 and f["hours"] >= 0.95 * 8760)
-        ny = next(x for x in self.f["grids"]["nyiso"]["hubs"] if x["id"] == "N.Y.C.")
-        self.assertIsNone(cp.figure(list(ny["da"]["solar"].values())))     # EIA-930 itemizes no solar for New York: nothing to weigh by
+        # session 11405 (wip/ready-held-out): New York's hubs left the file (held for a license); it carried no solar figure
+        self.assertNotIn("nyiso", self.f["grids"])
 
 
 class TheNodeTest(unittest.TestCase):

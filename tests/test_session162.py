@@ -192,7 +192,7 @@ class CaptureTimesGenerationIsRevenue(unittest.TestCase):
                             self.assertAlmostEqual(f["price"] * f["mwh"], revenue, delta=1e-8 * max(1.0, abs(revenue)) + 0.01, msg=(iso, h["id"], key, fuel, y))
                             self.assertLessEqual(f["hours"], 8784)
                             cells += 1
-        self.assertGreater(cells, 500)
+        self.assertGreater(cells, 400)   # session 11405: 460 since ISO-NE and NYISO left the capture file (held for a license)
 
     def test_the_hybrids_plants_hour_by_hour(self):
         for grid, g in FILE["grids"].items():

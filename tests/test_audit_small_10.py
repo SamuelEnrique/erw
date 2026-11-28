@@ -19,7 +19,8 @@ def src(*p):
 class TheStatus(unittest.TestCase):
     def test_isone_queue_is_shown_on_the_overlay_and_held_for_a_license(self):
         lib = re.sub(r"\s+", " ", src("site", "lib", "resources.ts"))
-        self.assertIn('{ id: "isone", label: "ISO-NE", shown: true, words: "", why: "" }', lib)
+        # session 11405 (wip/ready-held-out, the weekend page's decision 1): held for a license, so not drawn
+        self.assertIn('{ id: "isone", label: "ISO-NE", shown: false, words: "license needed", why: "ISO-NE', lib)
         verdicts = src("warehouse", "metadata", "license_verdicts.csv")
         self.assertRegex(verdicts, r"(?m)^ISO-NE,4,")
         holds = os.path.join(ROOT, "docs", "licenses_holds.csv")

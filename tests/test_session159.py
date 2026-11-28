@@ -446,7 +446,9 @@ class TheQueueGridByGrid(unittest.TestCase):
 
     def test_six_grids_and_four_are_drawn(self):
         self.assertEqual(re.findall(r'id: "([a-z]+)"', self.grids), ["ercot", "spp", "caiso", "isone", "miso", "nyiso"])
-        for id in ("ercot", "spp", "caiso", "isone"):
+        # session 11405 (wip/ready-held-out, the weekend page's decision 1): ISO-NE's queue rows are held for a license
+        self.assertFalse(self.entry("isone")["shown"])
+        for id in ("ercot", "spp", "caiso"):
             self.assertTrue(self.entry(id)["shown"], id)
         self.assertNotIn("PJM", self.grids)
 

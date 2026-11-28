@@ -101,7 +101,7 @@ console.log(`     ${solved} days solved in ${Date.now() - started} ms`);
     }
   }
   ok(held > 0 && off === 0, `6. the capture table: capture price x generation = revenue in each of ${held} cells held (of ${cells}; ${table.rows.length} hubs, years ${table.years[0]} to ${table.years.at(-1)}); the widest difference is ${widest.toExponential(2)} of the revenue`);
-  ok(!table.rows.some((r) => /miso|pjm/i.test(r.grid)) && table.blank.length === 2, `   no MISO hub and no PJM hub in it; ${table.blank.map((b) => `${b.name}: ${b.words}`).join("; ")}`);
+  ok(!table.rows.some((r) => /miso|pjm/i.test(r.grid)) && table.blank.length === 4 && !table.rows.some((r) => /isone|nyiso/.test(r.grid)), `   no MISO, PJM, ISO-NE or NYISO hub in it (session 11405: ISO-NE and NYISO held for a license); ${table.blank.map((b) => `${b.name}: ${b.words}`).join("; ")}`);
 }
 
 // 7. the reader's profile
