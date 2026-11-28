@@ -227,9 +227,26 @@ def output(**kv):
                 f.write(f"{k}={v}\n")
 
 
+_MARKUP_LINE = re.compile(r"^(<[!/a-zA-Z]|&#\d+;)")
+_MARKUP_IN = re.compile(r"<\s*(?:!doctype|html|head|body|title|h1|p|div)\b", re.I)
+
+
+def _unmarked(line):
+    """A line with the words before an HTML page kept and the page itself replaced by a note."""
+    m = _MARKUP_IN.search(line)
+    if not m:
+        return line
+    head = line[:m.start()].rstrip(" :('\"")
+    return f"{head} (an HTML error page followed; it is in the step's log)" if head else ""
+
+
 def reason_of(lines, failed):
     """The line that says why: for a failure the last line naming an error, else the last line written."""
-    lines = [ln.strip() for ln in lines if ln.strip()]
+    # session 11200 (chain 760, part E): a publisher's HTML error page printed by a step is not why. The hourly network
+    # recorded "<P>https&#58;&#47;&#47;errors&#46;edgesuite..." (EIA's error page) twelve times on 26 November: lines of
+    # markup are passed over, and the markup a chosen line carries is cut, so the reason says the step's own words
+    lines = [_unmarked(ln.strip()) for ln in lines if ln.strip() and not _MARKUP_LINE.match(ln.strip())]
+    lines = [ln for ln in lines if ln]
     if failed:
         # session 2864: a library's warning is not why ("Warning: ... will raise an error in the future" was the reason
         # recorded for the merge tests from 31 October to 5 November 2026, not their "FAILED (failures=5, errors=2)")
