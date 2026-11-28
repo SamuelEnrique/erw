@@ -408,7 +408,7 @@ export function RegionsSection({ q }: { q: Q }) {
       {c.a || c.b ? <AbPanel q={q} c={c} table={table} index={index} /> : null}
       {c.open ? <PlacePanel q={q} index={index} id={c.open} /> : null}
       <p className="mb-2 text-sm" role="status" data-sr-shown={`${rows.length}|${table.rows.length}`} data-sr-sorted={`${c.sort}|${c.dir}`}>
-        {rows.length} of {table.rows.length} places shown{c.kind !== "all" ? ` (the ${KIND_PLURAL[c.kind]})` : ""}, {sortWords(c, table)}. The order is the column&apos;s, not a ranking of places.{" "}
+        {rows.length} of {table.rows.length} places shown{c.kind !== "all" ? ` (the ${KIND_PLURAL[c.kind]})` : ""}, {sortWords(c, table)}. The order is the {c.sort === NAME_SORT ? "file" : "column"}&apos;s, not a ranking of places.{" "}
         <RegionsDownload csv={tableCsv(table, rows, cols, address)} rows={rows.length} cols={cols.length} />
       </p>
       <PlacesTable q={q} c={c} table={table} index={index} />

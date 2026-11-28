@@ -59,7 +59,8 @@ ok(open.includes('data-sr-state="files"'), "on files that are not examples the s
 ok(JSON.stringify(rowIds(open)) === JSON.stringify(index.places.map((p) => p.id)), "as it opens: a row a place, in the file's order");
 const firstOfEach = L.defaultCols(table.columns);
 ok(firstOfEach.length === 10 && JSON.stringify(colKeys(open)) === JSON.stringify(firstOfEach), `as it opens: the first column of each of the ten sections (${colKeys(open).join(", ")})`);
-ok(open.includes('data-sr-shown="4|4"') && open.includes('data-sr-sorted="name|asc"') && words(open).includes("The order is the column's, not a ranking of places."), "the line above the table says how many places, the order, and that it is no ranking");
+ok(open.includes('data-sr-shown="4|4"') && open.includes('data-sr-sorted="name|asc"') && words(open).includes("The order is the file's, not a ranking of places.") && !words(open).includes("The order is the column's"), "the line above the table says how many places, the order (the file's, as it opens), and that it is no ranking");
+ok(words(draw("view=allgrids&srsort=tightness.peak_mw")).includes("The order is the column's, not a ranking of places."), "sorted by a column, the line says the order is the column's");
 // every figure: its key leads to the same value in its file, and its words are the value whole or to two decimals
 for (const [query, least] of [["view=allgrids", 20], ["view=allgrids&srcols=" + table.columns.map((c) => c.key).join(","), 60], ["view=allgrids&sropen=op-ercot", 120], ["view=allgrids&sra=op-ercot&srb=op-nyiso", 50], ["view=allgrids&sropen=op-nyiso", 30]]) {
   const f = figs(draw(query));
