@@ -362,7 +362,7 @@ Elsewhere: CAISO solar earns USD 28.45 per kW at SP15 and 49.43 at NP15; SPP sol
 17. **The contract's energy** needs all twelve of the capture price's months held in the model; otherwise the section reads "not held yet" with the reason.
 18. **The battery beside the plant, row 2,** needs the plant's months held over the battery page's twelve months, which can differ from the plant's own last twelve months when one of the two tables is newer.
 19. **Files built on different days.** The snapshot (4 October), the capture file (7 October), the hybrid file (9 October) and the hub files (10 October) were built from the tables of their day. Their whole months agree; their newest partial month differs and is in no headline.
-20. **A price below zero.** Solar and wind sell every hour, also at a negative price: nothing is curtailed in the model. The pair's battery does not discharge at a negative price.
+20. **A price below zero.** Since session 11408 (readied for the owner's ruling on the audit of 20 November, finding 6) solar and wind stop in an hour priced below zero: `sold_sums` in `merchant_revenue.py` counts energy and sales over the hours priced at zero or more (until then they sold every hour, also at a negative price). ERCOT solar's last twelve months (October 2025 to September 2026): USD 60.26 per kW against 59.85; CAISO solar 20.5 percent more (the audit's measure, November 2025 to September 2026). The pair's battery does not discharge at a negative price.
 
 ## 7. Assumptions, their defaults and sources
 
@@ -694,7 +694,7 @@ Chain 304, part B: the page read as a fund analyst underwriting a solar or a win
 
 Session 463, 21 October 2026 (chain 019). The page lists, at its foot, every modelling choice it makes, one line each, with the session that made it and the ruling where one exists (`site/lib/decisions.ts`, `GENERATOR_DECISIONS`, drawn by `site/components/tool/DecisionsBlock.tsx`, `data-decisions="463"`), the form of the datacenter page's (session 462). The list below is the same list, word for word; `tests/test_session463.py` holds the two to it. The source line's own sentence on the decisions of 18 October (session 298) stays where it is. No figure moved: the block is words, and no number of the page reads it.
 
-1. The plant sells every MWh it makes at the hour's price at a hub or zone, merchant: no hedge, no capacity payment and no ancillary service, unless a scenario gives it a contract. (sessions 51 and 145)
+1. The plant sells every MWh it makes at the hour's price at a hub or zone, and a solar or wind plant stops in an hour priced below zero, merchant: no hedge, no capacity payment and no ancillary service, unless a scenario gives it a contract. (sessions 51 and 145)
 2. A solar or wind plant has its grid's fleet shape: EIA-930's hourly generation of the fuel over EIA-860M's installed nameplate of the month. It is not a site's own resource, curtailment or node price, and nothing is trimmed. (sessions 51 and 145)
 3. A battery beside nothing earns energy alone: each day from empty, at most one full cycle a day, 86 percent round trip (the low end of Lazard's range), with the day's prices known in advance, so its figure is an upper bound; What a battery earns is the page for a battery. (session 145)
 4. The gas peaker runs in each hour whose price is strictly above Henry Hub times its heat rate plus variable O&M, with no start cost, minimum run or gas basis; where a grid's generators buy allowances (California) the fuel's carbon cost is added. (sessions 145 and 298; ruling 1a of 18 October 2026)

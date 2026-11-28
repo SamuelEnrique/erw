@@ -57,7 +57,7 @@ export const DATACENTER_DECISIONS: Decision[] = [
 /** /cost-of-power/seller, "What a generator earns" (docs/methods/generator_earns_algorithm.md, section 13). Session 463. */
 export const GENERATOR_DECISIONS: Decision[] = [
   { key: "merchant", session: "sessions 51 and 145",
-    text: "The plant sells every MWh it makes at the hour's price at a hub or zone, merchant: no hedge, no capacity payment and no ancillary service, unless a scenario gives it a contract." },
+    text: "The plant sells every MWh it makes at the hour's price at a hub or zone, and a solar or wind plant stops in an hour priced below zero, merchant: no hedge, no capacity payment and no ancillary service, unless a scenario gives it a contract." },
   { key: "fleet-shape", session: "sessions 51 and 145",
     text: "A solar or wind plant has its grid's fleet shape: EIA-930's hourly generation of the fuel over EIA-860M's installed nameplate of the month. It is not a site's own resource, curtailment or node price, and nothing is trimmed." },
   { key: "battery-rule", session: "session 145",

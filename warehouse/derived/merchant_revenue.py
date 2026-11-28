@@ -108,6 +108,15 @@ def fuel_hours(path):
     return df[~df.index.duplicated()].loc[SHAPE_START:]
 
 
+def sold_sums(x, asset):
+    """Session 11408 (readied for the owner's ruling on the generator audit of 20 November, finding 6,
+    docs/reviews/generator-model-audit-2026-11-20.md): a merchant plant with no production credit loses money on every
+    MWh sold below zero, so it stops there. Energy sold (MWh per MW) and sales (USD per MW) over the hours whose price is
+    zero or more; until then every hour with a value was sold, also below zero."""
+    sold = x[x["p"] >= 0]
+    return sold[asset].sum(), (sold[asset] * sold["p"]).sum()
+
+
 def capacity(gens, ba, src, month):
     """Nameplate MW of the fuel's generators in the BA operating at the start of the month."""
     ms = pd.Timestamp(month + "-01")
@@ -269,7 +278,7 @@ def build_iso(iso, gens, hh, log, left, price=None, table=None, fuel=None):
             x = g.dropna(subset=[asset])
             if not len(x) or x[asset].sum() <= 0:
                 continue
-            e, s = x[asset].sum(), (x[asset] * x["p"]).sum()
+            e, s = sold_sums(x, asset)
             out[asset] = dict(revenue_per_mw=s, sales_per_mw=s, energy_per_mw=e, capture_price=s / e,
                               flat_price=x["p"].mean(), capture_rate=s / e / x["p"].mean() * 100, hours=len(x))
         for d in DURATIONS:
