@@ -9,7 +9,7 @@ rebuild every headline number of the default page without the page:
     site/public/datacenter/erw_2026_datacenter_hourly.csv
 
 The default case is the page's own (site/lib/datacenter.ts, inputsOf with no query): ERCOT, the North load zone
-LZ_NORTH, a flat load of 100 MW, bought in real time, 1.3 kW per GPU, an overhead ratio of 1.56. The file is per MW of
+LZ_NORTH, a flat load of 100 MW, bought in real time, 1.275 kW per GPU, an overhead ratio of 1.56. The file is per MW of
 load, as the page's library is; the page scales by the reader's size. The window is every hour the page's files hold
 of LZ_NORTH in real time, from the first to the last. Beside the real-time price stand the zone's day-ahead price (what
 a flexible load decides from, and what the same load pays buying day-ahead) and the real-time price of the trading hub
