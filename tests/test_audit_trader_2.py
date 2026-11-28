@@ -108,8 +108,8 @@ class HeatRateGasDay(unittest.TestCase):
         self.assertEqual(out.returncode, 0, out.stderr[-2000:])
         line = json.loads(out.stdout.strip().splitlines()[-1])["line"]
         self.assertIsNotNone(line)
-        self.assertIn("gas traded that day for the next day's flow, while the day-ahead power traded the day before", line)
-        self.assertIn("up to 4 days older", line)
+        self.assertIn("over the Henry Hub spot price of the trading day before, when the day-ahead power traded", line)   # wip/ready-trader-gasday
+        self.assertIn("has no heat rate", line)
 
 
 if __name__ == "__main__":

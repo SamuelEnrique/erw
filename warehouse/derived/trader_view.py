@@ -23,8 +23,8 @@ Metrics per hub and local operating day (all hours of the day present, or nothin
     da_rt_spread_mean_usd    mean over the day's hours of real-time minus day-ahead
     da_rt_spread_max_usd     the largest hourly real-time minus day-ahead
     hours_rt_over_da_50      hours in which real-time exceeded day-ahead by more than 50 USD/MWh
-    implied_heat_rate        da_mean_usd / Henry Hub spot (USD/MMBtu) of the day, or of the
-                             latest trading day up to 4 days before it (weekends, holidays)
+    implied_heat_rate        da_mean_usd / Henry Hub spot (USD/MMBtu) of the trading day before the
+                             operating day (weekends and holidays stepped over; none while EIA has not published it)
     da_volatility_30d_usd    sample standard deviation of the 30 day-over-day changes in
                              da_mean_usd over the 31 days ending that day (all 31 required)
 The real-time metrics need every hour of both markets; SPP's real-time prices are held
@@ -113,9 +113,26 @@ def henry_hub(log):
     return {r.t.date(): r.v for r in hh.itertuples()}, sorted(set(hh["t"].dt.date))
 
 
+def gas_day(day):
+    """wip/ready-trader-gasday (the trader view audit of 26 November, finding 2, for Samuel's ruling): the trading day
+    before the operating day, when the day-ahead power traded: the day before, stepping back
+    over weekends and NERC holidays, at most 5 days."""
+    for k in range(1, 6):
+        d = day - dt.timedelta(days=k)
+        if d.weekday() < 5 and d not in nerc_holidays(d.year):
+            return d
+    return None
+
+
 def hh_for(day, hh, dates):
-    """Henry Hub of the day or the latest trading day up to 4 days before it."""
-    for k in range(0, 5):
+    """Henry Hub of the trading day before the operating day (gas_day): the gas a trader could see when the day-ahead
+    power traded. The reach back covers weekends and holidays only: a newest day whose gas EIA has not yet published
+    has none, and no heat rate."""
+    want = gas_day(day)
+    newest = max(dates) if dates else max(hh, default=None)
+    if want is None or newest is None or newest < want:
+        return None, None                       # EIA has not published the gas of the day the power traded
+    for k in range(1, 6):                       # a weekday with no price (a market holiday NERC does not list) is stepped over
         d = day - dt.timedelta(days=k)
         if d in hh:
             return hh[d], d
