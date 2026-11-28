@@ -30,8 +30,8 @@ Rows of a year entered (freq P1Y, ts_utc the first day of the year the request e
     requests_suspended, mw_suspended
     requests_operating, mw_operating                reached operation (q_status operational)
     requests_withdrawn, mw_withdrawn
-A request of unknown status is in requests_entered only. MW is capacity_mw (the request's mw_1 + mw_2 + mw_3; for a
-hybrid, all of its parts); a request with no positive capacity is counted and adds no MW.
+A request of unknown status is in requests_entered only. MW is capacity_mw (the request's mw_1 + mw_2 + mw_3), a request whose parts carry MW at its largest part (session 11408; for a
+hybrid, all of its parts, before); a request with no positive capacity is counted and adds no MW.
 
 Rows of an operation year (ts_utc the first day of the year the request began operating, from on_date), written when
 at least five requests are dated:
@@ -121,6 +121,14 @@ def prepared(d):
             pm = pd.to_numeric(d[f"mw_{k}"], errors="coerce")
             x[f"part_type_{k}"] = d[f"type_{k}"].map(PART_TYPES.get)
             x[f"part_mw_{k}"] = pm.where(pm > 0, 0.0)
+    # session 11408 (the queues audit's finding 1, the other choice): a request whose file gives two or more parts their
+    # own MW counts at its largest part, so that every grid's hybrids count alike (the file sizes a second part in CAISO
+    # and for some of the West's requests only); a request of one part counts at its capacity, as before
+    cols = [pd.to_numeric(d[f"mw_{k}"], errors="coerce").where(lambda s: s > 0) for k in (1, 2, 3) if f"mw_{k}" in d]
+    if cols:
+        parts = pd.concat(cols, axis=1)
+        many = parts.notna().sum(axis=1) > 1
+        x["mw"] = x["mw"].where(~many, parts.max(axis=1))
     return x
 
 
@@ -250,7 +258,7 @@ def snapshot(summary, last_year, retrieved, vintage, input_retrieved, counts, ma
     views = {f"{g}|{t}": {"years": {str(y): r for y, r in sorted(s["years"].items())}, "on": {str(y): r for y, r in sorted(s["on"].items())}, "whole": s["whole"]}
              for (g, t), s in summary.items()}
     with open(SITE_FILE, "w", encoding="utf-8", newline="\n") as f:
-        json.dump(dict(table=NAME, built=retrieved, vintage=vintage, input_retrieved=input_retrieved, last_year=last_year, past=[PAST_FROM, last_year - PAST_LAG],
+        json.dump(dict(table=NAME, built=retrieved, vintage=vintage, input_retrieved=input_retrieved, hybrid="largest part", last_year=last_year, past=[PAST_FROM, last_year - PAST_LAG],
                        min_share=MIN_SHARE, min_median=MIN_MEDIAN, grids=list(GRIDS), techs=TECH_ORDER, counts=counts, views=views,
                        not_comparable=marks or {}), f, separators=(",", ":"))  # session 7052: request 189
 

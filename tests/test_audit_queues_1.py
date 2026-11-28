@@ -54,20 +54,23 @@ class TheFileGivesTheSecondPartMwInTwoRegions(unittest.TestCase):
 class ThePageSaysWhereBothPartsAreCounted(unittest.TestCase):
     def test_the_figures_do_not_move(self):
         q = json.loads(src("site", "data", "queues.json"))
-        self.assertEqual(round(q["views"]["caiso|all"]["whole"]["total_active_mw"]), 190717)
+        if q.get("hybrid") == "largest part":   # session 11408 (wip/ready-queues-hybrid-largest): rebuilt at landing
+            self.assertEqual(round(q["views"]["caiso|all"]["whole"]["total_active_mw"]), 129435)
+        else:
+            self.assertEqual(round(q["views"]["caiso|all"]["whole"]["total_active_mw"]), 190717)
         self.assertEqual(round(q["views"]["ercot|solar_battery"]["whole"]["total_active_mw"]), 112068)
 
     def test_the_words_say_both_parts_only_where_the_file_gives_them(self):
         page = src("site", "app", "queues", "page.tsx")
         self.assertNotIn("for solar with storage, both parts.", page)
         self.assertNotIn("and its capacity is both parts together.", page)
-        self.assertIn("the sum of the parts the file gives MW for: a hybrid&apos;s second part has its own MW in CAISO and for some of the West&apos;s "
-                      "requests, and in no other grid, where a solar-with-storage request carries one figure.", page)
-        self.assertIn("so CAISO&apos;s solar-with-storage MW count both parts where ERCOT&apos;s, PJM&apos;s and the rest count one figure: "
-                      "the grids&apos; MW of hybrids are not alike.", page)
+        # session 11408 (wip/ready-queues-hybrid-largest): the words of the other choice, each hybrid at its largest part
+        self.assertIn("a hybrid counts at its largest part, since the file gives a second part its own MW in CAISO and for some of the "
+                      "West&apos;s requests and in no other grid, so every grid&apos;s hybrids count alike.", page)
+        self.assertIn("so a hybrid at its largest part counts alike in every grid.", page)
         dec = src("site", "lib", "decisions.ts")
-        words = ("all parts of a hybrid together, where the file gives each part MW: in CAISO and for some of the West's requests; "
-                 "in every other grid a hybrid's second part has no MW in the file")
+        words = ("a hybrid's is its largest part (the file gives a second part its own MW in CAISO and for some of the West's requests "
+                 "only, so the largest part counts every grid's hybrids alike)")
         self.assertIn(words, dec)
         note = src("docs", "methods", "interconnection_queue_summary.md")
         self.assertIn(words, note)

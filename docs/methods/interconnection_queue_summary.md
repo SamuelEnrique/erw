@@ -43,14 +43,14 @@ Storage alone and solar with storage are kept apart from solar and from each oth
 
 - **Status** is Berkeley Lab's `q_status`: active, suspended, operational (written `operating`), withdrawn. A request
   of unknown status (10 in the file) is counted as entered and in no status.
-- **MW** is the request's `capacity_mw` (its `mw_1 + mw_2 + mw_3`: for a hybrid, all of its parts). A request with no
+- **MW** is the request's `capacity_mw` (its `mw_1 + mw_2 + mw_3`), except that a request whose file gives two or more parts their own MW counts at its largest part (session 11408, the queues audit's finding 1, the other choice). A request with no
   positive capacity (16) is counted and adds no MW.
 - **A hybrid's parts carry MW in two regions only** (session 10213, `docs/reviews/queues-model-audit-2026-11-26.md`,
   finding 1). In the 2026 edition 730 of CAISO's 733 requests with a second part (`type_2`) give that part its own MW,
   and 360 of the West's 1,862; in ERCOT, ISO-NE, MISO, NYISO, PJM, SPP and the Southeast none of the 2,462 does
   (`mw_2` empty). So "all of its parts" is both parts in CAISO and one figure elsewhere: CAISO's active MW are 190,717,
   or 129,435 with each hybrid at its largest part (-32.1 percent); the West's 448,601 or 394,235; every other grid's the
-  same either way. The figures stand as the file gives them; the page says so beside the chart and the technology table.
+  same either way. Since session 11408 each such request counts at its largest part, so CAISO's active MW are 129,435, the West's 394,235, the United States' 1,749,315 (1,864,963 summed) and its solar with storage 407,012 (503,794); the page says so beside the chart and the technology table.
 - **The year entered** is `q_year`. A request without one (665) is in the totals of the whole file and in no year.
 
 ## The rows
@@ -156,7 +156,7 @@ The page draws these at its foot (`site/lib/decisions.ts`, `QUEUES_DECISIONS`), 
 1. Every figure is from Berkeley Lab's yearly Queued Up data file, one row a request through the end of 2025; a newer request is not in it, and the next edition replaces every figure. **Default:** The 2026 edition, through 2025. **Source:** Lawrence Berkeley National Laboratory and GridTracker, Queued Up: 2026 Edition data file (CC BY 4.0). (session 95)
 2. A request is counted once, under the region of the queue that holds it: the seven ISOs, Berkeley Lab's West and Southeast outside them, and the United States as every request of the file. **Default:** Berkeley Lab's region; the US as every request. **Source:** The data file's region field; docs/methods/interconnection_queue_summary.md, "Grids and technologies". (session 95)
 3. Technologies follow Berkeley Lab's cleaned type: solar, solar with storage, storage alone, onshore wind, offshore wind and gas each on its own, and every other type and hybrid in one "other"; storage alone and solar with storage are kept apart from solar. **Default:** Seven groups from the cleaned type, hybrids apart. **Source:** The data file's cleaned type field (type_clean). (session 95)
-4. A request's MW is the sum of its parts as filed (all parts of a hybrid together, where the file gives each part MW: in CAISO and for some of the West's requests; in every other grid a hybrid's second part has no MW in the file); a request with no positive capacity is counted and adds no MW. **Default:** Every part's MW summed; none filled. **Source:** The data file's capacity of each part. (session 95)
+4. A request's MW is its capacity as filed, and a hybrid's is its largest part (the file gives a second part its own MW in CAISO and for some of the West's requests only, so the largest part counts every grid's hybrids alike); a request with no positive capacity is counted and adds no MW. **Default:** Each request at its capacity, a hybrid at its largest part; none filled. **Source:** The data file's capacity of each part; the largest part since session 11408 (docs/reviews/queues-model-audit-2026-11-26.md, finding 1). (session 95)
 5. Status is Berkeley Lab's: active, suspended, operational and withdrawn; a request of unknown status is counted as entered and in no status, and suspended requests are not in the active figures. **Default:** Berkeley Lab's four statuses; unknown counted as entered only. **Source:** The data file's queue status field. (session 95)
 6. Completion and withdrawal shares are taken over requests that entered from 2000 to five years before the edition's last year, with a known status, so recent years, many of whose requests are still open, do not read as a low completion rate. **Default:** Entered 2000 to 2020 for the 2026 edition. **Source:** docs/methods/interconnection_queue_summary.md, "Past requests". (session 95)
 7. A share is written only from at least 20 past requests and a median only from at least 5 dated ones; below that the cell reads "not held", since one project would move a smaller share by five points or more. **Default:** 20 requests for a share; 5 for a median. **Source:** docs/methods/interconnection_queue_summary.md, "When a figure is not written". (session 95)
