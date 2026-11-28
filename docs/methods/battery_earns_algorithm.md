@@ -80,7 +80,7 @@ Maximize
 
 `p_t` the energy price, `a_k,t` the product's price. Subject to:
 
-- **State of charge.** `s_t = s_(t-1) + eta x c_t - d_t / eta`, with `s = 0` at the start of every local day, and `0 <= s_t <= D`.
+- **State of charge.** `s_t = s_(t-1) + eta x c_t - d_t / eta`, with `s = 0` at the start of each block: since session 11408 (readied for the owner's ruling on the audit of 20 November, finding 2) the consecutive held days of one local month with the same products and durations are one program (`solve_block`, `solve_days` in `battery_stack.py`), the charge carried over each midnight and each local day still at most one full cycle; until then `s = 0` at the start of every local day. The default case's last twelve months (November 2025 to October 2026, 13 blocks: December 2025 is two, split at ERCOT's new durations of 5 December): USD 85.90 per kW against 80.40, re-solved from the public file, and `0 <= s_t <= D`.
 - **Power, upward.** `d_t + (upward awards in t) <= 1`.
 - **Power, downward.** `c_t + (Regulation Down in t) <= 1`.
 - **Energy behind upward awards.** `sum over upward k of r_k,t x h_k / eta <= s_(t-1)` and `<= s_t`: at the hour's start and at its end.
@@ -518,7 +518,7 @@ Chain 304, part B: the page read as a merchant battery developer choosing betwee
 Session 5001, 13 November 2026 (chain 233). The page lists, at its foot, every modelling choice it makes, one line each, with the session that made it and the ruling where one exists (`site/lib/decisions.ts`, `BATTERY_DECISIONS`, drawn by `site/components/tool/DecisionsBlock.tsx`, `data-decisions="5001"`), the form of the generator's (session 463) and the datacenter's (session 462) pages. The block is drawn open, not folded, because the battery page has nothing collapsed (the owner's ruling of 12 October 2026). The list below is the same list, word for word; `tests/test_session5001.py` holds the two to it. No figure moved: the block is words, and no number of the page reads it.
 
 1. Energy and ancillary services are chosen together in one optimization a day, so a megawatt is discharged or held as an upward reserve in an hour, never both, and nothing is counted twice. (session 67)
-2. Each local day starts empty, with at most one full cycle a day and an 86 percent round trip (the low end of Lazard's range), split evenly between charging and discharging. (session 67)
+2. The battery starts empty at the first held day of a local month and carries its charge over each midnight to the month's end (session 11408), with at most one full cycle a day and an 86 percent round trip (the low end of Lazard's range), split evenly between charging and discharging. (session 67)
 3. The day's prices are known in advance: "Perfect foresight" is paid the hourly mean of the real-time price, "Day-ahead schedule" the day-ahead price, and both are paid day-ahead reserve prices, so each figure is an upper bound. (session 67)
 4. The battery is a price taker, awarded up to its full power at the posted price; reserves are paid for being held and are never called. (session 67)
 5. Energy is priced at the hub (ERCOT's hub average, CAISO's SP15), not at the battery's node; ERCOT's storage nodes' band to the hub is shown and added to no figure. (sessions 67 and 355)

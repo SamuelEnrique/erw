@@ -112,7 +112,7 @@ export const BATTERY_DECISIONS: Decision[] = [
   { key: "one-optimization", session: "session 67",
     text: "Energy and ancillary services are chosen together in one optimization a day, so a megawatt is discharged or held as an upward reserve in an hour, never both, and nothing is counted twice." },
   { key: "day-from-empty", session: "session 67",
-    text: "Each local day starts empty, with at most one full cycle a day and an 86 percent round trip (the low end of Lazard's range), split evenly between charging and discharging." },
+    text: "The battery starts empty at the first held day of a local month and carries its charge over each midnight to the month's end (session 11408), with at most one full cycle a day and an 86 percent round trip (the low end of Lazard's range), split evenly between charging and discharging." },
   { key: "foresight", session: "session 67",
     text: "The day's prices are known in advance: \"Perfect foresight\" is paid the hourly mean of the real-time price, \"Day-ahead schedule\" the day-ahead price, and both are paid day-ahead reserve prices, so each figure is an upper bound." },
   { key: "price-taker", session: "session 67",

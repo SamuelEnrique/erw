@@ -21,7 +21,7 @@ Co-optimization, not addition. A battery cannot sell its full power as energy an
 reserve in the same hour. For each local day one linear program (scipy's HiGHS) splits the battery hour by hour
 between charging, discharging and each ancillary product, subject to:
     power      discharge plus upward reserves within rated power; charge plus downward regulation within rated power
-    energy     state of charge between empty and full (duration x power), each day from empty, round trip 86 percent,
+    energy     state of charge between empty and full (duration x power), from empty at the start of each block of a month's days and carried over midnight (session 11408), round trip 86 percent,
                at most one full cycle a day (the seller tab's battery, warehouse/derived/merchant_revenue.py)
     reserves   stored energy to deliver every awarded upward reserve for its product's required duration, at the
                start and at the end of the hour; room to absorb awarded downward regulation for its duration
@@ -334,6 +334,182 @@ def check_day(sol, spec, duration, rte=RTE, tol=1e-6):
     return bad
 
 
+# Session 11408 (readied for the owner's ruling on the battery audit of 20 November, finding 2,
+# docs/reviews/battery-model-audit-2026-11-20.md): the charge is carried over midnight. The days of one local month
+# whose prices are all held, consecutive and with the same products and durations, are solved as one program (a
+# block): the state of charge starts empty at the block's first hour and is carried across every midnight after it;
+# each local day still holds at most one full cycle. Until then each day started empty (CARRY = False gives that
+# program: every block one day, solved by solve_day).
+CARRY = True
+
+
+def solve_block(days, duration, rte=RTE, cycles=1.0):
+    """One block's optimum for 1 MW. days: in time order, (energy, reserves, spec) of each local day, every day with
+    the same spec. A sparse program with a state-of-charge variable per hour: s_t = s_(t-1) + eta c_t - d_t / eta,
+    s = 0 before the block's first hour, 0 <= s_t <= duration; each day's discharge over eta at most cycles x duration;
+    the power and the energy behind each reserve as in structure(). A charge-or-discharge switch in each negative-price
+    hour when the relaxation needs one, as solve_day. Returns one dict per day, of solve_day's form (soc carried)."""
+    spec = days[0][2]
+    K = len(spec)
+    lens = [len(e) for e, _, _ in days]
+    T = sum(lens)
+    eta = math.sqrt(rte)
+    p = np.concatenate([np.asarray(e, dtype=float) for e, _, _ in days])
+    res_p = [np.concatenate([np.asarray(r[j], dtype=float) for _, r, _ in days]) for j in range(K)]
+    c0, d0, s0 = 0, T, 2 * T
+    r0 = [3 * T + j * T for j in range(K)]
+    n = T * (3 + K)
+    obj = np.zeros(n)
+    obj[c0:c0 + T], obj[d0:d0 + T] = p, -p
+    for j in range(K):
+        obj[r0[j]:r0[j] + T] = -res_p[j]
+    ri, ci, vi, ub = [], [], [], []
+    m = 0
+
+    def row(entries, hi):
+        nonlocal m
+        for cidx, v in entries:
+            ri.append(m); ci.append(cidx); vi.append(v)
+        ub.append(hi)
+        m += 1
+    starts = np.cumsum([0] + lens[:-1])
+    for k, a in enumerate(starts):                              # at most `cycles` full cycles a local day
+        row([(d0 + t, 1 / eta) for t in range(a, a + lens[k])], cycles * duration)
+    for t in range(T):
+        up = [(d0 + t, 1.0)] + [(r0[j] + t, 1.0) for j, (u, _h) in enumerate(spec) if sides(u)[0]]
+        dn = [(c0 + t, 1.0)] + [(r0[j] + t, 1.0) for j, (u, _h) in enumerate(spec) if sides(u)[1]]
+        row(up, 1.0)
+        row(dn, 1.0)
+        need_up = [(r0[j] + t, h / eta) for j, (u, h) in enumerate(spec) if sides(u)[0]]
+        need_dn = [(r0[j] + t, h * eta) for j, (u, h) in enumerate(spec) if sides(u)[1]]
+        for s in ([s0 + t - 1] if t > 0 else []) + [s0 + t]:    # at the hour's start (empty before the block) and end
+            if need_up:
+                row(need_up + [(s, -1.0)], 0.0)
+            if need_dn:
+                row(need_dn + [(s, 1.0)], duration)
+        if t == 0 and need_up:                                  # the block starts empty
+            row(need_up, 0.0)
+        if t == 0 and need_dn:
+            row(need_dn, duration)
+    A = sparse.csr_matrix((vi, (ri, ci)), shape=(m, n))
+    b = np.array(ub)
+    eq_r, eq_c, eq_v = [], [], []
+    for t in range(T):                                         # s_t - s_(t-1) - eta c_t + d_t / eta = 0
+        for cidx, v in ((s0 + t, 1.0), (c0 + t, -eta), (d0 + t, 1 / eta)) + (((s0 + t - 1, -1.0),) if t > 0 else ()):
+            eq_r.append(t); eq_c.append(cidx); eq_v.append(v)
+    Aeq = sparse.csr_matrix((eq_v, (eq_r, eq_c)), shape=(T, n))
+    hi = np.ones(n)
+    hi[s0:s0 + T] = duration
+    neg = np.flatnonzero(p < 0)
+    res = linprog(obj, A_ub=A, b_ub=b, A_eq=Aeq, b_eq=np.zeros(T), bounds=list(zip(np.zeros(n), hi)), method="highs")
+    if res.status != 0:
+        raise RuntimeError(f"the block's linear program did not solve: {res.message}")
+    x = res.x
+    mip = bool(np.any(np.minimum(x[neg], x[T + neg]) > TOL))
+    if mip:
+        N = len(neg)
+        sw = sparse.lil_matrix((2 * N, n + N))
+        for i, t in enumerate(neg):
+            sw[i, t], sw[i, n + i] = 1, -1
+            sw[N + i, T + t], sw[N + i, n + i] = 1, 1
+        A2 = sparse.vstack([sparse.hstack([A, sparse.csr_matrix((A.shape[0], N))]), sw.tocsr(),
+                            sparse.hstack([Aeq, sparse.csr_matrix((T, N))])]).tocsr()
+        lo2 = np.concatenate([np.full(A.shape[0], -np.inf), np.full(2 * N, -np.inf), np.zeros(T)])
+        hi2 = np.concatenate([b, np.zeros(N), np.ones(N), np.zeros(T)])
+        res = milp(np.concatenate([obj, np.zeros(N)]), constraints=LinearConstraint(A2, lo2, hi2),
+                   integrality=np.concatenate([np.zeros(n), np.ones(N)]), bounds=Bounds(0, np.concatenate([hi, np.ones(N)])))
+        if res.status != 0:
+            raise RuntimeError(f"the block's mixed-integer program did not solve: {res.message}")
+        x = res.x[:n].copy()
+    else:
+        x = x.copy()
+    # at a price of zero or more, charging and discharging together never pays; net them, as solve_day does
+    both = np.minimum(x[:T], x[T:2 * T] / (eta * eta))
+    both[p < 0] = 0
+    x[:T] -= both
+    x[T:2 * T] -= both * eta * eta
+    x = np.clip(x, 0, None)
+    x[:3 * T] = np.minimum(x[:3 * T], np.concatenate([np.ones(2 * T), np.full(T, duration)]))
+    c, d = x[:T], x[T:2 * T]
+    soc = np.cumsum(eta * c - d / eta)
+    out = []
+    for k, a in enumerate(starts):
+        sl = slice(a, a + lens[k])
+        aw = [x[r0[j] + a:r0[j] + a + lens[k]] for j in range(K)]
+        e_rev = float(p[sl] @ (d[sl] - c[sl]))
+        r_rev = [float(res_p[j][sl] @ aw[j]) for j in range(K)]
+        out.append(dict(total=e_rev + sum(r_rev), energy=e_rev, reserve=r_rev, charge=c[sl], discharge=d[sl], awards=aw,
+                        soc=soc[sl], start=float(soc[a - 1]) if a > 0 else 0.0, mip=mip, delivered=float(d[sl].sum())))
+    return out
+
+
+def check_carried(sol, spec, duration, rte=RTE, tol=1e-6):
+    """check_day for a day of a block: the same limits, with the state of charge at the day's start carried in."""
+    eta = math.sqrt(rte)
+    start = sol.get("start", 0.0)
+    shifted = dict(sol, soc=np.asarray(sol["soc"]))
+    c, d, soc, aw = sol["charge"], sol["discharge"], shifted["soc"], sol["awards"]
+    bad = []
+    prev = start
+    for t in range(len(c)):
+        up = sum(aw[j][t] for j, (u, _h) in enumerate(spec) if sides(u)[0])
+        dn = sum(aw[j][t] for j, (u, _h) in enumerate(spec) if sides(u)[1])
+        need_up = sum(aw[j][t] * h / eta for j, (u, h) in enumerate(spec) if sides(u)[0])
+        need_dn = sum(aw[j][t] * h * eta for j, (u, h) in enumerate(spec) if sides(u)[1])
+        if d[t] + up > 1 + tol or c[t] + dn > 1 + tol:
+            bad.append(f"hour {t}: power above 1 MW per MW")
+        if soc[t] < -tol or soc[t] > duration + tol:
+            bad.append(f"hour {t}: state of charge {soc[t]:.6f} outside 0 to {duration}")
+        if need_up > min(prev, soc[t]) + tol:
+            bad.append(f"hour {t}: upward reserves need {need_up:.6f} MWh, {min(prev, soc[t]):.6f} stored")
+        if need_dn > duration - max(prev, soc[t]) + tol:
+            bad.append(f"hour {t}: downward regulation needs {need_dn:.6f} MWh of room")
+        if abs(soc[t] - (prev + eta * c[t] - d[t] / eta)) > 1e-6:
+            bad.append(f"hour {t}: the state of charge does not follow charge and discharge")
+        prev = soc[t]
+    if (d / eta).sum() > duration + tol:
+        bad.append(f"{CYCLE_WORDS}: {(d / eta).sum():.6f} MWh taken out")
+    return bad
+
+
+CYCLE_WORDS = "more than one full cycle"
+
+
+def blocks_of(days):
+    """The blocks of a run of solved days, in time order: (day, energy, reserves, spec) grouped into runs of
+    consecutive days of one local month with the same spec. With CARRY False, every day is its own block."""
+    out = []
+    for item in days:
+        day, _e, _r, spec = item
+        if CARRY and out:
+            last = out[-1][-1]
+            nxt = (pd.Timestamp(last[0]) + pd.Timedelta(days=1)).strftime("%Y-%m-%d")
+            if day == nxt and day[:7] == last[0][:7] and spec == last[3]:
+                out[-1].append(item)
+                continue
+        out.append([item])
+    return out
+
+
+def solve_days(days, duration, rte=RTE, cycles=1.0):
+    """{day: solution} for a run of (day, energy, reserves, spec), each checked: blocks by blocks_of; a one-day block
+    with CARRY False by solve_day and check_day (the program until session 11408)."""
+    sols = {}
+    for blk in blocks_of(days):
+        if not CARRY:
+            day, e, r, spec = blk[0]
+            sol = solve_day(e, r, spec, duration, rte=rte)
+            bad = check_day(sol, spec, duration, rte=rte)
+        for day_sol, (day, e, r, spec) in zip(solve_block([(e, r, s) for _d, e, r, s in blk], duration, rte=rte, cycles=cycles)
+                                               if CARRY else [sol], blk):
+            bad = check_carried(day_sol, spec, duration, rte=rte, tol=1e-6) if CARRY else bad
+            bad = [w for w in bad if cycles == 1.0 or not w.startswith(CYCLE_WORDS)]
+            if bad:
+                raise RuntimeError(f"{day}: a constraint does not hold: {bad[0]}")
+            sols[day] = day_sol
+    return sols
+
+
 def as_prices(table, products):
     """{product key: hourly Series (UTC hour start)} from an ancillary price table."""
     a = pb.read_table(table)
@@ -386,7 +562,7 @@ def build_market(iso, energy, reserve, log, until=None):
         end = min(e.index.max().tz_convert(tz).tz_localize(None).normalize(), as_month_end)
         if until is not None:
             end = min(end, pd.Timestamp(until))
-        n_mip = 0
+        n_mip, held, keys = 0, [], {}
         for ts in pd.date_range(first, end, freq="D"):
             day = ts.strftime("%Y-%m-%d")
             hrs = day_hours(day, tz)
@@ -401,14 +577,18 @@ def build_market(iso, energy, reserve, log, until=None):
                 left[strat].append((day, f"energy: {int(ep.isna().sum())} of {len(hrs)} hours not held"))
                 continue
             spec = tuple((p["up"], required_hours(p, day)[0]) for p in prods)
-            for dur in DURATIONS:
-                sol = solve_day(ep.values, [s.values for s in pr], spec, dur)
-                bad = check_day(sol, spec, dur)
-                if bad:
-                    raise RuntimeError(f"{iso} {strat} {dur}h {day}: a constraint does not hold: {bad[0]}")
+            held.append((day, ep.values, [s.values for s in pr], spec))
+            keys[day] = [p["key"] for p in prods]
+        # session 11408: the held days solved in blocks (the charge carried over midnight within a month), each checked
+        for dur in DURATIONS:
+            try:
+                sols = solve_days(held, dur)
+            except RuntimeError as exc:
+                raise RuntimeError(f"{iso} {strat} {dur}h {exc}") from exc
+            for day, sol in sols.items():
                 n_mip += sol["mip"]
                 days[(strat, dur)][day] = dict(energy=sol["energy"], total=sol["total"], delivered=sol["delivered"],
-                                               **{p["key"]: v for p, v in zip(prods, sol["reserve"])})
+                                               **{k: v for k, v in zip(keys[day], sol["reserve"])})
         log(f"  {iso} {strat}: {len(days[(strat, DURATIONS[0])])} days solved, {len(left[strat])} left out, "
             f"{first:%Y-%m-%d} to {end:%Y-%m-%d}; {n_mip} day-durations needed the charge-or-discharge switch")
     return days, left

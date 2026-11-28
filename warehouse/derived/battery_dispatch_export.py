@@ -150,7 +150,7 @@ def build(in_dir, log=print):
     reserve = bs.as_prices(m["as_table"], m["products"])
     a = pd.Timestamp(first + "-01")
     b = pd.Timestamp(last + "-01") + pd.offsets.MonthBegin(1) - pd.Timedelta(days=1)
-    rows, left, n_switch = [], [], 0
+    rows, left, n_switch, held_days = [], [], 0, []
     for ts in pd.date_range(a, b, freq="D"):
         day = ts.strftime("%Y-%m-%d")
         hrs = bs.day_hours(day, tz)
@@ -165,10 +165,11 @@ def build(in_dir, log=print):
             left.append(f"{day} energy {int(ep.isna().sum())} of {len(hrs)} hours not held")
             continue
         spec = tuple((p["up"], bs.required_hours(p, day)[0]) for p in prods)
-        sol = bs.solve_day(ep.values, [s.values for s in pr], spec, DURATION)
-        bad = bs.check_day(sol, spec, DURATION)
-        if bad:
-            raise RuntimeError(f"{day}: a constraint does not hold: {bad[0]}")
+        held_days.append((day, hrs, ep, pr, prods, spec))
+    # session 11408: the model's blocks (the charge carried over midnight within a month), each day checked
+    sols = bs.solve_days([(d, ep.values, [s.values for s in pr], spec) for d, _h, ep, pr, _p, spec in held_days], DURATION)
+    for day, hrs, ep, pr, prods, spec in held_days:
+        sol = sols[day]
         n_switch += int(sol["mip"])
         bought = {p["key"]: j for j, p in enumerate(prods)}
         local = hrs.tz_convert(tz)
@@ -251,7 +252,7 @@ def write(rows, facts, in_dir, out, run_at):
         "Retrieved (UTC) as each table's own header states: " + "; ".join(
             f"{t} {got(t)}" for t in (pb.TABLES[(GRID, 'rtm')][0], pb.HISTORY, m["as_table"], bs.NAME)),
         f"Model: warehouse/derived/battery_stack.py; sha256 {sha}; last changed by commit {commit}. Every day here is solved by its "
-        "solve_day and passes its check_day",
+        "solve_days, in blocks of a month (the charge carried over midnight, session 11408), and passes its checks",
         f"Check at export: each month's sums of these hours equal the rows of {bs.NAME} to within 0.005 USD per MW "
         f"({len(facts['held'])} months; {facts['days']} days; {facts['n_switch']} days used the switch)",
         f"Exported: {run_at} (UTC) by warehouse/derived/battery_dispatch_export.py. Method: "

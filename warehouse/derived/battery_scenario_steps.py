@@ -122,7 +122,7 @@ def build_case(grid, strat, energy, reserve, monthly, log):
         a = pd.Timestamp(first + "-01")
         b = pd.Timestamp(last + "-01") + pd.offsets.MonthBegin(1) - pd.Timedelta(days=1)
         cells = {cell_key(r, c): {} for r in RTE_STEPS for c in CYCLE_STEPS}
-        days = {}
+        days, items = {}, []
         t0 = time.time()
         for ts in pd.date_range(a, b, freq="D"):
             day = ts.strftime("%Y-%m-%d")
@@ -136,10 +136,16 @@ def build_case(grid, strat, energy, reserve, monthly, log):
                 continue                      # the model leaves the day out; so does every cell
             spec = tuple((p["up"], bs.required_hours(p, day)[0]) for p in prods)
             days[day[:7]] = days.get(day[:7], 0) + 1
-            for r in RTE_STEPS:
-                for c in CYCLE_STEPS:
-                    sol = solve(ep.values, [s.values for s in pr], spec, dur, r, c)
-                    k = cell_key(r, c)
+            items.append((day, ep.values, [s.values for s in pr], spec))
+        # session 11408: the model's blocks (the charge carried over midnight within a month) at each step
+        for r in RTE_STEPS:
+            for c in CYCLE_STEPS:
+                k = cell_key(r, c)
+                if bs.CARRY:
+                    sols = bs.solve_days(items, dur, rte=r, cycles=c)
+                else:
+                    sols = {d: solve(e, rv, s, dur, r, c) for d, e, rv, s in items}
+                for day, sol in sols.items():
                     cells[k][day[:7]] = cells[k].get(day[:7], 0.0) + sol["total"]
         # the default cell must be the page's own table, month by month
         base = cells[cell_key(bs.RTE, 1.0)]
