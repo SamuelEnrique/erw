@@ -137,6 +137,8 @@ ok(er.includes('data-sr-list-source="large_load.rules"') && er.includes('data-sr
 const trends = [...er.matchAll(/data-sr-trend="months" data-sr-trend-points="(\d+)"/g)].map((m) => Number(m[1]));
 ok(JSON.stringify(trends) === JSON.stringify([24, 24, 24, 24, 24, 12]), `the counts that carry their months draw them: two hubs' mean price, the peak, carbon, net imports (24 months each) and wind curtailed (the 12 months held); one month alone draws no line (${trends.join(", ")})`);
 ok(er.includes('aria-label="ERCOT Hub Average, day-ahead, Mean price by month, USD/MWh, Nov 2024 to Oct 2026"') && er.includes('aria-label="Wind curtailed, ERCOT by month, MWh, Nov 2025 to Oct 2026"'), "a trend says what it is, its unit and the months it runs over");
+ok(tips(er).some((t) => t === "ERCOT Hub Average, day-ahead, Mean price by month, USD/MWh: 30.50 in Nov 2024, 47.75 in Oct 2026; the lowest month 30.50 (Nov 2024), the highest 47.75 (Oct 2026). 24 of 24 months held.")
+  && tips(er).some((t) => t.startsWith("Wind curtailed, ERCOT by month, MWh: 288,000 in Nov 2025, 387,000 in Oct 2026;") && t.endsWith("12 of 24 months held.")), "a trend's own hover, which a finger and the keyboard open: its first and last month, its lowest and highest, and how many months are held");
 // a hub the file lists with a status of its own and no figures
 const heldHub = (er.match(/<tr[^>]*>(?:(?!<\/tr>)[\s\S])*A made-up hub held whole[\s\S]*?<\/tr>/) ?? [""])[0];
 ok((heldHub.match(/data-license-held="siting_regions"/g) ?? []).length === 5 && tips(heldHub).every((t) => t === "license needed: a made-up hub whose prices need a license"), "a hub held whole is five blanks, each license needed with the hub's own reason");

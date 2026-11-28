@@ -59,9 +59,19 @@ function TrendLine({ c, what }: { c: Cell; what: string }) {
   const pts = trendPoints(c.trend);
   if (pts.length < 2) return null;
   const u = unitWords(c.unit);
+  const month = (p: { t: string }) => monthWords(p.t.slice(0, 7));
+  const first = pts[0], last = pts[pts.length - 1];
+  const lo = pts.reduce((a, p) => (p.v < a.v ? p : a), first), hi = pts.reduce((a, p) => (p.v > a.v ? p : a), first);
+  // the line answers the mouse a month at a time (the shared chart's own titles); a finger and the keyboard open
+  // these words: the first and the last month and the lowest and the highest, each as the file holds it
+  const said = `${what} by month${u ? `, ${u}` : ""}: ${figure(first.v, c.unit)} in ${month(first)}, ${figure(last.v, c.unit)} in ${month(last)}; the lowest month ${figure(lo.v, c.unit)} (${month(lo)}), the highest ${figure(hi.v, c.unit)} (${month(hi)}). ${pts.length} of ${c.trend?.months.length ?? pts.length} months held.`;
   return (
-    <span className="ml-2 inline-block bg-white p-0.5 align-middle" data-sr-trend="months" data-sr-trend-points={pts.length}>
-      <InlineSpark values={pts} label={`${what} by month${u ? `, ${u}` : ""}, ${monthWords(pts[0].t.slice(0, 7))} to ${monthWords(pts[pts.length - 1].t.slice(0, 7))}`} width={96} height={22} />
+    <span className="ml-2 inline-block align-middle" data-sr-trend="months" data-sr-trend-points={pts.length}>
+      <Tip tip={said} plain>
+        <span className="inline-block bg-white p-0.5">
+          <InlineSpark values={pts} label={`${what} by month${u ? `, ${u}` : ""}, ${month(first)} to ${month(last)}`} width={96} height={22} />
+        </span>
+      </Tip>
     </span>
   );
 }
