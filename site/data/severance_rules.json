@@ -652,11 +652,10 @@
     },
     "LA": {
       "name": "Louisiana",
-      "basis_note": "Oil and condensate are taxed on value at the time and place of severance: the higher of the first purchaser's gross receipts less trucking, barging and pipeline fees, or the posted field price (La. R.S. 47:633(A)(3)(a)); gas is taxed per Mcf. The transport deduction below applies to oil and condensate only.",
+      "basis_note": "Oil is taxed on value at the time and place of severance: the higher of the first purchaser's gross receipts less trucking, barging and pipeline fees, or the posted field price (La. R.S. 47:633(A)(3)(a)); condensate on its gross value at the time and place of severance (La. R.S. 47:633), with no deduction; gas is taxed per Mcf. The transport deduction below applies to oil only.",
       "value_deduction": {
         "products": [
-          "oil",
-          "condensate"
+          "oil"
         ],
         "label": "Trucking, barging and pipeline fees, USD per bbl",
         "cite": "la_rs_47_633",

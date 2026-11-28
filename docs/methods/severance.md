@@ -308,7 +308,7 @@ Both tabs end with the downloads of `eia_fuel_spot_prices` and, since session 75
 ### How a figure is computed (the calculator, and each line of the lease tool)
 
 1. **Gross value** = volume x price.
-2. **Taxable value.** Louisiana oil and condensate: gross less volume x the transport fee per barrel. New Mexico oil and gas: gross less gross x the royalty percent, less volume x trucking per unit. Elsewhere: gross. Never below zero. The page shows the taxable value only when it differs from the gross. Louisiana's statute values oil at the higher of the receipts less those fees or the posted field price; no posted price is held, so the floor is not applied and the decisions fold says so (session 10207, `docs/reviews/severance-model-audit-2026-11-26.md`, finding 1).
+2. **Taxable value.** Louisiana oil: gross less volume x the transport fee per barrel; Louisiana condensate: gross, with no deduction (La. R.S. 47:633 taxes it on "gross value"; severance audit of 26 November 2026, finding 2). New Mexico oil and gas: gross less gross x the royalty percent, less volume x trucking per unit. Elsewhere: gross. Never below zero. The page shows the taxable value only when it differs from the gross. Louisiana's statute values oil at the higher of the receipts less those fees or the posted field price; no posted price is held, so the floor is not applied and the decisions fold says so (session 10207, `docs/reviews/severance-model-audit-2026-11-26.md`, finding 1).
 3. **Each base tax** = taxable value x rate (`pct_value`) or volume x rate (`per_unit`). Texas oil takes the greater of that and volume x 0.046.
 4. **Tax at the base rate** = the sum of the base taxes.
 5. **One reduced rate** replaces the first base tax only, by its `kind`:

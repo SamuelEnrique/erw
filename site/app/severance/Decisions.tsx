@@ -44,7 +44,7 @@ export const SEVERANCE_DECISIONS: SeveranceDecision[] = [
     def: "15.14 cents per Mcf for July 1, 2026 to June 30, 2027; horizontal wells 80 percent exempt for oil and 100 percent for gas in fiscal year 2027.",
     source: "Louisiana Department of Revenue, RIB No. 26-013 (June 2, 2026) and RIB No. 26-014 (August 3, 2026)." },
   { key: "deductions",
-    text: "A deduction is computed only where the state's rule states it: Louisiana's trucking, barging and pipeline fees on oil and condensate, and New Mexico's royalties to the United States, the state or a tribe and its trucking. Texas's marketing costs for gas are not computed. Louisiana's floor, the posted field price, is not held, so its value here is the price typed less the fees typed, which can be below the value the state taxes. Type each in its box.",
+    text: "A deduction is computed only where the state's rule states it: Louisiana's trucking, barging and pipeline fees on oil (condensate is taxed on its gross value, with no deduction), and New Mexico's royalties to the United States, the state or a tribe and its trucking. Texas's marketing costs for gas are not computed. Louisiana's floor, the posted field price, is not held, so its value here is the price typed less the fees typed, which can be below the value the state taxes. Type each in its box.",
     def: "No deduction: every box opens on 0.",
     source: "La. R.S. 47:633; New Mexico Taxation and Revenue Department, Oil and Gas Production Taxes." },
   { key: "nm-district",

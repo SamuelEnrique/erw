@@ -149,7 +149,7 @@ def tax(rules, state, product, volume, price, variant=None, district_rate=0.0, r
         if vd.get("royalty"):
             taxable = gross - gross * royalty_pct / 100 - volume * trucking      # New Mexico
         else:
-            taxable = gross - volume * transport                                  # Louisiana oil and condensate
+            taxable = gross - volume * transport                                  # Louisiana oil (condensate: gross value, no deduction)
     taxable = max(0.0, taxable)
     lines = []
     for b in p["base"]:
