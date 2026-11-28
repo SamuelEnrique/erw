@@ -30,7 +30,9 @@ class PowerMarketers(unittest.TestCase):
         ix = json.loads(src("site", "data", "companies", "index.json"))
         self.assertEqual(ix["kinds"].get("power marketer"), 439)
         order = re.findall(r'"([^"]+)"', re.search(r"KIND_ORDER = \[(.*?)\]", src("site", "lib", "companydb.ts")).group(1))
-        self.assertNotIn("power marketer", order)
+        # session 11407 (wip/ready-companies-marketer, the owner's other choice): the kind is offered on this branch;
+        # until then this line asserted that KIND_ORDER left it out (tests/test_ready_companies_marketer.py)
+        self.assertIn("power marketer", order)
 
     def test_the_hovers_name_it(self):
         page = flat(src("site", "app", "companies", "page.tsx"))
@@ -39,7 +41,7 @@ class PowerMarketers(unittest.TestCase):
         self.assertIn("The choices here do not offer ${kindsUnoffered.join(\", \")}: such a company shows its kind in the table.", page)
         one = flat(src("site", "app", "companies", "[id]", "page.tsx"))
         self.assertIn("developer, operator, power marketer, other that its rows show; other where no rule applies.", one)
-        self.assertIn("which leaves out power marketer (439 listed companies on 16 November 2026)", flat(src("docs", "methods", "companies.md")))
+        self.assertIn("power marketer included after operator (439 listed companies on 16 November 2026", flat(src("docs", "methods", "companies.md")))
 
 
 if __name__ == "__main__":

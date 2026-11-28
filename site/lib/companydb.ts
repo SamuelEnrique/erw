@@ -35,7 +35,9 @@ export type Link = {
   usd: string; date: string; fuel: string; state: string; grid: string; detail: string;
 };
 
-export const KIND_ORDER = ["regulator", "lab or hyperscaler", "OEM", "utility", "IPP", "lender or investor", "developer", "operator", "other"];
+// session 11407 (companies audit, finding 5, the owner's choice): "power marketer" offered, after "operator" as in the
+// builder's KIND_ORDER (warehouse/derived/companies.py); until then the 439 power marketers could not be chosen
+export const KIND_ORDER = ["regulator", "lab or hyperscaler", "OEM", "utility", "IPP", "lender or investor", "developer", "operator", "power marketer", "other"];
 export const PAGE_SIZE = 50;
 /** The tables' names as a reader knows them. */
 export const TABLE_WORDS: Record<string, string> = {
