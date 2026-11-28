@@ -126,3 +126,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - Landing row 12 requested (01:21 UTC 28 November, session 10603): `wip/c730-predict-v6` at `a2365371d`: the backtest tables' shape (data request 17), the day's peak by year in `long_backtest.json` (replicated 3,064 of 3,064 groups), tests, `ahead.py --more`'s test; `ahead_more.json` held back until rebuilt and replicated on the same tables (rebuild running, 14 of 35). The whole suite: 11,001 passed, 1 failed (`test_session6111_ask`, the ask keys against today's refreshed tables, not the branch). 36 of 36 forecast tests on the head.
 - 01:30 UTC (session 10603): `ahead_more.json` rebuilding on today's tables (17 of 35), on `wip/c730-predict-v7`.
 - 01:49 UTC (session 10603): `ahead_more.json` rebuilding (22 of 35); row 12 requested.
+- 02:08 UTC (session 10603): `ahead_more.json` rebuilding (27 of 35).
