@@ -185,7 +185,7 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
       <ToolSection title="When a constraint binds" id="when">
         {C ? (
           <>
-            <p className="mb-1 text-sm" data-constraint={ck}><span className="font-medium break-all">{constraintLabel(C)}</span>{C.monitored ? <>: monitored element {C.monitored}</> : null}{C.type ? <>, type {C.type}</> : null}{C.nerc_id ? <>, NERC flowgate {C.nerc_id}</> : null}. Bound {whole(C.hours)} hours from {C.first.slice(0, 10)} to {C.last.slice(0, 10)} <span data-utc-days="1">(days in UTC, not the operator&apos;s clock)</span>. {" "}
+            <p className="mb-1 text-sm" data-constraint={ck}><span className="font-medium break-all">{constraintLabel(C)}</span>{C.monitored ? <>: monitored element {C.monitored}</> : null}{C.type ? <>, type {C.type}</> : null}{C.nerc_id ? <>, NERC flowgate {C.nerc_id}</> : null}. Bound {whole(C.hours)} hours from {localDay(C.first, op)} to {localDay(C.last, op)} <span data-local-days="1">(days on the operator&apos;s clock)</span>. {" "}
               <Hint words="(source)" why={`${src.constraints}. ${F.sign_rule}`} /></p>
             <Heat cells={C.hod_month} k="c" label={`${constraintLabel(C)}: hours bound, by month and hour of the day, every year held`} src={() => `Hours it bound in that hour of the day in that month, every year held summed. ${src.constraints}.`} fmt={whole} note={<>Hours of the day in {O.time}.</>} />
             <ChartFrame title="Hours bound, by month" tip={<Hint words=" (source)" why={`${src.constraints}. A month with no point is a month it did not bind in the day-ahead market.`} />}>

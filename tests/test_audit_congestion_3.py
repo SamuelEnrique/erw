@@ -68,7 +68,8 @@ class TheWordsSayIt(unittest.TestCase):
         s = src("site", "app", "congestion", "page.tsx")
         self.assertIn('data-window-line="1"', s)
         self.assertIn("the newest day held; the year is not whole", s)
-        self.assertIn("(days in UTC, not the operator&apos;s clock)", s)
+        # Session 11407: on Samuel's ruling of finding 3 the page prints the operator's days (tests/test_ready_congestion_operator_clock.py).
+        self.assertIn("(days on the operator&apos;s clock)", s)
         self.assertIn('data-months-line="1"', s)
         self.assertIn("the days held differ by place", s)
         self.assertIn('const TZ: Record<string, string> = { spp: "America/Chicago", caiso: "America/Los_Angeles" };', s)
@@ -76,7 +77,7 @@ class TheWordsSayIt(unittest.TestCase):
 
     def test_the_decision_and_the_note_say_it(self):
         d = src("site", "app", "congestion", "Decisions.tsx")
-        self.assertIn("The dates a constraint first and last bound are UTC days", d)
+        self.assertIn("The dates a constraint first and last bound are the operator's own days too", d)
         self.assertIn("The newest year is not whole", d)
         self.assertIn("**Windows and days** (session 10220)", src("docs", "methods", "grid_congestion.md"))
 
