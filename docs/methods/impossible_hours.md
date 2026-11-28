@@ -134,6 +134,7 @@ approves it by taking the table's line out of `HELD`; its next build then applie
 | `caiso_reliability_daily` | California's demand | A, B | **Held** |
 | `event_window_daily` | demand and net generation by day | A, B and the hydro gap | **Held** |
 | `flex_alert_effects`, `flex_alert_model` | California's demand | A, B, in place of a screen of its own (below 30 percent of the median hour, or 20 percent from both neighbours) | Applied (session 118): built both ways from the same inputs, the two tables are the same in every value, so nothing was held |
+| the grid conditions page files (`site/data/conditions/<operator>.json`, `conditions_page.py`) | each grid's demand | A, B on demand; the forecast as published | Applied (session 11407, the conditions audit of 26 November, finding 1) |
 | `grid_network_nodes`, the live `/network` page's hourly file | the newest hour of demand, hourly interchange | none: one hour has no hours after it, and rule C is for days | Not applied; said on `/data/faults` |
 | `eia930_all_demand`, `eia930_all_generation`, `eia930_all_emissions`, `eia930_daily_interchange` | the source tables | none | They hold EIA's values as published and always will |
 

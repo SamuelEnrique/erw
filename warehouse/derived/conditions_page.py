@@ -6,7 +6,8 @@ Energy Research Warehouse (ERW). Reads warehouse tables only; makes no request. 
 docs/state/page_files_conditions.md, section 2. Method: docs/methods/grid_conditions.md. For each of the seven grids,
 strips on one time axis:
 
-  demand        demand and the day-ahead demand forecast, from EIA-930 (eia930_ba_demand_hourly): every grid
+  demand        demand and the day-ahead demand forecast, from EIA-930 (eia930_ba_demand_hourly): every grid; the demand
+                hours the rule for impossible hours leaves out are blank (screen_demand)
   out           megawatts out of service (generation_outages_hourly): SPP (its RTO balancing area) and CAISO
   constraints   constraints binding and the largest shadow price (constraints_binding_hourly): SPP and CAISO
   scarcity      ERCOT's online reserve price adder above zero (ercot_rtm_price_adders, to its end on 4 December 2025)
@@ -32,6 +33,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 import iso_prices as ip  # noqa: E402
+sys.path.insert(0, HERE)
+import impossible_hours  # noqa: E402
 
 SITE_DIR = os.path.join(ROOT, "site", "data", "conditions")
 EVENTS_DIR = os.path.join(ROOT, "site", "data", "regions", "events")
@@ -99,12 +102,29 @@ def events():
     return sorted(out, key=lambda e: e["start"])
 
 
+def screen_demand(w):
+    """Session 11407 (chain 770, part C; the conditions audit of 26 November, finding 1): EIA-930's demand hours that
+    the ERW's rule for impossible hours leaves out (docs/methods/impossible_hours.md: held, above zero, within a quarter
+    of the four hours around it, within the grid's range) become blank before any figure is taken, so a report fault is
+    never a day's peak or lowest. Nothing is filled. The forecast is not screened: the rule is for demand. w: a frame
+    indexed by the hour's start (ts_utc, ISO strings), with a column demand."""
+    if "demand" not in w or not w["demand"].notna().any():
+        return w
+    t = pd.DatetimeIndex(pd.to_datetime(w.index, utc=True))
+    s = pd.Series(w["demand"].to_numpy(dtype=float), index=t).sort_index()
+    s = s[~s.index.duplicated()].asfreq("h")
+    w = w.copy()
+    w["demand"] = impossible_hours.screen(s).reindex(t).to_numpy()
+    return w
+
+
 def hourly_frame(op, o, dem, out, cons, scar):
     """One row an hour (local clock) with every strip held for the operator."""
     d = dem[dem["ba"] == o["ba"].lower()].copy()
     d["value"] = pd.to_numeric(d["value"])
     w = d.pivot_table(index="ts_utc", columns="variable", values="value", aggfunc="first")
     w = w.rename(columns={"demand_mw": "demand", "demand_forecast_mw": "forecast"})
+    w = screen_demand(w)
     if out is not None and "out" in o:
         x = out[out["entity"] == o["out"]].copy()
         x["value"] = pd.to_numeric(x["value"])

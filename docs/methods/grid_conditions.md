@@ -6,7 +6,7 @@ Chain 601, part G (session 9000, 20 November 2026). Builder: `warehouse/derived/
 
 | Strip | Grids drawn | Table | What a point is |
 |---|---|---|---|
-| Demand and forecast | all seven | `eia930_ba_demand_hourly` (EIA-930, the grid's balancing authority: CISO, ERCO, SWPP, MISO, PJM, NYIS, ISNE) | an hour's demand and EIA's day-ahead demand forecast; a day's peak and lowest |
+| Demand and forecast | all seven | `eia930_ba_demand_hourly` (EIA-930, the grid's balancing authority: CISO, ERCO, SWPP, MISO, PJM, NYIS, ISNE) | an hour's demand and EIA's day-ahead demand forecast; a day's peak and lowest, over the demand hours the rule for impossible hours keeps (decision 8) |
 | Out of service | SPP, CAISO | `generation_outages_hourly` | megawatts out in the hour; a day's mean and highest hour |
 | Constraints binding | SPP, CAISO | `constraints_binding_hourly` | constraints that bound in the hour and the largest shadow price by size; a day's constraint-hours |
 | Scarcity adder | ERCOT | `ercot_rtm_price_adders` (RTORPA, the online reserve adder, hourly mean) | the adder in the hour; the day's hours above zero (June 2014 to 4 December 2025) |
@@ -22,3 +22,4 @@ Chain 601, part G (session 9000, 20 November 2026). Builder: `warehouse/derived/
 5. **SPP's area.** SPP's outages are its RTO balancing area (`spp:SPP`), the area of EIA's SWPP; the western area added in April 2026 (`spp:SWPW`) and SPP's total are in the table and not drawn.
 6. **Days are the operator's.** A day is the operator's local day (Pacific, Central or Eastern); hourly charts mark UTC instants.
 7. **First view.** ERCOT, its newest 35 days, no second operator.
+8. **Impossible hours.** EIA-930's demand holds hours that did not happen. The builder applies the ERW's rule (`docs/methods/impossible_hours.md`, rules A and B) to each grid's demand before any figure is taken: an hour that is blank, at or below zero, more than a quarter from the median of the four hours around it, or outside the grid's range is left blank, and nothing is filled. The forecast is not screened. Session 11407 (the conditions audit of 26 November, finding 1): PJM's highest peak demand in the COVID window was 215,682 MW (the hour starting 2020-04-10 03:00 UTC, 2.7 times its forecast) and is 108,513 MW (26 May 2020).
