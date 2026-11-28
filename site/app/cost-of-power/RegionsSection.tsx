@@ -104,7 +104,9 @@ function PlacesTable({ q, c, table, index }: { q: Q; c: Choice; table: TableFile
         <caption className="sr-only">Every place side by side, a row a place and a column a count, each as its publisher printed it</caption>
         <thead>
           <tr className="border-b border-ink align-bottom text-xs">
-            <th scope="col" className="px-2 py-1.5 font-normal" aria-sort={c.sort === NAME_SORT ? (c.dir === "asc" ? "ascending" : "descending") : "none"} style={{ minWidth: "13rem" }}>
+            {/* the first column stays in place while the rest scrolls (app/tokens.css): on a phone it is kept narrow, so a
+                column of figures can be read beside it (seen at 390 px: at 13rem it took 208 of the frame's 358 px) */}
+            <th scope="col" className="min-w-36 px-2 py-1.5 font-normal sm:min-w-52" aria-sort={c.sort === NAME_SORT ? (c.dir === "asc" ? "ascending" : "descending") : "none"}>
               <SiteLink href={srHref(q, sortChange(c, NAME_SORT), null)} scroll={false} gate="plain" className="inline-block py-1 underline decoration-dotted" data-sr-sort={NAME_SORT}>Place{c.sort === NAME_SORT && c.dir === "desc" ? " (turned round)" : ""}</SiteLink>
             </th>
             {cols.map((col) => {
