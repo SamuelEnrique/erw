@@ -69,3 +69,7 @@ One row a place, one value a column; every value is a count of the place's own f
 - Carbon intensity covers the seven operators' authorities only.
 - Berkeley Lab's file is a year-end snapshot (through 2025); it is not a live queue.
 - The datacenter tables are the ERW's tracker, built from news and company sources; a place with none listed may have datacenters the tracker has not placed.
+
+## Five years (part F, session 11200)
+
+Beside its monthly trend, each of the six counts that carry one also carries `years`: its figure for each of the five whole calendar years before the build's year (2021 to 2025 on 28 November 2026), by the same arithmetic as the period's figure (the highest hour, the mean of the hourly prices, the mean intensity, net imports over demand, the sum of the monthly curtailment). A year holding under 80 percent of its hours (all twelve months for curtailment) is null. A region's year is its members' sum taken on that year alone. Demand passes the rule for impossible hours over the whole read (the five years and the period). Prices before July 2023 come from `iso_hub_prices_history_2018` (SPP's North Hub from July 2018); SPP's North Hub holds no hour from July 2023 to August 2024, so its 2023 and 2024 are null.
