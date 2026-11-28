@@ -501,7 +501,9 @@ def hourly_prices(op, P):
     f["v"] = num(f.value)
     f["hour"] = f.ts_utc.str.slice(0, 13)
     # an hour's price is the mean of its intervals; a table read twice for one hour keeps one mean
-    return f.groupby(["entity", "market", "hour"], as_index=False).v.mean()
+    g = f.groupby(["entity", "market", "hour"], as_index=False).v.mean()
+    g["v"] = g.v.round(6)   # the hour's mean to 6 decimals, so that a mean of exactly zero is not read as below it
+    return g
 
 
 def build_price(place, P, S, prices, names):
@@ -700,7 +702,8 @@ def build_imports(place, P, S, dem, reg, ti, pairs, rpairs, names):
     src = S.key("eia930_interchange", "eia930_ba_interchange_hourly_<year>", "EIA")
     sec = {"status": "shown"}
     if place["kind"] == "region":
-        d = members_sum(dem[P.inside(dem.ts_utc)], place["members"])
+        d = members_sum(dem, place["members"])
+        d = d[P.inside(d.ts_utc)]   # members counted over the two years, as for the peak
         t = members_sum(ti, place["members"])
         tsrc = S.key("eia930_supply", "eia930_ba_supply_hourly", "EIA")
     else:
@@ -715,7 +718,7 @@ def build_imports(place, P, S, dem, reg, ti, pairs, rpairs, names):
         sec["net_import_share_peak_pct"] = cell(None, "pct", P.label, tsrc, why)
     else:
         share = -j.v_t.sum() / j.v_d.sum() * 100
-        top = j.sort_values("v_d", ascending=False).head(100)
+        top = j.sort_values(["v_d", "ts_utc"], ascending=[False, True]).head(100)   # ties: the earlier hour first
         sp = -top.v_t.sum() / top.v_d.sum() * 100
         sec["net_import_share_pct"] = cell(rnd(share, 1), "pct", P.label, tsrc)
         sec["net_import_share_peak_pct"] = cell(rnd(sp, 1), "pct", P.label + " (the 100 highest-demand hours)", tsrc)
