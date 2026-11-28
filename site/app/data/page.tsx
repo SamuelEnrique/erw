@@ -75,7 +75,7 @@ export default async function Data() {
                         head when the figures scroll sideways on a phone (tokens.css keeps a first th in place, not a td) */}
                     <th scope="row" className="py-1 pr-3 text-left align-top font-mono text-xs font-normal">
                       {r.table_name}
-                      {r.derived === "yes" ? <span className="ml-1 font-sans text-muted">(derived)</span> : null}
+                      {r.derived === "yes" || r.tier === "derived" ? <span className="ml-1 font-sans text-muted">(derived)</span> : null}
                     </th>
                     <td className="py-1 pr-3 text-xs">{(r.sector ?? "").split(";").join(", ")}</td>
                     <td className="py-1 pr-3 text-xs">{r.interval}</td>
@@ -95,6 +95,10 @@ export default async function Data() {
                     <td className="py-1 pr-3 text-xs">
                       {licenseNeeded(r.table_name) ? (
                         <span title={`${licensePublishers(r.table_name).join("; ")}: the publisher's own page asks for permission; none is recorded yet`}>{LICENSE_NEEDED}</span>
+                      ) : verdictOf(r.table_name) && verdictOf(r.table_name) !== "public" ? (
+                        // wip/ready-data-license-cell (the data pages audit of 26 November, finding 4, for Samuel's ruling): the License
+                        // cell says the license record's own word where the record holds the table not public
+                        <span title={refusal(r.table_name) ?? undefined}>{verdictOf(r.table_name)}</span>
                       ) : (
                         r.license
                       )}
@@ -117,7 +121,7 @@ export default async function Data() {
                     <td className="py-1 pr-3 text-xs whitespace-nowrap" data-tool-lines={r.table_name}>
                       {refusal(r.table_name) ? (
                         <details>
-                          <summary className="cursor-pointer text-muted">Not public ({verdictOf(r.table_name)})</summary>
+                          <summary className="cursor-pointer text-muted">Not public ({licenseNeeded(r.table_name) ? LICENSE_NEEDED : verdictOf(r.table_name)})</summary>
                           <p className="mt-1 w-64 whitespace-normal break-words">{refusal(r.table_name)}</p>
                         </details>
                       ) : (
