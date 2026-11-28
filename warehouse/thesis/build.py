@@ -344,7 +344,9 @@ def check_numbers(r, text, ids, log, where):
     bad = chat_ask.unverified(text, pool) if pool else re.findall(r"\d[\d,.]*", text)
     if bad:
         log(f"    {where}: numbers not in the cited sources {bad[:6]}; written as not confirmed")
-        return "not confirmed" if len(text) < 40 or not pool else text + f" (not confirmed: {', '.join(bad[:4])})"
+        # wip/ready-thesis-unconfirmed (the home page audit of 26 November, finding 13, for Samuel's ruling): a text holding a
+        # number no cited source holds is not shown, whatever its length, as a trend's Fact already is not
+        return "not confirmed"
     return text
 
 

@@ -43,7 +43,11 @@ export function hrefOf(c: Choice, patch: Partial<Choice> = {}, hash = ""): strin
 /** A list that may be absent, as a list. */
 export const arr = <T>(v: T[] | null | undefined): T[] => (Array.isArray(v) ? v : []);
 /** A field that should be text, as text ("" when it is absent or something else). */
-export const str = (v: unknown): string => (typeof v === "string" ? v : typeof v === "number" && Number.isFinite(v) ? String(v) : "");
+// wip/ready-thesis-unconfirmed (the home page audit of 26 November, finding 13, for Samuel's ruling): a saved run's text that
+// carries "(not confirmed: <numbers>)" holds a number no cited source holds, and is shown as "not confirmed", as the
+// builder now writes it (warehouse/thesis/build.py, check_numbers)
+export const UNCONFIRMED = /\(not confirmed: [^)]*\)/;
+export const str = (v: unknown): string => (typeof v === "string" ? (UNCONFIRMED.test(v) ? "not confirmed" : v) : typeof v === "number" && Number.isFinite(v) ? String(v) : "");
 export const isMissing = (c: unknown): c is Missing => typeof c === "object" && c !== null && typeof (c as Missing).missing === "string";
 export const PLACEHOLDER: Record<Missing["missing"], string> = {
   not_disclosed: "not disclosed", not_confirmed: "not confirmed", not_held: "not held", pitchbook_pending: PB_PENDING,

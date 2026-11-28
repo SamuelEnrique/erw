@@ -55,7 +55,7 @@ A run asks the EIA and FRED for at most five series together (one request each, 
 
 Every fact, row and figure carries the sources it rests on, as small numbered links. A source is either a web page the run fetched or a table of the ERW.
 
-**A number is written only if it appears in a fetched source that its row cites.** A figure that could not be found there is not shown. Nothing is estimated to fill a gap, and nothing is smoothed.
+**A number is written only if it appears in a fetched source that its row cites.** A figure that could not be found there is not shown. Nothing is estimated to fill a gap, and nothing is smoothed. Since the ruling on the home page audit of 26 November, finding 13, a text holding such a figure, of any length, reads "not confirmed" (`check_numbers`), and a saved run's text that carries "(not confirmed: ...)" is drawn the same way (`site/lib/thesis/view.ts`, `str`).
 
 ## The placeholders
 
