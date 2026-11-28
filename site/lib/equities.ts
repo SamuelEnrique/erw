@@ -253,9 +253,9 @@ export function filingsOf(s: EqSeries): Filing[] {
   })).filter((f) => f.period_end !== null);
 }
 // Session 10408 (chain 720, part E; the SEC's company figures are in the files since 27 November 2026): one filed
-// figure over the periods a company filed, and the newest period's rows side by side. Nothing is computed: a point is
-// a figure as filed, for the period its filing reports, and a period not filed on its own (often the fourth quarter,
-// which a 10-K reports inside its 12 months) has no point.
+// figure over the periods a company filed, and the newest period's rows side by side. A point of figureLine is
+// a figure as filed, for the period its filing reports; a period not filed on its own (often the fourth quarter,
+// which a 10-K reports inside its 12 months) has none there, and fourthQuarters (session 11408) works it out apart.
 export type FigureKey = "revenue" | "net_income" | "capex" | "debt" | "shares_outstanding";
 export const FIGURES = STATEMENT.map((x) => x[0]) as FigureKey[];
 export const FIGURE_DEFAULT: FigureKey = "revenue";
@@ -283,6 +283,38 @@ export function figureLine(fs: Filing[], col: FigureKey, per: PeriodKey): FiledP
     if (later(f, best.get(f.period_end)?.f)) best.set(f.period_end, { f, v });
   }
   return [...best.values()].sort((a, b) => (a.f.period_end as string).localeCompare(b.f.period_end as string));
+}
+/** Ready branch of session 11408 (weekend page of 28 November 2026, part 3.5: a fourth quarter worked out): a quarter
+ *  filed only inside a year's total is the year less its first nine months, where a 12-month figure and a 9-month
+ *  figure of one fiscal year (the same period start, the nine months ending three months before the year) are both
+ *  filed and the quarter itself is not. Each point names the two filings it is worked out from (`nine`); a sum only
+ *  (revenue, net income, capital spending), never debt or shares. The chart draws them beside the quarters filed; the
+ *  headline figure and the tables stay the filed figures. */
+export type WorkedPoint = FiledPoint & { nine: Filing };
+const monthsBefore = (end: string, n: number) => {
+  const d = new Date(`${end}T00:00:00Z`);
+  const t = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() - n + 1, 0));
+  return t.toISOString().slice(0, 10);
+};
+export function fourthQuarters(fs: Filing[], col: FigureKey): WorkedPoint[] {
+  if (AT_PERIOD_END.includes(col)) return [];
+  const filed = new Set(figureLine(fs, col, "3").map((p) => p.f.period_end));
+  const year = figureLine(fs, col, "12");
+  const nines = new Map<string, Filing>();
+  for (const f of fs) {
+    if (f.months !== 9 || f[col] === null || f.period_start === null || f.period_end === null) continue;
+    const k = `${f.period_start}|${f.period_end}`;
+    if (later(f, nines.get(k))) nines.set(k, f);
+  }
+  const out: WorkedPoint[] = [];
+  for (const y of year) {
+    const end = y.f.period_end as string;
+    if (filed.has(end) || y.f.period_start === null) continue;
+    const nine = nines.get(`${y.f.period_start}|${monthsBefore(end, 3)}`);
+    if (!nine) continue;
+    out.push({ f: y.f, v: y.v - (nine[col] as number), nine });
+  }
+  return out;
 }
 export type NewestColumn = { months: number | null; head: Filing; cells: Record<FigureKey, FiledPoint | null> };
 /** The newest period end a company filed, one column for each length of period its filing reports to that day (a

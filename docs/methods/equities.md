@@ -76,6 +76,8 @@ prices as null with the license reason (no source a license allows: the owner's 
 `quarterly` rows, each filing's own period (the newest period end in that filing, one row a period length), newest
 first. The section "The rules that wait for the SEC" above is the draft this section replaces.
 
+**A fourth quarter worked out (session 11408, the owner's choice on the weekend page of 28 November 2026).** On `/equities`, by 3 months, a sum (revenue, net income, capital spending) whose quarter is filed only inside a year's total is drawn as the year less its first nine months, where both are filed for one fiscal year (the same period start, the nine months ending three months before the year) and the quarter itself is not (`site/lib/equities.ts` `fourthQuarters`). The chart draws these beside the quarters filed and its source line counts them; the headline figure, the newest period's columns and the table of every period stay the filed figures. Debt and shares, figures at a period's end, are never worked out. On the page files of 28 November: 1,507 fourth quarters of revenue worked out; 218 of the 234 companies with filed quarters then have a fourth-quarter point, against 146.
+
 ## Joint filings (27 November 2026, done-line request 579)
 
 Many utilities file one 10-Q for a parent and its subsidiaries, and the SEC keeps the facts of such a filing in one of the

@@ -42,7 +42,8 @@ class NothingIsWorkedOut(unittest.TestCase):
         lib = src("site", "lib", "equities.ts")
         self.assertIn('if (atEnd ? per === "12" && !/^10-K/.test(f.form ?? "") : f.months !== months) continue;', lib)
         self.assertIn("if (later(f, best.get(f.period_end)?.f)) best.set(f.period_end, { f, v });", lib)
-        body = lib[lib.index("export function figureLine"):lib.index("export type NewestColumn")]
+        # ready branch wip/ready-equities-q4 (session 11408): figureLine still subtracts nothing; fourthQuarters, after it, does
+        body = lib[lib.index("export function figureLine"):lib.index("export type WorkedPoint")]
         self.assertNotIn(" - ", body)
 
     def test_the_choices_are_held_to_what_the_page_offers(self):

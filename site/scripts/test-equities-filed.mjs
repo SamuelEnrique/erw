@@ -114,7 +114,7 @@ const vals = (line) => line.map((p) => p.v / M).join(" ");
   check(/data-n="eq\|a\|figure"><span data-check="pf\|equities\/series\/DUK\.json\|quarterly\/1\/7" data-raw="850000000"[^>]*>850</.test(html), "the newest period's figure above the chart, in USD million, with its key into the file");
   check(t.includes("Revenue, 3 months to 2026-09-30") && t.includes("Duke Energy Corp: revenue, 3 months to each period end"), "the figure and its period are named in words");
   check(/aria-label="DUK, Duke Energy Corp: revenue, 3 months to each period end, USD million, 4 periods from 2025-09-30 to 2026-09-30, as filed with the SEC"/.test(html), "the chart's name says what it draws, how many periods and from where");
-  check(html.includes("A period not filed on its own has no point") && html.includes("a period filed twice shows the later filing"), "what is not drawn, and the amended filing's rule, are in the chart's hover");
+  check(html.includes("A period not filed on its own and not worked out so has no point") && html.includes("a period filed twice shows the later filing"), "what is not drawn, and the amended filing's rule, are in the chart's hover");  // ready branch wip/ready-equities-q4 (session 11408): the words name the worked fourth quarters
   check(!html.includes("data-check=\"pf|equities/series/DUK.json|daily") && !html.includes("|last|v"), "no figure of a held price is drawn");
   // the energy price keeps a chart of its own while no line can carry it
   check(html.includes('data-eq-price="wti"') && t.includes("Energy price") && !t.includes("Energy price laid over") && !t.includes("press one to lay it over"), "with no line to lay it over, the first energy price is drawn as a line of its own");

@@ -26,7 +26,7 @@ import {
 // session 10405 (chain 720, part E): a company's last close, changes and market value, once the list carries them
 import { companiesPriced, wholeWords } from "@/lib/equities";
 // session 10408 (chain 720, part E): the SEC's filed figures over the periods filed, and the newest period's columns
-import { AT_PERIOD_END, FIGURES, FIGURE_DEFAULT, PERIOD_DEFAULT, PERIOD_KEYS, PERIOD_WORDS, figureLine, figureUnit, figureWords, newestOf, type FigureKey, type NewestColumn } from "@/lib/equities";
+import { AT_PERIOD_END, FIGURES, FIGURE_DEFAULT, PERIOD_DEFAULT, PERIOD_KEYS, PERIOD_WORDS, figureLine, figureUnit, fourthQuarters, figureWords, newestOf, type FigureKey, type NewestColumn } from "@/lib/equities";
 import { equitiesList, equitiesPrices, equitiesSeries } from "@/lib/equitiesfiles";
 import { pfKey } from "@/lib/pagefile";
 
@@ -194,7 +194,7 @@ function FiledFigures({ slots, list, q }: { slots: Slot[]; list: EqList; q: Quer
     const s = slot.series, c = slot.company;
     const status = c?.fundamentals_status ?? "not held";
     const fs = s && s.example !== true && status === "shown" ? filingsOf(s) : [];
-    return { slot, fs, newest: newestOf(fs), line: figureLine(fs, q.fig, q.per),
+    return { slot, fs, newest: newestOf(fs), line: figureLine(fs, q.fig, q.per), worked: q.per === "3" ? fourthQuarters(fs, q.fig) : [],
       held: fs.length ? null : { words: s ? blankWords(status === "shown" ? null : status, list.example === true || s.example === true) : "not held", why: s ? blankWhy(status === "shown" ? null : status, c?.fundamentals_why ?? (status === "shown" ? "The file holds no filed period." : null), list.example === true || s.example === true) : `The file of this company (site/data/${fileOf(slot)}) is not on the site.` }, at: (n: string) => (s?.quarterly_columns ?? []).indexOf(n) };
   });
   const words = figureWords(q.fig), unit = figureUnit(q.fig), atEnd = AT_PERIOD_END.includes(q.fig);
@@ -219,16 +219,16 @@ function FiledFigures({ slots, list, q }: { slots: Slot[]; list: EqList; q: Quer
             }
             const last = x.line[x.line.length - 1];
             const concept = x.slot.series?.concepts?.[q.fig];
-            const src = `${x.slot.series?.source ? `Source: ${x.slot.series.source}. ` : ""}${words}${concept ? ` (${concept})` : ""}, ${span}, as ${name} filed it with the SEC: ${x.line.length} periods, ${x.line[0].f.period_end} to ${last.f.period_end}. A period not filed on its own has no point (a fourth quarter is most often filed inside the year's 12 months); a period filed twice shows the later filing's figure. Each period's filing opens from the table of every period filed, below.`;
+            const src = `${x.slot.series?.source ? `Source: ${x.slot.series.source}. ` : ""}${words}${concept ? ` (${concept})` : ""}, ${span}, as ${name} filed it with the SEC: ${x.line.length} periods, ${x.line[0].f.period_end} to ${last.f.period_end}.${x.worked.length ? ` ${x.worked.length} fourth quarters filed only inside a year are worked out as the year less its first nine months, each from its two filings (marked in the chart's words; the headline and the tables stay the filed figures).` : ""} A period not filed on its own and not worked out so has no point; a period filed twice shows the later filing's figure. Each period's filing opens from the table of every period filed, below.`;
             return (
-              <div key={k} className="min-w-0" data-eq-figure={k} data-eq-points={x.line.length}>
+              <div key={k} className="min-w-0" data-eq-figure={k} data-eq-points={x.line.length} data-eq-worked={x.worked.length}>
                 <div className="mb-3">
                   <HeadlineNumber label={`${words}, ${atEnd ? `at ${last.f.period_end}` : periodWords(last.f)}`} unit={unit}
                     value={<span data-n={`eq|${k}|figure`}><Filed f={last.f} col={q.fig} slot={x.slot} colAt={x.at(q.fig)} /></span>}
                     note={<FilingLink f={last.f}>{`${last.f.form ?? "Filed"}, ${last.f.filed ?? "day not said"}`}</FilingLink>} />
                 </div>
                 <ChartFrame title={`${name}: ${words.toLowerCase()}, ${span}`} tip={<> <Hint words="source" why={src} /></>}>
-                  <TimeChart series={[{ name: words, color: k === "a" ? "accent" : "series-3", points: x.line.map((p) => [endMs(p.f), p.v / 1e6]) }]} unit={unit} x="month" height={260}
+                  <TimeChart series={[{ name: words, color: k === "a" ? "accent" : "series-3", points: [...x.line, ...x.worked].sort((p1, p2) => endMs(p1.f) - endMs(p2.f)).map((p) => [endMs(p.f), p.v / 1e6]) }]} unit={unit} x="month" height={260}
                     ariaLabel={`${name}: ${words.toLowerCase()}, ${span}, ${unit}, ${x.line.length} periods from ${x.line[0].f.period_end} to ${last.f.period_end}, as filed with the SEC`} />
                 </ChartFrame>
               </div>
