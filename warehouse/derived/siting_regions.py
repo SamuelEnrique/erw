@@ -326,12 +326,52 @@ class Periods:
             self.months.append(f"{y:04d}-{m:02d}")
             y, m = (y + 1, 1) if m == 12 else (y, m + 1)
         self.trend_label = f"{self.prior_start}..{last.isoformat()}"
+        # part F of chain 760: the five whole calendar years before the build's year
+        y_end = end.year if end.month > 1 else end.year - 1
+        self.years = [str(y) for y in range(y_end - 5, y_end)]
+        self.deep_start = f"{self.years[0]}-01-01"
+        self.years_label = f"{self.years[0]}-01-01..{self.years[-1]}-12-31"
 
     def inside(self, ts):
         return (ts >= self.start) & (ts < self.end)
 
     def wide(self, ts):
         return (ts >= self.prior_start) & (ts < self.end)
+
+    def deep(self, ts):
+        return (ts >= self.deep_start) & (ts < self.end)
+
+
+YEAR_FLOOR = 0.8   # a year's figure needs 80 percent of the year's hours (twelve months for a monthly table)
+
+
+def years_of(P, ts, v, how, monthly=False):
+    """A count by calendar year over the five whole years (contract, dated line of 28 November, part F): 'mean',
+    'max' or 'sum' of the year's values; null for a year holding under 80 percent of its hours (all twelve months for a
+    monthly table)."""
+    vals, n = {}, {}
+    if len(ts):
+        yr = ts.astype(str).str.slice(0, 4).values
+        vals = getattr(v.groupby(yr), how)().to_dict()
+        n = v.groupby(yr).count().to_dict()
+    out = []
+    for y in P.years:
+        need = 12 if monthly else YEAR_FLOOR * (8784 if int(y) % 4 == 0 else 8760)
+        out.append(rnd(vals.get(y), 2) if n.get(y, 0) >= need else None)
+    return {"years": list(P.years), "period": P.years_label, "v": out}
+
+
+def years_ratio(P, ts, top, bottom, scale=100.0):
+    """A ratio of yearly sums, times `scale`, over the five whole years; null under 80 percent of a year's hours."""
+    out = []
+    if len(ts):
+        yr = ts.astype(str).str.slice(0, 4).values
+        a, b, n = top.groupby(yr).sum(), bottom.groupby(yr).sum(), bottom.groupby(yr).count()
+    for y in P.years:
+        need = YEAR_FLOOR * (8784 if int(y) % 4 == 0 else 8760)
+        ok = len(ts) and n.get(y, 0) >= need and b.get(y)
+        out.append(rnd(a[y] / b[y] * scale, 2) if ok else None)
+    return {"years": list(P.years), "period": P.years_label, "v": out}
 
 
 def trend(P, ts, v, how):
@@ -468,7 +508,7 @@ def load_places(P, cov):
         idx = json.load(fh)
     bas = {b["code"]: b for b in idx["bas"]}
     dem = read("eia930_ba_demand_hourly", ["entity", "variable", "ts_utc", "value"],
-               keep=lambda c: (c.variable == "demand_mw") & (c.ts_utc >= P.prior_start) & (c.ts_utc < P.end))
+               keep=lambda c: (c.variable == "demand_mw") & P.deep(c.ts_utc))
     dem["ba"] = dem.entity.str.replace("eia930:", "", regex=False)
     dem["v"] = num(dem.value)
     # a reader's case of session 11200: EIA-930 holds hours that did not happen (TVA at 44,377 MW on 20 October 2026,
@@ -523,6 +563,18 @@ def members_sum(frame, members):
     return pd.DataFrame({"ts_utc": w.index, "v": w.sum(axis=1).values})
 
 
+def region_years(frame, members, P):
+    """A region's hourly series over the five whole years, each calendar year summed by members_sum on its own (so a
+    member is counted in a year where it reports 90 percent of that year's hours)."""
+    import pandas as pd
+    parts = []
+    for y in P.years:
+        x = frame[(frame.ts_utc >= f"{y}-01-01") & (frame.ts_utc < f"{int(y) + 1}-01-01")]
+        if len(x):
+            parts.append(members_sum(x, members))
+    return pd.concat(parts, ignore_index=True) if parts else pd.DataFrame(columns=["ts_utc", "v"])
+
+
 def peak_of(frame, period_mask):
     x = frame[period_mask & frame.v.notna()]
     if x.empty:
@@ -535,13 +587,16 @@ def build_tightness(place, P, S, dem, reg, alerts, outages, reserves):
     sec = {}
     src = S.key("eia930_demand", "eia930_ba_demand_hourly", "EIA")
     if place["kind"] == "region":
-        f = members_sum(dem, place["members"]).reset_index(drop=True)
+        f = members_sum(dem[P.wide(dem.ts_utc)], place["members"]).reset_index(drop=True)
+        fy = region_years(dem, place["members"], P)
     else:
         f = dem[dem.ba == place["members"][0]].reset_index(drop=True)
+        fy = f
     pk, pk_ts = peak_of(f, P.inside(f.ts_utc))
     pp, _ = peak_of(f, (f.ts_utc >= P.prior_start) & (f.ts_utc < P.start))
     sec["peak_mw"] = cell(rnd(pk, 0), "MW", P.label, src, None if pk is not None else "not held: no demand hour held")
     sec["peak_mw"]["trend"] = trend(P, f.ts_utc, f.v, "max")
+    sec["peak_mw"]["years"] = years_of(P, fy.ts_utc, fy.v, "max")
     sec["peak_prior_mw"] = cell(rnd(pp, 0), "MW", P.prior_label, src, None if pp is not None else "not held: no demand hour held")
     g = (pk / pp - 1) * 100 if pk and pp else None
     sec["peak_growth_pct"] = cell(rnd(g, 1), "pct", f"{P.prior_label} to {P.label}", src,
@@ -612,14 +667,19 @@ def hourly_prices(op, P):
         return pd.DataFrame(columns=["entity", "market", "hour", "v"])
     if op == "ercot":
         f = read("ercot_all_hub_prices_history", ["entity", "variable", "ts_utc", "value"],
-                 keep=lambda c: c.entity.isin(ents) & P.wide(c.ts_utc))
+                 keep=lambda c: c.entity.isin(ents) & P.deep(c.ts_utc))
         f["market"] = f.variable.map({"spp_dam": "day-ahead", "spp_rtm": "real-time"})
     else:
         f = read("iso_hub_prices_history", ["entity", "variable", "ts_utc", "value", "market"],
-                 keep=lambda c: c.entity.isin(ents) & P.wide(c.ts_utc))
+                 keep=lambda c: c.entity.isin(ents) & P.deep(c.ts_utc))
         extra = []
+        # part F: the years before July 2023 (SPP's North Hub from July 2018) are iso_hub_prices_history_2018's
+        old = read("iso_hub_prices_history_2018", ["entity", "variable", "ts_utc", "value", "market"],
+                   keep=lambda c: c.entity.isin(ents) & P.deep(c.ts_utc))
+        if old is not None and not old.empty:
+            extra.append(old)
         for t in ("iso_dam_hub_prices", "iso_rtm_hub_prices"):
-            x = read(t, ["entity", "variable", "ts_utc", "value"], keep=lambda c: c.entity.isin(ents) & P.wide(c.ts_utc))
+            x = read(t, ["entity", "variable", "ts_utc", "value"], keep=lambda c: c.entity.isin(ents) & P.deep(c.ts_utc))
             if x is not None and not x.empty:
                 x["market"] = "dam" if t == "iso_dam_hub_prices" else "rtm"
                 extra.append(x)
@@ -672,6 +732,7 @@ def build_price(place, P, S, prices, names):
                 per = P.label if not low or not n else f"{first[:10]}..{x.hour.max()[:10]}"
                 h["mean"] = cell(rnd(x.v.mean(), 2) if n else None, "USD/MWh", per, src, why if n else "not held: no hour held")
                 h["mean"]["trend"] = trend(P, xa.hour, xa.v, "mean")
+                h["mean"]["years"] = years_of(P, xa.hour, xa.v, "mean")
                 h["p95"] = cell(rnd(x.v.quantile(0.95), 2) if n else None, "USD/MWh", per, src, why if n else "not held: no hour held")
                 h["hours_over_100"] = cell(int((x.v > 100).sum()), "hours", per, src, why if n else "not held: no hour held")
                 h["hours_below_0"] = cell(int((x.v < 0).sum()), "hours", per, src, why if n else "not held: no hour held")
@@ -839,6 +900,7 @@ def build_mix_carbon(place, P, S, fuel, carbon):
     import pandas as pd
     sec["intensity"] = cell(rnd(c.v.mean(), 1), "kgCO2/MWh", P.label, csrc)
     sec["intensity"]["trend"] = trend(P, ca.ts_utc, ca.v, "mean")
+    sec["intensity"]["years"] = years_of(P, ca.ts_utc, ca.v, "mean")
     hrs = pd.to_datetime(c.ts_utc, utc=True).dt.tz_convert(place["tz"]).dt.hour
     byh = c.v.groupby(hrs.values).mean()
     sec.update(intensity_by_hour=[rnd(byh.get(h), 1) for h in range(24)], intensity_by_hour_period=P.label,
@@ -850,9 +912,11 @@ def build_imports(place, P, S, dem, reg, ti, pairs, rpairs, names):
     src = S.key("eia930_interchange", "eia930_ba_interchange_hourly_<year>", "EIA")
     sec = {"status": "shown"}
     if place["kind"] == "region":
-        d = members_sum(dem, place["members"])           # members counted over the two years, as for the peak
+        d = members_sum(dem[P.wide(dem.ts_utc)], place["members"])   # members counted over the two years, as for the peak
         t = members_sum(ti[P.inside(ti.ts_utc)], place["members"])
-        tw = members_sum(ti, place["members"])
+        tw = members_sum(ti[P.wide(ti.ts_utc)], place["members"])
+        jy = region_years(dem, place["members"], P).merge(region_years(ti, place["members"], P), on="ts_utc",
+                                                           suffixes=("_d", "_t")).dropna()
         tsrc = S.key("eia930_supply", "eia930_ba_supply_hourly", "EIA")
     else:
         code = place["members"][0]
@@ -860,7 +924,10 @@ def build_imports(place, P, S, dem, reg, ti, pairs, rpairs, names):
         tw = ti[ti.ba == code][["ts_utc", "v"]]
         t = tw[P.inside(tw.ts_utc)]
         tsrc = S.key("eia930_supply", "eia930_ba_supply_hourly", "EIA")
+        jy = None
     jw = d.merge(tw, on="ts_utc", suffixes=("_d", "_t")).dropna()
+    if jy is None:
+        jy = jw
     j = d[P.inside(d.ts_utc)].merge(t, on="ts_utc", suffixes=("_d", "_t")).dropna()
     if j.empty:
         why = "not held: no hour with both demand and total interchange"
@@ -873,6 +940,7 @@ def build_imports(place, P, S, dem, reg, ti, pairs, rpairs, names):
         sec["net_import_share_pct"] = cell(rnd(share, 1), "pct", P.label, tsrc)
         sec["net_import_share_peak_pct"] = cell(rnd(sp, 1), "pct", P.label + " (the 100 highest-demand hours)", tsrc)
         sec["net_import_share_pct"]["trend"] = trend_ratio(P, jw.ts_utc, -jw.v_t, jw.v_d)
+        sec["net_import_share_pct"]["years"] = years_ratio(P, jy.ts_utc, -jy.v_t, jy.v_d)
     if place["kind"] == "region":
         rp = rpairs
         c = place["code"]
@@ -906,6 +974,8 @@ def build_spare(place, P, S, curt, neg_ref):
             sec[key] = cell(rnd(v, 0), "MWh", P.label, src, why)
             x = cw[cw.variable == var]
             sec[key]["trend"] = trend(P, x.ts_utc, x.v, "sum")
+            xd = curt[(curt.entity == CURTAIL_ENTITY[o]) & P.deep(curt.ts_utc) & (curt.variable == var)]
+            sec[key]["years"] = years_of(P, xd.ts_utc, xd.v, "sum", monthly=True)
     else:
         why = "not held: the warehouse holds curtailment for CAISO and SPP only"
         sec["curtailed_wind_mwh"] = cell(None, "MWh", P.label, src, why)
@@ -1051,7 +1121,7 @@ def build(out_dir, today=None):
           f"period {P.label}", flush=True)
 
     ti = read("eia930_ba_supply_hourly", ["entity", "variable", "ts_utc", "value"],
-              keep=lambda c: (c.variable == "total_interchange_mw") & P.wide(c.ts_utc))
+              keep=lambda c: (c.variable == "total_interchange_mw") & P.deep(c.ts_utc))
     ti["ba"] = ti.entity.str.replace("eia930:", "", regex=False)
     ti["v"] = num(ti.value)
     pp = []
@@ -1072,7 +1142,7 @@ def build(out_dir, today=None):
     fuel["code"] = fuel.entity.str.replace("eia930:", "", regex=False)
     fuel["v"] = num(fuel.value)
     carbon = read("carbon_intensity_hourly", ["entity", "variable", "ts_utc", "value"],
-                  keep=lambda c: (c.variable == "intensity_demand") & P.wide(c.ts_utc))
+                  keep=lambda c: (c.variable == "intensity_demand") & P.deep(c.ts_utc))
     carbon["ba"] = carbon.entity.str.replace("eia930:", "", regex=False)
     carbon["v"] = num(carbon.value)
     print("EIA-930 read", flush=True)

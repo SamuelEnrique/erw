@@ -154,15 +154,21 @@ def main():
         print("the files are the contract's examples: nothing to replicate")
         return 2
     p0, p1, p2 = period(idx["built"])
+    pe = date.fromisoformat(p2)
+    y_end = pe.year if pe.month > 1 else pe.year - 1
+    years = [str(y) for y in range(y_end - 5, y_end)]
+    y0 = f"{years[0]}-01-01"
     C = Check()
     bas = {b["code"]: b for b in grid_index["bas"]}
 
     # demand and total interchange, two years
     dem = defaultdict(dict)
     for e, var, ts, v in rows(a.tables, "eia930_ba_demand_hourly", ["entity", "variable", "ts_utc", "value"]):
-        if var == "demand_mw" and p0 <= ts < p2:
+        if var == "demand_mw" and y0 <= ts < p2:
             dem[e.replace("eia930:", "")][ts] = f(v)   # a blank kept as None: it is a place in the row order
-    dem = defaultdict(dict, {b: screened(s) for b, s in dem.items()})
+    # the screen runs over the whole read (the five years and the period), as the builder's does
+    dem_deep = {b: screened(s) for b, s in dem.items()}
+    dem = defaultdict(dict, {b: {t: v for t, v in s.items() if t >= p0} for b, s in dem_deep.items()})
     ti = defaultdict(dict)
     for e, var, ts, v in rows(a.tables, "eia930_ba_supply_hourly", ["entity", "variable", "ts_utc", "value"]):
         if var == "total_interchange_mw" and p1 <= ts < p2 and f(v) is not None:
@@ -341,6 +347,20 @@ def main():
                 continue
             C.eq(f"{pid} {key_n}", s[key_n]["v"], len(mine), 0)
             C.eq(f"{pid} {key_mw}", s[key_mw]["v"], round(sum(f(r[1]) or 0 for r in mine)), 0.5)
+
+    # the peak by calendar year over the five whole years (a region: each year summed on its own); a year under 80
+    # percent of its hours is null
+    for pid, p in places.items():
+        yrs = files[pid]["sections"]["tightness"]["peak_mw"].get("years")
+        if not yrs:
+            continue
+        for y, v in zip(yrs["years"], yrs["v"]):
+            lo, hi = f"{y}-01-01", f"{int(y) + 1}-01-01"
+            src = {b: {t: x for t, x in dem_deep.get(b, {}).items() if lo <= t < hi} for b in p["members"]}
+            s = members_sum(src, p["members"]) if p["kind"] == "region" else src.get(p["members"][0], {})
+            need = 0.8 * (8784 if int(y) % 4 == 0 else 8760)
+            want = round(max(s.values()), 2) if len(s) >= need else None
+            C.eq(f"{pid} peak year {y}", v, want, 0.006)
 
     # the trend of the peak: each month's highest hour over the 24 months
     for pid, p in places.items():
