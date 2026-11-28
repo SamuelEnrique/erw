@@ -23,9 +23,14 @@ battery is the storage group's units whose prime mover is BA), status (operating
 Nothing is estimated and no unit is left out: a unit with no technology group is "not stated".
 """
 import argparse
+import glob
 import json
+import math
 import os
+import re
 import sys
+import unicodedata
+import zipfile
 
 import pandas as pd
 
@@ -121,6 +126,65 @@ QUEUE_HELD = {"miso": ("MISO", "paused while terms are reviewed"), "nyiso": ("NY
 PAGE_TECHS = TECHS[:-1] + [("queue_storage", "Storage (queue positions)"), ("hybrid", "Hybrid"), ("transmission", "Transmission"),
                            ("datacenter", "Datacenter (a load)"), TECHS[-1]]
 NO_GRID = ("none", "Grid not stated")
+# Ready branch of session 11408 (map audit of 26 November 2026, finding 6, the other choice): outside Alaska, a unit whose
+# EIA point is more than FAR_MILES from the internal point of the county EIA names for it is drawn at that county's
+# point and marked as such (precision 1, "county point"). Either EIA's point or EIA's county is wrong; no count or sum
+# changes. The county points are the Census Bureau's county gazetteers held under warehouse/raw/census_gazetteer/ (the
+# 2025 file first, the 2020 file for names the 2025 file lacks); no request is made here.
+FAR_MILES = 200
+GAZ_DIR = os.path.join(ROOT, "warehouse", "raw", "census_gazetteer")
+
+
+def _county_key(s):
+    s = unicodedata.normalize("NFKD", str(s)).encode("ascii", "ignore").decode().lower().replace("&", " and ")
+    s = re.sub(r"\bsaint\b", "st", s)
+    s = re.sub(r"[^a-z0-9 ]", " ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return re.sub(r" (county|parish|borough|census area|city and borough|municipality)$", "", s).replace(" ", "")
+
+
+def county_points(gaz_dir=None):
+    """{(state, county key): (lat, lon)} from the newest held folder of county gazetteers; {} when none is held."""
+    root = gaz_dir or os.environ.get("ERW_GAZETTEER_DIR") or ""
+    zips = sorted(glob.glob(os.path.join(root, "*Gaz_counties*.zip"))) if root else []
+    if not zips:
+        found = sorted(glob.glob(os.path.join(GAZ_DIR, "*", "*Gaz_counties*.zip")))
+        zips = sorted(glob.glob(os.path.join(os.path.dirname(found[-1]), "*Gaz_counties*.zip"))) if found else []
+    points = {}
+    for z in sorted(zips, key=lambda p: "2020" in os.path.basename(p)):
+        with zipfile.ZipFile(z) as zf:
+            for member in zf.namelist():
+                raw = zf.read(member)
+                text = raw.decode("utf-8-sig") if raw[:3] == b"\xef\xbb\xbf" or b"\xc3" in raw[:200000] else raw.decode("latin-1")
+                lines = text.splitlines()
+                if not lines:
+                    continue
+                sep = "|" if "|" in lines[0] else "\t"
+                head = [h.strip() for h in lines[0].split(sep)]
+                if "USPS" not in head:
+                    continue
+                for ln in lines[1:]:
+                    v = dict(zip(head, [x.strip() for x in ln.split(sep)]))
+                    points.setdefault((v["USPS"], _county_key(v["NAME"])), (float(v["INTPTLAT"]), float(v["INTPTLONG"])))
+    return points
+
+
+def _miles(la1, lo1, la2, lo2):
+    a = (math.sin(math.radians(la2 - la1) / 2) ** 2
+         + math.cos(math.radians(la1)) * math.cos(math.radians(la2)) * math.sin(math.radians(lo2 - lo1) / 2) ** 2)
+    return 2 * 3958.8 * math.asin(min(1, math.sqrt(a)))
+
+
+def far_from_county(d, points):
+    """The index of each unit outside Alaska whose EIA point is over FAR_MILES from its EIA county's point, with that point."""
+    far = {}
+    for i, st, county, la, lo in zip(d.index, d["state"], d["county"], d["lat"], d["lon"]):
+        if st == "AK" or pd.isna(la) or pd.isna(lo) or not county:
+            continue
+        hit = points.get((st, _county_key(county)))
+        if hit and _miles(float(la), float(lo), *hit) > FAR_MILES:
+            far[i] = hit
+    return far
 PRECISION = {"point": 0, "county": 1, "place": 2, "operator": 3, "none": 4, "": 4}
 CARD_KEYS = ("id", "o", "c", "tx", "operators", "counties", "technologies", "more")   # what only the unit card reads (the page reads them from /map/card)
 
@@ -144,6 +208,12 @@ def page_rows(out=None):
         raise ValueError(f"an EIA status code the map does not know: {bad}")
     d["st_slug"] = d["eia_status"].str.lower().where(d["kind"] == "planned", "operating")
     d["precision"] = (d["lat"].notna() & d["lon"].notna()).map({True: 0, False: 4})
+    # ready branch of session 11408 (map audit finding 6): a unit far from its own county drawn at the county's point
+    points = county_points()
+    if not points:
+        print("project_map: no Census county gazetteer held under warehouse/raw/census_gazetteer/; EIA's points kept for every unit", file=sys.stderr)
+    for i, (la, lo) in far_from_county(d, points).items():
+        d.loc[i, "lat"], d.loc[i, "lon"], d.loc[i, "precision"] = la, lo, 1
     # EIA gives months: the operating month (status_date) or the planned one, as YYYYMM; the year alone where no month
     month = d["status_date"].where(d["kind"] == "operating", d["planned_operation_date"]).fillna("")
     d["date"] = [int(m[:4] + m[5:7]) if len(m) >= 7 else (int(y) if str(y).isdigit() else 0) for m, y in zip(month, d["year"])]
@@ -254,6 +324,7 @@ def build_page(out=None, card=True):
                    "batteries": int((r["tech"] == "battery").sum()), "under_1_mw": int((eia["mw"] < 1).sum()),
                    "without_balancing_authority": int((u["balancing_authority"] == "").sum()),
                    "without_mw": int(r["mw"].isna().sum()), "not_placed": int((r["precision"] == 4).sum()),
+                   "units_at_county_point": int((eia["precision"] == 1).sum()),
                    "datacenters_without_state": without_state, "queue_rows_held": int(sum(h["rows"] for h in held))},
         # one column a field, a row a position: a kind after another (kinds[].start), the largest first inside a kind
         "k": [kinds.index(x) for x in r["kind"]], "n": [name_i[x] for x in r["name"]], "s": [states.index(x) for x in r["state"]],

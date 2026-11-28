@@ -39,7 +39,7 @@ export const MAP_DECISIONS: MapDecision[] = [
     def: "EIA's code, in plain words.",
     source: "EIA, Form EIA-860 instructions, the proposed status codes P, L, T, U, V, TS and OT; the owner's words of 8 October 2026." },
   { key: "county-point", session: "sessions 16 and 349",
-    text: "A queue position is drawn at its county's point, or its city's or town's, not at its site. A name the Census Bureau's files do not hold in its state leaves the position off the drawing.",
+    text: "A queue position is drawn at its county's point, or its city's or town's, not at its site. A name the Census Bureau's files do not hold in its state leaves the position off the drawing. A unit outside Alaska whose EIA point is more than 200 miles from the point of the county EIA names for it is drawn at that county's point and marked so: one of the two is wrong.",
     def: "The internal point of the county, the place or the town; no fuzzy matching.",
     source: "U.S. Census Bureau, 2025 Gazetteer Files (counties, places, county subdivisions); docs/methods/energy_projects.md, \"Coordinates\"." },
   { key: "size", session: "session 167",
