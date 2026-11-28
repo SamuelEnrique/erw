@@ -216,6 +216,22 @@ HUBS = {
     "miso": [("miso:INDIANA.HUB", "MISO Indiana Hub")],
     "pjm": [],
 }
+# Done-line request 590: one name a hub in every list; CAISO's load areas named as the congestion page names them.
+HUB_NAME = {ent: name for hubs in HUBS.values() for ent, name in hubs}
+ZONE_NAMES = {"DLAP_PGAE-APND": "CAISO PG&E default load area", "DLAP_SCE-APND": "CAISO SCE default load area",
+              "DLAP_SDGE-APND": "CAISO SDG&E default load area", "DLAP_VEA-APND": "CAISO VEA default load area"}
+
+
+def own_reports(report, match):
+    """A table's reports kept to one operator's (done-line request 590): with match (column, prefix), the parts of the
+    coverage row's report list that begin with that operator's id; otherwise the list as it stands."""
+    if not report or not match:
+        return report
+    op = match[1].rstrip(":")
+    mine = [p for p in report.split(";") if p.strip().startswith(op + ":")]
+    return ";".join(mine) if mine else report
+
+
 # The region each operator's authority belongs to (site/data/regions/index.json), for the regions' hubs.
 OP_OF_BA = {ba: op for _pid, op, ba, _n in OPERATORS}
 COVER_FLOOR = 0.8          # a hub's statistic is shown when it holds at least 80 percent of the period's hours
@@ -470,7 +486,7 @@ class Sources:
             self.used[key] = {"table": table, "publisher": publisher,
                               "license": "internal" if held else "public",
                               "retrieved": r.get("last_run") or None,
-                              "report": report or r.get("source_report") or None,
+                              "report": report or own_reports(r.get("source_report"), match) or None,
                               "url": None if table.startswith("site/") or url != "first" else
                               table_url(table.replace("<year>", "2025"), match),
                               "held": self.holds.get(table)}
@@ -774,7 +790,8 @@ def build_congestion(place, P, S, cong, cons, ref_hub):
             share = cm / lmp * 100 if lmp and lmp > 0 and cm is not None else None
             low = hrs < COVER_FLOOR * P.hours
             why = f"too few: {int(hrs):,} of the period's {P.hours:,} hours held (the floor is 80 percent)" if low else None
-            sec["hubs"].append({"hub_id": ent, "hub": ent.split(":", 1)[1],
+            code = ent.split(":", 1)[1]
+            sec["hubs"].append({"hub_id": ent, "hub": HUB_NAME.get(ent) or ZONE_NAMES.get(code, code), "code": code,
                                 "congestion_share_pct": cell(rnd(share, 1), "pct", P.label, src,
                                                              why or (None if share is not None else "not held: the mean price was not above zero")),
                                 "congestion_mean": cell(rnd(cm, 2), "USD/MWh", P.label, src, why)})
@@ -958,7 +975,7 @@ def build_imports(place, P, S, dem, reg, ti, pairs, rpairs, names):
     return sec
 
 
-def build_spare(place, P, S, curt, neg_ref):
+def build_spare(place, P, S, curt, neg_ref, price_status=None):
     src = S.key("curtailment", "iso_curtailment_monthly", "CAISO; SPP")
     op = place.get("op")
     ops = [op] if op else [OP_OF_BA[b] for b in place["members"] if b in OP_OF_BA]
@@ -983,7 +1000,9 @@ def build_spare(place, P, S, curt, neg_ref):
     if neg_ref is not None:
         sec["negative_price_hours"] = dict(neg_ref)
     else:
-        sec["negative_price_hours"] = cell(None, "hours", P.label, src, "not a market: no public hub price for this place")
+        # done-line request 590: a market whose price is held says why, as its price section does
+        why = price_status if price_status and price_status != "shown" else "not a market: no public hub price for this place"
+        sec["negative_price_hours"] = cell(None, "hours", P.label, src, why)
     return sec
 
 
@@ -1220,7 +1239,7 @@ def build(out_dir, today=None):
             "large_load": build_large_load(place, S, rules, totals, laws, pstates),
             "mix_carbon": build_mix_carbon(place, P, S, fuel, carbon),
             "imports": build_imports(place, P, S, dem, reg, ti, pairs, rp, names),
-            "spare": build_spare(place, P, S, curt, neg_ref),
+            "spare": build_spare(place, P, S, curt, neg_ref, price["status"]),
             "forecast": build_forecast(place, S, scores),
             "datacenters": build_datacenters(place, S, fac, proj),
         }
@@ -1252,11 +1271,14 @@ def build(out_dir, today=None):
         rows.append({"id": r["id"], "kind": r["kind"], "name": r["name"], "v": v, "cell": cellmap})
     # done-line request 586: a column's period and source are the ones most of its shown cells share (the contract's
     # section 3); a cell keeps its own entry only where it is held or differs from its column
-    from collections import Counter
     for i, col in enumerate(cols):
         shown = [(rw["cell"][str(i)]["period"], rw["cell"][str(i)]["src"]) for rw in rows if not rw["cell"][str(i)]["held"]]
+        # done-line request 590: a column names a period or a source only when every shown cell shares it; a column
+        # of several sources (CAISO's, SPP's and ERCOT's prices) names none, and each cell keeps its own
         if shown:
-            (col["period"], col["src"]), _n = Counter(shown).most_common(1)[0]
+            periods, srcs = {p for p, _s in shown}, {s for _p, s in shown}
+            col["period"] = next(iter(periods)) if len(periods) == 1 else None
+            col["src"] = next(iter(srcs)) if len(srcs) == 1 else None
         for rw in rows:
             c = rw["cell"][str(i)]
             if not c["held"] and (c["period"], c["src"]) == (col["period"], col["src"]):
