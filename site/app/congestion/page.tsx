@@ -42,7 +42,7 @@ const placeLabel = (op: string | undefined, name: string) => (op && !name.starts
 const labelOf = (p: Place) => placeLabel(opOf(p.id)?.name, p.name);
 // Session 10220 (congestion audit, finding 1): each operator splits its price against its own reference (the energy part
 // is the same at every place of one operator in every hour), so a congestion part compares places of one operator only.
-const REFERENCE_WORDS ="Each operator splits its price against its own reference: the energy part is the same at every place of one operator, so a congestion part says how far congestion put a place above or below that operator's reference price, not what the place's price would have been with no congestion. Places of one operator compare with each other; SPP's and CAISO's places are ranked in one table here, but each is measured against its own operator's reference, so a rank across the two operators means nothing. For two places of one operator, the difference of their congestion parts, with the difference of their loss parts (in the file, not drawn), is their day-ahead price spread.";
+const REFERENCE_WORDS ="Each operator splits its price against its own reference: the energy part is the same at every place of one operator, so a congestion part says how far congestion put a place above or below that operator's reference price, not what the place's price would have been with no congestion. Places of one operator compare with each other, so the table holds only the chosen operator's places: a rank across the two operators means nothing. For two places of one operator, the difference of their congestion parts, with the difference of their loss parts (in the file, not drawn), is their day-ahead price spread.";
 
 // Session 9001 (part H): a figure given its page-file key (lib/pagefile.ts) renders through Num, so check-values reads
 // it again from site/data/conditions/congestion.json on its own.
@@ -127,7 +127,9 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
     ] };
   };
   const head = ["Constraint, as the operator names it", "Hours bound", "Mean shadow price", "Highest", "Summed (USD/MWh x hours)"];
-  const ranked = PLACES.filter((p) => p.by_year[py]).map((p) => ({ p, y: p.by_year[py] })).sort((x, z) => (z.y.congestion_mean ?? 0) - (x.y.congestion_mean ?? 0));
+  // Session 11407 (the ruling readied for congestion audit finding 1): the places table holds the chosen operator's
+  // places only, since each operator's congestion part is measured against its own reference.
+  const ranked = PLACES.filter((p) => p.id.startsWith(`${op}:`) && p.by_year[py]).map((p) => ({ p, y: p.by_year[py] })).sort((x, z) => (z.y.congestion_mean ?? 0) - (x.y.congestion_mean ?? 0));
   // Session 10220 (congestion audit, finding 3): the days the places' year holds, so a year that is not whole says so.
   const spans = ranked.map(({ p }) => {
     const o = p.id.split(":")[0], a = localDay(p.first, o), z = localDay(p.last, o);
@@ -196,7 +198,7 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
       </ToolSection>
 
       <ToolSection title="Where congestion adds to the price and where it takes off" id="places">
-        <ToolTable minWidth={680} caption={`Hubs and zones by their mean congestion part, ${py}${pwin ? ` (the hours held from ${pwin[0]} to ${pwin[1]})` : " (the days held differ by place: each place's on the hover of its mean LMP)"}, the largest addition first`} head={["Place", "Mean LMP", "Mean congestion part", "Share of the price", "Hours it added", "Hours it took off"]}
+        <ToolTable minWidth={680} caption={`${F.operators.find((o) => o.id === op)?.name}: hubs and zones by their mean congestion part, ${py}${pwin ? ` (the hours held from ${pwin[0]} to ${pwin[1]})` : " (the days held differ by place: each place's on the hover of its mean LMP)"}, the largest addition first`} head={["Place", "Mean LMP", "Mean congestion part", "Share of the price", "Hours it added", "Hours it took off"]}
           rows={ranked.map(({ p, y }) => {
             const s = `${F.sources[p.id.split(":")[0]].prices}. ${p.time}.`;
             const at = (f: string) => pfKey(PF, ["places", p.id.split(":")[0], { id: p.id }, "by_year", py, f]);
