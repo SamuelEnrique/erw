@@ -65,6 +65,11 @@ session takes the next item: longer backtests and more places. Branch `wip/c730-
   such a fuel `not held`.
 - **The wind and solar choice mended, which changes two entries on main** (New York's solar, Tennessee's wind). It was a
   fault (a rule applied to rounded numbers), so it is mended rather than kept; the note and the contract say so.
+- **The backtest tables' shape chosen (data requests 3 and 5, which window A left to this method):** the method in the
+  demand backtest's variable, the price backtest keyed by place with the hub in `x_hub`; both pass the validator. The
+  scores stay a file, since the backtest table and the demand rebuild every score (data request 17).
+- **The two-to-seven-day forecast for the 35 authorities goes in a file of its own** (`ahead_more.json`, a weekly step),
+  so that window A's daily `ahead.json` stays at 29 places and its run does not double.
 
 ## Errors and how they were met
 
@@ -81,6 +86,18 @@ session takes the next item: longer backtests and more places. Branch `wip/c730-
   the regressions only and says so; the simple methods and the operator stay exact.
 - **A row 1 figure out of date:** data request 1 says `run.py` takes about five minutes; the 29 places took 32 minutes in
   rebuild 15, and the 64 are about 70 alone. Data request 13 says so for window A.
+- **The wind and solar choice compared rounded errors** (a fault of mine since session 10602): mended, with New York's
+  solar and Tennessee's wind changing; rebuild 18 was stopped by its own process ids and restarted with the mended code.
+- **The longer backtest's rebuild with the peak failed at its end** on a day of the Tennessee region's early files that
+  peaks at zero (an infinite percent error JSON refuses): such days are left out of the peak; rebuilt.
+- **My tests were too strict for files built on different days:** the longer backtests are weekly files beside daily
+  ones, so their last days now need only be within a week of the place files'.
+- **I reported progress I had not checked:** for two hours my progress lines said the `ahead_more` replication was
+  equal so far, reading lines that print for every place; its result was 619 of 1,225, the demand having been revised
+  by window A's refresh between the build and the replication. Corrected in the progress file; the file rebuilt on the
+  same tables as its replication.
+- **Work after a landing row's head went onto the same branch twice** (v4, v5), which the desk's gates take at their tip:
+  harmless code each time, named in the rows; later work moved to a new branch each time.
 
 ## For Samuel's ruling
 
@@ -94,6 +111,14 @@ Nothing is taken for you.
 ## Commits
 
 - **Branch `wip/c730-predict-v4`:** `15f0e9271` the 35 places and the real-time longer backtest; `3927d1c5f` the four
-  real-time hubs; `fb294cadd` the day-ahead price at four hubs and `replicate_price.py`.
-- **Main:** `bb2dc07d6` progress; `daeb525ad`, `9a0ed65ce`, `bbd5efab1` `predict_price.md` sections 8 to 10; `7ad8766fc`
-  and `b55b220d7` data requests 9 and 10.
+  real-time hubs; `fb294cadd` the day-ahead price at four hubs and `replicate_price.py`; `c581529a1` window E's rows 11
+  and 12; `73398ce79` landing row 9's head; `1b5e4f3fe` the longer demand backtest; `8296de867` wind and solar by
+  authority and net demand for more places; `0958ad6a1` the choice mended; `3d51149bd` landing row 10's head;
+  `e5bef3243` the code of the day-ahead price's longer backtest.
+- **Branch `wip/c730-predict-v5`:** `052331bea` `long_price.json`; `29011cd18` landing row 11's head.
+- **Landings:** row 9 landed through window A's gate 28 (`f3b0f7224`, 16:59 UTC), which took `wip/c730-predict-v4` as
+  it stood at 14:50 UTC (through `0958ad6a1`). Rows 10 and 11 requested at 17:37 and 18:03 UTC.
+- **Main:** `bb2dc07d6` progress; `daeb525ad`, `9a0ed65ce`, `bbd5efab1`, `0e0024310` `predict_price.md` sections 8 to
+  11; `3600c1318`, `2b5395cd0`, `112ea6c8d` `predict.md` sections 23 to 26; `3bcab92ac` and `5f206ffa6`
+  `predict_wind_solar.md` sections 7 and 8; data requests 9, 10, 13 to 16; the contract's dated lines; the codebook
+  (NTD, NCEI, BOEM, USBR, IESO).

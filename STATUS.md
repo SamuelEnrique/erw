@@ -1,20 +1,20 @@
 # ERW status
 
-Generated 2026-11-25 16:12 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
+Generated 2026-11-27 16:51 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
 
 ## Tables
 
 | | Tables | Rows |
 |---|---|---|
-| All | 705 | 180,881,353 |
-| Public | 589 | 156,536,603 |
-| Internal (never shown publicly) | 116 | 24,344,750 |
+| All | 712 | 190,990,878 |
+| Public | 595 | 166,645,132 |
+| Internal (never shown publicly) | 117 | 24,345,746 |
 
-Newest table refresh: 2026-11-25 15:29:22 UTC. Validator: 702 of 705 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
+Newest table refresh: 2026-11-27 15:44:05 UTC. Validator: 709 of 712 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
 
 ## Health gate
 
-**Open.** The latest daily run on GitHub (2026-11-25) has 0 failed tables outside the known-gap list below. While the gate is closed, no session adds a new source or a new tool (`PRIORITIES.md`); fixing the failures, or a human adding one to the list, opens it. `python warehouse/metadata/build_status.py --gate` exits 1 while it is closed.
+**Closed.** The latest daily run on GitHub (2026-11-27) has 22 failed tables outside the known-gap list below: `eia930_all_interchange`, `eia930_all_storage`, `eia930_ciso_demand`, `eia930_ciso_generation`, `eia930_daily_demand`, `eia930_daily_interchange`, `eia930_erco_demand`, `eia930_erco_generation`, `eia930_isne_demand`, `eia930_isne_generation`, `eia930_miso_demand`, `eia930_miso_generation`, `eia930_nyis_demand`, `eia930_nyis_generation`, `eia930_pjm_demand`, `eia930_pjm_generation`, `eia930_swpp_demand`, `eia930_swpp_generation`, `eia930_us48_demand`, `eia930_us48_generation`, `eia_fuel_spot_prices`, `price_board`. While the gate is closed, no session adds a new source or a new tool (`PRIORITIES.md`); fixing the failures, or a human adding one to the list, opens it. `python warehouse/metadata/build_status.py --gate` exits 1 while it is closed.
 
 ### Known gaps
 
@@ -36,9 +36,9 @@ Failures a human has accepted for now (`warehouse/metadata/known_gaps.csv`, edit
 
 | Workflow | Last run (UTC) | Outcome |
 |---|---|---|
-| daily prices, on GitHub | 2026-11-25 16:12 | 153 ok, 30 gap, 11 skipped (table results of that day) |
+| daily prices, on GitHub | 2026-11-27 16:51 | 118 ok, 22 failed, 38 gap, 11 skipped (table results of that day) |
 | daily run, local | 2026-10-19 23:20 | 941 gap (table results of that day) |
-| latest prices, every 15 minutes | 2026-11-25 15:53 | 39 hubs and zones in `latest_prices` (newest retrieval) |
+| latest prices, every 15 minutes | 2026-11-27 16:46 | 39 hubs and zones in `latest_prices` (newest retrieval) |
 
 A table that failed is not written that day; nothing partial is. The reasons are in `warehouse/metadata/run_status.csv`.
 
@@ -47,11 +47,33 @@ A table that failed is not written that day; nothing partial is. The reasons are
 | Table | Run | Reason |
 |---|---|---|
 | `coverage` | 20260929T185935Z | price_board_carbon: input tables ['carb_auction_allowance_prices'] are not in warehouse/output; fixed in 670ba69 (session 33); recorded in session 34 from the j |
+| `eia930_all_interchange` | 20261127T150140Z | RuntimeError: EIA electricity/rto/interchange-data count failed after 4 attempts: RuntimeError('EIA electricity/rto/interchange-data HTTP 504: <html>\r\n<head>< |
+| `eia930_all_storage` | 20261127T145337Z | RuntimeError: EIA electricity/rto/fuel-type-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/fuel-type-data HTTP 504: <HTML><HEAD><TITLE |
+| `eia930_ciso_demand` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_ciso_generation` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_daily_demand` | 20261127T160521Z | RuntimeError: EIA daily demand 2026-11-22 offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/daily-region-data HTTP 504: <HTML><HEAD><TITLE>Err |
+| `eia930_daily_interchange` | 20261127T155513Z | RuntimeError: EIA daily interchange 2026-11-22 offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/daily-interchange-data HTTP 504: <HTML><HEAD> |
+| `eia930_erco_demand` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_erco_generation` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_isne_demand` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_isne_generation` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_miso_demand` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_miso_generation` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_nyis_demand` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_nyis_generation` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_pjm_demand` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_pjm_generation` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_swpp_demand` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_swpp_generation` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_us48_demand` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia930_us48_generation` | 20261127T144844Z | RuntimeError: EIA electricity/rto/region-data offset 0 failed after 4 attempts: RuntimeError('EIA electricity/rto/region-data HTTP 504: <HTML><HEAD><TITLE>Error |
+| `eia_fuel_spot_prices` | 20261127T150604Z | RuntimeError: RWTC: latest value 2026-11-03 is more than 10 days old; not writing a stale table |
 | `ercot_as_prices` | 20261105T234655Z | RuntimeError: https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13091 failed after 4 attempts: RuntimeError('HTTP 503 for https://www.ercot.co |
+| `price_board` | 20261127T152708Z | FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/erw/erw/warehouse/output/eia_fuel_spot_prices.csv' |
 
 ## Open gaps
 
-Days a per-day connector could not write complete, re-checked against the table with the connector's own completeness rule. Recorded gap days: 1297; filled since: 381; closed as known gaps: 600 (`eia930_all_emissions` 487, `eia930_all_storage` 113; the rows of warehouse/metadata/known_gaps.csv keyed <table>:gap_days); open: 316.
+Days a per-day connector could not write complete, re-checked against the table with the connector's own completeness rule. Recorded gap days: 1330; filled since: 397; closed as known gaps: 600 (`eia930_all_emissions` 487, `eia930_all_storage` 113; the rows of warehouse/metadata/known_gaps.csv keyed <table>:gap_days); open: 333.
 
 | Table | Day | State | First recorded reason |
 |---|---|---|---|
@@ -248,20 +270,23 @@ Days a per-day connector could not write complete, re-checked against the table 
 | `eia930_all_emissions` | 2026-11-16 | still incomplete in the table | 21 of 24 hours with co2_emissions_coal; not written for this day |
 | `eia930_all_emissions` | 2026-11-17 | still incomplete in the table | 2 of 24 hours with co2_emissions_coal; not written for this day |
 | `eia930_all_emissions` | 2026-11-19 | still incomplete in the table | 20 of 24 hours with co2_emissions_oil; not written for this day |
-| `eia930_all_emissions` | 2026-11-23 | still incomplete in the table | 5 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-11-23 | still incomplete in the table | 5 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-11-23 | still incomplete in the table | 5 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-11-23 | still incomplete in the table | 5 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-11-23 | still incomplete in the table | 5 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-11-23 | still incomplete in the table | 5 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-11-23 | still incomplete in the table | 5 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-11-24 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-11-24 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-11-24 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-11-24 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-11-24 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-11-24 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-11-24 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-11-21 | still incomplete in the table | 5 of 24 hours with co2_emissions_oil; not written for this day |
+| `eia930_all_emissions` | 2026-11-22 | still incomplete in the table | 0 of 24 hours with co2_emissions_oil; not written for this day |
+| `eia930_all_emissions` | 2026-11-23 | still incomplete in the table | 19 of 24 hours with co2_emissions_oil; not written for this day |
+| `eia930_all_emissions` | 2026-11-25 | still incomplete in the table | 5 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-11-25 | still incomplete in the table | 5 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-11-25 | still incomplete in the table | 5 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-11-25 | still incomplete in the table | 5 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-11-25 | still incomplete in the table | 5 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-11-25 | still incomplete in the table | 5 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-11-25 | still incomplete in the table | 5 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-11-26 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-11-26 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-11-26 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-11-26 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-11-26 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-11-26 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-11-26 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
 | `eia930_all_emissions` | ciso 2018-07-20..2026-08-19 | a range recorded by a history build (run_status.csv) | 275 UTC days without 24 hours with co2_emissions_coal, not written (first 2018-07-20, 2019-05-28, 2019-08-25; last 2026-08-19) |
 | `eia930_all_emissions` | ciso 2018-07-20..2026-08-20 | a range recorded by a history build (run_status.csv) | 10 UTC days without 24 hours with co2_emissions_natural_gas, not written (first 2018-07-20, 2019-08-25, 2019-12-19; last 2026-08-20) |
 | `eia930_all_emissions` | ciso 2018-07-20..2026-09-27 | a range recorded by a history build (run_status.csv) | 189 UTC days without 24 hours with co2_emissions_oil, not written (first 2018-07-20, 2019-03-15, 2019-03-16; last 2026-09-27) |
@@ -302,14 +327,28 @@ Days a per-day connector could not write complete, re-checked against the table 
 | `eia930_swpp_demand` | 2026-09-29 | still incomplete in the table | session 325 re-check (EIA's API, electricity/rto/region-data, asked again for the last 50 days): still incomplete |
 | `eia930_swpp_demand` | 2026-11-10 | still incomplete in the table | demand_forecast_mw: 6 of 24 hours (18 missing, 0 published as null; first missing ['2026-11-10T06:00:00Z', '2026-11-10T07:00:00Z', '2026-11- |
 | `eia930_swpp_demand` | 2026-11-11 | still incomplete in the table | demand_forecast_mw: 18 of 24 hours (6 missing, 0 published as null; first missing ['2026-11-11T00:00:00Z', '2026-11-11T01:00:00Z', '2026-11- |
+| `eia_crude_first_purchase_prices` | 2026-11-27 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: RuntimeError: EIA petroleum/pri/dfp2 off |
+| `eia_crude_imports_by_country` | 2026-11-27 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: RuntimeError: EIA petroleum/move/impcus  |
+| `eia_lng_exports_monthly` | 2026-11-27 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
+| `eia_padd_crude_pipeline_flows` | 2026-11-27 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
+| `eia_petroleum_stocks_weekly` | 2026-11-27 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
+| `eia_petroleum_trade_weekly` | 2026-11-27 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
+| `eia_primary_energy_monthly` | 2026-11-27 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
+| `eia_product_spot_prices` | 2026-11-27 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
+| `eia_retail_electricity_prices` | 2026-11-27 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
+| `eia_retail_fuel_prices` | 2026-11-27 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
 | `eia_retail_sales_monthly` | 2026-11-25 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
+| `eia_retail_sales_monthly` | 2026-11-27 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
 | `eia_sector_energy_consumption_monthly` | 2026-11-25 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
+| `eia_sector_energy_consumption_monthly` | 2026-11-27 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
 | `eia_state_generation_monthly` | 2026-11-25 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
+| `eia_state_generation_monthly` | 2026-11-27 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: iso_prices.BudgetExhausted: publisher di |
 | `ercot_storage_dam` | 2026-11-20 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: stopped after 15 minutes, nothing writte |
 | `ercot_storage_dam` | 2026-11-22 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: stopped after 15 minutes, nothing writte |
 | `ercot_storage_dam` | 2026-11-23 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: stopped after 15 minutes, nothing writte |
 | `ercot_storage_dam` | 2026-11-24 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: stopped after 15 minutes, nothing writte |
 | `ercot_storage_dam` | 2026-11-25 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: stopped after 15 minutes, nothing writte |
+| `ercot_storage_dam` | 2026-11-27 | not on this machine, not verifiable here | publisher did not answer within the budget (15 minutes of wall clock); asked again by the next run: stopped after 15 minutes, nothing writte |
 | `iso_hub_prices_history` | 2025-09-03 | still incomplete in the table | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2025-09-03T04:45:00Z']), extra 0 |
 | `iso_hub_prices_history` | 2025-09-10 | still incomplete in the table | day incomplete: 1 intervals longer than 5 minutes (a missing time stamp), first at N.Y.C. 2025-09-10T15:41:00Z |
 | `iso_hub_prices_history` | 2025-09-15 | still incomplete in the table | day incomplete: .H.INTERNAL_HUB: 94 rows, expected 96, missing 2 (first ['2025-09-15T06:30:00Z', '2025-09-15T07:15:00Z']), extra 0 |

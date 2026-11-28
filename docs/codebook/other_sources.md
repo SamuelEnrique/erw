@@ -2,7 +2,7 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 105 public tables (9 entities, 7 events, 89 series; tiers: 4 derived, 101 source); 105 documented in full.
+**What the family holds.** 106 public tables (9 entities, 7 events, 90 series; tiers: 4 derived, 102 source); 106 documented in full.
 
 - [`abs_suriname_electricity_annual`](#abs_suriname_electricity_annual): One year's value of one Suriname electricity measure (EBS's demand by category, net generation, net consumption or capacity, or a Staatsolie plant's generation), from the statistics office's Environment Statistics Publication.
 - [`aedg_alaska_generation_monthly`](#aedg_alaska_generation_monthly): One Alaska service area's electricity generation from one fuel in one month, from the Alaska Energy Data Gateway.
@@ -41,6 +41,7 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`egrid_subregions_annual`](#egrid_subregions_annual): One eGRID2023 subregion's value of one measure (capacity, net generation, CO2 emissions and rates, resource mix) for data year 2023.
 - [`eia411_capacity_margins_annual`](#eia411_capacity_margins_annual): One NERC assessment area's value of one supply and demand measure (peak load, net internal demand, capacity resources, capacity margin) for one summer or winter season, actual or projected.
 - [`eia861m_utility_sales_monthly`](#eia861m_utility_sales_monthly): One sampled utility's retail sales, revenue or customers in one state and sector in one month, from Form EIA-861M.
+- [`eia930_ba_wind_solar_hourly`](#eia930_ba_wind_solar_hourly): One balancing authority's net generation from wind, or from solar, for one UTC hour, as EIA-930's six-month file prints it (adjusted where EIA adjusts).
 - [`elexon_gb_demand_daily`](#elexon_gb_demand_daily): Great Britain's Initial National Demand Outturn summed over one settlement day, from Elexon's BMRS.
 - [`emi_nz_generation_demand_monthly`](#emi_nz_generation_demand_monthly): New Zealand's, the North Island's or the South Island's grid generation or demand in one month, from the Electricity Authority's EMI reports.
 - [`energinet_dk_production_hourly`](#energinet_dk_production_hourly): One Danish price area's (DK1 or DK2) value of one production, consumption or exchange measure in one hour, from Energinet's settlement data.
@@ -1665,6 +1666,39 @@ Variables (15):
 | `transportation_customers` | Transportation customers | count | 70143 | 2017-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
 | `transportation_revenue` | Revenue from transportation customers (EIA's thousand dollars times 1,000) | USD | 70145 | 2017-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
 | `transportation_sales` | Retail sales to transportation customers | MWh | 70143 | 2017-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
+
+### `eia930_ba_wind_solar_hourly`
+
+One balancing authority's net generation from wind, or from solar, for one UTC hour, as EIA-930's six-month file prints it (adjusted where EIA adjusts).
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-27: 5061899.
+
+- **Time:** ts_utc is the hour's start (the file's UTC Time at End of Hour minus one hour).
+- **Revisions:** A snapshot, rebuilt whole from the saved six-month files each run; vintage is the file's Last-Modified.
+- **Source:** eia:gridmonitor/sixMonthFiles EIA-930 six-month files (Hourly Electric Grid Monitor) (https://www.eia.gov/electricity/gridmonitor/about)
+- **Cite as:** EIA. Via the Energy Research Warehouse (ERW), table `eia930_ba_wind_solar_hourly`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia930:AECI, eia930:AVA, eia930:AVRN; 49 distinct | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2018-07-01T04:00:00Z to 2026-11-26T07:00:00Z; more than 5000 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | integer | -391 to 40767; more than 5000 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | MW | 0 |
+| `freq` | How long the interval of the row is | none | text | PT1H | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:gridmonitor/sixMonthFiles | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2018_Jul_Dec.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2019_Jan_Jun.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2019_Jul_Dec.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2020_Jan_Jun.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2020_Jul_Dec.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2021_Jan_Jun.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2021_Jul_Dec.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2022_Jan_Jun.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2022_Jul_Dec.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2023_Jan_Jun.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2023_Jul_Dec.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2024_Jan_Jun.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2024_Jul_Dec.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2025_Jan_Jun.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2025_Jul_Dec.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2026_Jan_Jun.csv, https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2026_Jul_Dec.csv | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-18T00:22:46Z, 2026-11-18T00:25:21Z, 2026-11-18T00:25:25Z, 2026-11-18T00:25:34Z, 2026-11-18T00:25:43Z, 2026-11-18T00:25:49Z, 2026-11-18T00:25:56Z, 2026-11-18T00:26:01Z, 2026-11-18T00:26:06Z, 2026-11-18T00:26:12Z, 2026-11-18T00:26:19Z, 2026-11-18T00:26:20Z, 2026-11-18T00:26:29Z, 2026-11-26T18:41:27Z, 2026-11-26T18:41:28Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-11-17T15:39:25Z, 2026-11-17T15:39:32Z, 2026-11-17T15:39:38Z, 2026-11-17T15:39:44Z, 2026-11-17T15:39:51Z, 2026-11-17T15:39:57Z, 2026-11-17T15:40:04Z, 2026-11-17T15:40:10Z, 2026-11-17T15:40:16Z, 2026-11-17T15:40:22Z, 2026-11-17T15:40:28Z, 2026-11-17T15:40:34Z, 2026-11-17T15:40:41Z, 2026-11-17T15:40:47Z, 2026-11-17T15:40:53Z, 2026-11-26T15:41:38Z, 2026-11-26T15:41:44Z | 0 |
+| `ba` | The balancing authority (the grid operator of an area) in EIA's code, lowercase (ciso, erco, us48) | none | text | for example aeci, ava, avrn; 49 distinct | 0 |
+| `x_file` | The six-month file the hour was read from (2025_Jul_Dec and so on) | none | text | 2018_Jul_Dec, 2019_Jan_Jun, 2019_Jul_Dec, 2020_Jan_Jun, 2020_Jul_Dec, 2021_Jan_Jun, 2021_Jul_Dec, 2022_Jan_Jun, 2022_Jul_Dec, 2023_Jan_Jun, 2023_Jul_Dec, 2024_Jan_Jun, 2024_Jul_Dec, 2025_Jan_Jun, 2025_Jul_Dec, 2026_Jan_Jun, 2026_Jul_Dec | 0 |
+
+Variables (2):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `net_generation_solar_mw` |  | MW | 2961743 | 2018-07-01T04:00:00Z | 2026-11-26T07:00:00Z |
+| `net_generation_wind_mw` |  | MW | 2100156 | 2018-07-01T04:00:00Z | 2026-11-26T07:00:00Z |
 
 ### `elexon_gb_demand_daily`
 

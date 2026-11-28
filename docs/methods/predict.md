@@ -717,3 +717,126 @@ break. Texas, the other place with an operator line, stays as section 20 found i
 
 Replication (`replication/predict/replicate_net.py`, which now builds each place's wind and solar entry by the same rules,
 zero fuels included): its count is in the progress file and landing row 10.
+
+## 27. The filing breaks are EIA's own (data request 7 answered, session 10603)
+
+Section 18 asked window A whether the seven breaks in the operator's filed forecast were EIA's published levels or a
+fault of the warehouse's reading (data request 7). Window A read EIA's own six-month BALANCE files independently of the
+table's code (`docs/reviews/answers-c701-2026-11-26/predict_row7.py` and its output) and found the same levels in all
+seven cases, within half a point: SWPP 108 to 112 percent of the demand from May 2025, FPC about 76, PSCO 71 to 77 from
+May 2026, FMPP about 71 from February to July 2026, SRP 115 to 124 in four months of 2026, CISO 89 to 93; and PJM's
+filed forecast matches the next hour's demand in EIA's file too (MAPE 2.5 against 3.5 percent). So the levels are EIA's
+as published (`docs/methods/forecast_error.md`, "Levels that are EIA's own"), and nothing is screened: that is the
+table owner's choice. The forecast's files keep doing what section 18 set out: the headline compares with the filing as
+published, and the sound months are scored beside it.
+
+## 28. Further ahead for the 35 authorities, and the backtest tables' shape (session 10603)
+
+**Further ahead.** Section 12's forecast two to seven days ahead (`ahead.json`) keeps its 29 places, which window A's
+daily run rebuilds (about half an hour). The 35 authorities of section 23 have it in a file of their own,
+`site/data/predict/ahead_more.json`, written by `python warehouse/predict/ahead.py --more`: the same horizons, methods,
+rule and shape, meant for a weekly step (data request 18). Built as at 18:00 UTC on 26 November: every one of the 175
+place-horizons beats the same hour a week ago and is shown; the error grows from three days to seven by 3 percent
+(SPA) to 21 percent (WALC) of itself. The last two years, `runs/c730/table_ahead.py`:
+
+| Authority | h3 method | MAPE % h3 | MAPE % h7 | Week-ago hour MAPE % | Shown |
+|---|---|---:|---:|---:|---|
+| AECI | regression_recent | 11.95 | 13.635 | 17.944 | 5 of 5 |
+| AVA | regression_recent | 5.079 | 5.72 | 7.145 | 5 of 5 |
+| AZPS | regression_recent | 7.257 | 8.035 | 9.783 | 5 of 5 |
+| BANC | regression_recent | 6.498 | 7.208 | 9.195 | 5 of 5 |
+| CHPD | regression_recent | 6.427 | 7.117 | 9.425 | 5 of 5 |
+| CPLW | regression_recent | 10.106 | 11.317 | 14.863 | 5 of 5 |
+| DOPD | regression_recent | 4.926 | 5.676 | 7.081 | 5 of 5 |
+| EPE | regression_recent | 6.632 | 7.268 | 9.514 | 5 of 5 |
+| FMPP | regression_recent | 7.394 | 7.911 | 10.642 | 5 of 5 |
+| GCPD | regression_recent | 3.147 | 3.742 | 4.579 | 5 of 5 |
+| GVL | regression_recent | 9.067 | 9.73 | 13.463 | 5 of 5 |
+| HST | regression_recent | 8.789 | 9.345 | 12.443 | 5 of 5 |
+| IID | regression_recent | 8.927 | 9.646 | 13.215 | 5 of 5 |
+| IPCO | regression_recent | 5.314 | 5.986 | 7.826 | 5 of 5 |
+| JEA | regression_recent | 8.789 | 9.581 | 13.02 | 5 of 5 |
+| LDWP | regression | 22.462 | 24.832 | 27.608 | 5 of 5 |
+| LGEE | regression | 8.653 | 9.478 | 13.262 | 5 of 5 |
+| NEVP | regression_recent | 5.603 | 6.489 | 8.134 | 5 of 5 |
+| NWMT | regression_recent | 4.97 | 5.66 | 6.645 | 5 of 5 |
+| PACW | regression_recent | 5.678 | 6.705 | 7.818 | 5 of 5 |
+| PGE | regression_recent | 4.612 | 5.017 | 6.533 | 5 of 5 |
+| PNM | regression_recent | 4.499 | 5.144 | 6.352 | 5 of 5 |
+| PSEI | regression_recent | 5.206 | 5.661 | 7.324 | 5 of 5 |
+| SC | regression | 8.459 | 9.11 | 12.149 | 5 of 5 |
+| SCEG | regression_recent | 15.428 | 16.049 | 19.802 | 5 of 5 |
+| SCL | regression_recent | 4.743 | 5.14 | 6.809 | 5 of 5 |
+| SEC | regression_recent | 15.499 | 17.001 | 21.654 | 5 of 5 |
+| SPA | regression | 31.463 | 32.475 | 42.382 | 5 of 5 |
+| SRP | regression_recent | 10.101 | 10.525 | 13.615 | 5 of 5 |
+| TAL | regression_recent | 9.371 | 10.177 | 13.827 | 5 of 5 |
+| TEC | regression_recent | 7.994 | 8.615 | 11.663 | 5 of 5 |
+| TEPC | regression_recent | 6.305 | 6.881 | 9.247 | 5 of 5 |
+| TIDC | regression_recent | 5.928 | 6.369 | 8.149 | 5 of 5 |
+| TPWR | regression_recent | 5.738 | 6.39 | 8.121 | 5 of 5 |
+| WALC | regression_recent | 11.928 | 14.428 | 15.546 | 5 of 5 |
+
+Replication: `replication/predict/replicate_ahead.py` reads `ahead_more.json` as it reads `ahead.json`; its count is in
+the progress file and the next landing row.
+
+**The backtest tables' shape (data requests 3 and 5, left to this method).** `run.py --out-dir` writes
+`predict_demand_backtest` with the method in the variable (`demand_forecast_regression_mw`,
+`demand_forecast_regression_recent_mw`), and `predict_price_backtest` (and `price_hubs.py`'s
+`predict_price_hubs_backtest`) keyed by place, the place's EIA-930 entity or the hub for a hub of section 10's file,
+with the hub in `x_hub`, so neither repeats an (entity, variable, ts_utc) key; both pass the validator (a two-place
+trial: 259,300 and 117,646 rows, 0 errors, 0 warnings). `predict_scores` stays a file: every score is a summary the
+backtest table and the demand rebuild (`replicate.py`), and no standard shape holds a cut and its key without
+contortion (data request 17).
+
+## 29. The day's peak over the longer backtest (session 10603)
+
+`long_backtest.json` now carries, for each place, the day's peak of section 11 over the longer walk (`peak`): the peak's
+own choice as the place file makes it (the candidate whose day peaks missed least over the last two years, on the days
+the operator also holds), then each year from 2016 scored on the days every ERW method holds every hour, and the
+operator beside it on the days its screened filing holds (from July 2018). A day whose highest hour is zero or below is
+left out: one such day in the Tennessee region's early files is a filing error, and its percent error would be
+infinite. Built on the tables as window A's daily run refreshed them at 19:20 UTC on 27 November (through 26 November);
+the place files of row 10 read the day before, which the files' tests allow (a weekly file beside daily ones, their
+last days within a week). The 29 places, `runs/c730/table_long_peak.py`:
+
+| Place | Peak method | Days | Peak MAPE % over the span: ERW, yesterday | ERW names the hour exactly % | Years the ERW's peak beats the operator's |
+|---|---|---:|---|---:|---|
+| region-cal | regression | 3,713 | 4.751, 7.272 | 60.2 | 0 of 9 |
+| region-car | regression_recent | 3,575 | 8.222, 10.952 | 45.1 | 0 of 9 |
+| region-cent | regression | 3,757 | 5.856, 7.543 | 47.4 | 2 of 9: 2025, 2026 |
+| region-fla | regression | 3,384 | 7.086, 8.313 | 42.7 | 1 of 9: 2021 |
+| region-mida | regression_recent | 3,489 | 5.752, 8.587 | 47.6 | 0 of 9 |
+| region-midw | regression_recent | 3,768 | 4.412, 7.056 | 47.9 | 0 of 9 |
+| region-ne | regression_recent | 3,781 | 5.993, 8.305 | 61.6 | 0 of 9 |
+| region-nw | regression_recent | 3,005 | 3.101, 5.006 | 58.4 | 6 of 8: 2019, 2021, 2023, 2024, 2025, 2026 |
+| region-ny | regression_recent | 3,753 | 5.324, 7.811 | 62.5 | 0 of 9 |
+| region-se | regression_recent | 3,689 | 7.623, 9.722 | 40.7 | 0 of 9 |
+| region-sw | regression_recent | 3,655 | 5.423, 6.429 | 59.8 | 2 of 9: 2018, 2021 |
+| region-ten | regression_recent | 3,735 | 8.046, 10.196 | 35.8 | 0 of 9 |
+| region-tex | regression_recent | 3,766 | 6.866, 8.105 | 48.0 | 0 of 9 |
+| ba-bpat | regression_recent | 3,781 | 4.224, 6.555 | 50.2 | 0 of 9 |
+| ba-ciso | regression | 3,772 | 4.558, 7.109 | 60.2 | 0 of 9 |
+| ba-cple | regression_recent | 3,769 | 10.149, 12.903 | 37.7 | 0 of 9 |
+| ba-duk | regression_recent | 3,773 | 8.446, 11.467 | 43.7 | 0 of 9 |
+| ba-erco | regression_recent | 3,766 | 6.866, 8.105 | 48.0 | 0 of 9 |
+| ba-fpc | regression_recent | 3,705 | 8.866, 10.567 | 41.1 | 9 of 9: 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 |
+| ba-fpl | regression | 3,763 | 7.333, 8.312 | 38.1 | 0 of 9 |
+| ba-isne | regression_recent | 3,781 | 5.993, 8.305 | 61.6 | 0 of 9 |
+| ba-miso | regression_recent | 3,780 | 4.218, 6.91 | 47.1 | 0 of 9 |
+| ba-nyis | regression_recent | 3,753 | 5.324, 7.811 | 62.5 | 0 of 9 |
+| ba-pace | regression_recent | 3,777 | 4.654, 6.312 | 32.2 | 5 of 9: 2018, 2020, 2021, 2022, 2023 |
+| ba-pjm | regression_recent | 3,761 | 5.763, 8.63 | 48.3 | 0 of 9 |
+| ba-psco | regression_recent | 3,775 | 9.433, 8.502 | 44.8 | 1 of 9: 2026 |
+| ba-soco | regression_recent | 3,692 | 7.412, 9.702 | 41.5 | 0 of 9 |
+| ba-swpp | regression | 3,776 | 5.863, 7.542 | 47.5 | 2 of 9: 2025, 2026 |
+| ba-tva | regression_recent | 3,735 | 8.046, 10.196 | 35.8 | 0 of 9 |
+
+What it says: as for the hours, the operator's peak is ahead year after year where its filing is sound (in 21 of the 29
+places the ERW's peak beats it in no year); the exceptions are again the filing breaks of section 18 (FPC in every year,
+SWPP and CENT in 2025 and 2026) and the Northwest and PACE, where the ERW's peak is ahead in most years. The ERW names the
+peak's hour exactly on a third to three fifths of days (32 percent at PACE to 63 at New York). Its peak beats yesterday's
+peak over the span at every place but PSCO (9.43 against 8.50 percent); Florida, the Southwest and PSCO win a year or two.
+
+Replication (`replicate_long.py`, which now rebuilds the peak by the same words): its count is in the progress file and
+landing row 12.
