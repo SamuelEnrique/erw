@@ -84,7 +84,8 @@ def main():
             figs.append((key + ".method", row["method"], method, row["method"] == method))
             figs.append((key + ".shown", row["shown"], shown, row["shown"] == shown))
         print(f"{p['place']}: {sum(1 for g in figs if g[0].startswith(p['place'] + '.') and g[3])} of {sum(1 for g in figs if g[0].startswith(p['place'] + '.'))} figures equal", flush=True)
-    with open(os.path.join(HERE, "figures_ahead.csv"), "w", encoding="utf-8", newline="\n") as fh:
+    stem = os.path.splitext(os.path.basename(a.file))[0]   # figures_ahead.csv, or figures_ahead_more.csv for ahead_more.json
+    with open(os.path.join(HERE, f"figures_{stem}.csv"), "w", encoding="utf-8", newline="\n") as fh:
         w = csv.writer(fh, lineterminator="\n")
         w.writerow(["key", "file", "recomputed", "equal"])
         w.writerows(figs)
