@@ -131,7 +131,10 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
 
   // 1. the six hubs, day-ahead, the latest month every hub holds with its day-ahead hours
   const latest = [...new Set(all.filter((r) => r.variable === "da_shape_premium").map((r) => r.ts_utc.slice(0, 10)))].sort()
-    .reverse().find((ts) => OPEN.every((h) => all.some((r) => r.entity === h.e && r.variable === "da_shape_premium" && r.ts_utc.slice(0, 10) === ts)))!;
+    .reverse().find((ts) => OPEN.every((h) => all.some((r) => r.entity === h.e && r.variable === "da_shape_premium" && r.ts_utc.slice(0, 10) === ts)
+      // wip/ready-reports-whole-month (the reports audit of 26 November, finding 2, for Samuel's ruling): and whole at every hub
+      && all.some((r) => r.entity === h.e && r.variable === "da_hours" && r.ts_utc.slice(0, 10) === ts
+        && all.some((x) => x.entity === h.e && x.variable === "hours_in_month" && x.ts_utc.slice(0, 10) === ts && x.value === r.value))))!;
   const six = OPEN.map((h) => {
     const lw = rowV(M, find(h.e, "da_load_weighted", latest)), sm = rowV(M, find(h.e, "da_simple_mean", latest));
     const pr = rowV(M, find(h.e, "da_shape_premium", latest)), hrs = rowV(M, find(h.e, "da_hours", latest)), inMonth = rowV(M, find(h.e, "hours_in_month", latest));
@@ -188,7 +191,14 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
 
   // 3. the hour of the day, each hub's latest profile month
   const prof = await series(P, {});
-  const pm = [...new Set(prof.map((r) => r.ts_utc.slice(0, 10)))].sort().at(-1)!;
+  // wip/ready-reports-whole-month (finding 2): the latest profile month whole at every hub (each hub's hour-12 cell holds
+  // every day of the month), not the newest month whatever its days
+  const wholeAt = (ts: string) => {
+    const nd = new Date(Date.UTC(Number(ts.slice(0, 4)), Number(ts.slice(5, 7)), 0)).getUTCDate();
+    return OPEN.every((h) => prof.some((r) => r.entity === h.e && r.ts_utc.slice(0, 10) === ts && r.variable === "rt_days_h12" && r.value >= nd));
+  };
+  const pmAll = [...new Set(prof.map((r) => r.ts_utc.slice(0, 10)))].sort();
+  const pm = [...pmAll].reverse().find(wholeAt) ?? pmAll.at(-1)!;
   const shapes = OPEN.map((h) => {
     const cells = prof.filter((r) => r.entity === h.e && r.ts_utc.slice(0, 10) === pm && r.variable.startsWith("rt_mean_h"));
     const days = prof.find((r) => r.entity === h.e && r.ts_utc.slice(0, 10) === pm && r.variable === "rt_days_h12");
