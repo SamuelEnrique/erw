@@ -1,0 +1,195 @@
+# The codebook's metadata of table spp_mtlf_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: spp_mtlf_hourly
+family: spp
+shape: series
+row: 'One hour of one SPP area (the footprint, or its western area) as one daily publication of SPP''s mid-term load forecast
+  file printed it: the forecast for the hour, or the averaged actual load beside it.'
+time: ts_utc is the hour's start, UTC (SPP's GMT hour ending less one hour; in the early files, which give only central time,
+  placed by row order). vintage is the hour the file was published (09:00 central time), UTC.
+vintage_rule: 'Revisions kept: one row per publication (vintage), so a forecast once made is never replaced and each publication''s
+  actuals stand as printed. The key is entity, variable, ts_utc and vintage.'
+keys:
+- entity
+- variable
+- ts_utc
+- vintage
+license: public
+tier: source
+interval: PT1H
+source:
+- name: spp:MTLF-VS-ACTUAL Southwest Power Pool (SPP), Marketplace portal, Mid-Term Load Forecast vs Actual
+  url: https://portal.spp.org/pages/mtlf-vs-actual
+cite: Southwest Power Pool (SPP). Mid-Term Load Forecast vs Actual (MTLF). Via the Energy Research Warehouse (ERW), table
+  `spp_mtlf_hourly`.
+method: docs/methods/spp_mtlf.md
+header_title: SPP's mid-term load forecast (MTLF) beside its averaged actual load, hourly, one file a day as published at
+  09:00 central time (session 10000, chain 701; predict data request 19)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity spp:<BAA> (SPP the footprint, SWPW its western area); variable
+  load_forecast_mtlf_mw or load_actual_mw (MW); ts_utc the hour''s start; vintage the hour the file was published (UTC); x_horizon_hours
+  the hours from publication to the hour''s start; x_interval_end_cpt SPP''s hour ending in central time; x_file the file
+  read.'
+read:
+  date: '2026-11-28'
+  rows: 1073626
+  key_duplicates: 827007
+  key_duplicates_with_vintage: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      spp:SPP: 1020604
+      spp:SWPW: 53022
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2013-06-28T14:00:00Z'
+    latest: '2026-12-04T14:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 113.0
+    highest: 59416.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 1073626
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 1073626
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 1073626
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1073626
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1073626
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      spp:MTLF-VS-ACTUAL: 1073626
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 707
+    examples:
+    - https://portal.spp.org/file-browser-api/download/mtlf-vs-actual?path=/2013/2013.zip
+    - https://portal.spp.org/file-browser-api/download/mtlf-vs-actual?path=/2014/2014.zip
+    - https://portal.spp.org/file-browser-api/download/mtlf-vs-actual?path=/2015/2015.zip
+    - https://portal.spp.org/file-browser-api/download/mtlf-vs-actual?path=/2016/2016.zip
+    - https://portal.spp.org/file-browser-api/download/mtlf-vs-actual?path=/2017/2017.zip
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-28T09:10:37Z': 1069266
+      '2026-11-28T10:09:44Z': 4360
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    distinct: 4887
+    earliest: '2013-06-29T14:00:00Z'
+    latest: '2026-11-27T15:00:00Z'
+  missing_cells: 0
+- name: x_horizon_hours
+  label: Hours from the file's publication to the hour's start; negative for an hour already past (an actual)
+  unit: h
+  type: integer
+  values:
+    distinct: 193
+    lowest: -25
+    highest: 167
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_interval_end_cpt
+  label: 'SPP''s own label of the hour: its hour ending in central prevailing time, as printed'
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 01/01/2014 00:00:00
+    - 01/01/2014 01:00:00
+    - 01/01/2014 02:00:00
+    - 01/01/2014 03:00:00
+    - 01/01/2014 04:00:00
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_file
+  label: The file read, OP-MTLF-<YYYYMMDDHH00>.csv (the publication's hour in central prevailing time)
+  unit: null
+  type: text
+  values:
+    distinct: 4887
+    examples:
+    - OP-MTLF-201306290900.csv
+    - OP-MTLF-201306300900.csv
+    - OP-MTLF-201307010900.csv
+    - OP-MTLF-201307020900.csv
+    - OP-MTLF-201307030900.csv
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: load_actual_mw
+  label: SPP's averaged actual load for the hour, MW, as printed beside the forecast
+  unit: MW
+  rows: 132894
+  first: '2013-06-28T14:00:00Z'
+  last: '2026-11-27T14:00:00Z'
+- name: load_forecast_mtlf_mw
+  label: SPP's mid-term load forecast (MTLF) for the hour, MW, as published
+  unit: MW
+  rows: 940732
+  first: '2013-06-28T14:00:00Z'
+  last: '2026-12-04T14:00:00Z'
+second_look: null
