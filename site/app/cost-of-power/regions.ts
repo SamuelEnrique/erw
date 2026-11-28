@@ -16,7 +16,10 @@
  *  2026, data request 585): in the count's unit and from its source; a month not held is null. */
 export type Trend = { months: string[]; period: string | null; v: (number | null)[] };
 /** A count as every file writes it. `v` is null exactly when `held` gives the reason. */
-export type Cell = { v: number | string | null; unit: string; period: string | null; src: string | null; held: string | null; trend?: Trend | null };
+export type Cell = { v: number | string | null; unit: string; period: string | null; src: string | null; held: string | null; trend?: Trend | null; years?: Years | null };
+/** The five whole calendar years before the build's year, beside a cell's months (the contract's dated line of
+ *  28 November 2026, "five years"): a year under 80 percent of its hours is null. */
+export type Years = { years: string[]; period: string | null; v: (number | null)[] };
 /** `url` is the address of the publisher's report the figure was read from: for a table of several publishers one
  *  source key an operator, the address that operator's own; null where the table has no address or its listed rows
  *  carry their own (the contract's second dated line of 28 November 2026, data request 586). */
@@ -166,6 +169,13 @@ export function periodWords(period: string | null | undefined): string {
 /** A month the file names ("2026-10") as words. */
 export const monthWords = (m: string): string => { const x = m.match(/^(\d{4})-(\d{2})$/); return x ? `${MONTHS[Number(x[2]) - 1] ?? x[2]} ${x[1]}` : m; };
 /** A trend's months that hold a figure, in order: what the small chart draws. Fewer than two: no line. */
+/** A cell's whole years: those that hold a figure, in the file's order, and the names of those that do not. */
+export function yearPoints(y: Years | null | undefined): { held: { y: string; v: number }[]; none: string[] } {
+  const held: { y: string; v: number }[] = [], none: string[] = [];
+  if (!y || !Array.isArray(y.years) || !Array.isArray(y.v)) return { held, none };
+  y.years.forEach((name, i) => { const v = y.v[i]; if (typeof v === "number" && Number.isFinite(v)) held.push({ y: String(name), v }); else none.push(String(name)); });
+  return { held, none };
+}
 export function trendPoints(t: Trend | null | undefined): { t: string; v: number }[] {
   if (!t || !Array.isArray(t.months) || !Array.isArray(t.v)) return [];
   return t.months.map((m, i) => ({ t: `${m}-01`, v: t.v[i] })).filter((p): p is { t: string; v: number } => typeof p.v === "number" && Number.isFinite(p.v));

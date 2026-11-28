@@ -55,10 +55,21 @@ def trend(first, step, missing=()):
     return {"months": MONTHS24, "period": P24, "v": [None if i in missing else round(first + step * i, 2) for i in range(24)]}
 
 
+YEARS5 = [str(y) for y in range(2021, 2026)]
+
+
+def years_of(months):
+    """Five made-up whole years beside the months (the contract's dated line of 28 November 2026, "five years"):
+    each a share of the months' first figure; 2024 is not held (null), as a year under 80 percent of its hours is."""
+    base = next(x for x in months["v"] if x is not None)
+    return {"years": YEARS5, "period": "2021-01-01..2025-12-31", "v": [round(base * 0.8, 2), round(base * 0.85, 2), round(base * 0.9, 2), None, round(base * 0.95, 2)]}
+
+
 def cell(v, unit, src, period=P12, held=None, months=None):
     c = {"v": None if held else v, "unit": unit, "period": period, "src": src, "held": held}
     if months is not None:
         c["trend"] = months
+        c["years"] = years_of(months)
     return c
 
 

@@ -21,7 +21,7 @@ import { licenseByGrid, licenseByRow, licenseHeldRow } from "@/lib/license";
 import { pfKey, type Segment } from "@/lib/pagefile";
 import { loadPlace, loadRegions, placePath } from "./regionsdata";
 import { AB_ANCHOR, ANCHOR, KINDS, KIND_PLURAL, KIND_SHORT, KIND_TIP, KIND_WORDS, LICENSE_NEEDED, NAME_SORT, PLACE_ANCHOR, TABLE_FILE, choiceOf, colIndex, colsDrawn, columnAbout, columnSources, defaultCols, figure, heldKind, heldWhy,
-  monthWords, periodWords, publishersOf, readCell, rowsShown, ruleHref, sameAbout, sortChange, sortWords, sourceWords, srHref, tableCsv, trendPoints, unitWords, utcWords, withUnit,
+  monthWords, periodWords, publishersOf, readCell, rowsShown, ruleHref, sameAbout, sortChange, sortWords, sourceWords, srHref, tableCsv, trendPoints, unitWords, utcWords, withUnit, yearPoints,
   type About, type Cell, type Choice, type IndexFile, type Kind, type Place, type PlaceFile, type Source, type TableFile, type TableRow } from "./regions";
 import { FrameToStart, RegionsChoices } from "./RegionsChoices";
 import { RegionsDownload } from "./RegionsDownload";
@@ -69,11 +69,16 @@ function TrendLine({ c, what }: { c: Cell; what: string }) {
   const lo = pts.reduce((a, p) => (p.v < a.v ? p : a), first), hi = pts.reduce((a, p) => (p.v > a.v ? p : a), first);
   // the line answers the mouse a month at a time (the shared chart's own titles); a finger and the keyboard open
   // these words: the first and the last month and the lowest and the highest, each as the file holds it
-  const said = `${what} by month${u ? `, ${u}` : ""}: ${figure(first.v, c.unit)} in ${month(first)}, ${figure(last.v, c.unit)} in ${month(last)}; the lowest month ${figure(lo.v, c.unit)} (${month(lo)}), the highest ${figure(hi.v, c.unit)} (${month(hi)}). ${pts.length} of ${c.trend?.months.length ?? pts.length} months held.`;
+  // the five whole calendar years the file carries beside the months (the contract's dated line of 28 November 2026,
+  // "five years"): each year's figure by the cell's own arithmetic; a year the file holds too little of is named as
+  // not held, never filled
+  const yrs = yearPoints(c.years);
+  const years = yrs.held.length ? ` Whole years: ${yrs.held.map((p) => `${figure(p.v, c.unit)} in ${p.y}`).join(", ")}${yrs.none.length ? ` (${yrs.none.join(", ")} not held)` : ""}.` : "";
+  const said = `${what} by month${u ? `, ${u}` : ""}: ${figure(first.v, c.unit)} in ${month(first)}, ${figure(last.v, c.unit)} in ${month(last)}; the lowest month ${figure(lo.v, c.unit)} (${month(lo)}), the highest ${figure(hi.v, c.unit)} (${month(hi)}). ${pts.length} of ${c.trend?.months.length ?? pts.length} months held.${years}`;
   return (
     // its own least width (the line's 96 px and its edge): the shared hover's wrapper is "no wider than its cell", which
     // a table reads as no width at all, and the line then ran over the next column's figure (seen at 390 px)
-    <span className="ml-2 inline-block min-w-[100px] align-middle" data-sr-trend="months" data-sr-trend-points={pts.length}>
+    <span className="ml-2 inline-block min-w-[100px] align-middle" data-sr-trend="months" data-sr-trend-points={pts.length} data-sr-years={yrs.held.length}>
       <Tip tip={said} plain>
         <span className="inline-block bg-white p-0.5">
           <InlineSpark values={pts} label={`${what} by month${u ? `, ${u}` : ""}, ${month(first)} to ${month(last)}`} width={96} height={22} />
