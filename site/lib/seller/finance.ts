@@ -25,7 +25,7 @@
 //
 // Session 353 (the chain of 20 October 2026, night): two more assumptions in Financing, the tax credits, 0 by default so
 // every default figure is what it was. The investment tax credit (`itc`, letter `i`) is a percent of the capital cost,
-// received in the first year; the production tax credit (`ptc`, letter `x`) is USD per MWh of the plant's energy (the
+// received in the first year (session 11408: at year 0); the production tax credit (`ptc`, letter `x`) is USD per MWh of the plant's energy (the
 // last twelve months' energy, falling with the degradation) in each of the first ten years. Both reach the cash flows to
 // equity, so NPV, IRR and the breakeven PPA price; neither is counted in debt coverage (a credit is a tax figure, not
 // cash from the plant). The page offers each credit only for an asset it names (SellerScenarios.tsx). And the contract
@@ -111,7 +111,7 @@ export const SPECS: Record<Key, Spec> = {
     short: (v) => `PPA ${n(v)} ${v === 1 ? "year" : "years"}`, words: (v) => `PPA term ${n(v)} ${v === 1 ? "year" : "years"}`, plain: n, source: `The years the contract pays its price, cut to the project life; after them the whole plant is in the market. No published PPA term is held, so the default is this asset's life (${LAZARD}), the debt's own default term: at the default the contract runs as it did before this field` },
   // session 353: the tax credits, none by default
   itc: { key: "itc", letter: "i", label: "Investment tax credit", unit: "percent of capital cost", min: 0, max: 70, whole: false, swing: 10, swingWords: "10 points",
-    short: (v) => `ITC ${n(v)}%`, words: (v) => `investment tax credit ${n(v)} percent`, plain: n, source: "No credit: the default is none. The credit is that percent of the capital cost, received in the first year. The page holds no figure for whether this project qualifies, or at what rate" },
+    short: (v) => `ITC ${n(v)}%`, words: (v) => `investment tax credit ${n(v)} percent`, plain: n, source: "No credit: the default is none. The credit is that percent of the capital cost, received at year 0, against the equity paid in, as on the battery page. The page holds no figure for whether this project qualifies, or at what rate" },
   ptc: { key: "ptc", letter: "x", label: "Production tax credit", unit: "USD per MWh", min: 0, max: 100, whole: false, swing: 5, swingWords: "USD 5 per MWh",
     short: (v) => `PTC ${n(v)} USD/MWh`, words: (v) => `production tax credit USD ${n(v)} per MWh`, plain: n, source: `No credit: the default is none. The credit is paid on each MWh of the first ${PTC_YEARS} years, the credit's term under sections 45 and 45Y of the Internal Revenue Code, on the last twelve months' energy falling with the degradation. The page holds no figure for whether this project qualifies, or at what rate` },
 };
@@ -230,18 +230,18 @@ export const contractedMarket = (a: Assumptions, rev: number, c: Contract = NO_C
  * revenue in every year. */
 export const incomeInYear = (a: Assumptions, revKw: number, t: number, c: Contract = NO_CONTRACT) =>
   t <= contractYears(a) ? contractYear(a, c) + contractedMarket(a, revenueInYear(a, revKw, t), c) : revenueInYear(a, revKw, t);
-/** Session 353: the tax credits in year t, USD per kW: the investment tax credit, a percent of the capital cost, in year
- * 1; the production tax credit on the year's energy (the last twelve months' energy, falling by the degradation rate)
+/** Session 353: the tax credits in year t, USD per kW: the investment tax credit, a percent of the capital cost, at
+ * year 0 (session 11408: taken against the equity paid in, as on the battery page; year 1 until then); the production tax credit on the year's energy (the last twelve months' energy, falling by the degradation rate)
  * in the first PTC_YEARS years. 0 with neither (an older set of assumptions, without the keys, is read as none). */
 export const creditInYear = (a: Assumptions, t: number, c: Contract = NO_CONTRACT) =>
-  (t === 1 ? ((a.itc ?? 0) / 100) * a.capex : 0) + (t <= PTC_YEARS && (a.ptc ?? 0) > 0 ? (a.ptc ?? 0) * c.energyKw * (1 - a.deg / 100) ** (t - 1) : 0);
+  (t === 0 ? ((a.itc ?? 0) / 100) * a.capex : 0) + (t >= 1 && t <= PTC_YEARS && (a.ptc ?? 0) > 0 ? (a.ptc ?? 0) * c.energyKw * (1 - a.deg / 100) ** (t - 1) : 0);
 /** The cash flows to equity, USD per kW, years 0 to the project life: the equity paid in at year 0, then each year's
  * income less fixed O&M less the debt payment while the debt lasts (session 353: plus the year's tax credits, when the
  * scenario holds one; with none the flows are what they were, to the last digit). */
 export function flows(a: Assumptions, revKw: number, c: Contract = NO_CONTRACT): number[] {
   const ds = debtService(a), dy = debtYears(a);
   const credits = (a.itc ?? 0) > 0 || (a.ptc ?? 0) > 0;
-  const out = [-a.capex * (1 - a.share / 100)];
+  const out = [-a.capex * (1 - a.share / 100) + (credits ? creditInYear(a, 0, c) : 0)];  // session 11408: the ITC at year 0, as on the battery page
   for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t, c) - a.fom - (t <= dy ? ds : 0) + (credits ? creditInYear(a, t, c) : 0));
   return out;
 }

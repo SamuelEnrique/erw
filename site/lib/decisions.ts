@@ -95,7 +95,7 @@ export const GENERATOR_DECISIONS: Decision[] = [
   { key: "price-years", session: "session 352",
     text: "The scenarios are priced on the page's own last twelve months by default; another window is read from price_years_by_window, and a window a table does not hold is said, never computed." },
   { key: "credits", session: "session 353",
-    text: "The investment and production tax credits are inputs, 0 by default and not counted in debt coverage; the ITC arrives in year 1, the PTC for ten years on the plant's energy." },
+    text: "The investment and production tax credits are inputs, 0 by default and not counted in debt coverage; the ITC arrives at year 0, as on the battery page, the PTC for ten years on the plant's energy." },
   { key: "node", session: "session 353",
     text: "A plant in ERCOT may be priced at a node: the 10th percentile, median or 90th percentile of its class's day-ahead basis to the hub average, on scenarios A and B only; the default is the hub." },
   { key: "ppa-shape", session: "session 353",
