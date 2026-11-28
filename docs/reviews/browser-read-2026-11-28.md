@@ -133,6 +133,18 @@ Chain 750 left this not run whole (it was stopped for memory on 26 November). `s
 
 **What the sweep's own rules marked wrongly, so that nobody chases it:** "a control without a name" on `/board`, `/deals`, `/map`, `/roundup`, `/curtailment` and the datacenter page (each is a control inside a closed fold, which the browser reports with a size and no words; the All grids tab's lists are named by their labels); "a figure written twice" wherever a chart prints the year 2020 or an hour such as 22 (the rule took "2020" for "20" twice).
 
+## Every method page at 390 px (taken over from chain 750, which was stopped for memory), 12:20 to 12:27 UTC
+
+`runs/c780/b_methods_sweep.mjs` (chain 750's script) opens `/data/methods/<note>` for each of the 620 notes of `docs/methods`.
+
+- **None of the 620 scrolls sideways at 390 px;** none has an empty chart; the slowest opens in 0.6 s. 534 draw a variables table (11,450 variables in all), 476 of them as blocks at this width.
+- **Four notes have no page** (`digest_scoring`, `forecast`, `roundup_selection`, `thesis_builder`): each answers "No page at this address". `/data` lists 618 method notes and none of the four; `/impact`, `/digest`, `/roundup` and `/research` link to none of them either (`runs/c780/peek_methods.ps1`): they are notes the site does not publish, and no reader is led to them from those pages.
+
+| # | Done | Seen | Should be seen | Whose, and state |
+|---|---|---|---|---|
+| M1 | Each method page's headings | Three pages have two first-level headings: `/data/methods/generation_mix_hourly` ("The energy mix by hour ..." and "Session 133: the ..."), `/data/methods/price_board` and `/data/methods/price_board_v4` ("Price board v2: method" and "Session 132: the one price board and its markets workbench") | One h1 a page (the second heading of each note a level down) | the notes' own markdown (`docs/methods/`), the desktop's. **Filed for the desk;** small |
+| M2 | The same sweep, the variables tables | Five rows of a variables table have an empty name or label, over the 534 pages | Each variable named | counted, not located one by one: **filed for the desk** with this count; the next read names the pages |
+
 ## The first minute, read once more with the new pages on production (12:15 UTC)
 
 Chain 750's script again (`runs/c780/b_first_minute.mjs`): a stranger with no cookie, then a reviewer in the internal view.
