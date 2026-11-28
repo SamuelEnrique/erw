@@ -105,14 +105,14 @@ register's folded pairs are counted once, as on the tracker. For each group, a r
 
 - `deals|comp_deals|<dimension>|<value>`: the deals of the group;
 - `deals|comp_with_price|<dimension>|<value>`: those that state a price in US dollars per MWh;
-- `deals|comp_median_price|<dimension>|<value>`: the median of those prices, only where three or more deals state one;
+- `deals|comp_median_price|<dimension>|<value>`: the median of those prices, only where five or more deals state one;
 - `deals|comp_with_mw|<dimension>|<value>`: those that state a size in MW;
-- `deals|comp_median_mw|<dimension>|<value>`: the median of those sizes, only where three or more deals state one.
+- `deals|comp_median_mw|<dimension>|<value>`: the median of those sizes, only where five or more deals state one.
 
 The value is the group's own (a type's id, a technology's words, a grid, a year), "-" for the group that does not state
-it. **Nothing is computed from fewer than three disclosed deals**: a group with fewer says "fewer than three". A median
+it. **Nothing is computed from fewer than five disclosed deals** (three until session 11408, the deals audit's finding 6): a group with fewer says "fewer than five". A median
 is of the figures the stories state; a deal that states none is left out, never counted as zero. One chart beside the
-table shows the median price of each group that has one; where no group of the dimension has three deals that state a
+table shows the median price of each group that has one; where no group of the dimension has five deals that state a
 price (every group of the 492 rows of 20 October: none states a price), it shows the median size, and says so. The
 functions are `comparables()`, `medianOf()` and `shown()` of `site/lib/deals2.ts`; `site/scripts/check-values.mjs`
 recomputes every key with the same functions on the live set's rows. Under the hold the view shows the hold's words
@@ -197,7 +197,7 @@ Written by session 2247 (6 November 2026) after the audit of the stored records 
 ### The views and their keys
 
 - **The table** (`/deals`): the filters kind, grid, state, counterparty, MW from and to, year, AI power, stage, price disclosed; every column sorts; the downloads are the rows shown (CSV with the ERW's header lines and no outlet text, a Python and a Stata reader). Its figures: `event|energy_deals|<deal>|mw` and `|dollars`.
-- **The disclosed prices** (`/deals?view=comparables#prices`): the PPAs and offtakes stating a price per MWh by technology, grid or year; `deals|price_count|<dimension>|<value>` always, `deals|price_median`, `deals|price_low` and `deals|price_high` from three. A reader's own deal is placed against them in one line, nothing stored or sent.
+- **The disclosed prices** (`/deals?view=comparables#prices`): the PPAs and offtakes stating a price per MWh by technology, grid or year; `deals|price_count|<dimension>|<value>` always, `deals|price_median`, `deals|price_low` and `deals|price_high` from five. A reader's own deal is placed against them in one line, nothing stored or sent.
 - **The AI-power view** (`/deals?view=ai`): the tagged deals by buyer, kind of supply, grid and quarter: `deals|ai_deals|<dimension>|<value>`, `deals|ai_mw`, `deals|ai_with_mw`, `deals|ai_usd`, `deals|ai_with_usd`; the ten with the most MW and the ten with the most US dollars.
 - **The charts** (`/deals?view=charts`): `deals|chart_mw|<quarter>|<kind of supply>` (and `|without`), `deals|chart_price|<deal>|price`, `deals|chart_ai|<quarter>|share`, `|ai_mw`, `|all_mw`, `deals|chart_party|<name>|mw`.
 

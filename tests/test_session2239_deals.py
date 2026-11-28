@@ -58,22 +58,26 @@ class Prices(unittest.TestCase):
     def test_only_ppas_and_offtakes_that_state_a_price(self):
         self.assertEqual(self.r["priced"], ["deal:1", "deal:2", "deal:3", "deal:4", "deal:5"])   # not the M&A, not the unpriced
 
-    def test_the_count_always_and_the_rest_from_three(self):
+    def test_the_count_always_and_the_rest_from_five(self):
+        # session 11408 (wip/ready-deals-median-five): nothing is computed from fewer than five prices
         solar = next(c for c in self.r["tech"] if c["value"] == "solar")
-        self.assertEqual((solar["count"], solar["median"], solar["low"], solar["high"]), (4, 55, 40, 70))
+        self.assertEqual((solar["count"], solar["median"], solar["low"], solar["high"]), (4, None, None, None))
         wind = next(c for c in self.r["tech"] if c["value"] == "wind")
         self.assertEqual((wind["count"], wind["median"], wind["low"], wind["high"]), (1, None, None, None))
         ercot = next(c for c in self.r["grid"] if c["value"] == "ERCOT")
-        self.assertEqual((ercot["count"], ercot["median"]), (4, 47.5))
+        self.assertEqual((ercot["count"], ercot["median"]), (4, None))
         self.assertEqual(ercot["ids"], ["deal:1", "deal:5", "deal:2", "deal:3"])   # the hover's records, by price
+        year = next(c for c in self.r["year"] if c["value"] == "2026")
+        self.assertEqual(year["count"], 4)
 
     def test_the_placement(self):
+        # session 11408: three solar prices in ERCOT and four solar ones are fewer than five: the scope widens to every
+        # priced deal (five)
         p1 = self.r["p1"]
-        self.assertEqual(p1["scope"], "solar in ERCOT")
-        self.assertEqual((p1["count"], p1["below"], p1["equal"], p1["above"], p1["median"]), (3, 1, 1, 1, 50))
-        # one solar price in CAISO is fewer than three: the scope widens to solar
-        self.assertEqual(self.r["p2"]["scope"], "solar")
-        self.assertEqual((self.r["p2"]["count"], self.r["p2"]["below"]), (4, 4))
+        self.assertEqual(p1["scope"], "every PPA and offtake that states a price")
+        self.assertEqual((p1["count"], p1["below"], p1["equal"], p1["above"], p1["median"]), (5, 2, 1, 2, 50))
+        self.assertEqual(self.r["p2"]["scope"], "every PPA and offtake that states a price")
+        self.assertEqual((self.r["p2"]["count"], self.r["p2"]["below"]), (5, 5))
         # one wind price: the scope widens to every priced deal
         self.assertEqual(self.r["p3"]["scope"], "every PPA and offtake that states a price")
 

@@ -121,10 +121,10 @@ class TheReplicationAgreesWithThePage(unittest.TestCase):
         self.assertEqual(shown["deals|month_ai_pct|2026-11"], 100)            # "True" and "true" are one flag
         self.assertEqual(shown["tracker|grid|PJM"], 0)                        # named in a story, no state: the tracker reads the state alone
         self.assertEqual(shown["tracker|grid|ERCOT"], 2)
-        self.assertEqual(shown["deals|comp_median_price|type|ppa"], 48)       # three power purchases state a price
-        self.assertNotIn("deals|comp_median_price|type|offtake", shown)       # one: fewer than three, no median
+        self.assertNotIn("deals|comp_median_price|type|ppa", shown)           # session 11408: three power purchases state a price, fewer than five
+        self.assertNotIn("deals|comp_median_price|type|offtake", shown)       # one: fewer than five, no median
         self.assertEqual(shown["deals|priced"], 4)
-        self.assertEqual(shown["deals|price_median|year|2026"], 51.5)
+        self.assertNotIn("deals|price_median|year|2026", shown)                 # session 11408: four prices, fewer than five
         self.assertEqual(shown["deals|ai_tagged"], 5)
         self.assertEqual(shown["deals|ai_deals|supply|nuclear"], 1)
         self.assertEqual(shown["deals|ai_deals|supply|compute"], 1)

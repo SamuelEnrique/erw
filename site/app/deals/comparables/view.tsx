@@ -17,8 +17,8 @@ import { HeldRows } from "@/components/tool/HeldRows";  // session 500
 // Session 466: the comparables view of the deals tracker (/deals?view=comparables, in review, under the tracker's tab).
 // The deals' disclosed figures side by side, one dimension at a time (?by=type, technology, grid or year; the type by
 // default): the deals in each cell, those that state a price in US dollars per MWh and those that state a size in MW,
-// and the median of each where at least three deals of the cell state it (lib/deals2.ts, comparables()). A cell with
-// fewer says "fewer than three": nothing is computed from fewer than three disclosed deals. The chart shows, for the
+// and the median of each where at least five deals of the cell state it (lib/deals2.ts, comparables()). A cell with
+// fewer says "fewer than five": nothing is computed from fewer than five disclosed deals. The chart shows, for the
 // cells that have one, the price where any cell of the dimension has a median price, else the size. Every figure
 // carries its key, deals|comp_<stat>|<dimension>|<value>, which scripts/check-values.mjs recomputes with the same
 // functions. It reads energy_deals and nothing else; under the hold it shows the hold's words and nothing of a row.
@@ -34,7 +34,7 @@ function Bars({ cells, what }: { cells: Cell[]; what: "price" | "mw" }) {
   const x = (v: number) => L + (v / hi) * (W - L - R);
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img"
-      aria-label={`The median ${what === "price" ? "price in US dollars per MWh" : "size in MW"} of each group with three or more deals that state it`}>
+      aria-label={`The median ${what === "price" ? "price in US dollars per MWh" : "size in MW"} of each group with five or more deals that state it`}>
       {rows.map((c, i) => {
         const v = what === "price" ? c.medianPrice! : c.medianMw!;
         const y = top + i * rowH;
@@ -152,7 +152,7 @@ export async function ComparablesView({ sp }: { sp: Record<string, string | unde
           </p>
 
           <ChartFrame title={`The median ${what === "price" ? "price, USD per MWh" : "size, MW"}, by ${dim.label.toLowerCase()}`}
-            note={<>Only the groups in which {MIN_DISCLOSED} or more deals state the figure ({whole(charted)} of {whole(cells.length)}); the others are in the table below. A median is of the figures the stories state; a deal that states none is left out, not counted as zero. A group holds every technology, country and stage of its kind: by deal type, a power purchase&apos;s median sets a solar plant of tens of MW beside a nuclear plant of thousands, and a median of three is the middle deal&apos;s own figure, not a market&apos;s.</>}>
+            note={<>Only the groups in which {MIN_DISCLOSED} or more deals state the figure ({whole(charted)} of {whole(cells.length)}); the others are in the table below. A median is of the figures the stories state; a deal that states none is left out, not counted as zero. A group holds every technology, country and stage of its kind: by deal type, a power purchase&apos;s median sets a solar plant of tens of MW beside a nuclear plant of thousands, and a median of five is the middle deal&apos;s own figure, not a market&apos;s.</>}>
             {charted ? <Bars cells={cells} what={what} /> : <p className="text-sm text-muted" role="status">No group has {MIN_DISCLOSED} deals that state a {what === "price" ? "price" : "size"}.</p>}
           </ChartFrame>
 

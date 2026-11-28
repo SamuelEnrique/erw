@@ -81,8 +81,8 @@ def js_round(x):
 
 
 def median3(xs):
-    """A median needs three deals that state the figure."""
-    return statistics.median(xs) if len(xs) >= 3 else None
+    """A median needs five deals that state the figure (session 11408, the deals audit's finding 6, the other choice)."""
+    return statistics.median(xs) if len(xs) >= 5 else None
 
 
 class Deal:
@@ -262,7 +262,7 @@ def comparables(ds):
         for value, ps in groups.items():
             v = dash(value)
             out[f"deals|price_count|{dim}|{v}"] = len(ps)
-            if len(ps) >= 3:
+            if len(ps) >= 5:
                 out[f"deals|price_median|{dim}|{v}"], out[f"deals|price_low|{dim}|{v}"], out[f"deals|price_high|{dim}|{v}"] = statistics.median(ps), min(ps), max(ps)
     return out
 

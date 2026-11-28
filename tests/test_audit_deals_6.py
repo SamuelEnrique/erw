@@ -19,7 +19,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 LIB = "file:///" + os.path.join(ROOT, "site", "lib", "deals2.ts").replace("\\", "/")
 JS = """
 const D = await import(%s);
-console.log(JSON.stringify([D.medianOf([43.5, 3600, 348]), D.medianOf([65, 892, 5400]), D.medianOf([43.5, 3600])]));
+console.log(JSON.stringify([D.medianOf([43.5, 3600, 348]), D.medianOf([43.5, 702, 348, 2800, 3600]), D.medianOf([43.5, 3600])]));
 """ % json.dumps(LIB)
 
 
@@ -31,13 +31,14 @@ class TheComparablesMix(unittest.TestCase):
     def test_a_median_of_three_is_one_deals_figure(self):
         out = subprocess.run(["node", "--input-type=module"], input=JS, capture_output=True, text=True, timeout=120)
         self.assertEqual(out.returncode, 0, out.stderr)
-        self.assertEqual(json.loads(out.stdout.strip().splitlines()[-1]), [348, 892, None])
+        # session 11408 (wip/ready-deals-median-five): three give none; a median of five is still the middle deal's figure
+        self.assertEqual(json.loads(out.stdout.strip().splitlines()[-1]), [None, 702, None])
 
     def test_the_note_says_what_a_group_mixes(self):
         with open(os.path.join(ROOT, "site", "app", "deals", "comparables", "view.tsx"), encoding="utf-8") as f:
             v = flat(f.read())
         self.assertIn("A group holds every technology, country and stage of its kind: by deal type, a power purchase&apos;s median sets a solar "
-                      "plant of tens of MW beside a nuclear plant of thousands, and a median of three is the middle deal&apos;s own figure, not a "
+                      "plant of tens of MW beside a nuclear plant of thousands, and a median of five is the middle deal&apos;s own figure, not a "
                       "market&apos;s.", v)
 
 

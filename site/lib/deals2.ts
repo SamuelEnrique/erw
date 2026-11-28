@@ -283,12 +283,12 @@ export function summary(all: Deal[], shown: Deal[], x: Inputs): string {
 
 // Session 466: the comparables view (/deals?view=comparables). The disclosed figures of the deals by one dimension
 // at a time: the deals in each cell, those that state a price in US dollars per MWh and those that state a size in
-// MW, and the median of each where at least three deals of the cell state it. Nothing is computed from fewer than three
+// MW, and the median of each where at least five deals of the cell state it. Nothing is computed from fewer than five
 // disclosed deals: such a cell says so (FEWER). A median is of the figures as the stories state them, the deals that do
-// not state one left out, never counted as zero. A cell shows the price where three or more state one, else the size
-// where three or more state one, else neither (shown()).
-export const MIN_DISCLOSED = 3;
-export const FEWER = "fewer than three";
+// not state one left out, never counted as zero. A cell shows the price where five or more state one, else the size
+// where five or more state one, else neither (shown()).
+export const MIN_DISCLOSED = 5;   // session 11408 (deals audit finding 6, the other choice): five, not three
+export const FEWER = "fewer than five";
 export const DIMENSIONS: { id: string; label: string }[] = [
   { id: "type", label: "Deal type" }, { id: "technology", label: "Technology" }, { id: "grid", label: "Grid" }, { id: "year", label: "Year" },
 ];

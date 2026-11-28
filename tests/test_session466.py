@@ -29,7 +29,7 @@ def num(v):
 
 
 def median3(xs):
-    return statistics.median(xs) if len(xs) >= 3 else None
+    return statistics.median(xs) if len(xs) >= 5 else None   # session 11408: five, not three
 
 
 class TheCells(unittest.TestCase):
@@ -59,7 +59,7 @@ class TheCells(unittest.TestCase):
             "const all = m.fold(rows.map(m.toDeal), pairs);"
             f"const out = Object.fromEntries({json.dumps(DIMS)}.map((k) => [k, m.comparables(all, k).map((c) => ({{ ...c, shown: m.shown(c) }}))]));"
             "const keys = [m.compKey('median_mw', 'type', 'ppa'), m.compKey('deals', 'grid', '')];"
-            "const med = [m.medianOf([1, 2]), m.medianOf([3, 1, 2]), m.medianOf([4, 1, 3, 2])];"
+            "const med = [m.medianOf([1, 2]), m.medianOf([4, 1, 3, 2]), m.medianOf([5, 1, 4, 2, 3]), m.medianOf([6, 1, 5, 2, 4, 3])];"
             "console.log(JSON.stringify({ out, keys, med, fewer: m.FEWER, min: m.MIN_DISCLOSED }));")
 
     def want(self, dim):
@@ -84,12 +84,12 @@ class TheCells(unittest.TestCase):
             self.assertEqual(sum(c["deals"] for c in got.values()), len(self.d), dim)
 
     def test_nothing_from_fewer_than_three(self):
-        self.assertEqual((self.got["min"], self.got["fewer"]), (3, "fewer than three"))
-        self.assertEqual(self.got["med"], [None, 2, 2.5])
+        self.assertEqual((self.got["min"], self.got["fewer"]), (5, "fewer than five"))   # session 11408
+        self.assertEqual(self.got["med"], [None, None, 3, 3.5])
         for dim in DIMS:
             for c in self.got["out"][dim]:
-                self.assertEqual(c["medianPrice"] is None, c["withPrice"] < 3, (dim, c["value"]))
-                self.assertEqual(c["medianMw"] is None, c["withMw"] < 3, (dim, c["value"]))
+                self.assertEqual(c["medianPrice"] is None, c["withPrice"] < 5, (dim, c["value"]))
+                self.assertEqual(c["medianMw"] is None, c["withMw"] < 5, (dim, c["value"]))
                 s = c["shown"]
                 want = "price" if c["medianPrice"] is not None else "mw" if c["medianMw"] is not None else "none"
                 self.assertEqual(s["what"], want, (dim, c["value"]))
@@ -144,7 +144,7 @@ class ThePage(unittest.TestCase):
         n = src("docs", "methods", "energy_deals.md")
         for stat in ("comp_deals", "comp_with_price", "comp_median_price", "comp_with_mw", "comp_median_mw"):
             self.assertIn(f"`deals|{stat}|<dimension>|<value>`", n)
-        self.assertIn("Nothing is computed from fewer than three disclosed deals", n)
+        self.assertIn("Nothing is computed from fewer than five disclosed deals", n)
 
     def test_no_dash(self):
         for f in FILES:
