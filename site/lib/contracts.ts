@@ -203,11 +203,14 @@ export function quarterNotListed(q: string | undefined, held: string[]): string 
   return q && !held.includes(q) && /^[A-Za-z0-9 _-]{1,20}$/.test(q) ? q : null;
 }
 
-/** What the filer wrote for the price: the number with its units, or the words. Never both invented. */
-export function rateText(r: Contract): { text: string; numeric: boolean } {
+/** What the filer wrote for the price: the number with its units, or the words. Never both invented. Session 11407
+ * (docs/reviews/contracts-model-audit-2026-11-26.md, finding 2, the owner's other choice readied): when a number is
+ * filed with a description, the description comes back as `words`, drawn beside the number, since it can say that the
+ * number is an adder to an index or one term of a formula. */
+export function rateText(r: Contract): { text: string; numeric: boolean; words?: string } {
   const n = (r.rate ?? "").trim();
-  if (n !== "") return { text: `${n}${r.rate_units ? ` ${r.rate_units}` : ""}`, numeric: true };
   const w = (r.rate_description ?? "").trim();
+  if (n !== "") return { text: `${n}${r.rate_units ? ` ${r.rate_units}` : ""}`, numeric: true, ...(w !== "" ? { words: w } : {}) };
   return { text: w === "" ? "not stated" : w, numeric: false };
 }
 

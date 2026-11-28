@@ -90,7 +90,13 @@ longer contracts. The lead and the hover on "Quarter signed" say so.
 filed. The term in years is shown when both dates are eight digits and the end is not before the start: the days
 between them over 365.25, to one decimal. A day past its month's end runs into the next month, as the page's engine
 reads it. An execution date after today carries "as filed" (the ruling of 18 October 2026, item 5); since session 7501
-the panel's note does the same for the last date held (2223-01-01).
+the panel's note does the same for the last date held (2223-01-01). Since session 11407 (the other choice of
+`docs/reviews/contracts-model-audit-2026-11-26.md`, finding 2, branch `wip/ready-contracts-descriptions`) a price cell
+that files a number and a description draws the description after the number, in grey (`rateText`, `words`): it can
+say that the number is an adder to an index or one term of a formula. No figure moves. For the load of 5 October 2026,
+1,110 of the 1,317 numbers of energy, capacity and tolling signed in the window gain words, 178 of them words naming an
+index, LMP, an adder, plus, a formula, an escalation, a heat rate or a percent; in the default view (2026 Q2) 106 of
+the 112 numbers, 1 of them such words.
 
 **The limits box**, on every view: of the rows held in the live set (18,989), those that file no number (10,956). Of
 these 10,907 file words and 49 file neither; the box said all 10,956 "give their price as words" until session 7501.
@@ -236,7 +242,7 @@ together).
 6. **agreement-and-contract** (sessions 83 and 99). In the list, an agreement is a seller's name with its service agreement identifier. In the other three views, a contract is the filer's company identifier with its own contract identifier. One agreement files a row for each product.
    - Default: Two counts with two names; neither merges a renumbered contract with its old number.
    - Source: FERC's contract file: contract_service_agreement_id and contract_unique_id, with the filer's company identifier.
-7. **price-as-filed** (session 83). A price is the rate and its units when the filer gave a number, else the filer's own words. No price is filled in, converted or estimated.
+7. **price-as-filed** (session 83). A price is the rate and its units when the filer gave a number, with the filer's own words after it when filed beside it (since session 11407), else the filer's own words. No price is filled in, converted or estimated.
    - Default: As filed. About half the rows give words.
    - Source: FERC's contract file: rate, rate_units, rate_description.
 8. **in-force** (session 99). A contract is in force when its row files no actual termination date. The largest buyers and sellers, the megawatts and the changes by quarter count contracts in force only.

@@ -36,7 +36,7 @@ export const CONTRACTS_DECISIONS: ContractDecision[] = [
     def: "Two counts with two names; neither merges a renumbered contract with its old number.",
     source: "FERC's contract file: contract_service_agreement_id and contract_unique_id, with the filer's company identifier." },
   { key: "price-as-filed", session: "session 83",
-    text: "A price is the rate and its units when the filer gave a number, else the filer's own words. No price is filled in, converted or estimated.",
+    text: "A price is the rate and its units when the filer gave a number, with the filer's own words after it when filed beside it (since session 11407), else the filer's own words. No price is filled in, converted or estimated.",
     def: "As filed. About half the rows give words.",
     source: "FERC's contract file: rate, rate_units, rate_description." },
   { key: "in-force", session: "session 99",
