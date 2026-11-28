@@ -89,7 +89,8 @@ A month's battery figures are the sums of its solved days; its `hours` field is 
 - Henry Hub is the day's spot price (`eia_fuel_spot_prices`, `eia:henry_hub`), or the last trading day's before a day without one. The day is the grid's local day.
 - Margin = the sum over run hours of price less cost. Energy = the run hours (1 MWh per MW each). "Price while running" = sales over run hours.
 - At the default heat rate and variable O&M the page reads the month's row. At any other, it computes the same rule again from the snapshot's hourly prices (rounded to the cent) and Henry Hub (rounded to a tenth of a cent).
-- Not modeled: start cost, minimum run, ramp limits, outages, and the gas basis (a New York or New England plant pays more than Henry Hub in winter, so its margin is overstated).
+- A start cost (session 11408, readied for the owner's ruling on the audit of 20 November, finding 9): USD 50 per MW a start, the audit's middle sensitivity of 25, 50 and 100, no source; a run (consecutive hours above the cost) whose margin does not exceed it is skipped, and each run kept pays it (`kept_runs` in `merchant_revenue.py`, `peakerOver` in `site/lib/merchant.ts`, which now solves every grid's peaker). ERCOT, October 2025 to September 2026: USD 37.14 per kW against 48.15, 153 starts against 406.
+- Not modeled: minimum run, ramp limits, outages, and the gas basis (a New York or New England plant pays more than Henry Hub in winter, so its margin is overstated).
 
 ### 3.5 Months, and which count
 
@@ -122,7 +123,7 @@ Inside "What did it earn?", under the income table. Both are `capView` in `site/
 - The plant is the grid's whole fleet by the hour, scaled to the reader's size, not one site (3.2); it is paid the hub's price, not its own node's, and no basis is modeled.
 - Nothing is curtailed, no clipped energy is recovered, and no negative-price clause applies: in an hour priced below zero the fleet still sells (3.1, 3.2).
 - No capacity payment, no ancillary service, no renewable energy certificate, no tax credit: energy at the hub price alone (a battery's ancillary revenue is on What a battery earns).
-- The peaker has no start cost, no minimum run and no outage; it runs in every hour the price is above fuel plus variable O&M (3.4).
+- The peaker pays USD 50 per MW a start and skips a run that does not pay it (session 11408); it has no minimum run and no outage (3.4).
 - A contract (11.1) is a share of the energy at a fixed price (or a toll on a share of the capacity): no shape, no settlement point, no credit.
 - The scenarios repeat one year of revenue over the project's life (11.6): not a forecast and not a valuation.
 
@@ -697,7 +698,7 @@ Session 463, 21 October 2026 (chain 019). The page lists, at its foot, every mod
 1. The plant sells every MWh it makes at the hour's price at a hub or zone, merchant: no hedge, no capacity payment and no ancillary service, unless a scenario gives it a contract. (sessions 51 and 145)
 2. A solar or wind plant has its grid's fleet shape: EIA-930's hourly generation of the fuel over EIA-860M's installed nameplate of the month. It is not a site's own resource, curtailment or node price, and nothing is trimmed. (sessions 51 and 145)
 3. A battery beside nothing earns energy alone: each day from empty, at most one full cycle a day, 86 percent round trip (the low end of Lazard's range), with the day's prices known in advance, so its figure is an upper bound; What a battery earns is the page for a battery. (session 145)
-4. The gas peaker runs in each hour whose price is strictly above Henry Hub times its heat rate plus variable O&M, with no start cost, minimum run or gas basis; where a grid's generators buy allowances (California) the fuel's carbon cost is added. (sessions 145 and 298; ruling 1a of 18 October 2026)
+4. The gas peaker runs in each hour whose price is strictly above Henry Hub times its heat rate plus variable O&M, and a run that does not pay its start, USD 50 per MW (session 11408, no source; the value is the owner's), is skipped, with no minimum run or gas basis; where a grid's generators buy allowances (California) the fuel's carbon cost is added. (sessions 145 and 298; ruling 1a of 18 October 2026)
 5. A month is held when 90 percent of its hours hold a price and the fuel (a battery: 90 percent of its days solved); the capture price counts a month at 95 percent. (sessions 145 and 183)
 6. The hub or zone chosen prices everything the model shows; the main hub keeps the page's snapshot, so no default figure moved. The battery beside the plant and the pasted profile stay at the main hub, and say so. (session 183)
 7. Wherever a capture price is stated, the capture rate (the capture price over the flat average of the same hours) stands beside it, from the same rows. (sessions 235 and 264)

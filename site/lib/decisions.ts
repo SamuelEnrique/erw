@@ -63,7 +63,7 @@ export const GENERATOR_DECISIONS: Decision[] = [
   { key: "battery-rule", session: "session 145",
     text: "A battery beside nothing earns energy alone: each day from empty, at most one full cycle a day, 86 percent round trip (the low end of Lazard's range), with the day's prices known in advance, so its figure is an upper bound; What a battery earns is the page for a battery." },
   { key: "peaker-rule", session: "sessions 145 and 298", ruling: "ruling 1a of 18 October 2026",
-    text: "The gas peaker runs in each hour whose price is strictly above Henry Hub times its heat rate plus variable O&M, with no start cost, minimum run or gas basis; where a grid's generators buy allowances (California) the fuel's carbon cost is added." },
+    text: "The gas peaker runs in each hour whose price is strictly above Henry Hub times its heat rate plus variable O&M, and a run that does not pay its start, USD 50 per MW (session 11408, no source; the value is the owner's), is skipped, with no minimum run or gas basis; where a grid's generators buy allowances (California) the fuel's carbon cost is added." },
   { key: "months", session: "sessions 145 and 183",
     text: "A month is held when 90 percent of its hours hold a price and the fuel (a battery: 90 percent of its days solved); the capture price counts a month at 95 percent." },
   { key: "hub-prices-all", session: "session 183",

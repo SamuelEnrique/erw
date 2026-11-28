@@ -65,6 +65,7 @@ RTE = 0.86                  # Lazard LCOS v10.0, utility-scale standalone 100 MW
 DURATIONS = [2, 4]          # the two utility-scale durations Lazard prices (100 MW / 200 MWh and 100 MW / 400 MWh)
 HEAT_RATE = 10.725          # MMBtu/MWh: Lazard LCOE v18.0, gas peaking (new build), 10,275 to 11,175 Btu/kWh, midpoint
 VOM = 4.25                  # USD/MWh: the same, variable O&M 3.50 to 5.00, midpoint
+START_COST = 50.0           # USD per MW a start: session 11408, readied for the owner's ruling (generator audit of 20 November, finding 9); the audit's middle sensitivity of 25, 50 and 100, no source: Samuel names the value
 NEAR = 0.9                  # a month counts when it holds at least this share of its hours (the page's rule)
 STRESS = ["uri_2021", "elliott_2022", "ercot_heat_2023"]
 r4 = pb.r4
@@ -106,6 +107,31 @@ def fuel_hours(path):
     df = pd.DataFrame({"sun": pd.to_numeric(pd.Series(sun), errors="coerce").values,
                        "wnd": pd.to_numeric(pd.Series(wnd), errors="coerce").values}, index=pd.DatetimeIndex(ts))
     return df[~df.index.duplicated()].loc[SHAPE_START:]
+
+
+def kept_runs(p, cost, start=None):
+    """Session 11408 (readied for the owner's ruling on the generator audit of 20 November, finding 9): the peaker's
+    hours of running and its starts, with a cost per start. A run is a stretch of consecutive hours whose price is above
+    the cost; a run whose margin (price less cost over its hours) does not exceed the start cost is skipped. Returns (a
+    boolean array of the hours run, the number of starts). With a start cost of 0 every profitable hour runs, as
+    before."""
+    start = START_COST if start is None else start
+    p, cost = np.asarray(p, dtype=float), np.asarray(cost, dtype=float)
+    run = p > cost
+    keep = np.zeros(len(p), dtype=bool)
+    starts, i = 0, 0
+    while i < len(p):
+        if not run[i]:
+            i += 1
+            continue
+        j = i
+        while j < len(p) and run[j]:
+            j += 1
+        if float((p[i:j] - cost[i:j]).sum()) > start:
+            keep[i:j] = True
+            starts += 1
+        i = j
+    return keep, starts
 
 
 def capacity(gens, ba, src, month):
@@ -282,11 +308,12 @@ def build_iso(iso, gens, hh, log, left, price=None, table=None, fuel=None):
                                         capture_rate=(sales / deliv / flat * 100) if deliv and flat else None, hours=len(vals))
         x = g.dropna(subset=["hh"])
         cost = (x["hh"] + x["co2"].fillna(0)) * HEAT_RATE + VOM   # session 298: the carbon cost of the fuel, where there is one
-        run = x["p"] > cost
+        run, starts = kept_runs(x["p"].values, cost.values)   # session 11408: a run that does not pay its start is skipped
+        run = pd.Series(run, index=x.index)
         if len(x):
             e = float(run.sum())
             s = float(x.loc[run, "p"].sum())
-            out["peaker"] = dict(revenue_per_mw=s - float(cost[run].sum()), sales_per_mw=s, energy_per_mw=e,
+            out["peaker"] = dict(revenue_per_mw=s - float(cost[run].sum()) - START_COST * starts, sales_per_mw=s, energy_per_mw=e,
                                  capture_price=s / e if e else None, flat_price=x["p"].mean(),
                                  capture_rate=(s / e / x["p"].mean() * 100) if e else None, hours=len(x))
         monthly[m] = out

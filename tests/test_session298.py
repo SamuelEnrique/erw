@@ -41,7 +41,7 @@ class TheCarbonCost(unittest.TestCase):
         lib = src("site", "lib", "merchant.ts")
         self.assertIn("export const CO2_PER_MMBTU = 0.05306;", lib)
         self.assertIn("const c = (g + (s.co2?.[i] ?? 0)) * hr + vom;", lib)
-        self.assertIn('if (k === "peaker" && (x.hr !== HEAT_RATE || x.vom !== VOM || s.co2)) {', lib)
+        self.assertIn('if (k === "peaker") {  // session 11408: always solved here', lib)   # session 11408: every grid's peaker is solved here
         self.assertIn("co2?: (number | null)[]; co2_source?: string;", lib)
 
     def test_the_snapshot_carries_caiso_series_and_no_other(self):

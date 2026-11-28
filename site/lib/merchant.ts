@@ -43,6 +43,10 @@ export const DEFAULTS: Record<AssetKey, { capex: number; life: number; fom: numb
 };
 export const DEBT = { share: 0.6, rate: 0.08 };  // Lazard: "60% debt at an 8% interest rate"; the debt amortizes over the life
 export const HEAT_RATE = 10.725, VOM = 4.25;   // MMBtu/MWh and USD/MWh: Lazard gas peaking (new build) midpoints
+/** Session 11408 (readied for the owner's ruling on the generator audit of 20 November, finding 9): the peaker's cost per
+ * start, USD per MW; the audit's middle sensitivity of 25, 50 and 100, no source (Samuel names the value). The same
+ * figure as START_COST in warehouse/derived/merchant_revenue.py. */
+export const START_COST = 50;
 
 /** The capital recovery factor: the level annual payment per dollar borrowed at `rate` over `n` years. */
 export const crf = (rate: number, n: number) => rate / (1 - (1 + rate) ** -n);
@@ -84,16 +88,22 @@ export type Month = { m: string; held: boolean; share: number; revenue: number; 
 
 /** The peaker over hours [i0, i1): runs where price > (Henry Hub + the carbon cost of the fuel) x heat rate + variable
  * O&M; per MW. Session 298: the carbon cost is the grid's `co2` series, USD per MMBtu (CAISO's allowance), none elsewhere. */
-export function peakerOver(s: SnapIso, i0: number, i1: number, hr: number, vom: number) {
-  let sales = 0, cost = 0, run = 0, n = 0, sum = 0;
+export function peakerOver(s: SnapIso, i0: number, i1: number, hr: number, vom: number, start = START_COST) {
+  // session 11408: a run (consecutive hours above the cost; an hour with no price or gas price is passed over) that
+  // does not pay its start is skipped, and each run kept pays the start cost (warehouse/derived/merchant_revenue.py,
+  // kept_runs, the same rule)
+  let sales = 0, cost = 0, run = 0, n = 0, sum = 0, starts = 0;
+  let rs = 0, rc = 0, rn = 0;
+  const close = () => { if (rn > 0 && rs - rc > start) { sales += rs; cost += rc; run += rn; starts++; } rs = rc = rn = 0; };
   for (let i = i0; i < i1; i++) {
     const p = s.price[i], g = s.hh[i];
     if (p === null || g === null || p === undefined || g === undefined) continue;
     n++; sum += p;
     const c = (g + (s.co2?.[i] ?? 0)) * hr + vom;
-    if (p > c) { sales += p; cost += c; run++; }
+    if (p > c) { rs += p; rc += c; rn++; } else close();
   }
-  return { revenue: sales - cost, sales, energy: run, hours: n, flat: n ? sum / n : 0 };
+  close();
+  return { revenue: sales - cost - start * starts, sales, energy: run, hours: n, flat: n ? sum / n : 0, starts };
 }
 
 /** Every month of the window for the inputs: revenue (USD, for the reader's size), energy (MWh), the capture price and
@@ -110,7 +120,7 @@ export function months(snap: Snapshot, x: Inputs): Month[] {
     let row: { revenue: number; energy: number; sales: number; flat: number; hours: number } | null = null;
     // session 298: a grid with a carbon cost (CAISO) is always solved here, so the allowance is in the run rule whatever
     // the snapshot's own monthly figures hold (the data machine's table carries it once its builder is rerun)
-    if (k === "peaker" && (x.hr !== HEAT_RATE || x.vom !== VOM || s.co2)) {
+    if (k === "peaker") {  // session 11408: always solved here, so the start cost applies before the data machine rebuilds the rows
       const p = peakerOver(s, r.i0, r.i1, x.hr, x.vom);
       row = { revenue: p.revenue, energy: p.energy, sales: p.sales, flat: p.flat, hours: p.hours };
     } else if (r[k]) {
