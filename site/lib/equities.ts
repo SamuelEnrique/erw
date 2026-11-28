@@ -96,6 +96,8 @@ export type EqCompany = {
   // session 10414 (chain 720, part E): the newest period the company filed, as the list carries it since the contract's
   // dated line of 27 November (data requests 578 and 579); null when nothing is filed, absent in an older list
   newest_filed?: NewestFiled | null;
+  // ready branch of session 11408: the newest year (12 months) of revenue filed, absent in an older list
+  newest_year?: { period_end: string; form: string | null; filed: string | null; url: string | null; revenue: number } | null;
 };
 /** Session 10414: the newest period a company filed, by the page's own rule (newestOf): a sum over a period is the
  *  shortest period to that end with its length in months, debt and shares are at the end; the later filing where a

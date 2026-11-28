@@ -309,10 +309,17 @@ function Companies({ list, q, first }: { list: EqList; q: Query; first: string |
     const revenue = r
       ? <span className="cursor-help whitespace-nowrap" title={`${c.ticker}: revenue filed for ${span}, ${exact(r.v)} USD${n.form ? `, on ${n.form}` : ""}${n.filed ? `, filed ${n.filed}` : ""}. Two companies' revenues compare only where the months are the same.`}><span className="text-muted">Revenue </span><Num check={pfKey(LIST, ["companies", i, "newest_filed", "revenue", "v"])} raw={r.v}>{millions(r.v)}</Num>{r.months !== null ? <span className="text-muted">, {r.months} months</span> : null}</span>
       : <NotHeld words="revenue not filed" why={`${c.ticker}: its newest filing (${words}) gives no revenue under the concept the ERW reads.`} />;
+    // ready branch of session 11408: the newest year of revenue filed beside the quarter, where the list carries it and
+    // the newest period is not itself that year
+    const y = c.newest_year;
+    const year = y && !(r && r.months === 12 && y.period_end === n.period_end)
+      ? <span className="block cursor-help whitespace-nowrap" data-eq-year-of={c.id} title={`${c.ticker}: revenue filed for the 12 months to ${y.period_end}, ${exact(y.revenue)} USD${y.form ? `, on ${y.form}` : ""}${y.filed ? `, filed ${y.filed}` : ""}.`}><span className="text-muted">Year to {y.period_end} </span><Num check={pfKey(LIST, ["companies", i, "newest_year", "revenue"])} raw={y.revenue}>{millions(y.revenue)}</Num></span>
+      : null;
     return [
       <span key="f" className="block" data-eq-newest-of={c.id}>
         <span className="block whitespace-nowrap">{secUrl(n.url) ? <a href={secUrl(n.url)!} className="inline-block py-1 -my-1" rel="noopener" title={`The filing on the SEC's site${n.filed ? `, filed ${n.filed}` : ""}: ${n.url}`}>{words}</a> : <span title={n.filed ? `Filed ${n.filed}` : undefined}>{words}</span>}{note}</span>
         <span className="block">{revenue}</span>
+        {year}
       </span>,
     ];
   };

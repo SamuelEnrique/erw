@@ -294,6 +294,26 @@ def newest_filed(q):
     return out
 
 
+def newest_year(q):
+    """Ready branch of session 11408 (weekend page of 28 November 2026, part 3.5: a year's revenue beside a quarter's in
+    "Every company"): the newest period of 12 months a company filed revenue for (a 10-K's year), with its end, form,
+    filing day and link; where that year was filed twice, the later filing's figure. None when no year's revenue is
+    filed."""
+    if not q:
+        return None
+    ix = {c: i for i, c in enumerate(QCOLS)}
+    best = None
+    for r in q:
+        if r[ix["months"]] != 12 or r[ix["revenue"]] is None:
+            continue
+        if best is None or r[ix["period_end"]] > best[ix["period_end"]] or (r[ix["period_end"]] == best[ix["period_end"]] and later(r, best)):
+            best = r
+    if best is None:
+        return None
+    return {"period_end": best[ix["period_end"]], "form": best[ix["form"]], "filed": best[ix["filed"]], "url": best[ix["url"]],
+            "revenue": best[ix["revenue"]]}
+
+
 def shown_why(q, built, first_filed=None):
     """Done-line request 579 (2) and (3): a note while the statements are shown, by two written rules: the newest filing
     is more than two years old (a filer that stopped), or the filed history under this SEC number starts within two
@@ -398,6 +418,7 @@ def company_files(built, universe, fund, first=None):
                           "price_status": "license needed", "price_why": PRICE_WHY,
                           "fundamentals_status": "shown" if q else "source needed",
                           "fundamentals_why": shown_why(q, built, ff) if q else FUND_WHY, "newest_filed": newest_filed(q),
+                          "newest_year": newest_year(q),   # ready branch of session 11408
                           "first": None, "last": None, "file": fpath})
         files[fpath] = {"built": built, "example": False, "method": METHOD, "contract": CONTRACT, "license": "public",
                         "id": tk, "kind": "company", "name": r["name"], "cik": r["cik"], "ticker": r["ticker"],
