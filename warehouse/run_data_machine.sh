@@ -352,6 +352,9 @@ if [ "$(date -u +%u)" = "7" ]; then soft_step dm_predict_long_backtest "$PYTHON"
 # the second data request 16 of the same file: the day-ahead price forecast's longer backtest from 2016 for the ten price
 # places (site/data/predict/long_price.json, by year; about 15 minutes), beside it on Sundays. No ledger, no network
 if [ "$(date -u +%u)" = "7" ]; then soft_step dm_predict_long_price "$PYTHON" warehouse/predict/long_price.py; fi
+# the data request 18 of the same file: the 35 authorities added two to seven days ahead (site/data/predict/ahead_more.json,
+# ahead.py --more; about 70 minutes alone), beside them on Sundays; the daily ahead.json is unchanged. No ledger, no network
+if [ "$(date -u +%u)" = "7" ]; then soft_step dm_predict_ahead_more "$PYTHON" warehouse/predict/ahead.py --more; fi
 # Session 8013 (chain 505, part D2): the operators' wind and solar forecasts beside the output (site/data/regions/
 # renewables_forecast.json), from caiso_wind_solar_forecast and ercot_wind_solar_forecast; no table of its own
 soft_step dm_renewable_forecast_error "$PYTHON" warehouse/derived/renewable_forecast_error.py
@@ -411,6 +414,13 @@ else
     fi
   fi
 fi
+
+# Session 10000 (chain 701, predict data request 19): SPP's mid-term load forecast beside its actual load, the 09:00 central
+# file of each of the last 10 days (a file saved in warehouse/raw/spp_mtlf/ is reused; 11 requests at most), and the
+# table's stores when it moved
+was_spp="$(sha_of spp_mtlf_hourly)"
+soft_step dm_spp_mtlf "$PYTHON" warehouse/connectors/spp_mtlf.py
+table_stores dm_spp_mtlf_stores spp_mtlf_hourly "$was_spp"
 
 # ---- 3. the page files ------------------------------------------------------------------------------------------------
 echo "== the page files (each rebuilt from the tables here; a failed builder leaves its file as it was)"

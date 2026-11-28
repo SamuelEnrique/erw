@@ -123,7 +123,10 @@ Nothing is taken for you.
   `e5bef3243` the code of the day-ahead price's longer backtest.
 - **Branch `wip/c730-predict-v5`:** `052331bea` `long_price.json`; `29011cd18` landing row 11's head.
 - **Landings:** row 9 landed through window A's gate 28 (`f3b0f7224`, 16:59 UTC), which took `wip/c730-predict-v4` as
-  it stood at 14:50 UTC (through `0958ad6a1`). Rows 10 and 11 requested at 17:37 and 18:03 UTC.
+  it stood at 14:50 UTC (through `0958ad6a1`). Rows 10 and 11 landed through gate 30 (`2fa7055de`, 20:18 UTC). Rows 12
+  (`a2365371d`: the backtest tables' shape, the peak by year), 13 (`76931398f`: `ahead_more.json`) and 14 (`11d9eb9eb`:
+  the SPA fault mended, every file on one day's tables, the whole suite 11,017 passed) requested at 01:21, 05:05 and
+  09:43 UTC on 28 November.
 - **Main:** `bb2dc07d6` progress; `daeb525ad`, `9a0ed65ce`, `bbd5efab1`, `0e0024310` `predict_price.md` sections 8 to
   11; `3600c1318`, `2b5395cd0`, `112ea6c8d` `predict.md` sections 23 to 26; `3bcab92ac` and `5f206ffa6`
   `predict_wind_solar.md` sections 7 and 8; data requests 9, 10, 13 to 16; the contract's dated lines; the codebook

@@ -4,9 +4,9 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 
 ## The counts
 
-- Public tables with a metadata file: 595; documented in full (what a row is, and every column's label and unit): 595.
-- Columns: 10657; documented: 10657 (a shared column is documented once, below).
-- Variables of the series tables (values of `variable`): 6990; labelled: 6957.
+- Public tables with a metadata file: 598; documented in full (what a row is, and every column's label and unit): 597.
+- Columns: 10706; documented: 10704 (a shared column is documented once, below).
+- Variables of the series tables (values of `variable`): 6993; labelled: 6960.
 - Entries that read "not documented by the source": 1.
 - Column names that two or more tables label differently (names that may mean two things): 313.
 
@@ -32,7 +32,7 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 | [eia860m](eia860m.md) | 4 | 4 |
 | [eia861](eia861.md) | 13 | 13 |
 | [eia923](eia923.md) | 3 | 3 |
-| [eia930](eia930.md) | 37 | 37 |
+| [eia930](eia930.md) | 38 | 38 |
 | [energy](energy.md) | 8 | 8 |
 | [epa](epa.md) | 8 | 8 |
 | [ercot](ercot.md) | 38 | 38 |
@@ -52,10 +52,10 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 | [nyiso](nyiso.md) | 7 | 7 |
 | [onrr](onrr.md) | 3 | 3 |
 | [ornl](ornl.md) | 5 | 5 |
-| [other_sources](other_sources.md) | 106 | 106 |
+| [other_sources](other_sources.md) | 107 | 107 |
 | [policy](policy.md) | 3 | 3 |
 | [price](price.md) | 4 | 4 |
-| [spp](spp.md) | 5 | 5 |
+| [spp](spp.md) | 6 | 5 |
 | [statcan](statcan.md) | 8 | 8 |
 | [statec](statec.md) | 4 | 4 |
 | [storage](storage.md) | 4 | 4 |

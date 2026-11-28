@@ -302,6 +302,9 @@ catalogue_hold:
   # session 10000 (chain 701, predict data request 10): wind and solar net generation by balancing authority, July 2018 on
   # (about 1.2 GB), read by the forecast on the data machine, not by the live set; not on Redivis: not in the live catalogue
   - eia930_ba_wind_solar_hourly
+  # session 10000 (chain 701, predict data request 19): SPP's mid-term load forecast beside its actual load, read by the
+  # forecast on the data machine, not by the live set; not on Redivis: not in the live catalogue
+  - spp_mtlf_hourly
   # session 10000 (chain 701, part D): the listed energy companies (SEC EDGAR), read by /equities from site/data/equities/,
   # not by the live set; not on Redivis (its storage full): not in the live catalogue
   - equity_universe
@@ -378,6 +381,8 @@ catalogue_hold:
   - eia930_subba_demand_hourly
   - eia_heating_fuel_prices_weekly
   - boem_ogor_lease_production_monthly
+  # session 10000 (chain 701, predict data request 14): the year table of 2026, held as the other years are
+  - eia930_subba_demand_hourly_2026
   - eia930_subba_demand_hourly_2025
   - eia930_subba_demand_hourly_2024
   - eia930_subba_demand_hourly_2023

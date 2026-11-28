@@ -210,3 +210,5 @@ What is real and what is not:
 - **Window B:** nothing asked. Its files of 14:05 UTC hold the fourth method (on production its name reads "regression recent" until row 57 lands with its words) and the line "with the weather known" for all 29 places, which the page does not draw yet.
 - **Window A:** data requests 571 to 574 in `docs/state/data_requests_done_line.md` (the list's last close and changes; the board rows' other cells; the board's older row; what the built files carry beyond the contract's text). And the two rulings its own work waits on: the SEC's contact string and a price source.
 - **Window B:** nothing asked. Its contract and files were enough.
+
+**Closed on 28 November 2026 at 10:38 UTC by chain 780 (session 11600):** rows 54 to 67 have all landed; this chain's resume file is removed from `queue/next/`, and what it left open is listed under "Taken over" in `docs/state/progress_c780.md`.

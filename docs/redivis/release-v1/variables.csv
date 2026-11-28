@@ -3497,6 +3497,7 @@ eia930_subba_demand_hourly_2022,demand_mw,series variable,MW
 eia930_subba_demand_hourly_2023,demand_mw,series variable,MW
 eia930_subba_demand_hourly_2024,demand_mw,series variable,MW
 eia930_subba_demand_hourly_2025,demand_mw,series variable,MW
+eia930_subba_demand_hourly_2026,demand_mw,series variable,MW
 eia_aeo_electricity,value,series variable,MW
 eia_aeo_electricity,value,series variable,MWh
 eia_aeo_electricity,value,series variable,USD/kWh
@@ -8597,6 +8598,8 @@ spp_interconnection_queue,queue_date,column,
 spp_interconnection_queue,proposed_in_service_date,column,
 spp_interconnection_queue,actual_in_service_date,column,
 spp_interconnection_queue,withdrawn_date,column,
+spp_mtlf_hourly,load_actual_mw,series variable,MW
+spp_mtlf_hourly,load_forecast_mtlf_mw,series variable,MW
 ssb_norway_electricity_monthly,consumption_in_cottages_and_holiday_houses,series variable,MWh
 ssb_norway_electricity_monthly,consumption_in_dwellings,series variable,MWh
 ssb_norway_electricity_monthly,consumption_in_electricity_supply_wsw_construction,series variable,MWh

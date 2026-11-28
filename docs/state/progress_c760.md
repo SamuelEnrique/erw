@@ -1,0 +1,55 @@
+# Progress of chain 760 (data machine, the one desktop window, weekend of 28 November 2026)
+
+One line a landing, request, table, file or view: its state and session, pushed after each. The chain file is `queue/done/760-weekend-28-november-desktop-desk-regions-forecast.md`.
+
+## The start (session 11200)
+
+- start 1, precheck and main: done, session 11200 (10:33 UTC). Precheck exit 0, on duty until 2026-11-29 02:33 UTC. Main pulled to origin/main (fast-forward, nothing local ahead, so no `wip/c760-local-2026-11-28`). Session numbers 11200 to 11399: none used on origin/main or any branch. Untracked files left where they are: `site/data/findings/queue_divorce__first_year-2010.json`, `site/public/findings/erw_2026_queue_outcomes_technology__first_year-2010.csv`, `site/public/findings/queue_divorce__first_year-2010.do` and `.py`, `warehouse/output/retired/` (and the ignored `runs/`, `warehouse/output/`, untouched). Drive C 13 GB free at 10:33 UTC, memory 7.2 GB free. Under 20 GB: the 26 worktrees whose branch is already in origin/main were removed (`runs/c760/merged_worktrees.out` lists each with its ignored files; each one's ignored `runs/` folder moved first to `runs/wt_saved/<worktree>/`; `runs/c760/remove_merged.out`). Drive C then 46 GB free. The gate worktrees `erw-land-*` and every worktree on an unlanded branch left as they are.
+- start 2, the chain file taken: done, session 11200 (`chain_queue.py next --file`, commit `32f9e8808`, pushed 10:34 UTC).
+- start 3, chains 701, 730 and 740 closed: see "Taken over" below; their notes end with a line saying chain 760 took them over; their resume files 702, 731 and 741 removed from `queue/next/` in one commit.
+- start 4, resume file `queue/next/761-resume-chain-760.md`: see below.
+- start 5, this file: done, session 11200.
+
+## Taken over
+
+From chain 701 (data machine, first window; stopped 10:30 UTC 28 November on Samuel's word):
+
+- `wip/c701-g38` (spp_mtlf_hourly, SPP's mid-term load forecast, predict data request 19): pushed, not gated; its one failing test is test_codebook (the x_ columns need units in the codebook entry). To gate, land with snapshots, mark row 19.
+- `wip/c701-q-docs` (chain 701's last progress lines and the predict rows 14, 18, 20 states): docs only, to merge to main with a snapshot pair.
+- Five tools data request 48 (PJM's highest-hours windows): in part.
+- Predict data request 20 (24 ledger rows of ba-spa without a figure): open.
+- Predict data request 21 (SPP South Hub and CAISO ZP26 price history, ERCOT's Panhandle hub): open.
+- Predict data request 3 (the backtests as tables): the shape chosen by chain 730's row 12; the table writes wait on row 12 landing.
+- The daily run's `dm_predict_ahead` took 4 h 34 min against about 25 minutes planned: chain 730's and Samuel's choice (now this chain's, part D).
+- The old laptop's landing row 132 (`wip/audit-home-words-2`): returned by chain 701 (its own test stale on main); still marked requested in the file.
+- For Samuel's ruling, carried with their defaults (chain 701's note): the large-load changes after 13 November not loaded; the signature pack's moving figures; pge.com's terms; news dated after retrieval; held grids' prices in git history; MISO's files under its pause; FERC EQR 2026 Q3 not pulled; hourly network 3 to 4 hours stale while the daily run runs.
+
+From chain 730 (desktop second window, the ERW forecast; stopped 10:31 UTC 28 November on Samuel's word):
+
+- Landing rows 12 (`a2365371d`), 13 (`76931398f`) and 14 (`11d9eb9eb`) of `docs/state/landing_request_window2.md`: requested, not landed. Row 14 carries 12 and 13.
+- `wip/c730-predict-v9` at `a7530e4dc` (work in progress): `long_ahead.py` and `replicate_long_ahead.py` (Texas 125 of 125); wind and solar at AVRN, GRID, GWA (trial 1,688 of 1,688); `shown_for` on every hub (chain 720's request 15). Not done: the whole-file replications of the rebuilt `wind_solar.json`, `price_hubs.json` and `rt_price.json`; the longer backtest further ahead (rerun `runs/c730/la_part{0,1,2}.ps1`, then `long_ahead.py --merge`); `predict.md` section 30; the contract's line; the suite; landing row 15.
+- ba-sceg's demand two days behind the other places in the place files of 28 November (chain 730 to rule; now part D).
+- The codebook: 38 second looks on 30 tables open.
+
+From chain 740 (desktop third window, datacenters in the Economic impact tool):
+
+- Every row it requested is on main and read on production (its last line, 10:19 UTC 28 November). Open: decision 27 (Meta's construction default and further Meta posts) for Samuel's ruling; several states held by their hosts (refused or not readable). No branch left unlanded.
+
+## Part A: the desk
+
+- desk, session 11200 start (10:36 UTC, `runs/c760/desk.py`): requested and open: window2 rows 12, 13, 14 (chain 730's, taken over); the old laptop's row 132 (returned, see above); predict data requests 19 (on `wip/c701-g38`), 20, 21; five tools 38 (nothing for this machine) and 48 (in part); predict 14 (landed in gate 37) and 15 (on `wip/c730-predict-v9`). `landing_request_portable.md` and `landing_request_portable_w2.md`: nothing requested.
+
+## Part B: where the next gigawatts can go
+
+- B1, the contract `docs/state/page_files_siting_regions.md` and three example files under `site/data/siting/regions/` (index.json with one place of each kind, op-ercot.json, table.json; every value null, `"example": true`), written by `warehouse/derived/siting_regions.py --example` (the builder's skeleton, on `wip/c760-regions`): pushed to main, session 11200 (within the chain's first hour).
+- Gate 1 (`wip/c760-g1`: chain 701's `wip/c701-g38`, spp_mtlf_hourly, with its codebook units fixed; window2 row 14, `wip/c730-predict-v8` at `11d9eb9eb`, which carries rows 12 and 13): started 10:48 UTC on `a72e4d6c8`. A merge slip of mine first took main's whole `tests/test_predict.py` (dropping row 14's own test of a held forecast); redone hunk by hunk before the gate (49 related tests pass).
+- Desk, after B1 (11:20 UTC): chain 780 filed data requests 582 to 585 (done-line file). 584 (the datacenter tables are held for a license) and 585 (monthly trends, source addresses) answered in the contract's dated line of 28 November and in the builder on `wip/c760-regions`; 582 (the forecast's place files a day behind) and 583 (ba-spa's empty day) answered: both mended by landing 1's code and written by tonight's daily run.
+- B2 to B4, the builder (`warehouse/derived/siting_regions.py`), the method note (`docs/methods/siting_regions.md`, with its decisions block), the replication (`replication/siting_regions/replicate.py`, 1,535 of 1,535 on the build of 11:18 UTC), the test (`tests/test_session11200_siting_regions.py`, 9 passed), the daily step `dm_siting_regions` and its test group, and the first built files (38 places: 13 regions, 7 operators, 18 authorities of at least 5,000 MW): committed on `wip/c760-regions` at `18d05d2b5`, session 11200. To gate after landing 1.
+- Landing 1 (gate 1 at `a72e4d6c8`, every check passed 10:48 to 11:16 UTC): pushed to `task/c760-g1` at 11:16 UTC (GitHub run 46139112612), before snapshot `c760-L1-before`.
+- Desk, 11:30 to 11:42 UTC: the old laptop's landing rows 135 to 143 (chain 770's audit word fixes) merged with `wip/c760-regions` into gate 2 (`wip/c760-g2`, started 11:30 UTC on `4d26c3547`; the 109 changed tests pass). Five-tools data requests (chain 770): 64 done (24 empty SPA rows out of the demand ledger), 67 done (43 of 44 sample figures found in the 10-Qs), 70 done (93 of 93 announced rows' quotes in their kept documents), 68 and 69 done on `wip/c760-desk1` (the equities index's table list; SIC 1220 named as the SEC's list names it), 61, 66 and 71 in part, 60 waits on tonight's run, 63 queued for part D; 62 is after 27 December, 72 waits on an allowed host; 65 next. Answers in `docs/reviews/answers-c760-2026-11-28/`.
+- Landing 1: **landed**, `eaff80f63` on main at 11:54 UTC (GitHub run 46139112612; its merge job ran the suite again because main moved): chain 701's `spp_mtlf_hourly` (predict data request 19, SPP's own load forecast), window2 rows 12 to 14 (chain 730's predict v6 to v8: the backtests' shape, `ahead_more.json`, the SPA fault mended). Snapshot after below.
+- Gate 2, first run (`4d26c3547`, 11:30 to 11:48 UTC): one error, `test_session10000_predict_one_forecast` (chain 701's own fixture lacked the ledger's `horizon_days` and `inputs_through_utc`, which the old laptop's row 135 reads); fixture mended (`22e385be4`); `wip/c760-desk1` (requests 68, 69) and `wip/c760-hubs` (request 21's code) added; second run from 11:56 UTC on `568beff06`.
+- Predict data request 21: `hub_history.py` pulls a hub added to a market for the days it lacks (`--hub`, per-hub resume) on `wip/c760-hubs`; trial of two days of ZP26 (48 day-ahead hours, 192 real-time intervals); the pull runs under the data lock from 11:50 UTC (`runs/c760/hubpull.sh`: SPP South from 1 September 2024, then CAISO ZP26 from 6 July 2023, as far as OASIS keeps), the table copied first to `runs/c760/iso_hub_prices_history.before.csv`.
+- Part C: equities coverage agrees with the tables (307 companies, 146,923 rows); `replication/equities/replicate.py` 20,167 of 20,167; the sample cross-check of 11 companies 43 of 44 (five-tools 67); the price-weighted segment lines stay held (no price source a license allows).
+- Part D: chain 730's longer backtest further ahead restarted (its three parts, `runs/c730/la_part{0,1,2}.ps1` in `erw-w2-predict`, from 11:51 UTC).
+- Landing 1 snapshots: `c760-L1-before` (11:16 UTC) and `c760-L1-after` (12:01 UTC, after Vercel's deploy of `eaff80f63` reported success): 0 differences in 25 pages (expected: every page is in review). The doc pushes since 11:23 fall inside the same pair.

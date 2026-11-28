@@ -88,3 +88,4 @@ Energy Research Warehouse (ERW). Chain file: `queue/done/710-night-26-november-o
 - `docs/state/note_2026-11-21_data.md` to `note_2026-11-29_data.md` hold October notes under future dates.
 - Two tests fail on clean origin/main on this machine once `node_modules` is present (`tests/test_session1898.py`, `tests/test_session137.py`); `tests/test_session705.py` fails on clean main too. None is caused by tonight's work.
 - The worktrees `erw-c710-a`, `-b` and `-c` each carry a junction `site/node_modules` to the main copy's; remove the junctions before removing the worktrees.
+- Chain 710 is closed: chain 770 (`queue/done/770-weekend-28-november-oldlaptop-review-page-audits.md`, session 11400, 28 November 2026 10:40 UTC) took it over, the weekend page with it.

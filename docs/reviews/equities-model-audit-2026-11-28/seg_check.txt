@@ -1,0 +1,46 @@
+built 2026-11-28T03:47:24Z; 307 companies; 15 segments
+companies against the rule: 0 disagree
+  integrated_oil_gas       file   18 recount   18
+  exploration_production   file   87 recount   87
+  midstream_pipelines      file   49 recount   49
+  refining                 file   18 recount   18
+  oilfield_services        file   52 recount   52
+  lng                      file    0 recount    0
+  coal                     file    9 recount    9
+  regulated_utilities      file  112 recount  112
+  independent_power        file   64 recount   64
+  nuclear_uranium          file    0 recount    0
+  solar                    file    0 recount    0
+  wind                     file    0 recount    0
+  storage                  file    0 recount    0
+  hydrogen_fuel_cells      file    0 recount    0
+  grid_equipment           file    2 recount    2
+companies by SIC code and the SEC's label:
+  1220 Silver Ores: 4
+  1221 Bituminous Coal & Lignite Surface Mining: 5
+  1311 Crude Petroleum & Natural Gas: 87
+  1381 Drilling Oil & Gas Wells: 12
+  1382 Oil & Gas Field Exploration Services: 2
+  1389 Oil & Gas Field Services, NEC: 20
+  2911 Petroleum Refining: 18
+  3533 Oil & Gas Field Machinery & Equipment: 18
+  3613 Switchgear & Switchboard Apparatus: 2
+  4610 Pipe Lines (No Natural Gas): 8
+  4911 Electric Services: 63
+  4922 Natural Gas Transmission: 18
+  4923 Natural Gas Transmisison & Distribution: 8
+  4924 Natural Gas Distribution: 15
+  4931 Electric & Other Services Combined: 21
+  4932 Gas & Other Services Combined: 5
+  4991 Cogeneration Services & Small Power Producers: 1
+a SEC number twice: []
+a ticker twice: []
+tickers with a class suffix (a preferred or other class, not the common share): 5
+  CMS-PB   CONSUMERS ENERGY CO (sic 4931, NYSE, regulated_utilities)
+  ETI-P    ENTERGY TEXAS, INC. (sic 4911, NYSE, regulated_utilities;independent_power)
+  PCG-PE   PACIFIC GAS & ELECTRIC Co (sic 4931, NYSE, regulated_utilities)
+  PHXE-P   Phoenix Energy One, LLC (sic 1311, NYSE, exploration_production)
+  SCE-PG   SOUTHERN CALIFORNIA EDISON Co (sic 4911, NYSE, regulated_utilities;independent_power)
+the ones in two segments: 104
+companies with statements shown: 243
+companies with a directory_id: 18

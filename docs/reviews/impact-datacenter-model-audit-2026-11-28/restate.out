@@ -1,0 +1,2 @@
+medians: {'mw_stated': (17, 1000, 'mean', 1318.1176), 'investment_per_mw': (13, 12.0, 'mean', 17.0041), 'permanent_jobs_per_mw': (11, 0.3225, 'mean', 0.4132), 'permanent_jobs_per_billion': (51, 66.666667, 'mean', 69.241), 'construction_jobs_per_billion': (25, 833.333333, 'mean', 864.5236)}
+runs: 72
