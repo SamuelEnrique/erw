@@ -70,17 +70,19 @@ function arraysAfter(text, field) {
   return out;
 }
 const outsideStrings = (s) => s.replace(/`(?:\\.|[^`\\])*`|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, "");
-const mine = WAITING_DECISIONS.filter((d) => d.sets.includes(SLUG));
+// ready branch wip/ready-equities-problem-set (session 11408): the set is listed, no longer waiting
+const { PROBLEM_DECISIONS } = await import("../app/learn/problems/Decisions.tsx");
+const mine = PROBLEM_DECISIONS.filter((d) => d.sets.includes(SLUG));
 
-// ---------------------------------------------------------------- a waiting set, and nothing more
-check(WAITING_SETS.some((s) => s.slug === SLUG), "the set is a waiting set");
-check(!SETS.some((s) => s.slug === SLUG), "the set is in SETS: the index and the edition builder would take it");
-check(!(SLUG in GUIDE) && WAITING_GUIDE[SLUG] === mod.GUIDE_ENTRY, "its guide is the waiting guide's, not GUIDE's");
-check(!instructorNote().includes(SLUG), "the instructors' note names a waiting set");
+// ---------------------------------------------------------------- a listed set
+check(!WAITING_SETS.some((s) => s.slug === SLUG) && !(SLUG in WAITING_GUIDE) && !WAITING_DECISIONS.some((d) => d.sets.includes(SLUG)), "the set is still a waiting set");
+check(SETS.some((s) => s.slug === SLUG), "the set is not in SETS: the index and the edition builder would not take it");
+check(GUIDE[SLUG] === mod.GUIDE_ENTRY, "its guide is not GUIDE's");
+check(instructorNote().includes(SLUG), "the instructors' note does not name the set");
 const index = renderToStaticMarkup(Index());
-check(!index.includes(SLUG) && !index.includes(mod.META.title), "the index lists a waiting set");
+check(index.includes(SLUG), "the index does not list the set");
 const editionParams = [...editionPage.generateStaticParams(), ...teacherPage.generateStaticParams()];
-check(!editionParams.some((p) => p.slug === SLUG), "an edition address for a waiting set");
+check(!editionParams.some((p) => p.slug === SLUG), "an edition address for a set no edition holds yet");
 check(livePage.generateStaticParams().some((p) => p.slug === SLUG), "the set's page is not among the pages built");
 for (const f of fs.readdirSync(path.join(site, "data", "problem_editions"))) check(!read("data", "problem_editions", f).includes(SLUG), `the dated edition file ${f} names the waiting set`);
 check(!read("lib", "release.ts").includes(SLUG), "lib/release.ts names the set: it opens nothing");
@@ -163,7 +165,7 @@ check(!!segment && src.includes(`"${segment.label}"`), "the module names the seg
 
 // ---------------------------------------------------------------- the page, drawn with the site's own components
 const html = renderToStaticMarkup(await Live({ params: Promise.resolve({ slug: SLUG }) }));
-check(html.includes(`data-waiting-set="${SLUG}"`), "the page is marked as a waiting set's");
+check(!html.includes("data-waiting-set"), "the page is still marked as a waiting set's");   // ready branch: listed
 check(html.includes(`data-decisions="${SLUG}"`) && html.includes('data-decision-count="3"'), "the decisions block with the set's three");
 for (const d of mine) check(html.includes(`data-decision="${d.key}"`), `the decision ${d.key} not drawn`);
 for (const d of WAITING_DECISIONS.filter((x) => !x.sets.includes(SLUG))) check(!html.includes(`data-decision="${d.key}"`), `another waiting set's decision ${d.key} drawn`);

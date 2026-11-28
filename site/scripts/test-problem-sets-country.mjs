@@ -72,7 +72,7 @@ const outsideStrings = (s) => s.replace(/`(?:\\.|[^`\\])*`|"(?:\\.|[^"\\])*"|'(?
 
 let questions = 0, keys = 0, drawnFound = 0;
 const slugs = Object.keys(MODULES);
-check(JSON.stringify(SETS.slice(-slugs.length).map((s) => s.slug)) === JSON.stringify(slugs), "the sets of the whole country come after the five, in order");  // session 8905: five of them now
+check(JSON.stringify(SETS.slice(5, 5 + slugs.length).map((s) => s.slug)) === JSON.stringify(slugs), "the sets of the whole country come after the five, in order");  // ready branch of session 11408: the producer set after them  // session 8905: five of them now
 check(JSON.stringify(SETS.slice(0, 5).map((s) => s.slug)) === JSON.stringify(["know-your-grid", "prices-and-your-bill", "when-the-grid-broke", "storage-and-taxes", "networks-and-money"]), "the five keep their place");
 const editionParams = [...editionPage.generateStaticParams(), ...teacherPage.generateStaticParams()];
 

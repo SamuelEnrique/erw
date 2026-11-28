@@ -32,8 +32,9 @@ class TheSetWaits(unittest.TestCase):
         # session 10412 added a second waiting set after it
         self.assertRegex(text, r"const WAITING_MODULES = \[REPORT(, \w+)*\];")
         # the listed sets and their guide are as they were: the waiting module is in neither line
-        self.assertIn("...[TRADE, STORM, GROUND, WHERE, AUTH].map((m) => m.META),", text)
-        self.assertIn("for (const m of [TRADE, STORM, GROUND, WHERE, AUTH]) addGuide(m.META.slug, m.GUIDE_ENTRY);", text)
+        # ready branch wip/ready-equities-problem-set (session 11408): the producer set listed after the five of the country
+        self.assertIn("...[TRADE, STORM, GROUND, WHERE, AUTH, PRODUCER].map((m) => m.META),", text)
+        self.assertIn("for (const m of [TRADE, STORM, GROUND, WHERE, AUTH, PRODUCER]) addGuide(m.META.slug, m.GUIDE_ENTRY);", text)
         # the line the problem kit's test pins is kept
         self.assertIn("questions: inOrder(built.questions, GUIDE[slug]?.order ?? [])", text)
 

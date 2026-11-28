@@ -6,6 +6,8 @@
 // docs/methods/problem_sets.md, "The decisions", carries the same list; site/scripts/test-problem-sets-render.mjs holds
 // the two to one list.
 import { Tip } from "@/components/tool/ToolPage";
+// ready branch of session 11408: "A producer beside the price of oil" listed, its choices with the others
+import { DECISIONS as PRODUCER_DECISIONS } from "@/lib/problemsets/a-producer-beside-the-price-of-oil";
 
 export type ProblemDecision = { key: string; sets: string[]; text: string; def: string; source: string; session: string };
 
@@ -100,6 +102,8 @@ export const PROBLEM_DECISIONS: ProblemDecision[] = [
     text: "The worked answers read the Tennessee Valley Authority's file; its largest plant is the first of the file's ten, the retirement and the addition asked about are the rows with the most megawatts, and the partner is the one with the largest gross exchange. The carbon question reads ERCOT's and CAISO's files, since the Tennessee Valley Authority's holds no estimate and says why.",
     def: "The first of equal rows when two are equal; EIA's hourly CO2 estimates cover the seven grid operators and the lower 48 only.",
     source: "site/data/regions/authority/tva.json, erco.json and ciso.json (EIA-860M, Form EIA-930, ba_trade_partners, large_load_public); docs/methods/authority_facts.md.", session: "session 8905" },
+  // ready branch of session 11408: the producer set, listed
+  ...PRODUCER_DECISIONS,
 ];
 
 export function ProblemDecisions({ slug, waiting }: { slug?: string; waiting?: ProblemDecision[] }) {

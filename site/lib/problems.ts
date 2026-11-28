@@ -647,18 +647,18 @@ export const SETS: Omit<ProblemSet, "questions" | "example">[] = [
     teacher: "About 45 minutes. Prerequisites: MW against MWh, a weighted price, a ratio. Students should open /network (pick ERCOT, slide to the last hour), /cost-of-power/seller (solar, then battery, at ERCOT) and the Uri event page. The network's hour moves as the hourly refresh runs; the money questions move when the seller's snapshot is rebuilt.",
     pages: [{ href: "/grid?view=network", label: "The network" }, { href: "/cost-of-power/seller", label: "What a generator earns" }, { href: "/events/uri-2021", label: "Uri" }] },
   // session 8901 (chain 507, part C): the four sets of the whole country, after the five
-  ...[TRADE, STORM, GROUND, WHERE, AUTH].map((m) => m.META),
+  ...[TRADE, STORM, GROUND, WHERE, AUTH, PRODUCER].map((m) => m.META),   // ready branch of session 11408: PRODUCER listed
 ];
 /** Session 8901: the sets kept in modules of their own (lib/problemsets/), by slug. */
-const COUNTRY: Record<string, { build: () => Promise<Built> }> = Object.fromEntries([TRADE, STORM, GROUND, WHERE, AUTH].map((m) => [m.META.slug, m]));
-for (const m of [TRADE, STORM, GROUND, WHERE, AUTH]) addGuide(m.META.slug, m.GUIDE_ENTRY);
+const COUNTRY: Record<string, { build: () => Promise<Built> }> = Object.fromEntries([TRADE, STORM, GROUND, WHERE, AUTH, PRODUCER].map((m) => [m.META.slug, m]));
+for (const m of [TRADE, STORM, GROUND, WHERE, AUTH, PRODUCER]) addGuide(m.META.slug, m.GUIDE_ENTRY);
 
 /** Session 10404 (chain 720, part E): the waiting sets. A waiting set has its page at /learn/problems/<slug> and is
  *  built as the others are, but it is not in SETS: the index does not list it, it has no data.csv, and the dated
  *  edition (scripts/build-problem-edition.mjs, which freezes SETS) never holds it. It waits for the owner: approving
  *  one is moving its module from this list to the list of SETS above (and its decisions into Decisions.tsx). Its guide
  *  is kept here, not in GUIDE, so the instructors' note names no set the index does not. */
-const WAITING_MODULES = [REPORT, PRODUCER];
+const WAITING_MODULES = [REPORT];   // ready branch of session 11408: "A producer beside the price of oil" listed, in SETS above
 export const WAITING_SETS: Omit<ProblemSet, "questions" | "example">[] = WAITING_MODULES.map((m) => m.META);
 export const WAITING_GUIDE: Record<string, (typeof REPORT)["GUIDE_ENTRY"]> = Object.fromEntries(WAITING_MODULES.map((m) => [m.META.slug, m.GUIDE_ENTRY]));
 export const WAITING_DECISIONS = WAITING_MODULES.flatMap((m) => m.DECISIONS);

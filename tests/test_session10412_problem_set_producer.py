@@ -35,11 +35,12 @@ def src(*p):
 class TheSetWaits(unittest.TestCase):
     def test_it_is_a_waiting_set_and_not_a_listed_one(self):
         text = src("site", "lib", "problems.ts")
-        self.assertIn("const WAITING_MODULES = [REPORT, PRODUCER];", text)
+        # ready branch wip/ready-equities-problem-set (session 11408): the set is listed, no longer waiting
+        self.assertIn("const WAITING_MODULES = [REPORT];", text)
         self.assertIn('import * as PRODUCER from "@/lib/problemsets/a-producer-beside-the-price-of-oil";', text)
         # the listed sets and their guide are as they were: no waiting module is in either line
-        self.assertIn("...[TRADE, STORM, GROUND, WHERE, AUTH].map((m) => m.META),", text)
-        self.assertIn("for (const m of [TRADE, STORM, GROUND, WHERE, AUTH]) addGuide(m.META.slug, m.GUIDE_ENTRY);", text)
+        self.assertIn("...[TRADE, STORM, GROUND, WHERE, AUTH, PRODUCER].map((m) => m.META),", text)
+        self.assertIn("for (const m of [TRADE, STORM, GROUND, WHERE, AUTH, PRODUCER]) addGuide(m.META.slug, m.GUIDE_ENTRY);", text)
 
     def test_nothing_freezes_or_opens_it(self):
         self.assertIn("for (const meta of SETS)", src("site", "scripts", "build-problem-edition.mjs"))
@@ -49,7 +50,7 @@ class TheSetWaits(unittest.TestCase):
         for name in os.listdir(editions):
             self.assertNotIn(SLUG, src("site", "data", "problem_editions", name), name)
         self.assertFalse(any(SLUG in d for d in os.listdir(os.path.join(SITE, "public", "problems"))))
-        self.assertNotIn(SLUG, src("site", "app", "learn", "problems", "Decisions.tsx"))
+        self.assertIn("...PRODUCER_DECISIONS,", src("site", "app", "learn", "problems", "Decisions.tsx"))   # listed: its choices with the others
 
     def test_the_value_check_reads_its_page(self):
         self.assertIn(f'"/learn/problems/{SLUG}"', src("site", "scripts", "check-values.mjs"))

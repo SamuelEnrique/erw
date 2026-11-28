@@ -85,7 +85,7 @@ class TheNodeTests(unittest.TestCase):
 class TheFiles(unittest.TestCase):
     def test_registered_after_the_five(self):
         p = src("site", "lib", "problems.ts")
-        self.assertIn("...[TRADE, STORM, GROUND, WHERE, AUTH].map((m) => m.META)", p)  # session 8905: AUTH, the fifth
+        self.assertIn("...[TRADE, STORM, GROUND, WHERE, AUTH, PRODUCER].map((m) => m.META)", p)  # session 8905: AUTH, the fifth; session 11408 (ready branch): PRODUCER after
         self.assertIn("addGuide(m.META.slug, m.GUIDE_ENTRY)", p)
         self.assertEqual(len(re.findall(r'\{ slug: "', p)), 5)   # the five's own entries stay as they were
         cv = src("site", "scripts", "check-values.mjs")

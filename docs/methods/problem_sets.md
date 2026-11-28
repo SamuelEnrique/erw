@@ -129,6 +129,9 @@ no input, so nothing is editable in place.
 | `layer-by-id` | Under the ground and in the wind: the layer | found by its id; the legend's range as the map draws it, from the lowest low to the highest high over the layer's parts (the contiguous states, and Alaska and Hawaii where the list gives them; session 9601), and the totals as the list of layers gives them | `site/data/resources/manifest.json` |
 | `industry-pick` | Where energy goes: the month, the industries, the year | the newest month with a total and the same month a year before; the first two ranked industries; the newest year both states hold | `site/data/industry.json` |
 | `authority-pick` | Your own balancing authority: the authority, the plant, the rows and the partner | the Tennessee Valley Authority; the first of its ten plants; the retirement and the addition with the most MW; the partner with the largest gross exchange; ERCOT and CAISO for carbon | `site/data/regions/authority/*.json`; session 8905 |
+| `producer-company` | A producer beside the price of oil (listed since session 11408): the producer asked about and the second of the last question | EOG, the largest revenue filed for the three months to 30 September 2026 among the exploration and production companies whose file holds every period the set reads; Expand Energy (EXE), a producer of mostly natural gas among the five largest | site/data/equities/index.json and series files; the set's module |
+| `producer-days` | A producer beside the price of oil: the day a price is read | the last day of the period a filing reports (30 June and 30 September 2026, 30 September 2025) | site/data/equities/energy_prices.json, the series' daily rows |
+| `producer-filed-twice` | A producer beside the price of oil: a period filed twice | the later filing's figure | `site/lib/equities.ts`, figureLine |
 
 ### What the sets do not hold
 
@@ -260,7 +263,7 @@ decisions, and its figures into the replication. Until then its choices are draw
 - **Not done:** no replication in Python and Stata yet (the listed sets have one). It is written when the set is
   approved.
 ### A producer beside the price of oil (`/learn/problems/a-producer-beside-the-price-of-oil`)
-Chain 720, session 10412, 27 November 2026. The second waiting set.
+Chain 720, session 10412, 27 November 2026. The second waiting set; listed since session 11408 (a ready branch for the owner's choice on the weekend page of 28 November 2026): its module is in `SETS` and `COUNTRY` of `site/lib/problems.ts`, its guide with the others, its three choices in `Decisions.tsx` and the table above; the next dated edition holds it. Whether it may call Expand Energy "a producer of mostly natural gas", words in no ERW file, is the owner's question beside it.
 - **Why a company and not a segment.** The chain asked for a set of the equities page on a segment beside an energy
   price. A segment's line is built from share prices, and every share price is held ("license needed"), so no segment
   has a line. What the equities files hold since 27 November 2026 is what each company filed with the SEC, which is
