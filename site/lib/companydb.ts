@@ -294,7 +294,7 @@ export function indexCsv(rows: IndexRow[], ix: Pick<CompanyIndex, "built" | "col
     `# From ${url}, built ${ix.built} by warehouse/derived/companies_page.py; method docs/methods/companies.md.`,
     `# Filters: ${(["q", "kind", "segment", "state", "grid", "has"] as const).map((k) => `${k}=${q[k] || "(any)"}`).join(", ")}.`,
     `# Order: sort=${q.sort ?? "footprint"}, ${SORTS[q.sort ?? "footprint"].words}.`,
-    "# Every figure is from public rows alone; MW are nameplate (EIA-860M) or as the queue states them; footprint_mw is a sort key (plants, owned, planned and queue MW summed; a jointly owned generator the company also operates counts twice, whole in plants_mw and for its share in owned_mw).",
+    "# Every figure is from public rows alone; MW are nameplate (EIA-860M) or as the queue states them; footprint_mw is a sort key (plants, owned, planned and queue MW summed; a jointly owned generator the company also operates counts once, whole in plants_mw, its share in owned_mw left out of the sum).",
     ix.held_tables.length
       ? `# Held (license needed): ${ix.held_tables.join(", ")}; ${plural(ix.held_only, "company", "companies")} named only in them ${ix.held_only === 1 ? "is" : "are"} not listed, and their rows add nothing here.`
       : "# No table is held.",

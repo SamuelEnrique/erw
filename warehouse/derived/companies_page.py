@@ -131,7 +131,14 @@ def figures(links):
                deals_mw=r1(f["deals_mw"]), deals_usd=round(f["deals_usd"]), n_facilities=len(fac),
                facilities_mw=r1(f["facilities_mw"]), n_reactors=len(reactors), reactors_mw=r1(f["reactors_mw"]),
                n_policy_actions=len(policy), n_counties=len(counties))
-    out["footprint_mw"] = r1(out["plants_mw"] + out["owned_mw"] + out["planned_mw"] + out["queue_mw"]
+    # session 11407 (companies audit, finding 2, the owner's other choice): the footprint leaves out the owned share of a
+    # generator the company already counts whole in its operating MW (the same plant and generator id in its
+    # eia860m_operating_generators and eia860_generator_owners rows); until then such a generator counted twice (360
+    # generators at 106 companies, 62,736 MW in the files of 16 November 2026). owned_mw itself is unchanged.
+    operated = {tuple(l["input_row"].split(":")[1:3]) for l in links if l["input_table"] == "eia860m_operating_generators"}
+    both = sum(num(l["mw"]) for l in links if l["input_table"] == "eia860_generator_owners"
+               and tuple(l["input_row"].split(":")[1:3]) in operated)
+    out["footprint_mw"] = r1(out["plants_mw"] + out["owned_mw"] - r1(both) + out["planned_mw"] + out["queue_mw"]
                              + out["facilities_mw"] + out["deals_mw"])
     fuel = {k: r1(by_fuel.get(k, 0.0)) for k in FUELS if by_fuel.get(k, 0.0)}
     yr = [[y, r1(a), r1(b), r1(c)] for y, (a, b, c) in sorted(years.items())]

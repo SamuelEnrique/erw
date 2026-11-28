@@ -36,20 +36,22 @@ class TheFootprintCountsTwice(unittest.TestCase):
         ix = json.loads(src("site", "data", "companies", "index.json"))
         cols = ix["columns"]
         row = dict(zip(cols, next(r for r in ix["rows"] if r[0] == "eia-6452")))
-        self.assertAlmostEqual(row["footprint_mw"], row["plants_mw"] + row["owned_mw"] + row["planned_mw"] + row["queue_mw"], places=1)
         c = company("eia-6452")
         t = ix["tables"]
         operated = {tuple(l[2].split(":")[1:3]) for l in c["links"] if t[l[1]] == "eia860m_operating_generators"}
         owned_also_operated = [l for l in c["links"] if t[l[1]] == "eia860_generator_owners" and tuple(l[2].split(":")[1:3]) in operated and l[6]]
         self.assertGreaterEqual(len(owned_also_operated), 1)
         self.assertGreater(sum(float(l[6]) for l in owned_also_operated), 900)
+        # session 11407 (wip/ready-companies-footprint, the owner's other choice): the footprint no longer adds that
+        # share; its line here (footprint = the four summed) moved to tests/test_ready_companies_footprint.py, which
+        # checks the builder's new footprint, and the words below follow the change
 
     def test_the_page_and_the_download_say_so(self):
-        self.assertIn("a jointly owned generator the company also operates counts twice, whole in operating MW and for its share in owned MW",
+        self.assertIn("a jointly owned generator the company also operates counts once, whole in operating MW, its share in owned MW left out of the sum",
                       src("site", "app", "companies", "page.tsx"))
-        self.assertIn("a jointly owned generator the company also operates counts twice, whole in plants_mw and for its share in owned_mw",
+        self.assertIn("a jointly owned generator the company also operates counts once, whole in plants_mw, its share in owned_mw left out of the sum",
                       src("site", "lib", "companydb.ts"))
-        self.assertIn("360 jointly owned generators at 106 companies, 62,736 MW counted twice", flat(src("docs", "methods", "companies.md")))
+        self.assertIn("360 jointly owned generators at 106 companies, 62,736 MW, in the page files of 16 November 2026", flat(src("docs", "methods", "companies.md")))
 
 
 if __name__ == "__main__":
