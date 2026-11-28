@@ -271,15 +271,16 @@ export function FilingCheck({ slot, scores, metric }: { slot: Slot; scores: Scor
       {flagged !== null && flagged > 0 ? (
         <>
           <p className="mb-2 text-sm" data-fc-filing-says={k}>In {count(flagged, pfKey(file, [...path, "months_flagged"]), "The months flagged by the check, of the months held.")} of {held.toLocaleString("en-US")} months the forecast filed on Form EIA-930 is more than {tol ?? 5} percent from the demand it forecasts over the whole month. In those months the filed forecast is not the operator&apos;s own forecast.</p>
-          <ToolTable minWidth={460} caption={`${placeWords(slot.place)}: ${METRIC_WORDS[metric].toLowerCase()} of each method over the last two years, on every month and on the months whose operator filing passes the check, ${mu}`}
+          <ToolTable minWidth={460} caption={`${placeWords(slot.place)}: ${METRIC_WORDS[metric].toLowerCase()} of each method over the last two years, on the months whose operator filing passes the check and on every month, ${mu}`}
             head={[`The last two years, ${mu}`, "Hours", ...FOUR.map((m) => <Head key={m} m={m} what={methodWhat(scores, m)} />)]}
             rows={[
-              { key: "every", cells: ["Every month", everyHours ? everyHours.toLocaleString("en-US") : <NotHeld key="h" why="No count of hours is in the score file." />, ...FOUR.map(every)] },
               // a place none of whose months of the last two years passes (Duke Energy Florida on 27 November: 89 of
               // 89 flagged) has no score there: one row that says so, in place of a nought and four blanks
               ...(sound ? [sound.hours === 0
                 ? { key: "sound", cells: [<span key="n">The months that pass</span>], wide: <span data-fc-filing-none-pass={k}>no month of the last two years passes the check</span> }
                 : { key: "sound", cells: [<span key="n" className="cursor-help" title={`The months whose filed forecast is within ${tol ?? 5} percent of the demand it forecasts.`}>The months that pass</span>, count(sound.hours, pfKey(file, [...path, "sound_last_2_years", "hours"]), `The hours scored on the months that pass, ${spanWords(sound)}.`), ...FOUR.map((m) => passing(sound, m))] }] : []),
+              // ready branch of session 11408 (weekend page of 28 November 2026, part 3.5): the months that pass lead, every month second
+              { key: "every", cells: ["Every month", everyHours ? everyHours.toLocaleString("en-US") : <NotHeld key="h" why="No count of hours is in the score file." />, ...FOUR.map(every)] },
             ]} />
         </>
       ) : null}
