@@ -1,0 +1,555 @@
+{
+ "V1_V2_actual": {
+  "newest_day_hours": 696,
+  "newest_day_changed": 184,
+  "newest_day_mean_abs_pct": 0.0791,
+  "older_days_hours": 22736,
+  "older_days_changed": 384,
+  "older_days_mean_abs_pct": 0.0106,
+  "newest_day_places_changed": 12,
+  "newest_day_places": 29,
+  "worst_newest": [
+   [
+    0.816,
+    1.07,
+    "ba-fpc",
+    "2026-11-24",
+    24,
+    24
+   ],
+   [
+    0.503,
+    2.41,
+    "ba-cple",
+    "2026-11-24",
+    24,
+    24
+   ],
+   [
+    0.279,
+    6.71,
+    "region-ne",
+    "2026-11-24",
+    1,
+    24
+   ],
+   [
+    0.279,
+    6.71,
+    "ba-isne",
+    "2026-11-24",
+    1,
+    24
+   ],
+   [
+    0.174,
+    0.23,
+    "region-fla",
+    "2026-11-24",
+    24,
+    24
+   ],
+   [
+    0.131,
+    0.64,
+    "region-car",
+    "2026-11-24",
+    24,
+    24
+   ],
+   [
+    0.076,
+    0.2,
+    "region-nw",
+    "2026-11-23",
+    23,
+    24
+   ],
+   [
+    0.012,
+    0.24,
+    "region-cal",
+    "2026-11-24",
+    3,
+    24
+   ],
+   [
+    0.011,
+    0.05,
+    "ba-duk",
+    "2026-11-24",
+    15,
+    24
+   ],
+   [
+    0.006,
+    0.04,
+    "ba-bpat",
+    "2026-11-24",
+    5,
+    24
+   ]
+  ]
+ },
+ "V1_V2_operator": {
+  "newest_day_hours": 693,
+  "newest_day_changed": 19,
+  "newest_day_mean_abs_pct": 0.0019,
+  "older_days_hours": 22084,
+  "older_days_changed": 92,
+  "older_days_mean_abs_pct": 0.0017,
+  "newest_day_places_changed": 1,
+  "newest_day_places": 29,
+  "worst_newest": [
+   [
+    0.054,
+    0.17,
+    "region-nw",
+    "2026-11-23",
+    19,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-tex",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-ten",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-sw",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-se",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-ny",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-ne",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-midw",
+    "2026-11-23",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-mida",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-fla",
+    "2026-11-24",
+    0,
+    24
+   ]
+  ]
+ },
+ "V2_V3_actual": {
+  "newest_day_hours": 696,
+  "newest_day_changed": 51,
+  "newest_day_mean_abs_pct": 0.0023,
+  "older_days_hours": 22736,
+  "older_days_changed": 49,
+  "older_days_mean_abs_pct": 0.0006,
+  "newest_day_places_changed": 5,
+  "newest_day_places": 29,
+  "worst_newest": [
+   [
+    0.055,
+    0.23,
+    "region-nw",
+    "2026-11-24",
+    24,
+    24
+   ],
+   [
+    0.006,
+    0.02,
+    "ba-cple",
+    "2026-11-25",
+    11,
+    24
+   ],
+   [
+    0.004,
+    0.08,
+    "region-cal",
+    "2026-11-25",
+    1,
+    24
+   ],
+   [
+    0.002,
+    0.0,
+    "region-car",
+    "2026-11-25",
+    13,
+    24
+   ],
+   [
+    0.001,
+    0.01,
+    "ba-duk",
+    "2026-11-25",
+    2,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-tex",
+    "2026-11-25",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-ten",
+    "2026-11-25",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-sw",
+    "2026-11-25",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-se",
+    "2026-11-25",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-ny",
+    "2026-11-25",
+    0,
+    24
+   ]
+  ]
+ },
+ "V2_V3_operator": {
+  "newest_day_hours": 693,
+  "newest_day_changed": 19,
+  "newest_day_mean_abs_pct": 0.0053,
+  "older_days_hours": 22084,
+  "older_days_changed": 23,
+  "older_days_mean_abs_pct": 0.0003,
+  "newest_day_places_changed": 1,
+  "newest_day_places": 29,
+  "worst_newest": [
+   [
+    0.152,
+    0.27,
+    "region-nw",
+    "2026-11-24",
+    19,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-tex",
+    "2026-11-25",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-ten",
+    "2026-11-25",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-sw",
+    "2026-11-25",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-se",
+    "2026-11-25",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-ny",
+    "2026-11-25",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-ne",
+    "2026-11-25",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-midw",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-mida",
+    "2026-11-25",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-fla",
+    "2026-11-25",
+    0,
+    24
+   ]
+  ]
+ },
+ "V1_V3_actual": {
+  "newest_day_hours": 696,
+  "newest_day_changed": 209,
+  "newest_day_mean_abs_pct": 0.0942,
+  "older_days_hours": 22040,
+  "older_days_changed": 407,
+  "older_days_mean_abs_pct": 0.011,
+  "newest_day_places_changed": 13,
+  "newest_day_places": 29,
+  "worst_newest": [
+   [
+    0.816,
+    1.07,
+    "ba-fpc",
+    "2026-11-24",
+    24,
+    24
+   ],
+   [
+    0.503,
+    2.41,
+    "ba-cple",
+    "2026-11-24",
+    24,
+    24
+   ],
+   [
+    0.436,
+    1.71,
+    "ba-pace",
+    "2026-11-24",
+    24,
+    24
+   ],
+   [
+    0.279,
+    6.71,
+    "region-ne",
+    "2026-11-24",
+    1,
+    24
+   ],
+   [
+    0.279,
+    6.71,
+    "ba-isne",
+    "2026-11-24",
+    1,
+    24
+   ],
+   [
+    0.174,
+    0.23,
+    "region-fla",
+    "2026-11-24",
+    24,
+    24
+   ],
+   [
+    0.131,
+    0.64,
+    "region-car",
+    "2026-11-24",
+    24,
+    24
+   ],
+   [
+    0.077,
+    0.2,
+    "region-nw",
+    "2026-11-23",
+    24,
+    24
+   ],
+   [
+    0.012,
+    0.24,
+    "region-cal",
+    "2026-11-24",
+    3,
+    24
+   ],
+   [
+    0.011,
+    0.05,
+    "ba-duk",
+    "2026-11-24",
+    15,
+    24
+   ]
+  ]
+ },
+ "V1_V3_operator": {
+  "newest_day_hours": 693,
+  "newest_day_changed": 19,
+  "newest_day_mean_abs_pct": 0.0019,
+  "older_days_hours": 21391,
+  "older_days_changed": 115,
+  "older_days_mean_abs_pct": 0.002,
+  "newest_day_places_changed": 1,
+  "newest_day_places": 29,
+  "worst_newest": [
+   [
+    0.054,
+    0.17,
+    "region-nw",
+    "2026-11-23",
+    19,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-tex",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-ten",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-sw",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-se",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-ny",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-ne",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-midw",
+    "2026-11-23",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-mida",
+    "2026-11-24",
+    0,
+    24
+   ],
+   [
+    0.0,
+    0.0,
+    "region-fla",
+    "2026-11-24",
+    0,
+    24
+   ]
+  ]
+ },
+ "note": "newest day: the last local day the older vintage holds, read about a day after it ended; compared with the same hours of the newer vintage"
+}
