@@ -1,0 +1,19 @@
+rows 93 to date 21
+rows with an investment the picker takes 87
+THREE (seed 11404):
+  ms_aws_madison_2024 ms mw None inv 10000000000 2024 perm 1000 cons None to_date None
+  va_google_2025 va mw None inv 9000000000 2025 perm None cons None to_date None
+  az_beale_pima_2025 az mw None inv 3600000000 2025 perm 180 cons 3000 to_date None
+TWELVE (seed 20261128):
+  mo_meta_kansascity_2026
+  wv_penzance_berkeley_2026
+  in_aws_stjoseph_2024
+  la_meta_richland_2026
+  va_microsoft_mecklenburg_2015
+  il_meta_dekalb_2026
+  tx_meta_elpaso_2026
+  mn_meta_rosemount_2024
+  tx_stargate_milam_2026
+  id_meta_kuna_announce_2022
+  ms_aws_clinton_2026
+  sc_cielo_cherokee_2025
