@@ -12,9 +12,10 @@ warehouse/raw/
 warehouse/output/*.csv
 !warehouse/output/news_index.csv
 !warehouse/output/news_stories.csv
-# Session 15: the deal tracker's tables, so the CI runner has the deals already extracted
-!warehouse/output/energy_deals.csv
-!warehouse/output/energy_deals_evidence.csv
+# Session 15: the deal tracker's tables were let in here, so the CI runner had the deals already extracted.
+# Session 11405 (decision 1 of the weekend page of 28 November 2026, on Samuel's ruling only): energy_deals and its
+# evidence are held ("license needed" from 21 October 2026), so they leave git's current files; the runner restores
+# them from the archive (warehouse/run_daily.sh, the held deals' restore). The history is not rewritten.
 # Session 16: the datacenter power tracker's tables, for the same reason
 !warehouse/output/datacenter_projects.csv
 !warehouse/output/datacenter_projects_evidence.csv

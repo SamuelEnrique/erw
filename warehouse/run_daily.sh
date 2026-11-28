@@ -323,12 +323,24 @@ run_other news_index "$PYTHON" warehouse/news/index.py   # public companion tabl
 pull policy_sources "$PYTHON" warehouse/connectors/policy_sources.py
 model_step policy_score "$PYTHON" warehouse/policy/score.py
 model_step policy_reads "$PYTHON" warehouse/policy/reads.py
+# Session 11405 (decision 1 of the weekend page of 28 November 2026, on Samuel's ruling only): energy_deals and its
+# evidence are held and no longer in git, so a runner (RESTORE_FROM_REDIVIS=1) restores them from the archive here.
+# If they cannot be restored, the three deal steps are skipped: an extraction into an empty table would write a
+# table of the new deals alone over the full one.
+if [ "${RESTORE_FROM_REDIVIS:-0}" = "1" ]; then
+  echo "== restore the held deals' tables (session 11405): the archive"
+  "$PYTHON" warehouse/restore_tables.py energy_deals energy_deals_evidence --no-redivis || echo "the held deals' tables were not restored"
+fi
+if [ -e warehouse/output/energy_deals.csv ] && [ -e warehouse/output/energy_deals_evidence.csv ]; then
 # Session 15: deals from the newly scored stories (warehouse/deals/extract.py, tool 6)
 model_step deals "$PYTHON" warehouse/deals/extract.py
 # Session 27: every party of energy_deals is a row of energy_companies (tool 10), merged with the Thesis Builder's rows
 run_other companies_from_deals "$PYTHON" warehouse/companies/seed_from_deals.py
 # Session 2234: the deals' counterparties, one row a canonical name (warehouse/deals/counterparties.py, no model)
 run_other deal_counterparties "$PYTHON" warehouse/deals/counterparties.py
+else
+  echo "== deals, companies_from_deals, deal_counterparties skipped: energy_deals is not on this machine (session 11405)"
+fi
 # Session 16: datacenter facilities from the newly scored datacenter_power stories (tool 4)
 model_step datacenters "$PYTHON" warehouse/datacenters/extract.py
 # Session 22: the tracker's one table: the news facilities, the operator sites and the queue rows that

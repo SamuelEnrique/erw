@@ -158,7 +158,10 @@ class CleanInstall(unittest.TestCase):
         self.assertEqual(out["old"], ["iso_dam_hub_prices", {"market": "ercot_dam"}])
 
     def test_a_committed_table_reads_and_cites(self):
-        # energy_deals is one of the tables kept in git (warehouse/output, CLAUDE.md), with coverage.csv and sources.csv
+        # energy_deals was one of the tables kept in git (warehouse/output, CLAUDE.md), with coverage.csv and sources.csv;
+        # session 11405 (decision 1): held, it leaves git, so a clean checkout skips this
+        if not (ROOT / "warehouse" / "output" / "energy_deals.csv").exists():
+            self.skipTest("energy_deals is not on this machine")
         p = self.run_py("import erw\ndf = erw.fetch('energy_deals')\nprint(len(df) > 0, erw.tier('energy_deals'))\n"
                         "print(erw.cite('energy_deals'))\n",
                         {"ERW_DATA_DIR": str(ROOT / "warehouse" / "output")})

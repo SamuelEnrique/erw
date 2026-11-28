@@ -899,16 +899,18 @@ class Runner(unittest.TestCase):
         self.assertNotIn("--evidence-store file", yml)
 
     def test_the_warehouse_tier_is_on_the_runner_because_its_two_tables_are_in_git(self):
+        # session 11405 (decision 1 of the weekend page of 28 November 2026): energy_deals is held and leaves git's
+        # current files; the runner restores it from the archive (run_daily.sh). energy_companies stays in git
         ignore = src(".gitignore")
-        for name in ("energy_companies.csv", "energy_deals.csv"):
-            self.assertIn("!warehouse/output/" + name, ignore, name)          # allowlisted in sessions 27 and 15
+        self.assertIn("!warehouse/output/energy_companies.csv", ignore)          # allowlisted in session 27
+        self.assertNotIn("!warehouse/output/energy_deals.csv", ignore)
         try:
             out = subprocess.run(["git", "ls-files", "warehouse/output/energy_companies.csv", "warehouse/output/energy_deals.csv"], cwd=ROOT, capture_output=True, text=True, timeout=30)
         except (OSError, subprocess.SubprocessError):
             self.skipTest("git is not here")
         if out.returncode != 0:
             self.skipTest("not a git checkout")
-        self.assertEqual(sorted(out.stdout.split()), ["warehouse/output/energy_companies.csv", "warehouse/output/energy_deals.csv"])
+        self.assertEqual(sorted(out.stdout.split()), ["warehouse/output/energy_companies.csv"])
 
     def test_a_run_started_by_the_page_fetches_and_uses_the_bucket_and_a_test_does_neither(self):
         code = src("warehouse", "thesis", "run.py")
