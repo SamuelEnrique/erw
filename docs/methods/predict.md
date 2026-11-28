@@ -840,3 +840,29 @@ peak over the span at every place but PSCO (9.43 against 8.50 percent); Florida,
 
 Replication (`replicate_long.py`, which now rebuilds the peak by the same words): its count is in the progress file and
 landing row 12.
+
+## 30. The forecast two to seven days ahead, walked from 2016 (session 10603, finished by session 11200)
+
+Samuel's order of 28 November 2026 ("then longer backtests and more places"). `ahead.py` backtests each horizon h = 3 to 7
+from 1 July 2019, on the hourly EIA-930 demand that began on 1 July 2018. Since landing 20 of chain 701 (data request 9)
+`eia930_all_history` holds every authority's demand from July 2015, so `warehouse/predict/long_ahead.py` walks the same
+horizons from 1 July 2016 for all 64 places, with the same methods and fits (the regression and `regression_recent`,
+refit at the horizon on the 730 days before each target day, at least 300), and scores each horizon by the calendar
+year of the target day against the same hour a week ago, which is known at every horizon to 7.
+
+The method of a horizon is chosen as `ahead.py` chooses it: the lower mean absolute error of the two regressions over
+the last two years, on the hours the actual and the four candidates all hold. It is the method in every year: the
+earlier years test the rule, they do not choose. "Beats" in a year is that method's mean absolute error below the
+week-ago hour's on that year's common hours. Nothing in `ahead.json` or `ahead_more.json` changes.
+
+Written to `site/data/predict/long_ahead.json` (contract, dated line of 28 November 2026). The run of 28 November
+(three parts of about 21 places, one thread each, 11:51 to 13:09 UTC, on the main checkout's tables; merged by
+`long_ahead.py --merge`): 64 places, 320 place-horizons; the chosen method beats the week-ago hour in every year held at
+301 of them. The 19 that miss a year: PSCO at every horizon (10 of 11 years) and fourteen others, each one year short.
+The median mean absolute percentage error over the whole span: 7.10 percent at three days ahead against 9.80 for the
+week-ago hour, 7.70 against 9.81 at five, 7.76 against 9.81 at seven. The band holds 76.6 to 80.4 percent of the
+hours (median 78.7) against its nominal 80.
+
+Replication: `replication/predict/replicate_long_ahead.py`, written from this section and the tables alone, refits
+every window and compares every figure of the file (`figures_long_ahead.csv`); its count is in the progress file and
+the landing row.
