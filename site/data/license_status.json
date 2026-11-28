@@ -2035,7 +2035,9 @@
   },
   "eia930_subba_demand_hourly_2026": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia_aeo_electricity": {
    "status": "public",
@@ -4656,6 +4658,10 @@
     "/grid"
    ]
   },
+  "spp_mtlf_hourly": {
+   "status": "public",
+   "pages": []
+  },
   "ssb_norway_electricity_monthly": {
    "status": "public",
    "pages": [
@@ -5067,7 +5073,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 547
+   "public": 548
   },
   "/data/faults": {
    "label": "Known faults in source data",

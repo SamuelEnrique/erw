@@ -2,13 +2,14 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 5 public tables (1 entities, 4 series; tiers: 5 source); 5 documented in full.
+**What the family holds.** 6 public tables (1 entities, 5 series; tiers: 6 source); 5 documented in full.
 
 - [`spp_as_prices`](#spp_as_prices): The day-ahead market clearing price of one operating reserve product, for one of SPP's two named reserve regions, for one hour.
 - [`spp_as_quantities`](#spp_as_quantities): The MW of one operating reserve product cleared in SPP's day-ahead market for one hour, for one of the regions the file's BAA column names.
 - [`spp_curtailment_daily`](#spp_curtailment_daily): The wind or solar energy SPP reports curtailed for one reason (or in all) in one balancing authority area on one day.
 - [`spp_dam_cleared_energy`](#spp_dam_cleared_energy): The demand cleared in SPP's day-ahead market for one hour and one balancing authority area.
 - [`spp_interconnection_queue`](#spp_interconnection_queue): One position in SPP's Generation Interconnection Queue summary, a project asking to connect generation or storage to SPP's grid.
+- [`spp_mtlf_hourly`](#spp_mtlf_hourly): One hour of one SPP area (the footprint, or its western area) as one daily publication of SPP's mid-term load forecast file printed it: the forecast for the hour, or the averaged actual load beside it.
 
 ### `spp_as_prices`
 
@@ -205,4 +206,42 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `proposed_in_service_date` | The date the project proposes to begin operating (the source's name: Proposed Completion Date) | none | date | 2002-01-01 to 2035-02-01; 582 distinct | 1110: SPP gives no date |
 | `actual_in_service_date` | SPP's Commercial Operation Date, which equals proposed_in_service_date on every row (not a completed project's date; some lie in the future) (the source's name: Commercial Operation Date) | none | date | 2002-01-01 to 2035-02-01; 582 distinct | 1110: SPP gives no date |
 | `withdrawn_date` | The date the request was withdrawn (the source's name: Withdrawn Date) | none | date | 2002-03-04 to 2026-10-19; 534 distinct | 1562: Not withdrawn, or withdrawn with no date given |
+
+### `spp_mtlf_hourly`
+
+One hour of one SPP area (the footprint, or its western area) as one daily publication of SPP's mid-term load forecast file printed it: the forecast for the hour, or the averaged actual load beside it.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`, `vintage`. License: public; tier: source. Rows read on 2026-11-28: 1073626.
+
+- **Time:** ts_utc is the hour's start, UTC (SPP's GMT hour ending less one hour; in the early files, which give only central time, placed by row order). vintage is the hour the file was published (09:00 central time), UTC.
+- **Revisions:** Revisions kept: one row per publication (vintage), so a forecast once made is never replaced and each publication's actuals stand as printed. The key is entity, variable, ts_utc and vintage.
+- **Source:** spp:MTLF-VS-ACTUAL Southwest Power Pool (SPP), Marketplace portal, Mid-Term Load Forecast vs Actual (https://portal.spp.org/pages/mtlf-vs-actual)
+- **Method note:** [`docs/methods/spp_mtlf.md`](../methods/spp_mtlf.md)
+- **Cite as:** Southwest Power Pool (SPP). Mid-Term Load Forecast vs Actual (MTLF). Via the Energy Research Warehouse (ERW), table `spp_mtlf_hourly`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | spp:SPP, spp:SWPW | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2013-06-28T14:00:00Z to 2026-12-04T14:00:00Z; more than 5000 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | 113.0 to 59416.0; more than 5000 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | MW | 0 |
+| `freq` | How long the interval of the row is | none | text | PT1H | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1073626 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 1073626 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | spp:MTLF-VS-ACTUAL | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | for example https://portal.spp.org/file-browser-api/download/mtlf-vs-actual?path=/2013/2013.zip, https://portal.spp.org/file-browser-api/download/mtlf-vs-actual?path=/2014/2014.zip, https://portal.spp.org/file-browser-api/download/mtlf-vs-actual?path=/2015/2015.zip; 707 distinct | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-28T09:10:37Z, 2026-11-28T10:09:44Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2013-06-29T14:00:00Z to 2026-11-27T15:00:00Z; 4887 distinct | 0 |
+| `x_horizon_hours` | Hours from the file's publication to the hour's start; negative for an hour already past (an actual) | h | integer | -25 to 167; 193 distinct | 0 |
+| `x_interval_end_cpt` | SPP's own label of the hour: its hour ending in central prevailing time, as printed |  | text | for example 01/01/2014 00:00:00, 01/01/2014 01:00:00, 01/01/2014 02:00:00; more than 5000 distinct | 0 |
+| `x_file` | The file read, OP-MTLF-<YYYYMMDDHH00>.csv (the publication's hour in central prevailing time) |  | text | for example OP-MTLF-201306290900.csv, OP-MTLF-201306300900.csv, OP-MTLF-201307010900.csv; 4887 distinct | 0 |
+
+Variables (2):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `load_actual_mw` | SPP's averaged actual load for the hour, MW, as printed beside the forecast | MW | 132894 | 2013-06-28T14:00:00Z | 2026-11-27T14:00:00Z |
+| `load_forecast_mtlf_mw` | SPP's mid-term load forecast (MTLF) for the hour, MW, as published | MW | 940732 | 2013-06-28T14:00:00Z | 2026-12-04T14:00:00Z |
 

@@ -415,6 +415,13 @@ else
   fi
 fi
 
+# Session 10000 (chain 701, predict data request 19): SPP's mid-term load forecast beside its actual load, the 09:00 central
+# file of each of the last 10 days (a file saved in warehouse/raw/spp_mtlf/ is reused; 11 requests at most), and the
+# table's stores when it moved
+was_spp="$(sha_of spp_mtlf_hourly)"
+soft_step dm_spp_mtlf "$PYTHON" warehouse/connectors/spp_mtlf.py
+table_stores dm_spp_mtlf_stores spp_mtlf_hourly "$was_spp"
+
 # ---- 3. the page files ------------------------------------------------------------------------------------------------
 echo "== the page files (each rebuilt from the tables here; a failed builder leaves its file as it was)"
 soft_step dm_datacenter_page "$PYTHON" warehouse/derived/datacenter_page.py
