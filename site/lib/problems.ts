@@ -648,19 +648,22 @@ export const SETS: Omit<ProblemSet, "questions" | "example">[] = [
     pages: [{ href: "/grid?view=network", label: "The network" }, { href: "/cost-of-power/seller", label: "What a generator earns" }, { href: "/events/uri-2021", label: "Uri" }] },
   // session 8901 (chain 507, part C): the four sets of the whole country, after the five
   ...[TRADE, STORM, GROUND, WHERE, AUTH].map((m) => m.META),
+  // ready branch of session 11408 (weekend page of 28 November 2026, part 3.5, the other choice): the forecast's report
+  // card listed with the others (it was a waiting set, session 10404)
+  REPORT.META,
 ];
 /** Session 8901: the sets kept in modules of their own (lib/problemsets/), by slug. */
-const COUNTRY: Record<string, { build: () => Promise<Built> }> = Object.fromEntries([TRADE, STORM, GROUND, WHERE, AUTH].map((m) => [m.META.slug, m]));
-for (const m of [TRADE, STORM, GROUND, WHERE, AUTH]) addGuide(m.META.slug, m.GUIDE_ENTRY);
+const COUNTRY: Record<string, { build: () => Promise<Built> }> = Object.fromEntries([TRADE, STORM, GROUND, WHERE, AUTH, REPORT].map((m) => [m.META.slug, m]));
+for (const m of [TRADE, STORM, GROUND, WHERE, AUTH, REPORT]) addGuide(m.META.slug, m.GUIDE_ENTRY);
 
 /** Session 10404 (chain 720, part E): the waiting sets. A waiting set has its page at /learn/problems/<slug> and is
  *  built as the others are, but it is not in SETS: the index does not list it, it has no data.csv, and the dated
  *  edition (scripts/build-problem-edition.mjs, which freezes SETS) never holds it. It waits for the owner: approving
  *  one is moving its module from this list to the list of SETS above (and its decisions into Decisions.tsx). Its guide
  *  is kept here, not in GUIDE, so the instructors' note names no set the index does not. */
-const WAITING_MODULES = [REPORT, PRODUCER];
+const WAITING_MODULES = [PRODUCER];
 export const WAITING_SETS: Omit<ProblemSet, "questions" | "example">[] = WAITING_MODULES.map((m) => m.META);
-export const WAITING_GUIDE: Record<string, (typeof REPORT)["GUIDE_ENTRY"]> = Object.fromEntries(WAITING_MODULES.map((m) => [m.META.slug, m.GUIDE_ENTRY]));
+export const WAITING_GUIDE: Record<string, (typeof PRODUCER)["GUIDE_ENTRY"]> = Object.fromEntries(WAITING_MODULES.map((m) => [m.META.slug, m.GUIDE_ENTRY]));
 export const WAITING_DECISIONS = WAITING_MODULES.flatMap((m) => m.DECISIONS);
 
 export async function problemSet(slug: string): Promise<ProblemSet | null> {

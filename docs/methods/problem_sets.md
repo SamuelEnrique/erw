@@ -129,6 +129,9 @@ no input, so nothing is editable in place.
 | `layer-by-id` | Under the ground and in the wind: the layer | found by its id; the legend's range as the map draws it, from the lowest low to the highest high over the layer's parts (the contiguous states, and Alaska and Hawaii where the list gives them; session 9601), and the totals as the list of layers gives them | `site/data/resources/manifest.json` |
 | `industry-pick` | Where energy goes: the month, the industries, the year | the newest month with a total and the same month a year before; the first two ranked industries; the newest year both states hold | `site/data/industry.json` |
 | `authority-pick` | Your own balancing authority: the authority, the plant, the rows and the partner | the Tennessee Valley Authority; the first of its ten plants; the retirement and the addition with the most MW; the partner with the largest gross exchange; ERCOT and CAISO for carbon | `site/data/regions/authority/*.json`; session 8905 |
+| `report-card-place` | The ERW forecast's report card: the places | Texas (`region-tex`), and California (`region-cal`) in the last question | Texas is the place `/forecast` opens on; California the first region in the file's order; neither chosen by its score (session 10404; listed by the ready branch of session 11408) |
+| `report-card-hours` | The report card: the hours of the day | the largest and the smallest error of the ERW forecast among the 24 rows of the cut "hour", the first on a tie | `site/data/predict/scores.json`, the cut "hour" |
+| `report-card-same-hours` | The report card: two methods side by side | an hour enters a comparison only when every method in it has a forecast and what happened is held | `docs/state/page_files_predict.md`, section 3 |
 
 ### What the sets do not hold
 
@@ -237,6 +240,10 @@ list to the modules of `SETS`, its choices into `site/app/learn/problems/Decisio
 decisions, and its figures into the replication. Until then its choices are drawn on its own page only.
 
 ### The ERW forecast's report card (`/learn/problems/a-forecasts-report-card`)
+
+**Listed (ready branch of session 11408, not the default).** The set is in `SETS` with the sets of the whole country (its
+module in `COUNTRY` and in the guide), its three choices in `Decisions.tsx` and the list above; the index lists it,
+it has a `data.csv`, and the next dated edition holds it. Its replication in Python and Stata is still to be written.
 
 - **What it reads:** `site/data/predict/scores.json`, the file `/forecast` draws its scores from (written by
   `warehouse/predict/backtest.py`; contract `docs/state/page_files_predict.md`; method `docs/methods/predict.md`). A

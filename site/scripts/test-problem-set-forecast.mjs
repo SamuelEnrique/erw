@@ -27,6 +27,7 @@ const mod = await import("../lib/problemsets/a-forecasts-report-card.ts");
 const Live = (await import("../app/learn/problems/[slug]/page.tsx")).default;
 const livePage = await import("../app/learn/problems/[slug]/page.tsx");
 const Index = (await import("../app/learn/problems/page.tsx")).default;
+const { PROBLEM_DECISIONS } = await import("../app/learn/problems/Decisions.tsx");
 const editionPage = await import("../app/learn/problems/[slug]/[edition]/page.tsx");
 const teacherPage = await import("../app/learn/problems/[slug]/[edition]/teacher/page.tsx");
 const CITES = JSON.parse(fs.readFileSync(path.join(site, "data", "table_citations.json"), "utf-8"));
@@ -69,22 +70,23 @@ function arraysAfter(text, field) {
 const outsideStrings = (s) => s.replace(/`(?:\\.|[^`\\])*`|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, "");
 
 // ---------------------------------------------------------------- a waiting set, and nothing more
-check(WAITING_SETS.some((s) => s.slug === SLUG), "the set is a waiting set");
-check(!SETS.some((s) => s.slug === SLUG), "the set is in SETS: the index and the edition builder would take it");
-check(!(SLUG in GUIDE) && WAITING_GUIDE[SLUG] === mod.GUIDE_ENTRY, "its guide is the waiting guide's, not GUIDE's");
-check(!instructorNote().includes(SLUG), "the instructors' note names a waiting set");
+// ready branch wip/ready-forecast-problem-set-listed (session 11408): the set is listed, no longer waiting
+check(!WAITING_SETS.some((s) => s.slug === SLUG), "the set is still a waiting set");
+check(SETS.some((s) => s.slug === SLUG), "the set is not in SETS");
+check(GUIDE[SLUG] === mod.GUIDE_ENTRY && !(SLUG in WAITING_GUIDE), "its guide is not GUIDE's");
+check(instructorNote().includes(SLUG) || instructorNote().includes(mod.META.title), "the instructors' note does not name the set");
 const index = renderToStaticMarkup(Index());
-check(!index.includes(SLUG) && !index.includes(mod.META.title), "the index lists a waiting set");
+check(index.includes(SLUG) && index.includes(attr(mod.META.title).replaceAll("'", "&#x27;")), "the index does not list the set");
 const editionParams = [...editionPage.generateStaticParams(), ...teacherPage.generateStaticParams()];
-check(!editionParams.some((p) => p.slug === SLUG), "an edition address for a waiting set");
+check(!editionParams.some((p) => p.slug === SLUG), "an edition address before an edition holds the set");
 check(livePage.generateStaticParams().some((p) => p.slug === SLUG), "the set's page is not among the pages built");
 check(/for \(const meta of SETS\)/.test(read("scripts", "build-problem-edition.mjs")), "the edition builder no longer freezes SETS alone");
 check(read("app", "learn", "problems", "[slug]", "data.csv", "route.ts").includes("const meta = SETS.find((s) => s.slug === slug);"), "the data.csv route no longer reads SETS alone");
 for (const f of fs.readdirSync(path.join(site, "data", "problem_editions"))) check(!read("data", "problem_editions", f).includes(SLUG), `the dated edition file ${f} names the waiting set`);
 check(!read("lib", "release.ts").includes(SLUG), "lib/release.ts names the set: it opens nothing");
 // session 10412: a second waiting set has its own decisions in the list; this set's are the three that name it
-const MINE = WAITING_DECISIONS.filter((d) => d.sets.includes(SLUG));
-check(MINE.length === 3 && MINE.every((d) => d.sets.length === 1 && d.text && d.def && d.source && d.session) && WAITING_DECISIONS.every((d) => d.sets.length === 1), "the set's three decisions, each whole, and no waiting decision of two sets");
+const MINE = PROBLEM_DECISIONS.filter((d) => d.sets.includes(SLUG));
+check(!WAITING_DECISIONS.some((d) => d.sets.includes(SLUG)) && MINE.length === 3 && MINE.every((d) => d.sets.length === 1 && d.text && d.def && d.source && d.session) && WAITING_DECISIONS.every((d) => d.sets.length === 1), "the set's three decisions, each whole, and no waiting decision of two sets");
 
 // ---------------------------------------------------------------- the set, built as its page builds it
 const set = await problemSet(SLUG);
@@ -142,7 +144,7 @@ check(q3 && set.example.q.includes(`${file.span.demand.first_day} to ${file.span
 
 // ---------------------------------------------------------------- the page, drawn with the site's own components
 const html = renderToStaticMarkup(await Live({ params: Promise.resolve({ slug: SLUG }) }));
-check(html.includes(`data-waiting-set="${SLUG}"`), "the page is marked as a waiting set's");
+check(!html.includes("data-waiting-set"), "the page is still marked as a waiting set's");
 check(html.includes(`data-decisions="${SLUG}"`) && html.includes('data-decision-count="3"'), "the decisions block with the set's three");
 for (const d of MINE) check(html.includes(`data-decision="${d.key}"`), `the decision ${d.key} not drawn`);
 for (const d of WAITING_DECISIONS.filter((x) => !MINE.includes(x))) check(!html.includes(`data-decision="${d.key}"`), `another waiting set's decision ${d.key} drawn`);
@@ -167,4 +169,4 @@ const other = renderToStaticMarkup(await Live({ params: Promise.resolve({ slug: 
 check(!other.includes("data-waiting-set") && !WAITING_DECISIONS.some((d) => other.includes(`data-decision="${d.key}"`)), "a listed set's page carries the waiting set's mark or choices");
 
 if (fails.length) { console.log(`FAIL ${fails.length} of ${checks}:\n  ${fails.slice(0, 40).join("\n  ")}`); process.exitCode = 1; }
-else console.log(`ok: ${checks} checks; 1 waiting set, ${ids.length} questions and 1 example, ${keys} keyed figures recomputed from the file, ${drawn} found on the drawn page`);
+else console.log(`ok: ${checks} checks; the set listed, ${ids.length} questions and 1 example, ${keys} keyed figures recomputed from the file, ${drawn} found on the drawn page`);

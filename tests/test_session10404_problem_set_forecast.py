@@ -29,18 +29,16 @@ def src(*p):
 class TheSetWaits(unittest.TestCase):
     def test_it_is_a_waiting_set_and_not_a_listed_one(self):
         text = src("site", "lib", "problems.ts")
-        # session 10412 added a second waiting set after it
-        self.assertRegex(text, r"const WAITING_MODULES = \[REPORT(, \w+)*\];")
-        # the listed sets and their guide are as they were: the waiting module is in neither line
-        self.assertIn("...[TRADE, STORM, GROUND, WHERE, AUTH].map((m) => m.META),", text)
-        self.assertIn("for (const m of [TRADE, STORM, GROUND, WHERE, AUTH]) addGuide(m.META.slug, m.GUIDE_ENTRY);", text)
+        # ready branch wip/ready-forecast-problem-set-listed (session 11408): listed, no longer waiting
+        self.assertIn("const WAITING_MODULES = [PRODUCER];", text)
+        self.assertIn("  REPORT.META,", text)
+        self.assertIn("for (const m of [TRADE, STORM, GROUND, WHERE, AUTH, REPORT]) addGuide(m.META.slug, m.GUIDE_ENTRY);", text)
         # the line the problem kit's test pins is kept
         self.assertIn("questions: inOrder(built.questions, GUIDE[slug]?.order ?? [])", text)
 
     def test_nothing_freezes_or_opens_it(self):
         self.assertIn("for (const meta of SETS)", src("site", "scripts", "build-problem-edition.mjs"))
         self.assertNotIn(SLUG, src("site", "lib", "release.ts"))
-        self.assertNotIn(SLUG, src("site", "lib", "pages.ts"))
         editions = os.path.join(SITE, "data", "problem_editions")
         for name in os.listdir(editions):
             self.assertNotIn(SLUG, src("site", "data", "problem_editions", name), name)
@@ -64,7 +62,7 @@ class TheSetWaits(unittest.TestCase):
     def test_the_other_sets_page_takes_the_waiting_choices_only_from_the_page(self):
         text = src("site", "app", "learn", "problems", "Decisions.tsx")
         self.assertIn(": PROBLEM_DECISIONS;", text)  # the index draws the listed sets' choices alone
-        self.assertNotIn("a-forecasts-report-card", text)
+        self.assertIn("  ...REPORT_DECISIONS,", text)  # ready branch of session 11408: the set is listed
 
 
 class TheNodeTest(unittest.TestCase):
@@ -73,7 +71,7 @@ class TheNodeTest(unittest.TestCase):
         r = subprocess.run([NODE, "--import", "./scripts/problem-sets-register.mjs", "scripts/test-problem-set-forecast.mjs"],
                            capture_output=True, text=True, cwd=SITE, timeout=300)
         self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-1000:])
-        self.assertRegex(r.stdout, r"ok: \d+ checks; 1 waiting set, 6 questions and 1 example, \d+ keyed figures recomputed from the file, \d+ found on the drawn page")
+        self.assertRegex(r.stdout, r"ok: \d+ checks; the set listed, 6 questions and 1 example, \d+ keyed figures recomputed from the file, \d+ found on the drawn page")
 
 
 if __name__ == "__main__":
