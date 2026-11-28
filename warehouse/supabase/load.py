@@ -375,6 +375,47 @@ def eqr_largest(top=EQR_TOP, out_dir=None):
             "lists": lists}
 
 
+def execution_quarter(dates):
+    """The quarter of each execution date (YYYY-MM-DD or a UTC time) as YYYY_Qn, the form of x_quarter; "" when the
+    date cannot be read."""
+    d = dates.str[:10]
+    month = pd.to_numeric(d.str[5:7], errors="coerce")
+    q = ((month - 1) // 3 + 1).astype("Int64").astype(str)
+    return (d.str[:4] + "_Q" + q).where(month.notna(), "")
+
+
+def own_quarter(df, history_path, cut=None, chunksize=20000):
+    """Session 11407 (docs/reviews/contracts-model-audit-2026-11-26.md, finding 1, the owner's other choice readied):
+    the rows of ferc_eqr_contracts (the newest quarter's file) whose quarter of execution the history table holds a
+    file for are replaced by that file's rows signed in it (x_quarter equal to the quarter of execution), so such a
+    quarter lists its contracts as first filed, the strips that have since ended included, and not only those still
+    in effect in the newest quarter. A quarter before the history's first one stays read from the newest file; the
+    newest quarter, and the rows dated after it, are the newest file's. The history is read in chunks (347 MB).
+    A history file that is missing or empty fails the table: the page must not mix the two readings unsaid."""
+    if not os.path.exists(history_path):
+        raise RuntimeError(f"own_quarter_from: {history_path} is not on this machine; the table is not loaded")
+    with open(history_path, encoding="utf-8") as f:
+        skip = sum(1 for line in f if line.startswith("#"))
+    held, parts = set(), []
+    for chunk in pd.read_csv(history_path, skiprows=skip, dtype=str, keep_default_na=False, na_values=[], chunksize=chunksize):
+        held.update(q for q in chunk["x_quarter"].unique() if q)
+        own = chunk[execution_quarter(chunk["event_date"]) == chunk["x_quarter"]]
+        if cut is not None:
+            own = own[own["event_date"].str[:10] >= cut]
+        if len(own):
+            parts.append(own)
+    newest = set(q for q in df["x_quarter"].unique() if q) if "x_quarter" in df.columns else set()
+    held -= newest  # the newest quarter is the newest file's own
+    if not held:
+        raise RuntimeError(f"own_quarter_from: {history_path} holds no quarter before the newest; the table is not loaded")
+    keep = df[~execution_quarter(df["event_date"]).isin(held)]
+    own = [p[p["x_quarter"].isin(held)] for p in parts]
+    out = pd.concat([keep] + own, ignore_index=True)[list(df.columns)].fillna("")
+    if out["event_id"].duplicated().any():
+        raise RuntimeError(f"own_quarter_from: {int(out['event_id'].duplicated().sum())} duplicate event ids; the table is not loaded")
+    return out
+
+
 def filtered(name, days, now):
     df = read_table(name)
     shape = shape_of(df)
@@ -390,8 +431,12 @@ def filtered(name, days, now):
             df = df[df["ts_utc"] >= sel["since"]]
         if sel.get("days"):  # session 18: series rows of the last N days only (a table's own window)
             df = df[df["ts_utc"] >= (now - pd.Timedelta(days=int(sel["days"]))).strftime(TS_FMT)]
+        cut = None
         if sel.get("event_days"):  # session 83: events rows dated in the last N days (event_date, YYYY-MM-DD or a UTC time)
-            df = df[df["event_date"].str[:10] >= (now - pd.Timedelta(days=int(sel["event_days"]))).strftime("%Y-%m-%d")]
+            cut = (now - pd.Timedelta(days=int(sel["event_days"]))).strftime("%Y-%m-%d")
+            df = df[df["event_date"].str[:10] >= cut]
+        if sel.get("own_quarter_from"):  # session 11407: a quarter of execution read from the file filed for it
+            df = own_quarter(df, os.path.join(OUT, sel["own_quarter_from"] + ".csv"), cut)
         if sel.get("columns") is not None:
             std = SHAPES[shape][0]
             df = df[[c for c in df.columns if c in std or c in sel["columns"]]]

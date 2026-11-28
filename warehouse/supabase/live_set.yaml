@@ -245,8 +245,11 @@ select:
   carbon_intensity_hourly: {days: 430}
   # session 68: /network's panel reads the last twelve complete months of ba_supply_monthly
   ba_supply_monthly: {days: 430}
-  # session 83: /contracts lists contracts by the quarter they were signed; the last 1,000 days of execution dates
-  ferc_eqr_contracts: {event_days: 1000}
+  # session 83: /contracts lists contracts by the quarter they were signed; the last 1,000 days of execution dates.
+  # Session 11407 (docs/reviews/contracts-model-audit-2026-11-26.md, finding 1, the owner's other choice): a quarter of
+  # execution that ferc_eqr_contracts_history holds a file for is read from that file (the rows filed for the quarter
+  # they were signed in), not from the newest file; the quarters before those stay read from the newest file
+  ferc_eqr_contracts: {event_days: 1000, own_quarter_from: ferc_eqr_contracts_history}
 
 # Session 85: public tables held out of the live catalogue (and of the live set) while the live site is frozen for a
 # reviewer: the home page counts the catalogue's public tables and rows, and no live number may move. A held table is

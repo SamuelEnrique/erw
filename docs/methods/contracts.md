@@ -68,7 +68,7 @@ its code trimmed and in capitals, and "not stated" for a row that files none (si
 "PSCo" were two entries, and "not stated" opened no row).
 
 **What an earlier quarter holds** (session 10226, `docs/reviews/contracts-model-audit-2026-11-26.md`, finding 1). Every
-quarter listed is read from the newest quarter's file, and a quarter's file holds the contracts in effect in that
+quarter listed whose own file is not held (since session 11407, below) is read from the newest quarter's file, and a quarter's file holds the contracts in effect in that
 quarter: a contract that ended is filed in the quarter it ends and not after. So an earlier quarter lists only the
 contracts signed then and still in effect in the newest quarter. Of the 2,052 contracts of energy, capacity and tolling
 that 2025 Q3's own file holds as signed in 2025 Q3 (2,129 rows, 1,946 of them for a term under a year), 46 are in 2026
@@ -77,6 +77,17 @@ The other way, the newest quarter lacks the contracts its filers report a quarte
 contracts signed in it, and 2026 Q2's file 159 more (+28.6 percent; +3.2 percent for 2025 Q3, +5.9 percent for 2025
 Q4). The counts beside the quarters are not a series of signings, and the prices of an earlier quarter are those of its
 longer contracts. The lead and the hover on "Quarter signed" say so.
+
+**Each quarter from its own file** (session 11407, the other choice of finding 1, branch `wip/ready-contracts-quarters`).
+The loader (`warehouse/supabase/load.py`, `own_quarter`; `live_set.yaml`, `own_quarter_from: ferc_eqr_contracts_history`)
+replaces the newest file's rows of a quarter of execution that `ferc_eqr_contracts_history` holds a file for by that
+file's rows signed in it, inside the same 1,000 days. So 2025 Q3, 2025 Q4 and 2026 Q1 list their contracts as first
+filed, the strips that have since ended included; the quarters before 2025 Q3 stay read from the newest file (their
+files are not held), and the newest quarter and the rows dated after it are the newest file's. For the load of 5
+October 2026, energy, capacity and tolling rows: 2025 Q3 273 to 2,129; 2025 Q4 311 to 2,209; 2026 Q1 396 to 701. Every
+product (the counts beside the quarters): 1,393 to 2,976; 1,817 to 3,290; 1,912 to 1,954. Rows held 18,989 to 22,087;
+the largest quarter 3,290 rows, under the 5,000 the page reads. The default view (2026 Q2: 227 rows) does not move. The
+panel's note then names the four quarters filed for. A history file that is missing fails the table's load.
 
 **The sentence and the three headline cells**, for the rows of the quarter, product and authority chosen:
 

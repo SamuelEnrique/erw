@@ -161,7 +161,8 @@ class LiveSet(unittest.TestCase):
         with open(os.path.join(ROOT, "warehouse", "supabase", "live_set.yaml"), encoding="utf-8") as f:
             live = yaml.safe_load(f)
         self.assertIn("^ferc_eqr_contracts$", live["full"])
-        self.assertEqual(live["select"]["ferc_eqr_contracts"], {"event_days": 1000})
+        # session 11407 (wip/ready-contracts-quarters): an earlier quarter from its own file, the history table
+        self.assertEqual(live["select"]["ferc_eqr_contracts"], {"event_days": 1000, "own_quarter_from": "ferc_eqr_contracts_history"})
         with open(os.path.join(ROOT, "warehouse", "supabase", "migrations", "020_eqr_contracts.sql"), encoding="utf-8") as f:
             sql = f.read()
         for fn in ("internal_eqr_contracts", "internal_eqr_summary"):
