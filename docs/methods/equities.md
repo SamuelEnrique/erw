@@ -14,6 +14,23 @@ Builder: `warehouse/derived/equity_page_files.py` (no request; warehouse tables 
 
 Each series' `moves`, as the board computes its own rows': `d` the previous day held; `w` the last day held on or before 7 calendar days back; `m` one calendar month back; `ytd` the last day held of the previous year; `y` one calendar year back. `ch` is the last value less the value then, `pct` that over the value then times 100. No score, no signal, no view.
 
+## The segments' two lines (named, not built)
+
+The page and the price board name two lines for each segment, and no code builds either: no segment file is written
+and every board row of the group is held, because no source's license lets the ERW keep daily share prices (the
+section above). The rule is the contract's (`docs/state/page_files_equities.md`, the series file's `daily[]`), written
+here so that the page's word "the method note" holds (session 11403, the equities audit, finding 6):
+
+- `equal_weight`: 100 on the segment's first day held, then the mean of its companies' daily returns, chained.
+- `value_weight`: the same, each company's return weighted by its market value the day before; a company's market value
+  is its close times the latest shares outstanding it filed on or before the day, and a company with no public share
+  count is left out of this line (`n_value` counts those in it).
+
+What the contract does not yet say, and an equity analyst would ask, is listed in the audit
+(`docs/reviews/equities-model-audit-2026-11-28.md`, finding 7): whether a return is the close's or the close adjusted
+for dividends and splits; which share count (the balance sheet's, or the filing cover's); a business listed twice in a
+segment (a holding company and the partnership it consolidates); and a company whose only listing is a preferred share.
+
 ## The rules that wait for the SEC
 
 When EDGAR can be read, the universe is every company whose SEC industry code is an energy code, one segment by the code (integrated oil and gas 2911 with exploration; exploration and production 1311 and 1381; midstream 4922 to 4924 and 4610; refining 2911 without upstream; oilfield services 1389 and 3533; coal 1220 and 1221; regulated utilities 4911, 4931, 4932, 4939 with a rate base; independent power 4911 without; nuclear and uranium 1094 and the owners of reactors; solar 3674 makers of cells; wind 3511; storage, hydrogen and grid equipment by code 3690, 2810 and 3612 to 3613), a company that fits two codes in both and named in `segments_note`. This list is the draft of the written rule, to be fixed in this note before any company is placed; matched to `company_directory` by SEC number or exact legal name only.
