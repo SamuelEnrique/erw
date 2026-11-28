@@ -295,7 +295,7 @@ function dcLeftOut(r: DcResult, x: DcInputs): LeftOut[] {
   if (!r.years.some((y) => y.property !== null)) out.push({ key: "property", words: "property tax" });
   if (!r.elec.held) out.push({ key: "electricity", words: "electricity tax" });
   if (x.matshare === null) out.push({ key: "building_sales", words: "the building's sales tax" });
-  if (!r.chain.held) out.push({ key: "chain", words: "supply chain and induced income tax" });
+  if (!r.chain.held && r.sums.income > 0) out.push({ key: "chain", words: "supply chain and induced income tax" });
   return out;
 }
 const orList = (w: string[]) => (w.length < 2 ? w.join("") : `${w.slice(0, -1).join(", ")} or ${w[w.length - 1]}`);
@@ -333,7 +333,7 @@ function Compare({ sc, names, dcNames, P, P2 }: { sc: Record<View, Scn>; names: 
       return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${key}`}><span className="cursor-help border-b border-dotted border-muted" title={why}>{key === "sev" ? "none" : "not held"}</span></td>;
     }
     const left = key === "pvtax" ? dcLeftOut(s.r, s.x) : [];
-    const onsite = DC_ONSITE.has(key) && !s.r.chain.held;
+    const onsite = DC_ONSITE.has(key) && !s.r.chain.held && v !== 0;  // a state with no income tax: 0 whatever the effects
     // session 11404 (chain 770's audit, finding 1): where no exemption rule is held (none read, or held as words only), the
     // sales tax is before any exemption, and the cell says so rather than read as the tax paid
     const before = key === "sales" && (!s.r.exemption.held || !!P2.rules.states[s.x.state]?.sales_exemption?.discretionary);
