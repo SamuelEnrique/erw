@@ -61,9 +61,9 @@ scalar w = 56743 - 2000
 scalar t = min(w, 10000) * 0.0211 + max(0, min(w, 25000) - 10000) * 0.0281 + max(0, min(w, 40000) - 25000) * 0.0316 + max(0, min(w, 60000) - 40000) * 0.0422 + max(0, w - 60000) * 0.0458
 display "WV operating income tax a year " %18.3f 125 * t
 
-* ---- Georgia: 48-8-3(68.1) as HB 1291 of 2022 amended it, purchases through 2031 (session 10813) ----
+* ---- Georgia: 48-8-3(68.1) as HB 1291 of 2022 amended it, purchases through 2033 as the state auditor writes (session 10813; the ready branch of session 11408) ----
 * USD 2 billion and 100 jobs from 2027: expected before 412,473,600, forgone 103,118,400 (the build only), paid 309,355,200
-dc_sales 2000000000 0.682 0.0756 2 20 2027 5 1 2031 999
+dc_sales 2000000000 0.682 0.0756 2 20 2027 5 1 2033 999
 display "GA before " %18.2f s_before "  forgone " %18.2f s_forgone "  paid " %18.2f s_paid
 
 * ---- Arkansas: 26-52-456 as Act 548 of 2025 amended it, the state's 6.5 percent only, no term (session 10813) ----

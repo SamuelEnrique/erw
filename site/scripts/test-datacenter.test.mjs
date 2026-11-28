@@ -214,18 +214,19 @@ test("Kansas (74-50,332): USD 250 million and 20 jobs, equipment and building", 
   assert.equal(D.dcRun(D.dcDefaults(P, "ks", { invest: 250, perm: 19 }), P).exemption.eligible, false);
 });
 
-test("Georgia (48-8-3(68.1) as HB 1291 amended it): USD 250 million and 25 jobs, equipment bought through 2031", () => {
+test("Georgia (48-8-3(68.1) as HB 1291 amended it): USD 250 million and 25 jobs, equipment bought through 2033 (the auditor's year; ready branch of session 11408)", () => {
   const ga = D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 100, start: 2027, build: 2, life: 20, refresh: 5 }), P);
   assert.equal(ga.exemption.held, true); assert.equal(ga.exemption.eligible, true);
   // equipment 2e9 x 68.2% = 1.364e9 a purchase, at Georgia's state and local rate; bought in the build (2027-28) and in 2034, 2039, 2044:
-  // only the build is on or before 2031, so one purchase of four is forgone.
+  // only the build is on or before 2033, so one purchase of four is forgone.
   const rate = D.dcDefaults(P, "ga").sales; // percent, the Tax Foundation's state and average local rate
   near(ga.sums.salesbefore, 4 * 1.364e9 * rate / 100, "GA before");
   near(ga.sums.forgone, 1.364e9 * rate / 100, "GA forgone: the build only");
   assert.equal(D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 24 }), P).exemption.eligible, false);
   assert.equal(D.dcRun(D.dcDefaults(P, "ga", { invest: 249, perm: 100 }), P).exemption.eligible, false);
-  // a project starting in 2032 or later buys nothing in the exemption's period
-  near(D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 100, start: 2032 }), P).sums.forgone, 0);
+  // a project starting in 2034 or later buys nothing in the exemption's period (ready branch of session 11408: 2033 the last year)
+  near(D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 100, start: 2034 }), P).sums.forgone, 0);
+  assert.ok(D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 100, start: 2032 }), P).sums.forgone > 0, "GA: a build in 2032 and 2033 is in the period");
   // property (session 10818): Georgia assesses at 40 percent (48-5-7); USD 2 billion, the reader's 1 percent: building 2e9 x 19.6% x 40% x 1% = 1,568,000
   near(D.dcStat(D.dcRun(D.dcDefaults(P, "ga", { invest: 2000, perm: 100, brate: 1, erate: 1 }), P), "y1:propb"), 1568000, "GA building");
   // New Mexico, one third: equipment at cost 2e9 x 68.2% x 0.333333 x 1% = 4,546,662.12
