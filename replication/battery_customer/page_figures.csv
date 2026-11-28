@@ -7,15 +7,16 @@ opens,start_roundTrip,As it opens: the starting value of roundTrip,86,86,0.5
 browser-proof,sum_battery_kw,"The summary: the battery's power, as typed (kW)",200,200,0.5
 browser-proof,sum_battery_kwh,"The summary: the battery's energy, as typed (kWh)",800,800,0.5
 browser-proof,sum_hours,The summary: the battery's duration (hours),4.0,4,0.05
-browser-proof,sum_month,The summary: saved a month (USD),"$5,608",5608,0.5
-browser-proof,sum_year,The summary: saved a year (USD),"$67,302",67302,0.5
-browser-proof,sum_demand,The summary: a month from a lower peak (USD),"$3,600",3600,0.5
+browser-proof,sum_month,The summary: saved a month (USD),"$5,068",5068,0.5
+browser-proof,sum_year,The summary: saved a year (USD),"$60,822",60822,0.5
+browser-proof,sum_demand,The summary: a month from a lower peak (USD),"$3,060",3060,0.5
 browser-proof,sum_energy,The summary: a month from moving energy (USD),"$2,008",2008,0.5
-browser-proof,tile_year,Saved a year (USD),"$67,302",67302,0.5
-browser-proof,tile_month,"Saved a year: its line, a month (USD)","$5,608",5608,0.5
-browser-proof,tile_demand,From shaving the peak (USD a month),"$3,600",3600,0.5
-browser-proof,tile_shaved_kw,From shaving the peak: kW off the peak,200.0,200,0.05
+browser-proof,tile_year,Saved a year (USD),"$60,822",60822,0.5
+browser-proof,tile_month,"Saved a year: its line, a month (USD)","$5,068",5068,0.5
+browser-proof,tile_demand,From shaving the peak (USD a month),"$3,060",3060,0.5
+browser-proof,tile_shaved_kw,From shaving the peak: kW off the peak,170.0,170,0.05
 browser-proof,tile_peak_kw,"From shaving the peak: the peak, as typed (kW)",500,500,0.5
+browser-proof,tile_could_kw,From shaving the peak: kW the battery could take (alternative 3),200.0,200,0.05
 browser-proof,tile_demand_before,From shaving the peak: the demand charge before (USD a month),"$9,000",9000,0.5
 browser-proof,tile_energy,From shifting energy (USD a month),"$2,008",2008,0.5
 browser-proof,tile_out_kwh,From shifting energy: kWh a day out,800,800,0.5
@@ -27,8 +28,9 @@ browser-proof,how_energy_kw,The peak: what the battery's energy allows (kW),200.
 browser-proof,how_peak_kw,"The peak: the peak, as typed (kW)",500,500,0.5
 browser-proof,how_shaved_kw,The peak: what comes off (kW),200.0,200,0.05
 browser-proof,how_limit,The peak: what set it,the battery's power,the battery's power,
+browser-proof,how_billed_kw,"The peak: what the bill sees, 85 percent (kW; alternative 3)",170.0,170,0.05
 browser-proof,how_demand_charge,"The peak: the demand charge, as typed (USD per kW)",$18,18,0.5
-browser-proof,how_demand,The peak: saved a month (USD),"$3,600",3600,0.5
+browser-proof,how_demand,The peak: saved a month (USD),"$3,060",3060,0.5
 browser-proof,shift_out_kwh,The energy: kWh a day out in the peak hours,800,800,0.5
 browser-proof,shift_in_kwh,The energy: kWh a day in off-peak,941,941,0.5
 browser-proof,shift_per_day,The energy: USD a day,$91,91,0.5
@@ -37,15 +39,16 @@ browser-proof,shift_days,"The energy: the days, as typed",22,22,0.5
 seattle-md-city-tou,sum_battery_kw,"The summary: the battery's power, as typed (kW)",100,100,0.5
 seattle-md-city-tou,sum_battery_kwh,"The summary: the battery's energy, as typed (kWh)",400,400,0.5
 seattle-md-city-tou,sum_hours,The summary: the battery's duration (hours),4.0,4,0.05
-seattle-md-city-tou,sum_month,The summary: saved a month (USD),"$1,066",1066,0.5
-seattle-md-city-tou,sum_year,The summary: saved a year (USD),"$12,795",12795,0.5
-seattle-md-city-tou,sum_demand,The summary: a month from a lower peak (USD),$536,536,0.5
+seattle-md-city-tou,sum_month,The summary: saved a month (USD),$986,986,0.5
+seattle-md-city-tou,sum_year,The summary: saved a year (USD),"$11,830",11830,0.5
+seattle-md-city-tou,sum_demand,The summary: a month from a lower peak (USD),$456,456,0.5
 seattle-md-city-tou,sum_energy,The summary: a month from moving energy (USD),$530,530,0.5
-seattle-md-city-tou,tile_year,Saved a year (USD),"$12,795",12795,0.5
-seattle-md-city-tou,tile_month,"Saved a year: its line, a month (USD)","$1,066",1066,0.5
-seattle-md-city-tou,tile_demand,From shaving the peak (USD a month),$536,536,0.5
-seattle-md-city-tou,tile_shaved_kw,From shaving the peak: kW off the peak,100.0,100,0.05
+seattle-md-city-tou,tile_year,Saved a year (USD),"$11,830",11830,0.5
+seattle-md-city-tou,tile_month,"Saved a year: its line, a month (USD)",$986,986,0.5
+seattle-md-city-tou,tile_demand,From shaving the peak (USD a month),$456,456,0.5
+seattle-md-city-tou,tile_shaved_kw,From shaving the peak: kW off the peak,85.0,85,0.05
 seattle-md-city-tou,tile_peak_kw,"From shaving the peak: the peak, as typed (kW)",400,400,0.5
+seattle-md-city-tou,tile_could_kw,From shaving the peak: kW the battery could take (alternative 3),100.0,100,0.05
 seattle-md-city-tou,tile_demand_before,From shaving the peak: the demand charge before (USD a month),"$2,144",2144,0.5
 seattle-md-city-tou,tile_energy,From shifting energy (USD a month),$530,530,0.5
 seattle-md-city-tou,tile_out_kwh,From shifting energy: kWh a day out,400,400,0.5
@@ -57,8 +60,9 @@ seattle-md-city-tou,how_energy_kw,The peak: what the battery's energy allows (kW
 seattle-md-city-tou,how_peak_kw,"The peak: the peak, as typed (kW)",400,400,0.5
 seattle-md-city-tou,how_shaved_kw,The peak: what comes off (kW),100.0,100,0.05
 seattle-md-city-tou,how_limit,The peak: what set it,the battery's power,the battery's power,
+seattle-md-city-tou,how_billed_kw,"The peak: what the bill sees, 85 percent (kW; alternative 3)",85.0,85,0.05
 seattle-md-city-tou,how_demand_charge,"The peak: the demand charge, as typed (USD per kW)",$5.36,5.36,0.005
-seattle-md-city-tou,how_demand,The peak: saved a month (USD),$536,536,0.5
+seattle-md-city-tou,how_demand,The peak: saved a month (USD),$456,456,0.5
 seattle-md-city-tou,shift_out_kwh,The energy: kWh a day out in the peak hours,400,400,0.5
 seattle-md-city-tou,shift_in_kwh,The energy: kWh a day in off-peak,465,465,0.5
 seattle-md-city-tou,shift_per_day,The energy: USD a day,$20,20,0.5
@@ -67,15 +71,16 @@ seattle-md-city-tou,shift_days,"The energy: the days, as typed",26,26,0.5
 seattle-md-downtown-tou,sum_battery_kw,"The summary: the battery's power, as typed (kW)",100,100,0.5
 seattle-md-downtown-tou,sum_battery_kwh,"The summary: the battery's energy, as typed (kWh)",400,400,0.5
 seattle-md-downtown-tou,sum_hours,The summary: the battery's duration (hours),4.0,4,0.05
-seattle-md-downtown-tou,sum_month,The summary: saved a month (USD),"$1,811",1811,0.5
-seattle-md-downtown-tou,sum_year,The summary: saved a year (USD),"$21,733",21733,0.5
-seattle-md-downtown-tou,sum_demand,The summary: a month from a lower peak (USD),"$1,219",1219,0.5
+seattle-md-downtown-tou,sum_month,The summary: saved a month (USD),"$1,628",1628,0.5
+seattle-md-downtown-tou,sum_year,The summary: saved a year (USD),"$19,539",19539,0.5
+seattle-md-downtown-tou,sum_demand,The summary: a month from a lower peak (USD),"$1,036",1036,0.5
 seattle-md-downtown-tou,sum_energy,The summary: a month from moving energy (USD),$592,592,0.5
-seattle-md-downtown-tou,tile_year,Saved a year (USD),"$21,733",21733,0.5
-seattle-md-downtown-tou,tile_month,"Saved a year: its line, a month (USD)","$1,811",1811,0.5
-seattle-md-downtown-tou,tile_demand,From shaving the peak (USD a month),"$1,219",1219,0.5
-seattle-md-downtown-tou,tile_shaved_kw,From shaving the peak: kW off the peak,100.0,100,0.05
+seattle-md-downtown-tou,tile_year,Saved a year (USD),"$19,539",19539,0.5
+seattle-md-downtown-tou,tile_month,"Saved a year: its line, a month (USD)","$1,628",1628,0.5
+seattle-md-downtown-tou,tile_demand,From shaving the peak (USD a month),"$1,036",1036,0.5
+seattle-md-downtown-tou,tile_shaved_kw,From shaving the peak: kW off the peak,85.0,85,0.05
 seattle-md-downtown-tou,tile_peak_kw,"From shaving the peak: the peak, as typed (kW)",400,400,0.5
+seattle-md-downtown-tou,tile_could_kw,From shaving the peak: kW the battery could take (alternative 3),100.0,100,0.05
 seattle-md-downtown-tou,tile_demand_before,From shaving the peak: the demand charge before (USD a month),"$4,876",4876,0.5
 seattle-md-downtown-tou,tile_energy,From shifting energy (USD a month),$592,592,0.5
 seattle-md-downtown-tou,tile_out_kwh,From shifting energy: kWh a day out,400,400,0.5
@@ -87,8 +92,9 @@ seattle-md-downtown-tou,how_energy_kw,The peak: what the battery's energy allows
 seattle-md-downtown-tou,how_peak_kw,"The peak: the peak, as typed (kW)",400,400,0.5
 seattle-md-downtown-tou,how_shaved_kw,The peak: what comes off (kW),100.0,100,0.05
 seattle-md-downtown-tou,how_limit,The peak: what set it,the battery's power,the battery's power,
+seattle-md-downtown-tou,how_billed_kw,"The peak: what the bill sees, 85 percent (kW; alternative 3)",85.0,85,0.05
 seattle-md-downtown-tou,how_demand_charge,"The peak: the demand charge, as typed (USD per kW)",$12.19,12.19,0.005
-seattle-md-downtown-tou,how_demand,The peak: saved a month (USD),"$1,219",1219,0.5
+seattle-md-downtown-tou,how_demand,The peak: saved a month (USD),"$1,036",1036,0.5
 seattle-md-downtown-tou,shift_out_kwh,The energy: kWh a day out in the peak hours,400,400,0.5
 seattle-md-downtown-tou,shift_in_kwh,The energy: kWh a day in off-peak,465,465,0.5
 seattle-md-downtown-tou,shift_per_day,The energy: USD a day,$23,23,0.5
@@ -97,15 +103,16 @@ seattle-md-downtown-tou,shift_days,"The energy: the days, as typed",26,26,0.5
 seattle-lg-city,sum_battery_kw,"The summary: the battery's power, as typed (kW)",500,500,0.5
 seattle-lg-city,sum_battery_kwh,"The summary: the battery's energy, as typed (kWh)","2,000",2000,0.5
 seattle-lg-city,sum_hours,The summary: the battery's duration (hours),4.0,4,0.05
-seattle-lg-city,sum_month,The summary: saved a month (USD),"$5,172",5172,0.5
-seattle-lg-city,sum_year,The summary: saved a year (USD),"$62,059",62059,0.5
-seattle-lg-city,sum_demand,The summary: a month from a lower peak (USD),"$2,590",2590,0.5
+seattle-lg-city,sum_month,The summary: saved a month (USD),"$4,783",4783,0.5
+seattle-lg-city,sum_year,The summary: saved a year (USD),"$57,397",57397,0.5
+seattle-lg-city,sum_demand,The summary: a month from a lower peak (USD),"$2,202",2202,0.5
 seattle-lg-city,sum_energy,The summary: a month from moving energy (USD),"$2,582",2582,0.5
-seattle-lg-city,tile_year,Saved a year (USD),"$62,059",62059,0.5
-seattle-lg-city,tile_month,"Saved a year: its line, a month (USD)","$5,172",5172,0.5
-seattle-lg-city,tile_demand,From shaving the peak (USD a month),"$2,590",2590,0.5
-seattle-lg-city,tile_shaved_kw,From shaving the peak: kW off the peak,500.0,500,0.05
+seattle-lg-city,tile_year,Saved a year (USD),"$57,397",57397,0.5
+seattle-lg-city,tile_month,"Saved a year: its line, a month (USD)","$4,783",4783,0.5
+seattle-lg-city,tile_demand,From shaving the peak (USD a month),"$2,202",2202,0.5
+seattle-lg-city,tile_shaved_kw,From shaving the peak: kW off the peak,425.0,425,0.05
 seattle-lg-city,tile_peak_kw,"From shaving the peak: the peak, as typed (kW)","2,000",2000,0.5
+seattle-lg-city,tile_could_kw,From shaving the peak: kW the battery could take (alternative 3),500.0,500,0.05
 seattle-lg-city,tile_demand_before,From shaving the peak: the demand charge before (USD a month),"$10,360",10360,0.5
 seattle-lg-city,tile_energy,From shifting energy (USD a month),"$2,582",2582,0.5
 seattle-lg-city,tile_out_kwh,From shifting energy: kWh a day out,"2,000",2000,0.5
@@ -117,8 +124,9 @@ seattle-lg-city,how_energy_kw,The peak: what the battery's energy allows (kW),50
 seattle-lg-city,how_peak_kw,"The peak: the peak, as typed (kW)","2,000",2000,0.5
 seattle-lg-city,how_shaved_kw,The peak: what comes off (kW),500.0,500,0.05
 seattle-lg-city,how_limit,The peak: what set it,the battery's power,the battery's power,
+seattle-lg-city,how_billed_kw,"The peak: what the bill sees, 85 percent (kW; alternative 3)",425.0,425,0.05
 seattle-lg-city,how_demand_charge,"The peak: the demand charge, as typed (USD per kW)",$5.18,5.18,0.005
-seattle-lg-city,how_demand,The peak: saved a month (USD),"$2,590",2590,0.5
+seattle-lg-city,how_demand,The peak: saved a month (USD),"$2,202",2202,0.5
 seattle-lg-city,shift_out_kwh,The energy: kWh a day out in the peak hours,"2,000",2000,0.5
 seattle-lg-city,shift_in_kwh,The energy: kWh a day in off-peak,"2,326",2326,0.5
 seattle-lg-city,shift_per_day,The energy: USD a day,$99,99,0.5
@@ -127,15 +135,16 @@ seattle-lg-city,shift_days,"The energy: the days, as typed",26,26,0.5
 srp-e32-summer-peak,sum_battery_kw,"The summary: the battery's power, as typed (kW)",100,100,0.5
 srp-e32-summer-peak,sum_battery_kwh,"The summary: the battery's energy, as typed (kWh)",400,400,0.5
 srp-e32-summer-peak,sum_hours,The summary: the battery's duration (hours),4.0,4,0.05
-srp-e32-summer-peak,sum_month,The summary: saved a month (USD),"$1,115",1115,0.5
-srp-e32-summer-peak,sum_year,The summary: saved a year (USD),"$13,376",13376,0.5
-srp-e32-summer-peak,sum_demand,The summary: a month from a lower peak (USD),$540,540,0.5
+srp-e32-summer-peak,sum_month,The summary: saved a month (USD),"$1,034",1034,0.5
+srp-e32-summer-peak,sum_year,The summary: saved a year (USD),"$12,404",12404,0.5
+srp-e32-summer-peak,sum_demand,The summary: a month from a lower peak (USD),$459,459,0.5
 srp-e32-summer-peak,sum_energy,The summary: a month from moving energy (USD),$575,575,0.5
-srp-e32-summer-peak,tile_year,Saved a year (USD),"$13,376",13376,0.5
-srp-e32-summer-peak,tile_month,"Saved a year: its line, a month (USD)","$1,115",1115,0.5
-srp-e32-summer-peak,tile_demand,From shaving the peak (USD a month),$540,540,0.5
-srp-e32-summer-peak,tile_shaved_kw,From shaving the peak: kW off the peak,80.0,80,0.05
+srp-e32-summer-peak,tile_year,Saved a year (USD),"$12,404",12404,0.5
+srp-e32-summer-peak,tile_month,"Saved a year: its line, a month (USD)","$1,034",1034,0.5
+srp-e32-summer-peak,tile_demand,From shaving the peak (USD a month),$459,459,0.5
+srp-e32-summer-peak,tile_shaved_kw,From shaving the peak: kW off the peak,68.0,68,0.05
 srp-e32-summer-peak,tile_peak_kw,"From shaving the peak: the peak, as typed (kW)",400,400,0.5
+srp-e32-summer-peak,tile_could_kw,From shaving the peak: kW the battery could take (alternative 3),80.0,80,0.05
 srp-e32-summer-peak,tile_demand_before,From shaving the peak: the demand charge before (USD a month),"$2,700",2700,0.5
 srp-e32-summer-peak,tile_energy,From shifting energy (USD a month),$575,575,0.5
 srp-e32-summer-peak,tile_out_kwh,From shifting energy: kWh a day out,400,400,0.5
@@ -147,8 +156,9 @@ srp-e32-summer-peak,how_energy_kw,The peak: what the battery's energy allows (kW
 srp-e32-summer-peak,how_peak_kw,"The peak: the peak, as typed (kW)",400,400,0.5
 srp-e32-summer-peak,how_shaved_kw,The peak: what comes off (kW),80.0,80,0.05
 srp-e32-summer-peak,how_limit,The peak: what set it,the battery's energy,the battery's energy,
+srp-e32-summer-peak,how_billed_kw,"The peak: what the bill sees, 85 percent (kW; alternative 3)",68.0,68,0.05
 srp-e32-summer-peak,how_demand_charge,"The peak: the demand charge, as typed (USD per kW)",$6.75,6.75,0.005
-srp-e32-summer-peak,how_demand,The peak: saved a month (USD),$540,540,0.5
+srp-e32-summer-peak,how_demand,The peak: saved a month (USD),$459,459,0.5
 srp-e32-summer-peak,shift_out_kwh,The energy: kWh a day out in the peak hours,400,400,0.5
 srp-e32-summer-peak,shift_in_kwh,The energy: kWh a day in off-peak,465,465,0.5
 srp-e32-summer-peak,shift_per_day,The energy: USD a day,$26,26,0.5
@@ -157,15 +167,16 @@ srp-e32-summer-peak,shift_days,"The energy: the days, as typed",22,22,0.5
 srp-e32-summer,sum_battery_kw,"The summary: the battery's power, as typed (kW)",100,100,0.5
 srp-e32-summer,sum_battery_kwh,"The summary: the battery's energy, as typed (kWh)",400,400,0.5
 srp-e32-summer,sum_hours,The summary: the battery's duration (hours),4.0,4,0.05
-srp-e32-summer,sum_month,The summary: saved a month (USD),$743,743,0.5
-srp-e32-summer,sum_year,The summary: saved a year (USD),"$8,917",8917,0.5
-srp-e32-summer,sum_demand,The summary: a month from a lower peak (USD),$404,404,0.5
+srp-e32-summer,sum_month,The summary: saved a month (USD),$682,682,0.5
+srp-e32-summer,sum_year,The summary: saved a year (USD),"$8,189",8189,0.5
+srp-e32-summer,sum_demand,The summary: a month from a lower peak (USD),$343,343,0.5
 srp-e32-summer,sum_energy,The summary: a month from moving energy (USD),$339,339,0.5
-srp-e32-summer,tile_year,Saved a year (USD),"$8,917",8917,0.5
-srp-e32-summer,tile_month,"Saved a year: its line, a month (USD)",$743,743,0.5
-srp-e32-summer,tile_demand,From shaving the peak (USD a month),$404,404,0.5
-srp-e32-summer,tile_shaved_kw,From shaving the peak: kW off the peak,80.0,80,0.05
+srp-e32-summer,tile_year,Saved a year (USD),"$8,189",8189,0.5
+srp-e32-summer,tile_month,"Saved a year: its line, a month (USD)",$682,682,0.5
+srp-e32-summer,tile_demand,From shaving the peak (USD a month),$343,343,0.5
+srp-e32-summer,tile_shaved_kw,From shaving the peak: kW off the peak,68.0,68,0.05
 srp-e32-summer,tile_peak_kw,"From shaving the peak: the peak, as typed (kW)",400,400,0.5
+srp-e32-summer,tile_could_kw,From shaving the peak: kW the battery could take (alternative 3),80.0,80,0.05
 srp-e32-summer,tile_demand_before,From shaving the peak: the demand charge before (USD a month),"$2,020",2020,0.5
 srp-e32-summer,tile_energy,From shifting energy (USD a month),$339,339,0.5
 srp-e32-summer,tile_out_kwh,From shifting energy: kWh a day out,400,400,0.5
@@ -177,8 +188,9 @@ srp-e32-summer,how_energy_kw,The peak: what the battery's energy allows (kW),80.
 srp-e32-summer,how_peak_kw,"The peak: the peak, as typed (kW)",400,400,0.5
 srp-e32-summer,how_shaved_kw,The peak: what comes off (kW),80.0,80,0.05
 srp-e32-summer,how_limit,The peak: what set it,the battery's energy,the battery's energy,
+srp-e32-summer,how_billed_kw,"The peak: what the bill sees, 85 percent (kW; alternative 3)",68.0,68,0.05
 srp-e32-summer,how_demand_charge,"The peak: the demand charge, as typed (USD per kW)",$5.05,5.05,0.005
-srp-e32-summer,how_demand,The peak: saved a month (USD),$404,404,0.5
+srp-e32-summer,how_demand,The peak: saved a month (USD),$343,343,0.5
 srp-e32-summer,shift_out_kwh,The energy: kWh a day out in the peak hours,400,400,0.5
 srp-e32-summer,shift_in_kwh,The energy: kWh a day in off-peak,465,465,0.5
 srp-e32-summer,shift_per_day,The energy: USD a day,$15,15,0.5
@@ -187,15 +199,16 @@ srp-e32-summer,shift_days,"The energy: the days, as typed",22,22,0.5
 srp-e32-winter,sum_battery_kw,"The summary: the battery's power, as typed (kW)",100,100,0.5
 srp-e32-winter,sum_battery_kwh,"The summary: the battery's energy, as typed (kWh)",400,400,0.5
 srp-e32-winter,sum_hours,The summary: the battery's duration (hours),4.0,4,0.05
-srp-e32-winter,sum_month,The summary: saved a month (USD),$597,597,0.5
-srp-e32-winter,sum_year,The summary: saved a year (USD),"$7,164",7164,0.5
-srp-e32-winter,sum_demand,The summary: a month from a lower peak (USD),$356,356,0.5
+srp-e32-winter,sum_month,The summary: saved a month (USD),$544,544,0.5
+srp-e32-winter,sum_year,The summary: saved a year (USD),"$6,523",6523,0.5
+srp-e32-winter,sum_demand,The summary: a month from a lower peak (USD),$303,303,0.5
 srp-e32-winter,sum_energy,The summary: a month from moving energy (USD),$241,241,0.5
-srp-e32-winter,tile_year,Saved a year (USD),"$7,164",7164,0.5
-srp-e32-winter,tile_month,"Saved a year: its line, a month (USD)",$597,597,0.5
-srp-e32-winter,tile_demand,From shaving the peak (USD a month),$356,356,0.5
-srp-e32-winter,tile_shaved_kw,From shaving the peak: kW off the peak,80.0,80,0.05
+srp-e32-winter,tile_year,Saved a year (USD),"$6,523",6523,0.5
+srp-e32-winter,tile_month,"Saved a year: its line, a month (USD)",$544,544,0.5
+srp-e32-winter,tile_demand,From shaving the peak (USD a month),$303,303,0.5
+srp-e32-winter,tile_shaved_kw,From shaving the peak: kW off the peak,68.0,68,0.05
 srp-e32-winter,tile_peak_kw,"From shaving the peak: the peak, as typed (kW)",400,400,0.5
+srp-e32-winter,tile_could_kw,From shaving the peak: kW the battery could take (alternative 3),80.0,80,0.05
 srp-e32-winter,tile_demand_before,From shaving the peak: the demand charge before (USD a month),"$1,780",1780,0.5
 srp-e32-winter,tile_energy,From shifting energy (USD a month),$241,241,0.5
 srp-e32-winter,tile_out_kwh,From shifting energy: kWh a day out,400,400,0.5
@@ -207,8 +220,9 @@ srp-e32-winter,how_energy_kw,The peak: what the battery's energy allows (kW),80.
 srp-e32-winter,how_peak_kw,"The peak: the peak, as typed (kW)",400,400,0.5
 srp-e32-winter,how_shaved_kw,The peak: what comes off (kW),80.0,80,0.05
 srp-e32-winter,how_limit,The peak: what set it,the battery's energy,the battery's energy,
+srp-e32-winter,how_billed_kw,"The peak: what the bill sees, 85 percent (kW; alternative 3)",68.0,68,0.05
 srp-e32-winter,how_demand_charge,"The peak: the demand charge, as typed (USD per kW)",$4.45,4.45,0.005
-srp-e32-winter,how_demand,The peak: saved a month (USD),$356,356,0.5
+srp-e32-winter,how_demand,The peak: saved a month (USD),$303,303,0.5
 srp-e32-winter,shift_out_kwh,The energy: kWh a day out in the peak hours,400,400,0.5
 srp-e32-winter,shift_in_kwh,The energy: kWh a day in off-peak,465,465,0.5
 srp-e32-winter,shift_per_day,The energy: USD a day,$11,11,0.5
@@ -217,15 +231,16 @@ srp-e32-winter,shift_days,"The energy: the days, as typed",22,22,0.5
 austin-sv2,sum_battery_kw,"The summary: the battery's power, as typed (kW)",50,50,0.5
 austin-sv2,sum_battery_kwh,"The summary: the battery's energy, as typed (kWh)",100,100,0.5
 austin-sv2,sum_hours,The summary: the battery's duration (hours),2.0,2,0.05
-austin-sv2,sum_month,The summary: saved a month (USD),$744,744,0.5
-austin-sv2,sum_year,The summary: saved a year (USD),"$8,931",8931,0.5
-austin-sv2,sum_demand,The summary: a month from a lower peak (USD),$768,768,0.5
+austin-sv2,sum_month,The summary: saved a month (USD),$629,629,0.5
+austin-sv2,sum_year,The summary: saved a year (USD),"$7,550",7550,0.5
+austin-sv2,sum_demand,The summary: a month from a lower peak (USD),$652,652,0.5
 austin-sv2,sum_energy,The summary: a month from moving energy (USD),-$23,-23,0.5
-austin-sv2,tile_year,Saved a year (USD),"$8,931",8931,0.5
-austin-sv2,tile_month,"Saved a year: its line, a month (USD)",$744,744,0.5
-austin-sv2,tile_demand,From shaving the peak (USD a month),$768,768,0.5
-austin-sv2,tile_shaved_kw,From shaving the peak: kW off the peak,50.0,50,0.05
+austin-sv2,tile_year,Saved a year (USD),"$7,550",7550,0.5
+austin-sv2,tile_month,"Saved a year: its line, a month (USD)",$629,629,0.5
+austin-sv2,tile_demand,From shaving the peak (USD a month),$652,652,0.5
+austin-sv2,tile_shaved_kw,From shaving the peak: kW off the peak,42.5,42.5,0.05
 austin-sv2,tile_peak_kw,"From shaving the peak: the peak, as typed (kW)",200,200,0.5
+austin-sv2,tile_could_kw,From shaving the peak: kW the battery could take (alternative 3),50.0,50,0.05
 austin-sv2,tile_demand_before,From shaving the peak: the demand charge before (USD a month),"$3,070",3070,0.5
 austin-sv2,tile_energy,From shifting energy (USD a month),-$23,-23,0.5
 austin-sv2,tile_out_kwh,From shifting energy: kWh a day out,100,100,0.5
@@ -237,23 +252,25 @@ austin-sv2,how_energy_kw,The peak: what the battery's energy allows (kW),50.0,50
 austin-sv2,how_peak_kw,"The peak: the peak, as typed (kW)",200,200,0.5
 austin-sv2,how_shaved_kw,The peak: what comes off (kW),50.0,50,0.05
 austin-sv2,how_limit,The peak: what set it,the battery's power,the battery's power,
+austin-sv2,how_billed_kw,"The peak: what the bill sees, 85 percent (kW; alternative 3)",42.5,42.5,0.05
 austin-sv2,how_demand_charge,"The peak: the demand charge, as typed (USD per kW)",$15.35,15.35,0.005
-austin-sv2,how_demand,The peak: saved a month (USD),$768,768,0.5
+austin-sv2,how_demand,The peak: saved a month (USD),$652,652,0.5
 austin-sv2,noshift_break_even,"The energy, when moving it does not pay: the peak rate it would take (USD per kWh)",$0.079,0.079,0.0005
 austin-sv2,noshift_kwh,"The energy, when moving it does not pay: kWh a day for the peak",100,100,0.5
 austin-sv2,noshift_month,"The energy, when moving it does not pay: the cost a month (USD)",-$23,-23,0.5
 austin-sv3,sum_battery_kw,"The summary: the battery's power, as typed (kW)",250,250,0.5
 austin-sv3,sum_battery_kwh,"The summary: the battery's energy, as typed (kWh)",500,500,0.5
 austin-sv3,sum_hours,The summary: the battery's duration (hours),2.0,2,0.05
-austin-sv3,sum_month,The summary: saved a month (USD),"$4,440",4440,0.5
-austin-sv3,sum_year,The summary: saved a year (USD),"$53,286",53286,0.5
-austin-sv3,sum_demand,The summary: a month from a lower peak (USD),"$4,555",4555,0.5
+austin-sv3,sum_month,The summary: saved a month (USD),"$3,757",3757,0.5
+austin-sv3,sum_year,The summary: saved a year (USD),"$45,087",45087,0.5
+austin-sv3,sum_demand,The summary: a month from a lower peak (USD),"$3,872",3872,0.5
 austin-sv3,sum_energy,The summary: a month from moving energy (USD),-$115,-115,0.5
-austin-sv3,tile_year,Saved a year (USD),"$53,286",53286,0.5
-austin-sv3,tile_month,"Saved a year: its line, a month (USD)","$4,440",4440,0.5
-austin-sv3,tile_demand,From shaving the peak (USD a month),"$4,555",4555,0.5
-austin-sv3,tile_shaved_kw,From shaving the peak: kW off the peak,250.0,250,0.05
+austin-sv3,tile_year,Saved a year (USD),"$45,087",45087,0.5
+austin-sv3,tile_month,"Saved a year: its line, a month (USD)","$3,757",3757,0.5
+austin-sv3,tile_demand,From shaving the peak (USD a month),"$3,872",3872,0.5
+austin-sv3,tile_shaved_kw,From shaving the peak: kW off the peak,212.5,212.5,0.05
 austin-sv3,tile_peak_kw,"From shaving the peak: the peak, as typed (kW)","1,000",1000,0.5
+austin-sv3,tile_could_kw,From shaving the peak: kW the battery could take (alternative 3),250.0,250,0.05
 austin-sv3,tile_demand_before,From shaving the peak: the demand charge before (USD a month),"$18,220",18220,0.5
 austin-sv3,tile_energy,From shifting energy (USD a month),-$115,-115,0.5
 austin-sv3,tile_out_kwh,From shifting energy: kWh a day out,500,500,0.5
@@ -265,23 +282,25 @@ austin-sv3,how_energy_kw,The peak: what the battery's energy allows (kW),250.0,2
 austin-sv3,how_peak_kw,"The peak: the peak, as typed (kW)","1,000",1000,0.5
 austin-sv3,how_shaved_kw,The peak: what comes off (kW),250.0,250,0.05
 austin-sv3,how_limit,The peak: what set it,the battery's power,the battery's power,
+austin-sv3,how_billed_kw,"The peak: what the bill sees, 85 percent (kW; alternative 3)",212.5,212.5,0.05
 austin-sv3,how_demand_charge,"The peak: the demand charge, as typed (USD per kW)",$18.22,18.22,0.005
-austin-sv3,how_demand,The peak: saved a month (USD),"$4,555",4555,0.5
+austin-sv3,how_demand,The peak: saved a month (USD),"$3,872",3872,0.5
 austin-sv3,noshift_break_even,"The energy, when moving it does not pay: the peak rate it would take (USD per kWh)",$0.078,0.078,0.0005
 austin-sv3,noshift_kwh,"The energy, when moving it does not pay: kWh a day for the peak",500,500,0.5
 austin-sv3,noshift_month,"The energy, when moving it does not pay: the cost a month (USD)",-$115,-115,0.5
 sce-tou-gs-2-b-2013-summer,sum_battery_kw,"The summary: the battery's power, as typed (kW)",100,100,0.5
 sce-tou-gs-2-b-2013-summer,sum_battery_kwh,"The summary: the battery's energy, as typed (kWh)",400,400,0.5
 sce-tou-gs-2-b-2013-summer,sum_hours,The summary: the battery's duration (hours),4.0,4,0.05
-sce-tou-gs-2-b-2013-summer,sum_month,The summary: saved a month (USD),"$3,677",3677,0.5
-sce-tou-gs-2-b-2013-summer,sum_year,The summary: saved a year (USD),"$44,124",44124,0.5
-sce-tou-gs-2-b-2013-summer,sum_demand,The summary: a month from a lower peak (USD),"$3,014",3014,0.5
+sce-tou-gs-2-b-2013-summer,sum_month,The summary: saved a month (USD),"$3,225",3225,0.5
+sce-tou-gs-2-b-2013-summer,sum_year,The summary: saved a year (USD),"$38,698",38698,0.5
+sce-tou-gs-2-b-2013-summer,sum_demand,The summary: a month from a lower peak (USD),"$2,562",2562,0.5
 sce-tou-gs-2-b-2013-summer,sum_energy,The summary: a month from moving energy (USD),$663,663,0.5
-sce-tou-gs-2-b-2013-summer,tile_year,Saved a year (USD),"$44,124",44124,0.5
-sce-tou-gs-2-b-2013-summer,tile_month,"Saved a year: its line, a month (USD)","$3,677",3677,0.5
-sce-tou-gs-2-b-2013-summer,tile_demand,From shaving the peak (USD a month),"$3,014",3014,0.5
-sce-tou-gs-2-b-2013-summer,tile_shaved_kw,From shaving the peak: kW off the peak,100.0,100,0.05
+sce-tou-gs-2-b-2013-summer,tile_year,Saved a year (USD),"$38,698",38698,0.5
+sce-tou-gs-2-b-2013-summer,tile_month,"Saved a year: its line, a month (USD)","$3,225",3225,0.5
+sce-tou-gs-2-b-2013-summer,tile_demand,From shaving the peak (USD a month),"$2,562",2562,0.5
+sce-tou-gs-2-b-2013-summer,tile_shaved_kw,From shaving the peak: kW off the peak,85.0,85,0.05
 sce-tou-gs-2-b-2013-summer,tile_peak_kw,"From shaving the peak: the peak, as typed (kW)",400,400,0.5
+sce-tou-gs-2-b-2013-summer,tile_could_kw,From shaving the peak: kW the battery could take (alternative 3),100.0,100,0.05
 sce-tou-gs-2-b-2013-summer,tile_demand_before,From shaving the peak: the demand charge before (USD a month),"$12,056",12056,0.5
 sce-tou-gs-2-b-2013-summer,tile_energy,From shifting energy (USD a month),$663,663,0.5
 sce-tou-gs-2-b-2013-summer,tile_out_kwh,From shifting energy: kWh a day out,400,400,0.5
@@ -293,8 +312,9 @@ sce-tou-gs-2-b-2013-summer,how_energy_kw,The peak: what the battery's energy all
 sce-tou-gs-2-b-2013-summer,how_peak_kw,"The peak: the peak, as typed (kW)",400,400,0.5
 sce-tou-gs-2-b-2013-summer,how_shaved_kw,The peak: what comes off (kW),100.0,100,0.05
 sce-tou-gs-2-b-2013-summer,how_limit,The peak: what set it,the battery's power,the battery's power,
+sce-tou-gs-2-b-2013-summer,how_billed_kw,"The peak: what the bill sees, 85 percent (kW; alternative 3)",85.0,85,0.05
 sce-tou-gs-2-b-2013-summer,how_demand_charge,"The peak: the demand charge, as typed (USD per kW)",$30.14,30.14,0.005
-sce-tou-gs-2-b-2013-summer,how_demand,The peak: saved a month (USD),"$3,014",3014,0.5
+sce-tou-gs-2-b-2013-summer,how_demand,The peak: saved a month (USD),"$2,562",2562,0.5
 sce-tou-gs-2-b-2013-summer,shift_out_kwh,The energy: kWh a day out in the peak hours,400,400,0.5
 sce-tou-gs-2-b-2013-summer,shift_in_kwh,The energy: kWh a day in off-peak,465,465,0.5
 sce-tou-gs-2-b-2013-summer,shift_per_day,The energy: USD a day,$32,32,0.5
@@ -303,15 +323,16 @@ sce-tou-gs-2-b-2013-summer,shift_days,"The energy: the days, as typed",21,21,0.5
 decimals,sum_battery_kw,"The summary: the battery's power, as typed (kW)",5,5,0.5
 decimals,sum_battery_kwh,"The summary: the battery's energy, as typed (kWh)",13.5,13.5,0.05
 decimals,sum_hours,The summary: the battery's duration (hours),2.7,2.7,0.05
-decimals,sum_month,The summary: saved a month (USD),$44,44,0.5
-decimals,sum_year,The summary: saved a year (USD),$533,533,0.5
-decimals,sum_demand,The summary: a month from a lower peak (USD),$27,27,0.5
+decimals,sum_month,The summary: saved a month (USD),$40,40,0.5
+decimals,sum_year,The summary: saved a year (USD),$485,485,0.5
+decimals,sum_demand,The summary: a month from a lower peak (USD),$23,23,0.5
 decimals,sum_energy,The summary: a month from moving energy (USD),$18,18,0.5
-decimals,tile_year,Saved a year (USD),$533,533,0.5
-decimals,tile_month,"Saved a year: its line, a month (USD)",$44,44,0.5
-decimals,tile_demand,From shaving the peak (USD a month),$27,27,0.5
-decimals,tile_shaved_kw,From shaving the peak: kW off the peak,5.0,5,0.05
+decimals,tile_year,Saved a year (USD),$485,485,0.5
+decimals,tile_month,"Saved a year: its line, a month (USD)",$40,40,0.5
+decimals,tile_demand,From shaving the peak (USD a month),$23,23,0.5
+decimals,tile_shaved_kw,From shaving the peak: kW off the peak,4.3,4.3,0.05
 decimals,tile_peak_kw,"From shaving the peak: the peak, as typed (kW)",62.5,62.5,0.05
+decimals,tile_could_kw,From shaving the peak: kW the battery could take (alternative 3),5.0,5,0.05
 decimals,tile_demand_before,From shaving the peak: the demand charge before (USD a month),$335,335,0.5
 decimals,tile_energy,From shifting energy (USD a month),$18,18,0.5
 decimals,tile_out_kwh,From shifting energy: kWh a day out,14,14,0.5
@@ -323,8 +344,9 @@ decimals,how_energy_kw,The peak: what the battery's energy allows (kW),9.0,9,0.0
 decimals,how_peak_kw,"The peak: the peak, as typed (kW)",62.5,62.5,0.05
 decimals,how_shaved_kw,The peak: what comes off (kW),5.0,5,0.05
 decimals,how_limit,The peak: what set it,the battery's power,the battery's power,
+decimals,how_billed_kw,"The peak: what the bill sees, 85 percent (kW; alternative 3)",4.3,4.3,0.05
 decimals,how_demand_charge,"The peak: the demand charge, as typed (USD per kW)",$5.36,5.36,0.005
-decimals,how_demand,The peak: saved a month (USD),$27,27,0.5
+decimals,how_demand,The peak: saved a month (USD),$23,23,0.5
 decimals,shift_out_kwh,The energy: kWh a day out in the peak hours,14,14,0.5
 decimals,shift_in_kwh,The energy: kWh a day in off-peak,16,16,0.5
 decimals,shift_per_day,The energy: USD a day,$1,1,0.5

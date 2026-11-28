@@ -70,13 +70,19 @@ export type Result = {
   breakEvenRate: number;       // the peak rate at which shifting just pays, USD per kWh
 };
 
+/** Ruling alternative 3 (wip/alt-battery-customer-3): the share of the kW the battery could take off the peak that the
+ * bill sees, 0.85 (NREL/TP-5400-63162, January 2015, pages 9 and 16, for a 4 hour battery); main: 1. */
+export const SHAVE_SHARE = 0.85;
+
 /** The saving. A pure function of what was typed. */
 export function saving(x: Inputs): Result {
   const eta = x.roundTrip / 100;
   const byEnergy = x.batteryKwh / x.peakHours;
   const shavedKw = Math.min(x.batteryKw, byEnergy, x.peakKw);
   const limit: Result["limit"] = shavedKw === x.peakKw ? "peak" : shavedKw === x.batteryKw ? "power" : "energy";
-  const demandSaved = shavedKw * x.demandCharge;
+  // ruling alternative 3 (wip/alt-battery-customer-3, not a default on main): NREL's about 85 percent of the kW the battery
+  // could take comes off the billed peak (NREL/TP-5400-63162, January 2015, page 16); main takes all of it
+  const demandSaved = shavedKw * SHAVE_SHARE * x.demandCharge;
   // one cycle a day: the whole battery out in the peak hours, and that much over the round trip back in off-peak
   const dischargedKwh = x.batteryKwh;
   const chargedKwh = x.batteryKwh / eta;

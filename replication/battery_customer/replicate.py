@@ -63,6 +63,9 @@ def read_all(typed):
     return values, missing
 
 
+SHAVE_SHARE = 0.85   # ruling alternative 3 (wip/alt-battery-customer-3): NREL/TP-5400-63162, January 2015, page 16; main: 1
+
+
 def saving(x):
     """The note, section 3: the nine numbers to every figure of the page."""
     eta = x["roundTrip"] / 100.0
@@ -70,7 +73,7 @@ def saving(x):
     shaved = min(by_power, by_energy, by_peak)
     # a tie is named in this order: the peak itself, then the power, then the energy
     limit = "your peak itself" if shaved == by_peak else "the battery's power" if shaved == by_power else "the battery's energy"
-    demand = shaved * x["demandCharge"]
+    demand = shaved * SHAVE_SHARE * x["demandCharge"]   # ruling alternative 3 (wip/alt-battery-customer-3): NREL's 85 percent; main: all of it
     out_full, in_full = x["batteryKwh"], x["batteryKwh"] / eta
     per_day = out_full * x["peakRate"] - in_full * x["offPeakRate"]
     shifts = per_day > 0
@@ -102,10 +105,10 @@ def figures(typed):
         "sum_battery_kw": x["batteryKw"], "sum_battery_kwh": x["batteryKwh"], "sum_hours": s["hours"], "sum_month": s["month"],
         "sum_year": s["year"], "sum_demand": s["demand"], "sum_energy": s["energy"],
         "tile_year": s["year"], "tile_month": s["month"],
-        "tile_demand": s["demand"], "tile_shaved_kw": s["shaved"], "tile_peak_kw": x["peakKw"], "tile_demand_before": s["demand_before"],
+        "tile_demand": s["demand"], "tile_shaved_kw": s["shaved"] * SHAVE_SHARE, "tile_could_kw": s["shaved"], "tile_peak_kw": x["peakKw"], "tile_demand_before": s["demand_before"],
         "tile_energy": s["energy"], "tile_out_kwh": s["out_kwh"], "tile_in_kwh": s["in_kwh"], "tile_days": x["days"],
         "how_peak_hours": x["peakHours"], "how_power_kw": x["batteryKw"], "how_energy_kw": s["by_energy"], "how_peak_kw": x["peakKw"],
-        "how_shaved_kw": s["shaved"], "how_limit": s["limit"], "how_demand_charge": x["demandCharge"], "how_demand": s["demand"],
+        "how_shaved_kw": s["shaved"], "how_limit": s["limit"], "how_demand_charge": x["demandCharge"], "how_demand": s["demand"], "how_billed_kw": s["shaved"] * SHAVE_SHARE,
     }
     if s["shifts"]:
         f.update({"shift_out_kwh": s["out_kwh"], "shift_in_kwh": s["in_kwh"], "shift_per_day": s["per_day"], "shift_month": s["energy"], "shift_days": x["days"]})

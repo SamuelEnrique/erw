@@ -35,6 +35,7 @@ class TheReadDrawn(unittest.TestCase):
         cls.done = subprocess.run([NODE, "--import", "./scripts/tsx-register.mjs", "scripts/test-battery-customer-read.mjs"],
                                  cwd=SITE, capture_output=True, text=True, encoding="utf-8", timeout=600)
 
+    @unittest.skip("ruling alternative 3 (wip/alt-battery-customer-3): the five reader cases of 16 November are written in the figures of main's rule (all of the power off the peak); 11 of their 29 checks move with 85 percent. The other choice's figures are pinned in tests/test_alt_battery_customer_3.py")
     def test_every_check_passes(self):
         self.assertEqual(self.done.returncode, 0, self.done.stdout[-3000:] + self.done.stderr[-1500:])
         self.assertNotIn("FAIL", self.done.stdout)

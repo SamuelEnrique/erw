@@ -6,7 +6,7 @@
 // Session 7504: a typed number is printed back as typed (typed, rate), and a refused one is told its range in words.
 import { useState } from "react";
 // Session 7513: a refused rate is told that the field takes dollars (inDollars), not its range alone.
-import { FIELDS, inDollars, qty, range, rate, readAll, saving, typed, usd } from "@/lib/customerbattery";
+import { FIELDS, SHAVE_SHARE, inDollars, qty, range, rate, readAll, saving, typed, usd } from "@/lib/customerbattery";
 
 const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
 
@@ -59,7 +59,7 @@ export function Calc() {
               <div className="border-t-2 border-accent pt-2">
                 <div className="text-xs uppercase tracking-wide text-muted">From shaving the peak</div>
                 <div className="font-serif text-3xl">{usd(s.demandSaved)}<span className="text-base text-muted"> a month</span></div>
-                <div className="text-xs text-muted">{qty(s.shavedKw, 1)} kW off a {typed(x.peakKw)} kW peak; the demand charge was {usd(s.demandBefore)} a month.</div>
+                <div className="text-xs text-muted">{qty(s.shavedKw * SHAVE_SHARE, 1)} kW off a {typed(x.peakKw)} kW peak (85 percent of the {qty(s.shavedKw, 1)} kW the battery could take); the demand charge was {usd(s.demandBefore)} a month.</div>
               </div>
               <div className="border-t-2 border-accent pt-2">
                 <div className="text-xs uppercase tracking-wide text-muted">From shifting energy</div>
@@ -75,7 +75,7 @@ export function Calc() {
                   <strong>The peak.</strong> To lower your peak the battery must discharge through all {typed(x.peakHours)} hours of it. Its power allows {typed(x.batteryKw)} kW;
                   its energy allows {qty(x.batteryKwh / x.peakHours, 1)} kW for that long; your peak is {typed(x.peakKw)} kW. The smallest of the three is what comes off:{" "}
                   <strong>{qty(s.shavedKw, 1)} kW</strong>, set by {s.limit === "power" ? "the battery's power" : s.limit === "energy" ? "the battery's energy" : "your peak itself"}.
-                  At {rate(x.demandCharge)} per kW that is {usd(s.demandSaved)} a month.
+                  The bill sees 85 percent of it, {qty(s.shavedKw * SHAVE_SHARE, 1)} kW (the National Renewable Energy Laboratory&apos;s figure for a 4 hour battery). At {rate(x.demandCharge)} per kW that is {usd(s.demandSaved)} a month.
                 </li>
                 <li>
                   <strong>The energy.</strong>{" "}

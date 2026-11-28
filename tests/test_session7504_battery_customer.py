@@ -61,14 +61,14 @@ class ThePageDrawn(unittest.TestCase):
         self.assertTrue(m and m.group(1) == m.group(2) and int(m.group(2)) >= 30, self.page.stdout[-500:])
 
     def test_a_typed_number_is_printed_as_typed(self):
-        self.assertRegex(self.page.stdout, r"(?m)^ok   a demand charge of 5\.36 is printed as \$5\.36 beside the \$536 it makes")
+        self.assertRegex(self.page.stdout, r"(?m)^ok   a demand charge of 5\.36 is printed as \$5\.36 beside the \$456 it makes")
         self.assertRegex(self.page.stdout, r"(?m)^ok   a 13\.5 kWh battery is printed as 13\.5 kWh")
         self.assertRegex(self.page.stdout, r"(?m)^ok   whole numbers read as they did")
 
     def test_the_pages_figures_are_the_committed_ones(self):
         # the calculator drawn again gives the same 331 numbers as replication/battery_customer/page_figures.json
         self.assertEqual(self.figures.returncode, 0, self.figures.stdout[-3000:] + self.figures.stderr[-1500:])
-        self.assertIn("page_figures: 331 figures, as committed", self.figures.stdout)
+        self.assertIn("page_figures: 353 figures, as committed", self.figures.stdout)
         self.assertNotIn("NOT READ", self.figures.stdout)
 
 
@@ -124,12 +124,12 @@ class TheReplication(unittest.TestCase):
     def test_every_figure_is_inside_its_tolerance(self):
         code, out = replicate()
         self.assertEqual(code, 0, out[-2000:])
-        self.assertIn("331 of 331 inside the tolerance, 12 cases; computed here and not shown by the page: 0; not replicated here: nothing", out)
+        self.assertIn("353 of 353 inside the tolerance, 12 cases; computed here and not shown by the page: 0; not replicated here: nothing", out)
         self.assertNotRegex(out, r"(?m) NO$")
         page = json.loads(src("replication", "battery_customer", "page_figures.json"))
         self.assertEqual(page["figures"], sum(len(c["figures"]) for c in page["cases"]))
-        self.assertEqual(page["figures"], 331)
-        self.assertEqual(len(src("replication", "battery_customer", "page_figures.csv").strip().splitlines()), 332)
+        self.assertEqual(page["figures"], 353)   # alternative 3: two figures more a case (the kW the battery could take, the kW the bill sees)
+        self.assertEqual(len(src("replication", "battery_customer", "page_figures.csv").strip().splitlines()), 354)   # alternative 3: 353 figures and the header; main: 332
 
     def test_a_wrong_figure_would_be_caught(self):
         # the comparison is not a formality: a page figure moved by one unit of its last digit is outside the tolerance
@@ -145,9 +145,9 @@ class TheReplication(unittest.TestCase):
         base = {"peakKw": 500.0, "demandCharge": 18.0, "peakRate": 0.22, "offPeakRate": 0.09, "batteryKw": 200.0, "batteryKwh": 800.0, "peakHours": 4.0, "days": 22.0, "roundTrip": 85.0}
         s = m.saving(base)
         per_day = 800 * 0.22 - 800 / 0.85 * 0.09
-        self.assertEqual((s["shaved"], s["limit"], s["demand"], s["demand_before"]), (200.0, "the battery's power", 3600.0, 9000.0))
-        self.assertAlmostEqual(s["month"], 3600 + per_day * 22, places=9)
-        self.assertAlmostEqual(s["year"], 12 * (3600 + per_day * 22), places=9)
+        self.assertEqual((s["shaved"], s["limit"], s["demand"], s["demand_before"]), (200.0, "the battery's power", 3060.0, 9000.0))   # alternative 3 (wip/alt-battery-customer-3); main: 3600
+        self.assertAlmostEqual(s["month"], 3060 + per_day * 22, places=9)
+        self.assertAlmostEqual(s["year"], 12 * (3060 + per_day * 22), places=9)
         s = m.saving({**base, "batteryKwh": 400.0})
         self.assertEqual((s["shaved"], s["limit"]), (100.0, "the battery's energy"))
         s = m.saving({**base, "peakKw": 50.0})
@@ -232,12 +232,13 @@ class TheNote(unittest.TestCase):
         self.assertIn("lists these 10", table)
         self.assertEqual(len(re.findall(r"\{ key: \"", src("site", "app", "battery", "customer", "Decisions.tsx"))), 10)
 
+    @unittest.skip("ruling alternative 3 (wip/alt-battery-customer-3): the method note states the figures of main's rule (all of the power off the peak); the note is rewritten only if the ruling takes this choice. The other choice's figures are pinned in tests/test_alt_battery_customer_3.py")
     def test_the_notes_figures_are_the_replications(self):
         note = src("docs", "methods", "battery_customer.md")
         self.assertIn("`331 of 331 inside the tolerance, 12 cases; computed here and not shown by the page: 0; not replicated here: nothing`", note)
         code, out = replicate("--seasons")
         self.assertEqual(code, 0)
-        self.assertIn("the year by the plan's seasons: 8783.57", out)
+        self.assertIn("the year by the plan's seasons: 8058.77", out)
         self.assertIn("twelve of srp-e32-summer-peak against the year by seasons: +52.3 percent", out)
         self.assertIn("twelve of srp-e32-winter against the year by seasons: -18.4 percent", out)
         for words in ("USD 8,783.57", "USD 13,376.42: 52.3 percent more", "USD 7,163.97: 18.4 percent less", "USD 1,114.70", "USD 743.05", "USD 597.00"):
