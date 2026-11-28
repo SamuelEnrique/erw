@@ -3,7 +3,7 @@ October 2026).
 
 Energy Research Warehouse (ERW). What is held here:
 - the edge cases at the library: an address that asks for what the page does not show (a grid not held, a duration or
-  strategy the model was not run at, a size outside 1 to 5,000 MW, a scenario value outside its field's bounds or not a
+  strategy the model was not run at, a size outside 1 to 500 MW (5,000 until session 11408), a scenario value outside its field's bounds or not a
   step) is said in one line, never replaced in silence (typedNotes in site/lib/batterystack.ts, scenarioNotes and
   clampWords in site/lib/battery/finance.ts); a leap February counts on the 90 percent rule over 29 days; a month with
   one day held never counts; a debt term or a contract longer than the project is cut to the project's life;
@@ -83,8 +83,8 @@ console.log(JSON.stringify({
   pjm: notes({ grid: "pjm" }), xyz: notes({ grid: "xyz" }), nyiso: notes({ grid: "nyiso" }),
   nyisoInternal: B.typedNotes({ grid: "nyiso" }, B.inputsOf({ grid: "nyiso" }, true)),
   dur3: notes({ dur: "3" }), strat: notes({ strat: "other" }),
-  mw0: notes({ mw: "0" }), mwBig: notes({ mw: "99999" }), mwText: notes({ mw: "abc" }), mw1: notes({ mw: "1" }), mw1000: notes({ mw: "1000" }),
-  mwOf: [B.inputsOf({ mw: "0" }).mw, B.inputsOf({ mw: "99999" }).mw, B.inputsOf({ mw: "abc" }).mw, B.inputsOf({ mw: "1000" }).mw],
+  mw0: notes({ mw: "0" }), mwBig: notes({ mw: "99999" }), mwText: notes({ mw: "abc" }), mw1: notes({ mw: "1" }), mw1000: notes({ mw: "400" }),
+  mwOf: [B.inputsOf({ mw: "0" }).mw, B.inputsOf({ mw: "99999" }).mw, B.inputsOf({ mw: "abc" }).mw, B.inputsOf({ mw: "400" }).mw],
   scen: F.scenarioNotes({ ac: "99999", bt: "20.5", ae: "90", af: "abc", ah: "12" }, d, steps),
   scenOk: F.scenarioNotes({ ac: "1200", at: "25", ae: "92" }, d, steps),
   clamp: [F.clampWords("capex", 99999, 10000), F.clampWords("term", 20.5, 21), F.clampWords("fom", -3, 0)],
@@ -114,9 +114,9 @@ console.log(JSON.stringify({
         self.assertEqual(self.got["strat"], ["The strategy asked for is not one of the two: perfect foresight is shown."])
 
     def test_a_size_outside_its_bounds_is_brought_to_them_and_said(self):
-        self.assertEqual(self.got["mwOf"], [1, 5000, 100, 1000])
-        self.assertEqual(self.got["mw0"], ["0 MW is outside the size field's bounds, 1 to 5,000 MW: 1 MW is shown."])
-        self.assertEqual(self.got["mwBig"], ["99,999 MW is outside the size field's bounds, 1 to 5,000 MW: 5,000 MW is shown."])
+        self.assertEqual(self.got["mwOf"], [1, 500, 100, 400])
+        self.assertEqual(self.got["mw0"], ["0 MW is outside the size field's bounds, 1 to 500 MW (past about 500 MW the battery would hold more regulation than ERCOT buys): 1 MW is shown."])
+        self.assertEqual(self.got["mwBig"], ["99,999 MW is outside the size field's bounds, 1 to 500 MW (past about 500 MW the battery would hold more regulation than ERCOT buys): 500 MW is shown."])
         self.assertEqual(self.got["mwText"], ["The size asked for is not a number: 100 MW is shown."])
 
     def test_a_scenario_value_outside_its_field_is_said(self):

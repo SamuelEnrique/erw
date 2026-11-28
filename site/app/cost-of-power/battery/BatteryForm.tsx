@@ -86,7 +86,7 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
       </fieldset>
 
       <label className="block"><span className="mb-1 block font-semibold">Size, MW</span>
-        <input name="mw" type="number" min={1} max={5000} step="any" autoComplete="off" defaultValue={x.mw} className={field} />
+        <input name="mw" type="number" min={1} max={500} step="any" autoComplete="off" defaultValue={x.mw} className={field} />
       </label>
       <div className="flex items-baseline gap-3">
         <button type="submit" className="border border-accent bg-accent px-4 py-1.5 text-white">Show</button>

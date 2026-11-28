@@ -95,6 +95,12 @@ export const crf = (rate: number, n: number) => rate / (1 - (1 + rate) ** -n);
 export const debtPerMw = (d: Duration) => COSTS[d].capex * 1000 * DEBT.share * crf(DEBT.rate, DEBT.life);
 
 /** The inputs from a query (strings), each defaulted and bounded. */
+/** Session 11408 (readied for the owner's ruling on the battery audit of 20 November, finding 7,
+ * docs/reviews/battery-model-audit-2026-11-20.md): the size field's upper bound. The model is a price taker and every
+ * dollar scales with the size; ERCOT's day-ahead plan of September 2026 held a median 387 MW of Reg Up and 393 MW of
+ * Reg Down, and at 500 MW the model's own awards already pass ERCOT's whole Reg Down purchase in 47 percent of hours.
+ * 5,000 until then. */
+export const MAX_MW = 500;
 export function inputsOf(q: Record<string, string | undefined>, internal = false): Inputs {
   const num = (v: string | undefined, d: number, lo: number, hi: number) => {
     const x = v === undefined || v === "" ? NaN : Number(v);
@@ -103,12 +109,12 @@ export function inputsOf(q: Record<string, string | undefined>, internal = false
   const grid = opens(q.grid, internal) ? q.grid! : "ercot";  // session 86: a grid in review opens only in the internal view
   const dur = (DURATIONS.includes(Number(q.dur) as Duration) ? Number(q.dur) : 4) as Duration;
   const strat = (q.strat === "dayahead" ? "dayahead" : "foresight") as Strategy;
-  const mw = num(q.mw, 100, 1, 5000);
+  const mw = num(q.mw, 100, 1, MAX_MW);
   return { grid, dur, strat, mw, fom: num(q.fom, COSTS[dur].fom, 0, 500), ds: Math.round(num(q.ds, debtPerMw(dur) * mw, 0, 1e11)) };
 }
 /** Session 263: what the address asked for that the page does not show as asked, one sentence each, so that nothing
  * is replaced in silence: a grid the tool does not open, a duration or a strategy the model was not run at, a size
- * outside 1 to 5,000 MW (brought to the nearer bound) or not a number. Empty when every value was read as given. The
+ * outside 1 to 500 MW (brought to the nearer bound) or not a number. Empty when every value was read as given. The
  * text the reader typed is never repeated, only a number read from it. */
 export function typedNotes(q: Record<string, string | undefined>, x: Pick<Inputs, "grid" | "dur" | "strat" | "mw">): string[] {
   const out: string[] = [];
@@ -123,7 +129,7 @@ export function typedNotes(q: Record<string, string | undefined>, x: Pick<Inputs
   if (given("strat") && q.strat !== x.strat) out.push(`The strategy asked for is not one of the two: ${STRATEGIES[x.strat].toLowerCase()} is shown.`);
   if (given("mw") && Number(q.mw) !== x.mw) {
     const v = Number(q.mw);
-    out.push(Number.isFinite(v) ? `${n(v)} MW is outside the size field's bounds, 1 to 5,000 MW: ${n(x.mw)} MW is shown.` : `The size asked for is not a number: ${n(x.mw)} MW is shown.`);
+    out.push(Number.isFinite(v) ? `${n(v)} MW is outside the size field's bounds, 1 to 500 MW (past about 500 MW the battery would hold more regulation than ERCOT buys): ${n(x.mw)} MW is shown.` : `The size asked for is not a number: ${n(x.mw)} MW is shown.`);
   }
   return out;
 }
