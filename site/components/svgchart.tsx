@@ -176,7 +176,14 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
   const py = (v: number, b: Bounds) => TOP + ((b.hi - v) / (b.hi - b.lo || 1)) * (height - TOP - BOT);
   const barGroups = [...new Set(bars.map((s) => s.stack ?? `_${s.name}`))];
   const barW = Math.max(2, (bw * 0.7) / Math.max(1, barGroups.length));
-  const everyK = every ?? (n > 12 ? Math.ceil(Math.max(1, ...x.map((s) => textWidth(s, 11))) / bw) : 1);
+  // chain 780 (session 11600; the read of 28 November, row CH2): a chart of twelve columns or fewer thinned nothing
+  // (the rule began at thirteen), so at 390 px the twelve years of /cost-of-power's "Cost by year" were printed over
+  // each other, each wider than its column. A chart of twelve or fewer in which two neighbours' labels would stand
+  // on each other (half of each, together, wider than a column by more than 15 percent) writes every k-th; one whose
+  // neighbours have room, or nearly, writes all, as before: a long name beside a short one is left alone
+  const widestX = Math.max(1, ...x.map((s) => textWidth(s, 11)));
+  const clashX = x.some((s, i) => i > 0 && (textWidth(x[i - 1], 11) + textWidth(s, 11)) / 2 > bw * 1.15);
+  const everyK = every ?? (n > 12 || clashX ? Math.ceil(widestX / bw) : 1);
   const labelled = (i: number) => i % Math.max(1, everyK) === 0;
   const dimAt = (i: number) => (dim?.[i] ? 0.4 : 1);
   const unitOf = (s: CatSeries) => s.unit ?? (s.axis === 1 ? unit2 : unit);
@@ -411,7 +418,9 @@ export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo:
   const signed = lo < 0 && hi > 0, far = Math.max(-lo, hi);
   const fillOf = (v: number) => (signed ? (v < 0 ? "var(--chart-blue)" : "var(--color-accent)") : "var(--color-accent)");
   const opacityOf = (v: number) => (signed ? 0.08 + 0.92 * (Math.abs(v) / (far || 1)) : strength(v));
-  const everyC = Math.max(1, Math.ceil(Math.max(1, ...cols.map((c) => textWidth(c, 11))) / cw));
+  // chain 780 (session 11600, row CH3): a column's label is written every k-th column with 6 px between one and the
+  // next (at 390 px the hours stood end to end, "00:0003:0006:00")
+  const everyC = Math.max(1, Math.ceil((Math.max(1, ...cols.map((c) => textWidth(c, 11))) + 6) / cw));
   const onMove = (e: React.MouseEvent<SVGSVGElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
     const c = Math.floor((e.clientX - r.left - L) / cw), rw = Math.floor((e.clientY - r.top - TOP) / ch);
@@ -428,7 +437,10 @@ export function HeatChart({ id, rows, cols, cells, unit, label, tips, marks, lo:
             <title>{label}</title>
             <defs><pattern id={`${id}-blank`} width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="var(--color-surface)" /><rect width="1.5" height="5" fill="var(--color-rule)" /></pattern></defs>
             {rows.map((r, i) => <text key={r} x={L - 6} y={TOP + i * ch + ch / 2 + 4} textAnchor="end" fontSize="11" fill="var(--color-ink)">{r}</text>)}
-            {cols.map((c, j) => (j % everyC === 0 ? <text key={c} x={L + j * cw + cw / 2} y={height - BOT + 14} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{c}</text> : null))}
+            {/* chain 780 (row CH3): the columns' labels stand right under the cells whatever the drawing's height. They were
+                placed from the foot, and where the legend takes a second line (a phone) the drawing is 16 px taller, which
+                put them 16 px lower, on the legend's first words */}
+            {cols.map((c, j) => (j % everyC === 0 ? <text key={c} x={L + j * cw + cw / 2} y={TOP + rows.length * ch + 14} textAnchor="middle" fontSize="11" fill="var(--color-ink)">{c}</text> : null))}
             {cells.map((row, i) => row.map((v, j) => (
               <rect key={`${i}-${j}`} x={L + j * cw} y={TOP + i * ch} width={cw} height={ch} fill={v === null || v === undefined ? `url(#${id}-blank)` : fillOf(v)}
                 fillOpacity={v === null || v === undefined ? 1 : opacityOf(v)} stroke="var(--color-surface)" strokeWidth="0.75" data-cell={`${i}-${j}`} />
