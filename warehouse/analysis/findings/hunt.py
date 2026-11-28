@@ -290,6 +290,8 @@ def spread(values):
 
 
 STRENGTH_FLOOR = 1.0   # session 316: a draft's change is at least one typical yearly move (the Research pack's ruling 2a)
+YEARS_FLOOR = 8        # wip/ready-analysis-years (the Automated Analysis audit of 26 November, finding 7, for Samuel's ruling): a
+                       # drafted trend rests on at least eight full years; at six a random walk passes half the time
 
 
 def test_claim(series, P, this_year):
@@ -335,7 +337,9 @@ def test_claim(series, P, this_year):
         t4 = {"name": "half the change remains without the first year", "passed": False, "words": f"only {len(full)} full years are held; three are needed to leave the first out"}
     t5 = {"name": "at least one typical yearly move", "passed": strength >= STRENGTH_FLOOR,
           "words": f"the change is {common.fmt(strength, 2)} typical yearly moves ({val(sp, P)} a year, the median move between full years); the floor is {common.fmt(STRENGTH_FLOOR, 0)}"}
-    tests = [t1, t2, t3, t4, t5]
+    t6 = {"name": "enough full years", "passed": len(full) >= YEARS_FLOOR,
+          "words": f"{len(full)} full years are held, {y0} to {y1}; the floor is {YEARS_FLOOR}"}
+    tests = [t1, t2, t3, t4, t5, t6]
     return {"first_year": y0, "last_year": y1, "first": v0, "last": v1, "change": change, "direction": "up" if s > 0 else "down",
             "tests": tests, "passed": all(t["passed"] for t in tests), "years": full, "values": vals,
             "n_first": n0, "n_last": n1, "years_held": len(held), "years_after": len(later), "typical_move": sp,

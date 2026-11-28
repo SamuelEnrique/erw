@@ -130,7 +130,7 @@ class Builder(unittest.TestCase):
             row = json.load(open(os.path.join(d, "runs", os.listdir(os.path.join(d, "runs"))[0], "testfam", did + ".json"), encoding="utf-8"))
             self.assertEqual(row["rule"], "hunt")
             self.assertEqual(row["card"]["hunt"]["module"], "deep.testfam")
-            self.assertEqual(len(row["card"]["hunt"]["tests"]), 5)
+            self.assertEqual(len(row["card"]["hunt"]["tests"]), 6)   # wip/ready-analysis-years: the sixth, enough full years
             self.assertEqual(sorted(row["files"]), sorted(row["card"]["hunt"]["files"]))
             self.assertIn("in 2025, against", row["card"]["subtitle"])
             self.assertIn("Expected: 2015", row["files"][did + "_reproduce.py"]["content"])
@@ -191,3 +191,17 @@ class FixSourceLines(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+_FLOOR = []
+
+
+def setUpModule():  # wip/ready-analysis-years: these fixtures are shorter than the floor of full years, which tests/test_ready_analysis_years.py tests
+    import hunt
+    _FLOOR.append(hunt.YEARS_FLOOR)
+    hunt.YEARS_FLOOR = 0
+
+
+def tearDownModule():
+    import hunt
+    hunt.YEARS_FLOOR = _FLOOR.pop()

@@ -55,6 +55,7 @@ class TheFourthTestAndTheFloor(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.hunt = load("hunt")
+        cls.hunt.YEARS_FLOOR = 0   # wip/ready-analysis-years: these claims are shorter than the floor of full years (tests/test_ready_analysis_years.py)
 
     def test_five_tests_and_the_floor_is_one_typical_move(self):
         self.assertEqual(self.hunt.STRENGTH_FLOOR, 1.0)
@@ -62,7 +63,7 @@ class TheFourthTestAndTheFloor(unittest.TestCase):
         P = {"n_floor": 8000, "decimals": 1, "unit": "x"}
         c = self.hunt.test_claim(s, P, 2026)
         self.assertEqual([t["name"] for t in c["tests"]], ["holds in more than one year", "survives a change of window", "sample large enough",
-                                                           "half the change remains without the first year", "at least one typical yearly move"])
+                                                           "half the change remains without the first year", "at least one typical yearly move", "enough full years"])
         self.assertTrue(c["passed"])
         self.assertAlmostEqual(c["remains_without_first"], 3.0 / 4.0)
 

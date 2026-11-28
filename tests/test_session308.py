@@ -124,3 +124,17 @@ class NoDashes(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+_FLOOR = []
+
+
+def setUpModule():  # wip/ready-analysis-years: these fixtures are shorter than the floor of full years, which tests/test_ready_analysis_years.py tests
+    import hunt
+    _FLOOR.append(hunt.YEARS_FLOOR)
+    hunt.YEARS_FLOOR = 0
+
+
+def tearDownModule():
+    import hunt
+    hunt.YEARS_FLOOR = _FLOOR.pop()

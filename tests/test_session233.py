@@ -47,7 +47,7 @@ class TheThreeTests(unittest.TestCase):
         self.assertEqual((c["years_held"], c["years_after"]), (5, 5))
         # session 316: two tests more, half the change without the first year and a floor of one typical yearly move
         self.assertEqual([t["name"] for t in c["tests"]], ["holds in more than one year", "survives a change of window", "sample large enough",
-                                                           "half the change remains without the first year", "at least one typical yearly move"])
+                                                           "half the change remains without the first year", "at least one typical yearly move", "enough full years"])
 
     def test_one_year_on_its_side_is_not_more_than_one_year(self):
         c = hunt.test_claim(series([3.0, 2.0, 1.0, 2.5, 4.0]), P, 2026)
@@ -395,3 +395,17 @@ class TheSaturdayTask(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+_FLOOR = []
+
+
+def setUpModule():  # wip/ready-analysis-years: these fixtures are shorter than the floor of full years, which tests/test_ready_analysis_years.py tests
+    import hunt
+    _FLOOR.append(hunt.YEARS_FLOOR)
+    hunt.YEARS_FLOOR = 0
+
+
+def tearDownModule():
+    import hunt
+    hunt.YEARS_FLOOR = _FLOOR.pop()
