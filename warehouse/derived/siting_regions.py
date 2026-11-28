@@ -315,9 +315,40 @@ class Periods:
         plast = (datetime.fromisoformat(self.start) - __import__("datetime").timedelta(days=1)).date()
         self.prior_label = f"{self.prior_start}..{plast.isoformat()}"
         self.hours = int((datetime.fromisoformat(self.end) - datetime.fromisoformat(self.start)).total_seconds() // 3600)
+        # the trends: the 24 whole months of both periods
+        y, m = int(self.prior_start[:4]), int(self.prior_start[5:7])
+        self.months = []
+        for _ in range(24):
+            self.months.append(f"{y:04d}-{m:02d}")
+            y, m = (y + 1, 1) if m == 12 else (y, m + 1)
+        self.trend_label = f"{self.prior_start}..{last.isoformat()}"
 
     def inside(self, ts):
         return (ts >= self.start) & (ts < self.end)
+
+    def wide(self, ts):
+        return (ts >= self.prior_start) & (ts < self.end)
+
+
+def trend(P, ts, v, how):
+    """A count by month over the 24 whole months (contract, dated line of 28 November): `how` is 'mean', 'max',
+    'sum' or a function of two series (a ratio of sums), month by month; a month with no hour is null."""
+    vals = {}
+    if len(ts):
+        mon = ts.astype(str).str.slice(0, 7).values
+        vals = getattr(v.groupby(mon), how)().to_dict()
+    return {"months": list(P.months), "period": P.trend_label,
+            "v": [rnd(vals.get(m), 2) for m in P.months]}
+
+
+def trend_ratio(P, ts, top, bottom, scale=100.0):
+    """A ratio of monthly sums, times `scale` (net imports over demand), by month over the 24 months."""
+    vals = {}
+    if len(ts):
+        mon = ts.astype(str).str.slice(0, 7).values
+        a, b = top.groupby(mon).sum(), bottom.groupby(mon).sum()
+        vals = {m: a[m] / b[m] * scale for m in a.index if b.get(m)}
+    return {"months": list(P.months), "period": P.trend_label, "v": [rnd(vals.get(m), 2) for m in P.months]}
 
 
 def coverage_rows():
@@ -329,20 +360,92 @@ def coverage_rows():
     return out
 
 
+LICENSE_STATUS = os.path.join(ROOT, "site", "data", "license_status.json")
+GRID_PUBLISHERS = {"CAISO", "ERCOT", "SPP", "MISO", "PJM", "NYISO", "ISO-NE"}
+_URLS = {}
+
+
+def license_holds():
+    """Tables the site holds whole for a license (site/data/license_status.json, the owner's rule of 16 November
+    2026: the holds stand), with their reason. A table held only for some grids' rows is not held whole: those
+    grids are held here by HELD_OP."""
+    if not os.path.exists(LICENSE_STATUS):
+        return {}
+    with open(LICENSE_STATUS, encoding="utf-8") as fh:
+        d = json.load(fh)
+    out = {}
+    for t, v in (d.get("tables") or {}).items():
+        if not isinstance(v, dict) or v.get("status") != "license needed":
+            continue
+        pubs = v.get("publishers") or []
+        if pubs and set(pubs) <= GRID_PUBLISHERS:
+            continue
+        out[t] = (f"license needed: the site holds {t} for a license from {v.get('from')} "
+                  "(site/data/license_status.json; the owner's rule of 16 November 2026)")
+    return out
+
+
+def table_url(table):
+    """The publisher's address of a table's report: the source_url of the table's first row (a derived table's is
+    its method note's address). None for a table without the column or a file not held."""
+    if table in _URLS:
+        return _URLS[table]
+    url = None
+    p = os.path.join(TABLES_DIR, table + ".csv")
+    if os.path.exists(p):
+        import csv
+        with open(p, encoding="utf-8", newline="") as fh:
+            rd = csv.reader(ln for ln in fh if not ln.startswith("#"))
+            head = next(rd, [])
+            first = next(rd, None)
+            if first and "source_url" in head:
+                url = first[head.index("source_url")] or None
+    _URLS[table] = url
+    return url
+
+
 class Sources:
     """The file's `sources`: one entry a key, from the table's coverage row."""
 
-    def __init__(self, cov):
-        self.cov, self.used = cov, {}
+    def __init__(self, cov, holds=None):
+        self.cov, self.used, self.holds = cov, {}, holds or {}
 
     def key(self, key, table, publisher, report=None):
         if key not in self.used:
             r = self.cov.get(table, {})
+            held = r.get("license") == "internal" or table in self.holds
             self.used[key] = {"table": table, "publisher": publisher,
-                              "license": "internal" if r.get("license") == "internal" else "public",
+                              "license": "internal" if held else "public",
                               "retrieved": r.get("last_run") or None,
-                              "report": report or r.get("source_report") or None}
+                              "report": report or r.get("source_report") or None,
+                              "url": None if table.startswith("site/") else table_url(table.replace("<year>", "2025")),
+                              "held": self.holds.get(table)}
         return key
+
+
+def apply_holds(secs, sources):
+    """A count from an internal or held source is written null with the hold's reason; a list drawn from such a
+    source (the datacenters') is emptied. Run on each place's sections before the file is written."""
+    def walk(o):
+        if isinstance(o, dict):
+            if set(o) >= {"v", "unit", "period", "src", "held"}:
+                s = sources.get(o["src"]) or {}
+                if s.get("license") == "internal":
+                    o["v"], o["held"] = None, s.get("held") or "license needed: the table is internal"
+                    if "trend" in o:
+                        o["trend"]["v"] = [None] * len(o["trend"]["v"])
+                return
+            for v in o.values():
+                walk(v)
+        elif isinstance(o, list):
+            for v in o:
+                walk(v)
+    walk(secs)
+    dc = secs.get("datacenters", {})
+    if any((sources.get(k) or {}).get("license") == "internal" for k in ("dc_facilities", "dc_projects")):
+        dc["list"] = []
+        dc["list_held"] = (sources.get("dc_facilities") or {}).get("held")
+        dc["status"] = dc["list_held"] or dc.get("status")
 
 
 def load_places(P, cov):
@@ -416,6 +519,7 @@ def build_tightness(place, P, S, dem, reg, alerts, outages, reserves):
     pk, pk_ts = peak_of(f, P.inside(f.ts_utc))
     pp, _ = peak_of(f, (f.ts_utc >= P.prior_start) & (f.ts_utc < P.start))
     sec["peak_mw"] = cell(rnd(pk, 0), "MW", P.label, src, None if pk is not None else "not held: no demand hour held")
+    sec["peak_mw"]["trend"] = trend(P, f.ts_utc, f.v, "max")
     sec["peak_prior_mw"] = cell(rnd(pp, 0), "MW", P.prior_label, src, None if pp is not None else "not held: no demand hour held")
     g = (pk / pp - 1) * 100 if pk and pp else None
     sec["peak_growth_pct"] = cell(rnd(g, 1), "pct", f"{P.prior_label} to {P.label}", src,
@@ -484,14 +588,14 @@ def hourly_prices(op, P):
         return pd.DataFrame(columns=["entity", "market", "hour", "v"])
     if op == "ercot":
         f = read("ercot_all_hub_prices_history", ["entity", "variable", "ts_utc", "value"],
-                 keep=lambda c: c.entity.isin(ents) & P.inside(c.ts_utc))
+                 keep=lambda c: c.entity.isin(ents) & P.wide(c.ts_utc))
         f["market"] = f.variable.map({"spp_dam": "day-ahead", "spp_rtm": "real-time"})
     else:
         f = read("iso_hub_prices_history", ["entity", "variable", "ts_utc", "value", "market"],
-                 keep=lambda c: c.entity.isin(ents) & P.inside(c.ts_utc))
+                 keep=lambda c: c.entity.isin(ents) & P.wide(c.ts_utc))
         extra = []
         for t in ("iso_dam_hub_prices", "iso_rtm_hub_prices"):
-            x = read(t, ["entity", "variable", "ts_utc", "value"], keep=lambda c: c.entity.isin(ents) & P.inside(c.ts_utc))
+            x = read(t, ["entity", "variable", "ts_utc", "value"], keep=lambda c: c.entity.isin(ents) & P.wide(c.ts_utc))
             if x is not None and not x.empty:
                 x["market"] = "dam" if t == "iso_dam_hub_prices" else "rtm"
                 extra.append(x)
@@ -533,14 +637,16 @@ def build_price(place, P, S, prices, names):
                         h[k] = cell(None, u, P.label, src, held)
                     hubs.append(h)
                     continue
-                x = prices[o]
-                x = x[(x.entity == ent) & (x.market == mk) & x.v.notna()]
+                xa = prices[o]
+                xa = xa[(xa.entity == ent) & (xa.market == mk) & xa.v.notna()]
+                x = xa[P.inside(xa.hour)]
                 n = len(x)
                 low = n < COVER_FLOOR * P.hours
                 why = f"too few: {n:,} of the period's {P.hours:,} hours held (the floor is 80 percent)" if low else None
                 first = x.hour.min() if n else None
                 per = P.label if not low or not n else f"{first[:10]}..{x.hour.max()[:10]}"
                 h["mean"] = cell(rnd(x.v.mean(), 2) if n else None, "USD/MWh", per, src, why if n else "not held: no hour held")
+                h["mean"]["trend"] = trend(P, xa.hour, xa.v, "mean")
                 h["p95"] = cell(rnd(x.v.quantile(0.95), 2) if n else None, "USD/MWh", per, src, why if n else "not held: no hour held")
                 h["hours_over_100"] = cell(int((x.v > 100).sum()), "hours", per, src, why if n else "not held: no hour held")
                 h["hours_below_0"] = cell(int((x.v < 0).sum()), "hours", per, src, why if n else "not held: no hour held")
@@ -682,7 +788,8 @@ def build_mix_carbon(place, P, S, fuel, carbon):
                   for var, v in f.groupby("variable").v.sum().sort_values(ascending=False).items()] if tot else []
     if not sec["mix"]:
         sec["mix_held"] = "not held: no net generation by source held for this place"
-    c = carbon[carbon.ba == code]
+    ca = carbon[carbon.ba == code]
+    c = ca[P.inside(ca.ts_utc)]
     if c.empty:
         why = "not held: carbon_intensity_hourly covers the seven operators' authorities and the US 48 only"
         sec["intensity"] = cell(None, "kgCO2/MWh", P.label, csrc, why)
@@ -691,6 +798,7 @@ def build_mix_carbon(place, P, S, fuel, carbon):
         return sec
     import pandas as pd
     sec["intensity"] = cell(rnd(c.v.mean(), 1), "kgCO2/MWh", P.label, csrc)
+    sec["intensity"]["trend"] = trend(P, ca.ts_utc, ca.v, "mean")
     hrs = pd.to_datetime(c.ts_utc, utc=True).dt.tz_convert(place["tz"]).dt.hour
     byh = c.v.groupby(hrs.values).mean()
     sec.update(intensity_by_hour=[rnd(byh.get(h), 1) for h in range(24)], intensity_by_hour_period=P.label,
@@ -702,16 +810,18 @@ def build_imports(place, P, S, dem, reg, ti, pairs, rpairs, names):
     src = S.key("eia930_interchange", "eia930_ba_interchange_hourly_<year>", "EIA")
     sec = {"status": "shown"}
     if place["kind"] == "region":
-        d = members_sum(dem, place["members"])
-        d = d[P.inside(d.ts_utc)]   # members counted over the two years, as for the peak
-        t = members_sum(ti, place["members"])
+        d = members_sum(dem, place["members"])           # members counted over the two years, as for the peak
+        t = members_sum(ti[P.inside(ti.ts_utc)], place["members"])
+        tw = members_sum(ti, place["members"])
         tsrc = S.key("eia930_supply", "eia930_ba_supply_hourly", "EIA")
     else:
         code = place["members"][0]
-        d = dem[(dem.ba == code) & P.inside(dem.ts_utc)][["ts_utc", "v"]]
-        t = ti[ti.ba == code][["ts_utc", "v"]]
+        d = dem[dem.ba == code][["ts_utc", "v"]]
+        tw = ti[ti.ba == code][["ts_utc", "v"]]
+        t = tw[P.inside(tw.ts_utc)]
         tsrc = S.key("eia930_supply", "eia930_ba_supply_hourly", "EIA")
-    j = d.merge(t, on="ts_utc", suffixes=("_d", "_t")).dropna()
+    jw = d.merge(tw, on="ts_utc", suffixes=("_d", "_t")).dropna()
+    j = d[P.inside(d.ts_utc)].merge(t, on="ts_utc", suffixes=("_d", "_t")).dropna()
     if j.empty:
         why = "not held: no hour with both demand and total interchange"
         sec["net_import_share_pct"] = cell(None, "pct", P.label, tsrc, why)
@@ -722,6 +832,7 @@ def build_imports(place, P, S, dem, reg, ti, pairs, rpairs, names):
         sp = -top.v_t.sum() / top.v_d.sum() * 100
         sec["net_import_share_pct"] = cell(rnd(share, 1), "pct", P.label, tsrc)
         sec["net_import_share_peak_pct"] = cell(rnd(sp, 1), "pct", P.label + " (the 100 highest-demand hours)", tsrc)
+        sec["net_import_share_pct"]["trend"] = trend_ratio(P, jw.ts_utc, -jw.v_t, jw.v_d)
     if place["kind"] == "region":
         rp = rpairs
         c = place["code"]
@@ -746,12 +857,15 @@ def build_spare(place, P, S, curt, neg_ref):
     o = next((x for x in ops if x in CURTAIL_ENTITY), None)
     sec = {"status": "shown"}
     if o:
-        c = curt[(curt.entity == CURTAIL_ENTITY[o]) & P.inside(curt.ts_utc)]
+        cw = curt[(curt.entity == CURTAIL_ENTITY[o]) & P.wide(curt.ts_utc)]
+        c = cw[P.inside(cw.ts_utc)]
         months = c.ts_utc.str.slice(0, 7).nunique()
         why = None if months == 12 else f"too few: {months} of 12 months held"
         for var, key in (("curtailed_wind_mwh", "curtailed_wind_mwh"), ("curtailed_solar_mwh", "curtailed_solar_mwh")):
             v = c[c.variable == var].v.sum()
             sec[key] = cell(rnd(v, 0), "MWh", P.label, src, why)
+            x = cw[cw.variable == var]
+            sec[key]["trend"] = trend(P, x.ts_utc, x.v, "sum")
     else:
         why = "not held: the warehouse holds curtailment for CAISO and SPP only"
         sec["curtailed_wind_mwh"] = cell(None, "MWh", P.label, src, why)
@@ -884,6 +998,7 @@ def build(out_dir, today=None):
     import pandas as pd
     P = Periods(today)
     cov = coverage_rows()
+    holds = license_holds()
     built = now_utc()
     places, bas_index, dem, reg = load_places(P, cov)
     names = {c: b["name"] for c, b in bas_index.items()}
@@ -895,7 +1010,7 @@ def build(out_dir, today=None):
           f"period {P.label}", flush=True)
 
     ti = read("eia930_ba_supply_hourly", ["entity", "variable", "ts_utc", "value"],
-              keep=lambda c: (c.variable == "total_interchange_mw") & P.inside(c.ts_utc))
+              keep=lambda c: (c.variable == "total_interchange_mw") & P.wide(c.ts_utc))
     ti["ba"] = ti.entity.str.replace("eia930:", "", regex=False)
     ti["v"] = num(ti.value)
     pp = []
@@ -916,7 +1031,7 @@ def build(out_dir, today=None):
     fuel["code"] = fuel.entity.str.replace("eia930:", "", regex=False)
     fuel["v"] = num(fuel.value)
     carbon = read("carbon_intensity_hourly", ["entity", "variable", "ts_utc", "value"],
-                  keep=lambda c: (c.variable == "intensity_demand") & P.inside(c.ts_utc))
+                  keep=lambda c: (c.variable == "intensity_demand") & P.wide(c.ts_utc))
     carbon["ba"] = carbon.entity.str.replace("eia930:", "", regex=False)
     carbon["v"] = num(carbon.value)
     print("EIA-930 read", flush=True)
@@ -971,7 +1086,7 @@ def build(out_dir, today=None):
     index_places, table_rows = [], []
     all_sources = {}
     for place in places:
-        S = Sources(cov)
+        S = Sources(cov, holds)
         if not reserves:
             reserves = reserves_by_op(Sources(cov), today)
         res = {k: (v[0], v[1], v[2], S.key(v[3], "iso_reserve_margin_reports" if k == "caiso" else "ercot_cdr_reserve_margins",
@@ -991,6 +1106,7 @@ def build(out_dir, today=None):
             "forecast": build_forecast(place, S, scores),
             "datacenters": build_datacenters(place, S, fac, proj),
         }
+        apply_holds(secs, S.used)
         doc = {"built": built, "example": False, "contract": CONTRACT, "method": METHOD, "license": "public",
                "id": place["id"], "kind": place["kind"], "code": place["code"], "name": place["name"],
                "tz": place["tz"], "members": place["members"], "sources": S.used, "sections": secs}

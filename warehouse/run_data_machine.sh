@@ -444,6 +444,9 @@ soft_step dm_sec_fundamentals_stores "$PYTHON" warehouse/table_stores.py equity_
 # tables: the segments, the companies and their statements from the SEC tables above; share prices and index levels stay
 # held until a source a license allows is read (docs/reviews/equities-sources-2026-11-26.md)
 soft_step dm_equity_pages "$PYTHON" warehouse/derived/equity_page_files.py
+# Session 11200 (chain 760, part B): where the next gigawatts can go, every count side by side for the 13 regions, the
+# seven operators and the authorities of 5,000 MW (docs/state/page_files_siting_regions.md), from the tables above
+soft_step dm_siting_regions "$PYTHON" warehouse/derived/siting_regions.py
 # Session 349: the project map's copy (site/data/map.json, and map_v2.json for /resources), rebuilt each day from the
 # energy_projects this machine holds after the sync, so the queue positions placed by a city or a town (session 349)
 # and the day's queues reach /map without waiting for the monthly run. The same builder the monthly run calls.
@@ -641,6 +644,8 @@ group dm_test_regions "dm_region_files dm_interchange_pairs dm_industry_page dm_
 group dm_test_states "dm_states_page" "tests.test_session8014_states tests.test_session9000_states_laws" -- site/data/states
 # Session 9000 (chain 601): the congestion and conditions files, held to their contract (docs/state/page_files_conditions.md)
 group dm_test_conditions "dm_congestion_page dm_conditions_page" "tests.test_session9000_congestion tests.test_session9000_conditions" -- site/data/conditions
+# Session 11200 (chain 760): the siting regions files, held to their contract; a refused build is put back whole
+group dm_test_siting_regions "dm_siting_regions" "tests.test_session11200_siting_regions" -- site/data/siting/regions
 group dm_test_where_when "dm_where_when" "tests.test_session8014_where_when" -- site/data/curtailment/where_when.json
 group dm_test_storage_places "dm_storage_places dm_queue_places" "tests.test_session8014_storage_places" -- site/data/storage/places.json site/data/queue_places.json
 

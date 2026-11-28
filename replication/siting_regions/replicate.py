@@ -288,15 +288,37 @@ def main():
             w = mape.get((key, m))
             C.eq(f"{pid} {k}", s[k]["v"], round(w, 2) if w is not None else None, 0.0051)
 
-    # datacenters, operators (by the table's grid)
+    # datacenters, operators (by the table's grid); a table the site holds for a license shows no figure
+    status = {}
+    lp = os.path.join(a.site, "license_status.json")
+    if os.path.exists(lp):
+        status = json.load(open(lp, encoding="utf-8")).get("tables") or {}
     for t, key_n, key_mw in (("datacenter_facilities", "facilities_n", "facilities_mw_stated"),
                              ("datacenter_projects", "projects_n", "projects_mw_stated")):
+        held = (status.get(t) or {}).get("status") == "license needed"
         dc = list(rows(a.tables, t, ["grid", "mw"]))
         for pid, (op, _ba) in OPS.items():
             s = files[pid]["sections"]["datacenters"]
             mine = [r for r in dc if r[0] == GRID_NAME[op]]
+            if held:
+                C.n += 1
+                if s[key_n]["v"] is not None or s[key_mw]["v"] is not None or s["list"]:
+                    C.bad.append(f"{pid} {t}: held for a license, yet a figure or a row is shown")
+                continue
             C.eq(f"{pid} {key_n}", s[key_n]["v"], len(mine), 0)
             C.eq(f"{pid} {key_mw}", s[key_mw]["v"], round(sum(f(r[1]) or 0 for r in mine)), 0.5)
+
+    # the trend of the peak: each month's highest hour over the 24 months
+    for pid, p in places.items():
+        tr = files[pid]["sections"]["tightness"]["peak_mw"].get("trend")
+        if not tr:
+            continue
+        full = series_of(p, dem, p0, p2)
+        by = defaultdict(float)
+        for ts, v in full.items():
+            by[ts[:7]] = max(by[ts[:7]], v)
+        for m, v in zip(tr["months"], tr["v"]):
+            C.eq(f"{pid} peak trend {m}", v, round(by[m], 2) if m in by else None, 0.006)
 
     print(f"{C.n - len(C.bad)} of {C.n} checks agree")
     for b in C.bad[:60]:
