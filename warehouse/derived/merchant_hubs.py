@@ -198,6 +198,15 @@ def main(argv=None):
     tables = cq.readable(in_dir, lic, log)
     grids = [g for g in cq.GRIDS if g in capture["grids"] and not ip.paused(g) and (not a.only or g == a.only)]
     log(f"  price tables read: {tables}; grids: {grids}")
+    # session 11405 (weekend page, decision 1, wip/ready-held-out): a grid the capture file names "license needed" (held
+    # for a license: ISO-NE and NYISO from 21 October 2026) has no hub files; its old folder of them is removed
+    for g in sorted(capture.get("blank", {})):
+        old = os.path.join(out_dir, g)
+        if capture["blank"][g].get("words") == "license needed" and os.path.isdir(old):
+            for name in sorted(os.listdir(old)):
+                os.remove(os.path.join(old, name))
+            os.rmdir(old)
+            log(f"  removed {old}: {capture['blank'][g]['name']} is held for a license")
     parts = []
     for i, t in enumerate(tables):
         x = cq.read_one(in_dir, t, log)

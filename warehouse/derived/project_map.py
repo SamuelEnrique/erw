@@ -116,8 +116,12 @@ DC_STATUS = [("operating", "Operating"), ("under_construction", "Under construct
              ("completed", "Completed"), ("withdrawn", "Withdrawn"), ("", "Not stated")]
 # the queues whose rows the page may draw (site/lib/resources.ts, QUEUE_GRIDS, is the one list a person switches; a test
 # holds the two equal). A held grid's rows are counted and never written to the file
-QUEUE_SHOWN = {"ercot": "ERCOT", "spp": "SPP", "caiso": "CAISO", "isone": "ISO-NE"}
-QUEUE_HELD = {"miso": ("MISO", "paused while terms are reviewed"), "nyiso": ("NYISO", "NYISO's terms do not allow it")}
+# session 11405 (weekend page, decision 1, wip/ready-held-out; the change of ruling alternative 1 of /map, wip/alt-map-1,
+# without its datacenter layer): energy_projects is held for ISO-NE's rows ("license needed" from 21 October 2026), so
+# ISO-NE's queue rows are counted and never written, as MISO's and NYISO's are
+QUEUE_SHOWN = {"ercot": "ERCOT", "spp": "SPP", "caiso": "CAISO"}
+QUEUE_HELD = {"miso": ("MISO", "paused while terms are reviewed"), "nyiso": ("NYISO", "NYISO's terms do not allow it"),
+              "isone": ("ISO-NE", "license needed")}
 PAGE_TECHS = TECHS[:-1] + [("queue_storage", "Storage (queue positions)"), ("hybrid", "Hybrid"), ("transmission", "Transmission"),
                            ("datacenter", "Datacenter (a load)"), TECHS[-1]]
 NO_GRID = ("none", "Grid not stated")

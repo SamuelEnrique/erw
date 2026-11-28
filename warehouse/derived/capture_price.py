@@ -282,6 +282,14 @@ def main(argv=None):
     tables = readable(in_dir, lic, log)
     paused = {iso for iso in list(GRIDS) + list(BLANK) if ip.paused(iso)}
     log(f"  price tables read: {tables}; publishers paused, in no figure: {sorted(paused)}")
+    # session 11405 (weekend page, decision 1, wip/ready-held-out): a grid held for a license (license_status.held_grids:
+    # ISO-NE and NYISO from 21 October 2026) is named "license needed" with no hub, as MISO and PJM are named: What a
+    # generator earns offered both and printed ISO-NE's capture price and flat average from their held prices
+    sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
+    import license_status as lstat  # noqa: E402
+    held = {iso for iso, g in GRIDS.items() if g["name"] in set(lstat.held_grids()) and iso not in paused}
+    log(f"  grids held for a license, in no figure: {sorted(held)}")
+    paused_or_held = paused | held
     parts = []
     for i, t in enumerate(tables):
         x = read_one(in_dir, t, log)
@@ -289,7 +297,7 @@ def main(argv=None):
             log(f"  {t}: no row from {SINCE}")
             continue
         x["iso"] = x["entity"].astype(str).str.split(":", n=1).str[0]
-        x = x[x["iso"].isin([g for g in GRIDS if g not in paused])].drop(columns="iso")
+        x = x[x["iso"].isin([g for g in GRIDS if g not in paused_or_held])].drop(columns="iso")
         x["rank"] = np.int8(i)
         parts.append(x)
     x = pd.concat(parts, ignore_index=True)
@@ -304,6 +312,9 @@ def main(argv=None):
     for iso, g in GRIDS.items():
         if iso in paused:
             out["blank"][iso] = dict(name=g["name"], words="paused while terms are reviewed")
+            continue
+        if iso in held:
+            out["blank"][iso] = dict(name=g["name"], words="license needed")
             continue
         gen, wb = mix_hours(iso, a.cache_dir, log)
         used = {}

@@ -61,7 +61,7 @@ A queue position's group is the table's `technology_group` (the grid operator's 
 - **A planned unit** keeps EIA's own status code, the letters in brackets that open the workbook's Status cell: P, L, T, U, V, TS, OT, in the plain words of `energy_projects.md`, "Statuses".
 - **A queue position** shows the table's standard status: active, suspended, completed, or not stated. Withdrawn positions are not on the map.
 - **A datacenter** shows the tracker's cleaned status.
-- **The queues drawn:** ERCOT's, SPP's, CAISO's and ISO-NE's. MISO's and NYISO's are held back (the one list a person switches is `QUEUE_GRIDS` in `site/lib/resources.ts`); the ERW holds no queue of PJM.
+- **The queues drawn:** ERCOT's, SPP's and CAISO's. MISO's, NYISO's and, since session 11405 (the weekend page of 28 November 2026, decision 1), ISO-NE's (its rows of `energy_projects` held for a license) are held back, counted and not drawn (the one list a person switches is `QUEUE_GRIDS` in `site/lib/resources.ts`); the ERW holds no queue of PJM.
 
 ## 7. A row's megawatts
 
@@ -131,7 +131,7 @@ Each is on the page, in "Decisions on this page", with its default and its sourc
 | What a unit's megawatts are | Nameplate capacity | EIA, Form EIA-860M, "Nameplate Capacity (MW)". Net summer capacity is lower: 7.5 percent lower over the operating units of 2026-09 (section 12) |
 | Megawatts are never added across kinds | Each kind has its own count and sum | A queue position is a request and most are withdrawn before they are built (`energy_projects.md`); a datacenter's megawatts are a stated load |
 | Which queue positions are on the map | Not withdrawn: active, suspended, completed, not stated | Version 1 of the map (session 16); a completed position may be a unit the inventory already lists, which is one reason megawatts are not added across kinds |
-| Which queues are drawn | ERCOT, SPP, CAISO, ISO-NE | The terms of each grid operator: MISO's pulls are paused (`miso_pause.md`), NYISO's notice confers no license |
+| Which queues are drawn | ERCOT, SPP, CAISO | The terms of each grid operator: MISO's pulls are paused (`miso_pause.md`), NYISO's notice confers no license, ISO-NE's rows of `energy_projects` are held for a license (session 11405) |
 | A unit's grid | EIA's balancing authority code; no code is "Outside the seven ISOs" | EIA, Form EIA-860M, "Balancing Authority Code" |
 | What a battery is | A storage unit whose prime mover code is BA | EIA, Form EIA-860 instructions, prime mover codes |
 | A planned unit's status | EIA's own seven codes, not folded into "planned" and "under construction" | EIA, Form EIA-860 instructions; the owner's words of 8 October 2026 |
@@ -150,5 +150,5 @@ Each is on the page, in "Decisions on this page", with its default and its sourc
 - A place for Puerto Rico's units on the drawing (they are in the totals).
 - A queue position's site: it is at its county's or its town's point.
 - Two units' generator ids: EIA's workbook gives "NA" as the generator id of Cranberry Point Energy Storage (plant 62844) and Silver Queen Wind Farm (plant 64835), and the two tables hold them with no generator id (`eia860:62844:`), so their cards show the id cut short. Their other fields are EIA's. (Faults row 2 of `docs/reviews/map-faults-2026-11-16.md`.)
-- The datacenters and ISO-NE's queue positions are drawn from the page's file while the tables they come from are held for a license: an open ruling (`docs/reviews/datacenter-faults-2026-11-11.md`, row 7).
+- The datacenters are drawn from the page's file while the table they come from is held for a license: an open ruling (ISO-NE's queue positions were too, until session 11405 held them) (`docs/reviews/datacenter-faults-2026-11-11.md`, row 7).
 - A census of datacenters: the tracker holds the facilities the news names since 2025, the operators' public site lists it reads, and the queue positions that name a large load.

@@ -174,7 +174,7 @@ The numbers of chart 4.4 as a table: for each year and the last twelve months, t
 
 ### 4.7 Capture price by hub and year
 
-Every public hub and zone of the five grids (39) by calendar year 2019 to 2026 and the last twelve months, with a switch for the fuel and the market. A cell is the capture price of the year's counted months; hover gives the simple average over the same hours, the capture ratio, the hours used of the year's hours, the months counted and the source tables. MISO and PJM are rows of words.
+Every public hub and zone of the five grids (39) by calendar year 2019 to 2026 and the last twelve months, with a switch for the fuel and the market. A cell is the capture price of the year's counted months; hover gives the simple average over the same hours, the capture ratio, the hours used of the year's hours, the months counted and the source tables. MISO and PJM are rows of words, and since session 11405 so are ISO-NE and NYISO ("license needed": held for a license from 21 October 2026).
 
 ### 4.8 The chart: revenue by year, USD per kW
 

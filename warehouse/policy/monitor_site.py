@@ -86,6 +86,9 @@ SHORT = {"Electric Reliability Council of Texas": "ERCOT", "California Independe
          "PJM Interconnection": "PJM", "Southwest Power Pool": "SPP"}
 
 
+HELD_HOSTS = re.compile(r"puc\.texas\.gov|gov\.texas\.gov")   # session 11405: the held publisher's pages (build)
+
+
 def change_body(docket, status, party):
     d = docket or ""
     if re.match(r"\s*E[LR]\d{2}-\d", d):
@@ -202,6 +205,11 @@ def build(actions, reads=None, impacts=None, today=None, changes=None):
                "docket": r["proceeding_ids"],
                "scope": newest.get("scope", "")}
         rows.append({k: v for k, v in row.items() if v not in (None, "", [])})
+    # session 11405 (weekend page, decision 1, wip/ready-held-out): a record drawn from the Public Utility Commission of
+    # Texas's pages (its own releases and the Governor's releases it carries) is left out: policy_actions is held whole
+    # for that publisher ("license needed" from 21 October 2026), and the monitor drew its rows with no gate (the policy
+    # audit's finding 1). On the file of 27 November 2026: 38 records, 11 of them shown as the view opens
+    rows = [r for r in rows if not any(HELD_HOSTS.search(u) for u in r.get("sources", []))]
     rows.sort(key=lambda x: (x["date"], x["id"]), reverse=True)
     today = today or dt.date.today().isoformat()
     return {"built": today, "documents": int(len(a)), "records": len(rows),

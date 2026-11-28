@@ -22,7 +22,7 @@ export async function CompaniesView() {
       <p className="mb-5 max-w-3xl text-sm text-muted">
         Scope: a seed, not a census. The table grows from Thesis Builder runs, each of which maps one niche for investors, and from the deal tracker
         (<Link href="/deals">Deals</Link>): every buyer, seller and other party of a deal is a row, with the deal&apos;s sector, tags, place and story links, and
-        is marked &quot;from deals; not yet researched&quot; until the Thesis Builder researches it. Public companies are listed with their raised amount left blank and noted as public.
+        is marked &quot;from deals; not yet researched&quot; until the Thesis Builder researches it. While the deals are held for a license (from 21 October 2026), those rows are not shown: only the companies the Thesis Builder researched are listed. Public companies are listed with their raised amount left blank and noted as public.
         A number no cited source confirmed reads &quot;not confirmed&quot;; the confidence score (0 to 100) is a rule, explained on each row.
       </p>
       {!res.ok ? (

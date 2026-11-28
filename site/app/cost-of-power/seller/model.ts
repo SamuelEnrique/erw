@@ -10,6 +10,7 @@ import hybridJson from "@/data/seller/hybrid.json";
 import hubsJson from "@/data/seller/hubs/index.json";
 import * as B from "@/lib/batterystack";
 import { caisoJoinDay } from "@/lib/caisoJoin";
+import { LICENSE_NEEDED, licenseGridTitle, licenseHeldGrid } from "@/lib/license";  // session 11405
 import {
   FUELS, MARKETS, ORDER, after, combined, cutHub, hubAt, hubName, hubOf, hubYears, lastTwelve as captureTwelve, monthName as shortMonth, twelve, whyNoYear, whyNot, yearCell, years as captureYears,
   type CaptureFile, type Fuel, type Hub, type Market,
@@ -47,6 +48,9 @@ export const CAPTURE = captureJson as unknown as CaptureFile;
 export const NEAR = CAPTURE.near;
 export const BATTERY_GRIDS = ["ercot", "caiso"];  // the grids the battery page's model is open for
 export const PJM_WHY = "PJM's prices come from a licensed source; none is held in a public table, so no figure is shown.";
+/** Session 11405 (weekend page, decision 1, wip/ready-held-out): the reason beside a grid that is not offered: MISO's
+ * pause, a grid held for a license (ISO-NE and NYISO from 21 October 2026: lib/license.ts), or PJM's licensed source. */
+export const blankWhy = (id: string) => (id === "miso" ? PAUSED.words : licenseHeldGrid(id) ? licenseGridTitle(id) : PJM_WHY);
 export const HYBRID = hybridJson as unknown as H.HybridFile;
 export const ZONES: Record<string, string> = { "-5": "Eastern Standard Time (UTC-5)", "-6": "Central Standard Time (UTC-6)", "-8": "Pacific Standard Time (UTC-8)" };
 export const STANDARD: Record<string, number> = { ercot: -6, caiso: -8, nyiso: -5, isone: -5, spp: -6 };
@@ -83,7 +87,7 @@ export function hubYearsTable(): HyTable {
     t: both((m, f) => { const c = r.twelve[m][f]; return c ? [r4(c.price), r4(c.flat), c.hours, shortMonth(c.from), shortMonth(c.to)] as [number, number, number, string, string] : why(r.whyTwelve[m][f]); }),
   }));
   const generation = Object.fromEntries(Object.entries(CAPTURE.grids).map(([id, g]) => [id, `EIA-930's hourly generation by source (${g.workbook})${g.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}`]));
-  HUB_YEARS = { years: t.years, rows, whys, blank: t.blank.map((b) => ({ ...b, why: b.id === "miso" ? PAUSED.words : PJM_WHY })), generation };
+  HUB_YEARS = { years: t.years, rows, whys, blank: t.blank.map((b) => ({ ...b, why: blankWhy(b.id) })), generation };
   return HUB_YEARS;
 }
 let SNAP: Snapshot | null = null;
@@ -138,7 +142,8 @@ export async function modelOf(q: Record<string, string | undefined>) {
   const snap = snapshot();
   // the grids that can be chosen: the public five the capture file and the model both hold. An address that names
   // another (MISO, PJM) opens the default grid.
-  const open = GRIDS.map((g) => g.id).filter((id) => CAPTURE.grids[id] && snap.isos[id]);
+  // session 11405: and not a grid held for a license (lib/license.ts), whatever the files hold
+  const open = GRIDS.map((g) => g.id).filter((id) => CAPTURE.grids[id] && snap.isos[id] && !licenseHeldGrid(id));
   const iso = q.iso && open.includes(q.iso) ? q.iso : "ercot";
   // session 195: scenario A, as the address has it, sets the page's fixed O&M and annual debt payments
   const asked = inputsOf({ ...q, iso });
@@ -342,7 +347,7 @@ export async function modelOf(q: Record<string, string | undefined>) {
   const grids: FormGridOf[] = ORDER.map((id) => {
     if (open.includes(id)) return { id, name: CAPTURE.grids[id].name, open: true, hubs: CAPTURE.grids[id].hubs.map((h) => ({ id: h.id, label: `${hubName(h.id)} (${h.id})`, zone: isZone(id, h.id) })) };
     const b = CAPTURE.blank[id];
-    return { id, name: b?.name ?? id.toUpperCase(), open: false, words: b?.words ?? "not held yet", why: id === "miso" ? PAUSED.words : PJM_WHY, hubs: [] };
+    return { id, name: b?.name ?? id.toUpperCase(), open: false, words: b?.words ?? (licenseHeldGrid(id) ? LICENSE_NEEDED : "not held yet"), why: blankWhy(id), hubs: [] };
   });
   // session 298: the latest carbon cost of the fuel held for this grid, USD per MMBtu (null where the grid has none)
   const co2Last = (snap.isos[iso]?.co2 ?? []).reduce<number | null>((last, v) => (v === null || v === undefined ? last : v), null);

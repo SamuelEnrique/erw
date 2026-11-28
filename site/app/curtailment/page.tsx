@@ -29,7 +29,7 @@ import { count, price } from "@/lib/format";
 import { FACE, ranked, type FreeFile } from "@/lib/freeenergy";
 import { attempt } from "@/lib/supabase";
 import { NoData } from "@/components/NoData";
-import { licenseHeldGrid, licenseReason } from "@/lib/license";  // session 215
+import { LICENSE_NEEDED, licenseHeldGrid, licenseReason } from "@/lib/license";  // session 215; LICENSE_NEEDED session 11405
 import { XY } from "./Charts";
 
 // session 215: the price table whose hold the free-energy and worth sections of a grid take their words from
@@ -226,8 +226,11 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
   const years = [...new Set(months.map((m) => m.slice(0, 4)))];
   const face = FACE[c.grid];
   const marks = sg ? shareMarks(sg) : null;
-  const top = fg ? ranked(fg, fc.win)[0] : undefined;
-  const cheap = top ? <>Its place with the most hours under USD {free.threshold_usd_per_mwh} {fc.win === "year" ? "in the last twelve months" : `in ${monthName(free.end_month)}`} is {placeName(top.id)}, with <N k="sum|cheap">{whole(top.win.under5)}</N>.</> : null;
+  // session 11405 (weekend page, decision 1, wip/ready-held-out): a grid held for a license prints no count of its hours
+  // under USD 5 in the summary or the headline either (free_energy.json names it "license needed", no location)
+  const priceHeld = licenseHeldGrid(c.grid);
+  const top = fg && !priceHeld ? ranked(fg, fc.win)[0] : undefined;
+  const cheap = priceHeld ? <>Its hours under USD {free.threshold_usd_per_mwh}: <Blank words={LICENSE_NEEDED} why={licenseReason(priceTableOf(c.grid))} />.</> : top ? <>Its place with the most hours under USD {free.threshold_usd_per_mwh} {fc.win === "year" ? "in the last twelve months" : `in ${monthName(free.end_month)}`} is {placeName(top.id)}, with <N k="sum|cheap">{whole(top.win.under5)}</N>.</> : null;
 
   // session 331: the tables the source line names for the grid chosen, which the downloads offer too
   const srcTables: string[] = [...(g.daily ? [g.daily, MONTHLY] : []), ...(c.grid === "caiso" ? [TABLE, INPUT, "caiso_battery_storage"] : []), ...(c.grid === "ercot" ? ercot.tables : []), ...(fc.place ? [...new Set(Object.values((fc.place as unknown as { tables: Record<string, string[]> }).tables).flat())] : [])];
@@ -303,7 +306,7 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
                   <HeadlineNumber label={`Share of available output, ${periodName(period)}`} value={ps ? <N k="head|share">{two(ps.share)}</N> : <Blank why={sg ? shareReason(sg, period) : "no share is held"} />} unit={ps ? "percent" : undefined}
                     note={ps ? <>Curtailed over curtailed plus CAISO&apos;s own wind and solar output{period.length === 4 ? `, the ${ps.months} months of ${period} with a share` : ""}.</> : undefined} />
                   <HeadlineNumber label="The highest month held" value={marks && sg ? <N k="head|highest">{two(sg.months[marks.highest].share_pct)}</N> : <Blank why="no share is held" />} unit="percent" note={marks ? <>{monthName(marks.highest)}. <Link href={link({ ...keep, period: marks.highest })} className="text-ink">Open that month</Link>.</> : undefined} />
-                  <HeadlineNumber label={`Hours under USD ${free.threshold_usd_per_mwh}, ${top ? placeName(top.id) : "California"}`} value={top ? <N k="head|cheap">{whole(top.win.under5)}</N> : <Blank why="no place holds the window" />} unit={top ? "hours" : undefined}
+                  <HeadlineNumber label={`Hours under USD ${free.threshold_usd_per_mwh}, ${top ? placeName(top.id) : "California"}`} value={priceHeld ? <Blank words={LICENSE_NEEDED} why={licenseReason(priceTableOf(c.grid))} /> : top ? <N k="head|cheap">{whole(top.win.under5)}</N> : <Blank why="no place holds the window" />} unit={top ? "hours" : undefined}
                     note={top ? <>{fc.win === "year" ? "The last twelve months" : monthName(free.end_month)}, {basisName(top.win.basis)}. <a href="#free-energy" className="text-ink underline">Where free energy is</a>.</> : undefined} />
                 </HeadlineRow>
               </>
@@ -329,7 +332,7 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
             <HeadlineRow>
               <HeadlineNumber label={`Curtailed, ${g.name}`} value={<Blank words="not in the ERW" why={face?.line ?? ""} />} />
               <HeadlineNumber label="Share of available output" value={<Blank words="not in the ERW" why={face?.line ?? ""} />} />
-              <HeadlineNumber label={`Most hours under USD ${free.threshold_usd_per_mwh}`} value={top ? <N k="head|cheap">{whole(top.win.under5)}</N> : <Blank why="no place holds the window" />} unit={top ? "hours" : undefined} note={top ? <>{placeName(top.id)}, {fc.win === "year" ? "the last twelve months" : monthName(free.end_month)}.</> : undefined} />
+              <HeadlineNumber label={`Most hours under USD ${free.threshold_usd_per_mwh}`} value={priceHeld ? <Blank words={LICENSE_NEEDED} why={licenseReason(priceTableOf(c.grid))} /> : top ? <N k="head|cheap">{whole(top.win.under5)}</N> : <Blank why="no place holds the window" />} unit={top ? "hours" : undefined} note={top ? <>{placeName(top.id)}, {fc.win === "year" ? "the last twelve months" : monthName(free.end_month)}.</> : undefined} />
             </HeadlineRow>
           )}
 

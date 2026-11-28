@@ -297,8 +297,16 @@ UNIT = {"revenue_per_mw": "USD/MW", "sales_per_mw": "USD/MW", "energy_per_mw": "
         "flat_price": "USD/MWh", "capture_rate": "pct", "hours": "count", "hours_in_month": "count"}
 
 
+def held_snapshot_isos():
+    """Session 11405: the isos held for a license (license_status.held_grids), MISO aside (its pause keeps its files)."""
+    sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
+    import license_status as lstat
+    code = {"NYISO": "nyiso", "ISO-NE": "isone", "ERCOT": "ercot", "CAISO": "caiso", "SPP": "spp"}
+    return {code[g] for g in lstat.held_grids() if g in code}
+
+
 def main():
-    run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    run_id =dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = log_open(run_id)
     status = []
     try:
@@ -367,7 +375,11 @@ def main():
                         days.append(d)
                     stress[e] = {"start": win["start"], "end": win["end"], "days": days}
                 s["stress"] = stress
-            snap["isos"][iso] = s
+            # session 11405 (weekend page, decision 1, wip/ready-held-out): a grid held for a license (ISO-NE and NYISO from
+            # 21 October 2026) keeps its table rows but gets no place in the site's snapshot, which carried its hourly
+            # prices into the public repository; the seller's page offers it no more (held_snapshot_isos)
+            if iso not in held_snapshot_isos():
+                snap["isos"][iso] = s
             log(f"  {iso}: {len(monthly)} months, {sum(1 for r in rows if r['entity'] == entity)} rows")
         cols = ip.SERIES_COLS + ["ba"]
         out = pd.DataFrame(rows)[cols]

@@ -253,9 +253,9 @@ export const DEAL_TRACKER_DECISIONS: Decision[] = [
     text: "The tracker holds what the news the ERW scores reported, from the title and a short summary of each story: its counts by month follow that coverage, not the market, and a deal only a filing or a press release describes is not here.",
     def: "No source beyond the scored news.",
     source: "docs/methods/energy_deals.md, \"What the extraction cannot see\"." },
-  { key: "hold", session: "sessions 215 and 465", ruling: "the owner's ruling of 12 October 2026",
-    text: "From 21 October 2026 the deals are held whole for a license: every view of the deals draws the hold's sentence and the count of rows it covers, and nothing of a row. The companies tab reads energy_companies, which is not held: each party of a deal is a company row there, with the deals' types and technologies as tags, the place a deal states and the stories' links.",
-    def: "Held whole; no deal's row is shown. The companies seeded from the deals' parties are shown on the companies tab.",
+  { key: "hold", session: "sessions 215, 465 and 11405", ruling: "the owner's ruling of 12 October 2026",
+    text: "From 21 October 2026 the deals are held whole for a license: every view of the deals draws the hold's sentence and the count of rows it covers, and nothing of a row. The companies tab reads energy_companies without the rows seeded from the deals' parties while the deals are held: those rows carry the deals' types and technologies, the place a deal states and the stories' links, so only the Thesis Builder's researched companies are shown.",
+    def: "Held whole; no deal's row is shown, nor the companies seeded from the deals' parties.",
     source: "warehouse/metadata/license_status.csv: the outlets' own pages ask for permission." },
 ];
 

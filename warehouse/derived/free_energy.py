@@ -27,6 +27,8 @@ The rules, each stated in the file as well:
                     dearest and the difference, with the cheap hours of each over the same hours.
     Not shown.      MISO: its terms are under review (warehouse/metadata/paused_sources.csv); its hubs are named, with
                     no number. PJM: no public hub or zone price is held. A table whose license is not public is not read.
+                    A grid held for a license (ISO-NE and NYISO from 21 October 2026) is named "license needed", no
+                    number (session 11405).
     Coordinates.    No latitude or longitude of a hub or zone is held anywhere in the site's data or the warehouse, and
                     none is made up here: every point carries lat and lon null and the state its table gives (geo).
 """
@@ -269,6 +271,14 @@ def build(x, end_month, blank, log):
     return view
 
 
+def held_grid_ids():
+    """The ids of dp.GRIDS whose grid is held for a license today (warehouse/metadata/license_status.py), MISO's pause aside."""
+    sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
+    import license_status as lstat
+    held = set(lstat.held_grids())
+    return {k for k, g in dp.GRIDS.items() if g["name"] in held}
+
+
 def read(in_dir, since, log):
     """The reader's rows, without a table that is not public and without MISO (named, never read into a number)."""
     lic, paused = pc.licenses()
@@ -281,6 +291,12 @@ def read(in_dir, since, log):
     for k in paused:
         if k in dp.GRIDS and k not in blank:
             blank[k] = dict(name=dp.GRIDS[k]["name"], words="paused while terms are reviewed", regions=sorted(x.loc[iso == k, "entity"].str.split(":", n=1).str[1].unique()))
+    # session 11405 (weekend page, decision 1, wip/ready-held-out): a grid held for a license (license_status.held_grids:
+    # ISO-NE and NYISO from 21 October 2026) is named with the license words and no count. Its hours under USD 5 were
+    # printed on /curtailment beside a section that read "license needed" (the curtailment audit's finding 1)
+    for k in sorted(held_grid_ids()):
+        if k in dp.GRIDS and k not in blank:
+            blank[k] = dict(name=dp.GRIDS[k]["name"], words="license needed", regions=[])
     x = x[~iso.isin(set(blank) | set(paused))]
     log(f"  internal price tables, not read: {internal}; not shown: {sorted(blank)}")
     return x, blank, internal

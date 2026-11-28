@@ -36,10 +36,12 @@ class TheCompaniesTabAndTheHold(unittest.TestCase):
         self.assertIn("<CompaniesView />", src("site", "app", "deals", "page.tsx"))
 
     def test_decision_13_says_what_the_companies_tab_shows(self):
+        # session 11405 (wip/ready-held-out, the weekend page's decision 1): the deal-seeded rows are held with the deals
         text = ("From 21 October 2026 the deals are held whole for a license: every view of the deals draws the hold's sentence and the count "
-                "of rows it covers, and nothing of a row. The companies tab reads energy_companies, which is not held: each party of a deal is "
-                "a company row there, with the deals' types and technologies as tags, the place a deal states and the stories' links.")
-        default = "Held whole; no deal's row is shown. The companies seeded from the deals' parties are shown on the companies tab."
+                "of rows it covers, and nothing of a row. The companies tab reads energy_companies without the rows seeded from the deals' "
+                "parties while the deals are held: those rows carry the deals' types and technologies, the place a deal states and the "
+                "stories' links, so only the Thesis Builder's researched companies are shown.")
+        default = "Held whole; no deal's row is shown, nor the companies seeded from the deals' parties."
         self.assertIn(f'text: "{text}"', src("site", "lib", "decisions.ts"))
         self.assertIn(f'def: "{default}"', src("site", "lib", "decisions.ts"))
         note = src("docs", "methods", "deal_tracker.md")

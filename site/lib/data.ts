@@ -332,13 +332,20 @@ export type Company = {
 export async function companies(): Promise<Company[]> {
   const f = ["description", "sector", "niche_tags", "stage", "raised", "location", "founders", "website", "sources", "confidence",
     "confidence_note", "first_seen"];
+  // session 11405 (weekend page, decision 1, wip/ready-held-out): while energy_deals is held for a license, the rows
+  // warehouse/companies/seed_from_deals.py seeded from its parties (source "erw:energy_deals": 541 of 562 on 27 November
+  // 2026) are not read: they carried each held deal's types, technologies, place and story links to the companies tab
+  // (the deals audit's finding 2). The Thesis Builder's own rows stay
+  const held = licenseNeeded("energy_deals") ? { source: `neq.${DEAL_SEED_SOURCE}` } : {};
   return rest<Company>(
     "entities",
-    { select: ["entity_id", "name", "source_url", ...f.map((k) => `${k}:extra->>${k}`)].join(","), table_name: "eq.energy_companies", order: "name" },
+    { select: ["entity_id", "name", "source_url", ...f.map((k) => `${k}:extra->>${k}`)].join(","), table_name: "eq.energy_companies", ...held, order: "name" },
     HOURLY,
     10_000,
   );
 }
+/** Session 11405: the source of energy_companies' rows seeded from the deals' parties (seed_from_deals.py). */
+export const DEAL_SEED_SOURCE = "erw:energy_deals";
 
 /** Session 31: a battery unit of storage_capacity (EIA-860M), the fields /storage sums. */
 export type StorageUnit = {
