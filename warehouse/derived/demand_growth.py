@@ -113,6 +113,14 @@ def screened(d):
     return impossible_hours.screen(d, JUMP)   # session 103: the rule moved to impossible_hours.py, word for word
 
 
+def counted_hours(raw, d, tz):
+    """The hours whose leaving out is counted: from 1 January of BASE (local) to the newest hour used. Session 11408 (the
+    demand audit's finding 5, the other choice): the workbook's unfilled last day, after the newest hour used, is not
+    counted as blank."""
+    newest = d.dropna().index.max()
+    return raw[(raw.index >= pd.Timestamp(f"{BASE}-01-01", tz=tz).tz_convert("UTC")) & (raw.index <= newest)]
+
+
 def hours_between(a, b, tz):
     return int((pd.Timestamp(b, tz=tz) - pd.Timestamp(a, tz=tz)) / pd.Timedelta(hours=1))
 
@@ -228,7 +236,7 @@ def main(argv=None):
         raw, path, column = read_demand(ba)
         paths.append(os.path.relpath(path, ROOT).replace("\\", "/"))
         d = screened(raw)
-        since = raw[raw.index >= pd.Timestamp(f"{BASE}-01-01", tz=g["tz"]).tz_convert("UTC")]
+        since = counted_hours(raw, d, g["tz"])   # session 11408: from 2019 to the newest hour used
         used = d.reindex(since.index)
         left = since[used.isna() & since.notna()]
         log(f"  {ba}: column '{column}', {len(since):,} hours from {BASE}, {int(since.isna().sum()):,} blank, {len(left):,} held and not used "
@@ -271,7 +279,7 @@ def main(argv=None):
     if a.snapshot:
         os.makedirs(os.path.dirname(SITE_FILE), exist_ok=True)
         with open(SITE_FILE, "w", encoding="utf-8", newline="\n") as f:
-            json.dump(dict(table=NAME, built=retrieved, base=BASE, last_year=whole[-1], ytd_through=last_month, jump=JUMP, near_year=NEAR_YEAR, near_cell=NEAR_CELL,
+            json.dump(dict(table=NAME, built=retrieved, base=BASE, counted_to="newest hour used", last_year=whole[-1], ytd_through=last_month, jump=JUMP, near_year=NEAR_YEAR, near_cell=NEAR_CELL,
                            order=list(AREAS), areas=areas, caiso_break={"join": cj.JOIN, "rows": check}), f, separators=(",", ":"))
     log.close()
     print(f"{NAME}: {len(out):,} rows, {out['entity'].nunique()} areas, whole years {whole[0]} to {whole[-1]}, year to date through {last_month}"

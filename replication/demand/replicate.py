@@ -8,7 +8,7 @@ from warehouse/derived/demand_growth.py. It reads EIA-930's per-area workbooks (
 hour's end); California's hours from 2023-10-31 23:00 to 2025-12-02 23:00 UTC read one hour earlier, a row landing on an
 hour already held dropped (docs/methods/eia930_caiso_break.md, "The late hours"). An hour is used when it is held, above
 zero, and within 25 percent of the median of the four hours around it (the two before and the two after that are held
-and above zero); the hours left out are counted from 2019 to the workbook's last row, EIA's blank last day included.
+and above zero); the hours left out are counted from 2019 to the newest hour used (session 11408; to the workbook's last row before).
 Then, per local year: the mean of the used hours and their count when at least 95 percent of the year's hours are used;
 the highest used hour (none for the Lower 48); the same over 1 January to the end of the file's last whole month; the
 mean of each calendar month (95 percent), of each local hour of the day over the year, of each month's hour (90 percent);
@@ -196,7 +196,11 @@ def main(argv=None):
         first = dt.datetime(base, 1, 1, tzinfo=tz).astimezone(UTC)
         last = dt.datetime(ytd_year, ytd_month + 1, 1, tzinfo=tz).astimezone(UTC) if ytd_month < 12 else \
             dt.datetime(ytd_year + 1, 1, 1, tzinfo=tz).astimezone(UTC)
-        used, counts = screen(hours, first, max(hours) + dt.timedelta(hours=1))   # counted to the workbook's last row
+        used, counts = screen(hours, first, max(hours) + dt.timedelta(hours=1))
+        # session 11408 (the demand audit's finding 5, the other choice): the hours left out are counted only to the newest
+        # hour used, so the workbook's unfilled last day is not counted
+        if used:
+            counts = screen(hours, first, max(used) + dt.timedelta(hours=1))[1]
         for k, v in spec.get("screened", {}).items():
             check(f"{area} screened {k}", counts.get(k), v)
         got = area_figures(used, tz, years, ytd_month, area != "US48")
