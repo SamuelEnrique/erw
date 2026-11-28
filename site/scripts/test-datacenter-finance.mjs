@@ -43,9 +43,9 @@ const near = (a, b, tol = 1e-9) => a !== null && b !== null && Math.abs(a - b) <
 
 // the defaults: the page's two cited ones, and the five the page does not otherwise hold
 const dNow = F.defaultsOf({ run: 0, gpu: 1.3, pue: 1.56 });
-check(JSON.stringify(dNow) === JSON.stringify({ run: 0, gpu: 1.3, pue: 1.56, adder: 0, growth: 0, upfront: 0, life: 20, hurdle: 9.6, cshare: 0, cprice: 0 }), "the defaults (session 196: a hurdle rate of 9.6, cited to Lazard; session 213: no contract)", JSON.stringify(dNow));
+check(JSON.stringify(dNow) === JSON.stringify({ run: 0, gpu: 1.3, pue: 1.56, adder: 0, growth: 2, upfront: 0, life: 20, hurdle: 9.6, cshare: 0, cprice: 0 }), "the defaults (wip/ready-datacenter-inflation: prices rise 2 percent a year; session 196: a hurdle rate of 9.6, cited to Lazard; session 213: no contract)", JSON.stringify(dNow));
 // the hand cases below were worked at session 194's default hurdle rate of 8, and stay on it
-const d = { ...dNow, hurdle: 8 };
+const d = { ...dNow, hurdle: 8, growth: 0 };   // and with no change of prices, as before wip/ready-datacenter-inflation
 check(F.defaultsOf({ run: 1, gpu: 1, pue: 1.2 }).run === 1 && F.defaultsOf({ run: 1, gpu: 1, pue: 1.2 }).gpu === 1 && F.defaultsOf({ run: 1, gpu: 1, pue: 1.2 }).pue === 1.2, "the way of running, the power per GPU and the overhead ratio default to \"Your load\"");
 check(F.KEYS.length === 10 && new Set(F.KEYS.map((k) => F.SPECS[k].letter)).size === 10, "ten assumptions, ten different letters (session 213: the contract's share and price)");
 check(JSON.stringify(F.KEYS) === JSON.stringify(["run", "gpu", "pue", "adder", "growth", "upfront", "life", "hurdle", "cshare", "cprice"]) && JSON.stringify(F.FINANCE_KEYS) === JSON.stringify(F.KEYS.slice(0, 8)), "in the page's order, the contract's two last");
@@ -148,7 +148,8 @@ for (const grid of Object.keys(W.INDEX.grids)) {
   const a = F.defaultsOf(p.load), res = F.resultOf(a, w);
   check(res.price === p.s12.per && res.bill === p.s12.cost && near(res.gpuHour, L.gpuHour(p.s12.per, p.x.gpu, p.x.pue), 1e-15) && near(res.gpus * p.x.mw, L.gpus(p.x.mw, p.x.gpu, p.x.pue), 1e-12) && (p.bad ? w.bad.per === p.bad.cost / p.bad.energy && w.bad.m === p.bad.m : w.bad === null),
     `${grid}, ${p.x.region}, ${p.x.buy}: at the defaults the price, the year's cost, the GPU-hour, the GPUs and the bad month are the page's`, `USD ${L.two(res.price)} per MWh, ${res.gpuHour.toFixed(4)} per GPU-hour`);
-  check(near(res.level, res.price, 1e-12) && near(res.allIn, res.gpuHour, 1e-12) && res.off === null, `${grid}: the fixed price is the price, the all-in figure the GPU-hour, and a flat load has no hours off`);
+  const res0 = F.resultOf({ ...a, growth: 0 }, w);   // wip/ready-datacenter-inflation: the identity holds with no change of prices
+  check(near(res0.level, res0.price, 1e-12) && near(res0.allIn, res0.gpuHour, 1e-12) && res0.off === null && res.level > res.price, `${grid}: with no change of prices the fixed price is the price, the all-in figure the GPU-hour, and a flat load has no hours off`);
   const f = W.pageOf({ grid, run: "hours", n: String(L.DEFAULTS.n), buy: p.x.buy });
   check(JSON.stringify(f.ways[0]) === JSON.stringify(p.ways[0]) && JSON.stringify(f.ways[1]) === JSON.stringify(p.ways[1]), `${grid}: the flat page and the flexible page hand over the same two ways`);
   const fx = p.ways[1];

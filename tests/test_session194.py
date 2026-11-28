@@ -438,7 +438,7 @@ class ThePage(unittest.TestCase):
             self.assertIsNotNone(spec, k)
             lows = {"FLAT": 0, "FLEX": 1}
             self.assertEqual((float(lows.get(spec.group(1), spec.group(1))), float(lows.get(spec.group(2), spec.group(2))), float(spec.group(4))), (lo, hi, SWING[k]), k)
-        self.assertIn("return { run: load.run === FLEX ? FLEX : FLAT, gpu: load.gpu, pue: load.pue, adder: 0, growth: 0, upfront: 0, life: LIFE, hurdle: HURDLE, cshare: 0, cprice: 0 };", self.lib)   # session 213
+        self.assertIn("return { run: load.run === FLEX ? FLEX : FLAT, gpu: load.gpu, pue: load.pue, adder: 0, growth: GROWTH, upfront: 0, life: LIFE, hurdle: HURDLE, cshare: 0, cprice: 0 };", self.lib)   # session 213; wip/ready-datacenter-inflation: GROWTH = 2
         self.assertIn("export const LIFE = 20, HURDLE = 9.6;", self.lib)                 # session 196: Lazard's weighted cost
 
     def test_each_default_states_its_source_and_the_uncited_say_so(self):
@@ -449,7 +449,7 @@ class ThePage(unittest.TestCase):
         # session 195: the two are scenario A's, and their defaults are the page's cited ones
         self.assertIn("load: { run: flex ? FLEX : FLAT, gpu: DEFAULTS.gpu, pue: DEFAULTS.pue }, gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source", self.page)
         # the four no source in the repository gives say so on the page, and are not dressed as cited
-        for words in ("No cited forecast is held, so the default is no change", "No cited cost is held, so the default is none", "No cited term is held for a datacenter's power. The default is 20 years",
+        for words in ("prices then rise 2 percent a year, the Federal Reserve's longer-run goal for inflation", "No cited forecast of power prices is held", "No cited cost is held, so the default is none", "No cited term is held for a datacenter's power. The default is 20 years",
                       "It is the cost of capital of a power plant's builder, not a datacenter's own, for which no cited rate is held"):
             self.assertIn(words, self.lib, words)
         self.assertIn('"60% debt at an 8% interest rate"', src("docs", "methods", "cost_of_power.md"))
@@ -563,7 +563,7 @@ class TheNotes(unittest.TestCase):
             self.assertIn(words, part, words)
         for k in ("aw", "ag", "ap", "ad", "ae", "au", "al", "ah", "bw", "bh"):
             self.assertIn(f"`{k}`", part, k)
-        self.assertEqual(part.count("**none held**"), 3)                              # session 196: the hurdle rate is cited to Lazard
+        self.assertEqual(part.count("**none held**"), 2)                              # session 196: the hurdle rate is cited to Lazard; wip/ready-datacenter-inflation: the change of prices to the Federal Reserve
 
     def test_session_190s_two_findings_are_flagged_as_they_stood(self):
         n = self.note

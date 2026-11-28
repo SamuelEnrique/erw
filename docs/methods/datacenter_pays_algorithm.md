@@ -277,7 +277,7 @@ On the page this block stands after "With your contract" (4.10) and before "Will
 | Power per GPU, kW | `ag`, `bg` | 1.3 (until session 195: as "Your load") | NVIDIA DGX H100 datasheet (section 7) | 0.05 to 20 | 0.1 |
 | Facility overhead ratio | `ap`, `bp` | 1.56 (until session 195: as "Your load") | Uptime Institute, Global Data Center Survey 2024 (section 7) | 1 to 3 | 0.1 |
 | Delivery and other charges, USD per MWh | `ad`, `bd` | 0 | the page's figure is market energy alone | 0 to 500 | 5 |
-| Change of prices, percent a year | `ae`, `be` | 0 | **none held**: the last twelve months are repeated | -20 to 20 | 1 point |
+| Change of prices, percent a year | `ae`, `be` | 2 (until the ruling on the datacenter audit of 26 November, finding 4: 0) | the Federal Reserve's longer-run goal for inflation, 2 percent a year: the last twelve months are the first year, so that the money rate discounts money of the same kind; no forecast of power prices is held | -20 to 20 | 1 point |
 | Upfront cost, USD per kW of the load's size | `au`, `bu` | 0 | **none held** | 0 to 20,000 | 100 |
 | Years counted | `al`, `bl` | 20 | **none held** | 1 to 40, whole | 5 |
 | Hurdle rate, percent a year | `ah`, `bh` | 9.6 | Lazard, Levelized Cost of Energy+, June 2025: "60% debt at an 8% interest rate and 40% equity at a 12% cost"; the default is that weighted cost, 0.6 x 8 + 0.4 x 12 (session 196; until then 8). It is a power plant builder's cost of capital: none is cited for a datacenter's own | 0 to 40 | 1 point |
@@ -391,7 +391,7 @@ The same load with its hours chosen knowing every price of the market it buys in
 | A flat load's four-peak demand is its size | by construction | for the two transmission figures of 4.6 |
 | Wholesale energy only | by construction | no delivery, ancillary, uplift or capacity charge, no retail margin, no tax |
 | A hub or zone is not a site | by construction | the price at one substation differs by congestion and losses |
-| Scenarios: other charges, change of prices, upfront cost (session 194) | 0, 0, 0 | no source: the page's own figure with nothing added (4.14) |
+| Scenarios: other charges, change of prices, upfront cost (session 194) | 0, 2, 0 | other charges and upfront cost: no source, the page's own figure with nothing added; the change of prices: the Federal Reserve's 2 percent goal (the datacenter audit of 26 November, finding 4) (4.14) |
 | Scenarios: years counted (session 194) | 20 | no cited term is held; to be confirmed by the owner (4.14) |
 | Scenarios: cost of capital (session 194; the default since session 196) | 9.6 percent | Lazard, *Levelized Cost of Energy+*, June 2025: "60% debt at an 8% interest rate and 40% equity at a 12% cost", the weighted cost 0.6 x 8 + 0.4 x 12; the owner's ruling of 11 October 2026 (session 196), labelled "a generator's WACC, Lazard" since session 265. Session 194 set 8 percent; this row said so until session 462 |
 
@@ -498,7 +498,7 @@ Session 462, 21 October 2026 (chain 019). The page lists, at its foot, every mod
 9. One page in the battery page's layout: what it will pay, whether the power is there, how clean it is and how soon it can be had, each computed for the load described, then the two scenarios and what matters most. (sessions 213 and 228)
 10. Scenarios A and B are the block the three economics pages share; scenario A sets the headline. The contract's share and price are two of each scenario's assumptions, 0 by default, so the default load is fully merchant. (sessions 194, 195 and 213)
 11. The cost of capital defaults to 9.6 percent, Lazard's weighted cost of a power plant's builder (60 percent debt at 8 percent, 40 percent equity at 12), labelled as a generator's, since no datacenter owner's rate is held. (sessions 196 and 265; the owner's rulings of 11 October 2026, and 7a of 18 October 2026)
-12. Twenty years are counted, and the other charges, the change of prices and the upfront cost default to none: no cited figure is held for any of them. (session 194)
+12. Twenty years are counted, and the other charges and the upfront cost default to none: no cited figure is held for either. The change of prices defaults to 2 percent a year, the Federal Reserve's longer-run goal for inflation, so that the 9.6 percent rate, a rate in money, discounts money of the same kind. (session 194; the datacenter audit of 26 November, finding 4, on Samuel's ruling)
 13. The scarcity level is USD 1,000 per MWh on every grid, said beside the count, with a grid's own scarcity signal as a second count where a table of it is held. (session 236; the owner's ruling of 12 October 2026)
 14. Texas's delivery charges stand in their own table, one row a component, never added to the market cost; a line billed per kVA or per meter is marked conditional and left out of the first total. (sessions 236 and 265; ruling 1a of 18 October 2026)
 15. A value typed outside its bounds is brought to the nearest bound, and a line says so. (session 265; ruling 8a of 18 October 2026)

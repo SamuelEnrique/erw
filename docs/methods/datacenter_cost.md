@@ -218,9 +218,9 @@ change of prices, an upfront cost per kW of the load's size, the years counted a
 defaults to "Your load"; power per GPU and the overhead ratio default to the two the page cites, 1.3 kW and 1.56
 (session 195: "Your load" no longer holds those two fields, scenario A does, and scenario A sets the page's three
 headline numbers; an older link's `gpu` and `pue` are read as the scenarios'). A scenario at its defaults shows the
-page's own headline numbers. Three defaults have no
-source in the repository and the page says so beside each: no change of prices, no upfront cost and 20 years. The
-fourth, the cost of capital, was 8 percent here until the owner's ruling of 11 October 2026 (session 196): it is
+page's own headline numbers. Two defaults have no
+source in the repository and the page says so beside each: no upfront cost and 20 years; the change of prices is 2 percent a year, the Federal Reserve's goal for inflation (the datacenter audit of 26 November, finding 4). The
+cost of capital was 8 percent here until the owner's ruling of 11 October 2026 (session 196): it is
 9.6 percent, Lazard's weighted cost of a power plant's builder, labelled "a generator's WACC, Lazard" (session 265).
 
 **The rows.** Market energy over the last twelve months; a year's cost; power per GPU-hour; a bad month; the hours off

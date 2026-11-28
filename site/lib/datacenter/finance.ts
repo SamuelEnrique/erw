@@ -60,7 +60,7 @@ export const SPECS: Record<Key, Spec> = {
     source: "The page's figure is market energy alone. No delivery, transmission or other charge is added, so the default is none" },
   growth: { key: "growth", letter: "e", label: "Change of prices", unit: "percent a year", min: -20, max: 20, whole: false, swing: 1, swingWords: "1 point",
     short: (v) => `prices ${n(v)}% a year`, words: (v) => `prices changing ${n(v)} percent a year`, plain: n,
-    source: "The last twelve months are repeated every year. No cited forecast is held, so the default is no change" },
+    source: "The last twelve months are the first year; prices then rise 2 percent a year, the Federal Reserve's longer-run goal for inflation (FOMC, Statement on Longer-Run Goals and Monetary Policy Strategy), so that the cost of capital, a rate in money, discounts money of the same kind. No cited forecast of power prices is held" },
   upfront: { key: "upfront", letter: "u", label: "Upfront cost", unit: "USD per kW of the load's size", min: 0, max: 20000, whole: false, swing: 100, swingWords: "USD 100 per kW",
     short: (v) => `upfront ${n(v)} USD/kW`, words: (v) => `upfront cost USD ${n(v)} per kW`, plain: n,
     source: "What this way of running, or this overhead ratio, costs to build. No cited cost is held, so the default is none" },
@@ -83,12 +83,15 @@ export const SPECS: Record<Key, Spec> = {
  * "60% debt at an 8% interest rate and 40% equity at a 12% cost" (its June 2025 report, read 11 October 2026):
  * 0.6 x 8 + 0.4 x 12 = 9.6. Until then it was 8, set equal to the interest rate. */
 export const LIFE = 20, HURDLE = 9.6;
+// wip/ready-datacenter-inflation (the datacenter audit of 26 November, finding 4, for Samuel's ruling): prices rise 2 percent a
+// year by default, so that flat money prices are not discounted at a money rate
+export const GROWTH = 2;
 
 /** The defaults: the way of running as "Your load" has it, the power per GPU and the overhead ratio as the page cites
  * them (session 195: "Your load" no longer holds those two; scenario A does, and sets the headline), and the five the
  * page does not otherwise hold. */
 export function defaultsOf(load: { run: number; gpu: number; pue: number }): Assumptions {
-  return { run: load.run === FLEX ? FLEX : FLAT, gpu: load.gpu, pue: load.pue, adder: 0, growth: 0, upfront: 0, life: LIFE, hurdle: HURDLE, cshare: 0, cprice: 0 };
+  return { run: load.run === FLEX ? FLEX : FLAT, gpu: load.gpu, pue: load.pue, adder: 0, growth: GROWTH, upfront: 0, life: LIFE, hurdle: HURDLE, cshare: 0, cprice: 0 };
 }
 
 /** One value brought inside its bounds, or to the default when it cannot be read. */

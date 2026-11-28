@@ -26,7 +26,7 @@ const ms = L.monthsRuled(files, "LZ_NORTH", "rt", { run: "flat", n: 0, pct: 0, s
 const s = L.span(L.lastTwelve(ms));
 const way = { per: s.per, cost: s.cost, energy: s.energy, held: s.held, flatCost: s.flatCost, down: s.down, bad: null, of: 0 };
 const a = F.defaultsOf({ run: F.FLAT, gpu: L.DEFAULTS.gpu, pue: L.DEFAULTS.pue });
-const r = F.resultOf(a, way);
+const r = F.resultOf({ ...a, growth: 0 }, way);   // wip/ready-datacenter-inflation: prices rise 2 percent a year by default; the finding is read with no change of prices
 const del = JSON.parse(fs.readFileSync(dir + "/texas_delivery.json", "utf-8"));
 const oncor = D.deliveryOf(del.rows, "Oncor", 100).total;
 console.log(JSON.stringify({ allIn: r.allIn, gpuHour: r.gpuHour, energyOnly: (s.per * a.gpu * a.pue) / 1000, price: s.per, oncor }));
