@@ -195,6 +195,16 @@ def listed(tickers):
     return out
 
 
+# Five-tools data request 69 (session 11200): where a company's submissions file gives its SIC code a description that
+# the SEC's own SIC code list does not (the four coal miners filed under 1220 carry "Silver Ores"), the list's name is
+# used. Read on www.sec.gov/search-filings/standard-industrial-classification-sic-code-list on 28 November 2026.
+SIC_LIST_NAME = {"1220": "Bituminous Coal & Lignite Mining"}
+
+
+def sic_label(sic, label):
+    return SIC_LIST_NAME.get(str(sic), label)
+
+
 def sub_fields(d):
     a = (d.get("addresses") or {}).get("business") or {}
     st = (a.get("stateOrCountry") or "").strip()
@@ -289,7 +299,8 @@ def build_universe(lst, cache, retrieved, vintage):
         rows.append({"entity_id": f"sec:{k}", "entity_type": "company", "name": name,
                      "geo": f"US-{c['business_state']}" if c.get("business_state") else "", "source": SOURCE,
                      "source_url": SUBMISSIONS_URL.format(cik=k), "retrieved_at": retrieved, "vintage": vintage, "cik": k,
-                     "ticker": tks[0], "tickers": ";".join(tks), "exchange": exch, "sic": c["sic"], "sic_label": c["sic_label"],
+                     "ticker": tks[0], "tickers": ";".join(tks), "exchange": exch, "sic": c["sic"],
+                     "sic_label": sic_label(c["sic"], c["sic_label"]),
                      "segments": ";".join(segs), "segments_note": note or "", "directory_id": dirs.get(norm_name(name), ""),
                      "state_of_incorporation": c.get("state_of_incorporation", ""), "fiscal_year_end": c.get("fiscal_year_end", ""),
                      "filer_category": c.get("filer_category", "")})

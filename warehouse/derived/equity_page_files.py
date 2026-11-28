@@ -415,7 +415,9 @@ def company_files(built, universe, fund, first=None):
 
 
 def build(built):
-    tables = ["equity_universe", "equity_prices_daily", "equity_fundamentals_quarterly", "equity_index_daily"]
+    # five-tools data request 68 (session 11200): only the tables a machine writes; the prices and index levels are held
+    # (held.prices, held.indices), and no table of them exists until a source a license allows is read
+    tables = ["equity_universe", "equity_fundamentals_quarterly"]
     universe = table_or_none("equity_universe")
     fund = table_or_none("equity_fundamentals_quarterly")
     first = first_filed_periods(list(universe["cik"])) if universe is not None else None

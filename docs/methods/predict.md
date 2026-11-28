@@ -16,6 +16,8 @@ The forecast for a place's day T is taken as made at **20:00 UTC on day T-1**. A
 
 The operator files its day-ahead forecast with EIA the day before, from its own demand of that morning and its own weather forecast. The ERW's forecast reads older demand and no weather. The comparison below is made on those terms.
 
+**The backtest reads the demand as revised** (session 11402, `docs/reviews/forecast-model-audit-2026-11-28.md`, finding 5). Each backtest forecast reads day A's demand as the warehouse holds it at the build, after EIA's later revisions; a live forecast reads day A as first published, about a day after it ended. Measured on three builds of the place files a day apart (tables through 24, 25 and 26 November 2026): the newest day changed in 184 of its 696 place-hours from its first publication to the next day's (in 12 of 29 places), by 0.08 percent of demand on mean; most in FPC (0.82 percent on mean), CPLE (0.50) and one New England hour (6.7). Older days changed in 384 of 22,736 hours, by 0.01 percent. So the backtest knows day A a little better than a live forecast does; against errors of 3 to 10 percent the effect is small, and one day of vintages is too few to say more.
+
 The daily run (`run.py`) makes the forecast for each place's next local day after the hour it runs, from what the warehouse then holds: when the last whole day held is three or four days before the target day (tonight's first run, made at 11:00 UTC on 26 November, read demand through 24 November, and through 23 November for MISO, MIDW and NW, whose last day held lacks its last hour), the same method is fitted at that horizon (`h`, written in each file as `horizon_days`).
 
 ## 3. The methods, simplest first

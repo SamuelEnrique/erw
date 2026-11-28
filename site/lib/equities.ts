@@ -1,6 +1,6 @@
 // Energy Research Warehouse (ERW) site, session 10402 (chain 720, part D): energy equities.
 //
-// Two things read the equities page files (site/data/equities/, the data machine's warehouse/derived/equity_pages.py;
+// Two things read the equities page files (site/data/equities/, the data machine's warehouse/derived/equity_page_files.py;
 // contract docs/state/page_files_equities.md; method docs/methods/equities.md): a group on the price board (/board),
 // one row a segment line and one an index, and the group's analyzer, /equities (every company by segment, a company,
 // an index or a segment as a line with an energy price laid over it, a company's filed figures by quarter, two side by
@@ -237,7 +237,9 @@ export type Filing = {
 };
 export const STATEMENT: [keyof Filing & string, string, string][] = [
   ["revenue", "Revenue", "USD million"], ["net_income", "Net income", "USD million"], ["capex", "Capital spending", "USD million"],
-  ["debt", "Debt", "USD million"], ["shares_outstanding", "Shares outstanding", "million"],
+  // session 11403 (the equities audit, finding 5): the line is long-term debt (us-gaap LongTermDebt, LongTermDebtNoncurrent
+  // or with leases, the concept on hover), never short-term borrowings: "Debt" alone said more than the files hold
+  ["debt", "Long-term debt", "USD million"], ["shares_outstanding", "Shares outstanding", "million"],
 ];
 /** A company's filed periods, in the file's own order (newest first), by the file's column names. A row with no
  *  period end is not a filing (the example's row of nulls). */
@@ -406,7 +408,7 @@ export function seriesCsv(s: EqSeries, url: string): string {
   const shown = isShown(s);
   const head = [
     `# Energy Research Warehouse (ERW): ${s.kind === "company" ? `${s.ticker ?? s.id}, ${s.name ?? ""}` : s.name ?? s.id}, day by day, as /equities draws it (site/lib/equities.ts seriesCsv)`,
-    `# Built: ${s.built} (site/data/equities/series/${s.id}.json, written by warehouse/derived/equity_pages.py from the ERW's tables); method: ${s.method ?? "docs/methods/equities.md"}`,
+    `# Built: ${s.built} (site/data/equities/series/${s.id}.json, written by warehouse/derived/equity_page_files.py from the ERW's tables); method: ${s.method ?? "docs/methods/equities.md"}`,
     `# Source: ${s.source ?? "not named in the file"}`,
     `# License: ${s.license ?? "not said"}. Status: ${s.status}${s.why ? ` (${s.why})` : ""}`,
     `# Units: ${Object.entries(s.units ?? {}).filter(([k]) => s.daily_columns.includes(k)).map(([k, v]) => `${k} in ${v}`).join("; ") || "not said"}`,
@@ -441,9 +443,9 @@ export const LIST_HEAD = ["ticker", "name", "cik", "exchange", "sic", "sic_label
 export function listCsv(list: EqList, url: string): string {
   const head = [
     "# Energy Research Warehouse (ERW): the listed energy companies by segment, as /equities lists them (site/lib/equities.ts listCsv)",
-    `# Built: ${list.built} (site/data/equities/index.json, written by warehouse/derived/equity_pages.py from ${(list.tables ?? []).join(", ") || "the ERW's tables"}); method: ${list.method ?? "docs/methods/equities.md"}`,
+    `# Built: ${list.built} (site/data/equities/index.json, written by warehouse/derived/equity_page_files.py from ${(list.tables ?? []).join(", ") || "the ERW's tables"}); method: ${list.method ?? "docs/methods/equities.md"}`,
     `# License of the list: ${list.license ?? "not said"}. first_day and last_day are the first and last trading day of the prices shown; empty where the price is held`,
-    "# newest_*: the newest period the company filed with the SEC (a 10-Q or a 10-K): its end, form, the day filed and the filing's address; revenue, net income and capital spending in USD as filed, each with the months its period covers; debt in USD and shares outstanding at the period's end. Empty where the company filed none",
+    "# newest_*: the newest period the company filed with the SEC (a 10-Q or a 10-K): its end, form, the day filed and the filing's address; revenue, net income and capital spending in USD as filed, each with the months its period covers; long-term debt in USD and shares outstanding at the period's end. Empty where the company filed none",
     ...(list.segments ?? []).map((s) => `# Segment ${s.id}: ${s.label}${s.rule ? `: ${s.rule}` : ""}`),
     `# From: ${url}`,
   ];

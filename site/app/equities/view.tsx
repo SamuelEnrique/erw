@@ -453,7 +453,7 @@ export function EquitiesView({ query }: { query: Raw }) {
   const first = picks[0]?.id ?? null;
   const lead = (
     <>The listed energy companies by segment, the energy indices, and the energy prices beside them: a line over any window, a company&apos;s filed figures, two side by side.{" "}
-      <Hint words="What it is" why="Levels and plain changes, as published: closing prices and index levels from their sources, a company's figures from its own filings with the SEC, energy prices from the ERW's price tables. A segment's line is built by the ERW from its companies' prices by the written rule of the method note. No score, no signal and no view." />.</>
+      <Hint words="What it is" why="Levels and plain changes, as published: a company's figures from its own filings with the SEC, energy prices from the ERW's price tables. Share prices and index levels are held while no source's license lets the ERW keep them, and so no segment line is built. When one is, a segment has two lines, written in the method note: every company counting the same, and each company counting by its market value. No score, no signal and no view." />.</>
   );
   const header = (
     <ToolHeader title={TITLE} lead={lead}
