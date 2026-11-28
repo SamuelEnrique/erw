@@ -66,6 +66,11 @@ def place_ahead(place, dem, op, ref, made):
         if shown:
             tm = demand.tomorrow(res, tz, target)
             row["forecast"] = [[run.iso(r["ts"]), int(r["hour"]), run.num(r[method]), run.num(r[method + "_lo"]), run.num(r[method + "_hi"])] for _, r in tm.iterrows()]
+            if all(x[2] is None for x in row["forecast"]):
+                # session 10603 (SPA): the method could not forecast the day from the demand held; no rows of nulls
+                row["forecast"] = None
+                row["forecast_held"] = ("no forecast: the method reads every hour of the days before the target day, and the demand held "
+                                        "is missing hours, or holds hours at or below zero, on a day it reads")
         out.append(row)
     return {"place": place, "time": tz, "last_whole_day": run.day_str(last), "horizons": out}
 
