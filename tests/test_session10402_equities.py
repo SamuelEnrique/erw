@@ -69,7 +69,8 @@ class TheSource(unittest.TestCase):
         self.assertIn('{group.lean ? "Series" : "Price"}', view)
         # the page adds the group through one function and changes nothing else of the file it reads
         page = src("site", "app", "board", "page.tsx")
-        self.assertIn("const raw = withEquities(fileJson as unknown as BoardFile, equitiesBoard());", page)
+        # ready branch wip/ready-board-equities-one-line (session 11408): the page draws the group as one line while none is held
+        self.assertIn("const raw = oneLineEquities(withEquities(fileJson as unknown as BoardFile, equitiesBoard()));", page)
         self.assertIn("const file = holdRows(raw, licenseHeldGrids().map(gridName));", page)
         self.assertIn('import fileJson from "@/data/board.json";', page)
         rows = src("site", "app", "board", "rows", "route.ts")
@@ -78,7 +79,8 @@ class TheSource(unittest.TestCase):
         self.assertEqual(view.count("const cols = 8 + MOVES.length + (group.curve ? 1 : 0) + (group.extremes ? 1 : 0);"), 2)
         self.assertIn("const LEAN_LESS = 5;", view)
         lib = src("site", "lib", "equities.ts")
-        merge = lib[lib.index("export function withEquities"):lib.index("// ---- The list")]
+        # ready branch wip/ready-board-equities-one-line (session 11408): oneLineEquities, after withEquities, is apart
+        merge = lib[lib.index("export function withEquities"):lib.index("export function oneLineEquities")]
         self.assertIn("groups: [...file.groups, group]", merge)
         self.assertIn("rows: [...file.rows, ", merge)
         self.assertNotRegex(merge, r"file\.rows\.(filter|map|sort|splice)|file\.groups\.(filter|map|sort|splice)")

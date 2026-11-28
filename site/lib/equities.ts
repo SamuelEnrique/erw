@@ -81,6 +81,27 @@ export function withEquities(file: BoardFile, eq: EqBoardFile | null): BoardFile
   return { ...file, sources: [...file.sources, ...(eq.sources ?? [])], groups: [...file.groups, group], rows: [...file.rows, ...eq.rows.map((r) => boardRow(r, offset))] };
 }
 
+/** Ready branch of session 11408 (weekend page of 28 November 2026, part 3.5: the board's blank rows as one line): on
+ *  the board's page, while no row of the equities group holds a figure, the group is one line with the count of its
+ *  rows and each reason they are blank, with how many rows it holds; the rows' download keeps every row. With one row
+ *  holding a figure the group is drawn row by row, as before. */
+export function oneLineEquities(file: BoardFile): BoardFile {
+  const mine = file.rows.filter((r) => r.group === EQUITIES_GROUP);
+  if (mine.length < 2 || mine.some((r) => r.status === "ok")) return file;
+  const why = new Map<string, number>();
+  // a row's note may join two reasons with "; and ": each reason is counted on its own
+  for (const r of mine) for (const part of (r.note ?? "no figure held").split("; and ")) {
+    const w = part.replace(/\s*\(docs\/[^)]*\)\s*$/, "").trim();
+    why.set(w, (why.get(w) ?? 0) + 1);
+  }
+  const reasons = [...why.entries()].sort((a, b) => b[1] - a[1]).map(([w, n]) => `${n} ${n === 1 ? "row" : "rows"}: ${w}`).join("; ");
+  const line: Row = { id: "equities-none-held", group: EQUITIES_GROUP, label: `${mine.length} segment lines, none held`,
+    at: "", code: "", unit: "", freq: "", tags: {}, status: "not_held", note: `None of the group's ${mine.length} rows holds a figure. ${reasons}.` };
+  const at = file.rows.findIndex((r) => r.group === EQUITIES_GROUP);
+  const rest = file.rows.filter((r) => r.group !== EQUITIES_GROUP);
+  return { ...file, rows: [...rest.slice(0, at), line, ...rest.slice(at)] };
+}
+
 // ---- The list (file 1), a series (file 2), the energy prices (file 4) ------------------------------------------------
 
 /** `rule_why` (in the files as built on 26 November 2026, not yet in the contract's text): why `rule` is null. */

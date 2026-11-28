@@ -14,6 +14,8 @@ Builder: `warehouse/derived/equity_page_files.py` (no request; warehouse tables 
 
 Each series' `moves`, as the board computes its own rows': `d` the previous day held; `w` the last day held on or before 7 calendar days back; `m` one calendar month back; `ytd` the last day held of the previous year; `y` one calendar year back. `ch` is the last value less the value then, `pct` that over the value then times 100. No score, no signal, no view.
 
+**On the board, while no row holds a figure (session 11408, the owner's choice on the weekend page of 28 November 2026).** The price board's page draws the equities group as one line, "30 segment lines, none held", with each reason the rows are blank and how many rows it holds (`site/lib/equities.ts` `oneLineEquities`); the rows' download keeps every row. With the first row that holds a figure the group is drawn row by row again.
+
 ## The rules that wait for the SEC
 
 When EDGAR can be read, the universe is every company whose SEC industry code is an energy code, one segment by the code (integrated oil and gas 2911 with exploration; exploration and production 1311 and 1381; midstream 4922 to 4924 and 4610; refining 2911 without upstream; oilfield services 1389 and 3533; coal 1220 and 1221; regulated utilities 4911, 4931, 4932, 4939 with a rate base; independent power 4911 without; nuclear and uranium 1094 and the owners of reactors; solar 3674 makers of cells; wind 3511; storage, hydrogen and grid equipment by code 3690, 2810 and 3612 to 3613), a company that fits two codes in both and named in `segments_note`. This list is the draft of the written rule, to be fixed in this note before any company is placed; matched to `company_directory` by SEC number or exact legal name only.

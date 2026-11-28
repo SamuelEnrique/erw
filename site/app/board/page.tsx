@@ -10,7 +10,7 @@ import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
 import { BOARD_DECISIONS } from "@/lib/decisions";
 import fileJson from "@/data/board.json";
 import { holdRows, type BoardFile } from "@/lib/board";
-import { withEquities } from "@/lib/equities";
+import { oneLineEquities, withEquities } from "@/lib/equities";
 import { equitiesBoard } from "@/lib/equitiesfiles";
 import { gridName, licenseHeldGrids } from "@/lib/license";
 
@@ -29,7 +29,8 @@ export const metadata: Metadata = { title: "Price board", robots: { index: false
 // session 10402 (chain 720, part D): with the energy equities group after the board's own groups (lib/equities.ts
 // withEquities: the rows of site/data/equities/board.json in the board's own row form; nothing of the board moves, and
 // with no equities file the board's file is handed back as it is)
-const raw = withEquities(fileJson as unknown as BoardFile, equitiesBoard());
+// ready branch of session 11408: while no row of the group holds a figure, the group is one line on this page (oneLineEquities)
+const raw = oneLineEquities(withEquities(fileJson as unknown as BoardFile, equitiesBoard()));
 
 // Session 328: the tables board_page.py reads (scripts/page_tables.py on this page and its builder); the downloads keep
 // those in the public catalogue, each as its CSV with a Python and a Stata reader

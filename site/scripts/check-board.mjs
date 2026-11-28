@@ -22,7 +22,7 @@
 import fs from "node:fs";
 import { env, withBrowser, unlockPost } from "./browser.mjs";
 import * as b from "../lib/board.ts";
-import { withEquities } from "../lib/equities.ts";
+import { oneLineEquities, withEquities } from "../lib/equities.ts";
 import { equitiesBoard } from "../lib/equitiesfiles.ts";
 import { gridName, licenseHeldGrids } from "../lib/license.ts";
 
@@ -34,7 +34,8 @@ const rawFile = JSON.parse(fs.readFileSync(new URL("../data/board.json", import.
 // session 10402 (chain 720): and the energy equities group after the board's own groups, as the page reads it
 // (lib/equities.ts withEquities on site/data/equities/board.json, or on ERW_EQUITIES_DIR where a local build was made
 // with one); with no equities file the board's file is as it was
-const file = b.holdRows(withEquities(rawFile, equitiesBoard()), licenseHeldGrids().map(gridName));
+// ready branch of session 11408: and the group as one line while none of its rows is held, as the page draws it
+const file = b.holdRows(oneLineEquities(withEquities(rawFile, equitiesBoard())), licenseHeldGrids().map(gridName));
 // session 1616 (chain 165): the file's own checks (lib/board.ts, boardFileChecks), first; with --file, these alone, with
 // no served page (node --import ./scripts/alias-register.mjs scripts/check-board.mjs --file)
 for (const c of b.boardFileChecks(file)) check(c.ok, `the file: ${c.what}`);
