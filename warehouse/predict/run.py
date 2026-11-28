@@ -421,7 +421,15 @@ def from_ledger(p, ledger, series="demand"):
                        m + "_hi": pd.to_numeric(lg["hi"], errors="coerce").values,
                        "operator": [op.get(t) for t in ts]})
     t2["ts"] = pd.to_datetime(t2["ts"], utc=True)
-    return dict(p, tomorrow=t2.reset_index(drop=True), choice=m), str(lg["made_utc"].iloc[0]), m
+    # session 11402 (audit of /forecast, finding 1): the making drawn carries its own horizon and the last hour it read,
+    # from the ledger; the build's own (a later run reads newer demand) described a forecast that had not read it
+    out = dict(p, tomorrow=t2.reset_index(drop=True), choice=m)
+    h = pd.to_numeric(lg["horizon_days"], errors="coerce").iloc[0]
+    if pd.notna(h):
+        out["h"] = int(h)
+    if pd.notna(lg["inputs_through_utc"].iloc[0]) and str(lg["inputs_through_utc"].iloc[0]):
+        out["inputs_through"] = pd.Timestamp(str(lg["inputs_through_utc"].iloc[0]))
+    return out, str(lg["made_utc"].iloc[0]), m
 
 
 def demand_series(p, made, ledger):
@@ -444,6 +452,7 @@ def demand_series(p, made, ledger):
          "method_mae_last_2_years": {m: num(v, 2) for m, v in p["maes"].items()}}
     if made_first is not None:
         s["made_utc"] = made_first
+        s["fit_day"] = str(made_first)[:10]   # session 11402: the making's day, not the build's
         s["tomorrow_from"] = ("the ledger: the forecast first made for this day, kept as made (a later run the same day does "
                               f"not replace it); the method chosen now is {now_choice}")
     tm = p["tomorrow"]
@@ -580,6 +589,10 @@ def price_shown(p, made, ledger):
          "method_mae_last_2_years": {m: num(v, 2) for m, v in p["maes"].items()}}
     if made_first is not None:
         s["made_utc"] = made_first
+        s["fit_day"] = str(made_first)[:10]   # session 11402: the making's day, not the build's
+        if str(made_first) != iso(pd.Timestamp(made)):
+            # the ledger names no demand horizon; a making of another hour may have read other demand
+            s["demand_horizon_days"] = None
         s["tomorrow_from"] = ("the ledger: the forecast first made for this day, kept as made (a later run the same day does "
                               f"not replace it); the method chosen now is {now_choice}")
     tm = p["tomorrow"]
