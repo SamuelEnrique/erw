@@ -205,7 +205,7 @@ class TheLibrary(unittest.TestCase):
         # read by eye from the cards on 13 October 2026, so that a change of rule is seen
         self.assertEqual(expect["queue_divorce"], (["none"], ["queue"]))
         self.assertEqual(expect["batteries_curtailment"], (["caiso"], ["curtailment", "batteries", "generation"]))
-        self.assertEqual(expect["gas_sets_price"], (["ercot", "caiso", "spp", "nyiso", "isone"], ["fuel-prices", "power-prices"]))   # MISO and PJM are the card's own placeholders: not held
+        self.assertEqual(expect["gas_sets_price"], (["ercot", "caiso", "spp"], ["fuel-prices", "power-prices"]))   # MISO and PJM are the card's own placeholders: not held; session 11405: NYISO and ISO-NE, held for a license, are out of the card
         self.assertEqual(expect["peak_hour_moved"], (["ercot", "caiso"], ["generators", "power-prices"]))
         for cid, (g, t) in expect.items():
             self.assertTrue(g and t, cid)

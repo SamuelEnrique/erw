@@ -76,7 +76,7 @@ class Analysis(unittest.TestCase):
                 for side in ("before", "after"):
                     if grid_of_words(f"{co[side]['period']} {co['label']}") in held:
                         n += 1
-        self.assertEqual(n, 10)
+        self.assertEqual(n, 8)   # session 11405 (wip/ready-held-out): the impact study's two NYISO control callouts are gone with its refusal
 
     def test_before_the_day_nothing_is_held(self):
         self.assertEqual(held_grids("2026-10-20"), set())

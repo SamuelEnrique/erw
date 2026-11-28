@@ -168,6 +168,8 @@ def batteries_lunch_grids(rows):
     n = {}
     for grid in ("ercot", "caiso", "nyiso", "isone", "spp"):
         G = [r for r in rows if r["grid"] == grid]
+        if not G:
+            continue   # session 11405: a grid held for a license has no row in the download, so no figure here
         years = {r["period"]: r for r in G if r["kind"] == "year"}
         ys = sorted(years)
         if grid == "ercot":
@@ -248,6 +250,8 @@ def batteries_curtailment_hourly(rows):
 
 def impact_study(rows):
     win = [r for r in rows if r["in_window"] == 1 and r["diff"] is not None]
+    if not win:
+        return {}   # session 11405: the card refused (a held grid's price as its control), its download holds no row
     pre, post = [r for r in win if r["after"] == 0], [r for r in win if r["after"] == 1]
     mean = lambda rs, k: float(np.mean([r[k] for r in rs]))  # noqa: E731
     n = {"n_pre": len(pre), "n_post": len(post), "n": len(win), "series_pre": mean(pre, "series_value"), "series_post": mean(post, "series_value"),
@@ -270,6 +274,8 @@ def gas_sets_price(rows):
     k = "share_below_hr7"
     n = {"first_year": first, "last_full_year": last, "this_year": years[-1], "n_cells": len(rows), "n_cells_held": sum(1 for r in rows if r[k] is not None)}
     for grid in ("ercot", "isone"):
+        if (grid, first) not in at:
+            continue   # session 11405: ISO-NE, held for a license, has no row in the download
         n[f"{grid}_first"], n[f"{grid}_last"] = at[(grid, first)][k], at[(grid, last)][k]
     n["ercot_last_hr6p5"], n["ercot_last_hr8"] = at[("ercot", last)]["share_below_hr6p5"], at[("ercot", last)]["share_below_hr8"]
     for grid in ("ercot", "caiso", "nyiso", "spp"):

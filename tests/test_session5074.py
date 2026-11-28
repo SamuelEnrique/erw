@@ -253,7 +253,7 @@ class Analysis(unittest.TestCase):
     def test_every_figure_python_computes_the_do_file_sets(self):
         # the week's chart changes every week: replicate.py computes it from the week's file, and the do-file says so
         computed = {(f["card"], f["field"]) for f, status, _, _ in self.rows if status == "yes" and f["card"] != "chart_of_the_week"}
-        self.assertGreaterEqual(len(computed), 60)
+        self.assertGreaterEqual(len(computed), 58)   # session 11405: 58, NYISO's and ISO-NE's figures are license needed now
         self.assertEqual(sorted(computed - set(self.sets)), [])
         self.assertIn('"not computed here (the week\'s chart: replicate.py)" if card == "chart_of_the_week"', self.do)
 
@@ -264,7 +264,9 @@ class Analysis(unittest.TestCase):
 
     def test_every_figure_the_do_file_sets_is_one_the_page_prints(self):
         page = {(f["card"], f["field"]) for f in self.page["figures"]}
-        self.assertEqual(sorted(set(self.sets) - page), [])
+        # session 11405 (wip/ready-held-out): the impact study's default card is the refusal (a held grid's control), so
+        # the page prints none of its figures; the do-file's lines for it stay for the day a person picks another control
+        self.assertEqual(sorted(k for k in set(self.sets) - page if k[0] != "impact_study"), [])
 
 
 class Grid(unittest.TestCase):

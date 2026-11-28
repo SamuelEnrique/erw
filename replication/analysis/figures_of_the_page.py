@@ -126,6 +126,19 @@ def card_figures(day, held):
                 label_year = (re.search(r"\b(19|20)\d\d\b", co["label"]) or [""])[0]
                 fields = [f.format(period=co[side]["period"], label_year=label_year) for f in FIELDS[card][2 * i + j]]
                 shown = numbers_in(text)
+                if text == "license needed" and grid in held:
+                    # session 11405 (wip/ready-held-out): a withheld card (findings_common.withhold) has no figure of a
+                    # held grid, in its callout or its numbers: the figure is "license needed", never computed
+                    for k, field in enumerate(fields):
+                        out.append({
+                            "card": card, "callout": i, "side": side, "part": k,
+                            "key": f"finding|{card}|callout|{i}|{side}|{grid}",
+                            "name": f"{co['label']}, {co[side]['period']}" + (f" (number {k + 1} of the text)" if len(fields) > 1 else ""),
+                            "page_text": "license needed", "page": None, "decimals": None, "tolerance": None, "field": field,
+                            "download": c["downloads"]["csv"], "held": True,
+                            "not_in_download": NOT_IN_DOWNLOAD.get((card, field), ""),
+                        })
+                    continue
                 if len(shown) < len(fields):
                     raise SystemExit(f"{card} callout {i} {side}: {text!r} holds {len(shown)} numbers, FIELDS names {len(fields)}")
                 for k, field in enumerate(fields):

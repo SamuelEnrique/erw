@@ -211,6 +211,8 @@ def gas_sets_price(df, a):
     k = "share_below_hr7"
     n = {}
     for grid in ("ercot", "isone"):
+        if (grid, first) not in at.index:
+            continue   # session 11405: ISO-NE, held for a license, has no row in the download
         n[f"{grid}_first"], n[f"{grid}_last"] = float(at.loc[(grid, first), k]), float(at.loc[(grid, last), k])
     n["ercot_last_hr6p5"], n["ercot_last_hr8"] = float(at.loc[("ercot", last), "share_below_hr6p5"]), float(at.loc[("ercot", last), "share_below_hr8"])
     return n

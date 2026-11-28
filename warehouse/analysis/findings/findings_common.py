@@ -70,13 +70,15 @@ CLAIM_KEYS = ("title", "subtitle", "why", "in_words")   # a claim: any sentence 
 
 
 def _clean_text(s, rx, strict=False):
-    """A sentence (or a part between semicolons) that names a held grid and holds a digit is left out; with strict
-    (a claim's words), any that names a held grid. Other sentences stay as they are. A sentence ends at ! ? ; or at a
-    full stop after a small letter, a digit, a bracket or a percent sign, before a capital (so "N.Y.C. (" is not an end)."""
+    """A part between semicolons (a data line of a footnote) that names a held grid and holds a digit is left out; with
+    strict (a claim's words), the whole sentence that names a held grid. Other sentences stay as they are. A sentence
+    ends at ! ? or at a full stop after a small letter, a digit, a bracket or a percent sign, before a capital (so
+    "N.Y.C. (" is not an end); a claim's sentence is not cut at a semicolon, so no half of it is left standing."""
     import re
     if not isinstance(s, str) or rx is None or not rx.search(s):
         return s
-    parts = re.split(r"(?<=[;!?])\s+|(?<=[a-z0-9)%]\.)\s+(?=[A-Z])", s)
+    ends = r"(?<=[!?])\s+|(?<=[a-z0-9)%]\.)\s+(?=[A-Z])"
+    parts = re.split(ends if strict else r"(?<=;)\s+|" + ends, s)
     kept = [p for p in parts if not (rx.search(p) and (strict or re.search(r"\d", p)))]
     return " ".join(kept)
 
