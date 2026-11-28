@@ -344,7 +344,12 @@ soft_step dm_predict_wind_solar "$PYTHON" warehouse/predict/wind_solar.py
 # Session 10000 (chain 701, data request 6 of docs/state/data_requests_predict.md, chain 730): the demand forecast two to
 # seven days ahead (site/data/predict/ahead.json), each horizon refit and scored against the same hour a week ago; about
 # 25 minutes and 1 GB of memory, right after the day's forecast. No network, no model
-soft_step dm_predict_ahead "$PYTHON" warehouse/predict/ahead.py
+# Session 11405 (chain 770, decision 6 of the weekend page of 28 November 2026, readied; lands only on Samuel's word):
+# once a week, on Sundays (UTC), beside the longer backtests. Each horizon's forecast comes out of its walk-forward
+# backtest over every day held, so the step cannot be split cheaply: on the night of 27 November it held the data lock
+# 4 h 34 min (22:28 to 03:02 UTC, docs/state/progress_c701.md), not the 25 minutes planned. Between Sundays the page
+# keeps Sunday's file, whose days ahead thin out as they pass (docs/methods/predict.md section 12)
+if [ "$(date -u +%u)" = "7" ]; then soft_step dm_predict_ahead "$PYTHON" warehouse/predict/ahead.py; fi
 # Session 10000 (chain 701, the second data request 15 of docs/state/data_requests_predict.md, chain 730): the demand
 # forecast's longer backtest from 1 July 2016 (site/data/predict/long_backtest.json, 64 places, by year; about 70
 # minutes alone), once a week, on Sundays (UTC): a year's score moves only as new days come in. No ledger, no network
