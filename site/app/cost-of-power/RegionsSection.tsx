@@ -301,6 +301,7 @@ function PlaceSection({ q, id, title, place, file, counts, entity }: { q: Q; id:
   } else if (id === "large_load") {
     const rules = list(sec.rules), totals = list(sec.queue_totals), laws = list(sec.laws);
     const states = Array.isArray(sec.states) ? (sec.states as unknown[]).filter((s): s is string => typeof s === "string") : [];
+    const totalsMw = totals.some((r) => typeof r.mw === "number" && Number.isFinite(r.mw));
     // a rule opens its source: its own document where the row carries an address, else the tab's own rule of the same
     // id (the rules table under this section draws it whole, with its document and each value's cite)
     const ruleName = (r: Record<string, unknown>): ReactNode => (safeUrl(r.source_url) ? link(r.utility, r.source_url, "rule")
@@ -314,8 +315,11 @@ function PlaceSection({ q, id, title, place, file, counts, entity }: { q: Q; id:
       <Rows mark="large_load.rules" caption="The large-load rules of its utilities, each as its document prints it" about={srcOf("rules_src")}
         head={[{ label: "Utility: opens its rule", name: true }, { label: "State" }, { label: "Status" }, { label: "Smallest load, MW", right: true }, { label: "Contract term", wide: true }, { label: "Collateral", wide: true }, { label: "Exit fee", wide: true }, { label: "Study timeline", wide: true }]}
         rows={rules.map((r, i) => ({ key: `${text(r.id)}|${i}`, cells: [ruleName(r), words(r.state), words(r.status), threshold(r, i), cut(r.contract_term), cut(r.collateral), cut(r.exit_fee), cut(r.study_timeline)] }))} />
-      <Rows mark="large_load.queue_totals" caption="Large-load requests its utilities have stated, each as printed" about={srcOf("queue_totals_src")} head={[{ label: "Utility: opens its document", name: true }, { label: "State" }, { label: "Date" }, { label: "MW", right: true }, { label: "As printed", wide: true }]}
-        rows={totals.map((r, i) => ({ key: `${i}`, cells: [link(r.utility, r.source_url, "queue-total"), words(r.state), words(r.date), num(file, [...base, "queue_totals", i, "mw"], r.mw), cut(r.figure)] }))} />
+      {/* the megawatt column is drawn only where a row holds a figure: the documents print sizes as phrases, and the
+          files of 28 November carry none, so the column stood empty beside "As printed" */}
+      <Rows mark="large_load.queue_totals" caption="Large-load requests its utilities have stated, each as printed" about={srcOf("queue_totals_src")}
+        head={[{ label: "Utility: opens its document", name: true }, { label: "State" }, { label: "Date" }, ...(totalsMw ? [{ label: "MW", right: true }] : []), { label: "As printed", wide: true }]}
+        rows={totals.map((r, i) => ({ key: `${i}`, cells: [link(r.utility, r.source_url, "queue-total"), words(r.state), words(r.date), ...(totalsMw ? [num(file, [...base, "queue_totals", i, "mw"], r.mw)] : []), cut(r.figure)] }))} />
       <Rows mark="large_load.laws" caption="State laws and bills on large loads, in the states it reaches" about={srcOf("laws_src")} head={[{ label: "State" }, { label: "Bill", name: true }, { label: "Status" }, { label: "Title", wide: true }]}
         rows={laws.map((r, i) => ({ key: `${i}`, cells: [words(r.state), words(r.bill), words(r.status), cut(r.title)] }))} />
     </>;

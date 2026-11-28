@@ -883,7 +883,7 @@
      "utility": "Made-up Wires Company",
      "state": "TX",
      "date": "2026-09-30",
-     "mw": 12500,
+     "mw": null,
      "figure": "12.5 GW of requests, as the made-up filing prints it",
      "source_url": "https://example.org/made-up-queue-total"
     }

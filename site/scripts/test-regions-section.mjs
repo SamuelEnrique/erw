@@ -155,6 +155,11 @@ ok(/data-sr-section="price" data-sr-section-state="not-shown"/.test(nyOpen) && n
 const nyPrice2 = (nyOpen.match(/data-sr-section="price"[\s\S]*?data-sr-section="congestion"/) ?? [""])[0];
 ok(words(`<${nyPrice2}>`).startsWith("Price license needed") &&/data-license-held="siting_regions" data-sr-held="license needed"/.test(nyPrice2) && !/data-llr-blank/.test(nyPrice2), "a section held whole says license needed in words under its heading, with the site's mark for a held part");
 ok(/data-llr-blank="Day-ahead price, mean, NYISO"/.test(rowHtml(open, "op-nyiso")), "while a held count's cell in the table stays a blank");
+// the stated requests: a megawatt column only where a row holds a figure (the documents print sizes as phrases)
+const totalsOf = (html) => (html.match(/data-sr-list="large_load\.queue_totals"[\s\S]*?<\/table>/) ?? [""])[0];
+const texOpen = draw("view=allgrids&sropen=region-tex");
+ok(/<th[^>]*>MW<\/th>/.test(totalsOf(er)) && (totalsOf(er).match(/<th /g) ?? []).length === 5 && totalsOf(er).includes('data-raw="12500"'), "a place whose stated requests carry megawatts: the column, each figure its file's");
+ok(totalsOf(texOpen).includes("12.5 GW of requests, as the made-up filing prints it") && !/<th[^>]*>MW<\/th>/.test(totalsOf(texOpen)) && (totalsOf(texOpen).match(/<th /g) ?? []).length === 4, "a place whose stated requests carry none: no empty megawatt column, the phrase as printed");
 // a list's columns of long words and long names keep a least width on a phone (a row ten lines tall at 390 px)
 ok((er.match(/class="px-2 py-1 min-w-56 sm:min-w-0" data-sr-wide="1"/g) ?? []).length >= 4 && /class="px-2 py-1 min-w-40 sm:min-w-0"/.test(er), "a list's columns of a document's words keep 14 rem on a phone, its names 10 rem");
 ok(tips(nyOpen).some((t) => t.startsWith("too few: fewer than 300 days")) && !/data-sr-trend="intensity_by_hour"[\s\S]{0,900}<svg/.test(nyOpen), "a trend the file holds too little of is said so, and no line is drawn");

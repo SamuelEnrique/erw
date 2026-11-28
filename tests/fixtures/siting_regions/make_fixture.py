@@ -226,7 +226,12 @@ if __name__ == "__main__":
     write("table.json", table())
     e = ercot()
     write("op-ercot.json", e)
-    write("region-tex.json", {**e, "id": "region-tex", "kind": "region", "code": "TEX", "name": "Texas"})
+    tex = json.loads(json.dumps({**e, "id": "region-tex", "kind": "region", "code": "TEX", "name": "Texas"}))
+    # the region's stated requests carry no megawatt figure, only the printed phrase (as the files of 28 November do):
+    # the section then draws no megawatt column for them
+    for t in tex["sections"]["large_load"]["queue_totals"]:
+        t["mw"] = None
+    write("region-tex.json", tex)
     write("op-nyiso.json", nyiso())
     # ba-soco.json is left out on purpose: a place of the index with no file of its own
     print(f"written: index.json, table.json, op-ercot.json, region-tex.json, op-nyiso.json under {OUT}")
