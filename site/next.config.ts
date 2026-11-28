@@ -198,4 +198,10 @@ const nextConfig: NextConfig = {
   },
 };
 
+// chain 780 (session 11600): the All grids tab's section "Where the next gigawatts can go" reads the regions files
+// (site/data/siting/regions, app/cost-of-power/regionsdata.ts) by names the index gives at request time, so the trace
+// cannot see them. Added after the list, so that the list's first line (session 138), which five tests read, stands.
+const traced = (nextConfig.outputFileTracingIncludes ??= {});
+traced["/cost-of-power"] = [...(traced["/cost-of-power"] ?? []), "./data/siting/regions/*.json"];
+
 export default nextConfig;

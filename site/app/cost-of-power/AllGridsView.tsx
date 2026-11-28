@@ -13,6 +13,8 @@ import { AllGridsNodes } from "./AllGridsNodes";
 import { AllGridsDownload } from "./AllGridsDownload";
 // chain 302 (session 7201): the large-load rules of the row's utility, opened from two cells, and the section under the tab
 import { LargeLoadSection, RuleLine } from "./LargeLoadSection";
+// chain 780 (session 11600): every region side by side, "Where the next gigawatts can go" (Samuel's ruling of 22 October 2026)
+import { RegionsJump, RegionsSection } from "./RegionsSection";
 
 // Session 700 (chain 050, docs/methods/siting.md): the All grids tab of "What a datacenter pays". The questions "Your
 // load" answers for one region (what a load pays, when it connects, how clean the power is) for every grid, hub and
@@ -562,6 +564,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
           {" "}{/^[aeiou]/i.test(p.label) ? "An" : "A"} {p.label.toLowerCase()} load of {x.mw.toLocaleString("en-US")} MW at a load factor of {x.lf.toFixed(2)}, {CURTAIL_WORDS[p.curtail]}{x.strike !== null ? ` (USD ${x.strike.toLocaleString("en-US")} per MWh)` : ""}.
         </p>
         <RowToggle x={x} hubs={hubs.length} nodes={nodes.length} />
+        <RegionsJump />
         {x.rows === "hubs" ? <><Headline x={x} /><AbPanel x={x} /></> : null}
         {x.rows === "hubs" ? (
           <p className="mb-2 text-sm" role="status" data-allgrids-sort={`${x.sort}|${x.dir}`}>
@@ -622,6 +625,9 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
           {" "}<Link href="/data/methods/siting">Method note</Link>.
         </p>
       </div>
+      {/* chain 780 (session 11600): the places side by side, a row a region, an operator or a large balancing authority and a
+          column a count, from the data machine's regions files (docs/state/page_files_siting_regions.md) */}
+      <RegionsSection q={q} />
       {/* chain 302 (session 7201): US utilities' large-load rules, the 90 days of changes, and the way to the states' laws */}
       <LargeLoadSection q={q} x={x} />
     </div>
