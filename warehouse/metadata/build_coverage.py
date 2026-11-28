@@ -702,6 +702,7 @@ SECTOR_RULES = [
     (r"^ferc_eqr_(buyer_names|buyer_doubtful|party_totals)$", "power"),  # session 99: who is buying (internal)
     (r"^ferc_eqr_(contracts_history|contract_terms|party_mw|quarter_changes)$", "power"),  # session 125: earlier quarters and the terms read from them (internal)
     (r"^spp_as_quantities$", "power"),  # session 100: SPP reserve MW cleared day-ahead
+    (r"^spp_mtlf_hourly$", "power"),  # session 10000 (chain 701): SPP's mid-term load forecast beside its actual load
     (r"^known_data_faults$", "platform"),  # session 103: known faults in source data (every sector's sources)
     (r"^ercot_hub_prices_daily$", "power"),  # session 114: ERCOT hub prices by day (derived), for Ask ERCOT
     (r"^ercot_storage_dam_awards_monthly$", "power"),  # session 115: storage resources' day-ahead awards by month (derived)

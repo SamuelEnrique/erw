@@ -115,6 +115,8 @@ def one(grid, rt, da, made):
     ledger = []
     if tomorrow:
         for t, k, v, lo, hi, d in tomorrow:
+            if v is None:
+                continue   # an hour without a figure is not a forecast (session 10603)
             ledger.append({"hub": rtm.RT_HUBS[grid], "target_day": block["target_day"], "ts_utc": t, "local_hour": k, "made_utc": iso(made),
                            "inputs_through_utc": block["inputs_through_utc"], "horizon_days": h, "method": choice, "erw": v, "lo": lo, "hi": hi, "day_ahead": d})
     return block, rows, ledger
