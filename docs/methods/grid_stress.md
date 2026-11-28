@@ -17,7 +17,7 @@ Local time is the grid's own. A year is the local calendar year.
 | The evening ramp | For each day, the largest rise of net load from one hour to the next between the hours starting 14:00 and 22:00 local (eight steps), in MW in one hour; and the largest rise over three hours in the same window. Only steps between hours that are both used and next to each other |
 | A spike, not a ramp | A one-hour rise that the next hour takes back by more than half is not counted. (PJM, 1 December 2019: demand 86,378 MW, then 103,428, then 89,476) |
 | The lowest net load | The hour of the year with the least net load |
-| The tightest hours | The 100 used hours of the year with the highest net load |
+| The tightest hours | The 100 used hours of the year with the highest demand (highest net load until the ruling on the Automated Analysis audit of 26 November, finding 3: chosen by net load, solar's share in them fell by construction as solar grew) |
 | A fuel in those hours | Its mean output over the 100 hours, over its installed capacity in each hour's month |
 | Dark and calm | An hour in which wind and solar together put out less than 10 percent of their installed capacity of that month |
 | A stretch | A run of dark, calm hours, each used and each next to the last. An hour that is not used ends it. It belongs to the year it begins in |
@@ -81,7 +81,7 @@ The battery fleet in the dark, calm measure is `storage_buildout_monthly`'s oper
 
 - **Not what a plant could do.** A plant below its capacity in a tight hour may have been in reserve, on outage,
   out of fuel or not needed. The share is what the fleet did.
-- **Not a reliability study.** The tightest hours are tight by net load. Outages, transmission limits and reserves
+- **Not a reliability study.** The tightest hours are tight by demand. Outages, transmission limits and reserves
   are not in the file.
 - **Not a sizing of storage.** "Hours of the battery fleet" sets the energy missing against today's fleet to show
   its scale. Batteries hold a few hours; the gap was filled by other plants and imports.
@@ -100,7 +100,7 @@ The battery fleet in the dark, calm measure is `storage_buildout_monthly`'s oper
   4.9 to 5.9. California 19.1 percent in 2021 and 23.7 in 2025; over three hours, 37.4 and 47.1.
 - The lowest net load as a share of peak demand, 2025: California 3.1 percent, SPP 8.1, Texas 11.5, New England
   18.9, MISO 27.5, New York 32.5, PJM 33.8.
-- Solar in Texas's 100 tightest hours: 71.1 percent of its installed capacity in 2019, 33.1 in 2024, 5.0 in 2025. The
+- (Measured with the tightest hours chosen by net load, before the ruling of finding 3; the table is rebuilt with hours chosen by demand.) Solar in Texas's 100 tightest hours: 71.1 percent of its installed capacity in 2019, 33.1 in 2024, 5.0 in 2025. The
   tightest hours moved from summer afternoons to hours after dark as solar grew.
 - In the tightest hours of 2025: nuclear 85.5 to 96.1 percent of capacity; natural gas 53.5 to 72.8; wind 11.1 to
   31.6; hydro and storage together 19.7 (California, on EIA's file, which itemized no battery output there) to 68.3

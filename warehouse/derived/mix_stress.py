@@ -31,7 +31,8 @@ THE DEFINITIONS, AS COMPUTED. Local time is the grid's. A year is the local cale
                             a one-hour rise that the next hour takes back by more than half is a spike in the data, not
                             a ramp, and is not counted
   the lowest net load       the hour of the year with the least net load
-  the tightest hours        the 100 held hours of the year with the highest net load
+  the tightest hours        the 100 held hours of the year with the highest demand (highest net load until the ruling
+                            on the Automated Analysis audit of 26 November, finding 3)
   a fuel in those hours     its mean output over the 100 hours, over its installed capacity in each hour's month
   dark and calm             an hour in which wind and solar together put out less than a tenth of their installed
                             capacity of that month. A stretch is a run of such hours, each held and each next to the last;
@@ -102,6 +103,16 @@ ALL_YEARS = {"wind", "solar"}               # fuels whose installed capacity the
 TOGETHER = ("hydro", "storage")              # set against installed capacity as one: grids do not report pumped storage under one name
 FROM_YEAR = 2019                            # the first year the inventory's retirements reach back to (session 133: all of them, so the first year of the hours)
 TIGHT = 100
+# wip/ready-analysis-tight-demand (the Automated Analysis audit of 26 November, finding 3, for Samuel's ruling): the tightest
+# hours are the hours of highest demand, not of highest net load: chosen by net load, a grid's tightest hours move to the
+# hours with no sun as it adds solar, so solar's share in them falls by construction (43.5 to 3.2 percent on a grid whose
+# demand and sun never change); chosen by demand it measures what the name says (55.6 percent whatever the capacity)
+TIGHT_BY = "demand"
+
+
+def tight_hours(y):
+    """The TIGHT held hours of the year with the highest demand."""
+    return y.nlargest(TIGHT, TIGHT_BY)
 CALM = 0.10
 WINDOW = (14, 22)                           # the evening: steps between the local hours starting 14:00 and 22:00
 NEAR = 0.9
@@ -273,7 +284,7 @@ def grid_rows(grid, x, caps, fleet_mw, fleet_mwh, retrieved, log):
         add(year, "net_load_min_mw", y.loc[low, "net"], "MW", low)
         add(year, "net_load_min_share_of_peak_pct", 100.0 * y.loc[low, "net"] / peak, "pct")
         add(year, "net_load_min_wind_solar_share_pct", 100.0 * y.loc[low, "ws"] / y.loc[low, "demand"], "pct")
-        tight = y.nlargest(TIGHT, "net")
+        tight = tight_hours(y)
         add(year, "tight_net_load_mw", tight["net"].mean(), "MW")
         for fuel in FUELS:
             if not (y[fuel].fillna(0.0) > 0).any():
@@ -383,7 +394,7 @@ def main(argv=None):
         "tightest hours as a share of its installed capacity, and the longest dark, calm stretch (derived, session 123)",
         "Shape: series (docs/datastandard.md v0). freq P1Y; ts_utc the local year's first day; entity iso:<grid>; x_at the hour (UTC, its start) a record or a "
         "stretch begins at. Variables and definitions: the header of warehouse/derived/mix_stress.py and docs/methods/grid_stress.md. Net load is demand less wind "
-        f"less solar. The evening is the local hours starting {WINDOW[0]}:00 to {WINDOW[1]}:00. The tightest hours are the {TIGHT} of the year with the highest net load. "
+        f"less solar. The evening is the local hours starting {WINDOW[0]}:00 to {WINDOW[1]}:00. The tightest hours are the {TIGHT} of the year with the highest demand. "
         f"Dark and calm: wind and solar together under {CALM:.0%} of their installed capacity of that month.",
         f"Window: from {mp.FIRST}. A year is written when it holds at least {NEAR:.0%} of its hours to date; the newest year is not a whole one. Installed capacity: "
         f"EIA's generator inventory; for natural gas, coal, nuclear, and hydro and storage together, from {FROM_YEAR} only (units retired before then are not in the "
