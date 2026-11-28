@@ -1,0 +1,17 @@
+VST ('4911', 'Electric Services', ['regulated_utilities', 'independent_power'])
+NRG ('4911', 'Electric Services', ['regulated_utilities', 'independent_power'])
+CEG ('4911', 'Electric Services', ['regulated_utilities', 'independent_power'])
+TLN ('4911', 'Electric Services', ['regulated_utilities', 'independent_power'])
+DUK ('4931', 'Electric & Other Services Combined', ['regulated_utilities'])
+SO ('4911', 'Electric Services', ['regulated_utilities', 'independent_power'])
+NEE ('4911', 'Electric Services', ['regulated_utilities', 'independent_power'])
+AES ('4991', 'Cogeneration Services & Small Power Producers', ['independent_power'])
+EIX 2014-06 325811206 0000827052-14-000154
+EIX 2014-06 325811206 0000827052-14-000154
+BSIN 2026-09-30 10-Q ['0001437749-26-036207']
+EGY 2026-09-30 10-Q ['0000894627-26-000061']
+EONR 2026-09-30 10-Q ['0001437749-26-038029']
+PROP 2026-09-30 10-Q ['0001162896-26-000011']
+HDRN 2026-09-30 10-Q ['0001193125-26-453519']
+SPRU 2026-09-30 10-Q ['0001628280-26-073907']
+EGY 2025: [('2025-06-30', '0000894627-25-000041'), ('2025-09-30', '0000894627-25-000057')]

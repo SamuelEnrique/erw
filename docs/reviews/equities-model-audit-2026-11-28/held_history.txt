@@ -1,0 +1,5 @@
+site/data/equities/index.json: 7 versions read
+site/data/equities/board.json: 7 versions read
+4c190dd1c site/data/equities/energy_prices.json: 1 held values (['wti'])
+site/data/equities/energy_prices.json: 7 versions read
+versions with a held value: 1

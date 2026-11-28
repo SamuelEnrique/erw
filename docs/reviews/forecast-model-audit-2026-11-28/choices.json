@@ -1,0 +1,414 @@
+{
+ "same_hours_groups": 9015,
+ "same_hours_groups_unequal": [],
+ "recent_vs_regression": {
+  "places": 64,
+  "l2_recent_better": 61,
+  "pre_recent_better": 63,
+  "pre_recent_worse": [
+   [
+    "ba-psco",
+    361.53,
+    361.7,
+    355.06,
+    372.02
+   ]
+  ]
+ },
+ "horizon": {
+  "places": 29,
+  "median_pct_h2_to_h3": 17.9,
+  "tex": [
+   [
+    "region-tex",
+    2841.11,
+    3424.48,
+    4097.09,
+    4530.05,
+    4008.86
+   ]
+  ],
+  "h3_not_beating_latest_day": []
+ },
+ "ahead_shown_not_beating_either_naive": [],
+ "weather_known": {
+  "places": 64,
+  "median_cut_pct": 24.0,
+  "tex": [
+   [
+    "region-tex",
+    5.266,
+    3.901,
+    2.065
+   ]
+  ],
+  "beats_operator": 28
+ },
+ "choice_window": [
+  {
+   "place": "region-cent",
+   "series": "price",
+   "chosen_now": "regression",
+   "chosen_on_whole": "yesterday",
+   "l2_now": 14.52,
+   "l2_whole": 16.53,
+   "all_now": 34.63,
+   "all_whole": 18.73
+  },
+  {
+   "place": "ba-swpp",
+   "series": "price",
+   "chosen_now": "regression",
+   "chosen_on_whole": "yesterday",
+   "l2_now": 14.54,
+   "l2_whole": 16.53,
+   "all_now": 34.62,
+   "all_whole": 18.72
+  },
+  {
+   "place": "ba-ldwp",
+   "series": "demand",
+   "chosen_now": "regression",
+   "chosen_on_whole": "regression_recent",
+   "l2_now": 253.55,
+   "l2_whole": 257.37,
+   "all_now": 200.8,
+   "all_whole": 199.84
+  },
+  {
+   "place": "ba-spa",
+   "series": "demand",
+   "chosen_now": "regression",
+   "chosen_on_whole": "regression_recent",
+   "l2_now": 5.14,
+   "l2_whole": 5.15,
+   "all_now": 6.5,
+   "all_whole": 6.49
+  },
+  {
+   "place": "region-cal",
+   "series": "demand_peak",
+   "chosen_now": "regression",
+   "chosen_on_whole": "regression_recent",
+   "l2_now": 1946.8,
+   "l2_whole": 1951.6,
+   "all_now": 1911.8,
+   "all_whole": 1902.4,
+   "l2_now_mape": 4.953,
+   "l2_whole_mape": 4.999,
+   "all_now_mape": 4.829,
+   "all_whole_mape": 4.857
+  },
+  {
+   "place": "region-fla",
+   "series": "demand_peak",
+   "chosen_now": "regression",
+   "chosen_on_whole": "regression_recent",
+   "l2_now": 2542.3,
+   "l2_whole": 2543.7,
+   "all_now": 2566.7,
+   "all_whole": 2543.3,
+   "l2_now_mape": 6.535,
+   "l2_whole_mape": 6.556,
+   "all_now_mape": 6.863,
+   "all_whole_mape": 6.809
+  },
+  {
+   "place": "region-ten",
+   "series": "demand_peak",
+   "chosen_now": "regression_recent",
+   "chosen_on_whole": "regression",
+   "l2_now": 1980.4,
+   "l2_whole": 2021.8,
+   "all_now": 1908.5,
+   "all_whole": 1791.3,
+   "l2_now_mape": 8.323,
+   "l2_whole_mape": 8.487,
+   "all_now_mape": 8.615,
+   "all_whole_mape": 7.951
+  },
+  {
+   "place": "ba-ciso",
+   "series": "demand_peak",
+   "chosen_now": "regression",
+   "chosen_on_whole": "regression_recent",
+   "l2_now": 1540.1,
+   "l2_whole": 1543.3,
+   "all_now": 1487.4,
+   "all_whole": 1486.8,
+   "l2_now_mape": 4.822,
+   "l2_whole_mape": 4.869,
+   "all_now_mape": 4.613,
+   "all_whole_mape": 4.664
+  },
+  {
+   "place": "ba-psco",
+   "series": "demand_peak",
+   "chosen_now": "regression_recent",
+   "chosen_on_whole": "yesterday",
+   "l2_now": 492.2,
+   "l2_whole": 563.1,
+   "all_now": 663.1,
+   "all_whole": 537.4,
+   "l2_now_mape": 7.351,
+   "l2_whole_mape": 8.757,
+   "all_now_mape": 10.387,
+   "all_whole_mape": 8.349
+  },
+  {
+   "place": "ba-tva",
+   "series": "demand_peak",
+   "chosen_now": "regression_recent",
+   "chosen_on_whole": "regression",
+   "l2_now": 1980.4,
+   "l2_whole": 2021.8,
+   "all_now": 1908.5,
+   "all_whole": 1791.3,
+   "l2_now_mape": 8.323,
+   "l2_whole_mape": 8.487,
+   "all_now_mape": 8.615,
+   "all_whole_mape": 7.951
+  },
+  {
+   "place": "ba-iid",
+   "series": "demand_peak",
+   "chosen_now": "regression",
+   "chosen_on_whole": "regression_recent",
+   "l2_now": 57.5,
+   "l2_whole": 58.1,
+   "all_now": 52.1,
+   "all_whole": 51.4,
+   "l2_now_mape": 9.144,
+   "l2_whole_mape": 9.218,
+   "all_now_mape": 8.299,
+   "all_whole_mape": 8.235
+  },
+  {
+   "place": "ba-pnm",
+   "series": "demand_peak",
+   "chosen_now": "regression",
+   "chosen_on_whole": "regression_recent",
+   "l2_now": 91.5,
+   "l2_whole": 91.8,
+   "all_now": 86.2,
+   "all_whole": 86.1,
+   "l2_now_mape": 4.416,
+   "l2_whole_mape": 4.435,
+   "all_now_mape": 4.299,
+   "all_whole_mape": 4.298
+  },
+  {
+   "place": "ba-sceg",
+   "series": "demand_peak",
+   "chosen_now": "regression",
+   "chosen_on_whole": "regression_recent",
+   "l2_now": 318.1,
+   "l2_whole": 321.5,
+   "all_now": 292.0,
+   "all_whole": 288.5,
+   "l2_now_mape": 8.985,
+   "l2_whole_mape": 9.084,
+   "all_now_mape": 8.634,
+   "all_whole_mape": 8.524
+  },
+  {
+   "place": "ba-spa",
+   "series": "demand_peak",
+   "chosen_now": "yesterday",
+   "chosen_on_whole": "regression_recent",
+   "l2_now": 5.4,
+   "l2_whole": 9.5,
+   "all_now": 10.4,
+   "all_whole": 9.4,
+   "l2_now_mape": 15.234,
+   "l2_whole_mape": 26.369,
+   "all_now_mape": 13.189,
+   "all_whole_mape": 12.14
+  },
+  {
+   "place": "ba-srp",
+   "series": "demand_peak",
+   "chosen_now": "regression",
+   "chosen_on_whole": "regression_recent",
+   "l2_now": 441.3,
+   "l2_whole": 443.0,
+   "all_now": 355.1,
+   "all_whole": 354.1,
+   "l2_now_mape": 8.713,
+   "l2_whole_mape": 8.738,
+   "all_now_mape": 7.132,
+   "all_whole_mape": 7.088
+  },
+  {
+   "place": "ba-tepc",
+   "series": "demand_peak",
+   "chosen_now": "regression",
+   "chosen_on_whole": "regression_recent",
+   "l2_now": 133.0,
+   "l2_whole": 133.4,
+   "all_now": 166.7,
+   "all_whole": 166.6,
+   "l2_now_mape": 6.054,
+   "l2_whole_mape": 6.074,
+   "all_now_mape": 7.782,
+   "all_whole_mape": 7.803
+  },
+  {
+   "place": "ba-tidc",
+   "series": "demand_peak",
+   "chosen_now": "regression",
+   "chosen_on_whole": "regression_recent",
+   "l2_now": 27.4,
+   "l2_whole": 27.6,
+   "all_now": 28.6,
+   "all_whole": 27.8,
+   "l2_now_mape": 6.429,
+   "l2_whole_mape": 6.482,
+   "all_now_mape": 6.539,
+   "all_whole_mape": 6.379
+  },
+  {
+   "place": "ba-walc",
+   "series": "demand_peak",
+   "chosen_now": "yesterday",
+   "chosen_on_whole": "regression_recent",
+   "l2_now": 104.9,
+   "l2_whole": 115.4,
+   "all_now": 93.8,
+   "all_whole": 92.3,
+   "l2_now_mape": 8.434,
+   "l2_whole_mape": 9.07,
+   "all_now_mape": 7.497,
+   "all_whole_mape": 7.216
+  }
+ ],
+ "filing": {
+  "places_with_sound_hours": 59,
+  "erw_ahead_all_months": 16,
+  "erw_ahead_sound_months": 12
+ },
+ "peak_own_choice": {
+  "places_differ": 17,
+  "rows": [
+   [
+    "region-cal",
+    "regression_recent",
+    "regression",
+    4.999,
+    4.953
+   ],
+   [
+    "region-cent",
+    "regression_recent",
+    "regression",
+    7.349,
+    6.021
+   ],
+   [
+    "region-fla",
+    "regression_recent",
+    "regression",
+    6.556,
+    6.535
+   ],
+   [
+    "ba-ciso",
+    "regression_recent",
+    "regression",
+    4.869,
+    4.822
+   ],
+   [
+    "ba-psco",
+    "regression",
+    "regression_recent",
+    7.369,
+    7.351
+   ],
+   [
+    "ba-swpp",
+    "regression_recent",
+    "regression",
+    6.896,
+    6.309
+   ],
+   [
+    "ba-epe",
+    "regression_recent",
+    "regression",
+    7.511,
+    7.478
+   ],
+   [
+    "ba-fmpp",
+    "regression_recent",
+    "regression",
+    7.84,
+    7.167
+   ],
+   [
+    "ba-iid",
+    "regression_recent",
+    "regression",
+    9.218,
+    9.144
+   ],
+   [
+    "ba-nwmt",
+    "regression_recent",
+    "regression",
+    4.872,
+    4.815
+   ],
+   [
+    "ba-pnm",
+    "regression_recent",
+    "regression",
+    4.435,
+    4.416
+   ],
+   [
+    "ba-sceg",
+    "regression_recent",
+    "regression",
+    9.084,
+    8.985
+   ],
+   [
+    "ba-spa",
+    "regression",
+    "yesterday",
+    26.594,
+    15.234
+   ],
+   [
+    "ba-srp",
+    "regression_recent",
+    "regression",
+    8.738,
+    8.713
+   ],
+   [
+    "ba-tepc",
+    "regression_recent",
+    "regression",
+    6.074,
+    6.054
+   ],
+   [
+    "ba-tidc",
+    "regression_recent",
+    "regression",
+    6.482,
+    6.429
+   ],
+   [
+    "ba-walc",
+    "regression_recent",
+    "yesterday",
+    9.07,
+    8.434
+   ]
+  ]
+ }
+}

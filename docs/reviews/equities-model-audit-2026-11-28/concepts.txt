@@ -1,0 +1,46 @@
+revenue: Revenues 134; RevenueFromContractWithCustomerExcludingAssessedTax 75; RevenueFromContractWithCustomerIncludingAssessedTax 16; RegulatedAndUnregulatedOperatingRevenue 10; none 8
+net_income: NetIncomeLoss 212; ProfitLoss 27; none 3; NetIncomeLossAvailableToCommonStockholdersBasic 1
+capex: PaymentsToAcquirePropertyPlantAndEquipment 146; PaymentsToAcquireProductiveAssets 37; none 21; PaymentsToAcquireOilAndGasProperty 21; PaymentsToAcquireOilAndGasPropertyAndEquipment 18
+debt: LongTermDebt 130; LongTermDebtNoncurrent 67; LongTermDebtAndCapitalLeaseObligations 26; none 20
+shares_outstanding: CommonStockSharesOutstanding 169; none 74
+
+The newest period: a line not filed, by segment (of the companies with filed figures)
+  segment                     n  rev   ni capex debt shares
+  integrated_oil_gas         14    1    1     5    3     11
+  exploration_production     68    2    1    23   22     30
+  midstream_pipelines        41    3    1     6    3     21
+  refining                   14    1    1     5    3     11
+  oilfield_services          43    1    0     6    7     20
+  coal                        9    1    0     5    2      5
+  regulated_utilities        85    7    0    13   14     25
+  independent_power          42    5    0     7   10     14
+  grid_equipment              2    0    0     0    1      1
+  every segment: 307 companies, 243 with filed figures; with no balance-sheet share count at the newest period: 107 of 243; with no filed figures at all: 64
+
+Capital spending against revenue, the newest year to date (the same filing, the same months), by capex concept
+  coal                     PaymentsToAcquireProductiveAssets                n   1 median 0.076; under 5 percent of revenue: none
+  coal                     PaymentsToAcquirePropertyPlantAndEquipment       n   2 median 0.123; under 5 percent of revenue: none
+  exploration_production   PaymentsToAcquireOilAndGasProperty               n  18 median 0.125; under 5 percent of revenue: BSIN 0.000, EGY 0.000, PROP 0.000, REPX 0.011, MUR 0.011
+  exploration_production   PaymentsToAcquireOilAndGasPropertyAndEquipment   n   9 median 0.191; under 5 percent of revenue: EONR 0.000, PED 0.050
+  exploration_production   PaymentsToAcquireProductiveAssets                n   3 median 0.213; under 5 percent of revenue: none
+  exploration_production   PaymentsToAcquirePropertyPlantAndEquipment       n  15 median 0.227; under 5 percent of revenue: PARR 0.015
+  grid_equipment           PaymentsToAcquirePropertyPlantAndEquipment       n   2 median 0.022; under 5 percent of revenue: POWL 0.015, LFUS 0.022
+  independent_power        PaymentsToAcquirePropertyPlantAndEquipment       n   1 median 0.469; under 5 percent of revenue: none
+  integrated_oil_gas       PaymentsToAcquireProductiveAssets                n   3 median 0.019; under 5 percent of revenue: SUN 0.013, CVI 0.019
+  integrated_oil_gas       PaymentsToAcquirePropertyPlantAndEquipment       n   6 median 0.032; under 5 percent of revenue: CLMT 0.015, PBF 0.019, MPC 0.023, IEP 0.032, DK 0.042
+  midstream_pipelines      PaymentsToAcquireProductiveAssets                n   7 median 0.115; under 5 percent of revenue: none
+  midstream_pipelines      PaymentsToAcquirePropertyPlantAndEquipment       n  25 median 0.209; under 5 percent of revenue: PAA 0.009, PAGP 0.009, DINO 0.013, CTRI 0.025
+  oilfield_services        PaymentsToAcquireOilAndGasPropertyAndEquipment   n   1 median 0.005; under 5 percent of revenue: HPK 0.005
+  oilfield_services        PaymentsToAcquireProductiveAssets                n   6 median 0.107; under 5 percent of revenue: OIS 0.022, HAL 0.041, BKR 0.042
+  oilfield_services        PaymentsToAcquirePropertyPlantAndEquipment       n  29 median 0.071; under 5 percent of revenue: RCON 0.004, FET 0.007, HMH 0.007, DNOW 0.008, FTI 0.022, DWSN 0.027, OII 0.027, CLB 0.030, RIG 0.032, NOV 0.036, WFRD 0.041, SLB 0.047
+  regulated_utilities      PaymentsToAcquireProductiveAssets                n   9 median 0.457; under 5 percent of revenue: none
+  regulated_utilities      PaymentsToAcquirePropertyPlantAndEquipment       n  44 median 0.390; under 5 percent of revenue: SPRU 0.000, NRG 0.043
+  capital spending filed as exactly 0 at the newest period: ['BSIN', 'EGY', 'EONR', 'HDRN', 'PROP', 'SPRU']
+
+The same revenue for the same period and months, filed by two companies (one consolidates the other)
+  2026-09-30 3 months 421,000,000: AVA (AVISTA CORP, regulated_utilities); CRC (California Resources Corp, exploration_production)
+  2026-09-30 3 months 2,183,000,000: CMS (CMS ENERGY CORP, regulated_utilities); CMS-PB (CONSUMERS ENERGY CO, regulated_utilities)
+  2026-09-30 3 months 4,886,000,000: EIX (EDISON INTERNATIONAL, regulated_utilities;independent_power); SCE-PG (SOUTHERN CALIFORNIA EDISON Co, regulated_utilities;independent_power)
+  2026-09-30 3 months 15,173,000,000: PAA (PLAINS ALL AMERICAN PIPELINE LP, midstream_pipelines); PAGP (PLAINS GP HOLDINGS LP, midstream_pipelines)
+  2026-09-30 3 months 6,188,000,000: PCG (PG&E Corp, regulated_utilities); PCG-PE (PACIFIC GAS & ELECTRIC Co, regulated_utilities)
+  2026-09-30 3 months 18,029,000,000: SUN (Sunoco LP, integrated_oil_gas;refining); SUNC (SunocoCorp LLC, integrated_oil_gas;refining)
