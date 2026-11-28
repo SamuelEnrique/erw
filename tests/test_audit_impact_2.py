@@ -14,7 +14,7 @@ tax (its taxable share is not given by default) nor the income tax of supply cha
    value; the Virginia default with a building's taxable share of 40 percent has 9.8 percent more.
 2. The fix on this branch, words only (fails on main): the cells say "on site only" where no study is held, the total
    names the building's sales tax and the supply chain and induced income tax among what it leaves out, and the lead
-   says what a datacenter's figures rest on. No figure moves."""
+   says what a datacenter's figures rest on, and the source line names its sources. No figure moves."""
 import json
 import os
 import subprocess
@@ -71,6 +71,9 @@ class OnSiteOnly(unittest.TestCase):
         self.assertNotIn("Jobs, earnings and output are NLR&apos;s JEDI models read for every state", p)
         self.assertIn("which no JEDI model covers", p)
         self.assertIn("Virginia, Georgia and Minnesota", p)
+        # the source line named only the plants' sources; it now names a datacenter's
+        self.assertIn("A datacenter&apos;s figures rest on other sources", p)
+        self.assertIn("Census County Business Patterns 2023", p)
 
 
 if __name__ == "__main__":
