@@ -311,7 +311,10 @@ def main(argv=None):
         links, att, fri, weeks, c = build(stories, classified, now)
         models = ", ".join(sorted(c["model_id"].unique()))
         first, last = c["week"].min()[:10], c["week"].max()[:10]
-        share = f"{len(c)} of the {len(stories)} stories held are classified ({100.0 * len(c) / len(stories):.1f} percent), weeks {first} to {last}"
+        # wip/ready-attention-count (the small pages audit of 26 November, finding 14, for Samuel's ruling): the stories held are
+        # the weeks' stories, counted after build() leaves out those dated more than a day after they were read (session 7003)
+        held = int(weeks["stories_week"].sum())
+        share = f"{len(c)} of the {held} stories held are classified ({100.0 * len(c) / held:.1f} percent), weeks {first} to {last}"
         common = [
             f"Built from: warehouse/output/news_stories.csv (the stories, their weeks and the week's denominators) and the classification of "
             f"warehouse/derived/attention_classify.py (model {models}; prompt version {int(c['prompt_version'].max())}). {share}.",
