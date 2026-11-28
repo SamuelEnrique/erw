@@ -185,7 +185,7 @@ function Digest() {
           ))}
         </ol>
       ) : (
-        <NoData what="the digest" reason="docs/digest/latest.md has no 'Top of the industry' section" />
+        <NoData what="the digest" reason="docs/digest/latest.md has no 'Top of the industry' or 'What moved' section" />
       )}
     </ToolSection>
   );

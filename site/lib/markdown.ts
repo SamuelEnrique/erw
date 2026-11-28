@@ -228,11 +228,14 @@ export function digestDates(): string[] {
 }
 
 /**
- * The first `n` items under "## Top of the industry" in a digest, each as markdown.
- * Returns null when the digest has no such section, so the page can say so.
+ * The first `n` items under "## Top of the industry" in a digest, each as markdown; in the form of 12 November 2026 on
+ * ("ERW Daily Digest"), which has no such section, under "## What moved" (wip/ready-home-digest, the home page audit of
+ * 26 November, finding 1, for Samuel's ruling).
+ * Returns null when the digest has neither section, so the page can say so.
  */
 export function topItems(md: string, n: number): string[] | null {
-  const start = md.indexOf("\n## Top of the industry");
+  const old = md.indexOf("\n## Top of the industry");
+  const start = old >= 0 ? old : md.indexOf("\n## What moved");
   if (start < 0) return null;
   const rest = md.slice(start + 1);
   const next = rest.indexOf("\n## ", 3);
