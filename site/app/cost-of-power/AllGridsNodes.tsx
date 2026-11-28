@@ -68,7 +68,8 @@ export function AllGridsNodes({ columns, pkey, datacenter, sort, dir, open, shor
     if (co) q.set("ncounty", co); else q.delete("ncounty");
     if (zo) q.set("nzone", zo); else q.delete("nzone");
     const s = q.toString();
-    window.history.replaceState(null, "", `${window.location.pathname}${s ? `?${s}` : ""}`);
+    // chain 780 (session 11600, row CP2 of the read of 26 November): the entry's own state, never null (LargeLoadRules.tsx says why)
+    window.history.replaceState(window.history.state, "", `${window.location.pathname}${s ? `?${s}` : ""}`);
   }, [by, d, nq, cl, co, zo]);
   const download = () => {
     const cell = (v: number | null) => (v === null ? "" : String(v));
