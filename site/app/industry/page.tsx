@@ -10,7 +10,7 @@ import { STATES } from "@/lib/regions";
 import {
   MECS_FUELS, MECS_REGIONS, MONTHLY_KEYS, OUTLOOK_INDUSTRIES, SEDS_SOURCES, changePct, industryChoices, lastMonth, lastStateYear, lastWholeYear,
   monthValue, monthlyPoints, outlookPoints, outlookSeries, outlookValue, pct1, rankedIndustries, rankedStates, readIndustry, salesPoints, salesYear,
-  shareOfSum, stateValue, statePoints, statePrice, tbtu, yearSum, type IndustryFile,
+  shareOfSum, stateValue, statePoints, statePrice, tbtu, twelveMonthSum, yearSum, type IndustryFile,
 } from "@/lib/industry";
 import raw from "@/data/industry.json";
 import { IndustryDecisions } from "./Decisions";
@@ -155,12 +155,16 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
         </ChartFrame>
         {last && yearAgo ? (
           <ToolTable
-            caption="The latest month beside the same month a year before"
-            head={["Source", monthWords(last), monthWords(yearAgo), "Change"]}
+            caption="The latest month beside the same month a year before, and the twelve months to it beside the twelve before"
+            head={["Source", monthWords(last), monthWords(yearAgo), "Change", `Twelve months to ${monthWords(last)}, change`]}
             rows={MONTHLY_KEYS.map((k) => {
               const a = monthValue(F, k, last), b = monthValue(F, k, yearAgo);
+              // Session 11407 (the audit of 26 November 2026, finding 7, readied for Samuel's ruling): one month carries its
+              // weather and working days; the twelve months to it against the twelve before are drawn beside it.
+              const ta = twelveMonthSum(F, k, last), tb = twelveMonthSum(F, k, yearAgo);
               return { key: k, highlight: k === "total", cells: [F.monthly.labels[k] ?? k, <Fig key="a" v={a} src={SRC.monthly} k={`m-${k}`} />, <Fig key="b" v={b} src={SRC.monthly} k={`m1-${k}`} />,
-                <Fig key="c" v={a !== null && b !== null && b ? (100 * (a - b)) / b : null} src={`The change from the same month a year before, percent of the earlier month. ${SRC.monthly}`} k={`mc-${k}`} digits={(v) => pct1(v) as string} />] };
+                <Fig key="c" v={a !== null && b !== null && b ? (100 * (a - b)) / b : null} src={`The change from the same month a year before, percent of the earlier month. ${SRC.monthly}`} k={`mc-${k}`} digits={(v) => pct1(v) as string} />,
+                <Fig key="d" v={ta !== null && tb !== null && tb ? (100 * (ta - tb)) / tb : null} src={`The twelve months to ${monthWords(last)} summed, against the twelve months to ${monthWords(yearAgo)} summed, percent of the earlier twelve; not held unless all twenty-four months are held. One month carries its weather, its working days and EIA's newest estimates; twelve months carry less of each. ${SRC.monthly}`} k={`m12c-${k}`} digits={(v) => pct1(v) as string} />] };
             })}
           />
         ) : null}

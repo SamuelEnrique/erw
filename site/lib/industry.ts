@@ -100,6 +100,19 @@ export function yearSum(f: IndustryFile, key: string, year: number): number | nu
   }
   return s;
 }
+/** The sum of the twelve months ending with a month ("YYYY-MM"), or null unless all twelve are held. Session 11407
+ * (the audit of 26 November 2026, finding 7, readied for Samuel's ruling): the twelve months beside the one month. */
+export function twelveMonthSum(f: IndustryFile, key: string, month: string): number | null {
+  let y = Number(month.slice(0, 4)), m = Number(month.slice(5, 7)), s = 0;
+  for (let k = 0; k < 12; k += 1) {
+    const v = monthValue(f, key, `${y}-${String(m).padStart(2, "0")}`);
+    if (v === null) return null;
+    s += v;
+    m -= 1;
+    if (m === 0) { m = 12; y -= 1; }
+  }
+  return s;
+}
 /** The newest year with all twelve months of the total held. */
 export function lastWholeYear(f: IndustryFile): number | null {
   const last = lastMonth(f);

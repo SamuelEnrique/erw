@@ -91,6 +91,17 @@ def year_sum(f, key, year):
     return None if any(v is None for v in vals) else sum(vals)
 
 
+def twelve_sum(f, key, month):
+    """The twelve months ending with a month summed, or None unless all twelve are held (session 11407)."""
+    y, m, vals = int(month[:4]), int(month[5:7]), []
+    for _ in range(12):
+        vals.append(month_value(f, key, f"{y}-{m:02d}"))
+        m -= 1
+        if m == 0:
+            m, y = 12, y - 1
+    return None if any(v is None for v in vals) else sum(vals)
+
+
 def last_month(f):
     m = f["monthly"]
     for i in range(len(m["months"]) - 1, -1, -1):
@@ -130,6 +141,9 @@ def main(argv=None):
         x, y = month_value(f, k, last), month_value(f, k, ago)
         want[f"m-{k}"], want[f"m1-{k}"] = x, y
         want[f"mc-{k}"] = None if x is None or y is None or not y else 100 * (x - y) / y
+        # session 11407: the twelve months to the newest month against the twelve before (none unless all 24 held)
+        t1, t0 = twelve_sum(f, k, last), twelve_sum(f, k, ago)
+        want[f"m12c-{k}"] = None if t1 is None or t0 is None or not t0 else 100 * (t1 - t0) / t0
     # the industries ranked, in the region chosen
     region = q.get("region", "us")
     rows = {n: ind["industries"][n]["by_region"].get(region, {}) for n in ind["ranked_3_digit"]}
@@ -194,7 +208,7 @@ def main(argv=None):
         if w is None or pv is None:
             ok = w is None and pv is None
         else:
-            tol = 0.051 if k.startswith(("mc-", "sh-", "sa-chg", "sb-chg", "sp-", "sa-price", "sb-price", "se-", "sa-exp", "sb-exp", "sa-sales", "sb-sales")) else (0.51 if abs(w) >= 100 else 0.051)
+            tol = 0.051 if k.startswith(("mc-", "m12c-", "sh-", "sa-chg", "sb-chg", "sp-", "sa-price", "sb-price", "se-", "sa-exp", "sb-exp", "sa-sales", "sb-sales")) else (0.51 if abs(w) >= 100 else 0.051)
             ok = abs(pv - w) <= tol
         bad += 0 if ok else 1
         out.append({"figure": k, "page": p, "file": w, "same": "yes" if ok else "NO"})
