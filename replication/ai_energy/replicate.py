@@ -57,6 +57,17 @@ def squash(s):
     return re.sub(r"\s+", " ", s).strip()
 
 
+def printed_digits(v, printed):
+    """Session 11407: the number of the printed words equal to v, with the digits printed (the integer part grouped),
+    as the page's figure() writes it; None when no number of the words equals v."""
+    for m in re.finditer(r"(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(?:\s*[×x]\s*10\s*([−-]?\d+))?", printed or ""):
+        i, d, e = m.group(1).replace(",", ""), m.group(2) or "", m.group(3)
+        n = float(i + d) * 10 ** (int(e.replace("−", "-")) if e else 0)
+        if abs(n - v) <= 1e-9 * abs(v):
+            return f"{int(i):,}" + d + (f"×10{e}" if e else "")
+    return None
+
+
 def found(printed, text):
     t = squash(re.sub(r"-[ \t]*\n", "", text))
     return all(squash(p) in t for p in printed.split("[...]") if p.strip())
@@ -83,7 +94,8 @@ def main(argv=None):
         v = r["x_value"]
         s = "" if v is None else str(v)
         i, _, d = s.partition(".")
-        want[f"v-{r['event_id']}"] = (f"{int(i):,}" + (f".{d}" if d and d != "0" else "") if s else "") + f" {r['x_unit']}"
+        p = None if v is None else printed_digits(v, r.get("x_printed"))
+        want[f"v-{r['event_id']}"] = (p if p else (f"{int(i):,}" + (f".{d}" if d and d != "0" else "") if s else "")) + f" {r['x_unit']}"
     out, bad = [], 0
     for k, w in want.items():
         p = figs.get(k)

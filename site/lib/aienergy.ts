@@ -46,10 +46,32 @@ export function publishers(rows: AiRow[]): string[] {
   return [...new Set(rows.map((r) => r.parties))].sort((a, b) => a.localeCompare(b));
 }
 
-/** A figure as the publication's number, in its own unit: digits as given, grouped, never converted. */
-export function figure(v: number | null): string {
+/** A figure as the publication's number, in its own unit: digits as given, grouped, never converted. Session 11407
+ *  (chain 770, the ruling readied for finding 6 of docs/reviews/ai-energy-model-audit-2026-11-26.md): when the row's
+ *  printed words are given, the number is written with the digits they print ("0.10", not 0.1; "1.0×10−4", not
+ *  0.0001), found as the first number of the words equal to the value; a value whose float is written with an
+ *  exponent is never shown as 0. */
+export function figure(v: number | null, printed?: string): string {
   if (v === null) return "";
+  const p = printed ? printedDigits(v, printed) : null;
+  if (p) return p;
   const s = String(v);
+  if (/e/i.test(s)) return s;
   const [i, d] = s.split(".");
   return Number(i).toLocaleString("en-US") + (d ? `.${d}` : "");
+}
+
+/** The number of the printed words equal to v, with the digits printed (the integer part grouped), or null. */
+export function printedDigits(v: number, printed: string): string | null {
+  const re = /(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(?:\s*[×x]\s*10\s*([−-]?\d+))?/g;
+  for (const m of printed.matchAll(re)) {
+    const int = m[1].replace(/,/g, "");
+    const dec = m[2] ?? "";
+    const exp = m[3] ? Number(m[3].replace("−", "-")) : 0;
+    const n = Number(int + dec) * 10 ** exp;
+    if (Math.abs(n - v) <= 1e-9 * Math.abs(v)) {
+      return Number(int).toLocaleString("en-US") + dec + (m[3] ? `×10${m[3]}` : "");
+    }
+  }
+  return null;
 }

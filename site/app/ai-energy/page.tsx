@@ -72,7 +72,7 @@ export default async function AiEnergyPage({ searchParams }: { searchParams: Pro
             <span key="t"><a href={r.source_url} rel="noopener noreferrer">{r.x_title}</a><span className="block text-xs text-muted">{dateWords(r.event_date)}{r.x_authors ? `; ${r.x_authors}` : ""}</span></span>,
             <span key="m" className="cursor-help" title={`Period: ${r.x_period}. Peer-reviewed: ${r.x_peer_reviewed}.`}>{r.x_measures}</span>,
             r.x_subject,
-            <span key="v" className="cursor-help whitespace-nowrap tabular-nums" data-fig={`v-${r.event_id}`} title={`Basis: ${r.x_basis}. Source: ${r.x_title} (${r.source_url}), page ${r.x_page}, as saved on ${r.x_retrieved_at.slice(0, 10)} (sha256 ${r.x_sha256.slice(0, 12)}).`}>{figure(r.x_value)} {r.x_unit}</span>,
+            <span key="v" className="cursor-help whitespace-nowrap tabular-nums" data-fig={`v-${r.event_id}`} title={`Basis: ${r.x_basis}. Source: ${r.x_title} (${r.source_url}), page ${r.x_page}, as saved on ${r.x_retrieved_at.slice(0, 10)} (sha256 ${r.x_sha256.slice(0, 12)}).`}>{figure(r.x_value, r.x_printed)} {r.x_unit}</span>,
             <span key="w" className="cursor-help" title={`Page ${r.x_page} of the publication, as saved; the ERW cut these words from its saved copy.`}>&ldquo;{r.x_printed}&rdquo;<span className="text-xs text-muted"> (p. {r.x_page})</span></span>,
           ] }))}
         />
