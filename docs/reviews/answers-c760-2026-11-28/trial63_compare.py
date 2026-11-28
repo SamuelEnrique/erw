@@ -8,12 +8,13 @@ import json
 import os
 
 ROOT = r"C:\Users\Shared\Documents\erw"
+LEDGER = os.path.join(ROOT, "runs", "c760", "trial63", "ledger_aside", "ledger_price.csv")  # the ledger as it stood
 PLACES = ["region-cent", "ba-swpp", "region-cal", "ba-ciso"]
 
 
 def ledger():
     out = {}
-    with open(os.path.join(ROOT, "site", "data", "predict", "ledger_price.csv"), encoding="utf-8") as fh:
+    with open(LEDGER, encoding="utf-8") as fh:
         rd = csv.DictReader(ln for ln in fh if not ln.startswith("#"))
         for r in rd:
             if r["place"] in PLACES and r["target_day"] == "2026-11-28" and r["erw"]:
