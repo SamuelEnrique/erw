@@ -108,7 +108,7 @@ class ThePage(unittest.TestCase):
         for op in OPS:
             self.assertIn(f"@/data/conditions/{op}.json", s)
         self.assertIn("index: false", src("site", "app", "conditions", "page.tsx"))
-        self.assertNotIn('"/conditions"', src("site", "lib", "release.ts"))
+        self.assertIn('"/conditions": "review"', src("site", "lib", "release.ts"))   # session 11405 (decision 4 of the weekend page of 28 November 2026, readied): in the menu, its own line, in review
         self.assertIn('"/conditions"', src("site", "scripts", "check-routes.mjs"))
 
 

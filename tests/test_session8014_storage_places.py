@@ -38,7 +38,7 @@ class TheFile(unittest.TestCase):
 
 class ThePage(unittest.TestCase):
     def test_in_no_menu_and_the_storage_page_unchanged(self):
-        self.assertNotIn("/storage/places", src("site", "lib", "pages.ts"))
+        self.assertIn('{ href: "/storage/places", label: "Batteries in every authority and state"', src("site", "lib", "pages.ts"))   # session 11405 (decision 4 of the weekend page of 28 November 2026, readied): in the menu under its own name
         self.assertNotIn("/storage/places", src("site", "lib", "release.ts"))
         self.assertNotIn("places", src("site", "lib", "tabs.ts"))
 
@@ -74,7 +74,7 @@ class TheQueuePlaces(unittest.TestCase):
         self.assertEqual(re.findall(r"^\| `([a-z0-9-]+)` \|", note, re.M), keys)
 
     def test_in_no_menu_and_queues_unchanged(self):
-        self.assertNotIn("/queues/places", src("site", "lib", "pages.ts"))
+        self.assertIn('{ href: "/queues/places", label: "Queues outside the seven grids"', src("site", "lib", "pages.ts"))   # session 11405 (decision 4 of the weekend page of 28 November 2026, readied): in the menu under its own name
         self.assertNotIn("queue_places", src("site", "app", "queues", "page.tsx"))
         for p in (("site", "app", "queues", "places", "page.tsx"), ("warehouse", "derived", "queue_places.py"), ("docs", "methods", "queue_places.md")):
             self.assertNotIn(chr(0x2014), src(*p))

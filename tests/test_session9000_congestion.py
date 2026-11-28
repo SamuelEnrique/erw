@@ -106,7 +106,7 @@ class ThePage(unittest.TestCase):
         self.assertIn("license needed", src("warehouse", "derived", "congestion_page.py"))
 
     def test_page_is_in_no_menu(self):
-        self.assertNotIn('"/congestion"', src("site", "lib", "release.ts"))
+        self.assertIn('"/congestion": "review"', src("site", "lib", "release.ts"))   # session 11405 (decision 4, readied): in the menu, its own line, in review
 
     def test_page_is_in_the_route_check(self):
         self.assertIn('"/congestion"', src("site", "scripts", "check-routes.mjs"))

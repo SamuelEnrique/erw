@@ -240,12 +240,17 @@ class TheMenuAndTheKeys(unittest.TestCase):
         d = node("import { GROUPS, PAGES } from './lib/pages.ts'; const g = GROUPS.find((x) => x.label === 'Grid'); "
                  "console.log(JSON.stringify({ pages: g.pages.map((p) => [p.href, p.label]), sub: g.sub ?? null, groups: GROUPS.map((x) => [x.label, x.pages.length]), "
                  "related: PAGES.flatMap((p) => p.related ?? []), hrefs: PAGES.map((p) => p.href) }));")
-        self.assertEqual(d["pages"], [["/grid", "The grid"], ["/demand", "Demand growth"], ["/curtailment", "Curtailment"]])   # session 239: Consumption is a view of /demand
+        # session 239: Consumption is a view of /demand. Session 11405 (decision 4 of the weekend page of 28 November 2026,
+        # readied): five pages no menu led to joined, each under its own name
+        self.assertEqual(d["pages"], [["/grid", "The grid"], ["/conditions", "Grid conditions"], ["/congestion", "Congestion"], ["/demand", "Demand growth"],
+                                      ["/forecast", "ERW forecast"], ["/industry", "Energy use by industry"], ["/curtailment", "Curtailment"], ["/curtailment/where-when", "Where and when power is spare"]])
         self.assertIsNone(d["sub"])
         # nothing else of the menu changed: the other groups hold what they held
         # session 239: seven pages became tabs and left the menu; session 288 (ruling 14): the bill moved from Economics to
         # Games, whose four problem sets became one entry, their index
-        self.assertEqual(d["groups"], [["Economics", 6], ["Grid", 3], ["Infrastructure", 6], ["Analysis", 5], ["Games", 5], ["About", 3], ["News", 3]])   # session 347: /impact joined Economics
+        # session 347: /impact joined Economics. Session 11405 (decision 4, readied): /equities to Economics, five to Grid,
+        # /ai-energy to Analysis (and three to Infrastructure's sub-group, not counted here)
+        self.assertEqual(d["groups"], [["Economics", 7], ["Grid", 8], ["Infrastructure", 6], ["Analysis", 6], ["Games", 5], ["About", 3], ["News", 3]])
         # no Related line points at a page that left the list
         self.assertEqual([h for h in d["related"] if h not in d["hrefs"] and not h.startswith("/learn/problems") and not h.startswith("/explorer")], [])
 

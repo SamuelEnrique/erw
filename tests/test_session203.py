@@ -77,7 +77,9 @@ class TheMenu(unittest.TestCase):
         # as the Grid menu's line of short links ("Your grid": ERCOT, CAISO, PJM, NYISO, ISO-NE, MISO, SPP); they are
         # the tool's picker now, and the menu shows the tool in place of the pages that redirect into it
         self.assertIsNone(self.by["Grid"]["sub"])
-        self.assertEqual([p[0] for p in self.by["Grid"]["pages"]], ["/grid", "/demand", "/curtailment"])   # session 239: Consumption is a view of /demand
+        # session 239: Consumption is a view of /demand. Session 11405 (decision 4, readied): the Grid tool's two newer
+        # views, the forecast, industry and the curtailment page's hour-by-month view joined, each beside its sibling
+        self.assertEqual([p[0] for p in self.by["Grid"]["pages"]], ["/grid", "/conditions", "/congestion", "/demand", "/forecast", "/industry", "/curtailment", "/curtailment/where-when"])
         self.assertEqual(self.by["Grid"]["pages"][0][1], "The grid")
 
     def test_the_datacenter_page_is_renamed_and_the_two_names_do_not_meet(self):
@@ -104,7 +106,9 @@ class TheMenu(unittest.TestCase):
         # their index, /learn/problems, which lists all five; each set keeps its address and is reached from the index
         sets = [h for h in BEFORE if h.startswith("/learn/problems/")]
         self.assertEqual(len(sets), 4)
-        self.assertEqual(now, sorted([moved.get(h, h) for h in BEFORE if h not in folded and h not in sets] + ["/learn/problems", "/play/ev", "/impact", "/companies", "/deals/capital"]))   # sessions 237, 238, 288, 294 (the EV game), 347 (/impact), 3304 (chain 200: /companies, the company database, its own page again) and 3306 (/deals/capital, tool 11's first view)
+        self.assertEqual(now, sorted([moved.get(h, h) for h in BEFORE if h not in folded and h not in sets] + ["/learn/problems", "/play/ev", "/impact", "/companies", "/deals/capital"]
+                                     # session 11405 (decision 4 of the weekend page of 28 November 2026, readied): the ten pages no menu led to
+                                     + ["/forecast", "/equities", "/states", "/industry", "/ai-energy", "/queues/places", "/storage/places", "/curtailment/where-when", "/conditions", "/congestion"]))   # sessions 237, 238, 288, 294 (the EV game), 347 (/impact), 3304 (chain 200: /companies, the company database, its own page again) and 3306 (/deals/capital, tool 11's first view)
         self.assertEqual(len(now), len(set(now)))                                           # each page once
         for p in self.all:
             self.assertTrue(p["line"], p["href"])

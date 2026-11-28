@@ -104,8 +104,8 @@ class ThePage(unittest.TestCase):
         self.assertNotIn("supabase", self.page.lower())
 
     def test_in_no_menu_and_in_review(self):
-        self.assertNotIn('"/states"', src("site", "lib", "pages.ts"))
-        self.assertNotIn('"/states"', src("site", "lib", "release.ts"))
+        self.assertIn('{ href: "/states", label: "Every state"', src("site", "lib", "pages.ts"))   # session 11405 (decision 4 of the weekend page of 28 November 2026, readied): in the menu under its own name
+        self.assertIn('"/states": "review"', src("site", "lib", "release.ts"))   # session 11405 (decision 4, readied): its own line in the release gate, in review
 
     def test_two_side_by_side_and_monthly_said_once(self):
         self.assertIn('name="a"', self.page)

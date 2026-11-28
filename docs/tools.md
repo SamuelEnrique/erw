@@ -23,6 +23,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 | Prices | `/prices`, `/prices/<entity>` | Every public ISO hub and zone price, with Henry Hub, WTI and Brent | everyone | the ISO price tables, `eia_fuel_spot_prices`, `latest_prices` |
 | ERCOT peak premium | `/explorer/ercot-peak-premium` | How do ERCOT's real-time prices spread across the day, by hub and year since 2015? | researchers | `ercot_peak_premium_annual`, `ercot_peak_premium_monthly` |
 | Supply and trade (in review, session 134) | `/supply` | Is the market tighter or looser than last week, last year and normal for the season: gas storage, crude and product stocks, production, refining, trade, fuel burned for power and managed money positioning, each against the three, with the week's surprise marked? | investors and lenders (traders in oil, gas and power) | `eia_gas_storage_weekly`, `eia_petroleum_supply_weekly`, `eia_gas_trade_monthly`, `eia_basin_production_monthly`, `cftc_cot_positions` (the page reads `site/data/supply.json`); method `docs/methods/supply_and_trade.md` |
+| Energy equities (in review; in the Economics menu from session 11405's readied branch) | `/equities` | How have the listed energy companies, by segment, and the energy indices moved beside the energy prices, and what has each company filed? | investors and lenders | the SEC filings and price files of `site/data/equities/` |
 
 ## The grid
 
@@ -39,6 +40,14 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 | Who owns the batteries (in review, session 87) | `/storage/owners` | Which companies report the operating and planned battery storage of each US grid, how much, of what duration, and how much do the largest hold? | investors and lenders; researchers | `storage_owners_monthly` |
 | Storage build-out (in review, session 72) | `/storage/buildout` | How much battery storage has each US grid built, of what duration, how does it compare with solar, and what is planned? | investors and lenders; everyone | `storage_buildout_monthly` |
 | Consumption | `/consumption` | Who uses the power, and where is load growing fastest? | everyone | `eia_retail_sales_monthly`, `eia_sector_energy_consumption_monthly` |
+| Grid conditions, the view (in review; in the Grid menu from session 11405's readied branch) | `/conditions` | Is the grid tight, and is it congested: demand against the day-ahead forecast, the megawatts out of service, the constraints binding, the scarcity adder and the alerts in force? | investors and lenders; researchers | `site/data/conditions/` |
+| Congestion (in review; Grid menu, session 11405's readied branch) | `/congestion` | Where were the wires full: which constraints bound in each operator's day-ahead market, at what shadow price, and how much of each hub's price is congestion? | investors and lenders | `site/data/conditions/congestion.json` |
+| ERW forecast (in review; Grid menu, session 11405's readied branch) | `/forecast` | What will demand and price be tomorrow and in the days after, by the ERW's own forecast beside the operator's, and how has each scored? | investors and lenders; researchers | `site/data/predict/` |
+| Energy use by industry (in review; Grid menu, session 11405's readied branch) | `/industry` | How much energy does American industry use, of which fuels, in which industries and states, and what does EIA project? | researchers | `site/data/industry.json` |
+| Where and when power is spare (in review; Grid menu, session 11405's readied branch) | `/curtailment/where-when` | Where and when did power go unused or unpaid, by hour of the day and month? | investors and lenders | `site/data/curtailment/where_when.json` |
+| Every state (in review; Infrastructure menu, "Every authority and state", session 11405's readied branch) | `/states` | What does a state run on, what do its customers buy and pay, what is built and coming, and who operates its grid? | everyone | `site/data/states/` |
+| Queues outside the seven grids (in review; the same sub-group) | `/queues/places` | What do the public interconnection queues of the West's and the Southeast's utilities hold, outside the seven grid operators? | investors and lenders | `site/data/queue_places.json` |
+| Batteries in every authority and state (in review; the same sub-group) | `/storage/places` | What battery storage operates and is planned in each balancing authority and state? | investors and lenders | `site/data/storage/places.json` |
 
 ## Projects, companies, deals and policy
 
@@ -55,6 +64,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 | Deals | `/deals` | Which PPAs, acquisitions and financings happened, with sources? | investors and lenders | `energy_deals` |
 | Power contracts (in review, session 83; internal view only) | `/contracts` | Where are bilateral power contracts being signed: which seller, which buyer, what product, for how long, at what price as filed, delivered where? | investors and lenders | `ferc_eqr_contracts` (internal) |
 | Policy | `/policy` | Which rules and notices matter, and what do they do? | investors and lenders; researchers | `policy_actions`, `policy_reads` |
+| Energy per AI query, as published (in review; Analysis menu, session 11405's readied branch) | `/ai-energy` | What have the publications printed for the energy of an AI query, a training run, a deployment or a fleet, each in its own words? | researchers; everyone | `site/data/ai_energy.json` |
 
 ## Events and studies
 

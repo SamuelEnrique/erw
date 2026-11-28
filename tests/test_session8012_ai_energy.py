@@ -43,8 +43,8 @@ class ThePage(unittest.TestCase):
         self.assertNotIn("- a.x_value", self.lib)
 
     def test_in_no_menu(self):
-        self.assertNotIn('"/ai-energy"', src("site", "lib", "pages.ts"))
-        self.assertNotIn('"/ai-energy"', src("site", "lib", "release.ts"))
+        self.assertIn('{ href: "/ai-energy", label: "Energy per AI query, as published"', src("site", "lib", "pages.ts"))   # session 11405 (decision 4 of the weekend page of 28 November 2026, readied): in the menu under its own name
+        self.assertIn('"/ai-energy": "review"', src("site", "lib", "release.ts"))   # session 11405 (decision 4, readied): its own line in the release gate, in review
 
     def test_the_fold_and_the_note_are_one_list(self):
         keys = re.findall(r'\{ key: "([a-z0-9-]+)", session: "', src("site", "app", "ai-energy", "Decisions.tsx"))

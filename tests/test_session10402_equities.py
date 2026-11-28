@@ -54,8 +54,8 @@ class WhatAReaderSees(unittest.TestCase):
 
 class TheSource(unittest.TestCase):
     def test_in_review_and_in_no_menu(self):
-        self.assertNotIn('"/equities"', src("site", "lib", "release.ts"))
-        self.assertNotIn('"/equities"', src("site", "lib", "pages.ts"))
+        self.assertIn('"/equities": "review"', src("site", "lib", "release.ts"))   # session 11405 (decision 4, readied): its own line in the release gate, in review
+        self.assertIn('{ href: "/equities", label: "Energy equities"', src("site", "lib", "pages.ts"))   # session 11405 (decision 4 of the weekend page of 28 November 2026, readied): in the menu under its own name
         page = src("site", "app", "equities", "page.tsx")
         self.assertIn('robots: { index: false, follow: false }', page)
         self.assertIn('title: "Energy equities"', page)

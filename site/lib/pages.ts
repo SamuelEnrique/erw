@@ -51,6 +51,10 @@ export const GROUPS: Group[] = [
       // session 347: the economic impact tool (tool 17), its own line (in review). Session 4213 (chain 239): the forecast,
       // "Local impact" (the name a ruling for Samuel with that default), in the same place
       { href: "/impact", label: "Local impact", line: "Jobs, earnings and state and local taxes of a wind, solar (photovoltaic or concentrating), gas, geothermal, coal or biomass plant or a datacenter, year by year from its construction to the end of its operation, with their present value: two scenarios side by side.", tables: "nlr_jedi_multipliers, impact_tax_rules", related: ["/severance", "/cost-of-power/seller"] },
+      // session 11405 (chain 770, readied for Samuel's decision 4 of the weekend page of 28 November 2026; not landed
+      // without his word): the ten pages no menu led to, each under the name its own header gives it. The equities
+      // page here, beside the board whose "Energy equities" group it opens
+      { href: "/equities", label: "Energy equities", line: "The listed energy companies by segment, the energy indices, and the energy prices beside them: a line over any window, a company's filed figures, two side by side.", tables: "site/data/equities/", related: ["/board", "/companies"] },
     ],
     sub: {
       label: "Infrastructure Economics",
@@ -77,10 +81,18 @@ export const GROUPS: Group[] = [
       // "Energy mix" (/mix), "Emissions" (/emissions, session 32) and the seven grid pages of "Your grid" (/grid/<iso>,
       // session 35). Their lines and tables are in this one entry.
       { href: "/grid", label: "The grid", line: "One grid at a time (ERCOT, CAISO, PJM, MISO, NYISO, ISO-NE, SPP or the Lower 48): what it is doing now, the network of balancing authorities and the power they trade, the energy mix now and since 2001, how much CO2 the power carries, its exchange with its neighbours, and a question box.", tables: "eia930_all_demand, eia930_all_generation, eia930_all_interchange, carbon_intensity_hourly, carbon_intensity_monthly, eia930_generation_latest, state_generation_mix_monthly, generation_mix_hourly_profile, clean_energy_summary, grid_stress_yearly, ba_supply_monthly, grid_network_nodes, grid_network_links and, for a grid's own blocks, the ISO price tables, storage_capacity, the interconnection queues and news_index", related: ["/demand", "/curtailment"] },
+      // session 11405 (decision 4, readied): the Grid tool's two newer views, beside it
+      { href: "/conditions", label: "Grid conditions", line: "Is the grid tight, and is it congested: demand against the day-ahead forecast, the megawatts out of service, the constraints binding, the scarcity adder and the alerts in force, each a strip on one time axis.", tables: "site/data/conditions/", related: ["/grid", "/congestion"] },
+      { href: "/congestion", label: "Congestion", line: "Where the wires were full: the transmission constraints that bound in each operator's day-ahead market, with the shadow price the operator published, and the part of each hub's and zone's price the operator puts down to congestion.", tables: "site/data/conditions/congestion.json", related: ["/conditions", "/grid"] },
       // session 159 (the owner's instruction of 8 October 2026): demand growth, one page with two views (as metered, and with the weather taken out; sessions 97 and 152), in review. The Grid menu holds eight with it: Consumption moved to Data
       // session 239: a third view, Consumption (until then its own entry at /consumption, which redirects to the view)
       { href: "/demand", label: "Demand growth", line: "How much more power each grid uses than in 2019, by year, month and hour of the day, and the same growth with the weather taken out; and, on the Consumption tab, electricity sold by state and sector, and where industrial and commercial load grows fastest.", tables: "eia930_demand_growth, eia930_demand_weather, eia_retail_sales_monthly, eia_sector_energy_consumption_monthly", related: ["/grid"] },
+      // session 11405 (decision 4, readied): the forecast of demand and price, and industry's use, beside demand growth
+      { href: "/forecast", label: "ERW forecast", line: "The ERW's own day-ahead forecast of demand and price for each region and balancing authority, the operator's own forecast beside it, and how each has scored against what happened.", tables: "site/data/predict/", related: ["/demand", "/grid"] },
+      { href: "/industry", label: "Energy use by industry", line: "How much energy American industry uses, of which fuels, in which industries and states, and what EIA projects.", tables: "site/data/industry.json", related: ["/demand", "/states"] },
       { href: "/curtailment", label: "Curtailment", line: "Wind and solar output curtailed, by grid, by day, month and hour, as a share of available output; where power is priced under USD 5 per MWh, by hub and zone; and what the curtailed energy was worth to a load or a battery.", tables: "caiso_curtailment_daily, spp_curtailment_daily, ercot_wind_solar_hsl_daily, iso_curtailment_monthly, caiso_curtailment_profile, ercot_wind_solar_hsl_hourly and the hub and zone price tables", related: ["/grid"] },
+      // session 11405 (decision 4, readied): the curtailment page's hour-by-month view, beside it
+      { href: "/curtailment/where-when", label: "Where and when power is spare", line: "Where and when power went unused or unpaid: the wind and solar energy the grid operators curtailed, by hour of the day and month, and the hours each hub and zone priced below zero, over every year held.", tables: "site/data/curtailment/where_when.json", related: ["/curtailment", "/grid"] },
     ],
     // session 53 gave the seven grid pages a menu of their own, "Your grid"; session 203: they were the Grid menu's line
     // of short links again (session 35). Session 237: the seven are the Grid tool's picker, so the menu has no such line
@@ -103,6 +115,16 @@ export const GROUPS: Group[] = [
       // session 3306 (chain 200): capital flows (platform tool 11), its first view, from the deal tracker's capital rows and the company database
       { href: "/deals/capital", label: "Capital flows", line: "Project finance, acquisitions, debt and equity raises in the deal tracker, by quarter, segment and the kind of company that brings the money, with the share that discloses its size.", tables: "energy_deals, company_links, company_directory", related: ["/deals", "/companies"] },  // under /deals: its release line covers it (site/lib/release.ts is not changed)
     ],
+    // session 11405 (decision 4, readied): the three pages by place, a sub-group (the menu holds seven, and no list more
+    // than eight). Its name is the storage page's own title, which says what all three do; the name is this session's choice
+    sub: {
+      label: "Every authority and state",
+      pages: [
+        { href: "/states", label: "Every state", line: "What a state runs on and how that changed since 2001, what its homes, businesses and industry buy and pay, what is built and what is coming, who operates its grid, and its emissions: one state, or two side by side.", tables: "site/data/states/", related: ["/demand", "/storage/places"] },
+        { href: "/queues/places", label: "Queues outside the seven grids", line: "The public interconnection queues of the utilities and federal power marketers of the West and the Southeast, outside the seven grid operators, and every state with people outside the seven grids, with what its queues hold.", tables: "site/data/queue_places.json", related: ["/map", "/states"] },
+        { href: "/storage/places", label: "Batteries in every authority and state", line: "Every battery of EIA's monthly generator inventory, by the balancing authority and the state EIA gives it: what operates, in power and energy, when it started, and what is planned.", tables: "site/data/storage/places.json", related: ["/storage", "/states"] },
+      ],
+    },
   },
   {
     // session 203: Automated Analysis and Ask (from Data), the event studies (their own menu since session 36B), Policy (from Projects), Thesis
@@ -115,6 +137,8 @@ export const GROUPS: Group[] = [
       { href: "/policy", label: "Policy", line: "Energy rules, proposed rules and notices from the Federal Register and agency news, scored, with impact reads of the significant ones.", tables: "policy_actions, policy_reads", related: ["/digest", "/deals"] },
       // session 135: Thesis Builder as a tool of the site (in review, and internal: the page answers only the internal view). Session 146: moved here from Projects, which holds eight with "Where the resources are"
       { href: "/thesis", label: "Thesis Builder", line: "Type a niche and get a sourced investment map of it: scope and definitions, trends, the company landscape, the deal funnel, the pipeline, capital, incumbents, risks and policy, every figure with its source.", tables: "thesis_runs (internal)", related: ["/deals", "/policy"] },
+      // session 11405 (decision 4, readied): the published figures of AI's energy, beside the research
+      { href: "/ai-energy", label: "Energy per AI query, as published", line: "Each figure the publications read so far print for the energy of an AI query, a training run, a deployment or a fleet, in the publication's own words, with its date and what it measures; nothing averaged, summed or ranked.", tables: "site/data/ai_energy.json", related: ["/research", "/datacenters"] },
     ],
   },
   {

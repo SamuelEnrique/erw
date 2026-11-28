@@ -31,8 +31,8 @@ class ThePage(unittest.TestCase):
         self.assertNotIn("supabase", self.page)
 
     def test_it_is_in_no_menu_and_in_review(self):
-        self.assertNotIn('"/industry"', src("site", "lib", "pages.ts"))
-        self.assertNotIn('"/industry"', src("site", "lib", "release.ts"))   # a path with no line is in review
+        self.assertIn('{ href: "/industry", label: "Energy use by industry"', src("site", "lib", "pages.ts"))   # session 11405 (decision 4 of the weekend page of 28 November 2026, readied): in the menu under its own name
+        self.assertIn('"/industry": "review"', src("site", "lib", "release.ts"))   # a path with no line is in review
 
     def test_two_of_each_side_by_side(self):
         for name in ('name="a"', 'name="b"', 'name="sa"', 'name="sb"', 'name="ca"', 'name="cb"'):

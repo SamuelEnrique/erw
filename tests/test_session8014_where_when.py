@@ -75,7 +75,7 @@ class TheView(unittest.TestCase):
         self.assertIn("no advice on where to put a load", self.page)
 
     def test_in_no_menu(self):
-        self.assertNotIn("/curtailment/where-when", src("site", "lib", "pages.ts"))
+        self.assertIn('{ href: "/curtailment/where-when", label: "Where and when power is spare"', src("site", "lib", "pages.ts"))   # session 11405 (decision 4 of the weekend page of 28 November 2026, readied): in the menu under its own name
         self.assertNotIn("/curtailment/where-when", src("site", "lib", "release.ts"))
 
     def test_no_em_dash(self):

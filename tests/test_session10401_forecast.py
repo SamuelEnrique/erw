@@ -58,8 +58,8 @@ class WhatAReaderSees(unittest.TestCase):
 class TheSource(unittest.TestCase):
     def test_in_review_and_in_no_menu(self):
         # a path with no line in the release gate is in review; a page not in lib/pages.ts is in no menu
-        self.assertNotIn('"/forecast"', src("site", "lib", "release.ts"))
-        self.assertNotIn('"/forecast"', src("site", "lib", "pages.ts"))
+        self.assertIn('"/forecast": "review"', src("site", "lib", "release.ts"))   # session 11405 (decision 4, readied): its own line in the release gate, in review
+        self.assertIn('{ href: "/forecast", label: "ERW forecast"', src("site", "lib", "pages.ts"))   # session 11405 (decision 4 of the weekend page of 28 November 2026, readied): in the menu under its own name
         page = src("site", "app", "forecast", "page.tsx")
         self.assertIn('robots: { index: false, follow: false }', page)
         self.assertIn('title: "ERW forecast"', page)

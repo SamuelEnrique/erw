@@ -71,7 +71,8 @@ class ThePage(unittest.TestCase):
         self.assertNotIn('{ href: "/resources"', projects)
         self.assertIn("on the Resources tab, the natural resource itself", projects)
         self.assertIn('{ source: "/resources", destination: "/map?tab=resources", permanent: true }', src("site", "next.config.ts"))
-        self.assertLessEqual(len(re.findall(r'\{ href: "/', projects)), 8)                    # no menu holds more than eight
+        # no menu holds more than eight (session 11405: its own list, before the sub-group "Every authority and state")
+        self.assertLessEqual(len(re.findall(r'\{ href: "/', projects.split("    sub: {")[0])), 8)
         tools = pages[pages.index('label: "Analysis"'):pages.index('label: "Games"')]
         self.assertIn('href: "/thesis"', tools)                                                 # moved, not dropped
         self.assertNotIn('href: "/thesis"', projects)

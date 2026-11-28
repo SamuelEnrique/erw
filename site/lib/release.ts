@@ -122,6 +122,15 @@ export const RELEASE: Record<string, Status> = {
   "/ask/ercot": "review",  // session 92: Ask ERCOT, the reference version
   "/reports": "review",
   "/home/v2": "review",  // session 110: the home page and menu by audience, a draft
+  // session 11405 (decision 4 of the weekend page of 28 November 2026, readied): the pages the menu lists now, each with
+  // its own line, in review as every page (without a line each was already in review; the line changes nothing a visitor sees)
+  "/forecast": "review",
+  "/equities": "review",
+  "/states": "review",
+  "/industry": "review",
+  "/ai-energy": "review",
+  "/conditions": "review",
+  "/congestion": "review",
 };
 
 /** Never behind the curtain: the API and route handlers (the scheduled jobs and the game read them), the internal
