@@ -283,6 +283,11 @@ function PlaceSection({ q, id, title, place, file, counts, entity }: { q: Q; id:
         ...(["mean", "p95", "hours_over_100", "hours_below_0", "hours"] as const).map((k) => cellAt(h[k], [...base, "hubs", i, k], `${text(h.hub) || "the hub"}, ${text(h.market)}, ${label(k)}`, false, why(h)))] }))} />;
   } else if (id === "congestion") {
     const hubs = list(sec.hubs);
+    // the files name a hub in words in the price list and by its code here (data request 590): where the same file's
+    // price list holds the hub under the same id, its name there is written, with the code beside it; else the code
+    const named = new Map(list(place.sections.price?.hubs).map((h) => [text(h.hub_id), text(h.hub)] as const).filter(([k, v]) => k && v));
+    const hubSaid = (h: Record<string, unknown>) => named.get(text(h.hub_id)) || text(h.hub) || text(h.hub_id);
+    const hubName = (h: Record<string, unknown>): ReactNode => { const said = hubSaid(h), code = text(h.hub); return said && code && said !== code ? <>{said} <span className="text-xs">({code})</span></> : words(said); };
     const top = (key: "top_by_hours" | "top_by_cost", caption: string) => {
       const rows = list(sec[key]);
       return <Rows mark={`congestion.${key}`} caption={caption}
@@ -291,7 +296,7 @@ function PlaceSection({ q, id, title, place, file, counts, entity }: { q: Q; id:
     };
     extra = <>
       <Rows mark="congestion.hubs" caption="Congestion in each hub's price" head={[{ label: "Hub" }, { label: "Share of the price, %", right: true }, { label: "Mean congestion part, USD/MWh", right: true }]}
-        rows={hubs.map((h, i) => ({ key: `${text(h.hub_id)}|${i}`, cells: [words(h.hub) ?? words(h.hub_id), cellAt(h.congestion_share_pct, [...base, "hubs", i, "congestion_share_pct"], `${text(h.hub)}, share of the price that was congestion`, false), cellAt(h.congestion_mean, [...base, "hubs", i, "congestion_mean"], `${text(h.hub)}, mean congestion part of the price`, false)] }))} />
+        rows={hubs.map((h, i) => ({ key: `${text(h.hub_id)}|${i}`, cells: [hubName(h), cellAt(h.congestion_share_pct, [...base, "hubs", i, "congestion_share_pct"], `${hubSaid(h)}, share of the price that was congestion`, false), cellAt(h.congestion_mean, [...base, "hubs", i, "congestion_mean"], `${hubSaid(h)}, mean congestion part of the price`, false)] }))} />
       {typeof sec.top_held === "string" && sec.top_held ? <p className="mt-1">The constraints that bound most: <Held held={sec.top_held} what="The constraints that bound most" said /></p> : <>{top("top_by_hours", "The ten constraints that bound for the most hours")}{top("top_by_cost", "The ten constraints with the highest cost")}</>}
     </>;
   } else if (id === "queue") {

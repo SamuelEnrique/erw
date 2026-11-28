@@ -421,7 +421,25 @@
    "hubs": [
     {
      "hub_id": "ercot:HB_HUBAVG",
-     "hub": "ERCOT Hub Average",
+     "hub": "HB_HUBAVG",
+     "congestion_share_pct": {
+      "v": null,
+      "unit": "pct",
+      "period": "2025-11-01..2026-10-31",
+      "src": "congestion",
+      "held": "not published: the operator prints no such figure in the files read"
+     },
+     "congestion_mean": {
+      "v": null,
+      "unit": "USD/MWh",
+      "period": "2025-11-01..2026-10-31",
+      "src": "congestion",
+      "held": "not published: the operator prints no such figure in the files read"
+     }
+    },
+    {
+     "hub_id": "ercot:LZ_MADEUP",
+     "hub": "LZ_MADEUP",
      "congestion_share_pct": {
       "v": null,
       "unit": "pct",

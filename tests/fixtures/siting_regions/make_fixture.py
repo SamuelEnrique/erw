@@ -174,7 +174,10 @@ def ercot():
         # the third hub is listed with a status of its own and no figures, as the builder lists an operator held whole
         "price": {"status": "shown", "hubs": [hub("day-ahead", 46.31, 118.7, 312, 41, 8760), hub("real-time", 44.02, 131.25, 298, 187, 8758),
                                               {"hub_id": "made-up:HELD", "hub": "A made-up hub held whole", "operator": "op-ercot", "market": "day-ahead", "status": "license needed: a made-up hub whose prices need a license"}]},
-        "congestion": {"status": "shown", "hubs": [{"hub_id": "ercot:HB_HUBAVG", "hub": "ERCOT Hub Average", "congestion_share_pct": cell(None, "pct", "congestion", held=NOT_PUBLISHED), "congestion_mean": cell(None, "USD/MWh", "congestion", held=NOT_PUBLISHED)}],
+        # as the files of 28 November do, the congestion list names a hub by its code; the first is also in the price
+        # list (under the same id, in words), the second is a made-up zone the price list does not hold
+        "congestion": {"status": "shown", "hubs": [{"hub_id": "ercot:HB_HUBAVG", "hub": "HB_HUBAVG", "congestion_share_pct": cell(None, "pct", "congestion", held=NOT_PUBLISHED), "congestion_mean": cell(None, "USD/MWh", "congestion", held=NOT_PUBLISHED)},
+                                                   {"hub_id": "ercot:LZ_MADEUP", "hub": "LZ_MADEUP", "congestion_share_pct": cell(None, "pct", "congestion", held=NOT_PUBLISHED), "congestion_mean": cell(None, "USD/MWh", "congestion", held=NOT_PUBLISHED)}],
                        "top_by_hours": constraints, "top_by_cost": list(reversed(constraints)), "top_period": P12, "top_src": "constraints", "top_held": None},
         "tightness": {"status": "shown", "peak_mw": cell(85111.0, "MW", "eia930_demand", months=trend(61000, 1000)), "peak_prior_mw": cell(82296.5, "MW", "eia930_demand", "2024-11-01..2025-10-31"), "peak_growth_pct": cell(3.42, "pct", "eia930_demand", "2024-11-01..2025-10-31 to 2025-11-01..2026-10-31"),
                       "peak_hour": cell("2026-08-20T21:00:00Z", "UTC", "eia930_demand"), "alerts": cell(4, "days", "alerts"), "watches": cell(11, "days", "alerts"), "emergencies": cell(0, "days", "alerts"), "alert_days": cell(9, "days", "alerts"),
