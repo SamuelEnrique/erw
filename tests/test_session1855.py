@@ -59,8 +59,14 @@ class TheBarLabels(unittest.TestCase):
     """Row 5: the figures above narrow bars are staggered, so neighbours do not overlap."""
 
     def test_every_second_series_is_raised_when_bars_are_narrow(self):
+        # Session 11600 (chain 780, the read of 28 November, row CH1): this session raised every second figure by 12
+        # units where bars are narrow, which keeps two bars' figures apart; with three bars of near heights the raised
+        # middle figure landed on the third's. The rule is now figureYs: a figure is raised clear of any figure before
+        # it that it would stand on (tests/test_session11600_bars_figures.py holds it for two bars and for three).
         g = src("site", "components", "tool", "GroupedBars.tsx")
-        self.assertIn("y={tops[k] - 6 - (bw < 40 && k % 2 ? 12 : 0)}", g)
+        self.assertIn("const ys = figureYs(", g)
+        self.assertIn("y={ys[k] as number}", g)
+        self.assertNotIn("(bw < 40 && k % 2 ? 12 : 0)", g)
 
 
 class TheMapSentence(unittest.TestCase):
