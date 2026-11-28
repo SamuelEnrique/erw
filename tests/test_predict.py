@@ -292,6 +292,45 @@ class TheLongerBacktest(unittest.TestCase):
             self.assertLessEqual(gap, 7, p["place"])
 
 
+@unittest.skipUnless(os.path.exists(os.path.join(SITE, "long_ahead.json")), "long_ahead.json is not built here")
+class TheLongerBacktestFurtherAhead(unittest.TestCase):
+    def test_years_add_up_and_the_last_two_years_are_ahead_files(self):
+        """Session 10603: every place of the place files, horizons 3 to 7; the years partition the span's hours and their
+        MAE is its hour-weighted mean; beats is the method's MAE below the week-ago hour's; the method is the lower of the
+        two regressions and, where the days agree, the one ahead.json or ahead_more.json chose."""
+        doc = load("long_ahead.json")
+        idx = load("index.json")
+        self.assertEqual({p["place"] for p in doc["places"]}, {p["place"] for p in idx["places"]})
+        ahead = {}
+        for name in ("ahead.json", "ahead_more.json"):
+            if os.path.exists(os.path.join(SITE, name)):
+                ahead.update({p["place"]: p for p in load(name)["places"]})
+        for p in doc["places"]:
+            self.assertEqual([h["horizon_days"] for h in p["horizons"]], [3, 4, 5, 6, 7], p["place"])
+            for h in p["horizons"]:
+                key = (p["place"], h["horizon_days"])
+                self.assertIn(h["method"], ("regression", "regression_recent"), key)
+                ml = h["method_mae_last_2_years"]
+                self.assertEqual(h["method"], min(("regression", "regression_recent"), key=lambda m: ml[m]), key)
+                # session 11200: a place whose early history has gaps reaches the 300 days a fit needs later in 2016
+                # (GVL from 24 August, Florida 23 September, the Northwest 7 September, the Mid-Atlantic 24 October)
+                self.assertLessEqual(h["first_scored_day"], "2016-12-31", key)
+                ys = h["by_year"]
+                self.assertEqual(len(ys), h["years"], key)
+                self.assertEqual(sum(y["hours"] for y in ys), h["all"]["hours"], key)
+                self.assertEqual(sum(y["beats_week_ago"] for y in ys), h["years_beating_week_ago"], key)
+                for y in ys:
+                    self.assertEqual(y["beats_week_ago"], y["mae"]["erw"] < y["mae"]["week_ago"], (key, y["year"]))
+                    self.assertAlmostEqual(y["mae"]["erw"], y["mae"][h["method"]], places=6)
+                for m in ("erw", "regression", "regression_recent", "week_ago", "yesterday"):
+                    w = sum(y["mae"][m] * y["hours"] for y in ys) / h["all"]["hours"]
+                    self.assertAlmostEqual(w, h["all"]["mae"][m], delta=0.01 * len(ys), msg=(key, m))
+                a = ahead.get(p["place"])
+                if a and h["all"]["last_day"] == a["last_whole_day"]:
+                    ah = {x["horizon_days"]: x for x in a["horizons"]}[h["horizon_days"]]
+                    self.assertEqual(h["method"], ah["method"], key)
+
+
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "long_price.json")), "long_price.json is not built here")
 class TheLongerPriceBacktest(unittest.TestCase):
     def test_years_add_up_and_it_ends_where_the_backtest_ends(self):
@@ -310,6 +349,24 @@ class TheLongerPriceBacktest(unittest.TestCase):
             self.assertLessEqual(p["all"]["first_day"], pub["summary"]["backtest"]["first_day"], p["place"])
             gap = abs((dt.date.fromisoformat(p["all"]["last_day"]) - dt.date.fromisoformat(pub["summary"]["backtest"]["last_day"])).days)
             self.assertLessEqual(gap, 7, p["place"])   # a weekly file beside daily ones
+
+
+class EveryHubSaysWhereItIsShown(unittest.TestCase):
+    def test_shown_for_names_place_files_on_the_hubs_grid(self):
+        """Session 10603 (chain 720's request 15): every hub of price_hubs.json and rt_price.json names the place files
+        that show it, each a place file whose own price hub is on the same grid (the id before the colon)."""
+        hubs = []
+        if os.path.exists(os.path.join(SITE, "price_hubs.json")):
+            hubs += [h for h in load("price_hubs.json")["hubs"]]
+        if os.path.exists(os.path.join(SITE, "rt_price.json")):
+            hubs += [h for h in load("rt_price.json")["hubs"]]
+        if not hubs:
+            self.skipTest("no hub file is built here")
+        for h in hubs:
+            self.assertTrue(h["shown_for"], h["hub"])
+            for place in h["shown_for"]:
+                own = load(place + ".json")["series"]["price"]["hub"]
+                self.assertEqual(own.split(":")[0], h["hub"].split(":")[0], (h["hub"], place))
 
 
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "price_hubs.json")), "price_hubs.json is not built here")
@@ -366,6 +423,19 @@ class TheWindSolarFile(unittest.TestCase):
                     self.assertTrue(op and all(r["mae_mw"] is None and r["held"] for r in op))
                 if b["tomorrow"]:
                     self.assertEqual(b["horizon_days"], 2)
+
+    def test_generation_only_authorities_are_shown_on_their_region(self):
+        """Session 10603 (28 November): an entry marked generation_only is an authority with no place file of its own,
+        shown on its region's place file only, and no place file's net demand reads it."""
+        doc = load("wind_solar.json")
+        gen = [p for p in doc["places"] if p.get("generation_only")]
+        index = {p["place"] for p in load("index.json")["places"]} if os.path.exists(os.path.join(SITE, "index.json")) else set()
+        for p in gen:
+            self.assertTrue(p["place"].startswith("ba-"), p["place"])
+            self.assertNotIn(p["place"], index)
+            self.assertEqual(len(p["shown_for"]), 1, p["place"])
+            self.assertTrue(p["shown_for"][0].startswith("region-"), p["place"])
+            self.assertTrue(any(b["status"] == "shown" for b in p["fuels"].values()), p["place"])
 
     def test_a_day_not_forecast_says_why_and_every_entry_has_its_page(self):
         """Session 10603 (chain 720's requests 11 and 12): no tomorrow of nulls only, a reason where there is no tomorrow,

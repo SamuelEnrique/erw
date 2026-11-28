@@ -44,7 +44,7 @@ def one(hub, pp, dem, ref, gas, made, evs, ledger):
     q["place"] = place
     q["hub"] = rtm.MORE_HUBS[hub]
     block = run.price_shown(q, made, ledger)
-    block = dict({"place": place, "grid": hub, "demand_place": HUB_DEMAND[hub], "time": q["tz"]}, **block)
+    block = dict({"place": place, "grid": hub, "demand_place": HUB_DEMAND[hub], "shown_for": rtm.SHOWN_FOR[hub], "time": q["tz"]}, **block)
     new = []
     if q["tomorrow"] is not None:
         c = q["choice"]

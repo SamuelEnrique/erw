@@ -99,7 +99,7 @@ def one(grid, rt, da, made):
         held = f"no forecast: the last whole day of real-time prices held ({last.date()}) is {h} days before the target day; this forecast reads exactly two"
     c = score.common(hr, SCORED)
     hist = c[c["day"] > c["day"].max() - pd.Timedelta(days=HISTORY_DAYS)]
-    block = {"hub": rtm.RT_HUBS[grid], "grid": grid, "time": tz, "status": "shown", "method": choice,
+    block = {"hub": rtm.RT_HUBS[grid], "grid": grid, "shown_for": rtm.SHOWN_FOR[grid], "time": tz, "status": "shown", "method": choice,
              "method_mae_last_2_years": {m: num(v) for m, v in maes.items()}, "made_utc": iso(made),
              "inputs_through_utc": iso(frame.loc[frame["day"] <= last, "ts"].max()), "target_day": target.strftime("%Y-%m-%d"), "horizon_days": h,
              "band": "the 10th and 90th percentile of the chosen method's own past errors (actual less forecast, USD/MWh) at the same local hour over 365 days",
