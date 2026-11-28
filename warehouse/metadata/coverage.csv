@@ -650,6 +650,7 @@ spp_as_quantities,SPP,spp_dam,2,PT1H,2024-09-01T05:00:00Z,2026-10-05T04:00:00Z,1
 spp_curtailment_daily,SPP,,2,P1D,2014-03-01T00:00:00Z,2026-11-26T00:00:00Z,38968,spp:ver_curtailments,2026-11-27T15:21:18Z,pass,public,power,no,source
 spp_dam_cleared_energy,SPP,spp_dam,1,PT1H,2025-09-01T05:00:00Z,2026-11-22T05:00:00Z,16370,spp:DA-MC:cleared,2026-11-21T14:53:29Z,pass,public,power,no,source
 spp_interconnection_queue,SPP,,3081,snapshot,2026-11-23T15:05:15Z,2026-11-23T15:05:15Z,3081,spp:interconnection_queue,2026-11-23T15:04:21Z,pass,public,power,no,source
+spp_mtlf_hourly,SPP,,2,PT1H,2013-06-28T14:00:00Z,2026-12-04T14:00:00Z,1073626,spp:MTLF-VS-ACTUAL,2026-11-28T10:09:44Z,pass,public,power,no,source
 ssb_norway_electricity_monthly,ssb,,26,P1M,1993-01-01T00:00:00Z,2026-09-01T00:00:00Z,5550,ssb:14091,2026-10-24T02:39:26Z,pass,public,power,no,source
 stat_kz_kazakhstan_electricity_annual,stat,,35,P1Y,2022-01-01T00:00:00Z,2025-01-01T00:00:00Z,84,stat_kz:fuel_energy_balance_physical,2026-10-25T10:30:39Z,pass,public,power,no,source
 stat_tj_tajikistan_electricity_annual,stat,,14,P1Y,1991-01-01T00:00:00Z,2025-01-01T00:00:00Z,475,stat_tj:analytical_table_11,2026-10-25T10:10:39Z,pass,public,power,no,source

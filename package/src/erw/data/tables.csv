@@ -650,6 +650,7 @@ spp_as_quantities,public,,,,SPP,"Public: every publisher's terms the ERW read al
 spp_curtailment_daily,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",100 days
 spp_dam_cleared_energy,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 spp_interconnection_queue,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+spp_mtlf_hourly,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ssb_norway_electricity_monthly,public,,,,Statistics Norway (SSB),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 stat_kz_kazakhstan_electricity_annual,public,,,,Bureau of National Statistics of Kazakhstan,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 stat_tj_tajikistan_electricity_annual,public,,,,Agency on Statistics under the President of the Republic of Tajikistan,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
