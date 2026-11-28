@@ -208,17 +208,27 @@ export const debtService = (a: Assumptions) => a.capex * (a.share / 100) * crf(a
  * check keys carry. The order of the multiplication is the page's own (lib/batterystack.ts, debtPerMw, times the
  * megawatts), so the defaults give the figure the page showed before session 195 to the last dollar. */
 export const debtUsd = (a: Assumptions, mw: number) => Math.round(a.capex * 1000 * (a.share / 100) * crf(a.rate / 100, debtYears(a)) * mw);
+/** Session 11408 (readied for the owner's ruling on the battery audit of 20 November, finding 9,
+ * docs/reviews/battery-model-audit-2026-11-20.md): one kind of dollar. The debt payment is fixed in money and the 12
+ * percent hurdle is a money rate, so revenue and the costs that follow prices (fixed O&M, augmentation) rise with
+ * inflation from year 1's dollars: money flows throughout. Inflation 2 percent a year, the low end of the audit's 2 to
+ * 2.5 (its assumption, not a source's). A contract's price is a money term and does not rise. */
+export const INFLATION = 2;
+/** The factor that takes year 1's dollars to year t's: (1 + inflation)^(t - 1). */
+export const esc = (t: number) => (1 + INFLATION / 100) ** (t - 1);
+/** Year t's fixed O&M and augmentation, USD per kW in year t's dollars. */
+export const costInYear = (a: Assumptions, t: number, ctx: Ctx = {}) => (a.fom + augmentationCost(a, t, ctx)) * esc(t);
 /** Market revenue in year t (1 is the first), USD per kW: the last twelve months' revenue, falling by the degradation
- * rate each year after the first. */
-export const revenueInYear = (a: Assumptions, revKw: number, t: number, ctx: Ctx = {}) => {
+ * rate each year after the first (session 11408: in year t's dollars, esc). */
+export const revenueInYear =(a: Assumptions, revKw: number, t: number, ctx: Ctx = {}) => {
   // session 297: the fade method: the capacity fades by the rate each year since the last restoration (every `aug`
   // years, or never), and revenue follows the capacity; the stress repeats add the peak event's revenue, spread evenly
   const add = ((a.stress ?? 0) * (ctx.peak ?? 0)) / a.life;
   if ((a.method ?? 0) === 1) {
     const k = (a.aug ?? 0) > 0 ? (t - 1) % a.aug : t - 1;
-    return revKw * (1 - (a.fade ?? 0) / 100) ** k + add;
+    return (revKw * (1 - (a.fade ?? 0) / 100) ** k + add) * esc(t);
   }
-  return revKw * (1 - a.deg / 100) ** (t - 1) + add;
+  return (revKw * (1 - a.deg / 100) ** (t - 1) + add) * esc(t);
 };
 /** Session 297: what a year's figures need beyond the assumptions: the grid's peak stress event's window revenue,
  * USD per kW (each repeat adds it once, spread evenly over the life's years), and the battery's hours (the
@@ -243,7 +253,7 @@ export const incomeInYear = (a: Assumptions, revKw: number, t: number, ctx: Ctx 
 export function flows(a: Assumptions, revKw: number, ctx: Ctx = {}): number[] {
   const ds = debtService(a), dy = debtYears(a);
   const out = [-a.capex * (1 - a.share / 100) + a.capex * ((a.itc ?? 0) / 100)];
-  for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t, ctx) - a.fom - (t <= dy ? ds : 0) - augmentationCost(a, t, ctx));
+  for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t, ctx) - (t <= dy ? ds : 0) - costInYear(a, t, ctx));
   return out;
 }
 /** Net present value of yearly cash flows at `ratePct` percent: the sum of flow t over (1 + rate)^t. */
@@ -292,7 +302,7 @@ export function breakevenToll(a: Assumptions, target = TARGET): number | null {
 export function merchantTail(a: Assumptions, revKw: number, ctx: Ctx = {}): { years: number; from: number; to: number; pv: number } {
   const dy = debtYears(a);
   let pv = 0;
-  for (let t = dy + 1; t <= a.life; t++) pv += (revenueInYear(a, revKw, t, ctx) - a.fom - augmentationCost(a, t, ctx)) / (1 + a.hurdle / 100) ** t;
+  for (let t = dy + 1; t <= a.life; t++) pv += (revenueInYear(a, revKw, t, ctx) - costInYear(a, t, ctx)) / (1 + a.hurdle / 100) ** t;
   return { years: Math.max(0, a.life - dy), from: dy + 1, to: a.life, pv };
 }
 
@@ -427,7 +437,7 @@ export function projection(a: Assumptions, revKw: number, ctx: Ctx = {}): YearRo
   const out: YearRow[] = [];
   for (let t = 1; t <= a.life; t++) {
     const income = incomeInYear(a, revKw, t, ctx);
-    const costs = a.fom + augmentationCost(a, t, ctx);  // session 297: the augmentation paid that year counts as a cost
+    const costs = costInYear(a, t, ctx);  // session 297: the augmentation paid that year counts as a cost
     const debt = t <= dy ? ds : 0;
     balance = t <= dy ? Math.max(0, balance * (1 + r) - ds) : 0;
     out.push({ t, income, afterCosts: income - costs, debt, afterDebt: income - costs - debt, balance });
