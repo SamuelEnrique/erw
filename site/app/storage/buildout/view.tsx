@@ -121,8 +121,8 @@ export async function BuildoutView({ sp }: { sp: Record<string, string | undefin
                       not a forecast.
                     </p>
                     <p>
-                      The years are rebuilt from the one inventory held, by each unit&apos;s first operating month. A battery retired before {Number(v.newest.slice(0, 4)) - 1} is in
-                      no year, and a unit shows its present MW and MWh in every year it operated, so early years are understated: by EIA&apos;s full list of retired batteries, the United States&apos; end of 2019 lacks about a tenth of the MW then operating and the end of 2015 nearly a third.
+                      The years are rebuilt from the one inventory held, by each unit&apos;s first operating month. A battery retired before {Number(v.newest.slice(0, 4)) - 1} is read
+                      from EIA&apos;s full list of retired generators and counts in every year it operated, its MWh not reported (that list has no energy column); a unit shows its present MW and MWh in every year it operated.
                     </p>
                   </div>
                 </Fold>

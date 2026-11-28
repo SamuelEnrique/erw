@@ -18,8 +18,9 @@ Method: docs/methods/storage_buildout.md. In short:
   ISNE, MISO, NYIS, PJM, SWPP); every other code, and no code, is us:outside_isos. us:total is every generator, so it
   equals the seven grids plus us:outside_isos.
 - Operating in a month: the unit's first operating month is that month or earlier, and it has not retired by it. The
-  history is rebuilt from the one inventory held (its newest month), not from past inventories: a unit retired before
-  the retired table's window (the vintage year and the year before) is absent from every month.
+  history is rebuilt from the one inventory held (its newest month), not from past inventories. Session 11408: a battery
+  retired before the retired table's window is read from eia860m_retired_generators_all and counts in each month it
+  operated (its MWh not reported: that table has no energy column); solar retired before the window is in no month.
 - Duration of a unit: its Nameplate Energy Capacity (MWh) over its nameplate MW, in the buckets lt2h (under 2 hours),
   2to4h (2 to under 4), 4to6h (4 to under 6), ge6h (6 and more). A unit EIA gives no energy for is in
   energy_not_reported and in no duration bucket; its MWh is never estimated from its MW.
@@ -48,6 +49,7 @@ METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/storag
 REGISTRY = os.path.join(ROOT, "warehouse", "metadata", "sources.csv")
 INPUTS = {"operating": "eia860m_operating_generators", "planned": "eia860m_planned_generators",
           "retired": "eia860m_retired_generators"}
+RETIRED_ALL = "eia860m_retired_generators_all"   # session 11408: read when held, for batteries retired before the window
 ISO_OF_BA = {"CISO": "caiso", "ERCO": "ercot", "ISNE": "isone", "MISO": "miso", "NYIS": "nyiso", "PJM": "pjm",
              "SWPP": "spp"}
 OUTSIDE, TOTAL = "us:outside_isos", "us:total"
@@ -130,11 +132,27 @@ def ratio(num, den):
     return float((Decimal(num) / Decimal(den)).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP))
 
 
-def build(op, pl, rt, log=lambda m: None):
+def earlier_batteries(rt_all, op, rt):
+    """Session 11408 (the storage audit's finding 5, the other choice): the batteries of eia860m_retired_generators_all
+    (every retired generator EIA lists) that are in neither the inventory nor the retired table's window, as rows of
+    the retired table, so that each counts in the months it operated. That table has no energy column: their MWh is not
+    reported (never estimated). Only batteries are taken; solar is as before."""
+    if rt_all is None or not len(rt_all):
+        return rt
+    held = set(op["entity_id"]) | set(rt["entity_id"])
+    add = rt_all[(rt_all["prime_mover"] == "BA") & ~rt_all["entity_id"].isin(held)].copy()
+    if "energy_capacity_mwh" not in add.columns:
+        add["energy_capacity_mwh"] = ""
+    add["vintage"] = rt["vintage"].iloc[0] if len(rt) else add["vintage"]
+    return pd.concat([rt, add[[c for c in rt.columns if c in add.columns]]], ignore_index=True).fillna("")
+
+
+def build(op, pl, rt, log=lambda m: None, rt_all=None):
     """The table's rows as (entity, variable, month, value, unit), and the counts the header and the report state."""
     vint = sorted(set(op["vintage"]) | set(pl["vintage"]) | set(rt["vintage"]))
     if len(vint) != 1:
         raise RuntimeError(f"the three EIA-860M tables are not one vintage: {vint}")
+    rt = earlier_batteries(rt_all, op, rt)   # session 11408: batteries retired before the window
     vintage = vint[0]
     last, first = month_index(vintage), month_index(START)
     u = units(op, rt, log)
@@ -236,7 +254,11 @@ def main(argv=None):
             raise RuntimeError(f"input sources {unknown} are not in the registry; cannot set the license")
         license_ = "internal" if any(lic[s] == "internal" for s in srcs) else "public"
         urls = sorted(set(op["source_url"]) | set(pl["source_url"]) | set(rt["source_url"]))
-        rows, st = build(op, pl, rt, log)
+        all_path = os.path.join(inputs_dir, RETIRED_ALL + ".csv")
+        rt_all = read(all_path) if os.path.exists(all_path) else None
+        if rt_all is not None:
+            srcs = sorted(set(srcs) | set(rt_all["source"]))
+        rows, st = build(op, pl, rt, log, rt_all)
         s = pd.DataFrame({
             "entity": rows["entity"], "variable": rows["variable"], "ts_utc": rows["month"] + "-01T00:00:00Z",
             "value": rows["value"], "unit": rows["unit"], "freq": "P1M", "geo": "US", "market": "", "node": "",
@@ -286,8 +308,8 @@ def main(argv=None):
             f"({os_['no_code_units']} with no code); {opl['units']} planned battery units, {opl['mw']:,.1f} MW "
             f"({opl['no_code_units']} with no code).",
             f"History: months {START} to {st['vintage']} are rebuilt from this one inventory by each unit's first "
-            "operating month and, for the retired table's units, its retirement month. A unit retired before the "
-            "retired table's window (the inventory year and the year before) is in no month; a unit's MW and MWh are "
+            "operating month and, for a retired unit, its retirement month. A battery retired before the retired table's window "
+            "is read from eia860m_retired_generators_all (no energy column, so its MWh is not reported); a solar unit retired before it is in no month; a unit's MW and MWh are "
             "its present ones in every month it operated. Operating is EIA's operating inventory: statuses OP, SB, OS "
             f"and OA. {st['battery_no_energy']} of {st['battery_units']} operating battery units carry no energy value.",
             f"License: {license_}. A derived table inherits the most restrictive license of its inputs (Decision 23).",

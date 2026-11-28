@@ -26,12 +26,14 @@ class EarlyYears(unittest.TestCase):
     def test_the_builder_reads_only_the_retired_window(self):
         b = read("warehouse", "derived", "storage_buildout.py")
         self.assertIn('"retired": "eia860m_retired_generators"}', b)
-        self.assertNotIn("eia860m_retired_generators_all", b)
+        # session 11408 (wip/ready-storage-retired): the full list is read for batteries retired before the window
+        self.assertIn("RETIRED_ALL = \"eia860m_retired_generators_all\"", b)
 
     def test_the_fold_says_how_much(self):
         v = read("site", "app", "storage", "buildout", "view.tsx")
         self.assertNotIn("slightly understated", v)
-        self.assertIn("so early years are understated: by EIA&apos;s full list of retired batteries, the United States&apos; end of 2019 lacks about a tenth of the MW then operating and the end of 2015 nearly a third.", v)
+        self.assertIn("is read from EIA&apos;s full list of retired generators and counts in every year it operated, its MWh not reported",
+                      " ".join(v.split()))
         self.assertNotIn(chr(0x2014), v)
 
 

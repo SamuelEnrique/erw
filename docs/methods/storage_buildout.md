@@ -55,7 +55,7 @@ The EIA-860M tables are snapshots: the ERW holds one inventory, the newest month
 
 What this cannot see:
 
-- **Units retired before the retired table's window.** That table holds retirements of the inventory year and the year before. A battery retired earlier is in no month, so early years are understated by whatever retired since. The eight battery retirements held are 338.5 MW.
+- **Units retired before the retired table's window.** That table holds retirements of the inventory year and the year before. Since session 11408 (the storage audit's finding 5, the other choice) a battery retired earlier is read from `eia860m_retired_generators_all`, every retired generator EIA lists, and counts in each month it operated; that table has no energy column, so its MWh is not reported (in `energy_not_reported`), never estimated. A solar unit retired before the window is still in no month. Against the September 2026 inventory with the list of August 2026 (42 batteries more, 50 retired in all), the United States' year ends: 2015 250.2 MW becomes 362.9, 2016 461.4 becomes 587.0, 2017 579.0 becomes 693.2, 2018 799.4 becomes 910.9, 2019 1,004.0 becomes 1,115.4, 2020 1,589.0 becomes 1,695.0, 2021 5,020.8 becomes 5,116.3, 2022 9,329.8 becomes 9,368.7, 2023 16,568.3 becomes 16,601.3; 2024 on unchanged (the twelve months' net additions of early 2025 move).
 - **Changes to a unit.** A unit's MW and MWh are its present ones in every month it operated. A battery whose energy was added to later shows its present energy from its first month.
 - **Late reports.** A unit that started in the newest months and has not yet been reported to EIA appears in a later inventory, dated back to its first month. The newest months grow when the next inventory arrives.
 
