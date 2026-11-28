@@ -92,6 +92,34 @@ def period(built):
     return start.replace(year=start.year - 1).isoformat(), start.isoformat(), d.isoformat()
 
 
+def screened(series):
+    """docs/methods/impossible_hours.md: an hour of demand is used when held, above zero, within 25 percent of the median
+    of the four hours around it in the series (two before, two after, those held and above zero), and within 1/3 to 3
+    times the median of the hours passing those tests. series: {ts: v}; returns the hours used."""
+    ts = sorted(series)
+    vals = [series[t] if series[t] is not None and series[t] > 0 else None for t in ts]
+    kept = []
+    for i, v in enumerate(vals):
+        if v is None:
+            kept.append(None)
+            continue
+        around = [vals[j] for j in (i - 2, i - 1, i + 1, i + 2) if 0 <= j < len(vals) and vals[j] is not None]
+        if around:
+            s = sorted(around)
+            n = len(s)
+            med = s[n // 2] if n % 2 else (s[n // 2 - 1] + s[n // 2]) / 2
+            if abs(v - med) > 0.25 * med:
+                kept.append(None)
+                continue
+        kept.append(v)
+    ok = sorted(v for v in kept if v is not None)
+    if not ok:
+        return {}
+    n = len(ok)
+    med = ok[n // 2] if n % 2 else (ok[n // 2 - 1] + ok[n // 2]) / 2
+    return {t: v for t, v in zip(ts, kept) if v is not None and med / 3 <= v <= 3 * med}
+
+
 def members_sum(series, members):
     """series: ba -> {ts: v}. The method note's region sum."""
     hours = set()
@@ -132,8 +160,9 @@ def main():
     # demand and total interchange, two years
     dem = defaultdict(dict)
     for e, var, ts, v in rows(a.tables, "eia930_ba_demand_hourly", ["entity", "variable", "ts_utc", "value"]):
-        if var == "demand_mw" and p0 <= ts < p2 and f(v) is not None:
-            dem[e.replace("eia930:", "")][ts] = f(v)
+        if var == "demand_mw" and p0 <= ts < p2:
+            dem[e.replace("eia930:", "")][ts] = f(v)   # a blank kept as None: it is a place in the row order
+    dem = defaultdict(dict, {b: screened(s) for b, s in dem.items()})
     ti = defaultdict(dict)
     for e, var, ts, v in rows(a.tables, "eia930_ba_supply_hourly", ["entity", "variable", "ts_utc", "value"]):
         if var == "total_interchange_mw" and p1 <= ts < p2 and f(v) is not None:
