@@ -611,7 +611,7 @@ def write_tables(out, results, score_rows, built):
     os.makedirs(out, exist_ok=True)
     head_lines = [
         "# Energy Research Warehouse (ERW): the ERW forecast of hourly demand, the walk-forward backtest (tier derived: a model's output, not a published figure)",
-        "# Shape: series (docs/datastandard.md v0). entity eia930:<code>; variable demand_forecast_mw; ts_utc the forecast hour's start (UTC); x_method the method; x_made_utc the hour the forecast is taken as made; x_horizon_days days between the last whole day read and the target day; x_lo, x_hi the band; x_kind backtest. Method: docs/methods/predict.md.",
+        "# Shape: series (docs/datastandard.md v0). entity eia930:<code>; variable demand_forecast_<method>_mw (session 10603, data request 3: the method in the variable, so no key repeats); ts_utc the forecast hour's start (UTC); x_method the method; x_made_utc the hour the forecast is taken as made; x_horizon_days days between the last whole day read and the target day; x_lo, x_hi the band; x_kind backtest. Method: docs/methods/predict.md.",
         f"# Retrieved: {built.replace('-', '').replace(':', '')} (UTC) by warehouse/predict/run.py",
         "# Source: erw:predict the ERW's own forecast from eia930_ba_demand_hourly (Form EIA-930, U.S. Energy Information Administration), https://github.com/SamuelEnrique/erw/blob/main/docs/methods/predict.md",
         "# License: public (derived by the ERW from EIA data).",
@@ -627,7 +627,7 @@ def write_tables(out, results, score_rows, built):
             for m in ["regression", "regression_recent"]:
                 x = hr.dropna(subset=[m])
                 for ts, v, lo, hi, made in zip(x["ts"], x[m], x[m + "_lo"], x[m + "_hi"], x["made_utc"]):
-                    f.write(f"{ent},demand_forecast_mw,{iso(ts)},{v:.1f},MW,PT1H,erw:predict,{r['place']},{m},{iso(made)},2,"
+                    f.write(f"{ent},demand_forecast_{m}_mw,{iso(ts)},{v:.1f},MW,PT1H,erw:predict,{r['place']},{m},{iso(made)},2,"
                             f"{'' if not np.isfinite(lo) else f'{lo:.1f}'},{'' if not np.isfinite(hi) else f'{hi:.1f}'},backtest\n")
     q = os.path.join(out, "predict_scores.csv")
     with open(q, "w", encoding="utf-8", newline="\n") as f:
@@ -646,16 +646,17 @@ def write_price_table(out, prices, built, name="predict_price_backtest.csv"):
     p = os.path.join(out, name)
     with open(p, "w", encoding="utf-8", newline="\n") as f:
         f.write("# Energy Research Warehouse (ERW): the ERW forecast of day-ahead hub prices, the walk-forward backtest of the regression (tier derived: a model's output, not a published figure)\n")
-        f.write("# Shape: series (docs/datastandard.md v0). entity the hub; variable lmp_dam_forecast; ts_utc the hour's start (UTC); x_place the place whose demand forecast it reads; x_made_utc the hour the forecast is taken as made (14:00 UTC the day before); x_lo, x_hi the band. Method: docs/methods/predict_price.md.\n")
+        f.write("# Shape: series (docs/datastandard.md v0). entity the place (eia930:<code>, its demand read) or, for a hub of price_hubs.json, the hub; variable lmp_dam_forecast_regression; x_hub the hub (session 10603, data request 5: one row a place and hour, so places of one grid no longer repeat a key); ts_utc the hour's start (UTC); x_place the place whose demand forecast it reads; x_made_utc the hour the forecast is taken as made (14:00 UTC the day before); x_lo, x_hi the band. Method: docs/methods/predict_price.md.\n")
         f.write(f"# Retrieved: {built.replace('-', '').replace(':', '')} (UTC) by warehouse/predict/run.py\n")
         f.write("# Source: erw:predict, from the day-ahead hub prices of ERCOT, SPP and CAISO, eia930_ba_demand_hourly and eia_fuel_spot_prices (public)\n")
         f.write("# License: public (derived by the ERW from ERCOT, SPP, CAISO and EIA data).\n")
-        f.write("entity,variable,ts_utc,value,unit,freq,source,x_place,x_method,x_made_utc,x_lo,x_hi,x_kind\n")
+        f.write("entity,variable,ts_utc,value,unit,freq,source,x_place,x_hub,x_method,x_made_utc,x_lo,x_hi,x_kind\n")
         for place, q in prices.items():
             hr = q["hr"].dropna(subset=["regression"])
-            ent = q.get("hub") or data.HUBS[q["grid"]]
+            hub = q.get("hub") or data.HUBS[q["grid"]]
+            ent = hub if place.startswith("hub-") else "eia930:" + place.split("-", 1)[1].upper()
             for ts, v, lo, hi, made in zip(hr["ts"], hr["regression"], hr["regression_lo"], hr["regression_hi"], hr["made_utc"]):
-                f.write(f"{ent},lmp_dam_forecast,{iso(ts)},{v:.2f},USD/MWh,PT1H,erw:predict,{place},regression,{iso(made)},"
+                f.write(f"{ent},lmp_dam_forecast_regression,{iso(ts)},{v:.2f},USD/MWh,PT1H,erw:predict,{place},{hub},regression,{iso(made)},"
                         f"{'' if not np.isfinite(lo) else f'{lo:.2f}'},{'' if not np.isfinite(hi) else f'{hi:.2f}'},backtest\n")
     return p
 
