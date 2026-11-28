@@ -1,0 +1,12 @@
+filings in two or more companies' files: 3
+  0000811156-26-000032 (CMS, CMS-PB), period ends 2026-09-30 to 2026-09-30: revenue 2/2 the same; net_income 2/2 the same; capex 1/1 the same; debt 2/2 the same; shares_outstanding 2/2 the same
+  0000827052-26-000073 (EIX, SCE-PG), period ends 2026-09-30 to 2026-09-30: revenue 2/2 the same; net_income 2/2 the same; capex 1/1 the same; debt 2/2 the same; shares_outstanding 2/2 the same
+  0001004980-26-000055 (PCG, PCG-PE), period ends 2026-09-30 to 2026-09-30: revenue 2/2 the same; net_income 2/2 the same; capex 1/1 the same; debt 2/2 the same; shares_outstanding 2/2 the same
+
+companies carrying another listed company's figures from a joint filing (every revenue and the share count equal):
+  CMS     CMS ENERGY CORP                          cik 0000811156; newest period 2026-09-30; shares at it 313600000; accessions ['0000811156-26-000032']
+  CMS-PB  CONSUMERS ENERGY CO                      cik 0000201533; newest period 2026-09-30; shares at it 313600000; accessions ['0000811156-26-000032']
+  EIX     EDISON INTERNATIONAL                     cik 0000827052; newest period 2026-09-30; shares at it 384787221; accessions ['0000827052-26-000073']
+  PCG     PG&E Corp                                cik 0001004980; newest period 2026-09-30; shares at it 2202416553; accessions ['0001004980-26-000055']
+  PCG-PE  PACIFIC GAS & ELECTRIC Co                cik 0000075488; newest period 2026-09-30; shares at it 2202416553; accessions ['0001004980-26-000055']
+  SCE-PG  SOUTHERN CALIFORNIA EDISON Co            cik 0000092103; newest period 2026-09-30; shares at it 384787221; accessions ['0000827052-26-000073']

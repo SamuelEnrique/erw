@@ -1,0 +1,16 @@
+regulated utilities 112, independent power 64, in both 63; independent power by its own code alone (4991): ['AES']
+integrated 18, refining 18, in both 18
+midstream 49, regulated 112, in both 23
+segments holding a company: 9; distinct sets of companies among them: 8
+
+3-month revenue to 2026-09-30, summed by segment, and the part counted twice:
+  integrated_oil_gas        18 companies,  13 with a 3-month revenue to 30 September: USD 413.8 billion; counted twice 18.0 billion (4.4 percent); no filed figures 4 (22 percent)
+  exploration_production    87 companies,  64 with a 3-month revenue to 30 September: USD 58.3 billion; counted twice 0.0 billion (0.0 percent); no filed figures 19 (22 percent)
+  midstream_pipelines       49 companies,  31 with a 3-month revenue to 30 September: USD 146.1 billion; counted twice 15.2 billion (10.4 percent); no filed figures 8 (16 percent)
+  refining                  18 companies,  13 with a 3-month revenue to 30 September: USD 413.8 billion; counted twice 18.0 billion (4.4 percent); no filed figures 4 (22 percent)
+  oilfield_services         52 companies,  40 with a 3-month revenue to 30 September: USD 43.8 billion; counted twice 0.0 billion (0.0 percent); no filed figures 9 (17 percent)
+  coal                       9 companies,   7 with a 3-month revenue to 30 September: USD 4.1 billion; counted twice 0.0 billion (0.0 percent); no filed figures 0 (0 percent)
+  regulated_utilities      112 companies,  61 with a 3-month revenue to 30 September: USD 158.0 billion; counted twice 13.3 billion (8.4 percent); no filed figures 27 (24 percent)
+  independent_power         64 companies,  29 with a 3-month revenue to 30 September: USD 77.9 billion; counted twice 4.9 billion (6.3 percent); no filed figures 22 (34 percent)
+  grid_equipment             2 companies,   1 with a 3-month revenue to 30 September: USD 0.4 billion; counted twice 0.0 billion (0.0 percent); no filed figures 0 (0 percent)
+midstream's largest revenues: ET 37.1 (4922 Natural Gas Transmission); EPD 17.9 (4922 Natural Gas Transmission); PAA 15.2 (4610 Pipe Lines (No Natural Gas)); PAGP 15.2 (4610 Pipe Lines (No Natural Gas)); OKE 12.5 (4923 Natural Gas Transmisison & Distribution); DINO 10.9 (4610 Pipe Lines (No Natural Gas))

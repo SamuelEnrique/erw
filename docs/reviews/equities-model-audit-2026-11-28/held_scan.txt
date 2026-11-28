@@ -1,0 +1,5 @@
+list: 307 companies; series files 309 with 2 daily rows (all must be empty)
+board rows 30, weightings named ['equal', 'value'], statuses ['not_held']
+energy prices: 12 series, held ['pjm_western_hub_da', 'nyiso_zone_j_da', 'isone_mass_hub_da', 'miso_indiana_hub_da']; shown ['wti', 'brent', 'henry_hub', 'ercot_hb_hubavg_da', 'caiso_sp15_da', 'caiso_np15_da', 'uranium', 'cca_current']
+equities files under site/public: []
+held values found: 0
