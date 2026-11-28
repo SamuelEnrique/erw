@@ -467,6 +467,10 @@ STORAGE_HELD["eia930_region_fuel_hourly"] = ("held: first written on 19 November
 # 1.2 GB: held the same way
 STORAGE_HELD["eia930_ba_wind_solar_hourly"] = ("held: first written on 27 November 2026 (chain 701, session 10000), after the v1 "
                                                "package was prepared; not on Redivis (about 1.2 GB): in v1 when the owner adds it to the package's list")
+# Session 10000 (chain 701, part D): the listed energy companies from SEC EDGAR, public; registered on 28 November 2026,
+# when the Redivis storage was full (the upload of 27 November skipped): held the same way
+STORAGE_HELD["equity_universe"] = ("held: registered on 28 November 2026 (chain 701, session 10000), after the v1 package was "
+                                   "prepared; not on Redivis (its storage full): in v1 when the owner adds it to the package's list")
 # Session 8002 (chain 501, part C): who trades with whom, four derived tables, public: held the same way
 for _t in ("interchange_pair_daily", "interchange_pair_monthly", "ba_trade_partners", "interchange_event_pairs",
            "eia_seds_industrial_annual", "eia_aeo_industrial",  # session 8003 (step D2)
