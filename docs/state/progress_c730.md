@@ -127,3 +127,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 01:30 UTC (session 10603): `ahead_more.json` rebuilding on today's tables (17 of 35), on `wip/c730-predict-v7`.
 - 01:49 UTC (session 10603): `ahead_more.json` rebuilding (22 of 35); row 12 requested.
 - 02:08 UTC (session 10603): `ahead_more.json` rebuilding (27 of 35).
+- 02:27 UTC (session 10603): `ahead_more.json` rebuilding (31 of 35).
