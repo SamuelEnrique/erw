@@ -19,7 +19,7 @@ import { csvOf, pythonOf, stataOf } from "@/lib/forecastfiles";
 import { StateChart } from "./StateChart";
 // chain 740: the datacenter, a fifth project type (lib/dcimpact.ts, lib/dcui.ts, ./Datacenter.tsx)
 import { dcKey, dcRun, dcStat, type DcInputs, type DcParams, type DcResult } from "@/lib/dcimpact";
-import { DC_NAMES, dcResolve, isDcIx, type DcProject } from "@/lib/dcui";
+import { DC_NAMES, DC_UNREAD_EXEMPTION, dcResolve, isDcIx, type DcProject } from "@/lib/dcui";
 import { dcCsv, dcPython, dcStata } from "@/lib/dcfiles";
 import { DcGroups, DcOtherStates, DcYears, dcDisplay } from "./Datacenter";
 
@@ -317,7 +317,7 @@ function Compare({ sc, names, dcNames, P, P2 }: { sc: Record<View, Scn>; names: 
       // for a rule the project falls short of
       const words = !!P2.rules.states[s.x.state]?.sales_exemption?.discretionary;
       const word = s.r.exemption.held && !words ? "none" : "not held";
-      return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${key}`}><span className="cursor-help border-b border-dotted border-muted" title={s.r.exemption.note}>{word}</span></td>;
+      return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${key}`}><span className="cursor-help border-b border-dotted border-muted" title={DC_UNREAD_EXEMPTION[s.x.state] ?? s.r.exemption.note}>{word}</span></td>;
     }
     const v = figure === null ? null : dcStat(s.r, figure);
     if (v === null) {
@@ -325,8 +325,12 @@ function Compare({ sc, names, dcNames, P, P2 }: { sc: Record<View, Scn>; names: 
       return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${key}`}><span className="cursor-help border-b border-dotted border-muted" title={why}>{key === "sev" ? "none" : "not held"}</span></td>;
     }
     const left = key === "pvtax" ? dcLeftOut(s.r) : [];
+    // session 11404 (chain 770's audit, finding 1): where no exemption rule is held (none read, or held as words only), the
+    // sales tax is before any exemption, and the cell says so rather than read as the tax paid
+    const before = key === "sales" && (!s.r.exemption.held || !!P2.rules.states[s.x.state]?.sales_exemption?.discretionary);
     return <td key={p} className={cls} data-cell={`${p}|${key}`}><Num check={`${dcKey(s.x)}|${figure}`} raw={v}>{dcDisplay(figure!, v)}</Num>
-      {left.length ? <span className="block whitespace-normal text-xs italic text-muted" data-left-out={left.join(",")}>without {left.join(" or ")} tax</span> : null}</td>;
+      {left.length ? <span className="block whitespace-normal text-xs italic text-muted" data-left-out={left.join(",")}>without {left.join(" or ")} tax</span> : null}
+      {before ? <span className="block whitespace-normal text-xs italic text-muted" data-before-exemption="1" title={DC_UNREAD_EXEMPTION[s.x.state] ?? s.r.exemption.note}>before any exemption</span> : null}</td>;
   };
   const dcPropTip = (p: View) => { const s = sc[p]; return s.dc ? `${p.toUpperCase()}: ${P2.rules.states[s.x.state]?.property?.tip ?? `${stateName(s.x.state)}: no rule for a datacenter's property is read; the reader's own rates, where typed.`}` : null; };
   return (
@@ -371,7 +375,7 @@ function Compare({ sc, names, dcNames, P, P2 }: { sc: Record<View, Scn>; names: 
             ))}
             {anyDc ? DC_LINES.map((l) => (
               <tr key={l.key} className="grid grid-cols-2 border-b border-rule align-top sm:table-row" data-row={l.key}>
-                <th scope="row" className="col-span-2 px-3 pb-0 pt-1.5 font-normal sm:table-cell sm:pb-1.5">{l.label}<Tip id={`l-${l.key}`} label={l.label}>{`${l.tip}${l.key === "dcforgone" ? ` ${views.map((p) => { const s = sc[p]; return s.dc ? `${p.toUpperCase()}: ${P2.rules.states[s.x.state]?.sales_exemption?.tip ?? `${stateName(s.x.state)}: no datacenter exemption is read.`}` : ""; }).join(" ")}` : ""}`}</Tip></th>
+                <th scope="row" className="col-span-2 px-3 pb-0 pt-1.5 font-normal sm:table-cell sm:pb-1.5">{l.label}<Tip id={`l-${l.key}`} label={l.label}>{`${l.tip}${l.key === "dcforgone" ? ` ${views.map((p) => { const s = sc[p]; return s.dc ? `${p.toUpperCase()}: ${P2.rules.states[s.x.state]?.sales_exemption?.tip ?? DC_UNREAD_EXEMPTION[s.x.state] ?? `${stateName(s.x.state)}: no datacenter exemption is read.`}` : ""; }).join(" ")}` : ""}`}</Tip></th>
                 {views.map((p) => {
                   const cls = "px-3 py-1.5 text-right sm:table-cell";
                   if (sc[p].dc) return dcCellOf(p, l.key, l.figure, cls);
