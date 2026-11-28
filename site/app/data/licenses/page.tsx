@@ -46,8 +46,8 @@ export default function Licenses() {
         <ul className="mt-3 max-w-3xl list-disc pl-5 text-sm">
           <li>
             A number read from a held table&apos;s values is not shown. In its place the site writes &ldquo;license needed&rdquo;, with the publishers in the
-            hover. What describes the table is shown: its name, its row count and its first and last day on <Link href="/data">Data</Link>, and the
-            faults register&apos;s counts of the gaps in its source.
+            hover. Its row count and its first and last day on <Link href="/data">Data</Link> read &ldquo;license needed&rdquo; too; its name is shown, and the
+            faults register&apos;s counts of the gaps in its source are shown.
           </li>
           <li>
             A table decided only by grid operators is held row by row: the rows of the grids that ask for permission are held, and the others are shown,

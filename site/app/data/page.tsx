@@ -4,7 +4,7 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { Cite } from "@/components/Cite";
 import { CopyLine } from "@/components/CopyLine";  // session 1015
 import { NoData } from "@/components/NoData";
-import { Num } from "@/components/Num";
+import { Num, heldBy } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { catalogue } from "@/lib/data";
 import { count, day, utc } from "@/lib/format";
@@ -79,8 +79,9 @@ export default async function Data() {
                     </th>
                     <td className="py-1 pr-3 text-xs">{(r.sector ?? "").split(";").join(", ")}</td>
                     <td className="py-1 pr-3 text-xs">{r.interval}</td>
-                    <td className="py-1 pr-3 text-xs whitespace-nowrap">{day(r.ts_min)}</td>
-                    <td className="py-1 pr-3 text-xs whitespace-nowrap">{day(r.ts_max)}</td>
+                    {/* wip/ready-data-held-counts (the data pages audit of 26 November, finding 8, for Samuel's ruling): a held table's first and last day, as its row count, read "license needed" */}
+                    <td className="py-1 pr-3 text-xs whitespace-nowrap">{heldBy(`catalogue|${r.table_name}|ts_min`) ? LICENSE_NEEDED : day(r.ts_min)}</td>
+                    <td className="py-1 pr-3 text-xs whitespace-nowrap">{heldBy(`catalogue|${r.table_name}|ts_max`) ? LICENSE_NEEDED : day(r.ts_max)}</td>
                     {/* session 410: the table's last run, coverage.csv's last_run as the loader put it in the catalogue */}
                     <td className="py-1 pr-3 text-xs whitespace-nowrap" title={r.last_run ? utc(r.last_run) : undefined}>
                       {r.last_run ? day(r.last_run) : <span className="text-muted" title="coverage.csv records no run for this table">not recorded</span>}

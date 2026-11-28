@@ -58,6 +58,9 @@ export function heldBy(check: string): { table: string; title: string } | null {
   // session 4005: the count of a table's rows (event_count|<table>|all or |since|<day>, the policy page and its week view)
   // names its table second as event| does; without this a held table's count printed the empty held rows' "0"
   else if (head === "event_count") table = p[1] ?? "";
+  // wip/ready-data-held-counts (the data pages audit of 26 November, finding 8, for Samuel's ruling): /data's row count and
+  // dates of a table (catalogue|<table>|n_rows, |ts_min, |ts_max) are held with the table
+  else if (head === "catalogue") table = p[1] ?? "";
   // chain 305 (session 7603, the datacenter tracker read as its reader): a grid's peak hour and capacity on the tracker's
   // "facilities against each grid" (dcgrid|peak_mw|<grid>, dcgrid|capacity_mw|<grid>) are grid_peak_vs_capacity's, and
   // ERCOT's reserve margin (dcgrid|reserve_margin|ERCOT) is ercot_cdr_reserve_margins': both public. Asked as

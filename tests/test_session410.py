@@ -116,7 +116,7 @@ class TheSourceOfThePage(unittest.TestCase):
             self.assertIn(f">{head}</th>", page, head)
         # the counts and times are the catalogue's: none written by hand in the table's cells
         self.assertIn("{count(r.n_rows)}", page)
-        self.assertIn("{day(r.ts_max)}", page)
+        self.assertIn("day(r.ts_max)}", page)   # wip/ready-data-held-counts: behind the hold
         self.assertIn("day(r.last_run)", page)
 
     def test_a_held_table_is_not_downloadable_and_the_rest_link_their_copy(self):

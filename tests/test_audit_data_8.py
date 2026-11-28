@@ -28,7 +28,7 @@ class WhatOfAHeldTableIsShown(unittest.TestCase):
     def test_the_catalogue_counts_are_not_held(self):
         num = src("site", "components", "Num.tsx")
         body = num[num.index("export function heldBy"):]
-        self.assertNotIn('"catalogue"', body[:body.index("\n}\n")])
+        self.assertIn('"catalogue"', body[:body.index("\n}\n")])   # wip/ready-data-held-counts: the key is held
         self.assertIn("Num check={`catalogue|${r.table_name}|n_rows`}", src("site", "app", "data", "page.tsx"))
         faults = src("warehouse", "faults", "faults.yaml")
         entry = faults[faults.index("id: iso_realtime_price_gaps"):]
@@ -39,7 +39,7 @@ class WhatOfAHeldTableIsShown(unittest.TestCase):
         page = flat(src("site", "app", "data", "licenses", "page.tsx"))
         self.assertNotIn("<li>A number read from a held table is not shown.", page)
         self.assertIn("A number read from a held table&apos;s values is not shown.", page)
-        self.assertIn("What describes the table is shown: its name, its row count and its first and last day on <Link href=\"/data\">Data</Link>, and the faults register&apos;s counts of the gaps in its source.", page)
+        self.assertIn("Its row count and its first and last day on <Link href=\"/data\">Data</Link> read &ldquo;license needed&rdquo; too", page)   # wip/ready-data-held-counts
 
 
 if __name__ == "__main__":
