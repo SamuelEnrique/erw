@@ -1,21 +1,22 @@
 # Chain 780, the portable laptop: the All grids tab's new section, and the browser read of 28 November (note for Samuel)
 
-Energy Research Warehouse (ERW). Kept current through the night; state at 13:35 UTC on 28 November 2026. Session 11600. The chain's first commit was at 10:37 UTC; it stops twelve hours after. Step by step: `docs/state/progress_c780.md`. The read: `docs/reviews/browser-read-2026-11-28.md`. The report: `archive/sessions/SESSION_11600_REPORT.md`.
+Energy Research Warehouse (ERW). Kept current through the night; state at 14:02 UTC on 28 November 2026. Session 11600. The chain's first commit was at 10:37 UTC; it stops twelve hours after. Step by step: `docs/state/progress_c780.md`. The read: `docs/reviews/browser-read-2026-11-28.md`. The report: `archive/sessions/SESSION_11600_REPORT.md`.
 
 ## 1. The new section: "Where the next gigawatts can go"
 
 **Where:** `https://erw-flame.vercel.app/cost-of-power?view=allgrids#regions`, on the All grids tab of "What a datacenter pays", under the hub table and above "Large-load rules by utility". The tab is in review, so you see it in the internal view.
 
-**It is not on production yet.** Two things must land first, both the desktop's desk's: the section's code (landing row 68 of `docs/state/landing_request_portable.md`) and the desktop's regions files (its branch `wip/c760-regions`). Until the files land, production's tab draws the section's title and "not built yet" (hover: the files there are the contract's examples), and no table.
+**It is not on production yet.** One thing must land first, at the desktop's desk: the section's code (landing row 68 of `docs/state/landing_request_portable.md`). The desktop's regions files reached main at about 13:40 UTC, so the section draws the real table from the moment it lands.
 
-**What to click once both have landed** (the figures below are those of the desktop's files built 28 November 11:18 UTC; they move with each daily build):
+**What to click once it has landed** (the figures below are those of the desktop's files built 28 November 12:57 UTC; they move with each daily build, and its next files hold 37 places, one authority fewer):
 
 - Open the address above. **You should see** "38 places side by side, a row a place and a column a count: 13 regions, 7 market operators and 18 balancing authorities", three lists ("Places listed", "A, side by side", "B, side by side"), a fold "Columns shown: 10 of 25", and a table of 38 rows and ten columns: one column from each of the ten subjects (price, congestion, how tight the grid runs, what waits to connect, large loads, carbon, neighbours, what is spare, the forecast, datacenters).
   - California's row: day-ahead price 30.27 USD/MWh, peak demand 61,700 MW, active requests 228,966 MW.
   - A blank cell is a count held for a license (Mid-Atlantic's price; every cell of the datacenter column). Put the mouse on it: "license needed" and why.
   - "not a market", "paused", "not held": a count not shown for another reason, in a word; the reason is on hover.
 - **Put the mouse on a column's unit** ("USD/MWh" under "Day-ahead price, mean"). You should see what the count is, the period it covers and where it comes from, and, where the file gives the publisher's address, a link "Open its source".
-- **Put the mouse (or a finger) on a small line beside a figure.** You should see its first and last month, its lowest and its highest month, and how many of the 24 months are held.
+- **Put the mouse (or a finger) on a small line beside a figure.** You should see its first and last month, its lowest and its highest month, how many of the 24 months are held and, once the desktop's next files land, its five whole years (2021 to 2025).
+- **Press "PJM".** Under "Price" and under "Congestion" you should read "license needed" (the reason on hover), and figures everywhere PJM's own data is not needed (its peak, its queue, its utilities' rules).
 - **Press a column's name** ("Peak demand"). You should see the table sorted by it, largest first, the column moved to the front, and the line above the table say so and add "The order is the column's, not a ranking of places." Press again: smallest first. A place with no figure there is last either way. The back button undoes each press.
 - **Open the fold "Columns shown"**, tick and untick, press "Show these columns". The table keeps your columns; the address carries them, so a link you copy opens the same table.
 - **Press a place's name** ("ERCOT"). You should see a panel above the table with everything its file holds:
@@ -28,18 +29,20 @@ Energy Research Warehouse (ERW). Kept current through the night; state at 13:35 
   - "Close" puts the panel away.
 - **Press A on one row and B on another** (or use the two lists). You should see "A and B, side by side": all 25 counts, A beside B.
 - **Press "CSV of these 38 places and 10 columns".** A file of the rows and columns shown, with a Python and a Stata reader beside it.
-- **On your phone:** the table scrolls sideways inside its own frame and its first column stays in place; the page itself does not scroll sideways; every mark opens on a tap.
+- **On your phone:** the table scrolls sideways inside its own frame and its first column stays in place; the page itself does not scroll sideways; every mark opens on a tap; after you press a column's name the table comes back to its start, with that column first.
 - **Near the top of the tab,** under "Hubs and zones / ERCOT nodes": one line, "Under the table: where the next gigawatts can go, every region side by side", which jumps to the section.
 
 **What is real and what is blank:**
 
 - **Real:** every figure, from the desktop's files, each with its key into its file. Set beside the files in a build: 1,255 figures at each width, and 10,802 with every one of the 38 places opened; none differs. The site's own value check passes the tab on that build.
-- **Blank, license needed:** PJM's, NYISO's and ISO-NE's prices; every datacenter count and the list of datacenters (the site holds both datacenter tables since 21 October). The contract first called those two tables public; the desktop corrected it within the hour (data request 584), and the section itself blanks a count of any table the site holds, whatever a file carries.
+- **Blank, license needed** (a count's cell is blank with the reason on hover; a whole section or list held says "license needed" in words): PJM's, NYISO's and ISO-NE's prices; every datacenter count and the list of datacenters (the site holds both datacenter tables since 21 October). The contract first called those two tables public; the desktop corrected it within the hour (data request 584), and the section itself blanks a count of any table the site holds, whatever a file carries.
 - **In a word, with the reason on hover:** MISO's prices ("paused"); a price for a place that is no market; carbon and curtailment where the warehouse holds none for the place.
 - **A link from a hover to the publisher's report** is drawn where the file gives an address: the place's own operator's for a table of several publishers. The first files gave one address a source, the wrong document for most places; the desktop corrected it at 12:10 UTC (data request 586). Where a file gives none, the source is in words.
 - **No score, no rank, no advice, no colour.** No map: the site has none of the regions to reuse.
 
-**Seen:** seven builds, at 1280 px with a mouse and 390 px with a finger, on a copy of the desktop's branch files kept on this laptop and never committed; the keyboard alone from the top of the tab to its foot. An accessibility audit of the section found no violation.
+**Seen:** eight builds, at 1280 px with a mouse and 390 px with a finger, on a copy of the desktop's branch files kept on this laptop and never committed; the keyboard alone from the top of the tab to its foot; the five readers' cases taken on a phone's width with a picture at every step. An accessibility audit of the section found no violation.
+
+**Two things the files say that you may notice** (asked of the desktop, data request 590): PJM's, NYISO's, ISO-NE's and MISO's "Hours of negative price" read "not a market", where the reason is the license or the pause; and a figure's source lists other operators' report codes beside its own.
 
 ## 2. A fault of the whole tab, found on the way and mended: the back button
 
@@ -61,7 +64,7 @@ Read on production at 1280 and 390 px. In full: `docs/reviews/browser-read-2026-
 - **The site's own figure check, run whole:** 15,217 of 15,244 match; the rest were of the hour or are a floor to lower (`/policy`).
 - **The first minute:** every one of the 54 addresses of the menu, the home page, the foot and the tour answers.
 
-**Fixed here, each on its own branch with a test, each waiting for the desk to land it:** the tab's back button; the Grid tool's width on a phone; the years and the hours printed over each other; the bars' figures on each other; the bar chart's width on a phone. **Filed for the desktop:** data requests 582 to 589. **Filed for the old laptop's audits:** the heading "Tomorrow" over a past day, the small companies' "0", one doubled period on `/impact`. **Filed for the desk:** the floor of `/policy`.
+**Fixed here, each on its own branch with a test, each waiting for the desk to land it:** the tab's back button; the Grid tool's width on a phone; the years and the hours printed over each other; the bars' figures on each other; the bar chart's width on a phone. **Filed for the desktop:** data requests 582 to 590. **Filed for the old laptop's audits:** the heading "Tomorrow" over a past day, the small companies' "0", one doubled period on `/impact`. **Filed for the desk:** the floor of `/policy`; the first line under "Large-load rules by utility" on a phone, which breaks after "124".
 
 ## 4. What waits for you (each left as it is; nothing was decided for you)
 
