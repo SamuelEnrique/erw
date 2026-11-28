@@ -49,6 +49,14 @@ export const OPEN_FILTERS: Filters = { ...NO_FILTERS, minSig: 5 };
 const any = (chosen: string[], have: string[] | undefined) => chosen.length === 0 || (have ?? []).some((x) => chosen.includes(x));
 const one = (chosen: string[], v: string | undefined) => chosen.length === 0 || (v !== undefined && chosen.includes(v));
 
+/** A record's status as of the page's day (audit of 26 November 2026, finding 6, the other choice): the file's status is
+ *  its newest document's, as of that document's date, so a final rule whose effective date has since passed reads
+ *  "In effect" from that date on. Every other status is the file's. */
+export function statusAsOf(rows: MonitorRow[], today: string): MonitorRow[] {
+  return rows.map((r) => (r.status === "final" && today && (r.steps ?? []).some((s) => s.kind === "effective" && s.date <= today)
+    ? { ...r, status: "effective" } : r));
+}
+
 /** The rows the filters leave. A filter left empty holds every row; a row's date is its newest document's. */
 export function filterRows(rows: MonitorRow[], f: Filters): MonitorRow[] {
   return rows.filter((r) =>

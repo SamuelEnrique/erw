@@ -14,7 +14,7 @@ import { PolicyTable, type Row } from "./PolicyTable";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import { WeekView } from "./WeekView";
 import { MonitorView } from "./MonitorView";
-import { filtersOf, type MonitorFile } from "@/lib/policymonitor";
+import { filtersOf, statusAsOf, type MonitorFile } from "@/lib/policymonitor";
 import monitorFile from "@/data/policy/monitor.json";
 // chain 302 (session 7201): the states' laws on large loads (state_large_load_laws), from the large-load page file
 import largeLoadFile from "@/data/siting/large_load_rules.json";
@@ -92,7 +92,7 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
         <Views view={view} />
         <PausedLine file={pausedSources().file} names={pausedSources().names} />
         <Section title="The monitor">
-          <MonitorView rows={m.rows} built={m.built} held={m.records} opened={filtersOf(q)} today={new Date(renderTime()).toISOString().slice(0, 10)}
+          <MonitorView rows={statusAsOf(m.rows, new Date(renderTime()).toISOString().slice(0, 10))} built={m.built} held={m.records} opened={filtersOf(q)} today={new Date(renderTime()).toISOString().slice(0, 10)}
             laws={{ laws: ll.laws, held: ll.held_laws, built: ll.built, retrieved: ll.retrieved, searches: ll.law_searches ?? [],
               // session 7204: the utilities' rules and their changes by state, for the laws block's link to the All grids tab
               rules: countByState([...ll.rules, ...ll.held_rules].map((r) => r.state)), changes: countByState(ll.changes.map((c) => c.state)) }} />

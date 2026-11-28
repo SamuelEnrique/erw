@@ -431,9 +431,11 @@ record and the text do not state is empty: a date or a figure is never estimated
   action line (a release's opening words too). A Register rule is a rule, or an approval of a state's program or plan.
 - **action_status**: proposed, final, effective, stayed, vacated, withdrawn, filed, open, scheduled, issued or announced,
   as of the document's date: a rule is "effective" only when its effective date is on or before the document's own date,
-  and a rule whose effective date comes later stays "final", on the page too, after that date has passed (the monitor's
-  Status is its newest document's, "as of the newest document"; audit of 26 November 2026, finding 6: on the file of 25
-  November, 96 of the 126 records marked final had an effective date on or before 26 November).
+  and a rule whose effective date comes later stays "final" in the file. The monitor reads each record's status as of
+  the page's day (`statusAsOf` in `site/lib/policymonitor.ts`): a final record whose effective date is on or before
+  that day reads "In effect" there, in the Status filter, the table and the download (audit of 26 November 2026,
+  finding 6: on the file of 25 November, 96 of the 126 records marked final had an effective date on or before 26
+  November).
 - **dates** and **dates_evidence**: every dated step the text states, as kind and date (effective, expires,
   comments_due, intervention_due, review_due, decision_due, meeting), each with the sentence it stands in or the record's
   field. A date counts only where a deadline's or an effective date's words stand right before it; the date of a

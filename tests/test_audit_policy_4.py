@@ -35,7 +35,8 @@ class TheStatusIsAsOfTheDocument(unittest.TestCase):
         note = src("docs", "methods", "policy_monitor.md")
         self.assertNotIn("(a final rule is effective once its effective date has come)", note)
         self.assertIn('a rule is "effective" only when its effective date is on or before the document\'s own date,\n'
-                      '  and a rule whose effective date comes later stays "final", on the page too, after that date has passed', note)
+                      '  and a rule whose effective date comes later stays "final" in the file. The monitor reads each record\'s status as of\n'
+                      "  the page's day", note)  # ready branch wip/ready-policy-status-today (session 11408)
 
 
 if __name__ == "__main__":
