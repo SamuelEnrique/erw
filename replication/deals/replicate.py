@@ -277,7 +277,10 @@ def ai_view(ds):
             groups.setdefault(of(d), []).append(d)
         for value, g in groups.items():
             v = dash(value)
-            mws, usds = [d.mw for d in g if d.mw is not None], [d.usd for d in g if d.usd is not None]
+            mws = [d.mw for d in g if d.mw is not None]
+            # session 11408 (the deals audit's finding 3, the other choice): dollars only by the kind of supply, never a
+            # rumored or cancelled deal's
+            usds = [d.usd for d in g if d.usd is not None and d.status not in ("rumored", "cancelled")] if dim == "supply" else []
             out[f"deals|ai_deals|{dim}|{v}"] = len(g)
             if mws:
                 out[f"deals|ai_mw|{dim}|{v}"] = sum(mws)
