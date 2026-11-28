@@ -9,7 +9,7 @@ import { TableDownloads } from "@/components/tool/TableDownloads";
 import { FUEL_COLOR, FUEL_WORDS } from "@/lib/mixpage";
 import {
   CO2_WORDS, GAS_WORDS, GEN_SOURCES, SECTORS, SEDS_WORDS, TECH_WORDS, atYear, byYearTable, genShare, gridRegion, lastCo2, lastWholeYear, monthPoints,
-  readIndex, readState, sharePoints, wholeGenYears, yearOfMonths, yearPoints, type Arr, type StateFile,
+  peopleShare, price12, readIndex, readState, share12, sharePoints, wholeGenYears, yearOfMonths, yearPoints, type Arr, type StateFile,
 } from "@/lib/states";
 import { StatesDecisions } from "./Decisions";
 
@@ -94,7 +94,7 @@ function RunsOn({ f, from }: { f: StateFile; from: number }) {
         head={["Source", "TWh", "Share"]}
         rows={[...GEN_SOURCES.map((s) => ({ key: s, cells: [FUEL_WORDS[s] ?? s,
           <Fig key="v" v={g.last12.mwh[s]} src={src} k={`g12-${f.state}-${s}`} fmt={twh} reason={`EIA prints no ${(FUEL_WORDS[s] ?? s).toLowerCase()} generation for ${f.name} in these months. ${src}`} />,
-          <Fig key="s" v={g.last12.share_pct[s]} src={`The source's twelve months over the sum of every source's. ${SUMMED_OVER_MONTHS} ${src}`} k={`g12s-${f.state}-${s}`} fmt={pct} reason={`EIA prints no ${(FUEL_WORDS[s] ?? s).toLowerCase()} generation for ${f.name} in these months.`} />] })),
+          <Fig key="s" v={share12(g.last12, s)} src={`The source's twelve months over the sum of every source's. ${SUMMED_OVER_MONTHS} ${src}`} k={`g12s-${f.state}-${s}`} fmt={pct} reason={`EIA prints no ${(FUEL_WORDS[s] ?? s).toLowerCase()} generation for ${f.name} in these months.`} />] })),
           { key: "total", highlight: true, cells: ["All sources", <Fig key="v" v={g.last12.total_mwh} src={`The sum of the sources. ${src}`} k={`g12t-${f.state}`} fmt={twh} />, "100%"] }]}
       />
     </>
@@ -130,7 +130,7 @@ function Buys({ f }: { f: StateFile }) {
       rows={SECTORS.map((s) => { const b = r.last12.by_sector[s.key]; return { key: s.key, highlight: s.key === "all", cells: [s.label,
         <Fig key="s" v={b.sales_mwh} src={src} k={`r-${f.state}-${s.key}-s`} fmt={twh} />,
         <Fig key="r" v={b.revenue_usd} src={src} k={`r-${f.state}-${s.key}-r`} fmt={bn} />,
-        <Fig key="p" v={b.price_usd_per_mwh} src={`The twelve months' revenue over their sales. ${src}`} k={`r-${f.state}-${s.key}-p`} fmt={cents} reason={b.sales_mwh === 0 ? "No sales in these months, so no price." : undefined} />,
+        <Fig key="p" v={price12(b)} src={`The twelve months' revenue over their sales. ${src}`} k={`r-${f.state}-${s.key}-p`} fmt={cents} reason={b.sales_mwh === 0 ? "No sales in these months, so no price." : undefined} />,
         <Fig key="c" v={r.customers.by_sector[s.key]} src={src} k={`r-${f.state}-${s.key}-c`} fmt={whole} />] }; })}
     />
   );
@@ -200,7 +200,7 @@ function Operates({ f }: { f: StateFile }) {
         rows={s.by_authority.map((a) => ({ key: a.code ?? "none", cells: [
           a.code ? <span key="n" title={`${a.name ?? a.code}, in EIA's region ${a.region ?? "not named"}. ${src}`}>{a.name ?? a.code} ({a.code})</span> : <span key="n" className="text-muted" title={a.reason ?? ""}>No authority named</span>,
           a.grid ?? "none", `${a.counties}${a.shared_counties ? ` (${a.shared_counties} shared)` : ""}`,
-          <Fig key="s" v={a.share_pct} src={src} k={`sv-${f.state}-${a.code ?? "none"}`} fmt={pct} reason={a.reason ?? undefined} />] }))}
+          <Fig key="s" v={peopleShare(s, a)} src={src} k={`sv-${f.state}-${a.code ?? "none"}`} fmt={pct} reason={a.reason ?? undefined} />] }))}
       />
       {d.years ? (
         <ToolTable
@@ -290,8 +290,8 @@ function Side({ a, b }: { a: StateFile; b: StateFile }) {
       head={["", `A: ${a.name}`, `B: ${b.name}`]}
       rows={[
         row("Net generation, last twelve months (TWh)", "gen", a.generation.last12?.total_mwh, b.generation.last12?.total_mwh, srcOf(a.generation), twh),
-        ...GEN_SOURCES.slice(0, 6).map((s) => row(`${FUEL_WORDS[s]} share, last twelve months`, `sh-${s}`, a.generation.last12?.share_pct[s], b.generation.last12?.share_pct[s], srcOf(a.generation), pct)),
-        ...SECTORS.filter((s) => s.key !== "transportation").map((s) => row(`Average price, ${s.label.toLowerCase()} (cents a kWh)`, `p-${s.key}`, a.retail.last12?.by_sector[s.key].price_usd_per_mwh, b.retail.last12?.by_sector[s.key].price_usd_per_mwh, srcOf(a.retail), cents)),
+        ...GEN_SOURCES.slice(0, 6).map((s) => row(`${FUEL_WORDS[s]} share, last twelve months`, `sh-${s}`, share12(a.generation.last12, s), share12(b.generation.last12, s), srcOf(a.generation), pct)),
+        ...SECTORS.filter((s) => s.key !== "transportation").map((s) => row(`Average price, ${s.label.toLowerCase()} (cents a kWh)`, `p-${s.key}`, price12(a.retail.last12?.by_sector[s.key]), price12(b.retail.last12?.by_sector[s.key]), srcOf(a.retail), cents)),
         row("Operating capacity (GW)", "cap", a.plants.capacity_total_mw, b.plants.capacity_total_mw, srcOf(a.plants), gw),
         row(`CO2 from power, ${ca?.year ?? ""} / ${cb?.year ?? ""} (million t)`, "co2", ca?.tons, cb?.tons, srcOf(a.co2), mt),
         row("CO2 per MWh generated (kg)", "rate", ca?.rate, cb?.rate, srcOf(a.co2), one1),
@@ -321,7 +321,7 @@ export default async function StatesPage({ searchParams }: { searchParams: Promi
   const co2 = lastCo2(A);
   const g12 = A.generation.last12;
   const topSrc = g12 ? GEN_SOURCES.reduce((m, s) => ((g12.share_pct[s] ?? -1) > (g12.share_pct[m] ?? -1) ? s : m), GEN_SOURCES[0]) : null;
-  const priceAll = A.retail.last12?.by_sector.all.price_usd_per_mwh ?? null;
+  const priceAll = price12(A.retail.last12?.by_sector.all);
   const region = gridRegion(A);
   const tables = index.tables;
   // the two places over time
@@ -349,7 +349,7 @@ export default async function StatesPage({ searchParams }: { searchParams: Promi
 
       <HeadlineRow>
         <HeadlineNumber label="Net generation, last twelve months" value={<Fig v={g12?.total_mwh} src={srcOf(A.generation)} k="h-gen" fmt={twh} reason={A.generation.reason} />} unit="TWh" note={g12 ? span(g12.from, g12.to) : undefined} />
-        <HeadlineNumber label="Largest source" value={<Fig v={topSrc && g12 ? g12.share_pct[topSrc] : null} src={srcOf(A.generation)} k="h-top" fmt={pct} reason={A.generation.reason} />} note={topSrc ? `${FUEL_WORDS[topSrc]}, of the twelve months' generation` : undefined} />
+        <HeadlineNumber label="Largest source" value={<Fig v={topSrc && g12 ? share12(g12, topSrc) : null} src={srcOf(A.generation)} k="h-top" fmt={pct} reason={A.generation.reason} />} note={topSrc ? `${FUEL_WORDS[topSrc]}, of the twelve months' generation` : undefined} />
         <HeadlineNumber label="Average retail price, all sectors" value={<Fig v={priceAll} src={srcOf(A.retail, A.retail.revenue_note)} k="h-price" fmt={cents} reason={A.retail.reason} />} unit="cents a kWh" note="the last twelve months" />
         <HeadlineNumber label={`CO2 from power, ${co2?.year ?? ""}`} value={<Fig v={co2?.tons} src={srcOf(A.co2)} k="h-co2" fmt={mt} reason={A.co2.reason} />} unit="million t" note={co2?.rate ? `${one1(co2.rate)} kg per MWh generated` : undefined} />
       </HeadlineRow>

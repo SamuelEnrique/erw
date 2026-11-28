@@ -112,6 +112,26 @@ export function genShare(f: StateFile, src: string, y: string): number | null {
   return v === null || t === null || !t ? null : (100 * v) / t;
 }
 
+// Session 11407 (the states audit of 26 November 2026, finding 6, readied for Samuel's ruling): round once. The files
+// carry the twelve months' price and shares already rounded (to 0.01), and the page rounded them again, one in the last
+// digit off in 34 cells. These compute each from the figures the file holds unrounded enough (revenue and sales, MWh,
+// people), so the page rounds once; where the parts are not held, the file's own figure (null stays null).
+/** The twelve months' price, USD a MWh: revenue over sales. */
+export function price12(b: { sales_mwh: number | null; revenue_usd: number | null; price_usd_per_mwh: number | null } | null | undefined): number | null {
+  if (!b) return null;
+  return b.revenue_usd !== null && b.sales_mwh !== null && b.sales_mwh ? b.revenue_usd / b.sales_mwh : b.price_usd_per_mwh;
+}
+/** A source's share of the twelve months, percent: its MWh over the total's. */
+export function share12(l: Generation["last12"] | null | undefined, src: string): number | null {
+  if (!l) return null;
+  const v = l.mwh[src];
+  return v !== null && v !== undefined && l.share_pct[src] !== null && l.total_mwh ? (100 * v) / l.total_mwh : l.share_pct[src] ?? null;
+}
+/** An authority's share of the state's people, percent: its people over the state's. */
+export function peopleShare(s: Serving, a: Authority): number | null {
+  return a.population !== null && a.share_pct !== null && s.population ? (100 * a.population) / s.population : a.share_pct;
+}
+
 /** A source's share of each whole year, as points. */
 export function sharePoints(f: StateFile, src: string): { t: number; v: number }[] {
   return wholeGenYears(f).map((y) => ({ y, v: genShare(f, src, y) })).filter((p) => p.v !== null).map((p) => ({ t: yearT(p.y), v: p.v as number }));
