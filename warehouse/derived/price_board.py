@@ -463,7 +463,14 @@ def main():
             hist = prices[("ercot", "dam")].iloc[0:0]
             log(f"{HISTORY} is not on this machine: the rows built from it are carried from the last run")
         log(f"{HISTORY} HB_HUBAVG: {len(hist)} rows, {hist['ts_utc'].min()} to {hist['ts_utc'].max()}")
-        fuels = read_table("eia_fuel_spot_prices")
+        # session 11200 (chain 760, part E): on 27 November eia_fuels failed (EIA's API answered 504) and wrote no file,
+        # and this whole step stopped on the missing file, taking the latest, peak and carbon tables with it. Without
+        # the file the spreads are carried from the last run, as the rows built from the ERCOT history are
+        fuels_held = os.path.exists(os.path.join(ip.OUT_DIR, "eia_fuel_spot_prices.csv"))
+        fuels = read_table("eia_fuel_spot_prices") if fuels_held else None
+        if not fuels_held:
+            log("eia_fuel_spot_prices is not on this machine (its connector wrote no file): the spreads are carried "
+                "from the last run")
         price_inputs = sorted({t for t, _ in TABLES.values()})
         latest = build_latest(prices, retrieved, log)
         write(latest, "price_board_latest", header(
@@ -483,8 +490,16 @@ def main():
              "HB_HUBAVG per operating year since 2015 (days: the complete operating days included; the current year is "
              "year to date)."]), log)
         results.append(dict(table="price_board_peak_offpeak", market="derived", status="ok", detail=f"{len(peak)} rows"))
-        spreads = build_spreads(prices, hist, fuels, retrieved, log)
-        if hist.empty:
+        if not fuels_held:
+            spreads = previous("price_board_spreads", SPREAD_COLS)
+            if spreads is None or len(spreads) == 0:
+                raise RuntimeError("eia_fuel_spot_prices is missing and no earlier price_board_spreads to carry")
+            carried.append("price_board_spreads: every row is carried from the last run (eia_fuel_spot_prices was not written "
+                           "this run)")
+            log("  " + carried[-1])
+        else:
+            spreads = build_spreads(prices, hist, fuels, retrieved, log)
+        if fuels_held and hist.empty:
             spreads = carry_history(spreads, previous("price_board_spreads", SPREAD_COLS), "price_board_spreads",
                                     carried, log)
         write(spreads, "price_board_spreads", header(
