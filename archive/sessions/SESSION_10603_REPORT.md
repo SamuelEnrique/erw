@@ -98,13 +98,19 @@ session takes the next item: longer backtests and more places. Branch `wip/c730-
   same tables as its replication.
 - **Work after a landing row's head went onto the same branch twice** (v4, v5), which the desk's gates take at their tip:
   harmless code each time, named in the rows; later work moved to a new branch each time.
+- **Forecast hours without a figure reached the files and the data machine's ledger** (found at 05:10 UTC on 28 November
+  in the daily run's log, where `dm_predict_tables` failed): SPA's demand held four hours at or below zero, the
+  regression (in logs) could not forecast the day, and `run.py` and `ahead.py` wrote 24 empty hours anyway. A fault
+  since session 10600 that the 35 places made visible. Mended (no rows of nulls, the reason given; every ledger writer
+  passes over an empty hour), with a test; data request 20 asks window A to remove or pass over the 24 rows already
+  written. Rebuild 19 and a rebuilt `ahead_more.json` carry the fix (row 14).
 
 ## For Samuel's ruling
 
 Nothing is taken for you.
 
-- Data request 9 (EIA-930 from July 2015) would lengthen the demand backtest by three years; the connector's header calls
-  its present span an approved pull.
+- Data request 9 (EIA-930 from July 2015) was answered by window A on Samuel's order for longer backtests, which it took
+  as the word the row asked for: no ruling of yours is needed now, said here so you know it was read that way.
 - The three items of session 10602 stand (the page's lead where the operator's filing breaks; the 5 percent line; ruling
   2 and the ERCOT tables two lines read).
 

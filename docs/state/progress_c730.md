@@ -128,3 +128,18 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 01:49 UTC (session 10603): `ahead_more.json` rebuilding (22 of 35); row 12 requested.
 - 02:08 UTC (session 10603): `ahead_more.json` rebuilding (27 of 35).
 - 02:27 UTC (session 10603): `ahead_more.json` rebuilding (31 of 35).
+- 02:41 UTC (session 10603): `ahead_more.json` rebuilt on today's tables (175 of 175 place-horizons shown); its replication started on the same tables (result when it ends).
+- 03:00 UTC (session 10603): the `ahead_more` replication on the same tables: 4 places done, each with all 35 of its figures equal (read from each place's own count this time).
+- 03:19 UTC (session 10603): the `ahead_more` replication 9 places done, each fully equal; row 12 still requested.
+- 03:38 UTC (session 10603): the `ahead_more` replication 13 places done, each fully equal.
+- 03:57 UTC (session 10603): the `ahead_more` replication 18 places done, each fully equal; row 12 still requested.
+- 04:16 UTC (session 10603): the `ahead_more` replication 23 places done, each fully equal.
+- 04:35 UTC (session 10603): the `ahead_more` replication 28 places done, each fully equal; row 12 still requested.
+- 04:54 UTC (session 10603): the `ahead_more` replication 33 places done, each fully equal.
+- Landing row 13 requested (05:05 UTC 28 November, session 10603): `wip/c730-predict-v7` at `76931398f`: `ahead_more.json` rebuilt on the refreshed tables and replicated on the same, 1,225 of 1,225 figures; 36 of 36 forecast tests on the head.
+- 05:08 UTC (session 10603): next item, a third cross-check (SPP, whose EIA-930 filing breaks from May 2025): SPP's market monitor prints no day-ahead load forecast error that a search finds (only a vendor's, about 2 percent), and the warehouse holds none of SPP's own load forecast; data request 19 asks window A for it.
+- 05:11 UTC (session 10603): a fault of mine found in the data machine's daily log: `dm_predict_tables` failed because `run.py` (the 64-place code landed in gate 28) wrote 24 ledger rows without a figure for SPA's 28 November (its demand held hours at or below zero on 23 to 25 November, which the regression's logs cannot read). Mended on `wip/c730-predict-v8`: no rows of nulls in the place file or any ledger, `tomorrow_held` naming the days; data request 20 asks window A to remove the 24 rows or have the table step pass over them.
+- 05:16 UTC (session 10603): the same fault in `ahead.py`: SPA's five horizons in `ahead_more.json` (row 13) are 24 empty hours each. Mended on `wip/c730-predict-v8` (a forecast the method cannot make is null with `forecast_held`); `ahead_more.json` rebuilding with the fix on the same tables (its replicated figures do not depend on the forecast's values); rebuild 19 of the place files (made as at 19:00 UTC on 27 November, on today's tables) running for SPA's empty day in the place file landed with row 10. Row 13 names the fault.
+- 05:25 UTC (session 10603): rebuild 19 at 8 of 64; `ahead_more.json` rebuild at 2 of 35.
+- 05:52 UTC (session 10603): rebuild 19 at 24 of 64; `ahead_more.json` rebuild at 7 of 35; rows 12 and 13 still requested.
+- 06:11 UTC (session 10603): rebuild 19 at 36 of 64; `ahead_more.json` rebuild at 11 of 35.
