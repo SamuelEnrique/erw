@@ -112,3 +112,9 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - Rows 10 and 11 landed (session 10603, seen 21:18 UTC): window A's gate 30 (`2fa7055de`, 20:18 UTC) took `wip/c730-predict-v5` at its tip (`10ac99147`): on main, the corrected `wind_solar.json`, `long_backtest.json`, `long_price.json`, rebuild 18 (net demand for 55 places), the replications and `ahead.py --more`'s code. `tests/test_predict.py` 36 of 36 on main. Still only on `wip/c730-predict-v6`: the backtest tables' shape, the peak by year in the longer backtest (its rebuild running, 23 of 64) and `ahead_more.json`; landing row 12 will ask for them.
 - 21:33 UTC (session 10603): the long rebuild with the peak at 30 of 64; `replicate_ahead.py` on `ahead_more.json` running. Codebook: BLM's InTime (`blm_ca_renewable_rows`) looked at again: its one value, 1st, very likely means BLM's first-in-time priority of applications, but no document read pairs them: left open, unchanged.
 - 21:51 UTC (session 10603): long rebuild 42 of 64; `ahead_more` replication 7 of 35 places, all equal.
+- 22:10 UTC (session 10603): long rebuild 54 of 64.
+- 22:34 UTC (session 10603): `long_backtest.json` with the peak built (64 places, on the tables as refreshed at 19:20 UTC) and committed on `wip/c730-predict-v6`; `predict.md` section 29; its replication 8 of 64 places and the `ahead_more` replication 16 of 35, every figure equal so far. The longer backtests' tests now allow a weekly file beside daily ones (last days within a week).
+- 22:53 UTC (session 10603): replications running, every figure equal so far (the longer backtest with the peak 18 of 64; `ahead_more` 19 of 35).
+- 23:13 UTC (session 10603): replications 30 of 64 and 22 of 35, every figure equal.
+- 23:32 UTC (session 10603): replications 43 of 64 and 26 of 35, every figure equal.
+- 23:51 UTC (session 10603): replications 57 of 64 and 30 of 35, every figure equal.
