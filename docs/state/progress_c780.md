@@ -46,12 +46,19 @@ From chain 750 (the second window's browser read; its note `docs/state/note_2026
 
 | Step | State | Session |
 |---|---|---|
-| The contract `docs/state/page_files_siting_regions.md` | waiting: not on origin/main at 10:38 UTC (the desktop's chain 760 writes it). Part B is taken meanwhile; `git fetch` before each step | 11600 |
+| The contract `docs/state/page_files_siting_regions.md` | on main since 10:53 UTC (`3617d1fab`), with three example files (every value null). Read whole at 11:00 UTC | 11600 |
+| 1. The ground, no build: the tab as it stands and what the site already has to reuse | read (the tab's ten parts, its address names, its tests that a new section could trip, the shared tip, blank, small trend and download); written up with the five cases in the section's first commit | 11600 |
 
 ## Part B: everything landed since 26 November, read in a browser
 
 | Step | State | Session |
 |---|---|---|
+| The list: main's log since 26 November 19:28 UTC (23 landings, 807 commits), by page | done, in `docs/reviews/browser-read-2026-11-28.md` | 11600 |
+| The held files' removal: 44 files taken off the public folder, each asked of production as a visitor | done at 10:48 UTC: 44 of 44 answer 404; no file under `site/public` is named for a held or paused grid. Row H3 for a ruling: two public files carry figures worked out from held grids' prices | 11600 |
+| `/forecast` with its later versions, 79 addresses at 1280 and 390 px (all 64 places) | done at 10:46 to 10:56 UTC: 158,232 marked figures agree with the page files at each width; 2,723 of 2,725 checks. Rows F1 to F4. **"Tomorrow" is 27 November, a day past** (data request 582); one place marked shown holds no hour (data request 583); the page's heading over a past day filed for the old laptop's audit (F3) | 11600 |
+| The site's own figure check over its whole list on production (chain 750 left it not run whole) | run whole at 10:51 to 10:58 UTC, no browser: 15,217 of 15,244 values match; 25 fail in four groups (`/prices` 11 latest prices 75 minutes behind; `/policy` draws no checked number, its floor is 10; `/cost-of-power?view=grids` 10 hours of November's profile; `/cost-of-power?grid=caiso` 3 carbon figures). Each to be looked at in a browser and written into the review | 11600 |
+| `/equities` and the board's group on the real filings | running (the browser is on it) | 11600 |
+| `/impact` with coal, biopower and the 93 announced projects | the script is written (`runs/c780/b_impact.mjs`); it runs when the browser is free | 11600 |
 
 ## Part C: after parts A and B
 

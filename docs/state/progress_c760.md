@@ -38,3 +38,8 @@ From chain 740 (desktop third window, datacenters in the Economic impact tool):
 ## Part A: the desk
 
 - desk, session 11200 start (10:36 UTC, `runs/c760/desk.py`): requested and open: window2 rows 12, 13, 14 (chain 730's, taken over); the old laptop's row 132 (returned, see above); predict data requests 19 (on `wip/c701-g38`), 20, 21; five tools 38 (nothing for this machine) and 48 (in part); predict 14 (landed in gate 37) and 15 (on `wip/c730-predict-v9`). `landing_request_portable.md` and `landing_request_portable_w2.md`: nothing requested.
+
+## Part B: where the next gigawatts can go
+
+- B1, the contract `docs/state/page_files_siting_regions.md` and three example files under `site/data/siting/regions/` (index.json with one place of each kind, op-ercot.json, table.json; every value null, `"example": true`), written by `warehouse/derived/siting_regions.py --example` (the builder's skeleton, on `wip/c760-regions`): pushed to main, session 11200 (within the chain's first hour).
+- Gate 1 (`wip/c760-g1`: chain 701's `wip/c701-g38`, spp_mtlf_hourly, with its codebook units fixed; window2 row 14, `wip/c730-predict-v8` at `11d9eb9eb`, which carries rows 12 and 13): started 10:48 UTC on `a72e4d6c8`. A merge slip of mine first took main's whole `tests/test_predict.py` (dropping row 14's own test of a held forecast); redone hunk by hunk before the gate (49 related tests pass).
