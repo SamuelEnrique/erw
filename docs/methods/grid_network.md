@@ -46,6 +46,7 @@ The source table is `eia930_all_interchange`.
 Each pair is reported by both of its BAs. In the network each pair is counted once:
 - its flow is read from the BA whose code sorts first, as that BA reported it (positive = it exported to the other);
 - in an hour that BA did not report, the flow comes from the other BA's report with the sign flipped.
+- a report above 20,000 MW, which no single tie carries, is set aside first (`SCREEN_MW`, in both builders), so the hour is read from the other BA's report, or is not held (since the ruling on the Grid tool audit of 26 November, finding 6; in the seven weeks the audit read, two such reports, SPP's of its MISO tie on 4 and 6 October, neither read by the pair rule).
 
 `grid_network_links` holds the result for the latest 168 hours: entity `eia930:<A>-<B>`, A the code that sorts first, variable `flow_mw`.
 

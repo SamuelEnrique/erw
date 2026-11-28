@@ -41,6 +41,9 @@ SNAPSHOT = os.path.join(ROOT, "site", "data", "grid_network.json")
 HOURS = 168
 ISO = {"CISO": "CAISO", "ERCO": "ERCOT", "ISNE": "ISO-NE", "MISO": "MISO", "NYIS": "NYISO", "PJM": "PJM", "SWPP": "SPP"}
 # EIA reports interchange between its regions and with whole countries too (the same flows, summed): not nodes here
+# wip/ready-grid-screen (the Grid tool audit of 26 November, finding 6, for Samuel's ruling): an interchange report above this
+# many MW is one no single tie carries and is set aside before the pair rule, so that the other BA's report of the hour is read
+SCREEN_MW = 20000
 REGIONS = {"CAL", "CAR", "CENT", "FLA", "MIDA", "MIDW", "NE", "NY", "NW", "SE", "SW", "TEN", "TEX", "US48", "CAN", "MEX"}
 RULE = ("Each pair is counted once: its flow is read from the BA whose code sorts first, as that BA reported it (positive "
         "= it exported to the other); in an hour it did not report, from the other BA's report with the sign flipped.")
@@ -153,6 +156,9 @@ def main():
         x["a"], x["b"] = x["ba"].str.upper(), x["x_to_ba"].str.upper()
         n_all = len(x)
         x = x[~x["a"].isin(REGIONS) & ~x["b"].isin(REGIONS)]  # balancing authorities only
+        n_ba = len(x)
+        x = x[x["value"].abs() <= SCREEN_MW]  # wip/ready-grid-screen
+        log(f"{n_ba - len(x)} reports above {SCREEN_MW:,} MW set aside (no tie carries them); the other BA's report of the hour is read")
         log(f"{n_all - len(x)} reports between EIA regions or with whole countries left out ({', '.join(sorted(REGIONS))})")
         hours = pd.date_range(start, end - pd.Timedelta(hours=1), freq="h", tz="UTC")
         # the pair rule

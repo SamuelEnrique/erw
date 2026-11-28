@@ -67,6 +67,9 @@ INTERCHANGE, REGION = "electricity/rto/interchange-data", "electricity/rto/regio
 BUCKET, OBJECT = "erw-public", "network/grid_network.json"
 HOURS, PULL_HOURS, FULL_SHARE = 168, 48, 0.9
 ISO = {"CISO": "CAISO", "ERCO": "ERCOT", "ISNE": "ISO-NE", "MISO": "MISO", "NYIS": "NYISO", "PJM": "PJM", "SWPP": "SPP"}
+# wip/ready-grid-screen (the Grid tool audit of 26 November, finding 6, for Samuel's ruling): an interchange report above this
+# many MW is one no single tie carries and is set aside before the pair rule, so that the other BA's report of the hour is read
+SCREEN_MW = 20000
 REGIONS = {"CAL", "CAR", "CENT", "FLA", "MIDA", "MIDW", "NE", "NY", "NW", "SE", "SW", "TEN", "TEX", "US48", "CAN", "MEX"}
 BUSY = ("daily-prices.yml", "weekly-vacuum.yml")  # the jobs this one never overlaps
 
@@ -171,7 +174,7 @@ def pair_flows(rows, nodes):
         if r.get("value") is None:
             continue
         f, t = r["fromba"].upper(), r["toba"].upper()
-        if f in REGIONS or t in REGIONS or f == t:
+        if f in REGIONS or t in REGIONS or f == t or abs(float(r["value"])) > SCREEN_MW:  # wip/ready-grid-screen: a report no tie carries is set aside; the other side's report is read
             continue
         a, b = sorted((f, t))
         if a not in nodes or b not in nodes:
