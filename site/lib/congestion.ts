@@ -6,7 +6,10 @@
 
 export type ConstraintYear = { hours: number; abs_mean: number | null; abs_max: number | null; cost: number | null };
 export type Constraint = {
-  name: string; contingency: string | null; monitored: string | null; type: string | null; nerc_id: string | null;
+  name: string; contingency: string | null;
+  /** Session 11407: the contingencies an element was listed under when there are several ("" for a listing naming none) */
+  contingencies?: string[] | null;
+  monitored: string | null; type: string | null; nerc_id: string | null;
   first: string; last: string; hours: number; abs_mean: number | null; abs_max: number | null; cost: number | null;
   by_year: Record<string, ConstraintYear>;
   /** [month YYYY-MM, hours bound, mean size of the shadow price, highest size, mean signed price] */

@@ -35,6 +35,10 @@ class OneElementOnSeveralRows(unittest.TestCase):
         with open(FILE, encoding="utf-8") as f:
             cls.f = json.load(f)
         cls.spp = cls.f["constraints"]["spp"]
+        # Session 11407: a page file built after Samuel's ruling of finding 2 joins an element's keys
+        # (tests/test_ready_congestion_keys.py holds that file); these facts are of the file before it.
+        if any("contingencies" in c for c in cls.spp["constraints"].values()):
+            raise unittest.SkipTest("the page file joins an element's keys (session 11407)")
 
     def test_the_same_label_stood_on_rows_1_and_2_of_every_year_held(self):
         top = self.spp["top"]["all"]["by_hours"][:2]
@@ -68,13 +72,14 @@ class TheWordsSayIt(unittest.TestCase):
         s = src("site", "app", "congestion", "page.tsx")
         self.assertIn("if (!c.contingency) return `${c.name} (no contingency named)`;", s)
         self.assertIn('<Hint words="(what a constraint is)" why={ELEMENT_WORDS} />', s)
-        self.assertIn("an hour it bound under both counts as two constraint-hours", s)
+        # Session 11407: on Samuel's ruling of finding 2 the keys are joined (tests/test_ready_congestion_keys.py).
+        self.assertIn("an hour it bound under two contingencies counts once, as one constraint-hour", s)
         self.assertNotRegex(s, r"export const ELEMENT_WORDS")
 
     def test_the_decision_and_the_note_say_it(self):
         d = src("site", "app", "congestion", "Decisions.tsx")
         self.assertIn("SPP's files until November 2021 name no contingency", d)
-        self.assertIn("an hour the element bound under two contingencies counts twice", d)
+        self.assertIn("an hour the element bound under two contingencies counts once", d)
         n = src("docs", "methods", "grid_congestion.md")
         self.assertIn("the change falls inside November 2021", n)
         self.assertIn("92,128 for the one element", n)

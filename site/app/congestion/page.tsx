@@ -87,11 +87,13 @@ const SPP_WEST_WORDS = "SPP's market took in its western area on 1 April 2026 (S
 
 // Session 10220 (congestion audit, finding 2): SPP's files until November 2021 name no contingency, and from then the same
 // element is listed under BASE, so one element stood on two rows with one label; a row with no contingency now says so.
+// Session 11407 (the ruling readied for finding 2): the file's constraint is the element, its listings joined.
 function constraintLabel(c: Constraint) {
+  if (c.contingencies && c.contingencies.length > 1) return `${c.name} (${c.contingencies.length} listings joined)`;
   if (!c.contingency) return `${c.name} (no contingency named)`;
   return c.contingency !== "BASE" ? `${c.name} (contingency ${c.contingency})` : c.name;
 }
-const ELEMENT_WORDS = "A constraint here is one element (a line, a transformer, a flowgate, a nomogram) under one contingency, as the operator lists it: an element bound under two contingencies is two constraints and two rows, and an hour it bound under both counts as two constraint-hours. SPP's files until November 2021 name no contingency, so an element SPP listed before and after then stands on two rows of every year held, one marked \"no contingency named\".";
+const ELEMENT_WORDS = "A constraint here is one element (a line, a transformer, a flowgate, a nomogram), as the operator names it, with every contingency it was listed under joined: an hour it bound under two contingencies counts once, as one constraint-hour, its shadow price there the two summed. SPP's files until November 2021 name no contingency and later list the same element under BASE; the two listings are one row. A row marked \"listings joined\" says how many listings it holds.";
 
 export default async function CongestionPage({ searchParams }: { searchParams: Promise<Query> }) {
   const q = await searchParams;

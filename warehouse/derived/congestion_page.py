@@ -131,9 +131,30 @@ def monthly_prices(p, run_at):
         "retrieved_at": run_at, "vintage": ""})[ip.SERIES_COLS]
 
 
+def join_elements(d):
+    """Session 11407 (the ruling readied for congestion audit finding 2): one row an element and hour.
+
+    The table's entity is the element under one contingency (name|contingency), and SPP's files until November 2021
+    name no contingency, so one element stood on several rows. Here the page's constraint is the element
+    (x_constraint, the operator's name alone): an hour it bound under several contingencies is one hour, its size there
+    the sizes summed (one more megawatt on the element relaxes each), and its signed price the prices summed. The
+    contingencies it was listed under are kept, in order, with "" for a listing that names none.
+    """
+    d = d.assign(entity=d["op"] + ":" + d["x_constraint"])
+    conts = d.groupby("entity")["x_contingency"].agg(lambda s: sorted(set(s))).rename("contingencies")
+    keep = ["local", "year", "month", "moy", "hod", "x_constraint", "x_monitored", "x_constraint_type", "x_nerc_id"]
+    g = d.groupby(["entity", "ts_utc"], sort=True)
+    e = g[["value", "abs"]].sum().join(g[keep].first()).reset_index()
+    e = e.join(conts, on="entity")
+    e["x_contingency"] = e["contingencies"].map(lambda c: c[0] if len(c) == 1 else "")
+    e["op"] = d["op"].iloc[0]
+    return e
+
+
 def constraint_page(c):
     out = {}
     for op, d in c.groupby("op"):
+        d = join_elements(d)
         years = sorted(d["year"].unique())
         days = d.groupby("year")["local"].apply(lambda s: s.dt.normalize().nunique()).to_dict()
         ent = d.groupby("entity")
@@ -160,6 +181,7 @@ def constraint_page(c):
             yr = by_year[by_year["entity"] == e].set_index("year")
             detail[e] = {
                 "name": first["x_constraint"], "contingency": first["x_contingency"] or None,
+                "contingencies": first["contingencies"] if len(first["contingencies"]) > 1 else None,
                 "monitored": first["x_monitored"] or None, "type": first["x_constraint_type"] or None,
                 "nerc_id": first["x_nerc_id"] or None, "first": x["ts_utc"].min(), "last": x["ts_utc"].max(),
                 "hours": int(len(x)), "abs_mean": r(x["abs"].mean()), "abs_max": r(x["abs"].max()),

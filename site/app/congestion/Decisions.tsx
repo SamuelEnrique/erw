@@ -15,7 +15,7 @@ export const CONGESTION_DECISIONS: CongestionDecision[] = [
     def: "SPP and CAISO.",
     source: "docs/reviews/grid-conditions-sources-2026-11-20.md; docs/licenses.md; the owner's ruling of 6 November 2026." },
   { key: "names", session: "session 9000",
-    text: "A constraint is named as the operator names it. Where CAISO or SPP lists one element under several contingencies, each contingency is its own row and its own constraint in the counts, and an hour the element bound under two contingencies counts twice. SPP's files until November 2021 name no contingency, so an element SPP listed before and after then stands on two rows of every year held, one marked \"no contingency named\". No constraint is placed on a map.",
+    text: "A constraint is named as the operator names it. Where CAISO or SPP lists one element under several contingencies, the listings are joined into one row and one constraint in the counts: an hour the element bound under two contingencies counts once, its shadow price there the two summed. SPP's files until November 2021 name no contingency and later list the same element under BASE; the two are one row. No constraint is placed on a map.",
     def: "The operator's own name.",
     source: "The operators' files." },
   { key: "sign", session: "session 9000",

@@ -55,6 +55,11 @@ def main():
     for op, d in c.groupby("op"):
         loc = pd.to_datetime(d["ts_utc"], utc=True).dt.tz_convert(TZ[op]).dt.tz_localize(None)
         d = d.assign(year=loc.dt.year.astype(str), month=loc.dt.strftime("%Y-%m"))
+        # Session 11407 (on Samuel's ruling of the congestion audit's finding 2): the page's constraint is the element
+        # (the operator's name alone, every contingency joined); an hour under several contingencies is one hour, its
+        # size the sizes summed.
+        d = d.assign(entity=op + ":" + d["x_constraint"]).groupby(["entity", "ts_utc"], as_index=False).agg(
+            a=("a", "sum"), year=("year", "first"), month=("month", "first"))
         P = page["constraints"][op]
         for y, g in d.groupby("year"):
             check(f"{op}.hours_by_year.{y}", P["hours_by_year"].get(y), len(g), 0)
