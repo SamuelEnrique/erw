@@ -1,0 +1,43 @@
+html 744178 characters; numbers marked: 14
+  eq|a|figure = 511
+  16 = ACDC, ProFrac Holding Corp.: revenue, 3 months to each period end, USD million, 16 periods from 2022-03-31 to 2026-09-30, as filed with the SEC 200 400 600 800 1,000 USD million 2022-03 2023-05 2024-06 2025-08 2026-09 Revenue A note on what ACDC filed: the filed periods do not add up for the period to 2025-09-30: a year to date less the one before is not the quarter filed (a change of concept between filings, a restatement inside a filing, or a successor's period); each row is as filed (docs/methods/equities.md). The newest period each company filed, in USD million (shares in millions): one column for each length of period its newest filing reports Newest period filed ACDC, 3 months to 2026-09-30
+  eq|a|filed|revenue = 511
+  eq|a|filed|revenue|9 = 1,459
+  eq|a|filed|net_income = -81
+  eq|a|filed|net_income|9 = -244
+  eq|a|filed|capex = not filed
+  eq|a|filed|capex|9 = 112
+  eq|a|filed|debt = 905
+  eq|a|filed|debt|9 = 905
+  eq|a|filed|shares_outstanding = not filed
+  eq|a|filed|shares_outstanding|9 = not filed
+  eq|price|last = 89.53
+  254 = WTI crude oil, Cushing, spot, USD/bbl 40 60 80 100 120 USD/bbl 11-17 03-18 07-18 11-17 WTI crude oil, Cushing, spot The energy prices the files carry: the latest value of each and its change over a day, a week, a month, the year to date and a year, in percent Price Latest, its date Day Week Month YTD Year WTI crude oil, Cushing, spot 89.53
+companies counted: 307|307
+newest columns: a|3, a|9
+  price row: WTI crude oil, Cushing, spot 89.53 USD/bbl 17 Nov 2026 +0.32% -0.10% -17.26% +56.36% +47.59%
+  price row: Brent crude oil, Europe, spot 92.94 USD/bbl 17 Nov 2026 +0.04% +3.08% -22.12% +51.49% +47.15%
+  price row: Henry Hub natural gas, spot 3.10 USD/MMBtu 17 Nov 2026 -3.13% +3.33% -3.73% -22.50% -16.44%
+  price row: ERCOT Hub average, day-ahead, daily mean 21.37 USD/MWh 27 Nov 2026 -37.53% +32.07% -33.12% -25.36% -34.11%
+  price row: CAISO SP15, day-ahead, daily mean 28.39 USD/MWh 27 Nov 2026 -3.58% +38.25% -17.38% -30.43% -40.97%
+  price row: CAISO NP15, day-ahead, daily mean 44.25 USD/MWh 27 Nov 2026 +1.88% -25.05% +1.91% +6.91% -16.20%
+  price row: Uranium, monthly average 72.89 USD/lb Oct 2026 monthly monthly +0.57% +14.76% +13.96%
+  price row: California carbon allowance, quarterly auction settlement (current vintage) 32.88 USD/t CO2e Nov 2026 quarterly quarterly quarterly +16.10% +16.10%
+  price row: PJM Western Hub, day-ahead license needed
+  price row: NYISO New York City, day-ahead license needed
+  price row: ISO-NE Mass Hub, day-ahead license needed
+  price row: MISO Indiana Hub, day-ahead paused
+  filed row: Newest period filed ACDC, 3 months to 2026-09-30 ACDC, 9 months to 2026-09-30
+  filed row: Form, day filed 10-Q, 2026-11-05 10-Q, 2026-11-05
+  filed row: Revenue 511 1,459
+  filed row: Net income -81 -244
+  filed row: Capital spending not filed 112
+  filed row: Debt 905 905
+  filed row: Shares outstanding not filed not filed
+  company row: ProFrac Holding Corp. ACDC Nasdaq Oilfield services Oil & Gas Field Services, NEC license needed 2026-09-30, 10-Q (note) Revenue 511 , 3 months
+  company row: AMEREN CORP AEE NYSE Regulated electric and gas utilities Electric & Other Services Combined license needed 2026-09-30, 10-Q Revenue 2,882 , 3 months
+  company row: AMERICAN ELECTRIC POWER CO INC AEP Nasdaq Regulated electric and gas utilities, Independent power producers Electric Services license needed 2026-09-30, 10-Q Revenue 6,832 , 3 months
+(node:27068) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/lossa/Documents/erw-c770-c/site/lib/license.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\lossa\Documents\erw-c770-c\site\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

@@ -1,0 +1,14 @@
+1. newest filed period: 307 companies, 0 figures differ
+4. series files 309, listed 307; files no company names: ['index-example.json', 'segment-integrated_oil_gas.json']; names with no file: []
+2. default A: ACDC ProFrac Holding Corp.; revenue over 3-month periods: 16 points, 2022-03-31 to 2026-09-30; last 511,100,000 USD = 511 million (10-Q, filed 2026-11-05)
+   newest column, 3 months to 2026-09-30: revenue 511; net_income -81; capex not filed; debt 905; shares_outstanding not filed
+   newest column, 9 months to 2026-09-30: revenue 1,459; net_income -244; capex 112; debt 905; shares_outstanding not filed
+3. wti                  D last 89.53 on 2026-11-17; d +0.32% from 2026-11-16; w -0.10% from 2026-11-10; m -17.26% from 2026-10-16; ytd +56.36% from 2025-12-31; y +47.59% from 2025-11-17
+3. brent                D last 92.94 on 2026-11-17; d +0.04% from 2026-11-16; w +3.08% from 2026-11-10; m -22.12% from 2026-10-16; ytd +51.49% from 2025-12-31; y +47.15% from 2025-11-17
+3. henry_hub            D last 3.1 on 2026-11-17; d -3.13% from 2026-11-16; w +3.33% from 2026-11-10; m -3.73% from 2026-10-16; ytd -22.50% from 2025-12-31; y -16.44% from 2025-11-17
+3. ercot_hb_hubavg_da   D last 21.3729 on 2026-11-27; d -37.53% from 2026-11-26; w +32.07% from 2026-11-20; m -33.12% from 2026-10-27; ytd -25.36% from 2025-12-31; y -34.11% from 2025-11-27
+3. caiso_sp15_da        D last 28.3947 on 2026-11-27; d -3.58% from 2026-11-26; w +38.25% from 2026-11-20; m -17.38% from 2026-10-27; ytd -30.43% from 2025-12-31; y -40.97% from 2025-11-27
+3. caiso_np15_da        D last 44.2503 on 2026-11-27; d +1.88% from 2026-11-26; w -25.05% from 2026-11-20; m +1.91% from 2026-10-27; ytd +6.91% from 2025-12-31; y -16.20% from 2025-11-27
+3. uranium              M last 72.887620785 on 2026-10-01; d +0.57% from 2026-09-01; w +0.57% from 2026-09-01; m +0.57% from 2026-09-01; ytd +14.76% from 2025-12-01; y +13.96% from 2025-10-01
+3. cca_current          Q last 32.88 on 2026-11-01; d +1.23% from 2026-08-01; w +1.23% from 2026-08-01; m +1.23% from 2026-08-01; ytd +16.10% from 2025-11-01; y +16.10% from 2025-11-01
+3. energy prices: 0 figures differ
