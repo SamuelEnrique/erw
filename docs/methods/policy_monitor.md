@@ -509,7 +509,8 @@ row a record, with its body, instrument, status, sector, grids (those the reads 
 title names by `rules_in_motion.OPERATOR_WORDS`), states, next step, every dated step with its words and document,
 figure, impact sentence (`warehouse/policy/impact_reads.csv`, section 15), plain read, the table it bears on, sources
 and history. The monitor is a view of `/policy` (`?view=monitor`, in review with the page): filters at the left (body,
-instrument, status, sector, grid, state, date range, significance, each choice with its count) and the results at
+instrument, status, sector, grid, state, date range, significance, each choice with its count; a record with no score
+passes every significance floor, so the view opens on it too: audit of 26 November 2026, finding 3) and the results at
 the right; a sort on every column (an empty value last either way); "N shown of M records held"; a row opens to its
 proceeding, history and sources; the evidence of each date and figure and the quotation of each impact sentence as
 hovers. Above the table, the calendar: the actions of the past week (from seven days before the day to the day, both

@@ -100,7 +100,7 @@ export function MonitorView({ rows, built, held, opened, today, laws }: { rows: 
           </select>
         </label>
         <button type="button" data-reset="1" onClick={() => put(OPEN_FILTERS)} className="border border-rule px-2 py-1 text-xs"
-          title="Every body, instrument, status, sector, grid and state, any date, significance 5 or more. A record not scored (the newest documents, and the grid operators' and FERC's large-load orders, which are never scored) is below every floor: it is shown only with Significance set to All.">Reset the filters</button>
+          title="Every body, instrument, status, sector, grid and state, any date, significance 5 or more. A record not scored (the newest documents, and the grid operators' and FERC's large-load orders, which are never scored) passes every floor: it is shown at any significance setting.">Reset the filters</button>
       </aside>
       <section aria-label="Records" className="min-w-0">
         {/* session 3061: the calendar of the records the filters leave; session 1876 (rows 4 and 6): the file's last

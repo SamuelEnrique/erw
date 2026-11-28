@@ -25,7 +25,8 @@ def src(*p):
 class TheFloorSaysItHidesTheUnscored(unittest.TestCase):
     def test_a_record_with_no_score_is_below_every_floor(self):
         lib = src("site", "lib", "policymonitor.ts")
-        self.assertIn("(f.minSig === null || (r.significance ?? -1) >= f.minSig)", lib)
+        # ready branch wip/ready-policy-unscored (session 11408): a record with no score passes every floor
+        self.assertIn("r.significance === undefined || r.significance === null || r.significance >= f.minSig", lib)
         self.assertIn("export const OPEN_FILTERS: Filters = { ...NO_FILTERS, minSig: 5 };", lib)
         rows = json.loads(src("site", "data", "policy", "monitor.json"))["rows"]
         unscored = [r for r in rows if r.get("significance") is None]
@@ -38,9 +39,10 @@ class TheFloorSaysItHidesTheUnscored(unittest.TestCase):
     def test_the_hovers_say_it(self):
         cal = src("site", "app", "policy", "MonitorCalendar.tsx")
         view = src("site", "app", "policy", "MonitorView.tsx")
-        self.assertIn("Steps on records scored below significance ${floor}, or not scored at all", cal)
+        # ready branch wip/ready-policy-unscored (session 11408): the hovers say the other choice
+        self.assertIn("Steps on records scored below significance ${floor} (a record not scored", cal)
         self.assertIn("A record not scored (the newest documents, and the grid operators' and FERC's large-load orders, which are never "
-                      "scored) is below every floor: it is shown only with Significance set to All.", view)
+                      "scored) passes every floor: it is shown at any significance setting.", view)
 
 
 if __name__ == "__main__":

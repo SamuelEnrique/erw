@@ -49,12 +49,14 @@ export const OPEN_FILTERS: Filters = { ...NO_FILTERS, minSig: 5 };
 const any = (chosen: string[], have: string[] | undefined) => chosen.length === 0 || (have ?? []).some((x) => chosen.includes(x));
 const one = (chosen: string[], v: string | undefined) => chosen.length === 0 || (v !== undefined && chosen.includes(v));
 
-/** The rows the filters leave. A filter left empty holds every row; a row's date is its newest document's. */
+/** The rows the filters leave. A filter left empty holds every row; a row's date is its newest document's. A record with
+ *  no score (the newest documents, and the large-load orders, never scored) is not below any floor: it passes every
+ *  significance floor, so it shows as the view opens (audit of 26 November 2026, finding 3, the other choice). */
 export function filterRows(rows: MonitorRow[], f: Filters): MonitorRow[] {
   return rows.filter((r) =>
     one(f.bodies, r.body) && one(f.instruments, r.instrument) && one(f.sectors, r.sector) && any(f.grids, r.grids) &&
     any(f.states, r.states) && one(f.statuses, r.status) && (!f.from || r.date >= f.from) && (!f.to || r.date <= f.to) &&
-    (f.minSig === null || (r.significance ?? -1) >= f.minSig));
+    (f.minSig === null || r.significance === undefined || r.significance === null || r.significance >= f.minSig));
 }
 
 export type SortKey = "date" | "body" | "instrument" | "title" | "status" | "sector" | "significance" | "next" | "figure" | "n";
