@@ -40,6 +40,8 @@ export type AskResult = {
   stages_ms?: StageMs;
   steps?: Step[];
   seconds_words?: number | null;
+  /** wip/ready-ask-held-heading: a tool answered a held grid's rows with the hold's words */
+  held_grid?: boolean;
   /** session 1111: why a refused_unverified answer was refused, one sentence with no figure in it */
   why?: string;
 };
@@ -475,12 +477,15 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const tracing = process.env.ASK_RECORD_TOOLS === "1" || opts.record === true;
   // session 1115: what each query read, shown under the answer (readsOf); every answer carries it when there is one
   const readsLog: Read[] = [];
+  // wip/ready-ask-held-heading (the chat audit of 26 November, finding 8, for Samuel's ruling): whether a tool answered a held
+  // grid's rows with the hold's words, so the page heads the answer as held, not "Answered from the warehouse"
+  let heldGrid = false;
   // session 1132: the tables a question queried or described, the nearest a refusal of the general chat names
   const looked = new Set<string>();
   // session 1142: the general chat's query results, for the series an answer rests on (lib/chat/generalseries.ts)
   const generalResults: { tool: string; input: Record<string, unknown>; out: Record<string, unknown> }[] = [];
   // session 5272: cut_off, the replies of this answer that were cut off at the output limit (left out when there was none)
-  const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(cutOff ? { cut_off: cutOff } : {}), ...(tracing ? { trace: traced } : {}), ...(readsLog.length ? { reads: readsLog } : {}) });
+  const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(cutOff ? { cut_off: cutOff } : {}), ...(tracing ? { trace: traced } : {}), ...(readsLog.length ? { reads: readsLog } : {}), ...(heldGrid ? { held_grid: true } : {}) });
   const textOf = (resp: Anthropic.Message) => resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
   // The check of a whole draft, as it always was: every number in a tool result, every cited table read, an answer and
   // a citation, and the profile's own reasons.
@@ -571,6 +576,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
     const named = tablesNamed(name, input);
     if (isError && refusedRead(out.error)) for (const t of named) refusedTables.add(t);
     if (!isError) for (const t of named) readOk.add(t);
+    if (!isError && out.held) heldGrid = true;
     if (!isError && !out.held) for (const r of readsOf(name, input)) if (!readsLog.some((x) => JSON.stringify(x) === JSON.stringify(r))) readsLog.push(r);
     if (!isError && name === "describe_table" && typeof input.table === "string") looked.add(input.table);
     for (const r of readsOf(name, input)) looked.add(r.table);

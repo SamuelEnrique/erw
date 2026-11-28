@@ -19,10 +19,12 @@ type Result = {
   nearest?: { table: string; holds: string }[];
   series?: Series[];
   why?: string;
+  held_grid?: boolean;   // wip/ready-ask-held-heading
 };
 type Turn = { question: string; res: Result };
 const MAX_HISTORY = 3;   // session 1129: the turns the general chat holds
 
+const HELD_HEADING = "Held for a license; the public grids' figures";
 const STATUS: Record<string, string> = {
   answered: "Answered from the warehouse",
   not_in_warehouse: "Not in the warehouse",
@@ -95,7 +97,8 @@ export function AskForm({ grid = null, initial = "", placeholder, examples = [] 
       ) : null}
       {res ? (
         <section className="mt-6" aria-live="polite">
-          <div className="mb-1 text-xs text-muted">{STATUS[res.status] ?? res.status}</div>
+          {/* wip/ready-ask-held-heading (the chat audit of 26 November, finding 8): a held grid's answer has its own heading */}
+          <div className="mb-1 text-xs text-muted">{res.status === "answered" && res.held_grid ? HELD_HEADING : STATUS[res.status] ?? res.status}</div>
           <p className="mb-4 whitespace-pre-wrap leading-relaxed">{res.answer}</p>
           {(res.nearest ?? []).length ? (
             <div className="mb-3 border border-rule bg-panel px-3 py-2 text-sm" data-nearest={res.nearest!.length}>
