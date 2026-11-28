@@ -146,6 +146,13 @@ def build(P, region, words, series, c, tables, out_dir, why, docs_root=None, did
     caption = "\n".join([fact, "", f"Checked five ways before it was drafted: {tests_words}", "", f"Limits: {P['limits']}", "", source_line,
                          "Computed by the Energy Research Warehouse (ERW). A draft: not reviewed."])
     card["hunt"]["caption"] = caption
+    if c.get("statistics"):  # wip/ready-analysis-statistics: the weekly hunt's block of session 361, beside the claim
+        card["statistics"] = c["statistics"]
+        sh, rd = c["statistics"].get("shape"), c["statistics"]["round"]
+        if sh and sh["step_better"]:
+            card["footnote"] += f" Its shape: {sh['words']}."
+        card["footnote"] += (f" This hunt tested {rd['claims_tested']} claims and {rd['claims_passing']} passed its tests"
+                             + (f"; this claim's q-value over the round is {common.fmt(rd['q_bh'], 3)}" if rd.get("q_bh") is not None else "") + " (a caveat, not a test).")
     rep = P["reproduce"](region)
     do_m, py_m = mirrors(P, region, c, files[0], files[2])
     texts = {files[0]: csv_text(P, region, words, series, c, tables), files[1]: do_m, files[2]: py_m,
@@ -282,6 +289,7 @@ def run(family, candidates, in_dir=None, dry_run=True, load=None, log=print, now
                 row["reason"] = "no claim: fewer than two full years, or no change"
             else:
                 row.update({k: c[k] for k in ("first_year", "last_year", "first", "last", "change", "strength", "passed")})
+                row["p_trend"] = c.get("p_trend")
                 row["tests"] = c["tests"]
                 if c["passed"]:
                     passing.append((P, region, words, series, c, tables, row))
@@ -289,6 +297,18 @@ def run(family, candidates, in_dir=None, dry_run=True, load=None, log=print, now
                     row["reason"] = "failed: " + "; ".join(t["name"] for t in c["tests"] if not t["passed"])
             results.append(row)
         log(f"  {P['name']}: {len(rows)} rows, {len({r['region'] for r in rows})} regions, {sum(1 for x in passing if x[0] is P)} pass")
+    # wip/ready-analysis-statistics (the Automated Analysis audit of 26 November, finding 6, for Samuel's ruling): the
+    # weekly hunt's statistics block of session 361 on the deep drafts too: every claim tested in this family's run, the
+    # claims that pass, each claim's Benjamini-Hochberg q-value over the round's trend p-values, and its shape
+    tested = [r for r in results if r.get("p_trend") is not None]
+    for r, q in zip(tested, common.bh_q([r["p_trend"] for r in tested])):
+        r["q_bh"] = q
+    rnd = {"claims_tested": sum(1 for r in results if "passed" in r), "claims_passing": sum(1 for r in results if r.get("passed")),
+           "claims_with_a_trend_p": len(tested), "method": "Benjamini-Hochberg over each claim's straight-line trend p-value (the full years)",
+           "caveat": "Many claims were tested in this hunt; a claim's q-value is the false discovery rate at which its trend would still be kept over "
+                     "all of them. A caveat, not a test a draft had to pass."}
+    for P, region, words, series, c, tables, row in passing:
+        c["statistics"] = {"session": 361, "round": dict(rnd, q_bh=row.get("q_bh"), p_trend=row.get("p_trend")), "shape": c.get("shape")}
     # session 3004: a candidate may rank its passing regions by the size of the change (a MW or GWh measure) instead
     # of by strength, so that a large region's change is kept before a small region's steadier one
     # session 3005: and a candidate may put a region first by its name (rank_region: the United States before its states)

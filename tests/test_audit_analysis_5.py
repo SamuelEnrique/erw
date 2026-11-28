@@ -29,7 +29,7 @@ class DeepHuntHasItsNote(unittest.TestCase):
     def test_section_names_the_code(self):
         s = self.section()
         for words in ("warehouse/analysis/findings/deep/builder.py", "hunt.test_claim", "scan-deep-", "hunt.grid_of(region)",
-                      "No `statistics` block", "not a test against chance"):
+                      "The `statistics` block of session 361", "not a test against chance"):
             self.assertIn(words, s)
 
     def test_caps_are_the_builders(self):
@@ -41,8 +41,8 @@ class DeepHuntHasItsNote(unittest.TestCase):
         self.assertIn(f"at most {words[per]} regions of one candidate (`MAX_PER_CANDIDATE`)", s)
         self.assertIn(f"{words[most]} drafts a family's session (`MAX_DRAFTS`)", s)
         self.assertIn("hunt.grid_of(region) in blocked", b)
-        for name in ("step_or_trend", "trend_p", "q_bh"):
-            self.assertNotIn(name, b)
+        for name in ("common.bh_q", "\"statistics\""):   # wip/ready-analysis-statistics: the block is built
+            self.assertIn(name, b)
 
     def test_no_em_dash(self):
         for p in (("docs", "methods", "automated_analysis_findings.md"), ("tests", "test_audit_analysis_5.py")):
