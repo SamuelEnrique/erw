@@ -202,7 +202,7 @@ function HubTable({ g, grid, pick, caption }: { g: WorthGrid; grid: string; pick
   return (
     <ToolTable minWidth={760} caption={caption}
       head={["Hub and market", "Value, USD", "USD per MWh curtailed", <span key="n" title="Of the MWh with a price">In hours below zero, percent</span>, <span key="u" title={COUNTED}>In hours under USD 5, percent</span>,
-        <span key="f" title="The mean price of the hours with any curtailment: what a flat load running only then paid">A flat load in those hours, USD per MWh</span>, <span key="a" title="The mean price of every hour held">In all hours</span>]}
+        <span key="f" title="The mean price of the hours with curtailment (in California, at least 100 MWh in the hour): what a flat load running only then paid">A flat load in those hours, USD per MWh</span>, <span key="a" title="The mean price of every hour held">In all hours</span>]}
       rows={rows.map(({ hub, mk, v, side }) => {
         const k = `worth|${grid}|${hub}|${mk}`;
         return v ? { key: `${hub}${mk}`, highlight: hub === g.main_hub && mk === "rt",
@@ -253,7 +253,7 @@ export function Worth({ file, c, estimate }: { file: WorthFile; c: Choice; estim
           <HeadlineNumber label="Curtailed in hours priced below zero" value={<N k="worth|neg">{two(v.share_mwh_negative_pct)}</N>} unit="percent"
             note={<><N k="worth|under5">{two(v.share_mwh_under5_pct)}</N> percent in hours under USD 5, the hours below zero among them.</>} />
           <HeadlineNumber label="A flat load in those hours paid" value={<N k="worth|flat">{two(v.price_curtailed_hours_mean)}</N>} unit="USD per MWh"
-            note={<>Against <N k="worth|all">{two(v.price_all_hours_mean)}</N> in every hour of {periodWords(p)}: the mean price of the <N k="worth|hours">{whole(v.hours_curtailed_priced)}</N> hours with any curtailment.</>} />
+            note={<>Against <N k="worth|all">{two(v.price_all_hours_mean)}</N> in every hour of {periodWords(p)}: the mean price of the <N k="worth|hours">{whole(v.hours_curtailed_priced)}</N> hours with at least 100 MWh curtailed.</>} />
         </HeadlineRow>
         <p className="-mt-4 mb-8 max-w-3xl text-sm" data-worth-words="1">{WORTH_WORDS}</p>
         <ChartFrame title={`Value of curtailed energy by month, at ${placeName(g.main_hub ?? "")} real-time prices`} legend={[{ label: "Value, USD", color: "var(--color-accent)" }, { label: "USD per MWh curtailed", color: "var(--color-ink)" }]}>

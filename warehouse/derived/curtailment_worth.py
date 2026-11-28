@@ -70,6 +70,10 @@ NEAR_HOURS = 0.95   # the house rule for a month of prices
 HUBS = {"caiso": ["TH_SP15_GEN-APND", "TH_NP15_GEN-APND"], "ercot": ["HB_HUBAVG", "HB_WEST"]}
 TZ = {"caiso": "America/Los_Angeles", "ercot": "America/Chicago"}
 ERCOT_TABLE = "ercot_wind_solar_hsl_hourly"
+# ready branch of session 11408 (curtailment audit of 26 November 2026, finding 3, the other choice): from 2026 CAISO's
+# hourly report puts a small figure in most hours (a self-schedule cut of 0.8 MWh), so "an hour with curtailment" for
+# the hours and the flat load is one holding at least this many MWh, in every year alike. The MWh and dollars keep all.
+MIN_HOUR_MWH = 100.0
 
 
 def read_hubs(in_dir, entities, since, log):
@@ -102,14 +106,17 @@ def read_hubs(in_dir, entities, since, log):
     return fe.location_series(x[["entity", "side", "ts", "value", "freq", "geo", "table"]])
 
 
-def value_of(c, p):
+def value_of(c, p, min_mwh=0.0):
     """The worth of a set of hours. c: curtailed MWh by hour (UTC), every hour of the set present (0 where none);
     p: the hub's hourly price. Hours with no price are left out of the MWh and of the dollars."""
+    # ready branch of session 11408 (curtailment audit finding 3): an hour counts as curtailed for the hours and the flat
+    # load only when it holds at least min_mwh (CAISO: MIN_HOUR_MWH); the MWh and the dollars keep every hour
+    cut = (c >= min_mwh) & (c > 0)
     p = p.reindex(c.index)
     ok = p.notna()
     cp_, pp = c[ok], p[ok]
     mwh = float(cp_.sum())
-    rec = {"hours": int(len(c)), "hours_priced": int(ok.sum()), "hours_curtailed": int((c > 0).sum()), "hours_curtailed_priced": int((cp_ > 0).sum()),
+    rec = {"hours": int(len(c)), "hours_priced": int(ok.sum()), "hours_curtailed": int(cut.sum()), "hours_curtailed_priced": int(cut[ok].sum()),
            "curtailed_mwh": round(float(c.sum()), 1), "curtailed_mwh_priced": round(mwh, 1)}
     if ok.sum() == 0:
         return rec
@@ -117,8 +124,9 @@ def value_of(c, p):
     if mwh > 0:
         usd = float((cp_ * pp).sum())
         rec.update(value_usd=round(usd, 0), usd_per_mwh_curtailed=round(usd / mwh, 2),
-                   share_mwh_negative_pct=round(100 * float(cp_[pp < 0].sum()) / mwh, 2), share_mwh_under5_pct=round(100 * float(cp_[pp < fe.THRESHOLD].sum()) / mwh, 2),
-                   price_curtailed_hours_mean=round(float(pp[cp_ > 0].mean()), 2))
+                   share_mwh_negative_pct=round(100 * float(cp_[pp < 0].sum()) / mwh, 2), share_mwh_under5_pct=round(100 * float(cp_[pp < fe.THRESHOLD].sum()) / mwh, 2))
+        if cut[ok].any():
+            rec["price_curtailed_hours_mean"] = round(float(pp[cut[ok]].mean()), 2)
     return rec
 
 
@@ -259,7 +267,7 @@ def caiso(in_dir, log):
                 if m < first:
                     continue
                 c, n = series[m]
-                r = value_of(c, p)
+                r = value_of(c, p, MIN_HOUR_MWH)
                 r.update(days_held=len(covered[m]), days_in_month=pd.Period(m).days_in_month, hours_in_month=n)
                 if r["hours_priced"] < NEAR_HOURS * n:
                     missing[m] = f"the hub's price is held for {r['hours_priced']:,} of the month's {n:,} hours, under {NEAR_HOURS:.0%}"
@@ -433,7 +441,7 @@ def main(argv=None):
             "near_days": NEAR_DAYS, "near_hours": NEAR_HOURS, "threshold_usd_per_mwh": fe.THRESHOLD,
             "rules": {
                 "value": "Each hour's curtailed MWh times the hub's price of that hour; an hour with no price is left out of the MWh and the dollars.",
-                "flat_load": "1 MW running only in the hours with any curtailment pays the simple mean of those hours' prices (price_curtailed_hours_mean), against the mean of every hour held (price_all_hours_mean).",
+                "flat_load": f"1 MW running only in the hours with curtailment pays the simple mean of those hours' prices (price_curtailed_hours_mean), against the mean of every hour held (price_all_hours_mean). In California an hour counts when it holds at least {MIN_HOUR_MWH:,.0f} MWh curtailed (the hourly report of 2026 puts a small figure in most hours); in Texas any hour below the limit.",
                 "battery": "Per MW of battery with D hours: in every interval with curtailment it charges at 1 MW, or at the curtailed MW when less, until it has taken in D MWh that local day. One cycle a day. Energy taken in at the meter; round-trip losses are not credited; the data does not locate a curtailment.",
                 "fleet": "CAISO's batteries over the days both tables hold. The scale is the fleet's highest five-minute charging rate of the month, measured: its installed power is not in the data. The ratios are not bounded by 100.",
             },
