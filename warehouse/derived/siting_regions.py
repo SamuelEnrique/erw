@@ -385,11 +385,14 @@ def license_holds():
     return out
 
 
-def table_url(table):
+def table_url(table, match=None):
     """The publisher's address of a table's report: the source_url of the table's first row (a derived table's is
-    its method note's address). None for a table without the column or a file not held."""
-    if table in _URLS:
-        return _URLS[table]
+    its method note's address), or, with match (column, prefix), of its first row whose column starts with the prefix
+    (one operator's rows of a table of several; done-line request 586). None for a table without the column, a file
+    not held, or no row matching."""
+    key = (table, match)
+    if key in _URLS:
+        return _URLS[key]
     url = None
     p = os.path.join(TABLES_DIR, table + ".csv")
     if os.path.exists(p):
@@ -397,10 +400,14 @@ def table_url(table):
         with open(p, encoding="utf-8", newline="") as fh:
             rd = csv.reader(ln for ln in fh if not ln.startswith("#"))
             head = next(rd, [])
-            first = next(rd, None)
-            if first and "source_url" in head:
-                url = first[head.index("source_url")] or None
-    _URLS[table] = url
+            if "source_url" in head and (match is None or match[0] in head):
+                iu = head.index("source_url")
+                im = head.index(match[0]) if match else None
+                for row in rd:
+                    if match is None or row[im].startswith(match[1]):
+                        url = row[iu] or None
+                        break
+    _URLS[key] = url
     return url
 
 
@@ -410,7 +417,9 @@ class Sources:
     def __init__(self, cov, holds=None):
         self.cov, self.used, self.holds = cov, {}, holds or {}
 
-    def key(self, key, table, publisher, report=None):
+    def key(self, key, table, publisher, report=None, url="first", match=None):
+        """url: "first" (the first row's source_url), "row" (each listed row carries its own: none here), with match
+        (column, prefix) the first matching row's (done-line request 586)."""
         if key not in self.used:
             r = self.cov.get(table, {})
             held = r.get("license") == "internal" or table in self.holds
@@ -418,7 +427,8 @@ class Sources:
                               "license": "internal" if held else "public",
                               "retrieved": r.get("last_run") or None,
                               "report": report or r.get("source_report") or None,
-                              "url": None if table.startswith("site/") else table_url(table.replace("<year>", "2025")),
+                              "url": None if table.startswith("site/") or url != "first" else
+                              table_url(table.replace("<year>", "2025"), match),
                               "held": self.holds.get(table)}
         return key
 
@@ -526,7 +536,8 @@ def build_tightness(place, P, S, dem, reg, alerts, outages, reserves):
                                   None if g is not None else "not held: a peak is missing")
     sec["peak_hour"] = cell(pk_ts, "UTC", P.label, src, None if pk_ts else "not held: no demand hour held")
     op = place.get("op")
-    asrc = S.key("alerts", "grid_all_alerts", "CAISO; ERCOT")
+    asrc = S.key(f"alerts_{op}" if op in NOTICE_GROUP else "alerts", "grid_all_alerts", {"caiso": "CAISO", "ercot": "ERCOT"}.get(op, "CAISO; ERCOT"),
+                 match=("x_grid", op) if op in NOTICE_GROUP else None, url="first" if op in NOTICE_GROUP else "none")
     if op in NOTICE_GROUP:
         a = alerts[(alerts.x_grid == op) & (alerts.event_date >= P.start) & (alerts.event_date < P.end)]
         for grp in ("alerts", "watches", "emergencies"):
@@ -538,7 +549,8 @@ def build_tightness(place, P, S, dem, reg, alerts, outages, reserves):
         why = "not held: the warehouse holds operator notices for CAISO and ERCOT only"
         for k in ("alerts", "watches", "emergencies", "alert_days"):
             sec[k] = cell(None, "days", P.label, asrc, why)
-    osrc = S.key("outages", "generation_outages_hourly", "CAISO; SPP")
+    osrc = S.key(f"outages_{op}" if op in OUTAGE_ENTITY else "outages", "generation_outages_hourly", {"caiso": "CAISO", "spp": "SPP"}.get(op, "CAISO; SPP"),
+                 match=("entity", op + ":") if op in OUTAGE_ENTITY else None, url="first" if op in OUTAGE_ENTITY else "none")
     if op in OUTAGE_ENTITY and pk_ts:
         o = outages[(outages.entity == OUTAGE_ENTITY[op]) & (outages.ts_utc == pk_ts)]
         v = num(o.value).max() if not o.empty else None
@@ -619,7 +631,6 @@ def build_price(place, P, S, prices, names):
                if place["kind"] == "ba" else "not a market: no member of this region is one of the seven organised markets")
         return {"status": why, "hubs": []}, None, None
     src_e = S.key("ercot_prices", "ercot_all_hub_prices_history", "ERCOT")
-    src_i = S.key("iso_prices", "iso_hub_prices_history", "CAISO; SPP")
     ref_hub = None
     for o in ops:
         held = HELD_OP.get(o)
@@ -631,7 +642,9 @@ def build_price(place, P, S, prices, names):
                 ref_hub = ent
             for mk in ("day-ahead", "real-time"):
                 h = {"hub_id": ent, "hub": hname, "operator": "op-" + o, "market": mk}
-                src = src_e if o == "ercot" else src_i
+                src = src_e if o == "ercot" else S.key(
+                    f"iso_prices_{o}", "iso_hub_prices_history", {"isone": "ISO-NE"}.get(o, o.upper()),
+                    match=("entity", o + ":"))   # one operator's rows: its own report's address (request 586)
                 if held:
                     for k, _l, u in SECTIONS[0][2]:
                         h[k] = cell(None, u, P.label, src, held)
@@ -747,9 +760,11 @@ def place_bas(place, bas_index):
 
 
 def build_large_load(place, S, rules, totals, laws, place_states):
-    src = S.key("ll_rules", "utility_large_load_rules", "US utilities, commissions and legislatures (the ERW's research pass)")
-    qsrc = S.key("ll_totals", "utility_large_load_queue_totals", "US utilities and operators (the ERW's research pass)")
-    lsrc = S.key("ll_laws", "state_large_load_laws", "US state legislatures (the ERW's research pass)")
+    src = S.key("ll_rules", "utility_large_load_rules", "US utilities, commissions and legislatures (the ERW's research pass)",
+                url="row")
+    qsrc = S.key("ll_totals", "utility_large_load_queue_totals", "US utilities and operators (the ERW's research pass)",
+                 url="row")
+    lsrc = S.key("ll_laws", "state_large_load_laws", "US state legislatures (the ERW's research pass)", url="row")
     bas = set(place["members"])
     r = rules[rules.place_ba.isin(bas)]
     thr = r.x_threshold_mw.map(threshold_mw)
@@ -787,7 +802,9 @@ def build_mix_carbon(place, P, S, fuel, carbon):
                    "share_pct": cell(rnd(v / tot * 100, 2), "pct", P.label, src)}
                   for var, v in f.groupby("variable").v.sum().sort_values(ascending=False).items()] if tot else []
     if not sec["mix"]:
-        sec["mix_held"] = "not held: no net generation by source held for this place"
+        sec["mix_held"] = ("not held: the warehouse's table of net generation by source (eia930_region_fuel_hourly) holds "
+                           "EIA's 13 regions only" if place["kind"] != "region" else
+                           "not held: no net generation by source held for this region in the period")
     ca = carbon[carbon.ba == code]
     c = ca[P.inside(ca.ts_utc)]
     if c.empty:
@@ -919,8 +936,9 @@ def load_scores():
 
 
 def build_datacenters(place, S, fac, proj):
-    fsrc = S.key("dc_facilities", "datacenter_facilities", "news and company sources (the ERW's datacenter tracker)")
-    psrc = S.key("dc_projects", "datacenter_projects", "news sources (the ERW's datacenter tracker)")
+    fsrc = S.key("dc_facilities", "datacenter_facilities", "news and company sources (the ERW's datacenter tracker)",
+                 url="row")
+    psrc = S.key("dc_projects", "datacenter_projects", "news sources (the ERW's datacenter tracker)", url="row")
     bas = set(place["members"])
     f = fac[fac.place_ba.isin(bas)]
     p = proj[proj.place_ba.isin(bas)]
@@ -1132,6 +1150,17 @@ def build(out_dir, today=None):
             cellmap[str(i)] = {"period": c["period"], "src": c["src"], "held": c["held"]} if c else \
                 {"period": None, "src": None, "held": "not held: no such count for this place"}
         rows.append({"id": r["id"], "kind": r["kind"], "name": r["name"], "v": v, "cell": cellmap})
+    # done-line request 586: a column's period and source are the ones most of its shown cells share (the contract's
+    # section 3); a cell keeps its own entry only where it is held or differs from its column
+    from collections import Counter
+    for i, col in enumerate(cols):
+        shown = [(rw["cell"][str(i)]["period"], rw["cell"][str(i)]["src"]) for rw in rows if not rw["cell"][str(i)]["held"]]
+        if shown:
+            (col["period"], col["src"]), _n = Counter(shown).most_common(1)[0]
+        for rw in rows:
+            c = rw["cell"][str(i)]
+            if not c["held"] and (c["period"], c["src"]) == (col["period"], col["src"]):
+                del rw["cell"][str(i)]
     write_json(os.path.join(out_dir, "table.json"),
                {"built": built, "example": False, "contract": CONTRACT, "method": METHOD, "license": "public",
                 "sources": all_sources, "columns": cols, "rows": rows})
