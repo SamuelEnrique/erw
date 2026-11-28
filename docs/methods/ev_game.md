@@ -7,7 +7,7 @@ Energy Research Warehouse (ERW), session 294 (Samuel's ruling 17 of 14 October 2
 | Price | Table | Entity | Which value |
 |---|---|---|---|
 | Electricity for homes | `eia_retail_electricity_prices` (EIA, Electric Power Monthly) | `eia:retail_price:<state>:RES` | the newest month (July 2026 when built), USD/MWh; shown as cents a kWh (USD/MWh / 10) |
-| Regular gasoline | `eia_regional_retail_fuel_prices` (EIA, Gasoline and Diesel Fuel Update) | `eia:EMM_EPMR_PTE_S<state>_DPG` | the newest week (5 October 2026 when built), USD a gallon |
+| Regular gasoline | `eia_regional_retail_fuel_prices` (EIA, Gasoline and Diesel Fuel Update) | `eia:EMM_EPMR_PTE_S<state>_DPG` | the mean of the 52 weeks to the newest week (since session 11407; until then the newest week alone), USD a gallon |
 
 - **Gasoline by state where EIA publishes it, else by region.** EIA's weekly survey publishes nine states (California, Colorado, Florida, Massachusetts, Minnesota, New York, Ohio, Texas, Washington). Every other state takes its PADD region's price: the East Coast by its three sub-regions (New England, PADD 1A; the Central Atlantic, 1B; the Lower Atlantic, 1C), the Midwest (2), the Gulf Coast (3), the Rocky Mountains (4), and the West Coast without California (PADD 5 except California) for Alaska, Arizona, Hawaii, Nevada and Oregon. The card says which, and why.
 - **How the game reads them.** The two tables are in the warehouse but not in the live set (`warehouse/supabase/live_set.yaml`: the price board's series are read from the site's own files). So `site/scripts/build-ev-prices.mjs <warehouse/output>` writes `site/data/ev_prices.json`: each state's two newest values with their table, entity and date, and each table's source line. To refresh the game's prices: run it on a machine that holds the tables, and commit the file.
@@ -111,7 +111,7 @@ prices, so a rebuilt file no longer unworks them.
 |---|---|---|
 | State | the United States as a whole | so the page shows a full result before a state is chosen; the US rows of the two tables |
 | Electricity price | the state's newest month | `eia_retail_electricity_prices`, entity `eia:retail_price:<ST>:RES` |
-| Gasoline price | the state's newest week, else its region's | `eia_regional_retail_fuel_prices`, the entity named on hover |
+| Gasoline price | the mean of the state's 52 newest weeks, else its region's (since session 11407; until then the newest week) | `eia_regional_retail_fuel_prices`, the entity named on hover |
 | Miles a year | 15,000 | fueleconomy.gov's fuel cost estimates assume 15,000 miles (its 2025 Fuel Economy Guide) |
 | Gasoline car's mpg | 27 | 2025 Chevrolet Equinox FWD, combined (fueleconomy.gov vehicle 48061) |
 | EV's kWh a mile | 0.31 | 2025 Chevrolet Equinox EV FWD, 31.24 kWh per 100 miles combined (vehicle 48697) |
@@ -216,3 +216,10 @@ of October 5 where the table holds November 2. `replicate.do` rebuilds the five 
 Not read: fueleconomy.gov (its robots file twice refused the connection, so no request was made to it; the mpg, the
 kWh a mile and the 15,000 miles stand as read on 15 October 2026); PG&E's EV2-A schedule (fetched, but no PDF reader
 on this machine); Chevrolet's prices (no request: the defaults stay "to confirm").
+
+## A year of gasoline, not one week (session 11407, a ready branch for the owner's ruling)
+
+The play audit of 26 November 2026 (`docs/reviews/play-model-audit-2026-11-26.md`, finding 7) found the verdict rested on one week of gasoline: the United States' week of 9 November 2026 ($3.995) stood $0.26 above its 52 weeks' mean. Since this session `site/scripts/build-ev-prices.mjs` writes, for each gasoline series, the mean of its weeks in the 52 weeks to its newest week (`gasMean`), with the newest week's date (`ts`), the number of weeks held (`weeks`), the first week (`from`) and the newest week's own price (`newest`); the gasoline field's hover names them. Electricity stays the newest month.
+
+- Measured from this machine's copy of the table (to the week of 2 November 2026), at the defaults: the United States' net present value $3,887 (the committed file, week of 9 November) becomes $2,946 (the 52-week mean, $3.733), its payback from 3.6 years to 4.1; below zero in 6 places instead of 2 (Massachusetts, New Hampshire, New York and Rhode Island turn, beside Hawaii and Maine).
+- `site/data/ev_prices.json` is rebuilt by the desk at landing, on the data machine's tables, so its figures will be those of its newest week.

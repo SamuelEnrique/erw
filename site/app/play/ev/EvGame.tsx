@@ -14,7 +14,7 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { Num } from "@/components/Num";
 import { Tip } from "@/components/tool/ToolPage";
 
-export type Cell = { value: number; unit: string; ts: string; entity: string; table: string; where?: string; region?: string } | null;
+export type Cell = { value: number; unit: string; ts: string; entity: string; table: string; where?: string; region?: string; weeks?: number; from?: string; newest?: number } | null;
 export type StatePrices = { code: string; name: string; power: Cell; gas: Cell };
 
 const usd = (v: number, d = 0) => `${v < 0 ? "-" : ""}$${Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d })}`;
@@ -164,7 +164,9 @@ export function EvGame({ states, us, built, start }: { states: StatePrices[]; us
         ) : <p className="mb-4 text-sm">Electricity: not held for {where}.</p>}
         {place.gas ? (
           <Field id="gas" label="Gasoline, a gallon" value={gas!} shown={usd(gas!, 3)} mine={gasOver !== null} min={2} max={8} step={0.01}
-            tip={<>Default {usd(place.gas.value, 3)}: regular gasoline, the week of {day(place.gas.ts)}; {gasWhere}. Table {place.gas.table}, entity {place.gas.entity}.</>}
+            tip={place.gas.weeks
+              ? <>Default {usd(place.gas.value, 3)}: regular gasoline, the average of the {place.gas.weeks} weeks from the week of {day(place.gas.from!)} to the week of {day(place.gas.ts)} ({usd(place.gas.newest!, 3)} that last week); {gasWhere}. Table {place.gas.table}, entity {place.gas.entity}.</>
+              : <>Default {usd(place.gas.value, 3)}: regular gasoline, the week of {day(place.gas.ts)}; {gasWhere}. Table {place.gas.table}, entity {place.gas.entity}.</>}
             set={setGasOver} reset={() => setGasOver(null)} />
         ) : <p className="mb-4 text-sm">Gasoline: not held for {where}.</p>}
         {(["miles", "mpg", "kwhPerMile", "gasCar", "evCar", "homeShare"] as Key[]).map(fieldOf)}
