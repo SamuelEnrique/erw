@@ -118,3 +118,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 23:13 UTC (session 10603): replications 30 of 64 and 22 of 35, every figure equal.
 - 23:32 UTC (session 10603): replications 43 of 64 and 26 of 35, every figure equal.
 - 23:51 UTC (session 10603): replications 57 of 64 and 30 of 35, every figure equal.
+- 00:10 UTC 28 November (session 10603): `replicate_long.py` with the peak 3,064 of 3,064 groups (29,234 figures) on the 64 places; the `ahead_more` replication 34 of 35, every figure equal.
