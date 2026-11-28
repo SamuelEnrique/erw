@@ -133,11 +133,20 @@ export type DcProject = { id: string; name: string; state: string; where: string
   /** session 10821 (window F's I4): a figure the document states that the pick does not take, and why (the row's note) */
   skipped: string | null;
   /** session 10822: a campus's figures to date (Meta's info sheets), offered here and in no median */
-  toDate?: boolean };
+  toDate?: boolean;
+  /** session 11405: the annual wage the document states (USD a year, 2025), taken as the earnings per permanent job */
+  opwage: number | null;
+  /** session 11405: the split the document states (percent of its investment: building and site, equipment, land) */
+  split: { bld: number; eq: number; land: number } | null };
 type Fig = { value: number; measure?: string; year?: number } | null;
 export function dcProjects(rows: { id: string; name: string; state: string; county: string | null; place?: string; doc: { date: string; publisher: string; url: string };
   mw: Fig; investment: Fig; permanent_jobs: Fig; construction_jobs: Fig; investment_includes_generation?: boolean; investment_partial?: string;
+  wage?: Fig; construction_cost?: Fig; equipment_cost?: Fig;
   note?: string; to_date?: boolean }[], index: Record<string, number>): DcProject[] {
+  const to2025 = (f: Fig) => {  // a 2026 figure taken as 2025 dollars
+    const y = f?.year ?? 2025;
+    return index[String(y)] ? index["2025"] / index[String(y)] : 1;
+  };
   return rows.map((r) => {
     const notTaken: string[] = [];
     if (r.investment && (r.investment_includes_generation || r.investment_partial)) notTaken.push("its investment");
@@ -153,6 +162,13 @@ export function dcProjects(rows: { id: string; name: string; state: string; coun
       perm: r.permanent_jobs && !String(r.permanent_jobs.measure).includes("kind not stated") ? r.permanent_jobs.value : null,
       cons: r.construction_jobs?.value ?? null, consMeasure: r.construction_jobs?.measure ?? null,
       skipped, ...(r.to_date ? { toDate: true } : {}),
+      // session 11405: a stated annual wage, and a split stated as amounts of the whole investment (land the rest; each rounded down, so the three never pass 100)
+      opwage: r.wage ? Math.round(r.wage.value * to2025(r.wage)) : null,
+      split: r.investment && r.construction_cost && r.equipment_cost && !r.investment_includes_generation && !r.investment_partial
+        && r.construction_cost.value + r.equipment_cost.value <= r.investment.value
+        ? { bld: Math.floor((r.construction_cost.value / r.investment.value) * 1e6) / 1e4, eq: Math.floor((r.equipment_cost.value / r.investment.value) * 1e6) / 1e4,
+            land: Math.floor((1 - (r.construction_cost.value + r.equipment_cost.value) / r.investment.value) * 1e6) / 1e4 }
+        : null,
     };
   });
 }

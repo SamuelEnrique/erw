@@ -29,11 +29,12 @@ export function DcGroups({ P2, v, state, set, update, dcList, techState }: { P2:
   const mine = dcList.map((p, i) => ({ p, i })).filter(({ p }) => p.state === state);
   const cur = Number.isFinite(v.dcproj) && dcList[v.dcproj]?.state === state ? v.dcproj : NaN;
   const pick = (i: number) => {
-    const blank = Object.fromEntries(["dmw", "invest", "perm", "cons"].map((k) => [k, NaN]));
+    const blank = Object.fromEntries(["dmw", "invest", "perm", "cons", "opwage", "bld", "eq", "land"].map((k) => [k, NaN]));
     if (!Number.isFinite(i)) { update({ ...v, dcproj: NaN }); return; }
     const p = dcList[i];
     update({ ...v, ...blank, dcproj: i, ...(p.mw !== null ? { dmw: p.mw } : {}), ...(p.invest !== null ? { invest: p.invest } : {}),
-      ...(p.perm !== null ? { perm: p.perm } : {}), ...(p.cons !== null ? { cons: p.cons } : {}) });
+      ...(p.perm !== null ? { perm: p.perm } : {}), ...(p.cons !== null ? { cons: p.cons } : {}),
+      ...(p.opwage !== null ? { opwage: p.opwage } : {}), ...(p.split !== null ? p.split : {}) });
   };
   return (
     <>
@@ -55,7 +56,7 @@ export function DcGroups({ P2, v, state, set, update, dcList, techState }: { P2:
                   </select>
                   <p className="mt-1 text-xs leading-snug text-muted" data-default="dcproj">
                     {Number.isFinite(cur) ? <>{dcList[cur].where ? `${dcList[cur].where}. ` : ""}As {dcList[cur].publisher} stated it, {dcList[cur].date}: <a href={dcList[cur].url} rel="noopener" className="underline">the document</a>.{dcList[cur].skipped ? <span className="block" data-skipped={dcList[cur].id}>{dcList[cur].skipped}</span> : null}</> : `${mine.length} announced in this state`}
-                    <Tip id="f-dcproj" label="the announced project">Announced datacenters whose own documents (a state agency&apos;s or a company&apos;s release) state what they would bring, read by the ERW: each figure is the document&apos;s own. Picking one sets the MW, the investment (in 2025 dollars), the permanent jobs and the construction workers the document states; a figure it does not state keeps its default. A document&apos;s construction jobs are a headcount (at peak where it says so), held in every construction year here.</Tip>
+                    <Tip id="f-dcproj" label="the announced project">Announced datacenters whose own documents (a state agency&apos;s or a company&apos;s release) state what they would bring, read by the ERW: each figure is the document&apos;s own. Picking one sets the MW, the investment (in 2025 dollars), the permanent jobs, the construction workers, the average annual wage (as the earnings per permanent job) and the split of the spending the document states; a figure it does not state keeps its default. A wage stated by the hour is not taken, the hours a year not being stated (Google&apos;s and Vantage&apos;s in Storey County, Nevada). A document&apos;s construction jobs are a headcount (at peak where it says so), held in every construction year here.</Tip>
                   </p>
                   <p className="mt-2 text-xs leading-snug text-muted" data-defaults-note="dc">
                     The defaults below are medians over the announced projects the ERW has read ({dcList.length} in the list{P2.announced.computed ? `, as of ${P2.announced.computed}` : ""}): the size from the {P2.announced.defaults.mw_stated.n} that state it, the capital cost from {P2.announced.defaults.investment_per_mw.n}, the permanent jobs from {P2.announced.defaults.permanent_jobs_per_mw.n} and the construction workers from {P2.announced.defaults.construction_jobs_per_billion.n}.{dcList.some((p) => p.toDate) ? ` ${dcList.filter((p) => p.toDate).length} of the list are campuses' figures to date, which enter no median.` : ""} They move when another project is read.

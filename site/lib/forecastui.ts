@@ -233,7 +233,8 @@ export function resolve(P: Params, v: Values): Inputs {
 /** Session 4216: the planned project of each scenario, held as its place in the page's list (Values.proj, NaN for none)
  *  and written in the address by its id (proj, bproj), so a link names the project, not a place in a list. */
 export function withProjects(s: Both, q: Record<string, string | undefined>, ids: string[], dcIds: string[] = [],
-  dcFigs: { mw: number | null; invest: number | null; perm: number | null; cons: number | null }[] = []): Both {
+  dcFigs: { mw: number | null; invest: number | null; perm: number | null; cons: number | null; opwage?: number | null;
+    split?: { bld: number; eq: number; land: number } | null }[] = []): Both {
   const at = (v: string | undefined) => (v ? ids.indexOf(v) : -1);
   const a = at(q.proj), b = at(q.bproj);
   // chain 740: an announced datacenter picked in the left box (dcproj, bdcproj), by its row id
@@ -247,6 +248,9 @@ export function withProjects(s: Both, q: Record<string, string | undefined>, ids
     const out: Record<string, number> = {};
     const put = (k: string, val: number | null) => { const given = q[`${pre}${k}`]; if (val !== null && (given === undefined || given === "")) out[k] = val; };
     put("dmw", f.mw); put("invest", f.invest); put("perm", f.perm); put("cons", f.cons);
+    // session 11405: the document's annual wage and split of the spending, where it states them
+    put("opwage", f.opwage ?? null);
+    if (f.split) { put("bld", f.split.bld); put("eq", f.split.eq); put("land", f.split.land); }
     return out;
   };
   return { ...s, a: { ...s.a, ...figs(da, ""), proj: a >= 0 ? a : NaN, dcproj: da >= 0 ? da : NaN },

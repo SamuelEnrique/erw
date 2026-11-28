@@ -101,7 +101,7 @@ def main(argv):
             raise SystemExit(f"{r['id']}: twice")
         seen.add(r["id"])
         text = read_text(r["doc"]["request"]) if verify else None
-        for key in ("mw", "investment", "construction_jobs", "permanent_jobs", "wage"):
+        for key in ("mw", "investment", "construction_jobs", "permanent_jobs", "wage", "construction_cost", "equipment_cost"):
             check_figure(r["id"], key, r.get(key), text)
         if verify and r.get("incentive") and plain(r["incentive"]) not in text:
             raise SystemExit(f"{r['id']}.incentive: not found in the kept text")
