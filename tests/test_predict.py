@@ -516,7 +516,9 @@ class TheFiles(unittest.TestCase):
                 beats = m[meth] is not None and m["week_ago"] is not None and m[meth] < m["week_ago"]
                 self.assertEqual(h["shown"], beats, (p["place"], h["horizon_days"]))
                 if h["shown"]:
-                    self.assertTrue(h["forecast"], (p["place"], h["horizon_days"]))
+                    # a horizon shown by the rule has its forecast, or says why the day could not be forecast (session 10603)
+                    self.assertTrue(h["forecast"] or h.get("forecast_held"), (p["place"], h["horizon_days"]))
+                    self.assertTrue(all(x[2] is not None for x in (h["forecast"] or [])), (p["place"], h["horizon_days"]))
                 else:
                     self.assertIsNone(h["forecast"])
                     self.assertTrue(h["held"])
