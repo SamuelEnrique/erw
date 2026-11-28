@@ -247,6 +247,8 @@ def header(kind, d, held, run_id):
         f"Source: {SOURCE}, docs/research/large_load/{FILES[kind]} (window P4 of the portable laptop, sessions 5300 to 5304; method {README_URL}); "
         "each row's source_url is the document it was read in. No request is made by this connector.",
         f"Retrieved: {run_id} (UTC) by warehouse/connectors/large_load_research.py; x_date_read is the day each document was read",
+        # session 11200 (chain 760, part E): the package test asks every events table's header for its run log
+        f"Run log: warehouse/output/logs/large_load_research_{run_id}.log",
         f"Method: {METHOD_URL}",
         "License: public (row-level holds): each written row cites a commission's copy, a filed tariff book, an SEC filing, a grid operator's "
         "posted document or a legislature's own text (the owner's ruling 4 of 6 November 2026); rows and cells whose only source asks written "
