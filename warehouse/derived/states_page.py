@@ -183,6 +183,11 @@ def build_retail(sales, price, cust, st):
 
 
 def build_plants(op, planned, retired, st):
+    # session 11407 (the states audit of 26 November 2026, finding 7, readied for Samuel's ruling): the United States'
+    # plants are the fifty states' and the District's, as its generation and sales are; EIA-860M's Puerto Rico rows
+    # (6,474 MW operating) are left out of the nation
+    if st == "US":
+        op, planned, retired = (x[x["state"].isin(list(STATES))] for x in (op, planned, retired))
     o = op[op["state"] == st] if st != "US" else op
     if o.empty:
         return {"table": "eia860m_operating_generators", "largest": None, "reason": f"EIA-860M lists no operating generator in {PLACES[st]}"}
