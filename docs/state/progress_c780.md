@@ -79,6 +79,10 @@ From chain 750 (the second window's browser read; its note `docs/state/note_2026
 
 | Step | State | Session |
 |---|---|---|
+| The desktop answered data request 586 at about 12:20 UTC (the contract's second dated line of 28 November; its files rebuilt at 12:10 UTC on `origin/wip/c760-regions`): one source key an operator with that operator's own report address; a column's common period and source on the column. The section draws the way to a source in its hovers ("Open its source"), a period that is one hour as a time, and no unit twice | done on `wip/c780-allgrids-regions` (`378b812d7`), made in a second folder of this laptop (`erw-c780-code`) while the older tests ran in the main one | 11600 |
+| The phone's width, the section by a finger: a count's small trend gave a month's figure under the mouse only | mended (`d12fb29e8`): the trend has a hover of its own that a finger and the keyboard open (its first and last month, its lowest and highest, how many months are held); a figure's cell keeps to one line, where a trend had run over the next column at 390 px | 11600 |
+| Every method page at 390 px (taken over from chain 750) | done at 12:20 to 12:27 UTC: 620 pages, none scrolls sideways; rows M1 and M2 of the review | 11600 |
+| The section seen again on production after a landing of the regions files | waiting: neither the section nor the desktop's files have landed (main holds the three example files at 12:30 UTC) | 11600 |
 
 ## Decisions made without you
 
