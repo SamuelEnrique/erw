@@ -61,6 +61,23 @@ function Blank({ what, words, why, k }: { what: string; words: string; why: stri
     </div>
   );
 }
+/** Session 11402 (audit of /forecast, finding 2): the newest target day the ledger of a series holds for a place, or
+ *  null. When it is later than the place file's own day, the files are behind the forecasts already made, and the day
+ *  drawn under "Tomorrow" may be one that has passed: the page says so rather than draw it as tomorrow unremarked. */
+function ledgerNewest(series: SeriesKey, place: string): string | null {
+  const text = predictLedger(series);
+  if (!text) return null;
+  const lines = text.split(/\r?\n/).filter((x) => x && !x.startsWith("#"));
+  const head = (lines.shift() ?? "").split(",");
+  const at = { s: head.indexOf("series"), p: head.indexOf("place"), d: head.indexOf("target_day") };
+  if (at.p < 0 || at.d < 0) return null;
+  let best: string | null = null;
+  for (const line of lines) {
+    const c = line.split(",");
+    if ((at.s < 0 || c[at.s] === series) && c[at.p] === place && /^\d{4}-\d{2}-\d{2}$/.test(c[at.d] ?? "") && (!best || c[at.d] > best)) best = c[at.d];
+  }
+  return best;
+}
 const NotHeld = ({ words = "not held", why }: { words?: string; why: string }) => <span className="cursor-help text-muted" title={why} data-not-held="1">{words}</span>;
 /** A method's name at the head of a column: short, with what the score file says of it on hover. */
 const MethodHead = ({ m, scores }: { m: string; scores: ScoresFile | null }) => <span title={`${methodWords(m)}${methodWhat(scores, m) ? `: ${methodWhat(scores, m)}` : ""}`} className="cursor-help">{methodShort(m)}</span>;
@@ -140,9 +157,13 @@ function Tomorrow({ slot, s, index, scores }: { slot: Slot; s: SeriesKey; index:
     <Num check={pfKey(file, ["series", s, "tomorrow", h.i, col(c)])} raw={v} source={`${what} ${src}`}><span data-n={`fc|${k}|${key}`}>{valueWords(v, unit)}</span></Num>;
   const band = bandOf(hours);
   const none = (why: string, words?: string) => <span className="font-sans text-base"><NotHeld words={words} why={why} /></span>;
+  const newer = ser.target_day ? ledgerNewest(s, slot.place.place) : null;
   return (
     <div className="min-w-0" data-fc-tomorrow={slot.mark} data-fc-shown="1" data-fc-hours={hours.length}>
       <PlaceHead slot={slot} s={s} index={index} tip={`fc-made-${slot.mark}`} />
+      {newer && ser.target_day && newer > ser.target_day ? (
+        <p className="mb-2 text-sm" data-fc-behind={slot.mark}>The ledger already holds a newer {LABEL} for this place, for {dayWords(newer)}: these files{index.built ? `, built ${index.built.slice(0, 10)},` : ""} are behind it, and the day drawn here, {dayWords(ser.target_day)}, is the newest they hold.</p>
+      ) : null}
       <div className="mb-4 grid gap-4 sm:grid-cols-3">
         <HeadlineNumber label="Highest hour" unit={top ? unit : undefined}
           value={top ? fig(top.hour, "erw", top.v, "top", `The highest hour of the ${LABEL}, the hour beginning ${localWords(top.hour.ts, tz)}.`) : none("No hour of the forecast is held.")}
