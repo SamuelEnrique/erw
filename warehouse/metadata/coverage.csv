@@ -194,7 +194,7 @@ eia930_generation_latest,GENERATION,,8,PT1H,2026-11-23T14:00:00Z,2026-11-25T06:0
 eia930_region_fuel_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,13,PT1H,2018-07-01T04:00:00Z,2026-11-27T07:00:00Z,6754715,eia:gridmonitor/sixMonthFiles,2026-11-27T19:19:17Z,pass,public,power,no,derived
 eia930_region_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,13,PT1H,2018-07-01T04:00:00Z,2026-11-28T07:00:00Z,3073781,eia:gridmonitor/sixMonthFiles,2026-11-27T19:16:30Z,pass,public,power,no,derived
 eia930_region_pair_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,25,PT1H,2018-07-01T04:00:00Z,2026-11-26T07:00:00Z,1826084,erw:eia930_ba_interchange_hourly,2026-11-27T19:21:59Z,pass,public,power,no,derived
-eia930_subba_demand_hourly,SUBBA,,89,PT1H,2026-07-24T00:00:00Z,2026-10-21T06:00:00Z,186177,eia:electricity/rto/region-sub-ba-data,2026-10-22T00:46:07Z,pass,public,power,no,source
+eia930_subba_demand_hourly,SUBBA,,89,PT1H,2026-08-30T00:00:00Z,2026-11-27T07:00:00Z,186477,eia:electricity/rto/region-sub-ba-data,2026-11-28T07:49:37Z,pass,public,power,no,source
 eia930_subba_demand_hourly_2019,SUBBA,,82,PT1H,2019-01-01T00:00:00Z,2019-12-31T23:00:00Z,687952,eia:electricity/rto/region-sub-ba-data,2026-10-23T02:03:15Z,pass,public,power,no,source
 eia930_subba_demand_hourly_2020,SUBBA,,82,PT1H,2020-01-01T00:00:00Z,2020-12-31T23:00:00Z,719312,eia:electricity/rto/region-sub-ba-data,2026-10-23T00:56:51Z,pass,public,power,no,source
 eia930_subba_demand_hourly_2021,SUBBA,,82,PT1H,2021-01-01T00:00:00Z,2021-12-31T23:00:00Z,710831,eia:electricity/rto/region-sub-ba-data,2026-10-22T10:45:03Z,pass,public,power,no,source
@@ -202,6 +202,7 @@ eia930_subba_demand_hourly_2022,SUBBA,,82,PT1H,2022-01-01T00:00:00Z,2022-12-31T2
 eia930_subba_demand_hourly_2023,SUBBA,,82,PT1H,2023-01-01T00:00:00Z,2023-12-31T23:00:00Z,717332,eia:electricity/rto/region-sub-ba-data,2026-10-22T04:39:25Z,pass,public,power,no,source
 eia930_subba_demand_hourly_2024,SUBBA,,83,PT1H,2024-01-01T00:00:00Z,2024-12-31T23:00:00Z,726716,eia:electricity/rto/region-sub-ba-data,2026-10-22T03:15:28Z,pass,public,power,no,source
 eia930_subba_demand_hourly_2025,SUBBA,,83,PT1H,2025-01-01T00:00:00Z,2025-12-31T23:00:00Z,723617,eia:electricity/rto/region-sub-ba-data,2026-10-22T01:58:55Z,pass,public,power,no,source
+eia930_subba_demand_hourly_2026,SUBBA,,89,PT1H,2026-01-01T00:00:00Z,2026-11-27T07:00:00Z,678568,eia:electricity/rto/region-sub-ba-data,2026-11-28T08:02:46Z,pass,public,power,no,source
 eia_aeo_electricity,none,,111,P1Y,2025-01-01T00:00:00Z,2050-01-01T00:00:00Z,34034,eia:aeo,2026-10-21T18:31:05Z,pass,public,power,no,source
 eia_aeo_emm_regions,none,,2600,P1Y,2025-01-01T00:00:00Z,2050-01-01T00:00:00Z,75712,eia:aeo_regions,2026-10-23T08:17:25Z,pass,public,power,no,source
 eia_aeo_industrial,none,,264,P1Y,2025-01-01T00:00:00Z,2050-01-01T00:00:00Z,75504,eia:aeo_industrial,2026-11-19T11:48:05Z,pass,public,power;gas;oil;coal,no,source

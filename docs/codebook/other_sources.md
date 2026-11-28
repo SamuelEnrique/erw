@@ -2,7 +2,7 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 106 public tables (9 entities, 7 events, 90 series; tiers: 4 derived, 102 source); 106 documented in full.
+**What the family holds.** 107 public tables (10 entities, 7 events, 90 series; tiers: 4 derived, 103 source); 107 documented in full.
 
 - [`abs_suriname_electricity_annual`](#abs_suriname_electricity_annual): One year's value of one Suriname electricity measure (EBS's demand by category, net generation, net consumption or capacity, or a Staatsolie plant's generation), from the statistics office's Environment Statistics Publication.
 - [`aedg_alaska_generation_monthly`](#aedg_alaska_generation_monthly): One Alaska service area's electricity generation from one fuel in one month, from the Alaska Energy Data Gateway.
@@ -48,6 +48,7 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`epe_brazil_consumption_monthly`](#epe_brazil_consumption_monthly): One Brazilian state's electricity consumption or consumers in one market class (captive or free) and sector in one month, from EPE's Statistical Yearbook raw data.
 - [`epra_kenya_electricity_annual`](#epra_kenya_electricity_annual): One fiscal year's value of one Kenyan generation capacity (by grid kind and technology) or electricity consumption (by customer category) measure, from EPRA's Energy and Petroleum Statistics Reports.
 - [`equity_fundamentals_quarterly`](#equity_fundamentals_quarterly): One statement line of one company for one period as one filing reported it (a later filing that repeats the period is a row of its own).
+- [`equity_universe`](#equity_universe): One exchange-listed US company whose SEC industry code (SIC) is an energy code of the written rule (docs/methods/equities.md).
 - [`fbos_fiji_electricity_annual`](#fbos_fiji_electricity_annual): Energy Fiji Limited's units produced or sold (in total or to one consumer class) in one year, from the Fiji Bureau of Statistics.
 - [`fema_disaster_declarations`](#fema_disaster_declarations): One FEMA disaster declaration for one designated area (a county, a tribal area or a statewide area), declared on or after 2015-01-01, from OpenFEMA.
 - [`fhwa_motor_fuel_monthly`](#fhwa_motor_fuel_monthly): The gallons of gasoline or of special fuels one state reports taxed in one month, from FHWA's Monthly Motor Fuel source data.
@@ -1991,6 +1992,41 @@ Variables (14):
 | `revenue_6m_usd` |  | USD | 5329 | 2008-06-30T00:00:00Z | 2026-09-30T00:00:00Z |
 | `revenue_9m_usd` |  | USD | 5360 | 2008-06-30T00:00:00Z | 2026-09-30T00:00:00Z |
 | `shares_outstanding` |  | count | 13766 | 2007-09-30T00:00:00Z | 2026-09-30T00:00:00Z |
+
+### `equity_universe`
+
+One exchange-listed US company whose SEC industry code (SIC) is an energy code of the written rule (docs/methods/equities.md).
+
+Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 2026-11-27: 307.
+
+- **Time:** retrieved_at is when the SEC's list of tickers was read; vintage is that day (YYYYMMDD).
+- **Revisions:** A snapshot, replaced whole by each run (a company that leaves the list or an exchange leaves the table).
+- **Source:** sec:edgar U.S. Securities and Exchange Commission (SEC), EDGAR: company_tickers_exchange.json and each company's submissions file (https://www.sec.gov/search-filings/edgar-application-programming-interfaces)
+- **Method note:** [`docs/methods/equities.md`](../methods/equities.md)
+- **Cite as:** U.S. Securities and Exchange Commission (SEC), EDGAR. Via the Energy Research Warehouse (ERW), table `equity_universe`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example sec:0000003570, sec:0000004904, sec:0000007323; 307 distinct | 0 |
+| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | company | 0 |
+| `name` | The thing's name, as the publisher writes it | none | text | for example ABUNDIA GLOBAL IMPACT GROUP, INC., AES CORP, ALGONQUIN POWER & UTILITIES CORP.; 307 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AL, US-AR, US-AZ; 39 distinct | 64 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | sec:edgar | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | for example https://data.sec.gov/submissions/CIK0000003570.json, https://data.sec.gov/submissions/CIK0000004904.json, https://data.sec.gov/submissions/CIK0000007323.json; 307 distinct | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-27T02:35:05Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | integer | 20261127 | 0 |
+| `cik` | The SEC's ten-digit Central Index Key | none | integer | 3570 to 2155396; 307 distinct | 0 |
+| `ticker` | The first ticker the SEC's list gives the company (its main listing) | none | text | for example ACDC, AEE, AEP; 307 distinct | 0 |
+| `tickers` | Every ticker the SEC's list gives the company, separated by ; | none | text | for example ACDC, AEE, AEP; 307 distinct | 0 |
+| `exchange` | The exchange of the listing (NYSE, Nasdaq, CBOE or TXSE) | none | text | NYSE, Nasdaq, TXSE | 0 |
+| `sic` | The SEC's four-digit Standard Industrial Classification code of the company | none | integer | 1220, 1221, 1311, 1381, 1382, 1389, 2911, 3533, 3613, 4610, 4911, 4922, 4923, 4924, 4931, 4932, 4991 | 0 |
+| `sic_label` | The SEC's words for the code | none | text | Bituminous Coal & Lignite Surface Mining, Cogeneration Services & Small Power Producers, Crude Petroleum & Natural Gas, Drilling Oil & Gas Wells, Electric & Other Services Combined, Electric Services, Gas & Other Services Combined, Natural Gas Distribution, Natural Gas Transmisison & Distribution, Natural Gas Transmission, Oil & Gas Field Exploration Services, Oil & Gas Field Machinery & Equipment, Oil & Gas Field Services, NEC, Petroleum Refining, Pipe Lines (No Natural Gas), Silver Ores, Switchgear & Switchboard Apparatus | 0 |
+| `segments` | The segments the written rule puts the company in, separated by ; | none | text | coal, exploration_production, grid_equipment, independent_power, integrated_oil_gas;refining, midstream_pipelines, midstream_pipelines;regulated_utilities, oilfield_services, regulated_utilities, regulated_utilities;independent_power | 0 |
+| `segments_note` | Why a company is in two segments (its code names both) | none | text | SIC 2911 (petroleum refining) does not separate integrated companies from refiners: in both, SIC 4911 (electric services) does not separate regulated utilities from independent producers: in both, SIC 4923 (gas transmission and distribution) is pipelines and local distribution together: in both, SIC 4924 (natural gas distribution) holds local gas distributors and the LNG exporters alike; the code does not separate them: in both | 203: blank when in one segment |
+| `directory_id` | The company_directory row of the same legal name (case, commas and periods aside) | none | text | company:eia-11241, company:eia-12685, company:eia-13478, company:eia-14328, company:eia-17609, company:eia-18642, company:eia-20169, company:eia-5248, company:eia-54766, company:eia-5504, company:eia-55937, company:eia-57139, company:eia-61939, company:eia-67641, company:eia-7140, company:eia-814, company:nextera, company:sempra | 289: blank when no directory row has that exact name |
+| `state_of_incorporation` | The state or country of incorporation as the SEC writes it | none | text | for example A0, A1, A4; 54 distinct | 42: blank when the SEC gives none |
+| `fiscal_year_end` | The fiscal year's last month and day (MMDD) | none | integer | 0103, 0331, 0430, 0630, 0930, 1031, 1226, 1231 | 3: blank when the SEC gives none |
+| `filer_category` | The SEC's filer category (large accelerated filer and so on) | none | text | <br>Emerging growth company, Accelerated filer, Accelerated filer<br>Emerging growth company, Accelerated filer<br>Smaller reporting company, Accelerated filer<br>Smaller reporting company<br>Emerging growth company, Large Accelerated, Large accelerated filer, Non-accelerated filer, Non-accelerated filer<br>Emerging growth company, Non-accelerated filer<br>Smaller reporting company, Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company | 20: blank when the SEC gives none |
 
 ### `fbos_fiji_electricity_annual`
 

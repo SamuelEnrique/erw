@@ -381,6 +381,8 @@ catalogue_hold:
   - eia930_subba_demand_hourly
   - eia_heating_fuel_prices_weekly
   - boem_ogor_lease_production_monthly
+  # session 10000 (chain 701, predict data request 14): the year table of 2026, held as the other years are
+  - eia930_subba_demand_hourly_2026
   - eia930_subba_demand_hourly_2025
   - eia930_subba_demand_hourly_2024
   - eia930_subba_demand_hourly_2023

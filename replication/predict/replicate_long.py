@@ -101,6 +101,39 @@ def check(key, shown, got, figs):
     figs.append((key, None if shown is None else (shown["hours"], shown.get("mae"), shown.get("mape")), got, ok))
 
 
+def peaks(x, methods):
+    """The day's peak (predict.md section 11): the days whose every hour held by the demand is held by every method;
+    each method's peak and its hour the highest of its hourly forecasts (the first such hour)."""
+    c = x.dropna(subset=["actual"] + methods)
+    nx = x.groupby("day")["hour"].size()
+    nc = c.groupby("day")["hour"].size()
+    c = c[c["day"].isin(nc.index[(nc == nx.reindex(nc.index)).to_numpy()])]
+    g = c.groupby("day")
+    pk = pd.DataFrame({"actual": g["actual"].max(), "actual_hour": c.loc[g["actual"].idxmax(), "hour"].to_numpy()})
+    for m in methods:
+        pk[m] = g[m].max()
+        pk[m + "_hour"] = c.loc[g[m].idxmax(), "hour"].to_numpy()
+    pk = pk.reset_index()
+    return pk[pk["actual"] > 0].reset_index(drop=True)   # a day peaking at zero or below is a filing error, not a peak
+
+
+def peak_summary(pk, methods):
+    out = {}
+    for m in methods:
+        e = (pk[m] - pk["actual"]).abs()
+        dh = (pk[m + "_hour"] - pk["actual_hour"]).abs()
+        out[m] = (round(float(e.mean()), 1), round(float((e / pk["actual"]).mean() * 100), 3), round(float((dh == 0).mean() * 100), 1))
+    return len(pk), out
+
+
+def check_peak(key, shown, got, figs):
+    ok = shown is not None and shown["days"] == got[0]
+    for m, (mae, mape, exact) in got[1].items():
+        s = (shown or {}).get("methods", {}).get(m) or {}
+        ok = ok and s.get("mae") is not None and abs(s["mae"] - mae) <= 0.051 and abs(s["mape"] - mape) <= 0.0011 and abs(s["hour_exact_pct"] - exact) <= 0.051
+    figs.append((key, None if shown is None else shown["days"], got, ok))
+
+
 def summary(z, methods):
     c = z.dropna(subset=["actual"] + methods)
     res = {m: score(c, m) for m in methods}
@@ -144,6 +177,30 @@ def main():
                     check(f"{name}.{yr}.operator", so, go, figs)
                 else:
                     figs.append((f"{name}.{yr}.operator", so, None, so is None))
+        # the day's peak by year (section 25, session 10603): the peak's own choice on the days the operator also holds,
+        # over the last two years (a tie by name), then each year and the span
+        if p.get("peak"):
+            pk = peaks(x, METHODS)
+            pko = peaks(x, METHODS + ["operator"]) if name in ops else None
+            base = pko if pko is not None and len(pko) else pk
+            rb = base[base["day"] > base["day"].max() - pd.Timedelta(days=CHOICE)]
+            pchoice = min((peak_summary(rb, CANDS)[1][m][0], m) for m in CANDS)[1]
+            figs.append((f"{name}.peak.method", p["peak"]["method"], pchoice, p["peak"]["method"] == pchoice))
+            for f_ in (pk, pko):
+                if f_ is not None and len(f_):
+                    f_["erw"], f_["erw_hour"] = f_[pchoice], f_[pchoice + "_hour"]
+            check_peak(f"{name}.peak.all", p["peak"]["all"], peak_summary(pk, METHODS), figs)
+            sy = {y["year"]: y for y in p["peak"]["by_year"]}
+            for yr in sorted(pk["day"].dt.year.unique()):
+                z = pk[pk["day"].dt.year == yr]
+                check_peak(f"{name}.peak.{yr}", sy.get(int(yr)), peak_summary(z, METHODS), figs)
+                if pko is not None and len(pko):
+                    zo = pko[pko["day"].dt.year == yr]
+                    so = (sy.get(int(yr)) or {}).get("operator_same_days")
+                    if len(zo):
+                        check_peak(f"{name}.peak.{yr}.operator", so, peak_summary(zo, ["erw", "operator"]), figs)
+                    else:
+                        figs.append((f"{name}.peak.{yr}.operator", so, None, so is None))
         print(f"{name}: {sum(1 for g in figs if g[0].startswith(name + '.') and g[3])} of {sum(1 for g in figs if g[0].startswith(name + '.'))} figures equal", flush=True)
     with open(os.path.join(HERE, "figures_long.csv"), "w", encoding="utf-8", newline="\n") as fh:
         w = csv.writer(fh, lineterminator="\n")

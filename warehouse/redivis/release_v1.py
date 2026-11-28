@@ -471,6 +471,11 @@ STORAGE_HELD["eia930_ba_wind_solar_hourly"] = ("held: first written on 27 Novemb
 # written on 28 November 2026 when the Redivis storage was full: held the same way
 STORAGE_HELD["spp_mtlf_hourly"] = ("held: first written on 28 November 2026 (chain 701, session 10000), after the v1 package "
                                    "was prepared; not on Redivis (its storage full): in v1 when the owner adds it to the package's list")
+=======
+# Session 10000 (chain 701, predict data request 14): the sub-regions' demand of 2026 as a year table beside 2019 to 2025,
+# public, written on 28 November 2026 when the Redivis storage was full: held the same way
+STORAGE_HELD["eia930_subba_demand_hourly_2026"] = ("held: first written on 28 November 2026 (chain 701, session 10000), after "
+                                                   "the v1 package was prepared; not on Redivis (its storage full): in v1 when the owner adds it to the package's list")
 # Session 10000 (chain 701, part D): the listed energy companies from SEC EDGAR, public; registered on 28 November 2026,
 # when the Redivis storage was full (the upload of 27 November skipped): held the same way
 STORAGE_HELD["equity_universe"] = ("held: registered on 28 November 2026 (chain 701, session 10000), after the v1 package was "

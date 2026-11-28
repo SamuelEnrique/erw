@@ -202,3 +202,31 @@ and regular. No operator's forecast is held to set beside these.
 
 Replication (`replication/predict/replicate_ws.py`, which now reads the authority table on each authority's clock and
 chooses on the unrounded error): its count on the 49 places is in the progress file and landing row 10.
+
+## 9. The generation-only authorities (session 10603, 28 November)
+
+Samuel's order of 28 November 2026 ("then longer backtests and more places"). Section 8 took the authorities among the
+demand forecast's 64 places, so the authorities that serve no demand of their own were left out. EIA's reference marks
+them `generation_only`. Three are active and report wind or solar output over the last two years in
+`eia930_ba_wind_solar_hourly`, and `wind_solar.json` now carries them (`GEN_ONLY_PLACES`): Avangrid Renewables
+(`ba-avrn`, wind), Gridforce Energy Management (`ba-grid`, wind and solar, from October 2020) and NaturEner Power Watch
+(`ba-gwa`, wind), all in the Northwest region. Each uses the same methods, choice, band and scores as every other entry,
+on its own clock. Each has no place file, so it is shown on its region's place file (`shown_for`: `region-nw`), beside
+the region's own entry, and is marked by a field `generation_only` that says so. It has no net demand. Left out: Black
+Hills (BHBA) and SPP's western authority (SWPW), held from April 2026 only (too short to fit), and WACM, WWA and TVA's
+wind, whose output ends before today. No operator's forecast of these authorities is held.
+
+The last two years, built on the tables as window A's daily run refreshed them at 19:20 UTC on 27 November (made as at
+19:00 UTC that day). The error is over the mean output of the same hours, in percent:
+
+| Authority | Fuel | Method | ERW, yesterday, profile7 | MAE MW | Band inside % |
+|---|---|---|---|---:|---:|
+| AVRN | wind | profile7 | 68.69, 84.21, 68.69 | 405.7 | 80.2 |
+| GRID | wind | regression | 60.77, 73.52, 61.54 | 143.4 | 80.6 |
+| GRID | solar | regression | 20.81, 21.98, 21.17 | 8.7 | 86.0 |
+| GWA | wind | regression | 86.14, 97.52, 87.07 | 51.3 | 77.2 |
+
+What it says: a day ahead without a weather forecast, wind at a single fleet is poorly forecast (the error is 61 to 86
+percent of the mean output), as at the authorities of section 8; the ERW's method beats yesterday's output at each, by 7
+to 18 points. Replication: `replicate_ws.py` rebuilds the three from the same words (1,688 of 1,688 figures on the trial
+file; the whole file's count is in the progress file and the landing row).
