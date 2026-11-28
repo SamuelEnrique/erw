@@ -51,6 +51,7 @@ async function view(slug, rankSlug) {
   want("head|avg_growth", g.signed(last.row.avg_demand_growth_since_2019_pct));
   maybe("sum|peak1", last.row.peak_demand_mw, g.whole);
   maybe("head|peak_growth", last.row.peak_demand_growth_since_2019_pct, g.signed);
+  maybe("sum|avg_growth_2018", last.row.avg_demand_growth_since_2018_pct, g.signed);   // session 11408: the second base
   want("sum|ytd_growth", g.signed(ytd.row.ytd_avg_demand_growth_since_2019_pct));
   want("head|ytd1", g.whole(ytd.row.ytd_avg_demand_mw));
   want("head|ytd0", g.whole(ytd.base.ytd_avg_demand_mw));

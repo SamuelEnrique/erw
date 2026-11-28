@@ -72,6 +72,7 @@ METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/demand
 RAW = os.path.join(ROOT, "warehouse", "raw", "eia930_emissions")
 SITE_FILE = os.path.join(ROOT, "site", "data", "demand_growth.json")
 BASE = 2019
+SECOND_BASE = 2018   # session 11408: a second base beside 2019 (the demand audit's finding 7, the other choice)
 JUMP = 0.25         # an hour further than this share from the median of the four hours around it is not used
 NEAR_YEAR = 0.95    # a year, or a month, is written when at least this share of its hours is used
 NEAR_CELL = 0.90    # a month-and-hour cell, when at least this share of its hours is used
@@ -122,6 +123,13 @@ def summarize(d, tz, last_month=None, peak=True):
     {year: {variable: value}}, {year: {variable: x_at}} and the last whole month of the newest year (YYYY-MM)."""
     local = d.index.tz_convert(tz)
     x = pd.DataFrame({"v": d.values, "year": local.year, "month": local.month, "hour": local.hour}, index=d.index)
+    # session 11408 (the demand audit's finding 7, the other choice): a second base beside 2019, SECOND_BASE (2018, also
+    # whole in EIA's workbooks), its whole year's average and peak under the same 95 percent rule; growth on it is
+    # written beside growth since 2019 and nothing else of the second base year is written
+    b2 = x[x["year"] == SECOND_BASE]["v"].dropna()
+    b2n = hours_between(f"{SECOND_BASE}-01-01", f"{SECOND_BASE + 1}-01-01", tz)
+    second = ({"avg_demand_mw": round(float(b2.mean()), 1), "peak_demand_mw": round(float(b2.max()), 1)}
+              if len(b2) >= NEAR_YEAR * b2n else {})
     x = x[x["year"] >= BASE]
     newest = int(x["year"].max())
     if last_month is None:
@@ -172,6 +180,9 @@ def summarize(d, tz, last_month=None, peak=True):
                         ("ytd_avg_demand_mw", "ytd_avg_demand_growth_since_2019_pct"), ("ytd_peak_demand_mw", "ytd_peak_demand_growth_since_2019_pct")):
             if k in r and k in base:
                 r[name] = pct(r[k], base[k])
+        for k in ("avg_demand_mw", "peak_demand_mw"):   # session 11408: the second base
+            if k in r and k in second:
+                r[k.replace("_mw", f"_growth_since_{SECOND_BASE}_pct")] = pct(r[k], second[k])
         if "avg_demand_mw" in r and "avg_demand_mw" in out.get(y - 1, {}):
             r["avg_demand_growth_yoy_pct"] = pct(r["avg_demand_mw"], out[y - 1]["avg_demand_mw"])
     whole = [y for y, r in out.items() if "avg_demand_mw" in r]
