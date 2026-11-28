@@ -27,7 +27,9 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
   // session 59: an email's unsubscribe link opens this page and asks; only the button below unsubscribes (a link scanner's
   // GET changes nothing). The address and token travel in hidden fields to /api/unsubscribe.
   const one = (k: string) => (typeof sp[k] === "string" ? (sp[k] as string) : "");
-  const confirm = one("confirm") === "1" && one("e") && /^[0-9a-f]{64}$/.test(one("t"));
+  // wip/ready-subscribe-address (the small pages audit of 26 November, finding 13, for Samuel's ruling): the form is drawn
+  // only for an address of the form the routes accept, 254 characters at most, so a crafted link draws no text of its own
+  const confirm = one("confirm") === "1" && one("e").length <= 254 && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(one("e")) && /^[0-9a-f]{64}$/.test(one("t"));
   return (
     <Brand>
       <h1 className="mb-1 text-3xl">Email</h1>
