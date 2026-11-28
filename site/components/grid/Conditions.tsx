@@ -145,8 +145,12 @@ function Block({ r }: { r: BAResult }) {
   const range = `${iso(d0)}|${iso(d1)}`;
   return (
     <div className="grid gap-6 lg:grid-cols-[18rem_1fr]">
-      <div>
-        {r.note ? <p className="mb-2 border border-dashed border-rule bg-panel px-2 py-1 text-xs text-muted">{r.note}</p> : null}
+      {/* chain 780 (session 11600; the read of 28 November, row G2): the note gives a failed run's reason as
+          run_status.csv holds it, and a reason can be one unbroken string (on 28 November the body of a publisher's
+          error page). The note breaks anywhere and its column may shrink: at 390 px the note was 490 px wide and the
+          page scrolled sideways on every address of the Grid tool that draws it. */}
+      <div className="min-w-0">
+        {r.note ? <p className="mb-2 border border-dashed border-rule bg-panel px-2 py-1 text-xs text-muted [overflow-wrap:anywhere]" data-conditions-note="demand">{r.note}</p> : null}
         <div className="text-xs text-muted">Peak demand, {r.day} (UTC day)</div>
         <div className="text-2xl tabular-nums">
           <Num check={`series_max|${table}|demand_mw|${range}|${r.ba.entity}`} raw={peak.value}>{count(peak.value)}</Num> <span className="text-sm text-muted">MW</span>
@@ -215,7 +219,7 @@ function FuelBar({ r, gtable }: { r: BAResult; gtable: string }) {
   return (
     <div className="mt-4">
       <div className="mb-1 text-xs text-muted">
-        {r.genNote ? <span className="mb-1 block border border-dashed border-rule px-2 py-1">{r.genNote}</span> : null}Generation mix, {r.genDay}: <Num check={`series_sum|${gtable}|net_generation_mw|${r.genDay}T00:00:00Z|${iso(Date.parse(`${r.genDay}T00:00:00Z`) + 24 * H)}|${r.ba.entity}`} raw={total}>{count(total)}</Num> MWh net
+        {r.genNote ? <span className="mb-1 block border border-dashed border-rule px-2 py-1 [overflow-wrap:anywhere]" data-conditions-note="generation">{r.genNote}</span> : null}Generation mix, {r.genDay}: <Num check={`series_sum|${gtable}|net_generation_mw|${r.genDay}T00:00:00Z|${iso(Date.parse(`${r.genDay}T00:00:00Z`) + 24 * H)}|${r.ba.entity}`} raw={total}>{count(total)}</Num> MWh net
       </div>
       <ShareBar
         parts={pos.map((f) => ({ name: f.label, value: f.mwh, color: `var(--color-fuel-${f.key})` }))}
