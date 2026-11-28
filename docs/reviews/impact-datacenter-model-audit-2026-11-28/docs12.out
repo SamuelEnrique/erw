@@ -1,0 +1,139 @@
+== mo_meta_kansascity_2026 | Meta (Meta Data Centers) 2026-09-03 | to_date True | request 400
+   title: Meta Kansas City Data Center (info sheet)
+   mw: null
+   investment: value 1200000000 | says '$1.2B' in quote True | parsed 1200000000.0 | qualifier '' | measure '' | year 2026
+      quote: $1.2B 2022 100+ Data center investment Broke ground on the Kansas Operational jobs supported in Missouri
+   permanent_jobs: value 100 | says '100+' in quote True | parsed 100.0 | qualifier 'more than' | measure 'operational jobs' | year 
+      quote: $1.2B 2022 100+ Data center investment Broke ground on the Kansas Operational jobs supported in Missouri
+   construction_jobs: value 1500 | says '1,500' in quote True | parsed 1500.0 | qualifier '' | measure 'workers at peak' | year 
+      quote: 1,500 $1.9M+ 100+ Skilled trade workers on site
+   in medians: []
+   flags: {} | note: Meta's info sheet for the campus, Meta's only one in the state (its file dated 2026-09-03 by the server, the sheet itself undated). Its investment is "Data center investment" to date, since the campus broke ground in 2022, in the dollars of the years spent and taken as 2025 dollars; its jobs are operational jobs supported; its construction figure is the skilled trade workers on site at peak constr
+== wv_penzance_berkeley_2026 | Office of the Governor of West Virginia 2026-02-26 | to_date False | request 86
+   title: Governor Morrisey Announces $4 Billion Private Investment in West Virginia's First High Impact Intelligence Center
+   mw: value 600 | says '600 megawatts' in quote True | parsed 600.0 | qualifier '' | measure 'critical IT capacity' | year 
+      quote: At full buildout, the development will total approximately 1.9 million square feet and deliver 600 megawatts of critical IT capacity
+   investment: value 4000000000 | says '$4 billion' in quote True | parsed 4000000000.0 | qualifier '' | measure '' | year 2026
+      quote: a total capital investment of $4 billion at full build out
+   permanent_jobs: value 125 | says '125 full-time permanent positions' in quote True | parsed 125.0 | qualifier '' | measure 'full-time permanent positions' | year 
+      quote: The project is expected to create approximately 1,000 construction jobs and 125 full-time permanent positions
+   construction_jobs: value 1000 | says '1,000 construction jobs' in quote True | parsed 1000.0 | qualifier 'approximately' | measure 'construction jobs, period not stated' | year 
+      quote: The project is expected to create approximately 1,000 construction jobs and 125 full-time permanent positions
+   in medians: ['mw_stated', 'investment_per_mw', 'permanent_jobs_per_mw', 'permanent_jobs_per_billion', 'construction_jobs_per_billion']
+   flags: {} | note: 
+== in_aws_stjoseph_2024 | Amazon 2024-04-25 | to_date False | request 72
+   title: AWS plans to invest $11 billion in Indiana
+   mw: null
+   investment: value 11000000000 | says '$11 billion' in quote True | parsed 11000000000.0 | qualifier '' | measure '' | year 2024
+      quote: Amazon Web Services (AWS) announced plans to invest an estimated $11 billion in Indiana, creating at least 1,000 new jobs
+   permanent_jobs: value 1000 | says '1,000 new jobs' in quote True | parsed 1000.0 | qualifier 'at least' | measure 'new jobs' | year 
+      quote: Amazon Web Services (AWS) announced plans to invest an estimated $11 billion in Indiana, creating at least 1,000 new jobs
+   construction_jobs: null
+   in medians: ['permanent_jobs_per_billion']
+   flags: {} | note: 
+== la_meta_richland_2026 | Louisiana Economic Development 2026-07-13 | to_date False | request 33
+   title: Meta Commits More Than $50 Billion for North Louisiana Project, Becoming One of the Largest Data Centers in History
+   mw: value 5000 | says '5 gigawatts' in quote True | parsed 5000.0 | qualifier '' | measure 'IT capacity' | year 
+      quote: Meta announced it is committing more than $50 billion to its Richland Parish Data Center project, expanding the campus to nearly 10 million square feet and 5 gigawatts of IT capacity.
+   investment: value 50000000000 | says '$50 billion' in quote True | parsed 50000000000.0 | qualifier 'more than' | measure '' | year 2026
+      quote: Meta announced it is committing more than $50 billion to its Richland Parish Data Center project
+   permanent_jobs: value 1000 | says '1,000 operational jobs' in quote True | parsed 1000.0 | qualifier 'approximately' | measure 'operational jobs' | year 
+      quote: The project is expected to support 7,500 construction jobs at peak construction and approximately 1,000 operational jobs.
+   construction_jobs: value 7500 | says '7,500 construction jobs' in quote True | parsed 7500.0 | qualifier '' | measure 'workers at peak' | year 
+      quote: The project is expected to support 7,500 construction jobs at peak construction and approximately 1,000 operational jobs.
+   in medians: ['mw_stated', 'investment_per_mw', 'permanent_jobs_per_mw', 'permanent_jobs_per_billion', 'construction_jobs_per_billion']
+   flags: {} | note: The same campus as la_meta_richland_2024, a later document: both rows are kept, and each enters the ranges.
+== va_microsoft_mecklenburg_2015 | Virginia Economic Development Partnership 2015-11-13 | to_date False | request 539
+   title: Governor McAuliffe Announces Fourth Microsoft Expansion in Mecklenburg County
+   mw: null
+   investment: value 402400000 | says '$402.4 million' in quote True | parsed 402400000.0 | qualifier '' | measure '' | year 2015
+      quote: Microsoft Corp. will invest $402.4 million to expand its data center site in Mecklenburg County
+   permanent_jobs: value 42 | says '42 new jobs' in quote True | parsed 42.0 | qualifier '' | measure 'new jobs' | year 
+      quote: which will create 42 new jobs.
+   construction_jobs: null
+   in medians: ['permanent_jobs_per_billion']
+   flags: {} | note: An expansion of an existing campus, as VEDP announced it (its page dated 13 November 2015); the release counts more than USD 1.74 billion invested since 2010 with it.
+== il_meta_dekalb_2026 | Meta (Meta Data Centers) 2026-09-03 | to_date True | request 384
+   title: Meta DeKalb Data Center (info sheet)
+   mw: null
+   investment: value 1000000000 | says '$1B+' in quote True | parsed 1000000000.0 | qualifier 'more than' | measure '' | year 2026
+      quote: $1B+ 2020 200+ Data center investment in Illinois Broke ground on the DeKalb Operational jobs supported
+   permanent_jobs: value 200 | says '200+' in quote True | parsed 200.0 | qualifier 'more than' | measure 'operational jobs' | year 
+      quote: $1B+ 2020 200+ Data center investment in Illinois Broke ground on the DeKalb Operational jobs supported
+   construction_jobs: value 1200 | says '1,200' in quote True | parsed 1200.0 | qualifier '' | measure 'workers at peak' | year 
+      quote: 1,200 $2.6M+ 100+ Skilled trade workers on site
+   in medians: []
+   flags: {} | note: Meta's info sheet for the campus (its file dated 3 September 2026 by the server, the sheet itself undated). Its investment is "Data center investment" in the state to date, since the campus broke ground in 2020, in the dollars of the years spent and taken as 2025 dollars (an understatement for an older campus); its jobs are operational jobs supported; its construction figure is the skilled trade w
+== tx_meta_elpaso_2026 | Meta (Meta Data Centers) 2026-03-26 | to_date False | request 380
+   title: Big things are happening, El Paso!
+   mw: value 1000 | says '1 gigawatt' in quote True | parsed 1000.0 | qualifier '' | measure 'campus size as stated (the page gives no measure)' | year 
+      quote: El Paso Data Center will grow to 1 gigawatt.
+   investment: value 10000000000 | says '$10 billion' in quote True | parsed 10000000000.0 | qualifier 'more than' | measure '' | year 2026
+      quote: We are increasing our investment in El Paso to more than $10 billion and will now support more than 300 jobs at the data center once completed.
+   permanent_jobs: value 300 | says '300 jobs' in quote True | parsed 300.0 | qualifier 'more than' | measure 'jobs at the data center' | year 
+      quote: We are increasing our investment in El Paso to more than $10 billion and will now support more than 300 jobs at the data center once completed.
+   construction_jobs: value 4000 | says '4,000 construction workers' in quote True | parsed 4000.0 | qualifier 'over' | measure 'workers at peak' | year 
+      quote: Our construction needs will also grow and we now anticipate that over 4,000 construction workers will be onsite at the peak of construction.
+   in medians: ['mw_stated', 'investment_per_mw', 'permanent_jobs_per_mw', 'permanent_jobs_per_billion', 'construction_jobs_per_billion']
+   flags: {} | note: Meta's own page, the second of two: its groundbreaking release of October 2025 (about.fb.com, request 381) gave the first phase as more than USD 1.5 billion, about 100 operational jobs and over 1,800 at peak, on a campus that "can scale to 1GW"; the March 2026 page raises the whole campus to these figures. Texas's agencies refuse this reader (gov.texas.gov disallows ClaudeBot by name), so the comp
+== mn_meta_rosemount_2024 | Minnesota Department of Employment and Economic Development 2024-03-14 | to_date False | request 362
+   title: Governor Walz Announces Meta Will Build New Data Center in Rosemount
+   mw: null
+   investment: value 800000000 | says '$800 million' in quote True | parsed 800000000.0 | qualifier '' | measure '' | year 2024
+      quote: Governor Tim Walz today announced that Meta will build an $800 million, 715,000-square-foot data center in Rosemount
+   permanent_jobs: value 100 | says '100 operational jobs' in quote True | parsed 100.0 | qualifier 'approximately' | measure 'operational jobs' | year 
+      quote: supporting approximately 100 operational jobs and at least 1,000 skilled trade jobs at peak construction.
+   construction_jobs: value 1000 | says '1,000 skilled trade jobs' in quote True | parsed 1000.0 | qualifier 'at least' | measure 'workers at peak' | year 
+      quote: supporting approximately 100 operational jobs and at least 1,000 skilled trade jobs at peak construction.
+   in medians: ['permanent_jobs_per_billion', 'construction_jobs_per_billion']
+   flags: {} | note: The release names the city (Rosemount), not the county; it was read inside mn.gov's robots visit window (00:00 to 12:00 UTC).
+== tx_stargate_milam_2026 | OpenAI 2026-01-09 | to_date False | request 516
+   title: OpenAI and SoftBank Group partner with SB Energy
+   mw: value 1200 | says '1.2 GW' in quote True | parsed 1200.0 | qualifier '' | measure 'data center site as stated' | year 
+      quote: 1.2 GW data center site in Milam County.
+   investment: null
+   permanent_jobs: null
+   construction_jobs: null
+   in medians: ['mw_stated']
+   flags: {} | note: OpenAI's own page. The USD 1 billion it names is equity in SB Energy (USD 500 million each from OpenAI and SoftBank Group), not this site's cost, so no investment is taken; its jobs are "thousands of construction jobs", no number. The site was first named in OpenAI's release of 23 September 2025 (request 517, five new Stargate sites), which gives only the sites' combined capacity. The row enters o
+== id_meta_kuna_announce_2022 | Meta (Meta Data Centers) 2022-02-16 | to_date False | request 548
+   title: Hello Kuna!
+   mw: null
+   investment: value 800000000 | says '$800 million' in quote True | parsed 800000000.0 | qualifier 'more than' | measure '' | year 2022
+      quote: will represent an investment of more than $800 million and will support approximately 100 jobs.
+   permanent_jobs: value 100 | says 'approximately 100 jobs' in quote True | parsed 100.0 | qualifier 'approximately' | measure 'jobs' | year 
+      quote: will represent an investment of more than $800 million and will support approximately 100 jobs.
+   construction_jobs: value 1200 | says '1,200 construction workers' in quote True | parsed 1200.0 | qualifier 'over' | measure 'construction workers at peak' | year 
+      quote: We anticipate that over 1,200 construction workers will be on site at the peak of construction.
+   in medians: ['permanent_jobs_per_billion', 'construction_jobs_per_billion']
+   flags: {} | note: Meta's announcement of the campus (16 February 2022), beside its info sheet (id_meta_kuna_2026, figures to date); this one enters the ranges.
+== ms_aws_clinton_2026 | Office of Governor Tate Reeves 2026-04-09 | to_date False | request 67
+   title: Amazon continues Mississippi expansion, announcing plans to invest a total of $25 billion across the Magnolia State
+   mw: null
+   investment: value 1000000000 | says '$1 billion' in quote True | parsed 1000000000.0 | qualifier '' | measure '' | year 2026
+      quote: a new planned $1 billion project in Clinton that will create 100 jobs.
+   permanent_jobs: value 100 | says '100 jobs' in quote True | parsed 100.0 | qualifier '' | measure 'jobs' | year 
+      quote: a new planned $1 billion project in Clinton that will create 100 jobs.
+   construction_jobs: null
+   in medians: ['permanent_jobs_per_billion']
+   flags: {} | note: 
+== sc_cielo_cherokee_2025 | Office of the Governor of South Carolina 2025-06 | to_date False | request 226
+   title: Cielo Digital Infrastructure selects Cherokee County for first South Carolina development
+   mw: null
+   investment: value 2100000000 | says '$2.1 billion' in quote True | parsed 2100000000.0 | qualifier 'approximately' | measure '' | year 2025
+      quote: The company plans to invest approximately $2.1 billion in the data center. The investment is expected to create 30 new jobs.
+   permanent_jobs: value 30 | says '30 new jobs' in quote True | parsed 30.0 | qualifier '' | measure 'new jobs' | year 
+      quote: The company plans to invest approximately $2.1 billion in the data center. The investment is expected to create 30 new jobs.
+   construction_jobs: null
+   in medians: ['permanent_jobs_per_billion']
+   flags: {} | note: Four facilities of about 400,000 square feet each with a substation. The release's month is in its address.
+
+ROWS WHOSE QUOTES STATE A WAGE OR A SPLIT:
+  in_meta_lebanon_2026 |  broke ground on a more than $10 billion state-of-the-art data center campus at the LEAP Innovation and Research District in Lebanon. The new campus will support approximately 300 high-wage operational jobs once complete is expected to support more than 4,000 construction jobs at peak.
+  la_applied_digital_rapides_2026 | Delta Forge 1, will initially include two facilities totaling 300 megawatts of critical IT load Applied Digital Corporation announced plans to develop a $3.6 billion, state-of-the-art artificial intelligence (AI) factory campus in Rapides Parish. The new campus will directly support 200 new full-tim
+  ms_compass_lauderdale_2025 |  Upon occupancy, Compass Datacenters' campus will represent an investment of $10 billion, including future tenants' information technology equipment.  
+  ia_meta_davenport_2024 |  The project represents a capital investment of $800 million and is expected to create 35 jobs incented at a qualifying wage of $28.76 per hour. The project represents a capital investment of $800 million and is expected to create 35 jobs incented at a qualifying wage of $28.76 per hour. 
+  az_beale_pima_2025 |  Total investment estimated to be $3.6 billion consisting of $1.2 billion for construction and another $2.4 billion for equipment; Estimated 180 permanent full-time jobs at build-out with average salaries of $64,000; 3,000 or more direct construction jobs and more than 2,000 additional indirect jobs
+  mo_metrobloks_clay_2026 |  announced today its plans to invest $1.4 billion in Liberty for a new, state-of-the-art, high-density data center campus. at least 30 jobs with an average annual wage of $95,649 
+  nv_google_storey_2020 |  Google plans to invest $600 million in a data center for Google products and services at the Tahoe Reno Industrial Center (TRIC) in Storey County that will employ at least 50 people at an average wage of $31.29 per hour. Google plans to invest $600 million in a data center for Google products and s
+  nv_vantage_storey_2024 |  Additionally, the company will make a capital equipment investment of $254 million The company is projected to create approximately 10 jobs within five years at an average hourly wage of $64. 

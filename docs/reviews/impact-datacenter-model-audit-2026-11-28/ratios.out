@@ -1,0 +1,17 @@
+  va_cleanarc_caroline_2025: 3.00
+  wv_starwood_mason_2026: 5.56
+  in_amazon_northern_2025: 6.25
+  wv_penzance_berkeley_2026: 6.67
+  la_meta_richland_2026: 10.00
+  tx_meta_elpaso_2026: 10.00
+  la_applied_digital_rapides_2026: 12.00
+  tx_crusoe_abilene_2025: 12.50
+  wi_vantage_portwashington_2025: 15.00
+  tx_vantage_frontier_2025: 17.86
+  wv_nscale_2026: 34.60
+  la_hut8_riverbend_2025: 40.82
+  al_aubix_auburn_2021: 46.81
+mean 17.0041 median 12.0
+rows in medians (not to date): 72
+n by default: {'mw_stated': 17, 'investment_per_mw': 13, 'permanent_jobs_per_mw': 11, 'permanent_jobs_per_billion': 51, 'construction_jobs_per_billion': 25}
+by investment for the default: 800.0 by MW: 322.5
