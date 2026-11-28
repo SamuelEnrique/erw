@@ -28,7 +28,11 @@ class TheLedgersMakingIsDrawn(unittest.TestCase):
         self.p = {"place": "region-tex", "target": pd.Timestamp("2026-11-27"), "tomorrow": self.tm, "choice": "regression_recent"}
         self.ledger = pd.DataFrame({"series": ["demand", "demand"], "place": ["region-tex"] * 2, "target_day": ["2026-11-27"] * 2,
                                     "ts_utc": ["2026-11-27T06:00:00Z", "2026-11-27T07:00:00Z"], "local_hour": ["0", "1"],
-                                    "made_utc": ["2026-11-26T11:00:00Z"] * 2, "method": ["regression"] * 2,
+                                    "made_utc": ["2026-11-26T11:00:00Z"] * 2,
+                                    # session 11200: the ledger's two columns its real file carries (LEDGER_COLS), which
+                                    # the old laptop's row 135 reads (a tomorrow from the ledger carries its horizon)
+                                    "inputs_through_utc": ["2026-11-25T05:00:00Z"] * 2, "horizon_days": ["2"] * 2,
+                                    "method": ["regression"] * 2,
                                     "erw": ["95.5", "104.5"], "lo": ["85", "94"], "hi": ["106", "115"]})
 
     def test_the_ledger_wins(self):

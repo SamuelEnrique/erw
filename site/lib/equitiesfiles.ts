@@ -1,5 +1,5 @@
 // Energy Research Warehouse (ERW) site, session 10402 (chain 720, part D): the reader of the energy equities page files
-// (site/data/equities/, written by the data machine's warehouse/derived/equity_pages.py; contract
+// (site/data/equities/, written by the data machine's warehouse/derived/equity_page_files.py; contract
 // docs/state/page_files_equities.md): the list, the board's rows, the energy prices, and one file a company, an index
 // or a segment under series/. A file is read when it is asked for, in the manner of lib/predictfiles.ts: a file not on
 // the site is null and the page draws its blanks. A file that says it is a test's fixture is read only from a test's

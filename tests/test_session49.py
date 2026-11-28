@@ -136,8 +136,10 @@ class Interchange(unittest.TestCase):
 class HubHistory(unittest.TestCase):
     def test_targets_are_the_approved_hubs(self):
         got = {iso: set(nodes) for iso, (_, nodes) in hh.TARGETS.items()}
-        self.assertEqual(got, {"caiso": {"TH_SP15_GEN-APND", "TH_NP15_GEN-APND"}, "miso": {"INDIANA.HUB"}, "nyiso": {"N.Y.C."},
-                               "isone": {".H.INTERNAL_HUB"}, "spp": {"SPPNORTH_HUB"}})
+        # session 11200 (chain 760): CAISO ZP26 and SPP South Hub added by predict data request 21 (chain 730, under
+        # Samuel's order of 27 November 2026, "more places"), both public operators already read under the same terms
+        self.assertEqual(got, {"caiso": {"TH_SP15_GEN-APND", "TH_NP15_GEN-APND", "TH_ZP26_GEN-APND"}, "miso": {"INDIANA.HUB"},
+                               "nyiso": {"N.Y.C."}, "isone": {".H.INTERNAL_HUB"}, "spp": {"SPPNORTH_HUB", "SPPSOUTH_HUB"}})
         self.assertEqual(hh.START, "2025-09-01")
         self.assertEqual(hh.CEILING, 1_500_000)
 
