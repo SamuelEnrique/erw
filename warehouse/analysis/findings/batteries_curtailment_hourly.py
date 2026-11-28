@@ -8,7 +8,8 @@ and net load (demand less wind and solar). Three things are computed.
    hour-of-day dummies and month-of-sample dummies. The residual (observed less predicted) is averaged over the hours
    the fleet charges, by year.
 2. The charging coefficient. The same regression with charging MW added, and two shorter ones (charging alone; charging
-   with net load and its square). Standard errors are cluster-robust by Pacific day, with Stata's small-sample factor
+   with net load and its square). Standard errors are cluster-robust by week (Monday to Sunday of Pacific days; by day until the ruling on the
+   Automated Analysis audit of 26 November, finding 11), with Stata's small-sample factor
    (G / (G - 1)) * ((N - 1) / (N - K)) and p from Student's t on G - 1 degrees of freedom: hours of one day share the
    day's weather, outages and prices, so their errors are not independent, and a day is the natural cluster. The Pearson
    correlation of hourly curtailment with charging is reported beside each R2.
@@ -155,7 +156,7 @@ def ols_cluster(y, X, names, groups):
     p = 2 * stats.t.sf(np.abs(t), g - 1)
     ss_tot = float(((y - y.mean()) ** 2).sum())
     return {"coef": {nm: {"coef": float(b), "se": float(s), "t": float(tt), "p": float(pp)} for nm, b, s, tt, pp in zip(names, beta, se, t, p)},
-            "n": int(n), "k": int(k), "clusters": int(g), "r2": 1 - float((e ** 2).sum()) / ss_tot, "fitted": X @ beta, "se_kind": "cluster by day"}
+            "n": int(n), "k": int(k), "clusters": int(g), "r2": 1 - float((e ** 2).sum()) / ss_tot, "fitted": X @ beta, "se_kind": "cluster by week"}
 
 
 def analyse(rows, params=None):
@@ -174,7 +175,10 @@ def analyse(rows, params=None):
     hd = (df["hour"].to_numpy()[:, None] == np.arange(1, 24)[None, :]).astype(float)
     mcode = pd.Categorical(df["month"], categories=months).codes
     md = (mcode[:, None] == np.arange(1, len(months))[None, :]).astype(float)
-    days = df["day"].to_numpy()
+    # wip/ready-analysis-errors (the Automated Analysis audit of 26 November, finding 11, for Samuel's ruling): the errors are
+    # clustered by week (Monday to Sunday of Pacific days), not by day: weather and the fleet carry over days, and by week the
+    # error is 1.64 times the day's (the audit's a5)
+    days = pd.to_datetime(df["day"]).dt.to_period("W-SUN").astype(str).to_numpy()
     chg = ch / 1000.0   # GW inside the fit for a well-conditioned matrix; the coefficient is put back per MW below
     fe_names = [f"h{h:02d}" for h in range(1, 24)] + [f"m_{m}" for m in months[1:]]
     fits = {
@@ -285,17 +289,17 @@ def card(rows, params, meta):
     if p < 0.05 and b > 0:
         sub = "Hours with more charging see more curtailment, not less, with net load, the hour and the month held fixed"
         words = (f"each MW of charging in an hour goes with {fmt(b, 3)} MW more curtailment in that hour, net load, the hour of the day and the month held fixed "
-                 f"(standard error {fmt(se, 3)}, clustered by day, {p_words(p)}): an association, and not the curtailment batteries prevent, because batteries "
+                 f"(standard error {fmt(se, 3)}, clustered by week, {p_words(p)}): an association, and not the curtailment batteries prevent, because batteries "
                  "charge in the cheap hours and the cheap hours are the curtailed ones")
     elif p < 0.05 and b < 0:
         sub = ("With net load, the hour and the month held fixed, hours with more charging see less curtailment" if steady else
                "With net load, the hour and the month held fixed, an hour with more charging has less curtailment on average, though not in every year")
         words = (f"each MW of charging in an hour goes with {fmt(-b, 3)} MW less curtailment in that hour, net load, the hour of the day and the month held fixed "
-                 f"(standard error {fmt(se, 3)}, clustered by day, {p_words(p)}): an association, not a measured cause, since charging is chosen in the cheap "
+                 f"(standard error {fmt(se, 3)}, clustered by week, {p_words(p)}): an association, not a measured cause, since charging is chosen in the cheap "
                  "hours, which are the curtailed ones")
     else:
         sub = "With net load, the hour and the month held fixed, the hours cannot pin curtailment on charging either way"
-        words = (f"each MW of charging in an hour goes with {fmt(b, 3)} MW of curtailment (standard error {fmt(se, 3)}, clustered by day, {p_words(p)}): an "
+        words = (f"each MW of charging in an hour goes with {fmt(b, 3)} MW of curtailment (standard error {fmt(se, 3)}, clustered by week, {p_words(p)}): an "
                  "estimate that spans zero once net load, the hour of the day and the month are held fixed")
     fleet_hours = sum(r["fleet_sat_hours"] for r in by_year)
     if fleet_hours == 0:
@@ -340,13 +344,13 @@ def card(rows, params, meta):
             "by what was curtailed. With the curtailed MW added back (net load before curtailment) the full model's charging coefficient is "
             f"{fmt(n['before_curtailment_coef'], 3)} (standard error {fmt(n['before_curtailment_se'], 3)}, {p_words(n['before_curtailment_p'])}, R2 "
             f"{fmt(n['before_curtailment_r2'], 2)}). Standard errors "
-            f"are cluster-robust by Pacific day ({fmt(n['clusters'], 0)} clusters, Stata's vce(cluster) with its small-sample factor, p from Student's t on clusters "
+            f"are cluster-robust by week, Monday to Sunday of Pacific days ({fmt(n['clusters'], 0)} clusters, Stata's vce(cluster) with its small-sample factor, p from Student's t on clusters "
             "less one), because the hours of one day share its weather and prices and are not independent draws. r is the Pearson correlation of hourly curtailment "
             f"with charging over all hours. The ceiling: an hour is at it when charging is at or above {pct} percent of (a) the largest charging hour of the "
             f"{TRAIL_DAYS} Pacific days before its day (at least {TRAIL_MIN_DAYS} held) or (b) the fleet's nameplate MW of its month (storage_buildout_monthly, iso:caiso "
             f"battery_operating_mw, EIA-860M, held to {meta['fleet_last_month']}); curtailment is on from {fmt(CURTAILED_ON, 0)} MW and rising when above the hour before. "
             f"By year, measure (a): {sat_list}. Measure (b): {fmt(fleet_hours, 0)} hours in the sample. No instrument, no event window: an association.")
-    table = {"columns": ["Specification", "Per MW charged (MW curtailed)", "SE (clustered by day)", "p", "Hours", "R2"],
+    table = {"columns": ["Specification", "Per MW charged (MW curtailed)", "SE (clustered by week)", "p", "Hours", "R2"],
              "rows": [{"measure": "charging alone", "coef_per_gw": b0, "se": n["charging_se"], "p": n["charging_p"], "n": n["charging_n"], "r2": n["charging_r2"]},
                       {"measure": "charging, net load and its square held fixed", "coef_per_gw": b1, "se": n["charging_netload_se"], "p": n["charging_netload_p"],
                        "n": n["charging_netload_n"], "r2": n["charging_netload_r2"]},
@@ -387,14 +391,15 @@ def stata(params):
         "gen month = substr(day, 1, 7)",
         "encode month, gen(month_id)",
         "encode day, gen(day_id)",
+        "generate week_id = floor((date(day, \"YMD\") - date(\"2018-01-01\", \"YMD\")) / 7)",
         "gen net_load_gw = net_load_mw / 1000",
         "gen net_load_gw2 = net_load_gw ^ 2",
         "gen charging_hour = charging_mw > 0",
         "correlate curtailed_mw charging_mw",
-        "regress curtailed_mw charging_mw, vce(cluster day_id)",
-        "regress curtailed_mw charging_mw net_load_gw net_load_gw2, vce(cluster day_id)",
-        "regress curtailed_mw charging_mw net_load_gw net_load_gw2 i.hour i.month_id, vce(cluster day_id)",
-        "* vce(cluster day_id) is the card's standard errors: hours of one Pacific day are not independent",
+        "regress curtailed_mw charging_mw, vce(cluster week_id)",
+        "regress curtailed_mw charging_mw net_load_gw net_load_gw2, vce(cluster week_id)",
+        "regress curtailed_mw charging_mw net_load_gw net_load_gw2 i.hour i.month_id, vce(cluster week_id)",
+        "* vce(cluster week_id) is the card's standard errors: hours of one week (Monday to Sunday) are not independent",
         "regress curtailed_mw net_load_gw net_load_gw2 i.hour i.month_id",
         "predict predicted, xb",
         "predict residual, residuals",
@@ -402,7 +407,7 @@ def stata(params):
         "* net load before curtailment: the curtailed MW added back to wind and solar",
         "gen net_load_before_gw = (net_load_mw - curtailed_mw) / 1000",
         "gen net_load_before_gw2 = net_load_before_gw ^ 2",
-        "regress curtailed_mw charging_mw net_load_before_gw net_load_before_gw2 i.hour i.month_id, vce(cluster day_id)",
+        "regress curtailed_mw charging_mw net_load_before_gw net_load_before_gw2 i.hour i.month_id, vce(cluster week_id)",
         f"gen at_ceiling = charging_hour == 1 & !missing(trail_max_charging_mw) & charging_mw >= {pct / 100:.2f} * trail_max_charging_mw",
         f"gen at_nameplate = !missing(fleet_mw) & charging_mw >= {pct / 100:.2f} * fleet_mw",
         "tabstat at_ceiling at_nameplate, by(year) statistics(sum) format(%9.0f)",

@@ -162,6 +162,23 @@ def fit(y, X):
             "r2": 1 - float((e ** 2).sum()) / tot if tot > 0 else 0.0}
 
 
+LAGS_SHOWN = range(0, 8)
+
+
+def p_by_lag(y, X, lags=LAGS_SHOWN):
+    """wip/ready-analysis-errors: the p-value of the second coefficient (the difference) with Newey-West errors at each
+    lag count, {lags: p}."""
+    from scipy import stats
+    y, X = np.asarray(y, float), np.asarray(X, float)
+    n, k = X.shape
+    out = {}
+    for L in lags:
+        beta, se, _e = newey_west(y, X, L)
+        t = beta[1] / se[1] if se[1] > 0 else float("nan")
+        out[int(L)] = float(2 * stats.t.sf(abs(t), n - k))
+    return out
+
+
 def daily(spec, in_dir=None):
     """A series' daily values as {day: value}: the table's own days, or an hourly table's UTC days with MIN_HOURS hours."""
     d = read_table(spec["table"], in_dir, usecols=["entity", "variable", "ts_utc", "value"],
@@ -257,6 +274,9 @@ def numbers_from_rows(rows, params=None):
     n.update({"reg_const": f["coef"][0], "reg_const_se": f["se"][0], "reg_const_p": f["p"][0], "reg_did": f["coef"][1], "reg_did_se": f["se"][1], "reg_did_p": f["p"][1],
               "reg_n": f["n"], "reg_lags": f["lags"], "reg_r2": f["r2"]})
     n["did_low"], n["did_high"] = n["reg_did"] - 1.96 * n["reg_did_se"], n["reg_did"] + 1.96 * n["reg_did_se"]
+    # wip/ready-analysis-errors (the Automated Analysis audit of 26 November, finding 11, for Samuel's ruling): with few
+    # strongly dependent days no lag rule is reliable, so the difference's p-value is shown at every lag count from 0 to 7
+    n["reg_did_p_by_lag"] = p_by_lag(y, X)
     lead = [r for r in rows if r["after"] == 0 and r["diff"] is not None]
     n["n_lead"] = len(lead)
     if len(lead) >= MIN_OBS + 2:
@@ -283,6 +303,17 @@ def moved(v, unit):
     return "no change" if v == 0 else f"{'a rise' if v > 0 else 'a fall'} of {money(abs(v), unit)}"
 
 
+def lag_words(n):
+    """wip/ready-analysis-errors: the p-value at each lag count, said, and whether the verdict turns on the count."""
+    by = n.get("reg_did_p_by_lag") or {}
+    if not by:
+        return ""
+    ps = [by[k] for k in sorted(by)]
+    turns = min(ps) < 0.05 <= max(ps)
+    return (f"Its p-value with {min(by)} to {max(by)} lags runs from {fmt(min(ps), 3)} to {fmt(max(ps), 3)}"
+            + ("; the verdict turns on the lag count, which so few days cannot settle. " if turns else ". "))
+
+
 def in_words(n, meta):
     """The effect in plain words, written by code from the numbers. States the difference and its error; no cause."""
     u, W = meta["unit"], meta["window"]
@@ -291,6 +322,7 @@ def in_words(n, meta):
             f"{moved(n['series_change'], u)}. The control, {meta['control_words']}, went from {money(n['control_pre'], u)} to {money(n['control_post'], u)}, {moved(n['control_change'], u)}. "
             f"The difference between the two changes is {money(n['did'], u)}, standard error {money(n['reg_did_se'], u)} (Newey-West, {n['reg_lags']} lags, {n['reg_n']} days). "
             + ("That difference is more than 1.96 standard errors from zero. " if beyond else "That difference is within 1.96 standard errors of zero: no difference beyond the error. ")
+            + lag_words(n)
             + "This is the difference between two changes over these days and its error; it does not say what produced it.")
 
 
