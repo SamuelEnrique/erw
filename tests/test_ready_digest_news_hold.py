@@ -43,6 +43,29 @@ class TheHoldReachesTheOpeningAndTheRows(unittest.TestCase):
         self.assertEqual(r["leaks"], [])
         self.assertTrue(r["kept"])                      # the market and physical rows stay
 
+    def test_the_roundup_of_w45(self):
+        if not shutil.which("node") or not os.path.isdir(os.path.join(SITE, "node_modules")):
+            self.skipTest("node or the site's packages are not here")
+        js = """
+import fs from "node:fs";
+const D = await import(process.argv[1]);
+const md = fs.readFileSync(process.argv[2], "utf-8");
+const r = D.holdRoundupStories(md, new Date("2026-11-28T12:00:00Z"));
+const g = (s) => (s.match(/news\\.google\\.com/g) || []).length;
+console.log(JSON.stringify({ google_before: g(md), google_after: g(r), held: (r.match(/come from the news index/g) || []).length,
+  deals: r.includes("### Deals of the week"), numbers: r.includes("## The week in five numbers") }));
+"""
+        url = "file:///" + os.path.join(SITE, "lib", "digest.ts").replace("\\", "/")
+        out = subprocess.run(["node", "--import", "./scripts/tsx-register.mjs", "--input-type=module", "-e", js, url,
+                              os.path.join(ROOT, "docs", "roundup", "2026-W45.md")], cwd=SITE, capture_output=True, text=True, timeout=300)
+        self.assertEqual(out.returncode, 0, out.stderr[-2000:])
+        r = json.loads(out.stdout.strip().splitlines()[-1])
+        print(json.dumps(r))
+        self.assertEqual(r["held"], 3)                  # What mattered, Weekend, The five stories of the week
+        self.assertLess(r["google_after"], r["google_before"])
+        self.assertTrue(r["deals"] and r["numbers"])
+        self.assertIn("holdRoundupStories(holdRoundupGrids(md))", open(os.path.join(SITE, "lib", "markdown.ts"), encoding="utf-8").read())
+
     def test_the_code(self):
         with open(os.path.join(SITE, "lib", "digest.ts"), encoding="utf-8") as f:
             s = f.read()

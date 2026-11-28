@@ -31,7 +31,7 @@ class TheRoundupIndexHoldsAsTheWeekPageDoes(unittest.TestCase):
         self.assertIsNone(re.search(r"[^p]render\(DOCS\.weeklies", page))
 
     def test_render_roundup_holds_the_held_grids(self):
-        self.assertIn("render(holdRoundupGrids(md), repoPath)", src("site", "lib", "markdown.ts"))
+        self.assertIn("render(holdRoundupStories(holdRoundupGrids(md)), repoPath)", src("site", "lib", "markdown.ts"))   # wip/ready-digest-news-hold
 
     @unittest.skipUnless(NODE, "node is not installed")
     @unittest.skipUnless(os.path.isdir(os.path.join(SITE, "node_modules")), "site/node_modules is not on this copy")

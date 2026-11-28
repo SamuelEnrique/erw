@@ -7,7 +7,7 @@ import { Marked, type Tokens } from "marked";
 import docs from "@/content/docs.json";
 import site from "@/data/site.json";
 import { gated } from "@/lib/release";
-import { archiveOf, chartSvg, dedupeOpening, digestMarkdown, fillDigest, holdRoundupGrids, sourceTrail, type ChartPoints, type DayKind, type Revision } from "@/lib/digest";
+import { archiveOf, chartSvg, dedupeOpening, digestMarkdown, fillDigest, holdRoundupGrids, holdRoundupStories, sourceTrail, type ChartPoints, type DayKind, type Revision } from "@/lib/digest";
 
 export type Docs = {
   built_at: string;
@@ -301,7 +301,8 @@ export function renderDigest(md: string, date: string, now: Date = new Date(), r
  *  the five numbers, the fold (session 2704). */
 export function renderRoundup(md: string, repoPath: string): string {
   // session 1989 (faults file row 94): a held grid's prices in a stored Roundup's table are held on the page
-  return foldMore(dedupeOpening(sourceTrail(render(holdRoundupGrids(md), repoPath))));
+  // wip/ready-digest-news-hold: and its story sections while the news index is held
+  return foldMore(dedupeOpening(sourceTrail(render(holdRoundupStories(holdRoundupGrids(md)), repoPath))));
 }
 
 export function foldMore(html: string): string {

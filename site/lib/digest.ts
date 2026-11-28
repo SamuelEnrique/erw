@@ -431,6 +431,30 @@ export function holdRoundupGrids(md: string, now: Date = new Date()): string {
   }).join("\n");
 }
 
+/** wip/ready-digest-news-hold (the Digest audit of 26 November, finding 6, for Samuel's ruling): while news_index is held, a
+ *  stored Roundup's story sections (What mattered, Weekend, The five stories of the week) read as held, as the Digest's do,
+ *  and its opening number when it is a story's figure. The other sections (the five numbers, deals, policy, the chart) stay. */
+export const ROUNDUP_STORY_SECTIONS = ["What mattered", "Weekend", "The five stories of the week"];
+export function holdRoundupStories(md: string, now: Date = new Date()): string {
+  if (!licenseNeeded("news_index", now)) return md;
+  const words = `${LICENSE_NEEDED}: the stories of this section come from the news index, whose outlets ask for permission; held since ${day(LICENSE_FROM)}.`;
+  const out: string[] = [];
+  let skipping = false, inOpening = false;
+  for (const l of md.split("\n")) {
+    const h = /^(#{2,3}) (.+?)\s*$/.exec(l);
+    if (h) {
+      skipping = ROUNDUP_STORY_SECTIONS.includes(h[2]);
+      inOpening = h[2] === "The opening number";
+      out.push(l);
+      if (skipping) out.push("", words, "");
+      continue;
+    }
+    if (skipping) continue;
+    out.push(inOpening && / reported on \d{4}-\d{2}-\d{2}/.test(l) ? words.replace("the stories of this section come", "this figure is a story's, and comes") : l);
+  }
+  return out.join("\n");
+}
+
 export function dedupeOpening(html: string): string {
   const op = /<h2 id="the-opening-number">(?:.|\n)*?<p><strong>([^<]+?)\.?<\/strong>/.exec(html);
   if (!op) return html;
