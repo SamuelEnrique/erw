@@ -341,6 +341,12 @@ def record(step, model, resp_usage, request_id, log=None):
 def check_cap():
     """Refuse a call once the session's ledger total reached ERW_SPEND_CAP_USD (when set)."""
     cap = os.environ.get("ERW_SPEND_CAP_USD", "").strip()
+    if cap and os.environ.get("ERW_LEDGER", "1") == "0":
+        # wip/ready-ask-guards (the chat audit of 26 November, finding 2, for Samuel's ruling): the total is read from the
+        # ledger alone, so with the ledger off a cap never closes (ten calls of USD 0.30 went through a cap of USD 0.05);
+        # a cap with the ledger off is refused before the call
+        raise SpendCapReached(f"ERW_SPEND_CAP_USD is set (USD {float(cap):.2f}) while the ledger is off (ERW_LEDGER=0): "
+                              "the cap cannot be counted; no model call")
     if cap:
         # Session 157: the ledger is read under the same lock its writer holds. With several threads on Windows, one
         # thread reading the file here while another replaced it in record() made the replace fail (PermissionError)

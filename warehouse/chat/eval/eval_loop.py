@@ -132,7 +132,7 @@ def ask_all(E, ask, qs, run_path, cap, only, session, which):
             break
         at = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         t0 = time.time()
-        rec, error = {}, None
+        rec, error, asker = {}, None, None
         try:
             asker = ask.Asker(grid=E.GRID_SLUG[q["grid"]] if q["via"] == "grid" else None, record_tools=True)
             rec = asker.ask(q["question"])
@@ -140,6 +140,10 @@ def ask_all(E, ask, qs, run_path, cap, only, session, which):
             error = f"{type(exc).__name__}: {exc}"
             traceback.print_exc()
         cost = float(rec.get("cost_usd") or 0)
+        if error and asker is not None and hasattr(getattr(asker, "client", None), "spent"):
+            # wip/ready-ask-guards (the chat audit of 26 November, finding 2, for Samuel's ruling): an errored question is
+            # counted at what its client spent before the error, not at 0, so the run's cap counts it
+            cost = float(asker.client.spent())
         dearest = max(dearest, cost)
         status = rec.get("status") or ("error" if error else None)
         done[q["id"]] = {**{k: q.get(k) for k in ("id", "grid", "via", "question")}, "asked_at_utc": at, "http": None, "loop": "python",
