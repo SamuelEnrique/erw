@@ -295,7 +295,75 @@ def position_rows(p, log):
            "ICE publishes its own report for ICE Brent, and its terms of use forbid copying or republishing its site's content without written permission. Source that would supply it: ICE, under license. The Brent row above is the far smaller NYMEX contract the CFTC reports.", "contracts")
 
 
-def burn_rows(p, log, hours_from=None, hours_to=None):
+def burn_weeks(x, tz, fuels):
+    """{fuel: {week ending Friday: value a day}} of one grid's hours (held flag and local day): a day counts when every
+    hour of it is held and names the fuel, a week when all seven of its days count."""
+    import mix_profile as mp
+    out = {}
+    per_day = x.groupby("day").agg(n=("held", "size"), ok=("held", "sum"))
+    full = set(per_day.index[[(r.n == r.ok) and r.n == mp.expected_hours(d, tz) for d, r in per_day.iterrows()]])
+    d = x[x["day"].isin(full)]
+    for fuel in fuels:
+        if fuel not in d or not (d[fuel] > 0).any():
+            continue
+        by = d.groupby("day")[fuel]
+        named = by.apply(lambda c: bool(c.notna().all()))         # a day counts only when every hour names the fuel: a blank hour is never read as zero
+        mwh = by.apply(lambda c: c.clip(lower=0).sum())[named]
+        per_unit, _ = HEAT_CONTENT[fuel]
+        daily = {dt.date.fromisoformat(k): float(v) * HEAT_RATE[fuel] / per_unit for k, v in mwh.items()}
+        wk = {}
+        for day, v in daily.items():
+            end = day + dt.timedelta(days=(4 - day.weekday()) % 7)        # the Friday that ends the day's week
+            wk.setdefault(end, []).append(v)
+        out[fuel] = {end: sum(v) / 7 for end, v in wk.items() if len(v) == 7}
+    return out
+
+
+# Session 11407 (docs/reviews/supply-model-audit-2026-11-26.md, finding 1, the owner's other choice readied): California's
+# gas burned for power is read from CAISO's own supply by fuel throughout (caiso_fuel_supply_history, then
+# caiso_fuel_supply), not from EIA-930's hours before the join (caiso_join.JOIN) and CAISO's own after it, so that its
+# year before and its five years are of the same source as its latest week. Coal and oil stay as the energy mix reads them.
+CAISO_OWN_GAS = True
+
+
+def caiso_own_hours(in_dir=None, log=print):
+    """CAISO's own supply by hour, every hour from the energy mix's first month, as the energy mix reads CAISO's own
+    hours from the join (mix_profile.caiso_own): an hour holds all thirteen columns or is absent, net generation is the
+    sum of its own sources (imports left out). Where both tables hold an hour, caiso_fuel_supply's. Read in chunks.
+    mix_profile.own_impossible, which the energy mix puts to the months of the hydro gap only, is not put to every hour
+    here: on the whole history it leaves out 1,516 hours and with them about a third of the weeks (253 whole weeks
+    against 394 on the tables of 28 November 2026), and a gas hour below zero already counts as zero.
+    Returns the hours grouped as the energy mix's (natural_gas, coal, ...), with held and day."""
+    import caiso_join as cj
+    import mix_profile as mp
+    tz = mp.GRIDS["caiso"]["tz"]
+    parts = []
+    for name in (mp.HISTORY, cj.SUPPLY):
+        path = os.path.join(in_dir or ip.OUT_DIR, name + ".csv")
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"{name} is not in {in_dir or ip.OUT_DIR}: California's gas burn on CAISO's own supply throughout needs it")
+        for c in pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["entity", "variable", "ts_utc", "value"], chunksize=200000):
+            if set(c["entity"]) != {"caiso:ISO"}:
+                raise RuntimeError(f"{name}: entities {sorted(set(c['entity']))}, expected caiso:ISO alone")
+            c = c[c["variable"].isin(cj.ALL)]
+            parts.append(pd.DataFrame({"ts": pd.to_datetime(c["ts_utc"], utc=True), "variable": c["variable"].astype("category"),
+                                       "value": c["value"].astype(float), "later": name == cj.SUPPLY}))
+    f = pd.concat(parts, ignore_index=True).sort_values("later", kind="stable").drop_duplicates(["ts", "variable"], keep="last")
+    w = f.pivot(index="ts", columns="variable", values="value").dropna(subset=cj.ALL).sort_index()   # an hour short of a source is absent, never filled
+    w.columns = [str(c) for c in w.columns]
+    w = w[w.index >= pd.Timestamp(f"{mp.FIRST}-01", tz=tz).tz_convert("UTC")].copy()
+    w["net_generation"] = w[cj.OWN].sum(axis=1)
+    w["demand"] = np.nan
+    w["interchange"] = -w["imports_mw"]
+    x = mp.grouped(w, mp.OWN)
+    mp.flags(x, "caiso")
+    x["day"] = x.index.tz_convert(tz).strftime("%Y-%m-%d")
+    log(f"  caiso: gas burned for power from CAISO's own supply throughout ({len(x):,} hours from {x.index.min():%Y-%m-%d}, "
+        f"{int(x['held'].sum()):,} held)")
+    return x
+
+
+def burn_rows(p, log, hours_from=None, hours_to=None, in_dir=None):
     """Fuel burned for power by grid and by week, from the energy mix's held hours."""
     import mix_profile as mp
     mp.GROUPS = dict(mp.GROUPS, oil=["OIL"])       # oil on its own beside the mix's eight sources ("other" still holds it)
@@ -308,33 +376,28 @@ def burn_rows(p, log, hours_from=None, hours_to=None):
             if hours_to:
                 os.makedirs(hours_to, exist_ok=True)
                 x.to_parquet(os.path.join(hours_to, f"hours_{grid}.parquet"))
-        per_day = x.groupby("day").agg(n=("held", "size"), ok=("held", "sum"))
-        full = set(per_day.index[[(r.n == r.ok) and r.n == mp.expected_hours(d, g["tz"]) for d, r in per_day.iterrows()]])
-        d = x[x["day"].isin(full)]
-        for fuel in HEAT_RATE:
-            if fuel not in d or not (d[fuel] > 0).any():
-                continue
-            by = d.groupby("day")[fuel]
-            named = by.apply(lambda c: bool(c.notna().all()))         # a day counts only when every hour names the fuel: a blank hour is never read as zero
-            mwh = by.apply(lambda c: c.clip(lower=0).sum())[named]
-            per_unit, _ = HEAT_CONTENT[fuel]
-            daily = {dt.date.fromisoformat(k): float(v) * HEAT_RATE[fuel] / per_unit for k, v in mwh.items()}
-            wk = {}
-            for day, v in daily.items():
-                end = day + dt.timedelta(days=(4 - day.weekday()) % 7)        # the Friday that ends the day's week
-                wk.setdefault(end, []).append(v)
-            weekly[(grid, fuel)] = {end: sum(v) / 7 for end, v in wk.items() if len(v) == 7}
+        for fuel, w in burn_weeks(x, g["tz"], HEAT_RATE).items():
+            weekly[(grid, fuel)] = w
+    if CAISO_OWN_GAS:  # session 11407: California's gas from CAISO's own supply throughout
+        weekly[("caiso", "natural_gas")] = burn_weeks(caiso_own_hours(in_dir, log), mp.GRIDS["caiso"]["tz"], ["natural_gas"])["natural_gas"]
     src = "derived from EIA-930 hourly generation by source (the energy mix's held hours) at stated heat rates"
-    newest = max(max(w) for w in weekly.values() if w)
+    # session 11407: no table name in brackets, so the page offers no download of CAISO's file from these words
+    src_caiso_own = "derived from CAISO's own supply by fuel, Today's Outlook, every week, at stated heat rates"
+    src_all_own = src + "; California from CAISO's own supply by fuel, every week"
+    newest =max(max(w) for w in weekly.values() if w)
     for fuel, words in FUEL_WORDS.items():
         unit = HEAT_CONTENT[fuel][1]
         grids = [g for g in mp.GRIDS if (g, fuel) in weekly]
         if not grids:
             p.grey("burn", f"burn|{fuel}", f"{words} burned for power", "the seven grids", "not_held", "The grids' files do not itemize this fuel in the hours read.", unit)
             continue
+        # session 11407: a row whose California part is CAISO's own supply throughout says so (caiso_own), and the page
+        # then writes no "crosses a change of source" on it (site/lib/supply.ts, joinWords)
+        own = CAISO_OWN_GAS and fuel == "natural_gas"
         if len(grids) == len(mp.GRIDS):
             common = set.intersection(*(set(weekly[(g, fuel)]) for g in grids))
-            p.add("burn", f"burn|all|{fuel}", f"{words} burned for power", "the seven grids together", unit, "W", {d: sum(weekly[(g, fuel)][d] for g in grids) for d in common}, -1, src)
+            p.add("burn", f"burn|all|{fuel}", f"{words} burned for power", "the seven grids together", unit, "W", {d: sum(weekly[(g, fuel)][d] for g in grids) for d in common}, -1,
+                  src_all_own if own else src, extra={"caiso_own": True} if own else None)
         for g in grids:
             w = weekly[(g, fuel)]
             if not w or max(w) < newest - dt.timedelta(days=STALE_BURN):
@@ -342,7 +405,9 @@ def burn_rows(p, log, hours_from=None, hours_to=None):
                 p.grey("burn", f"burn|{g}|{fuel}", f"{words} burned for power", mp.GRIDS[g]["name"], "not_held",
                        f"The hourly file leaves this fuel blank for this grid in hours of the latest weeks: {since}. A blank hour is not read as zero.", unit)
                 continue
-            p.add("burn", f"burn|{g}|{fuel}", f"{words} burned for power", mp.GRIDS[g]["name"], unit, "W", w, -1, src)
+            mine = own and g == "caiso"
+            p.add("burn", f"burn|{g}|{fuel}", f"{words} burned for power", mp.GRIDS[g]["name"], unit, "W", w, -1,
+                  src_caiso_own if mine else src, extra={"caiso_own": True} if mine else None)
     log(f"  burn: {len(weekly)} grid and fuel series")
 
 

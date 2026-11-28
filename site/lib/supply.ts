@@ -19,6 +19,8 @@ export type Row = {
   spark?: { t: string[]; v: number[] };
   season?: { t: string[]; cur: (number | null)[]; last: (number | null)[]; avg: (number | null)[]; lo: (number | null)[]; hi: (number | null)[] };
   long?: number; short?: number; open_interest?: number; net_share_pct?: number | null; three_year?: { lo: number; hi: number; pos: number | null; n: number };
+  /** session 11407: California's part of this row is CAISO's own supply throughout (warehouse/derived/supply_page.py, CAISO_OWN_GAS) */
+  caiso_own?: boolean;
 };
 export type Group = { id: string; title: string; band?: boolean };
 export type Release = {
@@ -124,6 +126,7 @@ export function burnWeekWords(file: SupplyFile, r: Row): string | null {
 export const CAISO_JOIN_DAY = CAISO_JOIN.slice(0, 10);
 export function joinWords(r: Row, base: string | null | undefined): string | null {
   if (r.group !== "burn" || !r.last || !/^burn-(caiso|all)-/.test(r.id)) return null;
+  if (r.caiso_own) return null;   // session 11407: CAISO's own supply throughout, no change of source to cross
   if (r.last.t.slice(0, 10) < CAISO_JOIN_DAY) return null;
   if (base !== null && base !== undefined && base.slice(0, 10) >= CAISO_JOIN_DAY) return null;
   const whose = r.id.startsWith("burn-all-") ? "California's part of this total is" : "California is";
