@@ -136,11 +136,17 @@ export function industryChoices(f: IndustryFile): { value: string; label: string
   }
   return out;
 }
-/** An industry's share of the three-digit industries' sum in a region, percent, or null when a total is withheld. */
+/** An industry's share of the three-digit industries' sum in a region, percent. Where a three-digit total is withheld
+ * in the region, the share is of the survey's own all-manufacturing total for the region (the file's industry "total"),
+ * the withheld industries' part left unassigned; null when that total is not held either. Session 11407 (the audit of
+ * 26 November 2026, finding 8, readied for Samuel's ruling): a total is withheld in every census region, so the sum of
+ * the 21 drew no share in any region. */
 export function shareOfSum(f: IndustryFile, naics: string, region: string): number | null {
   const rows = rankedIndustries(f, region);
-  if (rows.some((r) => r.total === null)) return null;
-  const sum = rows.reduce((a, r) => a + (r.total as number), 0);
+  const regionTotal = f.industries.industries.total?.by_region?.[region]?.total;
+  const sum = rows.some((r) => r.total === null)
+    ? (regionTotal === null || regionTotal === undefined ? 0 : regionTotal)
+    : rows.reduce((a, r) => a + (r.total as number), 0);
   const me = f.industries.industries[naics]?.by_region?.[region]?.total;
   return me === null || me === undefined || !sum ? null : (100 * me) / sum;
 }

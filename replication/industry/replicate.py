@@ -136,7 +136,9 @@ def main(argv=None):
     withheld = any(r.get("total") is None for r in rows.values())
     s = sum(r["total"] for r in rows.values() if r.get("total") is not None)
     for n, r in rows.items():
-        want[f"sh-{n}"] = None if withheld or r.get("total") is None else 100 * r["total"] / s
+        # session 11407: where a three-digit total is withheld, the share is of the survey's own regional total
+        base = (ind["industries"].get("total", {}).get("by_region", {}).get(region, {}).get("total") or 0) if withheld else s
+        want[f"sh-{n}"] = None if r.get("total") is None or not base else 100 * r["total"] / base
         for fu in FUELS:
             want[f"f-{n}-{fu}"] = r.get(fu)
     ia, ib = q.get("a", us[0]), q.get("b", us[1])

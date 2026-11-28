@@ -177,7 +177,7 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
           head={["Industry", "Share", ...MECS_FUELS.map((f) => f.label)]}
           rows={ranked.map((r, i) => ({ key: r.naics, cells: [
             <span key="n" title={`NAICS ${r.naics}`} data-industry-rank={i + 1}>{i + 1}. {r.name}</span>,
-            <Fig key="s" v={shareOfSum(F, r.naics, region)} src={`The industry's total as a percent of the sum of the three-digit industries' totals in the region; not held where EIA withholds a total there. ${SRC.mecs}`} k={`sh-${r.naics}`} digits={(v) => `${v.toFixed(1)}%`} />,
+            <Fig key="s" v={shareOfSum(F, r.naics, region)} src={`The industry's total as a percent of the sum of the three-digit industries' totals in the region; where EIA withholds one of those totals, as a percent of the survey's own all-manufacturing total for the region, the withheld industries' part not assigned to any. ${SRC.mecs}`} k={`sh-${r.naics}`} digits={(v) => `${v.toFixed(1)}%`} />,
             ...MECS_FUELS.map((f) => <Fig key={f.key} v={r.fuels[f.key] ?? null} src={(r.fuels[f.key] ?? null) === null ? WITHHELD : `${f.label}, ${F.industries.unit.split(" ")[0]}. ${f.key === "net_electricity" ? `${NET_ELEC} ` : ""}${SRC.mecs}`} k={`f-${r.naics}-${f.key}`} />),
           ] }))}
         />
