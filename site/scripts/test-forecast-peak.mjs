@@ -112,20 +112,8 @@ save("ahead.json", ahead);
   check(fig(html, "region-tex.json", "series/demand/peak/last_2_years/methods/erw/hour_exact_pct", 41.5, "41.50") && fig(html, "region-tex.json", "series/demand/peak/last_2_years/methods/week_ago/hour_within_1_pct", 61.2, "61.20"), "the peak: the hour's shares, keyed");
   check(!html.includes("series/demand/peak/backtest/methods/operator/") && count(peak, /data-not-held="1"/g) === 3, `the peak: a method the file does not score is three blanks (${count(peak, /data-not-held="1"/g)})`);
   check(peak.includes("The file&#x27;s words: the day&#x27;s highest hourly demand"), "the peak: the file's words on hover");
-  // the days after tomorrow
-  check(html.includes('data-fc-ahead="a" data-fc-ahead-days="3" data-fc-ahead-shown="2"'), "the days ahead: three days after the place's own, two shown");
-  check(!html.includes("places/1/horizons/0/"), "the days ahead: the place's own day is drawn twice");
-  const block = between(html, 'data-fc-ahead-block="1"', 'id="record"');
-  check(text(block).includes("Texas: the days after Friday 27 Nov 2026") && text(block).includes("ERW forecast of demand: Saturday 28 Nov 2026 to Monday 30 Nov 2026"), "the days ahead: the heading and the chart's title");
-  check(count(block, /data-svg-chart/g) >= 1 || block.includes("<svg"), "the days ahead: no chart");
-  check(fig(html, "ahead.json", "places/1/horizons/2/forecast/16/2", 57000, "57,000") && text(block).includes("57,000 at 16:00"), "the days ahead: a day's highest hour, keyed, with its hour");
-  check(fig(html, "ahead.json", "places/1/horizons/2/forecast/0/2", 41000, "41,000") && fig(html, "ahead.json", "places/1/horizons/3/forecast/18/2", 57000, "57,000"), "the days ahead: the lowest hour, and another day's highest");
-  check(fig(html, "ahead.json", "places/1/horizons/2/last_2_years/mape/regression", 3.1, "3.10") && fig(html, "ahead.json", "places/1/horizons/2/last_2_years/mape/week_ago", 3.9, "3.90"), "the days ahead: the horizon's error and the week-ago hour's, keyed");
-  check(fig(html, "ahead.json", "places/1/horizons/2/last_2_years/operator_day_ahead_mae_same_hours", 640.5, "641") && fig(html, "ahead.json", "places/1/horizons/2/band_coverage_pct", 80.5, "80.50"), "the days ahead: the operator's day-ahead error in MW and the band's share");
-  check(html.includes('data-fc-ahead-blank="2026-11-29"') && block.includes("not shown: over the last two years the same hour a week ago had the lower error at this horizon") && !html.includes("places/1/horizons/1/"), "the days ahead: a horizon the file does not show is a row that says so, with the reason, and no figure");
-  check(block.includes("shown only where it beats it"), "the days ahead: the file's own words on which days are shown, on hover");
-  check(html.includes('data-fc-download="ahead"') && html.includes('href="/forecast/ahead"') && html.includes('href="/forecast/ahead/python"') && html.includes('href="/forecast/ahead/stata"'), "the days ahead: the download, with its two readers");
-  check(html.indexOf('data-fc-ahead-block="1"') > html.indexOf('data-fc-tomorrow="a"') && html.indexOf('data-fc-ahead-block="1"') < html.indexOf('id="record"'), "the days ahead stand under Tomorrow, before the record");
+  // ready branch wip/ready-forecast-no-days-ahead (session 11408): the days after tomorrow are not drawn, nor offered
+  check(!html.includes("data-fc-ahead") && !html.includes('data-fc-download="ahead"') && !html.includes("predict/ahead.json"), "the days ahead are drawn, or offered");
   check(html.indexOf('data-fc-peak="1"') > html.indexOf('data-fc-summary="1"') && html.indexOf('data-fc-peak="1"') < html.indexOf('data-fc-cut="month"'), "the peak stands after the summary, before the months");
   quiet(html, "demand, one place");
 }
@@ -134,11 +122,9 @@ save("ahead.json", ahead);
 {
   const html = draw(FIX, { a: "region-tex", m: "mae" });
   check(fig(html, "region-tex.json", "series/demand/peak/last_2_years/methods/erw/mae", 2100.4, "2,100") && fig(html, "region-tex.json", "series/demand/peak/backtest/methods/week_ago/mae", 3200.9, "3,201"), "the peak in MW: whole megawatts, keyed");
-  check(fig(html, "ahead.json", "places/1/horizons/2/last_2_years/mae/regression", 1500.4, "1,500") && fig(html, "ahead.json", "places/1/horizons/3/last_2_years/mae/week_ago", 1801.2, "1,801"), "the days ahead in MW: whole megawatts, keyed");
   quiet(html, "demand, MW");
   const two = draw(FIX, { a: "region-tex", b: "ba-erco" });
-  check(two.includes('data-fc-ahead="a" data-fc-ahead-days="3"') && two.includes('data-fc-ahead="b" data-fc-ahead-days="0"'), "two places: one with days ahead, one whose entry holds none");
-  check(count(two, /data-fc-ahead-table="/g) === 1, "two places: a table for the place that has days, none for the one that has not");
+  check(!two.includes("data-fc-ahead"), "two places: the days ahead are drawn");
   check(between(two, 'data-fc-peak="1"', "data-fc-cut=").includes('data-fc-group="b"'), "two places: the peak's table has both places' columns");
   quiet(two, "demand, two places");
   const price = draw(FIX, { a: "region-tex", s: "price" });

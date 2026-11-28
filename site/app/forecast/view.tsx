@@ -183,6 +183,10 @@ const shortDay = (day: string) => { const [wd, dd, mon] = dayWords(day).split(" 
  *  hour, and how a forecast made that many days ahead has scored over the last two years, beside the same hour a week
  *  ago and the operator's own day-ahead forecast on the same hours. The file shows a day only where the forecast beat
  *  the week-ago hour; a day it does not show is a row that says so, with the file's reason on hover. Demand only. */
+/** Ready branch of session 11408 (weekend page of 28 November 2026, part 3.5, the other choice): the days after tomorrow
+ *  are not drawn under "Tomorrow", nor offered in the downloads; the block and its file stay, one switch away. */
+const DAYS_AHEAD_SHOWN = false;
+
 function DaysAhead({ slot, ahead, metric, scores, part }: { slot: Slot; ahead: AheadFile; metric: Metric; scores: ScoresFile | null; part: "chart" | "table" }) {
   const ser = slot.file?.series?.demand;
   // two places: their charts stand side by side, and under them each place's table at the page's full width (seven
@@ -600,7 +604,7 @@ export function ForecastView({ query }: { query: Raw }) {
           <ToolSection title="Tomorrow" id="tomorrow">
             <div className={two}>{slots.map((x) => <Tomorrow key={x.mark} slot={x} s={q.s} index={index} scores={scores} />)}</div>
             {/* session 10405: the days after tomorrow, demand only, once the file of them is on the site */}
-            {q.s === "demand" && ahead ? (
+            {DAYS_AHEAD_SHOWN && q.s === "demand" && ahead ? (
               <div data-fc-ahead-block="1">
                 <div className={two}>{slots.map((x) => <DaysAhead key={x.mark} slot={x} ahead={ahead} metric={metric} scores={scores} part="chart" />)}</div>
                 {slots.map((x) => <DaysAhead key={x.mark} slot={x} ahead={ahead} metric={metric} scores={scores} part="table" />)}
@@ -653,7 +657,7 @@ export function ForecastView({ query }: { query: Raw }) {
                   <a href={`/forecast/ledger/python?s=${q.s}`} download data-download="python">Python</a>,{" "}
                   <a href={`/forecast/ledger/stata?s=${q.s}`} download data-download="stata">Stata</a></li>
               ) : null}
-              {q.s === "demand" && ahead ? (
+              {DAYS_AHEAD_SHOWN && q.s === "demand" && ahead ? (
                 <li data-fc-download="ahead">The days after tomorrow, every place, hour by hour:{" "}
                   <a href="/forecast/ahead" download data-download="csv">CSV</a>,{" "}
                   <a href="/forecast/ahead/python" download data-download="python">Python</a>,{" "}

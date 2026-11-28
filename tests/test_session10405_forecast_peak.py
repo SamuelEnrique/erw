@@ -48,7 +48,7 @@ class ThePageAddsAndMovesNothing(unittest.TestCase):
 
     def test_both_blocks_are_of_demand_and_wait_for_their_files(self):
         view = src("site", "app", "forecast", "view.tsx")
-        self.assertIn('{q.s === "demand" && ahead ? (', view)
+        self.assertIn('{DAYS_AHEAD_SHOWN && q.s === "demand" && ahead ? (', view)  # ready branch wip/ready-forecast-no-days-ahead (session 11408)
         self.assertIn('const ahead = aheadFile && aheadFile.example !== true && index?.example !== true ? aheadFile : null;', view)
         self.assertIn('const peaked = s === "demand" && info.some(', view)
 
