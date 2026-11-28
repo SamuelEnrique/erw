@@ -4,7 +4,7 @@
 
 Written from docs/methods/demand_growth.md ("Input", "Which hours are used", "The rows") and the workbooks it names, not
 from warehouse/derived/demand_growth.py. It reads EIA-930's per-area workbooks (sheet "Published Hourly Data"): EIA's
-"Adjusted demand" for a balancing authority, "Demand" for the Lower 48; an hour dated by its start (EIA's UTC time is the
+"Demand", each area's own report, for a balancing authority and the Lower 48 (session 11408; "Adjusted demand" for an authority before); an hour dated by its start (EIA's UTC time is the
 hour's end); California's hours from 2023-10-31 23:00 to 2025-12-02 23:00 UTC read one hour earlier, a row landing on an
 hour already held dropped (docs/methods/eia930_caiso_break.md, "The late hours"). An hour is used when it is held, above
 zero, and within 25 percent of the median of the four hours around it (the two before and the two after that are held
@@ -47,7 +47,7 @@ def read_hours(path, area):
     ws = wb["Published Hourly Data"]
     it = ws.iter_rows(values_only=True)
     head = list(next(it))
-    col = head.index("Demand" if area == "US48" else "Adjusted demand")
+    col = head.index("Demand")   # session 11408: each area's own report, the authorities' too (Adjusted demand before)
     ut = head.index("UTC time")
     out = {}
     for r in it:
