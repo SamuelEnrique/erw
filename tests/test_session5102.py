@@ -151,7 +151,7 @@ class EveryRoute(unittest.TestCase):
     def test_a_route_reads_a_body_only_if_it_is_listed_here(self):
         reads = sorted(rel(f) for f in routes() if re.search(r"\breq(?:uest)?\.(?:text|formData)\(\)|\breq\.body\b", open(f, encoding="utf-8").read()))
         self.assertEqual(reads, [
-            "app/api/analysis/route.ts", "app/api/ask/route.ts", "app/api/play/finish/route.ts", "app/api/play/score/route.ts", "app/api/subscribe/route.ts",
+            "app/api/analysis/route.ts", "app/api/ask/route.ts", "app/api/play/finish/route.ts", "app/api/play/score/route.ts", "app/api/subscribe/confirm/route.ts", "app/api/subscribe/route.ts",
             "app/api/thesis/pitchbook/route.ts", "app/api/thesis/provider/route.ts", "app/api/thesis/run/route.ts", "app/api/unsubscribe/route.ts", "app/api/usage/route.ts",
             "app/internal/findings/state/route.ts", "app/internal/unlock/route.ts",
         ], "a route that reads a body was added or removed: cap it, guard it, and bring this list up to date")

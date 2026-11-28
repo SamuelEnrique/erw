@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: "Email" };
 const STATES: Record<string, string> = {
   done: "Thank you: the address is on the list.",
   // session 23: double opt-in and the tokened unsubscribe
-  check: "Almost done: a confirmation email is on its way. Nothing is sent to the address until the link in it is followed.",
+  check: "Almost done: a confirmation email is on its way. Nothing is sent to the address until the link in it is followed and the button on the page it opens is pressed.",
   unsent: "The address is stored, but the confirmation email could not be sent just now, so nothing will be sent to it. Please try again later.",
   confirmed: "Confirmed: the emails you chose will come to this address. Every email has a link to stop them.",
   unsubscribed: "Unsubscribed: no more emails will come to this address.",
@@ -28,6 +28,9 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
   // GET changes nothing). The address and token travel in hidden fields to /api/unsubscribe.
   const one = (k: string) => (typeof sp[k] === "string" ? (sp[k] as string) : "");
   const confirm = one("confirm") === "1" && one("e") && /^[0-9a-f]{64}$/.test(one("t"));
+  // wip/ready-subscribe-confirm (the small pages audit of 26 November, finding 4): the confirmation link opens this page
+  // and asks; only the button confirms (a link scanner's GET changes nothing)
+  const confirmSub = one("confirmsub") === "1" && one("e").length <= 254 && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(one("e")) && /^[0-9a-f]{64}$/.test(one("t"));
   return (
     <Brand>
       <h1 className="mb-1 text-3xl">Email</h1>
@@ -70,6 +73,18 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
             <button type="submit" className="border border-accent bg-accent px-4 py-1.5 text-white">Unsubscribe</button>
           </form>
           <p className="mt-2 max-w-xl text-xs text-muted">Nothing changes until you press the button.</p>
+        </Section>
+      ) : null}
+      {confirmSub ? (
+        <Section title="Confirm">
+          <form method="post" action="/api/subscribe/confirm" className="flex max-w-xl flex-wrap items-center gap-3 border border-rule bg-panel p-3 text-sm">
+            <input type="hidden" name="e" value={one("e")} />
+            <input type="hidden" name="t" value={one("t")} />
+            <input type="hidden" name="confirm" value="yes" />
+            <span>Send ERW&apos;s emails to <strong>{one("e")}</strong>?</span>
+            <button type="submit" className="border border-accent bg-accent px-4 py-1.5 text-white">Confirm</button>
+          </form>
+          <p className="mt-2 max-w-xl text-xs text-muted">Nothing is confirmed until you press the button.</p>
         </Section>
       ) : null}
       <Section title="Sign up">

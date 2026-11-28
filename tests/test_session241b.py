@@ -159,7 +159,7 @@ class NoColorOfItsOwn(unittest.TestCase):
         battery = src("site", "app", "cost-of-power", "battery", "BatteryForm.tsx")
         self.assertIn('className="border border-accent bg-accent px-4 py-1.5 text-white"', battery)
         subscribe = src(*APP, "subscribe", "page.tsx")
-        self.assertEqual(len(re.findall(r'<button type="submit" className="border border-accent bg-accent px-4 py-1\.5 (?:text-sm )?text-white">', subscribe)), 2)
+        self.assertEqual(len(re.findall(r'<button type="submit" className="border border-accent bg-accent px-4 py-1\.5 (?:text-sm )?text-white">', subscribe)), 3)   # wip/ready-subscribe-confirm: the confirmation's button
         self.assertIn('<button type="submit" className="border border-accent bg-accent px-4 py-2 text-white">Open the internal view</button>', src(*APP, "internal", "open", "page.tsx"))
 
 
