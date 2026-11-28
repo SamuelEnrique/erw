@@ -36,6 +36,8 @@ class EiasEstimatesInsideAdjustedDemand(unittest.TestCase):
         if not path:
             self.skipTest("EIA's workbook extract is not held on this machine")
         site = json.loads(src("site", "data", "demand_growth.json"))
+        if site.get("column") == "Demand":
+            self.skipTest("session 11408: the site file is built from each area's own Demand (test_ready_demand_miso_peak.py)")
         at = site["areas"]["MISO"]["at"]["2025"]["peak_demand_mw"]
         self.assertEqual(at, "2025-07-24T20:00:00Z")
         self.assertEqual(site["areas"]["MISO"]["years"]["2025"]["peak_demand_mw"], 120343.0)
@@ -46,13 +48,14 @@ class EiasEstimatesInsideAdjustedDemand(unittest.TestCase):
         self.assertEqual(peak[0][1], "", "MISO's own Demand is blank in the hour of its 2025 peak")
         self.assertGreaterEqual(sum(r[1] == "" for r in rows), 18, "and in most of that UTC day (the local day, Central)")
 
+    # session 11408 (wip/ready-demand-miso-peak): the words of the other choice, each area's own Demand
     def test_the_page_says_eias_estimates_are_used_as_reported_hours(self):
         page = src("site", "app", "demand", "page.tsx")
-        self.assertIn("Nothing is filled here. A grid operator's hours are EIA's Adjusted demand, which already holds EIA's own estimate", page)
-        self.assertIn("MISO's highest hour of 2025 (24 July 2025, a day MISO reported nothing) is EIA's estimate.", page)
+        self.assertIn("Nothing is filled here. A grid operator's hours are its own reports to EIA (EIA's \"Demand\"), not EIA's Adjusted demand", page)
+        self.assertIn("so MISO's highest hour of 2025 is the highest it reported (29 July 2025).", page)
 
     def test_the_decision_and_the_note_say_it_word_for_word(self):
-        words = "Adjusted demand holds EIA's own estimate where an authority reported nothing or an implausible value, and the page uses such an hour as a reported one: 351 hours of the seven authorities from 2019 to 2025"
+        words = "EIA's Adjusted demand is not read: it holds EIA's own estimate where an authority reported nothing or an implausible value (351 hours of the seven authorities from 2019 to 2025"
         self.assertIn(words, src("site", "lib", "decisions.ts"))
         note = src("docs", "methods", "demand_growth.md")
         self.assertIn(words, note)

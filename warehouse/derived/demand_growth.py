@@ -9,8 +9,8 @@ docs/methods/demand_growth.md. Page: /demand (in review).
     python warehouse/derived/demand_growth.py --snapshot      # also the site's own copy (site/data/demand_growth.json)
 
 Input (no request is made): EIA-930 hourly demand from the workbooks the emissions connector saved
-(warehouse/raw/eia930_emissions/<run>/*_<BA>.xlsx, sheet Published Hourly Data): EIA's Adjusted demand for a balancing
-authority, its Demand for the Lower 48 region. An hour is dated by its start. California's hours of 2023-11 to
+(warehouse/raw/eia930_emissions/<run>/*_<BA>.xlsx, sheet Published Hourly Data): EIA's Demand, each area's own report (session 11408; Adjusted demand before), for a balancing
+authority and for the Lower 48 region. An hour is dated by its start. California's hours of 2023-11 to
 2025-12-02, which EIA dates one hour late, are set back (caiso_join.true_hours).
 
 WEATHER IS NOT REMOVED. A year's demand is that year's: a hot summer or a cold snap is in it. Growth between two years
@@ -72,6 +72,7 @@ METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/demand
 RAW = os.path.join(ROOT, "warehouse", "raw", "eia930_emissions")
 SITE_FILE = os.path.join(ROOT, "site", "data", "demand_growth.json")
 BASE = 2019
+COLUMN = "Demand"   # session 11408: each area's own reports (EIA's "Demand"), not EIA's "Adjusted demand"
 JUMP = 0.25         # an hour further than this share from the median of the four hours around it is not used
 NEAR_YEAR = 0.95    # a year, or a month, is written when at least this share of its hours is used
 NEAR_CELL = 0.90    # a month-and-hour cell, when at least this share of its hours is used
@@ -98,7 +99,9 @@ def read_demand(ba):
     rows = ws.iter_rows(values_only=True)
     head = list(next(rows))
     t = head.index("UTC time")
-    col = head.index("Adjusted demand") if "Adjusted demand" in head else head.index("Demand")
+    # session 11408 (the demand audit's finding 1, the other choice): the authority's own "Demand", as it reported it; an hour
+    # it reported nothing for is blank and not used, where EIA's "Adjusted demand" holds EIA's own estimate
+    col = head.index(COLUMN)
     out = [(r[t] - timedelta(hours=1), float(r[col]) if isinstance(r[col], (int, float)) else np.nan) for r in rows if r[t] is not None and r[t].year >= BASE - 1]
     d = pd.DataFrame(out, columns=["ts", "demand"])
     d["ts"] = pd.to_datetime(d["ts"]).dt.tz_localize("UTC")
@@ -271,7 +274,7 @@ def main(argv=None):
     if a.snapshot:
         os.makedirs(os.path.dirname(SITE_FILE), exist_ok=True)
         with open(SITE_FILE, "w", encoding="utf-8", newline="\n") as f:
-            json.dump(dict(table=NAME, built=retrieved, base=BASE, last_year=whole[-1], ytd_through=last_month, jump=JUMP, near_year=NEAR_YEAR, near_cell=NEAR_CELL,
+            json.dump(dict(table=NAME, built=retrieved, base=BASE, column=COLUMN, last_year=whole[-1], ytd_through=last_month, jump=JUMP, near_year=NEAR_YEAR, near_cell=NEAR_CELL,
                            order=list(AREAS), areas=areas, caiso_break={"join": cj.JOIN, "rows": check}), f, separators=(",", ":"))
     log.close()
     print(f"{NAME}: {len(out):,} rows, {out['entity'].nunique()} areas, whole years {whole[0]} to {whole[-1]}, year to date through {last_month}"

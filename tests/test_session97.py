@@ -134,7 +134,7 @@ class TheTableAsBuilt(unittest.TestCase):
             raw, _, column = dg.read_demand("SWPP")
         except FileNotFoundError:
             self.skipTest("the EIA-930 workbooks are not on this machine")
-        self.assertEqual(column, "Adjusted demand")
+        self.assertEqual(column, "Demand")   # session 11408 (wip/ready-demand-miso-peak): each area's own reports
         local = raw.index.tz_convert("America/Chicago")
         y = raw[local.year == 2024]
         at = lambda v, yr: t[(t["entity"] == "eia930:SWPP") & (t["variable"] == v) & (t["ts_utc"] == f"{yr}-01-01T00:00:00Z")].iloc[0]
