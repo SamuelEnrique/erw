@@ -285,7 +285,12 @@ class TheLongerBacktest(unittest.TestCase):
                 w = sum(y["mae"][m] * y["hours"] for y in ys) / p["all"]["hours"]
                 self.assertAlmostEqual(w, p["all"]["mae"][m], delta=0.01 * len(ys), msg=(p["place"], m))
             self.assertLessEqual(p["all"]["first_day"], pf["summary"]["backtest"]["first_day"])
-            self.assertEqual(p["all"]["last_day"], pf["summary"]["backtest"]["last_day"], p["place"])
+            # session 10000 (chain 701): long_backtest.json is rebuilt on Sundays (predict data request 15) and the place
+            # files every day, so the long backtest ends no later than the place files, within the week between runs
+            import datetime as _dt
+            self.assertLessEqual(p["all"]["last_day"], pf["summary"]["backtest"]["last_day"], p["place"])
+            gap = (_dt.date.fromisoformat(pf["summary"]["backtest"]["last_day"]) - _dt.date.fromisoformat(p["all"]["last_day"])).days
+            self.assertLessEqual(gap, 8, p["place"])
 
 
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "long_price.json")), "long_price.json is not built here")
