@@ -132,3 +132,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 03:00 UTC (session 10603): the `ahead_more` replication on the same tables: 4 places done, each with all 35 of its figures equal (read from each place's own count this time).
 - 03:19 UTC (session 10603): the `ahead_more` replication 9 places done, each fully equal; row 12 still requested.
 - 03:38 UTC (session 10603): the `ahead_more` replication 13 places done, each fully equal.
+- 03:57 UTC (session 10603): the `ahead_more` replication 18 places done, each fully equal; row 12 still requested.
