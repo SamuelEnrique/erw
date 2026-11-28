@@ -4,6 +4,7 @@ import { EventStudy } from "@/components/EventStudy";
 import { EventDecisions } from "../Decisions";
 import { WholeCountrySection, type PageProps } from "../WholeCountry";
 import { EventWindow, N, day, find, pickOf } from "../EventWindow";
+import { eventRegionsFile, netDemandPeaks } from "@/lib/countryfiles";
 
 // Session 39: the August 2020 heat wave in CAISO, event caiso_heat_2020 of event_window_daily (docs/methods/events.md).
 // CAISO's prices for 2020 are not held, so the page has no price chart and says so.
@@ -17,7 +18,31 @@ const E = "eia930:CISO";
 // demand served; the rotating outages came in the evening as solar fell, and the shed load is not in demand served.
 // By California's demand less solar and wind (the region file), 14 August was the highest of 14 to 19 August
 // (docs/reviews/events-model-audit-2026-11-26.md). Words only; no figure moves.
-const OUTAGE_HOURS_WORDS = "Read it with care: the comparison is each day's highest hour of demand served against its own baseline days. On 14 and 15 August load was being shed, and demand served leaves that load out; and CAISO's notices put the Stage 3 emergencies at 18:36 to 20:38 on the 14th and 18:27 to 18:48 on the 15th (Pacific time), in the evening as solar output fell. So these figures do not show that the grid was less stretched on the outage days: demand less solar and wind, the measure of the evening hours the outages came in, is not on this page.";
+const OUTAGE_HOURS_WORDS = "Read it with care: the comparison is each day's highest hour of demand served against its own baseline days. On 14 and 15 August load was being shed, and demand served leaves that load out; and CAISO's notices put the Stage 3 emergencies at 18:36 to 20:38 on the 14th and 18:27 to 18:48 on the 15th (Pacific time), in the evening as solar output fell. So these figures do not show that the grid was less stretched on the outage days: demand less solar and wind, the measure of the evening hours the outages came in, is given just below.";
+// Session 11407 (chain 770 part C, the events audit's finding 4, readied for the owner's ruling): the figure of net
+// demand, each Pacific day's highest hour of California's demand less solar and wind, from the event's region file
+// (site/data/regions/events/caiso_heat_2020.json, EIA-930's region data, public domain; lib/countryfiles.ts
+// netDemandPeaks). By it 14 August, the first outage day, is the highest day of the window (54,390 MW against 52,013 on
+// the 18th, the file built 2026-11-27).
+const NET_DAYS = ["2020-08-14", "2020-08-15", "2020-08-16", "2020-08-17", "2020-08-18", "2020-08-19"];
+const mw = (v: number) => Math.round(v).toLocaleString("en-US");
+function NetDemand() {
+  const file = eventRegionsFile(EV);
+  const peaks = file ? netDemandPeaks(file, "CAL", "America/Los_Angeles").filter((p) => p.day >= "2020-08-10" && p.day <= "2020-08-24") : [];
+  if (!peaks.length) return <p className="text-muted">California&apos;s demand less solar and wind: the region file is not on this build.</p>;
+  const top = peaks.reduce((a, p) => (p.mw > a.mw ? p : a));
+  const shown = peaks.filter((p) => NET_DAYS.includes(p.day));
+  return (
+    <p data-net-demand="1">
+      <strong>By demand less solar and wind.</strong> California&apos;s demand less its solar and wind output, each day&apos;s highest hour (EIA&apos;s
+      region data for California, which holds CAISO and four smaller balancing authorities, so it is not CAISO&apos;s own figure; the hour&apos;s start,
+      Pacific time): {shown.map((p, i) => (
+        <span key={p.day}>{i ? "; " : ""}{p.day} <span data-net-day={p.day}>{mw(p.mw)}</span> MW at {p.hour}</span>
+      ))}. The highest day of the window by this measure is {top.day}, at <span data-net-top={top.day}>{mw(top.mw)}</span> MW
+      {top.day === "2020-08-14" ? ", the first day of the rotating outages" : ""}.
+    </p>
+  );
+}
 // Session 10225 (chain 710, the events audit, finding 5): EIA's file holds no hydro for CAISO from 2019-10-01 21:00 UTC
 // to 2020-08-24 17:00 UTC (impossible_hours.CISO_NO_HYDRO), and its net generation leaves it out too, so every day of
 // this window divides CO2 by a net generation without hydro. The window's carbon intensity averages 281.32 kg/MWh
@@ -55,6 +80,7 @@ export default function CaisoHeat2020({ searchParams }: PageProps = {}) {
         const hi = pickOf(rows, E, "demand_max_pct_vs_baseline", "max", inWin);
         const d14 = find(rows, E, "demand_max_pct_vs_baseline", "2020-08-14"), d15 = find(rows, E, "demand_max_pct_vs_baseline", "2020-08-15");
         return (
+          <>
           <p>
             <strong>Not on the outage days.</strong> On 2020-08-14 and 15, the days of the rotating outages, the peak hour was <N r={d14} event={EV} />% and{" "}
             <N r={d15} event={EV} />% above the baseline; the highest came later, <N r={hi} event={EV} />% on {day(hi)}. The same report says &quot;August 17 through 19
@@ -62,6 +88,8 @@ export default function CaisoHeat2020({ searchParams }: PageProps = {}) {
             risk of further rotating outages on those days (<a href={RCA}>CAISO, CPUC and CEC</a>). The warehouse holds no weather or supply data to say more.{" "}
             <span data-outage-hours="1">{OUTAGE_HOURS_WORDS}</span>
           </p>
+          <NetDemand />
+          </>
         );
       }}
     />

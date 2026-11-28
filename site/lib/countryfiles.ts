@@ -217,6 +217,32 @@ export function reached(rows: RegionSummary[], threshold = REACHED_PCT): RegionS
   return rows.filter((r) => r.demand && r.demand.pct !== null && Math.abs(r.demand.pct) >= threshold);
 }
 
+export type NetPeak = { day: string; mw: number; hour: string; demand_mw: number };
+/** Session 11407 (the events audit's finding 4, readied for the owner's ruling): each local day's highest hour of a
+ *  region's demand less its solar and wind, from an event's file. A day is given only when every hour of it in the
+ *  file holds demand, solar and wind, and the file holds the whole day (23 or more hours); `hour` is the hour's local
+ *  start, HH:MM. Days in local date order. */
+export function netDemandPeaks(file: EventRegionsFile, code: string, timeZone: string): NetPeak[] {
+  const r = file.regions[code];
+  const dem = r?.demand_mw, so = r?.gen?.solar, wi = r?.gen?.wind;
+  if (!dem || !so || !wi) return [];
+  const fmt = new Intl.DateTimeFormat("en-CA", { timeZone, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+  const acc = new Map<string, { n: number; held: number; best: NetPeak | null }>();
+  for (let i = 0; i < dem.length; i++) {
+    const p = Object.fromEntries(fmt.formatToParts(new Date(hourAt(file.hours, i))).map((x) => [x.type, x.value]));
+    const day = `${p.year}-${p.month}-${p.day}`;
+    const a = acc.get(day) ?? { n: 0, held: 0, best: null };
+    a.n++;
+    const d = dem[i], s = so[i], w = wi[i];
+    if (num(d) && num(s) && num(w)) {
+      a.held++;
+      if (!a.best || d - s - w > a.best.mw) a.best = { day, mw: d - s - w, hour: `${p.hour}:${p.minute}`, demand_mw: d };
+    }
+    acc.set(day, a);
+  }
+  return [...acc.entries()].filter(([, a]) => a.best && a.n >= 23 && a.held === a.n).map(([, a]) => a.best as NetPeak).sort((x, y) => (x.day < y.day ? -1 : 1));
+}
+
 export type PairSummary = {
   key: string; a: string; b: string; hours: number; mean_mw: number; mwh: number;
   /** who sent and who took over the window, by the sign of the window's sum; both null when the sum is zero */
