@@ -88,6 +88,20 @@ function Glance({ f, w, k }: { f: OperatorFile; w: { start: string; end: string 
   );
 }
 
+/** Session 11407 (chain 770, part C; the conditions audit of 26 November, finding 3): one row a notice. The files list
+ *  a notice once for each day it covers, and again each time CAISO reissued it (the RMO of 14 to 17 August 2020 four
+ *  times on 14 August). A notice is its kind, start and end, kept on the first day of the window it covers; one whose
+ *  start the source does not print is its kind and day, so two such notices on two days stay two. */
+function byNotice(rows: OperatorFile["alerts"]): OperatorFile["alerts"] {
+  const seen = new Set<string>();
+  return rows.filter((a) => {
+    const k = a[2] ? `${a[1]}|${a[2]}|${a[3] ?? ""}` : `${a[1]}|day ${a[0]}`;
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+}
+
 function hourlyLines(f: OperatorFile, rows: (string | number | null)[][], names: { c: string; label: string; color: string }[]): Line[] {
   return names.map((n) => {
     const i = col(f.hourly_columns, n.c);
@@ -112,7 +126,7 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
     hourly = hourly.filter((r) => { const t = Date.parse(r[0]); return t >= a && t < b; });
   }
   const st = f.strips;
-  const alerts = f.alerts.filter((a) => a[0] >= w.start && a[0] <= w.end);
+  const alerts = byNotice(f.alerts.filter((a) => a[0] >= w.start && a[0] <= w.end));
   const src = (k: string) => st[k]?.source ?? "";
   const hDemand = hourlyLines(f, hourly, [{ c: "demand", label: "Demand", color: "accent" }, { c: "forecast", label: "Day-ahead forecast", color: "series-3" }]);
   const hOut = hourlyLines(f, hourly, [{ c: "out_total", label: "Total", color: "accent" }, { c: "out_planned", label: "Planned", color: "series-3" }, { c: "out_forced", label: "Forced", color: "series-5" }]);
@@ -179,9 +193,12 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
         <>
           {/* session 11000 (chain 750): every notice the heading counts is a row of the table. The list stopped at 40
               without a word: CAISO's September 2022 heat wave lost its last day (4 of 44), its August 2020 one 39 of 79. */}
-          <h4 className="mb-1 mt-4 font-serif text-base text-accent" data-alerts-heading={tag}>Alerts and notices in force, {w.start} to {w.end} ({alerts.length})</h4>
+          <h4 className="mb-1 mt-4 font-serif text-base text-accent" data-alerts-heading={tag}>Alerts and notices in force, {w.start} to {w.end} ({alerts.length} {alerts.length === 1 ? "notice" : "notices"})</h4>
           {alerts.length ? (
-            <ToolTable minWidth={360} caption={`Alerts and notices, ${w.start} to ${w.end} (${alerts.length})`} head={["Date", "Kind, as the operator words it", "Start", "End"]}
+            <p className="mb-1 text-xs text-muted" data-alerts-by-notice={tag}>One row a notice: a notice over several days, or one the operator reissued, is listed once, on the first day of this window it covers. A notice is its kind, start and end; one whose start the operator does not print is counted once a day.</p>
+          ) : null}
+          {alerts.length ? (
+            <ToolTable minWidth={360} caption={`Alerts and notices, ${w.start} to ${w.end} (${alerts.length} ${alerts.length === 1 ? "notice" : "notices"})`} head={["Date", "Kind, as the operator words it", "Start", "End"]}
               rows={alerts.map((a, i) => ({ key: `${a[0]}-${i}`, cells: [<a key="d" className="underline" href={a[4]} title={src("alerts")}>{a[0]}</a>, a[1], a[2] ?? "", a[3] ?? ""] }))} />
           ) : (
             <p className="text-sm text-muted" data-none-held={`${tag}-alerts`}>None held in this window. {f.alerts.length ? `The last the file holds is of ${f.alerts.reduce((m, a) => (a[0] > m ? a[0] : m), f.alerts[0][0])}.` : "The file holds none."}</p>
