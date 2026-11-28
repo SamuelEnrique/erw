@@ -115,6 +115,19 @@ def capacity(gens, ba, src, month):
     return float(g.loc[(g["start"] <= ms) & (g["ret"].isna() | (g["ret"] > ms)), "nameplate_mw"].sum())
 
 
+def next_month(month):
+    """The month after a "YYYY-MM" month, as "YYYY-MM"."""
+    return (pd.Timestamp(month + "-01") + pd.offsets.MonthBegin(1)).strftime("%Y-%m")
+
+
+def mid_capacity(gens, ba, src, month):
+    """Session 11408 (readied for the owner's ruling on the generator audit of 20 November, finding 7,
+    docs/reviews/generator-model-audit-2026-11-20.md): the month's nameplate at its mid-point, the mean of the nameplate
+    at this month's start and at the next month's, so a plant that starts during the month adds its megawatts as well
+    as its output. Until then the start of the month alone (capacity)."""
+    return (capacity(gens, ba, src, month) + capacity(gens, ba, src, next_month(month))) / 2
+
+
 def read_gens():
     def rd(name):
         p = os.path.join(ip.OUT_DIR, name + ".csv")
@@ -242,7 +255,7 @@ def build_iso(iso, gens, hh, log, left, price=None, table=None, fuel=None):
         h["co2"] = np.nan
     caps = {}
     for m in sorted(h["month"].unique()):
-        caps[m] = (capacity(gens, BA[iso], "SUN", m), capacity(gens, BA[iso], "WND", m))
+        caps[m] = (mid_capacity(gens, BA[iso], "SUN", m), mid_capacity(gens, BA[iso], "WND", m))
     h["sun_mw"] = h["month"].map(lambda m: caps[m][0])
     h["wnd_mw"] = h["month"].map(lambda m: caps[m][1])
     h["solar"] = np.where(h["sun_mw"] > 0, h["sun"] / h["sun_mw"], np.nan)
