@@ -10,6 +10,7 @@
 5. Every file says what it is: tier derived, "ERW forecast".
 """
 import datetime as dt
+import io
 import json
 import os
 import sys
@@ -644,6 +645,27 @@ class TheFiles(unittest.TestCase):
             n = doc["series"]["demand"].get("net_demand")
             if n and n.get("status") == "shown" and not n.get("tomorrow"):
                 self.assertTrue(n.get("tomorrow_held"), place)
+
+    def test_no_forecast_hour_without_a_figure(self):
+        """Session 10603 (SPA, 28 November): a day the method cannot forecast has no rows and says why; every hour a
+        file or a ledger gives as a forecast has its figure."""
+        for place, doc in self.places.items():
+            for name in ("demand", "price"):
+                s = doc["series"][name]
+                if s.get("status") != "shown":
+                    continue
+                if s.get("tomorrow"):
+                    self.assertTrue(all(r[2] is not None for r in s["tomorrow"]), (place, name))
+                else:
+                    self.assertTrue(s.get("tomorrow_held"), (place, name))
+        for led in ("ledger_demand.csv", "ledger_price.csv"):
+            p = os.path.join(SITE, led)
+            if not os.path.exists(p):
+                continue
+            with open(p, encoding="utf-8") as f:
+                lines = [ln for ln in f if not ln.startswith("#")]
+            d = pd.read_csv(io.StringIO("".join(lines)), dtype=str)
+            self.assertFalse(d["erw"].isna().any(), (led, d[d["erw"].isna()].head(3).to_dict("records")))
 
     def test_a_held_series_holds_no_number(self):
         cols = self.scores["rows_columns"]
