@@ -2,7 +2,7 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import type { ReactNode } from "react";
 import { Brand } from "@/components/Brand";
 import { NoData } from "@/components/NoData";
-import { Num } from "@/components/Num";
+import { Num, heldBy } from "@/components/Num";
 import { SourceLine, ToolHeader, ToolPage, ToolSection } from "@/components/tool/ToolPage";
 import * as BS from "@/lib/batterystack";
 import { MARKETS, latestPrices, newest, storageUnits } from "@/lib/data";
@@ -53,10 +53,13 @@ async function RightNow() {
       <div className="grid gap-px border border-rule bg-rule sm:grid-cols-3">
         {MARKETS.map((m) => {
           const p = latest.ok ? latest.data.find((r) => r.entity === m.main) : undefined;
+          // wip/ready-home-held-strip (the home page audit of 26 November, finding 6, for Samuel's ruling): a held grid's figure
+          // reads "license needed" with no unit and no interval time, so nothing of the held row is described
+          const held = p ? heldBy(`latest_prices|${p.entity}|${p.variable}|${p.ts_utc}`) !== null : false;
           return (
             <Figure key={m.iso} label={m.iso} sub={node(m.main)}
               value={p ? <Num check={`latest_prices|${p.entity}|${p.variable}|${p.ts_utc}`} raw={p.value}>{price(p.value)}</Num> : <NoData reason={latest.ok ? `latest_prices has no row for ${m.main}` : latest.reason} />}
-              unit={p ? p.unit : undefined} when={p ? `real time, the interval from ${utc(p.ts_utc)}` : "real time"} />
+              unit={p && !held ? p.unit : undefined} when={p && !held ? `real time, the interval from ${utc(p.ts_utc)}` : "real time"} />
           );
         })}
         {fuels.map(({ e, r }) => (
