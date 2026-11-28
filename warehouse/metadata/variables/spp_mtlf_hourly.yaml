@@ -149,7 +149,7 @@ columns:
   documented_by: null
 - name: x_interval_end_cpt
   label: 'SPP''s own label of the hour: its hour ending in central prevailing time, as printed'
-  unit: null
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -165,7 +165,7 @@ columns:
   documented_by: null
 - name: x_file
   label: The file read, OP-MTLF-<YYYYMMDDHH00>.csv (the publication's hour in central prevailing time)
-  unit: null
+  unit: none
   type: text
   values:
     distinct: 4887
