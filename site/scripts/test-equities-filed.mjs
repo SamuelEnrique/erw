@@ -139,7 +139,7 @@ const vals = (line) => line.map((p) => p.v / M).join(" ");
   const cap = draw(FIX, { a: "DUK", fig: "capex", per: "12" });
   check(cap.includes('data-eq-points="1"'), "capital spending by 12 months: the one year filed");
   const debt = draw(FIX, { a: "DUK", fig: "debt" });
-  check(debt.includes('data-eq-figure="a" data-eq-points="6"') && text(debt).includes("Debt, at 2026-09-30") && text(debt).includes("debt, at the end of each period filed"), "debt: a point at each period end, named as a figure at a day");
+  check(debt.includes('data-eq-figure="a" data-eq-points="6"') && text(debt).includes("Long-term debt, at 2026-09-30") && text(debt).includes("long-term debt, at the end of each period filed"), "debt: a point at each period end, named as a figure at a day");
   check(/data-n="eq\|a\|figure"><span data-check="pf\|equities\/series\/DUK\.json\|quarterly\/[01]\/10" data-raw="7900000000"[^>]*>7,900</.test(debt), "the newest debt with its key");
   const sh = draw(FIX, { a: "DUK", fig: "shares_outstanding", per: "12" });
   check(sh.includes('data-eq-points="2"') && text(sh).includes("shares outstanding, at the end of each year reported") && /aria-label="[^"]*million shares/.test(sh), "shares by 12 months: the annual reports' period ends, in million shares");

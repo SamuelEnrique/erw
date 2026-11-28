@@ -237,7 +237,9 @@ export type Filing = {
 };
 export const STATEMENT: [keyof Filing & string, string, string][] = [
   ["revenue", "Revenue", "USD million"], ["net_income", "Net income", "USD million"], ["capex", "Capital spending", "USD million"],
-  ["debt", "Debt", "USD million"], ["shares_outstanding", "Shares outstanding", "million"],
+  // session 11403 (the equities audit, finding 5): the line is long-term debt (us-gaap LongTermDebt, LongTermDebtNoncurrent
+  // or with leases, the concept on hover), never short-term borrowings: "Debt" alone said more than the files hold
+  ["debt", "Long-term debt", "USD million"], ["shares_outstanding", "Shares outstanding", "million"],
 ];
 /** A company's filed periods, in the file's own order (newest first), by the file's column names. A row with no
  *  period end is not a filing (the example's row of nulls). */
@@ -443,7 +445,7 @@ export function listCsv(list: EqList, url: string): string {
     "# Energy Research Warehouse (ERW): the listed energy companies by segment, as /equities lists them (site/lib/equities.ts listCsv)",
     `# Built: ${list.built} (site/data/equities/index.json, written by warehouse/derived/equity_pages.py from ${(list.tables ?? []).join(", ") || "the ERW's tables"}); method: ${list.method ?? "docs/methods/equities.md"}`,
     `# License of the list: ${list.license ?? "not said"}. first_day and last_day are the first and last trading day of the prices shown; empty where the price is held`,
-    "# newest_*: the newest period the company filed with the SEC (a 10-Q or a 10-K): its end, form, the day filed and the filing's address; revenue, net income and capital spending in USD as filed, each with the months its period covers; debt in USD and shares outstanding at the period's end. Empty where the company filed none",
+    "# newest_*: the newest period the company filed with the SEC (a 10-Q or a 10-K): its end, form, the day filed and the filing's address; revenue, net income and capital spending in USD as filed, each with the months its period covers; long-term debt in USD and shares outstanding at the period's end. Empty where the company filed none",
     ...(list.segments ?? []).map((s) => `# Segment ${s.id}: ${s.label}${s.rule ? `: ${s.rule}` : ""}`),
     `# From: ${url}`,
   ];
