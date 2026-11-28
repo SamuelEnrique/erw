@@ -96,7 +96,7 @@ For each grid (section 6) and each operator with a counted facility: the counted
 
 ### 7.6 The timeline (`timeline`, `timelineCells`)
 
-Every facility held that states both the date of its first story and the year it is to be energized (`energized_year`, else the older `planned_year`): 9 on 16 November. The wait is the second year less the first story's year, in whole years. By grid and by the year first reported: `dctime|count|<grid|year>|<value>` and, from three facilities, the median `dctime|median`. A facility with one of the two dates is not on it.
+Every facility the sums count (a named US state, not cancelled; tracker audit of 26 November 2026, finding 5) that states both the date of its first story and the year it is to be energized (`energized_year`, else the older `planned_year`): 9 on 16 November. The wait is the second year less the first story's year, in whole years. By grid and by the year first reported: `dctime|count|<grid|year>|<value>` and, from three facilities, the median `dctime|median`. A facility with one of the two dates is not on it.
 
 ### 7.7 The three charts (`dcFigures`)
 

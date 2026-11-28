@@ -136,10 +136,11 @@ def facilities(rows, today):
                 out[f"datacenters|rollup_mw|{dim}|{v}"] = sum(mws)
             out[f"datacenters|rollup_with_mw|{dim}|{v}"] = len(mws)
             out[f"datacenters|rollup_without|{dim}|{v}"] = len(g) - len(mws)
-    # the timeline: every facility held (counted or not) that states a first story and the year it is to be energized
+    # the timeline: every facility the sums count (ready branch of session 11408, tracker audit finding 5) that states a
+    # first story and the year it is to be energized
     waits = []
     for f in fs:
-        if len(f.first) >= 7 and f.first[:4].isdigit() and f.first[4] == "-" and f.first[5:7].isdigit() and str(f.year).isdigit() and int(f.year) >= 2000:
+        if f.counted and len(f.first) >= 7 and f.first[:4].isdigit() and f.first[4] == "-" and f.first[5:7].isdigit() and str(f.year).isdigit() and int(f.year) >= 2000:
             waits.append((f.grid, f.first[:4], int(f.year) - int(f.first[:4])))
     out["dctime|rows"] = len(waits)
     for dim, pos in (("grid", 0), ("year", 1)):

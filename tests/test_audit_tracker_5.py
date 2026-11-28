@@ -31,12 +31,12 @@ class TheTimelineSaysWhatItCounts(unittest.TestCase):
         out = subprocess.run(["node", "--input-type=module", "-e", JS, LIB], capture_output=True, text=True, timeout=120)
         self.assertEqual(out.returncode, 0, out.stderr)
         r = json.loads(out.stdout.strip().splitlines()[-1])
-        self.assertEqual(r["timeline"], ["abroad", "gone", "us"])
+        self.assertEqual(r["timeline"], ["us"])   # ready branch wip/ready-tracker-timeline-counted (session 11408): the counted rows only
         self.assertEqual(r["counted"], ["us"])
 
     def test_the_note_says_it(self):
-        self.assertIn("A median needs three facilities with both. Unlike the sums above, it counts every facility held, those with no US state "
-                      "stated and the cancelled among them.", src("site", "app", "datacenters", "Timeline.tsx"))
+        self.assertIn("A median needs three facilities with both. As the sums above, it counts the facilities in a named US state and not "
+                      "cancelled.", src("site", "app", "datacenters", "Timeline.tsx"))
 
 
 if __name__ == "__main__":

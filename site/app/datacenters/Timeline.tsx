@@ -11,7 +11,7 @@ export function Timeline({ rows }: { rows: EntityRow[] }) {
   const t = timeline(rows as unknown as FacRow[]);
   return (
     <ToolSection title="From first reported to energized" id="timeline"
-      note={<>Only the facilities whose sources state both: the date of the first story and the year the facility is to be energized or come online. The wait is the difference of the two years, in whole years (the energized date is a year); a facility with one date is not on it, and no wait is estimated from one. A median needs three facilities with both. Unlike the sums above, it counts every facility held, those with no US state stated and the cancelled among them.</>}>
+      note={<>Only the facilities whose sources state both: the date of the first story and the year the facility is to be energized or come online. The wait is the difference of the two years, in whole years (the energized date is a year); a facility with one date is not on it, and no wait is estimated from one. A median needs three facilities with both. As the sums above, it counts the facilities in a named US state and not cancelled.</>}>
       {t.length === 0 ? (
         <p className="text-sm text-muted" role="status" data-timeline-none="1">No facility held states both a first report and the year it is to be energized.</p>
       ) : (

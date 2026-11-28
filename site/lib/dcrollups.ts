@@ -106,7 +106,7 @@ export type TimelineCell = { value: string; count: number; median: number | null
 
 export function timeline(rows: FacRow[]): TimelineRow[] {
   const out: TimelineRow[] = [];
-  for (const r of rows) {
+  for (const r of rows.filter(counted)) {   // ready branch of session 11408 (tracker audit finding 5): the facilities the sums count
     // session 1855 (datacenter faults row 9): a row built before chain 156 wrote the year as planned_year
     const rep = r.extra?.first_story_at ?? "", y = Number(r.extra?.energized_year ?? r.extra?.planned_year ?? "");
     if (!/^\d{4}-\d{2}/.test(rep) || !Number.isInteger(y) || y < 2000) continue;
