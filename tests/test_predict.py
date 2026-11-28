@@ -312,7 +312,9 @@ class TheLongerBacktestFurtherAhead(unittest.TestCase):
                 self.assertIn(h["method"], ("regression", "regression_recent"), key)
                 ml = h["method_mae_last_2_years"]
                 self.assertEqual(h["method"], min(("regression", "regression_recent"), key=lambda m: ml[m]), key)
-                self.assertLessEqual(h["first_scored_day"], "2016-07-31", key)
+                # session 11200: a place whose early history has gaps reaches the 300 days a fit needs later in 2016
+                # (GVL from 24 August, Florida 23 September, the Northwest 7 September, the Mid-Atlantic 24 October)
+                self.assertLessEqual(h["first_scored_day"], "2016-12-31", key)
                 ys = h["by_year"]
                 self.assertEqual(len(ys), h["years"], key)
                 self.assertEqual(sum(y["hours"] for y in ys), h["all"]["hours"], key)

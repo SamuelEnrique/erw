@@ -861,7 +861,9 @@ Written to `site/data/predict/long_ahead.json` (contract, dated line of 28 Novem
 301 of them. The 19 that miss a year: PSCO at every horizon (10 of 11 years) and fourteen others, each one year short.
 The median mean absolute percentage error over the whole span: 7.10 percent at three days ahead against 9.80 for the
 week-ago hour, 7.70 against 9.81 at five, 7.76 against 9.81 at seven. The band holds 76.6 to 80.4 percent of the
-hours (median 78.7) against its nominal 80.
+hours (median 78.7) against its nominal 80. Four places begin scoring later in 2016, where their early history has gaps
+before the 300 days a fit needs: GVL from 24 August, the Northwest from 7 September, Florida from 23 September and the
+Mid-Atlantic from 24 October.
 
 Replication: `replication/predict/replicate_long_ahead.py`, written from this section and the tables alone, refits
 every window and compares every figure of the file (`figures_long_ahead.csv`); its count is in the progress file and
