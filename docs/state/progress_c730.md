@@ -123,3 +123,16 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 00:22 UTC (session 10603): `ahead_more.json` rebuilding on today's tables (2 of 35).
 - 00:41 UTC (session 10603): `ahead_more.json` rebuilding (6 of 35).
 - 01:01 UTC (session 10603): the whole suite runs on `wip/c730-predict-v6` at `f5dd6b9c1` (under the build lock from 00:50 UTC); `ahead_more.json` rebuilding (11 of 35). `replicate_ahead.py` now names its figures after the file it checks.
+- Landing row 12 requested (01:21 UTC 28 November, session 10603): `wip/c730-predict-v6` at `a2365371d`: the backtest tables' shape (data request 17), the day's peak by year in `long_backtest.json` (replicated 3,064 of 3,064 groups), tests, `ahead.py --more`'s test; `ahead_more.json` held back until rebuilt and replicated on the same tables (rebuild running, 14 of 35). The whole suite: 11,001 passed, 1 failed (`test_session6111_ask`, the ask keys against today's refreshed tables, not the branch). 36 of 36 forecast tests on the head.
+- 01:30 UTC (session 10603): `ahead_more.json` rebuilding on today's tables (17 of 35), on `wip/c730-predict-v7`.
+- 01:49 UTC (session 10603): `ahead_more.json` rebuilding (22 of 35); row 12 requested.
+- 02:08 UTC (session 10603): `ahead_more.json` rebuilding (27 of 35).
+- 02:27 UTC (session 10603): `ahead_more.json` rebuilding (31 of 35).
+- 02:41 UTC (session 10603): `ahead_more.json` rebuilt on today's tables (175 of 175 place-horizons shown); its replication started on the same tables (result when it ends).
+- 03:00 UTC (session 10603): the `ahead_more` replication on the same tables: 4 places done, each with all 35 of its figures equal (read from each place's own count this time).
+- 03:19 UTC (session 10603): the `ahead_more` replication 9 places done, each fully equal; row 12 still requested.
+- 03:38 UTC (session 10603): the `ahead_more` replication 13 places done, each fully equal.
+- 03:57 UTC (session 10603): the `ahead_more` replication 18 places done, each fully equal; row 12 still requested.
+- 04:16 UTC (session 10603): the `ahead_more` replication 23 places done, each fully equal.
+- 04:35 UTC (session 10603): the `ahead_more` replication 28 places done, each fully equal; row 12 still requested.
+- 04:54 UTC (session 10603): the `ahead_more` replication 33 places done, each fully equal.
