@@ -210,6 +210,13 @@ def finding(headline, ch, compare):
     return one, two
 
 
+def largest_of(n):
+    """wip/ready-analysis-caption (the Automated Analysis audit of 26 November, finding 8, for Samuel's ruling): the chart
+    of the week is the largest of n scores, so its caption says so; with nothing moving more than usual the largest of n
+    scores would rank at or above 87.5 with probability 1 - 0.875 ** n (0.94 for 21)."""
+    return f"It was picked as the largest of {n} measures' moves this week, each ranked against its own earlier moves." if n > 1 else ""
+
+
 def seen_before(template, params, period, label):
     """Whether an earlier week's run already had this period as this template's headline (history.csv)."""
     if not os.path.exists(HISTORY):
@@ -675,6 +682,10 @@ def main(argv=None):
             print_choice(label, candidates(results), mod.NAME, how_picked, skipped)
             return 0
         found = finding(res["headline"], ch, ch["compare"]) if ch.get("delta") is not None else None
+        # wip/ready-analysis-caption: a move picked by its change score is the top of every competing measure's score
+        # (the level rule of session 23 compares no change scores, and says nothing more)
+        if found and (how_picked == "the rule" or how_picked.startswith("no measure's newest")):
+            found = (found[0], found[1], largest_of(len(pool)))
         log(f"chart of the week: {mod.NAME} ({how_picked}; score {ch['score']}, z {ch['z']}, among {ch['n']} earlier changes; level z {z})")
         if found:
             log("  finding: " + " ".join(x for x in found if x))
@@ -683,7 +694,7 @@ def main(argv=None):
         caption = model_caption
         if found:
             both = " ".join(x for x in found if x)
-            caption = both if len(both) <= 240 else found[0][:240]
+            caption = both if len(both) <= 240 else (found[0][:240] + (" " + found[2] if len(found) > 2 and found[2] else ""))
         also = sorted([r for r in results if r is not best and r[0]["_mod"].PUBLIC and r[0]["_change"]["about"] == "system"
                        and r[0]["_change"]["score"] is not None],
                       key=lambda r: (r[0]["_change"]["score"], r[0]["_change"]["z"] or 0, order(r)), reverse=True)[:5]
