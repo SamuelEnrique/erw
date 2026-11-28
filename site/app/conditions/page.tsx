@@ -63,7 +63,8 @@ const GLANCE: { c: string; words: string; unit: string }[] = [
   { c: "demand_peak", words: "Highest peak demand", unit: "MW" },
   { c: "out_max", words: "Most megawatts out of service in an hour", unit: "MW" },
   { c: "cons_hours", words: "Most constraint-hours in a day", unit: "" },
-  { c: "adder_hours", words: "Most hours with the adder above zero in a day", unit: "" },
+  // session 11407 (chain 770, part C; the conditions audit, finding 7): the builder counts the hours at USD 1 or more
+  { c: "adder_hours", words: "Most hours with the adder at USD 1 or more in a day", unit: "" },
 ];
 
 function Glance({ f, w, k }: { f: OperatorFile; w: { start: string; end: string }; k: string }) {
@@ -171,10 +172,10 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
         </ChartFrame>
       ) : hourly.length ? null : <NoneHeld title="Constraints binding" f={f} c="cons_hours" w={w} k={`${tag}-cons-d`} />) : hourly.length ? null : <Blank s={st.constraints} name={STRIP_NAMES.constraints} k={`${tag}-cons-d`} />}
       {st.scarcity.status === "shown" ? (dAdder.length ? (
-        <ChartFrame title="Hours the adder was above zero, a day" tip={<Hint words=" (source)" why={`${src("scarcity")}. ${st.scarcity.note ?? ""}`} />}>
+        <ChartFrame title="Hours the adder was USD 1/MWh or more, a day" tip={<Hint words=" (source)" why={`${src("scarcity")}. ${st.scarcity.note ?? ""} An hour counts when the adder's hourly mean is at least USD 1 per MWh: more than half of ERCOT's hours above zero were under 5 cents.`} />}>
           <TimeChart series={dAdder} unit="hours" x="day" ariaLabel={`${f.name} scarcity hours by day`} />
         </ChartFrame>
-      ) : hourly.length ? null : <NoneHeld title="Hours the adder was above zero" f={f} c="adder_hours" w={w} k={`${tag}-scar-d`} />) : hourly.length ? null : <Blank s={st.scarcity} name={STRIP_NAMES.scarcity} k={`${tag}-scar-d`} />}
+      ) : hourly.length ? null : <NoneHeld title="Hours the adder was USD 1/MWh or more" f={f} c="adder_hours" w={w} k={`${tag}-scar-d`} />) : hourly.length ? null : <Blank s={st.scarcity} name={STRIP_NAMES.scarcity} k={`${tag}-scar-d`} />}
       {st.alerts.status === "shown" ? (
         <>
           {/* session 11000 (chain 750): every notice the heading counts is a row of the table. The list stopped at 40

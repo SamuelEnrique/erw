@@ -9,7 +9,8 @@ strips on one time axis:
   demand        demand and the day-ahead demand forecast, from EIA-930 (eia930_ba_demand_hourly): every grid
   out           megawatts out of service (generation_outages_hourly): SPP (its RTO balancing area) and CAISO
   constraints   constraints binding and the largest shadow price (constraints_binding_hourly): SPP and CAISO
-  scarcity      ERCOT's online reserve price adder above zero (ercot_rtm_price_adders, to its end on 4 December 2025)
+  scarcity      ERCOT's online reserve price adder; a day's hours at USD 1 or more (ercot_rtm_price_adders, to its end on
+                4 December 2025)
   alerts        the notices in grid_all_alerts: CAISO and ERCOT
 
 A strip an operator's terms hold, or that no open source publishes, is a key with its status and reason, no number.
@@ -38,6 +39,10 @@ EVENTS_DIR = os.path.join(ROOT, "site", "data", "regions", "events")
 METHOD = "docs/methods/grid_conditions.md"
 FIRST_DAY = "2018-07-01"
 RECENT_DAYS = 35
+# Session 11407 (chain 770, part C; the conditions audit of 26 November, finding 7): an hour counts as scarcity when
+# ERCOT's online reserve adder's hourly mean is at least USD 1 per MWh. Counted above zero, more than half the hours
+# were under 5 cents (the median 1.6 cents) and drew as 0.0 on the page's own hourly chart.
+ADDER_LEVEL = 1.0
 OPS = {
     "caiso": dict(name="CAISO", ba="CISO", tz="America/Los_Angeles", out="caiso:ISO", cons="caiso_dam"),
     "ercot": dict(name="ERCOT", ba="ERCO", tz="America/Chicago"),
@@ -136,7 +141,7 @@ def daily_rows(w, op, alerts_by_day):
                      agg("out_total", "max"),
                      int(g["cons_n"].fillna(0).sum()) if "cons_n" in g and g["cons_n"].notna().any() else None,
                      agg("cons_max", "max"),
-                     int((g["adder"] > 0).sum()) if "adder" in g and g["adder"].notna().any() else None,
+                     int((g["adder"] >= ADDER_LEVEL).sum()) if "adder" in g and g["adder"].notna().any() else None,
                      agg("adder", "max"), alerts_by_day.get(day, 0) if alerts_by_day is not None else None])
     return cols, rows
 
