@@ -129,3 +129,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 02:08 UTC (session 10603): `ahead_more.json` rebuilding (27 of 35).
 - 02:27 UTC (session 10603): `ahead_more.json` rebuilding (31 of 35).
 - 02:41 UTC (session 10603): `ahead_more.json` rebuilt on today's tables (175 of 175 place-horizons shown); its replication started on the same tables (result when it ends).
+- 03:00 UTC (session 10603): the `ahead_more` replication on the same tables: 4 places done, each with all 35 of its figures equal (read from each place's own count this time).
