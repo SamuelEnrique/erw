@@ -55,6 +55,11 @@
       "grid": "/grid/caiso",
       "wholesale_entity": "caiso:TH_NP15_GEN-APND",
       "wholesale_label": "CAISO's NP15 zone, weighted by CAISO's whole demand",
+      "wholesale_season_months": {
+        "summer": [6, 7, 8, 9],
+        "winter": [10, 11, 12, 1, 2, 3, 4, 5],
+        "note": "Session 11407 (the problems audit, finding 7, the owner's other choice): the bill's wholesale price is the mean of the load-weighted real-time price over the months of the bill's own season (E-TOU-C's seasons, below) among the twelve months that end with the latest complete month, each month held counted, whole or not."
+      },
       "note": "Bundled service (PG&E buys the power), Income Tier 3 (no CARE or FERA discount), basic (not all-electric) baseline quantities. PG&E's service area is in CAISO; the wholesale reference is the NP15 zone (TH_NP15_GEN-APND), where most PG&E homes sit, its hourly real-time prices weighted by CAISO's whole demand (EIA-930 holds no demand for Northern California alone).",
       "seasons": {
         "summer": {
@@ -577,6 +582,11 @@
       "grid": "/grid/caiso",
       "wholesale_entity": "caiso:TH_SP15_GEN-APND",
       "wholesale_label": "CAISO's SP15 zone, weighted by CAISO's whole demand",
+      "wholesale_season_months": {
+        "summer": [6, 7, 8, 9],
+        "winter": [10, 11, 12, 1, 2, 3, 4, 5],
+        "note": "Session 11407: as PG&E's, on Schedule TOU-D's seasons (periods.seasons: summer from June 1 to October 1). SDG&E has none: its change of season was not read as a date, so its wholesale price stays the latest complete month."
+      },
       "kind": "sce",
       "note": "SCE's standard residential time-of-use option, Option 4-9 PM of Schedule TOU-D, for a bundled-service home (SCE buys the power). Rates as effective June 1, 2026 (Sheet No. 91197-E). Peak hours are 4 to 9 p.m.; summer runs June 1 to October 1. SCE's Delivery Service total and its Generation charge are shown as two lines; the baseline credit applies up to the baseline allocation of the home's region. The Modified Cost Allocation Mechanism charge is left out: it recovers procurement made for customers of other generation providers.",
       "periods": {

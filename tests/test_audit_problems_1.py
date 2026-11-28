@@ -56,7 +56,8 @@ class TheQuestionNamesIt(unittest.TestCase):
         with open(KEPT, encoding="utf-8") as f:
             kept = json.load(f)
         qs = {q["id"]: q["q"] for q in kept["sets"]["prices-and-your-bill"]["questions"]}
-        self.assertTrue(qs["b3"].endswith("at the load-weighted real-time price of the CAISO NP15 in the latest complete month, 2026-09."))
+        # session 11407 (wip/ready-learn-bill-season): B3's winter bill names its season's months (tests/test_ready_learn_bill_season.py)
+        self.assertTrue(qs["b3"].endswith("at the load-weighted real-time price of the CAISO NP15 in the bill's own season: 2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09."))
         self.assertTrue(qs["b4"].endswith("at the load-weighted real-time price of the ERCOT hub average in the latest complete month, 2026-09."))
         for q in (qs["b3"], qs["b4"]):
             self.assertNotIn(chr(0x2014), q)

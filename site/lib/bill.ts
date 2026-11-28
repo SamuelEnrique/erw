@@ -182,3 +182,56 @@ export function defaultBill(rules: Rules, key: BillKey): Bill {
   if (key === "TXC") return billTDSP(rules, "TXC", defaultsTDSP(rules, "TXC"));
   return billTOU(rules, key, defaultsTOU(rules, key));
 }
+
+/** A month of cost_of_power_monthly as the bill reads it (one variable of one entity and month). */
+export type MonthRow = { variable: string; ts_utc: string; value: number };
+/** The wholesale price a bill is set against: `ts` the latest complete month (else the latest month held, `partial`);
+ * for a seasonal bill, `season` and `months`, the months whose mean `price` is, and `month` the words for them. */
+export type Wholesale = { price: number; month: string; partial: boolean; ts: string; season?: "summer" | "winter"; months?: string[] };
+
+const monthNo = (m: string) => Number(m.slice(0, 4)) * 12 + Number(m.slice(5, 7)) - 1;
+const monthOf = (n: number) => `${Math.floor(n / 12)}-${String((n % 12) + 1).padStart(2, "0")}`;
+
+/** The load-weighted real-time price of the latest complete month (rt_hours equal to hours_in_month), else of the
+ * latest month held, said to be partial (the rule of session 43). */
+export function latestWholesale(rows: MonthRow[]): Wholesale | null {
+  const by = new Map<string, Record<string, MonthRow>>();
+  for (const r of rows) (by.get(r.ts_utc.slice(0, 7)) ?? by.set(r.ts_utc.slice(0, 7), {}).get(r.ts_utc.slice(0, 7))!)[r.variable] = r;
+  const months = [...by.keys()].filter((m) => by.get(m)!.rt_load_weighted).sort();
+  const full = months.filter((m) => by.get(m)!.rt_hours?.value === by.get(m)!.hours_in_month?.value);
+  const m = full.at(-1) ?? months.at(-1);
+  if (!m) return null;
+  const row = by.get(m)!.rt_load_weighted;
+  return { price: Number(row.value), month: m, partial: !full.includes(m), ts: row.ts_utc };
+}
+
+/** Session 11407 (the problems audit, finding 7, the owner's other choice): a seasonal bill (wholesale_season_months in
+ * data/bill_rules.json: PG&E and SCE) is set against the mean of the load-weighted real-time price over its own season's
+ * months among the twelve months that end with the latest complete month, each month held counted, whole or not. Until
+ * then every bill took the latest complete month, so a winter bill was set against September's price (PG&E's share
+ * 11.72 percent; at the winter months' mean 8.08). A bill without season months, or with no complete month, keeps the
+ * latest month. */
+export function wholesaleFor(rules: Rules, key: string, rows: MonthRow[], season?: "summer" | "winter"): Wholesale | null {
+  const latest = latestWholesale(rows);
+  const sm = rules.bills[key]?.wholesale_season_months;
+  if (!latest || latest.partial || !sm || !season || !sm[season]) return latest;
+  const end = monthNo(latest.month);
+  const want = new Set<number>(sm[season]);
+  const got = rows.filter((r) => r.variable === "rt_load_weighted").filter((r) => {
+    const n = monthNo(r.ts_utc.slice(0, 7));
+    return n > end - 12 && n <= end && want.has((n % 12) + 1);
+  }).sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
+  if (!got.length) return latest;
+  const months = got.map((r) => r.ts_utc.slice(0, 7));
+  // the months as runs (2025-10 to 2026-05; a window that ends inside the season gives two runs)
+  const runs: string[] = [];
+  for (let i = 0; i < months.length; i++) {
+    let j = i;
+    while (j + 1 < months.length && monthNo(months[j + 1]) === monthNo(months[j]) + 1) j++;
+    runs.push(i === j ? months[i] : `${months[i]} to ${months[j]}`);
+    i = j;
+  }
+  const price = got.reduce((a, r) => a + Number(r.value), 0) / got.length;
+  return { price, partial: false, ts: latest.ts, season, months,
+    month: `${runs.join(" and ")}, the mean of the ${months.length} ${season} month${months.length === 1 ? "" : "s"} held in the twelve to ${monthOf(end)}` };
+}

@@ -124,7 +124,7 @@ export function tableOfKey(k: string): string {
   if (p[0] === "spotmean") return "eia_fuel_spot_prices";
   if (p[0] === "calc") return tableOfKey((p[2] ?? "").replaceAll("~", "|"));
   if (p[0] === "battery") return p[1] === "cycle" || p[1] === "cycle_fleet" ? "cost_of_power_hourly_profile" : "";
-  if (p[0] === "bill") return p[2] === "wholesale" || p[2] === "share" ? "cost_of_power_monthly" : "";
+  if (p[0] === "bill") return p[2] === "wholesale" || p[2] === "share" || p[2] === "price" ? "cost_of_power_monthly" : "";
   // session 8901: a page file's figure, the first table the file names in its header ("" when it names none)
   if (p[0] === "pf") return PF_TABLES[p[1] ?? ""]?.[0] ?? "";
   return TABLE_OF[p[0]] ?? "";

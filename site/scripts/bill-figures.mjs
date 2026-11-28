@@ -10,7 +10,8 @@
 // (app/learn/bill/BillCalc.tsx) for each case of replication/bill/cases.json: a case is a bill and the values a reader
 // would type. No click runs in a draw, so the case's values are put in as the bill's defaults in a copy of the rules
 // (the calculator takes its first values from them) and the bill is opened with the calculator's `first`. The
-// wholesale price each case is set against is the page's own, read from the cards' data-raw. Nothing here computes a
+// wholesale price each case is set against is the page's own: since session 11407 the `wholesale` the page hands the
+// calculator, read off the drawn tree (a seasonal bill's price for each season with it); until then the cards' data-raw. Nothing here computes a
 // figure: every number written is the page's, as printed. No network, no table written, nothing stored.
 import fs from "node:fs";
 import { createElement as h, isValidElement, cloneElement } from "react";
@@ -43,6 +44,15 @@ async function resolve(node) {
   return node;
 }
 
+/** Session 11407: the wholesale prices the page hands its calculator (BillCalc's `wholesale`, a seasonal bill's price for
+ * each season with it), read off the drawn tree, so each case is set against the page's own price for its season. */
+function calcProp(node) {
+  if (Array.isArray(node)) { for (const n of node) { const w = calcProp(n); if (w) return w; } return null; }
+  if (!isValidElement(node)) return null;
+  if (typeof node.type === "function" && node.type.name === "BillCalc") return node.props.wholesale;
+  return node.props && node.props.children !== undefined ? calcProp(node.props.children) : null;
+}
+
 async function drawPage(rows) {
   process.env.SUPABASE_URL = "http://localhost:9/";
   process.env.SUPABASE_ANON_KEY = "stand-in";
@@ -63,7 +73,8 @@ async function drawPage(rows) {
   console.error = () => {};
   try {
     const { default: Page } = await import("../app/learn/bill/page.tsx");
-    return { html: renderToStaticMarkup(await resolve(await Page())), asked };
+    const tree = await resolve(await Page());
+    return { html: renderToStaticMarkup(tree), asked, calcWholesale: calcProp(tree) };
   } finally {
     globalThis.fetch = real;
     console.error = log;
@@ -77,6 +88,11 @@ const num = (s) => Number(String(s).replace(/[$,]/g, ""));
 const tol = (s) => 0.5 * 10 ** -((String(s).replace(/^-/, "").split(".")[1] ?? "").length);
 // a number the page holds for a license prints "license needed": kept as shown, with no value, so the replication names it
 const fig = (key, name, shown) => (shown === "license needed" ? { key, name, shown, value: null, tolerance: 0 } : { key, name, shown, value: num(shown), tolerance: tol(String(shown).replace(/[$,]/g, "")) });
+
+/** Session 11407: the price's month as the page prints it: one month, or a seasonal bill's months ("2025-10 to 2026-05,
+ * the mean of the 8 winter months held in the twelve to 2026-09"; a window ending inside the season gives two runs). */
+const RUN = "\\d{4}-\\d{2}(?: to \\d{4}-\\d{2})?";
+const MONTHS = `${RUN}(?: and ${RUN})*(?:, the mean of the \\d+ (?:summer|winter) months? held in the twelve to \\d{4}-\\d{2})?`;
 
 /** The calculator's figures: each line's amount and the numbers of its detail, the total, the all-in price, the bar. */
 function calcFigures(html) {
@@ -96,7 +112,8 @@ function calcFigures(html) {
     } else if (/>Total</.test(tr) && amt) out.push(fig("total", "Total (USD)", amt[1]));
     else if (/Per kWh, all in/.test(tr) && amt) { if (amt[1]) out.push(fig("per_kwh", "Per kWh, all in (USD)", amt[1])); }
   }
-  const bar = html.match(/<span class="text-accent">Wholesale energy (-?\$[\d,.]+), (\d+) percent<\/span>: ([\d.]+) kWh at [^$]*\$([\d.]+) per MWh in (\d{4}-\d{2})[\s\S]*?Everything else, (-?\$[\d,.]+):/);
+  // session 11407: a seasonal bill's month is its season's months in words (MONTHS)
+  const bar = html.match(new RegExp(`<span class="text-accent">Wholesale energy (-?\\$[\\d,.]+), (\\d+) percent</span>: ([\\d.]+) kWh at [^$]*\\$([\\d.]+) per MWh in (${MONTHS})[\\s\\S]*?Everything else, (-?\\$[\\d,.]+):`));
   if (bar) {
     out.push(fig("bar|wholesale_usd", "The bar: wholesale energy (USD)", bar[1]));
     out.push(fig("bar|share_pct", "The bar: wholesale energy's share of the bill (percent)", bar[2]));
@@ -110,7 +127,7 @@ function calcFigures(html) {
 
 const KEYS = ["CA", "SCE", "SDGE", "TX", "TXC"];
 const rows = tableRows(new URL("source_rows.csv", REP));
-const { html: pageHtml, asked } = await drawPage(rows);
+const { html: pageHtml, asked, calcWholesale } = await drawPage(rows);
 if (process.env.BILL_DUMP) fs.writeFileSync(process.env.BILL_DUMP, pageHtml);  // the drawn page, for a reader of this script
 const page = [];
 // the five cards: name, total, wholesale USD, share, price and its month
@@ -121,12 +138,15 @@ cards.forEach((c, i) => {
   const t = words(c);
   const total = t.match(/Total: ([\d,.]+|license needed) USD for (\d+) kWh\./);
   page.push(fig(`card|${k}|total`, `${k} card: total (USD)`, total[1]), fig(`card|${k}|kwh`, `${k} card: kWh`, total[2]));
-  const w = t.match(/Wholesale energy: ([\d,.]+|license needed) USD, ([\d,.]+|license needed) percent of the bill, at ([\d,.]+) USD\/MWh \((\d{4}-\d{2})(, a partial month)?\)\./);
+  const w = t.match(new RegExp(`Wholesale energy: ([\\d,.]+|license needed) USD, ([\\d,.]+|license needed) percent of the bill, at ([\\d,.]+) USD/MWh \\((${MONTHS})(, a partial month)?\\)\\.`));
   if (w) {
     page.push(fig(`card|${k}|wholesale_usd`, `${k} card: wholesale energy (USD)`, w[1]), fig(`card|${k}|share_pct`, `${k} card: wholesale share (percent)`, w[2]),
       fig(`card|${k}|price`, `${k} card: wholesale price (USD/MWh)`, w[3]), { key: `card|${k}|month`, name: `${k} card: the price's month`, shown: w[4] + (w[5] ?? ""), value: w[4] + (w[5] ?? ""), tolerance: null });
+    // session 11407: a seasonal bill's price is keyed bill|<bill>|price|<ts>|<season> (the months' mean), not a row
     const raw = c.match(/data-check="series\|cost_of_power_monthly\|([^|]+)\|rt_load_weighted\|([^"]+)" data-raw="([^"]+)"/);
-    wholesale[k] = { price: Number(raw[3]), month: raw[2].slice(0, 7), partial: !!w[5], entity: raw[1] };
+    const sea = c.match(/data-check="bill\|[^|]+\|price\|([^|]+)\|(summer|winter)" data-raw="([^"]+)"/);
+    wholesale[k] = raw ? { price: Number(raw[3]), month: raw[2].slice(0, 7), partial: !!w[5], entity: raw[1] }
+      : { price: Number(sea[3]), month: w[4], partial: false, entity: rules.bills[k].wholesale_entity, season: sea[2] };
   } else wholesale[k] = null;
   const e = t.match(/Energy charge \$([\d.]+) per kWh/);
   if (e) page.push(fig(`card|${k}|energy_rate`, `${k} card: the energy charge of the default (USD per kWh)`, e[1]));
@@ -155,7 +175,8 @@ function rulesFor(c) {
 const { BillCalc } = await import("../app/learn/bill/BillCalc.tsx");
 const out = [{ id: "page", name: "The page as it opens (the five cards and the calculator on PG&E)", bill: null, typed: null, figures: page }];
 for (const c of cases) {
-  const html = renderToStaticMarkup(h(BillCalc, { rules: rulesFor(c), wholesale: Object.fromEntries(KEYS.map((k) => [k, wholesale[k] && { price: wholesale[k].price, month: wholesale[k].month, partial: wholesale[k].partial }])), first: c.bill }));
+  // session 11407: the page's own prop (a seasonal bill's price for each season with it), as the page hands it over
+  const html = renderToStaticMarkup(h(BillCalc, { rules: rulesFor(c), wholesale: calcWholesale, first: c.bill }));
   out.push({ id: c.id, name: c.name, bill: c.bill, typed: c.typed, figures: calcFigures(html) });
 }
 

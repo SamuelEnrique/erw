@@ -6,7 +6,7 @@ import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import rules from "@/data/bill_rules.json";
-import { BILL_KEYS, defaultBill, type BillKey } from "@/lib/bill";
+import { BILL_KEYS, defaultBill, wholesaleFor, type BillKey, type Wholesale } from "@/lib/bill";
 import { series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
@@ -30,15 +30,11 @@ function Chip() {
   );
 }
 
-/** The load-weighted real-time price of the latest complete month, else the latest month held (partial). */
-async function wholesaleOf(entity: string): Promise<{ row: SeriesRow; partial: boolean } | null> {
-  const rows = await series(M, { entity });
-  const by = new Map<string, Record<string, SeriesRow>>();
-  for (const r of rows) (by.get(r.ts_utc.slice(0, 7)) ?? by.set(r.ts_utc.slice(0, 7), {}).get(r.ts_utc.slice(0, 7))!)[r.variable] = r;
-  const months = [...by.keys()].filter((m) => by.get(m)!.rt_load_weighted).sort();
-  const full = months.filter((m) => by.get(m)!.rt_hours?.value === by.get(m)!.hours_in_month?.value);
-  const m = full.at(-1) ?? months.at(-1);
-  return m ? { row: by.get(m)!.rt_load_weighted, partial: !full.includes(m) } : null;
+/** The entity's rows of cost_of_power_monthly; each bill's price is taken from them by lib/bill.ts (wholesaleFor): the
+ * latest complete month, else the latest month held (partial), and since session 11407 (the problems audit, finding 7,
+ * the owner's other choice) a seasonal California bill's own season's months, their mean. */
+async function wholesaleOf(entity: string): Promise<SeriesRow[]> {
+  return series(M, { entity });
 }
 
 const GLOSSARY: [string, string, string][] = [
@@ -59,9 +55,17 @@ export default async function LearnBill() {
   const ents = [...new Set(BILL_KEYS.map((k) => rules.bills[k].wholesale_entity as string))];
   const got = await Promise.all(ents.map((e) => attempt(() => wholesaleOf(e))));
   const byEnt = Object.fromEntries(ents.map((e, i) => [e, got[i].ok ? got[i].data : null]));
-  const W = Object.fromEntries(BILL_KEYS.map((k) => [k, byEnt[rules.bills[k].wholesale_entity]])) as Record<BillKey, Awaited<ReturnType<typeof wholesaleOf>>>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const seasonOf = (k: BillKey) => (rules.bills[k] as any).defaults?.season as "summer" | "winter" | undefined;
+  const rowsOf = (k: BillKey) => byEnt[rules.bills[k].wholesale_entity] as SeriesRow[] | null;
+  const W = Object.fromEntries(BILL_KEYS.map((k) => [k, rowsOf(k) ? wholesaleFor(rules, k, rowsOf(k)!, seasonOf(k)) : null])) as Record<BillKey, Wholesale | null>;
   const bills = Object.fromEntries(BILL_KEYS.map((k) => [k, defaultBill(rules, k)])) as Record<BillKey, ReturnType<typeof defaultBill>>;
-  const wholesale = Object.fromEntries(BILL_KEYS.map((s) => [s, W[s] ? { price: W[s]!.row.value, month: W[s]!.row.ts_utc.slice(0, 7), partial: W[s]!.partial } : null]));
+  // session 11407: a seasonal bill's calculator takes the price of the season the reader picks
+  const wholesale = Object.fromEntries(BILL_KEYS.map((s) => [s, W[s] ? {
+    ...W[s]!,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ...((rules.bills[s] as any).wholesale_season_months ? { bySeason: { summer: wholesaleFor(rules, s, rowsOf(s)!, "summer"), winter: wholesaleFor(rules, s, rowsOf(s)!, "winter") } } : {}),
+  } : null]));
   const note: Record<BillKey, string> = {
     CA: "Winter (the season on 2026-10-01, when the tariffs were read), 20 percent in peak hours, territory T (San Francisco), Income Tier 3, 30 days.",
     SCE: "Winter (the season on 2026-10-01), 20 percent from 4 to 9 p.m., a third in 8 a.m. to 4 p.m., Baseline Region 9, 30 days.",
@@ -89,15 +93,18 @@ export default async function LearnBill() {
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {BILL_KEYS.map((s) => {
             const w = W[s];
-            const wUsd = w ? (bills[s].kwh * w.row.value) / 1000 : null;
+            const wUsd = w ? (bills[s].kwh * w.price) / 1000 : null;
+            // session 11407: a seasonal price's keys name the season (check-values takes the same months' mean)
+            const tail = w ? `${w.ts}${w.season ? `|${w.season}` : ""}` : "";
+            const priceKey = w?.season ? `bill|${s}|price|${tail}` : w ? `series|${M}|${rules.bills[s].wholesale_entity}|rt_load_weighted|${w.ts}` : "";
             return (
               <div key={s} className="border border-rule bg-panel p-3 text-sm">
                 <p className="font-semibold">{rules.bills[s].name}</p>
                 <p>Total: <strong><Num check={`bill|${s}|total`} raw={bills[s].total}>{shown(bills[s].total)}</Num></strong> USD for {bills[s].kwh} kWh.</p>
                 {w && wUsd !== null ? (
                   <p>
-                    Wholesale energy: <Num check={`bill|${s}|wholesale|${w.row.ts_utc}`} raw={wUsd}>{shown(wUsd)}</Num> USD, <Num check={`bill|${s}|share|${w.row.ts_utc}`} raw={(wUsd / bills[s].total) * 100}>{shown((wUsd / bills[s].total) * 100)}</Num> percent
-                    of the bill, at <Num check={`series|${M}|${w.row.entity}|${w.row.variable}|${w.row.ts_utc}`} raw={w.row.value}>{shown(w.row.value)}</Num> USD/MWh ({w.row.ts_utc.slice(0, 7)}{w.partial ? ", a partial month" : ""}).
+                    Wholesale energy: <Num check={`bill|${s}|wholesale|${tail}`} raw={wUsd}>{shown(wUsd)}</Num> USD, <Num check={`bill|${s}|share|${tail}`} raw={(wUsd / bills[s].total) * 100}>{shown((wUsd / bills[s].total) * 100)}</Num> percent
+                    of the bill, at <Num check={priceKey} raw={w.price}>{shown(w.price)}</Num> USD/MWh ({w.month}{w.partial ? ", a partial month" : ""}).
                   </p>
                 ) : <p className="text-muted">The wholesale price is not held.</p>}
                 <p className="text-xs text-muted">{note[s]}</p>
@@ -105,7 +112,7 @@ export default async function LearnBill() {
             );
           })}
         </div>
-        <Cite tables={[M]} note="Bills: site/data/bill_rules.json, each rate with its tariff passage (PG&E Electric Schedule E-TOU-C; SCE Schedule TOU-D; SDG&E Schedule TOU-DR1; Oncor and CenterPoint Tariffs for Retail Delivery Service). Wholesale: the load-weighted real-time price of the ISO's zone" />
+        <Cite tables={[M]} note="Bills: site/data/bill_rules.json, each rate with its tariff passage (PG&E Electric Schedule E-TOU-C; SCE Schedule TOU-D; SDG&E Schedule TOU-DR1; Oncor and CenterPoint Tariffs for Retail Delivery Service). Wholesale: the load-weighted real-time price of the ISO's zone; for the PG&E and SCE bills, whose tariffs have seasons, its mean over the bill's season's months in the twelve that end with the latest complete month" />
         {/* session 335: the page's note (docs/methods/bill.md) */}
         <p className="mt-1 text-xs text-muted" data-method="1"><Link href="/data/methods/bill">Method</Link></p>
       </Section>

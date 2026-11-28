@@ -512,6 +512,22 @@ async function truth(check) {
       total = kwh * t.energy_default.rate + t.fixed.reduce((a, f) => a + f.rate, 0) + kwh * t.per_kwh.reduce((a, f) => a + f.rate, 0);
     }
     if (what === "total") return total;
+    // session 11407 (the problems audit, finding 7, the owner's other choice): bill|<bill>|<what>|<ts>|<season>, a
+    // seasonal bill's price: the mean of rt_load_weighted over the season's months (wholesale_season_months) among the
+    // twelve months that end with <ts>'s month, each month held counted
+    if (p[4]) {
+      const want = R[st].wholesale_season_months?.[p[4]];
+      if (!want) return undefined;
+      const mn = (m) => Number(m.slice(0, 4)) * 12 + Number(m.slice(5, 7)) - 1;
+      const end = mn(ts.slice(0, 7));
+      const got = (await all("series", { select: "ts_utc,value", table_name: "eq.cost_of_power_monthly", entity: `eq.${R[st].wholesale_entity}`, variable: "eq.rt_load_weighted" }))
+        .filter((r) => { const n = mn(String(r.ts_utc).slice(0, 7)); return n > end - 12 && n <= end && want.includes((n % 12) + 1); });
+      if (!got.length) return undefined;
+      const price = got.reduce((a, r) => a + Number(r.value), 0) / got.length;
+      if (what === "price") return price;
+      const ws = (kwh * price) / 1000;
+      return what === "wholesale" ? ws : (ws / total) * 100;
+    }
     const row = (await q("series", { select: "value", table_name: "eq.cost_of_power_monthly", entity: `eq.${R[st].wholesale_entity}`, variable: "eq.rt_load_weighted", ts_utc: `eq.${ts}` }))[0];
     if (!row) return undefined;
     const w = (kwh * Number(row.value)) / 1000;

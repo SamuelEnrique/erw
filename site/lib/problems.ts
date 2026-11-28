@@ -2,7 +2,7 @@
 // live set) and the bill rules, never typed: each number carries a check key that scripts/check-values.mjs recomputes.
 // Derived answers use calc|<op>|<A>|<B>, where A and B are check keys with "~" for "|" (op: ratio, diff, pct).
 import bills from "@/data/bill_rules.json";
-import { billCA, billTX, defaultsCA, defaultsTX } from "@/lib/bill";
+import { billCA, billTX, defaultsCA, defaultsTX, wholesaleFor } from "@/lib/bill";
 import { series, type SeriesRow } from "@/lib/data";
 import severance from "@/data/severance_rules.json";
 import { BATTERY, FLEET, fullCycle } from "@/lib/battery";
@@ -245,17 +245,22 @@ async function setB(): Promise<Built> {
       ["Read rt_shape_premium of each hub for that month: ", ...prem.flatMap((r, i) => [`${i ? "; " : ""}${hubName(r.entity)} `, row(M, r, "USD/MWh")] as Part[]), "."], ["Rank them."]],
     why: "Where the premium is large, shifting use out of peak hours saves the most.",
   };
+  // session 11407 (the problems audit, finding 7, the owner's other choice): the price is the bill page's own
+  // (lib/bill.ts, wholesaleFor): a seasonal bill (PG&E) is set against the mean of its season's months in the twelve
+  // that end with the latest complete month; until then every bill took the latest complete month, so the winter PG&E
+  // bill was set against September's price (11.72 percent; at the winter months' mean 8.08)
   const w = async (s: "CA" | "TX") => {
     const ent = bills.bills[s].wholesale_entity;
-    const hs = new Map(by(ent, "rt_hours").map((r) => [r.ts_utc, r.value]));
-    const fm = by(ent, "hours_in_month").filter((r) => hs.get(r.ts_utc) === r.value).map((r) => r.ts_utc).sort();
-    const mm = fm.at(-1) ?? by(ent, "rt_load_weighted").map((r) => r.ts_utc).sort().at(-1)!;
-    const price = by(ent, "rt_load_weighted").find((r) => r.ts_utc === mm)!;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ws = wholesaleFor(bills, s, all.filter((r) => r.entity === ent), (bills.bills[s] as any).defaults?.season)!;
+    const tail = `${ws.ts}${ws.season ? `|${ws.season}` : ""}`;
+    const months = ws.months ? by(ent, "rt_load_weighted").filter((r) => ws.months!.includes(r.ts_utc.slice(0, 7))).sort((a, b) => a.ts_utc.localeCompare(b.ts_utc)) : [];
     const b = s === "CA" ? billCA(bills, defaultsCA(bills)) : billTX(bills, defaultsTX(bills));
     const tot: V = { v: b.total, k: `bill|${s}|total`, u: "USD" };
-    const wh: V = { v: (b.kwh * price.value) / 1000, k: `bill|${s}|wholesale|${price.ts_utc}`, u: "USD" };
-    const sh: V = { v: (wh.v / b.total) * 100, k: `bill|${s}|share|${price.ts_utc}`, u: "%" };
-    return { price: row(M, price, "USD/MWh"), tot, wh, sh, kwh: b.kwh, month: mm.slice(0, 7), partial: !fm.length, hub: hubName(ent) };
+    const price: V = ws.season ? { v: ws.price, k: `bill|${s}|price|${tail}`, u: "USD/MWh" } : row(M, by(ent, "rt_load_weighted").find((r) => r.ts_utc === ws.ts)!, "USD/MWh");
+    const wh: V = { v: (b.kwh * ws.price) / 1000, k: `bill|${s}|wholesale|${tail}`, u: "USD" };
+    const sh: V = { v: (wh.v / b.total) * 100, k: `bill|${s}|share|${tail}`, u: "%" };
+    return { price, tot, wh, sh, kwh: b.kwh, month: ws.month, partial: ws.partial, hub: hubName(ent), season: ws.season, months: months.map((r) => row(M, r, "USD/MWh")) };
   };
   const [ca, tx] = [await w("CA"), await w("TX")];
   // session 10229 (the problems audit, finding 1): the question names the price its key uses, the kWh it is applied to
@@ -263,10 +268,13 @@ async function setB(): Promise<Built> {
   // guess the hub, the weighting and the month: at the month's simple mean PG&E's answer is 26.55 USD, not 26.91.
   const billQ = (id: string, s: "CA" | "TX", x: Awaited<ReturnType<typeof w>>, who: string): Question => ({
     id, tables: [M],
-    q: `On the default ${who} bill of /learn/bill (${x.kwh} kWh; taxes and local fees are not on it), how many dollars are wholesale energy, and what share of the bill is that? Value the kWh on the meter, with no losses added, at the load-weighted real-time price of the ${x.hub} in ${x.partial ? "the latest month held" : "the latest complete month"}, ${x.month}.`,
+    q: `On the default ${who} bill of /learn/bill (${x.kwh} kWh; taxes and local fees are not on it), how many dollars are wholesale energy, and what share of the bill is that? Value the kWh on the meter, with no losses added, at the load-weighted real-time price of the ${x.hub} in ${x.season ? "the bill's own season: " + x.month : (x.partial ? "the latest month held" : "the latest complete month") + ", " + x.month}.`,
     answer: [x.wh, " of ", x.tot, ": ", x.sh, "."],
     line: [`${x.kwh} kWh x `, x.price, " / 1,000 = ", x.wh, "; ", x.wh, " / ", x.tot, " x 100 = ", x.sh],
-    steps: [[`The bill: `, x.tot, ` (the tariff lines on /learn/bill).`], [`Wholesale: ${x.kwh} kWh x `, x.price, ` / 1,000 (${x.month}${x.partial ? ", a partial month" : ""}) = `, x.wh, "."], ["Share: ", x.wh, " / ", x.tot, " x 100 = ", x.sh, "."]],
+    steps: [[`The bill: `, x.tot, ` (the tariff lines on /learn/bill).`],
+      // session 11407: a seasonal bill's price is the mean of its season's months, each month's row named
+      ...(x.season ? [[`The price: the mean of the ${x.months.length} ${x.season} months' load-weighted real-time prices, `, ...x.months.flatMap((r, i): Part[] => (i ? [", ", r] : [r])), " = ", x.price, "."] as Part[]] : []),
+      [`Wholesale: ${x.kwh} kWh x `, x.price, ` / 1,000 (${x.season ? `the ${x.season} months' mean` : x.month}${x.partial ? ", a partial month" : ""}) = `, x.wh, "."], ["Share: ", x.wh, " / ", x.tot, " x 100 = ", x.sh, "."]],
     // session 10229 (the problems audit, finding 2): until then "Most of a home's bill pays for wires, programs and fixed
     // charges, not the power itself", which the default Oncor bill contradicts: its retailer's energy charge, the power
     // as the home buys it, is more than half the bill. What is small is the wholesale energy inside it.

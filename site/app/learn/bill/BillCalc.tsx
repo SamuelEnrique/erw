@@ -14,8 +14,10 @@ const usd = (v: number) => `${v < 0 ? "-" : ""}$${Math.abs(v).toLocaleString("en
 const field = "w-full border border-rule bg-panel px-2 py-1 text-sm";
 const pct = (v: string) => Math.min(100, Math.max(0, Number(v))) / 100;
 
+// session 11407: a seasonal bill (PG&E, SCE) carries a price for each season (lib/bill.ts, wholesaleFor)
+type Price = { price: number; month: string; partial: boolean };
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; wholesale: Record<string, { price: number; month: string; partial: boolean } | null>; first?: BillKey }) {
+export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; wholesale: Record<string, (Price & { bySeason?: Record<string, Price | null> }) | null>; first?: BillKey }) {
   const [key, setKey] = useState<BillKey>(first);
   const [ca, setCa] = useState<CAInput>(defaultsCA(rules));
   const [tou, setTou] = useState<Record<"SCE" | "SDGE", TOUInput>>({ SCE: defaultsTOU(rules, "SCE"), SDGE: defaultsTOU(rules, "SDGE") });
@@ -23,7 +25,8 @@ export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; whole
   const bill = useMemo(() => (key === "CA" ? billCA(rules, ca) : key === "SCE" || key === "SDGE" ? billTOU(rules, key, tou[key]) : key === "TX" ? billTX(rules, tx.TX) : billTDSP(rules, key, tx.TXC)),
     [rules, key, ca, tou, tx]);
   const b = rules.bills[key];
-  const w = wholesale[key];
+  const season = key === "CA" ? ca.season : key === "SCE" || key === "SDGE" ? tou[key].season : undefined;
+  const w = (season && wholesale[key]?.bySeason?.[season]) || wholesale[key];
   const wholesaleUsd = w ? (bill.kwh * w.price) / 1000 : null;
   const src = (id: string) => rules.sources[id];
   const groups: Record<string, Line[]> = {};

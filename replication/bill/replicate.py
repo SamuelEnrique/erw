@@ -61,6 +61,38 @@ def wholesale(rows, entity):
     return {"price": by[m]["rt_load_weighted"], "month": m, "partial": m not in full}
 
 
+def month_no(m):
+    return int(m[:4]) * 12 + int(m[5:7]) - 1
+
+
+def wholesale_bill(rows, rules, key, season):
+    """Session 11407, the note's "The wholesale share": a bill with wholesale_season_months (PG&E, SCE) is set against the
+    plain mean of rt_load_weighted over its season's months among the twelve months that end with the latest complete
+    month, each month held counted; the page prints the months as runs and their count. Any other bill, or no complete
+    month: the latest month, as above."""
+    entity = rules["bills"][key]["wholesale_entity"]
+    w = wholesale(rows, entity)
+    sm = rules["bills"][key].get("wholesale_season_months")
+    if w is None or w["partial"] or not sm or season not in sm:
+        return w
+    end = month_no(w["month"])
+    got = sorted((r["month"], r["value"]) for r in rows if r["entity"] == entity and r["variable"] == "rt_load_weighted"
+                 and end - 12 < month_no(r["month"]) <= end and month_no(r["month"]) % 12 + 1 in sm[season])
+    if not got:
+        return w
+    months = [m for m, _ in got]
+    runs, i = [], 0
+    while i < len(months):
+        j = i
+        while j + 1 < len(months) and month_no(months[j + 1]) == month_no(months[j]) + 1:
+            j += 1
+        runs.append(months[i] if i == j else f"{months[i]} to {months[j]}")
+        i = j + 1
+    n = len(months)
+    words = f"{' and '.join(runs)}, the mean of the {n} {season} month{'' if n == 1 else 's'} held in the twelve to {w['month']}"
+    return {"price": sum(v for _, v in got) / n, "month": words, "partial": False}
+
+
 # --- the arithmetic, line by line (the note) ----------------------------------------------------------------------
 
 def defaults(rules, key, typed):
@@ -283,7 +315,8 @@ def run(argv):
     except (OSError, ValueError, KeyError) as e:
         print(f"cannot read the inputs: {e}")
         return 2
-    ws = {k: wholesale(rows, rules["bills"][k]["wholesale_entity"]) for k in KEYS}
+    # session 11407: each bill at its default season (a seasonal bill's own season's months); a case at its typed one
+    ws = {k: wholesale_bill(rows, rules, k, rules["bills"][k].get("defaults", {}).get("season")) for k in KEYS}
 
     if "--headline" in argv:
         for k in KEYS:
@@ -301,7 +334,8 @@ def run(argv):
             exp, nums = expected_page(rules, ws)
         else:
             src = cases[c["id"]]
-            exp, nums, _ = expected(rules, src["bill"], src["typed"], ws[src["bill"]])
+            season = defaults(rules, src["bill"], src["typed"]).get("season")
+            exp, nums, _ = expected(rules, src["bill"], src["typed"], wholesale_bill(rows, rules, src["bill"], season))
         o, b = compare(c["id"], c["figures"], exp, nums, report)
         ok, bad = ok + o, bad + b
         print(f"{c['id']}: {o} of {o + b}")

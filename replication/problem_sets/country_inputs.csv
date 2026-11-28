@@ -1069,7 +1069,7 @@ your-own-balancing-authority,b2,gen_nuclear,,40.6,site/data/regions/authority/tv
 your-own-balancing-authority,b2,gen_gas,,33.22,site/data/regions/authority/tva.json,burns/share_pct/natural_gas
 your-own-balancing-authority,b3,retire,,1900.0,site/data/regions/authority/tva.json,coming/retirements/6/mw
 your-own-balancing-authority,b3,fleet,,7643.9,site/data/regions/authority/tva.json,owns/capacity_mw/coal
-your-own-balancing-authority,b4,add,,1830.6,site/data/regions/authority/tva.json,coming/additions/2/mw
+your-own-balancing-authority,b4,add,,1830.6,site/data/regions/authority/tva.json,coming/additions/1/mw
 your-own-balancing-authority,b4,fleet,,18591.8,site/data/regions/authority/tva.json,owns/capacity_mw/natural_gas
 your-own-balancing-authority,b5,net,,17649857.0,site/data/regions/authority/tva.json,trades/partners/0/net_import_mwh
 your-own-balancing-authority,b5,gross,,17710707.0,site/data/regions/authority/tva.json,trades/partners/0/exchange_gross_mwh

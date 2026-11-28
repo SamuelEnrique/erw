@@ -18,7 +18,11 @@ words (every default home uses 600 kWh a month, an assumption the file says is o
   it is a checked number: `check-values` computes it again from the same file (`bill|...` keys).
 - **The wholesale share**: the load-weighted real-time price of the latest complete month in `cost_of_power_monthly`
   (the ERW's cost of power, `cost_of_power.md`), else the latest month held, said to be partial; the share is what that
-  price, times the bill's kilowatt-hours, makes of the bill's total.
+  price, times the bill's kilowatt-hours, makes of the bill's total. A bill whose tariff has seasons (PG&E's and SCE's,
+  `wholesale_season_months` in `site/data/bill_rules.json`) is set against the mean of that price over its own season's
+  months among the twelve that end with the latest complete month (session 11407, the problems audit's finding 7, the
+  owner's choice; until then the winter PG&E bill was set against September 2026's price, 11.72 percent of the bill,
+  and at the winter months' mean it is 8.08).
 - **Build a bill**: the same rules in the reader's browser, with the reader's use and choices; "Reset this bill to its
   defaults" puts every input back to the file's.
 - The words of the glossary and of each line are written for this site with their sources named, marked "written,
@@ -33,7 +37,7 @@ At the foot of the page, `cost_of_power_monthly` as the live set's CSV with a Py
 
 Each number `/learn/bill` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
 
-- `cost_of_power_monthly`, `rt_load_weighted`: the wholesale price each default bill is set against, USD/MWh, the load-weighted real-time price of the bill's zone (`wholesale_entity` in `site/data/bill_rules.json`) in the latest complete month (one whose `rt_hours` equal its `hours_in_month`), else the latest month held, marked "a partial month". It stands beside the bill's wholesale energy in USD and its share of the bill.
+- `cost_of_power_monthly`, `rt_load_weighted`: the wholesale price each default bill is set against, USD/MWh, the load-weighted real-time price of the bill's zone (`wholesale_entity` in `site/data/bill_rules.json`) in the latest complete month (one whose `rt_hours` equal its `hours_in_month`), else the latest month held, marked "a partial month"; for the PG&E and SCE bills, the mean over the bill's season's months among the twelve that end with the latest complete month (session 11407). It stands beside the bill's wholesale energy in USD and its share of the bill.
 
 ## The tool as a reader meets it (session 7533, chain 304, 16 November 2026)
 
@@ -50,7 +54,9 @@ figures and the tariffs as posted on 16 November 2026, a decisions fold on the p
    percent and the price in USD/MWh with its month (", a partial month" when it is not complete); under them the bill's
    default words (season, shares, territory or region, tier, days, or the Texas energy charge). Each number is a checked
    number (`bill|<bill>|total`, `bill|<bill>|wholesale|<ts>`, `bill|<bill>|share|<ts>`, and the price's
-   `series|cost_of_power_monthly|<entity>|rt_load_weighted|<ts>`).
+   `series|cost_of_power_monthly|<entity>|rt_load_weighted|<ts>`; for a seasonal bill `bill|<bill>|wholesale|<ts>|<season>`,
+   `bill|<bill>|share|<ts>|<season>` and `bill|<bill>|price|<ts>|<season>`, the price the season's months' mean, its
+   months printed in place of the month).
 2. **Build a bill**: five buttons, one a bill; the bill's note; its fields (below); "Reset this bill to its defaults";
    the bill line by line in groups (each line's name opens its words: what it is, why, the kWh and rates it is made of,
    its effective date and the tariff passage, linked); the total; "Per kWh, all in"; a bar and its sentence: the
@@ -101,7 +107,10 @@ summer has none, so the share moves nothing until the season is winter.
   "-$0.08140".
 - **The wholesale share.** The price is the bill's `wholesale_entity` in `cost_of_power_monthly`, variable
   `rt_load_weighted`, in the latest month whose `rt_hours` equal its `hours_in_month`, else the latest month held,
-  marked partial. The wholesale energy is kWh x price / 1000. On a card the share is that over the default bill's total,
+  marked partial. For a bill with `wholesale_season_months` (PG&E, SCE) the price is the plain mean of `rt_load_weighted`
+  over the months of the bill's season (its default season on a card; the season the reader picks in Build a bill)
+  among the twelve months that end with that latest complete month, each month held counted, whole or not (session
+  11407). The wholesale energy is kWh x price / 1000. On a card the share is that over the default bill's total,
   times 100, printed to two decimals; on the bar it is held between 0 and 100 percent and printed as a whole percent;
   "Everything else" is the total less the wholesale energy.
 
@@ -110,7 +119,7 @@ summer has none, so the share moves nothing until the season is winter.
 The fold's 14 lines, by their keys in `Decisions.tsx`: `kwh` (600 kWh), `peak-share` (20 percent), `super-share` (SCE
 33.33, SDG&E 34.52 percent), `weekdays` (5 of 7), `season` (winter), `baseline` (PG&E T, SCE 9, SDG&E 0 kWh),
 `income-tier` (3), `days` (30), `climate-credit` (off), `texas-energy` (USD 0.0907 and 0.0853 per kWh), `wholesale-zone`
-(NP15; SP15; ERCOT's hub average), `wholesale-month` (the latest complete month), `wholesale-energy` (metered kWh times
+(NP15; SP15; ERCOT's hub average), `wholesale-month` (the latest complete month; for PG&E and SCE the mean of the season's months), `wholesale-energy` (metered kWh times
 the price, no losses) and `left-out` (taxes, local fees, SCE's Modified Cost Allocation Mechanism charge, SCE's Regions
 15 and 16). Each line says where to change it on the page, or that it is not a field. The default and source of each are
 in the fold's tips; the Texas default's arithmetic is in the rules file (`energy_default.arithmetic`) and printed by

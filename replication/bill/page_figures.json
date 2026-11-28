@@ -3,16 +3,18 @@
  "rules_version": "2026-11-16.1",
  "wholesale": {
   "CA": {
-   "price": 44.8469,
-   "month": "2026-09",
+   "price": 30.906775,
+   "month": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
    "partial": false,
-   "entity": "caiso:TH_NP15_GEN-APND"
+   "entity": "caiso:TH_NP15_GEN-APND",
+   "season": "winter"
   },
   "SCE": {
-   "price": 38.5194,
-   "month": "2026-09",
+   "price": 24.476925,
+   "month": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
    "partial": false,
-   "entity": "caiso:TH_SP15_GEN-APND"
+   "entity": "caiso:TH_SP15_GEN-APND",
+   "season": "winter"
   },
   "SDGE": {
    "price": 38.5194,
@@ -58,29 +60,29 @@
     {
      "key": "card|CA|wholesale_usd",
      "name": "CA card: wholesale energy (USD)",
-     "shown": "26.91",
-     "value": 26.91,
+     "shown": "18.54",
+     "value": 18.54,
      "tolerance": 0.005
     },
     {
      "key": "card|CA|share_pct",
      "name": "CA card: wholesale share (percent)",
-     "shown": "11.72",
-     "value": 11.72,
+     "shown": "8.08",
+     "value": 8.08,
      "tolerance": 0.005
     },
     {
      "key": "card|CA|price",
      "name": "CA card: wholesale price (USD/MWh)",
-     "shown": "44.85",
-     "value": 44.85,
+     "shown": "30.91",
+     "value": 30.91,
      "tolerance": 0.005
     },
     {
      "key": "card|CA|month",
      "name": "CA card: the price's month",
-     "shown": "2026-09",
-     "value": "2026-09",
+     "shown": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
+     "value": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
      "tolerance": null
     },
     {
@@ -100,29 +102,29 @@
     {
      "key": "card|SCE|wholesale_usd",
      "name": "SCE card: wholesale energy (USD)",
-     "shown": "23.11",
-     "value": 23.11,
+     "shown": "14.69",
+     "value": 14.69,
      "tolerance": 0.005
     },
     {
      "key": "card|SCE|share_pct",
      "name": "SCE card: wholesale share (percent)",
-     "shown": "10.28",
-     "value": 10.28,
+     "shown": "6.53",
+     "value": 6.53,
      "tolerance": 0.005
     },
     {
      "key": "card|SCE|price",
      "name": "SCE card: wholesale price (USD/MWh)",
-     "shown": "38.52",
-     "value": 38.52,
+     "shown": "24.48",
+     "value": 24.48,
      "tolerance": 0.005
     },
     {
      "key": "card|SCE|month",
      "name": "SCE card: the price's month",
-     "shown": "2026-09",
-     "value": "2026-09",
+     "shown": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
+     "value": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
      "tolerance": null
     },
     {
@@ -418,15 +420,15 @@
     {
      "key": "opens|bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$26.91",
-     "value": 26.91,
+     "shown": "$18.54",
+     "value": 18.54,
      "tolerance": 0.005
     },
     {
      "key": "opens|bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "12",
-     "value": 12,
+     "shown": "8",
+     "value": 8,
      "tolerance": 0.5
     },
     {
@@ -439,22 +441,22 @@
     {
      "key": "opens|bar|price",
      "name": "The bar: the wholesale price (USD/MWh)",
-     "shown": "44.85",
-     "value": 44.85,
+     "shown": "30.91",
+     "value": 30.91,
      "tolerance": 0.005
     },
     {
      "key": "opens|bar|month",
      "name": "The bar: the wholesale price's month",
-     "shown": "2026-09",
-     "value": "2026-09",
+     "shown": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
+     "value": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
      "tolerance": null
     },
     {
      "key": "opens|bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$202.72",
-     "value": 202.72,
+     "shown": "$211.09",
+     "value": 211.09,
      "tolerance": 0.005
     },
     {
@@ -779,15 +781,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$26.91",
-     "value": 26.91,
+     "shown": "$18.54",
+     "value": 18.54,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "12",
-     "value": 12,
+     "shown": "8",
+     "value": 8,
      "tolerance": 0.5
     },
     {
@@ -800,22 +802,22 @@
     {
      "key": "bar|price",
      "name": "The bar: the wholesale price (USD/MWh)",
-     "shown": "44.85",
-     "value": 44.85,
+     "shown": "30.91",
+     "value": 30.91,
      "tolerance": 0.005
     },
     {
      "key": "bar|month",
      "name": "The bar: the wholesale price's month",
-     "shown": "2026-09",
-     "value": "2026-09",
+     "shown": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
+     "value": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
      "tolerance": null
     },
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$202.72",
-     "value": 202.72,
+     "shown": "$211.09",
+     "value": 211.09,
      "tolerance": 0.005
     }
    ]
@@ -883,15 +885,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$23.11",
-     "value": 23.11,
+     "shown": "$14.69",
+     "value": 14.69,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "10",
-     "value": 10,
+     "shown": "7",
+     "value": 7,
      "tolerance": 0.5
     },
     {
@@ -904,22 +906,22 @@
     {
      "key": "bar|price",
      "name": "The bar: the wholesale price (USD/MWh)",
-     "shown": "38.52",
-     "value": 38.52,
+     "shown": "24.48",
+     "value": 24.48,
      "tolerance": 0.005
     },
     {
      "key": "bar|month",
      "name": "The bar: the wholesale price's month",
-     "shown": "2026-09",
-     "value": "2026-09",
+     "shown": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
+     "value": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
      "tolerance": null
     },
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$201.65",
-     "value": 201.65,
+     "shown": "$210.08",
+     "value": 210.08,
      "tolerance": 0.005
     }
    ]
@@ -1517,15 +1519,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$22.56",
-     "value": 22.56,
+     "shown": "$15.55",
+     "value": 15.55,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "12",
-     "value": 12,
+     "shown": "8",
+     "value": 8,
      "tolerance": 0.5
     },
     {
@@ -1538,22 +1540,22 @@
     {
      "key": "bar|price",
      "name": "The bar: the wholesale price (USD/MWh)",
-     "shown": "44.85",
-     "value": 44.85,
+     "shown": "30.91",
+     "value": 30.91,
      "tolerance": 0.005
     },
     {
      "key": "bar|month",
      "name": "The bar: the wholesale price's month",
-     "shown": "2026-09",
-     "value": "2026-09",
+     "shown": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
+     "value": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
      "tolerance": null
     },
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$170.84",
-     "value": 170.84,
+     "shown": "$177.85",
+     "value": 177.85,
      "tolerance": 0.005
     }
    ]
@@ -1886,15 +1888,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$38.12",
-     "value": 38.12,
+     "shown": "$32.03",
+     "value": 32.03,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "13",
-     "value": 13,
+     "shown": "11",
+     "value": 11,
      "tolerance": 0.5
     },
     {
@@ -1907,22 +1909,22 @@
     {
      "key": "bar|price",
      "name": "The bar: the wholesale price (USD/MWh)",
-     "shown": "44.85",
-     "value": 44.85,
+     "shown": "37.69",
+     "value": 37.69,
      "tolerance": 0.005
     },
     {
      "key": "bar|month",
      "name": "The bar: the wholesale price's month",
-     "shown": "2026-09",
-     "value": "2026-09",
+     "shown": "2026-06 to 2026-09, the mean of the 4 summer months held in the twelve to 2026-09",
+     "value": "2026-06 to 2026-09, the mean of the 4 summer months held in the twelve to 2026-09",
      "tolerance": null
     },
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$254.02",
-     "value": 254.02,
+     "shown": "$260.10",
+     "value": 260.1,
      "tolerance": 0.005
     }
    ]
@@ -2088,15 +2090,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$8.97",
-     "value": 8.97,
+     "shown": "$6.18",
+     "value": 6.18,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "11",
-     "value": 11,
+     "shown": "8",
+     "value": 8,
      "tolerance": 0.5
     },
     {
@@ -2109,22 +2111,22 @@
     {
      "key": "bar|price",
      "name": "The bar: the wholesale price (USD/MWh)",
-     "shown": "44.85",
-     "value": 44.85,
+     "shown": "30.91",
+     "value": 30.91,
      "tolerance": 0.005
     },
     {
      "key": "bar|month",
      "name": "The bar: the wholesale price's month",
-     "shown": "2026-09",
-     "value": "2026-09",
+     "shown": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
+     "value": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
      "tolerance": null
     },
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$73.27",
-     "value": 73.27,
+     "shown": "$76.06",
+     "value": 76.06,
      "tolerance": 0.005
     }
    ]
@@ -2293,15 +2295,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$44.85",
-     "value": 44.85,
+     "shown": "$30.91",
+     "value": 30.91,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "12",
-     "value": 12,
+     "shown": "8",
+     "value": 8,
      "tolerance": 0.5
     },
     {
@@ -2314,22 +2316,22 @@
     {
      "key": "bar|price",
      "name": "The bar: the wholesale price (USD/MWh)",
-     "shown": "44.85",
-     "value": 44.85,
+     "shown": "30.91",
+     "value": 30.91,
      "tolerance": 0.005
     },
     {
      "key": "bar|month",
      "name": "The bar: the wholesale price's month",
-     "shown": "2026-09",
-     "value": "2026-09",
+     "shown": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
+     "value": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
      "tolerance": null
     },
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$321.44",
-     "value": 321.44,
+     "shown": "$335.38",
+     "value": 335.38,
      "tolerance": 0.005
     }
    ]
@@ -2399,8 +2401,8 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$23.11",
-     "value": 23.11,
+     "shown": "$22.47",
+     "value": 22.47,
      "tolerance": 0.005
     },
     {
@@ -2420,22 +2422,22 @@
     {
      "key": "bar|price",
      "name": "The bar: the wholesale price (USD/MWh)",
-     "shown": "38.52",
-     "value": 38.52,
+     "shown": "37.45",
+     "value": 37.45,
      "tolerance": 0.005
     },
     {
      "key": "bar|month",
      "name": "The bar: the wholesale price's month",
-     "shown": "2026-09",
-     "value": "2026-09",
+     "shown": "2026-06 to 2026-09, the mean of the 4 summer months held in the twelve to 2026-09",
+     "value": "2026-06 to 2026-09, the mean of the 4 summer months held in the twelve to 2026-09",
      "tolerance": null
     },
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$185.68",
-     "value": 185.68,
+     "shown": "$186.32",
+     "value": 186.32,
      "tolerance": 0.005
     }
    ]
@@ -2517,8 +2519,8 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$46.22",
-     "value": 46.22,
+     "shown": "$44.95",
+     "value": 44.95,
      "tolerance": 0.005
     },
     {
@@ -2538,22 +2540,22 @@
     {
      "key": "bar|price",
      "name": "The bar: the wholesale price (USD/MWh)",
-     "shown": "38.52",
-     "value": 38.52,
+     "shown": "37.45",
+     "value": 37.45,
      "tolerance": 0.005
     },
     {
      "key": "bar|month",
      "name": "The bar: the wholesale price's month",
-     "shown": "2026-09",
-     "value": "2026-09",
+     "shown": "2026-06 to 2026-09, the mean of the 4 summer months held in the twelve to 2026-09",
+     "value": "2026-06 to 2026-09, the mean of the 4 summer months held in the twelve to 2026-09",
      "tolerance": null
     },
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$371.14",
-     "value": 371.14,
+     "shown": "$372.42",
+     "value": 372.42,
      "tolerance": 0.005
     }
    ]
@@ -2626,15 +2628,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$17.33",
-     "value": 17.33,
+     "shown": "$11.01",
+     "value": 11.01,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "10",
-     "value": 10,
+     "shown": "6",
+     "value": 6,
      "tolerance": 0.5
     },
     {
@@ -2647,22 +2649,22 @@
     {
      "key": "bar|price",
      "name": "The bar: the wholesale price (USD/MWh)",
-     "shown": "38.52",
-     "value": 38.52,
+     "shown": "24.48",
+     "value": 24.48,
      "tolerance": 0.005
     },
     {
      "key": "bar|month",
      "name": "The bar: the wholesale price's month",
-     "shown": "2026-09",
-     "value": "2026-09",
+     "shown": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
+     "value": "2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09",
      "tolerance": null
     },
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$159.60",
-     "value": 159.6,
+     "shown": "$165.92",
+     "value": 165.92,
      "tolerance": 0.005
     }
    ]

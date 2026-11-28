@@ -35,7 +35,9 @@ class TheReplication(unittest.TestCase):
     def test_every_figure_passes(self):
         r = subprocess.run([sys.executable, os.path.join(REP, "replicate.py")], capture_output=True, text=True, cwd=ROOT, timeout=300)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertIn("146 checks (figures by check key, and answers in words): 146 pass, 0 named, 0 differ", r.stdout)
+        # session 11407 (wip/ready-learn-bill-season): B3's seasonal price adds its eight months' rows, its mean and a
+        # second phrase of words to the checks, 146 to 155
+        self.assertIn("155 checks (figures by check key, and answers in words): 155 pass, 0 named, 0 differ", r.stdout)
         # session 8905 (chain 590, data request 561): every edition held is compared, so the counts grow with each new
         # edition: none may differ, and the only figures named are the network hour's three of set E in each edition
         m = re.search(r"the dated edition: (\d+) figures: (\d+) pass, (\d+) named, (\d+) differ", r.stdout)

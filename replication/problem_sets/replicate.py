@@ -246,11 +246,29 @@ def set_b(rows, o: Out):
         total, kwh, ent = bill_totals()[s]
         fm = full_months(M, ent)
         mm = fm[-1]
-        price = o.put(M.key(ent, "rt_load_weighted", mm), M.get(ent, "rt_load_weighted")[mm])
+        # session 11407 (the problems audit, finding 7, the owner's choice): a bill whose tariff has seasons
+        # (wholesale_season_months, site/data/bill_rules.json) at the plain mean of its default season's months among the
+        # twelve that end with the latest complete month, each month held counted, each month's row shown
+        rule = json.load(open(os.path.join(DATA, "bill_rules.json"), encoding="utf-8"))["bills"][s]
+        sm, season = rule.get("wholesale_season_months"), rule.get("defaults", {}).get("season")
+        o.words[qid] += [f"{kwh} kWh"]
+        if sm and season in sm:
+            mi = lambda t: int(t[:4]) * 12 + int(t[5:7]) - 1  # noqa: E731
+            lws = M.get(ent, "rt_load_weighted")
+            sel = sorted(t for t in lws if mi(mm) - 12 < mi(t) <= mi(mm) and mi(t) % 12 + 1 in sm[season])
+            for t in sel:
+                o.put(M.key(ent, "rt_load_weighted", t), lws[t])
+            price = o.put(f"bill|{s}|price|{mm}|{season}", sum(lws[t] for t in sel) / len(sel))
+            tail = f"{mm}|{season}"
+            o.words[qid] += [f"{sel[0][:7]} to {sel[-1][:7]}" if mi(sel[-1]) - mi(sel[0]) == len(sel) - 1 else sel[0][:7],
+                             f"the mean of the {len(sel)} {season} months held in the twelve to {mm[:7]}"]
+        else:
+            price = o.put(M.key(ent, "rt_load_weighted", mm), M.get(ent, "rt_load_weighted")[mm])
+            tail = mm
+            o.words[qid] += [mm[:7]]
         tot = o.put(f"bill|{s}|total", total)
-        wh = o.put(f"bill|{s}|wholesale|{mm}", kwh * price[1] / 1000)
-        o.put(f"bill|{s}|share|{mm}", wh[1] / tot[1] * 100)
-        o.words[qid] += [f"{kwh} kWh", mm[:7]]
+        wh = o.put(f"bill|{s}|wholesale|{tail}", kwh * price[1] / 1000)
+        o.put(f"bill|{s}|share|{tail}", wh[1] / tot[1] * 100)
     # question 5 and set D question 3: the profile's latest month that is complete for ERCOT's hub average
     pm = sorted({ts for (e, v), mm_ in P.d.items() if e == E for ts in mm_ if day_of(ts) in {day_of(t) for t in full}})[-1]
     cells = {v: mm_[pm] for (e, v), mm_ in P.d.items() if e == E and v.startswith("rt_mean_h") and pm in mm_}

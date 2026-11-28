@@ -888,27 +888,28 @@
     },
     {
      "id": "b3",
-     "q": "On the default PG&E (California) bill of /learn/bill (600 kWh; taxes and local fees are not on it), how many dollars are wholesale energy, and what share of the bill is that? Value the kWh on the meter, with no losses added, at the load-weighted real-time price of the CAISO NP15 in the latest complete month, 2026-09.",
+     "q": "On the default PG&E (California) bill of /learn/bill (600 kWh; taxes and local fees are not on it), how many dollars are wholesale energy, and what share of the bill is that? Value the kWh on the meter, with no losses added, at the load-weighted real-time price of the CAISO NP15 in the bill's own season: 2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09.",
      "tables": [
       "cost_of_power_monthly"
      ],
      "day": null,
-     "answer": "26.91 USD of 229.63 USD: 11.72 %.",
-     "line": "600 kWh x 44.85 USD/MWh / 1,000 = 26.91 USD; 26.91 USD / 229.63 USD x 100 = 11.72 %",
+     "answer": "18.54 USD of 229.63 USD: 8.08 %.",
+     "line": "600 kWh x 30.91 USD/MWh / 1,000 = 18.54 USD; 18.54 USD / 229.63 USD x 100 = 8.08 %",
      "steps": [
       "The bill: 229.63 USD (the tariff lines on /learn/bill).",
-      "Wholesale: 600 kWh x 44.85 USD/MWh / 1,000 (2026-09) = 26.91 USD.",
-      "Share: 26.91 USD / 229.63 USD x 100 = 11.72 %."
+      "The price: the mean of the 8 winter months' load-weighted real-time prices, 42.76 USD/MWh, 50.52 USD/MWh, 36.99 USD/MWh, 33.66 USD/MWh, 27.92 USD/MWh, 26.57 USD/MWh, 12.52 USD/MWh, 16.31 USD/MWh = 30.91 USD/MWh.",
+      "Wholesale: 600 kWh x 30.91 USD/MWh / 1,000 (the winter months' mean) = 18.54 USD.",
+      "Share: 18.54 USD / 229.63 USD x 100 = 8.08 %."
      ],
-     "words": "On the default PG&E (California) bill of /learn/bill (600 kWh; taxes and local fees are not on it), how many dollars are wholesale energy, and what share of the bill is that? Value the kWh on the meter, with no losses added, at the load-weighted real-time price of the CAISO NP15 in the latest complete month, 2026-09. |  of  | :  | . | 600 kWh x  |  / 1,000 =  | ;  |  /  |  x 100 =  | The bill:  |  (the tariff lines on /learn/bill). | Wholesale: 600 kWh x  |  / 1,000 (2026-09) =  | . | Share:  |  /  |  x 100 =  | .",
+     "words": "On the default PG&E (California) bill of /learn/bill (600 kWh; taxes and local fees are not on it), how many dollars are wholesale energy, and what share of the bill is that? Value the kWh on the meter, with no losses added, at the load-weighted real-time price of the CAISO NP15 in the bill's own season: 2025-10 to 2026-05, the mean of the 8 winter months held in the twelve to 2026-09. |  of  | :  | . | 600 kWh x  |  / 1,000 =  | ;  |  /  |  x 100 =  | The bill:  |  (the tariff lines on /learn/bill). | The price: the mean of the 8 winter months' load-weighted real-time prices,  | ,  | ,  | ,  | ,  | ,  | ,  | ,  |  =  | . | Wholesale: 600 kWh x  |  / 1,000 (the winter months' mean) =  | . | Share:  |  /  |  x 100 =  | .",
      "figures": [
       {
        "where": "answer",
        "i": 0,
-       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
-       "v": 26.90814,
+       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00|winter",
+       "v": 18.544065,
        "u": "USD",
-       "shown": "26.91"
+       "shown": "18.54"
       },
       {
        "where": "answer",
@@ -921,34 +922,34 @@
       {
        "where": "answer",
        "i": 4,
-       "k": "bill|CA|share|2026-09-01T00:00:00+00:00",
-       "v": 11.718047170686397,
+       "k": "bill|CA|share|2026-09-01T00:00:00+00:00|winter",
+       "v": 8.075631701272352,
        "u": "%",
-       "shown": "11.72"
+       "shown": "8.08"
       },
       {
        "where": "line",
        "i": 1,
-       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_load_weighted|2026-09-01T00:00:00+00:00",
-       "v": 44.8469,
+       "k": "bill|CA|price|2026-09-01T00:00:00+00:00|winter",
+       "v": 30.906775,
        "u": "USD/MWh",
-       "shown": "44.85"
+       "shown": "30.91"
       },
       {
        "where": "line",
        "i": 3,
-       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
-       "v": 26.90814,
+       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00|winter",
+       "v": 18.544065,
        "u": "USD",
-       "shown": "26.91"
+       "shown": "18.54"
       },
       {
        "where": "line",
        "i": 5,
-       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
-       "v": 26.90814,
+       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00|winter",
+       "v": 18.544065,
        "u": "USD",
-       "shown": "26.91"
+       "shown": "18.54"
       },
       {
        "where": "line",
@@ -961,10 +962,10 @@
       {
        "where": "line",
        "i": 9,
-       "k": "bill|CA|share|2026-09-01T00:00:00+00:00",
-       "v": 11.718047170686397,
+       "k": "bill|CA|share|2026-09-01T00:00:00+00:00|winter",
+       "v": 8.075631701272352,
        "u": "%",
-       "shown": "11.72"
+       "shown": "8.08"
       },
       {
        "where": "step1",
@@ -977,29 +978,101 @@
       {
        "where": "step2",
        "i": 1,
-       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_load_weighted|2026-09-01T00:00:00+00:00",
-       "v": 44.8469,
+       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_load_weighted|2025-10-01T00:00:00+00:00",
+       "v": 42.7581,
        "u": "USD/MWh",
-       "shown": "44.85"
+       "shown": "42.76"
       },
       {
        "where": "step2",
        "i": 3,
-       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
-       "v": 26.90814,
-       "u": "USD",
-       "shown": "26.91"
+       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_load_weighted|2025-11-01T00:00:00+00:00",
+       "v": 50.5174,
+       "u": "USD/MWh",
+       "shown": "50.52"
+      },
+      {
+       "where": "step2",
+       "i": 5,
+       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_load_weighted|2025-12-01T00:00:00+00:00",
+       "v": 36.991,
+       "u": "USD/MWh",
+       "shown": "36.99"
+      },
+      {
+       "where": "step2",
+       "i": 7,
+       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_load_weighted|2026-01-01T00:00:00+00:00",
+       "v": 33.6643,
+       "u": "USD/MWh",
+       "shown": "33.66"
+      },
+      {
+       "where": "step2",
+       "i": 9,
+       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_load_weighted|2026-02-01T00:00:00+00:00",
+       "v": 27.9181,
+       "u": "USD/MWh",
+       "shown": "27.92"
+      },
+      {
+       "where": "step2",
+       "i": 11,
+       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_load_weighted|2026-03-01T00:00:00+00:00",
+       "v": 26.5741,
+       "u": "USD/MWh",
+       "shown": "26.57"
+      },
+      {
+       "where": "step2",
+       "i": 13,
+       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_load_weighted|2026-04-01T00:00:00+00:00",
+       "v": 12.5221,
+       "u": "USD/MWh",
+       "shown": "12.52"
+      },
+      {
+       "where": "step2",
+       "i": 15,
+       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_load_weighted|2026-05-01T00:00:00+00:00",
+       "v": 16.3091,
+       "u": "USD/MWh",
+       "shown": "16.31"
+      },
+      {
+       "where": "step2",
+       "i": 17,
+       "k": "bill|CA|price|2026-09-01T00:00:00+00:00|winter",
+       "v": 30.906775,
+       "u": "USD/MWh",
+       "shown": "30.91"
       },
       {
        "where": "step3",
        "i": 1,
-       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
-       "v": 26.90814,
-       "u": "USD",
-       "shown": "26.91"
+       "k": "bill|CA|price|2026-09-01T00:00:00+00:00|winter",
+       "v": 30.906775,
+       "u": "USD/MWh",
+       "shown": "30.91"
       },
       {
        "where": "step3",
+       "i": 3,
+       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00|winter",
+       "v": 18.544065,
+       "u": "USD",
+       "shown": "18.54"
+      },
+      {
+       "where": "step4",
+       "i": 1,
+       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00|winter",
+       "v": 18.544065,
+       "u": "USD",
+       "shown": "18.54"
+      },
+      {
+       "where": "step4",
        "i": 3,
        "k": "bill|CA|total",
        "v": 229.6299,
@@ -1007,12 +1080,12 @@
        "shown": "229.63"
       },
       {
-       "where": "step3",
+       "where": "step4",
        "i": 5,
-       "k": "bill|CA|share|2026-09-01T00:00:00+00:00",
-       "v": 11.718047170686397,
+       "k": "bill|CA|share|2026-09-01T00:00:00+00:00|winter",
+       "v": 8.075631701272352,
        "u": "%",
-       "shown": "11.72"
+       "shown": "8.08"
       }
      ]
     },
