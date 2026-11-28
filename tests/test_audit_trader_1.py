@@ -58,7 +58,7 @@ class SppRealTimeIsHeldAndNotRead(unittest.TestCase):
     def test_the_code_reads_no_spp_real_time_table(self):
         with open(os.path.join(ROOT, "warehouse", "derived", "trader_view.py"), encoding="utf-8") as f:
             src = f.read()
-        self.assertRegex(src, r'"spp": \("spp_dam_hub_prices", None, "America/Chicago"\)')
+        self.assertRegex(src, r'"spp": \("spp_dam_hub_prices", "spp_rtm_hub_prices", "America/Chicago"\)')   # wip/ready-trader-spp-rt: read
         with open(os.path.join(ROOT, "warehouse", "connectors", "iso_prices.py"), encoding="utf-8") as f:
             self.assertIn('file="spp_rtm_hub_prices"', f.read())
 
@@ -92,8 +92,8 @@ class SppRealTimeIsHeldAndNotRead(unittest.TestCase):
                              cwd=SITE, capture_output=True, text=True, timeout=600)
         self.assertEqual(out.returncode, 0, out.stderr[-2000:])
         r = json.loads(out.stdout.strip().splitlines()[-1])
-        self.assertEqual(r["spp"], 2)          # SPP North and SPP South, the real time less day-ahead cell
-        self.assertEqual(r["said"], 6)         # that cell, the largest spread and the hours, on both hubs
+        self.assertEqual(r["spp"], 0)          # wip/ready-trader-spp-rt: no SPP-only words; an empty cell has every grid's reason
+        self.assertEqual(r["said"], 0)
 
 
 if __name__ == "__main__":

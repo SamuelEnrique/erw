@@ -27,8 +27,8 @@ Metrics per hub and local operating day (all hours of the day present, or nothin
                              latest trading day up to 4 days before it (weekends, holidays)
     da_volatility_30d_usd    sample standard deviation of the 30 day-over-day changes in
                              da_mean_usd over the 31 days ending that day (all 31 required)
-The real-time metrics need every hour of both markets; SPP's real-time prices are held
-(spp_rtm_hub_prices) but ISOS gives SPP no real-time table, so it has the day-ahead metrics only
+The real-time metrics need every hour of both markets; SPP's real-time prices are read
+(spp_rtm_hub_prices, 15-minute means) since the ruling on the trader view audit of 26 November, finding 1
 (session 10209, docs/reviews/trader-model-audit-2026-11-26.md, finding 1). PJM is absent: the ERW has no PJM price table (its data needs a
 licensed API key). Values are exact decimal arithmetic on the published prices, rounded to
 4 decimals. A row whose value is unchanged keeps its earlier retrieved_at (the Supabase loader
@@ -59,7 +59,7 @@ ISOS = {
     "caiso": ("caiso_dam_hub_prices", "caiso_rtm_hub_prices", "America/Los_Angeles"),
     "nyiso": ("nyiso_dam_zone_prices", "nyiso_rtm_zone_prices", "America/New_York"),
     "miso": ("miso_dam_hub_prices", "miso_rtm_hub_prices", "EST"),
-    "spp": ("spp_dam_hub_prices", None, "America/Chicago"),
+    "spp": ("spp_dam_hub_prices", "spp_rtm_hub_prices", "America/Chicago"),   # wip/ready-trader-spp-rt: SPP's real time read
     "isone": ("isone_dam_zone_prices", "isone_rtm_zone_prices_hourly", "America/New_York"),
 }
 UNITS = {"hours_rt_over_da_50": "count", "implied_heat_rate": "MMBtu/MWh"}

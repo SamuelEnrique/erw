@@ -332,7 +332,9 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
   const rows = file.week.filter((w) => grid === "all" || w.grid === grid);
   // session 10209 (docs/reviews/trader-model-audit-2026-11-26.md, finding 1): SPP's real-time prices are held and drawn in
   // the groups above, but trader_view.py does not read them, so SPP's real-time cells of the week say why they are empty
-  const sppRt = (w: WeekRow) => w.grid === "SPP" ? "SPP's real-time prices are held (the real-time rows of the groups above), but the week's real-time measures are not computed for SPP: the trader view does not read them." : null;
+  // wip/ready-trader-spp-rt (finding 1, the other choice): trader_view.py reads SPP's real time, so an empty SPP cell has
+  // the reason every grid's has, and no word of its own
+  const sppRt = (_w: WeekRow): string | null => null;
   const cell = (w: WeekRow, k: string) => {
     const m = w.means[k];
     if (!m) return <span className="text-xs text-muted" title="A week's mean needs the measure on all 7 days.">not held yet</span>;

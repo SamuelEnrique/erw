@@ -16,7 +16,7 @@ Energy Research Warehouse (ERW), session 19. Tables: `ercot_trader_daily`, `cais
 | CAISO | `caiso_dam_hub_prices` (3 trading hubs) | `caiso_rtm_hub_prices` (15-minute means of 5-minute prices) | mean of the hour's four intervals | America/Los_Angeles |
 | NYISO | `nyiso_dam_zone_prices` (11 zones) | `nyiso_rtm_zone_prices` (15-minute means) | mean of the hour's four intervals | America/New_York |
 | MISO | `miso_dam_hub_prices` (8 hubs) | `miso_rtm_hub_prices` (hourly) | as published | EST (MISO's market time, no daylight saving) |
-| SPP | `spp_dam_hub_prices` (2 hubs) | not read: SPP's real-time prices are held (`spp_rtm_hub_prices`, 15-minute means of 5-minute prices, the rows of `iso_rtm_hub_prices` whose `market` is `spp_rtm`), but the code's `ISOS` map gives SPP no real-time table, so SPP has the day-ahead metrics only (session 10209, `docs/reviews/trader-model-audit-2026-11-26.md`, finding 1) | | America/Chicago |
+| SPP | `spp_dam_hub_prices` (2 hubs) | `spp_rtm_hub_prices` (15-minute means of 5-minute prices, the rows of `iso_rtm_hub_prices` whose `market` is `spp_rtm`), read since the ruling on the trader view audit of 26 November, finding 1 (until then not read, and SPP had the day-ahead metrics only) | | America/Chicago |
 | ISO-NE | `isone_dam_zone_prices` (hub and 8 zones) | `isone_rtm_zone_prices_hourly` (ISO-NE's hourly real-time LMP) | as published | America/New_York |
 
 Henry Hub: `eia_fuel_spot_prices`, entity `eia:henry_hub` (EIA daily spot, USD/MMBtu, trading dates).
