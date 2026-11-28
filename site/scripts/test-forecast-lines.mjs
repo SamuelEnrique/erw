@@ -182,7 +182,8 @@ quiet(page, "demand");
   none.series.demand.operator_filing = { ...dem.operator_filing, months: dem.operator_filing.months.map((m) => [m[0], m[1], 100.2, false]), months_flagged: 0, best_shift_hours: 0 };
   save(TEX, none);
   const clean = draw(FIX, {});
-  check(clean.includes('data-fc-filing-flagged="0"') && !clean.includes("data-fc-filing-says") && text(clean).includes("3 months, none flagged") && !text(clean).includes("fit best moved"), "no month flagged: no sentence, the months in their fold");
+  // ready branch wip/ready-forecast-filing-none-sentence (session 11408): one sentence where no month is flagged
+  check(clean.includes('data-fc-filing-flagged="0"') && clean.includes("data-fc-filing-none-flagged") && text(clean).replace(/\s+/g, " ").includes("In none of the 3 months held is the forecast filed on Form EIA-930 more than 5 percent from the demand it forecasts over the whole month.") && text(clean).includes("3 months, none flagged") && !text(clean).includes("fit best moved") && !text(clean).includes("The months that pass"), "no month flagged: the sentence, the months in their fold, no rows of scores");
   save(TEX, tex);
 }
 

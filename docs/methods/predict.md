@@ -328,6 +328,11 @@ two years with its hours moved by -1, 0 and 1, and `sound_last_2_years`, the sco
 comparator only: no forecast of the ERW reads it, and the choice of method is unchanged (a test holds both). A month
 can also be flagged for a true divergence, not a filing: Texas in February 2021 (Winter Storm Uri, load shed) is.
 
+**On the page (ready branch of session 11408, not the default).** Where no month is flagged, `/forecast` says so in one
+sentence above the months' fold ("In none of the N months held is the forecast filed on Form EIA-930 more than 5 percent
+from the demand it forecasts over the whole month"; `FilingCheck` in `site/app/forecast/lines.tsx`): 20 of the 64 places
+on the files of 28 November 2026.
+
 From the first full build (27 November 2026, `runs/c730/table_g.py`): over the last two years the ERW's MAPE is below
 the operator's in 8 of 29 places; on the sound months only, in 4 (California 2.98 against 6.74 on 1,536 hours, the
 Northwest 2.65 against 3.77, PACE 3.71 against 4.00, PSCO 4.09 against 5.31 on 740 hours). The Central region and SWPP

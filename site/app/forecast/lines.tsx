@@ -283,6 +283,11 @@ export function FilingCheck({ slot, scores, metric }: { slot: Slot; scores: Scor
             ]} />
         </>
       ) : null}
+      {/* ready branch of session 11408 (weekend page of 28 November 2026, part 3.5, the other choice): where no month is
+          flagged, one sentence says so above the fold */}
+      {flagged === 0 ? (
+        <p className="mb-2 text-sm" data-fc-filing-says={k} data-fc-filing-none-flagged={k}>In none of the {typeof f.months_held === "number" ? count(held, pfKey(file, [...path, "months_held"]), "The months held, each checked.") : held.toLocaleString("en-US")} months held is the forecast filed on Form EIA-930 more than {tol ?? 5} percent from the demand it forecasts over the whole month.</p>
+      ) : null}
       <details className="border-b border-rule py-2" data-fc-filing-fold={k}>
         <summary className="cursor-pointer py-1 text-sm">The filing month by month: {held.toLocaleString("en-US")} months, {flagged === null ? "the count flagged not said" : flagged === 0 ? "none flagged" : `${flagged.toLocaleString("en-US")} flagged`}</summary>
         <div className="max-h-[24rem] overflow-y-auto pt-2">
