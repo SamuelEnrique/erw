@@ -142,3 +142,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 05:16 UTC (session 10603): the same fault in `ahead.py`: SPA's five horizons in `ahead_more.json` (row 13) are 24 empty hours each. Mended on `wip/c730-predict-v8` (a forecast the method cannot make is null with `forecast_held`); `ahead_more.json` rebuilding with the fix on the same tables (its replicated figures do not depend on the forecast's values); rebuild 19 of the place files (made as at 19:00 UTC on 27 November, on today's tables) running for SPA's empty day in the place file landed with row 10. Row 13 names the fault.
 - 05:25 UTC (session 10603): rebuild 19 at 8 of 64; `ahead_more.json` rebuild at 2 of 35.
 - 05:52 UTC (session 10603): rebuild 19 at 24 of 64; `ahead_more.json` rebuild at 7 of 35; rows 12 and 13 still requested.
+- 06:11 UTC (session 10603): rebuild 19 at 36 of 64; `ahead_more.json` rebuild at 11 of 35.
