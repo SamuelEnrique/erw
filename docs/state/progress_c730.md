@@ -146,3 +146,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 06:30 UTC (session 10603): rebuild 19 at 48 of 64; `ahead_more.json` rebuild at 15 of 35.
 - 06:49 UTC (session 10603): rebuild 19 at 62 of 64; `ahead_more.json` rebuild at 19 of 35; rows 12 and 13 still requested.
 - 07:08 UTC (session 10603): rebuild 19 writing its files.
+- 07:25 UTC (session 10603): rebuild 19 written and committed on `wip/c730-predict-v8` (SPA's empty day now says why; 64 place files, made as at 19:00 UTC on 27 November on the refreshed tables); the forecast tests pass but for the one reading the old `ahead_more.json`, still rebuilding (26 of 35). Replications of rebuild 19 running (demand, net demand, price, the two weather lines); results when they end.
