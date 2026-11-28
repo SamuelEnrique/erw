@@ -519,7 +519,7 @@ Per kW of nameplate; the page multiplies by `1,000 x MW` for the reader's size. 
 - **The debt's years.** `n = min(term, life)`: a term longer than the project life is cut to the life.
 - **Annual debt payment.** `debt = capex x share x crf(rate, n)`. Default case (ERCOT solar): `1,375 x 0.6 x 0.085803 = 70.79` per kW, USD 7,078,769 for 100 MW, the page's own default.
 - **Revenue in year t.** `R_t = R x (1 - deg)^(t - 1)`: the last twelve months repeated every year of the life, falling by the degradation rate each year after the first. An assumption, not a forecast.
-- **Cash flows to equity.** `F_0 = -capex x (1 - share)`. For `t = 1 to life`: `F_t = R_t - fom - debt` while `t <= n`, and `F_t = R_t - fom` after. No tax, no tax credit, no repowering, no residual value, no inflation.
+- **Cash flows to equity.** `F_0 = -capex x (1 - share)`. For `t = 1 to life`: `F_t = R_t - fom - debt` while `t <= n`, and `F_t = R_t - fom` after, each less the year's federal income tax (session 11408, readied for the owner's ruling on the audit of 20 November, finding 1): `tax_t = 0.21 x (R_t - fom - interest_t - dep_t)`, the interest the level loan's opening balance times the rate, `dep_t` the 5-year MACRS share (20, 32, 19.2, 11.52, 11.52 and 5.76 percent) of the capital cost less half the investment credit; a loss is used as it arises, and a dollar of contract price is worth 0.79 after tax in the breakeven PPA price. Default solar case (ERCOT, USD 59.85 per kW): NPV USD -526.10 per kW against -766.62 with no tax; the breakeven PPA price 53.59 per MWh against 58.36. No state tax, no repowering, no residual value, no inflation.
 - **NPV at the hurdle rate.** `NPV = sum over t = 0 to life of F_t / (1 + hurdle)^t`, to equity, after debt payments.
 - **IRR.** The rate at which that sum is zero, by bisection between -99 percent and 1,000 percent a year. When the sum has the same sign at both ends there is no such rate and the page says "none".
 - **Debt coverage.** `(R - fom) / debt`. With no debt (`share = 0` or `capex = 0`) the page says "no debt".
@@ -544,7 +544,7 @@ For the scenario in view: each assumption is moved down and up by one stated ste
 
 ### 11.6 What this block is not
 
-It is not a forecast and not a valuation. It repeats one year of merchant revenue over the project's life: no tax, no tax credit, no repowering, no residual value, no capacity payment. The pair with a battery is revenue only: a scenario holds the plant's costs, not the battery's. It states numbers for two sets of assumptions; it does not say which to choose.
+It is not a forecast and not a valuation. It repeats one year of merchant revenue over the project's life: federal income tax and depreciation since session 11408, no state tax, by default no tax credit, no repowering, no residual value, no capacity payment. The pair with a battery is revenue only: a scenario holds the plant's costs, not the battery's. It states numbers for two sets of assumptions; it does not say which to choose.
 
 ### 11.7 Checks
 
@@ -705,7 +705,7 @@ Session 463, 21 October 2026 (chain 019). The page lists, at its foot, every mod
 9. Capital cost, fixed and variable O&M, the heat rate and the life default to the midpoints of Lazard's Levelized Cost of Energy+, June 2025. (sessions 145 and 186)
 10. Debt is 60 percent of the capital at 8 percent, paid in level payments over the life: Lazard's own financing. (session 145)
 11. Scenarios A and B are the block the three economics pages share; scenario A sets the headline. The contract's share and price are two of each scenario's assumptions, 0 by default, so the default plant is fully merchant. (sessions 186, 195 and 212)
-12. The NPV is discounted at 12 percent, Lazard's cost of equity. (session 208; the owner's ruling of 12 October 2026)
+12. The NPV is after federal income tax at 21 percent with 5-year depreciation, discounted at 12 percent, Lazard's cost of equity. (session 208; the owner's ruling of 12 October 2026)
 13. Solar loses 0.7 percent of its output a year (the Annual Technology Baseline) and a battery 2.6 percent (Lazard); wind and the peaker hold none, since no cited rate is held. (sessions 196 and 298; ruling 7a of 18 October 2026)
 14. A PPA's term defaults to the plant's life. (session 264; ruling 5a of 18 October 2026)
 15. A value typed outside its bounds is held at the bound, and a line says so. (session 264; ruling 8a of 18 October 2026)

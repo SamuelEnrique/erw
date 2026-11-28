@@ -79,7 +79,7 @@ export const GENERATOR_DECISIONS: Decision[] = [
   { key: "scenarios", session: "sessions 186, 195 and 212",
     text: "Scenarios A and B are the block the three economics pages share; scenario A sets the headline. The contract's share and price are two of each scenario's assumptions, 0 by default, so the default plant is fully merchant." },
   { key: "hurdle", session: "session 208", ruling: "the owner's ruling of 12 October 2026",
-    text: "The NPV is discounted at 12 percent, Lazard's cost of equity." },
+    text: "The NPV is after federal income tax at 21 percent with 5-year depreciation, discounted at 12 percent, Lazard's cost of equity." },
   { key: "degradation", session: "sessions 196 and 298", ruling: "ruling 7a of 18 October 2026",
     text: "Solar loses 0.7 percent of its output a year (the Annual Technology Baseline) and a battery 2.6 percent (Lazard); wind and the peaker hold none, since no cited rate is held." },
   { key: "ppa-term", session: "session 264", ruling: "ruling 5a of 18 October 2026",

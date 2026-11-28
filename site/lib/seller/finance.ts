@@ -242,9 +242,30 @@ export function flows(a: Assumptions, revKw: number, c: Contract = NO_CONTRACT):
   const ds = debtService(a), dy = debtYears(a);
   const credits = (a.itc ?? 0) > 0 || (a.ptc ?? 0) > 0;
   const out = [-a.capex * (1 - a.share / 100)];
-  for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t, c) - a.fom - (t <= dy ? ds : 0) + (credits ? creditInYear(a, t, c) : 0));
+  for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t, c) - a.fom - (t <= dy ? ds : 0) + (credits ? creditInYear(a, t, c) : 0) - taxInYear(a, revKw, t, c));
   return out;
 }
+/** Session 11408 (readied for the owner's ruling on the generator audit's finding 1, docs/reviews/generator-model-audit-2026-11-20.md):
+ * federal income tax at 21 percent (Internal Revenue Code section 11), on income less fixed O&M, the debt's interest
+ * and depreciation; depreciation by the 5-year MACRS table with the half-year convention (IRS Publication 946, table
+ * A-1), on a basis cut by half the investment tax credit (section 50(c)); the credits themselves are not income. A
+ * year's loss is used as it arises (a negative tax). The 12 percent hurdle is a cost of equity, a return after tax. */
+export const TAX_RATE = 21;
+export const MACRS5 = [0.2, 0.32, 0.192, 0.1152, 0.1152, 0.0576];
+/** The debt's interest in year t, USD per kW: the level loan's opening balance that year times the rate; 0 after the
+ * debt's years. */
+export function interestInYear(a: Assumptions, t: number): number {
+  const dy = debtYears(a), r = a.rate / 100, ds = debtService(a);
+  if (t > dy) return 0;
+  let bal = a.capex * (a.share / 100);
+  for (let k = 1; k < t; k++) bal -= ds - bal * r;
+  return bal * r;
+}
+/** Depreciation in year t, USD per kW: the basis (the capital cost less half the credit) times the MACRS share. */
+export const depreciationInYear = (a: Assumptions, t: number) => (t >= 1 && t <= MACRS5.length ? a.capex * (1 - (a.itc ?? 0) / 200) * MACRS5[t - 1] : 0);
+/** The federal income tax in year t, USD per kW (negative in a year of loss, used as it arises). */
+export const taxInYear = (a: Assumptions, revKw: number, t: number, c: Contract = NO_CONTRACT) =>
+  (TAX_RATE / 100) * (incomeInYear(a, revKw, t, c) - a.fom - interestInYear(a, t) - depreciationInYear(a, t));
 /** Net present value of yearly cash flows at `ratePct` percent: the sum of flow t over (1 + rate)^t. */
 export function npv(ratePct: number, fl: number[]): number {
   const r = ratePct / 100;
@@ -317,7 +338,8 @@ export function breakevenPpa(a: Assumptions, revKw: number, c: Contract = NO_CON
   const at0 = npv(a.hurdle, flows({ ...a, cshare: share, cprice: 0 }, revKw, c));
   const r = a.hurdle / 100, dy = contractYears(a);  // session 264: the PPA term's years
   let perDollar = 0;
-  for (let t = 1; t <= dy; t++) perDollar += ((share / 100) * unit) / (1 + r) ** t;
+  // session 11408: a dollar of price is taxed like any income, so it is worth (1 - tax) after tax
+  for (let t = 1; t <= dy; t++) perDollar += ((share / 100) * unit * (1 - TAX_RATE / 100)) / (1 + r) ** t;
   return perDollar > 0 ? -at0 / perDollar : null;
 }
 /** Session 235, "Make B a PPA": the scenario with the whole plant under contract at its breakeven PPA price, rounded up
