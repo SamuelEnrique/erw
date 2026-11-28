@@ -139,6 +139,10 @@ For each place and day, the peak is the highest hourly demand and its local hour
 
 The ERW's peak is closer than the operator's in 5 of 29 places (CENT, NW, FPC, PSCO, SWPP); it names the peak hour exactly more often than the operator in 8 (CAL, MIDA, NW, SW, CISO, FPL, PJM, PSCO), most strikingly in MIDA and PJM, where the operator names the hour on 11.8 percent of days and the ERW on 47.8 percent. The CENT row covers 319 days: the operator's region forecast is missing on many SPP days, and a day enters only when every method holds every hour.
 
+**On the page (ready branch of session 11408, not the default).** Under the table of every place, with demand, a second
+table gives the day's peak for every place: one row a place, the days scored and each method's error of its highest
+hour over the last two years (`AllPlacesPeak` in `site/app/forecast/view.tsx`), every figure keyed to its place file.
+
 ## 12. Further ahead (session 10601)
 
 `warehouse/predict/ahead.py` writes `site/data/predict/ahead.json`: the demand forecast for the days two to six after tomorrow. A forecast made at 20:00 UTC on day D reads the demand through day D-1, so its day D+j is j+1 days after the last day read: horizon h = j+1 (h = 2 is the day-ahead forecast of the place files; this file holds h = 3 to 7). Each horizon is the regression of section 3 refit at its own horizon (day A = T-h; the hour of T-7 is still known at h = 7), backtested walking forward exactly as the day-ahead one, and scored over the last two years against the same hour a week ago. A horizon is shown only where its mean absolute error is below the week-ago hour's; otherwise its forecast is written null with the reason (`tests/test_predict.py` holds the rule).

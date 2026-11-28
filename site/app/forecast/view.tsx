@@ -525,6 +525,36 @@ function AllPlaces({ index, scores, s, metric, chosen }: { index: PredictIndex; 
   );
 }
 
+/** Ready branch of session 11408 (weekend page of 28 November 2026, part 3.5, the other choice): the day's peak for every
+ *  place, under the table of every place: one row a place, the error of each method's highest hour of a day against the
+ *  day's highest hour of demand over the last two years, from each place file's series.demand.peak, every figure keyed. */
+function AllPlacesPeak({ index, scores, metric, chosen }: { index: PredictIndex; scores: ScoresFile | null; metric: Metric; chosen: string[] }) {
+  const unit = "MW", mu = metricUnit(metric, unit);
+  const example = index.example === true || scores?.example === true;
+  return (
+    <div className="mt-5" data-fc-all-peak={index.places.length}>
+      <ToolTable minWidth={560} caption={`Every place, the day's peak over the last two years: ${METRIC_WORDS[metric].toLowerCase()} of each method's highest hour of a day against the day's highest hour of demand, ${mu}`}
+        head={[`Place (${mu})`, "Days", ...FOUR.map((m) => <MethodHead key={m} m={m} scores={scores} />)]}
+        rows={index.places.map((p) => {
+          const ix = p.series?.demand;
+          const name = <SiteLink key="n" href={hrefOf({ a: p.place, b: null, s: "demand", day: null, m: null })} className="inline-block py-1 -my-1">{placeWords(p)}</SiteLink>;
+          if (example || !ix || ix.status !== "shown") return { key: p.place, highlight: chosen.includes(p.place), cells: [name], wide: <span className="cursor-help" title={blankWhy(ix, example)} data-fc-all-peak-blank={p.place}>{blankWords(ix?.status, example)}</span> };
+          const f = predictPlace(p), ser = f?.series?.demand, pk = ser?.peak?.last_2_years, file = `predict/${p.file}`;
+          if (!ser || !pk) return { key: p.place, highlight: chosen.includes(p.place), cells: [name], wide: <NotHeld why="No score of the day's peak over the last two years is in the place's file." /> };
+          const when = pk.first_day && pk.last_day ? `${pk.first_day} to ${pk.last_day}` : "days the file does not say";
+          return { key: p.place, highlight: chosen.includes(p.place), cells: [name,
+            pk.days !== null && pk.days !== undefined ? <Num key="d" check={pfKey(file, ["series", "demand", "peak", "last_2_years", "days"])} raw={pk.days} source={`The days scored, ${when}.`}>{pk.days.toLocaleString("en-US")}</Num> : <NotHeld key="d" why="No count of days is in the file." />,
+            ...FOUR.map((m) => {
+              const v = pk.methods?.[m]?.[metric];
+              return v === null || v === undefined
+                ? <NotHeld key={m} words={m === "operator" ? shortHeld(ser.operator_held) : "not held"} why={m === "operator" && ser.operator_held ? `${OPERATOR}: ${ser.operator_held}.` : "No score of the peak is in the file for this method."} />
+                : <Num key={m} check={pfKey(file, ["series", "demand", "peak", "last_2_years", "methods", m, metric])} raw={v} source={`${methodWords(m)}, ${placeWords(p)}, the day's peak over the last two years (${when}): ${METRIC_WORDS[metric].toLowerCase()} of the method's highest hour of a day, ${mu}. site/data/${file}.`}>{scoreWords(v, metric, unit)}</Num>;
+            })] };
+        })} />
+    </div>
+  );
+}
+
 /** How /demand's country view writes a place in its address: a region by its code, an authority as "ba-<code>". */
 const demandKey = (p: IndexPlace) => (p.kind === "ba" ? `ba-${p.eia930.toLowerCase()}` : p.eia930.toLowerCase());
 
@@ -634,6 +664,7 @@ export function ForecastView({ query }: { query: Raw }) {
           {q.s === "price" ? <MoreHubsSection slots={slots} hubs={priceHubs} rt={rtPrice} scores={scores} metric={metric} asked={q.day} chosen={q.hub ?? null} hrefOf={(hub) => hrefOf(q, { hub }, "#hubs")} /> : null}
           <ToolSection title="Every place" id="places">
             <AllPlaces index={index} scores={scores} s={q.s} metric={metric} chosen={slots.map((x) => x.place.place)} />
+            {q.s === "demand" ? <AllPlacesPeak index={index} scores={scores} metric={metric} chosen={slots.map((x) => x.place.place)} /> : null}
           </ToolSection>
           <ToolSection title="Downloads" id="downloads">
             <ul className="list-none space-y-1 p-0 text-sm" data-fc-downloads="1">

@@ -127,6 +127,11 @@ save("ahead.json", ahead);
   check(html.includes('data-fc-download="ahead"') && html.includes('href="/forecast/ahead"') && html.includes('href="/forecast/ahead/python"') && html.includes('href="/forecast/ahead/stata"'), "the days ahead: the download, with its two readers");
   check(html.indexOf('data-fc-ahead-block="1"') > html.indexOf('data-fc-tomorrow="a"') && html.indexOf('data-fc-ahead-block="1"') < html.indexOf('id="record"'), "the days ahead stand under Tomorrow, before the record");
   check(html.indexOf('data-fc-peak="1"') > html.indexOf('data-fc-summary="1"') && html.indexOf('data-fc-peak="1"') < html.indexOf('data-fc-cut="month"'), "the peak stands after the summary, before the months");
+  // ready branch wip/ready-forecast-peak-every-place (session 11408): the day's peak in "Every place", one row a place
+  const allPeak = between(html, "data-fc-all-peak=", "id=\"downloads\"");
+  check(allPeak.length > 0 && html.indexOf("data-fc-all-peak=") > html.indexOf('id="places"'), "the day's peak is not in Every place");
+  check(allPeak.includes("region-tex.json|series/demand/peak/last_2_years/methods/erw/mape") && allPeak.includes("region-tex.json|series/demand/peak/last_2_years/days"), "Every place's peak: Texas's figures, keyed");
+  check(!allPeak.includes("peak/backtest/"), "Every place's peak: the last two years only");
   quiet(html, "demand, one place");
 }
 
@@ -142,6 +147,7 @@ save("ahead.json", ahead);
   check(between(two, 'data-fc-peak="1"', "data-fc-cut=").includes('data-fc-group="b"'), "two places: the peak's table has both places' columns");
   quiet(two, "demand, two places");
   const price = draw(FIX, { a: "region-tex", s: "price" });
+  check(!price.includes("data-fc-all-peak"), "price draws Every place's peak");
   check(!price.includes("data-fc-peak") && !price.includes("data-fc-ahead") && !price.includes('data-fc-download="ahead"'), "price draws the peak or the days ahead of demand");
 }
 
