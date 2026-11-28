@@ -285,7 +285,12 @@ class TheLongerBacktest(unittest.TestCase):
                 w = sum(y["mae"][m] * y["hours"] for y in ys) / p["all"]["hours"]
                 self.assertAlmostEqual(w, p["all"]["mae"][m], delta=0.01 * len(ys), msg=(p["place"], m))
             self.assertLessEqual(p["all"]["first_day"], pf["summary"]["backtest"]["first_day"])
-            self.assertEqual(p["all"]["last_day"], pf["summary"]["backtest"]["last_day"], p["place"])
+            # session 10000 (chain 701): long_backtest.json is rebuilt on Sundays (predict data request 15) and the place
+            # files every day, so the long backtest ends no later than the place files, within the week between runs
+            import datetime as _dt
+            self.assertLessEqual(p["all"]["last_day"], pf["summary"]["backtest"]["last_day"], p["place"])
+            gap = (_dt.date.fromisoformat(pf["summary"]["backtest"]["last_day"]) - _dt.date.fromisoformat(p["all"]["last_day"])).days
+            self.assertLessEqual(gap, 8, p["place"])
 
 
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "long_price.json")), "long_price.json is not built here")
@@ -304,7 +309,11 @@ class TheLongerPriceBacktest(unittest.TestCase):
                 self.assertAlmostEqual(w, p["all"]["mae"][m], delta=0.01 * len(ys), msg=(p["place"], m))
             pub = hubs.get(p["place"]) or load(p["place"] + ".json")["series"]["price"]
             self.assertLessEqual(p["all"]["first_day"], pub["summary"]["backtest"]["first_day"], p["place"])
-            self.assertEqual(p["all"]["last_day"], pub["summary"]["backtest"]["last_day"], p["place"])
+            # session 10000 (chain 701): long_price.json is rebuilt on Sundays (predict data request 16), the backtest it
+            # is set beside every day: it ends no later, within the week between its runs
+            self.assertLessEqual(p["all"]["last_day"], pub["summary"]["backtest"]["last_day"], p["place"])
+            gap = (dt.date.fromisoformat(pub["summary"]["backtest"]["last_day"]) - dt.date.fromisoformat(p["all"]["last_day"])).days
+            self.assertLessEqual(gap, 8, p["place"])
 
 
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "price_hubs.json")), "price_hubs.json is not built here")
