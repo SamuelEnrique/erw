@@ -1615,6 +1615,7 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
         log(f"  numbers: real-time maximum skips the held {', '.join(sorted(f'{i} ({t})' for i, t in held_parts))}")
     parts = [p for p in parts if (p[0], p[1]) not in held_parts]
     rt_tables = list(dict.fromkeys(t for _, t, _ in parts))
+    empty = []   # wip/ready-digest-rt-grids: the grids whose table held no row of the day when the issue was written
     for iso, table, market in parts:
         tz = RT_TZ.get(iso, "UTC")
         start = pd.Timestamp(day.date()).tz_localize(tz)
@@ -1622,13 +1623,18 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
             df = erw.fetch(table, start=start, end=start + pd.Timedelta(days=1), market=market)
         except Exception as exc:
             log(f"  numbers: {table} unavailable: {exc!r}")
+            empty.append(iso)
             continue
         if df.empty:
+            empty.append(iso)
             continue
         top = df.loc[df["value"].idxmax()]
         if best is None or top["value"] > best[0]["value"]:
             best = (top, table, tz, iso)
     lines += ["", "**Highest real-time price, yesterday:** "]
+    # wip/ready-digest-rt-grids (the Digest audit of 26 November, finding 5, for Samuel's ruling): the maximum is of the grids
+    # read; a grid whose table held no row of the day when the issue was written is named, so the line is not read as all
+    empty_words = (" No row of the day yet: " + ", ".join(sorted({RT_GRID.get(i, i.upper()) for i in empty})) + ".") if empty else ""
     if best:
         top, table, tz, iso = best
         # session 3457 (faults file row 152): row 71's fix of the Roundup's line, for the Digest's. The interval in the
@@ -1642,6 +1648,8 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
                       f"{' (a 15-minute mean of 5-minute prices)' if top['variable'].endswith('_15m_mean') else ''}.")
     else:
         lines[-1] += "no real-time table covers yesterday."
+    if best:
+        lines[-1] += empty_words
     if held_parts:
         lines[-1] += (" Not read: " + ", ".join(sorted({RT_GRID.get(i, i.upper()) for i, _t in held_parts}))
                       + f" ({LICENSED_NOTE}).")
