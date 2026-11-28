@@ -1,0 +1,349 @@
+// Energy Research Warehouse (ERW) site, chain 780 (session 11600, 28 November 2026): "Where the next gigawatts can
+// go", a section of the All grids tab of /cost-of-power (Samuel's ruling of 22 October 2026: the siting question lives
+// on this tab). One table of every place, a row a place and a column a count; a place opened shows its own file; two
+// places stand side by side as A and B; the rows shown download as a CSV. It reads exactly the files of
+// docs/state/page_files_siting_regions.md (app/cost-of-power/regions/data.ts) and computes nothing: every figure is
+// the file's own and carries its key into the file (pf|..., lib/pagefile.ts), which scripts/check-values.mjs
+// recomputes from the same file.
+//
+// No score, no rank, no advice, and no colour that says good or bad: the reader sorts and filters, and the order is
+// the column's. A count's period and source are in its hover (the column's head, or the cell's own where it differs).
+// A count held for a license is drawn blank with "license needed" on hover; one not shown for another reason says
+// the reason's kind in a word, with the reason on hover. A count whose source table the site itself holds for a
+// license is drawn blank whatever the file carries (lib/license.ts), so no held figure reaches the page through
+// these files. The tab's own parts are untouched: this file is mounted by one line of AllGridsView.tsx.
+import type { ReactNode } from "react";
+import { InlineSpark } from "@/components/InlineSpark";
+import { Num } from "@/components/Num";
+import { SiteLink } from "@/components/SiteLink";
+import { Blank, Tip } from "@/components/largeload/parts";
+import { licenseByGrid, licenseByRow, licenseHeldRow } from "@/lib/license";
+import { pfKey, type Segment } from "@/lib/pagefile";
+import { loadPlace, loadRegions, placePath } from "./data";
+import { AB_ANCHOR, ANCHOR, KINDS, KIND_PLURAL, KIND_TIP, KIND_WORDS, LICENSE_NEEDED, NAME_SORT, PLACE_ANCHOR, TABLE_FILE, choiceOf, colIndex, colsDrawn, defaultCols, figure, heldKind, heldWhy,
+  periodWords, readCell, rowsShown, sortChange, sortWords, sourceWords, srHref, tableCsv, unitWords, utcWords,
+  type Cell, type Choice, type Column, type IndexFile, type Kind, type Place, type PlaceFile, type Source, type TableFile, type TableRow } from "./lib";
+import { RegionsChoices } from "./RegionsChoices";
+import { RegionsDownload } from "./RegionsDownload";
+
+export const REGIONS_TITLE = "Where the next gigawatts can go";
+type Q = Record<string, string | undefined>;
+type Sources = Record<string, Source>;
+
+/** Whether the site holds a count's source table for a license, whatever the file says of the count. A table held by
+ *  row reaches a file through its public rows only; one held by grid is asked for the place's own hub. */
+function siteHolds(table: string | null | undefined, entity: string | null): boolean {
+  if (!table) return false;
+  if (licenseByRow(table)) return false;
+  if (licenseByGrid(table)) return entity ? licenseHeldRow(table, entity) : false;
+  return licenseHeldRow(table, null);
+}
+const siteHoldWords = (table: string) => `${LICENSE_NEEDED}: the site holds ${table} for a license (docs/licenses.md), so the figure this file carries is not drawn`;
+const isCell = (x: unknown): x is Cell => !!x && typeof x === "object" && !Array.isArray(x) && "v" in (x as object) && "held" in (x as object);
+const safeUrl = (u: unknown): string | null => (typeof u === "string" && /^https?:\/\/[^\s"<>]+$/.test(u) ? u : null);
+const text = (x: unknown): string => (typeof x === "string" ? x : typeof x === "number" ? String(x) : "");
+const list = (x: unknown): Record<string, unknown>[] => (Array.isArray(x) ? x.filter((r): r is Record<string, unknown> => !!r && typeof r === "object") : []);
+
+/** A count that is not shown: blank with "license needed" on hover, or the reason's kind in a word with the reason on hover. */
+function Held({ held, what, table }: { held: string | null; what: string; table?: string | null }) {
+  const kind = heldKind(held);
+  if (kind === LICENSE_NEEDED) return <Blank tip={heldWhy(held)} table={table || "siting_regions"} what={what} />;
+  return <Tip tip={heldWhy(held)} data={{ "sr-held": kind }}>{kind}</Tip>;
+}
+/** A figure with its key into its file. */
+const Fig = ({ file, path, v }: { file: string; path: Segment[]; v: number }) => <Num check={pfKey(file, path)} raw={v}>{figure(v)}</Num>;
+
+/** A count of a place's file, as the contract writes one: the figure with its unit, or why it is not shown. */
+function CellView({ c, file, path, what, sources, entity, unit = true }: { c: unknown; file: string; path: Segment[]; what: string; sources: Sources; entity: string | null; unit?: boolean }) {
+  if (!isCell(c)) return <Held held={null} what={what} />;
+  const table = c.src ? sources[c.src]?.table ?? null : null;
+  const held = c.held ?? (c.v === null || c.v === "" ? heldWhy(null) : siteHolds(table, entity) ? siteHoldWords(table as string) : null);
+  if (held) return <Held held={held} what={what} table={table} />;
+  const u = unit ? unitWords(c.unit) : "";
+  if (typeof c.v === "number" && Number.isFinite(c.v)) return <><Fig file={file} path={[...path, "v"]} v={c.v} />{u ? <span className="ml-1 font-sans text-xs">{u}</span> : null}</>;
+  return <span>{utcWords(String(c.v))}</span>;
+}
+/** The words of a count's hover: what it is, the span it covers, and where it comes from. */
+const about = (label: string, unit: string | null | undefined, period: string | null | undefined, sources: Sources, src: string | null | undefined): string =>
+  [`${label}${unitWords(unit) ? `, ${unitWords(unit)}` : ""}.`, period ? `Covers ${periodWords(period)}.` : "", sourceWords(sources, src)].filter(Boolean).join(" ");
+
+// ---- the table of every place ---------------------------------------------------------------------------------------
+
+function TableCell({ table, row, ci, place }: { table: TableFile; row: TableRow; ci: number; place: Place | undefined }) {
+  const col = table.columns[ci], r = readCell(table, row, ci);
+  const source = r.src ? table.sources[r.src]?.table ?? null : null;
+  const what = `${col.label}, ${row.name}`;
+  const held = r.held ?? (siteHolds(source, place?.ref_hub ?? null) ? siteHoldWords(source as string) : null);
+  if (held) return <Held held={held} what={what} table={source} />;
+  const own = row.cell?.[String(ci)];
+  const body = r.v !== null ? <Fig file={TABLE_FILE} path={["rows", { id: row.id }, "v", ci]} v={r.v} /> : <span>{utcWords(r.words ?? "")}</span>;
+  // a cell whose period or source is its own (not the column's) says so in a hover of its own
+  return own && (own.period || own.src) ? <Tip tip={about(what, col.unit, r.period, table.sources, r.src)} plain data={{ "sr-own": "1" }}>{body}</Tip> : body;
+}
+
+function PlacesTable({ q, c, table, index }: { q: Q; c: Choice; table: TableFile; index: IndexFile }) {
+  const rows = rowsShown(table, c), cols = colsDrawn(table, c);
+  const sectionTitle = (id: string) => index.sections.find((s) => s.id === id)?.title ?? id;
+  const placeOf = (id: string) => index.places.find((p) => p.id === id);
+  return (
+    <div className="overflow-x-auto" role="region" aria-label={`${REGIONS_TITLE}: every place`} tabIndex={0} data-sr-table={`${rows.length}|${cols.length}`}>
+      <table className="w-full border-collapse text-left text-sm tabular-nums">
+        <caption className="sr-only">Every place side by side, a row a place and a column a count, each as its publisher printed it</caption>
+        <thead>
+          <tr className="border-b border-ink align-bottom text-xs">
+            <th scope="col" className="px-2 py-1.5 font-normal" aria-sort={c.sort === NAME_SORT ? (c.dir === "asc" ? "ascending" : "descending") : "none"} style={{ minWidth: "11rem" }}>
+              <SiteLink href={srHref(q, sortChange(c, NAME_SORT), null)} scroll={false} gate="plain" className="inline-block py-1 underline decoration-dotted" data-sr-sort={NAME_SORT}>Place{c.sort === NAME_SORT && c.dir === "desc" ? " (turned round)" : ""}</SiteLink>
+            </th>
+            {cols.map((col) => {
+              const on = c.sort === col.key;
+              return (
+                <th key={col.key} scope="col" className="px-2 py-1.5 text-right font-normal" aria-sort={on ? (c.dir === "asc" ? "ascending" : "descending") : "none"} data-sr-col={col.key}>
+                  <span className="block">{sectionTitle(col.section)}</span>
+                  <SiteLink href={srHref(q, sortChange(c, col.key), null)} scroll={false} gate="plain" className="inline-block py-1 font-semibold underline decoration-dotted" data-sr-sort={col.key}>
+                    {col.label}{on ? (c.dir === "desc" ? " (largest first)" : " (smallest first)") : ""}
+                  </SiteLink>
+                  <span className="block"><Tip tip={`${about(col.label, col.unit, col.period, table.sources, col.src)} Press the column's name to sort by it; again to turn the order round.`} data={{ "sr-about": col.key }}>{unitWords(col.unit) || "count"}</Tip></span>
+                </th>
+              );
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={r.id} className={`border-b border-rule align-top ${c.open === r.id ? "bg-paper" : ""}`} data-sr-row={r.id} data-sr-kind-of={r.kind}>
+              <th scope="row" className="px-2 py-1.5 text-left font-normal">
+                <SiteLink href={srHref(q, { sropen: c.open === r.id ? null : r.id }, c.open === r.id ? ANCHOR : PLACE_ANCHOR)} gate="plain" className="inline-block py-0.5 underline decoration-dotted" aria-expanded={c.open === r.id} data-sr-open={r.id}>{r.name}</SiteLink>
+                <span className="block text-xs">
+                  {KIND_WORDS[r.kind] ?? r.kind}
+                  <SiteLink href={srHref(q, { sra: c.a === r.id ? null : r.id, ...(c.b === r.id ? { srb: null } : {}) }, AB_ANCHOR)} gate="plain" aria-label={`${c.a === r.id ? "Take" : "Set"} ${r.name} as A`} aria-current={c.a === r.id ? "true" : undefined}
+                    className={`ml-2 inline-block min-w-6 border px-1 py-0.5 text-center no-underline ${c.a === r.id ? "border-ink font-semibold" : "border-rule"}`} data-sr-set="a">A</SiteLink>
+                  <SiteLink href={srHref(q, { srb: c.b === r.id ? null : r.id, ...(c.a === r.id ? { sra: null } : {}) }, AB_ANCHOR)} gate="plain" aria-label={`${c.b === r.id ? "Take" : "Set"} ${r.name} as B`} aria-current={c.b === r.id ? "true" : undefined}
+                    className={`ml-1 inline-block min-w-6 border px-1 py-0.5 text-center no-underline ${c.b === r.id ? "border-ink font-semibold" : "border-rule"}`} data-sr-set="b">B</SiteLink>
+                </span>
+              </th>
+              {cols.map((col) => <td key={col.key} className="px-2 py-1.5 text-right" data-sr-cell={col.key}><TableCell table={table} row={r} ci={colIndex(table, col.key)} place={placeOf(r.id)} /></td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ---- A and B, side by side ------------------------------------------------------------------------------------------
+
+function AbPanel({ q, c, table, index }: { q: Q; c: Choice; table: TableFile; index: IndexFile }) {
+  const slots = ([["a", c.a], ["b", c.b]] as const).map(([k, id]) => ({ k, row: id ? table.rows.find((r) => r.id === id) : undefined, place: id ? index.places.find((p) => p.id === id) : undefined }));
+  const name = (s: (typeof slots)[number]) => s.row?.name ?? "none chosen";
+  return (
+    <section id={AB_ANCHOR} className="mb-6 max-w-4xl border border-rule bg-paper px-4 py-3 text-sm" aria-label="A and B, side by side" data-sr-ab={`${c.a ?? ""}|${c.b ?? ""}`}>
+      <h3 className="font-serif text-lg">A and B, side by side: {name(slots[0])} and {name(slots[1])}
+        <SiteLink href={srHref(q, { sra: null, srb: null })} gate="plain" className="ml-2 inline-block py-0.5 font-sans text-xs underline">Clear A and B</SiteLink></h3>
+      <div className="mt-2 overflow-x-auto" role="region" aria-label="A and B, every count" tabIndex={0}>
+        <table className="w-full border-collapse text-left text-sm tabular-nums">
+          <caption className="sr-only">Every count of the table for the two places chosen, A beside B</caption>
+          <thead>
+            <tr className="border-b border-ink text-xs">
+              <th scope="col" className="px-2 py-1.5 font-normal">Count</th>
+              {slots.map((s) => (
+                <th key={s.k} scope="col" className="px-2 py-1.5 text-right font-normal" data-sr-ab-head={s.k}>
+                  {s.k.toUpperCase()}: {s.row ? <SiteLink href={srHref(q, { sropen: s.row.id }, PLACE_ANCHOR)} gate="plain" className="inline-block py-0.5 underline decoration-dotted">{s.row.name}</SiteLink> : "none chosen"}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {index.sections.flatMap((sec) => table.columns.map((col, ci) => ({ col, ci })).filter((x) => x.col.section === sec.id).map(({ col, ci }, i) => (
+              <tr key={col.key} className="border-b border-rule align-top" data-sr-ab-row={col.key}>
+                <th scope="row" className="px-2 py-1.5 text-left font-normal">
+                  {i === 0 ? <span className="block text-xs font-semibold">{sec.title}</span> : null}
+                  <Tip tip={about(col.label, col.unit, col.period, table.sources, col.src)}>{col.label}{unitWords(col.unit) ? `, ${unitWords(col.unit)}` : ""}</Tip>
+                </th>
+                {slots.map((s) => <td key={s.k} className="px-2 py-1.5 text-right" data-sr-ab-cell={s.k}>{s.row ? <TableCell table={table} row={s.row} ci={ci} place={s.place} /> : null}</td>)}
+              </tr>
+            )))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+// ---- a place opened: its own file ------------------------------------------------------------------------------------
+
+const th = "px-2 py-1 font-normal", td = "px-2 py-1";
+/** A small table of one of a place's lists. `cols`: a head and what a row draws under it. */
+function Rows({ caption, head, rows, mark }: { caption: string; head: { label: string; right?: boolean; tip?: string }[]; rows: { key: string; cells: ReactNode[] }[]; mark: string }) {
+  if (!rows.length) return null;
+  return (
+    <div className="mt-2 overflow-x-auto" role="region" aria-label={caption} tabIndex={0} data-sr-list={mark} data-sr-list-rows={rows.length}>
+      <table className="w-full border-collapse text-left text-sm tabular-nums">
+        <caption className="pb-1 text-left text-xs font-semibold">{caption}</caption>
+        <thead><tr className="border-b border-ink text-xs">{head.map((h) => <th key={h.label} scope="col" className={`${th} ${h.right ? "text-right" : ""}`}>{h.tip ? <Tip tip={h.tip}>{h.label}</Tip> : h.label}</th>)}</tr></thead>
+        <tbody>{rows.map((r) => <tr key={r.key} className="border-b border-rule align-top">{r.cells.map((cell, i) => <td key={i} className={`${td} ${head[i]?.right ? "text-right" : ""}`}>{cell}</td>)}</tr>)}</tbody>
+      </table>
+    </div>
+  );
+}
+const num = (file: string, path: Segment[], v: unknown): ReactNode => (typeof v === "number" && Number.isFinite(v) ? <Fig file={file} path={path} v={v} /> : null);
+const words = (v: unknown): ReactNode => (text(v) ? text(v) : null);
+const link = (label: unknown, url: unknown, mark: string): ReactNode => { const u = safeUrl(url); return u ? <a href={u} rel="noopener" data-sr-source={mark}>{text(label) || "the source"}</a> : words(label); };
+
+function PlaceSection({ id, title, place, file, counts, entity }: { id: string; title: string; place: PlaceFile; file: string; counts: { key: string; label: string; unit: string }[]; entity: string | null }) {
+  const sec = place.sections[id];
+  const S = place.sources ?? {};
+  const base: Segment[] = ["sections", id];
+  if (!sec) return null;
+  const head = <h4 className="font-semibold">{title}</h4>;
+  if (sec.status && sec.status !== "shown") {
+    return <div className="border-t border-rule py-2" data-sr-section={id} data-sr-section-state="not-shown">{head}<p className="mt-1"><Held held={sec.status} what={title} /></p></div>;
+  }
+  const label = (key: string) => counts.find((x) => x.key === key)?.label ?? key.replace(/_/g, " ");
+  // every count the section holds as a cell of its own, the index's counts first and in its order
+  const own = [...counts.map((x) => x.key), ...Object.keys(sec)].filter((k, i, all) => all.indexOf(k) === i && isCell(sec[k]));
+  const tipOf = (c: Cell, what: string) => about(what, c.unit, c.period, S, c.src);
+  const cellAt = (c: unknown, path: Segment[], what: string, unit = true) => <CellView c={c} file={file} path={path} what={what} sources={S} entity={entity} unit={unit} />;
+  let extra: ReactNode = null;
+  if (id === "price") {
+    const hubs = list(sec.hubs);
+    extra = <Rows mark="price.hubs" caption="Each hub's hourly prices"
+      head={[{ label: "Hub" }, { label: "Market" }, { label: "Mean, USD/MWh", right: true }, { label: "95th percentile, USD/MWh", right: true }, { label: "Hours above USD 100", right: true }, { label: "Hours below zero", right: true }, { label: "Hours held", right: true, tip: isCell(hubs[0]?.hours) ? tipOf(hubs[0].hours as Cell, "Hours held") : undefined }]}
+      rows={hubs.map((h, i) => ({ key: `${text(h.hub_id)}|${text(h.market)}|${i}`, cells: [words(h.hub) ?? words(h.hub_id), words(h.market),
+        ...(["mean", "p95", "hours_over_100", "hours_below_0", "hours"] as const).map((k) => cellAt(h[k], [...base, "hubs", i, k], `${text(h.hub) || "the hub"}, ${text(h.market)}, ${label(k)}`, false))] }))} />;
+  } else if (id === "congestion") {
+    const hubs = list(sec.hubs);
+    const top = (key: "top_by_hours" | "top_by_cost", caption: string) => {
+      const rows = list(sec[key]);
+      return <Rows mark={`congestion.${key}`} caption={caption}
+        head={[{ label: "Constraint, as the operator names it", tip: [sec.top_period ? `Covers ${periodWords(text(sec.top_period))}.` : "", sourceWords(S, text(sec.top_src) || null)].filter(Boolean).join(" ") || undefined }, { label: "Contingency" }, { label: "Hours bound", right: true }, { label: "Cost, USD/MWh times hours", right: true }, { label: "Mean, USD/MWh", right: true }]}
+        rows={rows.map((r, i) => ({ key: `${i}`, cells: [words(r.name), words(r.contingency), num(file, [...base, key, i, "hours"], r.hours), num(file, [...base, key, i, "cost"], r.cost), num(file, [...base, key, i, "abs_mean"], r.abs_mean)] }))} />;
+    };
+    extra = <>
+      <Rows mark="congestion.hubs" caption="Congestion in each hub's price" head={[{ label: "Hub" }, { label: "Share of the price, %", right: true }, { label: "Mean congestion part, USD/MWh", right: true }]}
+        rows={hubs.map((h, i) => ({ key: `${text(h.hub_id)}|${i}`, cells: [words(h.hub) ?? words(h.hub_id), cellAt(h.congestion_share_pct, [...base, "hubs", i, "congestion_share_pct"], `${text(h.hub)}, share of the price that was congestion`, false), cellAt(h.congestion_mean, [...base, "hubs", i, "congestion_mean"], `${text(h.hub)}, mean congestion part of the price`, false)] }))} />
+      {typeof sec.top_held === "string" && sec.top_held ? <p className="mt-1">The constraints that bound most: <Held held={sec.top_held} what="The constraints that bound most" /></p> : <>{top("top_by_hours", "The ten constraints that bound for the most hours")}{top("top_by_cost", "The ten constraints with the highest cost")}</>}
+    </>;
+  } else if (id === "queue") {
+    const fuels = list(sec.by_fuel);
+    extra = <Rows mark="queue.by_fuel" caption="Active requests by fuel" head={[{ label: "Fuel, as Berkeley Lab names it" }, { label: "Active, MW", right: true }, { label: "Active requests", right: true }]}
+      rows={fuels.map((f, i) => ({ key: `${text(f.fuel)}|${i}`, cells: [words(f.fuel), cellAt(f.active_mw, [...base, "by_fuel", i, "active_mw"], `${text(f.fuel)}, active megawatts`, false), cellAt(f.active_projects, [...base, "by_fuel", i, "active_projects"], `${text(f.fuel)}, active requests`, false)] }))} />;
+  } else if (id === "large_load") {
+    const rules = list(sec.rules), totals = list(sec.queue_totals), laws = list(sec.laws);
+    extra = <>
+      <Rows mark="large_load.rules" caption="The large-load rules of its utilities, each as its document prints it"
+        head={[{ label: "Utility and its document" }, { label: "State" }, { label: "Status" }, { label: "Smallest load, MW", right: true }, { label: "Contract term" }, { label: "Collateral" }, { label: "Exit fee" }, { label: "Study timeline" }]}
+        rows={rules.map((r, i) => ({ key: `${text(r.id)}|${i}`, cells: [link(r.utility, r.source_url, "rule"), words(r.state), words(r.status), num(file, [...base, "rules", i, "threshold_mw"], r.threshold_mw), words(r.contract_term), words(r.collateral), words(r.exit_fee), words(r.study_timeline)] }))} />
+      <Rows mark="large_load.queue_totals" caption="Large-load requests its utilities have stated, each as printed" head={[{ label: "Utility and its document" }, { label: "State" }, { label: "Date" }, { label: "MW", right: true }, { label: "As printed" }]}
+        rows={totals.map((r, i) => ({ key: `${i}`, cells: [link(r.utility, r.source_url, "queue-total"), words(r.state), words(r.date), num(file, [...base, "queue_totals", i, "mw"], r.mw), words(r.figure)] }))} />
+      <Rows mark="large_load.laws" caption="State laws and bills on large loads, in the states it reaches" head={[{ label: "State" }, { label: "Bill" }, { label: "Status" }, { label: "Title" }]}
+        rows={laws.map((r, i) => ({ key: `${i}`, cells: [words(r.state), words(r.bill), words(r.status), words(r.title)] }))} />
+    </>;
+  } else if (id === "mix_carbon") {
+    const mix = list(sec.mix);
+    const hours = Array.isArray(sec.intensity_by_hour) ? (sec.intensity_by_hour as unknown[]) : [];
+    const pts = hours.map((v, i) => ({ t: `${String(i).padStart(2, "0")}:00`, v })).filter((p): p is { t: string; v: number } => typeof p.v === "number" && Number.isFinite(p.v));
+    const hourHeld = typeof sec.intensity_by_hour_held === "string" && sec.intensity_by_hour_held ? sec.intensity_by_hour_held : pts.length < 24 ? "not held: the file holds fewer than 24 hours" : null;
+    const hourTip = ["Carbon intensity by hour of day in the place's own clock, kg CO2/MWh, the mean of each hour.", sec.intensity_by_hour_period ? `Covers ${periodWords(text(sec.intensity_by_hour_period))}.` : "", sourceWords(S, text(sec.intensity_by_hour_src) || null), "Put the mouse on the line for an hour's figure."].filter(Boolean).join(" ");
+    extra = <>
+      <p className="mt-1" data-sr-trend="intensity_by_hour"><Tip tip={hourTip}>By hour of day</Tip>:{" "}
+        {hourHeld ? <Held held={hourHeld} what="Carbon intensity by hour of day" /> : <span className="inline-block bg-white p-1 align-middle"><InlineSpark values={pts} label={`${place.name}: carbon intensity by hour of day, kg CO2/MWh`} width={168} height={32} /></span>}
+        {!hourHeld ? <span className="ml-2 text-xs">lowest <Fig file={file} path={[...base, "intensity_by_hour", pts.reduce((m, p, i) => (p.v < pts[m].v ? i : m), 0)]} v={Math.min(...pts.map((p) => p.v))} /> at {pts.reduce((m, p) => (p.v < m.v ? p : m), pts[0]).t}, highest <Fig file={file} path={[...base, "intensity_by_hour", pts.reduce((m, p, i) => (p.v > pts[m].v ? i : m), 0)]} v={Math.max(...pts.map((p) => p.v))} /> at {pts.reduce((m, p) => (p.v > m.v ? p : m), pts[0]).t}</span> : null}
+      </p>
+      <Rows mark="mix_carbon.mix" caption="Each fuel's share of net generation" head={[{ label: "Fuel" }, { label: "Share, %", right: true, tip: isCell(mix[0]?.share_pct) ? tipOf(mix[0].share_pct as Cell, "Share of net generation") : undefined }]}
+        rows={mix.map((m, i) => ({ key: `${text(m.fuel)}|${i}`, cells: [words(m.fuel), cellAt(m.share_pct, [...base, "mix", i, "share_pct"], `${text(m.fuel)}, share of net generation`, false)] }))} />
+    </>;
+  } else if (id === "imports") {
+    const partners = list(sec.partners);
+    extra = <Rows mark="imports.partners" caption="The three neighbours it took most from, net" head={[{ label: "Neighbour" }, { label: "Net imports from it, MWh", right: true, tip: isCell(partners[0]?.net_import_mwh) ? tipOf(partners[0].net_import_mwh as Cell, "Net imports from the neighbour") : undefined }]}
+      rows={partners.map((p, i) => ({ key: `${text(p.ba)}|${i}`, cells: [<>{words(p.name) ?? words(p.ba)}{text(p.ba) && text(p.name) ? <span className="ml-1 text-xs">({text(p.ba)})</span> : null}</>, cellAt(p.net_import_mwh, [...base, "partners", i, "net_import_mwh"], `Net imports from ${text(p.name) || text(p.ba)}`, false)] }))} />;
+  } else if (id === "datacenters") {
+    const rows = list(sec.list);
+    const heldTable = ["datacenter_facilities", "datacenter_projects"].find((t) => siteHolds(t, null));
+    extra = heldTable && rows.length ? <p className="mt-1">The datacenters there: <Held held={siteHoldWords(heldTable)} what="The datacenters there" table={heldTable} /></p>
+      : <Rows mark="datacenters.list" caption="The datacenters there, the largest stated first" head={[{ label: "Name and its source" }, { label: "Operator" }, { label: "State" }, { label: "County" }, { label: "MW stated", right: true }, { label: "Status" }]}
+        rows={rows.map((r, i) => ({ key: `${i}`, cells: [link(r.name, r.source_url, "datacenter"), words(r.operator), words(r.state), words(r.county), num(file, [...base, "list", i, "mw"], r.mw), words(r.status)] }))} />;
+  }
+  return (
+    <div className="border-t border-rule py-2" data-sr-section={id} data-sr-section-state="shown">
+      {head}
+      {own.length ? (
+        <dl className="mt-1 grid gap-x-6 gap-y-1 sm:grid-cols-2 xl:grid-cols-3" data-sr-counts={own.length}>
+          {own.map((k) => { const c = sec[k] as Cell; return (
+            <div key={k} className="flex items-baseline justify-between gap-3 border-b border-rule/60 py-0.5" data-sr-count={`${id}.${k}`}>
+              <dt><Tip tip={tipOf(c, label(k))}>{label(k)}</Tip></dt>
+              <dd className="text-right tabular-nums">{cellAt(c, [...base, k], `${label(k)}, ${place.name}`)}</dd>
+            </div>
+          ); })}
+        </dl>
+      ) : null}
+      {extra}
+    </div>
+  );
+}
+
+function PlacePanel({ q, index, id }: { q: Q; index: IndexFile; id: string }) {
+  const p = index.places.find((x) => x.id === id) as Place;
+  const place = loadPlace(index, id), file = placePath(index, id);
+  const close = <SiteLink href={srHref(q, { sropen: null })} gate="plain" className="ml-2 inline-block py-0.5 font-sans text-xs underline" data-sr-close={id}>Close</SiteLink>;
+  return (
+    <section id={PLACE_ANCHOR} className="mb-6 border border-rule bg-paper px-4 py-3 text-sm" aria-label={`${p.name}: its counts`} data-sr-place={id} data-sr-place-state={place && file ? "file" : "none"}>
+      <h3 className="font-serif text-lg">{p.name}{close}</h3>
+      <p className="mt-1 text-xs" data-sr-place-about="1">
+        <Tip tip={KIND_TIP[p.kind]}>{KIND_WORDS[p.kind]}</Tip>
+        {p.code ? <>, EIA code {p.code}</> : null}
+        {p.members.length > 1 ? <>; its authorities: {p.members.join(", ")}</> : null}
+        {p.ref_hub ? <>; the hub its prices are read at: {p.ref_hub}</> : null}
+        ; its clock: {p.tz}
+      </p>
+      {!place || !file ? (
+        <p className="mt-2"><Held held="not held: this place's own file is not on this build of the site; the table's row is all the page holds of it" what={`${p.name}: its counts`} /></p>
+      ) : (
+        <div className="mt-2">
+          {index.sections.map((s) => <PlaceSection key={s.id} id={s.id} title={s.title} place={place} file={file} counts={s.counts} entity={p.ref_hub} />)}
+        </div>
+      )}
+    </section>
+  );
+}
+
+// ---- the section -------------------------------------------------------------------------------------------------------
+
+export function RegionsSection({ q }: { q: Q }) {
+  const got = loadRegions();
+  const frame = (state: string, body: ReactNode) => (
+    <section className="mt-4 min-w-0 lg:col-span-2" id={ANCHOR} aria-label={REGIONS_TITLE} data-llr="regions" data-sr="1" data-sr-state={state}>
+      <h2 className="mb-2 border-b border-rule pb-1 font-serif text-xl text-accent">{REGIONS_TITLE}</h2>
+      {body}
+    </section>
+  );
+  if (got.state !== "files") {
+    return frame(got.state, (
+      <p className="mb-3 max-w-4xl text-sm" data-sr-not-built="1">
+        Every region, market operator and large balancing authority side by side, a count a column: price, congestion, how tight the grid runs, what waits to connect, the large-load rules, carbon, what it leans on its neighbours for, what is spare, how well its demand is forecast, and the datacenters already there.{" "}
+        <Held held={got.why} what={REGIONS_TITLE} />
+      </p>
+    ));
+  }
+  const { index, table } = got;
+  const c = choiceOf(q, table, index);
+  const rows = rowsShown(table, c), cols = colsDrawn(table, c);
+  const counts = Object.fromEntries(KINDS.map((k) => [k, table.rows.filter((r) => r.kind === k).length])) as Record<Kind, number>;
+  const address = srHref(q, {}, ANCHOR);
+  return frame("files", (
+    <>
+      <p className="mb-3 max-w-4xl text-sm" data-sr-lead="1">
+        {table.rows.length} places side by side, a row a place and a column a count: {KINDS.filter((k) => counts[k]).map((k, i, all) => <span key={k}>{i ? (i === all.length - 1 ? " and " : ", ") : ""}{counts[k]} <Tip tip={k === "ba" && index.ba_floor_mw ? `${KIND_TIP.ba} The floor: ${index.ba_floor_mw.toLocaleString("en-US")} MW${index.ba_floor_period ? `, over ${periodWords(index.ba_floor_period)}` : ""}.` : KIND_TIP[k]}>{KIND_PLURAL[k]}</Tip></span>)}.
+        {" "}Each count is <Tip tip={`As its publisher printed it, or a plain arithmetic of it (a share, a sum, a mean, a percentile, a count of hours), from tables the warehouse already holds. A count's period and source are in its column's hover. Files built ${utcWords(table.built)}.`}>its publisher&apos;s own</Tip>; nothing is scored or ranked. Press a place&apos;s name for everything its file holds.
+      </p>
+      <RegionsChoices key={`${c.cols.join(",")}|${c.kind}|${c.a}|${c.b}`} q={q} columns={table.columns} sections={index.sections.map((s) => ({ id: s.id, title: s.title }))} chosen={c.cols} defaults={defaultCols(table.columns)}
+        kind={c.kind} a={c.a} b={c.b} places={table.rows.map((r) => ({ id: r.id, name: r.name, kind: r.kind }))} counts={counts} />
+      {c.a || c.b ? <AbPanel q={q} c={c} table={table} index={index} /> : null}
+      {c.open ? <PlacePanel q={q} index={index} id={c.open} /> : null}
+      <p className="mb-2 text-sm" role="status" data-sr-shown={`${rows.length}|${table.rows.length}`} data-sr-sorted={`${c.sort}|${c.dir}`}>
+        {rows.length} of {table.rows.length} places shown{c.kind !== "all" ? ` (the ${KIND_PLURAL[c.kind]})` : ""}, {sortWords(c, table)}. The order is the column&apos;s, not a ranking of places.{" "}
+        <RegionsDownload csv={tableCsv(table, rows, cols, address)} rows={rows.length} cols={cols.length} />
+      </p>
+      <PlacesTable q={q} c={c} table={table} index={index} />
+    </>
+  ));
+}

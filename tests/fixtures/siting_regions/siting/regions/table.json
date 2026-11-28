@@ -1,0 +1,606 @@
+{
+ "built": "2026-11-28T12:00:00Z",
+ "example": false,
+ "fixture": "MADE-UP values for the regions section's tests (tests/fixtures/siting_regions/make_fixture.py); not real, never deployed",
+ "contract": "docs/state/page_files_siting_regions.md",
+ "method": "docs/methods/siting_regions.md",
+ "license": "public",
+ "sources": {
+  "ercot_prices": {
+   "table": "ercot_all_hub_prices_history",
+   "publisher": "ERCOT",
+   "license": "public",
+   "retrieved": "2026-11-28T06:10:00Z",
+   "report": "ERCOT settlement point prices at hubs, day-ahead and real-time"
+  },
+  "iso_prices": {
+   "table": "iso_hub_prices_history",
+   "publisher": "NYISO",
+   "license": "internal",
+   "retrieved": "2026-11-28T06:12:00Z",
+   "report": "NYISO zonal prices"
+  },
+  "congestion": {
+   "table": "price_congestion_monthly",
+   "publisher": "CAISO, SPP",
+   "license": "public",
+   "retrieved": "2026-11-27T06:00:00Z",
+   "report": "the congestion part of the hub price, by month"
+  },
+  "constraints": {
+   "table": "constraints_binding_monthly",
+   "publisher": "CAISO, SPP",
+   "license": "public",
+   "retrieved": "2026-11-27T06:00:00Z",
+   "report": "binding constraints by month"
+  },
+  "eia930_demand": {
+   "table": "eia930_ba_demand_hourly",
+   "publisher": "U.S. Energy Information Administration",
+   "license": "public",
+   "retrieved": "2026-11-28T05:00:00Z",
+   "report": "Form EIA-930, hourly demand by balancing authority"
+  },
+  "alerts": {
+   "table": "grid_all_alerts",
+   "publisher": "ERCOT, CAISO, DOE",
+   "license": "public",
+   "retrieved": "2026-11-28T05:30:00Z",
+   "report": "operators' notices and DOE's emergency orders"
+  },
+  "outages": {
+   "table": "generation_outages_hourly",
+   "publisher": "CAISO, SPP",
+   "license": "public",
+   "retrieved": "2026-11-27T06:00:00Z",
+   "report": "generation out of service by hour"
+  },
+  "cdr": {
+   "table": "ercot_cdr_reserve_margins",
+   "publisher": "ERCOT",
+   "license": "public",
+   "retrieved": "2026-11-20T06:00:00Z",
+   "report": "ERCOT's Capacity, Demand and Reserves report"
+  },
+  "queue": {
+   "table": "lbnl_interconnection_queue",
+   "publisher": "Lawrence Berkeley National Laboratory",
+   "license": "public",
+   "retrieved": "2026-11-01T06:00:00Z",
+   "report": "Queued Up, 2026 edition, through 2025"
+  },
+  "durations": {
+   "table": "interconnection_durations",
+   "publisher": "Lawrence Berkeley National Laboratory",
+   "license": "public",
+   "retrieved": "2026-11-01T06:00:00Z",
+   "report": "Queued Up, 2026 edition: years from request to operation"
+  },
+  "rules": {
+   "table": "utility_large_load_rules",
+   "publisher": "utilities and state commissions",
+   "license": "public",
+   "retrieved": "2026-11-26T06:00:00Z",
+   "report": "large-load tariffs, contracts and orders, each read in its own document"
+  },
+  "carbon": {
+   "table": "carbon_intensity_hourly",
+   "publisher": "U.S. Energy Information Administration; the ERW's arithmetic",
+   "license": "public",
+   "retrieved": "2026-11-28T05:00:00Z",
+   "report": "carbon intensity of demand by hour, from Form EIA-930 generation by fuel"
+  },
+  "supply": {
+   "table": "eia930_ba_supply_hourly",
+   "publisher": "U.S. Energy Information Administration",
+   "license": "public",
+   "retrieved": "2026-11-28T05:00:00Z",
+   "report": "Form EIA-930, hourly net generation by fuel"
+  },
+  "interchange": {
+   "table": "eia930_ba_interchange_hourly_2026",
+   "publisher": "U.S. Energy Information Administration",
+   "license": "public",
+   "retrieved": "2026-11-28T05:00:00Z",
+   "report": "Form EIA-930, hourly interchange between authorities"
+  },
+  "curtailment": {
+   "table": "iso_curtailment_monthly",
+   "publisher": "CAISO, ERCOT, SPP",
+   "license": "public",
+   "retrieved": "2026-11-27T06:00:00Z",
+   "report": "wind and solar curtailed, by month"
+  },
+  "scores": {
+   "table": "eia930_ba_demand_hourly",
+   "publisher": "the ERW forecast's report card",
+   "license": "public",
+   "retrieved": "2026-11-27T14:39:36Z",
+   "report": "site/data/predict/scores.json: the operator's filed forecast and the ERW forecast against what happened"
+  },
+  "dc_facilities": {
+   "table": "datacenter_facilities",
+   "publisher": "news and company pages",
+   "license": "public",
+   "retrieved": "2026-11-26T06:00:00Z",
+   "report": "datacenter facilities"
+  },
+  "dc_projects": {
+   "table": "datacenter_projects",
+   "publisher": "news and company pages",
+   "license": "public",
+   "retrieved": "2026-11-26T06:00:00Z",
+   "report": "announced datacenter projects"
+  }
+ },
+ "columns": [
+  {
+   "key": "price.mean_da",
+   "section": "price",
+   "label": "Day-ahead price, mean",
+   "unit": "USD/MWh",
+   "period": "2025-11-01..2026-10-31",
+   "src": "ercot_prices"
+  },
+  {
+   "key": "price.p95_da",
+   "section": "price",
+   "label": "Day-ahead price, 95th percentile",
+   "unit": "USD/MWh",
+   "period": "2025-11-01..2026-10-31",
+   "src": "ercot_prices"
+  },
+  {
+   "key": "price.hours_over_100_da",
+   "section": "price",
+   "label": "Day-ahead hours above USD 100",
+   "unit": "hours",
+   "period": "2025-11-01..2026-10-31",
+   "src": "ercot_prices"
+  },
+  {
+   "key": "price.hours_below_0_da",
+   "section": "price",
+   "label": "Day-ahead hours below zero",
+   "unit": "hours",
+   "period": "2025-11-01..2026-10-31",
+   "src": "ercot_prices"
+  },
+  {
+   "key": "price.mean_rt",
+   "section": "price",
+   "label": "Real-time price, mean",
+   "unit": "USD/MWh",
+   "period": "2025-11-01..2026-10-31",
+   "src": "ercot_prices"
+  },
+  {
+   "key": "congestion.share_pct",
+   "section": "congestion",
+   "label": "Share of the price that was congestion",
+   "unit": "pct",
+   "period": "2025-11-01..2026-10-31",
+   "src": "congestion"
+  },
+  {
+   "key": "tightness.peak_mw",
+   "section": "tightness",
+   "label": "Peak demand",
+   "unit": "MW",
+   "period": "2025-11-01..2026-10-31",
+   "src": "eia930_demand"
+  },
+  {
+   "key": "tightness.peak_growth_pct",
+   "section": "tightness",
+   "label": "Growth of the peak",
+   "unit": "pct",
+   "period": "2025-11-01..2026-10-31",
+   "src": "eia930_demand"
+  },
+  {
+   "key": "tightness.alert_days",
+   "section": "tightness",
+   "label": "Days with any notice",
+   "unit": "days",
+   "period": "2025-11-01..2026-10-31",
+   "src": "alerts"
+  },
+  {
+   "key": "tightness.out_mw_at_peak",
+   "section": "tightness",
+   "label": "Out of service at the peak hour",
+   "unit": "MW",
+   "period": "2025-11-01..2026-10-31",
+   "src": "outages"
+  },
+  {
+   "key": "tightness.reserve_margin_pct",
+   "section": "tightness",
+   "label": "Planning reserve margin",
+   "unit": "pct",
+   "period": "2025-11-01..2026-10-31",
+   "src": "cdr"
+  },
+  {
+   "key": "queue.active_mw",
+   "section": "queue",
+   "label": "Active requests",
+   "unit": "MW",
+   "period": "2026",
+   "src": "queue"
+  },
+  {
+   "key": "queue.withdrawn_share_pct",
+   "section": "queue",
+   "label": "Share withdrawn, historically",
+   "unit": "pct",
+   "period": "2026",
+   "src": "queue"
+  },
+  {
+   "key": "queue.median_years_to_operation",
+   "section": "queue",
+   "label": "Median years from request to operation",
+   "unit": "years",
+   "period": "2026",
+   "src": "durations"
+  },
+  {
+   "key": "large_load.rules_n",
+   "section": "large_load",
+   "label": "Large-load rules held",
+   "unit": "count",
+   "period": "2026",
+   "src": "rules"
+  },
+  {
+   "key": "large_load.smallest_threshold_mw",
+   "section": "large_load",
+   "label": "Smallest load a rule applies to",
+   "unit": "MW",
+   "period": "2026",
+   "src": "rules"
+  },
+  {
+   "key": "mix_carbon.intensity",
+   "section": "mix_carbon",
+   "label": "Carbon intensity, mean",
+   "unit": "kgCO2/MWh",
+   "period": "2025-11-01..2026-10-31",
+   "src": "carbon"
+  },
+  {
+   "key": "imports.net_import_share_pct",
+   "section": "imports",
+   "label": "Net imports as a share of demand",
+   "unit": "pct",
+   "period": "2025-11-01..2026-10-31",
+   "src": "interchange"
+  },
+  {
+   "key": "imports.net_import_share_peak_pct",
+   "section": "imports",
+   "label": "Net imports as a share of demand, 100 highest hours",
+   "unit": "pct",
+   "period": "2025-11-01..2026-10-31",
+   "src": "interchange"
+  },
+  {
+   "key": "spare.curtailed_wind_mwh",
+   "section": "spare",
+   "label": "Wind curtailed",
+   "unit": "MWh",
+   "period": "2025-11-01..2026-10-31",
+   "src": "curtailment"
+  },
+  {
+   "key": "spare.curtailed_solar_mwh",
+   "section": "spare",
+   "label": "Solar curtailed",
+   "unit": "MWh",
+   "period": "2025-11-01..2026-10-31",
+   "src": "curtailment"
+  },
+  {
+   "key": "forecast.operator_mape_pct",
+   "section": "forecast",
+   "label": "Operator's forecast error",
+   "unit": "pct",
+   "period": "2025-11-01..2026-10-31",
+   "src": "scores"
+  },
+  {
+   "key": "forecast.erw_mape_pct",
+   "section": "forecast",
+   "label": "ERW forecast's error",
+   "unit": "pct",
+   "period": "2025-11-01..2026-10-31",
+   "src": "scores"
+  },
+  {
+   "key": "datacenters.facilities_n",
+   "section": "datacenters",
+   "label": "Facilities held",
+   "unit": "count",
+   "period": "2026",
+   "src": "dc_facilities"
+  },
+  {
+   "key": "datacenters.projects_mw_stated",
+   "section": "datacenters",
+   "label": "Projects' stated megawatts",
+   "unit": "MW",
+   "period": "2026",
+   "src": "dc_projects"
+  }
+ ],
+ "rows": [
+  {
+   "id": "region-tex",
+   "kind": "region",
+   "name": "Texas",
+   "v": [
+    46.31,
+    118.7,
+    312,
+    41,
+    44.02,
+    null,
+    85111.0,
+    3.42,
+    9,
+    null,
+    12.1,
+    204512.5,
+    71.3,
+    3.8,
+    6,
+    75,
+    372.44,
+    0.14,
+    0.31,
+    3104220,
+    2987003,
+    2.19,
+    6.1,
+    141,
+    23450
+   ],
+   "cell": {
+    "5": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "congestion",
+     "held": "not published: the operator prints no such figure in the files read"
+    },
+    "9": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "outages",
+     "held": "not published: the operator prints no such figure in the files read"
+    }
+   }
+  },
+  {
+   "id": "op-ercot",
+   "kind": "operator",
+   "name": "ERCOT",
+   "v": [
+    46.31,
+    118.7,
+    312,
+    41,
+    44.02,
+    null,
+    85111.0,
+    3.42,
+    9,
+    null,
+    12.1,
+    204512.5,
+    71.3,
+    3.8,
+    6,
+    75,
+    372.44,
+    0.14,
+    0.31,
+    3104220,
+    2987003,
+    2.19,
+    6.1,
+    141,
+    23450
+   ],
+   "cell": {
+    "5": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "congestion",
+     "held": "not published: the operator prints no such figure in the files read"
+    },
+    "9": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "outages",
+     "held": "not published: the operator prints no such figure in the files read"
+    }
+   }
+  },
+  {
+   "id": "op-nyiso",
+   "kind": "operator",
+   "name": "NYISO",
+   "v": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    31005.5,
+    -1.2,
+    null,
+    null,
+    18.6,
+    118040.0,
+    78.9,
+    4.6,
+    2,
+    20,
+    248.9,
+    12.75,
+    21.4,
+    null,
+    null,
+    1.96,
+    3.05,
+    38,
+    4100
+   ],
+   "cell": {
+    "0": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "iso_prices",
+     "held": "license needed: NYISO's prices need a paid data license (docs/licenses.md); none is held"
+    },
+    "1": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "iso_prices",
+     "held": "license needed: NYISO's prices need a paid data license (docs/licenses.md); none is held"
+    },
+    "2": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "iso_prices",
+     "held": "license needed: NYISO's prices need a paid data license (docs/licenses.md); none is held"
+    },
+    "3": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "iso_prices",
+     "held": "license needed: NYISO's prices need a paid data license (docs/licenses.md); none is held"
+    },
+    "4": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "iso_prices",
+     "held": "license needed: NYISO's prices need a paid data license (docs/licenses.md); none is held"
+    },
+    "5": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "iso_prices",
+     "held": "license needed: NYISO's prices need a paid data license (docs/licenses.md); none is held"
+    },
+    "8": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "alerts",
+     "held": "not published: the operator prints no such figure in the files read"
+    },
+    "9": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "outages",
+     "held": "not published: the operator prints no such figure in the files read"
+    },
+    "10": {
+     "period": "2027",
+     "src": "cdr",
+     "held": null
+    },
+    "19": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "curtailment",
+     "held": "not published: the operator prints no such figure in the files read"
+    },
+    "20": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "curtailment",
+     "held": "not published: the operator prints no such figure in the files read"
+    }
+   }
+  },
+  {
+   "id": "ba-soco",
+   "kind": "ba",
+   "name": "Southern Company Services, Inc. - Trans",
+   "v": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    40711.0,
+    5.05,
+    null,
+    null,
+    null,
+    61220.0,
+    64.0,
+    5.2,
+    4,
+    100,
+    401.07,
+    -2.6,
+    -0.8,
+    null,
+    null,
+    1.44,
+    4.9,
+    96,
+    18200
+   ],
+   "cell": {
+    "0": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "ercot_prices",
+     "held": "not a market: Southern Company's area has no organised market whose hub prices the warehouse holds"
+    },
+    "1": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "ercot_prices",
+     "held": "not a market: Southern Company's area has no organised market whose hub prices the warehouse holds"
+    },
+    "2": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "ercot_prices",
+     "held": "not a market: Southern Company's area has no organised market whose hub prices the warehouse holds"
+    },
+    "3": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "ercot_prices",
+     "held": "not a market: Southern Company's area has no organised market whose hub prices the warehouse holds"
+    },
+    "4": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "ercot_prices",
+     "held": "not a market: Southern Company's area has no organised market whose hub prices the warehouse holds"
+    },
+    "5": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "congestion",
+     "held": "not a market: Southern Company's area has no organised market whose hub prices the warehouse holds"
+    },
+    "8": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "alerts",
+     "held": "not published: the operator prints no such figure in the files read"
+    },
+    "9": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "outages",
+     "held": "not published: the operator prints no such figure in the files read"
+    },
+    "10": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "cdr",
+     "held": "not published: the operator prints no such figure in the files read"
+    },
+    "19": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "curtailment",
+     "held": "not published: the operator prints no such figure in the files read"
+    },
+    "20": {
+     "period": "2025-11-01..2026-10-31",
+     "src": "curtailment",
+     "held": "not published: the operator prints no such figure in the files read"
+    }
+   }
+  }
+ ]
+}
