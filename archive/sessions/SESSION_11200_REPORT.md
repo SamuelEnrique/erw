@@ -4,39 +4,47 @@ Chain: `queue/done/760-weekend-28-november-desktop-desk-regions-forecast.md`. Pr
 
 ## What a reader now sees
 
-- Every page is in review, so a visitor sees no change. In review: `/forecast` carries SPP's own load forecast table beside it for a third cross-check, the 35 more authorities two to seven days ahead, and a day the method cannot forecast says why (landing 1).
+- Every page is in review, so a visitor sees no change.
+- In review, after landing 1: `/forecast` has SPP's own load forecast table behind it for a third cross-check, the 35 more authorities two to seven days ahead, and a day the method cannot forecast says why.
+- After landing 2: the regions files and their builder are on main (the section that draws them waits in gate 3); the old laptop's nine audit word fixes on `/forecast`, `/equities` and `/impact`; the equities list names only tables that exist; four coal miners' industry reads "Bituminous Coal & Lignite Mining" from the next daily run.
 
 ## Built
 
-- Part B, where the next gigawatts can go: the contract (`docs/state/page_files_siting_regions.md`, pushed 10:53 UTC with three example files), the builder `warehouse/derived/siting_regions.py`, the method note `docs/methods/siting_regions.md`, the replication `replication/siting_regions/replicate.py` (1,543 of 1,543), the test, the daily step `dm_siting_regions`, and the first files: 38 places, ten sections, monthly trends on six counts, license holds read from `site/data/license_status.json`.
-- Predict data request 21: `hub_history.py` pulls a hub added to a market by itself; SPP South Hub and CAISO ZP26 pulled under the data lock.
+- Part B, where the next gigawatts can go: contract (pushed 10:53 UTC with example files), builder, method note, replication (1,732 of 1,732), test, daily step, and the files: 37 places, ten sections, monthly trends and five years on six counts, license holds read from `site/data/license_status.json`, demand screened for impossible hours, per-operator source addresses. Five readers' cases (`docs/reviews/readers-c760-2026-11-28.md`).
+- Predict request 21: SPP South Hub in the hub history (97,949 rows; table 617,113 to 715,062), and its earlier months pulling into a scratch folder.
+- Part D: chain 730's longer backtest further ahead finished and documented (section 30); its three rebuilt files replicated (37,944, 3,936, 3,020 of as many).
+- Part E: four causes of failed steps fixed at the cause with tests (the price board on a missing EIA file, HTML in recorded reasons twice, the research tables' run log); the four research tables rewritten under the lock.
 
 ## Desk
 
-- Landing 1 (`eaff80f63`): chain 701's `spp_mtlf_hourly`, window2 rows 12 to 14. Snapshots 0 differences.
-- Data requests answered: done-line 582 to 586 (chain 780), five-tools 60, 61 (in part), 63 (trial), 64, 65 (in part), 66 (in part), 67, 68, 69, 70, 71 (in part).
+- Landing 1 (`eaff80f63`): chain 701's `spp_mtlf_hourly`, window2 rows 12 to 14.
+- Landing 2 (`9306ba1c3`): the old laptop's rows 135 to 143, the regions builder, five-tools 68 and 69, the per-hub pull.
+- Gate 3 (to push after 16:15 UTC): chain 780's rows 68 to 73, the regions and desk branches' later commits, v9.
+- Data requests answered: done-line 582 to 589 (chain 780); five-tools 60 to 71 (61, 65, 66 and 71 in part; 62 after 27 December; 72 waits on an allowed host); predict 17 and 21 brought forward.
 
 ## Snapshots
 
-- The start's pushes: `c760-start-before` and `c760-start-after`, 0 differences (expected).
-- The contract's push: `c760-B1-before` against `c760-d1-after`, 0 differences (expected: no page reads the new folder).
-- Doc pushes 11:23: `c760-d1-before` and `c760-d1-after`, 0 differences.
-- Landing 1: `c760-L1-before` (11:16) and `c760-L1-after` (12:01), 0 differences (expected).
+- Start: `c760-start-before`/`-after`, 0 differences. Contract: `c760-B1-before`/`c760-d1-after`, 0. Doc pushes: `c760-d1`, `c760-d3`, 0.
+- Landing 1: `c760-L1-before` (11:16) and `c760-L1-after` (12:01), 0 differences (expected: every page in review).
+- Landing 2: `c760-L2-before` (12:54) and `c760-L2-after` (13:44), 0 differences (expected).
 
 ## Faults of this session
 
-- Two heredocs, against the chain's rule: the commit message of `b6ab5ca23` (no backslash, landed whole) and a mistyped empty command at 11:13 that was stopped before it ran anything. Commit messages since go through `-m`.
-- A merge slip: gate 1's first merge took main's whole `tests/test_predict.py` with `git checkout --ours`, dropping row 14's own test of a held forecast; found by the related tests before the gate and redone hunk by hunk.
-- Four CIK numbers were first written from memory into the EDGAR script; replaced by `equity_universe`'s before any request was made.
+- Two heredocs and three mistyped commands that waited on input (11:13, 12:50, 13:00); each stopped before it ran anything. Commit messages go through `-m`.
+- A merge slip in gate 1's first merge (`git checkout --ours` took a whole test file); found before the gate, redone hunk by hunk.
+- Four CIK numbers first written from memory into the EDGAR script; replaced by `equity_universe`'s before any request.
+- The first trial of five-tools request 63 drew the ledger's own making; rerun with the ledger set aside.
+- Gate 3's first full run failed its site build for memory while a replication ran beside it; rerun.
 
 ## Decisions made without you
 
 - The 24 empty SPA rows of the demand ledger removed (five-tools 64).
 - SIC 1220 named as the SEC's SIC code list names it (five-tools 69).
-- A region's demand and interchange in the regions files are its members' sums.
-- The longer backtest further ahead and the replications of chain 730's v9 are run by this chain, which now owns `warehouse/predict/`.
+- A region's demand and interchange in the regions files are its members' sums; demand passes the warehouse's rule for impossible hours first (TVA's 44,377 MW hour of 20 October was one; BANC leaves the list).
+- The hub history adds SPP South and CAISO ZP26 under Samuel's order of 27 November for "more places"; test 49 names them.
+- ERCOT's Panhandle hub not added this weekend: six pages enumerate ERCOT's six hubs.
 
 ## For Samuel's ruling (default taken)
 
-- Arizona's 2026 standard deduction: the statute's base is USD 15,750 single, adjusted yearly; the Department of Revenue's site disallows ClaudeBot by name, so the adjusted figure is not read (default: the rules file's 8,350 left until a person or an allowed host gives the figure).
-- The three subsidiaries' rows that carry their parent's figures (finding 1 of the equities audit) and the capex lines the four concepts miss (finding 4): their figures move only on your ruling (default: left).
+- Arizona's 2026 standard deduction: the statute's base is USD 15,750 single, adjusted yearly; azdor.gov disallows ClaudeBot by name (default: the rules file left).
+- The three subsidiaries' rows carrying their parent's figures (Consumers Energy's own net income 391 against CMS's 123) and the capex lines the four concepts miss: figures move only on your ruling (default: left).
