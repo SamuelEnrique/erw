@@ -33,6 +33,29 @@ export type BarGroup = {
 
 const nice = (hi: number) => [0.5, 1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000].find((s) => hi / s <= 5) ?? 10000;
 
+/** Chain 780 (session 11600; the read of 28 November, row CH1): where each figure of a group is written. A figure
+ *  stands 6 units over its own bar; one that would stand on a figure written before it in the group (their middles
+ *  nearer than the two figures' half widths, their lines nearer than a line's height) is raised clear of that one,
+ *  and of any it then meets. Session 1855 raised every second figure by 12 units where bars are narrow, which keeps
+ *  two bars' figures apart; with three bars of near heights the raised middle figure landed on the third's
+ *  ("30.82" on "37.54" on /datacenters?view=grids). `xs`: each figure's middle; `tops`: its bar's top, null where no
+ *  bar; `widths`: each figure's width as written. Never above `floor`, the line under the series' names. */
+export const FIGURE_LINE = 13, FIGURE_CHAR = 6.6;
+export function figureYs(xs: number[], tops: (number | null)[], widths: number[], floor = 26): (number | null)[] {
+  const ys: (number | null)[] = [];
+  tops.forEach((top, k) => {
+    if (top === null) { ys.push(null); return; }
+    let y = top - 6;
+    for (let pass = 0; pass < tops.length; pass += 1) {
+      const hit = ys.findIndex((yj, j) => yj !== null && Math.abs(xs[k] - xs[j]) < (widths[k] + widths[j]) / 2 + 2 && Math.abs(y - yj) < FIGURE_LINE);
+      if (hit < 0) break;
+      y = (ys[hit] as number) - FIGURE_LINE;
+    }
+    ys.push(Math.max(floor, y));
+  });
+  return ys;
+}
+
 export function GroupedBars({ id, groups, series, unit, label, partialWords = "Incomplete year", fmt = (v) => Math.round(v).toLocaleString("en-US") }: {
   /** a name for the chart's own patterns, unique on the page */
   id: string; groups: BarGroup[]; series: BarSeries[]; unit: string; label: string; partialWords?: string;
@@ -91,6 +114,8 @@ export function GroupedBars({ id, groups, series, unit, label, partialWords = "I
       {groups.map((g, i) => {
         const x0 = L + i * gw + (gw - bw * n) / 2;
         const tops = g.values.map((v) => (v === null ? y(0) : y(Math.max(0, v))));
+        // each figure over its own bar, raised clear of the figures before it where it would stand on one (figureYs)
+        const ys = figureYs(g.values.map((_, k) => x0 + k * bw + bw / 2), g.values.map((v, k) => (v === null ? null : tops[k])), g.values.map((v) => (v === null ? 0 : fmt(v).length * FIGURE_CHAR)));
         return (
           <g key={g.label} data-group={g.label}>
             {g.values.map((v, k) => {
@@ -101,7 +126,7 @@ export function GroupedBars({ id, groups, series, unit, label, partialWords = "I
             })}
             {g.over !== undefined
               ? <text x={x0 + (bw * n) / 2} y={Math.min(...tops) - 6} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{g.over}</text>
-              : g.values.map((v, k) => (v === null ? null : <text key={k} x={x0 + k * bw + bw / 2} y={tops[k] - 6 - (bw < 40 && k % 2 ? 12 : 0)} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{fmt(v)}</text>))}
+              : g.values.map((v, k) => (v === null ? null : <text key={k} x={x0 + k * bw + bw / 2} y={ys[k] as number} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{fmt(v)}</text>))}
             <text x={inside(x0 + (bw * n) / 2, g.label)} y={H - bot + 16} textAnchor="middle" style={{ fill: "var(--color-ink)" }}>{g.label}</text>
             {g.sub ? <text x={inside(x0 + (bw * n) / 2, g.sub)} y={H - bot + 31} textAnchor="middle" style={{ fill: "var(--color-muted)" }}>{g.sub}</text> : null}
             {g.title ? <title>{g.title}</title> : null}
