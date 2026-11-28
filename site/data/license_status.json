@@ -1,6 +1,6 @@
 {
  "from": "2026-10-21",
- "written": "2026-11-27",
+ "written": "2026-11-28",
  "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
@@ -2917,6 +2917,10 @@
    "pages": [
     "/data"
    ]
+  },
+  "equity_universe": {
+   "status": "public",
+   "pages": []
   },
   "ercot_4cp_intervals": {
    "status": "public",

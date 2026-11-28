@@ -110,6 +110,18 @@ def build(folder=FOLDER):
                    gas["price_source"]))
     out.append(row("forecast:gas:natural_gas:us", "heat_content", gas["btu_per_cf"], "Btu/ft3", src, METHOD_URL, gwhen, "natural_gas", "us", "",
                    json.dumps(gas["btu_per_cf_source"], ensure_ascii=False) if isinstance(gas["btu_per_cf_source"], (dict, list)) else str(gas["btu_per_cf_source"])))
+    # session 10000 (chain 701, row 10 of docs/state/data_requests_forecast.md): the coal and biopower plants' capacity
+    # factors, JEDI's saved projects as chain 740 read them by hand (site/data/forecast/coal.json, biopower.json), each
+    # with its cells; the file's own written_at as retrieved_at. A file not on main is not written
+    for plant in ("coal", "biopower"):
+        fp = os.path.join(folder, plant + ".json")
+        if not os.path.exists(fp):
+            continue
+        pj = json.load(open(fp, encoding="utf-8"))
+        cs = pj["capacity_factor_source"]
+        out.append(row(f"forecast:{plant}:{plant}:us", "capacity_factor", pj["capacity_factor"], "ratio", SOURCES["jedi"][0],
+                       "https://www.nlr.gov/analysis/jedi/models", str(pj.get("written_at", "")), plant, "us", "",
+                       f"{cs.get('file', '')}: {cs.get('cells', '')}"))
     d = pd.DataFrame(out)
     d["retrieved_at"] = d["retrieved_at"].where(d["retrieved_at"] != "", gwhen)
     if d.duplicated(["entity", "variable"]).any():
@@ -135,8 +147,8 @@ def main(argv=None):
             "variables overnight_cost (USD/kW, x_dollar_year), construction_cost (USD/MW, JEDI's default project, its model's dollar year), construction_months, case_mw, operating_life (year), heat_rate (MMBtu/MWh), location_variation and "
             "taxable_share and capacity_factor (ratio), fuel_price (USD/MMBtu, the 2025 mean), heat_content (Btu/ft3); ts_utc the dollar year's "
             "first day where the value has one, else 2026-01-01; no freq (a parameter, not a time series).",
-            f"Rows: {len(d)}. Read from site/data/forecast/eia_capex.json, jedi_taxable.json and gas.json (chain 239, lab-desktop window 4, "
-            f"13 November 2026); nothing read again, no request. Geothermal's taxable share (JEDI's model has no sales tax line) and its cost in "
+            f"Rows: {len(d)}. Read from site/data/forecast/eia_capex.json, jedi_taxable.json, jedi_costs.json and gas.json (chain 239, lab-desktop window 4, "
+            f"13 November 2026), and coal.json and biopower.json (the plants' capacity factors, chain 740, 27 November 2026); nothing read again, no request. Geothermal's taxable share (JEDI's model has no sales tax line) and its cost in "
             f"the {len(capex['technologies'].get('geothermal', {}).get('not_given', []))} states the study does not list are not written.",
             f"Source: {SOURCES['capex'][0]} {SOURCES['capex'][1]}, {SOURCES['capex'][2]}, {capex['source_url']}; {SOURCES['jedi'][0]} "
             f"{SOURCES['jedi'][1]}, {SOURCES['jedi'][2]}, https://www.nlr.gov/analysis/jedi/models; {SOURCES['gas'][0]}: the study's heat rate, "
