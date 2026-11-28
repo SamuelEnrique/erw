@@ -47,11 +47,11 @@ NAME = "iso_hub_prices_history"
 START = "2025-09-01"
 CEILING = 1_500_000
 TARGETS = {  # iso: (iso_prices node list name, the hubs kept)
-    "caiso": ("CAISO_HUBS", ["TH_NP15_GEN-APND", "TH_SP15_GEN-APND"]),
+    "caiso": ("CAISO_HUBS", ["TH_NP15_GEN-APND", "TH_SP15_GEN-APND", "TH_ZP26_GEN-APND"]),
     "miso": ("MISO_HUBS", ["INDIANA.HUB"]),
     "nyiso": ("NYISO_ZONES", ["N.Y.C."]),
     "isone": ("ISONE_NODES", [".H.INTERNAL_HUB"]),
-    "spp": ("SPP_HUBS", ["SPPNORTH_HUB"]),
+    "spp": ("SPP_HUBS", ["SPPNORTH_HUB", "SPPSOUTH_HUB"]),
 }
 LIVE = {  # market: the live table holding it
     "caiso_dam": "iso_dam_hub_prices", "caiso_rtm": "iso_rtm_hub_prices", "miso_dam": "iso_dam_hub_prices",
@@ -183,13 +183,21 @@ def spp_archive():
     return orig
 
 
-def held_days(market, tz):
-    """The local days the history already holds for a market (resume)."""
+def held_days(market, tz, entities=None):
+    """The local days the history already holds for a market (resume); with entities, the days every one of them is
+    held (session 11200: a hub added to a market is pulled for the days it lacks, whatever the other hubs hold)."""
     path = os.path.join(ip.OUT_DIR, NAME + ".csv")
     if not os.path.exists(path):
         return set()
     s = ip.read_series(path)
     s = s[s["market"] == market]
+    if entities:
+        s = s[s["entity"].isin(entities)]
+        if not len(s):
+            return set()
+        days = pd.to_datetime(s["ts_utc"], utc=True).dt.tz_convert(tz).dt.strftime("%Y-%m-%d")
+        per = days.groupby(s["entity"].values).agg(set)
+        return set.intersection(*per.tolist()) if len(per) == len(set(entities)) else set()
     if not len(s):
         return set()
     return set(pd.to_datetime(s["ts_utc"], utc=True).dt.tz_convert(tz).dt.strftime("%Y-%m-%d"))
@@ -246,7 +254,7 @@ def month(ctx, spec, m0, m1, workers):
     return gaps
 
 
-def backfill(isos, until=None):
+def backfill(isos, until=None, hubs=None):
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     log = ip.Log(os.path.join(ip.LOG_DIR, f"hub_history_{run_id}.log"))
@@ -255,6 +263,10 @@ def backfill(isos, until=None):
     for iso in isos:
         fn, label, tz, geo = ip.ISOS[iso]
         listname, nodes = TARGETS[iso]
+        if hubs:  # session 11200: only the hubs named (a hub added later is pulled alone)
+            nodes = [n for n in nodes if n in hubs]
+            if not nodes:
+                continue
         setattr(ip, listname, nodes)  # the pull functions read their node list at call time
         if iso == "spp":  # session 64: 2024's daily files are only in the year's archive
             spp_archive()
@@ -262,12 +274,12 @@ def backfill(isos, until=None):
         end = pd.Timestamp(until).tz_localize(tz) if until else ip.window(tz, 1)[1]
         captured = []
 
-        def run_specs(ctx, specs, iso=iso, tz=tz, end=end):
+        def run_specs(ctx, specs, iso=iso, tz=tz, end=end, nodes=nodes):
             failures = 0
             ctx["specs"] = specs
             for spec in [s for s in specs if s["name"] in ("DAM", "RTM")]:
-                spec = dict(spec, per_day=True, file=NAME, nodes=TARGETS[iso][1])
-                have = held_days(spec["market"], tz)
+                spec = dict(spec, per_day=True, file=NAME, nodes=nodes)
+                have = held_days(spec["market"], tz, [f"{iso}:{n}" for n in nodes])
                 m0 = pd.Timestamp(START).tz_localize(tz)
                 written = gaps = 0
                 while m0 < end:
@@ -612,6 +624,7 @@ def main(argv=None):
     ap.add_argument("--until", help="backfill: the first local day not pulled (YYYY-MM-DD); default today")
     ap.add_argument("--start", help="backfill: a later first day, for a trial (default 2025-09-01)")
     ap.add_argument("--out-dir")
+    ap.add_argument("--hub", action="append", help="backfill: only these hubs of the targets (session 11200)")
     args = ap.parse_args(argv)
     if args.out_dir:
         ip.set_out_dir(args.out_dir)
@@ -632,7 +645,7 @@ def main(argv=None):
     isos = [i for i in isos if not ip.paused(i)]
     if not isos:
         return 0
-    return backfill(isos, args.until)
+    return backfill(isos, args.until, args.hub)
 
 
 if __name__ == "__main__":
