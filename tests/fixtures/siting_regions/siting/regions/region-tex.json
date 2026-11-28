@@ -918,7 +918,7 @@
    },
    "mix": [
     {
-     "fuel": "Natural gas",
+     "fuel": "natural_gas",
      "share_pct": {
       "v": 44.1,
       "unit": "pct",

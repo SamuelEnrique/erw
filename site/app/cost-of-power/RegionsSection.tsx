@@ -223,6 +223,8 @@ function Rows({ caption, head, rows, mark, about: source }: { caption: string; h
 }
 const num = (file: string, path: Segment[], v: unknown, unit?: string): ReactNode => (typeof v === "number" && Number.isFinite(v) ? <Fig file={file} path={path} v={v} unit={unit} /> : null);
 const words = (v: unknown): ReactNode => (text(v) ? text(v) : null);
+/** A fuel as a reader reads it: the builder names some by their key ("natural_gas"). */
+const fuelWords = (v: unknown): ReactNode => { const s = text(v).replace(/_/g, " "); return s ? s.charAt(0).toUpperCase() + s.slice(1) : null; };
 const link = (label: unknown, url: unknown, mark: string): ReactNode => { const u = safeUrl(url); return u ? <a href={u} rel="noopener" className="inline-block py-0.5" data-sr-source={mark}>{text(label) || "the source"}</a> : words(label); };
 /** A document's words in a table's cell: cut at a word when long, the whole on hover (as the tab's rules table cuts them). */
 const cut = (v: unknown): ReactNode => { const s = text(v); if (!s) return null; return s.length > 96 ? <Tip tip={s} plain>{`${s.slice(0, 94).replace(/\s+\S*$/, "")}...`}</Tip> : s; };
@@ -267,7 +269,7 @@ function PlaceSection({ q, id, title, place, file, counts, entity }: { q: Q; id:
   } else if (id === "queue") {
     const fuels = list(sec.by_fuel);
     extra = <Rows mark="queue.by_fuel" caption="Active requests by fuel" head={[{ label: "Fuel, as Berkeley Lab names it" }, { label: "Active, MW", right: true }, { label: "Active requests", right: true }]}
-      rows={fuels.map((f, i) => ({ key: `${text(f.fuel)}|${i}`, cells: [words(f.fuel), cellAt(f.active_mw, [...base, "by_fuel", i, "active_mw"], `${text(f.fuel)}, active megawatts`, false), cellAt(f.active_projects, [...base, "by_fuel", i, "active_projects"], `${text(f.fuel)}, active requests`, false)] }))} />;
+      rows={fuels.map((f, i) => ({ key: `${text(f.fuel)}|${i}`, cells: [fuelWords(f.fuel), cellAt(f.active_mw, [...base, "by_fuel", i, "active_mw"], `${text(f.fuel)}, active megawatts`, false), cellAt(f.active_projects, [...base, "by_fuel", i, "active_projects"], `${text(f.fuel)}, active requests`, false)] }))} />;
   } else if (id === "large_load") {
     const rules = list(sec.rules), totals = list(sec.queue_totals), laws = list(sec.laws);
     const states = Array.isArray(sec.states) ? (sec.states as unknown[]).filter((s): s is string => typeof s === "string") : [];
@@ -302,7 +304,7 @@ function PlaceSection({ q, id, title, place, file, counts, entity }: { q: Q; id:
       </p>
       {!mix.length && typeof sec.mix_held === "string" && sec.mix_held ? <p className="mt-1">Each fuel&apos;s share of net generation: <Held held={sec.mix_held} what="Each fuel's share of net generation" /></p> : null}
       <Rows mark="mix_carbon.mix" caption="Each fuel's share of net generation" head={[{ label: "Fuel" }, { label: "Share, %", right: true, tip: isCell(mix[0]?.share_pct) ? tipOf(mix[0].share_pct as Cell, "Share of net generation") : undefined }]}
-        rows={mix.map((m, i) => ({ key: `${text(m.fuel)}|${i}`, cells: [words(m.fuel), cellAt(m.share_pct, [...base, "mix", i, "share_pct"], `${text(m.fuel)}, share of net generation`, false)] }))} />
+        rows={mix.map((m, i) => ({ key: `${text(m.fuel)}|${i}`, cells: [fuelWords(m.fuel), cellAt(m.share_pct, [...base, "mix", i, "share_pct"], `${text(m.fuel)}, share of net generation`, false)] }))} />
     </>;
   } else if (id === "imports") {
     const partners = list(sec.partners);
