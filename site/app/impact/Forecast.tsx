@@ -286,13 +286,21 @@ const DC_LINES: DcLine[] = [
   { key: "dcelec", label: "Tax on the electricity bought, each year", tip: "By the state's tax per kWh where one is read (Virginia's consumption tax, Illinois' electricity excise tax, Ohio's kilowatt-hour tax), on the MWh the reader gives.", figure: "y1:elec", why: (r) => (r.elec.held ? null : r.elec.note) },
 ];
 function dcWords(x: DcInputs): string { return `Datacenter, ${stateName(x.state)}, ${plain(x.mw, 1)} MW`; }
-/** Session 10821 (window F's I2): the taxes a datacenter's total leaves out in this run */
-function dcLeftOut(r: DcResult): string[] {
-  const out: string[] = [];
-  if (!r.years.some((y) => y.property !== null)) out.push("property");
-  if (!r.elec.held) out.push("electricity");
+/** Session 10821 (window F's I2): the taxes a datacenter's total leaves out in this run. Session 11404 (chain 770's audit,
+ *  finding 2): also the building's sales tax where its taxable share is not given, and the income tax of supply chain and
+ *  induced jobs where no state study is held (every state but Virginia, Georgia and Minnesota). */
+type LeftOut = { key: string; words: string };
+function dcLeftOut(r: DcResult, x: DcInputs): LeftOut[] {
+  const out: LeftOut[] = [];
+  if (!r.years.some((y) => y.property !== null)) out.push({ key: "property", words: "property tax" });
+  if (!r.elec.held) out.push({ key: "electricity", words: "electricity tax" });
+  if (x.matshare === null) out.push({ key: "building_sales", words: "the building's sales tax" });
+  if (!r.chain.held) out.push({ key: "chain", words: "supply chain and induced income tax" });
   return out;
 }
+const orList = (w: string[]) => (w.length < 2 ? w.join("") : `${w.slice(0, -1).join(", ")} or ${w[w.length - 1]}`);
+/** the A and B lines whose datacenter figure is on site only where no state study is held */
+const DC_ONSITE = new Set(["cjobs", "ojobs", "cearn", "oearn", "income", "pvearn"]);
 function dcWhy(r: DcResult, key: string): string | null {
   if (key === "prop1" || key === "propl") return r.property.held ? null : r.property.note;
   if (key === "cout" || key === "oout") return "not computed for a datacenter";
@@ -324,9 +332,11 @@ function Compare({ sc, names, dcNames, P, P2 }: { sc: Record<View, Scn>; names: 
       const why = dcWhy(s.r, key) ?? DC_LINES.find((l) => l.key === key)?.why(s.r) ?? "not held";
       return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${key}`}><span className="cursor-help border-b border-dotted border-muted" title={why}>{key === "sev" ? "none" : "not held"}</span></td>;
     }
-    const left = key === "pvtax" ? dcLeftOut(s.r) : [];
+    const left = key === "pvtax" ? dcLeftOut(s.r, s.x) : [];
+    const onsite = DC_ONSITE.has(key) && !s.r.chain.held;
     return <td key={p} className={cls} data-cell={`${p}|${key}`}><Num check={`${dcKey(s.x)}|${figure}`} raw={v}>{dcDisplay(figure!, v)}</Num>
-      {left.length ? <span className="block whitespace-normal text-xs italic text-muted" data-left-out={left.join(",")}>without {left.join(" or ")} tax</span> : null}</td>;
+      {left.length ? <span className="block whitespace-normal text-xs italic text-muted" data-left-out={left.map((l) => l.key).join(",")}>without {orList(left.map((l) => l.words))}</span> : null}
+      {onsite ? <span className="block whitespace-normal text-xs italic text-muted" data-onsite-only="1" title={s.r.chain.note}>on site only</span> : null}</td>;
   };
   const dcPropTip = (p: View) => { const s = sc[p]; return s.dc ? `${p.toUpperCase()}: ${P2.rules.states[s.x.state]?.property?.tip ?? `${stateName(s.x.state)}: no rule for a datacenter's property is read; the reader's own rates, where typed.`}` : null; };
   return (
@@ -354,7 +364,7 @@ function Compare({ sc, names, dcNames, P, P2 }: { sc: Record<View, Scn>; names: 
               <tr key={l.key} className="grid grid-cols-2 border-b border-rule align-top sm:table-row" data-row={l.key}>
                 <th scope="row" className="col-span-2 px-3 pb-0 pt-1.5 font-normal sm:table-cell sm:pb-1.5">{l.label}<Tip id={`l-${l.key}`} label={l.label}>{
                   !anyDc ? (l.tipFor ? `${l.tip} ${l.tipFor(x, P)}` : l.tip)
-                    : `${l.tip}${l.key === "prop1" ? ` ${views.map((p) => dcPropTip(p) ?? (l.tipFor ? l.tipFor({ a: x[p], b: x[p] }, P).split(" B: ")[0].replace(/^A: /, `${p.toUpperCase()}: `) : "")).join(" ")}` : ""}${DC_TIP[l.key] ? ` ${DC_TIP[l.key]}` : ""}${l.key === "pvtax" ? views.map((p) => { const s = sc[p]; if (!s.dc || !s.r.ok) return ""; const left = dcLeftOut(s.r); return left.length ? ` ${p.toUpperCase()} leaves out the ${left.join(" and ")} tax${left.length > 1 ? "es" : ""} (not held in this run).` : ""; }).join("") : ""}`
+                    : `${l.tip}${l.key === "prop1" ? ` ${views.map((p) => dcPropTip(p) ?? (l.tipFor ? l.tipFor({ a: x[p], b: x[p] }, P).split(" B: ")[0].replace(/^A: /, `${p.toUpperCase()}: `) : "")).join(" ")}` : ""}${DC_TIP[l.key] ? ` ${DC_TIP[l.key]}` : ""}${l.key === "pvtax" ? views.map((p) => { const s = sc[p]; if (!s.dc || !s.r.ok) return ""; const left = dcLeftOut(s.r, s.x as DcInputs); return left.length ? ` ${p.toUpperCase()} leaves out ${left.map((l) => l.words).join(" and ")} (not held in this run).` : ""; }).join("") : ""}`
                 }</Tip></th>
                 {views.map((p) => {
                   const res = r[p];
