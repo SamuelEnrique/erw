@@ -12,7 +12,8 @@ docs/state/page_files_siting_regions.md); this section sets them side by side:
 - a count held for a license is a blank with "license needed" on hover; a count of a table the site itself holds is a
   blank whatever the file carries; nothing is scored, ranked or advised.
 
-The tab keeps everything it had, in the order it had it: the section is one import and one line of AllGridsView.tsx.
+The tab keeps everything it had, in the order it had it: the section is one import and two lines of AllGridsView.tsx
+(the section itself, under the hub table, and one line above the table that leads to it).
 
     python -m pytest tests/test_session11600_regions_section.py
 """
@@ -51,7 +52,11 @@ class TheNodeTest(unittest.TestCase):
 class TheTabKeepsWhatItHad(unittest.TestCase):
     def test_the_section_is_one_import_and_one_line_of_the_tab(self):
         view = src("site", "app", "cost-of-power", "AllGridsView.tsx")
-        self.assertEqual(view.count('import { RegionsSection } from "./RegionsSection";'), 1)
+        self.assertEqual(view.count('import { RegionsJump, RegionsSection } from "./RegionsSection";'), 1)
+        # and one line under the row switch that leads to it (the section stands under the hub table)
+        self.assertEqual(view.count("<RegionsJump />"), 1)
+        self.assertLess(view.index("<RowToggle x={x} hubs={hubs.length} nodes={nodes.length} />"), view.index("<RegionsJump />"))
+        self.assertLess(view.index("<RegionsJump />"), view.index("<Headline x={x} />"))
         # one tool, one page, one address: the section adds no folder under the tool
         self.assertEqual(sorted(x for x in os.listdir(TOOL) if os.path.isdir(os.path.join(TOOL, x))), ["battery", "months.csv", "seller", "tables.csv"])
         self.assertEqual(view.count("<RegionsSection q={q} />"), 1)

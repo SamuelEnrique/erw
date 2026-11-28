@@ -189,6 +189,9 @@ const tab = renderToStaticMarkup(h(AllGridsView, { q: { view: "allgrids" } }));
 const at = (s) => tab.indexOf(s);
 ok(at('data-allgrids-table="1"') > 0 && at('id="regions"') > at('data-allgrids-table="1"') && at('id="large-load-rules"') > at('id="regions"'), "on the tab the section stands after the hub table and before the large-load rules; both are still drawn");
 ok((tab.match(/id="regions"/g) ?? []).length === 1 && (tab.match(/<h1/g) ?? []).length === 0, "the section is drawn once");
+ok((tab.match(/data-sr-jump="1"/g) ?? []).length === 1 && at('data-sr-jump="1"') < at('data-allgrids-table="1"') && /<p[^>]*data-sr-jump="1"[^>]*>Under the table: <a href="#regions"[^>]*>where the next gigawatts can go, every region side by side<\/a>\.<\/p>/.test(tab), "one line above the hub table leads to the section");
+delete process.env.ERW_SITING_REGIONS_DIR;
+if (mainIndex.example === true) ok(!renderToStaticMarkup(h(AllGridsView, { q: { view: "allgrids" } })).includes("data-sr-jump"), "while the files are the contract's examples no line leads to a section that is not built");
 
 console.log(failed ? `${failed} of ${n} checks FAILED` : `ok: ${n} checks of the regions section of the All grids tab`);
 process.exit(failed ? 1 : 0);

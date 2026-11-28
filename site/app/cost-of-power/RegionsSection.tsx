@@ -346,11 +346,18 @@ function PlacePanel({ q, index, id }: { q: Q; index: IndexFile; id: string }) {
 
 // ---- the section -------------------------------------------------------------------------------------------------------
 
+/** One line near the top of the tab that leads to the section: it stands under the hub table, a long way down. Drawn
+ *  only when the regions files are the data machine's (not the contract's examples). */
+export function RegionsJump() {
+  if (loadRegions().state !== "files") return null;
+  return <p className="mb-3 text-sm" data-sr-jump="1">Under the table: <a href={`#${ANCHOR}`} className="inline-block py-0.5 underline">{REGIONS_TITLE.toLowerCase()}, every region side by side</a>.</p>;
+}
+
 export function RegionsSection({ q }: { q: Q }) {
   const got = loadRegions();
   const frame = (state: string, body: ReactNode) => (
     // every hover's trigger and every blank is a target 24 px high (WCAG 2.2, target size), as the tab's own cells are
-    <section className="mt-4 min-w-0 lg:col-span-2 [&_button[data-tip-trigger]]:min-h-6 [&_[data-llr-blank]_button]:h-6" id={ANCHOR} aria-label={REGIONS_TITLE} data-llr="regions" data-sr="1" data-sr-state={state}>
+    <section className="mt-4 min-w-0 lg:col-span-2 [&_button[data-tip-trigger]]:min-h-6 [&_button[data-tip-trigger]]:min-w-6 [&_[data-llr-blank]_button]:h-6 [&_[data-sr-downloads]_button]:inline-block [&_[data-sr-downloads]_button]:py-0.5" id={ANCHOR} aria-label={REGIONS_TITLE} data-llr="regions" data-sr="1" data-sr-state={state}>
       <h2 className="mb-2 border-b border-rule pb-1 font-serif text-xl text-accent">{REGIONS_TITLE}</h2>
       {body}
     </section>
