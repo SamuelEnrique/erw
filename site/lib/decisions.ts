@@ -25,7 +25,7 @@ export const DATACENTER_DECISIONS: Decision[] = [
   { key: "foreseen", session: "sessions 138 and 5003", ruling: "the owner's ruling of 12 October 2026",
     text: "\"If perfectly foreseen\" chooses the rule's budget of hours knowing the year's prices, in a year held in part as in a whole one, never more than the hours held." },
   { key: "gpu-pue", session: "sessions 138 and 195",
-    text: "Power per GPU defaults to 1.3 kW (NVIDIA's DGX H100) and the overhead ratio to 1.56 (Uptime Institute, 2024); both are scenario A's assumptions since session 195." },
+    text: "Power per GPU defaults to 1.3 kW (NVIDIA's DGX H100) and the overhead ratio to 1.09 (Google's fleet; the industry's 1.56, Uptime Institute 2024, until the ruling on the datacenter audit of 26 November, finding 7); both are scenario A's assumptions since session 195." },
   { key: "questions", session: "sessions 213 and 228",
     text: "One page in the battery page's layout: what it will pay, whether the power is there, how clean it is and how soon it can be had, each computed for the load described, then the two scenarios and what matters most." },
   { key: "scenarios", session: "sessions 194, 195 and 213",

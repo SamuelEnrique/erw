@@ -56,7 +56,7 @@ scalar s_mw = 100
 
 scalar s_gpu_kw = 1.3
 
-scalar s_pue = 1.56
+scalar s_pue = 1.09
 
 * Hour by hour: a flat MW pays the price of every hour that is held. An hour that is not held is in no sum.
 

@@ -53,7 +53,7 @@ HEADER_LINES, SENTINEL = 15, -99999
 DOUBLES = ["rt_usd_per_mw", "da_usd_per_mw", "hub_usd_per_mw", "rt_usd_mwh_month", "year_usd_per_mw", "year_hours", "kg_hours"]   # session 236: kg_hours, of session 228's part
 FILES = ["warehouse/derived/datacenter_hourly_export.py", f"site/public/datacenter/{DO_NAME}", f"site/public/datacenter/{MIRROR_NAME}",
          f"site/public/datacenter/{CSV_NAME}", "tests/test_session190_replication.py", "site/scripts/check-datacenter-face.mjs"]
-MW, GPU_KW, PUE = 100, 1.3, 1.56
+MW, GPU_KW, PUE = 100, 1.3, 1.09   # wip/ready-datacenter-pue: Google's fleet figure
 # the window this session wrote its figures for; a figure is pinned only while the page's files still stand on it
 WINDOW = ("2025-10", "2026-09")
 _KEPT = {}

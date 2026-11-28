@@ -232,12 +232,12 @@ class ThePack(unittest.TestCase):
 
     def test_the_replication_keeps_the_pages_defaults(self):
         py = src("site", "public", "datacenter", "erw_2026_datacenter_replication.py")
-        self.assertIn("MW, GPU_KW, PUE = 100, 1.3, 1.56", py)
+        self.assertIn("MW, GPU_KW, PUE = 100, 1.3, 1.09", py)
         self.assertIn("SCARCITY_USD = 1000.0", py)
         lib = src("site", "lib", "datacenter.ts")
         self.assertIn("export const DEFAULTS = { mw: 100, n: 100, pct: 5, shift: 20, gpu: ASSUMED.gpu.value, pue: ASSUMED.pue.value };", lib)
         self.assertIn("gpu: { value: 1.3,", lib)
-        self.assertIn("pue: { value: 1.56,", lib)
+        self.assertIn("pue: { value: 1.09,", lib)
         carbon = src("site", "public", "datacenter", "erw_2026_datacenter_carbon.csv")
         self.assertIn("its rolling window of 430 days (session 245; 35 until then)", carbon.split("\n")[2])
         self.assertEqual(carbon.count(chr(0x2014)), 0)

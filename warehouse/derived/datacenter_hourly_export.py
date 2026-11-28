@@ -9,7 +9,7 @@ rebuild every headline number of the default page without the page:
     site/public/datacenter/erw_2026_datacenter_hourly.csv
 
 The default case is the page's own (site/lib/datacenter.ts, inputsOf with no query): ERCOT, the North load zone
-LZ_NORTH, a flat load of 100 MW, bought in real time, 1.3 kW per GPU, an overhead ratio of 1.56. The file is per MW of
+LZ_NORTH, a flat load of 100 MW, bought in real time, 1.3 kW per GPU, an overhead ratio of 1.09. The file is per MW of
 load, as the page's library is; the page scales by the reader's size. The window is every hour the page's files hold
 of LZ_NORTH in real time, from the first to the last. Beside the real-time price stand the zone's day-ahead price (what
 a flexible load decides from, and what the same load pays buying day-ahead) and the real-time price of the trading hub
@@ -52,7 +52,7 @@ OUT = os.path.join(ROOT, "site", "public", "datacenter", CSV_NAME)
 SITE_DIR = os.path.join(ROOT, "site", "data", "datacenter")
 COVERAGE = os.path.join(ROOT, "warehouse", "metadata", "coverage.csv")
 GRID, REGION, BUY = "ercot", "LZ_NORTH", "rt"    # the page's defaults (lib/datacenter.ts inputsOf; the index's main region)
-MW, GPU_KW, PUE = 100, 1.3, 1.56                  # lib/datacenter.ts DEFAULTS and ASSUMED
+MW, GPU_KW, PUE = 100, 1.3, 1.09                  # lib/datacenter.ts DEFAULTS and ASSUMED
 NEAR = 0.95                                       # lib/datacenter.ts NEAR: a month counts with this share of its hours
 HEADER_LINES = 15                                 # the do-file reads the column names from line 16
 SENTINEL = -99999                                 # a price column: the hour's price is not held

@@ -4,7 +4,7 @@ Energy Research Warehouse (ERW), session 190, 11 October 2026. Written for sign-
 
 Downloads, the default case hour by hour: [erw_2026_datacenter_hourly.csv](/datacenter/erw_2026_datacenter_hourly.csv), [the Stata do-file](/datacenter/erw_2026_datacenter_replication.do) and [its Python mirror](/datacenter/erw_2026_datacenter_replication.py). Section 8.
 
-**The default case**, used for every example below: ERCOT, the North load zone (`LZ_NORTH`), a flat load of 100 MW, bought in real time, 1.3 kW per GPU, an overhead ratio of 1.56. With the page's files built on 10 October 2026 the page shows: USD 33.73 per MWh over the last twelve months (October 2025 to September 2026), USD 29.55 million for 876,000 MWh; a bad month of USD 37.88 per MWh (August 2026, of 36 months); USD 0.0684 per GPU-hour, 49,310 GPUs; the hub beside the zone (`HB_NORTH`) at USD 32.51, so the zone is 1.22 above its hub.
+**The default case**, used for every example below: ERCOT, the North load zone (`LZ_NORTH`), a flat load of 100 MW, bought in real time, 1.3 kW per GPU, an overhead ratio of 1.09. With the page's files built on 10 October 2026 the page shows: USD 33.73 per MWh over the last twelve months (October 2025 to September 2026), USD 29.55 million for 876,000 MWh; a bad month of USD 37.88 per MWh (August 2026, of 36 months); USD 0.0478 per GPU-hour, 70,572 GPUs; the hub beside the zone (`HB_NORTH`) at USD 32.51, so the zone is 1.22 above its hub.
 
 **The files these figures are of** (session 199). The page's files are rebuilt every day and the page shows the day's; the figures quoted in this note are those of the build of 10 October 2026 and stay so. What they need of that build is kept in `docs/methods/figures/2026-10-10/datacenter_pays_inputs.json` (the default case's months, and the hours of 2025 and 2026 that a flexible load's figures need), and `tests/test_session190.py` recomputes them from that file with the page's own library.
 
@@ -34,7 +34,7 @@ All are in the address, each bounded and defaulted (`inputsOf`). The contract's 
 | `shift` (with `shift`) | 20 | 0 to 50 | percent of each day's energy moved |
 | `buy` | `rt` | `rt`, `da` | the market the load pays. When the address names no market and real time holds no twelve counted months but day-ahead does, day-ahead is shown |
 | `gpu` | 1.3 kW | 0.05 to 20 | the GPU-hour figure and the GPU count only |
-| `pue` | 1.56 | 1 to 3 | the same two |
+| `pue` | 1.09 | 1 to 3 | the same two |
 
 Anything outside its bounds is clipped; anything unreadable takes the default.
 
@@ -91,7 +91,7 @@ For each calendar month of standard time (`monthsOfYear`), over the hours whose 
 
 ### 4.2 The summary sentence
 
-"A flat 100 MW load at LZ_NORTH in ERCOT, buying real time, paid USD 33.73 per MWh over the last twelve months, USD 29.55 million in all: USD 0.0684 per GPU-hour for power alone."
+"A flat 100 MW load at LZ_NORTH in ERCOT, buying real time, paid USD 33.73 per MWh over the last twelve months, USD 29.55 million in all: USD 0.0478 per GPU-hour for power alone."
 
 - **Per MWh** = the last twelve months' sum of `cost` / sum of `energy`.
 - **In all** = sum of `cost` x MW, printed in millions or billions with at most two decimals.
@@ -132,8 +132,8 @@ As 4.2. The note under it: the cost in USD, the energy in MWh (sum of `energy` x
 
 ### 4.5 Headline 3: power per GPU-hour
 
-- **USD per GPU-hour** = price per MWh x kW per GPU x overhead ratio / 1,000. The price is the last twelve months' price of the load (4.2). Default: 33.7289 x 1.3 x 1.56 / 1,000 = 0.068402, shown 0.0684.
-- **GPUs** = MW x 1,000 / (kW per GPU x overhead ratio). Default: 100,000 / 2.028 = 49,310.
+- **USD per GPU-hour** = price per MWh x kW per GPU x overhead ratio / 1,000. The price is the last twelve months' price of the load (4.2). Default: 33.7289 x 1.3 x 1.09 / 1,000 = 0.047794, shown 0.0478.
+- **GPUs** = MW x 1,000 / (kW per GPU x overhead ratio). Default: 100,000 / 1.417 = 70,572.
 - Energy at the market price and nothing else: no delivery, no demand or capacity charge, no hardware. For a load that turns off it is the price of the hours it runs.
 
 **Session 195: the three headline numbers are scenario A's rows** (4.14), computed in the browser as A is changed (`site/app/cost-of-power/LoadHeadline.tsx`). Headline 1 is the market energy of the way scenario A runs; headline 2 is that way's bad month; headline 3 is A's row "Power per GPU-hour", at A's power per GPU and overhead ratio, with A's other charges when it has any. At the defaults A runs as "Your load" describes and has no other charge, so the three are what they were (33.73, 37.88, 0.0684). When A runs the other way, the first number's note says so, and that the sections below are the load as "Your load" describes it; when A has other charges, the third number's note states them. The power per GPU-hour of the summary sentence (4.2) and of "What will it cost" (4.6) prices the load as "Your load" describes it, at A's power per GPU and overhead ratio.
@@ -275,7 +275,7 @@ On the page this block stands after "With your contract" (4.10) and before "Will
 |---|---|---|---|---|---|
 | How the load runs | `aw`, `bw` (0 flat, 1 flexible) | as "Your load" | the reader's own input | the ways held | the other way |
 | Power per GPU, kW | `ag`, `bg` | 1.3 (until session 195: as "Your load") | NVIDIA DGX H100 datasheet (section 7) | 0.05 to 20 | 0.1 |
-| Facility overhead ratio | `ap`, `bp` | 1.56 (until session 195: as "Your load") | Uptime Institute, Global Data Center Survey 2024 (section 7) | 1 to 3 | 0.1 |
+| Facility overhead ratio | `ap`, `bp` | 1.09 (1.56 until the ruling on the datacenter audit of 26 November, finding 7; until session 195 as "Your load") | Google's fleet over twelve months, as the hover quotes it (section 7) | 1 to 3 | 0.1 |
 | Delivery and other charges, USD per MWh | `ad`, `bd` | 0 | the page's figure is market energy alone | 0 to 500 | 5 |
 | Change of prices, percent a year | `ae`, `be` | 0 | **none held**: the last twelve months are repeated | -20 to 20 | 1 point |
 | Upfront cost, USD per kW of the load's size | `au`, `bu` | 0 | **none held** | 0 to 20,000 | 100 |
@@ -288,7 +288,7 @@ On the page this block stands after "With your contract" (4.10) and before "Will
 
 - price = cost / energy + d. Row 1 shows cost / energy alone (market energy).
 - bill = cost + d x energy. Default: USD 295,465.05 a MW, USD 29,546,505 for 100 MW, the page's first headline.
-- per GPU-hour = price x kW per GPU x overhead ratio / 1,000 (4.5). GPUs a MW = 1,000 / (kW per GPU x overhead ratio). GPU-hours a year a MW = energy x GPUs a MW. Default: 0.0684; 49,310 GPUs and 431,952,663 GPU-hours for 100 MW.
+- per GPU-hour = price x kW per GPU x overhead ratio / 1,000 (4.5). GPUs a MW = 1,000 / (kW per GPU x overhead ratio). GPU-hours a year a MW = energy x GPUs a MW. Default: 0.0478; 70,572 GPUs and 618,207,481 GPU-hours for 100 MW.
 - hours off = `down`; energy not bought = held - energy; **breakeven value of a GPU-hour** = ((flatCost - cost) / (held - energy) + d) x kW per GPU x overhead ratio / 1,000. `flatCost` is what a flat MW paid over the same hours, so flatCost - cost is what the hours off would have cost. Default flexible way: (295,465.05 - 272,428.84) / 100 = USD 230.36 per MWh not bought, USD 0.4672 per GPU-hour not run. An hour off saves more than it gives up when a GPU-hour earns less than that. "none" for a flat load and for a load that shifts within the day.
 - C_0 = 1,000 x U; C_t = bill x (1 + g)^(t - 1) for t = 1 to N. All costs, all positive.
 - **present value of the cost** = sum over t = 0 to N of C_t / (1 + r)^t. Default: 295,465.05 x 8.751270 = USD 2,585,694 a MW, USD 258.57 million for 100 MW. 8.751270 = sum of 1 / 1.096^t over 20 years. (Until session 196, at 8 percent: 9.818147 and USD 290.09 million.)
@@ -381,7 +381,7 @@ The same load with its hours chosen knowing every price of the market it buys in
 | Assumption | Default | Source |
 |---|---|---|
 | Power per GPU | 1.3 kW | NVIDIA DGX H100 system: 8 H100 GPUs, maximum system power 10.2 kW (10.2 / 8 = 1.275, stated as about 1.3). The reader can change it |
-| Facility overhead ratio | 1.56 | Uptime Institute, Global Data Center Survey 2024, the industry average. The reader can change it |
+| Facility overhead ratio | 1.09 | Google's fleet over twelve months, nearer a new site built for AI (the industry average, Uptime Institute 2024, is 1.56; the default until the ruling on the datacenter audit of 26 November, finding 7). The reader can change it |
 | A month counts | 95 percent of its hours | the ERW's rule (`NEAR`); the comparison page uses the same. No outside source |
 | A bad month | the top tenth of the last 36 months, nearest rank | the ERW's choice, the mirror of the battery page's 10th-percentile month. No outside source |
 | Tight | demand at or above 95 percent of the year's highest hour | the ERW's choice (`TIGHT`). No outside source. A count of high demand, not of scarcity |
@@ -412,7 +412,7 @@ The same load with its hours chosen knowing every price of the market it buys in
 | Last twelve months; months that count; hours | Oct 2025 to Sep 2026; 12; 8,760 | the same |
 | Market energy, USD per MWh | 33.73 | 33.73 |
 | Cost and energy for 100 MW | USD 29.55 million; 876,000 MWh | 29,546,505; 876,000 |
-| Power per GPU-hour; GPUs | 0.0684; 49,310 | the same |
+| Power per GPU-hour; GPUs | 0.0478; 70,572 | the same |
 | The hub beside it; the zone less its hub | 32.51; 1.22 above | 32.51; 1.22 |
 | Bought day-ahead, the same twelve months (the page at `buy=da`) | 35.33 | 35.33 |
 | By year, 2015 to 2026 | 24.04, 21.68, 23.88, 30.82, 36.35, 21.82, 150.61, 62.93, 48.69, 26.41, 32.66, 34.02 | the same |
@@ -494,7 +494,7 @@ Session 462, 21 October 2026 (chain 019). The page lists, at its foot, every mod
 5. Months and years are counted in the grid's standard time, with no daylight saving shift. (session 138)
 6. A flexible load follows a rule decided before each hour from the prior 30 days of day-ahead prices, within a budget of hours each calendar year; it turns off whole and at once, with no minimum run. (session 140; the owner's ruling of 7 October 2026)
 7. "If perfectly foreseen" chooses the rule's budget of hours knowing the year's prices, in a year held in part as in a whole one, never more than the hours held. (sessions 138 and 5003; the owner's ruling of 12 October 2026)
-8. Power per GPU defaults to 1.3 kW (NVIDIA's DGX H100) and the overhead ratio to 1.56 (Uptime Institute, 2024); both are scenario A's assumptions since session 195. (sessions 138 and 195)
+8. Power per GPU defaults to 1.3 kW (NVIDIA's DGX H100) and the overhead ratio to 1.09 (Google's fleet; the industry's 1.56, Uptime Institute 2024, until the ruling on the datacenter audit of 26 November, finding 7); both are scenario A's assumptions since session 195. (sessions 138 and 195)
 9. One page in the battery page's layout: what it will pay, whether the power is there, how clean it is and how soon it can be had, each computed for the load described, then the two scenarios and what matters most. (sessions 213 and 228)
 10. Scenarios A and B are the block the three economics pages share; scenario A sets the headline. The contract's share and price are two of each scenario's assumptions, 0 by default, so the default load is fully merchant. (sessions 194, 195 and 213)
 11. The cost of capital defaults to 9.6 percent, Lazard's weighted cost of a power plant's builder (60 percent debt at 8 percent, 40 percent equity at 12), labelled as a generator's, since no datacenter owner's rate is held. (sessions 196 and 265; the owner's rulings of 11 October 2026, and 7a of 18 October 2026)
