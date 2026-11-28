@@ -67,7 +67,7 @@ Energy Research Warehouse (ERW). Chain 780 (`queue/done/780-night-28-november-po
 - **No link is drawn from a source's address** (`sources.<key>.url`): for a table of many publishers it is one document for every place. A rule opens its own document; a queue total its own; every other source is in words on hover (data request 586).
 - **One line near the top of the tab leads to the section,** because the section stands under the hub table, a long way down. It is drawn only once the files are the data machine's.
 - **The back button's cause was mended here, on a branch of its own.** The two files are the tab's and no machine's tonight; the fault stood between the new section and its own back button, and the chain's table gives this laptop "fixes on `wip/c780-*`". It is not on the section's branch, so the desk can land either without the other.
-- **The other faults the sweep found were filed, not mended** (the Grid tool's note, three charts' labels): each is on a page no machine owns tonight and none stands in the section's way.
+- **Three of the sweep's faults were mended here too, each at its cause with a test, on branches of their own** (`wip/c780-grid-note`: the Grid tool's note breaks; `wip/c780-chart-labels`: the category chart thins twelve labels as it thins thirteen, and the heat chart's hours keep apart and clear of the legend). Each is on a page no machine owns tonight; the first plan was to file them, and the time left allowed more. **The fourth was filed, not mended** (the grouped bars' figures on each other): its mend changes a line an older test pins.
 
 ## For Samuel's ruling
 
