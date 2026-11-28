@@ -86,6 +86,18 @@ session takes the next item: longer backtests and more places. Branch `wip/c730-
   the regressions only and says so; the simple methods and the operator stay exact.
 - **A row 1 figure out of date:** data request 1 says `run.py` takes about five minutes; the 29 places took 32 minutes in
   rebuild 15, and the 64 are about 70 alone. Data request 13 says so for window A.
+- **The wind and solar choice compared rounded errors** (a fault of mine since session 10602): mended, with New York's
+  solar and Tennessee's wind changing; rebuild 18 was stopped by its own process ids and restarted with the mended code.
+- **The longer backtest's rebuild with the peak failed at its end** on a day of the Tennessee region's early files that
+  peaks at zero (an infinite percent error JSON refuses): such days are left out of the peak; rebuilt.
+- **My tests were too strict for files built on different days:** the longer backtests are weekly files beside daily
+  ones, so their last days now need only be within a week of the place files'.
+- **I reported progress I had not checked:** for two hours my progress lines said the `ahead_more` replication was
+  equal so far, reading lines that print for every place; its result was 619 of 1,225, the demand having been revised
+  by window A's refresh between the build and the replication. Corrected in the progress file; the file rebuilt on the
+  same tables as its replication.
+- **Work after a landing row's head went onto the same branch twice** (v4, v5), which the desk's gates take at their tip:
+  harmless code each time, named in the rows; later work moved to a new branch each time.
 
 ## For Samuel's ruling
 
