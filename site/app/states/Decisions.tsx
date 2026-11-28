@@ -21,7 +21,7 @@ export const STATES_DECISIONS: StatesDecision[] = [
     def: "Texas; no second place.",
     source: "The page's own choice, on the index's twelve-month generation." },
   { key: "twelve-months", session: "session 8014",
-    text: "The headline figures and the sector table are the newest twelve months the file holds, summed; a year is shown only when all twelve of its months are held.",
+    text: "The headline figures and the sector table are the newest twelve months the file holds, summed; a source is shown for the twelve months, and a year, only when all twelve of its months are held.",
     def: "The newest twelve months; whole years only.",
     source: "last12 and annual in each place's file." },
   { key: "revenue", session: "session 8014",

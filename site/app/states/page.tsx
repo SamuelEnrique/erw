@@ -69,7 +69,10 @@ function Missing({ what, reason }: { what: string; reason?: string }) {
 // is summed (docs/methods/generation_mix.md: oil and other = PET + OOG + HPS + OTH; small-scale solar not included;
 // not itemized = EIA's all-fuels total less the groups)
 const WHAT_SOURCES_HOLD = "A source can be below zero: pumped storage uses more than it makes, and it is counted in Oil and other (EIA's code HPS), so that line can fall below zero. Solar is EIA's utility-scale solar: small-scale solar, such as rooftop panels, is not in EIA's state figures here.";
-const SUMMED_OVER_MONTHS = "A source is summed over the months EIA prints for it: in a month EIA withholds a source, its generation is in Not itemized by EIA, so that source's twelve months can hold fewer than twelve.";
+// session 11407 (finding 4 readied for Samuel's ruling): a source is printed for the twelve months only when all twelve
+// of its months are held, as a whole year already is
+const SUMMED_OVER_MONTHS = "A source is printed for the twelve months only when EIA prints it in all twelve: in a month EIA withholds a source, its generation is in Not itemized by EIA, and the source is not held for the twelve months. The total still counts every figure EIA prints.";
+const NOT_ALL_TWELVE = (what: string, name: string) => `EIA does not print ${what} generation for ${name} in all twelve of these months (a month it withholds is in Not itemized by EIA).`;
 
 /** What one place runs on: the stacked months and the last twelve months by source. */
 function RunsOn({ f, from }: { f: StateFile; from: number }) {
@@ -93,9 +96,9 @@ function RunsOn({ f, from }: { f: StateFile; from: number }) {
           caption={`${f.name}: the last twelve months, ${span(g.last12.from, g.last12.to)}`}
         head={["Source", "TWh", "Share"]}
         rows={[...GEN_SOURCES.map((s) => ({ key: s, cells: [FUEL_WORDS[s] ?? s,
-          <Fig key="v" v={g.last12.mwh[s]} src={src} k={`g12-${f.state}-${s}`} fmt={twh} reason={`EIA prints no ${(FUEL_WORDS[s] ?? s).toLowerCase()} generation for ${f.name} in these months. ${src}`} />,
-          <Fig key="s" v={g.last12.share_pct[s]} src={`The source's twelve months over the sum of every source's. ${SUMMED_OVER_MONTHS} ${src}`} k={`g12s-${f.state}-${s}`} fmt={pct} reason={`EIA prints no ${(FUEL_WORDS[s] ?? s).toLowerCase()} generation for ${f.name} in these months.`} />] })),
-          { key: "total", highlight: true, cells: ["All sources", <Fig key="v" v={g.last12.total_mwh} src={`The sum of the sources. ${src}`} k={`g12t-${f.state}`} fmt={twh} />, "100%"] }]}
+          <Fig key="v" v={g.last12.mwh[s]} src={src} k={`g12-${f.state}-${s}`} fmt={twh} reason={`${NOT_ALL_TWELVE((FUEL_WORDS[s] ?? s).toLowerCase(), f.name)} ${src}`} />,
+          <Fig key="s" v={g.last12.share_pct[s]} src={`The source's twelve months over the twelve months' total. ${SUMMED_OVER_MONTHS} ${src}`} k={`g12s-${f.state}-${s}`} fmt={pct} reason={NOT_ALL_TWELVE((FUEL_WORDS[s] ?? s).toLowerCase(), f.name)} />] })),
+          { key: "total", highlight: true, cells: ["All sources", <Fig key="v" v={g.last12.total_mwh} src={`The sum of every figure EIA prints for the twelve months, a source not held among them. ${src}`} k={`g12t-${f.state}`} fmt={twh} />, "100%"] }]}
       />
     </>
   );

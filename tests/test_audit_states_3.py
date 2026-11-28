@@ -36,9 +36,13 @@ class TheFiles(unittest.TestCase):
         ni = g["by_source"]["not_itemized"][-12:]
         self.assertEqual(sum(v is None for v in gas), 3)
         self.assertTrue(all(n is not None and n > 0 for n, v in zip(ni, gas) if v is None))
-        self.assertAlmostEqual(g["last12"]["share_pct"]["natural_gas"], 40.05, places=2)
-        top = max((v, s) for s, v in g["last12"]["share_pct"].items() if v is not None)
-        self.assertEqual(top[1], "natural_gas")
+        # session 11407 (wip/ready-states-twelve-held): the builder now prints a source only when all twelve months are
+        # held, so a file it builds holds DC's natural gas as null and solar as the largest; a file built before holds 40.05
+        if g["last12"]["share_pct"]["natural_gas"] is None:
+            top = max((v, s) for s, v in g["last12"]["share_pct"].items() if v is not None)
+            self.assertEqual(top[1], "solar")
+        else:
+            self.assertAlmostEqual(g["last12"]["share_pct"]["natural_gas"], 40.05, places=2)
 
 
 class TheWords(unittest.TestCase):
@@ -46,12 +50,13 @@ class TheWords(unittest.TestCase):
         page = src("site", "app", "states", "page.tsx")
         self.assertIn("it is counted in Oil and other (EIA's code HPS)", page)
         self.assertIn("small-scale solar, such as rooftop panels, is not in EIA's state figures here", page)
-        self.assertIn("A source is summed over the months EIA prints for it", page)
+        # session 11407 (wip/ready-states-twelve-held): the sentence now says the source is printed only when all twelve are held
+        self.assertIn("A source is printed for the twelve months only when EIA prints it in all twelve", page)
 
     def test_the_note_says_the_same(self):
         note = src("docs", "methods", "states_page.md")
         self.assertIn("pumped storage is in \"Oil and other\"", note)
-        self.assertIn("A source is summed over the months EIA prints for it", note)
+        self.assertIn("A source is printed for the twelve months only when EIA prints it in all twelve", note)
 
 
 if __name__ == "__main__":

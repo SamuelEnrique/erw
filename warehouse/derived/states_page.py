@@ -130,8 +130,13 @@ def build_generation(gen, st):
     total = [round(sum(v for v in col if v is not None), 1) if any(v is not None for v in col) else None for col in zip(*by.values())]
     last = months[-12:]
     # a source with no figure in any of the twelve months is a null (EIA prints nothing for it there), never a zero
-    sums = {k: (sum(v for v in by[k][-12:] if v is not None) if any(v is not None for v in by[k][-12:]) else None) for k in GEN_SOURCES}
-    tot12 = sum(v for v in sums.values() if v is not None)
+    held = {k: (sum(v for v in by[k][-12:] if v is not None) if any(v is not None for v in by[k][-12:]) else None) for k in GEN_SOURCES}
+    # the total is every figure EIA prints in the twelve months, as before
+    tot12 = sum(v for v in held.values() if v is not None)
+    # session 11407 (the states audit of 26 November 2026, finding 4, readied for Samuel's ruling): a source is printed
+    # for the twelve months only when all twelve of its months are held, as a whole year already is; a source EIA
+    # withholds in any of them is a null (its withheld months are in "Not itemized by EIA"), never a sum of fewer months
+    sums = {k: (v if v is not None and len(by[k][-12:]) == 12 and all(x is not None for x in by[k][-12:]) else None) for k, v in held.items()}
     years, annual = whole_years(months, {**by, "total": total})
     return {
         "table": "state_generation_mix_monthly", "vintage": months[-1], "source": SRC["generation"], "unit": "MWh",
