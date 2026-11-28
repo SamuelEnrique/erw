@@ -63,14 +63,14 @@ export default function Elliott2022({ searchParams }: PageProps = {}) {
         return (
           <>
             <p className="mb-2">
-              PJM&apos;s highest hour in EIA&apos;s data, <N r={pjm} event={EV} /> MW on {day(pjm)}, agrees with the report&apos;s &quot;about 136,000 MW&quot; on Dec. 23. The forced
-              outages of Dec. 24 do not show in demand served: PJM served its load. ISO-NE barely moved: its peak hour was at most <N r={ne} event={EV} />% above the
+              PJM&apos;s highest hour in EIA&apos;s data, <N r={pjm} event={EV} u=" MW" /> on {day(pjm)}, agrees with the report&apos;s &quot;about 136,000 MW&quot; on Dec. 23. The forced
+              outages of Dec. 24 do not show in demand served: PJM served its load. ISO-NE barely moved: its peak hour was at most <N r={ne} event={EV} u="%" /> above the
               baseline ({day(ne)}).
             </p>
             <p>
               <strong>A date that does not match.</strong> PJM&apos;s report says SPP &quot;set a new winter peak&quot; on Dec. 23. In EIA&apos;s hourly data SPP&apos;s highest hour of the
-              window is on {day(spp)}, <N r={spp} event={EV} /> MW, the hour from 18:00 Central time, which is 00:00 UTC on Dec. 23; on 2022-12-23 itself (Central
-              time) its highest hour was <N r={spp23} event={EV} /> MW. The warehouse holds no SPP peak record to say which count the report used.
+              window is on {day(spp)}, <N r={spp} event={EV} u=" MW" />, the hour from 18:00 Central time, which is 00:00 UTC on Dec. 23; on 2022-12-23 itself (Central
+              time) its highest hour was <N r={spp23} event={EV} u=" MW" />. The warehouse holds no SPP peak record to say which count the report used.
             </p>
           </>
         );

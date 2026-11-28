@@ -3,7 +3,7 @@ import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
 import { TableDownloads } from "@/components/tool/TableDownloads";
-import { Num } from "@/components/Num";
+import { Num, heldBy } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
@@ -78,7 +78,7 @@ export default async function Events() {
                 <p className="mt-2 text-sm">
                   {c.lead}:{" "}
                   {r ? (
-                    <><strong><Num check={`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}|${c.event}`} raw={r.value}>{shown(r.value)}</Num></strong> {c.unit}, {r.ts_utc.slice(0, 10)}</>
+                    <><strong><Num check={`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}|${c.event}`} raw={r.value}>{shown(r.value)}</Num></strong>{heldBy(`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}|${c.event}`) ? "" : ` ${c.unit}`}, {r.ts_utc.slice(0, 10)}</>
                   ) : <span className="text-muted">not held</span>}
                 </p>
                 {/* session 8410 (chain 503): how many of EIA's thirteen regions the event reached, from the event's file of the whole country */}

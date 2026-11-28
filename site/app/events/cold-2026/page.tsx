@@ -70,8 +70,8 @@ export default function Cold2026({ searchParams }: PageProps = {}) {
         const hi = pickOf(rows, "eia930:PJM", "demand_max_pct_vs_baseline", "max", inWin);
         return (
           <p>
-            PJM&apos;s highest hour of the window was <N r={pjm} event={EV} /> MW on {day(pjm)}, and ERCOT&apos;s <N r={ercot} event={EV} /> MW on {day(ercot)}. PJM&apos;s
-            peak hour stood furthest above the baseline on {day(hi)}, <N r={hi} event={EV} />% above the mean of the same weekdays 364 and 728 days earlier.
+            PJM&apos;s highest hour of the window was <N r={pjm} event={EV} u=" MW" /> on {day(pjm)}, and ERCOT&apos;s <N r={ercot} event={EV} u=" MW" /> on {day(ercot)}. PJM&apos;s
+            peak hour stood furthest above the baseline on {day(hi)}, <N r={hi} event={EV} u="%" /> above the mean of the same weekdays 364 and 728 days earlier.
           </p>
         );
       }}

@@ -44,8 +44,8 @@ function Tier() {
   );
 }
 
-const N = ({ r }: { r?: SeriesRow }) =>
-  r ? <Num check={`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}|uri_2021`} raw={r.value}>{shown(r.value)}</Num> : <span className="text-muted">not held</span>;
+const N = ({ r, u }: { r?: SeriesRow; u?: string }) =>
+  r ? <Num check={`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}|uri_2021`} raw={r.value} unit={u}>{shown(r.value)}</Num> : <span className="text-muted">not held</span>;
 const day = (r?: SeriesRow) => (r ? r.ts_utc.slice(0, 10) : "");
 
 /** The three years of one variable on the 2021 calendar, so the days line up. */
@@ -103,8 +103,8 @@ export default async function Uri({ searchParams }: PageProps = {}) {
           <Section title="Price: ERCOT hub average, real-time" aside={<Tier />}>
             {chart("rt_mean", "USD/MWh", "ERCOT hub average real-time price, daily mean, February 7 to 24 of 2019, 2020 and 2021")}
             <p className="mt-1 text-sm">
-              Highest 15-minute real-time price: <N r={rtPeak} /> USD/MWh on {day(rtPeak)}; the highest on the same days of 2019 and 2020 was{" "}
-              <N r={rtBase} /> USD/MWh ({day(rtBase)}).
+              Highest 15-minute real-time price: <N r={rtPeak} u=" USD/MWh" /> on {day(rtPeak)}; the highest on the same days of 2019 and 2020 was{" "}
+              <N r={rtBase} u=" USD/MWh" /> ({day(rtBase)}).
             </p>
             <Cite tables={[T]} note="Daily mean of ERCOT's 15-minute real-time settlement point price at the hub average (HB_HUBAVG), from ercot_all_hub_prices_history" />
           </Section>
@@ -112,8 +112,8 @@ export default async function Uri({ searchParams }: PageProps = {}) {
           <Section title="Demand served" aside={<Tier />}>
             {chart("demand_mwh", "MWh", "ERCOT demand served per day, February 7 to 24 of 2019, 2020 and 2021")}
             <p className="mt-1 text-sm">
-              Lowest hour of demand served in the window: <N r={lowDemand} /> MW on {day(lowDemand)}, after the storm. On 2021-02-15, the
-              first day of rotating outages, the lowest hour was <N r={low15} /> MW.
+              Lowest hour of demand served in the window: <N r={lowDemand} u=" MW" /> on {day(lowDemand)}, after the storm. On 2021-02-15, the
+              first day of rotating outages, the lowest hour was <N r={low15} u=" MW" />.
             </p>
             <Cite tables={[T]} note="EIA-930 hourly demand of ERCO, summed per operating day; demand served, not what customers wanted" />
           </Section>
@@ -121,8 +121,8 @@ export default async function Uri({ searchParams }: PageProps = {}) {
           <Section title="Net generation" aside={<Tier />}>
             {chart("net_generation_mwh", "MWh", "ERCOT net generation per day, February 7 to 24 of 2019, 2020 and 2021")}
             <p className="mt-1 text-sm">
-              Largest day-to-day fall: <N r={fall} /> MWh on {day(fall)}. Largest shortfall against the 2019 and 2020 average for the same day:{" "}
-              <N r={short} /> MWh on {day(short)}, after the storm; during the outages net generation stayed above that average.
+              Largest day-to-day fall: <N r={fall} u=" MWh" /> on {day(fall)}. Largest shortfall against the 2019 and 2020 average for the same day:{" "}
+              <N r={short} u=" MWh" /> on {day(short)}, after the storm; during the outages net generation stayed above that average.
             </p>
             <Cite tables={[T]} note="EIA-930 hourly net generation of ERCO, summed per operating day; the fall is the day minus the day before, the shortfall the day minus the mean of 2019 and 2020" />
           </Section>
@@ -130,7 +130,7 @@ export default async function Uri({ searchParams }: PageProps = {}) {
           <Section title="Carbon intensity of generation" aside={<Tier />}>
             {chart("intensity_generation", "kg CO2/MWh", "ERCOT carbon intensity of generation per day, February 7 to 24 of 2019, 2020 and 2021")}
             <p className="mt-1 text-sm">
-              Highest daily carbon intensity in 2021&apos;s window: <N r={ciPeak} /> kg CO2 per MWh generated, on {day(ciPeak)}.
+              Highest daily carbon intensity in 2021&apos;s window: <N r={ciPeak} u=" kg CO2 per MWh generated" />, on {day(ciPeak)}.
             </p>
             <Cite tables={[T]} note="EIA's CO2 estimates for ERCO (eia930_all_emissions) over its net generation, per operating day" />
           </Section>

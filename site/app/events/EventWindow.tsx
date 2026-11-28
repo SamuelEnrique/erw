@@ -27,8 +27,8 @@ export function Tier() {
   );
 }
 
-export const N = ({ r, event }: { r?: SeriesRow; event: string }) =>
-  r ? <Num check={`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}|${event}`} raw={r.value}>{shown(r.value)}</Num> : <span className="text-muted">not held</span>;
+export const N = ({ r, event, u }: { r?: SeriesRow; event: string; u?: string }) =>
+  r ? <Num check={`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}|${event}`} raw={r.value} unit={u}>{shown(r.value)}</Num> : <span className="text-muted">not held</span>;
 export const day = (r?: SeriesRow) => (r ? r.ts_utc.slice(0, 10) : "");
 const sec = (ts: string) => Date.parse(`${ts.slice(0, 10)}T00:00:00Z`) / 1000;
 
@@ -105,8 +105,8 @@ export async function EventWindow({ event, title, crumb, framing, caveat, grids,
                       ariaLabel={`${g.name} highest hour of demand served each day, ${start} to ${end}, and the same weekdays 364 and 728 days earlier`}
                     />
                     <p className="mt-1 text-sm">
-                      The {peakWord} peak against the baseline: <N r={hi} event={event} />% on {day(hi)} (<N r={peak} event={event} /> MW). The highest hour of the
-                      window: <N r={top} event={event} /> MW on {day(top)}. The highest carbon intensity: <N r={ci} event={event} /> kg CO2/MWh on {day(ci)}.
+                      The {peakWord} peak against the baseline: <N r={hi} event={event} u="%" /> on {day(hi)} (<N r={peak} event={event} u=" MW" />). The highest hour of the
+                      window: <N r={top} event={event} u=" MW" /> on {day(top)}. The highest carbon intensity: <N r={ci} event={event} u=" kg CO2/MWh" /> on {day(ci)}.
                     </p>
                     <p className="text-xs text-muted">Days: {g.tz}. Baseline days are drawn on the event day they are compared with.</p>
                   </div>
@@ -136,7 +136,7 @@ export async function EventWindow({ event, title, crumb, framing, caveat, grids,
                 const rt = pickOf(rows, hub, "rt_max", "max", inWin), da = pickOf(rows, hub, "da_max", "max", inWin), rm = pickOf(rows, hub, "rt_mean", "max", inWin);
                 return (
                   <p className="mt-1 text-sm">
-                    The highest 15-minute real-time price: <N r={rt} event={event} /> USD/MWh on {day(rt)}; the highest daily mean <N r={rm} event={event} /> on {day(rm)}; the
+                    The highest 15-minute real-time price: <N r={rt} event={event} u=" USD/MWh" /> on {day(rt)}; the highest daily mean <N r={rm} event={event} /> on {day(rm)}; the
                     highest day-ahead hour <N r={da} event={event} /> on {day(da)}.
                   </p>
                 );
@@ -160,7 +160,7 @@ export async function EventWindow({ event, title, crumb, framing, caveat, grids,
                   const rt = pickOf(rows, h.entity, "rt_max", "max", inWin), rm = pickOf(rows, h.entity, "rt_mean", "max", inWin), da = pickOf(rows, h.entity, "da_max", "max", inWin);
                   return (
                     <li key={h.entity}>
-                      <strong>{h.name}:</strong> the highest real-time price ({h.rtNote}) <N r={rt} event={event} /> USD/MWh on {day(rt)}; the highest daily mean{" "}
+                      <strong>{h.name}:</strong> the highest real-time price ({h.rtNote}) <N r={rt} event={event} u=" USD/MWh" /> on {day(rt)}; the highest daily mean{" "}
                       <N r={rm} event={event} /> on {day(rm)}; the highest day-ahead hour <N r={da} event={event} /> on {day(da)}.
                     </li>
                   );

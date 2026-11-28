@@ -47,8 +47,8 @@ function Tier() {
   );
 }
 
-const N = ({ r }: { r?: SeriesRow }) =>
-  r ? <Num check={`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}|${EV}`} raw={r.value}>{shown(r.value)}</Num> : <span className="text-muted">not held</span>;
+const N = ({ r, u }: { r?: SeriesRow; u?: string }) =>
+  r ? <Num check={`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}|${EV}`} raw={r.value} unit={u}>{shown(r.value)}</Num> : <span className="text-muted">not held</span>;
 const day = (r?: SeriesRow) => (r ? r.ts_utc.slice(0, 10) : "");
 const sec = (ts: string) => Date.parse(`${ts.slice(0, 10)}T00:00:00Z`) / 1000;
 
@@ -141,9 +141,9 @@ export default async function Covid({ searchParams }: PageProps = {}) {
                       ariaLabel={`${g.name} demand served per day, 2020-03-01 to 2020-05-31, and the same weekday of the baseline years`}
                     />
                     <p className="mt-1 text-sm">
-                      Deepest weekly drop against the baseline: <N r={deep} />% in the week of {day(deep)}
+                      Deepest weekly drop against the baseline: <N r={deep} u="%" /> in the week of {day(deep)}
                       {deep && deepAfter && day(deep) !== day(deepAfter) ? (
-                        <>; from the week of {AFTER} on, <N r={deepAfter} />% in the week of {day(deepAfter)}</>
+                        <>; from the week of {AFTER} on, <N r={deepAfter} u="%" /> in the week of {day(deepAfter)}</>
                       ) : null}
                       .
                     </p>

@@ -61,8 +61,8 @@ export default async function CaisoHeat2022({ searchParams }: PageProps = {}) {
           const d6 = find(rows, E, "demand_max_pct_vs_baseline", "2022-09-06");
           return (
             <p>
-              <strong>The peak.</strong> CAISO&apos;s highest hour of demand served in the window was <N r={hi} event={EV} /> MW on {day(hi)}; against the baseline,
-              the peak hour rose most on {day(hiPct)}, <N r={hiPct} event={EV} />% above it, and on 2022-09-06 it was <N r={d6} event={EV} />% above.
+              <strong>The peak.</strong> CAISO&apos;s highest hour of demand served in the window was <N r={hi} event={EV} u=" MW" /> on {day(hi)}; against the baseline,
+              the peak hour rose most on {day(hiPct)}, <N r={hiPct} event={EV} u="%" /> above it, and on 2022-09-06 it was <N r={d6} event={EV} u="%" /> above.
             </p>
           );
         }}

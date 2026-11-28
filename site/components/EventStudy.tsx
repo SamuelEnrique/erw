@@ -6,7 +6,7 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { Cite } from "@/components/Cite";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import { NoData } from "@/components/NoData";
-import { Num } from "@/components/Num";
+import { Num, heldBy } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { series } from "@/lib/data";
 import { ENTITY_BA, gridWeather, STATION_BA, studyOf, type Study } from "@/lib/eventstudy";
@@ -31,9 +31,11 @@ type Row = { entity: string; variable: string; s: Study; t: Study | null };
 // and -92,180 MWh a day, so "80.56 percent" under one and no share under the other (docs/reviews/events-model-audit-2026-11-26.md).
 const WEATHER_FIT_WORDS = "The weather terms here are fitted on the event days and the baseline days together, while each event day's estimate below fits them on the baseline days alone, so the two can differ widely; and where an event day was colder or hotter than any baseline day, the curve is carried beyond the days it was fitted on. So a share, where one is given, is a property of this one fit, not a measured part of the effect that the weather caused.";
 
-function E({ ev, r, term, field, v }: { ev: string; r: Row; term: string; field: string; v: number }) {
-  return <Num check={`es|${ev}|${r.entity}|${r.variable}|${term}|${field}`} raw={v}>{shown(v)}</Num>;
+function E({ ev, r, term, field, v, u }: { ev: string; r: Row; term: string; field: string; v: number; u?: string }) {
+  return <Num check={`es|${ev}|${r.entity}|${r.variable}|${term}|${field}`} raw={v} unit={u}>{shown(v)}</Num>;
 }
+/** Session 11405: true when E's figure is held, so a unit written outside its bold is left out ("license needed" alone). */
+const heldWord = (ev: string, r: Row, term: string, field: string) => !!heldBy(`es|${ev}|${r.entity}|${r.variable}|${term}|${field}`);
 
 /** The coefficient plot: each event day's effect and its 95 percent interval, a zero line. */
 function Plot({ r, label }: { r: Row; label: string }) {
@@ -92,19 +94,19 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
     <Section title="What the estimates say">
       <p className="mb-2 max-w-3xl text-sm">
         Over the {lead.s.days.length} days of the event window, {name}&apos;s daily demand served was{" "}
-        <strong><E ev={event} r={lead} term="pooled" field="est" v={p.estimate} /></strong> MWh a day {p.estimate >= 0 ? "above" : "below"} what
+        <strong><E ev={event} r={lead} term="pooled" field="est" v={p.estimate} /></strong>{heldWord(event, lead, "pooled", "est") ? "" : " MWh a day"} {p.estimate >= 0 ? "above" : "below"} what
         its baseline days predict (95 percent interval <E ev={event} r={lead} term="pooled" field="lo" v={p.lo} /> to{" "}
-        <E ev={event} r={lead} term="pooled" field="hi" v={p.hi} />), <E ev={event} r={lead} term="pooled" field="pct" v={pct} /> percent of the{" "}
-        <E ev={event} r={lead} term="pooled" field="cf" v={lead.s.counterfactualMean} /> MWh a day expected.{" "}
+        <E ev={event} r={lead} term="pooled" field="hi" v={p.hi} />), <E ev={event} r={lead} term="pooled" field="pct" v={pct} u=" percent" /> of the{" "}
+        <E ev={event} r={lead} term="pooled" field="cf" v={lead.s.counterfactualMean} u=" MWh a day" /> expected.{" "}
         {clear ? "The interval excludes zero." : "The interval includes zero: the effect cannot be told apart from the baseline days' own variation."}
       </p>
       {lead.t ? (
         <p className="mb-2 max-w-3xl text-sm">
           Controlling for temperature (the day&apos;s heating and cooling degree days at {name}&apos;s weather stations, and their squares), the effect is{" "}
-          <strong><E ev={event} r={lead} term="pooled_temp" field="est" v={lead.t.pooled.estimate} /></strong> MWh a day (95 percent interval{" "}
+          <strong><E ev={event} r={lead} term="pooled_temp" field="est" v={lead.t.pooled.estimate} /></strong>{heldWord(event, lead, "pooled_temp", "est") ? "" : " MWh a day"} (95 percent interval{" "}
           <E ev={event} r={lead} term="pooled_temp" field="lo" v={lead.t.pooled.lo} /> to <E ev={event} r={lead} term="pooled_temp" field="hi" v={lead.t.pooled.hi} />).{" "}
           {Math.sign(lead.t.pooled.estimate) === Math.sign(p.estimate) && Math.abs(lead.t.pooled.estimate) <= Math.abs(p.estimate) ? (
-            <>The weather terms account for <E ev={event} r={lead} term="weather_share" field="pct" v={(1 - lead.t.pooled.estimate / p.estimate) * 100} /> percent of the estimate without them.</>
+            <>The weather terms account for <E ev={event} r={lead} term="weather_share" field="pct" v={(1 - lead.t.pooled.estimate / p.estimate) * 100} u=" percent" /> of the estimate without them.</>
           ) : (
             <>With the weather terms the estimate is not smaller in size or keeps no sign in common with the one without them, so no share of it can be put down to weather.</>
           )}{" "}

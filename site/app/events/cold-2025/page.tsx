@@ -66,8 +66,8 @@ export default function Cold2025({ searchParams }: PageProps = {}) {
         const hi = pickOf(rows, "eia930:PJM", "demand_max_pct_vs_baseline", "max", inWin);
         return (
           <p>
-            PJM&apos;s highest hour of the window was <N r={pjm} event={EV} /> MW on {day(pjm)}, and MISO&apos;s <N r={miso} event={EV} /> MW on {day(miso)}. PJM&apos;s
-            peak hour stood furthest above the baseline on {day(hi)}, <N r={hi} event={EV} />% above the mean of the same weekdays 364 and 728 days earlier.
+            PJM&apos;s highest hour of the window was <N r={pjm} event={EV} u=" MW" /> on {day(pjm)}, and MISO&apos;s <N r={miso} event={EV} u=" MW" /> on {day(miso)}. PJM&apos;s
+            peak hour stood furthest above the baseline on {day(hi)}, <N r={hi} event={EV} u="%" /> above the mean of the same weekdays 364 and 728 days earlier.
           </p>
         );
       }}

@@ -61,8 +61,8 @@ export default function EastHeat2025({ searchParams }: PageProps = {}) {
         const ne = pickOf(rows, "eia930:ISNE", "demand_max_pct_vs_baseline", "max", inWin);
         return (
           <p>
-            PJM&apos;s highest hour of the window was <N r={pjm} event={EV} /> MW on {day(pjm)}. Against the baseline, NYISO&apos;s peak hour stood highest on {day(ny)},{" "}
-            <N r={ny} event={EV} />% above it, and ISO-NE&apos;s on {day(ne)}, <N r={ne} event={EV} />%.
+            PJM&apos;s highest hour of the window was <N r={pjm} event={EV} u=" MW" /> on {day(pjm)}. Against the baseline, NYISO&apos;s peak hour stood highest on {day(ny)},{" "}
+            <N r={ny} event={EV} u="%" /> above it, and ISO-NE&apos;s on {day(ne)}, <N r={ne} event={EV} u="%" />.
           </p>
         );
       }}

@@ -56,8 +56,8 @@ export default function CaisoHeat2020({ searchParams }: PageProps = {}) {
         const d14 = find(rows, E, "demand_max_pct_vs_baseline", "2020-08-14"), d15 = find(rows, E, "demand_max_pct_vs_baseline", "2020-08-15");
         return (
           <p>
-            <strong>Not on the outage days.</strong> On 2020-08-14 and 15, the days of the rotating outages, the peak hour was <N r={d14} event={EV} />% and{" "}
-            <N r={d15} event={EV} />% above the baseline; the highest came later, <N r={hi} event={EV} />% on {day(hi)}. The same report says &quot;August 17 through 19
+            <strong>Not on the outage days.</strong> On 2020-08-14 and 15, the days of the rotating outages, the peak hour was <N r={d14} event={EV} u="%" /> and{" "}
+            <N r={d15} event={EV} u="%" /> above the baseline; the highest came later, <N r={hi} event={EV} u="%" /> on {day(hi)}. The same report says &quot;August 17 through 19
             were projected to have much higher supply shortfalls&quot;, and that without a statewide mitigation effort and consumer conservation California was at
             risk of further rotating outages on those days (<a href={RCA}>CAISO, CPUC and CEC</a>). The warehouse holds no weather or supply data to say more.{" "}
             <span data-outage-hours="1">{OUTAGE_HOURS_WORDS}</span>

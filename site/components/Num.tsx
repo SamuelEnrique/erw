@@ -74,7 +74,11 @@ export function heldBy(check: string): { table: string; title: string } | null {
 // the variable, the period and the source report: lib/explore/source.ts reads them from the key), drawn as the span's
 // title, so the figure's source is in its hover; the attribute is absent when the prop is, and no page without it
 // changes. The snapshot's number list and check-values read data-check and data-raw as before.
-export function Num({ check, raw, children, className, source }: { check: string; raw: number | string; children: React.ReactNode; className?: string; source?: string }) {
+// Session 11405 (chain 770, the event pages' "license needed MW" mend): `unit`, when given, is the figure's unit as the
+// sentence writes it after the number (" MW", "%", " MWh a day"). It is drawn after the number only when the number is
+// shown: "license needed" stands alone, never "license needed MW" (the browser read of 20 November, line 4). It is drawn
+// outside the checked span, so the value checker and the snapshot's number list read the same text as before.
+export function Num({ check, raw, children, className, source, unit }: { check: string; raw: number | string; children: React.ReactNode; className?: string; source?: string; unit?: string }) {
   const held = heldBy(check);
   if (held) {
     return (
@@ -83,6 +87,7 @@ export function Num({ check, raw, children, className, source }: { check: string
       </span>
     );
   }
+  if (unit) return <><Num check={check} raw={raw} className={className} source={source}>{children}</Num>{unit}</>;
   return (
     <span data-check={check} data-raw={String(raw)} className={className} title={source}>
       {children}
