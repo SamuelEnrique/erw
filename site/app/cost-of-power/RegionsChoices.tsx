@@ -5,8 +5,22 @@
 // back button undoes it; the tab's own names in the address are kept as they came. The server draws the table from
 // the address; nothing is fetched here.
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AB_ANCHOR, ANCHOR, KINDS, KIND_PLURAL, colsChange, srHref, unitWords, type Column, type Kind, type Param, type SectionHead } from "./regions";
+
+/** The table's frame goes back to its start when the order or the columns change. The column the table is sorted by
+ *  is drawn first; on a phone a reader scrolls the frame sideways to a column's name, presses it, and the frame stayed
+ *  where the finger was, so the sorted column, now first, was out of view to the left (seen at 390 px). Nothing moves
+ *  as the page opens, and the page itself is not scrolled. `at`: the order and the columns, as the address gives them. */
+export function FrameToStart({ at }: { at: string }) {
+  const opened = useRef(true);
+  useEffect(() => {
+    if (opened.current) { opened.current = false; return; }
+    const frame = document.querySelector<HTMLElement>("[data-sr-table]");
+    if (frame && frame.scrollLeft > 0) frame.scrollLeft = 0;
+  }, [at]);
+  return null;
+}
 
 const field = "mt-1 block max-w-full border border-rule bg-white px-2 py-1 text-sm text-ink";
 const btn = "border border-rule bg-white px-2 py-1 text-sm";

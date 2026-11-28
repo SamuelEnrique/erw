@@ -226,6 +226,20 @@ export function columnAbout(table: TableFile, ci: number): About {
   return best ? { period: best.period, src: best.src } : { period: null, src: null };
 }
 export const sameAbout = (a: About, b: About): boolean => (a.period ?? "") === (b.period ?? "") && (a.src ?? "") === (b.src ?? "");
+/** The sources a column's shown figures come from (a row's own where it names one, else the column's), in the rows'
+ *  order. More than one: the column is several publishers' (a price, one operator a place), so its hover names them all
+ *  and every figure says its own source in a hover of its own; the column's hover names no one of them as the source. */
+export function columnSources(table: TableFile, ci: number): string[] {
+  const out: string[] = [];
+  for (const row of table.rows) { const r = readCell(table, row, ci); if (r.v !== null && r.src && !out.includes(r.src)) out.push(r.src); }
+  return out;
+}
+/** The publishers of some sources, each once, in the order met ("CAISO; SPP" names two). */
+export function publishersOf(sources: Record<string, Source> | undefined, keys: string[]): string[] {
+  const out: string[] = [];
+  for (const k of keys) for (const p of (sources?.[k]?.publisher ?? "").split(";").map((s) => s.trim()).filter(Boolean)) if (!out.includes(p)) out.push(p);
+  return out;
+}
 
 /** The rows shown: of the kind asked for, in the file's order, or by a column's figures. A place with no figure in the
  *  column is last in either direction, in the file's order: the order is the column's, never a ranking of places. */

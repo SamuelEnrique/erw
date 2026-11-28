@@ -5,6 +5,7 @@
 // every figure, blank, sort, choice and link is checked. No server, no network, no click.
 //   node --import ./scripts/tsx-register.mjs scripts/test-regions-section.mjs
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createElement as h } from "react";
@@ -150,6 +151,12 @@ const dc = (er.match(/data-sr-section="datacenters"[\s\S]*$/) ?? [""])[0];
 ok(!dc.includes("Made-up Campus One") && (dc.match(/data-license-held="datacenter_(facilities|projects)"/g) ?? []).length >= 5 && !/data-check="pf\|siting\/regions\/op-ercot\.json\|sections\/datacenters/.test(dc), "the datacenters there: every count and the list are blank, license needed (the site holds both tables)");
 const nyOpen = draw("view=allgrids&sropen=op-nyiso");
 ok(/data-sr-section="price" data-sr-section-state="not-shown"/.test(nyOpen) && nyOpen.includes('data-license-held="siting_regions"'), "NYISO opened: a section none of which can be shown is one blank, license needed");
+// the phone's read of 28 November: a blank after a heading read as nothing drawn, so a section held whole says the words
+const nyPrice2 = (nyOpen.match(/data-sr-section="price"[\s\S]*?data-sr-section="congestion"/) ?? [""])[0];
+ok(words(`<${nyPrice2}>`).startsWith("Price license needed") &&/data-license-held="siting_regions" data-sr-held="license needed"/.test(nyPrice2) && !/data-llr-blank/.test(nyPrice2), "a section held whole says license needed in words under its heading, with the site's mark for a held part");
+ok(/data-llr-blank="Day-ahead price, mean, NYISO"/.test(rowHtml(open, "op-nyiso")), "while a held count's cell in the table stays a blank");
+// a list's columns of long words and long names keep a least width on a phone (a row ten lines tall at 390 px)
+ok((er.match(/class="px-2 py-1 min-w-56 sm:min-w-0" data-sr-wide="1"/g) ?? []).length >= 4 && /class="px-2 py-1 min-w-40 sm:min-w-0"/.test(er), "a list's columns of a document's words keep 14 rem on a phone, its names 10 rem");
 ok(tips(nyOpen).some((t) => t.startsWith("too few: fewer than 300 days")) && !/data-sr-trend="intensity_by_hour"[\s\S]{0,900}<svg/.test(nyOpen), "a trend the file holds too little of is said so, and no line is drawn");
 ok(tips(nyOpen).some((t) => t.startsWith("not held: no net generation by source is held")) && tips(nyOpen).some((t) => t === "license needed: the list is held with its tables (made-up words of the builder)"), "an empty list says why in the file's own words: the mix, and the datacenters there");
 const socoOpen = draw("view=allgrids&sropen=ba-soco");
@@ -190,6 +197,28 @@ ok(L.periodWords("the 730 days to 2026-11-25") === "the 730 days to 25 Nov 2026"
 ok(L.ruleHref({ view: "allgrids", mw: "300", rule: "old" }, "texas-04") === "/cost-of-power?view=allgrids&mw=300&rule=texas-04#large-load-rules", "a rule's link: the tab's address with the tab's own name for a rule, at the tab's rules");
 ok(L.trendPoints({ months: ["2026-09", "2026-10"], period: "x", v: [1.5, null] }).length === 1 && L.trendPoints(null).length === 0 && L.monthWords("2026-10") === "Oct 2026", "a trend's months that hold a figure; a month in words");
 ok(JSON.stringify(L.columnAbout(table, 6)) === JSON.stringify({ period: "2025-11-01..2026-10-31", src: "eia930_demand" }) && JSON.stringify(L.columnAbout(table, 0)) === JSON.stringify({ period: "2025-11-01..2026-10-31", src: "ercot_prices" }), "a column's period and source: its own, or what most of its shown cells share");
+// a column of several sources (a price: one operator a place) names no one of them as the column's
+const twoSrc = { columns: [{ key: "p", section: "price", label: "P", unit: "USD/MWh", period: "2026", src: "a" }], rows: [{ id: "x", kind: "region", name: "X", v: [1], cell: {} }, { id: "y", kind: "region", name: "Y", v: [2], cell: { 0: { period: "2026", src: "b", held: null } } }, { id: "z", kind: "region", name: "Z", v: [null], cell: { 0: { period: "2026", src: "c", held: "paused: made up" } } }], sources: { a: { publisher: "Operator A" }, b: { publisher: "Operator B; Operator A" }, c: { publisher: "Operator C" } } };
+ok(JSON.stringify(L.columnSources(twoSrc, 0)) === '["a","b"]' && JSON.stringify(L.publishersOf(twoSrc.sources, ["a", "b"])) === '["Operator A","Operator B"]' && L.columnSources(table, 6).length === 1, "a column's sources are those of its shown figures, a held cell's not among them; their publishers each once");
+{
+  // the fixture with one figure of the price column given a second source (made up, as the fixture is)
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "sr-two-sources-"));
+  fs.cpSync(FIXTURE, tmp, { recursive: true });
+  const tf = path.join(tmp, "siting", "regions", "table.json"), t2 = JSON.parse(fs.readFileSync(tf, "utf-8"));
+  const er2 = t2.rows.find((r) => r.id === "op-ercot");
+  er2.cell = { ...(er2.cell ?? {}), 0: { period: t2.columns[0].period ?? "2025-11-01..2026-10-31", src: "other_prices", held: null } };
+  t2.sources.other_prices = { table: "iso_hub_prices_history", publisher: "Made-up Operator B", license: "public", retrieved: "2026-11-27T00:00:00Z", report: "a made-up report", url: "https://example.org/made-up-b" };
+  fs.writeFileSync(tf, JSON.stringify(t2));
+  process.env.ERW_SITING_REGIONS_DIR = tmp;
+  const twoHtml = draw("view=allgrids");
+  process.env.ERW_SITING_REGIONS_DIR = FIXTURE;
+  fs.rmSync(tmp, { recursive: true, force: true });
+  const head = (twoHtml.match(/<th[^>]*data-sr-col="price\.mean_da"[^>]*>([\s\S]*?)<\/th>/) ?? ["", ""])[1];
+  ok(head.includes('data-sr-sources="2"') && tips(head)[0].includes("Made-up Operator B, one a place; each figure's own source is in its hover.") && !head.includes("data-sr-source-url") && !tips(head)[0].includes("Publisher:"), "a column of two sources names their publishers in its hover, gives no one of them as the publisher, and links none");
+  ok(cellHtml(rowHtml(twoHtml, "region-tex"), "price.mean_da").includes('data-sr-own="1"') && cellHtml(rowHtml(twoHtml, "op-ercot"), "price.mean_da").includes('data-sr-source-url="other_prices"') && tips(cellHtml(rowHtml(twoHtml, "op-ercot"), "price.mean_da"))[0].includes("Publisher: Made-up Operator B"), "and each of its figures says its own source in a hover of its own, with its link");
+  const oneHead = (open.match(/<th[^>]*data-sr-col="price\.mean_da"[^>]*>([\s\S]*?)<\/th>/) ?? ["", ""])[1];
+  ok(oneHead.includes('data-sr-sources="1"') && tips(oneHead)[0].includes("Publisher:"), "a column of one source says it in the column's hover, as before");
+}
 const csv = L.tableCsv(table, L.rowsShown(table, c0), L.colsDrawn(table, c0), "/cost-of-power?view=allgrids#regions");
 const lines = csv.trim().split("\n"), nHead = lines.findIndex((l) => !l.startsWith("#"));
 ok(nHead === 12 && lines[nHead].startsWith("place_id,kind,name,price.mean_da,price.mean_da.not_shown,") && lines.length === nHead + 5, "the CSV: what it is and a line a column above the header, then a row a place");

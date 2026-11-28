@@ -154,5 +154,48 @@ class TheFilesAndTheirRules(unittest.TestCase):
             self.assertIs(d["example"], False, name)
 
 
+class ThePhonesGaps(unittest.TestCase):
+    """Part C: the section's five cases taken at 390 px by a finger, a picture at every step (28 November)."""
+
+    def setUp(self):
+        self.section = src("site", "app", "cost-of-power", "RegionsSection.tsx")
+        self.choices = src("site", "app", "cost-of-power", "RegionsChoices.tsx")
+        self.lib = src("site", "app", "cost-of-power", "regions.ts")
+
+    def test_the_frame_goes_back_to_its_start_when_the_order_or_the_columns_change(self):
+        # the sorted column is drawn first; the frame stayed where the finger was, and the column was out of view
+        self.assertIn("export function FrameToStart({ at }: { at: string }) {", self.choices)
+        self.assertIn("if (opened.current) { opened.current = false; return; }", self.choices)
+        self.assertIn('const frame = document.querySelector<HTMLElement>("[data-sr-table]");', self.choices)
+        self.assertIn("if (frame && frame.scrollLeft > 0) frame.scrollLeft = 0;", self.choices)
+        self.assertIn("}, [at]);", self.choices)
+        self.assertIn('<FrameToStart at={`${c.sort}|${c.dir}|${c.cols.join(",")}`} />', self.section)
+        # the page itself is never scrolled by it
+        body = self.choices.split("export function FrameToStart", 1)[1].split("\n}\n", 1)[0]
+        self.assertNotIn("scrollIntoView", body)
+        self.assertNotIn("window.scroll", body)
+
+    def test_a_section_held_whole_says_the_words_and_a_counts_cell_stays_blank(self):
+        self.assertIn('if (kind === LICENSE_NEEDED && said) return <Tip tip={heldWhy(held)} data={{ "license-held": table || "siting_regions", "sr-held": kind }}>{kind}</Tip>;', self.section)
+        self.assertIn('if (kind === LICENSE_NEEDED) return <Blank tip={heldWhy(held)} table={table || "siting_regions"} what={what} />;', self.section)
+        self.assertIn("<Held held={sec.status} what={title} said />", self.section)
+        # the table's cell and a count's row of a panel pass no `said`
+        self.assertIn("if (held) return <Held held={held} what={what} table={source} />;", self.section)
+        self.assertIn("if (held) return <Held held={held} what={what} table={table} />;", self.section)
+
+    def test_a_lists_long_words_keep_a_least_width_on_a_phone_only(self):
+        self.assertIn('const WIDE = "min-w-56 sm:min-w-0", NAME = "min-w-40 sm:min-w-0";', self.section)
+        for head in ('{ label: "Contract term", wide: true }', '{ label: "Collateral", wide: true }', '{ label: "Exit fee", wide: true }', '{ label: "Study timeline", wide: true }',
+                     '{ label: "As printed", wide: true }', '{ label: "Title", wide: true }', '{ label: "Utility: opens its rule", name: true }'):
+            self.assertIn(head, self.section)
+
+    def test_a_column_of_several_sources_names_no_one_of_them_as_its_own(self):
+        self.assertIn("export function columnSources(table: TableFile, ci: number): string[] {", self.lib)
+        self.assertIn("export function publishersOf(sources: Record<string, Source> | undefined, keys: string[]): string[] {", self.lib)
+        self.assertIn("function colAbout(table: TableFile, ci: number): { of: About; srcs: string[]; tip: (more?: string) => ReactNode } {", self.section)
+        self.assertIn("return { of: { period: base.period, src: null }, srcs,", self.section)
+        self.assertIn("one a place; each figure&apos;s own source is in its hover.", self.section)
+
+
 if __name__ == "__main__":
     unittest.main()
