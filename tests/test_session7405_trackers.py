@@ -86,7 +86,7 @@ class TheNote(unittest.TestCase):
                      "### 7.4 The AI-power view", "### 7.5 The charts", "### 7.6 Capital flows", "## 8. What the tracker cannot see", "## 9. The replication and the cross-checks",
                      "## 10. What a second reading of the older rows would change (not run)", "## 11. The decisions on the page", "## 12. What waits for the owner", "## Sign-off"):
             self.assertIn("\n" + head, n, head)
-        for said in ("**\"Sure\"** is the extraction's own confidence", "only where three or more deals of the group state the figure", "energy's where its asset is energy",
+        for said in ("**\"Sure\"** is the extraction's own confidence", "only where five or more deals of the group state the figure", "energy's where its asset is energy",   # session 11408: five, not three
                      "written in no prompt and no rubric", "A join keeps the earliest date", "never replaces a figure held", "- Signed off by:", "- Items of section 12 ruled, and how:"):
             self.assertIn(said, n, said)
         self.assertNotIn("DECISIONS-LIST", n)
