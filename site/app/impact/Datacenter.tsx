@@ -9,7 +9,7 @@ import { Tip } from "@/components/tool/ToolPage";
 import { Num } from "@/components/Num";
 import { stateName } from "@/lib/impact";
 import { dcDefaults, dcDisplay, dcKey, dcRun, dcStat, type DcInputs, type DcParams, type DcResult } from "@/lib/dcimpact";
-import { DC_FIELDS, DC_GROUPS, dcClamp, dcResolve, type DcField, type DcProject } from "@/lib/dcui";
+import { DC_FIELDS, DC_GROUPS, DC_UNREAD_EXEMPTION, dcClamp, dcResolve, type DcField, type DcProject } from "@/lib/dcui";
 import { jobsText, usdText } from "@/lib/forecast";
 
 export { dcDisplay };
@@ -200,13 +200,13 @@ export function DcOtherStates({ P2, v, x, view, states }: { P2: DcParams; v: Val
   const rank = per.findIndex((p) => p.k === x.state) + 1;
   return (
     <section data-state-chart={view} data-dc="1">
-      <h2 className="mb-2 text-lg font-semibold">Scenario {view.toUpperCase()} in other states<Tip id="dc-states" label="other states">The same datacenter in each state: every input the scenario sets, and each state&apos;s own wages, sales and income tax rates and datacenter rules for the rest. {rank > 0 ? `${stateName(x.state)} is ${rank} of ${per.length} by these taxes' present value.` : ""} Property tax is left out: its rates are each locality&apos;s. An exemption counts only where the ERW holds the state&apos;s rule, read from its statute or its agency&apos;s own description, so the bars are not like for like: the hover says which.</Tip></h2>
+      <h2 className="mb-2 text-lg font-semibold">Scenario {view.toUpperCase()} in other states<Tip id="dc-states" label="other states">The same datacenter in each state: every input the scenario sets, and each state&apos;s own wages, sales and income tax rates and datacenter rules for the rest. {rank > 0 ? `${stateName(x.state)} is ${rank} of ${per.length} by these taxes' present value.` : ""} Property tax is left out: its rates are each locality&apos;s. An exemption counts only where the ERW holds the state&apos;s rule, read from its statute or its agency&apos;s own description, so the bars are not like for like: the hover says which. Texas and Tennessee have datacenter exemptions in statute that the ERW could not read: their bars are before them.</Tip></h2>
       <SeriesChart id={`dc-state-taxes-${view}`} title="Sales, income and electricity taxes, present value, in other states" unit="USD (2025)" kind="stacked" scale="linear"
         fmt={(n) => usdText(n).replace(/^USD /, "")}
         categories={shown.map((p) => ({ label: p.name, sub: p.k === x.state ? "yours" : undefined }))}
         series={[{ name: "Sales, income and electricity taxes, present value", color: "var(--color-accent)", values: shown.map((p) => p.taxes) }]}
         saysOnCard
-        says={(i) => `${shown[i].name}: ${usdText(shown[i].taxes)}${shown[i].rule ? `; a datacenter rule is applied (forgone by its exemption, present value ${usdText(shown[i].forgone)})` : "; no datacenter rule applied (none read, or held as words): sales tax before exemptions"}`}
+        says={(i) => `${shown[i].name}: ${usdText(shown[i].taxes)}${shown[i].rule ? `; a datacenter rule is applied (forgone by its exemption, present value ${usdText(shown[i].forgone)})` : DC_UNREAD_EXEMPTION[shown[i].k] ? "; the state's datacenter exemption exists in statute but could not be read: sales tax before it" : "; no datacenter rule applied (none read, or held as words): sales tax before exemptions"}`}
         tip={<Tip id={`dc-state-taxes-${view}`} label="taxes in other states">The ten states with the most, the scenario&apos;s own and the five with the fewest.</Tip>} />
     </section>
   );

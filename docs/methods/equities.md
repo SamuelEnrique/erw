@@ -6,13 +6,35 @@ Energy Research Warehouse (ERW), method note written in session 10000 (chain 701
 
 Builder: `warehouse/derived/equity_page_files.py` (no request; warehouse tables only), a daily step of the data machine. It writes `site/data/equities/index.json`, `board.json` and `energy_prices.json`.
 
-- **The equity side is held.** SEC EDGAR, the one public source of each company's industry code (SIC), share count and statements, refuses the ERW's contact string (HTTP 403, "Undeclared Automated Tool"); and no free source of daily share prices or index levels lets the ERW keep them (Stooq's robots file refuses every reader, Nasdaq forbids storing, Tiingo and Alpha Vantage need keys and are internal). So `index.json` lists the fifteen segments with the reason their rule cannot be applied and no company or index; every row of `board.json` is held (`not_held`) with that reason; no company, index or segment file is written. A page draws each blank with its reason.
+- **What changed on 27 November 2026** (session 11403, the equities audit, finding 9: this section had not said so).
+  Since the owner's ruling of 26 November gave the SEC a contact address, `index.json` lists 307 companies by the
+  written rule ("The universe" below), 243 of them with their filed statements, one series file each under `series/`;
+  share prices, index levels and the segments' lines stay held. The next bullet is the first build's state, kept as it
+  was written.
+- **The equity side is held (26 November 2026, the first build).** SEC EDGAR, the one public source of each company's industry code (SIC), share count and statements, refuses the ERW's contact string (HTTP 403, "Undeclared Automated Tool"); and no free source of daily share prices or index levels lets the ERW keep them (Stooq's robots file refuses every reader, Nasdaq forbids storing, Tiingo and Alpha Vantage need keys and are internal). So `index.json` lists the fifteen segments with the reason their rule cannot be applied and no company or index; every row of `board.json` is held (`not_held`) with that reason; no company, index or segment file is written. A page draws each blank with its reason.
 - **The energy prices are the warehouse's own** (`energy_prices.json`): WTI, Brent and Henry Hub spot (`eia_fuel_spot_prices`, daily), ERCOT's hub average day-ahead daily mean (`ercot_hub_prices_daily`, `da_mean`), CAISO's SP15 and NP15 day-ahead daily means (`iso_hub_prices_history`, the mean of each complete Pacific day: 24 hours, 23 or 25 on the clock-change days; a day short of an hour is not written), uranium (`imf_commodity_prices`, PURAN, monthly, on its own dates), and California's carbon allowance at its quarterly auctions (`carb_auction_allowance_prices`, current vintage, on its own dates). PJM, NYISO and ISO-NE (held by their terms, `docs/licenses.md`) and MISO (paused) are series with a status and no rows.
 - **Span.** Each daily series from 2016-01-01: the contract's span is that of the longest shown equity series, and none is shown yet (a dated line of the contract).
 
 ## Moves
 
 Each series' `moves`, as the board computes its own rows': `d` the previous day held; `w` the last day held on or before 7 calendar days back; `m` one calendar month back; `ytd` the last day held of the previous year; `y` one calendar year back. `ch` is the last value less the value then, `pct` that over the value then times 100. No score, no signal, no view.
+
+## The segments' two lines (named, not built)
+
+The page and the price board name two lines for each segment, and no code builds either: no segment file is written
+and every board row of the group is held, because no source's license lets the ERW keep daily share prices (the
+section above). The rule is the contract's (`docs/state/page_files_equities.md`, the series file's `daily[]`), written
+here so that the page's word "the method note" holds (session 11403, the equities audit, finding 6):
+
+- `equal_weight`: 100 on the segment's first day held, then the mean of its companies' daily returns, chained.
+- `value_weight`: the same, each company's return weighted by its market value the day before; a company's market value
+  is its close times the latest shares outstanding it filed on or before the day, and a company with no public share
+  count is left out of this line (`n_value` counts those in it).
+
+What the contract does not yet say, and an equity analyst would ask, is listed in the audit
+(`docs/reviews/equities-model-audit-2026-11-28.md`, finding 7): whether a return is the close's or the close adjusted
+for dividends and splits; which share count (the balance sheet's, or the filing cover's); a business listed twice in a
+segment (a holding company and the partnership it consolidates); and a company whose only listing is a preferred share.
 
 ## The rules that wait for the SEC
 

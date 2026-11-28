@@ -36,6 +36,13 @@ const TF: DcLink = { href: "https://taxfoundation.org/data/all/state/2026-sales-
 const ruleCite = (P: DcParams, s: string, part: "sales_exemption" | "property" | "electricity") =>
   cite(P, (P.rules.states[s]?.[part] as { cite?: string } | undefined)?.cite);
 const n = (v: number, d = 0) => v.toLocaleString("en-US", { maximumFractionDigits: d });
+/** Session 11404 (chain 770's audit of /impact's datacenter, finding 1): states whose datacenter sales tax exemption the
+ *  ERW's own ground names (docs/reviews/impact-datacenter-sources-2026-11-26.md) but could not read, so no rule is held
+ *  and the sales tax shown is before it. The words a reader sees where the state's rule would be. */
+export const DC_UNREAD_EXEMPTION: Record<string, string> = {
+  tx: "Texas exempts a qualifying data center's equipment from sales and use tax (Tax Code 151.359), but the ERW could not read the statute (its hosts refuse automated reads), so no rule is applied: the sales tax shown is before that exemption and overstates what a qualifying datacenter pays.",
+  tn: "Tennessee has a sales and use tax exemption for data centers, but the ERW could not read it (the General Assembly's statute hosts refuse automated reads), so no rule is applied: the sales tax shown is before that exemption and overstates what a qualifying datacenter pays.",
+};
 const range = (P: DcParams, k: keyof DcParams["announced"]["defaults"], d = 3) => {
   const s = P.announced.defaults[k];
   return `the median of ${s.n} announced projects (${n(s.low!, d)} to ${n(s.high!, d)}${P.announced.computed ? `; computed ${P.announced.computed}` : ""})`;
@@ -74,7 +81,7 @@ export const DC_FIELDS: DcField[] = [
     source: () => "The materials share of the building's cost that bears sales tax. No public document read gives it for a datacenter: not given, and the building's sales tax is left out until the reader types one." },
   { name: "dcex", input: "dcex", label: "The state's datacenter exemption", unit: "", min: 0, max: 1, whole: true, group: "taxes",
     options: [{ value: 1, label: "Applied where the project qualifies" }, { value: 0, label: "Not applied" }],
-    source: (s, P) => P.rules.states[s]?.sales_exemption?.tip ?? "No datacenter sales tax exemption of this state has been read: the sales tax is before exemptions." },
+    source: (s, P) => P.rules.states[s]?.sales_exemption?.tip ?? DC_UNREAD_EXEMPTION[s] ?? "No datacenter sales tax exemption of this state has been read: the sales tax is before exemptions." },
   { name: "brate", input: "brate", label: "Property tax on the building", unit: "% of assessed value", min: 0, max: 60, whole: false, group: "taxes", nullable: true,
     source: (s, P) => P.rules.states[s]?.property?.tip ?? "No rule of this state for a datacenter's property has been read: a rate typed here is the reader's own, on the building's cost." },
   { name: "erate", input: "erate", label: "Property tax on the equipment", unit: "% of assessed value", min: 0, max: 60, whole: false, group: "taxes", nullable: true,

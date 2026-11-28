@@ -467,6 +467,10 @@ STORAGE_HELD["eia930_region_fuel_hourly"] = ("held: first written on 19 November
 # 1.2 GB: held the same way
 STORAGE_HELD["eia930_ba_wind_solar_hourly"] = ("held: first written on 27 November 2026 (chain 701, session 10000), after the v1 "
                                                "package was prepared; not on Redivis (about 1.2 GB): in v1 when the owner adds it to the package's list")
+# Session 10000 (chain 701, predict data request 19): SPP's mid-term load forecast beside its actual load, public, first
+# written on 28 November 2026 when the Redivis storage was full: held the same way
+STORAGE_HELD["spp_mtlf_hourly"] = ("held: first written on 28 November 2026 (chain 701, session 10000), after the v1 package "
+                                   "was prepared; not on Redivis (its storage full): in v1 when the owner adds it to the package's list")
 # Session 10000 (chain 701, predict data request 14): the sub-regions' demand of 2026 as a year table beside 2019 to 2025,
 # public, written on 28 November 2026 when the Redivis storage was full: held the same way
 STORAGE_HELD["eia930_subba_demand_hourly_2026"] = ("held: first written on 28 November 2026 (chain 701, session 10000), after "

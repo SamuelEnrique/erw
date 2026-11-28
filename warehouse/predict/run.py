@@ -362,6 +362,17 @@ def demand_place(place, dem, op, ref, made, evs, wx=None, wxf=None):
             tm["operator"] = o.reindex(pd.DatetimeIndex(tm["ts"])).to_numpy()
         else:
             tm["operator"] = np.nan
+        if not np.isfinite(tm[choice].to_numpy(dtype=float)).any():
+            # session 10603: the method chosen could not forecast the day (it reads hours the demand held lacks: SPA on
+            # 28 November); no rows of nulls, in the file or in the ledger, but the reason
+            gap = frame[(frame["day"] > target - pd.Timedelta(days=16)) & (frame["day"] <= last)]
+            short = [d.strftime("%Y-%m-%d") for d in pd.date_range(target - pd.Timedelta(days=15), last, freq="D")
+                     if int((gap["day"] == d).sum()) < len(demand.day_hours(tz, d))
+                     or (gap.loc[gap["day"] == d, "value"] <= 0).any()]
+            tm = None
+            tm_held = (f"no forecast: the method chosen ({choice}) reads every hour of the days before the target day, and the "
+                       f"demand held is missing hours, or holds hours at or below zero (which the regression's logs cannot read), "
+                       f"on {', '.join(short) if short else 'a day it reads'}")
     else:
         tm_held = f"no data: the last whole day held ({day_str(last)}) is {h} days before the target day; the forecast reads at most 7"
     return {"place": place, "tz": tz, "hr": hr, "choice": choice, "maes": maes, "rows": rows, "tomorrow": tm, "tomorrow_held": tm_held,
@@ -410,7 +421,15 @@ def from_ledger(p, ledger, series="demand"):
                        m + "_hi": pd.to_numeric(lg["hi"], errors="coerce").values,
                        "operator": [op.get(t) for t in ts]})
     t2["ts"] = pd.to_datetime(t2["ts"], utc=True)
-    return dict(p, tomorrow=t2.reset_index(drop=True), choice=m), str(lg["made_utc"].iloc[0]), m
+    # session 11402 (audit of /forecast, finding 1): the making drawn carries its own horizon and the last hour it read,
+    # from the ledger; the build's own (a later run reads newer demand) described a forecast that had not read it
+    out = dict(p, tomorrow=t2.reset_index(drop=True), choice=m)
+    h = pd.to_numeric(lg["horizon_days"], errors="coerce").iloc[0]
+    if pd.notna(h):
+        out["h"] = int(h)
+    if pd.notna(lg["inputs_through_utc"].iloc[0]) and str(lg["inputs_through_utc"].iloc[0]):
+        out["inputs_through"] = pd.Timestamp(str(lg["inputs_through_utc"].iloc[0]))
+    return out, str(lg["made_utc"].iloc[0]), m
 
 
 def demand_series(p, made, ledger):
@@ -433,6 +452,7 @@ def demand_series(p, made, ledger):
          "method_mae_last_2_years": {m: num(v, 2) for m, v in p["maes"].items()}}
     if made_first is not None:
         s["made_utc"] = made_first
+        s["fit_day"] = str(made_first)[:10]   # session 11402: the making's day, not the build's
         s["tomorrow_from"] = ("the ledger: the forecast first made for this day, kept as made (a later run the same day does "
                               f"not replace it); the method chosen now is {now_choice}")
     tm = p["tomorrow"]
@@ -569,6 +589,10 @@ def price_shown(p, made, ledger):
          "method_mae_last_2_years": {m: num(v, 2) for m, v in p["maes"].items()}}
     if made_first is not None:
         s["made_utc"] = made_first
+        s["fit_day"] = str(made_first)[:10]   # session 11402: the making's day, not the build's
+        if str(made_first) != iso(pd.Timestamp(made)):
+            # the ledger names no demand horizon; a making of another hour may have read other demand
+            s["demand_horizon_days"] = None
         s["tomorrow_from"] = ("the ledger: the forecast first made for this day, kept as made (a later run the same day does "
                               f"not replace it); the method chosen now is {now_choice}")
     tm = p["tomorrow"]
@@ -693,6 +717,8 @@ def main(argv=None):
         if p["tomorrow"] is not None:
             c = p["choice"]
             for _, r in p["tomorrow"].iterrows():
+                if not np.isfinite(float(r[c])):
+                    continue   # an hour without a figure is not a forecast (session 10603: SPA, 28 November)
                 new_ledger.append({"series": "demand", "place": place, "target_day": day_str(p["target"]), "ts_utc": iso(r["ts"]),
                                    "local_hour": int(r["hour"]), "made_utc": iso(made), "inputs_through_utc": iso(p["inputs_through"]),
                                    "horizon_days": p["h"], "method": c, "erw": num(r[c]), "lo": num(r[c + "_lo"]), "hi": num(r[c + "_hi"])})
@@ -711,6 +737,8 @@ def main(argv=None):
         if q["tomorrow"] is not None:
             c = q["choice"]
             for _, r in q["tomorrow"].iterrows():
+                if not np.isfinite(float(r[c])):
+                    continue   # an hour without a figure is not a forecast
                 new_price_ledger.append({"series": "price", "place": place, "target_day": day_str(q["target"]), "ts_utc": iso(r["ts"]),
                                          "local_hour": int(r["hour"]), "made_utc": iso(made), "inputs_through_utc": iso(q["inputs_through"]),
                                          "horizon_days": q["h"], "method": c, "erw": num(r[c], 2), "lo": num(r[c + "_lo"], 2), "hi": num(r[c + "_hi"], 2)})
@@ -747,7 +775,7 @@ def main(argv=None):
         index_places.append({"place": place, "name": names.get(place), "kind": kind, "eia930": code.upper(), "time": p["tz"], "file": f"{place}.json",
                              "series": {s: {k: v[k] for k in ("status", "held", "method", "fit_day", "target_day", "hub", "market")} for s, v in (("demand", ds), ("price", ps))}})
     idx = dict(head(built), method_notes=NOTES,
-               made_rule=f"The demand forecast for a place's day is made at {DEMAND_MADE_HOUR}:00 UTC the day before, from the demand the warehouse holds then (through 23:00 local two days before the day); the day-ahead price forecast at {price.PRICE_MADE_HOUR}:00 UTC the day before, before any grid publishes its day-ahead prices for the day, from the prices of the day before (published two days before) and the demand through three days before; each file gives the hour it was made and the last hour it read.",
+               made_rule=f"The demand forecast for a place's day is made at {DEMAND_MADE_HOUR}:00 UTC the day before, from the demand the warehouse holds then (through 23:00 local two days before the day); the day-ahead price forecast is scored as made at {price.PRICE_MADE_HOUR}:00 UTC the day before, before any grid publishes its day-ahead prices for the day, from the prices of the day before (published two days before) and the demand through three days before. The daily run makes the live price forecast later, at about 19:00 UTC, when ERCOT has usually published its day-ahead prices for the day (the forecast does not read them) and the demand through two days before is held, which the live forecast reads (demand_horizon_days in each file); each file gives the hour it was made and the last hour it read.",
                band_rule="The band is the 10th and 90th percentile of the method's own past errors at the same local hour, over the last 365 days held: about eight hours in ten have fallen inside it, and each file prints the share that did.",
                choice_rule="For each place, the ERW's method with the lowest mean absolute error over the last two years of the walk-forward backtest, on the hours where every method and the operator's forecast are held.",
                places=index_places)
