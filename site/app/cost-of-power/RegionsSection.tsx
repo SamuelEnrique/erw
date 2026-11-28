@@ -21,7 +21,7 @@ import { licenseByGrid, licenseByRow, licenseHeldRow } from "@/lib/license";
 import { pfKey, type Segment } from "@/lib/pagefile";
 import { loadPlace, loadRegions, placePath } from "./regionsdata";
 import { AB_ANCHOR, ANCHOR, KINDS, KIND_PLURAL, KIND_SHORT, KIND_TIP, KIND_WORDS, LICENSE_NEEDED, NAME_SORT, PLACE_ANCHOR, TABLE_FILE, choiceOf, colIndex, colsDrawn, columnAbout, defaultCols, figure, heldKind, heldWhy,
-  monthWords, periodWords, readCell, rowsShown, ruleHref, sameAbout, sortChange, sortWords, sourceWords, srHref, tableCsv, trendPoints, unitWords, utcWords,
+  monthWords, periodWords, readCell, rowsShown, ruleHref, sameAbout, sortChange, sortWords, sourceWords, srHref, tableCsv, trendPoints, unitWords, utcWords, withUnit,
   type About, type Cell, type Choice, type IndexFile, type Kind, type Place, type PlaceFile, type Source, type TableFile, type TableRow } from "./regions";
 import { RegionsChoices } from "./RegionsChoices";
 import { RegionsDownload } from "./RegionsDownload";
@@ -78,7 +78,13 @@ function CellView({ c, file, path, what, sources, entity, unit = true, otherwise
 }
 /** The words of a count's hover: what it is, the span it covers, and where it comes from. */
 const about = (label: string, unit: string | null | undefined, period: string | null | undefined, sources: Sources, src: string | null | undefined): string =>
-  [`${label}${unitWords(unit) ? `, ${unitWords(unit)}` : ""}.`, period ? `Period: ${periodWords(period)}.` : "", sourceWords(sources, src)].filter(Boolean).join(" ");
+  [`${withUnit(label, unit)}.`, period ? `Period: ${periodWords(period)}.` : "", sourceWords(sources, src)].filter(Boolean).join(" ");
+/** A hover's words with the way to their source: a link to the publisher's own report where the file gives its address
+ *  (one a source; for a table of several publishers, the place's own operator's), then anything said after it. */
+const withLink = (said: string, sources: Sources, src: string | null | undefined, more?: string): ReactNode => {
+  const u = safeUrl(src ? sources[src]?.url : null);
+  return <>{said}{u ? <> <a href={u} rel="noopener" className="underline" data-sr-source-url={src ?? ""}>Open its source</a>.</> : null}{more ? <> {more}</> : null}</>;
+};
 
 // ---- the table of every place ---------------------------------------------------------------------------------------
 
@@ -90,7 +96,7 @@ function TableCell({ table, row, ci, place, of }: { table: TableFile; row: Table
   if (held) return <Held held={held} what={what} table={source} />;
   const body = r.v !== null ? <Fig file={TABLE_FILE} path={["rows", { id: row.id }, "v", ci]} v={r.v} unit={col.unit} /> : <span>{utcWords(r.words ?? "")}</span>;
   // a cell whose period or source is not the one its column's hover gives says its own in a hover of its own
-  return sameAbout({ period: r.period, src: r.src }, of) ? body : <Tip tip={about(what, col.unit, r.period, table.sources, r.src)} plain data={{ "sr-own": "1" }}>{body}</Tip>;
+  return sameAbout({ period: r.period, src: r.src }, of) ? body : <Tip tip={withLink(about(what, col.unit, r.period, table.sources, r.src), table.sources, r.src)} plain data={{ "sr-own": "1" }}>{body}</Tip>;
 }
 
 function PlacesTable({ q, c, table, index }: { q: Q; c: Choice; table: TableFile; index: IndexFile }) {
@@ -117,7 +123,7 @@ function PlacesTable({ q, c, table, index }: { q: Q; c: Choice; table: TableFile
                   <SiteLink href={srHref(q, sortChange(c, col.key), null)} scroll={false} gate="plain" className="inline-block py-1 font-semibold underline decoration-dotted" data-sr-sort={col.key}>
                     {col.label}{on ? (c.dir === "desc" ? " (largest first)" : " (smallest first)") : ""}
                   </SiteLink>
-                  <span className="block"><Tip tip={`${about(col.label, col.unit, ofCol.get(col.key)?.period, table.sources, ofCol.get(col.key)?.src)} Press the column's name to sort by it; again to turn the order round.`} data={{ "sr-about": col.key }}>{unitWords(col.unit) || "count"}</Tip></span>
+                  <span className="block"><Tip tip={withLink(about(col.label, col.unit, ofCol.get(col.key)?.period, table.sources, ofCol.get(col.key)?.src), table.sources, ofCol.get(col.key)?.src, "Press the column's name to sort by it; again to turn the order round.")} data={{ "sr-about": col.key }}>{unitWords(col.unit) || "count"}</Tip></span>
                 </th>
               );
             })}
@@ -175,7 +181,7 @@ function AbPanel({ q, c, table, index }: { q: Q; c: Choice; table: TableFile; in
               <tr key={col.key} className="border-b border-rule align-top" data-sr-ab-row={col.key}>
                 <th scope="row" className="px-2 py-1.5 text-left font-normal">
                   {i === 0 ? <span className="block text-xs font-semibold">{sec.title}</span> : null}
-                  <Tip tip={about(col.label, col.unit, of.period, table.sources, of.src)}>{col.label}{unitWords(col.unit) ? `, ${unitWords(col.unit)}` : ""}</Tip>
+                  <Tip tip={withLink(about(col.label, col.unit, of.period, table.sources, of.src), table.sources, of.src)}>{withUnit(col.label, col.unit)}</Tip>
                 </th>
                 {slots.map((s) => <td key={s.k} className="px-2 py-1.5 text-right" data-sr-ab-cell={s.k}>{s.row ? <TableCell table={table} row={s.row} ci={ci} place={s.place} of={of} /> : null}</td>)}
               </tr>
@@ -191,14 +197,16 @@ function AbPanel({ q, c, table, index }: { q: Q; c: Choice; table: TableFile; in
 
 const th = "px-2 py-1 font-normal", td = "px-2 py-1";
 /** A small table of one of a place's lists. `cols`: a head and what a row draws under it. */
-function Rows({ caption, head, rows, mark, about: source }: { caption: string; head: { label: string; right?: boolean; tip?: string }[]; rows: { key: string; cells: ReactNode[] }[]; mark: string; about?: string }) {
+function Rows({ caption, head, rows, mark, about: source }: { caption: string; head: { label: string; right?: boolean; tip?: ReactNode }[]; rows: { key: string; cells: ReactNode[] }[]; mark: string; about?: ReactNode }) {
   if (!rows.length) return null;
   return (
     <div className="mt-2 overflow-x-auto" role="region" aria-label={caption} tabIndex={0} data-sr-list={mark} data-sr-list-rows={rows.length}>
       <table className="w-full border-collapse text-left text-sm tabular-nums">
         <caption className="pb-1 text-left text-xs font-semibold">{caption}{source ? <span className="ml-2 font-normal"><Tip tip={source} data={{ "sr-list-source": mark }}>source</Tip></span> : null}</caption>
         <thead><tr className="border-b border-ink text-xs">{head.map((h) => <th key={h.label} scope="col" className={`${th} ${h.right ? "text-right" : ""}`}>{h.tip ? <Tip tip={h.tip}>{h.label}</Tip> : h.label}</th>)}</tr></thead>
-        <tbody>{rows.map((r) => <tr key={r.key} className="border-b border-rule align-top">{r.cells.map((cell, i) => <td key={i} className={`${td} ${head[i]?.right ? "text-right" : ""}`}>{cell}</td>)}</tr>)}</tbody>
+        {/* a figure's cell keeps to one line, so a figure and its small trend stand side by side and the table scrolls
+            inside its frame on a phone (seen at 390 px: a trend ran over the next column) */}
+        <tbody>{rows.map((r) => <tr key={r.key} className="border-b border-rule align-top">{r.cells.map((cell, i) => <td key={i} className={`${td} ${head[i]?.right ? "whitespace-nowrap text-right" : ""}`}>{cell}</td>)}</tr>)}</tbody>
       </table>
     </div>
   );
@@ -221,9 +229,9 @@ function PlaceSection({ q, id, title, place, file, counts, entity }: { q: Q; id:
   const label = (key: string) => counts.find((x) => x.key === key)?.label ?? key.replace(/_/g, " ");
   // every count the section holds as a cell of its own, the index's counts first and in its order
   const own = [...counts.map((x) => x.key), ...Object.keys(sec)].filter((k, i, all) => all.indexOf(k) === i && isCell(sec[k]));
-  const tipOf = (c: Cell, what: string) => about(what, c.unit, c.period, S, c.src);
+  const tipOf = (c: Cell, what: string): ReactNode => withLink(about(what, c.unit, c.period, S, c.src), S, c.src);
   const cellAt = (c: unknown, path: Segment[], what: string, unit = true, otherwise: string | null = null) => <CellView c={c} file={file} path={path} what={what} sources={S} entity={entity} unit={unit} otherwise={otherwise} />;
-  const srcOf = (key: string) => sourceWords(S, text(sec[key]) || null) || undefined;
+  const srcOf = (key: string): ReactNode => { const k = text(sec[key]) || null, said = sourceWords(S, k); return said ? withLink(said, S, k) : undefined; };
   let extra: ReactNode = null;
   if (id === "price") {
     const hubs = list(sec.hubs);
@@ -238,7 +246,7 @@ function PlaceSection({ q, id, title, place, file, counts, entity }: { q: Q; id:
     const top = (key: "top_by_hours" | "top_by_cost", caption: string) => {
       const rows = list(sec[key]);
       return <Rows mark={`congestion.${key}`} caption={caption}
-        head={[{ label: "Constraint, as the operator names it", tip: [sec.top_period ? `Period: ${periodWords(text(sec.top_period))}.` : "", sourceWords(S, text(sec.top_src) || null)].filter(Boolean).join(" ") || undefined }, { label: "Contingency" }, { label: "Hours bound", right: true }, { label: "Cost, USD/MWh times hours", right: true }, { label: "Mean, USD/MWh", right: true }]}
+        head={[{ label: "Constraint, as the operator names it", tip: withLink([sec.top_period ? `Period: ${periodWords(text(sec.top_period))}.` : "", sourceWords(S, text(sec.top_src) || null)].filter(Boolean).join(" ") || "The operator's own name of the constraint.", S, text(sec.top_src) || null) }, { label: "Contingency" }, { label: "Hours bound", right: true }, { label: "Cost, USD/MWh times hours", right: true }, { label: "Mean, USD/MWh", right: true }]}
         rows={rows.map((r, i) => ({ key: `${i}`, cells: [words(r.name), words(r.contingency), num(file, [...base, key, i, "hours"], r.hours, "hours"), num(file, [...base, key, i, "cost"], r.cost, "USD/MWh"), num(file, [...base, key, i, "abs_mean"], r.abs_mean, "USD/MWh")] }))} />;
     };
     extra = <>
@@ -278,7 +286,7 @@ function PlaceSection({ q, id, title, place, file, counts, entity }: { q: Q; id:
     const hourHeld = typeof sec.intensity_by_hour_held === "string" && sec.intensity_by_hour_held ? sec.intensity_by_hour_held : pts.length < 24 ? "not held: the file holds fewer than 24 hours" : null;
     const hourTip = ["Carbon intensity by hour of day in the place's own clock, kg CO2/MWh, the mean of each hour.", sec.intensity_by_hour_period ? `Period: ${periodWords(text(sec.intensity_by_hour_period))}.` : "", sourceWords(S, text(sec.intensity_by_hour_src) || null), "Put the mouse on the line for an hour's figure."].filter(Boolean).join(" ");
     extra = <>
-      <p className="mt-1" data-sr-trend="intensity_by_hour"><Tip tip={hourTip}>By hour of day</Tip>:{" "}
+      <p className="mt-1" data-sr-trend="intensity_by_hour"><Tip tip={withLink(hourTip, S, text(sec.intensity_by_hour_src) || null)}>By hour of day</Tip>:{" "}
         {hourHeld ? <Held held={hourHeld} what="Carbon intensity by hour of day" /> : <span className="inline-block bg-white p-1 align-middle"><InlineSpark values={pts} label={`${place.name}: carbon intensity by hour of day, kg CO2/MWh`} width={168} height={32} /></span>}
         {!hourHeld ? <span className="ml-2 text-xs">lowest <Fig file={file} path={[...base, "intensity_by_hour", pts.reduce((m, p, i) => (p.v < pts[m].v ? i : m), 0)]} v={Math.min(...pts.map((p) => p.v))} unit="kgCO2/MWh" /> at {pts.reduce((m, p) => (p.v < m.v ? p : m), pts[0]).t}, highest <Fig file={file} path={[...base, "intensity_by_hour", pts.reduce((m, p, i) => (p.v > pts[m].v ? i : m), 0)]} v={Math.max(...pts.map((p) => p.v))} unit="kgCO2/MWh" /> at {pts.reduce((m, p) => (p.v > m.v ? p : m), pts[0]).t}</span> : null}
       </p>
@@ -307,7 +315,7 @@ function PlaceSection({ q, id, title, place, file, counts, entity }: { q: Q; id:
           {own.map((k) => { const c = sec[k] as Cell; return (
             <div key={k} className="flex items-baseline justify-between gap-3 border-b border-rule/60 py-0.5" data-sr-count={`${id}.${k}`}>
               <dt><Tip tip={tipOf(c, label(k))}>{label(k)}</Tip></dt>
-              <dd className="text-right tabular-nums">{cellAt(c, [...base, k], `${label(k)}, ${place.name}`)}</dd>
+              <dd className="whitespace-nowrap text-right tabular-nums">{cellAt(c, [...base, k], `${label(k)}, ${place.name}`)}</dd>
             </div>
           ); })}
         </dl>

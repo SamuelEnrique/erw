@@ -114,8 +114,8 @@ NOT_MARKET = "not a market: Southern Company's area has no organised market whos
 NOT_PUBLISHED = "not published: the operator prints no such figure in the files read"
 # one value a column, or a reason. A tuple (value, period, src) is a cell whose period and source are its own.
 ROWS = {
-    "region-tex": [46.31, 118.7, 312, 41, 44.02, NOT_PUBLISHED, 85111.0, 3.42, 9, NOT_PUBLISHED, 12.1, 204512.5, 71.3, 3.8, 6, 75, 372.44, 0.14, 0.31, 3104220, 2987003, 2.19, 6.1, 141, 23450],
-    "op-ercot": [46.31, 118.7, 312, 41, 44.02, NOT_PUBLISHED, 85111.0, 3.42, 9, NOT_PUBLISHED, 12.1, 204512.5, 71.3, 3.8, 6, 75, 372.44, 0.14, 0.31, 3104220, 2987003, 2.19, 6.1, 141, 23450],
+    "region-tex": [46.31, 118.7, 312, 41, 44.02, NOT_PUBLISHED, 85111.0, 3.42, 9, (5790, "2026-08-20T21:00:00Z", "outages"), 12.1, 204512.5, 71.3, 3.8, 6, 75, 372.44, 0.14, 0.31, 3104220, 2987003, 2.19, 6.1, 141, 23450],
+    "op-ercot": [46.31, 118.7, 312, 41, 44.02, NOT_PUBLISHED, 85111.0, 3.42, 9, (5790, "2026-08-20T21:00:00Z", "outages"), 12.1, 204512.5, 71.3, 3.8, 6, 75, 372.44, 0.14, 0.31, 3104220, 2987003, 2.19, 6.1, 141, 23450],
     "op-nyiso": [NYISO_PRICE, NYISO_PRICE, NYISO_PRICE, NYISO_PRICE, NYISO_PRICE, NYISO_PRICE, 31005.5, -1.2, NOT_PUBLISHED, NOT_PUBLISHED, (18.6, "summer 2027 (NYISO's made-up report)", "cdr"), 118040.0, 78.9, 4.6, 2, 20, 248.9, 12.75, 21.4, NOT_PUBLISHED, NOT_PUBLISHED, 1.96, 3.05, 38, 4100],
     "ba-soco": [NOT_MARKET, NOT_MARKET, NOT_MARKET, NOT_MARKET, NOT_MARKET, NOT_MARKET, 40711.0, 5.05, NOT_PUBLISHED, NOT_PUBLISHED, NOT_PUBLISHED, 61220.0, 64.0, 5.2, 4, 100, 401.07, -2.6, -0.8, NOT_PUBLISHED, NOT_PUBLISHED, 1.44, 4.9, 96, 18200],
 }
@@ -166,8 +166,8 @@ def ercot():
         "congestion": {"status": "shown", "hubs": [{"hub_id": "ercot:HB_HUBAVG", "hub": "ERCOT Hub Average", "congestion_share_pct": cell(None, "pct", "congestion", held=NOT_PUBLISHED), "congestion_mean": cell(None, "USD/MWh", "congestion", held=NOT_PUBLISHED)}],
                        "top_by_hours": constraints, "top_by_cost": list(reversed(constraints)), "top_period": P12, "top_src": "constraints", "top_held": None},
         "tightness": {"status": "shown", "peak_mw": cell(85111.0, "MW", "eia930_demand", months=trend(61000, 1000)), "peak_prior_mw": cell(82296.5, "MW", "eia930_demand", "2024-11-01..2025-10-31"), "peak_growth_pct": cell(3.42, "pct", "eia930_demand", "2024-11-01..2025-10-31 to 2025-11-01..2026-10-31"),
-                      "peak_hour": cell("2026-08-20T21:00:00Z", "UTC", "eia930_demand"), "alerts": cell(4, "count", "alerts"), "watches": cell(11, "count", "alerts"), "emergencies": cell(0, "count", "alerts"), "alert_days": cell(9, "days", "alerts"),
-                      "out_mw_at_peak": cell(None, "MW", "outages", held=NOT_PUBLISHED), "reserve_margin_pct": cell(12.1, "pct", "cdr", "summer 2027 (ERCOT's made-up report)"), "reserve_target_pct": cell(13.75, "pct", "cdr", "summer 2027 (ERCOT's made-up report)")},
+                      "peak_hour": cell("2026-08-20T21:00:00Z", "UTC", "eia930_demand"), "alerts": cell(4, "days", "alerts"), "watches": cell(11, "days", "alerts"), "emergencies": cell(0, "days", "alerts"), "alert_days": cell(9, "days", "alerts"),
+                      "out_mw_at_peak": cell(5790, "MW", "outages", "2026-08-20T21:00:00Z"), "reserve_margin_pct": cell(12.1, "pct", "cdr", "summer 2027 (ERCOT's made-up report)"), "reserve_target_pct": cell(13.75, "pct", "cdr", "summer 2027 (ERCOT's made-up report)")},
         "queue": {"status": "shown", "active_mw": cell(204512.5, "MW", "queue", "2025"), "active_projects": cell(1412, "count", "queue", "2025"), "withdrawn_share_pct": cell(71.3, "pct", "queue", "2000..2020"), "median_years_to_operation": cell(3.8, "years", "durations", "2021..2025"),
                   "by_fuel": [{"fuel": "Solar", "active_mw": cell(81200.0, "MW", "queue", "2025"), "active_projects": cell(520, "count", "queue", "2025")}, {"fuel": "Battery", "active_mw": cell(74310.5, "MW", "queue", "2025"), "active_projects": cell(610, "count", "queue", "2025")}, {"fuel": "Wind", "active_mw": cell(21002.0, "MW", "queue", "2025"), "active_projects": cell(104, "count", "queue", "2025")}]},
         "large_load": {"status": "shown", "rules_n": cell(6, "count", "rules", "2026-11-26"), "smallest_threshold_mw": cell(75, "MW", "rules", "2026-11-26"),

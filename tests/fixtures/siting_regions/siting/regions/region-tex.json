@@ -639,21 +639,21 @@
    },
    "alerts": {
     "v": 4,
-    "unit": "count",
+    "unit": "days",
     "period": "2025-11-01..2026-10-31",
     "src": "alerts",
     "held": null
    },
    "watches": {
     "v": 11,
-    "unit": "count",
+    "unit": "days",
     "period": "2025-11-01..2026-10-31",
     "src": "alerts",
     "held": null
    },
    "emergencies": {
     "v": 0,
-    "unit": "count",
+    "unit": "days",
     "period": "2025-11-01..2026-10-31",
     "src": "alerts",
     "held": null
@@ -666,11 +666,11 @@
     "held": null
    },
    "out_mw_at_peak": {
-    "v": null,
+    "v": 5790,
     "unit": "MW",
-    "period": "2025-11-01..2026-10-31",
+    "period": "2026-08-20T21:00:00Z",
     "src": "outages",
-    "held": "not published: the operator prints no such figure in the files read"
+    "held": null
    },
    "reserve_margin_pct": {
     "v": 12.1,

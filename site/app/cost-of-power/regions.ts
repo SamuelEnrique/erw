@@ -17,8 +17,9 @@
 export type Trend = { months: string[]; period: string | null; v: (number | null)[] };
 /** A count as every file writes it. `v` is null exactly when `held` gives the reason. */
 export type Cell = { v: number | string | null; unit: string; period: string | null; src: string | null; held: string | null; trend?: Trend | null };
-/** `url` (the same dated line) is the address of the table's first row's document: for a table of many publishers it
- *  is not the place's own, so the section draws no link from it (data request 586). */
+/** `url` is the address of the publisher's report the figure was read from: for a table of several publishers one
+ *  source key an operator, the address that operator's own; null where the table has no address or its listed rows
+ *  carry their own (the contract's second dated line of 28 November 2026, data request 586). */
 export type Source = { table: string | null; publisher: string | null; license: string; retrieved: string | null; report: string | null; url?: string | null; held?: string | null };
 export type Kind = "region" | "operator" | "ba";
 export type Place = {
@@ -139,6 +140,12 @@ const DECIMAL_UNITS = new Set(["USD/MWh", "pct", "years", "kgCO2/MWh"]);
  *  one, else two decimals. Both are forms scripts/check-values.mjs passes for a figure it has no rule for (the words
  *  begin with its `shown`: the value whole when it is whole, else to two decimals), so the section adds no rule there. */
 export const figure = (v: number, unit?: string | null): string => (Number.isInteger(v) && !(unit && DECIMAL_UNITS.has(unit)) ? v.toLocaleString("en-US") : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+/** A count's name with its unit, the unit left out where the name already says it ("Day-ahead hours above USD 100"
+ *  needs no ", hours" after it). */
+export function withUnit(label: string, unit: string | null | undefined): string {
+  const u = unitWords(unit);
+  return u && !new RegExp(`\\b${u.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&")}\\b`, "i").test(label) ? `${label}, ${u}` : label;
+}
 /** A unit as a reader reads it beside a figure or in a column's head. */
 export const unitWords = (unit: string | null | undefined): string => (!unit || unit === "count" ? "" : unit === "pct" ? "%" : unit === "kgCO2/MWh" ? "kg CO2/MWh" : unit);
 /** A time the file gives in UTC ("2026-08-20T21:00:00Z") as the site writes one. */
@@ -151,6 +158,7 @@ const dayWords = (d: string): string => { const m = d.match(/^(\d{4})-(\d{2})-(\
 export function periodWords(period: string | null | undefined): string {
   if (!period) return "";
   return period
+    .replace(/(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})(?::\d{2})?Z/g, (_m, d: string, t: string) => `${dayWords(d)} ${t} UTC`)
     .replace(/(\d{4}-\d{2}-\d{2})\.\.(\d{4}-\d{2}-\d{2})/g, (_m, a: string, b: string) => `${dayWords(a)} to ${dayWords(b)}`)
     .replace(/\b(\d{4})\.\.(\d{4})\b/g, "$1 to $2")
     .replace(/(^|[^\d-])(\d{4}-\d{2}-\d{2})(?![\d-])/g, (_m, pre: string, d: string) => `${pre}${dayWords(d)}`);

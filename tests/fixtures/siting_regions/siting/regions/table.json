@@ -386,7 +386,7 @@
     85111.0,
     3.42,
     9,
-    null,
+    5790,
     12.1,
     204512.5,
     71.3,
@@ -425,9 +425,9 @@
      "held": null
     },
     "9": {
-     "period": "2025-11-01..2026-10-31",
+     "period": "2026-08-20T21:00:00Z",
      "src": "outages",
-     "held": "not published: the operator prints no such figure in the files read"
+     "held": null
     },
     "10": {
      "period": "2025-11-01..2026-10-31",
@@ -450,7 +450,7 @@
     85111.0,
     3.42,
     9,
-    null,
+    5790,
     12.1,
     204512.5,
     71.3,
@@ -489,9 +489,9 @@
      "held": null
     },
     "9": {
-     "period": "2025-11-01..2026-10-31",
+     "period": "2026-08-20T21:00:00Z",
      "src": "outages",
-     "held": "not published: the operator prints no such figure in the files read"
+     "held": null
     },
     "10": {
      "period": "2025-11-01..2026-10-31",

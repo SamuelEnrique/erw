@@ -95,7 +95,13 @@ ok(index.places.every((p) => !cellHtml(rowHtml(all, p.id), "tightness.peak_mw").
 const head = (open.match(/<th[^>]*data-sr-col="price\.mean_da"[^>]*>([\s\S]*?)<\/th>/) ?? ["", ""])[1];
 ok(words(head).startsWith("Price Day-ahead price, mean USD/MWh") && /href="\/cost-of-power\?view=allgrids&amp;srsort=price\.mean_da"/.test(head), `a column's head names its section, its count and its unit, and sorts by it (${words(head)})`);
 ok(tips(head)[0].includes("Period: 1 Nov 2025 to 31 Oct 2026.") && tips(head)[0].includes("ERW table ercot_all_hub_prices_history") && tips(head)[0].includes("retrieved 2026-11-28 06:10 UTC"), "the head's hover gives the period, the publisher's report, the table and its retrieval");
-ok(!open.includes("example.org/made-up-source"), "a source's address is drawn nowhere: it is one document for every place (data request 586)");
+// the way to a source: where the file gives the address of the publisher's report (one a source; the place's own
+// operator's for a table of several publishers: the contract's second dated line of 28 November), the hover opens it
+ok(/<a href="https:\/\/example\.org\/made-up-source\/ercot_prices" rel="noopener" class="underline" data-sr-source-url="ercot_prices">Open its source<\/a>/.test(head) && tips(head)[0].endsWith("Open its source . Press the column's name to sort by it; again to turn the order round."), "a column's hover opens its source, the publisher's report at the address the file gives");
+const outHead = (all.match(/<th[^>]*data-sr-col="tightness\.out_mw_at_peak"[^>]*>([\s\S]*?)<\/th>/) ?? ["", ""])[1];
+ok(tips(outHead)[0].includes("Period: 20 Aug 2026 21:00 UTC.") && outHead.includes("made-up-source/outages"), "a period that is one hour is written as the site writes a time");
+const noAddress = JSON.parse(JSON.stringify(table)); for (const s of Object.values(noAddress.sources)) s.url = s === noAddress.sources.ercot_prices ? "javascript:alert(1)" : null;
+ok(L.sourceWords(noAddress.sources, "ercot_prices").startsWith("Source: ERCOT settlement point prices"), "a source with no address is given in words");
 
 // the sort: by a column, largest first; a second press turns it round; a place with no figure last in either direction
 const byPeak = draw("view=allgrids&srsort=tightness.peak_mw");
@@ -173,6 +179,8 @@ ok(L.figure(60, "USD/MWh") === "60.00" && L.figure(-4, "pct") === "-4.00" && L.f
 ok(words(cellHtml(rowHtml(all, "op-ercot"), "queue.median_years_to_operation")) === "3.80" && words(cellHtml(rowHtml(all, "ba-soco"), "large_load.smallest_threshold_mw")) === "100" && words(cellHtml(rowHtml(open, "region-tex"), "large_load.rules_n")) === "6", "in the table: years to two decimals, megawatts and counts whole");
 ok(L.heldKind("license needed: x") === "license needed" && L.heldKind("paused: y") === "paused" && L.heldKind("something else") === "not held" && L.heldKind(null) === "not held", "a reason's kind is its first words, or not held");
 ok(L.periodWords("2025-11-01..2026-10-31") === "1 Nov 2025 to 31 Oct 2026" && L.periodWords("2027") === "2027" && L.periodWords(null) === "", "a period in words");
+ok(L.periodWords("2026-09-10T00:00:00Z") === "10 Sep 2026 00:00 UTC" && L.withUnit("Day-ahead hours above USD 100", "hours") === "Day-ahead hours above USD 100" && L.withUnit("Days with any notice", "days") === "Days with any notice" && L.withUnit("Peak demand", "MW") === "Peak demand, MW"
+  && L.withUnit("Share of the price that was congestion", "pct") === "Share of the price that was congestion, %" && L.withUnit("Large-load rules held", "count") === "Large-load rules held", "a period that is one hour; a unit is not said twice after a name that says it");
 ok(L.periodWords("the 730 days to 2026-11-25") === "the 730 days to 25 Nov 2026" && L.periodWords("2025-12-31") === "31 Dec 2025" && L.periodWords("2000..2020") === "2000 to 2020" && L.periodWords("summer 2027 (ERCOT's report)") === "summer 2027 (ERCOT's report)"
   && L.periodWords("2024-11-01..2025-10-31 to 2025-11-01..2026-10-31") === "1 Nov 2024 to 31 Oct 2025 to 1 Nov 2025 to 31 Oct 2026", "a period the builder writes in words of its own is kept, its days written as the site writes a day");
 ok(L.ruleHref({ view: "allgrids", mw: "300", rule: "old" }, "texas-04") === "/cost-of-power?view=allgrids&mw=300&rule=texas-04#large-load-rules", "a rule's link: the tab's address with the tab's own name for a rule, at the tab's rules");
