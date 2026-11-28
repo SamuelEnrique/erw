@@ -319,7 +319,7 @@ const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2,
 // Monday to Saturday; the on-peak week is the latest 7 weekdays that hold one, so it can run over 9 calendar days
 const WEEK_HEAD_TITLES: Record<string, string> = {
   da_onpeak_mean_usd: "The mean of the on-peak means of the latest 7 weekdays that hold one (hours ending 7 to 22 local, Monday to Friday, NERC holidays off), so the 7 can run over 9 calendar days. Monday to Friday in every grid, CAISO included, where the group \"Power, on-peak and off-peak\" takes Monday to Saturday.",
-  da_offpeak_mean_usd: "The mean of the off-peak means of the latest 7 days: every hour outside the on-peak block, the whole day on weekends and NERC holidays. CAISO's Saturdays are off-peak here and on-peak in the group \"Power, on-peak and off-peak\".",
+  da_offpeak_mean_usd: "The mean of every off-peak hour of the latest 7 days, each hour counted once: every hour outside the on-peak block, the whole day on weekends and NERC holidays. CAISO's Saturdays are off-peak here and on-peak in the group \"Power, on-peak and off-peak\".",
 };
 const weekWords = (k: string, end: string, ch: boolean) => k === "da_onpeak_mean_usd"
   ? `the latest 7 weekdays with an on-peak mean, to ${dateWords(end)}${ch ? "; the change is on the 7 such weekdays before" : ""}`

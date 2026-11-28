@@ -59,7 +59,7 @@ One row per hub (or zone), local operating day and metric. `ts_utc` is the opera
 ## On the page (`/markets` until session 132; now the price board's "The week, by hub" at `/board`)
 
 - **Per ISO, a hub table:**
-  - this week's mean (the latest 7 operating days in the table) of the day-ahead average, on-peak and off-peak averages, real-time minus day-ahead, and implied heat rate, each with the change on the 7 days before;
+  - this week's mean (the latest 7 operating days in the table; the off-peak mean weighs each day by its off-peak hours, so each hour counts once, since the ruling on the trader view audit of 26 November, finding 3) of the day-ahead average, on-peak and off-peak averages, real-time minus day-ahead, and implied heat rate, each with the change on the 7 days before;
   - the week's largest hourly spread, and the week's count of hours with real-time more than 50 USD/MWh above day-ahead;
   - the latest 30-day volatility;
   - the latest day's day-ahead average, as the table holds it.

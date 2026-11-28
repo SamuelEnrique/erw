@@ -35,6 +35,7 @@ import json
 import os
 import re
 import sys
+from zoneinfo import ZoneInfo
 
 import numpy as np
 import pandas as pd
@@ -1208,6 +1209,17 @@ def build_spreads(b, daily, fuels, us_coal):
           extra=dict(inputs=ci) if ci else None)
 
 
+def off_hours(d, tz):
+    """wip/ready-trader-offpeak: the off-peak hours of a local day as trader_view.py counts them: every hour of a weekend
+    day or NERC holiday (23 or 25 on the days the clocks change), the day less its 16 on-peak hours otherwise."""
+    day = dt.date.fromisoformat(d[:10])
+    a = dt.datetime(day.year, day.month, day.day, tzinfo=ZoneInfo(tz))
+    b = a + dt.timedelta(days=1)
+    n = round((b.astimezone(dt.timezone.utc) - a.astimezone(dt.timezone.utc)).total_seconds() / 3600)
+    work = day.weekday() < 5 and day not in pb.nerc_holidays([day.year])
+    return n - 16 if work else n
+
+
 def build_week(log):
     """The week's table and spikes the markets page showed, from iso_trader_daily and iso_rt_top_intervals (no MISO).
     Session 247: without either table on this machine no week is built (two empty lists), and page_keep.py keeps the
@@ -1240,7 +1252,14 @@ def build_week(log):
         def wmean(e, v, ds):
             vals = [by[(e, v, d)] for d in ds if (e, v, d) in by]
             need = 1 if v == "da_onpeak_mean_usd" else len(ds)
-            return sum(vals) / len(vals) if len(ds) == 7 and len(vals) >= max(need, 1) else None
+            if not (len(ds) == 7 and len(vals) >= max(need, 1)):
+                return None
+            if v == "da_offpeak_mean_usd":
+                # wip/ready-trader-offpeak (the trader view audit of 26 November, finding 3, for Samuel's ruling): the off-peak
+                # week weighs each off-peak hour once (a weekend day's 24 hours count three times a weekday's 8), not each day
+                w = [off_hours(d, tz) for d in ds]
+                return sum(x * k for x, k in zip(vals, w)) / sum(w)
+            return sum(vals) / len(vals)
         last = days[-1]
         for entity in sorted(set(rows["entity"]), key=lambda e: (e.split(":", 1)[1] != MAIN[iso], HUB_WORDS.get(e.split(":", 1)[1], e))):
             node = entity.split(":", 1)[1]
