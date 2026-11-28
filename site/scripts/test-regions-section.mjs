@@ -155,6 +155,7 @@ ok(/data-sr-section="price" data-sr-section-state="not-shown"/.test(nyOpen) && n
 const nyPrice2 = (nyOpen.match(/data-sr-section="price"[\s\S]*?data-sr-section="congestion"/) ?? [""])[0];
 ok(words(`<${nyPrice2}>`).startsWith("Price license needed") &&/data-license-held="siting_regions" data-sr-held="license needed"/.test(nyPrice2) && !/data-llr-blank/.test(nyPrice2), "a section held whole says license needed in words under its heading, with the site's mark for a held part");
 ok(/data-llr-blank="Day-ahead price, mean, NYISO"/.test(rowHtml(open, "op-nyiso")), "while a held count's cell in the table stays a blank");
+ok(/<span data-sr-blank-said="1">A blank cell is a count held for a license; a word in a cell is why a count is not shown\. The reason is on its hover\.<\/span>/.test(open), "the lead says once what a blank cell and a word in a cell are");
 // the stated requests: a megawatt column only where a row holds a figure (the documents print sizes as phrases)
 const totalsOf = (html) => (html.match(/data-sr-list="large_load\.queue_totals"[\s\S]*?<\/table>/) ?? [""])[0];
 const texOpen = draw("view=allgrids&sropen=region-tex");

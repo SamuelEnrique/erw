@@ -432,6 +432,8 @@ export function RegionsSection({ q }: { q: Q }) {
       <p className="mb-3 max-w-4xl text-sm" data-sr-lead="1">
         {table.rows.length} places side by side, a row a place and a column a count: {KINDS.filter((k) => counts[k]).map((k, i, all) => <span key={k}>{i ? (i === all.length - 1 ? " and " : ", ") : ""}{counts[k]} <Tip tip={k === "ba" && index.ba_floor_mw ? `${KIND_TIP.ba} The floor: ${index.ba_floor_mw.toLocaleString("en-US")} MW${index.ba_floor_period ? `, over ${periodWords(index.ba_floor_period)}` : ""}.` : KIND_TIP[k]}>{KIND_PLURAL[k]}</Tip></span>)}.
         {" "}Each count is <Tip tip={`As its publisher printed it, or a plain arithmetic of it (a share, a sum, a mean, a percentile, a count of hours), from tables the warehouse already holds. A count's period and source are in its column's hover. Files built ${utcWords(table.built)}.`}>its publisher&apos;s own</Tip>; nothing is scored or ranked. Press a place&apos;s name for everything its file holds.
+        {/* a reader meets blank cells in the first rows (three operators' prices): what a blank is, said once */}
+        {" "}<span data-sr-blank-said="1">A blank cell is a count held for a license; a word in a cell is why a count is not shown. The reason is on its hover.</span>
       </p>
       <RegionsChoices key={`${c.cols.join(",")}|${c.kind}|${c.a}|${c.b}`} q={q} columns={table.columns} sections={index.sections.map((s) => ({ id: s.id, title: s.title }))} chosen={c.cols} defaults={defaultCols(table.columns)}
         kind={c.kind} a={c.a} b={c.b} places={table.rows.map((r) => ({ id: r.id, name: r.name, kind: r.kind }))} counts={counts} />
