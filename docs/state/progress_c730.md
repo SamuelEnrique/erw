@@ -137,3 +137,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 04:35 UTC (session 10603): the `ahead_more` replication 28 places done, each fully equal; row 12 still requested.
 - 04:54 UTC (session 10603): the `ahead_more` replication 33 places done, each fully equal.
 - Landing row 13 requested (05:05 UTC 28 November, session 10603): `wip/c730-predict-v7` at `76931398f`: `ahead_more.json` rebuilt on the refreshed tables and replicated on the same, 1,225 of 1,225 figures; 36 of 36 forecast tests on the head.
+- 05:08 UTC (session 10603): next item, a third cross-check (SPP, whose EIA-930 filing breaks from May 2025): SPP's market monitor prints no day-ahead load forecast error that a search finds (only a vendor's, about 2 percent), and the warehouse holds none of SPP's own load forecast; data request 19 asks window A for it.
