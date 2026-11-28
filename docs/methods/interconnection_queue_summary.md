@@ -44,7 +44,7 @@ Storage alone and solar with storage are kept apart from solar and from each oth
 - **Status** is Berkeley Lab's `q_status`: active, suspended, operational (written `operating`), withdrawn. A request
   of unknown status (10 in the file) is counted as entered and in no status.
 - **MW** is the request's `capacity_mw` (its `mw_1 + mw_2 + mw_3`: for a hybrid, all of its parts). A request with no
-  positive capacity (16) is counted and adds no MW.
+  positive capacity (16) is counted and adds no MW. Each MW sum is written to two decimals and the page rounds it once to a whole MW (session 11408, the queues audit's finding 6; to a tenth before, so three of the default view's figures printed one MW high: 2005's MW still active 1,289, 2016's and 2022's MW entered 213,253 and 681,953, now 1,288, 213,252 and 681,952).
 - **A hybrid's parts carry MW in two regions only** (session 10213, `docs/reviews/queues-model-audit-2026-11-26.md`,
   finding 1). In the 2026 edition 730 of CAISO's 733 requests with a second part (`type_2`) give that part its own MW,
   and 360 of the West's 1,862; in ERCOT, ISO-NE, MISO, NYISO, PJM, SPP and the Southeast none of the 2,462 does

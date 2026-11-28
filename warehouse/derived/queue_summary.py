@@ -135,7 +135,7 @@ def part_mw(act):
             continue
         for kind, mw in act.groupby(f"part_type_{k}")[f"part_mw_{k}"].sum().items():
             out[kind] += float(mw)
-    return {f"active_mw_parts_{kind}": round(v, 1) for kind, v in out.items()}
+    return {f"active_mw_parts_{kind}": round(v, 2) for kind, v in out.items()}
 
 
 def summarize(x, last_year):
@@ -150,23 +150,23 @@ def summarize(x, last_year):
                 continue
             years = {}
             for y, c in t[t["year"].notna()].groupby("year"):
-                row = {"requests_entered": int(len(c)), "mw_entered": round(float(c["mw"].sum()), 1)}
+                row = {"requests_entered": int(len(c)), "mw_entered": round(float(c["mw"].sum()), 2)}
                 for s in STATUSES:
                     k = c[c["status"] == s]
                     row[f"requests_{s}"] = int(len(k))
-                    row[f"mw_{s}"] = round(float(k["mw"].sum()), 1)
+                    row[f"mw_{s}"] = round(float(k["mw"].sum()), 2)
                 years[int(y)] = row
             on = {}
             for y, c in t[t["on_year"].notna()].groupby("on_year"):
                 if len(c) >= MIN_MEDIAN:
                     on[int(y)] = {"on_median_years_to_operation": round(float(c["years_to_operation"].median()), 2), "on_requests_dated": int(len(c))}
             act, sus = t[t["status"] == "active"], t[t["status"] == "suspended"]
-            whole = {"total_requests": int(len(t)), "total_mw": round(float(t["mw"].sum()), 1), "requests_without_year": int(t["year"].isna().sum()),
-                     "total_active_requests": int(len(act)), "total_active_mw": round(float(act["mw"].sum()), 1),
-                     "total_suspended_requests": int(len(sus)), "total_suspended_mw": round(float(sus["mw"].sum()), 1)}
+            whole = {"total_requests": int(len(t)), "total_mw": round(float(t["mw"].sum()), 2), "requests_without_year": int(t["year"].isna().sum()),
+                     "total_active_requests": int(len(act)), "total_active_mw": round(float(act["mw"].sum()), 2),
+                     "total_suspended_requests": int(len(sus)), "total_suspended_mw": round(float(sus["mw"].sum()), 2)}
             p = t[(t["year"] >= PAST_FROM) & (t["year"] <= past_to) & (t["status"] != "unknown")]
             whole["past_requests"] = int(len(p))
-            whole["past_mw"] = round(float(p["mw"].sum()), 1)
+            whole["past_mw"] = round(float(p["mw"].sum()), 2)
             if len(p) >= MIN_SHARE:
                 for name, mask in (("operating", p["status"] == "operating"), ("withdrawn", p["status"] == "withdrawn"),
                                    ("open", p["status"].isin(["active", "suspended"]))):

@@ -49,7 +49,10 @@ def main(argv=None):
     fh.close()
     vintage = d["vintage"].iloc[0]
     d = d[d["region"].isin(REGIONS)].copy()
-    d["mw"] = pd.to_numeric(d["capacity_mw"], errors="coerce")
+    # session 11408 (the queues audit's finding 6, the other choice): a request with no positive capacity adds no MW, as on
+    # /queues (decision 4)
+    mw = pd.to_numeric(d["capacity_mw"], errors="coerce")
+    d["mw"] = mw.where(mw > 0, 0.0)
     owners = []
     for (region, ent), g in d.groupby(["region", "lbnl_entity"]):
         act = g[g["q_status"] == "active"]

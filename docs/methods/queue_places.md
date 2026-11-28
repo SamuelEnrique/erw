@@ -9,7 +9,7 @@ The warehouse holds the queues of the seven grid operators (their own tables) an
 ## Rules
 
 - Each queue owner keeps LBNL's own name (`lbnl_entity`, for example PacifiCorp, SOCO, Duke, BPA, TVA); nothing is matched to an EIA-930 code by name.
-- MW is LBNL's capacity of the entry; entries are counted and summed by LBNL's status (active, suspended, operational, withdrawn, unknown) and type.
+- MW is LBNL's capacity of the entry, an entry with no positive capacity adding no MW, as on `/queues` (session 11408, the queues audit's finding 6: TVA's one withdrawn entry of -75 MW made its withdrawn MW 218,498, now 218,573); entries are counted and summed by LBNL's status (active, suspended, operational, withdrawn, unknown) and type.
 - A state is listed when some of its people live outside the seven grids (by county, `eia_county_region` with the Census Bureau's county estimates, as `/states` computes); Connecticut, whose counties do not match between the two sources, has no share and is not listed. A state no entry of LBNL's West or Southeast names is listed as "no public queue in the compilation". On the edition of 2026: 49 owners and 25 states, every one of them named by at least one entry.
 
 ### Decisions (session 8014)
