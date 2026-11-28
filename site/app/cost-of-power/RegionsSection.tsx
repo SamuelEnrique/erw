@@ -66,7 +66,9 @@ function TrendLine({ c, what }: { c: Cell; what: string }) {
   // these words: the first and the last month and the lowest and the highest, each as the file holds it
   const said = `${what} by month${u ? `, ${u}` : ""}: ${figure(first.v, c.unit)} in ${month(first)}, ${figure(last.v, c.unit)} in ${month(last)}; the lowest month ${figure(lo.v, c.unit)} (${month(lo)}), the highest ${figure(hi.v, c.unit)} (${month(hi)}). ${pts.length} of ${c.trend?.months.length ?? pts.length} months held.`;
   return (
-    <span className="ml-2 inline-block align-middle" data-sr-trend="months" data-sr-trend-points={pts.length}>
+    // its own least width (the line's 96 px and its edge): the shared hover's wrapper is "no wider than its cell", which
+    // a table reads as no width at all, and the line then ran over the next column's figure (seen at 390 px)
+    <span className="ml-2 inline-block min-w-[100px] align-middle" data-sr-trend="months" data-sr-trend-points={pts.length}>
       <Tip tip={said} plain>
         <span className="inline-block bg-white p-0.5">
           <InlineSpark values={pts} label={`${what} by month${u ? `, ${u}` : ""}, ${month(first)} to ${month(last)}`} width={96} height={22} />
