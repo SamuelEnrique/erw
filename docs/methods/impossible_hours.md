@@ -119,7 +119,7 @@ its own constant, `impossible_hours.CISO_NO_HYDRO`, measured on the workbook ret
 **Applied** means the table as it stands is built with the rule. **Held** means the rule is in the table's builder and
 is applied only in a trial build (`impossible_hours.HELD`, `ERW_SCREEN_TRIAL=1`): the table is behind a page open to
 visitors, or its row count is in the home page's "Rows", so applying the rule moves a number a visitor sees. A person
-approves it by taking the table's line out of `HELD`; its next build then applies the rule.
+approves it by taking the table's line out of `HELD`; its next build then applies the rule. Since the ruling on the data pages audit of 26 November, finding 7, `HELD` is empty (no page is open to visitors): every table below is built with the rule from its next build, and the reasons they were held are kept as `HELD_UNTIL_RULED`.
 
 | Table | Reads | Rule | State |
 |---|---|---|---|
@@ -127,12 +127,12 @@ approves it by taking the table's line out of `HELD`; its next build then applie
 | `generation_mix_hourly_profile`, `generation_mix_records` | Adjusted demand; generation by fuel | A, B on demand; its own sum test on generation | Applied (session 103) |
 | `shoulder_hours_monthly` | Adjusted demand | A, B | Applied (session 103) |
 | the network's replay (`site/public/network/daily_*.json`) | daily interchange; daily demand | C; a band of its own on daily demand | Applied (sessions 93, 109) |
-| `carbon_intensity_hourly`, `_daily`, `_monthly` | demand and net generation as reported | A, B; the hydro gap; California's late hours | **Held** |
-| `cost_of_power_monthly`, `cost_of_power_carbon` | demand as weights; net generation | A, B | **Held** |
-| `ba_supply_monthly` | demand and net generation by day; daily interchange | A, B and the hydro gap (held); C applied since session 62 | **Held** |
-| `ai_power_regions` | demand and net generation by year; daily interchange; the two tables above | A, B and the hydro gap (held); C applied | **Held** |
-| `caiso_reliability_daily` | California's demand | A, B | **Held** |
-| `event_window_daily` | demand and net generation by day | A, B and the hydro gap | **Held** |
+| `carbon_intensity_hourly`, `_daily`, `_monthly` | demand and net generation as reported | A, B; the hydro gap; California's late hours | **Applied** (held until the ruling on the data pages audit of 26 November, finding 7) |
+| `cost_of_power_monthly`, `cost_of_power_carbon` | demand as weights; net generation | A, B | **Applied** (held until the ruling on the data pages audit of 26 November, finding 7) |
+| `ba_supply_monthly` | demand and net generation by day; daily interchange | A, B and the hydro gap (held); C applied since session 62 | **Applied** (held until the ruling on the data pages audit of 26 November, finding 7) |
+| `ai_power_regions` | demand and net generation by year; daily interchange; the two tables above | A, B and the hydro gap (held); C applied | **Applied** (held until the ruling on the data pages audit of 26 November, finding 7) |
+| `caiso_reliability_daily` | California's demand | A, B | **Applied** (held until the ruling on the data pages audit of 26 November, finding 7) |
+| `event_window_daily` | demand and net generation by day | A, B and the hydro gap | **Applied** (held until the ruling on the data pages audit of 26 November, finding 7) |
 | `flex_alert_effects`, `flex_alert_model` | California's demand | A, B, in place of a screen of its own (below 30 percent of the median hour, or 20 percent from both neighbours) | Applied (session 118): built both ways from the same inputs, the two tables are the same in every value, so nothing was held |
 | `grid_network_nodes`, the live `/network` page's hourly file | the newest hour of demand, hourly interchange | none: one hour has no hours after it, and rule C is for days | Not applied; said on `/data/faults` |
 | `eia930_all_demand`, `eia930_all_generation`, `eia930_all_emissions`, `eia930_daily_interchange` | the source tables | none | They hold EIA's values as published and always will |

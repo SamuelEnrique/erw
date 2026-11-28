@@ -495,8 +495,7 @@ class TheWatchList(unittest.TestCase):
         cov = pd.read_csv(os.path.join(ROOT, "warehouse", "metadata", "coverage.csv"), dtype=str, keep_default_na=False)
         self.assertEqual(reg["public_tables"], int((cov["license"] == "public").sum()))
         by = {r["table"]: r for r in reg["tables"]}
-        self.assertEqual(by["carbon_intensity_monthly"]["read_by"], [])
-        self.assertTrue(by["carbon_intensity_monthly"]["why_not"].startswith("behind a fix held for approval"))
+        self.assertFalse(any(r.get("why_not", "").startswith("behind a fix held for approval") for r in reg["tables"]))
         self.assertIn("watch_storage_buildout", by["storage_buildout_monthly"]["read_by"])
         named = [t for ts in watch.NOT_WATCHED.values() for t in ts]
         self.assertEqual(len(named), len(set(named)))

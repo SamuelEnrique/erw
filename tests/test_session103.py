@@ -83,8 +83,8 @@ class TheRule(unittest.TestCase):
             self.assertIn(t, note)
             # session 118: the rule is now written into these builders and held there (impossible_hours.HELD): a held
             # builder writes what it wrote, so the table behind the live page is as it was
-            self.assertIn(t, ih.HELD)
-            self.assertFalse(ih.applies(t) and not os.environ.get("ERW_SCREEN_TRIAL"))
+            self.assertIn(t, ih.HELD_UNTIL_RULED)   # wip/ready-data-impossible: no longer held
+            self.assertTrue(ih.applies(t))
 
 
 class TheRegister(unittest.TestCase):

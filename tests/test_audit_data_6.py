@@ -28,20 +28,21 @@ def flat(s):
 class TheRuleIsHeldForSomeTables(unittest.TestCase):
     def test_held_tables_are_built_without_the_rule(self):
         import impossible_hours
-        self.assertGreater(len(impossible_hours.HELD), 0)
+        self.assertEqual(len(impossible_hours.HELD), 0)   # wip/ready-data-impossible: the rule applied to all nine
+        self.assertEqual(len(impossible_hours.HELD_UNTIL_RULED), 9)
         note = src("docs", "methods", "impossible_hours.md")
         section = note[note.index("## Every table that reads these values"):note.index("## What the held builds would change")]
-        for t in impossible_hours.HELD:
+        for t in impossible_hours.HELD_UNTIL_RULED:
             key = "carbon_intensity_hourly" if t.startswith("carbon_intensity_") else t   # the note writes `_daily`, `_monthly`
             line = next(l for l in section.splitlines() if l.startswith("| ") and f"`{key}`" in l)
-            self.assertIn("**Held**", line, t)
+            self.assertIn("**Applied** (held until the ruling", line, t)
 
     def test_the_page_says_so(self):
         page = flat(src("site", "app", "data", "faults", "page.tsx"))
         self.assertNotIn("5,000 MWh. A value that fails is used for nothing", page)
         self.assertIn("In a table the rule is applied to, a value that fails is used for nothing, and nothing is filled.", page)
-        self.assertIn("A table the method marks Held has the rule in its builder and waits for a person to approve it, so it still holds such values", page)
-        self.assertIn("the method says what applying it would change.", page)
+        self.assertIn("rule applied from its next build (none is held for approval any longer)", page)   # wip/ready-data-impossible
+        self.assertIn("the method says what applying it changes.", page)
 
 
 if __name__ == "__main__":

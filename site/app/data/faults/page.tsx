@@ -96,9 +96,9 @@ export default function Faults() {
           range: between one third of and three times its median hour. A zero is a missing value, not a quantity: no grid&apos;s
           demand or generation is zero. A day of interchange between two balancing authorities is used when it is within ten
           times the pair&apos;s median absolute deviation of the pair&apos;s own median, and never left out for less than 5,000 MWh. In a table the rule is
-          applied to, a value that fails is used for nothing, and nothing is filled. A table the method marks Held has the rule in
-          its builder and waits for a person to approve it, so it still holds such values; the method says what applying it
-          would change. The steepest real ramps of these grids move demand about a tenth in an hour, and no
+          applied to, a value that fails is used for nothing, and nothing is filled. Every table that reads these values has the
+          rule applied from its next build (none is held for approval any longer); until that build a table may still hold
+          such values, and the method says what applying it changes. The steepest real ramps of these grids move demand about a tenth in an hour, and no
           grid&apos;s lowest or highest real hour comes near the range. Solar, wind and battery output are not put to the
           hour test: they move further than a quarter in an hour by nature. The rule, every table that reads these values,
           and what each changed: <Link href="/data/methods/impossible_hours" className="underline">the method</Link>.

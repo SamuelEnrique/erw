@@ -62,7 +62,11 @@ REASONS = ("blank", "not above zero", "apart from the hours around it", "outside
 
 # Session 118: tables a live page reads. The rule is in their builders and waits for a person's approval, because
 # applying it moves a number a visitor sees (the report of session 118 lists each number before and after).
-HELD = {
+# wip/ready-data-impossible (the data pages audit of 26 November, finding 7, for Samuel's ruling): no page is open to visitors
+# (site/lib/release.ts lists none live), so the reason for holding is gone and the rule is applied to all nine. The reasons
+# they were held are kept as HELD_UNTIL_RULED for the record.
+HELD = {}
+HELD_UNTIL_RULED = {
     "carbon_intensity_hourly": "the live /network page shows each grid's newest hour of it, and the home page counts its rows",
     "carbon_intensity_daily": "built with carbon_intensity_hourly in one run; the home page counts its rows",
     "carbon_intensity_monthly": "built with carbon_intensity_hourly in one run; the home page counts its rows",

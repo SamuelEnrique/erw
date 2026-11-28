@@ -178,15 +178,16 @@ class TheHold(unittest.TestCase):
 
     def test_the_tables_behind_a_live_page_are_held(self):
         for t in self.LIVE:
-            self.assertIn(t, ih.HELD)
-            self.assertFalse(ih.applies(t), t)
+            self.assertIn(t, ih.HELD_UNTIL_RULED)   # wip/ready-data-impossible: no longer held
+            self.assertTrue(ih.applies(t), t)
         for t in ("generation_mix_hourly_profile", "eia930_demand_growth", "shoulder_hours_monthly", "flex_alert_effects"):
             self.assertTrue(ih.applies(t), t)
 
     def test_a_held_builder_writes_what_it_wrote(self):
         x = sample("pjm")
         for t in self.LIVE:
-            self.assertIs(ih.screen_extract(x, t), x, t)                    # the extract as it came: no hour blanked
+            y = ih.screen_extract(x, t)   # wip/ready-data-impossible: the rule applies outside a trial build too
+            self.assertTrue(np.isnan(y["demand_mwh"][(x["ts_utc"] == "2021-10-19T03:00:00Z").to_numpy()].iloc[0]), t)
 
     def test_a_trial_build_applies_it(self):
         os.environ["ERW_SCREEN_TRIAL"] = "1"
@@ -235,7 +236,7 @@ class TheHydroGap(unittest.TestCase):
         self.assertTrue((pd.to_numeric(y["net_generation_mwh"][~gap]) == pd.to_numeric(x["net_generation_mwh"][~gap])).all())
         self.assertTrue(y["demand_mwh"].equals(x["demand_mwh"]))               # demand does not rest on generation by source
         self.assertIs(ih.without_hydro_gap(x, "pjm", None), x)                 # another grid: as it came
-        self.assertIs(ih.without_hydro_gap(x, "ciso", "event_window_daily"), x)   # held, outside a trial build: as it came
+        self.assertTrue(ih.without_hydro_gap(x, "ciso", "event_window_daily")["net_generation_mwh"][gap].isna().all())   # wip/ready-data-impossible: applied outside a trial build
         s = src("warehouse", "derived", "event_window.py")
         self.assertEqual(s.count("impossible_hours.without_hydro_gap("), 2)
 
