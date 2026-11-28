@@ -32,7 +32,9 @@ OFFERED = {
     "batteries_lunch_grids": ["multiples", "lines"], "batteries_lunch": ["lines", "multiples"], "gas_sets_price": ["bars", "lines", "multiples"],
     "queue_divorce": ["stacked", "bars", "multiples"], "peak_hour_grids": ["multiples", "lines", "bars"], "peak_hour_moved": ["lines", "bars", "multiples"],
     "who_rescues_whom": ["bars", "multiples"], "negative_prices_west": ["lines", "bars", "multiples"], "batteries_curtailment": ["points"],
-    "batteries_curtailment_hourly": ["lines", "bars", "multiples"], "impact_study": ["lines", "bars", "multiples"],
+    "batteries_curtailment_hourly": ["lines", "bars", "multiples"],
+    # session 11405 (wip/ready-held-out): the impact study's default card is the refusal (its default control, NYISO New York
+    # City, is a held grid's price), so it draws nothing and is offered no form; before, ["lines", "bars", "multiples"]
 }
 # the form the weekly run draws each public template in: the default of the template as an analysis
 TEMPLATE_DEFAULT = {"peak_premium_block": "bars", "da_rt_spread_by_hour": "bars", "forecast_error": "lines", "curtailment_midday": "points",

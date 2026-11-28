@@ -44,8 +44,6 @@ week,template,params,period,value,unit,history_n,notability_z,public,picked,abou
 2026-W41,watch_retail_price,{},2026-07,149.9,USD/MWh,306,3.96,True,False,system,year,6.3,61.1,0.3,36,True
 2026-W41,watch_ercot_regup,{},2026-09-28 to 2026-10-04,2.21,USD/MW,456,0.88,True,False,system,previous,-0.21,22.1,0.25,104,True
 2026-W41,watch_caiso_regup,{},2026-09-28 to 2026-10-04,5.04,USD/MW,106,2.47,True,False,system,previous,1.73,93.3,4.79,104,True
-2026-W41,watch_nyiso_reg,{},2026-09-28 to 2026-10-04,19.46,USD/MW,108,1.85,True,False,system,previous,7.74,83.7,2.86,104,True
-2026-W41,watch_spp_regup,{},2026-09-21 to 2026-09-27,10.78,USD/MW,107,1.21,True,False,system,previous,-4.11,88.5,1.74,104,True
 2026-W41,watch_large_load_ercot,{},2026-03,9042.0,MW,7,,True,False,system,previous,166.0,,,6,True
 2026-W41,watch_retail_sales,{},2026-07,415276357.0,MWh,306,3.56,True,False,system,year,7646642.0,55.6,0.31,36,True
 2026-W41,watch_storage_buildout,{},2026-08,54488.9,MW,139,10.0,True,False,system,previous,743.4,27.8,0.42,36,True
@@ -84,8 +82,6 @@ week,template,params,period,value,unit,history_n,notability_z,public,picked,abou
 2026-W43,watch_retail_price,{},2026-08,148.7,USD/MWh,307,3.87,True,False,system,year,7.2,77.8,0.57,36,True
 2026-W43,watch_ercot_regup,{},2026-10-12 to 2026-10-18,1.49,USD/MW,458,0.97,True,False,system,previous,-0.58,51.9,0.71,104,True
 2026-W43,watch_caiso_regup,{},2026-10-12 to 2026-10-18,3.14,USD/MW,167,0.82,True,True,system,previous,-9.7,100.0,10.0,104,True
-2026-W43,watch_nyiso_reg,{},2026-09-28 to 2026-10-04,19.46,USD/MW,108,1.85,True,False,system,previous,7.74,83.7,2.86,104,False
-2026-W43,watch_spp_regup,{},2026-09-21 to 2026-09-27,10.78,USD/MW,107,1.21,True,False,system,previous,-4.11,88.5,1.74,104,False
 2026-W43,watch_large_load_ercot,{},2026-06,8927.0,MW,10,0.65,True,False,system,previous,-135.0,55.6,1.69,9,True
 2026-W43,watch_retail_sales,{},2026-08,412568374.0,MWh,307,3.42,True,False,system,year,18149509.0,91.7,1.88,36,True
 2026-W43,watch_storage_buildout,{},2026-09,56120.7,MW,140,10.0,True,False,system,previous,1511.7,72.2,0.72,36,True
@@ -125,8 +121,6 @@ week,template,params,period,value,unit,history_n,notability_z,public,picked,abou
 2026-W44,watch_retail_price,{},2026-08,148.7,USD/MWh,307,3.87,True,False,system,year,7.2,77.8,0.57,36,False
 2026-W44,watch_ercot_regup,{},2026-10-19 to 2026-10-25,1.32,USD/MW,459,0.99,True,False,system,previous,-0.17,20.2,0.2,104,True
 2026-W44,watch_caiso_regup,{},2026-10-19 to 2026-10-25,2.95,USD/MW,168,0.63,True,False,system,previous,-0.19,37.5,0.5,104,True
-2026-W44,watch_nyiso_reg,{},2026-09-28 to 2026-10-04,19.46,USD/MW,108,1.85,True,False,system,previous,7.74,83.7,2.86,104,False
-2026-W44,watch_spp_regup,{},2026-09-21 to 2026-09-27,10.78,USD/MW,107,1.21,True,False,system,previous,-4.11,88.5,1.74,104,False
 2026-W44,watch_large_load_ercot,{},2026-06,8927.0,MW,10,0.65,True,False,system,previous,-135.0,55.6,1.69,9,False
 2026-W44,watch_retail_sales,{},2026-08,412568374.0,MWh,307,3.42,True,False,system,year,18149509.0,91.7,1.88,36,False
 2026-W44,watch_storage_buildout,{},2026-09,56120.7,MW,140,10.0,True,False,system,previous,1511.7,72.2,0.72,36,False
@@ -166,8 +160,6 @@ week,template,params,period,value,unit,history_n,notability_z,public,picked,abou
 2026-W45,watch_retail_price,{},2026-08,148.7,USD/MWh,307,3.87,True,False,system,year,7.2,77.8,0.57,36,False
 2026-W45,watch_ercot_regup,{},2026-10-19 to 2026-10-25,1.32,USD/MW,459,0.99,True,False,system,previous,-0.17,20.2,0.2,104,False
 2026-W45,watch_caiso_regup,{},2026-10-26 to 2026-11-01,3.31,USD/MW,169,0.99,True,False,system,previous,0.36,64.4,1.04,104,True
-2026-W45,watch_nyiso_reg,{},2026-09-28 to 2026-10-04,19.46,USD/MW,108,1.85,True,False,system,previous,7.74,83.7,2.86,104,False
-2026-W45,watch_spp_regup,{},2026-09-21 to 2026-09-27,10.78,USD/MW,107,1.21,True,False,system,previous,-4.11,88.5,1.74,104,False
 2026-W45,watch_large_load_ercot,{},2026-06,8927.0,MW,10,0.65,True,False,system,previous,-135.0,55.6,1.69,9,False
 2026-W45,watch_retail_sales,{},2026-08,412568374.0,MWh,307,3.42,True,False,system,year,18149509.0,91.7,1.88,36,False
 2026-W45,watch_storage_buildout,{},2026-09,56120.7,MW,140,10.0,True,False,system,previous,1511.7,72.2,0.72,36,False

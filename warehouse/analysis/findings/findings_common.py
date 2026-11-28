@@ -42,6 +42,125 @@ class NoData(Exception):
     """A table the finding reads is not on this machine (the runner has none; a working copy has none)."""
 
 
+# Session 11405 (wip/ready-held-out, on Samuel's ruling only): a grid held for a license (license_status.held_grids:
+# NYISO, ISO-NE and MISO) has no figure on a card or in its download. The cards built on several grids' prices
+# (batteries_lunch_grids, gas_sets_price, peak_hour_grids) printed NYISO's and ISO-NE's yearly statistics and their
+# CSVs held every row of them; the impact study's default control was NYISO New York City. withhold() is applied to
+# every card by run_finding.run before it is written.
+HELD_WORDS = {"nyiso": ("NYISO", "New York"), "isone": ("ISO-NE", "New England"), "miso": ("MISO",)}
+HELD_NOTE = "license needed (the publisher's terms ask for written permission, and none is recorded)"
+
+
+def held_grid_codes():
+    """The lower-case codes of the grids held for a license today (license_status.held_grids)."""
+    import sys
+    sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
+    import license_status as lstat
+    code = {"NYISO": "nyiso", "ISO-NE": "isone", "MISO": "miso"}
+    return {code[g] for g in lstat.held_grids() if g in code}
+
+
+def _held_re(held):
+    import re
+    words = [w for g in sorted(held) for w in HELD_WORDS.get(g, ())]
+    return re.compile(r"\b(" + "|".join(re.escape(w) for w in words) + r")\b") if words else None
+
+
+CLAIM_KEYS = ("title", "subtitle", "why", "in_words")   # a claim: any sentence naming a held grid is left out
+
+
+def _clean_text(s, rx, strict=False):
+    """A sentence (or a part between semicolons) that names a held grid and holds a digit is left out; with strict
+    (a claim's words), any that names a held grid. Other sentences stay as they are. A sentence ends at ! ? ; or at a
+    full stop after a small letter, a digit, a bracket or a percent sign, before a capital (so "N.Y.C. (" is not an end)."""
+    import re
+    if not isinstance(s, str) or rx is None or not rx.search(s):
+        return s
+    parts = re.split(r"(?<=[;!?])\s+|(?<=[a-z0-9)%]\.)\s+(?=[A-Z])", s)
+    kept = [p for p in parts if not (rx.search(p) and (strict or re.search(r"\d", p)))]
+    return " ".join(kept)
+
+
+def _names_held(d, held, rx):
+    if not isinstance(d, dict):
+        return False
+    if str(d.get("grid", "")).lower() in held:
+        return True
+    for k in ("label", "name", "measure", "title", "words", "numbers_key", "key"):
+        v = d.get(k)
+        if isinstance(v, str) and ((rx is not None and rx.search(v)) or any(v.lower().startswith(g + "_") for g in held)):
+            return True
+    return False
+
+
+def _strip(x, held, rx, strict=False):
+    if isinstance(x, dict):
+        out = {}
+        for k, v in x.items():
+            if k.lower() in held or any(k.lower().startswith(g + "_") for g in held):
+                continue
+            out[k] = _strip(v, held, rx, strict or k in CLAIM_KEYS)
+        return out
+    if isinstance(x, list):
+        return [_strip(v, held, rx, strict) for v in x if not _names_held(v, held, rx)]
+    return _clean_text(x, rx, strict)
+
+
+def withhold(card, rows, held=None, recompute=None):
+    """(card, rows) with every figure of a held grid taken out: rows whose grid is held; the card's numbers of a held
+    grid left out, a held grid's code out of a list, and with recompute the numbers made again from the rows kept
+    (recompute(rows): the finding's numbers_from_rows, so the card equals its download); a callout side that names a held grid reads
+    "license needed"; any list element (a chart panel, a series, a row of estimates) that names a held grid left out;
+    any key of a held grid elsewhere left out; a sentence that names a held grid with a figure in it left out. A card
+    that names no held grid comes back as it was."""
+    held = held_grid_codes() if held is None else set(held)
+    rx = _held_re(held)
+    n_rows = len(rows) if rows else 0
+    rows = [r for r in rows if str(r.get("grid", "")).lower() not in held] if rows else rows
+    if rx is None or not rx.search(json.dumps(card, default=str)) and not any(
+            k.split("_", 1)[0] in held for k in (card.get("numbers") or {})):
+        return card, rows
+    card = dict(card)
+    nums = dict(card.get("numbers") or {})
+    if recompute is not None and rows and len(rows) != n_rows:
+        # the card's numbers are those of its download, which holds no held grid's row; a number the rows kept give
+        # again (to 1e-9) keeps the value the card printed, so the card's other figures do not drift in the last digit
+        was, nums = nums, dict(recompute(rows))
+        for k, v in nums.items():
+            o = was.get(k)
+            if isinstance(v, float) and isinstance(o, (int, float)) and not isinstance(o, bool) and abs(v - o) <= 1e-9 * max(1.0, abs(o)):
+                nums[k] = o
+    nums = {k: ([x for x in v if str(x).lower() not in held] if isinstance(v, list) else v)
+            for k, v in nums.items() if k.split("_", 1)[0].lower() not in held}
+    callouts = []
+    for c in card.get("callouts") or []:
+        c = json.loads(json.dumps(c, default=str))
+        for side in ("before", "after"):
+            if isinstance(c.get(side), dict) and (rx.search(c.get("label", "")) or rx.search(str(c[side].get("period", "")))):
+                c[side]["text"] = "license needed"
+        callouts.append(c)
+    keep = ("numbers", "callouts", "csv_header", "placeholders")
+    out = _strip({k: v for k, v in card.items() if k not in keep}, held, rx)
+    out["numbers"], out["callouts"] = nums, callouts
+    if "csv_header" in card:
+        out["csv_header"] = [_clean_text(ln, rx) for ln in card["csv_header"]]
+    if "placeholders" in card:
+        ph = [dict(p) for p in card["placeholders"]]
+        shown = {str(p.get("grid", "")).lower() for p in ph}
+        blob = json.dumps(card.get("chart", {}), default=str)
+        for g in sorted(held):
+            if g not in shown and (f'"grid": "{g}"' in blob or any(w in blob for w in HELD_WORDS[g])):
+                ph.append({"grid": g, "words": HELD_WORDS[g][0], "text": "license needed"})
+        out["placeholders"] = ph
+    blob = json.dumps(card, default=str)
+    named = [HELD_WORDS[g][0] for g in sorted(held) if any(w in blob for w in HELD_WORDS[g]) or f'"{g}_' in blob]
+    card = {k: out[k] for k in list(card.keys()) if k in out}
+    note = f"{', '.join(named)}: {HELD_NOTE}; their figures are left out of this card and its data."
+    if named and HELD_NOTE not in (card.get("footnote") or ""):
+        card["footnote"] = ((card.get("footnote") or "").rstrip() + " " + note).strip()
+    return card, rows
+
+
 def now_iso():
     return dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 

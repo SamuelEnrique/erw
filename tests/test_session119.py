@@ -491,7 +491,7 @@ class TheWatchList(unittest.TestCase):
         mods = templates.load_all()
         reg = run.table_registry(mods)
         self.assertEqual(reg["read"] + sum(reg["not_read"].values()), reg["public_tables"])
-        self.assertGreaterEqual(reg["read"], 38)
+        self.assertGreaterEqual(reg["read"], 36)   # session 11405 (wip/ready-held-out): nyiso_as_prices and spp_as_prices are not read while held
         cov = pd.read_csv(os.path.join(ROOT, "warehouse", "metadata", "coverage.csv"), dtype=str, keep_default_na=False)
         self.assertEqual(reg["public_tables"], int((cov["license"] == "public").sum()))
         by = {r["table"]: r for r in reg["tables"]}

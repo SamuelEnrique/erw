@@ -77,7 +77,7 @@ class EveryNumberOnTheCardIsReproduced(unittest.TestCase):
     def test_gas_sets_price(self):
         c, n = self.reproduce("gas_sets_price")
         self.assertEqual(c["kind"], "visual")
-        self.assertEqual([p["words"] for p in c["placeholders"]], ["MISO", "PJM"])
+        self.assertEqual([p["words"] for p in c["placeholders"]], ["MISO", "PJM", "ISO-NE", "NYISO"])   # session 11405: the held grids are placeholders too
 
     def test_queue_divorce(self):
         c, n = self.reproduce("queue_divorce")

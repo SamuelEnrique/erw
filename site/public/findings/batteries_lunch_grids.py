@@ -210,7 +210,9 @@ def numbers_from_rows(rows, meta=None):
             n["ercot_full_years"] = sum(1 for r in R if r["kind"] == "year" and r["full_year"])
             n["ercot_reg_df"] = old["reg_n"] - 15
             continue
-        years = {r["period"]: r for r in R if r["kind"] == "year"}
+        if not R:
+            continue   # session 11405 (wip/ready-held-out): a held grid's rows are not in the download, so no number of it
+        years ={r["period"]: r for r in R if r["kind"] == "year"}
         months = [r for r in R if r["kind"] == "month"]
         full = sorted(y for y, r in years.items() if r["full_year"])
         ys = sorted(years)

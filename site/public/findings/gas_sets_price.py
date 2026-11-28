@@ -143,7 +143,7 @@ def numbers_from_rows(rows, params=None):
          "ercot_last_hr6p5": next(r[key(6.5)] for r in rows if r["grid"] == "ercot" and r["year"] == last_full),
          "ercot_last_hr8": next(r[key(8.0)] for r in rows if r["grid"] == "ercot" and r["year"] == last_full),
          "ercot_hours_last": next(r["n_hours"] for r in rows if r["grid"] == "ercot" and r["year"] == last_full),
-         "isone_hours_last": next(r["n_hours"] for r in rows if r["grid"] == "isone" and r["year"] == last_full),
+         "isone_hours_last": next((r["n_hours"] for r in rows if r["grid"] == "isone" and r["year"] == last_full), None),   # None: a held grid, no row (session 11405)
          "n_cells_held": len(held), "n_cells": len(rows), "this_year": years[-1],
          "caiso_this": at("caiso", years[-1]), "nyiso_this": at("nyiso", years[-1]), "spp_this": at("spp", years[-1]),
          "ercot_this": at("ercot", years[-1])}

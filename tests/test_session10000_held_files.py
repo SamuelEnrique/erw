@@ -1,7 +1,8 @@
 """Session 10000 (chain 701, done-line request 576): a grid held for a license (license_status.held_grids: NYISO and ISO-NE
 from 20 October 2026) has no price file among what the site serves, and the builders that wrote them write none. MISO is
 held too, but its pause (docs/methods/miso_pause.md) keeps its tables and pages as they are until a person lifts it, so
-it is not part of this rule. Reads the repository's files only."""
+it is not part of this rule. Session 11405 (wip/ready-held-out, on Samuel's ruling only): MISO is now part of it.
+Reads the repository's files only."""
 import glob
 import json
 import os
@@ -9,7 +10,7 @@ import sys
 import unittest
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-HELD = {"nyiso": "NYIS", "isone": "ISNE"}
+HELD = {"nyiso": "NYIS", "isone": "ISNE", "miso": "MISO"}
 
 
 def src(*p):
@@ -51,7 +52,7 @@ class NoHeldPriceFileIsServed(unittest.TestCase):
 
     def test_the_builders_skip_a_held_grid(self):
         self.assertIn("g not in held]", src("warehouse", "derived", "seller_hybrid.py"))
-        self.assertIn("if grid in held and grid != \"MISO\":", src("warehouse", "derived", "page_keep.py"))
+        self.assertIn("if grid in held:", src("warehouse", "derived", "page_keep.py"))
         self.assertIn("in held_isos():", src("warehouse", "analysis", "run.py"))
         self.assertIn("held = held_bas()", src("warehouse", "derived", "network_stories.py"))
         nd = src("warehouse", "derived", "network_daily.py")

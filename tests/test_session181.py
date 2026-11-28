@@ -508,7 +508,10 @@ class TheImpactStudy(unittest.TestCase):
     P = {"series": "ercot_north_rt", "control": "nyiso_nyc_rt", "event": "date", "year": 2024, "month": 5, "day": 15, "window": 14}
 
     def compute(self, y, c, **over):
-        with mock.patch.object(impact_study, "daily", made_up_daily({"ercot_north_rt": y, "nyiso_nyc_rt": c, "henry_hub": c, "ercot_north_da": c})):
+        # session 11405 (wip/ready-held-out): the arithmetic is tested on made-up series, so the hold of NYISO's prices
+        # (impact_study.held_grid_codes) is stood aside here; tests/test_ready_held_out_analysis.py tests the hold
+        with mock.patch.object(impact_study, "daily", made_up_daily({"ercot_north_rt": y, "nyiso_nyc_rt": c, "henry_hub": c, "ercot_north_da": c})), \
+                mock.patch.object(impact_study, "held_grid_codes", lambda: set()):
             p = {**self.P, **over}
             rows, meta = impact_study.compute(p)
             return rows, meta, impact_study.card(rows, p, meta)
@@ -621,8 +624,16 @@ class TheImpactStudy(unittest.TestCase):
         path = os.path.join(ROOT, "site", "public", "findings", card["downloads"]["csv"])
         with open(path, encoding="utf-8") as f:
             head = [next(f) for _ in range(5)]
-        self.assertTrue(all(h.startswith("#") for h in head[:4]) and head[4].startswith("day,t,period,after,in_window,series_value,control_value,diff"))
         self.assertTrue(all("," not in h for h in head[:4]), "a comma in a comment line: the do-file reads the names from line 5")
+        if card.get("refusal"):
+            # session 11405 (wip/ready-held-out): the default control, NYISO New York City, is a held grid's price, so the
+            # default card is the refusal: no row in its download, no number on it
+            self.assertIn("license needed", card["refusal"])
+            self.assertEqual(card["numbers"], {})
+            self.assertTrue(all(h.startswith("#") for h in head[:4]) and head[4].strip() == "")
+            self.assertEqual(src("site", "public", "findings", "impact_study.py"), src("warehouse", "analysis", "findings", "impact_study.py"))
+            return
+        self.assertTrue(all(h.startswith("#") for h in head[:4]) and head[4].startswith("day,t,period,after,in_window,series_value,control_value,diff"))
         n = impact_study.numbers_from_rows(common.read_rows_csv(path), card["params"])
         self.assertEqual(set(n), set(card["numbers"]))
         for k, v in card["numbers"].items():
@@ -810,6 +821,9 @@ class TheSite(unittest.TestCase):
         self.assertIn("<RequestCard key={asked} requestId={asked} wait />", src("site", "components", "analysis", "ImpactForm.tsx"))
         # the card carries what the downloads are made from: its rows are the CSV's rows, its do-file the engine's
         card = json.loads(src("site", "data", "findings", "impact_study.json"))
+        if card.get("refusal"):   # session 11405 (wip/ready-held-out): the default card is the refusal, no rows
+            self.assertNotIn("rows", card)
+            return
         rows = common.read_rows_csv(os.path.join(ROOT, "site", "public", "findings", card["downloads"]["csv"]))
         self.assertEqual(len(card["rows"]), len(rows))
         for a, b in zip(card["rows"], rows):
