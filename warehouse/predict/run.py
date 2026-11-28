@@ -362,6 +362,17 @@ def demand_place(place, dem, op, ref, made, evs, wx=None, wxf=None):
             tm["operator"] = o.reindex(pd.DatetimeIndex(tm["ts"])).to_numpy()
         else:
             tm["operator"] = np.nan
+        if not np.isfinite(tm[choice].to_numpy(dtype=float)).any():
+            # session 10603: the method chosen could not forecast the day (it reads hours the demand held lacks: SPA on
+            # 28 November); no rows of nulls, in the file or in the ledger, but the reason
+            gap = frame[(frame["day"] > target - pd.Timedelta(days=16)) & (frame["day"] <= last)]
+            short = [d.strftime("%Y-%m-%d") for d in pd.date_range(target - pd.Timedelta(days=15), last, freq="D")
+                     if int((gap["day"] == d).sum()) < len(demand.day_hours(tz, d))
+                     or (gap.loc[gap["day"] == d, "value"] <= 0).any()]
+            tm = None
+            tm_held = (f"no forecast: the method chosen ({choice}) reads every hour of the days before the target day, and the "
+                       f"demand held is missing hours, or holds hours at or below zero (which the regression's logs cannot read), "
+                       f"on {', '.join(short) if short else 'a day it reads'}")
     else:
         tm_held = f"no data: the last whole day held ({day_str(last)}) is {h} days before the target day; the forecast reads at most 7"
     return {"place": place, "tz": tz, "hr": hr, "choice": choice, "maes": maes, "rows": rows, "tomorrow": tm, "tomorrow_held": tm_held,
@@ -693,6 +704,8 @@ def main(argv=None):
         if p["tomorrow"] is not None:
             c = p["choice"]
             for _, r in p["tomorrow"].iterrows():
+                if not np.isfinite(float(r[c])):
+                    continue   # an hour without a figure is not a forecast (session 10603: SPA, 28 November)
                 new_ledger.append({"series": "demand", "place": place, "target_day": day_str(p["target"]), "ts_utc": iso(r["ts"]),
                                    "local_hour": int(r["hour"]), "made_utc": iso(made), "inputs_through_utc": iso(p["inputs_through"]),
                                    "horizon_days": p["h"], "method": c, "erw": num(r[c]), "lo": num(r[c + "_lo"]), "hi": num(r[c + "_hi"])})
@@ -711,6 +724,8 @@ def main(argv=None):
         if q["tomorrow"] is not None:
             c = q["choice"]
             for _, r in q["tomorrow"].iterrows():
+                if not np.isfinite(float(r[c])):
+                    continue   # an hour without a figure is not a forecast
                 new_price_ledger.append({"series": "price", "place": place, "target_day": day_str(q["target"]), "ts_utc": iso(r["ts"]),
                                          "local_hour": int(r["hour"]), "made_utc": iso(made), "inputs_through_utc": iso(q["inputs_through"]),
                                          "horizon_days": q["h"], "method": c, "erw": num(r[c], 2), "lo": num(r[c + "_lo"], 2), "hi": num(r[c + "_hi"], 2)})

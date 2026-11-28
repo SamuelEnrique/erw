@@ -4,9 +4,9 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 
 ## The counts
 
-- Public tables with a metadata file: 597; documented in full (what a row is, and every column's label and unit): 597.
-- Columns: 10690; documented: 10690 (a shared column is documented once, below).
-- Variables of the series tables (values of `variable`): 6991; labelled: 6958.
+- Public tables with a metadata file: 598; documented in full (what a row is, and every column's label and unit): 597.
+- Columns: 10706; documented: 10704 (a shared column is documented once, below).
+- Variables of the series tables (values of `variable`): 6993; labelled: 6960.
 - Entries that read "not documented by the source": 1.
 - Column names that two or more tables label differently (names that may mean two things): 313.
 
@@ -55,7 +55,7 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 | [other_sources](other_sources.md) | 107 | 107 |
 | [policy](policy.md) | 3 | 3 |
 | [price](price.md) | 4 | 4 |
-| [spp](spp.md) | 5 | 5 |
+| [spp](spp.md) | 6 | 5 |
 | [statcan](statcan.md) | 8 | 8 |
 | [statec](statec.md) | 4 | 4 |
 | [storage](storage.md) | 4 | 4 |

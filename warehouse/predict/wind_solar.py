@@ -205,6 +205,8 @@ def one(place, fuel, df, made, curt=None):
     ledger = []
     if tomorrow:
         for t, k, v, lo, hi, _ in tomorrow:
+            if v is None:
+                continue   # an hour without a figure is not a forecast (session 10603)
             ledger.append({"fuel": fuel, "place": place, "target_day": target.strftime("%Y-%m-%d"), "ts_utc": t, "local_hour": k,
                            "made_utc": iso(made), "inputs_through_utc": iso(inputs_through), "horizon_days": h, "method": choice,
                            "erw": v, "lo": lo, "hi": hi})
