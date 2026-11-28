@@ -15,9 +15,14 @@ const STATES = new Set(("AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY L
   "ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY PR").split(" "));
 const num = (v: unknown): number | null => (v === null || v === undefined || v === "" || !Number.isFinite(Number(v)) ? null : Number(v));
 
-/** A row the sums count: a named US state, a status other than withdrawn (cancelled). */
+/** Ready branch of session 11408 (tracker audit finding 1): the rows known to be two unrelated stories joined, left out
+ * of every sum (lib/dctop.ts KNOWN_WRONG_JOINS, restated so that Node runs this file alone). */
+const KNOWN_WRONG_JOINS = new Set(["datacenter:868a5b4c04ff1f44"]);
+
+/** A row the sums count: a named US state, a status other than withdrawn (cancelled), not a known wrong join. */
 export const counted = (r: FacRow): boolean =>
-  STATES.has((r.extra?.state ?? "").toUpperCase()) && !["withdrawn", "cancelled"].includes((r.status ?? "").toLowerCase());
+  STATES.has((r.extra?.state ?? "").toUpperCase()) && !["withdrawn", "cancelled"].includes((r.status ?? "").toLowerCase()) &&
+  !KNOWN_WRONG_JOINS.has(r.entity_id);
 
 /** The grid that serves most of a state (lib/deals2.ts STATE_GRID; warehouse/derived/datacenter_facilities.py the same). */
 const STATE_GRID: Record<string, string> = {

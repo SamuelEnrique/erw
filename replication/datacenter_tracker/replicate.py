@@ -37,6 +37,9 @@ SITE = os.path.join(ROOT, "site")
 # The note, section 3: a named US state is one of the 50 states, the District of Columbia or Puerto Rico.
 US = set("AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN "
          "TX UT VT VA WA WV WI WY PR".split())
+# ready branch of session 11408 (tracker audit of 26 November 2026, finding 1): two unrelated stories joined on a state
+# alone, left out of every sum until the news table is rebuilt (site/lib/dctop.ts KNOWN_WRONG_JOINS)
+KNOWN_WRONG_JOINS = {"datacenter:868a5b4c04ff1f44"}
 # The note, section 5: the grid that serves most of a state; a state split between grids has none.
 GRID_OF_STATE = {"TX": "ERCOT", "CA": "CAISO", "NY": "NYISO", **{s: "ISO-NE" for s in "CT ME MA NH RI VT".split()},
                  **{s: "PJM" for s in "PA NJ MD DE VA WV OH DC".split()}, **{s: "MISO" for s in "MN IA WI MI LA".split()},
@@ -63,7 +66,8 @@ class Fac:
         self.status = (r.get("status") or "")
         self.cancelled = self.status.lower() in ("withdrawn", "cancelled")
         self.mw = None if r.get("capacity_mw") in (None, "") else float(r["capacity_mw"])
-        self.counted = self.us and not self.cancelled
+        # ready branch of session 11408 (tracker audit finding 1): the known wrong join is in no sum
+        self.counted = self.us and not self.cancelled and self.id not in KNOWN_WRONG_JOINS
         self.first = x.get("first_story_at") or ""
         self.kind = x.get("kind") or "not stated"
         self.grid = x.get("grid") or GRID_OF_STATE.get(self.state.upper(), "")
@@ -348,7 +352,7 @@ def headline(rows_dir):
     fac, n_counted, mws = table("facilities_slim.csv"), 0, []
     for r in fac:
         us = r["country"] == "US" or (r["country"] == "" and r["state"] in US)
-        if us and r["status"].lower() not in ("withdrawn", "cancelled"):
+        if us and r["status"].lower() not in ("withdrawn", "cancelled") and r.get("entity_id", "") not in KNOWN_WRONG_JOINS:
             n_counted += 1
             if r["capacity_mw"] != "":
                 mws.append(float(r["capacity_mw"]))

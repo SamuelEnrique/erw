@@ -62,7 +62,7 @@ const dayWords = (d: string) => new Date(`${d}T00:00:00Z`).toLocaleDateString("e
 
 export function Body({ rows, today, children }: { rows: Facility[]; today: string; children?: ReactNode }) {
   // session 7400: one computation, lib/dctop.ts (session 166's and 240's arithmetic, unchanged)
-  const { inTotals, noCountry, dropped, withMw, totalMw, noMw, byState, byOperator, byStatus, start, fresh, dated } = topBlock(rows, today);
+  const { inTotals, noCountry, dropped, wrongJoins, withMw, totalMw, noMw, byState, byOperator, byStatus, start, fresh, dated } = topBlock(rows, today);
   const bars = (list: [string, number][], key: string, max: number) =>
     list.length === 0 ? (
       <div className="text-sm text-muted">no data: no facility with a stated {key === "state" ? "state" : "operator"} states its MW</div>
@@ -93,6 +93,7 @@ export function Body({ rows, today, children }: { rows: Facility[]; today: strin
                 <Num check="datacenters|no_us_state" raw={noCountry}>{count(noCountry)}</Num> with no US state stated
               </span>
               , <Num check="datacenters|cancelled" raw={dropped}>{count(dropped)}</Num> cancelled
+              {wrongJoins > 0 ? <>, <span title="Two unrelated stories joined on the state alone before session 166 (a 2025 story of a Utah datacenter and a 2026 story of a 9.4 GW campus); the row stays in the table until the news table is rebuilt.">{count(wrongJoins)} known wrong join</span></> : null}
             </span>}
           />
           <HeadlineNumber

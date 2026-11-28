@@ -11,7 +11,12 @@ const countryOf = (country: string | undefined | null, state: string | undefined
 const cancelled = (status: string | null | undefined): boolean => ["withdrawn", "cancelled"].includes((status ?? "").toLowerCase());
 
 /** What the top block reads of a facility (app/datacenters/DatacentersTable.tsx's Facility holds each of these). */
-export type TopRow = { country: string; status: string; mw: number | null; state: string; operator: string; site: string; firstStory: string };
+export type TopRow = { country: string; status: string; mw: number | null; state: string; operator: string; site: string; firstStory: string; id?: string };
+/** Ready branch of session 11408 (tracker audit of 26 November 2026, finding 1, the other choice): the rows known to be two
+ * unrelated stories joined (a 2025 story of a Utah datacenter and a 2026 story of a 9.4 GW campus, joined on the state
+ * alone before session 166; docs/methods/datacenter_facilities.md), left out of every sum until the news table is
+ * rebuilt. lib/dcrollups.ts holds the same list (tests/test_ready_tracker_utah_out.py holds the two equal). */
+export const KNOWN_WRONG_JOINS = new Set(["datacenter:868a5b4c04ff1f44"]);
 
 /** A row of datacenter_facilities as the live set serves it, as far as the sums read it. */
 export type LiveRow = { entity_id: string; name?: string | null; capacity_mw: number | string | null; status: string | null; operator: string | null;
@@ -22,14 +27,14 @@ export const topRowOf = (r: LiveRow): TopRow => {
   const x = r.extra ?? {};
   return {
     operator: r.operator ?? "", site: x.site_name ?? r.name ?? "", state: x.state ?? "", country: countryOf(x.country, x.state),
-    mw: r.capacity_mw === null ? null : Number(r.capacity_mw), status: r.status ?? "", firstStory: x.first_story_at ?? "",
+    mw: r.capacity_mw === null ? null : Number(r.capacity_mw), status: r.status ?? "", firstStory: x.first_story_at ?? "", id: r.entity_id,
   };
 };
 
 const DAY = 86_400_000;
 
 /** Session 166: the rows the totals and bars count: in a named US state, and not cancelled. */
-export const counted = <T extends TopRow>(rows: T[]): T[] => rows.filter((f) => f.country === "US" && !cancelled(f.status));
+export const counted = <T extends TopRow>(rows: T[]): T[] => rows.filter((f) => f.country === "US" && !cancelled(f.status) && !KNOWN_WRONG_JOINS.has(f.id ?? ""));
 /** Session 240: the first day of "this week": the seven UTC days that end on `today` (both included). */
 export const weekStart = (today: string): string => new Date(Date.parse(`${today}T00:00:00Z`) - 6 * DAY).toISOString().slice(0, 10);
 /** The facilities whose first story is dated in the week, newest first. The only date the table holds a facility by. */
@@ -37,7 +42,7 @@ export const firstReportedSince = <T extends TopRow>(rows: T[], start: string): 
   rows.filter((f) => f.firstStory && f.firstStory.slice(0, 10) >= start).sort((a, b) => b.firstStory.localeCompare(a.firstStory) || a.operator.localeCompare(b.operator) || a.site.localeCompare(b.site));
 
 export type TopBlock<T extends TopRow> = {
-  inTotals: T[]; noCountry: number; dropped: number; withMw: T[]; totalMw: number; noMw: number;
+  inTotals: T[]; noCountry: number; dropped: number; wrongJoins: number; withMw: T[]; totalMw: number; noMw: number;
   byState: [string, number][]; byOperator: [string, number][]; byStatus: [string, number][];
   start: string; fresh: T[]; dated: number;
 };
@@ -48,6 +53,7 @@ export function topBlock<T extends TopRow>(rows: T[], today: string): TopBlock<T
   const inTotals = counted(rows);
   const noCountry = rows.filter((f) => f.country !== "US").length;
   const dropped = rows.filter((f) => f.country === "US" && cancelled(f.status)).length;
+  const wrongJoins = rows.filter((f) => f.country === "US" && !cancelled(f.status) && KNOWN_WRONG_JOINS.has(f.id ?? "")).length;
   const withMw = inTotals.filter((f) => f.mw !== null);
   const totalMw = withMw.reduce((a, f) => a + (f.mw ?? 0), 0);
   const sumBy = (key: (f: T) => string, blank = false) => {
@@ -60,7 +66,7 @@ export function topBlock<T extends TopRow>(rows: T[], today: string): TopBlock<T
   };
   const start = weekStart(today);
   return {
-    inTotals, noCountry, dropped, withMw, totalMw, noMw: inTotals.length - withMw.length,
+    inTotals, noCountry, dropped, wrongJoins, withMw, totalMw, noMw: inTotals.length - withMw.length,
     byState: sumBy((f) => f.state),
     byOperator: sumBy((f) => f.operator).slice(0, 5),
     byStatus: sumBy((f) => f.status, true),            // the megawatts by status, as the table has them (a blank status is "status not stated")

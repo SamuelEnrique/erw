@@ -13,7 +13,7 @@ compares the two, key by key:
     operator   the ten operators (else developers) with the most MW stated
     power      the counted facilities by the kind of power stated, and their share to a tenth of a percent
 
-Counted: a named US state, a status other than withdrawn or cancelled. The grid: the table's own (session 2243), else
+Counted: a named US state, a status other than withdrawn or cancelled, not a known wrong join (ready branch of session 11408). The grid: the table's own (session 2243), else
 the grid that serves most of the state.
 
     python scripts/check_datacenters.py                 # warehouse/output/datacenter_facilities.csv, read only
@@ -38,6 +38,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SITE = os.path.join(ROOT, "site")
 STATES = set(("AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC "
               "ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY PR").split())   # session 7400: Puerto Rico, as the page's list
+KNOWN_WRONG_JOINS = {"datacenter:868a5b4c04ff1f44"}   # ready branch of session 11408: site/lib/dctop.ts, the row in no sum
 STATE_GRID = {"TX": "ERCOT", "CA": "CAISO", "NY": "NYISO", "CT": "ISO-NE", "ME": "ISO-NE", "MA": "ISO-NE", "NH": "ISO-NE",
               "RI": "ISO-NE", "VT": "ISO-NE", "PA": "PJM", "NJ": "PJM", "MD": "PJM", "DE": "PJM", "VA": "PJM", "WV": "PJM",
               "OH": "PJM", "DC": "PJM", "MN": "MISO", "IA": "MISO", "WI": "MISO", "MI": "MISO", "LA": "MISO", "OK": "SPP",
@@ -68,7 +69,7 @@ def recompute(t):
     rows = []
     for r in t.to_dict("records"):
         st = (r.get("state") or "").upper()
-        if st not in STATES or (r.get("status") or "").lower() in ("withdrawn", "cancelled"):
+        if st not in STATES or (r.get("status") or "").lower() in ("withdrawn", "cancelled") or r.get("entity_id") in KNOWN_WRONG_JOINS:
             continue
         rows.append({"grid": r.get("grid") or STATE_GRID.get(st, ""), "mw": num(r["capacity_mw"]), "status": (r.get("status") or "").lower(),
                      "op": r.get("operator") or "", "first": r.get("first_story_at") or "", "power": r.get("power_kind") or "none"})
