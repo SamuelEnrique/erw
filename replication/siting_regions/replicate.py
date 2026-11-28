@@ -257,11 +257,16 @@ def main():
     for pid, p in places.items():
         s = files[pid]["sections"]["mix_carbon"]
         c = p["code"] if p["kind"] != "operator" else p["members"][0]
-        tot = sum(fuel[c].values())
+        # the method note: a region whose one member is an operator's authority shares that grid's mix and carbon
+        one = {q["members"][0]: q["code"] for q in places.values() if q["kind"] == "region" and len(q["members"]) == 1}
+        mc = one.get(c, c) if p["kind"] == "operator" else c
+        cc = p["members"][0] if p["kind"] == "region" and len(p["members"]) == 1 else c
+        tot = sum(fuel[mc].values())
         for m in s["mix"]:
-            C.eq(f"{pid} mix {m['fuel']}", m["share_pct"]["v"], fuel[c][m["fuel"]] / tot * 100 if tot else None, 0.006)
+            k = m.get("key", m["fuel"])
+            C.eq(f"{pid} mix {k}", m["share_pct"]["v"], fuel[mc][k] / tot * 100 if tot else None, 0.006)
         if not s["intensity"]["held"]:
-            C.eq(f"{pid} intensity", s["intensity"]["v"], sum(carb[c]) / len(carb[c]), 0.051)
+            C.eq(f"{pid} intensity", s["intensity"]["v"], sum(carb[cc]) / len(carb[cc]), 0.051)
 
     # curtailment
     cu = defaultdict(float)

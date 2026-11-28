@@ -105,6 +105,10 @@ TABLE_COLUMNS = [
 
 EXAMPLE_HELD = "not held: example file, written before the builder"
 
+# EIA-930's sources of net generation, in words (done-line request 589: one form in the files, as the queue's fuels are)
+FUEL_WORDS = {"natural_gas": "Natural gas", "coal": "Coal", "nuclear": "Nuclear", "hydro": "Hydro", "wind": "Wind",
+              "solar": "Solar", "storage": "Battery storage", "petroleum": "Petroleum", "other": "Other"}
+
 
 def now_utc():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -795,18 +799,29 @@ def build_mix_carbon(place, P, S, fuel, carbon):
     src = S.key("eia930_fuel", "eia930_region_fuel_hourly", "EIA")
     csrc = S.key("carbon", "carbon_intensity_hourly", "EIA (ERW's derivation, docs/methods/emissions.md)")
     code = place["code"] if place["kind"] != "operator" else place["members"][0]
-    f = fuel[fuel.code == code]
+    # done-line request 589: a region whose one member is an operator's own authority (Texas and ERCOT, New York and
+    # NYISO, New England and ISO-NE) is the same grid: the region takes the authority's carbon intensity and the
+    # operator the region's fuel mix, so neither file holds half of the section
+    mix_code = place.get("mix_code") or code
+    carbon_code = place.get("carbon_code") or code
+    f = fuel[fuel.code == mix_code]
     sec = {"status": "shown"}
     tot = f.v.sum()
-    sec["mix"] = [{"fuel": var.replace("net_generation_", "").replace("_mw", ""),
-                   "share_pct": cell(rnd(v / tot * 100, 2), "pct", P.label, src)}
-                  for var, v in f.groupby("variable").v.sum().sort_values(ascending=False).items()] if tot else []
+    sec["mix"] = []
+    for var, v in (f.groupby("variable").v.sum().sort_values(ascending=False).items() if tot else []):
+        key = var.replace("net_generation_", "").replace("_mw", "")
+        sec["mix"].append({"fuel": FUEL_WORDS.get(key, key.replace("_", " ").capitalize()), "key": key,
+                           "share_pct": cell(rnd(v / tot * 100, 2), "pct", P.label, src)})
+    if mix_code != code and sec["mix"]:
+        sec["mix_from"] = mix_code
     if not sec["mix"]:
         sec["mix_held"] = ("not held: the warehouse's table of net generation by source (eia930_region_fuel_hourly) holds "
                            "EIA's 13 regions only" if place["kind"] != "region" else
                            "not held: no net generation by source held for this region in the period")
-    ca = carbon[carbon.ba == code]
+    ca = carbon[carbon.ba == carbon_code]
     c = ca[P.inside(ca.ts_utc)]
+    if carbon_code != code and not c.empty:
+        sec["intensity_from"] = carbon_code
     if c.empty:
         why = "not held: carbon_intensity_hourly covers the seven operators' authorities and the US 48 only"
         sec["intensity"] = cell(None, "kgCO2/MWh", P.label, csrc, why)
@@ -1100,6 +1115,13 @@ def build(out_dir, today=None):
     reserves = {}
     print("queue, large-load, datacenter and forecast tables read", flush=True)
 
+    # done-line request 589: a region whose one member is an operator's authority, and that operator, share a grid
+    one_member = {p["members"][0]: p["code"] for p in places if p["kind"] == "region" and len(p["members"]) == 1}
+    for p in places:
+        if p["kind"] == "operator" and p["members"][0] in one_member:
+            p["mix_code"] = one_member[p["members"][0]]
+        if p["kind"] == "region" and len(p["members"]) == 1 and p["members"][0] in OP_OF_BA:
+            p["carbon_code"] = p["members"][0]
     os.makedirs(out_dir, exist_ok=True)
     index_places, table_rows = [], []
     all_sources = {}
