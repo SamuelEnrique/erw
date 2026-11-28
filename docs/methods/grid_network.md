@@ -44,8 +44,8 @@ The source table is `eia930_all_interchange`.
 ## The pair rule
 
 Each pair is reported by both of its BAs. In the network each pair is counted once:
-- its flow is read from the BA whose code sorts first, as that BA reported it (positive = it exported to the other);
-- in an hour that BA did not report, the flow comes from the other BA's report with the sign flipped.
+- where both BAs reported the hour, its flow is the mean of the two reports, each signed from the side of the BA whose code sorts first (positive = it exported to the other), the rule of the trade tab's files, since the ruling on the Grid tool audit of 26 November, finding 3 (until then the first BA's report alone);
+- in an hour only one BA reported, the flow is that report, signed the same way.
 
 `grid_network_links` holds the result for the latest 168 hours: entity `eia930:<A>-<B>`, A the code that sorts first, variable `flow_mw`.
 

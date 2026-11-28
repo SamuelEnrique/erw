@@ -67,7 +67,7 @@ class WhichSide(unittest.TestCase):
 
     def test_the_words_say_which_side(self):
         with open(os.path.join(ROOT, "site", "lib", "network.ts"), encoding="utf-8") as f:
-            self.assertIn("each tie as the balancing authority first in the alphabet reported it", f.read())
+            self.assertIn("each tie as the mean of both balancing authorities' reports where both filed", f.read())   # wip/ready-grid-netting
         for name, n in (("ExchangeView.tsx", 3), ("NowView.tsx", 1), ("NetworkFigures.tsx", 1)):
             with open(os.path.join(ROOT, "site", "components", "grid", name), encoding="utf-8") as f:
                 t = f.read()

@@ -11,7 +11,7 @@ export const MAP_DECISIONS: MapDecision[] = [
     rule: "The newest hour that every reporting pair of balancing authorities holds, as in the Network view. A pair reports when it held a flow in the last 48 hours. Later hours are on the slider.",
     source: "the network's hourly snapshot (Form EIA-930 interchange)" },
   { what: "Whose report a tie's megawatts are",
-    rule: "A pair is counted once. Its flow is the report of the balancing authority whose code sorts first; in an hour that authority filed nothing, the other's report with its sign turned. Neither report is adjusted to the other.",
+    rule: "A pair is counted once. Where both balancing authorities reported the hour, its flow is the mean of the two reports, each signed from the side of the authority whose code sorts first; where one did, that report.",   // wip/ready-grid-netting
     source: "the snapshot's own rule; for 2026-11-17 04:00 UTC each of the 159 pairs is the report EIA publishes, to 1 MW (replication/grid/crosscheck_map.csv)" },
   { what: "A region's net exchange",
     rule: "The sum of its pairs, each read as above, zero flows counted as ties. It is not the authority's own total interchange as it files it with EIA: for 2026-11-17 04:00 UTC the two differ by more than 1 MW for 21 of the 60 authorities EIA holds a total for. PJM's pairs sum to 811 MW exported; its own total is 82 MW exported.",

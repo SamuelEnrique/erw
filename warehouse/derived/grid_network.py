@@ -12,9 +12,10 @@ EIA reports), eia930_all_demand and carbon_intensity_hourly:
 
     python warehouse/derived/grid_network.py
 
-The pair rule (each pair counted once): a pair's flow is read from the BA whose code sorts first, as that BA reported
-it (positive = it exported to the other); in an hour it did not report, from the other BA's report with the sign
-flipped. Both BAs' reports are in eia930_all_interchange.
+The pair rule (each pair counted once; the mean of both reports since the ruling on the Grid tool audit of 26 November,
+finding 3): where both BAs reported an hour, the mean of the two, each signed from the side of the BA whose code sorts first,
+(positive = it exported to the other); in an hour one did not report, the other BA's report, signed the same way. Until
+the ruling: the first BA's report alone. Both BAs' reports are in eia930_all_interchange.
 Positions: a 3D force layout computed once per build with a fixed seed (42), links weighted by their mean flow, so the
 page never re-settles them and a reader's mental map holds while the data change.
 """
@@ -42,7 +43,10 @@ HOURS = 168
 ISO = {"CISO": "CAISO", "ERCO": "ERCOT", "ISNE": "ISO-NE", "MISO": "MISO", "NYIS": "NYISO", "PJM": "PJM", "SWPP": "SPP"}
 # EIA reports interchange between its regions and with whole countries too (the same flows, summed): not nodes here
 REGIONS = {"CAL", "CAR", "CENT", "FLA", "MIDA", "MIDW", "NE", "NY", "NW", "SE", "SW", "TEN", "TEX", "US48", "CAN", "MEX"}
-RULE = ("Each pair is counted once: its flow is read from the BA whose code sorts first, as that BA reported it (positive "
+RULE = ("Each pair is counted once: where both BAs reported the hour, its flow is the mean of the two reports, each signed from "
+        "the side of the BA whose code sorts first (positive = it exported to the other); where one reported, that report, signed "
+        "the same way.")
+RULE_UNTIL_RULED = ("Each pair is counted once: its flow is read from the BA whose code sorts first, as that BA reported it (positive "
         "= it exported to the other); in an hour it did not report, from the other BA's report with the sign flipped.")
 
 
@@ -161,7 +165,10 @@ def main():
         x["flow"] = np.where(x["a"] < x["b"], x["value"], -x["value"])
         x["by_first"] = x["a"] < x["b"]
         x = x.sort_values(["first", "second", "ts", "by_first"])
-        pick = x.drop_duplicates(["first", "second", "ts"], keep="last")  # the first BA's report when it exists
+        # wip/ready-grid-netting (the Grid tool audit of 26 November, finding 3, for Samuel's ruling): one rule for the whole tool,
+        # the trade tab's (interchange_pairs.py): a pair-hour reported by both BAs is the mean of the two reports, each signed
+        # from the first BA's side; reported by one, that report
+        pick = x.groupby(["first", "second", "ts"], as_index=False)["flow"].mean()
         n_both = int(x.duplicated(["first", "second", "ts"], keep=False).sum() // 2)
         log(f"window {start} to {end}: {len(x)} reports, {len(pick)} pair-hours ({n_both} reported by both BAs)")
         pairs = sorted(set(zip(pick["first"], pick["second"])))

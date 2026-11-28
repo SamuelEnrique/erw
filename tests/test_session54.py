@@ -110,14 +110,14 @@ class PairRule(unittest.TestCase):
     def test_rule(self):
         nodes = {"ERCO", "SWPP", "CEN", "MISO"}
         rows = [dict(period="2026-09-30T05", fromba="ERCO", toba="SWPP", value="-157"),
-                dict(period="2026-09-30T05", fromba="SWPP", toba="ERCO", value="150"),   # ERCO sorts first: its report wins
+                dict(period="2026-09-30T05", fromba="SWPP", toba="ERCO", value="150"),   # both reported: the mean, -153.5 (wip/ready-grid-netting; ERCO's alone until then)
                 dict(period="2026-09-30T06", fromba="SWPP", toba="ERCO", value="140"),   # only SWPP reported: sign flipped
                 dict(period="2026-09-30T05", fromba="ERCO", toba="CEN", value="189"),
                 dict(period="2026-09-30T05", fromba="MISO", toba="TEX", value="10"),     # a region: left out
                 dict(period="2026-09-30T05", fromba="MISO", toba="XXXX", value="10"),    # not a node: left out
                 dict(period="2026-09-30T05", fromba="MISO", toba="SWPP", value=None)]
         f, left = nh.pair_flows(rows, nodes)
-        self.assertEqual(f[("ERCO", "SWPP")], {"2026-09-30T04:00:00Z": -157.0, "2026-09-30T05:00:00Z": -140.0})
+        self.assertEqual(f[("ERCO", "SWPP")], {"2026-09-30T04:00:00Z": -153.5, "2026-09-30T05:00:00Z": -140.0})
         self.assertEqual(f[("CEN", "ERCO")], {"2026-09-30T04:00:00Z": -189.0})
         self.assertEqual(left, {("MISO", "XXXX")})
         self.assertNotIn(("MISO", "SWPP"), f)

@@ -55,7 +55,7 @@ export function tiesAt(snap: Snapshot, id: string, hour: string): { other: strin
  * The snapshot's pair rule (warehouse/derived/grid_network.py RULE) reads each tie from the balancing authority whose code
  * sorts first, else from the other's report with the sign turned, so a grid's sum is not its own report to EIA (PJM's
  * six ties to CPLE, CPLW, DUK, LGEE, MISO and NYIS are read from the neighbour). */
-export const TIE_SIDE_WORDS = "each tie as the balancing authority first in the alphabet reported it (the other where it filed nothing), so the sum can differ from the grid's own reports to EIA";
+export const TIE_SIDE_WORDS = "each tie as the mean of both balancing authorities' reports where both filed (the one report where only one did), so the sum can differ from the grid's own reports to EIA";   // wip/ready-grid-netting
 
 /** Each BA's net export in an hour: the sum of its ties' flows in the snapshot, signed from its side. */
 export function netExports(snap: Snapshot, hour: string): Map<string, number> {

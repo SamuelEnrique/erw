@@ -29,8 +29,8 @@ The merge, onto the previous snapshot:
   and the tests run it on fixtures.
 - Links: the last 168 hours, ending at the newest complete hour. A pair-hour from this run's pull replaces the same
   pair-hour of the base; hours this run did not pull keep the base's value (or, where the base has none, the other
-  snapshot's). The pair rule is the daily builder's (RULE): each pair once, read from the BA whose code sorts first,
-  else from the other BA's report with the sign flipped. Pairs with a node outside the base's nodes are left out
+  snapshot's). The pair rule is the daily builder's (RULE): each pair once, the mean of both BAs' reports where both
+  reported (each signed from the first BA's side), else the one report. Pairs with a node outside the base's nodes are left out
   (positions never change between daily builds), and so are EIA's regions and country totals.
 - The newest complete hour: the latest hour in which at least 90 percent as many pairs reported as in the median hour
   of the window. EIA's balancing authorities report at different speeds, so the last hours of a pull are partial;
@@ -179,11 +179,12 @@ def pair_flows(rows, nodes):
             continue
         v = float(r["value"]) * (1 if f == a else -1)
         h = hour_of(r["period"])
-        if f == a or (a, b, h) not in pick:  # the first BA's report wins
-            pick[(a, b, h)] = v
+        # wip/ready-grid-netting (the Grid tool audit of 26 November, finding 3, for Samuel's ruling): one rule for the whole
+        # tool, the trade tab's: both BAs' reports of an hour, each signed from the first BA's side, are averaged
+        pick.setdefault((a, b, h), {})[f == a] = v
     flows = {}
-    for (a, b, h), v in pick.items():
-        flows.setdefault((a, b), {})[h] = v
+    for (a, b, h), by in pick.items():
+        flows.setdefault((a, b), {})[h] = sum(by.values()) / len(by)
     return flows, out
 
 
