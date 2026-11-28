@@ -30,6 +30,9 @@ const colKeys = (html) => [...html.matchAll(/<th[^>]*data-sr-col="([^"]+)"/g)].m
 const rowHtml = (html, id) => (html.match(new RegExp(`<tr[^>]*data-sr-row="${id}"[^>]*>([\\s\\S]*?)</tr>`)) ?? ["", ""])[1];
 const cellHtml = (row, key) => (row.match(new RegExp(`<td[^>]*data-sr-cell="${key.replace(/\./g, "\\.")}"[^>]*>([\\s\\S]*?)</td>`)) ?? ["", ""])[1];
 const shown = (raw) => { const x = Number(raw); return Number.isInteger(x) ? x.toLocaleString("en-US") : x.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+// the value check's own rule for a figure's words (scripts/check-values.mjs, textOk): they begin with `shown`; the section
+// writes the value whole, or to two decimals
+const wordsOk = (f) => f.text === shown(f.raw) || (f.text.startsWith(shown(f.raw)) && f.text === Number(f.raw).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 
 // ---- 1. the files main holds -----------------------------------------------------------------------------------------
 delete process.env.ERW_SITING_REGIONS_DIR;
@@ -42,7 +45,7 @@ if (mainIndex.example === true) {
   ok(words(onMain).endsWith("not built yet") && tips(onMain).some((t) => t.startsWith("not built yet: the files on this build are the contract's own examples")), "the section says not built yet, and why on hover: the files are the contract's examples");
 } else {
   ok(onMain.includes('data-sr-state="files"') && rowIds(onMain).length === mainIndex.places.length, `on the data machine's files the table has a row for each of the ${mainIndex.places.length} places`);
-  const bad = figs(onMain).filter((f) => f.text !== shown(f.raw) || pfValue(f.key) !== Number(f.raw));
+  const bad = figs(onMain).filter((f) => !wordsOk(f) || pfValue(f.key) !== Number(f.raw));
   ok(figs(onMain).length > 0 && bad.length === 0, `every figure drawn (${figs(onMain).length}) is its file's own, written whole or to two decimals (${JSON.stringify(bad.slice(0, 2))})`);
 }
 
@@ -60,7 +63,7 @@ ok(open.includes('data-sr-shown="4|4"') && open.includes('data-sr-sorted="name|a
 // every figure: its key leads to the same value in its file, and its words are the value whole or to two decimals
 for (const [query, least] of [["view=allgrids", 20], ["view=allgrids&srcols=" + table.columns.map((c) => c.key).join(","), 60], ["view=allgrids&sropen=op-ercot", 120], ["view=allgrids&sra=op-ercot&srb=op-nyiso", 50], ["view=allgrids&sropen=op-nyiso", 30]]) {
   const f = figs(draw(query));
-  const bad = f.filter((x) => x.text !== shown(x.raw) || pfValue(x.key, FIXTURE) !== Number(x.raw));
+  const bad = f.filter((x) => !wordsOk(x) || pfValue(x.key, FIXTURE) !== Number(x.raw));
   ok(f.length >= least && bad.length === 0, `${query.slice(0, 60)}: each of the ${f.length} figures is its file's own under its key, in the value check's form (${JSON.stringify(bad.slice(0, 2))})`);
 }
 const tex = rowHtml(open, "region-tex");
@@ -119,7 +122,7 @@ ok(index.sections.every((s) => er.includes(`data-sr-section="${s.id}"`)) && (er.
 ok(er.includes('data-check="pf|siting/regions/op-ercot.json|sections/tightness/peak_mw/v" data-raw="85111"') && er.includes('data-check="pf|siting/regions/op-ercot.json|sections/price/hubs/1/p95/v" data-raw="131.25"'), "its counts and its hubs' figures carry keys into its own file");
 ok(er.includes('data-sr-list="congestion.top_by_hours" data-sr-list-rows="10"') && er.includes('data-sr-list="congestion.top_by_cost" data-sr-list-rows="10"') && er.includes("MADE-UP CONSTRAINT 1"), "its top constraints: ten by hours and ten by cost, by the operator's own names");
 ok(er.includes('data-sr-list="imports.partners" data-sr-list-rows="3"') && words(er).includes("Southwest Power Pool (SWPP)"), "its three partners");
-ok(/<a href="https:\/\/example\.org\/made-up-rule-1" rel="noopener" data-sr-source="rule">Made-up Wires Company<\/a>/.test(er) && !er.includes("javascript:"), "a rule that carries its document's address opens it; an address that is not a web address is never a link");
+ok(/<a href="https:\/\/example\.org\/made-up-rule-1" rel="noopener"[^>]*data-sr-source="rule">Made-up Wires Company<\/a>/.test(er) && !er.includes("javascript:"), "a rule that carries its document's address opens it; an address that is not a web address is never a link");
 ok(/href="\/cost-of-power\?view=allgrids&amp;sropen=op-ercot&amp;rule=made-up-rule-3#large-load-rules"[^>]*data-sr-rule="made-up-rule-3"[^>]*>Made-up Power and Light</.test(er) && er.includes('data-sr-rule="made-up-rule-2"'), "a rule that carries its id alone opens the tab's own rule of that id, under the tab's large-load rules");
 ok(tips(er).some((t) => t === "As the rule's document prints it: 75 MW or more at a single site, as the made-up rule prints it") && er.includes('data-check="pf|siting/regions/op-ercot.json|sections/large_load/rules/0/threshold_mw" data-raw="75"'), "a rule's smallest load is the figure, with the document's own words on hover");
 ok(words(er).includes("a made-up contract term that runs on for well over ninety-six characters so that the table... ") && !words(er).includes("so that the table cuts it") &&tips(er).some((t) => t.endsWith("as the tab's own rules table does")), "a document's long words are cut at a word, the whole on hover");
@@ -166,6 +169,8 @@ ok(c0.sort === "name" && c0.dir === "asc" && c0.kind === "all" && !c0.colsChosen
 ok(L.choiceOf({ srcols: "x".repeat(5000) }, table, index).cols.length === 10 && L.choiceOf({ sropen: "op-ercot", sra: "op-ercot", srb: "op-ercot" }, table, index).b === null, "an address is held to what the files offer");
 ok(L.srHref({ view: "grids", mw: "300", "x y": "1", long: "v".repeat(2000) }, { srsort: "price.mean_da" }, null) === "/cost-of-power?view=allgrids&mw=300&srsort=price.mean_da", "an address the section writes: the tab's view, the names it came with, bounded");
 ok(L.figure(85111) === "85,111" && L.figure(204512.5) === "204,512.50" && L.figure(-2.6) === "-2.60" && L.unitWords("pct") === "%" && L.unitWords("count") === "", "a figure whole or to two decimals; a unit as a reader reads it");
+ok(L.figure(60, "USD/MWh") === "60.00" && L.figure(-4, "pct") === "-4.00" && L.figure(3, "years") === "3.00" && L.figure(85111, "MW") === "85,111" && L.figure(312, "hours") === "312" && L.figure(6, "count") === "6", "a price, a share, a count of years or a carbon intensity is written to two decimals always; a megawatt, an hour or a count whole where the file's value is");
+ok(words(cellHtml(rowHtml(all, "op-ercot"), "queue.median_years_to_operation")) === "3.80" && words(cellHtml(rowHtml(all, "ba-soco"), "large_load.smallest_threshold_mw")) === "100" && words(cellHtml(rowHtml(open, "region-tex"), "large_load.rules_n")) === "6", "in the table: years to two decimals, megawatts and counts whole");
 ok(L.heldKind("license needed: x") === "license needed" && L.heldKind("paused: y") === "paused" && L.heldKind("something else") === "not held" && L.heldKind(null) === "not held", "a reason's kind is its first words, or not held");
 ok(L.periodWords("2025-11-01..2026-10-31") === "1 Nov 2025 to 31 Oct 2026" && L.periodWords("2027") === "2027" && L.periodWords(null) === "", "a period in words");
 ok(L.periodWords("the 730 days to 2026-11-25") === "the 730 days to 25 Nov 2026" && L.periodWords("2025-12-31") === "31 Dec 2025" && L.periodWords("2000..2020") === "2000 to 2020" && L.periodWords("summer 2027 (ERCOT's report)") === "summer 2027 (ERCOT's report)"

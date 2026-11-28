@@ -125,9 +125,12 @@ class TheFilesAndTheirRules(unittest.TestCase):
         # scripts/check-values.mjs `shown`: a whole value whole with commas, any other to two decimals; so the section
         # needs no rule of its own there
         lib = src("site", "app", "cost-of-power", "regions.ts")
-        self.assertIn('export const figure = (v: number): string => (Number.isInteger(v) ? v.toLocaleString("en-US") : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));', lib)
+        self.assertIn('export const figure = (v: number, unit?: string | null): string => (Number.isInteger(v) && !(unit && DECIMAL_UNITS.has(unit)) ? v.toLocaleString("en-US") : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));', lib)
+        self.assertIn('const DECIMAL_UNITS = new Set(["USD/MWh", "pct", "years", "kgCO2/MWh"]);', lib)
         check = src("site", "scripts", "check-values.mjs")
         self.assertIn('return Number.isInteger(x) ? x.toLocaleString("en-US") : x.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });', check)
+        # the check passes words that begin with `shown`: "60.00" for a whole 60 begins with "60"
+        self.assertIn("text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString(\"en-US\") : shown(raw))", check)
         self.assertIn('"/cost-of-power?view=allgrids"', check)
 
     def test_the_trace_names_the_folder_and_the_old_line_stands(self):

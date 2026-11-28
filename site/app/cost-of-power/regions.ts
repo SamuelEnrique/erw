@@ -48,6 +48,8 @@ export const placeFile = (file: string): string | null => (/^[a-z0-9][a-z0-9-]{0
 export const KINDS: Kind[] = ["region", "operator", "ba"];
 export const KIND_WORDS: Record<Kind, string> = { region: "Region", operator: "Market operator", ba: "Balancing authority" };
 export const KIND_PLURAL: Record<Kind, string> = { region: "regions", operator: "market operators", ba: "balancing authorities" };
+/** A row's kind in a word, beside its name. */
+export const KIND_SHORT: Record<Kind, string> = { region: "region", operator: "operator", ba: "authority" };
 export const KIND_TIP: Record<Kind, string> = {
   region: "One of the 13 regions the Energy Information Administration (EIA) groups the balancing authorities into; its counts are its member authorities', summed where a count is a sum.",
   operator: "One of the seven market operators (CAISO, ERCOT, SPP, MISO, PJM, NYISO, ISO-NE), by its own authority and its own published tables.",
@@ -130,9 +132,13 @@ export function colsChange(keys: string[], columns: Column[]): Partial<Record<Pa
 
 // ---- a figure as the section writes it ------------------------------------------------------------------------------
 
-/** A number as the page writes it: whole with commas when the file's value is whole, else two decimals. This is the
- *  form scripts/check-values.mjs expects of a figure it has no rule for (its `shown`), so the section adds none. */
-export const figure = (v: number): string => (Number.isInteger(v) ? v.toLocaleString("en-US") : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+/** The units whose figures are written to two decimals always, so a column of prices or shares reads in one form
+ *  ("60.00" under "60.33", never "60"). A megawatt, an hour, a day or a count is whole where the file's value is. */
+const DECIMAL_UNITS = new Set(["USD/MWh", "pct", "years", "kgCO2/MWh"]);
+/** A number as the page writes it: whole with commas when the file's value is whole and its unit is not a decimal
+ *  one, else two decimals. Both are forms scripts/check-values.mjs passes for a figure it has no rule for (the words
+ *  begin with its `shown`: the value whole when it is whole, else to two decimals), so the section adds no rule there. */
+export const figure = (v: number, unit?: string | null): string => (Number.isInteger(v) && !(unit && DECIMAL_UNITS.has(unit)) ? v.toLocaleString("en-US") : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 /** A unit as a reader reads it beside a figure or in a column's head. */
 export const unitWords = (unit: string | null | undefined): string => (!unit || unit === "count" ? "" : unit === "pct" ? "%" : unit === "kgCO2/MWh" ? "kg CO2/MWh" : unit);
 /** A time the file gives in UTC ("2026-08-20T21:00:00Z") as the site writes one. */
