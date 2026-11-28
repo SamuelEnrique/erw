@@ -43,6 +43,9 @@ export type Input = {
   transport?: number;                       // Louisiana oil and condensate: trucking, barging and pipeline, USD per bbl
   option?: { id: string; param?: number; tierPct?: number; period?: string };  // one rate-group option
   credit?: { id: string; tierPct?: number; period?: string };                   // one credit-group option (Texas oil)
+  // ruling alternative 3 of /severance (wip/alt-severance-3, not a default on main): gas priced per MMBtu, each Mcf taken
+  // as this many MMBtu (1.034, EIA's heat content as /impact uses it); absent: one Mcf is one MMBtu (main's rule)
+  mmbtuPerMcf?: number;
 };
 export type Line = { id: string; name: string; rate: number; basis: string; tax: number; cite: string };
 export type Result = {
@@ -78,7 +81,7 @@ export function compute(rules: Rules, x: Input): Result {
   const st = rules.states[x.state];
   const p = st?.products[x.product];
   if (!p) throw new Error(`no rules for ${x.state} ${x.product}`);
-  const gross = x.volume * x.price;
+  const gross = x.volume * x.price * (x.product === "gas" && x.mmbtuPerMcf ? x.mmbtuPerMcf : 1);   // wip/alt-severance-3
   // the deductions each state's rule states: Louisiana's transport on oil and condensate, New Mexico's royalties and trucking
   let taxable = gross;
   const vd = st.value_deduction;

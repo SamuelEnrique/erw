@@ -4,6 +4,10 @@
 import { useMemo, useState } from "react";
 import { Tip } from "@/components/tool/ToolPage";
 import { compute, type Input, type Option, type Rules } from "@/lib/severance";
+import gasData from "@/data/forecast/gas.json";
+
+// ruling alternative 3 (wip/alt-severance-3, not a default on main): one Mcf is 1.034 MMBtu, the heat content /impact uses
+const MMBTU_PER_MCF = gasData.btu_per_cf / 1000;
 
 const usd = (v: number) => `$${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const pct = (r: number) => `${(r * 100).toLocaleString("en-US", { maximumFractionDigits: 4 })}%`;
@@ -67,7 +71,7 @@ export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: num
     setPrice((np === "gas" ? prices.gas : prices.oil) ?? "");
   };
   const x: Input = {
-    state, product, volume, price: typeof price === "number" ? price : 0, variant, choice, adval, royaltyPct, trucking, transport,
+    state, product, volume, price: typeof price === "number" ? price : 0, variant, choice, adval, royaltyPct, trucking, transport, mmbtuPerMcf: MMBTU_PER_MCF,
     option: option ? { id: option, param: param[option], tierPct: tier[option], period: period[option] ?? latest(option) } : undefined,
     credit: credit ? { id: credit, tierPct: tier[credit] ?? 0, period: period[credit] ?? latest(credit) } : undefined,
   };
@@ -116,9 +120,21 @@ export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: num
             </span>
             <input id="sev-volume" type="number" min={0} value={volume} onChange={(e) => setVolume(Math.max(0, Number(e.target.value)))} className={field} />
           </div>
-          <label className="flex flex-col">Price, USD per {prod.unit}
-            <input type="number" min={0} step="0.01" value={price} onChange={(e) => setPrice(e.target.value === "" ? "" : Number(e.target.value))} className={field} />
-          </label>
+          {kind === "gas" ? (
+            <div className="flex flex-col" data-mmbtu-per-mcf={MMBTU_PER_MCF}>
+              <span><label htmlFor="sev-price">Price, USD per MMBtu</label>
+                <Tip id="sev-mmbtu-per-mcf" label="the price per MMBtu and the Mcf">
+                  <span className="block">Gas is priced per MMBtu (Henry Hub) and taxed per Mcf: each Mcf is taken as {MMBTU_PER_MCF.toLocaleString("en-US", { maximumFractionDigits: 3 })} MMBtu, the heat content of natural gas ({gasData.btu_per_cf.toLocaleString("en-US")} Btu a cubic foot), as the forecast tool prices it. A tax that is a percent of value moves with it; a tax per Mcf (Louisiana&apos;s) does not.</span>
+                  <span className="block">Default on the site: one Mcf priced as one MMBtu. Source: EIA, Heat Content of Natural Gas Consumed, U.S., Electric Power, {gasData.btu_per_cf_source.year}.</span>
+                </Tip>
+              </span>
+              <input id="sev-price" type="number" min={0} step="0.01" value={price} onChange={(e) => setPrice(e.target.value === "" ? "" : Number(e.target.value))} className={field} />
+            </div>
+          ) : (
+            <label className="flex flex-col">Price, USD per {prod.unit}
+              <input type="number" min={0} step="0.01" value={price} onChange={(e) => setPrice(e.target.value === "" ? "" : Number(e.target.value))} className={field} />
+            </label>
+          )}
         </div>
         <p className="text-xs text-muted">Default price (an assumption, edit it): {kind === "gas" ? prices.label.gas : prices.label.oil}. A hub price is not the value at the well, which is what the states tax.</p>
         {la && product === "oil" ? (
