@@ -143,3 +143,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 05:25 UTC (session 10603): rebuild 19 at 8 of 64; `ahead_more.json` rebuild at 2 of 35.
 - 05:52 UTC (session 10603): rebuild 19 at 24 of 64; `ahead_more.json` rebuild at 7 of 35; rows 12 and 13 still requested.
 - 06:11 UTC (session 10603): rebuild 19 at 36 of 64; `ahead_more.json` rebuild at 11 of 35.
+- 06:30 UTC (session 10603): rebuild 19 at 48 of 64; `ahead_more.json` rebuild at 15 of 35.
