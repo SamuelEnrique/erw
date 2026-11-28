@@ -1,6 +1,6 @@
 # Chain 780, the portable laptop: the All grids tab's new section, and the browser read of 28 November (note for Samuel)
 
-Energy Research Warehouse (ERW). Kept current through the night; state at 13:15 UTC on 28 November 2026. Session 11600. The chain's first commit was at 10:37 UTC; it stops twelve hours after. Step by step: `docs/state/progress_c780.md`. The read: `docs/reviews/browser-read-2026-11-28.md`. The report: `archive/sessions/SESSION_11600_REPORT.md`.
+Energy Research Warehouse (ERW). Kept current through the night; state at 13:35 UTC on 28 November 2026. Session 11600. The chain's first commit was at 10:37 UTC; it stops twelve hours after. Step by step: `docs/state/progress_c780.md`. The read: `docs/reviews/browser-read-2026-11-28.md`. The report: `archive/sessions/SESSION_11600_REPORT.md`.
 
 ## 1. The new section: "Where the next gigawatts can go"
 
@@ -39,7 +39,7 @@ Energy Research Warehouse (ERW). Kept current through the night; state at 13:15 
 - **A link from a hover to the publisher's report** is drawn where the file gives an address: the place's own operator's for a table of several publishers. The first files gave one address a source, the wrong document for most places; the desktop corrected it at 12:10 UTC (data request 586). Where a file gives none, the source is in words.
 - **No score, no rank, no advice, no colour.** No map: the site has none of the regions to reuse.
 
-**Seen:** six builds, at 1280 px with a mouse and 390 px with a finger, on a copy of the desktop's branch files kept on this laptop and never committed; the keyboard alone from the top of the tab to its foot. An accessibility audit of the section found no violation.
+**Seen:** seven builds, at 1280 px with a mouse and 390 px with a finger, on a copy of the desktop's branch files kept on this laptop and never committed; the keyboard alone from the top of the tab to its foot. An accessibility audit of the section found no violation.
 
 ## 2. A fault of the whole tab, found on the way and mended: the back button
 
@@ -57,7 +57,7 @@ Read on production at 1280 and 390 px. In full: `docs/reviews/browser-read-2026-
 - **The held grids' price files:** all 44 answer "not found" to a visitor.
 - **The Grid tool on a phone is 506 px wide** on ten addresses, under a note that prints a failed run's raw error text; its newest whole day is 24 November (data request 587). The width is mended on a branch (landing row 70); the note's words are the desktop's.
 - **Chart labels printed over each other** on three pages: the datacenter tracker's Grids view, the datacenter page's "Cost by year" on a phone, and the Clean view's heat map on a phone. Each is mended at its cause on a branch (landing rows 71 and 72). Pictures before and after are in the review's folder.
-- **Every bar chart of one kind is shrunk to the screen on a phone,** its figures under 6 px (the datacenter tracker's Grids view, a company's page, the seller tab, the capital page, demand growth). The brand's rule for a phone stopped reaching it when the chart got its hover. Mended on a branch.
+- **Every bar chart of one kind is shrunk to the screen on a phone,** its figures under 6 px (the datacenter tracker's Grids view, a company's page, the seller tab, the capital page, demand growth). The brand's rule for a phone stopped reaching it when the chart got its hover. Mended on a branch (landing row 73): 600 px wide in a frame that scrolls, its figures readable.
 - **The site's own figure check, run whole:** 15,217 of 15,244 match; the rest were of the hour or are a floor to lower (`/policy`).
 - **The first minute:** every one of the 54 addresses of the menu, the home page, the foot and the tour answers.
 
@@ -71,5 +71,6 @@ Read on production at 1280 and 390 px. In full: `docs/reviews/browser-read-2026-
 - **Figures worked out from held grids' prices, in two public files** (a problem edition's data file of 15 October, and a finding's file): the same question as line 14 of the read of 26 November.
 - **What `/forecast` calls the day it draws when that day is not tomorrow.** Today: "Tomorrow".
 - **A small company's revenue on `/equities`** when it is under half a million dollars. Today: "0".
-- **Keyboard stops:** the new section adds 322 to a tab that had more than 500; `/equities` has 662 before its foot.
-- **A chart of twelve names or fewer on a phone, when the names are wider than its columns.** Today on production: all printed over each other. On the branch: every second name written, the rest in the hover and the Table switch.
+- **Keyboard stops:** the new section adds about 320 to a tab that had more than 500; `/equities` has 662 before its foot.
+- **A chart of twelve names or fewer on a phone, when two neighbouring names meet.** Today on production: printed over each other. On the branch: every second name written, the rest in the hover and the Table switch.
+- **Five mends on pages this laptop does not own tonight** (the Grid tool's width, two charts' labels, the bars' figures, the bar chart's width on a phone). The chain says such a fault is a row for its owner; each is that, and each also has a branch and a landing row (70 to 73). Nothing of them is on main. Say "drop them" and the desk leaves the rows.
