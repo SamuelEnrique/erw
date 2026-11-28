@@ -28,6 +28,21 @@ if not os.path.isdir(READS):  # a worktree beside the window's folder: the reads
 UNITS = {"billion": 1e9, "million": 1e6, "gigawatts": 1000.0, "gigawatt": 1000.0, "gw": 1000.0,
          "megawatts": 1.0, "megawatt": 1.0, "mw": 1.0,
          "b": 1e9, "m": 1e6}  # session 10822: Meta's info sheets write "$1.5B+" and "$2.6M+"
+# Decision 27, the cap (docs/methods/forecast.md 13.4): one company gives at most COMPANY_CAP rows to any median, its
+# newest documents first. A company is its name's first word, Facebook read as Meta ("Facebook (Meta)", "Meta Platforms
+# (Vemerald)" and "Meta" are one company; "Amazon Web Services" and "Amazon" one). Two: uncapped, no company but Meta
+# gives more than two rows to the construction median (Amazon two), and none gives more than two to the size, investment
+# and jobs per MW medians, which a cap of two leaves as they are; Meta gives fifteen to the construction median and
+# nineteen, with Amazon thirteen, to the permanent jobs per billion.
+COMPANY_CAP = 2
+PARENTS = {"facebook": "meta"}
+
+
+def parent(company):
+    first = re.sub(r"[^a-z0-9]", "", company.split()[0].lower())
+    return PARENTS.get(first, first)
+
+
 WORDS = {"a": 1, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5}  # a number written as a word, only before a unit
 
 
@@ -129,6 +144,26 @@ def main(argv):
         if cons and inv25 and not gen:
             cons_bn.append((r["id"], cons["value"] / (inv25 / 1e9)))
 
+    # decision 27, the cap (session 11405, readied for Samuel's ruling): one company gives at most COMPANY_CAP rows to a
+    # median, its newest documents; the rows it does not give stay in the list and the picker
+    rows_by_id = {r["id"]: r for r in data["rows"]}
+    capped_out = {}
+
+    def cap(key, pairs):
+        newest = sorted(pairs, key=lambda p: (rows_by_id[p[0]]["doc"]["date"], p[0]), reverse=True)
+        kept, count = [], {}
+        for p in newest:
+            c = parent(rows_by_id[p[0]]["company"])
+            count[c] = count.get(c, 0) + 1
+            if count[c] <= COMPANY_CAP:
+                kept.append(p)
+            else:
+                capped_out.setdefault(key, []).append(p[0])
+        return kept
+
+    mws, inv_mw, perm_mw = cap("mw_stated", mws), cap("investment_per_mw", inv_mw), cap("permanent_jobs_per_mw", perm_mw)
+    perm_bn, cons_bn = cap("permanent_jobs_per_billion", perm_bn), cap("construction_jobs_per_billion", cons_bn)
+
     out = {
         "about": "Announced datacenters and the defaults /impact offers a datacenter from them (docs/methods/forecast.md, the datacenter sections). Each row is one named project and one public document, every figure with the document's words. The defaults are medians over the rows that state both figures, each with its count, lowest and highest; a reader changes any of them. The MW of the rows measure different things (IT capacity, critical IT, critical grid capacity, power required), kept in each row; construction jobs are headcounts as announced (at peak where the document says so), never job-years.",
         "source": "warehouse/forecast/datacenter_announced_rows.json, transcribed by chain 740 (lab-desktop window 3) from the documents named in each row, read 2026-11-26 (runs/c740/probe/probe.csv requests on lab-desktop)",
@@ -147,6 +182,7 @@ def main(argv):
             "construction_jobs_per_billion": stat("Construction jobs per billion dollars", "construction jobs (headcount as announced) per USD billion (2025)", cons_bn,
                                                   "construction jobs as announced over the investment; at peak or period not stated, as each row says"),
         },
+        "capped_out": {"cap": COMPANY_CAP, "rows": capped_out, "why": "one company gives at most this many rows to a median, its newest documents; the others stay in the list and the picker (docs/methods/forecast.md, decision 27)"},
         "rows": data["rows"],
     }
     if "--check" in argv:

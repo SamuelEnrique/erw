@@ -43,7 +43,7 @@ export type DcRule = {
 };
 /** The parameter files the datacenter reads (site/data/forecast/): the page and check-values load them */
 export type DcParams = {
-  announced: { defaults: Record<"mw_stated" | "investment_per_mw" | "permanent_jobs_per_mw" | "permanent_jobs_per_billion" | "construction_jobs_per_billion", Stat>; computed?: string };
+  announced: { defaults: Record<"mw_stated" | "investment_per_mw" | "permanent_jobs_per_mw" | "permanent_jobs_per_billion" | "construction_jobs_per_billion", Stat>; computed?: string; capped_out?: { cap: number; rows: Record<string, string[]>; why: string } };
   rules: {
     split: { land_pct: number; building_pct: number; equipment_pct: number; other_pct: number; words: string };
     refresh: { years: number; words: string }; build: { months: number; words: string }; life: { years: number; words: string };
