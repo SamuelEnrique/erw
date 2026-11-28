@@ -100,6 +100,11 @@ Read with `runs/c780/b_impact.mjs` (after chain 750's `c_impact_dc4.mjs`): each 
 
 Pictures: `docs/reviews/browser-read-2026-11-28/impact/impact-datacenter-an-announced-project-1280.png` (its most telling choice: a campus picked, its document named); `impact-coal-as-it-opens-1280.png`, `impact-biopower-as-it-opens-1280.png`, `impact-csp_trough-as-it-opens-1280.png`.
 
+## The board's equities group and the two waiting problem sets (list rows 2 and 3), 12:19 UTC
+
+- **`/board#equities`** at 1280 and 390 px (`runs/c780/peek_board.ps1`): the group "Energy equities" draws 30 rows, as its file holds (`site/data/equities/board.json`, 30 rows, every one not held). Each is the board's own blank, "not held yet", with the reason on hover ("license needed: no source found whose terms allow the ERW to keep daily share prices or index levels"); no row carries a figure; the page is no wider than the screen at 390 px. The board's other groups passed the site's own figure check in the whole run above.
+- **`/learn/problems/a-producer-beside-the-price-of-oil`** (row 65 of chain 720, landed 27 November) and **`/learn/problems/a-forecasts-report-card`**: each opens clean at both widths in the sweep (one h1, no skipped heading, no sideways scroll); the site's figure check passes 24 and 21 marked figures on them. Neither is linked from the list of sets (`/learn/problems`: 70 links, none to either): both wait for Samuel's word, as chain 720's note says.
+
 ## The site's own figure check, run whole on production (10:51 to 10:58 UTC, and again at 11:20 UTC)
 
 Chain 750 left this not run whole (it was stopped for memory on 26 November). `site/scripts/check-values.mjs` opens no browser: it reads each of its 173 addresses in the internal view and works each marked figure out again from Supabase or from the page files (`runs/c780/check_values.ps1`).
