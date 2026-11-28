@@ -4,7 +4,7 @@ import { AutoSubmitSelect } from "@/components/AutoSubmit";
 import { Hint } from "@/components/demand/Hint";
 import { HeadlineNumber, HeadlineRow, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { TableDownloads } from "@/components/tool/TableDownloads";
-import { ORDERS, figure, measures, ordered, publishers, readAiFile, type AiFile, type Order } from "@/lib/aienergy";
+import { ORDERS, figure, measures, ofMeasure, ordered, publishers, readAiFile, type AiFile, type Order } from "@/lib/aienergy";
 import raw from "@/data/ai_energy.json";
 import { AiEnergyDecisions } from "./Decisions";
 
@@ -31,7 +31,7 @@ export default async function AiEnergyPage({ searchParams }: { searchParams: Pro
   const all = measures(F.rows);
   const m = one(q, "m");
   const measure = m && all.includes(m) ? m : "all";
-  const rows = ordered(measure === "all" ? F.rows : F.rows.filter((r) => r.x_measures === measure), order);
+  const rows = ordered(measure === "all" ? F.rows : ofMeasure(F.rows, measure), order);
   const pubs = new Set(F.rows.map((r) => r.x_title)).size;
   const peer = new Set(F.rows.filter((r) => r.x_publisher_kind === "peer-reviewed paper").map((r) => r.x_title)).size;
   const newest = [...F.rows].sort((a, b) => b.event_date.localeCompare(a.event_date))[0];

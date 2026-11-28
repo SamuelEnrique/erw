@@ -38,9 +38,21 @@ export function ordered(rows: AiRow[], order: Order): AiRow[] {
   return [...rows].sort(by[order]);
 }
 
-/** The measures as the rows word them, each once, A to Z. */
+/** A measure's words before its parenthesis: "energy of a fleet in a year (electricity, data centers)" is "energy of a
+ *  fleet in a year". Session 11407 (chain 770, the ruling readied for finding 7 of
+ *  docs/reviews/ai-energy-model-audit-2026-11-26.md): the filter groups on these words; the row keeps its qualifier. */
+export function measureGroup(m: string): string {
+  return m.split(" (")[0].trim();
+}
+
+/** The measures the filter offers, each once, A to Z: the words before the parenthesis. */
 export function measures(rows: AiRow[]): string[] {
-  return [...new Set(rows.map((r) => r.x_measures))].sort((a, b) => a.localeCompare(b));
+  return [...new Set(rows.map((r) => measureGroup(r.x_measures)))].sort((a, b) => a.localeCompare(b));
+}
+
+/** The rows a choice of "What is measured" shows: every row whose measure, before its parenthesis, is the choice. */
+export function ofMeasure(rows: AiRow[], m: string): AiRow[] {
+  return rows.filter((r) => measureGroup(r.x_measures) === m);
 }
 export function publishers(rows: AiRow[]): string[] {
   return [...new Set(rows.map((r) => r.parties))].sort((a, b) => a.localeCompare(b));
