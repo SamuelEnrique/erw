@@ -221,6 +221,11 @@ review list: a flag needs no ruling to be the day's chart, and being the day's c
 - A flag is a statement about the table: this value against that history. It is not a statement about the world until
   a person has read the rows. The first run's 17 flags held one artifact (a retail price that is a ratio over a handful
   of customers) and three that a later revision must settle.
+- How many flags chance gives (since the ruling on the Automated Analysis audit of 26 November, finding 10): each run's
+  `scan_summary.json` holds `flags_expected_by_chance`, the flags the three single-series rules would raise in a scan of
+  as many series with nothing in them, by kind of series (`findings_scanner.CHANCE_SHARE`, measured on 3,000 simulated
+  series of each kind through the rules themselves): for 6,797 series, about 4.5 if days are independent, 29.5 if they
+  persist and 36.3 if their tails are fat, before the cap of 12 drafts a day. A reviewer weighs a day's flags against it.
 - A record of a monthly series is a record of what the publisher has released; EIA revises its newest months.
 - The pair rule tests whether two series parted, not why.
 

@@ -825,8 +825,22 @@ def scan(in_dir, cfg, scan_date=None, meta_dir=None, tables=None, log=print, ext
                "not_scanned": [{"table": n, "reason": r} for n, r in skipped], "public_tables_not_series": not_series, **stats,
                "repeats_by_lineage": by_lineage,
                "flags_raised": len(raised), "flags_suppressed_by_known_faults": len(suppressed), "drafts": len(drafts),
-               "by_rule": {r: sum(1 for f in raised if f["rule"] == r) for r in RULES}, "seconds": round(time.time() - t0, 1), "computed_at": common.now_iso()}
+               "by_rule": {r: sum(1 for f in raised if f["rule"] == r) for r in RULES},
+               "flags_expected_by_chance": chance_flags(stats["series_scanned"]),
+               "seconds": round(time.time() - t0, 1), "computed_at": common.now_iso()}
     return [clean(f) for f in raised], [clean(f) for f in suppressed], drafts, summary
+
+
+# wip/ready-analysis-chance (the Automated Analysis audit of 26 November, finding 10, for Samuel's ruling): the share of
+# series the three single-series rules flag in one scan when nothing is in them, measured on 3,000 simulated daily series
+# of each kind through the engine's own rules (the audit's a6): independent lognormal days, persistent days (log AR(1),
+# rho 0.9) and fat-tailed days (t, 3 degrees of freedom)
+CHANCE_SHARE = {"independent days": 0.00066, "persistent days": 0.00434, "fat-tailed days": 0.00534}
+
+
+def chance_flags(n_series):
+    """The flags a scan of n_series series would raise by chance alone, by kind of series, before the cap on drafts."""
+    return {k: round(v * n_series, 1) for k, v in CHANCE_SHARE.items()}
 
 
 def clean(fl):
