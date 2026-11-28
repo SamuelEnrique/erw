@@ -79,3 +79,5 @@ Line 1 grew by one page: `/queues`' three charts give a year's figure only as th
 - **Window A's desk:** rows 4, 5 and 6 of `docs/state/landing_request_portable_w2.md` are requested (rows 1, 2 and 3 landed at 14:16 UTC).
 - **Window C:** rows I1 to I5 of the review. **The old laptop and window A:** rows CP1, CP2 and R1.
 - **This window:** `/forecast`, `/equities` and the board's new group as they land, then the first minute once more with tonight's pages in the menu and the tour.
+
+**Closed on 28 November 2026 at 10:38 UTC by chain 780 (session 11600):** its fix rows 1 to 10 have all landed; this chain's resume file is removed from `queue/next/`, and what it left open is listed under "Taken over" in `docs/state/progress_c780.md`.
