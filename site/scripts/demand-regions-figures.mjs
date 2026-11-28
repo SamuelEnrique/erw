@@ -110,6 +110,8 @@ if (args[0] === "--fixture") {
   // the view at one address, as the site's own component draws it from the files, written as HTML (for a test, or to read)
   const C = await import("../lib/countrydemand.ts");
   const V = await import("../components/demand/Country.tsx");
+  // session 11405 (decision 8 readied): drawn with the regions hold stood aside, so every region's arithmetic is checked; the hold itself is tests/test_ready_eia_held_regions.py's
+  V.REGIONS_HELD.splice(0);
   if (!args[1]) { console.error("usage: demand-regions-figures.mjs --draw <out.html> [--address a=tex&b=ba-erco]"); process.exitCode = 2; }
   else {
     const q = Object.fromEntries(new URLSearchParams(opt("--address") ?? ""));
@@ -124,6 +126,8 @@ if (args[0] === "--fixture") {
   const F = await import("../lib/countryfiles.ts");
   const W = await import("../lib/demandweather.ts");
   const V = await import("../components/demand/Country.tsx");
+  // session 11405 (decision 8 readied): drawn with the regions hold stood aside, so every region's arithmetic is checked; the hold itself is tests/test_ready_eia_held_regions.py's
+  V.REGIONS_HELD.splice(0);
 
   const index = C.regionsIndex();
   const read = new Map();

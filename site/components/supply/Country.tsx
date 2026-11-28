@@ -32,8 +32,11 @@ export const FIRST_B = REGION_CODES[1];
 
 /** The regions held under license in this section: none. EIA's Form EIA-930 is public domain, each file's own license
  *  line says public, and the status file (data/license_status.json) is read for each table a file names. A code put
- *  here is drawn as blank cells with "license needed" on hover (for the owner's ruling: session 8430's report). */
-export const REGIONS_HELD: string[] = [];
+ *  here is drawn as blank cells with "license needed" on hover (for the owner's ruling: session 8430's report).
+ *  Session 11405 (chain 770, part C, decision 8 of the weekend page of 28 November; not a default until the owner rules
+ *  "yes"): the owner's hold reaches EIA's own rows for New York, New England and the Midwest, the regions of NYISO,
+ *  ISO-NE and MISO, so the three are held here, their balancing authorities with them. */
+export const REGIONS_HELD: string[] = ["MIDW", "NE", "NY"];
 /** What the files hold and the section does not draw until the owner rules: each balancing authority's net imports as
  *  a share of its demand (trade_matrix.json, partners). True draws the column. */
 export const SHOWN = { importShare: false };

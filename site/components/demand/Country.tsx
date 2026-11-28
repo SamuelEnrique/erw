@@ -45,6 +45,17 @@ export function heldWhyOf(file: { tables?: string[]; license?: string }): string
   return null;
 }
 
+/** Session 11405 (chain 770, part C, decision 8 of the weekend page of 28 November; not a default until the owner rules
+ *  "yes"): the regions held under license in this view, as the events pages' section and /supply's hold them
+ *  (app/events/WholeCountry.tsx and components/supply/Country.tsx, REGIONS_HELD). The owner's hold reaches EIA's own rows
+ *  for New York, New England and the Midwest, the regions of NYISO, ISO-NE and MISO: the region and each balancing
+ *  authority EIA places in it are drawn "license needed", as a held file is. */
+export const REGIONS_HELD: string[] = ["MIDW", "NE", "NY"];
+export function regionHeldWhy(place: Place, index: IndexFile | null): string | null {
+  const region = place.level === "region" ? place.code : baOf(index, place.code)?.region ?? null;
+  return region && REGIONS_HELD.includes(region) ? `${LICENSE_NEEDED}: EIA's figures of ${REGION_NAME[region] ?? region} are held in this view until the owner rules` : null;
+}
+
 const N = ({ k, children }: { k: string; children: string }) => <span data-n={k}>{children}</span>;
 const NOT = ({ why }: { why: string }) => <span className="cursor-help text-muted" title={why} data-not-held="1">not held</span>;
 const Held = ({ why }: { why: string }) => <span className="inline-block min-w-8 cursor-help" title={why} data-license-held="1" aria-label={LICENSE_NEEDED}>&nbsp;</span>;
@@ -109,7 +120,7 @@ function slotOf(mark: "a" | "b", place: Place, index: IndexFile | null, fileOf: 
     }
     return { mark, place, key, name, file: null, state: "not-built", why: `The file of ${name} (site/data/regions/${placeFilePath(place)}) is written by the data machine from EIA's Form EIA-930 and is not on the site yet; until it is, no figure is drawn here.`, area: null, period: null };
   }
-  const why = heldWhyOf(file);
+  const why = heldWhyOf(file) ?? regionHeldWhy(place, index);
   return { mark, place, key, name, file, state: why ? "held" : "drawn", why: why ?? "", area: areaOf(file), period: file.growth ? periodOf(file.growth) : null };
 }
 

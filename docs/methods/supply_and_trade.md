@@ -253,8 +253,11 @@ the pin, with the clock standing still, so a weekly rebuild of `site/data/supply
   in `site/components/supply/Country.tsx`, `SHOWN.importShare`).
 - **Licenses.** Each file's own `license` line and the status of each table it names
   (`site/data/license_status.json`) are read. EIA's Form EIA-930 is public domain and the contract gives every file as
-  public, so every region is drawn. A file that is not public, or a region put on hold (`REGIONS_HELD` in the same
-  component), is drawn with blank cells and "license needed" on hover, and no chart.
+  public. A file that is not public, or a region put on hold (`REGIONS_HELD` in the same component), is drawn with
+  blank cells and "license needed" on hover, and no chart. Three regions are on hold: New York, New England and the
+  Midwest (the regions of NYISO, ISO-NE and MISO), with their balancing authorities, by the owner's ruling that his
+  hold reaches EIA's own rows for them (decision 8 of the weekend page of 28 November 2026). The same three are held
+  in "The whole country" of each event page and in the view of the country on /demand.
 - **Where the code is:** `site/lib/countrytrade.ts` (the types, the readers and the sums),
   `site/components/supply/Country.tsx` (the views), `site/scripts/test-supply-regions.mjs` and
   `site/scripts/regions-fixture-trade.mjs` (the test and its fixtures, whose values are made by a rule and are not

@@ -276,7 +276,7 @@ class TheSource(unittest.TestCase):
         self.assertIn("export const abroadWhy = ", code)
         self.assertIn("files Form EIA-930: a flow across the border stands by the report of the balancing authorities of the United States alone.", code)
         self.assertIn("export const SHOWN = { importShare: false };", code)
-        self.assertIn("export const REGIONS_HELD: string[] = [];", code)
+        self.assertIn('export const REGIONS_HELD: string[] = ["MIDW", "NE", "NY"];', code)
         self.assertIn('"/supply": "review"', src("site", "lib", "release.ts"))
 
     def test_the_read_names_its_reader_its_cases_and_what_waits(self):

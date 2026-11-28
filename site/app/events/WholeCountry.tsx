@@ -26,8 +26,11 @@ export type PageProps = { searchParams?: Promise<Query> };
 
 /** The regions held under license on these pages: none. EIA's Form EIA-930 is public domain, the file's own license
  *  line says public, and the status file (data/license_status.json) is read for each table the file names. A code put
- *  here is drawn as a blank cell with "license needed" on hover (for the owner's ruling: session 8410's report). */
-export const REGIONS_HELD: string[] = [];
+ *  here is drawn as a blank cell with "license needed" on hover (for the owner's ruling: session 8410's report).
+ *  Session 11405 (chain 770, part C, decision 8 of the weekend page of 28 November; not a default until the owner rules
+ *  "yes"): the owner's hold reaches EIA's own rows for New York, New England and the Midwest, the regions of NYISO,
+ *  ISO-NE and MISO, so the three are held here. */
+export const REGIONS_HELD: string[] = ["MIDW", "NE", "NY"];
 
 /** Why a file is held, or null: its own license line is not "public", or a table it names is "license needed". */
 export function heldWhy(file: EventRegionsFile): string | null {

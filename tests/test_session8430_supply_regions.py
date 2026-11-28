@@ -161,7 +161,7 @@ class TheSource(unittest.TestCase):
             self.assertNotIn(word, shown)
         # the share of demand the matrix file holds is not drawn until the owner rules
         self.assertIn("export const SHOWN = { importShare: false };", src("site", "components", "supply", "Country.tsx"))
-        self.assertIn("export const REGIONS_HELD: string[] = [];", src("site", "components", "supply", "Country.tsx"))
+        self.assertIn('export const REGIONS_HELD: string[] = ["MIDW", "NE", "NY"];', src("site", "components", "supply", "Country.tsx"))
 
     def test_the_large_gap_is_a_default_said_with_its_source(self):
         self.assertIn("export const LARGE_GAP_PCT = 10;", src("site", "lib", "countrytrade.ts"))

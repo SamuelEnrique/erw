@@ -27,6 +27,8 @@ if (args[0] === "--fixture") {
 } else {
   const C = await import("../lib/countryfiles.ts");
   const W = await import("../app/events/WholeCountry.tsx");
+  // session 11405 (decision 8 readied): drawn with the regions hold stood aside, so every region's arithmetic is checked; the hold itself is tests/test_ready_eia_held_regions.py's
+  W.REGIONS_HELD.splice(0);
   const figs = (html) => Object.fromEntries([...html.matchAll(/<span data-n="([^"]+)">([^<]*)<\/span>/g)].map((m) => [m[1], m[2]]));
   const out = { what: "The figures of the section The whole country and of the index's line of regions, as the site's own code draws them from each event's file.", threshold_pct: C.REACHED_PCT, events: {} };
   for (const event of EVENTS) {

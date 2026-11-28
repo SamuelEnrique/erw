@@ -10,6 +10,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { fixtureReaders, matrixFixture } from "./regions-fixture-trade.mjs";
 
 const S = await import("../components/supply/Country.tsx");
+// session 11405 (decision 8 readied): drawn with the regions hold stood aside, so every region's arithmetic is checked; the hold itself is tests/test_ready_eia_held_regions.py's
+S.REGIONS_HELD.splice(0);
 const T = await import("../lib/countrytrade.ts");
 
 let n = 0, failed = 0;

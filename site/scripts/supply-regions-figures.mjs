@@ -42,6 +42,8 @@ if (args[0] === "--fixture") {
   const F = await import("../lib/countryfiles.ts");
   const T = await import("../lib/countrytrade.ts");
   const S = await import("../components/supply/Country.tsx");
+  // session 11405 (decision 8 readied): drawn with the regions hold stood aside, so every region's arithmetic is checked; the hold itself is tests/test_ready_eia_held_regions.py's
+  S.REGIONS_HELD.splice(0);
   const text =(html) => html.replace(/<[^>]+>/g, " ").replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
   const rows = (html) => html.split("<tr").slice(1).map((r) => r.slice(0, r.indexOf("</tr>")));
   const cells = (row) => [...row.matchAll(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/g)].map((m) => text(m[1]));
