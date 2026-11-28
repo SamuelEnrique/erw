@@ -87,7 +87,11 @@ export function LargeLoadRules({ opened, address }: { opened: Opened; address: s
     put("rstate", st); put("rgrid", gr); put("rstatus", su); put("rq", nq.trim()); put("rsort", by, "utility"); put("rdir", dir, "asc");
     put("ra", a); put("rb", b); put("rule", open); put("rregion", region);
     const s = q.toString();
-    window.history.replaceState(null, "", `${window.location.pathname}${s ? `?${s}` : ""}${window.location.hash}`);
+    // chain 780 (session 11600; the read of 26 November, row CP2): the entry's own state is handed back, never null.
+    // This effect runs as the page first draws, before the site's router has taken hold of the history, and a null
+    // wiped what the router keeps on the entry the page was opened on: a move of the history back to that entry then
+    // carried no state, the router let it pass, and the page kept showing the later choice under the earlier address
+    window.history.replaceState(window.history.state, "", `${window.location.pathname}${s ? `?${s}` : ""}${window.location.hash}`);
   }, [st, gr, su, nq, by, dir, a, b, open, region, openedKey]);
   useEffect(() => {
     // the address's own anchor (a row's panel, the section's head) wins on arrival; a rule asked for with no anchor is moved to
