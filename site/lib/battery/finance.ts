@@ -237,13 +237,36 @@ export const merchantShare = (a: Assumptions) => 1 - (a.cshare ?? 0) / 100;
  * after them the whole battery in the market. At a contract share of 0 this is the market revenue in every year. */
 export const incomeInYear = (a: Assumptions, revKw: number, t: number, ctx: Ctx = {}) =>
   t <= debtYears(a) ? contractYear(a) + merchantShare(a) * revenueInYear(a, revKw, t, ctx) : revenueInYear(a, revKw, t, ctx);
+/** Session 11408 (readied for the owner's ruling on the battery audit's finding 8, docs/reviews/battery-model-audit-2026-11-20.md):
+ * federal income tax at 21 percent (Internal Revenue Code section 11), on income less fixed O&M, augmentation, the
+ * debt's interest and depreciation; depreciation by the 5-year MACRS table with the half-year convention (IRS
+ * Publication 946, table A-1), on a basis cut by half the investment tax credit (section 50(c)). A year's loss is used
+ * as it arises (a negative tax). The 12 percent hurdle is a cost of equity, a return after tax, so the flows it
+ * discounts are after tax. */
+export const TAX_RATE = 21;
+export const MACRS5 = [0.2, 0.32, 0.192, 0.1152, 0.1152, 0.0576];
+/** The debt's interest in year t, USD per kW: the level loan's opening balance that year times the rate; 0 after the
+ * debt's years. */
+export function interestInYear(a: Assumptions, t: number): number {
+  const dy = debtYears(a), r = a.rate / 100, ds = debtService(a);
+  if (t > dy) return 0;
+  let bal = a.capex * (a.share / 100);
+  for (let k = 1; k < t; k++) bal -= ds - bal * r;
+  return bal * r;
+}
+/** Depreciation in year t, USD per kW: the basis (the capital cost less half the credit) times the MACRS share. */
+export const depreciationInYear = (a: Assumptions, t: number) => (t >= 1 && t <= MACRS5.length ? a.capex * (1 - (a.itc ?? 0) / 200) * MACRS5[t - 1] : 0);
+/** The federal income tax in year t, USD per kW (negative in a year of loss, used as it arises). */
+export const taxInYear = (a: Assumptions, revKw: number, t: number, ctx: Ctx = {}) =>
+  (TAX_RATE / 100) * (incomeInYear(a, revKw, t, ctx) - a.fom - augmentationCost(a, t, ctx) - interestInYear(a, t) - depreciationInYear(a, t));
 /** The cash flows to equity, USD per kW, years 0 to the project life: the equity paid in at year 0 (session 297: less
  * the investment tax credit, a share of the capital cost taken at year 0), then each year's income less fixed O&M less
- * the debt payment while the debt lasts, less the augmentation paid that year (session 297, the fade method). */
+ * the debt payment while the debt lasts, less the augmentation paid that year (session 297, the fade method), less the
+ * year's federal income tax (session 11408, taxInYear). */
 export function flows(a: Assumptions, revKw: number, ctx: Ctx = {}): number[] {
   const ds = debtService(a), dy = debtYears(a);
   const out = [-a.capex * (1 - a.share / 100) + a.capex * ((a.itc ?? 0) / 100)];
-  for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t, ctx) - a.fom - (t <= dy ? ds : 0) - augmentationCost(a, t, ctx));
+  for (let t = 1; t <= a.life; t++) out.push(incomeInYear(a, revKw, t, ctx) - a.fom - (t <= dy ? ds : 0) - augmentationCost(a, t, ctx) - taxInYear(a, revKw, t, ctx));
   return out;
 }
 /** Net present value of yearly cash flows at `ratePct` percent: the sum of flow t over (1 + rate)^t. */

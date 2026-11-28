@@ -136,7 +136,7 @@ export const BATTERY_DECISIONS: Decision[] = [
   { key: "debt", session: "session 208", ruling: "the owner's ruling of 12 October 2026",
     text: "Debt is 20 percent of the capital at 8 percent over 20 years, level payments: Lazard's storage financing, editable." },
   { key: "hurdle", session: "session 208", ruling: "the owner's ruling of 12 October 2026",
-    text: "The NPV is to equity, after the debt payments, discounted at 12 percent, Lazard's cost of equity." },
+    text: "The NPV is to equity, after the debt payments and federal income tax at 21 percent with 5-year depreciation, discounted at 12 percent, Lazard's cost of equity." },
   { key: "degradation", session: "sessions 196 and 297",
     text: "Revenue falls by 2.6 percent a year for degradation (Lazard's storage cases), as a yearly cut to revenue by default; capacity fade with augmentation is the other method a scenario may choose." },
   { key: "credits", session: "session 297",
