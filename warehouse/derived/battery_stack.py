@@ -25,7 +25,7 @@ between charging, discharging and each ancillary product, subject to:
                at most one full cycle a day (the seller tab's battery, warehouse/derived/merchant_revenue.py)
     reserves   stored energy to deliver every awarded upward reserve for its product's required duration, at the
                start and at the end of the hour; room to absorb awarded downward regulation for its duration
-Reserves are never deployed: an award pays its capacity price and moves no energy. A day whose relaxation charges and
+Reserves are never deployed but ERCOT's regulation (session 11408, REG_CALLED: 17 percent of an award moves energy each hour); an award pays its capacity price. A day whose relaxation charges and
 discharges in the same hour (it pays only at negative prices) is solved again with one charge-or-discharge switch per
 hour, as a mixed-integer program.
 
@@ -193,6 +193,45 @@ def required_hours(product, day):
     return h
 
 
+# Session 11408 (readied for the owner's ruling on the battery audit of 20 November, finding 1,
+# docs/reviews/battery-model-audit-2026-11-20.md): regulation is called. In ercot_sced_esr_hourly (ERCOT's 60-day SCED
+# storage data, 1 February to 27 August 2026), over 56,845 resource-hours holding regulation and no other reserve, output
+# moved off its base point by 0.168 MWh per MW of Reg Up and 0.181 per MW of Reg Down, net within the hour: 17 percent.
+# The other reserves moved about as much as hours with none, so only regulation is called. ERCOT only: no CAISO
+# deployment is held, and the review grids are not changed.
+REG_CALLED = {"ercot": 0.17}
+
+
+def spec_of(iso, prods, day):
+    """The products' (up, required hours, called share) of a day: the called share is REG_CALLED's for the market's
+    regulation (keys regup and regdn), 0 for every other product."""
+    f = REG_CALLED.get(iso, 0.0)
+    return tuple((p["up"], required_hours(p, day)[0], f if p["key"] in ("regup", "regdn") else 0.0) for p in prods)
+
+
+def called_energy(spec, p):
+    """Per product, the hourly value of one MW of award's called energy, USD: upward regulation sells the called share
+    at the hour's price, downward regulation buys it; 0 for a product never called (or a spec without the share)."""
+    out = []
+    for is_up, _h, *rest in spec:
+        f = rest[0] if rest else 0.0
+        goes_up, goes_dn = sides(is_up)
+        out.append(np.asarray(p, dtype=float) * f * ((1.0 if goes_up else 0.0) - (1.0 if goes_dn else 0.0)))
+    return out
+
+
+def called_soc(spec, awards, eta, T):
+    """The hourly change of the state of charge from called regulation, MWh per MW: upward discharges f x award / eta,
+    downward charges f x award x eta."""
+    out = np.zeros(T)
+    for j, (is_up, _h, *rest) in enumerate(spec):
+        f = rest[0] if rest else 0.0
+        if f:
+            goes_up, goes_dn = sides(is_up)
+            out += np.asarray(awards[j]) * ((-f / eta if goes_up else 0.0) + (f * eta if goes_dn else 0.0))
+    return out
+
+
 _STRUCT = {}
 
 
@@ -209,11 +248,17 @@ def structure(T, duration, spec, eta):
     rows, b = [], []
 
     def soc_row(t):
-        """State of charge after hour t (t = -1: the empty start) as a row of coefficients."""
+        """State of charge after hour t (t = -1: the empty start) as a row of coefficients. Session 11408: a called
+        share of a regulation award moves energy too, upward as a discharge, downward as a charge."""
         row = np.zeros(n)
         if t >= 0:
             row[c0:c0 + t + 1] = eta
             row[d0:d0 + t + 1] = -1 / eta
+            for j, (is_up, _h, *rest) in enumerate(spec):
+                f = rest[0] if rest else 0.0
+                if f:
+                    goes_up, goes_dn = sides(is_up)
+                    row[r0[j]:r0[j] + t + 1] += (-f / eta if goes_up else 0.0) + (f * eta if goes_dn else 0.0)
         return row
 
     for t in range(T):
@@ -222,13 +267,16 @@ def structure(T, duration, spec, eta):
         rows.append(-s); b.append(0.0)               # empty
     cyc = np.zeros(n)
     cyc[d0:d0 + T] = 1 / eta
+    for j, (is_up, _h, *rest) in enumerate(spec):    # session 11408: called upward regulation counts in the cycle
+        if rest and rest[0] and sides(is_up)[0]:
+            cyc[r0[j]:r0[j] + T] += rest[0] / eta
     rows.append(cyc); b.append(duration)             # at most one full cycle a day
     for t in range(T):
         up = np.zeros(n); up[d0 + t] = 1
         dn = np.zeros(n); dn[c0 + t] = 1
         need_up = np.zeros(n)
         need_dn = np.zeros(n)
-        for j, (is_up, hours) in enumerate(spec):
+        for j, (is_up, hours, *_) in enumerate(spec):
             goes_up, goes_dn = sides(is_up)
             if goes_up:
                 up[r0[j] + t] = 1
@@ -265,6 +313,9 @@ def solve_day(energy, reserves, spec, duration, rte=RTE, force_switch=False, cap
             ub[T * (2 + j):T * (3 + j)] = np.clip(np.asarray(cap, dtype=float), 0, 1)
     p = np.asarray(energy, dtype=float)
     obj = np.concatenate([p, -p] + [-np.asarray(r, dtype=float) for r in reserves])  # minimize cost less revenue
+    called = called_energy(spec, p)   # session 11408: the called regulation's energy, at the hour's price
+    for j in range(K):
+        obj[T * (2 + j):T * (3 + j)] -= called[j]
     neg = np.flatnonzero(p < 0) if not force_switch else np.arange(T)
     mip = bool(force_switch)
     x = None
@@ -300,11 +351,19 @@ def solve_day(energy, reserves, spec, duration, rte=RTE, force_switch=False, cap
     x = np.clip(x, 0, 1)
     c, d = x[:T], x[T:2 * T]
     awards = [x[T * (2 + j):T * (3 + j)] for j in range(K)]
-    e_rev = float(p @ (d - c))
+    e_rev = float(p @ (d - c)) + sum(float(called[j] @ awards[j]) for j in range(K))  # session 11408: with called regulation
     r_rev = [float(np.asarray(reserves[j], dtype=float) @ awards[j]) for j in range(K)]
-    soc = np.cumsum(eta * c - d / eta)
+    soc = np.cumsum(eta * c - d / eta + called_soc(spec, awards, eta, T))
     return dict(total=e_rev + sum(r_rev), energy=e_rev, reserve=r_rev, charge=c, discharge=d, awards=awards, soc=soc,
                 mip=mip, delivered=float(d.sum()))
+
+
+def taken_out(sol, spec, eta):
+    """MWh taken out of the battery in the day, per MW: the discharge over eta, and (session 11408) the called share of
+    upward regulation over eta."""
+    aw = sol["awards"]
+    return float((sol["discharge"] / eta).sum()) + sum(float(np.sum(aw[j])) * rest[0] / eta
+                                                        for j, (is_up, _h, *rest) in enumerate(spec) if rest and rest[0] and sides(is_up)[0])
 
 
 def check_day(sol, spec, duration, rte=RTE, tol=1e-6):
@@ -314,10 +373,10 @@ def check_day(sol, spec, duration, rte=RTE, tol=1e-6):
     bad = []
     prev = 0.0
     for t in range(len(c)):
-        up = sum(aw[j][t] for j, (is_up, _) in enumerate(spec) if sides(is_up)[0])
-        dn = sum(aw[j][t] for j, (is_up, _) in enumerate(spec) if sides(is_up)[1])
-        need_up = sum(aw[j][t] * h / eta for j, (is_up, h) in enumerate(spec) if sides(is_up)[0])
-        need_dn = sum(aw[j][t] * h * eta for j, (is_up, h) in enumerate(spec) if sides(is_up)[1])
+        up = sum(aw[j][t] for j, (is_up, *_) in enumerate(spec) if sides(is_up)[0])
+        dn = sum(aw[j][t] for j, (is_up, *_) in enumerate(spec) if sides(is_up)[1])
+        need_up = sum(aw[j][t] * h / eta for j, (is_up, h, *_) in enumerate(spec) if sides(is_up)[0])
+        need_dn = sum(aw[j][t] * h * eta for j, (is_up, h, *_) in enumerate(spec) if sides(is_up)[1])
         if d[t] + up > 1 + tol:
             bad.append(f"hour {t}: discharge plus upward reserves {d[t] + up:.6f} MW per MW")
         if c[t] + dn > 1 + tol:
@@ -329,8 +388,9 @@ def check_day(sol, spec, duration, rte=RTE, tol=1e-6):
         if need_dn > duration - max(prev, soc[t]) + tol:
             bad.append(f"hour {t}: downward regulation needs {need_dn:.6f} MWh of room")
         prev = soc[t]
-    if (d / eta).sum() > duration + tol:
-        bad.append(f"more than one full cycle: {(d / eta).sum():.6f} MWh taken out")
+    out = taken_out(sol, spec, eta)  # session 11408: with called upward regulation
+    if out > duration + tol:
+        bad.append(f"more than one full cycle: {out:.6f} MWh taken out")
     return bad
 
 
@@ -400,7 +460,7 @@ def build_market(iso, energy, reserve, log, until=None):
             if ep.isna().any():
                 left[strat].append((day, f"energy: {int(ep.isna().sum())} of {len(hrs)} hours not held"))
                 continue
-            spec = tuple((p["up"], required_hours(p, day)[0]) for p in prods)
+            spec = spec_of(iso, prods, day)  # session 11408: with the called share of regulation
             for dur in DURATIONS:
                 sol = solve_day(ep.values, [s.values for s in pr], spec, dur)
                 bad = check_day(sol, spec, dur)
@@ -674,7 +734,7 @@ def write_review(in_dir, log, retrieved, run_id, snapshot, out_dir=None):
         "also in x_strategy, x_duration_hours and x_metric.",
         "In review: these grids are not in battery_stack_monthly and are not shown to visitors. The model is the one "
         "of battery_stack_monthly (docs/methods/battery_stack.md): round trip " + str(RTE) + ", each local day from empty, "
-        "at most one full cycle a day, hourly, per MW; reserves are paid and never deployed.",
+        "at most one full cycle a day, hourly, per MW; reserves are paid; ERCOT regulation called at 17 percent of the award (session 11408), the others never deployed.",
         "Required duration of each product: " + " | ".join(lines),
         "Products left out: NYISO's 10-Minute Non-Synchronous Reserve and 30-Minute Operating Reserve (a battery "
         "that can hold spinning reserve is paid at least as much for it: " + "; ".join(checks) + "); SPP's ramp "

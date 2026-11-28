@@ -75,7 +75,7 @@ def structure_at_step(T, duration, spec, eta):
     row = A.getrow(2 * T).toarray().ravel()
     want = np.zeros(n)
     want[T:2 * T] = 1 / eta
-    if not (np.allclose(row, want) and b[2 * T] == duration):
+    if not (np.allclose(row[:2 * T], want[:2 * T]) and b[2 * T] == duration):  # session 11408: called regulation may add to the row
         raise RuntimeError("battery_stack.structure: row 2T is not the cycle row any more; this script must be read again")
     b2 = b.copy()
     b2[2 * T] = _cycles * duration
@@ -93,7 +93,7 @@ def solve(energy, reserves, spec, duration, rte, cycles):
         bs.structure = _model_structure
         _cycles = 1.0
     bad = [m for m in bs.check_day(sol, spec, duration, rte=rte) if not m.startswith(CYCLE_MESSAGE)]
-    taken = float((sol["discharge"] / np.sqrt(rte)).sum())
+    taken = bs.taken_out(sol, spec, np.sqrt(rte))  # session 11408
     if taken > cycles * duration + 1e-6:
         bad.append(f"more than {cycles} full cycles: {taken:.6f} MWh taken out")
     if bad:
@@ -134,7 +134,7 @@ def build_case(grid, strat, energy, reserve, monthly, log):
             ep = energy.reindex(hrs)
             if any(s.isna().any() for s in pr) or ep.isna().any():
                 continue                      # the model leaves the day out; so does every cell
-            spec = tuple((p["up"], bs.required_hours(p, day)[0]) for p in prods)
+            spec = bs.spec_of(grid, prods, day)  # session 11408: with the called share of regulation
             days[day[:7]] = days.get(day[:7], 0) + 1
             for r in RTE_STEPS:
                 for c in CYCLE_STEPS:

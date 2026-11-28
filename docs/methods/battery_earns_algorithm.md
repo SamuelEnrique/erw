@@ -87,7 +87,7 @@ Maximize
 - **Room behind Regulation Down.** `r_regdn,t x h x eta <= D - s_(t-1)` and `<= D - s_t`.
 - **One cycle.** `sum over t of d_t / eta <= D`: the energy taken out of the battery in a day is at most one full charge.
 
-Reserves are never deployed: an award is paid its price and moves no energy.
+Reserves other than regulation are never deployed: an award is paid its price and moves no energy. Since session 11408 (readied for the owner's ruling on the audit of 20 November, finding 1), in ERCOT a called share `f = 0.17` of each regulation award moves energy in its hour: Reg Up discharges `f x r / eta` and sells `f x r` at the hour's price, Reg Down charges `f x r x eta` and buys `f x r`; the called Reg Up counts in the one-cycle row (`REG_CALLED`, `spec_of` in `battery_stack.py`). The default case's last twelve months (November 2025 to October 2026): USD 74.02 per kW against 80.40, re-solved from the public file. CAISO is not changed: no CAISO deployment is held.
 
 The solver is scipy's `linprog` with HiGHS. **This split is why nothing is counted twice:** in an hour, a megawatt is discharged or held as an upward reserve, never both (the upward power limit), and the same optimization chooses both. The page's "energy" and "ancillary" rows are the two parts of that one objective.
 
@@ -249,7 +249,7 @@ Each number `/cost-of-power/battery` shows carries its key (`site/components/Num
 | Resolution | hourly | ancillary prices are hourly | no |
 | Foresight | perfect, within the day | the strategy's definition | the strategy |
 | Price taker | awards up to full power at the posted price | assumed | no |
-| Reserves called | never | assumed | no |
+| Reserves called | regulation in ERCOT at 17 percent of the award (session 11408); the others never | measured (ERCOT's SCED storage data); assumed | no |
 | Where energy is priced | the hub (`HB_HUBAVG`, SP15) | assumed | the grid |
 | Required durations | section 3.3 | ERCOT NPRR 1096 and 1282; CAISO tariff 8.4.1.1(g) and 8.4.3; one hour assumed for ERCOT before those dates | no |
 | Capital cost | 610, 1,110, 2,300 USD per kW (2, 4, 8 hours) | Lazard LCOE+ June 2025, LCOS v10.0, midpoints; 8 hours NREL's Annual Technology Baseline 2025 since session 296: USD 241 per kWh times 8 hours plus USD 372 per kW, 2024 dollars (2,110, a straight line through the other two, until then) | through `ds` |
@@ -520,7 +520,7 @@ Session 5001, 13 November 2026 (chain 233). The page lists, at its foot, every m
 1. Energy and ancillary services are chosen together in one optimization a day, so a megawatt is discharged or held as an upward reserve in an hour, never both, and nothing is counted twice. (session 67)
 2. Each local day starts empty, with at most one full cycle a day and an 86 percent round trip (the low end of Lazard's range), split evenly between charging and discharging. (session 67)
 3. The day's prices are known in advance: "Perfect foresight" is paid the hourly mean of the real-time price, "Day-ahead schedule" the day-ahead price, and both are paid day-ahead reserve prices, so each figure is an upper bound. (session 67)
-4. The battery is a price taker, awarded up to its full power at the posted price; reserves are paid for being held and are never called. (session 67)
+4. The battery is a price taker, awarded up to its full power at the posted price; reserves are paid for being held; in ERCOT 17 percent of a regulation award is called each hour and moves energy at the hour's price, as ERCOT's storage telemetry shows (session 11408), and the other reserves are never called. (session 67)
 5. Energy is priced at the hub (ERCOT's hub average, CAISO's SP15), not at the battery's node; ERCOT's storage nodes' band to the hub is shown and added to no figure. (sessions 67 and 355)
 6. Each reserve must be backed by the stored energy its market's rule requires on the day (ERCOT's NPRR 1096 and 1282, CAISO's tariff), one hour assumed where no rule is stated, which caps how much of a product a short battery can hold. (sessions 67 and 296)
 7. A day is solved only when every hour has an energy price and a price for every product bought that day; any other day is left out and counted, never filled or scaled. (session 67)

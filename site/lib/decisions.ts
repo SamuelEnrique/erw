@@ -116,7 +116,7 @@ export const BATTERY_DECISIONS: Decision[] = [
   { key: "foresight", session: "session 67",
     text: "The day's prices are known in advance: \"Perfect foresight\" is paid the hourly mean of the real-time price, \"Day-ahead schedule\" the day-ahead price, and both are paid day-ahead reserve prices, so each figure is an upper bound." },
   { key: "price-taker", session: "session 67",
-    text: "The battery is a price taker, awarded up to its full power at the posted price; reserves are paid for being held and are never called." },
+    text: "The battery is a price taker, awarded up to its full power at the posted price; reserves are paid for being held; in ERCOT 17 percent of a regulation award is called each hour and moves energy at the hour's price, as ERCOT's storage telemetry shows (session 11408), and the other reserves are never called." },
   { key: "hub", session: "sessions 67 and 355",
     text: "Energy is priced at the hub (ERCOT's hub average, CAISO's SP15), not at the battery's node; ERCOT's storage nodes' band to the hub is shown and added to no figure." },
   { key: "durations", session: "sessions 67 and 296",

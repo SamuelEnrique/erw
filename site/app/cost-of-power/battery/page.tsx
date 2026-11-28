@@ -252,7 +252,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                   {/* session 208 (ruling 2): one sentence of what the model cannot see; the rest is in the methods note.
                       Session 296: kept in view, not a hover tip, for its checked number and its link */}
                   <p className="mt-2 max-w-3xl text-xs text-muted" data-income-note="1">
-                    Energy is priced at {g.name}&apos;s {g.at ?? `${g.hub} hub`}, not the battery&apos;s own node; reserves are paid for being held and are assumed never called.
+                    Energy is priced at {g.name}&apos;s {g.at ?? `${g.hub} hub`}, not the battery&apos;s own node; reserves are paid for being held; in ERCOT 17 percent of a regulation award is called each hour, and the other reserves are assumed never called.
                     {top ? <> {topName} alone is <V pre={key} s="top_share" v={st("top_share")} /> percent of everything this battery earned in the {held.length} months held; leave it out of your window to see the average without it.</> : null}
                     {" "}<Link href={`${ALGORITHM}#cannot-see`}>What else the model cannot see</Link>.
                     {/* session 7519 (the read, row 2): where the site holds a settlement point by its name, and two side by side */}

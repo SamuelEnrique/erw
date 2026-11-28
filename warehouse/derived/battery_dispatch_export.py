@@ -164,7 +164,7 @@ def build(in_dir, log=print):
         if ep.isna().any():
             left.append(f"{day} energy {int(ep.isna().sum())} of {len(hrs)} hours not held")
             continue
-        spec = tuple((p["up"], bs.required_hours(p, day)[0]) for p in prods)
+        spec = bs.spec_of(GRID, prods, day)  # session 11408: with the called share of regulation
         sol = bs.solve_day(ep.values, [s.values for s in pr], spec, DURATION)
         bad = bs.check_day(sol, spec, DURATION)
         if bad:
