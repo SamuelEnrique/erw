@@ -178,10 +178,12 @@ export function CategoryChart({ id, x, series, unit, unit2 = "", label, height =
   const barW = Math.max(2, (bw * 0.7) / Math.max(1, barGroups.length));
   // chain 780 (session 11600; the read of 28 November, row CH2): a chart of twelve columns or fewer thinned nothing
   // (the rule began at thirteen), so at 390 px the twelve years of /cost-of-power's "Cost by year" were printed over
-  // each other, each wider than its column. A chart whose widest label is clearly wider than a column (by more than
-  // 15 percent) writes every k-th, however few its columns; one whose labels fit, or nearly, writes all, as before
+  // each other, each wider than its column. A chart of twelve or fewer in which two neighbours' labels would stand
+  // on each other (half of each, together, wider than a column by more than 15 percent) writes every k-th; one whose
+  // neighbours have room, or nearly, writes all, as before: a long name beside a short one is left alone
   const widestX = Math.max(1, ...x.map((s) => textWidth(s, 11)));
-  const everyK = every ?? (n > 12 || widestX > bw * 1.15 ? Math.ceil(widestX / bw) : 1);
+  const clashX = x.some((s, i) => i > 0 && (textWidth(x[i - 1], 11) + textWidth(s, 11)) / 2 > bw * 1.15);
+  const everyK = every ?? (n > 12 || clashX ? Math.ceil(widestX / bw) : 1);
   const labelled = (i: number) => i % Math.max(1, everyK) === 0;
   const dimAt = (i: number) => (dim?.[i] ? 0.4 : 1);
   const unitOf = (s: CatSeries) => s.unit ?? (s.axis === 1 ? unit2 : unit);

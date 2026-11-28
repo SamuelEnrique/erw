@@ -11,9 +11,10 @@ The read of 28 November (docs/reviews/browser-read-2026-11-28.md, rows CH2 and C
 
 Three lines of site/components/svgchart.tsx:
 
-- a category chart whose widest label is clearly wider than a column (by more than 15 percent) writes every k-th
-  label, however few its columns; one whose labels fit, or nearly, writes all, as before; thirteen columns and more
-  thin as they did;
+- a category chart in which two neighbours' labels would stand on each other (half of each, together, wider than a
+  column by more than 15 percent) writes every k-th label, however few its columns; one whose neighbours have room,
+  or nearly, writes all, as before (a long name beside a short one is left alone); thirteen columns and more thin
+  as they did;
 - a heat chart's column labels keep 6 px between one and the next;
 - and stand right under the cells whatever the drawing's height.
 
@@ -41,7 +42,8 @@ def every_k(labels, bw):
     """The category chart's rule as the file now writes it."""
     n = len(labels)
     widest = max([1] + [text_width(s, 11) for s in labels])
-    return math.ceil(widest / bw) if n > 12 or widest > bw * 1.15 else 1
+    clash = any((text_width(labels[i - 1], 11) + text_width(labels[i], 11)) / 2 > bw * 1.15 for i in range(1, n))
+    return math.ceil(widest / bw) if n > 12 or clash else 1
 
 
 class TheCategoryChart(unittest.TestCase):
@@ -51,7 +53,8 @@ class TheCategoryChart(unittest.TestCase):
     def test_the_rule_as_written(self):
         self.assertIn("const textWidth = (s: string, size = 12) => s.length * size * 0.56;", self.chart)
         self.assertIn("const widestX = Math.max(1, ...x.map((s) => textWidth(s, 11)));", self.chart)
-        self.assertIn("const everyK = every ?? (n > 12 || widestX > bw * 1.15 ? Math.ceil(widestX / bw) : 1);", self.chart)
+        self.assertIn("const clashX = x.some((s, i) => i > 0 && (textWidth(x[i - 1], 11) + textWidth(s, 11)) / 2 > bw * 1.15);", self.chart)
+        self.assertIn("const everyK = every ?? (n > 12 || clashX ? Math.ceil(widestX / bw) : 1);", self.chart)
         self.assertNotIn("const everyK = every ?? (n > 12 ? ", self.chart)
 
     def test_twelve_years_on_a_phone_are_thinned(self):
@@ -67,6 +70,15 @@ class TheCategoryChart(unittest.TestCase):
         self.assertEqual(every_k(years, 70), 1)           # a wide screen
         self.assertEqual(every_k(years, 22), 1)           # nearly: within 15 percent, as before
         self.assertEqual(every_k(["Wind", "Solar", "Gas"], 100), 1)
+
+    def test_a_long_name_beside_short_ones_is_left_alone(self):
+        # "Natural gas" (about 68 px) is wider than a column of 50 px, but no two neighbours meet: half of it and half
+        # of "Coal" are 46 px together. Every name is written, as before this change
+        names = ["Coal", "Natural gas", "Wind", "Solar", "Hydro"]
+        self.assertGreater(text_width("Natural gas", 11), 50 * 1.15)
+        self.assertEqual(every_k(names, 50), 1)
+        # two long names side by side do meet, and the chart writes every second
+        self.assertEqual(every_k(["Natural gas", "Pumped hydro", "Wind"], 50), 2)
 
     def test_thirteen_columns_and_more_thin_as_they_did(self):
         months = [f"2026-{m:02d}" for m in range(1, 13)] + ["2027-01"]
