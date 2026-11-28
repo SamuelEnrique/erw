@@ -49,6 +49,11 @@ HUB_TZ = {"ercot": "America/Chicago", "spp": "America/Chicago", "caiso": "Americ
 MORE_HUBS = {"ercot-houston": "ercot:HB_HOUSTON", "ercot-south": "ercot:HB_SOUTH", "ercot-west": "ercot:HB_WEST",
              "caiso-np15": "caiso:TH_NP15_GEN-APND"}
 RT_HUBS = dict(data.HUBS, **MORE_HUBS)
+# session 10603 (chain 720's request 15): the place files that show each hub, the places whose own price hub
+# (series.price.hub) is on the same grid: ERCOT's hubs on Texas and ERCO, SPP North on CENT and SWPP, CAISO's on CAL and CISO
+SHOWN_FOR = {"ercot": ["region-tex", "ba-erco"], "ercot-houston": ["region-tex", "ba-erco"], "ercot-south": ["region-tex", "ba-erco"],
+             "ercot-west": ["region-tex", "ba-erco"], "spp": ["region-cent", "ba-swpp"], "caiso": ["region-cal", "ba-ciso"],
+             "caiso-np15": ["region-cal", "ba-ciso"]}
 
 
 def rt_panel(hubs=None):
