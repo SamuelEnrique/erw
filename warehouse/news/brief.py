@@ -201,6 +201,9 @@ def build_clusters(stories):
             "mw_id": next((e for x, e in zip(g["mw"], g["event_id"]) if x), "") if "event_id" in g else "",
             "price_id": next((e for x, e in zip(g["price_mentioned"], g["event_id"]) if x), "") if "event_id" in g else "",
             "first": g["event_date"].min(), "n": len(g),
+            # wip/ready-digest-outlet-date (the Digest audit of 26 November, finding 7, for Samuel's ruling): each link's own
+            # story date, so an outlet named beside a figure is given its own story's day, not an earlier story's of another outlet
+            "link_first": g.groupby("source_url")["event_date"].min().to_dict() if "source_url" in g else {},
             "outlets": g["source"].astype(str).str.strip().str.lower().nunique(),   # session 2701: the outlets that ran it
             # session 470: one link an address (two stories of a cluster at one address printed it twice); session 1442
             # (fault 23): a link that reaches the outlet's own page before one that reaches Google's, so the item's first
@@ -2396,6 +2399,13 @@ def place_words(c):
             "the operating day, against the day before.")
 
 
+def outlet_date(r):
+    """wip/ready-digest-outlet-date: the day of the named outlet's own story (its first link's), else the cluster's first."""
+    links = list(r.get("links") or [])
+    own = (r.get("link_first") or {}).get(links[0][1]) if links else None
+    return pd.Timestamp(own if own is not None and str(own) != "" else r["first"])
+
+
 def outlet_of(r):
     """The outlet of a story's first link, named (no address: the story's link is in its item)."""
     links = list(r.get("links") or [])
@@ -2427,7 +2437,7 @@ def opening_lines(op, heads):
     if op["kind"] == "story":
         r = op["rec"]
         L.append(f"**{op['figure']}**: {heads.get(r['cluster_id'], str((r.get('titles') or [''])[0])).rstrip('.')}, as "
-                 f"{outlet_of(r)} reported on {pd.Timestamp(r['first']):%Y-%m-%d} (ranked {op['rank']} of the day's top ten). "
+                 f"{outlet_of(r)} reported on {outlet_date(r):%Y-%m-%d} (ranked {op['rank']} of the day's top ten). "
                  + passed_words(op.get("passed"), op.get("seen")))
         return L + [""]
     if op.get("seen"):
@@ -2582,7 +2592,7 @@ def story_row(label, recs, sectors, heads, skip_id, what, order, notes=None):
         who, outlet = story_who(r), outlet_of(r)
         # session 3332 (faults file row 111): with no party, story_who is the outlet: "(Rigzone; Rigzone, ...)" said it twice
         by = outlet if who == outlet else f"{who}; {outlet}"
-        line = (f"- **{label}.** {noun}{place}: {fig} ({by}, {pd.Timestamp(r['first']):%Y-%m-%d}){ref}. "
+        line = (f"- **{label}.** {noun}{place}: {fig} ({by}, {outlet_date(r):%Y-%m-%d}){ref}. "
                 "Change: first report, no earlier figure held. Status: the outlet's figure, not a table's.")
         return line, f"story {r.get(field + '_id') or r['cluster_id']} ({field})"   # row 107: the story the figure came from
     return f"- **{label}.** No story of the day states {what}.", ""
