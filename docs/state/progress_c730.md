@@ -136,3 +136,4 @@ One line a step: state, counts, session. States: done (with the commit), partial
 - 04:16 UTC (session 10603): the `ahead_more` replication 23 places done, each fully equal.
 - 04:35 UTC (session 10603): the `ahead_more` replication 28 places done, each fully equal; row 12 still requested.
 - 04:54 UTC (session 10603): the `ahead_more` replication 33 places done, each fully equal.
+- Landing row 13 requested (05:05 UTC 28 November, session 10603): `wip/c730-predict-v7` at `76931398f`: `ahead_more.json` rebuilt on the refreshed tables and replicated on the same, 1,225 of 1,225 figures; 36 of 36 forecast tests on the head.
