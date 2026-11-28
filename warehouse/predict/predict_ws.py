@@ -49,6 +49,10 @@ FUELS = ["wind", "solar"]
 REGION_FUEL = "eia930_region_fuel_hourly"
 CAISO = "caiso_wind_solar_forecast"
 ERCOT = "ercot_wind_solar_forecast"
+# Ready branch of session 11408 (weekend page of 28 November 2026, part 3.5, the other choice): ercot_wind_solar_forecast
+# is filled by ERCOT's legacy /misapp pulls, paths ERCOT's robots file disallows (the owner's ruling 2 of 6 November
+# 2026), so Texas's operator forecast of wind and solar is not used: panels() drops its column after the cache.
+USE_ERCOT_LEGACY = False
 
 
 def panels():
@@ -77,7 +81,10 @@ def panels():
         df = df.reindex(pd.date_range(df.index.min(), df.index.max(), freq="h"))
         df.index.name = "ts"
         return df
-    return data.cached("ws", [REGION_FUEL, CAISO, ERCOT], build)
+    df = data.cached("ws", [REGION_FUEL, CAISO, ERCOT], build)
+    if not USE_ERCOT_LEGACY:
+        df = df.drop(columns=[c for c in df.columns if c.startswith("region-tex|") and c.endswith("|operator")])
+    return df
 
 
 BA_FUEL = "eia930_ba_wind_solar_hourly"

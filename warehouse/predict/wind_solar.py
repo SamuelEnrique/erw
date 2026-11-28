@@ -53,6 +53,8 @@ OPERATOR = {"region-tex": "ERCOT's short-term wind and solar forecasts (STWPF, S
             "grid-caiso": "CAISO's day-ahead market forecast of wind and solar (caiso_wind_solar_forecast, market run DAM, from June 2023), against CAISO's own actual output of the same hubs"}
 TARGET = {"grid-caiso": "CAISO's actual wind or solar output, its three trading hubs summed (caiso_wind_solar_forecast, market run ACTUAL)"}
 NOT_HELD = "not held: the warehouse holds no forecast of this region's wind or solar by its operator"
+# ready branch of session 11408: Texas's operator forecast is held but not used (predict_ws.USE_ERCOT_LEGACY)
+NOT_USED = {"region-tex": "not used: ERCOT's short-term wind and solar forecasts are filled by pulls from paths ERCOT's robots file disallows (/misapp; the owner's ruling 2 of 6 November 2026)"}
 NOT_HELD_BA = "not held: the warehouse holds no forecast of this authority's wind or solar by its operator"
 COLUMNS = ["place", "fuel", "method", "cut", "key", "hours", "mae_mw", "nmae_pct", "held"]
 LEDGER_COLS = ["fuel", "place", "target_day", "ts_utc", "local_hour", "made_utc", "inputs_through_utc", "horizon_days", "method", "erw", "lo", "hi"]
@@ -193,7 +195,7 @@ def one(place, fuel, df, made, curt=None):
     inputs_through = frame.loc[frame["day"] <= lastday, "ts"].max()
     block = {"status": "shown", "method": choice, "method_mae_last_2_years": {m: num(v) for m, v in maes.items()},
              "target_series": TARGET.get(place, f"EIA-930's net generation from {fuel} for the authority (eia930_ba_wind_solar_hourly)" if place.startswith("ba-") else f"EIA-930's net generation from {fuel} for the region (eia930_region_fuel_hourly)"),
-             "operator": OPERATOR.get(place) if op_held else None, "operator_held": None if op_held else (NOT_HELD_BA if place.startswith("ba-") else NOT_HELD),
+             "operator": OPERATOR.get(place) if op_held else None, "operator_held": None if op_held else NOT_USED.get(place, NOT_HELD_BA if place.startswith("ba-") else NOT_HELD),
              "made_utc": iso(made), "inputs_through_utc": iso(inputs_through), "target_day": target.strftime("%Y-%m-%d"), "horizon_days": h,
              "band": "the 10th and 90th percentile of the chosen method's own past errors (actual less forecast, MW) at the same local hour over 365 days, the low end not clipped, a plant's net output at night being a little below zero",
              "band_coverage_pct": inside,

@@ -98,6 +98,11 @@ better at SPP. On ERCOT's spike hours the ERW's regression is twice as far off a
 latest real-time spread into the next day. Replication (`replication/predict/replicate_rt.py`): 1,120 of 1,120 figures
 equal.
 
+**Ready branch of session 11408, not the default.** ERCOT's real-time prices (`ercot_all_hub_prices_history`) are filled
+by its legacy `/misapp` pulls, paths ERCOT's robots file disallows (the owner's ruling 2 of 6 November 2026), so no
+ERCOT hub's real-time price is forecast (`LEGACY_MISAPP` in `warehouse/predict/rt_price.py`): `rt_price.json` keeps
+SPP's and CAISO's hubs. The day-ahead price forecast is unchanged.
+
 ## 8. The real-time price over a longer backtest (session 10603)
 
 Samuel's order of 27 November 2026 ("longer backtests and more places"). The day-ahead price forecast of sections 1 to 4

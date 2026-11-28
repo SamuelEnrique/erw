@@ -19,7 +19,10 @@ model's output, never a published or official figure.
 - **Texas** (`region-tex`): TEX is ERCOT alone, and EIA-930's figure equals ERCOT's own actual output to the megawatt
   in every hour both hold (`runs/c730/ws_check.py`). The operator's forecast: ERCOT's short-term wind and solar
   forecasts (STWPF, STPPF), the newest posting published at least 24 hours before the hour
-  (`ercot_wind_solar_forecast`, from 27 September 2026: about two months).
+  (`ercot_wind_solar_forecast`, from 27 September 2026: about two months). **Ready branch of session 11408, not the
+  default:** that table is filled by ERCOT's legacy `/misapp` pulls, paths ERCOT's robots file disallows (the owner's
+  ruling 2 of 6 November 2026), so Texas's operator forecast is not used (`USE_ERCOT_LEGACY` in
+  `warehouse/predict/predict_ws.py`): each fuel's `operator_held` says why, and no operator row is scored for Texas.
 - **CAISO's own output** (`grid-caiso`): its three trading hubs summed (`caiso_wind_solar_forecast`, market run
   ACTUAL, June 2023 on), against CAISO's day-ahead market forecast of the same hubs (market run DAM). EIA-930's
   California region is a larger footprint: CAISO's hubs are 60 to 92 percent of its wind and 82 to 86 percent of its

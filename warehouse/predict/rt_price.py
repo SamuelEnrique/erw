@@ -144,6 +144,9 @@ def append_ledger(site, rows):
     return len(new)
 
 
+LEGACY_MISAPP = {g for g in rtm.RT_HUBS if g == "ercot" or g.startswith("ercot-")}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="The ERW forecast of the real-time hub price (chain 730, part F)")
     ap.add_argument("--site-dir", default=SITE)
@@ -156,7 +159,10 @@ def main(argv=None):
     rt = rtm.rt_panel(rtm.RT_HUBS)
     da = data.price_panel(rtm.RT_HUBS)
     hubs, rows, ledger = [], [], []
-    for grid in list(rtm.RT_HUBS):
+    # ready branch of session 11408 (weekend page of 28 November 2026, part 3.5, the other choice): ERCOT's real-time
+    # prices (ercot_all_hub_prices_history) are filled by its legacy /misapp pulls, paths its robots file disallows (the
+    # owner's ruling 2 of 6 November 2026): no ERCOT hub is forecast here
+    for grid in [g for g in rtm.RT_HUBS if g not in LEGACY_MISAPP]:
         block, r, lg = one(grid, rt, da, made)
         hubs.append(block)
         rows += r
