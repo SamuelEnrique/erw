@@ -302,6 +302,18 @@ export function digestMarkdown(md: string, date: string, chart: { table: string;
     out[i] = s;
   }
   if (licenseNeeded("news_index", now)) {
+    // wip/ready-digest-news-hold (the Digest audit of 26 November, finding 6, for Samuel's ruling): the hold reaches the
+    // opening number when it is a story's figure ("..., as <outlet> reported on <day>") and the numbers block's story rows
+    // ("(<who>; <outlet>, <day>)"), each line replaced in place, so no section's place moves
+    const heldLine = `${token(`<span data-license-held="news_index" class="text-muted" title="${esc(licenseTitle("news_index"))}">${LICENSE_NEEDED}</span>`)}: `
+      + `this figure is a story's, from the news index, whose outlets ask for permission; held since ${day(LICENSE_FROM)}.`;
+    for (const s of secs) {
+      if (s.title === "The opening number") {
+        for (let i = s.start + 1; i < s.end; i++) if (/ reported on \d{4}-\d{2}-\d{2}/.test(lines[i])) out[i] = heldLine;
+      } else if (isNumbers(s.title)) {
+        for (let i = s.start + 1; i < s.end; i++) if (/^- \*\*.+\(([^()]*; )?[^();]+, \d{4}-\d{2}-\d{2}\)/.test(lines[i])) out[i] = `- ${heldLine}`;
+      }
+    }
     for (const s of [...secs].reverse()) {
       if (!STORY_SECTIONS.includes(s.title)) continue;
       const body = lines.slice(s.start + 1, s.end);
