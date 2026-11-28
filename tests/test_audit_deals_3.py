@@ -44,21 +44,22 @@ class TheDollarSumsOfTheAiView(unittest.TestCase):
         out = subprocess.run(["node", "--input-type=module"], input=JS, capture_output=True, text=True, timeout=120)
         self.assertEqual(out.returncode, 0, out.stderr)
         got = json.loads(out.stdout.strip().splitlines()[-1])
-        self.assertEqual(got["byBuyer"], [["B", 50e9, 2]])
-        self.assertEqual(sorted(got["bySupply"]), [["capital", 40e9], ["compute", 10e9]])
+        # session 11408 (wip/ready-deals-kinds): no dollar sum by buyer; the rumored raise is not added
+        self.assertEqual(got["byBuyer"], [["B", None, 0]])
+        self.assertEqual(sorted(got["bySupply"]), [["capital", None], ["compute", 10e9]])
 
     def test_the_words_say_what_a_sum_adds(self):
-        default = ("No total over all deals. The AI view sums the US dollars of each group it shows: by the kind of supply, one kind a sum; by "
-                   "buyer (its default), grid or quarter, a group's sum adds raises, acquisitions, financings and contracts together, rumored "
-                   "deals among them.")
+        # session 11408 (wip/ready-deals-kinds): the words of the other choice
+        default = ("No total over all deals. The AI view sums US dollars only grouped by the kind of supply, one kind a sum, and never adds a "
+                   "rumored or cancelled deal's dollars; by buyer (its default), grid or quarter it draws no dollar sum.")
         self.assertIn(f'def: "{default}"', src("site", "lib", "decisions.ts"))
         note = src("docs", "methods", "deal_tracker.md")
         self.assertIn(f"**Default:** {default} **Source:** The extraction's prompt and session 2271's rule", note)
-        self.assertIn("by buyer, grid or quarter a US-dollar sum adds a raise, an acquisition, a financing and a compute contract alike", flat(note))
+        self.assertIn("by buyer, grid or quarter no dollar sum is drawn and the table has no dollar column", flat(note))
         ai = flat(src("site", "app", "deals", "ai", "view.tsx"))
-        self.assertIn("A group&apos;s sum adds every kind of deal in it and every stage: by buyer, grid or quarter, the US dollars of a raise, an "
-                      "acquisition, a financing and a compute contract are added together, rumored talks with signed deals; grouped by the kind "
-                      "of supply, each sum is of one kind.", ai)
+        self.assertIn("US dollars are summed only grouped by the kind of supply, so that each sum is of one kind, and a rumored or cancelled "
+                      "deal&apos;s dollars are never added; by buyer, grid or quarter the table counts the deals and sums the MW they state, "
+                      "and no dollar sum is drawn.", ai)
         v2 = flat(src("site", "app", "deals", "v2", "view.tsx"))
         self.assertNotIn("a financing or a valuation", v2)
         self.assertIn("a purchase price, a financing or a contract&apos;s value, each as stated (a valuation is not kept)", v2)

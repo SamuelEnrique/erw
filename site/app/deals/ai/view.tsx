@@ -6,7 +6,7 @@ import { HeldRows } from "@/components/tool/HeldRows";
 import duplicates from "@/data/deal_duplicates.json";
 import { deals } from "@/lib/data";
 import { fold, toDeal, whole, type Deal, type DealRow, type Pair } from "@/lib/deals2";
-import { AI_DIMENSIONS, SUPPLY_LABEL, aiCells, aiKey, largest, supplyOf } from "@/lib/dealsai";
+import { AI_DIMENSIONS, SUPPLY_LABEL, USD_DIMENSIONS, aiCells, aiKey, largest, supplyOf } from "@/lib/dealsai";
 import { isLicenseReason } from "@/lib/license";
 import { attempt } from "@/lib/supabase";
 import { DealsHeld } from "../Held";
@@ -67,11 +67,12 @@ export async function AiView({ sp }: { sp: Record<string, string | undefined> })
   // acquisition at its valuation, a funding round, a financing) stays in the table's Capital and acquisitions row
   const supply = all.filter((d) => supplyOf(d) !== "capital");
   const cells = aiCells(all, by);
+  const usdShown = USD_DIMENSIONS.includes(by);   // session 11408: dollars summed only by the kind of supply
   return (
     <>
       <ToolHeader title="Deals for AI power"
         crumb={<>Every deal: <Link href="/deals?tab=tracker" className="underline">Tracker</Link>. Side by side: <Link href="/deals?view=comparables" className="underline">Comparables</Link></>}
-        lead={<>The deals the AI-power rule tags: a named AI lab, hyperscaler, datacenter operator or AI-load buyer is a party, or the load the deal serves is a datacenter. A sum is of the figures the stories state; the deals that state none are counted beside it, never added as zero. A group&apos;s sum adds every kind of deal in it and every stage: by buyer, grid or quarter, the US dollars of a raise, an acquisition, a financing and a compute contract are added together, rumored talks with signed deals; grouped by the kind of supply, each sum is of one kind.</>} />
+        lead={<>The deals the AI-power rule tags: a named AI lab, hyperscaler, datacenter operator or AI-load buyer is a party, or the load the deal serves is a datacenter. A sum is of the figures the stories state; the deals that state none are counted beside it, never added as zero. US dollars are summed only grouped by the kind of supply, so that each sum is of one kind, and a rumored or cancelled deal&apos;s dollars are never added; by buyer, grid or quarter the table counts the deals and sums the MW they state, and no dollar sum is drawn.</>} />
       <nav aria-label="Group by" className="mb-6 flex flex-wrap items-baseline gap-x-4 gap-y-1 text-sm" data-ai-by={by}>
         <span className="font-semibold">Group by</span>
         {AI_DIMENSIONS.map((d) => (
@@ -103,7 +104,7 @@ export async function AiView({ sp }: { sp: Record<string, string | undefined> })
                 <caption className="sr-only">The AI-power deals by {dim.label.toLowerCase()}</caption>
                 <thead>
                   <tr className="border-b border-rule text-left text-xs text-muted">
-                    {[dim.label, "Deals", "MW stated", "US dollars stated"].map((h) => <th key={h} scope="col" className="px-3 py-1.5 font-normal">{h}</th>)}
+                    {[dim.label, "Deals", "MW stated", ...(usdShown ? ["US dollars stated"] : [])].map((h) => <th key={h} scope="col" className="px-3 py-1.5 font-normal">{h}</th>)}
                   </tr>
                 </thead>
                 <tbody>
@@ -112,7 +113,7 @@ export async function AiView({ sp }: { sp: Record<string, string | undefined> })
                       <th scope="row" className={`${cell} font-normal`}>{c.label}</th>
                       <td className={`${cell} tabular-nums`}><Num check={aiKey("deals", by, c.value)} raw={c.deals}>{whole(c.deals)}</Num></td>
                       <td className={`${cell} tabular-nums`}><Sum v={c.mw} n={c.withMw} of={c.deals} k={aiKey("mw", by, c.value)} kn={aiKey("with_mw", by, c.value)} unit="MW" /></td>
-                      <td className={`${cell} tabular-nums`}><Sum v={c.usd} n={c.withUsd} of={c.deals} k={aiKey("usd", by, c.value)} kn={aiKey("with_usd", by, c.value)} unit="USD" /></td>
+                      {usdShown ? <td className={`${cell} tabular-nums`}><Sum v={c.usd} n={c.withUsd} of={c.deals} k={aiKey("usd", by, c.value)} kn={aiKey("with_usd", by, c.value)} unit="USD" /></td> : null}
                     </tr>
                   ))}
                 </tbody>

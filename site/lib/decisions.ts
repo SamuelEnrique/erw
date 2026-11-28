@@ -219,7 +219,7 @@ export const DEAL_TRACKER_DECISIONS: Decision[] = [
     source: "warehouse/deals/dedupe.py and the register warehouse/deals/duplicates.csv, each pair with its reason." },
   { key: "dollars", session: "sessions 15 and 1852",
     text: "US dollars are a deal's own sum as stated: a purchase price, a financing or a contract's value. Another currency is never converted, a valuation or a company-wide investment is not the deal's, and no sum is drawn across every kind of deal.",
-    def: "No total over all deals. The AI view sums the US dollars of each group it shows: by the kind of supply, one kind a sum; by buyer (its default), grid or quarter, a group's sum adds raises, acquisitions, financings and contracts together, rumored deals among them.",
+    def: "No total over all deals. The AI view sums US dollars only grouped by the kind of supply, one kind a sum, and never adds a rumored or cancelled deal's dollars; by buyer (its default), grid or quarter it draws no dollar sum.",
     source: "The extraction's prompt and session 2271's rule for a contract's sum; deals faults row 5." },
   { key: "price", session: "session 113",
     text: "A price is a price in US dollars per MWh; a figure in another unit is shown as extracted and never converted.",

@@ -38,6 +38,12 @@ export const AI_DIMENSIONS: { id: string; label: string; of: (d: Deal) => string
 
 export type AiCell = { value: string; label: string; deals: number; mw: number | null; withMw: number; usd: number | null; withUsd: number };
 
+/** Session 11408 (deals audit finding 3, the other choice): US dollars are summed only grouped by the kind of supply,
+ * so that one sum is of one kind, and a rumored or cancelled deal's dollars are never added. By buyer, grid or
+ * quarter a cell carries no dollar sum (usd null, withUsd 0) and the view draws no dollar column. */
+export const USD_DIMENSIONS = ["supply"];
+export const summedUsd = (d: Deal): boolean => d.status !== "rumored" && d.status !== "cancelled";
+
 /** The AI-tagged deals by one dimension, most deals first; "" (not stated) last, a quarter in time order. */
 export function aiCells(deals: Deal[], dim: string): AiCell[] {
   const d0 = AI_DIMENSIONS.find((d) => d.id === dim);
@@ -45,7 +51,8 @@ export function aiCells(deals: Deal[], dim: string): AiCell[] {
   const by = new Map<string, Deal[]>();
   for (const d of deals.filter((x) => x.ai)) { const v = d0.of(d); by.set(v, [...(by.get(v) ?? []), d]); }
   const cells = [...by.entries()].map(([value, ds]) => {
-    const mws = ds.flatMap((d) => (d.mw === null ? [] : [d.mw])), us = ds.flatMap((d) => (d.dollars === null ? [] : [d.dollars]));
+    const mws = ds.flatMap((d) => (d.mw === null ? [] : [d.mw]));
+    const us = USD_DIMENSIONS.includes(dim) ? ds.flatMap((d) => (d.dollars === null || !summedUsd(d) ? [] : [d.dollars])) : [];
     return { value, label: value === "" ? "not stated" : dim === "supply" ? SUPPLY_LABEL[value] ?? value : value, deals: ds.length,
       mw: mws.length ? mws.reduce((a, b) => a + b, 0) : null, withMw: mws.length,
       usd: us.length ? us.reduce((a, b) => a + b, 0) : null, withUsd: us.length };
