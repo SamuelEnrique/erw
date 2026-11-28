@@ -9,7 +9,7 @@ import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { series } from "@/lib/data";
-import { ENTITY_BA, gridWeather, STATION_BA, studyOf, type Study } from "@/lib/eventstudy";
+import { ENTITY_BA, gridWeather, STATION_BA, studyOf, weatherShare, type Study } from "@/lib/eventstudy";
 import { shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 
@@ -29,7 +29,10 @@ type Row = { entity: string; variable: string; s: Study; t: Study | null };
 // single window indicator, so its weather terms are fitted on the event days as well as the baseline days, while each
 // event day's estimate below is fitted on the baseline days alone. On Winter Storm Uri the two rules give ERCOT +30,284
 // and -92,180 MWh a day, so "80.56 percent" under one and no share under the other (docs/reviews/events-model-audit-2026-11-26.md).
-const WEATHER_FIT_WORDS = "The weather terms here are fitted on the event days and the baseline days together, while each event day's estimate below fits them on the baseline days alone, so the two can differ widely; and where an event day was colder or hotter than any baseline day, the curve is carried beyond the days it was fitted on. So a share, where one is given, is a property of this one fit, not a measured part of the effect that the weather caused.";
+// Session 11407 (finding 2, readied for the owner's ruling): the share is now taken from the event days' estimates, whose
+// weather terms are fitted on the baseline days alone (lib/eventstudy.ts weatherShare): Uri 80.56 percent becomes no
+// share, CAISO 2020 70.47 becomes 63.86, Elliott (PJM) 65.33 becomes no share.
+const WEATHER_FIT_WORDS = "The estimate just given has its weather terms fitted on the event days and the baseline days together; the share, where one is given, fits them on the baseline days alone, as each event day's estimate below does, and sets the mean of those day estimates against their mean without the weather terms, so that weather the event days brought is not learned from the event days themselves. Where an event day was colder or hotter than any baseline day, the curve is still carried beyond the days it was fitted on. So a share is a property of this fit, not a measured part of the effect that the weather caused.";
 
 function E({ ev, r, term, field, v }: { ev: string; r: Row; term: string; field: string; v: number }) {
   return <Num check={`es|${ev}|${r.entity}|${r.variable}|${term}|${field}`} raw={v}>{shown(v)}</Num>;
@@ -88,6 +91,7 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
   const p = lead.s.pooled, pct = (p.estimate / lead.s.counterfactualMean) * 100;
   const clear = p.lo > 0 || p.hi < 0;
   const name = GRID_LABEL[primary];
+  const share = weatherShare(lead.s, lead.t);
   return (
     <Section title="What the estimates say">
       <p className="mb-2 max-w-3xl text-sm">
@@ -103,10 +107,10 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
           Controlling for temperature (the day&apos;s heating and cooling degree days at {name}&apos;s weather stations, and their squares), the effect is{" "}
           <strong><E ev={event} r={lead} term="pooled_temp" field="est" v={lead.t.pooled.estimate} /></strong> MWh a day (95 percent interval{" "}
           <E ev={event} r={lead} term="pooled_temp" field="lo" v={lead.t.pooled.lo} /> to <E ev={event} r={lead} term="pooled_temp" field="hi" v={lead.t.pooled.hi} />).{" "}
-          {Math.sign(lead.t.pooled.estimate) === Math.sign(p.estimate) && Math.abs(lead.t.pooled.estimate) <= Math.abs(p.estimate) ? (
-            <>The weather terms account for <E ev={event} r={lead} term="weather_share" field="pct" v={(1 - lead.t.pooled.estimate / p.estimate) * 100} /> percent of the estimate without them.</>
+          {share !== null ? (
+            <>Fitted on the baseline days alone, the weather terms account for <E ev={event} r={lead} term="weather_share" field="pct" v={share} /> percent of the event days&apos; mean effect without them.</>
           ) : (
-            <>With the weather terms the estimate is not smaller in size or keeps no sign in common with the one without them, so no share of it can be put down to weather.</>
+            <>Fitted on the baseline days alone, the weather terms leave the event days&apos; mean effect no smaller in size, or with no sign in common with the one without them, so no share of it can be put down to weather.</>
           )}{" "}
           <span data-weather-fit="1">{WEATHER_FIT_WORDS}</span>
         </p>

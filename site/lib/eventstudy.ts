@@ -143,6 +143,19 @@ export function studyOf(event: string, rows: { ts_utc: string; value: number; fr
   return estimate(r.map((x) => x.d), r.map((x) => x.v), r.map((x) => x.d >= s && x.d <= e), Z);
 }
 
+/** Session 11407 (the events audit's finding 2, readied for the owner's ruling): the share of the event days' effect the
+ * weather terms account for, with the weather fitted on the baseline days alone, as each event day's estimate is: one
+ * less the mean of the day effects with the weather terms over the mean without them, in percent. None (null) where
+ * the two means differ in sign or the one with the weather terms is the larger, as when the curve carried beyond the
+ * baseline days' weather turns the effect round (Winter Storm Uri, ERCOT). The pooled regression's share, which fits
+ * the weather terms on the event days too, gave 80.56 percent there and 70.47 for CAISO 2020 (this rule: 63.86). */
+export function weatherShare(s: Study, t: Study | null): number | null {
+  if (!t || !s.days.length || !t.days.length) return null;
+  const mean = (x: DayEst[]) => x.reduce((a, d) => a + d.estimate, 0) / x.length;
+  const a = mean(t.days), b = mean(s.days);
+  return Math.sign(a) === Math.sign(b) && Math.abs(a) <= Math.abs(b) ? (1 - a / b) * 100 : null;
+}
+
 /** Session 49: the grid's daily degree days from event_window_daily's station rows (hdd_65f, cdd_65f of the stations
  * whose ba is the grid's), the mean over its stations, as event_study.py's weather_of. */
 export function gridWeather(rows: { ts_utc: string; value: number; variable: string; entity: string }[]): Map<string, { hdd: number; cdd: number }> {

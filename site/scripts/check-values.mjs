@@ -905,7 +905,7 @@ async function truth(check) {
     const [, ev, entity, variable] = p;
     const term = p[4] === "day" ? `day|${p[5]}` : p[4], field = p.at(-1);
     const k = `${ev}|${entity}|${variable}`;
-    const { studyOf, gridWeather, STATION_BA, ENTITY_BA } = await import("../lib/eventstudy.ts");
+    const { studyOf, gridWeather, STATION_BA, ENTITY_BA, weatherShare } = await import("../lib/eventstudy.ts");
     if (!studies.has(k)) {
       const rows = await all("series", { select: "ts_utc,value,freq", table_name: "eq.event_window_daily", event: `eq.${ev}`, entity: `eq.${entity}`,
         variable: `eq.${variable}`, order: "ts_utc" });
@@ -925,7 +925,8 @@ async function truth(check) {
       return { est: s.pooled.estimate, lo: s.pooled.lo, hi: s.pooled.hi }[field];
     }
     if (term === "pooled_temp") return t ? { est: t.pooled.estimate, lo: t.pooled.lo, hi: t.pooled.hi }[field] : undefined;
-    if (term === "weather_share") return t ? (1 - t.pooled.estimate / s.pooled.estimate) * 100 : undefined;
+    // session 11407: the share with the weather fitted on the baseline days alone (lib/eventstudy.ts weatherShare)
+    if (term === "weather_share") return weatherShare(s, t) ?? undefined;
     const d = s.days.find((x) => x.day === p[5]);
     return d ? { est: d.estimate, lo: d.lo, hi: d.hi }[field] : undefined;
   }
