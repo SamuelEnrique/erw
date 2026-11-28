@@ -302,6 +302,9 @@ catalogue_hold:
   # session 10000 (chain 701, predict data request 10): wind and solar net generation by balancing authority, July 2018 on
   # (about 1.2 GB), read by the forecast on the data machine, not by the live set; not on Redivis: not in the live catalogue
   - eia930_ba_wind_solar_hourly
+  # session 10000 (chain 701, part D): the listed energy companies (SEC EDGAR), read by /equities from site/data/equities/,
+  # not by the live set; not on Redivis (its storage full): not in the live catalogue
+  - equity_universe
   # session 8002 (chain 501, part C): who trades with whom; the page reads site/data/regions/trade_matrix.json, not the live set
   - interchange_pair_daily
   - interchange_pair_monthly

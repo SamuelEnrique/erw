@@ -4531,6 +4531,26 @@ equity_fundamentals_quarterly,revenue_3m_usd,series variable,USD
 equity_fundamentals_quarterly,revenue_6m_usd,series variable,USD
 equity_fundamentals_quarterly,revenue_9m_usd,series variable,USD
 equity_fundamentals_quarterly,shares_outstanding,series variable,count
+equity_universe,entity_id,column,
+equity_universe,entity_type,column,
+equity_universe,name,column,
+equity_universe,geo,column,
+equity_universe,source,column,
+equity_universe,source_url,column,
+equity_universe,retrieved_at,column,
+equity_universe,vintage,column,
+equity_universe,cik,column,
+equity_universe,ticker,column,
+equity_universe,tickers,column,
+equity_universe,exchange,column,
+equity_universe,sic,column,
+equity_universe,sic_label,column,
+equity_universe,segments,column,
+equity_universe,segments_note,column,
+equity_universe,directory_id,column,
+equity_universe,state_of_incorporation,column,
+equity_universe,fiscal_year_end,column,
+equity_universe,filer_category,column,
 ercot_4cp_intervals,cp4_load_mw,series variable,MW
 ercot_all_hub_prices_history,spp_dam,series variable,USD/MWh
 ercot_all_hub_prices_history,spp_rtm,series variable,USD/MWh
@@ -9287,6 +9307,7 @@ weather_forecast_issued_hourly,temperature_f_lead3d,series variable,degF
 weather_forecast_issued_hourly,temperature_f_lead4d,series variable,degF
 weather_forecast_issued_hourly,temperature_f_lead5d,series variable,degF
 weather_forecast_issued_hourly,temperature_f_lead6d,series variable,degF
+weather_forecast_issued_hourly,temperature_f_lead7d,series variable,degF
 weather_forecast_issued_hourly,wind_speed_mph_lead0d,series variable,mph
 weather_forecast_issued_hourly,wind_speed_mph_lead1d,series variable,mph
 weather_forecast_issued_hourly,wind_speed_mph_lead2d,series variable,mph
@@ -9294,6 +9315,7 @@ weather_forecast_issued_hourly,wind_speed_mph_lead3d,series variable,mph
 weather_forecast_issued_hourly,wind_speed_mph_lead4d,series variable,mph
 weather_forecast_issued_hourly,wind_speed_mph_lead5d,series variable,mph
 weather_forecast_issued_hourly,wind_speed_mph_lead6d,series variable,mph
+weather_forecast_issued_hourly,wind_speed_mph_lead7d,series variable,mph
 weather_obs_hourly,temperature_f,series variable,degF
 weather_obs_hourly,wind_speed_mph,series variable,mph
 wfigs_wildfires,event_id,column,
