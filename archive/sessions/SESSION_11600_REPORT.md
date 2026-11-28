@@ -41,7 +41,7 @@ Energy Research Warehouse (ERW). Chain 780 (`queue/done/780-night-28-november-po
 ## Five faults of the sweep, mended at their cause (each on its own branch, with a test)
 
 - **The Grid tool 506 px wide on a phone** (row G2): the note about a day not held breaks anywhere. `wip/c780-grid-note` (`9d272ae55`). Seen in the sixth build: 390 of 390 px.
-- **Twelve years printed over each other, and a heat map's hours end to end and on the legend** (rows CH2, CH3): three lines of the shared chart file. `wip/c780-chart-labels` (`f6fd545be`). Seen in the sixth build.
+- **Twelve years printed over each other, and a heat map's hours end to end and on the legend** (rows CH2, CH3): three lines of the shared chart file. `wip/c780-chart-labels` (`6ca3657f4`). Seen in the sixth build. Its second commit narrows the first rule: a chart of twelve or fewer thins only where two neighbouring labels would meet, so a long name beside short ones is written as before.
 - **Three bars' figures on each other** (row CH1): each figure is raised clear of the ones before it. `wip/c780-bars-figures` (`690d7f350`); it changes the one line session 1855's test read. Seen in the sixth build.
 - **The bar chart shrunk to the screen on a phone, its figures under 6 px** (row CH4, found while seeing the mend above): the brand's phone rule named the figure's own child and the chart has stood inside its hover's box since session 2201. `wip/c780-bars-phone` (`839676a49`): three rules in `site/app/tokens.css` beside the three that stand.
 
@@ -80,7 +80,7 @@ Energy Research Warehouse (ERW). Chain 780 (`queue/done/780-night-28-november-po
 - **Five of the sweep's faults were mended here too, each at its cause with a test, on branches of their own** (the section above). Each is in a shared component or on a page no machine owns tonight; the first plan was to file them, and the time left allowed more. Each is a landing row of its own, so the desk can take or leave any one.
 - **One older test's line was changed** (`tests/test_session1855.py`, on `wip/c780-bars-figures` only): it read the very line of the rule that put the figures on each other. It now reads the new rule, with a note; the landing row says so in bold.
 - **`site/app/tokens.css`, a shared file, gains three rules** (on `wip/c780-bars-phone` only): the brand's own phone rule, said again for the chart inside its hover's box; the three older rules stand.
-- **A chart of twelve columns or fewer now thins its names on a phone** where it printed them over each other (on `wip/c780-chart-labels`): for years that is plainly right; for names (fuels, grids) a name is dropped, and the hover and the Table switch carry it. Left as a line for Samuel's ruling.
+- **A chart of twelve columns or fewer now thins its names on a phone** where two neighbours printed over each other (on `wip/c780-chart-labels`): for years that is plainly right; for names (fuels, grids) a name is dropped, and the hover and the Table switch carry it. Left as a line for Samuel's ruling. The first form of the rule would also have thinned a chart with one long name that met nothing; it was narrowed before any landing was asked.
 
 ## For Samuel's ruling
 
