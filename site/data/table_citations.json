@@ -544,6 +544,7 @@
  "spp_curtailment_daily": "Southwest Power Pool (SPP). VER Curtailments (5-minute, by BAA).",
  "spp_dam_cleared_energy": "Southwest Power Pool (SPP). Marketplace portal, Market Clearing, day-ahead files (DA-MC), cleared demand.",
  "spp_interconnection_queue": "Southwest Power Pool (SPP). Generation Interconnection Queue summary.",
+ "spp_mtlf_hourly": "Southwest Power Pool (SPP). Mid-Term Load Forecast vs Actual (MTLF).",
  "ssb_norway_electricity_monthly": "Statistics Norway (SSB). Table 14091: Electricity balance (MWh).",
  "stat_kz_kazakhstan_electricity_annual": "Bureau of National Statistics of Kazakhstan. Fuel and energy balance of the Republic of Kazakhstan, in physical terms (2022 to 2025), the electricity column.",
  "stat_tj_tajikistan_electricity_annual": "Agency on Statistics under the President of the Republic of Tajikistan. Analytical table: Electricity output, trade and consumption, 1991-2025.",
