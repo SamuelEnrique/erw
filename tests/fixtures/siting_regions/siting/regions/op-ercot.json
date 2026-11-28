@@ -19,126 +19,162 @@
    "publisher": "ERCOT",
    "license": "public",
    "retrieved": "2026-11-28T06:10:00Z",
-   "report": "ERCOT settlement point prices at hubs, day-ahead and real-time"
+   "report": "ERCOT settlement point prices at hubs, day-ahead and real-time",
+   "url": "https://example.org/made-up-source/ercot_prices",
+   "held": null
   },
   "iso_prices": {
    "table": "iso_hub_prices_history",
    "publisher": "NYISO",
    "license": "internal",
    "retrieved": "2026-11-28T06:12:00Z",
-   "report": "NYISO zonal prices"
+   "report": "NYISO zonal prices",
+   "url": "https://example.org/made-up-source/iso_prices",
+   "held": null
   },
   "congestion": {
    "table": "price_congestion_monthly",
    "publisher": "CAISO, SPP",
    "license": "public",
    "retrieved": "2026-11-27T06:00:00Z",
-   "report": "the congestion part of the hub price, by month"
+   "report": "the congestion part of the hub price, by month",
+   "url": "https://example.org/made-up-source/congestion",
+   "held": null
   },
   "constraints": {
    "table": "constraints_binding_monthly",
    "publisher": "CAISO, SPP",
    "license": "public",
    "retrieved": "2026-11-27T06:00:00Z",
-   "report": "binding constraints by month"
+   "report": "binding constraints by month",
+   "url": "https://example.org/made-up-source/constraints",
+   "held": null
   },
   "eia930_demand": {
    "table": "eia930_ba_demand_hourly",
    "publisher": "U.S. Energy Information Administration",
    "license": "public",
    "retrieved": "2026-11-28T05:00:00Z",
-   "report": "Form EIA-930, hourly demand by balancing authority"
+   "report": "Form EIA-930, hourly demand by balancing authority",
+   "url": "https://example.org/made-up-source/eia930_demand",
+   "held": null
   },
   "alerts": {
    "table": "grid_all_alerts",
    "publisher": "ERCOT, CAISO, DOE",
    "license": "public",
    "retrieved": "2026-11-28T05:30:00Z",
-   "report": "operators' notices and DOE's emergency orders"
+   "report": "operators' notices and DOE's emergency orders",
+   "url": "https://example.org/made-up-source/alerts",
+   "held": null
   },
   "outages": {
    "table": "generation_outages_hourly",
    "publisher": "CAISO, SPP",
    "license": "public",
    "retrieved": "2026-11-27T06:00:00Z",
-   "report": "generation out of service by hour"
+   "report": "generation out of service by hour",
+   "url": "https://example.org/made-up-source/outages",
+   "held": null
   },
   "cdr": {
    "table": "ercot_cdr_reserve_margins",
    "publisher": "ERCOT",
    "license": "public",
    "retrieved": "2026-11-20T06:00:00Z",
-   "report": "ERCOT's Capacity, Demand and Reserves report"
+   "report": "ERCOT's Capacity, Demand and Reserves report",
+   "url": "https://example.org/made-up-source/cdr",
+   "held": null
   },
   "queue": {
    "table": "lbnl_interconnection_queue",
    "publisher": "Lawrence Berkeley National Laboratory",
    "license": "public",
    "retrieved": "2026-11-01T06:00:00Z",
-   "report": "Queued Up, 2026 edition, through 2025"
+   "report": "Queued Up, 2026 edition, through 2025",
+   "url": "https://example.org/made-up-source/queue",
+   "held": null
   },
   "durations": {
    "table": "interconnection_durations",
    "publisher": "Lawrence Berkeley National Laboratory",
    "license": "public",
    "retrieved": "2026-11-01T06:00:00Z",
-   "report": "Queued Up, 2026 edition: years from request to operation"
+   "report": "Queued Up, 2026 edition: years from request to operation",
+   "url": "https://example.org/made-up-source/durations",
+   "held": null
   },
   "rules": {
    "table": "utility_large_load_rules",
    "publisher": "utilities and state commissions",
    "license": "public",
    "retrieved": "2026-11-26T06:00:00Z",
-   "report": "large-load tariffs, contracts and orders, each read in its own document"
+   "report": "large-load tariffs, contracts and orders, each read in its own document",
+   "url": "https://example.org/made-up-source/rules",
+   "held": null
   },
   "carbon": {
    "table": "carbon_intensity_hourly",
    "publisher": "U.S. Energy Information Administration; the ERW's arithmetic",
    "license": "public",
    "retrieved": "2026-11-28T05:00:00Z",
-   "report": "carbon intensity of demand by hour, from Form EIA-930 generation by fuel"
+   "report": "carbon intensity of demand by hour, from Form EIA-930 generation by fuel",
+   "url": "https://example.org/made-up-source/carbon",
+   "held": null
   },
   "supply": {
    "table": "eia930_ba_supply_hourly",
    "publisher": "U.S. Energy Information Administration",
    "license": "public",
    "retrieved": "2026-11-28T05:00:00Z",
-   "report": "Form EIA-930, hourly net generation by fuel"
+   "report": "Form EIA-930, hourly net generation by fuel",
+   "url": "https://example.org/made-up-source/supply",
+   "held": null
   },
   "interchange": {
    "table": "eia930_ba_interchange_hourly_2026",
    "publisher": "U.S. Energy Information Administration",
    "license": "public",
    "retrieved": "2026-11-28T05:00:00Z",
-   "report": "Form EIA-930, hourly interchange between authorities"
+   "report": "Form EIA-930, hourly interchange between authorities",
+   "url": "https://example.org/made-up-source/interchange",
+   "held": null
   },
   "curtailment": {
    "table": "iso_curtailment_monthly",
    "publisher": "CAISO, ERCOT, SPP",
    "license": "public",
    "retrieved": "2026-11-27T06:00:00Z",
-   "report": "wind and solar curtailed, by month"
+   "report": "wind and solar curtailed, by month",
+   "url": "https://example.org/made-up-source/curtailment",
+   "held": null
   },
   "scores": {
    "table": "eia930_ba_demand_hourly",
    "publisher": "the ERW forecast's report card",
    "license": "public",
    "retrieved": "2026-11-27T14:39:36Z",
-   "report": "site/data/predict/scores.json: the operator's filed forecast and the ERW forecast against what happened"
+   "report": "site/data/predict/scores.json: the operator's filed forecast and the ERW forecast against what happened",
+   "url": "https://example.org/made-up-source/scores",
+   "held": null
   },
   "dc_facilities": {
    "table": "datacenter_facilities",
    "publisher": "news and company pages",
    "license": "public",
    "retrieved": "2026-11-26T06:00:00Z",
-   "report": "datacenter facilities"
+   "report": "datacenter facilities",
+   "url": "https://example.org/made-up-source/dc_facilities",
+   "held": null
   },
   "dc_projects": {
    "table": "datacenter_projects",
    "publisher": "news and company pages",
    "license": "public",
    "retrieved": "2026-11-26T06:00:00Z",
-   "report": "announced datacenter projects"
+   "report": "announced datacenter projects",
+   "url": "https://example.org/made-up-source/dc_projects",
+   "held": null
   }
  },
  "sections": {
@@ -155,7 +191,62 @@
       "unit": "USD/MWh",
       "period": "2025-11-01..2026-10-31",
       "src": "ercot_prices",
-      "held": null
+      "held": null,
+      "trend": {
+       "months": [
+        "2024-11",
+        "2024-12",
+        "2025-01",
+        "2025-02",
+        "2025-03",
+        "2025-04",
+        "2025-05",
+        "2025-06",
+        "2025-07",
+        "2025-08",
+        "2025-09",
+        "2025-10",
+        "2025-11",
+        "2025-12",
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04",
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-08",
+        "2026-09",
+        "2026-10"
+       ],
+       "period": "2024-11-01..2026-10-31",
+       "v": [
+        30.5,
+        31.25,
+        32.0,
+        32.75,
+        33.5,
+        34.25,
+        35.0,
+        35.75,
+        36.5,
+        37.25,
+        38.0,
+        38.75,
+        39.5,
+        40.25,
+        41.0,
+        41.75,
+        42.5,
+        43.25,
+        44.0,
+        44.75,
+        45.5,
+        46.25,
+        47.0,
+        47.75
+       ]
+      }
      },
      "p95": {
       "v": 118.7,
@@ -196,7 +287,62 @@
       "unit": "USD/MWh",
       "period": "2025-11-01..2026-10-31",
       "src": "ercot_prices",
-      "held": null
+      "held": null,
+      "trend": {
+       "months": [
+        "2024-11",
+        "2024-12",
+        "2025-01",
+        "2025-02",
+        "2025-03",
+        "2025-04",
+        "2025-05",
+        "2025-06",
+        "2025-07",
+        "2025-08",
+        "2025-09",
+        "2025-10",
+        "2025-11",
+        "2025-12",
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04",
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-08",
+        "2026-09",
+        "2026-10"
+       ],
+       "period": "2024-11-01..2026-10-31",
+       "v": [
+        30.5,
+        31.25,
+        32.0,
+        32.75,
+        33.5,
+        34.25,
+        35.0,
+        35.75,
+        36.5,
+        37.25,
+        38.0,
+        38.75,
+        39.5,
+        40.25,
+        41.0,
+        41.75,
+        42.5,
+        43.25,
+        44.0,
+        44.75,
+        45.5,
+        46.25,
+        47.0,
+        47.75
+       ]
+      }
      },
      "p95": {
       "v": 131.25,
@@ -226,6 +372,13 @@
       "src": "ercot_prices",
       "held": null
      }
+    },
+    {
+     "hub_id": "made-up:HELD",
+     "hub": "A made-up hub held whole",
+     "operator": "op-ercot",
+     "market": "day-ahead",
+     "status": "license needed: a made-up hub whose prices need a license"
     }
    ]
   },
@@ -406,7 +559,62 @@
     "unit": "MW",
     "period": "2025-11-01..2026-10-31",
     "src": "eia930_demand",
-    "held": null
+    "held": null,
+    "trend": {
+     "months": [
+      "2024-11",
+      "2024-12",
+      "2025-01",
+      "2025-02",
+      "2025-03",
+      "2025-04",
+      "2025-05",
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05",
+      "2026-06",
+      "2026-07",
+      "2026-08",
+      "2026-09",
+      "2026-10"
+     ],
+     "period": "2024-11-01..2026-10-31",
+     "v": [
+      61000,
+      62000,
+      63000,
+      64000,
+      65000,
+      66000,
+      67000,
+      68000,
+      69000,
+      70000,
+      71000,
+      72000,
+      73000,
+      74000,
+      75000,
+      76000,
+      77000,
+      78000,
+      79000,
+      80000,
+      81000,
+      82000,
+      83000,
+      84000
+     ]
+    }
    },
    "peak_prior_mw": {
     "v": 82296.5,
@@ -418,7 +626,7 @@
    "peak_growth_pct": {
     "v": 3.42,
     "unit": "pct",
-    "period": "2025-11-01..2026-10-31",
+    "period": "2024-11-01..2025-10-31 to 2025-11-01..2026-10-31",
     "src": "eia930_demand",
     "held": null
    },
@@ -467,14 +675,14 @@
    "reserve_margin_pct": {
     "v": 12.1,
     "unit": "pct",
-    "period": "2027",
+    "period": "summer 2027 (ERCOT's made-up report)",
     "src": "cdr",
     "held": null
    },
    "reserve_target_pct": {
     "v": 13.75,
     "unit": "pct",
-    "period": "2027",
+    "period": "summer 2027 (ERCOT's made-up report)",
     "src": "cdr",
     "held": null
    }
@@ -586,6 +794,7 @@
      "state": "TX",
      "status": "in effect",
      "threshold_mw": 75,
+     "threshold_text": "75 MW or more at a single site, as the made-up rule prints it",
      "contract_term": "ten years, as the made-up document prints it",
      "collateral": null,
      "exit_fee": "made-up exit fee words",
@@ -598,11 +807,24 @@
      "state": "TX",
      "status": "proposed",
      "threshold_mw": null,
+     "threshold_text": "no threshold printed in the made-up tariff",
      "contract_term": null,
      "collateral": "made-up collateral words",
      "exit_fee": null,
      "study_timeline": null,
      "source_url": "javascript:alert(1)"
+    },
+    {
+     "id": "made-up-rule-3",
+     "utility": "Made-up Power and Light",
+     "state": "TX",
+     "status": "in effect",
+     "threshold_mw": 20.0,
+     "threshold_text": "20 MW",
+     "contract_term": "a made-up contract term that runs on for well over ninety-six characters so that the table cuts it at a word and gives the whole of it on hover, as the tab's own rules table does",
+     "collateral": null,
+     "exit_fee": null,
+     "study_timeline": null
     }
    ],
    "queue_totals": [
@@ -622,6 +844,12 @@
      "status": "enacted",
      "title": "A made-up act on large loads"
     }
+   ],
+   "rules_src": "rules",
+   "queue_totals_src": "rules",
+   "laws_src": "rules",
+   "states": [
+    "TX"
    ]
   },
   "mix_carbon": {
@@ -631,7 +859,62 @@
     "unit": "kgCO2/MWh",
     "period": "2025-11-01..2026-10-31",
     "src": "carbon",
-    "held": null
+    "held": null,
+    "trend": {
+     "months": [
+      "2024-11",
+      "2024-12",
+      "2025-01",
+      "2025-02",
+      "2025-03",
+      "2025-04",
+      "2025-05",
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05",
+      "2026-06",
+      "2026-07",
+      "2026-08",
+      "2026-09",
+      "2026-10"
+     ],
+     "period": "2024-11-01..2026-10-31",
+     "v": [
+      410.0,
+      408.5,
+      407.0,
+      405.5,
+      404.0,
+      402.5,
+      401.0,
+      399.5,
+      398.0,
+      396.5,
+      395.0,
+      393.5,
+      392.0,
+      390.5,
+      389.0,
+      387.5,
+      386.0,
+      384.5,
+      383.0,
+      381.5,
+      380.0,
+      378.5,
+      377.0,
+      375.5
+     ]
+    }
    },
    "mix": [
     {
@@ -722,12 +1005,67 @@
     "unit": "pct",
     "period": "2025-11-01..2026-10-31",
     "src": "interchange",
-    "held": null
+    "held": null,
+    "trend": {
+     "months": [
+      "2024-11",
+      "2024-12",
+      "2025-01",
+      "2025-02",
+      "2025-03",
+      "2025-04",
+      "2025-05",
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05",
+      "2026-06",
+      "2026-07",
+      "2026-08",
+      "2026-09",
+      "2026-10"
+     ],
+     "period": "2024-11-01..2026-10-31",
+     "v": [
+      -0.4,
+      -0.35,
+      -0.3,
+      -0.25,
+      -0.2,
+      -0.15,
+      -0.1,
+      -0.05,
+      0.0,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6,
+      0.65,
+      0.7,
+      0.75
+     ]
+    }
    },
    "net_import_share_peak_pct": {
     "v": 0.31,
     "unit": "pct",
-    "period": "2025-11-01..2026-10-31",
+    "period": "2025-11-01..2026-10-31 (the 100 highest-demand hours)",
     "src": "interchange",
     "held": null
    },
@@ -774,14 +1112,124 @@
     "unit": "MWh",
     "period": "2025-11-01..2026-10-31",
     "src": "curtailment",
-    "held": null
+    "held": null,
+    "trend": {
+     "months": [
+      "2024-11",
+      "2024-12",
+      "2025-01",
+      "2025-02",
+      "2025-03",
+      "2025-04",
+      "2025-05",
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05",
+      "2026-06",
+      "2026-07",
+      "2026-08",
+      "2026-09",
+      "2026-10"
+     ],
+     "period": "2024-11-01..2026-10-31",
+     "v": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      288000,
+      297000,
+      306000,
+      315000,
+      324000,
+      333000,
+      342000,
+      351000,
+      360000,
+      369000,
+      378000,
+      387000
+     ]
+    }
    },
    "curtailed_solar_mwh": {
     "v": 2987003,
     "unit": "MWh",
     "period": "2025-11-01..2026-10-31",
     "src": "curtailment",
-    "held": null
+    "held": null,
+    "trend": {
+     "months": [
+      "2024-11",
+      "2024-12",
+      "2025-01",
+      "2025-02",
+      "2025-03",
+      "2025-04",
+      "2025-05",
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05",
+      "2026-06",
+      "2026-07",
+      "2026-08",
+      "2026-09",
+      "2026-10"
+     ],
+     "period": "2024-11-01..2026-10-31",
+     "v": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      200000
+     ]
+    }
    },
    "negative_price_hours": {
     "v": 41,
@@ -796,21 +1244,21 @@
    "operator_mape_pct": {
     "v": 2.19,
     "unit": "pct",
-    "period": "2024-11-26..2026-11-25",
+    "period": "the 730 days to 2026-11-25",
     "src": "scores",
     "held": null
    },
    "erw_mape_pct": {
     "v": 6.1,
     "unit": "pct",
-    "period": "2024-11-26..2026-11-25",
+    "period": "the 730 days to 2026-11-25",
     "src": "scores",
     "held": null
    },
    "hours": {
     "v": 17520,
     "unit": "hours",
-    "period": "2024-11-26..2026-11-25",
+    "period": "the 730 days to 2026-11-25",
     "src": "scores",
     "held": null
    }

@@ -1,12 +1,12 @@
 "use client";
 // Chain 780 (session 11600): the choices of "Where the next gigawatts can go" on the All grids tab: which kind of
 // place is listed, which two places stand side by side as A and B, and which columns the table keeps. Every choice
-// lives in the address (srkind, sra, srb, srcols: app/cost-of-power/regions/lib.ts), so a link carries it and the
+// lives in the address (srkind, sra, srb, srcols: app/cost-of-power/regions.ts), so a link carries it and the
 // back button undoes it; the tab's own names in the address are kept as they came. The server draws the table from
 // the address; nothing is fetched here.
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { AB_ANCHOR, ANCHOR, KINDS, KIND_PLURAL, colsChange, srHref, unitWords, type Column, type Kind, type Param, type SectionHead } from "./lib";
+import { AB_ANCHOR, ANCHOR, KINDS, KIND_PLURAL, colsChange, srHref, unitWords, type Column, type Kind, type Param, type SectionHead } from "./regions";
 
 const field = "mt-1 block max-w-full border border-rule bg-white px-2 py-1 text-sm text-ink";
 const btn = "border border-rule bg-white px-2 py-1 text-sm";

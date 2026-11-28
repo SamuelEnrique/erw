@@ -3,7 +3,7 @@
 // in the page's own figures, with a Python and a Stata reader of it. Made in the browser on the press, as the tab's
 // other downloads are (components/largeload/Download.tsx): no route and no request.
 import { Download } from "@/components/largeload/Download";
-import { CSV_NAME, pythonReader, stataReader } from "./lib";
+import { CSV_NAME, pythonReader, stataReader } from "./regions";
 
 export function RegionsDownload({ csv, rows, cols }: { csv: string; rows: number; cols: number }) {
   const nHead = csv.split("\n").findIndex((l) => !l.startsWith("#"));

@@ -19,126 +19,162 @@
    "publisher": "ERCOT",
    "license": "public",
    "retrieved": "2026-11-28T06:10:00Z",
-   "report": "ERCOT settlement point prices at hubs, day-ahead and real-time"
+   "report": "ERCOT settlement point prices at hubs, day-ahead and real-time",
+   "url": "https://example.org/made-up-source/ercot_prices",
+   "held": null
   },
   "iso_prices": {
    "table": "iso_hub_prices_history",
    "publisher": "NYISO",
    "license": "internal",
    "retrieved": "2026-11-28T06:12:00Z",
-   "report": "NYISO zonal prices"
+   "report": "NYISO zonal prices",
+   "url": "https://example.org/made-up-source/iso_prices",
+   "held": null
   },
   "congestion": {
    "table": "price_congestion_monthly",
    "publisher": "CAISO, SPP",
    "license": "public",
    "retrieved": "2026-11-27T06:00:00Z",
-   "report": "the congestion part of the hub price, by month"
+   "report": "the congestion part of the hub price, by month",
+   "url": "https://example.org/made-up-source/congestion",
+   "held": null
   },
   "constraints": {
    "table": "constraints_binding_monthly",
    "publisher": "CAISO, SPP",
    "license": "public",
    "retrieved": "2026-11-27T06:00:00Z",
-   "report": "binding constraints by month"
+   "report": "binding constraints by month",
+   "url": "https://example.org/made-up-source/constraints",
+   "held": null
   },
   "eia930_demand": {
    "table": "eia930_ba_demand_hourly",
    "publisher": "U.S. Energy Information Administration",
    "license": "public",
    "retrieved": "2026-11-28T05:00:00Z",
-   "report": "Form EIA-930, hourly demand by balancing authority"
+   "report": "Form EIA-930, hourly demand by balancing authority",
+   "url": "https://example.org/made-up-source/eia930_demand",
+   "held": null
   },
   "alerts": {
    "table": "grid_all_alerts",
    "publisher": "ERCOT, CAISO, DOE",
    "license": "public",
    "retrieved": "2026-11-28T05:30:00Z",
-   "report": "operators' notices and DOE's emergency orders"
+   "report": "operators' notices and DOE's emergency orders",
+   "url": "https://example.org/made-up-source/alerts",
+   "held": null
   },
   "outages": {
    "table": "generation_outages_hourly",
    "publisher": "CAISO, SPP",
    "license": "public",
    "retrieved": "2026-11-27T06:00:00Z",
-   "report": "generation out of service by hour"
+   "report": "generation out of service by hour",
+   "url": "https://example.org/made-up-source/outages",
+   "held": null
   },
   "cdr": {
    "table": "ercot_cdr_reserve_margins",
    "publisher": "ERCOT",
    "license": "public",
    "retrieved": "2026-11-20T06:00:00Z",
-   "report": "ERCOT's Capacity, Demand and Reserves report"
+   "report": "ERCOT's Capacity, Demand and Reserves report",
+   "url": "https://example.org/made-up-source/cdr",
+   "held": null
   },
   "queue": {
    "table": "lbnl_interconnection_queue",
    "publisher": "Lawrence Berkeley National Laboratory",
    "license": "public",
    "retrieved": "2026-11-01T06:00:00Z",
-   "report": "Queued Up, 2026 edition, through 2025"
+   "report": "Queued Up, 2026 edition, through 2025",
+   "url": "https://example.org/made-up-source/queue",
+   "held": null
   },
   "durations": {
    "table": "interconnection_durations",
    "publisher": "Lawrence Berkeley National Laboratory",
    "license": "public",
    "retrieved": "2026-11-01T06:00:00Z",
-   "report": "Queued Up, 2026 edition: years from request to operation"
+   "report": "Queued Up, 2026 edition: years from request to operation",
+   "url": "https://example.org/made-up-source/durations",
+   "held": null
   },
   "rules": {
    "table": "utility_large_load_rules",
    "publisher": "utilities and state commissions",
    "license": "public",
    "retrieved": "2026-11-26T06:00:00Z",
-   "report": "large-load tariffs, contracts and orders, each read in its own document"
+   "report": "large-load tariffs, contracts and orders, each read in its own document",
+   "url": "https://example.org/made-up-source/rules",
+   "held": null
   },
   "carbon": {
    "table": "carbon_intensity_hourly",
    "publisher": "U.S. Energy Information Administration; the ERW's arithmetic",
    "license": "public",
    "retrieved": "2026-11-28T05:00:00Z",
-   "report": "carbon intensity of demand by hour, from Form EIA-930 generation by fuel"
+   "report": "carbon intensity of demand by hour, from Form EIA-930 generation by fuel",
+   "url": "https://example.org/made-up-source/carbon",
+   "held": null
   },
   "supply": {
    "table": "eia930_ba_supply_hourly",
    "publisher": "U.S. Energy Information Administration",
    "license": "public",
    "retrieved": "2026-11-28T05:00:00Z",
-   "report": "Form EIA-930, hourly net generation by fuel"
+   "report": "Form EIA-930, hourly net generation by fuel",
+   "url": "https://example.org/made-up-source/supply",
+   "held": null
   },
   "interchange": {
    "table": "eia930_ba_interchange_hourly_2026",
    "publisher": "U.S. Energy Information Administration",
    "license": "public",
    "retrieved": "2026-11-28T05:00:00Z",
-   "report": "Form EIA-930, hourly interchange between authorities"
+   "report": "Form EIA-930, hourly interchange between authorities",
+   "url": "https://example.org/made-up-source/interchange",
+   "held": null
   },
   "curtailment": {
    "table": "iso_curtailment_monthly",
    "publisher": "CAISO, ERCOT, SPP",
    "license": "public",
    "retrieved": "2026-11-27T06:00:00Z",
-   "report": "wind and solar curtailed, by month"
+   "report": "wind and solar curtailed, by month",
+   "url": "https://example.org/made-up-source/curtailment",
+   "held": null
   },
   "scores": {
    "table": "eia930_ba_demand_hourly",
    "publisher": "the ERW forecast's report card",
    "license": "public",
    "retrieved": "2026-11-27T14:39:36Z",
-   "report": "site/data/predict/scores.json: the operator's filed forecast and the ERW forecast against what happened"
+   "report": "site/data/predict/scores.json: the operator's filed forecast and the ERW forecast against what happened",
+   "url": "https://example.org/made-up-source/scores",
+   "held": null
   },
   "dc_facilities": {
    "table": "datacenter_facilities",
    "publisher": "news and company pages",
    "license": "public",
    "retrieved": "2026-11-26T06:00:00Z",
-   "report": "datacenter facilities"
+   "report": "datacenter facilities",
+   "url": "https://example.org/made-up-source/dc_facilities",
+   "held": null
   },
   "dc_projects": {
    "table": "datacenter_projects",
    "publisher": "news and company pages",
    "license": "public",
    "retrieved": "2026-11-26T06:00:00Z",
-   "report": "announced datacenter projects"
+   "report": "announced datacenter projects",
+   "url": "https://example.org/made-up-source/dc_projects",
+   "held": null
   }
  },
  "sections": {
@@ -339,6 +375,7 @@
     "held": null
    },
    "mix": [],
+   "mix_held": "not held: no net generation by source is held for this place (made-up)",
    "intensity_by_hour": [
     null,
     null,
@@ -472,7 +509,8 @@
     "src": "dc_facilities",
     "held": null
    },
-   "list": []
+   "list": [],
+   "list_held": "license needed: the list is held with its tables (made-up words of the builder)"
   }
  }
 }

@@ -12,9 +12,9 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const FIXTURE = path.join(HERE, "..", "..", "tests", "fixtures", "siting_regions");
-const L = await import("../app/cost-of-power/regions/lib.ts");
+const L = await import("../app/cost-of-power/regions.ts");
 const { pfValue } = await import("../lib/pagefile.ts");
-const { RegionsSection } = await import("../app/cost-of-power/regions/RegionsSection.tsx");
+const { RegionsSection } = await import("../app/cost-of-power/RegionsSection.tsx");
 const { AllGridsView } = await import("../app/cost-of-power/AllGridsView.tsx");
 
 let n = 0, failed = 0;
@@ -39,7 +39,7 @@ ok(/<section[^>]*id="regions"[^>]*data-llr="regions"[^>]*data-sr="1"/.test(onMai
 if (mainIndex.example === true) {
   ok(onMain.includes('data-sr-state="example"') && onMain.includes('data-sr-not-built="1"'), "on the contract's example files the section says it is not built");
   ok(!onMain.includes("<table") && figs(onMain).length === 0, "on the example files no table and no figure is drawn");
-  ok(words(onMain).includes("not held") && tips(onMain).some((t) => t.startsWith("not built yet: the files on this build are the contract's own examples")), "the blank says why on hover: the files are the contract's examples");
+  ok(words(onMain).endsWith("not built yet") && tips(onMain).some((t) => t.startsWith("not built yet: the files on this build are the contract's own examples")), "the section says not built yet, and why on hover: the files are the contract's examples");
 } else {
   ok(onMain.includes('data-sr-state="files"') && rowIds(onMain).length === mainIndex.places.length, `on the data machine's files the table has a row for each of the ${mainIndex.places.length} places`);
   const bad = figs(onMain).filter((f) => f.text !== shown(f.raw) || pfValue(f.key) !== Number(f.raw));
@@ -81,11 +81,18 @@ ok(tips(dcCells[0])[0].startsWith("license needed: the site holds datacenter_fac
 const all = draw("view=allgrids&srcols=" + table.columns.map((c) => c.key).join(","));
 ok(colKeys(all).length === 25, "every column chosen: 25 columns");
 const nyMargin = cellHtml(rowHtml(all, "op-nyiso"), "tightness.reserve_margin_pct");
-ok(nyMargin.includes('data-sr-own="1"') && tips(nyMargin)[0].includes("Covers 2027.") && words(nyMargin) === "18.60", "a cell with a period of its own gives it on hover");
+ok(nyMargin.includes('data-sr-own="1"') && tips(nyMargin)[0].includes("Period: summer 2027 (NYISO's made-up report).") && words(nyMargin) === "18.60", "a cell with a period of its own gives it on hover, in the file's own words");
+// the builder's form: a column that carries no period and no source, every cell carrying its own. The column's hover
+// gives what its cells share, and a cell says its own only where it differs
+ok(table.columns.find((c) => c.key === "tightness.peak_mw").period === null && table.rows.every((r) => r.cell["6"]), "the fixture holds the builder's form for a column: no period on the column, one on every cell");
+const peakHead = (all.match(/<th[^>]*data-sr-col="tightness\.peak_mw"[^>]*>([\s\S]*?)<\/th>/) ?? ["", ""])[1];
+ok(tips(peakHead)[0].includes("Period: 1 Nov 2025 to 31 Oct 2026.") && tips(peakHead)[0].includes("ERW table eia930_ba_demand_hourly"), "such a column's hover gives the period and the source its cells share");
+ok(index.places.every((p) => !cellHtml(rowHtml(all, p.id), "tightness.peak_mw").includes("data-sr-own")) && (all.match(/data-sr-own="1"/g) ?? []).length === 1, "and no cell repeats them: one cell of the table has a period of its own");
 // a column's head: its section, its name as a link that sorts, its unit with the period and the source on hover
 const head = (open.match(/<th[^>]*data-sr-col="price\.mean_da"[^>]*>([\s\S]*?)<\/th>/) ?? ["", ""])[1];
 ok(words(head).startsWith("Price Day-ahead price, mean USD/MWh") && /href="\/cost-of-power\?view=allgrids&amp;srsort=price\.mean_da"/.test(head), `a column's head names its section, its count and its unit, and sorts by it (${words(head)})`);
-ok(tips(head)[0].includes("Covers 1 Nov 2025 to 31 Oct 2026.") && tips(head)[0].includes("ERW table ercot_all_hub_prices_history") && tips(head)[0].includes("retrieved 2026-11-28 06:10 UTC"), "the head's hover gives the period, the publisher's report, the table and its retrieval");
+ok(tips(head)[0].includes("Period: 1 Nov 2025 to 31 Oct 2026.") && tips(head)[0].includes("ERW table ercot_all_hub_prices_history") && tips(head)[0].includes("retrieved 2026-11-28 06:10 UTC"), "the head's hover gives the period, the publisher's report, the table and its retrieval");
+ok(!open.includes("example.org/made-up-source"), "a source's address is drawn nowhere: it is one document for every place (data request 586)");
 
 // the sort: by a column, largest first; a second press turns it round; a place with no figure last in either direction
 const byPeak = draw("view=allgrids&srsort=tightness.peak_mw");
@@ -112,7 +119,18 @@ ok(index.sections.every((s) => er.includes(`data-sr-section="${s.id}"`)) && (er.
 ok(er.includes('data-check="pf|siting/regions/op-ercot.json|sections/tightness/peak_mw/v" data-raw="85111"') && er.includes('data-check="pf|siting/regions/op-ercot.json|sections/price/hubs/1/p95/v" data-raw="131.25"'), "its counts and its hubs' figures carry keys into its own file");
 ok(er.includes('data-sr-list="congestion.top_by_hours" data-sr-list-rows="10"') && er.includes('data-sr-list="congestion.top_by_cost" data-sr-list-rows="10"') && er.includes("MADE-UP CONSTRAINT 1"), "its top constraints: ten by hours and ten by cost, by the operator's own names");
 ok(er.includes('data-sr-list="imports.partners" data-sr-list-rows="3"') && words(er).includes("Southwest Power Pool (SWPP)"), "its three partners");
-ok(/<a href="https:\/\/example\.org\/made-up-rule-1" rel="noopener" data-sr-source="rule">Made-up Wires Company<\/a>/.test(er) && !er.includes("javascript:") && words(er).includes("Made-up Electric Cooperative"), "a rule opens its document; an address that is not a web address is no link");
+ok(/<a href="https:\/\/example\.org\/made-up-rule-1" rel="noopener" data-sr-source="rule">Made-up Wires Company<\/a>/.test(er) && !er.includes("javascript:"), "a rule that carries its document's address opens it; an address that is not a web address is never a link");
+ok(/href="\/cost-of-power\?view=allgrids&amp;sropen=op-ercot&amp;rule=made-up-rule-3#large-load-rules"[^>]*data-sr-rule="made-up-rule-3"[^>]*>Made-up Power and Light</.test(er) && er.includes('data-sr-rule="made-up-rule-2"'), "a rule that carries its id alone opens the tab's own rule of that id, under the tab's large-load rules");
+ok(tips(er).some((t) => t === "As the rule's document prints it: 75 MW or more at a single site, as the made-up rule prints it") && er.includes('data-check="pf|siting/regions/op-ercot.json|sections/large_load/rules/0/threshold_mw" data-raw="75"'), "a rule's smallest load is the figure, with the document's own words on hover");
+ok(words(er).includes("a made-up contract term that runs on for well over ninety-six characters so that the table... ") && !words(er).includes("so that the table cuts it") &&tips(er).some((t) => t.endsWith("as the tab's own rules table does")), "a document's long words are cut at a word, the whole on hover");
+ok(er.includes('data-sr-list-source="large_load.rules"') && er.includes('data-sr-states="1"') && words(er).includes("The states it reaches: TX."), "the rules' source is on hover; the states the place reaches are named");
+// a count's small trend: its 24 months as the file holds them
+const trends = [...er.matchAll(/data-sr-trend="months" data-sr-trend-points="(\d+)"/g)].map((m) => Number(m[1]));
+ok(JSON.stringify(trends) === JSON.stringify([24, 24, 24, 24, 24, 12]), `the counts that carry their months draw them: two hubs' mean price, the peak, carbon, net imports (24 months each) and wind curtailed (the 12 months held); one month alone draws no line (${trends.join(", ")})`);
+ok(er.includes('aria-label="ERCOT Hub Average, day-ahead, Mean price by month, USD/MWh, Nov 2024 to Oct 2026"') && er.includes('aria-label="Wind curtailed, ERCOT by month, MWh, Nov 2025 to Oct 2026"'), "a trend says what it is, its unit and the months it runs over");
+// a hub the file lists with a status of its own and no figures
+const heldHub = (er.match(/<tr[^>]*>(?:(?!<\/tr>)[\s\S])*A made-up hub held whole[\s\S]*?<\/tr>/) ?? [""])[0];
+ok((heldHub.match(/data-license-held="siting_regions"/g) ?? []).length === 5 && tips(heldHub).every((t) => t === "license needed: a made-up hub whose prices need a license"), "a hub held whole is five blanks, each license needed with the hub's own reason");
 ok(/data-sr-trend="intensity_by_hour"[\s\S]*?<svg[^>]*role="img"[^>]*aria-label="ERCOT: carbon intensity by hour of day, kg CO2\/MWh"/.test(er) && er.includes('data-check="pf|siting/regions/op-ercot.json|sections/mix_carbon/intensity_by_hour/12" data-raw="333.5"') && er.includes('data-check="pf|siting/regions/op-ercot.json|sections/mix_carbon/intensity_by_hour/6" data-raw="401.7"'), "its one small trend, carbon by hour of day, with its lowest and highest hour");
 ok(words(er).includes("2026-08-20 21:00 UTC"), "the hour of its peak, as the site writes a time");
 const dc = (er.match(/data-sr-section="datacenters"[\s\S]*$/) ?? [""])[0];
@@ -120,6 +138,7 @@ ok(!dc.includes("Made-up Campus One") && (dc.match(/data-license-held="datacente
 const nyOpen = draw("view=allgrids&sropen=op-nyiso");
 ok(/data-sr-section="price" data-sr-section-state="not-shown"/.test(nyOpen) && nyOpen.includes('data-license-held="siting_regions"'), "NYISO opened: a section none of which can be shown is one blank, license needed");
 ok(tips(nyOpen).some((t) => t.startsWith("too few: fewer than 300 days")) && !/data-sr-trend="intensity_by_hour"[\s\S]{0,900}<svg/.test(nyOpen), "a trend the file holds too little of is said so, and no line is drawn");
+ok(tips(nyOpen).some((t) => t.startsWith("not held: no net generation by source is held")) && tips(nyOpen).some((t) => t === "license needed: the list is held with its tables (made-up words of the builder)"), "an empty list says why in the file's own words: the mix, and the datacenters there");
 const socoOpen = draw("view=allgrids&sropen=ba-soco");
 ok(socoOpen.includes('data-sr-place-state="none"') && tips(socoOpen).some((t) => t.startsWith("not held: this place's own file is not on this build")), "a place with no file of its own says so");
 ok(!draw("view=allgrids&sropen=nowhere").includes('id="regions-place"'), "a place the index does not hold opens nothing");
@@ -149,6 +168,11 @@ ok(L.srHref({ view: "grids", mw: "300", "x y": "1", long: "v".repeat(2000) }, { 
 ok(L.figure(85111) === "85,111" && L.figure(204512.5) === "204,512.50" && L.figure(-2.6) === "-2.60" && L.unitWords("pct") === "%" && L.unitWords("count") === "", "a figure whole or to two decimals; a unit as a reader reads it");
 ok(L.heldKind("license needed: x") === "license needed" && L.heldKind("paused: y") === "paused" && L.heldKind("something else") === "not held" && L.heldKind(null) === "not held", "a reason's kind is its first words, or not held");
 ok(L.periodWords("2025-11-01..2026-10-31") === "1 Nov 2025 to 31 Oct 2026" && L.periodWords("2027") === "2027" && L.periodWords(null) === "", "a period in words");
+ok(L.periodWords("the 730 days to 2026-11-25") === "the 730 days to 25 Nov 2026" && L.periodWords("2025-12-31") === "31 Dec 2025" && L.periodWords("2000..2020") === "2000 to 2020" && L.periodWords("summer 2027 (ERCOT's report)") === "summer 2027 (ERCOT's report)"
+  && L.periodWords("2024-11-01..2025-10-31 to 2025-11-01..2026-10-31") === "1 Nov 2024 to 31 Oct 2025 to 1 Nov 2025 to 31 Oct 2026", "a period the builder writes in words of its own is kept, its days written as the site writes a day");
+ok(L.ruleHref({ view: "allgrids", mw: "300", rule: "old" }, "texas-04") === "/cost-of-power?view=allgrids&mw=300&rule=texas-04#large-load-rules", "a rule's link: the tab's address with the tab's own name for a rule, at the tab's rules");
+ok(L.trendPoints({ months: ["2026-09", "2026-10"], period: "x", v: [1.5, null] }).length === 1 && L.trendPoints(null).length === 0 && L.monthWords("2026-10") === "Oct 2026", "a trend's months that hold a figure; a month in words");
+ok(JSON.stringify(L.columnAbout(table, 6)) === JSON.stringify({ period: "2025-11-01..2026-10-31", src: "eia930_demand" }) && JSON.stringify(L.columnAbout(table, 0)) === JSON.stringify({ period: "2025-11-01..2026-10-31", src: "ercot_prices" }), "a column's period and source: its own, or what most of its shown cells share");
 const csv = L.tableCsv(table, L.rowsShown(table, c0), L.colsDrawn(table, c0), "/cost-of-power?view=allgrids#regions");
 const lines = csv.trim().split("\n"), nHead = lines.findIndex((l) => !l.startsWith("#"));
 ok(nHead === 12 && lines[nHead].startsWith("place_id,kind,name,price.mean_da,price.mean_da.not_shown,") && lines.length === nHead + 5, "the CSV: what it is and a line a column above the header, then a row a place");

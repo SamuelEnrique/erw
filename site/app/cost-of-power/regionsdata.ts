@@ -7,7 +7,7 @@
 // ERW_SITING_REGIONS_DIR names another data folder (one that holds siting/regions/): a test's fixture or a local look
 // at files that have not landed. It is never set on the site.
 import { DATA_DIR, readPageFile } from "@/lib/pagefile";
-import { INDEX_FILE, TABLE_FILE, placeFile, type IndexFile, type PlaceFile, type TableFile } from "./lib";
+import { INDEX_FILE, TABLE_FILE, placeFile, type IndexFile, type PlaceFile, type TableFile } from "./regions";
 
 const dataDir = (): string => process.env.ERW_SITING_REGIONS_DIR || DATA_DIR();
 

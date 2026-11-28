@@ -12,9 +12,14 @@
 
 // ---- the files' shapes (the contract's own words) -------------------------------------------------------------------
 
+/** A count's last 24 whole months, where the warehouse holds it by month (the contract's dated line of 28 November
+ *  2026, data request 585): in the count's unit and from its source; a month not held is null. */
+export type Trend = { months: string[]; period: string | null; v: (number | null)[] };
 /** A count as every file writes it. `v` is null exactly when `held` gives the reason. */
-export type Cell = { v: number | string | null; unit: string; period: string | null; src: string | null; held: string | null };
-export type Source = { table: string | null; publisher: string | null; license: string; retrieved: string | null; report: string | null };
+export type Cell = { v: number | string | null; unit: string; period: string | null; src: string | null; held: string | null; trend?: Trend | null };
+/** `url` (the same dated line) is the address of the table's first row's document: for a table of many publishers it
+ *  is not the place's own, so the section draws no link from it (data request 586). */
+export type Source = { table: string | null; publisher: string | null; license: string; retrieved: string | null; report: string | null; url?: string | null; held?: string | null };
 export type Kind = "region" | "operator" | "ba";
 export type Place = {
   id: string; kind: Kind; code: string; name: string; region: string | null; regions: string[]; operator: string | null;
@@ -92,18 +97,24 @@ const KEY_OK = /^[a-z][a-z0-9_]{0,23}$/;
 /** The tab's address with a change to the section's own names: every name the address came with is kept (the tab's
  *  load, its hub table's sort, its rules' filters), bounded so an address cannot grow without end; `null` takes a name
  *  out. `hash` scrolls to a part of the section. */
-export function srHref(q: Raw, change: Partial<Record<Param, string | null>> = {}, hash: string | null = ANCHOR): string {
+export function srHref(q: Raw, change: Partial<Record<Param, string | null>> = {}, hash: string | null = ANCHOR, tab: Record<string, string> = {}): string {
   const out = new URLSearchParams();
   out.set("view", "allgrids");
   let n = 0;
   for (const [k, v] of Object.entries(q)) {
-    if (k === "view" || typeof v !== "string" || !KEY_OK.test(k) || v.length > 1600 || (k in change)) continue;
+    if (k === "view" || typeof v !== "string" || !KEY_OK.test(k) || v.length > 1600 || (k in change) || (k in tab)) continue;
     if ((n += 1) > 48) break;
     out.set(k, v);
   }
+  // `tab`: a name of the tab's own that a link of the section sets (rule: the large-load rule the tab opens)
+  for (const [k, v] of Object.entries(tab)) if (KEY_OK.test(k) && v) out.set(k, v.slice(0, 200));
   for (const k of PARAMS) { const v = change[k]; if (typeof v === "string" && v !== "") out.set(k, v); }
   return `/cost-of-power?${out.toString()}${hash ? `#${hash}` : ""}`;
 }
+/** The tab's own anchor and name for a large-load rule (app/cost-of-power/LargeLoadSection.tsx, lib/largeloadrules.ts):
+ *  a rule of a place's list opens the tab's rule of the same id, with its document and its cites. */
+export const RULES_ANCHOR = "large-load-rules";
+export const ruleHref = (q: Raw, id: string): string => srHref(q, {}, RULES_ANCHOR, { rule: id });
 /** The change that sorts by a column: a second press turns the order round; the name sort is the address without one. */
 export function sortChange(c: Choice, key: string): Partial<Record<Param, string | null>> {
   if (key === NAME_SORT) return c.sort === NAME_SORT && c.dir === "asc" ? { srsort: null, srdir: "desc" } : { srsort: null, srdir: null };
@@ -128,11 +139,22 @@ export const unitWords = (unit: string | null | undefined): string => (!unit || 
 export const utcWords = (s: string): string => (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(s) ? `${s.slice(0, 10)} ${s.slice(11, 16)} UTC` : s);
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const dayWords = (d: string): string => { const m = d.match(/^(\d{4})-(\d{2})-(\d{2})$/); return m ? `${Number(m[3])} ${MONTHS[Number(m[2]) - 1] ?? m[2]} ${m[1]}` : d; };
-/** The span a figure covers, in words: "1 Nov 2025 to 31 Oct 2026", a single day, or a year as the file gives it. */
+/** The span a figure covers, in words: "1 Nov 2025 to 31 Oct 2026", a single day, a year. The builder also writes a
+ *  period in words of its own ("summer 2027 (...)", "the 730 days to 2026-11-25", "as read to 2026-11-20"): those are
+ *  kept as written, with any day in them written as the site writes a day. */
 export function periodWords(period: string | null | undefined): string {
   if (!period) return "";
-  const p = period.split("..");
-  return p.length === 2 ? `${dayWords(p[0])} to ${dayWords(p[1])}` : dayWords(period);
+  return period
+    .replace(/(\d{4}-\d{2}-\d{2})\.\.(\d{4}-\d{2}-\d{2})/g, (_m, a: string, b: string) => `${dayWords(a)} to ${dayWords(b)}`)
+    .replace(/\b(\d{4})\.\.(\d{4})\b/g, "$1 to $2")
+    .replace(/(^|[^\d-])(\d{4}-\d{2}-\d{2})(?![\d-])/g, (_m, pre: string, d: string) => `${pre}${dayWords(d)}`);
+}
+/** A month the file names ("2026-10") as words. */
+export const monthWords = (m: string): string => { const x = m.match(/^(\d{4})-(\d{2})$/); return x ? `${MONTHS[Number(x[2]) - 1] ?? x[2]} ${x[1]}` : m; };
+/** A trend's months that hold a figure, in order: what the small chart draws. Fewer than two: no line. */
+export function trendPoints(t: Trend | null | undefined): { t: string; v: number }[] {
+  if (!t || !Array.isArray(t.months) || !Array.isArray(t.v)) return [];
+  return t.months.map((m, i) => ({ t: `${m}-01`, v: t.v[i] })).filter((p): p is { t: string; v: number } => typeof p.v === "number" && Number.isFinite(p.v));
 }
 
 /** The reasons the contract lets a count be held by, each the first words of `held`. */
@@ -169,6 +191,27 @@ export function readCell(table: TableFile, row: TableRow, ci: number): Read {
   return { v: null, words: null, held: heldWhy(null), period, src };
 }
 export const colIndex = (table: TableFile, key: string): number => table.columns.findIndex((c) => c.key === key);
+/** The period and the source a column's hover gives: the column's own where the file names them (the contract's first
+ *  form), else those most of its shown cells share (the builder writes every cell's own and none on the column). A
+ *  cell says its own in a hover of its own only where it differs from these. */
+export type About = { period: string | null; src: string | null };
+export function columnAbout(table: TableFile, ci: number): About {
+  const col = table.columns[ci];
+  if (col?.period || col?.src) return { period: col.period ?? null, src: col.src ?? null };
+  const seen = new Map<string, About & { n: number }>();
+  for (const r of table.rows) {
+    const own = r.cell?.[String(ci)];
+    if (!own || own.held) continue;
+    const k = `${own.period ?? ""}|${own.src ?? ""}`;
+    const t = seen.get(k) ?? { n: 0, period: own.period ?? null, src: own.src ?? null };
+    t.n += 1;
+    seen.set(k, t);
+  }
+  let best: (About & { n: number }) | null = null;
+  for (const t of seen.values()) if (!best || t.n > best.n) best = t;
+  return best ? { period: best.period, src: best.src } : { period: null, src: null };
+}
+export const sameAbout = (a: About, b: About): boolean => (a.period ?? "") === (b.period ?? "") && (a.src ?? "") === (b.src ?? "");
 
 /** The rows shown: of the kind asked for, in the file's order, or by a column's figures. A place with no figure in the
  *  column is last in either direction, in the file's order: the order is the column's, never a ranking of places. */
@@ -212,7 +255,7 @@ export function tableCsv(table: TableFile, rows: TableRow[], cols: Column[], add
   const head = [
     `# Energy Research Warehouse (ERW): "Where the next gigawatts can go", the places side by side, the rows and columns shown on ${address}`,
     `# Page files built ${table.built}; contract docs/state/page_files_siting_regions.md${table.method ? `; method ${table.method}` : ""}. Each count is as its publisher printed it, or a plain arithmetic of it; nothing is scored or ranked.`,
-    ...cols.map((c) => `# ${c.key}: ${c.label}${unitWords(c.unit) ? `, ${unitWords(c.unit)}` : ""}${c.period ? `; ${periodWords(c.period)}` : ""}${c.src && table.sources[c.src]?.table ? `; ERW table ${table.sources[c.src].table}` : ""}`),
+    ...cols.map((c) => { const a = columnAbout(table, colIndex(table, c.key)); return `# ${c.key}: ${c.label}${unitWords(c.unit) ? `, ${unitWords(c.unit)}` : ""}${a.period ? `; ${periodWords(a.period)}` : ""}${a.src && table.sources[a.src]?.table ? `; ERW table ${table.sources[a.src].table}` : ""}`; }),
   ];
   const body = rows.map((r) => [r.id, r.kind, r.name, ...cols.flatMap((c) => {
     const x = readCell(table, r, colIndex(table, c.key));

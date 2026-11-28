@@ -14,7 +14,7 @@ import { AllGridsDownload } from "./AllGridsDownload";
 // chain 302 (session 7201): the large-load rules of the row's utility, opened from two cells, and the section under the tab
 import { LargeLoadSection, RuleLine } from "./LargeLoadSection";
 // chain 780 (session 11600): every region side by side, "Where the next gigawatts can go" (Samuel's ruling of 22 October 2026)
-import { RegionsSection } from "./regions/RegionsSection";
+import { RegionsSection } from "./RegionsSection";
 
 // Session 700 (chain 050, docs/methods/siting.md): the All grids tab of "What a datacenter pays". The questions "Your
 // load" answers for one region (what a load pays, when it connects, how clean the power is) for every grid, hub and

@@ -42,8 +42,24 @@ SOURCES = {
 }
 
 
-def cell(v, unit, src, period=P12, held=None):
-    return {"v": None if held else v, "unit": unit, "period": period, "src": src, "held": held}
+# the contract's dated line of 28 November 2026: a source carries the address of its table's report and its hold
+for _k, _s in SOURCES.items():
+    _s["url"] = f"https://example.org/made-up-source/{_k}"
+    _s["held"] = None
+MONTHS24 = [f"{2024 + (10 + i) // 12}-{(10 + i) % 12 + 1:02d}" for i in range(24)]   # 2024-11 to 2026-10
+P24 = "2024-11-01..2026-10-31"
+
+
+def trend(first, step, missing=()):
+    """24 made-up months: a line that rises by `step` a month; the months named in `missing` are not held (null)."""
+    return {"months": MONTHS24, "period": P24, "v": [None if i in missing else round(first + step * i, 2) for i in range(24)]}
+
+
+def cell(v, unit, src, period=P12, held=None, months=None):
+    c = {"v": None if held else v, "unit": unit, "period": period, "src": src, "held": held}
+    if months is not None:
+        c["trend"] = months
+    return c
 
 
 SECTIONS = [
@@ -100,7 +116,7 @@ NOT_PUBLISHED = "not published: the operator prints no such figure in the files 
 ROWS = {
     "region-tex": [46.31, 118.7, 312, 41, 44.02, NOT_PUBLISHED, 85111.0, 3.42, 9, NOT_PUBLISHED, 12.1, 204512.5, 71.3, 3.8, 6, 75, 372.44, 0.14, 0.31, 3104220, 2987003, 2.19, 6.1, 141, 23450],
     "op-ercot": [46.31, 118.7, 312, 41, 44.02, NOT_PUBLISHED, 85111.0, 3.42, 9, NOT_PUBLISHED, 12.1, 204512.5, 71.3, 3.8, 6, 75, 372.44, 0.14, 0.31, 3104220, 2987003, 2.19, 6.1, 141, 23450],
-    "op-nyiso": [NYISO_PRICE, NYISO_PRICE, NYISO_PRICE, NYISO_PRICE, NYISO_PRICE, NYISO_PRICE, 31005.5, -1.2, NOT_PUBLISHED, NOT_PUBLISHED, (18.6, "2027", "cdr"), 118040.0, 78.9, 4.6, 2, 20, 248.9, 12.75, 21.4, NOT_PUBLISHED, NOT_PUBLISHED, 1.96, 3.05, 38, 4100],
+    "op-nyiso": [NYISO_PRICE, NYISO_PRICE, NYISO_PRICE, NYISO_PRICE, NYISO_PRICE, NYISO_PRICE, 31005.5, -1.2, NOT_PUBLISHED, NOT_PUBLISHED, (18.6, "summer 2027 (NYISO's made-up report)", "cdr"), 118040.0, 78.9, 4.6, 2, 20, 248.9, 12.75, 21.4, NOT_PUBLISHED, NOT_PUBLISHED, 1.96, 3.05, 38, 4100],
     "ba-soco": [NOT_MARKET, NOT_MARKET, NOT_MARKET, NOT_MARKET, NOT_MARKET, NOT_MARKET, 40711.0, 5.05, NOT_PUBLISHED, NOT_PUBLISHED, NOT_PUBLISHED, 61220.0, 64.0, 5.2, 4, 100, 401.07, -2.6, -0.8, NOT_PUBLISHED, NOT_PUBLISHED, 1.44, 4.9, 96, 18200],
 }
 
@@ -114,6 +130,10 @@ def write(name, doc):
 
 def table():
     cols = [{"key": k, "section": s, "label": lab, "unit": u, "period": "2026" if k.startswith(("queue.", "large_load.", "datacenters.")) else P12, "src": src} for k, s, lab, u, src in COLUMNS]
+    # both forms the section reads. The contract's first: a column carries its period and source, a cell its own only
+    # where it differs. The builder's (its first files of 28 November): the "tightness" columns here carry none, and
+    # every cell of them carries its own.
+    by_cell = [i for i, c in enumerate(cols) if c["section"] == "tightness"]
     rows = []
     for p in PLACES:
         vals, own = [], {}
@@ -126,34 +146,46 @@ def table():
                 own[str(i)] = {"period": x[1], "src": x[2], "held": None}
             else:
                 vals.append(x)
+                if i in by_cell:
+                    own[str(i)] = {"period": cols[i]["period"], "src": cols[i]["src"], "held": None}
         rows.append({"id": p["id"], "kind": p["kind"], "name": p["name"], "v": vals, "cell": own})
+    for i in by_cell:
+        cols[i]["period"] = None
+        cols[i]["src"] = None
     return {**HEAD, "sources": SOURCES, "columns": cols, "rows": rows}
 
 
 def ercot():
-    hub = lambda market, mean, p95, over, below, hours: {"hub_id": "ercot:HB_HUBAVG", "hub": "ERCOT Hub Average", "operator": "op-ercot", "market": market, "mean": cell(mean, "USD/MWh", "ercot_prices"), "p95": cell(p95, "USD/MWh", "ercot_prices"), "hours_over_100": cell(over, "hours", "ercot_prices"), "hours_below_0": cell(below, "hours", "ercot_prices"), "hours": cell(hours, "hours", "ercot_prices")}
+    hub = lambda market, mean, p95, over, below, hours: {"hub_id": "ercot:HB_HUBAVG", "hub": "ERCOT Hub Average", "operator": "op-ercot", "market": market, "mean": cell(mean, "USD/MWh", "ercot_prices", months=trend(30.5, 0.75)), "p95": cell(p95, "USD/MWh", "ercot_prices"), "hours_over_100": cell(over, "hours", "ercot_prices"), "hours_below_0": cell(below, "hours", "ercot_prices"), "hours": cell(hours, "hours", "ercot_prices")}
     constraints = [{"name": f"MADE-UP CONSTRAINT {i + 1}", "contingency": "Base Case" if i % 2 == 0 else f"MADE-UP OUTAGE {i}", "hours": 900 - 70 * i, "cost": 41250.5 - 3100.25 * i, "abs_mean": round(45.83 - 2.5 * i, 2)} for i in range(10)]
     by_hour = [398.2, 396.4, 395.1, 394.8, 395.9, 399.3, 401.7, 392.6, 371.4, 352.8, 341.9, 336.2, 333.5, 334.1, 338.7, 347.3, 361.9, 380.4, 392.2, 397.8, 400.3, 401.1, 400.6, 399.4]
     return {**HEAD, "id": "op-ercot", "kind": "operator", "code": "ERCOT", "name": "ERCOT", "tz": "America/Chicago", "members": ["ERCO"], "sources": SOURCES, "sections": {
-        "price": {"status": "shown", "hubs": [hub("day-ahead", 46.31, 118.7, 312, 41, 8760), hub("real-time", 44.02, 131.25, 298, 187, 8758)]},
+        # the third hub is listed with a status of its own and no figures, as the builder lists an operator held whole
+        "price": {"status": "shown", "hubs": [hub("day-ahead", 46.31, 118.7, 312, 41, 8760), hub("real-time", 44.02, 131.25, 298, 187, 8758),
+                                              {"hub_id": "made-up:HELD", "hub": "A made-up hub held whole", "operator": "op-ercot", "market": "day-ahead", "status": "license needed: a made-up hub whose prices need a license"}]},
         "congestion": {"status": "shown", "hubs": [{"hub_id": "ercot:HB_HUBAVG", "hub": "ERCOT Hub Average", "congestion_share_pct": cell(None, "pct", "congestion", held=NOT_PUBLISHED), "congestion_mean": cell(None, "USD/MWh", "congestion", held=NOT_PUBLISHED)}],
                        "top_by_hours": constraints, "top_by_cost": list(reversed(constraints)), "top_period": P12, "top_src": "constraints", "top_held": None},
-        "tightness": {"status": "shown", "peak_mw": cell(85111.0, "MW", "eia930_demand"), "peak_prior_mw": cell(82296.5, "MW", "eia930_demand", "2024-11-01..2025-10-31"), "peak_growth_pct": cell(3.42, "pct", "eia930_demand"),
+        "tightness": {"status": "shown", "peak_mw": cell(85111.0, "MW", "eia930_demand", months=trend(61000, 1000)), "peak_prior_mw": cell(82296.5, "MW", "eia930_demand", "2024-11-01..2025-10-31"), "peak_growth_pct": cell(3.42, "pct", "eia930_demand", "2024-11-01..2025-10-31 to 2025-11-01..2026-10-31"),
                       "peak_hour": cell("2026-08-20T21:00:00Z", "UTC", "eia930_demand"), "alerts": cell(4, "count", "alerts"), "watches": cell(11, "count", "alerts"), "emergencies": cell(0, "count", "alerts"), "alert_days": cell(9, "days", "alerts"),
-                      "out_mw_at_peak": cell(None, "MW", "outages", held=NOT_PUBLISHED), "reserve_margin_pct": cell(12.1, "pct", "cdr", "2027"), "reserve_target_pct": cell(13.75, "pct", "cdr", "2027")},
+                      "out_mw_at_peak": cell(None, "MW", "outages", held=NOT_PUBLISHED), "reserve_margin_pct": cell(12.1, "pct", "cdr", "summer 2027 (ERCOT's made-up report)"), "reserve_target_pct": cell(13.75, "pct", "cdr", "summer 2027 (ERCOT's made-up report)")},
         "queue": {"status": "shown", "active_mw": cell(204512.5, "MW", "queue", "2025"), "active_projects": cell(1412, "count", "queue", "2025"), "withdrawn_share_pct": cell(71.3, "pct", "queue", "2000..2020"), "median_years_to_operation": cell(3.8, "years", "durations", "2021..2025"),
                   "by_fuel": [{"fuel": "Solar", "active_mw": cell(81200.0, "MW", "queue", "2025"), "active_projects": cell(520, "count", "queue", "2025")}, {"fuel": "Battery", "active_mw": cell(74310.5, "MW", "queue", "2025"), "active_projects": cell(610, "count", "queue", "2025")}, {"fuel": "Wind", "active_mw": cell(21002.0, "MW", "queue", "2025"), "active_projects": cell(104, "count", "queue", "2025")}]},
         "large_load": {"status": "shown", "rules_n": cell(6, "count", "rules", "2026-11-26"), "smallest_threshold_mw": cell(75, "MW", "rules", "2026-11-26"),
-                       "rules": [{"id": "made-up-rule-1", "utility": "Made-up Wires Company", "state": "TX", "status": "in effect", "threshold_mw": 75, "contract_term": "ten years, as the made-up document prints it", "collateral": None, "exit_fee": "made-up exit fee words", "study_timeline": "90 days", "source_url": "https://example.org/made-up-rule-1"},
-                                 {"id": "made-up-rule-2", "utility": "Made-up Electric Cooperative", "state": "TX", "status": "proposed", "threshold_mw": None, "contract_term": None, "collateral": "made-up collateral words", "exit_fee": None, "study_timeline": None, "source_url": "javascript:alert(1)"}],
+                       # three ways a rule comes: with its document's address (the contract's first text); with its id alone (the
+                       # builder's files: the tab's own rule of that id); with an address that is no web address (never a link)
+                       "rules": [{"id": "made-up-rule-1", "utility": "Made-up Wires Company", "state": "TX", "status": "in effect", "threshold_mw": 75, "threshold_text": "75 MW or more at a single site, as the made-up rule prints it", "contract_term": "ten years, as the made-up document prints it", "collateral": None, "exit_fee": "made-up exit fee words", "study_timeline": "90 days", "source_url": "https://example.org/made-up-rule-1"},
+                                 {"id": "made-up-rule-2", "utility": "Made-up Electric Cooperative", "state": "TX", "status": "proposed", "threshold_mw": None, "threshold_text": "no threshold printed in the made-up tariff", "contract_term": None, "collateral": "made-up collateral words", "exit_fee": None, "study_timeline": None, "source_url": "javascript:alert(1)"},
+                                 {"id": "made-up-rule-3", "utility": "Made-up Power and Light", "state": "TX", "status": "in effect", "threshold_mw": 20.0, "threshold_text": "20 MW", "contract_term": "a made-up contract term that runs on for well over ninety-six characters so that the table cuts it at a word and gives the whole of it on hover, as the tab's own rules table does", "collateral": None, "exit_fee": None, "study_timeline": None}],
                        "queue_totals": [{"utility": "Made-up Wires Company", "state": "TX", "date": "2026-09-30", "mw": 12500, "figure": "12.5 GW of requests, as the made-up filing prints it", "source_url": "https://example.org/made-up-queue-total"}],
-                       "laws": [{"state": "TX", "bill": "SB 0000", "status": "enacted", "title": "A made-up act on large loads"}]},
-        "mix_carbon": {"status": "shown", "intensity": cell(372.44, "kgCO2/MWh", "carbon"), "mix": [{"fuel": "Natural gas", "share_pct": cell(44.1, "pct", "supply")}, {"fuel": "Wind", "share_pct": cell(24.3, "pct", "supply")}, {"fuel": "Solar", "share_pct": cell(11.25, "pct", "supply")}, {"fuel": "Coal", "share_pct": cell(12, "pct", "supply")}, {"fuel": "Nuclear", "share_pct": cell(8.35, "pct", "supply")}],
+                       "laws": [{"state": "TX", "bill": "SB 0000", "status": "enacted", "title": "A made-up act on large loads"}],
+                       "rules_src": "rules", "queue_totals_src": "rules", "laws_src": "rules", "states": ["TX"]},
+        "mix_carbon": {"status": "shown", "intensity": cell(372.44, "kgCO2/MWh", "carbon", months=trend(410.0, -1.5)), "mix": [{"fuel": "Natural gas", "share_pct": cell(44.1, "pct", "supply")}, {"fuel": "Wind", "share_pct": cell(24.3, "pct", "supply")}, {"fuel": "Solar", "share_pct": cell(11.25, "pct", "supply")}, {"fuel": "Coal", "share_pct": cell(12, "pct", "supply")}, {"fuel": "Nuclear", "share_pct": cell(8.35, "pct", "supply")}],
                        "intensity_by_hour": by_hour, "intensity_by_hour_period": P12, "intensity_by_hour_src": "carbon", "intensity_by_hour_held": None},
-        "imports": {"status": "shown", "net_import_share_pct": cell(0.14, "pct", "interchange"), "net_import_share_peak_pct": cell(0.31, "pct", "interchange"),
+        "imports": {"status": "shown", "net_import_share_pct": cell(0.14, "pct", "interchange", months=trend(-0.4, 0.05)), "net_import_share_peak_pct": cell(0.31, "pct", "interchange", "2025-11-01..2026-10-31 (the 100 highest-demand hours)"),
                     "partners": [{"ba": "SWPP", "name": "Southwest Power Pool", "net_import_mwh": cell(412300.5, "MWh", "interchange")}, {"ba": "CEN", "name": "Centro Nacional de Control de Energia", "net_import_mwh": cell(88120, "MWh", "interchange")}, {"ba": "MISO", "name": "Midcontinent Independent System Operator, Inc.", "net_import_mwh": cell(-1204.25, "MWh", "interchange")}]},
-        "spare": {"status": "shown", "curtailed_wind_mwh": cell(3104220, "MWh", "curtailment"), "curtailed_solar_mwh": cell(2987003, "MWh", "curtailment"), "negative_price_hours": cell(41, "hours", "ercot_prices")},
-        "forecast": {"status": "shown", "operator_mape_pct": cell(2.19, "pct", "scores", "2024-11-26..2026-11-25"), "erw_mape_pct": cell(6.1, "pct", "scores", "2024-11-26..2026-11-25"), "hours": cell(17520, "hours", "scores", "2024-11-26..2026-11-25")},
+        # a trend with months not held (the first twelve): the line is drawn over the months it has; one with a single month: no line
+        "spare": {"status": "shown", "curtailed_wind_mwh": cell(3104220, "MWh", "curtailment", months=trend(180000, 9000, missing=range(12))), "curtailed_solar_mwh": cell(2987003, "MWh", "curtailment", months=trend(200000, 0, missing=range(23))), "negative_price_hours": cell(41, "hours", "ercot_prices")},
+        "forecast": {"status": "shown", "operator_mape_pct": cell(2.19, "pct", "scores", "the 730 days to 2026-11-25"), "erw_mape_pct": cell(6.1, "pct", "scores", "the 730 days to 2026-11-25"), "hours": cell(17520, "hours", "scores", "the 730 days to 2026-11-25")},
         "datacenters": {"status": "shown", "facilities_n": cell(141, "count", "dc_facilities", "2026-11-26"), "facilities_mw_stated": cell(9120.5, "MW", "dc_facilities", "2026-11-26"), "projects_n": cell(58, "count", "dc_projects", "2026-11-26"), "projects_mw_stated": cell(23450, "MW", "dc_projects", "2026-11-26"), "facilities_mw_n": cell(77, "count", "dc_facilities", "2026-11-26"),
                         "list": [{"name": "Made-up Campus One", "operator": "Made-up Operator", "state": "TX", "county": "Made-up County", "mw": 1200, "status": "announced", "source_url": "https://example.org/made-up-campus"}]},
     }}
@@ -170,11 +202,11 @@ def nyiso():
                       "alerts": np_("count", "alerts"), "watches": np_("count", "alerts"), "emergencies": np_("count", "alerts"), "alert_days": np_("days", "alerts"), "out_mw_at_peak": np_("MW", "outages"), "reserve_margin_pct": cell(18.6, "pct", "cdr", "2027"), "reserve_target_pct": np_("pct", "cdr")},
         "queue": {"status": "shown", "active_mw": cell(118040.0, "MW", "queue", "2025"), "active_projects": cell(602, "count", "queue", "2025"), "withdrawn_share_pct": cell(78.9, "pct", "queue", "2000..2020"), "median_years_to_operation": cell(4.6, "years", "durations", "2021..2025"), "by_fuel": []},
         "large_load": {"status": "shown", "rules_n": cell(2, "count", "rules", "2026-11-26"), "smallest_threshold_mw": cell(20, "MW", "rules", "2026-11-26"), "rules": [], "queue_totals": [], "laws": []},
-        "mix_carbon": {"status": "shown", "intensity": cell(248.9, "kgCO2/MWh", "carbon"), "mix": [], "intensity_by_hour": [None] * 24, "intensity_by_hour_period": None, "intensity_by_hour_src": "carbon", "intensity_by_hour_held": "too few: fewer than 300 days of the last 12 months hold every hour"},
+        "mix_carbon": {"status": "shown", "intensity": cell(248.9, "kgCO2/MWh", "carbon"), "mix": [], "mix_held": "not held: no net generation by source is held for this place (made-up)", "intensity_by_hour": [None] * 24, "intensity_by_hour_period": None, "intensity_by_hour_src": "carbon", "intensity_by_hour_held": "too few: fewer than 300 days of the last 12 months hold every hour"},
         "imports": {"status": "shown", "net_import_share_pct": cell(12.75, "pct", "interchange"), "net_import_share_peak_pct": cell(21.4, "pct", "interchange"), "partners": []},
         "spare": {"status": NOT_PUBLISHED, "curtailed_wind_mwh": np_("MWh", "curtailment"), "curtailed_solar_mwh": np_("MWh", "curtailment"), "negative_price_hours": lic("hours")},
         "forecast": {"status": "shown", "operator_mape_pct": cell(1.96, "pct", "scores"), "erw_mape_pct": cell(3.05, "pct", "scores"), "hours": cell(17500, "hours", "scores")},
-        "datacenters": {"status": "shown", "facilities_n": cell(38, "count", "dc_facilities", "2026-11-26"), "facilities_mw_stated": cell(1210, "MW", "dc_facilities", "2026-11-26"), "projects_n": cell(9, "count", "dc_projects", "2026-11-26"), "projects_mw_stated": cell(4100, "MW", "dc_projects", "2026-11-26"), "facilities_mw_n": cell(12, "count", "dc_facilities", "2026-11-26"), "list": []},
+        "datacenters": {"status": "shown", "facilities_n": cell(38, "count", "dc_facilities", "2026-11-26"), "facilities_mw_stated": cell(1210, "MW", "dc_facilities", "2026-11-26"), "projects_n": cell(9, "count", "dc_projects", "2026-11-26"), "projects_mw_stated": cell(4100, "MW", "dc_projects", "2026-11-26"), "facilities_mw_n": cell(12, "count", "dc_facilities", "2026-11-26"), "list": [], "list_held": "license needed: the list is held with its tables (made-up words of the builder)"},
     }}
 
 

@@ -25,11 +25,13 @@ import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(ROOT, "site")
-HERE = os.path.join(SITE, "app", "cost-of-power", "regions")
+TOOL = os.path.join(SITE, "app", "cost-of-power")
 NODE = shutil.which("node")
 REACT = os.path.isdir(os.path.join(SITE, "node_modules", "react"))
 EM = chr(0x2014)
-FILES = ["lib.ts", "data.ts", "RegionsSection.tsx", "RegionsChoices.tsx", "RegionsDownload.tsx"]
+# the section's files stand in the tool's own folder: a folder under it would read as one more address of the tool
+# (tests/test_session138.py and test_session194.py hold the tool to its four)
+FILES = ["regions.ts", "regionsdata.ts", "RegionsSection.tsx", "RegionsChoices.tsx", "RegionsDownload.tsx"]
 
 
 def src(*parts):
@@ -49,7 +51,9 @@ class TheNodeTest(unittest.TestCase):
 class TheTabKeepsWhatItHad(unittest.TestCase):
     def test_the_section_is_one_import_and_one_line_of_the_tab(self):
         view = src("site", "app", "cost-of-power", "AllGridsView.tsx")
-        self.assertEqual(view.count('import { RegionsSection } from "./regions/RegionsSection";'), 1)
+        self.assertEqual(view.count('import { RegionsSection } from "./RegionsSection";'), 1)
+        # one tool, one page, one address: the section adds no folder under the tool
+        self.assertEqual(sorted(x for x in os.listdir(TOOL) if os.path.isdir(os.path.join(TOOL, x))), ["battery", "months.csv", "seller", "tables.csv"])
         self.assertEqual(view.count("<RegionsSection q={q} />"), 1)
         self.assertEqual(view.count("RegionsSection"), 3)   # the import names it twice, the tab mounts it once
         # after the hub table's method line and before the large-load rules, which stand as they stood
@@ -61,7 +65,7 @@ class TheTabKeepsWhatItHad(unittest.TestCase):
         self.assertEqual(src("site", "app", "cost-of-power", "AllGridsView.tsx").count(' title="'), 1)
 
     def test_its_names_in_the_address_are_none_of_the_tabs(self):
-        lib = src("site", "app", "cost-of-power", "regions", "lib.ts")
+        lib = src("site", "app", "cost-of-power", "regions.ts")
         m = re.search(r"export const PARAMS = \[([^\]]+)\] as const;", lib)
         mine = re.findall(r'"([a-z]+)"', m.group(1))
         self.assertEqual(mine, ["srsort", "srdir", "srcols", "srkind", "sropen", "sra", "srb"])
@@ -76,39 +80,39 @@ class TheTabKeepsWhatItHad(unittest.TestCase):
 class TheFilesAndTheirRules(unittest.TestCase):
     def test_no_em_dash_and_no_hex_colour(self):
         for name in FILES:
-            text = src("site", "app", "cost-of-power", "regions", name)
+            text = src("site", "app", "cost-of-power", name)
             self.assertNotIn(EM, text, name)
             self.assertIsNone(re.search(r"#[0-9a-fA-F]{6}\b", text), name)
         for rel in [("site", "scripts", "test-regions-section.mjs"), ("tests", "fixtures", "siting_regions", "make_fixture.py")]:
             self.assertNotIn(EM, src(*rel), rel[-1])
 
     def test_the_browsers_parts_read_no_file(self):
-        # lib.ts is read by the browser's choices and downloads: it imports nothing; the two client files import no reader
-        lib = src("site", "app", "cost-of-power", "regions", "lib.ts")
+        # regions.ts is read by the browser's choices and downloads: it imports nothing; the two client files import no reader
+        lib = src("site", "app", "cost-of-power", "regions.ts")
         self.assertIsNone(re.search(r"^import ", lib, re.M))
         for name in ["RegionsChoices.tsx", "RegionsDownload.tsx"]:
-            text = src("site", "app", "cost-of-power", "regions", name)
+            text = src("site", "app", "cost-of-power", name)
             self.assertTrue(text.startswith('"use client";'), name)
             self.assertNotIn("pagefile", text, name)
             self.assertNotIn("./data", text, name)
 
     def test_the_files_are_read_through_the_sites_one_reader(self):
         # tests/test_session5171.py lists every file that reads the disk itself; this one reads through lib/pagefile.ts
-        data = src("site", "app", "cost-of-power", "regions", "data.ts")
+        data = src("site", "app", "cost-of-power", "regionsdata.ts")
         self.assertIn('import { DATA_DIR, readPageFile } from "@/lib/pagefile";', data)
         for name in FILES:
-            self.assertIsNone(re.search(r'from "(node:)?fs"', src("site", "app", "cost-of-power", "regions", name)), name)
+            self.assertIsNone(re.search(r'from "(node:)?fs"', src("site", "app", "cost-of-power", name)), name)
         # no Supabase read: the tab's rule (tests/test_session716.py)
         for name in FILES:
-            self.assertNotIn("supabase", src("site", "app", "cost-of-power", "regions", name).lower(), name)
+            self.assertNotIn("supabase", src("site", "app", "cost-of-power", name).lower(), name)
 
     def test_the_examples_are_not_drawn_as_a_table(self):
-        data = src("site", "app", "cost-of-power", "regions", "data.ts")
+        data = src("site", "app", "cost-of-power", "regionsdata.ts")
         self.assertIn("if (index.example === true || table.example === true) {", data)
         self.assertIn('return { state: "example", why: "not built yet: the files on this build are the contract\'s own examples', data)
 
     def test_the_sites_own_hold_wins_over_the_file(self):
-        sec = src("site", "app", "cost-of-power", "regions", "RegionsSection.tsx")
+        sec = src("site", "app", "cost-of-power", "RegionsSection.tsx")
         self.assertIn('import { licenseByGrid, licenseByRow, licenseHeldRow } from "@/lib/license";', sec)
         self.assertIn("function siteHolds(table: string | null | undefined, entity: string | null): boolean {", sec)
         self.assertIn("const held = r.held ?? (siteHolds(source, place?.ref_hub ?? null) ? siteHoldWords(source as string) : null);", sec)
@@ -120,7 +124,7 @@ class TheFilesAndTheirRules(unittest.TestCase):
     def test_a_figure_is_written_in_the_value_checks_own_form(self):
         # scripts/check-values.mjs `shown`: a whole value whole with commas, any other to two decimals; so the section
         # needs no rule of its own there
-        lib = src("site", "app", "cost-of-power", "regions", "lib.ts")
+        lib = src("site", "app", "cost-of-power", "regions.ts")
         self.assertIn('export const figure = (v: number): string => (Number.isInteger(v) ? v.toLocaleString("en-US") : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));', lib)
         check = src("site", "scripts", "check-values.mjs")
         self.assertIn('return Number.isInteger(x) ? x.toLocaleString("en-US") : x.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });', check)
