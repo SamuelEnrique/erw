@@ -261,7 +261,8 @@ def headlines(client, model, clusters, log):
     items = [{"cluster_id": cid, "titles": r["titles"], "summary": r["summary"], "figures": figures(r)}
              for cid, r in recs.items()]
     heads, usage, calls = _headline_call(client, model, items, log)
-    pool = lambda r: [*r["titles"], r["summary"], r["why"] or "", *figures(r)]  # noqa: E731
+    # wip/ready-digest-why-check (the Digest audit of 26 November, finding 4): the why line is no source of a headline's numbers
+    pool = lambda r: [*r["titles"], r["summary"], *figures(dict(r, why=""))]  # noqa: E731  (nor the figures drawn from it)
     bad = {cid: chat_ask.unverified(h, pool(recs[cid])) for cid, h in heads.items() if cid in recs}
     bad = {k: v for k, v in bad.items() if v}
     if bad:
@@ -969,7 +970,12 @@ def without_figures(t, head):
     return t[0].upper() + t[1:]
 
 
-def why_line(text, head="", mw=None):
+def story_sources(r):
+    """wip/ready-digest-why-check: the texts a why line's numbers are read against: the cluster's titles and summary."""
+    return [*(r.get("titles") or []), r.get("summary") or ""]
+
+
+def why_line(text, head="", mw=None, sources=None):
     """Session 577 (digest audit fixes 8 and 9, as session 470 left them): the scorer's reason as an issue prints it: the
     adjectives docs/voice.md cuts taken out (plain), each sum of money in the one style (money_style: the "$3.2bn" and
     "$45 Billion" of the why lines, not only the price field), and a stop at its end, so the figures or the links that
@@ -1002,10 +1008,18 @@ def why_line(text, head="", mw=None):
             # session 807: the headline's own clause is no why line when it is the headline (the dry run printed
             # "Crusoe plans Spark Liquid ... (datacenter power): Crusoe plans Spark Liquid ..."); the item then has none
             return "" if norm_headline(fb) == norm_headline(head) else fb
-        return t
+        return unsourced_dropped(t, sources)
     if t and not re.search(r"[.!?][\"'”)\]]*$", t):
         t += "."
-    return t
+    return unsourced_dropped(t, sources)
+
+
+def unsourced_dropped(t, sources):
+    """wip/ready-digest-why-check (the Digest audit of 26 November, finding 4, for Samuel's ruling): a why line holding a
+    number its story's titles and summary do not give is dropped ("adds ~2% to nuclear fleet" under a 200 MW uprate)."""
+    if sources is None or not t or not re.search(r"\d", t):
+        return t
+    return "" if chat_ask.unverified(t, [s for s in sources if s]) else t
 
 
 # Session 3459 (faults file row 156): a scored sum with no unit ("2.6 billion": of what currency?) or no figure at all
@@ -2065,7 +2079,7 @@ def sector_line(r, head):
     """Session 1467 (chain 150, fault 46): a by-sector or AI and power line: "- headline (sector): why [Outlet](url)", or,
     when the story has no why line that passes the check, "- headline (sector). [Outlet](url)": no colon that introduces
     nothing (the dry run of 6 November: "... plans coal use to 2038 (generation): [Utility Dive](...)")."""
-    why = why_line(r["why"], head, r.get("mw"))   # 3465, row 169
+    why = why_line(r["why"], head, r.get("mw"), story_sources(r))   # 3465, row 169; wip/ready-digest-why-check
     link = link_text(r["links"][:1])
     lead = f"- {head} ({sector_words(r['sector'])})"
     if why:
@@ -2848,14 +2862,14 @@ def main(argv=None):
             M = ["## What moved", ""]
             for i, r in enumerate(recs[:n_moved], 1):
                 M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({sector_words(r['sector'])})  ",
-                                " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']], r.get('mw')), limitation(r)) if x),
+                                " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']], r.get('mw'), story_sources(r)), limitation(r)) if x),
                                 f"Sources: {link_text(r['links'])}")
             # rulings items 5 and 14: the rest folds under "More", not cut
             M += ["", FOLD_HEADING, "", "### The rest of the top ten", ""]
             if len(recs) <= n_moved:
                 M.append("- no further story in the top ten today")
             for i, r in enumerate(recs[n_moved:], n_moved + 1):
-                w = why_line(r['why'], heads[r['cluster_id']], r.get('mw'))
+                w = why_line(r['why'], heads[r['cluster_id']], r.get('mw'), story_sources(r))
                 M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({sector_words(r['sector'])})  ",
                                 (w + " " + detail(r, heads[r['cluster_id']], why=w)).strip(),   # 3459, row 155
                                 f"Sources: {link_text(r['links'])}")
