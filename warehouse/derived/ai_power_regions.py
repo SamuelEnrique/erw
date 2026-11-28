@@ -21,7 +21,7 @@ measures, each from a warehouse table (docs/reports/ai_gigawatts_methods.md is t
              emergency_days          CAISO only: days with an ISO-wide Flex Alert or emergency, 2018-07 to 2025-04
                                      (caiso_grid_emergencies, as the Flex Alert scorecard reads it); not held elsewhere;
              event_largest_effect_pct  the largest pooled demand effect of a studied event, percent of its counterfactual
-                                     (event_study_estimates, temperature-controlled where held; x_note names the event)
+                                     (event_study_estimates, the day-of-week and year estimate of every event; x_note names the event)
   connection lbnl_active_gw, lbnl_active_requests   active requests at the end of 2025 (lbnl_interconnection_queue);
              lbnl_median_years_to_cod  median years from request to operation, requests that came online 2018 to 2025;
              lbnl_completion_pct     share of the requests made 2000 to 2019 that came online;
@@ -151,8 +151,11 @@ def events():
         best = None
         for ev, e in g.groupby("event"):
             v = e.set_index("variable")["value"]
-            eff, cf = ("demand_mwh_effect_pooled_temp", "demand_mwh_counterfactual_mean_temp") if "demand_mwh_effect_pooled_temp" in v else \
-                ("demand_mwh_effect_pooled", "demand_mwh_counterfactual_mean")
+            # wip/ready-reports-events (the reports audit of 26 November, finding 6, for Samuel's ruling): one kind of estimate
+            # for every event, the day-of-week and year estimate every studied event holds (cold_2026 has no
+            # temperature-controlled one), so the largest event is chosen among estimates of one kind; the table is rebuilt
+            # with the event studies' newest events at landing
+            eff, cf = ("demand_mwh_effect_pooled", "demand_mwh_counterfactual_mean")
             if eff in v and cf in v:
                 pct = float(v[eff]) / float(v[cf]) * 100
                 if best is None or abs(pct) > abs(best[0]):
