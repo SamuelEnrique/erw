@@ -29,7 +29,7 @@ export const EVENT_DECISIONS: EventDecision[] = [
     def: WINDOW, source: "docs/methods/events.md, each event's section; the dates the pages cite are the operators' and the government's accounts named in the framing, while the windows' edges are the ERW's (docs/reviews/events-model-audit-2026-11-26.md, finding 7)." },
   { key: "baseline", session: "sessions 36B, 36C and 49",
     text: "An event day is set against the same days of earlier years: the same weekday 364 and 728 days earlier, so a Monday meets a Monday. A calendar-day baseline would set a Sunday against a Monday.",
-    def: { uri_2021: "The same calendar days of 2019 and 2020 (the first event, before the weekday rule).", covid_2020: "The same weekday of 2019 and 2018 for the seven ISO grids; the Lower 48, 2019 alone (EIA's 2018 file does not hold it).", "": "The same weekday 364 and 728 days earlier, both years held." },
+    def: { uri_2021: "The charts: the same calendar days of 2019 and 2020 (the first event, before the weekday rule). The comparisons with the baseline: the same weekday 364 and 728 days earlier (session 11407).", covid_2020: "The same weekday of 2019 and 2018 for the seven ISO grids; the Lower 48, 2019 alone (EIA's 2018 file does not hold it).", "": "The same weekday 364 and 728 days earlier, both years held." },
     source: "docs/methods/events.md, \"Baseline: weekday-aligned\" and \"Session 49\"." },
   { key: "local-day", session: "session 36C",
     text: "A day is the grid's own local day: Central for ERCOT and SPP, Eastern for PJM, NYISO, ISO-NE and the Lower 48, Pacific for CAISO, and Eastern Standard Time all year for MISO, its market day. A day in UTC would move an evening peak to the next day.",

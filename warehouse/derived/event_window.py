@@ -21,8 +21,9 @@ is filled. Variables per day:
         intensity_generation   CO2 generated / net generation over the day, kgCO2/MWh (as carbon_intensity_daily,
                                but over the local day)
     event days only:
-        demand_mwh_vs_baseline, net_generation_mwh_vs_baseline   the event day minus the mean of the baseline years'
-                               same calendar day, MWh
+        demand_mwh_vs_baseline, net_generation_mwh_vs_baseline   the event day minus the mean of the same weekday
+                               364 and 728 days earlier, MWh (session 11407; the same calendar day of the baseline
+                               years before)
         demand_mwh_day_change, net_generation_mwh_day_change     the event day minus the previous day of the window, MWh
 
 Demand during rotating outages is load that was served, not what customers wanted: the power cut off is not in it.
@@ -60,8 +61,14 @@ COLS = ip.SERIES_COLS + ["ba", "event"]
 EVENTS = [
     # event id, BA code, time zone, hub entity, window start and end (inclusive, local dates), baseline years
     dict(event="uri_2021", ba="erco", entity="eia930:ERCO", tz="America/Chicago", hub="ercot:HB_HUBAVG",
-         start="2021-02-07", end="2021-02-24", baseline=[2019, 2020]),
+         start="2021-02-07", end="2021-02-24", baseline=[2019, 2020], offsets=[364, 728]),
 ]
+# Session 11407 (chain 770 part C, the events audit's finding 9, readied for the owner's ruling): Uri's comparisons with
+# the baseline (demand_mwh_vs_baseline, net_generation_mwh_vs_baseline) are against the same weekday 364 and 728 days
+# earlier, the rule of every later event, in place of the same calendar day of 2019 and 2020, which set a Sunday
+# against a Thursday and a Friday. The rows written for 2019 and 2020 stay the calendar days (the charts and the event
+# study read them); a weekday baseline day outside them (up to 2020-02-26 and 2019-02-27) is read from the extract for
+# the comparison and not written.
 # Session 36C: COVID-19, spring 2020, all seven ISO balancing authorities and US48. The baseline is weekday-aligned: the
 # same weekday 364 and 728 days earlier. Each BA's local day: ERCOT operating days (America/Chicago) for ERCO, the time
 # zones of storage_daily_cycle for the others (MISO on Eastern Standard Time all year, as its market day), Pacific for
@@ -238,13 +245,22 @@ def build(e, log, retrieved):
     # generation and no intensity. The spring of 2020 and the heat of August 2020 lie inside the gap. HELD with the rule
     x = impossible_hours.without_hydro_gap(x, e["ba"], NAME)
     x["day"] = local_days(x["ts_utc"], e["tz"])
-    x = x[x["day"].map(in_win)]
+    # session 11407: the weekday baseline days (364 and 728 days before each event day), read for the comparisons only
+    ev_days = [d.strftime("%Y-%m-%d") for d in pd.date_range(e["start"], e["end"], freq="D")]
+    wk_days = {(pd.Timestamp(d) - pd.Timedelta(days=o)).strftime("%Y-%m-%d") for d in ev_days for o in e.get("offsets", [])}
+    x = x[x["day"].map(in_win) | x["day"].isin(wk_days)]
+    extra = {"demand_mwh": {}, "net_generation_mwh": {}}
     # CO2 generated: the warehouse table
     c = stream(EMIS, lambda b: pc.and_(pc.equal(b.column("ba"), e["ba"]),
                                        pc.equal(b.column("variable"), "co2_emissions_generated")),
                ["entity", "variable", "ts_utc", "value", "ba"])
     x = x.merge(c[["ts_utc", "value"]].rename(columns={"value": "co2"}), on="ts_utc", how="left")
     for day, h in x.groupby("day"):
+        if not in_win(day):  # session 11407: a weekday baseline day outside the windows, for the comparisons, not written
+            for var in extra:
+                if len(h) == 24 and h[var].notna().all():
+                    extra[var][day] = r4(h[var].sum())
+            continue
         t = f"{day}T00:00:00Z"
         eia = dict(base, entity=e["entity"], ts_utc=t, market="")
         if len(h) != 24 or h["demand_mwh"].isna().any():
@@ -265,7 +281,8 @@ def build(e, log, retrieved):
     log(f"  demand and net generation: {len(x)} hours from {os.path.relpath(ex, ROOT)} ({url}, Last-Modified {lm}); "
         f"CO2: {len(c)} rows of {EMIS}")
 
-    # the event days against the mean of the baseline years' same calendar day
+    # the event days against the mean of the baseline days: the same weekday 364 and 728 days earlier where the event
+    # has offsets (session 11407), else the baseline years' same calendar day
     df = pd.DataFrame(rows)
     y0 = int(e["start"][:4])
     for var in ("demand_mwh", "net_generation_mwh"):
@@ -273,7 +290,11 @@ def build(e, log, retrieved):
         for t, v in s.items():
             if int(t[:4]) != y0:
                 continue
-            b = [s.get(f"{y}{t[4:]}") for y in e["baseline"]]
+            if e.get("offsets"):
+                ds = [(pd.Timestamp(t[:10]) - pd.Timedelta(days=o)).strftime("%Y-%m-%d") for o in e["offsets"]]
+                b = [s.get(f"{d}T00:00:00Z", extra[var].get(d)) for d in ds]
+            else:
+                b = [s.get(f"{y}{t[4:]}") for y in e["baseline"]]
             if any(x_ is None for x_ in b):
                 left.append(f"{var} vs baseline {t[:10]}: a baseline day is missing")
                 continue
@@ -537,7 +558,8 @@ def main():
             "Also read: EIA's hourly demand and net generation from the per-BA workbooks (source "
             "eia:gridmonitor/knownissues/xls), the emissions connector's extract: " + "; ".join(used),
             f"Events: uri_2021 (Winter Storm Uri, ERCOT), window {e['start']} to {e['end']}, baseline the same calendar "
-            f"days of {', '.join(map(str, e['baseline']))}. covid_2020 (COVID-19, seven ISO BAs and US48, session 36C), "
+            f"days of {', '.join(map(str, e['baseline']))}, its comparisons with the baseline against the same weekday "
+            f"{' and '.join(map(str, e['offsets']))} days earlier (session 11407). covid_2020 (COVID-19, seven ISO BAs and US48, session 36C), "
             f"window {COVID['start']} to {COVID['end']}, baseline the same weekday "
             f"{' and '.join(map(str, COVID['offsets']))} days earlier where held. Session 39: "
             + "; ".join(f"{m['event']} ({m['label']}), window {m['start']} to {m['end']}, the same weekday 364 and 728 "

@@ -88,7 +88,7 @@ export default async function Uri({ searchParams }: PageProps = {}) {
           In February 2021 extreme winter weather disrupted energy supply and demand, particularly in Texas, and ERCOT began implementing rotating
           outages at midnight on February 15 (<a href={EIA_URL}>EIA, Today in Energy</a>). This page sets ERCOT&apos;s prices, the demand it served, its
           net generation and the carbon intensity of that generation over the operating days 2021-02-07 to 2021-02-24 against the same calendar days
-          of 2019 and 2020.
+          of 2019 and 2020; its comparisons with the baseline set each day against the same weekday 364 and 728 days earlier.
         </p>
         <p className="text-muted">
           Demand here is demand served. During the rotating outages, customers whose power was cut used nothing, so demand served is less than what
@@ -121,10 +121,14 @@ export default async function Uri({ searchParams }: PageProps = {}) {
           <Section title="Net generation" aside={<Tier />}>
             {chart("net_generation_mwh", "MWh", "ERCOT net generation per day, February 7 to 24 of 2019, 2020 and 2021")}
             <p className="mt-1 text-sm">
-              Largest day-to-day fall: <N r={fall} /> MWh on {day(fall)}. Largest shortfall against the 2019 and 2020 average for the same day:{" "}
+              {/* session 11407 (chain 770 part C, the events audit's finding 9, readied for the owner's ruling): the shortfall
+                  against the same weekday 364 and 728 days earlier, the later events' rule, in place of the same calendar day,
+                  which set Sunday 2021-02-21 against a Thursday and a Friday (-186,530.50 MWh; by the weekday rule that day is
+                  -37,630.50 and the largest shortfall is 2021-02-24's, -140,891.00, measured on the builder's run) */}
+              Largest day-to-day fall: <N r={fall} /> MWh on {day(fall)}. Largest shortfall against the average of the same weekday 364 and 728 days earlier:{" "}
               <N r={short} /> MWh on {day(short)}, after the storm; during the outages net generation stayed above that average.
             </p>
-            <Cite tables={[T]} note="EIA-930 hourly net generation of ERCO, summed per operating day; the fall is the day minus the day before, the shortfall the day minus the mean of 2019 and 2020" />
+            <Cite tables={[T]} note="EIA-930 hourly net generation of ERCO, summed per operating day; the fall is the day minus the day before, the shortfall the day minus the mean of the same weekday 364 and 728 days earlier" />
           </Section>
 
           <Section title="Carbon intensity of generation" aside={<Tier />}>

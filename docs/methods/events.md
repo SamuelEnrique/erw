@@ -15,7 +15,7 @@ Built in session 36B for the Historical Event Analyzer (`/events`). One derived 
 ## The first event: Winter Storm Uri, ERCOT (`uri_2021`)
 
 - **Window:** 2021-02-07 to 2021-02-24, eighteen days: the week before the storm, the storm, and the week after.
-- **Baseline:** the same calendar days of 2019 and 2020. For the comparison variables, the baseline of a day is the mean of those two years' values for the same calendar day.
+- **Baseline:** the same calendar days of 2019 and 2020, written as rows and drawn on the charts. For the comparison variables (`demand_mwh_vs_baseline`, `net_generation_mwh_vs_baseline`), since session 11407 (readied for the owner's ruling on the events audit's finding 9), the baseline of a day is the mean of the same weekday 364 and 728 days earlier, the rule of every later event; the baseline days after 24 February of 2019 and 2020 (up to 2020-02-26 and 2019-02-27) are read from the extract for the comparison and not written, so the event study's baseline rows do not change. Before, it was the same calendar day, which set Sunday 2021-02-21 against a Thursday and a Friday: the page's largest shortfall of net generation, -186,530.50 MWh on that day, is -37,630.50 by the weekday rule, and the largest shortfall becomes 2021-02-24's, -140,891.00 MWh (demand served that day -141,818.00); measured by the builder on this machine's extract (retrieved 2026-10-04), whose calendar-rule values match the published table's. Demand served stays above the baseline on every day from 9 to 20 February, and net generation above it during the outages (15 to 18 February), under both rules.
 - **The date the page cites:** EIA writes that "ERCOT began implementing rotating outages at midnight on February 15" (https://www.eia.gov/todayinenergy/detail.php?id=46836).
 - **The price sat at the ceiling (session 10225, 26 November 2026).** On 16, 17 and 18 February the hub's daily mean real-time price was 8,970.14, 9,002.04 and 8,989.10 USD/MWh against highest 15-minute prices of 9,000.85, 9,051.55 and 9,006.13: within 0.6 percent, so the price hardly moved for three days. A price at the market's ceiling (ERCOT's offer cap, whose document the warehouse does not hold) is set by the ceiling, not by bids, so the page's price figures and the event study's price estimate (+2,293.84 USD/MWh a day) measure the ceiling as much as the scarcity. The page says so in words (`docs/reviews/events-model-audit-2026-11-26.md`, finding 8); the count of intervals near the ceiling is the ruling alternative `wip/alt-events-4`.
 
@@ -149,7 +149,7 @@ The owner's default of 18 October 2026 to ruling 6 of `docs/state/morning_2026-1
 | `demand_min_mw`, `demand_max_mw` | `eia930:ERCO` | the day's lowest and highest hour of demand | MW |
 | `net_generation_mwh` | `eia930:ERCO` | EIA's hourly net generation, summed | MWh |
 | `intensity_generation` | `eia930:ERCO` | the day's CO2 generated (`eia930_all_emissions`) x 1000 over its net generation: `carbon_intensity_daily`'s formula, over the local day | kgCO2/MWh |
-| `demand_mwh_vs_baseline`, `net_generation_mwh_vs_baseline` | `eia930:ERCO` | event days only: the day minus the baseline mean of its calendar day | MWh |
+| `demand_mwh_vs_baseline`, `net_generation_mwh_vs_baseline` | `eia930:ERCO` | event days only: the day minus the baseline mean of the same weekday 364 and 728 days earlier (session 11407; its calendar day before) | MWh |
 | `demand_mwh_day_change`, `net_generation_mwh_day_change` | `eia930:ERCO` | event days only: the day minus the previous day of the window | MWh |
 
 For `covid_2020`, by entity `eia930:<BA>` for each of the eight, and `ercot:HB_HUBAVG` for prices:
@@ -315,7 +315,7 @@ have no input, and every figure is fixed when the table is built or the page is 
 | # | Key | The choice | Default | Source |
 |---|---|---|---|---|
 | 1 | `window` | each event a fixed window of local days, both ends included; the edges the ERW's own, and three windows chosen from the data around the highest hours (session 10225) | each event's dates (sections above) | each event's section |
-| 2 | `baseline` | the same weekday 364 and 728 days earlier | Uri the same calendar days of 2019 and 2020; COVID-19 2019 and 2018 (the Lower 48 2019) | "Baseline: weekday-aligned", "Session 49" |
+| 2 | `baseline` | the same weekday 364 and 728 days earlier | Uri the same calendar days of 2019 and 2020 on the charts, its comparisons by weekday (session 11407); COVID-19 2019 and 2018 (the Lower 48 2019) | "Baseline: weekday-aligned", "Session 49" |
 | 3 | `local-day` | the grid's own local day (MISO Eastern Standard Time all year) | each grid's zone | "The second event: COVID-19" |
 | 4 | `complete` | a day only when every interval is held; nothing filled | complete days only | "Complete days only" |
 | 5 | `served` | demand served, not wanted | EIA-930 demand | "Demand during load shed is load served" |
