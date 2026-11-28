@@ -98,11 +98,39 @@ def parse_date(s, year=None):
 def span(time_frame, day):
     """The local days a record's time frame covers: 'MM/DD/YYYY HH:MM through MM/DD/YYYY HH:MM' gives every day from
     the first to the last; a frame of hours alone ('10:00 - 21:00') is the record's own day."""
-    ds = re.findall(r"(\d{1,2}/\d{1,2}/\d{4})\s+(\d{1,2}:\d{2})", time_frame)
+    # session 11407 (chain 770, part C; the conditions audit of 26 November, finding 4): three more ways CAISO prints a
+    # frame are read the same way: "at" between the date and the hour ("08/14/2020 at 18:36 through 08/14/2020 at
+    # 20:38", the Stage 3 rotating outages of 14 and 15 August 2020), ISO dates ("2021-07-12 16:00:00 through
+    # 2021-07-12 21:00:00") and the month in words with AM or PM and no year ("September 3 at 4:00 PM to September 3 at
+    # 9:00 PM", the year the record's own day's). Each was left with no start or end before.
+    ds = re.findall(r"(\d{1,2}/\d{1,2}/\d{4})\s+(?:at\s+)?(\d{1,2}:\d{2})", time_frame)
     if len(ds) >= 2:
         a, b = parse_date(ds[0][0]), parse_date(ds[-1][0])
         if a and b and a <= b and (b - a).days < 60:
             return [a + dt.timedelta(days=k) for k in range((b - a).days + 1)], f"{a} {ds[0][1]}", f"{b} {ds[-1][1]}"
+    iso = re.findall(r"(\d{4}-\d{2}-\d{2})\s+(\d{1,2}:\d{2})(?::\d{2})?", time_frame)
+    if len(iso) >= 2:
+        try:
+            a, b = dt.date.fromisoformat(iso[0][0]), dt.date.fromisoformat(iso[-1][0])
+        except ValueError:
+            a = b = None
+        if a and b and a <= b and (b - a).days < 60:
+            return [a + dt.timedelta(days=k) for k in range((b - a).days + 1)], f"{a} {iso[0][1]}", f"{b} {iso[-1][1]}"
+    words = re.findall(r"([A-Z][a-z]+)\s+(\d{1,2})\s+at\s+(\d{1,2}):(\d{2})\s*([AaPp])\.?[Mm]\.?", time_frame)
+    if len(words) >= 2:
+        ends = []
+        for mon, dd, hh, mm, ap in (words[0], words[-1]):
+            try:
+                d = dt.datetime.strptime(f"{mon} {dd} {day.year}", "%B %d %Y").date()
+            except ValueError:
+                d = None
+            h = int(hh) % 12 + (12 if ap.lower() == "p" else 0)
+            ends.append((d, f"{h:02d}:{mm}"))
+        (a, ta), (b, tb) = ends
+        if a and b and b < a:
+            b = b.replace(year=b.year + 1)  # a frame across the new year
+        if a and b and (b - a).days < 60:
+            return [a + dt.timedelta(days=k) for k in range((b - a).days + 1)], f"{a} {ta}", f"{b} {tb}"
     # session 7050 (done-line request 59): one date and two clock times, "10/1/2020 15:00:00 through 22:00:00", is that
     # date's own window, whatever day the notice was issued (the Flex Alert of 1 October 2020, issued 30 September), as
     # warehouse/derived/flex_alert_scorecard.py window() reads it
