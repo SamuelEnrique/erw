@@ -21,7 +21,7 @@ Co-optimization, not addition. A battery cannot sell its full power as energy an
 reserve in the same hour. For each local day one linear program (scipy's HiGHS) splits the battery hour by hour
 between charging, discharging and each ancillary product, subject to:
     power      discharge plus upward reserves within rated power; charge plus downward regulation within rated power
-    energy     state of charge between empty and full (duration x power), each day from empty, round trip 86 percent,
+    energy     state of charge between empty and full (duration x power delivered: duration / sqrt(round trip) stored, session 11408), each day from empty, round trip 86 percent,
                at most one full cycle a day (the seller tab's battery, warehouse/derived/merchant_revenue.py)
     reserves   stored energy to deliver every awarded upward reserve for its product's required duration, at the
                start and at the end of the hour; room to absorb awarded downward regulation for its duration
@@ -248,6 +248,14 @@ def structure(T, duration, spec, eta):
     return _STRUCT[k]
 
 
+def stored(duration, eta):
+    """Session 11408 (readied for the owner's ruling on the battery audit of 20 November, finding 10,
+    docs/reviews/battery-model-audit-2026-11-20.md): the MWh stored per MW when full, so that a battery of `duration`
+    hours delivers its rated power for that many hours from full: duration / eta (4.31 MWh stored, 4 delivered, at 4
+    hours and 86 percent). Until then `duration` itself was stored, and 4 hours delivered 3.71 MWh per MW."""
+    return duration / eta
+
+
 def solve_day(energy, reserves, spec, duration, rte=RTE, force_switch=False, caps=None):
     """One day's optimum for 1 MW. energy: the T hourly energy prices; reserves: one list of T capacity prices per
     product; spec: the products' (up, required hours). Returns a dict: total, energy, reserve (per product), the hourly
@@ -258,7 +266,7 @@ def solve_day(energy, reserves, spec, duration, rte=RTE, force_switch=False, cap
     T = len(energy)
     K = len(spec)
     eta = math.sqrt(rte)
-    A, b, n = structure(T, duration, tuple(spec), eta)
+    A, b, n = structure(T, stored(duration, eta), tuple(spec), eta)
     ub = np.ones(n)
     if caps is not None:
         for j, cap in enumerate(caps):
@@ -310,6 +318,7 @@ def solve_day(energy, reserves, spec, duration, rte=RTE, force_switch=False, cap
 def check_day(sol, spec, duration, rte=RTE, tol=1e-6):
     """Every constraint of the day on a solution, hour by hour; the list of violations (empty when all hold)."""
     eta = math.sqrt(rte)
+    duration = stored(duration, eta)  # session 11408: the energy stored when full
     c, d, soc, aw = sol["charge"], sol["discharge"], sol["soc"], sol["awards"]
     bad = []
     prev = 0.0

@@ -80,7 +80,7 @@ Maximize
 
 `p_t` the energy price, `a_k,t` the product's price. Subject to:
 
-- **State of charge.** `s_t = s_(t-1) + eta x c_t - d_t / eta`, with `s = 0` at the start of every local day, and `0 <= s_t <= D`.
+- **State of charge.** `s_t = s_(t-1) + eta x c_t - d_t / eta`, with `s = 0` at the start of every local day, and `0 <= s_t <= D / eta`: since session 11408 (readied for the owner's ruling on the audit of 20 November, finding 10) the battery stores `D / eta` (4.31 MWh per MW at 4 hours) so that it delivers its rated power for `D` hours from full; the cycle row is `sum d_t / eta <= D / eta`. Until then it stored `D` and delivered 3.71 MWh per MW. The default case's last twelve months (November 2025 to October 2026): USD 82.98 per kW against 80.40, re-solved from the public file.
 - **Power, upward.** `d_t + (upward awards in t) <= 1`.
 - **Power, downward.** `c_t + (Regulation Down in t) <= 1`.
 - **Energy behind upward awards.** `sum over upward k of r_k,t x h_k / eta <= s_(t-1)` and `<= s_t`: at the hour's start and at its end.

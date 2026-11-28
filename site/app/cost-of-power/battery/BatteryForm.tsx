@@ -61,7 +61,7 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
 
       {/* session 296 (item 10): one-line hovers on the duration and on each strategy; "perfect foresight" keeps its name */}
       <div>
-        <div className="mb-1 font-semibold" id="dur-label">Duration<Tip id="duration" label="the duration">How long the battery can discharge at its rated power: a 4-hour battery holds 4 MWh for each MW. The model is run at 2, 4 and 8 hours; a longer battery can back a reserve that must be held longer and sell more energy in a day.</Tip></div>
+        <div className="mb-1 font-semibold" id="dur-label">Duration<Tip id="duration" label="the duration">How long the battery can discharge at its rated power from full: a 4-hour battery delivers 4 MWh for each MW, and stores 4.31 to cover the round-trip loss. The model is run at 2, 4 and 8 hours; a longer battery can back a reserve that must be held longer and sell more energy in a day.</Tip></div>
         <div className="grid grid-cols-3 border border-accent" role="group" aria-labelledby="dur-label">
           {DURATIONS.map((d) => (
             <Link key={d} href={`${hrefOf(bare, { dur: d })}${carry(search, d === x.dur)}`} scroll={false} aria-current={x.dur === d ? "true" : undefined} data-duration={d}
